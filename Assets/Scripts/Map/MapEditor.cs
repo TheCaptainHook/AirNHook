@@ -107,14 +107,16 @@ public class MapEditor : MonoBehaviour
 [System.Serializable]
 public struct TileData
 {
-    public TileType tileType;
     public int id;
+    public TileType tileType;
     public Vector2 position;
+    public string path;
 
-    public TileData(TileType tileType,int id,Vector2 position)
+    public TileData(TileType tileType,int id,Vector2 position,string path)
     {
         this.tileType = tileType;
         this.id = id;
         this.position = position;
+        this.path = path;
     }
 }
