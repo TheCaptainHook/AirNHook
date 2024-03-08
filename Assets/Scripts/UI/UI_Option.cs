@@ -102,6 +102,7 @@ public class UI_Option : UI_Base<UI_Option>
         _languageOption.SetActive(false);
         _inGameBtnGroups.SetActive(isInGame);
         _inLobbyBtnGroups.SetActive(isInLobby);
+        _inExitBtnGroups.SetActive(isNotInMenu);
     }
     
     private void OnVolumeOptionBtn()
