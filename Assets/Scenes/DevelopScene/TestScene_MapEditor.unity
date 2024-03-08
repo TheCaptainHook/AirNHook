@@ -154,7 +154,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   associatedSheet: 
   associatedWorksheet: 
-  dataList: []
   keyList: []
 --- !u!4 &19431799
 Transform:
@@ -4003,7 +4002,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1891322265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4104,6 +4103,7 @@ MonoBehaviour:
   height: 5
   cellSize: 1
   curBuildObj: {fileID: 8107775650680773150, guid: 24d12f58f1a3d46f995882c22181a9a9, type: 3}
+  mapTileDataList: []
 --- !u!1 &1938747285
 GameObject:
   m_ObjectHideFlags: 0
