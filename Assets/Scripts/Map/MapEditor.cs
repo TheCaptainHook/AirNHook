@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-
 public class MapEditor : MonoBehaviour
 {
     public static MapEditor Instance;
@@ -107,6 +106,8 @@ public class MapEditor : MonoBehaviour
 
 
 [System.Serializable]
+
+
 public struct TileData
 {
     public int id;
