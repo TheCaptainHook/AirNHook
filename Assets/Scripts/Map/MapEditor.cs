@@ -20,6 +20,9 @@ public class MapEditor : MonoBehaviour
     public TileData[,] tileDataArray;
     public GameObject[,] gameObjectArray;
 
+
+    public List<TileData> mapTileDataList = new List<TileData>();
+
     private void Awake()
     {
         if (Instance != null)
@@ -30,6 +33,7 @@ public class MapEditor : MonoBehaviour
     private void Start()
     {
         SetMapSize();
+        
     }
 
     private void Update()
@@ -42,6 +46,11 @@ public class MapEditor : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             RemoveTile();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Test();
         }
     }
 
@@ -86,20 +95,13 @@ public class MapEditor : MonoBehaviour
 
     void Test()
     {
-        
-        foreach(TileData data in tileDataArray)
+       foreach(TileData tileData in mapTileDataList)
         {
-            Debug.Log(data.position);
-        }
+            GameObject obj = Instantiate(Resources.Load(tileData.path),tileData.position,Quaternion.identity) as GameObject;
+        } 
+       
     }
 }
-
-
-
-
-
-
-
 
 
 

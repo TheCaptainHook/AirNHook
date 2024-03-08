@@ -11,7 +11,6 @@ public class GoogleSheetsUtil : MonoBehaviour
 
     Dictionary<string, List<GSTU_Cell>> dataDir = new Dictionary<string, List<GSTU_Cell>>();
 
-    public List<TileData> dataList = new List<TileData>();
     public List<string> keyList = new List<string>();
 
     private void Awake()
@@ -28,7 +27,6 @@ public class GoogleSheetsUtil : MonoBehaviour
     }
 
 
-    // 
     public void LoadTileData(UnityAction<GstuSpreadSheet> callBack, bool mergedCells = false) //병합된 셀 고려
     {
         SpreadsheetManager.Read(new GSTU_Search(associatedSheet, associatedWorksheet), callBack, mergedCells);
@@ -51,11 +49,9 @@ public class GoogleSheetsUtil : MonoBehaviour
 
     void GetTileData()
     {
-        Debug.Log("asd");
         foreach (KeyValuePair<string, List<GSTU_Cell>> kv in dataDir)
         {
-            Debug.Log("dddd");
-            dataList.Add(GetData(kv.Value));
+            MapEditor.Instance.mapTileDataList.Add(GetData(kv.Value));
 
         }
     }
