@@ -1,5 +1,14 @@
 {
   "dependencies": {
+    "com.shlifedev.ugs": {
+      "version": "1.0.8",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "2.0.0"
+      },
+      "url": "https://package.openupm.com"
+    },
     "com.unity.2d.animation": {
       "version": "9.1.0",
       "depth": 1,
