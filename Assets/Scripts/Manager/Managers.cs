@@ -6,6 +6,11 @@ public class Managers : MonoBehaviour
 {
     private static Managers _instance;
     public static Managers Instance { get { Initialize(); return _instance; } }
+    
+    private UIManager _uiManager;
+    
+    public static UIManager UI => Instance._uiManager;
+    
 
     /// <summary> 게임 시작시 자동으로 호출 - Scene에 넣을 필요 X </summary>
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -36,5 +41,10 @@ public class Managers : MonoBehaviour
         // {
         //     _instance._gameManager = go.AddComponent<GameManager>();
         // }
+        
+        if (!go.TryGetComponent(out _instance._uiManager))
+        {
+            _instance._uiManager = go.AddComponent<UIManager>();
+        }
     }
 }
