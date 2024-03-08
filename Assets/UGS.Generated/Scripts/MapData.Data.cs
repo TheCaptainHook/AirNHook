@@ -14,7 +14,7 @@ using System.Reflection;
 using UnityEngine;
 
 
-namespace DefaultTable
+namespace MapData
 {
     [GoogleSheet.Attribute.TableStruct]
     public partial class Data : ITable
@@ -57,9 +57,7 @@ namespace DefaultTable
 /* Fields. */
 
 		public System.Int32 ID;
-		public TileType Type;
-		public UnityEngine.Vector2 Position;
-		public System.String Path;
+		public System.String Json;
   
 
 #region fuctions
@@ -75,7 +73,7 @@ namespace DefaultTable
                  return;
             }
 
-            string text = reader.ReadData("DefaultTable"); 
+            string text = reader.ReadData("MapData"); 
             if (text != null)
             {
                 var result = Newtonsoft.Json.JsonConvert.DeserializeObject<ReadSpreadSheetResult>(text);

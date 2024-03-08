@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UGS;
 public class MapEditor : MonoBehaviour
 {
     public static MapEditor Instance;
@@ -63,12 +64,14 @@ public class MapEditor : MonoBehaviour
             {
                 Debug.Log("Destory");
                 Destroy(gameObjectArray[pot.x, pot.y]);
+                mapTileDataList.Remove(tileDataArray[pot.x, pot.y]);
             }
             
             GameObject obj = Instantiate(curBuildObj, (Vector2)pot * (int)cellSize, Quaternion.identity);
             gameObjectArray[pot.x, pot.y] = obj;
             obj.GetComponent<BuildObj>().position = (Vector2)pot * (int)cellSize;
             tileDataArray[pot.x, pot.y] = obj.GetComponent<BuildObj>().SetTileData();
+            mapTileDataList.Add(tileDataArray[pot.x, pot.y]);
         }
     }
     public void RemoveTile()
@@ -82,6 +85,8 @@ public class MapEditor : MonoBehaviour
                 Debug.Log("Destory");
                 Destroy(gameObjectArray[pot.x, pot.y]);
                 gameObjectArray[pot.x, pot.y] = null;
+                tileDataArray[pot.x, pot.y] = new TileData();
+                mapTileDataList.Remove(tileDataArray[pot.x, pot.y]);
             }
         }
     }
@@ -94,11 +99,41 @@ public class MapEditor : MonoBehaviour
 
     void Test()
     {
-       foreach(TileData tileData in mapTileDataList)
+        MapEditor.Instance.mapTileDataList = FromJsonTileData<TileData>(MapData.Data.DataList[0].Json);
+        
+
+        StartCoroutine(Delay());
+
+    }
+
+
+    string ToJsonTileData<T>(List<T> list)
+    {
+        string json = JsonUtility.ToJson(new SerializableList<T>(list));
+        var newData = new MapData.Data();
+        int id = MapData.Data.DataList.Count;
+        newData.ID = id + 1;
+        newData.Json = json;
+        Debug.Log(json);
+
+        UnityGoogleSheet.Write<MapData.Data>(newData);
+
+        return json;
+    }
+
+    List<T> FromJsonTileData<T>(string json)
+    {
+        SerializableList<T> serializedList = JsonUtility.FromJson<SerializableList<T>>(json);
+        return serializedList.list;
+    }
+
+    IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(1f);
+        foreach (TileData tileData in mapTileDataList)
         {
-            GameObject obj = Instantiate(Resources.Load(tileData.path),tileData.position,Quaternion.identity) as GameObject;
-        } 
-       
+            GameObject obj = Instantiate(Resources.Load(tileData.path), tileData.position, Quaternion.identity) as GameObject;
+        }
     }
 }
 
@@ -121,5 +156,16 @@ public struct TileData
         this.id = id;
         this.position = position;
         this.path = path;
+    }
+}
+
+[System.Serializable]
+public class SerializableList<T>
+{
+    public List<T> list;
+
+    public SerializableList(List<T> list)
+    {
+        this.list = list;
     }
 }

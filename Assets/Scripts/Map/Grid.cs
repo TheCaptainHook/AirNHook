@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GoogleSheet.Type;
+using GoogleSheet.Core.Type;
 
 
+[UGS(typeof(TileType))]
 public enum TileType
 {
     Floor,
