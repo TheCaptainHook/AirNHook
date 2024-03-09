@@ -37,11 +37,10 @@ public class MapManager: MonoBehaviour
         foreach (var value in MapData.Data.DataList)
         {
             List<TileData> list = Util.FromJsonData<TileData>(value.TileData);
-            Map map = new Map(value.ID, list, value.PlayerSpawnPot, value.PlayerExitPot);            
+            Map map = new Map(value.ID, list, value.PlayerSpawnPot, value.PlayerExitPot,value.MapSize);            
             mapDictionary.Add(value.ID, map);
         }
 
-        MapEditor.Instance.mapTileDataList = mapDictionary["TestMap"].mapTileDataList;
 
     }
 

@@ -6,15 +6,18 @@ public class Map
 {
     public string mapID;
     public List<TileData> mapTileDataList = new List<TileData>();
-    Vector2 playerSpawnPosition;
-    Vector2 playerExitPosition;
+    public Vector2 playerSpawnPosition;
+    public Vector2 playerExitPosition;
 
-    public Map(string id, List<TileData> list,Vector2 playerSpawnPosition,Vector2 playerExitPosition)
+    public Vector2 mapSize;
+
+    public Map(string id, List<TileData> list,Vector2 playerSpawnPosition,Vector2 playerExitPosition,Vector2 mapSize)
     {
         mapID = id;
         mapTileDataList = list;
         this.playerSpawnPosition = playerSpawnPosition;
         this.playerExitPosition = playerExitPosition;
+        this.mapSize = mapSize;
     }
 
     public void CreateMap()
@@ -22,8 +25,9 @@ public class Map
         foreach (TileData data in mapTileDataList)
         {
             //Transform parent - MapManager
-            GameObject obj = Resources.Load(data.path) as GameObject;
-            obj.transform.position = (Vector2)data.position;
+            GameObject obj = Object.Instantiate(Resources.Load<GameObject>(data.path));
+            obj.transform.position = data.position;
+            
         }
         Debug.Log($"playerSapwnPosition : {playerSpawnPosition} \n playerExitPosition : {playerExitPosition}");
     }

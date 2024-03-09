@@ -38,8 +38,8 @@ public class MapEditor : MonoBehaviour
 
     private void Start()
     {
-        SetMapSize();
-        
+        StartCoroutine(Co_LoadMap("TestMap"));
+   
     }
 
     private void Update()
@@ -62,8 +62,9 @@ public class MapEditor : MonoBehaviour
 
     public void CreateTile()
     {
+        Debug.Log(Util.GetMouseWorldPosition(Input.mousePosition, Camera.main));
         Vector2Int pot = grid.GetXY(Util.GetMouseWorldPosition(Input.mousePosition, Camera.main));
-
+        Debug.Log(pot);
         if(pot.x >= 0 && pot.x < width && pot.y >=0 && pot.y < height)
         {
             if (gameObjectArray[pot.x,pot.y] != null)
@@ -108,7 +109,6 @@ public class MapEditor : MonoBehaviour
         //Load And Create
         //MapEditor.Instance.mapTileDataList = Util.FromJsonData<TileData>(MapData.Data.DataList[0].TileData);
 
-        //StartCoroutine(Delay());
 
 
         //Save Data
@@ -116,6 +116,7 @@ public class MapEditor : MonoBehaviour
     }
 
 
+    //데이터 시트 이름이 같으면 덮어 씌워짐.
     void SaveMapData<T>(List<T> list) //id,Spawn,Exit,tiledata
     {
         var newData = new MapData.Data();
@@ -123,27 +124,41 @@ public class MapEditor : MonoBehaviour
         newData.ID = mapName;
         string json = JsonUtility.ToJson(new SerializableList<T>(list));
         newData.TileData = json;
-
-        //playerSpawnPosition
-        //playerExitPosition
+        newData.PlayerSpawnPot = playerSpawnPosition;
+        newData.PlayerExitPot = playerExitPosition;
         //List<ObjectType>
-
+        newData.MapSize = new Vector2(width, height);
 
         UnityGoogleSheet.Write<MapData.Data>(newData);
 
     }
 
-   
 
-    IEnumerator Delay()
+    IEnumerator Co_LoadMap(string mapName)
     {
-        yield return new WaitForSeconds(1f);
-        foreach (TileData tileData in mapTileDataList)
+        while (!DataManager.Instance.mapDataReceiveComplete && MapData.Data.DataList.Count==0)
         {
-            GameObject obj = Resources.Load(tileData.path) as GameObject;
-            obj.transform.position = tileData.position;
-            //transform parent - MapManger 
+            yield return null;
         }
+        LoadMap(mapName);
+
+    }
+
+    void LoadMap(string name)
+    {
+        mapName = name;
+        Map map = MapManager.Instance.mapDictionary[name];
+
+        width = (int)map.mapSize.x;
+        height = (int)map.mapSize.y;
+
+        playerSpawnPosition = map.playerSpawnPosition;
+        playerExitPosition = map.playerExitPosition;
+
+        mapTileDataList = map.mapTileDataList;
+
+        SetMapSize();
+        map.CreateMap();
     }
 }
 

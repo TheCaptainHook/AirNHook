@@ -60,6 +60,7 @@ namespace MapData
 		public System.String TileData;
 		public UnityEngine.Vector2 PlayerSpawnPot;
 		public UnityEngine.Vector2 PlayerExitPot;
+		public UnityEngine.Vector2 MapSize;
   
 
 #region fuctions

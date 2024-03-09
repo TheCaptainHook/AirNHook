@@ -45,12 +45,18 @@ public class Grid
 
     }
 
-
+    // -1<0<1  / 3<4<5 -> 1<2<2   x-cellSize/2 , x+cellSize/2cx
     //Get
     public Vector2Int GetXY(Vector3 wordPosition) //Get Index
     {
-        int x = Mathf.FloorToInt((wordPosition - originPosition).x / cellSize);
-        int y = Mathf.FloorToInt((wordPosition - originPosition).y / cellSize);
+
+        //0,1
+        int x = (int)Mathf.Round((wordPosition - originPosition).x) / (int)cellSize;
+        int y = (int)Mathf.Round((wordPosition - originPosition).y) / (int)cellSize;
+
+
+
+     
 
         return new Vector2Int(x,y);
     }

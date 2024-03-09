@@ -15,17 +15,21 @@ public class TestLoad : MonoBehaviour
 
     void Start()
     {
-  
-
-
-        //MapEditor.Instance.mapTileDataList = MapManager.Instance.mapDictionary["Test_Map"].mapTileDataList;
-
-
-        //foreach (string name in MapManager.Instance.mapDictionary.Keys)
-        //{
-        //    Debug.Log(name);
-        //}
+        
 
     }
+
+
+    void Test()
+    {
+        var newData = MapData.Data.DataMap["TestMap"];
+        newData.PlayerSpawnPot = new Vector2(5, 5);
+
+        
+    }
+    
+    
+    
+
 }
 
