@@ -9,8 +9,12 @@ public class BuildObj : MonoBehaviour
     public Vector2 position;
     public string path;
 
+
+    public TileData tileData;
+
     public TileData SetTileData()
     {
-        return new TileData(tileType,id,position,path);
+        tileData = new TileData(tileType, id, position, path);
+        return tileData;
     }
 }

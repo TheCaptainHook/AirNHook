@@ -20,14 +20,15 @@ public class Map
         this.mapSize = mapSize;
     }
 
-    public void CreateMap()
+    public void CreateMap(Transform parent)
     {
         foreach (TileData data in mapTileDataList)
         {
-            //Transform parent - MapManager
-            GameObject obj = Object.Instantiate(Resources.Load<GameObject>(data.path));
-            obj.transform.position = data.position;
             
+            GameObject obj = Object.Instantiate(Resources.Load<GameObject>(data.path));
+            obj.GetComponent<BuildObj>().position = data.position;
+            obj.transform.position = data.position;
+            obj.transform.SetParent(parent);
         }
         Debug.Log($"playerSapwnPosition : {playerSpawnPosition} \n playerExitPosition : {playerExitPosition}");
     }
