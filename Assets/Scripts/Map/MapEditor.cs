@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UGS;
+
 public class MapEditor : MonoBehaviour
 {
+    Util Util = new Util();
+    
     public static MapEditor Instance;
-
     public Grid grid;
 
 
@@ -21,6 +23,10 @@ public class MapEditor : MonoBehaviour
     public GameObject[,] gameObjectArray;
 
 
+    [Header("Save Data")]
+    public string mapName;
+    public Vector2 playerSpawnPosition;
+    public Vector2 playerExitPosition;
     public List<TileData> mapTileDataList = new List<TileData>();
 
     private void Awake()
@@ -99,40 +105,44 @@ public class MapEditor : MonoBehaviour
 
     void Test()
     {
-        MapEditor.Instance.mapTileDataList = FromJsonTileData<TileData>(MapData.Data.DataList[0].Json);
-        
+        //Load And Create
+        //MapEditor.Instance.mapTileDataList = Util.FromJsonData<TileData>(MapData.Data.DataList[0].TileData);
 
-        StartCoroutine(Delay());
+        //StartCoroutine(Delay());
 
+
+        //Save Data
+        SaveMapData<TileData>(mapTileDataList);
     }
 
 
-    string ToJsonTileData<T>(List<T> list)
+    void SaveMapData<T>(List<T> list) //id,Spawn,Exit,tiledata
     {
-        string json = JsonUtility.ToJson(new SerializableList<T>(list));
         var newData = new MapData.Data();
         int id = MapData.Data.DataList.Count;
-        newData.ID = id + 1;
-        newData.Json = json;
-        Debug.Log(json);
+        newData.ID = mapName;
+        string json = JsonUtility.ToJson(new SerializableList<T>(list));
+        newData.TileData = json;
+
+        //playerSpawnPosition
+        //playerExitPosition
+        //List<ObjectType>
+
 
         UnityGoogleSheet.Write<MapData.Data>(newData);
 
-        return json;
     }
 
-    List<T> FromJsonTileData<T>(string json)
-    {
-        SerializableList<T> serializedList = JsonUtility.FromJson<SerializableList<T>>(json);
-        return serializedList.list;
-    }
+   
 
     IEnumerator Delay()
     {
         yield return new WaitForSeconds(1f);
         foreach (TileData tileData in mapTileDataList)
         {
-            GameObject obj = Instantiate(Resources.Load(tileData.path), tileData.position, Quaternion.identity) as GameObject;
+            GameObject obj = Resources.Load(tileData.path) as GameObject;
+            obj.transform.position = tileData.position;
+            //transform parent - MapManger 
         }
     }
 }

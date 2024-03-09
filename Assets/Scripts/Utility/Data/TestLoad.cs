@@ -9,13 +9,23 @@ using GoogleSheet.Type;
 public class TestLoad : MonoBehaviour
 {
     // Start is called before the first frame update
+
+
+
+
     void Start()
     {
-        DataManager.Instance.MapDataLoad();
-        //foreach (var value in MapData.Data.DataList)
+  
+
+
+        //MapEditor.Instance.mapTileDataList = MapManager.Instance.mapDictionary["Test_Map"].mapTileDataList;
+
+
+        //foreach (string name in MapManager.Instance.mapDictionary.Keys)
         //{
-        //    MapEditor.Instance.mapTileDataList.Add(new TileData(value.Type, value.ID, value.Position, value.Path));
+        //    Debug.Log(name);
         //}
+
     }
 }
 

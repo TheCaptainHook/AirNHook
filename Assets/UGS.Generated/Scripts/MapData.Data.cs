@@ -20,7 +20,7 @@ namespace MapData
     public partial class Data : ITable
     { 
 
-        public delegate void OnLoadedFromGoogleSheets(List<Data> loadedList, Dictionary<int, Data> loadedDictionary);
+        public delegate void OnLoadedFromGoogleSheets(List<Data> loadedList, Dictionary<string, Data> loadedDictionary);
 
         static bool isLoaded = false;
         static string spreadSheetID = "1kh2gu5E-5YxVkj4tRo0oZmb2mK7nI7wRkvZC0akxUYs"; // it is file id
@@ -29,7 +29,7 @@ namespace MapData
 
 /* Your Loaded Data Storage. */
     
-        public static Dictionary<int, Data> DataMap = new Dictionary<int, Data>();  
+        public static Dictionary<string, Data> DataMap = new Dictionary<string, Data>();  
         public static List<Data> DataList = new List<Data>();   
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace MapData
         /// Get Data Dictionary, keyType is your sheet A1 field type.
         /// - Auto Load
         /// </summary>
-        public static Dictionary<int, Data>  GetDictionary()
+        public static Dictionary<string, Data>  GetDictionary()
         {{
            if (isLoaded == false) Load();
            return DataMap;
@@ -56,8 +56,10 @@ namespace MapData
 
 /* Fields. */
 
-		public System.Int32 ID;
-		public System.String Json;
+		public System.String ID;
+		public System.String TileData;
+		public UnityEngine.Vector2 PlayerSpawnPot;
+		public UnityEngine.Vector2 PlayerExitPot;
   
 
 #region fuctions
@@ -84,7 +86,7 @@ namespace MapData
         }
  
 
-        public static void LoadFromGoogle(System.Action<List<Data>, Dictionary<int, Data>> onLoaded, bool updateCurrentData = false)
+        public static void LoadFromGoogle(System.Action<List<Data>, Dictionary<string, Data>> onLoaded, bool updateCurrentData = false)
         {      
                 IHttpProtcol webInstance = null;
     #if UNITY_EDITOR
@@ -112,8 +114,8 @@ namespace MapData
                
 
 
-    public static (List<Data> list, Dictionary<int, Data> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
-            Dictionary<int, Data> Map = new Dictionary<int, Data>();
+    public static (List<Data> list, Dictionary<string, Data> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
+            Dictionary<string, Data> Map = new Dictionary<string, Data>();
             List<Data> List = new List<Data>();     
             TypeMap.Init();
             FieldInfo[] fields = typeof(Data).GetFields(BindingFlags.Public | BindingFlags.Instance);
