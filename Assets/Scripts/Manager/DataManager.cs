@@ -47,6 +47,7 @@ public class DataManager : MonoBehaviour
 
     void MapReceiveData()
     {
+
         if (MapData.Data.DataList.Count > 0)
         {
             mapDataReceived = true;

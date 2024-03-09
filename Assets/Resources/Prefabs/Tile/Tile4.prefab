@@ -100,4 +100,9 @@ MonoBehaviour:
   tileType: 0
   id: 4
   position: {x: 0, y: 0}
-  path: Prefabs/TIle/TIle2
+  path: Prefabs/TIle/TIle4
+  tileData:
+    id: 0
+    tileType: 0
+    position: {x: 0, y: 0}
+    path: 

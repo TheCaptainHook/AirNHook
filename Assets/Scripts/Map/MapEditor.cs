@@ -40,8 +40,10 @@ public class MapEditor : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(Co_LoadMap("TestMap"));
-   
+        StartCoroutine(Co_LoadMap("TestMAp"));
+        //SetMapSize();
+
+
     }
 
     private void Update()
@@ -62,6 +64,8 @@ public class MapEditor : MonoBehaviour
         }
     }
 
+    #region Interaciton
+
     public void CreateTile()
     {
         Debug.Log(Util.GetMouseWorldPosition(Input.mousePosition, Camera.main));
@@ -71,13 +75,14 @@ public class MapEditor : MonoBehaviour
         {
             if (gameObjectArray[pot.x,pot.y] != null)
             {
+                mapTileDataList.Remove(gameObjectArray[pot.x, pot.y].GetComponent<BuildObj>().tileData);
                 Destroy(gameObjectArray[pot.x, pot.y]);
             }
             
             GameObject obj = Instantiate(curBuildObj, (Vector2)pot * (int)cellSize, Quaternion.identity);
+            obj.GetComponent<BuildObj>().position = (Vector2)pot * (int)cellSize;
             mapTileDataList.Add(obj.GetComponent<BuildObj>().SetTileData());
             gameObjectArray[pot.x, pot.y] = obj;
-            obj.GetComponent<BuildObj>().position = (Vector2)pot * (int)cellSize;
             
         }
     }
@@ -98,27 +103,17 @@ public class MapEditor : MonoBehaviour
             }
         }
     }
+    #endregion
 
- 
-
-
-        public void SetMapSize()
-        {
-            gameObjectArray = new GameObject[width, height];
-        grid = new Grid(width, height, cellSize, new Vector3(0, 0, 0));
-        }
 
     void Test()
     {
-        //Load And Create
-        //MapEditor.Instance.mapTileDataList = Util.FromJsonData<TileData>(MapData.Data.DataList[0].TileData);
-
-
-
         //Save Data
         SaveMapData<TileData>(mapTileDataList);
     }
 
+
+    #region Save 
 
     //데이터 시트 이름이 같으면 덮어 씌워짐.
     void SaveMapData<T>(List<T> list) //id,Spawn,Exit,tiledata
@@ -134,9 +129,11 @@ public class MapEditor : MonoBehaviour
         newData.MapSize = new Vector2(width, height);
 
         UnityGoogleSheet.Write<MapData.Data>(newData);
-
+        Debug.Log("Save Data");
     }
+    #endregion
 
+    #region Load
 
     IEnumerator Co_LoadMap(string mapName)
     {
@@ -180,12 +177,24 @@ public class MapEditor : MonoBehaviour
 
             int x = (int)tileData.position.x / (int)cellSize;
             int y = (int)tileData.position.y / (int)cellSize;
-            Debug.Log($"{x},{y}");
             gameObjectArray[x, y] = obj.gameObject;
 
         }
 
     }
+
+    #endregion
+
+    #region Util 
+
+    public void SetMapSize()
+    {
+        gameObjectArray = new GameObject[width, height];
+        grid = new Grid(width, height, cellSize, new Vector3(0, 0, 0));
+    }
+    #endregion
+
+
 }
 
 

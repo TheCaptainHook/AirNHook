@@ -30,7 +30,6 @@ public class Map
             obj.transform.position = data.position;
             obj.transform.SetParent(parent);
         }
-        Debug.Log($"playerSapwnPosition : {playerSpawnPosition} \n playerExitPosition : {playerExitPosition}");
     }
 
 
