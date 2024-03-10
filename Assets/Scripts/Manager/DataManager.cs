@@ -25,7 +25,17 @@ public class DataManager : MonoBehaviour
     public void MapDataLoad()
     {
         StartCoroutine(Co_MapDataLoad());
+        
     }
+
+
+    public void Load<T>() where T : ITable
+    {
+        UnityGoogleSheet.Load<T>();
+    }
+
+
+
 
     IEnumerator Co_MapDataLoad()
     {
@@ -36,12 +46,13 @@ public class DataManager : MonoBehaviour
             Debug.Log("Load");
         }, true);
 
+
         while (!mapDataReceived)
         {
             MapReceiveData();
             yield return null;
         }
-        
+
         mapDataReceived = false;
     }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UGS;
 
 public class MapManager: MonoBehaviour
 {
@@ -20,14 +21,30 @@ public class MapManager: MonoBehaviour
 
     private void Start()
     {
-        DataManager.Instance.MapDataLoad();
 
-        StartCoroutine(Co_SetMap());
+        //UnityGoogleSheet.Load<MapData.Data>();
+        //foreach (var value in MapData.Data.DataList)
+        //{
+        //    Debug.Log(value.ID);
+        //}
+        //DataManager.Instance.MapDataLoad();
+        DataManager.Instance.Load<MapData.Data>();
+
+
+        foreach (var value in MapData.Data.DataList)
+        {
+            List<TileData> list = Util.FromJsonData<TileData>(value.TileData);
+            Map map = new Map(value.ID, list, value.PlayerSpawnPot, value.PlayerExitPot, value.MapSize);
+            mapDictionary.Add(value.ID, map);
+            Debug.Log(map.mapID);
+        }
+        //StartCoroutine(Co_SetMapData());
+
     }
 
 
 
-    IEnumerator Co_SetMap()
+    IEnumerator Co_SetMapData()
     {
         while (!DataManager.Instance.mapDataReceiveComplete)
         {
@@ -40,7 +57,6 @@ public class MapManager: MonoBehaviour
             Map map = new Map(value.ID, list, value.PlayerSpawnPot, value.PlayerExitPot,value.MapSize);            
             mapDictionary.Add(value.ID, map);
         }
-
 
     }
 

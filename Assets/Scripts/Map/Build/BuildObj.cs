@@ -5,7 +5,6 @@ using UnityEngine;
 public class BuildObj : MonoBehaviour
 {
     public TileType tileType;
-    public int id;
     public Vector2 position;
     public string path;
 
@@ -14,7 +13,7 @@ public class BuildObj : MonoBehaviour
 
     public TileData SetTileData()
     {
-        tileData = new TileData(tileType, id, position, path);
+        tileData = new TileData(tileType, position, path);
         return tileData;
     }
 }

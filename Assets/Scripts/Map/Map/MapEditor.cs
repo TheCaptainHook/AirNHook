@@ -20,6 +20,7 @@ public class MapEditor : MonoBehaviour
     public GameObject curBuildObj;
 
     public GameObject[,] gameObjectArray;
+
     Transform mapObjBoxTransform;
 
     [Header("Save Data")]
@@ -40,10 +41,23 @@ public class MapEditor : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(Co_LoadMap("TestMAp"));
-        //SetMapSize();
+        Init();
+        //StartCoroutine(Co_LoadMap("TestMap"));
+        SetMapSize();
 
+    }
 
+    public void Init()
+    {
+        mapObjBoxTransform = transform.Find("MapObjBox");
+
+        if (mapObjBoxTransform != null)
+        {
+            Destroy(mapObjBoxTransform.gameObject);
+        }
+
+        mapObjBoxTransform = new GameObject("MapObjBox").transform;
+        mapObjBoxTransform.SetParent(transform);
     }
 
     private void Update()
@@ -60,8 +74,24 @@ public class MapEditor : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Test();
+            SaveMapData<TileData>(mapTileDataList);
         }
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            Debug.Log("LLL");
+            StartCoroutine(Co_LoadMap("TestMap"));
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Reset();
+
+            foreach (var Value in MapData.Data.DataList)
+            {
+                Debug.Log(Value.ID);
+            }
+        }
+
     }
 
     #region Interaciton
@@ -80,6 +110,7 @@ public class MapEditor : MonoBehaviour
             }
             
             GameObject obj = Instantiate(curBuildObj, (Vector2)pot * (int)cellSize, Quaternion.identity);
+            obj.transform.SetParent(mapObjBoxTransform);
             obj.GetComponent<BuildObj>().position = (Vector2)pot * (int)cellSize;
             mapTileDataList.Add(obj.GetComponent<BuildObj>().SetTileData());
             gameObjectArray[pot.x, pot.y] = obj;
@@ -104,13 +135,6 @@ public class MapEditor : MonoBehaviour
         }
     }
     #endregion
-
-
-    void Test()
-    {
-        //Save Data
-        SaveMapData<TileData>(mapTileDataList);
-    }
 
 
     #region Save 
@@ -147,14 +171,7 @@ public class MapEditor : MonoBehaviour
 
     void LoadMap(string name)
     {
-        mapObjBoxTransform = transform.Find("MapObjBox");
-
-        if (mapObjBoxTransform != null)
-        {
-            Destroy(mapObjBoxTransform.gameObject);
-        }
-
-        mapObjBoxTransform = new GameObject("MapObjBox").transform;
+        Init();
 
         mapName = name;
         Map map = MapManager.Instance.mapDictionary[name];
@@ -192,6 +209,13 @@ public class MapEditor : MonoBehaviour
         gameObjectArray = new GameObject[width, height];
         grid = new Grid(width, height, cellSize, new Vector3(0, 0, 0));
     }
+
+    public void Reset()
+    {
+        Init();
+        mapTileDataList.Clear();
+    }
+
     #endregion
 
 
@@ -205,15 +229,13 @@ public class MapEditor : MonoBehaviour
 
 public struct TileData
 {
-    public int id;
     public TileType tileType;
     public Vector2 position;
     public string path;
 
-    public TileData(TileType tileType,int id,Vector2 position,string path)
+    public TileData(TileType tileType,Vector2 position,string path)
     {
         this.tileType = tileType;
-        this.id = id;
         this.position = position;
         this.path = path;
     }
