@@ -22,6 +22,7 @@ public class SceneLoader : MonoBehaviour
             case 0:
                 Debug.Log("Scene Loaded 0");
                 Managers.Game.CurrentState = GameState.Title;
+                Managers.UI.ShowUI<UI_Title>();
                 break;
             // MainScene
             case 1:

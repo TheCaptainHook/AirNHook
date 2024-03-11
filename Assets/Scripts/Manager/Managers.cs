@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
@@ -6,7 +7,7 @@ using UnityEngine;
 public class Managers : MonoBehaviour
 {
     private static Managers _instance;
-    public static Managers Instance { get { Initialize(); return _instance; } }
+    public static Managers Instance { get { Initialize(); CheckNetworkManager(); return _instance; } }
 
     private UIManager _uiManager;
     private GameManager _game;
@@ -63,13 +64,28 @@ public class Managers : MonoBehaviour
         {
             _instance._stage = go.AddComponent<StageManager>();
         }
+    }
+
+    /// <summary>
+    /// NetworkManager의 구조상 서버가 닫히면 NetworkManager가 Destroy되므로
+    /// StartScene에서 null체크를 해줘 새로 생성해줌.
+    /// 해당 코드는 StartScene에서만 불리고 StartScene에는 Object가 별로 없어
+    /// FindObjectOfType으로 확인 가능.
+    /// </summary>
+    private static void CheckNetworkManager()
+    {
+        if (_instance._network != null) return;
         
-        // 네트워크 매니저의 특정상 gameObject로 child에 추가.
-        var networkManager = go.GetComponentInChildren<CustomNetworkManager>();
+        var networkManager = FindObjectOfType<CustomNetworkManager>();
+        
         if (networkManager == null)
         {
-            var child = Instantiate(Resources.Load("Prefabs/Manager/NetworkManager")) as GameObject;
-            _instance._network = child.GetComponent<CustomNetworkManager>();
+            var go = Instantiate(Resources.Load("Prefabs/Manager/NetworkManager")) as GameObject;
+            _instance._network = go.GetComponent<CustomNetworkManager>();
+        }
+        else
+        {
+            _instance._network = networkManager.GetComponent<CustomNetworkManager>();
         }
     }
 }
