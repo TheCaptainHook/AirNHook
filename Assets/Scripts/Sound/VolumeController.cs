@@ -20,7 +20,7 @@ public class VolumeController : MonoBehaviour
         Init();
     }
 
-    public void Init()
+    private void Init()
     {
         if (PlayerPrefs.HasKey("MasterVolume"))
         {
@@ -35,21 +35,21 @@ public class VolumeController : MonoBehaviour
         }
     }
 
-    public void SetMasterVolume()
+    private void SetMasterVolume()
     {
         float mastervolume = _masterSlider.value;
         _audioMixer.SetFloat("MasterParam", Mathf.Log10(mastervolume) * 20);
         PlayerPrefs.SetFloat("MasterVolume", mastervolume);
     }
 
-    public void SetBGMVolume()
+    private void SetBGMVolume()
     {
         float bgmvolume = _bgmSlider.value;
         _audioMixer.SetFloat("BGMParam", Mathf.Log10(bgmvolume) * 20);
         PlayerPrefs.SetFloat("BGMVolume", bgmvolume);
     }
-    
-    public void SetEffectsVolume()
+
+    private void SetEffectsVolume()
     {
         float effectsVolume = _effectsSlider.value;
         _audioMixer.SetFloat("FXParam", Mathf.Log10(effectsVolume) * 20);

@@ -22,7 +22,7 @@ public class Test_UI_Input : MonoBehaviour
 
     private void ShowOptionUI()
     {
-        if(!Managers.UI.IsAcitve<UI_Option>())
+        if(!Managers.UI.IsActive<UI_Option>())
         {
             Managers.UI.ShowUI<UI_Option>();
         }

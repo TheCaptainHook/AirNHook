@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class UI_Title : UI_Base<UI_Title>
+public class UI_Title : UI_Base
 {
     #region SerializeFields
     [Header("Animations")]
@@ -44,7 +44,7 @@ public class UI_Title : UI_Base<UI_Title>
 
     private void OnJoinBtn()
     {
-        if (Managers.UI.IsAcitve<UI_Join>())
+        if (Managers.UI.IsActive<UI_Join>())
             Managers.UI.HideUI<UI_Join>();
         else
             Managers.UI.ShowUI<UI_Join>();
@@ -58,7 +58,7 @@ public class UI_Title : UI_Base<UI_Title>
 
     private void OnOptionBtn()
     {
-        if (Managers.UI.IsAcitve<UI_Option>())
+        if (Managers.UI.IsActive<UI_Option>())
             Managers.UI.HideUI<UI_Option>();
         else
             Managers.UI.ShowUI<UI_Option>();

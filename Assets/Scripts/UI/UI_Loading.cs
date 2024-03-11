@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class UI_Loading : UI_Base<UI_Loading>
+public class UI_Loading : UI_Base
 {
     [Header("■ CanvasGroup")]
     [SerializeField] private CanvasGroup _canvasGroup; //로딩화면 캔버스

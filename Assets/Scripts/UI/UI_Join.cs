@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Join : UI_Base<UI_Join>
+public class UI_Join : UI_Base
 {
     [SerializeField] private GameObject _mainFrame;
 
