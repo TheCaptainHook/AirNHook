@@ -32,6 +32,10 @@ public class Map
             obj.transform.position = data.position;
             obj.transform.SetParent(parent);
         }
+
+
+        //리소스에서 스폰위치 오브젝트, 탈출위치오브젝트 생성
+
     }
 
 

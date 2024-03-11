@@ -14,7 +14,7 @@ public class Interaction_BuildItem : MonoBehaviour
         image = GetComponent<Image>();
         button = GetComponent<Button>();
         button.onClick.AddListener(ChoiceItem);
-        SetImage();
+       
     }
 
 
@@ -23,6 +23,12 @@ public class Interaction_BuildItem : MonoBehaviour
         MapEditor.Instance.curBuildObj = buildObj;
     }
 
+
+    public void Init(GameObject tile)
+    {
+        buildObj = tile;
+        SetImage();
+    }
     void SetImage()
     {
         image.sprite = buildObj.GetComponent<SpriteRenderer>().sprite;

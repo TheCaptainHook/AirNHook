@@ -16,8 +16,9 @@ public enum MapEditorType
 public enum MapState
 {
     None,
-    Draw,
-    //Move
+    Tile,
+    Object,
+    InteractionObject
 }
 
 public class MapEditor : MonoBehaviour
@@ -32,12 +33,18 @@ public class MapEditor : MonoBehaviour
     public MapEditorType mapEditorType;
     public MapState mapState;
     public float cellSize;
-    Transform mapObjBoxTransform;
+    public Transform mapObjBoxTransform;
     string folderPath;
 
     [Header("Create")]
     public GameObject curBuildObj;
     public GameObject[,] gameObjectArray;
+
+    [SerializeField] GameObject spawnPoint;
+    public GameObject SpawnPoint { get { return spawnPoint; } set { if (spawnPoint != null) Destroy(spawnPoint); spawnPoint = value; playerSpawnPosition = value.transform.position; } }
+    [SerializeField] GameObject exitPoint;
+    public GameObject ExitPoint { get { return exitPoint; } set { if (exitPoint != null) Destroy(exitPoint); spawnPoint = value; playerExitPosition = value.transform.position; } }
+
 
     [Header("Save Data")]
     public int width;
@@ -118,9 +125,33 @@ public class MapEditor : MonoBehaviour
 
     #region Interaciton
 
+
+    public void Create()
+    {
+        if(mapState == MapState.Tile)
+        {
+            CreateTile();
+        }
+        else if(mapState == MapState.Object)
+        {
+
+        }
+    }
+
+    public void Remove()
+    {
+        if (mapState == MapState.Tile)
+        {
+            RemoveTile();
+        }
+        else if (mapState == MapState.Object)
+        {
+
+        }
+    }
+
     public void CreateTile()
     {
-        Debug.Log(Util.GetMouseWorldPosition(Input.mousePosition, Camera.main));
         Vector2Int pot = grid.GetXY(Util.GetMouseWorldPosition(Input.mousePosition, Camera.main));
         
         if(pot.x >= 0 && pot.x < width && pot.y >=0 && pot.y < height)

@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 7141624307248115943}
   - component: {fileID: 281317339504983658}
   - component: {fileID: 4102756978328347342}
-  - component: {fileID: 1048097775267754800}
-  m_Layer: 0
-  m_Name: Tile3
+  - component: {fileID: 7767037877621403478}
+  m_Layer: 31
+  m_Name: Tile5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 6799796754764215021}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.52, y: 1.72, z: 0}
+  m_LocalPosition: {x: 17, y: 6.09, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300822, guid: d21555ce72e390f49ba41fd54c373b1b, type: 3}
+  m_Sprite: {fileID: 21300812, guid: d21555ce72e390f49ba41fd54c373b1b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -100,12 +100,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileType: 0
   position: {x: 0, y: 0}
-  path: Prefabs/TIle/TileCurveBR
+  path: Prefabs/TIle/Tile5
   tileData:
     tileType: 0
     position: {x: 0, y: 0}
     path: 
---- !u!60 &1048097775267754800
+--- !u!60 &7767037877621403478
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -149,10 +149,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.12159634, y: 0.5}
-      - {x: 0.1264906, y: 0.08850384}
-      - {x: -0.5171542, y: 0.06741929}
-      - {x: -0.5, y: -0.5}
+    - - {x: -0.5, y: 0.5}
+      - {x: -0.5, y: -0.066416025}
+      - {x: 0.12423611, y: -0.06766081}
+      - {x: 0.12316227, y: -0.50807214}
       - {x: 0.5, y: -0.5}
       - {x: 0.5, y: 0.5}
   m_UseDelaunayMesh: 0
