@@ -11,7 +11,7 @@ public class DataManager : MonoBehaviour
     public static DataManager Instance;
 
 
-    //Asynchronous data processing
+    
     bool mapDataReceived = false;
     public bool mapDataReceiveComplete = false;
 
@@ -43,7 +43,7 @@ public class DataManager : MonoBehaviour
 
         UnityGoogleSheet.LoadFromGoogle<string, MapData.Data>((list, map) =>
         {
-            Debug.Log("Load");
+            Debug.Log("Load"); //이부분 수정 데이터를 받아오면 이부분 실행
         }, true);
 
 

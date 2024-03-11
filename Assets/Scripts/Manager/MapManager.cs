@@ -28,37 +28,37 @@ public class MapManager: MonoBehaviour
         //    Debug.Log(value.ID);
         //}
         //DataManager.Instance.MapDataLoad();
-        DataManager.Instance.Load<MapData.Data>();
+        //DataManager.Instance.Load<MapData.Data>();
 
 
-        foreach (var value in MapData.Data.DataList)
-        {
-            List<TileData> list = Util.FromJsonData<TileData>(value.TileData);
-            Map map = new Map(value.ID, list, value.PlayerSpawnPot, value.PlayerExitPot, value.MapSize);
-            mapDictionary.Add(value.ID, map);
-            Debug.Log(map.mapID);
-        }
+        //foreach (var value in MapData.Data.DataList)
+        //{
+        //    List<TileData> list = Util.FromJsonData<TileData>(value.TileData);
+        //    Map map = new Map(value.ID, list, value.PlayerSpawnPot, value.PlayerExitPot, value.MapSize);
+        //    mapDictionary.Add(value.ID, map);
+        //    Debug.Log(map.mapID);
+        //}
         //StartCoroutine(Co_SetMapData());
 
     }
 
 
 
-    IEnumerator Co_SetMapData()
-    {
-        while (!DataManager.Instance.mapDataReceiveComplete)
-        {
-            yield return null;
-        }
+    //IEnumerator Co_SetMapData()
+    //{
+    //    while (!DataManager.Instance.mapDataReceiveComplete)
+    //    {
+    //        yield return null;
+    //    }
 
-        foreach (var value in MapData.Data.DataList)
-        {
-            List<TileData> list = Util.FromJsonData<TileData>(value.TileData);
-            Map map = new Map(value.ID, list, value.PlayerSpawnPot, value.PlayerExitPot,value.MapSize);            
-            mapDictionary.Add(value.ID, map);
-        }
+    //    foreach (var value in MapData.Data.DataList)
+    //    {
+    //        List<TileData> list = Util.FromJsonData<TileData>(value.TileData);
+    //        Map map = new Map(value.ID, list, value.PlayerSpawnPot, value.PlayerExitPot,value.MapSize);            
+    //        mapDictionary.Add(value.ID, map);
+    //    }
 
-    }
+    //}
 
 
 

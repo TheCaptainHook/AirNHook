@@ -72,25 +72,25 @@ public class MapEditor : MonoBehaviour
             RemoveTile();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SaveMapData<TileData>(mapTileDataList);
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    SaveMapData<TileData>(mapTileDataList);
+        //}
 
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            Debug.Log("LLL");
-            StartCoroutine(Co_LoadMap("TestMap"));
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            Reset();
+        //if (Input.GetKeyDown(KeyCode.A))
+        //{
+        //    Debug.Log("LLL");
+        //    StartCoroutine(Co_LoadMap("TestMap"));
+        //}
+        //if (Input.GetKeyDown(KeyCode.C))
+        //{
+        //    Reset();
 
-            foreach (var Value in MapData.Data.DataList)
-            {
-                Debug.Log(Value.ID);
-            }
-        }
+        //    foreach (var Value in MapData.Data.DataList)
+        //    {
+        //        Debug.Log(Value.ID);
+        //    }
+        //}
 
     }
 

@@ -1,14 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
-
+using System.IO;
 public class Map
 {
     public string mapID;
     public List<TileData> mapTileDataList = new List<TileData>();
     public Vector2 playerSpawnPosition;
     public Vector2 playerExitPosition;
-
     public Vector2 mapSize;
 
     public Map(string id, List<TileData> list,Vector2 playerSpawnPosition,Vector2 playerExitPosition,Vector2 mapSize)
@@ -34,7 +34,11 @@ public class Map
 
 
 
-
+    public void ConvertMapToJson(Map map, string filePath)
+    {
+        string json = JsonConvert.SerializeObject(map, Formatting.Indented);
+        File.WriteAllText(filePath, json);
+    }
 
 
 }
