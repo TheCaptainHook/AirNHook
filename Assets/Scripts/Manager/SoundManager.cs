@@ -5,6 +5,7 @@ using UnityEngine.Audio;
 
 public class SoundManager : MonoBehaviour
 {
+    private VolumeController _volumeController;
     
     private AudioMixer _audioMixer;
     
@@ -14,12 +15,16 @@ public class SoundManager : MonoBehaviour
     private void Awake()
     {
         gameObject.AddComponent<AudioSource>();
+
+        _volumeController = GetComponent<VolumeController>();
         _musicAudioSource = GetComponent<AudioSource>();
         _audioMixer = Resources.Load<AudioMixer>("Sounds/AudioMixer");
         AudioMixerGroup[] audioMixGroup = _audioMixer.FindMatchingGroups("BG_Sound");
 
         _musicAudioSource.outputAudioMixerGroup = audioMixGroup[0];
         _musicAudioSource.loop = true;
+        
+        _volumeController.Init();
     }
 
 

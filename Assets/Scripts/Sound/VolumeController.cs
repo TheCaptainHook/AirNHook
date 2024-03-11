@@ -15,12 +15,12 @@ public class VolumeController : MonoBehaviour
     [SerializeField] private Slider _effectsSlider;
     
     
-    private void Start()
-    {
-        Init();
-    }
+    // private void Start()
+    // {
+    //     Init();
+    // }
 
-    private void Init()
+    public void Init()
     {
         if (PlayerPrefs.HasKey("MasterVolume"))
         {

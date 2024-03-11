@@ -37,9 +37,12 @@ public class UI_Option : UI_Base
         
         [SerializeField] private TMP_Text _infoTxt;
         [SerializeField] private GameObject _menuInfo;
-        
-        [Header("GraphicsOption")]
 
+        [Header("GraphicsOption")] 
+        [SerializeField] private Toggle _fullScreenToggle;
+        [SerializeField] private Toggle _vsyncToggle;
+        [SerializeField] private Button _applyBtn;
+        
         
         
         [Header("GameData")]
@@ -89,7 +92,9 @@ public class UI_Option : UI_Base
         _infoTxt.text = menuGameOptionInfo;
         
         //GraphicsOption
-
+        FullScreenToggle();
+        VsyncToggle();
+        _applyBtn.onClick.AddListener(OnApplyBtn);
  
         _mainFrame.transform.localScale = Vector3.one * 0.1f;
     }
@@ -172,17 +177,20 @@ public class UI_Option : UI_Base
     
     //====================그래픽 옵션=====================
 
-    private void OnWindowModeBtn()
+    private void FullScreenToggle()
     {
-        if (Screen.fullScreen)
-        {
+        _fullScreenToggle.isOn = Screen.fullScreen;
+    }
+    
+    private void VsyncToggle()
+    {
+        _vsyncToggle.isOn = QualitySettings.vSyncCount != 0;
+    }
 
-            Screen.fullScreen = false;
-        }
-        else
-        {
-           Screen.fullScreen = true;
-        }
+    private void OnApplyBtn()
+    {
+        Screen.fullScreen = _fullScreenToggle.isOn;
+        QualitySettings.vSyncCount = _vsyncToggle.isOn ? 1 : 0;
     }
     
     //==================나가기 옵션들=====================
