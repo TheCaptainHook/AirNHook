@@ -15,12 +15,15 @@ public class BtnTest : NetworkBehaviour
         _button.onClick.AddListener(clicke);
     }
 
+    // Command를 통해 서버에 명령.
+    [Command(requiresAuthority = false)]
     public void clicke()
     {
         RpcTextChange();
     }
     
-    [ClientRpc(includeOwner = true)]
+    // Command를 통해 불러진 ClientRpc, 모든 클라이언트들에게 Call.
+    [ClientRpc]
     public void RpcTextChange()
     {
         _text.text = "test";

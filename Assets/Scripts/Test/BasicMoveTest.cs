@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
-public class BasicMove : NetworkBehaviour
+public class BasicMoveTest : NetworkBehaviour
 {
     // Start is called before the first frame update
     void Start()
