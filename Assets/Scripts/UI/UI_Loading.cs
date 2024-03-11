@@ -15,8 +15,6 @@ public class UI_Loading : UI_Base<UI_Loading>
     private Sprite[] _loadingSprites; // 랜덤한 로딩 스프라이트 배열
     private string _loadSceneName; // 로드할 씬의 이름
 
-    
-
     public override void OnEnable()
     {
         OpenUI();
@@ -34,7 +32,7 @@ public class UI_Loading : UI_Base<UI_Loading>
 
     public void LoadScene()
     {
-        SceneManager.sceneLoaded += OnsceneLoaded; // 씬 로드 완료 시 이벤트 처리
+        SceneManager.sceneLoaded += OnSceneLoaded; // 씬 로드 완료 시 이벤트 처리
 
         StartCoroutine(Co_LoadSceneProcess());
     }
@@ -45,6 +43,7 @@ public class UI_Loading : UI_Base<UI_Loading>
         yield return StartCoroutine(Fade(true));
 
         AsyncOperation op = SceneManager.LoadSceneAsync(_loadSceneName);
+        Managers.Network.LoadingSceneAsync = op;
         op.allowSceneActivation = false;
 
         float timer = 0f;
@@ -71,20 +70,16 @@ public class UI_Loading : UI_Base<UI_Loading>
         }
     }
 
-    private void OnsceneLoaded(Scene arg0, LoadSceneMode arg1)
+    private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
-        if(arg0.name == _loadSceneName)
-        {
-            SceneManager.sceneLoaded -= OnsceneLoaded;
-            StartCoroutine(Fade(false)); // 페이드 아웃 애니메이션
-
-        }
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        StartCoroutine(Fade(false)); // 페이드 아웃 애니메이션
     }
 
     private IEnumerator Fade(bool isFadein) 
     {
         float timer = 0f;
-        while(timer <=1f)
+        while(timer <= 1f)
         {
             yield return null;
             timer += Time.unscaledDeltaTime;

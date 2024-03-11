@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Mirror;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,6 +18,7 @@ public class UI_Join : UI_Base<UI_Join>
 
     private void Start()
     {
+        _inputField.text = Managers.Network.networkAddress;
         _joinBtn.onClick.AddListener(OnJoinBtn);
         _exitBtn.onClick.AddListener(OnExitBtn);
     }
@@ -37,12 +39,14 @@ public class UI_Join : UI_Base<UI_Join>
 
     private void OnJoinBtn()
     {
-        
+        var ipString = _inputField.text;
+        Managers.Network.networkAddress = ipString;
+        Managers.Network.StartClient();
+        CloseUI();
     }
     
     private void OnExitBtn()
     {
         CloseUI();
     }
-
 }

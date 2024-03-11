@@ -53,7 +53,8 @@ public class UI_Title : UI_Base<UI_Title>
     private void OnCreateRoomBtn()
     {
         CloseUI();
-        Managers.UI.ShowLoadingUI("Test_LobbyScene");
+        Managers.UI.ShowLoadingUI("MainScene");
+        Managers.Network.StartHost();
     }
 
     private void OnOptionBtn()
