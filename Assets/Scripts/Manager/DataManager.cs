@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GoogleSheet;
 using UGS;
-using GoogleSheet.Core.Type;
-using GoogleSheet.Type;
+
 
 public class DataManager : MonoBehaviour
 {
@@ -22,6 +21,7 @@ public class DataManager : MonoBehaviour
 
     }
 
+    //todo
     public void MapDataLoad()
     {
         StartCoroutine(Co_MapDataLoad());
@@ -69,5 +69,5 @@ public class DataManager : MonoBehaviour
             Debug.Log("Load Data");
         }
     }
-
+    //todo
 }

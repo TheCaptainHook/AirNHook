@@ -2,15 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UGS;
+using Mirror;
 
 public class MapManager: MonoBehaviour
 {
     public static MapManager Instance;
 
-    Util Util = new Util();
     public Dictionary<string, Map> mapDictionary = new Dictionary<string, Map>();
 
-    //Data Load
     private void Awake()
     {
         if (Instance != null) Destroy(gameObject);
@@ -21,7 +20,7 @@ public class MapManager: MonoBehaviour
 
     private void Start()
     {
-
+        LoadJsonFile();
         //UnityGoogleSheet.Load<MapData.Data>();
         //foreach (var value in MapData.Data.DataList)
         //{
@@ -61,6 +60,15 @@ public class MapManager: MonoBehaviour
     //}
 
 
+    public void LoadJsonFile()
+    {
 
+        foreach(TextAsset json in Resources.LoadAll<TextAsset>("MapDat"))
+        {
+            Map map = JsonUtility.FromJson<Map>(json.text);
+            mapDictionary.Add(map.mapID, map);
+            Debug.Log(map.mapID);
+        }
+    }
 
 }

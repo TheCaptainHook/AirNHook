@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
 using System.IO;
+
+[System.Serializable]
 public class Map
 {
     public string mapID;
@@ -34,11 +36,12 @@ public class Map
 
 
 
-    public void ConvertMapToJson(Map map, string filePath)
-    {
-        string json = JsonConvert.SerializeObject(map, Formatting.Indented);
-        File.WriteAllText(filePath, json);
-    }
+    //public void ConvertMapToJson(Map map,string filePath)
+    //{
+    //    string json = JsonConvert.SerializeObject(map, Formatting.Indented);
+    //    //File.WriteAllText(filePath, json);
+    //    Debug.Log(json);
+    //}
 
 
 }

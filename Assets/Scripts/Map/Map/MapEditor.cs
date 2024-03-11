@@ -3,6 +3,22 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UGS;
+using System.IO;
+using static UGS.Editor.GoogleDriveExplorerGUI;
+using System.Runtime.InteropServices.ComTypes;
+
+public enum MapEditorType
+{
+    New,
+    Load
+}
+
+public enum MapState
+{
+    None,
+    Draw,
+    //Move
+}
 
 public class MapEditor : MonoBehaviour
 {
@@ -12,19 +28,21 @@ public class MapEditor : MonoBehaviour
     public Grid grid;
 
 
-    [Header("Map Status")]
-    public int width;
-    public int height;
+    [Header("Map Info")]
+    public MapEditorType mapEditorType;
+    public MapState mapState;
     public float cellSize;
+    Transform mapObjBoxTransform;
+    string folderPath;
 
+    [Header("Create")]
     public GameObject curBuildObj;
-
     public GameObject[,] gameObjectArray;
 
-    Transform mapObjBoxTransform;
-
     [Header("Save Data")]
-    public string mapName;
+    public int width;
+    public int height;
+    public string mapID;
     public Vector2 playerSpawnPosition;
     public Vector2 playerExitPosition;
     public List<TileData> mapTileDataList = new List<TileData>();
@@ -36,7 +54,8 @@ public class MapEditor : MonoBehaviour
             Destroy(gameObject);
         else Instance = this;
 
-       
+
+        folderPath = Path.Combine(Application.dataPath, "Resources/MapDat");
     }
 
     private void Start()
@@ -46,7 +65,7 @@ public class MapEditor : MonoBehaviour
         SetMapSize();
 
     }
-
+    //todo
     public void Init()
     {
         mapObjBoxTransform = transform.Find("MapObjBox");
@@ -59,7 +78,7 @@ public class MapEditor : MonoBehaviour
         mapObjBoxTransform = new GameObject("MapObjBox").transform;
         mapObjBoxTransform.SetParent(transform);
     }
-
+    //todo
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -72,16 +91,19 @@ public class MapEditor : MonoBehaviour
             RemoveTile();
         }
 
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    SaveMapData<TileData>(mapTileDataList);
-        //}
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            
+            //CreateJsonFile();
+            LoadMap("test1");
+        }
 
-        //if (Input.GetKeyDown(KeyCode.A))
-        //{
-        //    Debug.Log("LLL");
-        //    StartCoroutine(Co_LoadMap("TestMap"));
-        //}
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            Debug.Log("LLL");
+            SaveMapData();
+        }
+
         //if (Input.GetKeyDown(KeyCode.C))
         //{
         //    Reset();
@@ -136,15 +158,14 @@ public class MapEditor : MonoBehaviour
     }
     #endregion
 
-
+    //todo
     #region Save 
-
-    //데이터 시트 이름이 같으면 덮어 씌워짐.
-    void SaveMapData<T>(List<T> list) //id,Spawn,Exit,tiledata
+    //GUS
+    void SaveMapData<T>(List<T> list) 
     {
         var newData = new MapData.Data();
         int id = MapData.Data.DataList.Count;
-        newData.ID = mapName;
+        newData.ID = mapID;
         string json = JsonUtility.ToJson(new SerializableList<T>(list));
         newData.TileData = json;
         newData.PlayerSpawnPot = playerSpawnPosition;
@@ -155,25 +176,70 @@ public class MapEditor : MonoBehaviour
         UnityGoogleSheet.Write<MapData.Data>(newData);
         Debug.Log("Save Data");
     }
+    //Json 파일로 저장
+
+    public void SaveMapData()
+    {
+        if(mapEditorType == MapEditorType.New ){
+            string path = Path.Combine(folderPath, $"{mapID}.json");
+            bool fileExists = File.Exists(path);
+            while (fileExists)
+            {
+                int num = 1;
+                path = Path.Combine(folderPath, $"{mapID}{num}.json");
+                if (!File.Exists(path))
+                {
+                    mapID = $"{mapID}{num}";
+                    fileExists = false;
+                }
+
+                num++;
+            }
+            CreateJsonFile();
+        }
+        else
+        {
+            CreateJsonFile();
+        }
+
+
+
+        //Map map = new Map(mapID, mapTileDataList, playerSpawnPosition, playerExitPosition, new Vector2(width, height));
+     
+        
+    }
+    void CreateJsonFile()
+    {
+        Map map = new Map(mapID, mapTileDataList, playerSpawnPosition, playerExitPosition, new Vector2(width, height));
+        string json = JsonUtility.ToJson(map);
+        string filePath = Path.Combine(folderPath, $"{map.mapID}.json");
+        File.WriteAllText(filePath, json);
+
+        UnityEditor.AssetDatabase.Refresh();
+    }
+
+
+   
+
     #endregion
 
     #region Load
 
-    IEnumerator Co_LoadMap(string mapName)
-    {
-        while (!DataManager.Instance.mapDataReceiveComplete && MapData.Data.DataList.Count==0)
-        {
-            yield return null;
-        }
-        LoadMap(mapName);
+    //IEnumerator Co_LoadMap(string mapID)
+    //{
+    //    while (!DataManager.Instance.mapDataReceiveComplete && MapData.Data.DataList.Count==0)
+    //    {
+    //        yield return null;
+    //    }
+    //    LoadMap(mapID);
 
-    }
+    //}
 
     void LoadMap(string name)
     {
         Init();
 
-        mapName = name;
+        mapID = name;
         Map map = MapManager.Instance.mapDictionary[name];
 
         width = (int)map.mapSize.x;
@@ -201,7 +267,7 @@ public class MapEditor : MonoBehaviour
     }
 
     #endregion
-
+    //todo
     #region Util 
 
     public void SetMapSize()
@@ -251,3 +317,34 @@ public class SerializableList<T>
         this.list = list;
     }
 }
+
+
+//todo
+//public class JsonFileCreator
+//{
+//    public void CreateJsonFile()
+//    {
+//        // JSON 데이터를 저장할 객체 또는 데이터를 생성합니다.
+//        MyDataObject dataObject = new MyDataObject();
+//        dataObject.name = "John";
+//        dataObject.age = 25;
+
+//        // 객체를 JSON 형식의 문자열로 변환합니다.
+//        string json = JsonUtility.ToJson(dataObject);
+
+//        // JSON 파일을 생성할 경로를 지정합니다.
+//        string folderPath = Path.Combine(Application.dataPath, "Resources/MapData");
+//        string filePath = Path.Combine(folderPath, "data.json");
+
+//        // JSON 파일을 생성하고 데이터를 저장합니다.
+//        File.WriteAllText(filePath, json);
+//    }
+//}
+
+//// 예시를 위해 사용할 데이터 객체입니다.
+//[System.Serializable]
+//public class MyDataObject
+//{
+//    public string name;
+//    public int age;
+//}

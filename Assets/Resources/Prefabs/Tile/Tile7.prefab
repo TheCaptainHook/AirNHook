@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4102756978328347342}
   - component: {fileID: 8875305065415809213}
   m_Layer: 0
-  m_Name: TileR
+  m_Name: Tile7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99,11 +99,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  id: 4
   position: {x: 0, y: 0}
   path: Prefabs/TIle/TileR
   tileData:
-    id: 0
     tileType: 0
     position: {x: 0, y: 0}
     path: 
