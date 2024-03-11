@@ -2,24 +2,40 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class UIManager : MonoBehaviour
 {
+    #region FeedBackMemo
+    /*
+    이후 모노비헤이비어 빼고 => 리소스 매니저 만들어지면 여기서 인스턴시에이트랑 디스트로이 처리
+    실무 때는 현재 형태의 딕셔너리로 진행하게 되면 찾기는 쉽겠지만
+    여러가지 UI가 많이 뜨는 게임의 형태에서는 분명히 쌓여서 렉을 먹을 것
+    
+    게임오브젝트로 저장되는 방식이 아닌 UI_Base로 저장되는 방식으로
+    +로 쓰면 많이 무겁다, Get하는 메소드는 ShowUI에서 겟까지 하기에 큰 필요성이 없을 것 같다.
+    */
+    #endregion
+
+    #region Static&Const_String
+    private const string _uiPath = "Prefabs/UI/";
+    #endregion
+    
     // UI 오브젝트를 저장하는 딕셔너리
-    public Dictionary<string, GameObject> _uIDict = new Dictionary<string, GameObject>();
+    private Dictionary<string, UI_Base> _uIDict = new Dictionary<string, UI_Base>();
     // UI 오브젝트를 관리하는 부모 Transform
-    public Transform _uiManager;
+    public Transform uiManager;
 
     // 현재 Scene 이름
     [HideInInspector] public string sceneName;
     
     // UI를 보여주기, 받아올 UI가 딕셔너리에 없으면 생성
-    public T ShowUI<T>(Transform parent = null) where T : Component
+    public UI_Base ShowUI<T>(Transform parent = null) where T : Component
     {
         if (UIListCheck<T>())
         {
-            _uIDict[typeof(T).Name].SetActive(true);
-            return _uIDict[typeof(T).Name].GetComponent<T>();
+            _uIDict[typeof(T).Name].gameObject.SetActive(true);
+            return _uIDict[typeof(T).Name].GetComponent<UI_Base>();
         }
         else
             return CreateUI<T>(parent);
@@ -29,18 +45,18 @@ public class UIManager : MonoBehaviour
     public void HideUI<T>()
     {
         if (UIListCheck<T>())
-            _uIDict[typeof(T).Name].SetActive(false);
+            _uIDict[typeof(T).Name].gameObject.SetActive(false);
     }
     
     // UI를 제거합니다.
-    public void RemoveUI<T>()
+    private void RemoveUI<T>()
     {
         if (UIListCheck<T>())
             _uIDict.Remove(typeof(T).Name);
     }
     
     // UI 생성 메서드
-    public T CreateUI<T>(Transform parent = null)
+    private UI_Base CreateUI<T>(Transform parent = null)
     {
         try
         {
@@ -50,8 +66,8 @@ public class UIManager : MonoBehaviour
             // 리소스 폴더 UI 프리팹 로드하여 생성
             GameObject go = Instantiate(Resources.Load<GameObject>(GetPath<T>()), parent);
 
-            T temp = go.GetComponent<T>();
-            AddUI<T>(go);
+            var temp = go.GetComponent<UI_Base>();
+            AddUI<T>(temp);
 
             return temp;
         }
@@ -64,10 +80,9 @@ public class UIManager : MonoBehaviour
     }
     
     // UI를 딕셔너리에 추가
-    public void AddUI<T>(GameObject go)
+    private void AddUI<T>(UI_Base ui)
     {
-        if (_uIDict.ContainsKey(typeof(T).Name) == false)
-            _uIDict.Add(typeof(T).Name, go);
+        _uIDict.TryAdd(typeof(T).Name, ui);
     }
     
     // LoadingUI를 표시
@@ -75,13 +90,13 @@ public class UIManager : MonoBehaviour
     {
         sceneName = loadSceneName;
     
-        if (_uIDict.ContainsKey(typeof(UI_Loading).Name) && _uIDict[typeof(UI_Loading).Name] != null)
+        if (_uIDict.ContainsKey(nameof(UI_Loading)) && _uIDict[nameof(UI_Loading)] != null)
         {
-            _uIDict[typeof(UI_Loading).Name].SetActive(true);
-            return _uIDict[typeof(UI_Loading).Name].GetComponent<UI_Loading>();
+            _uIDict[nameof(UI_Loading)].gameObject.SetActive(true);
+            return _uIDict[nameof(UI_Loading)].GetComponent<UI_Loading>();
         }
         else
-            return CreateUI<UI_Loading>();
+            return (UI_Loading)CreateUI<UI_Loading>();
     }
 
     #region ToDo<Emote>
@@ -110,15 +125,13 @@ public class UIManager : MonoBehaviour
     public void DestroyUI<T>()
     {
         string className = typeof(T).Name;
-        if (_uIDict.ContainsKey(className))
-        {
-            Destroy(_uIDict[className]?.gameObject);
-            _uIDict.Remove(className);
-        }
+        if (!_uIDict.ContainsKey(className)) return;
+        Destroy(_uIDict[className]?.gameObject);
+        _uIDict.Remove(className);
     }
     
     // 해당 UI 활성화 여부 확인
-    public bool IsAcitve<T>()
+    public bool IsActive<T>()
     {
         if(_uIDict.ContainsKey(typeof(T).Name) && _uIDict[typeof(T).Name] == null)
         {
@@ -126,19 +139,19 @@ public class UIManager : MonoBehaviour
             return false;
         }
 
-        if (_uIDict.ContainsKey(typeof(T).Name) && _uIDict[typeof(T).Name].activeSelf)
+        if (_uIDict.ContainsKey(typeof(T).Name) && _uIDict[typeof(T).Name].gameObject.activeSelf)
         {
-            return _uIDict[typeof(T).Name].GetComponent<UI_Base<T>>().IsEnabled;
+            return _uIDict[typeof(T).Name].GetComponent<UI_Base>().IsEnabled;
         }
         else
             return false;
     }
     
     // UI 프리팹 경로 반환
-    private string GetPath<T>()
+    private static string GetPath<T>()
     {
         string className = typeof(T).Name;  
-        return "Prefabs/UI/" + className;
+        return _uiPath + className;
     }
     
     // 해당 UI가 딕셔너리에 있는지 확인
