@@ -829,6 +829,12 @@ namespace Mirror
 
         public static AsyncOperation loadingSceneAsync;
 
+        public AsyncOperation LoadingSceneAsync
+        {
+            get => loadingSceneAsync;
+            set => loadingSceneAsync = value;
+        }
+
         /// <summary>Change the server scene and all client's scenes across the network.</summary>
         // Called automatically if onlineScene or offlineScene are set, but it
         // can be called from user code to switch scenes again while the game is
@@ -887,9 +893,9 @@ namespace Mirror
         // This is only set in ClientChangeScene below...never on server.
         // We need to check this in OnClientSceneChanged called from FinishLoadSceneClientOnly
         // to prevent AddPlayer message after loading/unloading additive scenes
-        SceneOperation clientSceneOperation = SceneOperation.Normal;
+        protected SceneOperation clientSceneOperation = SceneOperation.Normal;
 
-        internal void ClientChangeScene(string newSceneName, SceneOperation sceneOperation = SceneOperation.Normal, bool customHandling = false)
+        public virtual void ClientChangeScene(string newSceneName, SceneOperation sceneOperation = SceneOperation.Normal, bool customHandling = false)
         {
             if (string.IsNullOrWhiteSpace(newSceneName))
             {
