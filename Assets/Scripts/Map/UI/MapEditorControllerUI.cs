@@ -13,20 +13,20 @@ public class MapEditorControllerUI : MonoBehaviour
     [SerializeField] Button initBtn;
     [SerializeField] TextMeshProUGUI messageText;
 
-
+    private void Awake()
+    {
+        initBtn.onClick.AddListener(MapSizeInit);
+    }
 
 
     #region Map Size UI
     void MapSizeInit()
     {
-        widthInputField.text = Mathf.Clamp(int.Parse(widthInputField.text),10,maxWidth).ToString();
+        MapEditor.Instance.SetMapSize(int.Parse(widthInputField.text), int.Parse(heightInputField.text));
     }
 
-    void ValueChanged()
-    {
-        widthInputField.text = Mathf.Clamp(int.Parse(widthInputField.text), 10, maxWidth).ToString();
-        heightInputField.text = Mathf.Clamp(int.Parse(heightInputField.text), 10, maxHeight).ToString();
-    }
+   
+  
     #endregion
 
 

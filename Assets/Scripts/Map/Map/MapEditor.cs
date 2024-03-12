@@ -6,6 +6,7 @@ using System.IO;
 using static UGS.Editor.GoogleDriveExplorerGUI;
 using System.Runtime.InteropServices.ComTypes;
 using GoogleSheet.Core.Type;
+using System.Net;
 
 public enum MapEditorType
 {
@@ -35,7 +36,7 @@ public class MapEditor : MonoBehaviour
     
     public static MapEditor Instance;
     public Grid grid;
-
+    public LineRenderer lineRenderer;
 
     [Header("Map Info")]
     public MapEditorType mapEditorType;
@@ -44,7 +45,6 @@ public class MapEditor : MonoBehaviour
     public Transform mapObjBoxTransform;
     string folderPath;
     
-
 
 
     [Header("Init")]
@@ -86,17 +86,12 @@ public class MapEditor : MonoBehaviour
             Destroy(gameObject);
         else Instance = this;
 
-
+        lineRenderer = GetComponent<LineRenderer>();
         folderPath = Path.Combine(Application.dataPath, "Resources/MapDat");
 
     }
 
-    private void Start()
-    {
-        Init();
-        //StartCoroutine(Co_LoadMap("TestMap"));
 
-    }
     //todo
     public void Init()
     {
@@ -113,7 +108,6 @@ public class MapEditor : MonoBehaviour
         floorTransform = CreateChildTransform(mapObjBoxTransform, "FloorTransform");
         objectTransform = CreateChildTransform(mapObjBoxTransform, "ObjectTransform");
 
-        GenerateMapOutLine();
     }
 
     //todo
@@ -183,23 +177,27 @@ public class MapEditor : MonoBehaviour
 
     public void CreateTile()
     {
-        Vector2Int pot = grid.GetXY(Util.GetMouseWorldPosition(Input.mousePosition, Camera.main));
-        
-        if(pot.x >= 0 && pot.x < width && pot.y >=0 && pot.y < height)
+        if(grid != null)
         {
-            if (gameObjectArray[pot.x,pot.y] != null)
+            Vector2Int pot = grid.GetXY(Util.GetMouseWorldPosition(Input.mousePosition, Camera.main));
+
+            if (pot.x >= 0 && pot.x < width && pot.y >= 0 && pot.y < height)
             {
-                mapTileDataList.Remove(gameObjectArray[pot.x, pot.y].GetComponent<BuildObj>().tileData);
-                Destroy(gameObjectArray[pot.x, pot.y]);
+                if (gameObjectArray[pot.x, pot.y] != null)
+                {
+                    mapTileDataList.Remove(gameObjectArray[pot.x, pot.y].GetComponent<BuildObj>().tileData);
+                    Destroy(gameObjectArray[pot.x, pot.y]);
+                }
+
+                GameObject obj = Instantiate(curBuildObj, (Vector2)pot * (int)cellSize, Quaternion.identity);
+                obj.transform.SetParent(mapObjBoxTransform);
+                obj.GetComponent<BuildObj>().position = (Vector2)pot * (int)cellSize;
+                mapTileDataList.Add(obj.GetComponent<BuildObj>().SetTileData());
+                gameObjectArray[pot.x, pot.y] = obj;
+
             }
-            
-            GameObject obj = Instantiate(curBuildObj, (Vector2)pot * (int)cellSize, Quaternion.identity);
-            obj.transform.SetParent(mapObjBoxTransform);
-            obj.GetComponent<BuildObj>().position = (Vector2)pot * (int)cellSize;
-            mapTileDataList.Add(obj.GetComponent<BuildObj>().SetTileData());
-            gameObjectArray[pot.x, pot.y] = obj;
-            
         }
+       
     }
     public void RemoveTile()
     {
@@ -299,21 +297,16 @@ public class MapEditor : MonoBehaviour
 
     void LoadMap(string name)
     {
-        Init();
-
         mapID = name;
         Map map = MapManager.Instance.mapDictionary[name];
 
-        width = (int)map.mapSize.x;
-        height = (int)map.mapSize.y;
+        SetMapSize((int)map.mapSize.x, (int)map.mapSize.y);
 
         playerSpawnPosition = map.playerSpawnPosition;
         playerExitPosition = map.playerExitPosition;
 
         mapTileDataList = map.mapTileDataList;
 
-
-        SetMapSize();
         map.CreateMap(mapObjBoxTransform);
 
         foreach(Transform obj in mapObjBoxTransform)
@@ -332,10 +325,18 @@ public class MapEditor : MonoBehaviour
     //todo
     #region Util 
 
-    public void SetMapSize()
+    public void SetMapSize(int width, int height)
     {
-        gameObjectArray = new GameObject[width, height];
-        grid = new Grid(width, height, cellSize, new Vector3(0, 0, 0));
+        ClearLine();
+        //gameObjectArray = new GameObject[width, height];
+
+        grid = new Grid(cellSize, new Vector3(0, 0, 0));
+        this.width = width;
+        this.height = height;
+         DrawLine(width,height);
+        Init();
+        GenerateMapOutLine();
+
     }
 
     public void Reset()
@@ -346,6 +347,9 @@ public class MapEditor : MonoBehaviour
 
     void GenerateMapOutLine()
     {
+        int width = this.width - 1;
+        int height = this.height - 1;
+
         GameObject curveBL = Instantiate(mapOutLineSO.curveBL, new Vector2(0, 0), Quaternion.identity, outLineTransform);
         GameObject curveBR = Instantiate(mapOutLineSO.curveBR, new Vector2(width, 0) * cellSize, Quaternion.identity, outLineTransform);
         GameObject curveTL = Instantiate(mapOutLineSO.curveTL, new Vector2(0, height) * cellSize, Quaternion.identity, outLineTransform);
@@ -390,7 +394,21 @@ public class MapEditor : MonoBehaviour
         return childTransform;
     }
 
-
+    void DrawLine(int width,int height)
+    {
+        int num = 0;
+        for (int i = 0; i < width; i++)
+        {
+            lineRenderer.positionCount = 2;
+            lineRenderer.SetPosition(num, new Vector2(i,0)*cellSize);
+            lineRenderer.SetPosition(num+1, new Vector2(i,height)*cellSize);
+            num += 2;
+        }
+    }
+    void ClearLine()
+    {
+        lineRenderer.positionCount = 0;
+    }
     #endregion
 
 
