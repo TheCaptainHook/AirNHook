@@ -53,4 +53,11 @@ public class UI_Join : UI_Base
         _mainFrame.transform.localScale = Vector3.one * 0.1f;
         CloseUI();
     }
+
+    private void OnDisable()
+    {
+        //켜질 때 다시 커지는 애니메이션이 나오도록
+        _mainFrame.transform.localScale = Vector3.one * 0.1f;
+        CloseUI();
+    }
 }
