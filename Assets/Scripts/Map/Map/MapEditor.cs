@@ -5,6 +5,7 @@ using UGS;
 using System.IO;
 using static UGS.Editor.GoogleDriveExplorerGUI;
 using System.Runtime.InteropServices.ComTypes;
+using GoogleSheet.Core.Type;
 
 public enum MapEditorType
 {
@@ -20,6 +21,14 @@ public enum MapState
     InteractionObject
 }
 
+[UGS(typeof(TileType))]
+public enum TileType
+{
+    OutLine,
+    Floor,
+}
+
+
 public class MapEditor : MonoBehaviour
 {
     Util Util = new Util();
@@ -34,16 +43,33 @@ public class MapEditor : MonoBehaviour
     public float cellSize;
     public Transform mapObjBoxTransform;
     string folderPath;
+    
+
+
+
+    [Header("Init")]
+    [SerializeField] Transform buildTransform;
+
+    public Transform outLineTransform;
+    public Transform floorTransform;
+    public Transform objectTransform;
+
 
     [Header("Create")]
-    public GameObject curBuildObj;
     public GameObject[,] gameObjectArray;
 
     [SerializeField] GameObject spawnPoint;
     public GameObject SpawnPoint { get { return spawnPoint; } set { if (spawnPoint != null) Destroy(spawnPoint); spawnPoint = value; playerSpawnPosition = value.transform.position; } }
     [SerializeField] GameObject exitPoint;
     public GameObject ExitPoint { get { return exitPoint; } set { if (exitPoint != null) Destroy(exitPoint); spawnPoint = value; playerExitPosition = value.transform.position; } }
+    [Header("Current")]
+    public GameObject curBuildObj;
+    Dictionary<Transform, List<GameObject>> generatedDictionary = new Dictionary<Transform, List<GameObject>>();
 
+
+
+    [Header("OutLine")]
+    public MapOutLineSO mapOutLineSO;
 
     [Header("Save Data")]
     public int width;
@@ -62,13 +88,13 @@ public class MapEditor : MonoBehaviour
 
 
         folderPath = Path.Combine(Application.dataPath, "Resources/MapDat");
+
     }
 
     private void Start()
     {
         Init();
         //StartCoroutine(Co_LoadMap("TestMap"));
-        SetMapSize();
 
     }
     //todo
@@ -81,9 +107,15 @@ public class MapEditor : MonoBehaviour
             Destroy(mapObjBoxTransform.gameObject);
         }
 
-        mapObjBoxTransform = new GameObject("MapObjBox").transform;
-        mapObjBoxTransform.SetParent(transform);
+        mapObjBoxTransform = CreateChildTransform(transform, "MapObjBox");
+
+        outLineTransform = CreateChildTransform(mapObjBoxTransform, "OutLineTransform");
+        floorTransform = CreateChildTransform(mapObjBoxTransform, "FloorTransform");
+        objectTransform = CreateChildTransform(mapObjBoxTransform, "ObjectTransform");
+
+        GenerateMapOutLine();
     }
+
     //todo
     private void Update()
     {
@@ -311,6 +343,53 @@ public class MapEditor : MonoBehaviour
         Init();
         mapTileDataList.Clear();
     }
+
+    void GenerateMapOutLine()
+    {
+        GameObject curveBL = Instantiate(mapOutLineSO.curveBL, new Vector2(0, 0), Quaternion.identity, outLineTransform);
+        GameObject curveBR = Instantiate(mapOutLineSO.curveBR, new Vector2(width, 0) * cellSize, Quaternion.identity, outLineTransform);
+        GameObject curveTL = Instantiate(mapOutLineSO.curveTL, new Vector2(0, height) * cellSize, Quaternion.identity, outLineTransform);
+        GameObject curveTR = Instantiate(mapOutLineSO.curveTR, new Vector2(width, height) * cellSize, Quaternion.identity, outLineTransform);
+
+        for (int i = 1; i < width; i++)
+        {
+            GameObject bottom = Instantiate(mapOutLineSO.bottom, new Vector2(i, 0)*cellSize, Quaternion.identity, outLineTransform);
+            GameObject top = Instantiate(mapOutLineSO.top, new Vector2(i, height) * cellSize, Quaternion.identity, outLineTransform);
+        }
+        for (int i = 1; i < height; i++)
+        {
+            GameObject left = Instantiate(mapOutLineSO.left, new Vector2(0, i) * cellSize, Quaternion.identity, outLineTransform);
+            GameObject right = Instantiate(mapOutLineSO.right, new Vector2(width, i) * cellSize, Quaternion.identity, outLineTransform);
+        }
+    }
+
+    void DestroyAll(Transform transform)
+    {
+       foreach(Transform obj in transform)
+        {
+            Destroy(obj.gameObject);
+        }
+    }
+
+    void DestroyAll(Transform transform,int width,int height)
+    {
+        foreach(Transform obj in transform)
+        {
+            if(obj.position.x >= width ||  obj.position.y >= height)
+            {
+                Destroy(obj.gameObject);
+            }
+        }
+    }
+
+    Transform CreateChildTransform(Transform parent, string name)
+    {
+        GameObject childObject = new GameObject(name);
+        Transform childTransform = childObject.transform;
+        childTransform.SetParent(parent);
+        return childTransform;
+    }
+
 
     #endregion
 

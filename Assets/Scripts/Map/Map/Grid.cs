@@ -5,17 +5,6 @@ using GoogleSheet.Type;
 using GoogleSheet.Core.Type;
 
 
-[UGS(typeof(TileType))]
-public enum TileType
-{
-    Floor,
-    Wall,
-    BackGround,
-    Object,
-    None
-
-}
-
 public class Grid
 {
     private int width;
@@ -70,40 +59,6 @@ public class Grid
         return new Vector2(x,y) * cellSize + (Vector2)originPosition;
     }
 
-    //public TileData GetValue(int x, int y)
-    //{
-    //    if (x >= 0 && y >= 0 && x < width && y < height)
-    //    {
-    //        return tileDataArray[x, y];
-    //    }
-    //}
-
-    //public int GetValue(Vector3 worldPosition)
-    //{
-    //    Vector2Int pot = GetXY(worldPosition);
-    //    return GetValue(pot.x, pot.y);
-    //}
-
-
-    //Set
-
-    //public void SetValue(int x, int y, TileData tileData)
-    //{
-    //    if(x>=0 && y>=0 && x < width && y < height){
-    //        if (gameObjectArray[x,y] != null)
-    //        {
-    //            Object.Destroy(gameObjectArray[x, y]);
-    //        }
-    //        Object obj = Resources.Load("Prefabs/Tile/Tile") as GameObject;
-    //        gameObjectArray[x, y] = obj as GameObject;
-    //        tileDataArray[x, y] = new TileData();
-    //    }
-    //}
-    //public void SetValue(Vector3 worldPosition, TileData tileData)
-    //{
-    //    Vector2Int coord = GetXY(worldPosition);
-    //    SetValue(coord.x, coord.y, tileData);
-    //}
 
    
 }
