@@ -36,8 +36,7 @@ public class MapEditor : MonoBehaviour
     
     public static MapEditor Instance;
     public Grid grid;
-    public LineRenderer lineRenderer;
-
+  
     [Header("Map Info")]
     public MapEditorType mapEditorType;
     public MapState mapState;
@@ -86,7 +85,6 @@ public class MapEditor : MonoBehaviour
             Destroy(gameObject);
         else Instance = this;
 
-        lineRenderer = GetComponent<LineRenderer>();
         folderPath = Path.Combine(Application.dataPath, "Resources/MapDat");
 
     }
@@ -327,13 +325,11 @@ public class MapEditor : MonoBehaviour
 
     public void SetMapSize(int width, int height)
     {
-        ClearLine();
-        //gameObjectArray = new GameObject[width, height];
 
         grid = new Grid(cellSize, new Vector3(0, 0, 0));
         this.width = width;
         this.height = height;
-         DrawLine(width,height);
+   
         Init();
         GenerateMapOutLine();
 
@@ -394,21 +390,6 @@ public class MapEditor : MonoBehaviour
         return childTransform;
     }
 
-    void DrawLine(int width,int height)
-    {
-        int num = 0;
-        for (int i = 0; i < width; i++)
-        {
-            lineRenderer.positionCount = 2;
-            lineRenderer.SetPosition(num, new Vector2(i,0)*cellSize);
-            lineRenderer.SetPosition(num+1, new Vector2(i,height)*cellSize);
-            num += 2;
-        }
-    }
-    void ClearLine()
-    {
-        lineRenderer.positionCount = 0;
-    }
     #endregion
 
 
