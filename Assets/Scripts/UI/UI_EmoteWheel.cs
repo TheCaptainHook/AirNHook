@@ -38,7 +38,7 @@ public class UI_EmoteWheel : UI_Base
         Show();
     }
 
-    private new void Start()
+    protected override void Start()
     {
         //이모트 패널
         _emotePanel1.onClick.AddListener(OnPanel1);
