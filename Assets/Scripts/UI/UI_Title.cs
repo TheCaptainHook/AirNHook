@@ -20,6 +20,12 @@ public class UI_Title : UI_Base
     [SerializeField] private Button _createRoomBtn;
     [SerializeField] private Button _optionBtn;
     [SerializeField] private Button _exitGameBtn;
+    
+    [Header("Texts")]
+    [SerializeField] private TMP_Text _joinText;
+    [SerializeField] private TMP_Text _createRoomText;
+    [SerializeField] private TMP_Text _optionText;
+    [SerializeField] private TMP_Text _exitGameText;
     #endregion
     
     public override void OnEnable()
@@ -34,8 +40,10 @@ public class UI_Title : UI_Base
         StartCoroutine(BounceRoutine(Vector3.one, Vector3.one * 0.9f));
     }
     
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+        
         _joinBtn.onClick.AddListener(OnJoinBtn);
         _createRoomBtn.onClick.AddListener(OnCreateRoomBtn);
         _optionBtn.onClick.AddListener(OnOptionBtn);
@@ -106,5 +114,13 @@ public class UI_Title : UI_Base
         Application.Quit();
 #endif
 
+    }
+
+    public override void SetLanguage()
+    {
+        SetSentence(_joinText, 2001);
+        SetSentence(_createRoomText, 2002);
+        SetSentence(_optionText, 2003);
+        SetSentence(_exitGameText, 2004);
     }
 }

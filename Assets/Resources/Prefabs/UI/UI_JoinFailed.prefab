@@ -187,8 +187,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Retry
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5b4e32fbc2471a34b861dc089c637721, type: 2}
+  m_sharedMaterial: {fileID: 5359831757883840851, guid: 5b4e32fbc2471a34b861dc089c637721, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -458,8 +458,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: JOIN GAME
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5b4e32fbc2471a34b861dc089c637721, type: 2}
+  m_sharedMaterial: {fileID: 5359831757883840851, guid: 5b4e32fbc2471a34b861dc089c637721, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -644,13 +644,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ada10a4b58b21c640ba1704c22b5751f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mainFrame: {fileID: 0}
-  _inputField: {fileID: 0}
-  _joinBtn: {fileID: 0}
-  _exitBtn: {fileID: 0}
-  _mainFrame: {fileID: 0}
-  _retryBtn: {fileID: 0}
-  _exitBtn: {fileID: 0}
+  _mainFrame: {fileID: 3913378040244631865}
+  _retryBtn: {fileID: 6586328655462135692}
+  _exitBtn: {fileID: 5708320401306101456}
+  _failText: {fileID: 2915869769040258430}
+  _retryText: {fileID: 4805780523759160807}
+  _joinText: {fileID: 770361657822443565}
 --- !u!1 &6506050770375341706
 GameObject:
   m_ObjectHideFlags: 0
@@ -809,8 +808,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Failed to Connect
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5b4e32fbc2471a34b861dc089c637721, type: 2}
+  m_sharedMaterial: {fileID: 5359831757883840851, guid: 5b4e32fbc2471a34b861dc089c637721, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

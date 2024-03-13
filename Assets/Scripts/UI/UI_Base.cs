@@ -1,10 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public abstract class UI_Base : MonoBehaviour
 {
     public bool IsEnabled { get; private set; } = true;
+
+    protected virtual void Start()
+    {
+        SetLanguage();
+    }
 
     public abstract void OnEnable();
 
@@ -18,5 +22,14 @@ public abstract class UI_Base : MonoBehaviour
     {
         gameObject.SetActive(false);
         IsEnabled = false;
+    }
+
+    public virtual void SetLanguage() { }
+    
+    public void SetSentence(TMP_Text target, int id)
+    {
+        var text = Managers.Data.language.GetSentence(id);
+        if (text != " ")
+            target.text = text;
     }
 }

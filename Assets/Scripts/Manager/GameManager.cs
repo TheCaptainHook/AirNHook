@@ -8,7 +8,7 @@ public enum GameState
     Game,
 }
 
-public class GameManager : MonoBehaviour
+public class GameManager
 {
     public GameState CurrentState { get; set; }
     
