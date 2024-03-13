@@ -11,7 +11,7 @@
                     "id": "2c7a2f0d-13ab-448f-8f45-f010e364c441",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Hold,Press(behavior=1)",
                     "initialStateCheck": true
                 },
                 {
@@ -102,7 +102,7 @@
                     "name": "",
                     "id": "4158531d-330b-42d5-b296-fb20beca9dcf",
                     "path": "<Keyboard>/space",
-                    "interactions": "Hold,Press(behavior=1)",
+                    "interactions": "",
                     "processors": "",
                     "groups": "KeyBoard & Mouse",
                     "action": "Jump",
