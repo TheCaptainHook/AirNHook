@@ -39,7 +39,7 @@ public class PlayerInputController : CharacterController
 
     public void OnJump(InputValue value)
     {
-        
+        Vector2 moveInput = value.Get<Vector2>().normalized;
+        CallJumpEvent(moveInput);
     }
-
 }
