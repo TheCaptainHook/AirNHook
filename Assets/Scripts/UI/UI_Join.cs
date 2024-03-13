@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
-using Mirror;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,9 +14,17 @@ public class UI_Join : UI_Base
 
     [SerializeField] private Button _joinBtn;
     [SerializeField] private Button _exitBtn;
+    
+    [Header("Text")]
+    [SerializeField] private TMP_Text _joinGameText;
+    [SerializeField] private TMP_Text _EnterRoomText;
+    [SerializeField] private TMP_Text _EnterCodeText;
+    [SerializeField] private TMP_Text _JoinBtnText;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+        
         _inputField.text = Managers.Network.networkAddress;
         _joinBtn.onClick.AddListener(OnJoinBtn);
         _exitBtn.onClick.AddListener(OnExitBtn);
@@ -59,5 +66,13 @@ public class UI_Join : UI_Base
         //켜질 때 다시 커지는 애니메이션이 나오도록
         _mainFrame.transform.localScale = Vector3.one * 0.1f;
         CloseUI();
+    }
+    
+    public override void SetLanguage()
+    {
+        SetSentence(_joinGameText, 2001);
+        SetSentence(_EnterRoomText, 2007);
+        SetSentence(_EnterCodeText, 2008);
+        SetSentence(_JoinBtnText, 2009);
     }
 }

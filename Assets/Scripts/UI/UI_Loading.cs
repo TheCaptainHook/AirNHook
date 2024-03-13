@@ -25,7 +25,7 @@ public class UI_Loading : UI_Base
         LoadScene();
     }
 
-    private void Start()
+    private new void Start()
     {
         DontDestroyOnLoad(gameObject);
     }

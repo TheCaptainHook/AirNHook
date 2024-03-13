@@ -5,13 +5,6 @@ using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
 
-[System.Serializable]
-public class Language
-{
-    public int id;
-    public string text;
-}
-
 public class LanguageLoadTest : MonoBehaviour
 {
     private Dictionary<int, string> _dict = new Dictionary<int, string>();
@@ -22,13 +15,13 @@ public class LanguageLoadTest : MonoBehaviour
 
         var dirInfo = new DirectoryInfo(path);
         var fileInfo = dirInfo.GetFiles("*.json");
-        var list = new List<Language>();
+        var list = new List<Sentence>();
         
         foreach (var file in fileInfo)
         {
             Debug.Log(file.Name);
             var cont = File.ReadAllText(path + file.Name);
-            list = JsonConvert.DeserializeObject<List<Language>>(cont);
+            list = JsonConvert.DeserializeObject<List<Sentence>>(cont);
         }
 
         foreach (var value in list)

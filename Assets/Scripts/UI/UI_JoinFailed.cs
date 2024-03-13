@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class UI_JoinFailed : UI_Base
@@ -10,14 +12,22 @@ public class UI_JoinFailed : UI_Base
 
     [SerializeField] private Button _retryBtn;
     [SerializeField] private Button _exitBtn;
+    
+    [Header("Text")]
+    [SerializeField] private TMP_Text _failText;
+    [SerializeField] private TMP_Text _retryText; 
+    [SerializeField] private TMP_Text _joinText;
+    
     public override void OnEnable()
     {
         OpenUI();
         Show();
     }
     
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+        
         _retryBtn.onClick.AddListener(OnRetryBtn);
         _exitBtn.onClick.AddListener(OnExitBtn);
     }
@@ -43,6 +53,11 @@ public class UI_JoinFailed : UI_Base
         _mainFrame.transform.localScale = Vector3.one * 0.1f;
         CloseUI();
     }
-    
-    
+
+    public override void SetLanguage()
+    {
+        SetSentence(_joinText, 2001);
+        SetSentence(_failText, 2005);
+        SetSentence(_retryText, 2006);
+    }
 }

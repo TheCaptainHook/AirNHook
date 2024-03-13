@@ -42,8 +42,21 @@ public class UI_Option : UI_Base
         [SerializeField] private Toggle _fullScreenToggle;
         [SerializeField] private Toggle _vsyncToggle;
         [SerializeField] private Button _applyBtn;
-        
-        
+
+        [Header("Text")]
+        [SerializeField] private TMP_Text _escText;
+        [SerializeField] private TMP_Text _titleText;
+        [SerializeField] private TMP_Text _lobbyText;
+        [SerializeField] private TMP_Text _restartText;
+        [SerializeField] private TMP_Text _exitText;
+        [SerializeField] private TMP_Text _masterVolumeText;
+        [SerializeField] private TMP_Text _effectsText;
+        [SerializeField] private TMP_Text _bgmText;
+        [SerializeField] private TMP_Text _languageText;
+        [SerializeField] private TMP_Text _resolutionText;
+        [SerializeField] private TMP_Text _fullscreenText;
+        [SerializeField] private TMP_Text _vsyncText;
+        [SerializeField] private TMP_Text _applyText;
         
         [Header("GameData")]
         //임시 불린 체크
@@ -52,14 +65,6 @@ public class UI_Option : UI_Base
         public bool isInLobby;
         public bool isNotInMenu;
         [SerializeField] private string _currStageLevel; //스테이지 재시작을 위한 정보 받기
-
-        [Header("Strings")]
-        //Test용 언어팩 때 바뀔 곳
-        public string menuGameOptionInfo = "This option is not available in menu";
-        
-        //TODO: 언어설정 바꿀 때 스트링 값들 리프래쉬 해주는 메소드
-        //TODO: 그래픽 설정 저장과 불러오기
-        
     #endregion
     
     public override void OnEnable()
@@ -72,8 +77,10 @@ public class UI_Option : UI_Base
         _menuInfo.SetActive(!isNotInMenu);
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+        
         //Frames
         _optionExitBtn.onClick.AddListener(OnOptionExitBtn);
         
@@ -89,7 +96,7 @@ public class UI_Option : UI_Base
         _toLobbyBtn.onClick.AddListener(OnLobbyBtn);
         _exitGameBtn.onClick.AddListener(OnExitBtn);
 
-        _infoTxt.text = menuGameOptionInfo;
+        // _infoTxt.text = menuGameOptionInfo;
         
         //GraphicsOption
         FullScreenToggle();
@@ -216,5 +223,23 @@ public class UI_Option : UI_Base
     private void OnOptionExitBtn()
     {
         OnOptionExit();
+    }
+
+    public override void SetLanguage()
+    {
+        SetSentence(_infoTxt, 1014);
+        SetSentence(_escText, 1001);
+        SetSentence(_titleText, 1003);
+        SetSentence(_lobbyText, 1004);
+        SetSentence(_restartText, 1005);
+        SetSentence(_exitText, 1002);
+        SetSentence(_masterVolumeText, 1007);
+        SetSentence(_effectsText, 1008);
+        SetSentence(_bgmText, 1009);
+        SetSentence(_languageText, 1010);
+        SetSentence(_resolutionText, 1011);
+        SetSentence(_fullscreenText, 1006);
+        SetSentence(_vsyncText, 1012);
+        SetSentence(_applyText, 1013);
     }
 }
