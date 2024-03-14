@@ -12,7 +12,7 @@ public class Managers : MonoBehaviour
     private UIManager _uiManager;
     private GameManager _game = new();
     private SceneLoader _loader = new();
-    private StageManager _stage;
+    private StageManager _stage = new();
     private CustomNetworkManager _network;
     private DataManager _data = new();
 
@@ -50,11 +50,6 @@ public class Managers : MonoBehaviour
         if (!go.TryGetComponent(out _instance._uiManager))
         {
             _instance._uiManager = go.AddComponent<UIManager>();
-        }
-        
-        if (!go.TryGetComponent(out _instance._stage))
-        {
-            _instance._stage = go.AddComponent<StageManager>();
         }
         
         Data.Setup();

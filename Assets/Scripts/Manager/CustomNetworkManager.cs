@@ -1,9 +1,23 @@
+using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class CustomNetworkManager : NetworkManager
 {
+    public Dictionary<string, GameObject> spawnPrefabDict;
+
+    public override void Start()
+    {
+        base.Start();
+
+        spawnPrefabDict = new Dictionary<string, GameObject>();
+        foreach (var spawnPrefab in spawnPrefabs)
+        {
+            spawnPrefabDict.Add(spawnPrefab.name, spawnPrefab);
+        }
+    }
+
     public override void ServerChangeScene(string newSceneName)
     {
         if (string.IsNullOrWhiteSpace(newSceneName))
@@ -47,7 +61,12 @@ public class CustomNetworkManager : NetworkManager
         startPositionIndex = 0;
         startPositions.Clear();
     }
-    
+
+    public override void OnServerSceneChanged(string sceneName)
+    {
+        base.OnServerSceneChanged(sceneName);
+    }
+
     // 로딩 UI 구현을 위한 override
     public override void ClientChangeScene(string newSceneName, SceneOperation sceneOperation = SceneOperation.Normal, bool customHandling = false)
     {
@@ -73,8 +92,13 @@ public class CustomNetworkManager : NetworkManager
         //loadingSceneAsync = SceneManager.LoadSceneAsync(newSceneName);
         // 로딩 UI표기. LoadSceneAsync는 로딩 UI에서 progress bar와 동기화를 위해 로딩 UI의 LoadScene에서 구현.
         Managers.UI.ShowLoadingUI(newSceneName);
-        Debug.Log("client");
         
         networkSceneName = newSceneName;
+    }
+    
+    public override void OnClientSceneChanged()
+    {
+        base.OnClientSceneChanged();
+
     }
 }

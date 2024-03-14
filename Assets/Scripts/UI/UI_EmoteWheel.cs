@@ -73,7 +73,9 @@ public class UI_EmoteWheel : UI_Base
 
     private void ShowEmote(string emoteName)
     {
-        Instantiate(Resources.Load<GameObject>($"Prefabs/UI/Emotes/{emoteName}"), Managers.Game.Player.transform, worldPositionStays:false);
+        //Managers.Resource.NetworkInstantiate($"UI/Emotes/{emoteName}", Managers.Game.Player.transform);
+        //Instantiate(Resources.Load<GameObject>(), Managers.Game.Player.transform, worldPositionStays:false);
+        Managers.Game.Player.GetComponent<BasicMoveTest>().CmdEmote($"{emoteName}");
         Test_UI_Input.Instance.UsingEmote();
         OnExit();
     }
