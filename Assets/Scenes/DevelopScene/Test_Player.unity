@@ -135,8 +135,8 @@ GameObject:
   - component: {fileID: 91805843}
   - component: {fileID: 91805841}
   - component: {fileID: 91805847}
-  - component: {fileID: 91805846}
   - component: {fileID: 91805848}
+  - component: {fileID: 91805849}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -240,76 +240,6 @@ Transform:
   - {fileID: 370068651}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &91805846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 91805840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: f6ef5b67adb01ee42bfd0deb00bf7c91, type: 3}
-  m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 91805848}
-        m_TargetAssemblyTypeName: ex_PlayerMovement, Assembly-CSharp
-        m_MethodName: Move
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 2c7a2f0d-13ab-448f-8f45-f010e364c441
-    m_ActionName: Player/Move[/Keyboard/a,/Keyboard/d]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: ba242540-37f8-403f-8b76-1b95253cf17c
-    m_ActionName: Player/Look[/Mouse/position]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 5906ae8f-a4f9-426e-b147-872ff832c43a
-    m_ActionName: Player/Action[/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 91805848}
-        m_TargetAssemblyTypeName: ex_PlayerMovement, Assembly-CSharp
-        m_MethodName: Jump
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 09316714-6da0-413f-ba98-5cf03a9d17b5
-    m_ActionName: Player/Jump[/Keyboard/space]
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!70 &91805847
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -354,14 +284,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 91805840}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6aacc798ad2265740808bc45a1a0d5cd, type: 3}
+  m_Script: {fileID: 11500000, guid: 01f20306adc746d4b80eef21f375e130, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 91805841}
+  rigidbd: {fileID: 91805841}
   floorCheck: {fileID: 1913058031}
   floorLayer:
     serializedVersion: 2
     m_Bits: 2147483712
+--- !u!114 &91805849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91805840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fc3ce3f86efeb0488592042faabab37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &370068648
 GameObject:
   m_ObjectHideFlags: 0
