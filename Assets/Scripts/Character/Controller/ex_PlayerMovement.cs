@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
 
     private float _horizontal;
     private float _speed = 4f;
-    private float _jumpingPower = 15f;
+    private float _jumpingPower = 20f;
 
     void Update()
     {
@@ -36,6 +36,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool IsGrounded()
     {
+        // OverlapCircle <- 매개변수로 전달할 위치를 기준으로 반지름만큼 원 생성
+        //그 영역 내에 충돌체를 가진 게임오브젝트가 있는지 검사
         return Physics2D.OverlapCircle(groundCheck.position, 0.7f, groundLayer);
     }
 
