@@ -4,8 +4,8 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody2D rb;
-    public Transform groundCheck;
-    public LayerMask groundLayer;
+    public Transform floorCheck;
+    public LayerMask floorLayer;
 
     private float _horizontal;
     private float _speed = 4f;
@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
-        if (context.performed && IsGrounded())
+        if (context.performed && IsFloor())
         {
             rb.velocity = new Vector2(rb.velocity.x, _jumpingPower);
         }
@@ -34,11 +34,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private bool IsGrounded()
+    private bool IsFloor()
     {
         // OverlapCircle <- 매개변수로 전달할 위치를 기준으로 반지름만큼 원 생성
         //그 영역 내에 충돌체를 가진 게임오브젝트가 있는지 검사
-        return Physics2D.OverlapCircle(groundCheck.position, 0.7f, groundLayer);
+        return Physics2D.OverlapCircle(floorCheck.position, 0.7f, floorLayer);
     }
 
     public void Move(InputAction.CallbackContext context)
