@@ -44,15 +44,6 @@ public class Util
 
     #endregion
 
-    #region Data
-
-    public List<T> FromJsonData<T>(string json)
-    {
-        SerializableList<T> serializedList = JsonUtility.FromJson<SerializableList<T>>(json);
-        return serializedList.list;
-    }
-
-    #endregion
 
     #region Transform
    public Transform CreateChildTransform(Transform parent, string name)

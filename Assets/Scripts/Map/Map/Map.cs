@@ -3,20 +3,27 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
 using System.IO;
+using static ButtonActivated;
 
 
 [System.Serializable]
 public class Map
 {
+    public Vector2 mapSize;
     public string mapID;
-    public List<TileData> mapTileDataList = new List<TileData>();
     public Vector2 playerSpawnPosition;
     public Vector2 playerExitPosition;
-    public Vector2 mapSize;
+    public List<TileData> mapTileDataList = new List<TileData>();
     public float cellSize;
 
+    //public List<T> buttonActivatedDoorList = new List<T>();
+    public List<ButtonActivatedBtn> buttonActivatedList = new List<ButtonActivatedBtn>();
 
-    public Map(string id, List<TileData> list, Vector2 playerSpawnPosition, Vector2 playerExitPosition, Vector2 mapSize, float cellSize)
+
+
+
+    public Map(Vector2 mapSize, string id, Vector2 playerSpawnPosition, 
+        Vector2 playerExitPosition, List<TileData> list, float cellSize)
     {
         mapID = id;
         mapTileDataList = list;

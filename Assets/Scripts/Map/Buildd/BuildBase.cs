@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class BuildBase : MonoBehaviour
 {
 
-    [SerializeField] bool isActive;
+    [SerializeField] bool editorMod_isActive;
     [SerializeField] bool placeable;
     [SerializeField] bool isCollision;
     [SerializeField] LayerMask mask;
@@ -22,7 +22,7 @@ public class BuildBase : MonoBehaviour
 
     protected virtual void BuildCheck()
     {
-        if (isActive)
+        if (editorMod_isActive)
         {
             hit = Physics2D.Raycast(transform.position, Vector2.down, 0.1f, mask);
 
