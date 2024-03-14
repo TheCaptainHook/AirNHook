@@ -2,18 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class BuildObj : MonoBehaviour
 {
-    public TileType tileType;
-    public Vector2 position;
+    private TileType tileType;
+    private Vector2 position;
     public string path;
-
 
     public TileData tileData;
 
-    public TileData SetTileData()
+    public void SetTileData(TileType tileType,Vector2 position)
     {
+        this.tileType = tileType;
+        this.position = position;
+
         tileData = new TileData(tileType, position, path);
-        return tileData;
     }
 }

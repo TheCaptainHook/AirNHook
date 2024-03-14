@@ -6,15 +6,17 @@ using Newtonsoft.Json;
 public class DataManager
 {
     public Languages language;
-
+    public MapData mapData;
     public DataManager()
     {
         language = new Languages();
+        mapData = new MapData();
     }
 
     public void Setup()
     {
         language.Setup();
+        mapData.SetUp();
     }
     
     public T[] ReadJson<T>(string path)

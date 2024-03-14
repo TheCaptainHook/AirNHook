@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class MapEditorControllerUI : MonoBehaviour
 {
     [Header("Map Size")]
-    int maxWidth = 50;
-    int maxHeight= 50;
+    //int maxWidth = 50;
+    //int maxHeight= 50;
     [SerializeField] TMP_InputField widthInputField;
     [SerializeField] TMP_InputField heightInputField;
     [SerializeField] Button initBtn;

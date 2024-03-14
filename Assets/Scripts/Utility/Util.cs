@@ -1,8 +1,7 @@
-using System.Collections;
+
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-using System;
+using System.IO;
 
 public class Util
 {
@@ -54,4 +53,19 @@ public class Util
     }
 
     #endregion
+
+    #region Transform
+   public Transform CreateChildTransform(Transform parent, string name)
+    {
+        if (parent.Find(name) != null)
+        {
+            Object.Destroy(parent.Find(name).gameObject);
+        }
+        GameObject childObject = new GameObject(name);
+        Transform childTransform = childObject.transform;
+        childTransform.SetParent(parent);
+        return childTransform;
+    }
+    #endregion
+
 }

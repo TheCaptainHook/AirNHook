@@ -30,7 +30,7 @@ public class BuildBase : MonoBehaviour
             {
                 placeable = true;
                 mainSprite.color = orgColor;
-                Debug.Log(hit.collider.gameObject.GetComponent<BuildObj>().tileType);
+                Debug.Log(hit.collider.gameObject.GetComponent<BuildObj>().tileData.tileType);
             }
             else
             {
