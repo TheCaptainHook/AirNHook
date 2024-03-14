@@ -1,16 +1,11 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneLoader : MonoBehaviour
+public class SceneLoader
 {
-    private void Awake()
+    public SceneLoader()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnDestroy()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
     
     //TODO 각 씬에 필요한 초기화 코드 호출 - 초기화 코드만 GameManager에서 다루고 여기서 불러도 됨.

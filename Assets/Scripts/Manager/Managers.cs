@@ -10,16 +10,18 @@ public class Managers : MonoBehaviour
     public static Managers Instance { get { Initialize(); CheckNetworkManager(); return _instance; } }
 
     private UIManager _uiManager;
-    private GameManager _game;
-    private SceneLoader _loader;
+    private GameManager _game = new();
+    private SceneLoader _loader = new();
     private StageManager _stage;
     private CustomNetworkManager _network;
+    private DataManager _data = new();
 
     public static GameManager Game => Instance._game;
     public static UIManager UI => Instance._uiManager;
     public static SceneLoader Loader => Instance._loader;
     public static StageManager Stage => Instance._stage;
     public static CustomNetworkManager Network => Instance._network;
+    public static DataManager Data => Instance._data;
 
     /// <summary> 게임 시작시 자동으로 호출 - Scene에 넣을 필요 X </summary>
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -44,26 +46,18 @@ public class Managers : MonoBehaviour
 
         DontDestroyOnLoad(go);
         _instance = go.GetComponent<Managers>();
-
-        if (!go.TryGetComponent(out _instance._game))
-        {
-            _instance._game = go.AddComponent<GameManager>();
-        }
         
         if (!go.TryGetComponent(out _instance._uiManager))
         {
             _instance._uiManager = go.AddComponent<UIManager>();
-        }
-
-        if (!go.TryGetComponent(out _instance._loader))
-        {
-            _instance._loader = go.AddComponent<SceneLoader>();
         }
         
         if (!go.TryGetComponent(out _instance._stage))
         {
             _instance._stage = go.AddComponent<StageManager>();
         }
+        
+        Data.Setup();
     }
 
     /// <summary>

@@ -1,0 +1,106 @@
+[
+ {
+  "id": 1000,
+  "text": "English"
+ },
+ {
+  "id": 1001,
+  "text": "Press ESC to Exit"
+ },
+ {
+  "id": 1002,
+  "text": "ExitGame"
+ },
+ {
+  "id": 1003,
+  "text": "Title"
+ },
+ {
+  "id": 1004,
+  "text": "Lobby"
+ },
+ {
+  "id": 1005,
+  "text": "StageRestart"
+ },
+ {
+  "id": 1006,
+  "text": "FullScreen"
+ },
+ {
+  "id": 1007,
+  "text": "Master"
+ },
+ {
+  "id": 1008,
+  "text": "Effects"
+ },
+ {
+  "id": 1009,
+  "text": "BGM"
+ },
+ {
+  "id": 1010,
+  "text": "Language"
+ },
+ {
+  "id": 1011,
+  "text": "Resolution"
+ },
+ {
+  "id": 1012,
+  "text": "Vsync"
+ },
+ {
+  "id": 1013,
+  "text": "APPLY CHANGE"
+ },
+ {
+  "id": 1014,
+  "text": "This option is not available in menu"
+ },
+ {
+  "id": 2001,
+  "text": "Join Game"
+ },
+ {
+  "id": 2002,
+  "text": "Create Room"
+ },
+ {
+  "id": 2003,
+  "text": "Option"
+ },
+ {
+  "id": 2004,
+  "text": "Exit"
+ },
+ {
+  "id": 2005,
+  "text": "Failed to Connect"
+ },
+ {
+  "id": 2006,
+  "text": "RETRY"
+ },
+ {
+  "id": 2007,
+  "text": "ENTER ROOM CODE"
+ },
+ {
+  "id": 2008,
+  "text": "Enter Code"
+ },
+ {
+  "id": 2009,
+  "text": "JOIN"
+ },
+ {
+  "id": 4001,
+  "text": "Air"
+ },
+ {
+  "id": 4002,
+  "text": "Hook"
+ }
+]

@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class UIManager : MonoBehaviour
 {
@@ -158,5 +156,13 @@ public class UIManager : MonoBehaviour
     private bool UIListCheck<T>()
     {
         return _uIDict.ContainsKey(typeof(T).Name) && _uIDict[typeof(T).Name] != null;
+    }
+
+    public void SettingLanguage()
+    {
+        foreach (var ui in _uIDict.Values)
+        {
+            ui.SetLanguage();
+        }
     }
 }

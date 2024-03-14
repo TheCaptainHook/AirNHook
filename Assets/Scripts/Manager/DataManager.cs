@@ -1,73 +1,38 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using GoogleSheet;
-using UGS;
+using System.IO;
+using System.Linq;
+using Newtonsoft.Json;
 
-
-public class DataManager : MonoBehaviour
+public class DataManager
 {
-    public static DataManager Instance;
+    public Languages language;
 
+    public DataManager()
+    {
+        language = new Languages();
+    }
 
+    public void Setup()
+    {
+        language.Setup();
+    }
     
-    bool mapDataReceived = false;
-    public bool mapDataReceiveComplete = false;
-
-    private void Awake()
+    public T[] ReadJson<T>(string path)
     {
-        if(Instance != null) { Destroy(gameObject); }
-        else { Instance = this; }
-
-    }
-
-    //todo
-    public void MapDataLoad()
-    {
-        StartCoroutine(Co_MapDataLoad());
+        // json 읽기
+        var content = File.ReadAllText(path);
         
+        // Json으로 변환
+        var list = JsonConvert.DeserializeObject<T[]>(content);
+        
+        return list;
     }
 
-
-    public void Load<T>() where T : ITable
+    public List<string> GetJsonNames(string path, string searchPattern)
     {
-        UnityGoogleSheet.Load<T>();
+        var filenames = Directory.GetFiles(path, searchPattern)
+            .Select(Path.GetFileNameWithoutExtension).ToList();
+        
+        return filenames;
     }
-
-
-
-
-    IEnumerator Co_MapDataLoad()
-    {
-        mapDataReceiveComplete = false;
-
-        UnityGoogleSheet.LoadFromGoogle<string, MapData.Data>((list, map) =>
-        {
-            Debug.Log("Load"); //이부분 수정 데이터를 받아오면 이부분 실행
-        }, true);
-
-
-        while (!mapDataReceived)
-        {
-            MapReceiveData();
-            yield return null;
-        }
-
-        mapDataReceived = false;
-    }
-
-    void MapReceiveData()
-    {
-
-        if (MapData.Data.DataList.Count > 0)
-        {
-            mapDataReceived = true;
-            mapDataReceiveComplete = true;
-        }
-        else
-        {
-            Debug.Log("Load Data");
-        }
-    }
-    //todo
 }
