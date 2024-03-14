@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UGS;
 using System.IO;
-using static UGS.Editor.GoogleDriveExplorerGUI;
+//using static UGS.Editor.GoogleDriveExplorerGUI;
 using System.Runtime.InteropServices.ComTypes;
 using GoogleSheet.Core.Type;
 using System.Net;
@@ -266,7 +266,7 @@ public class MapEditor : MonoBehaviour
         string filePath = Path.Combine(folderPath, $"{map.mapID}.json");
         File.WriteAllText(filePath, json);
 
-        UnityEditor.AssetDatabase.Refresh();
+        //UnityEditor.AssetDatabase.Refresh();
     }
 
 

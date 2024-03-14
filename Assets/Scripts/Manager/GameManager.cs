@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
@@ -20,7 +21,7 @@ public class GameManager
         get
         {
             _player = NetworkClient.localPlayer.gameObject;
-
+            
             return _player;
         }
     }

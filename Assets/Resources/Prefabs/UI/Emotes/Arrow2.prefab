@@ -178,6 +178,8 @@ GameObject:
   m_Component:
   - component: {fileID: 9118692346818604246}
   - component: {fileID: 8282969065856261882}
+  - component: {fileID: 559056064509698083}
+  - component: {fileID: -2387161215229610520}
   m_Layer: 0
   m_Name: Arrow2
   m_TagString: Untagged
@@ -215,3 +217,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mainFrame: {fileID: 8902978029819753349}
+--- !u!114 &559056064509698083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8902978029819753349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 648088285
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
+--- !u!210 &-2387161215229610520
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8902978029819753349}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 7
+  m_SortAtRoot: 1
