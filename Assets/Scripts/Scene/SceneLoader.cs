@@ -23,15 +23,6 @@ public class SceneLoader
             case 1:
                 Debug.Log("Scene Loaded 1");
                 break;
-            // Test_Title
-            case 2:
-                Debug.Log("Test_Title Scene Loaded");
-                Managers.UI.ShowUI<UI_Title>();
-                break;
-            // // Test_Lobby
-            // case 3:
-            //     Managers.UI.ShowUI<UI_Lobby>();
-            //     break;
         }
     }
 }
