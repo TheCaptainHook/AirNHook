@@ -1,0 +1,176 @@
+{
+    "mapSize": {
+        "x": 20.0,
+        "y": 10.0
+    },
+    "mapID": "Test3",
+    "playerSpawnPosition": {
+        "x": 3.799999952316284,
+        "y": 0.0
+    },
+    "exitObjStruct": {
+        "position": {
+            "x": 34.0,
+            "y": 0.0
+        },
+        "path": "/Prefabs/Map/Object/ExitPoint",
+        "condition_KeyAmount": 3
+    },
+    "mapTileDataList": [
+        {
+            "tileType": 1,
+            "position": {
+                "x": 14.0,
+                "y": 0.0
+            },
+            "path": "Prefabs/Map/TIle/Tile5"
+        },
+        {
+            "tileType": 1,
+            "position": {
+                "x": 14.0,
+                "y": 2.0
+            },
+            "path": "Prefabs/Map/TIle/Tile5"
+        },
+        {
+            "tileType": 1,
+            "position": {
+                "x": 14.0,
+                "y": 4.0
+            },
+            "path": "Prefabs/Map/TIle/Tile5"
+        },
+        {
+            "tileType": 1,
+            "position": {
+                "x": 14.0,
+                "y": 6.0
+            },
+            "path": "Prefabs/Map/TIle/Tile5"
+        },
+        {
+            "tileType": 1,
+            "position": {
+                "x": 14.0,
+                "y": 8.0
+            },
+            "path": "Prefabs/Map/TIle/Tile5"
+        },
+        {
+            "tileType": 1,
+            "position": {
+                "x": 14.0,
+                "y": 10.0
+            },
+            "path": "Prefabs/Map/TIle/Tile5"
+        },
+        {
+            "tileType": 1,
+            "position": {
+                "x": 12.0,
+                "y": 0.0
+            },
+            "path": "Prefabs/Map/TIle/Tile4"
+        },
+        {
+            "tileType": 1,
+            "position": {
+                "x": 12.0,
+                "y": 2.0
+            },
+            "path": "Prefabs/Map/TIle/Tile4"
+        },
+        {
+            "tileType": 1,
+            "position": {
+                "x": 12.0,
+                "y": 4.0
+            },
+            "path": "Prefabs/Map/TIle/Tile4"
+        },
+        {
+            "tileType": 1,
+            "position": {
+                "x": 12.0,
+                "y": 6.0
+            },
+            "path": "Prefabs/Map/TIle/Tile4"
+        },
+        {
+            "tileType": 1,
+            "position": {
+                "x": 12.0,
+                "y": 8.0
+            },
+            "path": "Prefabs/Map/TIle/Tile4"
+        },
+        {
+            "tileType": 1,
+            "position": {
+                "x": 12.0,
+                "y": 10.0
+            },
+            "path": "Prefabs/Map/TIle/Tile4"
+        }
+    ],
+    "mapObjectDataList": [
+        {
+            "tileType": 2,
+            "position": {
+                "x": 14.0,
+                "y": 11.0
+            },
+            "path": "Prefabs/Map/Object/Box"
+        },
+        {
+            "tileType": 2,
+            "position": {
+                "x": 12.0,
+                "y": 13.0
+            },
+            "path": "Prefabs/Map/Object/Box"
+        },
+        {
+            "tileType": 2,
+            "position": {
+                "x": 34.0,
+                "y": 0.0
+            },
+            "path": "Prefabs/Map/Object/ExitPoint"
+        },
+        {
+            "tileType": 2,
+            "position": {
+                "x": 3.799999952316284,
+                "y": 0.0
+            },
+            "path": "Prefabs/Map/Object/SpawnPoint"
+        },
+        {
+            "tileType": 2,
+            "position": {
+                "x": 5.0,
+                "y": 18.0
+            },
+            "path": "Prefabs/Map/Object/SawPanel"
+        },
+        {
+            "tileType": 2,
+            "position": {
+                "x": 13.0,
+                "y": 18.0
+            },
+            "path": "Prefabs/Map/Object/SawPanel"
+        },
+        {
+            "tileType": 2,
+            "position": {
+                "x": 22.0,
+                "y": 18.0
+            },
+            "path": "Prefabs/Map/Object/SawPanel"
+        }
+    ],
+    "cellSize": 2.0
+}

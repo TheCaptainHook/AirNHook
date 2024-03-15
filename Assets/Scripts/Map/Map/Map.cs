@@ -13,6 +13,7 @@ public class Map
     public ExitObjStruct exitObjStruct; //클리어 조건 포함
     public List<TileData> mapTileDataList = new List<TileData>();
     public List<TileData> mapObjectDataList = new List<TileData>();
+
     public float cellSize;
 
 

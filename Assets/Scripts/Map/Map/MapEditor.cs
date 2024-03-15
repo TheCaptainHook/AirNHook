@@ -57,6 +57,7 @@ public class MapEditor : MonoBehaviour
     private Transform floorTransform;
     private Transform objectTransform;
     private Transform interactionObjectTransform;
+    private Transform dontSaveObject;
 
 
     [Header("Create")]
@@ -109,6 +110,7 @@ public class MapEditor : MonoBehaviour
         floorTransform = Util.CreateChildTransform(mapObjBoxTransform, "FloorTransform");
         objectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ObjectTransform");
         interactionObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "interactionObjectTransform");
+        dontSaveObject = Util.CreateChildTransform(mapObjBoxTransform, "dontSaveObject");
     }
 
     //todo
@@ -126,19 +128,20 @@ public class MapEditor : MonoBehaviour
                 RemoveTile();
             }
 
-         
 
-            if (Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyDown(KeyCode.S))
             {
-                Debug.Log("LLL");
+                Debug.Log("Save");
                 SaveMapData();
+
             }
 
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.L))
         {
-            LoadMap("Test2");
+            Debug.Log("Load");
+            LoadMap(mapID);
         }
 
     }
@@ -274,6 +277,7 @@ public class MapEditor : MonoBehaviour
 
     void LoadMap(string name)
     {
+        Init();
         mapEditorType = MapEditorType.Load;
         mapID = name;
         Map map = Managers.Data.mapData.mapDictionary[name];

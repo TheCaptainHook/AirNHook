@@ -346,7 +346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 002273b27ed3b448a957042453a80f3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapEditorType: 0
+  mapEditorType: 1
   mapEditorState: 1
   cellSize: 2
   contorollerUI: {fileID: 0}
@@ -364,6 +364,7 @@ MonoBehaviour:
   playerExitPosition: {x: 0, y: 0}
   condition_KeyAmount: 0
   mapTileDataList: []
+  mapObjectDataList: []
 --- !u!1 &2050860732097960881
 GameObject:
   m_ObjectHideFlags: 0
