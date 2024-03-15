@@ -14,6 +14,13 @@ namespace MapObjects
 
         [SerializeField] private bool _isEnabled;
 
+        private Transform _transform;
+
+        private void Start()
+        {
+            _transform = GetComponent<Transform>();
+        }
+
         private void Update()
         {
             Toggle();
@@ -28,16 +35,16 @@ namespace MapObjects
 
         private void UpdateLaser()
         {
-            if (Physics2D.Raycast(transform.position, transform.right))
+            if (Physics2D.Raycast(_transform.position, transform.right))
             {
-                RaycastHit2D _hit = Physics2D.Raycast(transform.position, transform.right.normalized, _defDistanceRay);
+                RaycastHit2D _hit = Physics2D.Raycast(_transform.position, transform.right.normalized, _defDistanceRay);
                 DrawLaser(_hit.point);
                 _endVFX.SetActive(true);
                 _endVFX.transform.position = _hit.point;
             }
             else
             {
-                DrawLaser(_firePoint.transform.right * _defDistanceRay);
+                DrawLaser(transform.position + transform.right.normalized * _defDistanceRay);
                 _endVFX.SetActive(false);
             }
         }
@@ -45,7 +52,15 @@ namespace MapObjects
         private void DrawLaser(Vector2 endPos)
         {
             _lineRenderer.SetPosition(0,_firePoint.position);
-            _lineRenderer.SetPosition(1, new Vector3(endPos.x,_firePoint.position.y,0));
+            _lineRenderer.SetPosition(1, endPos);
         }
+#if UNITY_EDITOR
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawRay(transform.position, transform.right * 50);
+        }
+#endif
     }
 }
