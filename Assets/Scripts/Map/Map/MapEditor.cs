@@ -83,6 +83,7 @@ public class MapEditor : MonoBehaviour
     public Vector2 playerExitPosition;
     public int condition_KeyAmount;
     public List<TileData> mapTileDataList = new List<TileData>();
+    public List<TileData> mapObjectDataList = new List<TileData>();
 
 
     private void Awake()
@@ -105,7 +106,6 @@ public class MapEditor : MonoBehaviour
     public void Init()
     {
         mapObjBoxTransform = Util.CreateChildTransform(transform, "MapObjBox");
-    
         floorTransform = Util.CreateChildTransform(mapObjBoxTransform, "FloorTransform");
         objectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ObjectTransform");
         interactionObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "interactionObjectTransform");
@@ -138,7 +138,7 @@ public class MapEditor : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            LoadMap_Editor("1");
+            LoadMap("Test2");
         }
 
     }
@@ -249,12 +249,16 @@ public class MapEditor : MonoBehaviour
         }
         return list;
     }
+
+
+
    
     void CreateJsonFile()
     {
         mapTileDataList = GetList(floorTransform);
-        Map map = new Map(new Vector2(width, height), mapID,  playerSpawnPosition, new ExitObjStruct(playerExitPosition, condition_KeyAmount), mapTileDataList, cellSize);
-        string json = JsonUtility.ToJson(map);
+        mapObjectDataList = GetList(objectTransform);
+        Map map = new Map(new Vector2(width, height), mapID,  playerSpawnPosition, new ExitObjStruct(playerExitPosition, condition_KeyAmount), mapTileDataList,mapObjectDataList, cellSize);
+        string json = JsonUtility.ToJson(map, true);
         string filePath = Path.Combine(folderPath, $"{map.mapID}.json");
         File.WriteAllText(filePath, json);
 
@@ -268,7 +272,7 @@ public class MapEditor : MonoBehaviour
 
     #region Load
 
-    void LoadMap_Editor(string name)
+    void LoadMap(string name)
     {
         mapEditorType = MapEditorType.Load;
         mapID = name;
@@ -276,13 +280,12 @@ public class MapEditor : MonoBehaviour
 
         SetMapSize((int)map.mapSize.x, (int)map.mapSize.y);
 
-
         playerSpawnPosition = map.playerSpawnPosition;
         playerExitPosition = map.exitObjStruct.position;
         condition_KeyAmount = map.exitObjStruct.condition_KeyAmount;
 
-
         map.CreateMap_Tile(floorTransform);
+        map.CreateMap_Object(objectTransform);
 
         foreach (Transform obj in floorTransform)
         {
@@ -296,21 +299,21 @@ public class MapEditor : MonoBehaviour
 
     }
 
-    void LoadMap(string name) //일반 게임에서 맵 로드할때
-    {
-        if(mapEditorState == MapEditorState.NoEditor)
-        {
-            Init();
-            mapEditorType = MapEditorType.Load;
-            Map map = Managers.Data.mapData.mapDictionary[name];
-            mapID = name;
+    //void LoadMap(string name) //일반 게임에서 맵 로드할때
+    //{
+    //    if(mapEditorState == MapEditorState.NoEditor)
+    //    {
+    //        Init();
+    //        mapEditorType = MapEditorType.Load;
+    //        Map map = Managers.Data.mapData.mapDictionary[name];
+    //        mapID = name;
 
-            SetMapSize((int)map.mapSize.x, (int)map.mapSize.y);
+    //        SetMapSize((int)map.mapSize.x, (int)map.mapSize.y);
 
-            map.CreateMap_Tile(floorTransform);
-        }
+    //        map.CreateMap_Tile(floorTransform);
+    //    }
       
-    }
+    //}
 
 
     #endregion

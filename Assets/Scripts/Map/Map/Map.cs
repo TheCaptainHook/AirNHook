@@ -12,19 +12,16 @@ public class Map
     public Vector2 playerSpawnPosition;
     public ExitObjStruct exitObjStruct; //클리어 조건 포함
     public List<TileData> mapTileDataList = new List<TileData>();
+    public List<TileData> mapObjectDataList = new List<TileData>();
     public float cellSize;
-
-    //public List<T> buttonActivatedDoorList = new List<T>();
-    public List<TileData> objectDataList = new List<TileData>();
-    public List<TileData> buttonActivatedList = new List<TileData>();
-
 
 
     public Map(Vector2 mapSize, string id, Vector2 playerSpawnPosition, 
-        ExitObjStruct exitObjStruct, List<TileData> list, float cellSize)
+        ExitObjStruct exitObjStruct, List<TileData> tileList,List<TileData> objectList, float cellSize)
     {
         mapID = id;
-        mapTileDataList = list;
+        mapTileDataList = tileList;
+        mapObjectDataList = objectList;
         this.playerSpawnPosition = playerSpawnPosition;
         this.exitObjStruct = exitObjStruct;
         this.mapSize = mapSize;
@@ -40,7 +37,10 @@ public class Map
         CreateObj(transform, mapTileDataList);
     }
 
-
+    public void CreateMap_Object(Transform transform)
+    {
+        CreateObj(transform, mapObjectDataList);
+    }
 
 
     void CreateObj(Transform transform,List<TileData> list)
