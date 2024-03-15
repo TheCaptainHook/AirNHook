@@ -12,12 +12,22 @@ public class MapData
 
     public void SetUp()
     {
+
         foreach (TextAsset json in Resources.LoadAll<TextAsset>("MapDat"))
         {
             Map map = JsonUtility.FromJson<Map>(json.text);
             mapDictionary.Add(map.mapID, map);
             Debug.Log(map.mapID);
         }
+
+        //todo
+        UnityGoogleSheet.Load<MapObjectData.Data>();
+        foreach(var value in MapObjectData.Data.DataList)
+        {
+            Debug.Log($"{value.id},{value.Type},{value.path}");
+        }
+
+        //todo
     }
 
     public MapObjectDataStruct GetMapObjData(int id)
