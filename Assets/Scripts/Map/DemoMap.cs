@@ -22,7 +22,7 @@ public class DemoMap : MonoBehaviour
     public int stageClearCondition_keyAmount;
     public int curKeyAmount;
 
-    List<TileData> mapTileDataList = new List<TileData>(); 
+    List<ObjectData> mapTileDataList = new List<ObjectData>(); 
     List<ButtonActivatedDoor> buttonActivate = new List<ButtonActivatedDoor>(); //구조체로 데이터화
     
     

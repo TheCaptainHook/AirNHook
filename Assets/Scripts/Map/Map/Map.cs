@@ -11,14 +11,14 @@ public class Map
     public string mapID;
     public Vector2 playerSpawnPosition;
     public ExitObjStruct exitObjStruct; //클리어 조건 포함
-    public List<TileData> mapTileDataList = new List<TileData>();
-    public List<TileData> mapObjectDataList = new List<TileData>();
+    public List<ObjectData> mapTileDataList = new List<ObjectData>();
+    public List<ObjectData> mapObjectDataList = new List<ObjectData>();
 
     public float cellSize;
 
 
     public Map(Vector2 mapSize, string id, Vector2 playerSpawnPosition, 
-        ExitObjStruct exitObjStruct, List<TileData> tileList,List<TileData> objectList, float cellSize)
+        ExitObjStruct exitObjStruct, List<ObjectData> tileList,List<ObjectData> objectList, float cellSize)
     {
         mapID = id;
         mapTileDataList = tileList;
@@ -43,13 +43,14 @@ public class Map
         CreateObj(transform, mapObjectDataList);
     }
 
-
-    void CreateObj(Transform transform,List<TileData> list)
+    //데이터 테이블을 사용해 생성하기.
+    void CreateObj(Transform transform,List<ObjectData> list)
     {
-        foreach (TileData data in list)
+        foreach (ObjectData data in list)
         {
-            GameObject obj = Object.Instantiate(Resources.Load<GameObject>(data.path));
-            obj.GetComponent<BuildObj>().tileData = data;
+            MapObjectDataStruct mapObjectDataStruct = Managers.Data.mapData.GetMapObjData(data.id);
+            GameObject obj = Object.Instantiate(Resources.Load<GameObject>(mapObjectDataStruct.path));
+            obj.GetComponent<BuildObj>().objectData = data;
             obj.transform.position = data.position;
             obj.transform.SetParent(transform);
 
@@ -98,16 +99,15 @@ public struct ExitObjStruct
 }
 
 [System.Serializable]
-public struct TileData
+public struct ObjectData
 {
-    public TileType tileType;
+    public int id;
     public Vector2 position;
-    public string path;
-
-    public TileData(TileType tileType, Vector2 position, string path)
+  
+    public ObjectData(int id, Vector2 position)
     {
-        this.tileType = tileType;
+        this.id = id;
         this.position = position;
-        this.path = path;
+       
     }
 }

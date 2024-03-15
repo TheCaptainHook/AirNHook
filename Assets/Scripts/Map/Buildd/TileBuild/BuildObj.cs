@@ -5,17 +5,17 @@ using UnityEngine;
 [System.Serializable]
 public class BuildObj : MonoBehaviour
 {
-    private TileType tileType;
+    private int id;
     private Vector2 position;
-    public string path;
+   
 
-    public TileData tileData;
+    public ObjectData objectData;
 
-    public void SetTileData(TileType tileType,Vector2 position)
+    public void SetTileData(Vector2 position)
     {
-        this.tileType = tileType;
         this.position = position;
 
-        tileData = new TileData(tileType, position, path);
+        objectData = new ObjectData(id, position);
     }
 }
+// id, position 만 구조체로 가지고 있기.

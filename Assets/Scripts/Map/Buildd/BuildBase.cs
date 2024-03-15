@@ -30,7 +30,6 @@ public class BuildBase : BuildObj
             {
                 placeable = true;
                 mainSprite.color = orgColor;
-                Debug.Log(hit.collider.gameObject.GetComponent<BuildObj>().tileData.tileType);
             }
             else
             {

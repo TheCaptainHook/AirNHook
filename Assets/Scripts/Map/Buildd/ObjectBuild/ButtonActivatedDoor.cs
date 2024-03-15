@@ -10,7 +10,6 @@ public class ButtonActivatedDoor : BuildBase
     [Header("Components")]
     SpriteRenderer spriteRenderer;
 
-    public int id;
     public int curLinkBtn;
     public int curActiveBtn;
     public int CurActiveBtn { set { curActiveBtn += value;

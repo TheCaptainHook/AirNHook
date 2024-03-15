@@ -83,8 +83,8 @@ public class MapEditor : MonoBehaviour
     public Vector2 playerSpawnPosition;
     public Vector2 playerExitPosition;
     public int condition_KeyAmount;
-    public List<TileData> mapTileDataList = new List<TileData>();
-    public List<TileData> mapObjectDataList = new List<TileData>();
+    public List<ObjectData> mapTileDataList = new List<ObjectData>();
+    public List<ObjectData> mapObjectDataList = new List<ObjectData>();
 
 
     private void Awake()
@@ -188,7 +188,7 @@ public class MapEditor : MonoBehaviour
 
                 GameObject obj = Instantiate(curBuildObj, (Vector2)pot * (int)cellSize, Quaternion.identity);
                 obj.transform.SetParent(floorTransform);
-                obj.GetComponent<BuildObj>().SetTileData(TileType.Floor ,(Vector2)pot * (int)cellSize);
+                obj.GetComponent<BuildObj>().SetTileData((Vector2)pot * (int)cellSize);
                 tileObjectArray[pot.x, pot.y] = obj;
 
             }
@@ -244,11 +244,11 @@ public class MapEditor : MonoBehaviour
 
     }
 
-    List<TileData> GetList(Transform transform) {
-        List<TileData> list = new List<TileData>();
+    List<ObjectData> GetList(Transform transform) {
+        List<ObjectData> list = new List<ObjectData>();
         foreach (Transform cur in transform)
         {
-            list.Add(cur.GetComponent<BuildObj>().tileData);
+            list.Add(cur.GetComponent<BuildObj>().objectData);
         }
         return list;
     }
@@ -300,7 +300,7 @@ public class MapEditor : MonoBehaviour
 
         foreach (Transform obj in floorTransform)
         {
-            TileData tileData = obj.GetComponent<BuildObj>().tileData;
+            ObjectData tileData = obj.GetComponent<BuildObj>().objectData;
 
             int x = (int)tileData.position.x / (int)cellSize;
             int y = (int)tileData.position.y / (int)cellSize;
