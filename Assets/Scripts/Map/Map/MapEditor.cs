@@ -277,7 +277,14 @@ public class MapEditor : MonoBehaviour
 
     void LoadMap(string name)
     {
-        Init();
+        if (!Managers.Data.mapData.mapDictionary.ContainsKey(name))
+        {
+            Debug.Log("Can't find Map");
+            Init();
+            mapEditorType = MapEditorType.New;
+            return;
+        }
+        
         mapEditorType = MapEditorType.Load;
         mapID = name;
         Map map = Managers.Data.mapData.mapDictionary[name];

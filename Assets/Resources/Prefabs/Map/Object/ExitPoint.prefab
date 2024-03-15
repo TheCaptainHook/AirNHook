@@ -207,7 +207,7 @@ MonoBehaviour:
   tileData:
     tileType: 2
     position: {x: 0, y: 0}
-    path: 
+    path: Prefabs/Map/Object/ExitPoint
   editorMod_isActive: 0
   placeable: 0
   isCollision: 0

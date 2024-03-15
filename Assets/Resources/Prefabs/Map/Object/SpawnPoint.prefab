@@ -203,7 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12add376185485743b8ab361bfd590f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  path: 
+  path: Prefabs/Map/Object/SpawnPoint
   tileData:
     tileType: 2
     position: {x: 0, y: 0}
