@@ -10,8 +10,6 @@ public class ButtonActivatedDoor : BuildBase
     [Header("Components")]
     SpriteRenderer spriteRenderer;
 
-    Color orgColor;
-
     public int id;
     public int curLinkBtn;
     public int curActiveBtn;

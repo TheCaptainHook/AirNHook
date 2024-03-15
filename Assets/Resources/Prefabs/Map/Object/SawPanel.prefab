@@ -162,6 +162,7 @@ GameObject:
   - component: {fileID: 6481405981513468577}
   - component: {fileID: 676897269587642983}
   - component: {fileID: 2568252104625717732}
+  - component: {fileID: 2401089769557490204}
   m_Layer: 0
   m_Name: SawPanel
   m_TagString: Untagged
@@ -259,3 +260,15 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2401089769557490204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8485130519583147846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c6f3e8bab5064cb3bf3a21ba94078c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

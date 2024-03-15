@@ -28,6 +28,7 @@ public enum TileType
 {
     OutLine,
     Floor,
+    Object
 }
 
 
@@ -55,6 +56,7 @@ public class MapEditor : MonoBehaviour
     private Transform outLineTransform;
     private Transform floorTransform;
     private Transform objectTransform;
+    private Transform interactionObjectTransform;
 
 
     [Header("Create")]
@@ -102,17 +104,11 @@ public class MapEditor : MonoBehaviour
     //todo
     public void Init()
     {
-        mapObjBoxTransform = transform.Find("MapObjBox");
-
-        if (mapObjBoxTransform != null)
-        {
-            Destroy(mapObjBoxTransform.gameObject);
-        }
-
         mapObjBoxTransform = Util.CreateChildTransform(transform, "MapObjBox");
     
         floorTransform = Util.CreateChildTransform(mapObjBoxTransform, "FloorTransform");
         objectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ObjectTransform");
+        interactionObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "interactionObjectTransform");
     }
 
     //todo
@@ -279,9 +275,12 @@ public class MapEditor : MonoBehaviour
         Map map = Managers.Data.mapData.mapDictionary[name];
 
         SetMapSize((int)map.mapSize.x, (int)map.mapSize.y);
-  
+
+
         playerSpawnPosition = map.playerSpawnPosition;
         playerExitPosition = map.exitObjStruct.position;
+        condition_KeyAmount = map.exitObjStruct.condition_KeyAmount;
+
 
         map.CreateMap_Tile(floorTransform);
 
@@ -296,19 +295,17 @@ public class MapEditor : MonoBehaviour
         }
 
     }
+
     void LoadMap(string name) //일반 게임에서 맵 로드할때
     {
         if(mapEditorState == MapEditorState.NoEditor)
         {
             Init();
             mapEditorType = MapEditorType.Load;
-            mapID = name;
             Map map = Managers.Data.mapData.mapDictionary[name];
+            mapID = name;
 
             SetMapSize((int)map.mapSize.x, (int)map.mapSize.y);
-
-            playerSpawnPosition = map.playerSpawnPosition;
-            playerExitPosition = map.exitObjStruct.position;
 
             map.CreateMap_Tile(floorTransform);
         }
@@ -372,7 +369,7 @@ public class MapEditor : MonoBehaviour
             {
                 for (int j = 0; j < height; j++)
                 {
-                    GameObject grid = Instantiate(Resources.Load("Prefabs/Map/Tile/Gird"), new Vector2(i, j) * cellSize, Quaternion.identity, gridPlateTransform) as GameObject;
+                    GameObject grid = Instantiate(Resources.Load("Prefabs/Map/Gird"), new Vector2(i, j) * cellSize, Quaternion.identity, gridPlateTransform) as GameObject;
                     grid.transform.localScale *= 0.95f;
                 }
             }
@@ -409,19 +406,6 @@ public class MapEditor : MonoBehaviour
 
 
 
-[System.Serializable]
-public struct TileData
-{
-    public TileType tileType;
-    public Vector2 position;
-    public string path;
 
-    public TileData(TileType tileType,Vector2 position,string path)
-    {
-        this.tileType = tileType;
-        this.position = position;
-        this.path = path;
-    }
-}
 
 //id,position,path 구조체 따로 만들어서 통합하기

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
 
-public class BuildBase : MonoBehaviour
+public class BuildBase : BuildObj
 {
 
     [SerializeField] bool editorMod_isActive;
@@ -13,7 +13,7 @@ public class BuildBase : MonoBehaviour
     [SerializeField] LayerMask mask;
 
     [SerializeField] SpriteRenderer mainSprite;
-    Color orgColor;
+    protected Color orgColor;
 
     RaycastHit2D hit;
 

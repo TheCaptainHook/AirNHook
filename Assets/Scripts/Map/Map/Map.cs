@@ -10,15 +10,13 @@ public class Map
     public Vector2 mapSize;
     public string mapID;
     public Vector2 playerSpawnPosition;
-    public ExitObjStruct exitObjStruct;
+    public ExitObjStruct exitObjStruct; //클리어 조건 포함
     public List<TileData> mapTileDataList = new List<TileData>();
     public float cellSize;
 
-    [Header("Condition")]
-   
-
     //public List<T> buttonActivatedDoorList = new List<T>();
-    public List<ObjectDefaultInfo> buttonActivatedList = new List<ObjectDefaultInfo>();
+    public List<TileData> objectDataList = new List<TileData>();
+    public List<TileData> buttonActivatedList = new List<TileData>();
 
 
 
@@ -33,10 +31,21 @@ public class Map
         this.cellSize = cellSize;
     }
 
+
+
+
+
     public void CreateMap_Tile(Transform transform)
     {
+        CreateObj(transform, mapTileDataList);
+    }
 
-        foreach (TileData data in mapTileDataList)
+
+
+
+    void CreateObj(Transform transform,List<TileData> list)
+    {
+        foreach (TileData data in list)
         {
             GameObject obj = Object.Instantiate(Resources.Load<GameObject>(data.path));
             obj.GetComponent<BuildObj>().tileData = data;
@@ -44,30 +53,15 @@ public class Map
             obj.transform.SetParent(transform);
 
         }
-
-
-        //리소스에서 스폰위치 오브젝트, 탈출위치오브젝트 생성
-
     }
+ 
+
+    // 타일 생성 -> 오브젝트 생성 -> 상호작용 오브젝트 생성 -> 스폰 탈출위치 생성
 
 
  
 }
 
-[System.Serializable]
-public struct ObjectDefaultInfo
-{
-    public int id;
-    public Vector2 position;
-    public string path;
-
-    public ObjectDefaultInfo(int id, Vector2 position, string path)
-    {
-        this.id = id;
-        this.position = position;
-        this.path = path;
-    }
-}
 
 [System.Serializable]
 public struct ButtonActivatedDoorStruct
@@ -100,4 +94,19 @@ public struct ExitObjStruct
         path = "/Prefabs/Map/Object/ExitPoint";
     }
 
+}
+
+[System.Serializable]
+public struct TileData
+{
+    public TileType tileType;
+    public Vector2 position;
+    public string path;
+
+    public TileData(TileType tileType, Vector2 position, string path)
+    {
+        this.tileType = tileType;
+        this.position = position;
+        this.path = path;
+    }
 }

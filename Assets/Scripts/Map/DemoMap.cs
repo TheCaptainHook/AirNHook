@@ -13,7 +13,8 @@ public class DemoMap : MonoBehaviour
 
 
     [Header("Save Data")]
-    //mapSize
+    public int width = 31;
+    public int height = 20;
     //cellSize
     public string mapId;
     public GameObject playerSpawnPoint;
