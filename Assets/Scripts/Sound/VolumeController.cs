@@ -15,56 +15,56 @@ public class VolumeController : MonoBehaviour
     [SerializeField] private Slider _effectsSlider;
     
     
-    // private void Start()
-    // {
-    //     Init();
-    // }
+    private const float defualtMasterVolume = 100;
+    private const float defualtBGMVolume = 30;
+    private const float defualtFXVolume = 50;
 
     public void Init()
     {
-        if (PlayerPrefs.HasKey("MasterVolume"))
-        {
-            Debug.Log("LoadVolume");
-            LoadVolume();
-        }
-        else
-        {
-            SetMasterVolume();
-            SetBGMVolume();
-            SetEffectsVolume();
-        }
+        _masterSlider.value = PlayerPrefs.GetFloat("MasterVolume", defualtMasterVolume);
+        _bgmSlider.value = PlayerPrefs.GetFloat("BGMVolume", defualtBGMVolume);
+        _effectsSlider.value = PlayerPrefs.GetFloat("EffectsVolume", defualtFXVolume);
+   
+        SetMasterVolume();
+        SetBGMVolume();
+        SetEffectsVolume();
+    }
+    
+    private float GetAudioMixVolume(float volume)
+    {
+        return Mathf.Log10(volume) * 20;
     }
 
     private void SetMasterVolume()
     {
         float mastervolume = _masterSlider.value;
-        _audioMixer.SetFloat("MasterParam", Mathf.Log10(mastervolume) * 20);
+        _audioMixer.SetFloat("MasterParam", GetAudioMixVolume(mastervolume));
         PlayerPrefs.SetFloat("MasterVolume", mastervolume);
     }
 
     private void SetBGMVolume()
     {
         float bgmvolume = _bgmSlider.value;
-        _audioMixer.SetFloat("BGMParam", Mathf.Log10(bgmvolume) * 20);
+        _audioMixer.SetFloat("BGMParam", GetAudioMixVolume(bgmvolume));
         PlayerPrefs.SetFloat("BGMVolume", bgmvolume);
     }
 
     private void SetEffectsVolume()
     {
         float effectsVolume = _effectsSlider.value;
-        _audioMixer.SetFloat("FXParam", Mathf.Log10(effectsVolume) * 20);
+        _audioMixer.SetFloat("FXParam", GetAudioMixVolume(effectsVolume));
         PlayerPrefs.SetFloat("EffectsVolume", effectsVolume);
     }
 
-    private void LoadVolume()
-    {
-        _masterSlider.value = PlayerPrefs.GetFloat("MasterVolume");
-        _audioMixer.SetFloat("MasterParam", Mathf.Log10(PlayerPrefs.GetFloat("MasterVolume")) * 20);
-        
-        _bgmSlider.value = PlayerPrefs.GetFloat("BGMVolume");
-        _audioMixer.SetFloat("BGMParam", Mathf.Log10(PlayerPrefs.GetFloat("BGMVolume")) * 20);
-        
-        _effectsSlider.value = PlayerPrefs.GetFloat("EffectsVolume");
-        _audioMixer.SetFloat("EffectsParam", Mathf.Log10(PlayerPrefs.GetFloat("EffectsVolume")) * 20);
-    }
+    // private void LoadVolume()
+    // {
+    //     _masterSlider.value = PlayerPrefs.GetFloat("MasterVolume");
+    //     _audioMixer.SetFloat("MasterParam", Mathf.Log10(PlayerPrefs.GetFloat("MasterVolume")) * 20);
+    //     
+    //     _bgmSlider.value = PlayerPrefs.GetFloat("BGMVolume");
+    //     _audioMixer.SetFloat("BGMParam", Mathf.Log10(PlayerPrefs.GetFloat("BGMVolume")) * 20);
+    //     
+    //     _effectsSlider.value = PlayerPrefs.GetFloat("EffectsVolume");
+    //     _audioMixer.SetFloat("EffectsParam", Mathf.Log10(PlayerPrefs.GetFloat("EffectsVolume")) * 20);
+    // }
 }
