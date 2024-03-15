@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4615279169421181299
+--- !u!1 &2430859862792595060
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6905526420353837219}
-  - component: {fileID: 9060461256038358315}
+  - component: {fileID: 4596783747364002581}
+  m_Layer: 0
+  m_Name: SawObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4596783747364002581
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2430859862792595060}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8554737672306132583}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2807841761411676036
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1727029720802535856}
+  - component: {fileID: 2141939148326009194}
   m_Layer: 0
   m_Name: HitBox
   m_TagString: Untagged
@@ -17,28 +49,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6905526420353837219
+--- !u!4 &1727029720802535856
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4615279169421181299}
+  m_GameObject: {fileID: 2807841761411676036}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6481405981513468577}
+  m_Father: {fileID: 8554737672306132583}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &9060461256038358315
+--- !u!58 &2141939148326009194
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4615279169421181299}
+  m_GameObject: {fileID: 2807841761411676036}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -67,7 +99,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: -3.5}
   serializedVersion: 2
   m_Radius: 4.555273
---- !u!1 &6093978466152054701
+--- !u!1 &3018364189525743036
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -75,8 +107,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4348396528015901645}
-  - component: {fileID: 4571433556660112589}
+  - component: {fileID: 7906150931499090572}
+  - component: {fileID: 495673787723007290}
   m_Layer: 0
   m_Name: SawBlade
   m_TagString: Untagged
@@ -84,28 +116,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4348396528015901645
+--- !u!4 &7906150931499090572
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6093978466152054701}
+  m_GameObject: {fileID: 3018364189525743036}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -3.41, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6481405981513468577}
+  m_Father: {fileID: 8554737672306132583}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &4571433556660112589
+--- !u!212 &495673787723007290
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6093978466152054701}
+  m_GameObject: {fileID: 3018364189525743036}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -151,7 +183,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &8485130519583147846
+--- !u!1 &7108496691391073394
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -159,40 +191,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6481405981513468577}
-  - component: {fileID: 676897269587642983}
-  - component: {fileID: 2568252104625717732}
+  - component: {fileID: 8554737672306132583}
+  - component: {fileID: 6422772614829917923}
+  - component: {fileID: 5063625757682003165}
   m_Layer: 0
-  m_Name: SawPanel
+  m_Name: SawPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6481405981513468577
+--- !u!4 &8554737672306132583
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8485130519583147846}
+  m_GameObject: {fileID: 7108496691391073394}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 2.01, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.093, z: 0}
   m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4348396528015901645}
-  - {fileID: 6905526420353837219}
-  m_Father: {fileID: 0}
+  - {fileID: 7906150931499090572}
+  - {fileID: 1727029720802535856}
+  m_Father: {fileID: 4596783747364002581}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &676897269587642983
+--- !u!212 &6422772614829917923
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8485130519583147846}
+  m_GameObject: {fileID: 7108496691391073394}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -238,14 +270,14 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &2568252104625717732
+--- !u!95 &5063625757682003165
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8485130519583147846}
+  m_GameObject: {fileID: 7108496691391073394}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 8c188ac4671fd3340ba76a6af48fe83f, type: 2}
