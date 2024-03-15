@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UGS;
 using System.IO;
 using System.Runtime.InteropServices.ComTypes;
 using GoogleSheet.Core.Type;
@@ -64,7 +63,7 @@ public class MapEditor : MonoBehaviour
     [SerializeField] GameObject spawnPoint;
     public GameObject SpawnPoint { get { return spawnPoint; } set { if (spawnPoint != null) Destroy(spawnPoint); spawnPoint = value; playerSpawnPosition = value.transform.position; } }
     [SerializeField] GameObject exitPoint;
-    public GameObject ExitPoint { get { return exitPoint; } set { if (exitPoint != null) Destroy(exitPoint); spawnPoint = value; playerExitPosition = value.transform.position; } }
+    public GameObject ExitPoint { get { return exitPoint; } set { if (exitPoint != null) Destroy(exitPoint); exitPoint = value; playerExitPosition = value.transform.position; } }
     
     [Header("Current")]
     public GameObject curBuildObj;
@@ -80,7 +79,7 @@ public class MapEditor : MonoBehaviour
     public string mapID;
     public Vector2 playerSpawnPosition;
     public Vector2 playerExitPosition;
-    public int clear_keyAmount;
+    public int condition_KeyAmount;
     public List<TileData> mapTileDataList = new List<TileData>();
 
 
@@ -258,16 +257,16 @@ public class MapEditor : MonoBehaviour
     void CreateJsonFile()
     {
         mapTileDataList = GetList(floorTransform);
-        Map map = new Map(new Vector2(width, height), mapID,  playerSpawnPosition, playerExitPosition, mapTileDataList, cellSize);
+        Map map = new Map(new Vector2(width, height), mapID,  playerSpawnPosition, new ExitObjStruct(playerExitPosition, condition_KeyAmount), mapTileDataList, cellSize);
         string json = JsonUtility.ToJson(map);
         string filePath = Path.Combine(folderPath, $"{map.mapID}.json");
         File.WriteAllText(filePath, json);
 
-        //UnityEditor.AssetDatabase.Refresh();
+        UnityEditor.AssetDatabase.Refresh();
     }
 
 
-   
+
 
     #endregion
 
@@ -282,7 +281,7 @@ public class MapEditor : MonoBehaviour
         SetMapSize((int)map.mapSize.x, (int)map.mapSize.y);
   
         playerSpawnPosition = map.playerSpawnPosition;
-        playerExitPosition = map.playerExitPosition;
+        playerExitPosition = map.exitObjStruct.position;
 
         map.CreateMap_Tile(floorTransform);
 
@@ -309,7 +308,7 @@ public class MapEditor : MonoBehaviour
             SetMapSize((int)map.mapSize.x, (int)map.mapSize.y);
 
             playerSpawnPosition = map.playerSpawnPosition;
-            playerExitPosition = map.playerExitPosition;
+            playerExitPosition = map.exitObjStruct.position;
 
             map.CreateMap_Tile(floorTransform);
         }
@@ -426,17 +425,3 @@ public struct TileData
 }
 
 //id,position,path 구조체 따로 만들어서 통합하기
-[System.Serializable]
-public struct ButtonActivatedBtn
-{
-    public int id;
-    public Vector2 position;
-    public string path;
-
-    public ButtonActivatedBtn(int id, Vector2 position, string path)
-    {
-        this.id = id;
-        this.position = position;
-        this.path = path;
-    }
-}

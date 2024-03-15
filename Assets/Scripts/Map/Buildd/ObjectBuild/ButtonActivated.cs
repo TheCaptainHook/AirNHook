@@ -10,9 +10,18 @@ public class ButtonActivated : MonoBehaviour
     public bool onActive;
     public bool isPressed = false;
     public ButtonActivatedDoor linkDoor;
-    [Header("Save Data")]
+    Color orgColor;
+
+    [Header("Components")]
+    SpriteRenderer spriteRenderer;
+
     public int id;
-    public string path;
+
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();  
+        orgColor = spriteRenderer.material.color;
+    }
 
     private void Start()
     {
@@ -22,24 +31,20 @@ public class ButtonActivated : MonoBehaviour
     {
         if (isPressed && !onActive)
         {
-            onActive = true;
-            linkDoor.CurActiveBtn = 1;
-            //로직
+            Activation();
         }
     }
 
     private void FixedUpdate()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position+new Vector3(0,.5f,0), Vector2.up, 1, mask);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position+new Vector3(0,.5f,0), Vector2.up*.5f, 1, mask);
         if(hit.collider != null)
         {
             isPressed = true;
         }
         else if(isPressed && onActive)
         {
-            isPressed=false;
-            onActive = false;
-            linkDoor.CurActiveBtn = -1;
+          Deactivated();
         }
     }
     //<summary>맵 에디터에서 생성시, 데모맵에서 ButtonActivatedDoor오브젝트를 가져오는 코드를 수정해야함
@@ -55,10 +60,25 @@ public class ButtonActivated : MonoBehaviour
             {
                 linkDoor = obj.GetComponent<ButtonActivatedDoor>();
                 linkDoor.curLinkBtn++;
-                linkDoor.buttonActivatedBtnList.Add(new ButtonActivatedBtn(id, transform.position, path));
+                linkDoor.buttonActivatedBtnList.Add((Vector2)transform.position);
             }
         }
     }
 
  
+    void Activation()
+    {
+        onActive = true;
+        spriteRenderer.material.color = Color.green;
+        linkDoor.CurActiveBtn = 1;
+    }
+
+    void Deactivated()
+    {
+        isPressed = false;
+        onActive = false;
+        spriteRenderer.material.color = orgColor;
+        linkDoor.CurActiveBtn = -1;
+    }
+
 }
