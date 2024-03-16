@@ -1,0 +1,80 @@
+{
+    "mapSize": {
+        "x": 15.0,
+        "y": 15.0
+    },
+    "mapID": "Test5",
+    "playerSpawnPosition": {
+        "x": 0.0,
+        "y": 0.0
+    },
+    "exitObjStruct": {
+        "position": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "path": "/Prefabs/Map/Object/ExitPoint",
+        "condition_KeyAmount": 0
+    },
+    "mapTileDataList": [
+        {
+            "id": 0,
+            "position": {
+                "x": 10.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 0,
+            "position": {
+                "x": 10.0,
+                "y": 2.0
+            }
+        },
+        {
+            "id": 0,
+            "position": {
+                "x": 10.0,
+                "y": 4.0
+            }
+        },
+        {
+            "id": 0,
+            "position": {
+                "x": 10.0,
+                "y": 6.0
+            }
+        },
+        {
+            "id": 0,
+            "position": {
+                "x": 10.0,
+                "y": 8.0
+            }
+        },
+        {
+            "id": 0,
+            "position": {
+                "x": 10.0,
+                "y": 10.0
+            }
+        },
+        {
+            "id": 0,
+            "position": {
+                "x": 10.0,
+                "y": 12.0
+            }
+        }
+    ],
+    "mapObjectDataList": [
+        {
+            "id": 300,
+            "position": {
+                "x": 10.0,
+                "y": 13.0
+            }
+        }
+    ],
+    "cellSize": 2.0
+}

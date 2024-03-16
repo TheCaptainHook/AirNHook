@@ -24,7 +24,10 @@ public class DemoMap : MonoBehaviour
 
     List<ObjectData> mapTileDataList = new List<ObjectData>(); 
     List<ButtonActivatedDoor> buttonActivate = new List<ButtonActivatedDoor>(); //구조체로 데이터화
-    
+
+
+
+
     
     public event Action OnGetKey;
 

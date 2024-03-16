@@ -14,11 +14,12 @@ public class Map
     public List<ObjectData> mapTileDataList = new List<ObjectData>();
     public List<ObjectData> mapObjectDataList = new List<ObjectData>();
 
+
     public float cellSize;
 
 
-    public Map(Vector2 mapSize, string id, Vector2 playerSpawnPosition, 
-        ExitObjStruct exitObjStruct, List<ObjectData> tileList,List<ObjectData> objectList, float cellSize)
+    public Map(Vector2 mapSize, string id, Vector2 playerSpawnPosition,
+        ExitObjStruct exitObjStruct, List<ObjectData> tileList, List<ObjectData> objectList, float cellSize)
     {
         mapID = id;
         mapTileDataList = tileList;
@@ -31,37 +32,43 @@ public class Map
 
 
 
-
-
-    public void CreateMap_Tile(Transform transform)
-    {
-        CreateObj(transform, mapTileDataList);
-    }
-
-    public void CreateMap_Object(Transform transform)
-    {
-        CreateObj(transform, mapObjectDataList);
-    }
-
     //데이터 테이블을 사용해 생성하기.
-    void CreateObj(Transform transform,List<ObjectData> list)
+    public void CreateObj(Transform transform)
     {
-        foreach (ObjectData data in list)
+        switch (transform.name)
         {
-            MapObjectDataStruct mapObjectDataStruct = Managers.Data.mapData.GetMapObjData(data.id);
-            GameObject obj = Object.Instantiate(Resources.Load<GameObject>(mapObjectDataStruct.path));
-            obj.GetComponent<BuildObj>().objectData = data;
-            obj.transform.position = data.position;
-            obj.transform.SetParent(transform);
-
+            case "FloorTransform":
+                foreach (ObjectData data in mapTileDataList)
+                {
+                    MapDataStruct mapDataStruct = Managers.Data.mapData.mapTileDataDictionary[data.id];
+                    GameObject obj = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
+                    obj.GetComponent<BuildObj>().objectData = data;
+                    obj.transform.position = data.position;
+                    obj.transform.SetParent(transform);
+                }
+                break;
+            case "ObjectTransform":
+                foreach (ObjectData data in mapObjectDataList)
+                {
+                    MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
+                    GameObject obj = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
+                    obj.GetComponent<BuildObj>().objectData = data;
+                    obj.transform.position = data.position;
+                    obj.transform.SetParent(transform);
+                }
+                break;
         }
+
+       
+
+
     }
- 
-
-    // 타일 생성 -> 오브젝트 생성 -> 상호작용 오브젝트 생성 -> 스폰 탈출위치 생성
 
 
- 
+    // 타일 생성 -> 오브젝트 생성 -> 상호작용 오브젝트 생성
+
+
+
 }
 
 
@@ -103,11 +110,19 @@ public struct ObjectData
 {
     public int id;
     public Vector2 position;
-  
-    public ObjectData(int id, Vector2 position)
+    public Quaternion quaternion;
+
+    public ObjectData(int id,Vector2 position)
     {
         this.id = id;
         this.position = position;
-       
+        quaternion = Quaternion.identity;
     }
+    public ObjectData(int id, Vector2 position,Quaternion quaternion)
+    {
+        this.id = id;
+        this.position = position;
+        this.quaternion = quaternion;
+    }
+
 }

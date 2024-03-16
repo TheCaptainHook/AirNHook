@@ -98,11 +98,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 104eb1c96815b4820b4be071555180b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  path: Prefabs/Map/TIle/Tile8
-  tileData:
-    tileType: 0
+  id: 0
+  position: {x: 0, y: 0}
+  objectData:
+    id: 7
     position: {x: 0, y: 0}
-    path: 
 --- !u!61 &1764673492829560329
 BoxCollider2D:
   m_ObjectHideFlags: 0

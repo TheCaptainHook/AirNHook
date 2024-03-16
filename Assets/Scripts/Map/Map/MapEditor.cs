@@ -85,7 +85,9 @@ public class MapEditor : MonoBehaviour
     public int condition_KeyAmount;
     public List<ObjectData> mapTileDataList = new List<ObjectData>();
     public List<ObjectData> mapObjectDataList = new List<ObjectData>();
-
+    //todo
+    public List<BuildObj> buildObjList = new List<BuildObj>();
+    //todo
 
     private void Awake()
     {
@@ -244,7 +246,8 @@ public class MapEditor : MonoBehaviour
 
     }
 
-    List<ObjectData> GetList(Transform transform) {
+    List<ObjectData> GetList(Transform transform)
+    {
         List<ObjectData> list = new List<ObjectData>();
         foreach (Transform cur in transform)
         {
@@ -255,12 +258,13 @@ public class MapEditor : MonoBehaviour
 
 
 
-   
+
     void CreateJsonFile()
     {
         mapTileDataList = GetList(floorTransform);
         mapObjectDataList = GetList(objectTransform);
-        Map map = new Map(new Vector2(width, height), mapID,  playerSpawnPosition, new ExitObjStruct(playerExitPosition, condition_KeyAmount), mapTileDataList,mapObjectDataList, cellSize);
+
+        Map map = new Map(new Vector2(width, height), mapID,  playerSpawnPosition, new ExitObjStruct(playerExitPosition, condition_KeyAmount), mapTileDataList, mapObjectDataList, cellSize);
         string json = JsonUtility.ToJson(map, true);
         string filePath = Path.Combine(folderPath, $"{map.mapID}.json");
         File.WriteAllText(filePath, json);
@@ -295,36 +299,20 @@ public class MapEditor : MonoBehaviour
         playerExitPosition = map.exitObjStruct.position;
         condition_KeyAmount = map.exitObjStruct.condition_KeyAmount;
 
-        map.CreateMap_Tile(floorTransform);
-        map.CreateMap_Object(objectTransform);
+        map.CreateObj(floorTransform);
+        map.CreateObj(objectTransform);
 
-        foreach (Transform obj in floorTransform)
-        {
-            ObjectData tileData = obj.GetComponent<BuildObj>().objectData;
+        //foreach (Transform obj in floorTransform)
+        //{
+        //    ObjectData tileData = obj.GetComponent<BuildObj>().objectData;
 
-            int x = (int)tileData.position.x / (int)cellSize;
-            int y = (int)tileData.position.y / (int)cellSize;
-            tileObjectArray[x, y] = obj.gameObject;
+        //    int x = (int)tileData.position.x / (int)cellSize;
+        //    int y = (int)tileData.position.y / (int)cellSize;
+        //    tileObjectArray[x, y] = obj.gameObject;
 
-        }
+        //}
 
     }
-
-    //void LoadMap(string name) //일반 게임에서 맵 로드할때
-    //{
-    //    if(mapEditorState == MapEditorState.NoEditor)
-    //    {
-    //        Init();
-    //        mapEditorType = MapEditorType.Load;
-    //        Map map = Managers.Data.mapData.mapDictionary[name];
-    //        mapID = name;
-
-    //        SetMapSize((int)map.mapSize.x, (int)map.mapSize.y);
-
-    //        map.CreateMap_Tile(floorTransform);
-    //    }
-      
-    //}
 
 
     #endregion

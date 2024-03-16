@@ -203,11 +203,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d515f917ac4db69c0589af01ea46b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  path: Prefabs/Map/Object/ExitPoint
-  tileData:
-    tileType: 2
+  objectData:
+    id: 301
     position: {x: 0, y: 0}
-    path: Prefabs/Map/Object/ExitPoint
   editorMod_isActive: 0
   placeable: 0
   isCollision: 0

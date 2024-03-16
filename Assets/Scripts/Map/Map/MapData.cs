@@ -7,46 +7,60 @@ using UnityEngine;
 public class MapData
 {
 
-    public Dictionary<int, MapObjectDataStruct> mapObjectDataDictionary = new Dictionary<int, MapObjectDataStruct>();
+    public Dictionary<int, MapDataStruct> mapTileDataDictionary = new Dictionary<int, MapDataStruct>();
+
+    //todo
+    public Dictionary<int, MapDataStruct> mapObjectDataDictionary = new Dictionary<int, MapDataStruct>();
+    //todo
+
     public Dictionary<string, Map> mapDictionary = new Dictionary<string, Map>();
 
     public void SetUp()
     {
 
+        UGS_MapDataLoad();
+
+        MapJsonLoad();        
+
+        //todo
+    }
+
+
+    void UGS_MapDataLoad()
+    {
+        //Tile Data
+        UnityGoogleSheet.Load<MapObjectData.TileData>();
+        foreach (var value in MapObjectData.TileData.TileDataList)
+        {
+            mapTileDataDictionary.Add(value.id, new MapDataStruct(value.type, value.path));
+        }
+        //Object Data
+        UnityGoogleSheet.Load<MapObjectData.ObjectData>();
+        foreach (var value in MapObjectData.ObjectData.ObjectDataList)
+        {
+            mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.type, value.path));
+        }
+    }
+
+    void MapJsonLoad()
+    {
         foreach (TextAsset json in Resources.LoadAll<TextAsset>("MapDat"))
         {
             Map map = JsonUtility.FromJson<Map>(json.text);
             mapDictionary.Add(map.mapID, map);
             Debug.Log(map.mapID);
         }
-
-        //todo
-        UnityGoogleSheet.Load<MapObjectData.Data>();
-        foreach(var value in MapObjectData.Data.DataList)
-        {
-            Debug.Log($"{value.id},{value.Type},{value.path}");
-        }
-
-        //todo
     }
-
-    public MapObjectDataStruct GetMapObjData(int id)
-    {
-        return mapObjectDataDictionary[id];
-    }
-
 }
 
 
-public struct MapObjectDataStruct
+public struct MapDataStruct
 {
-    public int id;
     public TileType tileType;
     public string path;
 
-    public MapObjectDataStruct(int id,TileType tileType,string path)
+    public MapDataStruct(TileType tileType,string path)
     {
-        this.id = id;
         this.tileType = tileType;
         this.path = path;
     }

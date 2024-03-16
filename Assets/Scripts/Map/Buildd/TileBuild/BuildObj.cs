@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class BuildObj : MonoBehaviour
+public class BuildObj:MonoBehaviour
 {
-    private int id;
-    private Vector2 position;
-   
+    [SerializeField] int id;
 
     public ObjectData objectData;
 
     public void SetTileData(Vector2 position)
     {
-        this.position = position;
-
         objectData = new ObjectData(id, position);
+
+    }
+
+    public void SetTileData(Vector2 position,Quaternion quaternion)
+    {
+        objectData = new ObjectData(id, position, quaternion);
+
     }
 }
 // id, position 만 구조체로 가지고 있기.
