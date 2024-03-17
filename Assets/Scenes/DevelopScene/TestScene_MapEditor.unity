@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &22586499
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -571,7 +571,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2111564578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -588,6 +588,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2147483648
   mouseIndicator: {fileID: 276721297}
+  cellIndicator: {fileID: 0}
+  tilemap: {fileID: 0}
 --- !u!4 &2111564579
 Transform:
   m_ObjectHideFlags: 0
@@ -618,7 +620,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2005102887669488765, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3234201242300892337, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: m_Camera
@@ -706,7 +708,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: mapID
-      value: Test2
+      value: Demo
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: width

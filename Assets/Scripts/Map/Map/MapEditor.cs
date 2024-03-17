@@ -80,7 +80,7 @@ public class MapEditor : MonoBehaviour
     [Header("Save Data")]
     [HideInInspector]public int width;
     [HideInInspector] public int height;
-    [HideInInspector] public string mapID;
+    public string mapID;
     [HideInInspector] public Vector2 playerSpawnPosition;
     [HideInInspector] public Vector2 playerExitPosition;
     [HideInInspector] public int condition_KeyAmount;
