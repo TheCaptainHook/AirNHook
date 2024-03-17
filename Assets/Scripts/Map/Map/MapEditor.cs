@@ -45,12 +45,10 @@ public class MapEditor : MonoBehaviour
     [SerializeField] float cellSize;
    
     string folderPath;
-    [SerializeField] GameObject contorollerUI;
-    [SerializeField] GameObject buildSelectUI;
+    //[SerializeField] GameObject contorollerUI;
+    //[SerializeField] GameObject buildSelectUI;
 
     [Header("Init")]
-    [SerializeField] Transform buildTransform;
-    
     private Transform mapObjBoxTransform;
     private Transform gridPlateTransform;
     private Transform outLineTransform;
@@ -71,20 +69,23 @@ public class MapEditor : MonoBehaviour
     [Header("Current")]
     public GameObject curBuildObj;
     public Transform curTransform;
-   
-
+    [Space(10)]
+    [Header("----------------------------------------------------")]
+    public Map curMap;
+    [Header("----------------------------------------------------")]
+    [Space(10)]
     [Header("OutLine")]
     [SerializeField] MapOutLineSO mapOutLineSO;
 
     [Header("Save Data")]
-    public int width;
-    public int height;
-    public string mapID;
-    public Vector2 playerSpawnPosition;
-    public Vector2 playerExitPosition;
-    public int condition_KeyAmount;
-    public List<ObjectData> mapTileDataList = new List<ObjectData>();
-    public List<ObjectData> mapObjectDataList = new List<ObjectData>();
+    [HideInInspector]public int width;
+    [HideInInspector] public int height;
+    [HideInInspector] public string mapID;
+    [HideInInspector] public Vector2 playerSpawnPosition;
+    [HideInInspector] public Vector2 playerExitPosition;
+    [HideInInspector] public int condition_KeyAmount;
+    [HideInInspector] public List<ObjectData> mapTileDataList = new List<ObjectData>();
+    [HideInInspector] public List<ObjectData> mapObjectDataList = new List<ObjectData>();
     //todo
     public List<BuildObj> buildObjList = new List<BuildObj>();
     //todo
@@ -263,11 +264,13 @@ public class MapEditor : MonoBehaviour
 
     void CreateJsonFile()
     {
+        
         mapTileDataList = GetList(floorTransform);
         mapObjectDataList = GetList(objectTransform);
 
         Map map = new Map(new Vector2(width, height), mapID,  playerSpawnPosition, new ExitObjStruct(playerExitPosition, condition_KeyAmount), mapTileDataList, mapObjectDataList, cellSize);
         string json = JsonUtility.ToJson(map, true);
+        Debug.Log(json);
         string filePath = Path.Combine(folderPath, $"{map.mapID}.json");
         File.WriteAllText(filePath, json);
 
@@ -293,16 +296,15 @@ public class MapEditor : MonoBehaviour
         
         mapEditorType = MapEditorType.Load;
         mapID = name;
-        Map map = Managers.Data.mapData.mapDictionary[name];
+        curMap = Managers.Data.mapData.mapDictionary[name];
+        SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);
 
-        SetMapSize((int)map.mapSize.x, (int)map.mapSize.y);
+        playerSpawnPosition = curMap.playerSpawnPosition;
+        playerExitPosition = curMap.exitObjStruct.position;
+        condition_KeyAmount = curMap.exitObjStruct.condition_KeyAmount;
 
-        playerSpawnPosition = map.playerSpawnPosition;
-        playerExitPosition = map.exitObjStruct.position;
-        condition_KeyAmount = map.exitObjStruct.condition_KeyAmount;
-
-        map.CreateObj(floorTransform);
-        map.CreateObj(objectTransform);
+        CreateObj(floorTransform);
+        CreateObj(objectTransform);
 
         //foreach (Transform obj in floorTransform)
         //{
@@ -363,6 +365,47 @@ public class MapEditor : MonoBehaviour
             GameObject right = Instantiate(mapOutLineSO.right, new Vector2(width, i) * cellSize, Quaternion.identity, outLineTransform);
         }
     }
+
+
+
+
+
+    public void CreateObj(Transform transform)
+    {
+        switch (transform.name)
+        {
+            case "FloorTransform":
+                foreach (ObjectData data in curMap.mapTileDataList)
+                {
+                    MapDataStruct mapDataStruct = Managers.Data.mapData.mapTileDataDictionary[data.id];
+                    Create(transform, mapDataStruct, data);
+                }
+                break;
+            case "ObjectTransform":
+                foreach (ObjectData data in curMap.mapObjectDataList)
+                {
+                    MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
+                    Create(transform, mapDataStruct, data);
+                }
+                break;
+        }
+
+    }
+
+    void Create(Transform transform, MapDataStruct mapDataStruct, ObjectData data)
+    {
+        GameObject obj = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
+        obj.GetComponent<BuildObj>().ObjectData = data;
+        obj.transform.position = data.position;
+        obj.transform.rotation = data.quaternion;
+        obj.transform.SetParent(transform);
+    }
+
+
+
+
+
+
 
     void GenerateGridPlate()
     {

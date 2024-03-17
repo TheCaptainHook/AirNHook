@@ -20,4 +20,3 @@ public class BuildObj : MonoBehaviour
         ObjectData = new ObjectData(id, position, quaternion);
     }
 }
-// id, position 만 구조체로 가지고 있기.

@@ -32,44 +32,6 @@ public class Map
     }
 
 
-
-    //데이터 테이블을 사용해 생성하기.
-    public void CreateObj(Transform transform)
-    {
-        switch (transform.name)
-        {
-            case "FloorTransform":
-                foreach (ObjectData data in mapTileDataList)
-                {
-                    MapDataStruct mapDataStruct = Managers.Data.mapData.mapTileDataDictionary[data.id];
-                    Create(transform, mapDataStruct, data);
-                }
-                break;
-            case "ObjectTransform":
-                foreach (ObjectData data in mapObjectDataList)
-                {
-                    MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
-                    Create(transform, mapDataStruct, data);
-                }
-                break;
-        }
-
-    }
-
-    void Create(Transform transform,MapDataStruct mapDataStruct,ObjectData data)
-    {
-        GameObject obj = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
-        obj.GetComponent<BuildObj>().ObjectData = data;
-        obj.transform.position = data.position;
-        obj.transform.rotation = data.quaternion;
-        obj.transform.SetParent(transform);
-    }
-
-
-    // 타일 생성 -> 오브젝트 생성 -> 상호작용 오브젝트 생성
-
-
-
 }
 
 
