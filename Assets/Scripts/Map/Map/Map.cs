@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using UnityEngine;
 using System.IO;
 
+
 [System.Serializable]
 public class Map
 {
@@ -41,27 +42,27 @@ public class Map
                 foreach (ObjectData data in mapTileDataList)
                 {
                     MapDataStruct mapDataStruct = Managers.Data.mapData.mapTileDataDictionary[data.id];
-                    GameObject obj = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
-                    obj.GetComponent<BuildObj>().objectData = data;
-                    obj.transform.position = data.position;
-                    obj.transform.SetParent(transform);
+                    Create(transform, mapDataStruct, data);
                 }
                 break;
             case "ObjectTransform":
                 foreach (ObjectData data in mapObjectDataList)
                 {
                     MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
-                    GameObject obj = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
-                    obj.GetComponent<BuildObj>().objectData = data;
-                    obj.transform.position = data.position;
-                    obj.transform.SetParent(transform);
+                    Create(transform, mapDataStruct, data);
                 }
                 break;
         }
 
-       
+    }
 
-
+    void Create(Transform transform,MapDataStruct mapDataStruct,ObjectData data)
+    {
+        GameObject obj = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
+        obj.GetComponent<BuildObj>().ObjectData = data;
+        obj.transform.position = data.position;
+        obj.transform.rotation = data.quaternion;
+        obj.transform.SetParent(transform);
     }
 
 

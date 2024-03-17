@@ -340,6 +340,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MapEditor
       objectReference: {fileID: 0}
+    - target: {fileID: 2005102887669488765, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3234201242300892337, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: m_Camera
       value: 
@@ -426,7 +430,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: mapID
-      value: Test5
+      value: Test1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

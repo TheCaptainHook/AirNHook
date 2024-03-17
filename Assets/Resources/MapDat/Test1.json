@@ -1,0 +1,180 @@
+{
+    "mapSize": {
+        "x": 10.0,
+        "y": 10.0
+    },
+    "mapID": "Test1",
+    "playerSpawnPosition": {
+        "x": 0.0,
+        "y": 0.0
+    },
+    "exitObjStruct": {
+        "position": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "path": "/Prefabs/Map/Object/ExitPoint",
+        "condition_KeyAmount": 0
+    },
+    "mapTileDataList": [
+        {
+            "id": 3,
+            "position": {
+                "x": 6.0,
+                "y": 0.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            }
+        },
+        {
+            "id": 3,
+            "position": {
+                "x": 6.0,
+                "y": 2.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            }
+        },
+        {
+            "id": 3,
+            "position": {
+                "x": 6.0,
+                "y": 4.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            }
+        },
+        {
+            "id": 3,
+            "position": {
+                "x": 6.0,
+                "y": 6.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            }
+        },
+        {
+            "id": 3,
+            "position": {
+                "x": 6.0,
+                "y": 8.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            }
+        },
+        {
+            "id": 5,
+            "position": {
+                "x": 8.0,
+                "y": 0.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            }
+        },
+        {
+            "id": 5,
+            "position": {
+                "x": 8.0,
+                "y": 2.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            }
+        },
+        {
+            "id": 5,
+            "position": {
+                "x": 8.0,
+                "y": 4.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            }
+        },
+        {
+            "id": 5,
+            "position": {
+                "x": 8.0,
+                "y": 6.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            }
+        },
+        {
+            "id": 5,
+            "position": {
+                "x": 8.0,
+                "y": 8.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            }
+        }
+    ],
+    "mapObjectDataList": [
+        {
+            "id": 303,
+            "position": {
+                "x": 14.0,
+                "y": 18.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            }
+        },
+        {
+            "id": 304,
+            "position": {
+                "x": 6.20001220703125,
+                "y": 9.4000244140625
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.7071068286895752,
+                "w": 0.7071068286895752
+            }
+        }
+    ],
+    "cellSize": 2.0
+}

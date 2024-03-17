@@ -56,7 +56,7 @@ public class ButtonActivated : MonoBehaviour
     {
         foreach (GameObject obj in DemoMap.instance.buttonActivatedDoors)
         {
-            if (obj.GetComponent<ButtonActivatedDoor>().objectData.id == id)
+            if (obj.GetComponent<ButtonActivatedDoor>().ObjectData.id == id)
             {
                 linkDoor = obj.GetComponent<ButtonActivatedDoor>();
                 linkDoor.curLinkBtn++;

@@ -45,9 +45,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 104eb1c96815b4820b4be071555180b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 303
   objectData:
     id: 303
     position: {x: 0, y: 0}
+    quaternion: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &2807841761411676036
 GameObject:
   m_ObjectHideFlags: 0

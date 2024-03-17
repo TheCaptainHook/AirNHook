@@ -203,9 +203,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d515f917ac4db69c0589af01ea46b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 301
   objectData:
     id: 301
     position: {x: 0, y: 0}
+    quaternion: {x: 0, y: 0, z: 0, w: 0}
   editorMod_isActive: 0
   placeable: 0
   isCollision: 0

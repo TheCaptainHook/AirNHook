@@ -251,7 +251,9 @@ public class MapEditor : MonoBehaviour
         List<ObjectData> list = new List<ObjectData>();
         foreach (Transform cur in transform)
         {
-            list.Add(cur.GetComponent<BuildObj>().objectData);
+            cur.GetComponent<BuildObj>().SetTileData(cur.position,cur.rotation);
+            list.Add(cur.GetComponent<BuildObj>().ObjectData);
+
         }
         return list;
     }
