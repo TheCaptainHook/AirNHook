@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UGS;
 using System.IO;
 using System.Runtime.InteropServices.ComTypes;
 using GoogleSheet.Core.Type;
@@ -28,7 +29,6 @@ public enum TileType
 {
     OutLine,
     Floor,
-    Object
 }
 
 
@@ -45,17 +45,17 @@ public class MapEditor : MonoBehaviour
     [SerializeField] float cellSize;
    
     string folderPath;
-    //[SerializeField] GameObject contorollerUI;
-    //[SerializeField] GameObject buildSelectUI;
+    [SerializeField] GameObject contorollerUI;
+    [SerializeField] GameObject buildSelectUI;
 
     [Header("Init")]
+    [SerializeField] Transform buildTransform;
+    
     private Transform mapObjBoxTransform;
     private Transform gridPlateTransform;
     private Transform outLineTransform;
     private Transform floorTransform;
     private Transform objectTransform;
-    private Transform interactionObjectTransform;
-    private Transform dontSaveObject;
 
 
     [Header("Create")]
@@ -64,31 +64,25 @@ public class MapEditor : MonoBehaviour
     [SerializeField] GameObject spawnPoint;
     public GameObject SpawnPoint { get { return spawnPoint; } set { if (spawnPoint != null) Destroy(spawnPoint); spawnPoint = value; playerSpawnPosition = value.transform.position; } }
     [SerializeField] GameObject exitPoint;
-    public GameObject ExitPoint { get { return exitPoint; } set { if (exitPoint != null) Destroy(exitPoint); exitPoint = value; playerExitPosition = value.transform.position; } }
+    public GameObject ExitPoint { get { return exitPoint; } set { if (exitPoint != null) Destroy(exitPoint); spawnPoint = value; playerExitPosition = value.transform.position; } }
     
     [Header("Current")]
     public GameObject curBuildObj;
     public Transform curTransform;
-    [Space(10)]
-    [Header("----------------------------------------------------")]
-    public Map curMap;
-    [Header("----------------------------------------------------")]
-    [Space(10)]
+   
+
     [Header("OutLine")]
     [SerializeField] MapOutLineSO mapOutLineSO;
 
     [Header("Save Data")]
-    [HideInInspector]public int width;
-    [HideInInspector] public int height;
+    public int width;
+    public int height;
     public string mapID;
-    [HideInInspector] public Vector2 playerSpawnPosition;
-    [HideInInspector] public Vector2 playerExitPosition;
-    [HideInInspector] public int condition_KeyAmount;
-    [HideInInspector] public List<ObjectData> mapTileDataList = new List<ObjectData>();
-    [HideInInspector] public List<ObjectData> mapObjectDataList = new List<ObjectData>();
-    //todo
-    public List<BuildObj> buildObjList = new List<BuildObj>();
-    //todo
+    public Vector2 playerSpawnPosition;
+    public Vector2 playerExitPosition;
+    public int clear_keyAmount;
+    public List<TileData> mapTileDataList = new List<TileData>();
+
 
     private void Awake()
     {
@@ -109,11 +103,17 @@ public class MapEditor : MonoBehaviour
     //todo
     public void Init()
     {
+        mapObjBoxTransform = transform.Find("MapObjBox");
+
+        if (mapObjBoxTransform != null)
+        {
+            Destroy(mapObjBoxTransform.gameObject);
+        }
+
         mapObjBoxTransform = Util.CreateChildTransform(transform, "MapObjBox");
+    
         floorTransform = Util.CreateChildTransform(mapObjBoxTransform, "FloorTransform");
         objectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ObjectTransform");
-        interactionObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "interactionObjectTransform");
-        dontSaveObject = Util.CreateChildTransform(mapObjBoxTransform, "dontSaveObject");
     }
 
     //todo
@@ -131,20 +131,19 @@ public class MapEditor : MonoBehaviour
                 RemoveTile();
             }
 
+         
 
-            if (Input.GetKeyDown(KeyCode.S))
+            if (Input.GetKeyDown(KeyCode.A))
             {
-                Debug.Log("Save");
+                Debug.Log("LLL");
                 SaveMapData();
-
             }
 
         }
 
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("Load");
-            LoadMap(mapID);
+            LoadMap_Editor("1");
         }
 
     }
@@ -191,7 +190,7 @@ public class MapEditor : MonoBehaviour
 
                 GameObject obj = Instantiate(curBuildObj, (Vector2)pot * (int)cellSize, Quaternion.identity);
                 obj.transform.SetParent(floorTransform);
-                obj.GetComponent<BuildObj>().SetTileData((Vector2)pot * (int)cellSize);
+                obj.GetComponent<BuildObj>().SetTileData(TileType.Floor ,(Vector2)pot * (int)cellSize);
                 tileObjectArray[pot.x, pot.y] = obj;
 
             }
@@ -247,75 +246,74 @@ public class MapEditor : MonoBehaviour
 
     }
 
-    List<ObjectData> GetList(Transform transform)
-    {
-        List<ObjectData> list = new List<ObjectData>();
+    List<TileData> GetList(Transform transform) {
+        List<TileData> list = new List<TileData>();
         foreach (Transform cur in transform)
         {
-            cur.GetComponent<BuildObj>().SetTileData(cur.position,cur.rotation);
-            list.Add(cur.GetComponent<BuildObj>().ObjectData);
-
+            list.Add(cur.GetComponent<BuildObj>().tileData);
         }
         return list;
     }
-
-
-
-
+   
     void CreateJsonFile()
     {
-        
         mapTileDataList = GetList(floorTransform);
-        mapObjectDataList = GetList(objectTransform);
-
-        Map map = new Map(new Vector2(width, height), mapID,  playerSpawnPosition, new ExitObjStruct(playerExitPosition, condition_KeyAmount), mapTileDataList, mapObjectDataList, cellSize);
-        string json = JsonUtility.ToJson(map, true);
-        Debug.Log(json);
+        Map map = new Map(new Vector2(width, height), mapID,  playerSpawnPosition, playerExitPosition, mapTileDataList, cellSize);
+        string json = JsonUtility.ToJson(map);
         string filePath = Path.Combine(folderPath, $"{map.mapID}.json");
         File.WriteAllText(filePath, json);
 
-        UnityEditor.AssetDatabase.Refresh();
+        //UnityEditor.AssetDatabase.Refresh();
     }
 
 
-
+   
 
     #endregion
 
     #region Load
 
-    void LoadMap(string name)
+    void LoadMap_Editor(string name)
     {
-        if (!Managers.Data.mapData.mapDictionary.ContainsKey(name))
-        {
-            Debug.Log("Can't find Map");
-            Init();
-            mapEditorType = MapEditorType.New;
-            return;
-        }
-        
         mapEditorType = MapEditorType.Load;
         mapID = name;
-        curMap = Managers.Data.mapData.mapDictionary[name];
-        SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);
+        Map map = Managers.Data.mapData.mapDictionary[name];
 
-        playerSpawnPosition = curMap.playerSpawnPosition;
-        playerExitPosition = curMap.exitObjStruct.position;
-        condition_KeyAmount = curMap.exitObjStruct.condition_KeyAmount;
+        SetMapSize((int)map.mapSize.x, (int)map.mapSize.y);
+  
+        playerSpawnPosition = map.playerSpawnPosition;
+        playerExitPosition = map.playerExitPosition;
 
-        CreateObj(floorTransform);
-        CreateObj(objectTransform);
+        map.CreateMap_Tile(floorTransform);
 
-        //foreach (Transform obj in floorTransform)
-        //{
-        //    ObjectData tileData = obj.GetComponent<BuildObj>().objectData;
+        foreach (Transform obj in floorTransform)
+        {
+            TileData tileData = obj.GetComponent<BuildObj>().tileData;
 
-        //    int x = (int)tileData.position.x / (int)cellSize;
-        //    int y = (int)tileData.position.y / (int)cellSize;
-        //    tileObjectArray[x, y] = obj.gameObject;
+            int x = (int)tileData.position.x / (int)cellSize;
+            int y = (int)tileData.position.y / (int)cellSize;
+            tileObjectArray[x, y] = obj.gameObject;
 
-        //}
+        }
 
+    }
+    void LoadMap(string name) //일반 게임에서 맵 로드할때
+    {
+        if(mapEditorState == MapEditorState.NoEditor)
+        {
+            Init();
+            mapEditorType = MapEditorType.Load;
+            mapID = name;
+            Map map = Managers.Data.mapData.mapDictionary[name];
+
+            SetMapSize((int)map.mapSize.x, (int)map.mapSize.y);
+
+            playerSpawnPosition = map.playerSpawnPosition;
+            playerExitPosition = map.playerExitPosition;
+
+            map.CreateMap_Tile(floorTransform);
+        }
+      
     }
 
 
@@ -366,47 +364,6 @@ public class MapEditor : MonoBehaviour
         }
     }
 
-
-
-
-
-    public void CreateObj(Transform transform)
-    {
-        switch (transform.name)
-        {
-            case "FloorTransform":
-                foreach (ObjectData data in curMap.mapTileDataList)
-                {
-                    MapDataStruct mapDataStruct = Managers.Data.mapData.mapTileDataDictionary[data.id];
-                    Create(transform, mapDataStruct, data);
-                }
-                break;
-            case "ObjectTransform":
-                foreach (ObjectData data in curMap.mapObjectDataList)
-                {
-                    MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
-                    Create(transform, mapDataStruct, data);
-                }
-                break;
-        }
-
-    }
-
-    void Create(Transform transform, MapDataStruct mapDataStruct, ObjectData data)
-    {
-        GameObject obj = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
-        obj.GetComponent<BuildObj>().ObjectData = data;
-        obj.transform.position = data.position;
-        obj.transform.rotation = data.quaternion;
-        obj.transform.SetParent(transform);
-    }
-
-
-
-
-
-
-
     void GenerateGridPlate()
     {
         if(mapEditorState != MapEditorState.NoEditor)
@@ -416,7 +373,7 @@ public class MapEditor : MonoBehaviour
             {
                 for (int j = 0; j < height; j++)
                 {
-                    GameObject grid = Instantiate(Resources.Load("Prefabs/Map/Gird"), new Vector2(i, j) * cellSize, Quaternion.identity, gridPlateTransform) as GameObject;
+                    GameObject grid = Instantiate(Resources.Load("Prefabs/Map/Tile/Gird"), new Vector2(i, j) * cellSize, Quaternion.identity, gridPlateTransform) as GameObject;
                     grid.transform.localScale *= 0.95f;
                 }
             }
@@ -453,6 +410,33 @@ public class MapEditor : MonoBehaviour
 
 
 
+[System.Serializable]
+public struct TileData
+{
+    public TileType tileType;
+    public Vector2 position;
+    public string path;
 
+    public TileData(TileType tileType,Vector2 position,string path)
+    {
+        this.tileType = tileType;
+        this.position = position;
+        this.path = path;
+    }
+}
 
 //id,position,path 구조체 따로 만들어서 통합하기
+[System.Serializable]
+public struct ButtonActivatedBtn
+{
+    public int id;
+    public Vector2 position;
+    public string path;
+
+    public ButtonActivatedBtn(int id, Vector2 position, string path)
+    {
+        this.id = id;
+        this.position = position;
+        this.path = path;
+    }
+}

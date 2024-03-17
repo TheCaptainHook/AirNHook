@@ -17,9 +17,6 @@ public class ExitPointObj : BuildBase
         BuildCheck();
     }
 
-    public void Init(int condition_keyAmount)
-    {
-        this.condition_KeyAmount = condition_keyAmount;
-    }
+
   
 }

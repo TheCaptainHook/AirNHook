@@ -10,18 +10,9 @@ public class ButtonActivated : MonoBehaviour
     public bool onActive;
     public bool isPressed = false;
     public ButtonActivatedDoor linkDoor;
-    Color orgColor;
-
-    [Header("Components")]
-    SpriteRenderer spriteRenderer;
-
+    [Header("Save Data")]
     public int id;
-
-    private void Awake()
-    {
-        spriteRenderer = GetComponent<SpriteRenderer>();  
-        orgColor = spriteRenderer.material.color;
-    }
+    public string path;
 
     private void Start()
     {
@@ -31,20 +22,24 @@ public class ButtonActivated : MonoBehaviour
     {
         if (isPressed && !onActive)
         {
-            Activation();
+            onActive = true;
+            linkDoor.CurActiveBtn = 1;
+            //로직
         }
     }
 
     private void FixedUpdate()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position+new Vector3(0,.5f,0), Vector2.up*.5f, 1, mask);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position+new Vector3(0,.5f,0), Vector2.up, 1, mask);
         if(hit.collider != null)
         {
             isPressed = true;
         }
         else if(isPressed && onActive)
         {
-          Deactivated();
+            isPressed=false;
+            onActive = false;
+            linkDoor.CurActiveBtn = -1;
         }
     }
     //<summary>맵 에디터에서 생성시, 데모맵에서 ButtonActivatedDoor오브젝트를 가져오는 코드를 수정해야함
@@ -56,29 +51,14 @@ public class ButtonActivated : MonoBehaviour
     {
         foreach (GameObject obj in DemoMap.instance.buttonActivatedDoors)
         {
-            if (obj.GetComponent<ButtonActivatedDoor>().ObjectData.id == id)
+            if (obj.GetComponent<ButtonActivatedDoor>().id == id)
             {
                 linkDoor = obj.GetComponent<ButtonActivatedDoor>();
                 linkDoor.curLinkBtn++;
-                linkDoor.buttonActivatedBtnList.Add((Vector2)transform.position);
+                linkDoor.buttonActivatedBtnList.Add(new ButtonActivatedBtn(id, transform.position, path));
             }
         }
     }
 
  
-    void Activation()
-    {
-        onActive = true;
-        spriteRenderer.material.color = Color.green;
-        linkDoor.CurActiveBtn = 1;
-    }
-
-    void Deactivated()
-    {
-        isPressed = false;
-        onActive = false;
-        spriteRenderer.material.color = orgColor;
-        linkDoor.CurActiveBtn = -1;
-    }
-
 }

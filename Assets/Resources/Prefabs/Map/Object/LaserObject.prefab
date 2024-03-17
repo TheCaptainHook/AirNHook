@@ -4840,7 +4840,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8196177442817728895}
   - component: {fileID: 1755334685966830132}
-  - component: {fileID: 7330084582741803214}
   m_Layer: 0
   m_Name: LaserObject
   m_TagString: Untagged
@@ -4881,23 +4880,6 @@ MonoBehaviour:
   _firePoint: {fileID: 2979357953502741260}
   _endVFX: {fileID: 5345449485699939287}
   _isEnabled: 1
---- !u!114 &7330084582741803214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 996093479032505842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 104eb1c96815b4820b4be071555180b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 304
-  objectData:
-    id: 304
-    position: {x: 0, y: 0}
-    quaternion: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &4013349505788404819
 GameObject:
   m_ObjectHideFlags: 0
