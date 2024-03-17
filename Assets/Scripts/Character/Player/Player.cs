@@ -25,8 +25,6 @@ public class Player : MonoBehaviour
     private float _speed = 4f;
     private float _jumpingPower = 20f;
 
-    //점프상태 체크
-    private bool _isJumping = true;
 
     private void Awake()
     {
@@ -84,7 +82,8 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         _rigidbd.velocity = new Vector2(_horizontal * _speed, _rigidbd.velocity.y);
-        IsHead();
+        IsLeftHead();
+        IsRightHead();
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -106,7 +105,6 @@ public class Player : MonoBehaviour
             _coyoteTimeCount = 0f;
         }
     }
-    
 
     //점프체크
     private bool IsFloor()
@@ -122,16 +120,35 @@ public class Player : MonoBehaviour
         return false;
     }
 
-    //머리 충돌처리 정상작동
-    //이제 부드럽게 밀려나서 점프되도록 제작
-    private bool IsHead()
+    //오른쪽 머리 충돌체크
+    private bool IsLeftHead()
     {
-        //레이 발사
-        for(int i = -2; i < 3; i++)
+        //레이 발사 / 정상 작동
+        for (int i = -4; i < 5; i++)
         {
-            if(Physics2D.Raycast(transform.position + (Vector3.right * 0.25f * i), Vector2.up, 1.1f, _floorLayer))
+            if(Physics2D.Raycast(transform.position + (Vector3.right * 0.125f * i), Vector2.up, 1.1f, _floorLayer))
             {
-                Debug.Log("Head Hit!!");
+                if(i == 4)
+                {
+                    transform.position = new Vector3(transform.position.x - 0.126f, transform.position.y);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //왼쪽 머리 충돌체크
+    private bool IsRightHead()
+    {
+        for (int j = -4; j < 5; j++)
+        {
+            if (Physics2D.Raycast(transform.position + (Vector3.right * -0.125f * j), Vector2.up, 1.1f, _floorLayer))
+            {
+                if (j == 4)
+                {
+                    transform.position = new Vector3(transform.position.x + 0.126f, transform.position.y);
+                }
                 return true;
             }
         }

@@ -203,6 +203,7 @@ MonoBehaviour:
   _coyoteTime: 0.2
   _rigidbd: {fileID: 91805841}
   _floorCheck: {fileID: 91805844}
+  _player: {fileID: 91805848}
   _floorLayer:
     serializedVersion: 2
     m_Bits: 64
