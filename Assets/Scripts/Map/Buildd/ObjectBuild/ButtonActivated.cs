@@ -5,18 +5,21 @@ using UnityEngine;
 //ButtonActivatedDoor가 무조건 있어야함
 public class ButtonActivated : MonoBehaviour
 {
+    public int linkId;
+
+
     public LayerMask mask;
 
     public bool onActive;
     public bool isPressed = false;
+    bool linked;
     public ButtonActivatedDoor linkDoor;
     Color orgColor;
 
     [Header("Components")]
     SpriteRenderer spriteRenderer;
 
-    public int id;
-
+  
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();  
@@ -29,11 +32,18 @@ public class ButtonActivated : MonoBehaviour
     }
     private void Update()
     {
+        if (!linked)
+        {
+            LinkDoor();
+        }
+
         if (isPressed && !onActive)
         {
             Activation();
         }
     }
+
+    
 
     private void FixedUpdate()
     {
@@ -54,11 +64,12 @@ public class ButtonActivated : MonoBehaviour
     //</summary>
     void LinkDoor()
     {
-        foreach (GameObject obj in DemoMap.instance.buttonActivatedDoors)
+        foreach (Transform transform in MapEditor.Instance.interactionObjectTransform)
         {
-            if (obj.GetComponent<ButtonActivatedDoor>().ObjectData.id == id)
+            if (transform.GetComponent<ButtonActivatedDoor>().linkId == linkId)
             {
-                linkDoor = obj.GetComponent<ButtonActivatedDoor>();
+                linked = true;
+                linkDoor = transform.GetComponent<ButtonActivatedDoor>();
                 linkDoor.curLinkBtn++;
                 linkDoor.buttonActivatedBtnList.Add((Vector2)transform.position);
             }

@@ -54,7 +54,7 @@ public class MapEditor : MonoBehaviour
     private Transform outLineTransform;
     private Transform floorTransform;
     private Transform objectTransform;
-    private Transform interactionObjectTransform;
+    [HideInInspector] public Transform interactionObjectTransform;
     private Transform dontSaveObject;
 
 
@@ -86,8 +86,7 @@ public class MapEditor : MonoBehaviour
     [HideInInspector] public int condition_KeyAmount;
     [HideInInspector] public List<ObjectData> mapTileDataList = new List<ObjectData>();
     [HideInInspector] public List<ObjectData> mapObjectDataList = new List<ObjectData>();
-    [HideInInspector] public List<ObjectData> mapButtonActivateDoorDataList = new List<ObjectData>();
-
+ 
     private void Awake()
     {
         if (Instance != null)
@@ -110,8 +109,8 @@ public class MapEditor : MonoBehaviour
         mapObjBoxTransform = Util.CreateChildTransform(transform, "MapObjBox");
         floorTransform = Util.CreateChildTransform(mapObjBoxTransform, "FloorTransform");
         objectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ObjectTransform");
-        interactionObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "interactionObjectTransform");
-        dontSaveObject = Util.CreateChildTransform(mapObjBoxTransform, "dontSaveObject");
+        interactionObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "InteractionObjectTransform");
+        dontSaveObject = Util.CreateChildTransform(mapObjBoxTransform, "DontSaveObject");
     }
 
     //todo
@@ -243,7 +242,23 @@ public class MapEditor : MonoBehaviour
         return list;
     }
 
-
+    List<ButtonActivatedDoorStruct> GetButtonActivateDoorStructList(Transform transform)
+    {
+        List<ButtonActivatedDoorStruct> list = new();
+        foreach(Transform cur in transform)
+        {
+            Debug.Log("asdasd");
+            ButtonActivatedDoor curDoor = cur.GetComponent<ButtonActivatedDoor>();
+            curDoor.SetTileData(cur.position,cur.rotation);
+            ButtonActivatedDoorStruct buttonActivatedDoorStruct = new ButtonActivatedDoorStruct(curDoor.ObjectData.id,
+                curDoor.linkId,
+                cur.transform.position,
+                curDoor.buttonActivatedBtnList,
+                transform.rotation);
+            list.Add(buttonActivatedDoorStruct);
+        }
+        return list;
+    }
 
 
     void CreateJsonFile()
@@ -255,6 +270,7 @@ public class MapEditor : MonoBehaviour
         Map map = new Map(new Vector2(width, height), mapID,  playerSpawnPosition, new ExitObjStruct(playerExitPosition, condition_KeyAmount),
             mapTileDataList, 
             mapObjectDataList,
+            GetButtonActivateDoorStructList(interactionObjectTransform),
             cellSize);
         string json = JsonUtility.ToJson(map, true);
         Debug.Log(json);
@@ -292,7 +308,7 @@ public class MapEditor : MonoBehaviour
 
         CreateObj(floorTransform);
         CreateObj(objectTransform);
-
+        CreateObj(interactionObjectTransform);
         //foreach (Transform obj in floorTransform)
         //{
         //    ObjectData tileData = obj.GetComponent<BuildObj>().objectData;
@@ -375,6 +391,13 @@ public class MapEditor : MonoBehaviour
                     Create(transform, mapDataStruct, data);
                 }
                 break;
+            case "InteractionObjectTransform":
+                foreach (ButtonActivatedDoorStruct data in curMap.mapButtonActivatedDoorDataList)
+                {
+                    MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
+                    Create(transform, mapDataStruct, data);
+                }
+                break;
         }
 
     }
@@ -387,8 +410,24 @@ public class MapEditor : MonoBehaviour
         obj.transform.rotation = data.quaternion;
         obj.transform.SetParent(transform);
     }
+    void Create(Transform transform, MapDataStruct mapDataStruct, ButtonActivatedDoorStruct data)
+    {
+        GameObject obj = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
+        ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
+        door.ButtonActivatedDoorStruct = data;
+        obj.transform.position = data.position;
+        obj.transform.rotation = data.quaternion;
+        obj.transform.SetParent(transform);
+        MapDataStruct btn = Managers.Data.mapData.mapObjectDataDictionary[306];
+        foreach (Vector2 pot in door.ButtonActivatedDoorStruct.buttonActivatePositionList)
+        {
+            GameObject btnActivated = Object.Instantiate(Resources.Load<GameObject>(btn.path));
+            btnActivated.GetComponent<ButtonActivated>().linkId = data.linkId;
+            btnActivated.transform.position = pot;
+            btnActivated.transform.SetParent(dontSaveObject);
 
-
+        }
+    }
 
 
 

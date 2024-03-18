@@ -23,7 +23,7 @@ public class Map
         ExitObjStruct exitObjStruct, 
         List<ObjectData> tileList, 
         List<ObjectData> objectList,
-        //List<ButtonActivatedDoorStruct> mapButtonActivatedDoorDataList,
+        List<ButtonActivatedDoorStruct> mapButtonActivatedDoorDataList,
         float cellSize)
     {
         mapID = id;
@@ -32,7 +32,7 @@ public class Map
         this.playerSpawnPosition = playerSpawnPosition;
         this.exitObjStruct = exitObjStruct;
         this.mapSize = mapSize;
-        //this.mapButtonActivatedDoorDataList = mapButtonActivatedDoorDataList;
+        this.mapButtonActivatedDoorDataList = mapButtonActivatedDoorDataList;
         this.cellSize = cellSize;
     }
 
@@ -44,14 +44,17 @@ public class Map
 public struct ButtonActivatedDoorStruct
 {
     public int id;
+    public int linkId;
     public Vector2 position;
-    public Vector2[] buttonActivatePosition;//Vector2의 개수만큼 버튼 생성
-
-    public ButtonActivatedDoorStruct(int id, Vector2 position, Vector2[] buttonActivatePosition)
+    public List<Vector2> buttonActivatePositionList;//Vector2의 개수만큼 버튼 생성
+    public Quaternion quaternion;
+    public ButtonActivatedDoorStruct(int id,int linkId, Vector2 position, List<Vector2> buttonActivatePositionList, Quaternion quaternion)
     {
         this.id= id;
+        this.linkId= linkId;
         this.position = position;
-        this.buttonActivatePosition = buttonActivatePosition;
+        this.buttonActivatePositionList = buttonActivatePositionList;
+        this .quaternion = quaternion;
     }
 }
 

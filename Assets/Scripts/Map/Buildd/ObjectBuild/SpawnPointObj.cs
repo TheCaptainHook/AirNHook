@@ -5,9 +5,9 @@ using UnityEngine;
 public class SpawnPointObj : BuildBase
 {
 
-    private void FixedUpdate()
-    {
-        BuildCheck();
-    }
+    //private void FixedUpdate()
+    //{
+    //    BuildCheck();
+    //}
 
 }

@@ -397,5 +397,27 @@
             }
         }
     ],
+    "mapButtonActivatedDoorDataList": [
+        {
+            "id": 305,
+            "linkId": 0,
+            "position": {
+                "x": 28.29998779296875,
+                "y": 11.5999755859375
+            },
+            "buttonActivatePositionList": [
+                {
+                    "x": 4.0,
+                    "y": 12.5
+                }
+            ],
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            }
+        }
+    ],
     "cellSize": 2.0
 }
