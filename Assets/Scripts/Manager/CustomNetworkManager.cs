@@ -65,6 +65,12 @@ public class CustomNetworkManager : NetworkManager
     public override void OnServerSceneChanged(string sceneName)
     {
         base.OnServerSceneChanged(sceneName);
+
+        if (Managers.Game.CurrentState != GameState.Title)
+        {
+            //TODO 선택한 stage로 소환하는 코드.
+            Instantiate(Resources.Load<GameObject>("Map/Map"));
+        }
     }
 
     // 로딩 UI 구현을 위한 override
@@ -100,5 +106,16 @@ public class CustomNetworkManager : NetworkManager
     {
         base.OnClientSceneChanged();
 
+        if (Managers.Game.CurrentState != GameState.Title)
+        {
+            //TODO 선택한 stage로 소환하는 코드.
+            Instantiate(Resources.Load<GameObject>("Map/Map"));
+        }
+    }
+
+    public override void OnClientConnect()
+    {
+        Managers.Game.CurrentState = GameState.Lobby;
+        base.OnClientConnect();
     }
 }

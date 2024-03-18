@@ -61,6 +61,7 @@ public class UI_Title : UI_Base
     private void OnCreateRoomBtn()
     {
         CloseUI();
+        Managers.Game.CurrentState = GameState.Lobby;
         Managers.Network.StartHost();
     }
 
