@@ -26,7 +26,6 @@ public class ButtonActivatedDoor : BuildBase
         set { {  _buttonActivatedDoorStruct = value; 
                 ObjectData = new ObjectData(_buttonActivatedDoorStruct.id, _buttonActivatedDoorStruct.position, _buttonActivatedDoorStruct.quaternion);
                 linkId = _buttonActivatedDoorStruct.linkId;
-                buttonActivatedBtnList = _buttonActivatedDoorStruct.buttonActivatePositionList;
             } }
     }
 

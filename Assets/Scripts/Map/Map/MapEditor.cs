@@ -419,7 +419,7 @@ public class MapEditor : MonoBehaviour
         obj.transform.rotation = data.quaternion;
         obj.transform.SetParent(transform);
         MapDataStruct btn = Managers.Data.mapData.mapObjectDataDictionary[306];
-        foreach (Vector2 pot in door.ButtonActivatedDoorStruct.buttonActivatePositionList)
+        foreach (Vector2 pot in data.buttonActivatePositionList)
         {
             GameObject btnActivated = Object.Instantiate(Resources.Load<GameObject>(btn.path));
             btnActivated.GetComponent<ButtonActivated>().linkId = data.linkId;
