@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    //TODO 점프 버퍼
+    //점프 버퍼
     [SerializeField] private float _jumpBufferTime = 0.2f;
     private float _jumpBufferCount;
 
@@ -21,6 +21,12 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask _floorLayer;
     public PlayerInput playerInput { get; private set; }
 
+    //플레이어 점프 체크
+    private bool _isJumping;
+
+    //점프타임
+    private float _jumpingTime;
+
     private float _horizontal;
     private float _speed = 4f;
     private float _jumpingPower = 20f;
@@ -33,27 +39,26 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        // 땅 체크
         if (IsFloor())
         {
             _coyoteTimeCount = _coyoteTime;
+            _jumpingTime = 0.05f;
         }
         else
         {
             _coyoteTimeCount -= Time.deltaTime;
+            _jumpingTime -= Time.deltaTime;
         }
 
         //점프를 눌렀을 때
-        if (Input.GetButtonDown("Jump")){}
-        //점프를 누르지 않았을 때
+        if (_isJumping)
+        {
+            _jumpBufferCount = _jumpBufferTime;
+        }
         else
         {
             _jumpBufferCount -= Time.deltaTime;
-        }
-        //
-        if (_coyoteTimeCount > 0f && _jumpBufferCount > 0f)
-        {
-            _rigidbd.velocity = new Vector2(_rigidbd.velocity.x, _jumpingPower);
-            _jumpBufferCount = 0f;
         }
     }
 
@@ -74,6 +79,7 @@ public class Player : MonoBehaviour
         
     }
 
+
     private void Look(InputAction.CallbackContext context)
     {
         
@@ -84,6 +90,13 @@ public class Player : MonoBehaviour
         _rigidbd.velocity = new Vector2(_horizontal * _speed, _rigidbd.velocity.y);
         IsLeftHead();
         IsRightHead();
+
+        //점프
+        if (_coyoteTimeCount > 0f && _jumpBufferCount > 0f && _jumpingTime > 0f)
+        {
+            _rigidbd.velocity = new Vector2(_rigidbd.velocity.x, _jumpingPower);
+            _jumpBufferCount = 0f;
+        }
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -94,7 +107,8 @@ public class Player : MonoBehaviour
     
     public void JumpStarted(InputAction.CallbackContext context)
     {
-        _jumpBufferCount = _jumpBufferTime;
+        _jumpingTime = 0.05f;
+        _isJumping = true;
     }
 
     public void JumpCanceled(InputAction.CallbackContext context)
@@ -104,6 +118,7 @@ public class Player : MonoBehaviour
             _rigidbd.velocity = new Vector2(_rigidbd.velocity.x, _rigidbd.velocity.y * 0.6f);
             _coyoteTimeCount = 0f;
         }
+        _isJumping = false;
     }
 
     //점프체크
