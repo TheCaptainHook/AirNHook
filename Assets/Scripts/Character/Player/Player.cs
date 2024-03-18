@@ -69,20 +69,6 @@ public class Player : MonoBehaviour
         playerInput.playerActions.Move.started += Move;
         playerInput.playerActions.Jump.started += JumpStarted;
         playerInput.playerActions.Jump.canceled += JumpCanceled;
-        playerInput.playerActions.Look.started += Look;
-        playerInput.playerActions.Action.started += PlayerAction;
-    }
-
-    //에어,후크 액션
-    private void PlayerAction(InputAction.CallbackContext context)
-    {
-        
-    }
-
-
-    private void Look(InputAction.CallbackContext context)
-    {
-        
     }
 
     private void FixedUpdate()
