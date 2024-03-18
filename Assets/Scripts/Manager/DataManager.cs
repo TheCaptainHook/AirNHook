@@ -5,11 +5,11 @@ using Newtonsoft.Json;
 
 public class DataManager
 {
-    public Languages language;
+    public LanguageData language;
     public MapData mapData;
     public DataManager()
     {
-        language = new Languages();
+        language = new LanguageData();
         mapData = new MapData();
     }
 
