@@ -1,16 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class TileSpaceUI : MonoBehaviour
 {
     [SerializeField] Transform content;
 
     public GameObject tileSpaceUIItem;
+    public Button cancel;
 
 
-
-
+    private void Awake()
+    {
+        cancel.onClick.AddListener(Cancel);
+    }
     private void Start()
     {
         LoadAllTile();
@@ -30,4 +33,8 @@ public class TileSpaceUI : MonoBehaviour
         }
     }
 
+    void Cancel()
+    {
+        MapEditor.Instance.CurBuildObj = null;
+    }
 }

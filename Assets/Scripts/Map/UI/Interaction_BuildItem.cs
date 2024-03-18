@@ -20,7 +20,7 @@ public class Interaction_BuildItem : MonoBehaviour
 
     void ChoiceItem()
     {
-        MapEditor.Instance.curBuildObj = buildObj;
+        MapEditor.Instance.CurBuildObj = buildObj;
     }
 
 

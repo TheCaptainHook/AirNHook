@@ -99,10 +99,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 2
-  objectData:
-    id: 0
-    position: {x: 0, y: 0}
-    quaternion: {x: 0, y: 0, z: 0, w: 0}
 --- !u!60 &1048097775267754800
 PolygonCollider2D:
   m_ObjectHideFlags: 0

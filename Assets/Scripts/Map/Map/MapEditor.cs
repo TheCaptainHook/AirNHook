@@ -33,15 +33,23 @@ public enum TileType
 
 
 public class MapEditor : MonoBehaviour
-{
+{   
     public static MapEditor Instance;
     Util Util = new Util();
 
     private Grid grid;
-  
+
+    //test
+    public PlaceMentSystem placeMentSystem;
+    public GameObject gridPlane;
+    //test
+
+
+    
+
     [Header("Map Info")]
     [SerializeField] MapEditorType mapEditorType;
-    [SerializeField] MapEditorState mapEditorState;
+    public MapEditorState mapEditorState;
     [SerializeField] float cellSize;
    
     string folderPath;
@@ -68,6 +76,7 @@ public class MapEditor : MonoBehaviour
     
     [Header("Current")]
     public GameObject curBuildObj;
+    public GameObject CurBuildObj { get { return curBuildObj; } set { curBuildObj = value; placeMentSystem.MouseIndicator = value; } }
     public Transform curTransform;
     [Space(10)]
     [Header("----------------------------------------------------")]
@@ -113,25 +122,7 @@ public class MapEditor : MonoBehaviour
         dontSaveObject = Util.CreateChildTransform(mapObjBoxTransform, "DontSaveObject");
     }
 
-    //todo
-    private void Update()
-    {
-        if(mapEditorState != MapEditorState.NoEditor)
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                CreateTile();
-            }
-
-            if (Input.GetMouseButtonDown(1))
-            {
-                RemoveTile();
-            }
-
-        }
-
-    }
-
+  
     #region Interaciton
 
 
@@ -179,6 +170,7 @@ public class MapEditor : MonoBehaviour
 
             }
         }
+
        
     }
     public void RemoveTile()
@@ -332,6 +324,8 @@ public class MapEditor : MonoBehaviour
         this.height = height;
         tileObjectArray = new GameObject[width, height];
         //게임오브젝트배열 초기화 ,            
+
+        gridPlane.GetComponent<GridPlane>().SetSize(width, height);
 
         GenerateMapOutLine();
     }
