@@ -86,9 +86,7 @@ public class MapEditor : MonoBehaviour
     [HideInInspector] public int condition_KeyAmount;
     [HideInInspector] public List<ObjectData> mapTileDataList = new List<ObjectData>();
     [HideInInspector] public List<ObjectData> mapObjectDataList = new List<ObjectData>();
-    //todo
-    public List<BuildObj> buildObjList = new List<BuildObj>();
-    //todo
+    [HideInInspector] public List<ObjectData> mapButtonActivateDoorDataList = new List<ObjectData>();
 
     private void Awake()
     {
@@ -254,7 +252,10 @@ public class MapEditor : MonoBehaviour
         mapTileDataList = GetList(floorTransform);
         mapObjectDataList = GetList(objectTransform);
 
-        Map map = new Map(new Vector2(width, height), mapID,  playerSpawnPosition, new ExitObjStruct(playerExitPosition, condition_KeyAmount), mapTileDataList, mapObjectDataList, cellSize);
+        Map map = new Map(new Vector2(width, height), mapID,  playerSpawnPosition, new ExitObjStruct(playerExitPosition, condition_KeyAmount),
+            mapTileDataList, 
+            mapObjectDataList,
+            cellSize);
         string json = JsonUtility.ToJson(map, true);
         Debug.Log(json);
         string filePath = Path.Combine(folderPath, $"{map.mapID}.json");

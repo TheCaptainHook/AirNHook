@@ -14,13 +14,17 @@ public class Map
     public ExitObjStruct exitObjStruct; //클리어 조건 포함
     public List<ObjectData> mapTileDataList = new List<ObjectData>();
     public List<ObjectData> mapObjectDataList = new List<ObjectData>();
-
+    public List<ButtonActivatedDoorStruct> mapButtonActivatedDoorDataList = new List<ButtonActivatedDoorStruct>();
 
     public float cellSize;
 
 
     public Map(Vector2 mapSize, string id, Vector2 playerSpawnPosition,
-        ExitObjStruct exitObjStruct, List<ObjectData> tileList, List<ObjectData> objectList, float cellSize)
+        ExitObjStruct exitObjStruct, 
+        List<ObjectData> tileList, 
+        List<ObjectData> objectList,
+        List<ButtonActivatedDoorStruct> mapButtonActivatedDoorDataList,
+        float cellSize)
     {
         mapID = id;
         mapTileDataList = tileList;
@@ -28,6 +32,7 @@ public class Map
         this.playerSpawnPosition = playerSpawnPosition;
         this.exitObjStruct = exitObjStruct;
         this.mapSize = mapSize;
+        this.mapButtonActivatedDoorDataList = mapButtonActivatedDoorDataList;
         this.cellSize = cellSize;
     }
 
@@ -40,14 +45,12 @@ public struct ButtonActivatedDoorStruct
 {
     public int id;
     public Vector2 position;
-    public string path;
     public Vector2[] buttonActivatePosition;//Vector2의 개수만큼 버튼 생성
 
-    public ButtonActivatedDoorStruct(int id, Vector2 position, string path, Vector2[] buttonActivatePosition)
+    public ButtonActivatedDoorStruct(int id, Vector2 position, Vector2[] buttonActivatePosition)
     {
         this.id= id;
         this.position = position;
-        this.path = path;
         this.buttonActivatePosition = buttonActivatePosition;
     }
 }
