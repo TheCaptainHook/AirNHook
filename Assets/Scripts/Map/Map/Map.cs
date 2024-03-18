@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
 using System.IO;
+using static ButtonActivated;
 
 
 [System.Serializable]
@@ -11,81 +12,42 @@ public class Map
     public Vector2 mapSize;
     public string mapID;
     public Vector2 playerSpawnPosition;
-    public ExitObjStruct exitObjStruct; //클리어 조건 포함
-    public List<ObjectData> mapTileDataList = new List<ObjectData>();
-    public List<ObjectData> mapObjectDataList = new List<ObjectData>();
-
-
+    public Vector2 playerExitPosition;
+    public List<TileData> mapTileDataList = new List<TileData>();
     public float cellSize;
 
+    //public List<T> buttonActivatedDoorList = new List<T>();
+    public List<ButtonActivatedBtn> buttonActivatedList = new List<ButtonActivatedBtn>();
 
-    public Map(Vector2 mapSize, string id, Vector2 playerSpawnPosition,
-        ExitObjStruct exitObjStruct, List<ObjectData> tileList, List<ObjectData> objectList, float cellSize)
+
+
+
+    public Map(Vector2 mapSize, string id, Vector2 playerSpawnPosition, 
+        Vector2 playerExitPosition, List<TileData> list, float cellSize)
     {
         mapID = id;
-        mapTileDataList = tileList;
-        mapObjectDataList = objectList;
+        mapTileDataList = list;
         this.playerSpawnPosition = playerSpawnPosition;
-        this.exitObjStruct = exitObjStruct;
+        this.playerExitPosition = playerExitPosition;
         this.mapSize = mapSize;
         this.cellSize = cellSize;
     }
 
-
-}
-
-
-[System.Serializable]
-public struct ButtonActivatedDoorStruct
-{
-    public int id;
-    public Vector2 position;
-    public string path;
-    public Vector2[] buttonActivatePosition;//Vector2의 개수만큼 버튼 생성
-
-    public ButtonActivatedDoorStruct(int id, Vector2 position, string path, Vector2[] buttonActivatePosition)
+    public void CreateMap_Tile(Transform transform)
     {
-        this.id= id;
-        this.position = position;
-        this.path = path;
-        this.buttonActivatePosition = buttonActivatePosition;
+
+        foreach (TileData data in mapTileDataList)
+        {
+            GameObject obj = Object.Instantiate(Resources.Load<GameObject>(data.path));
+            obj.GetComponent<BuildObj>().tileData = data;
+            obj.transform.position = data.position;
+            obj.transform.SetParent(transform);
+
+        }
+
+
+        //리소스에서 스폰위치 오브젝트, 탈출위치오브젝트 생성
+
     }
-}
-
-[System.Serializable]
-public struct ExitObjStruct
-{
-    public Vector2 position;
-    public string path;
-    public int condition_KeyAmount;
-
-    public ExitObjStruct(Vector2 position,int condition_KeyAmount)
-    {
-        this.position = position;
-        this.condition_KeyAmount = condition_KeyAmount;
-        path = "/Prefabs/Map/Object/ExitPoint";
-    }
-
-}
-
-[System.Serializable]
-public struct ObjectData
-{
-    public int id;
-    public Vector2 position;
-    public Quaternion quaternion;
-
-    public ObjectData(int id,Vector2 position)
-    {
-        this.id = id;
-        this.position = position;
-        quaternion = Quaternion.identity;
-    }
-    public ObjectData(int id, Vector2 position,Quaternion quaternion)
-    {
-        this.id = id;
-        this.position = position;
-        this.quaternion = quaternion;
-    }
-
+ 
 }

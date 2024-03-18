@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
 
-public class BuildBase : BuildObj
+public class BuildBase : MonoBehaviour
 {
 
     [SerializeField] bool editorMod_isActive;
@@ -13,7 +13,7 @@ public class BuildBase : BuildObj
     [SerializeField] LayerMask mask;
 
     [SerializeField] SpriteRenderer mainSprite;
-    protected Color orgColor;
+    Color orgColor;
 
     RaycastHit2D hit;
 
@@ -30,6 +30,7 @@ public class BuildBase : BuildObj
             {
                 placeable = true;
                 mainSprite.color = orgColor;
+                Debug.Log(hit.collider.gameObject.GetComponent<BuildObj>().tileData.tileType);
             }
             else
             {
@@ -39,5 +40,16 @@ public class BuildBase : BuildObj
         }
     }
 
+    bool CheckArea()
+    {
+        float x = mainSprite.transform.localScale.x / 2;
+
+        if (transform.position.x - x >= 0 && transform.position.x + x < MapEditor.Instance.width)
+        {
+            return true;
+        }
+        else { return false; }
+
+    }
 }
 
