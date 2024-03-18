@@ -22,13 +22,18 @@ public class MapEditor_Editor : Editor
             mapEditor.Init();
             mapEditor.SetMapSize(mapEditor.width, mapEditor.height);
         }
+        if (GUILayout.Button("Load Data"))
+        {
+            mapEditor.LoadMap(mapEditor.mapID);
+        }
 
-        if(GUILayout.Button("Save Data"))
+        if (GUILayout.Button("Save Data"))
         {
             Debug.Log("Buttom");
             mapEditor.SaveMapData();
         }
+       
 
-        
+
     }
 }

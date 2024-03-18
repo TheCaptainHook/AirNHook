@@ -131,20 +131,6 @@ public class MapEditor : MonoBehaviour
                 RemoveTile();
             }
 
-
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                Debug.Log("Save");
-                SaveMapData();
-
-            }
-
-        }
-
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            Debug.Log("Load");
-            LoadMap(mapID);
         }
 
     }
@@ -284,7 +270,7 @@ public class MapEditor : MonoBehaviour
 
     #region Load
 
-    void LoadMap(string name)
+    public void LoadMap(string name)
     {
         if (!Managers.Data.mapData.mapDictionary.ContainsKey(name))
         {
