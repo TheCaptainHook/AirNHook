@@ -58,6 +58,7 @@ namespace MapObjectData
 
 		public System.Int32 id;
 		public TileType type;
+		public System.String name;
 		public System.String path;
   
 

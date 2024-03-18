@@ -23,7 +23,7 @@ public class Map
         ExitObjStruct exitObjStruct, 
         List<ObjectData> tileList, 
         List<ObjectData> objectList,
-        List<ButtonActivatedDoorStruct> mapButtonActivatedDoorDataList,
+        //List<ButtonActivatedDoorStruct> mapButtonActivatedDoorDataList,
         float cellSize)
     {
         mapID = id;
@@ -32,7 +32,7 @@ public class Map
         this.playerSpawnPosition = playerSpawnPosition;
         this.exitObjStruct = exitObjStruct;
         this.mapSize = mapSize;
-        this.mapButtonActivatedDoorDataList = mapButtonActivatedDoorDataList;
+        //this.mapButtonActivatedDoorDataList = mapButtonActivatedDoorDataList;
         this.cellSize = cellSize;
     }
 
