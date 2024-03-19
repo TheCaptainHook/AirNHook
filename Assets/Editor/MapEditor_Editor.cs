@@ -28,18 +28,29 @@ public class MapEditor_Editor : Editor
 
 
 
+
+
+        if (GUILayout.Button("Load Data(인게임용)"))
+        {
+            mapEditor.LoadMap(mapEditor.mapID);
+        }
+        if (GUILayout.Button("Save Data(인게임용)"))
+        {
+            mapEditor.SaveMapData();
+        }
+
         if (GUILayout.Button("Set Size"))
         {
             mapEditor.Init();
             mapEditor.SetMapSize(mapEditor.width, mapEditor.height);
         }
-        if (GUILayout.Button("Load Data"))
+        if (GUILayout.Button("Load Data(개발자전용)"))
         {
             //mapEditor.LoadMap(mapEditor.mapID);
             LoadMap(mapEditor);
         }
 
-        if (GUILayout.Button("Save Data"))
+        if (GUILayout.Button("Save Data(개발자전용)"))
         {
             Debug.Log("Buttom");
             SaveMapData(mapEditor);
