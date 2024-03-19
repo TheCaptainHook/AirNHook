@@ -5,17 +5,18 @@ using UnityEngine;
 [System.Serializable]
 public class BuildObj : MonoBehaviour
 {
-    private TileType tileType;
-    private Vector2 position;
-    public string path;
+    [SerializeField] int id;
 
-    public TileData tileData;
+    private ObjectData _objectData;
+    public ObjectData ObjectData { get { return _objectData; } set { _objectData = value; id = _objectData.id; } }
 
-    public void SetTileData(TileType tileType,Vector2 position)
+    public void SetTileData(Vector2 position)
     {
-        this.tileType = tileType;
-        this.position = position;
+        ObjectData = new ObjectData(id, position);
+    }
 
-        tileData = new TileData(tileType, position, path);
+    public void SetTileData(Vector2 position,Quaternion quaternion)
+    {
+        ObjectData = new ObjectData(id, position, quaternion);
     }
 }
