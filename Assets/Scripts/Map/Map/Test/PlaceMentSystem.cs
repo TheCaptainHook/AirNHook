@@ -115,4 +115,9 @@ public class PlaceMentSystem : MonoBehaviour
         }
        
     }
+
+    public void ResetTileMap()
+    {
+        floorTileMap.ClearAllTiles();
+    }
 }

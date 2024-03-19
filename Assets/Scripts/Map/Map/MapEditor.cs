@@ -51,22 +51,22 @@ public class MapEditor : MonoBehaviour
     
 
     [Header("Map Info")]
-    [SerializeField] MapEditorType mapEditorType;
+    [HideInInspector] public MapEditorType mapEditorType;
     public MapEditorState mapEditorState;
-    [SerializeField] float cellSize;
+    [HideInInspector] public float cellSize;
    
     string folderPath;
     //[SerializeField] GameObject contorollerUI;
     //[SerializeField] GameObject buildSelectUI;
 
     [Header("Init")]
-    private Transform mapObjBoxTransform;
-    private Transform gridPlateTransform;
+    [HideInInspector] public Transform mapObjBoxTransform;
+    [HideInInspector] public Transform gridPlateTransform;
     private Transform outLineTransform;
-    private Transform floorTransform;
-    private Transform objectTransform;
+    [HideInInspector] public Transform floorTransform;
+    [HideInInspector] public Transform objectTransform;
     [HideInInspector] public Transform interactionObjectTransform;
-    private Transform dontSaveObject;
+    [HideInInspector] public Transform dontSaveObject;
 
 
     [Header("Create")]
@@ -90,11 +90,12 @@ public class MapEditor : MonoBehaviour
     [SerializeField] MapOutLineSO mapOutLineSO;
 
     [Header("Save Data")]
-    [HideInInspector]public int width;
-    [HideInInspector] public int height;
+
+    public int width;
+    public int height;
     public string mapID;
-    [HideInInspector] public Vector2 playerSpawnPosition;
-    [HideInInspector] public Vector2 playerExitPosition;
+    public Vector2 playerSpawnPosition;
+    public Vector2 playerExitPosition;
     [HideInInspector] public int condition_KeyAmount;
     [HideInInspector] public List<TileData> mapTileDataList = new List<TileData>();
     [HideInInspector] public List<ObjectData> mapObjectDataList = new List<ObjectData>();
@@ -268,7 +269,6 @@ public class MapEditor : MonoBehaviour
 
     void CreateJsonFile()
     {
-        
         mapTileDataList = GetTileList(floorTransform);
         mapObjectDataList = GetList(objectTransform);
 
@@ -301,7 +301,7 @@ public class MapEditor : MonoBehaviour
             mapEditorType = MapEditorType.New;
             return;
         }
-        
+
         mapEditorType = MapEditorType.Load;
         mapID = name;
         curMap = Managers.Data.mapData.mapDictionary[name];
@@ -335,15 +335,15 @@ public class MapEditor : MonoBehaviour
     {
         this.width = width;
         this.height = height;
-        if(mapEditorState != MapEditorState.NoEditor)
-        {
-            gridPlane.SetActive(true);
-            gridPlane.GetComponent<GridPlane>().SetSize(width, height);
-        }
-        else
-        {
-            gridPlane.SetActive(false);
-        }
+        //if(mapEditorState != MapEditorState.NoEditor)
+        //{
+        //    gridPlane.SetActive(true);
+        //    gridPlane.GetComponent<GridPlane>().SetSize(width, height);
+        //}
+        //else
+        //{
+        //    gridPlane.SetActive(false);
+        //}
 
         //GenerateMapOutLine();
     }

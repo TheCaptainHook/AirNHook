@@ -36,7 +36,10 @@ public class Map
         this.cellSize = cellSize;
     }
 
+    public Map()
+    {
 
+    }
 }
 
 

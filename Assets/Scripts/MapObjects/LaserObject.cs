@@ -49,6 +49,7 @@ namespace MapObjects
         //        _endVFX.SetActive(false);
         //    }
         //}
+
         private void UpdateLaser()
         {
             RaycastHit2D hit = Physics2D.Raycast(_transform.position,transform.right.normalized, _defDistanceRay,_layerMask);
