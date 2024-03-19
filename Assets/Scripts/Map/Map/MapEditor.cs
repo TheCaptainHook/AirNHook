@@ -335,10 +335,15 @@ public class MapEditor : MonoBehaviour
     {
         this.width = width;
         this.height = height;
-        tileObjectArray = new GameObject[width, height];
-        //게임오브젝트배열 초기화 ,            
-
-        gridPlane.GetComponent<GridPlane>().SetSize(width, height);
+        if(mapEditorState != MapEditorState.NoEditor)
+        {
+            gridPlane.SetActive(true);
+            gridPlane.GetComponent<GridPlane>().SetSize(width, height);
+        }
+        else
+        {
+            gridPlane.SetActive(false);
+        }
 
         //GenerateMapOutLine();
     }

@@ -36,7 +36,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - GridPlane
   - Floor
   m_SortingLayers:
   - name: Default

@@ -59,7 +59,7 @@ public class PlaceMentSystem : MonoBehaviour
             UpdatePreview();
         }
 
-        if(MapEditor.Instance.mapEditorState == MapEditorState.Tile)
+        if(MapEditor.Instance.mapEditorState == MapEditorState.Tile && MapEditor.Instance.gridPlane.activeSelf)
         {
             if (Input.GetMouseButton(0))
             {
