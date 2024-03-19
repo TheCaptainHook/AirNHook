@@ -24,7 +24,7 @@ public class CameraMove : MonoBehaviour
     private void LateUpdate()
     {
         PanCamera();
-        ZoomInAndOut();
+        //ZoomInAndOut();
     }
 
     private void PanCamera()
