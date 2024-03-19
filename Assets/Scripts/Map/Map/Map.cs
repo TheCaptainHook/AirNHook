@@ -12,7 +12,7 @@ public class Map
     public string mapID;
     public Vector2 playerSpawnPosition;
     public ExitObjStruct exitObjStruct; //클리어 조건 포함
-    public List<ObjectData> mapTileDataList = new List<ObjectData>();
+    public List<TileData> mapTileDataList = new();
     public List<ObjectData> mapObjectDataList = new List<ObjectData>();
     public List<ButtonActivatedDoorStruct> mapButtonActivatedDoorDataList = new List<ButtonActivatedDoorStruct>();
 
@@ -21,7 +21,7 @@ public class Map
 
     public Map(Vector2 mapSize, string id, Vector2 playerSpawnPosition,
         ExitObjStruct exitObjStruct, 
-        List<ObjectData> tileList, 
+        List<TileData> tileList, 
         List<ObjectData> objectList,
         List<ButtonActivatedDoorStruct> mapButtonActivatedDoorDataList,
         float cellSize)
@@ -94,4 +94,16 @@ public struct ObjectData
         this.quaternion = quaternion;
     }
 
+}
+[System.Serializable]
+public struct TileData
+{
+    public int id;
+    public Vector3Int position;
+
+    public TileData(int id,Vector3Int position)
+    {
+        this.id = id;
+        this.position = position;
+    }
 }

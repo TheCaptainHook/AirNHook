@@ -16,7 +16,7 @@ public class PlaceMentSystem : MonoBehaviour
     public Vector3 mousePosition;
     Sprite default_MouseIndicatorSprite;
     [SerializeField] GameObject mouseIndicator,cellIndicator;
-    
+    public Dictionary<Vector3Int, int> tileDic = new();
 
     public GameObject MouseIndicator { 
         get { return mouseIndicator; }
@@ -30,7 +30,8 @@ public class PlaceMentSystem : MonoBehaviour
             }}
         }
 
-    [SerializeField] Tilemap tilemap;
+    [SerializeField] Tilemap preViewTileMap;
+    public Tilemap floorTileMap;
     public TileBase tileBase;
 
     private void Awake()
@@ -57,7 +58,16 @@ public class PlaceMentSystem : MonoBehaviour
             curPosition = gridPosition;
             UpdatePreview();
         }
+
+        if(MapEditor.Instance.mapEditorState == MapEditorState.Tile)
+        {
+            if (Input.GetMouseButton(0))
+            {
+                DrawTile();
+            }
+        }
     }
+
 
 
     public Vector3 GetMousePosition()
@@ -66,8 +76,8 @@ public class PlaceMentSystem : MonoBehaviour
         Collider2D collider = Physics2D.OverlapPoint(mousePot);
         if(collider != null)
         {
-            Vector3Int cellPot = tilemap.WorldToCell(mousePot);
-            gridPosition = new Vector3Int(Mathf.FloorToInt(tilemap.CellToWorld(cellPot).x), Mathf.FloorToInt(tilemap.CellToWorld(cellPot).y));
+            Vector3Int cellPot = floorTileMap.WorldToCell(mousePot);
+            gridPosition = new Vector3Int(Mathf.FloorToInt(floorTileMap.CellToWorld(cellPot).x), Mathf.FloorToInt(floorTileMap.CellToWorld(cellPot).y));
 
             return gridPosition;
         }
@@ -84,8 +94,25 @@ public class PlaceMentSystem : MonoBehaviour
 
     void UpdatePreview()
     {
-        tilemap.SetTile(lastPosition, null);
-        tilemap.SetTile(curPosition, tileBase);
+        preViewTileMap.SetTile(lastPosition, null);
+        preViewTileMap.SetTile(curPosition, tileBase);
     }
 
+    void DrawTile()
+    {
+        if(tileBase == null)
+        {
+            if (tileDic.ContainsKey(gridPosition))
+            {
+                tileDic.Remove(gridPosition);
+                floorTileMap.SetTile(gridPosition, tileBase);
+            }
+        }
+        else
+        {
+            floorTileMap.SetTile(gridPosition, tileBase);
+            tileDic[gridPosition] = int.Parse(tileBase.name);
+        }
+       
+    }
 }

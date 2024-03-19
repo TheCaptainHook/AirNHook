@@ -19,7 +19,7 @@ public class GridPlane : MonoBehaviour
         this.width = width;
         this.height = height;
 
-        transform.localScale=new Vector3(width*2, height*2);
+        transform.localScale=new Vector3(width, height);
         material.SetVector("_Tilling",new Vector2(width,height));
 
     }

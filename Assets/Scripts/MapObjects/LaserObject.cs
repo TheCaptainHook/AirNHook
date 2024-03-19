@@ -11,7 +11,7 @@ namespace MapObjects
         [SerializeField] private LineRenderer _lineRenderer;
         [SerializeField] private Transform _firePoint;
         [SerializeField] private GameObject _endVFX;
-
+        [SerializeField] LayerMask _layerMask;
         [SerializeField] private bool _isEnabled;
 
         private Transform _transform;
@@ -33,14 +33,31 @@ namespace MapObjects
             _endVFX.SetActive(_isEnabled);
         }
 
+        //private void UpdateLaser()
+        //{
+
+        //    if (Physics2D.Raycast(_transform.position, transform.right))
+        //    {
+        //        RaycastHit2D _hit = Physics2D.Raycast(_transform.position, transform.right.normalized, _defDistanceRay);
+        //        DrawLaser(_hit.point);
+        //        _endVFX.SetActive(true);
+        //        _endVFX.transform.position = _hit.point;
+        //    }
+        //    else
+        //    {
+        //        DrawLaser(transform.position + transform.right.normalized * _defDistanceRay);
+        //        _endVFX.SetActive(false);
+        //    }
+        //}
         private void UpdateLaser()
         {
-            if (Physics2D.Raycast(_transform.position, transform.right))
+            RaycastHit2D hit = Physics2D.Raycast(_transform.position,transform.right.normalized, _defDistanceRay,_layerMask);
+
+            if (hit.collider != null)
             {
-                RaycastHit2D _hit = Physics2D.Raycast(_transform.position, transform.right.normalized, _defDistanceRay);
-                DrawLaser(_hit.point);
+                DrawLaser(hit.point);
                 _endVFX.SetActive(true);
-                _endVFX.transform.position = _hit.point;
+                _endVFX.transform.position = hit.point;
             }
             else
             {
@@ -48,6 +65,7 @@ namespace MapObjects
                 _endVFX.SetActive(false);
             }
         }
+
 
         private void DrawLaser(Vector2 endPos)
         {

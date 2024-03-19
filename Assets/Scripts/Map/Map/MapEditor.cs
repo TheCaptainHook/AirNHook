@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using System.IO;
 using System.Runtime.InteropServices.ComTypes;
 using GoogleSheet.Core.Type;
 using System.Net;
 using Unity.VisualScripting;
 using Newtonsoft.Json;
+using System.Runtime.ConstrainedExecution;
 
 public enum MapEditorType
 {
@@ -19,6 +21,7 @@ public enum MapEditorState
     NoEditor,
     Editor,
     Tile,
+    Eraser,
     Object,
     InteractionObject
 }
@@ -93,7 +96,7 @@ public class MapEditor : MonoBehaviour
     [HideInInspector] public Vector2 playerSpawnPosition;
     [HideInInspector] public Vector2 playerExitPosition;
     [HideInInspector] public int condition_KeyAmount;
-    [HideInInspector] public List<ObjectData> mapTileDataList = new List<ObjectData>();
+    [HideInInspector] public List<TileData> mapTileDataList = new List<TileData>();
     [HideInInspector] public List<ObjectData> mapObjectDataList = new List<ObjectData>();
  
     private void Awake()
@@ -222,18 +225,28 @@ public class MapEditor : MonoBehaviour
 
     }
 
-    List<ObjectData> GetList(Transform transform)
+    List<TileData> GetTileList(Transform transform)
     {
-        List<ObjectData> list = new List<ObjectData>();
-        foreach (Transform cur in transform)
+        List<TileData> list = new();
+        foreach (Vector3Int cur in placeMentSystem.tileDic.Keys)
         {
-            cur.GetComponent<BuildObj>().SetTileData(cur.position,cur.rotation);
-            list.Add(cur.GetComponent<BuildObj>().ObjectData);
+            TileData tileData = new TileData(placeMentSystem.tileDic[cur], cur);
+            list.Add(tileData);
 
         }
         return list;
     }
 
+    List<ObjectData> GetList(Transform transform)
+    {
+        List<ObjectData> list = new();
+        foreach(Transform cur in transform)
+        {
+            cur.GetComponent<BuildObj>().SetTileData(cur.position, cur.rotation);
+            list.Add(cur.GetComponent<BuildObj>().ObjectData);
+        }
+        return list;
+    }
     List<ButtonActivatedDoorStruct> GetButtonActivateDoorStructList(Transform transform)
     {
         List<ButtonActivatedDoorStruct> list = new();
@@ -256,7 +269,7 @@ public class MapEditor : MonoBehaviour
     void CreateJsonFile()
     {
         
-        mapTileDataList = GetList(floorTransform);
+        mapTileDataList = GetTileList(floorTransform);
         mapObjectDataList = GetList(objectTransform);
 
         Map map = new Map(new Vector2(width, height), mapID,  playerSpawnPosition, new ExitObjStruct(playerExitPosition, condition_KeyAmount),
@@ -327,7 +340,7 @@ public class MapEditor : MonoBehaviour
 
         gridPlane.GetComponent<GridPlane>().SetSize(width, height);
 
-        GenerateMapOutLine();
+        //GenerateMapOutLine();
     }
 
     public void Reset()
@@ -372,10 +385,12 @@ public class MapEditor : MonoBehaviour
         switch (transform.name)
         {
             case "FloorTransform":
-                foreach (ObjectData data in curMap.mapTileDataList)
+                foreach (TileData data in curMap.mapTileDataList)
                 {
                     MapDataStruct mapDataStruct = Managers.Data.mapData.mapTileDataDictionary[data.id];
-                    Create(transform, mapDataStruct, data);
+                    Debug.Log(data.position);
+                    placeMentSystem.floorTileMap.SetTile(data.position, Resources.Load<Tile>(mapDataStruct.path));
+                    placeMentSystem.tileDic[data.position] = data.id;
                 }
                 break;
             case "ObjectTransform":

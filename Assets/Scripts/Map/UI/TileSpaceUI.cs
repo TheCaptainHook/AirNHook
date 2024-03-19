@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 public class TileSpaceUI : MonoBehaviour
 {
@@ -23,18 +24,27 @@ public class TileSpaceUI : MonoBehaviour
 
     void LoadAllTile()
     {
-        GameObject[] tileObj = Resources.LoadAll<GameObject>("Prefabs/Map/Tile");
-        for(int i = 0; i< tileObj.Length; i++)
+        //GameObject[] tileObj = Resources.LoadAll<GameObject>("Prefabs/Map/Tile");
+        //for(int i = 0; i< tileObj.Length; i++)
+        //{
+        //    GameObject item = Instantiate(tileSpaceUIItem);
+        //    item.transform.SetParent(content);
+        //    item.GetComponent<Interaction_BuildItem>().Init(tileObj[i],TileType.Object);
+         
+        //}
+
+        Tile[] tiles = Resources.LoadAll<Tile>("Prefabs/Map/Tile/Tile");
+        for (int i = 0; i < tiles.Length; i++)
         {
             GameObject item = Instantiate(tileSpaceUIItem);
             item.transform.SetParent(content);
-            item.GetComponent<Interaction_BuildItem>().Init(tileObj[i]);
-         
+            item.GetComponent<Interaction_BuildItem>().Init(tiles[i],TileType.Floor);
+
         }
     }
 
     void Cancel()
     {
-        MapEditor.Instance.CurBuildObj = null;
+        MapEditor.Instance.placeMentSystem.tileBase = null;
     }
 }

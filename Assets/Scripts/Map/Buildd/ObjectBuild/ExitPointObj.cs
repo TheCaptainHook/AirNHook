@@ -12,6 +12,7 @@ public class ExitPointObj : BuildBase
     [SerializeField] int condition_KeyAmount;
     [SerializeField] int current_KeyAmount;
     
+    event Action OnCheckKey;
     //private void FixedUpdate()
     //{
     //    BuildCheck();
