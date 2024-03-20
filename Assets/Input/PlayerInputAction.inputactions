@@ -15,6 +15,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "VerticalMove",
+                    "type": "Value",
+                    "id": "4de131dd-f5af-4d7c-a93b-c27601eace90",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "Hold,Press(behavior=1)",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Look",
                     "type": "Value",
                     "id": "ba242540-37f8-403f-8b76-1b95253cf17c",
@@ -25,9 +34,9 @@
                 },
                 {
                     "name": "Action",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "5906ae8f-a4f9-426e-b147-872ff832c43a",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -36,6 +45,15 @@
                     "name": "Jump",
                     "type": "Button",
                     "id": "09316714-6da0-413f-ba98-5cf03a9d17b5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "SubAction",
+                    "type": "Button",
+                    "id": "c2d1b215-907f-4f1f-bbca-2964332e455e",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -108,6 +126,50 @@
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "31b74d49-2b06-4e38-97d4-4e4d9155aac8",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyBoard & Mouse",
+                    "action": "SubAction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "94319f85-efa9-4a06-9163-415132f07dba",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "VerticalMove",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "down",
+                    "id": "a6a48314-5af7-4308-890a-d4deeb732ae6",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "VerticalMove",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "up",
+                    "id": "6e068ef6-38ca-4e50-b0ed-409601f20edb",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "VerticalMove",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

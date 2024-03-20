@@ -1,115 +1,223 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Grappling : MonoBehaviour
 {
-    public GrapplingGun grapplingGun;
-    public LineRenderer lineRenderer;
-
-    [Header("General Settings:")]
-    [SerializeField] private int precision = 40;
-    [Range(0, 20)] [SerializeField] private float straightenLineSpeed = 5;
-
-    [Header("Rope Animation Settings:")]
-    public AnimationCurve ropeAnimationCurve;
-    [Range(0.01f, 4)] [SerializeField] private float StartWaveSize = 2;
-    float waveSize = 0;
-
-    [Header("Rope Progression:")]
-    public AnimationCurve ropeProgressionCurve;
-    [SerializeField] [Range(1, 50)] private float ropeProgressionSpeed = 1;
-
-    float moveTime = 0;
-
-    [HideInInspector] public bool isGrappling = true;
-
-    bool strightLine = true;
+    [Header("Player")]
+    public Player playerMovement;
+    public DistanceJoint2D distanceJoint;
+    private Vector2 _playerPosition;
+    public float climbSpeed = 3f;
     
-    private void OnEnable()
+    private InputActions _inputActions;
+    private Vector2 _mousePosition;
+    private float _vertical;
+    private bool _grappleAttached;
+    private bool _distanceSet;
+    private bool _isActioning;
+
+    [Header("Rope")]
+    public Transform ropeStartPos;
+    public LineRenderer ropeRenderer;
+    private float _ropeMaxDistance = 5f;
+    private List<Vector2> _ropePositions = new List<Vector2>();
+    
+    [Header("Hook")]
+    public GameObject hookAnchor;
+    public Transform hookStartPos;
+    private Rigidbody2D _hookAnchorRb;
+    public LayerMask hookLayerMask;
+    
+    private void Awake()
     {
-        moveTime = 0;
-        lineRenderer.positionCount = precision;
-        waveSize = StartWaveSize;
-        strightLine = false;
-
-        LinePointsToFirePoint();
-
-        lineRenderer.enabled = true;
+        distanceJoint.enabled = false;
+        _playerPosition = transform.position;
+        _hookAnchorRb = hookAnchor.GetComponent<Rigidbody2D>();
     }
 
-    private void OnDisable()
+    private void Start()
     {
-        lineRenderer.enabled = false;
-        isGrappling = false;
-    }
-
-    private void LinePointsToFirePoint()
-    {
-        for (int i = 0; i < precision; i++)
-        {
-            lineRenderer.SetPosition(i, grapplingGun.firePoint.position);
-        }
+        _inputActions = GetComponent<Player>().input;
+        
+        _inputActions.playerActions.Look.performed += OnLook;
+        _inputActions.playerActions.Look.canceled += OnLook;
+        _inputActions.playerActions.VerticalMove.started += OnVerticalMove;
+        _inputActions.playerActions.Action.started += OnMainAction;
+        _inputActions.playerActions.Action.canceled += OnMainAction;
+        _inputActions.playerActions.SubAction.started += OnSubAction;
     }
 
     private void Update()
     {
-        moveTime += Time.deltaTime;
-        DrawRope();
+        HandleRopeLength();
     }
 
-    void DrawRope()
+    private void FixedUpdate()
     {
-        if (!strightLine)
+        var mousePos = Camera.main.ScreenToWorldPoint(new Vector3(_mousePosition.x, _mousePosition.y, 0f));
+        var facingDirection = mousePos - transform.position;
+        var aimAngle = Mathf.Atan2(facingDirection.y, facingDirection.x);
+        if (aimAngle < 0f)
+            aimAngle = Mathf.PI * 2 + aimAngle;
+        
+        Vector2 aimDirection = Quaternion.Euler(0, 0, aimAngle * Mathf.Rad2Deg) * Vector2.right;
+        _playerPosition = transform.position;
+        
+        if (!_grappleAttached)
         {
-            if (lineRenderer.GetPosition(precision - 1).x == grapplingGun.grapplePoint.x)
-            {
-                strightLine = true;
-            }
-            else
-            {
-                DrawRopeWaves();
-            }
+            playerMovement.isSwinging = false;
         }
         else
         {
-            if (!isGrappling)
+            playerMovement.isSwinging = true;
+            playerMovement.ropeHook = _ropePositions.Last();
+        }
+
+        HandleInput(aimDirection);
+        UpdateRopePositions();
+    }
+    
+    private void ResetRope()
+    {
+        distanceJoint.enabled = false;
+        _grappleAttached = false;
+        playerMovement.isSwinging = false;
+        ropeRenderer.positionCount = 2;
+        ropeRenderer.SetPosition(0, ropeStartPos.position);
+        ropeRenderer.SetPosition(1, ropeStartPos.position);
+        _ropePositions.Clear();
+        hookAnchor.transform.position = hookStartPos.position;
+    }
+    
+    private void UpdateRopePositions()
+    {
+        if (!_grappleAttached)
+            return;
+
+        ropeRenderer.positionCount = _ropePositions.Count + 1;
+
+        for (var i = ropeRenderer.positionCount - 1; i >= 0; i--)
+        {
+            if (i != ropeRenderer.positionCount - 1) // if not the Last point of line renderer
             {
-                grapplingGun.Grapple();
-                isGrappling = true;
-            }
-            if (waveSize > 0)
-            {
-                waveSize -= Time.deltaTime * straightenLineSpeed;
-                DrawRopeWaves();
+                ropeRenderer.SetPosition(i, _ropePositions[i]);
+                
+                if (i == _ropePositions.Count - 1 || _ropePositions.Count == 1)
+                {
+                    var ropePosition = _ropePositions[_ropePositions.Count - 1];
+                    if (_ropePositions.Count == 1)
+                    {
+                        _hookAnchorRb.transform.position = ropePosition;
+                        if (!_distanceSet)
+                        {
+                            distanceJoint.distance = Vector2.Distance(transform.position, ropePosition);
+                            _distanceSet = true;
+                        }
+                    }
+                    else
+                    {
+                        _hookAnchorRb.transform.position = ropePosition;
+                        if (!_distanceSet)
+                        {
+                            distanceJoint.distance = Vector2.Distance(transform.position, ropePosition);
+                            _distanceSet = true;
+                        }
+                    }
+                }
+                else if (i - 1 == _ropePositions.IndexOf(_ropePositions.Last()))
+                {
+                    var ropePosition = _ropePositions.Last();
+                    _hookAnchorRb.transform.position = ropePosition;
+                    if (!_distanceSet)
+                    {
+                        distanceJoint.distance = Vector2.Distance(transform.position, ropePosition);
+                        _distanceSet = true;
+                    }
+                }
             }
             else
             {
-                waveSize = 0;
-
-                if (lineRenderer.positionCount != 2) { lineRenderer.positionCount = 2; }
-
-                DrawRopeNoWaves();
+                ropeRenderer.SetPosition(i, ropeStartPos.position);
             }
         }
     }
-
-    void DrawRopeWaves()
+    
+    private void HandleRopeLength()
     {
-        for (int i = 0; i < precision; i++)
+        if (_grappleAttached)
         {
-            float delta = (float)i / ((float)precision - 1f);
-            Vector2 offset = Vector2.Perpendicular(grapplingGun.grappleDistanceVector).normalized * ropeAnimationCurve.Evaluate(delta) * waveSize;
-            Vector2 targetPosition = Vector2.Lerp(grapplingGun.firePoint.position, grapplingGun.grapplePoint, delta) + offset;
-            Vector2 currentPosition = Vector2.Lerp(grapplingGun.firePoint.position, targetPosition, ropeProgressionCurve.Evaluate(moveTime) * ropeProgressionSpeed);
-
-            lineRenderer.SetPosition(i, currentPosition);
+            if (Vector2.Distance(transform.position, hookAnchor.transform.position) <= 0.2f)
+            {
+                ResetRope();
+            }
+            else if (transform.position.y > hookAnchor.transform.position.y)
+            {
+                distanceJoint.distance -= Time.deltaTime * 14f;
+            }
+            
+            if (_vertical > 0f)
+            {
+                distanceJoint.distance -= Time.deltaTime * climbSpeed;
+            }
+            else if (_vertical < 0f && distanceJoint.distance < _ropeMaxDistance)
+            {
+                var distance = distanceJoint.distance + Time.deltaTime * climbSpeed;
+                distanceJoint.distance = Mathf.Min(distance, _ropeMaxDistance);
+            }
         }
     }
-
-    void DrawRopeNoWaves()
+    
+    private void HandleInput(Vector2 aimDirection)
     {
-        lineRenderer.SetPosition(0, grapplingGun.firePoint.position);
-        lineRenderer.SetPosition(1, grapplingGun.grapplePoint);
+        if (_isActioning)
+        {
+            if (_grappleAttached) return;
+            ropeRenderer.enabled = true;
+
+            var hit = Physics2D.Raycast(_playerPosition, aimDirection, _ropeMaxDistance, hookLayerMask);
+        
+            if (hit.collider != null)
+            {
+                _grappleAttached = true;
+                if (!_ropePositions.Contains(hit.point))
+                {
+                    transform.GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, 2f), ForceMode2D.Impulse);
+                    _ropePositions.Add(hit.point);
+                    distanceJoint.distance = Vector2.Distance(_playerPosition, hit.point);
+                    distanceJoint.enabled = true;
+                }
+            }
+            else
+            {
+                ropeRenderer.enabled = false;
+                _grappleAttached = false;
+                distanceJoint.enabled = false;
+            }
+        }
+    }
+    
+    public void OnLook(InputAction.CallbackContext context)
+    {
+        _mousePosition = context.ReadValue<Vector2>();
+    }
+    
+    public void OnVerticalMove(InputAction.CallbackContext context)
+    {
+        _vertical = context.ReadValue<Vector2>().y;
+    }
+    
+    public void OnMainAction(InputAction.CallbackContext context)
+    {
+        if(context.phase == InputActionPhase.Started)
+            _isActioning = true;
+        else if (context.phase == InputActionPhase.Canceled)
+            _isActioning = false;
+    }
+    
+    public void OnSubAction(InputAction.CallbackContext context)
+    {
+        ResetRope();
     }
 }

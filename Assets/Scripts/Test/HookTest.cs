@@ -13,7 +13,6 @@ public class HookTest : MonoBehaviour
     void Start()
     {
         _grappling = GameObject.Find("Player").GetComponent<GrapplingHookTest>();
-        _joint2D = GetComponent<DistanceJoint2D>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
