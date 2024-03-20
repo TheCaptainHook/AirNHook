@@ -72,7 +72,7 @@ public class ButtonActivated : MonoBehaviour
     //ButtonActivateBtn 생성하려면 무조건 ButtonActivateDoor가 하나이상 있어야함.
     //맵안에 ButtonActivateDoor 와 일치하는 id 가 없으면 오류, 설치 불가
     //</summary>
-    void LinkDoor()
+    public void LinkDoor()
     {
         Vector2 pot = new Vector2(Mathf.Round(transform.position.x*10f)/10f, Mathf.Round(transform.position.y * 10f) / 10f);
 

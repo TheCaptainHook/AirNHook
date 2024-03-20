@@ -65,6 +65,7 @@ public class MapEditor : MonoBehaviour
     private Transform outLineTransform;
     [HideInInspector] public Transform floorTransform;
     [HideInInspector] public Transform objectTransform;
+    [HideInInspector] public Transform exitDoorObjectTransform;
     [HideInInspector] public Transform interactionObjectTransform;
     [HideInInspector] public Transform dontSaveObject;
 
@@ -72,11 +73,16 @@ public class MapEditor : MonoBehaviour
     [Header("Create")]
     public GameObject[,] tileObjectArray;
 
-    [SerializeField] GameObject spawnPoint;
-    public GameObject SpawnPoint { get { return spawnPoint; } set { if (spawnPoint != null) Destroy(spawnPoint); spawnPoint = value; playerSpawnPosition = value.transform.position; } }
-    [SerializeField] GameObject exitPoint;
-    public GameObject ExitPoint { get { return exitPoint; } set { if (exitPoint != null) Destroy(exitPoint); exitPoint = value; playerExitPosition = value.transform.position; } }
-    
+    //[SerializeField] GameObject spawnPoint;
+    //public GameObject SpawnPoint { get { return spawnPoint; } set { if (spawnPoint != null) Destroy(spawnPoint); spawnPoint = value; playerSpawnPosition = value.transform.position; } }
+    //[SerializeField] GameObject exitPoint;
+    //public GameObject ExitPoint { get { return exitPoint; } set { if (exitPoint != null) Destroy(exitPoint); exitPoint = value; playerExitPosition = value.transform.position; } }
+
+    //todo
+
+    public Vector2 startPosition;
+
+    //todo
     [Header("Current")]
     public GameObject curBuildObj;
     public GameObject CurBuildObj { get { return curBuildObj; } set { curBuildObj = value; placeMentSystem.MouseIndicator = value; } }
@@ -94,8 +100,8 @@ public class MapEditor : MonoBehaviour
     public int width;
     public int height;
     public string mapID;
-    public Vector2 playerSpawnPosition;
-    public Vector2 playerExitPosition;
+    //public Vector2 playerSpawnPosition;
+    //public Vector2 playerExitPosition;
     [HideInInspector] public int condition_KeyAmount;
     [HideInInspector] public List<TileData> mapTileDataList = new List<TileData>();
     [HideInInspector] public List<ObjectData> mapObjectDataList = new List<ObjectData>();
@@ -112,9 +118,7 @@ public class MapEditor : MonoBehaviour
 
     private void Start()
     {
-        grid = new Grid(cellSize);
-
-        Init();
+        //Init();
     }
     //todo
     public void Init()
@@ -122,6 +126,7 @@ public class MapEditor : MonoBehaviour
         mapObjBoxTransform = Util.CreateChildTransform(transform, "MapObjBox");
         floorTransform = Util.CreateChildTransform(mapObjBoxTransform, "FloorTransform");
         objectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ObjectTransform");
+        exitDoorObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ExitDoorObjectTransform");
         interactionObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "InteractionObjectTransform");
         dontSaveObject = Util.CreateChildTransform(mapObjBoxTransform, "DontSaveObject");
     }
@@ -226,12 +231,14 @@ public class MapEditor : MonoBehaviour
 
     }
 
+    #region GetList
+
     List<TileData> GetTileList(Transform transform)
     {
         List<TileData> list = new();
         foreach (Vector3Int cur in placeMentSystem.tileDic.Keys)
         {
-            TileData tileData = new TileData(placeMentSystem.tileDic[cur], cur);
+            TileData tileData = new TileData(cur);
             list.Add(tileData);
 
         }
@@ -256,23 +263,33 @@ public class MapEditor : MonoBehaviour
             Debug.Log("asdasd");
             ButtonActivatedDoor curDoor = cur.GetComponent<ButtonActivatedDoor>();
             curDoor.SetTileData(cur.position,cur.rotation);
-            ButtonActivatedDoorStruct buttonActivatedDoorStruct = new ButtonActivatedDoorStruct(curDoor.ObjectData.id,
-                curDoor.linkId,
-                cur.transform.position,
-                curDoor.buttonActivatedBtnList,
-                transform.rotation);
-            list.Add(buttonActivatedDoorStruct);
+         
+            list.Add(curDoor.GetButtonActivatedDoorStruct());
         }
         return list;
     }
 
+    List<ExitObjStruct> GetExitObjStructsList(Transform transform)
+    {
+        List<ExitObjStruct> list = new();
+
+        foreach(Transform cur in transform)
+        {
+       
+                list.Add(cur.GetComponent<ExitPointObj>().GetExitObjectStruct());
+        }
+        
+        return list;
+    }
+    #endregion
 
     void CreateJsonFile()
     {
         mapTileDataList = GetTileList(floorTransform);
         mapObjectDataList = GetList(objectTransform);
 
-        Map map = new Map(new Vector2(width, height), mapID,  playerSpawnPosition, new ExitObjStruct(playerExitPosition, FindKey()),
+        Map map = new Map(new Vector2(width, height), mapID,  startPosition,
+            GetExitObjStructsList(exitDoorObjectTransform),
             mapTileDataList, 
             mapObjectDataList,
             GetButtonActivateDoorStructList(interactionObjectTransform),
@@ -313,15 +330,13 @@ public class MapEditor : MonoBehaviour
             mapEditorType = MapEditorType.New;
             return;
         }
-
+        Init();
         mapEditorType = MapEditorType.Load;
         mapID = name;
         curMap = Managers.Data.mapData.mapDictionary[name];
         SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);
 
-        playerSpawnPosition = curMap.playerSpawnPosition;
-        playerExitPosition = curMap.exitObjStruct.position;
-        condition_KeyAmount = curMap.exitObjStruct.condition_KeyAmount;
+        startPosition = curMap.startPosition;
 
         CreateObj(floorTransform);
         CreateObj(objectTransform);

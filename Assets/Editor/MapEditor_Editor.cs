@@ -28,8 +28,6 @@ public class MapEditor_Editor : Editor
 
 
 
-
-
         if (GUILayout.Button("Load Data(인게임용)"))
         {
             mapEditor.LoadMap(mapEditor.mapID);
@@ -39,16 +37,17 @@ public class MapEditor_Editor : Editor
             mapEditor.SaveMapData();
         }
 
-        if (GUILayout.Button("Set Size"))
+        if (GUILayout.Button("개발자용, 맵 새로만들 때 먼저 누르기,Init!"))
         {
             mapEditor.Init();
-            mapEditor.SetMapSize(mapEditor.width, mapEditor.height);
         }
+
         if (GUILayout.Button("Load Data(개발자전용)"))
         {
             //mapEditor.LoadMap(mapEditor.mapID);
             LoadMap(mapEditor);
         }
+
 
         if (GUILayout.Button("Save Data(개발자전용)"))
         {
@@ -96,13 +95,16 @@ public class MapEditor_Editor : Editor
 
         mapEditor.SetMapSize((int)map.mapSize.x, (int)map.mapSize.y);
 
-        mapEditor.playerSpawnPosition = map.playerSpawnPosition;
-        mapEditor.playerExitPosition = map.exitObjStruct.position;
-        mapEditor.condition_KeyAmount = map.exitObjStruct.condition_KeyAmount;
+        //start Point
+        GameObject startPoint = Object.Instantiate(Resources.Load<GameObject>(mapObjectDataDictionary[302].path));
+        startPoint.transform.position = map.startPosition;
+        startPoint.transform.SetParent(mapEditor.dontSaveObject);
+        //start Point
 
         CreateObj(mapEditor.floorTransform, map, mapEditor.placeMentSystem, mapEditor);
         CreateObj(mapEditor.objectTransform, map, mapEditor.placeMentSystem, mapEditor);
         CreateObj(mapEditor.interactionObjectTransform, map, mapEditor.placeMentSystem, mapEditor);
+        CreateObj(mapEditor.exitDoorObjectTransform, map, mapEditor.placeMentSystem, mapEditor);
     }
     public void CreateObj(Transform transform,Map map,PlaceMentSystem placeMentSystem,MapEditor mapEditor)
     {
@@ -112,8 +114,7 @@ public class MapEditor_Editor : Editor
                 foreach (TileData data in map.mapTileDataList)
                 {
                     MapDataStruct mapDataStruct = mapTileDataDictionary[data.id];
-                    Debug.Log(data.position);
-                    placeMentSystem.floorTileMap.SetTile(data.position, Resources.Load<Tile>(mapDataStruct.path));
+                    placeMentSystem.floorTileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
                     placeMentSystem.tileDic[data.position] = data.id;
                 }
                 break;
@@ -126,6 +127,13 @@ public class MapEditor_Editor : Editor
                 break;
             case "InteractionObjectTransform":
                 foreach (ButtonActivatedDoorStruct data in map.mapButtonActivatedDoorDataList)
+                {
+                    MapDataStruct mapDataStruct = mapObjectDataDictionary[data.id];
+                    Create(transform, mapDataStruct, data, mapEditor.dontSaveObject);
+                }
+                break;
+            case "ExitDoorObjectTransform":
+                foreach (ExitObjStruct data in map.mapExitObjectDataList)
                 {
                     MapDataStruct mapDataStruct = mapObjectDataDictionary[data.id];
                     Create(transform, mapDataStruct, data, mapEditor.dontSaveObject);
@@ -157,6 +165,15 @@ public class MapEditor_Editor : Editor
 
         }
     }
+    void Create(Transform transform,MapDataStruct mapDataStruct,ExitObjStruct data,Transform transform1)
+    {
+        GameObject obj = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
+        obj.transform.position = data.position;
+        obj.transform.SetParent(transform);
+        ExitPointObj door = obj.GetComponent<ExitPointObj>();
+        door.SetData(data, transform1);
+
+    }
     #endregion
 
 
@@ -181,7 +198,7 @@ public class MapEditor_Editor : Editor
 
                 num++;
             }
-            CreateJsonFile(mapEditor,folderPath);
+            CreateJsonFile(mapEditor, folderPath);
         }
         else
         {
@@ -190,16 +207,17 @@ public class MapEditor_Editor : Editor
 
     }
 
-    void CreateJsonFile(MapEditor mapEditor,string folderPath)
+    void CreateJsonFile(MapEditor mapEditor, string folderPath)
     {
         mapEditor.mapTileDataList = GetTileData(mapEditor.placeMentSystem.floorTileMap);
         mapEditor.mapObjectDataList = GetList(mapEditor.objectTransform);
 
-        Map map = new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, mapEditor.playerSpawnPosition, new ExitObjStruct(mapEditor.playerExitPosition, mapEditor.condition_KeyAmount),
+        Map map = new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, mapEditor.startPosition,
+            GetExitObjStructsList(mapEditor.exitDoorObjectTransform),
             mapEditor.mapTileDataList,
             mapEditor.mapObjectDataList,
-            GetButtonActivateDoorStructList(mapEditor.interactionObjectTransform),
-            mapEditor.cellSize);
+            GetButtonActivateDoorStructList(mapEditor),
+            mapEditor.cellSize) ;
         string json = JsonUtility.ToJson(map, true);
         Debug.Log(json);
         string filePath = Path.Combine(folderPath, $"{map.mapID}.json");
@@ -214,20 +232,22 @@ public class MapEditor_Editor : Editor
         List<TileData> list = new();
         BoundsInt bounds = tileMap.cellBounds;
         TileBase[] tileBases = tileMap.GetTilesBlock(bounds);
-       
+
         for (int x = bounds.xMin; x < bounds.xMax; x++)
         {
             for (int y = bounds.yMin; y < bounds.yMax; y++)
             {
                 Vector3Int tilePos = new Vector3Int(x, y, 0);
                 TileBase tile = tileMap.GetTile(tilePos);
-                if(tile != null)
+                if (tile != null)
                 {
-                    TileData tileData = new TileData(int.Parse(tile.name), tilePos);
+                    TileData tileData = new TileData(tilePos);
                     list.Add(tileData);
                 }
             }
         }
+
+      
         return list;
     }
 
@@ -242,21 +262,38 @@ public class MapEditor_Editor : Editor
         }
         return list;
     }
-    List<ButtonActivatedDoorStruct> GetButtonActivateDoorStructList(Transform transform)
+    List<ButtonActivatedDoorStruct> GetButtonActivateDoorStructList(MapEditor mapEditor)
     {
         List<ButtonActivatedDoorStruct> list = new();
-        foreach (Transform cur in transform)
+
+        foreach(Transform cur in mapEditor.dontSaveObject)
+        {
+            if (cur.GetComponent<ButtonActivated>())
+            {
+                cur.GetComponent<ButtonActivated>().LinkDoor();
+            }
+        }
+
+        foreach (Transform cur in mapEditor.interactionObjectTransform)
         {
             Debug.Log("asdasd");
             ButtonActivatedDoor curDoor = cur.GetComponent<ButtonActivatedDoor>();
             curDoor.SetTileData(cur.position, cur.rotation);
-            ButtonActivatedDoorStruct buttonActivatedDoorStruct = new ButtonActivatedDoorStruct(curDoor.ObjectData.id,
-                curDoor.linkId,
-                cur.transform.position,
-                curDoor.buttonActivatedBtnList,
-                transform.rotation);
-            list.Add(buttonActivatedDoorStruct);
+          
+            list.Add(curDoor.GetButtonActivatedDoorStruct());
         }
+        return list;
+    }
+    List<ExitObjStruct> GetExitObjStructsList(Transform transform)
+    {
+        List<ExitObjStruct> list = new();
+
+        foreach (Transform cur in transform)
+        {
+
+            list.Add(cur.GetComponent<ExitPointObj>().GetExitObjectStruct());
+        }
+
         return list;
     }
     #endregion

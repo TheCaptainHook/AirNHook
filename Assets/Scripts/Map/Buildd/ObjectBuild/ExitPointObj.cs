@@ -14,7 +14,11 @@ public class ExitPointObj : BuildBase
     public int Current_KeyAmount {
         get { return current_KeyAmount; }
         set { current_KeyAmount++;
-            if (current_KeyAmount >= condition_KeyAmount) Debug.Log("Clear"); } }
+            if (current_KeyAmount >= condition_KeyAmount) MoveNextStage(); } }
+
+    public GameObject nextPosition;
+    public Vector2 nextPot;
+
     event Action OnCheckKey;
     bool isClear;
 
@@ -23,6 +27,29 @@ public class ExitPointObj : BuildBase
     //    BuildCheck();
     //}
 
+    public ExitObjStruct GetExitObjectStruct()
+    {
+        Vector2 pot;
+        if (nextPosition == null) pot = new Vector2(999, 999);
+        else pot = nextPosition.transform.position;
+
+        return new ExitObjStruct(id,transform.position, condition_KeyAmount, pot);
+    }
+    
+    
+    public void SetData(ExitObjStruct data,Transform transform)
+    {
+        condition_KeyAmount = data.condition_KeyAmount;
+        nextPot = data.nextPosition;
+        if(nextPot != new Vector2(999, 999))
+        {
+            GameObject spawnDoor = Instantiate(Resources.Load<GameObject>("Prefabs/Map/Object/SpawnPoint"));
+            spawnDoor.transform.position = data.nextPosition;
+            spawnDoor.transform.SetParent(transform);
+            nextPosition = spawnDoor;
+        }
+       
+    }
 
     public void Init(int condition_keyAmount)
     {
@@ -35,6 +62,9 @@ public class ExitPointObj : BuildBase
         Current_KeyAmount = 1;
     }
 
+
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Key"))
@@ -42,5 +72,18 @@ public class ExitPointObj : BuildBase
             GetKey(collision.gameObject);
             Debug.Log(current_KeyAmount);
         }
+    }
+
+    public void MoveNextStage()
+    {
+        if(nextPot == new Vector2(999f, 999f))
+        {
+            Debug.Log("Stage All Clear");
+        }
+        else
+        {
+            Debug.Log("Next Stage");
+        }
+
     }
 }

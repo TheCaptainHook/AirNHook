@@ -13,10 +13,11 @@ public class ButtonActivatedDoor : BuildBase
     SpriteRenderer spriteRenderer;
     BoxCollider2D _collider;
 
-    public int curLinkBtn;
-    public int curActiveBtn;
+    [HideInInspector] public int curLinkBtn;//현재 링크된 버튼 
+    [HideInInspector] public int curActiveBtn;//현재 활성화된 버튼
+    public int activeRequirAmount;//문 활성화 조건
     public int CurActiveBtn { set { curActiveBtn += value;
-            if (curActiveBtn == curLinkBtn) { Activation(); }
+            if (curActiveBtn >= activeRequirAmount) { Activation(); }
             else { Deactivated(); }
         } }
     public List<Vector2> buttonActivatedBtnList = new List<Vector2>();
@@ -25,16 +26,23 @@ public class ButtonActivatedDoor : BuildBase
     public ButtonActivatedDoorStruct ButtonActivatedDoorStruct { 
         get { return _buttonActivatedDoorStruct; }
         set { {  _buttonActivatedDoorStruct = value; 
-                ObjectData = new ObjectData(_buttonActivatedDoorStruct.id, _buttonActivatedDoorStruct.position, _buttonActivatedDoorStruct.quaternion);
+                ObjectData = new ObjectData(_buttonActivatedDoorStruct.id, _buttonActivatedDoorStruct.position, _buttonActivatedDoorStruct.quaternion,_buttonActivatedDoorStruct.scale);
                 linkId = _buttonActivatedDoorStruct.linkId;
+                activeRequirAmount = value.activeRequirAmount;
                 buttonActivatedBtnList = value.buttonActivatePositionList;
                 transform.position = value.position;
                 transform.rotation = value.quaternion;
+                transform.localScale = value.scale;
             } }
     }
     public bool onOpen;
 
-   
+
+    public ButtonActivatedDoorStruct GetButtonActivatedDoorStruct()
+    {
+        return new ButtonActivatedDoorStruct(id, linkId, activeRequirAmount,transform.position, buttonActivatedBtnList, transform.rotation, transform.localScale);
+    }
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();

@@ -7,10 +7,10 @@ using UnityEngine.UI;
 public class BuildBase : BuildObj
 {
 
-    [SerializeField] bool editorMod_isActive;
-    [SerializeField] bool placeable;
-    [SerializeField] bool isCollision;
-    [SerializeField] LayerMask mask;
+    bool editorMod_isActive;
+    bool placeable;
+    bool isCollision;
+    LayerMask mask;
 
     protected Color orgColor;
 

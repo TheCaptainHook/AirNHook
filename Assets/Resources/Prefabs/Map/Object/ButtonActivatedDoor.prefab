@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 6993925836768963658}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.4, y: 33.4, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 4.5797, y: 9.606694, z: 4.5797}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -105,10 +105,11 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 0
-  mainSprite: {fileID: 0}
+  linkId: 0
   curLinkBtn: 0
   curActiveBtn: 0
   buttonActivatedBtnList: []
+  onOpen: 0
 --- !u!61 &315301539782647133
 BoxCollider2D:
   m_ObjectHideFlags: 0
