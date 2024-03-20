@@ -45,6 +45,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2828483438259332541}
   - component: {fileID: 8929439774467590829}
+  - component: {fileID: -6860346278926127344}
   - component: {fileID: 672945373029821658}
   - component: {fileID: 9084766552046721414}
   - component: {fileID: 9057756231193192349}
@@ -101,6 +102,27 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &-6860346278926127344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2743958777749711243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 529686831d779a347abc28ccb763d4e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _coyoteTime: 0.2
+  _jumpingPower: 10
+  _floorCheck: {fileID: 2828483438259332541}
+  _floorLayer:
+    serializedVersion: 2
+    m_Bits: 2147483712
+  _rigidbd: {fileID: 8929439774467590829}
+  _moveSpeed: 2
+  _charPivot: {fileID: 158291813751165047}
 --- !u!114 &672945373029821658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,15 +138,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  _jumpBufferTime: 0.2
-  _coyoteTime: 0.2
-  _rigidbd: {fileID: 8929439774467590829}
-  _floorCheck: {fileID: 2828483438259332541}
-  _floorLayer:
-    serializedVersion: 2
-    m_Bits: 2147483712
   _isDead: 0
-  _charPivot: {fileID: 158291813751165047}
 --- !u!114 &9084766552046721414
 MonoBehaviour:
   m_ObjectHideFlags: 0

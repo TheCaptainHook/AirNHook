@@ -28,9 +28,18 @@ public class PlayerMovement : MonoBehaviour
     //움직임속도
     [SerializeField] private float _moveSpeed = 2f;
     
+    private Animator _animator;
+    [SerializeField] private Transform _charPivot;
 
+    #region StringCache
+    private static readonly int IsMoving = Animator.StringToHash("IsMoving");
+    private static readonly int IsJumping = Animator.StringToHash("IsJumping");
+    private static readonly int IsStayJumping = Animator.StringToHash("IsStayJumping");
+    #endregion
+    
     private void Awake()
     {
+        _animator = GetComponent<Animator>();
         _rigidbd = GetComponent<Rigidbody2D>();
     }
 
@@ -58,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
             _coyoteTimeCount -= Time.deltaTime;
         }
 
-        if (CheckJumpBufffer())
+        if (CheckJumpBuffer())
         {
             _isJumpBufferCheck = true;
         }
@@ -75,30 +84,21 @@ public class PlayerMovement : MonoBehaviour
         IsLeftHead();
         IsRightHead();
 
+        //좌우무브
+        Movement();
+        //점프
+        Jump();
+        
+        //애니메이션체크
+        MoveAnimation();
+    }
+
+    public virtual void Movement()
+    {
         //플레이어 이동속도 코드
         var groundForce = _moveSpeed * 5f;
         _rigidbd.AddForce(new Vector2((_horizontal * groundForce - _rigidbd.velocity.x) * groundForce, 0f));
         _rigidbd.velocity = new Vector2(_rigidbd.velocity.x, _rigidbd.velocity.y);
-
-        //점프
-        if (_isJumping)
-        {
-            if (_coyoteTimeCount > 0f && _isJumpBufferCheck)
-            {
-                _coyoteTimeCount = 0f;
-                _isJumping = false;
-                _rigidbd.velocity = new Vector2(_rigidbd.velocity.x, _jumpingPower);
-            }
-        }
-        else if (_isJumpPerformed)
-        {
-            if (_coyoteTimeCount > 0f)
-            {
-                _coyoteTimeCount = 0f;
-                _isJumping = false;
-                _rigidbd.velocity = new Vector2(_rigidbd.velocity.x, _jumpingPower);
-            }
-        }
     }
 
     private void MoveStarted(InputAction.CallbackContext context)
@@ -106,21 +106,32 @@ public class PlayerMovement : MonoBehaviour
         _horizontal = context.ReadValue<Vector2>().x;
     }
 
-    public void JumpStarted(InputAction.CallbackContext context)
+    private void Jump()
+    {
+        if (_coyoteTimeCount > 0f && (_isJumpPerformed || (_isJumping && _isJumpBufferCheck)))
+        {
+            _coyoteTimeCount = 0f;
+            _isJumping = false;
+            _rigidbd.velocity = new Vector2(_rigidbd.velocity.x, _jumpingPower);
+        }
+    }
+    
+    private void JumpStarted(InputAction.CallbackContext context)
     {
         _isJumping = true;
     }
 
     //점프 꾹 누르고있을때
-    public void JumpPerformed(InputAction.CallbackContext context)
+    private void JumpPerformed(InputAction.CallbackContext context)
     {
         _isJumpPerformed = true;
     }
 
-    public void JumpCanceled(InputAction.CallbackContext context)
+    private void JumpCanceled(InputAction.CallbackContext context)
     {
         _isJumpPerformed = false;
     }
+    
     //점프체크
     private bool IsFloor()
     {
@@ -136,7 +147,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     //점프 버퍼 체크
-    private bool CheckJumpBufffer()
+    private bool CheckJumpBuffer()
     {
         if(_rigidbd.velocity.y > 0f)
             return false;
@@ -185,6 +196,23 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         return false;
+    }
+    
+    private void MoveAnimation()
+    {
+        //이동에 따라 애니메이션 제어
+        _animator.SetBool(IsMoving, _horizontal != 0 && IsFloor());
+        _animator.SetBool(IsJumping, _horizontal != 0 && _isJumping || _horizontal != 0 && !IsFloor());
+        _animator.SetBool(IsStayJumping, _horizontal == 0 && _isJumping || _horizontal == 0 && !IsFloor());
+        // CharPivot 오브젝트의 로테이션을 사용하여 플립
+        if (_horizontal < 0)
+        {
+            _charPivot.rotation = Quaternion.Euler(0f, 180f, 0f); // 왼쪽으로 이동할 때 캐릭터를 뒤집음
+        }
+        else if (_horizontal > 0)
+        {
+            _charPivot.rotation = Quaternion.Euler(0f, 0f, 0f); // 오른쪽으로 이동할 때 캐릭터를 되돌림
+        }
     }
 
     //기즈모
