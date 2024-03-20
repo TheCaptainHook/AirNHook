@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovementX : MonoBehaviour
 {
     public Rigidbody2D rb;
     public Transform floorCheck;
@@ -36,8 +36,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool IsFloor()
     {
-        // OverlapCircle <- ¸Å°³º¯¼ö·Î Àü´ÞÇÒ À§Ä¡¸¦ ±âÁØÀ¸·Î ¹ÝÁö¸§¸¸Å­ ¿ø »ý¼º
-        //±× ¿µ¿ª ³»¿¡ Ãæµ¹Ã¼¸¦ °¡Áø °ÔÀÓ¿ÀºêÁ§Æ®°¡ ÀÖ´ÂÁö °Ë»ç
+        // OverlapCircle <- ë§¤ê°œë³€ìˆ˜ë¡œ ì „ë‹¬í•  ìœ„ì¹˜ë¥¼ ê¸°ì¤€ìœ¼ë¡œ ë°˜ì§€ë¦„ë§Œí¼ ì› ìƒì„±
+        //ê·¸ ì˜ì—­ ë‚´ì— ì¶©ëŒì²´ë¥¼ ê°€ì§„ ê²Œìž„ì˜¤ë¸Œì íŠ¸ê°€ ìžˆëŠ”ì§€ ê²€ì‚¬
         return Physics2D.OverlapCircle(floorCheck.position, 0.7f, floorLayer);
     }
 
