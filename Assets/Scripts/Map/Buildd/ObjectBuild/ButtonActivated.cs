@@ -111,6 +111,15 @@ public class ButtonActivated : MonoBehaviour
        
     }
 
+    public void SetLinkDoor(Vector2 pot, ButtonActivatedDoor door)
+    {
+        linkDoor = door;
+        curPosition = pot;
+        linkId = door.linkId;
+        transform.position = curPosition;
+
+    }
+
   IEnumerator Co_ReLinkDoor()
     {
         while (time > 0)

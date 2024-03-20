@@ -272,7 +272,7 @@ public class MapEditor : MonoBehaviour
         mapTileDataList = GetTileList(floorTransform);
         mapObjectDataList = GetList(objectTransform);
 
-        Map map = new Map(new Vector2(width, height), mapID,  playerSpawnPosition, new ExitObjStruct(playerExitPosition, condition_KeyAmount),
+        Map map = new Map(new Vector2(width, height), mapID,  playerSpawnPosition, new ExitObjStruct(playerExitPosition, FindKey()),
             mapTileDataList, 
             mapObjectDataList,
             GetButtonActivateDoorStructList(interactionObjectTransform),
@@ -286,6 +286,18 @@ public class MapEditor : MonoBehaviour
     }
 
 
+    int FindKey()
+    {
+        int sum = 0;
+        foreach(Transform transform in objectTransform)
+        {
+            if(transform.gameObject.layer == LayerMask.NameToLayer("Key"))
+            {
+                sum++;
+            }
+        }
+        return sum;
+    }
 
 
     #endregion
@@ -428,16 +440,13 @@ public class MapEditor : MonoBehaviour
     {
         GameObject obj = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
         ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
-        door.ButtonActivatedDoorStruct = data;
-        obj.transform.position = data.position;
-        obj.transform.rotation = data.quaternion;
+        door.ButtonActivatedDoorStruct = data; 
         obj.transform.SetParent(transform);
         MapDataStruct btn = Managers.Data.mapData.mapObjectDataDictionary[306];
         foreach (Vector2 pot in data.buttonActivatePositionList)
         {
             GameObject btnActivated = Object.Instantiate(Resources.Load<GameObject>(btn.path));
-            btnActivated.GetComponent<ButtonActivated>().linkId = data.linkId;
-            btnActivated.transform.position = pot;
+            btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, door);
             btnActivated.transform.SetParent(dontSaveObject);
 
         }

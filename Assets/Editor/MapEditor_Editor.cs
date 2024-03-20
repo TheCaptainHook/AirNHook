@@ -147,15 +147,12 @@ public class MapEditor_Editor : Editor
         GameObject obj = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
         ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
         door.ButtonActivatedDoorStruct = data;
-        obj.transform.position = data.position;
-        obj.transform.rotation = data.quaternion;
         obj.transform.SetParent(transform);
-        MapDataStruct btn = Managers.Data.mapData.mapObjectDataDictionary[306];
+        MapDataStruct btn = mapObjectDataDictionary[306];
         foreach (Vector2 pot in data.buttonActivatePositionList)
         {
             GameObject btnActivated = Object.Instantiate(Resources.Load<GameObject>(btn.path));
-            btnActivated.GetComponent<ButtonActivated>().linkId = data.linkId;
-            btnActivated.transform.position = pot;
+            btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, door);
             btnActivated.transform.SetParent(dontSaveObject);
 
         }

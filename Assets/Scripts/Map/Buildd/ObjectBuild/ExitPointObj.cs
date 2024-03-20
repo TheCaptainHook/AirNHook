@@ -11,7 +11,10 @@ public class ExitPointObj : BuildBase
     [Header("Info")]
     [SerializeField] int condition_KeyAmount;
     private int current_KeyAmount;
-    public int Current_KeyAmount { get { return current_KeyAmount; } set { current_KeyAmount++; if (current_KeyAmount >= condition_KeyAmount) Debug.Log("Clear"); } }
+    public int Current_KeyAmount {
+        get { return current_KeyAmount; }
+        set { current_KeyAmount++;
+            if (current_KeyAmount >= condition_KeyAmount) Debug.Log("Clear"); } }
     event Action OnCheckKey;
     bool isClear;
 
@@ -32,13 +35,12 @@ public class ExitPointObj : BuildBase
         Current_KeyAmount = 1;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Key"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Key"))
         {
             GetKey(collision.gameObject);
             Debug.Log(current_KeyAmount);
         }
     }
-
 }

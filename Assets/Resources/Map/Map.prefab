@@ -343,8 +343,8 @@ MonoBehaviour:
   height: 20
   mapId: Demo
   playerSpawnPoint: {fileID: 4871680995202455970}
-  exitPoint: {fileID: 0}
-  stageClearCondition_keyAmount: 0
+  exitPoint: {fileID: 8330626937092428563}
+  stageClearCondition_keyAmount: 1
   curKeyAmount: 0
 --- !u!1001 &10134311271644424
 PrefabInstance:
@@ -1222,6 +1222,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 9075011051551304609}
     m_Modifications:
+    - target: {fileID: 1775557959004835997, guid: 71e29426f266e409c947ff9ac07aac5d, type: 3}
+      propertyPath: condition_KeyAmount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6554349873795177297, guid: 71e29426f266e409c947ff9ac07aac5d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 57.3
@@ -1274,6 +1278,11 @@ PrefabInstance:
 --- !u!4 &6733343719337174974 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6554349873795177297, guid: 71e29426f266e409c947ff9ac07aac5d, type: 3}
+  m_PrefabInstance: {fileID: 541590891081710831}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8330626937092428563 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8365518788546981884, guid: 71e29426f266e409c947ff9ac07aac5d, type: 3}
   m_PrefabInstance: {fileID: 541590891081710831}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &577754115634047159
