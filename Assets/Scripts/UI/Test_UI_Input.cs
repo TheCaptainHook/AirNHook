@@ -13,7 +13,6 @@ public class Test_UI_Input : MonoBehaviour
     {
         Instance = this;
         _emoteOnCoolDown = false;
-        DontDestroyOnLoad(gameObject);
     }
 
     private void Update()
