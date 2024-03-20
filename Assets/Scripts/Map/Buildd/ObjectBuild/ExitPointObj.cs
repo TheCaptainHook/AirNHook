@@ -10,17 +10,35 @@ public class ExitPointObj : BuildBase
 
     [Header("Info")]
     [SerializeField] int condition_KeyAmount;
-    [SerializeField] int current_KeyAmount;
-    
+    private int current_KeyAmount;
+    public int Current_KeyAmount { get { return current_KeyAmount; } set { current_KeyAmount++; if (current_KeyAmount >= condition_KeyAmount) Debug.Log("Clear"); } }
     event Action OnCheckKey;
+    bool isClear;
+
     //private void FixedUpdate()
     //{
     //    BuildCheck();
     //}
 
+
     public void Init(int condition_keyAmount)
     {
         this.condition_KeyAmount = condition_keyAmount;
     }
-  
+
+    void GetKey(GameObject gameObject)
+    {
+        Destroy(gameObject);
+        Current_KeyAmount = 1;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Key"))
+        {
+            GetKey(collision.gameObject);
+            Debug.Log(current_KeyAmount);
+        }
+    }
+
 }

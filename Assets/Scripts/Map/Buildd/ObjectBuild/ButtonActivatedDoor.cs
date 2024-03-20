@@ -11,7 +11,8 @@ public class ButtonActivatedDoor : BuildBase
 
     [Header("Components")]
     SpriteRenderer spriteRenderer;
-  
+    BoxCollider2D _collider;
+
     public int curLinkBtn;
     public int curActiveBtn;
     public int CurActiveBtn { set { curActiveBtn += value;
@@ -28,19 +29,29 @@ public class ButtonActivatedDoor : BuildBase
                 linkId = _buttonActivatedDoorStruct.linkId;
             } }
     }
+    public bool onOpen;
 
    
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        _collider = GetComponent<BoxCollider2D>();
         orgColor = spriteRenderer.material.color;
     }
     void Activation()
     {
-        spriteRenderer.material.color = Color.green;
+        onOpen = true;
+        Color color = orgColor;
+        color.a = 0;
+        spriteRenderer.color = color;
+        _collider.enabled = false;
     }
     void Deactivated()
     {
-        spriteRenderer.material.color = orgColor;
+        onOpen = false;
+        spriteRenderer.color = orgColor;
+        _collider.enabled = true;
     }
+
+
 }

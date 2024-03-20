@@ -24,7 +24,6 @@ public class ButtonActivated : MonoBehaviour
     [Header("Components")]
     SpriteRenderer spriteRenderer;
 
-    Coroutine coroutine;
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();  
@@ -33,7 +32,6 @@ public class ButtonActivated : MonoBehaviour
 
     private void Start()
     {
-        coroutine = StartCoroutine(Co_ReLinkDoor());
         LinkDoor();
     }
     private void Update()
@@ -78,22 +76,39 @@ public class ButtonActivated : MonoBehaviour
     {
         Vector2 pot = new Vector2(Mathf.Round(transform.position.x*10f)/10f, Mathf.Round(transform.position.y * 10f) / 10f);
 
-        foreach (Transform transform in MapEditor.Instance.interactionObjectTransform)
+        if (linkDoor != null)
         {
-            if (transform.GetComponent<ButtonActivatedDoor>().linkId == linkId)
+            if (linkDoor.buttonActivatedBtnList.Contains(curPosition))
             {
-                linked = true;
-                linkDoor = transform.GetComponent<ButtonActivatedDoor>();
-                if (linkDoor.buttonActivatedBtnList.Contains(curPosition))
+                linkDoor.buttonActivatedBtnList.Remove(curPosition);
+                linkDoor.curLinkBtn--;
+            }
+            linkDoor.curLinkBtn++;
+            linkDoor.buttonActivatedBtnList.Add(pot);
+            curPosition = pot;
+        }
+        else
+        {
+            foreach (Transform transform in MapEditor.Instance.interactionObjectTransform)
+            {
+                if (transform.GetComponent<ButtonActivatedDoor>().linkId == linkId)
                 {
-                    linkDoor.buttonActivatedBtnList.Remove(curPosition);
-                    linkDoor.curLinkBtn--;
+                    linked = true;
+                    linkDoor = transform.GetComponent<ButtonActivatedDoor>();
+                    if (linkDoor.buttonActivatedBtnList.Contains(curPosition))
+                    {
+                        linkDoor.buttonActivatedBtnList.Remove(curPosition);
+                        linkDoor.curLinkBtn--;
+                    }
+                    linkDoor.curLinkBtn++;
+                    linkDoor.buttonActivatedBtnList.Add(pot);
+                    curPosition = pot;
                 }
-                linkDoor.curLinkBtn++;
-                linkDoor.buttonActivatedBtnList.Add(pot);
-                curPosition = pot;
             }
         }
+
+
+       
     }
 
   IEnumerator Co_ReLinkDoor()
