@@ -9,6 +9,7 @@ using System.Net;
 using Unity.VisualScripting;
 using Newtonsoft.Json;
 using System.Runtime.ConstrainedExecution;
+using UnityEditor.UI;
 
 public enum MapEditorType
 {
@@ -67,7 +68,7 @@ public class MapEditor : MonoBehaviour
     [HideInInspector] public Transform objectTransform;
     [HideInInspector] public Transform exitDoorObjectTransform;
     [HideInInspector] public Transform interactionObjectTransform;
-    [HideInInspector] public Transform dontSaveObject;
+    [HideInInspector] public Transform dontSaveObjectTransform;
 
 
     [Header("Create")]
@@ -97,8 +98,8 @@ public class MapEditor : MonoBehaviour
 
     [Header("Save Data")]
 
-    public int width;
-    public int height;
+    [HideInInspector] public int width;
+    [HideInInspector] public int height;
     public string mapID;
     //public Vector2 playerSpawnPosition;
     //public Vector2 playerExitPosition;
@@ -128,7 +129,7 @@ public class MapEditor : MonoBehaviour
         objectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ObjectTransform");
         exitDoorObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ExitDoorObjectTransform");
         interactionObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "InteractionObjectTransform");
-        dontSaveObject = Util.CreateChildTransform(mapObjBoxTransform, "DontSaveObject");
+        dontSaveObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "DontSaveObjectTransform");
     }
 
   
@@ -336,21 +337,17 @@ public class MapEditor : MonoBehaviour
         curMap = Managers.Data.mapData.mapDictionary[name];
         SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);
 
+        //start Point
         startPosition = curMap.startPosition;
+        GameObject startPoint = Object.Instantiate(Resources.Load<GameObject>(Managers.Data.mapData.mapObjectDataDictionary[302].path));
+        startPoint.transform.position = curMap.startPosition;
+        startPoint.transform.SetParent(dontSaveObjectTransform);
+        //start Point
 
         CreateObj(floorTransform);
         CreateObj(objectTransform);
         CreateObj(interactionObjectTransform);
-        //foreach (Transform obj in floorTransform)
-        //{
-        //    ObjectData tileData = obj.GetComponent<BuildObj>().objectData;
-
-        //    int x = (int)tileData.position.x / (int)cellSize;
-        //    int y = (int)tileData.position.y / (int)cellSize;
-        //    tileObjectArray[x, y] = obj.gameObject;
-
-        //}
-
+        CreateObj(exitDoorObjectTransform);
     }
 
 
@@ -407,11 +404,6 @@ public class MapEditor : MonoBehaviour
             GameObject right = Instantiate(mapOutLineSO.right, new Vector2(width, i) * cellSize, Quaternion.identity, outLineTransform);
         }
     }
-
-
-
-
-
     public void CreateObj(Transform transform)
     {
         switch (transform.name)
@@ -421,7 +413,7 @@ public class MapEditor : MonoBehaviour
                 {
                     MapDataStruct mapDataStruct = Managers.Data.mapData.mapTileDataDictionary[data.id];
                     Debug.Log(data.position);
-                    placeMentSystem.floorTileMap.SetTile(data.position, Resources.Load<Tile>(mapDataStruct.path));
+                    placeMentSystem.floorTileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
                     placeMentSystem.tileDic[data.position] = data.id;
                 }
                 break;
@@ -434,6 +426,13 @@ public class MapEditor : MonoBehaviour
                 break;
             case "InteractionObjectTransform":
                 foreach (ButtonActivatedDoorStruct data in curMap.mapButtonActivatedDoorDataList)
+                {
+                    MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
+                    Create(transform, mapDataStruct, data);
+                }
+                break;
+            case "ExitDoorObjectTransform":
+                foreach (ExitObjStruct data in curMap.mapExitObjectDataList)
                 {
                     MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
                     Create(transform, mapDataStruct, data);
@@ -462,12 +461,20 @@ public class MapEditor : MonoBehaviour
         {
             GameObject btnActivated = Object.Instantiate(Resources.Load<GameObject>(btn.path));
             btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, door);
-            btnActivated.transform.SetParent(dontSaveObject);
+            btnActivated.transform.SetParent(dontSaveObjectTransform);
 
         }
     }
 
+    void Create(Transform transform, MapDataStruct mapDataStruct, ExitObjStruct data)
+    {
+        GameObject obj = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
+        obj.transform.position = data.position;
+        obj.transform.SetParent(transform);
+        ExitPointObj door = obj.GetComponent<ExitPointObj>();
+        door.SetData(data, dontSaveObjectTransform);
 
+    }
 
 
 

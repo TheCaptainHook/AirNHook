@@ -98,9 +98,10 @@ public class MapEditor_Editor : Editor
         //start Point
         GameObject startPoint = Object.Instantiate(Resources.Load<GameObject>(mapObjectDataDictionary[302].path));
         startPoint.transform.position = map.startPosition;
-        startPoint.transform.SetParent(mapEditor.dontSaveObject);
+        startPoint.transform.SetParent(mapEditor.dontSaveObjectTransform);
         //start Point
 
+        //DrawAllTile(mapEditor);
         CreateObj(mapEditor.floorTransform, map, mapEditor.placeMentSystem, mapEditor);
         CreateObj(mapEditor.objectTransform, map, mapEditor.placeMentSystem, mapEditor);
         CreateObj(mapEditor.interactionObjectTransform, map, mapEditor.placeMentSystem, mapEditor);
@@ -111,12 +112,15 @@ public class MapEditor_Editor : Editor
         switch (transform.name)
         {
             case "FloorTransform":
+
                 foreach (TileData data in map.mapTileDataList)
                 {
                     MapDataStruct mapDataStruct = mapTileDataDictionary[data.id];
                     placeMentSystem.floorTileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
                     placeMentSystem.tileDic[data.position] = data.id;
+
                 }
+
                 break;
             case "ObjectTransform":
                 foreach (ObjectData data in map.mapObjectDataList)
@@ -129,19 +133,20 @@ public class MapEditor_Editor : Editor
                 foreach (ButtonActivatedDoorStruct data in map.mapButtonActivatedDoorDataList)
                 {
                     MapDataStruct mapDataStruct = mapObjectDataDictionary[data.id];
-                    Create(transform, mapDataStruct, data, mapEditor.dontSaveObject);
+                    Create(transform, mapDataStruct, data, mapEditor.dontSaveObjectTransform);
                 }
                 break;
             case "ExitDoorObjectTransform":
                 foreach (ExitObjStruct data in map.mapExitObjectDataList)
                 {
                     MapDataStruct mapDataStruct = mapObjectDataDictionary[data.id];
-                    Create(transform, mapDataStruct, data, mapEditor.dontSaveObject);
+                    Create(transform, mapDataStruct, data, mapEditor.dontSaveObjectTransform);
                 }
                 break;
         }
 
     }
+
     void Create(Transform transform, MapDataStruct mapDataStruct, ObjectData data)
     {
         GameObject obj = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
@@ -266,7 +271,7 @@ public class MapEditor_Editor : Editor
     {
         List<ButtonActivatedDoorStruct> list = new();
 
-        foreach(Transform cur in mapEditor.dontSaveObject)
+        foreach(Transform cur in mapEditor.dontSaveObjectTransform)
         {
             if (cur.GetComponent<ButtonActivated>())
             {
