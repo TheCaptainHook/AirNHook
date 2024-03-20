@@ -36,8 +36,22 @@ public class Player : NetworkBehaviour, IDamageable
     
     private Animator _animator;
     private Collider2D _collider2D;
-    [SerializeField] bool _isDead = false;
+    
+    //사망 체크
+    [SerializeField] private bool _isDead = false;
+    
+    [SerializeField] private Transform _charPivot;
 
+    #region StringCache
+    private static readonly int IsMoving = Animator.StringToHash("IsMoving");
+    private static readonly int IsDead = Animator.StringToHash("IsDead");
+    private static readonly int IsRespawning = Animator.StringToHash("IsRespawning");
+    private static readonly int OnRespawnEnd = Animator.StringToHash("OnRespawnEnd");
+    private static readonly int IsJumping = Animator.StringToHash("IsJumping");
+    private static readonly int IsStayJumping = Animator.StringToHash("IsStayJumping");
+
+    #endregion
+    
     private void Awake()
     {
         _collider2D = GetComponent<Collider2D>();
@@ -68,6 +82,8 @@ public class Player : NetworkBehaviour, IDamageable
         {
             _jumpBufferCount -= Time.deltaTime;
         }
+        
+        MoveAnimation();
     }
 
     private void Start()
@@ -106,6 +122,22 @@ public class Player : NetworkBehaviour, IDamageable
         _horizontal = context.ReadValue<Vector2>().x;
     }
 
+    private void MoveAnimation()
+    {
+        //이동에 따라 애니메이션 제어
+        _animator.SetBool(IsMoving, _horizontal != 0 && IsFloor());
+        _animator.SetBool(IsJumping, _horizontal != 0 && _isJumping || _horizontal != 0 && !IsFloor());
+        _animator.SetBool(IsStayJumping, _horizontal == 0 && _isJumping || _horizontal == 0 && !IsFloor());
+        // CharPivot 오브젝트의 로테이션을 사용하여 플립
+        if (_horizontal < 0)
+        {
+            _charPivot.rotation = Quaternion.Euler(0f, 180f, 0f); // 왼쪽으로 이동할 때 캐릭터를 뒤집음
+        }
+        else if (_horizontal > 0)
+        {
+            _charPivot.rotation = Quaternion.Euler(0f, 0f, 0f); // 오른쪽으로 이동할 때 캐릭터를 되돌림
+        }
+    }
 
     public void JumpStarted(InputAction.CallbackContext context)
     {
@@ -179,7 +211,7 @@ public class Player : NetworkBehaviour, IDamageable
         {
             Debug.Log("사망하였습니다.");
             // 여기에 필요한 사망 처리
-            _animator.SetTrigger("IsDead");
+            _animator.SetTrigger(IsDead);
             _isDead = true;
             _rigidbd.constraints = FreezeAll;
             _collider2D.enabled = false;
@@ -191,13 +223,13 @@ public class Player : NetworkBehaviour, IDamageable
         Debug.Log("리스포닝");
         
         transform.position = Managers.Network.startPos[0].position;
-        _animator.SetTrigger("IsRespawning");
+        _animator.SetTrigger(IsRespawning);
     }
 
     private void RespawnEnd()
     {
         Debug.Log("리스폰끝");
-        _animator.SetTrigger("OnRespawnEnd");
+        _animator.SetTrigger(OnRespawnEnd);
         _isDead = false;
         _collider2D.enabled = true;
         _rigidbd.constraints = None;

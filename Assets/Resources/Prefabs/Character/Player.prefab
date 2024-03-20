@@ -123,6 +123,8 @@ MonoBehaviour:
   _floorLayer:
     serializedVersion: 2
     m_Bits: 2147483712
+  _isDead: 0
+  _charPivot: {fileID: 158291813751165047}
 --- !u!114 &9084766552046721414
 MonoBehaviour:
   m_ObjectHideFlags: 0
