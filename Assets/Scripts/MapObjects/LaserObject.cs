@@ -57,11 +57,10 @@ namespace MapObjects
             if (hit.collider != null)
             {
                 // 레이캐스트에 충돌한 객체가 IDamageable을 가진 경우
-                IDamageable damageable = hit.collider.GetComponent<IDamageable>();
-                if (damageable != null)
+                if (hit.collider.TryGetComponent(out IDamageable damageable))
                 {
-                    // 대미지를 입힘
-                    damageable.Die();
+                    // If successful, apply damage
+                    damageable.TakeDamage();
                 }
 
                 // 레이저 그리기

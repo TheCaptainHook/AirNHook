@@ -5,6 +5,7 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
+using static UnityEngine.RigidbodyConstraints2D;
 
 public class Player : NetworkBehaviour, IDamageable
 {
@@ -22,8 +23,6 @@ public class Player : NetworkBehaviour, IDamageable
     //땅 체크
     [SerializeField] private LayerMask _floorLayer;
     public PlayerInput playerInput { get; private set; }
-
-    private Animator _animator;
     
     //플레이어 점프 체크
     private bool _isJumping;
@@ -34,10 +33,14 @@ public class Player : NetworkBehaviour, IDamageable
     private float _horizontal;
     private float _speed = 4f;
     private float _jumpingPower = 10f;
-
+    
+    private Animator _animator;
+    private Collider2D _collider2D;
+    [SerializeField] bool _isDead = false;
 
     private void Awake()
     {
+        _collider2D = GetComponent<Collider2D>();
         _rigidbd = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
     }
@@ -78,16 +81,24 @@ public class Player : NetworkBehaviour, IDamageable
 
     private void FixedUpdate()
     {
-        _rigidbd.velocity = new Vector2(_horizontal * _speed, _rigidbd.velocity.y);
-        IsLeftHead();
-        IsRightHead();
-
-        //점프
-        if (_coyoteTimeCount > 0f && _jumpBufferCount > 0f && _jumpingTime > 0f)
+        if (!_isDead)
         {
-            _rigidbd.velocity = new Vector2(_rigidbd.velocity.x, _jumpingPower);
-            _jumpBufferCount = 0f;
+            _rigidbd.velocity = new Vector2(_horizontal * _speed, _rigidbd.velocity.y);
+            IsLeftHead();
+            IsRightHead();
+            
+            //점프
+            if (_coyoteTimeCount > 0f && _jumpBufferCount > 0f && _jumpingTime > 0f)
+            {
+                _rigidbd.velocity = new Vector2(_rigidbd.velocity.x, _jumpingPower);
+                _jumpBufferCount = 0f;
+            }
         }
+        else
+        {
+            _rigidbd.velocity = Vector2.zero;
+        }
+        
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -95,7 +106,7 @@ public class Player : NetworkBehaviour, IDamageable
         _horizontal = context.ReadValue<Vector2>().x;
     }
 
-    
+
     public void JumpStarted(InputAction.CallbackContext context)
     {
         _jumpingTime = 0.025f;
@@ -162,21 +173,37 @@ public class Player : NetworkBehaviour, IDamageable
     }
     
     // 사망 메서드
-    public void Die()
+    public void TakeDamage()
     {
-        Debug.Log("사망하였습니다.");
-        // 여기에 필요한 사망 처리
-        _animator.SetBool("IsDead", true);
-        Respawn();
+        if (!_isDead)
+        {
+            Debug.Log("사망하였습니다.");
+            // 여기에 필요한 사망 처리
+            _animator.SetTrigger("IsDead");
+            _isDead = true;
+            _rigidbd.constraints = FreezeAll;
+            _collider2D.enabled = false;
+        }
     }
 
-    private void Respawn()
+    private void Respawning()
     {
-        transform.position = Managers.Network.startPos[0].position;
-        _animator.SetBool("IsRespawning", true);
-    }
-    
+        Debug.Log("리스포닝");
         
+        transform.position = Managers.Network.startPos[0].position;
+        _animator.SetTrigger("IsRespawning");
+    }
+
+    private void RespawnEnd()
+    {
+        Debug.Log("리스폰끝");
+        _animator.SetTrigger("OnRespawnEnd");
+        _isDead = false;
+        _collider2D.enabled = true;
+        _rigidbd.constraints = None;
+        _rigidbd.freezeRotation = true;
+    }
+
     [Command]
     public void CmdEmote(string emoteName)
     {
