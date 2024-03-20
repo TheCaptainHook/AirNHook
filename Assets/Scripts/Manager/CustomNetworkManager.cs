@@ -69,7 +69,7 @@ public class CustomNetworkManager : NetworkManager
         if (Managers.Game.CurrentState != GameState.Title)
         {
             //TODO 선택한 stage로 소환하는 코드.
-            Instantiate(Resources.Load<GameObject>("Map/Map"));
+            Instantiate(Resources.Load<GameObject>("Map/Map2"));
         }
     }
 
@@ -109,7 +109,7 @@ public class CustomNetworkManager : NetworkManager
         if (Managers.Game.CurrentState != GameState.Title)
         {
             //TODO 선택한 stage로 소환하는 코드.
-            Instantiate(Resources.Load<GameObject>("Map/Map"));
+            Instantiate(Resources.Load<GameObject>("Map/Map2"));
         }
     }
 

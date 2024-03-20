@@ -69,6 +69,8 @@ public class UI_Option : UI_Base
     
     public override void OnEnable()
     {
+        isNotInMenu = Managers.Game.CurrentState != GameState.Title;
+        
         OpenUI();
         Show();
         _inGameBtnGroups.SetActive(isInGame);

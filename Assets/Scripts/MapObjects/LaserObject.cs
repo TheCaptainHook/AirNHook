@@ -56,13 +56,22 @@ namespace MapObjects
 
             if (hit.collider != null)
             {
+                // 레이캐스트에 충돌한 객체가 IDamageable을 가진 경우
+                IDamageable damageable = hit.collider.GetComponent<IDamageable>();
+                if (damageable != null)
+                {
+                    // 대미지를 입힘
+                    damageable.Die();
+                }
+
+                // 레이저 그리기
                 DrawLaser(hit.point);
                 _endVFX.SetActive(true);
                 _endVFX.transform.position = hit.point;
             }
             else
             {
-                DrawLaser(transform.position + transform.right.normalized * _defDistanceRay);
+                DrawLaser(_firePoint.position + _firePoint.right.normalized * _defDistanceRay);
                 _endVFX.SetActive(false);
             }
         }
@@ -73,12 +82,13 @@ namespace MapObjects
             _lineRenderer.SetPosition(0,_firePoint.position);
             _lineRenderer.SetPosition(1, endPos);
         }
+        
 #if UNITY_EDITOR
 
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawRay(transform.position, transform.right * 50);
+            Gizmos.DrawRay(_firePoint.position, _firePoint.right * 50);
         }
 #endif
     }
