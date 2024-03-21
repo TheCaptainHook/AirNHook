@@ -558,7 +558,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2147483648
   gridPosition: {x: 0, y: 0, z: 0}
-  mousePosition: {x: 26.851852, y: 50.524067, z: -10}
+  mousePosition: {x: 22.398148, y: 33.166664, z: -10}
   mouseIndicator: {fileID: 861795559926579353}
   cellIndicator: {fileID: 0}
   preViewTileMap: {fileID: 3333329902768072473}
@@ -858,6 +858,7 @@ MonoBehaviour:
   condition_KeyAmount: 2
   nextPosition: {fileID: 0}
   nextPot: {x: 999, y: 999}
+  nextMapId: 
 --- !u!1 &1455080127080246050
 GameObject:
   m_ObjectHideFlags: 0
@@ -4536,10 +4537,9 @@ MonoBehaviour:
   objectTransform: {fileID: 1675269500292756539}
   exitDoorObjectTransform: {fileID: 574752198425714039}
   interactionObjectTransform: {fileID: 1983073548967380700}
-  dontSaveObject: {fileID: 6590077118270216762}
+  dontSaveObjectTransform: {fileID: 0}
   startPosition: {x: 15, y: -6}
-  curBuildObj: {fileID: 8107775650680773150, guid: 24d12f58f1a3d46f995882c22181a9a9, type: 3}
-  curTransform: {fileID: 0}
+  startPositionObject: {fileID: 3777768815126311344}
   curMap:
     mapSize: {x: 20, y: 20}
     mapID: DemoMap
@@ -4766,7 +4766,6 @@ MonoBehaviour:
       condition_KeyAmount: 2
       nextPosition: {x: 999, y: 999}
     cellSize: 2
-  mapOutLineSO: {fileID: 11400000, guid: 517e253da5ba44fe7abe55783a87fad9, type: 2}
   width: 20
   height: 20
   mapID: DemoMap

@@ -49,8 +49,6 @@ public class MapEditor : MonoBehaviour
     //test
 
 
-    
-
     [Header("Map Info")]
     [HideInInspector] public MapEditorType mapEditorType;
     public MapEditorState mapEditorState;
@@ -61,9 +59,8 @@ public class MapEditor : MonoBehaviour
     //[SerializeField] GameObject buildSelectUI;
 
     [Header("Init")]
-    [HideInInspector] public Transform mapObjBoxTransform;
+    public Transform mapObjBoxTransform;
     [HideInInspector] public Transform gridPlateTransform;
-    private Transform outLineTransform;
     [HideInInspector] public Transform floorTransform;
     [HideInInspector] public Transform objectTransform;
     [HideInInspector] public Transform exitDoorObjectTransform;
@@ -82,20 +79,20 @@ public class MapEditor : MonoBehaviour
     //todo
 
     public Vector2 startPosition;
+    public GameObject startPositionObject;
 
     //todo
     [Header("Current")]
-    public GameObject curBuildObj;
-    public GameObject CurBuildObj { get { return curBuildObj; } set { curBuildObj = value; placeMentSystem.MouseIndicator = value; } }
-    public Transform curTransform;
+    //public GameObject curBuildObj;
+    //public GameObject CurBuildObj { get { return curBuildObj; } set { curBuildObj = value; placeMentSystem.MouseIndicator = value; } }
+    //public Transform curTransform;
+
     [Space(10)]
     [Header("----------------------------------------------------")]
     public Map curMap;
     [Header("----------------------------------------------------")]
     [Space(10)]
-    [Header("OutLine")]
-    [SerializeField] MapOutLineSO mapOutLineSO;
-
+ 
     [Header("Save Data")]
 
     [HideInInspector] public int width;
@@ -136,69 +133,69 @@ public class MapEditor : MonoBehaviour
     #region Interaciton
 
 
-    public void Create()
-    {
-        if(mapEditorState == MapEditorState.Tile)
-        {
-            CreateTile();
-        }
-        //else if(MapEditorState == MapEditorState.Object)
-        //{
+    //public void Create()
+    //{
+    //    if(mapEditorState == MapEditorState.Tile)
+    //    {
+    //        CreateTile();
+    //    }
+    //    //else if(MapEditorState == MapEditorState.Object)
+    //    //{
 
-        //}
-    }
+    //    //}
+    //}
 
-    public void Remove()
-    {
-        if (mapEditorState == MapEditorState.Tile)
-        {
-            RemoveTile();
-        }
-        else if (mapEditorState == MapEditorState.Object)
-        {
+    //public void Remove()
+    //{
+    //    if (mapEditorState == MapEditorState.Tile)
+    //    {
+    //        RemoveTile();
+    //    }
+    //    else if (mapEditorState == MapEditorState.Object)
+    //    {
 
-        }
-    }
+    //    }
+    //}
 
-    public void CreateTile()
-    {
-        if(grid != null)
-        {
-            Vector2Int pot = grid.GetXY(Util.GetMouseWorldPosition(Input.mousePosition, Camera.main));
+    //public void CreateTile()
+    //{
+    //    if(grid != null)
+    //    {
+    //        Vector2Int pot = grid.GetXY(Util.GetMouseWorldPosition(Input.mousePosition, Camera.main));
 
-            if (pot.x >= 0 && pot.x < width && pot.y >= 0 && pot.y < height)
-            {
-                if (tileObjectArray[pot.x, pot.y] != null)
-                {
-                    Destroy(tileObjectArray[pot.x, pot.y]);
-                }
+    //        if (pot.x >= 0 && pot.x < width && pot.y >= 0 && pot.y < height)
+    //        {
+    //            if (tileObjectArray[pot.x, pot.y] != null)
+    //            {
+    //                Destroy(tileObjectArray[pot.x, pot.y]);
+    //            }
 
-                GameObject obj = Instantiate(curBuildObj, (Vector2)pot * (int)cellSize, Quaternion.identity);
-                obj.transform.SetParent(floorTransform);
-                obj.GetComponent<BuildObj>().SetTileData((Vector2)pot * (int)cellSize);
-                tileObjectArray[pot.x, pot.y] = obj;
+    //            GameObject obj = Instantiate(curBuildObj, (Vector2)pot * (int)cellSize, Quaternion.identity);
+    //            obj.transform.SetParent(floorTransform);
+    //            obj.GetComponent<BuildObj>().SetTileData((Vector2)pot * (int)cellSize);
+    //            tileObjectArray[pot.x, pot.y] = obj;
 
-            }
-        }
+    //        }
+    //    }
 
        
-    }
-    public void RemoveTile()
-    {
-        Vector2Int pot = grid.GetXY(Util.GetMouseWorldPosition(Input.mousePosition, Camera.main));
+    //}
+    //public void RemoveTile()
+    //{
+    //    Vector2Int pot = grid.GetXY(Util.GetMouseWorldPosition(Input.mousePosition, Camera.main));
 
-        if (pot.x >= 0 && pot.x < width && pot.y >= 0 && pot.y < height)
-        {
-            if (tileObjectArray[pot.x, pot.y] != null)
-            {
-                GameObject obj = tileObjectArray[pot.x, pot.y];
-                Destroy(obj);
-                tileObjectArray[pot.x, pot.y] = null;
+    //    if (pot.x >= 0 && pot.x < width && pot.y >= 0 && pot.y < height)
+    //    {
+    //        if (tileObjectArray[pot.x, pot.y] != null)
+    //        {
+    //            GameObject obj = tileObjectArray[pot.x, pot.y];
+    //            Destroy(obj);
+    //            tileObjectArray[pot.x, pot.y] = null;
               
                 
-            }
-        }
-    }
+    //        }
+    //    }
+    //}
     #endregion
 
     //todo
@@ -378,32 +375,32 @@ public class MapEditor : MonoBehaviour
         mapTileDataList.Clear();
     }
 
-    void GenerateMapOutLine()
-    {
-        outLineTransform = Util.CreateChildTransform(mapObjBoxTransform, "OutLineTransform");
-        int width = this.width - 1;
-        int height = this.height - 1;
-        //범위 밖 오브젝트, 타일 삭제
-        DestroyAll(objectTransform, width, height);
-        DestroyAll(floorTransform, width, height);
-        GenerateGridPlate();
+    //void GenerateMapOutLine()
+    //{
+    //    outLineTransform = Util.CreateChildTransform(mapObjBoxTransform, "OutLineTransform");
+    //    int width = this.width - 1;
+    //    int height = this.height - 1;
+    //    //범위 밖 오브젝트, 타일 삭제
+    //    DestroyAll(objectTransform, width, height);
+    //    DestroyAll(floorTransform, width, height);
+    //    GenerateGridPlate();
 
-        GameObject curveBL = Instantiate(mapOutLineSO.curveBL, new Vector2(0, 0), Quaternion.identity, outLineTransform);
-        GameObject curveBR = Instantiate(mapOutLineSO.curveBR, new Vector2(width, 0) * cellSize, Quaternion.identity, outLineTransform);
-        GameObject curveTL = Instantiate(mapOutLineSO.curveTL, new Vector2(0, height) * cellSize, Quaternion.identity, outLineTransform);
-        GameObject curveTR = Instantiate(mapOutLineSO.curveTR, new Vector2(width, height) * cellSize, Quaternion.identity, outLineTransform);
+    //    GameObject curveBL = Instantiate(mapOutLineSO.curveBL, new Vector2(0, 0), Quaternion.identity, outLineTransform);
+    //    GameObject curveBR = Instantiate(mapOutLineSO.curveBR, new Vector2(width, 0) * cellSize, Quaternion.identity, outLineTransform);
+    //    GameObject curveTL = Instantiate(mapOutLineSO.curveTL, new Vector2(0, height) * cellSize, Quaternion.identity, outLineTransform);
+    //    GameObject curveTR = Instantiate(mapOutLineSO.curveTR, new Vector2(width, height) * cellSize, Quaternion.identity, outLineTransform);
 
-        for (int i = 1; i < width; i++)
-        {
-            GameObject bottom = Instantiate(mapOutLineSO.bottom, new Vector2(i, 0)*cellSize, Quaternion.identity, outLineTransform);
-            GameObject top = Instantiate(mapOutLineSO.top, new Vector2(i, height) * cellSize, Quaternion.identity, outLineTransform);
-        }
-        for (int i = 1; i < height; i++)
-        {
-            GameObject left = Instantiate(mapOutLineSO.left, new Vector2(0, i) * cellSize, Quaternion.identity, outLineTransform);
-            GameObject right = Instantiate(mapOutLineSO.right, new Vector2(width, i) * cellSize, Quaternion.identity, outLineTransform);
-        }
-    }
+    //    for (int i = 1; i < width; i++)
+    //    {
+    //        GameObject bottom = Instantiate(mapOutLineSO.bottom, new Vector2(i, 0)*cellSize, Quaternion.identity, outLineTransform);
+    //        GameObject top = Instantiate(mapOutLineSO.top, new Vector2(i, height) * cellSize, Quaternion.identity, outLineTransform);
+    //    }
+    //    for (int i = 1; i < height; i++)
+    //    {
+    //        GameObject left = Instantiate(mapOutLineSO.left, new Vector2(0, i) * cellSize, Quaternion.identity, outLineTransform);
+    //        GameObject right = Instantiate(mapOutLineSO.right, new Vector2(width, i) * cellSize, Quaternion.identity, outLineTransform);
+    //    }
+    //}
     public void CreateObj(Transform transform)
     {
         switch (transform.name)

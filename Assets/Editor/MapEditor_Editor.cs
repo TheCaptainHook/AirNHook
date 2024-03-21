@@ -69,6 +69,8 @@ public class MapEditor_Editor : Editor
 
     void UGS_MapDataLoad()
     {
+        mapTileDataDictionary.Clear();
+        mapObjectDataDictionary.Clear();
         //Tile Data
         UnityGoogleSheet.Load<MapObjectData.TileData>();
         foreach (var value in MapObjectData.TileData.TileDataList)
@@ -88,7 +90,10 @@ public class MapEditor_Editor : Editor
     void LoadMap(MapEditor mapEditor)
     {
         mapEditor.Init();
-        UGS_MapDataLoad();
+        if(mapObjectDataDictionary == null)
+        {
+            UGS_MapDataLoad();
+        }
         TextAsset textAsset = Resources.Load<TextAsset>($"MapDat/{mapEditor.mapID}");
         Map map = JsonUtility.FromJson<Map>(textAsset.text);
         mapEditor.curMap = map;
@@ -96,7 +101,8 @@ public class MapEditor_Editor : Editor
         mapEditor.SetMapSize((int)map.mapSize.x, (int)map.mapSize.y);
 
         //start Point
-        GameObject startPoint = Object.Instantiate(Resources.Load<GameObject>(mapObjectDataDictionary[302].path));
+        GameObject startPoint = Instantiate(Resources.Load<GameObject>(mapObjectDataDictionary[302].path));
+        mapEditor.startPositionObject = startPoint;
         startPoint.transform.position = map.startPosition;
         startPoint.transform.SetParent(mapEditor.dontSaveObjectTransform);
         //start Point
@@ -153,6 +159,7 @@ public class MapEditor_Editor : Editor
         obj.GetComponent<BuildObj>().ObjectData = data;
         obj.transform.position = data.position;
         obj.transform.rotation = data.quaternion;
+        obj.transform.localScale = data.scale;
         obj.transform.SetParent(transform);
     }
     void Create(Transform transform, MapDataStruct mapDataStruct, ButtonActivatedDoorStruct data,Transform dontSaveObject)

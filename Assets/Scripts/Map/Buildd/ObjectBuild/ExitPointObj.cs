@@ -19,6 +19,11 @@ public class ExitPointObj : BuildBase
     public GameObject nextPosition;
     public Vector2 nextPot;
 
+
+    //todo 0320
+    public string nextMapId;
+    //todo
+
     event Action OnCheckKey;
     bool isClear;
 

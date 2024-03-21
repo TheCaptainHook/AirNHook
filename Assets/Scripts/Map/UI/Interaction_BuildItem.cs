@@ -22,10 +22,7 @@ public class Interaction_BuildItem : MonoBehaviour
 
     void ChoiceItem()
     {
-        if(tileType == TileType.Object)
-        {
-            MapEditor.Instance.CurBuildObj = buildObj;
-        }else if(tileType == TileType.Floor)
+        if(tileType == TileType.Floor)
         {
             MapEditor.Instance.placeMentSystem.tileBase = tilebase;
         }
