@@ -63,8 +63,6 @@ public class Air : MonoBehaviour
         {
             ObjectCheck();
         }
-
-        
     }
     //에어 액션 시작
     private void PlayerActionPerformed(InputAction.CallbackContext context)
@@ -143,7 +141,11 @@ public class Air : MonoBehaviour
             // 범위안에 인식가능한 물체가 있으면
             if (angle < 40)
             {
-                
+                Debug.Log(_closestTarget.name);
+            }
+            else
+            {
+                Debug.Log("Nop!");
             }
         }
     }
