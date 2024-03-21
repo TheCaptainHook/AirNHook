@@ -50,7 +50,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2147483648
   gridPosition: {x: 0, y: 0, z: 0}
-  mousePosition: {x: 38.02222, y: 78.20925, z: -10}
+  mousePosition: {x: 21.844444, y: 32.829628, z: -10}
   mouseIndicator: {fileID: 2752690813628731933}
   cellIndicator: {fileID: 0}
   preViewTileMap: {fileID: 4425430128575231454}
@@ -812,12 +812,9 @@ MonoBehaviour:
   objectTransform: {fileID: 0}
   exitDoorObjectTransform: {fileID: 0}
   interactionObjectTransform: {fileID: 0}
-  dontSaveObject: {fileID: 0}
-  spawnPoint: {fileID: 0}
-  exitPoint: {fileID: 0}
+  dontSaveObjectTransform: {fileID: 0}
   startPosition: {x: 0, y: -6}
-  curBuildObj: {fileID: 8107775650680773150, guid: 24d12f58f1a3d46f995882c22181a9a9, type: 3}
-  curTransform: {fileID: 0}
+  startPositionObject: {fileID: 0}
   curMap:
     mapSize: {x: 0, y: 0}
     mapID: 
@@ -827,12 +824,9 @@ MonoBehaviour:
     mapButtonActivatedDoorDataList: []
     mapExitObjectDataList: []
     cellSize: 0
-  mapOutLineSO: {fileID: 11400000, guid: 517e253da5ba44fe7abe55783a87fad9, type: 2}
   width: 20
   height: 20
-  mapID: Test2
-  playerSpawnPosition: {x: -6, y: -11}
-  playerExitPosition: {x: 16, y: -10}
+  mapID: DemoMap
   condition_KeyAmount: 0
   mapTileDataList:
   - id: 10
@@ -971,12 +965,15 @@ MonoBehaviour:
   - id: 302
     position: {x: 3.119995, y: 1.6500244}
     quaternion: {x: -0, y: -0, z: -0, w: 1}
+    scale: {x: 0, y: 0, z: 0}
   - id: 302
     position: {x: 0, y: -6}
     quaternion: {x: -0, y: -0, z: -0, w: 1}
+    scale: {x: 0, y: 0, z: 0}
   - id: 302
     position: {x: -9.72998, y: -5.9799805}
     quaternion: {x: -0, y: -0, z: -0, w: 1}
+    scale: {x: 0, y: 0, z: 0}
 --- !u!1 &2050860732097960881
 GameObject:
   m_ObjectHideFlags: 0

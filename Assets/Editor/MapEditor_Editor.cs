@@ -75,13 +75,21 @@ public class MapEditor_Editor : Editor
         UnityGoogleSheet.Load<MapObjectData.TileData>();
         foreach (var value in MapObjectData.TileData.TileDataList)
         {
-            mapTileDataDictionary.Add(value.id, new MapDataStruct(value.type, value.path));
+            if (!mapTileDataDictionary.ContainsKey(value.id))
+            {
+                mapTileDataDictionary.Add(value.id, new MapDataStruct(value.type, value.path));
+            }
+            
         }
         //Object Data
         UnityGoogleSheet.Load<MapObjectData.ObjectData>();
         foreach (var value in MapObjectData.ObjectData.ObjectDataList)
         {
-            mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.type, value.path));
+            if (!mapObjectDataDictionary.ContainsKey(value.id))
+            {
+                mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.type, value.path));
+            }
+            
         }
     }
 
@@ -90,28 +98,34 @@ public class MapEditor_Editor : Editor
     void LoadMap(MapEditor mapEditor)
     {
         mapEditor.Init();
-        if(mapObjectDataDictionary == null)
-        {
             UGS_MapDataLoad();
-        }
         TextAsset textAsset = Resources.Load<TextAsset>($"MapDat/{mapEditor.mapID}");
-        Map map = JsonUtility.FromJson<Map>(textAsset.text);
-        mapEditor.curMap = map;
+        if(textAsset != null)
+        {
+            Map map = JsonUtility.FromJson<Map>(textAsset.text);
+            mapEditor.curMap = map;
 
-        mapEditor.SetMapSize((int)map.mapSize.x, (int)map.mapSize.y);
+            mapEditor.SetMapSize((int)map.mapSize.x, (int)map.mapSize.y);
 
-        //start Point
-        GameObject startPoint = Instantiate(Resources.Load<GameObject>(mapObjectDataDictionary[302].path));
-        mapEditor.startPositionObject = startPoint;
-        startPoint.transform.position = map.startPosition;
-        startPoint.transform.SetParent(mapEditor.dontSaveObjectTransform);
-        //start Point
+            //start Point
+            GameObject startPoint = Instantiate(Resources.Load<GameObject>(mapObjectDataDictionary[302].path));
+            mapEditor.startPositionObject = startPoint;
+            startPoint.transform.position = map.startPosition;
+            startPoint.transform.SetParent(mapEditor.dontSaveObjectTransform);
+            //start Point
 
-        //DrawAllTile(mapEditor);
-        CreateObj(mapEditor.floorTransform, map, mapEditor.placeMentSystem, mapEditor);
-        CreateObj(mapEditor.objectTransform, map, mapEditor.placeMentSystem, mapEditor);
-        CreateObj(mapEditor.interactionObjectTransform, map, mapEditor.placeMentSystem, mapEditor);
-        CreateObj(mapEditor.exitDoorObjectTransform, map, mapEditor.placeMentSystem, mapEditor);
+            //DrawAllTile(mapEditor);
+            CreateObj(mapEditor.floorTransform, map, mapEditor.placeMentSystem, mapEditor);
+            CreateObj(mapEditor.objectTransform, map, mapEditor.placeMentSystem, mapEditor);
+            CreateObj(mapEditor.interactionObjectTransform, map, mapEditor.placeMentSystem, mapEditor);
+            CreateObj(mapEditor.exitDoorObjectTransform, map, mapEditor.placeMentSystem, mapEditor);
+        }
+        else
+        {
+            Debug.Log("Map not found");
+        }
+
+       
     }
     public void CreateObj(Transform transform,Map map,PlaceMentSystem placeMentSystem,MapEditor mapEditor)
     {
