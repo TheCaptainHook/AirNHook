@@ -438,7 +438,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 4
+  m_GravityScale: 3
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -590,9 +590,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _coyoteTime: 0.2
   _jumpingPower: 10
-  _floorCheck: {fileID: 0}
+  _floorCheck: {fileID: 7133289300940605006}
   _floorLayer:
     serializedVersion: 2
-    m_Bits: 0
-  _rigidbd: {fileID: 0}
+    m_Bits: 2147483712
+  _rigidbd: {fileID: 7937378101532342856}
   _moveSpeed: 2
