@@ -16,10 +16,6 @@ public class ExitPointObj : BuildBase
         set { current_KeyAmount++;
             if (current_KeyAmount >= condition_KeyAmount) MoveNextStage(); } }
 
-    public GameObject nextPosition;
-    public Vector2 nextPot;
-
-
     //todo 0320
     public string nextMapId;
     //todo
@@ -34,26 +30,15 @@ public class ExitPointObj : BuildBase
 
     public ExitObjStruct GetExitObjectStruct()
     {
-        Vector2 pot;
-        if (nextPosition == null) pot = new Vector2(999, 999);
-        else pot = nextPosition.transform.position;
-
-        return new ExitObjStruct(id,transform.position, condition_KeyAmount, pot);
+        return new ExitObjStruct(id,transform.position, condition_KeyAmount, nextMapId);
     }
     
     
-    public void SetData(ExitObjStruct data,Transform transform)
+    public void SetData(ExitObjStruct data)
     {
         condition_KeyAmount = data.condition_KeyAmount;
-        nextPot = data.nextPosition;
-        if(nextPot != new Vector2(999, 999))
-        {
-            GameObject spawnDoor = Instantiate(Resources.Load<GameObject>("Prefabs/Map/Object/SpawnPoint"));
-            spawnDoor.transform.position = data.nextPosition;
-            spawnDoor.transform.SetParent(transform);
-            nextPosition = spawnDoor;
-        }
-       
+        nextMapId = data.nextMapId;
+   
     }
 
     public void Init(int condition_keyAmount)
@@ -81,14 +66,16 @@ public class ExitPointObj : BuildBase
 
     public void MoveNextStage()
     {
-        if(nextPot == new Vector2(999f, 999f))
+        if (string.IsNullOrEmpty(nextMapId))
         {
-            Debug.Log("Stage All Clear");
+            Debug.Log("Stage Clear");
         }
         else
         {
-            Debug.Log("Next Stage");
+            MapEditor.Instance.LoadMap(nextMapId);
+
         }
+        
 
     }
 }

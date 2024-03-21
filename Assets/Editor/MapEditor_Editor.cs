@@ -160,7 +160,7 @@ public class MapEditor_Editor : Editor
                 foreach (ExitObjStruct data in map.mapExitObjectDataList)
                 {
                     MapDataStruct mapDataStruct = mapObjectDataDictionary[data.id];
-                    Create(transform, mapDataStruct, data, mapEditor.dontSaveObjectTransform);
+                    Create(transform, mapDataStruct, data);
                 }
                 break;
         }
@@ -191,13 +191,13 @@ public class MapEditor_Editor : Editor
 
         }
     }
-    void Create(Transform transform,MapDataStruct mapDataStruct,ExitObjStruct data,Transform transform1)
+    void Create(Transform transform,MapDataStruct mapDataStruct,ExitObjStruct data)
     {
         GameObject obj = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
         obj.transform.position = data.position;
         obj.transform.SetParent(transform);
         ExitPointObj door = obj.GetComponent<ExitPointObj>();
-        door.SetData(data, transform1);
+        door.SetData(data);
 
     }
     #endregion

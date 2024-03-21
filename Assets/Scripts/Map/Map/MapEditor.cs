@@ -329,6 +329,7 @@ public class MapEditor : MonoBehaviour
             return;
         }
         Init();
+        placeMentSystem.ResetTileMap();
         mapEditorType = MapEditorType.Load;
         mapID = name;
         curMap = Managers.Data.mapData.mapDictionary[name];
@@ -469,7 +470,7 @@ public class MapEditor : MonoBehaviour
         obj.transform.position = data.position;
         obj.transform.SetParent(transform);
         ExitPointObj door = obj.GetComponent<ExitPointObj>();
-        door.SetData(data, dontSaveObjectTransform);
+        door.SetData(data);
 
     }
 

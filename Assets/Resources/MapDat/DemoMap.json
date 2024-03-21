@@ -5,8 +5,8 @@
     },
     "mapID": "DemoMap",
     "startPosition": {
-        "x": 0.0,
-        "y": 0.0
+        "x": 15.0,
+        "y": -6.0
     },
     "mapTileDataList": [
         {
@@ -837,7 +837,7 @@
             "id": 300,
             "position": {
                 "x": -2.3699951171875,
-                "y": -2.59002685546875
+                "y": -0.29998779296875
             },
             "quaternion": {
                 "x": 0.0,
@@ -949,12 +949,8 @@
                 "x": -3.010009765625,
                 "y": 1.97998046875
             },
-            "path": "/Prefabs/Map/Object/ExitPoint",
             "condition_KeyAmount": 2,
-            "nextPosition": {
-                "x": 999.0,
-                "y": 999.0
-            }
+            "nextMapId": "Test"
         }
     ],
     "cellSize": 2.0

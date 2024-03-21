@@ -74,17 +74,15 @@ public struct ExitObjStruct
 {
     public int id;
     public Vector2 position;
-    public string path;
     public int condition_KeyAmount;
-    public Vector2 nextPosition;
+    public string nextMapId;
 
-    public ExitObjStruct(int id,Vector2 position,int condition_KeyAmount,Vector2 nextPosition)
+    public ExitObjStruct(int id,Vector2 position,int condition_KeyAmount,string nextMapId)
     {
         this.id = id;
         this.position = position;
         this.condition_KeyAmount = condition_KeyAmount;
-        path = "/Prefabs/Map/Object/ExitPoint";
-        this.nextPosition = nextPosition;
+        this.nextMapId = nextMapId;
     }
 
 }
