@@ -22,6 +22,9 @@ public class Air : MonoBehaviour
     //마우스 클릭체크
     private bool _isClick;
 
+    //타겟감지후 끌고오기
+    private bool _isSlerp;
+
 
     //감지거리
     [SerializeField] public float detectionDistance = 3f;
@@ -62,6 +65,7 @@ public class Air : MonoBehaviour
         if (_isClick)
         {
             ObjectCheck();
+            SlerpTarget();
         }
     }
     //에어 액션 시작
@@ -103,9 +107,10 @@ public class Air : MonoBehaviour
     {
         var collisions = Physics2D.OverlapCircleAll(_weaponPoint.position, detectionDistance, _collisionLayerMask);
 
+        //타겟 초기화
         if(collisions.Length == 0)
         {
-            Debug.Log("없다");
+            _latestTarget = null;
         }
 
         //현재 범위안에 object or Hook레이어를 가진 물체가있으면 거리를 비교하고 가까운녀석만 가져옴
@@ -133,7 +138,7 @@ public class Air : MonoBehaviour
             _shortestDistance = float.MaxValue;
 
             // 오브젝트벡터 - 총구위치벡터
-            Vector2 objectVector = (_closestTarget.transform.position - _weaponPoint.position).normalized;
+            Vector2 objectVector = (_latestTarget.transform.position - _weaponPoint.position).normalized;
             Vector2 weaponVector = _weaponPoint.transform.right;
 
             // 인식되도록하는 각도
@@ -141,12 +146,27 @@ public class Air : MonoBehaviour
             // 범위안에 인식가능한 물체가 있으면
             if (angle < 40)
             {
-                Debug.Log(_closestTarget.name);
+                _isSlerp = true;
             }
             else
             {
                 Debug.Log("Nop!");
             }
+        }
+    }
+
+    private void SlerpTarget()
+    {
+        if (_latestTarget == null)
+        {
+            Debug.Log("_latestTarget Is Null");
+        }
+        else
+        {
+            Vector2 target = new Vector2(_latestTarget.transform.position.x, _latestTarget.transform.position.y);
+            Debug.Log(target);
+            Debug.Log(_latestTarget.name);
+            _latestTarget.transform.position = Vector3.Slerp(target, _weaponPoint.position, 0.05f);
         }
     }
 
