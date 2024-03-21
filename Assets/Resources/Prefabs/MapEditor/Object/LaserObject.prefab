@@ -4882,7 +4882,7 @@ MonoBehaviour:
   _endVFX: {fileID: 5345449485699939287}
   _layerMask:
     serializedVersion: 2
-    m_Bits: 2147484791
+    m_Bits: 2684355703
   _isEnabled: 1
 --- !u!114 &7330084582741803214
 MonoBehaviour:
@@ -4897,6 +4897,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 304
+  distructionStatus: 0
 --- !u!1 &4013349505788404819
 GameObject:
   m_ObjectHideFlags: 0

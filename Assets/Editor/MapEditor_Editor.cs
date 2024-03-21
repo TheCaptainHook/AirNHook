@@ -103,7 +103,7 @@ public class MapEditor_Editor : Editor
         if(textAsset != null)
         {
             Map map = JsonUtility.FromJson<Map>(textAsset.text);
-            mapEditor.curMap = map;
+            mapEditor.CurMap = map;
 
             mapEditor.SetMapSize((int)map.mapSize.x, (int)map.mapSize.y);
 

@@ -14,10 +14,16 @@ public class ExitPointObj : BuildBase
     public int Current_KeyAmount {
         get { return current_KeyAmount; }
         set { current_KeyAmount++;
-            if (current_KeyAmount >= condition_KeyAmount) MoveNextStage(); } }
+            if (current_KeyAmount >= condition_KeyAmount)
+            {
+                stageClear = true;
+                MapEditor.Instance.stageClear = true;
+            }
+            } }
 
     //todo 0320
     public string nextMapId;
+    public int curPlayerInDoor;
     //todo
 
     event Action OnCheckKey;
@@ -61,6 +67,22 @@ public class ExitPointObj : BuildBase
         {
             GetKey(collision.gameObject);
             Debug.Log(current_KeyAmount);
+        }
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && stageClear)
+        {
+            curPlayerInDoor++;
+            if(curPlayerInDoor >= 2)
+            {
+                MoveNextStage();
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.gameObject.layer== LayerMask.NameToLayer("Player") && stageClear)
+        {
+            curPlayerInDoor--;
         }
     }
 

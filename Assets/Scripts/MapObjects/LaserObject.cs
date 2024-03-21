@@ -25,6 +25,12 @@ namespace MapObjects
         {
             Toggle();
             UpdateLaser();
+
+            if (MapEditor.Instance.stageClear)
+            {
+                _isEnabled = false;
+            }
+            
         }
 
         private void Toggle()

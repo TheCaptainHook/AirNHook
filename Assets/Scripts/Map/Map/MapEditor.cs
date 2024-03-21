@@ -43,12 +43,10 @@ public class MapEditor : MonoBehaviour
 
     private Grid grid;
 
-    //test
+    [Header("Tile")]
     public PlaceMentSystem placeMentSystem;
     public GameObject gridPlane;
-    //test
-
-
+    [Space(5)]
     [Header("Map Info")]
     [HideInInspector] public MapEditorType mapEditorType;
     public MapEditorState mapEditorState;
@@ -57,7 +55,7 @@ public class MapEditor : MonoBehaviour
     string folderPath;
     //[SerializeField] GameObject contorollerUI;
     //[SerializeField] GameObject buildSelectUI;
-
+    [Space(5)]
     [Header("Init")]
     public Transform mapObjBoxTransform;
     [HideInInspector] public Transform gridPlateTransform;
@@ -67,7 +65,7 @@ public class MapEditor : MonoBehaviour
     [HideInInspector] public Transform interactionObjectTransform;
     [HideInInspector] public Transform dontSaveObjectTransform;
 
-
+    [Space(5)]
     [Header("Create")]
     public GameObject[,] tileObjectArray;
 
@@ -90,16 +88,17 @@ public class MapEditor : MonoBehaviour
     [Space(10)]
     [Header("----------------------------------------------------")]
     public Map curMap;
+    public Map CurMap {
+        get { return curMap; }
+        set { curMap = value; stageClear = false; } }
     [Header("----------------------------------------------------")]
+    public bool stageClear;
     [Space(10)]
  
     [Header("Save Data")]
-
     [HideInInspector] public int width;
     [HideInInspector] public int height;
     public string mapID;
-    //public Vector2 playerSpawnPosition;
-    //public Vector2 playerExitPosition;
     [HideInInspector] public int condition_KeyAmount;
     [HideInInspector] public List<TileData> mapTileDataList = new List<TileData>();
     [HideInInspector] public List<ObjectData> mapObjectDataList = new List<ObjectData>();
@@ -332,7 +331,7 @@ public class MapEditor : MonoBehaviour
         placeMentSystem.ResetTileMap();
         mapEditorType = MapEditorType.Load;
         mapID = name;
-        curMap = Managers.Data.mapData.mapDictionary[name];
+        CurMap = Managers.Data.mapData.mapDictionary[name];
         SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);
 
         //start Point
@@ -410,7 +409,6 @@ public class MapEditor : MonoBehaviour
                 foreach (TileData data in curMap.mapTileDataList)
                 {
                     MapDataStruct mapDataStruct = Managers.Data.mapData.mapTileDataDictionary[data.id];
-                    Debug.Log(data.position);
                     placeMentSystem.floorTileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
                     placeMentSystem.tileDic[data.position] = data.id;
                 }

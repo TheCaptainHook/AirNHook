@@ -17,7 +17,7 @@ public class ButtonActivatedDoor : BuildBase
     [HideInInspector] public int curActiveBtn;//현재 활성화된 버튼
     public int activeRequirAmount;//문 활성화 조건
     public int CurActiveBtn { set { curActiveBtn += value;
-            if (curActiveBtn >= activeRequirAmount) { Activation(); }
+            if (curActiveBtn == activeRequirAmount) { Activation(); }
             else { Deactivated(); }
         } }
     public List<Vector2> buttonActivatedBtnList = new List<Vector2>();
