@@ -6,8 +6,7 @@ using UnityEditor;
 using UGS;
 using NPOI.OpenXmlFormats.Spreadsheet;
 using System.IO;
-using GoogleSheet.Type;
-using Mirror;
+
 [CustomEditor(typeof(MapEditor))]
 public class MapEditor_Editor : Editor
 {
@@ -104,13 +103,10 @@ public class MapEditor_Editor : Editor
         {
             Map map = JsonUtility.FromJson<Map>(textAsset.text);
             mapEditor.CurMap = map;
-
             mapEditor.SetMapSize((int)map.mapSize.x, (int)map.mapSize.y);
 
             //start Point
             GameObject startPoint = Instantiate(Resources.Load<GameObject>(mapObjectDataDictionary[302].path));
-            //NetWork
-            startPoint.AddComponent<NetworkStartPosition>();
             mapEditor.startPositionObject = startPoint;
             startPoint.transform.position = map.startPosition;
             startPoint.transform.SetParent(mapEditor.dontSaveObjectTransform);

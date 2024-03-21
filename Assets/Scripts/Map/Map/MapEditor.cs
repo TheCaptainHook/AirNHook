@@ -9,7 +9,6 @@ using System.Net;
 using Unity.VisualScripting;
 using Newtonsoft.Json;
 using System.Runtime.ConstrainedExecution;
-using UnityEditor.UI;
 
 public enum MapEditorType
 {
@@ -41,7 +40,7 @@ public class MapEditor : MonoBehaviour
     public static MapEditor Instance;
     Util Util = new Util();
 
-    private Grid grid;
+    //private Grid grid;
 
     [Header("Tile")]
     public PlaceMentSystem placeMentSystem;
