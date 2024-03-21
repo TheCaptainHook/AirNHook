@@ -112,10 +112,6 @@ public class MapEditor : MonoBehaviour
 
     }
 
-    private void Start()
-    {
-        //Init();
-    }
     //todo
     public void Init()
     {

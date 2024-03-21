@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public enum DistructionStatus
 {
     Indestructible,
@@ -18,6 +18,8 @@ public class BuildObj : MonoBehaviour,IDamageable
     private ObjectData _objectData;
     public ObjectData ObjectData { get { return _objectData; } set { _objectData = value; id = _objectData.id; } }
 
+    public event Action<Vector2> OnDissolveAction;
+
     public void SetTileData(Vector2 position)
     {
         ObjectData = new ObjectData(id, position,transform.localScale);
@@ -27,13 +29,13 @@ public class BuildObj : MonoBehaviour,IDamageable
     {
         ObjectData = new ObjectData(id, position, quaternion,transform.localScale);
     }
-
+    
    public void TakeDamage()
    {
         if(distructionStatus == DistructionStatus.Destructible)
         {
             Debug.Log("Distruction");
-            transform.position = ObjectData.position;
+            OnDissolveAction?.Invoke(ObjectData.position);
         }
 
         if(distructionStatus == DistructionStatus.PermanentDestruction)

@@ -13,9 +13,7 @@ public class MapEditor_Editor : Editor
 
     public Dictionary<int, MapDataStruct> mapTileDataDictionary = new Dictionary<int, MapDataStruct>();
 
-    //todo
     public Dictionary<int, MapDataStruct> mapObjectDataDictionary = new Dictionary<int, MapDataStruct>();
-    //todo
 
     public override void OnInspectorGUI()
     {
@@ -97,7 +95,7 @@ public class MapEditor_Editor : Editor
     void LoadMap(MapEditor mapEditor)
     {
         mapEditor.Init();
-            UGS_MapDataLoad();
+        UGS_MapDataLoad();
         TextAsset textAsset = Resources.Load<TextAsset>($"MapDat/{mapEditor.mapID}");
         if(textAsset != null)
         {
@@ -112,7 +110,7 @@ public class MapEditor_Editor : Editor
             startPoint.transform.SetParent(mapEditor.dontSaveObjectTransform);
             //start Point
 
-            //DrawAllTile(mapEditor);
+
             CreateObj(mapEditor.floorTransform, map, mapEditor.placeMentSystem, mapEditor);
             CreateObj(mapEditor.objectTransform, map, mapEditor.placeMentSystem, mapEditor);
             CreateObj(mapEditor.interactionObjectTransform, map, mapEditor.placeMentSystem, mapEditor);
@@ -123,8 +121,8 @@ public class MapEditor_Editor : Editor
             Debug.Log("Map not found");
         }
 
-       
     }
+
     public void CreateObj(Transform transform,Map map,PlaceMentSystem placeMentSystem,MapEditor mapEditor)
     {
         switch (transform.name)
