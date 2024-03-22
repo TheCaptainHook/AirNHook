@@ -648,7 +648,7 @@ namespace Mirror
         }
 
         /// <summary>Stops and disconnects the client.</summary>
-        public void StopClient()
+        public virtual void StopClient()
         {
             if (mode == NetworkManagerMode.Offline)
                 return;
@@ -1135,6 +1135,8 @@ namespace Mirror
         // and singleton may not exist yet
         public static void RegisterStartPosition(Transform start)
         {
+            if(startPositions.Contains(start))
+                return;
             // Debug.Log($"RegisterStartPosition: {start.gameObject.name} {start.position}");
             startPositions.Add(start);
 
@@ -1151,7 +1153,8 @@ namespace Mirror
         public static void UnRegisterStartPosition(Transform start)
         {
             //Debug.Log($"UnRegisterStartPosition: {start.name} {start.position}");
-            startPositions.Remove(start);
+            if(startPositions.Contains(start))
+                startPositions.Remove(start);
         }
 
         /// <summary>Get the next NetworkStartPosition based on the selected PlayerSpawnMethod.</summary>

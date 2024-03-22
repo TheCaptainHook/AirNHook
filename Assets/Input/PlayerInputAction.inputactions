@@ -58,6 +58,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Emote",
+                    "type": "Button",
+                    "id": "ce8bde81-c5e3-4cf6-9675-91d113db2c30",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -170,6 +179,45 @@
                     "action": "VerticalMove",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "03beccd7-de09-4182-b76d-6dcc7972a093",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyBoard & Mouse",
+                    "action": "Emote",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "UI",
+            "id": "f6c93e75-eafd-4eb3-81d1-4a81ea6f39a1",
+            "actions": [
+                {
+                    "name": "Option",
+                    "type": "Button",
+                    "id": "826ec345-7358-41b2-8511-1eab55948157",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "87054f60-d1f5-429d-bc6b-b9d57555a434",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyBoard & Mouse",
+                    "action": "Option",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
