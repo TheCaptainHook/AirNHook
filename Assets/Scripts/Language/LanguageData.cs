@@ -10,7 +10,7 @@ public struct Sentence
     public string text;
 }
 
-public class Languages
+public class LanguageData
 {
     public Dictionary<int, string> dict;
     

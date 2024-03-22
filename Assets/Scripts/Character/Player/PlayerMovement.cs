@@ -1,32 +1,44 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     //점프 버퍼 체크
     private bool _isJumpBufferCheck;
     private bool _isJumpPerformed;
     //코요테 타임
-    [SerializeField] private float _coyoteTime = 0.2f;
-    private float _coyoteTimeCount;
+    [SerializeField] protected float _coyoteTime = 0.2f;
+    protected float _coyoteTimeCount;
     //플레이어 점프체크
     private bool _isJumping;
+    protected bool _isGround;
+    [SerializeField] private bool _isDead;
+    public bool IsDead
+    {
+        get => _isDead;
+        set
+        {
+            _isDead = value;
+            
+            if (!value) return;
+            _animator.SetBool(IsMoving, false);
+            _animator.SetBool(IsJumping, false);
+            _animator.SetBool(IsStayJumping, false);
+        }
+    }
 
     //점프력
     [SerializeField] private float _jumpingPower = 10f;
-    //땅 체크
-    [SerializeField] private Transform _floorCheck;
-    [SerializeField] private LayerMask _floorLayer;
+    [SerializeField] protected LayerMask _floorLayer;
 
-    [SerializeField] private Rigidbody2D _rigidbd;
+    [SerializeField] protected Rigidbody2D _rigidbd;
     public PlayerInput playerInput { get; private set; }
     //좌우 움직임
-    private float _horizontal;
+    protected float _horizontal;
     //움직임속도
-    [SerializeField] private float _moveSpeed = 2f;
+    [SerializeField] protected float _moveSpeed = 2f;
     
     private Animator _animator;
     [SerializeField] private Transform _charPivot;
@@ -37,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
     private static readonly int IsStayJumping = Animator.StringToHash("IsStayJumping");
     #endregion
     
-    private void Awake()
+    protected virtual void Awake()
     {
         _animator = GetComponent<Animator>();
         _rigidbd = GetComponent<Rigidbody2D>();
@@ -45,6 +57,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        if(!isLocalPlayer) return;
+        
         playerInput = GetComponent<PlayerInput>();
 
         //움직임 입력
@@ -55,17 +69,22 @@ public class PlayerMovement : MonoBehaviour
         playerInput.playerActions.Jump.canceled += JumpCanceled;
     }
 
+    private void OnDestroy()
+    {
+        if (!isLocalPlayer && Managers.Network.isNetworkActive) return;
+        
+        playerInput.playerActions.Move.started -= MoveStarted;
+        playerInput.playerActions.Jump.started -= JumpStarted;
+        playerInput.playerActions.Jump.performed -= JumpPerformed;
+        playerInput.playerActions.Jump.canceled -= JumpCanceled;
+    }
+
     private void Update()
     {
+        if(!isLocalPlayer || IsDead) return;
+        
         // 땅 체크
-        if (IsFloor())
-        {
-            _coyoteTimeCount = _coyoteTime;
-        }
-        else
-        {
-            _coyoteTimeCount -= Time.deltaTime;
-        }
+        IsFloor();
 
         if (CheckJumpBuffer())
         {
@@ -80,6 +99,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!isLocalPlayer || IsDead) return;
         //머리충돌검사
         IsLeftHead();
         IsRightHead();
@@ -88,12 +108,12 @@ public class PlayerMovement : MonoBehaviour
         Movement();
         //점프
         Jump();
-        
+
         //애니메이션체크
         MoveAnimation();
     }
 
-    public virtual void Movement()
+    protected virtual void Movement()
     {
         //플레이어 이동속도 코드
         var groundForce = _moveSpeed * 5f;
@@ -106,7 +126,7 @@ public class PlayerMovement : MonoBehaviour
         _horizontal = context.ReadValue<Vector2>().x;
     }
 
-    private void Jump()
+    protected virtual void Jump()
     {
         if (_coyoteTimeCount > 0f && (_isJumpPerformed || (_isJumping && _isJumpBufferCheck)))
         {
@@ -133,17 +153,21 @@ public class PlayerMovement : MonoBehaviour
     }
     
     //점프체크
-    private bool IsFloor()
+    protected virtual void IsFloor()
     {
         //Ray발사
         for (int i = -1; i < 2; i++)
         {
-            if (Physics2D.Raycast(transform.position + (Vector3.right * 0.5f * i), Vector2.down, 0.1f, _floorLayer))
+            if (Physics2D.Raycast(transform.position + (Vector3.right * (0.4f * i)), Vector2.down, 0.1f, _floorLayer))
             {
-                return true;
+                _isGround = true;
+                _coyoteTimeCount = _coyoteTime;
+                return;
             }
         }
-        return false;
+
+        _isGround = false;
+        _coyoteTimeCount -= Time.deltaTime;
     }
 
     //점프 버퍼 체크
@@ -155,7 +179,7 @@ public class PlayerMovement : MonoBehaviour
         //Ray발사
         for (int i = -1; i < 2; i++)
         {
-            if (Physics2D.Raycast(transform.position + (Vector3.right * 0.5f * i), Vector2.down, 0.5f, _floorLayer))
+            if (Physics2D.Raycast(transform.position + (Vector3.right * (0.4f * i)), Vector2.down, 0.5f, _floorLayer))
             {
                 return true;
             }
@@ -164,16 +188,19 @@ public class PlayerMovement : MonoBehaviour
     }
 
     //오른쪽 머리 충돌체크
-    private bool IsLeftHead()
+    protected virtual bool IsLeftHead()
     {
+        if (_rigidbd.velocity.y < 0 || _horizontal > 0)
+            return false;
+        
         //레이 발사 / 정상 작동
         for (int i = -2; i < 3; i++)
         {
-            if (Physics2D.Raycast(transform.position + (Vector3.right * 0.25f * i), Vector2.up, 1.5f, _floorLayer))
+            if (Physics2D.Raycast(transform.position + Vector3.up * 0.9f + (Vector3.right * (0.2f * i)), Vector2.up, 0.5f, _floorLayer))
             {
                 if (i == 2)
                 {
-                    transform.position = new Vector3(transform.position.x - 0.26f, transform.position.y);
+                    transform.position = new Vector3(transform.position.x - 0.21f, transform.position.y);
                 }
                 return true;
             }
@@ -182,15 +209,18 @@ public class PlayerMovement : MonoBehaviour
     }
 
     //왼쪽 머리 충돌체크
-    private bool IsRightHead()
+    protected virtual bool IsRightHead()
     {
-        for (int j = -2; j < 3; j++)
+        if (_rigidbd.velocity.y < 0 || _horizontal < 0)
+            return false;
+        
+        for (int i = -2; i < 3; i++)
         {
-            if (Physics2D.Raycast(transform.position + (Vector3.right * -0.25f * j), Vector2.up, 1.5f, _floorLayer))
+            if (Physics2D.Raycast(transform.position + Vector3.up * 0.9f + (Vector3.right * (-0.2f * i)), Vector2.up, 0.5f, _floorLayer))
             {
-                if (j == 2)
+                if (i == 2)
                 {
-                    transform.position = new Vector3(transform.position.x + 0.26f, transform.position.y);
+                    transform.position = new Vector3(transform.position.x + 0.21f, transform.position.y);
                 }
                 return true;
             }
@@ -201,9 +231,9 @@ public class PlayerMovement : MonoBehaviour
     private void MoveAnimation()
     {
         //이동에 따라 애니메이션 제어
-        _animator.SetBool(IsMoving, _horizontal != 0 && IsFloor());
-        _animator.SetBool(IsJumping, _horizontal != 0 && _isJumping || _horizontal != 0 && !IsFloor());
-        _animator.SetBool(IsStayJumping, _horizontal == 0 && _isJumping || _horizontal == 0 && !IsFloor());
+        _animator.SetBool(IsMoving, _horizontal != 0 && _isGround);
+        _animator.SetBool(IsJumping, _horizontal != 0 && _isJumping || _horizontal != 0 && !_isGround);
+        _animator.SetBool(IsStayJumping, _horizontal == 0 && _isJumping || _horizontal == 0 && !_isGround);
         // CharPivot 오브젝트의 로테이션을 사용하여 플립
         if (_horizontal < 0)
         {
@@ -215,17 +245,19 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+#if UNITY_EDITOR
     //기즈모
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        //for (int i = -2; i < 3; i++)
-        //{
-        //    Gizmos.DrawRay(transform.position + (Vector3.right * -0.25f * i), Vector2.up * 1.5f);
-        //}
+        for (int i = -2; i < 3; i++)
+        {
+            Gizmos.DrawRay(transform.position + Vector3.up * 0.9f + (Vector3.right * -0.2f * i), Vector2.up * 0.5f);
+        }
         for (int i = -1; i < 2; i++)
         {
-            Gizmos.DrawRay(transform.position + (Vector3.right * 0.5f * i), Vector2.down * 0.5f);
+            Gizmos.DrawRay(transform.position + (Vector3.right * 0.4f * i), Vector2.down * 0.5f);
         }
     }
+#endif
 }

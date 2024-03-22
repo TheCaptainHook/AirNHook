@@ -1,22 +1,17 @@
+using System;
 using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    public PlayerInputAction playerInputAction { get; private set; }
-    public PlayerInputAction.PlayerActions playerActions { get; private set; }
+    private PlayerInputAction _playerInputAction;
+    public PlayerInputAction.PlayerActions playerActions;
+    public PlayerInputAction.UIActions uiActions;
 
     private void Awake()
     {
-        playerInputAction = new PlayerInputAction();
-        playerActions = playerInputAction.Player;
-    }
-
-    private void OnEnable()
-    {
-        playerInputAction.Enable();   
-    }
-    private void OnDisable()
-    {
-        playerInputAction.Disable();
+        _playerInputAction = new PlayerInputAction();
+        playerActions = _playerInputAction.Player;
+        uiActions = _playerInputAction.UI;
+        _playerInputAction.Enable();
     }
 }
