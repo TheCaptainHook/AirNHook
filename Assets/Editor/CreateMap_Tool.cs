@@ -31,6 +31,7 @@ public class CreateMap_Tool : EditorWindow
         get { return modeToggle; }
         set { if (modeToggle != value) { modeToggle = value; }
         } }
+
     [MenuItem("Window/Create Map Tool")]
     public static void ShowWindow()
     {
@@ -169,7 +170,7 @@ public class CreateMap_Tool : EditorWindow
                 contentsList.Add(new GUIContent(texture));
             }
 
-            //objectSectionPot = GUILayout.SelectionGrid(objectSectionPot, contentsList.ToArray(), 6,guiStyle);
+            //objectSectionPot = GUILayout.SelectionGrid(objectSectionPot, contentsList.ToArray(), 6,_GUIStyle_Cell);
 
 
             float screenWidth = 240f;
