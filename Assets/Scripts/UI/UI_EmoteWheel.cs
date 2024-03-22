@@ -76,7 +76,7 @@ public class UI_EmoteWheel : UI_Base
         //Managers.Resource.NetworkInstantiate($"UI/Emotes/{emoteName}", Managers.Game.Player.transform);
         //Instantiate(Resources.Load<GameObject>(), Managers.Game.Player.transform, worldPositionStays:false);
         Managers.Game.Player.GetComponent<Player>().CmdEmote($"{emoteName}");
-        Test_UI_Input.Instance.UsingEmote();
+        Managers.Game.Player.GetComponent<Player>().UsingEmote();
         OnExit();
     }
     

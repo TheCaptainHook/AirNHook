@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Mirror;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ public enum GameState
     Title,
     Lobby,
     Game,
+    Editor,
 }
 
 public class GameManager
@@ -20,6 +22,9 @@ public class GameManager
     {
         get
         {
+            if (!NetworkClient.ready)
+                return null;
+            
             _player = NetworkClient.localPlayer.gameObject;
             
             return _player;

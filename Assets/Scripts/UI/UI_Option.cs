@@ -57,26 +57,25 @@ public class UI_Option : UI_Base
         [SerializeField] private TMP_Text _fullscreenText;
         [SerializeField] private TMP_Text _vsyncText;
         [SerializeField] private TMP_Text _applyText;
-        
+
         [Header("GameData")]
         //임시 불린 체크
         //게임 매니저로부터 게임스테이트 받아야 할 내용들 + 맵 데이터 구현에 따라 달라질 내용
-        public bool isInGame; //인게임용 버튼 (스테이지 재시작, 로비로, 타이틀 띄우기 용)
-        public bool isInLobby;
-        public bool isNotInMenu;
         [SerializeField] private string _currStageLevel; //스테이지 재시작을 위한 정보 받기
+        private GameState CurrentGameState => Managers.Game.CurrentState;
+        private bool IsInGame => CurrentGameState == GameState.Game; //인게임용 버튼 (스테이지 재시작, 로비로, 타이틀 띄우기 용)
+        private bool IsInLobby => CurrentGameState == GameState.Lobby;
+        private bool IsNotInMenu => CurrentGameState == GameState.Title;
     #endregion
     
     public override void OnEnable()
     {
-        isNotInMenu = Managers.Game.CurrentState != GameState.Title;
-        
         OpenUI();
         Show();
-        _inGameBtnGroups.SetActive(isInGame);
-        _inLobbyBtnGroups.SetActive(isInLobby);
-        _inExitBtnGroups.SetActive(isNotInMenu);
-        _menuInfo.SetActive(!isNotInMenu);
+        _inGameBtnGroups.SetActive(IsInGame);
+        _inLobbyBtnGroups.SetActive(IsInLobby);
+        _inExitBtnGroups.SetActive(IsNotInMenu);
+        _menuInfo.SetActive(!IsNotInMenu);
     }
 
     protected override void Start()
@@ -124,10 +123,10 @@ public class UI_Option : UI_Base
         _graphicsOption.SetActive(false);
         _volumeOption.SetActive(false);
         _languageOption.SetActive(false);
-        _inGameBtnGroups.SetActive(isInGame);
-        _inLobbyBtnGroups.SetActive(isInLobby);
-        _inExitBtnGroups.SetActive(isNotInMenu);
-        _menuInfo.SetActive(!isNotInMenu);
+        _inGameBtnGroups.SetActive(IsInGame);
+        _inLobbyBtnGroups.SetActive(IsInLobby);
+        _inExitBtnGroups.SetActive(IsNotInMenu);
+        _menuInfo.SetActive(!IsNotInMenu);
     }
     
     private void OnGraphicsOptionBtn()
@@ -145,20 +144,21 @@ public class UI_Option : UI_Base
         _volumeOption.SetActive(true);
         _languageOption.SetActive(false);
     }
-    
+
     private void OnLanguageOptionBtn()
-        {
-            _gameOption.SetActive(false);
-            _graphicsOption.SetActive(false);
-            _volumeOption.SetActive(false);
-            _languageOption.SetActive(true);
-        }
-    
+    {
+        _gameOption.SetActive(false);
+        _graphicsOption.SetActive(false);
+        _volumeOption.SetActive(false);
+        _languageOption.SetActive(true);
+    }
+
     //==================게임 옵션===========================
     private void OnLobbyBtn()
     {
         OnOptionExit();
-        Managers.UI.ShowLoadingUI("Test_LobbyScene");
+        //Managers.UI.ShowLoadingUI("Test_LobbyScene");
+        //TODO 로비로
     }
     
     private void OnStageRestartBtn()
@@ -171,7 +171,13 @@ public class UI_Option : UI_Base
     private void OnTitleBtn()
     {
         OnOptionExit();
-        Managers.UI.ShowLoadingUI("Test_TitleScene");
+        // Managers.UI.ShowLoadingUI("Test_TitleScene");
+        if (Managers.Game.Player.GetComponent<Player>().isServer)
+        {
+            Managers.Network.StopHost();
+        }
+        else
+            Managers.Network.StopClient();
     }
     
     private void OnExitBtn()

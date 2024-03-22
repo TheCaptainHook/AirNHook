@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 public class CameraMove : MonoBehaviour
@@ -7,6 +9,7 @@ public class CameraMove : MonoBehaviour
     private Vector3 _origin;
     private Vector3 _difference;
     private Camera _cam;
+    private Vector3 _playerPos;
     
     private float _zoom;
     private float _zoomMultiplier = 4f;
@@ -14,6 +17,7 @@ public class CameraMove : MonoBehaviour
     private float _maxZoom = 8f;
     private float _velocity = 0f;
     private float _smoothTime = 0.25f;
+    private float _smoothSpeed = 0.25f;
     
     private void Start()
     {
@@ -21,10 +25,31 @@ public class CameraMove : MonoBehaviour
         _zoom = _cam.orthographicSize;
     }
 
+    private void Update()
+    {
+        try
+        {
+            if (NetworkClient.ready && Managers.Game.Player != null)
+                _playerPos = Managers.Game.Player.transform.position;
+        }
+        catch (NullReferenceException e) { }
+    }
+
+    private void FixedUpdate()
+    {
+        if (Managers.Game.CurrentState is GameState.Game or GameState.Lobby)
+        {
+            FollowPlayer();
+        }
+    }
+
     private void LateUpdate()
     {
-        PanCamera();
-        //ZoomInAndOut();
+        if (Managers.Game.CurrentState is GameState.Editor)
+        {
+            PanCamera();
+            //ZoomInAndOut();
+        }
     }
 
     private void PanCamera()
@@ -51,4 +76,17 @@ public class CameraMove : MonoBehaviour
         _cam.orthographicSize = Mathf.SmoothDamp(_cam.orthographicSize, _zoom, ref _velocity, _smoothTime);
     }
 
+    private void FollowPlayer()
+    {
+        try
+        {
+            var player = Managers.Game.Player;
+            
+            var position = transform.position;
+            _playerPos = new Vector3(_playerPos.x, _playerPos.y, position.z);
+            var smoothPos = Vector3.Lerp(position, _playerPos, _smoothSpeed);
+            transform.position = smoothPos;
+        }
+        catch(NullReferenceException e) { }
+    }
 }
