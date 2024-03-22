@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6409072115485855946}
   - component: {fileID: 315301539782647133}
   m_Layer: 0
-  m_Name: ButtonActivatedDoor
+  m_Name: BtnActivatedDoor
   m_TagString: Untagged
   m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -99,15 +99,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 305
-  editorMod_isActive: 0
-  placeable: 0
-  isCollision: 0
-  mask:
-    serializedVersion: 2
-    m_Bits: 0
+  distructionStatus: 0
   linkId: 0
   curLinkBtn: 0
   curActiveBtn: 0
+  activeRequirAmount: 0
   buttonActivatedBtnList: []
   onOpen: 0
 --- !u!61 &315301539782647133
