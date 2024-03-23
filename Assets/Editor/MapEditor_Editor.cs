@@ -57,6 +57,7 @@ public class MapEditor_Editor : Editor
             if (mapEditor.mapObjBoxTransform)
             {
                 Undo.DestroyObjectImmediate(mapEditor.mapObjBoxTransform.gameObject);
+                Undo.DestroyObjectImmediate(mapEditor.gridPalette);
             }           
             mapEditor.placeMentSystem.ResetTileMap();
             mapEditor.curMap = new Map();

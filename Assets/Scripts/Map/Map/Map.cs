@@ -36,10 +36,7 @@ public class Map
         this.cellSize = cellSize;
     }
 
-    public Map()
-    {
-     
-    }
+    public Map() { } //dont delet
 
 
     public List<Vector2> FindObject_Vector2(int id)
@@ -55,6 +52,7 @@ public class Map
         }
         return list;
     }
+
 
 }
 

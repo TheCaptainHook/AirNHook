@@ -6,6 +6,8 @@ using UnityEngine.Tilemaps;
 
 public class PlaceMentSystem : MonoBehaviour
 {
+
+
     Util Util = new Util();
     private Camera _camera;
     public LayerMask layerMask;
@@ -68,7 +70,6 @@ public class PlaceMentSystem : MonoBehaviour
             }
         }
     }
-
 
 
     public Vector3 GetMousePosition()

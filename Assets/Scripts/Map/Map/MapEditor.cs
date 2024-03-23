@@ -53,6 +53,8 @@ public class MapEditor : MonoBehaviour
     //[SerializeField] GameObject buildSelectUI;
     [Space(5)]
     [Header("Init")]
+    [SerializeField] GameObject grid;
+    [HideInInspector] public GameObject gridPalette;
     public Transform mapObjBoxTransform;
     [HideInInspector] public Transform gridPlateTransform;
     [HideInInspector] public Transform floorTransform;
@@ -118,7 +120,7 @@ public class MapEditor : MonoBehaviour
     {
         if(mapEditorState != MapEditorState.NoEditor) { editorUIController.SetActive(true); }
         else { editorUIController.SetActive(false); }
-
+        CreateGridPalet();
         mapObjBoxTransform = Util.CreateChildTransform(transform, "MapObjBox");
         floorTransform = Util.CreateChildTransform(mapObjBoxTransform, "FloorTransform");
         objectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ObjectTransform");
@@ -127,6 +129,13 @@ public class MapEditor : MonoBehaviour
         dontSaveObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "DontSaveObjectTransform");
     }
 
+  
+    void CreateGridPalet()
+    {
+        gridPalette = Instantiate(grid);
+        placeMentSystem.floorTileMap = gridPalette.transform.Find("Floor").GetComponent<Tilemap>();
+
+    }
   
     #region Interaciton
 
@@ -295,7 +304,7 @@ public class MapEditor : MonoBehaviour
         string filePath = Path.Combine(folderPath, $"{map.mapID}.json");
         File.WriteAllText(filePath, json);
 
-        AssetDatabase.Refresh();
+        //AssetDatabase.Refresh();
     }
 
 
