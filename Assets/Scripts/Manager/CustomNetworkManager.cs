@@ -72,6 +72,15 @@ public class CustomNetworkManager : NetworkManager
             //Instantiate(Resources.Load<GameObject>("Prefabs/Map/SelectMap"));
             Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/MapEditor"));
             MapEditor.Instance.LoadMap("Tutorial_1");
+            
+            var list = MapEditor.Instance.curMap.FindObject_Vector2(307);
+            foreach (var keyPos in list)
+            {
+                var obj = Instantiate(spawnPrefabDict["Key"]);
+                obj.transform.position = keyPos;
+                NetworkServer.Spawn(obj);
+            }
+            
             Managers.UI.InitializeUI();
         }
     }
