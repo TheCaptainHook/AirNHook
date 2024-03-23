@@ -70,14 +70,22 @@ public class CustomNetworkManager : NetworkManager
         {
             //TODO 선택한 stage로 소환하는 코드.
             //Instantiate(Resources.Load<GameObject>("Prefabs/Map/SelectMap"));
-            Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/MapEditor"));
-            MapEditor.Instance.LoadMap("Tutorial_1");
+            //Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/MapEditor"));
+            //MapEditor.Instance.LoadMap("Tutorial_3");
+            //
+            //var list = MapEditor.Instance.curMap.FindObject_Vector2(307);
+            //foreach (var keyPos in list)
+            //{
+            //    var obj = Instantiate(spawnPrefabDict["Key"]);
+            //    obj.transform.position = keyPos;
+            //    NetworkServer.Spawn(obj);
+            //}
             
-            var list = MapEditor.Instance.curMap.FindObject_Vector2(307);
-            foreach (var keyPos in list)
+            var keyPos = Instantiate(Resources.Load<GameObject>("Test/TestMap")).GetComponent<TestMapScript>().keyTransform;
+            foreach (var key in keyPos)
             {
                 var obj = Instantiate(spawnPrefabDict["Key"]);
-                obj.transform.position = keyPos;
+                obj.transform.position = key.position;
                 NetworkServer.Spawn(obj);
             }
             
@@ -122,8 +130,9 @@ public class CustomNetworkManager : NetworkManager
         {
             //TODO 선택한 stage로 소환하는 코드.
             //Instantiate(Resources.Load<GameObject>("Prefabs/Map/SelectMap"));
-            Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/MapEditor"));
-            MapEditor.Instance.LoadMap("Tutorial_1");
+            //Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/MapEditor"));
+            //MapEditor.Instance.LoadMap("Tutorial_3");
+            Instantiate(Resources.Load<GameObject>("Test/TestMap"));
             Managers.UI.InitializeUI();
         }
     }
