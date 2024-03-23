@@ -14,8 +14,9 @@ GameObject:
   - component: {fileID: 6901818635806815223}
   - component: {fileID: 6511901656948065805}
   - component: {fileID: 9033468922822899673}
+  - component: {fileID: -2767788134810897182}
   - component: {fileID: -3325528363225173584}
-  - component: {fileID: 5153089520699939117}
+  - component: {fileID: -3262445402675931856}
   m_Layer: 29
   m_Name: Key
   m_TagString: Untagged
@@ -188,6 +189,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b098d64ae932460aaa5a39358f15375, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-2767788134810897182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6099480600797554674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3369714a36eeff3448142e8610242ff9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  player: {fileID: 0}
+  isGrabbed: 0
 --- !u!114 &-3325528363225173584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,7 +223,7 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!114 &5153089520699939117
+--- !u!114 &-3262445402675931856
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -226,8 +244,8 @@ MonoBehaviour:
   syncScale: 0
   onlySyncOnChange: 1
   compressRotation: 1
-  interpolatePosition: 0
-  interpolateRotation: 0
+  interpolatePosition: 1
+  interpolateRotation: 1
   interpolateScale: 0
   coordinateSpace: 0
   sendIntervalMultiplier: 1

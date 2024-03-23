@@ -43,12 +43,12 @@ public class Player : NetworkBehaviour, IDamageable
 
     private void Start()
     {
+        StartCoroutine(Co_DetectInteraction());
         if(!isLocalPlayer) return;
 
         _input.uiActions.Option.started += OptionStart;
         _input.playerActions.Emote.started += EmoteStart;
         _input.playerActions.Interaction.started += InteractionStart;
-        StartCoroutine(Co_DetectInteraction());
     }
 
     private void OnDestroy()
@@ -194,6 +194,7 @@ public class Player : NetworkBehaviour, IDamageable
     [SerializeField] private LayerMask _interactableLayer;
     private Transform _grabbedItem;
     private Collider2D _latestTarget;
+    private GrabbableObject _grabbableObject;
     private readonly float _detectDistance = 2f;
     private bool _isGrab;
     private WaitForSeconds _waitForSeconds;
@@ -213,6 +214,7 @@ public class Player : NetworkBehaviour, IDamageable
             if (collisions.Length == 0)
             {
                 _latestTarget = null;
+                _grabbableObject = null;
                 continue;
             }
 
@@ -239,6 +241,16 @@ public class Player : NetworkBehaviour, IDamageable
             shortestDistance = float.MaxValue;
             
             //Interaction 처리
+            if (!_isGrab)
+            {
+                _grabbableObject = _latestTarget.GetComponent<GrabbableObject>();
+                if (!_grabbableObject.isGrabbed)
+                {
+                    _grabbableObject.player = _grabPoint;
+                }
+                else
+                    _grabbableObject = null;
+            }
         }
     }
 
@@ -251,12 +263,10 @@ public class Player : NetworkBehaviour, IDamageable
             
             _isGrab = true;
             _grabbedItem = _latestTarget.transform;
-            //_grabbedItem.parent = _grabPoint;
-            //_grabbedItem.localPosition = new Vector3(0, 0, 0);
-            //_grabbedItem.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
-            _grabbedItem.position = _grabPoint.position;
-            _grabbedItem.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
-            _grabbedItem.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+            //_grabbedItem.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+            //_grabbedItem.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+            //CmdItemPosSync();
+            _grabbedItem.GetComponent<GrabbableObject>().CmdGrab();
         }
         else
         {
@@ -271,8 +281,10 @@ public class Player : NetworkBehaviour, IDamageable
             
             _isGrab = false;
             //_grabbedItem.parent = null;
-            _grabbedItem.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-            _grabbedItem.GetComponent<Rigidbody2D>().velocity = _rigidbd.velocity;
+            //_grabbedItem.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+            //_grabbedItem.GetComponent<Rigidbody2D>().velocity = _rigidbd.velocity;
+            //CmdItemRelease();
+            _grabbedItem.GetComponent<GrabbableObject>().CmdRelease();
             _grabbedItem = null;
         }
     }
