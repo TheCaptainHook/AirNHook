@@ -251,9 +251,10 @@ public class Player : NetworkBehaviour, IDamageable
             
             _isGrab = true;
             _grabbedItem = _latestTarget.transform;
-            _grabbedItem.parent = _grabPoint;
-            _grabbedItem.localPosition = new Vector3(0, 0, 0);
-            _grabbedItem.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
+            //_grabbedItem.parent = _grabPoint;
+            //_grabbedItem.localPosition = new Vector3(0, 0, 0);
+            //_grabbedItem.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
+            _grabbedItem.position = _grabPoint.position;
             _grabbedItem.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
             _grabbedItem.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
         }
@@ -269,7 +270,7 @@ public class Player : NetworkBehaviour, IDamageable
             }
             
             _isGrab = false;
-            _grabbedItem.parent = null;
+            //_grabbedItem.parent = null;
             _grabbedItem.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
             _grabbedItem.GetComponent<Rigidbody2D>().velocity = _rigidbd.velocity;
             _grabbedItem = null;
