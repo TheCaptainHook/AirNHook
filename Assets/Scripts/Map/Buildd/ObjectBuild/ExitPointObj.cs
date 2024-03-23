@@ -36,6 +36,7 @@ public class ExitPointObj : BuildBase
 
     public ExitObjStruct GetExitObjectStruct()
     {
+      
         return new ExitObjStruct(id,transform.position, condition_KeyAmount, nextMapId);
     }
     

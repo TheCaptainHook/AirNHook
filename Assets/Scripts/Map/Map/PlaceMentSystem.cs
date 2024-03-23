@@ -52,13 +52,14 @@ public class PlaceMentSystem : MonoBehaviour
             mouseIndicator.SetActive(false);
         }
 
-        if(curPosition != gridPosition)
+        //Privew
+        if(curPosition != gridPosition && mouseIndicator.activeSelf)
         {
             lastPosition = curPosition;
             curPosition = gridPosition;
             UpdatePreview();
         }
-
+        //Draw
         if(MapEditor.Instance.mapEditorState == MapEditorState.Tile && MapEditor.Instance.gridPlane.activeSelf)
         {
             if (Input.GetMouseButton(0))

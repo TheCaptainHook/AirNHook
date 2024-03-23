@@ -13,7 +13,6 @@ public class Map
     public Vector2 startPosition;
     public List<TileData> mapTileDataList = new();
     public List<ObjectData> mapObjectDataList = new List<ObjectData>();
-
     public List<ButtonActivatedDoorStruct> mapButtonActivatedDoorDataList = new List<ButtonActivatedDoorStruct>();
     public List<ExitObjStruct> mapExitObjectDataList = new();
 

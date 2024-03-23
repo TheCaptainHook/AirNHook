@@ -1,14 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.Tilemaps;
 using System.IO;
 using System.Runtime.InteropServices.ComTypes;
 using GoogleSheet.Core.Type;
-using System.Net;
-using Unity.VisualScripting;
-using Newtonsoft.Json;
-using System.Runtime.ConstrainedExecution;
 
 public enum MapEditorType
 {
@@ -79,10 +76,14 @@ public class MapEditor : MonoBehaviour
     public GameObject startPositionObject;
 
     //todo
-    [Header("Current")]
+    //[Header("Current")]
     //public GameObject curBuildObj;
     //public GameObject CurBuildObj { get { return curBuildObj; } set { curBuildObj = value; placeMentSystem.MouseIndicator = value; } }
     //public Transform curTransform;
+
+    [Header("UI")]
+    [SerializeField] GameObject editorUIController;
+
 
     [Space(10)]
     [Header("----------------------------------------------------")]
@@ -115,6 +116,9 @@ public class MapEditor : MonoBehaviour
     //todo
     public void Init()
     {
+        if(mapEditorState != MapEditorState.NoEditor) { editorUIController.SetActive(true); }
+        else { editorUIController.SetActive(false); }
+
         mapObjBoxTransform = Util.CreateChildTransform(transform, "MapObjBox");
         floorTransform = Util.CreateChildTransform(mapObjBoxTransform, "FloorTransform");
         objectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ObjectTransform");
@@ -291,7 +295,7 @@ public class MapEditor : MonoBehaviour
         string filePath = Path.Combine(folderPath, $"{map.mapID}.json");
         File.WriteAllText(filePath, json);
 
-        //UnityEditor.AssetDatabase.Refresh();
+        AssetDatabase.Refresh();
     }
 
 

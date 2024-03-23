@@ -50,7 +50,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2147483648
   gridPosition: {x: 0, y: 0, z: 0}
-  mousePosition: {x: -18.311111, y: -13.199999, z: -10}
+  mousePosition: {x: 23.337036, y: 44.54296, z: -10}
   mouseIndicator: {fileID: 2752690813628731933}
   cellIndicator: {fileID: 0}
   preViewTileMap: {fileID: 4425430128575231454}
@@ -68,7 +68,9 @@ GameObject:
   - component: {fileID: 6635949118241192266}
   - component: {fileID: 4758009066851066231}
   - component: {fileID: 4824255196529244240}
-  m_Layer: 0
+  - component: {fileID: 31263545566477495}
+  - component: {fileID: 256694246069330969}
+  m_Layer: 31
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -208,11 +210,83 @@ TilemapCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_UsedByComposite: 1
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!50 &31263545566477495
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539842304990509216}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!66 &256694246069330969
+CompositeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539842304990509216}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_GeometryType: 0
+  m_GenerationType: 0
+  m_EdgeRadius: 0
+  m_ColliderPaths:
+  - m_Collider: {fileID: 4824255196529244240}
+    m_ColliderPaths: []
+  m_CompositePaths:
+    m_Paths: []
+  m_VertexDistance: 0.0005
+  m_OffsetDistance: 0.00005
+  m_UseDelaunayMesh: 0
+  m_CompositeGameObject: {fileID: 539842304990509216}
 --- !u!1 &775507051098167545
 GameObject:
   m_ObjectHideFlags: 0
@@ -804,7 +878,7 @@ MonoBehaviour:
   placeMentSystem: {fileID: 510517863331905739}
   gridPlane: {fileID: 6651604743320052487}
   mapEditorType: 1
-  mapEditorState: 2
+  mapEditorState: 0
   cellSize: 2
   mapObjBoxTransform: {fileID: 0}
   gridPlateTransform: {fileID: 0}
@@ -813,8 +887,9 @@ MonoBehaviour:
   exitDoorObjectTransform: {fileID: 0}
   interactionObjectTransform: {fileID: 0}
   dontSaveObjectTransform: {fileID: 0}
-  startPosition: {x: 15, y: -6}
+  startPosition: {x: 0, y: -2}
   startPositionObject: {fileID: 0}
+  editorUIController: {fileID: 1996344758840580011}
   curMap:
     mapSize: {x: 0, y: 0}
     mapID: 
@@ -824,228 +899,899 @@ MonoBehaviour:
     mapButtonActivatedDoorDataList: []
     mapExitObjectDataList: []
     cellSize: 0
+  stageClear: 0
   width: 20
   height: 20
-  mapID: DemoMap
+  mapID: Tutorial_3
   condition_KeyAmount: 0
   mapTileDataList:
   - id: 1
-    position: {x: -5, y: -8, z: 0}
+    position: {x: 347, y: 394, z: 0}
   - id: 1
-    position: {x: -5, y: -7, z: 0}
+    position: {x: 347, y: 395, z: 0}
   - id: 1
-    position: {x: -5, y: -6, z: 0}
+    position: {x: 347, y: 396, z: 0}
   - id: 1
-    position: {x: -5, y: -5, z: 0}
+    position: {x: 347, y: 397, z: 0}
   - id: 1
-    position: {x: -5, y: -4, z: 0}
+    position: {x: 347, y: 398, z: 0}
   - id: 1
-    position: {x: -5, y: -3, z: 0}
+    position: {x: 347, y: 399, z: 0}
   - id: 1
-    position: {x: -5, y: -2, z: 0}
+    position: {x: 347, y: 400, z: 0}
   - id: 1
-    position: {x: -5, y: -1, z: 0}
+    position: {x: 347, y: 401, z: 0}
   - id: 1
-    position: {x: -5, y: 0, z: 0}
+    position: {x: 347, y: 402, z: 0}
   - id: 1
-    position: {x: -5, y: 1, z: 0}
+    position: {x: 347, y: 403, z: 0}
   - id: 1
-    position: {x: -5, y: 2, z: 0}
+    position: {x: 347, y: 413, z: 0}
   - id: 1
-    position: {x: -5, y: 3, z: 0}
+    position: {x: 347, y: 414, z: 0}
   - id: 1
-    position: {x: -5, y: 4, z: 0}
+    position: {x: 347, y: 415, z: 0}
   - id: 1
-    position: {x: -5, y: 5, z: 0}
+    position: {x: 347, y: 416, z: 0}
   - id: 1
-    position: {x: -4, y: -8, z: 0}
+    position: {x: 348, y: 394, z: 0}
   - id: 1
-    position: {x: -4, y: -5, z: 0}
+    position: {x: 348, y: 395, z: 0}
   - id: 1
-    position: {x: -4, y: 1, z: 0}
+    position: {x: 348, y: 396, z: 0}
   - id: 1
-    position: {x: -4, y: 5, z: 0}
+    position: {x: 348, y: 397, z: 0}
   - id: 1
-    position: {x: -3, y: -8, z: 0}
+    position: {x: 348, y: 398, z: 0}
   - id: 1
-    position: {x: -3, y: -5, z: 0}
+    position: {x: 348, y: 399, z: 0}
   - id: 1
-    position: {x: -3, y: 1, z: 0}
+    position: {x: 348, y: 400, z: 0}
   - id: 1
-    position: {x: -3, y: 5, z: 0}
+    position: {x: 348, y: 401, z: 0}
   - id: 1
-    position: {x: -2, y: -8, z: 0}
+    position: {x: 348, y: 402, z: 0}
   - id: 1
-    position: {x: -2, y: -5, z: 0}
+    position: {x: 348, y: 403, z: 0}
   - id: 1
-    position: {x: -2, y: 1, z: 0}
+    position: {x: 348, y: 413, z: 0}
   - id: 1
-    position: {x: -2, y: 5, z: 0}
+    position: {x: 348, y: 414, z: 0}
   - id: 1
-    position: {x: -1, y: -8, z: 0}
+    position: {x: 348, y: 415, z: 0}
   - id: 1
-    position: {x: -1, y: 1, z: 0}
+    position: {x: 348, y: 416, z: 0}
   - id: 1
-    position: {x: -1, y: 5, z: 0}
+    position: {x: 349, y: 394, z: 0}
   - id: 1
-    position: {x: 0, y: -8, z: 0}
+    position: {x: 349, y: 395, z: 0}
   - id: 1
-    position: {x: 0, y: 1, z: 0}
+    position: {x: 349, y: 396, z: 0}
   - id: 1
-    position: {x: 0, y: 5, z: 0}
+    position: {x: 349, y: 397, z: 0}
   - id: 1
-    position: {x: 1, y: -8, z: 0}
+    position: {x: 349, y: 398, z: 0}
   - id: 1
-    position: {x: 1, y: 1, z: 0}
+    position: {x: 349, y: 399, z: 0}
   - id: 1
-    position: {x: 1, y: 5, z: 0}
+    position: {x: 349, y: 400, z: 0}
   - id: 1
-    position: {x: 2, y: -8, z: 0}
+    position: {x: 349, y: 401, z: 0}
   - id: 1
-    position: {x: 2, y: 1, z: 0}
+    position: {x: 349, y: 402, z: 0}
   - id: 1
-    position: {x: 2, y: 2, z: 0}
+    position: {x: 349, y: 403, z: 0}
   - id: 1
-    position: {x: 2, y: 5, z: 0}
+    position: {x: 349, y: 413, z: 0}
   - id: 1
-    position: {x: 3, y: -8, z: 0}
+    position: {x: 349, y: 414, z: 0}
   - id: 1
-    position: {x: 3, y: -7, z: 0}
+    position: {x: 349, y: 415, z: 0}
   - id: 1
-    position: {x: 3, y: 1, z: 0}
+    position: {x: 349, y: 416, z: 0}
   - id: 1
-    position: {x: 3, y: 2, z: 0}
+    position: {x: 350, y: 394, z: 0}
   - id: 1
-    position: {x: 3, y: 5, z: 0}
+    position: {x: 350, y: 395, z: 0}
   - id: 1
-    position: {x: 4, y: -8, z: 0}
+    position: {x: 350, y: 396, z: 0}
   - id: 1
-    position: {x: 4, y: 5, z: 0}
+    position: {x: 350, y: 397, z: 0}
   - id: 1
-    position: {x: 5, y: -8, z: 0}
+    position: {x: 350, y: 398, z: 0}
   - id: 1
-    position: {x: 5, y: 5, z: 0}
+    position: {x: 350, y: 399, z: 0}
   - id: 1
-    position: {x: 6, y: -8, z: 0}
+    position: {x: 350, y: 400, z: 0}
   - id: 1
-    position: {x: 6, y: 5, z: 0}
+    position: {x: 350, y: 401, z: 0}
   - id: 1
-    position: {x: 7, y: -8, z: 0}
+    position: {x: 350, y: 402, z: 0}
   - id: 1
-    position: {x: 7, y: -3, z: 0}
+    position: {x: 350, y: 403, z: 0}
   - id: 1
-    position: {x: 7, y: 5, z: 0}
+    position: {x: 350, y: 414, z: 0}
   - id: 1
-    position: {x: 8, y: -8, z: 0}
+    position: {x: 350, y: 415, z: 0}
   - id: 1
-    position: {x: 8, y: -7, z: 0}
+    position: {x: 350, y: 416, z: 0}
   - id: 1
-    position: {x: 8, y: -3, z: 0}
+    position: {x: 351, y: 394, z: 0}
   - id: 1
-    position: {x: 8, y: -2, z: 0}
+    position: {x: 351, y: 395, z: 0}
   - id: 1
-    position: {x: 8, y: -1, z: 0}
+    position: {x: 351, y: 396, z: 0}
   - id: 1
-    position: {x: 8, y: 5, z: 0}
+    position: {x: 351, y: 397, z: 0}
   - id: 1
-    position: {x: 9, y: -8, z: 0}
+    position: {x: 351, y: 398, z: 0}
   - id: 1
-    position: {x: 9, y: -1, z: 0}
+    position: {x: 351, y: 399, z: 0}
   - id: 1
-    position: {x: 9, y: 5, z: 0}
+    position: {x: 351, y: 400, z: 0}
   - id: 1
-    position: {x: 10, y: -8, z: 0}
+    position: {x: 351, y: 401, z: 0}
   - id: 1
-    position: {x: 10, y: -1, z: 0}
+    position: {x: 351, y: 402, z: 0}
   - id: 1
-    position: {x: 10, y: 5, z: 0}
+    position: {x: 351, y: 403, z: 0}
   - id: 1
-    position: {x: 11, y: -8, z: 0}
+    position: {x: 351, y: 415, z: 0}
   - id: 1
-    position: {x: 11, y: -1, z: 0}
+    position: {x: 351, y: 416, z: 0}
   - id: 1
-    position: {x: 11, y: 5, z: 0}
+    position: {x: 352, y: 394, z: 0}
   - id: 1
-    position: {x: 12, y: -8, z: 0}
+    position: {x: 352, y: 395, z: 0}
   - id: 1
-    position: {x: 12, y: -1, z: 0}
+    position: {x: 352, y: 396, z: 0}
   - id: 1
-    position: {x: 12, y: 5, z: 0}
+    position: {x: 352, y: 397, z: 0}
   - id: 1
-    position: {x: 13, y: -8, z: 0}
+    position: {x: 352, y: 398, z: 0}
   - id: 1
-    position: {x: 13, y: -1, z: 0}
+    position: {x: 352, y: 399, z: 0}
   - id: 1
-    position: {x: 13, y: 5, z: 0}
+    position: {x: 352, y: 400, z: 0}
   - id: 1
-    position: {x: 14, y: -8, z: 0}
+    position: {x: 352, y: 401, z: 0}
   - id: 1
-    position: {x: 14, y: -7, z: 0}
+    position: {x: 352, y: 402, z: 0}
   - id: 1
-    position: {x: 14, y: -1, z: 0}
+    position: {x: 352, y: 403, z: 0}
   - id: 1
-    position: {x: 14, y: 5, z: 0}
+    position: {x: 352, y: 415, z: 0}
   - id: 1
-    position: {x: 15, y: -8, z: 0}
+    position: {x: 352, y: 416, z: 0}
   - id: 1
-    position: {x: 15, y: -7, z: 0}
+    position: {x: 353, y: 394, z: 0}
   - id: 1
-    position: {x: 15, y: -1, z: 0}
+    position: {x: 353, y: 395, z: 0}
   - id: 1
-    position: {x: 15, y: 5, z: 0}
+    position: {x: 353, y: 396, z: 0}
   - id: 1
-    position: {x: 16, y: -8, z: 0}
+    position: {x: 353, y: 397, z: 0}
   - id: 1
-    position: {x: 16, y: -7, z: 0}
+    position: {x: 353, y: 398, z: 0}
   - id: 1
-    position: {x: 16, y: -6, z: 0}
+    position: {x: 353, y: 415, z: 0}
   - id: 1
-    position: {x: 16, y: -5, z: 0}
+    position: {x: 353, y: 416, z: 0}
   - id: 1
-    position: {x: 16, y: -4, z: 0}
+    position: {x: 354, y: 394, z: 0}
   - id: 1
-    position: {x: 16, y: -3, z: 0}
+    position: {x: 354, y: 395, z: 0}
   - id: 1
-    position: {x: 16, y: -2, z: 0}
+    position: {x: 354, y: 396, z: 0}
   - id: 1
-    position: {x: 16, y: -1, z: 0}
+    position: {x: 354, y: 397, z: 0}
   - id: 1
-    position: {x: 16, y: 0, z: 0}
+    position: {x: 354, y: 415, z: 0}
   - id: 1
-    position: {x: 16, y: 1, z: 0}
+    position: {x: 354, y: 416, z: 0}
   - id: 1
-    position: {x: 16, y: 2, z: 0}
+    position: {x: 355, y: 394, z: 0}
   - id: 1
-    position: {x: 16, y: 3, z: 0}
+    position: {x: 355, y: 395, z: 0}
   - id: 1
-    position: {x: 16, y: 4, z: 0}
+    position: {x: 355, y: 396, z: 0}
   - id: 1
-    position: {x: 16, y: 5, z: 0}
-  mapObjectDataList:
-  - id: 307
-    position: {x: 14.469971, y: 0.34002686}
-    quaternion: {x: -0, y: -0, z: -0, w: 1}
-    scale: {x: 1, y: 1, z: 1}
-  - id: 303
-    position: {x: 10.679993, y: -0.710022}
-    quaternion: {x: -0, y: -0, z: -0, w: 1}
-    scale: {x: 0.43432, y: 0.43432, z: 0.43432}
-  - id: 307
-    position: {x: 5.9400024, y: -0.2199707}
-    quaternion: {x: -0, y: -0, z: -0, w: 1}
-    scale: {x: 1, y: 1, z: 1}
-  - id: 300
-    position: {x: -2.369995, y: -2.5900269}
-    quaternion: {x: -0, y: -0, z: -0, w: 1}
-    scale: {x: 1, y: 1, z: 1}
-  - id: 304
-    position: {x: -3.789978, y: -5.8599854}
-    quaternion: {x: -0, y: -0, z: -0, w: 1}
-    scale: {x: 1, y: 1, z: 1}
-  - id: 303
-    position: {x: 0.48999023, y: 1.2199707}
-    quaternion: {x: -0, y: -0, z: -0, w: 1}
-    scale: {x: 0.74367, y: 0.74367, z: 0.74367}
+    position: {x: 355, y: 397, z: 0}
+  - id: 1
+    position: {x: 355, y: 415, z: 0}
+  - id: 1
+    position: {x: 355, y: 416, z: 0}
+  - id: 1
+    position: {x: 356, y: 394, z: 0}
+  - id: 1
+    position: {x: 356, y: 395, z: 0}
+  - id: 1
+    position: {x: 356, y: 396, z: 0}
+  - id: 1
+    position: {x: 356, y: 397, z: 0}
+  - id: 1
+    position: {x: 356, y: 415, z: 0}
+  - id: 1
+    position: {x: 356, y: 416, z: 0}
+  - id: 1
+    position: {x: 357, y: 394, z: 0}
+  - id: 1
+    position: {x: 357, y: 395, z: 0}
+  - id: 1
+    position: {x: 357, y: 396, z: 0}
+  - id: 1
+    position: {x: 357, y: 397, z: 0}
+  - id: 1
+    position: {x: 357, y: 415, z: 0}
+  - id: 1
+    position: {x: 357, y: 416, z: 0}
+  - id: 1
+    position: {x: 358, y: 394, z: 0}
+  - id: 1
+    position: {x: 358, y: 395, z: 0}
+  - id: 1
+    position: {x: 358, y: 396, z: 0}
+  - id: 1
+    position: {x: 358, y: 415, z: 0}
+  - id: 1
+    position: {x: 358, y: 416, z: 0}
+  - id: 1
+    position: {x: 359, y: 394, z: 0}
+  - id: 1
+    position: {x: 359, y: 395, z: 0}
+  - id: 1
+    position: {x: 359, y: 396, z: 0}
+  - id: 1
+    position: {x: 359, y: 415, z: 0}
+  - id: 1
+    position: {x: 359, y: 416, z: 0}
+  - id: 1
+    position: {x: 360, y: 394, z: 0}
+  - id: 1
+    position: {x: 360, y: 395, z: 0}
+  - id: 1
+    position: {x: 360, y: 396, z: 0}
+  - id: 1
+    position: {x: 360, y: 415, z: 0}
+  - id: 1
+    position: {x: 360, y: 416, z: 0}
+  - id: 1
+    position: {x: 361, y: 394, z: 0}
+  - id: 1
+    position: {x: 361, y: 395, z: 0}
+  - id: 1
+    position: {x: 361, y: 396, z: 0}
+  - id: 1
+    position: {x: 361, y: 410, z: 0}
+  - id: 1
+    position: {x: 361, y: 411, z: 0}
+  - id: 1
+    position: {x: 361, y: 412, z: 0}
+  - id: 1
+    position: {x: 361, y: 413, z: 0}
+  - id: 1
+    position: {x: 361, y: 414, z: 0}
+  - id: 1
+    position: {x: 361, y: 415, z: 0}
+  - id: 1
+    position: {x: 361, y: 416, z: 0}
+  - id: 1
+    position: {x: 362, y: 394, z: 0}
+  - id: 1
+    position: {x: 362, y: 395, z: 0}
+  - id: 1
+    position: {x: 362, y: 396, z: 0}
+  - id: 1
+    position: {x: 362, y: 410, z: 0}
+  - id: 1
+    position: {x: 362, y: 411, z: 0}
+  - id: 1
+    position: {x: 362, y: 412, z: 0}
+  - id: 1
+    position: {x: 362, y: 413, z: 0}
+  - id: 1
+    position: {x: 362, y: 414, z: 0}
+  - id: 1
+    position: {x: 362, y: 415, z: 0}
+  - id: 1
+    position: {x: 362, y: 416, z: 0}
+  - id: 1
+    position: {x: 363, y: 394, z: 0}
+  - id: 1
+    position: {x: 363, y: 395, z: 0}
+  - id: 1
+    position: {x: 363, y: 396, z: 0}
+  - id: 1
+    position: {x: 363, y: 410, z: 0}
+  - id: 1
+    position: {x: 363, y: 411, z: 0}
+  - id: 1
+    position: {x: 363, y: 412, z: 0}
+  - id: 1
+    position: {x: 363, y: 413, z: 0}
+  - id: 1
+    position: {x: 363, y: 414, z: 0}
+  - id: 1
+    position: {x: 363, y: 415, z: 0}
+  - id: 1
+    position: {x: 363, y: 416, z: 0}
+  - id: 1
+    position: {x: 364, y: 394, z: 0}
+  - id: 1
+    position: {x: 364, y: 395, z: 0}
+  - id: 1
+    position: {x: 364, y: 396, z: 0}
+  - id: 1
+    position: {x: 364, y: 410, z: 0}
+  - id: 1
+    position: {x: 364, y: 411, z: 0}
+  - id: 1
+    position: {x: 364, y: 412, z: 0}
+  - id: 1
+    position: {x: 364, y: 413, z: 0}
+  - id: 1
+    position: {x: 364, y: 414, z: 0}
+  - id: 1
+    position: {x: 364, y: 415, z: 0}
+  - id: 1
+    position: {x: 364, y: 416, z: 0}
+  - id: 1
+    position: {x: 365, y: 394, z: 0}
+  - id: 1
+    position: {x: 365, y: 395, z: 0}
+  - id: 1
+    position: {x: 365, y: 396, z: 0}
+  - id: 1
+    position: {x: 365, y: 411, z: 0}
+  - id: 1
+    position: {x: 365, y: 412, z: 0}
+  - id: 1
+    position: {x: 365, y: 413, z: 0}
+  - id: 1
+    position: {x: 365, y: 414, z: 0}
+  - id: 1
+    position: {x: 365, y: 415, z: 0}
+  - id: 1
+    position: {x: 365, y: 416, z: 0}
+  - id: 1
+    position: {x: 366, y: 394, z: 0}
+  - id: 1
+    position: {x: 366, y: 395, z: 0}
+  - id: 1
+    position: {x: 366, y: 396, z: 0}
+  - id: 1
+    position: {x: 366, y: 411, z: 0}
+  - id: 1
+    position: {x: 366, y: 412, z: 0}
+  - id: 1
+    position: {x: 366, y: 413, z: 0}
+  - id: 1
+    position: {x: 366, y: 414, z: 0}
+  - id: 1
+    position: {x: 366, y: 415, z: 0}
+  - id: 1
+    position: {x: 366, y: 416, z: 0}
+  - id: 1
+    position: {x: 367, y: 394, z: 0}
+  - id: 1
+    position: {x: 367, y: 395, z: 0}
+  - id: 1
+    position: {x: 367, y: 396, z: 0}
+  - id: 1
+    position: {x: 367, y: 411, z: 0}
+  - id: 1
+    position: {x: 367, y: 412, z: 0}
+  - id: 1
+    position: {x: 367, y: 413, z: 0}
+  - id: 1
+    position: {x: 367, y: 414, z: 0}
+  - id: 1
+    position: {x: 367, y: 415, z: 0}
+  - id: 1
+    position: {x: 367, y: 416, z: 0}
+  - id: 1
+    position: {x: 368, y: 394, z: 0}
+  - id: 1
+    position: {x: 368, y: 395, z: 0}
+  - id: 1
+    position: {x: 368, y: 396, z: 0}
+  - id: 1
+    position: {x: 368, y: 397, z: 0}
+  - id: 1
+    position: {x: 368, y: 398, z: 0}
+  - id: 1
+    position: {x: 368, y: 411, z: 0}
+  - id: 1
+    position: {x: 368, y: 412, z: 0}
+  - id: 1
+    position: {x: 368, y: 413, z: 0}
+  - id: 1
+    position: {x: 368, y: 414, z: 0}
+  - id: 1
+    position: {x: 368, y: 415, z: 0}
+  - id: 1
+    position: {x: 368, y: 416, z: 0}
+  - id: 1
+    position: {x: 369, y: 394, z: 0}
+  - id: 1
+    position: {x: 369, y: 395, z: 0}
+  - id: 1
+    position: {x: 369, y: 396, z: 0}
+  - id: 1
+    position: {x: 369, y: 397, z: 0}
+  - id: 1
+    position: {x: 369, y: 398, z: 0}
+  - id: 1
+    position: {x: 369, y: 412, z: 0}
+  - id: 1
+    position: {x: 369, y: 413, z: 0}
+  - id: 1
+    position: {x: 369, y: 414, z: 0}
+  - id: 1
+    position: {x: 369, y: 415, z: 0}
+  - id: 1
+    position: {x: 369, y: 416, z: 0}
+  - id: 1
+    position: {x: 370, y: 394, z: 0}
+  - id: 1
+    position: {x: 370, y: 395, z: 0}
+  - id: 1
+    position: {x: 370, y: 396, z: 0}
+  - id: 1
+    position: {x: 370, y: 397, z: 0}
+  - id: 1
+    position: {x: 370, y: 398, z: 0}
+  - id: 1
+    position: {x: 370, y: 412, z: 0}
+  - id: 1
+    position: {x: 370, y: 413, z: 0}
+  - id: 1
+    position: {x: 370, y: 414, z: 0}
+  - id: 1
+    position: {x: 370, y: 415, z: 0}
+  - id: 1
+    position: {x: 370, y: 416, z: 0}
+  - id: 1
+    position: {x: 371, y: 394, z: 0}
+  - id: 1
+    position: {x: 371, y: 395, z: 0}
+  - id: 1
+    position: {x: 371, y: 396, z: 0}
+  - id: 1
+    position: {x: 371, y: 397, z: 0}
+  - id: 1
+    position: {x: 371, y: 398, z: 0}
+  - id: 1
+    position: {x: 371, y: 412, z: 0}
+  - id: 1
+    position: {x: 371, y: 413, z: 0}
+  - id: 1
+    position: {x: 371, y: 414, z: 0}
+  - id: 1
+    position: {x: 371, y: 415, z: 0}
+  - id: 1
+    position: {x: 371, y: 416, z: 0}
+  - id: 1
+    position: {x: 372, y: 394, z: 0}
+  - id: 1
+    position: {x: 372, y: 395, z: 0}
+  - id: 1
+    position: {x: 372, y: 396, z: 0}
+  - id: 1
+    position: {x: 372, y: 397, z: 0}
+  - id: 1
+    position: {x: 372, y: 398, z: 0}
+  - id: 1
+    position: {x: 372, y: 414, z: 0}
+  - id: 1
+    position: {x: 372, y: 415, z: 0}
+  - id: 1
+    position: {x: 372, y: 416, z: 0}
+  - id: 1
+    position: {x: 373, y: 394, z: 0}
+  - id: 1
+    position: {x: 373, y: 395, z: 0}
+  - id: 1
+    position: {x: 373, y: 396, z: 0}
+  - id: 1
+    position: {x: 373, y: 397, z: 0}
+  - id: 1
+    position: {x: 373, y: 398, z: 0}
+  - id: 1
+    position: {x: 373, y: 414, z: 0}
+  - id: 1
+    position: {x: 373, y: 415, z: 0}
+  - id: 1
+    position: {x: 373, y: 416, z: 0}
+  - id: 1
+    position: {x: 374, y: 394, z: 0}
+  - id: 1
+    position: {x: 374, y: 395, z: 0}
+  - id: 1
+    position: {x: 374, y: 396, z: 0}
+  - id: 1
+    position: {x: 374, y: 397, z: 0}
+  - id: 1
+    position: {x: 374, y: 398, z: 0}
+  - id: 1
+    position: {x: 374, y: 414, z: 0}
+  - id: 1
+    position: {x: 374, y: 415, z: 0}
+  - id: 1
+    position: {x: 374, y: 416, z: 0}
+  - id: 1
+    position: {x: 375, y: 394, z: 0}
+  - id: 1
+    position: {x: 375, y: 395, z: 0}
+  - id: 1
+    position: {x: 375, y: 396, z: 0}
+  - id: 1
+    position: {x: 375, y: 397, z: 0}
+  - id: 1
+    position: {x: 375, y: 398, z: 0}
+  - id: 1
+    position: {x: 375, y: 414, z: 0}
+  - id: 1
+    position: {x: 375, y: 415, z: 0}
+  - id: 1
+    position: {x: 375, y: 416, z: 0}
+  - id: 1
+    position: {x: 376, y: 394, z: 0}
+  - id: 1
+    position: {x: 376, y: 395, z: 0}
+  - id: 1
+    position: {x: 376, y: 396, z: 0}
+  - id: 1
+    position: {x: 376, y: 397, z: 0}
+  - id: 1
+    position: {x: 376, y: 398, z: 0}
+  - id: 1
+    position: {x: 376, y: 399, z: 0}
+  - id: 1
+    position: {x: 376, y: 414, z: 0}
+  - id: 1
+    position: {x: 376, y: 415, z: 0}
+  - id: 1
+    position: {x: 376, y: 416, z: 0}
+  - id: 1
+    position: {x: 377, y: 394, z: 0}
+  - id: 1
+    position: {x: 377, y: 395, z: 0}
+  - id: 1
+    position: {x: 377, y: 396, z: 0}
+  - id: 1
+    position: {x: 377, y: 397, z: 0}
+  - id: 1
+    position: {x: 377, y: 398, z: 0}
+  - id: 1
+    position: {x: 377, y: 399, z: 0}
+  - id: 1
+    position: {x: 377, y: 400, z: 0}
+  - id: 1
+    position: {x: 377, y: 414, z: 0}
+  - id: 1
+    position: {x: 377, y: 415, z: 0}
+  - id: 1
+    position: {x: 377, y: 416, z: 0}
+  - id: 1
+    position: {x: 378, y: 394, z: 0}
+  - id: 1
+    position: {x: 378, y: 395, z: 0}
+  - id: 1
+    position: {x: 378, y: 396, z: 0}
+  - id: 1
+    position: {x: 378, y: 397, z: 0}
+  - id: 1
+    position: {x: 378, y: 398, z: 0}
+  - id: 1
+    position: {x: 378, y: 399, z: 0}
+  - id: 1
+    position: {x: 378, y: 400, z: 0}
+  - id: 1
+    position: {x: 378, y: 414, z: 0}
+  - id: 1
+    position: {x: 378, y: 415, z: 0}
+  - id: 1
+    position: {x: 378, y: 416, z: 0}
+  - id: 1
+    position: {x: 379, y: 394, z: 0}
+  - id: 1
+    position: {x: 379, y: 395, z: 0}
+  - id: 1
+    position: {x: 379, y: 396, z: 0}
+  - id: 1
+    position: {x: 379, y: 397, z: 0}
+  - id: 1
+    position: {x: 379, y: 398, z: 0}
+  - id: 1
+    position: {x: 379, y: 399, z: 0}
+  - id: 1
+    position: {x: 379, y: 400, z: 0}
+  - id: 1
+    position: {x: 379, y: 414, z: 0}
+  - id: 1
+    position: {x: 379, y: 415, z: 0}
+  - id: 1
+    position: {x: 379, y: 416, z: 0}
+  - id: 1
+    position: {x: 380, y: 394, z: 0}
+  - id: 1
+    position: {x: 380, y: 395, z: 0}
+  - id: 1
+    position: {x: 380, y: 396, z: 0}
+  - id: 1
+    position: {x: 380, y: 397, z: 0}
+  - id: 1
+    position: {x: 380, y: 398, z: 0}
+  - id: 1
+    position: {x: 380, y: 399, z: 0}
+  - id: 1
+    position: {x: 380, y: 400, z: 0}
+  - id: 1
+    position: {x: 380, y: 414, z: 0}
+  - id: 1
+    position: {x: 380, y: 415, z: 0}
+  - id: 1
+    position: {x: 380, y: 416, z: 0}
+  - id: 1
+    position: {x: 381, y: 394, z: 0}
+  - id: 1
+    position: {x: 381, y: 395, z: 0}
+  - id: 1
+    position: {x: 381, y: 396, z: 0}
+  - id: 1
+    position: {x: 381, y: 397, z: 0}
+  - id: 1
+    position: {x: 381, y: 398, z: 0}
+  - id: 1
+    position: {x: 381, y: 399, z: 0}
+  - id: 1
+    position: {x: 381, y: 400, z: 0}
+  - id: 1
+    position: {x: 381, y: 414, z: 0}
+  - id: 1
+    position: {x: 381, y: 415, z: 0}
+  - id: 1
+    position: {x: 381, y: 416, z: 0}
+  - id: 1
+    position: {x: 382, y: 394, z: 0}
+  - id: 1
+    position: {x: 382, y: 395, z: 0}
+  - id: 1
+    position: {x: 382, y: 396, z: 0}
+  - id: 1
+    position: {x: 382, y: 397, z: 0}
+  - id: 1
+    position: {x: 382, y: 398, z: 0}
+  - id: 1
+    position: {x: 382, y: 399, z: 0}
+  - id: 1
+    position: {x: 382, y: 400, z: 0}
+  - id: 1
+    position: {x: 382, y: 412, z: 0}
+  - id: 1
+    position: {x: 382, y: 413, z: 0}
+  - id: 1
+    position: {x: 382, y: 414, z: 0}
+  - id: 1
+    position: {x: 382, y: 415, z: 0}
+  - id: 1
+    position: {x: 382, y: 416, z: 0}
+  - id: 1
+    position: {x: 383, y: 394, z: 0}
+  - id: 1
+    position: {x: 383, y: 395, z: 0}
+  - id: 1
+    position: {x: 383, y: 396, z: 0}
+  - id: 1
+    position: {x: 383, y: 397, z: 0}
+  - id: 1
+    position: {x: 383, y: 398, z: 0}
+  - id: 1
+    position: {x: 383, y: 399, z: 0}
+  - id: 1
+    position: {x: 383, y: 400, z: 0}
+  - id: 1
+    position: {x: 383, y: 401, z: 0}
+  - id: 1
+    position: {x: 383, y: 402, z: 0}
+  - id: 1
+    position: {x: 383, y: 403, z: 0}
+  - id: 1
+    position: {x: 383, y: 412, z: 0}
+  - id: 1
+    position: {x: 383, y: 413, z: 0}
+  - id: 1
+    position: {x: 383, y: 414, z: 0}
+  - id: 1
+    position: {x: 383, y: 415, z: 0}
+  - id: 1
+    position: {x: 383, y: 416, z: 0}
+  - id: 1
+    position: {x: 384, y: 394, z: 0}
+  - id: 1
+    position: {x: 384, y: 395, z: 0}
+  - id: 1
+    position: {x: 384, y: 396, z: 0}
+  - id: 1
+    position: {x: 384, y: 397, z: 0}
+  - id: 1
+    position: {x: 384, y: 398, z: 0}
+  - id: 1
+    position: {x: 384, y: 399, z: 0}
+  - id: 1
+    position: {x: 384, y: 400, z: 0}
+  - id: 1
+    position: {x: 384, y: 401, z: 0}
+  - id: 1
+    position: {x: 384, y: 402, z: 0}
+  - id: 1
+    position: {x: 384, y: 403, z: 0}
+  - id: 1
+    position: {x: 384, y: 404, z: 0}
+  - id: 1
+    position: {x: 384, y: 405, z: 0}
+  - id: 1
+    position: {x: 384, y: 406, z: 0}
+  - id: 1
+    position: {x: 384, y: 407, z: 0}
+  - id: 1
+    position: {x: 384, y: 408, z: 0}
+  - id: 1
+    position: {x: 384, y: 409, z: 0}
+  - id: 1
+    position: {x: 384, y: 410, z: 0}
+  - id: 1
+    position: {x: 384, y: 411, z: 0}
+  - id: 1
+    position: {x: 384, y: 412, z: 0}
+  - id: 1
+    position: {x: 384, y: 413, z: 0}
+  - id: 1
+    position: {x: 384, y: 414, z: 0}
+  - id: 1
+    position: {x: 384, y: 415, z: 0}
+  - id: 1
+    position: {x: 384, y: 416, z: 0}
+  - id: 1
+    position: {x: 385, y: 394, z: 0}
+  - id: 1
+    position: {x: 385, y: 395, z: 0}
+  - id: 1
+    position: {x: 385, y: 396, z: 0}
+  - id: 1
+    position: {x: 385, y: 397, z: 0}
+  - id: 1
+    position: {x: 385, y: 398, z: 0}
+  - id: 1
+    position: {x: 385, y: 399, z: 0}
+  - id: 1
+    position: {x: 385, y: 400, z: 0}
+  - id: 1
+    position: {x: 385, y: 401, z: 0}
+  - id: 1
+    position: {x: 385, y: 402, z: 0}
+  - id: 1
+    position: {x: 385, y: 403, z: 0}
+  - id: 1
+    position: {x: 385, y: 404, z: 0}
+  - id: 1
+    position: {x: 385, y: 405, z: 0}
+  - id: 1
+    position: {x: 385, y: 406, z: 0}
+  - id: 1
+    position: {x: 385, y: 407, z: 0}
+  - id: 1
+    position: {x: 385, y: 408, z: 0}
+  - id: 1
+    position: {x: 385, y: 409, z: 0}
+  - id: 1
+    position: {x: 385, y: 410, z: 0}
+  - id: 1
+    position: {x: 385, y: 411, z: 0}
+  - id: 1
+    position: {x: 385, y: 412, z: 0}
+  - id: 1
+    position: {x: 385, y: 413, z: 0}
+  - id: 1
+    position: {x: 385, y: 414, z: 0}
+  - id: 1
+    position: {x: 385, y: 415, z: 0}
+  - id: 1
+    position: {x: 385, y: 416, z: 0}
+  - id: 1
+    position: {x: 386, y: 394, z: 0}
+  - id: 1
+    position: {x: 386, y: 395, z: 0}
+  - id: 1
+    position: {x: 386, y: 396, z: 0}
+  - id: 1
+    position: {x: 386, y: 397, z: 0}
+  - id: 1
+    position: {x: 386, y: 398, z: 0}
+  - id: 1
+    position: {x: 386, y: 399, z: 0}
+  - id: 1
+    position: {x: 386, y: 400, z: 0}
+  - id: 1
+    position: {x: 386, y: 401, z: 0}
+  - id: 1
+    position: {x: 386, y: 402, z: 0}
+  - id: 1
+    position: {x: 386, y: 403, z: 0}
+  - id: 1
+    position: {x: 386, y: 404, z: 0}
+  - id: 1
+    position: {x: 386, y: 405, z: 0}
+  - id: 1
+    position: {x: 386, y: 406, z: 0}
+  - id: 1
+    position: {x: 386, y: 407, z: 0}
+  - id: 1
+    position: {x: 386, y: 408, z: 0}
+  - id: 1
+    position: {x: 386, y: 409, z: 0}
+  - id: 1
+    position: {x: 386, y: 410, z: 0}
+  - id: 1
+    position: {x: 386, y: 411, z: 0}
+  - id: 1
+    position: {x: 386, y: 412, z: 0}
+  - id: 1
+    position: {x: 386, y: 413, z: 0}
+  - id: 1
+    position: {x: 386, y: 414, z: 0}
+  - id: 1
+    position: {x: 386, y: 415, z: 0}
+  - id: 1
+    position: {x: 386, y: 416, z: 0}
+  - id: 1
+    position: {x: 387, y: 394, z: 0}
+  - id: 1
+    position: {x: 387, y: 395, z: 0}
+  - id: 1
+    position: {x: 387, y: 396, z: 0}
+  - id: 1
+    position: {x: 387, y: 397, z: 0}
+  - id: 1
+    position: {x: 387, y: 398, z: 0}
+  - id: 1
+    position: {x: 387, y: 399, z: 0}
+  - id: 1
+    position: {x: 387, y: 400, z: 0}
+  - id: 1
+    position: {x: 387, y: 401, z: 0}
+  - id: 1
+    position: {x: 387, y: 402, z: 0}
+  - id: 1
+    position: {x: 387, y: 403, z: 0}
+  - id: 1
+    position: {x: 387, y: 404, z: 0}
+  - id: 1
+    position: {x: 387, y: 405, z: 0}
+  - id: 1
+    position: {x: 387, y: 406, z: 0}
+  - id: 1
+    position: {x: 387, y: 407, z: 0}
+  - id: 1
+    position: {x: 387, y: 408, z: 0}
+  - id: 1
+    position: {x: 387, y: 409, z: 0}
+  - id: 1
+    position: {x: 387, y: 410, z: 0}
+  - id: 1
+    position: {x: 387, y: 411, z: 0}
+  - id: 1
+    position: {x: 387, y: 412, z: 0}
+  - id: 1
+    position: {x: 387, y: 413, z: 0}
+  - id: 1
+    position: {x: 387, y: 414, z: 0}
+  - id: 1
+    position: {x: 387, y: 415, z: 0}
+  - id: 1
+    position: {x: 387, y: 416, z: 0}
+  mapObjectDataList: []
 --- !u!1 &2050860732097960881
 GameObject:
   m_ObjectHideFlags: 0
