@@ -201,7 +201,6 @@ public class Grappling : NetworkBehaviour
     [ClientRpc(includeOwner = false)]
     private void RpcChangeHookBody(RigidbodyType2D type)
     {
-        Debug.Log(type);
         _hookAnchorRb.bodyType = type;
     }
     
