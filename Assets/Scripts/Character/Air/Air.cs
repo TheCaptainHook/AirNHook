@@ -21,14 +21,17 @@ public class Air : MonoBehaviour
 
     //마우스 클릭체크
     private bool _isRightButtonClick;
-    private bool _isLeftButtonClick;
 
     //흡입액션 bool값
     private bool _isAttached;
 
+    //흡입가능한지 아닌지 체크하는 bool값
+    private bool _isInhale = true;
+
     //발사액션 후 흡입액션 쿨타임
-    private float _coolDown = 1.5f;
-    private float _coolDownCount = 0f;
+    private float _coolDown;
+
+    //private float _coolDownCount = 0f;
 
     //감지거리
     [SerializeField] public float detectionDistance = 3f;
@@ -48,7 +51,7 @@ public class Air : MonoBehaviour
     [SerializeField] private float _shootPower;
 
     //차징시간체크
-    private float _chargingTime = 0f;
+    private float _chargingTime;
 
     //코루틴 변수선언
     private Coroutine _chargingCoroutine;
@@ -80,33 +83,25 @@ public class Air : MonoBehaviour
     private void Update()
     {
         RotateArm();
-        if (_coolDownCount > 0f)
-        {
-            _coolDownCount -= Time.deltaTime;
-        }
+
         //오른쪽마우스클릭 했을때
         if (_isRightButtonClick)
         {
             //붙지 않았을때
             if (!_isAttached)
             {
-                if (_coolDownCount <= 0f)
+                //쿨타임코루틴제작해서 감싸야함
+                if (_isInhale == true)
                 {
                     ObjectCheck();
                     SlerpTarget();
                 }
             }
-            ////붙었을때
+            //붙었을때
             else
             {
                 Attached();
             }
-        }
-
-        //왼쪽 마우스버튼 클릭했을때
-        if (_isLeftButtonClick)
-        {
-            Charging();
         }
     }
 
@@ -116,16 +111,13 @@ public class Air : MonoBehaviour
         //차징액션 함수 제작하여 넣기
         if (_isAttached)
         {
-            _isLeftButtonClick = true;
+            Charging();
         }
     }
 
     //오브젝트 발사
     private void PlayerActionCanceled(InputAction.CallbackContext context)
     {
-        _isLeftButtonClick = false;
-        _chargingTime = 0f;
-        _coolDownCount = _coolDown;
         if (_isAttached == true)
         {
             ShootObject();
@@ -279,8 +271,13 @@ public class Air : MonoBehaviour
             //Slerp = (현재위치, 목표, 속도) / 이곳에 베지어곡선코드를 넣어야한다.
             _latestTarget.transform.position = Vector3.Slerp(target, _weaponPoint.position, 0.05f);
 
+            //_latestTarget의 트리거체크를 켠다.(충돌방지)
+            //_latestTarget.GetComponent<CircleCollider2D>().isTrigger = true;
+            // 이걸 ture곳에 넣어주고 false인곳은 0을 넣어주면된다.
+            _latestTarget.GetComponent<CircleCollider2D>().excludeLayers = (1 << gameObject.layer);
+
             //두 오브젝트의 위치가 0.1보다 가깝다면
-            if(Vector2.Distance(_latestTarget.transform.position,_weaponPoint.position) <= 0.1)
+            if (Vector2.Distance(_latestTarget.transform.position,_weaponPoint.position) <= 0.1)
             {
                 if ((_objectMask & (1 << _latestTarget.transform.gameObject.layer)) != 0)
                 {
@@ -288,11 +285,6 @@ public class Air : MonoBehaviour
                     //오브젝트위치를 총구위치에 고정
                     _latestTarget.transform.position = _weaponPoint.position;
                     _latestTarget.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
-
-                    //_latestTarget의 트리거체크를 켠다.(충돌방지)
-                    //_latestTarget.GetComponent<CircleCollider2D>().isTrigger = true;
-                    // 이걸 ture곳에 넣어주고 false인곳은 0을 넣어주면된다.
-                    _latestTarget.GetComponent<CircleCollider2D>().excludeLayers = (1 << gameObject.layer);
 
                     //흡입액션이 끝나도록 ObjectCheck()에 bool값 한개 주기
                     //SlerpTarget()을 멈추면서 오브젝트의 위치를 총구에 고정시킴
@@ -327,6 +319,8 @@ public class Air : MonoBehaviour
             Debug.Log(_shootPower);
             _chargingCoroutine = null;
         }
+        StartCoroutine(Co_CoolDown());
+
         //붙어있는 상태 해제
         _isAttached = false;
 
@@ -345,8 +339,6 @@ public class Air : MonoBehaviour
     //차징하는 코드
     private void Charging()
     {
-        Debug.Log("charging");
-        _chargingTime += Time.deltaTime;
         _shootPower = _minShootPower;
         _chargingCoroutine = StartCoroutine(Co_PowerCharging());
         //코루틴 사용 / 코루틴을 변수로 선언하고 이곳에서 코루틴 시작 / 마우스 캔슬드되면 코루틴 정지
@@ -355,23 +347,28 @@ public class Air : MonoBehaviour
     //차징파워 올려주는 코루틴
     private IEnumerator Co_PowerCharging()
     {
-        // 차징파워 올리는 코루틴 제작 //차징시간에 비례해서 ex 1초누르면 풀차징
-        //1초 이상 누르면 최대파워로 발사
-        if(_chargingTime >= 1f)
+        _chargingTime = 0f;
+        WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
+        while (_chargingTime <= 1f)
         {
-            _shootPower = _maxShootPower;
+            _chargingTime += Time.fixedDeltaTime;
+            Debug.Log(_chargingTime);
+
+            _shootPower = (_chargingTime * (_maxShootPower - _minShootPower)) + _minShootPower;
+
+            yield return waitForFixedUpdate;
         }
-        //1초보다 작으면
-        else if(_chargingTime < 1f)
-        {
-            _shootPower = (_chargingTime * _maxShootPower) + _minShootPower;
-            //위의 코드대로 계산을하면 최대파워보다 높은 힘을 받게되는경우가 생기기때문
-            if(_shootPower >= _maxShootPower)
-            {
-                _shootPower = _maxShootPower;
-            }
-        }
-        yield return _shootPower;
+        _shootPower = _maxShootPower;
+    }
+
+    //쿨타임 코루틴
+    private IEnumerator Co_CoolDown()
+    {
+        _isInhale = false;
+
+        yield return new WaitForSeconds(1.5f);
+
+        _isInhale = true;
     }
 
     //포물선 그려주는 코드
