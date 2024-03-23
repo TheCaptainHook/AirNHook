@@ -9,7 +9,7 @@ public class PlaceMentSystem : MonoBehaviour
 
 
     Util Util = new Util();
-    private Camera _camera;
+    private Camera _camera => Camera.main == null ? null : Camera.main;
     public LayerMask layerMask;
 
     public Vector3Int gridPosition;
@@ -36,9 +36,9 @@ public class PlaceMentSystem : MonoBehaviour
     public Tilemap floorTileMap;
     public TileBase tileBase;
 
-    private void Awake()
+    private void Start()
     {
-        _camera = Camera.main;
+        //_camera = Camera.main;
         default_MouseIndicatorSprite = mouseIndicator.GetComponent<SpriteRenderer>().sprite;
     }
 

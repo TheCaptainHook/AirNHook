@@ -69,7 +69,10 @@ public class CustomNetworkManager : NetworkManager
         if (Managers.Game.CurrentState != GameState.Title)
         {
             //TODO 선택한 stage로 소환하는 코드.
-            Instantiate(Resources.Load<GameObject>("Map/Map2"));
+            //Instantiate(Resources.Load<GameObject>("Prefabs/Map/SelectMap"));
+            Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/MapEditor"));
+            MapEditor.Instance.LoadMap("Tutorial_1");
+            Managers.UI.InitializeUI();
         }
     }
 
@@ -109,7 +112,10 @@ public class CustomNetworkManager : NetworkManager
         if (Managers.Game.CurrentState != GameState.Title)
         {
             //TODO 선택한 stage로 소환하는 코드.
-            Instantiate(Resources.Load<GameObject>("Map/Map2"));
+            //Instantiate(Resources.Load<GameObject>("Prefabs/Map/SelectMap"));
+            Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/MapEditor"));
+            MapEditor.Instance.LoadMap("Tutorial_1");
+            Managers.UI.InitializeUI();
         }
     }
 
