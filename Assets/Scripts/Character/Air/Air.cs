@@ -20,10 +20,15 @@ public class Air : MonoBehaviour
     private Camera _camera;
 
     //마우스 클릭체크
-    private bool _isClick;
+    private bool _isRightButtonClick;
+    private bool _isLeftButtonClick;
 
-    //흡입액션 종료 bool값
+    //흡입액션 bool값
     private bool _isAttached;
+
+    //발사액션 후 흡입액션 쿨타임
+    private float _coolDown = 1.5f;
+    private float _coolDownCount = 0f;
 
     //감지거리
     [SerializeField] public float detectionDistance = 3f;
@@ -37,8 +42,19 @@ public class Air : MonoBehaviour
     private Collider2D _latestTarget;
 
     //흡입한 오브젝트 날리는 파워
-    private float _shootPower = 10f;
+    [SerializeField] private float _minShootPower = 5f;
+    [SerializeField] private float _maxShootPower = 20f;
 
+    [SerializeField] private float _shootPower;
+
+    //차징시간체크
+    private float _chargingTime = 0f;
+
+    //코루틴 변수선언
+    private Coroutine _chargingCoroutine;
+
+    //땅체크
+    [SerializeField] private LayerMask _floorLayer;
 
     private void Awake()
     {
@@ -55,23 +71,30 @@ public class Air : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
 
         playerInput.playerActions.Look.performed += Look;
-        playerInput.playerActions.Action.performed += PlayerActionPerformed;
+        playerInput.playerActions.Action.started += PlayerActionStarted;
         playerInput.playerActions.Action.canceled += PlayerActionCanceled;
-        playerInput.playerActions.SubAction.performed += PlayerSubActionPerformed;
+        playerInput.playerActions.SubAction.started += PlayerSubActionStarted;
         playerInput.playerActions.SubAction.canceled += PlayerSubActionCanceled;
     }
 
     private void Update()
     {
         RotateArm();
-        //클릭 했을때
-        if (_isClick)
+        if (_coolDownCount > 0f)
+        {
+            _coolDownCount -= Time.deltaTime;
+        }
+        //오른쪽마우스클릭 했을때
+        if (_isRightButtonClick)
         {
             //붙지 않았을때
             if (!_isAttached)
             {
-                ObjectCheck();
-                SlerpTarget();
+                if (_coolDownCount <= 0f)
+                {
+                    ObjectCheck();
+                    SlerpTarget();
+                }
             }
             ////붙었을때
             else
@@ -79,38 +102,58 @@ public class Air : MonoBehaviour
                 Attached();
             }
         }
-    }
-    //에어 액션 시작
-    private void PlayerActionPerformed(InputAction.CallbackContext context)
-    {
-        _isClick = true;
+
+        //왼쪽 마우스버튼 클릭했을때
+        if (_isLeftButtonClick)
+        {
+            Charging();
+        }
     }
 
-    //에어 액션 끝
+    //발사 게이지차징
+    private void PlayerActionStarted(InputAction.CallbackContext context)
+    {
+        //차징액션 함수 제작하여 넣기
+        if (_isAttached)
+        {
+            _isLeftButtonClick = true;
+        }
+    }
+
+    //오브젝트 발사
     private void PlayerActionCanceled(InputAction.CallbackContext context)
     {
-        _isClick = false;
-
+        _isLeftButtonClick = false;
+        _chargingTime = 0f;
+        _coolDownCount = _coolDown;
         if (_isAttached == true)
         {
             ShootObject();
         }
-        else if (_latestTarget != null)
+    }
+
+    //흡입액션 시작 (우클릭)
+    private void PlayerSubActionStarted(InputAction.CallbackContext context)
+    {
+        _isRightButtonClick = true;
+    }
+
+    //흡입액션 취소
+    private void PlayerSubActionCanceled(InputAction.CallbackContext context)
+    {
+        _isRightButtonClick = false;
+        
+        if(_isAttached == true)
+        {
+            Vector2 target = new Vector2(_latestTarget.transform.position.x, _latestTarget.transform.position.y);
+        }
+        if (_latestTarget != null)
         {
             _latestTarget.GetComponent<Rigidbody2D>().gravityScale = 3;
-            _latestTarget.GetComponent<CircleCollider2D>().isTrigger = false;
+            _latestTarget.GetComponent<CircleCollider2D>().excludeLayers = 0;
             _latestTarget = null;
+            _isAttached = false;
         }
-    }
-
-    private void PlayerSubActionPerformed(InputAction.CallbackContext obj)
-    {
-        throw new NotImplementedException();
-    }
-
-    private void PlayerSubActionCanceled(InputAction.CallbackContext obj)
-    {
-        throw new NotImplementedException();
     }
 
     //에어 시선
@@ -194,7 +237,7 @@ public class Air : MonoBehaviour
             if(_latestTarget != null && _latestTarget != _closestTarget)
             {
                 _latestTarget.GetComponent<Rigidbody2D>().gravityScale = 3;
-                _latestTarget.GetComponent<CircleCollider2D>().isTrigger = false;
+                _latestTarget.GetComponent<CircleCollider2D>().excludeLayers = 0;
             }
 
             if (_closestTarget == null)
@@ -221,7 +264,6 @@ public class Air : MonoBehaviour
     //오브젝트 끌고오는 함수
     private void SlerpTarget()
     {
-
         if (_latestTarget == null)
         {
             Debug.Log("_latestTarget Is Null");
@@ -248,7 +290,9 @@ public class Air : MonoBehaviour
                     _latestTarget.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
 
                     //_latestTarget의 트리거체크를 켠다.(충돌방지)
-                    _latestTarget.GetComponent<CircleCollider2D>().isTrigger = true;
+                    //_latestTarget.GetComponent<CircleCollider2D>().isTrigger = true;
+                    // 이걸 ture곳에 넣어주고 false인곳은 0을 넣어주면된다.
+                    _latestTarget.GetComponent<CircleCollider2D>().excludeLayers = (1 << gameObject.layer);
 
                     //흡입액션이 끝나도록 ObjectCheck()에 bool값 한개 주기
                     //SlerpTarget()을 멈추면서 오브젝트의 위치를 총구에 고정시킴
@@ -267,7 +311,7 @@ public class Air : MonoBehaviour
             return;
         }
         //_latestTarget의 트리거체크를 켠다.(충돌방지)
-        _latestTarget.GetComponent<CircleCollider2D>().isTrigger = true;
+        _latestTarget.GetComponent<CircleCollider2D>().excludeLayers = (1 << gameObject.layer);
 
         //오브젝트위치를 총구위치에 고정
         _latestTarget.transform.position = _weaponPoint.position;
@@ -277,16 +321,57 @@ public class Air : MonoBehaviour
     //오브젝트 발사하는코드
     private void ShootObject()
     {
+        if (_chargingCoroutine != null)
+        {
+            StopCoroutine(_chargingCoroutine);
+            Debug.Log(_shootPower);
+            _chargingCoroutine = null;
+        }
+        //붙어있는 상태 해제
+        _isAttached = false;
+
         //발사하면 트리거와 중력작용 둘다 켜야함
-        _latestTarget.GetComponent<CircleCollider2D>().isTrigger = false;
+        _latestTarget.GetComponent<CircleCollider2D>().excludeLayers = 0;
         _latestTarget.GetComponent<Rigidbody2D>().gravityScale = 3;
 
         //임시코드
         //마우스 방향(rotZ) 을 벡터로 받아서 날려줘야함.
         _latestTarget.GetComponent<Rigidbody2D>().AddForce(_weaponPoint.right * _shootPower, ForceMode2D.Impulse);
-
+        Debug.Log("_shootPower의 힘은 = " + _shootPower);
         //발사하면 _latestTarget값을 잃는다.
         _latestTarget = null;
+    }
+
+    //차징하는 코드
+    private void Charging()
+    {
+        Debug.Log("charging");
+        _chargingTime += Time.deltaTime;
+        _shootPower = _minShootPower;
+        _chargingCoroutine = StartCoroutine(Co_PowerCharging());
+        //코루틴 사용 / 코루틴을 변수로 선언하고 이곳에서 코루틴 시작 / 마우스 캔슬드되면 코루틴 정지
+    }
+
+    //차징파워 올려주는 코루틴
+    private IEnumerator Co_PowerCharging()
+    {
+        // 차징파워 올리는 코루틴 제작 //차징시간에 비례해서 ex 1초누르면 풀차징
+        //1초 이상 누르면 최대파워로 발사
+        if(_chargingTime >= 1f)
+        {
+            _shootPower = _maxShootPower;
+        }
+        //1초보다 작으면
+        else if(_chargingTime < 1f)
+        {
+            _shootPower = (_chargingTime * _maxShootPower) + _minShootPower;
+            //위의 코드대로 계산을하면 최대파워보다 높은 힘을 받게되는경우가 생기기때문
+            if(_shootPower >= _maxShootPower)
+            {
+                _shootPower = _maxShootPower;
+            }
+        }
+        yield return _shootPower;
     }
 
     //포물선 그려주는 코드

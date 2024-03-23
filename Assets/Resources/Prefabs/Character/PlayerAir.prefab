@@ -576,6 +576,15 @@ MonoBehaviour:
   _weaponSprite: {fileID: 4135230147445421713}
   _weaponPoint: {fileID: 8020332431332626012}
   detectionDistance: 2
+  _objectMask:
+    serializedVersion: 2
+    m_Bits: 4096
+  _hookMask:
+    serializedVersion: 2
+    m_Bits: 2048
+  _minShootPower: 5
+  _maxShootPower: 20
+  _shootPower: 0
 --- !u!114 &3255952696500085432
 MonoBehaviour:
   m_ObjectHideFlags: 0
