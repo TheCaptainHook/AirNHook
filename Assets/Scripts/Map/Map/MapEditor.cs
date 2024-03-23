@@ -291,7 +291,7 @@ public class MapEditor : MonoBehaviour
         string filePath = Path.Combine(folderPath, $"{map.mapID}.json");
         File.WriteAllText(filePath, json);
 
-        UnityEditor.AssetDatabase.Refresh();
+        //UnityEditor.AssetDatabase.Refresh();
     }
 
 
@@ -411,6 +411,7 @@ public class MapEditor : MonoBehaviour
             case "ObjectTransform":
                 foreach (ObjectData data in curMap.mapObjectDataList)
                 {
+                    if(data.id == 307) { continue; }
                     MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
                     Create(transform, mapDataStruct, data);
                 }

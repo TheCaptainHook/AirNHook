@@ -13,8 +13,8 @@ public class Map
     public Vector2 startPosition;
     public List<TileData> mapTileDataList = new();
     public List<ObjectData> mapObjectDataList = new List<ObjectData>();
-    public List<ButtonActivatedDoorStruct> mapButtonActivatedDoorDataList = new List<ButtonActivatedDoorStruct>();
 
+    public List<ButtonActivatedDoorStruct> mapButtonActivatedDoorDataList = new List<ButtonActivatedDoorStruct>();
     public List<ExitObjStruct> mapExitObjectDataList = new();
 
     public float cellSize;
@@ -39,8 +39,24 @@ public class Map
 
     public Map()
     {
-
+     
     }
+
+
+    public List<Vector2> FindObject_Vector2(int id)
+    {
+        List<Vector2> list = new List<Vector2>();
+
+        foreach(ObjectData objectData in mapObjectDataList)
+        {
+            if(objectData.id == id)
+            {
+                list.Add(objectData.position);
+            }
+        }
+        return list;
+    }
+
 }
 
 
