@@ -73,6 +73,7 @@ MonoBehaviour:
   - {fileID: 8902978029819753349, guid: 1ce866e948972b445a4aba7f7bab6e18, type: 3}
   - {fileID: 8902978029819753349, guid: 000db53101ff9ed46a9e38c746e349ca, type: 3}
   - {fileID: 8902978029819753349, guid: 093e8bb744c50bd44b60426f69439150, type: 3}
+  - {fileID: 6099480600797554674, guid: cf58473767c54284da8c000f85e751c0, type: 3}
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2

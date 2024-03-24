@@ -148,7 +148,7 @@ public class UIManager : MonoBehaviour
     // UI 프리팹 경로 반환
     private static string GetPath<T>()
     {
-        string className = typeof(T).Name;  
+        string className = typeof(T).Name;
         return _uiPath + className;
     }
     
@@ -164,5 +164,22 @@ public class UIManager : MonoBehaviour
         {
             ui.SetLanguage();
         }
+    }
+
+    public void ClearUI()
+    {
+        var check = _uIDict.TryGetValue(nameof(UI_Loading), out var uiLoading);
+        _uIDict.Clear();
+        if(check)
+            _uIDict.Add(nameof(UI_Loading), uiLoading);
+    }
+
+    /// <summary> Scene시작시 UI 생성. 게임 중 생성하면 렉 걸려서 미리 생성. </summary>
+    public void InitializeUI()
+    {
+        ShowUI<UI_Option>();
+        HideUI<UI_Option>();
+        ShowUI<UI_EmoteWheel>();
+        HideUI<UI_EmoteWheel>();
     }
 }
