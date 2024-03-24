@@ -59,7 +59,6 @@ public class MapEditor_Editor : Editor
                 Undo.DestroyObjectImmediate(mapEditor.mapObjBoxTransform.gameObject);
                 Undo.DestroyObjectImmediate(mapEditor.gridPalette);
             }           
-            mapEditor.placeMentSystem.ResetTileMap();
             mapEditor.curMap = new Map();
         }
 
@@ -299,7 +298,6 @@ public class MapEditor_Editor : Editor
 
         foreach (Transform cur in mapEditor.interactionObjectTransform)
         {
-            Debug.Log("asdasd");
             ButtonActivatedDoor curDoor = cur.GetComponent<ButtonActivatedDoor>();
             curDoor.SetTileData(cur.position, cur.rotation);
           

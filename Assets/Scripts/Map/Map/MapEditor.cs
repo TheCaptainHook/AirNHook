@@ -120,6 +120,8 @@ public class MapEditor : MonoBehaviour
     {
         if(mapEditorState != MapEditorState.NoEditor) { editorUIController.SetActive(true); }
         else { editorUIController.SetActive(false); }
+        if(gridPalette != null) { Destroy(gridPalette); }
+
         CreateGridPalet();
         mapObjBoxTransform = Util.CreateChildTransform(transform, "MapObjBox");
         floorTransform = Util.CreateChildTransform(mapObjBoxTransform, "FloorTransform");
