@@ -266,7 +266,7 @@ public class Player : NetworkBehaviour, IDamageable
             //_grabbedItem.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
             //_grabbedItem.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
             //CmdItemPosSync();
-            _grabbedItem.GetComponent<GrabbableObject>().CmdGrab();
+            _grabbedItem.GetComponent<GrabbableObject>().Grab();
         }
         else
         {
@@ -284,7 +284,7 @@ public class Player : NetworkBehaviour, IDamageable
             //_grabbedItem.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
             //_grabbedItem.GetComponent<Rigidbody2D>().velocity = _rigidbd.velocity;
             //CmdItemRelease();
-            _grabbedItem.GetComponent<GrabbableObject>().CmdRelease();
+            _grabbedItem.GetComponent<GrabbableObject>().Release();
             _grabbedItem = null;
         }
     }

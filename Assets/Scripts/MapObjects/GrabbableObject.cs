@@ -21,21 +21,39 @@ public class GrabbableObject : NetworkBehaviour
         
     }
 
+    public void Grab()
+    {
+        _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
+        _rigidbody2D.velocity = new Vector2(0, 0);
+        transform.parent = player;
+        transform.localPosition = new Vector3(0, 0, 0);
+        transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
+        CmdGrab();
+    }
+
     [Command(requiresAuthority = false)]
     public void CmdGrab()
     {
         RpcGrab();
     }
 
-    [ClientRpc]
+    [ClientRpc(includeOwner = false)]
     private void RpcGrab()
     {
         isGrabbed = true;
-        transform.parent = player;
-        transform.localPosition = player.position;
-        transform.localRotation = player.rotation;
         _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
         _rigidbody2D.velocity = new Vector2(0, 0);
+        transform.parent = player;
+        transform.localPosition = new Vector3(0, 0, 0);
+        transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
+    }
+
+    public void Release()
+    {
+        isGrabbed = false;
+        transform.parent = null;
+        _rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
+        CmdRelease();
     }
 
     [Command(requiresAuthority = false)]
@@ -44,7 +62,7 @@ public class GrabbableObject : NetworkBehaviour
         RpcRelease();
     }
 
-    [ClientRpc]
+    [ClientRpc(includeOwner = false)]
     private void RpcRelease()
     {
         isGrabbed = false;
