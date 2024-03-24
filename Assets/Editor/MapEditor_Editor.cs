@@ -21,7 +21,7 @@ public class MapEditor_Editor : Editor
         MapEditor mapEditor = target as MapEditor;
 
         EditorGUILayout.LabelField("테스트", EditorStyles.boldLabel);
-        EditorGUILayout.HelpBox($"Set Size -> 맵 에디터 크기조절 후 느르면 아웃라인 생성\nSave Data 오브젝트가 적절하게 각 트랜스폼에 들어가있으면 맵 데이터 Json파일 저장", MessageType.Info);
+        EditorGUILayout.HelpBox($"1. 인게임용은 프로젝트 실행했을때만 누르기.\n2.맵을 만들때 Init 버튼 눌러주기.\n3.맵 세이브하고 인게임에서 확인할때 만들던 맵 꼭 개발자용 세이브 하고 Reset 버튼 누른다음 확인하기.", MessageType.Info);
 
 
 
