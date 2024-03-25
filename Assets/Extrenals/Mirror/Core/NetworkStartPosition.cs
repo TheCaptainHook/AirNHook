@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Mirror
@@ -13,7 +14,12 @@ namespace Mirror
             NetworkManager.RegisterStartPosition(transform);
         }
 
-        public void OnDestroy()
+        public void OnEnable()
+        {
+            NetworkManager.RegisterStartPosition(transform);
+        }
+
+        private void OnDisable()
         {
             NetworkManager.UnRegisterStartPosition(transform);
         }

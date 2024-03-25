@@ -129,6 +129,8 @@ namespace Mirror
         /// <summary>List of transforms populated by NetworkStartPositions</summary>
         public static List<Transform> startPositions = new List<Transform>();
         public static int startPositionIndex;
+        public List<Transform> startPos => startPositions;
+        
 
         [Header("Security")]
         [Tooltip("For security, it is recommended to disconnect a player if a networked action triggers an exception\nThis could prevent components being accessed in an undefined state, which may be an attack vector for exploits.\nHowever, some games may want to allow exceptions in order to not interrupt the player's experience.")]
@@ -646,7 +648,7 @@ namespace Mirror
         }
 
         /// <summary>Stops and disconnects the client.</summary>
-        public void StopClient()
+        public virtual void StopClient()
         {
             if (mode == NetworkManagerMode.Offline)
                 return;
@@ -829,6 +831,12 @@ namespace Mirror
 
         public static AsyncOperation loadingSceneAsync;
 
+        public AsyncOperation LoadingSceneAsync
+        {
+            get => loadingSceneAsync;
+            set => loadingSceneAsync = value;
+        }
+
         /// <summary>Change the server scene and all client's scenes across the network.</summary>
         // Called automatically if onlineScene or offlineScene are set, but it
         // can be called from user code to switch scenes again while the game is
@@ -887,9 +895,9 @@ namespace Mirror
         // This is only set in ClientChangeScene below...never on server.
         // We need to check this in OnClientSceneChanged called from FinishLoadSceneClientOnly
         // to prevent AddPlayer message after loading/unloading additive scenes
-        SceneOperation clientSceneOperation = SceneOperation.Normal;
+        protected SceneOperation clientSceneOperation = SceneOperation.Normal;
 
-        internal void ClientChangeScene(string newSceneName, SceneOperation sceneOperation = SceneOperation.Normal, bool customHandling = false)
+        public virtual void ClientChangeScene(string newSceneName, SceneOperation sceneOperation = SceneOperation.Normal, bool customHandling = false)
         {
             if (string.IsNullOrWhiteSpace(newSceneName))
             {
@@ -1127,6 +1135,8 @@ namespace Mirror
         // and singleton may not exist yet
         public static void RegisterStartPosition(Transform start)
         {
+            if(startPositions.Contains(start))
+                return;
             // Debug.Log($"RegisterStartPosition: {start.gameObject.name} {start.position}");
             startPositions.Add(start);
 
@@ -1143,7 +1153,8 @@ namespace Mirror
         public static void UnRegisterStartPosition(Transform start)
         {
             //Debug.Log($"UnRegisterStartPosition: {start.name} {start.position}");
-            startPositions.Remove(start);
+            if(startPositions.Contains(start))
+                startPositions.Remove(start);
         }
 
         /// <summary>Get the next NetworkStartPosition based on the selected PlayerSpawnMethod.</summary>

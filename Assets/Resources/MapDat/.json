@@ -1,0 +1,23 @@
+{
+    "mapSize": {
+        "x": 10.0,
+        "y": 10.0
+    },
+    "mapID": "",
+    "playerSpawnPosition": {
+        "x": 0.0,
+        "y": 0.0
+    },
+    "exitObjStruct": {
+        "position": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "path": "/Prefabs/Map/Object/ExitPoint",
+        "condition_KeyAmount": 0
+    },
+    "mapTileDataList": [],
+    "mapObjectDataList": [],
+    "cellSize": 2.0,
+    "objectDataList": []
+}
