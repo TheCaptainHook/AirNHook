@@ -26,10 +26,10 @@ namespace MapObjects
             Toggle();
             UpdateLaser();
 
-            if (MapEditor.Instance.stageClear)
-            {
-                _isEnabled = false;
-            }
+            //if (MapEditor.Instance.stageClear)
+            //{
+            //    _isEnabled = false;
+            //}
             
         }
 

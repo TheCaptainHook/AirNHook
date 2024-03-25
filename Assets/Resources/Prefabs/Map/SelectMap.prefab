@@ -5876,7 +5876,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: c68adc5bc8b12a3418bcafa09a87e46b, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -6195,6 +6195,7 @@ Transform:
   - {fileID: 3048165668694971084}
   - {fileID: 8715427870628844948}
   - {fileID: 523568929844522954}
+  - {fileID: 5316569148151103077}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7157333467116200928
@@ -6211,13 +6212,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonActivatedDoors:
   - {fileID: 0}
-  width: 44
-  height: 19
   mapId: SelectMap
   playerSpawnPoint: {fileID: 2975895429381497550}
   exitPoint: {fileID: 798959844116445601}
-  stageClearCondition_keyAmount: 0
-  curKeyAmount: 0
 --- !u!1 &4046519167152876345
 GameObject:
   m_ObjectHideFlags: 0
@@ -7209,6 +7206,72 @@ MonoBehaviour:
 Transform:
   m_CorrespondingSourceObject: {fileID: 1562397196814870389, guid: a502181cd2a14894c8366b9a9d3422df, type: 3}
   m_PrefabInstance: {fileID: 6180584486851107865}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7701436298904752821
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4741910857302298602}
+    m_Modifications:
+    - target: {fileID: -3325528363225173584, guid: cf58473767c54284da8c000f85e751c0, type: 3}
+      propertyPath: _assetId
+      value: 1709578723
+      objectReference: {fileID: 0}
+    - target: {fileID: 2533486971508796624, guid: cf58473767c54284da8c000f85e751c0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 2533486971508796624, guid: cf58473767c54284da8c000f85e751c0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -6.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 2533486971508796624, guid: cf58473767c54284da8c000f85e751c0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2533486971508796624, guid: cf58473767c54284da8c000f85e751c0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2533486971508796624, guid: cf58473767c54284da8c000f85e751c0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2533486971508796624, guid: cf58473767c54284da8c000f85e751c0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2533486971508796624, guid: cf58473767c54284da8c000f85e751c0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2533486971508796624, guid: cf58473767c54284da8c000f85e751c0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2533486971508796624, guid: cf58473767c54284da8c000f85e751c0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2533486971508796624, guid: cf58473767c54284da8c000f85e751c0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6099480600797554674, guid: cf58473767c54284da8c000f85e751c0, type: 3}
+      propertyPath: m_Name
+      value: Key
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cf58473767c54284da8c000f85e751c0, type: 3}
+--- !u!4 &5316569148151103077 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2533486971508796624, guid: cf58473767c54284da8c000f85e751c0, type: 3}
+  m_PrefabInstance: {fileID: 7701436298904752821}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9155310870349108829
 PrefabInstance:

@@ -43,10 +43,12 @@ public class Player : NetworkBehaviour, IDamageable
 
     private void Start()
     {
+        StartCoroutine(Co_DetectInteraction());
         if(!isLocalPlayer) return;
 
         _input.uiActions.Option.started += OptionStart;
         _input.playerActions.Emote.started += EmoteStart;
+        _input.playerActions.Interaction.started += InteractionStart;
     }
 
     private void OnDestroy()
@@ -55,6 +57,7 @@ public class Player : NetworkBehaviour, IDamageable
         
         _input.uiActions.Option.started -= OptionStart;
         _input.playerActions.Emote.started -= EmoteStart;
+        _input.playerActions.Interaction.started -= InteractionStart;
     }
 
     #region Animations
@@ -186,6 +189,107 @@ public class Player : NetworkBehaviour, IDamageable
     }
     #endregion
 
+    #region Interaction
+    [SerializeField] private Transform _grabPoint;
+    [SerializeField] private LayerMask _interactableLayer;
+    private Transform _grabbedItem;
+    private Collider2D _latestTarget;
+    private GrabbableObject _grabbableObject;
+    private readonly float _detectDistance = 2f;
+    private bool _isGrab;
+    private WaitForSeconds _waitForSeconds;
+    
+    private IEnumerator Co_DetectInteraction()
+    {
+        _waitForSeconds = new WaitForSeconds(0.2f);
+        var shortestDistance = float.MaxValue;
+        Collider2D closestTarget = null;
+        
+        while (true)
+        {
+            yield return _waitForSeconds;
+            
+            var collisions = Physics2D.OverlapCircleAll(transform.position, _detectDistance, _interactableLayer);
+
+            if (collisions.Length == 0)
+            {
+                _latestTarget = null;
+                _grabbableObject = null;
+                continue;
+            }
+
+            foreach (var collision in collisions)
+            {
+                var targetDistance = Vector2.Distance(transform.position, collision.transform.position);
+                if (targetDistance < shortestDistance)
+                {
+                    shortestDistance = targetDistance;
+                    closestTarget = collision;
+                }
+            }
+
+            if (_latestTarget != null)
+            {
+                if (ReferenceEquals(_latestTarget, closestTarget))
+                {
+                    shortestDistance = float.MaxValue;
+                    continue;
+                }
+            }
+
+            _latestTarget = closestTarget;
+            shortestDistance = float.MaxValue;
+            
+            //Interaction 처리
+            if (!_isGrab)
+            {
+                _grabbableObject = _latestTarget.GetComponent<GrabbableObject>();
+                if (!_grabbableObject.isGrabbed)
+                {
+                    _grabbableObject.player = _grabPoint;
+                }
+                else
+                    _grabbableObject = null;
+            }
+        }
+    }
+
+    //NOTE 임시코드
+    private void GrabItem()
+    {
+        if (!_isGrab)
+        {
+            if(_latestTarget == null) return;
+            
+            _isGrab = true;
+            _grabbedItem = _latestTarget.transform;
+            //_grabbedItem.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+            //_grabbedItem.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+            //CmdItemPosSync();
+            _grabbedItem.GetComponent<GrabbableObject>().Grab();
+        }
+        else
+        {
+            if (_grabbedItem == null)
+            {
+                _isGrab = false;
+                if(_latestTarget != null)
+                    GrabItem();
+                else
+                    return;
+            }
+            
+            _isGrab = false;
+            //_grabbedItem.parent = null;
+            //_grabbedItem.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+            //_grabbedItem.GetComponent<Rigidbody2D>().velocity = _rigidbd.velocity;
+            //CmdItemRelease();
+            _grabbedItem.GetComponent<GrabbableObject>().Release();
+            _grabbedItem = null;
+        }
+    }
+    #endregion
+    
     #region Input
     private void OptionStart(InputAction.CallbackContext context)
     {
@@ -195,6 +299,12 @@ public class Player : NetworkBehaviour, IDamageable
     private void EmoteStart(InputAction.CallbackContext context)
     {
         ShowEmoteWheel();
+    }
+
+    private void InteractionStart(InputAction.CallbackContext context)
+    {
+        //TODO 이후 상호작용 코드
+        GrabItem();
     }
     #endregion
 }
