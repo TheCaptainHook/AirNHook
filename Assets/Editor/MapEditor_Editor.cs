@@ -116,7 +116,7 @@ public class MapEditor_Editor : Editor
     {
         mapEditor.Init();
         UGS_MapDataLoad();
-        TextAsset textAsset = Resources.Load<TextAsset>($"MapDat/{mapEditor.mapID}");
+        TextAsset textAsset = Resources.Load<TextAsset>($"MapDat/{mapEditor.mapType}/{mapEditor.mapID}");
         if(textAsset != null)
         {
             Map map = JsonUtility.FromJson<Map>(textAsset.text);
@@ -253,7 +253,7 @@ public class MapEditor_Editor : Editor
     {
         mapEditor.mapTileDataList = GetTileData(mapEditor.placeMentSystem.floorTileMap);
         mapEditor.mapObjectDataList = GetList(mapEditor.objectTransform);
-
+        mapEditor.startPosition = FindObj(mapEditor.dontSaveObjectTransform, 302).transform.position;
         Map map = new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, mapEditor.startPosition,
             GetExitObjStructsList(mapEditor.exitDoorObjectTransform),
             mapEditor.mapTileDataList,
@@ -261,13 +261,11 @@ public class MapEditor_Editor : Editor
             GetButtonActivateDoorStructList(mapEditor),
             mapEditor.cellSize) ;
         string json = JsonUtility.ToJson(map, true);
-        Debug.Log(json);
-        string filePath = Path.Combine(folderPath, $"{map.mapID}.json");
+        string filePath = Path.Combine(folderPath, $"Tutorial/{mapEditor.mapType}/{map.mapID}.json");
         File.WriteAllText(filePath, json);
 
         UnityEditor.AssetDatabase.Refresh();
     }
-
 
     List<TileData> GetTileData(Tilemap tileMap)
     {
@@ -336,6 +334,20 @@ public class MapEditor_Editor : Editor
         }
 
         return list;
+    }
+
+
+
+    GameObject FindObj(Transform transform,int id)
+    {
+        foreach(Transform cur in transform)
+        {
+            if(cur.GetComponent<BuildObj>().id == id)
+            {
+                return cur.gameObject;
+            }
+        }
+        return null;
     }
     #endregion
 }

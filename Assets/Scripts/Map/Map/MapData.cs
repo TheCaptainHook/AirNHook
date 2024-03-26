@@ -11,7 +11,9 @@ public class MapData
 
     public Dictionary<int, MapDataStruct> mapObjectDataDictionary = new Dictionary<int, MapDataStruct>();
 
-    public Dictionary<string, Map> mapDictionary = new Dictionary<string, Map>();
+    public Dictionary<string, Map> mapTutorialDictionary = new Dictionary<string, Map>();
+    public Dictionary<string, Map> mapMainDictionary = new Dictionary<string, Map>();
+    public Dictionary<string, Map> mapUserDictionary = new Dictionary<string, Map>();
 
     public void SetUp()
     {
@@ -41,14 +43,38 @@ public class MapData
 
     void MapJsonLoad()
     {
-        foreach (TextAsset json in Resources.LoadAll<TextAsset>("MapDat"))
+        foreach (TextAsset json in Resources.LoadAll<TextAsset>("MapDat/Tutorial"))
         {
             Map map = JsonUtility.FromJson<Map>(json.text);
-            mapDictionary.Add(map.mapID, map);
+            mapTutorialDictionary.Add(map.mapID, map);
+            Debug.Log(map.mapID);
+        }
+        foreach (TextAsset json in Resources.LoadAll<TextAsset>("MapDat/Main"))
+        {
+            Map map = JsonUtility.FromJson<Map>(json.text);
+            mapMainDictionary.Add(map.mapID, map);
+            Debug.Log(map.mapID);
+        }
+        foreach (TextAsset json in Resources.LoadAll<TextAsset>("MapDat/User"))
+        {
+            Map map = JsonUtility.FromJson<Map>(json.text);
+            mapUserDictionary.Add(map.mapID, map);
             Debug.Log(map.mapID);
         }
     }
-
+    public Dictionary<string,Map> GetDictionary(MapType mapType)
+    {
+        switch (mapType)
+        {
+            case MapType.Tutorial:
+                return mapTutorialDictionary;
+            case MapType.Main:
+                return mapMainDictionary;
+            case MapType.User:
+                return mapUserDictionary;
+        }
+        return null;
+    }
 }
 
 

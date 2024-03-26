@@ -6,6 +6,14 @@ using UnityEngine.Tilemaps;
 using System.IO;
 using System.Runtime.InteropServices.ComTypes;
 using GoogleSheet.Core.Type;
+using UnityEditor.UI;
+
+public enum MapType
+{
+    Tutorial,
+    Main,
+    User
+}
 
 public enum MapEditorType
 {
@@ -96,8 +104,9 @@ public class MapEditor : MonoBehaviour
     [Header("----------------------------------------------------")]
     public bool stageClear;
     [Space(10)]
- 
+
     [Header("Save Data")]
+    public MapType mapType;
     [HideInInspector] public int width;
     [HideInInspector] public int height;
     public string mapID;
@@ -302,8 +311,19 @@ public class MapEditor : MonoBehaviour
             GetButtonActivateDoorStructList(interactionObjectTransform),
             cellSize);
         string json = JsonUtility.ToJson(map, true);
-        Debug.Log(json);
-        string filePath = Path.Combine(folderPath, $"{map.mapID}.json");
+        string filePath = Path.Combine(folderPath, $"Tutorial/{mapType}/{map.mapID}.json");
+        //if (mapType == MapType.Tutorial)
+        //{
+        //    filePath = Path.Combine(folderPath, $"Tutorial/{map.mapID}.json");
+        //}
+        //else if (mapType == MapType.Main)
+        //{
+        //    filePath = Path.Combine(folderPath, $"Main/{map.mapID}.json");
+        //}
+        //else
+        //{
+        //    filePath = Path.Combine(folderPath, $"User/{map.mapID}.json");
+        //}
         File.WriteAllText(filePath, json);
 
         //AssetDatabase.Refresh();
@@ -330,7 +350,7 @@ public class MapEditor : MonoBehaviour
 
     public void LoadMap(string name)
     {
-        if (!Managers.Data.mapData.mapDictionary.ContainsKey(name))
+        if (!Managers.Data.mapData.GetDictionary(mapType).ContainsKey(name))
         {
             Debug.Log("Can't find Map");
             Init();
@@ -341,7 +361,7 @@ public class MapEditor : MonoBehaviour
         placeMentSystem.ResetTileMap();
         mapEditorType = MapEditorType.Load;
         mapID = name;
-        CurMap = Managers.Data.mapData.mapDictionary[name];
+        CurMap = Managers.Data.mapData.GetDictionary(mapType)[name];
         SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);
 
         //start Point

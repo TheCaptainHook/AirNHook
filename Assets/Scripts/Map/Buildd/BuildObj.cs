@@ -12,7 +12,7 @@ public enum DistructionStatus
 [System.Serializable]
 public class BuildObj : MonoBehaviour,IDamageable
 {
-    [SerializeField] protected int id;
+    public int id;
     [SerializeField] protected DistructionStatus distructionStatus;
 
     private ObjectData _objectData;

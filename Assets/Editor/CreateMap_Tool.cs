@@ -159,6 +159,7 @@ public class CreateMap_Tool : EditorWindow
             if (mapEditor == null)
             {
                 GameObject obj = Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/MapEditor"));
+                Selection.activeGameObject = obj;
                 curMapEditor = obj.GetComponent<MapEditor>();
                 curMapEditor.Init();
                 EditorApplication.ExecuteMenuItem("Window/2D/Tile Palette");
@@ -292,10 +293,9 @@ public class CreateMap_Tool : EditorWindow
 
     void FindObj(Transform transform, GameObject obj)
     {
-   
                 foreach (Transform cur in transform)
                 {
-                    if (cur.GetComponent<BuildObj>().ObjectData.id == obj.GetComponent<BuildObj>().ObjectData.id)
+                    if (cur.GetComponent<BuildObj>().id == obj.GetComponent<BuildObj>().id)
                     {
                         Undo.DestroyObjectImmediate(cur.gameObject);
                     }
