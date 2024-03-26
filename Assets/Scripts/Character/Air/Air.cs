@@ -21,6 +21,7 @@ public class Air : MonoBehaviour
 
     //마우스 클릭체크
     private bool _isRightButtonClick;
+    private bool _isLeftButtonClick;
 
     //흡입액션 bool값
     private bool _isAttached;
@@ -59,6 +60,15 @@ public class Air : MonoBehaviour
     //땅체크
     [SerializeField] private LayerMask _floorLayer;
 
+    //유도선
+    [SerializeField] private GameObject _point;
+    [SerializeField] private GameObject[] _points;
+    //위의 두코드는 삭제해야함
+    [SerializeField] private int _numberOfPoints;
+    [SerializeField] private float _spaceBetweenPoints;
+    [SerializeField] LineRenderer _lineRenderer;
+    private GameObject _pointParent;
+
     private void Awake()
     {
         _camera = Camera.main;
@@ -78,8 +88,19 @@ public class Air : MonoBehaviour
         playerInput.playerActions.Action.canceled += PlayerActionCanceled;
         playerInput.playerActions.SubAction.started += PlayerSubActionStarted;
         playerInput.playerActions.SubAction.canceled += PlayerSubActionCanceled;
+
+        _lineRenderer = GetComponent<LineRenderer>();
+
+        _points = new GameObject[_numberOfPoints];
+        _pointParent = Instantiate(new GameObject(), Vector3.zero, Quaternion.identity);
+        for (int i = 0;i <_numberOfPoints; i++)
+        {
+            _points[i] = Instantiate(_point, _pointParent.transform);
+        }
+        _pointParent.SetActive(false);
     }
 
+    
     private void Update()
     {
         RotateArm();
@@ -103,6 +124,14 @@ public class Air : MonoBehaviour
                 Attached();
             }
         }
+
+        if (_pointParent.activeSelf)
+        {
+            for (int i = 0; i < _numberOfPoints; i++)
+            {
+                _points[i].transform.position = PointPosition(i * _spaceBetweenPoints);
+            }
+        }
     }
 
     //발사 게이지차징
@@ -111,6 +140,8 @@ public class Air : MonoBehaviour
         //차징액션 함수 제작하여 넣기
         if (_isAttached)
         {
+            _isLeftButtonClick = true;
+            _pointParent.SetActive(true);
             Charging();
         }
     }
@@ -118,9 +149,11 @@ public class Air : MonoBehaviour
     //오브젝트 발사
     private void PlayerActionCanceled(InputAction.CallbackContext context)
     {
-        if (_isAttached == true)
+        if (_isLeftButtonClick)
         {
+            _isLeftButtonClick = false;
             ShootObject();
+            _pointParent.SetActive(false);
         }
     }
 
@@ -355,7 +388,6 @@ public class Air : MonoBehaviour
             Debug.Log(_chargingTime);
 
             _shootPower = (_chargingTime * (_maxShootPower - _minShootPower)) + _minShootPower;
-
             yield return waitForFixedUpdate;
         }
         _shootPower = _maxShootPower;
@@ -372,6 +404,17 @@ public class Air : MonoBehaviour
     }
 
     //포물선 그려주는 코드
+    //호출된 점 위치에 대한 벡터를 반환하는 함수 / 위치잡는 코드
+    private Vector2 PointPosition(float t)
+    {
+        //핵심코드들
+        Vector2 worldPos = _camera.ScreenToWorldPoint(_mouseDelta);
+        Vector2 newAim = worldPos - (Vector2)_armPivot.position;
+    
+        Vector2 position = (Vector2)_weaponPoint.position + (newAim.normalized * _shootPower * t) + (0.5f * Physics2D.gravity * (t * t) * 3);
+        
+        return position;
+    }
 
     // Gizmos로 OverlapCircle범위 확인
     private void OnDrawGizmos()
