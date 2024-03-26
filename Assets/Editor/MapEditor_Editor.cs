@@ -6,6 +6,7 @@ using UnityEditor;
 using UGS;
 using NPOI.OpenXmlFormats.Spreadsheet;
 using System.IO;
+using UnityEditor.UI;
 
 [CustomEditor(typeof(MapEditor))]
 public class MapEditor_Editor : Editor
@@ -36,12 +37,20 @@ public class MapEditor_Editor : Editor
 
         if (GUILayout.Button("개발자용, 맵 새로만들 때 먼저 누르기,Init!"))
         {
+            _Reset(mapEditor);
             mapEditor.Init();
+            EditorApplication.ExecuteMenuItem("Window/2D/Tile Palette");
         }
+        if (GUILayout.Button("Map Create Tool"))
+        {
+            CreateMap_Tool.ShowWindow();
+        }
+
 
         if (GUILayout.Button("Load Data(개발자전용)"))
         {
             //mapEditor.LoadMap(mapEditor.mapID);
+            _Reset(mapEditor);
             LoadMap(mapEditor);
         }
 
@@ -54,14 +63,25 @@ public class MapEditor_Editor : Editor
 
         if (GUILayout.Button("Reset"))
         {
-            if (mapEditor.mapObjBoxTransform)
-            {
-                Undo.DestroyObjectImmediate(mapEditor.mapObjBoxTransform.gameObject);
-                Undo.DestroyObjectImmediate(mapEditor.gridPalette);
-            }           
-            mapEditor.curMap = new Map();
+            //if (mapEditor.mapObjBoxTransform)
+            //{
+            //    Undo.DestroyObjectImmediate(mapEditor.mapObjBoxTransform.gameObject);
+            //    Undo.DestroyObjectImmediate(mapEditor.gridPalette);
+            //}           
+            //mapEditor.curMap = new Map();
+            _Reset(mapEditor);
         }
 
+    }
+
+    private void _Reset(MapEditor mapEditor)
+    {
+        if (mapEditor.mapObjBoxTransform)
+        {
+            Undo.DestroyObjectImmediate(mapEditor.mapObjBoxTransform.gameObject);
+            Undo.DestroyObjectImmediate(mapEditor.gridPalette);
+        }
+        mapEditor.curMap = new Map();
     }
 
     void UGS_MapDataLoad()

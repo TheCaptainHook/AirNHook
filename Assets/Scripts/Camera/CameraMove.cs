@@ -32,7 +32,7 @@ public class CameraMove : MonoBehaviour
             if (NetworkClient.ready && Managers.Game.Player != null)
                 _playerPos = Managers.Game.Player.transform.position;
         }
-        catch (NullReferenceException e) { }
+        catch (NullReferenceException e) { Debug.Log(e); }
     }
 
     private void FixedUpdate()

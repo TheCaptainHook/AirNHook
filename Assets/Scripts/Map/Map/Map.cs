@@ -67,6 +67,7 @@ public struct ButtonActivatedDoorStruct
     public List<Vector2> buttonActivatePositionList;//Vector2의 개수만큼 버튼 생성
     public Quaternion quaternion;
     public Vector3 scale;
+
     public ButtonActivatedDoorStruct(int id,int linkId,int activeRequirAmount, Vector2 position,
         List<Vector2> buttonActivatePositionList,
         Quaternion quaternion,

@@ -9,9 +9,7 @@ public class MapData
 
     public Dictionary<int, MapDataStruct> mapTileDataDictionary = new Dictionary<int, MapDataStruct>();
 
-    //todo
     public Dictionary<int, MapDataStruct> mapObjectDataDictionary = new Dictionary<int, MapDataStruct>();
-    //todo
 
     public Dictionary<string, Map> mapDictionary = new Dictionary<string, Map>();
 
@@ -22,7 +20,6 @@ public class MapData
 
         MapJsonLoad();        
 
-        //todo
     }
 
 
