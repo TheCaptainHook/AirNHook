@@ -47,19 +47,16 @@ public class MapData
         {
             Map map = JsonUtility.FromJson<Map>(json.text);
             mapTutorialDictionary.Add(map.mapID, map);
-            Debug.Log(map.mapID);
         }
         foreach (TextAsset json in Resources.LoadAll<TextAsset>("MapDat/Main"))
         {
             Map map = JsonUtility.FromJson<Map>(json.text);
             mapMainDictionary.Add(map.mapID, map);
-            Debug.Log(map.mapID);
         }
         foreach (TextAsset json in Resources.LoadAll<TextAsset>("MapDat/User"))
         {
             Map map = JsonUtility.FromJson<Map>(json.text);
             mapUserDictionary.Add(map.mapID, map);
-            Debug.Log(map.mapID);
         }
     }
     public Dictionary<string,Map> GetDictionary(MapType mapType)
