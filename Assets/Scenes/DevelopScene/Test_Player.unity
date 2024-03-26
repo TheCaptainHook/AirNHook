@@ -1499,6 +1499,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerAir
       objectReference: {fileID: 0}
+    - target: {fileID: 5894683077539349018, guid: c8585f80e389755479cd759ab736ba77, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7133289300940605006, guid: c8585f80e389755479cd759ab736ba77, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.092

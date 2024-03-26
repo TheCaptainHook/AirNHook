@@ -376,7 +376,7 @@ public class Air : MonoBehaviour
     // Gizmos로 OverlapCircle범위 확인
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(_weaponPoint.position, detectionDistance);
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawWireSphere(_weaponPoint.position, detectionDistance);
     }
 }
