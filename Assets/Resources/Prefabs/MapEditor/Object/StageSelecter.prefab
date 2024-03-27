@@ -180,6 +180,7 @@ GameObject:
   - component: {fileID: 6298355758719268995}
   - component: {fileID: 5299016153326976029}
   - component: {fileID: 1524551403876470029}
+  - component: {fileID: 4977658617195187037}
   m_Layer: 27
   m_Name: StageSelecter
   m_TagString: Untagged
@@ -315,6 +316,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 0
+--- !u!114 &4977658617195187037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6711822368863108094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104eb1c96815b4820b4be071555180b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  distructionStatus: 0
 --- !u!1 &7015884480680370224
 GameObject:
   m_ObjectHideFlags: 0
