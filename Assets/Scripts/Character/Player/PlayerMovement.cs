@@ -57,7 +57,7 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Start()
     {
-        if(!isLocalPlayer) return;
+        //if(!isLocalPlayer) return;
         
         playerInput = GetComponent<PlayerInput>();
 
@@ -71,7 +71,7 @@ public class PlayerMovement : NetworkBehaviour
 
     private void OnDestroy()
     {
-        if (!isLocalPlayer && Managers.Network.isNetworkActive) return;
+        //if (!isLocalPlayer && Managers.Network.isNetworkActive) return;
         
         playerInput.playerActions.Move.started -= MoveStarted;
         playerInput.playerActions.Jump.started -= JumpStarted;
@@ -81,7 +81,7 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Update()
     {
-        if(!isLocalPlayer || IsDead) return;
+        //if(!isLocalPlayer || IsDead) return;
         
         // 땅 체크
         IsFloor();
@@ -99,7 +99,7 @@ public class PlayerMovement : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (!isLocalPlayer || IsDead) return;
+        //if (!isLocalPlayer || IsDead) return;
         //머리충돌검사
         IsLeftHead();
         IsRightHead();
