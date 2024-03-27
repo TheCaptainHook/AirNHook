@@ -144,7 +144,7 @@ public class CreateMap_Tool : EditorWindow
         objectSection.x = 0;
         objectSection.y = 120;
         objectSection.width = 350;
-        objectSection.height = 220;
+        objectSection.height = 320;
         GUI.DrawTexture(objectSection, objectSectionTexture);
 
     }
@@ -246,7 +246,7 @@ public class CreateMap_Tool : EditorWindow
                 index++;
 
             }
-     
+        GUILayout.EndHorizontal();
         GUILayout.EndArea();
 
     }
