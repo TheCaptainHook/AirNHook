@@ -32,13 +32,17 @@ public class Air : MonoBehaviour
     //감지거리
     [SerializeField] public float detectionDistance = 3f;
     [SerializeField] private LayerMask _objectMask;  //이것은 열쇠등등 오브젝트
-    [SerializeField] private LayerMask _hookMask;  //이걸 후크레이어로 설정해둬야할듯
-    private LayerMask _collisionLayerMask;  //두개 레이어 
     private float _shortestDistance;
 
     //가장 가까운 객체
     private Collider2D _closestTarget;
     private Collider2D _latestTarget;
+
+    //총구와 타겟사이에 땅이있는지 체크
+    private bool _isBetween;
+
+    //타겟의 중력을 저장하는변수
+    private float _latestTargetGravityScale;
 
     //흡입한 오브젝트 날리는 파워
     [SerializeField] private float _minShootPower = 5f;
@@ -66,7 +70,6 @@ public class Air : MonoBehaviour
         _camera = Camera.main;
         _closestTarget = null;
         _shortestDistance = float.MaxValue;
-        _collisionLayerMask = _objectMask | _hookMask;
     }
 
     public PlayerInput playerInput { get; private set; }
@@ -157,15 +160,18 @@ public class Air : MonoBehaviour
     private void PlayerSubActionCanceled(InputAction.CallbackContext context)
     {
         _isRightButtonClick = false;
-        
-        if(_isAttached == true)
+        //발사하기전 우클릭을 해제했을경우
+        _isLeftButtonClick = false;
+        _pointParent.SetActive(false);
+
+        if (_isAttached == true)
         {
             Vector2 target = new Vector2(_latestTarget.transform.position.x, _latestTarget.transform.position.y);
         }
         if (_latestTarget != null)
         {
-            _latestTarget.GetComponent<Rigidbody2D>().gravityScale = 3;
-            _latestTarget.GetComponent<CircleCollider2D>().excludeLayers = 0;
+            _latestTarget.GetComponent<Rigidbody2D>().gravityScale = _latestTargetGravityScale;
+            _latestTarget.GetComponent<Collider2D>().excludeLayers = 0;
             _latestTarget = null;
             _isAttached = false;
         }
@@ -205,14 +211,15 @@ public class Air : MonoBehaviour
     //일정거리이내 오브젝트 체크하는 코드
     private void ObjectCheck()
     {
-        var collisions = Physics2D.OverlapCircleAll(_weaponPoint.position, detectionDistance, _collisionLayerMask);
+        //detectionDistance 안에있는 물체 찾기
+        var collisions = Physics2D.OverlapCircleAll(_weaponPoint.position, detectionDistance, _objectMask);
 
         //타겟 초기화
         if(collisions.Length == 0)
         {
             if (_latestTarget != null) 
             {
-                _latestTarget.GetComponent<Rigidbody2D>().gravityScale = 3;
+                _latestTarget.GetComponent<Rigidbody2D>().gravityScale = _latestTargetGravityScale;
             }
             _latestTarget = null;
         }
@@ -242,17 +249,17 @@ public class Air : MonoBehaviour
 
                         if (angle < 40)
                         {
-                            _closestTarget = collisions[i];
-                            _shortestDistance = targetDistance;
+                            // 레이를 발사하는 코드작성 / 여기에 벽이 있다면 끌고오지 않도록해야함.
+                            RaycastHit2D hit = Physics2D.Raycast(_weaponPoint.position, collisions[i].transform.position - _weaponPoint.position, targetDistance);
+
+                            if(ReferenceEquals(hit.collider, collisions[i]))
+                            {
+                                _closestTarget = collisions[i];
+                                _shortestDistance = targetDistance;
+                            }
                         }
                     }
                 }
-            }
-
-            if(_latestTarget != null && _latestTarget != _closestTarget)
-            {
-                _latestTarget.GetComponent<Rigidbody2D>().gravityScale = 3;
-                _latestTarget.GetComponent<CircleCollider2D>().excludeLayers = 0;
             }
 
             if (_closestTarget == null)
@@ -262,7 +269,22 @@ public class Air : MonoBehaviour
             }
 
             _latestTarget = _closestTarget;
-            
+
+            if (_latestTarget != null)
+            {
+                var gravityScale = _latestTarget.GetComponent<Rigidbody2D>().gravityScale;
+                if (gravityScale > 0)
+                {
+                    _latestTargetGravityScale = gravityScale;
+                }
+            }
+
+            if (_latestTarget != null && _latestTarget != _closestTarget)
+            {
+                _latestTarget.GetComponent<Rigidbody2D>().gravityScale = _latestTargetGravityScale;
+                _latestTarget.GetComponent<Collider2D>().excludeLayers = 0;
+            }
+
             if (_latestTarget != null)
             {
                 //현재 가까운 타겟과 closestTarget이 같으면 초기화
@@ -270,7 +292,6 @@ public class Air : MonoBehaviour
                 {
                     _shortestDistance = float.MaxValue;
                 }
-                _latestTarget.GetComponent<Rigidbody2D>().gravityScale = 0;
             }
             _shortestDistance = float.MaxValue;
         }
@@ -288,14 +309,15 @@ public class Air : MonoBehaviour
             Vector2 target = new Vector2(_latestTarget.transform.position.x, _latestTarget.transform.position.y);
 
             //오브젝트의 중력소실되게해서 끌어와야함
-            _latestTarget.GetComponent<Rigidbody2D>().gravityScale = 0;
-            _latestTarget.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
-
-            //Slerp = (현재위치, 목표, 속도) / 이곳에 베지어곡선코드를 넣어야한다.
-            _latestTarget.transform.position = Vector3.Slerp(target, _weaponPoint.position, 0.05f);
+            var latestTargetRB = _latestTarget.GetComponent<Rigidbody2D>();
+            latestTargetRB.gravityScale = 0;
+            latestTargetRB.velocity = new Vector2(0, 0);
 
             //흡입상태가 되면 플레이어와 충돌이 일어나지않도록
-            _latestTarget.GetComponent<CircleCollider2D>().excludeLayers = (1 << gameObject.layer);
+            _latestTarget.GetComponent<Collider2D>().excludeLayers = (1 << gameObject.layer);
+
+            //Slerp = (현재위치, 목표, 속도) / 이곳에 베지어곡선코드를 넣어야한다.
+            _latestTarget.transform.position = Vector3.Slerp(target, _weaponPoint.position, 0.04f);
 
             //두 오브젝트의 위치가 0.1보다 가깝다면
             if (Vector2.Distance(_latestTarget.transform.position,_weaponPoint.position) <= 0.1)
@@ -311,6 +333,10 @@ public class Air : MonoBehaviour
                     _isAttached = true;
                 }
             }
+            else
+            {
+                _latestTarget.GetComponent<Rigidbody2D>().gravityScale = _latestTargetGravityScale;
+            }
         }
     }
 
@@ -323,7 +349,7 @@ public class Air : MonoBehaviour
             return;
         }
         //_latestTarget의 트리거체크를 켠다.(충돌방지)
-        _latestTarget.GetComponent<CircleCollider2D>().excludeLayers = (1 << gameObject.layer);
+        _latestTarget.GetComponent<Collider2D>().excludeLayers = (1 << gameObject.layer);
 
         //오브젝트위치를 총구위치에 고정
         _latestTarget.transform.position = _weaponPoint.position;
@@ -344,8 +370,8 @@ public class Air : MonoBehaviour
         _isAttached = false;
 
         //발사하면 트리거와 중력작용 둘다 켜야함
-        _latestTarget.GetComponent<CircleCollider2D>().excludeLayers = 0;
-        _latestTarget.GetComponent<Rigidbody2D>().gravityScale = 3;
+        _latestTarget.GetComponent<Collider2D>().excludeLayers = 0;
+        _latestTarget.GetComponent<Rigidbody2D>().gravityScale = _latestTargetGravityScale;
 
         //날리는코드
         _latestTarget.GetComponent<Rigidbody2D>().AddForce(_weaponPoint.right * _shootPower, ForceMode2D.Impulse);
@@ -368,7 +394,6 @@ public class Air : MonoBehaviour
         while (_chargingTime <= 1f)
         {
             _chargingTime += Time.fixedDeltaTime;
-            Debug.Log(_chargingTime);
 
             _shootPower = (_chargingTime * (_maxShootPower - _minShootPower)) + _minShootPower;
             yield return waitForFixedUpdate;
@@ -394,7 +419,7 @@ public class Air : MonoBehaviour
         Vector2 worldPos = _camera.ScreenToWorldPoint(_mouseDelta);
         Vector2 newAim = worldPos - (Vector2)_armPivot.position;
     
-        Vector2 position = (Vector2)_weaponPoint.position + (newAim.normalized * _shootPower * t) + (0.5f * Physics2D.gravity * (t * t) * 3);
+        Vector2 position = (Vector2)_weaponPoint.position + (newAim.normalized * _shootPower * t) + (0.5f * Physics2D.gravity * (t * t) * _latestTargetGravityScale);
         
         return position;
     }
@@ -402,7 +427,7 @@ public class Air : MonoBehaviour
     // Gizmos로 OverlapCircle범위 확인
     private void OnDrawGizmos()
     {
-        //Gizmos.color = Color.red;
-        //Gizmos.DrawWireSphere(_weaponPoint.position, detectionDistance);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(_weaponPoint.position, detectionDistance);
     }
 }
