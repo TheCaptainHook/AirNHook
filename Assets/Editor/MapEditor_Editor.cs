@@ -261,7 +261,7 @@ public class MapEditor_Editor : Editor
             GetButtonActivateDoorStructList(mapEditor),
             mapEditor.cellSize) ;
         string json = JsonUtility.ToJson(map, true);
-        string filePath = Path.Combine(folderPath, $"Tutorial/{mapEditor.mapType}/{map.mapID}.json");
+        string filePath = Path.Combine(folderPath, $"{mapEditor.mapType}/{map.mapID}.json");
         File.WriteAllText(filePath, json);
 
         UnityEditor.AssetDatabase.Refresh();
