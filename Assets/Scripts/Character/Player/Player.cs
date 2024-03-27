@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -51,10 +49,14 @@ public class Player : NetworkBehaviour, IDamageable
         _input.playerActions.Interaction.started += InteractionStart;
     }
 
-    private void OnDestroy()
+    public void OnDisable()
     {
-        if (!isLocalPlayer && Managers.Network.isNetworkActive) return;
-        
+        if (!ReferenceEquals(Managers.Game.Player, gameObject))
+        {
+            Debug.Log(Managers.Game.Player.name);
+            return;
+        }
+
         _input.uiActions.Option.started -= OptionStart;
         _input.playerActions.Emote.started -= EmoteStart;
         _input.playerActions.Interaction.started -= InteractionStart;

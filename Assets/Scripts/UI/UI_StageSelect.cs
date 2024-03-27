@@ -13,9 +13,17 @@ public class UI_StageSelect : UI_Base
 
     protected override void Start()
     {
-        var maps = Managers.Data.mapData.mapDictionary.Keys;
+        var tutorialMaps = Managers.Data.mapData.mapTutorialDictionary.Keys;
+        var mainMaps = Managers.Data.mapData.mapMainDictionary.Keys;
         
-        foreach (var map in maps)
+        foreach (var map in tutorialMaps)
+        {
+            var button = ResourceManager.Instantiate("Prefabs/UI/Button", layout).GetComponent<Button>();
+            button.GetComponentInChildren<TMP_Text>().text = map;
+            button.onClick.AddListener(() => StageSet(map));
+        }
+        
+        foreach (var map in mainMaps)
         {
             var button = ResourceManager.Instantiate("Prefabs/UI/Button", layout).GetComponent<Button>();
             button.GetComponentInChildren<TMP_Text>().text = map;

@@ -585,6 +585,13 @@ MonoBehaviour:
   _minShootPower: 5
   _maxShootPower: 20
   _shootPower: 0
+  _floorLayer:
+    serializedVersion: 2
+    m_Bits: 2147483712
+  _point: {fileID: 0}
+  _points: []
+  _numberOfPoints: 0
+  _spaceBetweenPoints: 0
 --- !u!114 &3255952696500085432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -597,11 +604,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 529686831d779a347abc28ccb763d4e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   _coyoteTime: 0.2
+  _isDead: 0
   _jumpingPower: 10
-  _floorCheck: {fileID: 7133289300940605006}
   _floorLayer:
     serializedVersion: 2
     m_Bits: 2147483712
   _rigidbd: {fileID: 7937378101532342856}
   _moveSpeed: 2
+  _charPivot: {fileID: 0}

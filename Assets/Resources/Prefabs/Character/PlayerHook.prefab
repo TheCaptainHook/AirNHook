@@ -756,7 +756,7 @@ MonoBehaviour:
   _grabPoint: {fileID: 1527109819433215527}
   _interactableLayer:
     serializedVersion: 2
-    m_Bits: 805306368
+    m_Bits: 671088640
 --- !u!114 &3785503928006515861
 MonoBehaviour:
   m_ObjectHideFlags: 0

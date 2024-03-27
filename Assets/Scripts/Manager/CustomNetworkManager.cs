@@ -107,7 +107,7 @@ public class CustomNetworkManager : NetworkManager
     {
         base.OnClientSceneChanged();
 
-        if (Managers.Game.CurrentState != GameState.Title)
+        if (Managers.Game.CurrentState != GameState.Title && (!NetworkServer.active || !NetworkClient.isConnected))
         {
             Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/MapEditor"));
             Managers.Stage.LoadMap();
