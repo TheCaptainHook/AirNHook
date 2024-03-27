@@ -184,7 +184,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -642,7 +642,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -1243,11 +1243,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7133289300940605006, guid: c8585f80e389755479cd759ab736ba77, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.092
+      value: -1.7
       objectReference: {fileID: 0}
     - target: {fileID: 7133289300940605006, guid: c8585f80e389755479cd759ab736ba77, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.027
+      value: -0.17
       objectReference: {fileID: 0}
     - target: {fileID: 7133289300940605006, guid: c8585f80e389755479cd759ab736ba77, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1292,6 +1292,10 @@ PrefabInstance:
     - target: {fileID: 7712341620788515476, guid: c8585f80e389755479cd759ab736ba77, type: 3}
       propertyPath: _playerMask.m_Bits
       value: 2048
+      objectReference: {fileID: 0}
+    - target: {fileID: 7712341620788515476, guid: c8585f80e389755479cd759ab736ba77, type: 3}
+      propertyPath: _obstacleMask.m_Bits
+      value: 4026531959
       objectReference: {fileID: 0}
     - target: {fileID: 7937378101532342856, guid: c8585f80e389755479cd759ab736ba77, type: 3}
       propertyPath: m_Material
