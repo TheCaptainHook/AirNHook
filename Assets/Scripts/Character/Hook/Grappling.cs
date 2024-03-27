@@ -56,9 +56,9 @@ public class Grappling : NetworkBehaviour
         _playerInput.playerActions.SubAction.started += OnSubAction;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        if (!isLocalPlayer && Managers.Network.isNetworkActive) return;
+        if (!ReferenceEquals(Managers.Game.Player, gameObject)) return;
         
         _playerInput.playerActions.Look.performed -= OnLook;
         _playerInput.playerActions.Look.canceled -= OnLook;

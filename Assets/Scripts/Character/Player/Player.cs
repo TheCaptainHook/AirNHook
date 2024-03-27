@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -51,14 +49,32 @@ public class Player : NetworkBehaviour, IDamageable
         _input.playerActions.Interaction.started += InteractionStart;
     }
 
-    private void OnDestroy()
+    public void OnDisable()
     {
-        if (!isLocalPlayer && Managers.Network.isNetworkActive) return;
-        
+        if (!ReferenceEquals(Managers.Game.Player, gameObject))
+        {
+            Debug.Log(Managers.Game.Player.name);
+            return;
+        }
+
         _input.uiActions.Option.started -= OptionStart;
         _input.playerActions.Emote.started -= EmoteStart;
         _input.playerActions.Interaction.started -= InteractionStart;
     }
+
+    #region ExternalCommandSync
+    [Command(requiresAuthority = false)]
+    public void CmdChangeStage(string value)
+    {
+        RpcChangeStage(value);
+    }
+
+    [ClientRpc]
+    public void RpcChangeStage(string value)
+    {
+        Managers.Stage.stageName = value;
+    }
+    #endregion
 
     #region Animations
     // 사망 메서드
@@ -194,9 +210,7 @@ public class Player : NetworkBehaviour, IDamageable
     [SerializeField] private LayerMask _interactableLayer;
     private Transform _grabbedItem;
     private Collider2D _latestTarget;
-    private GrabbableObject _grabbableObject;
     private readonly float _detectDistance = 2f;
-    private bool _isGrab;
     private WaitForSeconds _waitForSeconds;
     
     private IEnumerator Co_DetectInteraction()
@@ -214,12 +228,12 @@ public class Player : NetworkBehaviour, IDamageable
             if (collisions.Length == 0)
             {
                 _latestTarget = null;
-                _grabbableObject = null;
                 continue;
             }
 
             foreach (var collision in collisions)
             {
+                //TODO 벽에 가로막혔을 경우 체크
                 var targetDistance = Vector2.Distance(transform.position, collision.transform.position);
                 if (targetDistance < shortestDistance)
                 {
@@ -239,54 +253,41 @@ public class Player : NetworkBehaviour, IDamageable
 
             _latestTarget = closestTarget;
             shortestDistance = float.MaxValue;
-            
-            //Interaction 처리
-            if (!_isGrab)
-            {
-                _grabbableObject = _latestTarget.GetComponent<GrabbableObject>();
-                if (!_grabbableObject.isGrabbed)
-                {
-                    _grabbableObject.player = _grabPoint;
-                }
-                else
-                    _grabbableObject = null;
-            }
         }
     }
 
-    //NOTE 임시코드
-    private void GrabItem()
+    private void Interaction()
     {
-        if (!_isGrab)
+        if (_grabbedItem != null)
         {
-            if(_latestTarget == null) return;
-            
-            _isGrab = true;
-            _grabbedItem = _latestTarget.transform;
-            //_grabbedItem.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
-            //_grabbedItem.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
-            //CmdItemPosSync();
-            _grabbedItem.GetComponent<GrabbableObject>().Grab();
-        }
-        else
-        {
-            if (_grabbedItem == null)
-            {
-                _isGrab = false;
-                if(_latestTarget != null)
-                    GrabItem();
-                else
-                    return;
-            }
-            
-            _isGrab = false;
-            //_grabbedItem.parent = null;
-            //_grabbedItem.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-            //_grabbedItem.GetComponent<Rigidbody2D>().velocity = _rigidbd.velocity;
-            //CmdItemRelease();
-            _grabbedItem.GetComponent<GrabbableObject>().Release();
+            _grabbedItem.GetComponent<IInteractable>().Interaction(_grabPoint);
+            CmdGrabInteraction();
             _grabbedItem = null;
         }
+        else if (_latestTarget != null)
+        {
+            var interactable = _latestTarget.GetComponent<IInteractable>();
+
+            if (interactable.GetObjectType() == ObjectTypeEnum.Grab)
+            {
+                _grabbedItem = _latestTarget.transform;
+                CmdGrabInteraction();
+            }
+
+            interactable.Interaction(_grabPoint);
+        }
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdGrabInteraction()
+    {
+        RpcGrabInteraction();
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcGrabInteraction()
+    {
+        _latestTarget.GetComponent<IInteractable>().Interaction(_grabPoint);
     }
     #endregion
     
@@ -303,8 +304,7 @@ public class Player : NetworkBehaviour, IDamageable
 
     private void InteractionStart(InputAction.CallbackContext context)
     {
-        //TODO 이후 상호작용 코드
-        GrabItem();
+        Interaction();
     }
     #endregion
 }

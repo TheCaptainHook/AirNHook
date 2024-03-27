@@ -69,9 +69,9 @@ public class PlayerMovement : NetworkBehaviour
         playerInput.playerActions.Jump.canceled += JumpCanceled;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        if (!isLocalPlayer && Managers.Network.isNetworkActive) return;
+        if (!ReferenceEquals(Managers.Game.Player, gameObject)) return;
         
         playerInput.playerActions.Move.started -= MoveStarted;
         playerInput.playerActions.Jump.started -= JumpStarted;

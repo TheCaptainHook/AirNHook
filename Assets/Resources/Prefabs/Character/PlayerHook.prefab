@@ -655,7 +655,7 @@ GameObject:
   - component: {fileID: 5435873216370784481}
   - component: {fileID: 2193380815047965984}
   - component: {fileID: 1149267049940478229}
-  - component: {fileID: 5517721210906406930}
+  - component: {fileID: 7291727095691063811}
   - component: {fileID: 8605789714778563182}
   - component: {fileID: 2506175669369118158}
   m_Layer: 10
@@ -756,7 +756,7 @@ MonoBehaviour:
   _grabPoint: {fileID: 1527109819433215527}
   _interactableLayer:
     serializedVersion: 2
-    m_Bits: 536870912
+    m_Bits: 671088640
 --- !u!114 &3785503928006515861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -899,7 +899,7 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!114 &5517721210906406930
+--- !u!114 &7291727095691063811
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -908,7 +908,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8428015766500747352}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
+  m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 1
@@ -920,19 +920,20 @@ MonoBehaviour:
   syncScale: 1
   onlySyncOnChange: 1
   compressRotation: 1
-  interpolatePosition: 0
-  interpolateRotation: 0
-  interpolateScale: 0
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
   coordinateSpace: 0
   sendIntervalMultiplier: 1
   timelineOffset: 0
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  onlySyncOnChangeCorrectionMultiplier: 2
+  bufferResetMultiplier: 3
+  changedDetection: 1
+  positionSensitivity: 0.01
   rotationSensitivity: 0.01
-  positionPrecision: 0.01
-  scalePrecision: 0.01
+  scaleSensitivity: 0.01
 --- !u!114 &8605789714778563182
 MonoBehaviour:
   m_ObjectHideFlags: 0
