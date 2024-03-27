@@ -444,11 +444,21 @@ public class MapEditor : MonoBehaviour
                 }
                 break;
             case "ObjectTransform":
+                
                 foreach (ObjectData data in curMap.mapObjectDataList)
                 {
-                    if(data.id == 307) { continue; }
-                    MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
-                    Create(transform, mapDataStruct, data);
+                    if (Managers.Data.mapData.mapSceneDataDictionary.ContainsKey(data.id))
+                    {
+                        MapDataStruct mapDataStruct = Managers.Data.mapData.mapSceneDataDictionary[data.id];
+                        Create(transform, mapDataStruct, data);
+                    }
+                    else
+                    {
+                        if (data.id == 307) { continue; }
+                        MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
+                        Create(transform, mapDataStruct, data);
+                    }
+                   
                 }
                 break;
             case "InteractionObjectTransform":

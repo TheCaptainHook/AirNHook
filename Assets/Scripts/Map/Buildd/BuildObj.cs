@@ -19,6 +19,7 @@ public class BuildObj : MonoBehaviour,IDamageable
     public ObjectData ObjectData { get { return _objectData; } set { _objectData = value; id = _objectData.id; } }
 
     public event Action<Vector2> OnDissolveAction;
+    public event Action OnDisableAction;
 
     public void SetTileData(Vector2 position)
     {
@@ -36,6 +37,7 @@ public class BuildObj : MonoBehaviour,IDamageable
         {
             Debug.Log("Distruction");
             OnDissolveAction?.Invoke(ObjectData.position);
+            OnDisableAction?.Invoke();
         }
 
         if(distructionStatus == DistructionStatus.PermanentDestruction)

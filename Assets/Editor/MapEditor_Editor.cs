@@ -13,8 +13,8 @@ public class MapEditor_Editor : Editor
 {
 
     public Dictionary<int, MapDataStruct> mapTileDataDictionary = new Dictionary<int, MapDataStruct>();
-
     public Dictionary<int, MapDataStruct> mapObjectDataDictionary = new Dictionary<int, MapDataStruct>();
+    public Dictionary<int, MapDataStruct> mapSceneDataDictionary = new Dictionary<int, MapDataStruct>();
 
     public override void OnInspectorGUI()
     {
@@ -86,14 +86,16 @@ public class MapEditor_Editor : Editor
 
     void UGS_MapDataLoad()
     {
-        mapTileDataDictionary.Clear();
-        mapObjectDataDictionary.Clear();
+        //mapTileDataDictionary.Clear();
+        //mapObjectDataDictionary.Clear();
+        //mapSceneDataDictionary.Clear();
         //Tile Data
         UnityGoogleSheet.Load<MapObjectData.TileData>();
         foreach (var value in MapObjectData.TileData.TileDataList)
         {
             if (!mapTileDataDictionary.ContainsKey(value.id))
             {
+                Debug.Log(value.path);
                 mapTileDataDictionary.Add(value.id, new MapDataStruct(value.type, value.path));
             }
             
@@ -107,6 +109,15 @@ public class MapEditor_Editor : Editor
                 mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.type, value.path));
             }
             
+        }
+        UnityGoogleSheet.Load<MapObjectData.SceneData>();
+        foreach (var value in MapObjectData.SceneData.SceneDataList)
+        {
+            if (!mapSceneDataDictionary.ContainsKey(value.id))
+            {
+                
+                mapSceneDataDictionary.Add(value.id, new MapDataStruct(value.type, value.path));
+            }
         }
     }
 
@@ -154,15 +165,22 @@ public class MapEditor_Editor : Editor
                     MapDataStruct mapDataStruct = mapTileDataDictionary[data.id];
                     placeMentSystem.floorTileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
                     placeMentSystem.tileDic[data.position] = data.id;
-
                 }
-
                 break;
             case "ObjectTransform":
                 foreach (ObjectData data in map.mapObjectDataList)
                 {
-                    MapDataStruct mapDataStruct = mapObjectDataDictionary[data.id];
-                    Create(transform, mapDataStruct, data);
+                    if (mapSceneDataDictionary.ContainsKey(data.id))
+                    {
+                        MapDataStruct mapDataStruct = mapSceneDataDictionary[data.id];
+                        Create(transform, mapDataStruct, data);
+                    }
+                    else
+                    {
+                        MapDataStruct mapDataStruct = mapObjectDataDictionary[data.id];
+                        Create(transform, mapDataStruct, data);
+                    }
+                  
                 }
                 break;
             case "InteractionObjectTransform":

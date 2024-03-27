@@ -8,8 +8,8 @@ public class MapData
 {
 
     public Dictionary<int, MapDataStruct> mapTileDataDictionary = new Dictionary<int, MapDataStruct>();
-
     public Dictionary<int, MapDataStruct> mapObjectDataDictionary = new Dictionary<int, MapDataStruct>();
+    public Dictionary<int, MapDataStruct> mapSceneDataDictionary = new Dictionary<int, MapDataStruct>();
 
     public Dictionary<string, Map> mapTutorialDictionary = new Dictionary<string, Map>();
     public Dictionary<string, Map> mapMainDictionary = new Dictionary<string, Map>();
@@ -38,6 +38,11 @@ public class MapData
         foreach (var value in MapObjectData.ObjectData.ObjectDataList)
         {
             mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.type, value.path));
+        }
+        UnityGoogleSheet.Load<MapObjectData.SceneData>();
+        foreach (var value in MapObjectData.SceneData.SceneDataList)
+        {
+            mapSceneDataDictionary.Add(value.id, new MapDataStruct(value.type, value.path));
         }
     }
 
