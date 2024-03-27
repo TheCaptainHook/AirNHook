@@ -29,11 +29,6 @@ public class Air : MonoBehaviour
     //흡입가능한지 아닌지 체크하는 bool값
     private bool _isInhale = true;
 
-    //발사액션 후 흡입액션 쿨타임
-    private float _coolDown;
-
-    //private float _coolDownCount = 0f;
-
     //감지거리
     [SerializeField] public float detectionDistance = 3f;
     [SerializeField] private LayerMask _objectMask;  //이것은 열쇠등등 오브젝트
@@ -48,7 +43,6 @@ public class Air : MonoBehaviour
     //흡입한 오브젝트 날리는 파워
     [SerializeField] private float _minShootPower = 5f;
     [SerializeField] private float _maxShootPower = 20f;
-
     [SerializeField] private float _shootPower;
 
     //차징시간체크
@@ -63,10 +57,8 @@ public class Air : MonoBehaviour
     //유도선
     [SerializeField] private GameObject _point;
     [SerializeField] private GameObject[] _points;
-    //위의 두코드는 삭제해야함
     [SerializeField] private int _numberOfPoints;
     [SerializeField] private float _spaceBetweenPoints;
-    [SerializeField] LineRenderer _lineRenderer;
     private GameObject _pointParent;
 
     private void Awake()
@@ -88,8 +80,6 @@ public class Air : MonoBehaviour
         playerInput.playerActions.Action.canceled += PlayerActionCanceled;
         playerInput.playerActions.SubAction.started += PlayerSubActionStarted;
         playerInput.playerActions.SubAction.canceled += PlayerSubActionCanceled;
-
-        _lineRenderer = GetComponent<LineRenderer>();
 
         _points = new GameObject[_numberOfPoints];
         _pointParent = Instantiate(new GameObject(), Vector3.zero, Quaternion.identity);
@@ -304,9 +294,7 @@ public class Air : MonoBehaviour
             //Slerp = (현재위치, 목표, 속도) / 이곳에 베지어곡선코드를 넣어야한다.
             _latestTarget.transform.position = Vector3.Slerp(target, _weaponPoint.position, 0.05f);
 
-            //_latestTarget의 트리거체크를 켠다.(충돌방지)
-            //_latestTarget.GetComponent<CircleCollider2D>().isTrigger = true;
-            // 이걸 ture곳에 넣어주고 false인곳은 0을 넣어주면된다.
+            //흡입상태가 되면 플레이어와 충돌이 일어나지않도록
             _latestTarget.GetComponent<CircleCollider2D>().excludeLayers = (1 << gameObject.layer);
 
             //두 오브젝트의 위치가 0.1보다 가깝다면
@@ -319,7 +307,6 @@ public class Air : MonoBehaviour
                     _latestTarget.transform.position = _weaponPoint.position;
                     _latestTarget.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
 
-                    //흡입액션이 끝나도록 ObjectCheck()에 bool값 한개 주기
                     //SlerpTarget()을 멈추면서 오브젝트의 위치를 총구에 고정시킴
                     _isAttached = true;
                 }
@@ -349,7 +336,6 @@ public class Air : MonoBehaviour
         if (_chargingCoroutine != null)
         {
             StopCoroutine(_chargingCoroutine);
-            Debug.Log(_shootPower);
             _chargingCoroutine = null;
         }
         StartCoroutine(Co_CoolDown());
@@ -361,10 +347,8 @@ public class Air : MonoBehaviour
         _latestTarget.GetComponent<CircleCollider2D>().excludeLayers = 0;
         _latestTarget.GetComponent<Rigidbody2D>().gravityScale = 3;
 
-        //임시코드
-        //마우스 방향(rotZ) 을 벡터로 받아서 날려줘야함.
+        //날리는코드
         _latestTarget.GetComponent<Rigidbody2D>().AddForce(_weaponPoint.right * _shootPower, ForceMode2D.Impulse);
-        Debug.Log("_shootPower의 힘은 = " + _shootPower);
         //발사하면 _latestTarget값을 잃는다.
         _latestTarget = null;
     }
@@ -374,7 +358,6 @@ public class Air : MonoBehaviour
     {
         _shootPower = _minShootPower;
         _chargingCoroutine = StartCoroutine(Co_PowerCharging());
-        //코루틴 사용 / 코루틴을 변수로 선언하고 이곳에서 코루틴 시작 / 마우스 캔슬드되면 코루틴 정지
     }
 
     //차징파워 올려주는 코루틴
