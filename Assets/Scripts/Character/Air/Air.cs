@@ -31,7 +31,10 @@ public class Air : MonoBehaviour
 
     //감지거리
     [SerializeField] public float detectionDistance = 3f;
-    [SerializeField] private LayerMask _objectMask;  //이것은 열쇠등등 오브젝트
+    //이것은 열쇠등등 오브젝트
+    [SerializeField] private LayerMask _objectMask;
+    //오브젝트, 플레이어 제외한 레이어
+    [SerializeField] private LayerMask _obstacleMask;
     private float _shortestDistance;
 
     //가장 가까운 객체
@@ -171,7 +174,7 @@ public class Air : MonoBehaviour
         if (_latestTarget != null)
         {
             _latestTarget.GetComponent<Rigidbody2D>().gravityScale = _latestTargetGravityScale;
-            _latestTarget.GetComponent<Collider2D>().excludeLayers = 0;
+            //_latestTarget.GetComponent<Collider2D>().excludeLayers = 0;
             _latestTarget = null;
             _isAttached = false;
         }
@@ -249,7 +252,7 @@ public class Air : MonoBehaviour
 
                         if (angle < 40)
                         {
-                            // 레이를 발사하는 코드작성 / 여기에 벽이 있다면 끌고오지 않도록해야함.
+                            //오브젝트와 플레이어 사이에 벽이 존재할경우 끌고오지 못함
                             RaycastHit2D hit = Physics2D.Raycast(_weaponPoint.position, collisions[i].transform.position - _weaponPoint.position, targetDistance);
 
                             if(ReferenceEquals(hit.collider, collisions[i]))
@@ -282,7 +285,7 @@ public class Air : MonoBehaviour
             if (_latestTarget != null && _latestTarget != _closestTarget)
             {
                 _latestTarget.GetComponent<Rigidbody2D>().gravityScale = _latestTargetGravityScale;
-                _latestTarget.GetComponent<Collider2D>().excludeLayers = 0;
+                //_latestTarget.GetComponent<Collider2D>().excludeLayers = 0;
             }
 
             if (_latestTarget != null)
@@ -314,7 +317,7 @@ public class Air : MonoBehaviour
             latestTargetRB.velocity = new Vector2(0, 0);
 
             //흡입상태가 되면 플레이어와 충돌이 일어나지않도록
-            _latestTarget.GetComponent<Collider2D>().excludeLayers = (1 << gameObject.layer);
+            //_latestTarget.GetComponent<Collider2D>().excludeLayers = (1 << gameObject.layer);
 
             //Slerp = (현재위치, 목표, 속도) / 이곳에 베지어곡선코드를 넣어야한다.
             _latestTarget.transform.position = Vector3.Slerp(target, _weaponPoint.position, 0.04f);
@@ -349,7 +352,7 @@ public class Air : MonoBehaviour
             return;
         }
         //_latestTarget의 트리거체크를 켠다.(충돌방지)
-        _latestTarget.GetComponent<Collider2D>().excludeLayers = (1 << gameObject.layer);
+        //_latestTarget.GetComponent<Collider2D>().excludeLayers = (1 << gameObject.layer);
 
         //오브젝트위치를 총구위치에 고정
         _latestTarget.transform.position = _weaponPoint.position;
@@ -370,11 +373,21 @@ public class Air : MonoBehaviour
         _isAttached = false;
 
         //발사하면 트리거와 중력작용 둘다 켜야함
-        _latestTarget.GetComponent<Collider2D>().excludeLayers = 0;
+        //_latestTarget.GetComponent<Collider2D>().excludeLayers = 0;
         _latestTarget.GetComponent<Rigidbody2D>().gravityScale = _latestTargetGravityScale;
 
-        //날리는코드
+        //날리는코드 / 발사할때 총구앞에 벽이있으면 총구위치가 아닌 플레이어 몸에서 발사가 되도록
+        //오브젝트가 총구에 붙어있을때 OverlapBo체크되지않도록 해야함.
+        //_latestTarget.GetComponent<Collider2D>().excludeLayers = (1 << gameObject.layer);
+        Collider2D hit = Physics2D.OverlapBox(_weaponPoint.position, new Vector2(0.9f,0.9f), 0, _obstacleMask);
+        if (hit != null)
+        {
+            _latestTarget.transform.position = _armPivot.transform.position;
+            Debug.Log(hit.transform.name);
+        }
+        //발사 코드
         _latestTarget.GetComponent<Rigidbody2D>().AddForce(_weaponPoint.right * _shootPower, ForceMode2D.Impulse);
+
         //발사하면 _latestTarget값을 잃는다.
         _latestTarget = null;
     }
@@ -415,7 +428,6 @@ public class Air : MonoBehaviour
     //호출된 점 위치에 대한 벡터를 반환하는 함수 / 위치잡는 코드
     private Vector2 PointPosition(float t)
     {
-        //핵심코드들
         Vector2 worldPos = _camera.ScreenToWorldPoint(_mouseDelta);
         Vector2 newAim = worldPos - (Vector2)_armPivot.position;
     
@@ -428,6 +440,7 @@ public class Air : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(_weaponPoint.position, detectionDistance);
+        //Gizmos.DrawWireSphere(_weaponPoint.position, detectionDistance);
+        Gizmos.DrawWireCube(_weaponPoint.position, new Vector2(1, 1));
     }
 }
