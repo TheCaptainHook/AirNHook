@@ -82,7 +82,7 @@ public class Air : MonoBehaviour
         playerInput.playerActions.SubAction.canceled += PlayerSubActionCanceled;
 
         _points = new GameObject[_numberOfPoints];
-        _pointParent = Instantiate(new GameObject(), Vector3.zero, Quaternion.identity);
+        _pointParent = new GameObject();
         for (int i = 0;i <_numberOfPoints; i++)
         {
             _points[i] = Instantiate(_point, _pointParent.transform);
