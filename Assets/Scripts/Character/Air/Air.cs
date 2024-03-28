@@ -68,6 +68,15 @@ public class Air : MonoBehaviour
     [SerializeField] private float _spaceBetweenPoints;
     private GameObject _pointParent;
 
+    //후크
+    private float _airGravityScale;
+    private bool _isFlyAway = true;
+    //후크 바라보고 차징하는시간 체크
+    private float _hookChargingTime;
+
+    //라인렌더러
+    LineRenderer lr;
+
     private void Awake()
     {
         _camera = Camera.main;
@@ -80,6 +89,7 @@ public class Air : MonoBehaviour
     private void Start()
     {
         playerInput = GetComponent<PlayerInput>();
+        lr = GetComponent<LineRenderer>();
 
         playerInput.playerActions.Look.performed += Look;
         playerInput.playerActions.Action.started += PlayerActionStarted;
@@ -104,29 +114,60 @@ public class Air : MonoBehaviour
         //오른쪽마우스클릭 했을때
         if (_isRightButtonClick)
         {
-            //붙지 않았을때
-            if (!_isAttached)
+            //_latestTarget에 Garppling이 있을때
+            if (_latestTarget != null && _latestTarget.TryGetComponent(out Grappling grappling))
             {
-                //쿨타임코루틴제작해서 감싸야함
-                if (_isInhale == true)
+                //_latestTarget에 Garppling이 있고 grappleAttached이 false일때
+                //Grappling이 없을때처럼 동작하도록 해야함
+                if (!grappling.grappleAttached)
                 {
-                    ObjectCheck();
-                    SlerpTarget();
+                    ObjectAttached();
+                    ShowRoutePoint();
+                    return;
                 }
+                //_latestTarget에 Garppling이 있고 grappleAttached이 true일때
+                ObjectCheck();
+                AirFlyAway();
             }
-            //붙었을때
+            //_latestTarget에 Garppling이 없을때
             else
             {
-                Attached();
+                ObjectAttached();
             }
         }
+        ShowRoutePoint();
+    }
 
-        if (_pointParent.activeSelf)
+    //포물선 보여주는 함수
+    private void ShowRoutePoint()
+    {
+        if (_isLeftButtonClick)
         {
             for (int i = 0; i < _numberOfPoints; i++)
             {
-                _points[i].transform.position = PointPosition(i * _spaceBetweenPoints);
+                lr.SetPosition(i, PointPosition(i * _spaceBetweenPoints));
+                //_points[i].transform.position = PointPosition(i * _spaceBetweenPoints);
             }
+        }
+    }
+
+    //오브젝트가 붙었는지 붙지않았는지 체크하는 함수
+    private void ObjectAttached()
+    {
+        //붙지 않았을때
+        if (!_isAttached)
+        {
+            //쿨타임
+            if (_isInhale == true)
+            {
+                ObjectCheck();
+                InhaleTarget();
+            }
+        }
+        //붙었을때
+        else
+        {
+            Attached();
         }
     }
 
@@ -137,6 +178,7 @@ public class Air : MonoBehaviour
         if (_isAttached)
         {
             _isLeftButtonClick = true;
+            lr.enabled = true;
             _pointParent.SetActive(true);
             Charging();
         }
@@ -148,6 +190,7 @@ public class Air : MonoBehaviour
         if (_isLeftButtonClick)
         {
             _isLeftButtonClick = false;
+            lr.enabled = false;
             ShootObject();
             _pointParent.SetActive(false);
         }
@@ -157,6 +200,8 @@ public class Air : MonoBehaviour
     private void PlayerSubActionStarted(InputAction.CallbackContext context)
     {
         _isRightButtonClick = true;
+        //이곳은 아직 _latestTarget이 누군지 모르기때문에 동작안하는게 맞음
+        //업데이트에 넣어야할듯?
     }
 
     //흡입액션 취소
@@ -301,7 +346,7 @@ public class Air : MonoBehaviour
     }
 
     //오브젝트 끌고오는 함수
-    private void SlerpTarget()
+    private void InhaleTarget()
     {
         if (_latestTarget == null)
         {
@@ -341,6 +386,34 @@ public class Air : MonoBehaviour
                 _latestTarget.GetComponent<Rigidbody2D>().gravityScale = _latestTargetGravityScale;
             }
         }
+    }
+
+    //후크가 벽에 붙었을때 에어가 후크에게 날아가는 코드
+    private void AirFlyAway()
+    {
+        //에어의 중력크기 저장
+        var gravityScale = transform.GetComponent<Rigidbody2D>().gravityScale;
+        _airGravityScale = gravityScale;
+
+        //target = 에어 자신
+        Vector2 target = new Vector2(transform.position.x, transform.position.y);
+
+        //1초동안 후크를 바라보면서 액션을 지속한다면 후크에게 날아가 붙는데 중간에 캔슬이 불가능하다.
+        //현재 AirFlayAway()가 업데이트에서 계속불리고있기때문에 
+        //StartCoroutine(Co_AirCoolTime());
+
+        //Slerp = (현재위치, 목표 , 속도)
+        if (_isFlyAway)
+        {
+            //에어의 중력소실되게해서 끌어와야함
+            var airRB = transform.GetComponent<Rigidbody2D>();
+            airRB.gravityScale = 0;
+            airRB.velocity = new Vector2(0, 0);
+
+            transform.position = Vector3.Slerp(target, _latestTarget.transform.position, 0.04f);
+        }
+        //이 코드가 실행되었을땐 무조건 후크에게 붙어야함
+        //1초동안 후크를 바라보면서 액션을 지속한다면 후크에게 날아가 붙는데 중간에 캔슬이 불가능하다.
     }
 
     //붙었을때 코드
@@ -424,6 +497,17 @@ public class Air : MonoBehaviour
         _isInhale = true;
     }
 
+    //에어가 후크에게 날아가기전 쿨타임코루틴
+    private IEnumerator Co_AirCoolTime()
+    {
+        _isFlyAway = false;
+
+        yield return new WaitForSeconds(1f);
+
+        _isFlyAway = true;
+    }
+
+
     //포물선 그려주는 코드
     //호출된 점 위치에 대한 벡터를 반환하는 함수 / 위치잡는 코드
     private Vector2 PointPosition(float t)
@@ -441,6 +525,6 @@ public class Air : MonoBehaviour
     {
         Gizmos.color = Color.red;
         //Gizmos.DrawWireSphere(_weaponPoint.position, detectionDistance);
-        Gizmos.DrawWireCube(_weaponPoint.position, new Vector2(1, 1));
+        //Gizmos.DrawWireCube(_weaponPoint.position, new Vector2(1, 1));
     }
 }

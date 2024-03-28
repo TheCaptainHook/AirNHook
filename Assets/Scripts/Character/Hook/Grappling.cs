@@ -19,7 +19,7 @@ public class Grappling : NetworkBehaviour
     private float _vertical;
     
     [SyncVar]
-    private bool _grappleAttached;
+    public bool grappleAttached;
     private bool _distanceSet;
     private bool _isActioning;
 
@@ -72,7 +72,7 @@ public class Grappling : NetworkBehaviour
         // 조작하는 플레이어 체크
         if(isLocalPlayer)
             HandleRopeLength();
-        UpdateRopePositions();
+        //UpdateRopePositions();
     }
 
     private void FixedUpdate()
@@ -96,7 +96,7 @@ public class Grappling : NetworkBehaviour
     public void ResetRope()
     {
         distanceJoint.enabled = false;
-        _grappleAttached = false;
+        grappleAttached = false;
         CmdChangeGrappleState(false);
         playerMovement.isSwinging = false;
         playerMovement.swingJump = true;
@@ -114,7 +114,7 @@ public class Grappling : NetworkBehaviour
     
     private void UpdateRopePositions()
     {
-        if (!_grappleAttached)
+        if (!grappleAttached)
         {
             //TODO 현재 임시로 위치 조정 중
             hookAnchor.transform.position = hookStartPos.position;
@@ -131,7 +131,7 @@ public class Grappling : NetworkBehaviour
     
     private void HandleRopeLength()
     {
-        if (!_grappleAttached) return;
+        if (!grappleAttached) return;
         
         // 위치가 애매할 경우 회수
         if (Vector2.Distance(transform.position, hookAnchor.transform.position) <= 0.2f)
@@ -188,7 +188,7 @@ public class Grappling : NetworkBehaviour
     [ClientRpc(includeOwner = false)]
     private void RpcChangeGrappleState(bool value)
     {
-        _grappleAttached = value;
+        grappleAttached = value;
         ropeRenderer.enabled = true;
     }
 
@@ -218,7 +218,7 @@ public class Grappling : NetworkBehaviour
 
     private void OnMainAction(InputAction.CallbackContext context)
     {
-        if (_grappleAttached) return;
+        if (grappleAttached) return;
 
         var hit = Physics2D.Raycast(_playerPosition, _aimDirection, _ropeMaxDistance, hookLayerMask);
 
@@ -226,7 +226,7 @@ public class Grappling : NetworkBehaviour
         {
             // 그래플링 연결 코드
             ropeRenderer.enabled = true;
-            _grappleAttached = true;
+            grappleAttached = true;
             CmdChangeGrappleState(true);
             playerMovement.isSwinging = true;
             
@@ -246,7 +246,7 @@ public class Grappling : NetworkBehaviour
         else
         {
             ropeRenderer.enabled = false;
-            _grappleAttached = false;
+            grappleAttached = false;
             CmdChangeGrappleState(false);
             playerMovement.isSwinging = false;
             distanceJoint.enabled = false;
