@@ -41,7 +41,7 @@ public class MapEditor_Editor : Editor
             mapEditor.Init();
             EditorApplication.ExecuteMenuItem("Window/2D/Tile Palette");
         }
-        if (GUILayout.Button("Map Create Tool"))
+        if (GUILayout.Button("Object Create Tool"))
         {
             CreateMap_Tool.ShowWindow();
         }

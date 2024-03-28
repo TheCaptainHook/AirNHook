@@ -14,6 +14,7 @@ public class CreateMap_Tool : EditorWindow
     //test
 
     List<GameObject> objLists;
+    List<GameObject> sceneObjLists;
     RuleTile ruleTile;
 
     Texture2D headerSectionTexture;
@@ -56,6 +57,7 @@ public class CreateMap_Tool : EditorWindow
     private void OnEnable()
     {
         objLists = new List<GameObject>(Resources.LoadAll<GameObject>("Prefabs/MapEditor/Object"));
+        sceneObjLists = new List<GameObject>(Resources.LoadAll<GameObject>("Prefabs/MapEditor/Scenes"));
         ruleTile = Resources.Load<RuleTile>("Arts/Tiles/1");
         InitTextures();
         InitGUIStyle();
@@ -113,16 +115,18 @@ public class CreateMap_Tool : EditorWindow
         if (!isMapEditor)
         {
             curMapEditor = FindObjectOfType<MapEditor>();
+            if (curMapEditor == null)
+            {
+                isMapEditor = false;
+            }
+            else isMapEditor = true;
         }
 
         DrawLayouts();
 
         DrawHeader();
         DrawMode();
-
-        if (!ModeToggle) { DrawObjectContent();} // Draw Object}
-        //else { DrawTileContent();}
-       
+        if(isMapEditor) DrawObjectContent();
 
 
     }
@@ -152,7 +156,7 @@ public class CreateMap_Tool : EditorWindow
     private void DrawHeader()
     {
         GUILayout.BeginArea(headerSection);
-        GUILayout.Label("Map Create Tool",_GUIStyle_HeadTitleText);
+        GUILayout.Label("Object Create Tool",_GUIStyle_HeadTitleText);
         if(GUI.Button(new Rect(100,30,150,20),"Click [Create MapEditor]"))
         {
             MapEditor mapEditor = FindObjectOfType<MapEditor>();
@@ -171,15 +175,15 @@ public class CreateMap_Tool : EditorWindow
 
         }
 
-        Event evt = Event.current;
-        //if (GUI.Button(new Rect(50,50,200,30), "select", EditorStyles.objectFieldThumb.name + "Overlay2"))
-        //{
+        //Event evt = Event.current;
+        ////if (GUI.Button(new Rect(50,50,200,30), "select", EditorStyles.objectFieldThumb.name + "Overlay2"))
+        ////{
 
-        //    EditorGUIUtility.ShowObjectPicker<GameObject>(obj, false, "MapEditor", 1);
-        //    evt.Use();
-        //}
-        obj = EditorGUIUtility.GetObjectPickerObject() as GameObject;
-        HandleUtility.Repaint();
+        ////    EditorGUIUtility.ShowObjectPicker<GameObject>(obj, false, "MapEditor", 1);
+        ////    evt.Use();
+        ////}
+        //obj = EditorGUIUtility.GetObjectPickerObject() as GameObject;
+        //HandleUtility.Repaint();
 
         GUILayout.EndArea();
 
@@ -188,15 +192,16 @@ public class CreateMap_Tool : EditorWindow
     {
         GUILayout.BeginArea(modeSction);
         GUILayout.BeginHorizontal(GUILayout.Width(350));
-        //if (GUI.Button(new Rect(70,5,100,30),"Tile Mode"))
-        //{
-        //    ModeToggle = true;
-        //}
 
-        if (GUI.Button(new Rect(125, 5, 100, 30), "Object"))
+        if (GUI.Button(new Rect(45, 5, 120, 30), "Object"))
         {
             ModeToggle = false;
 
+        }
+
+        if (GUI.Button(new Rect(185, 5, 120, 30), "Scene Object Mode"))
+        {
+            ModeToggle = true;
         }
         GUILayout.EndHorizontal();
         GUILayout.EndArea();
@@ -208,49 +213,62 @@ public class CreateMap_Tool : EditorWindow
 
         List<GUIContent> contentsList = new();
 
+        if (!modeToggle)
+        {
             foreach (GameObject obj in objLists)
             {
                 Texture2D texture = AssetPreview.GetAssetPreview(obj);
                 contentsList.Add(new GUIContent(texture));
             }
-
-            //objectSectionPot = GUILayout.SelectionGrid(objectSectionPot, contentsList.ToArray(), 6,_GUIStyle_Cell);
-
-            float screenWidth = 240f;
-            int index = 0;
-            float curWidth = 0;
-            foreach (GUIContent content in contentsList)
+        }
+        else
+        {
+            foreach (GameObject obj in sceneObjLists)
             {
-                if (curWidth == 0)
-                {
-                    GUILayout.BeginHorizontal(GUILayout.Width(Screen.width));
-                }
+                Texture2D texture = AssetPreview.GetAssetPreview(obj);
+                contentsList.Add(new GUIContent(texture));
+            }
+        }
 
-                if (GUILayout.Button(content, _GUIStyle_Cell))
-                {
-                    
-                    Debug.Log($"{index}, {objLists[index]}");
+        //objectSectionPot = GUILayout.SelectionGrid(objectSectionPot, contentsList.ToArray(), 6,_GUIStyle_Cell);
+
+        float screenWidth = 240f;
+        int index = 0;
+        float curWidth = 0;
+        foreach (GUIContent content in contentsList)
+        {
+            if (curWidth == 0)
+            {
+                GUILayout.BeginHorizontal(GUILayout.Width(Screen.width));
+            }
+
+            if (GUILayout.Button(content, _GUIStyle_Cell))
+            {
+                if(modeToggle) Debug.Log($"{index}, {sceneObjLists[index]}");
+                else Debug.Log($"{index}, {objLists[index]}");
+
                 CreateObject(index);
-                
-                }
-                GUILayout.Label(objLists[index].name, _GUIStyle_Text);
-
-                if (curWidth > screenWidth - 10)
-                {
-                    curWidth = 0;
-                    index++;
-                    GUILayout.EndHorizontal();
-                    continue;
-                }
-                curWidth += _GUIStyle_Cell.fixedWidth;
-                index++;
 
             }
+            if(modeToggle) GUILayout.Label(sceneObjLists[index].name, _GUIStyle_Text);
+            else GUILayout.Label(objLists[index].name, _GUIStyle_Text);
+
+            if (curWidth > screenWidth - 10)
+            {
+                curWidth = 0;
+                index++;
+                GUILayout.EndHorizontal();
+                continue;
+            }
+            curWidth += _GUIStyle_Cell.fixedWidth;
+            index++;
+
+        }
         GUILayout.EndHorizontal();
         GUILayout.EndArea();
 
     }
-    //private void DrawTileContent()
+    //private void DrawSceneContent()
     //{
     //    GUILayout.BeginArea(objectSection);
     //    Texture2D ttt = AssetPreview.GetAssetPreview(ruleTile);
@@ -267,25 +285,27 @@ public class CreateMap_Tool : EditorWindow
     #region Function
     void CreateObject(int i)
     {
-        GameObject obj = objLists[i];
+        GameObject obj = !modeToggle ? objLists[i] : sceneObjLists[i];
+
+        //GameObject obj = objLists[i];
         switch (obj.name)
         {
             case "SpawnPoint":
                 FindObj(curMapEditor.dontSaveObjectTransform, obj);
-                Selection.activeGameObject = Instantiate(objLists[i], curMapEditor.dontSaveObjectTransform);
+                SelectActiveOBJ(objLists[i], curMapEditor.dontSaveObjectTransform);
                 break;
             case "ExitPoint":
                 FindObj(curMapEditor.exitDoorObjectTransform, obj);
-                Selection.activeGameObject = Instantiate(objLists[i], curMapEditor.exitDoorObjectTransform);
+                SelectActiveOBJ(objLists[i], curMapEditor.exitDoorObjectTransform);
                 break;
             case "BtnActivated":
-                Selection.activeGameObject = Instantiate(obj, curMapEditor.dontSaveObjectTransform);
+                SelectActiveOBJ(obj, curMapEditor.dontSaveObjectTransform);
                 break;
             case "BtnActivatedDoor":
-                Selection.activeGameObject = Instantiate(obj, curMapEditor.interactionObjectTransform);
+                SelectActiveOBJ(obj, curMapEditor.interactionObjectTransform);
                 break;
             default:
-                Selection.activeGameObject = Instantiate(obj, curMapEditor.objectTransform);
+                SelectActiveOBJ(obj, curMapEditor.objectTransform);
                 break;
         }
     }
@@ -301,6 +321,11 @@ public class CreateMap_Tool : EditorWindow
                     }
                 }
     
+    }
+
+    void SelectActiveOBJ(GameObject obj,Transform transform)
+    {
+        Selection.activeGameObject = Instantiate(obj, transform);
     }
     #endregion
 

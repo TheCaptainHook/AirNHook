@@ -53,9 +53,7 @@ public class FlameThrower : MonoBehaviour
 
     void CheckHit(RaycastHit2D hit)
     {
-        Debug.Log(hit.distance);
         curRate = hit.distance;
-
 
         if(hit.collider.gameObject.TryGetComponent(out IDamageable damageable))
         {
@@ -67,8 +65,6 @@ public class FlameThrower : MonoBehaviour
         flame.particle.Play();
         flame.particle.startLifetime = 0.2f * hit.distance;
 
-
-        Debug.Log("hit");
     }
 
     void DisableParticle()
