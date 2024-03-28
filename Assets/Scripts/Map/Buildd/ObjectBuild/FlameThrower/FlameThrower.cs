@@ -28,9 +28,11 @@ public class FlameThrower : MonoBehaviour
     }
     private void Update()
     {
-        RaycastHit2D hit0 = Physics2D.Raycast(transform.position + new Vector3(0, 0.5f, 0), transform.right, curRate, layerMask);
+        Vector3 dir = Quaternion.AngleAxis(7, Vector3.forward) * transform.right;
+        Vector3 dir1 = Quaternion.AngleAxis(-7, Vector3.forward) * transform.right;
+        RaycastHit2D hit0 = Physics2D.Raycast(transform.position, dir, curRate, layerMask);
         RaycastHit2D hit1 = Physics2D.Raycast(transform.position, transform.right, curRate, layerMask);
-        RaycastHit2D hit2 = Physics2D.Raycast(transform.position + new Vector3(0, 0.5f, 0), transform.right, curRate, layerMask);
+        RaycastHit2D hit2 = Physics2D.Raycast(transform.position, dir1, curRate, layerMask);
 
         if (hit0)
         {
@@ -82,10 +84,11 @@ public class FlameThrower : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-       
+        Vector3 dir = Quaternion.AngleAxis(7, Vector3.forward) * transform.right;
+        Vector3 dir1 = Quaternion.AngleAxis(-7, Vector3.forward) * transform.right;
         Gizmos.color = Color.blue;
-        Gizmos.DrawRay(transform.position + new Vector3(0, 0.5f, 0), transform.right  * curRate);
+        Gizmos.DrawRay(transform.position, dir  * curRate);
         Gizmos.DrawRay(transform.position, transform.right * curRate);
-        Gizmos.DrawRay(transform.position + new Vector3(0, -0.5f, 0), transform.right  * curRate);
+        Gizmos.DrawRay(transform.position, dir1  * curRate);
     }
 }

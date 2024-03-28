@@ -195,7 +195,7 @@ MonoBehaviour:
   onActive: 0
   layerMask:
     serializedVersion: 2
-    m_Bits: 2147484672
+    m_Bits: 2684355584
   flame: {fileID: 1256057224243392037}
 --- !u!50 &5689717236360114606
 Rigidbody2D:
