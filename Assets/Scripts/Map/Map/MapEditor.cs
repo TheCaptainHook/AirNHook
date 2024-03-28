@@ -366,9 +366,9 @@ public class MapEditor : MonoBehaviour
 
         //start Point
         startPosition = curMap.startPosition;
-        GameObject startPoint = Object.Instantiate(Resources.Load<GameObject>(Managers.Data.mapData.mapObjectDataDictionary[302].path));
-        startPoint.transform.position = curMap.startPosition;
-        startPoint.transform.SetParent(dontSaveObjectTransform);
+        startPositionObject = Object.Instantiate(Resources.Load<GameObject>(Managers.Data.mapData.mapObjectDataDictionary[302].path));
+        startPositionObject.transform.position = curMap.startPosition;
+        startPositionObject.transform.SetParent(dontSaveObjectTransform);
         //start Point
 
         CreateObj(floorTransform);

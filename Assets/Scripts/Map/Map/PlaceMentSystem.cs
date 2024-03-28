@@ -10,16 +10,19 @@ public class PlaceMentSystem : MonoBehaviour
 
     Util Util = new Util();
     private Camera _camera => Camera.main == null ? null : Camera.main;
-    public LayerMask layerMask;
+    public LayerMask layerMask;    
+   
 
+    [Header("Tile")]
+    public Dictionary<Vector3Int, int> tileDic = new();
+
+    [Header("Mouse")]
+    Sprite default_MouseIndicatorSprite;
     public Vector3Int gridPosition;
     private Vector3Int curPosition;
     private Vector3Int lastPosition;
     public Vector3 mousePosition;
-    Sprite default_MouseIndicatorSprite;
-    [SerializeField] GameObject mouseIndicator,cellIndicator;
-    public Dictionary<Vector3Int, int> tileDic = new();
-
+    [SerializeField] GameObject mouseIndicator, cellIndicator;
     public GameObject MouseIndicator { 
         get { return mouseIndicator; }
         set
@@ -31,7 +34,6 @@ public class PlaceMentSystem : MonoBehaviour
              
             }}
         }
-
     [SerializeField] Tilemap preViewTileMap;
     public Tilemap floorTileMap;
     public TileBase tileBase;
@@ -44,7 +46,8 @@ public class PlaceMentSystem : MonoBehaviour
 
     private void Update()
     {
-        if(MapEditor.Instance.mapEditorState == MapEditorState.Tile)
+        //tile
+        if(MapEditor.Instance.mapEditorState == MapEditorState.Tile) 
         {
             mouseIndicator.transform.position = GetMousePosition();
             mouseIndicator.transform.position += new Vector3(1, 1);
@@ -61,6 +64,7 @@ public class PlaceMentSystem : MonoBehaviour
             curPosition = gridPosition;
             UpdatePreview();
         }
+
         //Draw
         if(MapEditor.Instance.mapEditorState == MapEditorState.Tile && MapEditor.Instance.gridPlane.activeSelf)
         {
@@ -69,14 +73,52 @@ public class PlaceMentSystem : MonoBehaviour
                 DrawTile();
             }
         }
+
+
+        //tile
     }
 
 
+    #region Tile
+    void UpdatePreview()
+    {
+        preViewTileMap.SetTile(lastPosition, null);
+        preViewTileMap.SetTile(curPosition, tileBase);
+    }
+
+    void DrawTile()
+    {
+        if (tileBase == null)
+        {
+            if (tileDic.ContainsKey(gridPosition))
+            {
+                tileDic.Remove(gridPosition);
+                floorTileMap.SetTile(gridPosition, tileBase);
+            }
+        }
+        else
+        {
+            floorTileMap.SetTile(gridPosition, tileBase);
+            tileDic[gridPosition] = int.Parse(tileBase.name);
+        }
+
+    }
+
+    public void ResetTileMap()
+    {
+        floorTileMap.ClearAllTiles();
+    }
+    #endregion
+
+    #region Object
+    #endregion
+
+    #region util
     public Vector3 GetMousePosition()
     {
         Vector3 mousePot = Util.GetMouseWorldPosition(Input.mousePosition, _camera);
         Collider2D collider = Physics2D.OverlapPoint(mousePot);
-        if(collider != null)
+        if (collider != null)
         {
             Vector3Int cellPot = floorTileMap.WorldToCell(mousePot);
             gridPosition = new Vector3Int(Mathf.FloorToInt(floorTileMap.CellToWorld(cellPot).x), Mathf.FloorToInt(floorTileMap.CellToWorld(cellPot).y));
@@ -92,34 +134,7 @@ public class PlaceMentSystem : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(mousePosition, 0.1f);
     }
+    #endregion
 
 
-    void UpdatePreview()
-    {
-        preViewTileMap.SetTile(lastPosition, null);
-        preViewTileMap.SetTile(curPosition, tileBase);
-    }
-
-    void DrawTile()
-    {
-        if(tileBase == null)
-        {
-            if (tileDic.ContainsKey(gridPosition))
-            {
-                tileDic.Remove(gridPosition);
-                floorTileMap.SetTile(gridPosition, tileBase);
-            }
-        }
-        else
-        {
-            floorTileMap.SetTile(gridPosition, tileBase);
-            tileDic[gridPosition] = int.Parse(tileBase.name);
-        }
-       
-    }
-
-    public void ResetTileMap()
-    {
-        floorTileMap.ClearAllTiles();
-    }
 }

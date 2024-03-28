@@ -174,17 +174,6 @@ public class CreateMap_Tool : EditorWindow
             }
 
         }
-
-        //Event evt = Event.current;
-        ////if (GUI.Button(new Rect(50,50,200,30), "select", EditorStyles.objectFieldThumb.name + "Overlay2"))
-        ////{
-
-        ////    EditorGUIUtility.ShowObjectPicker<GameObject>(obj, false, "MapEditor", 1);
-        ////    evt.Use();
-        ////}
-        //obj = EditorGUIUtility.GetObjectPickerObject() as GameObject;
-        //HandleUtility.Repaint();
-
         GUILayout.EndArea();
 
     }
@@ -268,16 +257,6 @@ public class CreateMap_Tool : EditorWindow
         GUILayout.EndArea();
 
     }
-    //private void DrawSceneContent()
-    //{
-    //    GUILayout.BeginArea(objectSection);
-    //    Texture2D ttt = AssetPreview.GetAssetPreview(ruleTile);
-    //    if (GUILayout.Button(new GUIContent(ttt), _GUIStyle_Cell))
-    //    {
-    //        Debug.Log("asdas");
-    //    }
-    //    GUILayout.EndArea();
-    //}
 
     #endregion
 

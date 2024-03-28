@@ -63,8 +63,9 @@ public class FlameThrower : MonoBehaviour
 
         flame.particle.Stop();
         flame.particle.Play();
-        flame.particle.startLifetime = 0.2f * hit.distance;
-
+        //flame.particle.startLifetime = 0.2f * hit.distance;
+        var main = flame.particle.main;
+        main.startLifetime = 0.2f * hit.distance;
     }
 
     void DisableParticle()
