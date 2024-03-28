@@ -159,13 +159,24 @@ public class UI_Option : UI_Base
         OnOptionExit();
         //Managers.UI.ShowLoadingUI("Test_LobbyScene");
         //TODO 로비로
+        var player = Managers.Game.Player.GetComponent<Player>();
+        if (player.isServer)
+        {
+            player.onCallBackAction += LoadLobbyScene;
+            player.CmdChangeStage("Lobby");
+        }
+    }
+
+    private void LoadLobbyScene()
+    {
+        Managers.Game.Player.GetComponent<Player>().onCallBackAction -= LoadLobbyScene;
+        Managers.Network.ServerChangeScene("MainScene");
     }
     
     private void OnStageRestartBtn()
     {
         OnOptionExit();
-        //TODO: 현재 스테이지 정보를 받는 게임 매니저 데이터가 필요할듯 + 맵 구현 방식 보고
-        //currStageLevel = Managers.Game.currStage
+        Managers.Network.ServerChangeScene("MainScene");
     }
     
     private void OnTitleBtn()

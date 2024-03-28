@@ -4,11 +4,12 @@ public class StageManager
 {
     //public int stage;
     // TODO 로비 이름으로 변경
-    public string stageName = "Tutorial_1";
+    public string stageName = "Lobby";
     
-    // TODO 처음에는 Lobby로 입장하게 만들고, 이후에 GameManager의 GameState에 따라 작동하도록 작성
     public void LoadMap()
     {
+        if(!stageName.Equals("Lobby"))
+            Managers.Game.CurrentState = GameState.Game;
         MapEditor.Instance.LoadMap(stageName);
 
         if (NetworkServer.active && NetworkClient.isConnected)
