@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Mirror;
 using UnityEngine;
@@ -51,11 +52,7 @@ public class Player : NetworkBehaviour, IDamageable
 
     public void OnDisable()
     {
-        if (!ReferenceEquals(Managers.Game.Player, gameObject))
-        {
-            Debug.Log(Managers.Game.Player.name);
-            return;
-        }
+        if (!ReferenceEquals(Managers.Game.Player, gameObject)) return;
 
         _input.uiActions.Option.started -= OptionStart;
         _input.playerActions.Emote.started -= EmoteStart;
@@ -63,16 +60,20 @@ public class Player : NetworkBehaviour, IDamageable
     }
 
     #region ExternalCommandSync
+    public Action onCallBackAction;
+    
     [Command(requiresAuthority = false)]
     public void CmdChangeStage(string value)
     {
+        Managers.Stage.stageName = value;
         RpcChangeStage(value);
     }
 
     [ClientRpc]
-    public void RpcChangeStage(string value)
+    private void RpcChangeStage(string value)
     {
         Managers.Stage.stageName = value;
+        onCallBackAction?.Invoke();
     }
     #endregion
 
