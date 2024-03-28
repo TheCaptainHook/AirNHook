@@ -51,11 +51,7 @@ public class Player : NetworkBehaviour, IDamageable
 
     public void OnDisable()
     {
-        if (!ReferenceEquals(Managers.Game.Player, gameObject))
-        {
-            Debug.Log(Managers.Game.Player.name);
-            return;
-        }
+        if (!ReferenceEquals(Managers.Game.Player, gameObject)) return;
 
         _input.uiActions.Option.started -= OptionStart;
         _input.playerActions.Emote.started -= EmoteStart;
