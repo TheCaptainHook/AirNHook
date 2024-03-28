@@ -35,6 +35,7 @@ public class BuildObj : MonoBehaviour,IDamageable
    {
         if(distructionStatus == DistructionStatus.Destructible)
         {
+            Debug.Log(gameObject.name);
             Debug.Log("Distruction");
             OnDissolveAction?.Invoke(ObjectData.position);
             OnDisableAction?.Invoke();

@@ -58,7 +58,6 @@ public class FlameThrower : MonoBehaviour
         if(hit.collider.gameObject.TryGetComponent(out IDamageable damageable))
         {
             damageable.TakeDamage();
-            Debug.Log("hit");
         }
 
         flame.particle.Stop();
