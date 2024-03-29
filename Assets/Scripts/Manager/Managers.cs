@@ -64,11 +64,11 @@ public class Managers : MonoBehaviour
         
         if (networkManager == null)
         {
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
             var go = ResourceManager.Instantiate("Prefabs/Manager/NetworkManagerKCP");
-#else
-            var go = ResourceManager.Instantiate("Prefabs/Manager/NetworkManager");
-#endif
+//#else
+//            var go = ResourceManager.Instantiate("Prefabs/Manager/NetworkManager");
+//#endif
             _instance._network = go.GetComponent<CustomNetworkManager>();
         }
         else

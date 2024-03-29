@@ -54,7 +54,7 @@ MonoBehaviour:
   autoConnectClientBuild: 0
   offlineScene: Assets/Scenes/ReleaseScene/StartScene.unity
   onlineScene: Assets/Scenes/ReleaseScene/MainScene.unity
-  transport: {fileID: 0}
+  transport: {fileID: -4274108955543968967}
   networkAddress: localhost
   maxConnections: 2
   disconnectInactiveConnections: 0
