@@ -62,8 +62,11 @@ public class UI_Title : UI_Base
     {
         //CloseUI();
         Managers.Game.CurrentState = GameState.Lobby;
+#if UNITY_EDITOR
+        Managers.Network.StartHost();
+#else
         Managers.Network.steamLobby.HostLobby();
-        //Managers.Network.StartHost();
+#endif
     }
 
     private void OnOptionBtn()
