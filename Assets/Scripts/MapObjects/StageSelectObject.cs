@@ -1,3 +1,4 @@
+using Mirror;
 using UnityEngine;
 
 public class StageSelectObject : MonoBehaviour, IInteractable
@@ -6,6 +7,9 @@ public class StageSelectObject : MonoBehaviour, IInteractable
     
     public void Interaction(Transform accessor = null)
     {
+        if (!NetworkServer.active || !NetworkClient.isConnected)
+            return;
+
         if(!Managers.UI.IsActive<UI_StageSelect>())
             Managers.UI.ShowUI<UI_StageSelect>();
         else
