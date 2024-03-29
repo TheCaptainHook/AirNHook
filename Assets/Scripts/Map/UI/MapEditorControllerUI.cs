@@ -29,7 +29,7 @@ public class MapEditorControllerUI : MonoBehaviour
 
     
     //test
-    void TestTileCLIKC()
+    void TestTileCLIKC() //Tile mode Btn -> Tile mode on ->
     {   if(MapEditor.Instance.mapEditorState == MapEditorState.Tile)
         {
             MapEditor.Instance.mapEditorState = MapEditorState.Editor;
@@ -67,12 +67,21 @@ public class MapEditorControllerUI : MonoBehaviour
         RectTransform rectTransform = GetComponent<RectTransform>();
         float percent = 0;
         int num = 0;
+        onOffBtn.enabled = false;
         if (onHide)
-        { onHide = false; num = 300; }
+        {
+            onHide = false;
+            num = 300;
+            onOffBtn.transform.GetChild(0).gameObject.SetActive(false);
+            onOffBtn.transform.GetChild(1).gameObject.SetActive(true);
+
+        }
         else
         {
             onHide = true;
             num = -300;
+            onOffBtn.transform.GetChild(0).gameObject.SetActive(true);
+            onOffBtn.transform.GetChild(1).gameObject.SetActive(false);
         }
         while (percent < 1)
         {
@@ -81,6 +90,7 @@ public class MapEditorControllerUI : MonoBehaviour
             rectTransform.anchoredPosition = Vector2.Lerp(rectTransform.anchoredPosition, ar, percent);
             yield return null;
         }
+        onOffBtn.enabled = true;
     }
     #endregion
 

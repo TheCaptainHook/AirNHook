@@ -81,9 +81,11 @@ public class ExitPointObj : BuildBase
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.gameObject.layer== LayerMask.NameToLayer("Player") && stageClear)
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && stageClear)
         {
+            
             curPlayerInDoor--;
+            if(curPlayerInDoor < 0) { curPlayerInDoor = 0; }
         }
     }
 
