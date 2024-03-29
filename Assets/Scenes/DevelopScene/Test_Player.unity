@@ -1193,16 +1193,6 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   - {x: 0, y: 0, z: 1}
   - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -1211,7 +1201,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0.0073432922
-        value: 0.40937424
+        value: 0.2
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -1220,7 +1210,7 @@ LineRenderer:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 0
+        value: 0.2
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -1439,7 +1429,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7133289300940605006, guid: c8585f80e389755479cd759ab736ba77, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.17
+      value: -0.12
       objectReference: {fileID: 0}
     - target: {fileID: 7133289300940605006, guid: c8585f80e389755479cd759ab736ba77, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1478,12 +1468,20 @@ PrefabInstance:
       value: 3113836484
       objectReference: {fileID: 0}
     - target: {fileID: 7712341620788515476, guid: c8585f80e389755479cd759ab736ba77, type: 3}
+      propertyPath: _numberOfPoints
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7712341620788515476, guid: c8585f80e389755479cd759ab736ba77, type: 3}
       propertyPath: _objectMask.m_Bits
       value: 5120
       objectReference: {fileID: 0}
     - target: {fileID: 7712341620788515476, guid: c8585f80e389755479cd759ab736ba77, type: 3}
       propertyPath: _playerMask.m_Bits
       value: 2048
+      objectReference: {fileID: 0}
+    - target: {fileID: 7712341620788515476, guid: c8585f80e389755479cd759ab736ba77, type: 3}
+      propertyPath: _spaceBetweenPoints
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 7712341620788515476, guid: c8585f80e389755479cd759ab736ba77, type: 3}
       propertyPath: _obstacleMask.m_Bits

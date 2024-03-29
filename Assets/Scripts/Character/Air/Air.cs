@@ -54,6 +54,7 @@ public class Air : MonoBehaviour
 
     //차징시간체크
     private float _chargingTime;
+    private float _airChargingTime;
 
     //코루틴 변수선언
     private Coroutine _chargingCoroutine;
@@ -70,9 +71,10 @@ public class Air : MonoBehaviour
 
     //후크
     private float _airGravityScale;
-    private bool _isFlyAway = true;
-    //후크 바라보고 차징하는시간 체크
-    private float _hookChargingTime;
+    //후크가 매달려있는지 체크
+    private bool _isFlyAway;
+    //1초 차징이 끝났는지 체크
+    private bool _isOneSecond;
 
     //라인렌더러
     LineRenderer lr;
@@ -110,15 +112,15 @@ public class Air : MonoBehaviour
     private void Update()
     {
         RotateArm();
-
         //오른쪽마우스클릭 했을때
         if (_isRightButtonClick)
         {
+            _isFlyAway = false;
+            ObjectCheck();
             //_latestTarget에 Garppling이 있을때
             if (_latestTarget != null && _latestTarget.TryGetComponent(out Grappling grappling))
             {
                 //_latestTarget에 Garppling이 있고 grappleAttached이 false일때
-                //Grappling이 없을때처럼 동작하도록 해야함
                 if (!grappling.grappleAttached)
                 {
                     ObjectAttached();
@@ -126,27 +128,20 @@ public class Air : MonoBehaviour
                     return;
                 }
                 //_latestTarget에 Garppling이 있고 grappleAttached이 true일때
-                ObjectCheck();
-                AirFlyAway();
+                else 
+                {
+                    _isFlyAway = true;
+                    if (!_isOneSecond)
+                    {
+                        AirCharging();
+                    }
+                }
             }
             //_latestTarget에 Garppling이 없을때
-            else
+            else if(_latestTarget != null)
             {
                 ObjectAttached();
-            }
-        }
-        ShowRoutePoint();
-    }
-
-    //포물선 보여주는 함수
-    private void ShowRoutePoint()
-    {
-        if (_isLeftButtonClick)
-        {
-            for (int i = 0; i < _numberOfPoints; i++)
-            {
-                lr.SetPosition(i, PointPosition(i * _spaceBetweenPoints));
-                //_points[i].transform.position = PointPosition(i * _spaceBetweenPoints);
+                ShowRoutePoint();
             }
         }
     }
@@ -158,16 +153,33 @@ public class Air : MonoBehaviour
         if (!_isAttached)
         {
             //쿨타임
-            if (_isInhale == true)
+            if (_isInhale == true && _isFlyAway == false)
             {
-                ObjectCheck();
                 InhaleTarget();
+            }
+            //에어가 후크에게 날아가는 코드
+            else if (_isFlyAway == true)
+            {
+                Debug.Log("12354r23");
+                AirFlyAway();
             }
         }
         //붙었을때
         else
         {
             Attached();
+        }
+    }
+    //포물선 보여주는 함수
+    private void ShowRoutePoint()
+    {
+        if (_isLeftButtonClick)
+        {
+            for (int i = 0; i < _numberOfPoints; i++)
+            {
+                //이곳에 조건문을 하나더 넣어서 구별하던가 포물선함수 하나더 제작하던가 둘중하나로
+                lr.SetPosition(i, PointPosition(i * _spaceBetweenPoints));
+            }
         }
     }
 
@@ -179,7 +191,6 @@ public class Air : MonoBehaviour
         {
             _isLeftButtonClick = true;
             lr.enabled = true;
-            _pointParent.SetActive(true);
             Charging();
         }
     }
@@ -187,12 +198,12 @@ public class Air : MonoBehaviour
     //오브젝트 발사
     private void PlayerActionCanceled(InputAction.CallbackContext context)
     {
-        if (_isLeftButtonClick)
+        if (_isRightButtonClick)
         {
             _isLeftButtonClick = false;
             lr.enabled = false;
+            _isFlyAway = false;
             ShootObject();
-            _pointParent.SetActive(false);
         }
     }
 
@@ -200,8 +211,6 @@ public class Air : MonoBehaviour
     private void PlayerSubActionStarted(InputAction.CallbackContext context)
     {
         _isRightButtonClick = true;
-        //이곳은 아직 _latestTarget이 누군지 모르기때문에 동작안하는게 맞음
-        //업데이트에 넣어야할듯?
     }
 
     //흡입액션 취소
@@ -210,12 +219,14 @@ public class Air : MonoBehaviour
         _isRightButtonClick = false;
         //발사하기전 우클릭을 해제했을경우
         _isLeftButtonClick = false;
-        _pointParent.SetActive(false);
+        lr.enabled = false;
+        _airChargingTime = 0;
+        _isOneSecond = false;
 
-        if (_isAttached == true)
-        {
-            Vector2 target = new Vector2(_latestTarget.transform.position.x, _latestTarget.transform.position.y);
-        }
+        //if (_isAttached == true)
+        //{
+        //    Vector2 target = new Vector2(_latestTarget.transform.position.x, _latestTarget.transform.position.y);
+        //}
         if (_latestTarget != null)
         {
             _latestTarget.GetComponent<Rigidbody2D>().gravityScale = _latestTargetGravityScale;
@@ -259,6 +270,10 @@ public class Air : MonoBehaviour
     //일정거리이내 오브젝트 체크하는 코드
     private void ObjectCheck()
     {
+        if(_isAttached == true)
+        {
+            return;
+        }
         //detectionDistance 안에있는 물체 찾기
         var collisions = Physics2D.OverlapCircleAll(_weaponPoint.position, detectionDistance, _objectMask);
 
@@ -270,6 +285,7 @@ public class Air : MonoBehaviour
                 _latestTarget.GetComponent<Rigidbody2D>().gravityScale = _latestTargetGravityScale;
             }
             _latestTarget = null;
+            _isFlyAway = false;
         }
 
         //현재 범위안에 object or Hook 레이어를 가진 물체가있으면 거리를 비교하고 가까운녀석만 가져옴
@@ -325,6 +341,12 @@ public class Air : MonoBehaviour
                 {
                     _latestTargetGravityScale = gravityScale;
                 }
+
+                //현재 가까운 타겟과 closestTarget이 같으면 초기화
+                if (ReferenceEquals(_latestTarget, _closestTarget))
+                {
+                    _shortestDistance = float.MaxValue;
+                }
             }
 
             if (_latestTarget != null && _latestTarget != _closestTarget)
@@ -333,14 +355,14 @@ public class Air : MonoBehaviour
                 //_latestTarget.GetComponent<Collider2D>().excludeLayers = 0;
             }
 
-            if (_latestTarget != null)
-            {
-                //현재 가까운 타겟과 closestTarget이 같으면 초기화
-                if(ReferenceEquals(_latestTarget, _closestTarget))
-                {
-                    _shortestDistance = float.MaxValue;
-                }
-            }
+            //if (_latestTarget != null)
+            //{
+            //    //현재 가까운 타겟과 closestTarget이 같으면 초기화
+            //    if(ReferenceEquals(_latestTarget, _closestTarget))
+            //    {
+            //        _shortestDistance = float.MaxValue;
+            //    }
+            //}
             _shortestDistance = float.MaxValue;
         }
     }
@@ -352,6 +374,8 @@ public class Air : MonoBehaviour
         {
             Debug.Log("_latestTarget Is Null");
         }
+
+        //물체가 에어에게 빨려들어오는 코드
         else
         {
             Vector2 target = new Vector2(_latestTarget.transform.position.x, _latestTarget.transform.position.y);
@@ -365,7 +389,7 @@ public class Air : MonoBehaviour
             //_latestTarget.GetComponent<Collider2D>().excludeLayers = (1 << gameObject.layer);
 
             //Slerp = (현재위치, 목표, 속도) / 이곳에 베지어곡선코드를 넣어야한다.
-            _latestTarget.transform.position = Vector3.Slerp(target, _weaponPoint.position, 0.04f);
+            _latestTarget.transform.position = Vector3.Slerp(target, _weaponPoint.position, 0.05f);
 
             //두 오브젝트의 위치가 0.1보다 가깝다면
             if (Vector2.Distance(_latestTarget.transform.position,_weaponPoint.position) <= 0.1)
@@ -391,27 +415,30 @@ public class Air : MonoBehaviour
     //후크가 벽에 붙었을때 에어가 후크에게 날아가는 코드
     private void AirFlyAway()
     {
+
+        //Debug.Log("AirFlyAway() 실행");
         //에어의 중력크기 저장
-        var gravityScale = transform.GetComponent<Rigidbody2D>().gravityScale;
-        _airGravityScale = gravityScale;
-
-        //target = 에어 자신
-        Vector2 target = new Vector2(transform.position.x, transform.position.y);
-
-        //1초동안 후크를 바라보면서 액션을 지속한다면 후크에게 날아가 붙는데 중간에 캔슬이 불가능하다.
-        //현재 AirFlayAway()가 업데이트에서 계속불리고있기때문에 
-        //StartCoroutine(Co_AirCoolTime());
-
-        //Slerp = (현재위치, 목표 , 속도)
-        if (_isFlyAway)
-        {
-            //에어의 중력소실되게해서 끌어와야함
-            var airRB = transform.GetComponent<Rigidbody2D>();
-            airRB.gravityScale = 0;
-            airRB.velocity = new Vector2(0, 0);
-
-            transform.position = Vector3.Slerp(target, _latestTarget.transform.position, 0.04f);
-        }
+        //var gravityScale = transform.GetComponent<Rigidbody2D>().gravityScale;
+        //_airGravityScale = gravityScale;
+        //
+        //Vector2 air = new Vector2(_weaponPoint.position.x, _weaponPoint.position.y);
+        //Vector2 target = new Vector2(_latestTarget.transform.position.x, _latestTarget.transform.position.y);
+        //
+        ////에어의 중력소실되게해서 끌어와야함
+        //var airRB = transform.GetComponent<Rigidbody2D>();
+        //airRB.gravityScale = 0;
+        //airRB.velocity = new Vector2(0, 0);
+        //////Slerp = (현재위치, 목표 , 속도)
+        //transform.position = Vector3.Slerp(air, target, 0.05f);
+        ////
+        //if (Vector2.Distance(air, target) <= 0.1)
+        //{
+        //    Debug.Log("닿았다!");
+        //}
+        //else
+        //{
+        //    airRB.gravityScale = _airGravityScale;
+        //}
         //이 코드가 실행되었을땐 무조건 후크에게 붙어야함
         //1초동안 후크를 바라보면서 액션을 지속한다면 후크에게 날아가 붙는데 중간에 캔슬이 불가능하다.
     }
@@ -472,6 +499,21 @@ public class Air : MonoBehaviour
         _chargingCoroutine = StartCoroutine(Co_PowerCharging());
     }
 
+    //에어가 후크를 바라보고 차징하는 시간
+    private void AirCharging()
+    {
+        if(_airChargingTime <= 1f)
+        {
+            _airChargingTime += Time.deltaTime;
+        }
+        else
+        {
+            Debug.Log("2");
+            ObjectAttached();
+            _isOneSecond = true;
+        }
+    }
+
     //차징파워 올려주는 코루틴
     private IEnumerator Co_PowerCharging()
     {
@@ -497,17 +539,6 @@ public class Air : MonoBehaviour
         _isInhale = true;
     }
 
-    //에어가 후크에게 날아가기전 쿨타임코루틴
-    private IEnumerator Co_AirCoolTime()
-    {
-        _isFlyAway = false;
-
-        yield return new WaitForSeconds(1f);
-
-        _isFlyAway = true;
-    }
-
-
     //포물선 그려주는 코드
     //호출된 점 위치에 대한 벡터를 반환하는 함수 / 위치잡는 코드
     private Vector2 PointPosition(float t)
@@ -519,6 +550,8 @@ public class Air : MonoBehaviour
         
         return position;
     }
+
+    //후크에게 매달린 상태에선 총구위치가아닌 몸통방향에서 발사해야함!(새로운 벡터함수제작)
 
     // Gizmos로 OverlapCircle범위 확인
     private void OnDrawGizmos()
