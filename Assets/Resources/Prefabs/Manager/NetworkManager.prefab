@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5007376685304244165}
   - component: {fileID: -7874487228142871317}
   - component: {fileID: 6785251811811085741}
+  - component: {fileID: 8369923791726756189}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -90,6 +91,7 @@ MonoBehaviour:
   evaluationMethod: 0
   evaluationInterval: 3
   timeInterpolationGui: 0
+  steamLobby: {fileID: 0}
 --- !u!114 &-7874487228142871317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,3 +120,15 @@ MonoBehaviour:
   Timeout: 25
   AllowSteamRelay: 1
   UseNextGenSteamNetworking: 1
+--- !u!114 &8369923791726756189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2985579059834186633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feb7af40e55f3674280e8b87d91cdb75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

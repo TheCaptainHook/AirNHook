@@ -5,6 +5,7 @@ using UnityEngine;
 public class CustomNetworkManager : NetworkManager
 {
     public Dictionary<string, GameObject> spawnPrefabDict;
+    public SteamLobby steamLobby;
 
     public override void Start()
     {
@@ -15,6 +16,8 @@ public class CustomNetworkManager : NetworkManager
         {
             spawnPrefabDict.Add(spawnPrefab.name, spawnPrefab);
         }
+
+        steamLobby = GetComponent<SteamLobby>();
     }
 
     public override void ServerChangeScene(string newSceneName)

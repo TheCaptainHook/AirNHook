@@ -60,9 +60,10 @@ public class UI_Title : UI_Base
 
     private void OnCreateRoomBtn()
     {
-        CloseUI();
+        //CloseUI();
         Managers.Game.CurrentState = GameState.Lobby;
-        Managers.Network.StartHost();
+        Managers.Network.steamLobby.HostLobby();
+        //Managers.Network.StartHost();
     }
 
     private void OnOptionBtn()
