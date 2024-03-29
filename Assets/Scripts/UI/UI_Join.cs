@@ -24,8 +24,12 @@ public class UI_Join : UI_Base
     protected override void Start()
     {
         base.Start();
-        
+
+#if UNITY_EDITOR
         _inputField.text = Managers.Network.networkAddress;
+#else
+        _inputField.text = "";
+#endif
         _joinBtn.onClick.AddListener(OnJoinBtn);
         _exitBtn.onClick.AddListener(OnExitBtn);
     }
