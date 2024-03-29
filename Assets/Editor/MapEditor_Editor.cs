@@ -49,7 +49,6 @@ public class MapEditor_Editor : Editor
 
         if (GUILayout.Button("Load Data(개발자전용)"))
         {
-            //mapEditor.LoadMap(mapEditor.mapID);
             _Reset(mapEditor);
             LoadMap(mapEditor);
         }
@@ -63,14 +62,20 @@ public class MapEditor_Editor : Editor
 
         if (GUILayout.Button("Reset"))
         {
-            //if (mapEditor.mapObjBoxTransform)
-            //{
-            //    Undo.DestroyObjectImmediate(mapEditor.mapObjBoxTransform.gameObject);
-            //    Undo.DestroyObjectImmediate(mapEditor.gridPalette);
-            //}           
-            //mapEditor.curMap = new Map();
+
             _Reset(mapEditor);
         }
+
+        if(GUILayout.Button("In Game Editor Test btn"))
+        {
+            Managers.Game.CurrentState = GameState.Editor;
+            mapEditor.mapEditorState = MapEditorState.Editor;
+            mapEditor.Init();
+            mapEditor.gridPlane = Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/GridPlane"));
+            mapEditor.gridPlane.SetActive(false);
+        }
+
+
 
     }
 

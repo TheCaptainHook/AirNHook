@@ -26,31 +26,18 @@ public class FlameThrower : MonoBehaviour
         buildObj.OnDisableAction += DisableParticle;
         curRate = maxRate;
     }
-    private void Update()
-    {
-        Vector3 dir = Quaternion.AngleAxis(7, Vector3.forward) * transform.right;
-        Vector3 dir1 = Quaternion.AngleAxis(-7, Vector3.forward) * transform.right;
-        RaycastHit2D hit0 = Physics2D.Raycast(transform.position, dir, curRate, layerMask);
-        RaycastHit2D hit1 = Physics2D.Raycast(transform.position, transform.right, curRate, layerMask);
-        RaycastHit2D hit2 = Physics2D.Raycast(transform.position, dir1, curRate, layerMask);
+  
 
-        if (hit0)
+    private void FixedUpdate()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, curRate, layerMask);
+
+        if (hit)
         {
-            CheckHit(hit0);
+            CheckHit(hit);
         }
-        else if (hit1)
-        {
-            CheckHit(hit1);
-        }
-        else if (hit2)
-        {
-            CheckHit(hit2);
-        }
-        else
-        {
-            curRate = maxRate;
-            flame.SetLifeTime();
-        }
+
+        curRate = Mathf.Clamp(curRate, 0, maxRate);
     }
 
     void CheckHit(RaycastHit2D hit)
@@ -66,7 +53,7 @@ public class FlameThrower : MonoBehaviour
         flame.particle.Play();
         //flame.particle.startLifetime = 0.2f * hit.distance;
         var main = flame.particle.main;
-        main.startLifetime = 0.2f * hit.distance;
+        main.startLifetime = 0.3f * hit.distance;
     }
 
     void DisableParticle()
@@ -84,11 +71,10 @@ public class FlameThrower : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Vector3 dir = Quaternion.AngleAxis(7, Vector3.forward) * transform.right;
-        Vector3 dir1 = Quaternion.AngleAxis(-7, Vector3.forward) * transform.right;
+
         Gizmos.color = Color.blue;
-        Gizmos.DrawRay(transform.position, dir  * curRate);
+
         Gizmos.DrawRay(transform.position, transform.right * curRate);
-        Gizmos.DrawRay(transform.position, dir1  * curRate);
+
     }
 }

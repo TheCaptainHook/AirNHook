@@ -17,7 +17,8 @@ public class PlaceMentSystem : MonoBehaviour
     public Dictionary<Vector3Int, int> tileDic = new();
 
     [Header("Mouse")]
-    Sprite default_MouseIndicatorSprite;
+    Sprite default_TileMode_MouseIndicatorSprite;
+    Sprite defailt_MouseIndicatorSprite;
     public Vector3Int gridPosition;
     private Vector3Int curPosition;
     private Vector3Int lastPosition;
@@ -27,7 +28,7 @@ public class PlaceMentSystem : MonoBehaviour
         get { return mouseIndicator; }
         set
         {
-            if (value == null) { mouseIndicator.GetComponent<SpriteRenderer>().sprite = default_MouseIndicatorSprite;}
+            if (value == null) { mouseIndicator.GetComponent<SpriteRenderer>().sprite = default_TileMode_MouseIndicatorSprite; }
             else if (mouseIndicator.GetComponent<SpriteRenderer>().sprite != value.GetComponent<SpriteRenderer>().sprite)
             {
                 mouseIndicator.GetComponent<SpriteRenderer>().sprite = value.GetComponent<SpriteRenderer>().sprite;
@@ -41,45 +42,63 @@ public class PlaceMentSystem : MonoBehaviour
     private void Start()
     {
         //_camera = Camera.main;
-        default_MouseIndicatorSprite = mouseIndicator.GetComponent<SpriteRenderer>().sprite;
+        default_TileMode_MouseIndicatorSprite = mouseIndicator.GetComponent<SpriteRenderer>().sprite;
     }
 
     private void Update()
     {
         //tile
-        if(MapEditor.Instance.mapEditorState == MapEditorState.Tile) 
+        if(MapEditor.Instance.mapEditorState== MapEditorState.Tile)
         {
-            mouseIndicator.transform.position = GetMousePosition();
-            mouseIndicator.transform.position += new Vector3(1, 1);
+            TileMode();
         }
-        else
-        {
-            mouseIndicator.SetActive(false);
-        }
-
-        //Privew
-        if(curPosition != gridPosition && mouseIndicator.activeSelf)
-        {
-            lastPosition = curPosition;
-            curPosition = gridPosition;
-            UpdatePreview();
-        }
-
-        //Draw
-        if(MapEditor.Instance.mapEditorState == MapEditorState.Tile && MapEditor.Instance.gridPlane.activeSelf)
-        {
-            if (Input.GetMouseButton(0))
-            {
-                DrawTile();
-            }
-        }
-
-
+        
         //tile
     }
 
 
     #region Tile
+
+    public void TileModeInit()
+    {
+        MouseIndicator.SetActive(true);
+    }
+    void TileMode()
+    {
+        GetMousePosition();
+        //if (MapEditor.Instance.mapEditorState == MapEditorState.Tile)
+        //{
+        //    mouseIndicator.transform.position = GetMousePosition();
+        //    mouseIndicator.transform.position += new Vector3(1, 1);
+        //}
+        //else
+        //{
+        //    mouseIndicator.SetActive(false);
+        //}
+
+        if(tileBase != null)
+        {
+            //Privew
+            if (curPosition != gridPosition)
+            {
+                lastPosition = curPosition;
+                curPosition = gridPosition;
+                UpdatePreview();
+            }
+
+            //Draw
+            if (MapEditor.Instance.gridPlane.activeSelf)
+            {
+                if (Input.GetMouseButton(0))
+                {
+                    DrawTile();
+                }
+            }
+        }
+       
+    }
+
+
     void UpdatePreview()
     {
         preViewTileMap.SetTile(lastPosition, null);
@@ -130,9 +149,11 @@ public class PlaceMentSystem : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(mousePosition, 0.1f);
+       
+            mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(mousePosition, 0.1f);
+        
     }
     #endregion
 
