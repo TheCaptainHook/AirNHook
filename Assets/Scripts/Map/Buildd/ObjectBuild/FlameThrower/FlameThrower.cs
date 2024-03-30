@@ -23,7 +23,7 @@ public class FlameThrower : MonoBehaviour
     {
         _collider = GetComponent<BoxCollider2D>();
         buildObj = GetComponent<BuildObj>();
-        buildObj.OnDisableAction += DisableParticle;
+        //buildObj.OnDisableAction += DisableParticle;
         curRate = maxRate;
     }
   
@@ -43,7 +43,7 @@ public class FlameThrower : MonoBehaviour
         }
         else
         {
-            curRate = 0;
+            Disable();
         }
        
     }
@@ -59,22 +59,25 @@ public class FlameThrower : MonoBehaviour
 
         flame.particle.Stop();
         flame.particle.Play();
-        //flame.particle.startLifetime = 0.2f * hit.distance;
         var main = flame.particle.main;
         main.startLifetime = 0.3f * hit.distance;
     }
 
-    void DisableParticle()
+    void Disable()
     {
-        if (!onActive)
-        {
-            onActive = false;
-            flame.GetComponent<Flame>().particle.Stop();
-        }
-        
+        onActive = false;
+        flame.GetComponent<Flame>().particle.Stop();
+        curRate = 0;
+        _collider.enabled = false;
     }
 
- 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Projectile"))
+        {
+            Disable();
+        }
+    }
 
 
     private void OnDrawGizmos()
