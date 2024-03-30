@@ -173,7 +173,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8973802656345816791}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -205,12 +205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 302
-  editorMod_isActive: 0
-  placeable: 0
-  isCollision: 0
-  mask:
-    serializedVersion: 2
-    m_Bits: 2147483648
+  distructionStatus: 0
 --- !u!114 &2486093012832930785
 MonoBehaviour:
   m_ObjectHideFlags: 0

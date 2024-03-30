@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 303
+  distructionStatus: 0
 --- !u!1 &2807841761411676036
 GameObject:
   m_ObjectHideFlags: 0

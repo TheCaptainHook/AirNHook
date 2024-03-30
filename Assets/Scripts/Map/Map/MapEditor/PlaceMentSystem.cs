@@ -25,7 +25,7 @@ public class PlaceMentSystem : MonoBehaviour
     //Sprite default_TileMode_MouseIndicatorSprite;
     //Sprite defailt_MouseIndicatorSprite;
     public Vector3Int gridPosition;
-    public Vector3Int curGridPosition;
+    private Vector3Int curGridPosition;
 
     private Vector3Int curPosition;
     private Vector3Int lastPosition;
@@ -45,11 +45,11 @@ public class PlaceMentSystem : MonoBehaviour
     //    }
    
 
-    private void Start()
-    {
-        //_camera = Camera.main;
-        //default_TileMode_MouseIndicatorSprite = mouseIndicator.GetComponent<SpriteRenderer>().sprite;
-    }
+    //private void Start()
+    //{
+    //    //_camera = Camera.main;
+    //    //default_TileMode_MouseIndicatorSprite = mouseIndicator.GetComponent<SpriteRenderer>().sprite;
+    //}
 
     private void Update()
     {

@@ -4841,6 +4841,7 @@ GameObject:
   - component: {fileID: 8196177442817728895}
   - component: {fileID: 1755334685966830132}
   - component: {fileID: 7330084582741803214}
+  - component: {fileID: -507259776594060787}
   m_Layer: 0
   m_Name: LaserObject
   m_TagString: Untagged
@@ -4877,6 +4878,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _defDistanceRay: 50
+  _curDistanceRay: 0
   _lineRenderer: {fileID: 2717453816571275917}
   _firePoint: {fileID: 2979357953502741260}
   _endVFX: {fileID: 5345449485699939287}
@@ -4898,6 +4900,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 304
   distructionStatus: 0
+--- !u!50 &-507259776594060787
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 996093479032505842}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &4013349505788404819
 GameObject:
   m_ObjectHideFlags: 0

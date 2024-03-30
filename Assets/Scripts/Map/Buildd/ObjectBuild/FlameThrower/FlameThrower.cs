@@ -30,14 +30,22 @@ public class FlameThrower : MonoBehaviour
 
     private void FixedUpdate()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, curRate, layerMask);
-
-        if (hit)
+        if (!MapEditor.Instance.stageClear)
         {
-            CheckHit(hit);
-        }
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, curRate, layerMask);
 
-        curRate = Mathf.Clamp(curRate, 0, maxRate);
+            if (hit)
+            {
+                CheckHit(hit);
+            }
+
+            curRate = Mathf.Clamp(curRate, 0, maxRate);
+        }
+        else
+        {
+            curRate = 0;
+        }
+       
     }
 
     void CheckHit(RaycastHit2D hit)

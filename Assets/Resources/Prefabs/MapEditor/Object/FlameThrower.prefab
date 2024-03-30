@@ -93,10 +93,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 714563942017990777}
-  - component: {fileID: 4410577209085521359}
   - component: {fileID: 2697511843896818342}
-  - component: {fileID: 8205738240884457234}
   - component: {fileID: 5689717236360114606}
+  - component: {fileID: 4410577209085521359}
+  - component: {fileID: 8205738240884457234}
   m_Layer: 0
   m_Name: FlameThrower
   m_TagString: Untagged
@@ -121,20 +121,6 @@ Transform:
   - {fileID: 3806905416122518029}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4410577209085521359
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3620966200675950213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 104eb1c96815b4820b4be071555180b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 309
-  distructionStatus: 1
 --- !u!61 &2697511843896818342
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -180,23 +166,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &8205738240884457234
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3620966200675950213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efc8f47666895461298ebe6844331387, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onActive: 0
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 2684355584
-  flame: {fileID: 1256057224243392037}
 --- !u!50 &5689717236360114606
 Rigidbody2D:
   serializedVersion: 4
@@ -205,7 +174,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3620966200675950213}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -224,6 +193,37 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &4410577209085521359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3620966200675950213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104eb1c96815b4820b4be071555180b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 309
+  distructionStatus: 1
+--- !u!114 &8205738240884457234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3620966200675950213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efc8f47666895461298ebe6844331387, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onActive: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 2684355584
+  flame: {fileID: 1256057224243392037}
 --- !u!1 &9092146968563663255
 GameObject:
   m_ObjectHideFlags: 0
