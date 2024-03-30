@@ -16,7 +16,8 @@ public class MapEditorControllerUI : MonoBehaviour
     [SerializeField] Button initBtn;
     //[SerializeField] TextMeshProUGUI messageText;
     [SerializeField] Button onOffBtn;
-    [SerializeField] Button testBTN;
+    [SerializeField] Button tileMode_Test;
+    [SerializeField] Button tileUndo_Test;
 
 
 
@@ -24,12 +25,13 @@ public class MapEditorControllerUI : MonoBehaviour
     {
         initBtn.onClick.AddListener(MapSizeInit);
         onOffBtn.onClick.AddListener(HideController);
-        testBTN.onClick.AddListener(TestTileCLIKC);
+        tileMode_Test.onClick.AddListener(TestTileCLIKC);
+        tileUndo_Test.onClick.AddListener(MapEditor.Instance.placeMentSystem.TileUndo);
     }
 
     
     //test
-    void TestTileCLIKC() //Tile mode Btn -> Tile mode on ->
+    void TestTileCLIKC() //타일모드로 진입할때,
     {   if(MapEditor.Instance.mapEditorState == MapEditorState.Tile)
         {
             MapEditor.Instance.mapEditorState = MapEditorState.Editor;

@@ -6,8 +6,6 @@ using UnityEngine.Tilemaps;
 
 public class PlaceMentSystem : MonoBehaviour
 {
-
-
     Util Util = new Util();
     private Camera _camera => Camera.main == null ? null : Camera.main;
     public LayerMask layerMask;    
@@ -15,13 +13,23 @@ public class PlaceMentSystem : MonoBehaviour
 
     [Header("Tile")]
     public Dictionary<Vector3Int, int> tileDic = new();
+    [SerializeField] Tilemap preViewTileMap;
+    public Tilemap floorTileMap;
+    public TileBase tileBase;
+
+    [Header("Command")]
+    TileModeClient tileModeClient;
+
 
     [Header("Mouse")]
     //Sprite default_TileMode_MouseIndicatorSprite;
     //Sprite defailt_MouseIndicatorSprite;
     public Vector3Int gridPosition;
+    public Vector3Int curGridPosition;
+
     private Vector3Int curPosition;
     private Vector3Int lastPosition;
+
     public Vector3 mousePosition;
     //[SerializeField] GameObject mouseIndicator, cellIndicator;
     //public GameObject MouseIndicator { 
@@ -35,9 +43,7 @@ public class PlaceMentSystem : MonoBehaviour
              
     //        }}
     //    }
-    [SerializeField] Tilemap preViewTileMap;
-    public Tilemap floorTileMap;
-    public TileBase tileBase;
+   
 
     private void Start()
     {
@@ -51,7 +57,7 @@ public class PlaceMentSystem : MonoBehaviour
         //tile
         if(MapEditor.Instance.mapEditorState== MapEditorState.Tile)
         {
-            TileMode(); //이
+            TileMode();
         }
         //tile
     }
@@ -64,25 +70,19 @@ public class PlaceMentSystem : MonoBehaviour
 
     }
 
+    #region INIT
+    public void EditorMode_Init()
+    {
+        tileModeClient = new TileModeClient();
+    }
+    #endregion
+
+
+
     #region Tile
 
-    public void TileModeInit()
-    {
-        //MouseIndicator.SetActive(true);
-    }
     void TileMode()
     {
-        //GetMousePosition();
-        //if (MapEditor.Instance.mapEditorState == MapEditorState.Tile)
-        //{
-        //    mouseIndicator.transform.position = GetMousePosition();
-        //    mouseIndicator.transform.position += new Vector3(1, 1);
-        //}
-        //else
-        //{
-        //    mouseIndicator.SetActive(false);
-        //}
-
         if(tileBase != null)
         {
             //Privew
@@ -96,14 +96,21 @@ public class PlaceMentSystem : MonoBehaviour
             //Draw
             if (MapEditor.Instance.gridPlane.activeSelf)
             {
-                if (Input.GetMouseButton(0))
+                if (Input.GetMouseButton(0) && (curGridPosition != gridPosition))
                 {
-                    DrawTile();
+                    curGridPosition = gridPosition;
+                    tileModeClient.DrawTile();
                 }
             }
         }
        
     }
+
+    public void TileUndo()
+    {
+        tileModeClient.UndoTile();
+    }
+
 
 
     void UpdatePreview()
@@ -112,22 +119,22 @@ public class PlaceMentSystem : MonoBehaviour
         preViewTileMap.SetTile(curPosition, tileBase);
     }
 
-    void DrawTile()
-    {
-        if (tileBase == null)
-        {
-            if (tileDic.ContainsKey(gridPosition))
-            {
-                tileDic.Remove(gridPosition);
-                floorTileMap.SetTile(gridPosition, tileBase);
-            }
-        }
-        else
-        {
-            floorTileMap.SetTile(gridPosition, tileBase);
-            tileDic[gridPosition] = int.Parse(tileBase.name);
-        }
-    }
+    //void DrawTile()
+    //{
+    //    if (tileBase == null)
+    //    {
+    //        if (tileDic.ContainsKey(gridPosition))
+    //        {
+    //            tileDic.Remove(gridPosition);
+    //            floorTileMap.SetTile(gridPosition, tileBase);
+    //        }
+    //    }
+    //    else
+    //    {
+    //        floorTileMap.SetTile(gridPosition, tileBase);
+    //        tileDic[gridPosition] = int.Parse(tileBase.name);
+    //    }
+    //}
 
     public void ResetTileMap()
     {
