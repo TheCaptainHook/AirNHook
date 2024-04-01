@@ -251,6 +251,7 @@ public class Air : MonoBehaviour
 
         if (_latestTarget != null && _isFlyAway)
         {
+            Debug.Log("@@#@#@#@#@#");
             transform.GetComponent<Rigidbody2D>().gravityScale = _airGravityScale;
             _latestTarget = null;
             _isAttached = false;
@@ -316,6 +317,7 @@ public class Air : MonoBehaviour
             if (_latestTarget != null) 
             {
                 _latestTarget.GetComponent<Rigidbody2D>().gravityScale = _latestTargetGravityScale;
+                transform.GetComponent<Rigidbody2D>().gravityScale = _airGravityScale;
             }
             _latestTarget = null;
             _isFlyAway = false;
@@ -385,6 +387,7 @@ public class Air : MonoBehaviour
             if (_latestTarget != null && _latestTarget != _closestTarget)
             {
                 _latestTarget.GetComponent<Rigidbody2D>().gravityScale = _latestTargetGravityScale;
+                transform.GetComponent<Rigidbody2D>().gravityScale = _airGravityScale;
                 //_latestTarget.GetComponent<Collider2D>().excludeLayers = 0;
             }
 
@@ -473,9 +476,9 @@ public class Air : MonoBehaviour
         transform.position = Vector3.Lerp(air, target, 0.03f);
 
         //이곳에서 overlapCircle을 써서 범위에 포착이되면 순간적으로 에어의 위치를 이동시켜 부착시키도록?
-        //Vector2.Distance(_weaponPoint.position, target) <= 0.1 / IsAttached()
-        //한번 붙으면 계속 true상태라 문제임
-        if (Vector2.Distance(_weaponPoint.position, target) <= 0.3f)
+        //Vector2.Distance(_weaponPoint.position, target) <= 0.3 / IsAttached()
+        //후크의 높이가 일정거리이상 됬을때만 흡입액션이 동작하도록?
+        if (Vector2.Distance(_weaponPoint.position, target) <= 0.3)
         {
             //이곳에서 좀더 부드럽게 움직이도록?
             if (((1 << transform.gameObject.layer) & _objectMask) != 0)
@@ -514,7 +517,7 @@ public class Air : MonoBehaviour
         float distance = Vector2.Distance(target, airWeaponPos);
 
         //두물체의 거리체크하는 코드를 넣어야함
-        if (distance <= 0.75f)
+        if (distance <= 1f)
         {
             _armPivot.rotation = Quaternion.AngleAxis(rotz2, Vector3.forward);
         }
@@ -555,6 +558,7 @@ public class Air : MonoBehaviour
     //오브젝트 발사하는코드
     private void ShootObject()
     {
+        Debug.Log("1");
         if (_chargingCoroutine != null)
         {
             StopCoroutine(_chargingCoroutine);
@@ -587,6 +591,7 @@ public class Air : MonoBehaviour
     //에어가 후크에게 붙어있을때 에어를 발사하는 코드
     private void ShootAir()
     {
+        Debug.Log("3");
         _isAttached = false;
         Vector2 worldPos = _camera.ScreenToWorldPoint(_mouseDelta);
         Vector2 airPos = new Vector2(transform.position.x, transform.position.y + 0.5f);

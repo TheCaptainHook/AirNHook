@@ -72,7 +72,7 @@ public class Grappling : NetworkBehaviour
         // 조작하는 플레이어 체크
         if(isLocalPlayer)
             HandleRopeLength();
-        //UpdateRopePositions();
+        UpdateRopePositions();
     }
 
     private void FixedUpdate()
