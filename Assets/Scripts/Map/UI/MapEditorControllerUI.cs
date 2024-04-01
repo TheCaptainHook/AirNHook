@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 public class MapEditorControllerUI : MonoBehaviour
 {
+    PlaceMentSystem placeMentSystem;
+
     [Header("Controller State")]
     bool onHide;
 
@@ -22,14 +24,22 @@ public class MapEditorControllerUI : MonoBehaviour
     [SerializeField] Button tileMode_Test;
     [SerializeField] Button tileUndo_Test;
 
+    [SerializeField] Button tileBtn_Test;
+    [SerializeField] Button eraserBtn_Test;
+    [SerializeField] Button bundleBtn_Test;
 
 
     private void Awake()
     {
+        placeMentSystem = MapEditor.Instance.placeMentSystem;
         initBtn.onClick.AddListener(MapSizeInit);
         onOffBtn.onClick.AddListener(HideController);
+        //test
         tileMode_Test.onClick.AddListener(TestTileCLIKC);
-        tileUndo_Test.onClick.AddListener(MapEditor.Instance.placeMentSystem.invoker.Undo);
+        tileUndo_Test.onClick.AddListener(placeMentSystem.invoker.Undo);
+        tileBtn_Test.onClick.AddListener(() => { placeMentSystem.tileModeState = TileModeState.Tile; placeMentSystem.ResetPreviewTileMap(); });
+        eraserBtn_Test.onClick.AddListener(() => { placeMentSystem.tileModeState = TileModeState.Clear; placeMentSystem.ResetPreviewTileMap(); });
+        bundleBtn_Test.onClick.AddListener(() => { placeMentSystem.tileModeState = TileModeState.Bundle; placeMentSystem.ResetPreviewTileMap(); });
     }
 
     

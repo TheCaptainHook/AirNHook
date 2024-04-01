@@ -20,8 +20,11 @@ public class Invoker
 
     public void Undo()
     {
-        ICommand command = commandStack.Pop();
-        command.Undo();
+        if(commandStack.Count > 0)
+        {
+            ICommand command = commandStack.Pop();
+            command.Undo();
+        }
 
     }
 }
