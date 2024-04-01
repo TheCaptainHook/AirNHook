@@ -8,9 +8,11 @@ public class HookMovement : PlayerMovement
     public Vector2 ropeHook;
     public float swingForce;
     public Grappling grappling;
+    private float _swingFloat;
 
     #region StringCache
     private static readonly int IsGrappling = Animator.StringToHash("IsGrappling");
+    private static readonly int SwingingForce = Animator.StringToHash("SwingingForce");
     #endregion
     protected override void Awake()
     {
@@ -87,6 +89,15 @@ public class HookMovement : PlayerMovement
     protected override void MoveAnimation()
     {
         _animator.SetBool(IsGrappling, isSwinging);
+        if (_horizontal != 0 && isSwinging)
+        {
+            _swingFloat += Time.deltaTime;
+            _animator.SetFloat(SwingingForce, _swingFloat);
+        }
+        if (_horizontal == 0 && isSwinging || !isSwinging)
+            _swingFloat = 0;
+        if(_isGround)
+            _swingFloat = 0;
         base.MoveAnimation();
     }
 }
