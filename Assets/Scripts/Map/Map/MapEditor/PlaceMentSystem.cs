@@ -35,6 +35,7 @@ public class PlaceMentSystem : MonoBehaviour
 
 
     [Header("Mouse")]
+    bool inGridPlaneMousePosition;
     public LayerMask gridPlaneLayerMask;
     //Sprite default_TileMode_MouseIndicatorSprite;
     //Sprite defailt_MouseIndicatorSprite;
@@ -123,7 +124,7 @@ public class PlaceMentSystem : MonoBehaviour
                         UpdatePreview();
                     }
                     //Draw
-                    if (Input.GetMouseButton(0) && (curGridPosition != gridPosition))
+                    if (Input.GetMouseButton(0) && (curGridPosition != gridPosition) && inGridPlaneMousePosition)
                     {
                         curGridPosition = gridPosition;
                         tileModeClient.DrawTile();
@@ -137,7 +138,7 @@ public class PlaceMentSystem : MonoBehaviour
 
                     //MouseIndocator
                     //Clear
-                    if (Input.GetMouseButton(0) && (curGridPosition != gridPosition))
+                    if (Input.GetMouseButton(0) && (curGridPosition != gridPosition) && inGridPlaneMousePosition)
                     {
                         if (floorTileMap.GetTile(gridPosition) != null)
                         {
@@ -148,7 +149,7 @@ public class PlaceMentSystem : MonoBehaviour
                 }
                 break;
             case TileModeState.Bundle:
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(0) && inGridPlaneMousePosition)
                 {
                     if (!getTarget)
                     {
@@ -227,11 +228,13 @@ public class PlaceMentSystem : MonoBehaviour
         Collider2D collider = Physics2D.OverlapPoint(mousePot,gridPlaneLayerMask);
         if (collider != null)
         {
+            inGridPlaneMousePosition = true;
             Vector3Int cellPot = floorTileMap.WorldToCell(mousePot);
             gridPosition = new Vector3Int(Mathf.FloorToInt(floorTileMap.CellToWorld(cellPot).x), Mathf.FloorToInt(floorTileMap.CellToWorld(cellPot).y));
         }
         else
         {
+            inGridPlaneMousePosition = false;
             ResetPreviewTileMap();
         }
 
