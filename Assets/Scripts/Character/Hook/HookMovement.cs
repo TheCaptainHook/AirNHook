@@ -2,12 +2,16 @@ using UnityEngine;
 
 public class HookMovement : PlayerMovement
 {
+    
     public bool isSwinging;
     public bool swingJump = false;
     public Vector2 ropeHook;
     public float swingForce;
     public Grappling grappling;
 
+    #region StringCache
+    private static readonly int IsGrappling = Animator.StringToHash("IsGrappling");
+    #endregion
     protected override void Awake()
     {
         base.Awake();
@@ -78,5 +82,11 @@ public class HookMovement : PlayerMovement
     protected override bool IsLeftHead()
     {
         return !isSwinging && base.IsLeftHead();
+    }
+
+    protected override void MoveAnimation()
+    {
+        _animator.SetBool(IsGrappling, isSwinging);
+        base.MoveAnimation();
     }
 }

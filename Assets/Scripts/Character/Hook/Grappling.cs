@@ -109,7 +109,7 @@ public class Grappling : NetworkBehaviour
         _ropePosition = Vector2.negativeInfinity;
         _hookAnchorRb.bodyType = RigidbodyType2D.Kinematic;
         CmdChangeHookBody(RigidbodyType2D.Kinematic);
-        hookAnchor.transform.position = hookStartPos.position;
+        hookAnchor.transform.position = hookStartPos.position + new Vector3(0, 0.1f, 0);
     }
     
     private void UpdateRopePositions()
@@ -117,7 +117,7 @@ public class Grappling : NetworkBehaviour
         if (!_grappleAttached)
         {
             //TODO 현재 임시로 위치 조정 중
-            hookAnchor.transform.position = hookStartPos.position;
+            hookAnchor.transform.position = hookStartPos.position + new Vector3(0, 0.1f, 0);
             ropeRenderer.enabled = false;
             return;
         }
