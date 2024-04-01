@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class UIManager
 {
     #region FeedBackMemo
     /*
@@ -62,7 +62,7 @@ public class UIManager : MonoBehaviour
                 _uIDict.Remove(typeof(T).Name);
 
             // 리소스 폴더 UI 프리팹 로드하여 생성
-            GameObject go = Instantiate(Resources.Load<GameObject>(GetPath<T>()), parent);
+            GameObject go = ResourceManager.Instantiate(GetPath<T>(), parent);
 
             var temp = go.GetComponent<UI_Base>();
             AddUI<T>(temp);
@@ -124,7 +124,7 @@ public class UIManager : MonoBehaviour
     {
         string className = typeof(T).Name;
         if (!_uIDict.ContainsKey(className)) return;
-        Destroy(_uIDict[className]?.gameObject);
+        ResourceManager.Destroy(_uIDict[className]?.gameObject);
         _uIDict.Remove(className);
     }
     

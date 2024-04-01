@@ -8,12 +8,12 @@ public class MapData
 {
 
     public Dictionary<int, MapDataStruct> mapTileDataDictionary = new Dictionary<int, MapDataStruct>();
-
-    //todo
     public Dictionary<int, MapDataStruct> mapObjectDataDictionary = new Dictionary<int, MapDataStruct>();
-    //todo
+    public Dictionary<int, MapDataStruct> mapSceneDataDictionary = new Dictionary<int, MapDataStruct>();
 
-    public Dictionary<string, Map> mapDictionary = new Dictionary<string, Map>();
+    public Dictionary<string, Map> mapTutorialDictionary = new Dictionary<string, Map>();
+    public Dictionary<string, Map> mapMainDictionary = new Dictionary<string, Map>();
+    public Dictionary<string, Map> mapUserDictionary = new Dictionary<string, Map>();
 
     public void SetUp()
     {
@@ -22,7 +22,6 @@ public class MapData
 
         MapJsonLoad();        
 
-        //todo
     }
 
 
@@ -40,18 +39,44 @@ public class MapData
         {
             mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.type, value.path));
         }
+        UnityGoogleSheet.Load<MapObjectData.SceneData>();
+        foreach (var value in MapObjectData.SceneData.SceneDataList)
+        {
+            mapSceneDataDictionary.Add(value.id, new MapDataStruct(value.type, value.path));
+        }
     }
 
     void MapJsonLoad()
     {
-        foreach (TextAsset json in Resources.LoadAll<TextAsset>("MapDat"))
+        foreach (TextAsset json in Resources.LoadAll<TextAsset>("MapDat/Tutorial"))
         {
             Map map = JsonUtility.FromJson<Map>(json.text);
-            mapDictionary.Add(map.mapID, map);
-            Debug.Log(map.mapID);
+            mapTutorialDictionary.Add(map.mapID, map);
+        }
+        foreach (TextAsset json in Resources.LoadAll<TextAsset>("MapDat/Main"))
+        {
+            Map map = JsonUtility.FromJson<Map>(json.text);
+            mapMainDictionary.Add(map.mapID, map);
+        }
+        foreach (TextAsset json in Resources.LoadAll<TextAsset>("MapDat/User"))
+        {
+            Map map = JsonUtility.FromJson<Map>(json.text);
+            mapUserDictionary.Add(map.mapID, map);
         }
     }
-
+    public Dictionary<string,Map> GetDictionary(MapType mapType)
+    {
+        switch (mapType)
+        {
+            case MapType.Tutorial:
+                return mapTutorialDictionary;
+            case MapType.Main:
+                return mapMainDictionary;
+            case MapType.User:
+                return mapUserDictionary;
+        }
+        return null;
+    }
 }
 
 

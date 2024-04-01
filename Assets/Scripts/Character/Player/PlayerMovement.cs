@@ -40,7 +40,7 @@ public class PlayerMovement : NetworkBehaviour
     //움직임속도
     [SerializeField] protected float _moveSpeed = 2f;
     
-    private Animator _animator;
+    protected Animator _animator;
     [SerializeField] private Transform _charPivot;
 
     #region StringCache
@@ -69,9 +69,9 @@ public class PlayerMovement : NetworkBehaviour
         playerInput.playerActions.Jump.canceled += JumpCanceled;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        if (!isLocalPlayer && Managers.Network.isNetworkActive) return;
+        if (!ReferenceEquals(Managers.Game.Player, gameObject)) return;
         
         playerInput.playerActions.Move.started -= MoveStarted;
         playerInput.playerActions.Jump.started -= JumpStarted;
@@ -228,7 +228,7 @@ public class PlayerMovement : NetworkBehaviour
         return false;
     }
     
-    private void MoveAnimation()
+    protected virtual void MoveAnimation()
     {
         //이동에 따라 애니메이션 제어
         _animator.SetBool(IsMoving, _horizontal != 0 && _isGround);

@@ -17,6 +17,8 @@ TagManager:
   - 
   - 
   - Player
+  - Hook
+  - Object
   - 
   - 
   - 
@@ -31,10 +33,8 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - Interaction
+  - Projectile
   - Key
   - GridPlane
   - Floor

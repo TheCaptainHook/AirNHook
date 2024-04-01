@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 9033468922822899673}
   - component: {fileID: -2767788134810897182}
   - component: {fileID: -3325528363225173584}
-  - component: {fileID: -3262445402675931856}
+  - component: {fileID: -6485835009400122000}
   m_Layer: 29
   m_Name: Key
   m_TagString: Untagged
@@ -205,6 +205,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   player: {fileID: 0}
+  objectType: 1
   isGrabbed: 0
 --- !u!114 &-3325528363225173584
 MonoBehaviour:
@@ -223,7 +224,7 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!114 &-3262445402675931856
+--- !u!114 &-6485835009400122000
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -232,7 +233,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6099480600797554674}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
+  m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 1
@@ -244,8 +245,8 @@ MonoBehaviour:
   syncScale: 0
   onlySyncOnChange: 1
   compressRotation: 1
-  interpolatePosition: 0
-  interpolateRotation: 0
+  interpolatePosition: 1
+  interpolateRotation: 1
   interpolateScale: 0
   coordinateSpace: 0
   sendIntervalMultiplier: 1
@@ -253,7 +254,8 @@ MonoBehaviour:
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  onlySyncOnChangeCorrectionMultiplier: 2
+  bufferResetMultiplier: 3
+  changedDetection: 1
+  positionSensitivity: 0.01
   rotationSensitivity: 0.01
-  positionPrecision: 0.01
-  scalePrecision: 0.01
+  scaleSensitivity: 0.01

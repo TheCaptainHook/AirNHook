@@ -12,13 +12,14 @@ public enum DistructionStatus
 [System.Serializable]
 public class BuildObj : MonoBehaviour,IDamageable
 {
-    [SerializeField] protected int id;
+    public int id;
     [SerializeField] protected DistructionStatus distructionStatus;
 
     private ObjectData _objectData;
     public ObjectData ObjectData { get { return _objectData; } set { _objectData = value; id = _objectData.id; } }
 
     public event Action<Vector2> OnDissolveAction;
+    public event Action OnDisableAction;
 
     public void SetTileData(Vector2 position)
     {
@@ -34,8 +35,10 @@ public class BuildObj : MonoBehaviour,IDamageable
    {
         if(distructionStatus == DistructionStatus.Destructible)
         {
+            Debug.Log(gameObject.name);
             Debug.Log("Distruction");
             OnDissolveAction?.Invoke(ObjectData.position);
+            OnDisableAction?.Invoke();
         }
 
         if(distructionStatus == DistructionStatus.PermanentDestruction)
