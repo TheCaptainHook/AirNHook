@@ -16,6 +16,9 @@ public class DemoMap : MonoBehaviour
     public string mapId;
     public GameObject playerSpawnPoint;
     public GameObject exitPoint;
+  
+    public event Action OnGetKey;
+
 
     private void Awake()
     {

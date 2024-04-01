@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Mirror;
@@ -24,13 +23,9 @@ public class GameManager
         get
         {
             if (!NetworkClient.ready)
-                return _player;
-
-            try
-            {
-                _player = NetworkClient.localPlayer.gameObject;
-            }
-            catch (NullReferenceException e) { }
+                return null;
+            
+            _player = NetworkClient.localPlayer.gameObject;
             
             return _player;
         }

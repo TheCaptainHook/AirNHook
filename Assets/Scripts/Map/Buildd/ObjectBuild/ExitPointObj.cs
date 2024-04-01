@@ -26,7 +26,7 @@ public class ExitPointObj : BuildBase
     public int curPlayerInDoor;
     //todo
 
-    //event Action OnCheckKey;
+    event Action OnCheckKey;
     bool isClear;
 
     //private void FixedUpdate()
@@ -45,7 +45,7 @@ public class ExitPointObj : BuildBase
     {
         condition_KeyAmount = data.condition_KeyAmount;
         nextMapId = data.nextMapId;
-        SetTileData(data.position);
+   
     }
 
     public void Init(int condition_keyAmount)
@@ -81,11 +81,9 @@ public class ExitPointObj : BuildBase
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && stageClear)
+        if(collision.gameObject.layer== LayerMask.NameToLayer("Player") && stageClear)
         {
-            
             curPlayerInDoor--;
-            if(curPlayerInDoor < 0) { curPlayerInDoor = 0; }
         }
     }
 

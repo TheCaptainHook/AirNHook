@@ -10,31 +10,28 @@ public class PlaceMentSystem : MonoBehaviour
 
     Util Util = new Util();
     private Camera _camera => Camera.main == null ? null : Camera.main;
-    public LayerMask layerMask;    
-   
+    public LayerMask layerMask;
 
-    [Header("Tile")]
-    public Dictionary<Vector3Int, int> tileDic = new();
-
-    [Header("Mouse")]
-    //Sprite default_TileMode_MouseIndicatorSprite;
-    //Sprite defailt_MouseIndicatorSprite;
     public Vector3Int gridPosition;
     private Vector3Int curPosition;
     private Vector3Int lastPosition;
     public Vector3 mousePosition;
-    //[SerializeField] GameObject mouseIndicator, cellIndicator;
-    //public GameObject MouseIndicator { 
-    //    get { return mouseIndicator; }
-    //    set
-    //    {
-    //        if (value == null) { mouseIndicator.GetComponent<SpriteRenderer>().sprite = default_TileMode_MouseIndicatorSprite; }
-    //        else if (mouseIndicator.GetComponent<SpriteRenderer>().sprite != value.GetComponent<SpriteRenderer>().sprite)
-    //        {
-    //            mouseIndicator.GetComponent<SpriteRenderer>().sprite = value.GetComponent<SpriteRenderer>().sprite;
+    Sprite default_MouseIndicatorSprite;
+    [SerializeField] GameObject mouseIndicator,cellIndicator;
+    public Dictionary<Vector3Int, int> tileDic = new();
+
+    public GameObject MouseIndicator { 
+        get { return mouseIndicator; }
+        set
+        {
+            if (value == null) { mouseIndicator.GetComponent<SpriteRenderer>().sprite = default_MouseIndicatorSprite;}
+            else if (mouseIndicator.GetComponent<SpriteRenderer>().sprite != value.GetComponent<SpriteRenderer>().sprite)
+            {
+                mouseIndicator.GetComponent<SpriteRenderer>().sprite = value.GetComponent<SpriteRenderer>().sprite;
              
-    //        }}
-    //    }
+            }}
+        }
+
     [SerializeField] Tilemap preViewTileMap;
     public Tilemap floorTileMap;
     public TileBase tileBase;
@@ -42,67 +39,58 @@ public class PlaceMentSystem : MonoBehaviour
     private void Start()
     {
         //_camera = Camera.main;
-        //default_TileMode_MouseIndicatorSprite = mouseIndicator.GetComponent<SpriteRenderer>().sprite;
+        default_MouseIndicatorSprite = mouseIndicator.GetComponent<SpriteRenderer>().sprite;
     }
 
     private void Update()
     {
-
-        //tile
-        if(MapEditor.Instance.mapEditorState== MapEditorState.Tile)
+        if(MapEditor.Instance.mapEditorState == MapEditorState.Tile)
         {
-            TileMode(); //이
+            mouseIndicator.transform.position = GetMousePosition();
+            mouseIndicator.transform.position += new Vector3(1, 1);
         }
-        //tile
-    }
-    private void LateUpdate()
-    {
-        if(MapEditor.Instance.mapEditorState != MapEditorState.NoEditor)
+        else
         {
-            GetMousePosition();
+            mouseIndicator.SetActive(false);
         }
 
-    }
-
-    #region Tile
-
-    public void TileModeInit()
-    {
-        //MouseIndicator.SetActive(true);
-    }
-    void TileMode()
-    {
-        //GetMousePosition();
-        //if (MapEditor.Instance.mapEditorState == MapEditorState.Tile)
-        //{
-        //    mouseIndicator.transform.position = GetMousePosition();
-        //    mouseIndicator.transform.position += new Vector3(1, 1);
-        //}
-        //else
-        //{
-        //    mouseIndicator.SetActive(false);
-        //}
-
-        if(tileBase != null)
+        //Privew
+        if(curPosition != gridPosition && mouseIndicator.activeSelf)
         {
-            //Privew
-            if (curPosition != gridPosition)
+            lastPosition = curPosition;
+            curPosition = gridPosition;
+            UpdatePreview();
+        }
+        //Draw
+        if(MapEditor.Instance.mapEditorState == MapEditorState.Tile && MapEditor.Instance.gridPlane.activeSelf)
+        {
+            if (Input.GetMouseButton(0))
             {
-                lastPosition = curPosition;
-                curPosition = gridPosition;
-                UpdatePreview();
-            }
-
-            //Draw
-            if (MapEditor.Instance.gridPlane.activeSelf)
-            {
-                if (Input.GetMouseButton(0))
-                {
-                    DrawTile();
-                }
+                DrawTile();
             }
         }
-       
+    }
+
+
+    public Vector3 GetMousePosition()
+    {
+        Vector3 mousePot = Util.GetMouseWorldPosition(Input.mousePosition, _camera);
+        Collider2D collider = Physics2D.OverlapPoint(mousePot);
+        if(collider != null)
+        {
+            Vector3Int cellPot = floorTileMap.WorldToCell(mousePot);
+            gridPosition = new Vector3Int(Mathf.FloorToInt(floorTileMap.CellToWorld(cellPot).x), Mathf.FloorToInt(floorTileMap.CellToWorld(cellPot).y));
+
+            return gridPosition;
+        }
+        return gridPosition;
+    }
+
+    private void OnDrawGizmos()
+    {
+        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(mousePosition, 0.1f);
     }
 
 
@@ -114,7 +102,7 @@ public class PlaceMentSystem : MonoBehaviour
 
     void DrawTile()
     {
-        if (tileBase == null)
+        if(tileBase == null)
         {
             if (tileDic.ContainsKey(gridPosition))
             {
@@ -127,38 +115,11 @@ public class PlaceMentSystem : MonoBehaviour
             floorTileMap.SetTile(gridPosition, tileBase);
             tileDic[gridPosition] = int.Parse(tileBase.name);
         }
+       
     }
 
     public void ResetTileMap()
     {
         floorTileMap.ClearAllTiles();
     }
-    #endregion
-
-    #region Object
-    #endregion
-
-    #region util
-    public void GetMousePosition()
-    {
-        Vector3 mousePot = Util.GetMouseWorldPosition(Input.mousePosition, _camera);
-        Collider2D collider = Physics2D.OverlapPoint(mousePot);
-        if (collider != null)
-        {
-            Vector3Int cellPot = floorTileMap.WorldToCell(mousePot);
-            gridPosition = new Vector3Int(Mathf.FloorToInt(floorTileMap.CellToWorld(cellPot).x), Mathf.FloorToInt(floorTileMap.CellToWorld(cellPot).y));
-        }
-    }
-
-    private void OnDrawGizmos()
-    {
-       
-            mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Gizmos.color = Color.red;
-            Gizmos.DrawSphere(mousePosition, 0.1f);
-        
-    }
-    #endregion
-
-
 }

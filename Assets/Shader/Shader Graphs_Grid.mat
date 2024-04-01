@@ -45,7 +45,7 @@ Material:
     m_Colors:
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _TileColor: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 0}
-    - _Tilling: {r: 5, g: 5, b: 0, a: 0}
+    - _Tilling: {r: 20, g: 20, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &6960431036181035817
 MonoBehaviour:

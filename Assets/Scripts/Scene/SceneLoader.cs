@@ -17,7 +17,6 @@ public class SceneLoader
             // StartScene
             case 0:
                 Debug.Log("Scene Loaded 0");
-                Managers.Instance.CheckNetworkManager();
                 Managers.Game.CurrentState = GameState.Title;
                 Managers.UI.ShowUI<UI_Title>();
                 break;

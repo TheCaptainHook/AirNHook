@@ -1,11 +1,13 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
-public class GrabbableObject : NetworkBehaviour, IInteractable
+public class GrabbableObject : NetworkBehaviour
 {
     public Transform player;
     private Rigidbody2D _rigidbody2D;
-    public ObjectTypeEnum objectType = ObjectTypeEnum.Grab;
     [SyncVar]
     public bool isGrabbed;
 
@@ -16,45 +18,55 @@ public class GrabbableObject : NetworkBehaviour, IInteractable
 
     private void Update()
     {
-        if (isGrabbed && player != null)
-        {
-            transform.position = player.position;
-        }
+        
     }
 
-    public void Interaction(Transform accessor)
+    public void Grab()
     {
-        if (player != null && !ReferenceEquals(player, accessor))
-            return;
-
-        if (isGrabbed)
-        {
-            Release();
-        }
-        else
-        {
-            player = accessor;
-            Grab();
-        }
+        _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
+        _rigidbody2D.velocity = new Vector2(0, 0);
+        transform.parent = player;
+        transform.localPosition = new Vector3(0, 0, 0);
+        transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
+        CmdGrab();
     }
 
-    public ObjectTypeEnum GetObjectType()
+    [Command(requiresAuthority = false)]
+    public void CmdGrab()
     {
-        return objectType;
+        RpcGrab();
     }
 
-    private void Grab()
+    [ClientRpc(includeOwner = false)]
+    private void RpcGrab()
     {
         isGrabbed = true;
         _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
         _rigidbody2D.velocity = new Vector2(0, 0);
-        transform.rotation = Quaternion.identity;
+        transform.parent = player;
+        transform.localPosition = new Vector3(0, 0, 0);
+        transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
     }
 
-    private void Release()
+    public void Release()
     {
         isGrabbed = false;
+        transform.parent = null;
         _rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
-        player = null;
+        CmdRelease();
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CmdRelease()
+    {
+        RpcRelease();
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcRelease()
+    {
+        isGrabbed = false;
+        transform.parent = null;
+        _rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
     }
 }

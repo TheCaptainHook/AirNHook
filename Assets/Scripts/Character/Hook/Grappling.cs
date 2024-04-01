@@ -56,9 +56,9 @@ public class Grappling : NetworkBehaviour
         _playerInput.playerActions.SubAction.started += OnSubAction;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
-        if (!ReferenceEquals(Managers.Game.Player, gameObject)) return;
+        if (!isLocalPlayer && Managers.Network.isNetworkActive) return;
         
         _playerInput.playerActions.Look.performed -= OnLook;
         _playerInput.playerActions.Look.canceled -= OnLook;
@@ -109,7 +109,7 @@ public class Grappling : NetworkBehaviour
         _ropePosition = Vector2.negativeInfinity;
         _hookAnchorRb.bodyType = RigidbodyType2D.Kinematic;
         CmdChangeHookBody(RigidbodyType2D.Kinematic);
-        hookAnchor.transform.position = hookStartPos.position + new Vector3(0, 0.1f, 0);
+        hookAnchor.transform.position = hookStartPos.position;
     }
     
     private void UpdateRopePositions()
@@ -117,7 +117,7 @@ public class Grappling : NetworkBehaviour
         if (!_grappleAttached)
         {
             //TODO 현재 임시로 위치 조정 중
-            hookAnchor.transform.position = hookStartPos.position + new Vector3(0, 0.1f, 0);
+            hookAnchor.transform.position = hookStartPos.position;
             ropeRenderer.enabled = false;
             return;
         }
