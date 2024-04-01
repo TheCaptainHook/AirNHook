@@ -162,6 +162,7 @@ public class Air : MonoBehaviour
             else if (_isInhale && _isFlyAway && _isOneSecond)
             {
                 AirFlyAway();
+                LookAt();
             }
         }
         //붙었을때
@@ -224,7 +225,7 @@ public class Air : MonoBehaviour
         else if (_isRightButtonClick && _isFlyAway)
         {
             Debug.Log("후크에게 붙은 상태에서 좌클릭떼기");
-            
+            _isHookAttached = false;
             _isLeftButtonClick = false;
             lr.enabled = false;
             _isFlyAway = false;
@@ -410,6 +411,7 @@ public class Air : MonoBehaviour
         //물체가 에어에게 빨려들어오는 코드
         else
         {
+            Debug.Log("2");
             Vector2 target = new Vector2(_latestTarget.transform.position.x, _latestTarget.transform.position.y);
 
             //오브젝트의 중력소실되게해서 끌어와야함
@@ -447,36 +449,35 @@ public class Air : MonoBehaviour
     //후크가 벽에 붙었을때 에어가 후크에게 날아가는 코드
     private void AirFlyAway()
     {
+        Debug.Log("@##@@#");
         //에어의 중력크기 저장
         var gravityScale = transform.GetComponent<Rigidbody2D>().gravityScale;
         _airGravityScale = gravityScale;
 
-        // air = 에어의 총구위치 저장 , target = 후크의 위치 저장
-        Vector3 air = new Vector3(transform.position.x, transform.position.y);
-        Vector3 airPos = new Vector3(transform.position.x + 1f, transform.position.y);
-        Vector3 targetPos = new Vector3(_latestTarget.transform.position.x + 1f, _latestTarget.transform.position.y);
-        Vector3 target = new Vector3(_latestTarget.transform.position.x, _latestTarget.transform.position.y);
+        // air = 에어위치 저장 , target = 후크의 위치 저장
+        Vector3 air = transform.position;
+        Vector3 target = _latestTarget.transform.position;
 
         //에어의 중력소실되게해서 끌어와야함
         var airRB = transform.GetComponent<Rigidbody2D>();
         airRB.gravityScale = 0;
         airRB.velocity = new Vector3(0, 0);
 
-
         //총구위치 고정하는 코드
         //90f이것을 벡터값을 사용해서 하던가 <- 후크가 바라보는 벡터or 후크 위쪽벡터와 총구의 벡터를 사용해서
         //벡터간의 간격을 사용해서 로테이선돌리던가
         //or Lookat함수? 사용해서 제작
-        _armPivot.rotation = Quaternion.AngleAxis(90f, Vector3.forward);
+        //_armPivot.rotation = Quaternion.AngleAxis(90f, Vector3.forward);
 
         //Slerp = (현재위치, 목표 , 속도)
-        transform.position = Vector3.Lerp(air, target, 0.01f);
+        transform.position = Vector3.Lerp(air, target, 0.03f);
 
         //이곳에서 overlapCircle을 써서 범위에 포착이되면 순간적으로 에어의 위치를 이동시켜 부착시키도록?
         //Vector2.Distance(_weaponPoint.position, target) <= 0.1 / IsAttached()
         //한번 붙으면 계속 true상태라 문제임
-        if (IsAttached())
+        if (Vector2.Distance(_weaponPoint.position, target) <= 0.3f)
         {
+            //이곳에서 좀더 부드럽게 움직이도록?
             if (((1 << transform.gameObject.layer) & _objectMask) != 0)
             {
                 //오브젝트위치를 총구위치에 고정
@@ -497,6 +498,32 @@ public class Air : MonoBehaviour
         //1초동안 후크를 바라보면서 액션을 지속한다면 후크에게 날아가 붙는데 중간에 캔슬이 불가능하다.
     }
 
+    //후크에게 날아가는동안 에어의 시선
+    private void LookAt()
+    {
+        _isHookAttached = true;
+        Vector2 target = _latestTarget.transform.position;
+        Vector2 air = transform.position;
+        Vector2 airWeaponPos = _weaponPoint.transform.position;
+
+        Vector2 look = (target - airWeaponPos).normalized;
+        Vector2 look2 = (target - air).normalized;
+
+        float rotz = Mathf.Atan2(look.y, look.x) * Mathf.Rad2Deg;
+        float rotz2 = Mathf.Atan2(look2.y, look2.x) * Mathf.Rad2Deg;
+        float distance = Vector2.Distance(target, airWeaponPos);
+
+        //두물체의 거리체크하는 코드를 넣어야함
+        if (distance <= 0.75f)
+        {
+            _armPivot.rotation = Quaternion.AngleAxis(rotz2, Vector3.forward);
+        }
+        else
+        {
+            _armPivot.rotation = Quaternion.AngleAxis(rotz, Vector3.forward);
+        }
+    }
+
     //붙었을때 코드
     private void Attached()
     {
@@ -506,11 +533,13 @@ public class Air : MonoBehaviour
             return;
         }
         //에어가 후크에게 붙었을때의 코드를 따로 작성해야한다.
-        else if (_isFlyAway == true)
+        else if (_isFlyAway)
         {
-            Debug.Log("에어가 후크에게 붙었을때의 코드를 따로 작성해야한다.");
-            transform.position = new Vector2(_latestTarget.transform.position.x, _latestTarget.transform.position.y - 1.5f);
+            Debug.Log("@@@@");
             transform.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+            _armPivot.rotation = Quaternion.AngleAxis(90f, Vector3.forward);
+            _weaponPoint.position = _latestTarget.transform.position;
+            transform.position = new Vector2(_latestTarget.transform.position.x, _latestTarget.transform.position.y - 1.5f);
             //bool변수를 줘서 true일땐 update의 rotatearm이 동작하지 않도록
             _isHookAttached = true;
         }
@@ -558,6 +587,11 @@ public class Air : MonoBehaviour
     //에어가 후크에게 붙어있을때 에어를 발사하는 코드
     private void ShootAir()
     {
+        _isAttached = false;
+        Vector2 worldPos = _camera.ScreenToWorldPoint(_mouseDelta);
+        Vector2 airPos = new Vector2(transform.position.x, transform.position.y + 0.5f);
+        var direction = (worldPos - airPos).normalized;
+
         if (_chargingCoroutine != null)
         {
             StopCoroutine(_chargingCoroutine);
@@ -565,13 +599,11 @@ public class Air : MonoBehaviour
         }
         StartCoroutine(Co_CoolDown());
 
-        _isAttached = false;
-        var airRB = transform.GetComponent<Rigidbody2D>();
-        airRB.gravityScale = _airGravityScale;
+        transform.GetComponent<Rigidbody2D>().gravityScale = _airGravityScale;
 
-        //발사코드 / 마우스 위치로 발사되도록?
-        airRB.AddForce(transform.right * _shootPower, ForceMode2D.Impulse);
-
+        //발사코드
+        transform.GetComponent<Rigidbody2D>().AddForce(direction * _shootPower, ForceMode2D.Impulse);
+        
         _latestTarget = null;
     }
 
@@ -650,14 +682,17 @@ public class Air : MonoBehaviour
     //에어의 총구위치에 오브젝트가 왔는지 판단하는 bool함수
     private bool IsAttached()
     {
-        return Physics2D.OverlapCircle(_weaponPoint.transform.position, 0.1f, _objectMask);
+        return Physics2D.OverlapCircle(_weaponPoint.transform.position, 0.01f, _objectMask);
     }
     // Gizmos로 OverlapCircle범위 확인
     private void OnDrawGizmos()
     {
+        Vector2 worldPos = _camera.ScreenToWorldPoint(_mouseDelta);
+        Vector2 airPos = new Vector2(transform.position.x, transform.position.y + 0.5f);
         Gizmos.color = Color.red;
         //Gizmos.DrawWireSphere(_weaponPoint.position, detectionDistance);
         //Gizmos.DrawWireCube(_weaponPoint.position, new Vector2(1, 1));
-        Gizmos.DrawWireSphere(_weaponPoint.transform.position, 0.1f);
+        Gizmos.DrawWireSphere(_weaponPoint.transform.position, 0.01f);
+        Gizmos.DrawLine(airPos, worldPos);
     }
 }
