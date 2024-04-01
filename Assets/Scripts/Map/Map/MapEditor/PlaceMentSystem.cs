@@ -18,6 +18,7 @@ public class PlaceMentSystem : MonoBehaviour
     public TileBase tileBase;
 
     [Header("Command")]
+    public Invoker invoker;
     TileModeClient tileModeClient;
 
 
@@ -40,16 +41,21 @@ public class PlaceMentSystem : MonoBehaviour
     //        else if (mouseIndicator.GetComponent<SpriteRenderer>().sprite != value.GetComponent<SpriteRenderer>().sprite)
     //        {
     //            mouseIndicator.GetComponent<SpriteRenderer>().sprite = value.GetComponent<SpriteRenderer>().sprite;
-             
+
     //        }}
     //    }
-   
+
 
     //private void Start()
     //{
     //    //_camera = Camera.main;
     //    //default_TileMode_MouseIndicatorSprite = mouseIndicator.GetComponent<SpriteRenderer>().sprite;
     //}
+
+    private void Start()
+    {
+        invoker = new Invoker();
+    }
 
     private void Update()
     {
@@ -77,13 +83,21 @@ public class PlaceMentSystem : MonoBehaviour
     }
     #endregion
 
+    public void Undo()
+    {
+        invoker.Undo();
+    }
 
 
     #region Tile
 
+    //todo
+
+    //todo
+
     void TileMode()
     {
-        if(tileBase != null)
+        if(tileBase != null && MapEditor.Instance.gridPlane.activeSelf)
         {
             //Privew
             if (curPosition != gridPosition)
@@ -92,49 +106,21 @@ public class PlaceMentSystem : MonoBehaviour
                 curPosition = gridPosition;
                 UpdatePreview();
             }
-
             //Draw
-            if (MapEditor.Instance.gridPlane.activeSelf)
+            if (Input.GetMouseButton(0) && (curGridPosition != gridPosition))
             {
-                if (Input.GetMouseButton(0) && (curGridPosition != gridPosition))
-                {
-                    curGridPosition = gridPosition;
-                    tileModeClient.DrawTile();
-                }
+                curGridPosition = gridPosition;
+                tileModeClient.DrawTile();
             }
         }
        
     }
-
-    public void TileUndo()
-    {
-        tileModeClient.UndoTile();
-    }
-
-
 
     void UpdatePreview()
     {
         preViewTileMap.SetTile(lastPosition, null);
         preViewTileMap.SetTile(curPosition, tileBase);
     }
-
-    //void DrawTile()
-    //{
-    //    if (tileBase == null)
-    //    {
-    //        if (tileDic.ContainsKey(gridPosition))
-    //        {
-    //            tileDic.Remove(gridPosition);
-    //            floorTileMap.SetTile(gridPosition, tileBase);
-    //        }
-    //    }
-    //    else
-    //    {
-    //        floorTileMap.SetTile(gridPosition, tileBase);
-    //        tileDic[gridPosition] = int.Parse(tileBase.name);
-    //    }
-    //}
 
     public void ResetTileMap()
     {

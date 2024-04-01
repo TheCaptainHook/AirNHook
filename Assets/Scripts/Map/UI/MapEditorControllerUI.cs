@@ -16,6 +16,9 @@ public class MapEditorControllerUI : MonoBehaviour
     [SerializeField] Button initBtn;
     //[SerializeField] TextMeshProUGUI messageText;
     [SerializeField] Button onOffBtn;
+
+    [Header("TEST")]
+
     [SerializeField] Button tileMode_Test;
     [SerializeField] Button tileUndo_Test;
 
@@ -26,7 +29,7 @@ public class MapEditorControllerUI : MonoBehaviour
         initBtn.onClick.AddListener(MapSizeInit);
         onOffBtn.onClick.AddListener(HideController);
         tileMode_Test.onClick.AddListener(TestTileCLIKC);
-        tileUndo_Test.onClick.AddListener(MapEditor.Instance.placeMentSystem.TileUndo);
+        tileUndo_Test.onClick.AddListener(MapEditor.Instance.placeMentSystem.invoker.Undo);
     }
 
     

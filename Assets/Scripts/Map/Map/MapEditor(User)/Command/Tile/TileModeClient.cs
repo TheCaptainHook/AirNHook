@@ -4,28 +4,24 @@ using UnityEngine;
 
 public class TileModeClient
 {
-    TileInvoker tileInvoker;
+    Invoker invoker;
     TileDrawModeCommand tileDrawModeCommand;
 
     public TileModeClient()
     {
-        tileInvoker = new TileInvoker();
+        invoker = MapEditor.Instance.placeMentSystem.invoker;
     }
 
     public void DrawTile()
     {
         tileDrawModeCommand = new TileDrawModeCommand(new TileDraw());
-        tileInvoker.AddCommand(tileDrawModeCommand);
-        tileInvoker.Execute();
+        invoker.AddCommand(tileDrawModeCommand);
+        invoker.Execute();
     }
 
     public void ClearTile() { }
-
-    public void UndoTile()
-    {
-        tileInvoker.Undo();
-    }
-
+    public void DrawBundleTile() { }
+  
 
 
 

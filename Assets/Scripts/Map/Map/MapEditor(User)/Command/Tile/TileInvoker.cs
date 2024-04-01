@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileInvoker 
+public class Invoker 
 {
     ICommand command;
     Stack<ICommand> commandStack = new Stack<ICommand>();
