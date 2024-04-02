@@ -7,26 +7,26 @@ public enum TileModeState
 {
     Tile,
     Clear,
-    Bundle
+    TileBox,
+    ClearBox
 }
 
 public class PlaceMentSystem : MonoBehaviour
 {
     Util Util = new Util();
     private Camera _camera => Camera.main == null ? null : Camera.main;
-    
-   
 
     [Header("Tile")]
     public Dictionary<Vector3Int, int> tileDic = new();
     [SerializeField] Tilemap preViewTileMap;
-    public Tilemap floorTileMap;
-    public TileBase tileBase;
-    //bundle
+    [HideInInspector] public Tilemap floorTileMap;
+    [HideInInspector] public TileBase tileBase;
+    public TileBase previewTileBase;
+
+    //box
     public bool getTarget;
     public Vector3Int startPosition;
     public Vector3Int endPosition;
-
 
     [Header("Command")]
     public TileModeState tileModeState;
@@ -135,7 +135,14 @@ public class PlaceMentSystem : MonoBehaviour
                 if (MapEditor.Instance.gridPlane.activeSelf)
                 {
                     //MouseIndocator
+                    if (curPosition != gridPosition)
+                    {
+                        lastPosition = curPosition;
+                        curPosition = gridPosition;
 
+                        preViewTileMap.SetTile(lastPosition, null);
+                        preViewTileMap.SetTile(curPosition, previewTileBase);
+                    }
                     //MouseIndocator
                     //Clear
                     if (Input.GetMouseButton(0) && (curGridPosition != gridPosition) && inGridPlaneMousePosition)
@@ -148,7 +155,7 @@ public class PlaceMentSystem : MonoBehaviour
                     }
                 }
                 break;
-            case TileModeState.Bundle:
+            case TileModeState.TileBox:
                 if (Input.GetMouseButtonDown(0) && inGridPlaneMousePosition)
                 {
                     if (!getTarget)
@@ -161,7 +168,7 @@ public class PlaceMentSystem : MonoBehaviour
                         endPosition = gridPosition;
                         getTarget = false;
                         ResetPreviewTileMap();
-                        tileModeClient.DrawBundleTile();
+                        tileModeClient.DrawBoxTile();
                     }
 
                 }
@@ -176,8 +183,38 @@ public class PlaceMentSystem : MonoBehaviour
                 {
                     lastPosition = curPosition;
                     curPosition = gridPosition;
+                    UpdatePreview_DrawBox();
+                }
+
+                break;
+            case TileModeState.ClearBox:
+                if (Input.GetMouseButtonDown(0) && inGridPlaneMousePosition)
+                {
+                    if (!getTarget)
+                    {
+                        startPosition = gridPosition;
+                        getTarget = true;
+                    }
+                    else
+                    {
+                        endPosition = gridPosition;
+                        getTarget = false;
+                        ResetPreviewTileMap();
+                        tileModeClient.ClearBoxTile();
+                    }
+                }
+
+                if (getTarget && Input.GetMouseButtonDown(1))
+                {
                     preViewTileMap.ClearAllTiles();
-                    UpdatePreview_Bundle();
+                    getTarget = false;
+                }
+
+                if (getTarget && curPosition != gridPosition)
+                {
+                    lastPosition = curPosition;
+                    curPosition = gridPosition;
+                    UpdatePreview_ClearBox();
                 }
 
                 break;
@@ -192,8 +229,9 @@ public class PlaceMentSystem : MonoBehaviour
         preViewTileMap.SetTile(curPosition, tileBase);
     }
 
-    void UpdatePreview_Bundle()
+    void UpdatePreview_DrawBox()
     {
+        preViewTileMap.ClearAllTiles();
         int minX = startPosition.x < gridPosition.x ? startPosition.x : gridPosition.x;
         int maxX = startPosition.x > gridPosition.x ? startPosition.x : gridPosition.x;
         int minY = startPosition.y < gridPosition.y ? startPosition.y : gridPosition.y;
@@ -207,9 +245,27 @@ public class PlaceMentSystem : MonoBehaviour
             }
         }
     }
+    void UpdatePreview_ClearBox()
+    {
+        preViewTileMap.ClearAllTiles();
+        int minX = startPosition.x < gridPosition.x ? startPosition.x : gridPosition.x;
+        int maxX = startPosition.x > gridPosition.x ? startPosition.x : gridPosition.x;
+        int minY = startPosition.y < gridPosition.y ? startPosition.y : gridPosition.y;
+        int maxY = startPosition.y > gridPosition.y ? startPosition.y : gridPosition.y;
+
+        for (int i = minX; i <= maxX; i++)
+        {
+            for (int j = minY; j <= maxY; j++)
+            {
+                preViewTileMap.SetTile(new Vector3Int(i, j), previewTileBase);
+            }
+        }
+    }
+
     public void ResetPreviewTileMap()
     {
         preViewTileMap.ClearAllTiles();
+        getTarget = false;
     }
 
     public void ResetTileMap()

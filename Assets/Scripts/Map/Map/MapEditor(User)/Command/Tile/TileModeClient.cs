@@ -7,7 +7,8 @@ public class TileModeClient
     Invoker invoker;
     TileDrawModeCommand tileDrawModeCommand;
     TileClearModeCommand tileClearModeCommand;
-    TileDrawBundleModeCommand tileDrawBundleModeCommand;
+    TileDrawBoxModeCommand tileDrawBundleModeCommand;
+    TileClearBoxModeMommand tileClearBoxModeCommand;
 
     public TileModeClient()
     {
@@ -27,13 +28,19 @@ public class TileModeClient
         invoker.AddCommand(tileClearModeCommand);
         invoker.Execute();
     }
-    public void DrawBundleTile()
+    public void DrawBoxTile()
     {
-        tileDrawBundleModeCommand = new TileDrawBundleModeCommand(new TileDrawBundle());
+        tileDrawBundleModeCommand = new TileDrawBoxModeCommand(new TileDrawBox());
         invoker.AddCommand(tileDrawBundleModeCommand);
         invoker.Execute();
     }
-  
+
+    public void ClearBoxTile()
+    {
+        tileClearBoxModeCommand = new TileClearBoxModeMommand(new TileClearBox());
+        invoker.AddCommand(tileClearBoxModeCommand);
+        invoker.Execute();
+    }
 
 
 

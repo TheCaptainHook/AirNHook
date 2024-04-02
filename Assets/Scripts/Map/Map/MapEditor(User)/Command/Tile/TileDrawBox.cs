@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class TileDrawBundle : MonoBehaviour
+public class TileDrawBox : MonoBehaviour
 {
     PlaceMentSystem placeMentSystem;
     Vector3Int startPosition;
@@ -14,9 +14,10 @@ public class TileDrawBundle : MonoBehaviour
     int maxX;
     int minY;
     int maxY;
+
     List<Vector3Int> list = new List<Vector3Int>();
 
-    public TileDrawBundle()
+    public TileDrawBox()
     {
         placeMentSystem = MapEditor.Instance.placeMentSystem;
         startPosition = placeMentSystem.startPosition;

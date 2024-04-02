@@ -26,7 +26,8 @@ public class MapEditorControllerUI : MonoBehaviour
 
     [SerializeField] Button tileBtn_Test;
     [SerializeField] Button eraserBtn_Test;
-    [SerializeField] Button bundleBtn_Test;
+    [SerializeField] Button drawBoxBtn_Test;
+    [SerializeField] Button clearBoxBtn_Test;
 
 
     private void Awake()
@@ -39,7 +40,8 @@ public class MapEditorControllerUI : MonoBehaviour
         tileUndo_Test.onClick.AddListener(placeMentSystem.invoker.Undo);
         tileBtn_Test.onClick.AddListener(() => { placeMentSystem.tileModeState = TileModeState.Tile; placeMentSystem.ResetPreviewTileMap(); });
         eraserBtn_Test.onClick.AddListener(() => { placeMentSystem.tileModeState = TileModeState.Clear; placeMentSystem.ResetPreviewTileMap(); });
-        bundleBtn_Test.onClick.AddListener(() => { placeMentSystem.tileModeState = TileModeState.Bundle; placeMentSystem.ResetPreviewTileMap(); });
+        drawBoxBtn_Test.onClick.AddListener(() => { placeMentSystem.tileModeState = TileModeState.TileBox; placeMentSystem.ResetPreviewTileMap(); });
+        clearBoxBtn_Test.onClick.AddListener(() => { placeMentSystem.tileModeState = TileModeState.ClearBox; placeMentSystem.ResetPreviewTileMap(); });
     }
 
     

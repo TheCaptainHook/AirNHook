@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: Tiles_5
+  m_Name: DeathMarkTile
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: -2859958, guid: bf82749555c9f8b42bf22fb82075cf5a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0e24b06cf0f654b8a80da7a7cd0b23ae, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
