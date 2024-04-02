@@ -58,7 +58,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1073741824
   gridPosition: {x: 0, y: 0, z: 0}
-  mousePosition: {x: 20.848146, y: 36.785183, z: -1}
+  mousePosition: {x: 20.848146, y: 37.266663, z: -1}
 --- !u!1 &775507051098167545
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,7 +213,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2842253493190284985
 RectTransform:
   m_ObjectHideFlags: 0
@@ -299,6 +299,7 @@ MonoBehaviour:
   eraserBtn_Test: {fileID: 8970694948993248438}
   drawBoxBtn_Test: {fileID: 5624564608198367166}
   clearBoxBtn_Test: {fileID: 8950488443904349774}
+  tileMode_BtnContainer: {fileID: 4340453725171662759}
 --- !u!1 &2005102887669488765
 GameObject:
   m_ObjectHideFlags: 0
@@ -1573,6 +1574,7 @@ GameObject:
   - component: {fileID: 7627798283286503213}
   - component: {fileID: 2691811324390570546}
   - component: {fileID: 8238530274283701234}
+  - component: {fileID: 3078268089382809553}
   m_Layer: 5
   m_Name: Undo_Btn(Test)
   m_TagString: Untagged
@@ -1597,7 +1599,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -16, y: -98}
+  m_AnchoredPosition: {x: -16, y: -115}
   m_SizeDelta: {x: 197.18, y: 65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7627798283286503213
@@ -1682,6 +1684,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3078268089382809553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2359892539648849742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8da419cf20b246528b5b48f86cd8930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toolTipText: Undo!
 --- !u!1 &2394570581749079130
 GameObject:
   m_ObjectHideFlags: 0
@@ -1717,9 +1732,9 @@ RectTransform:
   - {fileID: 4757207178705980049}
   m_Father: {fileID: 5306783455325347580}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 495.75, y: -41.19145}
   m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4812167193765721950
@@ -1816,9 +1831,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8da419cf20b246528b5b48f86cd8930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer: 0
   toolTipText: Eraser filled box with active brush
-  toolTipObj: {fileID: 0}
 --- !u!1 &2519274434134862383
 GameObject:
   m_ObjectHideFlags: 0
@@ -2905,12 +2918,12 @@ GameObject:
   - component: {fileID: 7455165463966740224}
   - component: {fileID: 8097424573024086340}
   m_Layer: 5
-  m_Name: Btn
+  m_Name: TileMode_Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5306783455325347580
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2931,7 +2944,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 129}
+  m_AnchoredPosition: {x: 0, y: 102}
   m_SizeDelta: {x: 588, y: 82.3829}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7968826510474051942
@@ -3033,9 +3046,9 @@ RectTransform:
   - {fileID: 8046617912236189239}
   m_Father: {fileID: 5306783455325347580}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 226.75, y: -41.19145}
   m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &336863064081509289
@@ -3132,9 +3145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8da419cf20b246528b5b48f86cd8930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer: 0
   toolTipText: Paint a filled box with active brush
-  toolTipObj: {fileID: 0}
 --- !u!1 &4515745434964250801
 GameObject:
   m_ObjectHideFlags: 0
@@ -3252,9 +3263,9 @@ RectTransform:
   - {fileID: 8862574999565231476}
   m_Father: {fileID: 5306783455325347580}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 361.25, y: -41.19145}
   m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4669703278966326172
@@ -3351,9 +3362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8da419cf20b246528b5b48f86cd8930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer: 0
   toolTipText: Eraser with active brush
-  toolTipObj: {fileID: 0}
 --- !u!1 &5200743147984625203
 GameObject:
   m_ObjectHideFlags: 0
@@ -5081,9 +5090,9 @@ RectTransform:
   - {fileID: 2009079830970078745}
   m_Father: {fileID: 5306783455325347580}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 92.25, y: -41.19145}
   m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &552374277169263701
@@ -5180,9 +5189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8da419cf20b246528b5b48f86cd8930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer: 0
   toolTipText: Paint with active brush
-  toolTipObj: {fileID: 0}
 --- !u!1 &9146711676929314991
 GameObject:
   m_ObjectHideFlags: 0

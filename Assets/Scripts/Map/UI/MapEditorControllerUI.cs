@@ -20,7 +20,6 @@ public class MapEditorControllerUI : MonoBehaviour
     [SerializeField] Button onOffBtn;
 
     [Header("TEST")]
-
     [SerializeField] Button tileMode_Test;
     [SerializeField] Button tileUndo_Test;
 
@@ -28,6 +27,8 @@ public class MapEditorControllerUI : MonoBehaviour
     [SerializeField] Button eraserBtn_Test;
     [SerializeField] Button drawBoxBtn_Test;
     [SerializeField] Button clearBoxBtn_Test;
+
+    [SerializeField] GameObject tileMode_BtnContainer;
 
 
     private void Awake()
@@ -49,13 +50,16 @@ public class MapEditorControllerUI : MonoBehaviour
     void TestTileCLIKC() //타일모드로 진입할때,
     {   if(MapEditor.Instance.mapEditorState == MapEditorState.Tile)
         {
+            tileMode_BtnContainer.SetActive(false);
             MapEditor.Instance.mapEditorState = MapEditorState.Editor;
+
             MapEditor.Instance.placeMentSystem.tileBase = null;
         }
         else
         {
             MapEditor.Instance.mapEditorState = MapEditorState.Tile;
             MapEditor.Instance.placeMentSystem.tileBase = Resources.Load<TileBase>("Arts/Tiles/1");
+            tileMode_BtnContainer.SetActive(true);
         }
        
     }
@@ -66,10 +70,20 @@ public class MapEditorControllerUI : MonoBehaviour
     {
         if (!MapEditor.Instance.gridPlane.activeSelf) { MapEditor.Instance.gridPlane.SetActive(true); }
         int width = int.Parse(widthInputField.text);
+        if (width % 2 != 0) width++;
+        width = Mathf.Clamp(width, 10, 100);
         int height = int.Parse(heightInputField.text);
+        if (height % 2 != 0) height++;
+        height = Mathf.Clamp(height, 10, 100);
+
         Material material = MapEditor.Instance.gridPlane.GetComponent<SpriteRenderer>().material;
         material.SetVector("_Tilling", new Vector2(width, height));
         MapEditor.Instance.gridPlane.transform.localScale = new Vector2(width, height);
+
+
+        widthInputField.text = width.ToString();
+        heightInputField.text = height.ToString();
+
     }
 
     #endregion

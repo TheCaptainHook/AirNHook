@@ -18,8 +18,6 @@ public class UI_ShowToolTip : MousePointerEntity
     {
         OnPointer = true;
         StartCoroutine(Co_Timer());
-
-        Debug.Log("Enter");
     }
     public override void OnPointerExit(PointerEventData data)
     {
@@ -29,7 +27,6 @@ public class UI_ShowToolTip : MousePointerEntity
             timer = 0;
             toolTipObj.SetActive(false);
         }
-        Debug.Log("Exit");
     }
 
 
@@ -45,7 +42,6 @@ public class UI_ShowToolTip : MousePointerEntity
         toolTipObj.transform.localPosition = new Vector3(30, -40);
         RectTransform rect = toolTipObj.GetComponent<RectTransform>();
         rect.sizeDelta = new Vector2(250, 30);
-
 
         //bg
         backGround.AddComponent<Image>().color = Color.gray;
@@ -65,6 +61,8 @@ public class UI_ShowToolTip : MousePointerEntity
         textObj.transform.SetParent(toolTipObj.transform);
         textObj.GetComponent<RectTransform>().sizeDelta = new Vector2(250, 30);
         textObj.transform.localPosition = new Vector3(0, 0);
+
+        toolTipObj.SetActive(false);
     }
 
 
@@ -75,7 +73,7 @@ public class UI_ShowToolTip : MousePointerEntity
         {
             if(timer >= 1)
             {
-                if (toolTipObj == null) { CreateTooltip(); }
+                if (toolTipObj == null) { CreateTooltip(); toolTipObj.SetActive(true); }
                 else toolTipObj.SetActive(true);
                 break;
 
