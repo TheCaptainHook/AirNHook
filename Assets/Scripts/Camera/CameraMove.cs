@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
@@ -18,6 +16,7 @@ public class CameraMove : MonoBehaviour
     private float _velocity = 0f;
     private float _smoothTime = 0.25f;
     private float _smoothSpeed = 0.25f;
+    private Vector3 _vecVelocity = Vector3.zero;
     
     private void Start()
     {
@@ -33,10 +32,7 @@ public class CameraMove : MonoBehaviour
                 _playerPos = Managers.Game.Player.transform.position;
         }
         catch (NullReferenceException e) { Debug.Log(e); }
-    }
-
-    private void FixedUpdate()
-    {
+        
         if (Managers.Game.CurrentState is GameState.Game or GameState.Lobby)
         {
             FollowPlayer();
@@ -80,12 +76,8 @@ public class CameraMove : MonoBehaviour
     {
         try
         {
-            var player = Managers.Game.Player;
-            
-            var position = transform.position;
-            _playerPos = new Vector3(_playerPos.x, _playerPos.y, position.z);
-            var smoothPos = Vector3.Lerp(position, _playerPos, _smoothSpeed);
-            transform.position = smoothPos;
+            _playerPos = new Vector3(_playerPos.x, _playerPos.y, transform.position.z);
+            transform.position = Vector3.SmoothDamp(transform.position, _playerPos, ref _vecVelocity, _smoothSpeed, float.MaxValue, Time.fixedDeltaTime);
         }
         catch(NullReferenceException e) { }
     }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,10 +9,12 @@ public class Grappling : NetworkBehaviour
     [Header("Player")]
     public HookMovement playerMovement;
     public DistanceJoint2D distanceJoint;
-    private Vector2 _playerPosition;
     public float climbSpeed = 3f;
     public float swingJumpPower;
+    [SerializeField] public float coolTime;
 
+    private Coroutine Co_GrappleCoolDown;
+    private WaitForSeconds _grappleCoolTime;
     private Rigidbody2D _rigidbody;
     private PlayerInput _playerInput;
     private Vector2 _mousePosition;
@@ -22,12 +25,16 @@ public class Grappling : NetworkBehaviour
     public bool grappleAttached;
     private bool _distanceSet;
     private bool _isActioning;
+    private bool _isCoolTime;
 
     [Header("Rope")]
     public Transform ropeStartPos;
     public LineRenderer ropeRenderer;
+    public float ropeSpeed;
     private float _ropeMaxDistance = 5f;
     private Vector2 _ropePosition = Vector2.negativeInfinity;
+    private Vector2 _targetPos;
+    private Vector2 _velocity = Vector2.zero;
     
     [Header("Hook")]
     public GameObject hookAnchor;
@@ -38,7 +45,6 @@ public class Grappling : NetworkBehaviour
     private void Awake()
     {
         distanceJoint.enabled = false;
-        _playerPosition = transform.position;
         _hookAnchorRb = hookAnchor.GetComponent<Rigidbody2D>();
         _rigidbody = GetComponent<Rigidbody2D>();
     }
@@ -54,6 +60,7 @@ public class Grappling : NetworkBehaviour
         _playerInput.playerActions.VerticalMove.started += OnVerticalMove;
         _playerInput.playerActions.Action.started += OnMainAction;
         _playerInput.playerActions.SubAction.started += OnSubAction;
+        _grappleCoolTime = new WaitForSeconds(coolTime);
     }
 
     private void OnDisable()
@@ -89,44 +96,72 @@ public class Grappling : NetworkBehaviour
         
         // 캐릭터 -> 마우스 방향
         _aimDirection = Quaternion.Euler(0, 0, aimAngle * Mathf.Rad2Deg) * Vector2.right;
-        _playerPosition = transform.position;
     }
     
     // 로프 회수 코드
     public void ResetRope()
     {
+        if(Co_GrappleCoolDown != null)
+            StopCoroutine(Co_GrappleCoolDown);
+        Co_GrappleCoolDown = StartCoroutine(GrappleCoolDown());
+        
         distanceJoint.enabled = false;
         grappleAttached = false;
         CmdChangeGrappleState(false);
         playerMovement.isSwinging = false;
         playerMovement.swingJump = true;
         
-        ropeRenderer.positionCount = 2;
-        ropeRenderer.SetPosition(0, ropeStartPos.position);
-        ropeRenderer.SetPosition(1, ropeStartPos.position);
-        ropeRenderer.enabled = false;
+        //ropeRenderer.positionCount = 2;
+        //ropeRenderer.SetPosition(0, ropeStartPos.position);
+        //ropeRenderer.SetPosition(1, ropeStartPos.position);
+        //ropeRenderer.enabled = false;
         
         _ropePosition = Vector2.negativeInfinity;
         _hookAnchorRb.bodyType = RigidbodyType2D.Kinematic;
         CmdChangeHookBody(RigidbodyType2D.Kinematic);
         hookAnchor.transform.position = hookStartPos.position + new Vector3(0, 0.1f, 0);
     }
+
+    private IEnumerator GrappleCoolDown()
+    {
+        _isCoolTime = true;
+        yield return _grappleCoolTime;
+        _isCoolTime = false;
+        Co_GrappleCoolDown = null;
+    }
     
     private void UpdateRopePositions()
     {
         if (!grappleAttached)
         {
-            //TODO 현재 임시로 위치 조정 중
+            if (ropeRenderer.enabled)
+            {
+                ropeRenderer.SetPosition(0, ropeStartPos.position);
+                _targetPos = Vector2.MoveTowards(_targetPos, ropeStartPos.position, ropeSpeed * Time.deltaTime);
+                ropeRenderer.SetPosition(1, _targetPos);
+
+                if (Vector3.Distance(_targetPos, ropeStartPos.position) <= 0.1f)
+                    ropeRenderer.enabled = false;
+            }
             hookAnchor.transform.position = hookStartPos.position + new Vector3(0, 0.1f, 0);
-            ropeRenderer.enabled = false;
             return;
         }
 
         // LineRenderer 그리기
-        ropeRenderer.enabled = true;
-        ropeRenderer.positionCount = 2;
-        ropeRenderer.SetPosition(0, ropeStartPos.position);
-        ropeRenderer.SetPosition(1, hookAnchor.transform.position);
+        if (!ropeRenderer.enabled)
+        {
+            ropeRenderer.enabled = true;
+            _targetPos = ropeStartPos.position;
+            ropeRenderer.positionCount = 2;
+            ropeRenderer.SetPosition(0, ropeStartPos.position);
+            ropeRenderer.SetPosition(1, ropeStartPos.position);
+        }
+        else
+        {
+            ropeRenderer.SetPosition(0, ropeStartPos.position);
+            _targetPos = Vector2.MoveTowards(_targetPos, hookAnchor.transform.position, ropeSpeed * Time.deltaTime);
+            ropeRenderer.SetPosition(1, _targetPos);
+        }
     }
     
     private void HandleRopeLength()
@@ -137,14 +172,19 @@ public class Grappling : NetworkBehaviour
         if (Vector2.Distance(transform.position, hookAnchor.transform.position) <= 0.2f)
         {
             ResetRope();
+            return;
         }
+        
+        hookAnchor.transform.position = _ropePosition;
+        
         // 플레이어의 위치가 갈고리보다 높을 경우 길이 줄어들게 하는 코드
-        else if (transform.position.y > hookAnchor.transform.position.y)
+        if (transform.position.y > hookAnchor.transform.position.y)
         {
             Vector2 playerVector = transform.right;
             Vector2 targetVector = (hookAnchor.transform.position - transform.position).normalized;
+            
             var angle = Vector2.Angle(playerVector, targetVector);
-            if (angle is >= 20 or <= 160)
+            if (angle is >= 30 or <= 150)
             {
                 // 각도가 90도에 가까울 수록 더 빠르게 줄어들도록 보정치 설정
                 var multiplier = angle > 90 ? (180 - angle) / 90 : angle / 90;
@@ -157,25 +197,18 @@ public class Grappling : NetworkBehaviour
         if (_vertical > 0f)
         {
             distanceJoint.distance -= Time.deltaTime * climbSpeed;
-            
-            // 플레이어가 움직이지 못할 때, distanceJoint.distance 재수정
-            var playerDistance = Vector2.Distance(transform.position, hookAnchor.transform.position);
-            if (playerDistance - distanceJoint.distance >= 0.1f)
-            {
-                distanceJoint.distance = playerDistance;
-            }
         }
         else if (_vertical < 0f && distanceJoint.distance < _ropeMaxDistance)
         {
             var distance = distanceJoint.distance + Time.deltaTime * climbSpeed;
             distanceJoint.distance = Mathf.Min(distance, _ropeMaxDistance);
-            
-            // 플레이어가 움직이지 못할 때, distanceJoint.distance 재수정
-            var playerDistance = Vector2.Distance(transform.position, hookAnchor.transform.position);
-            if (distanceJoint.distance - playerDistance >= 0.1f)
-            {
-                distanceJoint.distance = playerDistance;
-            }
+        }
+        
+        // 플레이어가 움직이지 못할 때, distanceJoint.distance 재수정
+        var playerDistance = Vector2.Distance(transform.position, hookAnchor.transform.position);
+        if (playerDistance - distanceJoint.distance >= 0.1f)
+        {
+            distanceJoint.distance = playerDistance;
         }
     }
 
@@ -218,15 +251,15 @@ public class Grappling : NetworkBehaviour
 
     private void OnMainAction(InputAction.CallbackContext context)
     {
-        if (grappleAttached) return;
+        if (_grappleAttached || _isCoolTime) return;
 
-        var hit = Physics2D.Raycast(_playerPosition, _aimDirection, _ropeMaxDistance, hookLayerMask);
+        var hit = Physics2D.Raycast(transform.position, _aimDirection, _ropeMaxDistance, hookLayerMask);
 
         if (hit.collider != null)
         {
             // 그래플링 연결 코드
-            ropeRenderer.enabled = true;
-            grappleAttached = true;
+            //ropeRenderer.enabled = true;
+            _grappleAttached = true;
             CmdChangeGrappleState(true);
             playerMovement.isSwinging = true;
             
@@ -235,7 +268,7 @@ public class Grappling : NetworkBehaviour
                 _ropePosition = hit.point;
                 playerMovement.ropeHook = _ropePosition;
                 
-                distanceJoint.distance = Vector2.Distance(_playerPosition, hit.point);
+                distanceJoint.distance = Vector2.Distance(transform.position, hit.point);
                 distanceJoint.enabled = true;
                 
                 hookAnchor.transform.position = _ropePosition;
@@ -255,6 +288,9 @@ public class Grappling : NetworkBehaviour
 
     private void OnSubAction(InputAction.CallbackContext context)
     {
+        if(!_grappleAttached)
+            return;
+        
         if (_rigidbody.velocity.y > 0)
         {
             // 그래플링 swing action 종료시, 포물선 이동을 위한 보정치
