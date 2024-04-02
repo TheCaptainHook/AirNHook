@@ -7,24 +7,28 @@ using UnityEngine.UI;
 
 public class UI_ShowToolTip : MousePointerEntity
 {
+    private bool OnPointer;
+    private float timer;
+
     [SerializeField] string toolTipText;
-    public GameObject toolTipObj;
+    private GameObject toolTipObj;
 
 
     public override void OnPointerEnter(PointerEventData data)
     {
-        if (toolTipObj == null) { CreateTooltip(); }
-        else toolTipObj.SetActive(true);
-
+        OnPointer = true;
+        StartCoroutine(Co_Timer());
 
         Debug.Log("Enter");
     }
     public override void OnPointerExit(PointerEventData data)
     {
-        //if(toolTipObj != null)
-        //{
-        //    toolTipObj.SetActive(false);
-        //}
+        if (toolTipObj != null)
+        {
+            OnPointer = false;
+            timer = 0;
+            toolTipObj.SetActive(false);
+        }
         Debug.Log("Exit");
     }
 
@@ -38,7 +42,7 @@ public class UI_ShowToolTip : MousePointerEntity
         GameObject textObj = new GameObject("Text");
         toolTipObj.AddComponent<RectTransform>();
         toolTipObj.transform.SetParent(transform);
-        toolTipObj.transform.localPosition = new Vector3(0, 0);
+        toolTipObj.transform.localPosition = new Vector3(30, -40);
         RectTransform rect = toolTipObj.GetComponent<RectTransform>();
         rect.sizeDelta = new Vector2(250, 30);
 
@@ -55,9 +59,32 @@ public class UI_ShowToolTip : MousePointerEntity
 
 
         backGround.transform.SetParent(toolTipObj.transform);
+        backGround.GetComponent<RectTransform>().sizeDelta = new Vector2(250, 30);
+        
+        backGround.transform.localPosition = new Vector3(0, 0);
         textObj.transform.SetParent(toolTipObj.transform);
+        textObj.GetComponent<RectTransform>().sizeDelta = new Vector2(250, 30);
+        textObj.transform.localPosition = new Vector3(0, 0);
     }
 
+
+
+   IEnumerator Co_Timer()
+    {
+        while (OnPointer)
+        {
+            if(timer >= 1)
+            {
+                if (toolTipObj == null) { CreateTooltip(); }
+                else toolTipObj.SetActive(true);
+                break;
+
+            }
+            timer += Time.deltaTime;
+            yield return null;
+
+        }
+    }
 
 
 }

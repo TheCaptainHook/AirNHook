@@ -58,7 +58,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1073741824
   gridPosition: {x: 0, y: 0, z: 0}
-  mousePosition: {x: 20.992592, y: 36.76111, z: -1}
+  mousePosition: {x: 20.848146, y: 36.785183, z: -1}
 --- !u!1 &775507051098167545
 GameObject:
   m_ObjectHideFlags: 0
@@ -1694,6 +1694,7 @@ GameObject:
   - component: {fileID: 4812167193765721950}
   - component: {fileID: 5381859448660332039}
   - component: {fileID: 8950488443904349774}
+  - component: {fileID: 5100858725442580282}
   m_Layer: 5
   m_Name: EraserBox_Btn(Test)
   m_TagString: Untagged
@@ -1803,6 +1804,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5100858725442580282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2394570581749079130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8da419cf20b246528b5b48f86cd8930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: 0
+  toolTipText: Eraser filled box with active brush
+  toolTipObj: {fileID: 0}
 --- !u!1 &2519274434134862383
 GameObject:
   m_ObjectHideFlags: 0
@@ -2907,10 +2923,10 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6334353557116047775}
-  - {fileID: 2544027654324062137}
   - {fileID: 2062232433427649179}
   - {fileID: 1879967235253792810}
+  - {fileID: 6334353557116047775}
+  - {fileID: 2544027654324062137}
   m_Father: {fileID: 2842253493190284985}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
@@ -2994,6 +3010,7 @@ GameObject:
   - component: {fileID: 336863064081509289}
   - component: {fileID: 2692529773296042161}
   - component: {fileID: 5624564608198367166}
+  - component: {fileID: 8139604240061832411}
   m_Layer: 5
   m_Name: DrawBox_Btn(Test)
   m_TagString: Untagged
@@ -3103,6 +3120,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8139604240061832411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4371526305217053515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8da419cf20b246528b5b48f86cd8930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: 0
+  toolTipText: Paint a filled box with active brush
+  toolTipObj: {fileID: 0}
 --- !u!1 &4515745434964250801
 GameObject:
   m_ObjectHideFlags: 0
@@ -3197,6 +3229,7 @@ GameObject:
   - component: {fileID: 4669703278966326172}
   - component: {fileID: 800183980840404290}
   - component: {fileID: 8970694948993248438}
+  - component: {fileID: 4180331679427505342}
   m_Layer: 5
   m_Name: Eraser_Btn(Test)
   m_TagString: Untagged
@@ -3306,6 +3339,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4180331679427505342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4961335539392001396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8da419cf20b246528b5b48f86cd8930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: 0
+  toolTipText: Eraser with active brush
+  toolTipObj: {fileID: 0}
 --- !u!1 &5200743147984625203
 GameObject:
   m_ObjectHideFlags: 0
@@ -5132,7 +5180,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8da419cf20b246528b5b48f86cd8930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toolTipText: Test ToolTip~
+  timer: 0
+  toolTipText: Paint with active brush
   toolTipObj: {fileID: 0}
 --- !u!1 &9146711676929314991
 GameObject:
