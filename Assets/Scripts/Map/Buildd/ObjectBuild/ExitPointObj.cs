@@ -7,7 +7,7 @@ public class ExitPointObj : BuildBase
 {
     [Header("State")]
     [SerializeField] bool stageClear;
-
+    
     [Header("Info")]
     [SerializeField] int condition_KeyAmount;
     private int current_KeyAmount;

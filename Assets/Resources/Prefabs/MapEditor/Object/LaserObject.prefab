@@ -4877,6 +4877,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _defDistanceRay: 50
+  _curDistanceRay: 0
   _lineRenderer: {fileID: 2717453816571275917}
   _firePoint: {fileID: 2979357953502741260}
   _endVFX: {fileID: 5345449485699939287}
@@ -9887,7 +9888,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 4
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
