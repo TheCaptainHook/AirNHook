@@ -125,6 +125,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7108341943427896224}
   - component: {fileID: 603688850358751424}
+  - component: {fileID: 3766586511767223840}
   m_Layer: 10
   m_Name: HookPos
   m_TagString: Untagged
@@ -199,6 +200,41 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3766586511767223840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2400115497908964572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 7108341943427896224}
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  onlySyncOnChange: 1
+  compressRotation: 1
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  sendIntervalMultiplier: 1
+  timelineOffset: 0
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  bufferResetMultiplier: 3
+  changedDetection: 1
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
 --- !u!1 &2976855291536587078
 GameObject:
   m_ObjectHideFlags: 0
@@ -543,7 +579,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &6268434231699285335
+--- !u!1 &6244572329809016036
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -551,39 +587,38 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1371195024743693775}
-  - component: {fileID: 1655120899683404581}
-  - component: {fileID: 5579786840006992374}
-  - component: {fileID: 910995618163264866}
+  - component: {fileID: 7720316559390274372}
+  - component: {fileID: 2582984860932735808}
+  - component: {fileID: 3124310662382738061}
   m_Layer: 10
-  m_Name: Hook
+  m_Name: HookSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1371195024743693775
+--- !u!4 &7720316559390274372
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6268434231699285335}
+  m_GameObject: {fileID: 6244572329809016036}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5500001, y: 0.907, z: 0}
+  m_LocalPosition: {x: -0.55, y: 0.554, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2458403146348124987}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &1655120899683404581
+--- !u!212 &2582984860932735808
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6268434231699285335}
+  m_GameObject: {fileID: 6244572329809016036}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -617,7 +652,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 12
+  m_SortingOrder: 6
   m_Sprite: {fileID: 21300000, guid: 53a6ce331965f9d4ba05bc42a3a6a50c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -629,6 +664,74 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3124310662382738061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6244572329809016036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 7720316559390274372}
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  onlySyncOnChange: 1
+  compressRotation: 1
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  sendIntervalMultiplier: 1
+  timelineOffset: 0
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  bufferResetMultiplier: 3
+  changedDetection: 1
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
+--- !u!1 &6268434231699285335
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1371195024743693775}
+  - component: {fileID: 5579786840006992374}
+  - component: {fileID: 7172811443752531663}
+  m_Layer: 10
+  m_Name: Hook
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1371195024743693775
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6268434231699285335}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2458403146348124987}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &5579786840006992374
 Rigidbody2D:
   serializedVersion: 4
@@ -652,11 +755,11 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &910995618163264866
+--- !u!114 &7172811443752531663
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -665,7 +768,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6268434231699285335}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
+  m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 1
@@ -679,17 +782,18 @@ MonoBehaviour:
   compressRotation: 1
   interpolatePosition: 1
   interpolateRotation: 1
-  interpolateScale: 0
+  interpolateScale: 1
   coordinateSpace: 0
   sendIntervalMultiplier: 1
   timelineOffset: 0
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  onlySyncOnChangeCorrectionMultiplier: 2
+  bufferResetMultiplier: 3
+  changedDetection: 1
+  positionSensitivity: 0.01
   rotationSensitivity: 0.01
-  positionPrecision: 0.01
-  scalePrecision: 0.01
+  scaleSensitivity: 0.01
 --- !u!1 &8428015766500747352
 GameObject:
   m_ObjectHideFlags: 0
@@ -710,7 +814,7 @@ GameObject:
   - component: {fileID: 1149267049940478229}
   - component: {fileID: 7291727095691063811}
   - component: {fileID: 8605789714778563182}
-  - component: {fileID: 2506175669369118158}
+  - component: {fileID: 3701858071583928758}
   m_Layer: 10
   m_Name: PlayerHook
   m_TagString: Untagged
@@ -732,6 +836,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 759945192256969836}
+  - {fileID: 7720316559390274372}
   - {fileID: 1371195024743693775}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -783,9 +888,13 @@ MonoBehaviour:
   distanceJoint: {fileID: 5435873216370784481}
   climbSpeed: 3
   swingJumpPower: 3
+  coolTime: 0
+  grappleAttached: 0
   ropeStartPos: {fileID: 7108341943427896224}
   ropeRenderer: {fileID: 8853369850858447523}
+  ropeSpeed: 35
   hookAnchor: {fileID: 6268434231699285335}
+  hookSprite: {fileID: 7720316559390274372}
   hookStartPos: {fileID: 7108341943427896224}
   hookLayerMask:
     serializedVersion: 2
@@ -845,7 +954,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 1024
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
@@ -901,7 +1010,7 @@ DistanceJoint2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8428015766500747352}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_EnableCollision: 0
   m_ConnectedRigidBody: {fileID: 5579786840006992374}
@@ -912,7 +1021,7 @@ DistanceJoint2D:
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: 0, y: 0}
   m_AutoConfigureDistance: 0
-  m_Distance: 0.70710677
+  m_Distance: 0.005
   m_MaxDistanceOnly: 0
 --- !u!95 &2193380815047965984
 Animator:
@@ -1004,7 +1113,7 @@ MonoBehaviour:
   syncInterval: 0
   clientAuthority: 1
   animator: {fileID: 2193380815047965984}
---- !u!114 &2506175669369118158
+--- !u!114 &3701858071583928758
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1013,7 +1122,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8428015766500747352}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ec4f7556ca1e4b55a3381fc6a02b1bc, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c7e12ad9b9ae443c9fdf37e9f5ecd36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 1
@@ -1034,10 +1143,11 @@ MonoBehaviour:
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  onlySyncOnChangeCorrectionMultiplier: 2
+  bufferResetMultiplier: 3
+  changedDetection: 1
+  positionSensitivity: 0.01
   rotationSensitivity: 0.01
-  positionPrecision: 0.01
-  scalePrecision: 0.01
+  scaleSensitivity: 0.01
 --- !u!1 &8977629696714436571
 GameObject:
   m_ObjectHideFlags: 0
