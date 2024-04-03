@@ -13,7 +13,12 @@ public class UI_ShowToolTip : MousePointerEntity
     [SerializeField] string toolTipText;
     private GameObject toolTipObj;
 
-
+    public override void OnPointerClick(PointerEventData data)
+    {
+        toolTipObj.SetActive(false);
+        OnPointer = false;
+        timer = 0;
+    }
     public override void OnPointerEnter(PointerEventData data)
     {
         OnPointer = true;

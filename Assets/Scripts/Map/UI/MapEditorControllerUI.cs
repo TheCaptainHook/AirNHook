@@ -4,6 +4,8 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
+using System;
+
 public class MapEditorControllerUI : MonoBehaviour
 {
     PlaceMentSystem placeMentSystem;
@@ -29,9 +31,8 @@ public class MapEditorControllerUI : MonoBehaviour
     [SerializeField] Button clearBoxBtn_Test;
 
     [SerializeField] GameObject tileMode_BtnContainer;
-
-
-    private void Awake()
+    
+    private void Awake()//todo
     {
         placeMentSystem = MapEditor.Instance.placeMentSystem;
         initBtn.onClick.AddListener(MapSizeInit);
@@ -47,7 +48,7 @@ public class MapEditorControllerUI : MonoBehaviour
 
     
     //test
-    void TestTileCLIKC() //타일모드로 진입할때,
+    void TestTileCLIKC() //타일모드로 진입할때, //todo
     {   if(MapEditor.Instance.mapEditorState == MapEditorState.Tile)
         {
             tileMode_BtnContainer.SetActive(false);
@@ -88,6 +89,15 @@ public class MapEditorControllerUI : MonoBehaviour
 
     #endregion
 
+    #region   Button
+    private void ModeBtnBtn_Reset() { }//todo
+    private void TileDrawModeBtnBtn_Reset() { }//todo
+    #region Tile Draw Mode
+    private void ChangeTileMode(TileModeState tileModeState) { } //button active color, origin color//todo
+    #endregion
+    #endregion
+
+
     #region Controller
     private void HideController()
     {
@@ -123,6 +133,9 @@ public class MapEditorControllerUI : MonoBehaviour
         }
         onOffBtn.enabled = true;
     }
+
+    
+
     #endregion
 
 }

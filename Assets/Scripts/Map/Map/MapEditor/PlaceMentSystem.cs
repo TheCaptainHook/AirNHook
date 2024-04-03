@@ -104,11 +104,6 @@ public class PlaceMentSystem : MonoBehaviour
 
 
     #region Tile
-
-    //todo
-
-    //todo
-
     void TileMode()
     {
         switch (tileModeState)
