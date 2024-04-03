@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using Mirror;
 using UnityEngine;
@@ -12,6 +11,7 @@ public class Grappling : NetworkBehaviour
     public float climbSpeed = 3f;
     public float swingJumpPower;
     [SerializeField] public float coolTime;
+    private bool _isGround => playerMovement.isGround;
 
     private Coroutine Co_GrappleCoolDown;
     private WaitForSeconds _grappleCoolTime;
@@ -34,13 +34,14 @@ public class Grappling : NetworkBehaviour
     private float _ropeMaxDistance = 5f;
     private Vector2 _ropePosition = Vector2.negativeInfinity;
     private Vector2 _targetPos;
-    private Vector2 _velocity = Vector2.zero;
     
     [Header("Hook")]
     public GameObject hookAnchor;
+    public Transform hookSprite;
     public Transform hookStartPos;
     private Rigidbody2D _hookAnchorRb;
     public LayerMask hookLayerMask;
+    private Vector2 _hookAnchorPos;
     
     private void Awake()
     {
@@ -51,6 +52,8 @@ public class Grappling : NetworkBehaviour
 
     private void Start()
     {
+        _targetPos = ropeStartPos.position;
+        
         // 조작하는 플레이어 체크
         if(!isLocalPlayer) return;
         
@@ -111,15 +114,9 @@ public class Grappling : NetworkBehaviour
         playerMovement.isSwinging = false;
         playerMovement.swingJump = true;
         
-        //ropeRenderer.positionCount = 2;
-        //ropeRenderer.SetPosition(0, ropeStartPos.position);
-        //ropeRenderer.SetPosition(1, ropeStartPos.position);
-        //ropeRenderer.enabled = false;
-        
         _ropePosition = Vector2.negativeInfinity;
         _hookAnchorRb.bodyType = RigidbodyType2D.Kinematic;
         CmdChangeHookBody(RigidbodyType2D.Kinematic);
-        hookAnchor.transform.position = hookStartPos.position + new Vector3(0, 0.1f, 0);
     }
 
     private IEnumerator GrappleCoolDown()
@@ -136,31 +133,47 @@ public class Grappling : NetworkBehaviour
         {
             if (ropeRenderer.enabled)
             {
+                if(isLocalPlayer)
+                    hookSprite.position = _targetPos;
                 ropeRenderer.SetPosition(0, ropeStartPos.position);
                 _targetPos = Vector2.MoveTowards(_targetPos, ropeStartPos.position, ropeSpeed * Time.deltaTime);
-                ropeRenderer.SetPosition(1, _targetPos);
+                ropeRenderer.SetPosition(1, hookSprite.position);
 
                 if (Vector3.Distance(_targetPos, ropeStartPos.position) <= 0.1f)
                     ropeRenderer.enabled = false;
             }
-            hookAnchor.transform.position = hookStartPos.position + new Vector3(0, 0.1f, 0);
+            else
+            {
+                hookSprite.position = hookStartPos.position;
+                hookSprite.rotation = Quaternion.identity;
+                hookAnchor.transform.position = hookStartPos.position;
+                ropeRenderer.positionCount = 2;
+                ropeRenderer.SetPosition(0, ropeStartPos.position);
+                ropeRenderer.SetPosition(1, ropeStartPos.position);
+            }
             return;
         }
 
         // LineRenderer 그리기
         if (!ropeRenderer.enabled)
         {
-            ropeRenderer.enabled = true;
             _targetPos = ropeStartPos.position;
             ropeRenderer.positionCount = 2;
             ropeRenderer.SetPosition(0, ropeStartPos.position);
             ropeRenderer.SetPosition(1, ropeStartPos.position);
+            ropeRenderer.enabled = true;
         }
         else
         {
             ropeRenderer.SetPosition(0, ropeStartPos.position);
-            _targetPos = Vector2.MoveTowards(_targetPos, hookAnchor.transform.position, ropeSpeed * Time.deltaTime);
-            ropeRenderer.SetPosition(1, _targetPos);
+            if (Vector2.Distance(_targetPos, _hookAnchorPos) > 0.1f)
+                _targetPos = Vector2.MoveTowards(_targetPos, _hookAnchorPos, ropeSpeed * Time.deltaTime);
+            else
+                _targetPos = _hookAnchorPos;
+
+            if(isLocalPlayer)
+                hookSprite.position = _targetPos;
+            ropeRenderer.SetPosition(1, hookSprite.position);
         }
     }
     
@@ -175,7 +188,7 @@ public class Grappling : NetworkBehaviour
             return;
         }
         
-        hookAnchor.transform.position = _ropePosition;
+        hookAnchor.transform.position = _hookAnchorPos;
         
         // 플레이어의 위치가 갈고리보다 높을 경우 길이 줄어들게 하는 코드
         if (transform.position.y > hookAnchor.transform.position.y)
@@ -222,7 +235,7 @@ public class Grappling : NetworkBehaviour
     private void RpcChangeGrappleState(bool value)
     {
         grappleAttached = value;
-        ropeRenderer.enabled = true;
+        ropeRenderer.enabled = value;
     }
 
     [Command(requiresAuthority = false)]
@@ -251,44 +264,40 @@ public class Grappling : NetworkBehaviour
 
     private void OnMainAction(InputAction.CallbackContext context)
     {
-        if (_grappleAttached || _isCoolTime) return;
+        if (grappleAttached || _isCoolTime || _isGround) return;
 
         var hit = Physics2D.Raycast(transform.position, _aimDirection, _ropeMaxDistance, hookLayerMask);
 
         if (hit.collider != null)
         {
-            // 그래플링 연결 코드
-            //ropeRenderer.enabled = true;
-            _grappleAttached = true;
+            grappleAttached = true;
             CmdChangeGrappleState(true);
             playerMovement.isSwinging = true;
             
             if (_ropePosition != hit.point)
             {
                 _ropePosition = hit.point;
-                playerMovement.ropeHook = _ropePosition;
+                var targetVec = (_ropePosition - (Vector2)transform.position).normalized * 0.25f;
+
+                _hookAnchorPos = _ropePosition - targetVec;
+                playerMovement.ropeHook = _hookAnchorPos;
                 
-                distanceJoint.distance = Vector2.Distance(transform.position, hit.point);
+                distanceJoint.distance = Vector2.Distance(transform.position, _hookAnchorPos);
                 distanceJoint.enabled = true;
                 
-                hookAnchor.transform.position = _ropePosition;
+                hookAnchor.transform.position = _hookAnchorPos;
                 _hookAnchorRb.bodyType = RigidbodyType2D.Static;
                 CmdChangeHookBody(RigidbodyType2D.Static);
+                
+                var targetVector = (_hookAnchorPos - (Vector2)hookSprite.position).normalized;
+                hookSprite.Rotate(0, 0, -Vector2.SignedAngle(targetVector, hookSprite.up));
             }
-        }
-        else
-        {
-            ropeRenderer.enabled = false;
-            grappleAttached = false;
-            CmdChangeGrappleState(false);
-            playerMovement.isSwinging = false;
-            distanceJoint.enabled = false;
         }
     }
 
     private void OnSubAction(InputAction.CallbackContext context)
     {
-        if(!_grappleAttached)
+        if(!grappleAttached)
             return;
         
         if (_rigidbody.velocity.y > 0)

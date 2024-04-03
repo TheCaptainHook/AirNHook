@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class HookMovement : PlayerMovement
 {
-    
     public bool isSwinging;
     public bool swingJump = false;
     public Vector2 ropeHook;
@@ -42,8 +41,13 @@ public class HookMovement : PlayerMovement
                 _rigidbd.AddForce(new Vector2((_horizontal * groundForce - _rigidbd.velocity.x) * groundForce, 0f));
                 _rigidbd.velocity = new Vector2(_rigidbd.velocity.x, _rigidbd.velocity.y);
             }
+            else
+            {
+                _rigidbd.AddForce(new Vector2(_horizontal * _moveSpeed, 0f));
+                _rigidbd.velocity = new Vector2(_rigidbd.velocity.x, _rigidbd.velocity.y);
+            }
         }
-        else if(_isGround)
+        else if(isGround)
         {
             var groundForce = _moveSpeed * 5f;
             _rigidbd.AddForce(new Vector2(-_rigidbd.velocity.x * groundForce, 0f));
@@ -63,7 +67,7 @@ public class HookMovement : PlayerMovement
         {
             if (Physics2D.Raycast(transform.position + (Vector3.right * (0.4f * i)), Vector2.down, 0.1f, _floorLayer))
             {
-                _isGround = true;
+                isGround = true;
                 swingJump = false;
                 _coyoteTimeCount = _coyoteTime;
                 if(isSwinging)
@@ -72,7 +76,7 @@ public class HookMovement : PlayerMovement
             }
         }
 
-        _isGround = false;
+        isGround = false;
         _coyoteTimeCount -= Time.deltaTime;
     }
 
@@ -96,7 +100,7 @@ public class HookMovement : PlayerMovement
         }
         if (_horizontal == 0 && isSwinging || !isSwinging)
             _swingFloat = 0;
-        if(_isGround)
+        if(isGround)
             _swingFloat = 0;
         base.MoveAnimation();
     }
