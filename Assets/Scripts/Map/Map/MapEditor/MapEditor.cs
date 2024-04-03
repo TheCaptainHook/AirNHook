@@ -48,13 +48,14 @@ public class MapEditor : MonoBehaviour
 
     [Header("EditorMode")]
     public PlaceMentSystem placeMentSystem;
-    public GameObject gridPlane;
+    [HideInInspector] public GameObject gridPlane;
     [Header("UI")]
     public MapEditorControllerUI editorUIController;
 
     [Space(5)]
 
     [Header("Map Info")]
+    public Transform poolingContainer;
     [HideInInspector] public MapEditorType mapEditorType;
     [HideInInspector] public float cellSize;   
     public MapEditorState mapEditorState;

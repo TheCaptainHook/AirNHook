@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Projectile_Arrow : MonoBehaviour
 {
+
     bool onHit;
     Rigidbody2D rb;
     BoxCollider2D _collider;
@@ -20,18 +21,25 @@ public class Projectile_Arrow : MonoBehaviour
 
     private void FixedUpdate()
     {
-        hit = Physics2D.Raycast(transform.position, transform.right, 0.8f,layerMask);
-
-        if (hit)
-        {
-            onHit = true;
-            rb.velocity = Vector2.zero;
-
-        }
-
         if (!onHit)
         {
-            rb.AddForce(transform.right * speed, ForceMode2D.Impulse);
+            hit = Physics2D.Raycast(transform.position, transform.right, 0.6f, layerMask);
+
+            if (hit)
+            {
+                onHit = true;
+                rb.velocity = Vector2.zero;
+                rb.gravityScale = 0;
+
+                if (hit.collider.TryGetComponent(out IDamageable damageable))
+                {
+                    damageable.TakeDamage();
+                }
+            }
+            else
+            {
+                rb.AddForce(transform.right * speed, ForceMode2D.Impulse);
+            }
         }
 
     }
@@ -39,15 +47,21 @@ public class Projectile_Arrow : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out IDamageable damageable))
+        //if (collision.gameObject.TryGetComponent(out IDamageable damageable))
+        //{
+        //    damageable.TakeDamage();
+        //    _collider.enabled = false;
+        //}
+
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Floor"))
         {
-            damageable.TakeDamage();
-            _collider.enabled = false;
+            rb.gravityScale = 0;
+            rb.velocity = Vector2.zero;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out IDamageable damageable))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             rb.gravityScale = 1;
         }
@@ -63,6 +77,6 @@ public class Projectile_Arrow : MonoBehaviour
     {
         // 스피어 캐스트를 그리기 위해 씬 상에 범위를 표시
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, transform.right * 0.8f);
+        Gizmos.DrawRay(transform.position, transform.right * 0.6f);
     }
 }

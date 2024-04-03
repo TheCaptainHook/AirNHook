@@ -21,13 +21,13 @@ public class ArrowTrap : MonoBehaviour
     private static readonly int IsFiring = Animator.StringToHash("IsFiring");
     private static readonly int FireEnd = Animator.StringToHash("FireEnd");
     #endregion
-    private void Awake()
+  
+    private void Start()
     {
         pool = GetComponent<Pooling>();
-        pool.CreatePoolItem(transform);
+        pool.CreatePoolItem(MapEditor.Instance.poolingContainer);
         _animator = GetComponent<Animator>();
     }
-
     private void Update()
     {
         if (isShot)

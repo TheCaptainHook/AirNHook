@@ -41,6 +41,7 @@ public class FlameThrower : MonoBehaviour
             else
             {
                 curRate = maxRate;
+                flame.SetLifeTime();
             }
 
             curRate = Mathf.Clamp(curRate, 0, maxRate);
