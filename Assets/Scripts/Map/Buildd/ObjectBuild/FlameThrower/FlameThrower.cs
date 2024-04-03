@@ -38,6 +38,10 @@ public class FlameThrower : MonoBehaviour
             {
                 CheckHit(hit);
             }
+            else
+            {
+                curRate = maxRate;
+            }
 
             curRate = Mathf.Clamp(curRate, 0, maxRate);
         }

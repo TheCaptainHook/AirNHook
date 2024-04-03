@@ -12,7 +12,7 @@ public class CameraMove : MonoBehaviour
     private float _zoom;
     private float _zoomMultiplier = 4f;
     private float _minZoom = 2f;
-    private float _maxZoom = 8f;
+    private float _maxZoom = 15f;
     private float _velocity = 0f;
     private float _smoothTime = 0.25f;
     private float _smoothSpeed = 0.25f;
@@ -44,7 +44,7 @@ public class CameraMove : MonoBehaviour
         if (Managers.Game.CurrentState is GameState.Editor)
         {
             PanCamera();
-            //ZoomInAndOut();
+            ZoomInAndOut();
         }
     }
 
