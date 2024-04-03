@@ -294,6 +294,35 @@ public class MapEditor : MonoBehaviour
         CreateObj(exitDoorObjectTransform);
     }
 
+    public void LoadMap(string name, MapType mapType)
+    {
+        if (!Managers.Data.mapData.GetDictionary(mapType).ContainsKey(name))
+        {
+            Debug.Log("Can't find Map");
+            Init();
+            mapEditorType = MapEditorType.New;
+            return;
+        }
+        Init();
+        placeMentSystem.ResetTileMap();
+        mapEditorType = MapEditorType.Load;
+        mapID = name;
+        CurMap = Managers.Data.mapData.GetDictionary(mapType)[name];
+        SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);
+
+        //start Point
+        startPosition = curMap.startPosition;
+        startPositionObject = Object.Instantiate(Resources.Load<GameObject>(Managers.Data.mapData.mapObjectDataDictionary[302].path));
+        startPositionObject.transform.position = curMap.startPosition;
+        startPositionObject.transform.SetParent(dontSaveObjectTransform);
+        //start Point
+
+        CreateObj(floorTransform);
+        CreateObj(objectTransform);
+        CreateObj(interactionObjectTransform);
+        CreateObj(exitDoorObjectTransform);
+    }
+
 
     #endregion
 

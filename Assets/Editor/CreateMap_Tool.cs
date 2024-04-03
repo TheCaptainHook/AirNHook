@@ -248,12 +248,15 @@ public class CreateMap_Tool : EditorWindow
                 index++;
                 GUILayout.EndHorizontal();
                 continue;
+            }else if(index == contentsList.Count - 1)
+            {
+                GUILayout.EndHorizontal();
             }
             curWidth += _GUIStyle_Cell.fixedWidth;
             index++;
 
         }
-        GUILayout.EndHorizontal();
+        //GUILayout.EndHorizontal();
         GUILayout.EndArea();
 
     }
