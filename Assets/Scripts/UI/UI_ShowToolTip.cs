@@ -7,15 +7,24 @@ using UnityEngine.UI;
 
 public class UI_ShowToolTip : MousePointerEntity
 {
-    private bool OnPointer;
-    private float timer;
+    public bool OnPointer;
+    public float timer;
 
     [SerializeField] string toolTipText;
-    private GameObject toolTipObj;
+    public GameObject toolTipObj;
+
+
+    private void Awake()
+    {
+        CreateTooltip();
+    }
+
+
 
     public override void OnPointerClick(PointerEventData data)
     {
-        toolTipObj.SetActive(false);
+        if (toolTipObj) { toolTipObj.SetActive(false); }
+
         OnPointer = false;
         timer = 0;
     }
@@ -78,8 +87,7 @@ public class UI_ShowToolTip : MousePointerEntity
         {
             if(timer >= 1)
             {
-                if (toolTipObj == null) { CreateTooltip(); toolTipObj.SetActive(true); }
-                else toolTipObj.SetActive(true);
+                toolTipObj.SetActive(true);
                 break;
 
             }
@@ -87,6 +95,11 @@ public class UI_ShowToolTip : MousePointerEntity
             yield return null;
 
         }
+
+        //if(timer == 0 && toolTipObj.activeSelf)
+        //{
+        //    toolTipObj.SetActive(false);
+        //}
     }
 
 

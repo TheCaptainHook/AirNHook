@@ -14,6 +14,9 @@ public class MapEditorControllerUI : MonoBehaviour
     bool onHide;
 
 
+    [Header("Btn Color")]
+    Color activeColor = new Color(0.47f,0.47f, 0.47f);
+
     [Header("Map Size")]
     [SerializeField] TMP_InputField widthInputField;
     [SerializeField] TMP_InputField heightInputField;
@@ -21,16 +24,19 @@ public class MapEditorControllerUI : MonoBehaviour
     //[SerializeField] TextMeshProUGUI messageText;
     [SerializeField] Button onOffBtn;
 
-    [Header("TEST")]
-    [SerializeField] Button tileMode_Test;
-    [SerializeField] Button tileUndo_Test;
+    [Header("Mode")]
+    [SerializeField] Button tileMode;
 
-    [SerializeField] Button tileBtn_Test;
-    [SerializeField] Button eraserBtn_Test;
-    [SerializeField] Button drawBoxBtn_Test;
-    [SerializeField] Button clearBoxBtn_Test;
+    [SerializeField] Button tileUndoBtn;
 
+    [Header("Tile Draw Tool Btn")]
     [SerializeField] GameObject tileMode_BtnContainer;
+    [SerializeField] Button tileBtn;
+    [SerializeField] Button eraserBtn;
+    [SerializeField] Button drawBoxBtn;
+    [SerializeField] Button clearBoxBtn;
+
+    public Button[] tileDrawBtns;
     
     private void Awake()//todo
     {
@@ -38,34 +44,42 @@ public class MapEditorControllerUI : MonoBehaviour
         initBtn.onClick.AddListener(MapSizeInit);
         onOffBtn.onClick.AddListener(HideController);
         //test
-        tileMode_Test.onClick.AddListener(TestTileCLIKC);
-        tileUndo_Test.onClick.AddListener(placeMentSystem.invoker.Undo);
-        tileBtn_Test.onClick.AddListener(() => { placeMentSystem.tileModeState = TileModeState.Tile; placeMentSystem.ResetPreviewTileMap(); });
-        eraserBtn_Test.onClick.AddListener(() => { placeMentSystem.tileModeState = TileModeState.Clear; placeMentSystem.ResetPreviewTileMap(); });
-        drawBoxBtn_Test.onClick.AddListener(() => { placeMentSystem.tileModeState = TileModeState.TileBox; placeMentSystem.ResetPreviewTileMap(); });
-        clearBoxBtn_Test.onClick.AddListener(() => { placeMentSystem.tileModeState = TileModeState.ClearBox; placeMentSystem.ResetPreviewTileMap(); });
+        tileMode.onClick.AddListener(TileMode);
+        tileUndoBtn.onClick.AddListener(placeMentSystem.invoker.Undo);
+
+        tileBtn.onClick.AddListener(() => { ChangeTileMode(tileBtn, TileModeState.Tile); });
+        eraserBtn.onClick.AddListener(() => { ChangeTileMode(eraserBtn, TileModeState.Clear); });
+        drawBoxBtn.onClick.AddListener(() => { ChangeTileMode(drawBoxBtn, TileModeState.TileBox); });
+        clearBoxBtn.onClick.AddListener(() => { ChangeTileMode(clearBoxBtn, TileModeState.ClearBox); });
+
+        tileDrawBtns = new Button[] { tileBtn, eraserBtn, drawBoxBtn, clearBoxBtn };
     }
 
     
-    //test
-    void TestTileCLIKC() //타일모드로 진입할때, //todo
-    {   if(MapEditor.Instance.mapEditorState == MapEditorState.Tile)
+    
+    void TileMode() //타일모드로 진입할때, //todo
+    {
+        ModeBtn_Reset();
+        if(MapEditor.Instance.mapEditorState == MapEditorState.Tile)
         {
+            Deactive_BtnChangeColor(tileMode);
+            TileDrawModeBtn_Reset();
+
             tileMode_BtnContainer.SetActive(false);
             MapEditor.Instance.mapEditorState = MapEditorState.Editor;
-
             MapEditor.Instance.placeMentSystem.tileBase = null;
         }
         else
         {
+            Active_BtnChangeColor(tileMode);
             MapEditor.Instance.mapEditorState = MapEditorState.Tile;
-            MapEditor.Instance.placeMentSystem.tileBase = Resources.Load<TileBase>("Arts/Tiles/1");
+            MapEditor.Instance.placeMentSystem.tileBase = Resources.Load<TileBase>("Arts/Tiles/1");//todo
             tileMode_BtnContainer.SetActive(true);
         }
        
     }
     
-    //test
+    
     #region Map Size UI
     void MapSizeInit()
     {
@@ -90,10 +104,26 @@ public class MapEditorControllerUI : MonoBehaviour
     #endregion
 
     #region   Button
-    private void ModeBtnBtn_Reset() { }//todo
-    private void TileDrawModeBtnBtn_Reset() { }//todo
+    private void ModeBtn_Reset() //todo
+    {
+        TileDrawModeBtn_Reset();
+    }
+    private void TileDrawModeBtn_Reset()
+    {
+        placeMentSystem.ResetPreviewTileMap();
+        placeMentSystem.tileModeState = TileModeState.None;
+        for (int i = 0; i < tileDrawBtns.Length; i++)
+        {
+            Deactive_BtnChangeColor(tileDrawBtns[i]);
+        }
+    }
     #region Tile Draw Mode
-    private void ChangeTileMode(TileModeState tileModeState) { } //button active color, origin color//todo
+    private void ChangeTileMode(Button btn ,TileModeState tileModeState)
+    {
+        TileDrawModeBtn_Reset();
+        Active_BtnChangeColor(btn);
+        placeMentSystem.tileModeState = tileModeState;
+    }
     #endregion
     #endregion
 
@@ -134,8 +164,23 @@ public class MapEditorControllerUI : MonoBehaviour
         onOffBtn.enabled = true;
     }
 
-    
+
 
     #endregion
 
+
+    #region Util
+    private void Active_BtnChangeColor(Button btn)
+    {
+        ColorBlock colorBlock = btn.colors;
+        colorBlock.normalColor = activeColor;
+        btn.colors = colorBlock;
+    }
+    private void Deactive_BtnChangeColor(Button btn)
+    {
+        ColorBlock colorBlock = btn.colors;
+        colorBlock.normalColor = Color.white;
+        btn.colors = colorBlock;
+    }
+    #endregion
 }

@@ -58,7 +58,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1073741824
   gridPosition: {x: 0, y: 0, z: 0}
-  mousePosition: {x: 20.67963, y: 37.31481, z: -1}
+  mousePosition: {x: 21.088888, y: 37.146294, z: -1}
 --- !u!1 &775507051098167545
 GameObject:
   m_ObjectHideFlags: 0
@@ -293,13 +293,14 @@ MonoBehaviour:
   heightInputField: {fileID: 5334742997282942403}
   initBtn: {fileID: 3799065113608898468}
   onOffBtn: {fileID: 7657347248069012205}
-  tileMode_Test: {fileID: 1846594318910794473}
-  tileUndo_Test: {fileID: 8238530274283701234}
-  tileBtn_Test: {fileID: 7204725351685709246}
-  eraserBtn_Test: {fileID: 8970694948993248438}
-  drawBoxBtn_Test: {fileID: 5624564608198367166}
-  clearBoxBtn_Test: {fileID: 8950488443904349774}
+  tileMode: {fileID: 1846594318910794473}
+  tileUndoBtn: {fileID: 8238530274283701234}
   tileMode_BtnContainer: {fileID: 4340453725171662759}
+  tileBtn: {fileID: 7204725351685709246}
+  eraserBtn: {fileID: 8970694948993248438}
+  drawBoxBtn: {fileID: 5624564608198367166}
+  clearBoxBtn: {fileID: 8950488443904349774}
+  tileDrawBtns: []
 --- !u!1 &2005102887669488765
 GameObject:
   m_ObjectHideFlags: 0
@@ -1576,7 +1577,7 @@ GameObject:
   - component: {fileID: 8238530274283701234}
   - component: {fileID: 3078268089382809553}
   m_Layer: 5
-  m_Name: Undo_Btn(Test)
+  m_Name: Undo_Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1696,7 +1697,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8da419cf20b246528b5b48f86cd8930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnPointer: 0
+  timer: 0
   toolTipText: Undo!
+  toolTipObj: {fileID: 0}
 --- !u!1 &2394570581749079130
 GameObject:
   m_ObjectHideFlags: 0
@@ -1711,7 +1715,7 @@ GameObject:
   - component: {fileID: 8950488443904349774}
   - component: {fileID: 5100858725442580282}
   m_Layer: 5
-  m_Name: EraserBox_Btn(Test)
+  m_Name: EraserBox_Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1732,9 +1736,9 @@ RectTransform:
   - {fileID: 4757207178705980049}
   m_Father: {fileID: 5306783455325347580}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 495.75, y: -41.19145}
   m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4812167193765721950
@@ -1797,10 +1801,10 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
-    m_SelectedColor: {r: 0.49056602, g: 0.488252, b: 0.488252, a: 1}
-    m_DisabledColor: {r: 0.6509434, g: 0.6478729, b: 0.6478729, a: 0.5019608}
+    m_HighlightedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
+    m_PressedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
+    m_SelectedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -1831,7 +1835,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8da419cf20b246528b5b48f86cd8930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnPointer: 0
+  timer: 0
   toolTipText: Eraser filled box with active brush
+  toolTipObj: {fileID: 0}
 --- !u!1 &2519274434134862383
 GameObject:
   m_ObjectHideFlags: 0
@@ -3025,7 +3032,7 @@ GameObject:
   - component: {fileID: 5624564608198367166}
   - component: {fileID: 8139604240061832411}
   m_Layer: 5
-  m_Name: DrawBox_Btn(Test)
+  m_Name: DrawBox_Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3046,9 +3053,9 @@ RectTransform:
   - {fileID: 8046617912236189239}
   m_Father: {fileID: 5306783455325347580}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 226.75, y: -41.19145}
   m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &336863064081509289
@@ -3111,10 +3118,10 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
-    m_SelectedColor: {r: 0.49056602, g: 0.488252, b: 0.488252, a: 1}
-    m_DisabledColor: {r: 0.6509434, g: 0.6478729, b: 0.6478729, a: 0.5019608}
+    m_HighlightedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
+    m_PressedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
+    m_SelectedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -3145,7 +3152,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8da419cf20b246528b5b48f86cd8930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnPointer: 0
+  timer: 0
   toolTipText: Paint a filled box with active brush
+  toolTipObj: {fileID: 0}
 --- !u!1 &4515745434964250801
 GameObject:
   m_ObjectHideFlags: 0
@@ -3242,7 +3252,7 @@ GameObject:
   - component: {fileID: 8970694948993248438}
   - component: {fileID: 4180331679427505342}
   m_Layer: 5
-  m_Name: Eraser_Btn(Test)
+  m_Name: Eraser_Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3263,9 +3273,9 @@ RectTransform:
   - {fileID: 8862574999565231476}
   m_Father: {fileID: 5306783455325347580}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 361.25, y: -41.19145}
   m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4669703278966326172
@@ -3328,10 +3338,10 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
-    m_SelectedColor: {r: 0.49056602, g: 0.488252, b: 0.488252, a: 1}
-    m_DisabledColor: {r: 0.6509434, g: 0.6478729, b: 0.6478729, a: 0.5019608}
+    m_HighlightedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
+    m_PressedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
+    m_SelectedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -3362,7 +3372,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8da419cf20b246528b5b48f86cd8930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnPointer: 0
+  timer: 0
   toolTipText: Eraser with active brush
+  toolTipObj: {fileID: 0}
 --- !u!1 &5200743147984625203
 GameObject:
   m_ObjectHideFlags: 0
@@ -3711,7 +3724,7 @@ GameObject:
   - component: {fileID: 3202558676027270697}
   - component: {fileID: 1846594318910794473}
   m_Layer: 5
-  m_Name: TileMode(Test)
+  m_Name: TileMode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3798,8 +3811,8 @@ MonoBehaviour:
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
+    m_SelectedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -5069,7 +5082,7 @@ GameObject:
   - component: {fileID: 7204725351685709246}
   - component: {fileID: 8981890226740186490}
   m_Layer: 5
-  m_Name: Tile_Btn(Test)
+  m_Name: Tile_Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5090,9 +5103,9 @@ RectTransform:
   - {fileID: 2009079830970078745}
   m_Father: {fileID: 5306783455325347580}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 92.25, y: -41.19145}
   m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &552374277169263701
@@ -5155,10 +5168,10 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
-    m_SelectedColor: {r: 0.49056602, g: 0.488252, b: 0.488252, a: 1}
-    m_DisabledColor: {r: 0.6509434, g: 0.6478729, b: 0.6478729, a: 0.5019608}
+    m_HighlightedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
+    m_PressedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
+    m_SelectedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -5189,7 +5202,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8da419cf20b246528b5b48f86cd8930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnPointer: 0
+  timer: 0
   toolTipText: Paint with active brush
+  toolTipObj: {fileID: 0}
 --- !u!1 &9146711676929314991
 GameObject:
   m_ObjectHideFlags: 0

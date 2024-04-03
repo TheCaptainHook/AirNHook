@@ -5,6 +5,7 @@ using UnityEngine.Tilemaps;
 
 public enum TileModeState
 {
+    None,
     Tile,
     Clear,
     TileBox,
