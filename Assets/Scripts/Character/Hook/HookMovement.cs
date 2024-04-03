@@ -7,7 +7,12 @@ public class HookMovement : PlayerMovement
     public Vector2 ropeHook;
     public float swingForce;
     public Grappling grappling;
+    private float _swingFloat;
 
+    #region StringCache
+    private static readonly int IsGrappling = Animator.StringToHash("IsGrappling");
+    private static readonly int SwingingForce = Animator.StringToHash("SwingingForce");
+    #endregion
     protected override void Awake()
     {
         base.Awake();
@@ -36,8 +41,13 @@ public class HookMovement : PlayerMovement
                 _rigidbd.AddForce(new Vector2((_horizontal * groundForce - _rigidbd.velocity.x) * groundForce, 0f));
                 _rigidbd.velocity = new Vector2(_rigidbd.velocity.x, _rigidbd.velocity.y);
             }
+            else
+            {
+                _rigidbd.AddForce(new Vector2(_horizontal * _moveSpeed, 0f));
+                _rigidbd.velocity = new Vector2(_rigidbd.velocity.x, _rigidbd.velocity.y);
+            }
         }
-        else if(_isGround)
+        else if(isGround)
         {
             var groundForce = _moveSpeed * 5f;
             _rigidbd.AddForce(new Vector2(-_rigidbd.velocity.x * groundForce, 0f));
@@ -57,7 +67,7 @@ public class HookMovement : PlayerMovement
         {
             if (Physics2D.Raycast(transform.position + (Vector3.right * (0.4f * i)), Vector2.down, 0.1f, _floorLayer))
             {
-                _isGround = true;
+                isGround = true;
                 swingJump = false;
                 _coyoteTimeCount = _coyoteTime;
                 if(isSwinging)
@@ -66,7 +76,7 @@ public class HookMovement : PlayerMovement
             }
         }
 
-        _isGround = false;
+        isGround = false;
         _coyoteTimeCount -= Time.deltaTime;
     }
 
@@ -78,5 +88,20 @@ public class HookMovement : PlayerMovement
     protected override bool IsLeftHead()
     {
         return !isSwinging && base.IsLeftHead();
+    }
+
+    protected override void MoveAnimation()
+    {
+        _animator.SetBool(IsGrappling, isSwinging);
+        if (_horizontal != 0 && isSwinging)
+        {
+            _swingFloat += Time.deltaTime;
+            _animator.SetFloat(SwingingForce, _swingFloat);
+        }
+        if (_horizontal == 0 && isSwinging || !isSwinging)
+            _swingFloat = 0;
+        if(isGround)
+            _swingFloat = 0;
+        base.MoveAnimation();
     }
 }

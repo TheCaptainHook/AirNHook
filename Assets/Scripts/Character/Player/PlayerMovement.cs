@@ -13,7 +13,7 @@ public class PlayerMovement : NetworkBehaviour
     protected float _coyoteTimeCount;
     //플레이어 점프체크
     private bool _isJumping;
-    protected bool _isGround;
+    public bool isGround { get; protected set; }
     [SerializeField] private bool _isDead;
     public bool IsDead
     {
@@ -40,7 +40,7 @@ public class PlayerMovement : NetworkBehaviour
     //움직임속도
     [SerializeField] protected float _moveSpeed = 2f;
     
-    private Animator _animator;
+    protected Animator _animator;
     [SerializeField] private Transform _charPivot;
 
     #region StringCache
@@ -81,11 +81,11 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Update()
     {
-        if(!isLocalPlayer || IsDead) return;
-        
         // 땅 체크
         IsFloor();
-
+        
+        if(!isLocalPlayer || IsDead) return;
+        
         if (CheckJumpBuffer())
         {
             _isJumpBufferCheck = true;
@@ -160,13 +160,13 @@ public class PlayerMovement : NetworkBehaviour
         {
             if (Physics2D.Raycast(transform.position + (Vector3.right * (0.4f * i)), Vector2.down, 0.1f, _floorLayer))
             {
-                _isGround = true;
+                isGround = true;
                 _coyoteTimeCount = _coyoteTime;
                 return;
             }
         }
 
-        _isGround = false;
+        isGround = false;
         _coyoteTimeCount -= Time.deltaTime;
     }
 
@@ -228,12 +228,12 @@ public class PlayerMovement : NetworkBehaviour
         return false;
     }
     
-    private void MoveAnimation()
+    protected virtual void MoveAnimation()
     {
         //이동에 따라 애니메이션 제어
-        _animator.SetBool(IsMoving, _horizontal != 0 && _isGround);
-        _animator.SetBool(IsJumping, _horizontal != 0 && _isJumping || _horizontal != 0 && !_isGround);
-        _animator.SetBool(IsStayJumping, _horizontal == 0 && _isJumping || _horizontal == 0 && !_isGround);
+        _animator.SetBool(IsMoving, _horizontal != 0 && isGround);
+        _animator.SetBool(IsJumping, _horizontal != 0 && _isJumping || _horizontal != 0 && !isGround);
+        _animator.SetBool(IsStayJumping, _horizontal == 0 && _isJumping || _horizontal == 0 && !isGround);
         // CharPivot 오브젝트의 로테이션을 사용하여 플립
         if (_horizontal < 0)
         {

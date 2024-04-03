@@ -122,10 +122,8 @@ public class Player : NetworkBehaviour, IDamageable
 
     private void RespawnEnd()
     {
-        Debug.Log("리스폰끝");
         _animator.SetTrigger(OnRespawnEnd);
         CmdDoRespawnEnd();
-        // _networkAnimator.SetTrigger(OnRespawnEnd);
         _isDead = false;
         _movement.IsDead = false;
         _collider2D.enabled = true;
