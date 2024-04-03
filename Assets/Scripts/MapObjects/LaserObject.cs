@@ -60,12 +60,12 @@ namespace MapObjects
 
         private void UpdateLaser()
         {
-            RaycastHit2D hit = Physics2D.Raycast(_transform.position,transform.right.normalized, _curDistanceRay,_layerMask);
+            RaycastHit2D hit = Physics2D.Raycast(_firePoint.position,_firePoint.right.normalized, _curDistanceRay,_layerMask);
 
             if (hit.collider != null)
             {
                 //_curDistanceRay = hit.distance;
-                Debug.DrawRay(transform.position, transform.right * _curDistanceRay, Color.green);
+                Debug.DrawRay(_firePoint.position, _firePoint.right * _curDistanceRay, Color.green);
                 // 레이캐스트에 충돌한 객체가 IDamageable을 가진 경우
                 if (hit.collider.TryGetComponent(out IDamageable damageable))
                 {
