@@ -12,6 +12,11 @@ public class ObjectSpaceUI : MonoBehaviour
     public Button toggleBtn;
     bool onHide;
     private Vector2 originAnchoredPosition;
+    GameObject[] objects;
+
+   public bool itemCheckComplete;
+
+    public List<GameObject> items = new();
 
     string path = "Prefabs/MapEditor/Object";
 
@@ -20,10 +25,7 @@ public class ObjectSpaceUI : MonoBehaviour
         rTransform = transform as RectTransform;
         toggleBtn.onClick.AddListener(ShowAndHide);
         originAnchoredPosition = rTransform.anchoredPosition;
-    }
-
-    private void Start()
-    {
+        objects = Resources.LoadAll<GameObject>(path);
         LoadAllObject();
     }
 
@@ -31,18 +33,37 @@ public class ObjectSpaceUI : MonoBehaviour
     {
         onHide = false;
         rTransform.anchoredPosition = originAnchoredPosition;
+
+        if (!itemCheckComplete)
+        {
+            CheckItemTexture();
+        }
     }
 
     void LoadAllObject()
     {
-        GameObject[] objects = Resources.LoadAll<GameObject>(path);
-
         for (int i = 0; i < objects.Length; i++)
         {
             GameObject obj = Instantiate(objectSpaceUIItem,content);
             obj.GetComponent<Interaction_BuildItem>().Init(objects[i]);
+            items.Add(obj);
         }
 
+    }
+
+    void CheckItemTexture()
+    {
+        if (items[objects.Length-1].GetComponent<Interaction_BuildItem>().image.sprite == null)
+        {
+            foreach(GameObject obj in items)
+            {
+                obj.GetComponent<Interaction_BuildItem>().Init();
+            }
+        }
+        else
+        {
+            itemCheckComplete = true;
+        }
     }
 
     void ShowAndHide()
