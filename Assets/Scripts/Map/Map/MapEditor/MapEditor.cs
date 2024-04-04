@@ -33,9 +33,10 @@ public enum MapEditorState
 [UGS(typeof(TileType))]
 public enum TileType
 {
-    OutLine,
     Floor,
-    Object
+    Object,
+    InteractionObject
+
 }
 
 

@@ -7,7 +7,9 @@ public class ExitPointObj : BuildBase
 {
     [Header("State")]
     [SerializeField] bool stageClear;
-    
+    public string nextMapId;
+    public int curPlayerInDoor;
+
     [Header("Info")]
     [SerializeField] int condition_KeyAmount;
     private int current_KeyAmount;
@@ -18,21 +20,21 @@ public class ExitPointObj : BuildBase
             {
                 stageClear = true;
                 MapEditor.Instance.stageClear = true;
+                doorOpeningAnim.CallOnUnlockAnimation();
             }
             } }
 
-    //todo 0320
-    public string nextMapId;
-    public int curPlayerInDoor;
-    //todo
+    [Header("Componenets")]
+    DoorOpeningAnim doorOpeningAnim;
+
+    private void Awake()
+    {
+        doorOpeningAnim = GetComponent<DoorOpeningAnim>();
+    }
 
     //event Action OnCheckKey;
     bool isClear;
 
-    //private void FixedUpdate()
-    //{
-    //    BuildCheck();
-    //}
 
     public ExitObjStruct GetExitObjectStruct()
     {

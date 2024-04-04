@@ -206,7 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d515f917ac4db69c0589af01ea46b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  id: 301
   distructionStatus: 0
   stageClear: 0
   condition_KeyAmount: 0

@@ -272,11 +272,11 @@ public class CreateMap_Tool : EditorWindow
         //GameObject obj = objLists[i];
         switch (obj.name)
         {
-            case "SpawnPoint":
+            case "SpawnDoor":
                 FindObj(curMapEditor.dontSaveObjectTransform, obj);
                 SelectActiveOBJ(objLists[i], curMapEditor.dontSaveObjectTransform);
                 break;
-            case "ExitPoint":
+            case "ExitDoor":
                 FindObj(curMapEditor.exitDoorObjectTransform, obj);
                 SelectActiveOBJ(objLists[i], curMapEditor.exitDoorObjectTransform);
                 break;

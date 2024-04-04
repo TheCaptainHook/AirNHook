@@ -15,6 +15,8 @@ public class DoorOpeningAnim : MonoBehaviour
     
     private Animator _animator;
 
+    public event Action OnUnlockAnimation;
+
     #region StringCache
     private static readonly int IsUnlocking = Animator.StringToHash("IsUnlocking");
     #endregion
@@ -24,15 +26,28 @@ public class DoorOpeningAnim : MonoBehaviour
         _lockRigidbody2D.constraints = RigidbodyConstraints2D.FreezeAll;
         _lockCollider2D.enabled = false;
         _animator = GetComponent<Animator>();
+        OnUnlockAnimation += SetTriggerUnlocking;
     }
 
-    private void Update()
+    //private void Update()
+    //{
+    //    if (_isClear)
+    //    {
+    //        _animator.SetTrigger(IsUnlocking);
+    //    }
+    //}
+
+
+    private void SetTriggerUnlocking()
     {
-        if (_isClear)
-        {
-            _animator.SetTrigger(IsUnlocking);
-        }
+        _isClear = true;
+        _animator.SetTrigger(IsUnlocking);
     }
+    public void CallOnUnlockAnimation()
+    {
+        OnUnlockAnimation?.Invoke();
+    }
+
 
     public void UnlockingAnim()
     {
