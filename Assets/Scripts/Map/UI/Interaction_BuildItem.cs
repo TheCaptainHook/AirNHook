@@ -1,52 +1,52 @@
+using Org.BouncyCastle.Crypto.Digests;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 public class Interaction_BuildItem : MonoBehaviour
 {
-    public Tile tilebase;
     public GameObject buildObj;
     Image image;
     Button button;
-    TileType tileType;
-
     private void Awake()
     {
         image = GetComponent<Image>();
         button = GetComponent<Button>();
-        button.onClick.AddListener(ChoiceItem);
+        //button.onClick.AddListener(ChoiceItem);
        
     }
 
 
-    void ChoiceItem()
-    {
-        if(tileType == TileType.Floor)
-        {
-            MapEditor.Instance.placeMentSystem.tileBase = tilebase;
-        }
+    //void ChoiceItem()
+    //{
       
-    }
+    //}
 
 
-    public void Init(GameObject tile,TileType tileType)
+    public void Init(GameObject obj)
     {
-        buildObj = tile;
-        this.tileType = tileType;
-        SetImage();
+        buildObj = obj;     
+        StartCoroutine(CreateSprite());
     }
-    public void Init(Tile tilebase,TileType tileType)
+
+    IEnumerator CreateSprite()
     {
-        this.tilebase = tilebase;
-        this.tileType = tileType;
-        image.sprite = tilebase.sprite;
-        image.color = tilebase.color;
-    }
-    void SetImage()
-    {
-        image.sprite = buildObj.GetComponent<SpriteRenderer>().sprite;
-        image.color = buildObj.GetComponent<SpriteRenderer>().color;
+        Texture2D texture = AssetPreview.GetAssetPreview(buildObj);
+        while(texture == null)
+        {
+            yield return null;
+        }
+
+        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+        while(sprite == null)
+        {
+            yield return null;
+        }
+
+        image.sprite = sprite;
+
     }
 
 }

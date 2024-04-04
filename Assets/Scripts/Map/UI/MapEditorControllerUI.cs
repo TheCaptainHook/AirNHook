@@ -26,7 +26,7 @@ public class MapEditorControllerUI : MonoBehaviour
 
     [Header("Mode")]
     [SerializeField] Button tileMode;
-
+    [SerializeField] Button objectMode;
     [SerializeField] Button tileUndoBtn;
 
     [Header("Tile Draw Tool Btn")]
@@ -35,6 +35,9 @@ public class MapEditorControllerUI : MonoBehaviour
     [SerializeField] Button eraserBtn;
     [SerializeField] Button drawBoxBtn;
     [SerializeField] Button clearBoxBtn;
+
+    [Header("Object Tool")]
+    [SerializeField] GameObject objectSpaceUi;
 
     public Button[] tileDrawBtns;
     
@@ -45,6 +48,7 @@ public class MapEditorControllerUI : MonoBehaviour
         onOffBtn.onClick.AddListener(HideController);
         //test
         tileMode.onClick.AddListener(TileMode);
+        objectMode.onClick.AddListener(ObjectMode); 
         tileUndoBtn.onClick.AddListener(placeMentSystem.invoker.Undo);
 
         tileBtn.onClick.AddListener(() => { ChangeTileMode(tileBtn, TileModeState.Tile); });
@@ -62,9 +66,6 @@ public class MapEditorControllerUI : MonoBehaviour
         ModeBtn_Reset();
         if(MapEditor.Instance.mapEditorState == MapEditorState.Tile)
         {
-            Deactive_BtnChangeColor(tileMode);
-            TileDrawModeBtn_Reset();
-
             tileMode_BtnContainer.SetActive(false);
             MapEditor.Instance.mapEditorState = MapEditorState.Editor;
             MapEditor.Instance.placeMentSystem.tileBase = null;
@@ -77,6 +78,22 @@ public class MapEditorControllerUI : MonoBehaviour
             tileMode_BtnContainer.SetActive(true);
         }
        
+    }
+    void ObjectMode()
+    {
+        ModeBtn_Reset();
+        if (MapEditor.Instance.mapEditorState == MapEditorState.Object)
+        {
+            MapEditor.Instance.mapEditorState = MapEditorState.Editor;
+            MapEditor.Instance.placeMentSystem.curBuildObject = null;// curBuildObject에 있는 indicator 제거 후 null
+            objectSpaceUi.SetActive(false);
+        }
+        else
+        {
+            Active_BtnChangeColor(objectMode);
+            MapEditor.Instance.mapEditorState = MapEditorState.Object;
+            objectSpaceUi.SetActive(true);
+        }
     }
     
     
@@ -104,9 +121,13 @@ public class MapEditorControllerUI : MonoBehaviour
     #endregion
 
     #region   Button
-    private void ModeBtn_Reset() //todo
+    private void ModeBtn_Reset() //Btn All Reset
     {
+        if (tileMode_BtnContainer.activeSelf) { tileMode_BtnContainer.SetActive(false);}
+        if(objectSpaceUi.activeSelf) { objectSpaceUi.SetActive(false); }
         TileDrawModeBtn_Reset();
+        Deactive_BtnChangeColor(tileMode);
+        Deactive_BtnChangeColor(objectMode);
     }
     private void TileDrawModeBtn_Reset()
     {

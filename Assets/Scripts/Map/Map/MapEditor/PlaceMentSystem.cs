@@ -23,11 +23,14 @@ public class PlaceMentSystem : MonoBehaviour
     [HideInInspector] public Tilemap floorTileMap;
     [HideInInspector] public TileBase tileBase;
     public TileBase previewTileBase;
-
     //box
     public bool getTarget;
     public Vector3Int startPosition;
     public Vector3Int endPosition;
+
+    [Header("Object")]
+    public GameObject curBuildObject;
+    public GameObject curIndicatior;
 
     [Header("Command")]
     public TileModeState tileModeState;
@@ -38,8 +41,6 @@ public class PlaceMentSystem : MonoBehaviour
     [Header("Mouse")]
     bool inGridPlaneMousePosition;
     public LayerMask gridPlaneLayerMask;
-    //Sprite default_TileMode_MouseIndicatorSprite;
-    //Sprite defailt_MouseIndicatorSprite;
     public Vector3Int gridPosition;
     private Vector3Int curGridPosition;
 
@@ -47,25 +48,7 @@ public class PlaceMentSystem : MonoBehaviour
     private Vector3Int lastPosition;
 
     public Vector3 mousePosition;
-    //[SerializeField] GameObject mouseIndicator, cellIndicator;
-    //public GameObject MouseIndicator { 
-    //    get { return mouseIndicator; }
-    //    set
-    //    {
-    //        if (value == null) { mouseIndicator.GetComponent<SpriteRenderer>().sprite = default_TileMode_MouseIndicatorSprite; }
-    //        else if (mouseIndicator.GetComponent<SpriteRenderer>().sprite != value.GetComponent<SpriteRenderer>().sprite)
-    //        {
-    //            mouseIndicator.GetComponent<SpriteRenderer>().sprite = value.GetComponent<SpriteRenderer>().sprite;
 
-    //        }}
-    //    }
-
-
-    //private void Start()
-    //{
-    //    //_camera = Camera.main;
-    //    //default_TileMode_MouseIndicatorSprite = mouseIndicator.GetComponent<SpriteRenderer>().sprite;
-    //}
 
     private void Start()
     {
