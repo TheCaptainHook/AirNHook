@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace MapObjects
 {
-    public class LaserObject : MonoBehaviour
+    public class LaserObject : BuildObj
     {
         [SerializeField] private float _defDistanceRay = 50f;
         public float _curDistanceRay;
@@ -14,6 +14,9 @@ namespace MapObjects
         [SerializeField] private GameObject _endVFX;
         [SerializeField] LayerMask _layerMask;
         [SerializeField] private bool _isEnabled;
+
+        [SerializeField] private bool turnOff;
+
 
         private Transform _transform;
 
@@ -26,11 +29,15 @@ namespace MapObjects
         private void Update()
         {
             Toggle();
-            UpdateLaser();
+            //UpdateLaser();
 
-            if (MapEditor.Instance.stageClear)
+            if (MapEditor.Instance.stageClear || turnOff)
             {
                 _isEnabled = false;
+            }
+            else
+            {
+                UpdateLaser();
             }
 
         }
@@ -100,5 +107,16 @@ namespace MapObjects
             Gizmos.DrawRay(_firePoint.position, _firePoint.right * 50);
         }
 #endif
+
+        public override void TurnOff()
+        {
+            base.TurnOff();
+            turnOff = true;
+        }
+        public override void TurnOn()
+        {
+            base.TurnOn();
+            turnOff = false;
+        }
     }
 }

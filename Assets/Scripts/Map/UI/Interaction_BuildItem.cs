@@ -11,24 +11,24 @@ public class Interaction_BuildItem : MonoBehaviour
     public Image image;
     Button button;
     private void Awake()
-    {
-        
+    {        
         button = GetComponent<Button>();
-        //button.onClick.AddListener(ChoiceItem);
-       
+        button.onClick.AddListener(ChoiceItem);
+
     }
 
 
-    //Test
-    public Texture2D ttttt;
-    public Sprite ssssss;
-    //Tet
-
-
-    //void ChoiceItem()
-    //{
-      
-    //}
+    void ChoiceItem()
+    {
+        if(buildObj.GetComponent<BuildObj>().id ==305 || buildObj.GetComponent<BuildObj>().id == 306)
+        {
+            return;
+        }
+        
+        GameObject obj = Instantiate(buildObj);
+        MapEditor.Instance.placeMentSystem.first_holdingObj = obj;
+        obj.GetComponent<BuildObj>().TurnOff();
+    }
 
 
     public void Init(GameObject obj, Sprite sprite)

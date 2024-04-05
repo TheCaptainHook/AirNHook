@@ -35,7 +35,7 @@ public class Util
 
     #region  Mouse
 
-    public  Vector3 GetMouseWorldPosition(Vector3 screenPosition,Camera camera)
+    public Vector3 GetMouseWorldPosition(Vector3 screenPosition, Camera camera)
     {
         Vector3 worldPosition = camera.ScreenToWorldPoint(screenPosition);
         worldPosition.z = 0;
@@ -46,7 +46,7 @@ public class Util
 
 
     #region Transform
-   public Transform CreateChildTransform(Transform parent, string name)
+    public Transform CreateChildTransform(Transform parent, string name)
     {
         if (parent.Find(name) != null)
         {

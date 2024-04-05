@@ -11,7 +11,7 @@ public class CameraMove : MonoBehaviour
     
     private float _zoom;
     private float _zoomMultiplier = 4f;
-    private float _minZoom = 2f;
+    private float _minZoom = 7f;
     private float _maxZoom = 15f;
     private float _velocity = 0f;
     private float _smoothTime = 0.25f;
@@ -51,13 +51,13 @@ public class CameraMove : MonoBehaviour
     private void PanCamera()
     {
         //마우스 월드 스페이스 시작 지점 저장
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(2))
         {
             _origin = _cam.ScreenToWorldPoint(Input.mousePosition);
         }
         
         //드래그 오리진 지점과 새로운 지점간 거리 차이 계산
-        if (!Input.GetMouseButton(1)) return;
+        if (!Input.GetMouseButton(2)) return;
         _difference = _origin - _cam.ScreenToWorldPoint(Input.mousePosition);
             
         //해당 지점으로 이동

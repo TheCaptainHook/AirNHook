@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 //ButtonActivatedDoor가 무조건 있어야함
-public class ButtonActivated : MonoBehaviour
+public class ButtonActivated : BuildObj
 {
     public int linkId;
 
@@ -57,7 +57,7 @@ public class ButtonActivated : MonoBehaviour
 
     private void FixedUpdate()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position+new Vector3(0,.5f,0), Vector2.up*.5f, 1, mask);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up*.5f, 1, mask);
         if(hit.collider != null)
         {
             isPressed = true;
@@ -66,6 +66,10 @@ public class ButtonActivated : MonoBehaviour
         {
           Deactivated();
         }
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawRay(transform.position, Vector2.up * .5f);
     }
     //<summary>맵 에디터에서 생성시, 데모맵에서 ButtonActivatedDoor오브젝트를 가져오는 코드를 수정해야함
     //mapEditor 상호작용오브젝트 전용 Transform 만들어서 여기다가 모아놓기

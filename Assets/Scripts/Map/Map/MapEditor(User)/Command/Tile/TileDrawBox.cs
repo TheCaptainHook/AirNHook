@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class TileDrawBox : MonoBehaviour
+public class TileDrawBox
 {
     PlaceMentSystem placeMentSystem;
     Vector3Int startPosition;

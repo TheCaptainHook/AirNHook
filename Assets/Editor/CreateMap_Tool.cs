@@ -274,7 +274,7 @@ public class CreateMap_Tool : EditorWindow
     private void DrawGenratorObjectPreviewSpriteContent()
     {
         GUILayout.BeginArea(generatorObjectPreviewSpriteSection);
-        if(GUI.Button(new Rect(30,0,200,30),"Genrator Object Preview Sprite"))
+        if(GUI.Button(new Rect(70,0,200,30),"Genrator Object Preview Sprite"))
         {
             GeneratorObjPreviewSprite();
         }
@@ -333,24 +333,6 @@ public class CreateMap_Tool : EditorWindow
 
     void GeneratorObjPreviewSprite()
     {
-        //foreach (GameObject obj in objLists)
-        //{
-        //    if (!FileExists(saveSpritePath, obj.name))
-        //    {
-        //        Debug.Log(obj.name);
-        //        Texture2D texture = AssetPreview.GetAssetPreview(obj);
-        //        //Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-        //        //sprite.name = obj.name;
-        //        //AssetDatabase.CreateAsset(sprite, saveSpritePath + "/" + obj.name+".sprite");
-        //        //AssetDatabase.SaveAssets();
-        //        //DestroyImmediate(texture);
-        //        byte[] bytes = texture.EncodeToPNG();
-        //        File.WriteAllBytes(saveSpritePath, bytes);
-        //        AssetDatabase.Refresh();
-        //        DestroyImmediate(texture);
-        //    }
-
-        //}
         foreach(GameObject obj in objLists)
         {
             if (!FileExists(saveSpritePath, obj.name + ".png"))

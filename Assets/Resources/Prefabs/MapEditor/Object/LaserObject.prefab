@@ -4840,7 +4840,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8196177442817728895}
   - component: {fileID: 1755334685966830132}
-  - component: {fileID: 7330084582741803214}
   - component: {fileID: 5690823865466912599}
   m_Layer: 0
   m_Name: LaserObject
@@ -4877,6 +4876,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa9df2f3f7dcd4f4aac03f6d0c5eeee3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 304
+  hasGravity: 0
+  distructionStatus: 0
   _defDistanceRay: 50
   _curDistanceRay: 0
   _lineRenderer: {fileID: 2717453816571275917}
@@ -4886,20 +4888,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2684355699
   _isEnabled: 1
---- !u!114 &7330084582741803214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 996093479032505842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 104eb1c96815b4820b4be071555180b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 304
-  distructionStatus: 0
 --- !u!61 &5690823865466912599
 BoxCollider2D:
   m_ObjectHideFlags: 0

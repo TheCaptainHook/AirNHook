@@ -21,7 +21,7 @@ public class ObjectSpaceUI : MonoBehaviour
     private Sprite[] objPreviewSprites;
     [SerializeField] GameObject objectSpaceUIItem;
     [SerializeField] Button toggleBtn;
-    
+
    
     private void Awake()
     {
@@ -37,7 +37,7 @@ public class ObjectSpaceUI : MonoBehaviour
     {
         onHide = false;
         rTransform.anchoredPosition = originAnchoredPosition;
-
+        content.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
     }
 
     void LoadAllObject()

@@ -30,7 +30,8 @@ public class PlaceMentSystem : MonoBehaviour
 
     [Header("Object")]
     public GameObject curBuildObject;
-    public GameObject curIndicatior;
+    public GameObject first_holdingObj;// Click Interaction_BuildItem
+    public GameObject curIndicatior;//Move,Rotation,Scale indicator
 
     [Header("Command")]
     public TileModeState tileModeState;
@@ -48,6 +49,9 @@ public class PlaceMentSystem : MonoBehaviour
     private Vector3Int lastPosition;
 
     public Vector3 mousePosition;
+
+    [Header("Current Placed Object")]
+    public List<BuildObj> curPlaceObjList = new();
 
 
     private void Start()
@@ -259,15 +263,16 @@ public class PlaceMentSystem : MonoBehaviour
     #region Object
     private void ObjectMode()
     {
-        if (Input.GetMouseButton(0))
+        if (first_holdingObj != null)
         {
-            Debug.Log("Click");
-           
+            first_holdingObj.transform.position = new Vector3(mousePosition.x, mousePosition.y, 0);
+            if (Input.GetMouseButtonDown(0) && CheckMousePosition_InGridBoundary())
+            {
+                curPlaceObjList.Add(first_holdingObj.GetComponent<BuildObj>());
+                first_holdingObj = null;// Create;
+            }
         }
-        if (Input.GetMouseButtonUp(0))
-        {
-            Debug.Log("off");
-        }
+        
     }
     #endregion
 
@@ -297,6 +302,49 @@ public class PlaceMentSystem : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawSphere(mousePosition, 0.1f);
         
+    }
+
+    public void Reset()
+    {
+        if(curIndicatior != null){ Destroy(curIndicatior); }
+        if(first_holdingObj != null){ Destroy(first_holdingObj); }
+        if(curBuildObject != null) { curBuildObject = null; }
+
+    }
+
+    public void curPlacedObjTurnOff()
+    {
+        foreach(BuildObj build in curPlaceObjList)
+        {
+            build.TurnOff();
+        }
+    }
+    public void curPlacedObjTurnOn()
+    {
+        foreach (BuildObj build in curPlaceObjList)
+        {
+            build.TurnOn();
+        }
+    }
+
+    public bool CheckMousePosition_InGridBoundary()
+    {
+        int x = (int)MapEditor.Instance.gridPlane.transform.localScale.x;
+        int y = (int)MapEditor.Instance.gridPlane.transform.localScale.y;
+
+        int maxX = x / 2;
+        int minX = -(x / 2);
+        int maxY = y / 2;
+        int minY = -(y / 2);
+
+        if(mousePosition.x < minX || mousePosition.x > maxX || mousePosition.y < minY || mousePosition.y > maxY)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
     #endregion
 

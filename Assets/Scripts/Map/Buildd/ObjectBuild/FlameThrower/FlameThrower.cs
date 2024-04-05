@@ -2,18 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlameThrower : MonoBehaviour
+public class FlameThrower : BuildObj
 {
     
     BoxCollider2D _collider;
-    BuildObj buildObj;
-
 
     float maxRate = 7f;
     float curRate;
-
-    bool firstHit;
-
+    bool turnOff;
     public bool onActive;
     [SerializeField] LayerMask layerMask;
 
@@ -22,15 +18,13 @@ public class FlameThrower : MonoBehaviour
     private void Awake()
     {
         _collider = GetComponent<BoxCollider2D>();
-        buildObj = GetComponent<BuildObj>();
-        //buildObj.OnDisableAction += DisableParticle;
         curRate = maxRate;
     }
   
 
     private void FixedUpdate()
     {
-        if (!MapEditor.Instance.stageClear)
+        if (!MapEditor.Instance.stageClear || turnOff)
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, curRate, layerMask);
 
@@ -92,5 +86,24 @@ public class FlameThrower : MonoBehaviour
 
         Gizmos.DrawRay(transform.position, transform.right * curRate);
 
+    }
+
+
+    public override void TurnOff()
+    {
+        base.TurnOff();
+        turnOff = true;
+        Disable();
+        flame.gameObject.SetActive(false);
+    }
+    public override void TurnOn()
+    {
+        base.TurnOn();
+        turnOff = false;
+        flame.gameObject.SetActive(true);
+        onActive = true;
+        flame.particle.Play();
+        curRate = maxRate;
+        _collider.enabled = true;
     }
 }

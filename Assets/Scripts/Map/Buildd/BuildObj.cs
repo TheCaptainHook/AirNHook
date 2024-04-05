@@ -9,6 +9,7 @@ public enum DistructionStatus
     PermanentDestruction
 }
 
+
 [System.Serializable]
 public class BuildObj : MonoBehaviour,IDamageable
 {
@@ -20,6 +21,9 @@ public class BuildObj : MonoBehaviour,IDamageable
 
     public event Action<Vector2> OnDissolveAction;
     public event Action OnDisableAction;
+
+
+
 
     public void SetTileData(Vector2 position)
     {
@@ -46,4 +50,21 @@ public class BuildObj : MonoBehaviour,IDamageable
             Destroy(gameObject);
         }
    }
+
+
+    public virtual void TurnOff() { Debug.Log("Turn Off"); }
+    public virtual void TurnOn() { Debug.Log("Turn On"); }
+
+    public void EditorMode_Destroy()
+    {
+        if (MapEditor.Instance.placeMentSystem.curPlaceObjList.Contains(this))
+        {
+            MapEditor.Instance.placeMentSystem.curPlaceObjList.Remove(this);
+            Destroy(gameObject);
+            return;
+        }
+        Destroy(gameObject);
+    }
+
+
 }

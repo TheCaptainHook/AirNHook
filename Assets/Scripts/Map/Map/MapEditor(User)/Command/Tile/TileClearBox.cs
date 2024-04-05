@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class TileClearBox : MonoBehaviour
+public class TileClearBox
 {
     PlaceMentSystem placeMentSystem;
     Vector3Int startPosition;

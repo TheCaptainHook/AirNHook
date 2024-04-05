@@ -9,6 +9,7 @@ using Org.BouncyCastle.Utilities;
 
 public class MapEditorControllerUI : MonoBehaviour
 {
+    [Header("Components")]
     PlaceMentSystem placeMentSystem;
 
     [Header("Controller State")]
@@ -64,37 +65,46 @@ public class MapEditorControllerUI : MonoBehaviour
     
     void TileMode() //타일모드로 진입할때, //todo
     {
-        ModeBtn_Reset();
-        if(MapEditor.Instance.mapEditorState == MapEditorState.Tile)
+        if (MapEditor.Instance.gridPlane.activeSelf)
         {
-            tileMode_BtnContainer.SetActive(false);
-            MapEditor.Instance.mapEditorState = MapEditorState.Editor;
-            MapEditor.Instance.placeMentSystem.tileBase = null;
-        }
-        else
-        {
-            Active_BtnChangeColor(tileMode);
-            MapEditor.Instance.mapEditorState = MapEditorState.Tile;
-            MapEditor.Instance.placeMentSystem.tileBase = Resources.Load<TileBase>("Arts/Tiles/1");//todo
-            tileMode_BtnContainer.SetActive(true);
+            ModeBtn_Reset();
+            if (MapEditor.Instance.mapEditorState == MapEditorState.Tile)
+            {
+                tileMode_BtnContainer.SetActive(false);
+                MapEditor.Instance.mapEditorState = MapEditorState.Editor;
+                placeMentSystem.tileBase = null;
+            }
+            else
+            {
+                Active_BtnChangeColor(tileMode);
+                MapEditor.Instance.mapEditorState = MapEditorState.Tile;
+                placeMentSystem.tileBase = Resources.Load<TileBase>("Arts/Tiles/1");//todo
+                tileMode_BtnContainer.SetActive(true);
+            }
         }
        
     }
     void ObjectMode()
     {
-        ModeBtn_Reset();
-        if (MapEditor.Instance.mapEditorState == MapEditorState.Object)
+        if (MapEditor.Instance.gridPlane.activeSelf)
         {
-            MapEditor.Instance.mapEditorState = MapEditorState.Editor;
-            MapEditor.Instance.placeMentSystem.curBuildObject = null;// curBuildObject에 있는 indicator 제거 후 null
-            objectSpaceUi.SetActive(false);
+            ModeBtn_Reset();
+            if (MapEditor.Instance.mapEditorState == MapEditorState.Object)
+            {
+                MapEditor.Instance.mapEditorState = MapEditorState.Editor;
+                placeMentSystem.curPlacedObjTurnOn();
+                placeMentSystem.Reset();// curBuildObject에 있는 indicator 제거 후 null
+                objectSpaceUi.SetActive(false);
+            }
+            else
+            {
+                Active_BtnChangeColor(objectMode);
+                MapEditor.Instance.mapEditorState = MapEditorState.Object;
+                placeMentSystem.curPlacedObjTurnOff();
+                objectSpaceUi.SetActive(true);
+            }
         }
-        else
-        {
-            Active_BtnChangeColor(objectMode);
-            MapEditor.Instance.mapEditorState = MapEditorState.Object;
-            objectSpaceUi.SetActive(true);
-        }
+          
     }
     
     

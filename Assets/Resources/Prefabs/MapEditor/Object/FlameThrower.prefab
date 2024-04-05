@@ -95,7 +95,6 @@ GameObject:
   - component: {fileID: 714563942017990777}
   - component: {fileID: 2697511843896818342}
   - component: {fileID: 5689717236360114606}
-  - component: {fileID: 4410577209085521359}
   - component: {fileID: 8205738240884457234}
   m_Layer: 0
   m_Name: FlameThrower
@@ -193,20 +192,6 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &4410577209085521359
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3620966200675950213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 104eb1c96815b4820b4be071555180b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 309
-  distructionStatus: 1
 --- !u!114 &8205738240884457234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,6 +204,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efc8f47666895461298ebe6844331387, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 309
+  hasGravity: 0
+  distructionStatus: 0
   onActive: 0
   layerMask:
     serializedVersion: 2
