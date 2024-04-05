@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 using System;
+using Org.BouncyCastle.Utilities;
 
 public class MapEditorControllerUI : MonoBehaviour
 {
@@ -12,7 +13,6 @@ public class MapEditorControllerUI : MonoBehaviour
 
     [Header("Controller State")]
     bool onHide;
-
 
     [Header("Btn Color")]
     Color activeColor = new Color(0.47f,0.47f, 0.47f);
@@ -57,6 +57,7 @@ public class MapEditorControllerUI : MonoBehaviour
         clearBoxBtn.onClick.AddListener(() => { ChangeTileMode(clearBoxBtn, TileModeState.ClearBox); });
 
         tileDrawBtns = new Button[] { tileBtn, eraserBtn, drawBoxBtn, clearBoxBtn };
+
     }
 
     

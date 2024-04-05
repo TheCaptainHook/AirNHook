@@ -106,7 +106,7 @@ public class MapEditor : MonoBehaviour
             Destroy(gameObject);
         else Instance = this;
 
-        folderPath = Path.Combine(Application.dataPath, "Resources/MapDat");
+        folderPath = Path.Combine(Application.dataPath, "Resources/MapDat"); //todo
 
     }
 

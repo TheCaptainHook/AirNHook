@@ -6,26 +6,30 @@ using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 public class ObjectSpaceUI : MonoBehaviour
 {
+    [Header("Components")]
     [SerializeField] Transform content;
     RectTransform rTransform;
-    public GameObject objectSpaceUIItem;
-    public Button toggleBtn;
+
+    [Header("State")]
     bool onHide;
+
+    [Header("Info")]
     private Vector2 originAnchoredPosition;
-    GameObject[] objects;
-
-   public bool itemCheckComplete;
-
-    public List<GameObject> items = new();
-
-    string path = "Prefabs/MapEditor/Object";
-
+    private string path = "Prefabs/MapEditor/Object";
+    private string objPreviewSpritePath = "Arts/Sprites/PreviewSprites";
+    private GameObject[] objects;
+    private Sprite[] objPreviewSprites;
+    [SerializeField] GameObject objectSpaceUIItem;
+    [SerializeField] Button toggleBtn;
+    
+   
     private void Awake()
     {
         rTransform = transform as RectTransform;
         toggleBtn.onClick.AddListener(ShowAndHide);
         originAnchoredPosition = rTransform.anchoredPosition;
         objects = Resources.LoadAll<GameObject>(path);
+        objPreviewSprites = Resources.LoadAll<Sprite>(objPreviewSpritePath);
         LoadAllObject();
     }
 
@@ -34,37 +38,25 @@ public class ObjectSpaceUI : MonoBehaviour
         onHide = false;
         rTransform.anchoredPosition = originAnchoredPosition;
 
-        if (!itemCheckComplete)
-        {
-            CheckItemTexture();
-        }
     }
 
     void LoadAllObject()
     {
         for (int i = 0; i < objects.Length; i++)
         {
-            GameObject obj = Instantiate(objectSpaceUIItem,content);
-            obj.GetComponent<Interaction_BuildItem>().Init(objects[i]);
-            items.Add(obj);
-        }
-
-    }
-
-    void CheckItemTexture()
-    {
-        if (items[objects.Length-1].GetComponent<Interaction_BuildItem>().image.sprite == null)
-        {
-            foreach(GameObject obj in items)
+            GameObject obj = Instantiate(objectSpaceUIItem, content);
+            for (int j = 0; j < objPreviewSprites.Length; j++)
             {
-                obj.GetComponent<Interaction_BuildItem>().Init();
+                if (objects[i].name == objPreviewSprites[j].name)
+                {
+                    obj.GetComponent<Interaction_BuildItem>().Init(objects[i], objPreviewSprites[j]);
+                    break;
+                }
             }
         }
-        else
-        {
-            itemCheckComplete = true;
-        }
+        
     }
+
 
     void ShowAndHide()
     {

@@ -10,7 +10,6 @@ public class Interaction_BuildItem : MonoBehaviour
     public GameObject buildObj;
     public Image image;
     Button button;
-    Coroutine coroutine;
     private void Awake()
     {
         
@@ -20,42 +19,25 @@ public class Interaction_BuildItem : MonoBehaviour
     }
 
 
+    //Test
+    public Texture2D ttttt;
+    public Sprite ssssss;
+    //Tet
+
+
     //void ChoiceItem()
     //{
       
     //}
 
 
-    public void Init(GameObject obj)
+    public void Init(GameObject obj, Sprite sprite)
     {
         image = GetComponent<Image>();
-        buildObj = obj;
-        coroutine = StartCoroutine(CreateSprite());
-    }
-
-    public void Init()
-    {
-        if (coroutine != null)
-        {
-            StopCoroutine(coroutine);
-        }
-        coroutine = StartCoroutine(CreateSprite());
-    }
-
-    IEnumerator CreateSprite()
-    {
-        Texture2D texture = AssetPreview.GetAssetPreview(buildObj);
-        while (texture == null)
-        {
-            yield return null;
-        }
-
-        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-        while (sprite == null)
-        {
-            yield return null;
-        }
-
         image.sprite = sprite;
+        buildObj = obj;
+        
     }
+
+
 }

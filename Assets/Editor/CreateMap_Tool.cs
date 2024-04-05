@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
-using UnityEngine.Tilemaps;
+
 public class CreateMap_Tool : EditorWindow
 {
 
@@ -20,10 +20,14 @@ public class CreateMap_Tool : EditorWindow
     Texture2D headerSectionTexture;
     Texture2D objectSectionTexture;
 
+    string saveSpritePath = Path.Combine(Application.dataPath, "Resources/Arts/Sprites/PreviewSprites");
+    
+
     [Header("Section")]
     Rect headerSection;
     Rect modeSction;
     Rect objectSection;
+    Rect generatorObjectPreviewSpriteSection;
 
     Color headerSectionColor = new Color(13f / 255f, 32f / 255f, 44f / 255f, 1f);
     Color objectSectonColor = new Color(0, 0, 0,1);
@@ -128,6 +132,8 @@ public class CreateMap_Tool : EditorWindow
         DrawMode();
         if(isMapEditor) DrawObjectContent();
 
+        DrawGenratorObjectPreviewSpriteContent();
+
 
     }
     #region Draw
@@ -151,6 +157,10 @@ public class CreateMap_Tool : EditorWindow
         objectSection.height = 320;
         GUI.DrawTexture(objectSection, objectSectionTexture);
 
+        generatorObjectPreviewSpriteSection.x = 0;
+        generatorObjectPreviewSpriteSection.y = 500;
+        generatorObjectPreviewSpriteSection.width = 350;
+        generatorObjectPreviewSpriteSection.height = 550;
     }
 
     private void DrawHeader()
@@ -261,6 +271,16 @@ public class CreateMap_Tool : EditorWindow
 
     }
 
+    private void DrawGenratorObjectPreviewSpriteContent()
+    {
+        GUILayout.BeginArea(generatorObjectPreviewSpriteSection);
+        if(GUI.Button(new Rect(30,0,200,30),"Genrator Object Preview Sprite"))
+        {
+            GeneratorObjPreviewSprite();
+        }
+        GUILayout.EndArea();
+    }
+
     #endregion
 
 
@@ -309,6 +329,51 @@ public class CreateMap_Tool : EditorWindow
     {
         Selection.activeGameObject = Instantiate(obj, transform);
     }
+
+
+    void GeneratorObjPreviewSprite()
+    {
+        //foreach (GameObject obj in objLists)
+        //{
+        //    if (!FileExists(saveSpritePath, obj.name))
+        //    {
+        //        Debug.Log(obj.name);
+        //        Texture2D texture = AssetPreview.GetAssetPreview(obj);
+        //        //Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+        //        //sprite.name = obj.name;
+        //        //AssetDatabase.CreateAsset(sprite, saveSpritePath + "/" + obj.name+".sprite");
+        //        //AssetDatabase.SaveAssets();
+        //        //DestroyImmediate(texture);
+        //        byte[] bytes = texture.EncodeToPNG();
+        //        File.WriteAllBytes(saveSpritePath, bytes);
+        //        AssetDatabase.Refresh();
+        //        DestroyImmediate(texture);
+        //    }
+
+        //}
+        foreach(GameObject obj in objLists)
+        {
+            if (!FileExists(saveSpritePath, obj.name + ".png"))
+            {
+                Texture2D texture = AssetPreview.GetAssetPreview(obj);
+                byte[] bytes = texture.EncodeToPNG();
+                File.WriteAllBytes($"{saveSpritePath}/{obj.name}.png", bytes);
+                AssetDatabase.Refresh();
+            }
+            
+        }
+
+    }
+
+    bool FileExists(string path, string fileName)
+    {
+        // 경로 및 파일 이름 조합
+        string fullPath = Path.Combine(path, fileName);
+        Debug.Log(fullPath);
+        // 파일 존재 여부 확인
+        return File.Exists(fullPath);
+    }
+
     #endregion
 
 
