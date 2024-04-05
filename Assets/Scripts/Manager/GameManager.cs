@@ -30,7 +30,7 @@ public class GameManager
             {
                 _player = NetworkClient.localPlayer.gameObject;
             }
-            catch (NullReferenceException e) { }
+            catch (NullReferenceException e) { Debug.Log(e); }
             
             return _player;
         }

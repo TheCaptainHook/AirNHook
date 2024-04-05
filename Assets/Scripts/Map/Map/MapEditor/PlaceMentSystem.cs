@@ -59,9 +59,12 @@ public class PlaceMentSystem : MonoBehaviour
     {
 
         //tile
-        if(MapEditor.Instance.mapEditorState== MapEditorState.Tile)
+        if(MapEditor.Instance.mapEditorState == MapEditorState.Tile)
         {
             TileMode();
+        }else if(MapEditor.Instance.mapEditorState == MapEditorState.Object)
+        {
+            ObjectMode();
         }
         //tile
     }
@@ -254,6 +257,18 @@ public class PlaceMentSystem : MonoBehaviour
     #endregion
 
     #region Object
+    private void ObjectMode()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            Debug.Log("Click");
+           
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            Debug.Log("off");
+        }
+    }
     #endregion
 
     #region util

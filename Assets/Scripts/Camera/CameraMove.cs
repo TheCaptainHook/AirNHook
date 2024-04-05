@@ -79,6 +79,6 @@ public class CameraMove : MonoBehaviour
             _playerPos = new Vector3(_playerPos.x, _playerPos.y, transform.position.z);
             transform.position = Vector3.SmoothDamp(transform.position, _playerPos, ref _vecVelocity, _smoothSpeed, float.MaxValue, Time.fixedDeltaTime);
         }
-        catch(NullReferenceException e) { }
+        catch(NullReferenceException e) { Debug.Log(e); }
     }
 }

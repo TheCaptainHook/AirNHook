@@ -25,7 +25,6 @@ public enum MapEditorState
     NoEditor,
     Editor,
     Tile,
-    Eraser,
     Object,
     InteractionObject
 }

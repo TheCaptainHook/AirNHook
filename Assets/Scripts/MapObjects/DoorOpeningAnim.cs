@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 public class DoorOpeningAnim : MonoBehaviour
 {
     [Header("State")] 
-    [SerializeField] private bool _isClear = false;
+    //private bool _isClear = false;
 
     [SerializeField] private GameObject _lockGameObject;
     [SerializeField] private Rigidbody2D _lockRigidbody2D;
@@ -40,7 +40,7 @@ public class DoorOpeningAnim : MonoBehaviour
 
     private void SetTriggerUnlocking()
     {
-        _isClear = true;
+        //_isClear = true;
         _animator.SetTrigger(IsUnlocking);
     }
     public void CallOnUnlockAnimation()
