@@ -269,6 +269,10 @@ public class PlaceMentSystem : MonoBehaviour
             if (Input.GetMouseButtonDown(0) && CheckMousePosition_InGridBoundary())
             {
                 curPlaceObjList.Add(first_holdingObj.GetComponent<BuildObj>());
+
+                //Object_CreateModeCommand.Create();
+
+
                 first_holdingObj = null;// Create;
             }
         }
