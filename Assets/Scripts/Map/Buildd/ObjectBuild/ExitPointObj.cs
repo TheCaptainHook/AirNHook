@@ -26,10 +26,11 @@ public class ExitPointObj : BuildBase
 
     [Header("Componenets")]
     DoorOpeningAnim doorOpeningAnim;
-
+    Collider2D _col;
     private void Awake()
     {
         doorOpeningAnim = GetComponent<DoorOpeningAnim>();
+        _col = GetComponent<Collider2D>();
     }
 
     //event Action OnCheckKey;
@@ -104,5 +105,17 @@ public class ExitPointObj : BuildBase
         }
         
 
+    }
+
+
+    public override void TurnOff()
+    {
+        base.TurnOff();
+        _col.enabled = false;
+    }
+    public override void TurnOn()
+    {
+        base.TurnOn();
+        _col.enabled = true;
     }
 }

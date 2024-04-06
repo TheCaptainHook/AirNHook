@@ -29,9 +29,9 @@ public class PlaceMentSystem : MonoBehaviour
     [HideInInspector] public TileBase tileBase;
     public TileBase previewTileBase;
     //box
-    public bool getTarget;
-    public Vector3Int startPosition;
-    public Vector3Int endPosition;
+    [HideInInspector] public bool getTarget;
+    [HideInInspector] public Vector3Int startPosition;
+    [HideInInspector] public Vector3Int endPosition;
 
     [Header("Object")]
     private GameObject curBuildObject;
@@ -39,22 +39,24 @@ public class PlaceMentSystem : MonoBehaviour
         get { return curBuildObject;}
         set
         {
-            SelectCurBuildObj();//before
+            if(curArrowIndicatorTrack != null) { Destroy(curArrowIndicatorTrack); }
             curBuildObject = value;
             SelectCurBuildObj();//after
         }
 
     }
-    public GameObject first_holdingObj;// Click Interaction_BuildItem
+    [HideInInspector]  public GameObject first_holdingObj;// Click Interaction_BuildItem
     private GameObject curIndicatior;//Move,Rotation,Scale indicator
     public GameObject CurIndicatior
     {
         get { return curIndicatior; }
         set { if (curIndicatior != null){ Destroy(curIndicatior); curIndicatior = value; } } }
 
+
+    private GameObject curArrowIndicatorTrack;
     [Header("Command")]
-    public ModeState modeState;
-    public Invoker invoker;
+    [HideInInspector] public ModeState modeState;
+    [HideInInspector] public Invoker invoker;
     TileModeClient tileModeClient;
     ObjectModeClient objectModeClient;
 
@@ -67,7 +69,15 @@ public class PlaceMentSystem : MonoBehaviour
     private Vector3Int curPosition;
     private Vector3Int lastPosition;
 
-    public Vector3 mousePosition;
+    private Vector3 mousePosition;
+
+
+    [Header("Indicator")]
+    [SerializeField] GameObject curObj_ArrowIndicator;
+    [SerializeField] GameObject ObjMove_Indicator;
+    [SerializeField] GameObject ObjRotation_Indicator;
+    [SerializeField] GameObject ObjSclae_Indicator;
+    [SerializeField] GameObject ObjClear_Indicator;
 
     [Header("Current Placed Object")]
     public List<BuildObj> curPlaceObjList = new();
@@ -302,10 +312,6 @@ public class PlaceMentSystem : MonoBehaviour
             }
         }
 
-
-
-
-        
     }
     #endregion
 
@@ -342,7 +348,7 @@ public class PlaceMentSystem : MonoBehaviour
         if(curIndicatior != null){ Destroy(curIndicatior); }
         if(first_holdingObj != null){ Destroy(first_holdingObj); }
         if(CurbuildObject != null) { CurbuildObject = null; }
-
+        if(curArrowIndicatorTrack != null) { Destroy(curArrowIndicatorTrack); }
     }
 
     public void curPlacedObjTurnOff()
@@ -382,8 +388,24 @@ public class PlaceMentSystem : MonoBehaviour
 
     private void SelectCurBuildObj()
     {
-        Debug.Log($"{CurbuildObject}");
+        if(CurbuildObject != null)
+        {
+            curArrowIndicatorTrack = Instantiate(curObj_ArrowIndicator, CurbuildObject.transform);
+            Collider2D[] cols = CurbuildObject.GetComponentsInChildren<Collider2D>();
+            float height = 0;
+
+            foreach (Collider2D co in cols)
+            {
+                Debug.Log(co.name);
+                height = Mathf.Max(height, co.bounds.size.y);
+            }
+            Debug.Log(height);
+            curArrowIndicatorTrack.transform.position += new Vector3(0, height + 0.5f, 0);
+
+        }
+
     }
+
 
     #endregion
 

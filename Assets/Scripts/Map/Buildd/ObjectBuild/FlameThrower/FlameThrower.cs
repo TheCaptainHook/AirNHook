@@ -24,7 +24,7 @@ public class FlameThrower : BuildObj
 
     private void FixedUpdate()
     {
-        if (!MapEditor.Instance.stageClear || turnOff)
+        if (!MapEditor.Instance.stageClear && !turnOff)
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, curRate, layerMask);
 
@@ -67,7 +67,7 @@ public class FlameThrower : BuildObj
         onActive = false;
         flame.GetComponent<Flame>().particle.Stop();
         curRate = 0;
-        _collider.enabled = false;
+        //_collider.enabled = false;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -92,8 +92,10 @@ public class FlameThrower : BuildObj
     public override void TurnOff()
     {
         base.TurnOff();
+        curRate = 0;
         turnOff = true;
-        Disable();
+        onActive = false;
+        flame.GetComponent<Flame>().particle.Stop();
         flame.gameObject.SetActive(false);
     }
     public override void TurnOn()
@@ -104,6 +106,5 @@ public class FlameThrower : BuildObj
         onActive = true;
         flame.particle.Play();
         curRate = maxRate;
-        _collider.enabled = true;
     }
 }

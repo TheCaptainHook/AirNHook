@@ -62,13 +62,13 @@ public class Key : BuildObj
     {
         base.TurnOff();
         _rb.gravityScale = 0;
-        _collider.enabled = false;
+
     }
     public override void TurnOn()
     {
         base.TurnOn();
         _rb.gravityScale = 1;
-        _collider.enabled = true;
+
     }
 
 
