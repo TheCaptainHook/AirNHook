@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public enum TileModeState
+public enum ModeState
 {
     None,
-    Tile,
-    Clear,
-    TileBox,
-    ClearBox
+    Tile_Draw,
+    Tile_Clear,
+    Tile_BoxDraw,
+    Tile_ClearBox,
+    Obj_Move,
+    Obj_Rotation,
+    Obj_Scale,
+    Obj_Clear
 }
+
 
 public class PlaceMentSystem : MonoBehaviour
 {
@@ -29,15 +34,29 @@ public class PlaceMentSystem : MonoBehaviour
     public Vector3Int endPosition;
 
     [Header("Object")]
-    public GameObject curBuildObject;
+    private GameObject curBuildObject;
+    public GameObject CurbuildObject {
+        get { return curBuildObject;}
+        set
+        {
+            SelectCurBuildObj();//before
+            curBuildObject = value;
+            SelectCurBuildObj();//after
+        }
+
+    }
     public GameObject first_holdingObj;// Click Interaction_BuildItem
-    public GameObject curIndicatior;//Move,Rotation,Scale indicator
+    private GameObject curIndicatior;//Move,Rotation,Scale indicator
+    public GameObject CurIndicatior
+    {
+        get { return curIndicatior; }
+        set { if (curIndicatior != null){ Destroy(curIndicatior); curIndicatior = value; } } }
 
     [Header("Command")]
-    public TileModeState tileModeState;
+    public ModeState modeState;
     public Invoker invoker;
     TileModeClient tileModeClient;
-
+    ObjectModeClient objectModeClient;
 
     [Header("Mouse")]
     bool inGridPlaneMousePosition;
@@ -85,6 +104,7 @@ public class PlaceMentSystem : MonoBehaviour
     public void EditorMode_Init()
     {
         tileModeClient = new TileModeClient();
+        objectModeClient = new ObjectModeClient();
     }
     #endregion
 
@@ -97,9 +117,9 @@ public class PlaceMentSystem : MonoBehaviour
     #region Tile
     void TileMode()
     {
-        switch (tileModeState)
+        switch (modeState)
         {
-            case TileModeState.Tile:
+            case ModeState.Tile_Draw:
                 if (tileBase != null && MapEditor.Instance.gridPlane.activeSelf)
                 {
                     //Privew
@@ -117,7 +137,7 @@ public class PlaceMentSystem : MonoBehaviour
                     }
                 }
                 break;
-            case TileModeState.Clear:
+            case ModeState.Tile_Clear:
                 if (MapEditor.Instance.gridPlane.activeSelf)
                 {
                     //MouseIndocator
@@ -141,7 +161,7 @@ public class PlaceMentSystem : MonoBehaviour
                     }
                 }
                 break;
-            case TileModeState.TileBox:
+            case ModeState.Tile_BoxDraw:
                 if (Input.GetMouseButtonDown(0) && inGridPlaneMousePosition)
                 {
                     if (!getTarget)
@@ -173,7 +193,7 @@ public class PlaceMentSystem : MonoBehaviour
                 }
 
                 break;
-            case TileModeState.ClearBox:
+            case ModeState.Tile_ClearBox:
                 if (Input.GetMouseButtonDown(0) && inGridPlaneMousePosition)
                 {
                     if (!getTarget)
@@ -269,13 +289,22 @@ public class PlaceMentSystem : MonoBehaviour
             if (Input.GetMouseButtonDown(0) && CheckMousePosition_InGridBoundary())
             {
                 curPlaceObjList.Add(first_holdingObj.GetComponent<BuildObj>());
+                CurbuildObject = first_holdingObj;
+                first_holdingObj = null;
 
-                //Object_CreateModeCommand.Create();
+                objectModeClient.Create();
 
 
-                first_holdingObj = null;// Create;
+            }
+            if (Input.GetMouseButton(1))
+            {
+                Destroy(first_holdingObj);
             }
         }
+
+
+
+
         
     }
     #endregion
@@ -308,11 +337,11 @@ public class PlaceMentSystem : MonoBehaviour
         
     }
 
-    public void Reset()
+    public void ObjectMode_Reset()
     {
         if(curIndicatior != null){ Destroy(curIndicatior); }
         if(first_holdingObj != null){ Destroy(first_holdingObj); }
-        if(curBuildObject != null) { curBuildObject = null; }
+        if(CurbuildObject != null) { CurbuildObject = null; }
 
     }
 
@@ -350,6 +379,12 @@ public class PlaceMentSystem : MonoBehaviour
             return true;
         }
     }
+
+    private void SelectCurBuildObj()
+    {
+        Debug.Log($"{CurbuildObject}");
+    }
+
     #endregion
 
 

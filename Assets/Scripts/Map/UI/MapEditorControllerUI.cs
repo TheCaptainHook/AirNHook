@@ -39,30 +39,42 @@ public class MapEditorControllerUI : MonoBehaviour
 
     [Header("Object Tool")]
     [SerializeField] GameObject objectSpaceUi;
+    [SerializeField] GameObject objectMode_BtnContainer;
+    [SerializeField] Button moveBtn;
+    [SerializeField] Button rotationBtn;
+    [SerializeField] Button scaleBtn;
+    [SerializeField] Button clearBtn;
 
     public Button[] tileDrawBtns;
-    
+    public Button[] objectDrawBtns;
+
     private void Awake()//todo
     {
         placeMentSystem = MapEditor.Instance.placeMentSystem;
         initBtn.onClick.AddListener(MapSizeInit);
         onOffBtn.onClick.AddListener(HideController);
-        //test
+        //mode
         tileMode.onClick.AddListener(TileMode);
         objectMode.onClick.AddListener(ObjectMode); 
+        //mode
         tileUndoBtn.onClick.AddListener(placeMentSystem.invoker.Undo);
-
-        tileBtn.onClick.AddListener(() => { ChangeTileMode(tileBtn, TileModeState.Tile); });
-        eraserBtn.onClick.AddListener(() => { ChangeTileMode(eraserBtn, TileModeState.Clear); });
-        drawBoxBtn.onClick.AddListener(() => { ChangeTileMode(drawBoxBtn, TileModeState.TileBox); });
-        clearBoxBtn.onClick.AddListener(() => { ChangeTileMode(clearBoxBtn, TileModeState.ClearBox); });
-
+        //Tile Mode Btn
+        tileBtn.onClick.AddListener(() => { ChangeTileMode(tileBtn, ModeState.Tile_Draw); });
+        eraserBtn.onClick.AddListener(() => { ChangeTileMode(eraserBtn, ModeState.Tile_Clear); });
+        drawBoxBtn.onClick.AddListener(() => { ChangeTileMode(drawBoxBtn, ModeState.Tile_BoxDraw); });
+        clearBoxBtn.onClick.AddListener(() => { ChangeTileMode(clearBoxBtn, ModeState.Tile_ClearBox); });
         tileDrawBtns = new Button[] { tileBtn, eraserBtn, drawBoxBtn, clearBoxBtn };
-
+        //Tile Mode Btn
+        //Obejct Mode Btn
+        moveBtn.onClick.AddListener(() => { ChangeObjectMode(moveBtn, ModeState.Obj_Move); });
+        rotationBtn.onClick.AddListener(() => { ChangeObjectMode(rotationBtn, ModeState.Obj_Rotation); });
+        scaleBtn.onClick.AddListener(() => { ChangeObjectMode(scaleBtn, ModeState.Obj_Scale); });
+        clearBtn.onClick.AddListener(() => { ChangeObjectMode(clearBtn, ModeState.Obj_Clear); });
+        objectDrawBtns = new Button[] { moveBtn, rotationBtn, scaleBtn, clearBtn };
     }
 
-    
-    
+
+
     void TileMode() //타일모드로 진입할때, //todo
     {
         if (MapEditor.Instance.gridPlane.activeSelf)
@@ -91,13 +103,15 @@ public class MapEditorControllerUI : MonoBehaviour
             ModeBtn_Reset();
             if (MapEditor.Instance.mapEditorState == MapEditorState.Object)
             {
+                objectMode_BtnContainer.SetActive(false);
+                objectSpaceUi.SetActive(false);
                 MapEditor.Instance.mapEditorState = MapEditorState.Editor;
                 placeMentSystem.curPlacedObjTurnOn();
-                placeMentSystem.Reset();// curBuildObject에 있는 indicator 제거 후 null
-                objectSpaceUi.SetActive(false);
+                placeMentSystem.ObjectMode_Reset();//remove curindicator,first_holdingObj,curBuildobj =null;
             }
             else
             {
+                objectMode_BtnContainer.SetActive(true);
                 Active_BtnChangeColor(objectMode);
                 MapEditor.Instance.mapEditorState = MapEditorState.Object;
                 placeMentSystem.curPlacedObjTurnOff();
@@ -134,32 +148,33 @@ public class MapEditorControllerUI : MonoBehaviour
     #region   Button
     private void ModeBtn_Reset() //Btn All Reset
     {
+        placeMentSystem.modeState = ModeState.None;
+        placeMentSystem.ObjectMode_Reset();
         if (tileMode_BtnContainer.activeSelf) { tileMode_BtnContainer.SetActive(false);}
+        if (objectMode_BtnContainer.activeSelf) { objectMode_BtnContainer.SetActive(false); }
         if(objectSpaceUi.activeSelf) { objectSpaceUi.SetActive(false); }
         TileDrawModeBtn_Reset();
+        ObjectDrawModeBtn_Reset();
         Deactive_BtnChangeColor(tileMode);
         Deactive_BtnChangeColor(objectMode);
     }
     private void TileDrawModeBtn_Reset()
     {
         placeMentSystem.ResetPreviewTileMap();
-        placeMentSystem.tileModeState = TileModeState.None;
         for (int i = 0; i < tileDrawBtns.Length; i++)
         {
             Deactive_BtnChangeColor(tileDrawBtns[i]);
         }
     }
-    #region Tile Draw Mode
-    private void ChangeTileMode(Button btn ,TileModeState tileModeState)
+
+    private void ObjectDrawModeBtn_Reset()
     {
-        TileDrawModeBtn_Reset();
-        Active_BtnChangeColor(btn);
-        placeMentSystem.tileModeState = tileModeState;
+        for (int i = 0; i < objectDrawBtns.Length; i++)
+        {
+            Deactive_BtnChangeColor(objectDrawBtns[i]);
+        }
     }
     #endregion
-    #endregion
-
-
     #region Controller
     private void HideController()
     {
@@ -214,5 +229,19 @@ public class MapEditorControllerUI : MonoBehaviour
         colorBlock.normalColor = Color.white;
         btn.colors = colorBlock;
     }
+    private void ChangeTileMode(Button btn, ModeState tileModeState)
+    {
+        TileDrawModeBtn_Reset();
+        Active_BtnChangeColor(btn);
+        placeMentSystem.modeState = tileModeState;
+    }
+    private void ChangeObjectMode(Button btn, ModeState modeState)
+    {
+        ObjectDrawModeBtn_Reset();
+        Active_BtnChangeColor(btn);
+        placeMentSystem.modeState = modeState;
+    }
+
+ 
     #endregion
 }

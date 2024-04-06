@@ -117,6 +117,7 @@ namespace MapObjects
         {
             base.TurnOn();
             turnOff = false;
+            _isEnabled = true;
         }
     }
 }
