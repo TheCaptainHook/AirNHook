@@ -131,6 +131,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 510517863331905739, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: ObjMove_Indicator
+      value: 
+      objectReference: {fileID: 1488624840834684537, guid: fd8ca4c5bf88f4f6aa02362fe03f4428, type: 3}
     - target: {fileID: 2005102887669488765, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: m_Name
       value: MapEditor
@@ -311,6 +315,7 @@ GameObject:
   - component: {fileID: 1490758823}
   - component: {fileID: 1490758826}
   - component: {fileID: 1490758827}
+  - component: {fileID: 1490758828}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -448,6 +453,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45ea817b83b716f45b36deac2f6b87a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1490758828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490758822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56666c5a40171f54783dd416a44f42bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 67108864
+  m_MaxRayIntersections: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

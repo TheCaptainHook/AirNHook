@@ -58,7 +58,7 @@ public class ButtonActivated : BuildObj
     private void FixedUpdate()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up*.5f, 1, mask);
-        if(hit.collider != null)
+        if(hit.collider != null && !turnOff)
         {
             isPressed = true;
         }
@@ -147,6 +147,20 @@ public class ButtonActivated : BuildObj
         onActive = false;
         spriteRenderer.material.color = orgColor;
         linkDoor.CurActiveBtn = -1;
+    }
+
+
+    public override void TurnOff()
+    {
+        base.TurnOff();
+        turnOff = true;
+        
+    }
+
+    public override void TurnOn()
+    {
+        base.TurnOn();
+        turnOff = false;
     }
 
 }

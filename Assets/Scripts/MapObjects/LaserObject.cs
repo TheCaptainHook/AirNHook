@@ -15,8 +15,6 @@ namespace MapObjects
         [SerializeField] LayerMask _layerMask;
         [SerializeField] private bool _isEnabled;
 
-        [SerializeField] private bool turnOff;
-
 
         private Transform _transform;
 

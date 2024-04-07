@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class MousePointerEntity : MonoBehaviour,IPointerExitHandler, IPointerEnterHandler,IPointerClickHandler
+public class MousePointerEntity : MonoBehaviour,IPointerExitHandler, IPointerEnterHandler,IPointerClickHandler,IPointerDownHandler
 {
    public virtual void OnPointerEnter(PointerEventData data)
    {
@@ -19,6 +19,10 @@ public class MousePointerEntity : MonoBehaviour,IPointerExitHandler, IPointerEnt
    {
 
    }
+    public virtual void OnPointerDown(PointerEventData data)
+    {
+
+    }
 
 
 }

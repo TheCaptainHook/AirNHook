@@ -90,7 +90,6 @@ public class PlaceMentSystem : MonoBehaviour
 
     private void Update()
     {
-
         //tile
         if(MapEditor.Instance.mapEditorState == MapEditorState.Tile)
         {
@@ -295,7 +294,8 @@ public class PlaceMentSystem : MonoBehaviour
     {
         if (first_holdingObj != null)
         {
-            first_holdingObj.transform.position = new Vector3(mousePosition.x, mousePosition.y, 0);
+            //first_holdingObj.transform.position = new Vector3(mousePosition.x, mousePosition.y, 0);
+            first_holdingObj.transform.position = gridPosition;
             if (Input.GetMouseButtonDown(0) && CheckMousePosition_InGridBoundary())
             {
                 curPlaceObjList.Add(first_holdingObj.GetComponent<BuildObj>());

@@ -14,6 +14,8 @@ public enum DistructionStatus
 public class BuildObj : MonoBehaviour,IDamageable
 {
     public int id;
+    protected bool turnOff;
+
     [SerializeField] protected DistructionStatus distructionStatus;
 
     private ObjectData _objectData;
@@ -52,8 +54,14 @@ public class BuildObj : MonoBehaviour,IDamageable
    }
 
 
-    public virtual void TurnOff() { Debug.Log("Turn Off"); }
-    public virtual void TurnOn() { Debug.Log("Turn On"); }
+    public virtual void TurnOff()
+    {
+        Debug.Log("Turn Off");
+    }
+    public virtual void TurnOn()
+    {
+        Debug.Log("Turn On");
+    }
 
     public void EditorMode_Destroy()
     {
@@ -65,6 +73,21 @@ public class BuildObj : MonoBehaviour,IDamageable
         }
         Destroy(gameObject);
     }
+
+
+
+
+
+    private void ChangeObjectColor(Color color)
+    {
+        SpriteRenderer[] spriteRenderers = gameObject.GetComponentsInChildren<SpriteRenderer>();
+
+        foreach(SpriteRenderer sp in spriteRenderers)
+        {
+            sp.color = color;
+        }
+    }
+
 
 
 }

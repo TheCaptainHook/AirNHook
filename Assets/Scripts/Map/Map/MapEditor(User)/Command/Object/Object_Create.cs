@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Object_Create 
@@ -44,7 +45,12 @@ public class Object_Create
 
     public void Undo()
     {
-        if(curObj != null)
+        if (placeMentSystem.curPlaceObjList.Contains(buildObj))
+        {
+            placeMentSystem.curPlaceObjList.Remove(buildObj);
+        }
+
+        if (curObj != null)
         {
             Object.Destroy(curObj);
         }

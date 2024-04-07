@@ -9,7 +9,6 @@ public class FlameThrower : BuildObj
 
     float maxRate = 7f;
     float curRate;
-    bool turnOff;
     public bool onActive;
     [SerializeField] LayerMask layerMask;
 
@@ -70,13 +69,13 @@ public class FlameThrower : BuildObj
         //_collider.enabled = false;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Projectile"))
-        {
-            Disable();
-        }
-    }
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if(collision.gameObject.layer == LayerMask.NameToLayer("Projectile"))
+    //    {
+    //        Disable();
+    //    }
+    //}
 
 
     private void OnDrawGizmos()
