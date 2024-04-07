@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.EventSystems;
+
 public enum DistructionStatus
 {
     Indestructible,
@@ -11,7 +13,7 @@ public enum DistructionStatus
 
 
 [System.Serializable]
-public class BuildObj : MonoBehaviour,IDamageable
+public class BuildObj : MousePointerEntity,IDamageable
 {
     public int id;
     protected bool turnOff;
@@ -75,7 +77,13 @@ public class BuildObj : MonoBehaviour,IDamageable
     }
 
 
-
+    public override void OnPointerClick(PointerEventData data)
+    {
+        if(MapEditor.Instance.mapEditorState == MapEditorState.Object)
+        {
+            MapEditor.Instance.placeMentSystem.CurbuildObject = data.pointerCurrentRaycast.gameObject;
+        }
+    }
 
 
     private void ChangeObjectColor(Color color)

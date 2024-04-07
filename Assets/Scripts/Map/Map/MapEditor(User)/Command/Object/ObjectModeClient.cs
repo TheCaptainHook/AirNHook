@@ -6,6 +6,7 @@ public class ObjectModeClient
 {
     Invoker invoker;
     Object_CreateModeCommand object_CreateModeCommand;
+    Object_MoveModeCommand object_MoveModeCommand;
 
     public ObjectModeClient()
     {
@@ -20,7 +21,9 @@ public class ObjectModeClient
     }
     public void Move()
     {
-
+        object_MoveModeCommand = new Object_MoveModeCommand(new Object_Move());
+        invoker.AddCommand(object_MoveModeCommand);
+        invoker.Execute();
     }
     public void Rotaion()
     {

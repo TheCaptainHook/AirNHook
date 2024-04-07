@@ -66,7 +66,7 @@ public class MapEditorControllerUI : MonoBehaviour
         tileDrawBtns = new Button[] { tileBtn, eraserBtn, drawBoxBtn, clearBoxBtn };
         //Tile Mode Btn
         //Obejct Mode Btn
-        moveBtn.onClick.AddListener(() => { ChangeObjectMode(moveBtn, ModeState.Obj_Move); });
+        moveBtn.onClick.AddListener(() => { ChangeObjectMode(moveBtn, ModeState.Obj_Move); placeMentSystem.CreateIndicator(ModeState.Obj_Move); });
         rotationBtn.onClick.AddListener(() => { ChangeObjectMode(rotationBtn, ModeState.Obj_Rotation); });
         scaleBtn.onClick.AddListener(() => { ChangeObjectMode(scaleBtn, ModeState.Obj_Scale); });
         clearBtn.onClick.AddListener(() => { ChangeObjectMode(clearBtn, ModeState.Obj_Clear); });

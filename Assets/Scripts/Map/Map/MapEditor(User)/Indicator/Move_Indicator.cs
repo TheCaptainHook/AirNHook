@@ -25,7 +25,7 @@ public class Move_Indicator : MousePointerEntity
     public override void OnPointerDown(PointerEventData data)
     {
         isClicking = true;
-        //Vector3 pot = MapEditor.Instance.placeMentSystem.gridPosition;
+        MapEditor.Instance.placeMentSystem.objectModeClient.Move();
         StartCoroutine(Co_CheckClicking());
     }
 
@@ -45,5 +45,11 @@ public class Move_Indicator : MousePointerEntity
             }
             yield return waitForSeconds;
         }
+    }
+
+
+    public void SetLinkObj(GameObject obj)
+    {
+        curLinkObj = obj;
     }
 }

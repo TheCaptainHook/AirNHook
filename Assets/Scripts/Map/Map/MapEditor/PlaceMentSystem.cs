@@ -39,18 +39,28 @@ public class PlaceMentSystem : MonoBehaviour
         get { return curBuildObject;}
         set
         {
-            if(curArrowIndicatorTrack != null) { Destroy(curArrowIndicatorTrack); }
+            if (curArrowIndicatorTrack != null) { Destroy(curArrowIndicatorTrack); }
+            CurIndicatior = null;
             curBuildObject = value;
             SelectCurBuildObj();//after
         }
 
     }
     [HideInInspector]  public GameObject first_holdingObj;// Click Interaction_BuildItem
-    private GameObject curIndicatior;//Move,Rotation,Scale indicator
+    public GameObject curIndicatior;//Move,Rotation,Scale indicator
     public GameObject CurIndicatior
     {
         get { return curIndicatior; }
-        set { if (curIndicatior != null){ Destroy(curIndicatior); curIndicatior = value; } } }
+        set
+        {
+            if (curIndicatior != null)
+            {
+                Destroy(curIndicatior);
+            }
+
+            curIndicatior = value;
+        }
+    }
 
 
     private GameObject curArrowIndicatorTrack;
@@ -58,7 +68,7 @@ public class PlaceMentSystem : MonoBehaviour
     [HideInInspector] public ModeState modeState;
     [HideInInspector] public Invoker invoker;
     TileModeClient tileModeClient;
-    ObjectModeClient objectModeClient;
+    [HideInInspector] public ObjectModeClient objectModeClient;
 
     [Header("Mouse")]
     bool inGridPlaneMousePosition;
@@ -303,7 +313,7 @@ public class PlaceMentSystem : MonoBehaviour
                 first_holdingObj = null;
 
                 objectModeClient.Create();
-
+                CreateIndicator(ModeState.Obj_Move);
 
             }
             if (Input.GetMouseButton(1))
@@ -311,6 +321,7 @@ public class PlaceMentSystem : MonoBehaviour
                 Destroy(first_holdingObj);
             }
         }
+
 
     }
     #endregion
@@ -406,6 +417,32 @@ public class PlaceMentSystem : MonoBehaviour
 
     }
 
+
+    public void CreateIndicator(ModeState modeState)
+    {
+        if(CurbuildObject != null)
+        {
+            switch (modeState)
+            {
+                case ModeState.Obj_Move:
+                    GameObject indicator = Instantiate(ObjMove_Indicator);
+                    CurIndicatior = indicator;
+                    indicator.transform.SetParent(CurbuildObject.transform);
+                    indicator.transform.position = CurbuildObject.transform.position;
+                    indicator.GetComponent<Move_Indicator>().SetLinkObj(CurbuildObject);
+
+                    break;
+                case ModeState.Obj_Rotation:
+                    break;
+                case ModeState.Obj_Scale:
+                    break;
+                case ModeState.Obj_Clear:
+                    break;
+
+
+            }
+        }
+    }
 
     #endregion
 
