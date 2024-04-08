@@ -43,7 +43,7 @@ public class Player : NetworkBehaviour, IDamageable
     private void Start()
     {
         StartCoroutine(Co_DetectInteraction());
-        if(!isLocalPlayer) return;
+        if (!isLocalPlayer) return;
 
         _input.uiActions.Option.started += OptionStart;
         _input.playerActions.Emote.started += EmoteStart;

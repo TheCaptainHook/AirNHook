@@ -1,20 +1,23 @@
 using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UGS;
 using UnityEngine;
 
 public class MapData
 {
+    int stageLevel = 2;
 
     public Dictionary<int, MapDataStruct> mapTileDataDictionary = new Dictionary<int, MapDataStruct>();
     public Dictionary<int, MapDataStruct> mapObjectDataDictionary = new Dictionary<int, MapDataStruct>();
     public Dictionary<int, MapDataStruct> mapSceneDataDictionary = new Dictionary<int, MapDataStruct>();
 
-    public Dictionary<string, Map> mapTutorialDictionary = new Dictionary<string, Map>();
+    public Dictionary<string, Map> mapSceneDictionary = new Dictionary<string, Map>();
     public Dictionary<string, Map> mapMainDictionary = new Dictionary<string, Map>();
     public Dictionary<string, Map> mapUserDictionary = new Dictionary<string, Map>();
 
+    public Dictionary<int, Map[]> mapMainStageDictionary = new Dictionary<int, Map[]>();
     public void SetUp()
     {
 
@@ -48,16 +51,39 @@ public class MapData
 
     void MapJsonLoad()
     {
-        foreach (TextAsset json in Resources.LoadAll<TextAsset>("MapDat/Tutorial"))
+        foreach (TextAsset json in Resources.LoadAll<TextAsset>("MapDat/Scene"))
         {
             Map map = JsonUtility.FromJson<Map>(json.text);
-            mapTutorialDictionary.Add(map.mapID, map);
+            mapSceneDictionary.Add(map.mapID, map);
         }
-        foreach (TextAsset json in Resources.LoadAll<TextAsset>("MapDat/Main"))
+
+        //todo
+        for(int i = 0; i< stageLevel + 1; i++)
         {
-            Map map = JsonUtility.FromJson<Map>(json.text);
-            mapMainDictionary.Add(map.mapID, map);
+            TextAsset[] jsons = Resources.LoadAll<TextAsset>($"MapDat/Main/{i}");
+            Map[] maps = new Map[jsons.Length];
+            for (int j = 0; j < maps.Length; j++)
+            {
+                maps[j] = JsonUtility.FromJson<Map>(jsons[j].text);
+            }
+            mapMainStageDictionary.Add(i, maps);
         }
+        //todo
+        for (int i = 0; i < stageLevel + 1; i++)
+        {
+            TextAsset[] jsons = Resources.LoadAll<TextAsset>($"MapDat/Main/{i}");
+            for (int j = 0; j < jsons.Length; j++)
+            {
+               Map map = JsonUtility.FromJson<Map>(jsons[j].text);
+                mapMainDictionary.Add(map.mapID, map);
+            }
+       
+        }
+        //foreach (TextAsset json in Resources.LoadAll<TextAsset>("MapDat/Main"))
+        //{
+        //    Map map = JsonUtility.FromJson<Map>(json.text);
+        //    mapMainDictionary.Add(map.mapID, map);
+        //}
         foreach (TextAsset json in Resources.LoadAll<TextAsset>("MapDat/User"))
         {
             Map map = JsonUtility.FromJson<Map>(json.text);
@@ -68,8 +94,8 @@ public class MapData
     {
         switch (mapType)
         {
-            case MapType.Tutorial:
-                return mapTutorialDictionary;
+            case MapType.Scene:
+                return mapSceneDictionary;
             case MapType.Main:
                 return mapMainDictionary;
             case MapType.User:
@@ -77,6 +103,16 @@ public class MapData
         }
         return null;
     }
+
+    public  Map[] GetDictionary(int i)
+    {
+        return mapMainStageDictionary[i];
+
+    }
+
+
+
+
 }
 
 

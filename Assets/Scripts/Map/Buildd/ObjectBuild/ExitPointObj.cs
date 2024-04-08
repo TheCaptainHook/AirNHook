@@ -101,7 +101,7 @@ public class ExitPointObj : BuildBase
         }
         else
         {
-            MapEditor.Instance.LoadMap(nextMapId);
+            MapEditor.Instance.LoadMap(nextMapId,MapType.Main);
 
         }
         

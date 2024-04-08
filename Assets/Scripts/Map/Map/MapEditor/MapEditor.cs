@@ -9,7 +9,7 @@ using GoogleSheet.Core.Type;
 
 public enum MapType
 {
-    Tutorial,
+    Scene,
     Main,
     User
 }

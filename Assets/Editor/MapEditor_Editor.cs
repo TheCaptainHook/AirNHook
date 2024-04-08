@@ -28,7 +28,7 @@ public class MapEditor_Editor : Editor
 
         if (GUILayout.Button("Load Data(인게임용)"))
         {
-            mapEditor.LoadMap(mapEditor.mapID);
+            mapEditor.LoadMap(mapEditor.mapID,mapEditor.mapType);
         }
         if (GUILayout.Button("Save Data(인게임용)"))
         {
@@ -102,7 +102,6 @@ public class MapEditor_Editor : Editor
         {
             if (!mapTileDataDictionary.ContainsKey(value.id))
             {
-                Debug.Log(value.path);
                 mapTileDataDictionary.Add(value.id, new MapDataStruct(value.type, value.path));
             }
             
@@ -134,7 +133,7 @@ public class MapEditor_Editor : Editor
     {
         mapEditor.Init();
         UGS_MapDataLoad();
-        TextAsset textAsset = Resources.Load<TextAsset>($"MapDat/{mapEditor.mapType}/{mapEditor.mapID}");
+        TextAsset textAsset = GetTextAsset(mapEditor.mapType, mapEditor.mapID);
         if(textAsset != null)
         {
             Map map = JsonUtility.FromJson<Map>(textAsset.text);
@@ -159,6 +158,33 @@ public class MapEditor_Editor : Editor
             Debug.Log("Map not found");
         }
 
+    }
+
+    TextAsset GetTextAsset(MapType mapType,string id)
+    {
+        switch (mapType)
+        {
+            case MapType.Scene:
+                return Resources.Load<TextAsset>($"MapDat/{mapType}/{id}");
+            case MapType.Main:
+                string path = Path.Combine(Application.dataPath, "Resources/MapDat/Main");
+                Debug.Log(path);
+                for (int i = 0; i < 4; i++)
+                {
+                    string checkPath = Path.Combine(path, $"{i}/{id}.json");
+                    Debug.Log(checkPath);
+                    if (File.Exists(checkPath))
+                    {
+                        return Resources.Load<TextAsset>($"MapDat/{mapType}/{i}/{id}");
+                    }
+                }
+                break;
+            case MapType.User:
+                return Resources.Load<TextAsset>($"MapDat/{mapType}/{id}");
+        }
+
+
+        return null;
     }
 
     public void CreateObj(Transform transform,Map map,PlaceMentSystem placeMentSystem,MapEditor mapEditor)

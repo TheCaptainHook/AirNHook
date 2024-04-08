@@ -57,8 +57,8 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Start()
     {
-        if(!isLocalPlayer) return;
-        
+        if (!isLocalPlayer) return;
+
         playerInput = GetComponent<PlayerInput>();
 
         //움직임 입력
@@ -72,7 +72,7 @@ public class PlayerMovement : NetworkBehaviour
     private void OnDisable()
     {
         if (!ReferenceEquals(Managers.Game.Player, gameObject)) return;
-        
+
         playerInput.playerActions.Move.started -= MoveStarted;
         playerInput.playerActions.Jump.started -= JumpStarted;
         playerInput.playerActions.Jump.performed -= JumpPerformed;
@@ -83,9 +83,9 @@ public class PlayerMovement : NetworkBehaviour
     {
         // 땅 체크
         IsFloor();
-        
-        if(!isLocalPlayer || IsDead) return;
-        
+
+        if (!isLocalPlayer || IsDead) return;
+
         if (CheckJumpBuffer())
         {
             _isJumpBufferCheck = true;
