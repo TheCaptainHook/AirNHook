@@ -58,7 +58,7 @@ public class MapData
         }
 
         //todo
-        for(int i = 0; i< stageLevel + 1; i++)
+        for(int i = 0; i<= stageLevel + 1; i++)
         {
             TextAsset[] jsons = Resources.LoadAll<TextAsset>($"MapDat/Main/{i}");
             Map[] maps = new Map[jsons.Length];
