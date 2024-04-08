@@ -2,26 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Object_Move
+public class Object_Rotate
 {
     PlaceMentSystem placeMentSystem;
     GameObject curBuildObj;
-    Vector3 beforePosition;
+    Quaternion beforeRotation;
 
-    public Object_Move()
+    public Object_Rotate()
     {
         placeMentSystem = MapEditor.Instance.placeMentSystem;
         curBuildObj = placeMentSystem.CurbuildObject;
+        beforeRotation = curBuildObj.transform.rotation;
     }
 
 
-    public void Move()
+    public void Rotate()
     {
-        beforePosition = placeMentSystem.gridPosition;
-        Debug.Log("Move");
+        beforeRotation = curBuildObj.transform.rotation;
     }
     public void Undo()
     {
-        curBuildObj.transform.position = beforePosition;
+        curBuildObj.transform.rotation = beforeRotation;
     }
+
+
 }

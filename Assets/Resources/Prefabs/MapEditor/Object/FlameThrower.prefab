@@ -205,7 +205,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 309
-  hasGravity: 0
+  onPlaceable: 0
+  onRotateable: 1
+  onScaleable: 0
   distructionStatus: 0
   onActive: 0
   layerMask:

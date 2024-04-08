@@ -206,14 +206,16 @@ public class MapEditor : MonoBehaviour
     {
         List<ExitObjStruct> list = new();
 
-        foreach(Transform cur in transform)
+        foreach (Transform cur in transform)
         {
-       
-                list.Add(cur.GetComponent<ExitPointObj>().GetExitObjectStruct());
+
+            list.Add(cur.GetComponent<ExitPointObj>().GetExitObjectStruct());
         }
-        
+
         return list;
     }
+
+
     #endregion
 
     void CreateJsonFile()

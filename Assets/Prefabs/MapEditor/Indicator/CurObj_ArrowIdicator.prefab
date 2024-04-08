@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5000490282193975994}
   - component: {fileID: 418048199101241887}
   - component: {fileID: 2997941219989049092}
+  - component: {fileID: 8644985954309999461}
   m_Layer: 0
   m_Name: CurObj_ArrowIdicator
   m_TagString: Untagged
@@ -4830,3 +4831,18 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &8644985954309999461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2872121356252122018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 648eb8b0585e3bf47b237a5acb75fcb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  curLinkObj: {fileID: 0}
+  isClicking: 0
+  mousePosition: {x: 0, y: 0, z: 0}

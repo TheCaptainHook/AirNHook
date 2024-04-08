@@ -7,7 +7,7 @@ public class ObjectModeClient
     Invoker invoker;
     Object_CreateModeCommand object_CreateModeCommand;
     Object_MoveModeCommand object_MoveModeCommand;
-
+    Object_RotateModeCommand object_RotateModeCommand;
     public ObjectModeClient()
     {
         invoker = MapEditor.Instance.placeMentSystem.invoker;
@@ -27,7 +27,9 @@ public class ObjectModeClient
     }
     public void Rotaion()
     {
-
+        object_RotateModeCommand = new Object_RotateModeCommand(new Object_Rotate());
+        invoker.AddCommand(object_RotateModeCommand);
+        invoker.Execute();
     }
     public void Clear()
     {

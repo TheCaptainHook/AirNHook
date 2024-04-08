@@ -3,14 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Move_Indicator : MousePointerEntity
+public class Move_Indicator : Indicator
 {
-    [SerializeField] GameObject curLinkObj;
-    WaitForSeconds waitForSeconds = new WaitForSeconds(0.1f);
-    public bool isClicking;
-
-    public Vector3 mousePosition;
-
+ 
     private void Update()
     {
         //mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -29,27 +24,4 @@ public class Move_Indicator : MousePointerEntity
         StartCoroutine(Co_CheckClicking());
     }
 
-
-    IEnumerator Co_CheckClicking()
-    {
-        while (isClicking)
-        {
-            if (Input.GetMouseButton(0))
-            {
-                isClicking = true;
-            }
-            else
-            {
-                isClicking = false;
-                break;
-            }
-            yield return waitForSeconds;
-        }
-    }
-
-
-    public void SetLinkObj(GameObject obj)
-    {
-        curLinkObj = obj;
-    }
 }

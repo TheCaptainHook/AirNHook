@@ -322,7 +322,6 @@ public class MapEditor_Editor : Editor
     {
         List<TileData> list = new();
         BoundsInt bounds = tileMap.cellBounds;
-        TileBase[] tileBases = tileMap.GetTilesBlock(bounds);
 
         for (int x = bounds.xMin; x < bounds.xMax; x++)
         {
@@ -386,7 +385,6 @@ public class MapEditor_Editor : Editor
 
         return list;
     }
-
 
 
     GameObject FindObj(Transform transform,int id)

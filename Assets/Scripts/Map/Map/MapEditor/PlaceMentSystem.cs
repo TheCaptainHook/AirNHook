@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -402,16 +403,17 @@ public class PlaceMentSystem : MonoBehaviour
         if(CurbuildObject != null)
         {
             curArrowIndicatorTrack = Instantiate(curObj_ArrowIndicator, CurbuildObject.transform);
-            Collider2D[] cols = CurbuildObject.GetComponentsInChildren<Collider2D>();
-            float height = 0;
+            curArrowIndicatorTrack.GetComponent<Arrow_Indicator>().SetLinkObj(CurbuildObject);
+            //Collider2D[] cols = CurbuildObject.GetComponentsInChildren<Collider2D>();
+            //float height = 0;
 
-            foreach (Collider2D co in cols)
-            {
-                Debug.Log(co.name);
-                height = Mathf.Max(height, co.bounds.size.y);
-            }
-            Debug.Log(height);
-            curArrowIndicatorTrack.transform.position += new Vector3(0, height + 0.5f, 0);
+            //foreach (Collider2D co in cols)
+            //{
+            //    Debug.Log(co.name);
+            //    height = Mathf.Max(height, co.bounds.size.y);
+            //}
+            //Debug.Log(height);
+            //curArrowIndicatorTrack.transform.position += new Vector3(0, height + 0.5f, 0);
 
         }
 
@@ -430,19 +432,24 @@ public class PlaceMentSystem : MonoBehaviour
                     indicator.transform.SetParent(CurbuildObject.transform);
                     indicator.transform.position = CurbuildObject.transform.position;
                     indicator.GetComponent<Move_Indicator>().SetLinkObj(CurbuildObject);
-
                     break;
                 case ModeState.Obj_Rotation:
+                    GameObject indicator_R = Instantiate(ObjRotation_Indicator);
+                    CurIndicatior = indicator_R;
+                    indicator_R.transform.SetParent(CurbuildObject.transform);
+                    indicator_R.transform.position = CurbuildObject.transform.position;
+                    indicator_R.GetComponent<Rotate_Indicator>().SetLinkObj(CurbuildObject);
                     break;
                 case ModeState.Obj_Scale:
                     break;
                 case ModeState.Obj_Clear:
                     break;
-
-
             }
         }
     }
+
+
+
 
     #endregion
 

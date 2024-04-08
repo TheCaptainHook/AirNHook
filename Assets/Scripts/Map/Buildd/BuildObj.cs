@@ -17,6 +17,11 @@ public class BuildObj : MousePointerEntity,IDamageable
 {
     public int id;
     protected bool turnOff;
+    [Header("State")]
+    public bool onPlaceable;
+    public bool onRotateable;
+    public bool onScaleable;
+    //todo
 
     [SerializeField] protected DistructionStatus distructionStatus;
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArrowTrap : MonoBehaviour
+public class ArrowTrap : BuildObj
 {
     Pooling pool;
 

@@ -185,19 +185,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   preViewTileMap: {fileID: 2997771046603995972}
   floorTileMap: {fileID: 0}
-  tileBase: {fileID: 11400000, guid: e56d10a52c31332479789314b2092579, type: 2}
+  tileBase: {fileID: 0}
   previewTileBase: {fileID: 11400000, guid: 5501ddc9a2a784e56bf7379e4b908bcd, type: 2}
   getTarget: 0
   startPosition: {x: 0, y: 0, z: 0}
   endPosition: {x: 0, y: 0, z: 0}
   first_holdingObj: {fileID: 0}
+  curIndicatior: {fileID: 0}
   modeState: 0
   gridPlaneLayerMask:
     serializedVersion: 2
     m_Bits: 1073741824
   gridPosition: {x: 0, y: 0, z: 0}
   curObj_ArrowIndicator: {fileID: 2872121356252122018, guid: 2282e6f19511b49af8c213f4a8a07ec1, type: 3}
-  ObjMove_Indicator: {fileID: 0}
+  ObjMove_Indicator: {fileID: 1488624840834684537, guid: fd8ca4c5bf88f4f6aa02362fe03f4428, type: 3}
   ObjRotation_Indicator: {fileID: 0}
   ObjSclae_Indicator: {fileID: 0}
   ObjClear_Indicator: {fileID: 0}
@@ -806,897 +807,375 @@ MonoBehaviour:
   mapType: 1
   width: 20
   height: 20
-  mapID: Stage3-1
-  startPosition: {x: 0, y: 0}
+  mapID: Stage2-1
+  startPosition: {x: -20.099976, y: -11.719971}
   startPositionObject: {fileID: 0}
   mapTileDataList:
   - id: 1
-    position: {x: 347, y: 394, z: 0}
+    position: {x: -23, y: -13, z: 0}
   - id: 1
-    position: {x: 347, y: 395, z: 0}
+    position: {x: -23, y: -12, z: 0}
   - id: 1
-    position: {x: 347, y: 396, z: 0}
+    position: {x: -23, y: -11, z: 0}
   - id: 1
-    position: {x: 347, y: 397, z: 0}
+    position: {x: -23, y: -10, z: 0}
   - id: 1
-    position: {x: 347, y: 398, z: 0}
+    position: {x: -23, y: -9, z: 0}
   - id: 1
-    position: {x: 347, y: 399, z: 0}
+    position: {x: -23, y: -8, z: 0}
   - id: 1
-    position: {x: 347, y: 400, z: 0}
+    position: {x: -23, y: -7, z: 0}
   - id: 1
-    position: {x: 347, y: 401, z: 0}
+    position: {x: -23, y: -6, z: 0}
   - id: 1
-    position: {x: 347, y: 402, z: 0}
+    position: {x: -23, y: -5, z: 0}
   - id: 1
-    position: {x: 347, y: 403, z: 0}
+    position: {x: -23, y: -4, z: 0}
   - id: 1
-    position: {x: 347, y: 413, z: 0}
+    position: {x: -23, y: -3, z: 0}
   - id: 1
-    position: {x: 347, y: 414, z: 0}
+    position: {x: -23, y: -2, z: 0}
   - id: 1
-    position: {x: 347, y: 415, z: 0}
+    position: {x: -23, y: -1, z: 0}
   - id: 1
-    position: {x: 347, y: 416, z: 0}
+    position: {x: -23, y: 0, z: 0}
   - id: 1
-    position: {x: 348, y: 394, z: 0}
+    position: {x: -23, y: 1, z: 0}
   - id: 1
-    position: {x: 348, y: 395, z: 0}
+    position: {x: -23, y: 2, z: 0}
   - id: 1
-    position: {x: 348, y: 396, z: 0}
+    position: {x: -23, y: 3, z: 0}
   - id: 1
-    position: {x: 348, y: 397, z: 0}
+    position: {x: -23, y: 4, z: 0}
   - id: 1
-    position: {x: 348, y: 398, z: 0}
+    position: {x: -23, y: 5, z: 0}
   - id: 1
-    position: {x: 348, y: 399, z: 0}
+    position: {x: -23, y: 6, z: 0}
   - id: 1
-    position: {x: 348, y: 400, z: 0}
+    position: {x: -23, y: 7, z: 0}
   - id: 1
-    position: {x: 348, y: 401, z: 0}
+    position: {x: -23, y: 8, z: 0}
   - id: 1
-    position: {x: 348, y: 402, z: 0}
+    position: {x: -23, y: 9, z: 0}
   - id: 1
-    position: {x: 348, y: 403, z: 0}
+    position: {x: -23, y: 10, z: 0}
   - id: 1
-    position: {x: 348, y: 413, z: 0}
+    position: {x: -23, y: 11, z: 0}
   - id: 1
-    position: {x: 348, y: 414, z: 0}
+    position: {x: -23, y: 12, z: 0}
   - id: 1
-    position: {x: 348, y: 415, z: 0}
+    position: {x: -22, y: -13, z: 0}
   - id: 1
-    position: {x: 348, y: 416, z: 0}
+    position: {x: -22, y: 12, z: 0}
   - id: 1
-    position: {x: 349, y: 394, z: 0}
+    position: {x: -21, y: -13, z: 0}
   - id: 1
-    position: {x: 349, y: 395, z: 0}
+    position: {x: -21, y: 12, z: 0}
   - id: 1
-    position: {x: 349, y: 396, z: 0}
+    position: {x: -20, y: -13, z: 0}
   - id: 1
-    position: {x: 349, y: 397, z: 0}
+    position: {x: -20, y: 12, z: 0}
   - id: 1
-    position: {x: 349, y: 398, z: 0}
+    position: {x: -19, y: -13, z: 0}
   - id: 1
-    position: {x: 349, y: 399, z: 0}
+    position: {x: -19, y: 12, z: 0}
   - id: 1
-    position: {x: 349, y: 400, z: 0}
+    position: {x: -18, y: -13, z: 0}
   - id: 1
-    position: {x: 349, y: 401, z: 0}
+    position: {x: -18, y: 12, z: 0}
   - id: 1
-    position: {x: 349, y: 402, z: 0}
+    position: {x: -17, y: -13, z: 0}
   - id: 1
-    position: {x: 349, y: 403, z: 0}
+    position: {x: -17, y: 12, z: 0}
   - id: 1
-    position: {x: 349, y: 413, z: 0}
+    position: {x: -16, y: -13, z: 0}
   - id: 1
-    position: {x: 349, y: 414, z: 0}
+    position: {x: -16, y: 12, z: 0}
   - id: 1
-    position: {x: 349, y: 415, z: 0}
+    position: {x: -15, y: -13, z: 0}
   - id: 1
-    position: {x: 349, y: 416, z: 0}
+    position: {x: -15, y: 12, z: 0}
   - id: 1
-    position: {x: 350, y: 394, z: 0}
+    position: {x: -14, y: -13, z: 0}
   - id: 1
-    position: {x: 350, y: 395, z: 0}
+    position: {x: -14, y: 12, z: 0}
   - id: 1
-    position: {x: 350, y: 396, z: 0}
+    position: {x: -13, y: -13, z: 0}
   - id: 1
-    position: {x: 350, y: 397, z: 0}
+    position: {x: -13, y: 12, z: 0}
   - id: 1
-    position: {x: 350, y: 398, z: 0}
+    position: {x: -12, y: -13, z: 0}
   - id: 1
-    position: {x: 350, y: 399, z: 0}
+    position: {x: -12, y: 12, z: 0}
   - id: 1
-    position: {x: 350, y: 400, z: 0}
+    position: {x: -11, y: -13, z: 0}
   - id: 1
-    position: {x: 350, y: 401, z: 0}
+    position: {x: -11, y: 12, z: 0}
   - id: 1
-    position: {x: 350, y: 402, z: 0}
+    position: {x: -10, y: -13, z: 0}
   - id: 1
-    position: {x: 350, y: 403, z: 0}
+    position: {x: -10, y: 12, z: 0}
   - id: 1
-    position: {x: 350, y: 414, z: 0}
+    position: {x: -9, y: -13, z: 0}
   - id: 1
-    position: {x: 350, y: 415, z: 0}
+    position: {x: -9, y: 12, z: 0}
   - id: 1
-    position: {x: 350, y: 416, z: 0}
+    position: {x: -8, y: -13, z: 0}
   - id: 1
-    position: {x: 351, y: 394, z: 0}
+    position: {x: -8, y: 12, z: 0}
   - id: 1
-    position: {x: 351, y: 395, z: 0}
+    position: {x: -7, y: -13, z: 0}
   - id: 1
-    position: {x: 351, y: 396, z: 0}
+    position: {x: -7, y: 12, z: 0}
   - id: 1
-    position: {x: 351, y: 397, z: 0}
+    position: {x: -6, y: -13, z: 0}
   - id: 1
-    position: {x: 351, y: 398, z: 0}
+    position: {x: -6, y: 12, z: 0}
   - id: 1
-    position: {x: 351, y: 399, z: 0}
+    position: {x: -5, y: -13, z: 0}
   - id: 1
-    position: {x: 351, y: 400, z: 0}
+    position: {x: -5, y: 12, z: 0}
   - id: 1
-    position: {x: 351, y: 401, z: 0}
+    position: {x: -4, y: -13, z: 0}
   - id: 1
-    position: {x: 351, y: 402, z: 0}
+    position: {x: -4, y: 7, z: 0}
   - id: 1
-    position: {x: 351, y: 403, z: 0}
+    position: {x: -4, y: 8, z: 0}
   - id: 1
-    position: {x: 351, y: 415, z: 0}
+    position: {x: -4, y: 9, z: 0}
   - id: 1
-    position: {x: 351, y: 416, z: 0}
+    position: {x: -4, y: 10, z: 0}
   - id: 1
-    position: {x: 352, y: 394, z: 0}
+    position: {x: -4, y: 11, z: 0}
   - id: 1
-    position: {x: 352, y: 395, z: 0}
+    position: {x: -4, y: 12, z: 0}
   - id: 1
-    position: {x: 352, y: 396, z: 0}
+    position: {x: -3, y: -13, z: 0}
   - id: 1
-    position: {x: 352, y: 397, z: 0}
+    position: {x: -3, y: 7, z: 0}
   - id: 1
-    position: {x: 352, y: 398, z: 0}
+    position: {x: -3, y: 8, z: 0}
   - id: 1
-    position: {x: 352, y: 399, z: 0}
+    position: {x: -3, y: 9, z: 0}
   - id: 1
-    position: {x: 352, y: 400, z: 0}
+    position: {x: -3, y: 10, z: 0}
   - id: 1
-    position: {x: 352, y: 401, z: 0}
+    position: {x: -3, y: 11, z: 0}
   - id: 1
-    position: {x: 352, y: 402, z: 0}
+    position: {x: -3, y: 12, z: 0}
   - id: 1
-    position: {x: 352, y: 403, z: 0}
+    position: {x: -2, y: -13, z: 0}
   - id: 1
-    position: {x: 352, y: 415, z: 0}
+    position: {x: -2, y: 7, z: 0}
   - id: 1
-    position: {x: 352, y: 416, z: 0}
+    position: {x: -2, y: 8, z: 0}
   - id: 1
-    position: {x: 353, y: 394, z: 0}
+    position: {x: -2, y: 9, z: 0}
   - id: 1
-    position: {x: 353, y: 395, z: 0}
+    position: {x: -2, y: 10, z: 0}
   - id: 1
-    position: {x: 353, y: 396, z: 0}
+    position: {x: -2, y: 11, z: 0}
   - id: 1
-    position: {x: 353, y: 397, z: 0}
+    position: {x: -2, y: 12, z: 0}
   - id: 1
-    position: {x: 353, y: 398, z: 0}
+    position: {x: -1, y: -13, z: 0}
   - id: 1
-    position: {x: 353, y: 415, z: 0}
+    position: {x: -1, y: 7, z: 0}
   - id: 1
-    position: {x: 353, y: 416, z: 0}
+    position: {x: -1, y: 8, z: 0}
   - id: 1
-    position: {x: 354, y: 394, z: 0}
+    position: {x: -1, y: 9, z: 0}
   - id: 1
-    position: {x: 354, y: 395, z: 0}
+    position: {x: -1, y: 10, z: 0}
   - id: 1
-    position: {x: 354, y: 396, z: 0}
+    position: {x: -1, y: 11, z: 0}
   - id: 1
-    position: {x: 354, y: 397, z: 0}
+    position: {x: -1, y: 12, z: 0}
   - id: 1
-    position: {x: 354, y: 415, z: 0}
+    position: {x: 0, y: -13, z: 0}
   - id: 1
-    position: {x: 354, y: 416, z: 0}
+    position: {x: 0, y: 7, z: 0}
   - id: 1
-    position: {x: 355, y: 394, z: 0}
+    position: {x: 0, y: 8, z: 0}
   - id: 1
-    position: {x: 355, y: 395, z: 0}
+    position: {x: 0, y: 9, z: 0}
   - id: 1
-    position: {x: 355, y: 396, z: 0}
+    position: {x: 0, y: 10, z: 0}
   - id: 1
-    position: {x: 355, y: 397, z: 0}
+    position: {x: 0, y: 11, z: 0}
   - id: 1
-    position: {x: 355, y: 415, z: 0}
+    position: {x: 0, y: 12, z: 0}
   - id: 1
-    position: {x: 355, y: 416, z: 0}
+    position: {x: 1, y: -13, z: 0}
   - id: 1
-    position: {x: 356, y: 394, z: 0}
+    position: {x: 1, y: 7, z: 0}
   - id: 1
-    position: {x: 356, y: 395, z: 0}
+    position: {x: 1, y: 8, z: 0}
   - id: 1
-    position: {x: 356, y: 396, z: 0}
+    position: {x: 1, y: 9, z: 0}
   - id: 1
-    position: {x: 356, y: 397, z: 0}
+    position: {x: 1, y: 10, z: 0}
   - id: 1
-    position: {x: 356, y: 415, z: 0}
+    position: {x: 1, y: 11, z: 0}
   - id: 1
-    position: {x: 356, y: 416, z: 0}
+    position: {x: 1, y: 12, z: 0}
   - id: 1
-    position: {x: 357, y: 394, z: 0}
+    position: {x: 2, y: -13, z: 0}
   - id: 1
-    position: {x: 357, y: 395, z: 0}
+    position: {x: 2, y: 7, z: 0}
   - id: 1
-    position: {x: 357, y: 396, z: 0}
+    position: {x: 2, y: 8, z: 0}
   - id: 1
-    position: {x: 357, y: 397, z: 0}
+    position: {x: 2, y: 9, z: 0}
   - id: 1
-    position: {x: 357, y: 415, z: 0}
+    position: {x: 2, y: 10, z: 0}
   - id: 1
-    position: {x: 357, y: 416, z: 0}
+    position: {x: 2, y: 11, z: 0}
   - id: 1
-    position: {x: 358, y: 394, z: 0}
+    position: {x: 2, y: 12, z: 0}
   - id: 1
-    position: {x: 358, y: 395, z: 0}
+    position: {x: 3, y: -13, z: 0}
   - id: 1
-    position: {x: 358, y: 396, z: 0}
+    position: {x: 3, y: 7, z: 0}
   - id: 1
-    position: {x: 358, y: 415, z: 0}
+    position: {x: 3, y: 8, z: 0}
   - id: 1
-    position: {x: 358, y: 416, z: 0}
+    position: {x: 3, y: 9, z: 0}
   - id: 1
-    position: {x: 359, y: 394, z: 0}
+    position: {x: 3, y: 10, z: 0}
   - id: 1
-    position: {x: 359, y: 395, z: 0}
+    position: {x: 3, y: 11, z: 0}
   - id: 1
-    position: {x: 359, y: 396, z: 0}
+    position: {x: 3, y: 12, z: 0}
   - id: 1
-    position: {x: 359, y: 415, z: 0}
+    position: {x: 4, y: -13, z: 0}
   - id: 1
-    position: {x: 359, y: 416, z: 0}
+    position: {x: 4, y: 12, z: 0}
   - id: 1
-    position: {x: 360, y: 394, z: 0}
+    position: {x: 5, y: -13, z: 0}
   - id: 1
-    position: {x: 360, y: 395, z: 0}
+    position: {x: 5, y: 12, z: 0}
   - id: 1
-    position: {x: 360, y: 396, z: 0}
+    position: {x: 6, y: -13, z: 0}
   - id: 1
-    position: {x: 360, y: 415, z: 0}
+    position: {x: 6, y: 12, z: 0}
   - id: 1
-    position: {x: 360, y: 416, z: 0}
+    position: {x: 7, y: -13, z: 0}
   - id: 1
-    position: {x: 361, y: 394, z: 0}
+    position: {x: 7, y: 12, z: 0}
   - id: 1
-    position: {x: 361, y: 395, z: 0}
+    position: {x: 8, y: -13, z: 0}
   - id: 1
-    position: {x: 361, y: 396, z: 0}
+    position: {x: 8, y: 12, z: 0}
   - id: 1
-    position: {x: 361, y: 410, z: 0}
+    position: {x: 9, y: -13, z: 0}
   - id: 1
-    position: {x: 361, y: 411, z: 0}
+    position: {x: 9, y: 12, z: 0}
   - id: 1
-    position: {x: 361, y: 412, z: 0}
+    position: {x: 10, y: -13, z: 0}
   - id: 1
-    position: {x: 361, y: 413, z: 0}
+    position: {x: 10, y: 12, z: 0}
   - id: 1
-    position: {x: 361, y: 414, z: 0}
+    position: {x: 11, y: -13, z: 0}
   - id: 1
-    position: {x: 361, y: 415, z: 0}
+    position: {x: 11, y: 12, z: 0}
   - id: 1
-    position: {x: 361, y: 416, z: 0}
+    position: {x: 12, y: -13, z: 0}
   - id: 1
-    position: {x: 362, y: 394, z: 0}
+    position: {x: 12, y: 12, z: 0}
   - id: 1
-    position: {x: 362, y: 395, z: 0}
+    position: {x: 13, y: -13, z: 0}
   - id: 1
-    position: {x: 362, y: 396, z: 0}
+    position: {x: 13, y: 12, z: 0}
   - id: 1
-    position: {x: 362, y: 410, z: 0}
+    position: {x: 14, y: -13, z: 0}
   - id: 1
-    position: {x: 362, y: 411, z: 0}
+    position: {x: 14, y: 12, z: 0}
   - id: 1
-    position: {x: 362, y: 412, z: 0}
+    position: {x: 15, y: -13, z: 0}
   - id: 1
-    position: {x: 362, y: 413, z: 0}
+    position: {x: 15, y: 12, z: 0}
   - id: 1
-    position: {x: 362, y: 414, z: 0}
+    position: {x: 16, y: -13, z: 0}
   - id: 1
-    position: {x: 362, y: 415, z: 0}
+    position: {x: 16, y: 12, z: 0}
   - id: 1
-    position: {x: 362, y: 416, z: 0}
+    position: {x: 17, y: -13, z: 0}
   - id: 1
-    position: {x: 363, y: 394, z: 0}
+    position: {x: 17, y: 12, z: 0}
   - id: 1
-    position: {x: 363, y: 395, z: 0}
+    position: {x: 18, y: -13, z: 0}
   - id: 1
-    position: {x: 363, y: 396, z: 0}
+    position: {x: 18, y: 12, z: 0}
   - id: 1
-    position: {x: 363, y: 410, z: 0}
+    position: {x: 19, y: -13, z: 0}
   - id: 1
-    position: {x: 363, y: 411, z: 0}
+    position: {x: 19, y: 12, z: 0}
   - id: 1
-    position: {x: 363, y: 412, z: 0}
+    position: {x: 20, y: -13, z: 0}
   - id: 1
-    position: {x: 363, y: 413, z: 0}
+    position: {x: 20, y: 12, z: 0}
   - id: 1
-    position: {x: 363, y: 414, z: 0}
+    position: {x: 21, y: -13, z: 0}
   - id: 1
-    position: {x: 363, y: 415, z: 0}
+    position: {x: 21, y: 12, z: 0}
   - id: 1
-    position: {x: 363, y: 416, z: 0}
+    position: {x: 22, y: -13, z: 0}
   - id: 1
-    position: {x: 364, y: 394, z: 0}
+    position: {x: 22, y: -12, z: 0}
   - id: 1
-    position: {x: 364, y: 395, z: 0}
+    position: {x: 22, y: -11, z: 0}
   - id: 1
-    position: {x: 364, y: 396, z: 0}
+    position: {x: 22, y: -10, z: 0}
   - id: 1
-    position: {x: 364, y: 410, z: 0}
+    position: {x: 22, y: -9, z: 0}
   - id: 1
-    position: {x: 364, y: 411, z: 0}
+    position: {x: 22, y: -8, z: 0}
   - id: 1
-    position: {x: 364, y: 412, z: 0}
+    position: {x: 22, y: -7, z: 0}
   - id: 1
-    position: {x: 364, y: 413, z: 0}
+    position: {x: 22, y: -6, z: 0}
   - id: 1
-    position: {x: 364, y: 414, z: 0}
+    position: {x: 22, y: -5, z: 0}
   - id: 1
-    position: {x: 364, y: 415, z: 0}
+    position: {x: 22, y: -4, z: 0}
   - id: 1
-    position: {x: 364, y: 416, z: 0}
+    position: {x: 22, y: -3, z: 0}
   - id: 1
-    position: {x: 365, y: 394, z: 0}
+    position: {x: 22, y: -2, z: 0}
   - id: 1
-    position: {x: 365, y: 395, z: 0}
+    position: {x: 22, y: -1, z: 0}
   - id: 1
-    position: {x: 365, y: 396, z: 0}
+    position: {x: 22, y: 0, z: 0}
   - id: 1
-    position: {x: 365, y: 411, z: 0}
+    position: {x: 22, y: 1, z: 0}
   - id: 1
-    position: {x: 365, y: 412, z: 0}
+    position: {x: 22, y: 2, z: 0}
   - id: 1
-    position: {x: 365, y: 413, z: 0}
+    position: {x: 22, y: 3, z: 0}
   - id: 1
-    position: {x: 365, y: 414, z: 0}
+    position: {x: 22, y: 4, z: 0}
   - id: 1
-    position: {x: 365, y: 415, z: 0}
+    position: {x: 22, y: 5, z: 0}
   - id: 1
-    position: {x: 365, y: 416, z: 0}
+    position: {x: 22, y: 6, z: 0}
   - id: 1
-    position: {x: 366, y: 394, z: 0}
+    position: {x: 22, y: 7, z: 0}
   - id: 1
-    position: {x: 366, y: 395, z: 0}
+    position: {x: 22, y: 8, z: 0}
   - id: 1
-    position: {x: 366, y: 396, z: 0}
+    position: {x: 22, y: 9, z: 0}
   - id: 1
-    position: {x: 366, y: 411, z: 0}
+    position: {x: 22, y: 10, z: 0}
   - id: 1
-    position: {x: 366, y: 412, z: 0}
+    position: {x: 22, y: 11, z: 0}
   - id: 1
-    position: {x: 366, y: 413, z: 0}
-  - id: 1
-    position: {x: 366, y: 414, z: 0}
-  - id: 1
-    position: {x: 366, y: 415, z: 0}
-  - id: 1
-    position: {x: 366, y: 416, z: 0}
-  - id: 1
-    position: {x: 367, y: 394, z: 0}
-  - id: 1
-    position: {x: 367, y: 395, z: 0}
-  - id: 1
-    position: {x: 367, y: 396, z: 0}
-  - id: 1
-    position: {x: 367, y: 411, z: 0}
-  - id: 1
-    position: {x: 367, y: 412, z: 0}
-  - id: 1
-    position: {x: 367, y: 413, z: 0}
-  - id: 1
-    position: {x: 367, y: 414, z: 0}
-  - id: 1
-    position: {x: 367, y: 415, z: 0}
-  - id: 1
-    position: {x: 367, y: 416, z: 0}
-  - id: 1
-    position: {x: 368, y: 394, z: 0}
-  - id: 1
-    position: {x: 368, y: 395, z: 0}
-  - id: 1
-    position: {x: 368, y: 396, z: 0}
-  - id: 1
-    position: {x: 368, y: 397, z: 0}
-  - id: 1
-    position: {x: 368, y: 398, z: 0}
-  - id: 1
-    position: {x: 368, y: 411, z: 0}
-  - id: 1
-    position: {x: 368, y: 412, z: 0}
-  - id: 1
-    position: {x: 368, y: 413, z: 0}
-  - id: 1
-    position: {x: 368, y: 414, z: 0}
-  - id: 1
-    position: {x: 368, y: 415, z: 0}
-  - id: 1
-    position: {x: 368, y: 416, z: 0}
-  - id: 1
-    position: {x: 369, y: 394, z: 0}
-  - id: 1
-    position: {x: 369, y: 395, z: 0}
-  - id: 1
-    position: {x: 369, y: 396, z: 0}
-  - id: 1
-    position: {x: 369, y: 397, z: 0}
-  - id: 1
-    position: {x: 369, y: 398, z: 0}
-  - id: 1
-    position: {x: 369, y: 412, z: 0}
-  - id: 1
-    position: {x: 369, y: 413, z: 0}
-  - id: 1
-    position: {x: 369, y: 414, z: 0}
-  - id: 1
-    position: {x: 369, y: 415, z: 0}
-  - id: 1
-    position: {x: 369, y: 416, z: 0}
-  - id: 1
-    position: {x: 370, y: 394, z: 0}
-  - id: 1
-    position: {x: 370, y: 395, z: 0}
-  - id: 1
-    position: {x: 370, y: 396, z: 0}
-  - id: 1
-    position: {x: 370, y: 397, z: 0}
-  - id: 1
-    position: {x: 370, y: 398, z: 0}
-  - id: 1
-    position: {x: 370, y: 412, z: 0}
-  - id: 1
-    position: {x: 370, y: 413, z: 0}
-  - id: 1
-    position: {x: 370, y: 414, z: 0}
-  - id: 1
-    position: {x: 370, y: 415, z: 0}
-  - id: 1
-    position: {x: 370, y: 416, z: 0}
-  - id: 1
-    position: {x: 371, y: 394, z: 0}
-  - id: 1
-    position: {x: 371, y: 395, z: 0}
-  - id: 1
-    position: {x: 371, y: 396, z: 0}
-  - id: 1
-    position: {x: 371, y: 397, z: 0}
-  - id: 1
-    position: {x: 371, y: 398, z: 0}
-  - id: 1
-    position: {x: 371, y: 412, z: 0}
-  - id: 1
-    position: {x: 371, y: 413, z: 0}
-  - id: 1
-    position: {x: 371, y: 414, z: 0}
-  - id: 1
-    position: {x: 371, y: 415, z: 0}
-  - id: 1
-    position: {x: 371, y: 416, z: 0}
-  - id: 1
-    position: {x: 372, y: 394, z: 0}
-  - id: 1
-    position: {x: 372, y: 395, z: 0}
-  - id: 1
-    position: {x: 372, y: 396, z: 0}
-  - id: 1
-    position: {x: 372, y: 397, z: 0}
-  - id: 1
-    position: {x: 372, y: 398, z: 0}
-  - id: 1
-    position: {x: 372, y: 414, z: 0}
-  - id: 1
-    position: {x: 372, y: 415, z: 0}
-  - id: 1
-    position: {x: 372, y: 416, z: 0}
-  - id: 1
-    position: {x: 373, y: 394, z: 0}
-  - id: 1
-    position: {x: 373, y: 395, z: 0}
-  - id: 1
-    position: {x: 373, y: 396, z: 0}
-  - id: 1
-    position: {x: 373, y: 397, z: 0}
-  - id: 1
-    position: {x: 373, y: 398, z: 0}
-  - id: 1
-    position: {x: 373, y: 414, z: 0}
-  - id: 1
-    position: {x: 373, y: 415, z: 0}
-  - id: 1
-    position: {x: 373, y: 416, z: 0}
-  - id: 1
-    position: {x: 374, y: 394, z: 0}
-  - id: 1
-    position: {x: 374, y: 395, z: 0}
-  - id: 1
-    position: {x: 374, y: 396, z: 0}
-  - id: 1
-    position: {x: 374, y: 397, z: 0}
-  - id: 1
-    position: {x: 374, y: 398, z: 0}
-  - id: 1
-    position: {x: 374, y: 414, z: 0}
-  - id: 1
-    position: {x: 374, y: 415, z: 0}
-  - id: 1
-    position: {x: 374, y: 416, z: 0}
-  - id: 1
-    position: {x: 375, y: 394, z: 0}
-  - id: 1
-    position: {x: 375, y: 395, z: 0}
-  - id: 1
-    position: {x: 375, y: 396, z: 0}
-  - id: 1
-    position: {x: 375, y: 397, z: 0}
-  - id: 1
-    position: {x: 375, y: 398, z: 0}
-  - id: 1
-    position: {x: 375, y: 414, z: 0}
-  - id: 1
-    position: {x: 375, y: 415, z: 0}
-  - id: 1
-    position: {x: 375, y: 416, z: 0}
-  - id: 1
-    position: {x: 376, y: 394, z: 0}
-  - id: 1
-    position: {x: 376, y: 395, z: 0}
-  - id: 1
-    position: {x: 376, y: 396, z: 0}
-  - id: 1
-    position: {x: 376, y: 397, z: 0}
-  - id: 1
-    position: {x: 376, y: 398, z: 0}
-  - id: 1
-    position: {x: 376, y: 399, z: 0}
-  - id: 1
-    position: {x: 376, y: 414, z: 0}
-  - id: 1
-    position: {x: 376, y: 415, z: 0}
-  - id: 1
-    position: {x: 376, y: 416, z: 0}
-  - id: 1
-    position: {x: 377, y: 394, z: 0}
-  - id: 1
-    position: {x: 377, y: 395, z: 0}
-  - id: 1
-    position: {x: 377, y: 396, z: 0}
-  - id: 1
-    position: {x: 377, y: 397, z: 0}
-  - id: 1
-    position: {x: 377, y: 398, z: 0}
-  - id: 1
-    position: {x: 377, y: 399, z: 0}
-  - id: 1
-    position: {x: 377, y: 400, z: 0}
-  - id: 1
-    position: {x: 377, y: 414, z: 0}
-  - id: 1
-    position: {x: 377, y: 415, z: 0}
-  - id: 1
-    position: {x: 377, y: 416, z: 0}
-  - id: 1
-    position: {x: 378, y: 394, z: 0}
-  - id: 1
-    position: {x: 378, y: 395, z: 0}
-  - id: 1
-    position: {x: 378, y: 396, z: 0}
-  - id: 1
-    position: {x: 378, y: 397, z: 0}
-  - id: 1
-    position: {x: 378, y: 398, z: 0}
-  - id: 1
-    position: {x: 378, y: 399, z: 0}
-  - id: 1
-    position: {x: 378, y: 400, z: 0}
-  - id: 1
-    position: {x: 378, y: 414, z: 0}
-  - id: 1
-    position: {x: 378, y: 415, z: 0}
-  - id: 1
-    position: {x: 378, y: 416, z: 0}
-  - id: 1
-    position: {x: 379, y: 394, z: 0}
-  - id: 1
-    position: {x: 379, y: 395, z: 0}
-  - id: 1
-    position: {x: 379, y: 396, z: 0}
-  - id: 1
-    position: {x: 379, y: 397, z: 0}
-  - id: 1
-    position: {x: 379, y: 398, z: 0}
-  - id: 1
-    position: {x: 379, y: 399, z: 0}
-  - id: 1
-    position: {x: 379, y: 400, z: 0}
-  - id: 1
-    position: {x: 379, y: 414, z: 0}
-  - id: 1
-    position: {x: 379, y: 415, z: 0}
-  - id: 1
-    position: {x: 379, y: 416, z: 0}
-  - id: 1
-    position: {x: 380, y: 394, z: 0}
-  - id: 1
-    position: {x: 380, y: 395, z: 0}
-  - id: 1
-    position: {x: 380, y: 396, z: 0}
-  - id: 1
-    position: {x: 380, y: 397, z: 0}
-  - id: 1
-    position: {x: 380, y: 398, z: 0}
-  - id: 1
-    position: {x: 380, y: 399, z: 0}
-  - id: 1
-    position: {x: 380, y: 400, z: 0}
-  - id: 1
-    position: {x: 380, y: 414, z: 0}
-  - id: 1
-    position: {x: 380, y: 415, z: 0}
-  - id: 1
-    position: {x: 380, y: 416, z: 0}
-  - id: 1
-    position: {x: 381, y: 394, z: 0}
-  - id: 1
-    position: {x: 381, y: 395, z: 0}
-  - id: 1
-    position: {x: 381, y: 396, z: 0}
-  - id: 1
-    position: {x: 381, y: 397, z: 0}
-  - id: 1
-    position: {x: 381, y: 398, z: 0}
-  - id: 1
-    position: {x: 381, y: 399, z: 0}
-  - id: 1
-    position: {x: 381, y: 400, z: 0}
-  - id: 1
-    position: {x: 381, y: 414, z: 0}
-  - id: 1
-    position: {x: 381, y: 415, z: 0}
-  - id: 1
-    position: {x: 381, y: 416, z: 0}
-  - id: 1
-    position: {x: 382, y: 394, z: 0}
-  - id: 1
-    position: {x: 382, y: 395, z: 0}
-  - id: 1
-    position: {x: 382, y: 396, z: 0}
-  - id: 1
-    position: {x: 382, y: 397, z: 0}
-  - id: 1
-    position: {x: 382, y: 398, z: 0}
-  - id: 1
-    position: {x: 382, y: 399, z: 0}
-  - id: 1
-    position: {x: 382, y: 400, z: 0}
-  - id: 1
-    position: {x: 382, y: 412, z: 0}
-  - id: 1
-    position: {x: 382, y: 413, z: 0}
-  - id: 1
-    position: {x: 382, y: 414, z: 0}
-  - id: 1
-    position: {x: 382, y: 415, z: 0}
-  - id: 1
-    position: {x: 382, y: 416, z: 0}
-  - id: 1
-    position: {x: 383, y: 394, z: 0}
-  - id: 1
-    position: {x: 383, y: 395, z: 0}
-  - id: 1
-    position: {x: 383, y: 396, z: 0}
-  - id: 1
-    position: {x: 383, y: 397, z: 0}
-  - id: 1
-    position: {x: 383, y: 398, z: 0}
-  - id: 1
-    position: {x: 383, y: 399, z: 0}
-  - id: 1
-    position: {x: 383, y: 400, z: 0}
-  - id: 1
-    position: {x: 383, y: 401, z: 0}
-  - id: 1
-    position: {x: 383, y: 402, z: 0}
-  - id: 1
-    position: {x: 383, y: 403, z: 0}
-  - id: 1
-    position: {x: 383, y: 412, z: 0}
-  - id: 1
-    position: {x: 383, y: 413, z: 0}
-  - id: 1
-    position: {x: 383, y: 414, z: 0}
-  - id: 1
-    position: {x: 383, y: 415, z: 0}
-  - id: 1
-    position: {x: 383, y: 416, z: 0}
-  - id: 1
-    position: {x: 384, y: 394, z: 0}
-  - id: 1
-    position: {x: 384, y: 395, z: 0}
-  - id: 1
-    position: {x: 384, y: 396, z: 0}
-  - id: 1
-    position: {x: 384, y: 397, z: 0}
-  - id: 1
-    position: {x: 384, y: 398, z: 0}
-  - id: 1
-    position: {x: 384, y: 399, z: 0}
-  - id: 1
-    position: {x: 384, y: 400, z: 0}
-  - id: 1
-    position: {x: 384, y: 401, z: 0}
-  - id: 1
-    position: {x: 384, y: 402, z: 0}
-  - id: 1
-    position: {x: 384, y: 403, z: 0}
-  - id: 1
-    position: {x: 384, y: 404, z: 0}
-  - id: 1
-    position: {x: 384, y: 405, z: 0}
-  - id: 1
-    position: {x: 384, y: 406, z: 0}
-  - id: 1
-    position: {x: 384, y: 407, z: 0}
-  - id: 1
-    position: {x: 384, y: 408, z: 0}
-  - id: 1
-    position: {x: 384, y: 409, z: 0}
-  - id: 1
-    position: {x: 384, y: 410, z: 0}
-  - id: 1
-    position: {x: 384, y: 411, z: 0}
-  - id: 1
-    position: {x: 384, y: 412, z: 0}
-  - id: 1
-    position: {x: 384, y: 413, z: 0}
-  - id: 1
-    position: {x: 384, y: 414, z: 0}
-  - id: 1
-    position: {x: 384, y: 415, z: 0}
-  - id: 1
-    position: {x: 384, y: 416, z: 0}
-  - id: 1
-    position: {x: 385, y: 394, z: 0}
-  - id: 1
-    position: {x: 385, y: 395, z: 0}
-  - id: 1
-    position: {x: 385, y: 396, z: 0}
-  - id: 1
-    position: {x: 385, y: 397, z: 0}
-  - id: 1
-    position: {x: 385, y: 398, z: 0}
-  - id: 1
-    position: {x: 385, y: 399, z: 0}
-  - id: 1
-    position: {x: 385, y: 400, z: 0}
-  - id: 1
-    position: {x: 385, y: 401, z: 0}
-  - id: 1
-    position: {x: 385, y: 402, z: 0}
-  - id: 1
-    position: {x: 385, y: 403, z: 0}
-  - id: 1
-    position: {x: 385, y: 404, z: 0}
-  - id: 1
-    position: {x: 385, y: 405, z: 0}
-  - id: 1
-    position: {x: 385, y: 406, z: 0}
-  - id: 1
-    position: {x: 385, y: 407, z: 0}
-  - id: 1
-    position: {x: 385, y: 408, z: 0}
-  - id: 1
-    position: {x: 385, y: 409, z: 0}
-  - id: 1
-    position: {x: 385, y: 410, z: 0}
-  - id: 1
-    position: {x: 385, y: 411, z: 0}
-  - id: 1
-    position: {x: 385, y: 412, z: 0}
-  - id: 1
-    position: {x: 385, y: 413, z: 0}
-  - id: 1
-    position: {x: 385, y: 414, z: 0}
-  - id: 1
-    position: {x: 385, y: 415, z: 0}
-  - id: 1
-    position: {x: 385, y: 416, z: 0}
-  - id: 1
-    position: {x: 386, y: 394, z: 0}
-  - id: 1
-    position: {x: 386, y: 395, z: 0}
-  - id: 1
-    position: {x: 386, y: 396, z: 0}
-  - id: 1
-    position: {x: 386, y: 397, z: 0}
-  - id: 1
-    position: {x: 386, y: 398, z: 0}
-  - id: 1
-    position: {x: 386, y: 399, z: 0}
-  - id: 1
-    position: {x: 386, y: 400, z: 0}
-  - id: 1
-    position: {x: 386, y: 401, z: 0}
-  - id: 1
-    position: {x: 386, y: 402, z: 0}
-  - id: 1
-    position: {x: 386, y: 403, z: 0}
-  - id: 1
-    position: {x: 386, y: 404, z: 0}
-  - id: 1
-    position: {x: 386, y: 405, z: 0}
-  - id: 1
-    position: {x: 386, y: 406, z: 0}
-  - id: 1
-    position: {x: 386, y: 407, z: 0}
-  - id: 1
-    position: {x: 386, y: 408, z: 0}
-  - id: 1
-    position: {x: 386, y: 409, z: 0}
-  - id: 1
-    position: {x: 386, y: 410, z: 0}
-  - id: 1
-    position: {x: 386, y: 411, z: 0}
-  - id: 1
-    position: {x: 386, y: 412, z: 0}
-  - id: 1
-    position: {x: 386, y: 413, z: 0}
-  - id: 1
-    position: {x: 386, y: 414, z: 0}
-  - id: 1
-    position: {x: 386, y: 415, z: 0}
-  - id: 1
-    position: {x: 386, y: 416, z: 0}
-  - id: 1
-    position: {x: 387, y: 394, z: 0}
-  - id: 1
-    position: {x: 387, y: 395, z: 0}
-  - id: 1
-    position: {x: 387, y: 396, z: 0}
-  - id: 1
-    position: {x: 387, y: 397, z: 0}
-  - id: 1
-    position: {x: 387, y: 398, z: 0}
-  - id: 1
-    position: {x: 387, y: 399, z: 0}
-  - id: 1
-    position: {x: 387, y: 400, z: 0}
-  - id: 1
-    position: {x: 387, y: 401, z: 0}
-  - id: 1
-    position: {x: 387, y: 402, z: 0}
-  - id: 1
-    position: {x: 387, y: 403, z: 0}
-  - id: 1
-    position: {x: 387, y: 404, z: 0}
-  - id: 1
-    position: {x: 387, y: 405, z: 0}
-  - id: 1
-    position: {x: 387, y: 406, z: 0}
-  - id: 1
-    position: {x: 387, y: 407, z: 0}
-  - id: 1
-    position: {x: 387, y: 408, z: 0}
-  - id: 1
-    position: {x: 387, y: 409, z: 0}
-  - id: 1
-    position: {x: 387, y: 410, z: 0}
-  - id: 1
-    position: {x: 387, y: 411, z: 0}
-  - id: 1
-    position: {x: 387, y: 412, z: 0}
-  - id: 1
-    position: {x: 387, y: 413, z: 0}
-  - id: 1
-    position: {x: 387, y: 414, z: 0}
-  - id: 1
-    position: {x: 387, y: 415, z: 0}
-  - id: 1
-    position: {x: 387, y: 416, z: 0}
-  mapObjectDataList: []
+    position: {x: 22, y: 12, z: 0}
+  mapObjectDataList:
+  - id: 307
+    position: {x: -0.34002686, y: -6.200012}
+    quaternion: {x: -0, y: -0, z: -0, w: 1}
+    scale: {x: 1, y: 1, z: 1}
 --- !u!1 &2050860732097960881
 GameObject:
   m_ObjectHideFlags: 0
@@ -6125,33 +5604,59 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileMatrixArray:
   - m_RefCount: 0
     m_Data:
-      e00: 1
-      e01: 0
-      e02: 0
-      e03: 0
-      e10: 0
-      e11: 1
-      e12: 0
-      e13: 0
-      e20: 0
-      e21: 0
-      e22: 1
+      e00: -5.649916e-10
+      e01: -7.36444e-39
+      e02: 1.2376181e-28
+      e03: -7.365651e-39
+      e10: 8.9e-43
+      e11: 8.9e-43
+      e12: 8.91e-43
+      e13: 8.9e-43
+      e20: 4.5242e-41
+      e21: -1.3222627e+25
+      e22: 0
       e23: 0
       e30: 0
-      e31: 0
+      e31: 4.5908e-41
       e32: 0
-      e33: 1
+      e33: 0
+  - m_RefCount: 0
+    m_Data:
+      e00: 1.8e-43
+      e01: 0
+      e02: -7.349687e-39
+      e03: -7.349687e-39
+      e10: 0
+      e11: 0
+      e12: 8.9e-43
+      e13: 8.9e-43
+      e20: 1.2104282e+18
+      e21: 8.5996985e-30
+      e22: 1.8649174e-28
+      e23: -1.7304685e+29
+      e30: 4.5904e-41
+      e31: 8.95e-43
+      e32: 8.91e-43
+      e33: 8.93e-43
   m_TileColorArray:
   - m_RefCount: 0
-    m_Data: {r: 1, g: 1, b: 1, a: 1}
+    m_Data: {r: 4.5242e-41, g: 4.5242e-41, b: 4.5242e-41, a: 4.5242e-41}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Origin: {x: -10, y: -2, z: 0}
-  m_Size: {x: 15, y: 12, z: 1}
+  m_Origin: {x: -23, y: -13, z: 0}
+  m_Size: {x: 46, y: 26, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
