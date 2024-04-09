@@ -10,9 +10,9 @@ public class UI_ShowToolTip : MousePointerEntity
     public bool OnPointer;
     public float timer;
 
-    [SerializeField] string toolTipText;
+    public string toolTipText;
     public GameObject toolTipObj;
-
+    private TextMeshProUGUI text;
 
     private void Awake()
     {
@@ -61,7 +61,7 @@ public class UI_ShowToolTip : MousePointerEntity
         backGround.AddComponent<Image>().color = Color.gray;
         //text
         textObj.AddComponent<TextMeshProUGUI>();
-        TextMeshProUGUI text = textObj.GetComponent<TextMeshProUGUI>();
+        text = textObj.GetComponent<TextMeshProUGUI>();
         text.fontSize = 15;
         text.alignment = TextAlignmentOptions.Center;
         text.color = Color.black;
@@ -79,7 +79,11 @@ public class UI_ShowToolTip : MousePointerEntity
         toolTipObj.SetActive(false);
     }
 
-
+    public void SetText(string text)
+    {
+        toolTipText = text;
+        this.text.text = text;
+    }
 
    IEnumerator Co_Timer()
     {

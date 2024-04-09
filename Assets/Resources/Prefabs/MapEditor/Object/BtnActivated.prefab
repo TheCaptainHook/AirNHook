@@ -171,6 +171,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb7372d0956e82046a1a490ce69bd529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 306
+  onPlaceable: 0
+  onRotateable: 0
+  onScaleable: 0
+  distructionStatus: 0
   linkId: 0
   mask:
     serializedVersion: 2
