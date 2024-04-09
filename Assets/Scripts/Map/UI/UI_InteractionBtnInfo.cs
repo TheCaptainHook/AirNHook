@@ -39,6 +39,19 @@ public class UI_InteractionBtnInfo : UI_Base
         }
         dropdown.options = options;
         dropdown.RefreshShownValue();
+
+
+        for (int i = 0; i < dropdown.options.Count; i++)
+        {
+            TMP_Dropdown.OptionData option = dropdown.options[i];
+            if (int.Parse(option.text) == bA.linkId)
+            {
+                dropdown.value = i;
+                break;
+            }
+        }
+
+
     }
 
 
@@ -47,6 +60,13 @@ public class UI_InteractionBtnInfo : UI_Base
         MapEditor.Instance.placeMentSystem.onInteraction = true;
         if (firstOption)
         {
+            GameObject obj = Instantiate(curObject);
+            MapEditor.Instance.placeMentSystem.first_holdingObj = obj;
+            obj.GetComponent<BuildObj>().TurnOff();
+
+            //set
+            bA.linkId = int.Parse(dropdown.options[dropdown.value].text);
+
             Destroy(gameObject);
         }
         else
@@ -71,9 +91,12 @@ public class UI_InteractionBtnInfo : UI_Base
         
     }
 
-    public void SetCurObject(GameObject obj)
+    public override void SetCurObject(GameObject obj)
     {
+        base.SetCurObject(obj);
+
         curObject = obj;
+        Debug.Log(obj.name);
         bA = curObject.GetComponent<ButtonActivated>();
         SetDateInfo();
     }

@@ -29,8 +29,10 @@ public class UI_InteractionDoorInfo : UI_Base
         OpenUI();
     }
 
-    public void SetCurObject(GameObject obj)
+    public override void SetCurObject(GameObject obj)
     {
+        base.SetCurObject(obj);
+
         curObject = obj;
         bAD = curObject.GetComponent<ButtonActivatedDoor>();
         SetDataInfo();
@@ -98,8 +100,17 @@ public class UI_InteractionDoorInfo : UI_Base
 
     private void Confirm()
     {
+        MapEditor.Instance.placeMentSystem.onInteraction = true;
         curObject.GetComponent<ButtonActivatedDoor>().linkId = int.Parse(idInputField.text);
+        curObject.GetComponent<ButtonActivatedDoor>().activeRequirAmount = int.Parse(conditionInputField.text);
         ChangeLinkId();
         CloseUI();
+    }
+
+
+    protected override void CloseUI()
+    {
+        MapEditor.Instance.placeMentSystem.onInteraction = true;
+        base.CloseUI();
     }
 }

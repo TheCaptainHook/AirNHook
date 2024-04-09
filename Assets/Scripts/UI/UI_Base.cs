@@ -32,4 +32,7 @@ public abstract class UI_Base : MonoBehaviour
         if (text != " ")
             target.text = text;
     }
+
+    public virtual void SetCurObject(GameObject obj) { MapEditor.Instance.placeMentSystem.onInteraction = false; }
+
 }

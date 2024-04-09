@@ -25,7 +25,7 @@ public class Additional_Indicator : Indicator
 
     public override void OnPointerClick(PointerEventData data)
     {
-        ui.GetComponent<UI_InteractionDoorInfo>().SetCurObject(curLinkObj);
+        ui.GetComponent<UI_Base>().SetCurObject(curLinkObj);
         ui.GetComponent<UI_Base>().OnEnable();
     }
 
@@ -40,7 +40,10 @@ public class Additional_Indicator : Indicator
             ui.SetActive(false);
         }else if(obj.GetComponent<BuildObj>().id == 306)
         {
-
+            ui = ResourceManager.Instantiate("Prefabs/UI/UI_InteractionInfo", mainT);
+            ui.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+            ui.transform.rotation = Quaternion.identity;
+            ui.SetActive(false);
         }
     }
 }

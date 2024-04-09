@@ -437,14 +437,13 @@ public class PlaceMentSystem : MonoBehaviour
                     CurIndicatior = indicator;
                     indicator.transform.SetParent(CurbuildObject.transform);
                     indicator.transform.position = CurbuildObject.transform.position;
-                    indicator.transform.rotation = Quaternion.identity;
                     indicator.GetComponent<Move_Indicator>().SetLinkObj(CurbuildObject);
                     break;
                 case ModeState.Obj_Rotation:
                     GameObject indicator_R = Instantiate(ObjRotation_Indicator);
                     CurIndicatior = indicator_R;
                     //indicator_R.transform.SetParent(CurbuildObject.transform);
-                    //indicator_R.transform.position = CurbuildObject.transform.position;
+                    indicator_R.transform.position = CurbuildObject.transform.position;
                     indicator_R.GetComponent<Rotate_Indicator>().SetLinkObj(CurbuildObject);
                     break;
                 case ModeState.Obj_Scale:

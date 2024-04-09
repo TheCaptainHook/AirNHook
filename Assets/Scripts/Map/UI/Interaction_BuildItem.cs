@@ -25,6 +25,7 @@ public class Interaction_BuildItem : MonoBehaviour
                 GameObject ui = ResourceManager.Instantiate("Prefabs/UI/UI_InteractionInfo");
                 ui.GetComponent<UI_InteractionBtnInfo>().firstOption = true;
                 ui.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 5, 2);
+                ui.GetComponent<UI_InteractionBtnInfo>().SetCurObject(buildObj);
             }
             else
             {
