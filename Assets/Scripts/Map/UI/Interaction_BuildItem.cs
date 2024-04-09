@@ -1,7 +1,4 @@
-using Org.BouncyCastle.Crypto.Digests;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
@@ -20,11 +17,6 @@ public class Interaction_BuildItem : MonoBehaviour
 
     void ChoiceItem()
     {
-        if(buildObj.GetComponent<BuildObj>().id ==305 || buildObj.GetComponent<BuildObj>().id == 306)
-        {
-            return;
-        }
-        
         GameObject obj = Instantiate(buildObj);
         MapEditor.Instance.placeMentSystem.first_holdingObj = obj;
         obj.GetComponent<BuildObj>().TurnOff();

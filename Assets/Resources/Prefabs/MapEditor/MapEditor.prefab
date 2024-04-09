@@ -199,9 +199,10 @@ MonoBehaviour:
   gridPosition: {x: 0, y: 0, z: 0}
   curObj_ArrowIndicator: {fileID: 2872121356252122018, guid: 2282e6f19511b49af8c213f4a8a07ec1, type: 3}
   ObjMove_Indicator: {fileID: 1488624840834684537, guid: fd8ca4c5bf88f4f6aa02362fe03f4428, type: 3}
-  ObjRotation_Indicator: {fileID: 0}
+  ObjRotation_Indicator: {fileID: 2865012881642155670, guid: 5d1da2d5035a32245ab0699fa97f14fd, type: 3}
   ObjSclae_Indicator: {fileID: 0}
   ObjClear_Indicator: {fileID: 0}
+  Additional_Indicator: {fileID: 5835909523918060946, guid: 80f03ca9d1f3a485691c10adae6a3421, type: 3}
   curPlaceObjList: []
 --- !u!1 &608052873557677844
 GameObject:
@@ -681,7 +682,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3715141819798225897
 RectTransform:
   m_ObjectHideFlags: 0
@@ -807,7 +808,7 @@ MonoBehaviour:
   mapType: 1
   width: 20
   height: 20
-  mapID: Stage2-1
+  mapID: Stage3-1
   startPosition: {x: -20.099976, y: -11.719971}
   startPositionObject: {fileID: 0}
   mapTileDataList:

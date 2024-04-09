@@ -41,6 +41,7 @@ public class PlaceMentSystem : MonoBehaviour
         set
         {
             if (curArrowIndicatorTrack != null) { Destroy(curArrowIndicatorTrack); }
+            if(curAdditionalIndicatorTrack != null) { Destroy(curAdditionalIndicatorTrack);}
             CurIndicatior = null;
             curBuildObject = value;
             SelectCurBuildObj();//after
@@ -65,6 +66,9 @@ public class PlaceMentSystem : MonoBehaviour
 
 
     private GameObject curArrowIndicatorTrack;
+    //todo
+    private GameObject curAdditionalIndicatorTrack;
+    //todo
     [Header("Command")]
     [HideInInspector] public ModeState modeState;
     [HideInInspector] public Invoker invoker;
@@ -89,6 +93,7 @@ public class PlaceMentSystem : MonoBehaviour
     [SerializeField] GameObject ObjRotation_Indicator;
     [SerializeField] GameObject ObjSclae_Indicator;
     [SerializeField] GameObject ObjClear_Indicator;
+    [SerializeField] GameObject Additional_Indicator;
 
     [Header("Current Placed Object")]
     public List<BuildObj> curPlaceObjList = new();
@@ -361,6 +366,7 @@ public class PlaceMentSystem : MonoBehaviour
         if(first_holdingObj != null){ Destroy(first_holdingObj); }
         if(CurbuildObject != null) { CurbuildObject = null; }
         if(curArrowIndicatorTrack != null) { Destroy(curArrowIndicatorTrack); }
+        if(curAdditionalIndicatorTrack != null) { Destroy(curAdditionalIndicatorTrack); }
     }
 
     public void curPlacedObjTurnOff()
@@ -404,16 +410,13 @@ public class PlaceMentSystem : MonoBehaviour
         {
             curArrowIndicatorTrack = Instantiate(curObj_ArrowIndicator, CurbuildObject.transform);
             curArrowIndicatorTrack.GetComponent<Arrow_Indicator>().SetLinkObj(CurbuildObject);
-            //Collider2D[] cols = CurbuildObject.GetComponentsInChildren<Collider2D>();
-            //float height = 0;
 
-            //foreach (Collider2D co in cols)
-            //{
-            //    Debug.Log(co.name);
-            //    height = Mathf.Max(height, co.bounds.size.y);
-            //}
-            //Debug.Log(height);
-            //curArrowIndicatorTrack.transform.position += new Vector3(0, height + 0.5f, 0);
+            if (CurbuildObject.GetComponent<BuildObj>().id == 305 || CurbuildObject.GetComponent<BuildObj>().id == 306)
+            {
+                GameObject additionalIndicator = Instantiate(Additional_Indicator);
+                curAdditionalIndicatorTrack = additionalIndicator;
+                additionalIndicator.GetComponent<Additional_Indicator>().SetLinkObj(CurbuildObject);
+            }
 
         }
 
