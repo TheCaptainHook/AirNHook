@@ -13,7 +13,7 @@ public class Rotate_Indicator : Indicator
     {
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         target = new Vector3(mousePosition.x, mousePosition.y, 1);
-        transform.position = curLinkObj.transform.position + new Vector3(0, height, 0);
+        transform.position = curLinkObj.transform.position + new Vector3(0, height*0.5f, 0);
 
         if (isClicking)
         {

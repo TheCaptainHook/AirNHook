@@ -5,8 +5,16 @@ using UnityEngine.EventSystems;
 
 public class Additional_Indicator : Indicator
 {
+    Transform mainT;
 
     GameObject ui;
+
+
+
+    private void Awake()
+    {
+        mainT = transform.GetChild(0);
+    }
     private void Update()
     {
         if(curLinkObj != null)
@@ -17,11 +25,22 @@ public class Additional_Indicator : Indicator
 
     public override void OnPointerClick(PointerEventData data)
     {
-        Debug.Log("CClick");
+        ui.GetComponent<UI_InteractionDoorInfo>().SetCurObject(curLinkObj);
+        ui.GetComponent<UI_Base>().OnEnable();
     }
 
     public override void SetLinkObj(GameObject obj)
     {
         base.SetLinkObj(obj);
+        if(obj.GetComponent<BuildObj>().id == 305)
+        {
+            ui = ResourceManager.Instantiate("Prefabs/UI/UI_InteractionDoorInfo", mainT);
+            ui.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+            ui.transform.rotation = Quaternion.identity;
+            ui.SetActive(false);
+        }else if(obj.GetComponent<BuildObj>().id == 306)
+        {
+
+        }
     }
 }

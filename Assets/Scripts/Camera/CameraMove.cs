@@ -43,8 +43,12 @@ public class CameraMove : MonoBehaviour
     {
         if (Managers.Game.CurrentState is GameState.Editor)
         {
-            PanCamera();
-            ZoomInAndOut();
+            if (MapEditor.Instance.placeMentSystem.onInteraction)
+            {
+                PanCamera();
+                ZoomInAndOut();
+            }
+           
         }
     }
 

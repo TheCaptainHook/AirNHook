@@ -21,6 +21,8 @@ public class ButtonActivated : BuildObj
     public ButtonActivatedDoor linkDoor;
     Color orgColor;
 
+    bool isRunningCoroutine;
+
     [Header("Components")]
     SpriteRenderer spriteRenderer;
 
@@ -30,21 +32,22 @@ public class ButtonActivated : BuildObj
         orgColor = spriteRenderer.material.color;
     }
 
-    private void Start()
-    {
-        LinkDoor();
-    }
+    //private void Start()
+    //{
+    //    LinkDoor();
+    //}
     private void Update()
     {
-        if (!linked)
-        {
-            LinkDoor();
-        }
+        //if (!linked)
+        //{
+        //    LinkDoor();
+        //}
 
         if(curPosition != new Vector2(Mathf.Round(transform.position.x * 10f) / 10f, Mathf.Round(transform.position.y * 10f) / 10f))
         {
-            time = 2;
-            StartCoroutine(Co_ReLinkDoor());
+            if (isRunningCoroutine) { StopCoroutine(Co_ReLinkDoor()); isRunningCoroutine = false; }
+                time = 2;
+                StartCoroutine(Co_ReLinkDoor());    
         }
 
         if (isPressed && !onActive)
@@ -79,7 +82,7 @@ public class ButtonActivated : BuildObj
     public void LinkDoor()
     {
         Vector2 pot = new Vector2(Mathf.Round(transform.position.x*10f)/10f, Mathf.Round(transform.position.y * 10f) / 10f);
-
+        transform.position = pot;
         if (linkDoor != null)
         {
             if (linkDoor.buttonActivatedBtnList.Contains(curPosition))
@@ -126,13 +129,19 @@ public class ButtonActivated : BuildObj
 
   IEnumerator Co_ReLinkDoor()
     {
+        isRunningCoroutine = true;
         while (time > 0)
         {
             time -= Time.deltaTime;
             yield return null;
         }
+        isRunningCoroutine = false;
         LinkDoor();
     }
+
+
+
+
  
     void Activation()
     {

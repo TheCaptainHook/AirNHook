@@ -17,9 +17,23 @@ public class Interaction_BuildItem : MonoBehaviour
 
     void ChoiceItem()
     {
-        GameObject obj = Instantiate(buildObj);
-        MapEditor.Instance.placeMentSystem.first_holdingObj = obj;
-        obj.GetComponent<BuildObj>().TurnOff();
+        if (MapEditor.Instance.placeMentSystem.onInteraction)
+        {
+            if (buildObj.GetComponent<BuildObj>().id == 306)
+            {
+                MapEditor.Instance.placeMentSystem.onInteraction = false;
+                GameObject ui = ResourceManager.Instantiate("Prefabs/UI/UI_InteractionInfo");
+                ui.GetComponent<UI_InteractionBtnInfo>().firstOption = true;
+                ui.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 5, 2);
+            }
+            else
+            {
+                GameObject obj = Instantiate(buildObj);
+                MapEditor.Instance.placeMentSystem.first_holdingObj = obj;
+                obj.GetComponent<BuildObj>().TurnOff();
+            }
+        }
+       
     }
 
 

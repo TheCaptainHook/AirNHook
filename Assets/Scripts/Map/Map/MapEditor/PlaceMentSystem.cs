@@ -98,9 +98,12 @@ public class PlaceMentSystem : MonoBehaviour
     [Header("Current Placed Object")]
     public List<BuildObj> curPlaceObjList = new();
 
+    [Header("Interaction State")]
+    public bool onInteraction;
 
     private void Start()
     {
+        onInteraction = true;
         invoker = new Invoker();
     }
 
@@ -434,6 +437,7 @@ public class PlaceMentSystem : MonoBehaviour
                     CurIndicatior = indicator;
                     indicator.transform.SetParent(CurbuildObject.transform);
                     indicator.transform.position = CurbuildObject.transform.position;
+                    indicator.transform.rotation = Quaternion.identity;
                     indicator.GetComponent<Move_Indicator>().SetLinkObj(CurbuildObject);
                     break;
                 case ModeState.Obj_Rotation:
