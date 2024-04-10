@@ -90,17 +90,18 @@ public class ObjectSpaceUI : MonoBehaviour
         {
             onHide = false;
             num = originAnchoredPosition.y;
+
         }
         else
         {
             onHide = true;
-            num = -385;
+            num = -164;
         }
         while (percent < 1)
         {
             percent += Time.deltaTime + 0.08f;
             Vector2 ar = new Vector2(rTransform.anchoredPosition.x, num);
-            rTransform.anchoredPosition = Vector2.Lerp(rTransform.anchoredPosition, ar, percent);
+            rTransform.anchoredPosition = Vector4.Lerp(rTransform.anchoredPosition, ar, percent);
             yield return null;
         }
         toggleBtn.enabled = true;

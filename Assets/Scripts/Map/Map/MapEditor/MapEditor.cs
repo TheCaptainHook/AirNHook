@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using UnityEngine.Tilemaps;
 using System.IO;
 using System.Runtime.InteropServices.ComTypes;
@@ -63,8 +62,12 @@ public class MapEditor : MonoBehaviour
 
     [Space(5)]
     [Header("Init")]
-    [SerializeField] GameObject grid;
-    [HideInInspector] public GameObject gridPalette;
+    [SerializeField] GameObject floorTileMap;
+    [SerializeField] GameObject previewTileMap;
+    private GameObject gridPalette;
+    public GameObject GridPalette { get { return gridPalette; } set { { if (gridPalette != null) { Destroy(gridPalette); } gridPalette = value; } } }
+    private GameObject previewPalette;
+    public GameObject PreviewPalette { get { return previewPalette; } set { { if (previewPalette != null) { Destroy(previewPalette); } previewPalette = value; } } }
     public Transform mapObjBoxTransform;
     //[HideInInspector] public Transform gridPlateTransform;
     [HideInInspector] public Transform floorTransform;
@@ -115,9 +118,10 @@ public class MapEditor : MonoBehaviour
     {
         if(mapEditorState != MapEditorState.NoEditor) { editorUIController.gameObject.SetActive(true); }
         else { editorUIController.gameObject.SetActive(false); }
-        if(gridPalette != null) { Destroy(gridPalette); }
 
         CreateGridPalet();
+        CreatePreviewPalet();
+
         mapObjBoxTransform = Util.CreateChildTransform(transform, "MapObjBox");
         floorTransform = Util.CreateChildTransform(mapObjBoxTransform, "FloorTransform");
         objectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ObjectTransform");
@@ -126,12 +130,27 @@ public class MapEditor : MonoBehaviour
         dontSaveObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "DontSaveObjectTransform");
     }
 
-  
+    public void EditorMode_Init()
+    {
+        Managers.Game.CurrentState = GameState.Editor;
+        mapEditorState = MapEditorState.Editor;
+        Init();
+        gridPlane = Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/GridPlane"));
+        gridPlane.SetActive(false);
+        placeMentSystem.EditorMode_Init();
+    }
+
     void CreateGridPalet()
     {
-        gridPalette = Instantiate(grid);
-        placeMentSystem.floorTileMap = gridPalette.transform.Find("Floor").GetComponent<Tilemap>();
 
+        GridPalette = Instantiate(floorTileMap);
+        placeMentSystem.floorTileMap = GridPalette.transform.Find("Floor").GetComponent<Tilemap>();
+
+    }
+    void CreatePreviewPalet()
+    {
+        PreviewPalette = Instantiate(previewTileMap);
+        placeMentSystem.preViewTileMap = PreviewPalette.transform.Find("PreviewTilemap").GetComponent<Tilemap>();
     }
 
     #region Save 

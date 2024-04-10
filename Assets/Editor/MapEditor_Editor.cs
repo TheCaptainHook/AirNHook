@@ -68,12 +68,13 @@ public class MapEditor_Editor : Editor
 
         if(GUILayout.Button("In Game Editor Test btn")) //에디터 모드로 진입할때 초기화
         {
-            Managers.Game.CurrentState = GameState.Editor;
-            mapEditor.mapEditorState = MapEditorState.Editor;
-            mapEditor.Init();
-            mapEditor.gridPlane = Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/GridPlane"));
-            mapEditor.gridPlane.SetActive(false);
-            mapEditor.placeMentSystem.EditorMode_Init();
+            mapEditor.EditorMode_Init();
+            //Managers.Game.CurrentState = GameState.Editor;
+            //mapEditor.mapEditorState = MapEditorState.Editor;
+            //mapEditor.Init();
+            //mapEditor.gridPlane = Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/GridPlane"));
+            //mapEditor.gridPlane.SetActive(false);
+            //mapEditor.placeMentSystem.EditorMode_Init();
             
         }
 
@@ -86,8 +87,16 @@ public class MapEditor_Editor : Editor
         if (mapEditor.mapObjBoxTransform)
         {
             Undo.DestroyObjectImmediate(mapEditor.mapObjBoxTransform.gameObject);
-            Undo.DestroyObjectImmediate(mapEditor.gridPalette);
         }
+        if(mapEditor.GridPalette != null)
+        {
+            Undo.DestroyObjectImmediate(mapEditor.GridPalette);
+        }
+        if (mapEditor.PreviewPalette != null)
+        {
+            Undo.DestroyObjectImmediate(mapEditor.PreviewPalette);
+        }
+
         mapEditor.curMap = new Map();
     }
 

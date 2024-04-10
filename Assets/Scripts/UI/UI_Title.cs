@@ -61,9 +61,12 @@ public class UI_Title : UI_Base
     private void OnCreateRoomBtn()
     {
         //CloseUI();
-        Managers.Game.CurrentState = GameState.Lobby;
-//#if UNITY_EDITOR
-        Managers.Network.StartHost();
+        //Managers.Game.CurrentState = GameState.Lobby;//todo
+        Managers.Game.CurrentState = GameState.Editor;
+        Managers.UI.ShowLoadingUI("TestScene_MapEditor");
+
+        //#if UNITY_EDITOR
+        //Managers.Network.StartHost();//todo
 //#else
 //        Managers.Network.steamLobby.HostLobby();
 //#endif
