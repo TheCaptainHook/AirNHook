@@ -40,7 +40,7 @@ public class UI_Loading : UI_Base
     private IEnumerator Co_LoadSceneProcess()
     {
         _progressBar.fillAmount = 0f;
-        yield return StartCoroutine(Fade(true));
+        yield return StartCoroutine(Fade(true, _canvasGroup));
 
         AsyncOperation op = SceneManager.LoadSceneAsync(_loadSceneName);
         Managers.Network.LoadingSceneAsync = op;
@@ -73,23 +73,7 @@ public class UI_Loading : UI_Base
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
-        StartCoroutine(Fade(false)); // 페이드 아웃 애니메이션
-    }
-
-    private IEnumerator Fade(bool isFadein) 
-    {
-        float timer = 0f;
-        while(timer <= 1f)
-        {
-            yield return null;
-            timer += Time.unscaledDeltaTime;
-            _canvasGroup.alpha = isFadein ? Mathf.Lerp(0f,1f,timer) : Mathf.Lerp(1f,0f,timer);
-        }
-
-        if(!isFadein)
-        {
-            CloseUI();
-        }
+        StartCoroutine(Fade(false, _canvasGroup)); // 페이드 아웃 애니메이션
     }
 
     private void SetRandomBackground()

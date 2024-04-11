@@ -71,7 +71,7 @@ public class UI_Option : UI_Base
     public override void OnEnable()
     {
         OpenUI();
-        Show();
+        AppendAnim(_mainFrame, 1.1f, 0.2f, 1f, 0.1f);
         _inGameBtnGroups.SetActive(IsInGame);
         _inLobbyBtnGroups.SetActive(IsInLobby);
         _inExitBtnGroups.SetActive(IsNotInMenu);
@@ -105,15 +105,6 @@ public class UI_Option : UI_Base
         _applyBtn.onClick.AddListener(OnApplyBtn);
  
         _mainFrame.transform.localScale = Vector3.one * 0.1f;
-    }
-    
-    private void Show()
-    {
-        //등장 애니메이션
-        var seq = DOTween.Sequence();
-
-        seq.Append(_mainFrame.transform.DOScale(1.1f, 0.2f));
-        seq.Append(_mainFrame.transform.DOScale(1f, 0.1f));
     }
 
     //==================옵션 바 버튼==================

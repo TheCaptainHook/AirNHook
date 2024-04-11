@@ -5,6 +5,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : NetworkBehaviour
 {
+    [Header("Particles")] 
+    [SerializeField] protected ParticleSystem _jumpParticles;
+    [SerializeField] protected ParticleSystem _landParticles;
+    
     //점프 버퍼 체크
     private bool _isJumpBufferCheck;
     private bool _isJumpPerformed;
@@ -83,7 +87,6 @@ public class PlayerMovement : NetworkBehaviour
     {
         // 땅 체크
         IsFloor();
-
         if (!isLocalPlayer || IsDead) return;
 
         if (CheckJumpBuffer())
@@ -133,6 +136,7 @@ public class PlayerMovement : NetworkBehaviour
             _coyoteTimeCount = 0f;
             _isJumping = false;
             _rigidbd.velocity = new Vector2(_rigidbd.velocity.x, _jumpingPower);
+            _jumpParticles.Play();
         }
     }
     
@@ -162,10 +166,13 @@ public class PlayerMovement : NetworkBehaviour
             {
                 isGround = true;
                 _coyoteTimeCount = _coyoteTime;
+                if (!isGround)
+                {
+                    _landParticles.Play();
+                }
                 return;
             }
         }
-
         isGround = false;
         _coyoteTimeCount -= Time.deltaTime;
     }
