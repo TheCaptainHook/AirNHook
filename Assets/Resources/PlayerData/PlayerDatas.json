@@ -1,0 +1,27 @@
+[
+  {
+    "StageID": 1,
+    "StageClear": false,
+    "StageName": "Stage1"
+  },
+  {
+    "StageID": 2,
+    "StageClear": false,
+    "StageName": "Stage2"
+  },
+  {
+    "StageID": 3,
+    "StageClear": false,
+    "StageName": "Stage3"
+  },
+  {
+    "StageID": 4,
+    "StageClear": false,
+    "StageName": "Stage4"
+  },
+  {
+    "StageID": 5,
+    "StageClear": false,
+    "StageName": "Stage5"
+  }
+]
