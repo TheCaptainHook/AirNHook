@@ -37,15 +37,7 @@ public class UI_Join : UI_Base
     public override void OnEnable()
     {
         OpenUI();
-        Show();
-    }
-    
-    private void Show()
-    {
-        var seq = DOTween.Sequence();
-
-        seq.Append(_mainFrame.transform.DOScale(1.1f, 0.2f));
-        seq.Append(_mainFrame.transform.DOScale(1f, 0.1f));
+        AppendAnim(_mainFrame, 1.1f, 0.2f, 1f, 0.1f);
     }
 
     private void OnJoinBtn()

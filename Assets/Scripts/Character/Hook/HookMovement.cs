@@ -67,6 +67,10 @@ public class HookMovement : PlayerMovement
         {
             if (Physics2D.Raycast(transform.position + (Vector3.right * (0.4f * i)), Vector2.down, 0.1f, _floorLayer))
             {
+                if (!isGround)
+                {
+                    _landParticles.Play();
+                }
                 isGround = true;
                 swingJump = false;
                 _coyoteTimeCount = _coyoteTime;
@@ -75,7 +79,6 @@ public class HookMovement : PlayerMovement
                 return;
             }
         }
-
         isGround = false;
         _coyoteTimeCount -= Time.deltaTime;
     }
@@ -98,10 +101,15 @@ public class HookMovement : PlayerMovement
             _swingFloat += Time.deltaTime;
             _animator.SetFloat(SwingingForce, _swingFloat);
         }
+
         if (_horizontal == 0 && isSwinging || !isSwinging)
+        {
             _swingFloat = 0;
-        if(isGround)
+        }
+        if (isGround)
+        {
             _swingFloat = 0;
+        }
         base.MoveAnimation();
     }
 }

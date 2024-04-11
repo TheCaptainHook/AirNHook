@@ -25,6 +25,10 @@ public class SceneLoader
             case 1:
                 Debug.Log("Scene Loaded 1");
                 break;
+            // EditorScene
+            case 2:
+                Debug.Log("Scene Loaded 2");
+                break;
         }
     }
 }

@@ -21,7 +21,7 @@ public class UI_JoinFailed : UI_Base
     public override void OnEnable()
     {
         OpenUI();
-        Show();
+        AppendAnim(_mainFrame, 1.1f, 0.2f, 1f, 0.1f);
     }
     
     protected override void Start()
@@ -30,14 +30,6 @@ public class UI_JoinFailed : UI_Base
         
         _retryBtn.onClick.AddListener(OnRetryBtn);
         _exitBtn.onClick.AddListener(OnExitBtn);
-    }
-    
-    private void Show()
-    {
-        var seq = DOTween.Sequence();
-
-        seq.Append(_mainFrame.transform.DOScale(1.1f, 0.2f));
-        seq.Append(_mainFrame.transform.DOScale(1f, 0.1f));
     }
     
     private void OnRetryBtn()
