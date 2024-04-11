@@ -86,7 +86,11 @@ public class BuildObj : MousePointerEntity,IDamageable
     {
         if(MapEditor.Instance.mapEditorState == MapEditorState.Object)
         {
-            MapEditor.Instance.placeMentSystem.CurbuildObject = data.pointerCurrentRaycast.gameObject;
+            if(MapEditor.Instance.placeMentSystem.CurbuildObject != data.pointerCurrentRaycast.gameObject)
+            {
+                MapEditor.Instance.placeMentSystem.CurbuildObject = data.pointerCurrentRaycast.gameObject;
+            }
+           
         }
     }
 

@@ -12,7 +12,6 @@ public class Move_Indicator : Indicator
         //Vector3 target = new Vector3(mousePosition.x, mousePosition.y, 1);
         if (isClicking)
         {
-
             curLinkObj.transform.position = MapEditor.Instance.placeMentSystem.gridPosition;
         }
     }

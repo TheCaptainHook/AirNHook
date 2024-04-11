@@ -66,15 +66,15 @@ public class MapEditorControllerUI : MonoBehaviour
         tileDrawBtns = new Button[] { tileBtn, eraserBtn, drawBoxBtn, clearBoxBtn };
         //Tile Mode Btn
         //Obejct Mode Btn
-        moveBtn.onClick.AddListener(() => { ChangeObjectMode(moveBtn, ModeState.Obj_Move); placeMentSystem.CreateIndicator(ModeState.Obj_Move); });
+        moveBtn.onClick.AddListener(() => { ChangeObjectMode(moveBtn); placeMentSystem.CreateIndicator(ModeState.Obj_Move); });
         rotationBtn.onClick.AddListener(() => { 
             if(placeMentSystem.CurbuildObject != null && placeMentSystem.CurbuildObject.GetComponent<BuildObj>().onRotateable)
             {
-                ChangeObjectMode(rotationBtn, ModeState.Obj_Rotation);
+                ChangeObjectMode(rotationBtn);
                 placeMentSystem.CreateIndicator(ModeState.Obj_Rotation);
             }});
-        scaleBtn.onClick.AddListener(() => { ChangeObjectMode(scaleBtn, ModeState.Obj_Scale); });
-        clearBtn.onClick.AddListener(() => { ChangeObjectMode(clearBtn, ModeState.Obj_Clear); });
+        scaleBtn.onClick.AddListener(() => { ChangeObjectMode(scaleBtn); });
+        clearBtn.onClick.AddListener(() => { ChangeObjectMode(clearBtn); });
         objectDrawBtns = new Button[] { moveBtn, rotationBtn, scaleBtn, clearBtn };
     }
 
@@ -183,28 +183,29 @@ public class MapEditorControllerUI : MonoBehaviour
     #region Controller
     private void HideController()
     {
+
         StartCoroutine(Co_HideController());
     }
     IEnumerator Co_HideController()
     {
         RectTransform rectTransform = GetComponent<RectTransform>();
         float percent = 0;
-        int num = 0;
+        float num = 0;
         onOffBtn.enabled = false;
         if (onHide)
         {
             onHide = false;
-            num = 300;
-            onOffBtn.transform.GetChild(0).gameObject.SetActive(false);
-            onOffBtn.transform.GetChild(1).gameObject.SetActive(true);
+            num = 0;
+            onOffBtn.transform.GetChild(0).gameObject.SetActive(true);
+            onOffBtn.transform.GetChild(1).gameObject.SetActive(false);
 
         }
         else
         {
             onHide = true;
-            num = -300;
-            onOffBtn.transform.GetChild(0).gameObject.SetActive(true);
-            onOffBtn.transform.GetChild(1).gameObject.SetActive(false);
+            num = rectTransform.rect.width;
+            onOffBtn.transform.GetChild(0).gameObject.SetActive(false);
+            onOffBtn.transform.GetChild(1).gameObject.SetActive(true);
         }
         while (percent < 1)
         {
@@ -240,11 +241,10 @@ public class MapEditorControllerUI : MonoBehaviour
         Active_BtnChangeColor(btn);
         placeMentSystem.modeState = tileModeState;
     }
-    private void ChangeObjectMode(Button btn, ModeState modeState)
+    private void ChangeObjectMode(Button btn)
     {
         ObjectDrawModeBtn_Reset();
         Active_BtnChangeColor(btn);
-        placeMentSystem.modeState = modeState;
     }
 
 

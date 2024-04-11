@@ -8,7 +8,7 @@ public class Indicator : MousePointerEntity
     protected WaitForSeconds waitForSeconds = new WaitForSeconds(0.1f);
     public bool isClicking;
     public Vector3 mousePosition;
-
+    public bool linked;
 
 
     protected IEnumerator Co_CheckClicking()
@@ -31,5 +31,6 @@ public class Indicator : MousePointerEntity
     public virtual void SetLinkObj(GameObject obj)
     {
         curLinkObj = obj;
+        linked = true;
     }
 }

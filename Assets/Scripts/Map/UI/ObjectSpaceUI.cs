@@ -83,6 +83,7 @@ public class ObjectSpaceUI : MonoBehaviour
 
     IEnumerator Co_ShowAndHide()
     {
+        RectTransform rectTransform = GetComponent<RectTransform>();
         float percent = 0;
         float num = 0;
         toggleBtn.enabled = false;
@@ -95,7 +96,7 @@ public class ObjectSpaceUI : MonoBehaviour
         else
         {
             onHide = true;
-            num = -164;
+            num = -rectTransform.rect.height;
         }
         while (percent < 1)
         {

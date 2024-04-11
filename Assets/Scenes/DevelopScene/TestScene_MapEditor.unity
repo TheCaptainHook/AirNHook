@@ -131,13 +131,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 510517863331905739, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: floorTileMap
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 510517863331905739, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: preViewTileMap
-      value: 
+    - target: {fileID: 1996344758840580011, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2005102887669488765, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: m_Name
@@ -223,25 +219,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: gridPlane
-      value: 
-      objectReference: {fileID: 399345985239822108, guid: 437e80b82dca4462c9fedd97d2df0e5a, type: 3}
-    - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: gridPalette
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: floorTileMap
-      value: 
-      objectReference: {fileID: 3949353002546808513, guid: aec7033e8edd64921bb9541181a77242, type: 3}
-    - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: previewTileMap
-      value: 
-      objectReference: {fileID: 3476016317399670336, guid: e1f160bbfb9324fca801ed3026a86bb0, type: 3}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 3890634114746634616, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
@@ -777,7 +756,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1947547432
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -292,7 +292,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1100
   m_TargetDisplay: 0
 --- !u!114 &5603856976062647762
 MonoBehaviour:
@@ -351,6 +351,7 @@ MonoBehaviour:
   idInputField: {fileID: 616601116540777808}
   linked_Dropdown: {fileID: 479309656462832028}
   conditionInputField: {fileID: 179457075819558685}
+  linkBtnsList: []
 --- !u!1 &628889511152722013
 GameObject:
   m_ObjectHideFlags: 0

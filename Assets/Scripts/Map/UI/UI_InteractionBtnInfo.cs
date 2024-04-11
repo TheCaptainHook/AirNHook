@@ -64,14 +64,19 @@ public class UI_InteractionBtnInfo : UI_Base
             MapEditor.Instance.placeMentSystem.first_holdingObj = obj;
             obj.GetComponent<BuildObj>().TurnOff();
 
-            //set
-            bA.linkId = int.Parse(dropdown.options[dropdown.value].text);
-
+            obj.GetComponent<ButtonActivated>().linkId = int.Parse(dropdown.options[dropdown.value].text);
             Destroy(gameObject);
         }
         else
         {
-
+            if(bA.linkId != int.Parse(dropdown.options[dropdown.value].text)){
+                bA.linkDoor.buttonActivatedBtnList.Remove(bA.curPosition);
+                bA.linkDoor = null;
+                bA.linkId = int.Parse(dropdown.options[dropdown.value].text);
+                bA.LinkDoor();
+            }
+           
+            CloseUI();
         }
        
         

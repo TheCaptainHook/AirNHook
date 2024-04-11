@@ -10,14 +10,28 @@ public class Rotate_Indicator : Indicator
 
     private void Update()
     {
-        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        target = new Vector3(mousePosition.x, mousePosition.y, 1);
-
-        if (isClicking)
+        if (linked && curLinkObj == null)
         {
-            Vector3 mouseDelta = target - startPoint;
-            curLinkObj.transform.rotation = Quaternion.Euler(0, 0, curLinkObj.transform.rotation.eulerAngles.z + mouseDelta.x * 0.1f);
+            Destroy(gameObject);
         }
+        else
+        {
+            if (curLinkObj.transform.position != transform.position)
+            {
+                transform.position = curLinkObj.transform.position;
+            }
+           
+            mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            target = new Vector3(mousePosition.x, mousePosition.y, 1);
+
+            if (isClicking)
+            {
+                Vector3 mouseDelta = target - startPoint;
+                curLinkObj.transform.rotation = Quaternion.Euler(0, 0, curLinkObj.transform.rotation.eulerAngles.z + mouseDelta.x * 0.1f);
+            }
+        }
+
+      
     }
 
     public override void OnPointerDown(PointerEventData data)

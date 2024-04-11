@@ -17,10 +17,15 @@ public class Additional_Indicator : Indicator
     }
     private void Update()
     {
-        if(curLinkObj != null)
+        if(linked && curLinkObj == null)
+        {
+            Destroy(gameObject);
+        }
+        else
         {
             transform.position = curLinkObj.transform.position;
         }
+  
     }
 
     public override void OnPointerClick(PointerEventData data)

@@ -70,7 +70,7 @@ public class PlaceMentSystem : MonoBehaviour
     private GameObject curAdditionalIndicatorTrack;
     //todo
     [Header("Command")]
-    [HideInInspector] public ModeState modeState;
+    public ModeState modeState;
     [HideInInspector] public Invoker invoker;
     TileModeClient tileModeClient;
     [HideInInspector] public ObjectModeClient objectModeClient;
@@ -433,6 +433,7 @@ public class PlaceMentSystem : MonoBehaviour
             switch (modeState)
             {
                 case ModeState.Obj_Move:
+                    this.modeState = modeState;
                     GameObject indicator = Instantiate(ObjMove_Indicator);
                     CurIndicatior = indicator;
                     indicator.transform.SetParent(CurbuildObject.transform);
@@ -440,6 +441,7 @@ public class PlaceMentSystem : MonoBehaviour
                     indicator.GetComponent<Move_Indicator>().SetLinkObj(CurbuildObject);
                     break;
                 case ModeState.Obj_Rotation:
+                    this.modeState = modeState;
                     GameObject indicator_R = Instantiate(ObjRotation_Indicator);
                     CurIndicatior = indicator_R;
                     //indicator_R.transform.SetParent(CurbuildObject.transform);
