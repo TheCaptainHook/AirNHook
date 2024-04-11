@@ -10,8 +10,13 @@ public class ButtonActivatedDoor : BuildBase
     public int linkId;
 
     [Header("Components")]
-    SpriteRenderer spriteRenderer;
+    //SpriteRenderer spriteRenderer;
     BoxCollider2D _collider;
+    private Animator _animator;
+    
+    #region StringCache
+    private static readonly int IsUnlocked = Animator.StringToHash("IsUnlocked");
+    #endregion
 
     [HideInInspector] public int curLinkBtn;//현재 링크된 버튼 
     [HideInInspector] public int curActiveBtn;//현재 활성화된 버튼
@@ -45,23 +50,26 @@ public class ButtonActivatedDoor : BuildBase
 
     private void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        //spriteRenderer = GetComponent<SpriteRenderer>();
         _collider = GetComponent<BoxCollider2D>();
-        orgColor = spriteRenderer.material.color;
+        //orgColor = spriteRenderer.material.color;
+        _animator = GetComponent<Animator>();
     }
     void Activation()
     {
         onOpen = true;
-        Color color = orgColor;
-        color.a = 0;
-        spriteRenderer.color = color;
+        //Color color = orgColor;
+        //color.a = 0;
+        //spriteRenderer.color = color;
         _collider.enabled = false;
+        _animator.SetBool(IsUnlocked, true);
     }
     void Deactivated()
     {
         onOpen = false;
-        spriteRenderer.color = orgColor;
+        //spriteRenderer.color = orgColor;
         _collider.enabled = true;
+        _animator.SetBool(IsUnlocked, false);
     }
 
 
