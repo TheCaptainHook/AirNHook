@@ -73,7 +73,7 @@ public class MapEditorControllerUI : MonoBehaviour
                 ChangeObjectMode(rotationBtn);
                 placeMentSystem.CreateIndicator(ModeState.Obj_Rotation);
             }});
-        scaleBtn.onClick.AddListener(() => { ChangeObjectMode(scaleBtn); });
+        scaleBtn.onClick.AddListener(() => { ChangeObjectMode(scaleBtn); OpenScaleUI(); });
         clearBtn.onClick.AddListener(() => { ChangeObjectMode(clearBtn); });
         objectDrawBtns = new Button[] { moveBtn, rotationBtn, scaleBtn, clearBtn };
     }
@@ -82,7 +82,7 @@ public class MapEditorControllerUI : MonoBehaviour
 
     void TileMode() //타일모드로 진입할때, //todo
     {
-        if (MapEditor.Instance.gridPlane.activeSelf)
+        if (MapEditor.Instance.gridPlane.activeSelf && placeMentSystem.onInteraction)
         {
             ModeBtn_Reset();
             if (MapEditor.Instance.mapEditorState == MapEditorState.Tile)
@@ -103,7 +103,7 @@ public class MapEditorControllerUI : MonoBehaviour
     }
     void ObjectMode()
     {
-        if (MapEditor.Instance.gridPlane.activeSelf)
+        if (MapEditor.Instance.gridPlane.activeSelf && placeMentSystem.onInteraction)
         {
             ModeBtn_Reset();
             if (MapEditor.Instance.mapEditorState == MapEditorState.Object)
@@ -247,6 +247,18 @@ public class MapEditorControllerUI : MonoBehaviour
         Active_BtnChangeColor(btn);
     }
 
+    private void OpenScaleUI()
+    {
+        if(placeMentSystem.CurbuildObject != null)
+        {
+            GameObject ui = Instantiate(Resources.Load<GameObject>("Prefabs/UI/UI_ScaleInfo"));
+            ui.transform.position = placeMentSystem.CurbuildObject.transform.position + new Vector3(3, 0);
+            ui.GetComponent<UI_ScaleInfo>().SetCurObject(placeMentSystem.CurbuildObject);
+            placeMentSystem.objectModeClient.Scale();
+            //COmmand
+               
+        }
+    }
 
  
     #endregion

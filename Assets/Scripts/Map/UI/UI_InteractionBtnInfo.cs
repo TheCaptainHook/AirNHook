@@ -29,13 +29,20 @@ public class UI_InteractionBtnInfo : UI_Base
 
     public void SetDateInfo()
     {
-        interactionDoorList = new();
+        //interactionDoorList = new();
 
         List<TMP_Dropdown.OptionData> options = new();
+        List<int> check = new();
         foreach(Transform tr in MapEditor.Instance.interactionObjectTransform)
         {
-            interactionDoorList.Add(tr.gameObject);
-            options.Add(new TMP_Dropdown.OptionData($"{tr.GetComponent<ButtonActivatedDoor>().linkId}"));
+            TMP_Dropdown.OptionData tdod = new TMP_Dropdown.OptionData($"{tr.GetComponent<ButtonActivatedDoor>().linkId}");
+            int id = tr.GetComponent<ButtonActivatedDoor>().linkId;
+            if (!check.Contains(id))
+            {
+                options.Add(tdod);
+                check.Add(id);
+            }
+           
         }
         dropdown.options = options;
         dropdown.RefreshShownValue();

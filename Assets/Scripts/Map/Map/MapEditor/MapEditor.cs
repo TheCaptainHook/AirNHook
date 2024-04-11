@@ -372,7 +372,7 @@ public class MapEditor : MonoBehaviour
         mapTileDataList.Clear();
     }
 
-    public void CreateObj(Transform transform)
+    public void CreateObj(Transform transform)//스위치문 스트링값 대체하기.
     {
         switch (transform.name)
         {
@@ -440,7 +440,6 @@ public class MapEditor : MonoBehaviour
             GameObject btnActivated = Object.Instantiate(Resources.Load<GameObject>(btn.path));
             btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, door);
             btnActivated.transform.SetParent(dontSaveObjectTransform);
-
         }
     }
 

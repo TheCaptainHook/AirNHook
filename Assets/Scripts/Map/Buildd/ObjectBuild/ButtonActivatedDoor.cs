@@ -10,7 +10,7 @@ public class ButtonActivatedDoor : BuildBase
     public int linkId;
 
     [Header("Components")]
-    SpriteRenderer spriteRenderer;
+    [SerializeField] SpriteRenderer spriteRenderer;
     BoxCollider2D _collider;
 
     [HideInInspector] public int curLinkBtn;//현재 링크된 버튼 
@@ -45,7 +45,6 @@ public class ButtonActivatedDoor : BuildBase
 
     private void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
         _collider = GetComponent<BoxCollider2D>();
         orgColor = spriteRenderer.material.color;
     }

@@ -10,10 +10,24 @@ public class Move_Indicator : Indicator
     {
         //mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //Vector3 target = new Vector3(mousePosition.x, mousePosition.y, 1);
-        if (isClicking)
+        if (linked && curLinkObj == null)
         {
-            curLinkObj.transform.position = MapEditor.Instance.placeMentSystem.gridPosition;
+            Destroy(gameObject);
         }
+        else
+        {
+            if (transform.position != curLinkObj.transform.position)
+            {
+                transform.position = curLinkObj.transform.position;
+            }
+
+            if (isClicking)
+            {
+                curLinkObj.transform.position = MapEditor.Instance.placeMentSystem.gridPosition;
+            }
+        }
+
+        
     }
 
 

@@ -88,11 +88,24 @@ public class UI_InteractionDoorInfo : UI_Base
 
     public void ChangeLinkId()
     {
-        if (linkBtnsList.Count > 0)
+        bAD.buttonActivatedBtnList.Clear();
+        linkBtnsList.Clear();
+        foreach(Transform tf in MapEditor.Instance.dontSaveObjectTransform)
         {
-            foreach (GameObject obj in linkBtnsList)
+            ButtonActivated ba = tf.gameObject.GetComponent<ButtonActivated>();
+            if(ba != null)
             {
-                obj.GetComponent<ButtonActivated>().linkId = int.Parse(idInputField.text);
+                if(ba.linkId == int.Parse(idInputField.text))
+                {
+                    bAD.buttonActivatedBtnList.Add(ba.curPosition);
+                    linkBtnsList.Add(ba.gameObject);
+                    //버튼 라인렌더러 함수 재실행,
+                }
+                else
+                {
+                    //버튼 라인렌더러 함수 재실행
+                }
+               
             }
         }
        
@@ -103,7 +116,6 @@ public class UI_InteractionDoorInfo : UI_Base
         MapEditor.Instance.placeMentSystem.onInteraction = true;
         curObject.GetComponent<ButtonActivatedDoor>().linkId = int.Parse(idInputField.text);
         curObject.GetComponent<ButtonActivatedDoor>().activeRequirAmount = int.Parse(conditionInputField.text);
-        ChangeLinkId();
         CloseUI();
     }
 

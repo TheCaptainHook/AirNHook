@@ -436,7 +436,7 @@ public class PlaceMentSystem : MonoBehaviour
                     this.modeState = modeState;
                     GameObject indicator = Instantiate(ObjMove_Indicator);
                     CurIndicatior = indicator;
-                    indicator.transform.SetParent(CurbuildObject.transform);
+                    //indicator.transform.SetParent(CurbuildObject.transform);
                     indicator.transform.position = CurbuildObject.transform.position;
                     indicator.GetComponent<Move_Indicator>().SetLinkObj(CurbuildObject);
                     break;
@@ -447,10 +447,6 @@ public class PlaceMentSystem : MonoBehaviour
                     //indicator_R.transform.SetParent(CurbuildObject.transform);
                     indicator_R.transform.position = CurbuildObject.transform.position;
                     indicator_R.GetComponent<Rotate_Indicator>().SetLinkObj(CurbuildObject);
-                    break;
-                case ModeState.Obj_Scale:
-                    break;
-                case ModeState.Obj_Clear:
                     break;
             }
         }

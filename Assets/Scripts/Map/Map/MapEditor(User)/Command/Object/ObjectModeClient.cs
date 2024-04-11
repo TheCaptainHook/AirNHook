@@ -8,6 +8,8 @@ public class ObjectModeClient
     Object_CreateModeCommand object_CreateModeCommand;
     Object_MoveModeCommand object_MoveModeCommand;
     Object_RotateModeCommand object_RotateModeCommand;
+    Object_ScaleModeCommand object_ScaleModeCommand;
+
     public ObjectModeClient()
     {
         invoker = MapEditor.Instance.placeMentSystem.invoker;
@@ -29,6 +31,12 @@ public class ObjectModeClient
     {
         object_RotateModeCommand = new Object_RotateModeCommand(new Object_Rotate());
         invoker.AddCommand(object_RotateModeCommand);
+        invoker.Execute();
+    }
+    public void Scale()
+    {
+        object_ScaleModeCommand = new Object_ScaleModeCommand(new Object_Scale());
+        invoker.AddCommand(object_ScaleModeCommand);
         invoker.Execute();
     }
     public void Clear()

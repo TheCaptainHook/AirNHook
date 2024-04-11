@@ -125,6 +125,7 @@ MonoBehaviour:
   onScaleable: 1
   distructionStatus: 0
   linkId: 0
+  spriteRenderer: {fileID: 5909338032190535743}
   curLinkBtn: 0
   curActiveBtn: 0
   activeRequirAmount: 0
