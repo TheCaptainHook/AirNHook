@@ -11,6 +11,7 @@ public class ButtonActivatedDoor : BuildBase
 
     [Header("Components")]
     [SerializeField] SpriteRenderer spriteRenderer;
+
     BoxCollider2D _collider;
 
     [HideInInspector] public int curLinkBtn;//현재 링크된 버튼 

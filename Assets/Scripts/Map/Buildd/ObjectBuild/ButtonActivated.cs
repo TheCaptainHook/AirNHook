@@ -11,10 +11,9 @@ public class ButtonActivated : BuildObj
 
 
     public LayerMask mask;
-
+    //bool linked;
     public bool onActive;
     public bool isPressed = false;
-    bool linked;
     public float time = 2;
     public Vector2 curPosition;
 
@@ -28,8 +27,10 @@ public class ButtonActivated : BuildObj
 
     private void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();  
+        spriteRenderer = GetComponent<SpriteRenderer>();
         orgColor = spriteRenderer.material.color;
+
+   
     }
 
     //private void Start()
@@ -100,7 +101,7 @@ public class ButtonActivated : BuildObj
             {
                 if (transform.GetComponent<ButtonActivatedDoor>().linkId == linkId)
                 {
-                    linked = true;
+                    //linked = true;
                     linkDoor = transform.GetComponent<ButtonActivatedDoor>();
                     if (linkDoor.buttonActivatedBtnList.Contains(curPosition))
                     {
@@ -138,7 +139,6 @@ public class ButtonActivated : BuildObj
         isRunningCoroutine = false;
         LinkDoor();
     }
-
 
 
 
