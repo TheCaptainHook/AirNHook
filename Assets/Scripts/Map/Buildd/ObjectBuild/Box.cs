@@ -15,6 +15,7 @@ public class Box : BuildObj
     {
         base.TurnOff();
         rb.gravityScale = 0;
+        rb.velocity = Vector2.zero;
     }
     public override void TurnOn()
     {

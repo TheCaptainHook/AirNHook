@@ -21,7 +21,12 @@ public class Move_Indicator : Indicator
     {
         isClicking = true;
         MapEditor.Instance.placeMentSystem.objectModeClient.Move();
-        StartCoroutine(Co_CheckClicking());
+    }
+
+    public override void OnPointerUp(PointerEventData data)
+    {
+        isClicking = false;
+        MapEditor.Instance.placeMentSystem.CreateIndicator(ModeState.Obj_Move);
     }
 
 }

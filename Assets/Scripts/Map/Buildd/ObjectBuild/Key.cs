@@ -62,6 +62,7 @@ public class Key : BuildObj
     {
         base.TurnOff();
         _rb.gravityScale = 0;
+        _rb.velocity = Vector2.zero;
 
     }
     public override void TurnOn()
