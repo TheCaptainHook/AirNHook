@@ -57,7 +57,7 @@
  },
  {
   "id": 1014,
-  "text": "This option is not available in menu"
+  "text": "This option is not available now"
  },
  {
   "id": 2001,
@@ -94,6 +94,14 @@
  {
   "id": 2009,
   "text": "JOIN"
+ },
+ {
+  "id": 2010,
+  "text": "Map Editor"
+ },
+ {
+  "id": 2101,
+  "text": "Stage Start"
  },
  {
   "id": 4001,

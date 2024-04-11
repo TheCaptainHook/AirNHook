@@ -35,7 +35,7 @@ public class UI_EmoteWheel : UI_Base
     public override void OnEnable()
     {
         OpenUI();
-        Show();
+        AppendAnim(_mainFrame, 1.3f, 0.15f, 1f, 0.05f);
     }
 
     protected override void Start()
@@ -55,22 +55,6 @@ public class UI_EmoteWheel : UI_Base
         _arrowPanel4.onClick.AddListener(OnArrow4);
     }                                           
     
-    private void Show()                         
-    {
-        var seq = DOTween.Sequence();
-
-        seq.Append(_mainFrame.transform.DOScale(1.3f, 0.15f));
-        seq.Append(_mainFrame.transform.DOScale(1f, 0.05f));
-    }
-    
-    private void Disapper()                         
-    {
-        var seq = DOTween.Sequence();
-        
-        seq.Append(_mainFrame.transform.DOScale(1.3f, 0.05f));
-        seq.Append(_mainFrame.transform.DOScale(0f, 0.05f));
-    }
-
     private void ShowEmote(string emoteName)
     {
         //Managers.Resource.NetworkInstantiate($"UI/Emotes/{emoteName}", Managers.Game.Player.transform);
@@ -136,7 +120,7 @@ public class UI_EmoteWheel : UI_Base
 
     private void OnExit()
     {
-        Disapper();
+        AppendAnim(_mainFrame, 1.3f, 0.05f, 0f, 0.05f);
         CloseUI();
         _mainEmoteWheel.SetActive(true);
         _arrowEmoteWheel.SetActive(false);

@@ -6,6 +6,7 @@ public class UI_StageSelect : UI_Base
 {
     public Transform layout;
     [SerializeField] Button closeBtn;
+    private TMP_Text _startText;
 
     private void Awake()
     {
@@ -42,6 +43,7 @@ public class UI_StageSelect : UI_Base
 
         //TEST 맵 시작 테스트 코드
         var endButton = ResourceManager.Instantiate("Prefabs/UI/Button", layout).GetComponent<Button>();
+        //endButton.GetComponentInChildren<TMP_Text>().text = _startText.text;
         endButton.onClick.AddListener(StartGame);
     }
 
@@ -64,5 +66,11 @@ public class UI_StageSelect : UI_Base
     private void StartGame()
     {
         Managers.Network.ServerChangeScene("MainScene");
+        CloseUI();
+    }
+    
+    public override void SetLanguage()
+    {
+        SetSentence(_startText, 2101);
     }
 }
