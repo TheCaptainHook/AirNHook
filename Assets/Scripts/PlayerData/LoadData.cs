@@ -24,11 +24,13 @@ public class LoadData : MonoBehaviour
 
     private void Start()
     {
-        var fliePath = Path.Combine(Application.dataPath, "Resources/PlayerData/MapDatas.json");
+        //TODO 아래부분을 Start가 아닌 다른부분에 넣어서 사용하면됩니다.
+        //플레이어 데이터에 정보 넣는 코드 28~60
+        var fliePath = Path.Combine(Application.streamingAssetsPath, "PlayerData/MapDatas.json");
 
         foreach (var key in _mapData.mapMainDictionary.Keys)
         {
-            if(!playerData.ContainsKey(key))
+            if (!playerData.ContainsKey(key))
             {
                 PlayerData data = new PlayerData()
                 {
@@ -38,28 +40,39 @@ public class LoadData : MonoBehaviour
                 playerData.Add(key, data);
             }
         }
-        File.WriteAllText(fliePath, JsonConvert.SerializeObject(playerData.Values, Formatting.Indented));
+        foreach (var key in _mapData.mapUserDictionary.Keys)
+        {
+            if (!playerData.ContainsKey(key))
+            {
+                PlayerData data = new PlayerData()
+                {
+                    StageID = key,
+                    StageClear = false,
+                };
+                playerData.Add(key, data);
+            }
+        }
+
+        //해당위치에 해당파일이 있는지 체크하고 없으면 생성
+        if (!File.Exists(fliePath))
+        {
+            File.WriteAllText(fliePath, JsonConvert.SerializeObject(playerData.Values, Formatting.Indented));
+        }
 
         //Json파일 읽어오는 코드
-        //var path = Path.Combine(Application.dataPath, "Resources/PlayerData/PlayerDatas.json");
-        //
-        //var list = Managers.Data.ReadJson<PlayerData>(path);
-        //
-        //foreach(var sentence in list)
-        //{
-        //    playerData.Add(sentence.StageID, sentence);
-        //}
-        //
-        ////현재 테스트과정이기때문에 버튼을 누르면 true로 바뀌고 저장이되도록 제작할예정
-        //foreach (var key in playerData.Keys)
-        //{
-        //    //이곳을 통해서 스테이지번호를가진 버튼이 생성됨
-        //    var slot = ResourceManager.Instantiate("Prefabs/Button/StageButton", stageButton);
-        //
-        //    var button = slot.GetComponent<StageButton>();
-        //
-        //    button.StageSelect(playerData[key]);
-        //}
+        var path = Path.Combine(Application.streamingAssetsPath, "PlayerData/MapDatas.json");
+        var list = Managers.Data.ReadJson<PlayerData>(path);
+        
+        //Json에 제대로 저장이 되었는지 확인하기위한 버튼설정
+        foreach (var key in list)
+        {
+            //이곳을 통해서 스테이지번호를가진 버튼이 생성됨
+            var slot = ResourceManager.Instantiate("Prefabs/Button/StageButton", stageButton);
+        
+            var button = slot.GetComponent<StageButton>();
+        
+            button.StageSelect(key);
+        }
     }
 
     public void WriteAlltext()
