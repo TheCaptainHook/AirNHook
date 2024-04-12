@@ -51,4 +51,13 @@ public class Additional_Indicator : Indicator
             ui.SetActive(false);
         }
     }
+    public override void OnPointerEnter(PointerEventData data)
+    {
+     
+    }
+    public override void OnPointerExit(PointerEventData data)
+    {
+        
+    }
+
 }

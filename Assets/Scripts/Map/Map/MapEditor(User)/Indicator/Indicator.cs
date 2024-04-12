@@ -10,7 +10,7 @@ public class Indicator : MousePointerEntity
     public bool isClicking;
     public Vector3 mousePosition;
     public bool linked;
-
+    private bool onEnterPointer;
 
     //protected IEnumerator Co_CheckClicking()
     //{
