@@ -75,7 +75,7 @@ public class UI_InteractionDoorInfo : UI_Base
             ButtonActivated btn = tr.GetComponent<ButtonActivated>();
             if(btn != null)
             {
-                if(btn.linkDoor == bAD)
+                if (btn.linkDoorList[0].linkId == bAD.linkId)
                 {
                     list.Add(btn.gameObject);
                 }

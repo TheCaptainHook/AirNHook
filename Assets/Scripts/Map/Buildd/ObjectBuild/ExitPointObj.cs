@@ -12,7 +12,7 @@ public class ExitPointObj : BuildBase
 
 
     [Header("Info")]
-    [SerializeField] int condition_KeyAmount;
+    public int condition_KeyAmount;
     private int current_KeyAmount;
     public int Current_KeyAmount {
         get { return current_KeyAmount; }

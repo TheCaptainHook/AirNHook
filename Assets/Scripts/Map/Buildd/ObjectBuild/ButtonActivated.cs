@@ -17,7 +17,9 @@ public class ButtonActivated : BuildObj
     public float time = 2;
     public Vector2 curPosition;
 
-    public ButtonActivatedDoor linkDoor;
+    //public ButtonActivatedDoor linkDoor;
+    public List<ButtonActivatedDoor> linkDoorList;
+
     Color orgColor;
 
     bool isRunningCoroutine;
@@ -80,20 +82,60 @@ public class ButtonActivated : BuildObj
     //ButtonActivateBtn 생성하려면 무조건 ButtonActivateDoor가 하나이상 있어야함.
     //맵안에 ButtonActivateDoor 와 일치하는 id 가 없으면 오류, 설치 불가
     //</summary>
+    //public void LinkDoor()
+    //{
+    //    Vector2 pot = new Vector2(Mathf.Round(transform.position.x*10f)/10f, Mathf.Round(transform.position.y * 10f) / 10f);
+    //    transform.position = pot;
+    //    if (linkDoor != null)
+    //    {
+    //        if (linkDoor.buttonActivatedBtnList.Contains(curPosition))
+    //        {
+    //            linkDoor.buttonActivatedBtnList.Remove(curPosition);
+    //            linkDoor.curLinkBtn--;
+    //        }
+    //        linkDoor.curLinkBtn++;
+    //        linkDoor.buttonActivatedBtnList.Add(pot);
+    //        curPosition = pot;
+    //    }
+    //    else
+    //    {
+    //        foreach (Transform transform in MapEditor.Instance.interactionObjectTransform)
+    //        {
+    //            if (transform.GetComponent<ButtonActivatedDoor>().linkId == linkId)
+    //            {
+    //                //linked = true;
+    //                linkDoor = transform.GetComponent<ButtonActivatedDoor>();
+    //                if (linkDoor.buttonActivatedBtnList.Contains(curPosition))
+    //                {
+    //                    linkDoor.buttonActivatedBtnList.Remove(curPosition);
+    //                    linkDoor.curLinkBtn--;
+    //                }
+    //                linkDoor.curLinkBtn++;
+    //                linkDoor.buttonActivatedBtnList.Add(pot);
+    //                curPosition = pot;
+    //            }
+    //        }
+    //    }
+
+    //}
     public void LinkDoor()
     {
-        Vector2 pot = new Vector2(Mathf.Round(transform.position.x*10f)/10f, Mathf.Round(transform.position.y * 10f) / 10f);
+        Vector2 pot = new Vector2(Mathf.Round(transform.position.x * 10f) / 10f, Mathf.Round(transform.position.y * 10f) / 10f);
         transform.position = pot;
-        if (linkDoor != null)
+        if (linkDoorList.Count > 0)
         {
-            if (linkDoor.buttonActivatedBtnList.Contains(curPosition))
+            foreach(ButtonActivatedDoor linkDoor in linkDoorList)
             {
-                linkDoor.buttonActivatedBtnList.Remove(curPosition);
-                linkDoor.curLinkBtn--;
+                if (linkDoor.buttonActivatedBtnList.Contains(curPosition))
+                {
+                    linkDoor.buttonActivatedBtnList.Remove(curPosition);
+                    linkDoor.curLinkBtn--;
+                }
+                linkDoor.curLinkBtn++;
+                linkDoor.buttonActivatedBtnList.Add(pot);
+                curPosition = pot;
             }
-            linkDoor.curLinkBtn++;
-            linkDoor.buttonActivatedBtnList.Add(pot);
-            curPosition = pot;
+ 
         }
         else
         {
@@ -102,33 +144,58 @@ public class ButtonActivated : BuildObj
                 if (transform.GetComponent<ButtonActivatedDoor>().linkId == linkId)
                 {
                     //linked = true;
-                    linkDoor = transform.GetComponent<ButtonActivatedDoor>();
+                    ButtonActivatedDoor linkDoor = transform.GetComponent<ButtonActivatedDoor>();
+
                     if (linkDoor.buttonActivatedBtnList.Contains(curPosition))
                     {
                         linkDoor.buttonActivatedBtnList.Remove(curPosition);
                         linkDoor.curLinkBtn--;
                     }
+
                     linkDoor.curLinkBtn++;
                     linkDoor.buttonActivatedBtnList.Add(pot);
+                    linkDoorList.Add(linkDoor);
                     curPosition = pot;
                 }
             }
         }
 
-
-       
     }
 
-    public void SetLinkDoor(Vector2 pot, ButtonActivatedDoor door)
+    //public void SetLinkDoor(Vector2 pot, ButtonActivatedDoor door)
+    //{
+    //    linkDoor = door;
+    //    curPosition = pot;
+    //    linkId = door.linkId;
+    //    transform.position = curPosition;
+
+    //}
+
+    public void SetLinkDoor(Vector2 pot,ButtonActivatedDoor door)
     {
-        linkDoor = door;
+        linkDoorList.Add(door);
         curPosition = pot;
         linkId = door.linkId;
         transform.position = curPosition;
 
     }
+    public void SetLinkDoor(Vector2 pot,int linkId,Transform interactionDoorTransform)
+    {
+        curPosition = pot;
+        this.linkId = linkId;
+        transform.position = curPosition;
 
-  IEnumerator Co_ReLinkDoor()
+        foreach(Transform tr in interactionDoorTransform)
+        {
+            ButtonActivatedDoor bd = tr.GetComponent<ButtonActivatedDoor>();
+            if(bd.linkId == linkId)
+            {
+                linkDoorList.Add(bd);
+            }
+        }
+    }
+
+    IEnumerator Co_ReLinkDoor()
     {
         isRunningCoroutine = true;
         while (time > 0)
@@ -142,12 +209,30 @@ public class ButtonActivated : BuildObj
 
 
 
- 
+
+    //void Activation()
+    //{
+    //    onActive = true;
+    //    spriteRenderer.material.color = Color.green;
+    //    linkDoor.CurActiveBtn = 1;
+    //}
+
+    //void Deactivated()
+    //{
+    //    isPressed = false;
+    //    onActive = false;
+    //    spriteRenderer.material.color = orgColor;
+    //    linkDoor.CurActiveBtn = -1;
+    //}
     void Activation()
     {
         onActive = true;
         spriteRenderer.material.color = Color.green;
-        linkDoor.CurActiveBtn = 1;
+        foreach(ButtonActivatedDoor linkDoor in linkDoorList)
+        {
+            linkDoor.CurActiveBtn = 1;
+        }
+       
     }
 
     void Deactivated()
@@ -155,9 +240,12 @@ public class ButtonActivated : BuildObj
         isPressed = false;
         onActive = false;
         spriteRenderer.material.color = orgColor;
-        linkDoor.CurActiveBtn = -1;
+        foreach (ButtonActivatedDoor linkDoor in linkDoorList)
+        {
+            linkDoor.CurActiveBtn = -1;
+        }
+       
     }
-
 
     public override void TurnOff()
     {

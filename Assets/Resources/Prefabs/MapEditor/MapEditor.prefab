@@ -809,7 +809,7 @@ MonoBehaviour:
   width: 20
   height: 20
   mapID: Stage3-1
-  startPosition: {x: -20.099976, y: -11.719971}
+  startPosition: {x: 0, y: 0}
   startPositionObject: {fileID: 0}
   mapTileDataList:
   - id: 1

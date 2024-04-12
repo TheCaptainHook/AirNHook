@@ -156,11 +156,25 @@ public class MapEditor_Editor : Editor
             startPoint.transform.SetParent(mapEditor.dontSaveObjectTransform);
             //start Point
 
+            mapEditor.interactionBtnDictionary = new(); //todo 0412
 
             CreateObj(mapEditor.floorTransform, map, mapEditor.placeMentSystem, mapEditor);
             CreateObj(mapEditor.objectTransform, map, mapEditor.placeMentSystem, mapEditor);
             CreateObj(mapEditor.interactionObjectTransform, map, mapEditor.placeMentSystem, mapEditor);
             CreateObj(mapEditor.exitDoorObjectTransform, map, mapEditor.placeMentSystem, mapEditor);
+
+            MapDataStruct btn = mapObjectDataDictionary[306];
+
+            foreach(int key in mapEditor.interactionBtnDictionary.Keys)
+            {
+                foreach(Vector2 pot in mapEditor.interactionBtnDictionary[key])
+                {
+                    GameObject btnActivated = Object.Instantiate(Resources.Load<GameObject>(btn.path));
+                    btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, key, mapEditor.interactionObjectTransform);
+                    btnActivated.transform.SetParent(mapEditor.dontSaveObjectTransform);
+                }
+            }
+
         }
         else
         {
@@ -226,10 +240,11 @@ public class MapEditor_Editor : Editor
                 }
                 break;
             case "InteractionObjectTransform":
+                
                 foreach (ButtonActivatedDoorStruct data in map.mapButtonActivatedDoorDataList)
                 {
                     MapDataStruct mapDataStruct = mapObjectDataDictionary[data.id];
-                    Create(transform, mapDataStruct, data, mapEditor.dontSaveObjectTransform);
+                    Create(transform, mapDataStruct, data,mapEditor);
                 }
                 break;
             case "ExitDoorObjectTransform":
@@ -252,21 +267,37 @@ public class MapEditor_Editor : Editor
         obj.transform.localScale = data.scale;
         obj.transform.SetParent(transform);
     }
-    void Create(Transform transform, MapDataStruct mapDataStruct, ButtonActivatedDoorStruct data,Transform dontSaveObject)
+    void Create(Transform transform, MapDataStruct mapDataStruct, ButtonActivatedDoorStruct data,MapEditor mapEditor)
     {
         GameObject obj = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
         ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
         door.ButtonActivatedDoorStruct = data;
         obj.transform.SetParent(transform);
-        MapDataStruct btn = mapObjectDataDictionary[306];
+
+        //todo
+        //MapDataStruct btn = mapObjectDataDictionary[306];
+        //foreach (Vector2 pot in data.buttonActivatePositionList)
+        //{
+        //    GameObject btnActivated = Object.Instantiate(Resources.Load<GameObject>(btn.path));
+        //    btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, door);
+        //    btnActivated.transform.SetParent(dontSaveObject);
+
+        //}
+        if (!mapEditor.interactionBtnDictionary.ContainsKey(data.linkId))
+        {
+            mapEditor.interactionBtnDictionary[data.linkId] = new HashSet<Vector2>();
+        }
+
         foreach (Vector2 pot in data.buttonActivatePositionList)
         {
-            GameObject btnActivated = Object.Instantiate(Resources.Load<GameObject>(btn.path));
-            btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, door);
-            btnActivated.transform.SetParent(dontSaveObject);
-
+            mapEditor.interactionBtnDictionary[data.linkId].Add(pot);
         }
+        //todo
     }
+
+        
+
+
     void Create(Transform transform,MapDataStruct mapDataStruct,ExitObjStruct data)
     {
         GameObject obj = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
@@ -315,7 +346,7 @@ public class MapEditor_Editor : Editor
         mapEditor.mapObjectDataList = GetList(mapEditor.objectTransform);
         mapEditor.startPosition = FindObj(mapEditor.dontSaveObjectTransform, 302).transform.position;
         Map map = new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, mapEditor.startPosition,
-            GetExitObjStructsList(mapEditor.exitDoorObjectTransform),
+            GetExitObjStructsList(mapEditor.exitDoorObjectTransform,mapEditor),
             mapEditor.mapTileDataList,
             mapEditor.mapObjectDataList,
             GetButtonActivateDoorStructList(mapEditor),
@@ -382,13 +413,22 @@ public class MapEditor_Editor : Editor
         }
         return list;
     }
-    List<ExitObjStruct> GetExitObjStructsList(Transform transform)
+    List<ExitObjStruct> GetExitObjStructsList(Transform transform,MapEditor mapEditor)
     {
         List<ExitObjStruct> list = new();
+        int keyAmount = 0;
+        foreach(Transform tr in mapEditor.objectTransform)
+        {
+            Debug.Log(tr.name);
+            if(tr.GetComponent<BuildObj>().id == 307)
+            {
+                keyAmount++;
+            }
+        }
 
         foreach (Transform cur in transform)
         {
-
+            cur.GetComponent<ExitPointObj>().condition_KeyAmount = keyAmount;
             list.Add(cur.GetComponent<ExitPointObj>().GetExitObjectStruct());
         }
 

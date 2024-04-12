@@ -76,7 +76,9 @@ public class MapEditor : MonoBehaviour
     [HideInInspector] public Transform interactionObjectTransform;
     [HideInInspector] public Transform dontSaveObjectTransform;
 
-    
+    //todo 0412
+    public Dictionary<int, HashSet<Vector2>> interactionBtnDictionary;
+    //todo 0412
 
     //[Space(5)]
     //[Header("Create")]
@@ -102,7 +104,9 @@ public class MapEditor : MonoBehaviour
     //[HideInInspector] public int condition_KeyAmount;
     [HideInInspector] public List<TileData> mapTileDataList = new List<TileData>();
     [HideInInspector] public List<ObjectData> mapObjectDataList = new List<ObjectData>();
- 
+
+
+
     private void Awake()
     {
         if (Instance != null)

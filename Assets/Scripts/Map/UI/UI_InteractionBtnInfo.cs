@@ -76,13 +76,26 @@ public class UI_InteractionBtnInfo : UI_Base
         }
         else
         {
-            if(bA.linkId != int.Parse(dropdown.options[dropdown.value].text)){
-                bA.linkDoor.buttonActivatedBtnList.Remove(bA.curPosition);
-                bA.linkDoor = null;
+            //if(bA.linkId != int.Parse(dropdown.options[dropdown.value].text)){
+            //    bA.linkDoor.buttonActivatedBtnList.Remove(bA.curPosition);
+            //    bA.linkDoor = null;
+            //    bA.linkId = int.Parse(dropdown.options[dropdown.value].text);
+            //    bA.LinkDoor();
+            //}
+            if (bA.linkId != int.Parse(dropdown.options[dropdown.value].text))
+            {
                 bA.linkId = int.Parse(dropdown.options[dropdown.value].text);
+                foreach (ButtonActivatedDoor linkDoor in bA.linkDoorList)
+                {
+                    linkDoor.buttonActivatedBtnList.Remove(bA.curPosition);
+                    
+                }
+                bA.linkId = int.Parse(dropdown.options[dropdown.value].text);
+                bA.linkDoorList.Clear();
                 bA.LinkDoor();
+
             }
-           
+
             CloseUI();
         }
        
