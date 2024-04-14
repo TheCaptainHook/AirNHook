@@ -75,7 +75,7 @@ public class MapEditor : MonoBehaviour
     [HideInInspector] public Transform exitDoorObjectTransform;
     [HideInInspector] public Transform interactionObjectTransform;
     [HideInInspector] public Transform dontSaveObjectTransform;
-
+    [HideInInspector] public Transform garbageTransform;
     //todo 0412
     public Dictionary<int, HashSet<Vector2>> interactionBtnDictionary;
     //todo 0412
@@ -132,6 +132,7 @@ public class MapEditor : MonoBehaviour
         exitDoorObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ExitDoorObjectTransform");
         interactionObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "InteractionObjectTransform");
         dontSaveObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "DontSaveObjectTransform");
+        garbageTransform = Util.CreateChildTransform(mapObjBoxTransform, "GarbageTransform");
     }
 
     public void EditorMode_Init()
@@ -466,6 +467,7 @@ public class MapEditor : MonoBehaviour
         list.Add(exitDoorObjectTransform);
         list.Add(interactionObjectTransform);
         list.Add(dontSaveObjectTransform);
+        list.Add(garbageTransform);
         return list;
 
     }

@@ -73,7 +73,11 @@ public class MapEditorControllerUI : MonoBehaviour
                 ChangeObjectMode(rotationBtn);
                 placeMentSystem.CreateIndicator(ModeState.Obj_Rotation);
             }});
-        scaleBtn.onClick.AddListener(() => { ChangeObjectMode(scaleBtn); OpenScaleUI(); });
+        scaleBtn.onClick.AddListener(() => { 
+            if(placeMentSystem.CurbuildObject != null && placeMentSystem.CurbuildObject.GetComponent<BuildObj>().onScaleable)
+            {
+                ChangeObjectMode(scaleBtn); OpenScaleUI();
+            }});
         clearBtn.onClick.AddListener(() => { ObjectDrawModeBtn_Reset(); placeMentSystem.objectModeClient.Clear(); });
         objectDrawBtns = new Button[] { moveBtn, rotationBtn, scaleBtn, clearBtn };
     }
