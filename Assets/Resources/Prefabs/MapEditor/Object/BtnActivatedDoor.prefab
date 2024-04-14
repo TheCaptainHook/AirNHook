@@ -162,7 +162,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 06afd477ce937504893a8612b097b923, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -259,8 +259,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 305
+  transformID: 2
   distructionStatus: 0
+  onPlaceable: 0
+  onRotateable: 0
+  onScaleable: 0
   linkId: 0
+  spriteRenderer: {fileID: 0}
   curLinkBtn: 0
   curActiveBtn: 0
   activeRequirAmount: 0

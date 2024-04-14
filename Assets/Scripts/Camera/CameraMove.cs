@@ -8,11 +8,14 @@ public class CameraMove : MonoBehaviour
     private Vector3 _difference;
     private Camera _cam;
     private Vector3 _playerPos;
-    
+
+    [Header("Zoom")]
     private float _zoom;
     private float _zoomMultiplier = 4f;
     private float _minZoom = 7f;
-    private float _maxZoom = 15f;
+    private float _maxZoom = 20f;
+
+
     private float _velocity = 0f;
     private float _smoothTime = 0.25f;
     private float _smoothSpeed = 0.25f;

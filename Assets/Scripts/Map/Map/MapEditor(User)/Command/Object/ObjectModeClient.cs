@@ -9,6 +9,7 @@ public class ObjectModeClient
     Object_MoveModeCommand object_MoveModeCommand;
     Object_RotateModeCommand object_RotateModeCommand;
     Object_ScaleModeCommand object_ScaleModeCommand;
+    Object_ClearModeCommand object_ClearModeCommand;
 
     public ObjectModeClient()
     {
@@ -41,7 +42,9 @@ public class ObjectModeClient
     }
     public void Clear()
     {
-
+        object_ClearModeCommand = new Object_ClearModeCommand(new Object_Clear());
+        invoker.AddCommand(object_ClearModeCommand);
+        invoker.Execute();
     }
 
 

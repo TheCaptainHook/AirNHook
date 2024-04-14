@@ -155,7 +155,7 @@ public class CreateMap_Tool : EditorWindow
         objectSection.y = 120;
         objectSection.width = 350;
         objectSection.height = 320;
-        GUI.DrawTexture(objectSection, objectSectionTexture);
+        //GUI.DrawTexture(objectSection, objectSectionTexture);
 
         generatorObjectPreviewSpriteSection.x = 0;
         generatorObjectPreviewSpriteSection.y = 500;

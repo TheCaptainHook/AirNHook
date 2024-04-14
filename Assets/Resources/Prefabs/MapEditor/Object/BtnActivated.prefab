@@ -172,10 +172,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 306
+  transformID: 1
+  distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
-  distructionStatus: 0
   linkId: 0
   mask:
     serializedVersion: 2
@@ -184,4 +185,4 @@ MonoBehaviour:
   isPressed: 0
   time: 2
   curPosition: {x: 0, y: 0}
-  linkDoor: {fileID: 0}
+  linkDoorList: []

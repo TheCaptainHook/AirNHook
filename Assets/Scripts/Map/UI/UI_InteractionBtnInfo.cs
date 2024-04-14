@@ -65,42 +65,57 @@ public class UI_InteractionBtnInfo : UI_Base
     private void Confirm()
     {
         MapEditor.Instance.placeMentSystem.onInteraction = true;
-        if (firstOption)
+        if (CheckButtonInteractionDoor())
         {
-            GameObject obj = Instantiate(curObject);
-            MapEditor.Instance.placeMentSystem.first_holdingObj = obj;
-            obj.GetComponent<BuildObj>().TurnOff();
-
-            obj.GetComponent<ButtonActivated>().linkId = int.Parse(dropdown.options[dropdown.value].text);
-            Destroy(gameObject);
-        }
-        else
-        {
-            //if(bA.linkId != int.Parse(dropdown.options[dropdown.value].text)){
-            //    bA.linkDoor.buttonActivatedBtnList.Remove(bA.curPosition);
-            //    bA.linkDoor = null;
-            //    bA.linkId = int.Parse(dropdown.options[dropdown.value].text);
-            //    bA.LinkDoor();
-            //}
-            if (bA.linkId != int.Parse(dropdown.options[dropdown.value].text))
+            if (firstOption)
             {
-                bA.linkId = int.Parse(dropdown.options[dropdown.value].text);
-                foreach (ButtonActivatedDoor linkDoor in bA.linkDoorList)
-                {
-                    linkDoor.buttonActivatedBtnList.Remove(bA.curPosition);
-                    
-                }
-                bA.linkId = int.Parse(dropdown.options[dropdown.value].text);
-                bA.linkDoorList.Clear();
-                bA.LinkDoor();
+                GameObject obj = Instantiate(curObject);
+                MapEditor.Instance.placeMentSystem.first_holdingObj = obj;
+                obj.GetComponent<BuildObj>().TurnOff();
 
+                obj.GetComponent<ButtonActivated>().linkId = int.Parse(dropdown.options[dropdown.value].text);
+                Destroy(gameObject);
             }
+            else
+            {
+                //if(bA.linkId != int.Parse(dropdown.options[dropdown.value].text)){
+                //    bA.linkDoor.buttonActivatedBtnList.Remove(bA.curPosition);
+                //    bA.linkDoor = null;
+                //    bA.linkId = int.Parse(dropdown.options[dropdown.value].text);
+                //    bA.LinkDoor();
+                //}
+                if (bA.linkId != int.Parse(dropdown.options[dropdown.value].text))
+                {
+                    bA.linkId = int.Parse(dropdown.options[dropdown.value].text);
+                    foreach (ButtonActivatedDoor linkDoor in bA.linkDoorList)
+                    {
+                        linkDoor.buttonActivatedBtnList.Remove(bA.curPosition);
 
-            CloseUI();
+                    }
+                    bA.linkId = int.Parse(dropdown.options[dropdown.value].text);
+                    bA.linkDoorList.Clear();
+                    bA.LinkDoor();
+
+                }
+
+                CloseUI();
+            }
         }
-       
         
+       
     }
+
+    private bool CheckButtonInteractionDoor()
+    {
+        foreach(Transform tr in MapEditor.Instance.interactionObjectTransform)
+        {
+            if (tr.GetComponent<ButtonActivatedDoor>()) { return true; }
+            
+        }
+
+        return false;
+    }
+
 
     protected override void CloseUI()
     {

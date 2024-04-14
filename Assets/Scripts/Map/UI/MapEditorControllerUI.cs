@@ -74,7 +74,7 @@ public class MapEditorControllerUI : MonoBehaviour
                 placeMentSystem.CreateIndicator(ModeState.Obj_Rotation);
             }});
         scaleBtn.onClick.AddListener(() => { ChangeObjectMode(scaleBtn); OpenScaleUI(); });
-        clearBtn.onClick.AddListener(() => { ChangeObjectMode(clearBtn); });
+        clearBtn.onClick.AddListener(() => { ObjectDrawModeBtn_Reset(); placeMentSystem.objectModeClient.Clear(); });
         objectDrawBtns = new Button[] { moveBtn, rotationBtn, scaleBtn, clearBtn };
     }
 
@@ -90,6 +90,7 @@ public class MapEditorControllerUI : MonoBehaviour
                 tileMode_BtnContainer.SetActive(false);
                 MapEditor.Instance.mapEditorState = MapEditorState.Editor;
                 placeMentSystem.tileBase = null;
+                placeMentSystem.curPlacedObjTurnOn();
             }
             else
             {
@@ -97,6 +98,7 @@ public class MapEditorControllerUI : MonoBehaviour
                 MapEditor.Instance.mapEditorState = MapEditorState.Tile;
                 placeMentSystem.tileBase = Resources.Load<TileBase>("Arts/Tiles/1");//todo
                 tileMode_BtnContainer.SetActive(true);
+                placeMentSystem.curPlacedObjTurnOff();
             }
         }
        
@@ -256,7 +258,7 @@ public class MapEditorControllerUI : MonoBehaviour
             ui.GetComponent<UI_ScaleInfo>().SetCurObject(placeMentSystem.CurbuildObject);
             placeMentSystem.objectModeClient.Scale();
             //COmmand
-               
+
         }
     }
 

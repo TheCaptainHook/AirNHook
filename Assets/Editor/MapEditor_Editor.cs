@@ -158,10 +158,10 @@ public class MapEditor_Editor : Editor
 
             mapEditor.interactionBtnDictionary = new(); //todo 0412
 
-            CreateObj(mapEditor.floorTransform, map, mapEditor.placeMentSystem, mapEditor);
-            CreateObj(mapEditor.objectTransform, map, mapEditor.placeMentSystem, mapEditor);
-            CreateObj(mapEditor.interactionObjectTransform, map, mapEditor.placeMentSystem, mapEditor);
-            CreateObj(mapEditor.exitDoorObjectTransform, map, mapEditor.placeMentSystem, mapEditor);
+            CreateObj(mapEditor.floorTransform, map, mapEditor.placeMentSystem, mapEditor,0);
+            CreateObj(mapEditor.objectTransform, map, mapEditor.placeMentSystem, mapEditor,1);
+            CreateObj(mapEditor.interactionObjectTransform, map, mapEditor.placeMentSystem, mapEditor,2);
+            CreateObj(mapEditor.exitDoorObjectTransform, map, mapEditor.placeMentSystem, mapEditor,3);
 
             MapDataStruct btn = mapObjectDataDictionary[306];
 
@@ -210,11 +210,12 @@ public class MapEditor_Editor : Editor
         return null;
     }
 
-    public void CreateObj(Transform transform,Map map,PlaceMentSystem placeMentSystem,MapEditor mapEditor)
+    public void CreateObj(Transform transform,Map map,PlaceMentSystem placeMentSystem,MapEditor mapEditor,int num)
     {
-        switch (transform.name)
+
+        switch (num)
         {
-            case "FloorTransform":
+            case 0:
 
                 foreach (TileData data in map.mapTileDataList)
                 {
@@ -223,7 +224,7 @@ public class MapEditor_Editor : Editor
                     placeMentSystem.tileDic[data.position] = data.id;
                 }
                 break;
-            case "ObjectTransform":
+            case 1:
                 foreach (ObjectData data in map.mapObjectDataList)
                 {
                     if (mapSceneDataDictionary.ContainsKey(data.id))
@@ -239,7 +240,7 @@ public class MapEditor_Editor : Editor
                   
                 }
                 break;
-            case "InteractionObjectTransform":
+            case 2:
                 
                 foreach (ButtonActivatedDoorStruct data in map.mapButtonActivatedDoorDataList)
                 {
@@ -247,7 +248,7 @@ public class MapEditor_Editor : Editor
                     Create(transform, mapDataStruct, data,mapEditor);
                 }
                 break;
-            case "ExitDoorObjectTransform":
+            case 3:
                 foreach (ExitObjStruct data in map.mapExitObjectDataList)
                 {
                     MapDataStruct mapDataStruct = mapObjectDataDictionary[data.id];

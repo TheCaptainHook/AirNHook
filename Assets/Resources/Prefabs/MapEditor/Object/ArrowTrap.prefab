@@ -228,10 +228,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 308
+  transformID: 1
+  distructionStatus: 0
   onPlaceable: 0
   onRotateable: 1
   onScaleable: 0
-  distructionStatus: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1024

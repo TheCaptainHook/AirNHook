@@ -15,16 +15,17 @@ public enum DistructionStatus
 [System.Serializable]
 public class BuildObj : MousePointerEntity,IDamageable
 {
+    [Header("BuildObj Script")]
     public int id;
+    [Tooltip("Transform ID to be created")]
+    public int transformID;
     protected bool turnOff;
+    [SerializeField] protected DistructionStatus distructionStatus;
     [Header("State")]
     public bool onPlaceable;
     public bool onRotateable;
     public bool onScaleable;
-    //todo
-
-    [SerializeField] protected DistructionStatus distructionStatus;
-
+    
     private ObjectData _objectData;
     public ObjectData ObjectData { get { return _objectData; } set { _objectData = value; id = _objectData.id; } }
 
@@ -70,7 +71,7 @@ public class BuildObj : MousePointerEntity,IDamageable
         Debug.Log("Turn On");
     }
 
-    public void EditorMode_Destroy()
+    public virtual void EditorMode_Destroy()
     {
         if (MapEditor.Instance.placeMentSystem.curPlaceObjList.Contains(this))
         {

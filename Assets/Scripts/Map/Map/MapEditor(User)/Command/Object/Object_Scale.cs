@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Object_Scale : MonoBehaviour
+public class Object_Scale
 {
     PlaceMentSystem placeMentSystem;
     GameObject curObj;

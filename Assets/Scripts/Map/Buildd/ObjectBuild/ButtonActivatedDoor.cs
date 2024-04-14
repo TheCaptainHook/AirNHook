@@ -58,20 +58,32 @@ public class ButtonActivatedDoor : BuildBase
     }
     void Activation()
     {
-        onOpen = true;
-        //Color color = orgColor;
-        //color.a = 0;
-        //spriteRenderer.color = color;
+        onOpen = true; 
         _collider.enabled = false;
         _animator.SetBool(IsUnlocked, true);
     }
     void Deactivated()
     {
         onOpen = false;
-        //spriteRenderer.color = orgColor;
         _collider.enabled = true;
         _animator.SetBool(IsUnlocked, false);
     }
 
+    public override void TurnOff()
+    {
+        base.TurnOff();
+        _collider.enabled = true;
+        _animator.SetBool(IsUnlocked, false);
+
+    }
+    public override void TurnOn()
+    {
+        base.TurnOn();
+        if (onOpen)
+        {
+            _collider.enabled = false;
+            _animator.SetBool(IsUnlocked, true);
+        }
+    }
 
 }

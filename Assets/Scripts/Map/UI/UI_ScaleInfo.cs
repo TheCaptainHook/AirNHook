@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class UI_ScaleInfo : UI_Base
 {
     GameObject curObject;
-        
+    Vector3 orgScale;
+
     [SerializeField] Button confirmeBtn;
     [SerializeField] Button closeBtn;
 
@@ -23,12 +24,14 @@ public class UI_ScaleInfo : UI_Base
 
     public void ChangeSliderValueX()
     {
+        //float x = Mathf.Clamp( curObject.transform.localScale.x + sliderX.value, 0.5f, 2f);
         curObject.transform.localScale = new Vector3(sliderX.value, curObject.transform.localScale.y, curObject.transform.localScale.z);
        
     }
 
     public void ChangeSliderValueY()
     {
+        //float y = Mathf.Clamp(curObject.transform.localScale.y + sliderX.value, 0.5f, 2f);
         curObject.transform.localScale = new Vector3(curObject.transform.localScale.x, sliderY.value, curObject.transform.localScale.z);
     }
 
@@ -36,14 +39,17 @@ public class UI_ScaleInfo : UI_Base
     {
         base.SetCurObject(obj);
         curObject = obj;
+        orgScale = curObject.transform.localScale;
+        Debug.Log(curObject.transform.localScale);
 
-        sliderX.minValue = curObject.transform.localScale.x;
-        sliderX.maxValue = curObject.transform.localScale.x + 2;
+        sliderX.value = curObject.transform.localScale.x;
+        sliderX.minValue = .5f;
+        sliderX.maxValue = 3;
 
-        sliderY.minValue = curObject.transform.localScale.y;
-        sliderY.maxValue = curObject.transform.localScale.y + 2;
-
-        sliderX.value = sliderX.minValue;
+        sliderY.value = curObject.transform.localScale.y;
+        sliderY.minValue = .5f;
+        sliderY.maxValue = 3;
+        
     }
 
 
@@ -51,7 +57,6 @@ public class UI_ScaleInfo : UI_Base
     private void Confirm()
     {
         MapEditor.Instance.placeMentSystem.onInteraction = true;
-
         Destroy(gameObject);
     }
 
@@ -59,6 +64,7 @@ public class UI_ScaleInfo : UI_Base
     protected override void CloseUI()
     {
         MapEditor.Instance.placeMentSystem.onInteraction = true;
+        curObject.transform.localScale = orgScale;
         Destroy(gameObject);
     }
 }

@@ -157,6 +157,7 @@ public class MapEditor : MonoBehaviour
         placeMentSystem.preViewTileMap = PreviewPalette.transform.Find("PreviewTilemap").GetComponent<Tilemap>();
     }
 
+
     #region Save 
 
     //Json 파일로 저장
@@ -313,10 +314,10 @@ public class MapEditor : MonoBehaviour
         startPositionObject.transform.SetParent(dontSaveObjectTransform);
         //start Point
 
-        CreateObj(floorTransform);
-        CreateObj(objectTransform);
-        CreateObj(interactionObjectTransform);
-        CreateObj(exitDoorObjectTransform);
+        CreateObj(floorTransform, 0); //floorTransform
+        CreateObj(objectTransform, 1); //objectTransform
+        CreateObj(interactionObjectTransform, 2); //interactionObjectTransform
+        CreateObj(exitDoorObjectTransform, 3); //exitDoorObjectTransform
     }
 
     public void LoadMap(string name, MapType mapType)
@@ -342,10 +343,10 @@ public class MapEditor : MonoBehaviour
         startPositionObject.transform.SetParent(dontSaveObjectTransform);
         //start Point
 
-        CreateObj(floorTransform);
-        CreateObj(objectTransform);
-        CreateObj(interactionObjectTransform);
-        CreateObj(exitDoorObjectTransform);
+        CreateObj(floorTransform,0); //floorTransform
+        CreateObj(objectTransform,1); //objectTransform
+        CreateObj(interactionObjectTransform,2); //interactionObjectTransform
+        CreateObj(exitDoorObjectTransform,3); //exitDoorObjectTransform
     }
 
 
@@ -376,11 +377,11 @@ public class MapEditor : MonoBehaviour
         mapTileDataList.Clear();
     }
 
-    public void CreateObj(Transform transform)//스위치문 스트링값 대체하기.
+    public void CreateObj(Transform transform,int num)//스위치문 스트링값 대체하기.
     {
-        switch (transform.name)
+        switch (num)
         {
-            case "FloorTransform":
+            case 0:
                 foreach (TileData data in curMap.mapTileDataList)
                 {
                     MapDataStruct mapDataStruct = Managers.Data.mapData.mapTileDataDictionary[data.id];
@@ -388,7 +389,7 @@ public class MapEditor : MonoBehaviour
                     placeMentSystem.tileDic[data.position] = data.id;
                 }
                 break;
-            case "ObjectTransform":
+            case 1:
                 
                 foreach (ObjectData data in curMap.mapObjectDataList)
                 {
@@ -406,14 +407,14 @@ public class MapEditor : MonoBehaviour
                    
                 }
                 break;
-            case "InteractionObjectTransform":
+            case 2:
                 foreach (ButtonActivatedDoorStruct data in curMap.mapButtonActivatedDoorDataList)
                 {
                     MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
                     Create(transform, mapDataStruct, data);
                 }
                 break;
-            case "ExitDoorObjectTransform":
+            case 3:
                 foreach (ExitObjStruct data in curMap.mapExitObjectDataList)
                 {
                     MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];

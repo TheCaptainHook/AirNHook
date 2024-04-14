@@ -48,10 +48,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 303
+  transformID: 1
+  distructionStatus: 0
   onPlaceable: 0
   onRotateable: 1
   onScaleable: 1
-  distructionStatus: 0
   hitBox: {fileID: 2807841761411676036}
   sawPivot: {fileID: 7108496691391073394}
 --- !u!61 &1772061545026023388

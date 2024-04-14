@@ -199,11 +199,10 @@ MonoBehaviour:
   curObj_ArrowIndicator: {fileID: 2872121356252122018, guid: 2282e6f19511b49af8c213f4a8a07ec1, type: 3}
   ObjMove_Indicator: {fileID: 1488624840834684537, guid: fd8ca4c5bf88f4f6aa02362fe03f4428, type: 3}
   ObjRotation_Indicator: {fileID: 2865012881642155670, guid: 5d1da2d5035a32245ab0699fa97f14fd, type: 3}
-  ObjSclae_Indicator: {fileID: 0}
-  ObjClear_Indicator: {fileID: 0}
   Additional_Indicator: {fileID: 5835909523918060946, guid: 80f03ca9d1f3a485691c10adae6a3421, type: 3}
   curPlaceObjList: []
   onInteraction: 0
+  particleEffect_ObejctClear: {fileID: 3227819516972740975, guid: 903c4da8d5cc14612a67745948be1e00, type: 3}
 --- !u!1 &608052873557677844
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,7 +479,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Eraser
+  m_text: Clear
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5b4e32fbc2471a34b861dc089c637721, type: 2}
   m_sharedMaterial: {fileID: 5359831757883840851, guid: 5b4e32fbc2471a34b861dc089c637721, type: 2}
@@ -796,385 +795,449 @@ MonoBehaviour:
   interactionObjectTransform: {fileID: 0}
   dontSaveObjectTransform: {fileID: 0}
   curMap:
-    mapSize: {x: 0, y: 0}
-    mapID: 
-    startPosition: {x: 0, y: 0}
-    mapTileDataList: []
-    mapObjectDataList: []
-    mapButtonActivatedDoorDataList: []
-    mapExitObjectDataList: []
-    cellSize: 0
+    mapSize: {x: 20, y: 20}
+    mapID: Tutorial_2
+    startPosition: {x: -15, y: -2}
+    mapTileDataList:
+    - id: 1
+      position: {x: -18, y: -3, z: 0}
+    - id: 1
+      position: {x: -18, y: -2, z: 0}
+    - id: 1
+      position: {x: -18, y: -1, z: 0}
+    - id: 1
+      position: {x: -18, y: 0, z: 0}
+    - id: 1
+      position: {x: -18, y: 1, z: 0}
+    - id: 1
+      position: {x: -18, y: 2, z: 0}
+    - id: 1
+      position: {x: -18, y: 3, z: 0}
+    - id: 1
+      position: {x: -18, y: 4, z: 0}
+    - id: 1
+      position: {x: -18, y: 5, z: 0}
+    - id: 1
+      position: {x: -18, y: 6, z: 0}
+    - id: 1
+      position: {x: -18, y: 7, z: 0}
+    - id: 1
+      position: {x: -18, y: 8, z: 0}
+    - id: 1
+      position: {x: -18, y: 9, z: 0}
+    - id: 1
+      position: {x: -17, y: -3, z: 0}
+    - id: 1
+      position: {x: -17, y: 9, z: 0}
+    - id: 1
+      position: {x: -16, y: -3, z: 0}
+    - id: 1
+      position: {x: -16, y: 9, z: 0}
+    - id: 1
+      position: {x: -15, y: -3, z: 0}
+    - id: 1
+      position: {x: -15, y: 9, z: 0}
+    - id: 1
+      position: {x: -14, y: -3, z: 0}
+    - id: 1
+      position: {x: -14, y: 9, z: 0}
+    - id: 1
+      position: {x: -13, y: -3, z: 0}
+    - id: 1
+      position: {x: -13, y: 9, z: 0}
+    - id: 1
+      position: {x: -12, y: -3, z: 0}
+    - id: 1
+      position: {x: -12, y: 9, z: 0}
+    - id: 1
+      position: {x: -11, y: -3, z: 0}
+    - id: 1
+      position: {x: -11, y: 9, z: 0}
+    - id: 1
+      position: {x: -10, y: -3, z: 0}
+    - id: 1
+      position: {x: -10, y: 9, z: 0}
+    - id: 1
+      position: {x: -9, y: -3, z: 0}
+    - id: 1
+      position: {x: -9, y: 9, z: 0}
+    - id: 1
+      position: {x: -8, y: -3, z: 0}
+    - id: 1
+      position: {x: -8, y: 9, z: 0}
+    - id: 1
+      position: {x: -7, y: -3, z: 0}
+    - id: 1
+      position: {x: -7, y: 9, z: 0}
+    - id: 1
+      position: {x: -6, y: -3, z: 0}
+    - id: 1
+      position: {x: -6, y: 9, z: 0}
+    - id: 1
+      position: {x: -5, y: -3, z: 0}
+    - id: 1
+      position: {x: -5, y: 9, z: 0}
+    - id: 1
+      position: {x: -4, y: -3, z: 0}
+    - id: 1
+      position: {x: -4, y: 9, z: 0}
+    - id: 1
+      position: {x: -3, y: -3, z: 0}
+    - id: 1
+      position: {x: -3, y: 9, z: 0}
+    - id: 1
+      position: {x: -2, y: -3, z: 0}
+    - id: 1
+      position: {x: -2, y: 9, z: 0}
+    - id: 1
+      position: {x: -1, y: -3, z: 0}
+    - id: 1
+      position: {x: -1, y: 9, z: 0}
+    - id: 1
+      position: {x: 0, y: -3, z: 0}
+    - id: 1
+      position: {x: 0, y: 9, z: 0}
+    - id: 1
+      position: {x: 1, y: -3, z: 0}
+    - id: 1
+      position: {x: 1, y: 9, z: 0}
+    - id: 1
+      position: {x: 2, y: -3, z: 0}
+    - id: 1
+      position: {x: 2, y: 9, z: 0}
+    - id: 1
+      position: {x: 3, y: -3, z: 0}
+    - id: 1
+      position: {x: 3, y: 9, z: 0}
+    - id: 1
+      position: {x: 4, y: -3, z: 0}
+    - id: 1
+      position: {x: 4, y: 9, z: 0}
+    - id: 1
+      position: {x: 5, y: -3, z: 0}
+    - id: 1
+      position: {x: 5, y: 9, z: 0}
+    - id: 1
+      position: {x: 6, y: -3, z: 0}
+    - id: 1
+      position: {x: 6, y: 9, z: 0}
+    - id: 1
+      position: {x: 7, y: -3, z: 0}
+    - id: 1
+      position: {x: 7, y: 9, z: 0}
+    - id: 1
+      position: {x: 8, y: -3, z: 0}
+    - id: 1
+      position: {x: 8, y: 9, z: 0}
+    - id: 1
+      position: {x: 9, y: -3, z: 0}
+    - id: 1
+      position: {x: 9, y: 9, z: 0}
+    - id: 1
+      position: {x: 10, y: -3, z: 0}
+    - id: 1
+      position: {x: 10, y: 9, z: 0}
+    - id: 1
+      position: {x: 11, y: -3, z: 0}
+    - id: 1
+      position: {x: 11, y: 9, z: 0}
+    - id: 1
+      position: {x: 12, y: -3, z: 0}
+    - id: 1
+      position: {x: 12, y: 5, z: 0}
+    - id: 1
+      position: {x: 12, y: 9, z: 0}
+    - id: 1
+      position: {x: 13, y: -3, z: 0}
+    - id: 1
+      position: {x: 13, y: 5, z: 0}
+    - id: 1
+      position: {x: 13, y: 9, z: 0}
+    - id: 1
+      position: {x: 14, y: -3, z: 0}
+    - id: 1
+      position: {x: 14, y: 5, z: 0}
+    - id: 1
+      position: {x: 14, y: 9, z: 0}
+    - id: 1
+      position: {x: 15, y: -3, z: 0}
+    - id: 1
+      position: {x: 15, y: 5, z: 0}
+    - id: 1
+      position: {x: 15, y: 9, z: 0}
+    - id: 1
+      position: {x: 16, y: -3, z: 0}
+    - id: 1
+      position: {x: 16, y: 5, z: 0}
+    - id: 1
+      position: {x: 16, y: 9, z: 0}
+    - id: 1
+      position: {x: 17, y: -3, z: 0}
+    - id: 1
+      position: {x: 17, y: 5, z: 0}
+    - id: 1
+      position: {x: 17, y: 9, z: 0}
+    - id: 1
+      position: {x: 18, y: -3, z: 0}
+    - id: 1
+      position: {x: 18, y: -2, z: 0}
+    - id: 1
+      position: {x: 18, y: -1, z: 0}
+    - id: 1
+      position: {x: 18, y: 0, z: 0}
+    - id: 1
+      position: {x: 18, y: 1, z: 0}
+    - id: 1
+      position: {x: 18, y: 2, z: 0}
+    - id: 1
+      position: {x: 18, y: 3, z: 0}
+    - id: 1
+      position: {x: 18, y: 4, z: 0}
+    - id: 1
+      position: {x: 18, y: 5, z: 0}
+    - id: 1
+      position: {x: 18, y: 6, z: 0}
+    - id: 1
+      position: {x: 18, y: 7, z: 0}
+    - id: 1
+      position: {x: 18, y: 8, z: 0}
+    - id: 1
+      position: {x: 18, y: 9, z: 0}
+    mapObjectDataList:
+    - id: 307
+      position: {x: 15.830017, y: 5.8599854}
+      quaternion: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    mapButtonActivatedDoorDataList:
+    - id: 305
+      linkId: 0
+      activeRequirAmount: 1
+      position: {x: 12.98999, y: 5.799988}
+      buttonActivatePositionList:
+      - {x: 8.5, y: -1.8}
+      quaternion: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.15, y: 1.1023438, z: 1.8676016}
+    mapExitObjectDataList:
+    - id: 301
+      position: {x: 15.919983, y: -2.0100098}
+      condition_KeyAmount: 1
+      nextMapId: Tutorial_3
+    cellSize: 2
   stageClear: 0
   mapType: 1
   width: 20
   height: 20
-  mapID: Stage3-1
-  startPosition: {x: 0, y: 0}
+  mapID: Tutorial_3
+  startPosition: {x: -15, y: -2}
   startPositionObject: {fileID: 0}
   mapTileDataList:
   - id: 1
-    position: {x: -23, y: -13, z: 0}
+    position: {x: -18, y: -3, z: 0}
   - id: 1
-    position: {x: -23, y: -12, z: 0}
+    position: {x: -18, y: -2, z: 0}
   - id: 1
-    position: {x: -23, y: -11, z: 0}
+    position: {x: -18, y: -1, z: 0}
   - id: 1
-    position: {x: -23, y: -10, z: 0}
+    position: {x: -18, y: 0, z: 0}
   - id: 1
-    position: {x: -23, y: -9, z: 0}
+    position: {x: -18, y: 1, z: 0}
   - id: 1
-    position: {x: -23, y: -8, z: 0}
+    position: {x: -18, y: 2, z: 0}
   - id: 1
-    position: {x: -23, y: -7, z: 0}
+    position: {x: -18, y: 3, z: 0}
   - id: 1
-    position: {x: -23, y: -6, z: 0}
+    position: {x: -18, y: 4, z: 0}
   - id: 1
-    position: {x: -23, y: -5, z: 0}
+    position: {x: -18, y: 5, z: 0}
   - id: 1
-    position: {x: -23, y: -4, z: 0}
+    position: {x: -18, y: 6, z: 0}
   - id: 1
-    position: {x: -23, y: -3, z: 0}
+    position: {x: -18, y: 7, z: 0}
   - id: 1
-    position: {x: -23, y: -2, z: 0}
+    position: {x: -18, y: 8, z: 0}
   - id: 1
-    position: {x: -23, y: -1, z: 0}
+    position: {x: -18, y: 9, z: 0}
   - id: 1
-    position: {x: -23, y: 0, z: 0}
+    position: {x: -17, y: -3, z: 0}
   - id: 1
-    position: {x: -23, y: 1, z: 0}
+    position: {x: -17, y: 9, z: 0}
   - id: 1
-    position: {x: -23, y: 2, z: 0}
+    position: {x: -16, y: -3, z: 0}
   - id: 1
-    position: {x: -23, y: 3, z: 0}
+    position: {x: -16, y: 9, z: 0}
   - id: 1
-    position: {x: -23, y: 4, z: 0}
+    position: {x: -15, y: -3, z: 0}
   - id: 1
-    position: {x: -23, y: 5, z: 0}
+    position: {x: -15, y: 9, z: 0}
   - id: 1
-    position: {x: -23, y: 6, z: 0}
+    position: {x: -14, y: -3, z: 0}
   - id: 1
-    position: {x: -23, y: 7, z: 0}
+    position: {x: -14, y: 9, z: 0}
   - id: 1
-    position: {x: -23, y: 8, z: 0}
+    position: {x: -13, y: -3, z: 0}
   - id: 1
-    position: {x: -23, y: 9, z: 0}
+    position: {x: -13, y: 9, z: 0}
   - id: 1
-    position: {x: -23, y: 10, z: 0}
+    position: {x: -12, y: -3, z: 0}
   - id: 1
-    position: {x: -23, y: 11, z: 0}
+    position: {x: -12, y: 9, z: 0}
   - id: 1
-    position: {x: -23, y: 12, z: 0}
+    position: {x: -11, y: -3, z: 0}
   - id: 1
-    position: {x: -22, y: -13, z: 0}
+    position: {x: -11, y: 9, z: 0}
   - id: 1
-    position: {x: -22, y: 12, z: 0}
+    position: {x: -10, y: -3, z: 0}
   - id: 1
-    position: {x: -21, y: -13, z: 0}
+    position: {x: -10, y: 9, z: 0}
   - id: 1
-    position: {x: -21, y: 12, z: 0}
+    position: {x: -9, y: -3, z: 0}
   - id: 1
-    position: {x: -20, y: -13, z: 0}
+    position: {x: -9, y: 9, z: 0}
   - id: 1
-    position: {x: -20, y: 12, z: 0}
+    position: {x: -8, y: -3, z: 0}
   - id: 1
-    position: {x: -19, y: -13, z: 0}
+    position: {x: -8, y: 9, z: 0}
   - id: 1
-    position: {x: -19, y: 12, z: 0}
+    position: {x: -7, y: -3, z: 0}
   - id: 1
-    position: {x: -18, y: -13, z: 0}
+    position: {x: -7, y: 9, z: 0}
   - id: 1
-    position: {x: -18, y: 12, z: 0}
+    position: {x: -6, y: -3, z: 0}
   - id: 1
-    position: {x: -17, y: -13, z: 0}
+    position: {x: -6, y: 9, z: 0}
   - id: 1
-    position: {x: -17, y: 12, z: 0}
+    position: {x: -5, y: -3, z: 0}
   - id: 1
-    position: {x: -16, y: -13, z: 0}
+    position: {x: -5, y: 9, z: 0}
   - id: 1
-    position: {x: -16, y: 12, z: 0}
-  - id: 1
-    position: {x: -15, y: -13, z: 0}
-  - id: 1
-    position: {x: -15, y: 12, z: 0}
-  - id: 1
-    position: {x: -14, y: -13, z: 0}
-  - id: 1
-    position: {x: -14, y: 12, z: 0}
-  - id: 1
-    position: {x: -13, y: -13, z: 0}
-  - id: 1
-    position: {x: -13, y: 12, z: 0}
-  - id: 1
-    position: {x: -12, y: -13, z: 0}
-  - id: 1
-    position: {x: -12, y: 12, z: 0}
-  - id: 1
-    position: {x: -11, y: -13, z: 0}
-  - id: 1
-    position: {x: -11, y: 12, z: 0}
-  - id: 1
-    position: {x: -10, y: -13, z: 0}
-  - id: 1
-    position: {x: -10, y: 12, z: 0}
-  - id: 1
-    position: {x: -9, y: -13, z: 0}
-  - id: 1
-    position: {x: -9, y: 12, z: 0}
-  - id: 1
-    position: {x: -8, y: -13, z: 0}
-  - id: 1
-    position: {x: -8, y: 12, z: 0}
-  - id: 1
-    position: {x: -7, y: -13, z: 0}
-  - id: 1
-    position: {x: -7, y: 12, z: 0}
-  - id: 1
-    position: {x: -6, y: -13, z: 0}
-  - id: 1
-    position: {x: -6, y: 12, z: 0}
-  - id: 1
-    position: {x: -5, y: -13, z: 0}
-  - id: 1
-    position: {x: -5, y: 12, z: 0}
-  - id: 1
-    position: {x: -4, y: -13, z: 0}
-  - id: 1
-    position: {x: -4, y: 7, z: 0}
-  - id: 1
-    position: {x: -4, y: 8, z: 0}
+    position: {x: -4, y: -3, z: 0}
   - id: 1
     position: {x: -4, y: 9, z: 0}
   - id: 1
-    position: {x: -4, y: 10, z: 0}
-  - id: 1
-    position: {x: -4, y: 11, z: 0}
-  - id: 1
-    position: {x: -4, y: 12, z: 0}
-  - id: 1
-    position: {x: -3, y: -13, z: 0}
-  - id: 1
-    position: {x: -3, y: 7, z: 0}
-  - id: 1
-    position: {x: -3, y: 8, z: 0}
+    position: {x: -3, y: -3, z: 0}
   - id: 1
     position: {x: -3, y: 9, z: 0}
   - id: 1
-    position: {x: -3, y: 10, z: 0}
-  - id: 1
-    position: {x: -3, y: 11, z: 0}
-  - id: 1
-    position: {x: -3, y: 12, z: 0}
-  - id: 1
-    position: {x: -2, y: -13, z: 0}
-  - id: 1
-    position: {x: -2, y: 7, z: 0}
-  - id: 1
-    position: {x: -2, y: 8, z: 0}
+    position: {x: -2, y: -3, z: 0}
   - id: 1
     position: {x: -2, y: 9, z: 0}
   - id: 1
-    position: {x: -2, y: 10, z: 0}
-  - id: 1
-    position: {x: -2, y: 11, z: 0}
-  - id: 1
-    position: {x: -2, y: 12, z: 0}
-  - id: 1
-    position: {x: -1, y: -13, z: 0}
-  - id: 1
-    position: {x: -1, y: 7, z: 0}
-  - id: 1
-    position: {x: -1, y: 8, z: 0}
+    position: {x: -1, y: -3, z: 0}
   - id: 1
     position: {x: -1, y: 9, z: 0}
   - id: 1
-    position: {x: -1, y: 10, z: 0}
-  - id: 1
-    position: {x: -1, y: 11, z: 0}
-  - id: 1
-    position: {x: -1, y: 12, z: 0}
-  - id: 1
-    position: {x: 0, y: -13, z: 0}
-  - id: 1
-    position: {x: 0, y: 7, z: 0}
-  - id: 1
-    position: {x: 0, y: 8, z: 0}
+    position: {x: 0, y: -3, z: 0}
   - id: 1
     position: {x: 0, y: 9, z: 0}
   - id: 1
-    position: {x: 0, y: 10, z: 0}
-  - id: 1
-    position: {x: 0, y: 11, z: 0}
-  - id: 1
-    position: {x: 0, y: 12, z: 0}
-  - id: 1
-    position: {x: 1, y: -13, z: 0}
-  - id: 1
-    position: {x: 1, y: 7, z: 0}
-  - id: 1
-    position: {x: 1, y: 8, z: 0}
+    position: {x: 1, y: -3, z: 0}
   - id: 1
     position: {x: 1, y: 9, z: 0}
   - id: 1
-    position: {x: 1, y: 10, z: 0}
-  - id: 1
-    position: {x: 1, y: 11, z: 0}
-  - id: 1
-    position: {x: 1, y: 12, z: 0}
-  - id: 1
-    position: {x: 2, y: -13, z: 0}
-  - id: 1
-    position: {x: 2, y: 7, z: 0}
-  - id: 1
-    position: {x: 2, y: 8, z: 0}
+    position: {x: 2, y: -3, z: 0}
   - id: 1
     position: {x: 2, y: 9, z: 0}
   - id: 1
-    position: {x: 2, y: 10, z: 0}
-  - id: 1
-    position: {x: 2, y: 11, z: 0}
-  - id: 1
-    position: {x: 2, y: 12, z: 0}
-  - id: 1
-    position: {x: 3, y: -13, z: 0}
-  - id: 1
-    position: {x: 3, y: 7, z: 0}
-  - id: 1
-    position: {x: 3, y: 8, z: 0}
+    position: {x: 3, y: -3, z: 0}
   - id: 1
     position: {x: 3, y: 9, z: 0}
   - id: 1
-    position: {x: 3, y: 10, z: 0}
+    position: {x: 4, y: -3, z: 0}
   - id: 1
-    position: {x: 3, y: 11, z: 0}
+    position: {x: 4, y: 9, z: 0}
   - id: 1
-    position: {x: 3, y: 12, z: 0}
+    position: {x: 5, y: -3, z: 0}
   - id: 1
-    position: {x: 4, y: -13, z: 0}
+    position: {x: 5, y: 9, z: 0}
   - id: 1
-    position: {x: 4, y: 12, z: 0}
+    position: {x: 6, y: -3, z: 0}
   - id: 1
-    position: {x: 5, y: -13, z: 0}
+    position: {x: 6, y: 9, z: 0}
   - id: 1
-    position: {x: 5, y: 12, z: 0}
+    position: {x: 7, y: -3, z: 0}
   - id: 1
-    position: {x: 6, y: -13, z: 0}
+    position: {x: 7, y: 9, z: 0}
   - id: 1
-    position: {x: 6, y: 12, z: 0}
+    position: {x: 8, y: -3, z: 0}
   - id: 1
-    position: {x: 7, y: -13, z: 0}
+    position: {x: 8, y: 9, z: 0}
   - id: 1
-    position: {x: 7, y: 12, z: 0}
+    position: {x: 9, y: -3, z: 0}
   - id: 1
-    position: {x: 8, y: -13, z: 0}
+    position: {x: 9, y: 9, z: 0}
   - id: 1
-    position: {x: 8, y: 12, z: 0}
+    position: {x: 10, y: -3, z: 0}
   - id: 1
-    position: {x: 9, y: -13, z: 0}
+    position: {x: 10, y: 9, z: 0}
   - id: 1
-    position: {x: 9, y: 12, z: 0}
+    position: {x: 11, y: -3, z: 0}
   - id: 1
-    position: {x: 10, y: -13, z: 0}
+    position: {x: 11, y: 9, z: 0}
   - id: 1
-    position: {x: 10, y: 12, z: 0}
+    position: {x: 12, y: -3, z: 0}
   - id: 1
-    position: {x: 11, y: -13, z: 0}
+    position: {x: 12, y: 5, z: 0}
   - id: 1
-    position: {x: 11, y: 12, z: 0}
+    position: {x: 12, y: 9, z: 0}
   - id: 1
-    position: {x: 12, y: -13, z: 0}
+    position: {x: 13, y: -3, z: 0}
   - id: 1
-    position: {x: 12, y: 12, z: 0}
+    position: {x: 13, y: 5, z: 0}
   - id: 1
-    position: {x: 13, y: -13, z: 0}
+    position: {x: 13, y: 9, z: 0}
   - id: 1
-    position: {x: 13, y: 12, z: 0}
+    position: {x: 14, y: -3, z: 0}
   - id: 1
-    position: {x: 14, y: -13, z: 0}
+    position: {x: 14, y: 5, z: 0}
   - id: 1
-    position: {x: 14, y: 12, z: 0}
+    position: {x: 14, y: 9, z: 0}
   - id: 1
-    position: {x: 15, y: -13, z: 0}
+    position: {x: 15, y: -3, z: 0}
   - id: 1
-    position: {x: 15, y: 12, z: 0}
+    position: {x: 15, y: 5, z: 0}
   - id: 1
-    position: {x: 16, y: -13, z: 0}
+    position: {x: 15, y: 9, z: 0}
   - id: 1
-    position: {x: 16, y: 12, z: 0}
+    position: {x: 16, y: -3, z: 0}
   - id: 1
-    position: {x: 17, y: -13, z: 0}
+    position: {x: 16, y: 5, z: 0}
   - id: 1
-    position: {x: 17, y: 12, z: 0}
+    position: {x: 16, y: 9, z: 0}
   - id: 1
-    position: {x: 18, y: -13, z: 0}
+    position: {x: 17, y: -3, z: 0}
   - id: 1
-    position: {x: 18, y: 12, z: 0}
+    position: {x: 17, y: 5, z: 0}
   - id: 1
-    position: {x: 19, y: -13, z: 0}
+    position: {x: 17, y: 9, z: 0}
   - id: 1
-    position: {x: 19, y: 12, z: 0}
+    position: {x: 18, y: -3, z: 0}
   - id: 1
-    position: {x: 20, y: -13, z: 0}
+    position: {x: 18, y: -2, z: 0}
   - id: 1
-    position: {x: 20, y: 12, z: 0}
+    position: {x: 18, y: -1, z: 0}
   - id: 1
-    position: {x: 21, y: -13, z: 0}
+    position: {x: 18, y: 0, z: 0}
   - id: 1
-    position: {x: 21, y: 12, z: 0}
+    position: {x: 18, y: 1, z: 0}
   - id: 1
-    position: {x: 22, y: -13, z: 0}
+    position: {x: 18, y: 2, z: 0}
   - id: 1
-    position: {x: 22, y: -12, z: 0}
+    position: {x: 18, y: 3, z: 0}
   - id: 1
-    position: {x: 22, y: -11, z: 0}
+    position: {x: 18, y: 4, z: 0}
   - id: 1
-    position: {x: 22, y: -10, z: 0}
+    position: {x: 18, y: 5, z: 0}
   - id: 1
-    position: {x: 22, y: -9, z: 0}
+    position: {x: 18, y: 6, z: 0}
   - id: 1
-    position: {x: 22, y: -8, z: 0}
+    position: {x: 18, y: 7, z: 0}
   - id: 1
-    position: {x: 22, y: -7, z: 0}
+    position: {x: 18, y: 8, z: 0}
   - id: 1
-    position: {x: 22, y: -6, z: 0}
-  - id: 1
-    position: {x: 22, y: -5, z: 0}
-  - id: 1
-    position: {x: 22, y: -4, z: 0}
-  - id: 1
-    position: {x: 22, y: -3, z: 0}
-  - id: 1
-    position: {x: 22, y: -2, z: 0}
-  - id: 1
-    position: {x: 22, y: -1, z: 0}
-  - id: 1
-    position: {x: 22, y: 0, z: 0}
-  - id: 1
-    position: {x: 22, y: 1, z: 0}
-  - id: 1
-    position: {x: 22, y: 2, z: 0}
-  - id: 1
-    position: {x: 22, y: 3, z: 0}
-  - id: 1
-    position: {x: 22, y: 4, z: 0}
-  - id: 1
-    position: {x: 22, y: 5, z: 0}
-  - id: 1
-    position: {x: 22, y: 6, z: 0}
-  - id: 1
-    position: {x: 22, y: 7, z: 0}
-  - id: 1
-    position: {x: 22, y: 8, z: 0}
-  - id: 1
-    position: {x: 22, y: 9, z: 0}
-  - id: 1
-    position: {x: 22, y: 10, z: 0}
-  - id: 1
-    position: {x: 22, y: 11, z: 0}
-  - id: 1
-    position: {x: 22, y: 12, z: 0}
+    position: {x: 18, y: 9, z: 0}
   mapObjectDataList:
   - id: 307
-    position: {x: -0.34002686, y: -6.200012}
+    position: {x: 15.830017, y: 5.8599854}
     quaternion: {x: -0, y: -0, z: -0, w: 1}
     scale: {x: 1, y: 1, z: 1}
 --- !u!1 &2050860732097960881
@@ -3276,7 +3339,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
-    m_SelectedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -4146,7 +4209,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
-    m_SelectedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1

@@ -4877,10 +4877,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 304
+  transformID: 1
+  distructionStatus: 0
   onPlaceable: 0
   onRotateable: 1
   onScaleable: 0
-  distructionStatus: 0
   _defDistanceRay: 50
   _curDistanceRay: 0
   _lineRenderer: {fileID: 2717453816571275917}

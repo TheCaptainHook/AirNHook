@@ -29,10 +29,9 @@ public class PlaceMentSystem : MonoBehaviour
      public Tilemap floorTileMap;
     [HideInInspector] public TileBase tileBase;
     public TileBase previewTileBase;
-    //box
     [HideInInspector] public bool getTarget;
-    [HideInInspector] public Vector3Int startPosition;
-    [HideInInspector] public Vector3Int endPosition;
+    [HideInInspector] public Vector3Int startPosition; //used Tile Draw Box
+    [HideInInspector] public Vector3Int endPosition; //used Tile Draw Box
 
     [Header("Object")]
     private GameObject curBuildObject;
@@ -73,7 +72,7 @@ public class PlaceMentSystem : MonoBehaviour
     public ModeState modeState;
     [HideInInspector] public Invoker invoker;
     TileModeClient tileModeClient;
-    [HideInInspector] public ObjectModeClient objectModeClient;
+    [HideInInspector] public ObjectModeClient objectModeClient; 
 
     [Header("Mouse")]
     bool inGridPlaneMousePosition;
@@ -86,20 +85,20 @@ public class PlaceMentSystem : MonoBehaviour
 
     private Vector3 mousePosition;
 
-
     [Header("Indicator")]
     [SerializeField] GameObject curObj_ArrowIndicator;
     [SerializeField] GameObject ObjMove_Indicator;
     [SerializeField] GameObject ObjRotation_Indicator;
-    [SerializeField] GameObject ObjSclae_Indicator;
-    [SerializeField] GameObject ObjClear_Indicator;
     [SerializeField] GameObject Additional_Indicator;
 
     [Header("Current Placed Object")]
-    public List<BuildObj> curPlaceObjList = new();
+    public List<BuildObj> curPlaceObjList = new(); //use Object Mode, placed object all turn on / turn off
 
     [Header("Interaction State")]
-    public bool onInteraction;
+    public bool onInteraction; //Only interaction with the UI if this value is true.
+
+    [Header("Effect")]
+    public ParticleSystem particleEffect_ObejctClear;
 
     private void Start()
     {
@@ -117,7 +116,6 @@ public class PlaceMentSystem : MonoBehaviour
         {
             ObjectMode();
         }
-        //tile
     }
     private void LateUpdate()
     {

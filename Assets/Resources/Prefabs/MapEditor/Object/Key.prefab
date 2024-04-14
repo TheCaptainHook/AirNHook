@@ -175,7 +175,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 307
+  transformID: 1
   distructionStatus: 1
+  onPlaceable: 0
+  onRotateable: 0
+  onScaleable: 0
 --- !u!114 &-2767788134810897182
 MonoBehaviour:
   m_ObjectHideFlags: 0

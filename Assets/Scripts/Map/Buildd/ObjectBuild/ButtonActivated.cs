@@ -162,6 +162,20 @@ public class ButtonActivated : BuildObj
 
     }
 
+    public override void EditorMode_Destroy()
+    {
+        foreach (ButtonActivatedDoor linkDoor in linkDoorList)
+        {
+            if (linkDoor.buttonActivatedBtnList.Contains(curPosition))
+            {
+                linkDoor.buttonActivatedBtnList.Remove(curPosition);
+                linkDoor.curLinkBtn--;
+            }
+        }
+            base.EditorMode_Destroy();
+    }
+
+
     //public void SetLinkDoor(Vector2 pot, ButtonActivatedDoor door)
     //{
     //    linkDoor = door;
@@ -251,7 +265,15 @@ public class ButtonActivated : BuildObj
     {
         base.TurnOff();
         turnOff = true;
-        
+
+        if (isPressed && onActive)
+        {
+            Deactivated();
+        }
+
+
+
+
     }
 
     public override void TurnOn()

@@ -190,7 +190,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa50bc9337d6d3e46a4496b68f0bc95d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isClear: 0
   _lockGameObject: {fileID: 3827269398014669780}
   _lockRigidbody2D: {fileID: 2248341254147455152}
   _lockCollider2D: {fileID: 7971026482734978906}
@@ -207,7 +206,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 301
+  transformID: 3
   distructionStatus: 0
+  onPlaceable: 0
+  onRotateable: 0
+  onScaleable: 0
   stageClear: 0
   nextMapId: 
   curPlayerInDoor: 0

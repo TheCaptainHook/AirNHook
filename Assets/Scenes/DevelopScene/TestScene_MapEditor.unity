@@ -131,21 +131,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1996344758840580011, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2005102887669488765, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: m_Name
       value: MapEditor
-      objectReference: {fileID: 0}
-    - target: {fileID: 2005102887669488765, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3215506362973436332, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715141819798225897, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: m_Pivot.x
@@ -225,22 +213,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3715141819798225897, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: mapID
-      value: Lobby
-      objectReference: {fileID: 0}
-    - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: mapType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: startPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: startPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
