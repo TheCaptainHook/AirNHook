@@ -17,6 +17,8 @@ public class ButtonActivated : BuildObj
     public float time = 2;
     public Vector2 curPosition;
 
+    public Transform buttonTransform;
+    
     //public ButtonActivatedDoor linkDoor;
     public List<ButtonActivatedDoor> linkDoorList;
 
@@ -25,14 +27,18 @@ public class ButtonActivated : BuildObj
     bool isRunningCoroutine;
 
     [Header("Components")]
-    SpriteRenderer spriteRenderer;
-
+    private SpriteRenderer spriteRenderer;
+    private Animator _animator;
+    
+    #region StringCache
+    private static readonly int IsActivated = Animator.StringToHash("IsActivated");
+    #endregion
+    
     private void Awake()
     {
+        _animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         orgColor = spriteRenderer.material.color;
-
-   
     }
 
     //private void Start()
@@ -63,7 +69,7 @@ public class ButtonActivated : BuildObj
 
     private void FixedUpdate()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up*.5f, 1, mask);
+        RaycastHit2D hit = Physics2D.Raycast(buttonTransform.position, Vector2.up*.5f, 1, mask);
         if(hit.collider != null && !turnOff)
         {
             isPressed = true;
@@ -72,10 +78,11 @@ public class ButtonActivated : BuildObj
         {
           Deactivated();
         }
+        _animator.SetBool(IsActivated, isPressed);
     }
     private void OnDrawGizmos()
     {
-        Gizmos.DrawRay(transform.position, Vector2.up * .5f);
+        Gizmos.DrawRay(buttonTransform.position, Vector2.up * .5f);
     }
     //<summary>맵 에디터에서 생성시, 데모맵에서 ButtonActivatedDoor오브젝트를 가져오는 코드를 수정해야함
     //mapEditor 상호작용오브젝트 전용 Transform 만들어서 여기다가 모아놓기
@@ -227,7 +234,7 @@ public class ButtonActivated : BuildObj
     void Activation()
     {
         onActive = true;
-        spriteRenderer.material.color = Color.green;
+        // spriteRenderer.material.color = Color.green;
         foreach(ButtonActivatedDoor linkDoor in linkDoorList)
         {
             linkDoor.CurActiveBtn = 1;
@@ -239,7 +246,7 @@ public class ButtonActivated : BuildObj
     {
         isPressed = false;
         onActive = false;
-        spriteRenderer.material.color = orgColor;
+        // spriteRenderer.material.color = orgColor;
         foreach (ButtonActivatedDoor linkDoor in linkDoorList)
         {
             linkDoor.CurActiveBtn = -1;

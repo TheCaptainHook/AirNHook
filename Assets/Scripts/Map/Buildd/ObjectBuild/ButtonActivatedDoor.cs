@@ -16,7 +16,8 @@ public class ButtonActivatedDoor : BuildBase
     private Animator _animator;
     
     #region StringCache
-    private static readonly int IsUnlocked = Animator.StringToHash("IsUnlocked");
+    private static readonly int UnlockTrigger = Animator.StringToHash("UnlockTrigger");
+    private static readonly int LockTrigger = Animator.StringToHash("LockTrigger");
     #endregion
 
     [HideInInspector] public int curLinkBtn;//현재 링크된 버튼 
@@ -56,21 +57,22 @@ public class ButtonActivatedDoor : BuildBase
         //orgColor = spriteRenderer.material.color;
         _animator = GetComponent<Animator>();
     }
+
     void Activation()
     {
         onOpen = true;
         //Color color = orgColor;
         //color.a = 0;
         //spriteRenderer.color = color;
-        _collider.enabled = false;
-        _animator.SetBool(IsUnlocked, true);
+        //_collider.enabled = false; 
+        _animator.SetTrigger(UnlockTrigger);
     }
     void Deactivated()
     {
         onOpen = false;
         //spriteRenderer.color = orgColor;
-        _collider.enabled = true;
-        _animator.SetBool(IsUnlocked, false);
+        //_collider.enabled = true;
+        _animator.SetTrigger(LockTrigger);
     }
 
 
