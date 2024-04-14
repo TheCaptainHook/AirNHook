@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class MapData
 {
-    int stageLevel = 2;
+    int stageLevel = 0;
 
     public Dictionary<int, MapDataStruct> mapTileDataDictionary = new Dictionary<int, MapDataStruct>();
     public Dictionary<int, MapDataStruct> mapObjectDataDictionary = new Dictionary<int, MapDataStruct>();
@@ -60,36 +60,35 @@ public class MapData
         //todo
         for(int i = 0; i<= stageLevel + 1; i++)
         {
-            TextAsset[] jsons = Resources.LoadAll<TextAsset>($"MapDat/Main/{i}");
-            Map[] maps = new Map[jsons.Length];
-            for (int j = 0; j < maps.Length; j++)
-            {
-                maps[j] = JsonUtility.FromJson<Map>(jsons[j].text);
-            }
-            mapMainStageDictionary.Add(i, maps);
+            GetMainStageMapData(i);
+     
         }
-        //todo
-        for (int i = 0; i < stageLevel + 1; i++)
-        {
-            TextAsset[] jsons = Resources.LoadAll<TextAsset>($"MapDat/Main/{i}");
-            for (int j = 0; j < jsons.Length; j++)
-            {
-               Map map = JsonUtility.FromJson<Map>(jsons[j].text);
-                mapMainDictionary.Add(map.mapID, map);
-            }
-       
-        }
-        //foreach (TextAsset json in Resources.LoadAll<TextAsset>("MapDat/Main"))
-        //{
-        //    Map map = JsonUtility.FromJson<Map>(json.text);
-        //    mapMainDictionary.Add(map.mapID, map);
-        //}
+  
         foreach (TextAsset json in Resources.LoadAll<TextAsset>("MapDat/User"))
         {
             Map map = JsonUtility.FromJson<Map>(json.text);
             mapUserDictionary.Add(map.mapID, map);
         }
     }
+
+    public void GetMainStageMapData(int level)
+    {
+        TextAsset[] jsons = Resources.LoadAll<TextAsset>($"MapDat/Main/{level}");
+        Map[] maps = new Map[jsons.Length];
+        for (int j = 0; j < maps.Length; j++)
+        {
+            maps[j] = JsonUtility.FromJson<Map>(jsons[j].text);
+        }
+        mapMainStageDictionary.Add(level, maps);
+
+        for (int j = 0; j < jsons.Length; j++)
+        {
+            Map map = JsonUtility.FromJson<Map>(jsons[j].text);
+            mapMainDictionary.Add(map.mapID, map);
+        }
+
+    }
+
     public Dictionary<string,Map> GetDictionary(MapType mapType)
     {
         switch (mapType)

@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class UI_StageSelect : UI_Base
@@ -8,6 +9,9 @@ public class UI_StageSelect : UI_Base
     [SerializeField] Button closeBtn;
     private TMP_Text _startText;
 
+    [SerializeField] Button curSelectBtn; //todo 0415
+
+    int curCreatedStage = 0;
     private void Awake()
     {
         closeBtn.onClick.AddListener(CloseUI);
@@ -22,32 +26,39 @@ public class UI_StageSelect : UI_Base
 
     protected override void Start()
     {
-        //var tutorialMaps = Managers.Data.mapData.mapTutorialDictionary.Keys;
-        //var mainMaps = Managers.Data.mapData.mapMainDictionary.Keys;
         var maps = Managers.Data.mapData.mapMainStageDictionary.Keys;
 
-        foreach (var map in maps)
+        foreach (var key in maps)
         {
-            var button = ResourceManager.Instantiate("Prefabs/UI/Button", layout).GetComponent<Button>();      
-            button.GetComponentInChildren<TMP_Text>().text = map.ToString();
-            string mapName = Managers.Data.mapData.mapMainStageDictionary[map][0].mapID;
-            button.onClick.AddListener(() => StageSet(mapName));
+            CreateStage(key);
         }
 
-        //foreach (var map in mainMaps)
-        //{
-        //    var button = ResourceManager.Instantiate("Prefabs/UI/Button", layout).GetComponent<Button>();
-        //    button.GetComponentInChildren<TMP_Text>().text = map;
-        //    button.onClick.AddListener(() => StageSet(map));
-        //}
-
         //TEST 맵 시작 테스트 코드
-        var endButton = ResourceManager.Instantiate("Prefabs/UI/Button", layout).GetComponent<Button>();
-        //endButton.GetComponentInChildren<TMP_Text>().text = _startText.text;
-        endButton.onClick.AddListener(StartGame);
+        //var endButton = ResourceManager.Instantiate("Prefabs/UI/Button", layout).GetComponent<Button>();
+        ////endButton.GetComponentInChildren<TMP_Text>().text = _startText.text;
+        //endButton.onClick.AddListener(StartGame);
     }
 
+    protected override void OpenUI() // Update select menu when clear stage
+    {
+        //Check player stage Clear level. if curCreatedStage is different from the player stage clear level then Update Ui.
+        base.OpenUI();
+    }
 
+    private void UpdateUI()// Update select menu when clear stage
+    {
+
+    }
+
+    public void CreateStage(int level)
+    {
+        var button = ResourceManager.Instantiate("Prefabs/UI/Button", layout).GetComponent<Button>();
+        curCreatedStage++;
+        Debug.Log(curCreatedStage);
+        button.GetComponentInChildren<TMP_Text>().text = level.ToString();
+        string mapName = Managers.Data.mapData.mapMainStageDictionary[level][0].mapID;
+        button.onClick.AddListener(() => { StageSet(mapName); curSelectBtn = button; });
+    }
 
     private void StageSet(string mapName)
     {
@@ -55,8 +66,10 @@ public class UI_StageSelect : UI_Base
         //Managers.Game.Player.GetComponent<Player>().CmdChangeStage(mapName);
     }
 
-    private void SetNextStage(string mapName)
+    private void SetNextStage(string mapName) 
     {
+        // if(playerData.stageClearDataDictionary.ContainKey(level){ string mapId = playerData.stageClearDataDictionary[level][lastIdx] ;}
+        //else{string mapId = Managers.Data.mapData.mapMainStageDictionary[level][0].mapID; }
         GameObject ExitObj = MapEditor.Instance.exitDoorObjectTransform.GetChild(0).gameObject;
         ExitObj.GetComponent<ExitPointObj>().nextMapId = mapName;
     }

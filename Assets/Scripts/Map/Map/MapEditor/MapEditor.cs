@@ -432,6 +432,7 @@ public class MapEditor : MonoBehaviour
         obj.GetComponent<BuildObj>().ObjectData = data;
         obj.transform.position = data.position;
         obj.transform.rotation = data.quaternion;
+        obj.transform.localScale = data.scale;
         obj.transform.SetParent(transform);
     }
     void Create(Transform transform, MapDataStruct mapDataStruct, ButtonActivatedDoorStruct data)
