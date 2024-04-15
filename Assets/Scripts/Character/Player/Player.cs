@@ -189,7 +189,7 @@ public class Player : NetworkBehaviour, IDamageable
     public void CmdEmote(string emoteName)
     {
         var prefab = Managers.Network.spawnPrefabDict[emoteName];
-        var go = Instantiate(prefab, gameObject.transform.position, Quaternion.identity);
+        var go = Instantiate(prefab, gameObject.transform.position + Vector3.up * 0.45f,Quaternion.identity);
         NetworkServer.Spawn(go);
         go.name = prefab.name;
         RpcEmote(go);
