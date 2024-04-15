@@ -97,7 +97,7 @@ public class Player : NetworkBehaviour, IDamageable
         }
     }
     
-    private void Respawning()
+    public void Respawning()
     {
         Debug.Log("리스포닝");
         

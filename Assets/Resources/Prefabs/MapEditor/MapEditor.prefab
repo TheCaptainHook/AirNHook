@@ -693,6 +693,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4739677085442827862}
   - {fileID: 574109288713474482}
   - {fileID: 4167257373982682624}
   - {fileID: 2842253493190284985}
@@ -782,6 +783,7 @@ MonoBehaviour:
   placeMentSystem: {fileID: 510517863331905739}
   gridPlane: {fileID: 399345985239822108, guid: 437e80b82dca4462c9fedd97d2df0e5a, type: 3}
   editorUIController: {fileID: 5805937200063489573}
+  fadeInOutPanel: {fileID: 3618559567587525233}
   poolingContainer: {fileID: 574109288713474482}
   mapEditorType: 1
   cellSize: 2
@@ -794,241 +796,22 @@ MonoBehaviour:
   exitDoorObjectTransform: {fileID: 0}
   interactionObjectTransform: {fileID: 0}
   dontSaveObjectTransform: {fileID: 0}
+  garbageTransform: {fileID: 0}
   curMap:
-    mapSize: {x: 20, y: 20}
-    mapID: Tutorial_2
-    startPosition: {x: -15, y: -2}
-    mapTileDataList:
-    - id: 1
-      position: {x: -18, y: -3, z: 0}
-    - id: 1
-      position: {x: -18, y: -2, z: 0}
-    - id: 1
-      position: {x: -18, y: -1, z: 0}
-    - id: 1
-      position: {x: -18, y: 0, z: 0}
-    - id: 1
-      position: {x: -18, y: 1, z: 0}
-    - id: 1
-      position: {x: -18, y: 2, z: 0}
-    - id: 1
-      position: {x: -18, y: 3, z: 0}
-    - id: 1
-      position: {x: -18, y: 4, z: 0}
-    - id: 1
-      position: {x: -18, y: 5, z: 0}
-    - id: 1
-      position: {x: -18, y: 6, z: 0}
-    - id: 1
-      position: {x: -18, y: 7, z: 0}
-    - id: 1
-      position: {x: -18, y: 8, z: 0}
-    - id: 1
-      position: {x: -18, y: 9, z: 0}
-    - id: 1
-      position: {x: -17, y: -3, z: 0}
-    - id: 1
-      position: {x: -17, y: 9, z: 0}
-    - id: 1
-      position: {x: -16, y: -3, z: 0}
-    - id: 1
-      position: {x: -16, y: 9, z: 0}
-    - id: 1
-      position: {x: -15, y: -3, z: 0}
-    - id: 1
-      position: {x: -15, y: 9, z: 0}
-    - id: 1
-      position: {x: -14, y: -3, z: 0}
-    - id: 1
-      position: {x: -14, y: 9, z: 0}
-    - id: 1
-      position: {x: -13, y: -3, z: 0}
-    - id: 1
-      position: {x: -13, y: 9, z: 0}
-    - id: 1
-      position: {x: -12, y: -3, z: 0}
-    - id: 1
-      position: {x: -12, y: 9, z: 0}
-    - id: 1
-      position: {x: -11, y: -3, z: 0}
-    - id: 1
-      position: {x: -11, y: 9, z: 0}
-    - id: 1
-      position: {x: -10, y: -3, z: 0}
-    - id: 1
-      position: {x: -10, y: 9, z: 0}
-    - id: 1
-      position: {x: -9, y: -3, z: 0}
-    - id: 1
-      position: {x: -9, y: 9, z: 0}
-    - id: 1
-      position: {x: -8, y: -3, z: 0}
-    - id: 1
-      position: {x: -8, y: 9, z: 0}
-    - id: 1
-      position: {x: -7, y: -3, z: 0}
-    - id: 1
-      position: {x: -7, y: 9, z: 0}
-    - id: 1
-      position: {x: -6, y: -3, z: 0}
-    - id: 1
-      position: {x: -6, y: 9, z: 0}
-    - id: 1
-      position: {x: -5, y: -3, z: 0}
-    - id: 1
-      position: {x: -5, y: 9, z: 0}
-    - id: 1
-      position: {x: -4, y: -3, z: 0}
-    - id: 1
-      position: {x: -4, y: 9, z: 0}
-    - id: 1
-      position: {x: -3, y: -3, z: 0}
-    - id: 1
-      position: {x: -3, y: 9, z: 0}
-    - id: 1
-      position: {x: -2, y: -3, z: 0}
-    - id: 1
-      position: {x: -2, y: 9, z: 0}
-    - id: 1
-      position: {x: -1, y: -3, z: 0}
-    - id: 1
-      position: {x: -1, y: 9, z: 0}
-    - id: 1
-      position: {x: 0, y: -3, z: 0}
-    - id: 1
-      position: {x: 0, y: 9, z: 0}
-    - id: 1
-      position: {x: 1, y: -3, z: 0}
-    - id: 1
-      position: {x: 1, y: 9, z: 0}
-    - id: 1
-      position: {x: 2, y: -3, z: 0}
-    - id: 1
-      position: {x: 2, y: 9, z: 0}
-    - id: 1
-      position: {x: 3, y: -3, z: 0}
-    - id: 1
-      position: {x: 3, y: 9, z: 0}
-    - id: 1
-      position: {x: 4, y: -3, z: 0}
-    - id: 1
-      position: {x: 4, y: 9, z: 0}
-    - id: 1
-      position: {x: 5, y: -3, z: 0}
-    - id: 1
-      position: {x: 5, y: 9, z: 0}
-    - id: 1
-      position: {x: 6, y: -3, z: 0}
-    - id: 1
-      position: {x: 6, y: 9, z: 0}
-    - id: 1
-      position: {x: 7, y: -3, z: 0}
-    - id: 1
-      position: {x: 7, y: 9, z: 0}
-    - id: 1
-      position: {x: 8, y: -3, z: 0}
-    - id: 1
-      position: {x: 8, y: 9, z: 0}
-    - id: 1
-      position: {x: 9, y: -3, z: 0}
-    - id: 1
-      position: {x: 9, y: 9, z: 0}
-    - id: 1
-      position: {x: 10, y: -3, z: 0}
-    - id: 1
-      position: {x: 10, y: 9, z: 0}
-    - id: 1
-      position: {x: 11, y: -3, z: 0}
-    - id: 1
-      position: {x: 11, y: 9, z: 0}
-    - id: 1
-      position: {x: 12, y: -3, z: 0}
-    - id: 1
-      position: {x: 12, y: 5, z: 0}
-    - id: 1
-      position: {x: 12, y: 9, z: 0}
-    - id: 1
-      position: {x: 13, y: -3, z: 0}
-    - id: 1
-      position: {x: 13, y: 5, z: 0}
-    - id: 1
-      position: {x: 13, y: 9, z: 0}
-    - id: 1
-      position: {x: 14, y: -3, z: 0}
-    - id: 1
-      position: {x: 14, y: 5, z: 0}
-    - id: 1
-      position: {x: 14, y: 9, z: 0}
-    - id: 1
-      position: {x: 15, y: -3, z: 0}
-    - id: 1
-      position: {x: 15, y: 5, z: 0}
-    - id: 1
-      position: {x: 15, y: 9, z: 0}
-    - id: 1
-      position: {x: 16, y: -3, z: 0}
-    - id: 1
-      position: {x: 16, y: 5, z: 0}
-    - id: 1
-      position: {x: 16, y: 9, z: 0}
-    - id: 1
-      position: {x: 17, y: -3, z: 0}
-    - id: 1
-      position: {x: 17, y: 5, z: 0}
-    - id: 1
-      position: {x: 17, y: 9, z: 0}
-    - id: 1
-      position: {x: 18, y: -3, z: 0}
-    - id: 1
-      position: {x: 18, y: -2, z: 0}
-    - id: 1
-      position: {x: 18, y: -1, z: 0}
-    - id: 1
-      position: {x: 18, y: 0, z: 0}
-    - id: 1
-      position: {x: 18, y: 1, z: 0}
-    - id: 1
-      position: {x: 18, y: 2, z: 0}
-    - id: 1
-      position: {x: 18, y: 3, z: 0}
-    - id: 1
-      position: {x: 18, y: 4, z: 0}
-    - id: 1
-      position: {x: 18, y: 5, z: 0}
-    - id: 1
-      position: {x: 18, y: 6, z: 0}
-    - id: 1
-      position: {x: 18, y: 7, z: 0}
-    - id: 1
-      position: {x: 18, y: 8, z: 0}
-    - id: 1
-      position: {x: 18, y: 9, z: 0}
-    mapObjectDataList:
-    - id: 307
-      position: {x: 15.830017, y: 5.8599854}
-      quaternion: {x: 0, y: 0, z: 0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    mapButtonActivatedDoorDataList:
-    - id: 305
-      linkId: 0
-      activeRequirAmount: 1
-      position: {x: 12.98999, y: 5.799988}
-      buttonActivatePositionList:
-      - {x: 8.5, y: -1.8}
-      quaternion: {x: 0, y: 0, z: 0, w: 1}
-      scale: {x: 1.15, y: 1.1023438, z: 1.8676016}
-    mapExitObjectDataList:
-    - id: 301
-      position: {x: 15.919983, y: -2.0100098}
-      condition_KeyAmount: 1
-      nextMapId: Tutorial_3
-    cellSize: 2
+    mapSize: {x: 0, y: 0}
+    mapID: 
+    startPosition: {x: 0, y: 0}
+    mapTileDataList: []
+    mapObjectDataList: []
+    mapButtonActivatedDoorDataList: []
+    mapExitObjectDataList: []
+    cellSize: 0
   stageClear: 0
   mapType: 1
   width: 20
   height: 20
-  mapID: Tutorial_3
-  startPosition: {x: -15, y: -2}
+  mapID: Tutorial_1
+  startPosition: {x: 0, y: 0}
   startPositionObject: {fileID: 0}
   mapTileDataList:
   - id: 1
@@ -1452,6 +1235,94 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &2284591903266695468
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4739677085442827862}
+  - component: {fileID: 4102246314778766833}
+  - component: {fileID: 1225094914943414133}
+  - component: {fileID: 3618559567587525233}
+  m_Layer: 5
+  m_Name: FadeInOutPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4739677085442827862
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2284591903266695468}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.1857, y: 1.1857, z: 1.1857}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3715141819798225897}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &4102246314778766833
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2284591903266695468}
+  m_CullTransparentMesh: 1
+--- !u!114 &1225094914943414133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2284591903266695468}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3618559567587525233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2284591903266695468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f678058bf6451477c92e43c1cf3202e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2359892539648849742
 GameObject:
   m_ObjectHideFlags: 0

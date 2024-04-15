@@ -102,7 +102,8 @@ public class ExitPointObj : BuildBase
         else
         {
             // 코루틴으로 페이드아웃 페이드인.
-            MapEditor.Instance.LoadMap(nextMapId,MapType.Main);
+            //MapEditor.Instance.LoadMap(nextMapId,MapType.Main);
+            MapEditor.Instance.MoveNextStage(nextMapId, MapType.Main);
 
         }
         

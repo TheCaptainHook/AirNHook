@@ -50,7 +50,7 @@ public class MapEditor : MonoBehaviour
     [HideInInspector] public GameObject gridPlane;
     [Header("UI")]
     public MapEditorControllerUI editorUIController;
-
+    public FadeInOutPanel fadeInOutPanel;
     [Space(5)]
 
     [Header("Map Info")]
@@ -471,6 +471,12 @@ public class MapEditor : MonoBehaviour
         list.Add(garbageTransform);
         return list;
 
+    }
+
+
+    public void MoveNextStage(string mapId,MapType mapType)
+    {
+        fadeInOutPanel.MoveNextStage(mapId, mapType);
     }
     #endregion
 
