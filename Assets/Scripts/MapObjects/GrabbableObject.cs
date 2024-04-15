@@ -6,6 +6,9 @@ public class GrabbableObject : NetworkBehaviour, IInteractable
     public Transform player;
     private Rigidbody2D _rigidbody2D;
     public ObjectTypeEnum objectType = ObjectTypeEnum.Grab;
+    public LayerMask grabLayerMask;
+    private LayerMask _releaseLayerMask;
+    
     [SyncVar]
     public bool isGrabbed;
 
@@ -49,6 +52,7 @@ public class GrabbableObject : NetworkBehaviour, IInteractable
         _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
         _rigidbody2D.velocity = new Vector2(0, 0);
         transform.rotation = Quaternion.identity;
+        _rigidbody2D.excludeLayers = grabLayerMask;
     }
 
     private void Release()
@@ -56,5 +60,6 @@ public class GrabbableObject : NetworkBehaviour, IInteractable
         isGrabbed = false;
         _rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
         player = null;
+        _rigidbody2D.excludeLayers = _releaseLayerMask;
     }
 }

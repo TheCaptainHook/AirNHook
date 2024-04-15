@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -5810413876586093780}
   - component: {fileID: 1730392308196055233}
   - component: {fileID: 8495657423424250234}
-  m_Layer: 6
+  m_Layer: 17
   m_Name: StrongBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,9 +76,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
+  m_SortingOrder: 7
   m_Sprite: {fileID: 960313712, guid: cd93536edc9c8324796ae5b08022ae2f, type: 3}
   m_Color: {r: 0.9150943, g: 0.290123, b: 0.12517802, a: 1}
   m_FlipX: 0
@@ -179,6 +179,9 @@ MonoBehaviour:
   syncInterval: 0
   player: {fileID: 0}
   objectType: 1
+  grabLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
   isGrabbed: 0
 --- !u!114 &-5810413876586093780
 MonoBehaviour:

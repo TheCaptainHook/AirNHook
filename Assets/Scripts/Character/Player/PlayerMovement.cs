@@ -19,6 +19,7 @@ public class PlayerMovement : NetworkBehaviour
     private bool _isJumping;
     public bool isGround { get; protected set; }
     [SerializeField] private bool _isDead;
+    
     public bool IsDead
     {
         get => _isDead;

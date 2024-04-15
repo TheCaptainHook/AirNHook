@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 158291813751165047}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: CharPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 3664264896112958971}
   - component: {fileID: 6418844055165115295}
   - component: {fileID: 156205485543219572}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: Land Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4897,8 +4897,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
   m_SortingOrder: 20
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -4932,6 +4932,37 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!1 &1696521717785923988
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3341230063414965529}
+  m_Layer: 10
+  m_Name: GrabPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3341230063414965529
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1696521717785923988}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2557909726506229699}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2743958777749711243
 GameObject:
   m_ObjectHideFlags: 0
@@ -5022,7 +5053,7 @@ MonoBehaviour:
   _jumpingPower: 10
   _floorLayer:
     serializedVersion: 2
-    m_Bits: 2147483712
+    m_Bits: 2147614912
   _rigidbd: {fileID: 8929439774467590829}
   _moveSpeed: 2
   _charPivot: {fileID: 158291813751165047}
@@ -5042,10 +5073,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _isDead: 0
-  _grabPoint: {fileID: 0}
+  _grabPoint: {fileID: 3341230063414965529}
   _interactableLayer:
     serializedVersion: 2
-    m_Bits: 134217728
+    m_Bits: 135462912
 --- !u!114 &9084766552046721414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5185,7 +5216,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7407411887373884148}
   - component: {fileID: 7616115842026656694}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Hand(R)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5245,9 +5276,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
+  m_SortingOrder: 9
   m_Sprite: {fileID: 21300000, guid: d4bc4dd4ea9171944ae81b1ea6d03901, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -5270,7 +5301,7 @@ GameObject:
   - component: {fileID: 542387458489118144}
   - component: {fileID: 2950751490131989517}
   - component: {fileID: 389362265485285227}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: Jump Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10113,8 +10144,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
   m_SortingOrder: 20
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -10158,7 +10189,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2557909726506229699}
   - component: {fileID: 153971661154204627}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Hand(L)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10177,7 +10208,8 @@ Transform:
   m_LocalPosition: {x: 0.55, y: 0.3800001, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3341230063414965529}
   m_Father: {fileID: 158291813751165047}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &153971661154204627
@@ -10218,8 +10250,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
   m_SortingOrder: 6
   m_Sprite: {fileID: 21300000, guid: d4bc4dd4ea9171944ae81b1ea6d03901, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -10242,7 +10274,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1246847680480940445}
   - component: {fileID: 6692091121528634970}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Eyes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10302,9 +10334,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
+  m_SortingOrder: 9
   m_Sprite: {fileID: 21300000, guid: 574dc5d24ea59b84da9ac313bb71e3d2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -10327,7 +10359,7 @@ GameObject:
   - component: {fileID: 8387622284059679151}
   - component: {fileID: 7420424602492038328}
   - component: {fileID: 2355237564199359437}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: Launch Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15247,7 +15279,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4656057378401058248}
   - component: {fileID: 3357977614631423227}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15307,9 +15339,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
+  m_SortingOrder: 8
   m_Sprite: {fileID: 21300000, guid: 1722a23aedd99cf4e8b91664662c227f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

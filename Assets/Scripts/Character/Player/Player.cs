@@ -19,7 +19,7 @@ public class Player : NetworkBehaviour, IDamageable
     private Rigidbody2D _rigidbd;
     
     //사망 체크
-    [FormerlySerializedAs("isDead")] [SerializeField] public bool _isDead = false;
+    [SerializeField] public bool _isDead = false;
     
     //이모트
     private bool _emoteOnCoolDown;
@@ -28,6 +28,7 @@ public class Player : NetworkBehaviour, IDamageable
     private static readonly int IsDead = Animator.StringToHash("IsDead");
     private static readonly int IsRespawning = Animator.StringToHash("IsRespawning");
     private static readonly int OnRespawnEnd = Animator.StringToHash("OnRespawnEnd");
+    private static readonly int IsGrabbing = Animator.StringToHash("IsGrabbing");
     #endregion
     
     private void Awake()
@@ -262,6 +263,7 @@ public class Player : NetworkBehaviour, IDamageable
             _grabbedItem.GetComponent<IInteractable>().Interaction(_grabPoint);
             CmdGrabInteraction();
             _grabbedItem = null;
+            _animator.SetBool(IsGrabbing, false);
         }
         else if (_latestTarget != null)
         {
@@ -272,7 +274,7 @@ public class Player : NetworkBehaviour, IDamageable
                 _grabbedItem = _latestTarget.transform;
                 CmdGrabInteraction();
             }
-
+            _animator.SetBool(IsGrabbing, true);
             interactable.Interaction(_grabPoint);
         }
     }
