@@ -57,3 +57,6 @@ TagManager:
   - name: ForeGround
     uniqueID: 3606729879
     locked: 0
+  - name: Indicator
+    uniqueID: 1411368969
+    locked: 0

@@ -4796,8 +4796,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1411368969
+  m_SortingLayer: 6
   m_SortingOrder: 1000
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -4846,3 +4846,4 @@ MonoBehaviour:
   curLinkObj: {fileID: 0}
   isClicking: 0
   mousePosition: {x: 0, y: 0, z: 0}
+  linked: 0

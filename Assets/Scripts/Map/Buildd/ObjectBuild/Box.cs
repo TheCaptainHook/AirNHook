@@ -8,9 +8,13 @@ public class Box : BuildObj
     private Rigidbody2D _rb;
     private Collider2D _collider;
     float dissolveRate = 0.015f;
+
+    [SerializeField] SpriteRenderer spriteRenderer;
+
+
     private void Awake()
     {
-        _dissolveMaterial = GetComponent<SpriteRenderer>().material;
+        _dissolveMaterial = spriteRenderer.material;
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<Collider2D>();
         OnDissolveAction += Dissolve;
