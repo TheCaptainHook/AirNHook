@@ -12,33 +12,48 @@ TagManager:
   - 
   - Water
   - UI
-  - Ground
-  - 
-  - 
+  - Ground/AllAllowed
+  - Ground/NotHookable
+  - Ground/OnlyHookable
   - 
   - Player
-  - Hook
-  - Object
   - 
   - 
+  - Object/Background
+  - Object/ForeGround
+  - 
+  - Interactable/NotWalkable
+  - Interactable/Walkable
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Key
+  - Projectile
   - 
   - 
   - 
   - 
   - Indicator
-  - Interaction
-  - Projectile
-  - Key
+  - 
+  - 
+  - 
   - GridPlane
-  - Floor
+  - 
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Map/BackGround
+    uniqueID: 3707109241
+    locked: 0
+  - name: Map/Tiles
+    uniqueID: 3156700437
+    locked: 0
+  - name: Map/ForeGround
+    uniqueID: 927897491
+    locked: 0
+  - name: BackGround
+    uniqueID: 3598776893
+    locked: 0
+  - name: ForeGround
+    uniqueID: 3606729879
     locked: 0

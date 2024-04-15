@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4652680984408581733}
   - component: {fileID: 1362081069447320115}
   - component: {fileID: 6217397359724410135}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Dust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4795,8 +4795,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 4
   m_SortingOrder: 2
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -4841,7 +4841,7 @@ GameObject:
   - component: {fileID: 8196177442817728895}
   - component: {fileID: 1755334685966830132}
   - component: {fileID: 5690823865466912599}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: LaserObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4889,7 +4889,7 @@ MonoBehaviour:
   _endVFX: {fileID: 5345449485699939287}
   _layerMask:
     serializedVersion: 2
-    m_Bits: 2684355699
+    m_Bits: 1262784
   _isEnabled: 1
 --- !u!61 &5690823865466912599
 BoxCollider2D:
@@ -4947,7 +4947,7 @@ GameObject:
   - component: {fileID: 3987302155045985887}
   - component: {fileID: 1656483116601397102}
   - component: {fileID: 2867431944523796521}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9731,8 +9731,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 4
   m_SortingOrder: 2
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -9776,7 +9776,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9211797610848877818}
   - component: {fileID: 6110648919942693106}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9838,8 +9838,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 4
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: b07a9b4ae21721442ab28005f09e3957, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -9862,7 +9862,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7237640812386148206}
   - component: {fileID: 2717453816571275917}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9923,8 +9923,8 @@ LineRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 4
   m_SortingOrder: 4
   m_Positions:
   - {x: 0, y: 0, z: 0}
@@ -9997,7 +9997,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7732277339000004859}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: EndVFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10031,7 +10031,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2979357953502741260}
   - component: {fileID: 6297436057554391770}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10092,8 +10092,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 72db00f20afae0949af7cd5464de64eb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

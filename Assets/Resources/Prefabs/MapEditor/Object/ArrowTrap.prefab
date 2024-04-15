@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9066803716517159161}
   - component: {fileID: 1178710952850489341}
-  m_Layer: 28
+  m_Layer: 14
   m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,9 +70,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 2
+  m_SortingOrder: 2
   m_Sprite: {fileID: 57988638, guid: 06b4b816e8b714a4b9f8a8699d3c74db, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 1533981553927762337}
   - component: {fileID: 4372533102286470937}
   - component: {fileID: 618963904027766403}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: ArrowTrap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -269,7 +269,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4804298900846582656}
   - component: {fileID: 689736476884933593}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -329,8 +329,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 2
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 443dbd869cbb58344afe008187465a19, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -353,7 +353,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4764097237889220730}
   - component: {fileID: 3262832593868504275}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -368,13 +368,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4492347097306010954}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4207799436377025379}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!212 &3262832593868504275
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -413,9 +413,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 1a0c44d12fb18fb4f8ecc5d772b6346c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -437,7 +437,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4238997075524219904}
   - component: {fileID: 3469084721355590542}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -497,9 +497,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 2
+  m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: d678822b24cb6be429cc799055ba7872, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -521,7 +521,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8583032913982811838}
   - component: {fileID: 4589377419858739673}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: BowPin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -581,9 +581,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 2
+  m_SortingOrder: 6
   m_Sprite: {fileID: 21300000, guid: 8277770c85024ab4cabdea5a03287a36, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -605,7 +605,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1809048639088805221}
   - component: {fileID: 3165498658754574651}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: BowTop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -665,9 +665,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 2
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: fc8a3cc9238344b439153f4a52c08018, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -689,7 +689,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3094411437918139917}
   - component: {fileID: 4806306569001188769}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: BowBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -749,9 +749,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 2
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 749d2079f799d2f43b548fe3d21c5c4c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1

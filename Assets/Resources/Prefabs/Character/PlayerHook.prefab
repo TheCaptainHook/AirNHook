@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1527109819433215527}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GrabPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7637608200704000030}
   - component: {fileID: 8574888813926714691}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,9 +101,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
+  m_SortingOrder: 8
   m_Sprite: {fileID: 21300000, guid: 1722a23aedd99cf4e8b91664662c227f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -186,9 +186,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 8
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 8db0b36d39556a742950e37cb009a381, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -245,7 +245,7 @@ GameObject:
   m_Component:
   - component: {fileID: 759945192256969836}
   - component: {fileID: 1458454596040148635}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: CharPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -316,7 +316,7 @@ GameObject:
   - component: {fileID: 3900723874919988677}
   - component: {fileID: 5501964289208133679}
   - component: {fileID: 8853369850858447523}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Hand(R)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -377,9 +377,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 7
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
+  m_SortingOrder: 9
   m_Sprite: {fileID: 21300000, guid: d4bc4dd4ea9171944ae81b1ea6d03901, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -430,8 +430,8 @@ LineRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
   m_SortingOrder: 5
   m_Positions:
   - {x: 0, y: 0, z: 0}
@@ -506,7 +506,7 @@ GameObject:
   - component: {fileID: 3752013092322495092}
   - component: {fileID: 8220490199284304412}
   - component: {fileID: 423496738527921704}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: Jump Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5349,8 +5349,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
   m_SortingOrder: 20
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -5394,7 +5394,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7909355138209406201}
   - component: {fileID: 5220578646670004415}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Eyes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5454,9 +5454,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 7
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
+  m_SortingOrder: 9
   m_Sprite: {fileID: 21300000, guid: 574dc5d24ea59b84da9ac313bb71e3d2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -5539,9 +5539,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 7
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
+  m_SortingOrder: 9
   m_Sprite: {fileID: 21300000, guid: 53a6ce331965f9d4ba05bc42a3a6a50c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -5694,7 +5694,7 @@ GameObject:
   - component: {fileID: 966099104287563399}
   - component: {fileID: 4510910537838183080}
   - component: {fileID: 3674483641803625881}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: Launch Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10536,8 +10536,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
   m_SortingOrder: 20
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -10582,7 +10582,7 @@ GameObject:
   - component: {fileID: 219322102767057026}
   - component: {fileID: 2649949143537624615}
   - component: {fileID: 7438495919196449453}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: Land Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15433,8 +15433,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
   m_SortingOrder: 20
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -15537,7 +15537,7 @@ MonoBehaviour:
   _jumpingPower: 10
   _floorLayer:
     serializedVersion: 2
-    m_Bits: 2147483712
+    m_Bits: 2147614912
   _rigidbd: {fileID: 3090883480896541386}
   _moveSpeed: 3
   _charPivot: {fileID: 759945192256969836}
@@ -15575,7 +15575,7 @@ MonoBehaviour:
   hookStartPos: {fileID: 7108341943427896224}
   hookLayerMask:
     serializedVersion: 2
-    m_Bits: 2147483712
+    m_Bits: 2147483968
 --- !u!114 &3375014821821301067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15595,7 +15595,7 @@ MonoBehaviour:
   _grabPoint: {fileID: 1527109819433215527}
   _interactableLayer:
     serializedVersion: 2
-    m_Bits: 671088640
+    m_Bits: 672333824
 --- !u!114 &3785503928006515861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15835,7 +15835,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1463397440841184934}
   - component: {fileID: 6432588880211107525}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Hand(L)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15896,9 +15896,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 7
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
+  m_SortingOrder: 6
   m_Sprite: {fileID: 21300000, guid: d4bc4dd4ea9171944ae81b1ea6d03901, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

@@ -10,9 +10,7 @@ public class ButtonActivatedDoor : BuildBase
     public int linkId;
 
     [Header("Components")]
-    [SerializeField] SpriteRenderer spriteRenderer;
-
-    BoxCollider2D _collider;
+    [SerializeField] private BoxCollider2D _collider;
     private Animator _animator;
     
     #region StringCache
@@ -52,26 +50,19 @@ public class ButtonActivatedDoor : BuildBase
 
     private void Awake()
     {
-
-        _collider = GetComponent<BoxCollider2D>();
-        //orgColor = spriteRenderer.material.color;
         _animator = GetComponent<Animator>();
     }
 
     void Activation()
     {
         onOpen = true;
-        //Color color = orgColor;
-        //color.a = 0;
-        //spriteRenderer.color = color;
-        //_collider.enabled = false; 
+        _collider.enabled = false; 
         _animator.SetTrigger(UnlockTrigger);
     }
     void Deactivated()
     {
         onOpen = false;
-        //spriteRenderer.color = orgColor;
-        //_collider.enabled = true;
+        _collider.enabled = true;
         _animator.SetTrigger(LockTrigger);
     }
 

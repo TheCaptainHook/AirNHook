@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 442859277007068562}
   - component: {fileID: 4844259671750371028}
   - component: {fileID: 1475111757155547511}
-  m_Layer: 27
+  m_Layer: 16
   m_Name: AirLocker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77,8 +77,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -696190403
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: ddacacecd8ea2654288428d5cf3a4428, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -211,10 +211,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 1001
+  transformID: 0
+  distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
-  distructionStatus: 0
 --- !u!1 &4721934840060962529
 GameObject:
   m_ObjectHideFlags: 0
@@ -225,7 +226,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3929139480587797061}
   - component: {fileID: 4136721456625420061}
-  m_Layer: 27
+  m_Layer: 16
   m_Name: LockerDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -285,8 +286,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -696190403
+  m_SortingLayer: 3
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 10c11d1c1f0923345a2a51ad53082354, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -309,7 +310,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6527400168767935102}
   - component: {fileID: 8988210576486560907}
-  m_Layer: 27
+  m_Layer: 16
   m_Name: Air
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -369,8 +370,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -696190403
+  m_SortingLayer: 3
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 784c549a080282544a0814b49322b027, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
