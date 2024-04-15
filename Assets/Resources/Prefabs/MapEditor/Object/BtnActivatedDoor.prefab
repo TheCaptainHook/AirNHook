@@ -548,8 +548,8 @@ MonoBehaviour:
   transformID: 0
   distructionStatus: 0
   onPlaceable: 0
-  onRotateable: 0
-  onScaleable: 0
+  onRotateable: 1
+  onScaleable: 1
   linkId: 0
   _collider: {fileID: 2079940608723542123}
   curLinkBtn: 0
