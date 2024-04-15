@@ -69,16 +69,16 @@ public class ButtonActivated : BuildObj
 
     private void FixedUpdate()
     {
-        RaycastHit2D hit = Physics2D.Raycast(buttonTransform.position, Vector2.up*.5f, 1, mask);
-        if(hit.collider != null && !turnOff)
+        RaycastHit2D hit = Physics2D.Raycast(buttonTransform.position, Vector2.up, 1, mask);
+        if(hit.collider is not null && !turnOff)
         {
             isPressed = true;
         }
-        else if(isPressed && onActive)
+        else if (isPressed && onActive && hit.collider is null)
         {
-          Deactivated();
+            Debug.Log("Deactive");
+            Deactivated();
         }
-        _animator.SetBool(IsActivated, isPressed);
     }
     private void OnDrawGizmos()
     {
@@ -239,7 +239,7 @@ public class ButtonActivated : BuildObj
         {
             linkDoor.CurActiveBtn = 1;
         }
-       
+        _animator.SetBool(IsActivated, true);
     }
 
     void Deactivated()
@@ -251,7 +251,7 @@ public class ButtonActivated : BuildObj
         {
             linkDoor.CurActiveBtn = -1;
         }
-       
+        _animator.SetBool(IsActivated, false);
     }
 
     public override void TurnOff()
