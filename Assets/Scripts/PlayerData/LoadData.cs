@@ -8,18 +8,23 @@ using UnityEngine.UI;
 
 public class LoadData : MonoBehaviour
 {
+    [SerializeField] GameObject _stageSelect;
     //생성할 위치
     public Transform stageButton;
 
     public Dictionary<string, PlayerData> playerData = new Dictionary<string, PlayerData>();
 
     private MapData _mapData;
+    private StageButton _stageButton;
 
     List<PlayerData> data = new List<PlayerData>();
+
+    private bool _stageSelectShow;
 
     private void Awake()
     {
         _mapData = Managers.Data.mapData;
+        _stageButton = GetComponent<StageButton>();
     }
 
     private void Start()
@@ -58,31 +63,40 @@ public class LoadData : MonoBehaviour
         {
             File.WriteAllText(fliePath, JsonConvert.SerializeObject(playerData.Values, Formatting.Indented));
         }
-
-        //Json파일 읽어오는 코드
-        var path = Path.Combine(Application.streamingAssetsPath, "PlayerData/MapDatas.json");
-        var list = Managers.Data.ReadJson<PlayerData>(path);
-        
-        //Json에 제대로 저장이 되었는지 확인하기위한 버튼설정
-        foreach (var key in list)
-        {
-            //이곳을 통해서 스테이지번호를가진 버튼이 생성됨
-            var slot = ResourceManager.Instantiate("Prefabs/Button/StageButton", stageButton);
-        
-            var button = slot.GetComponent<StageButton>();
-        
-            button.StageSelect(key);
-        }
     }
 
-    public void WriteAlltext()
+    public void CreateButton()
     {
-        //var fliePath = Path.Combine(Application.dataPath, "Resources/PlayerData/PlayerDatas.json");
-        //
-        //foreach(var key in playerData.Keys)
-        //{
-        //    data.Add(playerData[key]);
-        //}
-        //File.WriteAllText(fliePath, JsonConvert.SerializeObject(data, Formatting.Indented));
+        _stageSelect.SetActive(true);
+        if (!_stageSelectShow)
+        {
+            //Json파일 읽어오는 코드
+            var path = Path.Combine(Application.streamingAssetsPath, "PlayerData/MapDatas.json");
+            var list = Managers.Data.ReadJson<PlayerData>(path);
+
+            //Json에 제대로 저장이 되었는지 확인하기위한 버튼설정
+            foreach (var key in list)
+            {
+                //list 개수만큼 버튼이 생성
+                var slot = ResourceManager.Instantiate("Prefabs/Button/StageButton", stageButton);
+
+                var button = slot.GetComponent<StageButton>();
+
+                button.StageSelect(key);
+                button.LoadData(GetComponent<LoadData>());
+            }
+        }
+        _stageSelectShow = true;
+    }
+
+    public void Save()
+    {
+        var fliePath = Path.Combine(Application.streamingAssetsPath, "PlayerData/MapDatas.json");
+        foreach (var key in playerData.Keys)
+        {
+            Debug.Log(playerData[key].StageID + " = " + playerData[key].StageClear);
+        }
+
+        File.WriteAllText(fliePath, JsonConvert.SerializeObject(playerData.Values, Formatting.Indented));
     }
 }

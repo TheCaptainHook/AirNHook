@@ -1,11 +1,11 @@
 [
   {
     "StageID": "TEST",
-    "StageClear": false
+    "StageClear": true
   },
   {
     "StageID": "TTTEST",
-    "StageClear": false
+    "StageClear": true
   },
   {
     "StageID": "Tutorial_1",

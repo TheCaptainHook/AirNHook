@@ -280,4 +280,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db771c992efe9c042b9b2225cd77939e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stageText: {fileID: 7942317234596911942}
+  stageText: {fileID: 7942317234596911942}

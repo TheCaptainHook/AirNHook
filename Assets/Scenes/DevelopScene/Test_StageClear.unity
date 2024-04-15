@@ -135,14 +135,13 @@ GameObject:
   - component: {fileID: 385341754}
   - component: {fileID: 385341753}
   - component: {fileID: 385341752}
-  - component: {fileID: 385341751}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: Save
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &385341750
 RectTransform:
   m_ObjectHideFlags: 0
@@ -163,19 +162,6 @@ RectTransform:
   m_AnchoredPosition: {x: 500, y: 0}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &385341751
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 385341749}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95e2a259e0410044ba00f7d49922babb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stageButton: {fileID: 0}
 --- !u!114 &385341752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,9 +206,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 385341751}
+      - m_Target: {fileID: 1418490344}
         m_TargetAssemblyTypeName: LoadData, Assembly-CSharp
-        m_MethodName: WriteAlltext
+        m_MethodName: Save
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -983,8 +969,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1418490344}
-        m_TargetAssemblyTypeName: StageSelect, Assembly-CSharp
-        m_MethodName: EnableSelect
+        m_TargetAssemblyTypeName: LoadData, Assembly-CSharp
+        m_MethodName: CreateButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1041,10 +1027,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1418490339}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2922b6f98b7b704478939ff3d32e22dd, type: 3}
+  m_Script: {fileID: 11500000, guid: 95e2a259e0410044ba00f7d49922babb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _stageSelect: {fileID: 1501025022}
+  stageButton: {fileID: 868934026}
 --- !u!1 &1501025022
 GameObject:
   m_ObjectHideFlags: 0
@@ -1056,7 +1043,6 @@ GameObject:
   - component: {fileID: 1501025023}
   - component: {fileID: 1501025025}
   - component: {fileID: 1501025024}
-  - component: {fileID: 1501025026}
   m_Layer: 5
   m_Name: StageSelect
   m_TagString: Untagged
@@ -1123,19 +1109,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1501025022}
   m_CullTransparentMesh: 1
---- !u!114 &1501025026
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1501025022}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95e2a259e0410044ba00f7d49922babb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stageButton: {fileID: 868934026}
 --- !u!1 &1599743139
 GameObject:
   m_ObjectHideFlags: 0

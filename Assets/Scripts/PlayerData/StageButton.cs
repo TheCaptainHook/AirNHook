@@ -5,20 +5,32 @@ using UnityEngine;
 
 public class StageButton : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI _stageText;
-    public bool stageClear;
+    public TextMeshProUGUI stageText;
+
     private LoadData _loadData;
+    //
+    //private void Awake()
+    //{
+    //    _loadData = GetComponent<LoadData>();
+    //}
 
     public void StageSelect(PlayerData playerData)
     {
-        _stageText.text = playerData.StageID.ToString();
-        stageClear = playerData.StageClear;
+        stageText.text = playerData.StageID.ToString();
     }
 
-    //1~5의 버튼을 누르면 누른번호에 해당되는 StageClear값이 true로 바뀌고 메인화면의 save를 누르면
-    //바뀐값이 저장되도록
-    public void Click(PlayerData playerData)
+    //1~5의 버튼을 누르면 누른번호에 해당되는 StageClear값이 true로 
+    //TODO 메소드만들어서 클리어판정나오게
+    public void Click()
     {
-        playerData.StageClear = true;
+        var key = stageText.text;
+        _loadData.playerData[key].StageClear = true;
+    
+        Debug.Log(_loadData.playerData[key].StageID + " = " + _loadData.playerData[key].StageClear);
+    }
+
+    public void LoadData(LoadData loadData)
+    {
+        _loadData = loadData;
     }
 }
