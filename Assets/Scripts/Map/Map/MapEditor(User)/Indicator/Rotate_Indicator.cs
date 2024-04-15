@@ -8,6 +8,12 @@ public class Rotate_Indicator : Indicator
     Vector3 target;
     Vector3 startPoint;
 
+    private void Awake()
+    {
+        spriteRenderers = transform.GetComponentsInChildren<SpriteRenderer>();
+        orgColor = spriteRenderers[0].color;
+    }
+
     private void Update()
     {
         if (linked && curLinkObj == null)
@@ -38,14 +44,17 @@ public class Rotate_Indicator : Indicator
     {
         startPoint = target;
         isClicking = true;
+        SpriteAlphaChange(0);
         MapEditor.Instance.placeMentSystem.objectModeClient.Rotaion();
     }
 
     public override void OnPointerUp(PointerEventData data)
     {
         isClicking = false;
+        SpriteAlphaChange(1);
         MapEditor.Instance.placeMentSystem.CreateIndicator(ModeState.Obj_Rotation);
     }
+
 
 
     public override void SetLinkObj(GameObject obj)

@@ -5,7 +5,13 @@ using UnityEngine.EventSystems;
 
 public class Move_Indicator : Indicator
 {
- 
+
+    private void Awake()
+    {
+        spriteRenderers = transform.GetComponentsInChildren<SpriteRenderer>();
+        orgColor = spriteRenderers[0].color;
+    }
+
     private void Update()
     {
         //mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -34,12 +40,14 @@ public class Move_Indicator : Indicator
     public override void OnPointerDown(PointerEventData data)
     {
         isClicking = true;
+        SpriteAlphaChange(0);
         MapEditor.Instance.placeMentSystem.objectModeClient.Move();
     }
 
     public override void OnPointerUp(PointerEventData data)
     {
         isClicking = false;
+        SpriteAlphaChange(1);
         MapEditor.Instance.placeMentSystem.CreateIndicator(ModeState.Obj_Move);
     }
 

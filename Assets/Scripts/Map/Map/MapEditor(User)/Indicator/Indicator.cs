@@ -12,26 +12,35 @@ public class Indicator : MousePointerEntity
     public bool linked;
     private bool onEnterPointer;
 
-    //protected IEnumerator Co_CheckClicking()
-    //{
-    //    while (isClicking)
-    //    {
-    //        if (Input.GetMouseButton(0))
-    //        {
-    //            isClicking = true;
-    //        }
-    //        else
-    //        {
-    //            isClicking = false;
-    //            break;
-    //        }
-    //        yield return waitForSeconds;
-    //    }
-    //}
+    protected Color orgColor;
+    protected SpriteRenderer[] spriteRenderers;
 
     public virtual void SetLinkObj(GameObject obj)
     {
         curLinkObj = obj;
         linked = true;
     }
+
+    protected void SpriteAlphaChange(int num)
+    {
+        if (num == 0) // point down
+        {
+            Color alphaCol = new Color(orgColor.r, orgColor.g, orgColor.b, 0.2f);
+            foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+            {
+                spriteRenderer.color = alphaCol;
+            }
+        }
+        else //point up
+        {
+
+            foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+            {
+                spriteRenderer.color = orgColor;
+            }
+        }
+
+
+    }
+
 }
