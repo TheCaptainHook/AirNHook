@@ -253,6 +253,13 @@ public class CreateMap_Tool : EditorWindow
                 Texture2D texture = AssetPreview.GetAssetPreview(obj);
                 contentsList.Add(new GUIContent(texture));
             }
+        }else if(modeType == ModeType.Other)
+        {
+            foreach (GameObject obj in otherObjLists)
+            {
+                Texture2D texture = AssetPreview.GetAssetPreview(obj);
+                contentsList.Add(new GUIContent(texture));
+            }
         }
 
         //objectSectionPot = GUILayout.SelectionGrid(objectSectionPot, contentsList.ToArray(), 6,_GUIStyle_Cell);
@@ -282,6 +289,7 @@ public class CreateMap_Tool : EditorWindow
 
             if (modeType == ModeType.Scenes) GUILayout.Label(sceneObjLists[index].name, _GUIStyle_Text);
             else if(modeType == ModeType.Object) GUILayout.Label(objLists[index].name, _GUIStyle_Text);
+            else if(modeType == ModeType.Other) GUILayout.Label(otherObjLists[index].name, _GUIStyle_Text);
 
             if (curWidth > screenWidth - 10)
             {
@@ -320,7 +328,7 @@ public class CreateMap_Tool : EditorWindow
     void CreateObject(int i)
     {
 
-        GameObject obj = modeType == ModeType.Object ? objLists[i] : modeType == ModeType.Scenes ? sceneObjLists[i]: null;
+        GameObject obj = modeType == ModeType.Object ? objLists[i] : modeType == ModeType.Scenes ? sceneObjLists[i]: modeType == ModeType.Other ? otherObjLists[i] : null;
 
         //GameObject obj = objLists[i];
 

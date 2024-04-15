@@ -399,6 +399,11 @@ public class MapEditor : MonoBehaviour
                         MapDataStruct mapDataStruct = Managers.Data.mapData.mapSceneDataDictionary[data.id];
                         Create(transform, mapDataStruct, data);
                     }
+                    else if (Managers.Data.mapData.mapOtherDataDictionary.ContainsKey(data.id))
+                    {
+                        MapDataStruct mapDataStruct = Managers.Data.mapData.mapOtherDataDictionary[data.id];
+                        Create(transform, mapDataStruct, data);
+                    }
                     else
                     {
                         if (data.id == 307) { continue; }

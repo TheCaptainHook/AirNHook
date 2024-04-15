@@ -16,6 +16,7 @@ public class MapEditor_Editor : Editor
     public Dictionary<int, MapDataStruct> mapTileDataDictionary = new Dictionary<int, MapDataStruct>();
     public Dictionary<int, MapDataStruct> mapObjectDataDictionary = new Dictionary<int, MapDataStruct>();
     public Dictionary<int, MapDataStruct> mapSceneDataDictionary = new Dictionary<int, MapDataStruct>();
+    public Dictionary<int, MapDataStruct> mapOtherDataDictionary = new Dictionary<int, MapDataStruct>();
 
     public override void OnInspectorGUI()
     {
@@ -135,6 +136,15 @@ public class MapEditor_Editor : Editor
                 mapSceneDataDictionary.Add(value.id, new MapDataStruct(value.type, value.path));
             }
         }
+        UnityGoogleSheet.Load<MapObjectData.OtherData>();
+        foreach (var value in MapObjectData.OtherData.OtherDataList)
+        {
+            if (!mapOtherDataDictionary.ContainsKey(value.id))
+            {
+                mapOtherDataDictionary.Add(value.id, new MapDataStruct(value.type, value.path));
+            }
+            
+        }
     }
 
     #region  Create 
@@ -231,6 +241,11 @@ public class MapEditor_Editor : Editor
                     if (mapSceneDataDictionary.ContainsKey(data.id))
                     {
                         MapDataStruct mapDataStruct = mapSceneDataDictionary[data.id];
+                        Create(transform, mapDataStruct, data);
+                    }
+                    else if (mapOtherDataDictionary.ContainsKey(data.id))
+                    {
+                        MapDataStruct mapDataStruct = mapOtherDataDictionary[data.id];
                         Create(transform, mapDataStruct, data);
                     }
                     else

@@ -12,6 +12,7 @@ public class MapData
     public Dictionary<int, MapDataStruct> mapTileDataDictionary = new Dictionary<int, MapDataStruct>();
     public Dictionary<int, MapDataStruct> mapObjectDataDictionary = new Dictionary<int, MapDataStruct>();
     public Dictionary<int, MapDataStruct> mapSceneDataDictionary = new Dictionary<int, MapDataStruct>();
+    public Dictionary<int, MapDataStruct> mapOtherDataDictionary = new Dictionary<int, MapDataStruct>();
 
     public Dictionary<string, Map> mapSceneDictionary = new Dictionary<string, Map>();
     public Dictionary<string, Map> mapMainDictionary = new Dictionary<string, Map>();
@@ -47,6 +48,13 @@ public class MapData
         {
             mapSceneDataDictionary.Add(value.id, new MapDataStruct(value.type, value.path));
         }
+        UnityGoogleSheet.Load<MapObjectData.OtherData>();
+        foreach (var value in MapObjectData.OtherData.OtherDataList)
+        {
+            Debug.Log(value.id);
+            mapOtherDataDictionary.Add(value.id, new MapDataStruct(value.type, value.path));
+        }
+
     }
 
     void MapJsonLoad()

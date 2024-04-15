@@ -8,9 +8,6 @@ public class FadeInOutPanel : MonoBehaviour
     Image image;
     Color orgColor;
 
-
-    public event Action OnNextStage;
-
     private void Awake()
     {
         image = GetComponent<Image>();
