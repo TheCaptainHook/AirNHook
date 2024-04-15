@@ -1,0 +1,30 @@
+[
+  {
+    "StageID": "TEST",
+    "StageClear": false
+  },
+  {
+    "StageID": "TTTEST",
+    "StageClear": false
+  },
+  {
+    "StageID": "Tutorial_1",
+    "StageClear": false
+  },
+  {
+    "StageID": "Tutorial_2",
+    "StageClear": false
+  },
+  {
+    "StageID": "Tutorial_3",
+    "StageClear": false
+  },
+  {
+    "StageID": "Stage1-1",
+    "StageClear": false
+  },
+  {
+    "StageID": "Stage2-1",
+    "StageClear": false
+  }
+]

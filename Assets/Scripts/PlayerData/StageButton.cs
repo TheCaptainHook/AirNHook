@@ -7,6 +7,8 @@ public class StageButton : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _stageText;
     public bool stageClear;
+    private LoadData _loadData;
+
     public void StageSelect(PlayerData playerData)
     {
         _stageText.text = playerData.StageID.ToString();
@@ -15,8 +17,8 @@ public class StageButton : MonoBehaviour
 
     //1~5의 버튼을 누르면 누른번호에 해당되는 StageClear값이 true로 바뀌고 메인화면의 save를 누르면
     //바뀐값이 저장되도록
-    public void Click()
+    public void Click(PlayerData playerData)
     {
-
+        playerData.StageClear = true;
     }
 }
