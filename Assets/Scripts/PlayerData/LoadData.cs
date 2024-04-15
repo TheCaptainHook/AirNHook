@@ -12,12 +12,12 @@ public class LoadData : MonoBehaviour
     //생성할 위치
     public Transform stageButton;
 
-    public Dictionary<string, PlayerData> playerData = new Dictionary<string, PlayerData>();
+    public Dictionary<string, StageData> playerData = new Dictionary<string, StageData>();
 
     private MapData _mapData;
     private StageButton _stageButton;
 
-    List<PlayerData> data = new List<PlayerData>();
+    List<StageData> data = new List<StageData>();
 
     private bool _stageSelectShow;
 
@@ -34,7 +34,7 @@ public class LoadData : MonoBehaviour
         var fliePath = Path.Combine(Application.streamingAssetsPath, "PlayerData/MapDatas.json");
         if (File.Exists(fliePath))
         {
-            var list = Managers.Data.ReadJson<PlayerData>(fliePath);
+            var list = Managers.Data.ReadJson<StageData>(fliePath);
             foreach (var data in list)
             {
                 playerData.Add(data.StageID, data);
@@ -45,7 +45,7 @@ public class LoadData : MonoBehaviour
         {
             if (!playerData.ContainsKey(key))
             {
-                PlayerData data = new PlayerData()
+                StageData data = new StageData()
                 {
                     StageID = key,
                     StageClear = false,
@@ -58,7 +58,7 @@ public class LoadData : MonoBehaviour
         {
             if (!playerData.ContainsKey(key))
             {
-                PlayerData data = new PlayerData()
+                StageData data = new StageData()
                 {
                     StageID = key,
                     StageClear = false,
@@ -77,7 +77,7 @@ public class LoadData : MonoBehaviour
         {
             //Json파일 읽어오는 코드
             var path = Path.Combine(Application.streamingAssetsPath, "PlayerData/MapDatas.json");
-            var list = Managers.Data.ReadJson<PlayerData>(path);
+            var list = Managers.Data.ReadJson<StageData>(path);
 
             //Json에 제대로 저장이 되었는지 확인하기위한 버튼설정
             foreach (var key in list)

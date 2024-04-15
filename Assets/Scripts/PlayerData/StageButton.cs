@@ -14,9 +14,9 @@ public class StageButton : MonoBehaviour
     //    _loadData = GetComponent<LoadData>();
     //}
 
-    public void StageSelect(PlayerData playerData)
+    public void StageSelect(StageData playData)
     {
-        stageText.text = playerData.StageID.ToString();
+        stageText.text = playData.StageID.ToString();
     }
 
     //1~5의 버튼을 누르면 누른번호에 해당되는 StageClear값이 true로 
@@ -25,8 +25,6 @@ public class StageButton : MonoBehaviour
     {
         var key = stageText.text;
         _loadData.playerData[key].StageClear = true;
-    
-        Debug.Log(_loadData.playerData[key].StageID + " = " + _loadData.playerData[key].StageClear);
     }
 
     public void LoadData(LoadData loadData)

@@ -9,7 +9,7 @@
   },
   {
     "StageID": "Tutorial_1",
-    "StageClear": false
+    "StageClear": true
   },
   {
     "StageID": "Tutorial_2",
