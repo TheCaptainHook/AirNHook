@@ -4,6 +4,15 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 
+
+public enum ModeType
+{
+    Tile,
+    Object,
+    Scenes,
+    Other
+}
+
 public class CreateMap_Tool : EditorWindow
 {
 
@@ -15,6 +24,8 @@ public class CreateMap_Tool : EditorWindow
 
     List<GameObject> objLists;
     List<GameObject> sceneObjLists;
+    List<GameObject> otherObjLists;
+
     RuleTile ruleTile;
 
     Texture2D headerSectionTexture;
@@ -40,11 +51,15 @@ public class CreateMap_Tool : EditorWindow
     GUIStyle _GUIStyle_HeadTitleText;
 
     [Header("Mode")]
-    bool modeToggle;
-    public bool ModeToggle {
-        get { return modeToggle; }
-        set { if (modeToggle != value) { modeToggle = value; }
-        } }
+    ModeType modeType;
+
+    [Header("Scroll")]
+    Vector2 scrollPosition;
+    //bool modeToggle;
+    //public bool ModeToggle {
+    //    get { return modeToggle; }
+    //    set { if (modeToggle != value) { modeToggle = value; }
+    //    } }
 
     [MenuItem("Window/Create Map Tool")]
     public static void ShowWindow()
@@ -62,7 +77,11 @@ public class CreateMap_Tool : EditorWindow
     {
         objLists = new List<GameObject>(Resources.LoadAll<GameObject>("Prefabs/MapEditor/Object"));
         sceneObjLists = new List<GameObject>(Resources.LoadAll<GameObject>("Prefabs/MapEditor/Scenes"));
-        ruleTile = Resources.Load<RuleTile>("Arts/Tiles/1");
+
+        //todo 0415
+        otherObjLists = new List<GameObject>(Resources.LoadAll<GameObject>("Prefabs/MapEditor/Other"));
+        //todo 0415
+        //ruleTile = Resources.Load<RuleTile>("Arts/Tiles/1");
         InitTextures();
         InitGUIStyle();
     }
@@ -155,7 +174,7 @@ public class CreateMap_Tool : EditorWindow
         objectSection.y = 120;
         objectSection.width = 350;
         objectSection.height = 320;
-        //GUI.DrawTexture(objectSection, objectSectionTexture);
+        GUI.DrawTexture(objectSection, objectSectionTexture);
 
         generatorObjectPreviewSpriteSection.x = 0;
         generatorObjectPreviewSpriteSection.y = 500;
@@ -180,7 +199,7 @@ public class CreateMap_Tool : EditorWindow
             }
             else
             {
-                Debug.Log("맵있음");
+                Debug.Log("맵에디터 있음");
             }
 
         }
@@ -192,15 +211,21 @@ public class CreateMap_Tool : EditorWindow
         GUILayout.BeginArea(modeSction);
         GUILayout.BeginHorizontal(GUILayout.Width(350));
 
-        if (GUI.Button(new Rect(45, 5, 120, 30), "Object"))
+
+        if (GUI.Button(new Rect(50, 5, 80, 30), "Object"))
         {
-            ModeToggle = false;
+            modeType = ModeType.Object;
 
         }
 
-        if (GUI.Button(new Rect(185, 5, 120, 30), "Scene Object Mode"))
+        if (GUI.Button(new Rect(135, 5, 80, 30), "Scene"))
         {
-            ModeToggle = true;
+            modeType = ModeType.Scenes;
+        }
+
+        if (GUI.Button(new Rect(220, 5, 80, 30), "Other"))
+        {
+            modeType = ModeType.Other;
         }
         GUILayout.EndHorizontal();
         GUILayout.EndArea();
@@ -209,10 +234,11 @@ public class CreateMap_Tool : EditorWindow
     private void DrawObjectContent()
     {
         GUILayout.BeginArea(objectSection);
+        scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(350), GUILayout.Height(300));
 
         List<GUIContent> contentsList = new();
 
-        if (!modeToggle)
+        if (modeType == ModeType.Object)
         {
             foreach (GameObject obj in objLists)
             {
@@ -220,7 +246,7 @@ public class CreateMap_Tool : EditorWindow
                 contentsList.Add(new GUIContent(texture));
             }
         }
-        else
+        else if(modeType == ModeType.Scenes)
         {
             foreach (GameObject obj in sceneObjLists)
             {
@@ -241,16 +267,21 @@ public class CreateMap_Tool : EditorWindow
                 GUILayout.BeginHorizontal(GUILayout.Width(Screen.width));
             }
 
+
             if (GUILayout.Button(content, _GUIStyle_Cell))
             {
-                if(modeToggle) Debug.Log($"{index}, {sceneObjLists[index]}");
-                else Debug.Log($"{index}, {objLists[index]}");
+                //if(modeToggle) Debug.Log($"{index}, {sceneObjLists[index]}");
+                //else Debug.Log($"{index}, {objLists[index]}");
 
                 CreateObject(index);
 
             }
-            if(modeToggle) GUILayout.Label(sceneObjLists[index].name, _GUIStyle_Text);
-            else GUILayout.Label(objLists[index].name, _GUIStyle_Text);
+
+
+
+
+            if (modeType == ModeType.Scenes) GUILayout.Label(sceneObjLists[index].name, _GUIStyle_Text);
+            else if(modeType == ModeType.Object) GUILayout.Label(objLists[index].name, _GUIStyle_Text);
 
             if (curWidth > screenWidth - 10)
             {
@@ -267,8 +298,9 @@ public class CreateMap_Tool : EditorWindow
 
         }
         //GUILayout.EndHorizontal();
+      
+        GUILayout.EndScrollView();
         GUILayout.EndArea();
-
     }
 
     private void DrawGenratorObjectPreviewSpriteContent()
@@ -287,9 +319,11 @@ public class CreateMap_Tool : EditorWindow
     #region Function
     void CreateObject(int i)
     {
-        GameObject obj = !modeToggle ? objLists[i] : sceneObjLists[i];
+
+        GameObject obj = modeType == ModeType.Object ? objLists[i] : modeType == ModeType.Scenes ? sceneObjLists[i]: null;
 
         //GameObject obj = objLists[i];
+
         switch (obj.name)
         {
             case "SpawnDoor":

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEditor;
+using UnityEditor.Tilemaps;
 using UGS;
 using NPOI.OpenXmlFormats.Spreadsheet;
 using System.IO;
@@ -39,7 +40,7 @@ public class MapEditor_Editor : Editor
         {
             _Reset(mapEditor);
             mapEditor.Init();
-            EditorApplication.ExecuteMenuItem("Window/2D/Tile Palette");
+           EditorApplication.ExecuteMenuItem("Window/2D/Tile Palette");
         }
         if (GUILayout.Button("Object Create Tool"))
         {
