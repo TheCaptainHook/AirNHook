@@ -25,6 +25,6 @@
   },
   {
     "StageID": "Stage2-1",
-    "StageClear": false
+    "StageClear": true
   }
 ]

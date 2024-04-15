@@ -32,6 +32,14 @@ public class LoadData : MonoBehaviour
         //TODO 아래부분을 Start가 아닌 다른부분에 넣어서 사용하면됩니다.
         //플레이어 데이터에 정보 넣는 코드 28~60
         var fliePath = Path.Combine(Application.streamingAssetsPath, "PlayerData/MapDatas.json");
+        if (File.Exists(fliePath))
+        {
+            var list = Managers.Data.ReadJson<PlayerData>(fliePath);
+            foreach (var data in list)
+            {
+                playerData.Add(data.StageID, data);
+            }
+        }
 
         foreach (var key in _mapData.mapMainDictionary.Keys)
         {
@@ -45,6 +53,7 @@ public class LoadData : MonoBehaviour
                 playerData.Add(key, data);
             }
         }
+
         foreach (var key in _mapData.mapUserDictionary.Keys)
         {
             if (!playerData.ContainsKey(key))
@@ -57,12 +66,8 @@ public class LoadData : MonoBehaviour
                 playerData.Add(key, data);
             }
         }
-
         //해당위치에 해당파일이 있는지 체크하고 없으면 생성
-        if (!File.Exists(fliePath))
-        {
-            File.WriteAllText(fliePath, JsonConvert.SerializeObject(playerData.Values, Formatting.Indented));
-        }
+        File.WriteAllText(fliePath, JsonConvert.SerializeObject(playerData.Values, Formatting.Indented));
     }
 
     public void CreateButton()
