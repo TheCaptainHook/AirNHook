@@ -244,8 +244,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87b61f6a03056ee40a5d31413b548963, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 310
+  id: 311
+  transformID: 1
+  distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
-  distructionStatus: 0
