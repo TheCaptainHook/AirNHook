@@ -100,7 +100,7 @@ public class MapEditorControllerUI : MonoBehaviour
             {
                 Active_BtnChangeColor(tileMode);
                 MapEditor.Instance.mapEditorState = MapEditorState.Tile;
-                placeMentSystem.tileBase = Resources.Load<TileBase>("Arts/Tiles/1");//todo
+                placeMentSystem.tileBase = Resources.Load<TileBase>("Prefabs/MapEditor/Tile/1");//todo
                 tileMode_BtnContainer.SetActive(true);
                 placeMentSystem.curPlacedObjTurnOff();
             }

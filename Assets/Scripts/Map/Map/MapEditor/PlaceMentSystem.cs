@@ -27,6 +27,7 @@ public class PlaceMentSystem : MonoBehaviour
     public Dictionary<Vector3Int, int> tileDic = new();
      public Tilemap preViewTileMap;//only use,Editor mode
      public Tilemap floorTileMap;
+
     [HideInInspector] public TileBase tileBase;
     public TileBase previewTileBase;
     [HideInInspector] public bool getTarget;
