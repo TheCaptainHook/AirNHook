@@ -31,16 +31,6 @@ public class LeverBody : BuildObj,IInteractable
 
 
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            Activation();
-        }
-
-    }
-
-
     public void DataSaveLinkDoor()//Editor_Editor only
     {
         if (linkDoorList.Count > 0)
@@ -144,6 +134,7 @@ public class LeverBody : BuildObj,IInteractable
         {
             Activation();
         }
+        
     }
 
     public ObjectTypeEnum GetObjectType()

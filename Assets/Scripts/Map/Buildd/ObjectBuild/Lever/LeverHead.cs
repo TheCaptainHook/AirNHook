@@ -24,8 +24,9 @@ public class LeverHead : BuildObj
         _collider.enabled = false;
         _rb.velocity = Vector2.zero;
         _rb.gravityScale = 0;
-        this.transform.rotation = Quaternion.Euler(0, 0, 0);
+        
         this.transform.SetParent(transform);
+        this.transform.rotation = Quaternion.Euler(0, 0, 0);
         this.transform.localPosition = Vector3.zero;
     }
 

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4103635366060125348}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: LeverHeadTransform
   m_TagString: Untagged
   m_Icon: {fileID: 7422848464349959988, guid: 0000000000000000d000000000000000, type: 0}
@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1629655540741973551}
   - component: {fileID: 7795040573568794261}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 6928806751215276433}
   - component: {fileID: 5291748806770992330}
   - component: {fileID: 7569540280555261352}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Lever_Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
