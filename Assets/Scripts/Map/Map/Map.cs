@@ -65,11 +65,13 @@ public struct ButtonActivatedDoorStruct
     public int activeRequirAmount;
     public Vector2 position;
     public List<Vector2> buttonActivatePositionList;//Vector2의 개수만큼 버튼 생성
+    public List<Vector2> leverPositionList;
     public Quaternion quaternion;
     public Vector3 scale;
 
-    public ButtonActivatedDoorStruct(int id,int linkId,int activeRequirAmount, Vector2 position,
+    public ButtonActivatedDoorStruct(int id, int linkId, int activeRequirAmount, Vector2 position,
         List<Vector2> buttonActivatePositionList,
+        List<Vector2> leverPosition,
         Quaternion quaternion,
         Vector3 scale)
     {
@@ -78,6 +80,7 @@ public struct ButtonActivatedDoorStruct
         this.activeRequirAmount = activeRequirAmount;
         this.position = position;
         this.buttonActivatePositionList = buttonActivatePositionList;
+        this.leverPositionList = leverPosition;
         this .quaternion = quaternion;
         this.scale = scale;
     }

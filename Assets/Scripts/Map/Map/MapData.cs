@@ -41,6 +41,7 @@ public class MapData
         UnityGoogleSheet.Load<MapObjectData.ObjectData>();
         foreach (var value in MapObjectData.ObjectData.ObjectDataList)
         {
+            Debug.Log(value.id);
             mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.name, value.type, value.path));
         }
         UnityGoogleSheet.Load<MapObjectData.SceneData>();
@@ -51,7 +52,6 @@ public class MapData
         UnityGoogleSheet.Load<MapObjectData.OtherData>();
         foreach (var value in MapObjectData.OtherData.OtherDataList)
         {
-            Debug.Log(value.id);
             mapOtherDataDictionary.Add(value.id, new MapDataStruct(value.name, value.type, value.path));
         }
 

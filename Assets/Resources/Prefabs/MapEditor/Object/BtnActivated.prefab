@@ -417,7 +417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 306
-  transformID: 0
+  transformID: 4
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0

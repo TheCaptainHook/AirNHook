@@ -26,7 +26,9 @@ public class ButtonActivatedDoor : BuildBase
             else { if(onOpen)Deactivated(); }
         } }
     public List<Vector2> buttonActivatedBtnList = new List<Vector2>();
-
+    //todo 0416
+    public List<Vector2> leverBodyPotiionList;
+    //todo 0416
     private ButtonActivatedDoorStruct _buttonActivatedDoorStruct;
     public ButtonActivatedDoorStruct ButtonActivatedDoorStruct { 
         get { return _buttonActivatedDoorStruct; }
@@ -35,6 +37,7 @@ public class ButtonActivatedDoor : BuildBase
                 linkId = _buttonActivatedDoorStruct.linkId;
                 activeRequirAmount = value.activeRequirAmount;
                 buttonActivatedBtnList = value.buttonActivatePositionList;
+                leverBodyPotiionList = value.leverPositionList;
                 transform.position = value.position;
                 transform.rotation = value.quaternion;
                 transform.localScale = value.scale;
@@ -45,7 +48,7 @@ public class ButtonActivatedDoor : BuildBase
 
     public ButtonActivatedDoorStruct GetButtonActivatedDoorStruct()
     {
-        return new ButtonActivatedDoorStruct(id, linkId, activeRequirAmount,transform.position, buttonActivatedBtnList, transform.rotation, transform.localScale);
+        return new ButtonActivatedDoorStruct(id, linkId, activeRequirAmount,transform.position, buttonActivatedBtnList, leverBodyPotiionList, transform.rotation, transform.localScale);
     }
 
     private void Awake()

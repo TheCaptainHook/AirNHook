@@ -291,15 +291,6 @@ public class MapEditor_Editor : Editor
         door.ButtonActivatedDoorStruct = data;
         obj.transform.SetParent(transform);
 
-        //todo
-        //MapDataStruct btn = mapObjectDataDictionary[306];
-        //foreach (Vector2 pot in data.buttonActivatePositionList)
-        //{
-        //    GameObject btnActivated = Object.Instantiate(Resources.Load<GameObject>(btn.path));
-        //    btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, door);
-        //    btnActivated.transform.SetParent(dontSaveObject);
-
-        //}
         if (!mapEditor.interactionBtnDictionary.ContainsKey(data.linkId))
         {
             mapEditor.interactionBtnDictionary[data.linkId] = new HashSet<Vector2>();
@@ -309,6 +300,15 @@ public class MapEditor_Editor : Editor
         {
             mapEditor.interactionBtnDictionary[data.linkId].Add(pot);
         }
+
+        MapDataStruct mapDataStruct1 = mapObjectDataDictionary[312];
+
+        foreach(Vector2 pot in data.leverPositionList)
+        {
+            GameObject leverBody = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct1.path));
+            leverBody.transform.SetParent(mapEditor.dontSaveObjectTransform);
+        }
+
         //todo
     }
 
@@ -418,7 +418,11 @@ public class MapEditor_Editor : Editor
             if (cur.GetComponent<ButtonActivated>())
             {
                 cur.GetComponent<ButtonActivated>().LinkDoor();
+            }else if (cur.GetComponent<LeverBody>())
+            {
+                cur.GetComponent<LeverBody>().DataSaveLinkDoor();
             }
+            
         }
 
         foreach (Transform cur in mapEditor.interactionObjectTransform)

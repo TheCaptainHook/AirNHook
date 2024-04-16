@@ -118,6 +118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layout: {fileID: 3923180086380123472}
   closeBtn: {fileID: 1416764940856586265}
+  curSelectBtn: {fileID: 0}
 --- !u!1 &7552033136307908034
 GameObject:
   m_ObjectHideFlags: 0

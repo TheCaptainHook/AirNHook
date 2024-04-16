@@ -329,24 +329,27 @@ public class CreateMap_Tool : EditorWindow
     {
 
         GameObject obj = modeType == ModeType.Object ? objLists[i] : modeType == ModeType.Scenes ? sceneObjLists[i]: modeType == ModeType.Other ? otherObjLists[i] : null;
-
+        BuildObj buildObj = obj.GetComponent<BuildObj>();
         //GameObject obj = objLists[i];
 
-        switch (obj.name)
+        switch (buildObj.id)
         {
-            case "SpawnDoor":
+            case 302:
                 FindObj(curMapEditor.dontSaveObjectTransform, obj);
                 SelectActiveOBJ(objLists[i], curMapEditor.dontSaveObjectTransform);
                 break;
-            case "ExitDoor":
+            case 301:
                 FindObj(curMapEditor.exitDoorObjectTransform, obj);
                 SelectActiveOBJ(objLists[i], curMapEditor.exitDoorObjectTransform);
                 break;
-            case "BtnActivated":
+            case 306:
                 SelectActiveOBJ(obj, curMapEditor.dontSaveObjectTransform);
                 break;
-            case "BtnActivatedDoor":
+            case 305:
                 SelectActiveOBJ(obj, curMapEditor.interactionObjectTransform);
+                break;
+            case 312:
+                SelectActiveOBJ(obj, curMapEditor.dontSaveObjectTransform);
                 break;
             default:
                 SelectActiveOBJ(obj, curMapEditor.objectTransform);

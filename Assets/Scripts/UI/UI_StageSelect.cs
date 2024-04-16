@@ -57,7 +57,7 @@ public class UI_StageSelect : UI_Base
         Debug.Log(curCreatedStage);
         button.GetComponentInChildren<TMP_Text>().text = level.ToString();
         string mapName = Managers.Data.mapData.mapMainStageDictionary[level][0].mapID;
-        button.onClick.AddListener(() => { StageSet(mapName); curSelectBtn = button; });
+        button.onClick.AddListener(() => { SelectStage(button); StageSet(mapName); });
     }
 
     private void StageSet(string mapName)
@@ -74,7 +74,16 @@ public class UI_StageSelect : UI_Base
         ExitObj.GetComponent<ExitPointObj>().nextMapId = mapName;
     }
 
-    
+    private void SelectStage(Button button)
+    {
+        if(curSelectBtn != null)
+        {
+            curSelectBtn.GetComponent<Outline>().effectColor = Color.white;
+        }
+        curSelectBtn = button;
+        curSelectBtn.GetComponent<Outline>().effectColor = Color.red;
+    }
+
     //TEST 맵 시작 테스트 코드
     private void StartGame()
     {

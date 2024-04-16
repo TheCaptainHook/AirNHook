@@ -38,4 +38,7 @@ public class StageManager
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
 
     }
+
+  
+
 }

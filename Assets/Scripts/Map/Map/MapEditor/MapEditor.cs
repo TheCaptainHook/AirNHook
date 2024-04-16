@@ -409,7 +409,7 @@ public class MapEditor : MonoBehaviour
                     else
                     {
                         MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
-                        if (data.id == 307 || data.id == 300 || data.id == 311)
+                        if (data.id == 307 || data.id == 300 || data.id == 311 || data.id == 313)
                         {
                             Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
                         }
@@ -459,12 +459,16 @@ public class MapEditor : MonoBehaviour
         door.ButtonActivatedDoorStruct = data; 
         obj.transform.SetParent(transform);
         MapDataStruct btn = Managers.Data.mapData.mapObjectDataDictionary[306];
+        MapDataStruct lever = Managers.Data.mapData.mapObjectDataDictionary[312]; //todo 0416
         foreach (Vector2 pot in data.buttonActivatePositionList)
         {
             GameObject btnActivated = Object.Instantiate(Resources.Load<GameObject>(btn.path));
             btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, door);
             btnActivated.transform.SetParent(dontSaveObjectTransform);
         }
+        //Lever
+
+        
     }
 
     void Create(Transform transform, MapDataStruct mapDataStruct, ExitObjStruct data)
