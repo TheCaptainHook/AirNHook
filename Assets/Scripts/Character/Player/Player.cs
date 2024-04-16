@@ -17,6 +17,7 @@ public class Player : NetworkBehaviour, IDamageable
     private NetworkAnimator _networkAnimator;
     private Collider2D _collider2D;
     private Rigidbody2D _rigidbd;
+    private SortingGroup _sortingGroup;
     
     //사망 체크
     [SerializeField] public bool _isDead = false;
@@ -39,6 +40,7 @@ public class Player : NetworkBehaviour, IDamageable
         _movement = GetComponent<PlayerMovement>();
         _networkAnimator = GetComponent<NetworkAnimator>();
         _input = GetComponent<PlayerInput>();
+        _sortingGroup = GetComponent<SortingGroup>();
     }
 
     private void Start()
@@ -49,6 +51,11 @@ public class Player : NetworkBehaviour, IDamageable
         _input.uiActions.Option.started += OptionStart;
         _input.playerActions.Emote.started += EmoteStart;
         _input.playerActions.Interaction.started += InteractionStart;
+
+        if (isLocalPlayer)
+        {
+            _sortingGroup.sortingLayerID = SortingLayer.NameToID("PlayerFore");
+        }
     }
 
     public void OnDisable()

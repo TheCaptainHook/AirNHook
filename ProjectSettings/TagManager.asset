@@ -57,6 +57,15 @@ TagManager:
   - name: ForeGround
     uniqueID: 3606729879
     locked: 0
+  - name: PlayerBack
+    uniqueID: 2655835003
+    locked: 0
+  - name: PlayerFore
+    uniqueID: 909207883
+    locked: 0
+  - name: GrabObj
+    uniqueID: 1084912593
+    locked: 0
   - name: Indicator
     uniqueID: 1411368969
     locked: 0

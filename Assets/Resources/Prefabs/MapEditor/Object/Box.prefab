@@ -70,8 +70,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
   m_SortingOrder: 7
   m_Sprite: {fileID: 960313712, guid: cd93536edc9c8324796ae5b08022ae2f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: -270225028426460243}
   - component: {fileID: -5810413876586093780}
   - component: {fileID: 1730392308196055233}
+  - component: {fileID: 5995116111848026723}
   m_Layer: 17
   m_Name: Box
   m_TagString: Untagged
@@ -286,3 +287,15 @@ MonoBehaviour:
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
+--- !u!210 &5995116111848026723
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8716440483222482088}
+  m_Enabled: 1
+  m_SortingLayerID: 1084912593
+  m_SortingLayer: 8
+  m_SortingOrder: 5
+  m_SortAtRoot: 0
