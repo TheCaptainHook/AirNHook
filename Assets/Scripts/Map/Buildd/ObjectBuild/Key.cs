@@ -34,6 +34,7 @@ public class Key : BuildObj
     {
         float percent = 1;
         _collider.enabled = false;
+        _rb.velocity = Vector2.zero;
         _rb.gravityScale = 0;
         while (percent> 0)
         {

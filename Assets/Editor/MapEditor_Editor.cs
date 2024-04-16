@@ -113,7 +113,7 @@ public class MapEditor_Editor : Editor
         {
             if (!mapTileDataDictionary.ContainsKey(value.id))
             {
-                mapTileDataDictionary.Add(value.id, new MapDataStruct(value.type, value.path));
+                mapTileDataDictionary.Add(value.id, new MapDataStruct(value.name, value.type, value.path));
             }
             
         }
@@ -123,7 +123,7 @@ public class MapEditor_Editor : Editor
         {
             if (!mapObjectDataDictionary.ContainsKey(value.id))
             {
-                mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.type, value.path));
+                mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.name, value.type, value.path));
             }
             
         }
@@ -133,7 +133,7 @@ public class MapEditor_Editor : Editor
             if (!mapSceneDataDictionary.ContainsKey(value.id))
             {
                 
-                mapSceneDataDictionary.Add(value.id, new MapDataStruct(value.type, value.path));
+                mapSceneDataDictionary.Add(value.id, new MapDataStruct(value.name, value.type, value.path));
             }
         }
         UnityGoogleSheet.Load<MapObjectData.OtherData>();
@@ -141,7 +141,7 @@ public class MapEditor_Editor : Editor
         {
             if (!mapOtherDataDictionary.ContainsKey(value.id))
             {
-                mapOtherDataDictionary.Add(value.id, new MapDataStruct(value.type, value.path));
+                mapOtherDataDictionary.Add(value.id, new MapDataStruct(value.name, value.type, value.path));
             }
             
         }

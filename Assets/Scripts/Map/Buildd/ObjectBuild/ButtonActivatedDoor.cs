@@ -22,8 +22,8 @@ public class ButtonActivatedDoor : BuildBase
     [HideInInspector] public int curActiveBtn;//현재 활성화된 버튼
     public int activeRequirAmount;//문 활성화 조건
     public int CurActiveBtn { set { curActiveBtn += value;
-            if (curActiveBtn == activeRequirAmount) { Activation(); }
-            else { Deactivated(); }
+            if (curActiveBtn == activeRequirAmount) { if(!onOpen)Activation(); }
+            else { if(onOpen)Deactivated(); }
         } }
     public List<Vector2> buttonActivatedBtnList = new List<Vector2>();
 
@@ -55,12 +55,14 @@ public class ButtonActivatedDoor : BuildBase
 
     void Activation()
     {
+        Debug.Log("close");
         onOpen = true;
         _collider.enabled = false; 
         _animator.SetTrigger(UnlockTrigger);
     }
     void Deactivated()
     {
+        Debug.Log("open");
         onOpen = false;
         _collider.enabled = true;
         _animator.SetTrigger(LockTrigger);

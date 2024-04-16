@@ -24,4 +24,18 @@ public class StageManager
             }
         }
     }
+
+
+    [Command]
+    public void CmdBatchObject(string objName,ObjectData data)
+    {
+        if (!NetworkServer.active || !NetworkClient.isConnected) return;
+
+        var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+        obj.transform.position = data.position;
+        obj.GetComponent<BuildObj>().ObjectData = data;
+        obj.transform.SetParent(MapEditor.Instance.networkingObjectTransform);
+        NetworkServer.Spawn(obj, NetworkServer.localConnection);
+
+    }
 }

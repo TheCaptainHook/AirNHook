@@ -75,6 +75,7 @@ public class MapEditor : MonoBehaviour
     [HideInInspector] public Transform exitDoorObjectTransform;
     [HideInInspector] public Transform interactionObjectTransform;
     [HideInInspector] public Transform dontSaveObjectTransform;
+    [HideInInspector] public Transform networkingObjectTransform;
     [HideInInspector] public Transform garbageTransform;
     //todo 0412
     public Dictionary<int, HashSet<Vector2>> interactionBtnDictionary;
@@ -120,7 +121,7 @@ public class MapEditor : MonoBehaviour
     //todo
     public void Init()
     {
-        if(mapEditorState != MapEditorState.NoEditor) { editorUIController.gameObject.SetActive(true); }
+        if (mapEditorState != MapEditorState.NoEditor) { editorUIController.gameObject.SetActive(true); }
         else { editorUIController.gameObject.SetActive(false); }
 
         CreateGridPalet();
@@ -133,6 +134,7 @@ public class MapEditor : MonoBehaviour
         interactionObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "InteractionObjectTransform");
         dontSaveObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "DontSaveObjectTransform");
         garbageTransform = Util.CreateChildTransform(mapObjBoxTransform, "GarbageTransform");
+        networkingObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "networkingObjectTransform");
     }
 
     public void EditorMode_Init()
@@ -406,9 +408,17 @@ public class MapEditor : MonoBehaviour
                     }
                     else
                     {
-                        if (data.id == 307) { continue; }
                         MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
-                        Create(transform, mapDataStruct, data);
+                        if (data.id == 307 || data.id == 300 || data.id == 311)
+                        {
+                            Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
+                        }
+                        else
+                        {       
+                            Create(transform, mapDataStruct, data);
+                        }
+
+                        
                     }
                    
                 }
@@ -430,6 +440,8 @@ public class MapEditor : MonoBehaviour
         }
 
     }
+
+
 
     void Create(Transform transform, MapDataStruct mapDataStruct, ObjectData data)
     {
