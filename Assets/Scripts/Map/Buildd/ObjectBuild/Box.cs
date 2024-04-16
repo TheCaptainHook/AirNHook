@@ -10,6 +10,8 @@ public class Box : BuildObj
     float dissolveRate = 0.015f;
 
     [SerializeField] SpriteRenderer spriteRenderer;
+    
+    private static readonly int DissolveAmount = Shader.PropertyToID("_DissolveAmount");
 
 
     private void Awake()
@@ -42,7 +44,7 @@ public class Box : BuildObj
         while (percent> 0)
         {
             percent -= dissolveRate;
-            _dissolveMaterial.SetFloat("_DissolveAmount", percent);
+            _dissolveMaterial.SetFloat(DissolveAmount, percent);
             yield return null;
         }
        
@@ -51,7 +53,7 @@ public class Box : BuildObj
         while(percent < 1)
         {
             percent += dissolveRate;
-            _dissolveMaterial.SetFloat("_DissolveAmount", percent);
+            _dissolveMaterial.SetFloat(DissolveAmount, percent);
             yield return null;
         }
         _collider.enabled = true;

@@ -298,6 +298,7 @@ GameObject:
   - component: {fileID: 6649961267598488066}
   - component: {fileID: 4013809178890669320}
   - component: {fileID: 7606627555663994208}
+  - component: {fileID: 2266482870120377901}
   m_Layer: 0
   m_Name: DefaultCharacter
   m_TagString: Untagged
@@ -387,6 +388,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!210 &2266482870120377901
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5650271990400890111}
+  m_Enabled: 1
+  m_SortingLayerID: -1639132293
+  m_SortingLayer: 6
+  m_SortingOrder: 1
+  m_SortAtRoot: 0
 --- !u!1 &8209549634109127907
 GameObject:
   m_ObjectHideFlags: 0
