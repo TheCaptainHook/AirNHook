@@ -13,31 +13,25 @@ public class LoadData : MonoBehaviour
     public Transform stageButton;
 
     public Dictionary<string, StageData> playerData = new Dictionary<string, StageData>();
-
     private MapData _mapData;
-    private StageButton _stageButton;
-
-    List<StageData> data = new List<StageData>();
 
     private bool _stageSelectShow;
 
     private void Awake()
     {
         _mapData = Managers.Data.mapData;
-        _stageButton = GetComponent<StageButton>();
     }
 
     private void Start()
     {
         //TODO 아래부분을 Start가 아닌 다른부분에 넣어서 사용하면됩니다.
-        //플레이어 데이터에 정보 넣는 코드 28~60
-        var fliePath = Path.Combine(Application.streamingAssetsPath, "PlayerData/MapDatas.json");
+        var fliePath = Path.Combine(Application.streamingAssetsPath, "PlayerData/StageDatas.json");
         if (File.Exists(fliePath))
         {
             var list = Managers.Data.ReadJson<StageData>(fliePath);
             foreach (var data in list)
             {
-                playerData.Add(data.StageID, data);
+                playerData.Add(data.stageID, data);
             }
         }
 
@@ -47,8 +41,8 @@ public class LoadData : MonoBehaviour
             {
                 StageData data = new StageData()
                 {
-                    StageID = key,
-                    StageClear = false,
+                    stageID = key,
+                    stageClear = false,
                 };
                 playerData.Add(key, data);
             }
@@ -60,8 +54,8 @@ public class LoadData : MonoBehaviour
             {
                 StageData data = new StageData()
                 {
-                    StageID = key,
-                    StageClear = false,
+                    stageID = key,
+                    stageClear = false,
                 };
                 playerData.Add(key, data);
             }
@@ -76,7 +70,7 @@ public class LoadData : MonoBehaviour
         if (!_stageSelectShow)
         {
             //Json파일 읽어오는 코드
-            var path = Path.Combine(Application.streamingAssetsPath, "PlayerData/MapDatas.json");
+            var path = Path.Combine(Application.streamingAssetsPath, "PlayerData/StageDatas.json");
             var list = Managers.Data.ReadJson<StageData>(path);
 
             //Json에 제대로 저장이 되었는지 확인하기위한 버튼설정
@@ -96,10 +90,10 @@ public class LoadData : MonoBehaviour
 
     public void Save()
     {
-        var fliePath = Path.Combine(Application.streamingAssetsPath, "PlayerData/MapDatas.json");
+        var fliePath = Path.Combine(Application.streamingAssetsPath, "PlayerData/StageDatas.json");
         foreach (var key in playerData.Keys)
         {
-            Debug.Log(playerData[key].StageID + " = " + playerData[key].StageClear);
+            Debug.Log(playerData[key].stageID + " = " + playerData[key].stageClear);
         }
 
         File.WriteAllText(fliePath, JsonConvert.SerializeObject(playerData.Values, Formatting.Indented));
