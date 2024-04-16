@@ -45,7 +45,7 @@ public class BuildObj : MousePointerEntity,IDamageable
         ObjectData = new ObjectData(id, position, quaternion,transform.localScale);
     }
     
-   public void TakeDamage()
+   public virtual void TakeDamage()
    {
         if(distructionStatus == DistructionStatus.Destructible)
         {
