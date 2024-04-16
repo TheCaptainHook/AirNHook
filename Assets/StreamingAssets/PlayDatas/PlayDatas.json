@@ -1,0 +1,44 @@
+[
+  {
+    "stageID": "TEST",
+    "clearTime": 0.0,
+    "deathCount": 3,
+    "skipCount": 0
+  },
+  {
+    "stageID": "TTTEST",
+    "clearTime": 0.0,
+    "deathCount": 5,
+    "skipCount": 0
+  },
+  {
+    "stageID": "Tutorial_1",
+    "clearTime": 0.0,
+    "deathCount": 1,
+    "skipCount": 0
+  },
+  {
+    "stageID": "Tutorial_2",
+    "clearTime": 0.0,
+    "deathCount": 0,
+    "skipCount": 0
+  },
+  {
+    "stageID": "Tutorial_3",
+    "clearTime": 0.0,
+    "deathCount": 0,
+    "skipCount": 0
+  },
+  {
+    "stageID": "Stage1-1",
+    "clearTime": 0.0,
+    "deathCount": 0,
+    "skipCount": 0
+  },
+  {
+    "stageID": "Stage2-1",
+    "clearTime": 0.0,
+    "deathCount": 0,
+    "skipCount": 0
+  }
+]
