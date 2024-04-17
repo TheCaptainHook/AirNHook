@@ -12,4 +12,3 @@ public class StageData
     public int stageClearLevel;
     public int stageHiddenObject;
 }
-    

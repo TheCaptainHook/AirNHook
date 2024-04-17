@@ -10,15 +10,15 @@ public class LoadData : MonoBehaviour
 {
     [SerializeField] GameObject _stageSelect;
     //생성할 위치
-    public Transform stageButton;
+    public Transform stageButtonCreate;
+    public GameObject stageButton;
 
     public Dictionary<string, StageData> stageData = new Dictionary<string, StageData>();
     public Dictionary<string, PlayData> playData = new Dictionary<string, PlayData>();
     //스테이지 클리어 레벨을 딕셔너리로쓰는 stageClearLevelData
-    public Dictionary<int, PlayData> stageClearLevelData = new Dictionary<int, PlayData>();
+    public Dictionary<int, List<string>> stageClearLevelData = new Dictionary<int, List<string>>();
 
     private MapData _mapData;
-    private List<string> _stageID = new List<string>();
 
     private bool _stageSelectShow;
 
@@ -103,41 +103,36 @@ public class LoadData : MonoBehaviour
 
     //TODO 현재 테스트코드에선 생성할때 1번만불려져서 최신화가 안되고있는상황임
     //실제로 적용할땐 실시간 업데이트가 가능하도록 해야한다.
+    //or ResourceManager.Destroy사용해서 전부삭제했다 재생성하던가... <-하다 실패
     public void CreateButton()
     {
         _stageSelect.SetActive(true);
+
+        //Json파일 읽어오는 코드
+        var playDataPath = Path.Combine(Application.streamingAssetsPath, "PlayDatas/PlayDatas.json");
+        var playDataList = Managers.Data.ReadJson<PlayData>(playDataPath);
+
         if (!_stageSelectShow)
         {
-            //Json파일 읽어오는 코드
-            var playDataPath = Path.Combine(Application.streamingAssetsPath, "PlayDatas/PlayDatas.json");
-            var playDataList = Managers.Data.ReadJson<PlayData>(playDataPath);
-
             foreach(var key in playDataList)
             {
                 //list 개수만큼 버튼이 생성
-                var slot = ResourceManager.Instantiate("Prefabs/Button/StageButton", stageButton);
-                var button = slot.GetComponent<StageButton>();
-
-                button.StageSelect(key);
-                button.LoadData(GetComponent<LoadData>());
+                var slot = ResourceManager.Instantiate(stageButton, stageButtonCreate).GetComponent<StageButton>();
+                
+                slot.StageSelect(key);
+                slot.LoadData(GetComponent<LoadData>());
             }
         }
         _stageSelectShow = true;
     }
 
+    //TODO 스테이지 클리어가되면 동시에 작업이 이루어져야함
     public void Save()
     {
-        var fliePath = Path.Combine(Application.streamingAssetsPath, "StageDatas/StageDatas.json");
-        foreach (var key in stageData.Keys)
-        {
-            Debug.Log(stageData[key].stageID + " = " + stageData[key].stageClear);
-        }
+        var stageDataPath = Path.Combine(Application.streamingAssetsPath, "StageDatas/StageDatas.json");
+        var playDataPath = Path.Combine(Application.streamingAssetsPath, "PlayDatas/PlayDatas.json");
 
-        File.WriteAllText(fliePath, JsonConvert.SerializeObject(stageData.Values, Formatting.Indented));
-    }
-
-    public void StageClear()
-    {
-
+        File.WriteAllText(stageDataPath, JsonConvert.SerializeObject(stageData.Values, Formatting.Indented));
+        File.WriteAllText(playDataPath, JsonConvert.SerializeObject(playData.Values, Formatting.Indented));
     }
 }

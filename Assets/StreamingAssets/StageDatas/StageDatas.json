@@ -1,17 +1,5 @@
 [
   {
-    "stageID": "TEST",
-    "stageClear": true,
-    "stageClearLevel": 0,
-    "stageHiddenObject": 0
-  },
-  {
-    "stageID": "TTTEST",
-    "stageClear": true,
-    "stageClearLevel": 0,
-    "stageHiddenObject": 0
-  },
-  {
     "stageID": "Tutorial_1",
     "stageClear": false,
     "stageClearLevel": 0,
@@ -36,7 +24,7 @@
     "stageHiddenObject": 0
   },
   {
-    "stageID": "Stage2-1",
+    "stageID": "Stage1-5",
     "stageClear": false,
     "stageClearLevel": 0,
     "stageHiddenObject": 0

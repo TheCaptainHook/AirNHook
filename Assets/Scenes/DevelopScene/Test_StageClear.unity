@@ -141,7 +141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &385341750
 RectTransform:
   m_ObjectHideFlags: 0
@@ -344,7 +344,7 @@ GameObject:
   - component: {fileID: 581752259}
   - component: {fileID: 581752258}
   - component: {fileID: 581752257}
-  - component: {fileID: 581752256}
+  - component: {fileID: 581752260}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -372,19 +372,6 @@ RectTransform:
   m_AnchoredPosition: {x: -80, y: -15}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &581752256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 581752254}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2922b6f98b7b704478939ff3d32e22dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _stageSelect: {fileID: 1501025022}
 --- !u!114 &581752257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -429,7 +416,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 581752256}
+      - m_Target: {fileID: 581752260}
         m_TargetAssemblyTypeName: StageSelect, Assembly-CSharp
         m_MethodName: DisableSelect
         m_Mode: 1
@@ -479,6 +466,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 581752254}
   m_CullTransparentMesh: 1
+--- !u!114 &581752260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581752254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2922b6f98b7b704478939ff3d32e22dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stageSelect: {fileID: 1501025022}
 --- !u!1 &581912815
 GameObject:
   m_ObjectHideFlags: 0
@@ -1031,7 +1031,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stageSelect: {fileID: 1501025022}
-  stageButton: {fileID: 868934026}
+  stageButtonCreate: {fileID: 868934026}
+  stageButton: {fileID: 7249725388958814033, guid: 1614f2f005c8ca547b921287dc2ed14a, type: 3}
 --- !u!1 &1501025022
 GameObject:
   m_ObjectHideFlags: 0
