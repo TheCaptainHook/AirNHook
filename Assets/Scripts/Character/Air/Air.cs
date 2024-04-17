@@ -1,16 +1,15 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Air : MonoBehaviour
+public class Air : NetworkBehaviour
 {
     //에어 무기 회전
     [SerializeField] private SpriteRenderer _armRenderer;
     [SerializeField] private Transform _armPivot;
-    [SerializeField] private SpriteRenderer _characterRenderer;
     [SerializeField] private SpriteRenderer _weaponSprite;
+    public PlayerInput playerInput { get; private set; }
 
     //총구위치
     [SerializeField] private Transform _weaponPoint;
@@ -63,8 +62,6 @@ public class Air : MonoBehaviour
     [SerializeField] private LayerMask _floorLayer;
 
     //유도선
-    [SerializeField] private GameObject _point;
-    [SerializeField] private GameObject[] _points;
     [SerializeField] private int _numberOfPoints;
     [SerializeField] private float _spaceBetweenPoints;
     private GameObject _pointParent;
@@ -83,36 +80,40 @@ public class Air : MonoBehaviour
 
     private void Awake()
     {
+        lr = GetComponent<LineRenderer>();
         _camera = Camera.main;
         _closestTarget = null;
         _shortestDistance = float.MaxValue;
     }
 
-    public PlayerInput playerInput { get; private set; }
-
     private void Start()
     {
+        if(!isLocalPlayer) return;
+        
         playerInput = GetComponent<PlayerInput>();
-        lr = GetComponent<LineRenderer>();
 
         playerInput.playerActions.Look.performed += Look;
         playerInput.playerActions.Action.started += PlayerActionStarted;
         playerInput.playerActions.Action.canceled += PlayerActionCanceled;
         playerInput.playerActions.SubAction.started += PlayerSubActionStarted;
         playerInput.playerActions.SubAction.canceled += PlayerSubActionCanceled;
-
-        _points = new GameObject[_numberOfPoints];
-        _pointParent = new GameObject();
-        for (int i = 0;i <_numberOfPoints; i++)
-        {
-            _points[i] = Instantiate(_point, _pointParent.transform);
-        }
-        _pointParent.SetActive(false);
     }
 
-    
+    private void OnDisable()
+    {
+        if (!ReferenceEquals(Managers.Game.Player, gameObject)) return;
+        
+        playerInput.playerActions.Look.performed -= Look;
+        playerInput.playerActions.Action.started -= PlayerActionStarted;
+        playerInput.playerActions.Action.canceled -= PlayerActionCanceled;
+        playerInput.playerActions.SubAction.started -= PlayerSubActionStarted;
+        playerInput.playerActions.SubAction.canceled -= PlayerSubActionCanceled;
+    }
+
     private void Update()
     {
+        if(!isLocalPlayer) return;
+        
         if(!_isHookAttached)
             RotateArm();
         if(!_isOneSecond)
@@ -129,7 +130,6 @@ public class Air : MonoBehaviour
                 {
                     ObjectAttached();
                     ShowRoutePoint();
-                    return;
                 }
                 //_latestTarget에 Garppling이 있고 grappleAttached이 true일때
                 else
@@ -171,6 +171,7 @@ public class Air : MonoBehaviour
             Attached();
         }
     }
+    
     //포물선 보여주는 함수
     private void ShowRoutePoint()
     {
@@ -178,7 +179,6 @@ public class Air : MonoBehaviour
         {
             for (int i = 0; i < _numberOfPoints; i++)
             {
-                Debug.Log("1111");
                 lr.SetPosition(i, PointPosition(i * _spaceBetweenPoints));
             }
         }
@@ -186,7 +186,6 @@ public class Air : MonoBehaviour
         {
             for(int i = 0; i < _numberOfPoints; i++)
             {
-                Debug.Log("2222");
                 lr.SetPosition(i, AirPointPosition(i * _spaceBetweenPoints));
             }
         }
@@ -295,7 +294,7 @@ public class Air : MonoBehaviour
         }
 
         _armRenderer.flipY = Mathf.Abs(rotZ) > 90f;
-        _characterRenderer.flipX = _armRenderer.flipY;
+        //_characterRenderer.flipX = _armRenderer.flipY;
         _weaponSprite.flipX = _armRenderer.flipY;
 
         _armPivot.rotation = Quaternion.AngleAxis(rotZ, Vector3.forward);

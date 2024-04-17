@@ -17,12 +17,14 @@ public class Grappling : NetworkBehaviour
     private WaitForSeconds _grappleCoolTime;
     private Rigidbody2D _rigidbody;
     private PlayerInput _playerInput;
+    private Camera _mainCamera;
     private Vector2 _mousePosition;
     private Vector2 _aimDirection;
     private float _vertical;
     
     [SyncVar]
     public bool grappleAttached;
+    public bool canControl;
     private bool _distanceSet;
     private bool _isActioning;
     private bool _isCoolTime;
@@ -34,13 +36,13 @@ public class Grappling : NetworkBehaviour
     private float _ropeMaxDistance = 5f;
     private Vector2 _ropePosition = Vector2.negativeInfinity;
     private Vector2 _targetPos;
-    
+
     [Header("Hook")]
     public GameObject hookAnchor;
     public Transform hookSprite;
     public Transform hookStartPos;
-    private Rigidbody2D _hookAnchorRb;
     public LayerMask hookLayerMask;
+    private Rigidbody2D _hookAnchorRb;
     private Vector2 _hookAnchorPos;
     
     private void Awake()
@@ -48,6 +50,7 @@ public class Grappling : NetworkBehaviour
         distanceJoint.enabled = false;
         _hookAnchorRb = hookAnchor.GetComponent<Rigidbody2D>();
         _rigidbody = GetComponent<Rigidbody2D>();
+        _mainCamera = Camera.main;
     }
 
     private void Start()
@@ -56,8 +59,9 @@ public class Grappling : NetworkBehaviour
         
         // 조작하는 플레이어 체크
         if(!isLocalPlayer) return;
-        
-        _playerInput = GetComponent<HookMovement>().playerInput;
+
+        canControl = true;
+        _playerInput = GetComponent<PlayerInput>();
         _playerInput.playerActions.Look.performed += OnLook;
         _playerInput.playerActions.Look.canceled += OnLook;
         _playerInput.playerActions.VerticalMove.started += OnVerticalMove;
@@ -80,7 +84,7 @@ public class Grappling : NetworkBehaviour
     private void Update()
     {
         // 조작하는 플레이어 체크
-        if(isLocalPlayer)
+        if(isLocalPlayer && canControl)
             HandleRopeLength();
         UpdateRopePositions();
     }
@@ -88,10 +92,10 @@ public class Grappling : NetworkBehaviour
     private void FixedUpdate()
     {
         // 조작하는 플레이어 체크
-        if (!isLocalPlayer) return;
+        if (!isLocalPlayer || !canControl) return;
         
         // 마우스 위치
-        var mousePos = Camera.main.ScreenToWorldPoint(new Vector3(_mousePosition.x, _mousePosition.y, 0f));
+        var mousePos = _mainCamera.ScreenToWorldPoint(new Vector3(_mousePosition.x, _mousePosition.y, 0f));
         var facingDirection = mousePos - transform.position;
         var aimAngle = Mathf.Atan2(facingDirection.y, facingDirection.x);
         if (aimAngle < 0f)

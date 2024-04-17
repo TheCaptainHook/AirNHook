@@ -46,7 +46,11 @@ public class Player : NetworkBehaviour, IDamageable
     private void Start()
     {
         StartCoroutine(Co_DetectInteraction());
-        if (!isLocalPlayer) return;
+        if (!isLocalPlayer)
+        {
+            Managers.Game.OtherPlayer = gameObject;
+            return;
+        }
 
         _input.uiActions.Option.started += OptionStart;
         _input.playerActions.Emote.started += EmoteStart;
@@ -249,7 +253,7 @@ public class Player : NetworkBehaviour, IDamageable
                 }
             }
 
-            if (_latestTarget != null)
+            if (_latestTarget is not null)
             {
                 if (ReferenceEquals(_latestTarget, closestTarget))
                 {

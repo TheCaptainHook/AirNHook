@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using JetBrains.Annotations;
 using Mirror;
 using UnityEngine;
 
@@ -15,7 +13,8 @@ public enum GameState
 public class GameManager
 {
     public GameState CurrentState { get; set; }
-    
+    public CharacterType playerCharacterType = CharacterType.Air;
+
     private GameObject _player;
     // 플레이어가 GameScene에서만 생성되고, NetworkManager에 의해 생성되기에
     // 이렇게 불러오는 방식을 채택.
@@ -36,4 +35,20 @@ public class GameManager
         }
     }
 
+    private GameObject _otherPlayer;
+    public GameObject OtherPlayer
+    {
+        get
+        {
+            try
+            {
+                return _otherPlayer;
+            }
+            catch (MissingReferenceException e)
+            {
+                return null;
+            }
+        }
+        set => _otherPlayer = value;
+    }
 }

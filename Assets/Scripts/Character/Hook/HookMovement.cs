@@ -1,6 +1,8 @@
+using System.Collections;
+using Mirror;
 using UnityEngine;
 
-public class HookMovement : PlayerMovement
+public class HookMovement : PlayerMovement, IInhalable
 {
     public bool isSwinging;
     public bool swingJump = false;
@@ -73,14 +75,14 @@ public class HookMovement : PlayerMovement
                 }
                 isGround = true;
                 swingJump = false;
-                _coyoteTimeCount = _coyoteTime;
+                coyoteTimeCount = _coyoteTime;
                 if(isSwinging)
                     grappling.ResetRope();
                 return;
             }
         }
         isGround = false;
-        _coyoteTimeCount -= Time.deltaTime;
+        coyoteTimeCount -= Time.deltaTime;
     }
 
     protected override bool IsRightHead()
@@ -112,4 +114,76 @@ public class HookMovement : PlayerMovement
         }
         base.MoveAnimation();
     }
+
+    #region Inhale
+    private Transform _fixedPoint;
+    private Coroutine _inhaleCoroutine;
+    [field: SerializeField] private float _inhalePower;
+    private bool _isFixed;
+    private WaitForFixedUpdate _waitForFixedUpdate = new();
+    
+    public void Inhalation(Transform accessor)
+    {
+        canControl = false;
+        _isFixed = false;
+        _fixedPoint = accessor;
+        _inhaleCoroutine = StartCoroutine(Co_Inhale());
+        Debug.Log("a");
+    }
+
+    private IEnumerator Co_Inhale()
+    {
+        while (true)
+        {
+            if (!_isFixed)
+            {
+                yield return _waitForFixedUpdate;
+
+                if (_fixedPoint is null) break;
+                
+                var direction = (_fixedPoint.position - transform.position).normalized;
+                var power = _inhalePower * Time.fixedDeltaTime;
+                _rigidbd.gravityScale = 0f;
+                _rigidbd.AddForce(direction * power);
+
+                if (Vector2.Distance(_fixedPoint.position, transform.position) <= 0.2f)
+                    _isFixed = true;
+            }
+            else
+            {
+                yield return null;
+
+                _rigidbd.velocity = Vector2.zero;
+                transform.position = _fixedPoint.position;
+            }
+        }
+    }
+
+    public void StopInhale()
+    {
+        StopCoroutine(_inhaleCoroutine);
+        Debug.Log("d");
+        canControl = true;
+        _isFixed = false;
+        _fixedPoint = null;
+        _rigidbd.gravityScale = _gravityScale;
+    }
+
+    public void Shooting(Vector2 force)
+    {
+        StopCoroutine(_inhaleCoroutine);
+        canControl = true;
+        _isFixed = false;
+        _fixedPoint = null;
+        _rigidbd.gravityScale = _gravityScale;
+        swingJump = true;
+        _rigidbd.velocity = Vector2.zero;
+        _rigidbd.AddForce(force, ForceMode2D.Impulse);
+    }
+
+    public bool CanInhale()
+    {
+        return !isSwinging;
+    }
+    #endregion
 }
