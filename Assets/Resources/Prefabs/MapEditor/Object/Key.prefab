@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 349216705317907799}
   - component: {fileID: 2099801971743918123}
   - component: {fileID: 6901818635806815223}
-  - component: {fileID: 6511901656948065805}
   - component: {fileID: 9033468922822899673}
   - component: {fileID: -2767788134810897182}
   - component: {fileID: -3325528363225173584}
@@ -163,24 +162,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &6511901656948065805
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6099480600797554674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 104eb1c96815b4820b4be071555180b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 307
-  transformID: 0
-  distructionStatus: 1
-  onPlaceable: 0
-  onRotateable: 0
-  onScaleable: 0
 --- !u!114 &9033468922822899673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,12 +174,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b098d64ae932460aaa5a39358f15375, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  id: 307
   transformID: 0
-  distructionStatus: 0
+  distructionStatus: 1
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
 --- !u!114 &-2767788134810897182
 MonoBehaviour:
   m_ObjectHideFlags: 0

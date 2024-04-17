@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 59999164860956811}
   - component: {fileID: 7178825718306028271}
-  m_Layer: 16
+  m_Layer: 18
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,8 +99,8 @@ GameObject:
   - component: {fileID: -3856991798806897737}
   - component: {fileID: 6689581616457775299}
   - component: {fileID: 5611207507894210805}
-  m_Layer: 16
-  m_Name: Lever_Head
+  m_Layer: 18
+  m_Name: LeverHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -254,6 +254,8 @@ MonoBehaviour:
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
 --- !u!114 &5611207507894210805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,9 +271,8 @@ MonoBehaviour:
   syncDirection: 1
   syncMode: 0
   syncInterval: 0
-  player: {fileID: 0}
-  objectType: 1
+  _objectType: 1
   grabLayerMask:
     serializedVersion: 2
     m_Bits: 1024
-  isGrabbed: 0
+  _inhalePower: 20

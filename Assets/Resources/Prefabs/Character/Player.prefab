@@ -5049,12 +5049,14 @@ MonoBehaviour:
   syncInterval: 0
   _jumpParticles: {fileID: 2950751490131989517}
   _landParticles: {fileID: 6418844055165115295}
+  canControl: 0
   _coyoteTime: 0.2
+  specificJump: 0
   _isDead: 0
   _jumpingPower: 10
   _floorLayer:
     serializedVersion: 2
-    m_Bits: 2147614912
+    m_Bits: 2147877056
   _rigidbd: {fileID: 8929439774467590829}
   _moveSpeed: 2
   _charPivot: {fileID: 158291813751165047}
@@ -5077,7 +5079,7 @@ MonoBehaviour:
   _grabPoint: {fileID: 3341230063414965529}
   _interactableLayer:
     serializedVersion: 2
-    m_Bits: 135462912
+    m_Bits: 135725056
 --- !u!114 &9084766552046721414
 MonoBehaviour:
   m_ObjectHideFlags: 0

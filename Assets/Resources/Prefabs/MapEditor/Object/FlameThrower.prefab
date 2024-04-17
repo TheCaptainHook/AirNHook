@@ -210,10 +210,12 @@ MonoBehaviour:
   onPlaceable: 0
   onRotateable: 1
   onScaleable: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
   onActive: 0
   layerMask:
     serializedVersion: 2
-    m_Bits: 214016
+    m_Bits: 1524928
   flame: {fileID: 1256057224243392037}
 --- !u!1 &9092146968563663255
 GameObject:
