@@ -54,7 +54,7 @@ public class CustomNetworkManager : NetworkManager
         NetworkServer.AddPlayerForConnection(conn, player);
     }
 
-    public void ReplacePlayer(NetworkConnectionToClient conn, CharacterType characterType)
+    public void ReplacePlayer(NetworkConnectionToClient conn, CharacterType characterType, Vector2 pos)
     {
         var oldPlayer = conn.identity.gameObject;
 
@@ -74,7 +74,7 @@ public class CustomNetworkManager : NetworkManager
         }
         oldPlayer.SetActive(false);
         
-        NetworkServer.ReplacePlayerForConnection(conn, Instantiate(newPrefab), true);
+        NetworkServer.ReplacePlayerForConnection(conn, Instantiate(newPrefab, pos, Quaternion.identity), true);
         
         Destroy(oldPlayer, 0.1f);
     }
