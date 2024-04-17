@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -2767788134810897182}
   - component: {fileID: -3325528363225173584}
   - component: {fileID: -6485835009400122000}
-  m_Layer: 29
+  m_Layer: 20
   m_Name: Key
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,7 +176,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 307
+  transformID: 0
   distructionStatus: 1
+  onPlaceable: 0
+  onRotateable: 0
+  onScaleable: 0
 --- !u!114 &9033468922822899673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,6 +193,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b098d64ae932460aaa5a39358f15375, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
+  transformID: 0
+  distructionStatus: 0
+  onPlaceable: 0
+  onRotateable: 0
+  onScaleable: 0
 --- !u!114 &-2767788134810897182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,6 +215,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _objectType: 1
+  grabLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   _inhalePower: 800
 --- !u!114 &-3325528363225173584
 MonoBehaviour:

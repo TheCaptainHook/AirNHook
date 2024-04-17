@@ -13,7 +13,7 @@ public enum GameState
 public class GameManager
 {
     public GameState CurrentState { get; set; }
-    public CharacterType playerCharacterType = CharacterType.Air;
+    public CharacterType playerCharacterType = CharacterType.Hook;
 
     private GameObject _player;
     // 플레이어가 GameScene에서만 생성되고, NetworkManager에 의해 생성되기에
