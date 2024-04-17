@@ -8659,7 +8659,7 @@
             "id": 304,
             "position": {
                 "x": -22.0,
-                "y": 6.0
+                "y": 6.29998779296875
             },
             "quaternion": {
                 "x": 0.0,
@@ -8876,7 +8876,7 @@
         {
             "id": 305,
             "linkId": 1,
-            "activeRequirAmount": 0,
+            "activeRequirAmount": 1,
             "position": {
                 "x": -18.9310302734375,
                 "y": -6.0
@@ -8903,7 +8903,7 @@
         {
             "id": 305,
             "linkId": 2,
-            "activeRequirAmount": 0,
+            "activeRequirAmount": 1,
             "position": {
                 "x": -20.0,
                 "y": 3.8599853515625

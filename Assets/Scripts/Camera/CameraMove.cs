@@ -15,7 +15,7 @@ public class CameraMove : MonoBehaviour
     private float _minZoom = 7f;
     private float _maxZoom = 20f;
     private float _iGMinZoom = 3f;
-    private float _iGMaxZoom = 12f;
+    private float _iGMaxZoom = 10f;
 
 
     private float _velocity = 0f;
@@ -89,7 +89,7 @@ public class CameraMove : MonoBehaviour
         {
             if (_player == null) return;
 
-            var _playerPos = new Vector3(_player.position.x, _player.position.y, transform.position.z);
+            var _playerPos = new Vector3(_player.position.x, _player.position.y + 1f, transform.position.z);
             transform.position = Vector3.SmoothDamp(transform.position, _playerPos, ref _vecVelocity, _smoothSpeed,
                 float.MaxValue, Time.fixedDeltaTime);
         }
