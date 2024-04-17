@@ -32,24 +32,25 @@ public class MapData
     void UGS_MapDataLoad()
     {
         //Tile Data
-        UnityGoogleSheet.Load<MapObjectData.TileData>();
+        UnityGoogleSheet.LoadAllData();
+        //UnityGoogleSheet.Load<MapObjectData.TileData>();
         foreach (var value in MapObjectData.TileData.TileDataList)
         {
             mapTileDataDictionary.Add(value.id, new MapDataStruct(value.name,value.type, value.path));
         }
         //Object Data
-        UnityGoogleSheet.Load<MapObjectData.ObjectData>();
+        //UnityGoogleSheet.Load<MapObjectData.ObjectData>();
         foreach (var value in MapObjectData.ObjectData.ObjectDataList)
         {
             Debug.Log(value.id);
             mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.name, value.type, value.path));
         }
-        UnityGoogleSheet.Load<MapObjectData.SceneData>();
+        //UnityGoogleSheet.Load<MapObjectData.SceneData>();
         foreach (var value in MapObjectData.SceneData.SceneDataList)
         {
             mapSceneDataDictionary.Add(value.id, new MapDataStruct(value.name, value.type, value.path));
         }
-        UnityGoogleSheet.Load<MapObjectData.OtherData>();
+        //UnityGoogleSheet.Load<MapObjectData.OtherData>();
         foreach (var value in MapObjectData.OtherData.OtherDataList)
         {
             mapOtherDataDictionary.Add(value.id, new MapDataStruct(value.name, value.type, value.path));

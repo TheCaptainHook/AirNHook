@@ -33,12 +33,15 @@ public class Object_Create
                 curObj.transform.SetParent(MapEditor.Instance.interactionObjectTransform);
                 break;
             case 306:
+            case 312:
                 curObj.transform.SetParent(MapEditor.Instance.dontSaveObjectTransform);
                 break;
             default:
                 curObj.transform.SetParent(MapEditor.Instance.objectTransform);
                 break;
         }
+        
+        buildObj.SetOrgPosition();
     }
 
 

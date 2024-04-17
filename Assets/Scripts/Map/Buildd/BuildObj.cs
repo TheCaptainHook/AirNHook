@@ -19,6 +19,7 @@ public class BuildObj : MousePointerEntity,IDamageable
     public int id;
     [Tooltip("Transform ID to be created")]
     public int transformID;
+    
     protected bool turnOff;
     [SerializeField] protected DistructionStatus distructionStatus;
     [Header("State")]
@@ -32,8 +33,9 @@ public class BuildObj : MousePointerEntity,IDamageable
     public event Action<Vector2> OnDissolveAction;
     public event Action OnDisableAction;
 
-
-
+    [Header("Only use Editor mode")]
+    [HideInInspector] public bool setPosition; // When created and placed set this parameter
+    [HideInInspector] public Vector2 orgPosition;
 
     public void SetTileData(Vector2 position)
     {
@@ -64,11 +66,15 @@ public class BuildObj : MousePointerEntity,IDamageable
 
     public virtual void TurnOff()
     {
-        Debug.Log("Turn Off");
+        if (setPosition)
+        {
+            transform.position = orgPosition;
+        }
+
     }
     public virtual void TurnOn()
     {
-        Debug.Log("Turn On");
+        SetOrgPosition();
     }
 
     public virtual void EditorMode_Destroy()
@@ -112,5 +118,10 @@ public class BuildObj : MousePointerEntity,IDamageable
     }
 
 
+    public void SetOrgPosition()
+    {
+        setPosition = true;
+        orgPosition = transform.position;
+    }
 
 }

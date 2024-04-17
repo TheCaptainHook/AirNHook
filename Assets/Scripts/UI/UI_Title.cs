@@ -80,7 +80,7 @@ public class UI_Title : UI_Base
     {
         Managers.Game.CurrentState = GameState.Editor;
         //SceneManager.LoadScene("EditorScene");
-        Managers.UI.sceneName = "EditorScene";
+        Managers.UI.sceneName = "EditorScene(준비중)";
         Managers.UI.ShowUI<UI_Loading>();
     }
     private void OnOptionBtn()
