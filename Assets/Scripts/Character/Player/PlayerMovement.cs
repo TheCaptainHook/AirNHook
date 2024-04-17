@@ -9,14 +9,16 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] protected ParticleSystem _jumpParticles;
     [SerializeField] protected ParticleSystem _landParticles;
     
+    public bool canControl;
     //점프 버퍼 체크
     private bool _isJumpBufferCheck;
     private bool _isJumpPerformed;
     //코요테 타임
     [SerializeField] protected float _coyoteTime = 0.2f;
-    protected float _coyoteTimeCount;
+    protected float coyoteTimeCount;
     //플레이어 점프체크
     private bool _isJumping;
+    public bool specificJump;
     public bool isGround { get; protected set; }
     [SerializeField] private bool _isDead;
     
@@ -39,6 +41,7 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] protected LayerMask _floorLayer;
 
     [SerializeField] protected Rigidbody2D _rigidbd;
+    protected float _gravityScale;
     public PlayerInput playerInput { get; private set; }
     //좌우 움직임
     protected float _horizontal;
@@ -62,8 +65,10 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Start()
     {
-        if (!isLocalPlayer) return;
+        if(!isLocalPlayer) return;
 
+        canControl = true;
+        _gravityScale = _rigidbd.gravityScale;
         playerInput = GetComponent<PlayerInput>();
 
         //움직임 입력
@@ -88,8 +93,9 @@ public class PlayerMovement : NetworkBehaviour
     {
         // 땅 체크
         IsFloor();
-        if (!isLocalPlayer || IsDead) return;
-
+        
+        if(!isLocalPlayer || IsDead || !canControl) return;
+        
         if (CheckJumpBuffer())
         {
             _isJumpBufferCheck = true;
@@ -103,7 +109,7 @@ public class PlayerMovement : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (!isLocalPlayer || IsDead) return;
+        if (!isLocalPlayer || IsDead || !canControl) return;
         //머리충돌검사
         IsLeftHead();
         IsRightHead();
@@ -119,10 +125,26 @@ public class PlayerMovement : NetworkBehaviour
 
     protected virtual void Movement()
     {
-        //플레이어 이동속도 코드
-        var groundForce = _moveSpeed * 5f;
-        _rigidbd.AddForce(new Vector2((_horizontal * groundForce - _rigidbd.velocity.x) * groundForce, 0f));
-        _rigidbd.velocity = new Vector2(_rigidbd.velocity.x, _rigidbd.velocity.y);
+        if (_horizontal != 0)
+        {
+            if (!specificJump)
+            {
+                var groundForce = _moveSpeed * 2f;
+                _rigidbd.AddForce(new Vector2((_horizontal * groundForce - _rigidbd.velocity.x) * groundForce, 0f));
+                _rigidbd.velocity = new Vector2(_rigidbd.velocity.x, _rigidbd.velocity.y);
+            }
+            else
+            {
+                _rigidbd.AddForce(new Vector2(_horizontal * _moveSpeed, 0f));
+                _rigidbd.velocity = new Vector2(_rigidbd.velocity.x, _rigidbd.velocity.y);
+            }
+        }
+        else if (isGround)
+        {
+            var groundForce = _moveSpeed * 5f;
+            _rigidbd.AddForce(new Vector2(-_rigidbd.velocity.x * groundForce, 0f));
+            _rigidbd.velocity = new Vector2(_rigidbd.velocity.x, _rigidbd.velocity.y);
+        }
     }
 
     private void MoveStarted(InputAction.CallbackContext context)
@@ -132,9 +154,9 @@ public class PlayerMovement : NetworkBehaviour
 
     protected virtual void Jump()
     {
-        if (_coyoteTimeCount > 0f && (_isJumpPerformed || (_isJumping && _isJumpBufferCheck)))
+        if (coyoteTimeCount > 0f && (_isJumpPerformed || (_isJumping && _isJumpBufferCheck)))
         {
-            _coyoteTimeCount = 0f;
+            coyoteTimeCount = 0f;
             _isJumping = false;
             _rigidbd.velocity = new Vector2(_rigidbd.velocity.x, _jumpingPower);
             _jumpParticles.Play();
@@ -165,8 +187,9 @@ public class PlayerMovement : NetworkBehaviour
         {
             if (Physics2D.Raycast(transform.position + (Vector3.right * (0.4f * i)), Vector2.down, 0.1f, _floorLayer))
             {
+                specificJump = false;
                 isGround = true;
-                _coyoteTimeCount = _coyoteTime;
+                coyoteTimeCount = _coyoteTime;
                 if (!isGround)
                 {
                     _landParticles.Play();
@@ -175,7 +198,7 @@ public class PlayerMovement : NetworkBehaviour
             }
         }
         isGround = false;
-        _coyoteTimeCount -= Time.deltaTime;
+        coyoteTimeCount -= Time.deltaTime;
     }
 
     //점프 버퍼 체크

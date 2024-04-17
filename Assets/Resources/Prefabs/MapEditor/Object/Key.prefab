@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 349216705317907799}
   - component: {fileID: 2099801971743918123}
   - component: {fileID: 6901818635806815223}
+  - component: {fileID: 6511901656948065805}
   - component: {fileID: 9033468922822899673}
   - component: {fileID: -2767788134810897182}
   - component: {fileID: -3325528363225173584}
   - component: {fileID: -6485835009400122000}
-  - component: {fileID: 4769662170681346435}
   m_Layer: 20
   m_Name: Key
   m_TagString: Untagged
@@ -77,9 +77,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -688237417
-  m_SortingLayer: 5
-  m_SortingOrder: 7
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: af621172ab45d214fb8c9a78581206d6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -134,7 +134,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.9, y: 0.9}
   m_EdgeRadius: 0
 --- !u!50 &6901818635806815223
 Rigidbody2D:
@@ -159,10 +159,28 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &6511901656948065805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6099480600797554674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104eb1c96815b4820b4be071555180b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 307
+  transformID: 0
+  distructionStatus: 1
+  onPlaceable: 0
+  onRotateable: 0
+  onScaleable: 0
 --- !u!114 &9033468922822899673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,9 +193,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b098d64ae932460aaa5a39358f15375, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 307
-  transformID: 1
-  distructionStatus: 1
+  id: 0
+  transformID: 0
+  distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
@@ -193,15 +211,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3369714a36eeff3448142e8610242ff9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 0
+  syncDirection: 1
   syncMode: 0
   syncInterval: 0
-  player: {fileID: 0}
-  objectType: 1
+  _objectType: 1
   grabLayerMask:
     serializedVersion: 2
-    m_Bits: 1024
-  isGrabbed: 0
+    m_Bits: 0
+  _inhalePower: 800
 --- !u!114 &-3325528363225173584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,7 +255,7 @@ MonoBehaviour:
   syncPosition: 1
   syncRotation: 1
   syncScale: 0
-  onlySyncOnChange: 1
+  onlySyncOnChange: 0
   compressRotation: 1
   interpolatePosition: 1
   interpolateRotation: 1
@@ -254,15 +271,3 @@ MonoBehaviour:
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
---- !u!210 &4769662170681346435
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6099480600797554674}
-  m_Enabled: 1
-  m_SortingLayerID: 1084912593
-  m_SortingLayer: 8
-  m_SortingOrder: 0
-  m_SortAtRoot: 0

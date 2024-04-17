@@ -7,8 +7,8 @@ public class CameraMove : MonoBehaviour
     private Vector3 _origin;
     private Vector3 _difference;
     private Camera _cam;
-    private Vector3 _playerPos;
-
+    private Transform _player => Managers.Game.Player.transform;
+    
     [Header("Zoom")]
     private float _zoom;
     private float _zoomMultiplier = 4f;
@@ -29,13 +29,6 @@ public class CameraMove : MonoBehaviour
 
     private void Update()
     {
-        try
-        {
-            if (NetworkClient.ready && Managers.Game.Player != null)
-                _playerPos = Managers.Game.Player.transform.position;
-        }
-        catch (NullReferenceException e) { Debug.Log(e); }
-        
         if (Managers.Game.CurrentState is GameState.Game or GameState.Lobby)
         {
             FollowPlayer();
@@ -83,9 +76,13 @@ public class CameraMove : MonoBehaviour
     {
         try
         {
-            _playerPos = new Vector3(_playerPos.x, _playerPos.y, transform.position.z);
-            transform.position = Vector3.SmoothDamp(transform.position, _playerPos, ref _vecVelocity, _smoothSpeed, float.MaxValue, Time.fixedDeltaTime);
+            if (_player == null) return;
+
+            var _playerPos = new Vector3(_player.position.x, _player.position.y, transform.position.z);
+            transform.position = Vector3.SmoothDamp(transform.position, _playerPos, ref _vecVelocity, _smoothSpeed,
+                float.MaxValue, Time.fixedDeltaTime);
         }
-        catch(NullReferenceException e) { Debug.Log(e); }
+        catch (MissingReferenceException e) { }
+        catch (NullReferenceException e) { }
     }
 }

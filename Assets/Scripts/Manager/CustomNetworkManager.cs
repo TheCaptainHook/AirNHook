@@ -20,6 +20,67 @@ public class CustomNetworkManager : NetworkManager
         steamLobby = GetComponent<SteamLobby>();
     }
 
+    #region Character
+    public struct CreateCustomCharacterMessage : NetworkMessage
+    {
+        public CharacterType type;
+    }
+
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+        
+        NetworkServer.RegisterHandler<CreateCustomCharacterMessage>(OnCreateCharacter);
+    }
+
+    private void OnCreateCharacter(NetworkConnectionToClient conn, CreateCustomCharacterMessage message)
+    {
+        GameObject playerObj;
+        switch (message.type)
+        {
+            case CharacterType.Hook:
+                playerObj = spawnPrefabDict["PlayerHook"];
+                break;
+            case CharacterType.Air:
+                playerObj = spawnPrefabDict["PlayerAir"];
+                break;
+            case CharacterType.Default:
+            default:
+                playerObj = playerPrefab;
+                break;
+        }
+
+        var player = Instantiate(playerObj, startPos[0].transform.position, Quaternion.identity);
+        NetworkServer.AddPlayerForConnection(conn, player);
+    }
+
+    public void ReplacePlayer(NetworkConnectionToClient conn, CharacterType characterType)
+    {
+        var oldPlayer = conn.identity.gameObject;
+
+        GameObject newPrefab;
+        switch (characterType)
+        {
+            case CharacterType.Hook:
+                newPrefab = spawnPrefabDict["PlayerHook"];
+                break;
+            case CharacterType.Air:
+                newPrefab = spawnPrefabDict["PlayerAir"];
+                break;
+            case CharacterType.Default:
+            default:
+                newPrefab = playerPrefab;
+                break;
+        }
+        oldPlayer.SetActive(false);
+        
+        NetworkServer.ReplacePlayerForConnection(conn, Instantiate(newPrefab), true);
+        
+        Destroy(oldPlayer, 0.1f);
+    }
+    #endregion
+    
+    #region Scene
     public override void ServerChangeScene(string newSceneName)
     {
         if (string.IsNullOrWhiteSpace(newSceneName))
@@ -68,13 +129,18 @@ public class CustomNetworkManager : NetworkManager
     {
         base.OnServerSceneChanged(sceneName);
 
-        if (Managers.Game.CurrentState != GameState.Title)
+        Managers.Game.CurrentState = GameState.Lobby;
+        Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/MapEditor"));
+        Managers.Stage.LoadMap();
+
+        Managers.UI.InitializeUI();
+
+        var characterMessage = new CreateCustomCharacterMessage()
         {
-            Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/MapEditor"));
-            Managers.Stage.LoadMap();
-            
-            Managers.UI.InitializeUI();
-        }
+            type = Managers.Game.playerCharacterType
+        };
+
+        NetworkClient.Send(characterMessage);
     }
 
     // 로딩 UI 구현을 위한 override
@@ -99,7 +165,6 @@ public class CustomNetworkManager : NetworkManager
         if (customHandling)
             return;
         
-        //loadingSceneAsync = SceneManager.LoadSceneAsync(newSceneName);
         // 로딩 UI표기. LoadSceneAsync는 로딩 UI에서 progress bar와 동기화를 위해 로딩 UI의 LoadScene에서 구현.
         Managers.UI.ShowLoadingUI(newSceneName);
         
@@ -110,18 +175,21 @@ public class CustomNetworkManager : NetworkManager
     {
         base.OnClientSceneChanged();
 
-        if (Managers.Game.CurrentState != GameState.Title && (!NetworkServer.active || !NetworkClient.isConnected))
-        {
-            Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/MapEditor"));
-            Managers.Stage.LoadMap();
-            
-            Managers.UI.InitializeUI();
-        }
-    }
-
-    public override void OnClientConnect()
-    {
+        if (NetworkServer.active && NetworkClient.isConnected) return;
+        
         Managers.Game.CurrentState = GameState.Lobby;
-        base.OnClientConnect();
+        Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/MapEditor"));
+        Managers.Stage.LoadMap();
+        
+        Managers.UI.InitializeUI();
+        
+        // 캐릭터 생성
+        var characterMessage = new CreateCustomCharacterMessage()
+        {
+            type = Managers.Game.playerCharacterType
+        };
+
+        NetworkClient.Send(characterMessage);
     }
+    #endregion
 }
