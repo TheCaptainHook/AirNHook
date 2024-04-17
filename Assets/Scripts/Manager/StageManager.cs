@@ -12,17 +12,17 @@ public class StageManager
             Managers.Game.CurrentState = GameState.Game;
         MapEditor.Instance.LoadMap(stageName, MapType.Scene);
 
-        if (NetworkServer.active && NetworkClient.isConnected)
-        {
-            var list = MapEditor.Instance.curMap.FindObject_Vector2(307);
+        //if (NetworkServer.active && NetworkClient.isConnected)
+        //{
+        //    var list = MapEditor.Instance.curMap.FindObject_Vector2(307);
 
-            foreach (var key in list)
-            {
-                var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict["Key"]);
-                obj.transform.position = key;
-                NetworkServer.Spawn(obj);
-            }
-        }
+        //    foreach (var key in list)
+        //    {
+        //        var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict["Key"]);
+        //        obj.transform.position = key;
+        //        NetworkServer.Spawn(obj);
+        //    }
+        //}
     }
 
 
