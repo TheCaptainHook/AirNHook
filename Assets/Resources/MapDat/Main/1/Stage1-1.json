@@ -8876,7 +8876,7 @@
         {
             "id": 305,
             "linkId": 1,
-            "activeRequirAmount": 1,
+            "activeRequirAmount": 0,
             "position": {
                 "x": -18.9310302734375,
                 "y": -6.0
@@ -8903,7 +8903,7 @@
         {
             "id": 305,
             "linkId": 2,
-            "activeRequirAmount": 1,
+            "activeRequirAmount": 0,
             "position": {
                 "x": -20.0,
                 "y": 3.8599853515625
@@ -8934,7 +8934,7 @@
         {
             "id": 305,
             "linkId": 3,
-            "activeRequirAmount": 1,
+            "activeRequirAmount": 0,
             "position": {
                 "x": 22.5999755859375,
                 "y": -7.1400146484375
