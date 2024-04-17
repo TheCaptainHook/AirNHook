@@ -16,6 +16,8 @@ public class BreakableWall : BuildObj
     private static readonly int DestroyTrigger = Animator.StringToHash("DestroyTrigger");
     private static readonly int Crumbling = Animator.StringToHash("Crumbling");
 
+    [Header("Only use Editor mode")]
+    private static readonly int Recovery = Animator.StringToHash("Recovery");
 
     private void Awake()
     {
@@ -57,6 +59,10 @@ public class BreakableWall : BuildObj
     public override void TurnOff()
     {
         base.TurnOff();
+        if(health <= 0)
+        {
+            Reset();
+        }
         _rb.gravityScale = 0;
         _rb.velocity = Vector2.zero;
     }
@@ -65,4 +71,13 @@ public class BreakableWall : BuildObj
         base.TurnOn();
         _rb.gravityScale = 1;
     }
+
+
+    private void Reset()
+    {
+        health = 5f;
+        _collider.enabled = true;
+        _animator.SetTrigger(Recovery);
+    }
+
 }

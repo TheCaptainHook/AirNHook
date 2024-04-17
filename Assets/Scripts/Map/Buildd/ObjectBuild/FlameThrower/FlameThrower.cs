@@ -10,6 +10,7 @@ public class FlameThrower : BuildObj
     float maxRate = 7f;
     float curRate;
     public bool onActive;
+    private bool onRecoveryRay;
     [SerializeField] LayerMask layerMask;
 
     [SerializeField] Flame flame;
@@ -17,7 +18,7 @@ public class FlameThrower : BuildObj
     private void Awake()
     {
         _collider = GetComponent<BoxCollider2D>();
-        curRate = maxRate;
+        StartCoroutine(Co_StartRay());
     }
   
 
@@ -33,7 +34,11 @@ public class FlameThrower : BuildObj
             }
             else
             {
-                curRate = maxRate;
+                if (!onRecoveryRay && curRate < maxRate)
+                {
+                    StartCoroutine(Co_StartRay());
+                }
+
                 flame.SetLifeTime();
             }
 
@@ -44,6 +49,18 @@ public class FlameThrower : BuildObj
             Disable();
         }
        
+    }
+
+
+    IEnumerator Co_StartRay()
+    {
+        onRecoveryRay = true;
+        while (curRate <= maxRate)
+        {
+            curRate += Time.deltaTime+0.025f;
+            yield return null;
+        }
+        onRecoveryRay = false;
     }
 
     void CheckHit(RaycastHit2D hit)
@@ -58,7 +75,21 @@ public class FlameThrower : BuildObj
         flame.particle.Stop();
         flame.particle.Play();
         var main = flame.particle.main;
-        main.startLifetime = 0.3f * hit.distance;
+        Debug.Log(curRate);
+
+        if(curRate < 0.5f)
+        {
+            main.startLifetime = 0.05f;
+        }
+        else if(curRate < 1f)
+        {
+            main.startLifetime = 0.1f;
+        }
+        else
+        {
+            main.startLifetime = 0.3f * hit.distance;
+        }
+
     }
 
     void Disable()
@@ -81,8 +112,7 @@ public class FlameThrower : BuildObj
     private void OnDrawGizmos()
     {
 
-        Gizmos.color = Color.blue;
-
+        Gizmos.color = Color.green;
         Gizmos.DrawRay(transform.position, transform.right * curRate);
 
     }
