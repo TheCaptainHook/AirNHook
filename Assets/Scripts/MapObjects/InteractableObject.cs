@@ -92,7 +92,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     {
         _isFixed = false;
         _canInhale = false;
-        _rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
+        _rigidbody2D.bodyType = _originType;
         _fixedPoint = null;
         _rigidbody2D.excludeLayers = _releaseLayerMask;
         _rigidbody2D.constraints = _originRot;
@@ -115,7 +115,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _isFixed = false;
         _fixedPoint = null;
         _rigidbody2D.gravityScale = 1f;
-        _rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
+        _rigidbody2D.bodyType = _originType;
     }
 
     public void Shooting(Vector2 force)

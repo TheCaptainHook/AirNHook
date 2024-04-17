@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8683805379665016771}
   - component: {fileID: 4684687439439529792}
-  m_Layer: 17
+  m_Layer: 18
   m_Name: sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: -5810413876586093780}
   - component: {fileID: 1730392308196055233}
   - component: {fileID: 5995116111848026723}
-  m_Layer: 17
+  m_Layer: 18
   m_Name: Box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -213,6 +213,8 @@ MonoBehaviour:
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
   spriteRenderer: {fileID: 4684687439439529792}
 --- !u!114 &-270225028426460243
 MonoBehaviour:
@@ -229,12 +231,11 @@ MonoBehaviour:
   syncDirection: 1
   syncMode: 0
   syncInterval: 0
-  player: {fileID: 0}
-  objectType: 1
+  _objectType: 1
   grabLayerMask:
     serializedVersion: 2
     m_Bits: 1024
-  isGrabbed: 0
+  _inhalePower: 20
 --- !u!114 &-5810413876586093780
 MonoBehaviour:
   m_ObjectHideFlags: 0

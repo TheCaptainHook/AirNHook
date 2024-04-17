@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 59999164860956811}
   - component: {fileID: 7178825718306028271}
-  m_Layer: 17
+  m_Layer: 18
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,8 +26,8 @@ Transform:
   m_GameObject: {fileID: 5674586703969503208}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.294, z: 0}
-  m_LocalScale: {x: 0.2399414, y: 1.5466673, z: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6964912461378082790}
@@ -70,14 +70,14 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -5177388603050735206, guid: 8884154dfe85442a3a3578be807dbcdf, type: 3}
-  m_Color: {r: 1, g: 0.07817815, b: 0, a: 1}
+  m_SortingLayerID: -696190403
+  m_SortingLayer: 4
+  m_SortingOrder: 5
+  m_Sprite: {fileID: 21300000, guid: 2ea2f577feee8594ca3dc11fb4148258, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 2
+  m_DrawMode: 0
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: -3856991798806897737}
   - component: {fileID: 6689581616457775299}
   - component: {fileID: 5611207507894210805}
-  m_Layer: 17
+  m_Layer: 18
   m_Name: LeverHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,14 +114,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7773345652000642256}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.05556011, w: 0.9984554}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 59999164860956811}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 6.37}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &5747106109533041271
 Rigidbody2D:
   serializedVersion: 4
@@ -144,7 +144,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -181,8 +181,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.000000059604645, y: 0.00090152025}
-  m_Size: {x: 0.25886154, y: 0.9149823}
+  m_Offset: {x: -0.000000059604645, y: 0.49956644}
+  m_Size: {x: 0.25886154, y: 1.02474}
   m_Direction: 0
 --- !u!114 &-2176134299502383376
 MonoBehaviour:
@@ -254,6 +254,8 @@ MonoBehaviour:
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
 --- !u!114 &5611207507894210805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,9 +271,8 @@ MonoBehaviour:
   syncDirection: 1
   syncMode: 0
   syncInterval: 0
-  player: {fileID: 0}
-  objectType: 1
+  _objectType: 1
   grabLayerMask:
     serializedVersion: 2
     m_Bits: 1024
-  isGrabbed: 0
+  _inhalePower: 20
