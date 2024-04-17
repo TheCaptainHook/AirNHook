@@ -24,7 +24,7 @@ TagManager:
   - 
   - Interactable/NotWalkable
   - Interactable/Walkable
-  - 
+  - Interactable/Inhaleable
   - 
   - Key
   - Projectile

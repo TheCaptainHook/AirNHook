@@ -7,7 +7,6 @@ public class LeverHead : BuildObj
     Collider2D _collider;
     Rigidbody2D _rb;
 
-
     //effect
     float dissolveRate = 0.005f;
 
@@ -23,23 +22,19 @@ public class LeverHead : BuildObj
     public void AttachToLevelBody(Transform transform)
     {
         _collider.enabled = false;
-        _rb.simulated = false;
-        
+        _rb.velocity = Vector2.zero;
+        _rb.gravityScale = 0;
+        _rb.bodyType = RigidbodyType2D.Kinematic;
+        _rb.freezeRotation = true;
+
         this.transform.SetParent(transform);
         this.transform.rotation = Quaternion.Euler(0, 0, 0);
-        this.transform.localPosition = Vector3.zero;
+        this.transform.localPosition = Vector2.zero;
     }
 
     public void DetachToLevelBody()
     {
-        _collider.enabled = true;
-        _rb.simulated = true;
-        _rb.velocity = Vector2.zero;
-        _rb.angularVelocity = 0f;
-        transform.SetParent(MapEditor.Instance.objectTransform);
-        //
-
-        //
+        
     }
 
     #region Effect
@@ -92,21 +87,5 @@ public class LeverHead : BuildObj
         //Animation
     }
 
-    public override void TurnOff()
-    {
-        base.TurnOff();
-
-        _rb.velocity = Vector2.zero;
-        _rb.gravityScale = 0;
-        
-
-    }
-
-    public override void TurnOn()
-    {
-        base.TurnOn();
-       
-        _rb.gravityScale = 1;
-    }
 
 }

@@ -23,6 +23,7 @@ public class LeverBody : BuildObj,IInteractable
 
 
     private static readonly int OnActive = Animator.StringToHash("OnActive");
+    private static readonly int OnCompletion = Animator.StringToHash("OnCompletion");
 
     private void Awake()
     {
@@ -46,7 +47,7 @@ public class LeverBody : BuildObj,IInteractable
         }
     }
 
-    public void LinkDoor()
+    private void LinkDoor()
     {
         foreach(Transform tr in MapEditor.Instance.interactionObjectTransform)
         {
@@ -73,6 +74,7 @@ public class LeverBody : BuildObj,IInteractable
                 this.leverHead = leverHead;
 
                 onCompletionParts = true;
+                animator.SetTrigger(OnCompletion);
 
                 LinkDoor();
             }
@@ -80,7 +82,7 @@ public class LeverBody : BuildObj,IInteractable
         }
     }
 
-    public void Activation()
+    private void Activation()
     {
         foreach (ButtonActivatedDoor door in linkDoorList)
         {
