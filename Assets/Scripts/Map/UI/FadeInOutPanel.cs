@@ -34,10 +34,8 @@ public class FadeInOutPanel : MonoBehaviour
         }
         //
         MapEditor.Instance.LoadMap(mapId, mapType);
-        //열쇠
         yield return new WaitForSeconds(0.5f);
         Managers.Game.Player.GetComponent<Player>().Respawning();
-        //
         while (percent > 0)
         {
             percent -= Time.deltaTime;

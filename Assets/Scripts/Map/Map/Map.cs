@@ -52,6 +52,18 @@ public class Map
         }
         return list;
     }
+    public ObjectData FindObjectData(int id)
+    {
+        foreach (ObjectData objectData in mapObjectDataList)
+        {
+            if (objectData.id == id)
+            {
+                return objectData;
+            }
+        }
+
+        return new ObjectData();
+    }
     //Box,stringBox,key,
 
 }

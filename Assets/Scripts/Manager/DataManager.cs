@@ -7,6 +7,7 @@ public class DataManager
 {
     public LanguageData language;
     public MapData mapData;
+
     public DataManager()
     {
         language = new LanguageData();

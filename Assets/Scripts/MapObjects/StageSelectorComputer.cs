@@ -31,38 +31,38 @@ public class StageSelectorComputer : MonoBehaviour
 
     private void Update() //테스트용
     {
-        Click();
-        KeySpawn();
+        //Click();
+        //KeySpawn();
         Talking();
     }
 
-    private void Click() // 테스트용
-    {
-        if (IsLeftClicking)
-        {
-            _animator.SetTrigger(LeftClick);
-            IsLeftClicking = false;
-        }
+    //private void Click() // 테스트용
+    //{
+    //    if (IsLeftClicking)
+    //    {
+    //        _animator.SetTrigger(LeftClick);
+    //        IsLeftClicking = false;
+    //    }
             
 
-        if (IsRightClicking)
-        {
-            _animator.SetTrigger(RightClick);
-            IsRightClicking = false;
-        }
-    }
+    //    if (IsRightClicking)
+    //    {
+    //        _animator.SetTrigger(RightClick);
+    //        IsRightClicking = false;
+    //    }
+    //}
 
-    private void KeySpawn() // 테스트용
-    {
-        if (IsSpawningKey)
-        {
-            _animator.SetTrigger(Surprise);
-            _key.SetActive(true);
-            Vector2 launchDirection = new Vector2(-1, 1).normalized;
-            _keyrb.AddForce(launchDirection * 5f, ForceMode2D.Impulse);
-            IsSpawningKey = false;
-        }
-    }
+    //private void KeySpawn() // 테스트용
+    //{
+    //    if (IsSpawningKey)
+    //    {
+    //        _animator.SetTrigger(Surprise);
+    //        _key.SetActive(true);
+    //        Vector2 launchDirection = new Vector2(-1, 1).normalized;
+    //        _keyrb.AddForce(launchDirection * 5f, ForceMode2D.Impulse);
+    //        IsSpawningKey = false;
+    //    }
+    //}
 
     private void Talking()
     {

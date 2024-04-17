@@ -5,12 +5,20 @@ using System.Collections.Generic;
 
 public class UI_StageSelect : UI_Base
 {
+
+    [Header("Icon")]
     public Transform layout;
     [SerializeField] Button closeBtn;
-    private TMP_Text _startText;
-
     [SerializeField] Button curSelectBtn; //todo 0415
-    public Button CurSelectBtn { get { return curSelectBtn; }
+    [SerializeField] Button spawnKey;
+    private GameObject key;
+    public GameObject Key { get { return key; }
+        set { if (key != null) { Destroy(key);} key = value; }
+    }
+
+    public Button CurSelectBtn
+    {
+        get { return curSelectBtn; }
         set
         {
             if (curSelectBtn != value)
@@ -18,15 +26,19 @@ public class UI_StageSelect : UI_Base
                 ResetStageInMapItem();
                 curSelectBtn = value;
             }
-        } }
+        }
+    }
+
+    private TMP_Text _startText;
+
     [SerializeField] GameObject ui_StageInMapSelect;
 
     private List<GameObject> stageInMapSelectList;
 
-    int curCreatedStage = 0;
     private void Awake()
     {
         closeBtn.onClick.AddListener(CloseUI);
+        spawnKey.onClick.AddListener(SpawnKey);
     }
 
     public override void OnEnable()
@@ -73,6 +85,7 @@ public class UI_StageSelect : UI_Base
 
     }
 
+    #region Create
 
     public void CreateStageInMapUI(int level)
     {
@@ -86,31 +99,54 @@ public class UI_StageSelect : UI_Base
         //CreateStage(level);
 
     }
-
     public void CreateStage(int level)
     {
         var button = ResourceManager.Instantiate("Prefabs/UI/Button", layout).GetComponent<Button>();
-        curCreatedStage++;
         button.GetComponentInChildren<TMP_Text>().text = level.ToString();
         string mapName = Managers.Data.mapData.mapMainStageDictionary[level][0].mapID;
         button.onClick.AddListener(() => { SelectStage(button); OpenStageInMapUI(level); });
 
 
         //stageInMapSelect create,
-        
+
     }
 
 
+    public void SpawnKey()
+    {
+        GameObject key = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict["Key"]);
+        Key = key;
+
+        ObjectData data = MapEditor.Instance.curMap.FindObjectData(1000);
+        Key.transform.position = data.position;
+        Vector2 launchDirection = new Vector2(-1, 1).normalized;
+
+        Key.GetComponent<Rigidbody2D>().AddForce(launchDirection * 5f, ForceMode2D.Impulse);
+
+        CloseUI();
+    }
+    #endregion
+
+    #region Util
+    private void SelectStage(Button button)
+    {
+        if (CurSelectBtn != null)
+        {
+            curSelectBtn.GetComponent<Outline>().effectColor = Color.white;
+        }
+        CurSelectBtn = button;
+        CurSelectBtn.GetComponent<Outline>().effectColor = Color.red;
+    }
+
     private void OpenStageInMapUI(int level)
     {
-        foreach(GameObject obj in stageInMapSelectList)
+        foreach (GameObject obj in stageInMapSelectList)
         {
             obj.SetActive(false);
         }
 
         stageInMapSelectList[level].SetActive(true);
     }
-
     private void ResetStageInMapItem()
     {
         foreach (GameObject obj in stageInMapSelectList)
@@ -119,17 +155,8 @@ public class UI_StageSelect : UI_Base
             selectMap.ResetBtn();
         }
     }
+    #endregion
 
-
-    private void SelectStage(Button button)
-    {
-        if(CurSelectBtn != null)
-        {
-            curSelectBtn.GetComponent<Outline>().effectColor = Color.white;
-        }
-        CurSelectBtn = button;
-        CurSelectBtn.GetComponent<Outline>().effectColor = Color.red;
-    }
 
     //TEST 맵 시작 테스트 코드
     //private void StartGame()
