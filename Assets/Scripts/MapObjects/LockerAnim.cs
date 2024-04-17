@@ -1,11 +1,12 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
-public class LockerAnim : MonoBehaviour
+public class LockerAnim : NetworkBehaviour, IInteractable
 {
-    [SerializeField] private GameObject _disappearingObj; 
+    [SerializeField] private GameObject _disappearingObj;
+    [SerializeField] private CharacterType _characterType;
+    private ObjectTypeEnum _objectType = ObjectTypeEnum.Interaction;
     private Animator _animator;
     
     #region StringCache
@@ -44,5 +45,23 @@ public class LockerAnim : MonoBehaviour
     public void DestroyGO()
     {
         Destroy(_disappearingObj);
+    }
+
+    public void Interaction(Transform accessor)
+    {
+        CmdChangeCharacter(accessor.root.gameObject);
+    }
+    
+    [Command(requiresAuthority = false)]
+    private void CmdChangeCharacter(GameObject player)
+    {
+        Managers.Network.ReplacePlayer(player.GetComponent<NetworkIdentity>().connectionToClient,
+            _characterType,
+            transform.position + new Vector3(0, 0.2f));
+    }
+
+    public ObjectTypeEnum GetObjectType()
+    {
+        return _objectType;
     }
 }
