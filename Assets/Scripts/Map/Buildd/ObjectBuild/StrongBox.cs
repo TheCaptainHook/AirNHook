@@ -39,7 +39,7 @@ public class StrongBox : BuildObj
     {
         if(MapEditor.Instance.mapEditorState != MapEditorState.NoEditor)
         {
-            EditorMode_Destroy();
+            StartCoroutine(Co_Dissolve(orgPosition));
         }
         else
         {
@@ -71,6 +71,11 @@ public class StrongBox : BuildObj
         }
         _collider.enabled = true;
         _rb.gravityScale = 1;
+
+        if (MapEditor.Instance.mapEditorState == MapEditorState.Object)
+        {
+            TurnOff();
+        }
     }
 
 

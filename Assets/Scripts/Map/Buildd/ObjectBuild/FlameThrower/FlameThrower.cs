@@ -27,7 +27,7 @@ public class FlameThrower : BuildObj
         if (!MapEditor.Instance.stageClear && !turnOff)
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, curRate, layerMask);
-
+            Debug.DrawRay(transform.position, transform.right*curRate, Color.green);
             if (hit)
             {
                 CheckHit(hit);
@@ -57,7 +57,7 @@ public class FlameThrower : BuildObj
         onRecoveryRay = true;
         while (curRate <= maxRate)
         {
-            curRate += Time.deltaTime+0.025f;
+            curRate += Time.deltaTime+0.022f;
             yield return null;
         }
         onRecoveryRay = false;
@@ -75,7 +75,6 @@ public class FlameThrower : BuildObj
         flame.particle.Stop();
         flame.particle.Play();
         var main = flame.particle.main;
-        Debug.Log(curRate);
 
         if(curRate < 0.5f)
         {
@@ -107,15 +106,6 @@ public class FlameThrower : BuildObj
     //        Disable();
     //    }
     //}
-
-
-    private void OnDrawGizmos()
-    {
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawRay(transform.position, transform.right * curRate);
-
-    }
 
 
     public override void TurnOff()

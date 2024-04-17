@@ -93,10 +93,17 @@ public class LeverBody : BuildObj,IInteractable
     public override void TurnOn()
     {
         base.TurnOn();
+        
     }
     public override void TurnOff()
     {
+        if (onCompletionParts)
+        {
+            leverHead.DetachToLevelBody();
+            onCompletionParts = false;
+        }
         base.TurnOff();
+
     }
 
 

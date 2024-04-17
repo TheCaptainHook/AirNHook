@@ -34,6 +34,9 @@ public class LeverHead : BuildObj
     {
         _collider.enabled = true;
         _rb.simulated = true;
+        _rb.velocity = Vector2.zero;
+        _rb.angularVelocity = 0f;
+        transform.SetParent(MapEditor.Instance.objectTransform);
         //
 
         //
