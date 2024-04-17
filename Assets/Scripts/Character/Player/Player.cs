@@ -283,9 +283,9 @@ public class Player : NetworkBehaviour, IDamageable
             if (interactable.GetObjectType() == ObjectTypeEnum.Grab)
             {
                 _grabbedItem = _latestTarget.transform;
+                _animator.SetBool(IsGrabbing, true);
                 CmdGrabInteraction();
             }
-            _animator.SetBool(IsGrabbing, true);
             interactable.Interaction(_grabPoint);
         }
     }
