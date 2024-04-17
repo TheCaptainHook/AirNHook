@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6706838065107035886
 RectTransform:
   m_ObjectHideFlags: 0
@@ -119,6 +119,7 @@ MonoBehaviour:
   layout: {fileID: 3923180086380123472}
   closeBtn: {fileID: 1416764940856586265}
   curSelectBtn: {fileID: 0}
+  ui_StageInMapSelect: {fileID: 1265762722531869516, guid: 02e0e259e59b1493cacc828a9f5548ea, type: 3}
 --- !u!1 &7552033136307908034
 GameObject:
   m_ObjectHideFlags: 0

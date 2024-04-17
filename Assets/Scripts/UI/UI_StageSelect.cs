@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class UI_StageSelect : UI_Base
 {
@@ -10,6 +10,18 @@ public class UI_StageSelect : UI_Base
     private TMP_Text _startText;
 
     [SerializeField] Button curSelectBtn; //todo 0415
+    public Button CurSelectBtn { get { return curSelectBtn; }
+        set
+        {
+            if (curSelectBtn != value)
+            {
+                ResetStageInMapItem();
+                curSelectBtn = value;
+            }
+        } }
+    [SerializeField] GameObject ui_StageInMapSelect;
+
+    private List<GameObject> stageInMapSelectList;
 
     int curCreatedStage = 0;
     private void Awake()
@@ -27,10 +39,12 @@ public class UI_StageSelect : UI_Base
     protected override void Start()
     {
         var maps = Managers.Data.mapData.mapMainStageDictionary.Keys;
-
+        stageInMapSelectList = new();
         foreach (var key in maps)
         {
+            CreateStageInMapUI(key);
             CreateStage(key);
+
         }
 
         //TEST 맵 시작 테스트 코드
@@ -45,8 +59,31 @@ public class UI_StageSelect : UI_Base
         base.OpenUI();
     }
 
+    protected override void CloseUI()
+    {
+        foreach(GameObject obj in stageInMapSelectList)
+        {
+            obj.SetActive(false);
+        }
+
+        base.CloseUI();
+    }
     private void UpdateUI()// Update select menu when clear stage
     {
+
+    }
+
+
+    public void CreateStageInMapUI(int level)
+    {
+        GameObject ui = Instantiate(ui_StageInMapSelect);
+        UI_StageInMapSelect selectMap = ui.GetComponent<UI_StageInMapSelect>();
+        selectMap.CreateStageInMap(level);
+        ui.transform.SetParent(transform);
+        stageInMapSelectList.Add(ui);
+        ui.SetActive(false);
+
+        //CreateStage(level);
 
     }
 
@@ -54,42 +91,52 @@ public class UI_StageSelect : UI_Base
     {
         var button = ResourceManager.Instantiate("Prefabs/UI/Button", layout).GetComponent<Button>();
         curCreatedStage++;
-        Debug.Log(curCreatedStage);
         button.GetComponentInChildren<TMP_Text>().text = level.ToString();
         string mapName = Managers.Data.mapData.mapMainStageDictionary[level][0].mapID;
-        button.onClick.AddListener(() => { SelectStage(button); StageSet(mapName); });
+        button.onClick.AddListener(() => { SelectStage(button); OpenStageInMapUI(level); });
+
+
+        //stageInMapSelect create,
+        
     }
 
-    private void StageSet(string mapName)
+
+    private void OpenStageInMapUI(int level)
     {
-        SetNextStage(mapName);
-        //Managers.Game.Player.GetComponent<Player>().CmdChangeStage(mapName);
+        foreach(GameObject obj in stageInMapSelectList)
+        {
+            obj.SetActive(false);
+        }
+
+        stageInMapSelectList[level].SetActive(true);
     }
 
-    private void SetNextStage(string mapName) 
+    private void ResetStageInMapItem()
     {
-        // if(playerData.stageClearDataDictionary.ContainKey(level){ string mapId = playerData.stageClearDataDictionary[level][lastIdx] ;}
-        //else{string mapId = Managers.Data.mapData.mapMainStageDictionary[level][0].mapID; }
-        GameObject ExitObj = MapEditor.Instance.exitDoorObjectTransform.GetChild(0).gameObject;
-        ExitObj.GetComponent<ExitPointObj>().nextMapId = mapName;
+        foreach (GameObject obj in stageInMapSelectList)
+        {
+            UI_StageInMapSelect selectMap = obj.GetComponent<UI_StageInMapSelect>();
+            selectMap.ResetBtn();
+        }
     }
+
 
     private void SelectStage(Button button)
     {
-        if(curSelectBtn != null)
+        if(CurSelectBtn != null)
         {
             curSelectBtn.GetComponent<Outline>().effectColor = Color.white;
         }
-        curSelectBtn = button;
-        curSelectBtn.GetComponent<Outline>().effectColor = Color.red;
+        CurSelectBtn = button;
+        CurSelectBtn.GetComponent<Outline>().effectColor = Color.red;
     }
 
     //TEST 맵 시작 테스트 코드
-    private void StartGame()
-    {
-        Managers.Network.ServerChangeScene("MainScene");
-        CloseUI();
-    }
+    //private void StartGame()
+    //{
+    //    Managers.Network.ServerChangeScene("MainScene");
+    //    CloseUI();
+    //}
     
     public override void SetLanguage()
     {
