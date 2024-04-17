@@ -99,6 +99,8 @@ public class MapEditor : MonoBehaviour
     public MapType mapType;
     [HideInInspector] public int width;
     [HideInInspector] public int height;
+    [Tooltip("Only use MapType.Main")]
+    public int stageLevel;
     public string mapID;
     public Vector2 startPosition;
     public GameObject startPositionObject;

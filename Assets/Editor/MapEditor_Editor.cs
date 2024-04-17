@@ -203,7 +203,7 @@ public class MapEditor_Editor : Editor
             case MapType.Main:
                 string path = Path.Combine(Application.dataPath, "Resources/MapDat/Main");
                 Debug.Log(path);
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i <= 4; i++)
                 {
                     string checkPath = Path.Combine(path, $"{i}/{id}.json");
                     Debug.Log(checkPath);
@@ -359,6 +359,7 @@ public class MapEditor_Editor : Editor
 
     void CreateJsonFile(MapEditor mapEditor, string folderPath)
     {
+        string filePath = "";
         mapEditor.mapTileDataList = GetTileData(mapEditor.placeMentSystem.floorTileMap);
         mapEditor.mapObjectDataList = GetList(mapEditor.objectTransform);
         mapEditor.startPosition = FindObj(mapEditor.dontSaveObjectTransform, 302).transform.position;
@@ -369,9 +370,28 @@ public class MapEditor_Editor : Editor
             GetButtonActivateDoorStructList(mapEditor),
             mapEditor.cellSize) ;
         string json = JsonUtility.ToJson(map, true);
-        string filePath = Path.Combine(folderPath, $"{mapEditor.mapType}/{map.mapID}.json");
-        File.WriteAllText(filePath, json);
+        //todo 0417
+        if(mapEditor.mapType == MapType.Main)
+        {
+            filePath = Path.Combine(folderPath,$"{mapEditor.mapType}/{mapEditor.stageLevel}");
+            if (Directory.Exists(filePath))
+            {
+                filePath = Path.Combine(filePath, $"{map.mapID}.json");
+            }
+            else
+            {
+                Directory.CreateDirectory(filePath);
+                filePath = Path.Combine(filePath, $"{map.mapID}.json");
+            }
+            
+        }
+        else
+        {
+            filePath = Path.Combine(folderPath, $"{mapEditor.mapType}/{map.mapID}.json");
+        }
+        //todo 0417
 
+        File.WriteAllText(filePath, json);
         UnityEditor.AssetDatabase.Refresh();
     }
 

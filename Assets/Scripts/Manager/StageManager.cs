@@ -36,9 +36,9 @@ public class StageManager
         obj.GetComponent<BuildObj>().ObjectData = data;
         obj.transform.SetParent(MapEditor.Instance.networkingObjectTransform);
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
-
     }
 
-  
+
+
 
 }
