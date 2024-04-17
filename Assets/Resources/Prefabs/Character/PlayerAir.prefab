@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9095037024881079552}
-  - component: {fileID: 4467990941354556508}
+  - component: {fileID: 1060811388936270286}
   - component: {fileID: 675613252641030517}
   - component: {fileID: 5508801245310144325}
   - component: {fileID: 4543725574064118888}
@@ -49,9 +49,9 @@ GameObject:
   - component: {fileID: 5995454702025683127}
   - component: {fileID: 7937956941434319031}
   - component: {fileID: 2501886982854958861}
-  - component: {fileID: 7163539299143040987}
   - component: {fileID: 4199087186326573566}
-  - component: {fileID: 7486204474030675165}
+  - component: {fileID: 7163539299143040987}
+  - component: {fileID: -379765799759230663}
   m_Layer: 10
   m_Name: PlayerAir
   m_TagString: Untagged
@@ -76,7 +76,7 @@ Transform:
   - {fileID: 4462666554605769596}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4467990941354556508
+--- !u!114 &1060811388936270286
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -85,32 +85,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 1771380657003557902}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1b9a8a60c05c7849aab1168b36b8fe9, type: 3}
+  m_Script: {fileID: 11500000, guid: 4724754ad43a4092be639b218cacaa49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  _armRenderer: {fileID: 6342702620370204656}
   _armPivot: {fileID: 4462666554605769596}
   _weaponSprite: {fileID: 6342702620370204656}
   _weaponPoint: {fileID: 1621305863906642240}
-  detectionDistance: 3
   _objectMask:
     serializedVersion: 2
-    m_Bits: 4096
+    m_Bits: 536876032
   _obstacleMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2684359744
+  _detectionDistance: 5
+  _rigidbody2D: {fileID: 3123692007149661597}
+  _inhaleSpeed: 5
+  _shootPower: 20
   _minShootPower: 5
   _maxShootPower: 20
-  _shootPower: 0
-  _floorLayer:
-    serializedVersion: 2
-    m_Bits: 2147483648
-  _numberOfPoints: 30
+  _numberOfPoints: 50
   _spaceBetweenPoints: 0.025
-  _isHookAttached: 0
+  _flyPower: 50
+  _stickToHookSpeed: 5
 --- !u!114 &675613252641030517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,6 +125,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  canControl: 0
   _coyoteTime: 0.2
   _isDead: 0
   _jumpingPower: 10
@@ -133,7 +133,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2147483712
   _rigidbd: {fileID: 3123692007149661597}
-  _moveSpeed: 2
+  _moveSpeed: 3
   _charPivot: {fileID: 9177120215743396866}
 --- !u!114 &5508801245310144325
 MonoBehaviour:
@@ -305,9 +305,57 @@ LineRenderer:
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.5
+    widthMultiplier: 0.1
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -381,6 +429,23 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
+--- !u!114 &4199087186326573566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1771380657003557902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  clientAuthority: 1
+  animator: {fileID: 5995454702025683127}
 --- !u!114 &7163539299143040987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -416,24 +481,7 @@ MonoBehaviour:
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
---- !u!114 &4199087186326573566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1771380657003557902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 1
-  syncMode: 0
-  syncInterval: 0
-  clientAuthority: 0
-  animator: {fileID: 5995454702025683127}
---- !u!114 &7486204474030675165
+--- !u!114 &-379765799759230663
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
