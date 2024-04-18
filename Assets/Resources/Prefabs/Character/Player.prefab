@@ -5058,7 +5058,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2147877056
   _rigidbd: {fileID: 8929439774467590829}
-  _moveSpeed: 2
+  _moveSpeed: 3
   _charPivot: {fileID: 158291813751165047}
 --- !u!114 &672945373029821658
 MonoBehaviour:
@@ -5101,7 +5101,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 2743958777749711243}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: c68adc5bc8b12a3418bcafa09a87e46b, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
