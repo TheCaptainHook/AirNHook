@@ -610,6 +610,18 @@ public class AirGunNet : NetworkBehaviour
         _inhaleParticles.Play();
     }
 
+    [Command(requiresAuthority = false)]
+    private void CmdInhaleParticlesStop()
+    {
+        RpcInhaleParticlesStop();
+    }
+    
+    [ClientRpc]
+    private void RpcInhaleParticlesStop()
+    {
+        _inhaleParticles.Stop();
+    }
+    
     private void ExhaleParticlesPlay()
     {
         _exhaleParticles.Play();
@@ -621,10 +633,10 @@ public class AirGunNet : NetworkBehaviour
         _animator.SetBool(IsFlying, _sticking);
         _animator.SetBool(IsAirAttached, _isAttachedToHook);
         _animator.SetBool(IsHookInhaled, _isInhaledHook);
-        if(!_inhaling)
-            _inhaleParticles.Stop();
-        if (_isAttached)
-            _inhaleParticles.Stop();
+        if (!_inhaling && _inhaleParticles.isPlaying)
+            CmdInhaleParticlesStop();
+        if (_isAttached && _inhaleParticles.isPlaying)
+            CmdInhaleParticlesStop();
     }
     #endregion
 }

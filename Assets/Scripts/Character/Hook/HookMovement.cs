@@ -73,7 +73,7 @@ public class HookMovement : PlayerMovement, IInhalable
             {
                 if (!isGround)
                 {
-                    CmdLandParticlePlay();
+                    _landParticles.Play();
                 }
                 isGround = true;
                 swingJump = false;

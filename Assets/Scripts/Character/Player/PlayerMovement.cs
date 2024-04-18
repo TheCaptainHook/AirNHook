@@ -191,18 +191,6 @@ public class PlayerMovement : NetworkBehaviour
         _jumpParticles.Play();
     }
     
-    [Command(requiresAuthority = false)]
-    protected void CmdLandParticlePlay()
-    {
-        RpcLandParticlePlay();
-    }
-
-    [ClientRpc]
-    private void RpcLandParticlePlay()
-    {
-        _landParticles.Play();
-    }
-    
     //점프체크
     protected virtual void IsFloor()
     {
@@ -211,13 +199,13 @@ public class PlayerMovement : NetworkBehaviour
         {
             if (Physics2D.Raycast(transform.position + (Vector3.right * (0.4f * i)), Vector2.down, 0.1f, _floorLayer))
             {
+                if (!isGround)
+                {
+                    _landParticles.Play();
+                }
                 specificJump = false;
                 isGround = true;
                 coyoteTimeCount = _coyoteTime;
-                if (!isGround)
-                {
-                    CmdLandParticlePlay();
-                }
                 return;
             }
         }
