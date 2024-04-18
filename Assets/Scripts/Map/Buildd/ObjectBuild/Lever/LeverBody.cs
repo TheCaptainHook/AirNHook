@@ -11,6 +11,8 @@ public class LeverBody : BuildObj,IInteractable
     public List<ButtonActivatedDoor> linkDoorList;
     public LeverHead leverHead;
     [SerializeField] Transform leverHeadTransform;
+    public Vector2 curPosition;
+
 
     [Header("State")]
     public bool onCompletionParts;
@@ -31,30 +33,64 @@ public class LeverBody : BuildObj,IInteractable
 
 
 
-    public void DataSaveLinkDoor()//Editor_Editor only
+    //public void DataSaveLinkDoor()//Editor_Editor only
+    //{
+    //    if (linkDoorList.Count > 0)
+    //    {
+    //        foreach (ButtonActivatedDoor linkDoor in linkDoorList)
+    //        {
+    //            if (linkDoor.leverBodyPotiionList.Contains(transform.position))
+    //            {
+    //                linkDoor.leverBodyPotiionList.Remove(transform.position);
+    //            }
+    //            linkDoor.leverBodyPotiionList.Add(transform.position);
+    //        }
+    //    }
+    //}
+
+    public void LinkDoor()
     {
+        Vector2 pot = new Vector2(Mathf.Round(transform.position.x * 10f) / 10f, Mathf.Round(transform.position.y * 10f) / 10f);
+        transform.position = pot;
+
         if (linkDoorList.Count > 0)
         {
             foreach (ButtonActivatedDoor linkDoor in linkDoorList)
             {
-                if (linkDoor.leverBodyPotiionList.Contains(transform.position))
+                if (linkDoor.leverBodyPotiionList.Contains(curPosition))
                 {
-                    linkDoor.leverBodyPotiionList.Remove(transform.position);
+                    linkDoor.leverBodyPotiionList.Remove(curPosition);
+                    linkDoor.curLinkBtn--;
                 }
-                linkDoor.leverBodyPotiionList.Add(transform.position);
+                linkDoor.leverBodyPotiionList.Add(pot);
+                linkDoor.curLinkBtn++;
+                curPosition = pot;
             }
-        }
-    }
 
-    private void LinkDoor()
-    {
-        foreach(Transform tr in MapEditor.Instance.interactionObjectTransform)
+        }
+        else
         {
-            if (tr.GetComponent<ButtonActivatedDoor>().linkId == linkId)
+            foreach (Transform transform in MapEditor.Instance.interactionObjectTransform)
             {
-                linkDoorList.Add(tr.GetComponent<ButtonActivatedDoor>());
+                if (transform.GetComponent<ButtonActivatedDoor>().linkId == linkId)
+                {
+                    ButtonActivatedDoor linkDoor = transform.GetComponent<ButtonActivatedDoor>();
+
+                    if (linkDoor.leverBodyPotiionList.Contains(curPosition))
+                    {
+                        linkDoor.leverBodyPotiionList.Remove(curPosition);
+                        linkDoor.curLinkBtn--;
+                    }
+
+                    linkDoor.leverBodyPotiionList.Add(pot);
+                    linkDoor.curLinkBtn++;
+                    linkDoorList.Add(linkDoor);
+                    curPosition = pot;
+                }
             }
         }
+
+
     }
 
     public void UnLinkDoor()
@@ -74,10 +110,24 @@ public class LeverBody : BuildObj,IInteractable
 
                 onCompletionParts = true;
                 animator.SetTrigger(OnCompletion);
-
-                LinkDoor();
             }
            
+        }
+    }
+
+    public void SetLinkDoor(Vector2 pot, int linkId, Transform interactionDoorTransform)
+    {
+        curPosition = pot;
+        this.linkId = linkId;
+        transform.position = curPosition;
+
+        foreach (Transform tr in interactionDoorTransform)
+        {
+            ButtonActivatedDoor bd = tr.GetComponent<ButtonActivatedDoor>();
+            if (bd.linkId == linkId)
+            {
+                linkDoorList.Add(bd);
+            }
         }
     }
 

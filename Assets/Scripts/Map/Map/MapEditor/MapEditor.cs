@@ -481,7 +481,8 @@ public class MapEditor : MonoBehaviour
         }
         foreach (Vector2 pot in data.leverPositionList)
         {
-            Managers.Stage.CmdBatchObject("LeverBody", pot);
+            GameObject leverBody = Managers.Stage.CmdBatchObject("LeverBody", dontSaveObjectTransform);
+            leverBody.GetComponent<LeverBody>().SetLinkDoor(pot, data.linkId,interactionObjectTransform);
         }
         //Lever
 

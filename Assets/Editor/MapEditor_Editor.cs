@@ -306,8 +306,8 @@ public class MapEditor_Editor : Editor
         foreach(Vector2 pot in data.leverPositionList)
         {
             GameObject leverBody = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct1.path));
+            leverBody.GetComponent<LeverBody>().SetLinkDoor(pot, data.linkId, mapEditor.interactionObjectTransform);
             leverBody.transform.SetParent(mapEditor.dontSaveObjectTransform);
-            leverBody.transform.position = pot;
         }
 
         //todo
@@ -441,7 +441,7 @@ public class MapEditor_Editor : Editor
                 cur.GetComponent<ButtonActivated>().LinkDoor();
             }else if (cur.GetComponent<LeverBody>())
             {
-                cur.GetComponent<LeverBody>().DataSaveLinkDoor();
+                cur.GetComponent<LeverBody>().LinkDoor();
             }
             
         }

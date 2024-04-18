@@ -151,8 +151,7 @@ public class ButtonActivated : BuildObj
     //    transform.position = curPosition;
 
     //}
-
-    public void SetLinkDoor(Vector2 pot,ButtonActivatedDoor door)
+    public void SetLinkDoor(Vector2 pot, ButtonActivatedDoor door) // in game Load
     {
         linkDoorList.Add(door);
         curPosition = pot;
@@ -160,7 +159,7 @@ public class ButtonActivated : BuildObj
         transform.position = curPosition;
 
     }
-    public void SetLinkDoor(Vector2 pot,int linkId,Transform interactionDoorTransform)
+    public void SetLinkDoor(Vector2 pot,int linkId,Transform interactionDoorTransform) // Editro_Editor
     {
         curPosition = pot;
         this.linkId = linkId;
