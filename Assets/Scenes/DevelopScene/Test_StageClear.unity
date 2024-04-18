@@ -206,7 +206,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1418490344}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: LoadData, Assembly-CSharp
         m_MethodName: Save
         m_Mode: 1
@@ -969,7 +969,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1418490344}
-        m_TargetAssemblyTypeName: LoadData, Assembly-CSharp
+        m_TargetAssemblyTypeName: StageButton, Assembly-CSharp
         m_MethodName: CreateButton
         m_Mode: 1
         m_Arguments:
@@ -1027,12 +1027,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1418490339}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95e2a259e0410044ba00f7d49922babb, type: 3}
+  m_Script: {fileID: 11500000, guid: db771c992efe9c042b9b2225cd77939e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _stageSelect: {fileID: 1501025022}
   stageButtonCreate: {fileID: 868934026}
   stageButton: {fileID: 7249725388958814033, guid: 1614f2f005c8ca547b921287dc2ed14a, type: 3}
+  stageNameTxt: {fileID: 0}
+  clearTimeTxt: {fileID: 0}
+  clearDeathTxt: {fileID: 0}
 --- !u!1 &1501025022
 GameObject:
   m_ObjectHideFlags: 0

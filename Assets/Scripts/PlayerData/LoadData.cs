@@ -6,28 +6,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LoadData : MonoBehaviour
+public class LoadData
 {
-    [SerializeField] GameObject _stageSelect;
-    //생성할 위치
-    public Transform stageButtonCreate;
-    public GameObject stageButton;
-
     public Dictionary<string, StageData> stageData = new Dictionary<string, StageData>();
     public Dictionary<string, PlayData> playData = new Dictionary<string, PlayData>();
     //스테이지 클리어 레벨을 딕셔너리로쓰는 stageClearLevelData
     public Dictionary<int, List<string>> stageClearLevelData = new Dictionary<int, List<string>>();
 
-    private MapData _mapData;
-
-    private bool _stageSelectShow;
-
-    private void Awake()
-    {
-        _mapData = Managers.Data.mapData;
-    }
-
-    private void Start()
+    public void Setup()
     {
         //TODO 아래부분을 Start가 아닌 다른부분에 넣어서 사용하면됩니다.
         var stageDataPath = Path.Combine(Application.streamingAssetsPath, "StageDatas/StageDatas.json");
@@ -54,7 +40,7 @@ public class LoadData : MonoBehaviour
         }
 
         //playData,stageData에 데이터넣기
-        foreach (var key in _mapData.mapMainDictionary.Keys)
+        foreach (var key in Managers.Data.mapData.mapMainDictionary.Keys)
         {
             if (!stageData.ContainsKey(key))
             {
@@ -75,7 +61,7 @@ public class LoadData : MonoBehaviour
             }
         }
 
-        foreach (var key in _mapData.mapUserDictionary.Keys)
+        foreach (var key in Managers.Data.mapData.mapUserDictionary.Keys)
         {
             if (!stageData.ContainsKey(key))
             {
@@ -99,31 +85,6 @@ public class LoadData : MonoBehaviour
         File.WriteAllText(stageDataPath, JsonConvert.SerializeObject(stageData.Values, Formatting.Indented));
         File.WriteAllText(playDataPath, JsonConvert.SerializeObject(playData.Values, Formatting.Indented));
 
-    }
-
-    //TODO 현재 테스트코드에선 생성할때 1번만불려져서 최신화가 안되고있는상황임
-    //실제로 적용할땐 실시간 업데이트가 가능하도록 해야한다.
-    //or ResourceManager.Destroy사용해서 전부삭제했다 재생성하던가... <-하다 실패
-    public void CreateButton()
-    {
-        _stageSelect.SetActive(true);
-
-        //Json파일 읽어오는 코드
-        var playDataPath = Path.Combine(Application.streamingAssetsPath, "PlayDatas/PlayDatas.json");
-        var playDataList = Managers.Data.ReadJson<PlayData>(playDataPath);
-
-        if (!_stageSelectShow)
-        {
-            foreach(var key in playDataList)
-            {
-                //list 개수만큼 버튼이 생성
-                var slot = ResourceManager.Instantiate(stageButton, stageButtonCreate).GetComponent<StageButton>();
-                
-                slot.StageSelect(key);
-                slot.LoadData(GetComponent<LoadData>());
-            }
-        }
-        _stageSelectShow = true;
     }
 
     //TODO 스테이지 클리어가되면 동시에 작업이 이루어져야함

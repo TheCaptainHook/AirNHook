@@ -7,6 +7,10 @@ using UnityEngine;
 
 public class StageButton : MonoBehaviour
 {
+    [SerializeField] GameObject _stageSelect;
+    //생성할 위치
+    public Transform stageButtonCreate;
+    public GameObject stageButton;
     public TextMeshProUGUI stageNameTxt;
     public TextMeshProUGUI clearTimeTxt;
     public TextMeshProUGUI clearDeathTxt;
@@ -20,8 +24,9 @@ public class StageButton : MonoBehaviour
     private int _sec;
 
     private bool _timeCheck;
+    private bool _stageSelectShow;
 
-    private LoadData _loadData;
+    //private LoadData _loadData;
 
     private void Update()
     {
@@ -58,7 +63,7 @@ public class StageButton : MonoBehaviour
         clearTimeTxt.text = string.Format("{0:D2}:{1:D2}", _min, _sec);
     }
 
-    //스테이지 시작됬을땐 시간,죽음횟수,스킵여부 전부 0으로 초기화
+    //시간,죽음횟수,스킵여부 전부 0으로 초기화
     public void StageStart()
     {
         _clearTime = 0.0f;
@@ -66,6 +71,7 @@ public class StageButton : MonoBehaviour
         _skip = false;
     }
 
+    //스테이지 시작되는순간 실행
     public void TimeCheck()
     {
         StageStart();
@@ -73,12 +79,13 @@ public class StageButton : MonoBehaviour
         _timeCheck = true;
     }
 
-
+    //캐릭터 사망시 데스카운트추가
     public void DeathCheck()
     {
         _clearDeath++;
     }
 
+    //스킵버튼클릭시 활성화
     public void SkipCheck()
     {
         _skip = true;
@@ -87,50 +94,70 @@ public class StageButton : MonoBehaviour
     public void StageClear()
     {
         _timeCheck = false;
-        _loadData.stageData[_selectStage].stageClear = true;
+        Managers.Data.loadData.stageData[_selectStage].stageClear = true;
 
         TimeCompare();
         DeathCompare();
 
-        _loadData.Save();
+        Managers.Data.loadData.Save();
     }
 
     public void StageFalse()
     {
         _timeCheck = false;
-        _loadData.Save();
+        Managers.Data.loadData.Save();
     }
 
     public void StageSkip()
     {
-        _loadData.playData[_selectStage].skip = _skip;
-        _loadData.Save();
+        Managers.Data.loadData.playData[_selectStage].skip = _skip;
+        Managers.Data.loadData.Save();
     }
 
     public void TimeCompare()
     {
-        if (_loadData.playData[_selectStage].clearTime == 0 || _clearTime < _loadData.playData[_selectStage].clearTime)
-            _loadData.playData[_selectStage].clearTime = _clearTime;
+        if (Managers.Data.loadData.playData[_selectStage].clearTime == 0 || _clearTime < Managers.Data.loadData.playData[_selectStage].clearTime)
+            Managers.Data.loadData.playData[_selectStage].clearTime = _clearTime;
     }
 
     public void DeathCompare()
     {
-        if (!_loadData.playData[_selectStage].perfectClear)
+        if (!Managers.Data.loadData.playData[_selectStage].perfectClear)
         {
-            if (_loadData.playData[_selectStage].deathCount == 0 || _clearDeath < _loadData.playData[_selectStage].deathCount)
-                _loadData.playData[_selectStage].deathCount = _clearDeath;
-            if(_clearDeath == 0 && _loadData.stageData[_selectStage].stageClear == true)
+            if (Managers.Data.loadData.playData[_selectStage].deathCount == 0 || _clearDeath < Managers.Data.loadData.playData[_selectStage].deathCount)
+                Managers.Data.loadData.playData[_selectStage].deathCount = _clearDeath;
+            if(_clearDeath == 0 && Managers.Data.loadData.stageData[_selectStage].stageClear == true)
             {
-                _loadData.playData[_selectStage].perfectClear = true;
-                _loadData.playData[_selectStage].perfect = "PerfectClear!";
+                Managers.Data.loadData.playData[_selectStage].perfectClear = true;
+                Managers.Data.loadData.playData[_selectStage].perfect = "PerfectClear!";
             }
         }
         Debug.Log(_clearDeath);
     }
 
-    public void LoadData(LoadData loadData)
+    //TODO 현재 테스트코드에선 생성할때 1번만불려져서 최신화가 안되고있는상황임
+    //실제로 적용할땐 실시간 업데이트가 가능하도록 해야한다.
+    //or ResourceManager.Destroy사용해서 전부삭제했다 재생성하던가... <-하다 실패
+    public void CreateButton()
     {
-        _loadData = loadData;
+        _stageSelect.SetActive(true);
+
+        //Json파일 읽어오는 코드
+        var playDataPath = Path.Combine(Application.streamingAssetsPath, "PlayDatas/PlayDatas.json");
+        var playDataList = Managers.Data.ReadJson<PlayData>(playDataPath);
+
+        if (!_stageSelectShow)
+        {
+            foreach (var key in playDataList)
+            {
+                //list 개수만큼 버튼이 생성
+                var slot = ResourceManager.Instantiate(stageButton, stageButtonCreate).GetComponent<StageButton>();
+
+                slot.StageSelect(key);
+                //slot.LoadData(GetComponent<LoadData>());
+            }
+        }
+        _stageSelectShow = true;
     }
 
     public void StageClearLevelPlus()
