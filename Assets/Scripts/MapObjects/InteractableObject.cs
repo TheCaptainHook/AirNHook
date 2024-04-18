@@ -24,12 +24,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _fixedPoint = null;
     }
 
-    private void OnDisable()
-    {
-        if(NetworkServer.active)
-            CmdRemoveAuthority();
-    }
-
     [Command(requiresAuthority = false)]
     private void CmdRemoveAuthority()
     {
