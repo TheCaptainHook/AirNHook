@@ -7,12 +7,11 @@ public class AirGunNet : NetworkBehaviour
 {
     // Input
     [field: SerializeField] private Transform _armPivot;
-    [field: SerializeField] private SpriteRenderer _weaponSprite;
+    [field: SerializeField] private Transform _charPivot;
     private PlayerInput _playerInput;
     private PlayerMovement _playerMovement;
     private Camera _mainCamera;
     private Vector2 _mouseDelta;
-    private bool _leftClick;
     private bool _rightClick;
     
     // TargetDetections
@@ -27,10 +26,13 @@ public class AirGunNet : NetworkBehaviour
     
     // InhaleAction
     [field: SerializeField] private Rigidbody2D _rigidbody2D;
-    [field: SerializeField] private float _inhaleSpeed;
     private Collider2D _inhaleTarget;
     private bool _isAttached;
     private bool _inhaling;
+    private bool _isAttachedToHook;
+    private bool _isInhaledHook;
+    public LayerMask attachedLayerMask;
+    private LayerMask _releaseLayerMask;
     
     // ShootAction
     private LineRenderer _lineRenderer;
@@ -121,11 +123,16 @@ public class AirGunNet : NetworkBehaviour
         else if (rotZ is > -170f and < -90f)
             rotZ = -170f;
         
-        _weaponSprite.flipX = Mathf.Abs(rotZ) > 90f;
-
         _armPivot.rotation = Quaternion.AngleAxis(rotZ, Vector3.forward);
+        
+        if (Mathf.Abs(rotZ) > 90f) {
+            rotZ = -rotZ;
+            _charPivot.rotation = Quaternion.Euler(0f, 180f, 0f);
+            _armPivot.rotation = Quaternion.Euler(-180f, 0f, rotZ);
+        } else {
+            _charPivot.rotation = Quaternion.identity;
+        }
     }
-
     #region ObjectCheck
     private void DetectObject()
     {
@@ -195,7 +202,11 @@ public class AirGunNet : NetworkBehaviour
         {
             if (_inhaleTarget is not null && _shortestDistance <= 0.15f)
             {
+                _releaseLayerMask = _inhaleTarget.GetComponent<Rigidbody2D>().excludeLayers;
+                if (_grappling is not null)
+                    _isInhaledHook = true;
                 _isAttached = true;
+                _inhaleTarget.GetComponent<Rigidbody2D>().excludeLayers = attachedLayerMask;
             }
 
             _shortestDistance = float.MaxValue;
@@ -326,6 +337,7 @@ public class AirGunNet : NetworkBehaviour
         {
             _inhaleTarget.GetComponent<IInhalable>().StopInhale();
             _inhaling = false;
+            _inhaleTarget.GetComponent<Rigidbody2D>().excludeLayers = _releaseLayerMask;
 
             if (_chargingCoroutine is not null)
             {
@@ -395,6 +407,7 @@ public class AirGunNet : NetworkBehaviour
                 yield return null;
                 _rigidbody2D.velocity = Vector2.zero;
                 transform.position = _grappling.transform.position + _offset;
+                _isAttachedToHook = true;
             }
         }
     }
@@ -404,6 +417,7 @@ public class AirGunNet : NetworkBehaviour
         _isStick = false;
         _canStick = false;
         _sticking = false;
+        _isAttachedToHook = false;
         StopCoroutine(_stickToHookCoroutine);
         _stickToHookCoroutine = null;
         
@@ -496,10 +510,12 @@ public class AirGunNet : NetworkBehaviour
         if (ReferenceEquals(_inhaleTarget.gameObject, Managers.Game.OtherPlayer))
         {
             CmdShootObject(_inhaleTarget.gameObject, _weaponPoint.right * _shootPower);
+            _isInhaledHook = false;
         }
         else
         {
             _inhaleTarget.GetComponent<IInhalable>().Shooting(_weaponPoint.right * _shootPower);
+            _inhaleTarget.GetComponent<Rigidbody2D>().excludeLayers = _releaseLayerMask;
         }
         _inhaleTarget = null;
         _isAttached = false;
@@ -557,13 +573,11 @@ public class AirGunNet : NetworkBehaviour
     
     private void PlayerActionStarted(InputAction.CallbackContext context)
     {
-        _leftClick = true;
         Charging();
     }
     
     private void PlayerActionCanceled(InputAction.CallbackContext context)
     {
-        _leftClick = false;
         _animator.SetTrigger(IsExhaling);
         if (_isStick)
             FlyAway();
@@ -602,14 +616,12 @@ public class AirGunNet : NetworkBehaviour
     {
         _animator.SetBool(IsInhaling, _inhaling);
         _animator.SetBool(IsFlying, _sticking);
-        if (_inhaling)
-        {
-            _inhaleParticles.Play();
-        }
-        else
-        {
+        _animator.SetBool(IsAirAttached, _isAttachedToHook);
+        _animator.SetBool(IsHookInhaled, _isInhaledHook);
+        if(!_inhaling)
             _inhaleParticles.Stop();
-        }
+        if (_isAttached)
+            _inhaleParticles.Stop();
     }
     #endregion
 }

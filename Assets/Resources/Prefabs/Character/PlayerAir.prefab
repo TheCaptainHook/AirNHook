@@ -94,7 +94,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _armPivot: {fileID: 4462666554605769596}
-  _weaponSprite: {fileID: 6342702620370204656}
+  _charPivot: {fileID: 9177120215743396866}
   _weaponPoint: {fileID: 1621305863906642240}
   _objectMask:
     serializedVersion: 2
@@ -104,7 +104,10 @@ MonoBehaviour:
     m_Bits: 2685687232
   _detectionDistance: 5
   _rigidbody2D: {fileID: 3123692007149661597}
-  _inhaleSpeed: 5
+  _inhaleSpeed: 10
+  attachedLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
   _shootPower: 20
   _minShootPower: 5
   _maxShootPower: 20
@@ -113,7 +116,7 @@ MonoBehaviour:
   _flyPower: 50
   _inhaleParticles: {fileID: 5132154906828901315}
   _exhaleParticles: {fileID: 3801523937959093438}
-  _stickToHookSpeed: 5
+  _stickToHookSpeed: 10
 --- !u!114 &675613252641030517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10678,7 +10681,7 @@ Transform:
   m_GameObject: {fileID: 6741164257566419916}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.3167072, w: 0.9485234}
-  m_LocalPosition: {x: 0.9, y: 0.023210712, z: 0}
+  m_LocalPosition: {x: 0.89999986, y: 0.023210712, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15770,7 +15773,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6952171860007884292}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.032, y: 0.448, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -16171,8 +16174,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.05
-      minScalar: 0.2
+      scalar: 0.1
+      minScalar: 0.3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -16889,7 +16892,7 @@ ParticleSystem:
           outWeight: 0
         - serializedVersion: 3
           time: 1
-          value: 0.22222137
+          value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 0
