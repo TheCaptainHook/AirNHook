@@ -33,6 +33,9 @@ public class BuildObj : MousePointerEntity,IDamageable
     public event Action<Vector2> OnDissolveAction;
     public event Action OnDisableAction;
 
+
+
+
     [Header("Only use Editor mode")]
     [HideInInspector] public bool setPosition; // When created and placed set this parameter
     [HideInInspector] public Vector2 orgPosition;

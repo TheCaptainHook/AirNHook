@@ -401,12 +401,22 @@ public class MapEditor : MonoBehaviour
                     if (Managers.Data.mapData.mapSceneDataDictionary.ContainsKey(data.id))
                     {
                         MapDataStruct mapDataStruct = Managers.Data.mapData.mapSceneDataDictionary[data.id];
-                        Create(transform, mapDataStruct, data);
+                        if (data.id == 1001 || data.id == 1002)
+                        {
+                            Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
+                        }
+                        else
+                        {
+                            Create(transform, mapDataStruct, data);
+                        }
+                        
                     }
                     else if (Managers.Data.mapData.mapOtherDataDictionary.ContainsKey(data.id))
                     {
                         MapDataStruct mapDataStruct = Managers.Data.mapData.mapOtherDataDictionary[data.id];
+
                         Create(transform, mapDataStruct, data);
+
                     }
                     else
                     {

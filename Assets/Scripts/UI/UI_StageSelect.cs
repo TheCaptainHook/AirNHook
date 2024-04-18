@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using Mirror;
 
 public class UI_StageSelect : UI_Base
 {
@@ -116,6 +117,7 @@ public class UI_StageSelect : UI_Base
     {
         GameObject key = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict["Key"]);
         Key = key;
+        NetworkServer.Spawn(key, NetworkServer.localConnection);
 
         ObjectData data = MapEditor.Instance.curMap.FindObjectData(1000);
         Key.transform.position = data.position;
