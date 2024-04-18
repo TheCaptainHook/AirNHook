@@ -275,4 +275,4 @@ MonoBehaviour:
   grabLayerMask:
     serializedVersion: 2
     m_Bits: 1024
-  _inhalePower: 20
+  _inhalePower: 600
