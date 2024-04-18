@@ -1,0 +1,32 @@
+[
+  {
+    "stageID": "Tutorial_1",
+    "stageClear": false,
+    "stageClearLevel": 0,
+    "stageHiddenObject": 0
+  },
+  {
+    "stageID": "Tutorial_2",
+    "stageClear": false,
+    "stageClearLevel": 0,
+    "stageHiddenObject": 0
+  },
+  {
+    "stageID": "Tutorial_3",
+    "stageClear": false,
+    "stageClearLevel": 0,
+    "stageHiddenObject": 0
+  },
+  {
+    "stageID": "Stage1-1",
+    "stageClear": false,
+    "stageClearLevel": 0,
+    "stageHiddenObject": 0
+  },
+  {
+    "stageID": "Stage1-5",
+    "stageClear": false,
+    "stageClearLevel": 0,
+    "stageHiddenObject": 0
+  }
+]
