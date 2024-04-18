@@ -51,7 +51,18 @@ public class StageManager
         obj.transform.SetParent(MapEditor.Instance.exitDoorObjectTransform);
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
 
-        
+    }
+
+    [Command]
+    public void CmdBatchObject(string objName, Vector3 pot)
+    {
+        if (!NetworkServer.active || !NetworkClient.isConnected) return;
+
+        var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+        obj.transform.SetParent(MapEditor.Instance.dontSaveObjectTransform);
+        obj.transform.position = pot;
+        NetworkServer.Spawn(obj, NetworkServer.localConnection);
+
     }
 
 

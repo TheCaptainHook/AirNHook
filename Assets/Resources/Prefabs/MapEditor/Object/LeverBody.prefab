@@ -126,10 +126,12 @@ GameObject:
   - component: {fileID: 5678925743708245159}
   - component: {fileID: 6928806751215276433}
   - component: {fileID: 5291748806770992330}
-  - component: {fileID: 7569540280555261352}
   - component: {fileID: 7823364962789151094}
+  - component: {fileID: 7569540280555261352}
+  - component: {fileID: 7435758235303093614}
+  - component: {fileID: 289896671005724370}
   m_Layer: 17
-  m_Name: Lever_Body
+  m_Name: LeverBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -200,29 +202,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7569540280555261352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5854981168511148043}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb28a0d9e408c48da8ed31aec1edd6e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 312
-  transformID: 4
-  distructionStatus: 0
-  onPlaceable: 0
-  onRotateable: 0
-  onScaleable: 0
-  linkId: 0
-  linkDoorList: []
-  leverHead: {fileID: 0}
-  leverHeadTransform: {fileID: 4103635366060125348}
-  onCompletionParts: 0
 --- !u!60 &7823364962789151094
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -277,3 +256,62 @@ PolygonCollider2D:
       - {x: 0.50221884, y: -0.0037878752}
       - {x: 0.5013427, y: 0.21067068}
   m_UseDelaunayMesh: 0
+--- !u!114 &7569540280555261352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5854981168511148043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb28a0d9e408c48da8ed31aec1edd6e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 312
+  transformID: 4
+  distructionStatus: 0
+  onPlaceable: 0
+  onRotateable: 0
+  onScaleable: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
+  linkId: 0
+  linkDoorList: []
+  leverHead: {fileID: 0}
+  leverHeadTransform: {fileID: 4103635366060125348}
+  onCompletionParts: 0
+--- !u!114 &7435758235303093614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5854981168511148043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 3606748111
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
+--- !u!114 &289896671005724370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5854981168511148043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  clientAuthority: 0
+  animator: {fileID: 5291748806770992330}

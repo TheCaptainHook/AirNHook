@@ -473,7 +473,6 @@ public class MapEditor : MonoBehaviour
         door.ButtonActivatedDoorStruct = data; 
         obj.transform.SetParent(transform);
         MapDataStruct btn = Managers.Data.mapData.mapObjectDataDictionary[306];
-        MapDataStruct lever = Managers.Data.mapData.mapObjectDataDictionary[312]; //todo 0416
         foreach (Vector2 pot in data.buttonActivatePositionList)
         {
             GameObject btnActivated = Object.Instantiate(Resources.Load<GameObject>(btn.path));
@@ -482,9 +481,7 @@ public class MapEditor : MonoBehaviour
         }
         foreach (Vector2 pot in data.leverPositionList)
         {
-            GameObject leverBody = Object.Instantiate(Resources.Load<GameObject>(lever.path));
-            leverBody.transform.SetParent(dontSaveObjectTransform);
-            leverBody.transform.position = pot;
+            Managers.Stage.CmdBatchObject("LeverBody", pot);
         }
         //Lever
 
