@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class DoorOpeningAnim : MonoBehaviour
+public class DoorOpeningAnim : NetworkBehaviour
 {
     [Header("State")] 
     //private bool _isClear = false;
@@ -60,8 +61,34 @@ public class DoorOpeningAnim : MonoBehaviour
         _lockRigidbody2D.AddForce(forceDirection * forceMagnitude, ForceMode2D.Impulse);
     }
 
+    [Server]
     public void DestroyLock()
     {
-        Destroy(_lockGameObject);
+        NetworkServer.Destroy(_lockGameObject);
+    }
+    
+    [Command(requiresAuthority = false)]
+    public void CmdMoveNextStage(string nextMapId)
+    {
+        RpcMoveNextStage(nextMapId);
+    }
+    
+    [ClientRpc]
+    public void RpcMoveNextStage(string nextMapId)
+    {
+        if (string.IsNullOrEmpty(nextMapId))
+        {
+            if(MapEditor.Instance.curMap.mapID != "Lobby")
+            {
+                MapEditor.Instance.MoveNextStage("Lobby", MapType.Scene);
+            }
+            Debug.Log("Stage Clear");
+        }
+        else
+        {
+            // 코루틴으로 페이드아웃 페이드인.
+            //MapEditor.Instance.LoadMap(nextMapId,MapType.Main);
+            MapEditor.Instance.MoveNextStage(nextMapId, MapType.Main);
+        }
     }
 }

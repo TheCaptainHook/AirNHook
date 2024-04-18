@@ -69,11 +69,14 @@ public class ExitPointObj : BuildBase
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(!Managers.Game.Player.GetComponent<Player>().isServer) return;
+        
         if (collision.gameObject.layer == LayerMask.NameToLayer("Key") && !turnOff)
         {
             GetKey(collision.gameObject);
             Debug.Log(current_KeyAmount);
         }
+
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && stageClear)
         {
             curPlayerInDoor++;
@@ -86,6 +89,8 @@ public class ExitPointObj : BuildBase
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if(!Managers.Game.Player.GetComponent<Player>().isServer) return;
+        
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && stageClear)
         {
             
@@ -96,23 +101,7 @@ public class ExitPointObj : BuildBase
 
     public void MoveNextStage()
     {
-        if (string.IsNullOrEmpty(nextMapId))
-        {
-            if(MapEditor.Instance.curMap.mapID != "Lobby")
-            {
-                MapEditor.Instance.MoveNextStage("Lobby", MapType.Scene);
-            }
-            Debug.Log("Stage Clear");
-        }
-        else
-        {
-            // 코루틴으로 페이드아웃 페이드인.
-            //MapEditor.Instance.LoadMap(nextMapId,MapType.Main);
-            MapEditor.Instance.MoveNextStage(nextMapId, MapType.Main);
-
-        }
-        
-
+        doorOpeningAnim.CmdMoveNextStage(nextMapId);
     }
 
 
