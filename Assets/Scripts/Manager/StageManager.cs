@@ -26,6 +26,7 @@ public class StageManager
         //}
     }
 
+    #region Editor
 
     [Command]
     public void CmdBatchObject(string objName,ObjectData data)
@@ -38,6 +39,21 @@ public class StageManager
         obj.transform.SetParent(MapEditor.Instance.networkingObjectTransform);
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
     }
+
+    [Command]
+    public void CmdBatchObject(string objName, ExitObjStruct data)
+    {
+        if (!NetworkServer.active || !NetworkClient.isConnected) return;
+
+        var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+        obj.transform.position = data.position;
+        obj.GetComponent<ExitPointObj>().SetData(data);
+        obj.transform.SetParent(MapEditor.Instance.exitDoorObjectTransform);
+        NetworkServer.Spawn(obj, NetworkServer.localConnection);
+
+        
+    }
+
 
 
     [Command]
@@ -57,7 +73,7 @@ public class StageManager
         NetworkServer.Destroy(gameObject);
     }
 
-
+    #endregion
 
 
 }

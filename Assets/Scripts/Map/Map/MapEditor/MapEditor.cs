@@ -446,7 +446,8 @@ public class MapEditor : MonoBehaviour
                 foreach (ExitObjStruct data in curMap.mapExitObjectDataList)
                 {
                     MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
-                    Create(transform, mapDataStruct, data);
+                    Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
+                    //Create(transform, mapDataStruct, data);
                 }
                 break;
         }

@@ -98,6 +98,10 @@ public class ExitPointObj : BuildBase
     {
         if (string.IsNullOrEmpty(nextMapId))
         {
+            if(MapEditor.Instance.curMap.mapID != "Lobby")
+            {
+                MapEditor.Instance.MoveNextStage("Lobby", MapType.Scene);
+            }
             Debug.Log("Stage Clear");
         }
         else
