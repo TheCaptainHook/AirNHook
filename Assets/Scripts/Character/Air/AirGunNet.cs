@@ -630,7 +630,7 @@ public class AirGunNet : NetworkBehaviour
 
     private void AnimationParticlesChecks()
     {
-        _animator.SetBool(IsInhaling, _inhaling);
+        _animator.SetBool(IsInhaling, _rightClick);
         _animator.SetBool(IsFlying, _sticking);
         _animator.SetBool(IsAirAttached, _isAttachedToHook);
         _animator.SetBool(IsHookInhaled, _isInhaledHook);
