@@ -407,6 +407,7 @@ public class AirGunNet : NetworkBehaviour
                 yield return null;
                 _rigidbody2D.velocity = Vector2.zero;
                 transform.position = _grappling.transform.position + _offset;
+                //_grappling.GetComponent<HookMovement>().isAirAttached = true;
                 _isAttachedToHook = true;
             }
         }
@@ -418,6 +419,7 @@ public class AirGunNet : NetworkBehaviour
         _canStick = false;
         _sticking = false;
         _isAttachedToHook = false;
+        //_grappling.GetComponent<HookMovement>().isAirAttached = false;
         StopCoroutine(_stickToHookCoroutine);
         _stickToHookCoroutine = null;
         
@@ -448,7 +450,8 @@ public class AirGunNet : NetworkBehaviour
             StopCoroutine(_keepGrapplingCheckCoroutine);
             _keepGrapplingCheckCoroutine = null;
         }
-
+        _isAttachedToHook = false;
+        
         if (_stickToHookCoroutine is null) return;
         StopCoroutine(_stickToHookCoroutine);
         _stickToHookCoroutine = null;

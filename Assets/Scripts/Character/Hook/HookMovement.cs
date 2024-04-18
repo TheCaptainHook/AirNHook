@@ -6,6 +6,7 @@ public class HookMovement : PlayerMovement, IInhalable
 {
     public bool isSwinging;
     public bool swingJump = false;
+    public bool isAirAttached;
     public Vector2 ropeHook;
     public float swingForce;
     public Grappling grappling;
@@ -14,6 +15,7 @@ public class HookMovement : PlayerMovement, IInhalable
     #region StringCache
     private static readonly int IsGrappling = Animator.StringToHash("IsGrappling");
     private static readonly int SwingingForce = Animator.StringToHash("SwingingForce");
+    private static readonly int IsAirAttached = Animator.StringToHash("IsAirAttached");
     #endregion
     protected override void Awake()
     {
@@ -97,6 +99,7 @@ public class HookMovement : PlayerMovement, IInhalable
 
     protected override void MoveAnimation()
     {
+        _animator.SetBool(IsAirAttached, isAirAttached);
         _animator.SetBool(IsGrappling, isSwinging);
         if (_horizontal != 0 && isSwinging)
         {
