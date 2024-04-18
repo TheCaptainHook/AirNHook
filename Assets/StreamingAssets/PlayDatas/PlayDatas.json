@@ -40,15 +40,7 @@
     "perfect": null
   },
   {
-    "stageID": "TEST",
-    "clearTime": 0.0,
-    "deathCount": 0,
-    "skip": false,
-    "perfectClear": false,
-    "perfect": null
-  },
-  {
-    "stageID": "TEST2",
+    "stageID": "Stage1-2",
     "clearTime": 0.0,
     "deathCount": 0,
     "skip": false,

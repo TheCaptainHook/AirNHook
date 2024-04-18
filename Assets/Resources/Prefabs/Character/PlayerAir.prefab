@@ -104,7 +104,6 @@ MonoBehaviour:
     m_Bits: 2685687232
   _detectionDistance: 5
   _rigidbody2D: {fileID: 3123692007149661597}
-  _inhaleSpeed: 10
   attachedLayerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -113,7 +112,7 @@ MonoBehaviour:
   _maxShootPower: 20
   _numberOfPoints: 50
   _spaceBetweenPoints: 0.025
-  _flyPower: 50
+  _flyPower: 12
   _inhaleParticles: {fileID: 5132154906828901315}
   _exhaleParticles: {fileID: 3801523937959093438}
   _stickToHookSpeed: 10
@@ -161,10 +160,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _isDead: 0
-  _grabPoint: {fileID: 0}
+  _grabPoint: {fileID: 9095037024881079552}
   _interactableLayer:
     serializedVersion: 2
-    m_Bits: 134217728
+    m_Bits: 134283264
 --- !u!114 &4543725574064118888
 MonoBehaviour:
   m_ObjectHideFlags: 0

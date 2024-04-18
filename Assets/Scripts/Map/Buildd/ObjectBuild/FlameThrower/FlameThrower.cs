@@ -26,8 +26,8 @@ public class FlameThrower : BuildObj
     {
         if (!MapEditor.Instance.stageClear && !turnOff)
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, curRate, layerMask);
-            Debug.DrawRay(transform.position, transform.right*curRate, Color.green);
+            RaycastHit2D hit = Physics2D.Raycast(flame.transform.position, flame.transform.right, curRate, layerMask);
+            Debug.DrawRay(flame.transform.position, flame.transform.right*curRate, Color.green);
             if (hit)
             {
                 CheckHit(hit);
