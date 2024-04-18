@@ -6,6 +6,7 @@ public class StageManager
     //public int stage;
     // TODO 로비 이름으로 변경
     public string stageName = "Lobby";
+    public string nextStageName = "Lobby";
     
     public void LoadMap()
     {
@@ -25,7 +26,7 @@ public class StageManager
         //    }
         //}
     }
-
+    
     #region Editor
 
     [Command]
