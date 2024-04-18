@@ -422,10 +422,12 @@ MonoBehaviour:
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
   linkId: 0
   mask:
     serializedVersion: 2
-    m_Bits: 1246208
+    m_Bits: 1508352
   onActive: 0
   isPressed: 0
   time: 2

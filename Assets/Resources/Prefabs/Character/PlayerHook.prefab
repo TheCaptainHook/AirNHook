@@ -15533,12 +15533,14 @@ MonoBehaviour:
   syncInterval: 0
   _jumpParticles: {fileID: 8220490199284304412}
   _landParticles: {fileID: 2649949143537624615}
+  canControl: 0
   _coyoteTime: 0.2
+  specificJump: 0
   _isDead: 0
   _jumpingPower: 10
   _floorLayer:
     serializedVersion: 2
-    m_Bits: 2147614912
+    m_Bits: 2147877056
   _rigidbd: {fileID: 3090883480896541386}
   _moveSpeed: 3
   _charPivot: {fileID: 759945192256969836}
@@ -15547,6 +15549,7 @@ MonoBehaviour:
   ropeHook: {x: 0, y: 0}
   swingForce: 5
   grappling: {fileID: 6338225487528084249}
+  _inhalePower: 0
 --- !u!114 &6338225487528084249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15568,6 +15571,7 @@ MonoBehaviour:
   swingJumpPower: 3
   coolTime: 0
   grappleAttached: 0
+  canControl: 0
   ropeStartPos: {fileID: 7108341943427896224}
   ropeRenderer: {fileID: 8853369850858447523}
   ropeSpeed: 35
@@ -15596,7 +15600,7 @@ MonoBehaviour:
   _grabPoint: {fileID: 1527109819433215527}
   _interactableLayer:
     serializedVersion: 2
-    m_Bits: 672333824
+    m_Bits: 672595968
 --- !u!114 &3785503928006515861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15735,7 +15739,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
-  _assetId: 2848927319
+  _assetId: 2360129647
   serverOnly: 0
   visibility: 0
   hasSpawned: 0

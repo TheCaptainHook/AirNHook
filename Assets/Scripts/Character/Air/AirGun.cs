@@ -36,6 +36,7 @@ public class AirGun : NetworkBehaviour
     [field: SerializeField] private float _numberOfPoints;
     [field: SerializeField] private float _spaceBetweenPoints;
     
+    
     // FlyAction
     private Grappling _grappling;
     private bool _canStick;

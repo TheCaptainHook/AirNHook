@@ -50,10 +50,25 @@ public class AirGunNet : NetworkBehaviour
     private bool _isStick;
     private bool _sticking;
 
+    // ParticleSystems
+    [SerializeField] private ParticleSystem _inhaleParticles;
+    [SerializeField] private ParticleSystem _exhaleParticles;
+
+    // Animator
+    private Animator _animator;
+    #region AnimationTriggerStringCache
+    private static readonly int IsHookInhaled = Animator.StringToHash("IsHookInhaled");
+    private static readonly int IsAirAttached = Animator.StringToHash("IsAttached");
+    private static readonly int IsInhaling = Animator.StringToHash("IsInhaling");
+    private static readonly int IsExhaling = Animator.StringToHash("IsExhaling");
+    private static readonly int IsFlying = Animator.StringToHash("IsFlying");
+    #endregion
+    
     private void Awake()
     {
         _lineRenderer = GetComponent<LineRenderer>();
         _playerMovement = GetComponent<PlayerMovement>();
+        _animator = GetComponent<Animator>();
     }
 
     private void Start()
@@ -89,6 +104,7 @@ public class AirGunNet : NetworkBehaviour
         RotateGun();
         DetectObject();
         ObjectCheck();
+        AnimationParticlesChecks();
     }
     
     private void RotateGun()
@@ -548,6 +564,7 @@ public class AirGunNet : NetworkBehaviour
     private void PlayerActionCanceled(InputAction.CallbackContext context)
     {
         _leftClick = false;
+        _animator.SetTrigger(IsExhaling);
         if (_isStick)
             FlyAway();
         else
@@ -565,6 +582,34 @@ public class AirGunNet : NetworkBehaviour
         _grappling = null;
         StopInhaleTarget();
         StopSticking();
+    }
+    #endregion
+
+    #region Animation&Particles
+
+    //파티클 및 애니메이션
+    private void InhaleParticlesPlay()
+    {
+        _inhaleParticles.Play();
+    }
+
+    private void ExhaleParticlesPlay()
+    {
+        _exhaleParticles.Play();
+    }
+
+    private void AnimationParticlesChecks()
+    {
+        _animator.SetBool(IsInhaling, _inhaling);
+        _animator.SetBool(IsFlying, _sticking);
+        if (_inhaling)
+        {
+            _inhaleParticles.Play();
+        }
+        else
+        {
+            _inhaleParticles.Stop();
+        }
     }
     #endregion
 }

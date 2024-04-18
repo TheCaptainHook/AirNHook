@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 2DGlow
+  m_Name: 2DGlowRed
   m_Shader: {fileID: -6465566751694194690, guid: 86421622ca755614aa2629419a7a0925, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
