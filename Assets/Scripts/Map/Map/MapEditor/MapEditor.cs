@@ -5,6 +5,7 @@ using UnityEngine.Tilemaps;
 using System.IO;
 using System.Runtime.InteropServices.ComTypes;
 using GoogleSheet.Core.Type;
+using UnityEditor.UI;
 
 public enum MapType
 {
@@ -479,9 +480,15 @@ public class MapEditor : MonoBehaviour
             btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, door);
             btnActivated.transform.SetParent(dontSaveObjectTransform);
         }
+        foreach (Vector2 pot in data.leverPositionList)
+        {
+            GameObject leverBody = Object.Instantiate(Resources.Load<GameObject>(lever.path));
+            leverBody.transform.SetParent(dontSaveObjectTransform);
+            leverBody.transform.position = pot;
+        }
         //Lever
 
-        
+
     }
 
     void Create(Transform transform, MapDataStruct mapDataStruct, ExitObjStruct data)

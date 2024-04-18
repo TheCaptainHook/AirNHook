@@ -307,6 +307,7 @@ public class MapEditor_Editor : Editor
         {
             GameObject leverBody = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct1.path));
             leverBody.transform.SetParent(mapEditor.dontSaveObjectTransform);
+            leverBody.transform.position = pot;
         }
 
         //todo
