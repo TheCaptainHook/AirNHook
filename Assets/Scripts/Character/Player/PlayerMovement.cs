@@ -159,7 +159,7 @@ public class PlayerMovement : NetworkBehaviour
             coyoteTimeCount = 0f;
             _isJumping = false;
             _rigidbd.velocity = new Vector2(_rigidbd.velocity.x, _jumpingPower);
-            _jumpParticles.Play();
+            CmdJumpParticlePlay();
         }
     }
     
@@ -178,6 +178,30 @@ public class PlayerMovement : NetworkBehaviour
     {
         _isJumpPerformed = false;
     }
+
+    [Command(requiresAuthority = false)]
+    private void CmdJumpParticlePlay()
+    {
+        RpcJumpParticlePlay();
+    }
+
+    [ClientRpc]
+    private void RpcJumpParticlePlay()
+    {
+        _jumpParticles.Play();
+    }
+    
+    [Command(requiresAuthority = false)]
+    protected void CmdLandParticlePlay()
+    {
+        RpcLandParticlePlay();
+    }
+
+    [ClientRpc]
+    private void RpcLandParticlePlay()
+    {
+        _landParticles.Play();
+    }
     
     //점프체크
     protected virtual void IsFloor()
@@ -192,7 +216,7 @@ public class PlayerMovement : NetworkBehaviour
                 coyoteTimeCount = _coyoteTime;
                 if (!isGround)
                 {
-                    _landParticles.Play();
+                    CmdLandParticlePlay();
                 }
                 return;
             }
