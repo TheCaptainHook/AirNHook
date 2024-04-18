@@ -34,5 +34,17 @@
     "stageClear": false,
     "stageClearLevel": 0,
     "stageHiddenObject": 0
+  },
+  {
+    "stageID": "TEST",
+    "stageClear": false,
+    "stageClearLevel": 0,
+    "stageHiddenObject": 0
+  },
+  {
+    "stageID": "TEST2",
+    "stageClear": false,
+    "stageClearLevel": 0,
+    "stageHiddenObject": 0
   }
 ]

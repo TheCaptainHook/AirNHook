@@ -5,6 +5,7 @@ using UnityEngine.Tilemaps;
 using System.IO;
 using System.Runtime.InteropServices.ComTypes;
 using GoogleSheet.Core.Type;
+using UnityEditor.UI;
 
 public enum MapType
 {
@@ -195,17 +196,39 @@ public class MapEditor : MonoBehaviour
 
     #region GetList
 
-    List<TileData> GetTileList(Transform transform)
+    //List<TileData> GetTileList(Transform transform)
+    //{
+    //    List<TileData> list = new();
+    //    foreach (Vector3Int cur in placeMentSystem.tileDic.Keys)
+    //    {
+    //        TileData tileData = new TileData(cur);
+    //        list.Add(tileData);
+
+    //    }
+    //    return list;
+    //}
+
+    List<TileData> GetTileData(Tilemap tileMap)
     {
         List<TileData> list = new();
-        foreach (Vector3Int cur in placeMentSystem.tileDic.Keys)
-        {
-            TileData tileData = new TileData(cur);
-            list.Add(tileData);
+        BoundsInt bounds = tileMap.cellBounds;
 
+        for (int x = bounds.xMin; x < bounds.xMax; x++)
+        {
+            for (int y = bounds.yMin; y < bounds.yMax; y++)
+            {
+                Vector3Int tilePos = new Vector3Int(x, y, 0);
+                TileBase tile = tileMap.GetTile(tilePos);
+                if (tile != null)
+                {
+                    TileData tileData = new TileData(tilePos);
+                    list.Add(tileData);
+                }
+            }
         }
         return list;
     }
+
 
     List<ObjectData> GetList(Transform transform)
     {
@@ -217,27 +240,76 @@ public class MapEditor : MonoBehaviour
         }
         return list;
     }
-    List<ButtonActivatedDoorStruct> GetButtonActivateDoorStructList(Transform transform)
+
+
+    //List<ButtonActivatedDoorStruct> GetButtonActivateDoorStructList(Transform transform)
+    //{
+    //    List<ButtonActivatedDoorStruct> list = new();
+    //    foreach(Transform cur in transform)
+    //    {
+    //        Debug.Log("asdasd");
+    //        ButtonActivatedDoor curDoor = cur.GetComponent<ButtonActivatedDoor>();
+    //        curDoor.SetTileData(cur.position,cur.rotation);
+
+    //        list.Add(curDoor.GetButtonActivatedDoorStruct());
+    //    }
+    //    return list;
+    //}
+    List<ButtonActivatedDoorStruct> GetButtonActivateDoorStructList()
     {
         List<ButtonActivatedDoorStruct> list = new();
-        foreach(Transform cur in transform)
+
+        foreach (Transform cur in dontSaveObjectTransform)
         {
-            Debug.Log("asdasd");
+            if (cur.GetComponent<ButtonActivated>())
+            {
+                cur.GetComponent<ButtonActivated>().LinkDoor();
+            }
+            else if (cur.GetComponent<LeverBody>())
+            {
+                cur.GetComponent<LeverBody>().LinkDoor();
+            }
+
+        }
+
+        foreach (Transform cur in interactionObjectTransform)
+        {
             ButtonActivatedDoor curDoor = cur.GetComponent<ButtonActivatedDoor>();
-            curDoor.SetTileData(cur.position,cur.rotation);
-         
+            curDoor.SetTileData(cur.position, cur.rotation);
+
             list.Add(curDoor.GetButtonActivatedDoorStruct());
         }
         return list;
     }
 
+    //List<ExitObjStruct> GetExitObjStructsList(Transform transform)
+    //{
+    //    List<ExitObjStruct> list = new();
+
+    //    foreach (Transform cur in transform)
+    //    {
+
+    //        list.Add(cur.GetComponent<ExitPointObj>().GetExitObjectStruct());
+    //    }
+
+    //    return list;
+    //}
     List<ExitObjStruct> GetExitObjStructsList(Transform transform)
     {
         List<ExitObjStruct> list = new();
+        int keyAmount = 0;
+        foreach (Transform tr in objectTransform)
+        {
+            Debug.Log(tr.name);
+            if (tr.GetComponent<BuildObj>().id == 307)
+            {
+                keyAmount++;
+            }
+        }
 
         foreach (Transform cur in transform)
         {
-
+            cur.GetComponent<ExitPointObj>().condition_KeyAmount = keyAmount;
             list.Add(cur.GetComponent<ExitPointObj>().GetExitObjectStruct());
         }
 
@@ -245,21 +317,30 @@ public class MapEditor : MonoBehaviour
     }
 
 
-    #endregion
 
-    void CreateJsonFile()
+        #endregion
+
+        void CreateJsonFile()
     {
-        mapTileDataList = GetTileList(floorTransform);
+        mapTileDataList = GetTileData(placeMentSystem.floorTileMap);
         mapObjectDataList = GetList(objectTransform);
+        startPosition = FindObj(dontSaveObjectTransform, 302).transform.position;
 
-        Map map = new Map(new Vector2(width, height), mapID,  startPosition,
+        //Map map = new Map(new Vector2(width, height), mapID,  startPosition,
+        //    GetExitObjStructsList(exitDoorObjectTransform),
+        //    mapTileDataList, 
+        //    mapObjectDataList,
+        //    GetButtonActivateDoorStructList(interactionObjectTransform),
+        //    cellSize);
+        Map map = new Map(new Vector2(width, height), mapID, startPosition,
             GetExitObjStructsList(exitDoorObjectTransform),
-            mapTileDataList, 
+            mapTileDataList,
             mapObjectDataList,
-            GetButtonActivateDoorStructList(interactionObjectTransform),
+            GetButtonActivateDoorStructList(),
             cellSize);
+
         string json = JsonUtility.ToJson(map, true);
-        string filePath = Path.Combine(folderPath, $"Tutorial/{mapType}/{map.mapID}.json");
+        string filePath = Path.Combine(folderPath, $"User/{map.mapID}.json");
         //if (mapType == MapType.Tutorial)
         //{
         //    filePath = Path.Combine(folderPath, $"Tutorial/{map.mapID}.json");
@@ -273,22 +354,7 @@ public class MapEditor : MonoBehaviour
         //    filePath = Path.Combine(folderPath, $"User/{map.mapID}.json");
         //}
         File.WriteAllText(filePath, json);
-
         //AssetDatabase.Refresh();
-    }
-
-
-    int FindKey()
-    {
-        int sum = 0;
-        foreach(Transform transform in objectTransform)
-        {
-            if(transform.gameObject.layer == LayerMask.NameToLayer("Key"))
-            {
-                sum++;
-            }
-        }
-        return sum;
     }
 
 
@@ -382,7 +448,8 @@ public class MapEditor : MonoBehaviour
         mapTileDataList.Clear();
     }
 
-    public void CreateObj(Transform transform,int num)//스위치문 스트링값 대체하기.
+    #region Create
+    public void CreateObj(Transform transform, int num)//스위치문 스트링값 대체하기.
     {
         switch (num)
         {
@@ -395,7 +462,7 @@ public class MapEditor : MonoBehaviour
                 }
                 break;
             case 1:
-                
+
                 foreach (ObjectData data in curMap.mapObjectDataList)
                 {
                     if (Managers.Data.mapData.mapSceneDataDictionary.ContainsKey(data.id))
@@ -409,7 +476,7 @@ public class MapEditor : MonoBehaviour
                         {
                             Create(transform, mapDataStruct, data);
                         }
-                        
+
                     }
                     else if (Managers.Data.mapData.mapOtherDataDictionary.ContainsKey(data.id))
                     {
@@ -426,13 +493,13 @@ public class MapEditor : MonoBehaviour
                             Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
                         }
                         else
-                        {       
+                        {
                             Create(transform, mapDataStruct, data);
                         }
 
-                        
+
                     }
-                   
+
                 }
                 break;
             case 2:
@@ -469,7 +536,7 @@ public class MapEditor : MonoBehaviour
     {
         GameObject obj = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
         ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
-        door.ButtonActivatedDoorStruct = data; 
+        door.ButtonActivatedDoorStruct = data;
         obj.transform.SetParent(transform);
         MapDataStruct btn = Managers.Data.mapData.mapObjectDataDictionary[306];
         foreach (Vector2 pot in data.buttonActivatePositionList)
@@ -481,7 +548,7 @@ public class MapEditor : MonoBehaviour
         foreach (Vector2 pot in data.leverPositionList)
         {
             GameObject leverBody = Managers.Stage.CmdBatchObject("LeverBody", dontSaveObjectTransform);
-            leverBody.GetComponent<LeverBody>().SetLinkDoor(pot, data.linkId,interactionObjectTransform);
+            leverBody.GetComponent<LeverBody>().SetLinkDoor(pot, data.linkId, interactionObjectTransform);
         }
         //Lever
 
@@ -497,6 +564,7 @@ public class MapEditor : MonoBehaviour
         door.SetData(data);
 
     }
+    #endregion
 
     public List<Transform> GetEditorTransform()
     {
@@ -511,11 +579,23 @@ public class MapEditor : MonoBehaviour
 
     }
 
-
     public void MoveNextStage(string mapId,MapType mapType)
     {
         fadeInOutPanel.MoveNextStage(mapId, mapType);
     }
+
+    GameObject FindObj(Transform transform, int id)
+    {
+        foreach (Transform cur in transform)
+        {
+            if (cur.GetComponent<BuildObj>().id == id)
+            {
+                return cur.gameObject;
+            }
+        }
+        return null;
+    }
+
     #endregion
 
 

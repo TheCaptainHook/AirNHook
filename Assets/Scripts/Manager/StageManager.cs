@@ -67,8 +67,6 @@ public class StageManager
 
     }
 
-
-
     [Command]
     public GameObject CmdBatchObject(string objName)
     {

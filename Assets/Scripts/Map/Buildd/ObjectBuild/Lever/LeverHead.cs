@@ -21,20 +21,30 @@ public class LeverHead : BuildObj
 
     public void AttachToLevelBody(Transform transform)
     {
+        //_collider.enabled = false;
+        //_rb.velocity = Vector2.zero;
+        //_rb.gravityScale = 0;
+        //_rb.bodyType = RigidbodyType2D.Kinematic;
+        //_rb.freezeRotation = true;
+
+        //this.transform.SetParent(transform);
+        //this.transform.rotation = Quaternion.Euler(0, 0, 0);
+        //this.transform.localPosition = Vector2.zero;
         _collider.enabled = false;
-        _rb.velocity = Vector2.zero;
-        _rb.gravityScale = 0;
-        _rb.bodyType = RigidbodyType2D.Kinematic;
-        _rb.freezeRotation = true;
+        _rb.simulated = false;
 
         this.transform.SetParent(transform);
         this.transform.rotation = Quaternion.Euler(0, 0, 0);
-        this.transform.localPosition = Vector2.zero;
+        this.transform.localPosition = Vector3.zero;
     }
 
     public void DetachToLevelBody()
     {
-        
+        _collider.enabled = true;
+        _rb.simulated = true;
+        _rb.velocity = Vector2.zero;
+        _rb.angularVelocity = 0f;
+        transform.SetParent(MapEditor.Instance.objectTransform);
     }
 
     #region Effect
@@ -78,14 +88,30 @@ public class LeverHead : BuildObj
     }
     #endregion
 
-    public void Activation()
+    //public void Activation()
+    //{
+    //    //Animation
+    //}
+    //public void Deactivation()
+    //{
+    //    //Animation
+    //}
+
+    public override void TurnOff()
     {
-        //Animation
-    }
-    public void Deactivation()
-    {
-        //Animation
+        base.TurnOff();
+
+        _rb.velocity = Vector2.zero;
+        _rb.gravityScale = 0;
+
+
     }
 
+    public override void TurnOn()
+    {
+        base.TurnOn();
+
+        _rb.gravityScale = 1;
+    }
 
 }

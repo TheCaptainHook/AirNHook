@@ -30,8 +30,8 @@ public class Object_Clear
             placeMentSystem.curPlaceObjList.Remove(buildObj);
         }
         curBuildObj.transform.SetParent(MapEditor.Instance.garbageTransform);
-        placeMentSystem.CurIndicatior = null;
         curBuildObj.SetActive(false);
+        placeMentSystem.CurbuildObject = null;
     
     }
     public void Undo()
@@ -60,7 +60,11 @@ public class Object_Clear
             case 3:
                 curBuildObj.transform.SetParent(MapEditor.Instance.exitDoorObjectTransform);
                 break;
+            default:
+                curBuildObj.transform.SetParent(MapEditor.Instance.dontSaveObjectTransform);
+                break;
         }
+
         placeMentSystem.curPlaceObjList.Add(curBuildObj.GetComponent<BuildObj>());
     }
 
