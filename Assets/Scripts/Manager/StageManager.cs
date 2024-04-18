@@ -40,6 +40,23 @@ public class StageManager
     }
 
 
+    [Command]
+    public GameObject CmdBatchObject(string objName)
+    {
+        if (!NetworkServer.active || !NetworkClient.isConnected) return null;
+
+        var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+        NetworkServer.Spawn(obj, NetworkServer.localConnection);
+
+        return obj;
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CmdDestroyObject(GameObject gameObject)
+    {
+        NetworkServer.Destroy(gameObject);
+    }
+
 
 
 

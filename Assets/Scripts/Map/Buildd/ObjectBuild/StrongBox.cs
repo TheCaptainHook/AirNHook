@@ -22,6 +22,8 @@ public class StrongBox : BuildObj
         _dissolveMaterial = spriteRenderer.material;
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<Collider2D>();
+
+        OninterableObjectRelease += GetComponent<InteractableObject>().Release;
         OnDissolveAction += Dissolve;
     }
 

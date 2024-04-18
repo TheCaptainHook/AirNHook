@@ -20,6 +20,7 @@ public class Box : BuildObj
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<Collider2D>();
         OnDissolveAction += Dissolve;
+        OninterableObjectRelease += GetComponent<InteractableObject>().Release;
     }
 
     public void Dissolve(Vector2 pot)
@@ -27,6 +28,7 @@ public class Box : BuildObj
         if(MapEditor.Instance.mapEditorState != MapEditorState.NoEditor)
         {
             //EditorMode_Destroy();
+            
             StartCoroutine(Co_Dissolve(orgPosition));
         }
         else

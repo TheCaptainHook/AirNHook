@@ -115,9 +115,8 @@ public class UI_StageSelect : UI_Base
 
     public void SpawnKey()
     {
-        GameObject key = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict["Key"]);
+        GameObject key = Managers.Stage.CmdBatchObject("Key");
         Key = key;
-        NetworkServer.Spawn(key, NetworkServer.localConnection);
 
         ObjectData data = MapEditor.Instance.curMap.FindObjectData(1000);
         Key.transform.position = data.position;

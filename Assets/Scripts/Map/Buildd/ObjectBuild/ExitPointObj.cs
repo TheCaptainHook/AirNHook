@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 using System;
 
 public class ExitPointObj : BuildBase
@@ -59,7 +60,7 @@ public class ExitPointObj : BuildBase
 
     void GetKey(GameObject gameObject)
     {
-        Destroy(gameObject);
+        Managers.Stage.CmdDestroyObject(gameObject);
         Current_KeyAmount = 1;
     }
 

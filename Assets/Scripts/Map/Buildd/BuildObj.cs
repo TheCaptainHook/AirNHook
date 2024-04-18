@@ -33,7 +33,7 @@ public class BuildObj : MousePointerEntity,IDamageable
     public event Action<Vector2> OnDissolveAction;
     public event Action OnDisableAction;
 
-
+    public event Action OninterableObjectRelease;
 
 
     [Header("Only use Editor mode")]
@@ -56,6 +56,7 @@ public class BuildObj : MousePointerEntity,IDamageable
         {
             Debug.Log(gameObject.name);
             Debug.Log("Distruction");
+            OninterableObjectRelease?.Invoke();
             OnDissolveAction?.Invoke(ObjectData.position);
             OnDisableAction?.Invoke();
         }

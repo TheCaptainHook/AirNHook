@@ -88,7 +88,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
-    private void Release()
+    public void Release()
     {
         _isFixed = false;
         _canInhale = false;
