@@ -15479,7 +15479,7 @@ GameObject:
   - component: {fileID: 2458403146348124987}
   - component: {fileID: 6040925326947453419}
   - component: {fileID: 6338225487528084249}
-  - component: {fileID: 3375014821821301067}
+  - component: {fileID: -4687636900996350018}
   - component: {fileID: 3785503928006515861}
   - component: {fileID: 3090883480896541386}
   - component: {fileID: 132653500868264655}
@@ -15582,7 +15582,7 @@ MonoBehaviour:
   hookLayerMask:
     serializedVersion: 2
     m_Bits: 2147483968
---- !u!114 &3375014821821301067
+--- !u!114 &-4687636900996350018
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -15591,7 +15591,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8428015766500747352}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01f20306adc746d4b80eef21f375e130, type: 3}
+  m_Script: {fileID: 11500000, guid: f7aecdd973b22e645a122da66eca68f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
@@ -15601,7 +15601,8 @@ MonoBehaviour:
   _grabPoint: {fileID: 1527109819433215527}
   _interactableLayer:
     serializedVersion: 2
-    m_Bits: 672595968
+    m_Bits: 1507328
+  _grappling: {fileID: 6338225487528084249}
 --- !u!114 &3785503928006515861
 MonoBehaviour:
   m_ObjectHideFlags: 0

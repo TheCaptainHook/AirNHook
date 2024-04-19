@@ -137,6 +137,17 @@ public class Grappling : NetworkBehaviour
         CmdChangeHookBody(RigidbodyType2D.Kinematic);
     }
 
+    public void StopRope()
+    {
+        ResetRope();
+        hookSprite.position = hookStartPos.position;
+        hookSprite.rotation = Quaternion.identity;
+        hookAnchor.transform.position = hookStartPos.position;
+        ropeRenderer.positionCount = 2;
+        ropeRenderer.SetPosition(0, ropeStartPos.position);
+        ropeRenderer.SetPosition(1, ropeStartPos.position);
+    }
+
     private IEnumerator GrappleCoolDown()
     {
         _isCoolTime = true;
