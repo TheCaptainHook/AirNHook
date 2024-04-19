@@ -408,6 +408,7 @@ public class AirGunNet : NetworkBehaviour
                 _rigidbody2D.velocity = Vector2.zero;
                 transform.position = _grappling.transform.position + _offset;
                 //_grappling.GetComponent<HookMovement>().isAirAttached = true;
+                _grappling.isAirAttached = true;
                 _isAttachedToHook = true;
             }
         }
