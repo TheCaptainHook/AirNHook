@@ -22,8 +22,20 @@ public class Grappling : NetworkBehaviour
     private Vector2 _aimDirection;
     private float _vertical;
     
-    [SyncVar]
-    public bool grappleAttached;
+    [SyncVar] public bool grappleAttached;
+    [SyncVar] private bool _isAirAttached;
+    public bool isAirAttached
+    {
+        get => _isAirAttached;
+        set
+        {
+            CmdChangeAirAttachedState(value);
+            if (value)
+            {
+                // true일 때 처리
+            }
+        }
+    }
     public bool canControl;
     private bool _distanceSet;
     private bool _isActioning;
@@ -114,6 +126,8 @@ public class Grappling : NetworkBehaviour
         
         distanceJoint.enabled = false;
         grappleAttached = false;
+        if(isAirAttached)
+            isAirAttached = false;
         CmdChangeGrappleState(false);
         playerMovement.isSwinging = false;
         playerMovement.swingJump = true;
@@ -252,6 +266,12 @@ public class Grappling : NetworkBehaviour
     private void RpcChangeHookBody(RigidbodyType2D type)
     {
         _hookAnchorRb.bodyType = type;
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdChangeAirAttachedState(bool value)
+    {
+        _isAirAttached = value;
     }
     
     private void OnLook(InputAction.CallbackContext context)
