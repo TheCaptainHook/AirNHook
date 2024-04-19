@@ -61,11 +61,11 @@ public class DoorOpeningAnim : NetworkBehaviour
         _lockRigidbody2D.AddForce(forceDirection * forceMagnitude, ForceMode2D.Impulse);
     }
 
-    [Server]
-    public void DestroyLock()
-    {
-        NetworkServer.Destroy(_lockGameObject);
-    }
+    // [Server]
+    // public void DestroyLock()
+    // {
+    //     NetworkServer.Destroy(_lockGameObject);
+    // }
     
     [Command(requiresAuthority = false)]
     public void CmdMoveNextStage(string nextMapId)

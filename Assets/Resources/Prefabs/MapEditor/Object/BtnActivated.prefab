@@ -418,6 +418,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 306
   transformID: 4
+  offset: {x: 0, y: 0}
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0
@@ -427,7 +428,7 @@ MonoBehaviour:
   linkId: 0
   mask:
     serializedVersion: 2
-    m_Bits: 1508352
+    m_Bits: 2032640
   onActive: 0
   isPressed: 0
   time: 2
