@@ -86,6 +86,21 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _rigidbody2D.constraints = _originRot;
     }
 
+    public void Destroyed()
+    {
+        _isFixed = false;
+        _canInhale = false;
+        _rigidbody2D.bodyType = _originType;
+        if (_fixedPoint.root.TryGetComponent<Hook>(out var hook))
+        {
+            hook.ReleaseItem();
+        }
+
+        _fixedPoint = null;
+        _rigidbody2D.excludeLayers = _releaseLayerMask;
+        _rigidbody2D.constraints = _originRot;
+    }
+
     public void Inhalation(Transform accessor)
     {
         if (_fixedPoint is not null || _canInhale || _isFixed)
