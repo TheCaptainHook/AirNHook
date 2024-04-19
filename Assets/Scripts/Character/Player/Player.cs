@@ -51,11 +51,7 @@ public class Player : NetworkBehaviour, IDamageable
         _input.uiActions.Option.started += OptionStart;
         _input.playerActions.Emote.started += EmoteStart;
         _input.playerActions.Interaction.started += InteractionStart;
-
-        if (isLocalPlayer)
-        {
-            _sortingGroup.sortingLayerID = SortingLayer.NameToID("PlayerFore");
-        }
+        _sortingGroup.sortingLayerID = SortingLayer.NameToID("PlayerFore");
     }
 
     public void OnDisable()
@@ -168,7 +164,7 @@ public class Player : NetworkBehaviour, IDamageable
     public void CmdEmote(string emoteName)
     {
         var prefab = Managers.Network.spawnPrefabDict[emoteName];
-        var go = Instantiate(prefab, gameObject.transform.position + Vector3.up * 0.45f,Quaternion.identity);
+        var go = Instantiate(prefab, gameObject.transform.position + Vector3.up * 0.6f,Quaternion.identity);
         NetworkServer.Spawn(go);
         go.name = prefab.name;
         RpcEmote(go);

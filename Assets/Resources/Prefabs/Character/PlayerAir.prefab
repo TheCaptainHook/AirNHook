@@ -98,10 +98,10 @@ MonoBehaviour:
   _weaponPoint: {fileID: 1621305863906642240}
   _objectMask:
     serializedVersion: 2
-    m_Bits: 538186752
+    m_Bits: 538711040
   _obstacleMask:
     serializedVersion: 2
-    m_Bits: 2685687232
+    m_Bits: 2686342592
   _detectionDistance: 5
   _rigidbody2D: {fileID: 3123692007149661597}
   attachedLayerMask:
@@ -140,7 +140,7 @@ MonoBehaviour:
   _jumpingPower: 10
   _floorLayer:
     serializedVersion: 2
-    m_Bits: 2147877056
+    m_Bits: 2148139200
   _rigidbd: {fileID: 3123692007149661597}
   _moveSpeed: 3
   _charPivot: {fileID: 9177120215743396866}
@@ -163,7 +163,7 @@ MonoBehaviour:
   _grabPoint: {fileID: 9095037024881079552}
   _interactableLayer:
     serializedVersion: 2
-    m_Bits: 134283264
+    m_Bits: 134414336
 --- !u!114 &4543725574064118888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16002,7 +16002,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 1
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -16173,8 +16173,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.1
-      minScalar: 0.3
+      scalar: 0.15
+      minScalar: 0.25
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -16883,12 +16883,12 @@ ParticleSystem:
         - serializedVersion: 3
           time: 0
           value: 1
-          inSlope: -2
-          outSlope: -2
+          inSlope: -1.7477479
+          outSlope: -1.7477479
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
-          outWeight: 0
+          outWeight: 0.19072162
         - serializedVersion: 3
           time: 1
           value: 0
@@ -17221,11 +17221,11 @@ ParticleSystem:
         ctime7: 0
         atime0: 1928
         atime1: 13685
-        atime2: 26021
-        atime3: 44140
-        atime4: 54548
-        atime5: 59945
-        atime6: 59945
+        atime2: 26407
+        atime3: 47802
+        atime4: 55512
+        atime5: 65535
+        atime6: 63993
         atime7: 0
         m_Mode: 0
         m_ColorSpace: 0
@@ -20753,7 +20753,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.6, y: 1.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4715537775762500794}

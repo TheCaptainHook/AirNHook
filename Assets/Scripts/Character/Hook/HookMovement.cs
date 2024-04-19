@@ -6,7 +6,7 @@ public class HookMovement : PlayerMovement, IInhalable
 {
     public bool isSwinging;
     public bool swingJump = false;
-    public bool isAirAttached;
+    [SyncVar] public bool isAirAttached;
     public Vector2 ropeHook;
     public float swingForce;
     public Grappling grappling;
@@ -16,6 +16,7 @@ public class HookMovement : PlayerMovement, IInhalable
     private static readonly int IsGrappling = Animator.StringToHash("IsGrappling");
     private static readonly int SwingingForce = Animator.StringToHash("SwingingForce");
     private static readonly int IsAirAttached = Animator.StringToHash("IsAirAttached");
+    private static readonly int IsHookInhaled = Animator.StringToHash("IsHookInhaled");
     #endregion
     protected override void Awake()
     {
@@ -155,7 +156,7 @@ public class HookMovement : PlayerMovement, IInhalable
             else
             {
                 yield return null;
-
+                _animator.SetBool(IsHookInhaled, true);
                 _rigidbd.velocity = Vector2.zero;
                 transform.position = _fixedPoint.position;
             }
@@ -170,15 +171,12 @@ public class HookMovement : PlayerMovement, IInhalable
         _isFixed = false;
         _fixedPoint = null;
         _rigidbd.gravityScale = _gravityScale;
+        _animator.SetBool(IsHookInhaled, false);
     }
 
     public void Shooting(Vector2 force)
     {
-        StopCoroutine(_inhaleCoroutine);
-        canControl = true;
-        _isFixed = false;
-        _fixedPoint = null;
-        _rigidbd.gravityScale = _gravityScale;
+        StopInhale();
         swingJump = true;
         _rigidbd.velocity = Vector2.zero;
         _rigidbd.AddForce(force, ForceMode2D.Impulse);

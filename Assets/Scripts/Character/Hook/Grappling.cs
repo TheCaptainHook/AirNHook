@@ -30,10 +30,7 @@ public class Grappling : NetworkBehaviour
         set
         {
             CmdChangeAirAttachedState(value);
-            if (value)
-            {
-                // true일 때 처리
-            }
+            playerMovement.isAirAttached = value;
         }
     }
     public bool canControl;
@@ -281,6 +278,7 @@ public class Grappling : NetworkBehaviour
     private void CmdChangeAirAttachedState(bool value)
     {
         _isAirAttached = value;
+        playerMovement.isAirAttached = value;
     }
     
     private void OnLook(InputAction.CallbackContext context)
