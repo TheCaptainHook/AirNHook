@@ -1,13 +1,11 @@
-using Newtonsoft.Json;
-using System.Collections;
+
 using System.Collections.Generic;
-using System.IO;
 using UGS;
 using UnityEngine;
 
 public class MapData
 {
-    public int stageLevel = 1;
+    public int stageLevel = 0;
 
     public Dictionary<int, MapDataStruct> mapTileDataDictionary = new Dictionary<int, MapDataStruct>();
     public Dictionary<int, MapDataStruct> mapObjectDataDictionary = new Dictionary<int, MapDataStruct>();

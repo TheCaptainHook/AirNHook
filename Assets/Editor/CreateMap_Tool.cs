@@ -384,6 +384,7 @@ public class CreateMap_Tool : EditorWindow
             {
                 Texture2D texture = AssetPreview.GetAssetPreview(obj);
                 byte[] bytes = texture.EncodeToPNG();
+
                 File.WriteAllBytes($"{saveSpritePath}/{obj.name}.png", bytes);
                 AssetDatabase.Refresh();
             }

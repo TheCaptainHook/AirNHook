@@ -1,9 +1,8 @@
-using System.Collections;
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.IO;
-using System.Runtime.InteropServices.ComTypes;
 using GoogleSheet.Core.Type;
 
 public enum MapType
@@ -341,8 +340,19 @@ public class MapEditor : MonoBehaviour
             GetButtonActivateDoorStructList(),
             cellSize);
 
-        string json = JsonUtility.ToJson(map, true);
+        string mapDatajson = JsonUtility.ToJson(map, true);
+        //byte[] mapImageByte =
+        string dateTimedate = JsonUtility.ToJson(new DateTimeData(System.DateTime.Now), true);
+
+
         string filePath = Path.Combine(folderPath, $"User/{map.mapID}.json");
+
+
+        string json = JsonUtility.ToJson(new UserMapData(mapDatajson, null, dateTimedate));
+
+
+        Debug.Log(json);
+
         //if (mapType == MapType.Tutorial)
         //{
         //    filePath = Path.Combine(folderPath, $"Tutorial/{map.mapID}.json");
@@ -355,7 +365,7 @@ public class MapEditor : MonoBehaviour
         //{
         //    filePath = Path.Combine(folderPath, $"User/{map.mapID}.json");
         //}
-        File.WriteAllText(filePath, json);
+        //File.WriteAllText(filePath, json);
         //AssetDatabase.Refresh();
     }
 
@@ -598,7 +608,16 @@ public class MapEditor : MonoBehaviour
         return null;
     }
 
+
+    private void CurrentMapScreenShot()
+    {
+
+    }
+
+
     #endregion
 
 
 }
+
+
