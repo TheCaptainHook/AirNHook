@@ -345,13 +345,17 @@ public class MapEditor : MonoBehaviour
         string dateTimedate = JsonUtility.ToJson(new DateTimeData(System.DateTime.Now), true);
 
 
-        string filePath = Path.Combine(folderPath, $"User/{map.mapID}.json");
-
+        //string filePath = Path.Combine(folderPath, $"User/{map.mapID}.json");
+        string filePath = Path.Combine(Application.streamingAssetsPath, "UserMapData");
 
         string json = JsonUtility.ToJson(new UserMapData(mapDatajson, null, dateTimedate));
 
 
         Debug.Log(json);
+
+        File.WriteAllText(filePath, json);
+
+
 
         //if (mapType == MapType.Tutorial)
         //{
@@ -365,7 +369,7 @@ public class MapEditor : MonoBehaviour
         //{
         //    filePath = Path.Combine(folderPath, $"User/{map.mapID}.json");
         //}
-        //File.WriteAllText(filePath, json);
+
         //AssetDatabase.Refresh();
     }
 
@@ -401,6 +405,8 @@ public class MapEditor : MonoBehaviour
         CreateObj(objectTransform, 1); //objectTransform
         CreateObj(interactionObjectTransform, 2); //interactionObjectTransform
         CreateObj(exitDoorObjectTransform, 3); //exitDoorObjectTransform
+
+
     }
 
     public void LoadMap(string name, MapType mapType)
@@ -430,6 +436,9 @@ public class MapEditor : MonoBehaviour
         CreateObj(objectTransform,1); //objectTransform
         CreateObj(interactionObjectTransform,2); //interactionObjectTransform
         CreateObj(exitDoorObjectTransform,3); //exitDoorObjectTransform
+
+
+        //
     }
 
 

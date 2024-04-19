@@ -42,6 +42,13 @@ public class BuildObj : MousePointerEntity,IDamageable
     [HideInInspector] public bool setPosition; // When created and placed set this parameter
     [HideInInspector] public Vector2 orgPosition;
 
+
+    public void CallOnInterableObjectRelease()
+    {
+        OninterableObjectRelease?.Invoke();
+    }
+
+
     public void SetTileData(Vector2 position)
     {
         ObjectData = new ObjectData(id, position,transform.localScale);

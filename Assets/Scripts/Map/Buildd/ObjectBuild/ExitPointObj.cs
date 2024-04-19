@@ -60,6 +60,7 @@ public class ExitPointObj : BuildBase
 
     void GetKey(GameObject gameObject)
     {
+        gameObject.GetComponent<Key>().CallOnInterableObjectRelease();
         Managers.Stage.CmdDestroyObject(gameObject);
         Current_KeyAmount = 1;
     }
