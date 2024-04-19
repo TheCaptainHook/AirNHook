@@ -84,8 +84,6 @@ public class Grappling : NetworkBehaviour
 
     private void OnDisable()
     {
-        if (!ReferenceEquals(Managers.Game.Player, gameObject)) return;
-        
         _playerInput.playerActions.Look.performed -= OnLook;
         _playerInput.playerActions.Look.canceled -= OnLook;
         _playerInput.playerActions.VerticalMove.started -= OnVerticalMove;
@@ -135,6 +133,17 @@ public class Grappling : NetworkBehaviour
         _ropePosition = Vector2.negativeInfinity;
         _hookAnchorRb.bodyType = RigidbodyType2D.Kinematic;
         CmdChangeHookBody(RigidbodyType2D.Kinematic);
+    }
+
+    public void StopRope()
+    {
+        ResetRope();
+        hookSprite.position = hookStartPos.position;
+        hookSprite.rotation = Quaternion.identity;
+        hookAnchor.transform.position = hookStartPos.position;
+        ropeRenderer.positionCount = 2;
+        ropeRenderer.SetPosition(0, ropeStartPos.position);
+        ropeRenderer.SetPosition(1, ropeStartPos.position);
     }
 
     private IEnumerator GrappleCoolDown()
