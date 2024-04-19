@@ -4,19 +4,17 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
-using UnityEngine.Serialization;
 using static UnityEngine.RigidbodyConstraints2D;
 
 public class Player : NetworkBehaviour, IDamageable
 {
-    private PlayerMovement _movement;
+    protected PlayerMovement _movement;
     private PlayerInput _input;
     
     //애니메이션 위함
-    private Animator _animator;
-    private NetworkAnimator _networkAnimator;
-    private Collider2D _collider2D;
-    private Rigidbody2D _rigidbd;
+    protected Animator _animator;
+    protected Collider2D _collider2D;
+    protected Rigidbody2D _rigidbd;
     private SortingGroup _sortingGroup;
     
     //사망 체크
@@ -26,10 +24,9 @@ public class Player : NetworkBehaviour, IDamageable
     private bool _emoteOnCoolDown;
 
     #region StringCache
-    private static readonly int IsDead = Animator.StringToHash("IsDead");
+    protected static readonly int IsDead = Animator.StringToHash("IsDead");
     private static readonly int IsRespawning = Animator.StringToHash("IsRespawning");
     private static readonly int OnRespawnEnd = Animator.StringToHash("OnRespawnEnd");
-    private static readonly int IsGrabbing = Animator.StringToHash("IsGrabbing");
     #endregion
     
     private void Awake()
@@ -38,7 +35,6 @@ public class Player : NetworkBehaviour, IDamageable
         _rigidbd = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _movement = GetComponent<PlayerMovement>();
-        _networkAnimator = GetComponent<NetworkAnimator>();
         _input = GetComponent<PlayerInput>();
         _sortingGroup = GetComponent<SortingGroup>();
     }
@@ -64,8 +60,6 @@ public class Player : NetworkBehaviour, IDamageable
 
     public void OnDisable()
     {
-        if (!ReferenceEquals(Managers.Game.Player, gameObject)) return;
-
         _input.uiActions.Option.started -= OptionStart;
         _input.playerActions.Emote.started -= EmoteStart;
         _input.playerActions.Interaction.started -= InteractionStart;
@@ -91,22 +85,21 @@ public class Player : NetworkBehaviour, IDamageable
 
     #region Animations
     // 사망 메서드
-    public void TakeDamage()
+    public virtual void TakeDamage()
     {
         if(!isLocalPlayer)
             return;
         
-        _networkAnimator.SetTrigger(IsDead);
-        if (!_isDead)
-        {
-            Debug.Log("사망하였습니다.");
-            // 여기에 필요한 사망 처리
-            // _animator.SetTrigger(IsDead);
-            _isDead = true;
-            _movement.IsDead = true;
-            _rigidbd.constraints = FreezeAll;
-            _collider2D.enabled = false;
-        }
+        _animator.SetTrigger(IsDead);
+        
+        if (_isDead) return;
+        Debug.Log("사망하였습니다.");
+        // 여기에 필요한 사망 처리
+        // _animator.SetTrigger(IsDead);
+        _isDead = true;
+        _movement.IsDead = true;
+        _rigidbd.constraints = FreezeAll;
+        _collider2D.enabled = false;
     }
     
     public void Respawning()
@@ -117,42 +110,16 @@ public class Player : NetworkBehaviour, IDamageable
         //_animator.SetTrigger(IsRespawning);
         //_networkAnimator.SetTrigger(IsRespawning);
         _animator.SetTrigger(IsRespawning);
-        CmdDoRespawn();
-    }
-
-    [Command(requiresAuthority = false)]
-    private void CmdDoRespawn()
-    {
-        RpcDoRespawn();
-    }
-
-    [ClientRpc(includeOwner = false)]
-    private void RpcDoRespawn()
-    {
-        _animator.SetTrigger(IsRespawning);
     }
 
     private void RespawnEnd()
     {
         _animator.SetTrigger(OnRespawnEnd);
-        CmdDoRespawnEnd();
         _isDead = false;
         _movement.IsDead = false;
         _collider2D.enabled = true;
         _rigidbd.constraints = None;
         _rigidbd.freezeRotation = true;
-    }
-
-    [Command(requiresAuthority = false)]
-    private void CmdDoRespawnEnd()
-    {
-        RpcDoRespawnEnd();
-    }
-
-    [ClientRpc(includeOwner = false)]
-    private void RpcDoRespawnEnd()
-    {
-        _animator.SetTrigger(OnRespawnEnd);
     }
     #endregion
 
@@ -217,10 +184,9 @@ public class Player : NetworkBehaviour, IDamageable
     #endregion
 
     #region Interaction
-    [SerializeField] private Transform _grabPoint;
+    [SerializeField] protected Transform _grabPoint;
     [SerializeField] private LayerMask _interactableLayer;
-    private Transform _grabbedItem;
-    private Collider2D _latestTarget;
+    protected Collider2D _latestTarget;
     private readonly float _detectDistance = 2f;
     private WaitForSeconds _waitForSeconds;
     
@@ -267,39 +233,12 @@ public class Player : NetworkBehaviour, IDamageable
         }
     }
 
-    private void Interaction()
+    protected virtual void Interaction()
     {
-        if (_grabbedItem != null)
-        {
-            _grabbedItem.GetComponent<IInteractable>().Interaction(_grabPoint);
-            CmdGrabInteraction();
-            _grabbedItem = null;
-            _animator.SetBool(IsGrabbing, false);
-        }
-        else if (_latestTarget != null)
-        {
-            var interactable = _latestTarget.GetComponent<IInteractable>();
-
-            if (interactable.GetObjectType() == ObjectTypeEnum.Grab)
-            {
-                _grabbedItem = _latestTarget.transform;
-                _animator.SetBool(IsGrabbing, true);
-                CmdGrabInteraction();
-            }
-            interactable.Interaction(_grabPoint);
-        }
-    }
-
-    [Command(requiresAuthority = false)]
-    private void CmdGrabInteraction()
-    {
-        RpcGrabInteraction();
-    }
-
-    [ClientRpc(includeOwner = false)]
-    private void RpcGrabInteraction()
-    {
-        _latestTarget.GetComponent<IInteractable>().Interaction(_grabPoint);
+        var interactable = _latestTarget.GetComponent<IInteractable>();
+        if (interactable.GetObjectType() == ObjectTypeEnum.Grab) return;
+        
+        interactable.Interaction(transform);
     }
     #endregion
     
