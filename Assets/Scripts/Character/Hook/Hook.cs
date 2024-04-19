@@ -12,7 +12,8 @@ public class Hook : Player
     {
         if (_grabbedItem is not null)
         {
-            _grabbedItem.GetComponent<IInteractable>().Interaction(_grabPoint);
+            try { _grabbedItem.GetComponent<IInteractable>().Interaction(_grabPoint); }
+            catch(MissingReferenceException e) { }
             _grabbedItem = null;
             _animator.SetBool(IsGrabbing, false);
         }
@@ -28,6 +29,16 @@ public class Hook : Player
             }
             interactable.Interaction(_grabPoint);
         }
+    }
+
+    public void ReleaseItem()
+    {
+        Debug.Log("a");
+        if (_grabbedItem is null) return;
+        
+        Debug.Log("a");
+        _grabbedItem = null;
+        _animator.SetBool(IsGrabbing, false);
     }
     
     [Command(requiresAuthority = false)]
