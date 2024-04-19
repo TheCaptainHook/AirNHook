@@ -62,5 +62,13 @@
     "skip": false,
     "perfectClear": false,
     "perfect": null
+  },
+  {
+    "stageID": "Stage1-3",
+    "clearTime": 0.0,
+    "deathCount": 0,
+    "skip": false,
+    "perfectClear": false,
+    "perfect": null
   }
 ]
