@@ -66,6 +66,7 @@ public class UI_StageSelect : UI_Base
 
     protected override void OpenUI() // Update select menu when clear stage
     {
+        CheckCurStageLevel();
         CheckStageClearAndChangeStageInMapItemTextColor();
         base.OpenUI();
     }
@@ -150,6 +151,17 @@ public class UI_StageSelect : UI_Base
             UI_StageInMapSelect selectMap = obj.GetComponent<UI_StageInMapSelect>();
             selectMap.ResetBtn();
         }
+    }
+
+    private void CheckCurStageLevel() // Used when stage level up
+    {
+        if (stageInMapSelectList == null) return;
+        if(Managers.Data.mapData.stageLevel > stageInMapSelectList.Count - 1)
+        {
+            Managers.Data.mapData.GetMainStageMapData(Managers.Data.mapData.stageLevel);
+            Create(Managers.Data.mapData.stageLevel);
+        }
+
     }
 
     private void CheckStageClearAndChangeStageInMapItemTextColor()

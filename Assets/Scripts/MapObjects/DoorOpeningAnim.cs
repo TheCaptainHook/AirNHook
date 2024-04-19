@@ -80,15 +80,21 @@ public class DoorOpeningAnim : NetworkBehaviour
         {
             if(MapEditor.Instance.curMap.mapID != "Lobby")
             {
+                if (MapEditor.Instance.curMap.stageLevel == Managers.Data.mapData.stageLevel) //todo 0419
+                {
+                    Managers.Data.mapData.stageLevel++;
+                }
+
+                //Managers.game.CurrentState == GameStage.Lobby;
                 MapEditor.Instance.MoveNextStage("Lobby", MapType.Scene);
             }
+ 
             Debug.Log("Stage Clear");
             
         }
         else
         {
-            // 코루틴으로 페이드아웃 페이드인.
-            //MapEditor.Instance.LoadMap(nextMapId,MapType.Main);
+            ////Managers.game.CurrentState == GameStage.Game;
             MapEditor.Instance.MoveNextStage(nextMapId, MapType.Main);
         }
     }

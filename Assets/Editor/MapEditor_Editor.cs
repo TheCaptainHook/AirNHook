@@ -23,8 +23,10 @@ public class MapEditor_Editor : Editor
         base.OnInspectorGUI();
         MapEditor mapEditor = target as MapEditor;
 
-        EditorGUILayout.LabelField("테스트", EditorStyles.boldLabel);
-        EditorGUILayout.HelpBox($"1. 인게임용은 프로젝트 실행했을때만 누르기.\n2.맵을 만들때 Init 버튼 눌러주기.\n3.맵 세이브하고 인게임에서 확인할때 만들던 맵 꼭 개발자용 세이브 하고 Reset 버튼 누른다음 확인하기.", MessageType.Info);
+        GUILayout.Space(10);
+
+        EditorGUILayout.LabelField("Map Editor------------------------------------", EditorStyles.boldLabel);
+        EditorGUILayout.HelpBox($"프로젝트 실행할때 꼭 개발자용 데이터 세이브 후 Reset 버튼 누른다음 실행하기.", MessageType.Info);
 
 
 
@@ -37,17 +39,20 @@ public class MapEditor_Editor : Editor
             mapEditor.SaveMapData();
         }
 
+        GUILayout.Space(10);
+
+
         if (GUILayout.Button("개발자용, 맵 새로만들 때 먼저 누르기,Init!"))
         {
             _Reset(mapEditor);
             mapEditor.Init();
            EditorApplication.ExecuteMenuItem("Window/2D/Tile Palette");
         }
-        if (GUILayout.Button("Object Create Tool"))
+        if (GUILayout.Button("- Object Create Tool -"))
         {
             CreateMap_Tool.ShowWindow();
         }
-
+        GUILayout.Space(10);
 
         if (GUILayout.Button("Load Data(개발자전용)"))
         {
@@ -62,10 +67,16 @@ public class MapEditor_Editor : Editor
             SaveMapData(mapEditor);
         }
 
+        GUILayout.Space(10);
+
         if (GUILayout.Button("Reset"))
         {
 
             _Reset(mapEditor);
+
+
+            Managers.Data.loadData.Save();
+
         }
 
         if(GUILayout.Button("In Game Editor Test btn")) //에디터 모드로 진입할때 초기화

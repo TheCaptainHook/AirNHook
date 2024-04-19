@@ -35,12 +35,24 @@ public class UI_StageInMapSelect : UI_Base
     {
         itemList = new();
         Map[] maps = Managers.Data.mapData.mapMainStageDictionary[stageLevel];
-        foreach (Map map in maps)
+        //foreach (Map map in maps)
+        //{
+        //    GameObject selectItem = Instantiate(ui_StageInMapSelectItem);
+        //    selectItem.transform.SetParent(contents);
+        //    UI_StageInMapSelectItem item = selectItem.GetComponent<UI_StageInMapSelectItem>();
+        //    item.SetData(map.mapID,stageLevel,);
+        //    item.OnSelectItem += CheckSelectItem;
+        //    item.OnSelectItem += CloseUI;
+        //    itemList.Add(item);
+        //}
+
+
+        for (int i = 0; i < maps.Length; i++)
         {
             GameObject selectItem = Instantiate(ui_StageInMapSelectItem);
             selectItem.transform.SetParent(contents);
             UI_StageInMapSelectItem item = selectItem.GetComponent<UI_StageInMapSelectItem>();
-            item.SetData(map.mapID);
+            item.SetData(maps[i].mapID, stageLevel,i);
             item.OnSelectItem += CheckSelectItem;
             item.OnSelectItem += CloseUI;
             itemList.Add(item);

@@ -113,7 +113,8 @@ public class ExitPointObj : BuildBase
         {
             Managers.Data.loadData.stageData[mapId].stageClear = true;
         }
-        Debug.Log(Managers.Data.loadData.stageData[mapId].stageClear);
+
+        
     }
 
 

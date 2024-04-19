@@ -167,8 +167,11 @@ public class MapEditor : MonoBehaviour
     #region Save 
 
     //Json 파일로 저장
-
-    public void SaveMapData()
+    
+    /// <summary>
+    /// This function is only used when in game Editor.
+    /// </summary>
+    public void SaveMapData() 
     {
         if(mapEditorType == MapEditorType.New ){
             string path = Path.Combine(folderPath, $"{mapID}.json");

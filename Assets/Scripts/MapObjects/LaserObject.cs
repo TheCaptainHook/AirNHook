@@ -16,78 +16,99 @@ namespace MapObjects
         [SerializeField] private bool _isEnabled;
 
 
-        private Transform _transform;
+        bool onHit;
+        bool onRecoveryRay;
 
-        private void Start()
+
+        private void Awake()
         {
-            _curDistanceRay = _defDistanceRay;
-            _transform = GetComponent<Transform>();
+            _isEnabled = true;
+
+            _endVFX.SetActive(_isEnabled);
+            _lineRenderer.enabled = _isEnabled;
         }
 
-        private void Update()
-        {
-            Toggle();
-            //UpdateLaser();
 
-            if (MapEditor.Instance.stageClear || turnOff)
-            {
-                _isEnabled = false;
-            }
-            else
+        //private void Update()
+        //{
+        //    if (MapEditor.Instance.stageClear || turnOff)
+        //    {
+        //        _isEnabled = false;
+        //    }
+       
+        //}
+
+        //private void Toggle()
+        //{
+        //    _lineRenderer.enabled = _isEnabled;
+        //    _endVFX.SetActive(_isEnabled);
+        //}
+
+        private void FixedUpdate()
+        {
+            if(!MapEditor.Instance.stageClear && !turnOff)
             {
                 UpdateLaser();
             }
-
+            else
+            {
+                _isEnabled = false;
+                _endVFX.SetActive(_isEnabled);
+                _lineRenderer.enabled = false;
+            }
         }
 
-        private void Toggle()
-        {
-            _lineRenderer.enabled = _isEnabled;
-            _endVFX.SetActive(_isEnabled);
-        }
-
-        //private void UpdateLaser()
-        //{
-
-        //    if (Physics2D.Raycast(_transform.position, transform.right))
-        //    {
-        //        RaycastHit2D _hit = Physics2D.Raycast(_transform.position, transform.right.normalized, _defDistanceRay);
-        //        DrawLaser(_hit.point);
-        //        _endVFX.SetActive(true);
-        //        _endVFX.transform.position = _hit.point;
-        //    }
-        //    else
-        //    {
-        //        DrawLaser(transform.position + transform.right.normalized * _defDistanceRay);
-        //        _endVFX.SetActive(false);
-        //    }
-        //}
 
         private void UpdateLaser()
         {
-            RaycastHit2D hit = Physics2D.Raycast(_firePoint.position,_firePoint.right.normalized, _curDistanceRay,_layerMask);
-
+            RaycastHit2D hit = Physics2D.Raycast(transform.position,transform.right, _curDistanceRay,_layerMask);
+            Debug.DrawRay(transform.position, transform.right * _curDistanceRay, Color.blue);
             if (hit.collider != null)
             {
-                //_curDistanceRay = hit.distance;
-                Debug.DrawRay(_firePoint.position, _firePoint.right * _curDistanceRay, Color.green);
+                onHit = true;
+                _curDistanceRay = hit.distance;
+                //Debug.DrawRay(_firePoint.position, _firePoint.right * _curDistanceRay, Color.green);
                 // 레이캐스트에 충돌한 객체가 IDamageable을 가진 경우
                 if (hit.collider.TryGetComponent(out IDamageable damageable))
                 {
                     // If successful, apply damage
                     damageable.TakeDamage();
                 }
-               
-                // 레이저 그리기
+
+
                 DrawLaser(hit.point);
                 _endVFX.SetActive(true);
+                _lineRenderer.enabled = true;
                 _endVFX.transform.position = hit.point;
+
             }
             else
             {
-                //DrawLaser(_firePoint.position + _firePoint.right.normalized * _defDistanceRay);
-                //_endVFX.SetActive(false);
+                onHit = false;
+                if (!onRecoveryRay)
+                {
+                    StartCoroutine(Co_RecoveryRay());
+                }
             }
+
+
+           
+
+        }
+
+        IEnumerator Co_RecoveryRay()
+        {
+            onRecoveryRay = true;
+            _lineRenderer.enabled = false;
+            _endVFX.transform.position = transform.position;
+
+            while (!onHit && _curDistanceRay <_defDistanceRay)
+            {
+                _curDistanceRay += Time.deltaTime+0.15f;
+                yield return null;
+            }
+            onRecoveryRay = false;
+
         }
 
 
@@ -99,11 +120,11 @@ namespace MapObjects
         
 #if UNITY_EDITOR
 
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawRay(_firePoint.position, _firePoint.right * 50);
-        }
+        //private void OnDrawGizmos()
+        //{
+        //    Gizmos.color = Color.red;
+        //    Gizmos.DrawRay(_firePoint.position, _firePoint.right * 50);
+        //}
 #endif
 
         public override void TurnOff()

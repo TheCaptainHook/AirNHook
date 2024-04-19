@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class MapData
 {
-    int stageLevel = 0;
+    public int stageLevel = 1;
 
     public Dictionary<int, MapDataStruct> mapTileDataDictionary = new Dictionary<int, MapDataStruct>();
     public Dictionary<int, MapDataStruct> mapObjectDataDictionary = new Dictionary<int, MapDataStruct>();
@@ -23,11 +23,9 @@ public class MapData
     {
 
         UGS_MapDataLoad();
-
         MapJsonLoad();        
 
     }
-
 
     void UGS_MapDataLoad()
     {
@@ -66,7 +64,7 @@ public class MapData
         }
 
         //todo
-        for(int i = 0; i<= stageLevel + 1; i++)
+        for(int i = 0; i< stageLevel + 1; i++)
         {
             GetMainStageMapData(i);
      
