@@ -53,9 +53,9 @@ public class UI_ShowToolTip : MousePointerEntity
         GameObject textObj = new GameObject("Text");
         toolTipObj.AddComponent<RectTransform>();
         toolTipObj.transform.SetParent(transform);
-        toolTipObj.transform.localPosition = new Vector3(30, -40);
+        toolTipObj.transform.localPosition = new Vector3(10, -35);
         RectTransform rect = toolTipObj.GetComponent<RectTransform>();
-        rect.sizeDelta = new Vector2(250, 30);
+        rect.sizeDelta = new Vector2(130, 10);
 
         //bg
         backGround.AddComponent<Image>().color = Color.gray;
@@ -63,8 +63,9 @@ public class UI_ShowToolTip : MousePointerEntity
         textObj.AddComponent<TextMeshProUGUI>();
         text = textObj.GetComponent<TextMeshProUGUI>();
         text.fontSize = 15;
-        text.alignment = TextAlignmentOptions.Center;
-        text.color = Color.black;
+        //text.alignment = TextAlignmentOptions.Center;
+        text.alignment = TextAlignmentOptions.Midline;
+        text.color = Color.white;
         text.text = toolTipText;
 
 

@@ -266,7 +266,17 @@ public class MapEditorControllerUI : MonoBehaviour
         bool isValid = Regex.IsMatch(mapIdInputField.text, mapIdRegex);
         if (isValid)
         {
-            //mapid, width,height
+            int width = int.Parse(widthInputField.text);
+            int height = int.Parse(heightInputField.text);
+
+            MapEditor.Instance.width = width;
+            MapEditor.Instance.height = height;
+            MapEditor.Instance.mapID = mapIdInputField.text;
+
+
+            Debug.Log($"{width},{height},{mapIdInputField.text}");
+            MapEditor.Instance.SaveMapData();
+            //데이터 저장 완료 유아이.
 
         }
         else
@@ -377,5 +387,20 @@ public class MapEditorControllerUI : MonoBehaviour
         saveBtn.interactable = true;
     }
 
+    //todo 0420
+    public void LoadUserMapEditorInit()
+    {
+        MapEditor.Instance.EditorMode_Init();
+
+        mapIdInputField.text = MapEditor.Instance.mapID;
+
+        widthInputField.text = MapEditor.Instance.CurMap.mapSize.x.ToString();
+        heightInputField.text = MapEditor.Instance.CurMap.mapSize.y.ToString();
+
+        MapSizeInit();
+
+
+        
+    }
     #endregion
 }

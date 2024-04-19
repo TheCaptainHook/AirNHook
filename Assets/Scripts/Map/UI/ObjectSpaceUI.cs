@@ -51,19 +51,9 @@ public class ObjectSpaceUI : MonoBehaviour
                 {
                     obj.GetComponent<Interaction_BuildItem>().Init(objects[i], objPreviewSprites[j]);
 
-                    if (objects[i].GetComponent<BuildObj>().id == 305)
-                    {
-                        obj.AddComponent<UI_ShowToolTip>();
-                        obj.GetComponent<UI_ShowToolTip>().SetText("INTERACTION DOOR");
-                    }
-                    if (objects[i].GetComponent<BuildObj>().id == 306)
-                    {
-                        obj.AddComponent<UI_ShowToolTip>();
-                        obj.GetComponent<UI_ShowToolTip>().SetText("INTERACTION BTN");
-                    }
+                    obj.AddComponent<UI_ShowToolTip>();
+                    obj.GetComponent<UI_ShowToolTip>().SetText(objects[i].name);
 
-
-                    break;
                 }
             }
 

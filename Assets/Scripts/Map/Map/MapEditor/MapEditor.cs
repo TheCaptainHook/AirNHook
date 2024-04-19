@@ -353,7 +353,7 @@ public class MapEditor : MonoBehaviour
 
         Debug.Log(json);
 
-        File.WriteAllText(filePath, json);
+        //File.WriteAllText(filePath, json);
 
 
 
@@ -378,21 +378,12 @@ public class MapEditor : MonoBehaviour
 
     #region Load
 
-    public void LoadMap(string name)
+    public void LoadMap(Map map) // in game Editor, load user map data
     {
-        if (!Managers.Data.mapData.GetDictionary(mapType).ContainsKey(name))
-        {
-            Debug.Log("Can't find Map");
-            Init();
-            mapEditorType = MapEditorType.New;
-            return;
-        }
-        Init();
-        placeMentSystem.ResetTileMap();
         mapEditorType = MapEditorType.Load;
-        mapID = name;
-        CurMap = Managers.Data.mapData.GetDictionary(mapType)[name];
-        SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);
+        mapID = map.mapID;
+        CurMap = map;
+        SetMapSize((int)CurMap.mapSize.x, (int)CurMap.mapSize.y);
 
         //start Point
         startPosition = curMap.startPosition;
@@ -405,7 +396,6 @@ public class MapEditor : MonoBehaviour
         CreateObj(objectTransform, 1); //objectTransform
         CreateObj(interactionObjectTransform, 2); //interactionObjectTransform
         CreateObj(exitDoorObjectTransform, 3); //exitDoorObjectTransform
-
 
     }
 
@@ -450,27 +440,16 @@ public class MapEditor : MonoBehaviour
     {
         this.width = width;
         this.height = height;
-        //if(mapEditorState != MapEditorState.NoEditor)
-        //{
-        //    gridPlane.SetActive(true);
-        //    gridPlane.GetComponent<GridPlane>().SetSize(width, height);
-        //}
-        //else
-        //{
-        //    gridPlane.SetActive(false);
-        //}
-
-        //GenerateMapOutLine();
     }
 
     public void Reset()
     {
         Init();
-        mapTileDataList.Clear();
+        placeMentSystem.ResetTileMap();
     }
 
     #region Create
-    public void CreateObj(Transform transform, int num)//스위치문 스트링값 대체하기.
+    public void CreateObj(Transform transform, int num)
     {
         switch (num)
         {
@@ -489,7 +468,7 @@ public class MapEditor : MonoBehaviour
                     if (Managers.Data.mapData.mapSceneDataDictionary.ContainsKey(data.id))
                     {
                         MapDataStruct mapDataStruct = Managers.Data.mapData.mapSceneDataDictionary[data.id];
-                        if (data.id == 1001 || data.id == 1002)
+                        if (Managers.Game.CurrentState != GameState.Editor && (data.id == 1001 || data.id == 1002))
                         {
                             Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
                         }
@@ -509,7 +488,7 @@ public class MapEditor : MonoBehaviour
                     else
                     {
                         MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
-                        if (data.id == 307 || data.id == 300 || data.id == 311 || data.id == 313 || data.id == 315)
+                        if (Managers.Game.CurrentState != GameState.Editor && (data.id == 307 || data.id == 300 || data.id == 311 || data.id == 313 || data.id == 315))
                         {
                             Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
                         }
@@ -534,8 +513,15 @@ public class MapEditor : MonoBehaviour
                 foreach (ExitObjStruct data in curMap.mapExitObjectDataList)
                 {
                     MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
-                    Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
-                    //Create(transform, mapDataStruct, data);
+                    if(Managers.Game.CurrentState != GameState.Editor)
+                    {
+                        Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
+                    }
+                    else
+                    {
+                        Create(transform, mapDataStruct, data);
+                    }
+                    
                 }
                 break;
         }
