@@ -30,4 +30,16 @@ public class SawObject : BuildObj
         hitBox.SetActive(true);
     }
 
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        // 충돌한 객체가 IDamageable 인터페이스를 가지고 있는지 확인
+        if (other.TryGetComponent(out IDamageable damageable))
+        {
+            // If successful, apply damage
+            damageable.TakeDamage();
+        }
+    }
+
+
 }

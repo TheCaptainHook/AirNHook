@@ -19,7 +19,9 @@ public class BuildObj : MousePointerEntity,IDamageable
     public int id;
     [Tooltip("Transform ID to be created")]
     public int transformID;
-    
+
+    public Vector2 offset;
+
     protected bool turnOff;
     [SerializeField] protected DistructionStatus distructionStatus;
     [Header("State")]
@@ -28,7 +30,7 @@ public class BuildObj : MousePointerEntity,IDamageable
     public bool onScaleable;
     
     private ObjectData _objectData;
-    public ObjectData ObjectData { get { return _objectData; } set { _objectData = value; id = _objectData.id; } }
+    public ObjectData ObjectData { get { return _objectData; } set { _objectData = value; id = _objectData.id;} }
 
     public event Action<Vector2> OnDissolveAction;
     public event Action OnDisableAction;

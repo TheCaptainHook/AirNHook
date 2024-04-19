@@ -16,4 +16,15 @@ public class DamageableObejct : MonoBehaviour
             damageable.TakeDamage();
         }
     }
+
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        // 충돌한 객체가 IDamageable 인터페이스를 가지고 있는지 확인
+        if (other != null)
+        {
+            Debug.Log(other.gameObject.name);
+        }
+    }
+
 }

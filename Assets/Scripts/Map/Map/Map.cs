@@ -129,7 +129,6 @@ public struct ObjectData
         this.position = position;
         quaternion = Quaternion.identity;
         this.scale = scale;
-       
     }
     public ObjectData(int id, Vector2 position,Quaternion quaternion,Vector3 scale)
     {

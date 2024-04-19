@@ -15,6 +15,7 @@ public class Key : BuildObj
         _collider = GetComponent<BoxCollider2D>();
         _rb = GetComponent<Rigidbody2D>();
         OnDissolveAction += Dissolve;
+        OninterableObjectRelease += GetComponent<InteractableObject>().Release;
     }
 
     public void Dissolve(Vector2 pot)

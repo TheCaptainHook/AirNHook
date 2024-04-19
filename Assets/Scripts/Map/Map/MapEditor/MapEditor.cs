@@ -488,7 +488,7 @@ public class MapEditor : MonoBehaviour
                     else
                     {
                         MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
-                        if (data.id == 307 || data.id == 300 || data.id == 311 || data.id == 313)
+                        if (data.id == 307 || data.id == 300 || data.id == 311 || data.id == 313 || data.id == 315)
                         {
                             Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
                         }

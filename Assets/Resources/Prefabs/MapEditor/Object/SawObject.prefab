@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4596783747364002581}
   - component: {fileID: 8924082460812235221}
-  - component: {fileID: 1772061545026023388}
+  - component: {fileID: 5388791340477237481}
   m_Layer: 14
   m_Name: SawObject
   m_TagString: Untagged
@@ -49,14 +49,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 303
   transformID: 1
+  offset: {x: 0, y: 0}
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 1
   onScaleable: 1
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
   hitBox: {fileID: 2807841761411676036}
   sawPivot: {fileID: 7108496691391073394}
---- !u!61 &1772061545026023388
-BoxCollider2D:
+--- !u!58 &5388791340477237481
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -87,19 +90,9 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.018128395, y: 0.92556304}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Offset: {x: 0, y: 1}
   serializedVersion: 2
-  m_Size: {x: 3.0313063, y: 2.7423882}
-  m_EdgeRadius: 0
+  m_Radius: 1.9
 --- !u!1 &2807841761411676036
 GameObject:
   m_ObjectHideFlags: 0
@@ -117,7 +110,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1727029720802535856
 Transform:
   m_ObjectHideFlags: 0
