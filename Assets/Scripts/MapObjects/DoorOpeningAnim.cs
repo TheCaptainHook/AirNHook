@@ -83,6 +83,7 @@ public class DoorOpeningAnim : NetworkBehaviour
                 MapEditor.Instance.MoveNextStage("Lobby", MapType.Scene);
             }
             Debug.Log("Stage Clear");
+            
         }
         else
         {

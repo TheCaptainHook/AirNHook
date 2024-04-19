@@ -10,6 +10,7 @@ public class Map
 {
     public Vector2 mapSize;
     public string mapID;
+    public int stageLevel;
     public Vector2 startPosition;
     public List<TileData> mapTileDataList = new();
     public List<ObjectData> mapObjectDataList = new List<ObjectData>();
@@ -19,7 +20,7 @@ public class Map
     public float cellSize;
 
 
-    public Map(Vector2 mapSize, string id, Vector2 startPosition,
+    public Map(Vector2 mapSize, string id, int stageLevel,Vector2 startPosition,
         List<ExitObjStruct> mapExitObjectDataList,
         List<TileData> tileList, 
         List<ObjectData> objectList,
@@ -27,6 +28,7 @@ public class Map
         float cellSize)
     {
         mapID = id;
+        this.stageLevel = stageLevel;
         mapTileDataList = tileList;
         mapObjectDataList = objectList;
         this.startPosition = startPosition;

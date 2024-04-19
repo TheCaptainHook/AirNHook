@@ -364,7 +364,7 @@ public class MapEditor_Editor : Editor
         mapEditor.mapTileDataList = GetTileData(mapEditor.placeMentSystem.floorTileMap);
         mapEditor.mapObjectDataList = GetList(mapEditor.objectTransform);
         mapEditor.startPosition = FindObj(mapEditor.dontSaveObjectTransform, 302).transform.position;
-        Map map = new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, mapEditor.startPosition,
+        Map map = new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, mapEditor.stageLevel,mapEditor.startPosition,
             GetExitObjStructsList(mapEditor.exitDoorObjectTransform,mapEditor),
             mapEditor.mapTileDataList,
             mapEditor.mapObjectDataList,

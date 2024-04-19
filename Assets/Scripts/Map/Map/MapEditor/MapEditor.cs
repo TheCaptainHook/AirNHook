@@ -318,9 +318,9 @@ public class MapEditor : MonoBehaviour
 
 
 
-        #endregion
+    #endregion
 
-        void CreateJsonFile()
+    void CreateJsonFile()
     {
         mapTileDataList = GetTileData(placeMentSystem.floorTileMap);
         mapObjectDataList = GetList(objectTransform);
@@ -332,7 +332,7 @@ public class MapEditor : MonoBehaviour
         //    mapObjectDataList,
         //    GetButtonActivateDoorStructList(interactionObjectTransform),
         //    cellSize);
-        Map map = new Map(new Vector2(width, height), mapID, startPosition,
+        Map map = new Map(new Vector2(width, height), mapID, stageLevel, startPosition,
             GetExitObjStructsList(exitDoorObjectTransform),
             mapTileDataList,
             mapObjectDataList,

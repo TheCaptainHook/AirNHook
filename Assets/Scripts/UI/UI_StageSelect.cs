@@ -55,9 +55,7 @@ public class UI_StageSelect : UI_Base
         stageInMapSelectList = new();
         foreach (var key in maps)
         {
-            CreateStageInMapUI(key);
-            CreateStage(key);
-
+            Create(key);
         }
 
         //TEST 맵 시작 테스트 코드
@@ -84,7 +82,13 @@ public class UI_StageSelect : UI_Base
 
     #region Create
 
-    public void CreateStageInMapUI(int level)
+    public void Create(int level)
+    {
+        CreateStageInMapUI(level);
+        CreateStage(level);
+    }
+
+    private void CreateStageInMapUI(int level)
     {
         GameObject ui = Instantiate(ui_StageInMapSelect);
         UI_StageInMapSelect selectMap = ui.GetComponent<UI_StageInMapSelect>();
@@ -93,18 +97,13 @@ public class UI_StageSelect : UI_Base
         stageInMapSelectList.Add(ui);
         ui.SetActive(false);
 
-        //CreateStage(level);
-
     }
-    public void CreateStage(int level)
+    private void CreateStage(int level)
     {
         var button = ResourceManager.Instantiate("Prefabs/UI/Button", layout).GetComponent<Button>();
         button.GetComponentInChildren<TMP_Text>().text = level.ToString();
         string mapName = Managers.Data.mapData.mapMainStageDictionary[level][0].mapID;
         button.onClick.AddListener(() => { SelectStage(button); OpenStageInMapUI(level); });
-
-
-        //stageInMapSelect create,
 
     }
 
