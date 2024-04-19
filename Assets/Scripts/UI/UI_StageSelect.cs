@@ -68,7 +68,7 @@ public class UI_StageSelect : UI_Base
 
     protected override void OpenUI() // Update select menu when clear stage
     {
-        //Check player stage Clear level. if curCreatedStage is different from the player stage clear level then Update Ui.
+        CheckStageClearAndChangeStageInMapItemTextColor();
         base.OpenUI();
     }
 
@@ -80,10 +80,6 @@ public class UI_StageSelect : UI_Base
         }
 
         base.CloseUI();
-    }
-    private void UpdateUI()// Update select menu when clear stage
-    {
-
     }
 
     #region Create
@@ -154,6 +150,19 @@ public class UI_StageSelect : UI_Base
         {
             UI_StageInMapSelect selectMap = obj.GetComponent<UI_StageInMapSelect>();
             selectMap.ResetBtn();
+        }
+    }
+
+    private void CheckStageClearAndChangeStageInMapItemTextColor()
+    {
+        if (stageInMapSelectList != null)
+        {
+            foreach (GameObject obj in stageInMapSelectList)
+            {
+                UI_StageInMapSelect sis = obj.GetComponent<UI_StageInMapSelect>();
+                sis.CheckStageClearItem();
+            }
+
         }
     }
     #endregion

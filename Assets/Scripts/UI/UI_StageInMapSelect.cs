@@ -15,11 +15,27 @@ public class UI_StageInMapSelect : UI_Base
         OpenUI();
     }
 
-    public void CreateStageInMap(int stageLevel)
+    //public void CreateStageInMap(int stageLevel)
+    //{
+    //    itemList = new();
+    //    Map[] maps = Managers.Data.mapData.mapMainStageDictionary[stageLevel];
+    //    foreach(Map map in maps)
+    //    {
+    //        GameObject selectItem = Instantiate(ui_StageInMapSelectItem);
+    //        selectItem.transform.SetParent(contents);
+    //        UI_StageInMapSelectItem item = selectItem.GetComponent<UI_StageInMapSelectItem>();
+    //        item.SetData(map.mapID);
+    //        item.OnSelectItem += CheckSelectItem;
+    //        item.OnSelectItem += CloseUI;
+    //        itemList.Add(item);
+    //    }
+    //}
+
+    public void CreateStageInMap(int stageLevel) //todo 0419
     {
         itemList = new();
         Map[] maps = Managers.Data.mapData.mapMainStageDictionary[stageLevel];
-        foreach(Map map in maps)
+        foreach (Map map in maps)
         {
             GameObject selectItem = Instantiate(ui_StageInMapSelectItem);
             selectItem.transform.SetParent(contents);
@@ -30,6 +46,7 @@ public class UI_StageInMapSelect : UI_Base
             itemList.Add(item);
         }
     }
+
 
 
     public void CheckSelectItem()
@@ -49,6 +66,14 @@ public class UI_StageInMapSelect : UI_Base
         }
 
 
+    }
+
+    public void CheckStageClearItem()
+    {
+        foreach (UI_StageInMapSelectItem item in itemList)
+        {
+            item.CheckStageClear();
+        }
     }
 
 

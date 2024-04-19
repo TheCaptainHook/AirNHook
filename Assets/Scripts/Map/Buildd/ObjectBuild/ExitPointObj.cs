@@ -101,7 +101,19 @@ public class ExitPointObj : BuildBase
 
     public void MoveNextStage()
     {
+        UpdateStageClearData(MapEditor.Instance.curMap.mapID);
         doorOpeningAnim.CmdMoveNextStage(nextMapId);
+    }
+
+
+    private void UpdateStageClearData(string mapId)
+    {
+        if (mapId == "Lobby") return;
+        if (!Managers.Data.loadData.stageData[mapId].stageClear)
+        {
+            Managers.Data.loadData.stageData[mapId].stageClear = true;
+        }
+        Debug.Log(Managers.Data.loadData.stageData[mapId].stageClear);
     }
 
 

@@ -27,9 +27,22 @@ public class UI_StageInMapSelectItem : MonoBehaviour
         this.mapId = mapId;
         text.text = mapId;
 
+        if (Managers.Data.loadData.stageData[mapId].stageClear)
+        {
+            text.color = Color.green;
+        }
+
         button.onClick.AddListener(()=> { NextStage(); CallOnSelectItem();  });
     }
 
+
+    public void CheckStageClear()
+    {
+        if (Managers.Data.loadData.stageData[mapId].stageClear)
+        {
+            text.color = Color.green;
+        }
+    }
 
     private void NextStage()
     {
