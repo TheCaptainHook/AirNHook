@@ -46,5 +46,11 @@
     "stageClear": false,
     "stageClearLevel": 0,
     "stageHiddenObject": 0
+  },
+  {
+    "stageID": "Stage1-3",
+    "stageClear": false,
+    "stageClearLevel": 0,
+    "stageHiddenObject": 0
   }
 ]
