@@ -5056,7 +5056,7 @@ MonoBehaviour:
   _jumpingPower: 10
   _floorLayer:
     serializedVersion: 2
-    m_Bits: 2147877056
+    m_Bits: 2148139200
   _rigidbd: {fileID: 8929439774467590829}
   _moveSpeed: 3
   _charPivot: {fileID: 158291813751165047}
@@ -5079,7 +5079,7 @@ MonoBehaviour:
   _grabPoint: {fileID: 3341230063414965529}
   _interactableLayer:
     serializedVersion: 2
-    m_Bits: 135725056
+    m_Bits: 136249344
 --- !u!114 &9084766552046721414
 MonoBehaviour:
   m_ObjectHideFlags: 0

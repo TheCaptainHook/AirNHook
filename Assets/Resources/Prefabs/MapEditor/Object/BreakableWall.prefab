@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7778379733200979942}
   - component: {fileID: 8124900337493674038}
   - component: {fileID: 9114381663352480180}
-  m_Layer: 14
+  m_Layer: 6
   m_Name: BreakableWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,6 +54,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 314
   transformID: 1
+  offset: {x: 0, y: 0}
   distructionStatus: 2
   onPlaceable: 0
   onRotateable: 0
@@ -182,7 +183,7 @@ GameObject:
   - component: {fileID: 5888518887676269747}
   - component: {fileID: 4890439913986961227}
   - component: {fileID: 8968962137203498619}
-  m_Layer: 14
+  m_Layer: 6
   m_Name: BreakingParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5291,7 +5292,7 @@ GameObject:
   - component: {fileID: 1276119121850176330}
   - component: {fileID: 7366734359165716793}
   - component: {fileID: 4920464847215634357}
-  m_Layer: 14
+  m_Layer: 6
   m_Name: Land Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10190,7 +10191,7 @@ GameObject:
   - component: {fileID: 6577368111930138437}
   - component: {fileID: 8043931987918255636}
   - component: {fileID: 2769620684741292329}
-  m_Layer: 14
+  m_Layer: 6
   m_Name: BrokenPartsParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15087,7 +15088,7 @@ GameObject:
   - component: {fileID: 6537545867862616078}
   - component: {fileID: 1852802768431880783}
   - component: {fileID: 3005090465404412603}
-  m_Layer: 14
+  m_Layer: 6
   m_Name: BrokenPartsParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19983,7 +19984,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7242971617461984623}
   - component: {fileID: 6486905457330460308}
-  m_Layer: 14
+  m_Layer: 6
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
