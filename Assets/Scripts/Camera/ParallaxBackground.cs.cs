@@ -7,7 +7,7 @@ public class ParallaxBackground : MonoBehaviour
     public ParallaxCamera parallaxCamera;
     List<ParallaxLayer> parallaxLayers = new List<ParallaxLayer>();
 
-    void Start()
+    void Awake()
     {
         if (parallaxCamera == null)
             parallaxCamera = Camera.main.GetComponent<ParallaxCamera>();
