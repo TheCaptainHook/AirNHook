@@ -9,7 +9,6 @@ public class TEST0410 : MonoBehaviour
 
     private void Awake()
     {
-        testBtn = GetComponent<Button>();
         testBtn.onClick.AddListener(() => { MapEditor.Instance.EditorMode_Init(); });
     }
 }

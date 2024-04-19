@@ -605,7 +605,7 @@ public class MapEditor : MonoBehaviour
         fadeInOutPanel.MoveNextStage(mapId, mapType);
     }
 
-    GameObject FindObj(Transform transform, int id)
+    public GameObject FindObj(Transform transform, int id)
     {
         foreach (Transform cur in transform)
         {

@@ -4,8 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
-using System;
-using Org.BouncyCastle.Utilities;
+using System.Text.RegularExpressions;
 
 public class MapEditorControllerUI : MonoBehaviour
 {
@@ -17,6 +16,12 @@ public class MapEditorControllerUI : MonoBehaviour
 
     [Header("Btn Color")]
     Color activeColor = new Color(0.47f,0.47f, 0.47f);
+
+
+    [Header("Map ID Container")]
+    string mapIdRegex = @"^[a-zA-Z0-9_\s]{1,20}$";
+    [SerializeField] TMP_InputField mapIdInputField;
+    [SerializeField] Button saveBtn;
 
     [Header("Map Size")]
     [SerializeField] TMP_InputField widthInputField;
@@ -48,11 +53,18 @@ public class MapEditorControllerUI : MonoBehaviour
     public Button[] tileDrawBtns;
     public Button[] objectDrawBtns;
 
+
+    [SerializeField] GameObject wrongMessage;
+
+
     private void Awake()//todo
     {
         placeMentSystem = MapEditor.Instance.placeMentSystem;
         initBtn.onClick.AddListener(MapSizeInit);
         onOffBtn.onClick.AddListener(HideController);
+        //Map Id Container
+        saveBtn.onClick.AddListener(() => { SaveUserMap(); });
+
         //mode
         tileMode.onClick.AddListener(TileMode);
         objectMode.onClick.AddListener(ObjectMode); 
@@ -227,6 +239,44 @@ public class MapEditorControllerUI : MonoBehaviour
 
     #endregion
 
+    #region Map ID Container
+    
+
+    #endregion
+
+    #region Save
+    private void SaveUserMap()
+    {
+
+        if(!MapEditor.Instance.gridPlane.activeSelf)
+        {
+            StartCoroutine(Co_WrongMaeeage("맵 사이즈 설정을 해주세요"));
+            return;
+        }
+
+
+        if (!CheckSaveCondition())
+        {
+            StartCoroutine(Co_WrongMaeeage("스폰 포인트, 탈출 문, 열쇠가 하나 이상 \n있어야 저장이 가합니다."));
+            return;
+        }
+
+
+
+        bool isValid = Regex.IsMatch(mapIdInputField.text, mapIdRegex);
+        if (isValid)
+        {
+            //mapid, width,height
+
+        }
+        else
+        {
+            StartCoroutine(Co_WrongMapId());
+        }
+
+    }
+    #endregion
+
 
     #region Util
     private void Active_BtnChangeColor(Button btn)
@@ -266,6 +316,66 @@ public class MapEditorControllerUI : MonoBehaviour
         }
     }
 
- 
+
+    bool  CheckSaveCondition()
+    {
+        //스폰포인트,탈출구, 열쇠 1개 이상,
+        bool spawnPoint = false;
+        bool exitPoint = false;
+        bool key = false;
+
+        if (MapEditor.Instance.FindObj(MapEditor.Instance.dontSaveObjectTransform, 302))
+        {
+            spawnPoint = true;
+        }
+        if (MapEditor.Instance.FindObj(MapEditor.Instance.exitDoorObjectTransform, 301))
+        {
+            exitPoint = true;
+        }
+        if (MapEditor.Instance.FindObj(MapEditor.Instance.objectTransform, 307))
+        {
+            key = true;
+        }
+
+
+        if(spawnPoint && exitPoint && key)
+        {
+            return true;
+        }
+
+        return false;
+
+    }
+
+
+    IEnumerator Co_WrongMapId()
+    {
+        float percent = 0;
+        mapIdInputField.interactable = false;
+        mapIdInputField.image.color = Color.red;
+        while (percent < 1)
+        {
+            percent += Time.deltaTime;
+            mapIdInputField.image.color = Color.Lerp(mapIdInputField.image.color, Color.white, percent);
+            yield return null;
+        }
+        mapIdInputField.interactable = true;
+    }
+
+    IEnumerator Co_WrongMaeeage(string message)
+    {
+        float percent = 0;
+        saveBtn.interactable = false;
+        wrongMessage.SetActive(true);
+        wrongMessage.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = message;
+        while(percent < 1)
+        {
+            percent += Time.deltaTime;
+            yield return null;
+        }
+        wrongMessage.SetActive(false);
+        saveBtn.interactable = true;
+    }
+
     #endregion
 }
