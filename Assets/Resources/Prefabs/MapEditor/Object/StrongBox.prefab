@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1706727966108476841}
   - component: {fileID: 4733320072026686442}
-  m_Layer: 18
+  m_Layer: 19
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 8495657423424250234}
   - component: {fileID: 7248189904295600147}
   - component: {fileID: 1073523619191105079}
-  m_Layer: 18
+  m_Layer: 19
   m_Name: StrongBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147,7 +147,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
@@ -282,6 +282,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 311
   transformID: 1
+  offset: {x: 0, y: 0}
   distructionStatus: 1
   onPlaceable: 0
   onRotateable: 0

@@ -634,7 +634,7 @@ public class AirGunNet : NetworkBehaviour
         _animator.SetBool(IsFlying, _sticking);
         _animator.SetBool(IsAirAttached, _isAttachedToHook);
         _animator.SetBool(IsHookInhaled, _isInhaledHook);
-        if (!_inhaling && _inhaleParticles.isPlaying)
+        if (!_rightClick && _inhaleParticles.isPlaying)
             CmdInhaleParticlesStop();
         if (_isAttached && _inhaleParticles.isPlaying)
             CmdInhaleParticlesStop();
