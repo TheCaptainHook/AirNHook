@@ -61,6 +61,7 @@ public class PlayerMovement : NetworkBehaviour
     {
         _animator = GetComponent<Animator>();
         _rigidbd = GetComponent<Rigidbody2D>();
+        playerInput = GetComponent<PlayerInput>();
     }
 
     private void Start()
@@ -69,7 +70,6 @@ public class PlayerMovement : NetworkBehaviour
 
         canControl = true;
         _gravityScale = _rigidbd.gravityScale;
-        playerInput = GetComponent<PlayerInput>();
 
         //움직임 입력
         playerInput.playerActions.Move.started += MoveStarted;
@@ -81,8 +81,6 @@ public class PlayerMovement : NetworkBehaviour
 
     private void OnDisable()
     {
-        if (!ReferenceEquals(Managers.Game.Player, gameObject)) return;
-
         playerInput.playerActions.Move.started -= MoveStarted;
         playerInput.playerActions.Jump.started -= JumpStarted;
         playerInput.playerActions.Jump.performed -= JumpPerformed;

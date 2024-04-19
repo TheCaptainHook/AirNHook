@@ -84,8 +84,6 @@ public class Grappling : NetworkBehaviour
 
     private void OnDisable()
     {
-        if (!ReferenceEquals(Managers.Game.Player, gameObject)) return;
-        
         _playerInput.playerActions.Look.performed -= OnLook;
         _playerInput.playerActions.Look.canceled -= OnLook;
         _playerInput.playerActions.VerticalMove.started -= OnVerticalMove;

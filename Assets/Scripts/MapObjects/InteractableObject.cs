@@ -24,12 +24,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _fixedPoint = null;
     }
 
-    [Command(requiresAuthority = false)]
-    private void CmdRemoveAuthority()
-    {
-        netIdentity.RemoveClientAuthority();
-    }
-
     private void Update()
     {
         if(!isOwned || _fixedPoint is null) return;

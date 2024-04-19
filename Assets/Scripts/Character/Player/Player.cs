@@ -60,8 +60,6 @@ public class Player : NetworkBehaviour, IDamageable
 
     public void OnDisable()
     {
-        if (!ReferenceEquals(Managers.Game.Player, gameObject)) return;
-
         _input.uiActions.Option.started -= OptionStart;
         _input.playerActions.Emote.started -= EmoteStart;
         _input.playerActions.Interaction.started -= InteractionStart;
@@ -114,18 +112,6 @@ public class Player : NetworkBehaviour, IDamageable
         _animator.SetTrigger(IsRespawning);
     }
 
-    //[Command(requiresAuthority = false)]
-    //private void CmdDoRespawn()
-    //{
-    //    RpcDoRespawn();
-    //}
-//
-    //[ClientRpc(includeOwner = false)]
-    //private void RpcDoRespawn()
-    //{
-    //    _animator.SetTrigger(IsRespawning);
-    //}
-
     private void RespawnEnd()
     {
         _animator.SetTrigger(OnRespawnEnd);
@@ -135,18 +121,6 @@ public class Player : NetworkBehaviour, IDamageable
         _rigidbd.constraints = None;
         _rigidbd.freezeRotation = true;
     }
-
-    //[Command(requiresAuthority = false)]
-    //private void CmdDoRespawnEnd()
-    //{
-    //    RpcDoRespawnEnd();
-    //}
-//
-    //[ClientRpc(includeOwner = false)]
-    //private void RpcDoRespawnEnd()
-    //{
-    //    _animator.SetTrigger(OnRespawnEnd);
-    //}
     #endregion
 
     #region Emote
@@ -212,7 +186,6 @@ public class Player : NetworkBehaviour, IDamageable
     #region Interaction
     [SerializeField] protected Transform _grabPoint;
     [SerializeField] private LayerMask _interactableLayer;
-    protected Transform _grabbedItem;
     protected Collider2D _latestTarget;
     private readonly float _detectDistance = 2f;
     private WaitForSeconds _waitForSeconds;

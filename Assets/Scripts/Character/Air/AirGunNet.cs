@@ -89,8 +89,6 @@ public class AirGunNet : NetworkBehaviour
 
     private void OnDisable()
     {
-        if (!ReferenceEquals(Managers.Game.Player, gameObject)) return;
-        
         _playerInput.playerActions.Look.performed -= Look;
         _playerInput.playerActions.Action.started -= PlayerActionStarted;
         _playerInput.playerActions.Action.canceled -= PlayerActionCanceled;

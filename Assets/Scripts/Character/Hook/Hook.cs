@@ -4,49 +4,43 @@ using UnityEngine;
 public class Hook : Player
 {
     [field: SerializeField] private Grappling _grappling;
+    private Transform _grabbedItem;
     
     private static readonly int IsGrabbing = Animator.StringToHash("IsGrabbing");
     
     protected override void Interaction()
     {
-        if (_grabbedItem != null)
+        if (_grabbedItem is not null)
         {
             _grabbedItem.GetComponent<IInteractable>().Interaction(_grabPoint);
-            CmdGrabInteraction();
             _grabbedItem = null;
             _animator.SetBool(IsGrabbing, false);
         }
-        else if (_latestTarget != null)
+        else if (_latestTarget is not null)
         {
-            var interactable = _latestTarget.GetComponent<IInteractable>();
+            if(!_latestTarget.TryGetComponent<IInteractable>(out var interactable)) return;
 
             if (interactable.GetObjectType() == ObjectTypeEnum.Grab)
             {
                 _grabbedItem = _latestTarget.transform;
                 _animator.SetBool(IsGrabbing, true);
-                CmdGrabInteraction();
+                CmdObjectAuthoritySet(_grabbedItem.GetComponent<NetworkIdentity>());
             }
             interactable.Interaction(_grabPoint);
         }
     }
     
     [Command(requiresAuthority = false)]
-    private void CmdGrabInteraction()
+    private void CmdObjectAuthoritySet(NetworkIdentity id)
     {
-        RpcGrabInteraction();
-    }
-
-    [ClientRpc(includeOwner = false)]
-    private void RpcGrabInteraction()
-    {
-        _latestTarget.GetComponent<IInteractable>().Interaction(_grabPoint);
+        id.RemoveClientAuthority();
+        id.AssignClientAuthority(connectionToClient);
     }
 
     public override void TakeDamage()
     {
         if(!isLocalPlayer)
             return;
-        
         
         if (_isDead) return;
         _isDead = true;
@@ -56,5 +50,7 @@ public class Hook : Player
         _movement.IsDead = true;
         _rigidbd.constraints = RigidbodyConstraints2D.FreezeAll;
         _collider2D.enabled = false;
+        if(_grabbedItem is not null)
+            Interaction();
     }
 }
