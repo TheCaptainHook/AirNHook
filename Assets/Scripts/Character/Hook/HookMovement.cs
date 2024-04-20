@@ -141,6 +141,7 @@ public class HookMovement : PlayerMovement, IInhalable
         {
             if (!_isFixed)
             {
+                Debug.Log("b");
                 yield return _waitForFixedUpdate;
 
                 if (_fixedPoint is null) break;
@@ -155,6 +156,7 @@ public class HookMovement : PlayerMovement, IInhalable
             }
             else
             {
+                Debug.Log("c");
                 yield return null;
                 _animator.SetBool(IsHookInhaled, true);
                 _rigidbd.velocity = Vector2.zero;

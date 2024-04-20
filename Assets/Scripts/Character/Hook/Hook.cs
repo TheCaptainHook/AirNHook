@@ -53,8 +53,8 @@ public class Hook : Player
         if(!isLocalPlayer)
             return;
         
-        if (_isDead) return;
-        _isDead = true;
+        if (isDead) return;
+        isDead = true;
         _grappling.StopRope();
         _animator.SetTrigger(IsDead);
         Debug.Log("사망하였습니다.");
