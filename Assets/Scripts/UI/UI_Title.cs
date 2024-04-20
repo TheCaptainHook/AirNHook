@@ -78,9 +78,8 @@ public class UI_Title : UI_Base
 
     private void OnMapEditorBtn()
     {
-        Managers.Game.CurrentState = GameState.Editor;
-        //SceneManager.LoadScene("EditorScene");
-        Managers.UI.sceneName = "EditorScene(준비중)";
+        Managers.UI.sceneName = "EditorScene";
+        SceneManager.LoadScene("EditorScene");
         Managers.UI.ShowUI<UI_Loading>();
     }
     private void OnOptionBtn()

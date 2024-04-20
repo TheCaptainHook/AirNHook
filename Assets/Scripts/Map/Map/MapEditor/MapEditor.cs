@@ -145,6 +145,7 @@ public class MapEditor : MonoBehaviour
         Init();
         gridPlane = Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/GridPlane"));
         gridPlane.SetActive(false);
+
         placeMentSystem.EditorMode_Init();
     }
 

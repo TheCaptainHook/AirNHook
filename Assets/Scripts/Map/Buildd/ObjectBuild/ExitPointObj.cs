@@ -70,7 +70,7 @@ public class ExitPointObj : BuildBase
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(!Managers.Game.Player.GetComponent<Player>().isServer) return;
+        if( Managers.Game.CurrentState != GameState.Editor && !Managers.Game.Player.GetComponent<Player>().isServer) return;
         
         if (collision.gameObject.layer == LayerMask.NameToLayer("Key") && !turnOff)
         {
@@ -90,7 +90,7 @@ public class ExitPointObj : BuildBase
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if(!Managers.Game.Player.GetComponent<Player>().isServer) return;
+        if (Managers.Game.CurrentState != GameState.Editor && !Managers.Game.Player.GetComponent<Player>().isServer) return;
         
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && stageClear)
         {

@@ -66,10 +66,10 @@ public class MapEditorControllerUI : MonoBehaviour
         saveBtn.onClick.AddListener(() => { SaveUserMap(); });
 
         //mode
-        tileMode.onClick.AddListener(TileMode);
-        objectMode.onClick.AddListener(ObjectMode); 
-        //mode
         tileUndoBtn.onClick.AddListener(placeMentSystem.invoker.Undo);
+        tileMode.onClick.AddListener(TileMode);
+        objectMode.onClick.AddListener(ObjectMode);
+        //mode
         //Tile Mode Btn
         tileBtn.onClick.AddListener(() => { ChangeTileMode(tileBtn, ModeState.Tile_Draw); });
         eraserBtn.onClick.AddListener(() => { ChangeTileMode(eraserBtn, ModeState.Tile_Clear); });
@@ -95,6 +95,11 @@ public class MapEditorControllerUI : MonoBehaviour
     }
 
 
+    private void Start()
+    {
+        
+
+    }
 
     void TileMode() //타일모드로 진입할때, //todo
     {

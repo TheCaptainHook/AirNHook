@@ -10,6 +10,7 @@ public class UI_EditorTItle : UI_Base
 
     private void Awake()
     {
+        Instantiate(ResourceManager.Instantiate("Prefabs/MapEditor/MapEditor"));
         newBtn.onClick.AddListener(() => { NewCreate(); });
     }
 
@@ -20,7 +21,6 @@ public class UI_EditorTItle : UI_Base
 
     private void NewCreate()
     {
-        Instantiate(ResourceManager.Instantiate("Prefabs/MapEditor/MapEditor"));
         MapEditor.Instance.EditorMode_Init();
         MapEditor.Instance.mapEditorType = MapEditorType.New;
 

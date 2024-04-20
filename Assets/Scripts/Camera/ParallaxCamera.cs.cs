@@ -13,6 +13,7 @@ public class ParallaxCamera : MonoBehaviour
         oldPosition = transform.position.x;
     }
 
+
     void Update()
     {
         if (transform.position.x != oldPosition)
