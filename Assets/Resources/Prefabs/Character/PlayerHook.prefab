@@ -15550,7 +15550,7 @@ MonoBehaviour:
   ropeHook: {x: 0, y: 0}
   swingForce: 5
   grappling: {fileID: 6338225487528084249}
-  _inhalePower: 0
+  _inhalePower: 800
 --- !u!114 &6338225487528084249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15597,7 +15597,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  _isDead: 0
+  isDead: 0
   _grabPoint: {fileID: 1527109819433215527}
   _interactableLayer:
     serializedVersion: 2
