@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [ExecuteInEditMode]
@@ -8,12 +9,19 @@ public class ParallaxCamera : MonoBehaviour
 
     private float oldPosition;
 
-    void Awake()
+    private void Awake()
     {
+        Init();
+    }
+
+    public void Init()
+    { 
+        onCameraTranslate = null;
+        Debug.Log("CameraInit");
         oldPosition = transform.position.x;
     }
 
-    void Update()
+    private void Update()
     {
         if (transform.position.x != oldPosition)
         {
