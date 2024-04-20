@@ -153,15 +153,8 @@ public class UI_Option : UI_Base
         var player = Managers.Game.Player.GetComponent<Player>();
         if (player.isServer)
         {
-            player.onCallBackAction += LoadLobbyScene;
             player.CmdChangeStage("Lobby");
         }
-    }
-
-    private void LoadLobbyScene()
-    {
-        Managers.Game.Player.GetComponent<Player>().onCallBackAction -= LoadLobbyScene;
-        Managers.Network.ServerChangeScene("MainScene");
     }
     
     private void OnStageRestartBtn()

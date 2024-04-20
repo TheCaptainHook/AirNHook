@@ -76,6 +76,7 @@ public class DoorOpeningAnim : NetworkBehaviour
     [ClientRpc]
     public void RpcMoveNextStage(string nextMapId)
     {
+        Managers.Stage.stageName = nextMapId;
         if (string.IsNullOrEmpty(nextMapId))
         {
             if(MapEditor.Instance.curMap.mapID != "Lobby")
@@ -85,7 +86,7 @@ public class DoorOpeningAnim : NetworkBehaviour
                     Managers.Data.mapData.stageLevel++;
                 }
 
-                //Managers.game.CurrentState == GameStage.Lobby;
+                Managers.Game.CurrentState = GameState.Lobby;
                 MapEditor.Instance.MoveNextStage("Lobby", MapType.Scene);
             }
  
@@ -94,7 +95,7 @@ public class DoorOpeningAnim : NetworkBehaviour
         }
         else
         {
-            ////Managers.game.CurrentState == GameStage.Game;
+            Managers.Game.CurrentState = GameState.Game;
             MapEditor.Instance.MoveNextStage(nextMapId, MapType.Main);
         }
     }

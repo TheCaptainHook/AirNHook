@@ -11,14 +11,12 @@ public class Managers : MonoBehaviour
 
     private UIManager _uiManager = new();
     private GameManager _game = new();
-    private SceneLoader _loader = new();
     private StageManager _stage = new();
     private DataManager _data = new();
     private CustomNetworkManager _network;
 
     public static GameManager Game => Instance._game;
     public static UIManager UI => Instance._uiManager;
-    public static SceneLoader Loader => Instance._loader;
     public static StageManager Stage => Instance._stage;
     public static DataManager Data => Instance._data;
     public static CustomNetworkManager Network => Instance._network;

@@ -72,11 +72,14 @@ public class ExitPointObj : BuildBase
     {
         if( Managers.Game.CurrentState != GameState.Editor && !Managers.Game.Player.GetComponent<Player>().isServer) return;
         
+
         if (collision.gameObject.layer == LayerMask.NameToLayer("Key") && !turnOff)
         {
             GetKey(collision.gameObject);
             Debug.Log(current_KeyAmount);
         }
+        
+        if(!Managers.Game.Player.GetComponent<Player>().isServer) return;
 
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && stageClear)
         {

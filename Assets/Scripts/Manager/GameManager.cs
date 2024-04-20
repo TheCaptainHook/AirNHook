@@ -1,6 +1,7 @@
 using System;
 using Mirror;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum GameState
 {
@@ -50,5 +51,33 @@ public class GameManager
             }
         }
         set => _otherPlayer = value;
+    }
+
+    public GameManager()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Managers.UI.ClearUI();
+        switch (scene.buildIndex)
+        {
+            // StartScene
+            case 0:
+                Debug.Log("Scene Loaded 0");
+                Managers.Instance.CheckNetworkManager();
+                Managers.Game.CurrentState = GameState.Title;
+                Managers.UI.ShowUI<UI_Title>();
+                break;
+            // MainScene
+            case 1:
+                Debug.Log("Scene Loaded 1");
+                break;
+            // EditorScene
+            case 2:
+                Debug.Log("Scene Loaded 2");
+                break;
+        }
     }
 }
