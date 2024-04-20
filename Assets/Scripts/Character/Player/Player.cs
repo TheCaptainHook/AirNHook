@@ -73,8 +73,16 @@ public class Player : NetworkBehaviour, IDamageable
     private void RpcChangeStage(string value)
     {
         Managers.Stage.stageName = value;
-        Managers.Game.CurrentState = value.Equals("Lobby") ? GameState.Lobby : GameState.Game;
-        MapEditor.Instance.MoveNextStage(value, MapType.Scene);
+        if (value.Equals("Lobby"))
+        {
+            Managers.Game.CurrentState = GameState.Lobby;
+            MapEditor.Instance.MoveNextStage(value, MapType.Scene);
+        }
+        else
+        {
+            Managers.Game.CurrentState = GameState.Game;
+            MapEditor.Instance.MoveNextStage(value, MapType.Main);
+        }
     }
     #endregion
 

@@ -147,20 +147,22 @@ public class UI_Option : UI_Base
     //==================게임 옵션===========================
     private void OnLobbyBtn()
     {
+        if(!Managers.Game.Player.TryGetComponent<Player>(out var player)) return;
+        
+        if (!player.isServer) return;
+        
         OnOptionExit();
-        //Managers.UI.ShowLoadingUI("Test_LobbyScene");
-        //TODO 로비로
-        var player = Managers.Game.Player.GetComponent<Player>();
-        if (player.isServer)
-        {
-            player.CmdChangeStage("Lobby");
-        }
+        player.CmdChangeStage("Lobby");
     }
     
     private void OnStageRestartBtn()
     {
+        if(!Managers.Game.Player.TryGetComponent<Player>(out var player)) return;
+
+        if (!player.isServer) return;
+        
         OnOptionExit();
-        Managers.Network.ServerChangeScene("MainScene");
+        player.CmdChangeStage(Managers.Stage.stageName);
     }
     
     private void OnTitleBtn()
