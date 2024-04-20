@@ -347,14 +347,11 @@ public class MapEditor : MonoBehaviour
 
 
         //string filePath = Path.Combine(folderPath, $"User/{map.mapID}.json");
-        string filePath = Path.Combine(Application.streamingAssetsPath, "UserMapData");
+        string filePath = Path.Combine(Application.streamingAssetsPath, $"UserMapData/{mapID}.json");
 
-        string json = JsonUtility.ToJson(new UserMapData(mapDatajson, null, dateTimedate));
+        string json = JsonUtility.ToJson(new UserMapData(mapDatajson, null, dateTimedate),true);
 
-
-        Debug.Log(json);
-
-        //File.WriteAllText(filePath, json);
+        File.WriteAllText(filePath, json);
 
 
 
@@ -539,6 +536,12 @@ public class MapEditor : MonoBehaviour
         obj.transform.rotation = data.quaternion;
         obj.transform.localScale = data.scale;
         obj.transform.SetParent(transform);
+
+        if(mapEditorState != MapEditorState.NoEditor)
+        {
+            obj.GetComponent<BuildObj>().TurnOff();
+            placeMentSystem.curPlaceObjList.Add(obj.GetComponent<BuildObj>());
+        }
     }
     void Create(Transform transform, MapDataStruct mapDataStruct, ButtonActivatedDoorStruct data)
     {
@@ -557,9 +560,20 @@ public class MapEditor : MonoBehaviour
         {
             GameObject leverBody = Managers.Stage.CmdBatchObject("LeverBody", dontSaveObjectTransform);
             leverBody.GetComponent<LeverBody>().SetLinkDoor(pot, data.linkId, interactionObjectTransform);
+
+            if (mapEditorState != MapEditorState.NoEditor)
+            {
+                obj.GetComponent<BuildObj>().TurnOff();
+                placeMentSystem.curPlaceObjList.Add(obj.GetComponent<BuildObj>());
+            }
         }
         //Lever
 
+        if (mapEditorState != MapEditorState.NoEditor)
+        {
+            obj.GetComponent<BuildObj>().TurnOff();
+            placeMentSystem.curPlaceObjList.Add(obj.GetComponent<BuildObj>());
+        }
 
     }
 
@@ -570,7 +584,11 @@ public class MapEditor : MonoBehaviour
         obj.transform.SetParent(transform);
         ExitPointObj door = obj.GetComponent<ExitPointObj>();
         door.SetData(data);
-
+        if (mapEditorState != MapEditorState.NoEditor)
+        {
+            obj.GetComponent<BuildObj>().TurnOff();
+            placeMentSystem.curPlaceObjList.Add(obj.GetComponent<BuildObj>());
+        }
     }
     #endregion
 

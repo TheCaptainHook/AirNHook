@@ -393,10 +393,10 @@ public class MapEditorControllerUI : MonoBehaviour
     }
 
     //todo 0420
-    public void LoadUserMapEditorInit()
+    public void LoadUserMapEditorInit(Map map)
     {
         MapEditor.Instance.EditorMode_Init();
-
+        MapEditor.Instance.LoadMap(map);
         mapIdInputField.text = MapEditor.Instance.mapID;
 
         widthInputField.text = MapEditor.Instance.CurMap.mapSize.x.ToString();
@@ -404,7 +404,7 @@ public class MapEditorControllerUI : MonoBehaviour
 
         MapSizeInit();
 
-
+        
         
     }
     #endregion

@@ -26,7 +26,7 @@ public class UserMapData
     }
 
 
-    public Map LoadMap(string mapDataJson)
+    public Map LoadMap()
     {
         return JsonUtility.FromJson<Map>(mapDataJson);
     }
