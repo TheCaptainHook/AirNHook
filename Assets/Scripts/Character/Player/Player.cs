@@ -63,12 +63,9 @@ public class Player : NetworkBehaviour, IDamageable
     }
 
     #region ExternalCommandSync
-    public Action onCallBackAction;
-    
     [Command(requiresAuthority = false)]
     public void CmdChangeStage(string value)
     {
-        Managers.Stage.stageName = value;
         RpcChangeStage(value);
     }
 
@@ -76,7 +73,8 @@ public class Player : NetworkBehaviour, IDamageable
     private void RpcChangeStage(string value)
     {
         Managers.Stage.stageName = value;
-        onCallBackAction?.Invoke();
+        Managers.Game.CurrentState = value.Equals("Lobby") ? GameState.Lobby : GameState.Game;
+        MapEditor.Instance.MoveNextStage(value, MapType.Scene);
     }
     #endregion
 

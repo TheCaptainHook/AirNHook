@@ -33,10 +33,8 @@ public class Hook : Player
 
     public void ReleaseItem()
     {
-        Debug.Log("a");
-        if (_grabbedItem is null) return;
+        if (_grabbedItem is null || !isLocalPlayer) return;
         
-        Debug.Log("a");
         _grabbedItem = null;
         _animator.SetBool(IsGrabbing, false);
     }
