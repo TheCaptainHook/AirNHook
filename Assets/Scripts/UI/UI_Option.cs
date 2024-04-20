@@ -57,6 +57,8 @@ public class UI_Option : UI_Base
         [SerializeField] private TMP_Text _fullscreenText;
         [SerializeField] private TMP_Text _vsyncText;
         [SerializeField] private TMP_Text _applyText;
+    
+        [SerializeField] private TMP_Text _testBuildText;
 
         [Header("GameData")]
         //임시 불린 체크
@@ -246,5 +248,6 @@ public class UI_Option : UI_Base
         SetSentence(_fullscreenText, 1006);
         SetSentence(_vsyncText, 1012);
         SetSentence(_applyText, 1013);
+        SetSentence(_testBuildText, 1015);
     }
 }
