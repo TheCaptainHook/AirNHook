@@ -221,33 +221,20 @@ public class AirGunNet : NetworkBehaviour
     private void ObjectCheck()
     {
         if(!_rightClick || _latestTarget is null || _isAttached || _isStick || !_canInhale) return;
-        Debug.Log("a");
         
         if (_grappling is null && ReferenceEquals(_latestTarget.gameObject, Managers.Game.OtherPlayer))
         {
             if (_latestTarget.TryGetComponent(out _grappling) && _grappling.grappleAttached)
             {
-                Debug.Log("1");
                 _canStick = false;
                 _keepGrapplingCheckCoroutine = StartCoroutine(KeepGrapplingCheck());
             }
         }
-        else if (_grappling is not null)
+        else if (_grappling is not null && _grappling.grappleAttached)
         {
-            Debug.Log("2");
             if(!_canStick) return;
             
-            Debug.Log("3");
-            if(_grappling.grappleAttached)
-                StickToHook();
-            else
-            {
-                _playerMovement.canControl = true;
-                _rigidbody2D.gravityScale = 3f;
-                _canStick = false;
-                _isStick = false;
-                _grappling = null;
-            }
+            StickToHook();
         }
         else
         {
@@ -268,8 +255,11 @@ public class AirGunNet : NetworkBehaviour
     {
         if(!_canInhale || (_inhaling && ReferenceEquals(_latestTarget, _inhaleTarget))) return;
 
+        Debug.Log("a");
+        
         if (_latestTarget.TryGetComponent<IInhalable>(out var inhalable) && !inhalable.CanInhale()) return;
         
+        Debug.Log("b");
         _inhaling = true;
         _inhaleTarget = _latestTarget;
         
@@ -277,11 +267,13 @@ public class AirGunNet : NetworkBehaviour
         {
             if (!ReferenceEquals(_inhaleTarget.gameObject, Managers.Game.OtherPlayer))
             {
+                Debug.Log("c");
                 CmdObjectAuthoritySet(id);
                 InhaleObject(id);
             }
             else
             {
+                Debug.Log("d");
                 CmdInhaleObject(id);
             }
         }
