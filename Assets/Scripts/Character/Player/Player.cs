@@ -4,6 +4,7 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
+using UnityEngine.Serialization;
 using static UnityEngine.RigidbodyConstraints2D;
 
 public class Player : NetworkBehaviour, IDamageable
@@ -18,7 +19,7 @@ public class Player : NetworkBehaviour, IDamageable
     private SortingGroup _sortingGroup;
     
     //사망 체크
-    [SerializeField] public bool _isDead = false;
+    [SerializeField] public bool isDead = false;
     
     //이모트
     private bool _emoteOnCoolDown;
@@ -88,11 +89,11 @@ public class Player : NetworkBehaviour, IDamageable
         
         _animator.SetTrigger(IsDead);
         
-        if (_isDead) return;
+        if (isDead) return;
         Debug.Log("사망하였습니다.");
         // 여기에 필요한 사망 처리
         // _animator.SetTrigger(IsDead);
-        _isDead = true;
+        isDead = true;
         _movement.IsDead = true;
         _rigidbd.constraints = FreezeAll;
         _collider2D.enabled = false;
@@ -111,7 +112,7 @@ public class Player : NetworkBehaviour, IDamageable
     private void RespawnEnd()
     {
         _animator.SetTrigger(OnRespawnEnd);
-        _isDead = false;
+        isDead = false;
         _movement.IsDead = false;
         _collider2D.enabled = true;
         _rigidbd.constraints = None;
@@ -231,7 +232,10 @@ public class Player : NetworkBehaviour, IDamageable
 
     protected virtual void Interaction()
     {
-        var interactable = _latestTarget.GetComponent<IInteractable>();
+        if (_latestTarget is null || isDead) return;
+        
+        if(!_latestTarget.TryGetComponent<IInteractable>(out var interactable)) return;
+        
         if (interactable.GetObjectType() == ObjectTypeEnum.Grab) return;
         
         interactable.Interaction(transform);
