@@ -7,7 +7,7 @@ public class ParallaxCamera : MonoBehaviour
     public delegate void ParallaxCameraDelegate(float deltaMovement);
     public ParallaxCameraDelegate onCameraTranslate;
 
-    private float oldPosition;
+    public float oldPosition;
 
     private void Awake()
     {

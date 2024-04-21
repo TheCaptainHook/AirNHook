@@ -407,7 +407,6 @@ public class MapEditor : MonoBehaviour
             return;
         }
 
-        if(Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate != null){ Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate = null; }
 
         Init();
         placeMentSystem.ResetTileMap();
@@ -422,6 +421,10 @@ public class MapEditor : MonoBehaviour
         startPositionObject.transform.position = curMap.startPosition;
         startPositionObject.transform.SetParent(dontSaveObjectTransform);
         //start Point
+
+
+        if (Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate != null) { Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate = null; }
+        Camera.main.GetComponent<ParallaxCamera>().oldPosition = startPosition.x;
 
         CreateObj(floorTransform,0); //floorTransform
         CreateObj(objectTransform,1); //objectTransform

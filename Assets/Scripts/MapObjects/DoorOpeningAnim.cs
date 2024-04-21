@@ -77,6 +77,7 @@ public class DoorOpeningAnim : NetworkBehaviour
     public void RpcMoveNextStage(string nextMapId)
     {
         Managers.Stage.stageName = nextMapId;
+        Camera.main.GetComponent<ParallaxCamera>().enabled = false;
         if (string.IsNullOrEmpty(nextMapId))
         {
             if(MapEditor.Instance.curMap.mapID != "Lobby")

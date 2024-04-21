@@ -8,6 +8,7 @@ public class UI_StageSelect : UI_Base
 {
 
     [Header("Icon")]
+    public Transform container;
     public Transform layout;
     [SerializeField] Button closeBtn;
     [SerializeField] Button curSelectBtn; //todo 0415
@@ -92,9 +93,11 @@ public class UI_StageSelect : UI_Base
     private void CreateStageInMapUI(int level)
     {
         GameObject ui = Instantiate(ui_StageInMapSelect);
+        RectTransform rt = ui.transform as RectTransform;
         UI_StageInMapSelect selectMap = ui.GetComponent<UI_StageInMapSelect>();
         selectMap.CreateStageInMap(level);
-        ui.transform.SetParent(transform);
+        ui.transform.SetParent(container);
+        rt.anchoredPosition = Vector2.zero;
         stageInMapSelectList.Add(ui);
         ui.SetActive(false);
 

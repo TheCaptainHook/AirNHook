@@ -26,31 +26,33 @@ public class FadeInOutPanel : MonoBehaviour
         float percent = 0;
         Color fadeOutcolor = new Color(orgColor.r, orgColor.g, orgColor.b, 1);
         Managers.Stage.stageName = mapId;
-        while(percent < 1)
+        while (percent < 1)
         {
             percent += Time.deltaTime;
 
             image.color = Color.Lerp(image.color, fadeOutcolor, percent);
             yield return null;
         }
-        //
+
         Managers.Network.startPos.Clear();
         MapEditor.Instance.LoadMap(mapId, mapType);
 
-        while (!CheckNetworkStartPos())
-        {
-            Debug.Log("Loading");
-            yield return null;
-        }
+        //while (!CheckNetworkStartPos())
+        //{
+        //    Debug.Log("Loading");
+        //    yield return null;
+        //}
+
+        yield return new WaitForSeconds(1f);
 
         //Debug.Log($"startPos[0] : {(Vector2)Managers.Network.startPos[0].position}, MapEditor start pot: {MapEditor.Instance.startPosition}");
         //Debug.Log($"{(Vector2)Managers.Network.startPos[0].position == MapEditor.Instance.startPosition}");
 
-
-        Debug.Log(Managers.Network.startPos.Count);
-
         Managers.Game.Player.GetComponent<Player>().Respawning();
-        ///
+        //Managers.Game.OtherPlayer.GetComponent<Player>().Respawning();
+
+        Camera.main.GetComponent<ParallaxCamera>().enabled = true;
+
         while (percent > 0)
         {
             percent -= Time.deltaTime;
@@ -58,7 +60,7 @@ public class FadeInOutPanel : MonoBehaviour
             yield return null;
         }
 
-        
+
         image.enabled = false;
     }
 
