@@ -87,7 +87,7 @@ public class MapData
             Map map = JsonUtility.FromJson<Map>(jsons[j].text);
             mapMainDictionary.Add(map.mapID, map);
         }
-        Managers.Data.loadData.Setup();
+        //Managers.Data.loadData.Setup();
     }
 
     public Dictionary<string,Map> GetDictionary(MapType mapType)

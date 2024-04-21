@@ -25,22 +25,19 @@ public class LoadData
             if (playDataList.Length < Managers.Data.mapData.mapMainDictionary.Count)
             {
                 DataAdd();
-                Debug.Log("3");
             }
             foreach (var play in playDataList)
             {
                 playData.Add(play.stageID, play);
-                _stagelevel = play.stageLevel;
+                //_stagelevel = play.stageLevel;
             }
-            Debug.Log("2");
-            Managers.Game.stageLevel = _stagelevel;
+            //Managers.Game.stageLevel = _stagelevel;
             //이곳에서 현재 스테이지레벨을 알려줘야함
 
         }
         else
         {
             DataAdd();
-            Debug.Log("1");
         }
     }
 

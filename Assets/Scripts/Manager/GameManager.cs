@@ -24,7 +24,7 @@ public class GameManager
     private int _totalDeath;
     private bool _skip;
 
-    public int stageLevel = 0;
+    public int stageLevel = 1;
 
     private GameObject _player;
     // 플레이어가 GameScene에서만 생성되고, NetworkManager에 의해 생성되기에
