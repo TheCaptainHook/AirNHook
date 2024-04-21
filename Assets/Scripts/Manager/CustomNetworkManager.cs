@@ -51,6 +51,12 @@ public class CustomNetworkManager : NetworkManager
         }
 
         var player = Instantiate(playerObj, startPos[0].transform.position, Quaternion.identity);
+        if (conn.identity != null)
+        {
+            var oldPlayer = conn.identity.gameObject;
+            NetworkServer.ReplacePlayerForConnection(conn, Instantiate(player, player.transform.position, Quaternion.identity), true);
+            Destroy(oldPlayer, 0.1f);
+        }
         NetworkServer.AddPlayerForConnection(conn, player);
     }
 
