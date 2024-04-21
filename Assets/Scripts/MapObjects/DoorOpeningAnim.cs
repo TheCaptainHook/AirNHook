@@ -81,9 +81,9 @@ public class DoorOpeningAnim : NetworkBehaviour
         {
             if(MapEditor.Instance.curMap.mapID != "Lobby")
             {
-                if (MapEditor.Instance.curMap.stageLevel == Managers.Data.mapData.stageLevel) //todo 0419
+                if (MapEditor.Instance.curMap.stageLevel == Managers.Game.stageLevel) //todo 0419
                 {
-                    Managers.Data.mapData.stageLevel++;
+                    Managers.Game.stageLevel++;
                 }
 
                 Managers.Game.CurrentState = GameState.Lobby;
