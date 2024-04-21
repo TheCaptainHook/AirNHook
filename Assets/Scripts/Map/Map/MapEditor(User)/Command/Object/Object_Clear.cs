@@ -12,27 +12,32 @@ public class Object_Clear
     {
         placeMentSystem = MapEditor.Instance.placeMentSystem;
         curBuildObj = placeMentSystem.CurbuildObject;
-        buildObj = curBuildObj.GetComponent<BuildObj>();
+        if(placeMentSystem.CurbuildObject != null)
+        {
+            buildObj = curBuildObj.GetComponent<BuildObj>();
+        }   
     }
 
 
     public void Execute()
     {
- 
-        GameObject effectObj = Object.Instantiate(placeMentSystem.particleEffect_ObejctClear.gameObject);
-        effectObj.transform.position = buildObj.transform.position;
-        effectObj.GetComponent<ParticleSystem>().Play();
-        Object.Destroy(effectObj, 3f);
-        //Clear Effect
-
-        if(placeMentSystem.curPlaceObjList.Contains(buildObj))
+        if(buildObj != null)
         {
-            placeMentSystem.curPlaceObjList.Remove(buildObj);
+            GameObject effectObj = Object.Instantiate(placeMentSystem.particleEffect_ObejctClear.gameObject);
+            effectObj.transform.position = buildObj.transform.position;
+            effectObj.GetComponent<ParticleSystem>().Play();
+            Object.Destroy(effectObj, 3f);
+            //Clear Effect
+
+            if (placeMentSystem.curPlaceObjList.Contains(buildObj))
+            {
+                placeMentSystem.curPlaceObjList.Remove(buildObj);
+            }
+            curBuildObj.transform.SetParent(MapEditor.Instance.garbageTransform);
+            curBuildObj.SetActive(false);
+            placeMentSystem.CurbuildObject = null;
         }
-        curBuildObj.transform.SetParent(MapEditor.Instance.garbageTransform);
-        curBuildObj.SetActive(false);
-        placeMentSystem.CurbuildObject = null;
-    
+       
     }
     public void Undo()
     {

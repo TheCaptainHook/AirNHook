@@ -61,10 +61,16 @@ public class ExitPointObj : BuildBase
     void GetKey(GameObject gameObject)
     {
         Debug.Log("c");
-        gameObject.GetComponent<Key>().CallOnInterableObjectRelease();
-        //Managers.Stage.CmdDestroyObject(gameObject);
-        Destroy(gameObject);
-        Current_KeyAmount = 1;
+
+        if(Managers.Game.CurrentState != GameState.Editor)
+        {
+            gameObject.GetComponent<Key>().CallOnInterableObjectRelease();
+            //Managers.Stage.CmdDestroyObject(gameObject);
+            Destroy(gameObject);
+            Current_KeyAmount = 1;
+        }
+
+       
     }
 
 
@@ -78,7 +84,7 @@ public class ExitPointObj : BuildBase
             Debug.Log(current_KeyAmount);
         }
         
-        if(!Managers.Game.Player.GetComponent<Player>().isServer) return;
+        if(Managers.Game.CurrentState == GameState.Editor || !Managers.Game.Player.GetComponent<Player>().isServer) return;
 
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
