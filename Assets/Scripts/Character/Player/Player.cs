@@ -97,6 +97,7 @@ public class Player : NetworkBehaviour, IDamageable
         
         if (isDead) return;
         Debug.Log("사망하였습니다.");
+        Managers.Game.IncreaseDeathCount();
         // 여기에 필요한 사망 처리
         // _animator.SetTrigger(IsDead);
         isDead = true;

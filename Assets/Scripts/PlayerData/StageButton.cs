@@ -41,14 +41,7 @@ public class StageButton : MonoBehaviour
     {
         stageNameTxt.text = playData.stageID;
 
-        if (!playData.perfectClear)
-        {
-            clearDeathTxt.text = playData.deathCount.ToString();
-        }
-        else
-        {
-            clearDeathTxt.text = playData.perfect.ToString();
-        }
+        
 
 
         if (playData.clearTime >= 60)
@@ -91,16 +84,7 @@ public class StageButton : MonoBehaviour
         _skip = true;
     }
 
-    public void StageClear()
-    {
-        _timeCheck = false;
-        Managers.Data.loadData.stageData[_selectStage].stageClear = true;
-
-        TimeCompare();
-        DeathCompare();
-
-        Managers.Data.loadData.Save();
-    }
+   
 
     public void StageFalse()
     {
@@ -120,20 +104,7 @@ public class StageButton : MonoBehaviour
             Managers.Data.loadData.playData[_selectStage].clearTime = _clearTime;
     }
 
-    public void DeathCompare()
-    {
-        if (!Managers.Data.loadData.playData[_selectStage].perfectClear)
-        {
-            if (Managers.Data.loadData.playData[_selectStage].deathCount == 0 || _clearDeath < Managers.Data.loadData.playData[_selectStage].deathCount)
-                Managers.Data.loadData.playData[_selectStage].deathCount = _clearDeath;
-            if(_clearDeath == 0 && Managers.Data.loadData.stageData[_selectStage].stageClear == true)
-            {
-                Managers.Data.loadData.playData[_selectStage].perfectClear = true;
-                Managers.Data.loadData.playData[_selectStage].perfect = "PerfectClear!";
-            }
-        }
-        Debug.Log(_clearDeath);
-    }
+    
 
     //TODO 현재 테스트코드에선 생성할때 1번만불려져서 최신화가 안되고있는상황임
     //실제로 적용할땐 실시간 업데이트가 가능하도록 해야한다.

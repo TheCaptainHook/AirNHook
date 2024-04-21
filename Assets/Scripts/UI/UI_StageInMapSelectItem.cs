@@ -31,7 +31,7 @@ public class UI_StageInMapSelectItem : MonoBehaviour
         this.stageLevel = stageLevel;
         this.index = index;
 
-        if (Managers.Data.loadData.stageData[mapId].stageClear)
+        if (Managers.Data.loadData.playData[mapId].stageClear)
         {
             text.color = Color.green;
         }
@@ -42,7 +42,7 @@ public class UI_StageInMapSelectItem : MonoBehaviour
 
     public void CheckStageClear()
     {
-        if (Managers.Data.loadData.stageData[mapId].stageClear)
+        if (Managers.Data.loadData.playData[mapId].stageClear)
         {
             text.color = Color.green;
         }
@@ -53,7 +53,7 @@ public class UI_StageInMapSelectItem : MonoBehaviour
         if (index > 0)
         {
             Map list = Managers.Data.mapData.mapMainStageDictionary[stageLevel][index-1];
-            if (Managers.Data.loadData.stageData[list.mapID].stageClear)
+            if (Managers.Data.loadData.playData[list.mapID].stageClear)
             {
                 onSelect = true;
                 exitObj = MapEditor.Instance.exitDoorObjectTransform.GetChild(0).gameObject;
