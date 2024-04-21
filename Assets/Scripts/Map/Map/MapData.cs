@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class MapData
 {
+    //public int stageLevel = 0;
+
     public Dictionary<int, MapDataStruct> mapTileDataDictionary = new Dictionary<int, MapDataStruct>();
     public Dictionary<int, MapDataStruct> mapObjectDataDictionary = new Dictionary<int, MapDataStruct>();
     public Dictionary<int, MapDataStruct> mapSceneDataDictionary = new Dictionary<int, MapDataStruct>();
@@ -19,8 +21,7 @@ public class MapData
     {
 
         UGS_MapDataLoad();
-        MapJsonLoad();        
-
+        MapJsonLoad();
     }
 
     void UGS_MapDataLoad()
@@ -88,7 +89,7 @@ public class MapData
             Map map = JsonUtility.FromJson<Map>(jsons[j].text);
             mapMainDictionary.Add(map.mapID, map);
         }
-
+        Managers.Data.loadData.Setup();
     }
 
     public Dictionary<string,Map> GetDictionary(MapType mapType)

@@ -21,12 +21,17 @@ public class LoadData
         if (File.Exists(playDataPath))
         {
             var playDataList = Managers.Data.ReadJson<PlayData>(playDataPath);
-            foreach (var play in playDataList)
+            if(playDataList.Length < Managers.Data.mapData.mapMainDictionary.Count)
             {
-                playData.Add(play.stageID, play);
+                DataAdd();
             }
         }
+        DataAdd();
+    }
 
+    public void DataAdd()
+    {
+        var playDataPath = Path.Combine(Application.streamingAssetsPath, "PlayDatas/PlayDatas.json");
         //playData,stageData에 데이터넣기
         foreach (var key in Managers.Data.mapData.mapMainDictionary.Keys)
         {
