@@ -106,7 +106,7 @@ MonoBehaviour:
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0
-  onScaleable: 0
+  onScaleable: 1
   setPosition: 0
   orgPosition: {x: 0, y: 0}
 --- !u!114 &4397102266762581180
@@ -153,7 +153,7 @@ Animator:
   m_GameObject: {fileID: 5412033526833255162}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: fd47d3d6fff4a6e4c83b7d99be2d5227, type: 2}
+  m_Controller: {fileID: 9100000, guid: 7c24df7bb44e8ef4a9e7354e6eb30e20, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
