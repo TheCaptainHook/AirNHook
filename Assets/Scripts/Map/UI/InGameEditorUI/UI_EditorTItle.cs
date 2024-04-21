@@ -11,12 +11,13 @@ public class UI_EditorTItle : UI_Base
     string path = "";
 
     [Header("LoadUI")]
+    [SerializeField] Button loadUiCloseBtn;
     [SerializeField] GameObject loadContainer;
     [SerializeField] GameObject loadUserMapDataBoxItem;
     [SerializeField] Transform contents;
     [SerializeField] GameObject loadingPanel;
 
-
+    List<string> userMapDataJsonList;
     List<UserMapData> userMapDataList;
     List<UserMapDataBoxItem> userMapDataBoxItemList;
 
@@ -26,6 +27,8 @@ public class UI_EditorTItle : UI_Base
         Instantiate(ResourceManager.Instantiate("Prefabs/MapEditor/MapEditor"));
         newBtn.onClick.AddListener(() => { NewCreate(); });
         loadBtn.onClick.AddListener(OpenLoadUI);
+        loadUiCloseBtn.onClick.AddListener(() => { loadContainer.SetActive(false); });
+        userMapDataJsonList = new();
         userMapDataList = new();
         userMapDataBoxItemList = new();
     }
@@ -50,10 +53,12 @@ public class UI_EditorTItle : UI_Base
 
         foreach (string filePath in filePaths)
         {
-            string jsonString = File.ReadAllText(filePath);
-            UserMapData data = JsonUtility.FromJson<UserMapData>(jsonString);
-            if (!userMapDataList.Contains(data))
+            if (!userMapDataJsonList.Contains(filePath))
             {
+                userMapDataJsonList.Add(filePath);
+                string jsonString = File.ReadAllText(filePath);
+                UserMapData data = JsonUtility.FromJson<UserMapData>(jsonString);
+
                 userMapDataList.Add(data);
                 CreateUserMapDataBoxItem(data);
             }

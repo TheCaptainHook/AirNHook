@@ -10,66 +10,68 @@ public class UI_Option : UI_Base
 {
     #region SerializeFields
     [Header("Frames")]
-        [SerializeField] private GameObject _mainFrame;
-        [SerializeField] private GameObject _gameOption;
-        [SerializeField] private GameObject _graphicsOption;
-        [SerializeField] private GameObject _volumeOption;
-        [SerializeField] private GameObject _languageOption;
-        [SerializeField] private Button _optionExitBtn;
-    
-        [Header("OptionBar")]
-        [SerializeField] private Button _gameOptionBtn;
-        [SerializeField] private Button _graphicsOptionBtn;
-        [SerializeField] private Button _volumeOptionBtn;
-        [SerializeField] private Button _languageOptionBtn;
+    [SerializeField] private GameObject _mainFrame;
+    [SerializeField] private GameObject _gameOption;
+    [SerializeField] private GameObject _graphicsOption;
+    [SerializeField] private GameObject _volumeOption;
+    [SerializeField] private GameObject _languageOption;
+    [SerializeField] private Button _optionExitBtn;
 
-        [Header("GameOptionGroups")]
-        [SerializeField] private GameObject _inGameBtnGroups;
-        [SerializeField] private GameObject _inLobbyBtnGroups;
-        [SerializeField] private GameObject _inExitBtnGroups;
-        
-        [Header("GameOption")]
-        [SerializeField] private Button _stageRestartBtn;
-        [SerializeField] private Button _toTitleBtn;
-        [SerializeField] private Button _toLobbyBtn;
-        
-        [SerializeField] private Button _exitGameBtn;
-        
-        [SerializeField] private TMP_Text _infoTxt;
-        [SerializeField] private GameObject _menuInfo;
+    [Header("OptionBar")]
+    [SerializeField] private Button _gameOptionBtn;
+    [SerializeField] private Button _graphicsOptionBtn;
+    [SerializeField] private Button _volumeOptionBtn;
+    [SerializeField] private Button _languageOptionBtn;
 
-        [Header("GraphicsOption")] 
-        [SerializeField] private Toggle _fullScreenToggle;
-        [SerializeField] private Toggle _vsyncToggle;
-        [SerializeField] private Button _applyBtn;
+    [Header("GameOptionGroups")]
+    [SerializeField] private GameObject _inGameBtnGroups;
+    [SerializeField] private GameObject _inLobbyBtnGroups;
+    [SerializeField] private GameObject _inExitBtnGroups;
 
-        [Header("Text")]
-        [SerializeField] private TMP_Text _escText;
-        [SerializeField] private TMP_Text _titleText;
-        [SerializeField] private TMP_Text _lobbyText;
-        [SerializeField] private TMP_Text _restartText;
-        [SerializeField] private TMP_Text _exitText;
-        [SerializeField] private TMP_Text _masterVolumeText;
-        [SerializeField] private TMP_Text _effectsText;
-        [SerializeField] private TMP_Text _bgmText;
-        [SerializeField] private TMP_Text _languageText;
-        [SerializeField] private TMP_Text _resolutionText;
-        [SerializeField] private TMP_Text _fullscreenText;
-        [SerializeField] private TMP_Text _vsyncText;
-        [SerializeField] private TMP_Text _applyText;
-    
-        [SerializeField] private TMP_Text _testBuildText;
+    [Header("GameOption")]
+    [SerializeField] private Button _stageRestartBtn;
+    [SerializeField] private Button _toTitleBtn;
+    [SerializeField] private Button _toLobbyBtn;
 
-        [Header("GameData")]
-        //임시 불린 체크
-        //게임 매니저로부터 게임스테이트 받아야 할 내용들 + 맵 데이터 구현에 따라 달라질 내용
-        [SerializeField] private string _currStageLevel; //스테이지 재시작을 위한 정보 받기
-        private GameState CurrentGameState => Managers.Game.CurrentState;
-        private bool IsInGame => CurrentGameState == GameState.Game; //인게임용 버튼 (스테이지 재시작, 로비로, 타이틀 띄우기 용)
-        private bool IsInLobby => CurrentGameState == GameState.Lobby;
-        private bool IsInTitle => CurrentGameState == GameState.Title;
+    [SerializeField] private Button _exitGameBtn;
+
+    [SerializeField] private TMP_Text _infoTxt;
+    [SerializeField] private GameObject _menuInfo;
+
+    [Header("GraphicsOption")]
+    [SerializeField] private Toggle _fullScreenToggle;
+    [SerializeField] private Toggle _vsyncToggle;
+    [SerializeField] private Button _applyBtn;
+
+    [Header("Text")]
+    [SerializeField] private TMP_Text _escText;
+    [SerializeField] private TMP_Text _titleText;
+    [SerializeField] private TMP_Text _lobbyText;
+    [SerializeField] private TMP_Text _restartText;
+    [SerializeField] private TMP_Text _exitText;
+    [SerializeField] private TMP_Text _masterVolumeText;
+    [SerializeField] private TMP_Text _effectsText;
+    [SerializeField] private TMP_Text _bgmText;
+    [SerializeField] private TMP_Text _languageText;
+    [SerializeField] private TMP_Text _resolutionText;
+    [SerializeField] private TMP_Text _fullscreenText;
+    [SerializeField] private TMP_Text _vsyncText;
+    [SerializeField] private TMP_Text _applyText;
+
+    [SerializeField] private TMP_Text _testBuildText;
+
+    [Header("GameData")]
+    //임시 불린 체크
+    //게임 매니저로부터 게임스테이트 받아야 할 내용들 + 맵 데이터 구현에 따라 달라질 내용
+    [SerializeField] private string _currStageLevel; //스테이지 재시작을 위한 정보 받기
+    private GameState CurrentGameState => Managers.Game.CurrentState;
+    private bool IsInGame => CurrentGameState == GameState.Game; //인게임용 버튼 (스테이지 재시작, 로비로, 타이틀 띄우기 용)
+    private bool IsInLobby => CurrentGameState == GameState.Lobby;
+    private bool IsInTitle => CurrentGameState == GameState.Title;
+
+
     #endregion
-    
+
     public override void OnEnable()
     {
         OpenUI();

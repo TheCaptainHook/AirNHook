@@ -94,12 +94,14 @@ public class MapEditorControllerUI : MonoBehaviour
         objectDrawBtns = new Button[] { moveBtn, rotationBtn, scaleBtn, clearBtn };
     }
 
-
-    private void Start()
-    {
-        
-
-    }
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Escape))
+    //    {
+    //        Managers.Game.CurrentState = GameState.Lobby;
+    //        Managers.UI.ShowUI<UI_Option>();
+    //    }
+    //}
 
     void TileMode() //타일모드로 진입할때, //todo
     {
