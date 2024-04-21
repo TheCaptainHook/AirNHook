@@ -33,7 +33,7 @@ public class Hook : Player
 
     public void ReleaseItem()
     {
-        if (_grabbedItem is null || !isLocalPlayer) return;
+        if (!isLocalPlayer) return;
         
         _grabbedItem = null;
         _animator.SetBool(IsGrabbing, false);
@@ -56,7 +56,7 @@ public class Hook : Player
         _grappling.StopRope();
         _animator.SetTrigger(IsDead);
         Debug.Log("사망하였습니다.");
-        Managers.Game.IncreaseDeathCount();
+        CmdIncreaseDeathCount();
         _movement.IsDead = true;
         _rigidbd.constraints = RigidbodyConstraints2D.FreezeAll;
         _collider2D.enabled = false;

@@ -91,8 +91,10 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _isFixed = false;
         _canInhale = false;
         _rigidbody2D.bodyType = _originType;
+        Debug.Log("a");
         if (_fixedPoint is not null && _fixedPoint.root.TryGetComponent<Hook>(out var hook))
         {
+            Debug.Log("b");
             hook.ReleaseItem();
         }
 
