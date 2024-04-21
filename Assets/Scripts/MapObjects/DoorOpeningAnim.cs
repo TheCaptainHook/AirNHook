@@ -86,8 +86,11 @@ public class DoorOpeningAnim : NetworkBehaviour
                     Managers.Data.mapData.stageLevel++;
                 }
 
-                Managers.Game.CurrentState = GameState.Lobby;
-                MapEditor.Instance.MoveNextStage("Lobby", MapType.Scene);
+                var player = Managers.Game.Player.GetComponent<Player>();
+                if (player.isServer)
+                {
+                    player.CmdChangeStage("Lobby");
+                }
             }
  
             Debug.Log("Stage Clear");

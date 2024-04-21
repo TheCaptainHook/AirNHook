@@ -105,6 +105,10 @@ public class UI_Option : UI_Base
         _applyBtn.onClick.AddListener(OnApplyBtn);
  
         _mainFrame.transform.localScale = Vector3.one * 0.1f;
+
+
+
+        // Managser.game.curstage == gameStage.editor // todo 0421
     }
 
     //==================옵션 바 버튼==================

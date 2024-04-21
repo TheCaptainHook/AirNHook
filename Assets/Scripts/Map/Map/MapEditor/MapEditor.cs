@@ -406,6 +406,9 @@ public class MapEditor : MonoBehaviour
             mapEditorType = MapEditorType.New;
             return;
         }
+
+        if(Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate != null){ Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate = null; }
+
         Init();
         placeMentSystem.ResetTileMap();
         mapEditorType = MapEditorType.Load;

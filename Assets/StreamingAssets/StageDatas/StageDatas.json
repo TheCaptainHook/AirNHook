@@ -7,7 +7,7 @@
   },
   {
     "stageID": "Tutorial_2",
-    "stageClear": false,
+    "stageClear": true,
     "stageClearLevel": 0,
     "stageHiddenObject": 0
   },

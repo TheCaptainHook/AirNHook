@@ -33,9 +33,22 @@ public class FadeInOutPanel : MonoBehaviour
             yield return null;
         }
         //
+        Managers.Network.startPos.Clear();
         MapEditor.Instance.LoadMap(mapId, mapType);
-        yield return new WaitForSeconds(0.5f);
+
+        while (!CheckNetworkStartPos())
+        {
+            Debug.Log("Loading");
+            yield return null;
+        }
+
+        //Debug.Log($"startPos[0] : {(Vector2)Managers.Network.startPos[0].position}, MapEditor start pot: {MapEditor.Instance.startPosition}");
+        //Debug.Log($"{(Vector2)Managers.Network.startPos[0].position == MapEditor.Instance.startPosition}");
+
+
+        Debug.Log(Managers.Network.startPos.Count);
         Managers.Game.Player.GetComponent<Player>().Respawning();
+        ///
         while (percent > 0)
         {
             percent -= Time.deltaTime;
@@ -46,4 +59,28 @@ public class FadeInOutPanel : MonoBehaviour
         
         image.enabled = false;
     }
+
+    
+    private bool CheckNetworkStartPos()
+    {
+        try
+        {
+                if (MapEditor.Instance.startPosition == (Vector2)Managers.Network.startPos[0].position)
+                {
+                    return true;
+                }
+           
+        }
+        catch(Exception ex)
+        {
+            Debug.Log(ex);
+            return false;
+        }
+
+        return false;
+
+
+    }
+
+
 }

@@ -977,9 +977,6 @@ MonoBehaviour:
   _fullscreenText: {fileID: 5485828416495717415}
   _vsyncText: {fileID: 1524036839117230850}
   _applyText: {fileID: 100172405115645946}
-  isInGame: 0
-  isInLobby: 0
-  isNotInMenu: 0
   _currStageLevel: 
 --- !u!114 &3145487480319722438
 MonoBehaviour:
