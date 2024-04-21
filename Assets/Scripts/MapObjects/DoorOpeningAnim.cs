@@ -94,7 +94,7 @@ public class DoorOpeningAnim : NetworkBehaviour
             }
  
             Debug.Log("Stage Clear");
-            
+            //
         }
         else
         {
