@@ -1,0 +1,82 @@
+[
+  {
+    "stageID": "Tutorial_1",
+    "stageClear": true,
+    "clearTime": 80.37507,
+    "totalDeath": 2,
+    "deathCount": 2,
+    "skip": false,
+    "stageLevel": 0,
+    "stageHiddenObject": 0
+  },
+  {
+    "stageID": "Tutorial_2",
+    "stageClear": true,
+    "clearTime": 129.927979,
+    "totalDeath": 3,
+    "deathCount": 3,
+    "skip": false,
+    "stageLevel": 0,
+    "stageHiddenObject": 0
+  },
+  {
+    "stageID": "Tutorial_3",
+    "stageClear": true,
+    "clearTime": 333.8488,
+    "totalDeath": 7,
+    "deathCount": 7,
+    "skip": false,
+    "stageLevel": 0,
+    "stageHiddenObject": 0
+  },
+  {
+    "stageID": "Stage1-1",
+    "stageClear": false,
+    "clearTime": 0.0,
+    "totalDeath": 0,
+    "deathCount": 0,
+    "skip": false,
+    "stageLevel": 1,
+    "stageHiddenObject": 0
+  },
+  {
+    "stageID": "Stage1-2",
+    "stageClear": false,
+    "clearTime": 0.0,
+    "totalDeath": 0,
+    "deathCount": 0,
+    "skip": false,
+    "stageLevel": 1,
+    "stageHiddenObject": 0
+  },
+  {
+    "stageID": "Stage1-3",
+    "stageClear": false,
+    "clearTime": 0.0,
+    "totalDeath": 0,
+    "deathCount": 0,
+    "skip": false,
+    "stageLevel": 1,
+    "stageHiddenObject": 0
+  },
+  {
+    "stageID": "Stage1-4",
+    "stageClear": false,
+    "clearTime": 0.0,
+    "totalDeath": 0,
+    "deathCount": 0,
+    "skip": false,
+    "stageLevel": 1,
+    "stageHiddenObject": 0
+  },
+  {
+    "stageID": "Stage1-5",
+    "stageClear": false,
+    "clearTime": 0.0,
+    "totalDeath": 0,
+    "deathCount": 0,
+    "skip": false,
+    "stageLevel": 1,
+    "stageHiddenObject": 0
+  }
+]
