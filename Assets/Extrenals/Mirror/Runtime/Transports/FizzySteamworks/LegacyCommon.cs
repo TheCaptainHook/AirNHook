@@ -8,6 +8,8 @@ namespace Mirror.FizzySteam
 {
     public abstract class LegacyCommon
     {
+        private LegacyClient legacyClient => (LegacyClient)this;
+
         private EP2PSend[] channels;
         private int internal_ch => channels.Length;
 
@@ -85,15 +87,25 @@ namespace Mirror.FizzySteam
         }
         protected void Send(CSteamID host, byte[] msgBuffer, int channel)
         {
+            try
+            {
 #if UNITY_SERVER
             SteamGameServerNetworking.SendP2PPacket(host, msgBuffer, (uint)msgBuffer.Length, channels[Mathf.Min(channel, channels.Length - 1)], channel);
 #else
-            SteamNetworking.SendP2PPacket(host, msgBuffer, (uint)msgBuffer.Length, channels[Mathf.Min(channel, channels.Length - 1)], channel);
+                SteamNetworking.SendP2PPacket(host, msgBuffer, (uint)msgBuffer.Length, channels[Mathf.Min(channel, channels.Length - 1)], channel);
 #endif
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"SteamNetworking exception during Send: {ex.Message}");
+                legacyClient.Disconnect();
+            }
         }
 
         private bool Receive(out CSteamID clientSteamID, out byte[] receiveBuffer, int channel)
         {
+            try
+            {
 #if UNITY_SERVER
             if (SteamGameServerNetworking.IsP2PPacketAvailable(out uint packetSize, channel))
             {
@@ -101,12 +113,23 @@ namespace Mirror.FizzySteam
                 return SteamGameServerNetworking.ReadP2PPacket(receiveBuffer, packetSize, out _, out clientSteamID, channel);
             }
 #else
-            if (SteamNetworking.IsP2PPacketAvailable(out uint packetSize, channel))
-            {
-                receiveBuffer = new byte[packetSize];
-                return SteamNetworking.ReadP2PPacket(receiveBuffer, packetSize, out _, out clientSteamID, channel);
-            }
+                if (SteamNetworking.IsP2PPacketAvailable(out uint packetSize, channel))
+                {
+                    receiveBuffer = new byte[packetSize];
+                    return SteamNetworking.ReadP2PPacket(receiveBuffer, packetSize, out _, out clientSteamID, channel);
+                }
 #endif
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"SteamNetworking exception during Recive: {ex.Message}");
+                receiveBuffer = null;
+                clientSteamID = CSteamID.Nil;
+
+                legacyClient.Disconnect();
+                return false;
+            }
+
 
             receiveBuffer = null;
             clientSteamID = CSteamID.Nil;
@@ -169,6 +192,7 @@ namespace Mirror.FizzySteam
             catch (Exception e)
             {
                 Debug.LogException(e);
+                legacyClient.Disconnect();
             }
         }
 

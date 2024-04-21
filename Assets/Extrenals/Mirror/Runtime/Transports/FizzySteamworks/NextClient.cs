@@ -49,9 +49,16 @@ namespace Mirror.FizzySteam
 #endif
                 c.Connect(host);
             }
+            catch (FormatException)
+            {
+                Debug.LogError($"Connection string was not in the right format. Did you enter a SteamId?");
+                c.Error = true;
+                c.OnConnectionFailed();
+            }
             catch (Exception ex)
             {
-                Debug.LogException(ex);
+                Debug.LogError($"Unexpected exception: {ex.Message}");
+                c.Error = true;
                 c.OnConnectionFailed();
             }
 
@@ -103,7 +110,7 @@ namespace Mirror.FizzySteam
             }
             catch (Exception ex)
             {
-                Debug.LogError(ex.Message);
+                Debug.LogError($"Unexpected exception: {ex.Message}");
                 Error = true;
                 OnConnectionFailed();
             }
@@ -152,6 +159,11 @@ namespace Mirror.FizzySteam
         {
             cancelToken?.Cancel();
             Dispose();
+
+            if (Connected)
+            {
+                InternalDisconnect();
+            }
 
             if (HostConnection.m_HSteamNetConnection != 0)
             {
@@ -202,16 +214,24 @@ namespace Mirror.FizzySteam
 
         public void Send(byte[] data, int channelId)
         {
-            EResult res = SendSocket(HostConnection, data, channelId);
+            try
+            {
+                EResult res = SendSocket(HostConnection, data, channelId);
 
-            if (res == EResult.k_EResultNoConnection || res == EResult.k_EResultInvalidParam)
-            {
-                Debug.Log($"Connection to server was lost.");
-                InternalDisconnect();
+                if (res == EResult.k_EResultNoConnection || res == EResult.k_EResultInvalidParam)
+                {
+                    Debug.Log($"Connection to server was lost.");
+                    InternalDisconnect();
+                }
+                else if (res != EResult.k_EResultOK)
+                {
+                    Debug.LogError($"Could not send: {res.ToString()}");
+                }
             }
-            else if (res != EResult.k_EResultOK)
+            catch (Exception ex)
             {
-                Debug.LogError($"Could not send: {res.ToString()}");
+                Debug.LogError($"SteamNetworking exception during Send: {ex.Message}");
+                InternalDisconnect();
             }
         }
 
