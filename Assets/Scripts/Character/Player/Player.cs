@@ -97,13 +97,25 @@ public class Player : NetworkBehaviour, IDamageable
         
         if (isDead) return;
         Debug.Log("사망하였습니다.");
-        Managers.Game.IncreaseDeathCount();
         // 여기에 필요한 사망 처리
         // _animator.SetTrigger(IsDead);
+        CmdIncreaseDeathCount(isLocalPlayer);
         isDead = true;
         _movement.IsDead = true;
         _rigidbd.constraints = FreezeAll;
         _collider2D.enabled = false;
+    }
+
+    [Command(requiresAuthority = false)]
+    protected void CmdIncreaseDeathCount(bool value)
+    {
+        RpcIncreaseDeathCount(value);
+    }
+    
+    [ClientRpc]
+    private void RpcIncreaseDeathCount(bool value)
+    {
+        Managers.Game.IncreaseDeathCount(value);
     }
     
     public void Respawning()

@@ -17,7 +17,7 @@ public class GameManager
     public CharacterType playerCharacterType = CharacterType.Default;
 
     public string mapID;
-    private string _stargeID;
+    private string _stageID;
     private float _startTime;
     private float _clearTime;
     private int _clearDeath;
@@ -93,18 +93,21 @@ public class GameManager
 
     public void StageStart()
     {
-        _stargeID = mapID;
+        if (mapID is null or "Lobby") return;
+        
+        _stageID = mapID;
         _startTime = Time.time;
         _clearDeath = 0;
-        _totalDeath = Managers.Data.loadData.playData[_stargeID].totalDeath;
+        _totalDeath = Managers.Data.loadData.playData[_stageID].totalDeath;
         _skip = false;
     }
 
     //캐릭터 사망시 데스카운트추가
-    public void IncreaseDeathCount()
+    public void IncreaseDeathCount(bool isLocalPlayer)
     {
-        _clearDeath++;
         _totalDeath++;
+        if(isLocalPlayer)
+            _clearDeath++;
     }
 
     //스킵버튼클릭시 활성화
@@ -113,10 +116,13 @@ public class GameManager
         _skip = true;
     }
 
-    public void StageClear()
+    public void StageClear(string stageID)
     {
+        if (stageID.Equals("Lobby")) return;
+
+        _stageID = stageID;
         _clearTime = Time.time;
-        Managers.Data.loadData.playData[_stargeID].stageClear = true;
+        Managers.Data.loadData.playData[stageID].stageClear = true;
 
         DeathCompare();
         TimeCompare();
@@ -126,17 +132,17 @@ public class GameManager
 
     public void DeathCompare()
     {
-        Managers.Data.loadData.playData[_stargeID].deathCount = _clearDeath;
-        Managers.Data.loadData.playData[_stargeID].totalDeath = _totalDeath;
+        Managers.Data.loadData.playData[_stageID].deathCount = _clearDeath;
+        Managers.Data.loadData.playData[_stageID].totalDeath = _totalDeath;
     }
 
     public void TimeCompare()
     {
         var timeGap = _clearTime - _startTime;
 
-        if (Managers.Data.loadData.playData[_stargeID].clearTime == 0 || timeGap < Managers.Data.loadData.playData[_stargeID].clearTime)
+        if (Managers.Data.loadData.playData[_stageID].clearTime == 0 || timeGap < Managers.Data.loadData.playData[_stageID].clearTime)
         {
-            Managers.Data.loadData.playData[_stargeID].clearTime = timeGap;
+            Managers.Data.loadData.playData[_stageID].clearTime = timeGap;
             DeathCompare();
         }
     }

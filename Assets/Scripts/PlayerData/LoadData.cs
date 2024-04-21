@@ -10,16 +10,15 @@ public class LoadData
     public Dictionary<int, List<string>> stageClearLevelData = new Dictionary<int, List<string>>();
 
     private int _stagelevel;
+    private readonly string _playDataPath = $"{Application.dataPath}/PlayData.json";
 
     public void Setup()
     {
         //TODO 아래부분을 Start가 아닌 다른부분에 넣어서 사용하면됩니다.
-        var playDataPath = Application.dataPath + "/PlayData.json";
-
         //playData있는지 없는지 체크
-        if (File.Exists(playDataPath))
+        if (File.Exists(_playDataPath))
         {
-            var playDataList = Managers.Data.ReadJson<PlayData>(playDataPath);
+            var playDataList = Managers.Data.ReadJson<PlayData>(_playDataPath);
             if (playDataList.Length < Managers.Data.mapData.mapMainDictionary.Count)
             {
                 DataAdd();
@@ -40,7 +39,6 @@ public class LoadData
 
     public void DataAdd()
     {
-        var playDataPath = Application.dataPath + "/PlayData.json";
         //playData,stageData에 데이터넣기
         foreach (var key in Managers.Data.mapData.mapMainDictionary.Keys)
         {
@@ -68,14 +66,12 @@ public class LoadData
             }
         }
         //해당위치에 해당파일이 있는지 체크하고 없으면 생성
-        File.WriteAllText(playDataPath, JsonConvert.SerializeObject(playData.Values, Formatting.Indented));
+        File.WriteAllText(_playDataPath, JsonConvert.SerializeObject(playData.Values, Formatting.Indented));
     }
 
     //TODO 스테이지 클리어가되면 동시에 작업이 이루어져야함
     public void Save()
     {
-        var playDataPath = Application.dataPath + "/PlayData.json";
-
-        File.WriteAllText(playDataPath, JsonConvert.SerializeObject(playData.Values, Formatting.Indented));
+        File.WriteAllText(_playDataPath, JsonConvert.SerializeObject(playData.Values, Formatting.Indented));
     }
 }

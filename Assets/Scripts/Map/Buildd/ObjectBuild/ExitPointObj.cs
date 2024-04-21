@@ -60,8 +60,10 @@ public class ExitPointObj : BuildBase
 
     void GetKey(GameObject gameObject)
     {
+        Debug.Log("c");
         gameObject.GetComponent<Key>().CallOnInterableObjectRelease();
-        Managers.Stage.CmdDestroyObject(gameObject);
+        //Managers.Stage.CmdDestroyObject(gameObject);
+        Destroy(gameObject);
         Current_KeyAmount = 1;
     }
 
@@ -70,9 +72,6 @@ public class ExitPointObj : BuildBase
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if( Managers.Game.CurrentState != GameState.Editor && !Managers.Game.Player.GetComponent<Player>().isServer) return;
-        
-
         if (collision.gameObject.layer == LayerMask.NameToLayer("Key") && !turnOff)
         {
             GetKey(collision.gameObject);
@@ -81,10 +80,10 @@ public class ExitPointObj : BuildBase
         
         if(!Managers.Game.Player.GetComponent<Player>().isServer) return;
 
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && stageClear)
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             curPlayerInDoor++;
-            if(curPlayerInDoor >= 2)
+            if(stageClear && curPlayerInDoor >= 2)
             {
                 MoveNextStage();
             }
@@ -95,9 +94,8 @@ public class ExitPointObj : BuildBase
     {
         if (Managers.Game.CurrentState != GameState.Editor && !Managers.Game.Player.GetComponent<Player>().isServer) return;
         
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && stageClear)
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            
             curPlayerInDoor--;
             if(curPlayerInDoor < 0) { curPlayerInDoor = 0; }
         }
@@ -105,28 +103,8 @@ public class ExitPointObj : BuildBase
 
     public void MoveNextStage()
     {
-        UpdateStageClearData(MapEditor.Instance.curMap.mapID);
         doorOpeningAnim.CmdMoveNextStage(nextMapId);
-        if (nextMapId != "")
-        {
-            Managers.Game.mapID = nextMapId;
-            Managers.Game.StageStart();
-        }
     }
-
-
-    private void UpdateStageClearData(string mapId)
-    {
-        if (mapId == "Lobby") return;
-
-        //if (!Managers.Data.loadData.playData[mapId].stageClear)
-        //{
-        //    Managers.Data.loadData.playData[mapId].stageClear = true;
-        //}
-
-        Managers.Game.StageClear();
-    }
-
 
     public override void TurnOff()
     {

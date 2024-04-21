@@ -43,8 +43,6 @@ public class FadeInOutPanel : MonoBehaviour
         //    yield return null;
         //}
 
-        yield return new WaitForSeconds(1f);
-
         //Debug.Log($"startPos[0] : {(Vector2)Managers.Network.startPos[0].position}, MapEditor start pot: {MapEditor.Instance.startPosition}");
         //Debug.Log($"{(Vector2)Managers.Network.startPos[0].position == MapEditor.Instance.startPosition}");
 
@@ -60,7 +58,7 @@ public class FadeInOutPanel : MonoBehaviour
             yield return null;
         }
 
-
+        Managers.Game.StageStart();
         image.enabled = false;
     }
 
