@@ -192,6 +192,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa50bc9337d6d3e46a4496b68f0bc95d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   _lockGameObject: {fileID: 3827269398014669780}
   _lockRigidbody2D: {fileID: 2248341254147455152}
   _lockCollider2D: {fileID: 7971026482734978906}
@@ -209,6 +212,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 301
   transformID: 3
+  offset: {x: 0, y: 0}
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0
@@ -623,7 +627,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0

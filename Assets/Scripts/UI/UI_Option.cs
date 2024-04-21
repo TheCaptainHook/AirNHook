@@ -67,7 +67,7 @@ public class UI_Option : UI_Base
         private GameState CurrentGameState => Managers.Game.CurrentState;
         private bool IsInGame => CurrentGameState == GameState.Game; //인게임용 버튼 (스테이지 재시작, 로비로, 타이틀 띄우기 용)
         private bool IsInLobby => CurrentGameState == GameState.Lobby;
-        private bool IsNotInMenu => CurrentGameState == GameState.Title;
+        private bool IsInTitle => CurrentGameState == GameState.Title;
     #endregion
     
     public override void OnEnable()
@@ -76,8 +76,8 @@ public class UI_Option : UI_Base
         AppendAnim(_mainFrame, 1.1f, 0.2f, 1f, 0.1f);
         _inGameBtnGroups.SetActive(IsInGame);
         _inLobbyBtnGroups.SetActive(IsInLobby);
-        _inExitBtnGroups.SetActive(IsNotInMenu);
-        _menuInfo.SetActive(!IsNotInMenu);
+        _inExitBtnGroups.SetActive(IsInTitle);
+        _menuInfo.SetActive(IsInTitle);
     }
 
     protected override void Start()
@@ -118,8 +118,8 @@ public class UI_Option : UI_Base
         _languageOption.SetActive(false);
         _inGameBtnGroups.SetActive(IsInGame);
         _inLobbyBtnGroups.SetActive(IsInLobby);
-        _inExitBtnGroups.SetActive(IsNotInMenu);
-        _menuInfo.SetActive(!IsNotInMenu);
+        _inExitBtnGroups.SetActive(IsInTitle);
+        _menuInfo.SetActive(IsInTitle);
     }
     
     private void OnGraphicsOptionBtn()
