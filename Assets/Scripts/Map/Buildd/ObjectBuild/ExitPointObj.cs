@@ -113,9 +113,9 @@ public class ExitPointObj : BuildBase
     private void UpdateStageClearData(string mapId)
     {
         if (mapId == "Lobby") return;
-        if (!Managers.Data.loadData.stageData[mapId].stageClear)
+        if (!Managers.Data.loadData.playData[mapId].stageClear)
         {
-            Managers.Data.loadData.stageData[mapId].stageClear = true;
+            Managers.Data.loadData.playData[mapId].stageClear = true;
         }
 
         
