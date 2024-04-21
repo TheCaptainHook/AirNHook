@@ -69,11 +69,11 @@ public class UI_Title : UI_Base
         //Managers.Game.CurrentState = GameState.Editor;//Editor TEST
         //Managers.UI.ShowLoadingUI("TestScene_MapEditor");//Editor TEST
 
-#if UNITY_EDITOR
-        Managers.Network.StartHost();
-#else
+//#if UNITY_EDITOR
+//        Managers.Network.StartHost();
+//#else
         Managers.Network.steamLobby.HostLobby();
-#endif
+//#endif
     }
 
     private void OnMapEditorBtn()

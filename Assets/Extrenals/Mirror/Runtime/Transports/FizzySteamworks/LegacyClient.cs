@@ -45,9 +45,16 @@ namespace Mirror.FizzySteam
 #endif
                 c.Connect(host);
             }
-            catch
+            catch(FormatException)
             {
-                Debug.LogError("SteamWorks not initialized.");
+                Debug.LogError($"Connection string was not in the right format. Did you enter a SteamId?");
+                c.Error = true;
+                c.OnConnectionFailed(CSteamID.Nil);
+            }
+            catch(Exception ex)
+            {
+                Debug.LogError($"Unexpected exception: {ex.Message}");
+                c.Error = true;
                 c.OnConnectionFailed(CSteamID.Nil);
             }
 
@@ -94,7 +101,7 @@ namespace Mirror.FizzySteam
             }
             catch (Exception ex)
             {
-                Debug.LogError(ex.Message);
+                Debug.LogError($"Unexpected exception: {ex.Message}");
                 Error = true;
                 OnConnectionFailed(hostSteamID);
             }
@@ -102,6 +109,7 @@ namespace Mirror.FizzySteam
             {
                 if (Error)
                 {
+                    Debug.LogError("Connection failed.");
                     OnConnectionFailed(CSteamID.Nil);
                 }
             }
