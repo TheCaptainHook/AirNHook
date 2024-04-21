@@ -20,7 +20,7 @@ public class DataManager
     {
         language.Setup();
         mapData.SetUp();
-        loadData.Setup();
+        //loadData.Setup();
     }
     
     public T[] ReadJson<T>(string path)
