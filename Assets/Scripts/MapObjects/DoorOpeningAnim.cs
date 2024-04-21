@@ -86,15 +86,15 @@ public class DoorOpeningAnim : NetworkBehaviour
                     Managers.Game.stageLevel++;
                 }
 
+                //Managers.Game.StageLevelPlus()
+
                 var player = Managers.Game.Player.GetComponent<Player>();
                 if (player.isServer)
                 {
                     player.CmdChangeStage("Lobby");
                 }
             }
- 
             Debug.Log("Stage Clear");
-            
         }
         else
         {

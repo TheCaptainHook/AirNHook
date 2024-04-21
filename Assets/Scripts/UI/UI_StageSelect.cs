@@ -173,7 +173,6 @@ public class UI_StageSelect : UI_Base
                 UI_StageInMapSelect sis = obj.GetComponent<UI_StageInMapSelect>();
                 sis.CheckStageClearItem();
             }
-
         }
     }
     #endregion
