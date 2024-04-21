@@ -122,6 +122,7 @@ public class Player : NetworkBehaviour, IDamageable
     {
         Debug.Log("리스포닝");
         
+        _rigidbd.velocity = Vector2.zero;
         transform.position = Managers.Network.startPos[0].position;
         //_animator.SetTrigger(IsRespawning);
         //_networkAnimator.SetTrigger(IsRespawning);

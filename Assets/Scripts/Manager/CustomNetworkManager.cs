@@ -30,7 +30,7 @@ public class CustomNetworkManager : NetworkManager
     {
         base.OnStartServer();
         
-        NetworkServer.RegisterHandler<CreateCustomCharacterMessage>(OnCreateCharacter);
+        //NetworkServer.RegisterHandler<CreateCustomCharacterMessage>(OnCreateCharacter);
     }
 
     private void OnCreateCharacter(NetworkConnectionToClient conn, CreateCustomCharacterMessage message)

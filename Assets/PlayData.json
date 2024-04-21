@@ -31,10 +31,10 @@
   },
   {
     "stageID": "Stage1-1",
-    "stageClear": false,
-    "clearTime": 0.0,
-    "totalDeath": 0,
-    "deathCount": 0,
+    "stageClear": true,
+    "clearTime": 193.4502,
+    "totalDeath": 3,
+    "deathCount": 1,
     "skip": false,
     "stageLevel": 1,
     "stageHiddenObject": 0
