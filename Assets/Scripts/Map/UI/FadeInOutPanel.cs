@@ -25,6 +25,7 @@ public class FadeInOutPanel : MonoBehaviour
         image.enabled = true;
         float percent = 0;
         Color fadeOutcolor = new Color(orgColor.r, orgColor.g, orgColor.b, 1);
+        Managers.Stage.stageName = mapId;
         while(percent < 1)
         {
             percent += Time.deltaTime;
@@ -47,6 +48,7 @@ public class FadeInOutPanel : MonoBehaviour
 
 
         Debug.Log(Managers.Network.startPos.Count);
+
         Managers.Game.Player.GetComponent<Player>().Respawning();
         ///
         while (percent > 0)

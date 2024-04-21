@@ -61,9 +61,9 @@ namespace MapObjects
 
         private void UpdateLaser()
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position,transform.right, _curDistanceRay,_layerMask);
-            Debug.DrawRay(transform.position, transform.right * _curDistanceRay, Color.blue);
-            if (hit.collider != null)
+            RaycastHit2D hit = Physics2D.Raycast(_firePoint.position,_firePoint.right, _curDistanceRay,_layerMask);
+            Debug.DrawRay(_firePoint.position, _firePoint.right * _curDistanceRay, Color.blue);
+            if (hit.collider is not null)
             {
                 onHit = true;
                 _curDistanceRay = hit.distance;
@@ -99,12 +99,12 @@ namespace MapObjects
         IEnumerator Co_RecoveryRay()
         {
             onRecoveryRay = true;
-            _lineRenderer.enabled = false;
-            _endVFX.transform.position = transform.position;
+            //_lineRenderer.enabled = false;
+            //_endVFX.transform.position = transform.position;
 
             while (!onHit && _curDistanceRay <_defDistanceRay)
             {
-                _curDistanceRay += Time.deltaTime+0.15f;
+                _curDistanceRay += Time.deltaTime+1f;
                 yield return null;
             }
             onRecoveryRay = false;

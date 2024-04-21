@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class MapData
 {
-    public int stageLevel = 0;
-
     public Dictionary<int, MapDataStruct> mapTileDataDictionary = new Dictionary<int, MapDataStruct>();
     public Dictionary<int, MapDataStruct> mapObjectDataDictionary = new Dictionary<int, MapDataStruct>();
     public Dictionary<int, MapDataStruct> mapSceneDataDictionary = new Dictionary<int, MapDataStruct>();
@@ -62,7 +60,7 @@ public class MapData
         }
 
         //todo
-        for(int i = 0; i< stageLevel + 1; i++)
+        for(int i = 0; i< Managers.Game.stageLevel + 1; i++)
         {
             GetMainStageMapData(i);
      

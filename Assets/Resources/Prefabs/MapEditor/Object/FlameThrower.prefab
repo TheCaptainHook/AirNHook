@@ -206,6 +206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 309
   transformID: 1
+  offset: {x: 0, y: 0}
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 1
@@ -215,7 +216,7 @@ MonoBehaviour:
   onActive: 0
   layerMask:
     serializedVersion: 2
-    m_Bits: 1524928
+    m_Bits: 2049216
   flame: {fileID: 1256057224243392037}
 --- !u!1 &9092146968563663255
 GameObject:

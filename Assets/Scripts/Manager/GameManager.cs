@@ -16,6 +16,16 @@ public class GameManager
     public GameState CurrentState { get; set; }
     public CharacterType playerCharacterType = CharacterType.Default;
 
+    public string mapID;
+    private string _stargeID;
+    private float _startTime;
+    private float _clearTime;
+    private int _clearDeath;
+    private int _totalDeath;
+    private bool _skip;
+
+    public int stageLevel = 0;
+
     private GameObject _player;
     // 플레이어가 GameScene에서만 생성되고, NetworkManager에 의해 생성되기에
     // 이렇게 불러오는 방식을 채택.
@@ -78,6 +88,56 @@ public class GameManager
             case 2:
                 Debug.Log("Scene Loaded 2");
                 break;
+        }
+    }
+
+    public void StageStart()
+    {
+        _stargeID = mapID;
+        _startTime = Time.time;
+        _clearDeath = 0;
+        _totalDeath = Managers.Data.loadData.playData[_stargeID].totalDeath;
+        _skip = false;
+    }
+
+    //캐릭터 사망시 데스카운트추가
+    public void IncreaseDeathCount()
+    {
+        _clearDeath++;
+        _totalDeath++;
+    }
+
+    //스킵버튼클릭시 활성화
+    public void Skip()
+    {
+        _skip = true;
+    }
+
+    public void StageClear()
+    {
+        _clearTime = Time.time;
+        Managers.Data.loadData.playData[_stargeID].stageClear = true;
+
+        DeathCompare();
+        TimeCompare();
+
+        Managers.Data.loadData.Save();
+    }
+
+    public void DeathCompare()
+    {
+        Managers.Data.loadData.playData[_stargeID].deathCount = _clearDeath;
+        Managers.Data.loadData.playData[_stargeID].totalDeath = _totalDeath;
+    }
+
+    public void TimeCompare()
+    {
+        var timeGap = _clearTime - _startTime;
+
+        if (Managers.Data.loadData.playData[_stargeID].clearTime == 0 || timeGap < Managers.Data.loadData.playData[_stargeID].clearTime)
+        {
+            Managers.Data.loadData.playData[_stargeID].clearTime = timeGap;
+            DeathCompare();
         }
     }
 }

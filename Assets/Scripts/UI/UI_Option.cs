@@ -57,6 +57,8 @@ public class UI_Option : UI_Base
         [SerializeField] private TMP_Text _fullscreenText;
         [SerializeField] private TMP_Text _vsyncText;
         [SerializeField] private TMP_Text _applyText;
+    
+        [SerializeField] private TMP_Text _testBuildText;
 
         [Header("GameData")]
         //임시 불린 체크
@@ -65,7 +67,7 @@ public class UI_Option : UI_Base
         private GameState CurrentGameState => Managers.Game.CurrentState;
         private bool IsInGame => CurrentGameState == GameState.Game; //인게임용 버튼 (스테이지 재시작, 로비로, 타이틀 띄우기 용)
         private bool IsInLobby => CurrentGameState == GameState.Lobby;
-        private bool IsNotInMenu => CurrentGameState == GameState.Title;
+        private bool IsInTitle => CurrentGameState == GameState.Title;
     #endregion
     
     public override void OnEnable()
@@ -74,8 +76,8 @@ public class UI_Option : UI_Base
         AppendAnim(_mainFrame, 1.1f, 0.2f, 1f, 0.1f);
         _inGameBtnGroups.SetActive(IsInGame);
         _inLobbyBtnGroups.SetActive(IsInLobby);
-        _inExitBtnGroups.SetActive(IsNotInMenu);
-        _menuInfo.SetActive(!IsNotInMenu);
+        _inExitBtnGroups.SetActive(IsInTitle);
+        _menuInfo.SetActive(IsInTitle);
     }
 
     protected override void Start()
@@ -120,8 +122,8 @@ public class UI_Option : UI_Base
         _languageOption.SetActive(false);
         _inGameBtnGroups.SetActive(IsInGame);
         _inLobbyBtnGroups.SetActive(IsInLobby);
-        _inExitBtnGroups.SetActive(IsNotInMenu);
-        _menuInfo.SetActive(!IsNotInMenu);
+        _inExitBtnGroups.SetActive(IsInTitle);
+        _menuInfo.SetActive(IsInTitle);
     }
     
     private void OnGraphicsOptionBtn()
@@ -151,20 +153,22 @@ public class UI_Option : UI_Base
     //==================게임 옵션===========================
     private void OnLobbyBtn()
     {
+        if(!Managers.Game.Player.TryGetComponent<Player>(out var player)) return;
+        
+        if (!player.isServer) return;
+        
         OnOptionExit();
-        //Managers.UI.ShowLoadingUI("Test_LobbyScene");
-        //TODO 로비로
-        var player = Managers.Game.Player.GetComponent<Player>();
-        if (player.isServer)
-        {
-            player.CmdChangeStage("Lobby");
-        }
+        player.CmdChangeStage("Lobby");
     }
     
     private void OnStageRestartBtn()
     {
+        if(!Managers.Game.Player.TryGetComponent<Player>(out var player)) return;
+
+        if (!player.isServer) return;
+        
         OnOptionExit();
-        Managers.Network.ServerChangeScene("MainScene");
+        player.CmdChangeStage(Managers.Stage.stageName);
     }
     
     private void OnTitleBtn()
@@ -248,5 +252,6 @@ public class UI_Option : UI_Base
         SetSentence(_fullscreenText, 1006);
         SetSentence(_vsyncText, 1012);
         SetSentence(_applyText, 1013);
+        SetSentence(_testBuildText, 1015);
     }
 }

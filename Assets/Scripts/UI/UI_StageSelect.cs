@@ -156,10 +156,10 @@ public class UI_StageSelect : UI_Base
     private void CheckCurStageLevel() // Used when stage level up
     {
         if (stageInMapSelectList == null) return;
-        if(Managers.Data.mapData.stageLevel > stageInMapSelectList.Count - 1)
+        if(Managers.Game.stageLevel > stageInMapSelectList.Count - 1)
         {
-            Managers.Data.mapData.GetMainStageMapData(Managers.Data.mapData.stageLevel);
-            Create(Managers.Data.mapData.stageLevel);
+            Managers.Data.mapData.GetMainStageMapData(Managers.Game.stageLevel);
+            Create(Managers.Game.stageLevel);
         }
 
     }
