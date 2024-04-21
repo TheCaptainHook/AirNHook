@@ -26,6 +26,7 @@ public class FadeInOutPanel : MonoBehaviour
         float percent = 0;
         Color fadeOutcolor = new Color(orgColor.r, orgColor.g, orgColor.b, 1);
         Managers.Stage.stageName = mapId;
+
         while (percent < 1)
         {
             percent += Time.deltaTime;
@@ -37,6 +38,7 @@ public class FadeInOutPanel : MonoBehaviour
         Managers.Network.startPos.Clear();
         MapEditor.Instance.LoadMap(mapId, mapType);
 
+        yield return new WaitForSeconds(1f);
         //while (!CheckNetworkStartPos())
         //{
         //    Debug.Log("Loading");

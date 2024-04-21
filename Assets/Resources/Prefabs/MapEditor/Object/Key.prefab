@@ -175,7 +175,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 307
-  transformID: 0
+  transformID: 1
+  offset: {x: 0, y: 0}
   distructionStatus: 1
   onPlaceable: 0
   onRotateable: 0

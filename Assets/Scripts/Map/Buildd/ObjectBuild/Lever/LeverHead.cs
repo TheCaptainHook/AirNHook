@@ -6,15 +6,17 @@ public class LeverHead : BuildObj
 {
     Collider2D _collider;
     Rigidbody2D _rb;
-
+    [SerializeField] SpriteRenderer spriteRenderer;
+    //Material dissolveMaterial;
     //effect
-    float dissolveRate = 0.005f;
+    float dissolveRate = 0.05f;
 
     private void Awake()
     {
         _collider = GetComponent<Collider2D>();
         _rb = GetComponent<Rigidbody2D>();
-        //OnDissolveAction += Dissolve;
+        //dissolveMaterial = spriteRenderer.material;
+        OnDissolveAction += Dissolve;
     }
 
 
@@ -53,7 +55,7 @@ public class LeverHead : BuildObj
     {
         if (MapEditor.Instance.mapEditorState != MapEditorState.NoEditor)
         {
-            EditorMode_Destroy();
+            StartCoroutine(Co_Dissolve(orgPosition));
         }
         else
         {
