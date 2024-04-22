@@ -100,8 +100,6 @@ public class GameManager
         _clearDeath = 0;
         _totalDeath = Managers.Data.loadData.playData[_stageID].totalDeath;
         _skip = false;
-        Debug.Log("_stageID = " + _stageID);
-        Debug.Log("_startTime = " + _startTime);
     }
 
     //캐릭터 사망시 데스카운트추가
@@ -124,7 +122,6 @@ public class GameManager
 
         _stageID = stageID;
         _clearTime = Time.time;
-        Debug.Log("!!!!!!!!!!!!!!! = " + _clearTime);
         Managers.Data.loadData.playData[stageID].stageClear = true;
 
         DeathCompare();
@@ -150,6 +147,5 @@ public class GameManager
             Managers.Data.loadData.playData[_stageID].clearTime = timeGap;
             DeathCompare();
         }
-        Debug.Log("timeGap = " + timeGap);
     }
 }
