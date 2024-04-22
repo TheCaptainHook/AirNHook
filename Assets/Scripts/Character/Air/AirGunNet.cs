@@ -177,6 +177,9 @@ public class AirGunNet : NetworkBehaviour
 
                 if (angle > 45) continue;
 
+                // 후크가 잡고 있는 물체 처리
+                if (collision.TryGetComponent<IInhalable>(out var inhalable) && !inhalable.CanInhale()) continue;
+                
                 // 장애물 처리
                 var hit = Physics2D.Raycast(_weaponPoint.position, objectVector, targetDistance, _obstacleMask);
                 if (!ReferenceEquals(hit.collider, collision)) continue;
@@ -382,7 +385,6 @@ public class AirGunNet : NetworkBehaviour
     private void StickToHook()
     {
         _canStick = false;
-        _isStick = true;
 
         _stickToHookCoroutine = StartCoroutine(Co_StickHook());
     }
@@ -391,6 +393,7 @@ public class AirGunNet : NetworkBehaviour
     {
         var stick = false;
         _sticking = true;
+        _rigidbody2D.drag = 8f;
         while (true)
         {
             if (!stick)
@@ -420,7 +423,9 @@ public class AirGunNet : NetworkBehaviour
                 _rigidbody2D.velocity = Vector2.zero;
                 transform.position = _grappling.transform.position + _offset;
                 //_grappling.GetComponent<HookMovement>().isAirAttached = true;
+                _rigidbody2D.drag = 0f;
                 _grappling.isAirAttached = true;
+                _isStick = true;
                 _isAttachedToHook = true;
             }
         }
@@ -432,6 +437,7 @@ public class AirGunNet : NetworkBehaviour
         _canStick = false;
         _sticking = false;
         _isAttachedToHook = false;
+        _rigidbody2D.drag = 0f;
         //_grappling.GetComponent<HookMovement>().isAirAttached = false;
         _grappling.isAirAttached = false;
         StopCoroutine(_stickToHookCoroutine);
@@ -464,6 +470,7 @@ public class AirGunNet : NetworkBehaviour
             _keepGrapplingCheckCoroutine = null;
         }
         _isAttachedToHook = false;
+        _rigidbody2D.drag = 0f;
         
         if (_stickToHookCoroutine is null) return;
         StopCoroutine(_stickToHookCoroutine);
