@@ -130,6 +130,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _fixedPoint = null;
         _rigidbody2D.gravityScale = _gravityScale;
         _rigidbody2D.bodyType = _originType;
+        _rigidbody2D.excludeLayers = _releaseLayerMask;
     }
 
     public void Shooting(Vector2 force)
@@ -141,6 +142,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _fixedPoint = null;
         _rigidbody2D.gravityScale = _gravityScale;
         _rigidbody2D.AddForce(force, ForceMode2D.Impulse);
+        _rigidbody2D.excludeLayers = _releaseLayerMask;
     }
 
     public bool CanInhale()
@@ -154,7 +156,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         var power = _inhalePower * Time.fixedDeltaTime;
         _rigidbody2D.gravityScale = 0f;
         _rigidbody2D.AddForce(direction * power);
-        
+        _rigidbody2D.excludeLayers = grabLayerMask;
+            
         if (Vector2.Distance(_fixedPoint.position, transform.position) > 0.15f) return;
 
         ChangeCanInhaleState(false);
@@ -173,5 +176,17 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     private void ChangeCanInhaleState(bool value)
     {
         _canInhale = value;
+    }
+    
+    [Command(requiresAuthority = false)]
+    private void CmdSetExcludeLayer()
+    {
+        RpcSetExcludeLayer();
+    }
+    
+    [ClientRpc]
+    private void RpcSetExcludeLayer()
+    {
+        _rigidbody2D.excludeLayers = _releaseLayerMask;
     }
 }
