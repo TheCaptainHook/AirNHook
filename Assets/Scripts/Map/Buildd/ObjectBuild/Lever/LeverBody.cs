@@ -134,12 +134,16 @@ public class LeverBody : BuildObj,IInteractable
         {
             if (!onCompletionParts)
             {
-                LeverHead leverHead = collision.gameObject.GetComponent<LeverHead>();
+                LeverHead leverHead = collision.gameObject.GetComponent<LeverHead>();              
                 leverHead.AttachToLevelBody();
                 this.leverHead = leverHead;
-                collision.transform.GetChild(0).gameObject.SetActive(false);
-                Destroy(collision.gameObject, 1f);
-                
+
+                if(Managers.Game.CurrentState != GameState.Editor)
+                {
+                    collision.transform.GetChild(0).gameObject.SetActive(false);
+                    Destroy(collision.gameObject, 1f);
+                }
+       
                 attachedLeverHead.gameObject.SetActive(true);
                 onCompletionParts = true;
                 animator.SetTrigger(OnCompletion);
