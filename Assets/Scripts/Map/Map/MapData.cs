@@ -20,6 +20,7 @@ public class MapData
 
         UGS_MapDataLoad();
         MapJsonLoad();
+        
     }
 
     void UGS_MapDataLoad()
@@ -62,9 +63,9 @@ public class MapData
         for(int i = 0; i<= Managers.Game.stageLevel; i++)
         {
             GetMainStageMapData(i);
-     
+            
         }
-  
+        Managers.Data.loadData.DataAddCount = 0;
         foreach (TextAsset json in Resources.LoadAll<TextAsset>("MapDat/User"))
         {
             Map map = JsonUtility.FromJson<Map>(json.text);
@@ -81,13 +82,12 @@ public class MapData
             maps[j] = JsonUtility.FromJson<Map>(jsons[j].text);
         }
         mapMainStageDictionary.Add(level, maps);
-
         for (int j = 0; j < jsons.Length; j++)
         {
             Map map = JsonUtility.FromJson<Map>(jsons[j].text);
             mapMainDictionary.Add(map.mapID, map);
         }
-        //Managers.Data.loadData.Setup();
+        Managers.Data.loadData.Setup();
     }
 
     public Dictionary<string,Map> GetDictionary(MapType mapType)
