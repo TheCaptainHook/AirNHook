@@ -558,25 +558,37 @@ public class MapEditor : MonoBehaviour
         door.ButtonActivatedDoorStruct = data;
         obj.transform.SetParent(transform);
         MapDataStruct btn = Managers.Data.mapData.mapObjectDataDictionary[306];
+        MapDataStruct leverBodyData = Managers.Data.mapData.mapObjectDataDictionary[312];
+      
         foreach (Vector2 pot in data.buttonActivatePositionList)
         {
             GameObject btnActivated = Object.Instantiate(Resources.Load<GameObject>(btn.path));
             btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, door);
             btnActivated.transform.SetParent(dontSaveObjectTransform);
         }
+
         foreach (Vector2 pot in data.leverPositionList)
         {
-            GameObject leverBody = Managers.Stage.CmdBatchObject("LeverBody", dontSaveObjectTransform);
+            GameObject leverBody;
+            if(mapEditorState != MapEditorState.NoEditor)
+            {
+                leverBody = Object.Instantiate(Resources.Load<GameObject>(leverBodyData.path));
+                leverBody.transform.SetParent(dontSaveObjectTransform);
+            }
+            else
+            {
+                leverBody = Managers.Stage.CmdBatchObject("LeverBody", dontSaveObjectTransform);
+            }
+
             leverBody.GetComponent<LeverBody>().SetLinkDoor(pot, data.linkId, interactionObjectTransform);
 
             if (mapEditorState != MapEditorState.NoEditor)
             {
-                obj.GetComponent<BuildObj>().TurnOff();
-                placeMentSystem.curPlaceObjList.Add(obj.GetComponent<BuildObj>());
+                leverBody.GetComponent<BuildObj>().TurnOff();
+                placeMentSystem.curPlaceObjList.Add(leverBody.GetComponent<BuildObj>());
             }
         }
-        //Lever
-
+    
         if (mapEditorState != MapEditorState.NoEditor)
         {
             obj.GetComponent<BuildObj>().TurnOff();

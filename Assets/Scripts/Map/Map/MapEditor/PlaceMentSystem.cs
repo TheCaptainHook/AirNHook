@@ -43,6 +43,8 @@ public class PlaceMentSystem : MonoBehaviour
             CurIndicatior = null;
             curBuildObject = value;
             SelectCurBuildObj();//after
+            MapEditor.Instance.editorUIController.RotateAndScaleBtn();
+            
         }
 
     }
@@ -370,14 +372,14 @@ public class PlaceMentSystem : MonoBehaviour
         if(curAdditionalIndicatorTrack != null) { Destroy(curAdditionalIndicatorTrack); }
     }
 
-    public void curPlacedObjTurnOff()
+    public void CurPlacedObjTurnOff()
     {
         foreach(BuildObj build in curPlaceObjList)
         {
             build.TurnOff();
         }
     }
-    public void curPlacedObjTurnOn()
+    public void CurPlacedObjTurnOn()
     {
         foreach (BuildObj build in curPlaceObjList)
         {
@@ -412,7 +414,9 @@ public class PlaceMentSystem : MonoBehaviour
             curArrowIndicatorTrack = Instantiate(curObj_ArrowIndicator, CurbuildObject.transform);
             curArrowIndicatorTrack.GetComponent<Arrow_Indicator>().SetLinkObj(CurbuildObject);
 
-            if (CurbuildObject.GetComponent<BuildObj>().id == 305 || CurbuildObject.GetComponent<BuildObj>().id == 306)
+            BuildObj buildObj = CurbuildObject.GetComponent<BuildObj>();
+
+            if (buildObj.id == 305 || buildObj.id == 306 || buildObj.id == 312)
             {
                 GameObject additionalIndicator = Instantiate(Additional_Indicator);
                 curAdditionalIndicatorTrack = additionalIndicator;

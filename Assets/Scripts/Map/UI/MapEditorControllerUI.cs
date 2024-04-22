@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 using System.Text.RegularExpressions;
+using Edgegap;
 
 public class MapEditorControllerUI : MonoBehaviour
 {
@@ -15,8 +16,8 @@ public class MapEditorControllerUI : MonoBehaviour
     bool onHide;
 
     [Header("Btn Color")]
-    Color activeColor = new Color(0.47f,0.47f, 0.47f);
-
+    Color noInteractionColor = new Color(0.98f,0.776f, 0.85f);
+    Color activeColor = new Color(0.686f, 0.913f, 0.713f);
 
     [Header("Map ID Container")]
     string mapIdRegex = @"^[a-zA-Z0-9_\s]{1,20}$";
@@ -113,7 +114,7 @@ public class MapEditorControllerUI : MonoBehaviour
                 tileMode_BtnContainer.SetActive(false);
                 MapEditor.Instance.mapEditorState = MapEditorState.Editor;
                 placeMentSystem.tileBase = null;
-                placeMentSystem.curPlacedObjTurnOn();
+                placeMentSystem.CurPlacedObjTurnOn();
             }
             else
             {
@@ -121,7 +122,7 @@ public class MapEditorControllerUI : MonoBehaviour
                 MapEditor.Instance.mapEditorState = MapEditorState.Tile;
                 placeMentSystem.tileBase = Resources.Load<TileBase>("Prefabs/MapEditor/Tile/1");//todo
                 tileMode_BtnContainer.SetActive(true);
-                placeMentSystem.curPlacedObjTurnOff();
+                placeMentSystem.CurPlacedObjTurnOff();
             }
         }
        
@@ -136,7 +137,7 @@ public class MapEditorControllerUI : MonoBehaviour
                 objectMode_BtnContainer.SetActive(false);
                 objectSpaceUi.SetActive(false);
                 MapEditor.Instance.mapEditorState = MapEditorState.Editor;
-                placeMentSystem.curPlacedObjTurnOn();
+                placeMentSystem.CurPlacedObjTurnOn();
                 placeMentSystem.ObjectMode_Reset();//remove curindicator,first_holdingObj,curBuildobj =null;
             }
             else
@@ -144,7 +145,7 @@ public class MapEditorControllerUI : MonoBehaviour
                 objectMode_BtnContainer.SetActive(true);
                 Active_BtnChangeColor(objectMode);
                 MapEditor.Instance.mapEditorState = MapEditorState.Object;
-                placeMentSystem.curPlacedObjTurnOff();
+                placeMentSystem.CurPlacedObjTurnOff();
                 objectSpaceUi.SetActive(true);
             }
         }
@@ -204,6 +205,38 @@ public class MapEditorControllerUI : MonoBehaviour
             Deactive_BtnChangeColor(objectDrawBtns[i]);
         }
     }
+
+    public void RotateAndScaleBtn()
+    {
+        GameObject obj = MapEditor.Instance.placeMentSystem.CurbuildObject;
+
+        if(obj != null && obj.TryGetComponent(out BuildObj buildObj)){
+            if (!buildObj.onRotateable)
+            {
+                NoInteractableBtnColor(rotationBtn);
+                rotationBtn.interactable = false;
+            }
+            else
+            {
+                rotationBtn.interactable = true;
+                Deactive_BtnChangeColor(rotationBtn);
+            }
+            if (!buildObj.onScaleable)
+            {
+                NoInteractableBtnColor(scaleBtn);
+                scaleBtn.interactable = false;
+            }
+            else
+            {
+                scaleBtn.interactable = true;
+                Deactive_BtnChangeColor(scaleBtn);
+            }
+        }
+
+        
+       
+    }
+
     #endregion
     #region Controller
     private void HideController()
@@ -268,11 +301,12 @@ public class MapEditorControllerUI : MonoBehaviour
             return;
         }
 
-
+        placeMentSystem.CurPlacedObjTurnOff();
 
         bool isValid = Regex.IsMatch(mapIdInputField.text, mapIdRegex);
         if (isValid)
         {
+            
             int width = int.Parse(widthInputField.text);
             int height = int.Parse(heightInputField.text);
 
@@ -304,10 +338,20 @@ public class MapEditorControllerUI : MonoBehaviour
     }
     private void Deactive_BtnChangeColor(Button btn)
     {
+        if (!btn.interactable) btn.interactable = true;
         ColorBlock colorBlock = btn.colors;
         colorBlock.normalColor = Color.white;
         btn.colors = colorBlock;
     }
+
+    private void NoInteractableBtnColor(Button btn)
+    {
+        ColorBlock colorBlock = btn.colors;
+        colorBlock.disabledColor = noInteractionColor;
+        btn.colors = colorBlock;
+    }
+
+
     private void ChangeTileMode(Button btn, ModeState tileModeState)
     {
         TileDrawModeBtn_Reset();

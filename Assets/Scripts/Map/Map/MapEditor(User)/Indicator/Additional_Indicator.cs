@@ -49,6 +49,12 @@ public class Additional_Indicator : Indicator
             ui.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
             ui.transform.rotation = Quaternion.identity;
             ui.SetActive(false);
+        }else if(obj.GetComponent<BuildObj>().id == 312)
+        {
+            ui = ResourceManager.Instantiate("Prefabs/UI/UI_InteractionLeverInfo", mainT);
+            ui.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+            ui.transform.rotation = Quaternion.identity;
+            ui.SetActive(false);
         }
     }
     public override void OnPointerEnter(PointerEventData data)

@@ -131,9 +131,41 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1996344758840580011, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2005102887669488765, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: m_Name
       value: MapEditor
+      objectReference: {fileID: 0}
+    - target: {fileID: 2450743986769493538, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2450743986769493538, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2450743986769493538, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.46026343
+      objectReference: {fileID: 0}
+    - target: {fileID: 3385517011462571765, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703751927125863926, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703751927125863926, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703751927125863926, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 3715141819798225897, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: m_Pivot.x

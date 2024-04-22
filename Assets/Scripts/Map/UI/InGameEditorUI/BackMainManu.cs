@@ -33,7 +33,6 @@ public class BackMainManu : UI_Base
         Managers.Game.CurrentState = GameState.Title;
         Managers.UI.sceneName = "StartScene";
         SceneManager.LoadScene("StartScene");
-        Managers.UI.ShowUI<UI_Loading>();
 
     }
     private void NoBtn()

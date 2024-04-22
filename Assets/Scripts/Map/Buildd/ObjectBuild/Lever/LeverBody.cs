@@ -13,6 +13,8 @@ public class LeverBody : BuildObj,IInteractable
     [SerializeField] Transform leverHeadTransform;
     public Vector2 curPosition;
 
+    public float time = 2;
+    bool isRunningCoroutine;
 
     [Header("State")]
     public bool onCompletionParts;
@@ -31,8 +33,33 @@ public class LeverBody : BuildObj,IInteractable
         animator = GetComponent<Animator>();
     }
 
+    private void Update()
+    {
+        //if (!linked)
+        //{
+        //    LinkDoor();
+        //}
 
+        if (curPosition != new Vector2(Mathf.Round(transform.position.x * 10f) / 10f, Mathf.Round(transform.position.y * 10f) / 10f))
+        {
+            if (isRunningCoroutine) { StopCoroutine(Co_ReLinkDoor()); isRunningCoroutine = false; }
+            time = 2;
+            StartCoroutine(Co_ReLinkDoor());
+        }
 
+    }
+
+    IEnumerator Co_ReLinkDoor()
+    {
+        isRunningCoroutine = true;
+        while (time > 0)
+        {
+            time -= Time.deltaTime;
+            yield return null;
+        }
+        isRunningCoroutine = false;
+        LinkDoor();
+    }
     //public void DataSaveLinkDoor()//Editor_Editor only
     //{
     //    if (linkDoorList.Count > 0)

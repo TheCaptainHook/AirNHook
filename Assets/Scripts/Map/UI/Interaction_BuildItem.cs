@@ -26,6 +26,13 @@ public class Interaction_BuildItem : MonoBehaviour
                 ui.GetComponent<UI_InteractionBtnInfo>().firstOption = true;
                 ui.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 5, 2);
                 ui.GetComponent<UI_InteractionBtnInfo>().SetCurObject(buildObj);
+            }else if (buildObj.GetComponent<BuildObj>().id == 312) 
+            {
+                MapEditor.Instance.placeMentSystem.onInteraction = false;
+                GameObject ui = ResourceManager.Instantiate("Prefabs/UI/UI_InteractionLeverInfo");
+                ui.GetComponent<UI_InteractionLeverInfo>().firstOption = true;
+                ui.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 5, 2);
+                ui.GetComponent<UI_InteractionLeverInfo>().SetCurObject(buildObj);
             }
             else
             {
