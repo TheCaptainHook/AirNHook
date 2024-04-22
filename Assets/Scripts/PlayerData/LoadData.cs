@@ -25,7 +25,6 @@ public class LoadData
             {
                 DataAdd();
                 DataAddCount = 1;
-                Debug.Log("1 @@@@");
             }
             foreach (var play in playDataList)
             {
@@ -33,16 +32,13 @@ public class LoadData
                     return;
                 playData.Add(play.stageID, play);
                 _stagelevel = play.stageLevel;
-                Debug.Log("2 ###");
             }
-                Debug.Log("4 ###");
             Managers.Game.stageLevel = _stagelevel;
             //이곳에서 현재 스테이지레벨을 알려줘야함
         }
         else
         {
             DataAdd();
-                Debug.Log("3 $$$");
         }
         DataAddCount = 1;
     }
