@@ -18,7 +18,7 @@ public class Flame : MonoBehaviour
     {
         var main = particle.main;
         lifeTime = main.startLifetime.constant;
-        Debug.Log(lifeTime);
+        
     }
 
     public void SetLifeTime()

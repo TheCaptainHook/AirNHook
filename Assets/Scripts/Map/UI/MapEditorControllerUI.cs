@@ -56,7 +56,7 @@ public class MapEditorControllerUI : MonoBehaviour
 
 
     [SerializeField] GameObject wrongMessage;
-
+    [SerializeField] GameObject saveCompleteMessage;
 
     private void Awake()//todo
     {
@@ -315,8 +315,10 @@ public class MapEditorControllerUI : MonoBehaviour
             MapEditor.Instance.mapID = mapIdInputField.text;
 
 
-            Debug.Log($"{width},{height},{mapIdInputField.text}");
+
             MapEditor.Instance.SaveMapData();
+
+            StartCoroutine(Co_SaveMessage());
             //데이터 저장 완료 유아이.
 
         }
@@ -437,7 +439,19 @@ public class MapEditorControllerUI : MonoBehaviour
         wrongMessage.SetActive(false);
         saveBtn.interactable = true;
     }
-
+    IEnumerator Co_SaveMessage()
+    {
+        placeMentSystem.onInteraction = false;
+        float percent = 0;
+        while(percent < 1)
+        {
+            percent += Time.deltaTime+0.007f;
+            saveCompleteMessage.SetActive(true);
+            yield return null;
+        }
+        saveCompleteMessage.SetActive(false);
+        placeMentSystem.onInteraction = true;
+    }
     //todo 0420
     public void LoadUserMapEditorInit(Map map)
     {

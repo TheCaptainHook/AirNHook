@@ -31,7 +31,6 @@ public class UserMapDataBoxItem : MonoBehaviour
     public void SetData(UserMapData userMapData)
     {
         map = userMapData.LoadMap();
-        Debug.Log(map.mapID);
         mapIdText.text = map.mapID;
         DateTimeData date = userMapData.LoadDateTimeData();
 
