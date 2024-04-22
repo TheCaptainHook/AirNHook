@@ -10,8 +10,6 @@ public class LoadData
     //스테이지 클리어 레벨을 딕셔너리로쓰는 stageClearLevelData
     public Dictionary<int, List<string>> stageClearLevelData = new Dictionary<int, List<string>>();
 
-    private int _stagelevel;
-    public int DataAddCount = 0;
     private readonly string _playDataPath = $"{Application.dataPath}/PlayData.json";
 
     public void Setup()
@@ -20,27 +18,8 @@ public class LoadData
         //playData있는지 없는지 체크
         if (File.Exists(_playDataPath))
         {
-            var playDataList = Managers.Data.ReadJson<PlayData>(_playDataPath);
-            if (playDataList.Length < Managers.Data.mapData.mapMainDictionary.Count)
-            {
-                DataAdd();
-                DataAddCount = 1;
-            }
-            foreach (var play in playDataList)
-            {
-                if (DataAddCount == 1)
-                    return;
-                playData.Add(play.stageID, play);
-                _stagelevel = play.stageLevel;
-            }
-            Managers.Game.stageLevel = _stagelevel;
-            //이곳에서 현재 스테이지레벨을 알려줘야함
-        }
-        else
-        {
             DataAdd();
         }
-        DataAddCount = 1;
     }
 
     public void DataAdd()
