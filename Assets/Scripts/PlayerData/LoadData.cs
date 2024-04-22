@@ -24,6 +24,7 @@ public class LoadData
             if (playDataList.Length < Managers.Data.mapData.mapMainDictionary.Count)
             {
                 DataAdd();
+                DataAddCount = 1;
                 Debug.Log("1 @@@@");
             }
             foreach (var play in playDataList)
