@@ -65,7 +65,6 @@ public class MapData
             GetMainStageMapData(i);
             
         }
-        Managers.Data.loadData.DataAddCount = 0;
         foreach (TextAsset json in Resources.LoadAll<TextAsset>("MapDat/User"))
         {
             Map map = JsonUtility.FromJson<Map>(json.text);
