@@ -215,9 +215,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5100604253560742761, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -1.5000019
+      objectReference: {fileID: 0}
+    - target: {fileID: 7052270712519984537, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -1.5000019
+      objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: mapID
-      value: Stage1-2
+      value: Tutorial_1
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: mapType
@@ -225,7 +233,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: stageLevel
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: curMap.mapID
