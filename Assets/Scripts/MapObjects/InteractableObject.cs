@@ -45,6 +45,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         }
     }
 
+
+
     public void Interaction(Transform accessor)
     {
         if (_fixedPoint is not null && !ReferenceEquals(_fixedPoint, accessor))

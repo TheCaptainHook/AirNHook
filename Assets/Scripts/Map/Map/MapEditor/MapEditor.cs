@@ -347,10 +347,12 @@ public class MapEditor : MonoBehaviour
 
 
         //string filePath = Path.Combine(folderPath, $"User/{map.mapID}.json");
-        string filePath = Path.Combine(Application.streamingAssetsPath, $"UserMapData/{mapID}.json");
+        string filePath = Path.Combine(Application.dataPath, $"UserMapData/{mapID}.json");
 
         string json = JsonUtility.ToJson(new UserMapData(mapDatajson, null, dateTimedate),true);
 
+
+        Debug.Log(filePath);
         File.WriteAllText(filePath, json);
 
 
