@@ -86,6 +86,7 @@ public class DoorOpeningAnim : NetworkBehaviour
                 if (MapEditor.Instance.curMap.stageLevel == Managers.Game.stageLevel) //todo 0419
                 {
                     Managers.Game.stageLevel++;
+                    Debug.Log("level++");
                 }
 
                 //Managers.Game.StageLevelPlus()
@@ -97,6 +98,7 @@ public class DoorOpeningAnim : NetworkBehaviour
                 }
             }
             Debug.Log("Stage Clear");
+            Managers.Data.mapData.GetMainStageMapData(Managers.Game.stageLevel);
         }
         else
         {

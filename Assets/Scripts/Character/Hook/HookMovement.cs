@@ -132,7 +132,6 @@ public class HookMovement : PlayerMovement, IInhalable
         _isFixed = false;
         _fixedPoint = accessor;
         _inhaleCoroutine = StartCoroutine(Co_Inhale());
-        Debug.Log("a");
     }
 
     private IEnumerator Co_Inhale()
@@ -141,7 +140,6 @@ public class HookMovement : PlayerMovement, IInhalable
         {
             if (!_isFixed)
             {
-                Debug.Log("b");
                 yield return _waitForFixedUpdate;
 
                 if (_fixedPoint is null) break;
@@ -156,10 +154,11 @@ public class HookMovement : PlayerMovement, IInhalable
             }
             else
             {
-                Debug.Log("c");
                 yield return null;
                 _animator.SetBool(IsHookInhaled, true);
                 _rigidbd.velocity = Vector2.zero;
+                
+                if (_fixedPoint is null) break;
                 transform.position = _fixedPoint.position;
             }
         }
@@ -168,7 +167,6 @@ public class HookMovement : PlayerMovement, IInhalable
     public void StopInhale()
     {
         StopCoroutine(_inhaleCoroutine);
-        Debug.Log("d");
         canControl = true;
         _isFixed = false;
         _fixedPoint = null;

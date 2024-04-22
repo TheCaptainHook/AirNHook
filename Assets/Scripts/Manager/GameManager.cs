@@ -24,7 +24,7 @@ public class GameManager
     private int _totalDeath;
     private bool _skip;
 
-    public int stageLevel = 1;
+    public int stageLevel = 0;
 
     private GameObject _player;
     // 플레이어가 GameScene에서만 생성되고, NetworkManager에 의해 생성되기에
@@ -91,7 +91,7 @@ public class GameManager
         }
     }
 
-    public void StageStart()
+    public void StageStart(string mapID)
     {
         if (mapID is null or "Lobby") return;
         
@@ -100,6 +100,8 @@ public class GameManager
         _clearDeath = 0;
         _totalDeath = Managers.Data.loadData.playData[_stageID].totalDeath;
         _skip = false;
+        Debug.Log("_stageID = " + _stageID);
+        Debug.Log("_startTime = " + _startTime);
     }
 
     //캐릭터 사망시 데스카운트추가
@@ -122,12 +124,15 @@ public class GameManager
 
         _stageID = stageID;
         _clearTime = Time.time;
+        Debug.Log("!!!!!!!!!!!!!!! = " + _clearTime);
         Managers.Data.loadData.playData[stageID].stageClear = true;
 
         DeathCompare();
         TimeCompare();
 
         Managers.Data.loadData.Save();
+        _startTime = 0;
+        _clearTime = 0;
     }
 
     public void DeathCompare()
@@ -145,5 +150,6 @@ public class GameManager
             Managers.Data.loadData.playData[_stageID].clearTime = timeGap;
             DeathCompare();
         }
+        Debug.Log("timeGap = " + timeGap);
     }
 }
