@@ -408,6 +408,9 @@ public class AirGunNet : NetworkBehaviour
                     _rigidbody2D.gravityScale = 0f;
                     _rigidbody2D.velocity = Vector2.zero;
                 }
+                
+                if(!_grappling.grappleAttached)
+                    StopSticking();
 
                 var direction = (_grappling.transform.position + _offset - transform.position).normalized;
 
@@ -423,6 +426,9 @@ public class AirGunNet : NetworkBehaviour
             else
             {
                 yield return null;
+                if(!_grappling.grappleAttached)
+                    StopSticking();
+                
                 _rigidbody2D.velocity = Vector2.zero;
                 transform.position = _grappling.transform.position + _offset;
                 //_grappling.GetComponent<HookMovement>().isAirAttached = true;
