@@ -1,0 +1,32 @@
+[
+  {
+    "stageID": "Tutorial_1",
+    "stageClear": false,
+    "clearTime": 0.0,
+    "totalDeath": 0,
+    "deathCount": 0,
+    "skip": false,
+    "stageLevel": 0,
+    "stageHiddenObject": 0
+  },
+  {
+    "stageID": "Tutorial_2",
+    "stageClear": false,
+    "clearTime": 0.0,
+    "totalDeath": 0,
+    "deathCount": 0,
+    "skip": false,
+    "stageLevel": 0,
+    "stageHiddenObject": 0
+  },
+  {
+    "stageID": "Tutorial_3",
+    "stageClear": false,
+    "clearTime": 0.0,
+    "totalDeath": 0,
+    "deathCount": 0,
+    "skip": false,
+    "stageLevel": 0,
+    "stageHiddenObject": 0
+  }
+]
