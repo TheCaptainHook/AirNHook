@@ -31675,7 +31675,7 @@
         {
             "id": 300,
             "position": {
-                "x": -3.0,
+                "x": -3.259999990463257,
                 "y": -0.91998291015625
             },
             "quaternion": {
@@ -31761,6 +31761,24 @@
                 "y": 1.0,
                 "z": 1.0
             }
+        },
+        {
+            "id": 5203,
+            "position": {
+                "x": 16.31999969482422,
+                "y": 2.559999942779541
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            }
         }
     ],
     "mapButtonActivatedDoorDataList": [
@@ -31794,12 +31812,16 @@
         {
             "id": 305,
             "linkId": 4,
-            "activeRequirAmount": 1,
+            "activeRequirAmount": 0,
             "position": {
                 "x": 7.0,
                 "y": 0.0
             },
             "buttonActivatePositionList": [
+                {
+                    "x": 0.0,
+                    "y": -2.0
+                },
                 {
                     "x": 15.399999618530274,
                     "y": 9.0
@@ -31820,7 +31842,7 @@
         },
         {
             "id": 305,
-            "linkId": 4,
+            "linkId": 3,
             "activeRequirAmount": 1,
             "position": {
                 "x": -1.0,
@@ -31828,8 +31850,12 @@
             },
             "buttonActivatePositionList": [
                 {
-                    "x": 15.399999618530274,
-                    "y": 9.0
+                    "x": -3.200000047683716,
+                    "y": -2.0
+                },
+                {
+                    "x": -3.0,
+                    "y": 4.0
                 }
             ],
             "leverPositionList": [],
@@ -31848,15 +31874,19 @@
         {
             "id": 305,
             "linkId": 3,
-            "activeRequirAmount": 1,
+            "activeRequirAmount": 2,
             "position": {
                 "x": -1.802978515625,
                 "y": 8.0
             },
             "buttonActivatePositionList": [
                 {
-                    "x": -3.0,
+                    "x": -3.200000047683716,
                     "y": -2.0
+                },
+                {
+                    "x": -3.0,
+                    "y": 4.0
                 }
             ],
             "leverPositionList": [],
@@ -31867,8 +31897,8 @@
                 "w": 0.7071068286895752
             },
             "scale": {
-                "x": 0.8000009655952454,
-                "y": 0.8000009655952454,
+                "x": 0.8000012636184692,
+                "y": 0.8000012636184692,
                 "z": 1.0
             }
         },
