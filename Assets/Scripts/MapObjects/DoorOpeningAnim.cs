@@ -86,6 +86,7 @@ public class DoorOpeningAnim : NetworkBehaviour
                 if (MapEditor.Instance.curMap.stageLevel == Managers.Game.stageLevel) //todo 0419
                 {
                     Managers.Game.stageLevel++;
+                    Debug.Log("level++");
                 }
 
                 //Managers.Game.StageLevelPlus()
