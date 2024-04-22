@@ -66,7 +66,6 @@ public class MapData
             GetMainStageMapData(i);
             
         }
-        Managers.Data.loadData.DataAddCount = 0;
         foreach (TextAsset json in Resources.LoadAll<TextAsset>("MapDat/User"))
         {
             Map map = JsonUtility.FromJson<Map>(json.text);
@@ -99,9 +98,14 @@ public class MapData
 
        
         }
+        //mapMainStageDictionary.Add(level, maps);
+        //for (int j = 0; j < jsons.Length; j++)
+        //{
+        //    Map map = JsonUtility.FromJson<Map>(jsons[j].text);
+        //    mapMainDictionary.Add(map.mapID, map);
+        //}
+        //Managers.Data.loadData.Setup();
 
-
-       
     }
 
     public Dictionary<string,Map> GetDictionary(MapType mapType)
