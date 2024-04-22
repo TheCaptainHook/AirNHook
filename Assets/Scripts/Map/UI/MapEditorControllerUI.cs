@@ -297,7 +297,7 @@ public class MapEditorControllerUI : MonoBehaviour
 
         if (!CheckSaveCondition())
         {
-            StartCoroutine(Co_WrongMaeeage("스폰 포인트, 탈출 문, 열쇠가 하나 이상 \n있어야 저장이 가합니다."));
+            StartCoroutine(Co_WrongMaeeage("스폰 포인트, 탈출 문, 열쇠가 하나 이상 \n있어야 저장이 가능합니다."));
             return;
         }
 
