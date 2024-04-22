@@ -21,6 +21,11 @@ public class StageSelectObject : MonoBehaviour, IInteractable
         return true;
     }
 
+    public void Fixed(bool value)
+    {
+        return;
+    }
+
     public ObjectTypeEnum GetObjectType()
     {
         return objectType;

@@ -57,6 +57,11 @@ public class LockerAnim : NetworkBehaviour, IInteractable
         return true;
     }
 
+    public void Fixed(bool value)
+    {
+        return;
+    }
+
     [Command(requiresAuthority = false)]
     private void CmdChangeCharacter(GameObject player)
     {

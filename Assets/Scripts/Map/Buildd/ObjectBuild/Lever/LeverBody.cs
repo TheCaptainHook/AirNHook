@@ -233,6 +233,11 @@ public class LeverBody : BuildObj, IInteractable
         return onCompletionParts;
     }
 
+    public void Fixed(bool value)
+    {
+        return;
+    }
+
     public ObjectTypeEnum GetObjectType()
     {
         return objectTypeEnum;
