@@ -33,6 +33,7 @@ public class UI_StageInMapSelect : UI_Base
 
     public void CreateStageInMap(int stageLevel) //todo 0419
     {
+
         itemList = new();
         Map[] maps = Managers.Data.mapData.mapMainStageDictionary[stageLevel];
         //foreach (Map map in maps)

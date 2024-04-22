@@ -56,11 +56,10 @@ public class UI_StageSelect : UI_Base
         stageInMapSelectList = new();
 
 
-        for (int i = 0; i <= Managers.Game.stageLevel; i++)
+        for (int i = 0; i <= 1; i++)
         {
             Create(i);
         }
-
 
         //foreach (var key in maps)
         //{
@@ -75,6 +74,7 @@ public class UI_StageSelect : UI_Base
 
     protected override void OpenUI() // Update select menu when clear stage
     {
+       
         CheckCurStageLevel();
         CheckStageClearAndChangeStageInMapItemTextColor();
         base.OpenUI();
@@ -94,6 +94,7 @@ public class UI_StageSelect : UI_Base
 
     public void Create(int level)
     {
+        if (level>1) return;
         CreateStageInMapUI(level);
         CreateStage(level);
     }
@@ -166,6 +167,7 @@ public class UI_StageSelect : UI_Base
 
     private void CheckCurStageLevel() // Used when stage level up
     {
+        if (Managers.Game.stageLevel > 1) return;
         if (stageInMapSelectList == null) return;
         if(Managers.Game.stageLevel > stageInMapSelectList.Count - 1)
         {

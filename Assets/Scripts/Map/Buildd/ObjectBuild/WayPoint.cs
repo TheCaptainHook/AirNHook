@@ -37,6 +37,7 @@ public class WayPoint : MonoBehaviour
 
     private void CheckOtherWayPoint()
     {
+
         foreach(Transform tr in MapEditor.Instance.objectTransform)
         {
             WayPoint wp = tr.GetComponent<WayPoint>();
@@ -49,9 +50,14 @@ public class WayPoint : MonoBehaviour
                
             }
         }
+        Managers.Network.startPos.Clear();
 
         onWayPoint = true;
+        MapEditor.Instance.startPosition = transform.position;
         networkStartPosition.enabled = true;
+
+        Debug.Log(Managers.Network.startPos.Count);
+
     }
 
     public void EnableNetWorkStartPosition()

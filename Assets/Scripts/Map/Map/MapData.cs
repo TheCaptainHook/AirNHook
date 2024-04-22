@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.IO;
 using UGS;
 using UnityEngine;
 
@@ -75,19 +76,32 @@ public class MapData
 
     public void GetMainStageMapData(int level)
     {
-        TextAsset[] jsons = Resources.LoadAll<TextAsset>($"MapDat/Main/{level}");
-        Map[] maps = new Map[jsons.Length];
-        for (int j = 0; j < maps.Length; j++)
-        {
-            maps[j] = JsonUtility.FromJson<Map>(jsons[j].text);
+        string path = Path.Combine(Application.dataPath, $"Resources/MapDat/Main/{level}");
+ 
+        if (Directory.Exists(path)){
+            TextAsset[] jsons = Resources.LoadAll<TextAsset>($"MapDat/Main/{level}");
+            if (jsons.Length != 0)
+            {
+                Map[] maps = new Map[jsons.Length];
+                for (int j = 0; j < maps.Length; j++)
+                {
+                    maps[j] = JsonUtility.FromJson<Map>(jsons[j].text);
+                }
+                mapMainStageDictionary.Add(level, maps);
+                for (int j = 0; j < jsons.Length; j++)
+                {
+                    Map map = JsonUtility.FromJson<Map>(jsons[j].text);
+                    mapMainDictionary.Add(map.mapID, map);
+                }
+                Managers.Data.loadData.Setup();
+            }
+
+
+       
         }
-        mapMainStageDictionary.Add(level, maps);
-        for (int j = 0; j < jsons.Length; j++)
-        {
-            Map map = JsonUtility.FromJson<Map>(jsons[j].text);
-            mapMainDictionary.Add(map.mapID, map);
-        }
-        Managers.Data.loadData.Setup();
+
+
+       
     }
 
     public Dictionary<string,Map> GetDictionary(MapType mapType)

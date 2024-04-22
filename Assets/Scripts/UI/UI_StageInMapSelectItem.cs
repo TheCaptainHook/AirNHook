@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using UnityEditor.Search;
 public class UI_StageInMapSelectItem : MonoBehaviour
 {
     string mapId;
@@ -50,28 +51,71 @@ public class UI_StageInMapSelectItem : MonoBehaviour
 
     private void NextStage()
     {
-        if (index > 0)
+        if (stageLevel > 0)
         {
-            Map list = Managers.Data.mapData.mapMainStageDictionary[stageLevel][index-1];
-            if (Managers.Data.loadData.playData[list.mapID].stageClear)
+            if(index == 0)
+            {
+                Map[] map = Managers.Data.mapData.mapMainStageDictionary[stageLevel - 1];
+                Map lastMap = map[map.Length - 1];
+                if (Managers.Data.loadData.playData[lastMap.mapID].stageClear){
+                    onSelect = true;
+                    exitObj = MapEditor.Instance.exitDoorObjectTransform.GetChild(0).gameObject;
+                    exitObj.GetComponent<ExitPointObj>().nextMapId = mapId;
+                }
+                else
+                {
+                    StartCoroutine(Co_CantSelectEffect());
+                }
+            }else if (index > 0)
+            {
+                Map list = Managers.Data.mapData.mapMainStageDictionary[stageLevel][index - 1];
+                if (Managers.Data.loadData.playData[list.mapID].stageClear)
+                {
+                    onSelect = true;
+                    exitObj = MapEditor.Instance.exitDoorObjectTransform.GetChild(0).gameObject;
+                    exitObj.GetComponent<ExitPointObj>().nextMapId = mapId;
+                }
+                else
+                {
+                    StartCoroutine(Co_CantSelectEffect());
+                    return;
+                }
+
+            }
+            else
             {
                 onSelect = true;
                 exitObj = MapEditor.Instance.exitDoorObjectTransform.GetChild(0).gameObject;
                 exitObj.GetComponent<ExitPointObj>().nextMapId = mapId;
             }
-            else
-            {
-                StartCoroutine(Co_CantSelectEffect());
-                return;
-            }
-
         }
         else
         {
-            onSelect = true;
-            exitObj = MapEditor.Instance.exitDoorObjectTransform.GetChild(0).gameObject;
-            exitObj.GetComponent<ExitPointObj>().nextMapId = mapId;
+            if (index > 0)
+            {
+                Map list = Managers.Data.mapData.mapMainStageDictionary[stageLevel][index - 1];
+                if (Managers.Data.loadData.playData[list.mapID].stageClear)
+                {
+                    onSelect = true;
+                    exitObj = MapEditor.Instance.exitDoorObjectTransform.GetChild(0).gameObject;
+                    exitObj.GetComponent<ExitPointObj>().nextMapId = mapId;
+                }
+                else
+                {
+                    StartCoroutine(Co_CantSelectEffect());
+                    return;
+                }
+
+            }
+            else
+            {
+                onSelect = true;
+                exitObj = MapEditor.Instance.exitDoorObjectTransform.GetChild(0).gameObject;
+                exitObj.GetComponent<ExitPointObj>().nextMapId = mapId;
+            }
         }
+
+        
 
         CallOnSelectItem();
     }
