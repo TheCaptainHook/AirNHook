@@ -130,7 +130,10 @@ public class MapEditor : MonoBehaviour
         CreateGridPalet();
         CreatePreviewPalet();
 
-        mapObjBoxTransform = Util.CreateChildTransform(transform, "MapObjBox");
+        if(mapObjBoxTransform != null) { Destroy(mapObjBoxTransform.gameObject); }
+
+        mapObjBoxTransform = Util.CreateChildTransform("MapObjBox");
+
         floorTransform = Util.CreateChildTransform(mapObjBoxTransform, "FloorTransform");
         objectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ObjectTransform");
         exitDoorObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ExitDoorObjectTransform");

@@ -52,11 +52,20 @@ public class Util
         {
             Object.Destroy(parent.Find(name).gameObject);
         }
+
         GameObject childObject = new GameObject(name);
         Transform childTransform = childObject.transform;
         childTransform.SetParent(parent);
         return childTransform;
     }
+    public Transform CreateChildTransform( string name)
+    {
+        GameObject childObject = new GameObject(name);
+        Transform childTransform = childObject.transform;
+        return childTransform;
+    }
+
+
     #endregion
 
 }
