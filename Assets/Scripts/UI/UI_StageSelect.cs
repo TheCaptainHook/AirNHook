@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using Mirror;
+using System;
 
 public class UI_StageSelect : UI_Base
 {
@@ -17,6 +18,7 @@ public class UI_StageSelect : UI_Base
     public GameObject Key { get { return key; }
         set { if (key != null) { Destroy(key);} key = value; }
     }
+
 
     public Button CurSelectBtn
     {
@@ -74,7 +76,8 @@ public class UI_StageSelect : UI_Base
 
     protected override void OpenUI() // Update select menu when clear stage
     {
-       
+       MapEditor.Instance.onStageSelect = false;
+        Key = null;
         CheckCurStageLevel();
         CheckStageClearAndChangeStageInMapItemTextColor();
         base.OpenUI();
@@ -123,16 +126,22 @@ public class UI_StageSelect : UI_Base
 
     public void SpawnKey()
     {
-        GameObject key = Managers.Stage.CmdBatchObject("Key");
-        Key = key;
+       if (MapEditor.Instance.onStageSelect)
+        {
+            GameObject key = Managers.Stage.CmdBatchObject("Key");
+            Key = key;
 
-        ObjectData data = MapEditor.Instance.curMap.FindObjectData(1000);
-        Key.transform.position = data.position;
-        Vector2 launchDirection = new Vector2(-1, 1).normalized;
+            ObjectData data = MapEditor.Instance.curMap.FindObjectData(1000);
+            Key.transform.position = data.position;
+            Vector2 launchDirection = new Vector2(-1, 1).normalized;
 
-        Key.GetComponent<Rigidbody2D>().AddForce(launchDirection * 5f, ForceMode2D.Impulse);
+            Key.GetComponent<Rigidbody2D>().AddForce(launchDirection * 5f, ForceMode2D.Impulse);
 
-        CloseUI();
+            CloseUI();
+        }
+           
+
+      
     }
     #endregion
 

@@ -18,6 +18,7 @@ public class UI_StageInMapSelectItem : MonoBehaviour
 
     bool onActive;
 
+   
     public event Action OnSelectItem;
 
     public void CallOnSelectItem()
@@ -61,6 +62,7 @@ public class UI_StageInMapSelectItem : MonoBehaviour
                     onSelect = true;
                     exitObj = MapEditor.Instance.exitDoorObjectTransform.GetChild(0).gameObject;
                     exitObj.GetComponent<ExitPointObj>().nextMapId = mapId;
+                    MapEditor.Instance.onStageSelect = true;
                 }
                 else
                 {
@@ -74,6 +76,7 @@ public class UI_StageInMapSelectItem : MonoBehaviour
                     onSelect = true;
                     exitObj = MapEditor.Instance.exitDoorObjectTransform.GetChild(0).gameObject;
                     exitObj.GetComponent<ExitPointObj>().nextMapId = mapId;
+                    MapEditor.Instance.onStageSelect = true;
                 }
                 else
                 {
@@ -87,6 +90,7 @@ public class UI_StageInMapSelectItem : MonoBehaviour
                 onSelect = true;
                 exitObj = MapEditor.Instance.exitDoorObjectTransform.GetChild(0).gameObject;
                 exitObj.GetComponent<ExitPointObj>().nextMapId = mapId;
+                MapEditor.Instance.onStageSelect = true;
             }
         }
         else
@@ -99,6 +103,7 @@ public class UI_StageInMapSelectItem : MonoBehaviour
                     onSelect = true;
                     exitObj = MapEditor.Instance.exitDoorObjectTransform.GetChild(0).gameObject;
                     exitObj.GetComponent<ExitPointObj>().nextMapId = mapId;
+                    MapEditor.Instance.onStageSelect = true;
                 }
                 else
                 {
@@ -112,6 +117,7 @@ public class UI_StageInMapSelectItem : MonoBehaviour
                 onSelect = true;
                 exitObj = MapEditor.Instance.exitDoorObjectTransform.GetChild(0).gameObject;
                 exitObj.GetComponent<ExitPointObj>().nextMapId = mapId;
+                MapEditor.Instance.onStageSelect = true;
             }
         }
 

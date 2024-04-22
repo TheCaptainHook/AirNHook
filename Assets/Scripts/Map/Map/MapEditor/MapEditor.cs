@@ -107,6 +107,8 @@ public class MapEditor : MonoBehaviour
     [HideInInspector] public List<TileData> mapTileDataList = new List<TileData>();
     [HideInInspector] public List<ObjectData> mapObjectDataList = new List<ObjectData>();
 
+    public bool onStageSelect;
+
 
 
     private void Awake()
