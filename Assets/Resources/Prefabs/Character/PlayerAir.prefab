@@ -115,7 +115,7 @@ MonoBehaviour:
   _flyPower: 12
   _inhaleParticles: {fileID: 5132154906828901315}
   _exhaleParticles: {fileID: 3801523937959093438}
-  _stickToHookSpeed: 10
+  _stickToHookSpeed: 100
 --- !u!114 &675613252641030517
 MonoBehaviour:
   m_ObjectHideFlags: 0
