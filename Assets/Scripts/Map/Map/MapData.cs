@@ -60,7 +60,7 @@ public class MapData
         }
 
         //todo
-        for(int i = 0; i<= Managers.Game.stageLevel; i++)
+        for(int i = 0; i<= 3; i++)
         {
             GetMainStageMapData(i);
             

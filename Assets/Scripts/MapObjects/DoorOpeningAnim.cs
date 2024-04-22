@@ -79,6 +79,7 @@ public class DoorOpeningAnim : NetworkBehaviour
         Managers.Game.StageClear(Managers.Stage.stageName);
         Managers.Stage.stageName = nextMapId;
         Camera.main.GetComponent<ParallaxCamera>().enabled = false;
+
         if (string.IsNullOrEmpty(nextMapId))
         {
             if(MapEditor.Instance.curMap.mapID != "Lobby")
@@ -96,9 +97,10 @@ public class DoorOpeningAnim : NetworkBehaviour
                 {
                     player.CmdChangeStage("Lobby");
                 }
+
             }
             Debug.Log("Stage Clear");
-            Managers.Data.mapData.GetMainStageMapData(Managers.Game.stageLevel);
+            //Managers.Data.mapData.GetMainStageMapData(Managers.Game.stageLevel);
         }
         else
         {

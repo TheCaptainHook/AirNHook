@@ -54,10 +54,18 @@ public class UI_StageSelect : UI_Base
     {
         var maps = Managers.Data.mapData.mapMainStageDictionary.Keys;
         stageInMapSelectList = new();
-        foreach (var key in maps)
+
+
+        for (int i = 0; i <= Managers.Game.stageLevel; i++)
         {
-            Create(key);
+            Create(i);
         }
+
+
+        //foreach (var key in maps)
+        //{
+        //    Create(key);
+        //}
 
         //TEST 맵 시작 테스트 코드
         //var endButton = ResourceManager.Instantiate("Prefabs/UI/Button", layout).GetComponent<Button>();
