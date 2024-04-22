@@ -103,6 +103,9 @@ public class PlayerMovement : NetworkBehaviour
             _isJumpBufferCheck = false;
             _isJumping = false;
         }
+        
+        //애니메이션체크
+        MoveAnimation();
     }
 
     private void FixedUpdate()
@@ -116,9 +119,6 @@ public class PlayerMovement : NetworkBehaviour
         Movement();
         //점프
         Jump();
-
-        //애니메이션체크
-        MoveAnimation();
     }
 
     protected virtual void Movement()
