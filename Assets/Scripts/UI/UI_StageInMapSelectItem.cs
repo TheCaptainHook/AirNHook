@@ -66,7 +66,8 @@ public class UI_StageInMapSelectItem : MonoBehaviour
                 }
                 else
                 {
-                    StartCoroutine(Co_CantSelectEffect());
+                    StartCoroutine(Co_CantSelectEffect());  
+                    return;
                 }
             }else if (index > 0)
             {
