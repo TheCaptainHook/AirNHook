@@ -270,7 +270,7 @@ GameObject:
   - component: {fileID: 6422772614829917923}
   - component: {fileID: 5063625757682003165}
   - component: {fileID: 659393081819033226}
-  m_Layer: 14
+  m_Layer: 7
   m_Name: SawPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
