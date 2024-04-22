@@ -1,10 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
-using UnityEditor.Search;
 public class UI_StageInMapSelectItem : MonoBehaviour
 {
     string mapId;
