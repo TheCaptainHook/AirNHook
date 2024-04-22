@@ -2324,7 +2324,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4635100252440364383}
   - component: {fileID: 7518392557950154987}
-  - component: {fileID: 1875192222273408286}
+  - component: {fileID: 7241232245979037502}
   m_Layer: 5
   m_Name: BackGround
   m_TagString: Untagged
@@ -2366,7 +2366,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7319477380904688887}
   m_CullTransparentMesh: 1
---- !u!95 &1875192222273408286
+--- !u!95 &7241232245979037502
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
