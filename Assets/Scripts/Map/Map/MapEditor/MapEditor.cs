@@ -559,6 +559,7 @@ public class MapEditor : MonoBehaviour
         obj.transform.SetParent(transform);
         MapDataStruct btn = Managers.Data.mapData.mapObjectDataDictionary[306];
         MapDataStruct leverBodyData = Managers.Data.mapData.mapObjectDataDictionary[312];
+       
         foreach (Vector2 pot in data.buttonActivatePositionList)
         {
             GameObject btnActivated = Object.Instantiate(Resources.Load<GameObject>(btn.path));
@@ -566,15 +567,13 @@ public class MapEditor : MonoBehaviour
             btnActivated.transform.SetParent(dontSaveObjectTransform);
         }
         foreach (Vector2 pot in data.leverPositionList)
-        {
-           
+        {    
             GameObject leverBody;
             if (mapEditorState != MapEditorState.NoEditor)
             {
                 leverBody = Object.Instantiate(Resources.Load<GameObject>(leverBodyData.path));
                 leverBody.transform.SetParent(dontSaveObjectTransform);
-
-               
+                leverBody.GetComponent<LeverBody>().SetLinkDoor(pot, door.id, interactionObjectTransform);
             }
             else
             {

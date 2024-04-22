@@ -154,7 +154,9 @@ public class LeverBody : BuildObj,IInteractable
 
     public void SetLinkDoor(Vector2 pot, int linkId, Transform interactionDoorTransform)
     {
+
         curPosition = pot;
+        transform.position = pot;
         this.linkId = linkId;
 
         foreach (Transform tr in interactionDoorTransform)
