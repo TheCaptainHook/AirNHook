@@ -14,20 +14,17 @@ public class LoadData
 
     public void Setup()
     {
-        //TODO 아래부분을 Start가 아닌 다른부분에 넣어서 사용하면됩니다.
         //playData있는지 없는지 체크
-        if (!File.Exists(_playDataPath))
-        {
-            DataAdd();
-        }
-        else
+        if (File.Exists(_playDataPath))
         {
             var playDataList = Managers.Data.ReadJson<PlayData>(_playDataPath);
+
             foreach (var play in playDataList)
             {
                 playData.Add(play.stageID, play);
             }
         }
+        DataAdd();
     }
 
     public void DataAdd()

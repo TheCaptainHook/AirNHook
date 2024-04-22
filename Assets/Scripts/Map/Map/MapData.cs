@@ -61,7 +61,7 @@ public class MapData
         }
 
         //todo
-        for(int i = 0; i<= 3; i++)
+        for(int i = 0; i <= 1; i++)
         {
             GetMainStageMapData(i);
             
@@ -76,27 +76,24 @@ public class MapData
     public void GetMainStageMapData(int level)
     {
         string path = Path.Combine(Application.dataPath, $"Resources/MapDat/Main/{level}");
- 
-        if (Directory.Exists(path)){
-            TextAsset[] jsons = Resources.LoadAll<TextAsset>($"MapDat/Main/{level}");
-            if (jsons.Length != 0)
+        
+        TextAsset[] jsons = Resources.LoadAll<TextAsset>($"MapDat/Main/{level}");
+        if (jsons.Length != 0)
+        {
+            Map[] maps = new Map[jsons.Length];
+            for (int j = 0; j < maps.Length; j++)
             {
-                Map[] maps = new Map[jsons.Length];
-                for (int j = 0; j < maps.Length; j++)
-                {
-                    maps[j] = JsonUtility.FromJson<Map>(jsons[j].text);
-                }
-                mapMainStageDictionary.Add(level, maps);
-                for (int j = 0; j < jsons.Length; j++)
-                {
-                    Map map = JsonUtility.FromJson<Map>(jsons[j].text);
-                    mapMainDictionary.Add(map.mapID, map);
-                }
+                maps[j] = JsonUtility.FromJson<Map>(jsons[j].text);
             }
 
-
-       
+            mapMainStageDictionary.Add(level, maps);
+            for (int j = 0; j < jsons.Length; j++)
+            {
+                Map map = JsonUtility.FromJson<Map>(jsons[j].text);
+                mapMainDictionary.Add(map.mapID, map);
+            }
         }
+
         //mapMainStageDictionary.Add(level, maps);
         //for (int j = 0; j < jsons.Length; j++)
         //{
