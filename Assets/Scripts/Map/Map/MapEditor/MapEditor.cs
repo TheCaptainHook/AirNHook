@@ -566,9 +566,10 @@ public class MapEditor : MonoBehaviour
         }
         foreach (Vector2 pot in data.leverPositionList)
         {
-            GameObject leverBody = Managers.Stage.CmdBatchObject("LeverBody", dontSaveObjectTransform);
-            leverBody.GetComponent<LeverBody>().SetLinkDoor(pot, data.linkId, interactionObjectTransform);
-
+            GameObject leverBody = Managers.Stage.CmdBatchObject("LeverBody", dontSaveObjectTransform, pot);
+            if(leverBody is not null)
+                leverBody.GetComponent<LeverBodyNet>().CmdSetLinkDoor(pot, data.linkId);
+            
             if (mapEditorState != MapEditorState.NoEditor)
             {
                 obj.GetComponent<BuildObj>().TurnOff();

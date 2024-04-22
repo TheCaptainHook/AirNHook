@@ -36,6 +36,16 @@ public class ResourceManager
         return go;
     }
     
+    public static GameObject Instantiate(GameObject gameObject, Vector3 pos)
+    {
+        //TODO 오브젝트 풀 사용시 코드 추가.
+        
+        var go = Object.Instantiate(gameObject, pos, Quaternion.identity);
+        go.name = gameObject.name;
+
+        return go;
+    }
+    
     public static void Destroy(GameObject go)
     {
         if (go == null)

@@ -96,10 +96,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void Destroyed()
     {
-        ChangeFixedState(false);
-        ChangeCanInhaleState(false);
-        //_isFixed = false;
-        //_canInhale = false;
+        _isFixed = false;
+        _canInhale = false;
         _rigidbody2D.bodyType = _originType;
         if (_fixedPoint is not null && _fixedPoint.root.TryGetComponent<Hook>(out var hook))
         {
