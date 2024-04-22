@@ -27,12 +27,9 @@ public class Grappling : NetworkBehaviour
     public bool isAirAttached
     {
         get => _isAirAttached;
-        set
-        {
-            CmdChangeAirAttachedState(value);
-            playerMovement.isAirAttached = value;
-        }
+        set => CmdChangeAirAttachedState(value);
     }
+
     public bool canControl;
     private bool _distanceSet;
     private bool _isActioning;
@@ -58,6 +55,7 @@ public class Grappling : NetworkBehaviour
     {
         distanceJoint.enabled = false;
         _hookAnchorRb = hookAnchor.GetComponent<Rigidbody2D>();
+        _playerInput = GetComponent<PlayerInput>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _mainCamera = Camera.main;
     }
@@ -70,7 +68,6 @@ public class Grappling : NetworkBehaviour
         if(!isLocalPlayer) return;
 
         canControl = true;
-        _playerInput = GetComponent<PlayerInput>();
         _playerInput.playerActions.Look.performed += OnLook;
         _playerInput.playerActions.Look.canceled += OnLook;
         _playerInput.playerActions.VerticalMove.started += OnVerticalMove;

@@ -71,6 +71,7 @@ public class AirGunNet : NetworkBehaviour
         _lineRenderer = GetComponent<LineRenderer>();
         _playerMovement = GetComponent<PlayerMovement>();
         _animator = GetComponent<Animator>();
+        _playerInput = GetComponent<PlayerInput>();
     }
 
     private void Start()
@@ -79,7 +80,6 @@ public class AirGunNet : NetworkBehaviour
 
         _mainCamera = Camera.main;
         
-        _playerInput = GetComponent<PlayerInput>();
         _playerInput.playerActions.Look.performed += Look;
         _playerInput.playerActions.Action.started += PlayerActionStarted;
         _playerInput.playerActions.Action.canceled += PlayerActionCanceled;
@@ -95,7 +95,6 @@ public class AirGunNet : NetworkBehaviour
         _playerInput.playerActions.SubAction.started -= PlayerSubActionStarted;
         _playerInput.playerActions.SubAction.canceled -= PlayerSubActionCanceled;
     }
-    
 
     private void Update()
     {
@@ -127,10 +126,13 @@ public class AirGunNet : NetworkBehaviour
             rotZ = -rotZ;
             _charPivot.rotation = Quaternion.Euler(0f, 180f, 0f);
             _armPivot.rotation = Quaternion.Euler(-180f, 0f, rotZ);
-        } else {
+        } 
+        else
+        {
             _charPivot.rotation = Quaternion.identity;
         }
     }
+    
     #region ObjectCheck
     private void DetectObject()
     {
@@ -146,6 +148,7 @@ public class AirGunNet : NetworkBehaviour
             StopInhaleTarget();
             _inhaling = false;
             _isAttached = false;
+            _isInhaledHook = false;
             _latestTarget = null;
             return;
         }
@@ -191,6 +194,7 @@ public class AirGunNet : NetworkBehaviour
             StopInhaleTarget();
             _inhaling = false;
             _isAttached = false;
+            _isInhaledHook = false;
             _latestTarget = null;
             return;
         }
@@ -198,19 +202,28 @@ public class AirGunNet : NetworkBehaviour
         // 같은 오브젝트 검출 예외처리
         if (ReferenceEquals(_latestTarget, _closestTarget))
         {
+            //TODO
             if (_inhaleTarget is not null && _shortestDistance <= 0.15f)
             {
                 _releaseLayerMask = _inhaleTarget.GetComponent<Rigidbody2D>().excludeLayers;
-                if (_grappling is not null)
+                if (ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject))
+                {
                     _isInhaledHook = true;
+                }
+
                 _isAttached = true;
-                _inhaleTarget.GetComponent<Rigidbody2D>().excludeLayers = attachedLayerMask;
+                CmdSetExcludeLayer(_inhaleTarget.gameObject, attachedLayerMask);
+                //_inhaleTarget.GetComponent<Rigidbody2D>().excludeLayers = attachedLayerMask;
             }
 
             _shortestDistance = float.MaxValue;
             return;
         }
-
+        
+        StopInhaleTarget();
+        _inhaling = false;
+        _isAttached = false;
+        _isInhaledHook = false;
         _latestTarget = _closestTarget;
         if(_latestTarget.attachedRigidbody.gravityScale > 0)
             _latestTargetGravityScale = _latestTarget.attachedRigidbody.gravityScale;
@@ -254,12 +267,9 @@ public class AirGunNet : NetworkBehaviour
     private void StartInhaleTarget()
     {
         if(!_canInhale || (_inhaling && ReferenceEquals(_latestTarget, _inhaleTarget))) return;
-
-        Debug.Log("a");
         
         if (_latestTarget.TryGetComponent<IInhalable>(out var inhalable) && !inhalable.CanInhale()) return;
         
-        Debug.Log("b");
         _inhaling = true;
         _inhaleTarget = _latestTarget;
         
@@ -267,13 +277,11 @@ public class AirGunNet : NetworkBehaviour
         {
             if (!ReferenceEquals(_inhaleTarget.gameObject, Managers.Game.OtherPlayer))
             {
-                Debug.Log("c");
                 CmdObjectAuthoritySet(id);
                 InhaleObject(id);
             }
             else
             {
-                Debug.Log("d");
                 CmdInhaleObject(id);
             }
         }
@@ -304,9 +312,9 @@ public class AirGunNet : NetworkBehaviour
     [ClientRpc(includeOwner = false)]
     private void RpcInhaleObject(NetworkIdentity id)
     {
-        id.GetComponent<IInhalable>().Inhalation(_weaponPoint);
+        InhaleObject(id);
     }
-
+    
     private void StopInhaleTarget()
     {
         if (_inhaleTarget is null || !_inhaling || _canStick) return;
@@ -322,12 +330,14 @@ public class AirGunNet : NetworkBehaviour
                 _lineRenderer.enabled = false;
             }
             _isAttached = false;
+            _isInhaledHook = false;
         }
         else
         {
             _inhaleTarget.GetComponent<IInhalable>().StopInhale();
             _inhaling = false;
-            _inhaleTarget.GetComponent<Rigidbody2D>().excludeLayers = _releaseLayerMask;
+            CmdSetExcludeLayer(_inhaleTarget.gameObject, _releaseLayerMask);
+            //_inhaleTarget.GetComponent<Rigidbody2D>().excludeLayers = _releaseLayerMask;
 
             if (_chargingCoroutine is not null)
             {
@@ -348,6 +358,18 @@ public class AirGunNet : NetworkBehaviour
     private void RpcStopInhaleTarget(GameObject obj)
     {
         obj.GetComponent<IInhalable>().StopInhale();
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdSetExcludeLayer(GameObject target, LayerMask layerMask)
+    {
+        RpcSetExcludeLayer(target, layerMask);
+    }
+
+    [ClientRpc]
+    private void RpcSetExcludeLayer(GameObject target, LayerMask layerMask)
+    {
+        target.GetComponent<Rigidbody2D>().excludeLayers = layerMask;
     }
     #endregion
 
@@ -411,12 +433,12 @@ public class AirGunNet : NetworkBehaviour
         _sticking = false;
         _isAttachedToHook = false;
         //_grappling.GetComponent<HookMovement>().isAirAttached = false;
+        _grappling.isAirAttached = false;
         StopCoroutine(_stickToHookCoroutine);
         _stickToHookCoroutine = null;
         
         Vector2 mousePos = _mainCamera.ScreenToWorldPoint(_mouseDelta);
         Vector2 dir = (mousePos - (Vector2)transform.position).normalized;
-        Debug.Log(dir);
 
         if (_chargingCoroutine is not null)
         {
@@ -450,6 +472,8 @@ public class AirGunNet : NetworkBehaviour
         _canStick = false;
         _sticking = false;
         _playerMovement.canControl = true;
+        if(_grappling is not null)
+            _grappling.isAirAttached = false;
         _grappling = null;
         _rigidbody2D.velocity = Vector2.zero;
         _rigidbody2D.gravityScale = 3f;
@@ -509,7 +533,8 @@ public class AirGunNet : NetworkBehaviour
         else
         {
             _inhaleTarget.GetComponent<IInhalable>().Shooting(_weaponPoint.right * _shootPower);
-            _inhaleTarget.GetComponent<Rigidbody2D>().excludeLayers = _releaseLayerMask;
+            CmdSetExcludeLayer(_inhaleTarget.gameObject, _releaseLayerMask);
+            //_inhaleTarget.GetComponent<Rigidbody2D>().excludeLayers = _releaseLayerMask;
         }
         _inhaleTarget = null;
         _isAttached = false;
@@ -587,14 +612,13 @@ public class AirGunNet : NetworkBehaviour
     private void PlayerSubActionCanceled(InputAction.CallbackContext context)
     {
         _rightClick = false;
-        _grappling = null;
         StopInhaleTarget();
         StopSticking();
+        _grappling = null;
     }
     #endregion
 
     #region Animation&Particles
-
     //파티클 및 애니메이션
     private void InhaleParticlesPlay()
     {
@@ -626,7 +650,7 @@ public class AirGunNet : NetworkBehaviour
         _animator.SetBool(IsHookInhaled, _isInhaledHook);
         if (!_rightClick && _inhaleParticles.isPlaying)
             CmdInhaleParticlesStop();
-        if (_isAttached && _inhaleParticles.isPlaying)
+        if ((_isAttachedToHook || _isAttached) && _inhaleParticles.isPlaying)
             CmdInhaleParticlesStop();
     }
     #endregion
