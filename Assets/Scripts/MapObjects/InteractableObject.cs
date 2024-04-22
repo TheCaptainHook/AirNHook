@@ -10,6 +10,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     private LayerMask _releaseLayerMask;
     private RigidbodyType2D _originType;
     private RigidbodyConstraints2D _originRot;
+    private float _gravityScale;
     [SyncVar] private bool _isFixed;
     [SyncVar] private bool _canInhale;
     [field: SerializeField] private float _inhalePower = 20f;
@@ -17,11 +18,15 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     private void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
-        _rigidbody2D = GetComponent<Rigidbody2D>();
         _originType = _rigidbody2D.bodyType;
         _originRot = _rigidbody2D.constraints;
         _releaseLayerMask = _rigidbody2D.excludeLayers;
         _fixedPoint = null;
+    }
+
+    private void Start()
+    {
+        _gravityScale = _rigidbody2D.gravityScale;
     }
 
     private void Update()
@@ -44,8 +49,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             Inhale();
         }
     }
-
-
 
     public void Interaction(Transform accessor)
     {
@@ -70,7 +73,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     private void Grab()
     {
-        _isFixed = true;
+        ChangeFixedState(true);
+        //_isFixed = true;
         _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
         _rigidbody2D.velocity = new Vector2(0, 0);
         transform.rotation = Quaternion.identity;
@@ -80,8 +84,10 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void Release()
     {
-        _isFixed = false;
-        _canInhale = false;
+        ChangeFixedState(false);
+        ChangeCanInhaleState(false);
+        //_isFixed = false;
+        //_canInhale = false;
         _rigidbody2D.bodyType = _originType;
         _fixedPoint = null;
         _rigidbody2D.excludeLayers = _releaseLayerMask;
@@ -90,13 +96,13 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void Destroyed()
     {
-        _isFixed = false;
-        _canInhale = false;
+        ChangeFixedState(false);
+        ChangeCanInhaleState(false);
+        //_isFixed = false;
+        //_canInhale = false;
         _rigidbody2D.bodyType = _originType;
-        Debug.Log("a");
         if (_fixedPoint is not null && _fixedPoint.root.TryGetComponent<Hook>(out var hook))
         {
-            Debug.Log("b");
             hook.ReleaseItem();
         }
 
@@ -113,24 +119,29 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _fixedPoint = accessor;
         
         transform.rotation = Quaternion.identity;
-        _canInhale = true;
+        ChangeCanInhaleState(true);
+        //_canInhale = true;
     }
 
     public void StopInhale()
     {
-        _canInhale = false;
-        _isFixed = false;
+        ChangeCanInhaleState(false);
+        ChangeFixedState(false);
+        //_canInhale = false;
+        //_isFixed = false;
         _fixedPoint = null;
-        _rigidbody2D.gravityScale = 1f;
+        _rigidbody2D.gravityScale = _gravityScale;
         _rigidbody2D.bodyType = _originType;
     }
 
     public void Shooting(Vector2 force)
     {
-        _canInhale = false;
-        _isFixed = false;
+        ChangeCanInhaleState(false);
+        ChangeFixedState(false);
+        //_canInhale = false;
+        //_isFixed = false;
         _fixedPoint = null;
-        _rigidbody2D.gravityScale = 1f;
+        _rigidbody2D.gravityScale = _gravityScale;
         _rigidbody2D.AddForce(force, ForceMode2D.Impulse);
     }
 
@@ -147,8 +158,22 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _rigidbody2D.AddForce(direction * power);
         
         if (Vector2.Distance(_fixedPoint.position, transform.position) > 0.15f) return;
-        
-        _canInhale = false;
-        _isFixed = true;
+
+        ChangeCanInhaleState(false);
+        ChangeFixedState(true);
+        //_canInhale = false;
+        //_isFixed = true;
+    }
+
+    [Command(requiresAuthority = false)]
+    private void ChangeFixedState(bool value)
+    {
+        _isFixed = value;
+    }
+    
+    [Command(requiresAuthority = false)]
+    private void ChangeCanInhaleState(bool value)
+    {
+        _canInhale = value;
     }
 }

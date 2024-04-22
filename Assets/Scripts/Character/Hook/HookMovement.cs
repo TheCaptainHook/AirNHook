@@ -28,8 +28,10 @@ public class HookMovement : PlayerMovement, IInhalable
     {
         if (_horizontal != 0)
         {
+            _rigidbd.drag = 0f;
             if (isSwinging)
             {
+                _rigidbd.drag = 0.2f;
                 var playerToHookDirection = (ropeHook - (Vector2)transform.position).normalized;
                 Vector2 perpendicularDirection;
                 if (_horizontal < 0)
@@ -54,9 +56,14 @@ public class HookMovement : PlayerMovement, IInhalable
         }
         else if(isGround)
         {
+            _rigidbd.drag = 0f;
             var groundForce = _moveSpeed * 5f;
             _rigidbd.AddForce(new Vector2(-_rigidbd.velocity.x * groundForce, 0f));
             _rigidbd.velocity = new Vector2(_rigidbd.velocity.x, _rigidbd.velocity.y);
+        }
+        else if(isSwinging)
+        {
+            _rigidbd.drag = 0.2f;
         }
     }
 
@@ -155,6 +162,7 @@ public class HookMovement : PlayerMovement, IInhalable
             else
             {
                 yield return null;
+                _rigidbd.drag = 0f;
                 _animator.SetBool(IsHookInhaled, true);
                 _rigidbd.velocity = Vector2.zero;
                 
