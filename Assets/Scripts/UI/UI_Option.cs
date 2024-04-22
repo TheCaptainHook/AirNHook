@@ -43,7 +43,7 @@ public class UI_Option : UI_Base
     [SerializeField] private Toggle _vsyncToggle;
     [SerializeField] private Button _applyBtn;
 
-    [SerializeField] private GameObject _resolutionWarning;
+    //[SerializeField] private GameObject _resolutionWarning;
 
     [Header("Text")]
     [SerializeField] private TMP_Text _escText;
@@ -61,7 +61,7 @@ public class UI_Option : UI_Base
     [SerializeField] private TMP_Text _applyText;
 
     [SerializeField] private TMP_Text _testBuildText;
-    [SerializeField] private TMP_Text _resolutionWarningText;
+    //[SerializeField] private TMP_Text _resolutionWarningText;
 
     [Header("GameData")]
     //임시 불린 체크
@@ -129,7 +129,7 @@ public class UI_Option : UI_Base
         _inLobbyBtnGroups.SetActive(IsInLobby);
         _inExitBtnGroups.SetActive(IsInTitle);
         _menuInfo.SetActive(IsInTitle);
-        _resolutionWarning.SetActive(false);
+        //_resolutionWarning.SetActive(false);
     }
     
     private void OnGraphicsOptionBtn()
@@ -138,7 +138,7 @@ public class UI_Option : UI_Base
         _graphicsOption.SetActive(true);
         _volumeOption.SetActive(false);
         _languageOption.SetActive(false);
-        _resolutionWarning.SetActive(!IsInTitle);
+        //_resolutionWarning.SetActive(!IsInTitle);
     }
     
     private void OnVolumeOptionBtn()
@@ -147,7 +147,7 @@ public class UI_Option : UI_Base
         _graphicsOption.SetActive(false);
         _volumeOption.SetActive(true);
         _languageOption.SetActive(false);
-        _resolutionWarning.SetActive(false);
+        //_resolutionWarning.SetActive(false);
     }
 
     private void OnLanguageOptionBtn()
@@ -156,7 +156,7 @@ public class UI_Option : UI_Base
         _graphicsOption.SetActive(false);
         _volumeOption.SetActive(false);
         _languageOption.SetActive(true);
-        _resolutionWarning.SetActive(false);
+        //_resolutionWarning.SetActive(false);
     }
 
     //==================게임 옵션===========================
@@ -262,6 +262,6 @@ public class UI_Option : UI_Base
         SetSentence(_vsyncText, 1012);
         SetSentence(_applyText, 1013);
         SetSentence(_testBuildText, 1015);
-        SetSentence(_resolutionWarningText, 1016);
+        //SetSentence(_resolutionWarningText, 1016);
     }
 }
