@@ -136,6 +136,7 @@ public class HookMovement : PlayerMovement, IInhalable
     public void Inhalation(Transform accessor)
     {
         canControl = false;
+        grappling.canControl = false;
         _isFixed = false;
         _fixedPoint = accessor;
         _inhaleCoroutine = StartCoroutine(Co_Inhale());
@@ -176,6 +177,7 @@ public class HookMovement : PlayerMovement, IInhalable
     {
         StopCoroutine(_inhaleCoroutine);
         canControl = true;
+        grappling.canControl = true;
         _isFixed = false;
         _fixedPoint = null;
         _rigidbd.gravityScale = _gravityScale;
