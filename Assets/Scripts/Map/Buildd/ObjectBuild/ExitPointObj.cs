@@ -79,8 +79,6 @@ public class ExitPointObj : BuildBase
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (nextMapId == string.Empty) return;
-
         if (collision.gameObject.layer == LayerMask.NameToLayer("Key") && !turnOff)
         {
             GetKey(collision.gameObject);
