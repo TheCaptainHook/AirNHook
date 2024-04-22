@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 9095037024881079552}
   - component: {fileID: 1060811388936270286}
   - component: {fileID: 675613252641030517}
-  - component: {fileID: 5508801245310144325}
+  - component: {fileID: 7233980298641959794}
   - component: {fileID: 4543725574064118888}
   - component: {fileID: 3123692007149661597}
   - component: {fileID: 5969139581006705340}
@@ -104,9 +104,6 @@ MonoBehaviour:
     m_Bits: 2686342592
   _detectionDistance: 5
   _rigidbody2D: {fileID: 3123692007149661597}
-  attachedLayerMask:
-    serializedVersion: 2
-    m_Bits: 1024
   _shootPower: 20
   _minShootPower: 5
   _maxShootPower: 20
@@ -144,7 +141,7 @@ MonoBehaviour:
   _rigidbd: {fileID: 3123692007149661597}
   _moveSpeed: 3
   _charPivot: {fileID: 9177120215743396866}
---- !u!114 &5508801245310144325
+--- !u!114 &7233980298641959794
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -153,7 +150,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1771380657003557902}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01f20306adc746d4b80eef21f375e130, type: 3}
+  m_Script: {fileID: 11500000, guid: db5359014638447194672bd63552a0b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
@@ -163,7 +160,8 @@ MonoBehaviour:
   _grabPoint: {fileID: 9095037024881079552}
   _interactableLayer:
     serializedVersion: 2
-    m_Bits: 134414336
+    m_Bits: 196608
+  _airGun: {fileID: 1060811388936270286}
 --- !u!114 &4543725574064118888
 MonoBehaviour:
   m_ObjectHideFlags: 0

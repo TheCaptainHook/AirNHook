@@ -51,7 +51,12 @@ public class LockerAnim : NetworkBehaviour, IInteractable
     {
         CmdChangeCharacter(accessor.root.gameObject);
     }
-    
+
+    public bool CanInteract()
+    {
+        return true;
+    }
+
     [Command(requiresAuthority = false)]
     private void CmdChangeCharacter(GameObject player)
     {

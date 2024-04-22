@@ -66,6 +66,11 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         }
     }
 
+    public bool CanInteract()
+    {
+        return !_isFixed;
+    }
+
     public ObjectTypeEnum GetObjectType()
     {
         return _objectType;
@@ -157,7 +162,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _rigidbody2D.AddForce(direction * power);
         CmdSetExcludeLayer(grabLayerMask);
             
-        if (Vector2.Distance(_fixedPoint.position, transform.position) > 0.15f) return;
+        if (Vector2.Distance(_fixedPoint.position, transform.position) > 0.2f) return;
 
         ChangeCanInhaleState(false);
         ChangeFixedState(true);

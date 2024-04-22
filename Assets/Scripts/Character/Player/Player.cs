@@ -1,10 +1,8 @@
-using System;
 using System.Collections;
 using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
-using UnityEngine.Serialization;
 using static UnityEngine.RigidbodyConstraints2D;
 
 public class Player : NetworkBehaviour, IDamageable
@@ -118,7 +116,7 @@ public class Player : NetworkBehaviour, IDamageable
         Managers.Game.IncreaseDeathCount(isLocalPlayer);
     }
     
-    public void Respawning()
+    public virtual void Respawning()
     {
         Debug.Log("리스포닝");
         
@@ -204,20 +202,21 @@ public class Player : NetworkBehaviour, IDamageable
     [SerializeField] protected Transform _grabPoint;
     [SerializeField] private LayerMask _interactableLayer;
     protected Collider2D _latestTarget;
-    private readonly float _detectDistance = 2f;
+    private readonly float _detectDistance = 0.8f;
     private WaitForSeconds _waitForSeconds;
     
     private IEnumerator Co_DetectInteraction()
     {
-        _waitForSeconds = new WaitForSeconds(0.2f);
+        _waitForSeconds = new WaitForSeconds(0.1f);
         var shortestDistance = float.MaxValue;
+        var offset = new Vector3(0, 0.4f);
         Collider2D closestTarget = null;
         
         while (true)
         {
             yield return _waitForSeconds;
             
-            var collisions = Physics2D.OverlapCircleAll(transform.position, _detectDistance, _interactableLayer);
+            var collisions = Physics2D.OverlapCircleAll(transform.position + offset, _detectDistance, _interactableLayer);
 
             if (collisions.Length == 0)
             {
@@ -228,9 +227,12 @@ public class Player : NetworkBehaviour, IDamageable
             foreach (var collision in collisions)
             {
                 //TODO 벽에 가로막혔을 경우 체크
-                var targetDistance = Vector2.Distance(transform.position, collision.transform.position);
+                var targetDistance = Vector2.Distance(transform.position + offset, collision.transform.position);
                 if (targetDistance < shortestDistance)
                 {
+                    // 후크가 잡고 있는 물체 처리
+                    if (collision.TryGetComponent<IInteractable>(out var inhalable) && !inhalable.CanInteract()) continue;
+                    
                     shortestDistance = targetDistance;
                     closestTarget = collision;
                 }
