@@ -142,9 +142,9 @@ public class LeverBody : BuildObj, IInteractable
                 {
                     collision.transform.GetChild(0).gameObject.SetActive(false);
                     Destroy(collision.gameObject, 1f);
+                    attachedLeverHead.gameObject.SetActive(true);
                 }
-       
-                attachedLeverHead.gameObject.SetActive(true);
+         
                 onCompletionParts = true;
                 animator.SetTrigger(OnCompletion);
             }
