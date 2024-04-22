@@ -162,15 +162,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3369714a36eeff3448142e8610242ff9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 1
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  player: {fileID: 0}
-  objectType: 1
+  _objectType: 1
   grabLayerMask:
     serializedVersion: 2
     m_Bits: 1024
-  isGrabbed: 0
+  _inhalePower: 20
 --- !u!114 &-5810413876586093780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,10 +248,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 315
   transformID: 1
+  offset: {x: 0, y: 0}
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
 --- !u!61 &146081564939722954
 BoxCollider2D:
   m_ObjectHideFlags: 0
