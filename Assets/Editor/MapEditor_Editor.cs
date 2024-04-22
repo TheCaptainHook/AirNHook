@@ -29,7 +29,7 @@ public class MapEditor_Editor : Editor
 
         if (GUILayout.Button("Load Data(인게임용)"))
         {
-            mapEditor.LoadMap(mapEditor.mapID,mapEditor.mapType);
+            mapEditor.LoadMap(mapEditor.mapID, mapEditor.mapType);
         }
         if (GUILayout.Button("Save Data(인게임용)"))
         {
@@ -43,7 +43,7 @@ public class MapEditor_Editor : Editor
         {
             _Reset(mapEditor);
             mapEditor.Init();
-           EditorApplication.ExecuteMenuItem("Window/2D/Tile Palette");
+            EditorApplication.ExecuteMenuItem("Window/2D/Tile Palette");
         }
         if (GUILayout.Button("- Object Create Tool -"))
         {
@@ -76,7 +76,7 @@ public class MapEditor_Editor : Editor
 
         }
 
-        if(GUILayout.Button("In Game Editor Test btn")) //에디터 모드로 진입할때 초기화
+        if (GUILayout.Button("In Game Editor Test btn")) //에디터 모드로 진입할때 초기화
         {
             mapEditor.EditorMode_Init();
             //Managers.Game.CurrentState = GameState.Editor;
@@ -85,9 +85,13 @@ public class MapEditor_Editor : Editor
             //mapEditor.gridPlane = Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/GridPlane"));
             //mapEditor.gridPlane.SetActive(false);
             //mapEditor.placeMentSystem.EditorMode_Init();
-            
-        }
 
+        }
+        GUILayout.Space(10);
+        if (GUILayout.Button("User map Test btn"))
+        {
+            TestLoad(mapEditor);
+        }
 
 
     }
@@ -98,7 +102,7 @@ public class MapEditor_Editor : Editor
         {
             Undo.DestroyObjectImmediate(mapEditor.mapObjBoxTransform.gameObject);
         }
-        if(mapEditor.GridPalette != null)
+        if (mapEditor.GridPalette != null)
         {
             Undo.DestroyObjectImmediate(mapEditor.GridPalette);
         }
@@ -123,7 +127,7 @@ public class MapEditor_Editor : Editor
             {
                 mapTileDataDictionary.Add(value.id, new MapDataStruct(value.name, value.type, value.path));
             }
-            
+
         }
         //Object Data
         UnityGoogleSheet.Load<MapObjectData.ObjectData>();
@@ -133,14 +137,14 @@ public class MapEditor_Editor : Editor
             {
                 mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.name, value.type, value.path));
             }
-            
+
         }
         UnityGoogleSheet.Load<MapObjectData.SceneData>();
         foreach (var value in MapObjectData.SceneData.SceneDataList)
         {
             if (!mapSceneDataDictionary.ContainsKey(value.id))
             {
-                
+
                 mapSceneDataDictionary.Add(value.id, new MapDataStruct(value.name, value.type, value.path));
             }
         }
@@ -151,7 +155,7 @@ public class MapEditor_Editor : Editor
             {
                 mapOtherDataDictionary.Add(value.id, new MapDataStruct(value.name, value.type, value.path));
             }
-            
+
         }
     }
 
@@ -162,7 +166,7 @@ public class MapEditor_Editor : Editor
         mapEditor.Init();
         UGS_MapDataLoad();
         TextAsset textAsset = GetTextAsset(mapEditor.mapType, mapEditor.mapID);
-        if(textAsset != null)
+        if (textAsset != null)
         {
             Map map = JsonUtility.FromJson<Map>(textAsset.text);
             mapEditor.CurMap = map;
@@ -177,16 +181,16 @@ public class MapEditor_Editor : Editor
 
             mapEditor.interactionBtnDictionary = new(); //todo 0412
 
-            CreateObj(mapEditor.floorTransform, map, mapEditor.placeMentSystem, mapEditor,0);
-            CreateObj(mapEditor.objectTransform, map, mapEditor.placeMentSystem, mapEditor,1);
-            CreateObj(mapEditor.interactionObjectTransform, map, mapEditor.placeMentSystem, mapEditor,2);
-            CreateObj(mapEditor.exitDoorObjectTransform, map, mapEditor.placeMentSystem, mapEditor,3);
+            CreateObj(mapEditor.floorTransform, map, mapEditor.placeMentSystem, mapEditor, 0);
+            CreateObj(mapEditor.objectTransform, map, mapEditor.placeMentSystem, mapEditor, 1);
+            CreateObj(mapEditor.interactionObjectTransform, map, mapEditor.placeMentSystem, mapEditor, 2);
+            CreateObj(mapEditor.exitDoorObjectTransform, map, mapEditor.placeMentSystem, mapEditor, 3);
 
             MapDataStruct btn = mapObjectDataDictionary[306];
 
-            foreach(int key in mapEditor.interactionBtnDictionary.Keys)
+            foreach (int key in mapEditor.interactionBtnDictionary.Keys)
             {
-                foreach(Vector2 pot in mapEditor.interactionBtnDictionary[key])
+                foreach (Vector2 pot in mapEditor.interactionBtnDictionary[key])
                 {
                     GameObject btnActivated = Object.Instantiate(Resources.Load<GameObject>(btn.path));
                     btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, key, mapEditor.interactionObjectTransform);
@@ -201,6 +205,53 @@ public class MapEditor_Editor : Editor
         }
 
     }
+
+    //0422 testtest
+    public void TestLoad(MapEditor mapEditor) // user map Test Code
+    {
+        UGS_MapDataLoad();
+        string path = Path.Combine(Application.dataPath, "UserMapData");
+        string[] filePaths = Directory.GetFiles(path, "*.json");
+
+        string jsonString = File.ReadAllText(filePaths[0]);
+        UserMapData data = JsonUtility.FromJson<UserMapData>(jsonString);
+        Map map = data.LoadMap();
+
+        mapEditor.Init();
+
+        mapEditor.CurMap = map;
+        mapEditor.SetMapSize((int)map.mapSize.x, (int)map.mapSize.y);
+
+        //start Point
+        GameObject startPoint = Instantiate(Resources.Load<GameObject>(mapObjectDataDictionary[302].path));
+        mapEditor.startPositionObject = startPoint;
+        startPoint.transform.position = map.startPosition;
+        startPoint.transform.SetParent(mapEditor.dontSaveObjectTransform);
+        //start Point
+
+        mapEditor.interactionBtnDictionary = new(); //todo 0412
+
+        CreateObj(mapEditor.floorTransform, map, mapEditor.placeMentSystem, mapEditor, 0);
+        CreateObj(mapEditor.objectTransform, map, mapEditor.placeMentSystem, mapEditor, 1);
+        CreateObj(mapEditor.interactionObjectTransform, map, mapEditor.placeMentSystem, mapEditor, 2);
+        CreateObj(mapEditor.exitDoorObjectTransform, map, mapEditor.placeMentSystem, mapEditor, 3);
+
+        MapDataStruct btn = mapObjectDataDictionary[306];
+
+        foreach (int key in mapEditor.interactionBtnDictionary.Keys)
+        {
+            foreach (Vector2 pot in mapEditor.interactionBtnDictionary[key])
+            {
+                GameObject btnActivated = Object.Instantiate(Resources.Load<GameObject>(btn.path));
+                btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, key, mapEditor.interactionObjectTransform);
+                btnActivated.transform.SetParent(mapEditor.dontSaveObjectTransform);
+            }
+        }
+
+    }
+    
+
+    //0422 testtest
 
     TextAsset GetTextAsset(MapType mapType,string id)
     {
