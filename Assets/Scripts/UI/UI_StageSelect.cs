@@ -161,7 +161,7 @@ public class UI_StageSelect : UI_Base
         if (stageInMapSelectList == null) return;
         if(Managers.Game.stageLevel > stageInMapSelectList.Count - 1)
         {
-            Managers.Data.mapData.GetMainStageMapData(Managers.Game.stageLevel);
+            //Managers.Data.mapData.GetMainStageMapData(Managers.Game.stageLevel);
             Create(Managers.Game.stageLevel);
         }
 

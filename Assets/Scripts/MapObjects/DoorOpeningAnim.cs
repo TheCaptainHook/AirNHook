@@ -98,6 +98,7 @@ public class DoorOpeningAnim : NetworkBehaviour
                 }
             }
             Debug.Log("Stage Clear");
+            Managers.Data.mapData.GetMainStageMapData(Managers.Game.stageLevel);
         }
         else
         {
