@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
-public class LeverBody : BuildObj,IInteractable
+public class LeverBody : BuildObj, IInteractable
 {
     [Header("Info")]
     ObjectTypeEnum objectTypeEnum = ObjectTypeEnum.Interaction;
@@ -218,8 +218,7 @@ public class LeverBody : BuildObj,IInteractable
         
 
     }
-
-
+    
     public void Interaction(Transform accessor = null)
     {
         if (onCompletionParts && !onOperation)
@@ -227,6 +226,11 @@ public class LeverBody : BuildObj,IInteractable
             _leverBodyNet.CmdLeverActivate();
         }
         
+    }
+
+    public bool CanInteract()
+    {
+        return onCompletionParts;
     }
 
     public ObjectTypeEnum GetObjectType()

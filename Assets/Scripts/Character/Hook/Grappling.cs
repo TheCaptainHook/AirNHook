@@ -292,7 +292,7 @@ public class Grappling : NetworkBehaviour
 
     private void OnMainAction(InputAction.CallbackContext context)
     {
-        if (grappleAttached || _isCoolTime || _isGround) return;
+        if (grappleAttached || _isCoolTime || _isGround || !canControl) return;
 
         var hit = Physics2D.Raycast(transform.position, _aimDirection, _ropeMaxDistance, hookLayerMask);
 
@@ -335,5 +335,9 @@ public class Grappling : NetworkBehaviour
         }
         
         ResetRope();
+        
+        if (!_isAirAttached) return;
+        _isAirAttached = false;
+        Managers.Game.OtherPlayer.GetComponent<AirGunNet>().CmdStopSticking();
     }
 }

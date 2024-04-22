@@ -16,6 +16,11 @@ public class StageSelectObject : MonoBehaviour, IInteractable
             Managers.UI.HideUI<UI_StageSelect>();
     }
 
+    public bool CanInteract()
+    {
+        return true;
+    }
+
     public ObjectTypeEnum GetObjectType()
     {
         return objectType;

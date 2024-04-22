@@ -8,6 +8,7 @@ public class AirGunNet : NetworkBehaviour
     // Input
     [field: SerializeField] private Transform _armPivot;
     [field: SerializeField] private Transform _charPivot;
+    public bool canHandle;
     private PlayerInput _playerInput;
     private PlayerMovement _playerMovement;
     private Camera _mainCamera;
@@ -31,8 +32,6 @@ public class AirGunNet : NetworkBehaviour
     private bool _inhaling;
     private bool _isAttachedToHook;
     private bool _isInhaledHook;
-    public LayerMask attachedLayerMask;
-    private LayerMask _releaseLayerMask;
     
     // ShootAction
     private LineRenderer _lineRenderer;
@@ -79,7 +78,7 @@ public class AirGunNet : NetworkBehaviour
         if(!isLocalPlayer) return;
 
         _mainCamera = Camera.main;
-        
+        canHandle = true;
         _playerInput.playerActions.Look.performed += Look;
         _playerInput.playerActions.Action.started += PlayerActionStarted;
         _playerInput.playerActions.Action.canceled += PlayerActionCanceled;
@@ -100,9 +99,12 @@ public class AirGunNet : NetworkBehaviour
     {
         if(!isLocalPlayer) return;
 
-        RotateGun();
-        DetectObject();
-        ObjectCheck();
+        if (canHandle)
+        {
+            RotateGun();
+            DetectObject();
+            ObjectCheck();
+        }
         AnimationParticlesChecks();
     }
     
@@ -131,6 +133,23 @@ public class AirGunNet : NetworkBehaviour
         {
             _charPivot.rotation = Quaternion.identity;
         }
+    }
+    
+    public void Reset()
+    {
+        canHandle = false;
+        StopInhaleTarget();
+        StopSticking();
+        _inhaling = false;
+        _isAttached = false;
+        _canStick = false;
+        _sticking = false;
+        _isInhaledHook = false;
+        _latestTarget = null;
+        _grappling = null;
+        _lineRenderer.enabled = false;
+        _shortestDistance = float.MaxValue;
+        CmdInhaleParticlesStop();
     }
     
     #region ObjectCheck
@@ -469,12 +488,24 @@ public class AirGunNet : NetworkBehaviour
         _rigidbody2D.velocity = Vector2.zero;
         _rigidbody2D.gravityScale = 3f;
     }
+
+    [Command(requiresAuthority = false)]
+    public void CmdStopSticking()
+    {
+        RpcStopSticking();
+    }
+    
+    [ClientRpc(includeOwner = false)]
+    private void RpcStopSticking()
+    {
+        StopSticking();
+    }
     #endregion
 
     #region ShootingAction
     private void Charging()
     {
-        if(!_isAttached) return;
+        if(!_isAttached || !canHandle) return;
         
         _chargingCoroutine = StartCoroutine(Co_PowerCharging());
     }
@@ -586,6 +617,8 @@ public class AirGunNet : NetworkBehaviour
     
     private void PlayerActionCanceled(InputAction.CallbackContext context)
     {
+        if(!canHandle) return;
+        
         _animator.SetTrigger(IsExhaling);
         if (_isStick)
             FlyAway();
@@ -633,7 +666,7 @@ public class AirGunNet : NetworkBehaviour
 
     private void AnimationParticlesChecks()
     {
-        _animator.SetBool(IsInhaling, _rightClick);
+        _animator.SetBool(IsInhaling, _rightClick && canHandle);
         _animator.SetBool(IsFlying, _sticking);
         _animator.SetBool(IsAirAttached, _isAttachedToHook);
         _animator.SetBool(IsHookInhaled, _isInhaledHook);
