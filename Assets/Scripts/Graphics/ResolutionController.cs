@@ -52,6 +52,10 @@ public class ResolutionController : MonoBehaviour
 
     public void SetResolution(int resolutionIndex)
     {
+        if (Managers.Game.CurrentState != GameState.Title)
+        {
+            return;
+        }
         Resolution resolution = _filteredResolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }

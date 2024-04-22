@@ -201,7 +201,7 @@ MonoBehaviour:
   _objectType: 1
   grabLayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   _inhalePower: 800
 --- !u!114 &-3325528363225173584
 MonoBehaviour:

@@ -208,15 +208,12 @@ public class AirGunNet : NetworkBehaviour
             //TODO
             if (_inhaleTarget is not null && _shortestDistance <= 0.15f)
             {
-                _releaseLayerMask = _inhaleTarget.GetComponent<Rigidbody2D>().excludeLayers;
                 if (ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject))
                 {
                     _isInhaledHook = true;
                 }
 
                 _isAttached = true;
-                CmdSetExcludeLayer(_inhaleTarget.gameObject, attachedLayerMask);
-                //_inhaleTarget.GetComponent<Rigidbody2D>().excludeLayers = attachedLayerMask;
             }
 
             _shortestDistance = float.MaxValue;
@@ -339,8 +336,6 @@ public class AirGunNet : NetworkBehaviour
         {
             _inhaleTarget.GetComponent<IInhalable>().StopInhale();
             _inhaling = false;
-            CmdSetExcludeLayer(_inhaleTarget.gameObject, _releaseLayerMask);
-            //_inhaleTarget.GetComponent<Rigidbody2D>().excludeLayers = _releaseLayerMask;
 
             if (_chargingCoroutine is not null)
             {
@@ -362,18 +357,7 @@ public class AirGunNet : NetworkBehaviour
     {
         obj.GetComponent<IInhalable>().StopInhale();
     }
-
-    [Command(requiresAuthority = false)]
-    private void CmdSetExcludeLayer(GameObject target, LayerMask layerMask)
-    {
-        RpcSetExcludeLayer(target, layerMask);
-    }
-
-    [ClientRpc]
-    private void RpcSetExcludeLayer(GameObject target, LayerMask layerMask)
-    {
-        target.GetComponent<Rigidbody2D>().excludeLayers = layerMask;
-    }
+    
     #endregion
 
     #region HookInteraction
@@ -540,8 +524,6 @@ public class AirGunNet : NetworkBehaviour
         else
         {
             _inhaleTarget.GetComponent<IInhalable>().Shooting(_weaponPoint.right * _shootPower);
-            CmdSetExcludeLayer(_inhaleTarget.gameObject, _releaseLayerMask);
-            //_inhaleTarget.GetComponent<Rigidbody2D>().excludeLayers = _releaseLayerMask;
         }
         _inhaleTarget = null;
         _isAttached = false;
