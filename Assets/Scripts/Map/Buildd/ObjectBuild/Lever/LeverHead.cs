@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class LeverHead : BuildObj
     //Material dissolveMaterial;
     //effect
     float dissolveRate = 0.05f;
+    private Vector2 _firstPos;
 
     private void Awake()
     {
@@ -19,6 +21,10 @@ public class LeverHead : BuildObj
         OnDissolveAction += Dissolve;
     }
 
+    private void Start()
+    {
+        _firstPos = transform.position;
+    }
 
 
     public void AttachToLevelBody(Transform transform)
@@ -35,9 +41,15 @@ public class LeverHead : BuildObj
         _collider.enabled = false;
         _rb.simulated = false;
 
-        this.transform.SetParent(transform);
+        //this.transform.SetParent(transform);
         this.transform.rotation = Quaternion.Euler(0, 0, 0);
-        this.transform.localPosition = Vector3.zero;
+        this.transform.position = transform.position;
+    }
+
+    public void AttachToLevelBody()
+    {
+        _collider.enabled = false;
+        _rb.simulated = false;
     }
 
     public void DetachToLevelBody()
@@ -59,7 +71,7 @@ public class LeverHead : BuildObj
         }
         else
         {
-            StartCoroutine(Co_Dissolve(pot));
+            StartCoroutine(Co_Dissolve(_firstPos));
         }
 
     }

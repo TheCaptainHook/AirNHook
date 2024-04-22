@@ -54,11 +54,11 @@ public class StageManager
     }
 
     [Command]
-    public GameObject CmdBatchObject(string objName,Transform transform)
+    public GameObject CmdBatchObject(string objName, Transform transform, Vector2 pot)
     {
         if (!NetworkServer.active || !NetworkClient.isConnected) return null;
 
-        var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+        var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName], pot);
         obj.transform.SetParent(transform);
         
         NetworkServer.Spawn(obj, NetworkServer.localConnection);

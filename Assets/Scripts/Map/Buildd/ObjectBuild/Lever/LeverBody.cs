@@ -10,8 +10,10 @@ public class LeverBody : BuildObj,IInteractable
     public int linkId;
     public List<ButtonActivatedDoor> linkDoorList;
     public LeverHead leverHead;
+    public Transform attachedLeverHead;
     [SerializeField] Transform leverHeadTransform;
     public Vector2 curPosition;
+    private LeverBodyNet _leverBodyNet;
 
     public float time = 2;
     bool isRunningCoroutine;
@@ -30,6 +32,7 @@ public class LeverBody : BuildObj,IInteractable
 
     private void Awake()
     {
+        _leverBodyNet = GetComponent<LeverBodyNet>();
         animator = GetComponent<Animator>();
     }
 
@@ -132,9 +135,12 @@ public class LeverBody : BuildObj,IInteractable
             if (!onCompletionParts)
             {
                 LeverHead leverHead = collision.gameObject.GetComponent<LeverHead>();
-                leverHead.AttachToLevelBody(leverHeadTransform);
+                leverHead.AttachToLevelBody();
                 this.leverHead = leverHead;
-
+                collision.transform.GetChild(0).gameObject.SetActive(false);
+                Destroy(collision.gameObject, 1f);
+                
+                attachedLeverHead.gameObject.SetActive(true);
                 onCompletionParts = true;
                 animator.SetTrigger(OnCompletion);
             }
@@ -146,7 +152,6 @@ public class LeverBody : BuildObj,IInteractable
     {
         curPosition = pot;
         this.linkId = linkId;
-        transform.position = curPosition;
 
         foreach (Transform tr in interactionDoorTransform)
         {
@@ -157,14 +162,13 @@ public class LeverBody : BuildObj,IInteractable
             }
         }
     }
-
-    private void Activation()
+    
+    public void Activation()
     {
         foreach (ButtonActivatedDoor door in linkDoorList)
         {
             onAcitve = !onAcitve;
             StartCoroutine(Co_Operation(door));
-           
         }
     }
 
@@ -212,12 +216,9 @@ public class LeverBody : BuildObj,IInteractable
 
     public void Interaction(Transform accessor = null)
     {
-        if (!NetworkServer.active || !NetworkClient.isConnected)
-            return;
-
         if (onCompletionParts && !onOperation)
         {
-            Activation();
+            _leverBodyNet.CmdLeverActivate();
         }
         
     }
