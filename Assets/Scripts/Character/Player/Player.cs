@@ -74,12 +74,12 @@ public class Player : NetworkBehaviour, IDamageable
         if (value.Equals("Lobby"))
         {
             Managers.Game.CurrentState = GameState.Lobby;
-            MapEditor.Instance.MoveNextStage(value, MapType.Scene);
+            MapEditor.Instance.MoveNextStage(value);
         }
         else
         {
             Managers.Game.CurrentState = GameState.Game;
-            MapEditor.Instance.MoveNextStage(value, MapType.Main);
+            MapEditor.Instance.MoveNextStage(value);
         }
     }
     #endregion
