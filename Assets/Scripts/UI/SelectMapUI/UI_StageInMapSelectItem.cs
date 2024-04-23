@@ -31,7 +31,6 @@ public class UI_StageInMapSelectItem : MonoBehaviour
         text.text = mapId;
         this.stageLevel = stageLevel;
         this.index = index;
-
         if (Managers.Data.loadData.playData[mapId].stageClear)
         {
             text.color = Color.green;

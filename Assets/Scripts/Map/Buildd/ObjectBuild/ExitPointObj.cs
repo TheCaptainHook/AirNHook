@@ -111,7 +111,6 @@ public class ExitPointObj : BuildBase
 
     public void MoveNextStage()
     {
-        MapEditor.Instance.onStageSelect = false;
         doorOpeningAnim.CmdMoveNextStage(nextMapId);
     }
 

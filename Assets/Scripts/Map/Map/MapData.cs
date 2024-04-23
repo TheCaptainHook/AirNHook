@@ -14,7 +14,7 @@ public class MapData
     public Dictionary<string, Map> mapSceneDictionary = new Dictionary<string, Map>();
     public Dictionary<string, Map> mapMainDictionary = new Dictionary<string, Map>();
 
-    public Dictionary<string, Map> mapMainAndSceneDictionary = new Dictionary<string, Map>(); // todo 0423
+    public Dictionary<string, Map> mapAllDictionary = new Dictionary<string, Map>(); // todo 0423
 
 
     public Dictionary<int, Map[]> mapMainStageDictionary = new Dictionary<int, Map[]>();
@@ -64,7 +64,7 @@ public class MapData
         {
             Map map = JsonUtility.FromJson<Map>(json.text);
             mapSceneDictionary.Add(map.mapID, map);
-            mapMainAndSceneDictionary.Add(map.mapID, map);
+            mapAllDictionary.Add(map.mapID, map);
         }
 
         //todo
@@ -83,7 +83,7 @@ public class MapData
             string jsonString = File.ReadAllText(filePath);
             UserMapData data = JsonUtility.FromJson<UserMapData>(jsonString);
             mapUserDictionary.Add(data.hashValue, data);
-            mapMainAndSceneDictionary.Add(data.hashValue.ToString(), data.LoadMap());
+            mapAllDictionary.Add(data.hashValue.ToString(), data.LoadMap());
 
         }
 
@@ -101,7 +101,7 @@ public class MapData
             {
                 mapUserDictionary.Add(data.hashValue, data);
 
-                mapMainAndSceneDictionary.Add(data.hashValue.ToString(), data.LoadMap());
+                mapAllDictionary.Add(data.hashValue.ToString(), data.LoadMap());
             }
 
         }
@@ -125,7 +125,7 @@ public class MapData
             {
                 Map map = JsonUtility.FromJson<Map>(jsons[j].text);
                 mapMainDictionary.Add(map.mapID, map);
-                mapMainAndSceneDictionary.Add(map.mapID, map);
+                mapAllDictionary.Add(map.mapID, map);
             }
         }
 

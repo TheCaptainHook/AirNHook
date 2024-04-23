@@ -107,8 +107,6 @@ public class MapEditor : MonoBehaviour
     [HideInInspector] public List<TileData> mapTileDataList = new List<TileData>();
     [HideInInspector] public List<ObjectData> mapObjectDataList = new List<ObjectData>();
 
-    public bool onStageSelect;
-
 
 
     private void Awake()
@@ -359,6 +357,7 @@ public class MapEditor : MonoBehaviour
         Debug.Log(filePath);
         File.WriteAllText(filePath, json);
 
+        Managers.Data.mapData.RefreshUserMapData();
 
 
         //if (mapType == MapType.Tutorial)
@@ -454,7 +453,7 @@ public class MapEditor : MonoBehaviour
         placeMentSystem.ResetTileMap();
         mapEditorType = MapEditorType.Load;
         mapID = name;
-        CurMap = Managers.Data.mapData.mapMainAndSceneDictionary[name];
+        CurMap = Managers.Data.mapData.mapAllDictionary[name];
         SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);
 
         //start Point

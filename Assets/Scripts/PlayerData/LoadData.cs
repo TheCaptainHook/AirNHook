@@ -30,18 +30,33 @@ public class LoadData
     public void DataAdd()
     {
         //playData,stageData에 데이터넣기
-        foreach (var key in Managers.Data.mapData.mapMainDictionary.Keys)
+        //foreach (var key in Managers.Data.mapData.mapMainDictionary.Keys)
+        //{
+        //    if (!playData.ContainsKey(key))
+        //    {
+        //        PlayData play = new PlayData()
+        //        {
+        //            stageID = key,
+        //            stageLevel = Managers.Data.mapData.mapMainDictionary[key].stageLevel,
+        //        };
+        //        playData.Add(key, play);
+        //    }
+        //}
+        ///todo 0423
+
+        foreach (var key in Managers.Data.mapData.mapAllDictionary.Keys)
         {
             if (!playData.ContainsKey(key))
             {
                 PlayData play = new PlayData()
                 {
                     stageID = key,
-                    stageLevel = Managers.Data.mapData.mapMainDictionary[key].stageLevel,
+                    stageLevel = Managers.Data.mapData.mapAllDictionary[key].stageLevel,
                 };
                 playData.Add(key, play);
             }
         }
+        ///todo 0423
 
         //foreach (var key in Managers.Data.mapData.mapUserDictionary.Keys)
         //{

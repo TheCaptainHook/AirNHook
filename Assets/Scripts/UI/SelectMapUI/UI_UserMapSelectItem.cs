@@ -20,8 +20,6 @@ public class UI_UserMapSelectItem : MonoBehaviour
 
     ExitPointObj exitdoor;
 
-    public event Action OnSelectEvent;
-
     private void Awake()
     {
         exitdoor = MapEditor.Instance.exitDoorObjectTransform.GetChild(0).GetComponent<ExitPointObj>();
@@ -36,7 +34,7 @@ public class UI_UserMapSelectItem : MonoBehaviour
         DateTimeData date = data.LoadDateTimeData();
         dateText.text = $"{dateTitleText} {date.year}/{date.month}/{date.day}  {date.hour}:{date.minute}:{date.second}";
 
-        selectBtn.onClick.AddListener(() => { action?.Invoke(mapId); SelectItem(); });
+        selectBtn.onClick.AddListener(() => { action?.Invoke(data.hashValue.ToString()); SelectItem(); });
    
         
     }
@@ -46,7 +44,7 @@ public class UI_UserMapSelectItem : MonoBehaviour
     public void SelectItem()
     {
         outline.effectColor = Color.red;
-        exitdoor.nextMapId = mapId;
+        exitdoor.nextMapId = data.hashValue.ToString();
 
     }
 

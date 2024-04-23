@@ -48,6 +48,18 @@ public class UI_UserMapSelect : UI_Base
 
 
 
+    public bool CheckUserMapData()
+    {
+        var keys = Managers.Data.mapData.mapUserDictionary.Keys;
+        if(keys.Count > userMapSelectItemList.Count)
+        {
+            return true;
+        }
+        return false;
+    }
+
+
+
 
    
 
