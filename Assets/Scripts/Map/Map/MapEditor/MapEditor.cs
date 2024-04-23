@@ -404,45 +404,7 @@ public class MapEditor : MonoBehaviour
 
     }
 
-    //public void LoadMap(string name, MapType mapType)
-    //{
-    //    if (!Managers.Data.mapData.GetDictionary(mapType).ContainsKey(name))
-    //    {
-    //        Debug.Log("Can't find Map");
-    //        Init();
-    //        mapEditorType = MapEditorType.New;
-    //        return;
-    //    }
-
-
-    //    Init();
-    //    placeMentSystem.ResetTileMap();
-    //    mapEditorType = MapEditorType.Load;
-    //    mapID = name;
-    //    CurMap = Managers.Data.mapData.GetDictionary(mapType)[name];
-    //    SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);
-
-    //    //start Point
-    //    startPosition = curMap.startPosition;
-    //    startPositionObject = Object.Instantiate(Resources.Load<GameObject>(Managers.Data.mapData.mapObjectDataDictionary[302].path));
-    //    startPositionObject.transform.position = curMap.startPosition;
-    //    startPositionObject.transform.SetParent(dontSaveObjectTransform);
-    //    //start Point
-
-
-    //    if (Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate != null) { Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate = null; }
-    //    Camera.main.GetComponent<ParallaxCamera>().oldPosition = startPosition.x;
-
-    //    CreateObj(floorTransform,0); //floorTransform
-    //    CreateObj(objectTransform,1); //objectTransform
-    //    CreateObj(interactionObjectTransform,2); //interactionObjectTransform
-    //    CreateObj(exitDoorObjectTransform,3); //exitDoorObjectTransform
-
-
-    //    //
-    //}
-
-    public void LoadMap(string name)
+    public void LoadMap(string name, MapType mapType)
     {
         if (!Managers.Data.mapData.GetDictionary(mapType).ContainsKey(name))
         {
@@ -457,7 +419,7 @@ public class MapEditor : MonoBehaviour
         placeMentSystem.ResetTileMap();
         mapEditorType = MapEditorType.Load;
         mapID = name;
-        CurMap = Managers.Data.mapData.mapMainAndSceneDictionary[name];
+        CurMap = Managers.Data.mapData.GetDictionary(mapType)[name];
         SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);
 
         //start Point
@@ -479,6 +441,44 @@ public class MapEditor : MonoBehaviour
 
         //
     }
+
+    //public void LoadMap(string name)
+    //{
+    //    if (!Managers.Data.mapData.GetDictionary(mapType).ContainsKey(name))
+    //    {
+    //        Debug.Log("Can't find Map");
+    //        Init();
+    //        mapEditorType = MapEditorType.New;
+    //        return;
+    //    }
+
+
+    //    Init();
+    //    placeMentSystem.ResetTileMap();
+    //    mapEditorType = MapEditorType.Load;
+    //    mapID = name;
+    //    CurMap = Managers.Data.mapData.mapMainAndSceneDictionary[name];
+    //    SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);
+
+    //    //start Point
+    //    startPosition = curMap.startPosition;
+    //    startPositionObject = Object.Instantiate(Resources.Load<GameObject>(Managers.Data.mapData.mapObjectDataDictionary[302].path));
+    //    startPositionObject.transform.position = curMap.startPosition;
+    //    startPositionObject.transform.SetParent(dontSaveObjectTransform);
+    //    //start Point
+
+
+    //    if (Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate != null) { Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate = null; }
+    //    Camera.main.GetComponent<ParallaxCamera>().oldPosition = startPosition.x;
+
+    //    CreateObj(floorTransform, 0); //floorTransform
+    //    CreateObj(objectTransform, 1); //objectTransform
+    //    CreateObj(interactionObjectTransform, 2); //interactionObjectTransform
+    //    CreateObj(exitDoorObjectTransform, 3); //exitDoorObjectTransform
+
+
+    //    //
+    //}
     #endregion
 
     #region Util 

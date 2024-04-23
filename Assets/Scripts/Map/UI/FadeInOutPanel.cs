@@ -37,7 +37,7 @@ public class FadeInOutPanel : MonoBehaviour
         }
 
         Managers.Network.startPos.Clear();
-        MapEditor.Instance.LoadMap(mapId);
+        MapEditor.Instance.LoadMap(mapId,mapType);
 
         yield return new WaitForSeconds(1f);
         //while (!CheckNetworkStartPos())
