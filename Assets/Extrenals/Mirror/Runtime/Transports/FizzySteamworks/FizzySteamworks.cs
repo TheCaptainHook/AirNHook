@@ -111,7 +111,7 @@ namespace Mirror.FizzySteam
         {
             if (uri.Scheme != STEAM_SCHEME)
                 throw new ArgumentException($"Invalid url {uri}, use {STEAM_SCHEME}://SteamID instead", nameof(uri));
-
+            
             ClientConnect(uri.Host);
         }
 

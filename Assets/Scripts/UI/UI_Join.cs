@@ -21,6 +21,8 @@ public class UI_Join : UI_Base
     [SerializeField] private TMP_Text _EnterCodeText;
     [SerializeField] private TMP_Text _JoinBtnText;
 
+    private string _roomCode;
+
     protected override void Start()
     {
         base.Start();
@@ -42,9 +44,18 @@ public class UI_Join : UI_Base
 
     private void OnJoinBtn()
     {
-        var ipString = _inputField.text;
-        Managers.Network.networkAddress = ipString;
-        Managers.Network.StartClient();
+        _roomCode = _inputField.text;
+        if(string.IsNullOrWhiteSpace(_roomCode)) return;
+
+        Managers.Network.steamLobby.joinLobbyCallback += Joining;
+        Managers.Network.steamLobby.GetLobbyList();
+    }
+
+    private void Joining()
+    {
+        Managers.Network.steamLobby.joinLobbyCallback -= Joining;
+
+        if (!Managers.Network.steamLobby.JoinLobby(_roomCode)) return;
 
         _mainFrame.transform.localScale = Vector3.one * 0.1f;
         CloseUI();

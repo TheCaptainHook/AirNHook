@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Steamworks;
@@ -10,6 +11,7 @@ public class TestRoomCode : MonoBehaviour
     
     void Start()
     {
-        _text.text = SteamUser.GetSteamID().ToString();
+        _text.text = Base62Converter.ToBase62(Managers.Network.steamLobby.currentLobbyID.m_SteamID);
+        //_text.text = SteamUser.GetSteamID().ToString();
     }
 }
