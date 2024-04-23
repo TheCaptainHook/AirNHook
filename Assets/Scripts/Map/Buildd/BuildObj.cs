@@ -29,7 +29,7 @@ public class BuildObj : MousePointerEntity,IDamageable
     public bool onRotateable;
     public bool onScaleable;
     
-    private ObjectData _objectData;
+    public ObjectData _objectData;
     public ObjectData ObjectData { get { return _objectData; } set { _objectData = value; id = _objectData.id;} }
 
     public event Action<Vector2> OnDissolveAction;

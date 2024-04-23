@@ -7,6 +7,8 @@ public class Shield : BuildObj
 {
     private Rigidbody2D _rb;
 
+
+  
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -23,4 +25,9 @@ public class Shield : BuildObj
         base.TurnOn();
         _rb.gravityScale = 1;
     }
+
+
+
+ 
+
 }

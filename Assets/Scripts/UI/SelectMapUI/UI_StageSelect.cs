@@ -62,15 +62,20 @@ public class UI_StageSelect : UI_Base
     [SerializeField] GameObject ui_UserMapSelectPrefab;
 
 
-    //todo 0423
+    //todo 0423 클라이언트 맵데이터 확인해야함.
     private void SelectMap(string mapId)
     {
         if (mapId == curMapId) return;
 
+
+
+
         ResetSelect();
         curMapId = mapId;
         onSelect = true;
+
         //Screen Function
+
     }
     //todo 0423
 

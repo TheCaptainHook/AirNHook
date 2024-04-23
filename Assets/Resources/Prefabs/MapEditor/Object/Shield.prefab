@@ -94,12 +94,12 @@ GameObject:
   m_Component:
   - component: {fileID: 994488778957814542}
   - component: {fileID: -8846839930603035143}
-  - component: {fileID: -270225028426460243}
   - component: {fileID: -5810413876586093780}
   - component: {fileID: 1730392308196055233}
   - component: {fileID: 5995116111848026723}
   - component: {fileID: 8808808188988864938}
   - component: {fileID: 146081564939722954}
+  - component: {fileID: 2662755915402618192}
   m_Layer: 16
   m_Name: Shield
   m_TagString: Untagged
@@ -150,26 +150,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &-270225028426460243
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8716440483222482088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3369714a36eeff3448142e8610242ff9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  _objectType: 1
-  grabLayerMask:
-    serializedVersion: 2
-    m_Bits: 1024
-  _inhalePower: 20
 --- !u!114 &-5810413876586093780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,6 +233,11 @@ MonoBehaviour:
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
+  _objectData:
+    id: 0
+    position: {x: 0, y: 0}
+    quaternion: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 0, y: 0, z: 0}
   setPosition: 0
   orgPosition: {x: 0, y: 0}
 --- !u!61 &146081564939722954
@@ -300,3 +285,25 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.9277239, y: 1.8221407}
   m_EdgeRadius: 0
+--- !u!114 &2662755915402618192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8716440483222482088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 970ea820a2e6f42ff860f120c24d373d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  _objectType: 1
+  grabLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  _inhalePower: 20
+  buildObj: {fileID: 8808808188988864938}
+  curTime: 0

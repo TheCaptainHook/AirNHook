@@ -82,7 +82,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         return _objectType;
     }
 
-    private void Grab()
+    protected virtual void Grab()
     {
         ChangeFixedState(true);
         //_isFixed = true;
@@ -93,7 +93,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
-    public void Release()
+    public virtual void Release()
     {
         ChangeFixedState(false);
         ChangeCanInhaleState(false);
