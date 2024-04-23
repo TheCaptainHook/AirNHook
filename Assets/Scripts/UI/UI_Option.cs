@@ -38,6 +38,9 @@ public class UI_Option : UI_Base
     [SerializeField] private TMP_Text _infoTxt;
     [SerializeField] private GameObject _menuInfo;
 
+    [SerializeField] private GameObject _roomCodeBox;
+    [SerializeField] private Button _copyCodeBtn;
+
     [Header("GraphicsOption")]
     [SerializeField] private Toggle _fullScreenToggle;
     [SerializeField] private Toggle _vsyncToggle;
@@ -62,6 +65,8 @@ public class UI_Option : UI_Base
 
     [SerializeField] private TMP_Text _testBuildText;
     //[SerializeField] private TMP_Text _resolutionWarningText;
+    [SerializeField] private TMP_Text _roomCodeNumText;
+    [SerializeField] private TMP_Text _joinCodeText;
 
     [Header("GameData")]
     //임시 불린 체크
@@ -83,6 +88,9 @@ public class UI_Option : UI_Base
         _inLobbyBtnGroups.SetActive(IsInLobby);
         _inExitBtnGroups.SetActive(IsInTitle);
         _menuInfo.SetActive(IsInTitle);
+        _roomCodeBox.SetActive(IsInLobby);
+        if(IsInLobby)
+            GetRoomCode();
     }
 
     protected override void Start()
@@ -103,6 +111,7 @@ public class UI_Option : UI_Base
         _toTitleBtn.onClick.AddListener(OnTitleBtn);
         _toLobbyBtn.onClick.AddListener(OnLobbyBtn);
         _exitGameBtn.onClick.AddListener(OnExitBtn);
+        _copyCodeBtn.onClick.AddListener(OnCopyBtn);
 
         // _infoTxt.text = menuGameOptionInfo;
         
@@ -129,6 +138,7 @@ public class UI_Option : UI_Base
         _inLobbyBtnGroups.SetActive(IsInLobby);
         _inExitBtnGroups.SetActive(IsInTitle);
         _menuInfo.SetActive(IsInTitle);
+        _roomCodeBox.SetActive(IsInLobby);
         //_resolutionWarning.SetActive(false);
     }
     
@@ -201,6 +211,20 @@ public class UI_Option : UI_Base
 #endif
 
     }
+
+    private void GetRoomCode()
+    {
+        _roomCodeNumText.text = Base62Converter.ToBase62(Managers.Network.steamLobby.currentLobbyID.m_SteamID);
+    }
+
+    private void OnCopyBtn()
+    {
+        CopyToClipboard(_roomCodeNumText.text);
+    }
+    private void CopyToClipboard(string str)
+    {
+        GUIUtility.systemCopyBuffer = str;
+    }
     
     //====================그래픽 옵션=====================
 
@@ -263,5 +287,6 @@ public class UI_Option : UI_Base
         SetSentence(_applyText, 1013);
         SetSentence(_testBuildText, 1015);
         //SetSentence(_resolutionWarningText, 1016);
+        SetSentence(_joinCodeText, 1017);
     }
 }
