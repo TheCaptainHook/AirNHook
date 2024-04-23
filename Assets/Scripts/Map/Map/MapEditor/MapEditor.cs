@@ -409,8 +409,6 @@ public class MapEditor : MonoBehaviour
         if (!Managers.Data.mapData.GetDictionary(mapType).ContainsKey(name))
         {
             Debug.Log("Can't find Map");
-            Init();
-            mapEditorType = MapEditorType.New;
             return;
         }
 
@@ -442,43 +440,43 @@ public class MapEditor : MonoBehaviour
         //
     }
 
-    //public void LoadMap(string name)
-    //{
-    //    if (!Managers.Data.mapData.GetDictionary(mapType).ContainsKey(name))
-    //    {
-    //        Debug.Log("Can't find Map");
-    //        Init();
-    //        mapEditorType = MapEditorType.New;
-    //        return;
-    //    }
+    public void LoadMap(string name)
+    {
+        //if (!Managers.Data.mapData.mapMainAndSceneDictionary.ContainsKey(name))
+        //{
+        //    Debug.Log("Can't find Map");
+        //    Init();
+        //    mapEditorType = MapEditorType.New;
+        //    return;
+        //}
 
 
-    //    Init();
-    //    placeMentSystem.ResetTileMap();
-    //    mapEditorType = MapEditorType.Load;
-    //    mapID = name;
-    //    CurMap = Managers.Data.mapData.mapMainAndSceneDictionary[name];
-    //    SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);
+        Init();
+        placeMentSystem.ResetTileMap();
+        mapEditorType = MapEditorType.Load;
+        mapID = name;
+        CurMap = Managers.Data.mapData.mapMainAndSceneDictionary[name];
+        SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);
 
-    //    //start Point
-    //    startPosition = curMap.startPosition;
-    //    startPositionObject = Object.Instantiate(Resources.Load<GameObject>(Managers.Data.mapData.mapObjectDataDictionary[302].path));
-    //    startPositionObject.transform.position = curMap.startPosition;
-    //    startPositionObject.transform.SetParent(dontSaveObjectTransform);
-    //    //start Point
-
-
-    //    if (Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate != null) { Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate = null; }
-    //    Camera.main.GetComponent<ParallaxCamera>().oldPosition = startPosition.x;
-
-    //    CreateObj(floorTransform, 0); //floorTransform
-    //    CreateObj(objectTransform, 1); //objectTransform
-    //    CreateObj(interactionObjectTransform, 2); //interactionObjectTransform
-    //    CreateObj(exitDoorObjectTransform, 3); //exitDoorObjectTransform
+        //start Point
+        startPosition = curMap.startPosition;
+        startPositionObject = Object.Instantiate(Resources.Load<GameObject>(Managers.Data.mapData.mapObjectDataDictionary[302].path));
+        startPositionObject.transform.position = curMap.startPosition;
+        startPositionObject.transform.SetParent(dontSaveObjectTransform);
+        //start Point
 
 
-    //    //
-    //}
+        if (Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate != null) { Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate = null; }
+        Camera.main.GetComponent<ParallaxCamera>().oldPosition = startPosition.x;
+
+        CreateObj(floorTransform, 0); //floorTransform
+        CreateObj(objectTransform, 1); //objectTransform
+        CreateObj(interactionObjectTransform, 2); //interactionObjectTransform
+        CreateObj(exitDoorObjectTransform, 3); //exitDoorObjectTransform
+
+
+        //
+    }
     #endregion
 
     #region Util 
@@ -670,7 +668,7 @@ public class MapEditor : MonoBehaviour
 
     public void MoveNextStage(string mapId,MapType mapType)
     {
-        fadeInOutPanel.MoveNextStage(mapId, mapType);
+        fadeInOutPanel.MoveNextStage(mapId);
     }
 
     public GameObject FindObj(Transform transform, int id)

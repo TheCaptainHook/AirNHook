@@ -11,7 +11,7 @@ public class StageManager
     {
         if(!stageName.Equals("Lobby"))
             Managers.Game.CurrentState = GameState.Game;
-        MapEditor.Instance.LoadMap(stageName,MapType.Scene);
+        MapEditor.Instance.LoadMap(stageName);
 
         //if (NetworkServer.active && NetworkClient.isConnected)
         //{

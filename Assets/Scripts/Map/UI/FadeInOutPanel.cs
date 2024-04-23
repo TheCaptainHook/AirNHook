@@ -14,14 +14,14 @@ public class FadeInOutPanel : MonoBehaviour
         orgColor = image.color;
     }
 
-    public void MoveNextStage(string mapId,MapType mapType)
+    public void MoveNextStage(string mapId)
     {
-        StartCoroutine(FadeInOut(mapId, mapType));
+        StartCoroutine(FadeInOut(mapId));
 
     }
 
 
-    IEnumerator FadeInOut(string mapId, MapType mapType)
+    IEnumerator FadeInOut(string mapId)
     {
         image.enabled = true;
         float percent = 0;
@@ -37,7 +37,7 @@ public class FadeInOutPanel : MonoBehaviour
         }
 
         Managers.Network.startPos.Clear();
-        MapEditor.Instance.LoadMap(mapId,mapType);
+        MapEditor.Instance.LoadMap(mapId);
 
         yield return new WaitForSeconds(1f);
         //while (!CheckNetworkStartPos())
