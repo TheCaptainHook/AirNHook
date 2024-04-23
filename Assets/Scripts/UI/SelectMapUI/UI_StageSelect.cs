@@ -8,16 +8,35 @@ using System;
 public class UI_StageSelect : UI_Base
 {
 
+    [Header("Main Map Container")]
+    public Transform mainMapcontainer;
+    public Transform mainMaplayout;
+    private List<GameObject> stageInMapSelectList;
+
+    [Header("User Map Container")]
+    public Transform userMapcontainer;
+    private GameObject userMapSelect;
+
     [Header("Icon")]
-    public Transform container;
-    public Transform layout;
     [SerializeField] Button closeBtn;
     [SerializeField] Button curSelectBtn; //todo 0415
     [SerializeField] Button spawnKey;
     private GameObject key;
     public GameObject Key { get { return key; }
-        set { if (key != null) { Destroy(key);} key = value; }
+        set { if (key != null) { Destroy(key); } key = value; }
     }
+
+    [SerializeField] Button mainMapBtn;
+    [SerializeField] Button userMapBtn;
+
+ 
+    [Header("Btn Color")]
+    Color activeColor = new Color(0.686f, 0.913f, 0.713f);
+
+    Action<string> OnSelectItemEvent;
+
+    public string curMapId;
+    public bool onSelect;
 
 
     public Button CurSelectBtn
@@ -27,7 +46,7 @@ public class UI_StageSelect : UI_Base
         {
             if (curSelectBtn != value)
             {
-                ResetStageInMapItem();
+                //ResetStageInMapItem();
                 curSelectBtn = value;
             }
         }
@@ -35,14 +54,33 @@ public class UI_StageSelect : UI_Base
 
     private TMP_Text _startText;
 
-    [SerializeField] GameObject ui_StageInMapSelect;
+    [Header("Prefabs")]
+    [SerializeField] GameObject ui_StageInMapSelectPrefab;
+    [SerializeField] GameObject ui_UserMapSelectPrefab;
 
-    private List<GameObject> stageInMapSelectList;
+
+    //todo 0423
+    private void SelectMap(string mapId)
+    {
+        if (mapId == curMapId) return;
+
+        ResetStageInMapItem();
+        ResetUserMapItem();
+        curMapId = mapId;
+        onSelect = true;
+    }
+    //todo 0423
 
     private void Awake()
     {
         closeBtn.onClick.AddListener(CloseUI);
         spawnKey.onClick.AddListener(SpawnKey);
+        mainMapBtn.onClick.AddListener(() => { OpenMainMapSelectUI(); });
+        userMapBtn.onClick.AddListener(() => { OpenUserMapSelectUI(); });
+
+        OnSelectItemEvent += SelectMap;
+
+
     }
 
     public override void OnEnable()
@@ -54,6 +92,13 @@ public class UI_StageSelect : UI_Base
 
     protected override void Start()
     {
+
+        foreach(var key in Managers.Data.mapData.mapMainStageDictionary.Keys)
+        {
+            Debug.Log(key);
+        }
+
+
         var maps = Managers.Data.mapData.mapMainStageDictionary.Keys;
         stageInMapSelectList = new();
 
@@ -63,6 +108,7 @@ public class UI_StageSelect : UI_Base
             Create(i);
         }
 
+        CreateUserMap();
         //foreach (var key in maps)
         //{
         //    Create(key);
@@ -74,12 +120,14 @@ public class UI_StageSelect : UI_Base
         //endButton.onClick.AddListener(StartGame);
     }
 
+    
+
+
     protected override void OpenUI() // Update select menu when clear stage
     {
-       MapEditor.Instance.onStageSelect = false;
         Key = null;
         CheckCurStageLevel();
-        CheckStageClearAndChangeStageInMapItemTextColor();
+        //CheckStageClearAndChangeStageInMapItemTextColor();
         base.OpenUI();
     }
 
@@ -89,6 +137,8 @@ public class UI_StageSelect : UI_Base
         {
             obj.SetActive(false);
         }
+
+        ResetBtn();
 
         base.CloseUI();
     }
@@ -104,11 +154,11 @@ public class UI_StageSelect : UI_Base
 
     private void CreateStageInMapUI(int level)
     {
-        GameObject ui = Instantiate(ui_StageInMapSelect);
+        GameObject ui = Instantiate(ui_StageInMapSelectPrefab);
         RectTransform rt = ui.transform as RectTransform;
         UI_StageInMapSelect selectMap = ui.GetComponent<UI_StageInMapSelect>();
-        selectMap.CreateStageInMap(level);
-        ui.transform.SetParent(container);
+        selectMap.CreateStageInMap(level, OnSelectItemEvent); // todo 0423
+        ui.transform.SetParent(mainMapcontainer);
         rt.anchoredPosition = Vector2.zero;
         stageInMapSelectList.Add(ui);
         ui.SetActive(false);
@@ -116,7 +166,7 @@ public class UI_StageSelect : UI_Base
     }
     private void CreateStage(int level)
     {
-        var button = ResourceManager.Instantiate("Prefabs/UI/Button", layout).GetComponent<Button>();
+        var button = ResourceManager.Instantiate("Prefabs/UI/Button", mainMaplayout).GetComponent<Button>();
         button.GetComponentInChildren<TMP_Text>().text = level.ToString();
         string mapName = Managers.Data.mapData.mapMainStageDictionary[level][0].mapID;
         button.onClick.AddListener(() => { SelectStage(button); OpenStageInMapUI(level); });
@@ -126,7 +176,7 @@ public class UI_StageSelect : UI_Base
 
     public void SpawnKey()
     {
-       if (MapEditor.Instance.onStageSelect)
+       if (curMapId != string.Empty)
         {
             GameObject key = Managers.Stage.CmdBatchObject("Key");
             Key = key;
@@ -143,9 +193,61 @@ public class UI_StageSelect : UI_Base
 
       
     }
+
+
+
+    private void CreateUserMap()
+    {
+        userMapSelect = Instantiate(ui_UserMapSelectPrefab, userMapcontainer);
+        UI_UserMapSelect ums = userMapSelect.GetComponent<UI_UserMapSelect>();
+        ums.Create(OnSelectItemEvent);
+        
+    }
     #endregion
 
+    #region Button
+    private void ResetBtn()
+    {
+        Deactive_BtnChangeColor(mainMapBtn);
+        Deactive_BtnChangeColor(userMapBtn);
+
+        mainMapcontainer.gameObject.SetActive(false);
+        userMapcontainer.gameObject.SetActive(false);
+    }
+
+    private void OpenMainMapSelectUI()
+    {
+        ResetBtn();
+        mainMapcontainer.gameObject.SetActive(true);
+        Active_BtnChangeColor(mainMapBtn);
+    }
+    private void OpenUserMapSelectUI()
+    {
+        ResetBtn();
+        userMapcontainer.gameObject.SetActive(true);
+        Active_BtnChangeColor(userMapBtn);
+    }
+
+    private void Active_BtnChangeColor(Button btn)
+    {
+        ColorBlock colorBlock = btn.colors;
+        colorBlock.normalColor = activeColor;
+        btn.colors = colorBlock;
+    }
+    private void Deactive_BtnChangeColor(Button btn)
+    {
+        if (!btn.interactable) btn.interactable = true;
+        ColorBlock colorBlock = btn.colors;
+        colorBlock.normalColor = Color.white;
+        btn.colors = colorBlock;
+    }
+
+
+
+    #endregion
     #region Util
+
+    #region MainMap
     private void SelectStage(Button button)
     {
         if (CurSelectBtn != null)
@@ -165,6 +267,7 @@ public class UI_StageSelect : UI_Base
 
         stageInMapSelectList[level].SetActive(true);
     }
+
     private void ResetStageInMapItem()
     {
         foreach (GameObject obj in stageInMapSelectList)
@@ -173,12 +276,19 @@ public class UI_StageSelect : UI_Base
             selectMap.ResetBtn();
         }
     }
+    private void ResetUserMapItem()
+    {
+        if(userMapSelect != null)
+        userMapSelect.GetComponent<UI_UserMapSelect>().ResetItem();
+    }
+
+    #endregion
 
     private void CheckCurStageLevel() // Used when stage level up
     {
         if (Managers.Game.stageLevel > 1) return;
         if (stageInMapSelectList == null) return;
-        if(Managers.Game.stageLevel > stageInMapSelectList.Count - 1)
+        if (Managers.Game.stageLevel > stageInMapSelectList.Count - 1)
         {
             //Managers.Data.mapData.GetMainStageMapData(Managers.Game.stageLevel);
             Create(Managers.Game.stageLevel);
@@ -186,17 +296,12 @@ public class UI_StageSelect : UI_Base
 
     }
 
-    private void CheckStageClearAndChangeStageInMapItemTextColor()
+
+    private void ResetSelect()
     {
-        if (stageInMapSelectList != null)
-        {
-            foreach (GameObject obj in stageInMapSelectList)
-            {
-                UI_StageInMapSelect sis = obj.GetComponent<UI_StageInMapSelect>();
-                sis.CheckStageClearItem();
-            }
-        }
+        ResetStageInMapItem();
     }
+
     #endregion
 
 
@@ -211,4 +316,6 @@ public class UI_StageSelect : UI_Base
     {
         SetSentence(_startText, 2101);
     }
+
+
 }

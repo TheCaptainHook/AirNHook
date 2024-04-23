@@ -43,18 +43,18 @@ public class LoadData
             }
         }
 
-        foreach (var key in Managers.Data.mapData.mapUserDictionary.Keys)
-        {
-            if (!playData.ContainsKey(key))
-            {
-                PlayData play = new PlayData()
-                {
-                    stageID = key,
-                    stageLevel = Managers.Data.mapData.mapUserDictionary[key].stageLevel,
-                };
-                playData.Add(key, play);
-            }
-        }
+        //foreach (var key in Managers.Data.mapData.mapUserDictionary.Keys)
+        //{
+        //    if (!playData.ContainsKey(key))
+        //    {
+        //        PlayData play = new PlayData()
+        //        {
+        //            stageID = key,
+        //            stageLevel = Managers.Data.mapData.mapUserDictionary[key].stageLevel,
+        //        };
+        //        playData.Add(key, play);
+        //    }
+        //}
         //해당위치에 해당파일이 있는지 체크하고 없으면 생성
         File.WriteAllText(_playDataPath, JsonConvert.SerializeObject(playData.Values, Formatting.Indented));
     }

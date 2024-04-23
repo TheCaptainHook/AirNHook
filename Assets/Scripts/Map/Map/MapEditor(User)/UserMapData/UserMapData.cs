@@ -9,12 +9,14 @@ public class UserMapData
     public string mapDataJson;
     public string dateTimeDataJson;
     public byte[] mapImage;
+    public int hashValue;
 
-    public UserMapData(string mapDataJson,byte[] mapImage,string dateTimeDataJson)
+    public UserMapData(string mapDataJson,byte[] mapImage,string dateTimeDataJson,int hashValue)
     {
         this.mapDataJson = mapDataJson;
         this.mapImage = mapImage;
         this.dateTimeDataJson = dateTimeDataJson;
+        this.hashValue = hashValue;
     }
 
 
@@ -31,6 +33,10 @@ public class UserMapData
         return JsonUtility.FromJson<Map>(mapDataJson);
     }
 
+    public string GetMapId()
+    {
+        return JsonUtility.FromJson<Map>(mapDataJson).mapID;
+    }
 
     public DateTimeData LoadDateTimeData()
     {

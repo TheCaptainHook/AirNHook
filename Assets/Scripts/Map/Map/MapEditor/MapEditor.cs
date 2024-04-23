@@ -354,8 +354,7 @@ public class MapEditor : MonoBehaviour
         //string filePath = Path.Combine(folderPath, $"User/{map.mapID}.json");
         string filePath = Path.Combine(Application.dataPath, $"UserMapData/{mapID}.json");
 
-        string json = JsonUtility.ToJson(new UserMapData(mapDatajson, null, dateTimedate),true);
-
+        string json = JsonUtility.ToJson(new UserMapData(mapDatajson, null, dateTimedate,GetHashValue(map.mapID)),true);
 
         Debug.Log(filePath);
         File.WriteAllText(filePath, json);
@@ -684,6 +683,20 @@ public class MapEditor : MonoBehaviour
     }
 
 
+    private int GetHashValue(string input)
+    {
+        System.Random random = new System.Random();
+        int randomNumber = random.Next();
+
+        int hash = 0;
+        for (int i = 0; i < input.Length; i++)
+        {
+            hash = (hash * 31) + input[i];
+        }
+        Debug.Log(hash);
+        return hash + randomNumber;
+
+    }
     private void CurrentMapScreenShot()
     {
 

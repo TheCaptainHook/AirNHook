@@ -13,12 +13,14 @@ public class MapData
 
     public Dictionary<string, Map> mapSceneDictionary = new Dictionary<string, Map>();
     public Dictionary<string, Map> mapMainDictionary = new Dictionary<string, Map>();
-    public Dictionary<string, Map> mapUserDictionary = new Dictionary<string, Map>();
 
     public Dictionary<string, Map> mapMainAndSceneDictionary = new Dictionary<string, Map>(); // todo 0423
 
 
     public Dictionary<int, Map[]> mapMainStageDictionary = new Dictionary<int, Map[]>();
+
+    //Get.Keys, check other user have map
+    public Dictionary<int, UserMapData> mapUserDictionary = new Dictionary<int, UserMapData>(); // todo 0423
 
     public void SetUp()
     {
@@ -63,7 +65,6 @@ public class MapData
             Map map = JsonUtility.FromJson<Map>(json.text);
             mapSceneDictionary.Add(map.mapID, map);
             mapMainAndSceneDictionary.Add(map.mapID, map);
-
         }
 
         //todo
@@ -72,11 +73,36 @@ public class MapData
             GetMainStageMapData(i);
             
         }
-        foreach (TextAsset json in Resources.LoadAll<TextAsset>("MapDat/User"))
+
+        string path = Path.Combine(Application.dataPath, "UserMapData");
+        string[] filePaths = Directory.GetFiles(path, "*.json");
+        
+
+        foreach (string filePath in filePaths)
         {
-            Map map = JsonUtility.FromJson<Map>(json.text);
-            mapUserDictionary.Add(map.mapID, map);
-            mapMainAndSceneDictionary.Add(map.mapID, map);
+            string jsonString = File.ReadAllText(filePath);
+            UserMapData data = JsonUtility.FromJson<UserMapData>(jsonString);
+            mapUserDictionary.Add(data.hashValue, data);
+            mapMainAndSceneDictionary.Add(data.hashValue.ToString(), data.LoadMap());
+
+        }
+
+    }
+    public void RefreshUserMapData()
+    {
+        string path = Path.Combine(Application.dataPath, "UserMapData");
+        string[] filePaths = Directory.GetFiles(path, "*.json");
+
+        foreach (string filePath in filePaths)
+        {
+            string jsonString = File.ReadAllText(filePath);
+            UserMapData data = JsonUtility.FromJson<UserMapData>(jsonString);
+            if (!mapUserDictionary.ContainsKey(data.hashValue))
+            {
+                mapUserDictionary.Add(data.hashValue, data);
+
+                mapMainAndSceneDictionary.Add(data.hashValue.ToString(), data.LoadMap());
+            }
 
         }
     }
@@ -99,6 +125,7 @@ public class MapData
             {
                 Map map = JsonUtility.FromJson<Map>(jsons[j].text);
                 mapMainDictionary.Add(map.mapID, map);
+                mapMainAndSceneDictionary.Add(map.mapID, map);
             }
         }
 
@@ -120,8 +147,6 @@ public class MapData
                 return mapSceneDictionary;
             case MapType.Main:
                 return mapMainDictionary;
-            case MapType.User:
-                return mapUserDictionary;
         }
         return null;
     }

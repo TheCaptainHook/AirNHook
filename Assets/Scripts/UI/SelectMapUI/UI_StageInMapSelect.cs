@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public class UI_StageInMapSelect : UI_Base
 {
     [SerializeField] Transform contents;
@@ -31,7 +31,7 @@ public class UI_StageInMapSelect : UI_Base
     //    }
     //}
 
-    public void CreateStageInMap(int stageLevel) //todo 0419
+    public void CreateStageInMap(int stageLevel, Action<string> action) //todo 0423
     {
 
         itemList = new();
@@ -53,8 +53,8 @@ public class UI_StageInMapSelect : UI_Base
             GameObject selectItem = Instantiate(ui_StageInMapSelectItem);
             selectItem.transform.SetParent(contents);
             UI_StageInMapSelectItem item = selectItem.GetComponent<UI_StageInMapSelectItem>();
-            item.SetData(maps[i].mapID, stageLevel,i);
-            item.OnSelectItem += CheckSelectItem;
+            item.SetData(maps[i].mapID, stageLevel,i,action);
+            //item.OnSelectItem += CheckSelectItem;
             item.OnSelectItem += CloseUI;
             itemList.Add(item);
         }
@@ -62,24 +62,24 @@ public class UI_StageInMapSelect : UI_Base
 
 
 
-    public void CheckSelectItem()
-    {
-        if(curItem != null)
-        {
-            curItem.Reset();
-        }
+    //public void CheckSelectItem()
+    //{
+    //    if(curItem != null)
+    //    {
+    //        curItem.Reset();
+    //    }
 
-        foreach (UI_StageInMapSelectItem item in itemList)
-        {
-            if (item.onSelect)
-            {
-                curItem = item;
-                item.SelectItem();
-            }
-        }
+    //    foreach (UI_StageInMapSelectItem item in itemList)
+    //    {
+    //        if (item.onSelect)
+    //        {
+    //            curItem = item;
+    //            item.SelectItem();
+    //        }
+    //    }
 
 
-    }
+    //}
 
     public void CheckStageClearItem()
     {

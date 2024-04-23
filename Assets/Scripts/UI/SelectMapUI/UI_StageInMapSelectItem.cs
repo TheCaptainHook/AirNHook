@@ -16,6 +16,7 @@ public class UI_StageInMapSelectItem : MonoBehaviour
 
     bool onActive;
 
+    bool stageClear;
    
     public event Action OnSelectItem;
 
@@ -24,7 +25,7 @@ public class UI_StageInMapSelectItem : MonoBehaviour
         OnSelectItem?.Invoke();
     }
 
-    public void SetData(string mapId,int stageLevel,int index)
+    public void SetData(string mapId,int stageLevel,int index, Action<string> action) // 0423
     {
         this.mapId = mapId;
         text.text = mapId;
@@ -34,9 +35,10 @@ public class UI_StageInMapSelectItem : MonoBehaviour
         if (Managers.Data.loadData.playData[mapId].stageClear)
         {
             text.color = Color.green;
+            stageClear = true;
         }
 
-        button.onClick.AddListener(()=> { if (!onActive) { NextStage();} });
+        button.onClick.AddListener(()=> { if (!onActive) { NextStage(action);} });
     }
 
 
@@ -48,7 +50,7 @@ public class UI_StageInMapSelectItem : MonoBehaviour
         }
     }
 
-    private void NextStage()
+    private void NextStage(Action<string> action)
     {
         if (stageLevel > 0)
         {
@@ -60,7 +62,8 @@ public class UI_StageInMapSelectItem : MonoBehaviour
                     onSelect = true;
                     exitObj = MapEditor.Instance.exitDoorObjectTransform.GetChild(0).gameObject;
                     exitObj.GetComponent<ExitPointObj>().nextMapId = mapId;
-                    MapEditor.Instance.onStageSelect = true;
+                    action?.Invoke(mapId);
+                    SelectItem();
                 }
                 else
                 {
@@ -75,7 +78,8 @@ public class UI_StageInMapSelectItem : MonoBehaviour
                     onSelect = true;
                     exitObj = MapEditor.Instance.exitDoorObjectTransform.GetChild(0).gameObject;
                     exitObj.GetComponent<ExitPointObj>().nextMapId = mapId;
-                    MapEditor.Instance.onStageSelect = true;
+                    action?.Invoke(mapId);
+                    SelectItem();
                 }
                 else
                 {
@@ -89,7 +93,8 @@ public class UI_StageInMapSelectItem : MonoBehaviour
                 onSelect = true;
                 exitObj = MapEditor.Instance.exitDoorObjectTransform.GetChild(0).gameObject;
                 exitObj.GetComponent<ExitPointObj>().nextMapId = mapId;
-                MapEditor.Instance.onStageSelect = true;
+                action?.Invoke(mapId);
+                SelectItem();
             }
         }
         else
@@ -102,7 +107,8 @@ public class UI_StageInMapSelectItem : MonoBehaviour
                     onSelect = true;
                     exitObj = MapEditor.Instance.exitDoorObjectTransform.GetChild(0).gameObject;
                     exitObj.GetComponent<ExitPointObj>().nextMapId = mapId;
-                    MapEditor.Instance.onStageSelect = true;
+                    action?.Invoke(mapId);
+                    SelectItem();
                 }
                 else
                 {
@@ -116,7 +122,8 @@ public class UI_StageInMapSelectItem : MonoBehaviour
                 onSelect = true;
                 exitObj = MapEditor.Instance.exitDoorObjectTransform.GetChild(0).gameObject;
                 exitObj.GetComponent<ExitPointObj>().nextMapId = mapId;
-                MapEditor.Instance.onStageSelect = true;
+                action?.Invoke(mapId);
+                SelectItem();
             }
         }
 
@@ -135,6 +142,7 @@ public class UI_StageInMapSelectItem : MonoBehaviour
     public void Reset()
     {
         onSelect = false;
+        Debug.Log("RESET");
         outLine.effectColor = Color.white;
     }
 
