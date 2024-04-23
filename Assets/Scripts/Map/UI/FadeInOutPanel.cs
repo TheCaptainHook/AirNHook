@@ -7,6 +7,7 @@ public class FadeInOutPanel : MonoBehaviour
 {
     Image image;
     Color orgColor;
+    float fadeTime = 1f;
 
     private void Awake()
     {
@@ -17,7 +18,6 @@ public class FadeInOutPanel : MonoBehaviour
     public void MoveNextStage(string mapId)
     {
         StartCoroutine(FadeInOut(mapId));
-
     }
 
 
@@ -62,11 +62,43 @@ public class FadeInOutPanel : MonoBehaviour
         }
 
         Managers.Game.StageStart(mapId);
-        Debug.Log("stageStart");
         image.enabled = false;
+        //StartCoroutine(FadeInOut(mapId));
+        StartCoroutine(Fadein(mapId));
     }
 
-    
+    public IEnumerator Fadein(string mapId)
+    {
+        MapEditor.Instance.stageText.text = mapId;
+        Color tempColor = MapEditor.Instance.stageText.color;
+        tempColor.a = 0f;
+        while (tempColor.a < 1f)
+        {
+            tempColor.a += Time.deltaTime / fadeTime;
+            MapEditor.Instance.stageText.color = tempColor;
+
+            if (tempColor.a >= 1f)
+            {
+                tempColor.a = 1f;
+            }
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        while (tempColor.a > 0f)
+        {
+            tempColor.a -= Time.deltaTime / fadeTime;
+            MapEditor.Instance.stageText.color = tempColor;
+
+            if (tempColor.a <= 0f)
+            {
+                tempColor.a = 0f;
+            }
+            yield return null;
+        }
+    }
+
     private bool CheckNetworkStartPos()
     {
         try

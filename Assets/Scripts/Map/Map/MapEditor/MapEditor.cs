@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.IO;
 using GoogleSheet.Core.Type;
+using TMPro;
 
 public enum MapType
 {
@@ -38,7 +39,7 @@ public enum TileType
 
 
 public class MapEditor : MonoBehaviour
-{   
+{
     public static MapEditor Instance;
     Util Util = new Util();
 
@@ -55,7 +56,7 @@ public class MapEditor : MonoBehaviour
     [Header("Map Info")]
     public Transform poolingContainer;
     [HideInInspector] public MapEditorType mapEditorType;
-    [HideInInspector] public float cellSize;   
+    [HideInInspector] public float cellSize;
     public MapEditorState mapEditorState;
     string folderPath;
 
@@ -107,7 +108,9 @@ public class MapEditor : MonoBehaviour
     [HideInInspector] public List<TileData> mapTileDataList = new List<TileData>();
     [HideInInspector] public List<ObjectData> mapObjectDataList = new List<ObjectData>();
 
+    public bool onStageSelect;
 
+    public TextMeshProUGUI stageText;
 
     private void Awake()
     {
@@ -116,7 +119,6 @@ public class MapEditor : MonoBehaviour
         else Instance = this;
 
         folderPath = Path.Combine(Application.dataPath, "Resources/MapDat"); //todo
-
     }
 
     //todo
@@ -664,7 +666,7 @@ public class MapEditor : MonoBehaviour
 
     }
 
-    public void MoveNextStage(string mapId,MapType mapType)
+    public void MoveNextStage(string mapId)
     {
         fadeInOutPanel.MoveNextStage(mapId);
     }
