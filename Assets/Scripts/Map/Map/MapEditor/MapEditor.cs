@@ -5,6 +5,7 @@ using UnityEngine.Tilemaps;
 using System.IO;
 using GoogleSheet.Core.Type;
 using TMPro;
+using System;
 
 public enum MapType
 {
@@ -111,6 +112,11 @@ public class MapEditor : MonoBehaviour
     public bool onStageSelect;
 
     public TextMeshProUGUI stageText;
+
+
+    #region event Action
+    public event Action OnStageMove;
+    #endregion
 
     private void Awake()
     {
@@ -344,7 +350,7 @@ public class MapEditor : MonoBehaviour
             mapTileDataList,
             mapObjectDataList,
             GetButtonActivateDoorStructList(),
-            cellSize);
+            cellSize,1);
 
         string mapDatajson = JsonUtility.ToJson(map, true);
         //byte[] mapImageByte =
@@ -392,7 +398,7 @@ public class MapEditor : MonoBehaviour
 
         //start Point
         startPosition = curMap.startPosition;
-        startPositionObject = Object.Instantiate(Resources.Load<GameObject>(Managers.Data.mapData.mapObjectDataDictionary[302].path));
+        startPositionObject = Instantiate(Resources.Load<GameObject>(Managers.Data.mapData.mapObjectDataDictionary[302].path));
         startPositionObject.transform.position = curMap.startPosition;
         startPositionObject.transform.SetParent(dontSaveObjectTransform);
         //start Point
@@ -422,7 +428,7 @@ public class MapEditor : MonoBehaviour
 
         //start Point
         startPosition = curMap.startPosition;
-        startPositionObject = Object.Instantiate(Resources.Load<GameObject>(Managers.Data.mapData.mapObjectDataDictionary[302].path));
+        startPositionObject = Instantiate(Resources.Load<GameObject>(Managers.Data.mapData.mapObjectDataDictionary[302].path));
         startPositionObject.transform.position = curMap.startPosition;
         startPositionObject.transform.SetParent(dontSaveObjectTransform);
         //start Point
@@ -460,7 +466,7 @@ public class MapEditor : MonoBehaviour
 
         //start Point
         startPosition = curMap.startPosition;
-        startPositionObject = Object.Instantiate(Resources.Load<GameObject>(Managers.Data.mapData.mapObjectDataDictionary[302].path));
+        startPositionObject = Instantiate(Resources.Load<GameObject>(Managers.Data.mapData.mapObjectDataDictionary[302].path));
         startPositionObject.transform.position = curMap.startPosition;
         startPositionObject.transform.SetParent(dontSaveObjectTransform);
         //start Point
@@ -577,7 +583,7 @@ public class MapEditor : MonoBehaviour
 
     void Create(Transform transform, MapDataStruct mapDataStruct, ObjectData data)
     {
-        GameObject obj = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
+        GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
         obj.GetComponent<BuildObj>().ObjectData = data;
         obj.transform.position = data.position;
         obj.transform.rotation = data.quaternion;
@@ -592,7 +598,7 @@ public class MapEditor : MonoBehaviour
     }
     void Create(Transform transform, MapDataStruct mapDataStruct, ButtonActivatedDoorStruct data)
     {
-        GameObject obj = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
+        GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
         ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
         door.ButtonActivatedDoorStruct = data;
         obj.transform.SetParent(transform);
@@ -601,7 +607,7 @@ public class MapEditor : MonoBehaviour
        
         foreach (Vector2 pot in data.buttonActivatePositionList)
         {
-            GameObject btnActivated = Object.Instantiate(Resources.Load<GameObject>(btn.path));
+            GameObject btnActivated = Instantiate(Resources.Load<GameObject>(btn.path));
             btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, door);
             btnActivated.transform.SetParent(dontSaveObjectTransform);
         }
@@ -610,7 +616,7 @@ public class MapEditor : MonoBehaviour
             GameObject leverBody;
             if (mapEditorState != MapEditorState.NoEditor)
             {
-                leverBody = Object.Instantiate(Resources.Load<GameObject>(leverBodyData.path));
+                leverBody = Instantiate(Resources.Load<GameObject>(leverBodyData.path));
                 leverBody.transform.SetParent(dontSaveObjectTransform);
                 leverBody.GetComponent<LeverBody>().SetLinkDoor(pot, door.id, interactionObjectTransform);
             }
@@ -640,7 +646,7 @@ public class MapEditor : MonoBehaviour
 
     void Create(Transform transform, MapDataStruct mapDataStruct, ExitObjStruct data)
     {
-        GameObject obj = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
+        GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
         obj.transform.position = data.position;
         obj.transform.SetParent(transform);
         ExitPointObj door = obj.GetComponent<ExitPointObj>();
@@ -668,6 +674,7 @@ public class MapEditor : MonoBehaviour
 
     public void MoveNextStage(string mapId)
     {
+        OnStageMove?.Invoke();
         fadeInOutPanel.MoveNextStage(mapId);
     }
 

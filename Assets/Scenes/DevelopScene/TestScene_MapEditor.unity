@@ -135,6 +135,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MapEditor
       objectReference: {fileID: 0}
+    - target: {fileID: 2005102887669488765, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3234201242300892337, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: m_RenderMode
       value: 0

@@ -25,7 +25,7 @@ public class UI_StageSelect : UI_Base
     public GameObject Key { get { return key; }
         set { if (key != null) { Destroy(key); } key = value; }
     }
-
+    int mapType; //0 : Main ,1: User
     List<Button> stageBtnList;
 
     [SerializeField] Button mainMapBtn;
@@ -40,7 +40,8 @@ public class UI_StageSelect : UI_Base
     public bool onSelect;
 
     [Header("Screen")]
-    [SerializeField] GameObject screentPrefab;
+    GameObject computer;
+    GameObject computerScreen;
 
     public Button CurSelectBtn
     {
@@ -70,26 +71,34 @@ public class UI_StageSelect : UI_Base
 
 
 
-        ResetSelect();
+        SetScreen(mapId); //스크린에 맵 데이터 표시
+        ResetSelect(); // 선택 버튼들 리셋
         curMapId = mapId;
         onSelect = true;
 
-        //Screen Function
+        if(mapType == 1)
+        {
+            StageBtnReset();
+            ResetStageInMapItem();
+        }
+        else { ResetUserMapItem(); }
+      
 
     }
     //todo 0423
+
 
     private void Awake()
     {
         stageBtnList = new();
         closeBtn.onClick.AddListener(CloseUI);
         spawnKey.onClick.AddListener(SpawnKey);
-        mainMapBtn.onClick.AddListener(() => { OpenMainMapSelectUI(); });
-        userMapBtn.onClick.AddListener(() => { OpenUserMapSelectUI(); });
+        mainMapBtn.onClick.AddListener(() => { OpenMainMapSelectUI();mapType = 0; });
+        userMapBtn.onClick.AddListener(() => { OpenUserMapSelectUI(); mapType = 1; });
 
         OnSelectItemEvent += SelectMap;
-
-
+        MapEditor.Instance.OnStageMove += ResetSelect;
+        MapEditor.Instance.OnStageMove += StageBtnReset;
     }
 
     public override void OnEnable()
@@ -101,7 +110,6 @@ public class UI_StageSelect : UI_Base
 
     protected override void Start()
     {
-
         foreach(var key in Managers.Data.mapData.mapMainStageDictionary.Keys)
         {
             Debug.Log(key);
@@ -134,13 +142,11 @@ public class UI_StageSelect : UI_Base
 
     protected override void OpenUI() // Update select menu when clear stage
     {
-        Key = null;
-        ResetSelect();
-        StageBtnReset();
-        curMapId = string.Empty;
-        //Screen off
+        if (computerScreen == null) CreateComputerScreen();
+        computerScreen.SetActive(true);
 
-        //
+
+        Key = null;
         CheckCurStageLevel();
         CheckUserMapData();
         
@@ -230,6 +236,21 @@ public class UI_StageSelect : UI_Base
             }
         }
     }
+
+    private void CreateComputerScreen()
+    {
+        computer = MapEditor.Instance.FindObj(MapEditor.Instance.objectTransform, 1000);
+        computerScreen = ResourceManager.Instantiate("Prefabs/UI/UI_ComputerScreen");
+        computerScreen.transform.position = computer.transform.position + new Vector3(4, 4.5f);
+        computerScreen.GetComponent<UI_ComputerScreen>().FadeIn();
+    }
+
+
+    private void SetScreen(string mapId)
+    {
+        computerScreen.GetComponent<UI_ComputerScreen>().SetData(mapId);
+    }
+
     #endregion
 
     #region Button
@@ -265,6 +286,7 @@ public class UI_StageSelect : UI_Base
 
 
     #endregion
+
     #region Util
 
     #region MainMap
@@ -331,6 +353,7 @@ public class UI_StageSelect : UI_Base
     private void ResetStageInMapItem()
     {
         if (stageInMapSelectList == null) return;
+
         foreach (GameObject obj in stageInMapSelectList)
         {
             UI_StageInMapSelect selectMap = obj.GetComponent<UI_StageInMapSelect>();

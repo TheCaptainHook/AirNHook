@@ -16,7 +16,7 @@ public class Map
     public List<ObjectData> mapObjectDataList = new List<ObjectData>();
     public List<ButtonActivatedDoorStruct> mapButtonActivatedDoorDataList = new List<ButtonActivatedDoorStruct>();
     public List<ExitObjStruct> mapExitObjectDataList = new();
-
+    public int dataType; //0:Main,1:User
     public float cellSize;
 
 
@@ -25,7 +25,7 @@ public class Map
         List<TileData> tileList, 
         List<ObjectData> objectList,
         List<ButtonActivatedDoorStruct> mapButtonActivatedDoorDataList,
-        float cellSize)
+        float cellSize,int dataType = 0)
     {
         mapID = id;
         this.stageLevel = stageLevel;
@@ -36,6 +36,7 @@ public class Map
         this.mapSize = mapSize;
         this.mapButtonActivatedDoorDataList = mapButtonActivatedDoorDataList;
         this.cellSize = cellSize;
+        this.dataType = dataType;
     }
 
     public Map() { } //dont delet
