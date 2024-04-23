@@ -40,8 +40,8 @@ public class SteamLobby : MonoBehaviour
     public void HostLobby()
     {
         // 테스트를 위해 친구 전용으로 로비 생성
-        SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, _networkManager.maxConnections);
-        //SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, _networkManager.maxConnections);
+        //SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, _networkManager.maxConnections);
+        SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, _networkManager.maxConnections);
     }
 
     private void OnLobbyCreated(LobbyCreated_t callback)
@@ -79,7 +79,7 @@ public class SteamLobby : MonoBehaviour
     {
         if(lobbyIDDict.Count > 0)
             lobbyIDDict.Clear();
-
+        
         SteamMatchmaking.RequestLobbyList();
     }
     
@@ -96,11 +96,21 @@ public class SteamLobby : MonoBehaviour
     
     public bool JoinLobby(string steamID)
     {
-        var id = ulong.Parse(steamID);
+        var id = Base62Converter.FromBase62(steamID);
         if (!lobbyIDDict.ContainsKey(id)) return false;
         
         SteamMatchmaking.JoinLobby(lobbyIDDict[id]);
         return true;
+    }
+
+    private void EncryptRoomCode()
+    {
+        
+    }
+
+    private void DecryptRoomCode()
+    {
+        
     }
 }
 

@@ -54,8 +54,8 @@ public class UI_Join : UI_Base
     private void Joining()
     {
         Managers.Network.steamLobby.joinLobbyCallback -= Joining;
-        
-        if(!Managers.Network.steamLobby.JoinLobby(_roomCode)) return;
+
+        if (!Managers.Network.steamLobby.JoinLobby(_roomCode)) return;
 
         _mainFrame.transform.localScale = Vector3.one * 0.1f;
         CloseUI();
