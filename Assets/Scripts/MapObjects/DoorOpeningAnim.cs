@@ -105,7 +105,7 @@ public class DoorOpeningAnim : NetworkBehaviour
         else
         {
             Managers.Game.CurrentState = GameState.Game;
-            MapEditor.Instance.MoveNextStage(nextMapId, MapType.Main);
+            MapEditor.Instance.MoveNextStage(nextMapId);
         }
     }
 }
