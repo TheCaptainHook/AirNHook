@@ -29,7 +29,7 @@ public class MapEditor_Editor : Editor
 
         if (GUILayout.Button("Load Data(인게임용)"))
         {
-            mapEditor.LoadMap(mapEditor.mapID, mapEditor.mapType);
+            mapEditor.LoadMap(mapEditor.mapID);
         }
         if (GUILayout.Button("Save Data(인게임용)"))
         {
