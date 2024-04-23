@@ -668,7 +668,7 @@ public class MapEditor : MonoBehaviour
 
     public void MoveNextStage(string mapId,MapType mapType)
     {
-        fadeInOutPanel.MoveNextStage(mapId);
+        fadeInOutPanel.MoveNextStage(mapId, mapType);
     }
 
     public GameObject FindObj(Transform transform, int id)
