@@ -18,6 +18,8 @@ public class FadeInOutPanel : MonoBehaviour
     {
         StartCoroutine(FadeInOut(mapId));
 
+        StartCoroutine(FadeInOut(mapId, mapType));
+        MapEditor.Instance._stageText.text = mapId;
     }
 
 
@@ -62,7 +64,6 @@ public class FadeInOutPanel : MonoBehaviour
         }
 
         Managers.Game.StageStart(mapId);
-        Debug.Log("stageStart");
         image.enabled = false;
     }
 
