@@ -110,7 +110,7 @@ public class MapEditor : MonoBehaviour
 
     public bool onStageSelect;
 
-    public TextMeshProUGUI _stageText;
+    public TextMeshProUGUI stageText;
 
     private void Awake()
     {
@@ -119,7 +119,6 @@ public class MapEditor : MonoBehaviour
         else Instance = this;
 
         folderPath = Path.Combine(Application.dataPath, "Resources/MapDat"); //todo
-        _stageText.text = "Lobby";
     }
 
     //todo
