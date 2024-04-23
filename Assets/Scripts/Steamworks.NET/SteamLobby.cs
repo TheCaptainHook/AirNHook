@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Mirror;
 using Steamworks;
 using UnityEngine;
@@ -9,6 +11,12 @@ public class SteamLobby : MonoBehaviour
     protected Callback<LobbyCreated_t> lobbyCreated;
     protected Callback<GameLobbyJoinRequested_t> gameLobbyJoinRequested;
     protected Callback<LobbyEnter_t> lobbyEntered;
+
+    protected Callback<LobbyMatchList_t> lobbyList;
+    public Action joinLobbyCallback;
+    public CSteamID currentLobbyID;
+    
+    private Dictionary<ulong, CSteamID> lobbyIDDict = new();
 
     private const string HostAddressKey = "AirNHookKey";
     
@@ -25,6 +33,8 @@ public class SteamLobby : MonoBehaviour
         gameLobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create(OnGameLobbyJoinRequested);
         // Lobby 입장 콜백
         lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
+
+        lobbyList = Callback<LobbyMatchList_t>.Create(OnGetLobbyList);
     }
 
     public void HostLobby()
@@ -42,8 +52,8 @@ public class SteamLobby : MonoBehaviour
         }
 
         _networkManager.StartHost();
-        
-        SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby),
+        currentLobbyID = new CSteamID(callback.m_ulSteamIDLobby);
+        SteamMatchmaking.SetLobbyData(currentLobbyID,
             HostAddressKey,
             SteamUser.GetSteamID().ToString());
     }
@@ -63,6 +73,34 @@ public class SteamLobby : MonoBehaviour
 
         _networkManager.networkAddress = hostAddress;
         _networkManager.StartClient();
+    }
+
+    public void GetLobbyList()
+    {
+        if(lobbyIDDict.Count > 0)
+            lobbyIDDict.Clear();
+
+        SteamMatchmaking.RequestLobbyList();
+    }
+    
+    private void OnGetLobbyList(LobbyMatchList_t result)
+    {
+        for (var i = 0; i < result.m_nLobbiesMatching; i++)
+        {
+            var lobbyID = SteamMatchmaking.GetLobbyByIndex(i);
+            
+            lobbyIDDict.Add(lobbyID.m_SteamID, lobbyID);
+        }
+        joinLobbyCallback?.Invoke();
+    }
+    
+    public bool JoinLobby(string steamID)
+    {
+        var id = ulong.Parse(steamID);
+        if (!lobbyIDDict.ContainsKey(id)) return false;
+        
+        SteamMatchmaking.JoinLobby(lobbyIDDict[id]);
+        return true;
     }
 }
 

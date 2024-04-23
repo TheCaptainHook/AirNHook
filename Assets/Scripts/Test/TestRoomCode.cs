@@ -10,6 +10,7 @@ public class TestRoomCode : MonoBehaviour
     
     void Start()
     {
-        _text.text = SteamUser.GetSteamID().ToString();
+        _text.text = Managers.Network.steamLobby.currentLobbyID.m_SteamID.ToString();
+        //_text.text = SteamUser.GetSteamID().ToString();
     }
 }
