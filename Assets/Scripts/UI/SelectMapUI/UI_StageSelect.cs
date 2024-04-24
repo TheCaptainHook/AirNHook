@@ -75,6 +75,10 @@ public class UI_StageSelect : UI_Base
 
     public void MapSelected(string mapId, bool value)
     {
+        var player = Managers.Game.Player.GetComponent<Player>();
+        if (player.isServer)
+            player.stageCheckCallback -= MapSelected;
+        
         // TODO popup ui로 client가 해당 맵이 없다고 뜨게 표시 필요.
         if(!value) return;
         
