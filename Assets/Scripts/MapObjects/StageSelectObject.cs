@@ -4,7 +4,8 @@ using UnityEngine;
 public class StageSelectObject : MonoBehaviour, IInteractable
 {
     public ObjectTypeEnum objectType = ObjectTypeEnum.Interaction;
-    
+    public Vector2 offset;
+
     public void Interaction(Transform accessor = null)
     {
         if (!NetworkServer.active || !NetworkClient.isConnected)
@@ -29,5 +30,11 @@ public class StageSelectObject : MonoBehaviour, IInteractable
     public ObjectTypeEnum GetObjectType()
     {
         return objectType;
+    }
+
+    public void ShowEButton()
+    {
+        var eButtonUI = Managers.UI.ShowUI<UI_ShowEButton>();
+        eButtonUI.gameObject.transform.position = transform.position + (Vector3)offset;
     }
 }
