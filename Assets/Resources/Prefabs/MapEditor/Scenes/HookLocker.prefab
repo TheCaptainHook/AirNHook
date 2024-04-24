@@ -371,6 +371,7 @@ MonoBehaviour:
   syncInterval: 0
   _disappearingObj: {fileID: 5743058873831809566}
   _characterType: 1
+  offset: {x: 0, y: 3.5}
   IsChanging: 0
 --- !u!114 &-9054670197775837714
 MonoBehaviour:
@@ -386,6 +387,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1002
   transformID: 0
+  position: {x: 0, y: 0}
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0

@@ -228,16 +228,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 315
   transformID: 1
-  offset: {x: 0, y: 0}
+  position: {x: 0, y: 0}
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
-  _objectData:
-    id: 0
-    position: {x: 0, y: 0}
-    quaternion: {x: 0, y: 0, z: 0, w: 0}
-    scale: {x: 0, y: 0, z: 0}
   setPosition: 0
   orgPosition: {x: 0, y: 0}
 --- !u!61 &146081564939722954
@@ -305,5 +300,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   _inhalePower: 20
+  offset: {x: 0, y: 1.4}
   buildObj: {fileID: 8808808188988864938}
   curTime: 0

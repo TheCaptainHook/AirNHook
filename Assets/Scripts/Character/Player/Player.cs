@@ -203,24 +203,25 @@ public class Player : NetworkBehaviour, IDamageable
     [SerializeField] protected Transform _grabPoint;
     [SerializeField] private LayerMask _interactableLayer;
     protected Collider2D _latestTarget;
-    private readonly float _detectDistance = 0.8f;
-    private WaitForSeconds _waitForSeconds;
+    private readonly float _detectDistance = 1f;
     
     private IEnumerator Co_DetectInteraction()
     {
-        _waitForSeconds = new WaitForSeconds(0.1f);
         var shortestDistance = float.MaxValue;
-        var offset = new Vector3(0, 0.4f);
+        var offset = new Vector3(0, 0.45f);
         Collider2D closestTarget = null;
         
         while (true)
         {
-            yield return _waitForSeconds;
+            yield return null;
             
             var collisions = Physics2D.OverlapCircleAll(transform.position + offset, _detectDistance, _interactableLayer);
 
             if (collisions.Length == 0)
             {
+                if (_latestTarget is null) continue;
+                
+                _latestTarget.GetComponent<IInteractable>().HideEButton();
                 _latestTarget = null;
                 continue;
             }
@@ -246,9 +247,12 @@ public class Player : NetworkBehaviour, IDamageable
                     shortestDistance = float.MaxValue;
                     continue;
                 }
+
+                _latestTarget.GetComponent<IInteractable>().HideEButton();
             }
 
             _latestTarget = closestTarget;
+            _latestTarget.GetComponent<IInteractable>().ShowEButton();
             shortestDistance = float.MaxValue;
         }
     }
