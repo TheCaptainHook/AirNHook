@@ -66,11 +66,13 @@ public class UI_StageSelect : UI_Base
     //todo 0423 클라이언트 맵데이터 확인해야함.
     private void SelectMap(string mapId)
     {
-        if (mapId == curMapId || Managers.Game.OtherPlayer is null) return;
-
 #if UNITY_EDITOR
+        if (mapId == curMapId) return;
+        
         MapSelected(mapId, true);
 #else
+        if (mapId == curMapId || Managers.Game.OtherPlayer is null) return;
+
         var player = Managers.Game.Player.GetComponent<Player>();
         player.stageCheckCallback += MapSelected;
         player.CmdStageDataCheck(mapId);
