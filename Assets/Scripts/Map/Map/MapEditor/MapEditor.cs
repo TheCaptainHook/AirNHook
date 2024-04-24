@@ -557,7 +557,18 @@ public class MapEditor : MonoBehaviour
                 foreach (ButtonActivatedDoorStruct data in curMap.mapButtonActivatedDoorDataList)
                 {
                     MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
-                    Create(transform, mapDataStruct, data);
+                    
+
+                    if(Managers.Game.CurrentState != GameState.Editor)
+                    {
+                        Managers.Stage.CmdBatchObject(mapDataStruct.name,data);
+
+                    }
+                    else
+                    {
+                        Create(transform, mapDataStruct, data); //interaction 
+                    }
+
                 }
                 break;
             case 3:
@@ -570,7 +581,7 @@ public class MapEditor : MonoBehaviour
                     }
                     else
                     {
-                        Create(transform, mapDataStruct, data);
+                        Create(transform, mapDataStruct, data); 
                     }
                     
                 }

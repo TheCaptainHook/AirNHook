@@ -19,7 +19,7 @@ public class BuildObj : MousePointerEntity,IDamageable
     public int id;
     [Tooltip("Transform ID to be created")]
     public int transformID;
-
+    public Vector2 position;
     public Vector2 offset;
 
     protected bool turnOff;
@@ -29,8 +29,8 @@ public class BuildObj : MousePointerEntity,IDamageable
     public bool onRotateable;
     public bool onScaleable;
     
-    public ObjectData _objectData;
-    public ObjectData ObjectData { get { return _objectData; } set { _objectData = value; id = _objectData.id;} }
+    private ObjectData _objectData;
+    public ObjectData ObjectData { get { return _objectData; } set { _objectData = value; id = _objectData.id; } }
 
     public event Action<Vector2> OnDissolveAction;
     public event Action OnDisableAction;
@@ -66,7 +66,7 @@ public class BuildObj : MousePointerEntity,IDamageable
             Debug.Log(gameObject.name);
             Debug.Log("Distruction");
             OninterableObjectRelease?.Invoke();
-            OnDissolveAction?.Invoke(ObjectData.position);
+            OnDissolveAction?.Invoke(position);
             OnDisableAction?.Invoke();
         }
 

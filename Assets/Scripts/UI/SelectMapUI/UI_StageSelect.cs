@@ -70,8 +70,8 @@ public class UI_StageSelect : UI_Base
 
 
 
+        SetScreen(mapId); //스크린에 맵 데이터 표시 
 
-        SetScreen(mapId); //스크린에 맵 데이터 표시
         ResetSelect(); // 선택 버튼들 리셋
         curMapId = mapId;
         onSelect = true;

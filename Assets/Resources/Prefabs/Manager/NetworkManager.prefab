@@ -86,6 +86,7 @@ MonoBehaviour:
   - {fileID: 1403613117175697264, guid: bcff53a0ba8a3c74397db944a46521c2, type: 3}
   - {fileID: 5854981168511148043, guid: e4bf6105fcdc84b499d5121c8fd3e3aa, type: 3}
   - {fileID: 8716440483222482088, guid: 3ea3ac1c072d5d2449e4dbb464d7777c, type: 3}
+  - {fileID: 6993925836768963658, guid: 8cff3e42a6bcddf409e47c407e251a45, type: 3}
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2
@@ -142,3 +143,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feb7af40e55f3674280e8b87d91cdb75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentLobbyID:
+    m_SteamID: 0
