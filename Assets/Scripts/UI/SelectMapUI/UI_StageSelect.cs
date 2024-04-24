@@ -66,12 +66,28 @@ public class UI_StageSelect : UI_Base
     //todo 0423 클라이언트 맵데이터 확인해야함.
     private void SelectMap(string mapId)
     {
-        if (mapId == curMapId) return;
+        if (mapId == curMapId || Managers.Game.OtherPlayer is null) return;
 
+#if UNITY_EDITOR
+        MapSelected(mapId, true);
+#else
+        var player = Managers.Game.Player.GetComponent<Player>();
+        player.stageCheckCallback += MapSelected;
+        player.CmdStageDataCheck(mapId);
+#endif
+    }
 
-
+    public void MapSelected(string mapId, bool value)
+    {
+        var player = Managers.Game.Player.GetComponent<Player>();
+        if (player.isServer)
+            player.stageCheckCallback -= MapSelected;
+        
+        // TODO popup ui로 client가 해당 맵이 없다고 뜨게 표시 필요.
+        if(!value) return;
+        
         SetScreen(mapId); //스크린에 맵 데이터 표시 
-
+        
         ResetSelect(); // 선택 버튼들 리셋
         curMapId = mapId;
         onSelect = true;
@@ -82,8 +98,6 @@ public class UI_StageSelect : UI_Base
             ResetStageInMapItem();
         }
         else { ResetUserMapItem(); }
-      
-
     }
     //todo 0423
 

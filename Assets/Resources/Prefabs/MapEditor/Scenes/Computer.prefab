@@ -217,6 +217,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1000
   transformID: 1
+  position: {x: 0, y: 0}
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0
@@ -236,6 +237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 0
+  offset: {x: 0.36, y: 2.3}
 --- !u!1 &5401485623853957607
 GameObject:
   m_ObjectHideFlags: 0

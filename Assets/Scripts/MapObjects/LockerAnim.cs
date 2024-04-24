@@ -79,6 +79,12 @@ public class LockerAnim : NetworkBehaviour, IInteractable
     public void ShowEButton()
     {
         var eButtonUI = Managers.UI.ShowUI<UI_ShowEButton>();
-        eButtonUI.gameObject.transform.position = transform.position + (Vector3)offset;
+        eButtonUI.transform.SetParent(transform);
+        eButtonUI.transform.localPosition = offset;
+    }
+
+    public void HideEButton()
+    {
+        Managers.UI.HideUI<UI_ShowEButton>();
     }
 }

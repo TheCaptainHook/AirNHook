@@ -44,6 +44,7 @@ public class DoorOpeningAnim : NetworkBehaviour
         //_isClear = true;
         _animator.SetTrigger(IsUnlocking);
     }
+    
     public void CallOnUnlockAnimation()
     {
         OnUnlockAnimation?.Invoke();
@@ -61,12 +62,7 @@ public class DoorOpeningAnim : NetworkBehaviour
         _lockRigidbody2D.AddForce(forceDirection * forceMagnitude, ForceMode2D.Impulse);
     }
 
-    // [Server]
-    // public void DestroyLock()
-    // {
-    //     NetworkServer.Destroy(_lockGameObject);
-    // }
-    
+    #region Network
     [Command(requiresAuthority = false)]
     public void CmdMoveNextStage(string nextMapId)
     {
@@ -74,7 +70,7 @@ public class DoorOpeningAnim : NetworkBehaviour
     }
     
     [ClientRpc]
-    public void RpcMoveNextStage(string nextMapId)
+    private void RpcMoveNextStage(string nextMapId)
     {
         Managers.Game.StageClear(Managers.Stage.stageName);
         Managers.Stage.stageName = nextMapId;
@@ -108,4 +104,5 @@ public class DoorOpeningAnim : NetworkBehaviour
             MapEditor.Instance.MoveNextStage(nextMapId);
         }
     }
+    #endregion
 }
