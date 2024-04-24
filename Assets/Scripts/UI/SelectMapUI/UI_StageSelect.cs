@@ -68,9 +68,13 @@ public class UI_StageSelect : UI_Base
     {
         if (mapId == curMapId || Managers.Game.OtherPlayer is null) return;
 
+#if UNITY_EDITOR
+        MapSelected(mapId, true);
+#else
         var player = Managers.Game.Player.GetComponent<Player>();
         player.stageCheckCallback += MapSelected;
         player.CmdStageDataCheck(mapId);
+#endif
     }
 
     public void MapSelected(string mapId, bool value)
