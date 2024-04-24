@@ -14,6 +14,7 @@ public class LeverBody : BuildObj, IInteractable
     [SerializeField] Transform leverHeadTransform;
     public Vector2 curPosition;
     private LeverBodyNet _leverBodyNet;
+    public Vector2 offset;
 
     public float time = 2;
     bool isRunningCoroutine;
@@ -241,5 +242,11 @@ public class LeverBody : BuildObj, IInteractable
     public ObjectTypeEnum GetObjectType()
     {
         return objectTypeEnum;
+    }
+
+    public void ShowEButton()
+    {
+        var eButtonUI = Managers.UI.ShowUI<UI_ShowEButton>();
+        eButtonUI.gameObject.transform.position = transform.position + (Vector3)offset;
     }
 }

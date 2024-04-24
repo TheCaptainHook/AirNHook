@@ -14,6 +14,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     [SyncVar] private bool _isFixed;
     [SyncVar] private bool _canInhale;
     [field: SerializeField] private float _inhalePower = 20f;
+    public Vector2 offset;
 
     private void Awake()
     {
@@ -198,5 +199,11 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     private void RpcSetExcludeLayer(LayerMask layerMask)
     {
         _rigidbody2D.excludeLayers = layerMask;
+    }
+
+    public void ShowEButton()
+    {
+        var eButtonUI = Managers.UI.ShowUI<UI_ShowEButton>();
+        eButtonUI.gameObject.transform.position = transform.position + (Vector3)offset;
     }
 }

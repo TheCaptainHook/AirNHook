@@ -9,4 +9,6 @@ public interface IInteractable
     public void Fixed(bool value);
     
     public ObjectTypeEnum GetObjectType();
+
+    public void ShowEButton();
 }
