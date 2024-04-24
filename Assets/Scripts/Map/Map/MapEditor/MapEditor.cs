@@ -6,6 +6,8 @@ using System.IO;
 using GoogleSheet.Core.Type;
 using TMPro;
 using System;
+using System.Threading.Tasks;
+using UnityEditor.UI;
 
 public enum MapType
 {
@@ -340,34 +342,29 @@ public class MapEditor : MonoBehaviour
 
     #endregion
 
-    void CreateJsonFile()
+    async void CreateJsonFile()
     {
         mapTileDataList = GetTileData(placeMentSystem.floorTileMap);
         mapObjectDataList = GetList(objectTransform);
         startPosition = FindObj(dontSaveObjectTransform, 302).transform.position;
 
-        //Map map = new Map(new Vector2(width, height), mapID,  startPosition,
-        //    GetExitObjStructsList(exitDoorObjectTransform),
-        //    mapTileDataList, 
-        //    mapObjectDataList,
-        //    GetButtonActivateDoorStructList(interactionObjectTransform),
-        //    cellSize);
+        byte[] bytesImage = await CurrentMapScreenShot();
+
         Map map = new Map(new Vector2(width, height), mapID, stageLevel, startPosition,
             GetExitObjStructsList(exitDoorObjectTransform),
             mapTileDataList,
             mapObjectDataList,
             GetButtonActivateDoorStructList(),
-            cellSize,1);
+            cellSize,1,bytesImage);
 
         string mapDatajson = JsonUtility.ToJson(map, true);
-        //byte[] mapImageByte =
         string dateTimedate = JsonUtility.ToJson(new DateTimeData(System.DateTime.Now), true);
-
+        
 
         //string filePath = Path.Combine(folderPath, $"User/{map.mapID}.json");
         string filePath = Path.Combine(Application.dataPath, $"UserMapData/{mapID}.json");
 
-        string json = JsonUtility.ToJson(new UserMapData(mapDatajson, null, dateTimedate,GetHashValue(map.mapID)),true);
+        string json = JsonUtility.ToJson(new UserMapData(mapDatajson,bytesImage , dateTimedate,GetHashValue(map.mapID)),true);
 
         Debug.Log(filePath);
         File.WriteAllText(filePath, json);
@@ -375,20 +372,6 @@ public class MapEditor : MonoBehaviour
         Managers.Data.mapData.RefreshUserMapData();
 
 
-        //if (mapType == MapType.Tutorial)
-        //{
-        //    filePath = Path.Combine(folderPath, $"Tutorial/{map.mapID}.json");
-        //}
-        //else if (mapType == MapType.Main)
-        //{
-        //    filePath = Path.Combine(folderPath, $"Main/{map.mapID}.json");
-        //}
-        //else
-        //{
-        //    filePath = Path.Combine(folderPath, $"User/{map.mapID}.json");
-        //}
-
-        //AssetDatabase.Refresh();
     }
 
 
@@ -723,14 +706,27 @@ public class MapEditor : MonoBehaviour
         return hash + randomNumber;
 
     }
-    private void CurrentMapScreenShot()
+
+    private Task<byte[]> CurrentMapScreenShot()
     {
-        //Camera camera = Camera.main;
-        //RenderTexture renderTexture = camera.targetTexture;
-        //Texture2D renderResult = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.ARGB32, false);
-        //Rect rect = new Rect(0, 0, renderTexture.width, renderTexture.height);
-        //renderResult.ReadPixels(rect, 0, 0);
-        //byte[] bytes = renderResult.EncodeToPNG();
+        if (screenShotCamera == null)
+        {
+            screenShotCamera = Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/ScreenShotCamera"));
+        }
+
+        GameObject camera = screenShotCamera;
+
+        Vector2 startPot = FindObj(dontSaveObjectTransform, 302).transform.position;
+        Vector2 endPot = FindObj(exitDoorObjectTransform, 301).transform.position;
+
+        var distance = (startPot + endPot) / 2;
+
+        camera.gameObject.transform.position = distance;
+        camera.gameObject.transform.position += new Vector3(0, 2, -1);
+
+        Task<byte[]> encodingTask = camera.GetComponent<ScreenShotCamera>().ScreenShot();
+
+        return encodingTask;
 
     }
 

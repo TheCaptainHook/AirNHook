@@ -588,40 +588,11 @@ public class MapEditor_Editor : Editor
         camera.gameObject.transform.position = distance;
         camera.gameObject.transform.position += new Vector3(0, 2, -1);
 
-        //Action callBack = () => AssetDatabase.Refresh();
-
         Task<byte[]> encodingTask = camera.GetComponent<ScreenShotCamera>().ScreenShot();
 
-        Debug.Log(encodingTask);
         return encodingTask;
 
     }
-
-    
-    //private void CurrentMapScreenShot(MapEditor mapEditor)
-    //{
-
-    //    if (mapEditor.screenShotCamera == null)
-    //    {
-    //        mapEditor.screenShotCamera = Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/ScreenShotCamera"));
-    //    }
-
-
-    //    GameObject camera = mapEditor.screenShotCamera;
-
-    //    Vector2 startPot = mapEditor.FindObj(mapEditor.dontSaveObjectTransform, 302).transform.position;
-    //    Vector2 endPot = mapEditor.FindObj(mapEditor.exitDoorObjectTransform, 301).transform.position;
-
-    //    var distance = (startPot + endPot) / 2;
-
-    //    camera.gameObject.transform.position = distance;
-    //    camera.gameObject.transform.position += new Vector3(0, 2, -1);
-
-    //    Action callBack = () => AssetDatabase.Refresh();
-    //    camera.GetComponent<ScreenShotCamera>().ScreenShot();
-
-    //}
-
 
     #endregion
 }

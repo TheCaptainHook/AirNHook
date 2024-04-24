@@ -1,8 +1,6 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using System.IO;
-using System;
 using System.Threading.Tasks;
 
 public class ScreenShotCamera : MonoBehaviour
@@ -28,7 +26,6 @@ public class ScreenShotCamera : MonoBehaviour
 
 
         Debug.Log(encodingTask);
-        File.WriteAllBytes($"{path}/Test.png", bytes);
 
         return bytes;
 
@@ -49,39 +46,6 @@ public class ScreenShotCamera : MonoBehaviour
 
     }
 
-    //public async void ScreenShot()
-    //{
-    //    string path = Path.Combine(Application.dataPath, "UserMapData");
-    //    Task delay = Task.Run(() => Task.Delay(1));
-    //    Texture2D texture = new Texture2D(rt.width, rt.height, TextureFormat.ARGB32, false);
-    //    RenderTexture.active = rt;
-    //    texture.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);
-    //    texture.Apply();
 
-    //    byte[] bytes = texture.EncodeToPNG();
-    //    await delay;
-
-    //    Debug.Log("딜레이");
-    //    File.WriteAllBytes($"{path}/Test.png", bytes);
-
-    //}
-
-
-
-
-    //public void StartScreenShotRender()
-    //{
-    //    StartCoroutine(StartRender());
-    //}
-
-    IEnumerator StartRender()
-    {
-        string path = Path.Combine(Application.dataPath, "UserMapData");
-        yield return new WaitForSeconds(0.5f);
-        File.WriteAllBytes($"{path}/Test.png", resultBytes);
-        yield return new WaitForSeconds(0.5f);
-        
-        gameObject.SetActive(false);
-    }
 
 }

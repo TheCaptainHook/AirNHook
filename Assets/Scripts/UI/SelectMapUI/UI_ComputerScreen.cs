@@ -58,7 +58,7 @@ public class UI_ComputerScreen : MonoBehaviour
         if(map.dataType == 1)
         {
             UserMapData data = Managers.Data.mapData.mapUserDictionary[int.Parse(mapId)];
-            screen1.SetData(data.GetMapId(),null);
+            screen1.SetData(data.GetMapId(),data.mapImage);
             screen2.SetData(Managers.Data.loadData.playData[mapId]);
         }
         else

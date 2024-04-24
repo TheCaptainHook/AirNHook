@@ -15,7 +15,10 @@ public class WayPoint : MonoBehaviour
     private void Awake()
     {
         networkStartPosition = GetComponent<NetworkStartPosition>();
-        spawnPointObj = MapEditor.Instance.startPositionObject.GetComponent<SpawnPointObj>();
+        if(Managers.Game.CurrentState != GameState.Editor)
+        {
+            spawnPointObj = MapEditor.Instance.startPositionObject.GetComponent<SpawnPointObj>();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)

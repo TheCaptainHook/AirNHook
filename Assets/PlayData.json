@@ -108,5 +108,25 @@
     "skip": false,
     "stageLevel": 0,
     "stageHiddenObject": 0
+  },
+  {
+    "stageID": "457978494",
+    "stageClear": false,
+    "clearTime": 0.0,
+    "totalDeath": 0,
+    "deathCount": 0,
+    "skip": false,
+    "stageLevel": 0,
+    "stageHiddenObject": 0
+  },
+  {
+    "stageID": "2004517400",
+    "stageClear": false,
+    "clearTime": 0.0,
+    "totalDeath": 0,
+    "deathCount": 0,
+    "skip": false,
+    "stageLevel": 0,
+    "stageHiddenObject": 0
   }
 ]
