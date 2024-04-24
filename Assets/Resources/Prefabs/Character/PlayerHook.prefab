@@ -15597,6 +15597,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  characterType: 1
   isDead: 0
   _grabPoint: {fileID: 1527109819433215527}
   _interactableLayer:
