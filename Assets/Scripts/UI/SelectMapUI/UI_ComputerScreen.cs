@@ -63,7 +63,7 @@ public class UI_ComputerScreen : MonoBehaviour
         }
         else
         {
-            screen1.SetData(mapId, null);
+            screen1.SetData(mapId, map.bytesImage);
             screen2.SetData(Managers.Data.loadData.playData[mapId]);
         }
 
@@ -98,7 +98,7 @@ public class UI_ComputerScreen : MonoBehaviour
         Vector2 target;
         if(num == 0)//right
         {
-            target = new Vector2(-350, 0);
+            target = new Vector2(-370, 0);
         }
         else//left
         {

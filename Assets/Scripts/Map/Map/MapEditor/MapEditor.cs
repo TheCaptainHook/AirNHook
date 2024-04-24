@@ -55,7 +55,7 @@ public class MapEditor : MonoBehaviour
     [Space(5)]
 
     [Header("Map Info")]
-    public Transform poolingContainer;
+    
     [HideInInspector] public MapEditorType mapEditorType;
     [HideInInspector] public float cellSize;
     public MapEditorState mapEditorState;
@@ -78,6 +78,9 @@ public class MapEditor : MonoBehaviour
     [HideInInspector] public Transform dontSaveObjectTransform;
     [HideInInspector] public Transform networkingObjectTransform;
     [HideInInspector] public Transform garbageTransform;
+
+    [HideInInspector] public Transform poolingContainer;
+
     //todo 0412
     public Dictionary<int, HashSet<Vector2>> interactionBtnDictionary;
     //todo 0412
@@ -113,6 +116,8 @@ public class MapEditor : MonoBehaviour
 
     public TextMeshProUGUI stageText;
 
+    [Header("ScreenShot")]
+    public GameObject screenShotCamera;
 
     #region event Action
     public event Action OnStageMove;
@@ -147,6 +152,8 @@ public class MapEditor : MonoBehaviour
         dontSaveObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "DontSaveObjectTransform");
         garbageTransform = Util.CreateChildTransform(mapObjBoxTransform, "GarbageTransform");
         networkingObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "networkingObjectTransform");
+
+        poolingContainer = Util.CreateChildTransform(mapObjBoxTransform, "PoolingContainer");
     }
 
     public void EditorMode_Init()
@@ -718,6 +725,12 @@ public class MapEditor : MonoBehaviour
     }
     private void CurrentMapScreenShot()
     {
+        //Camera camera = Camera.main;
+        //RenderTexture renderTexture = camera.targetTexture;
+        //Texture2D renderResult = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.ARGB32, false);
+        //Rect rect = new Rect(0, 0, renderTexture.width, renderTexture.height);
+        //renderResult.ReadPixels(rect, 0, 0);
+        //byte[] bytes = renderResult.EncodeToPNG();
 
     }
 

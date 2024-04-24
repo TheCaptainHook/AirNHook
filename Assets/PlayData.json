@@ -21,7 +21,7 @@
   },
   {
     "stageID": "Tutorial_2",
-    "stageClear": false,
+    "stageClear": true,
     "clearTime": 0.0,
     "totalDeath": 0,
     "deathCount": 0,
@@ -31,7 +31,7 @@
   },
   {
     "stageID": "Tutorial_3",
-    "stageClear": false,
+    "stageClear": true,
     "clearTime": 0.0,
     "totalDeath": 0,
     "deathCount": 0,
@@ -41,7 +41,7 @@
   },
   {
     "stageID": "Stage1-1",
-    "stageClear": false,
+    "stageClear": true,
     "clearTime": 0.0,
     "totalDeath": 0,
     "deathCount": 0,
@@ -51,7 +51,7 @@
   },
   {
     "stageID": "Stage1-2",
-    "stageClear": false,
+    "stageClear": true,
     "clearTime": 0.0,
     "totalDeath": 0,
     "deathCount": 0,
@@ -61,7 +61,7 @@
   },
   {
     "stageID": "Stage1-3",
-    "stageClear": false,
+    "stageClear": true,
     "clearTime": 0.0,
     "totalDeath": 0,
     "deathCount": 0,
@@ -71,7 +71,7 @@
   },
   {
     "stageID": "Stage1-4",
-    "stageClear": false,
+    "stageClear": true,
     "clearTime": 0.0,
     "totalDeath": 0,
     "deathCount": 0,
@@ -92,6 +92,16 @@
   {
     "stageID": "945175875",
     "stageClear": false,
+    "clearTime": 0.0,
+    "totalDeath": 0,
+    "deathCount": 0,
+    "skip": false,
+    "stageLevel": 0,
+    "stageHiddenObject": 0
+  },
+  {
+    "stageID": "TESTMAP",
+    "stageClear": true,
     "clearTime": 0.0,
     "totalDeath": 0,
     "deathCount": 0,

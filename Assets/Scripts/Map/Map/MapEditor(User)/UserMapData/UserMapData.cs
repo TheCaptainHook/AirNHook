@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 [System.Serializable]
 public class UserMapData
@@ -20,11 +21,12 @@ public class UserMapData
     }
 
 
-    public Texture2D LoadImage(int width,int height)
+    public Sprite LoadImage(int width,int height)
     {
         Texture2D texture = new Texture2D(width, height, TextureFormat.ARGB32, false);
         texture.LoadImage(mapImage);
-        return texture;
+        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, width, height), new Vector2(0.5f, 0.5f), 100f);
+        return sprite;
     }
 
 

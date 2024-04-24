@@ -326,6 +326,7 @@ public class UI_StageSelect : UI_Base
 
     private void CheckClearItem()
     {
+        if (stageInMapSelectList == null) return;
         foreach(GameObject obj in stageInMapSelectList)
         {
             UI_StageInMapSelect usims = obj.GetComponent<UI_StageInMapSelect>();

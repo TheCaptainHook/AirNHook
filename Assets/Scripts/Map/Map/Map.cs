@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
 using System.IO;
+using UnityEngine.UI;
 
 
 [System.Serializable]
@@ -18,14 +19,14 @@ public class Map
     public List<ExitObjStruct> mapExitObjectDataList = new();
     public int dataType; //0:Main,1:User
     public float cellSize;
-
+    public byte[] bytesImage;
 
     public Map(Vector2 mapSize, string id, int stageLevel,Vector2 startPosition,
         List<ExitObjStruct> mapExitObjectDataList,
         List<TileData> tileList, 
         List<ObjectData> objectList,
         List<ButtonActivatedDoorStruct> mapButtonActivatedDoorDataList,
-        float cellSize,int dataType = 0)
+        float cellSize,int dataType = 0, byte[] bytesImage = null)
     {
         mapID = id;
         this.stageLevel = stageLevel;
@@ -37,6 +38,7 @@ public class Map
         this.mapButtonActivatedDoorDataList = mapButtonActivatedDoorDataList;
         this.cellSize = cellSize;
         this.dataType = dataType;
+        this.bytesImage = bytesImage;
     }
 
     public Map() { } //dont delet
@@ -68,6 +70,14 @@ public class Map
         return new ObjectData();
     }
     //Box,stringBox,key,
+    public Sprite LoadImage(int width, int height)
+    {
+        Texture2D texture = new Texture2D(width, height, TextureFormat.ARGB32, false);
+        texture.LoadImage(bytesImage);
+        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, width, height), new Vector2(0.5f, 0.5f), 100f);
+        return sprite;
+    }
+
 
 }
 

@@ -5,6 +5,7 @@ using UnityEngine.Tilemaps;
 using UnityEditor;
 using UGS;
 using System.IO;
+using System.Threading.Tasks;
 
 [CustomEditor(typeof(MapEditor))]
 public class MapEditor_Editor : Editor
@@ -94,6 +95,14 @@ public class MapEditor_Editor : Editor
         }
 
 
+        GUILayout.Space(10);
+        if (GUILayout.Button("TEST SCREEN SHOT"))
+        {
+            CurrentMapScreenShot(mapEditor);
+        }
+
+
+
     }
 
     private void _Reset(MapEditor mapEditor)
@@ -109,6 +118,10 @@ public class MapEditor_Editor : Editor
         if (mapEditor.PreviewPalette != null)
         {
             Undo.DestroyObjectImmediate(mapEditor.PreviewPalette);
+        }
+        if (mapEditor.screenShotCamera != null)
+        {
+            Undo.DestroyObjectImmediate(mapEditor.screenShotCamera.gameObject);
         }
 
         mapEditor.curMap = new Map();
@@ -192,7 +205,7 @@ public class MapEditor_Editor : Editor
             {
                 foreach (Vector2 pot in mapEditor.interactionBtnDictionary[key])
                 {
-                    GameObject btnActivated = Object.Instantiate(Resources.Load<GameObject>(btn.path));
+                    GameObject btnActivated = Instantiate(Resources.Load<GameObject>(btn.path));
                     btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, key, mapEditor.interactionObjectTransform);
                     btnActivated.transform.SetParent(mapEditor.dontSaveObjectTransform);
                 }
@@ -242,7 +255,7 @@ public class MapEditor_Editor : Editor
         {
             foreach (Vector2 pot in mapEditor.interactionBtnDictionary[key])
             {
-                GameObject btnActivated = Object.Instantiate(Resources.Load<GameObject>(btn.path));
+                GameObject btnActivated = Instantiate(Resources.Load<GameObject>(btn.path));
                 btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, key, mapEditor.interactionObjectTransform);
                 btnActivated.transform.SetParent(mapEditor.dontSaveObjectTransform);
             }
@@ -336,7 +349,7 @@ public class MapEditor_Editor : Editor
 
     void Create(Transform transform, MapDataStruct mapDataStruct, ObjectData data)
     {
-        GameObject obj = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
+        GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
         obj.GetComponent<BuildObj>().ObjectData = data;
         obj.transform.position = data.position;
         obj.transform.rotation = data.quaternion;
@@ -345,7 +358,7 @@ public class MapEditor_Editor : Editor
     }
     void Create(Transform transform, MapDataStruct mapDataStruct, ButtonActivatedDoorStruct data,MapEditor mapEditor)
     {
-        GameObject obj = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
+        GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
         ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
         door.ButtonActivatedDoorStruct = data;
         obj.transform.SetParent(transform);
@@ -364,7 +377,7 @@ public class MapEditor_Editor : Editor
 
         foreach(Vector2 pot in data.leverPositionList)
         {
-            GameObject leverBody = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct1.path));
+            GameObject leverBody = Instantiate(Resources.Load<GameObject>(mapDataStruct1.path));
             leverBody.GetComponent<LeverBody>().SetLinkDoor(pot, data.linkId, mapEditor.interactionObjectTransform);
             leverBody.transform.SetParent(mapEditor.dontSaveObjectTransform);
         }
@@ -377,7 +390,7 @@ public class MapEditor_Editor : Editor
 
     void Create(Transform transform,MapDataStruct mapDataStruct,ExitObjStruct data)
     {
-        GameObject obj = Object.Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
+        GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
         obj.transform.position = data.position;
         obj.transform.SetParent(transform);
         ExitPointObj door = obj.GetComponent<ExitPointObj>();
@@ -417,7 +430,7 @@ public class MapEditor_Editor : Editor
 
     }
 
-    void CreateJsonFile(MapEditor mapEditor, string folderPath)
+    async void CreateJsonFile(MapEditor mapEditor, string folderPath)
     {
         string filePath = "";
         mapEditor.mapTileDataList = GetTileData(mapEditor.placeMentSystem.floorTileMap);
@@ -428,7 +441,7 @@ public class MapEditor_Editor : Editor
             mapEditor.mapTileDataList,
             mapEditor.mapObjectDataList,
             GetButtonActivateDoorStructList(mapEditor),
-            mapEditor.cellSize) ;
+            mapEditor.cellSize,0, await CurrentMapScreenShot(mapEditor)) ;
         string json = JsonUtility.ToJson(map, true);
         //todo 0417
         if(mapEditor.mapType == MapType.Main)
@@ -548,5 +561,67 @@ public class MapEditor_Editor : Editor
         }
         return null;
     }
+    #endregion
+
+
+
+
+
+
+    #region Util
+    private Task<byte[]> CurrentMapScreenShot(MapEditor mapEditor)
+    {
+
+        if (mapEditor.screenShotCamera == null)
+        {
+            mapEditor.screenShotCamera = Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/ScreenShotCamera"));
+        }
+
+
+        GameObject camera = mapEditor.screenShotCamera;
+
+        Vector2 startPot = mapEditor.FindObj(mapEditor.dontSaveObjectTransform, 302).transform.position;
+        Vector2 endPot = mapEditor.FindObj(mapEditor.exitDoorObjectTransform, 301).transform.position;
+
+        var distance = (startPot + endPot) / 2;
+
+        camera.gameObject.transform.position = distance;
+        camera.gameObject.transform.position += new Vector3(0, 2, -1);
+
+        //Action callBack = () => AssetDatabase.Refresh();
+
+        Task<byte[]> encodingTask = camera.GetComponent<ScreenShotCamera>().ScreenShot();
+
+        Debug.Log(encodingTask);
+        return encodingTask;
+
+    }
+
+    
+    //private void CurrentMapScreenShot(MapEditor mapEditor)
+    //{
+
+    //    if (mapEditor.screenShotCamera == null)
+    //    {
+    //        mapEditor.screenShotCamera = Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/ScreenShotCamera"));
+    //    }
+
+
+    //    GameObject camera = mapEditor.screenShotCamera;
+
+    //    Vector2 startPot = mapEditor.FindObj(mapEditor.dontSaveObjectTransform, 302).transform.position;
+    //    Vector2 endPot = mapEditor.FindObj(mapEditor.exitDoorObjectTransform, 301).transform.position;
+
+    //    var distance = (startPot + endPot) / 2;
+
+    //    camera.gameObject.transform.position = distance;
+    //    camera.gameObject.transform.position += new Vector3(0, 2, -1);
+
+    //    Action callBack = () => AssetDatabase.Refresh();
+    //    camera.GetComponent<ScreenShotCamera>().ScreenShot();
+
+    //}
+
+
     #endregion
 }
