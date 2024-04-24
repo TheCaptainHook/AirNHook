@@ -38,6 +38,11 @@ public class UIManager
         else
             return CreateUI<T>(parent);
     }
+
+    public UI_Base GetUI<T>() where T : Component
+    {
+        return UIListCheck<T>() ? _uIDict[typeof(T).Name].GetComponent<UI_Base>() : null;
+    }
     
     // UI 숨기기
     public void HideUI<T>()

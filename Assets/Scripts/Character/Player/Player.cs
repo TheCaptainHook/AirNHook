@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Mirror;
 using UnityEngine;
@@ -82,6 +83,31 @@ public class Player : NetworkBehaviour, IDamageable
             Managers.Game.CurrentState = GameState.Game;
             MapEditor.Instance.MoveNextStage(value);
         }
+    }
+
+    public Action<string, bool> stageCheckCallback;
+
+    [Command(requiresAuthority = false)]
+    public void CmdStageDataCheck(string value)
+    {
+        RpcStageDataCheck(value);
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcStageDataCheck(string value)
+    {
+        var isMapExist = Managers.Data.mapData.mapAllDictionary.ContainsKey(value);
+        CmdStageDataChecked(value, isMapExist);
+        
+        if (!isMapExist) return;
+        var stageUI = (UI_StageSelect)Managers.UI.GetUI<UI_StageSelect>();
+        stageUI.MapSelected(value, true);
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdStageDataChecked(string mapID, bool value)
+    {
+        stageCheckCallback?.Invoke(mapID, value);
     }
     #endregion
 
@@ -201,11 +227,11 @@ public class Player : NetworkBehaviour, IDamageable
 
     #region Interaction
     [SerializeField] protected Transform _grabPoint;
-    [SerializeField] private LayerMask _interactableLayer;
+    [SerializeField] protected LayerMask _interactableLayer;
     protected Collider2D _latestTarget;
-    private readonly float _detectDistance = 1f;
+    protected readonly float _detectDistance = 1f;
     
-    private IEnumerator Co_DetectInteraction()
+    protected virtual IEnumerator Co_DetectInteraction()
     {
         var shortestDistance = float.MaxValue;
         var offset = new Vector3(0, 0.45f);
