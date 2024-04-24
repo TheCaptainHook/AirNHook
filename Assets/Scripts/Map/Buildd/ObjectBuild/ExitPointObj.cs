@@ -71,8 +71,6 @@ public class ExitPointObj : BuildBase
             Destroy(gameObject, 1f);
             Current_KeyAmount = 1;
         }
-
-       
     }
 
 
@@ -93,7 +91,11 @@ public class ExitPointObj : BuildBase
             curPlayerInDoor++;
             if(stageClear && curPlayerInDoor >= 2)
             {
-                MoveNextStage();
+                var playerCharacter = Managers.Game.Player.GetComponent<Player>().characterType;
+                var otherPlayerCharacter = Managers.Game.OtherPlayer.GetComponent<Player>().characterType;
+                
+                if (playerCharacter != otherPlayerCharacter && playerCharacter != CharacterType.Default && otherPlayerCharacter != CharacterType.Default)
+                    MoveNextStage();
             }
         }
     }

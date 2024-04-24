@@ -8,7 +8,8 @@ public class LockerAnim : NetworkBehaviour, IInteractable
     [SerializeField] private CharacterType _characterType;
     private ObjectTypeEnum _objectType = ObjectTypeEnum.Interaction;
     private Animator _animator;
-    
+    public Vector2 offset;
+
     #region StringCache
     private static readonly int Changing = Animator.StringToHash("Changing");
     #endregion
@@ -73,5 +74,11 @@ public class LockerAnim : NetworkBehaviour, IInteractable
     public ObjectTypeEnum GetObjectType()
     {
         return _objectType;
+    }
+
+    public void ShowEButton()
+    {
+        var eButtonUI = Managers.UI.ShowUI<UI_ShowEButton>();
+        eButtonUI.gameObject.transform.position = transform.position + (Vector3)offset;
     }
 }

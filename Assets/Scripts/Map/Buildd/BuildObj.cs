@@ -20,7 +20,6 @@ public class BuildObj : MousePointerEntity,IDamageable
     [Tooltip("Transform ID to be created")]
     public int transformID;
     public Vector2 position;
-    public Vector2 offset;
 
     protected bool turnOff;
     [SerializeField] protected DistructionStatus distructionStatus;

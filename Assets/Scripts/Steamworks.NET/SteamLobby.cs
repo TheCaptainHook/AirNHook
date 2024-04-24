@@ -22,7 +22,7 @@ public class SteamLobby : MonoBehaviour
     
     private void Start()
     {
-        _networkManager = GetComponent<NetworkManager>();
+        _networkManager = Managers.Network;
         
         // SteamManager가 활성이 안됐으면 return
         if(!SteamManager.Initialized) return;
@@ -35,6 +35,14 @@ public class SteamLobby : MonoBehaviour
         lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
 
         lobbyList = Callback<LobbyMatchList_t>.Create(OnGetLobbyList);
+    }
+
+    private void OnDisable()
+    {
+        lobbyCreated.Unregister();
+        gameLobbyJoinRequested.Unregister();
+        lobbyEntered.Unregister();
+        lobbyList.Unregister();
     }
 
     public void HostLobby()

@@ -39,11 +39,12 @@ public class Managers : MonoBehaviour
         {
             go = new GameObject("@Managers");
             go.AddComponent<Managers>();
-            go.AddComponent<NetworkIdentity>();
         }
 
         DontDestroyOnLoad(go);
         _instance = go.GetComponent<Managers>();
+
+        go.AddComponent<SteamManager>();
         
         Data.Setup();
     }
