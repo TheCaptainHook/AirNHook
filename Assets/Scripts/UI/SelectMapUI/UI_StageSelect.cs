@@ -106,8 +106,6 @@ public class UI_StageSelect : UI_Base
         OpenUI();
     }
 
-
-
     protected override void Start()
     {
         foreach(var key in Managers.Data.mapData.mapMainStageDictionary.Keys)
@@ -144,12 +142,12 @@ public class UI_StageSelect : UI_Base
     {
         if (computerScreen == null) CreateComputerScreen();
         computerScreen.SetActive(true);
-
-
         Key = null;
+
+
         CheckCurStageLevel();
         CheckUserMapData();
-        
+        CheckClearItem();
         base.OpenUI();
     }
 
@@ -324,6 +322,15 @@ public class UI_StageSelect : UI_Base
             Create(Managers.Game.stageLevel);
         }
 
+    }
+
+    private void CheckClearItem()
+    {
+        foreach(GameObject obj in stageInMapSelectList)
+        {
+            UI_StageInMapSelect usims = obj.GetComponent<UI_StageInMapSelect>();
+            usims.CheckStageClearItem();
+        }
     }
 
     #endregion

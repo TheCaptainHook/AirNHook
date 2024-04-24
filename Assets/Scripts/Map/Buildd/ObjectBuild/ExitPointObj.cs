@@ -93,7 +93,7 @@ public class ExitPointObj : BuildBase
             {
                 var playerCharacter = Managers.Game.Player.GetComponent<Player>().characterType;
                 var otherPlayerCharacter = Managers.Game.OtherPlayer.GetComponent<Player>().characterType;
-                
+
                 if (playerCharacter != otherPlayerCharacter && playerCharacter != CharacterType.Default && otherPlayerCharacter != CharacterType.Default)
                     MoveNextStage();
             }

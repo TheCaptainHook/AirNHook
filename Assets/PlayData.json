@@ -11,8 +11,8 @@
   },
   {
     "stageID": "Tutorial_1",
-    "stageClear": false,
-    "clearTime": 0.0,
+    "stageClear": true,
+    "clearTime": 21.603035,
     "totalDeath": 0,
     "deathCount": 0,
     "skip": false,

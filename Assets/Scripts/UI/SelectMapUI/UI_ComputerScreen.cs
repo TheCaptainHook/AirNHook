@@ -40,7 +40,7 @@ public class UI_ComputerScreen : MonoBehaviour
     {
         Reset();
         RectTransform rect = contents as RectTransform;
-        rect.anchoredPosition = new Vector2(0, 0);
+        //rect.anchoredPosition = new Vector2(0, 0);
         transform.gameObject.SetActive(false);
     }
 
