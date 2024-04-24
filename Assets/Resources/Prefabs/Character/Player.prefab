@@ -5085,11 +5085,12 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  characterType: 0
   isDead: 0
   _grabPoint: {fileID: 3341230063414965529}
   _interactableLayer:
     serializedVersion: 2
-    m_Bits: 136249344
+    m_Bits: 134414336
 --- !u!114 &9084766552046721414
 MonoBehaviour:
   m_ObjectHideFlags: 0

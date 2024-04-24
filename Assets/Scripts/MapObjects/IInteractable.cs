@@ -11,4 +11,6 @@ public interface IInteractable
     public ObjectTypeEnum GetObjectType();
 
     public void ShowEButton();
+    
+    public void HideEButton();
 }

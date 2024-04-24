@@ -14,6 +14,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     [SyncVar] private bool _isFixed;
     [SyncVar] private bool _canInhale;
     [field: SerializeField] private float _inhalePower = 20f;
+
+    private UI_Base _eButtonUI;
     public Vector2 offset;
 
     private void Awake()
@@ -32,9 +34,14 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     private void Update()
     {
-        if(!isOwned || _fixedPoint is null) return;
+        if (!_isFixed && _eButtonUI is not null)
+        {
+            _eButtonUI.transform.position = transform.position + (Vector3)offset;
+        }
         
-        if (_isFixed)
+        if(!isOwned) return;
+        
+        if (_isFixed && _fixedPoint is not null)
         {
             _rigidbody2D.velocity = Vector2.zero;
             transform.position = _fixedPoint.position;
@@ -87,6 +94,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     {
         ChangeFixedState(true);
         //_isFixed = true;
+        HideEButton();
         _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
         _rigidbody2D.velocity = new Vector2(0, 0);
         transform.rotation = Quaternion.identity;
@@ -100,6 +108,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         ChangeCanInhaleState(false);
         //_isFixed = false;
         //_canInhale = false;
+        ShowEButton();
         _rigidbody2D.bodyType = _originType;
         _fixedPoint = null;
         CmdSetExcludeLayer(_releaseLayerMask);
@@ -203,7 +212,14 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void ShowEButton()
     {
-        var eButtonUI = Managers.UI.ShowUI<UI_ShowEButton>();
-        eButtonUI.gameObject.transform.position = transform.position + (Vector3)offset;
+        _eButtonUI = Managers.UI.ShowUI<UI_ShowEButton>();
+        _eButtonUI.transform.SetParent(null);
+        _eButtonUI.transform.position = transform.position + (Vector3)offset;
+    }
+    
+    public void HideEButton()
+    {
+        _eButtonUI = null;
+        Managers.UI.HideUI<UI_ShowEButton>();
     }
 }
