@@ -7,6 +7,7 @@ using static UnityEngine.RigidbodyConstraints2D;
 
 public class Player : NetworkBehaviour, IDamageable
 {
+    public CharacterType characterType;
     protected PlayerMovement _movement;
     private PlayerInput _input;
     
