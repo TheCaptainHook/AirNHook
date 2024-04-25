@@ -29,7 +29,7 @@ public class Hook : Player
                 if (_latestTarget is null) continue;
 
                 try { _latestTarget.GetComponent<IInteractable>().HideEButton(); }
-                catch (MissingReferenceException e) { Managers.UI.HideUI<UI_ShowEButton>(); }
+                catch (Exception) { Managers.UI.HideUI<UI_ShowEButton>(); }
                 _latestTarget = null;
                 continue;
             }
@@ -70,13 +70,14 @@ public class Hook : Player
         if (_grabbedItem is not null)
         {
             try { _grabbedItem.GetComponent<IInteractable>().Interaction(_grabPoint); }
-            catch(MissingReferenceException e) { ReleaseItem(); }
+            catch (Exception) { ReleaseItem(); }
             _grabbedItem = null;
             _animator.SetBool(IsGrabbing, false);
         }
         else if (_latestTarget is not null)
         {
-            if(!_latestTarget.TryGetComponent<IInteractable>(out var interactable) || !interactable.CanInteract()) return;
+            if(!_latestTarget.TryGetComponent<IInteractable>(out var interactable) ||
+               (interactable is not null && !interactable.CanInteract())) return;
 
             if (interactable.GetObjectType() == ObjectTypeEnum.Grab)
             {
