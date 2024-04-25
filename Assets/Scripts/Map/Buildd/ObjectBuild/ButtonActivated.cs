@@ -87,11 +87,12 @@ public class ButtonActivated : BuildObj
    
     public void LinkDoor()
     {
+        Debug.Log("LInk");
         Vector2 pot = new Vector2(Mathf.Round(transform.position.x * 10f) / 10f, Mathf.Round(transform.position.y * 10f) / 10f);
         transform.position = pot;
         if (linkDoorList.Count > 0)
         {
-            foreach(ButtonActivatedDoor linkDoor in linkDoorList)
+            foreach (ButtonActivatedDoor linkDoor in linkDoorList)
             {
                 if (linkDoor.buttonActivatedBtnList.Contains(curPosition))
                 {
@@ -102,7 +103,7 @@ public class ButtonActivated : BuildObj
                 linkDoor.buttonActivatedBtnList.Add(pot);
                 curPosition = pot;
             }
- 
+
         }
         else
         {
@@ -159,6 +160,14 @@ public class ButtonActivated : BuildObj
         transform.position = curPosition;
 
     }
+    public void SetLinkDoor(Vector2 pot,int linkId) // in game Load
+    {
+        curPosition = pot;
+        this.linkId = linkId;
+        transform.position = curPosition;
+
+    }
+
     public void SetLinkDoor(Vector2 pot,int linkId,Transform interactionDoorTransform) // Editro_Editor
     {
         curPosition = pot;
@@ -189,6 +198,11 @@ public class ButtonActivated : BuildObj
 
     void Activation()
     {
+        if(linkDoorList.Count == 0)
+        {
+            LinkDoor();
+        }
+
         onActive = true;
         // spriteRenderer.material.color = Color.green;
         foreach(ButtonActivatedDoor linkDoor in linkDoorList)

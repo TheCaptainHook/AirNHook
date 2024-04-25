@@ -91,12 +91,14 @@ public class StageManager
 
     //}
     [Command]
-    public async Task<GameObject> CmdBatchObject(string objName, ButtonActivatedDoorStruct data)
+    public async Task<GameObject> CmdBatchObject(string objName,ButtonActivatedDoorStruct data)
     {
         if (!NetworkServer.active || !NetworkClient.isConnected) return null;
 
-        var obj = await GetTaskObj(objName);
-        await Delay();
+        Debug.Log("Create Interaction door");
+
+        var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+        Debug.Log("Create!!");
 
         ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
         door.ButtonActivatedDoorStruct = data;
