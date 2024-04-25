@@ -56,10 +56,43 @@ public class StageManager
 
     }
 
+    //[Command]
+    //public void CmdBatchObject(string objName, ButtonActivatedDoorStruct data)
+    //{
+    //    if (!NetworkServer.active || !NetworkClient.isConnected) return;
+
+    //    var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+
+    //    ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
+    //    door.ButtonActivatedDoorStruct = data;
+    //    obj.transform.SetParent(MapEditor.Instance.interactionObjectTransform);
+
+    //    MapDataStruct btn = Managers.Data.mapData.mapObjectDataDictionary[306];
+
+    //    foreach (Vector2 pot in data.buttonActivatePositionList)
+    //    {
+    //        //GameObject btnActivated = Object.Instantiate(Resources.Load<GameObject>(btn.path));
+    //        Debug.Log(btn.path);
+    //        GameObject btnActivated = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[btn.name]);
+    //        btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, door);
+    //        btnActivated.transform.SetParent(MapEditor.Instance.dontSaveObjectTransform);
+    //    }
+    //    foreach (Vector2 pot in data.leverPositionList)
+    //    {
+    //        GameObject leverBody = CmdBatchObject("LeverBody", MapEditor.Instance.dontSaveObjectTransform, pot);
+
+    //        if (leverBody is not null)
+    //            leverBody.GetComponent<LeverBodyNet>().CmdSetLinkDoor(pot, data.linkId);
+
+    //    }
+
+    //    NetworkServer.Spawn(obj, NetworkServer.localConnection);
+
+    //}
     [Command]
-    public void CmdBatchObject(string objName, ButtonActivatedDoorStruct data)
+    public GameObject CmdBatchObject(string objName, ButtonActivatedDoorStruct data)
     {
-        if (!NetworkServer.active || !NetworkClient.isConnected) return;
+        if (!NetworkServer.active || !NetworkClient.isConnected) return null;
 
         var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
 
@@ -67,28 +100,32 @@ public class StageManager
         door.ButtonActivatedDoorStruct = data;
         obj.transform.SetParent(MapEditor.Instance.interactionObjectTransform);
 
-        MapDataStruct btn = Managers.Data.mapData.mapObjectDataDictionary[306];
+        //MapDataStruct btn = Managers.Data.mapData.mapObjectDataDictionary[306];
 
-        foreach (Vector2 pot in data.buttonActivatePositionList)
-        {
-            //GameObject btnActivated = Object.Instantiate(Resources.Load<GameObject>(btn.path));
-            Debug.Log(btn.path);
-            GameObject btnActivated = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[btn.name]);
-            btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, door);
-            btnActivated.transform.SetParent(MapEditor.Instance.dontSaveObjectTransform);
-        }
-        foreach (Vector2 pot in data.leverPositionList)
-        {
-            GameObject leverBody = CmdBatchObject("LeverBody", MapEditor.Instance.dontSaveObjectTransform, pot);
+        //foreach (Vector2 pot in data.buttonActivatePositionList)
+        //{
+        //    //GameObject btnActivated = Object.Instantiate(Resources.Load<GameObject>(btn.path));
+        //    Debug.Log(btn.path);
+        //    GameObject btnActivated = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[btn.name]);
+        //    btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, door);
+        //    btnActivated.transform.SetParent(MapEditor.Instance.dontSaveObjectTransform);
+        //}
+        //foreach (Vector2 pot in data.leverPositionList)
+        //{
+        //    GameObject leverBody = CmdBatchObject("LeverBody", MapEditor.Instance.dontSaveObjectTransform, pot);
 
-            if (leverBody is not null)
-                leverBody.GetComponent<LeverBodyNet>().CmdSetLinkDoor(pot, data.linkId);
+        //    if (leverBody is not null)
+        //        leverBody.GetComponent<LeverBodyNet>().CmdSetLinkDoor(pot, data.linkId);
 
-        }
+        //}
 
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
+        return obj;
 
     }
+
+
+
     [Command]
     public GameObject CmdBatchObject(string objName, Transform transform, Vector2 pot)
     {

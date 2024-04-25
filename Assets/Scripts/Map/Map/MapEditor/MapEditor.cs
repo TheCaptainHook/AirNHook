@@ -551,7 +551,29 @@ public class MapEditor : MonoBehaviour
 
                     if(Managers.Game.CurrentState != GameState.Editor)
                     {
-                        Managers.Stage.CmdBatchObject(mapDataStruct.name,data);
+                        GameObject obj = Managers.Stage.CmdBatchObject(mapDataStruct.name,data);
+
+                        ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
+
+                        MapDataStruct btn = Managers.Data.mapData.mapObjectDataDictionary[306];
+
+                        foreach (Vector2 pot in data.buttonActivatePositionList)
+                        {
+                            //GameObject btnActivated = Object.Instantiate(Resources.Load<GameObject>(btn.path));
+                            Debug.Log(btn.path);
+                            GameObject btnActivated = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[btn.name]);
+                            btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, door);
+                            btnActivated.transform.SetParent(MapEditor.Instance.dontSaveObjectTransform);
+                        }
+                        foreach (Vector2 pot in data.leverPositionList)
+                        {
+                            //GameObject leverBody = CmdBatchObject("LeverBody", MapEditor.Instance.dontSaveObjectTransform, pot);
+
+                            GameObject leverBody = Managers.Stage.CmdBatchObject("LeverBody", dontSaveObjectTransform, pot);
+                            if (leverBody is not null)
+                                leverBody.GetComponent<LeverBodyNet>().CmdSetLinkDoor(pot, data.linkId);
+
+                        }
 
                     }
                     else

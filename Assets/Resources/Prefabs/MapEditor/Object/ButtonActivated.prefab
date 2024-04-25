@@ -257,7 +257,7 @@ GameObject:
   - component: {fileID: 5541719228948252903}
   - component: {fileID: 6538494676459900832}
   - component: {fileID: 7684903196300218065}
-  - component: {fileID: -2601006030045912246}
+  - component: {fileID: -2202390588482861308}
   m_Layer: 7
   m_Name: ButtonActivated
   m_TagString: Untagged
@@ -475,7 +475,7 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!114 &-2601006030045912246
+--- !u!114 &-2202390588482861308
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -484,29 +484,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5485989114999524422}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 1
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  target: {fileID: 3150436631828177710}
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 0
-  onlySyncOnChange: 1
-  compressRotation: 1
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 1
-  coordinateSpace: 0
-  sendIntervalMultiplier: 1
-  timelineOffset: 0
-  showGizmos: 0
-  showOverlay: 0
-  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  bufferResetMultiplier: 3
-  changedDetection: 1
-  positionSensitivity: 0.01
-  rotationSensitivity: 0.01
-  scaleSensitivity: 0.01
+  clientAuthority: 1
+  animator: {fileID: 6538494676459900832}
