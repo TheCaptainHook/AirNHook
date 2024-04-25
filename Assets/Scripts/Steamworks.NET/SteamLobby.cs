@@ -33,7 +33,7 @@ public class SteamLobby : MonoBehaviour
         gameLobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create(OnGameLobbyJoinRequested);
         // Lobby 입장 콜백
         lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
-
+        // Lobby List 받고 난 뒤의 콜백
         lobbyList = Callback<LobbyMatchList_t>.Create(OnGetLobbyList);
     }
 
