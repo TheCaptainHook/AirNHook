@@ -23,8 +23,8 @@ public class ButtonActivatedDoor : BuildBase
     public int activeRequirAmount;//문 활성화 조건
     public int CurActiveBtn
     {
-        set { curActiveBtn += value;
-            curActiveBtn = Mathf.Clamp(curActiveBtn, 0, curActiveBtn);
+        set { curActiveBtn += value; Debug.Log(curLinkBtn) ;
+            curActiveBtn = Mathf.Clamp(curActiveBtn, 0, curLinkBtn);
             if (curActiveBtn == activeRequirAmount) { if(!onOpen)Activation(); }
             else { if(onOpen)Deactivated(); }
         } }
@@ -44,6 +44,7 @@ public class ButtonActivatedDoor : BuildBase
                 transform.position = value.position;
                 transform.rotation = value.quaternion;
                 transform.localScale = value.scale;
+                curLinkBtn = buttonActivatedBtnList.Count;
             } }
     }
     public bool onOpen;
@@ -59,19 +60,31 @@ public class ButtonActivatedDoor : BuildBase
         _animator = GetComponent<Animator>();
     }
 
+    private void LateUpdate()
+    {
+        CheckActiveRequirAmount();
+    }
+
+
     void Activation()
     {
-        Debug.Log("close");
+        if (onOpen) return;
         onOpen = true;
-        _collider.enabled = false; 
+        _collider.enabled = false;
         _animator.SetTrigger(UnlockTrigger);
     }
     void Deactivated()
     {
-        Debug.Log("open");
+        if (!onOpen) return;
         onOpen = false;
         _collider.enabled = true;
         _animator.SetTrigger(LockTrigger);
+    }
+
+    public void CheckActiveRequirAmount()
+    {
+        if (onOpen) return;
+        if (activeRequirAmount == curActiveBtn) Activation();
     }
 
 

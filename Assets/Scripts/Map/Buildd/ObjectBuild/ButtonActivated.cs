@@ -47,17 +47,17 @@ public class ButtonActivated : BuildObj
     //}
     private void Update()
     {
-        //if (!linked)
-        //{
-        //    LinkDoor();
-        //}
 
-        if(curPosition != new Vector2(Mathf.Round(transform.position.x * 10f) / 10f, Mathf.Round(transform.position.y * 10f) / 10f))
+        if(Managers.Game.CurrentState == GameState.Editor)
         {
-            if (isRunningCoroutine) { StopCoroutine(Co_ReLinkDoor()); isRunningCoroutine = false; }
+            if (curPosition != new Vector2(Mathf.Round(transform.position.x * 10f) / 10f, Mathf.Round(transform.position.y * 10f) / 10f))
+            {
+                if (isRunningCoroutine) { StopCoroutine(Co_ReLinkDoor()); isRunningCoroutine = false; }
                 time = 2;
-                StartCoroutine(Co_ReLinkDoor());    
+                StartCoroutine(Co_ReLinkDoor());
+            }
         }
+        
 
         if (isPressed && !onActive)
         {
@@ -198,7 +198,8 @@ public class ButtonActivated : BuildObj
 
     void Activation()
     {
-        if(linkDoorList.Count == 0)
+        if (onActive) return;
+        if (linkDoorList.Count == 0)
         {
             LinkDoor();
         }
@@ -214,6 +215,7 @@ public class ButtonActivated : BuildObj
 
     void Deactivated()
     {
+        if (!onActive) return;
         isPressed = false;
         onActive = false;
         // spriteRenderer.material.color = orgColor;

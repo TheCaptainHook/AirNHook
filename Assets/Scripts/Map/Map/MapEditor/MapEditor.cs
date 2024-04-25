@@ -7,7 +7,6 @@ using GoogleSheet.Core.Type;
 using TMPro;
 using System;
 using System.Threading.Tasks;
-using UnityEditor.UI;
 
 public enum MapType
 {
@@ -551,8 +550,7 @@ public class MapEditor : MonoBehaviour
 
                     if(Managers.Game.CurrentState != GameState.Editor)
                     {
-                        await Managers.Stage.CmdBatchObject(mapDataStruct.name,data);
-                        //ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
+                        Managers.Stage.CmdBatchObject(mapDataStruct.name,data);
 
                         MapDataStruct btn = Managers.Data.mapData.mapObjectDataDictionary[306];
                         Debug.Log("asdasdasdas");
@@ -562,6 +560,7 @@ public class MapEditor : MonoBehaviour
                             //GameObject btnActivated = Instantiate(Resources.Load<GameObject>(btn.path));
                             GameObject btnActivated = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[btn.name]);
                             btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, data.linkId);
+                            //btnActivated.GetComponent<ButtonActivated>().LinkDoor();
                             btnActivated.transform.SetParent(dontSaveObjectTransform);
                         }
                         foreach (Vector2 pot in data.leverPositionList)

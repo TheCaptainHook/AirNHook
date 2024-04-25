@@ -91,7 +91,7 @@ public class StageManager
 
     //}
     [Command]
-    public async Task CmdBatchObject(string objName,ButtonActivatedDoorStruct data)
+    public void CmdBatchObject(string objName,ButtonActivatedDoorStruct data)
     {
         if (!NetworkServer.active || !NetworkClient.isConnected) return;
 
@@ -100,16 +100,18 @@ public class StageManager
         var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
         Debug.Log("Create!!");
 
+
+
         ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
         door.ButtonActivatedDoorStruct = data;
+        door.CheckActiveRequirAmount();
         obj.transform.SetParent(MapEditor.Instance.interactionObjectTransform);
-
+        //todo 0425
         //MapDataStruct btn = Managers.Data.mapData.mapObjectDataDictionary[306];
 
         //foreach (Vector2 pot in data.buttonActivatePositionList)
         //{
         //    //GameObject btnActivated = Object.Instantiate(Resources.Load<GameObject>(btn.path));
-        //    Debug.Log(btn.path);
         //    GameObject btnActivated = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[btn.name]);
         //    btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, door);
         //    btnActivated.transform.SetParent(MapEditor.Instance.dontSaveObjectTransform);
@@ -122,16 +124,16 @@ public class StageManager
         //        leverBody.GetComponent<LeverBodyNet>().CmdSetLinkDoor(pot, data.linkId);
 
         //}
-
+        //todo 0425
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
 
     }
 
     //todo 0425
-    private async Task<GameObject> GetTaskObj(string objName)
-    {
-        return ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
-    }
+    //private async Task<GameObject> GetTaskObj(string objName)
+    //{
+    //    return ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+    //}
 
 
     [Command]

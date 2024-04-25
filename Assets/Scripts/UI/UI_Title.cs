@@ -70,10 +70,10 @@ public class UI_Title : UI_Base
         //Managers.UI.ShowLoadingUI("TestScene_MapEditor");//Editor TEST
 
 //#if UNITY_EDITOR
-//        Managers.Network.StartHost();
-//#else
-        Managers.Network.steamLobby.HostLobby();
-//#endif
+        Managers.Network.StartHost(); // todo 0425
+        //#else
+        //Managers.Network.steamLobby.HostLobby();
+        //#endif
     }
 
     private void OnMapEditorBtn()

@@ -196,7 +196,7 @@ public class UI_StageSelect : UI_Base
         ui.transform.SetParent(mainMapcontainer);
         rt.anchoredPosition = Vector2.zero;
         stageInMapSelectList.Add(ui);
-        ui.SetActive(false);
+        ui.SetActive(false); 
 
     }
     private void CreateStage(int level)
