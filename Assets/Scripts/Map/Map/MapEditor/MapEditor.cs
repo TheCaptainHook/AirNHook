@@ -551,8 +551,7 @@ public class MapEditor : MonoBehaviour
 
                     if(Managers.Game.CurrentState != GameState.Editor)
                     {
-                        GameObject obj = await Managers.Stage.CmdBatchObject(mapDataStruct.name,data);
-                        Debug.Log(obj.name);
+                        await Managers.Stage.CmdBatchObject(mapDataStruct.name,data);
                         //ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
 
                         MapDataStruct btn = Managers.Data.mapData.mapObjectDataDictionary[306];
@@ -560,8 +559,8 @@ public class MapEditor : MonoBehaviour
                         foreach (Vector2 pot in data.buttonActivatePositionList)
                         {
                             Debug.Log(pot);
-                            GameObject btnActivated = Instantiate(Resources.Load<GameObject>(btn.path));
-                            //GameObject btnActivated = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[btn.name]);
+                            //GameObject btnActivated = Instantiate(Resources.Load<GameObject>(btn.path));
+                            GameObject btnActivated = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[btn.name]);
                             btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, data.linkId);
                             btnActivated.transform.SetParent(dontSaveObjectTransform);
                         }

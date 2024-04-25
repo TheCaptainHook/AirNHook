@@ -91,9 +91,9 @@ public class StageManager
 
     //}
     [Command]
-    public async Task<GameObject> CmdBatchObject(string objName,ButtonActivatedDoorStruct data)
+    public async Task CmdBatchObject(string objName,ButtonActivatedDoorStruct data)
     {
-        if (!NetworkServer.active || !NetworkClient.isConnected) return null;
+        if (!NetworkServer.active || !NetworkClient.isConnected) return;
 
         Debug.Log("Create Interaction door");
 
@@ -124,8 +124,6 @@ public class StageManager
         //}
 
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
-
-        return obj;
 
     }
 
