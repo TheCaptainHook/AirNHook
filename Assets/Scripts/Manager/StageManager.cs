@@ -1,5 +1,6 @@
 using Mirror;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class StageManager
 {
@@ -90,11 +91,12 @@ public class StageManager
 
     //}
     [Command]
-    public GameObject CmdBatchObject(string objName, ButtonActivatedDoorStruct data)
+    public async Task<GameObject> CmdBatchObject(string objName, ButtonActivatedDoorStruct data)
     {
         if (!NetworkServer.active || !NetworkClient.isConnected) return null;
 
-        var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+        var obj = await GetTaskObj(objName);
+        await Delay();
 
         ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
         door.ButtonActivatedDoorStruct = data;
@@ -120,10 +122,16 @@ public class StageManager
         //}
 
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
+
         return obj;
 
     }
 
+    //todo 0425
+    private async Task<GameObject> GetTaskObj(string objName)
+    {
+        return ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+    }
 
 
     [Command]
@@ -158,5 +166,12 @@ public class StageManager
 
     #endregion
 
+
+
+    public async Task Delay() //todo 0425
+    {
+        Task delayTask = Task.Delay(100);
+        await delayTask;
+    }
 
 }

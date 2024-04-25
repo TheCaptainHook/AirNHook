@@ -490,7 +490,7 @@ public class MapEditor : MonoBehaviour
     }
 
     #region Create
-    public void CreateObj(Transform transform, int num)
+    public async void CreateObj(Transform transform, int num)
     {
         switch (num)
         {
@@ -551,9 +551,10 @@ public class MapEditor : MonoBehaviour
 
                     if(Managers.Game.CurrentState != GameState.Editor)
                     {
-                        GameObject obj = Managers.Stage.CmdBatchObject(mapDataStruct.name,data);
+                        GameObject obj = await Managers.Stage.CmdBatchObject(mapDataStruct.name,data);
 
                         ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
+
 
                         MapDataStruct btn = Managers.Data.mapData.mapObjectDataDictionary[306];
 
