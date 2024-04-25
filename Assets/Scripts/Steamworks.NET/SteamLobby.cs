@@ -47,11 +47,11 @@ public class SteamLobby : MonoBehaviour
 
     public void HostLobby()
     {
-        // 테스트를 위해 친구 전용으로 로비 생성
         //SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, _networkManager.maxConnections);
         SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, _networkManager.maxConnections);
     }
 
+    /// <summary> 로비 생성 </summary>
     private void OnLobbyCreated(LobbyCreated_t callback)
     {
         if (callback.m_eResult != EResult.k_EResultOK)
@@ -60,17 +60,20 @@ public class SteamLobby : MonoBehaviour
         }
 
         _networkManager.StartHost();
+        // Lobby Steam ID
         currentLobbyID = new CSteamID(callback.m_ulSteamIDLobby);
         SteamMatchmaking.SetLobbyData(currentLobbyID,
             HostAddressKey,
             SteamUser.GetSteamID().ToString());
     }
 
+    /// <summary> 친구 초대를 받았을 때, 불리는 Callback </summary>
     private void OnGameLobbyJoinRequested(GameLobbyJoinRequested_t callback)
     {
         SteamMatchmaking.JoinLobby(callback.m_steamIDLobby);
     }
 
+    /// <summary> 로비 입장시의 Callback </summary>
     private void OnLobbyEntered(LobbyEnter_t callback)
     {
         if(NetworkServer.active) return;
@@ -83,6 +86,7 @@ public class SteamLobby : MonoBehaviour
         _networkManager.StartClient();
     }
 
+    /// <summary> 해당 게임의 스팀 로비 리스트 받아오는 Method </summary>
     public void GetLobbyList()
     {
         if(lobbyIDDict.Count > 0)
@@ -91,6 +95,7 @@ public class SteamLobby : MonoBehaviour
         SteamMatchmaking.RequestLobbyList();
     }
     
+    /// <summary> 로비 리스트를 다 받아왔을 때의 Callback </summary>
     private void OnGetLobbyList(LobbyMatchList_t result)
     {
         for (var i = 0; i < result.m_nLobbiesMatching; i++)
@@ -102,6 +107,7 @@ public class SteamLobby : MonoBehaviour
         joinLobbyCallback?.Invoke();
     }
     
+    /// <summary> 62진수로 변환된 Lobby Steam ID를 통해 방 입장 </summary>
     public bool JoinLobby(string steamID)
     {
         var id = Base62Converter.FromBase62(steamID);
@@ -110,15 +116,4 @@ public class SteamLobby : MonoBehaviour
         SteamMatchmaking.JoinLobby(lobbyIDDict[id]);
         return true;
     }
-
-    private void EncryptRoomCode()
-    {
-        
-    }
-
-    private void DecryptRoomCode()
-    {
-        
-    }
 }
-
