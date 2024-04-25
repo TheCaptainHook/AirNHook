@@ -7,7 +7,6 @@ using GoogleSheet.Core.Type;
 using TMPro;
 using System;
 using System.Threading.Tasks;
-using UnityEditor.UI;
 
 public enum MapType
 {

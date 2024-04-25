@@ -68,11 +68,9 @@ public class UI_StageSelect : UI_Base
     {
 #if UNITY_EDITOR
         if (mapId == curMapId) return;
-        
         MapSelected(mapId, true);
 #else
         if (mapId == curMapId || Managers.Game.OtherPlayer is null) return;
-
         var player = Managers.Game.Player.GetComponent<Player>();
         player.stageCheckCallback += MapSelected;
         player.CmdStageDataCheck(mapId);
@@ -124,13 +122,13 @@ public class UI_StageSelect : UI_Base
 
     protected override void Start()
     {
-        foreach(var key in Managers.Data.mapData.mapMainStageDictionary.Keys)
-        {
-            Debug.Log(key);
-        }
+        //foreach(var key in Managers.Data.mapData.mapAllDictionary.Keys)
+        //{
+        //    Debug.Log(key);
+        //}
 
 
-        var maps = Managers.Data.mapData.mapMainStageDictionary.Keys;
+        //var maps = Managers.Data.mapData.mapMainStageDictionary.Keys;
         stageInMapSelectList = new();
 
 
@@ -150,9 +148,6 @@ public class UI_StageSelect : UI_Base
         ////endButton.GetComponentInChildren<TMP_Text>().text = _startText.text;
         //endButton.onClick.AddListener(StartGame);
     }
-
-    
-
 
     protected override void OpenUI() // Update select menu when clear stage
     {
@@ -197,7 +192,6 @@ public class UI_StageSelect : UI_Base
         rt.anchoredPosition = Vector2.zero;
         stageInMapSelectList.Add(ui);
         ui.SetActive(false);
-
     }
     private void CreateStage(int level)
     {
