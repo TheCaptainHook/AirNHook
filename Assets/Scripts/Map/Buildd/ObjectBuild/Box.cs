@@ -20,7 +20,7 @@ public class Box : BuildObj
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<Collider2D>();
         OnDissolveAction += Dissolve;
-        OninterableObjectRelease += GetComponent<InteractableObject>().Destroyed;
+        OnInteractableObjectRelease += GetComponent<InteractableObject>().Destroyed;
     }
 
     public void Dissolve(Vector2 pot)

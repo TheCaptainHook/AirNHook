@@ -42,13 +42,13 @@ public class Player : NetworkBehaviour, IDamageable
 
     private void Start()
     {
-        StartCoroutine(Co_DetectInteraction());
         if (!isLocalPlayer)
         {
             Managers.Game.OtherPlayer = gameObject;
             return;
         }
 
+        StartCoroutine(Co_DetectInteraction());
         _input.uiActions.Option.started += OptionStart;
         _input.playerActions.Emote.started += EmoteStart;
         _input.playerActions.Interaction.started += InteractionStart;
