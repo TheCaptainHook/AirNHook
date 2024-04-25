@@ -73,8 +73,7 @@ public class StageManager
         {
             //GameObject btnActivated = Object.Instantiate(Resources.Load<GameObject>(btn.path));
             Debug.Log(btn.path);
-            GameObject btnActivated = ResourceManager.Instantiate(btn.path);
-            Debug.Log(btnActivated);
+            GameObject btnActivated = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[btn.name]);
             btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, door);
             btnActivated.transform.SetParent(MapEditor.Instance.dontSaveObjectTransform);
         }
