@@ -44,19 +44,19 @@ public class Map
     public Map() { } //dont delet
 
 
-    public List<Vector2> FindObject_Vector2(int id)
-    {
-        List<Vector2> list = new List<Vector2>();
+    //public List<Vector2> FindObject_Vector2(int id)
+    //{
+    //    List<Vector2> list = new List<Vector2>();
 
-        foreach(ObjectData objectData in mapObjectDataList)
-        {
-            if(objectData.id == id)
-            {
-                list.Add(objectData.position);
-            }
-        }
-        return list;
-    }
+    //    foreach(ObjectData objectData in mapObjectDataList)
+    //    {
+    //        if(objectData.id == id)
+    //        {
+    //            list.Add(objectData.position);
+    //        }
+    //    }
+    //    return list;
+    //}
     public ObjectData FindObjectData(int id)
     {
         foreach (ObjectData objectData in mapObjectDataList)
@@ -70,13 +70,13 @@ public class Map
         return new ObjectData();
     }
     //Box,stringBox,key,
-    public Sprite LoadImage(int width, int height)
-    {
-        Texture2D texture = new Texture2D(width, height, TextureFormat.ARGB32, false);
-        texture.LoadImage(bytesImage);
-        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, width, height), new Vector2(0.5f, 0.5f), 100f);
-        return sprite;
-    }
+    //public Sprite LoadImage(int width, int height)
+    //{
+    //    Texture2D texture = new Texture2D(width, height, TextureFormat.ARGB32, false);
+    //    texture.LoadImage(bytesImage);
+    //    Sprite sprite = Sprite.Create(texture, new Rect(0, 0, width, height), new Vector2(0.5f, 0.5f), 100f);
+    //    return sprite;
+    //}
 
 
 }

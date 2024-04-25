@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 [CustomEditor(typeof(MapEditor))]
 public class MapEditor_Editor : Editor
 {
-
     public Dictionary<int, MapDataStruct> mapTileDataDictionary = new Dictionary<int, MapDataStruct>();
     public Dictionary<int, MapDataStruct> mapObjectDataDictionary = new Dictionary<int, MapDataStruct>();
     public Dictionary<int, MapDataStruct> mapSceneDataDictionary = new Dictionary<int, MapDataStruct>();
@@ -32,10 +31,10 @@ public class MapEditor_Editor : Editor
         {
             mapEditor.LoadMap(mapEditor.mapID,mapEditor.mapType);
         }
-        if (GUILayout.Button("Save Data(인게임용)"))
-        {
-            mapEditor.SaveMapData();
-        }
+        //if (GUILayout.Button("Save Data(인게임용)"))
+        //{
+        //    mapEditor.SaveMapData();
+        //}
 
         GUILayout.Space(10);
 
@@ -77,29 +76,29 @@ public class MapEditor_Editor : Editor
 
         }
 
-        if (GUILayout.Button("In Game Editor Test btn")) //에디터 모드로 진입할때 초기화
-        {
-            mapEditor.EditorMode_Init();
-            //Managers.Game.CurrentState = GameState.Editor;
-            //mapEditor.mapEditorState = MapEditorState.Editor;
-            //mapEditor.Init();
-            //mapEditor.gridPlane = Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/GridPlane"));
-            //mapEditor.gridPlane.SetActive(false);
-            //mapEditor.placeMentSystem.EditorMode_Init();
+        //if (GUILayout.Button("In Game Editor Test btn")) //에디터 모드로 진입할때 초기화
+        //{
+        //    mapEditor.EditorMode_Init();
+        //    //Managers.Game.CurrentState = GameState.Editor;
+        //    //mapEditor.mapEditorState = MapEditorState.Editor;
+        //    //mapEditor.Init();
+        //    //mapEditor.gridPlane = Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/GridPlane"));
+        //    //mapEditor.gridPlane.SetActive(false);
+        //    //mapEditor.placeMentSystem.EditorMode_Init();
 
-        }
-        GUILayout.Space(10);
-        if (GUILayout.Button("User map Test btn"))
-        {
-            TestLoad(mapEditor);
-        }
+        //}
+        //GUILayout.Space(10);
+        //if (GUILayout.Button("User map Test btn"))
+        //{
+        //    TestLoad(mapEditor);
+        //}
 
 
-        GUILayout.Space(10);
-        if (GUILayout.Button("TEST SCREEN SHOT"))
-        {
-            CurrentMapScreenShot(mapEditor);
-        }
+        //GUILayout.Space(10);
+        //if (GUILayout.Button("TEST SCREEN SHOT"))
+        //{
+        //    CurrentMapScreenShot(mapEditor);
+        //}
 
 
 
@@ -400,7 +399,6 @@ public class MapEditor_Editor : Editor
     #endregion
 
 
-
     #region SAVE
     public void SaveMapData(MapEditor mapEditor)
     {
@@ -562,10 +560,6 @@ public class MapEditor_Editor : Editor
         return null;
     }
     #endregion
-
-
-
-
 
 
     #region Util
