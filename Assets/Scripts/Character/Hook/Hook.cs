@@ -76,7 +76,7 @@ public class Hook : Player
         }
         else if (_latestTarget is not null)
         {
-            if(!_latestTarget.TryGetComponent<IInteractable>(out var interactable)) return;
+            if(!_latestTarget.TryGetComponent<IInteractable>(out var interactable) || !interactable.CanInteract()) return;
 
             if (interactable.GetObjectType() == ObjectTypeEnum.Grab)
             {
