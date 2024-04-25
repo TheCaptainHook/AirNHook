@@ -23,7 +23,7 @@ public class StrongBox : BuildObj
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<Collider2D>();
 
-        OninterableObjectRelease += GetComponent<InteractableObject>().Release;
+        OnInteractableObjectRelease += GetComponent<InteractableObject>().Release;
         OnDissolveAction += Dissolve;
     }
 

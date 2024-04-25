@@ -1,3 +1,4 @@
+using System.Collections;
 using Mirror;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     private float _gravityScale;
     [SyncVar] private bool _isFixed;
     [SyncVar] private bool _canInhale;
+    [SyncVar] private bool _isDestroyed;
     [field: SerializeField] private float _inhalePower = 20f;
 
     private UI_Base _eButtonUI;
@@ -76,7 +78,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public bool CanInteract()
     {
-        return !_isFixed;
+        return !(_isDestroyed || _isFixed);
     }
 
     public void Fixed(bool value)
@@ -93,7 +95,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     protected virtual void Grab()
     {
         ChangeFixedState(true);
-        //_isFixed = true;
+        ChangeCanInhaleState(false);
         HideEButton();
         _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
         _rigidbody2D.velocity = new Vector2(0, 0);
@@ -106,8 +108,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     {
         ChangeFixedState(false);
         ChangeCanInhaleState(false);
-        //_isFixed = false;
-        //_canInhale = false;
         ShowEButton();
         _rigidbody2D.bodyType = _originType;
         _fixedPoint = null;
@@ -117,8 +117,12 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void Destroyed()
     {
+        _isDestroyed = true;
         _isFixed = false;
-        _canInhale = false;
+        _canInhale = true;
+        ChangeDestroyedState(true);
+        ChangeFixedState(false);
+        ChangeCanInhaleState(true);
         _rigidbody2D.bodyType = _originType;
         if (_fixedPoint is not null && _fixedPoint.root.TryGetComponent<Hook>(out var hook))
         {
@@ -132,22 +136,19 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void Inhalation(Transform accessor)
     {
-        if (_fixedPoint is not null || _canInhale || _isFixed)
+        if (_fixedPoint is not null || _canInhale || _isFixed || _isDestroyed)
             return;
 
         _fixedPoint = accessor;
         
         transform.rotation = Quaternion.identity;
         ChangeCanInhaleState(true);
-        //_canInhale = true;
     }
 
     public void StopInhale()
     {
         ChangeCanInhaleState(false);
         ChangeFixedState(false);
-        //_canInhale = false;
-        //_isFixed = false;
         _fixedPoint = null;
         _rigidbody2D.gravityScale = _gravityScale;
         CmdSetExcludeLayer(_releaseLayerMask);
@@ -157,8 +158,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     {
         ChangeCanInhaleState(false);
         ChangeFixedState(false);
-        //_canInhale = false;
-        //_isFixed = false;
         _fixedPoint = null;
         _rigidbody2D.gravityScale = _gravityScale;
         _rigidbody2D.AddForce(force, ForceMode2D.Impulse);
@@ -167,7 +166,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public bool CanInhale()
     {
-        return !_isFixed;
+        return !(_isDestroyed || _isFixed);
     }
 
     private void Inhale()
@@ -182,8 +181,19 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
         ChangeCanInhaleState(false);
         ChangeFixedState(true);
-        //_canInhale = false;
-        //_isFixed = true;
+    }
+
+    [Command(requiresAuthority = false)]
+    private void ChangeDestroyedState(bool value)
+    {
+        _isDestroyed = value;
+        StartCoroutine(DestroyCoroutine());
+    }
+
+    private IEnumerator DestroyCoroutine()
+    {
+        yield return new WaitForSeconds(2f);
+        ChangeDestroyedState(false);
     }
 
     [Command(requiresAuthority = false)]
@@ -212,6 +222,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void ShowEButton()
     {
+        if(_isFixed || _isDestroyed) HideEButton();
+        
         _eButtonUI = Managers.UI.ShowUI<UI_ShowEButton>();
         _eButtonUI.transform.SetParent(null);
         _eButtonUI.transform.position = transform.position + (Vector3)offset;
