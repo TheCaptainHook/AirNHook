@@ -83,6 +83,7 @@ public class GameManager
             // MainScene
             case 1:
                 Debug.Log("Scene Loaded 1");
+                Managers.UI.InitializeUI();
                 break;
             // EditorScene
             case 2:

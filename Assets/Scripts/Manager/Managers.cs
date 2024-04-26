@@ -9,12 +9,14 @@ public class Managers : MonoBehaviour
     private GameManager _game = new();
     private StageManager _stage = new();
     private DataManager _data = new();
+    private SoundManager _sound = new();
     private CustomNetworkManager _network;
 
     public static GameManager Game => Instance._game;
     public static UIManager UI => Instance._uiManager;
     public static StageManager Stage => Instance._stage;
     public static DataManager Data => Instance._data;
+    public static SoundManager Sound => Instance._sound;
     public static CustomNetworkManager Network => Instance._network;
 
     /// <summary> 게임 시작시 자동으로 호출 - Scene에 넣을 필요 X </summary>
@@ -42,6 +44,7 @@ public class Managers : MonoBehaviour
 
         go.AddComponent<SteamManager>();
         
+        Sound.SetUp();
         Data.Setup();
     }
 

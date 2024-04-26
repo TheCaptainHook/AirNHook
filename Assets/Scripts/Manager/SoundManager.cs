@@ -3,47 +3,142 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class SoundManager : MonoBehaviour
+public enum AudioType
 {
-    private VolumeController _volumeController;
-    
-    private AudioMixer _audioMixer;
-    
-    private AudioSource _musicAudioSource;
-    public AudioClip clip;
+    Jump,
+    Land,
+    Death,
+}
 
-    private void Awake()
+public enum AudioMixerGroupType
+{
+    Effects,
+    BGM,
+}
+
+public class SoundManager
+{
+    public AudioMixer audioMixer { get; private set; }
+    private Dictionary<AudioType, AudioClip> _audioClipDict = new();
+    private Queue<AudioSource> _deactivatedAudioSources = new();
+    private List<AudioSource> _activatedAudioSource = new();
+    private AudioSource _bgmAudioSource;
+    
+    private WaitForSeconds _waitForSeconds = new(1f);
+    private Dictionary<string, AudioMixerGroup> _audioMixerGroups = new();
+    private const string AUDIO_SOURCE_PATH = "Prefabs/Sound/AudioSource";
+
+    public void SetUp()
     {
-        gameObject.AddComponent<AudioSource>();
+        AudioMixSetUp();
+        AudioClipSetUp();
+        AddAudioSources(8);
+    }
 
-        _volumeController = GetComponent<VolumeController>();
-        _musicAudioSource = GetComponent<AudioSource>();
-        _audioMixer = Resources.Load<AudioMixer>("Sounds/AudioMixer");
-        AudioMixerGroup[] audioMixGroup = _audioMixer.FindMatchingGroups("BG_Sound");
-
-        _musicAudioSource.outputAudioMixerGroup = audioMixGroup[0];
-        _musicAudioSource.loop = true;
+    private void AudioMixSetUp()
+    {
+        // load audioMixer
+        audioMixer = ResourceManager.Load<AudioMixer>("Sounds/AudioMixer");
+        var audioMixerGroupArray = audioMixer.FindMatchingGroups(string.Empty);
+        foreach (var audioMixerGroup in audioMixerGroupArray)
+            _audioMixerGroups.Add(audioMixerGroup.name, audioMixerGroup);
         
-        _volumeController.Init();
+        audioMixer.SetFloat("MasterParam",GetAudioMixVolume(PlayerPrefs.GetFloat("MasterVolume", 1f)));
+        audioMixer.SetFloat("BGMParam", GetAudioMixVolume(PlayerPrefs.GetFloat("BGMVolume", 1f)));
+        audioMixer.SetFloat("EffectsParam", GetAudioMixVolume(PlayerPrefs.GetFloat("EffectsVolume", 1f)));
     }
 
-
-    public void ChangeBGM(AudioClip clip)
+    private float GetAudioMixVolume(float volume)
     {
-        _musicAudioSource.Stop();
-        _musicAudioSource.clip = clip;
-        _musicAudioSource.Play();
-
+        return Mathf.Log10(volume) * 20;
     }
-    //ToDO: 예전 프로젝트에서 만든 매니저라서 리소스 매니저를 통해 오브젝트 풀링을 했었음 바뀌게 된다면 다시 구현할 생각으로 주석화
-    // public void PlayClip(AudioClip clip)
-    // {
-    //     SoundSource soundSource = Managers.RM.Instantiate("Sounds/FX_SoundSource").GetComponent<SoundSource>();
-    //     soundSource.Play(clip);
-    // }
-
-    public void BGMStop()
+    
+    private void AudioClipSetUp()
     {
-        _musicAudioSource.Stop();
+        // audioClip save
+        var audioClipSO = ResourceManager.Load<AudioClipSO>("Audio/ScriptableObject/AudioClipSO");
+        foreach (var audioClipData in audioClipSO.audioList)
+            _audioClipDict.Add(audioClipData.audioType, audioClipData.audioClip);
+    }
+
+    private void AddAudioSources(int amount)
+    {
+        for (var i = 0; i < amount; i++)
+        {
+            var audioSource = ResourceManager.Instantiate(AUDIO_SOURCE_PATH).GetComponent<AudioSource>();
+            Object.DontDestroyOnLoad(audioSource);
+            audioSource.gameObject.SetActive(false);
+            _deactivatedAudioSources.Enqueue(audioSource);
+        }
+    }
+
+    private void GetAudioSource(out AudioSource audioSource)
+    {
+        if (_deactivatedAudioSources.TryDequeue(out audioSource)) return;
+        
+        AddAudioSources(5);
+        audioSource = _deactivatedAudioSources.Dequeue();
+    }
+    
+    /// <summary>
+    /// 사운드 재생. 배경음악은 PlayBgm()으로 실행할 것.
+    /// </summary>
+    /// <param name="audioType"> 오디오 타입 설정 </param>
+    /// <param name="audioMixerGroupType"> Mixer Group 설정 </param>
+    /// <param name="isLoop"> 반복 체크. default is false. </param>
+    /// <param name="volume"> 소리 조절. default is 1f. </param>
+    public void PlaySound(AudioType audioType, AudioMixerGroupType audioMixerGroupType, bool isLoop = false, float volume = 1f)
+    {
+        GetAudioSource(out var audioSource);
+        _activatedAudioSource.Add(audioSource);
+        
+        PlayAudioClip(audioSource, audioType, audioMixerGroupType, isLoop, volume);
+    }
+
+    /// <summary>
+    /// BGM재생. 다른 사운드의 경우 PlaySound()로 재생.
+    /// </summary>
+    /// <param name="audioType"> 오디오 타입 설정. </param>
+    /// <param name="audioMixerGroupType"> Mixer Group 설정 </param>
+    /// <param name="isLoop"> 반복 체크. default is false. </param>
+    /// <param name="volume"> 소리 조절. default is 1f. </param>
+    public void PlayBGM(AudioType audioType, AudioMixerGroupType audioMixerGroupType, bool isLoop = false, float volume = 1f)
+    {
+        AudioSource audioSource;
+        
+        //TODO Fade out Fade IN ?
+        if (_bgmAudioSource is null)
+            GetAudioSource(out audioSource);
+        else
+            audioSource = _bgmAudioSource;
+        
+        PlayAudioClip(audioSource, audioType, audioMixerGroupType, isLoop, volume);
+    }
+
+    private void PlayAudioClip(AudioSource audioSource, AudioType audioType, AudioMixerGroupType audioMixerGroupType, bool isLoop, float volume)
+    {
+        var audioClip = _audioClipDict[audioType];
+        audioSource.outputAudioMixerGroup = _audioMixerGroups[audioMixerGroupType.ToString()];
+        audioSource.loop = isLoop;
+        audioSource.volume = volume;
+        audioSource.gameObject.SetActive(true);
+        audioSource.clip = audioClip;
+        audioSource.Play();
+        if(!isLoop)
+            Managers.Instance.StartCoroutine(CollectSoundSource(audioSource, audioClip.length));
+    }
+    
+    private IEnumerator CollectSoundSource(AudioSource audioSource, float clipLength)
+    {
+        var time = 0f;
+        while (time <= clipLength)
+        {
+            yield return _waitForSeconds;
+            time += 1f;
+        }
+
+        _activatedAudioSource.Remove(audioSource);
+        audioSource.gameObject.SetActive(false);
+        _deactivatedAudioSources.Enqueue(audioSource);
     }
 }

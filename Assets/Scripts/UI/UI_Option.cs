@@ -63,7 +63,6 @@ public class UI_Option : UI_Base
     [SerializeField] private TMP_Text _vsyncText;
     [SerializeField] private TMP_Text _applyText;
 
-    [SerializeField] private TMP_Text _testBuildText;
     //[SerializeField] private TMP_Text _resolutionWarningText;
     [SerializeField] private TMP_Text _roomCodeNumText;
     [SerializeField] private TMP_Text _joinCodeText;
@@ -285,7 +284,6 @@ public class UI_Option : UI_Base
         SetSentence(_fullscreenText, 1006);
         SetSentence(_vsyncText, 1012);
         SetSentence(_applyText, 1013);
-        SetSentence(_testBuildText, 1015);
         //SetSentence(_resolutionWarningText, 1016);
         SetSentence(_joinCodeText, 1017);
     }
