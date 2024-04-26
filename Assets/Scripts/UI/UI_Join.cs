@@ -47,6 +47,7 @@ public class UI_Join : UI_Base
         _roomCode = _inputField.text;
         if(string.IsNullOrWhiteSpace(_roomCode)) return;
 
+        
         Managers.Network.steamLobby.joinLobbyCallback += Joining;
         Managers.Network.steamLobby.GetLobbyList();
     }
