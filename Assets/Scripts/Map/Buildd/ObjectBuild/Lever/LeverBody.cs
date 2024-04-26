@@ -247,8 +247,7 @@ public class LeverBody : BuildObj, IInteractable
     public void ShowEButton()
     {
         var eButtonUI = Managers.UI.ShowUI<UI_ShowEButton>();
-        eButtonUI.transform.SetParent(transform);
-        eButtonUI.transform.localPosition = offset;
+        eButtonUI.transform.position = transform.position + (Vector3)offset;
     }
     
     public void HideEButton()

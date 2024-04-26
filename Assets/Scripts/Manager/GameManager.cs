@@ -55,7 +55,7 @@ public class GameManager
             {
                 return _otherPlayer;
             }
-            catch (MissingReferenceException e)
+            catch (Exception)
             {
                 return null;
             }
