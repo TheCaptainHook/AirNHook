@@ -39,6 +39,7 @@ public class StageManager
         //todo 0425
         obj.GetComponent<BuildObj>().position = obj.transform.position;
         //todo 0425
+
         obj.GetComponent<BuildObj>().ObjectData = data;
         obj.transform.SetParent(MapEditor.Instance.networkingObjectTransform);
         NetworkServer.Spawn(obj, NetworkServer.localConnection);

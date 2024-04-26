@@ -20,13 +20,20 @@ public class ObjectSpaceUI : MonoBehaviour
     private GameObject[] objects;
     private Sprite[] objPreviewSprites;
     [SerializeField] GameObject objectSpaceUIItem;
-    [SerializeField] Button toggleBtn;
+    //[SerializeField] Button toggleBtn;
 
-   
+    //Select space
+    [SerializeField] Button downBtn;
+    [SerializeField] Button upBtn;
+
     private void Awake()
     {
+        downBtn.onClick.AddListener(() => { ShowAndHide(); });
+        upBtn.onClick.AddListener(() => { ShowAndHide(); });
+
+
         rTransform = transform as RectTransform;
-        toggleBtn.onClick.AddListener(ShowAndHide);
+        //toggleBtn.onClick.AddListener(ShowAndHide);
         originAnchoredPosition = rTransform.anchoredPosition;
         objects = Resources.LoadAll<GameObject>(path);
         objPreviewSprites = Resources.LoadAll<Sprite>(objPreviewSpritePath);
@@ -73,10 +80,23 @@ public class ObjectSpaceUI : MonoBehaviour
 
     IEnumerator Co_ShowAndHide()
     {
+        if (upBtn.gameObject.activeSelf)
+        {
+            upBtn.gameObject.SetActive(false);
+            downBtn.gameObject.SetActive(true);
+            downBtn.interactable = false;
+        }
+        else
+        {
+            downBtn.gameObject.SetActive(false);
+            upBtn.gameObject.SetActive(true);
+        }
+
+
         RectTransform rectTransform = GetComponent<RectTransform>();
         float percent = 0;
         float num = 0;
-        toggleBtn.enabled = false;
+        //toggleBtn.enabled = false;
         if (onHide)
         {
             onHide = false;
@@ -95,7 +115,18 @@ public class ObjectSpaceUI : MonoBehaviour
             rTransform.anchoredPosition = Vector4.Lerp(rTransform.anchoredPosition, ar, percent);
             yield return null;
         }
-        toggleBtn.enabled = true;
+        //toggleBtn.enabled = true;
+
+        if (upBtn.gameObject.activeSelf)
+        {
+            upBtn.interactable = true;
+        }
+        else
+        {
+            downBtn.interactable = true;
+        }
+
+
     }
 
 }

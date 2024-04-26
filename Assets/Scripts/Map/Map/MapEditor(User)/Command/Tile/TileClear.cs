@@ -18,6 +18,7 @@ public class TileClear : MonoBehaviour
     public void ClearTile()
     {
         Debug.Log("ClearTIle");
+        Debug.Log(target);
         placeMentSystem.floorTileMap.SetTile(target, null);
 
     }

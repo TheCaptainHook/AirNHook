@@ -62,6 +62,7 @@ public class ButtonActivatedDoor : BuildBase
 
     private void LateUpdate()
     {
+        if(Managers.Game.CurrentState != GameState.Editor)
         CheckActiveRequirAmount();
     }
 
@@ -87,5 +88,13 @@ public class ButtonActivatedDoor : BuildBase
         if (activeRequirAmount == curActiveBtn) Activation();
     }
 
+    //public override void TurnOff()
+    //{
+    
+    //}
+    //public override void TurnOn()
+    //{
+    //    base.TurnOn();
+    //}
 
 }

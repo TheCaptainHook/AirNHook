@@ -15,7 +15,7 @@ public class TileDraw
     }
     public void DrawTile()
     {
-        Debug.Log("DrawTIle");
+        Debug.Log($"DrawTIle,{target}");
         TileBase tilebase = placeMentSystem.tileBase;
         placeMentSystem.floorTileMap.SetTile(target, tilebase);
     }

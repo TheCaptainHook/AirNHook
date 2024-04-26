@@ -14,7 +14,7 @@ public class LeverBody : BuildObj, IInteractable
     [SerializeField] Transform leverHeadTransform;
     public Vector2 curPosition;
     private LeverBodyNet _leverBodyNet;
-    public Vector2 offset;
+    //public Vector2 offset;
 
     public float time = 2;
     bool isRunningCoroutine;

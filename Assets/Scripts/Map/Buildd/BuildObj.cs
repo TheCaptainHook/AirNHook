@@ -20,7 +20,8 @@ public class BuildObj : MousePointerEntity,IDamageable
     [Tooltip("Transform ID to be created")]
     public int transformID;
     public Vector2 position;
-
+    [Tooltip("Use this parameter in editor mode")]
+    public Vector2 offset; // Use this parameter in editor mode.
     protected bool turnOff;
     [SerializeField] protected DistructionStatus distructionStatus;
     [Header("State")]
@@ -40,6 +41,9 @@ public class BuildObj : MousePointerEntity,IDamageable
     [Header("Only use Editor mode")]
     [HideInInspector] public bool setPosition; // When created and placed set this parameter
     [HideInInspector] public Vector2 orgPosition;
+    //todo 0426 Outline Test
+    [HideInInspector] public GameObject outlineBox;
+    //todo 0426
 
 
     public void CallOnInterableObjectRelease()
@@ -119,15 +123,27 @@ public class BuildObj : MousePointerEntity,IDamageable
     }
 
 
-    private void ChangeObjectColor(Color color)
-    {
-        SpriteRenderer[] spriteRenderers = gameObject.GetComponentsInChildren<SpriteRenderer>();
+    //public void SelectObjAndApplyOutline_EditorMode()
+    //{
+    //    //if(outlineBox != null) Destroy(outlineBox);
+    //    outlineBox = new GameObject("OutileBox");
+    //    outlineBox.transform.SetParent(transform);
 
-        foreach(SpriteRenderer sp in spriteRenderers)
-        {
-            sp.color = color;
-        }
-    }
+    //    SpriteRenderer[] spriteRenderers = transform.GetComponentsInChildren<SpriteRenderer>();
+
+    //    for (int i = 0; i < spriteRenderers.Length; i++)
+    //    {
+    //        GameObject obj = new GameObject("MeshObj");
+    //        obj.transform.SetParent(outlineBox.transform);
+    //        obj.transform.SetPositionAndRotation(transform.position, transform.rotation);
+
+    //        MeshRenderer mr = obj.AddComponent<MeshRenderer>();
+    //        MeshFilter mf = obj.AddComponent<MeshFilter>();
+
+    //        Mesh mesh = new Mesh();
+    //        spriteRenderers[i].Bake
+    //    }
+    //} 
 
 
     public void SetOrgPosition()

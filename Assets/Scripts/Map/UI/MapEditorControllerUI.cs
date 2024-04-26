@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 using System.Text.RegularExpressions;
-using Edgegap;
+using System;
 
 public class MapEditorControllerUI : MonoBehaviour
 {
@@ -50,6 +50,9 @@ public class MapEditorControllerUI : MonoBehaviour
     [SerializeField] Button rotationBtn;
     [SerializeField] Button scaleBtn;
     [SerializeField] Button clearBtn;
+    [SerializeField] Button curBtn; // Currently selected object
+   
+
 
     public Button[] tileDrawBtns;
     public Button[] objectDrawBtns;
@@ -57,6 +60,7 @@ public class MapEditorControllerUI : MonoBehaviour
 
     [SerializeField] GameObject wrongMessage;
     [SerializeField] GameObject saveCompleteMessage;
+
 
     private void Awake()//todo
     {
@@ -334,6 +338,7 @@ public class MapEditorControllerUI : MonoBehaviour
     #region Util
     private void Active_BtnChangeColor(Button btn)
     {
+        curBtn = btn;
         ColorBlock colorBlock = btn.colors;
         colorBlock.normalColor = activeColor;
         btn.colors = colorBlock;
@@ -362,8 +367,21 @@ public class MapEditorControllerUI : MonoBehaviour
     }
     private void ChangeObjectMode(Button btn)
     {
-        ObjectDrawModeBtn_Reset();
-        Active_BtnChangeColor(btn);
+        if (placeMentSystem.first_holdingObj != null) Destroy(placeMentSystem.first_holdingObj);
+
+        if (curBtn == null)
+        {
+            curBtn = btn;
+            Active_BtnChangeColor(btn);
+        }
+        else
+        {
+            Deactive_BtnChangeColor(curBtn);
+            //ObjectDrawModeBtn_Reset();
+            curBtn = btn;
+            Active_BtnChangeColor(btn);
+
+        }
     }
 
     private void OpenScaleUI()

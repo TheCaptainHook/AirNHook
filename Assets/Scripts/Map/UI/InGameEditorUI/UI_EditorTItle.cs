@@ -24,7 +24,7 @@ public class UI_EditorTItle : UI_Base
     private void Awake()
     {
         path = Path.Combine(Application.dataPath, "UserMapData");
-        Instantiate(ResourceManager.Instantiate("Prefabs/MapEditor/MapEditor"));
+        //Instantiate(ResourceManager.Instantiate("Prefabs/MapEditor/MapEditor"));
         newBtn.onClick.AddListener(() => { NewCreate(); });
         loadBtn.onClick.AddListener(OpenLoadUI);
         loadUiCloseBtn.onClick.AddListener(() => { loadContainer.SetActive(false); });

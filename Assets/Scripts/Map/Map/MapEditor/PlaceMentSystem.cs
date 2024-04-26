@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public enum ModeState
 {
@@ -100,6 +102,12 @@ public class PlaceMentSystem : MonoBehaviour
 
     [Header("Effect")]
     public ParticleSystem particleEffect_ObejctClear;
+    public GraphicRaycaster uiRaycaster;
+
+
+    //todo Test 0426 Ui Grapic raycast
+
+
 
     private void Start()
     {
@@ -109,22 +117,21 @@ public class PlaceMentSystem : MonoBehaviour
 
     private void Update()
     {
+
+        if (MapEditor.Instance.mapEditorState != MapEditorState.NoEditor)
+        {
+            GetMousePosition();
+        }
+
+
         //tile
-        if(MapEditor.Instance.mapEditorState == MapEditorState.Tile)
+        if (MapEditor.Instance.mapEditorState == MapEditorState.Tile)
         {
             TileMode();
         }else if(MapEditor.Instance.mapEditorState == MapEditorState.Object)
         {
             ObjectMode();
         }
-    }
-    private void LateUpdate()
-    {
-        if(MapEditor.Instance.mapEditorState != MapEditorState.NoEditor)
-        {
-            GetMousePosition();
-        }
-
     }
 
     #region INIT
@@ -139,6 +146,9 @@ public class PlaceMentSystem : MonoBehaviour
     {
         invoker.Undo();
     }
+
+   
+
 
 
     #region Tile
@@ -157,7 +167,7 @@ public class PlaceMentSystem : MonoBehaviour
                         UpdatePreview();
                     }
                     //Draw
-                    if (Input.GetMouseButton(0) && (curGridPosition != gridPosition) && inGridPlaneMousePosition)
+                    if (Input.GetMouseButton(0)  && inGridPlaneMousePosition)
                     {
                         curGridPosition = gridPosition;
                         tileModeClient.DrawTile();
@@ -178,7 +188,7 @@ public class PlaceMentSystem : MonoBehaviour
                     }
                     //MouseIndocator
                     //Clear
-                    if (Input.GetMouseButton(0) && (curGridPosition != gridPosition) && inGridPlaneMousePosition)
+                    if (Input.GetMouseButton(0)  && inGridPlaneMousePosition)
                     {
                         if (floorTileMap.GetTile(gridPosition) != null)
                         {
@@ -339,7 +349,9 @@ public class PlaceMentSystem : MonoBehaviour
     public void GetMousePosition()
     {
         Vector3 mousePot = Util.GetMouseWorldPosition(Input.mousePosition, _camera);
-        Collider2D collider = Physics2D.OverlapPoint(mousePot,gridPlaneLayerMask);
+        Collider2D collider = Physics2D.OverlapPoint(mousePot, gridPlaneLayerMask);
+
+
         if (collider != null)
         {
             inGridPlaneMousePosition = true;
@@ -354,14 +366,40 @@ public class PlaceMentSystem : MonoBehaviour
 
     }
 
-    private void OnDrawGizmos()
-    {   
-            mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Gizmos.color = Color.red;
-            Gizmos.DrawSphere(mousePosition, 0.1f);     
+    private void CheckUiMouseHover(Vector3 pot)
+    {
+
+        PointerEventData pointerEventData = new PointerEventData(EventSystem.current); // PointerEventData 객체 생성
+        pointerEventData.position = pot; // 마우스 위치 설정
+        List<RaycastResult> results = new List<RaycastResult>(); // Raycast 결과 저장할 리스트
+
+        uiRaycaster.Raycast(pointerEventData, results); // Raycast 수행
+
+        // Raycast 결과가 있다면...
+        if (results.Count > 0)
+        {
+            // 충돌된 UI 요소를 확인합니다.
+            GameObject clickedObject = results[0].gameObject;
+            Debug.Log("마우스가 UI 요소 " + clickedObject.name + "에 충돌했습니다!");
+        }
+        // Raycast 결과가 없다면...
+        else
+        {
+            // 마우스가 UI 요소 밖에 있습니다.
+            Debug.Log("마우스가 UI 요소 밖에 있습니다.");
+        }
+
+
     }
 
-    public void ObjectMode_Reset()
+    private void OnDrawGizmos()
+    {
+        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(mousePosition, 0.1f);
+    }
+
+    public void ObjectMode_Reset() //Indicatior,mouseHolding Object, curObj, arrow, additional Reset
     {
         if(curIndicatior != null){ Destroy(curIndicatior); }
         if(first_holdingObj != null){ Destroy(first_holdingObj); }

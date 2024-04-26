@@ -47,7 +47,6 @@ public class Move_Indicator : Indicator
     public override void OnPointerUp(PointerEventData data)
     {
         isClicking = false;
-        SpriteAlphaChange(1);
         MapEditor.Instance.placeMentSystem.CreateIndicator(ModeState.Obj_Move);
     }
 

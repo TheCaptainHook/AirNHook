@@ -19,6 +19,11 @@ public class Interaction_BuildItem : MonoBehaviour
     {
         if (MapEditor.Instance.placeMentSystem.onInteraction)
         {
+            if(MapEditor.Instance.placeMentSystem.first_holdingObj != null)
+            {
+                Destroy(MapEditor.Instance.placeMentSystem.first_holdingObj);  
+            }
+
             if (buildObj.GetComponent<BuildObj>().id == 306)
             {
                 MapEditor.Instance.placeMentSystem.onInteraction = false;
