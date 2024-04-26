@@ -6,13 +6,14 @@ public class OneWayPlatformTest : MonoBehaviour
 {
     public PlatformEffector2D platformEffector2D;
     [SerializeField] private Rigidbody2D _rb;
+    [SerializeField] private BoxCollider2D _boxCollider2D;
 
     private void FixedUpdate()
     {
-        Test();
+        OneWayPlatformSetting();
     }
 
-    public void Test()
+    public void OneWayPlatformSetting()
     {
         var upVector = Vector2.up;
         var boxUpVector = _rb.transform.up;
@@ -21,6 +22,13 @@ public class OneWayPlatformTest : MonoBehaviour
 
         platformEffector2D.rotationalOffset = -angle;
 
-        Debug.Log("_rb.transform = " + _rb.transform);
+        //오브젝트가 움직이고있는상태일때
+        if (_rb.velocity.magnitude >= 0.1f)
+        {
+            _boxCollider2D.enabled = false;
+        }
+        //오브젝트가 정지한 상태일때
+        else
+            _boxCollider2D.enabled = true;
     }
 }
