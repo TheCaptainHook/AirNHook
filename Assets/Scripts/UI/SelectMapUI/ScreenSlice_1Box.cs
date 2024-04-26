@@ -45,6 +45,8 @@ public class ScreenSlice_1Box : MonoBehaviour
             yield return null;
         }
 
+        if(Managers.Game.CurrentState == GameState.Title) { StopCoroutine(CreateSprtie(bytes)); }
+
         mapIdImage.sprite = sprite;
     }
 

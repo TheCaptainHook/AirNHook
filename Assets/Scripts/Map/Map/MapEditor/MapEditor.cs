@@ -553,7 +553,6 @@ public class MapEditor : MonoBehaviour
                         Managers.Stage.CmdBatchObject(mapDataStruct.name,data);
 
                         MapDataStruct btn = Managers.Data.mapData.mapObjectDataDictionary[306];
-                        Debug.Log("asdasdasdas");
                         foreach (Vector2 pot in data.buttonActivatePositionList)
                         {
                             Debug.Log(pot);

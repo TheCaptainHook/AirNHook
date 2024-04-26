@@ -97,9 +97,7 @@ public class ButtonActivated : BuildObj
                 if (linkDoor.buttonActivatedBtnList.Contains(curPosition))
                 {
                     linkDoor.buttonActivatedBtnList.Remove(curPosition);
-                    linkDoor.curLinkBtn--;
                 }
-                linkDoor.curLinkBtn++;
                 linkDoor.buttonActivatedBtnList.Add(pot);
                 curPosition = pot;
             }
@@ -113,17 +111,19 @@ public class ButtonActivated : BuildObj
                 {
                     //linked = true;
                     ButtonActivatedDoor linkDoor = transform.GetComponent<ButtonActivatedDoor>();
-
-                    if (linkDoor.buttonActivatedBtnList.Contains(curPosition))
+                    if(linkDoor != null)
                     {
-                        linkDoor.buttonActivatedBtnList.Remove(curPosition);
-                        linkDoor.curLinkBtn--;
+                        if (linkDoor.buttonActivatedBtnList.Contains(curPosition))
+                        {
+                            linkDoor.buttonActivatedBtnList.Remove(curPosition);
+                        }
+
+                        linkDoor.buttonActivatedBtnList.Add(pot);
+                        linkDoorList.Add(linkDoor);
+                        curPosition = pot;
                     }
 
-                    linkDoor.curLinkBtn++;
-                    linkDoor.buttonActivatedBtnList.Add(pot);
-                    linkDoorList.Add(linkDoor);
-                    curPosition = pot;
+                  
                 }
             }
         }
@@ -208,7 +208,9 @@ public class ButtonActivated : BuildObj
         // spriteRenderer.material.color = Color.green;
         foreach(ButtonActivatedDoor linkDoor in linkDoorList)
         {
+            
             linkDoor.CurActiveBtn = 1;
+            Debug.Log($"{linkDoor.curActiveBtn}");
         }
 
         _animator.SetBool(IsActivated, true);

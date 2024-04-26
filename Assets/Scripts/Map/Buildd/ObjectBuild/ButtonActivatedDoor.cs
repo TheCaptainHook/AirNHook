@@ -19,11 +19,11 @@ public class ButtonActivatedDoor : BuildBase
     #endregion
 
     [HideInInspector] public int curLinkBtn;//현재 링크된 버튼 
-    [HideInInspector] private int curActiveBtn;//현재 활성화된 버튼
+     public int curActiveBtn;//현재 활성화된 버튼 //todo 0426 
     public int activeRequirAmount;//문 활성화 조건
     public int CurActiveBtn
     {
-        set { curActiveBtn += value; Debug.Log(curLinkBtn) ;
+        set { curActiveBtn += value; Debug.Log("curActiveBtn: " + curActiveBtn) ;
             curActiveBtn = Mathf.Clamp(curActiveBtn, 0, curLinkBtn);
             if (curActiveBtn == activeRequirAmount) { if(!onOpen)Activation(); }
             else { if(onOpen)Deactivated(); }
