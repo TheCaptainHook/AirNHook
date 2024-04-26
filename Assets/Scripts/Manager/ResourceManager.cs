@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ResourceManager
 {
-    private static T Load<T>(string path) where T : UnityEngine.Object
+    public static T Load<T>(string path) where T : UnityEngine.Object
     {
         //TODO 오브젝트 풀 사용시 코드 추가.
 
