@@ -16,7 +16,7 @@ public class UI_StageInMapSelectItem : MonoBehaviour
 
     bool onActive;
 
-    bool stageClear;
+    //bool stageClear;
    
     public event Action OnSelectItem;
 
@@ -34,7 +34,7 @@ public class UI_StageInMapSelectItem : MonoBehaviour
         if (Managers.Data.loadData.playData[mapId].stageClear)
         {
             text.color = Color.green;
-            stageClear = true;
+            //stageClear = true;
         }
 
         button.onClick.AddListener(()=> { if (!onActive) { NextStage(action);} });

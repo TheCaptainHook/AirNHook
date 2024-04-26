@@ -9,7 +9,9 @@ public class MapData
     public Dictionary<int, MapDataStruct> mapTileDataDictionary = new Dictionary<int, MapDataStruct>();
     public Dictionary<int, MapDataStruct> mapObjectDataDictionary = new Dictionary<int, MapDataStruct>();
     public Dictionary<int, MapDataStruct> mapSceneDataDictionary = new Dictionary<int, MapDataStruct>();
+    public Dictionary<int, MapDataStruct> mapBackgroundDataDictionary = new Dictionary<int, MapDataStruct>();// todo 0426 Load Background Data
     public Dictionary<int, MapDataStruct> mapOtherDataDictionary = new Dictionary<int, MapDataStruct>();
+
 
     public Dictionary<string, Map> mapSceneDictionary = new Dictionary<string, Map>();
     public Dictionary<string, Map> mapMainDictionary = new Dictionary<string, Map>();
@@ -54,6 +56,11 @@ public class MapData
         foreach (var value in MapObjectData.OtherData.OtherDataList)
         {
             mapOtherDataDictionary.Add(value.id, new MapDataStruct(value.name, value.type, value.path));
+        }
+        foreach (var value in MapObjectData.BackGroundData.BackGroundDataList)
+        {
+            Debug.Log(value.id);
+            mapBackgroundDataDictionary.Add(value.id, new MapDataStruct(value.name, value.type, value.path));
         }
 
     }

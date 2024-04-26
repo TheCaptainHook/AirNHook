@@ -489,7 +489,7 @@ public class MapEditor : MonoBehaviour
     }
 
     #region Create
-    public async void CreateObj(Transform transform, int num)
+    public void CreateObj(Transform transform, int num)
     {
         switch (num)
         {
@@ -518,6 +518,13 @@ public class MapEditor : MonoBehaviour
                         }
 
                     }
+                    else if (Managers.Data.mapData.mapBackgroundDataDictionary.ContainsKey(data.id))
+                    {
+                        MapDataStruct mapDataStruct = Managers.Data.mapData.mapBackgroundDataDictionary[data.id];
+
+                        Create(transform, mapDataStruct, data);
+
+                    }
                     else if (Managers.Data.mapData.mapOtherDataDictionary.ContainsKey(data.id))
                     {
                         MapDataStruct mapDataStruct = Managers.Data.mapData.mapOtherDataDictionary[data.id];
@@ -536,8 +543,6 @@ public class MapEditor : MonoBehaviour
                         {
                             Create(transform, mapDataStruct, data);
                         }
-
-
                     }
 
                 }

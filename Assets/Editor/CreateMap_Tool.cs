@@ -10,6 +10,7 @@ public enum ModeType
     Tile,
     Object,
     Scenes,
+    BackGround,
     Other
 }
 
@@ -22,9 +23,19 @@ public class CreateMap_Tool : EditorWindow
     GameObject obj;
     //test
 
+    // 
+    /// <summary>
+    ///Load in Prefabs/MapEditor Directory. 
+    /// 1. If you have added data to the data table, you must create a list.
+    /// 2. Add ModeType
+    /// 3. When OnEnable(), data is received from the Prefabs/MapEditor path.
+    /// 4. If you need Mode Change Button, Create in DrawMode().
+    /// 5. Add GUIContent and Label in DrawObjectContent() 
+    /// </summary>
     List<GameObject> objLists;
     List<GameObject> sceneObjLists;
     List<GameObject> otherObjLists;
+    List<GameObject> backgroundObjLists;
 
     RuleTile ruleTile;
 
@@ -77,7 +88,7 @@ public class CreateMap_Tool : EditorWindow
     {
         objLists = new List<GameObject>(Resources.LoadAll<GameObject>("Prefabs/MapEditor/Object"));
         sceneObjLists = new List<GameObject>(Resources.LoadAll<GameObject>("Prefabs/MapEditor/Scenes"));
-
+        backgroundObjLists = new List<GameObject>(Resources.LoadAll<GameObject>("Prefabs/MapEditor/Background"));
         //todo 0415
         otherObjLists = new List<GameObject>(Resources.LoadAll<GameObject>("Prefabs/MapEditor/Other"));
         //todo 0415
@@ -212,21 +223,27 @@ public class CreateMap_Tool : EditorWindow
         GUILayout.BeginHorizontal(GUILayout.Width(350));
 
 
-        if (GUI.Button(new Rect(50, 5, 80, 30), "Object"))
+        if (GUI.Button(new Rect(5, 5, 80, 30), "Object"))
         {
             modeType = ModeType.Object;
 
         }
 
-        if (GUI.Button(new Rect(135, 5, 80, 30), "Scene"))
+        if (GUI.Button(new Rect(90, 5, 80, 30), "Scene"))
         {
             modeType = ModeType.Scenes;
         }
 
-        if (GUI.Button(new Rect(220, 5, 80, 30), "Other"))
+        if (GUI.Button(new Rect(175, 5, 80, 30), "BackGround"))
+        {
+            modeType = ModeType.BackGround;
+        }
+
+        if (GUI.Button(new Rect(260, 5, 80, 30), "Other"))
         {
             modeType = ModeType.Other;
         }
+
         GUILayout.EndHorizontal();
         GUILayout.EndArea();
     }
@@ -253,7 +270,15 @@ public class CreateMap_Tool : EditorWindow
                 Texture2D texture = AssetPreview.GetAssetPreview(obj);
                 contentsList.Add(new GUIContent(texture));
             }
-        }else if(modeType == ModeType.Other)
+        }else if(modeType == ModeType.BackGround)
+        {
+            foreach (GameObject obj in backgroundObjLists)
+            {
+                Texture2D texture = AssetPreview.GetAssetPreview(obj);
+                contentsList.Add(new GUIContent(texture));
+            }
+        }
+        else if (modeType == ModeType.Other)
         {
             foreach (GameObject obj in otherObjLists)
             {
@@ -284,12 +309,10 @@ public class CreateMap_Tool : EditorWindow
 
             }
 
-
-
-
             if (modeType == ModeType.Scenes) GUILayout.Label(sceneObjLists[index].name, _GUIStyle_Text);
             else if(modeType == ModeType.Object) GUILayout.Label(objLists[index].name, _GUIStyle_Text);
             else if(modeType == ModeType.Other) GUILayout.Label(otherObjLists[index].name, _GUIStyle_Text);
+            else if (modeType == ModeType.BackGround) GUILayout.Label(backgroundObjLists[index].name, _GUIStyle_Text);
 
             if (curWidth > screenWidth - 10)
             {

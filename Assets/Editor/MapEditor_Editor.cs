@@ -13,6 +13,7 @@ public class MapEditor_Editor : Editor
     public Dictionary<int, MapDataStruct> mapTileDataDictionary = new Dictionary<int, MapDataStruct>();
     public Dictionary<int, MapDataStruct> mapObjectDataDictionary = new Dictionary<int, MapDataStruct>();
     public Dictionary<int, MapDataStruct> mapSceneDataDictionary = new Dictionary<int, MapDataStruct>();
+    public Dictionary<int, MapDataStruct> mapBackgroundDataDictionary = new Dictionary<int, MapDataStruct>();
     public Dictionary<int, MapDataStruct> mapOtherDataDictionary = new Dictionary<int, MapDataStruct>();
 
     public override void OnInspectorGUI()
@@ -132,7 +133,10 @@ public class MapEditor_Editor : Editor
         //mapObjectDataDictionary.Clear();
         //mapSceneDataDictionary.Clear();
         //Tile Data
-        UnityGoogleSheet.Load<MapObjectData.TileData>();
+
+        UnityGoogleSheet.LoadAllData();
+
+        //UnityGoogleSheet.Load<MapObjectData.TileData>();
         foreach (var value in MapObjectData.TileData.TileDataList)
         {
             if (!mapTileDataDictionary.ContainsKey(value.id))
@@ -142,7 +146,7 @@ public class MapEditor_Editor : Editor
 
         }
         //Object Data
-        UnityGoogleSheet.Load<MapObjectData.ObjectData>();
+        //UnityGoogleSheet.Load<MapObjectData.ObjectData>();
         foreach (var value in MapObjectData.ObjectData.ObjectDataList)
         {
             if (!mapObjectDataDictionary.ContainsKey(value.id))
@@ -151,7 +155,7 @@ public class MapEditor_Editor : Editor
             }
 
         }
-        UnityGoogleSheet.Load<MapObjectData.SceneData>();
+        //UnityGoogleSheet.Load<MapObjectData.SceneData>();
         foreach (var value in MapObjectData.SceneData.SceneDataList)
         {
             if (!mapSceneDataDictionary.ContainsKey(value.id))
@@ -160,12 +164,20 @@ public class MapEditor_Editor : Editor
                 mapSceneDataDictionary.Add(value.id, new MapDataStruct(value.name, value.type, value.path));
             }
         }
-        UnityGoogleSheet.Load<MapObjectData.OtherData>();
+        //UnityGoogleSheet.Load<MapObjectData.OtherData>();
         foreach (var value in MapObjectData.OtherData.OtherDataList)
         {
             if (!mapOtherDataDictionary.ContainsKey(value.id))
             {
                 mapOtherDataDictionary.Add(value.id, new MapDataStruct(value.name, value.type, value.path));
+            }
+
+        }
+        foreach (var value in MapObjectData.BackGroundData.BackGroundDataList)
+        {
+            if (!mapBackgroundDataDictionary.ContainsKey(value.id))
+            {
+                mapBackgroundDataDictionary.Add(value.id, new MapDataStruct(value.name, value.type, value.path));
             }
 
         }
@@ -317,6 +329,11 @@ public class MapEditor_Editor : Editor
                     else if (mapOtherDataDictionary.ContainsKey(data.id))
                     {
                         MapDataStruct mapDataStruct = mapOtherDataDictionary[data.id];
+                        Create(transform, mapDataStruct, data);
+                    }
+                    else if (mapBackgroundDataDictionary.ContainsKey(data.id))
+                    {
+                        MapDataStruct mapDataStruct = mapBackgroundDataDictionary[data.id];
                         Create(transform, mapDataStruct, data);
                     }
                     else
