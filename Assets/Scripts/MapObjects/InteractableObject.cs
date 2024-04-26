@@ -123,6 +123,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         ChangeDestroyedState(true);
         ChangeFixedState(false);
         ChangeCanInhaleState(true);
+        if(_eButtonUI is not null)
+            HideEButton();
         _rigidbody2D.bodyType = _originType;
         if (_fixedPoint is not null && _fixedPoint.root.TryGetComponent<Hook>(out var hook))
         {
@@ -225,7 +227,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         if(_isFixed || _isDestroyed) HideEButton();
         
         _eButtonUI = Managers.UI.ShowUI<UI_ShowEButton>();
-        _eButtonUI.transform.SetParent(null);
         _eButtonUI.transform.position = transform.position + (Vector3)offset;
     }
     
