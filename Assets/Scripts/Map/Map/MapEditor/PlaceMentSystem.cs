@@ -132,6 +132,7 @@ public class PlaceMentSystem : MonoBehaviour
         {
             ObjectMode();
         }
+        //else if(MapEditor.Instance.mapEditorState == MapEditorState.Background){ BackgroundMode();} // todo 0427
     }
 
     #region INIT
@@ -344,6 +345,34 @@ public class PlaceMentSystem : MonoBehaviour
 
     }
     #endregion
+    //todo 0427
+    #region Background
+    private void BackgroundMode()
+    {
+        if(first_holdingObj != null)
+        {
+            Vector3 mousePot = Util.GetMouseWorldPosition(Input.mousePosition, _camera);
+            if (Input.GetMouseButtonDown(0))
+            {
+                //Not need when add curPlaceObjList,
+                CurbuildObject = first_holdingObj;
+                first_holdingObj = null;
+
+                objectModeClient.Create();
+
+            }
+
+            if (Input.GetMouseButton(1))
+            {
+                Destroy(first_holdingObj);
+            }
+
+        }
+    }
+    //todo 0427
+
+
+    #endregion
 
     #region util
     public void GetMousePosition()
@@ -366,31 +395,31 @@ public class PlaceMentSystem : MonoBehaviour
 
     }
 
-    private void CheckUiMouseHover(Vector3 pot)
-    {
+    //private void CheckUiMouseHover(Vector3 pot)
+    //{
 
-        PointerEventData pointerEventData = new PointerEventData(EventSystem.current); // PointerEventData 객체 생성
-        pointerEventData.position = pot; // 마우스 위치 설정
-        List<RaycastResult> results = new List<RaycastResult>(); // Raycast 결과 저장할 리스트
+    //    PointerEventData pointerEventData = new PointerEventData(EventSystem.current); // PointerEventData 객체 생성
+    //    pointerEventData.position = pot; // 마우스 위치 설정
+    //    List<RaycastResult> results = new List<RaycastResult>(); // Raycast 결과 저장할 리스트
 
-        uiRaycaster.Raycast(pointerEventData, results); // Raycast 수행
+    //    uiRaycaster.Raycast(pointerEventData, results); // Raycast 수행
 
-        // Raycast 결과가 있다면...
-        if (results.Count > 0)
-        {
-            // 충돌된 UI 요소를 확인합니다.
-            GameObject clickedObject = results[0].gameObject;
-            Debug.Log("마우스가 UI 요소 " + clickedObject.name + "에 충돌했습니다!");
-        }
-        // Raycast 결과가 없다면...
-        else
-        {
-            // 마우스가 UI 요소 밖에 있습니다.
-            Debug.Log("마우스가 UI 요소 밖에 있습니다.");
-        }
+    //    // Raycast 결과가 있다면...
+    //    if (results.Count > 0)
+    //    {
+    //        // 충돌된 UI 요소를 확인합니다.
+    //        GameObject clickedObject = results[0].gameObject;
+    //        Debug.Log("마우스가 UI 요소 " + clickedObject.name + "에 충돌했습니다!");
+    //    }
+    //    // Raycast 결과가 없다면...
+    //    else
+    //    {
+    //        // 마우스가 UI 요소 밖에 있습니다.
+    //        Debug.Log("마우스가 UI 요소 밖에 있습니다.");
+    //    }
 
 
-    }
+    //}
 
     private void OnDrawGizmos()
     {

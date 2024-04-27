@@ -5,7 +5,9 @@ using UnityEngine.UI;
 public class Interaction_BuildItem : MonoBehaviour
 {
     public GameObject buildObj;
-    public Image image;
+
+    [SerializeField] Image image;
+    //public Image image;
     Button button;
     private void Awake()
     {        
@@ -52,7 +54,6 @@ public class Interaction_BuildItem : MonoBehaviour
 
     public void Init(GameObject obj, Sprite sprite)
     {
-        image = GetComponent<Image>();
         image.sprite = sprite;
         buildObj = obj;
         

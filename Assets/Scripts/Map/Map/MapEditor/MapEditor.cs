@@ -27,7 +27,7 @@ public enum MapEditorState
     Editor,
     Tile,
     Object,
-    InteractionObject
+    Background
 }
 
 [UGS(typeof(TileType))]

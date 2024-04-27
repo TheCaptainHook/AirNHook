@@ -99,10 +99,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 6103
   transformID: 1
+  position: {x: 0, y: 0}
   offset: {x: 0, y: 0}
   distructionStatus: 0
   onPlaceable: 0
-  onRotateable: 1
+  onRotateable: 0
   onScaleable: 1
   setPosition: 0
   orgPosition: {x: 0, y: 0}
+  outlineBox: {fileID: 0}

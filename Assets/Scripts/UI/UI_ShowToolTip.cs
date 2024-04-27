@@ -77,11 +77,16 @@ public class UI_ShowToolTip : MousePointerEntity
         textObj.GetComponent<RectTransform>().sizeDelta = new Vector2(250, 30);
         textObj.transform.localPosition = new Vector3(0, 0);
 
+        rect.localScale = new Vector3(1, 1, 1);
+
         toolTipObj.SetActive(false);
     }
 
     public void SetText(string text)
     {
+        //if (toolTipObj == null) return;
+        //toolTipObj.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+
         toolTipText = text;
         this.text.text = text;
     }

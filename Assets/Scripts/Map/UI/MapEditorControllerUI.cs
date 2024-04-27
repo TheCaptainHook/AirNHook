@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 using System.Text.RegularExpressions;
-using System;
+
 
 public class MapEditorControllerUI : MonoBehaviour
 {
@@ -34,6 +34,9 @@ public class MapEditorControllerUI : MonoBehaviour
     [Header("Mode")]
     [SerializeField] Button tileMode;
     [SerializeField] Button objectMode;
+    //todo 0427
+    [SerializeField] Button backgroundMode;
+    //todo 0427
     [SerializeField] Button tileUndoBtn;
 
     [Header("Tile Draw Tool Btn")]
@@ -131,7 +134,7 @@ public class MapEditorControllerUI : MonoBehaviour
         }
        
     }
-    void ObjectMode()
+    void ObjectMode() //Click ObjectMode Btn,
     {
         if (MapEditor.Instance.gridPlane.activeSelf && placeMentSystem.onInteraction)
         {
@@ -155,8 +158,41 @@ public class MapEditorControllerUI : MonoBehaviour
         }
           
     }
-    
-    
+    //todo 0427
+    void BackgroundMode() 
+    {
+        if (MapEditor.Instance.gridPlane.activeSelf && placeMentSystem.onInteraction)
+        {
+            ModeBtn_Reset();
+
+            if(MapEditor.Instance.mapEditorState == MapEditorState.Background)
+            {
+                /// 
+                /// Create Background Space Ui
+                /// backgroundSpaceUI.SetActive(false);
+                ///
+                objectMode_BtnContainer.SetActive(false);
+                MapEditor.Instance.mapEditorState = MapEditorState.Editor;
+                placeMentSystem.CurPlacedObjTurnOn();
+                placeMentSystem.ObjectMode_Reset();
+
+            }
+            else
+            {
+                objectMode_BtnContainer.SetActive(true);
+                MapEditor.Instance.mapEditorState = MapEditorState.Background;
+                placeMentSystem.CurPlacedObjTurnOff();
+                ///
+                /// backgroundSpaceUI.SetActive(true);
+                ///
+            }
+
+
+        }
+    }
+    //todo 0427
+
+
     #region Map Size UI
     void MapSizeInit()
     {

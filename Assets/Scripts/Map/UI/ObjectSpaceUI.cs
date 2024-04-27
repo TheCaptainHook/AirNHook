@@ -16,7 +16,7 @@ public class ObjectSpaceUI : MonoBehaviour
     [Header("Info")]
     private Vector2 originAnchoredPosition;
     private string path = "Prefabs/MapEditor/Object";
-    private string objPreviewSpritePath = "Arts/Sprites/PreviewSprites";
+    private string objPreviewSpritePath = "Arts/Sprites/PreviewSprites/Object"; //todo 0427
     private GameObject[] objects;
     private Sprite[] objPreviewSprites;
     [SerializeField] GameObject objectSpaceUIItem;

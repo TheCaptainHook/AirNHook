@@ -403,16 +403,90 @@ public class CreateMap_Tool : EditorWindow
     {
         foreach(GameObject obj in objLists)
         {
-            if (!FileExists(saveSpritePath, obj.name + ".png"))
+            string path = Path.Combine(saveSpritePath, $"Object/{obj.name}.png");
+            if (!FileExists(saveSpritePath, path))
             {
                 Texture2D texture = AssetPreview.GetAssetPreview(obj);
-                byte[] bytes = texture.EncodeToPNG();
 
-                File.WriteAllBytes($"{saveSpritePath}/{obj.name}.png", bytes);
-                AssetDatabase.Refresh();
+                Texture2D transparentTexture = new Texture2D(texture.width, texture.height, TextureFormat.RGBA32, false);
+
+                Color[] pixels = texture.GetPixels();
+                Color backgroundColor = pixels[0];
+                for (int i = 0; i < pixels.Length; i++)
+                {
+                    if (pixels[i] == backgroundColor) pixels[i].a = 0; 
+                }
+
+                transparentTexture.SetPixels(pixels);
+                transparentTexture.Apply();
+
+
+                byte[] bytes = transparentTexture.EncodeToPNG();
+
+
+                File.WriteAllBytes(path, bytes);
+                
             }
             
         }
+        foreach (GameObject obj in backgroundObjLists)
+        {
+            string path = Path.Combine(saveSpritePath, $"Background/{obj.name}.png");
+            if (!FileExists(saveSpritePath, path))
+            {
+                Texture2D texture = AssetPreview.GetAssetPreview(obj);
+
+                Texture2D transparentTexture = new Texture2D(texture.width, texture.height, TextureFormat.RGBA32, false);
+                Color[] pixels = texture.GetPixels();
+
+                //Get the background color
+                Color backgroundColor = pixels[0];
+                for (int i = 0; i < pixels.Length; i++)
+                {
+                    if (pixels[i] == backgroundColor) pixels[i].a = 0; //If this pixel is exactly the background color, make it transparent
+                }
+                transparentTexture.SetPixels(pixels);
+                transparentTexture.Apply();
+
+
+                byte[] bytes = transparentTexture.EncodeToPNG();
+
+                File.WriteAllBytes(path, bytes);
+                
+            }
+
+        }
+        foreach (GameObject obj in otherObjLists)
+        {
+            string path = Path.Combine(saveSpritePath, $"Other/{obj.name}.png");
+            if (!FileExists(saveSpritePath, path))
+            {
+                Texture2D texture = AssetPreview.GetAssetPreview(obj);
+
+                Texture2D transparentTexture = new Texture2D(texture.width, texture.height, TextureFormat.RGBA32, false);
+                Color[] pixels = texture.GetPixels();
+
+                //Get the background color
+                Color backgroundColor = pixels[0];
+                for (int i = 0; i < pixels.Length; i++)
+                {
+                    if (pixels[i] == backgroundColor) pixels[i].a = 0; //If this pixel is exactly the background color, make it transparent
+                }
+                transparentTexture.SetPixels(pixels);
+                transparentTexture.Apply();
+
+
+                byte[] bytes = transparentTexture.EncodeToPNG();
+
+                File.WriteAllBytes(path, bytes);
+                
+            }
+
+        }
+
+
+        AssetDatabase.Refresh();
+
 
     }
 
