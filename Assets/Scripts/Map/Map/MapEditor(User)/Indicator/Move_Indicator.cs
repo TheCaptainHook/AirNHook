@@ -2,14 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Move_Indicator : Indicator
 {
 
+    private Vector3 beforePosition;
+
+    [SerializeField] Button btn;
+    CanvasGroup canvasGroup;
     private void Awake()
     {
-        spriteRenderers = transform.GetComponentsInChildren<SpriteRenderer>();
-        orgColor = spriteRenderers[0].color;
+        canvasGroup = GetComponent<CanvasGroup>();
+
     }
 
     private void Update()
@@ -22,6 +27,12 @@ public class Move_Indicator : Indicator
         }
         else
         {
+            //if (onEnterPointer)
+            //{
+            //    Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //    mousePosition = new Vector3(mousePosition.x, mousePosition.y, 0);
+            //    transform.position = mousePosition;
+            //}
             if (transform.position != curLinkObj.transform.position)
             {
                 transform.position = curLinkObj.transform.position;
@@ -29,6 +40,9 @@ public class Move_Indicator : Indicator
 
             if (isClicking && MapEditor.Instance.placeMentSystem.CheckMousePosition_InGridBoundary())
             {
+                //Vector3 addPot = curLinkObj.transform.position + (transform.position - beforePosition);
+                //Debug.Log($"{MapEditor.Instance.placeMentSystem.CurbuildObject.transform.position},{MapEditor.Instance.placeMentSystem.CurIndicatior.transform.position}");
+
                 curLinkObj.transform.position = MapEditor.Instance.placeMentSystem.mousePosition;
             }
         }
@@ -36,11 +50,40 @@ public class Move_Indicator : Indicator
         
     }
 
+    //public override void Active()
+    //{
+    //    onEnterPointer = true;
+    //}
+
+    //public override void Execute()
+    //{
+    //    beforePosition = transform.position;
+    //    isClicking = true;
+    //    SpriteAlphaChange(0);
+    //    MapEditor.Instance.placeMentSystem.objectModeClient.Move();
+    //}
+
+    //public override void DeActive()
+    //{
+    //    onEnterPointer = false;
+    //    isClicking = false;
+    //    MapEditor.Instance.placeMentSystem.CreateIndicator(ModeState.Obj_Move);
+    //}
+    //public override void Cancel()
+    //{
+    //    //todo 0427
+    //    isClicking = false;
+    //    //MapEditor.Instance.placeMentSystem.CreateIndicator(ModeState.Obj_Move);
+    //}
 
     public override void OnPointerDown(PointerEventData data)
     {
+        //todo 0427
+        beforePosition = transform.position;
+        Debug.Log(beforePosition);
         isClicking = true;
-        SpriteAlphaChange(0);
+        //SpriteAlphaChange(0);
+        canvasGroup.alpha = 0.5f;
         MapEditor.Instance.placeMentSystem.objectModeClient.Move();
     }
 

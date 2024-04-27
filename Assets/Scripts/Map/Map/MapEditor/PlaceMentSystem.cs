@@ -508,12 +508,20 @@ public class PlaceMentSystem : MonoBehaviour
             switch (modeState)
             {
                 case ModeState.Obj_Move:
+                    //this.modeState = modeState;
+                    //GameObject indicator = Instantiate(ObjMove_Indicator);
+                    //CurIndicatior = indicator;
+                    ////indicator.transform.SetParent(CurbuildObject.transform);
+                    //indicator.transform.position = CurbuildObject.transform.position;
+                    //indicator.GetComponent<Move_Indicator>().SetLinkObj(CurbuildObject);
+                    //todo 0427
                     this.modeState = modeState;
                     GameObject indicator = Instantiate(ObjMove_Indicator);
                     CurIndicatior = indicator;
                     //indicator.transform.SetParent(CurbuildObject.transform);
-                    indicator.transform.position = CurbuildObject.transform.position;
+                    indicator.transform.position = CurbuildObject.transform.position + (Vector3)CurbuildObject.GetComponent<BuildObj>().offset;
                     indicator.GetComponent<Move_Indicator>().SetLinkObj(CurbuildObject);
+                    //todo 0427
                     break;
                 case ModeState.Obj_Rotation:
                     this.modeState = modeState;

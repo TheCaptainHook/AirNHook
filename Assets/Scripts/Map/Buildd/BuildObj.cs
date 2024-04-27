@@ -42,9 +42,10 @@ public class BuildObj : MousePointerEntity,IDamageable
     [HideInInspector] public bool setPosition; // When created and placed set this parameter
     [HideInInspector] public Vector2 orgPosition;
     //todo 0426 Outline Test
-    [HideInInspector] public GameObject outlineBox;
+    //[HideInInspector] public GameObject outlineBox;
     //todo 0426
-
+    [Header("Indicator")]
+    private bool onEnterPointer;
 
     public void CallOnInterableObjectRelease()
     {
@@ -107,6 +108,7 @@ public class BuildObj : MousePointerEntity,IDamageable
 
     public override void OnPointerClick(PointerEventData data)
     {
+        if (!MapEditor.Instance) return;
         if(MapEditor.Instance.mapEditorState == MapEditorState.Object)
         {
             if(MapEditor.Instance.placeMentSystem.CurbuildObject != data.pointerCurrentRaycast.gameObject)
@@ -118,10 +120,11 @@ public class BuildObj : MousePointerEntity,IDamageable
                 }
                 
             }
-           
         }
     }
-
+    //todo 0427
+  
+    //todo 0427
 
     //public void SelectObjAndApplyOutline_EditorMode()
     //{

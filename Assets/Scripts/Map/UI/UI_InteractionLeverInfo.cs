@@ -95,7 +95,7 @@ public class UI_InteractionLeverInfo : UI_Base
 
                 }
 
-                CloseUI();
+                Destroy(gameObject);
             }
         }
 
@@ -121,7 +121,7 @@ public class UI_InteractionLeverInfo : UI_Base
         }
         else
         {
-            base.CloseUI();
+            Destroy(gameObject);
         }
 
     }

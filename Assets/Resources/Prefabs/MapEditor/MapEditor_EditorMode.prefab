@@ -3532,6 +3532,7 @@ MonoBehaviour:
   onOffBtn: {fileID: 4383066607556661840}
   tileMode: {fileID: 7931555411932951852}
   objectMode: {fileID: 8350807783336063963}
+  backgroundMode: {fileID: 0}
   tileUndoBtn: {fileID: 154066163025246783}
   tileMode_BtnContainer: {fileID: 6064896380589538936}
   tileBtn: {fileID: 7703910103386041142}
@@ -12525,10 +12526,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1073741824
   gridPosition: {x: 0, y: 0, z: 0}
+  mousePosition: {x: 0, y: 0, z: 0}
   curObj_ArrowIndicator: {fileID: 2872121356252122018, guid: 2282e6f19511b49af8c213f4a8a07ec1, type: 3}
-  ObjMove_Indicator: {fileID: 1488624840834684537, guid: fd8ca4c5bf88f4f6aa02362fe03f4428, type: 3}
-  ObjRotation_Indicator: {fileID: 2865012881642155670, guid: 5d1da2d5035a32245ab0699fa97f14fd, type: 3}
-  Additional_Indicator: {fileID: 5835909523918060946, guid: 80f03ca9d1f3a485691c10adae6a3421, type: 3}
+  ObjMove_Indicator: {fileID: 7381217255914110057, guid: 78d9c6f3d14814b029c56c1774140cbd, type: 3}
+  ObjRotation_Indicator: {fileID: 8450754777560855788, guid: 4c6903448f7dd490c817a6f29f700a67, type: 3}
+  Additional_Indicator: {fileID: 7616534852178341679, guid: 16d42f4867a9d4218acc9c11ebe13460, type: 3}
   curPlaceObjList: []
   onInteraction: 0
   particleEffect_ObejctClear: {fileID: 3227819516972740975, guid: 903c4da8d5cc14612a67745948be1e00, type: 3}

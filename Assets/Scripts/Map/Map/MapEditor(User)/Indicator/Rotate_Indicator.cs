@@ -8,10 +8,10 @@ public class Rotate_Indicator : Indicator
     Vector3 target;
     Vector3 startPoint;
 
+    CanvasGroup canvasGroup;
     private void Awake()
     {
-        spriteRenderers = transform.GetComponentsInChildren<SpriteRenderer>();
-        orgColor = spriteRenderers[0].color;
+        canvasGroup = GetComponent<CanvasGroup>();
     }
 
     private void Update()
@@ -44,7 +44,7 @@ public class Rotate_Indicator : Indicator
     {
         startPoint = target;
         isClicking = true;
-        SpriteAlphaChange(0);
+        canvasGroup.alpha = 0.5f;
         MapEditor.Instance.placeMentSystem.objectModeClient.Rotaion();
     }
 

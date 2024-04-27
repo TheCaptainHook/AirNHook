@@ -23,14 +23,16 @@ public class Additional_Indicator : Indicator
         }
         else
         {
-            transform.position = curLinkObj.transform.position;
+            transform.position = curLinkObj.transform.position + new Vector3(2,1);
         }
   
     }
 
     public override void OnPointerClick(PointerEventData data)
     {
+        SetLinkObj(curLinkObj);
         ui.GetComponent<UI_Base>().SetCurObject(curLinkObj);
+        ui.transform.position = transform.position;
         ui.GetComponent<UI_Base>().OnEnable();
     }
 
@@ -39,19 +41,19 @@ public class Additional_Indicator : Indicator
         base.SetLinkObj(obj);
         if(obj.GetComponent<BuildObj>().id == 305)
         {
-            ui = ResourceManager.Instantiate("Prefabs/UI/UI_InteractionDoorInfo", mainT);
+            ui = ResourceManager.Instantiate("Prefabs/UI/UI_InteractionDoorInfo");
             ui.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
             ui.transform.rotation = Quaternion.identity;
             ui.SetActive(false);
         }else if(obj.GetComponent<BuildObj>().id == 306)
         {
-            ui = ResourceManager.Instantiate("Prefabs/UI/UI_InteractionInfo", mainT);
+            ui = ResourceManager.Instantiate("Prefabs/UI/UI_InteractionInfo");
             ui.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
             ui.transform.rotation = Quaternion.identity;
             ui.SetActive(false);
         }else if(obj.GetComponent<BuildObj>().id == 312)
         {
-            ui = ResourceManager.Instantiate("Prefabs/UI/UI_InteractionLeverInfo", mainT);
+            ui = ResourceManager.Instantiate("Prefabs/UI/UI_InteractionLeverInfo");
             ui.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
             ui.transform.rotation = Quaternion.identity;
             ui.SetActive(false);

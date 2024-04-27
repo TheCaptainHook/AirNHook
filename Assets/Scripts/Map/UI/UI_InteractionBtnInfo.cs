@@ -98,7 +98,7 @@ public class UI_InteractionBtnInfo : UI_Base
 
                 }
 
-                CloseUI();
+                Destroy(gameObject);
             }
         }
         
@@ -126,7 +126,7 @@ public class UI_InteractionBtnInfo : UI_Base
         }
         else
         {
-            base.CloseUI();
+            Destroy(gameObject);
         }
         
     }

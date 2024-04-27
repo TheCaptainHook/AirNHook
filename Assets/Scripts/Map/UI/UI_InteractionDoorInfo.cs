@@ -55,7 +55,7 @@ public class UI_InteractionDoorInfo : UI_Base
 
         for (int i = 0; i < bAD.buttonActivatedBtnList.Count; i++)
         {
-            btnOptions.Add(new TMP_Dropdown.OptionData($"{i}.Position :[{bAD.buttonActivatedBtnList[i].x},{bAD.buttonActivatedBtnList[i].y}"));
+            btnOptions.Add(new TMP_Dropdown.OptionData($"{i}.Btn :[{bAD.buttonActivatedBtnList[i].x},{bAD.buttonActivatedBtnList[i].y}"));
         }
         linkedBtn_Dropdown.options = btnOptions;
         linkedBtn_Dropdown.RefreshShownValue();
@@ -63,7 +63,7 @@ public class UI_InteractionDoorInfo : UI_Base
 
         for (int i = 0; i < bAD.leverBodyPotiionList.Count; i++)
         {
-            leverOptions.Add(new TMP_Dropdown.OptionData($"{i}.Position :[{bAD.leverBodyPotiionList[i].x},{bAD.leverBodyPotiionList[i].y}"));
+            leverOptions.Add(new TMP_Dropdown.OptionData($"{i}.Lever :[{bAD.leverBodyPotiionList[i].x},{bAD.leverBodyPotiionList[i].y}"));
         }
         linkedLever_Dropdown.options = leverOptions;
         linkedLever_Dropdown.RefreshShownValue();
@@ -167,13 +167,13 @@ public class UI_InteractionDoorInfo : UI_Base
         MapEditor.Instance.placeMentSystem.onInteraction = true;
         curObject.GetComponent<ButtonActivatedDoor>().linkId = int.Parse(idInputField.text);
         curObject.GetComponent<ButtonActivatedDoor>().activeRequirAmount = int.Parse(conditionInputField.text);
-        CloseUI();
+        Destroy(gameObject);
     }
 
 
     protected override void CloseUI()
     {
         MapEditor.Instance.placeMentSystem.onInteraction = true;
-        base.CloseUI();
+        Destroy(gameObject);
     }
 }

@@ -10,7 +10,7 @@ public class Indicator : MousePointerEntity
     public bool isClicking;
     public Vector3 mousePosition;
     public bool linked;
-    private bool onEnterPointer;
+    public bool onEnterPointer;
 
     protected Color orgColor;
     protected SpriteRenderer[] spriteRenderers;
@@ -42,5 +42,20 @@ public class Indicator : MousePointerEntity
 
 
     }
+    public virtual void Active()
+    {
+        Debug.Log("Active");
+    }
 
+
+    public virtual void Execute()
+    {
+        Debug.Log("Execute");
+    }
+
+
+    public virtual void DeActive()
+    {
+        Debug.Log("Cancel");
+    }
 }
