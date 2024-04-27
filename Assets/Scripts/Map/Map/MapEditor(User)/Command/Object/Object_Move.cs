@@ -17,7 +17,7 @@ public class Object_Move
 
     public void Move()
     {
-        beforePosition = placeMentSystem.gridPosition;
+        beforePosition = placeMentSystem.mousePosition;
         curBuildObj.GetComponent<BuildObj>().SetOrgPosition();
         Debug.Log("Move");
     }

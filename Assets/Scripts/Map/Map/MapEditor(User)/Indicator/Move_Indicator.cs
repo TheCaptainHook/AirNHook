@@ -27,9 +27,9 @@ public class Move_Indicator : Indicator
                 transform.position = curLinkObj.transform.position;
             }
 
-            if (isClicking)
+            if (isClicking && MapEditor.Instance.placeMentSystem.CheckMousePosition_InGridBoundary())
             {
-                curLinkObj.transform.position = MapEditor.Instance.placeMentSystem.gridPosition;
+                curLinkObj.transform.position = MapEditor.Instance.placeMentSystem.mousePosition;
             }
         }
 
@@ -49,5 +49,7 @@ public class Move_Indicator : Indicator
         isClicking = false;
         MapEditor.Instance.placeMentSystem.CreateIndicator(ModeState.Obj_Move);
     }
+
+
 
 }

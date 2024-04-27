@@ -57,6 +57,10 @@ public class UI_ShowToolTip : MousePointerEntity
         RectTransform rect = toolTipObj.GetComponent<RectTransform>();
         rect.sizeDelta = new Vector2(130, 10);
 
+        toolTipObj.AddComponent<Canvas>();
+        Canvas canvas = toolTipObj.GetComponent<Canvas>();
+        canvas.overrideSorting = true;
+
         //bg
         backGround.AddComponent<Image>().color = Color.gray;
         //text

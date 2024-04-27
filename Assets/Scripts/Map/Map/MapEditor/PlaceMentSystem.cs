@@ -80,13 +80,16 @@ public class PlaceMentSystem : MonoBehaviour
     [Header("Mouse")]
     bool inGridPlaneMousePosition;
     public LayerMask gridPlaneLayerMask;
+
     public Vector3Int gridPosition;
+    public Vector3 mousePosition;
+
     private Vector3Int curGridPosition;
 
     private Vector3Int curPosition;
     private Vector3Int lastPosition;
 
-    private Vector3 mousePosition;
+    
 
     [Header("Indicator")]
     [SerializeField] GameObject curObj_ArrowIndicator;
@@ -118,18 +121,22 @@ public class PlaceMentSystem : MonoBehaviour
     private void Update()
     {
 
-        if (MapEditor.Instance.mapEditorState != MapEditorState.NoEditor)
-        {
-            GetMousePosition();
-        }
+        //if (MapEditor.Instance.mapEditorState != MapEditorState.NoEditor)
+        //{
+            
+            
+        //}
 
 
         //tile
         if (MapEditor.Instance.mapEditorState == MapEditorState.Tile)
         {
+            GetMousePosition();
             TileMode();
         }else if(MapEditor.Instance.mapEditorState == MapEditorState.Object)
         {
+            mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePosition = new Vector3(mousePosition.x, mousePosition.y, 0);
             ObjectMode();
         }
         //else if(MapEditor.Instance.mapEditorState == MapEditorState.Background){ BackgroundMode();} // todo 0427
@@ -325,7 +332,8 @@ public class PlaceMentSystem : MonoBehaviour
         if (first_holdingObj != null)
         {
             //first_holdingObj.transform.position = new Vector3(mousePosition.x, mousePosition.y, 0);
-            first_holdingObj.transform.position = gridPosition;
+            //first_holdingObj.transform.position = gridPosition;
+            first_holdingObj.transform.position = mousePosition;
             if (Input.GetMouseButtonDown(0) && CheckMousePosition_InGridBoundary())
             {
                 curPlaceObjList.Add(first_holdingObj.GetComponent<BuildObj>());
@@ -423,7 +431,7 @@ public class PlaceMentSystem : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(mousePosition, 0.1f);
     }
