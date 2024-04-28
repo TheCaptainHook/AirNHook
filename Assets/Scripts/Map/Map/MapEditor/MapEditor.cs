@@ -556,7 +556,7 @@ public class MapEditor : MonoBehaviour
                     if(Managers.Game.CurrentState != GameState.Editor)
                     {
                         //Managers.Stage.CmdBatchObject(mapDataStruct.name,data);
-                        Managers.Command.SendButtonDoorData(data);
+                        Managers.Network.SendButtonDoorData(data);
 
                         MapDataStruct btn = Managers.Data.mapData.mapObjectDataDictionary[306];
                         foreach (Vector2 pot in data.buttonActivatePositionList)
