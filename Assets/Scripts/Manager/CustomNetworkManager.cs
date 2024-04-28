@@ -36,9 +36,6 @@ public class CustomNetworkManager : NetworkManager
     public override void OnStartClient()
     {
         base.OnStartClient();
-        
-        var obj = ResourceManager.Instantiate("Prefabs/NetworkCommand/NetworkCommand");
-        NetworkServer.Spawn(obj);
     }
 
     private void OnCreateCharacter(NetworkConnectionToClient conn, CreateCustomCharacterMessage message)
@@ -143,6 +140,9 @@ public class CustomNetworkManager : NetworkManager
     {
         base.OnServerSceneChanged(sceneName);
 
+        var obj = ResourceManager.Instantiate("Prefabs/NetworkCommand/NetworkCommand");
+        NetworkServer.Spawn(obj);
+        
         Managers.Game.CurrentState = GameState.Lobby;
         Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/MapEditor"));
         Managers.Stage.LoadMap();
@@ -187,7 +187,7 @@ public class CustomNetworkManager : NetworkManager
     public override void OnClientSceneChanged()
     {
         base.OnClientSceneChanged();
-
+        
         if (NetworkServer.active && NetworkClient.isConnected) return;
         
         Managers.Game.CurrentState = GameState.Lobby;
