@@ -33,6 +33,14 @@ public class CustomNetworkManager : NetworkManager
         NetworkServer.RegisterHandler<CreateCustomCharacterMessage>(OnCreateCharacter);
     }
 
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        
+        var obj = ResourceManager.Instantiate("Prefabs/NetworkCommand/NetworkCommand");
+        NetworkServer.Spawn(obj);
+    }
+
     private void OnCreateCharacter(NetworkConnectionToClient conn, CreateCustomCharacterMessage message)
     {
         GameObject playerObj;
@@ -138,7 +146,8 @@ public class CustomNetworkManager : NetworkManager
         Managers.Game.CurrentState = GameState.Lobby;
         Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/MapEditor"));
         Managers.Stage.LoadMap();
-
+        
+        Managers.UI.InitializeUI();
         var characterMessage = new CreateCustomCharacterMessage()
         {
             type = Managers.Game.playerCharacterType
@@ -185,6 +194,7 @@ public class CustomNetworkManager : NetworkManager
         Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/MapEditor"));
         Managers.Stage.LoadMap();
         
+        Managers.UI.InitializeUI();
         // 캐릭터 생성
         var characterMessage = new CreateCustomCharacterMessage()
         {

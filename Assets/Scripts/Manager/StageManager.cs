@@ -52,7 +52,7 @@ public class StageManager
 
         var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
         obj.transform.position = data.position;
-        obj.GetComponent<ExitPointObj>().SetData(data);
+        //obj.GetComponent<ExitPointObj>().SetData(data);
         obj.transform.SetParent(MapEditor.Instance.exitDoorObjectTransform);
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
 

@@ -21,13 +21,13 @@ public class SoundManager
     public AudioMixer audioMixer { get; private set; }
     private Dictionary<AudioType, AudioClip> _audioClipDict = new();
     private Queue<AudioSource> _deactivatedAudioSources = new();
-    private List<AudioSource> _activatedAudioSource = new();
     private AudioSource _bgmAudioSource;
     
     private WaitForSeconds _waitForSeconds = new(1f);
     private Dictionary<string, AudioMixerGroup> _audioMixerGroups = new();
     private const string AUDIO_SOURCE_PATH = "Prefabs/Sound/AudioSource";
 
+    #region SetUpMethod
     public void SetUp()
     {
         AudioMixSetUp();
@@ -55,7 +55,7 @@ public class SoundManager
     
     private void AudioClipSetUp()
     {
-        // audioClip save
+        // audioClip save form scriptable object
         var audioClipSO = ResourceManager.Load<AudioClipSO>("Audio/ScriptableObject/AudioClipSO");
         foreach (var audioClipData in audioClipSO.audioList)
             _audioClipDict.Add(audioClipData.audioType, audioClipData.audioClip);
@@ -71,15 +71,9 @@ public class SoundManager
             _deactivatedAudioSources.Enqueue(audioSource);
         }
     }
+    #endregion
 
-    private void GetAudioSource(out AudioSource audioSource)
-    {
-        if (_deactivatedAudioSources.TryDequeue(out audioSource)) return;
-        
-        AddAudioSources(5);
-        audioSource = _deactivatedAudioSources.Dequeue();
-    }
-    
+    #region PlaySoundMethod
     /// <summary>
     /// 사운드 재생. 배경음악은 PlayBgm()으로 실행할 것.
     /// </summary>
@@ -90,7 +84,6 @@ public class SoundManager
     public void PlaySound(AudioType audioType, AudioMixerGroupType audioMixerGroupType, bool isLoop = false, float volume = 1f)
     {
         GetAudioSource(out var audioSource);
-        _activatedAudioSource.Add(audioSource);
         
         PlayAudioClip(audioSource, audioType, audioMixerGroupType, isLoop, volume);
     }
@@ -114,7 +107,16 @@ public class SoundManager
         
         PlayAudioClip(audioSource, audioType, audioMixerGroupType, isLoop, volume);
     }
+    
+    private void GetAudioSource(out AudioSource audioSource)
+    {
+        if (_deactivatedAudioSources.TryDequeue(out audioSource)) return;
+        
+        AddAudioSources(5);
+        audioSource = _deactivatedAudioSources.Dequeue();
+    }
 
+    // 오디오 클립 재생. 윗쪽 Method에서 호출함.
     private void PlayAudioClip(AudioSource audioSource, AudioType audioType, AudioMixerGroupType audioMixerGroupType, bool isLoop, float volume)
     {
         var audioClip = _audioClipDict[audioType];
@@ -127,7 +129,10 @@ public class SoundManager
         if(!isLoop)
             Managers.Instance.StartCoroutine(CollectSoundSource(audioSource, audioClip.length));
     }
-    
+    #endregion
+
+    #region MemoryManage
+    // sound source collector
     private IEnumerator CollectSoundSource(AudioSource audioSource, float clipLength)
     {
         var time = 0f;
@@ -137,8 +142,8 @@ public class SoundManager
             time += 1f;
         }
 
-        _activatedAudioSource.Remove(audioSource);
         audioSource.gameObject.SetActive(false);
         _deactivatedAudioSources.Enqueue(audioSource);
     }
+    #endregion
 }
