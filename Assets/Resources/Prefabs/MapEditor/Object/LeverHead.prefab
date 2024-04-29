@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: -3856991798806897737}
   - component: {fileID: 6689581616457775299}
   - component: {fileID: 5611207507894210805}
+  - component: {fileID: 2884958338721759735}
   m_Layer: 18
   m_Name: LeverHead
   m_TagString: Untagged
@@ -281,3 +282,15 @@ MonoBehaviour:
     m_Bits: 1024
   _inhalePower: 600
   offset: {x: 0, y: 1.4}
+--- !u!210 &2884958338721759735
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7773345652000642256}
+  m_Enabled: 1
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
+  m_SortingOrder: 5
+  m_SortAtRoot: 0
