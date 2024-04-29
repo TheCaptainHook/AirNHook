@@ -1,6 +1,7 @@
 using System.Collections;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 {
@@ -16,10 +17,14 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     [SyncVar] private bool _canInhale;
     [SyncVar] private bool _isDestroyed;
     [field: SerializeField] private float _inhalePower = 20f;
+    private SortingGroup _sortingGroup;
+    private int _originSortingLayerID;
 
     private UI_Base _eButtonUI;
     public Vector2 offset;
 
+    private const string GrabObj = "GrabObj";
+    
     private void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -27,6 +32,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _originRot = _rigidbody2D.constraints;
         _releaseLayerMask = _rigidbody2D.excludeLayers;
         _fixedPoint = null;
+        _sortingGroup = GetComponent<SortingGroup>();
+        _originSortingLayerID = _sortingGroup.sortingLayerID;
     }
 
     private void Start()
@@ -102,6 +109,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         transform.rotation = Quaternion.identity;
         CmdSetExcludeLayer(grabLayerMask);
         _rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
+        _sortingGroup.sortingLayerName = GrabObj;
     }
 
     public virtual void Release()
@@ -113,6 +121,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _fixedPoint = null;
         CmdSetExcludeLayer(_releaseLayerMask);
         _rigidbody2D.constraints = _originRot;
+        _sortingGroup.sortingLayerID = _originSortingLayerID;
     }
 
     public void Destroyed()
