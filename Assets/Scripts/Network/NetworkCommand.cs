@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 using Mirror;
 using UnityEngine;
 
@@ -11,41 +11,111 @@ public class NetworkCommand : NetworkBehaviour
     }
     #endregion
 
-    // NOTE Command 이거 왜 static으론 안됨...? 화나네...
+    #region StageChange
     [Command(requiresAuthority = false)]
-    public void CmdCheck()
+    public void ChangeStage(string value)
     {
-        
+        RpcChangeStage(value);
     }
 
-    #region Object
-    [Server]
-    public void BatchObject(string objName, ButtonActivatedDoorStruct data)
-    {
-        var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
-        NetworkServer.Spawn(obj, NetworkServer.localConnection);
-
-        CmdButtonDataSync(obj, data.id, data.linkId, data.activeRequirAmount, data.position,
-            data.buttonActivatePositionList, data.leverPositionList, data.quaternion, data.scale);
-    }
-    
-    /// <summary> Send Button Door Data </summary>
-    [Command(requiresAuthority = false)]
-    private void CmdButtonDataSync(GameObject obj, int id, int linkId, int activeRequireAmount, Vector2 position, List<Vector2> buttonActivatePositionList, List<Vector2> leverPositionList, Quaternion quaternion, Vector3 scale)
-    {
-        RpcButtonDataSync(obj, id, linkId, activeRequireAmount, position, buttonActivatePositionList, leverPositionList, quaternion, scale);
-    }
-    
-    /// <summary> Receive and SetUp Button Door Data </summary>
     [ClientRpc]
-    private void RpcButtonDataSync(GameObject obj, int id, int linkId, int activeRequireAmount, Vector2 position, List<Vector2> buttonActivatePositionList, List<Vector2> leverPositionList, Quaternion quaternion, Vector3 scale)
+    private void RpcChangeStage(string value)
     {
-        var data = new ButtonActivatedDoorStruct(id, linkId, activeRequireAmount, position, buttonActivatePositionList, leverPositionList, quaternion, scale);
+        Managers.Stage.stageName = value;
+        if (value.Equals("Lobby"))
+        {
+            Managers.Game.CurrentState = GameState.Lobby;
+            MapEditor.Instance.MoveNextStage(value);
+        }
+        else
+        {
+            Managers.Game.CurrentState = GameState.Game;
+            MapEditor.Instance.MoveNextStage(value);
+        }
+    }
+    #endregion
+
+    #region StageDataCheck
+    public Action<string, bool> stageCheckCallback;
+
+    [Command(requiresAuthority = false)]
+    public void StageDataCheck(string value)
+    {
+        RpcStageDataCheck(value);
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcStageDataCheck(string value)
+    {
+        var isMapExist = Managers.Data.mapData.mapAllDictionary.ContainsKey(value);
+        CmdStageDataChecked(value, isMapExist);
         
-        var door = obj.GetComponent<ButtonActivatedDoor>();
-        door.ButtonActivatedDoorStruct = data;
-        door.CheckActiveRequirAmount();
-        obj.transform.SetParent(MapEditor.Instance.interactionObjectTransform);
+        if (!isMapExist) return;
+        var stageUI = (UI_StageSelect)Managers.UI.GetUI<UI_StageSelect>();
+        stageUI.MapSelected(value, true);
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdStageDataChecked(string mapID, bool value)
+    {
+        stageCheckCallback?.Invoke(mapID, value);
+    }
+    #endregion
+
+    #region TryGrabItem
+    public Action<NetworkIdentity, bool> itemGrabCallback;
+    public Action<NetworkIdentity> itemReleaseCallback;
+    
+    [Command(requiresAuthority = false)]
+    public void TryGrabItem(GameObject target, uint itemNetId)
+    {
+        if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
+
+        var conn = target.GetComponent<NetworkIdentity>().connectionToClient;
+        
+        if (!item.TryGetComponent<IInteractable>(out var interactable) || (interactable is not null && !interactable.CanInteract()))
+        {
+            GrabItem(conn, itemNetId, false);
+            return;
+        }
+        
+        interactable.Fixed(true);
+        if (!NetworkServer.localConnection.Equals(conn) || !item.isOwned)
+        {
+            item.RemoveClientAuthority();
+            item.AssignClientAuthority(conn);
+        }
+        
+        GrabItem(conn, itemNetId, true);
+    }
+
+    [TargetRpc]
+    private void GrabItem(NetworkConnectionToClient conn, uint itemNetId, bool value)
+    {
+        if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
+        
+        itemGrabCallback?.Invoke(item, value);
+    }
+
+    [Command(requiresAuthority = false)]
+    public void TryReleaseItem(NetworkConnectionToClient conn, NetworkIdentity item)
+    {
+        if (!item.isOwned)
+        {
+            item.RemoveClientAuthority();
+            item.AssignClientAuthority(NetworkServer.localConnection);
+        }
+        
+        if(!item.TryGetComponent<IInteractable>(out var interactable)) return;
+        
+        interactable.Fixed(false);
+        ReleaseItem(conn, item);
+    }
+
+    [TargetRpc]
+    private void ReleaseItem(NetworkConnectionToClient conn, NetworkIdentity item)
+    {
+        itemReleaseCallback?.Invoke(item);
     }
     #endregion
 }

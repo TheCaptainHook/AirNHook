@@ -91,7 +91,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     public void Fixed(bool value)
     {
         _isFixed = value;
-        ChangeFixedState(value);
     }
 
     public ObjectTypeEnum GetObjectType()

@@ -40,7 +40,7 @@ public class Player : NetworkBehaviour, IDamageable
         _sortingGroup = GetComponent<SortingGroup>();
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         if (!isLocalPlayer)
         {
@@ -55,61 +55,12 @@ public class Player : NetworkBehaviour, IDamageable
         _sortingGroup.sortingLayerID = SortingLayer.NameToID("PlayerFore");
     }
 
-    public void OnDisable()
+    protected virtual void OnDisable()
     {
         _input.uiActions.Option.started -= OptionStart;
         _input.playerActions.Emote.started -= EmoteStart;
         _input.playerActions.Interaction.started -= InteractionStart;
     }
-
-    #region ExternalCommandSync
-    [Command(requiresAuthority = false)]
-    public void CmdChangeStage(string value)
-    {
-        RpcChangeStage(value);
-    }
-
-    [ClientRpc]
-    private void RpcChangeStage(string value)
-    {
-        Managers.Stage.stageName = value;
-        if (value.Equals("Lobby"))
-        {
-            Managers.Game.CurrentState = GameState.Lobby;
-            MapEditor.Instance.MoveNextStage(value);
-        }
-        else
-        {
-            Managers.Game.CurrentState = GameState.Game;
-            MapEditor.Instance.MoveNextStage(value);
-        }
-    }
-
-    public Action<string, bool> stageCheckCallback;
-
-    [Command(requiresAuthority = false)]
-    public void CmdStageDataCheck(string value)
-    {
-        RpcStageDataCheck(value);
-    }
-
-    [ClientRpc(includeOwner = false)]
-    private void RpcStageDataCheck(string value)
-    {
-        var isMapExist = Managers.Data.mapData.mapAllDictionary.ContainsKey(value);
-        CmdStageDataChecked(value, isMapExist);
-        
-        if (!isMapExist) return;
-        var stageUI = (UI_StageSelect)Managers.UI.GetUI<UI_StageSelect>();
-        stageUI.MapSelected(value, true);
-    }
-
-    [Command(requiresAuthority = false)]
-    private void CmdStageDataChecked(string mapID, bool value)
-    {
-        stageCheckCallback?.Invoke(mapID, value);
-    }
-    #endregion
 
     #region Animations
     // 사망 메서드
@@ -217,7 +168,7 @@ public class Player : NetworkBehaviour, IDamageable
     }
     
     [ClientRpc]
-    public void RpcEmote(GameObject go)
+    private void RpcEmote(GameObject go)
     {
         var sort = go.GetComponent<SortingGroup>();
         sort.sortingOrder = isLocalPlayer ? 8 : 7;
@@ -247,7 +198,8 @@ public class Player : NetworkBehaviour, IDamageable
             {
                 if (_latestTarget is null) continue;
                 
-                _latestTarget.GetComponent<IInteractable>().HideEButton();
+                if(_latestTarget.TryGetComponent<IInteractable>(out var none))
+                   none.HideEButton();
                 _latestTarget = null;
                 continue;
             }
@@ -274,11 +226,15 @@ public class Player : NetworkBehaviour, IDamageable
                     continue;
                 }
 
-                _latestTarget.GetComponent<IInteractable>().HideEButton();
+                if(_latestTarget.TryGetComponent<IInteractable>(out var other))
+                    other.HideEButton();
             }
             
             _latestTarget = closestTarget;
-            _latestTarget.GetComponent<IInteractable>().ShowEButton();
+            if(_latestTarget.TryGetComponent<IInteractable>(out var newTarget))
+                newTarget.ShowEButton();
+            else
+                Managers.UI.HideUI<UI_ShowEButton>();
             shortestDistance = float.MaxValue;
         }
     }
