@@ -15490,6 +15490,7 @@ GameObject:
   - component: {fileID: 8605789714778563182}
   - component: {fileID: 3701858071583928758}
   - component: {fileID: 5294241001237805509}
+  - component: {fileID: 1146295818478419535}
   m_Layer: 10
   m_Name: PlayerHook
   m_TagString: Untagged
@@ -15845,6 +15846,21 @@ SortingGroup:
   m_SortingLayer: 6
   m_SortingOrder: 1
   m_SortAtRoot: 0
+--- !u!114 &1146295818478419535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8428015766500747352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bc2e69e7242f824e9eaed14ab12a068, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rb: {fileID: 3090883480896541386}
+  _nowPosition: {x: 0, y: 0}
+  _pastPosition: {x: 0, y: 0}
 --- !u!1 &8977629696714436571
 GameObject:
   m_ObjectHideFlags: 0
