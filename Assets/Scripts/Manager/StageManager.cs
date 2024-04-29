@@ -130,6 +130,16 @@ public class StageManager
 
     }
 
+    public void BatchObject(string objName, Vector3 position, int linkId)
+    {
+        if (!NetworkServer.active || !NetworkClient.isConnected) return;
+        
+        var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+        obj.GetComponent<ButtonActivated>().SetLinkDoor(position, linkId);
+        obj.transform.SetParent(MapEditor.Instance.dontSaveObjectTransform);
+        NetworkServer.Spawn(obj);
+    }
+
     //todo 0425
     //private async Task<GameObject> GetTaskObj(string objName)
     //{
