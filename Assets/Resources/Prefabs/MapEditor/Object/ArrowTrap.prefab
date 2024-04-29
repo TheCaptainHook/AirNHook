@@ -230,7 +230,7 @@ MonoBehaviour:
   id: 308
   transformID: 1
   position: {x: 0, y: 0}
-  offset: {x: 0, y: 0.5}
+  offset: {x: 0, y: 1.5}
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 1

@@ -22,7 +22,7 @@ public class BuildObj : MousePointerEntity,IDamageable
     public Vector2 position;
     [Tooltip("Use this parameter in editor mode")]
     public Vector2 offset; // Use this parameter in editor mode.
-    protected bool turnOff;
+    public bool turnOff;
     [SerializeField] protected DistructionStatus distructionStatus;
     [Header("State")]
     public bool onPlaceable;
@@ -86,6 +86,7 @@ public class BuildObj : MousePointerEntity,IDamageable
         if (setPosition)
         {
             transform.position = orgPosition;
+            
         }
 
     }

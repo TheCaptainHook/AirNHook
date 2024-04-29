@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class SawObject : BuildObj
 {
-    [SerializeField] GameObject hitBox;
+    //[SerializeField] GameObject hitBox;
     [SerializeField] GameObject sawPivot;
+    Collider2D _collider;
     Animator animator;
 
     private void Awake()
     {
         animator = sawPivot.GetComponent<Animator>();
+        _collider = GetComponent<Collider2D>();
     }
 
 
@@ -18,7 +20,7 @@ public class SawObject : BuildObj
     {
         base.TurnOff();
         animator.enabled = false;
-        hitBox.SetActive(false);
+        turnOff = true;
     }
 
 
@@ -26,20 +28,22 @@ public class SawObject : BuildObj
     {
         
         base.TurnOn();
+        turnOff = false;
         animator.enabled = true;
-        hitBox.SetActive(true);
+
     }
 
 
-    private void OnTriggerStay2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         // 충돌한 객체가 IDamageable 인터페이스를 가지고 있는지 확인
-        if (other.TryGetComponent(out IDamageable damageable))
+        if (other.TryGetComponent(out IDamageable damageable) && !turnOff)
         {
             // If successful, apply damage
             damageable.TakeDamage();
         }
     }
+
 
     //private void OnCollisionEnter2D(Collision2D other)
     //{
