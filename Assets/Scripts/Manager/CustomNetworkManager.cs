@@ -25,12 +25,6 @@ public class CustomNetworkManager : NetworkManager
     {
         public CharacterType type;
     }
-    
-    public struct ButtonDoorDataMessage : NetworkMessage
-    {
-        public GameObject obj;
-        public ButtonActivatedDoorStruct data;
-    }
     #endregion
 
     #region Character
@@ -41,13 +35,6 @@ public class CustomNetworkManager : NetworkManager
         NetworkServer.RegisterHandler<CreateCustomCharacterMessage>(OnCreateCharacter);
         var obj = ResourceManager.Instantiate("Prefabs/NetworkCommand/NetworkCommand");
         NetworkServer.Spawn(obj);
-    }
-
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        
-        NetworkClient.RegisterHandler<ButtonDoorDataMessage>(SetUpButtonDoorData, false);
     }
 
     private void OnCreateCharacter(NetworkConnectionToClient conn, CreateCustomCharacterMessage message)
@@ -211,33 +198,6 @@ public class CustomNetworkManager : NetworkManager
         };
 
         NetworkClient.Send(characterMessage);
-    }
-    #endregion
-
-    #region Object
-    /// <summary> Send ExitDoor Data </summary>
-    [Server]
-    public void SendButtonDoorData(ButtonActivatedDoorStruct data)
-    {
-        var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict["ButtonActivatedDoor"]);
-        NetworkServer.Spawn(obj);
-        
-        var msg = new ButtonDoorDataMessage()
-        {
-            obj = obj,
-            data = data
-        };
-        
-        NetworkServer.SendToAll(msg);
-    }
-    
-    /// <summary> Receive and SetUp ExitDoor Data </summary>
-    private void SetUpButtonDoorData(ButtonDoorDataMessage message)
-    {
-        var door = message.obj.GetComponent<ButtonActivatedDoor>();
-        door.ButtonActivatedDoorStruct = message.data;
-        door.CheckActiveRequirAmount();
-        message.obj.transform.SetParent(MapEditor.Instance.interactionObjectTransform);
     }
     #endregion
 }

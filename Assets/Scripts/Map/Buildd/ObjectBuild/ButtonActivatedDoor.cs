@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 //ButtonActivated 가 1개 이상 존재해야함
@@ -62,8 +63,10 @@ public class ButtonActivatedDoor : BuildBase
 
     private void LateUpdate()
     {
+        if (!NetworkServer.active || !NetworkClient.isConnected) return;
+        
         if(Managers.Game.CurrentState != GameState.Editor)
-        CheckActiveRequirAmount();
+            CheckActiveRequirAmount();
     }
 
 
