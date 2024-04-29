@@ -12,7 +12,7 @@ public class ButtonActivatedDoor : BuildBase
 
     [Header("Components")]
     [SerializeField] private BoxCollider2D _collider;
-    private Animator _animator;
+    private NetworkAnimator _animator;
     
     #region StringCache
     private static readonly int UnlockTrigger = Animator.StringToHash("UnlockTrigger");
@@ -58,7 +58,7 @@ public class ButtonActivatedDoor : BuildBase
 
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
+        _animator = GetComponent<NetworkAnimator>();
     }
 
     private void LateUpdate()

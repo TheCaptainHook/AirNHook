@@ -137,7 +137,7 @@ public class StageManager
         var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
         obj.GetComponent<ButtonActivated>().SetLinkDoor(position, linkId);
         obj.transform.SetParent(MapEditor.Instance.dontSaveObjectTransform);
-        NetworkServer.Spawn(obj);
+        NetworkServer.Spawn(obj, NetworkServer.localConnection);
     }
 
     //todo 0425
