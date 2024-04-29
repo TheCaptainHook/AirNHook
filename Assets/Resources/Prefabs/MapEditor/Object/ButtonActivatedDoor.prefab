@@ -549,14 +549,13 @@ MonoBehaviour:
   id: 305
   transformID: 3
   position: {x: 0, y: 0}
-  offset: {x: 0, y: 0}
+  offset: {x: 0, y: 1}
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 1
   onScaleable: 1
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  outlineBox: {fileID: 0}
   linkId: 0
   _collider: {fileID: 2079940608723542123}
   curLinkBtn: 0

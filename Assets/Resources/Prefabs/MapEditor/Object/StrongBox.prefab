@@ -353,14 +353,13 @@ MonoBehaviour:
   id: 311
   transformID: 1
   position: {x: 0, y: 0}
-  offset: {x: 0, y: 0}
+  offset: {x: 0, y: 0.5}
   distructionStatus: 1
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  outlineBox: {fileID: 0}
   health: 5
   spriteRenderer: {fileID: 4733320072026686442}
 --- !u!210 &7248189904295600147

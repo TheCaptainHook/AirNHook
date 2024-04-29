@@ -10,6 +10,9 @@ public class Arrow_Indicator : Indicator
         if(curLinkObj != null)
         {
             transform.position = curLinkObj.transform.position + new Vector3(0,height*0.5f,0);
+
+
+            //transform.position = curLinkObj.transform.position + curLinkOjb.GetComponent<BuildObj>().offset;
         }
     }
 

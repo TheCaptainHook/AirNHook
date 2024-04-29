@@ -31,24 +31,24 @@ public class SawObject : BuildObj
     }
 
 
-    //private void OnTriggerStay2D(Collider2D other)
-    //{
-    //    // 충돌한 객체가 IDamageable 인터페이스를 가지고 있는지 확인
-    //    if (other.TryGetComponent(out IDamageable damageable))
-    //    {
-    //        // If successful, apply damage
-    //        damageable.TakeDamage();
-    //    }
-    //}
-
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.gameObject.TryGetComponent(out IDamageable damageable))
+        // 충돌한 객체가 IDamageable 인터페이스를 가지고 있는지 확인
+        if (other.TryGetComponent(out IDamageable damageable))
         {
             // If successful, apply damage
             damageable.TakeDamage();
         }
     }
+
+    //private void OnCollisionEnter2D(Collision2D other)
+    //{
+    //    if (other.gameObject.TryGetComponent(out IDamageable damageable))
+    //    {
+    //        // If successful, apply damage
+    //        damageable.TakeDamage();
+    //    }
+    //}
 
 
 }

@@ -79,10 +79,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 310
   transformID: 1
+  position: {x: 0, y: 0}
+  offset: {x: 0, y: 2}
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
 --- !u!114 &5406155334078705384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 756a1ee2d63d04ccc8c0f2d5c3c4cf21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onWayPoint: 0
   particle: {fileID: 6616379612466951927}
 --- !u!114 &5326196680267859287
 MonoBehaviour:

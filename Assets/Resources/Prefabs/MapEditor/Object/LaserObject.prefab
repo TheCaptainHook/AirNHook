@@ -4878,7 +4878,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 304
   transformID: 1
-  offset: {x: 0, y: 0}
+  position: {x: 0, y: 0}
+  offset: {x: 0, y: 0.5}
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 1
