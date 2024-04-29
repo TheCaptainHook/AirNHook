@@ -1,9 +1,10 @@
+using Mirror;
+using Mono.CecilX;
 using UnityEngine;
 
 public class Managers : MonoBehaviour
 {
-    private static Managers _instance;
-    public static Managers Instance { get { Initialize();  return _instance; } }
+    public static Managers Instance { get; private set; }
 
     private UIManager _uiManager = new();
     private GameManager _game = new();
@@ -11,6 +12,7 @@ public class Managers : MonoBehaviour
     private DataManager _data = new();
     private SoundManager _sound = new();
     private CustomNetworkManager _network;
+    private NetworkCommand _command = null;
 
     public static GameManager Game => Instance._game;
     public static UIManager UI => Instance._uiManager;
@@ -18,6 +20,11 @@ public class Managers : MonoBehaviour
     public static DataManager Data => Instance._data;
     public static SoundManager Sound => Instance._sound;
     public static CustomNetworkManager Network => Instance._network;
+    public static NetworkCommand Command
+    {
+        get => Instance._command;
+        set => Instance._command = value;
+    }
 
     /// <summary> 게임 시작시 자동으로 호출 - Scene에 넣을 필요 X </summary>
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -29,7 +36,7 @@ public class Managers : MonoBehaviour
     /// <summary> Manager들을 초기화 해주는 곳. </summary>
     private static void Initialize()
     {
-        if (_instance != null) return;
+        if (Instance != null) return;
         
         var go = GameObject.Find("@Managers");
 
@@ -40,7 +47,7 @@ public class Managers : MonoBehaviour
         }
 
         DontDestroyOnLoad(go);
-        _instance = go.GetComponent<Managers>();
+        Instance = go.GetComponent<Managers>();
 
         go.AddComponent<SteamManager>();
         
@@ -56,22 +63,23 @@ public class Managers : MonoBehaviour
     /// </summary>
     public void CheckNetworkManager()
     {
-        if (_instance._network != null) return;
+        if (Instance._network != null) return;
         
         var networkManager = FindObjectOfType<CustomNetworkManager>();
         
         if (networkManager == null)
         {
-//#if UNITY_EDITOR
-            var go = ResourceManager.Instantiate("Prefabs/Manager/NetworkManagerKCP"); // todo 0425
+
+            //#if UNITY_EDITOR
+            //var go = ResourceManager.Instantiate("Prefabs/Manager/NetworkManagerKCP"); // todo 0425
             //#else
             //var go = ResourceManager.Instantiate("Prefabs/Manager/NetworkManager");
             //#endif
-            _instance._network = go.GetComponent<CustomNetworkManager>();
+            Instance._network = go.GetComponent<CustomNetworkManager>();
         }
         else
         {
-            _instance._network = networkManager.GetComponent<CustomNetworkManager>();
+            Instance._network = networkManager.GetComponent<CustomNetworkManager>();
         }
     }
 }

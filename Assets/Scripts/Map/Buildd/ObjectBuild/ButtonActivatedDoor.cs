@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 //ButtonActivated 가 1개 이상 존재해야함
@@ -11,7 +12,7 @@ public class ButtonActivatedDoor : BuildBase
 
     [Header("Components")]
     [SerializeField] private BoxCollider2D _collider;
-    private Animator _animator;
+    private NetworkAnimator _animator;
     
     #region StringCache
     private static readonly int UnlockTrigger = Animator.StringToHash("UnlockTrigger");
@@ -57,13 +58,15 @@ public class ButtonActivatedDoor : BuildBase
 
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
+        _animator = GetComponent<NetworkAnimator>();
     }
 
     private void LateUpdate()
     {
+        if (!NetworkServer.active || !NetworkClient.isConnected) return;
+        
         if(Managers.Game.CurrentState != GameState.Editor)
-        CheckActiveRequirAmount();
+            CheckActiveRequirAmount();
     }
 
 

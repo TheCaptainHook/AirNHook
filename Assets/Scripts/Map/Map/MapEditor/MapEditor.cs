@@ -561,11 +561,12 @@ public class MapEditor : MonoBehaviour
                         foreach (Vector2 pot in data.buttonActivatePositionList)
                         {
                             Debug.Log(pot);
+                            Managers.Stage.BatchObject(btn.name, pot, data.linkId);
                             //GameObject btnActivated = Instantiate(Resources.Load<GameObject>(btn.path));
-                            GameObject btnActivated = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[btn.name]);
-                            btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, data.linkId);
+                            //GameObject btnActivated = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[btn.name]);
+                            //btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, data.linkId);
                             //btnActivated.GetComponent<ButtonActivated>().LinkDoor();
-                            btnActivated.transform.SetParent(dontSaveObjectTransform);
+                            //btnActivated.transform.SetParent(dontSaveObjectTransform);
                         }
                         foreach (Vector2 pot in data.leverPositionList)
                         {

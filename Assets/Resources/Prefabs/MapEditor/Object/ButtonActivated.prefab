@@ -421,12 +421,14 @@ MonoBehaviour:
   id: 306
   transformID: 4
   position: {x: 0, y: 0}
+  offset: {x: 0, y: 0}
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
+  outlineBox: {fileID: 0}
   linkId: 0
   mask:
     serializedVersion: 2
@@ -488,7 +490,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
-  syncMode: 0
+  syncMode: 1
   syncInterval: 0
   clientAuthority: 1
   animator: {fileID: 6538494676459900832}

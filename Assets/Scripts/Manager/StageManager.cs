@@ -52,7 +52,7 @@ public class StageManager
 
         var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
         obj.transform.position = data.position;
-        obj.GetComponent<ExitPointObj>().SetData(data);
+        //obj.GetComponent<ExitPointObj>().SetData(data);
         obj.transform.SetParent(MapEditor.Instance.exitDoorObjectTransform);
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
 
@@ -128,6 +128,16 @@ public class StageManager
         //todo 0425
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
 
+    }
+
+    public void BatchObject(string objName, Vector3 position, int linkId)
+    {
+        if (!NetworkServer.active || !NetworkClient.isConnected) return;
+        
+        var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+        obj.GetComponent<ButtonActivated>().SetLinkDoor(position, linkId);
+        obj.transform.SetParent(MapEditor.Instance.dontSaveObjectTransform);
+        NetworkServer.Spawn(obj, NetworkServer.localConnection);
     }
 
     //todo 0425

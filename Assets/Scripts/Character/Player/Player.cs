@@ -276,7 +276,7 @@ public class Player : NetworkBehaviour, IDamageable
 
                 _latestTarget.GetComponent<IInteractable>().HideEButton();
             }
-
+            
             _latestTarget = closestTarget;
             _latestTarget.GetComponent<IInteractable>().ShowEButton();
             shortestDistance = float.MaxValue;
@@ -287,7 +287,7 @@ public class Player : NetworkBehaviour, IDamageable
     {
         if (_latestTarget is null || isDead) return;
         
-        if(!_latestTarget.TryGetComponent<IInteractable>(out var interactable)) return;
+        if (!_latestTarget.TryGetComponent<IInteractable>(out var interactable)) return;
         
         if (interactable.GetObjectType() == ObjectTypeEnum.Grab) return;
         

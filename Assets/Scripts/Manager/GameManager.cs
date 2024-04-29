@@ -40,7 +40,7 @@ public class GameManager
             {
                 _player = NetworkClient.localPlayer.gameObject;
             }
-            catch (NullReferenceException e) { Debug.Log(e); }
+            catch (NullReferenceException) { }
             
             return _player;
         }
@@ -83,7 +83,6 @@ public class GameManager
             // MainScene
             case 1:
                 Debug.Log("Scene Loaded 1");
-                Managers.UI.InitializeUI();
                 break;
             // EditorScene
             case 2:
