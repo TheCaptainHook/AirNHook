@@ -549,15 +549,18 @@ MonoBehaviour:
   id: 305
   transformID: 3
   position: {x: 0, y: 0}
+  offset: {x: 0, y: 0}
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 1
   onScaleable: 1
   setPosition: 0
   orgPosition: {x: 0, y: 0}
+  outlineBox: {fileID: 0}
   linkId: 0
   _collider: {fileID: 2079940608723542123}
   curLinkBtn: 0
+  curActiveBtn: 0
   activeRequirAmount: 0
   buttonActivatedBtnList: []
   leverBodyPotiionList: []
@@ -613,7 +616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
-  syncMode: 0
+  syncMode: 1
   syncInterval: 0
   clientAuthority: 1
   animator: {fileID: 4035336826809509372}

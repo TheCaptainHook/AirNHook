@@ -20,17 +20,21 @@ public class CustomNetworkManager : NetworkManager
         steamLobby = GetComponent<SteamLobby>();
     }
 
-    #region Character
+    #region Messages
     public struct CreateCustomCharacterMessage : NetworkMessage
     {
         public CharacterType type;
     }
+    #endregion
 
+    #region Character
     public override void OnStartServer()
     {
         base.OnStartServer();
         
         NetworkServer.RegisterHandler<CreateCustomCharacterMessage>(OnCreateCharacter);
+        var obj = ResourceManager.Instantiate("Prefabs/NetworkCommand/NetworkCommand");
+        NetworkServer.Spawn(obj);
     }
 
     private void OnCreateCharacter(NetworkConnectionToClient conn, CreateCustomCharacterMessage message)
@@ -134,11 +138,12 @@ public class CustomNetworkManager : NetworkManager
     public override void OnServerSceneChanged(string sceneName)
     {
         base.OnServerSceneChanged(sceneName);
-
+        
         Managers.Game.CurrentState = GameState.Lobby;
         Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/MapEditor"));
         Managers.Stage.LoadMap();
-
+        
+        Managers.UI.InitializeUI();
         var characterMessage = new CreateCustomCharacterMessage()
         {
             type = Managers.Game.playerCharacterType
@@ -178,13 +183,14 @@ public class CustomNetworkManager : NetworkManager
     public override void OnClientSceneChanged()
     {
         base.OnClientSceneChanged();
-
+        
         if (NetworkServer.active && NetworkClient.isConnected) return;
         
         Managers.Game.CurrentState = GameState.Lobby;
         Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/MapEditor"));
         Managers.Stage.LoadMap();
         
+        Managers.UI.InitializeUI();
         // 캐릭터 생성
         var characterMessage = new CreateCustomCharacterMessage()
         {

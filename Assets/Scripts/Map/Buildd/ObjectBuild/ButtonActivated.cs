@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -47,6 +48,7 @@ public class ButtonActivated : BuildObj
     //}
     private void Update()
     {
+        if (!NetworkServer.active || !NetworkClient.isConnected) return;
 
         if(Managers.Game.CurrentState == GameState.Editor)
         {
@@ -69,6 +71,8 @@ public class ButtonActivated : BuildObj
 
     private void FixedUpdate()
     {
+        if (!NetworkServer.active || !NetworkClient.isConnected) return;
+        
         RaycastHit2D hit = Physics2D.Raycast(buttonTransform.position, Vector2.up, 1, mask);
         if(hit.collider is not null && !turnOff)
         {
