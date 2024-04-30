@@ -54,7 +54,7 @@ namespace Mirror
                 // only set to kinematic if we don't own it
                 // otherwise don't touch isKinematic.
                 // the authority owner might use it either way.
-                if (!owned) rb.isKinematic = true;
+                rb.isKinematic = !owned || wasKinematic;
             }
             // client only
             else if (isClient)
@@ -66,7 +66,7 @@ namespace Mirror
                 // only set to kinematic if we don't own it
                 // otherwise don't touch isKinematic.
                 // the authority owner might use it either way.
-                if (!owned) rb.isKinematic = true;
+                rb.isKinematic = !owned || wasKinematic;
             }
             // server only
             else if (isServer)
@@ -77,7 +77,7 @@ namespace Mirror
                 // only set to kinematic if we don't own it
                 // otherwise don't touch isKinematic.
                 // the authority owner might use it either way.
-                if (!owned) rb.isKinematic = true;
+                rb.isKinematic = !owned || wasKinematic;
             }
         }
 
