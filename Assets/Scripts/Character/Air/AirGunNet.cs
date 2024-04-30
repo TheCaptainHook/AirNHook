@@ -324,11 +324,13 @@ public class AirGunNet : NetworkBehaviour
     {
         if (_inhaleTarget is null || !_inhaling || _canStick) return;
         
+        Debug.Log("b");
         StopInhale();
     }
 
     private void StopInhale()
     {
+        Debug.Log("a");
         _inhaling = false;
         if (_chargingCoroutine is not null)
         {
@@ -348,8 +350,9 @@ public class AirGunNet : NetworkBehaviour
 
     private void FixInhaleTarget(bool value)
     {
-        if (value && _isAttached) return;
+        if (value && (_isAttached || _isInhaledHook)) return;
         
+        Debug.Log("c");
         StopInhale();
     }
     #endregion
