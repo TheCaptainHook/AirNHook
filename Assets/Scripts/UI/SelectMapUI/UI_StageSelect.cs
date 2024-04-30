@@ -213,7 +213,7 @@ public class UI_StageSelect : UI_Base
             GameObject key = Managers.Stage.CmdBatchObject("Key");
             Key = key;
 
-            ObjectData data = MapEditor.Instance.curMap.FindObjectData(1000);
+            ObjectData data = MapEditor.Instance.CurMap.FindObjectData(1000);
             Key.transform.position = data.position;
             Vector2 launchDirection = new Vector2(-1, 1).normalized;
 

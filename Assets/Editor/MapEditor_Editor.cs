@@ -30,7 +30,7 @@ public class MapEditor_Editor : Editor
 
         if (GUILayout.Button("Load Data(인게임용)"))
         {
-            mapEditor.LoadMap(mapEditor.mapID,mapEditor.mapType);
+            mapEditor.LoadMap(mapEditor.mapID);
         }
         //if (GUILayout.Button("Save Data(인게임용)"))
         //{
@@ -73,13 +73,13 @@ public class MapEditor_Editor : Editor
             _Reset(mapEditor);
             
 
-            Managers.Data.loadData.Save();
+            //Managers.Data.loadData.Save();
 
 
-            mapEditor.curMap = new Map();
-            mapEditor.stageLevel = 0;
-            mapEditor.mapID = "";
-            mapEditor.startPosition = Vector2.zero;
+            mapEditor.CurMap = new Map();
+            //mapEditor.stageLevel = 0;
+            //mapEditor.mapID = "";
+            //mapEditor.startPosition = Vector2.zero;
             mapEditor.audioType = AudioType.None;
 
         }
@@ -230,6 +230,12 @@ public class MapEditor_Editor : Editor
                 }
             }
 
+
+
+            mapEditor.stageLevel = mapEditor.CurMap.stageLevel;
+            mapEditor.mapID = mapEditor.CurMap.mapID;
+            mapEditor.audioType = mapEditor.CurMap.audioType;
+            mapEditor.startPosition = mapEditor.CurMap.startPosition;
         }
         else
         {

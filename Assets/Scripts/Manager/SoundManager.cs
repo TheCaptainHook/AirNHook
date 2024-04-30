@@ -112,7 +112,8 @@ public class SoundManager
             GetAudioSource(out audioSource);
         else
             audioSource = _bgmAudioSource;
-        
+
+        _bgmAudioSource = audioSource;
         PlayAudioClip(audioSource, audioType, audioMixerGroupType, isLoop, volume);
     }
     

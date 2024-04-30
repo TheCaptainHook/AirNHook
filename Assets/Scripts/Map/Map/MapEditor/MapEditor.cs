@@ -92,7 +92,7 @@ public class MapEditor : MonoBehaviour
 
     [Space(10)]
     [Header("----------------------------------------------------")]
-    public Map curMap;
+    private Map curMap;
     public Map CurMap {
         get { return curMap; }
         set { curMap = value; stageClear = false; } }
@@ -470,11 +470,11 @@ public class MapEditor : MonoBehaviour
         CreateObj(interactionObjectTransform, 2); //interactionObjectTransform
         CreateObj(exitDoorObjectTransform, 3); //exitDoorObjectTransform
 
-        Managers.Sound.PlayBGM(curMap.audioType, AudioMixerGroupType.BGM, true);
+        Managers.Sound.PlayBGM(CurMap.audioType, AudioMixerGroupType.BGM, true,.1f);
         //
     }
     #endregion
-
+    
     #region Util 
 
     public void SetMapSize(int width, int height)
