@@ -565,6 +565,7 @@ MonoBehaviour:
   buttonActivatedBtnList: []
   leverBodyPotiionList: []
   onOpen: 0
+  onPrograss: 0
 --- !u!95 &4035336826809509372
 Animator:
   serializedVersion: 5
