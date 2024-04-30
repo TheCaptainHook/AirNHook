@@ -195,6 +195,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         //ChangeCanInhaleState(false);
         //ChangeFixedState(false);
         _fixedPoint = null;
+        _rigidbody.velocity = Vector2.zero;
         _rigidbody.gravityScale = _gravityScale;
         _rigidbody.AddForce(force, ForceMode2D.Impulse);
         CmdSetExcludeLayer(_releaseLayerMask);
