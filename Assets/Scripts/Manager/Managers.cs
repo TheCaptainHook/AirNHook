@@ -49,8 +49,8 @@ public class Managers : MonoBehaviour
 
         go.AddComponent<SteamManager>();
         
-        Sound.SetUp();
         Data.Setup();
+        Sound.SetUp();
     }
 
     /// <summary>
