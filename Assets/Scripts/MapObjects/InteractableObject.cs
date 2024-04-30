@@ -45,14 +45,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _originSortingLayerID = _sortingGroup.sortingLayerID;
     }
 
-    public override void OnStopAuthority()
-    {
-        base.OnStopAuthority();
-        
-        Release();
-        StopInhale();
-    }
-
     private void Update()
     {
         if (!_isFixed && _eButtonUI is not null)

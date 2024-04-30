@@ -228,6 +228,30 @@ public class NetworkCommand : NetworkBehaviour
 
     #region AuthorityToServer
     [Command(requiresAuthority = false)]
+    public void AuthorityToServer(uint itemNetId, bool isRelease)
+    {
+        if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
+
+        if (_assignAuthorityCoroutine.TryGetValue(itemNetId, out var coroutine))
+        {
+            StopCoroutine(coroutine);
+            _assignAuthorityCoroutine.Remove(itemNetId);
+        }
+        
+        if (item.isOwned) return;
+
+        AssignAuthority(item);
+
+        if (isRelease)
+        {
+            if (item.TryGetComponent<InteractableObject>(out var interactableObject))
+            {
+                interactableObject.Release();
+            }
+        }
+    }
+    
+    [Command(requiresAuthority = false)]
     public void AuthorityToServer(uint itemNetId)
     {
         if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;

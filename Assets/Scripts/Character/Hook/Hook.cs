@@ -132,7 +132,7 @@ public class Hook : Player
         interactable.Interaction(_grabPoint);
         item.GetComponent<Rigidbody2D>().velocity = _rigidbd.velocity;
         
-        Managers.Command.AuthorityToServer(_grabbedItem.GetComponent<NetworkIdentity>().netId);
+        Managers.Command.AuthorityToServer(_grabbedItem.GetComponent<NetworkIdentity>().netId, true);
         ReleaseItem();
     }
     
