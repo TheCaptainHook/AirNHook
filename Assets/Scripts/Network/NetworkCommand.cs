@@ -225,7 +225,7 @@ public class NetworkCommand : NetworkBehaviour
 
         var item = obj.GetComponent<NetworkIdentity>();
         
-        if ((!ReferenceEquals(Managers.Game.Player, obj) && !ReferenceEquals(Managers.Game.OtherPlayer, obj)) && !item.isOwned)
+        if (!ReferenceEquals(Managers.Game.Player, obj) && !ReferenceEquals(Managers.Game.OtherPlayer, obj) && !item.isOwned)
             AssignAuthority(item);
         
         inhalable.Shooting(power);
@@ -276,6 +276,8 @@ public class NetworkCommand : NetworkBehaviour
 
     private void AssignAuthority(NetworkIdentity item, NetworkConnectionToClient conn = null)
     {
+        if(item.isClient) return;
+        
         item.RemoveClientAuthority();
         item.AssignClientAuthority(conn ?? NetworkServer.localConnection);
     }

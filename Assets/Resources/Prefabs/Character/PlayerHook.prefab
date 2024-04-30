@@ -15850,7 +15850,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   target: {fileID: 3090883480896541386}
-  clientAuthority: 0
+  clientAuthority: 1
   syncVelocity: 1
   clearVelocity: 0
   velocitySensitivity: 0.1
