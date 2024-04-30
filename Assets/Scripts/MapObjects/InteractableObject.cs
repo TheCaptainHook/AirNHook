@@ -104,6 +104,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         ShowEButton();
 
         _rigidbody.bodyType = _originType;
+        _rigidbody.velocity = Vector2.zero;
         _rigidbody.gravityScale = _gravityScale;
         _fixedPoint = null;
         _rigidbody.constraints = _originRot;
