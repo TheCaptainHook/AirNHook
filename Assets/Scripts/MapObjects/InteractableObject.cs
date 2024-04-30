@@ -20,6 +20,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     [Header("E Button UI")]
     private UI_Base _eButtonUI;
     [field: SerializeField] private Vector2 _offset;
+    private Vector3 _previous;
     
     // inhale
     [Header("Inhale")]
@@ -47,6 +48,11 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     private void Update()
     {
+        var velocity = ((transform.position - _previous).magnitude) / Time.deltaTime;
+        _previous = transform.position;
+        if(velocity <= 0.1f)
+            _rigidbody.velocity = Vector2.zero;
+        
         if (isOwned && _isFixed && _fixedPoint is not null)
         {
             _rigidbody.velocity = Vector2.zero;
