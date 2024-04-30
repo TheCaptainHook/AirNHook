@@ -211,8 +211,9 @@ public class AirGunNet : NetworkBehaviour
                 
                 // 장애물 처리
                 var hit = Physics2D.Raycast(weaponPoint.position, objectVector, targetDistance, _obstacleMask);
-
-                hit.collider.TryGetComponent<IInhalable>(out var obstacle);
+                IInhalable obstacle = null;
+                if (hit.collider is not null)
+                    hit.collider.TryGetComponent(out obstacle);
                 
                 if (!ReferenceEquals(hit.collider, collision) || (obstacle is not null && !obstacle.CanInhale())) continue;
 
