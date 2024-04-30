@@ -141,6 +141,7 @@ public class HookMovement : PlayerMovement, IInhalable
     
     public void Inhalation(Transform accessor)
     {
+        Debug.Log("a");
         canControl = false;
         grappling.canControl = false;
         _fixedPoint = accessor;
@@ -153,6 +154,7 @@ public class HookMovement : PlayerMovement, IInhalable
         {
             if (!_isFixed)
             {
+                Debug.Log("b");
                 yield return _waitForFixedUpdate;
 
                 if (_fixedPoint is null) break;
@@ -167,6 +169,7 @@ public class HookMovement : PlayerMovement, IInhalable
             }
             else
             {
+                Debug.Log("c");
                 yield return null;
                 _rigidbd.drag = 0f;
                 _animator.SetBool(IsHookInhaled, true);
@@ -182,6 +185,7 @@ public class HookMovement : PlayerMovement, IInhalable
 
     public void StopInhale()
     {
+        Debug.Log("d");
         StopCoroutine(_inhaleCoroutine);
         canControl = true;
         _isFixed = false;
@@ -205,6 +209,7 @@ public class HookMovement : PlayerMovement, IInhalable
 
     public void Shooting(Vector2 force)
     {
+        Debug.Log("f");
         StopInhale();
         swingJump = true;
         _rigidbd.velocity = Vector2.zero;

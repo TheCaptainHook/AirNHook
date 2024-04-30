@@ -2,6 +2,7 @@ using System.Collections;
 using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class AirGunNet : NetworkBehaviour
 {
@@ -16,7 +17,7 @@ public class AirGunNet : NetworkBehaviour
     private bool _rightClick;
     
     // TargetDetections
-    [field: SerializeField] private Transform _weaponPoint;
+    [field: SerializeField] public Transform weaponPoint { get; private set; }
     private Collider2D _closestTarget = null;
     private Collider2D _latestTarget = null;
     [field: SerializeField] private LayerMask _objectMask;
@@ -163,7 +164,7 @@ public class AirGunNet : NetworkBehaviour
     {
         if(!_rightClick || _isAttached || _sticking || !_canInhale) return;
         
-        var collisions = Physics2D.OverlapCircleAll(_weaponPoint.position, _detectionDistance, _objectMask);
+        var collisions = Physics2D.OverlapCircleAll(weaponPoint.position, _detectionDistance, _objectMask);
 
         // 검출 없을 시 예외처리
         if (collisions.Length == 0)
@@ -183,7 +184,7 @@ public class AirGunNet : NetworkBehaviour
 
         foreach (var collision in collisions)
         {
-            var targetDistance = Vector2.Distance(_weaponPoint.position, collision.transform.position);
+            var targetDistance = Vector2.Distance(weaponPoint.position, collision.transform.position);
 
             if (targetDistance > _shortestDistance) continue;
 
@@ -196,8 +197,8 @@ public class AirGunNet : NetworkBehaviour
             else
             {
                 // 벡터를 사용해 각도 처리
-                var objectVector = (collision.transform.position - _weaponPoint.position).normalized;
-                var weaponVector = _weaponPoint.transform.right;
+                var objectVector = (collision.transform.position - weaponPoint.position).normalized;
+                var weaponVector = weaponPoint.transform.right;
 
                 var angle = Vector2.Angle(weaponVector, objectVector);
 
@@ -207,7 +208,7 @@ public class AirGunNet : NetworkBehaviour
                 if (collision.TryGetComponent<IInhalable>(out var inhalable) && !inhalable.CanInhale()) continue;
                 
                 // 장애물 처리
-                var hit = Physics2D.Raycast(_weaponPoint.position, objectVector, targetDistance, _obstacleMask);
+                var hit = Physics2D.Raycast(weaponPoint.position, objectVector, targetDistance, _obstacleMask);
                 if (!ReferenceEquals(hit.collider, collision)) continue;
 
                 _closestTarget = collision;
@@ -307,10 +308,16 @@ public class AirGunNet : NetworkBehaviour
             _inhaling = false;
             return;
         }
-        
+
+        if (ReferenceEquals(Managers.Game.OtherPlayer, item.gameObject))
+        {
+            Managers.Command.TryInhalePlayer(Managers.Game.OtherPlayer, gameObject);
+            return;
+        }
+
         if(!item.TryGetComponent<IInhalable>(out var inhalable)) return;
         
-        inhalable.Inhalation(_weaponPoint);
+        inhalable.Inhalation(weaponPoint);
     }
 
     private void StopInhaleTarget()
@@ -524,7 +531,7 @@ public class AirGunNet : NetworkBehaviour
         if (ReferenceEquals(_inhaleTarget.gameObject, Managers.Game.OtherPlayer))
             _isInhaledHook = false;
         
-        Managers.Command.ShootObject(_inhaleTarget.gameObject, _weaponPoint.right * _shootPower);
+        Managers.Command.ShootObject(_inhaleTarget.gameObject, weaponPoint.right * _shootPower);
         _inhaleTarget = null;
         _isAttached = false;
         _inhaling = false;
@@ -553,7 +560,7 @@ public class AirGunNet : NetworkBehaviour
         Vector2 worldPos = _mainCamera.ScreenToWorldPoint(_mouseDelta);
         var newAim = worldPos - (Vector2)_armPivot.position;
     
-        var position = (Vector2)_weaponPoint.position
+        var position = (Vector2)weaponPoint.position
                            + (newAim.normalized * (_shootPower * t))
                            + (Physics2D.gravity * (0.5f * (t * t) * _latestTargetGravityScale));
         

@@ -141,11 +141,9 @@ public class NetworkCommand : NetworkBehaviour
         
         if(_assignAuthorityCoroutine.TryGetValue(itemNetId, out var coroutine))
             StopCoroutine(coroutine);
-
-        if (!ReferenceEquals(Managers.Game.Player, item.gameObject) && !ReferenceEquals(Managers.Game.OtherPlayer, item.gameObject) && !item.isOwned)
-        {
+        
+        if ((!ReferenceEquals(Managers.Game.Player, item.gameObject) && !ReferenceEquals(Managers.Game.OtherPlayer, item.gameObject)) || !item.isOwned)
             AssignAuthority(item, conn);
-        }
         
         InhaleItem(conn, itemNetId, true);
     }
@@ -156,6 +154,24 @@ public class NetworkCommand : NetworkBehaviour
         if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
         
         itemInhaleCallback?.Invoke(item, value);
+    }
+
+    [Command(requiresAuthority = false)]
+    public void TryInhalePlayer(GameObject player, GameObject accessor)
+    {
+        var conn = player.GetComponent<NetworkIdentity>().connectionToClient;
+        
+        InhalePlayer(conn, accessor);
+    }
+
+    [TargetRpc]
+    private void InhalePlayer(NetworkConnectionToClient conn, GameObject accessor)
+    {
+        if(!conn.identity.TryGetComponent<IInhalable>(out var inhalable)) return;
+
+        if (!accessor.TryGetComponent<AirGunNet>(out var air)) return;
+        
+        inhalable.Inhalation(air.weaponPoint);
     }
 
     [Command(requiresAuthority = false)]
