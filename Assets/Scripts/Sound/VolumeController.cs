@@ -37,17 +37,20 @@ public class VolumeController : MonoBehaviour
     {
         _audioMixer.SetFloat("MasterParam", GetAudioMixVolume(value));
         PlayerPrefs.SetFloat("MasterVolume", _masterSlider.value);
+        PlayerPrefs.Save();
     }
 
     private void SetBGMVolume(float value)
     {
         _audioMixer.SetFloat("BGMParam", GetAudioMixVolume(value));
         PlayerPrefs.SetFloat("BGMVolume", _bgmSlider.value);
+        PlayerPrefs.Save();
     }
 
     private void SetEffectsVolume(float value)
     {
         _audioMixer.SetFloat("EffectsParam", GetAudioMixVolume(value));
         PlayerPrefs.SetFloat("EffectsVolume", _effectsSlider.value);
+        PlayerPrefs.Save();
     }
 }

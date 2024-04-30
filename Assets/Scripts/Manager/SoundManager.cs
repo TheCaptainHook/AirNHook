@@ -42,7 +42,6 @@ public class SoundManager
         AudioClipSetUp();
         AddAudioSources(8);
     }
-
     private void AudioMixSetUp()
     {
         // load audioMixer
@@ -89,11 +88,11 @@ public class SoundManager
     /// <param name="audioMixerGroupType"> Mixer Group 설정 </param>
     /// <param name="isLoop"> 반복 체크. default is false. </param>
     /// <param name="volume"> 소리 조절. default is 1f. </param>
-    public void PlaySound(AudioType audioType, AudioMixerGroupType audioMixerGroupType, bool isLoop = false, float volume = 1f)
+    public void PlaySound(AudioType audioType, AudioMixerGroupType audioMixerGroupType, bool isLoop = false, float volume = 1f, float spatialBlend = 0f)
     {
         GetAudioSource(out var audioSource);
         
-        PlayAudioClip(audioSource, audioType, audioMixerGroupType, isLoop, volume);
+        PlayAudioClip(audioSource, audioType, audioMixerGroupType, isLoop, volume, spatialBlend);
     }
 
     /// <summary>
@@ -103,7 +102,7 @@ public class SoundManager
     /// <param name="audioMixerGroupType"> Mixer Group 설정 </param>
     /// <param name="isLoop"> 반복 체크. default is false. </param>
     /// <param name="volume"> 소리 조절. default is 1f. </param>
-    public void PlayBGM(AudioType audioType, AudioMixerGroupType audioMixerGroupType, bool isLoop = false, float volume = 1f)
+    public void PlayBGM(AudioType audioType, AudioMixerGroupType audioMixerGroupType, bool isLoop = false, float volume = 1f, float spatialBlend = 0f)
     {
         AudioSource audioSource;
         
@@ -114,7 +113,7 @@ public class SoundManager
             audioSource = _bgmAudioSource;
 
         _bgmAudioSource = audioSource;
-        PlayAudioClip(audioSource, audioType, audioMixerGroupType, isLoop, volume);
+        PlayAudioClip(audioSource, audioType, audioMixerGroupType, isLoop, volume, spatialBlend);
     }
     
     private void GetAudioSource(out AudioSource audioSource)
@@ -126,7 +125,7 @@ public class SoundManager
     }
 
     // 오디오 클립 재생. 윗쪽 Method에서 호출함.
-    private void PlayAudioClip(AudioSource audioSource, AudioType audioType, AudioMixerGroupType audioMixerGroupType, bool isLoop, float volume)
+    private void PlayAudioClip(AudioSource audioSource, AudioType audioType, AudioMixerGroupType audioMixerGroupType, bool isLoop, float volume, float spatialBlend)
     {
         var audioClip = _audioClipDict[audioType];
         audioSource.outputAudioMixerGroup = _audioMixerGroups[audioMixerGroupType.ToString()];
@@ -134,6 +133,7 @@ public class SoundManager
         audioSource.volume = volume;
         audioSource.gameObject.SetActive(true);
         audioSource.clip = audioClip;
+        audioSource.spatialBlend = spatialBlend;
         audioSource.Play();
         if(!isLoop)
             Managers.Instance.StartCoroutine(CollectSoundSource(audioSource, audioClip.length));

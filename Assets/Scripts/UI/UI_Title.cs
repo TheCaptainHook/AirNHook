@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public class UI_Title : UI_Base
@@ -29,12 +31,15 @@ public class UI_Title : UI_Base
     [SerializeField] private TMP_Text _optionText;
     [SerializeField] private TMP_Text _exitGameText;
     [SerializeField] private TMP_Text _mapEditorText;
+
+    private AudioMixer _audioMixer;
     #endregion
     
     public override void OnEnable()
     {
         OpenUI();
         Show();
+        Managers.Sound.PlayBGM(AudioType.Title, AudioMixerGroupType.BGM, true);
     }
 
     private void Show()
@@ -42,16 +47,26 @@ public class UI_Title : UI_Base
         StartCoroutine(Fade(true, _canvasGroup));
         StartCoroutine(BounceRoutine(_titleImg,Vector3.one, Vector3.one * 0.9f, _curve));
     }
-    
+
     protected override void Start()
     {
         base.Start();
-        
         _joinBtn.onClick.AddListener(OnJoinBtn);
         _createRoomBtn.onClick.AddListener(OnCreateRoomBtn);
         _mapEditorBtn.onClick.AddListener(OnMapEditorBtn);
         _optionBtn.onClick.AddListener(OnOptionBtn);
         _exitGameBtn.onClick.AddListener(OnExitBtn);
+        
+        //임시
+        _audioMixer = Managers.Sound.audioMixer;
+        _audioMixer.SetFloat("MasterParam",GetAudioMixVolume(PlayerPrefs.GetFloat("MasterVolume", 1f)));
+        _audioMixer.SetFloat("BGMParam", GetAudioMixVolume(PlayerPrefs.GetFloat("BGMVolume", 1f)));
+        _audioMixer.SetFloat("EffectsParam", GetAudioMixVolume(PlayerPrefs.GetFloat("EffectsVolume", 1f)));
+    }
+    //임시
+    private float GetAudioMixVolume(float volume)
+    {
+        return Mathf.Log10(volume) * 20;
     }
 
     private void OnJoinBtn()

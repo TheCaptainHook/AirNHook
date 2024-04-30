@@ -1,3 +1,4 @@
+using System;
 using Mirror;
 using UnityEngine;
 
@@ -5,6 +6,11 @@ public class StageSelectObject : MonoBehaviour, IInteractable
 {
     public ObjectTypeEnum objectType = ObjectTypeEnum.Interaction;
     public Vector2 offset;
+
+    //private void Awake()
+    //{
+    //    Managers.Sound.PlaySound(AudioType.Lobby,AudioMixerGroupType.BGM,true,1f, 0.6f);
+    //}
 
     public void Interaction(Transform accessor = null)
     {
