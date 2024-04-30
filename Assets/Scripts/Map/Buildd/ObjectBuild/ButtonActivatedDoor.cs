@@ -63,40 +63,46 @@ public class ButtonActivatedDoor : BuildBase
         _animator = GetComponent<NetworkAnimator>();
     }
 
-    //private void LateUpdate()
-    //{
-    //    if (!NetworkServer.active || !NetworkClient.isConnected) return;
-        
-    //    if(Managers.Game.CurrentState != GameState.Editor)
-    //        CheckActiveRequirAmount();
-    //}
+    private void LateUpdate()
+    {
+        if (!NetworkServer.active || !NetworkClient.isConnected) return;
+
+        if (Managers.Game.CurrentState != GameState.Editor)
+            CheckActiveRequirAmount();
+    }
 
 
     void Activation()
     {
-        if (onPrograss) return;
+        //if (onPrograss) return;
         if (onOpen) return;
-        //onOpen = true;
-        //_collider.enabled = false;
-        //_animator.SetTrigger(UnlockTrigger);
-        //Debug.Log("OpenOpen");
-        StartCoroutine(Co_Activation());
+        onOpen = true;
+        _collider.enabled = false;
+        _animator.SetTrigger(UnlockTrigger);
+        Debug.Log("OpenOpen");
+        //StartCoroutine(Co_Activation());
     }
     void Deactivated()
     {
-        if (onPrograss) return;
+        //if (onPrograss) return;
         if (!onOpen) return;
 
-        //onOpen = false;
-        //_collider.enabled = true;
-        //_animator.SetTrigger(LockTrigger);
-        //Debug.Log("Deactivate");
-        StartCoroutine(Co_Deactivated());
+        onOpen = false;
+        _collider.enabled = true;
+        _animator.SetTrigger(LockTrigger);
+
+        Debug.Log("Deactivate");
+        //StartCoroutine(Co_Deactivated());
     }
 
     public void CheckActiveRequirAmount()
     {
-        if (activeRequirAmount == curActiveBtn) { Activation(); Debug.Log("CheckActiveRequirAmount"); };
+        //if (onPrograss || onOpen) return;
+        if (activeRequirAmount == curActiveBtn) { Activation(); Debug.Log("CheckActiveRequirAmount"); _animator.SetTrigger(UnlockTrigger); } else
+        {
+            Deactivated();
+            _animator.SetTrigger(LockTrigger);
+        }
     }
 
 
@@ -107,8 +113,10 @@ public class ButtonActivatedDoor : BuildBase
         onOpen = true;
         _collider.enabled = false;
         _animator.SetTrigger(UnlockTrigger);
+        
         Debug.Log("OpenOpen");
         yield return new WaitForSeconds(0.5f);
+        _animator.SetTrigger(UnlockTrigger);
         onPrograss = false;
     }
 
@@ -121,6 +129,7 @@ public class ButtonActivatedDoor : BuildBase
         _collider.enabled = true;
         _animator.SetTrigger(LockTrigger);
         yield return new WaitForSeconds(0.5f);
+        _animator.SetTrigger(LockTrigger);
         onPrograss = false;
     }
 
