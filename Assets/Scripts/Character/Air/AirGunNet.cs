@@ -516,7 +516,6 @@ public class AirGunNet : NetworkBehaviour
             StopCoroutine(_chargingCoroutine);
             _chargingCoroutine = null;
         }
-        StopInhaleTarget();
         StartCoroutine(Co_CoolDown());
 
         _lineRenderer.enabled = false;
@@ -529,6 +528,7 @@ public class AirGunNet : NetworkBehaviour
         {
             _inhaleTarget.GetComponent<IInhalable>().Shooting(_weaponPoint.right * _shootPower);
         }
+        StopInhaleTarget();
         _inhaleTarget = null;
         _isAttached = false;
         _inhaling = false;
