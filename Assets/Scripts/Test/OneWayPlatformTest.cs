@@ -23,7 +23,7 @@ public class OneWayPlatformTest : MonoBehaviour
         platformEffector2D.rotationalOffset = -angle;
 
         //오브젝트가 움직이고있는상태일때
-        if (_rb.velocity.magnitude >= 0.1f)
+        if (_rb.velocity.magnitude >= 0.2f)
         {
             _boxCollider2D.enabled = false;
         }
