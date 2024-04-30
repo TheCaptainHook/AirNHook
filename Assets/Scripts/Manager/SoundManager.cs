@@ -5,6 +5,7 @@ using UnityEngine.Audio;
 
 public enum AudioType
 {
+    None,
     Jump,
     Land,
     Death,

@@ -71,9 +71,16 @@ public class MapEditor_Editor : Editor
         {
 
             _Reset(mapEditor);
-
+            
 
             Managers.Data.loadData.Save();
+
+
+            mapEditor.curMap = new Map();
+            mapEditor.stageLevel = 0;
+            mapEditor.mapID = "";
+            mapEditor.startPosition = Vector2.zero;
+            mapEditor.audioType = AudioType.None;
 
         }
 
@@ -124,7 +131,8 @@ public class MapEditor_Editor : Editor
             Undo.DestroyObjectImmediate(mapEditor.screenShotCamera.gameObject);
         }
 
-        mapEditor.curMap = new Map();
+       
+
     }
 
     void UGS_MapDataLoad()
@@ -456,7 +464,7 @@ public class MapEditor_Editor : Editor
             mapEditor.mapTileDataList,
             mapEditor.mapObjectDataList,
             GetButtonActivateDoorStructList(mapEditor),
-            mapEditor.cellSize,0, await CurrentMapScreenShot(mapEditor)) ;
+            mapEditor.cellSize,0, await CurrentMapScreenShot(mapEditor),mapEditor.audioType) ;
         string json = JsonUtility.ToJson(map, true);
         //todo 0417
         if(mapEditor.mapType == MapType.Main)

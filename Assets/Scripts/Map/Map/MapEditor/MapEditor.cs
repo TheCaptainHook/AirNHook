@@ -109,6 +109,7 @@ public class MapEditor : MonoBehaviour
     public string mapID;
     public Vector2 startPosition;
     public GameObject startPositionObject;
+    public AudioType audioType = AudioType.None;
     //[HideInInspector] public int condition_KeyAmount;
     [HideInInspector] public List<TileData> mapTileDataList = new List<TileData>();
     [HideInInspector] public List<ObjectData> mapObjectDataList = new List<ObjectData>();
@@ -354,7 +355,7 @@ public class MapEditor : MonoBehaviour
             mapTileDataList,
             mapObjectDataList,
             GetButtonActivateDoorStructList(),
-            cellSize,1,bytesImage);
+            cellSize,1,bytesImage,audioType);
 
         string mapDatajson = JsonUtility.ToJson(map, true);
         string dateTimedate = JsonUtility.ToJson(new DateTimeData(System.DateTime.Now), true);
@@ -469,7 +470,7 @@ public class MapEditor : MonoBehaviour
         CreateObj(interactionObjectTransform, 2); //interactionObjectTransform
         CreateObj(exitDoorObjectTransform, 3); //exitDoorObjectTransform
 
-
+        Managers.Sound.PlayBGM(curMap.audioType, AudioMixerGroupType.BGM, true);
         //
     }
     #endregion

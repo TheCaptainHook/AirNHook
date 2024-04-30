@@ -19,14 +19,15 @@ public class Map
     public List<ExitObjStruct> mapExitObjectDataList = new();
     public int dataType; //0:Main,1:User
     public float cellSize;
-    public byte[] bytesImage;
+    [HideInInspector]public byte[] bytesImage;
+    public AudioType audioType;
 
     public Map(Vector2 mapSize, string id, int stageLevel,Vector2 startPosition,
         List<ExitObjStruct> mapExitObjectDataList,
         List<TileData> tileList, 
         List<ObjectData> objectList,
         List<ButtonActivatedDoorStruct> mapButtonActivatedDoorDataList,
-        float cellSize,int dataType = 0, byte[] bytesImage = null)
+        float cellSize,int dataType = 0, byte[] bytesImage = null,AudioType audioType = AudioType.None)
     {
         mapID = id;
         this.stageLevel = stageLevel;
@@ -39,6 +40,7 @@ public class Map
         this.cellSize = cellSize;
         this.dataType = dataType;
         this.bytesImage = bytesImage;
+        this.audioType = audioType;
     }
 
     public Map() { } //dont delet
