@@ -324,13 +324,11 @@ public class AirGunNet : NetworkBehaviour
     {
         if (_inhaleTarget is null || !_inhaling || _canStick) return;
         
-        Debug.Log("b");
         StopInhale();
     }
 
     private void StopInhale()
     {
-        Debug.Log("a");
         _inhaling = false;
         if (_chargingCoroutine is not null)
         {
@@ -352,7 +350,6 @@ public class AirGunNet : NetworkBehaviour
     {
         if (value && (_isAttached || _isInhaledHook)) return;
         
-        Debug.Log("c");
         StopInhale();
     }
     #endregion
@@ -559,11 +556,10 @@ public class AirGunNet : NetworkBehaviour
     
     private Vector2 PointPosition(float t)
     {
-        Vector2 worldPos = _mainCamera.ScreenToWorldPoint(_mouseDelta);
-        var newAim = worldPos - (Vector2)_armPivot.position;
+        Vector2 dir = weaponPoint.transform.right;
     
         var position = (Vector2)weaponPoint.position
-                           + (newAim.normalized * (_shootPower * t))
+                           + (dir * (_shootPower * t))
                            + (Physics2D.gravity * (0.5f * (t * t) * _latestTargetGravityScale));
         
         return position;
