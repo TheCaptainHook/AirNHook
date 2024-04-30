@@ -335,14 +335,11 @@ public class AirGunNet : NetworkBehaviour
             StopCoroutine(_chargingCoroutine);
             _lineRenderer.enabled = false;
         }
-        
-        if (_isInhaledHook)
-        {
-            CmdStopInhalePlayer();
-            return;
-        }
 
-        _inhaleTarget.GetComponent<IInhalable>().StopInhale();
+        if (ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject))
+            CmdStopInhalePlayer();
+        else
+            _inhaleTarget.GetComponent<IInhalable>().StopInhale();
         
         _isAttached = false;
         _isInhaledHook = false;

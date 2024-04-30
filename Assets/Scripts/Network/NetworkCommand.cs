@@ -81,8 +81,11 @@ public class NetworkCommand : NetworkBehaviour
             return;
         }
         
-        if(_assignAuthorityCoroutine.TryGetValue(itemNetId, out var coroutine))
+        if (_assignAuthorityCoroutine.TryGetValue(itemNetId, out var coroutine))
+        {
             StopCoroutine(coroutine);
+            _assignAuthorityCoroutine.Remove(itemNetId);
+        }
         
         interactable.Interacting(true);
         if (!NetworkServer.localConnection.Equals(conn) || !item.isOwned)
@@ -139,8 +142,11 @@ public class NetworkCommand : NetworkBehaviour
             return;
         }
         
-        if(_assignAuthorityCoroutine.TryGetValue(itemNetId, out var coroutine))
+        if (_assignAuthorityCoroutine.TryGetValue(itemNetId, out var coroutine))
+        {
             StopCoroutine(coroutine);
+            _assignAuthorityCoroutine.Remove(itemNetId);
+        }
         
         if ((!ReferenceEquals(Managers.Game.Player, item.gameObject) && !ReferenceEquals(Managers.Game.OtherPlayer, item.gameObject)) || !item.isOwned)
             AssignAuthority(item, conn);
@@ -160,14 +166,17 @@ public class NetworkCommand : NetworkBehaviour
     public void StopInhaleItem(uint itemNetId)
     {
         if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
-        
-        if(_assignAuthorityCoroutine.TryGetValue(itemNetId, out var coroutine))
+
+        if (_assignAuthorityCoroutine.TryGetValue(itemNetId, out var coroutine))
+        {
             StopCoroutine(coroutine);
-        
+            _assignAuthorityCoroutine.Remove(itemNetId);
+        }
+
         if (!item.isOwned)
         {
             var delayAssignAuthorityCoroutine = StartCoroutine(DelayAssignAuthority(item));
-            _assignAuthorityCoroutine.Add(itemNetId, delayAssignAuthorityCoroutine);
+            _assignAuthorityCoroutine.TryAdd(itemNetId, delayAssignAuthorityCoroutine);
         }
         
         if(!item.TryGetComponent<IInhalable>(out var inhalable)) return;
@@ -232,8 +241,11 @@ public class NetworkCommand : NetworkBehaviour
     {
         if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
         
-        if(_assignAuthorityCoroutine.TryGetValue(itemNetId, out var coroutine))
+        if (_assignAuthorityCoroutine.TryGetValue(itemNetId, out var coroutine))
+        {
             StopCoroutine(coroutine);
+            _assignAuthorityCoroutine.Remove(itemNetId);
+        }
         
         if (!item.isOwned)
             AssignAuthority(item);
@@ -247,8 +259,11 @@ public class NetworkCommand : NetworkBehaviour
     {
         if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
 
-        if(_assignAuthorityCoroutine.TryGetValue(itemNetId, out var coroutine))
+        if (_assignAuthorityCoroutine.TryGetValue(itemNetId, out var coroutine))
+        {
             StopCoroutine(coroutine);
+            _assignAuthorityCoroutine.Remove(itemNetId);
+        }
         
         if (item.isOwned) return;
 
