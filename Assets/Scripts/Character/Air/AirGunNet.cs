@@ -330,14 +330,19 @@ public class AirGunNet : NetworkBehaviour
     private void StopInhale()
     {
         _inhaling = false;
-        if(!_isInhaledHook)
-            _inhaleTarget.GetComponent<IInhalable>().StopInhale();
-        
         if (_chargingCoroutine is not null)
         {
             StopCoroutine(_chargingCoroutine);
             _lineRenderer.enabled = false;
         }
+        
+        if (_isInhaledHook)
+        {
+            CmdStopInhalePlayer();
+            return;
+        }
+
+        _inhaleTarget.GetComponent<IInhalable>().StopInhale();
         
         _isAttached = false;
         _isInhaledHook = false;
@@ -650,6 +655,18 @@ public class AirGunNet : NetworkBehaviour
     private void RpcInhalePlayer()
     {
         Managers.Game.Player.GetComponent<IInhalable>().Inhalation(weaponPoint);
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdStopInhalePlayer()
+    {
+        RpcStopInhalePlayer();
+    }
+    
+    [ClientRpc(includeOwner = false)]
+    private void RpcStopInhalePlayer()
+    {
+        Managers.Game.Player.GetComponent<IInhalable>().StopInhale();
     }
     #endregion
 }
