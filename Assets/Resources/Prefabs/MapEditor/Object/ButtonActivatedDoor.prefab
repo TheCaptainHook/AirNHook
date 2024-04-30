@@ -550,6 +550,7 @@ MonoBehaviour:
   transformID: 3
   position: {x: 0, y: 0}
   offset: {x: 0, y: 2.5}
+  turnOff: 0
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 1
@@ -617,7 +618,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 1
   syncInterval: 0
-  clientAuthority: 1
+  clientAuthority: 0
   animator: {fileID: 4035336826809509372}
 --- !u!1 &8169169655005324946
 GameObject:

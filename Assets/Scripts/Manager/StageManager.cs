@@ -2,7 +2,6 @@ using Mirror;
 using UnityEngine;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using UnityEditor.UI;
 
 public class StageManager
 {
