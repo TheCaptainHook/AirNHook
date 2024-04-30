@@ -217,7 +217,6 @@ public class ButtonActivated : BuildObj
         {
             
             linkDoor.CurActiveBtn = 1;
-            Debug.Log($"{linkDoor.curActiveBtn}");
         }
 
         _animator.SetBool(IsActivated, true);

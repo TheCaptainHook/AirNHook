@@ -24,7 +24,7 @@ public class ButtonActivatedDoor : BuildBase
     public int activeRequirAmount;//문 활성화 조건
     public int CurActiveBtn
     {
-        set { curActiveBtn += value; Debug.Log("curActiveBtn: " + curActiveBtn) ;
+        set { curActiveBtn += value;
             curActiveBtn = Mathf.Clamp(curActiveBtn, 0, curLinkBtn);
             if (curActiveBtn == activeRequirAmount) { if(!onOpen)Activation(); }
             else { if(onOpen)Deactivated(); }
@@ -61,13 +61,13 @@ public class ButtonActivatedDoor : BuildBase
         _animator = GetComponent<NetworkAnimator>();
     }
 
-    private void LateUpdate()
-    {
-        if (!NetworkServer.active || !NetworkClient.isConnected) return;
+    //private void LateUpdate()
+    //{
+    //    if (!NetworkServer.active || !NetworkClient.isConnected) return;
         
-        if(Managers.Game.CurrentState != GameState.Editor)
-            CheckActiveRequirAmount();
-    }
+    //    if(Managers.Game.CurrentState != GameState.Editor)
+    //        CheckActiveRequirAmount();
+    //}
 
 
     void Activation()
@@ -76,7 +76,7 @@ public class ButtonActivatedDoor : BuildBase
         onOpen = true;
         _collider.enabled = false;
         _animator.SetTrigger(UnlockTrigger);
-        Debug.Log("Open");
+        Debug.Log("OpenOpen");
     }
     void Deactivated()
     {
@@ -89,7 +89,7 @@ public class ButtonActivatedDoor : BuildBase
     public void CheckActiveRequirAmount()
     {
         if (onOpen) return;
-        if (activeRequirAmount == curActiveBtn) Activation();
+        if (activeRequirAmount == curActiveBtn) { Activation(); Debug.Log("CheckActiveRequirAmount"); };
     }
 
     //public override void TurnOff()
