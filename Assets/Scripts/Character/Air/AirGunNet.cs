@@ -178,7 +178,6 @@ public class AirGunNet : NetworkBehaviour
             _isAttached = false;
             _isInhaledHook = false;
             _latestTarget = null;
-            _grappling = null;
             return;
         }
 
@@ -232,7 +231,6 @@ public class AirGunNet : NetworkBehaviour
             _isAttached = false;
             _isInhaledHook = false;
             _latestTarget = null;
-            _grappling = null;
             return;
         }
         
