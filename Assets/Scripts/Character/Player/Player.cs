@@ -218,6 +218,14 @@ public class Player : NetworkBehaviour, IDamageable
                 }
             }
 
+            if (closestTarget is null)
+            {
+                if (_latestTarget is not null)
+                    _latestTarget = null;
+                
+                continue;
+            }
+
             if (_latestTarget is not null)
             {
                 if (ReferenceEquals(_latestTarget, closestTarget))
