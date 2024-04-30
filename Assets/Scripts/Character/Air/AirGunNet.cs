@@ -9,6 +9,7 @@ public class AirGunNet : NetworkBehaviour
     // Input
     [field: SerializeField] private Transform _armPivot;
     [field: SerializeField] private Transform _charPivot;
+    private Collider2D _collider;
     public bool canHandle;
     private PlayerInput _playerInput;
     private PlayerMovement _playerMovement;
@@ -68,6 +69,7 @@ public class AirGunNet : NetworkBehaviour
     
     private void Awake()
     {
+        _collider = GetComponent<Collider2D>();
         _lineRenderer = GetComponent<LineRenderer>();
         _playerMovement = GetComponent<PlayerMovement>();
         _animator = GetComponent<Animator>();
@@ -175,7 +177,6 @@ public class AirGunNet : NetworkBehaviour
             _inhaling = false;
             _isAttached = false;
             _isInhaledHook = false;
-            Debug.Log("a");
             _latestTarget = null;
             return;
         }
@@ -371,7 +372,7 @@ public class AirGunNet : NetworkBehaviour
     {
         var stick = false;
         _sticking = true;
-        _rigidbody2D.drag = 8f;
+        _rigidbody2D.drag = 10f;
         while (true)
         {
             if (!stick)
@@ -383,8 +384,13 @@ public class AirGunNet : NetworkBehaviour
                     _rigidbody2D.gravityScale = 0f;
                     _rigidbody2D.velocity = Vector2.zero;
                 }
+
+                var objectVector = (transform.position - _grappling.transform.position).normalized;
+                var targetDistance = Vector2.Distance(transform.position, _grappling.transform.position);
                 
-                if(!_grappling.grappleAttached)
+                var hit = Physics2D.Raycast(weaponPoint.position, objectVector, targetDistance, _obstacleMask);
+                
+                if(!ReferenceEquals(hit.collider, _collider) || !_grappling.grappleAttached)
                     StopSticking();
 
                 var direction = (_grappling.transform.position + _offset - transform.position).normalized;
@@ -403,10 +409,11 @@ public class AirGunNet : NetworkBehaviour
                 yield return null;
                 if(!_grappling.grappleAttached)
                     StopSticking();
+
+                if (_isStick) continue;
                 
                 _rigidbody2D.velocity = Vector2.zero;
                 transform.position = _grappling.transform.position + _offset;
-                //_grappling.GetComponent<HookMovement>().isAirAttached = true;
                 _rigidbody2D.drag = 0f;
                 _grappling.isAirAttached = true;
                 _isStick = true;
@@ -422,7 +429,6 @@ public class AirGunNet : NetworkBehaviour
         _sticking = false;
         _isAttachedToHook = false;
         _rigidbody2D.drag = 0f;
-        //_grappling.GetComponent<HookMovement>().isAirAttached = false;
         _grappling.isAirAttached = false;
         StopCoroutine(_stickToHookCoroutine);
         _stickToHookCoroutine = null;
@@ -468,18 +474,6 @@ public class AirGunNet : NetworkBehaviour
         _grappling = null;
         _rigidbody2D.velocity = Vector2.zero;
         _rigidbody2D.gravityScale = 3f;
-    }
-
-    [Command(requiresAuthority = false)]
-    public void CmdStopSticking()
-    {
-        RpcStopSticking();
-    }
-    
-    [ClientRpc(includeOwner = false)]
-    private void RpcStopSticking()
-    {
-        StopSticking();
     }
     #endregion
 
@@ -662,6 +656,18 @@ public class AirGunNet : NetworkBehaviour
     private void RpcStopInhalePlayer()
     {
         Managers.Game.Player.GetComponent<IInhalable>().StopInhale();
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CmdStopSticking()
+    {
+        RpcStopSticking();
+    }
+    
+    [ClientRpc(includeOwner = false)]
+    private void RpcStopSticking()
+    {
+        StopSticking();
     }
     #endregion
 }
