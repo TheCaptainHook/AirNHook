@@ -206,13 +206,13 @@ public class Player : NetworkBehaviour, IDamageable
 
             foreach (var collision in collisions)
             {
+                // 후크가 잡고 있는 물체 처리
+                if (collision.TryGetComponent<IInteractable>(out var inhalable) && !inhalable.CanInteract()) continue;
+
                 //TODO 벽에 가로막혔을 경우 체크
                 var targetDistance = Vector2.Distance(transform.position + offset, collision.transform.position);
                 if (targetDistance < shortestDistance)
                 {
-                    // 후크가 잡고 있는 물체 처리
-                    if (collision.TryGetComponent<IInteractable>(out var inhalable) && !inhalable.CanInteract()) continue;
-                    
                     shortestDistance = targetDistance;
                     closestTarget = collision;
                 }

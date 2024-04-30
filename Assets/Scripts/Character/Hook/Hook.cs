@@ -47,21 +47,21 @@ public class Hook : Player
             {
                 if (_latestTarget is null) continue;
 
-                try { _latestTarget.GetComponent<IInteractable>().HideEButton(); }
-                catch (Exception) { Managers.UI.HideUI<UI_ShowEButton>(); }
+                if(_latestTarget.TryGetComponent<IInteractable>(out var none))
+                    none.HideEButton();
                 _latestTarget = null;
                 continue;
             }
 
             foreach (var collision in collisions)
             {
+                // 후크가 잡고 있는 물체 처리
+                if (collision.TryGetComponent<IInteractable>(out var inhalable) && !inhalable.CanInteract()) continue;
+                
                 //TODO 벽에 가로막혔을 경우 체크
                 var targetDistance = Vector2.Distance(transform.position + offset, collision.transform.position);
                 if (targetDistance < shortestDistance)
                 {
-                    // 후크가 잡고 있는 물체 처리
-                    if (collision.TryGetComponent<IInteractable>(out var inhalable) && !inhalable.CanInteract()) continue;
-                    
                     shortestDistance = targetDistance;
                     closestTarget = collision;
                 }
@@ -75,11 +75,13 @@ public class Hook : Player
                     continue;
                 }
 
-                _latestTarget.GetComponent<IInteractable>().HideEButton();
+                if(_latestTarget.TryGetComponent<IInteractable>(out var other))
+                    other.HideEButton();
             }
 
             _latestTarget = closestTarget;
-            _latestTarget.GetComponent<IInteractable>().ShowEButton();
+            if(_latestTarget.TryGetComponent<IInteractable>(out var newTarget))
+                newTarget.ShowEButton();
             shortestDistance = float.MaxValue;
         }
     }
@@ -93,11 +95,17 @@ public class Hook : Player
         else if (_latestTarget is not null)
         {
             if(!_latestTarget.TryGetComponent<IInteractable>(out var interactable)) return;
-            
-            if(interactable.GetObjectType() == ObjectTypeEnum.Grab) 
+
+            if (interactable.GetObjectType() == ObjectTypeEnum.Grab)
+            {
+                Debug.Log("b");
                 Managers.Command.TryGrabItem(gameObject, _latestTarget.GetComponent<NetworkIdentity>().netId);
-            else 
+            }
+            else
+            {
+                Debug.Log("g");
                 interactable.Interaction(_grabPoint);
+            }
         }
     }
 
