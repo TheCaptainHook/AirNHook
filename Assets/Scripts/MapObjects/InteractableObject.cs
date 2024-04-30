@@ -47,17 +47,15 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     private void Update()
     {
-        if (!_isFixed && _eButtonUI is not null)
-        {
-            _eButtonUI.transform.position = transform.position + (Vector3)_offset;
-        }
-        
-        if(!isOwned) return;
-        
-        if (_isFixed && _fixedPoint is not null)
+        if (isOwned && _isFixed && _fixedPoint is not null)
         {
             _rigidbody.velocity = Vector2.zero;
             transform.position = _fixedPoint.position;
+        }
+        
+        if (!_isFixed && _eButtonUI is not null)
+        {
+            _eButtonUI.transform.position = transform.position + (Vector3)_offset;
         }
     }
 
