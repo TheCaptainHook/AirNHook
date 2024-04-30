@@ -77,6 +77,8 @@ public class HookMovement : PlayerMovement, IInhalable
 
     protected override void IsFloor()
     {
+        if(_rigidbd.velocity.y > 0.15f) return;
+        
         for (int i = -1; i < 2; i++)
         {
             if (Physics2D.Raycast(transform.position + (Vector3.right * (0.4f * i)), Vector2.down, 0.1f, _floorLayer))

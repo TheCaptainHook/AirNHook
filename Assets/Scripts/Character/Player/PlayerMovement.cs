@@ -192,6 +192,8 @@ public class PlayerMovement : NetworkBehaviour
     //점프체크
     protected virtual void IsFloor()
     {
+        if(_rigidbd.velocity.y > 0.15f) return;
+        
         //Ray발사
         for (int i = -1; i < 2; i++)
         {

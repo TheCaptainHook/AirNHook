@@ -222,7 +222,7 @@ public class NetworkCommand : NetworkBehaviour
 
         var item = obj.GetComponent<NetworkIdentity>();
         
-        if (!item.isOwned)
+        if (!ReferenceEquals(Managers.Game.Player, obj) || !item.isOwned)
             AssignAuthority(item);
         
         inhalable.Shooting(power);
