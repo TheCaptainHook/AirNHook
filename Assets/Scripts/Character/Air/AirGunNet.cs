@@ -517,18 +517,13 @@ public class AirGunNet : NetworkBehaviour
             _chargingCoroutine = null;
         }
         StartCoroutine(Co_CoolDown());
+        StopInhaleTarget();
 
         _lineRenderer.enabled = false;
         if (ReferenceEquals(_inhaleTarget.gameObject, Managers.Game.OtherPlayer))
-        {
-            Managers.Command.CmdShootObject(_inhaleTarget.gameObject, _weaponPoint.right * _shootPower);
             _isInhaledHook = false;
-        }
-        else
-        {
-            _inhaleTarget.GetComponent<IInhalable>().Shooting(_weaponPoint.right * _shootPower);
-        }
-        StopInhaleTarget();
+        
+        Managers.Command.CmdShootObject(_inhaleTarget.gameObject, _weaponPoint.right * _shootPower);
         _inhaleTarget = null;
         _isAttached = false;
         _inhaling = false;
