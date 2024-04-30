@@ -8,6 +8,13 @@ public enum AudioType
     Jump,
     Land,
     Death,
+    UI_Click,
+    UI_Popup,
+    Title,
+    Lobby,
+    Tutorial, //튜토리얼 1~3까지는 같은 배경음
+    Stage1_Normal, //스테이지1-1~4
+    Stage1_Final, //스테이지1-5
 }
 
 public enum AudioMixerGroupType
