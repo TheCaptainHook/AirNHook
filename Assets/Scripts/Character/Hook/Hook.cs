@@ -84,37 +84,11 @@ public class Hook : Player
         }
     }
 
-    /*
     protected override void Interaction()
     {
         if (_grabbedItem is not null)
         {
-            try { _grabbedItem.GetComponent<IInteractable>().Interaction(_grabPoint); }
-            catch (Exception) { ReleaseItem(); }
-            _grabbedItem = null;
-            _animator.SetBool(IsGrabbing, false);
-        }
-        else if (_latestTarget is not null)
-        {
-            if(!_latestTarget.TryGetComponent<IInteractable>(out var interactable) ||
-               (interactable is not null && !interactable.CanInteract())) return;
-
-            if (interactable.GetObjectType() == ObjectTypeEnum.Grab)
-            {
-                _grabbedItem = _latestTarget.transform;
-                _animator.SetBool(IsGrabbing, true);
-                CmdObjectAuthoritySet(_grabbedItem.GetComponent<NetworkIdentity>());
-            }
-            interactable.Interaction(_grabPoint);
-        }
-    }
-    */
-
-    protected override void Interaction()
-    {
-        if (_grabbedItem is not null)
-        {
-            Managers.Command.TryReleaseItem(connectionToClient, _grabbedItem.GetComponent<NetworkIdentity>());
+            Managers.Command.TryReleaseItem(gameObject, _grabbedItem.GetComponent<NetworkIdentity>().netId);
         }
         else if (_latestTarget is not null)
         {
@@ -134,12 +108,21 @@ public class Hook : Player
             _animator.SetBool(IsGrabbing, true);
         }
         interactable.Interaction(_grabPoint);
+        interactable.HideEButton();
     }
 
-    private void ReleaseItemNet(NetworkIdentity item)
+    private void ReleaseItemNet(uint itemNetId)
     {
-        try { item.GetComponent<IInteractable>().Interaction(_grabPoint); }
-        catch (Exception) { ReleaseItem(); }
+        if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
+
+        if (!item.TryGetComponent<IInteractable>(out var interactable))
+        {
+            ReleaseItem();
+            return;
+        }
+        
+        interactable.Interaction(_grabPoint);
+
         _grabbedItem = null;
         _animator.SetBool(IsGrabbing, false);
     }
@@ -151,15 +134,6 @@ public class Hook : Player
         _grabbedItem = null;
         _animator.SetBool(IsGrabbing, false);
     }
-    
-    /*
-    [Command(requiresAuthority = false)]
-    private void CmdObjectAuthoritySet(NetworkIdentity id)
-    {
-        id.RemoveClientAuthority();
-        id.AssignClientAuthority(connectionToClient);
-    }
-    */
     
     public override void TakeDamage()
     {

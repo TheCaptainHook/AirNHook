@@ -62,9 +62,9 @@ public class NetworkCommand : NetworkBehaviour
     }
     #endregion
 
-    #region TryGrabItem
+    #region GrabReleaseItem
     public Action<NetworkIdentity, bool> itemGrabCallback;
-    public Action<NetworkIdentity> itemReleaseCallback;
+    public Action<uint> itemReleaseCallback;
     
     [Command(requiresAuthority = false)]
     public void TryGrabItem(GameObject target, uint itemNetId)
@@ -79,7 +79,7 @@ public class NetworkCommand : NetworkBehaviour
             return;
         }
         
-        interactable.Fixed(true);
+        interactable.Interacting(true);
         if (!NetworkServer.localConnection.Equals(conn) || !item.isOwned)
         {
             item.RemoveClientAuthority();
@@ -88,7 +88,7 @@ public class NetworkCommand : NetworkBehaviour
         
         GrabItem(conn, itemNetId, true);
     }
-
+    
     [TargetRpc]
     private void GrabItem(NetworkConnectionToClient conn, uint itemNetId, bool value)
     {
@@ -98,8 +98,10 @@ public class NetworkCommand : NetworkBehaviour
     }
 
     [Command(requiresAuthority = false)]
-    public void TryReleaseItem(NetworkConnectionToClient conn, NetworkIdentity item)
+    public void TryReleaseItem(GameObject target, uint itemNetId)
     {
+        if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
+        
         if (!item.isOwned)
         {
             item.RemoveClientAuthority();
@@ -108,14 +110,74 @@ public class NetworkCommand : NetworkBehaviour
         
         if(!item.TryGetComponent<IInteractable>(out var interactable)) return;
         
-        interactable.Fixed(false);
-        ReleaseItem(conn, item);
+        interactable.Interacting(false);
+        item.GetComponent<Rigidbody2D>().velocity = target.GetComponent<Rigidbody2D>().velocity;
+        ReleaseItem(target.GetComponent<NetworkIdentity>().connectionToClient, itemNetId);
     }
 
     [TargetRpc]
-    private void ReleaseItem(NetworkConnectionToClient conn, NetworkIdentity item)
+    private void ReleaseItem(NetworkConnectionToClient conn, uint itemNetId)
     {
-        itemReleaseCallback?.Invoke(item);
+        itemReleaseCallback?.Invoke(itemNetId);
+    }
+    #endregion
+
+    #region InhaleItem
+    public Action<NetworkIdentity, bool> itemInhaleCallback;
+    public Action<uint> itemStopInhaleCallback;
+    
+    [Command(requiresAuthority = false)]
+    public void TryInhaleItem(GameObject target, uint itemNetId)
+    {
+        if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
+
+        var conn = target.GetComponent<NetworkIdentity>().connectionToClient;
+
+        if (!item.TryGetComponent<IInhalable>(out var inhalable) || (inhalable is not null && !inhalable.CanInhale()))
+        {
+            InhaleItem(conn, itemNetId, false);
+            return;
+        }
+
+        inhalable.Inhaling(true);
+        if (!NetworkServer.localConnection.Equals(conn) || !item.isOwned)
+        {
+            item.RemoveClientAuthority();
+            item.AssignClientAuthority(conn);
+        }
+        
+        InhaleItem(conn, itemNetId, true);
+    }
+
+    [TargetRpc]
+    private void InhaleItem(NetworkConnectionToClient conn, uint itemNetId, bool value)
+    {
+        if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
+        
+        itemInhaleCallback?.Invoke(item, value);
+    }
+
+    [Command(requiresAuthority = false)]
+    public void TryStopInhaleItem(GameObject target, uint itemNetId)
+    {
+        if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
+
+        if (!item.isOwned)
+        {
+            item.RemoveClientAuthority();
+            item.AssignClientAuthority(NetworkServer.localConnection);
+        }
+        
+        if(!item.TryGetComponent<IInhalable>(out var inhalable)) return;
+        
+        inhalable.Inhaling(false);
+        StopInhaleItem(target.GetComponent<NetworkIdentity>().connectionToClient, itemNetId);
+    }
+
+    [TargetRpc]
+    private void StopInhaleItem(NetworkConnectionToClient conn, uint itemNetId)
+    {
+        itemStopInhaleCallback?.Invoke(itemNetId);
     }
     #endregion
 }

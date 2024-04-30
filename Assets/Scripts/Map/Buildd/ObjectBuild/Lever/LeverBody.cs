@@ -235,7 +235,7 @@ public class LeverBody : BuildObj, IInteractable
         return onCompletionParts;
     }
 
-    public void Fixed(bool value)
+    public void Interacting(bool value)
     {
         return;
     }

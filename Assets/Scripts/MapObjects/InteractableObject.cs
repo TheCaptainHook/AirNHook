@@ -1,58 +1,64 @@
-using System.Collections;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 {
+    // grab release
+    [Header("Grab n Release")]
+    private Rigidbody2D _rigidbody;
     private Transform _fixedPoint;
-    private Rigidbody2D _rigidbody2D;
-    [field: SerializeField] private ObjectTypeEnum _objectType = ObjectTypeEnum.Grab;
     public LayerMask grabLayerMask;
     private LayerMask _releaseLayerMask;
     private RigidbodyType2D _originType;
     private RigidbodyConstraints2D _originRot;
+    [field: SerializeField] private ObjectTypeEnum _objectType = ObjectTypeEnum.Grab;
     private float _gravityScale;
     [SyncVar] private bool _isFixed;
-    [SyncVar] private bool _canInhale;
-    [SyncVar] private bool _isDestroyed;
+    [SyncVar] private bool _canInteract = true;
+    
+    // e button ui
+    [Header("E Button UI")]
+    private UI_Base _eButtonUI;
+    [field: SerializeField] private Vector2 _offset;
+    
+    // inhale
+    [Header("Inhale")]
     [field: SerializeField] private float _inhalePower = 20f;
+    
+    // sorting layer
     private SortingGroup _sortingGroup;
     private int _originSortingLayerID;
-
-    private UI_Base _eButtonUI;
-    public Vector2 offset;
-
     private const string GrabObj = "GrabObj";
     
     private void Awake()
     {
-        _rigidbody2D = GetComponent<Rigidbody2D>();
-        _originType = _rigidbody2D.bodyType;
-        _originRot = _rigidbody2D.constraints;
-        _releaseLayerMask = _rigidbody2D.excludeLayers;
-        _fixedPoint = null;
+        _rigidbody = GetComponent<Rigidbody2D>();
         _sortingGroup = GetComponent<SortingGroup>();
-        _originSortingLayerID = _sortingGroup.sortingLayerID;
     }
 
     private void Start()
     {
-        _gravityScale = _rigidbody2D.gravityScale;
+        _originType = _rigidbody.bodyType;
+        _originRot = _rigidbody.constraints;
+        _releaseLayerMask = _rigidbody.excludeLayers;
+        _gravityScale = _rigidbody.gravityScale;
+        
+        _originSortingLayerID = _sortingGroup.sortingLayerID;
     }
 
     private void Update()
     {
         if (!_isFixed && _eButtonUI is not null)
         {
-            _eButtonUI.transform.position = transform.position + (Vector3)offset;
+            _eButtonUI.transform.position = transform.position + (Vector3)_offset;
         }
         
         if(!isOwned) return;
         
         if (_isFixed && _fixedPoint is not null)
         {
-            _rigidbody2D.velocity = Vector2.zero;
+            _rigidbody.velocity = Vector2.zero;
             transform.position = _fixedPoint.position;
         }
     }
@@ -61,17 +67,15 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     {
         if(!isOwned || _fixedPoint is null) return;
         
-        if (_canInhale)
+        if (_canInteract)
         {
             Inhale();
         }
     }
 
+    #region IInteractable
     public void Interaction(Transform accessor)
     {
-        if (_fixedPoint is not null && !ReferenceEquals(_fixedPoint, accessor))
-            return;
-
         if (_isFixed)
         {
             Release();
@@ -82,15 +86,64 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             Grab();
         }
     }
-
-    public bool CanInteract()
+    
+    protected virtual void Grab()
     {
-        return !(_isDestroyed || _isFixed);
+        _isFixed = true;
+        _canInteract = false;
+        ChangeState(true);
+        HideEButton();
+        
+        _rigidbody.bodyType = RigidbodyType2D.Kinematic;
+        _rigidbody.velocity = Vector2.zero;
+        _rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+        transform.rotation = Quaternion.identity;
+        _sortingGroup.sortingLayerName = GrabObj;
+        CmdSetExcludeLayer(grabLayerMask);
     }
 
-    public void Fixed(bool value)
+    public virtual void Release()
     {
-        _isFixed = value;
+        _isFixed = false;
+        _canInteract = true;
+        ChangeState(false);
+        ShowEButton();
+
+        _rigidbody.bodyType = _originType;
+        _fixedPoint = null;
+        _rigidbody.constraints = _originRot;
+        _sortingGroup.sortingLayerID = _originSortingLayerID;
+        CmdSetExcludeLayer(_releaseLayerMask);
+    }
+    
+    public void Destroyed()
+    {
+        _isFixed = false;
+        _canInteract = false;
+        CmdChangeFixedState(false);
+        CmdChangeInteractState(false);
+        
+        if(_eButtonUI is not null)
+            HideEButton();
+
+        _rigidbody.bodyType = _originType;
+        
+        if (_fixedPoint is not null && _fixedPoint.root.TryGetComponent<Hook>(out var hook))
+            hook.ReleaseItem();
+
+        _fixedPoint = null;
+        CmdSetExcludeLayer(_releaseLayerMask);
+        _rigidbody.constraints = _originRot;
+    }
+    
+    public bool CanInteract()
+    {
+        return _canInteract;
+    }
+
+    public void Interacting(bool value)
+    {
+        _canInteract = !value;
     }
 
     public ObjectTypeEnum GetObjectType()
@@ -98,126 +151,96 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         return _objectType;
     }
 
-    protected virtual void Grab()
+    public void ShowEButton()
     {
-        ChangeFixedState(true);
-        ChangeCanInhaleState(false);
-        HideEButton();
-        _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
-        _rigidbody2D.velocity = new Vector2(0, 0);
-        transform.rotation = Quaternion.identity;
-        CmdSetExcludeLayer(grabLayerMask);
-        _rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
-        _sortingGroup.sortingLayerName = GrabObj;
+        if(!_canInteract) return;
+        
+        _eButtonUI = Managers.UI.ShowUI<UI_ShowEButton>();
+        _eButtonUI.transform.position = transform.position + (Vector3)_offset;
     }
-
-    public virtual void Release()
+    
+    public void HideEButton()
     {
-        ChangeFixedState(false);
-        ChangeCanInhaleState(false);
-        ShowEButton();
-        _rigidbody2D.bodyType = _originType;
-        _fixedPoint = null;
-        CmdSetExcludeLayer(_releaseLayerMask);
-        _rigidbody2D.constraints = _originRot;
-        _sortingGroup.sortingLayerID = _originSortingLayerID;
+        _eButtonUI = null;
+        Managers.UI.HideUI<UI_ShowEButton>();
     }
+    #endregion
 
-    public void Destroyed()
-    {
-        _isDestroyed = true;
-        _isFixed = false;
-        _canInhale = true;
-        ChangeDestroyedState(true);
-        ChangeFixedState(false);
-        ChangeCanInhaleState(true);
-        if(_eButtonUI is not null)
-            HideEButton();
-        _rigidbody2D.bodyType = _originType;
-        if (_fixedPoint is not null && _fixedPoint.root.TryGetComponent<Hook>(out var hook))
-        {
-            hook.ReleaseItem();
-        }
-
-        _fixedPoint = null;
-        CmdSetExcludeLayer(_releaseLayerMask);
-        _rigidbody2D.constraints = _originRot;
-    }
-
+    #region IInhalation
     public void Inhalation(Transform accessor)
     {
-        if (_fixedPoint is not null || _canInhale || _isFixed || _isDestroyed)
+        if (_fixedPoint is not null || _canInteract || _isFixed)
             return;
 
         _fixedPoint = accessor;
         
         transform.rotation = Quaternion.identity;
-        ChangeCanInhaleState(true);
+        //ChangeCanInhaleState(true);
     }
 
     public void StopInhale()
     {
-        ChangeCanInhaleState(false);
-        ChangeFixedState(false);
+        //ChangeCanInhaleState(false);
+        //ChangeFixedState(false);
         _fixedPoint = null;
-        _rigidbody2D.gravityScale = _gravityScale;
+        _rigidbody.gravityScale = _gravityScale;
         CmdSetExcludeLayer(_releaseLayerMask);
+    }
+
+    public void Inhaling(bool value)
+    {
+        _canInteract = value;
     }
 
     public void Shooting(Vector2 force)
     {
-        ChangeCanInhaleState(false);
-        ChangeFixedState(false);
+        //ChangeCanInhaleState(false);
+        //ChangeFixedState(false);
         _fixedPoint = null;
-        _rigidbody2D.gravityScale = _gravityScale;
-        _rigidbody2D.AddForce(force, ForceMode2D.Impulse);
+        _rigidbody.gravityScale = _gravityScale;
+        _rigidbody.AddForce(force, ForceMode2D.Impulse);
         CmdSetExcludeLayer(_releaseLayerMask);
     }
 
     public bool CanInhale()
     {
-        return !(_isDestroyed || _isFixed);
+        return _canInteract;
     }
 
     private void Inhale()
     {
         var direction = (_fixedPoint.position - transform.position).normalized;
         var power = _inhalePower * Time.fixedDeltaTime;
-        _rigidbody2D.gravityScale = 0f;
-        _rigidbody2D.AddForce(direction * power);
+        _rigidbody.gravityScale = 0f;
+        _rigidbody.AddForce(direction * power);
         CmdSetExcludeLayer(grabLayerMask);
             
         if (Vector2.Distance(_fixedPoint.position, transform.position) > 0.2f) return;
 
-        ChangeCanInhaleState(false);
-        ChangeFixedState(true);
+        //ChangeCanInhaleState(false);
+        //ChangeFixedState(true);
     }
+    #endregion
 
-    [Command(requiresAuthority = false)]
-    private void ChangeDestroyedState(bool value)
+    #region Command
+    private void ChangeState(bool value)
     {
-        _isDestroyed = value;
-        StartCoroutine(DestroyCoroutine());
+        CmdChangeFixedState(value);
+        CmdChangeInteractState(!value);
     }
-
-    private IEnumerator DestroyCoroutine()
-    {
-        yield return new WaitForSeconds(2f);
-        ChangeDestroyedState(false);
-    }
-
+    
     [Command(requiresAuthority = false)]
-    private void ChangeFixedState(bool value)
+    private void CmdChangeFixedState(bool value)
     {
         _isFixed = value;
     }
-    
+
     [Command(requiresAuthority = false)]
-    private void ChangeCanInhaleState(bool value)
+    private void CmdChangeInteractState(bool value)
     {
-        _canInhale = value;
+        _canInteract = value;
     }
-    
+
     [Command(requiresAuthority = false)]
     private void CmdSetExcludeLayer(LayerMask layerMask)
     {
@@ -227,20 +250,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     [ClientRpc]
     private void RpcSetExcludeLayer(LayerMask layerMask)
     {
-        _rigidbody2D.excludeLayers = layerMask;
+        _rigidbody.excludeLayers = layerMask;
     }
-
-    public void ShowEButton()
-    {
-        if(_isFixed || _isDestroyed) HideEButton();
-        
-        _eButtonUI = Managers.UI.ShowUI<UI_ShowEButton>();
-        _eButtonUI.transform.position = transform.position + (Vector3)offset;
-    }
-    
-    public void HideEButton()
-    {
-        _eButtonUI = null;
-        Managers.UI.HideUI<UI_ShowEButton>();
-    }
+    #endregion
 }
