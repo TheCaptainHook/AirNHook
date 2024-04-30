@@ -261,10 +261,12 @@ public class AirGunNet : NetworkBehaviour
 
     private void ObjectCheck()
     {
-        if(!_rightClick || _latestTarget is null || _isAttached || _isStick || !_canInhale) return;
+        if(!_rightClick || _latestTarget is null || _isAttached || _sticking || !_canInhale) return;
+        Debug.Log("e");
         
         if (_grappling is null && ReferenceEquals(_latestTarget.gameObject, Managers.Game.OtherPlayer))
         {
+            Debug.Log("d");
             if (_latestTarget.TryGetComponent(out _grappling) && _grappling.grappleAttached)
             {
                 _canStick = false;
@@ -275,6 +277,7 @@ public class AirGunNet : NetworkBehaviour
         {
             if(!_canStick) return;
             
+            Debug.Log("a");
             StickToHook();
         }
         else
@@ -282,6 +285,8 @@ public class AirGunNet : NetworkBehaviour
             _grappling = null;
             StartInhaleTarget();
         }
+
+        Debug.Log("c");
     }
 
     private IEnumerator KeepGrapplingCheck()
@@ -364,7 +369,8 @@ public class AirGunNet : NetworkBehaviour
     private void StickToHook()
     {
         _canStick = false;
-
+        _sticking = true;
+        
         _stickToHookCoroutine = StartCoroutine(Co_StickHook());
     }
     
