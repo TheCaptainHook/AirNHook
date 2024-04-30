@@ -76,6 +76,7 @@ public class ButtonActivatedDoor : BuildBase
         onOpen = true;
         _collider.enabled = false;
         _animator.SetTrigger(UnlockTrigger);
+        Debug.Log("Open");
     }
     void Deactivated()
     {
