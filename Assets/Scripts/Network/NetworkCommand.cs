@@ -110,6 +110,7 @@ public class NetworkCommand : NetworkBehaviour
         
         if(!item.TryGetComponent<IInteractable>(out var interactable)) return;
         
+        item.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         interactable.Interacting(false);
         ReleaseItem(target.GetComponent<NetworkIdentity>().connectionToClient, itemNetId);
     }
