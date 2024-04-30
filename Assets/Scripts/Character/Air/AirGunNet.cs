@@ -549,7 +549,7 @@ public class AirGunNet : NetworkBehaviour
 
         _lineRenderer.enabled = false;
         
-        Managers.Command.ShootObject(_inhaleTarget.gameObject, weaponPoint.right * _shootPower);
+        CmdShootObject(_inhaleTarget.gameObject, weaponPoint.right * _shootPower);
         _inhaleTarget = null;
         _isAttached = false;
         _isInhaledHook = false;
@@ -682,6 +682,31 @@ public class AirGunNet : NetworkBehaviour
     private void RpcStopInhalePlayer()
     {
         Managers.Game.Player.GetComponent<IInhalable>().StopInhale();
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdShootObject(GameObject obj, Vector2 power)
+    {
+        if(!obj.TryGetComponent<IInhalable>(out var inhalable)) return;
+
+        var item = obj.GetComponent<NetworkIdentity>();
+
+        if (ReferenceEquals(Managers.Game.Player, obj) || ReferenceEquals(Managers.Game.OtherPlayer, obj))
+        {
+            RpcShootPlayer(obj, power);
+            return;
+        }
+
+        if (item.isOwned)
+            Managers.Command.AuthorityToServer(item.netId);
+        
+        inhalable.Shooting(power);
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcShootPlayer(GameObject player, Vector2 power)
+    {
+        player.GetComponent<IInhalable>().Shooting(power);
     }
 
     [Command(requiresAuthority = false)]

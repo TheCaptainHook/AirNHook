@@ -218,19 +218,6 @@ public class NetworkCommand : NetworkBehaviour
             fixItemCallback?.Invoke(value, false);
     }
 
-    [Command(requiresAuthority = false)]
-    public void ShootObject(GameObject obj, Vector2 power)
-    {
-        if(!obj.TryGetComponent<IInhalable>(out var inhalable)) return;
-
-        var item = obj.GetComponent<NetworkIdentity>();
-        
-        if (!ReferenceEquals(Managers.Game.Player, obj) && !ReferenceEquals(Managers.Game.OtherPlayer, obj) && !item.isOwned)
-            AssignAuthority(item);
-        
-        inhalable.Shooting(power);
-    }
-
     private IEnumerator DelayAssignAuthority(NetworkIdentity item)
     {
         yield return _waitForSeconds;
