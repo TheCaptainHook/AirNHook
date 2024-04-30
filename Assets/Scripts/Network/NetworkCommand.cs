@@ -157,24 +157,6 @@ public class NetworkCommand : NetworkBehaviour
     }
 
     [Command(requiresAuthority = false)]
-    public void TryInhalePlayer(GameObject player, GameObject accessor)
-    {
-        var conn = player.GetComponent<NetworkIdentity>().connectionToClient;
-        
-        InhalePlayer(conn, accessor);
-    }
-
-    [TargetRpc]
-    private void InhalePlayer(NetworkConnectionToClient conn, GameObject accessor)
-    {
-        if(!conn.identity.TryGetComponent<IInhalable>(out var inhalable)) return;
-
-        if (!accessor.TryGetComponent<AirGunNet>(out var air)) return;
-        
-        inhalable.Inhalation(air.weaponPoint);
-    }
-
-    [Command(requiresAuthority = false)]
     public void StopInhaleItem(uint itemNetId)
     {
         if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;

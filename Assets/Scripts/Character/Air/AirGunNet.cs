@@ -311,7 +311,7 @@ public class AirGunNet : NetworkBehaviour
 
         if (ReferenceEquals(Managers.Game.OtherPlayer, item.gameObject))
         {
-            Managers.Command.TryInhalePlayer(Managers.Game.OtherPlayer, gameObject);
+            CmdInhalePlayer();
             return;
         }
 
@@ -330,7 +330,8 @@ public class AirGunNet : NetworkBehaviour
     private void StopInhale()
     {
         _inhaling = false;
-        _inhaleTarget.GetComponent<IInhalable>().StopInhale();
+        if(!_isInhaledHook)
+            _inhaleTarget.GetComponent<IInhalable>().StopInhale();
         
         if (_chargingCoroutine is not null)
         {
@@ -339,18 +340,15 @@ public class AirGunNet : NetworkBehaviour
         }
         
         _isAttached = false;
+        _isInhaledHook = false;
         Managers.Command.StopInhaleItem(_inhaleTarget.GetComponent<NetworkIdentity>().netId);
     }
 
     private void FixInhaleTarget(bool value)
     {
-        if (!value || !_isAttached)
-        {
-            StopInhale();
-            return;
-        }
-
-        _isAttached = true;
+        if (value && _isAttached) return;
+        
+        StopInhale();
     }
     #endregion
     
@@ -638,6 +636,20 @@ public class AirGunNet : NetworkBehaviour
             CmdInhaleParticlesStop();
         if ((_isAttachedToHook || _isAttached) && _inhaleParticles.isPlaying)
             CmdInhaleParticlesStop();
+    }
+    #endregion
+
+    #region Command
+    [Command(requiresAuthority = false)]
+    private void CmdInhalePlayer()
+    {
+        RpcInhalePlayer();
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcInhalePlayer()
+    {
+        Managers.Game.Player.GetComponent<IInhalable>().Inhalation(weaponPoint);
     }
     #endregion
 }
