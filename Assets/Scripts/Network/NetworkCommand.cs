@@ -127,7 +127,7 @@ public class NetworkCommand : NetworkBehaviour
     private Dictionary<uint, Coroutine> _assignAuthorityCoroutine = new();
     private readonly WaitForSeconds _waitForSeconds = new(3f);
     public Action<NetworkIdentity, bool> itemInhaleCallback;
-    public Action<bool> fixItemCallback;
+    public Action<bool, bool> fixItemCallback;
     
     [Command(requiresAuthority = false)]
     public void TryInhaleItem(GameObject target, uint itemNetId)
@@ -211,8 +211,11 @@ public class NetworkCommand : NetworkBehaviour
     private void FixInhaleItem(NetworkConnectionToClient conn, uint itemNetId, bool value)
     {
         if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
-
-        fixItemCallback?.Invoke(value);
+        
+        if(ReferenceEquals(Managers.Game.Player, item.gameObject) || ReferenceEquals(Managers.Game.OtherPlayer, item.gameObject))
+            fixItemCallback?.Invoke(value, true);
+        else
+            fixItemCallback?.Invoke(value, false);
     }
 
     [Command(requiresAuthority = false)]
