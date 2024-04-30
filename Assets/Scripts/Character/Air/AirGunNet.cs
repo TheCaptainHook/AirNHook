@@ -400,9 +400,21 @@ public class AirGunNet : NetworkBehaviour
 
                 _rigidbody2D.AddForce(direction * _stickToHookSpeed);
 
-                var rotation = Quaternion.LookRotation(_grappling.transform.position + new Vector3(0, 0.5f) - _armPivot.position,
-                    _armPivot.TransformDirection(Vector2.up));
-                _armPivot.rotation = new Quaternion(0, 0, rotation.z, rotation.w);
+                var dir = (_grappling.transform.position + new Vector3(0, 0.5f) - _armPivot.position).normalized;
+                var rotZ = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+                _armPivot.rotation = Quaternion.AngleAxis(rotZ, Vector3.forward);
+
+                if (Mathf.Abs(rotZ) > 90f)
+                {
+                    rotZ = -rotZ;
+                    _charPivot.rotation = Quaternion.Euler(0f, 180f, 0f);
+                    _armPivot.rotation = Quaternion.Euler(-190f, 0f, rotZ);
+                }
+                else
+                {
+                    _charPivot.rotation = Quaternion.identity;
+                }
                 
                 if (Vector2.Distance(_grappling.transform.position, transform.position + new Vector3(0, 1.0f)) <= 0.2f)
                     stick = true;
