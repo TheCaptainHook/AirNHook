@@ -13,7 +13,13 @@ MonoBehaviour:
   m_Name: AudioClipSO
   m_EditorClassIdentifier: 
   audioList:
-  - audioType: 0
-    audioClip: {fileID: 8300000, guid: ea60beed79dbd254ca80bc1592d92f60, type: 3}
-  - audioType: 1
-    audioClip: {fileID: 8300000, guid: ea60beed79dbd254ca80bc1592d92f60, type: 3}
+  - audioType: 5
+    audioClip: {fileID: 8300000, guid: beb8c22efcc2def41b58b492e8df7a3b, type: 3}
+  - audioType: 6
+    audioClip: {fileID: 8300000, guid: 3479d2dfdf444b74d87f5627d1bddad5, type: 3}
+  - audioType: 7
+    audioClip: {fileID: 8300000, guid: 7e83542a8d806624ab73839b39e68e78, type: 3}
+  - audioType: 8
+    audioClip: {fileID: 8300000, guid: 2873a2ae77f7d574fa7e23bca589dabf, type: 3}
+  - audioType: 9
+    audioClip: {fileID: 8300000, guid: 1bb18e23cf9a7224cacff74dce440e5f, type: 3}
