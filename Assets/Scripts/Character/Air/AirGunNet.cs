@@ -211,7 +211,8 @@ public class AirGunNet : NetworkBehaviour
                 
                 // 장애물 처리
                 var hit = Physics2D.Raycast(weaponPoint.position, objectVector, targetDistance, _obstacleMask);
-                if (!ReferenceEquals(hit.collider, collision)) continue;
+                var obstacle = hit.collider.GetComponent<IInhalable>();
+                if (!ReferenceEquals(hit.collider, collision) || (obstacle is not null && !obstacle.CanInhale())) continue;
 
                 _closestTarget = collision;
                 _shortestDistance = targetDistance;
