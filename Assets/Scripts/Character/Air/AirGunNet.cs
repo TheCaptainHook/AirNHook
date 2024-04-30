@@ -189,7 +189,10 @@ public class AirGunNet : NetworkBehaviour
             var targetDistance = Vector2.Distance(weaponPoint.position, collision.transform.position);
 
             if (targetDistance > _shortestDistance) continue;
-
+            
+            // 후크가 잡고 있는 물체 처리
+            if (collision.TryGetComponent<IInhalable>(out var inhalable) && !inhalable.CanInhale()) continue;
+            
             // 거리가 일정 이내 일 때는 각도 체크 없이 처리 
             if (targetDistance <= 0.5f)
             {
@@ -205,9 +208,6 @@ public class AirGunNet : NetworkBehaviour
                 var angle = Vector2.Angle(weaponVector, objectVector);
 
                 if (angle > 45) continue;
-
-                // 후크가 잡고 있는 물체 처리
-                if (collision.TryGetComponent<IInhalable>(out var inhalable) && !inhalable.CanInhale()) continue;
                 
                 // 장애물 처리
                 var hit = Physics2D.Raycast(weaponPoint.position, objectVector, targetDistance, _obstacleMask);
