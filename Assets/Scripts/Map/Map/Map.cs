@@ -131,6 +131,7 @@ public struct ExitObjStruct
 
 }
 
+
 [System.Serializable]
 public struct ObjectData
 {

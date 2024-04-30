@@ -19,15 +19,15 @@ public class ButtonActivatedDoor : BuildBase
     private static readonly int LockTrigger = Animator.StringToHash("LockTrigger");
     #endregion
 
-     public int curLinkBtn;//현재 링크된 버튼 
-     public int curActiveBtn;//현재 활성화된 버튼 //todo 0426 
+    public int curLinkBtn;//현재 링크된 버튼 
+    public int curActiveBtn;//현재 활성화된 버튼 //todo 0426 
     public int activeRequirAmount;//문 활성화 조건
     public int CurActiveBtn
     {
-        set { curActiveBtn += value;
+        set { curActiveBtn += value; Debug.Log($"{curActiveBtn}");
             curActiveBtn = Mathf.Clamp(curActiveBtn, 0, curLinkBtn);
-            if (curActiveBtn == activeRequirAmount) { if(!onOpen)Activation(); }
-            else { if(onOpen)Deactivated(); }
+            if (curActiveBtn == activeRequirAmount) { Activation(); }
+            else { Deactivated(); }
         } }
     public List<Vector2> buttonActivatedBtnList = new List<Vector2>();
     //todo 0416
@@ -51,6 +51,8 @@ public class ButtonActivatedDoor : BuildBase
     public bool onOpen;
 
 
+    public bool onPrograss;
+
     public ButtonActivatedDoorStruct GetButtonActivatedDoorStruct()
     {
         return new ButtonActivatedDoorStruct(id, linkId, activeRequirAmount,transform.position, buttonActivatedBtnList, leverBodyPotiionList, transform.rotation, transform.localScale);
@@ -72,29 +74,60 @@ public class ButtonActivatedDoor : BuildBase
 
     void Activation()
     {
+        if (onPrograss) return;
         if (onOpen) return;
-        onOpen = true;
-        _collider.enabled = false;
-        _animator.SetTrigger(UnlockTrigger);
-        Debug.Log("OpenOpen");
+        //onOpen = true;
+        //_collider.enabled = false;
+        //_animator.SetTrigger(UnlockTrigger);
+        //Debug.Log("OpenOpen");
+        StartCoroutine(Co_Activation());
     }
     void Deactivated()
     {
+        if (onPrograss) return;
         if (!onOpen) return;
-        onOpen = false;
-        _collider.enabled = true;
-        _animator.SetTrigger(LockTrigger);
+
+        //onOpen = false;
+        //_collider.enabled = true;
+        //_animator.SetTrigger(LockTrigger);
+        //Debug.Log("Deactivate");
+        StartCoroutine(Co_Deactivated());
     }
 
     public void CheckActiveRequirAmount()
     {
-        if (onOpen) return;
         if (activeRequirAmount == curActiveBtn) { Activation(); Debug.Log("CheckActiveRequirAmount"); };
     }
 
+
+    IEnumerator Co_Activation()
+    {
+        onPrograss = true;
+
+        onOpen = true;
+        _collider.enabled = false;
+        _animator.SetTrigger(UnlockTrigger);
+        Debug.Log("OpenOpen");
+        yield return new WaitForSeconds(0.5f);
+        onPrograss = false;
+    }
+
+
+    IEnumerator Co_Deactivated()
+    {
+        onPrograss = true;
+
+        onOpen = false;
+        _collider.enabled = true;
+        _animator.SetTrigger(LockTrigger);
+        yield return new WaitForSeconds(0.5f);
+        onPrograss = false;
+    }
+
+
     //public override void TurnOff()
     //{
-    
+
     //}
     //public override void TurnOn()
     //{

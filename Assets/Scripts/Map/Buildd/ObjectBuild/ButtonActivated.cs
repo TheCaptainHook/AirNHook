@@ -34,7 +34,9 @@ public class ButtonActivated : BuildObj
     #region StringCache
     private static readonly int IsActivated = Animator.StringToHash("IsActivated");
     #endregion
-    
+
+    bool onPrograss;
+
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -77,11 +79,11 @@ public class ButtonActivated : BuildObj
         if (!NetworkServer.active || !NetworkClient.isConnected) return;
         
         RaycastHit2D hit = Physics2D.Raycast(buttonTransform.position, Vector2.up, 1, mask);
-        if(hit.collider is not null && !turnOff)
+        if(hit.collider is not null && !turnOff && !onPrograss)
         {
             isPressed = true;
         }
-        else if (isPressed && onActive && hit.collider is null)
+        else if (isPressed && onActive && hit.collider is null && !onPrograss)
         {
             Debug.Log("Deactive");
             Deactivated();
@@ -206,6 +208,46 @@ public class ButtonActivated : BuildObj
 
     void Activation()
     {
+        if (onPrograss) return;
+        //if (linkDoorList.Count == 0)
+        //{
+        //    LinkDoor();
+        //}
+
+
+        //// spriteRenderer.material.color = Color.green;
+        //foreach(ButtonActivatedDoor linkDoor in linkDoorList)
+        //{
+
+        //    linkDoor.CurActiveBtn = 1;
+        //}
+
+        //_animator.SetBool(IsActivated, true);
+        StartCoroutine(Co_Activation());
+    }
+
+    void Deactivated()
+    {
+        if (onPrograss) return;
+        if (!onActive) return;
+        StartCoroutine(Co_Deactivated());
+        //isPressed = false;
+        //onActive = false;
+        //// spriteRenderer.material.color = orgColor;
+        //foreach (ButtonActivatedDoor linkDoor in linkDoorList)
+        //{
+        //    linkDoor.CurActiveBtn = -1;
+        //}
+
+        //Debug.Log("Btn Deactivated");
+        //_animator.SetBool(IsActivated, false);
+    }
+
+
+    IEnumerator Co_Activation()
+    {
+        onPrograss = true;
+
         if (linkDoorList.Count == 0)
         {
             LinkDoor();
@@ -213,18 +255,21 @@ public class ButtonActivated : BuildObj
 
 
         // spriteRenderer.material.color = Color.green;
-        foreach(ButtonActivatedDoor linkDoor in linkDoorList)
+        foreach (ButtonActivatedDoor linkDoor in linkDoorList)
         {
-            
+
             linkDoor.CurActiveBtn = 1;
         }
 
         _animator.SetBool(IsActivated, true);
-    }
 
-    void Deactivated()
+        yield return new WaitForSeconds(0.5f);
+        onPrograss = false;
+    }
+    IEnumerator Co_Deactivated()
     {
-        if (!onActive) return;
+        onPrograss = true;
+
         isPressed = false;
         onActive = false;
         // spriteRenderer.material.color = orgColor;
@@ -232,7 +277,12 @@ public class ButtonActivated : BuildObj
         {
             linkDoor.CurActiveBtn = -1;
         }
+
+        
         _animator.SetBool(IsActivated, false);
+        yield return new WaitForSeconds(0.5f);
+        Debug.Log("Btn Deactivated");
+        onPrograss = false;
     }
 
     public override void TurnOff()
