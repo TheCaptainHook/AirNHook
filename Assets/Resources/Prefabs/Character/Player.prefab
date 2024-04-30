@@ -5017,6 +5017,7 @@ GameObject:
   - component: {fileID: -6044296530788410067}
   - component: {fileID: -2276443106797034261}
   - component: {fileID: 3253327978095477872}
+  - component: {fileID: 1560126050362483148}
   - component: {fileID: 6283197758547860492}
   m_Layer: 10
   m_Name: Player
@@ -5300,6 +5301,29 @@ MonoBehaviour:
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
+--- !u!114 &1560126050362483148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2743958777749711243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab2cbc52526ea384ba280d13cd1a57b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 8929439774467590829}
+  clientAuthority: 0
+  syncVelocity: 1
+  clearVelocity: 0
+  velocitySensitivity: 0.1
+  syncAngularVelocity: 1
+  clearAngularVelocity: 0
+  angularVelocitySensitivity: 0.1
 --- !u!210 &6283197758547860492
 SortingGroup:
   m_ObjectHideFlags: 0

@@ -241,10 +241,10 @@ public class AirGunNet : NetworkBehaviour
         {
             if ( _inhaleTarget is not null && ReferenceEquals(_inhaleTarget, _latestTarget) && _shortestDistance <= 0.2f)
             {
-                if (ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject))
-                    _isInhaledHook = true;
-                else
-                    _isAttached = true;
+                //if (ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject))
+                //    _isInhaledHook = true;
+                //else
+                //    _isAttached = true;
                 
                 if(_inhaleTarget.TryGetComponent<IInhalable>(out var inhalable))
                     Managers.Command.TryFixInhaleItem(gameObject, _inhaleTarget.GetComponent<NetworkIdentity>().netId);
@@ -353,11 +353,18 @@ public class AirGunNet : NetworkBehaviour
         Managers.Command.StopInhaleItem(_inhaleTarget.GetComponent<NetworkIdentity>().netId);
     }
 
-    private void FixInhaleTarget(bool value)
+    private void FixInhaleTarget(bool value, bool isHookInhaled)
     {
-        if (value && (_isAttached || _isInhaledHook)) return;
-        
-        StopInhale();
+        if (!value && (_isAttached || _isInhaledHook))
+        {
+            StopInhale();
+            return;
+        }
+
+        if (isHookInhaled)
+            _isInhaledHook = true;
+        else
+            _isAttached = true;
     }
     #endregion
     

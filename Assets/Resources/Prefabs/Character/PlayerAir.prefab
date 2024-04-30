@@ -52,6 +52,7 @@ GameObject:
   - component: {fileID: 4199087186326573566}
   - component: {fileID: 7163539299143040987}
   - component: {fileID: -379765799759230663}
+  - component: {fileID: 6402046903750337101}
   - component: {fileID: 2937603552494309783}
   m_Layer: 10
   m_Name: PlayerAir
@@ -525,6 +526,29 @@ MonoBehaviour:
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
+--- !u!114 &6402046903750337101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1771380657003557902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab2cbc52526ea384ba280d13cd1a57b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 3123692007149661597}
+  clientAuthority: 1
+  syncVelocity: 1
+  clearVelocity: 0
+  velocitySensitivity: 0.1
+  syncAngularVelocity: 1
+  clearAngularVelocity: 0
+  angularVelocitySensitivity: 0.1
 --- !u!210 &2937603552494309783
 SortingGroup:
   m_ObjectHideFlags: 0
