@@ -19,7 +19,7 @@ public class ButtonActivatedDoor : BuildBase
     private static readonly int LockTrigger = Animator.StringToHash("LockTrigger");
     #endregion
 
-    [HideInInspector] public int curLinkBtn;//현재 링크된 버튼 
+     public int curLinkBtn;//현재 링크된 버튼 
      public int curActiveBtn;//현재 활성화된 버튼 //todo 0426 
     public int activeRequirAmount;//문 활성화 조건
     public int CurActiveBtn

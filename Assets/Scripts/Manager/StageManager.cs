@@ -1,6 +1,8 @@
 using Mirror;
 using UnityEngine;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using UnityEditor.UI;
 
 public class StageManager
 {
@@ -96,17 +98,28 @@ public class StageManager
     {
         if (!NetworkServer.active || !NetworkClient.isConnected) return;
 
+        var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
         Debug.Log("Create Interaction door");
 
-        var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
-        Debug.Log("Create!!");
+        if (!MapEditor.Instance.interactionBtnDictionary.ContainsKey(data.linkId))
+        {
+            MapEditor.Instance.interactionBtnDictionary[data.linkId] = new HashSet<Vector2>();
+        }
 
+        foreach (Vector2 pot in data.buttonActivatePositionList)
+        {
+            MapEditor.Instance.interactionBtnDictionary[data.linkId].Add(pot);
+        }
+
+        
+        Debug.Log("Create!!");
 
 
         ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
         door.ButtonActivatedDoorStruct = data;
         door.CheckActiveRequirAmount();
         obj.transform.SetParent(MapEditor.Instance.interactionObjectTransform);
+
         //todo 0425
         //MapDataStruct btn = Managers.Data.mapData.mapObjectDataDictionary[306];
 

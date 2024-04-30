@@ -7,6 +7,7 @@ using GoogleSheet.Core.Type;
 using TMPro;
 using System;
 using System.Threading.Tasks;
+using UnityEditor.UI;
 
 public enum MapType
 {
@@ -465,10 +466,28 @@ public class MapEditor : MonoBehaviour
         if (Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate != null) { Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate = null; }
         Camera.main.GetComponent<ParallaxCamera>().oldPosition = startPosition.x;
 
+
+        interactionBtnDictionary = new(); //todo 0412
+
         CreateObj(floorTransform, 0); //floorTransform
         CreateObj(objectTransform, 1); //objectTransform
         CreateObj(interactionObjectTransform, 2); //interactionObjectTransform
         CreateObj(exitDoorObjectTransform, 3); //exitDoorObjectTransform
+
+
+        MapDataStruct btn = Managers.Data.mapData.mapObjectDataDictionary[306];
+
+        foreach (int key in interactionBtnDictionary.Keys)
+        {
+            foreach (Vector2 pot in interactionBtnDictionary[key])
+            {
+                Managers.Stage.BatchObject(btn.name, pot, key);
+                //GameObject btnActivated = Instantiate(Resources.Load<GameObject>(btn.path));
+                //btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, key);
+                //btnActivated.transform.SetParent(dontSaveObjectTransform);
+            }
+        }
+
 
         Managers.Sound.PlayBGM(CurMap.audioType, AudioMixerGroupType.BGM, true,.1f);
         //
@@ -558,17 +577,17 @@ public class MapEditor : MonoBehaviour
                     {
                         Managers.Stage.CmdBatchObject(mapDataStruct.name,data);
 
-                        MapDataStruct btn = Managers.Data.mapData.mapObjectDataDictionary[306];
-                        foreach (Vector2 pot in data.buttonActivatePositionList)
-                        {
-                            Debug.Log(pot);
-                            Managers.Stage.BatchObject(btn.name, pot, data.linkId);
-                            //GameObject btnActivated = Instantiate(Resources.Load<GameObject>(btn.path));
-                            //GameObject btnActivated = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[btn.name]);
-                            //btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, data.linkId);
-                            //btnActivated.GetComponent<ButtonActivated>().LinkDoor();
-                            //btnActivated.transform.SetParent(dontSaveObjectTransform);
-                        }
+                        //MapDataStruct btn = Managers.Data.mapData.mapObjectDataDictionary[306];
+                        //foreach (Vector2 pot in data.buttonActivatePositionList)
+                        //{
+                        //    Debug.Log(pot);
+                        //    Managers.Stage.BatchObject(btn.name, pot, data.linkId);
+                        //    //GameObject btnActivated = Instantiate(Resources.Load<GameObject>(btn.path));
+                        //    //GameObject btnActivated = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[btn.name]);
+                        //    //btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, data.linkId);
+                        //    //btnActivated.GetComponent<ButtonActivated>().LinkDoor();
+                        //    //btnActivated.transform.SetParent(dontSaveObjectTransform);
+                        //}
                         foreach (Vector2 pot in data.leverPositionList)
                         {
                             //GameObject leverBody = CmdBatchObject("LeverBody", MapEditor.Instance.dontSaveObjectTransform, pot);

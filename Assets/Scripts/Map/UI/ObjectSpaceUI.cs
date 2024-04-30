@@ -6,8 +6,7 @@ using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 public class ObjectSpaceUI : MonoBehaviour
 {
-    [Header("Components")]
-    [SerializeField] Transform content;
+  
     RectTransform rTransform;
 
     [Header("State")]
@@ -17,14 +16,31 @@ public class ObjectSpaceUI : MonoBehaviour
     private Vector2 originAnchoredPosition;
     private string path = "Prefabs/MapEditor/Object";
     private string objPreviewSpritePath = "Arts/Sprites/PreviewSprites/Object"; //todo 0427
+    private string backgroundPreviewSpritePath = "Arts/Sprites/PreviewSprites/Background"; //todo 0427
+    private string otherPreviewSpritePath = "Arts/Sprites/PreviewSprites/other"; //todo 0427
     private GameObject[] objects;
     private Sprite[] objPreviewSprites;
     [SerializeField] GameObject objectSpaceUIItem;
     //[SerializeField] Button toggleBtn;
 
     //Select space
+    [Header("Button")]
     [SerializeField] Button downBtn;
     [SerializeField] Button upBtn;
+    [SerializeField] Button objectSectionBtn;
+    [SerializeField] Button backgroundSectionBtn;
+    [SerializeField] Button otherSectionBtn;
+
+
+    [Header("Container")]
+    [SerializeField] GameObject objectSpace;
+    [SerializeField] GameObject backgroundSpace;
+    [SerializeField] GameObject otherSpace;
+
+    [Header("Contents")]
+    [SerializeField] Transform objectContent;
+    [SerializeField] Transform backgroundContent;
+    [SerializeField] Transform otherContent;
 
     private void Awake()
     {
@@ -44,14 +60,37 @@ public class ObjectSpaceUI : MonoBehaviour
     {
         onHide = false;
         rTransform.anchoredPosition = originAnchoredPosition;
-        content.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+        objectContent.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
     }
 
     void LoadAllObject()
     {
+        //for (int i = 0; i < objects.Length; i++)
+        //{
+        //    GameObject obj = Instantiate(objectSpaceUIItem, objectContent);
+        //    for (int j = 0; j < objPreviewSprites.Length; j++)
+        //    {
+        //        if (objects[i].name == objPreviewSprites[j].name)
+        //        {
+        //            obj.GetComponent<Interaction_BuildItem>().Init(objects[i], objPreviewSprites[j]);
+
+        //            obj.AddComponent<UI_ShowToolTip>();
+        //            obj.GetComponent<UI_ShowToolTip>().SetText(objects[i].name);
+
+        //        }
+        //    }
+
+        //}
+        
+    }
+
+
+
+    IEnumerator Co_LoadAllObject()
+    {
         for (int i = 0; i < objects.Length; i++)
         {
-            GameObject obj = Instantiate(objectSpaceUIItem, content);
+            GameObject obj = Instantiate(objectSpaceUIItem, objectContent);
             for (int j = 0; j < objPreviewSprites.Length; j++)
             {
                 if (objects[i].name == objPreviewSprites[j].name)
@@ -62,14 +101,14 @@ public class ObjectSpaceUI : MonoBehaviour
                     obj.GetComponent<UI_ShowToolTip>().SetText(objects[i].name);
 
                 }
+                yield return null;
             }
 
-           
-
-
         }
-        
+
+
     }
+
 
 
     void ShowAndHide()

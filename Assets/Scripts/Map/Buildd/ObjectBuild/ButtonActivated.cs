@@ -56,6 +56,7 @@ public class ButtonActivated : BuildObj
             {
                 if (isRunningCoroutine) { StopCoroutine(Co_ReLinkDoor()); isRunningCoroutine = false; }
                 time = 2;
+                Debug.Log("CocoCO");
                 StartCoroutine(Co_ReLinkDoor());
             }
         }
@@ -63,6 +64,8 @@ public class ButtonActivated : BuildObj
 
         if (isPressed && !onActive)
         {
+            onActive = true;
+            Debug.Log("Activation Updata");
             Activation();
         }
     }
@@ -115,6 +118,7 @@ public class ButtonActivated : BuildObj
                 {
                     //linked = true;
                     ButtonActivatedDoor linkDoor = transform.GetComponent<ButtonActivatedDoor>();
+                    Debug.Log(linkDoor.ButtonActivatedDoorStruct.position);
                     if(linkDoor != null)
                     {
                         if (linkDoor.buttonActivatedBtnList.Contains(curPosition))
@@ -178,10 +182,10 @@ public class ButtonActivated : BuildObj
         this.linkId = linkId;
         transform.position = curPosition;
 
-        foreach(Transform tr in interactionDoorTransform)
+        foreach (Transform tr in interactionDoorTransform)
         {
             ButtonActivatedDoor bd = tr.GetComponent<ButtonActivatedDoor>();
-            if(bd.linkId == linkId)
+            if (bd.linkId == linkId)
             {
                 linkDoorList.Add(bd);
             }
@@ -202,13 +206,12 @@ public class ButtonActivated : BuildObj
 
     void Activation()
     {
-        if (onActive) return;
         if (linkDoorList.Count == 0)
         {
             LinkDoor();
         }
 
-        onActive = true;
+
         // spriteRenderer.material.color = Color.green;
         foreach(ButtonActivatedDoor linkDoor in linkDoorList)
         {

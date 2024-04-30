@@ -248,8 +248,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1073741824
   gridPosition: {x: 0, y: 0, z: 0}
+  mousePosition: {x: 0, y: 0, z: 0}
   curObj_ArrowIndicator: {fileID: 2872121356252122018, guid: 2282e6f19511b49af8c213f4a8a07ec1, type: 3}
-  ObjMove_Indicator: {fileID: 1488624840834684537, guid: fd8ca4c5bf88f4f6aa02362fe03f4428, type: 3}
+  ObjMove_Indicator: {fileID: 7381217255914110057, guid: 78d9c6f3d14814b029c56c1774140cbd, type: 3}
   ObjRotation_Indicator: {fileID: 2865012881642155670, guid: 5d1da2d5035a32245ab0699fa97f14fd, type: 3}
   Additional_Indicator: {fileID: 5835909523918060946, guid: 80f03ca9d1f3a485691c10adae6a3421, type: 3}
   curPlaceObjList: []
@@ -841,6 +842,7 @@ MonoBehaviour:
   onOffBtn: {fileID: 7657347248069012205}
   tileMode: {fileID: 1846594318910794473}
   objectMode: {fileID: 5922503269041891942}
+  backgroundMode: {fileID: 0}
   tileUndoBtn: {fileID: 8238530274283701234}
   tileMode_BtnContainer: {fileID: 4340453725171662759}
   tileBtn: {fileID: 7204725351685709246}
@@ -1035,26 +1037,15 @@ MonoBehaviour:
   networkingObjectTransform: {fileID: 0}
   garbageTransform: {fileID: 0}
   poolingContainer: {fileID: 0}
-  curMap:
-    mapSize: {x: 0, y: 0}
-    mapID: 
-    stageLevel: 0
-    startPosition: {x: 0, y: 0}
-    mapTileDataList: []
-    mapObjectDataList: []
-    mapButtonActivatedDoorDataList: []
-    mapExitObjectDataList: []
-    dataType: 0
-    cellSize: 0
-    bytesImage: 
   stageClear: 0
   mapType: 1
   width: 20
   height: 20
-  stageLevel: 1
-  mapID: Stage1-4
-  startPosition: {x: -15, y: -2}
+  stageLevel: 0
+  mapID: Tutorial_1
+  startPosition: {x: -26, y: -12}
   startPositionObject: {fileID: 0}
+  audioType: 10
   mapTileDataList:
   - id: 1
     position: {x: -47, y: -19, z: 0}

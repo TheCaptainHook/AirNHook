@@ -3596,6 +3596,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 426359816875005676, guid: 25407cbca963249a484a007fbaf77069, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1143521439065016346, guid: 25407cbca963249a484a007fbaf77069, type: 3}
       propertyPath: m_Camera
       value: 
@@ -3603,6 +3607,14 @@ PrefabInstance:
     - target: {fileID: 4712821046798971296, guid: 25407cbca963249a484a007fbaf77069, type: 3}
       propertyPath: m_Name
       value: MapEditor_EditorMode
+      objectReference: {fileID: 0}
+    - target: {fileID: 5890901861757866887, guid: 25407cbca963249a484a007fbaf77069, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5890901861757866887, guid: 25407cbca963249a484a007fbaf77069, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8480191784338389125, guid: 25407cbca963249a484a007fbaf77069, type: 3}
       propertyPath: m_Pivot.x
@@ -3682,6 +3694,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8480191784338389125, guid: 25407cbca963249a484a007fbaf77069, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8901035571633148934, guid: 25407cbca963249a484a007fbaf77069, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8901035571633148934, guid: 25407cbca963249a484a007fbaf77069, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8901035571633148934, guid: 25407cbca963249a484a007fbaf77069, type: 3}
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
