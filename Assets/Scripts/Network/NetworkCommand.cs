@@ -174,7 +174,7 @@ public class NetworkCommand : NetworkBehaviour
             _assignAuthorityCoroutine.Remove(itemNetId);
         }
 
-        if (!item.isOwned)
+        if (!ReferenceEquals(Managers.Game.Player, item.gameObject) && !ReferenceEquals(Managers.Game.OtherPlayer, item.gameObject) && !item.isOwned)
         {
             var delayAssignAuthorityCoroutine = StartCoroutine(DelayAssignAuthority(item));
             _assignAuthorityCoroutine.TryAdd(itemNetId, delayAssignAuthorityCoroutine);
