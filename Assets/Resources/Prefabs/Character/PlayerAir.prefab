@@ -96,7 +96,7 @@ MonoBehaviour:
   _armPivot: {fileID: 4462666554605769596}
   _charPivot: {fileID: 9177120215743396866}
   canHandle: 0
-  _weaponPoint: {fileID: 1621305863906642240}
+  <weaponPoint>k__BackingField: {fileID: 1621305863906642240}
   _objectMask:
     serializedVersion: 2
     m_Bits: 538711040
