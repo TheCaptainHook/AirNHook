@@ -148,7 +148,7 @@ public class NetworkCommand : NetworkBehaviour
             _assignAuthorityCoroutine.Remove(itemNetId);
         }
         
-        if ((!ReferenceEquals(Managers.Game.Player, item.gameObject) && !ReferenceEquals(Managers.Game.OtherPlayer, item.gameObject)) || !item.isOwned)
+        if ((!ReferenceEquals(Managers.Game.Player, item.gameObject) && !ReferenceEquals(Managers.Game.OtherPlayer, item.gameObject)) && !item.isOwned)
             AssignAuthority(item, conn);
         
         InhaleItem(conn, itemNetId, true);
