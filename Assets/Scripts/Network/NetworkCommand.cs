@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Mirror;
 using UnityEngine;
 
@@ -123,6 +124,8 @@ public class NetworkCommand : NetworkBehaviour
     #endregion
 
     #region InhaleItem
+    private Coroutine _assignAuthorityCoroutine;
+    private readonly WaitForSeconds _waitForSeconds = new(3f);
     public Action<NetworkIdentity, bool> itemInhaleCallback;
     public Action<bool> fixItemCallback;
     
@@ -138,10 +141,14 @@ public class NetworkCommand : NetworkBehaviour
             InhaleItem(conn, itemNetId, false);
             return;
         }
+        
+        if(_assignAuthorityCoroutine is not null)
+                StopCoroutine(_assignAuthorityCoroutine);
 
         if ((!ReferenceEquals(Managers.Game.Player, item.gameObject) && !ReferenceEquals(Managers.Game.OtherPlayer, item.gameObject))
             || !NetworkServer.localConnection.Equals(conn) || !item.isOwned)
         {
+            
             item.RemoveClientAuthority();
             item.AssignClientAuthority(conn);
         }
@@ -161,11 +168,13 @@ public class NetworkCommand : NetworkBehaviour
     public void StopInhaleItem(uint itemNetId)
     {
         if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
-
+        
+        if(_assignAuthorityCoroutine is not null)
+            StopCoroutine(_assignAuthorityCoroutine);
+        
         if (!item.isOwned)
         {
-            item.RemoveClientAuthority();
-            item.AssignClientAuthority(NetworkServer.localConnection);
+            _assignAuthorityCoroutine = StartCoroutine(DelayAssignAuthority(item));
         }
         
         if(!item.TryGetComponent<IInhalable>(out var inhalable)) return;
@@ -214,6 +223,14 @@ public class NetworkCommand : NetworkBehaviour
     private void RpcShootObject(GameObject obj, Vector2 power)
     {
         obj.GetComponent<IInhalable>().Shooting(power);
+    }
+
+    private IEnumerator DelayAssignAuthority(NetworkIdentity item)
+    {
+        yield return _waitForSeconds;
+        item.RemoveClientAuthority();
+        item.AssignClientAuthority(NetworkServer.localConnection);
+        _assignAuthorityCoroutine = null;
     }
     #endregion
 }
