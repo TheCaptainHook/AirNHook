@@ -186,7 +186,8 @@ public class HookMovement : PlayerMovement, IInhalable
     public void StopInhale()
     {
         Debug.Log("d");
-        StopCoroutine(_inhaleCoroutine);
+        if(_inhaleCoroutine is not null)
+            StopCoroutine(_inhaleCoroutine);
         canControl = true;
         _isFixed = false;
         ChangeState(false);

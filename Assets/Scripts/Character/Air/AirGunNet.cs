@@ -162,7 +162,7 @@ public class AirGunNet : NetworkBehaviour
     #region ObjectCheck
     private void DetectObject()
     {
-        if(!_rightClick || _isAttached || _sticking || !_canInhale) return;
+        if(!_rightClick || _isAttached || _sticking || !_canInhale || _isInhaledHook) return;
         
         var collisions = Physics2D.OverlapCircleAll(weaponPoint.position, _detectionDistance, _objectMask);
 
@@ -236,11 +236,11 @@ public class AirGunNet : NetworkBehaviour
             {
                 if (ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject))
                     _isInhaledHook = true;
+                else
+                    _isAttached = true;
                 
                 if(_inhaleTarget.TryGetComponent<IInhalable>(out var inhalable))
                     Managers.Command.TryFixInhaleItem(gameObject, _inhaleTarget.GetComponent<NetworkIdentity>().netId);
-
-                _isAttached = true;
             }
 
             _shortestDistance = float.MaxValue;
