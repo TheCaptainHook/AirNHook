@@ -68,6 +68,7 @@ public class ExitPointObj : BuildBase
             //Managers.Stage.CmdDestroyObject(gameObject);
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
             gameObject.GetComponent<IInteractable>().Interacting(true);
+            gameObject.transform.position = new Vector3(-1000, -1000);
             Destroy(gameObject, 1f);
             Current_KeyAmount = 1;
         }

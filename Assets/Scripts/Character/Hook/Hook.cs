@@ -92,7 +92,12 @@ public class Hook : Player
         }
         else if (_latestTarget is not null)
         {
-            Managers.Command.TryGrabItem(gameObject, _latestTarget.GetComponent<NetworkIdentity>().netId);
+            if(!_latestTarget.TryGetComponent<IInteractable>(out var interactable)) return;
+            
+            if(interactable.GetObjectType() == ObjectTypeEnum.Grab) 
+                Managers.Command.TryGrabItem(gameObject, _latestTarget.GetComponent<NetworkIdentity>().netId);
+            else 
+                interactable.Interaction(_grabPoint);
         }
     }
 
@@ -122,9 +127,9 @@ public class Hook : Player
         }
         
         interactable.Interaction(_grabPoint);
-
-        _grabbedItem = null;
-        _animator.SetBool(IsGrabbing, false);
+        
+        Managers.Command.AuthorityToServer(_grabbedItem.GetComponent<NetworkIdentity>().netId, _rigidbd.velocity);
+        ReleaseItem();
     }
     
     public void ReleaseItem()

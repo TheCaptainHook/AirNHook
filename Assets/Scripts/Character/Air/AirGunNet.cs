@@ -231,11 +231,12 @@ public class AirGunNet : NetworkBehaviour
         // 같은 오브젝트 검출 예외처리
         if (ReferenceEquals(_latestTarget, _closestTarget))
         {
-            if (_inhaleTarget is not null && _shortestDistance <= 0.2f)
+            if ( _inhaleTarget is not null && ReferenceEquals(_inhaleTarget, _latestTarget) && _shortestDistance <= 0.2f)
             {
                 if (ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject))
                     _isInhaledHook = true;
-                else if(_inhaleTarget.TryGetComponent<IInhalable>(out var inhalable))
+                
+                if(_inhaleTarget.TryGetComponent<IInhalable>(out var inhalable))
                     Managers.Command.TryFixInhaleItem(gameObject, _inhaleTarget.GetComponent<NetworkIdentity>().netId);
 
                 _isAttached = true;
@@ -358,7 +359,7 @@ public class AirGunNet : NetworkBehaviour
 
         _stickToHookCoroutine = StartCoroutine(Co_StickHook());
     }
-
+    
     private IEnumerator Co_StickHook()
     {
         var stick = false;
@@ -523,7 +524,7 @@ public class AirGunNet : NetworkBehaviour
         if (ReferenceEquals(_inhaleTarget.gameObject, Managers.Game.OtherPlayer))
             _isInhaledHook = false;
         
-        Managers.Command.CmdShootObject(_inhaleTarget.gameObject, _weaponPoint.right * _shootPower);
+        Managers.Command.ShootObject(_inhaleTarget.gameObject, _weaponPoint.right * _shootPower);
         _inhaleTarget = null;
         _isAttached = false;
         _inhaling = false;

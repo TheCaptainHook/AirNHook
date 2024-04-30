@@ -18,12 +18,14 @@ public class HookMovement : PlayerMovement, IInhalable
     private static readonly int IsAirAttached = Animator.StringToHash("IsAirAttached");
     private static readonly int IsHookInhaled = Animator.StringToHash("IsHookInhaled");
     #endregion
+    
     protected override void Awake()
     {
         base.Awake();
         grappling = GetComponent<Grappling>();
     }
 
+    #region Movement
     protected override void Movement()
     {
         if (_horizontal != 0)
@@ -104,7 +106,9 @@ public class HookMovement : PlayerMovement, IInhalable
     {
         return !isSwinging && base.IsLeftHead();
     }
+    #endregion
 
+    #region Animation
     protected override void MoveAnimation()
     {
         _animator.SetBool(IsAirAttached, isAirAttached);
@@ -125,19 +129,20 @@ public class HookMovement : PlayerMovement, IInhalable
         }
         base.MoveAnimation();
     }
+    #endregion
 
     #region Inhale
     private Transform _fixedPoint;
     private Coroutine _inhaleCoroutine;
     [field: SerializeField] private float _inhalePower;
-    private bool _isFixed;
+    [SyncVar] private bool _isFixed;
+    [SyncVar] private bool _canInteract;
     private WaitForFixedUpdate _waitForFixedUpdate = new();
     
     public void Inhalation(Transform accessor)
     {
         canControl = false;
         grappling.canControl = false;
-        _isFixed = false;
         _fixedPoint = accessor;
         _inhaleCoroutine = StartCoroutine(Co_Inhale());
     }
@@ -171,14 +176,17 @@ public class HookMovement : PlayerMovement, IInhalable
                 transform.position = _fixedPoint.position;
             }
         }
+
+        _inhaleCoroutine = null;
     }
 
     public void StopInhale()
     {
         StopCoroutine(_inhaleCoroutine);
         canControl = true;
-        grappling.canControl = true;
         _isFixed = false;
+        ChangeState(false);
+        grappling.canControl = true;
         _fixedPoint = null;
         _rigidbd.gravityScale = _gravityScale;
         _animator.SetBool(IsHookInhaled, false);
@@ -186,12 +194,13 @@ public class HookMovement : PlayerMovement, IInhalable
 
     public void Fixed(bool value)
     {
-        throw new System.NotImplementedException();
+        _isFixed = value;
+        _canInteract = !value;
     }
 
     public void Inhaling(bool value)
     {
-        throw new System.NotImplementedException();
+        _canInteract = !value;
     }
 
     public void Shooting(Vector2 force)
@@ -205,6 +214,26 @@ public class HookMovement : PlayerMovement, IInhalable
     public bool CanInhale()
     {
         return !isSwinging;
+    }
+    #endregion
+
+    #region Command
+    private void ChangeState(bool value)
+    {
+        CmdChangeFixedState(value);
+        CmdChangeInteractState(!value);
+    }
+    
+    [Command(requiresAuthority = false)]
+    private void CmdChangeFixedState(bool value)
+    {
+        _isFixed = value;
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdChangeInteractState(bool value)
+    {
+        _canInteract = value;
     }
     #endregion
 }

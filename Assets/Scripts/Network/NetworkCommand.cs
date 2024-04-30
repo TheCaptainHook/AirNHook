@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
@@ -80,11 +81,13 @@ public class NetworkCommand : NetworkBehaviour
             return;
         }
         
+        if(_assignAuthorityCoroutine.TryGetValue(itemNetId, out var coroutine))
+            StopCoroutine(coroutine);
+        
         interactable.Interacting(true);
         if (!NetworkServer.localConnection.Equals(conn) || !item.isOwned)
         {
-            item.RemoveClientAuthority();
-            item.AssignClientAuthority(conn);
+            AssignAuthority(item, conn);
         }
         
         GrabItem(conn, itemNetId, true);
@@ -103,12 +106,6 @@ public class NetworkCommand : NetworkBehaviour
     {
         if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
         
-        if (!item.isOwned)
-        {
-            item.RemoveClientAuthority();
-            item.AssignClientAuthority(NetworkServer.localConnection);
-        }
-        
         if(!item.TryGetComponent<IInteractable>(out var interactable)) return;
         
         item.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
@@ -124,7 +121,7 @@ public class NetworkCommand : NetworkBehaviour
     #endregion
 
     #region InhaleItem
-    private Coroutine _assignAuthorityCoroutine;
+    private Dictionary<uint, Coroutine> _assignAuthorityCoroutine = new();
     private readonly WaitForSeconds _waitForSeconds = new(3f);
     public Action<NetworkIdentity, bool> itemInhaleCallback;
     public Action<bool> fixItemCallback;
@@ -142,15 +139,12 @@ public class NetworkCommand : NetworkBehaviour
             return;
         }
         
-        if(_assignAuthorityCoroutine is not null)
-                StopCoroutine(_assignAuthorityCoroutine);
+        if(_assignAuthorityCoroutine.TryGetValue(itemNetId, out var coroutine))
+            StopCoroutine(coroutine);
 
-        if ((!ReferenceEquals(Managers.Game.Player, item.gameObject) && !ReferenceEquals(Managers.Game.OtherPlayer, item.gameObject))
-            || !NetworkServer.localConnection.Equals(conn) || !item.isOwned)
+        if (!ReferenceEquals(Managers.Game.Player, item.gameObject) && !ReferenceEquals(Managers.Game.OtherPlayer, item.gameObject) && !item.isOwned)
         {
-            
-            item.RemoveClientAuthority();
-            item.AssignClientAuthority(conn);
+            AssignAuthority(item, conn);
         }
         
         InhaleItem(conn, itemNetId, true);
@@ -169,12 +163,13 @@ public class NetworkCommand : NetworkBehaviour
     {
         if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
         
-        if(_assignAuthorityCoroutine is not null)
-            StopCoroutine(_assignAuthorityCoroutine);
+        if(_assignAuthorityCoroutine.TryGetValue(itemNetId, out var coroutine))
+            StopCoroutine(coroutine);
         
         if (!item.isOwned)
         {
-            _assignAuthorityCoroutine = StartCoroutine(DelayAssignAuthority(item));
+            var delayAssignAuthorityCoroutine = StartCoroutine(DelayAssignAuthority(item));
+            _assignAuthorityCoroutine.Add(itemNetId, delayAssignAuthorityCoroutine);
         }
         
         if(!item.TryGetComponent<IInhalable>(out var inhalable)) return;
@@ -200,7 +195,6 @@ public class NetworkCommand : NetworkBehaviour
             return;
         }
         
-        inhalable.Inhaling(true);
         inhalable.Fixed(true);
         FixInhaleItem(conn, itemNetId, true);
     }
@@ -214,23 +208,59 @@ public class NetworkCommand : NetworkBehaviour
     }
 
     [Command(requiresAuthority = false)]
-    public void CmdShootObject(GameObject obj, Vector2 power)
+    public void ShootObject(GameObject obj, Vector2 power)
     {
-        RpcShootObject(obj, power);
-    }
+        if(!obj.TryGetComponent<IInhalable>(out var inhalable)) return;
 
-    [ClientRpc(includeOwner = false)]
-    private void RpcShootObject(GameObject obj, Vector2 power)
-    {
-        obj.GetComponent<IInhalable>().Shooting(power);
+        var item = obj.GetComponent<NetworkIdentity>();
+        
+        if (!item.isOwned)
+            AssignAuthority(item);
+        
+        inhalable.Shooting(power);
     }
 
     private IEnumerator DelayAssignAuthority(NetworkIdentity item)
     {
         yield return _waitForSeconds;
+        AssignAuthority(item);
+        _assignAuthorityCoroutine.Remove(item.netId);
+    }
+    #endregion
+
+    #region AuthorityToServer
+    [Command(requiresAuthority = false)]
+    public void AuthorityToServer(uint itemNetId, Vector2 power)
+    {
+        if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
+        
+        if(_assignAuthorityCoroutine.TryGetValue(itemNetId, out var coroutine))
+            StopCoroutine(coroutine);
+        
+        if (!item.isOwned)
+            AssignAuthority(item);
+
+        if (item.TryGetComponent<Rigidbody2D>(out var rb))
+            rb.velocity = power;
+    }
+    
+    [Command(requiresAuthority = false)]
+    public void AuthorityToServer(uint itemNetId)
+    {
+        if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
+
+        if(_assignAuthorityCoroutine.TryGetValue(itemNetId, out var coroutine))
+            StopCoroutine(coroutine);
+        
+        if (item.isOwned) return;
+
+        AssignAuthority(item);
+    }
+
+    private void AssignAuthority(NetworkIdentity item, NetworkConnectionToClient conn = null)
+    {
         item.RemoveClientAuthority();
-        item.AssignClientAuthority(NetworkServer.localConnection);
-        _assignAuthorityCoroutine = null;
+        item.AssignClientAuthority(conn ?? NetworkServer.localConnection);
     }
     #endregion
 }

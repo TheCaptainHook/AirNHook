@@ -1,3 +1,4 @@
+using System;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -103,6 +104,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         ShowEButton();
 
         _rigidbody.bodyType = _originType;
+        _rigidbody.gravityScale = _gravityScale;
         _fixedPoint = null;
         _rigidbody.constraints = _originRot;
         _sortingGroup.sortingLayerID = _originSortingLayerID;
@@ -125,6 +127,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
         _fixedPoint = null;
         _rigidbody.constraints = _originRot;
+        Managers.Command.AuthorityToServer(netId);
     }
     
     public bool CanInteract()
