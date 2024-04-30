@@ -228,24 +228,6 @@ public class NetworkCommand : NetworkBehaviour
 
     #region AuthorityToServer
     [Command(requiresAuthority = false)]
-    public void AuthorityToServer(uint itemNetId, Vector2 power)
-    {
-        if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
-        
-        if (_assignAuthorityCoroutine.TryGetValue(itemNetId, out var coroutine))
-        {
-            StopCoroutine(coroutine);
-            _assignAuthorityCoroutine.Remove(itemNetId);
-        }
-        
-        if (!item.isOwned)
-            AssignAuthority(item);
-
-        if (item.TryGetComponent<Rigidbody2D>(out var rb))
-            rb.velocity = power;
-    }
-    
-    [Command(requiresAuthority = false)]
     public void AuthorityToServer(uint itemNetId)
     {
         if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
