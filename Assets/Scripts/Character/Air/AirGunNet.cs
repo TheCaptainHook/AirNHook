@@ -355,7 +355,7 @@ public class AirGunNet : NetworkBehaviour
 
     private void FixInhaleTarget(bool value, bool isHookInhaled)
     {
-        if (!value && (_isAttached || _isInhaledHook))
+        if (!value || _isAttached || _isInhaledHook)
         {
             StopInhale();
             return;
