@@ -163,14 +163,12 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     #region IInhalation
     public void Inhalation(Transform accessor)
     {
-        Debug.Log("b");
         _fixedPoint = accessor;
         transform.rotation = Quaternion.identity;
     }
 
     public void StopInhale()
     {
-        Debug.Log("c");
         _fixedPoint = null;
         _rigidbody.gravityScale = _gravityScale;
     }
@@ -201,7 +199,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     private void Inhale()
     {
-        Debug.Log("a");
         var direction = (_fixedPoint.position - transform.position).normalized;
         var power = _inhalePower * Time.fixedDeltaTime;
         _rigidbody.gravityScale = 0f;
