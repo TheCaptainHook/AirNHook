@@ -17,8 +17,8 @@ public class AirGunNet : NetworkBehaviour
     
     // TargetDetections
     [field: SerializeField] private Transform _weaponPoint;
-    private Collider2D _closestTarget;
-    private Collider2D _latestTarget;
+    private Collider2D _closestTarget = null;
+    private Collider2D _latestTarget = null;
     [field: SerializeField] private LayerMask _objectMask;
     [field: SerializeField] private LayerMask _obstacleMask;
     [field: SerializeField] private float _detectionDistance;
@@ -84,6 +84,9 @@ public class AirGunNet : NetworkBehaviour
         _playerInput.playerActions.Action.canceled += PlayerActionCanceled;
         _playerInput.playerActions.SubAction.started += PlayerSubActionStarted;
         _playerInput.playerActions.SubAction.canceled += PlayerSubActionCanceled;
+
+        Managers.Command.itemInhaleCallback += Inhale;
+        Managers.Command.fixItemCallback += FixInhaleTarget;
     }
 
     private void OnDisable()
@@ -93,6 +96,9 @@ public class AirGunNet : NetworkBehaviour
         _playerInput.playerActions.Action.canceled -= PlayerActionCanceled;
         _playerInput.playerActions.SubAction.started -= PlayerSubActionStarted;
         _playerInput.playerActions.SubAction.canceled -= PlayerSubActionCanceled;
+        
+        Managers.Command.itemInhaleCallback -= Inhale;
+        Managers.Command.fixItemCallback -= FixInhaleTarget;
     }
 
     private void Update()
@@ -168,6 +174,7 @@ public class AirGunNet : NetworkBehaviour
             _inhaling = false;
             _isAttached = false;
             _isInhaledHook = false;
+            Debug.Log("a");
             _latestTarget = null;
             return;
         }
@@ -224,13 +231,12 @@ public class AirGunNet : NetworkBehaviour
         // 같은 오브젝트 검출 예외처리
         if (ReferenceEquals(_latestTarget, _closestTarget))
         {
-            //TODO
-            if (_inhaleTarget is not null && _shortestDistance <= 0.15f)
+            if (_inhaleTarget is not null && _shortestDistance <= 0.2f)
             {
                 if (ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject))
-                {
                     _isInhaledHook = true;
-                }
+                else if(_inhaleTarget.TryGetComponent<IInhalable>(out var inhalable))
+                    Managers.Command.TryFixInhaleItem(gameObject, _inhaleTarget.GetComponent<NetworkIdentity>().netId);
 
                 _isAttached = true;
             }
@@ -238,7 +244,7 @@ public class AirGunNet : NetworkBehaviour
             _shortestDistance = float.MaxValue;
             return;
         }
-        
+
         StopInhaleTarget();
         _inhaling = false;
         _isAttached = false;
@@ -286,99 +292,60 @@ public class AirGunNet : NetworkBehaviour
     private void StartInhaleTarget()
     {
         if(!_canInhale || (_inhaling && ReferenceEquals(_latestTarget, _inhaleTarget))) return;
-        
-        if (_latestTarget.TryGetComponent<IInhalable>(out var inhalable) && !inhalable.CanInhale()) return;
-        
-        _inhaling = true;
+
         _inhaleTarget = _latestTarget;
-        
-        if (_inhaleTarget.TryGetComponent<NetworkIdentity>(out var id))
-        {
-            if (!ReferenceEquals(_inhaleTarget.gameObject, Managers.Game.OtherPlayer))
-            {
-                CmdObjectAuthoritySet(id);
-                InhaleObject(id);
-            }
-            else
-            {
-                CmdInhaleObject(id);
-            }
-        }
-        else
-        {
-            _inhaling = false;
-        }
+        _inhaling = true;
+        Managers.Command.TryInhaleItem(gameObject, _latestTarget.GetComponent<NetworkIdentity>().netId);
     }
 
-    [Command(requiresAuthority = false)]
-    private void CmdObjectAuthoritySet(NetworkIdentity id)
+    private void Inhale(NetworkIdentity item, bool value)
     {
-        id.RemoveClientAuthority();
-        id.AssignClientAuthority(connectionToClient);
+        if (!value)
+        {
+            _inhaleTarget = null;
+            _inhaling = false;
+            return;
+        }
+        
+        if(!item.TryGetComponent<IInhalable>(out var inhalable)) return;
+        
+        inhalable.Inhalation(_weaponPoint);
     }
-    
-    private void InhaleObject(NetworkIdentity id)
-    {
-        id.GetComponent<IInhalable>().Inhalation(_weaponPoint);
-    }
-    
-    [Command(requiresAuthority = false)]
-    private void CmdInhaleObject(NetworkIdentity id)
-    {
-        RpcInhaleObject(id);
-    }
-    
-    [ClientRpc(includeOwner = false)]
-    private void RpcInhaleObject(NetworkIdentity id)
-    {
-        InhaleObject(id);
-    }
-    
+
     private void StopInhaleTarget()
     {
         if (_inhaleTarget is null || !_inhaling || _canStick) return;
-
-        if (ReferenceEquals(_inhaleTarget.gameObject, Managers.Game.OtherPlayer))
-        {
-            CmdStopInhaleTarget(_inhaleTarget.gameObject);
-            _inhaling = false;
-            
-            if (_chargingCoroutine is not null)
-            {
-                StopCoroutine(_chargingCoroutine);
-                _lineRenderer.enabled = false;
-            }
-            _isAttached = false;
-            _isInhaledHook = false;
-        }
-        else
-        {
-            _inhaleTarget.GetComponent<IInhalable>().StopInhale();
-            _inhaling = false;
-
-            if (_chargingCoroutine is not null)
-            {
-                StopCoroutine(_chargingCoroutine);
-                _lineRenderer.enabled = false;
-            }
-            _isAttached = false;
-        }
+        
+        StopInhale();
     }
 
-    [Command(requiresAuthority = false)]
-    private void CmdStopInhaleTarget(GameObject obj)
+    private void StopInhale()
     {
-        RpcStopInhaleTarget(obj);
+        _inhaling = false;
+        _inhaleTarget.GetComponent<IInhalable>().StopInhale();
+        
+        if (_chargingCoroutine is not null)
+        {
+            StopCoroutine(_chargingCoroutine);
+            _lineRenderer.enabled = false;
+        }
+        
+        _isAttached = false;
+        Managers.Command.StopInhaleItem(_inhaleTarget.GetComponent<NetworkIdentity>().netId);
     }
 
-    [ClientRpc(includeOwner = false)]
-    private void RpcStopInhaleTarget(GameObject obj)
+    private void FixInhaleTarget(bool value)
     {
-        obj.GetComponent<IInhalable>().StopInhale();
+        if (!value || !_isAttached)
+        {
+            StopInhale();
+            return;
+        }
+
+        _isAttached = true;
     }
-    
     #endregion
-
+    
     #region HookInteraction
     [field: SerializeField] private float _stickToHookSpeed;
     private Vector3 _offset = new(0, -1f);
@@ -555,7 +522,7 @@ public class AirGunNet : NetworkBehaviour
         _lineRenderer.enabled = false;
         if (ReferenceEquals(_inhaleTarget.gameObject, Managers.Game.OtherPlayer))
         {
-            CmdShootObject(_inhaleTarget.gameObject, _weaponPoint.right * _shootPower);
+            Managers.Command.CmdShootObject(_inhaleTarget.gameObject, _weaponPoint.right * _shootPower);
             _isInhaledHook = false;
         }
         else
@@ -566,18 +533,6 @@ public class AirGunNet : NetworkBehaviour
         _isAttached = false;
         _inhaling = false;
         _shootPower = 0f;
-    }
-
-    [Command(requiresAuthority = false)]
-    private void CmdShootObject(GameObject obj, Vector2 power)
-    {
-        RpcShootObject(obj, power);
-    }
-
-    [ClientRpc(includeOwner = false)]
-    private void RpcShootObject(GameObject obj, Vector2 power)
-    {
-        obj.GetComponent<IInhalable>().Shooting(power);
     }
     
     private IEnumerator Co_CoolDown()

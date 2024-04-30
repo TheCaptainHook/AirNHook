@@ -184,6 +184,11 @@ public class HookMovement : PlayerMovement, IInhalable
         _animator.SetBool(IsHookInhaled, false);
     }
 
+    public void Fixed(bool value)
+    {
+        throw new System.NotImplementedException();
+    }
+
     public void Inhaling(bool value)
     {
         throw new System.NotImplementedException();

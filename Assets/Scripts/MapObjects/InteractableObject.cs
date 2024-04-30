@@ -66,11 +66,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     private void FixedUpdate()
     {
         if(!isOwned || _fixedPoint is null) return;
-        
-        if (_canInteract)
-        {
-            Inhale();
-        }
+
+        Inhale();
     }
 
     #region IInteractable
@@ -169,13 +166,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     #region IInhalation
     public void Inhalation(Transform accessor)
     {
-        if (_fixedPoint is not null || _canInteract || _isFixed)
-            return;
-
         _fixedPoint = accessor;
-        
         transform.rotation = Quaternion.identity;
-        //ChangeCanInhaleState(true);
     }
 
     public void StopInhale()
@@ -187,9 +179,15 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         CmdSetExcludeLayer(_releaseLayerMask);
     }
 
+    public void Fixed(bool value)
+    {
+        _isFixed = value;
+        _canInteract = !value;
+    }
+
     public void Inhaling(bool value)
     {
-        _canInteract = value;
+        _canInteract = !value;
     }
 
     public void Shooting(Vector2 force)
@@ -204,7 +202,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public bool CanInhale()
     {
-        return _canInteract;
+        return !_isFixed;
     }
 
     private void Inhale()
@@ -215,7 +213,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _rigidbody.AddForce(direction * power);
         CmdSetExcludeLayer(grabLayerMask);
             
-        if (Vector2.Distance(_fixedPoint.position, transform.position) > 0.2f) return;
+        //if (Vector2.Distance(_fixedPoint.position, transform.position) > 0.2f) return;
 
         //ChangeCanInhaleState(false);
         //ChangeFixedState(true);

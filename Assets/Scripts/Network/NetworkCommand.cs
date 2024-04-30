@@ -124,7 +124,7 @@ public class NetworkCommand : NetworkBehaviour
 
     #region InhaleItem
     public Action<NetworkIdentity, bool> itemInhaleCallback;
-    public Action<uint> itemStopInhaleCallback;
+    public Action<bool> fixItemCallback;
     
     [Command(requiresAuthority = false)]
     public void TryInhaleItem(GameObject target, uint itemNetId)
@@ -139,8 +139,8 @@ public class NetworkCommand : NetworkBehaviour
             return;
         }
 
-        inhalable.Inhaling(true);
-        if (!NetworkServer.localConnection.Equals(conn) || !item.isOwned)
+        if ((!ReferenceEquals(Managers.Game.Player, item.gameObject) && !ReferenceEquals(Managers.Game.OtherPlayer, item.gameObject))
+            || !NetworkServer.localConnection.Equals(conn) || !item.isOwned)
         {
             item.RemoveClientAuthority();
             item.AssignClientAuthority(conn);
@@ -158,7 +158,7 @@ public class NetworkCommand : NetworkBehaviour
     }
 
     [Command(requiresAuthority = false)]
-    public void TryStopInhaleItem(GameObject target, uint itemNetId)
+    public void StopInhaleItem(uint itemNetId)
     {
         if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
 
@@ -171,13 +171,49 @@ public class NetworkCommand : NetworkBehaviour
         if(!item.TryGetComponent<IInhalable>(out var inhalable)) return;
         
         inhalable.Inhaling(false);
-        StopInhaleItem(target.GetComponent<NetworkIdentity>().connectionToClient, itemNetId);
+        inhalable.Fixed(false);
+    }
+
+    [Command(requiresAuthority = false)]
+    public void TryFixInhaleItem(GameObject target, uint itemNetId)
+    {
+        var conn = target.GetComponent<NetworkIdentity>().connectionToClient;
+
+        if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item))
+        {
+            FixInhaleItem(conn, itemNetId, false);
+            return;
+        }
+
+        if (!item.TryGetComponent<IInhalable>(out var inhalable) || (inhalable is not null && !inhalable.CanInhale()))
+        {
+            FixInhaleItem(conn, itemNetId, false);
+            return;
+        }
+        
+        inhalable.Inhaling(true);
+        inhalable.Fixed(true);
+        FixInhaleItem(conn, itemNetId, true);
     }
 
     [TargetRpc]
-    private void StopInhaleItem(NetworkConnectionToClient conn, uint itemNetId)
+    private void FixInhaleItem(NetworkConnectionToClient conn, uint itemNetId, bool value)
     {
-        itemStopInhaleCallback?.Invoke(itemNetId);
+        if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
+
+        fixItemCallback?.Invoke(value);
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CmdShootObject(GameObject obj, Vector2 power)
+    {
+        RpcShootObject(obj, power);
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcShootObject(GameObject obj, Vector2 power)
+    {
+        obj.GetComponent<IInhalable>().Shooting(power);
     }
     #endregion
 }
