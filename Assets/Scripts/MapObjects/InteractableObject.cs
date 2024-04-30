@@ -8,8 +8,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     [Header("Grab n Release")]
     private Rigidbody2D _rigidbody;
     private Transform _fixedPoint;
-    public LayerMask grabLayerMask;
-    private LayerMask _releaseLayerMask;
     private RigidbodyType2D _originType;
     private RigidbodyConstraints2D _originRot;
     [field: SerializeField] private ObjectTypeEnum _objectType = ObjectTypeEnum.Grab;
@@ -41,7 +39,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     {
         _originType = _rigidbody.bodyType;
         _originRot = _rigidbody.constraints;
-        _releaseLayerMask = _rigidbody.excludeLayers;
         _gravityScale = _rigidbody.gravityScale;
         
         _originSortingLayerID = _sortingGroup.sortingLayerID;
@@ -96,7 +93,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         transform.rotation = Quaternion.identity;
         _sortingGroup.sortingLayerName = GrabObj;
-        CmdSetExcludeLayer(grabLayerMask);
     }
 
     public virtual void Release()
@@ -110,7 +106,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _fixedPoint = null;
         _rigidbody.constraints = _originRot;
         _sortingGroup.sortingLayerID = _originSortingLayerID;
-        CmdSetExcludeLayer(_releaseLayerMask);
     }
     
     public void Destroyed()
@@ -129,7 +124,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             hook.ReleaseItem();
 
         _fixedPoint = null;
-        CmdSetExcludeLayer(_releaseLayerMask);
         _rigidbody.constraints = _originRot;
     }
     
@@ -172,11 +166,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void StopInhale()
     {
-        //ChangeCanInhaleState(false);
-        //ChangeFixedState(false);
         _fixedPoint = null;
         _rigidbody.gravityScale = _gravityScale;
-        CmdSetExcludeLayer(_releaseLayerMask);
     }
 
     public void Fixed(bool value)
@@ -192,13 +183,10 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void Shooting(Vector2 force)
     {
-        //ChangeCanInhaleState(false);
-        //ChangeFixedState(false);
         _fixedPoint = null;
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.gravityScale = _gravityScale;
         _rigidbody.AddForce(force, ForceMode2D.Impulse);
-        CmdSetExcludeLayer(_releaseLayerMask);
     }
 
     public bool CanInhale()
@@ -212,15 +200,9 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         var power = _inhalePower * Time.fixedDeltaTime;
         _rigidbody.gravityScale = 0f;
         _rigidbody.AddForce(direction * power);
-        CmdSetExcludeLayer(grabLayerMask);
-            
-        //if (Vector2.Distance(_fixedPoint.position, transform.position) > 0.2f) return;
-
-        //ChangeCanInhaleState(false);
-        //ChangeFixedState(true);
     }
     #endregion
-
+    
     #region Command
     private void ChangeState(bool value)
     {
@@ -238,18 +220,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     private void CmdChangeInteractState(bool value)
     {
         _canInteract = value;
-    }
-
-    [Command(requiresAuthority = false)]
-    private void CmdSetExcludeLayer(LayerMask layerMask)
-    {
-        RpcSetExcludeLayer(layerMask);
-    }
-
-    [ClientRpc]
-    private void RpcSetExcludeLayer(LayerMask layerMask)
-    {
-        _rigidbody.excludeLayers = layerMask;
     }
     #endregion
 }
