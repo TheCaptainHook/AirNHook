@@ -1,5 +1,3 @@
-using Mirror;
-using Mono.CecilX;
 using UnityEngine;
 
 public class Managers : MonoBehaviour
@@ -71,9 +69,9 @@ public class Managers : MonoBehaviour
         {
 
             //#if UNITY_EDITOR
-            var go = ResourceManager.Instantiate("Prefabs/Manager/NetworkManagerKCP"); // todo 0425
+            //var go = ResourceManager.Instantiate("Prefabs/Manager/NetworkManagerKCP"); // todo 0425
             //#else
-            //var go = ResourceManager.Instantiate("Prefabs/Manager/NetworkManager");
+            var go = ResourceManager.Instantiate("Prefabs/Manager/NetworkManager");
             //#endif
             Instance._network = go.GetComponent<CustomNetworkManager>();
         }
