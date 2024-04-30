@@ -97,15 +97,9 @@ public class Hook : Player
             if(!_latestTarget.TryGetComponent<IInteractable>(out var interactable)) return;
 
             if (interactable.GetObjectType() == ObjectTypeEnum.Grab)
-            {
-                Debug.Log("b");
                 Managers.Command.TryGrabItem(gameObject, _latestTarget.GetComponent<NetworkIdentity>().netId);
-            }
             else
-            {
-                Debug.Log("g");
                 interactable.Interaction(_grabPoint);
-            }
         }
     }
 
