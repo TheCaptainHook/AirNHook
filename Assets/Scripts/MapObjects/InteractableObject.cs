@@ -50,9 +50,12 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     {
         var velocity = ((transform.position - _previous).magnitude) / Time.deltaTime;
         _previous = transform.position;
-        if(velocity <= 0.1f)
+        if (velocity <= 0.1f)
+        {
             _rigidbody.velocity = Vector2.zero;
-        
+            _rigidbody.angularVelocity = 0f;
+        }
+
         if (isOwned && _isFixed && _fixedPoint is not null)
         {
             _rigidbody.velocity = Vector2.zero;
