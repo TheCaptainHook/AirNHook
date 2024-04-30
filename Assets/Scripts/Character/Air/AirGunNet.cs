@@ -489,7 +489,7 @@ public class AirGunNet : NetworkBehaviour
     #region ShootingAction
     private void Charging()
     {
-        if(!_isAttached || !canHandle) return;
+        if((!_isAttached && !_isInhaledHook) || !canHandle) return;
         
         _chargingCoroutine = StartCoroutine(Co_PowerCharging());
     }
@@ -520,7 +520,7 @@ public class AirGunNet : NetworkBehaviour
     
     private void ShootObject()
     {
-        if(!_isAttached || _shootPower <= 0f) return;
+        if((!_isAttached && !_isInhaledHook) || _shootPower <= 0f) return;
 
         if (_chargingCoroutine != null)
         {
@@ -531,12 +531,11 @@ public class AirGunNet : NetworkBehaviour
         StopInhaleTarget();
 
         _lineRenderer.enabled = false;
-        if (ReferenceEquals(_inhaleTarget.gameObject, Managers.Game.OtherPlayer))
-            _isInhaledHook = false;
         
         Managers.Command.ShootObject(_inhaleTarget.gameObject, weaponPoint.right * _shootPower);
         _inhaleTarget = null;
         _isAttached = false;
+        _isInhaledHook = false;
         _inhaling = false;
         _shootPower = 0f;
     }
