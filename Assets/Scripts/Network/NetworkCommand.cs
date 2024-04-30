@@ -88,7 +88,7 @@ public class NetworkCommand : NetworkBehaviour
         }
         
         interactable.Interacting(true);
-        if (!NetworkServer.localConnection.Equals(conn) || !item.isOwned)
+        if (!ReferenceEquals(Managers.Game.Player, target) || !item.isOwned)
         {
             AssignAuthority(item, conn);
         }

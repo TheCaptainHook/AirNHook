@@ -112,6 +112,7 @@ public class Hook : Player
             _grabbedItem = item.transform;
             _animator.SetBool(IsGrabbing, true);
         }
+        
         interactable.Interaction(_grabPoint);
         interactable.HideEButton();
     }
