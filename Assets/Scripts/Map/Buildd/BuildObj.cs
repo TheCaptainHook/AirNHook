@@ -69,7 +69,10 @@ public class BuildObj : MousePointerEntity,IDamageable
         {
             Debug.Log(gameObject.name);
             Debug.Log("Distruction");
-            OnInteractableObjectRelease?.Invoke();
+            if(Managers.Game.CurrentState != GameState.Editor)
+            {
+                OnInteractableObjectRelease?.Invoke();
+            }
             OnDissolveAction?.Invoke(position);
             OnDisableAction?.Invoke();
         }

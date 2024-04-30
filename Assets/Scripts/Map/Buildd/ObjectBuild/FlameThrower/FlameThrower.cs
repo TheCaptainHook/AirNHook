@@ -7,17 +7,25 @@ public class FlameThrower : BuildObj
     
     BoxCollider2D _collider;
 
-    float maxRate = 7f;
+    float maxRate = 6.3f;
     float curRate;
+
     public bool onActive;
     private bool onRecoveryRay;
     [SerializeField] LayerMask layerMask;
 
     [SerializeField] Flame flame;
 
+    //todo test 0429
+    Vector3 hitDown;
+    Vector3 hitUp;
+
     private void Awake()
     {
         _collider = GetComponent<BoxCollider2D>();
+
+        hitDown = (Quaternion.Euler(0, 0, -10) * transform.right).normalized ;
+        hitUp= (Quaternion.Euler(0, 0, 10) * transform.right).normalized;
         StartCoroutine(Co_StartRay());
     }
   
@@ -26,11 +34,32 @@ public class FlameThrower : BuildObj
     {
         if (!MapEditor.Instance.stageClear && !turnOff)
         {
+            hitDown = (Quaternion.Euler(0, 0, -10) * transform.right).normalized;
+            hitUp = (Quaternion.Euler(0, 0, 10) * transform.right).normalized;
+
             RaycastHit2D hit = Physics2D.Raycast(flame.transform.position, transform.right, curRate, layerMask);
+            RaycastHit2D hit1 = Physics2D.Raycast(flame.transform.position,hitDown , curRate, layerMask);
+            RaycastHit2D hit2 = Physics2D.Raycast(flame.transform.position, hitUp, curRate, layerMask);
+
+            
             Debug.DrawRay(flame.transform.position, transform.right*curRate, Color.green);
+            Debug.DrawRay(flame.transform.position, hitDown * curRate, Color.green);
+            Debug.DrawRay(flame.transform.position, hitUp * curRate, Color.green);
+
+
+
             if (hit)
             {
                 CheckHit(hit);
+               
+            }else if (hit1)
+            {
+                CheckHit(hit1);
+                
+            }
+            else if (hit2)
+            {
+                CheckHit(hit2);
             }
             else
             {
@@ -57,7 +86,7 @@ public class FlameThrower : BuildObj
         onRecoveryRay = true;
         while (curRate <= maxRate)
         {
-            curRate += Time.deltaTime+0.022f;
+            curRate += Time.deltaTime+0.015f;
             yield return null;
         }
         onRecoveryRay = false;

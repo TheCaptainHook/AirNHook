@@ -4,32 +4,29 @@ using UnityEngine;
 
 public class Arrow_Indicator : Indicator
 {
-    float height = 0;
+
+    private Vector3 offset;
+
+    //float height = 0;
     private void Update()
     {
-        if(curLinkObj != null)
+        if (curLinkObj != null)
         {
-            //transform.position = curLinkObj.transform.position + new Vector3(0,height*0.5f,0);
-
-
-            transform.position = curLinkObj.transform.position + (Vector3)curLinkObj.GetComponent<BuildObj>().offset;
+   
+            transform.position = curLinkObj.transform.position + offset;
         }
     }
 
 
-    private void Tracking()
-    {
-        Collider2D[] cols = curLinkObj.GetComponentsInChildren<Collider2D>();
-       
-        foreach (Collider2D co in cols)
-        {
-            height = Mathf.Max(height, co.bounds.size.y);
-        }
-    }
 
     public override void SetLinkObj(GameObject obj)
     {
         base.SetLinkObj(obj);
-        Tracking();
+        offset = curLinkObj.GetComponent<BuildObj>().offset;
+        transform.position = obj.transform.position + offset;
+
+    
     }
+
+
 }
