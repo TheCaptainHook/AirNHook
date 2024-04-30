@@ -131,7 +131,6 @@ public class Hook : Player
     {
         if (!isLocalPlayer) return;
 
-        _grabbedItem.GetComponent<Rigidbody2D>().velocity = _rigidbd.velocity;
         _grabbedItem = null;
         _animator.SetBool(IsGrabbing, false);
     }
