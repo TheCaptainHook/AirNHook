@@ -48,16 +48,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     private void Update()
     {
-        var velocity = ((transform.position - _previous).magnitude) / Time.deltaTime;
-        _previous = transform.position;
-        if (velocity <= 0.2f)
-        {
-            Debug.Log(velocity);
-            _rigidbody.rotation = 0f;
-            _rigidbody.velocity = Vector2.zero;
-            _rigidbody.angularVelocity = 0f;
-        }
-
         if (isOwned && _isFixed && _fixedPoint is not null)
         {
             _rigidbody.velocity = Vector2.zero;
@@ -75,6 +65,18 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         if(!isOwned || _fixedPoint is null) return;
 
         Inhale();
+    }
+
+    private void LateUpdate()
+    {
+        var velocity = ((transform.position - _previous).magnitude) / Time.deltaTime;
+        _previous = transform.position;
+        if (velocity <= 0.2f)
+        {
+            _rigidbody.rotation = 0f;
+            _rigidbody.velocity = Vector2.zero;
+            _rigidbody.angularVelocity = 0f;
+        }
     }
 
     #region IInteractable
