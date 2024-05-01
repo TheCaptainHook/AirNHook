@@ -77,9 +77,7 @@ public class HookMovement : PlayerMovement, IInhalable
 
     protected override void IsFloor()
     {
-        var velocity = (transform.position - previous) / Time.deltaTime;
-        
-        if(velocity.y > 0.15f) return;
+        if(isLocalPlayer && _rigidbd.velocity.y > 0.15f) return;
         
         for (int i = -1; i < 2; i++)
         {
@@ -88,6 +86,7 @@ public class HookMovement : PlayerMovement, IInhalable
                 if (!isGround)
                 {
                     _landParticles.Play();
+                    CmdLandParticlePlay();
                 }
                 isGround = true;
                 swingJump = false;

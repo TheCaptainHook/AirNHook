@@ -201,14 +201,22 @@ public class PlayerMovement : NetworkBehaviour
         _jumpParticles.Play();
     }
     
+    [Command(requiresAuthority = false)]
+    protected void CmdLandParticlePlay()
+    {
+        RpcLandParticlePlay();
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcLandParticlePlay()
+    {
+        _landParticles.Play();
+    }
+    
     //점프체크
     protected virtual void IsFloor()
     {
-        if(isLocalPlayer)
-            current = transform.position;
-        var velocity = (current - previous) / Time.deltaTime;
-        
-        if(velocity.y > 0.15f) return;
+        if (isLocalPlayer && _rigidbd.velocity.y >= 0.15f) return;
         
         //Ray발사
         for (int i = -1; i < 2; i++)
@@ -218,6 +226,7 @@ public class PlayerMovement : NetworkBehaviour
                 if (!isGround)
                 {
                     _landParticles.Play();
+                    CmdLandParticlePlay();
                 }
                 specificJump = false;
                 isGround = true;
