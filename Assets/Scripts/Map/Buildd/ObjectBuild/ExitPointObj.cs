@@ -60,10 +60,7 @@ public class ExitPointObj : BuildBase
 
     private void ClientGetKey(GameObject obj)
     {
-        obj.GetComponent<SpriteRenderer>().enabled = false;
-        obj.GetComponent<IInteractable>().Interacting(true);
-        obj.transform.position = transform.position;
-        obj.GetComponent<Key>().CallOnInterableObjectRelease();
+        Current_KeyAmount = 1;
     }
     
     void GetKey(GameObject obj)
@@ -85,13 +82,13 @@ public class ExitPointObj : BuildBase
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Key") && !turnOff)
+            ClientGetKey(collision.gameObject);
+        
         if (Managers.Game.CurrentState == GameState.Editor || !Managers.Game.Player.GetComponent<Player>().isServer) return;
         
         if (collision.gameObject.layer == LayerMask.NameToLayer("Key") && !turnOff)
-        {
             GetKey(collision.gameObject);
-            Debug.Log(current_KeyAmount);
-        }
         
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {

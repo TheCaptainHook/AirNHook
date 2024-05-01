@@ -246,7 +246,7 @@ public class NetworkCommand : NetworkBehaviour
         target.GetComponent<IInteractable>().Interacting(true);
         target.transform.position = new Vector3(-1000, -1000);
         target.GetComponent<Key>().CallOnInterableObjectRelease();
-
+        
         StartCoroutine(WaitForDestroy(target));
     }
 
