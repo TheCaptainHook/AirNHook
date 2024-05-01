@@ -77,7 +77,7 @@ public class HookMovement : PlayerMovement, IInhalable
 
     protected override void IsFloor()
     {
-        if(isLocalPlayer && _rigidbd.velocity.y > 0.15f) return;
+        if(_rigidbd.velocity.y > 0.15f) return;
         
         for (int i = -1; i < 2; i++)
         {
