@@ -18,12 +18,14 @@ public class HookMovement : PlayerMovement, IInhalable
     private static readonly int IsAirAttached = Animator.StringToHash("IsAirAttached");
     private static readonly int IsHookInhaled = Animator.StringToHash("IsHookInhaled");
     #endregion
+    
     protected override void Awake()
     {
         base.Awake();
         grappling = GetComponent<Grappling>();
     }
 
+    #region Movement
     protected override void Movement()
     {
         if (_horizontal != 0)
@@ -75,6 +77,8 @@ public class HookMovement : PlayerMovement, IInhalable
 
     protected override void IsFloor()
     {
+        if(_rigidbd.velocity.y > 0.15f) return;
+        
         for (int i = -1; i < 2; i++)
         {
             if (Physics2D.Raycast(transform.position + (Vector3.right * (0.4f * i)), Vector2.down, 0.1f, _floorLayer))
@@ -104,7 +108,9 @@ public class HookMovement : PlayerMovement, IInhalable
     {
         return !isSwinging && base.IsLeftHead();
     }
+    #endregion
 
+    #region Animation
     protected override void MoveAnimation()
     {
         _animator.SetBool(IsAirAttached, isAirAttached);
@@ -125,19 +131,21 @@ public class HookMovement : PlayerMovement, IInhalable
         }
         base.MoveAnimation();
     }
+    #endregion
 
     #region Inhale
     private Transform _fixedPoint;
     private Coroutine _inhaleCoroutine;
     [field: SerializeField] private float _inhalePower;
-    private bool _isFixed;
+    [SyncVar] private bool _isFixed;
+    [SyncVar] private bool _canInteract;
     private WaitForFixedUpdate _waitForFixedUpdate = new();
     
     public void Inhalation(Transform accessor)
     {
+        Debug.Log("a");
         canControl = false;
         grappling.canControl = false;
-        _isFixed = false;
         _fixedPoint = accessor;
         _inhaleCoroutine = StartCoroutine(Co_Inhale());
     }
@@ -148,6 +156,7 @@ public class HookMovement : PlayerMovement, IInhalable
         {
             if (!_isFixed)
             {
+                Debug.Log("b");
                 yield return _waitForFixedUpdate;
 
                 if (_fixedPoint is null) break;
@@ -162,6 +171,7 @@ public class HookMovement : PlayerMovement, IInhalable
             }
             else
             {
+                Debug.Log("c");
                 yield return null;
                 _rigidbd.drag = 0f;
                 _animator.SetBool(IsHookInhaled, true);
@@ -171,21 +181,38 @@ public class HookMovement : PlayerMovement, IInhalable
                 transform.position = _fixedPoint.position;
             }
         }
+
+        _inhaleCoroutine = null;
     }
 
     public void StopInhale()
     {
-        StopCoroutine(_inhaleCoroutine);
+        Debug.Log("d");
+        if(_inhaleCoroutine is not null)
+            StopCoroutine(_inhaleCoroutine);
         canControl = true;
-        grappling.canControl = true;
         _isFixed = false;
+        ChangeState(false);
+        grappling.canControl = true;
         _fixedPoint = null;
         _rigidbd.gravityScale = _gravityScale;
         _animator.SetBool(IsHookInhaled, false);
     }
 
+    public void Fixed(bool value)
+    {
+        _isFixed = value;
+        _canInteract = !value;
+    }
+
+    public void Inhaling(bool value)
+    {
+        _canInteract = !value;
+    }
+
     public void Shooting(Vector2 force)
     {
+        Debug.Log("f");
         StopInhale();
         swingJump = true;
         _rigidbd.velocity = Vector2.zero;
@@ -195,6 +222,26 @@ public class HookMovement : PlayerMovement, IInhalable
     public bool CanInhale()
     {
         return !isSwinging;
+    }
+    #endregion
+
+    #region Command
+    private void ChangeState(bool value)
+    {
+        CmdChangeFixedState(value);
+        CmdChangeInteractState(!value);
+    }
+    
+    [Command(requiresAuthority = false)]
+    private void CmdChangeFixedState(bool value)
+    {
+        _isFixed = value;
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdChangeInteractState(bool value)
+    {
+        _canInteract = value;
     }
     #endregion
 }

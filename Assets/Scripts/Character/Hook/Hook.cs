@@ -6,9 +6,28 @@ using UnityEngine;
 public class Hook : Player
 {
     [field: SerializeField] private Grappling _grappling;
+    //private Transform _grabbedItem;
     private Transform _grabbedItem;
     
     private static readonly int IsGrabbing = Animator.StringToHash("IsGrabbing");
+
+    protected override void Start()
+    {
+        base.Start();
+        
+        if(!isLocalPlayer) return;
+
+        Managers.Command.itemGrabCallback += GrabItemNet;
+        Managers.Command.itemReleaseCallback += ReleaseItemNet;
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+
+        Managers.Command.itemGrabCallback -= GrabItemNet;
+        Managers.Command.itemReleaseCallback -= ReleaseItemNet;
+    }
 
     protected override IEnumerator Co_DetectInteraction()
     {
@@ -26,28 +45,60 @@ public class Hook : Player
 
             if (collisions.Length == 0)
             {
-                if (_latestTarget is null) continue;
+                if (_latestTarget is null)
+                {
+                    Managers.UI.HideUI<UI_ShowEButton>();
+                    continue;
+                }
 
-                try { _latestTarget.GetComponent<IInteractable>().HideEButton(); }
-                catch (Exception) { Managers.UI.HideUI<UI_ShowEButton>(); }
+                try
+                {
+                    if(_latestTarget.TryGetComponent<IInteractable>(out var none))
+                        none.HideEButton();
+                }
+                catch (MissingReferenceException)
+                {
+                    _latestTarget = null;
+                    Managers.UI.HideUI<UI_ShowEButton>();
+                }
+                
                 _latestTarget = null;
                 continue;
             }
 
+            closestTarget = null;
+
             foreach (var collision in collisions)
             {
+                // 후크가 잡고 있는 물체 처리
+                if (collision.TryGetComponent<IInteractable>(out var inhalable) && !inhalable.CanInteract()) continue;
+                
                 //TODO 벽에 가로막혔을 경우 체크
                 var targetDistance = Vector2.Distance(transform.position + offset, collision.transform.position);
                 if (targetDistance < shortestDistance)
                 {
-                    // 후크가 잡고 있는 물체 처리
-                    if (collision.TryGetComponent<IInteractable>(out var inhalable) && !inhalable.CanInteract()) continue;
-                    
                     shortestDistance = targetDistance;
                     closestTarget = collision;
                 }
             }
 
+            if (closestTarget is null)
+            { 
+                try
+                {
+                    if (_latestTarget is not null && _latestTarget.TryGetComponent<IInteractable>(out var other))
+                        other.HideEButton();
+                }
+                catch (MissingReferenceException)
+                {
+                    _latestTarget = null;
+                    Managers.UI.HideUI<UI_ShowEButton>();
+                }
+                _latestTarget = null;
+                shortestDistance = float.MaxValue;
+                continue;
+            }
+            
             if (_latestTarget is not null)
             {
                 if (ReferenceEquals(_latestTarget, closestTarget))
@@ -56,11 +107,29 @@ public class Hook : Player
                     continue;
                 }
 
-                _latestTarget.GetComponent<IInteractable>().HideEButton();
+                try
+                {
+                    if (_latestTarget.TryGetComponent<IInteractable>(out var other))
+                        other.HideEButton();
+                }
+                catch (MissingReferenceException)
+                {
+                    _latestTarget = null;
+                    Managers.UI.HideUI<UI_ShowEButton>();
+                }
             }
 
             _latestTarget = closestTarget;
-            _latestTarget.GetComponent<IInteractable>().ShowEButton();
+            try
+            {
+                if (_latestTarget.TryGetComponent<IInteractable>(out var newTarget))
+                    newTarget.ShowEButton();
+            }
+            catch (MissingReferenceException)
+            {
+                _latestTarget = null;
+                Managers.UI.HideUI<UI_ShowEButton>();
+            }
             shortestDistance = float.MaxValue;
         }
     }
@@ -69,41 +138,60 @@ public class Hook : Player
     {
         if (_grabbedItem is not null)
         {
-            try { _grabbedItem.GetComponent<IInteractable>().Interaction(_grabPoint); }
-            catch (Exception) { ReleaseItem(); }
-            _grabbedItem = null;
-            _animator.SetBool(IsGrabbing, false);
+            Managers.Command.TryReleaseItem(gameObject, _grabbedItem.GetComponent<NetworkIdentity>().netId);
         }
         else if (_latestTarget is not null)
         {
-            if(!_latestTarget.TryGetComponent<IInteractable>(out var interactable) ||
-               (interactable is not null && !interactable.CanInteract())) return;
+            if(!_latestTarget.TryGetComponent<IInteractable>(out var interactable)) return;
 
             if (interactable.GetObjectType() == ObjectTypeEnum.Grab)
-            {
-                _grabbedItem = _latestTarget.transform;
-                _animator.SetBool(IsGrabbing, true);
-                CmdObjectAuthoritySet(_grabbedItem.GetComponent<NetworkIdentity>());
-            }
-            interactable.Interaction(_grabPoint);
+                Managers.Command.TryGrabItem(gameObject, _latestTarget.GetComponent<NetworkIdentity>().netId);
+            else
+                interactable.Interaction(_grabPoint);
         }
     }
 
+    private void GrabItemNet(NetworkIdentity item, bool value)
+    {
+        if(!value) return;
+        
+        if(!item.TryGetComponent<IInteractable>(out var interactable)) return;
+
+        if (interactable.GetObjectType() == ObjectTypeEnum.Grab)
+        {
+            _grabbedItem = item.transform;
+            _animator.SetBool(IsGrabbing, true);
+        }
+        
+        interactable.Interaction(_grabPoint);
+        interactable.HideEButton();
+    }
+
+    private void ReleaseItemNet(uint itemNetId)
+    {
+        if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
+
+        if (!item.TryGetComponent<IInteractable>(out var interactable))
+        {
+            ReleaseItem();
+            return;
+        }
+        
+        interactable.Interaction(_grabPoint);
+        item.GetComponent<Rigidbody2D>().velocity = _rigidbd.velocity;
+        
+        Managers.Command.AuthorityToServer(_grabbedItem.GetComponent<NetworkIdentity>().netId, true);
+        ReleaseItem();
+    }
+    
     public void ReleaseItem()
     {
         if (!isLocalPlayer) return;
-        
+
         _grabbedItem = null;
         _animator.SetBool(IsGrabbing, false);
     }
     
-    [Command(requiresAuthority = false)]
-    private void CmdObjectAuthoritySet(NetworkIdentity id)
-    {
-        id.RemoveClientAuthority();
-        id.AssignClientAuthority(connectionToClient);
-    }
-
     public override void TakeDamage()
     {
         if(!isLocalPlayer)

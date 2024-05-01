@@ -91,7 +91,7 @@ public class DoorOpeningAnim : NetworkBehaviour
                 var player = Managers.Game.Player.GetComponent<Player>();
                 if (player.isServer)
                 {
-                    player.CmdChangeStage("Lobby");
+                    Managers.Command.ChangeStage("Lobby");
                 }
 
             }

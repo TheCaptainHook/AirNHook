@@ -176,7 +176,7 @@ public class UI_Option : UI_Base
         if (!player.isServer) return;
         
         OnOptionExit();
-        player.CmdChangeStage("Lobby");
+        Managers.Command.ChangeStage("Lobby");
     }
     
     private void OnStageRestartBtn()
@@ -186,7 +186,7 @@ public class UI_Option : UI_Base
         if (!player.isServer) return;
         
         OnOptionExit();
-        player.CmdChangeStage(Managers.Stage.stageName);
+        Managers.Command.ChangeStage(Managers.Stage.stageName);
     }
     
     private void OnTitleBtn()

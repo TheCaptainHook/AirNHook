@@ -28,7 +28,7 @@ public class StageSelectObject : MonoBehaviour, IInteractable
         return true;
     }
 
-    public void Fixed(bool value)
+    public void Interacting(bool value)
     {
         return;
     }

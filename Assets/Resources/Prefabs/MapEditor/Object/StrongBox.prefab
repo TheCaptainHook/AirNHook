@@ -211,9 +211,9 @@ GameObject:
   - component: {fileID: -270225028426460243}
   - component: {fileID: 8495657423424250234}
   - component: {fileID: 1073523619191105079}
-  - component: {fileID: 7248189904295600147}
   - component: {fileID: -5810413876586093780}
   - component: {fileID: 1730392308196055233}
+  - component: {fileID: 7248189904295600147}
   m_Layer: 19
   m_Name: StrongBox
   m_TagString: Untagged
@@ -263,7 +263,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!61 &7581738418688039792
 BoxCollider2D:
@@ -326,11 +326,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _objectType: 1
-  grabLayerMask:
-    serializedVersion: 2
-    m_Bits: 1024
-  _inhalePower: 100
-  offset: {x: 0, y: 1}
+  _offset: {x: 0, y: 1}
+  _inhalePower: 800
 --- !u!114 &8495657423424250234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,18 +366,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collider2D: {fileID: 0}
---- !u!210 &7248189904295600147
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8716440483222482088}
-  m_Enabled: 1
-  m_SortingLayerID: -688237417
-  m_SortingLayer: 5
-  m_SortingOrder: 5
-  m_SortAtRoot: 0
 --- !u!114 &-5810413876586093780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -433,3 +418,15 @@ MonoBehaviour:
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
+--- !u!210 &7248189904295600147
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8716440483222482088}
+  m_Enabled: 1
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
+  m_SortingOrder: 5
+  m_SortAtRoot: 0

@@ -55,6 +55,7 @@ public class Key : BuildObj
         }
         _collider.enabled = true;
         _rb.gravityScale = 1;
+        GetComponent<InteractableObject>().Respawned();
 
         if (MapEditor.Instance.mapEditorState == MapEditorState.Object)
         {
