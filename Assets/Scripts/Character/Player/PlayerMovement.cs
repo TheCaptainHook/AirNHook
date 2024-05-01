@@ -21,6 +21,8 @@ public class PlayerMovement : NetworkBehaviour
     public bool specificJump;
     public bool isGround { get; protected set; }
     [SerializeField] private bool _isDead;
+
+    [SyncVar] protected float velocityY = 0f;
     
     public bool IsDead
     {
@@ -110,6 +112,8 @@ public class PlayerMovement : NetworkBehaviour
 
     private void FixedUpdate()
     {
+        velocity = _rigidbd.velocity;
+        
         if (!isLocalPlayer || IsDead || !canControl) return;
         //머리충돌검사
         IsLeftHead();
@@ -192,7 +196,7 @@ public class PlayerMovement : NetworkBehaviour
     //점프체크
     protected virtual void IsFloor()
     {
-        if(_rigidbd.velocity.y > 0.15f) return;
+        if(velocityY > 0.15f) return;
         
         //Ray발사
         for (int i = -1; i < 2; i++)
