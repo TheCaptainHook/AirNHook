@@ -15489,7 +15489,6 @@ GameObject:
   - component: {fileID: 7291727095691063811}
   - component: {fileID: 8605789714778563182}
   - component: {fileID: 3701858071583928758}
-  - component: {fileID: 153230241796003175}
   - component: {fileID: 5294241001237805509}
   m_Layer: 10
   m_Name: PlayerHook
@@ -15834,29 +15833,6 @@ MonoBehaviour:
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
---- !u!114 &153230241796003175
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8428015766500747352}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab2cbc52526ea384ba280d13cd1a57b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 1
-  syncMode: 0
-  syncInterval: 0
-  target: {fileID: 3090883480896541386}
-  clientAuthority: 1
-  syncVelocity: 1
-  clearVelocity: 0
-  velocitySensitivity: 0.1
-  syncAngularVelocity: 1
-  clearAngularVelocity: 0
-  angularVelocitySensitivity: 0.1
 --- !u!210 &5294241001237805509
 SortingGroup:
   m_ObjectHideFlags: 0
