@@ -230,22 +230,30 @@ public class NetworkCommand : NetworkBehaviour
     private WaitForSeconds _waitForDestroy = new(1f);
     
     [Command(requiresAuthority = false)]
-    public void DestroyObject(GameObject target)
+    public void DestroyKey(GameObject target)
     {
         var id = target.GetComponent<NetworkIdentity>();
         if (!id.isOwned)
             AssignAuthority(id);
         
+        RpcDestroyKey(target);
+    }
+
+    [ClientRpc]
+    private void RpcDestroyKey(GameObject target)
+    {
         target.GetComponent<SpriteRenderer>().enabled = false;
         target.GetComponent<IInteractable>().Interacting(true);
         target.transform.position = new Vector3(-1000, -1000);
+        target.GetComponent<Key>().CallOnInterableObjectRelease();
+
         StartCoroutine(WaitForDestroy(target));
     }
 
     private IEnumerator WaitForDestroy(GameObject target)
     {
         yield return _waitForDestroy;
-        NetworkServer.Destroy(target);
+        Destroy(target);
     }
     #endregion
     

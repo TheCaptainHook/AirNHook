@@ -75,7 +75,7 @@ public class ExitPointObj : BuildBase
             //obj.GetComponent<IInteractable>().Interacting(true);
             //obj.transform.position = new Vector3(-1000, -1000);
             //Destroy(obj, 1f);
-            Managers.Command.DestroyObject(obj);
+            Managers.Command.DestroyKey(obj);
             Current_KeyAmount = 1;
         }
     }
@@ -85,9 +85,6 @@ public class ExitPointObj : BuildBase
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Key") && !turnOff)
-            ClientGetKey(collision.gameObject);
-
         if (Managers.Game.CurrentState == GameState.Editor || !Managers.Game.Player.GetComponent<Player>().isServer) return;
         
         if (collision.gameObject.layer == LayerMask.NameToLayer("Key") && !turnOff)
