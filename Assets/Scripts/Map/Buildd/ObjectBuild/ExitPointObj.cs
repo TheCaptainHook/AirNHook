@@ -60,9 +60,10 @@ public class ExitPointObj : BuildBase
 
     private void ClientGetKey(GameObject obj)
     {
-        obj.GetComponent<Key>().CallOnInterableObjectRelease();
         obj.GetComponent<SpriteRenderer>().enabled = false;
         obj.GetComponent<IInteractable>().Interacting(true);
+        obj.transform.position = transform.position;
+        obj.GetComponent<Key>().CallOnInterableObjectRelease();
     }
     
     void GetKey(GameObject obj)
