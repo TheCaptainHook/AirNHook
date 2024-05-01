@@ -214,6 +214,7 @@ MonoBehaviour:
   transformID: 3
   position: {x: 0, y: 0}
   offset: {x: 0, y: 3}
+  turnOff: 0
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0
@@ -347,9 +348,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
-  syncMode: 0
+  syncMode: 1
   syncInterval: 0
-  clientAuthority: 1
+  clientAuthority: 0
   animator: {fileID: 5945179436293438050}
 --- !u!1 &2469310004978593281
 GameObject:

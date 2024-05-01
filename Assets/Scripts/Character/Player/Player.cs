@@ -196,19 +196,36 @@ public class Player : NetworkBehaviour, IDamageable
 
             if (collisions.Length == 0)
             {
-                if (_latestTarget is null) continue;
+                if (_latestTarget is null)
+                {
+                    Managers.UI.HideUI<UI_ShowEButton>();
+                    continue;
+                }
                 
-                if(_latestTarget.TryGetComponent<IInteractable>(out var none))
-                   none.HideEButton();
+                try
+                {
+                    if(_latestTarget.TryGetComponent<IInteractable>(out var none))
+                        none.HideEButton();
+                }
+                catch (MissingReferenceException)
+                {
+                    _latestTarget = null;
+                    Managers.UI.HideUI<UI_ShowEButton>();
+                }
+                
                 _latestTarget = null;
                 continue;
             }
 
+            closestTarget = null;
+            
             foreach (var collision in collisions)
             {
                 // 후크가 잡고 있는 물체 처리
-                if (collision.TryGetComponent<IInteractable>(out var inhalable) && !inhalable.CanInteract()) continue;
+                if (collision.TryGetComponent<IInteractable>(out var interactable) && !interactable.CanInteract()) continue;
 
+                if (interactable is not null && interactable.GetObjectType() == ObjectTypeEnum.Grab) continue;
+                
                 //TODO 벽에 가로막혔을 경우 체크
                 var targetDistance = Vector2.Distance(transform.position + offset, collision.transform.position);
                 if (targetDistance < shortestDistance)
@@ -219,10 +236,19 @@ public class Player : NetworkBehaviour, IDamageable
             }
 
             if (closestTarget is null)
-            {
-                if (_latestTarget is not null)
+            { 
+                try
+                {
+                    if (_latestTarget is not null && _latestTarget.TryGetComponent<IInteractable>(out var other))
+                        other.HideEButton();
+                }
+                catch (MissingReferenceException)
+                {
                     _latestTarget = null;
-                
+                    Managers.UI.HideUI<UI_ShowEButton>();
+                }
+                _latestTarget = null;
+                shortestDistance = float.MaxValue;
                 continue;
             }
 
@@ -234,15 +260,29 @@ public class Player : NetworkBehaviour, IDamageable
                     continue;
                 }
 
-                if(_latestTarget.TryGetComponent<IInteractable>(out var other))
-                    other.HideEButton();
+                try
+                {
+                    if (_latestTarget.TryGetComponent<IInteractable>(out var other))
+                        other.HideEButton();
+                }
+                catch (MissingReferenceException)
+                {
+                    _latestTarget = null;
+                    Managers.UI.HideUI<UI_ShowEButton>();
+                }
             }
             
             _latestTarget = closestTarget;
-            if(_latestTarget.TryGetComponent<IInteractable>(out var newTarget))
-                newTarget.ShowEButton();
-            else
+            try
+            {
+                if (_latestTarget.TryGetComponent<IInteractable>(out var newTarget))
+                    newTarget.ShowEButton();
+            }
+            catch (MissingReferenceException)
+            {
+                _latestTarget = null;
                 Managers.UI.HideUI<UI_ShowEButton>();
+            }
             shortestDistance = float.MaxValue;
         }
     }

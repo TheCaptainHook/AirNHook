@@ -67,18 +67,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         Inhale();
     }
 
-    private void LateUpdate()
-    {
-        var velocity = ((transform.position - _previous).magnitude) / Time.deltaTime;
-        _previous = transform.position;
-        if (velocity <= 0.2f)
-        {
-            _rigidbody.rotation = 0f;
-            _rigidbody.velocity = Vector2.zero;
-            _rigidbody.angularVelocity = 0f;
-        }
-    }
-
     #region IInteractable
     public void Interaction(Transform accessor)
     {

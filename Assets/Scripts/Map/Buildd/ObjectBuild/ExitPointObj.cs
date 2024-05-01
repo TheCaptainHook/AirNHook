@@ -58,18 +58,21 @@ public class ExitPointObj : BuildBase
         this.condition_KeyAmount = condition_keyAmount;
     }
 
-    void GetKey(GameObject gameObject)
+    private void ClientGetKey(GameObject obj)
     {
-        Debug.Log("c");
-
+        Current_KeyAmount = 1;
+    }
+    
+    void GetKey(GameObject obj)
+    {
         if(Managers.Game.CurrentState != GameState.Editor)
         {
-            gameObject.GetComponent<Key>().CallOnInterableObjectRelease();
-            //Managers.Stage.CmdDestroyObject(gameObject);
-            gameObject.GetComponent<SpriteRenderer>().enabled = false;
-            gameObject.GetComponent<IInteractable>().Interacting(true);
-            gameObject.transform.position = new Vector3(-1000, -1000);
-            Destroy(gameObject, 1f);
+            //obj.GetComponent<Key>().CallOnInterableObjectRelease();
+            //obj.GetComponent<SpriteRenderer>().enabled = false;
+            //obj.GetComponent<IInteractable>().Interacting(true);
+            //obj.transform.position = new Vector3(-1000, -1000);
+            //Destroy(obj, 1f);
+            Managers.Command.DestroyKey(obj);
             Current_KeyAmount = 1;
         }
     }
@@ -80,13 +83,13 @@ public class ExitPointObj : BuildBase
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Key") && !turnOff)
-        {
-            GetKey(collision.gameObject);
-            Debug.Log(current_KeyAmount);
-        }
+            ClientGetKey(collision.gameObject);
         
-        if(Managers.Game.CurrentState == GameState.Editor || !Managers.Game.Player.GetComponent<Player>().isServer) return;
-
+        if (Managers.Game.CurrentState == GameState.Editor || !Managers.Game.Player.GetComponent<Player>().isServer) return;
+        
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Key") && !turnOff)
+            GetKey(collision.gameObject);
+        
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             curPlayerInDoor++;

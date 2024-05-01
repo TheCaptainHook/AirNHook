@@ -208,7 +208,7 @@ public class UI_StageSelect : UI_Base
 
     public void SpawnKey()
     {
-       if (curMapId != string.Empty)
+        if (curMapId != string.Empty)
         {
             GameObject key = Managers.Stage.CmdBatchObject("Key");
             Key = key;
