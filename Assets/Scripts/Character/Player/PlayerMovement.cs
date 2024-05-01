@@ -200,9 +200,17 @@ public class PlayerMovement : NetworkBehaviour
     {
         _jumpParticles.Play();
     }
+
+    protected void LandParticlePlay()
+    {
+        if(!isLocalPlayer) return;
+        
+        _landParticles.Play();
+        CmdLandParticlePlay();
+    }
     
     [Command(requiresAuthority = false)]
-    protected void CmdLandParticlePlay()
+    private void CmdLandParticlePlay()
     {
         RpcLandParticlePlay();
     }
@@ -225,8 +233,7 @@ public class PlayerMovement : NetworkBehaviour
             {
                 if (!isGround)
                 {
-                    _landParticles.Play();
-                    CmdLandParticlePlay();
+                    LandParticlePlay();
                 }
                 specificJump = false;
                 isGround = true;
