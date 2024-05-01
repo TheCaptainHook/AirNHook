@@ -112,8 +112,9 @@ public class SteamLobby : MonoBehaviour
     {
         var id = Base62Converter.FromBase62(steamID);
         if (!lobbyIDDict.ContainsKey(id)) return false;
-        
-        SteamMatchmaking.JoinLobby(lobbyIDDict[id]);
+
+        currentLobbyID = lobbyIDDict[id];
+        SteamMatchmaking.JoinLobby(currentLobbyID);
         return true;
     }
 }

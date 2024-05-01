@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Steamworks;
 using TMPro;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -198,7 +199,10 @@ public class UI_Option : UI_Base
             Managers.Network.StopHost();
         }
         else
+        {
+            SteamMatchmaking.LeaveLobby(Managers.Network.steamLobby.currentLobbyID);
             Managers.Network.StopClient();
+        }
     }
     
     private void OnExitBtn()
