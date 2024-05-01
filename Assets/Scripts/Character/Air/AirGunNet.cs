@@ -391,61 +391,65 @@ public class AirGunNet : NetworkBehaviour
             if (!stick)
             {
                 yield return _waitForFixedUpdate;
-                if (_playerMovement.canControl)
-                {
-                    _playerMovement.canControl = false;
-                    _rigidbody2D.gravityScale = 0f;
-                    _rigidbody2D.velocity = Vector2.zero;
-                }
-
-                var objectVector = (transform.position - _grappling.transform.position).normalized;
-                var targetDistance = Vector2.Distance(transform.position, _grappling.transform.position);
-                
-                var hit = Physics2D.Raycast(weaponPoint.position, objectVector, targetDistance, _obstacleMask);
-                
-                if(!ReferenceEquals(hit.collider, _collider) || !_grappling.grappleAttached)
-                    StopSticking();
-
-                var direction = Vector3.zero;
+               
                 try
                 {
-                    direction = (_grappling.transform.position + _offset - transform.position).normalized;
+                    if (_playerMovement.canControl)
+                    {
+                        _playerMovement.canControl = false;
+                        _rigidbody2D.gravityScale = 0f;
+                        _rigidbody2D.velocity = Vector2.zero;
+                    }
+
+                    var objectVector = (transform.position - _grappling.transform.position).normalized;
+                    var targetDistance = Vector2.Distance(transform.position, _grappling.transform.position);
+                
+                    var hit = Physics2D.Raycast(weaponPoint.position, objectVector, targetDistance, _obstacleMask);
+                
+                    if(!ReferenceEquals(hit.collider, _collider) || !_grappling.grappleAttached)
+                        StopSticking();
+
+                    var direction = (_grappling.transform.position + _offset - transform.position).normalized;
+
+                    _rigidbody2D.AddForce(direction * _stickToHookSpeed);
+
+                    var dir = (_grappling.transform.position + new Vector3(0, 0.5f) - _armPivot.position).normalized;
+                    var rotZ = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+                    _armPivot.rotation = Quaternion.AngleAxis(rotZ, Vector3.forward);
+
+                    if (Mathf.Abs(rotZ) > 90f)
+                    {
+                        rotZ = -rotZ;
+                        _charPivot.rotation = Quaternion.Euler(0f, 180f, 0f);
+                        _armPivot.rotation = Quaternion.Euler(-190f, 0f, rotZ);
+                    }
+                    else
+                    {
+                        _charPivot.rotation = Quaternion.identity;
+                    }
+                
+                    if (Vector2.Distance(_grappling.transform.position, transform.position + new Vector3(0, 1.0f)) <= 0.2f)
+                        stick = true;
                 }
                 catch (NullReferenceException) { StopSticking(); }
-
-                _rigidbody2D.AddForce(direction * _stickToHookSpeed);
-
-                var dir = (_grappling.transform.position + new Vector3(0, 0.5f) - _armPivot.position).normalized;
-                var rotZ = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-
-                _armPivot.rotation = Quaternion.AngleAxis(rotZ, Vector3.forward);
-
-                if (Mathf.Abs(rotZ) > 90f)
-                {
-                    rotZ = -rotZ;
-                    _charPivot.rotation = Quaternion.Euler(0f, 180f, 0f);
-                    _armPivot.rotation = Quaternion.Euler(-190f, 0f, rotZ);
-                }
-                else
-                {
-                    _charPivot.rotation = Quaternion.identity;
-                }
-                
-                if (Vector2.Distance(_grappling.transform.position, transform.position + new Vector3(0, 1.0f)) <= 0.2f)
-                    stick = true;
             }
             else
             {
                 yield return null;
-                if(!_grappling.grappleAttached)
-                    StopSticking();
+                try
+                {
+                    if(!_grappling.grappleAttached)
+                        StopSticking();
                 
-                _rigidbody2D.velocity = Vector2.zero;
-                transform.position = _grappling.transform.position + _offset;
-                _rigidbody2D.drag = 0f;
-                _grappling.isAirAttached = true;
-                _isStick = true;
-                _isAttachedToHook = true;
+                    _rigidbody2D.velocity = Vector2.zero;
+                    transform.position = _grappling.transform.position + _offset;
+                    _rigidbody2D.drag = 0f;
+                    _grappling.isAirAttached = true;
+                    _isStick = true;
+                    _isAttachedToHook = true;
+                }
+                catch (NullReferenceException) { StopSticking(); }
             }
         }
     }
