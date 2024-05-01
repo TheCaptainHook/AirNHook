@@ -12,11 +12,13 @@ public class LeverHead : BuildObj
     //effect
     float dissolveRate = 0.05f;
     private Vector2 _firstPos;
+    private InteractableObject _interactableObject;
 
     private void Awake()
     {
         _collider = GetComponent<Collider2D>();
         _rb = GetComponent<Rigidbody2D>();
+        _interactableObject = GetComponent<InteractableObject>();
         //dissolveMaterial = spriteRenderer.material;
         OnDissolveAction += Dissolve;
     }
@@ -48,6 +50,7 @@ public class LeverHead : BuildObj
 
     public void AttachToLevelBody()
     {
+        _interactableObject.Destroyed();
         _collider.enabled = false;
         _rb.simulated = false;
     }

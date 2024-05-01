@@ -47,11 +47,22 @@ public class Hook : Player
             {
                 if (_latestTarget is null) continue;
 
-                if(_latestTarget.TryGetComponent<IInteractable>(out var none))
-                    none.HideEButton();
+                try
+                {
+                    if(_latestTarget.TryGetComponent<IInteractable>(out var none))
+                        none.HideEButton();
+                }
+                catch (MissingReferenceException)
+                {
+                    _latestTarget = null;
+                    Managers.UI.HideUI<UI_ShowEButton>();
+                }
+                
                 _latestTarget = null;
                 continue;
             }
+
+            closestTarget = null;
 
             foreach (var collision in collisions)
             {
@@ -67,6 +78,13 @@ public class Hook : Player
                 }
             }
 
+            if (closestTarget is null)
+            { 
+                _latestTarget = null;
+                shortestDistance = float.MaxValue;
+                continue;
+            }
+            
             if (_latestTarget is not null)
             {
                 if (ReferenceEquals(_latestTarget, closestTarget))
@@ -75,13 +93,29 @@ public class Hook : Player
                     continue;
                 }
 
-                if(_latestTarget.TryGetComponent<IInteractable>(out var other))
-                    other.HideEButton();
+                try
+                {
+                    if (_latestTarget.TryGetComponent<IInteractable>(out var other))
+                        other.HideEButton();
+                }
+                catch (MissingReferenceException)
+                {
+                    _latestTarget = null;
+                    Managers.UI.HideUI<UI_ShowEButton>();
+                }
             }
 
             _latestTarget = closestTarget;
-            if(_latestTarget.TryGetComponent<IInteractable>(out var newTarget))
-                newTarget.ShowEButton();
+            try
+            {
+                if (_latestTarget.TryGetComponent<IInteractable>(out var newTarget))
+                    newTarget.ShowEButton();
+            }
+            catch (MissingReferenceException)
+            {
+                _latestTarget = null;
+                Managers.UI.HideUI<UI_ShowEButton>();
+            }
             shortestDistance = float.MaxValue;
         }
     }
