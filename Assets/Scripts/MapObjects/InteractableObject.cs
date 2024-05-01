@@ -141,6 +141,12 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _rigidbody.constraints = _originRot;
         Managers.Command.AuthorityToServer(netId);
     }
+
+    public void Respawned()
+    {
+        _canInteract = true;
+        CmdChangeInteractState(true);
+    }
     
     public bool CanInteract()
     {

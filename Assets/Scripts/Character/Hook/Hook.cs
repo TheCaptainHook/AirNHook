@@ -45,7 +45,11 @@ public class Hook : Player
 
             if (collisions.Length == 0)
             {
-                if (_latestTarget is null) continue;
+                if (_latestTarget is null)
+                {
+                    Managers.UI.HideUI<UI_ShowEButton>();
+                    continue;
+                }
 
                 try
                 {
@@ -80,6 +84,16 @@ public class Hook : Player
 
             if (closestTarget is null)
             { 
+                try
+                {
+                    if (_latestTarget is not null && _latestTarget.TryGetComponent<IInteractable>(out var other))
+                        other.HideEButton();
+                }
+                catch (MissingReferenceException)
+                {
+                    _latestTarget = null;
+                    Managers.UI.HideUI<UI_ShowEButton>();
+                }
                 _latestTarget = null;
                 shortestDistance = float.MaxValue;
                 continue;

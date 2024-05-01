@@ -102,6 +102,7 @@ public class LeverHead : BuildObj
         }
         _collider.enabled = true;
         _rb.gravityScale = 1;
+        GetComponent<InteractableObject>().Respawned();
     }
     #endregion
 
