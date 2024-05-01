@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Mirror;
 using UnityEngine;
@@ -405,7 +406,12 @@ public class AirGunNet : NetworkBehaviour
                 if(!ReferenceEquals(hit.collider, _collider) || !_grappling.grappleAttached)
                     StopSticking();
 
-                var direction = (_grappling.transform.position + _offset - transform.position).normalized;
+                var direction = Vector3.zero;
+                try
+                {
+                    direction = (_grappling.transform.position + _offset - transform.position).normalized;
+                }
+                catch (NullReferenceException) { StopSticking(); }
 
                 _rigidbody2D.AddForce(direction * _stickToHookSpeed);
 
