@@ -21,6 +21,7 @@ public class PlayerMovement : NetworkBehaviour
     public bool specificJump;
     public bool isGround { get; protected set; }
     [SerializeField] private bool _isDead;
+    protected Vector3 previous;
     
     public bool IsDead
     {
@@ -66,6 +67,8 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Start()
     {
+        previous = transform.position;
+        
         if(!isLocalPlayer) return;
 
         canControl = true;
@@ -119,6 +122,11 @@ public class PlayerMovement : NetworkBehaviour
         Movement();
         //점프
         Jump();
+    }
+
+    private void LateUpdate()
+    {
+        previous = transform.position;
     }
 
     protected virtual void Movement()
@@ -192,7 +200,9 @@ public class PlayerMovement : NetworkBehaviour
     //점프체크
     protected virtual void IsFloor()
     {
-        if(_rigidbd.velocity.y >= 0.15f) return;
+        var velocity = (transform.position - previous) / Time.deltaTime;
+        
+        if(velocity.y > 0.15f) return;
         
         //Ray발사
         for (int i = -1; i < 2; i++)
