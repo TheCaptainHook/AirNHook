@@ -123,6 +123,7 @@ public class MapEditor : MonoBehaviour
 
     #region event Action
     public event Action OnStageMove;
+    public event Action OnScreen;
     #endregion
 
     private void Awake()
@@ -721,6 +722,11 @@ public class MapEditor : MonoBehaviour
     {
         OnStageMove?.Invoke();
         fadeInOutPanel.MoveNextStage(mapId);
+
+        if(mapId == "Lobby")
+        {
+            OnScreen?.Invoke();
+        }
     }
 
     public GameObject FindObj(Transform transform, int id)
