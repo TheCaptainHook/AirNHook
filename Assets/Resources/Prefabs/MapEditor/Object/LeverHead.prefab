@@ -221,7 +221,7 @@ MonoBehaviour:
   syncPosition: 1
   syncRotation: 1
   syncScale: 0
-  onlySyncOnChange: 1
+  onlySyncOnChange: 0
   compressRotation: 1
   interpolatePosition: 1
   interpolateRotation: 1
@@ -277,11 +277,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _objectType: 1
-  grabLayerMask:
-    serializedVersion: 2
-    m_Bits: 1024
+  _offset: {x: 0, y: 0}
   _inhalePower: 600
-  offset: {x: 0, y: 1.4}
 --- !u!210 &2884958338721759735
 SortingGroup:
   m_ObjectHideFlags: 0
