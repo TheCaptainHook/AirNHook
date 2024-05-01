@@ -51,6 +51,9 @@ public class PlayerMovement : NetworkBehaviour
     protected Animator _animator;
     [SerializeField] private Transform _charPivot;
 
+    [field: SerializeField] private NetworkRigidbodySync _networkRigidbodySync;
+    private Vector2 _velocity => _networkRigidbodySync.velocity;
+
     #region StringCache
     private static readonly int IsMoving = Animator.StringToHash("IsMoving");
     private static readonly int IsJumping = Animator.StringToHash("IsJumping");
@@ -177,6 +180,7 @@ public class PlayerMovement : NetworkBehaviour
         _isJumpPerformed = false;
     }
 
+    #region Command
     [Command(requiresAuthority = false)]
     private void CmdJumpParticlePlay()
     {
@@ -188,11 +192,12 @@ public class PlayerMovement : NetworkBehaviour
     {
         _jumpParticles.Play();
     }
+    #endregion
     
     //점프체크
     protected virtual void IsFloor()
     {
-        if(_rigidbd.velocity.y > 0.15f) return;
+        if (_velocity.y >= 0.15f) return;
         
         //Ray발사
         for (int i = -1; i < 2; i++)

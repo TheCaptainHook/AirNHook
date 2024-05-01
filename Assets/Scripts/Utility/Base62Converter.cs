@@ -2,7 +2,7 @@ using System.Text;
 
 public class Base62Converter 
 {
-    private const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    private const string chars = "1ko058RSqamMAwvCB69Tdph2bNDYQcgferEHUitsL3Pn7KIylVjzWXOZxFG4Ju";
 
     public static string ToBase62(ulong number)
     {
