@@ -89,8 +89,7 @@ public class SteamLobby : MonoBehaviour
     /// <summary> 해당 게임의 스팀 로비 리스트 받아오는 Method </summary>
     public void GetLobbyList()
     {
-        if(lobbyIDDict.Count > 0)
-            lobbyIDDict.Clear();
+        lobbyIDDict.Clear();
         
         SteamMatchmaking.RequestLobbyList();
     }
@@ -102,6 +101,7 @@ public class SteamLobby : MonoBehaviour
         {
             var lobbyID = SteamMatchmaking.GetLobbyByIndex(i);
             
+            Debug.Log(lobbyID.m_SteamID);
             lobbyIDDict.Add(lobbyID.m_SteamID, lobbyID);
         }
         joinLobbyCallback?.Invoke();
