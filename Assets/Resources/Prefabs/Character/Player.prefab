@@ -5071,7 +5071,7 @@ MonoBehaviour:
   _rigidbd: {fileID: 8929439774467590829}
   _moveSpeed: 3
   _charPivot: {fileID: 158291813751165047}
-  _networkRigidbodySync: {fileID: 0}
+  _networkRigidbodySync: {fileID: 2550386921602639545}
 --- !u!114 &672945373029821658
 MonoBehaviour:
   m_ObjectHideFlags: 0

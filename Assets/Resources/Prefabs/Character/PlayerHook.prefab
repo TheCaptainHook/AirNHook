@@ -15545,7 +15545,7 @@ MonoBehaviour:
   _rigidbd: {fileID: 3090883480896541386}
   _moveSpeed: 3
   _charPivot: {fileID: 759945192256969836}
-  _networkRigidbodySync: {fileID: 0}
+  _networkRigidbodySync: {fileID: 6689382284729753449}
   isSwinging: 0
   swingJump: 0
   isAirAttached: 0
