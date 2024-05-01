@@ -5017,6 +5017,7 @@ GameObject:
   - component: {fileID: -6044296530788410067}
   - component: {fileID: -2276443106797034261}
   - component: {fileID: 3253327978095477872}
+  - component: {fileID: 2550386921602639545}
   - component: {fileID: 6283197758547860492}
   m_Layer: 10
   m_Name: Player
@@ -5070,6 +5071,7 @@ MonoBehaviour:
   _rigidbd: {fileID: 8929439774467590829}
   _moveSpeed: 3
   _charPivot: {fileID: 158291813751165047}
+  _networkRigidbodySync: {fileID: 0}
 --- !u!114 &672945373029821658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5300,6 +5302,22 @@ MonoBehaviour:
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
+--- !u!114 &2550386921602639545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2743958777749711243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33751a95fffe0fb46b87fb17193e5c71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  velocity: {x: 0, y: 0}
 --- !u!210 &6283197758547860492
 SortingGroup:
   m_ObjectHideFlags: 0

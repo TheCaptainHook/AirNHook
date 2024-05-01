@@ -50,12 +50,9 @@ public class PlayerMovement : NetworkBehaviour
     
     protected Animator _animator;
     [SerializeField] private Transform _charPivot;
-    
-    // sync velocity
-    [SyncVar] protected Vector2 velocity;
-    [SyncVar] protected float angularVelocity;
-    private readonly ClientSyncState _previousValue = new ClientSyncState();
-    private readonly float _velocitySensitivity = 0.1f;
+
+    [field: SerializeField] private NetworkRigidbodySync _networkRigidbodySync;
+    private Vector2 _velocity => _networkRigidbodySync.velocity;
 
     #region StringCache
     private static readonly int IsMoving = Animator.StringToHash("IsMoving");
@@ -95,9 +92,6 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Update()
     {
-        if (isLocalPlayer)
-            SendToServer();
-        
         // 땅 체크
         IsFloor();
         
@@ -198,85 +192,12 @@ public class PlayerMovement : NetworkBehaviour
     {
         _jumpParticles.Play();
     }
-    
-    [Client]
-    private void SendToServer()
-    {
-        if (!isOwned)
-        {
-            Debug.LogWarning("SendToServer called without authority");
-            return;
-        }
-
-        UpdateVelocity();
-        SendVelocity();
-    }
-
-    [Client]
-    private void UpdateVelocity()
-    {
-        velocity = _rigidbd.velocity;
-        angularVelocity = _rigidbd.angularVelocity;
-    }
-
-    [Client]
-    private void SendVelocity()
-    {
-        float now = Time.time;
-        if (now < _previousValue.nextSyncTime)
-            return;
-
-        Vector2 currentVelocity = _rigidbd.velocity;
-        float currentAngularVelocity = _rigidbd.angularVelocity;
-
-        bool velocityChanged = ((_previousValue.velocity - currentVelocity).sqrMagnitude > _velocitySensitivity * _velocitySensitivity);
-        bool angularVelocityChanged = _previousValue.angularVelocity != currentAngularVelocity;
-        //((previousValue.angularVelocity - currentAngularVelocity).sqrMagnitude > angularVelocitySensitivity * angularVelocitySensitivity);
-
-        // if angularVelocity has changed it is likely that velocity has also changed so just sync both values
-        // however if only velocity has changed just send velocity
-        if (angularVelocityChanged)
-        {
-            CmdSendVelocityAndAngular(currentVelocity, currentAngularVelocity);
-            _previousValue.velocity = currentVelocity;
-            _previousValue.angularVelocity = currentAngularVelocity;
-        }
-        else if (velocityChanged)
-        {
-            CmdSendVelocity(currentVelocity);
-            _previousValue.velocity = currentVelocity;
-        }
-
-        // only update syncTime if either has changed
-        if (angularVelocityChanged || velocityChanged)
-            _previousValue.nextSyncTime = now + syncInterval;
-    }
-    
-    [Command]
-    private void CmdSendVelocity(Vector2 velocity)
-    {
-        this.velocity = velocity;
-    }
-    
-    [Command]
-    private void CmdSendVelocityAndAngular(Vector2 velocity, float angularVelocity)
-    {
-        this.velocity = velocity;
-        this.angularVelocity = angularVelocity;
-    }
-    
-    public class ClientSyncState
-    {
-        public float nextSyncTime;
-        public Vector2 velocity;
-        public float angularVelocity;
-    }
     #endregion
     
     //점프체크
     protected virtual void IsFloor()
     {
-        if (isLocalPlayer && velocity.y >= 0.15f) return;
+        if (isLocalPlayer && _velocity.y >= 0.15f) return;
         
         //Ray발사
         for (int i = -1; i < 2; i++)

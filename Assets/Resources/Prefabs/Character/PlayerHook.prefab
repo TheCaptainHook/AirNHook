@@ -15489,6 +15489,7 @@ GameObject:
   - component: {fileID: 7291727095691063811}
   - component: {fileID: 8605789714778563182}
   - component: {fileID: 3701858071583928758}
+  - component: {fileID: 6689382284729753449}
   - component: {fileID: 5294241001237805509}
   m_Layer: 10
   m_Name: PlayerHook
@@ -15544,6 +15545,7 @@ MonoBehaviour:
   _rigidbd: {fileID: 3090883480896541386}
   _moveSpeed: 3
   _charPivot: {fileID: 759945192256969836}
+  _networkRigidbodySync: {fileID: 0}
   isSwinging: 0
   swingJump: 0
   isAirAttached: 0
@@ -15833,6 +15835,22 @@ MonoBehaviour:
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
+--- !u!114 &6689382284729753449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8428015766500747352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33751a95fffe0fb46b87fb17193e5c71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  velocity: {x: 0, y: 0}
 --- !u!210 &5294241001237805509
 SortingGroup:
   m_ObjectHideFlags: 0
