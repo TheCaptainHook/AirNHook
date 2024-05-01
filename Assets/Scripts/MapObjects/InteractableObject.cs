@@ -93,6 +93,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         transform.rotation = Quaternion.identity;
         _sortingGroup.sortingLayerName = GrabObj;
+        CmdChangeSortingLayer(true);
     }
 
     public virtual void Release()
@@ -108,6 +109,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _fixedPoint = null;
         _rigidbody.constraints = _originRot;
         _sortingGroup.sortingLayerID = _originSortingLayerID;
+        CmdChangeSortingLayer(false);
     }
     
     public void Destroyed()
@@ -229,6 +231,21 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     private void CmdChangeInteractState(bool value)
     {
         _canInteract = value;
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdChangeSortingLayer(bool isGrab)
+    {
+        RpcChangeSortingLayer(isGrab);
+    }
+
+    [ClientRpc]
+    private void RpcChangeSortingLayer(bool isGrab)
+    {
+        if (isGrab)
+            _sortingGroup.sortingLayerName = GrabObj;
+        else
+            _sortingGroup.sortingLayerID = _originSortingLayerID;
     }
     #endregion
 }
