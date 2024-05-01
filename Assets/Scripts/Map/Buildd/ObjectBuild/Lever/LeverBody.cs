@@ -166,6 +166,7 @@ public class LeverBody : BuildObj, IInteractable
             if (bd.linkId == linkId)
             {
                 linkDoorList.Add(bd);
+                bd.curLinkBtn++;
             }
         }
     }
