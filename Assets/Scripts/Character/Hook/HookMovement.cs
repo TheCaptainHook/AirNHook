@@ -28,11 +28,6 @@ public class HookMovement : PlayerMovement, IInhalable
     #region Movement
     protected override void Movement()
     {
-        var velocity = ((transform.position - previous)) / Time.deltaTime;
-        previous = transform.position;
-        
-        if(velocity.y > 0.15f) return;
-        
         if (_horizontal != 0)
         {
             _rigidbd.drag = 0f;
@@ -82,6 +77,8 @@ public class HookMovement : PlayerMovement, IInhalable
 
     protected override void IsFloor()
     {
+        if(_rigidbd.velocity.y >= 0.15f) return;
+        
         for (int i = -1; i < 2; i++)
         {
             if (Physics2D.Raycast(transform.position + (Vector3.right * (0.4f * i)), Vector2.down, 0.1f, _floorLayer))
