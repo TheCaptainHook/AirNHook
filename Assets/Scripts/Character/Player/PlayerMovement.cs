@@ -112,7 +112,7 @@ public class PlayerMovement : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        velocity = _rigidbd.velocity;
+        velocityY = _rigidbd.velocity.y;
         
         if (!isLocalPlayer || IsDead || !canControl) return;
         //머리충돌검사
