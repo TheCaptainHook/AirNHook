@@ -1,3 +1,4 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,8 +21,7 @@ public class UI_ComputerScreen : MonoBehaviour
     [Header("Info")]
     bool onInteraction;
 
-
-
+    private Map curMap;
 
 
 
@@ -53,16 +53,19 @@ public class UI_ComputerScreen : MonoBehaviour
 
     public void TurnOn()
     {
-        
+        //Todo 0501
+
+        Refresh();
+        //Todo 0501
         transform.gameObject.SetActive(true);
         //Reset();
     }
 
     public void SetData(string mapId)
     {
-        Map map = Managers.Data.mapData.mapAllDictionary[mapId];
+        curMap = Managers.Data.mapData.mapAllDictionary[mapId];
 
-        if(map.dataType == 1)
+        if(curMap.dataType == 1)
         {
             UserMapData data = Managers.Data.mapData.mapUserDictionary[int.Parse(mapId)];
             screen1.SetData(data.GetMapId(),data.mapImage);
@@ -70,11 +73,32 @@ public class UI_ComputerScreen : MonoBehaviour
         }
         else
         {
-            screen1.SetData(mapId, map.bytesImage);
+            screen1.SetData(mapId, curMap.bytesImage);
             screen2.SetData(Managers.Data.loadData.playData[mapId]);
         }
 
        
+    }
+
+    public void Refresh() // todo 0501
+    {
+        if (curMap != null)
+        {
+            if (curMap.dataType == 1)
+            {
+                UserMapData data = Managers.Data.mapData.mapUserDictionary[int.Parse(curMap.mapID)];
+                screen1.SetData(data.GetMapId(), data.mapImage);
+                screen2.SetData(Managers.Data.loadData.playData[curMap.mapID]);
+            }
+            else
+            {
+                screen1.SetData(curMap.mapID, curMap.bytesImage);
+                screen2.SetData(Managers.Data.loadData.playData[curMap.mapID]);
+            }
+
+        }
+
+
     }
 
 
