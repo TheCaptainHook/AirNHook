@@ -226,6 +226,29 @@ public class NetworkCommand : NetworkBehaviour
     }
     #endregion
 
+    #region Object
+    private WaitForSeconds _waitForDestroy = new(1f);
+    
+    [Command(requiresAuthority = false)]
+    public void DestroyObject(GameObject target)
+    {
+        var id = target.GetComponent<NetworkIdentity>();
+        if (!id.isOwned)
+            AssignAuthority(id);
+        
+        target.GetComponent<SpriteRenderer>().enabled = false;
+        target.GetComponent<IInteractable>().Interacting(true);
+        target.transform.position = new Vector3(-1000, -1000);
+        StartCoroutine(WaitForDestroy(target));
+    }
+
+    private IEnumerator WaitForDestroy(GameObject target)
+    {
+        yield return _waitForDestroy;
+        NetworkServer.Destroy(target);
+    }
+    #endregion
+    
     #region AuthorityToServer
     [Command(requiresAuthority = false)]
     public void AuthorityToServer(uint itemNetId, bool isRelease)
