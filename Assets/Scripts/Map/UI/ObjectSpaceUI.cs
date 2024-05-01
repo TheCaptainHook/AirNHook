@@ -65,23 +65,23 @@ public class ObjectSpaceUI : MonoBehaviour
 
     void LoadAllObject()
     {
-        //for (int i = 0; i < objects.Length; i++)
-        //{
-        //    GameObject obj = Instantiate(objectSpaceUIItem, objectContent);
-        //    for (int j = 0; j < objPreviewSprites.Length; j++)
-        //    {
-        //        if (objects[i].name == objPreviewSprites[j].name)
-        //        {
-        //            obj.GetComponent<Interaction_BuildItem>().Init(objects[i], objPreviewSprites[j]);
+        for (int i = 0; i < objects.Length; i++)
+        {
+            GameObject obj = Instantiate(objectSpaceUIItem, objectContent);
+            for (int j = 0; j < objPreviewSprites.Length; j++)
+            {
+                if (objects[i].name == objPreviewSprites[j].name)
+                {
+                    obj.GetComponent<Interaction_BuildItem>().Init(objects[i], objPreviewSprites[j]);
 
-        //            obj.AddComponent<UI_ShowToolTip>();
-        //            obj.GetComponent<UI_ShowToolTip>().SetText(objects[i].name);
+                    obj.AddComponent<UI_ShowToolTip>();
+                    obj.GetComponent<UI_ShowToolTip>().SetText(objects[i].name);
 
-        //        }
-        //    }
+                }
+            }
 
-        //}
-        
+        }
+
     }
 
 

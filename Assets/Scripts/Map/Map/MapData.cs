@@ -82,9 +82,9 @@ public class MapData
         }
 
         string path = Path.Combine(Application.dataPath, "UserMapData");
+    
         string[] filePaths = Directory.GetFiles(path, "*.json");
         
-
         foreach (string filePath in filePaths)
         {
             string jsonString = File.ReadAllText(filePath);
