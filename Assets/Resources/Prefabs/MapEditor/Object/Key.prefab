@@ -179,6 +179,7 @@ MonoBehaviour:
   transformID: 1
   position: {x: 0, y: 0}
   offset: {x: 0, y: 2}
+  turnOff: 0
   distructionStatus: 1
   onPlaceable: 0
   onRotateable: 0
@@ -201,11 +202,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _objectType: 1
-  grabLayerMask:
-    serializedVersion: 2
-    m_Bits: 1024
+  _offset: {x: 0, y: 1.4}
   _inhalePower: 800
-  offset: {x: 0, y: 1.45}
 --- !u!114 &-3325528363225173584
 MonoBehaviour:
   m_ObjectHideFlags: 0
