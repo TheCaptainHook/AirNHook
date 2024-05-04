@@ -247,47 +247,68 @@ public class CreateMap_Tool : EditorWindow
         GUILayout.EndHorizontal();
         GUILayout.EndArea();
     }
+    #region todo TEST REFECTORING CODE 0503
+    private void CreateContents(ModeType modeType, List<GUIContent> contents)
+    {
+        switch (modeType)
+        {
+            case ModeType.Object:
+                foreach (GameObject obj in objLists)
+                {
+                    Texture2D texture = AssetPreview.GetAssetPreview(obj);
+                    contents.Add(new GUIContent(texture));
+                }
+                break;
+            case ModeType.Scenes:
+                foreach (GameObject obj in sceneObjLists)
+                {
+                    Texture2D texture = AssetPreview.GetAssetPreview(obj);
+                    contents.Add(new GUIContent(texture));
+                }
+                break;
+            case ModeType.BackGround:
+                foreach (GameObject obj in backgroundObjLists)
+                {
+                    Texture2D texture = AssetPreview.GetAssetPreview(obj);
+                    contents.Add(new GUIContent(texture));
+                }
+                break;
+            case ModeType.Other:
+                foreach (GameObject obj in otherObjLists)
+                {
+                    Texture2D texture = AssetPreview.GetAssetPreview(obj);
+                    contents.Add(new GUIContent(texture));
+                }
+                break;
+        }
+    } //todo TEST REFECTORING CODE 0503
+
+    private void CreateLabel(ModeType modeType, int index)
+    {
+        switch (modeType)
+        {
+            case ModeType.Scenes:
+                GUILayout.Label(sceneObjLists[index].name, _GUIStyle_Text);
+                break;
+            case ModeType.Object:
+                GUILayout.Label(objLists[index].name, _GUIStyle_Text);
+                break;
+            case ModeType.Other:
+                GUILayout.Label(otherObjLists[index].name, _GUIStyle_Text);
+                break;
+            case ModeType.BackGround:
+                GUILayout.Label(backgroundObjLists[index].name, _GUIStyle_Text);
+                break;
+        }
+    }
 
     private void DrawObjectContent()
     {
         GUILayout.BeginArea(objectSection);
         scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(350), GUILayout.Height(300));
-
         List<GUIContent> contentsList = new();
 
-        if (modeType == ModeType.Object)
-        {
-            foreach (GameObject obj in objLists)
-            {
-                Texture2D texture = AssetPreview.GetAssetPreview(obj);
-                contentsList.Add(new GUIContent(texture));
-            }
-        }
-        else if(modeType == ModeType.Scenes)
-        {
-            foreach (GameObject obj in sceneObjLists)
-            {
-                Texture2D texture = AssetPreview.GetAssetPreview(obj);
-                contentsList.Add(new GUIContent(texture));
-            }
-        }else if(modeType == ModeType.BackGround)
-        {
-            foreach (GameObject obj in backgroundObjLists)
-            {
-                Texture2D texture = AssetPreview.GetAssetPreview(obj);
-                contentsList.Add(new GUIContent(texture));
-            }
-        }
-        else if (modeType == ModeType.Other)
-        {
-            foreach (GameObject obj in otherObjLists)
-            {
-                Texture2D texture = AssetPreview.GetAssetPreview(obj);
-                contentsList.Add(new GUIContent(texture));
-            }
-        }
-
-        //objectSectionPot = GUILayout.SelectionGrid(objectSectionPot, contentsList.ToArray(), 6,_GUIStyle_Cell);
+        CreateContents(modeType, contentsList);
 
         float screenWidth = 240f;
         int index = 0;
@@ -299,20 +320,12 @@ public class CreateMap_Tool : EditorWindow
                 GUILayout.BeginHorizontal(GUILayout.Width(Screen.width));
             }
 
-
             if (GUILayout.Button(content, _GUIStyle_Cell))
             {
-                //if(modeToggle) Debug.Log($"{index}, {sceneObjLists[index]}");
-                //else Debug.Log($"{index}, {objLists[index]}");
-
                 CreateObject(index);
-
             }
 
-            if (modeType == ModeType.Scenes) GUILayout.Label(sceneObjLists[index].name, _GUIStyle_Text);
-            else if(modeType == ModeType.Object) GUILayout.Label(objLists[index].name, _GUIStyle_Text);
-            else if(modeType == ModeType.Other) GUILayout.Label(otherObjLists[index].name, _GUIStyle_Text);
-            else if (modeType == ModeType.BackGround) GUILayout.Label(backgroundObjLists[index].name, _GUIStyle_Text);
+            CreateLabel(modeType, index);
 
             if (curWidth > screenWidth - 10)
             {
@@ -320,7 +333,8 @@ public class CreateMap_Tool : EditorWindow
                 index++;
                 GUILayout.EndHorizontal();
                 continue;
-            }else if(index == contentsList.Count - 1)
+            }
+            else if (index == contentsList.Count - 1)
             {
                 GUILayout.EndHorizontal();
             }
@@ -328,11 +342,100 @@ public class CreateMap_Tool : EditorWindow
             index++;
 
         }
-        //GUILayout.EndHorizontal();
-      
+
         GUILayout.EndScrollView();
         GUILayout.EndArea();
     }
+
+    //todo TEST REFECTORING CODE 0503
+    #endregion
+
+    //private void DrawObjectContent()
+    //{
+    //    GUILayout.BeginArea(objectSection);
+    //    scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(350), GUILayout.Height(300));
+
+    //    List<GUIContent> contentsList = new();
+
+    //    if (modeType == ModeType.Object)
+    //    {
+    //        foreach (GameObject obj in objLists)
+    //        {
+    //            Texture2D texture = AssetPreview.GetAssetPreview(obj);
+    //            contentsList.Add(new GUIContent(texture));
+    //        }
+    //    }
+    //    else if(modeType == ModeType.Scenes)
+    //    {
+    //        foreach (GameObject obj in sceneObjLists)
+    //        {
+    //            Texture2D texture = AssetPreview.GetAssetPreview(obj);
+    //            contentsList.Add(new GUIContent(texture));
+    //        }
+    //    }else if(modeType == ModeType.BackGround)
+    //    {
+    //        foreach (GameObject obj in backgroundObjLists)
+    //        {
+    //            Texture2D texture = AssetPreview.GetAssetPreview(obj);
+    //            contentsList.Add(new GUIContent(texture));
+    //        }
+    //    }
+    //    else if (modeType == ModeType.Other)
+    //    {
+    //        foreach (GameObject obj in otherObjLists)
+    //        {
+    //            Texture2D texture = AssetPreview.GetAssetPreview(obj);
+    //            contentsList.Add(new GUIContent(texture));
+    //        }
+    //    }
+
+    //    //objectSectionPot = GUILayout.SelectionGrid(objectSectionPot, contentsList.ToArray(), 6,_GUIStyle_Cell);
+
+    //    float screenWidth = 240f;
+    //    int index = 0;
+    //    float curWidth = 0;
+    //    foreach (GUIContent content in contentsList)
+    //    {
+    //        if (curWidth == 0)
+    //        {
+    //            GUILayout.BeginHorizontal(GUILayout.Width(Screen.width));
+    //        }
+
+
+    //        if (GUILayout.Button(content, _GUIStyle_Cell))
+    //        {
+    //            //if(modeToggle) Debug.Log($"{index}, {sceneObjLists[index]}");
+    //            //else Debug.Log($"{index}, {objLists[index]}");
+
+    //            CreateObject(index);
+
+    //        }
+
+    //        if (modeType == ModeType.Scenes) GUILayout.Label(sceneObjLists[index].name, _GUIStyle_Text);
+    //        else if(modeType == ModeType.Object) GUILayout.Label(objLists[index].name, _GUIStyle_Text);
+    //        else if(modeType == ModeType.Other) GUILayout.Label(otherObjLists[index].name, _GUIStyle_Text);
+    //        else if (modeType == ModeType.BackGround) GUILayout.Label(backgroundObjLists[index].name, _GUIStyle_Text);
+
+    //        if (curWidth > screenWidth - 10)
+    //        {
+    //            curWidth = 0;
+    //            index++;
+    //            GUILayout.EndHorizontal();
+    //            continue;
+    //        }else if(index == contentsList.Count - 1)
+    //        {
+    //            GUILayout.EndHorizontal();
+    //        }
+    //        curWidth += _GUIStyle_Cell.fixedWidth;
+    //        index++;
+
+    //    }
+    //    //GUILayout.EndHorizontal();
+
+    //    GUILayout.EndScrollView();
+    //    GUILayout.EndArea();
+    //}
+
 
     private void DrawGenratorObjectPreviewSpriteContent()
     {
