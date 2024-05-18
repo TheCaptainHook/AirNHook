@@ -52,7 +52,7 @@ public class ButtonActivated : BuildObj
     {
         if (!NetworkServer.active || !NetworkClient.isConnected) return;
 
-        if(Managers.Game.CurrentState == GameState.Editor)
+        if (Managers.Game.CurrentState == GameState.Editor)
         {
             if (curPosition != new Vector2(Mathf.Round(transform.position.x * 10f) / 10f, Mathf.Round(transform.position.y * 10f) / 10f))
             {

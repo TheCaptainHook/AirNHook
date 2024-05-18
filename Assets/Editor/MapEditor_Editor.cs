@@ -26,19 +26,12 @@ public class MapEditor_Editor : Editor
         EditorGUILayout.LabelField("Map Editor------------------------------------", EditorStyles.boldLabel);
         EditorGUILayout.HelpBox($"프로젝트 실행할때 꼭 개발자용 데이터 세이브 후 Reset 버튼 누른다음 실행하기.", MessageType.Info);
 
-
-
         if (GUILayout.Button("Load Data(인게임용)"))
         {
             mapEditor.LoadMap(mapEditor.mapID);
         }
-        //if (GUILayout.Button("Save Data(인게임용)"))
-        //{
-        //    mapEditor.SaveMapData();
-        //}
 
         GUILayout.Space(10);
-
 
         if (GUILayout.Button("개발자용, 맵 새로만들 때 먼저 누르기,Init!"))
         {
@@ -46,10 +39,12 @@ public class MapEditor_Editor : Editor
             mapEditor.Init();
             EditorApplication.ExecuteMenuItem("Window/2D/Tile Palette");
         }
+
         if (GUILayout.Button("- Object Create Tool -"))
         {
             CreateMap_Tool.ShowWindow();
         }
+
         GUILayout.Space(10);
 
         if (GUILayout.Button("Load Data(개발자전용)"))
@@ -57,7 +52,6 @@ public class MapEditor_Editor : Editor
             _Reset(mapEditor);
             LoadMap(mapEditor);
         }
-
 
         if (GUILayout.Button("Save Data(개발자전용)"))
         {
@@ -69,47 +63,11 @@ public class MapEditor_Editor : Editor
 
         if (GUILayout.Button("Reset"))
         {
-
             _Reset(mapEditor);
-            
-
-            //Managers.Data.loadData.Save();
-
-
             mapEditor.CurMap = new Map();
-            //mapEditor.stageLevel = 0;
-            //mapEditor.mapID = "";
-            //mapEditor.startPosition = Vector2.zero;
             mapEditor.audioType = AudioType.None;
 
         }
-
-        //if (GUILayout.Button("In Game Editor Test btn")) //에디터 모드로 진입할때 초기화
-        //{
-        //    mapEditor.EditorMode_Init();
-        //    //Managers.Game.CurrentState = GameState.Editor;
-        //    //mapEditor.mapEditorState = MapEditorState.Editor;
-        //    //mapEditor.Init();
-        //    //mapEditor.gridPlane = Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/GridPlane"));
-        //    //mapEditor.gridPlane.SetActive(false);
-        //    //mapEditor.placeMentSystem.EditorMode_Init();
-
-        //}
-        //GUILayout.Space(10);
-        //if (GUILayout.Button("User map Test btn"))
-        //{
-        //    TestLoad(mapEditor);
-        //}
-
-
-        //GUILayout.Space(10);
-        //if (GUILayout.Button("TEST SCREEN SHOT"))
-        //{
-        //    CurrentMapScreenShot(mapEditor);
-        //}
-
-
-
     }
 
     private void _Reset(MapEditor mapEditor)

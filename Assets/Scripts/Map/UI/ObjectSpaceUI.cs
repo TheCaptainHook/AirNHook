@@ -8,6 +8,7 @@ public class ObjectSpaceUI : MonoBehaviour
 {
   
     RectTransform rTransform;
+    Color activeColor = new Color(0.686f, 0.913f, 0.713f);
 
     [Header("State")]
     bool onHide;
@@ -16,10 +17,19 @@ public class ObjectSpaceUI : MonoBehaviour
     private Vector2 originAnchoredPosition;
     private string path = "Prefabs/MapEditor/Object";
     private string objPreviewSpritePath = "Arts/Sprites/PreviewSprites/Object"; //todo 0427
+
+    private string backgroundObjPath = "Prefabs/MapEditor/Background";
     private string backgroundPreviewSpritePath = "Arts/Sprites/PreviewSprites/Background"; //todo 0427
+
+    private string otherObjPath = "Prefabs/MapEditor/Other";
     private string otherPreviewSpritePath = "Arts/Sprites/PreviewSprites/other"; //todo 0427
+
     private GameObject[] objects;
+    private GameObject[] otherObjects;
+    private GameObject[] backgroundObjects;
     private Sprite[] objPreviewSprites;
+    private Sprite[] otherObjPreviewSprites;
+    private Sprite[] backgroundObjPreviewSprites;
     [SerializeField] GameObject objectSpaceUIItem;
     //[SerializeField] Button toggleBtn;
 
@@ -27,10 +37,14 @@ public class ObjectSpaceUI : MonoBehaviour
     [Header("Button")]
     [SerializeField] Button downBtn;
     [SerializeField] Button upBtn;
+
     [SerializeField] Button objectSectionBtn;
     [SerializeField] Button backgroundSectionBtn;
     [SerializeField] Button otherSectionBtn;
 
+    [Header("Current")]
+    Button currentBtn;
+    GameObject currentSpace;
 
     [Header("Container")]
     [SerializeField] GameObject objectSpace;
@@ -47,12 +61,28 @@ public class ObjectSpaceUI : MonoBehaviour
         downBtn.onClick.AddListener(() => { ShowAndHide(); });
         upBtn.onClick.AddListener(() => { ShowAndHide(); });
 
+        objectSectionBtn.onClick.AddListener(() => { SelectChangeModeBtn(objectSectionBtn,objectSpace);});
+        backgroundSectionBtn.onClick.AddListener(() => { SelectChangeModeBtn(backgroundSectionBtn, backgroundSpace); });
+        otherSectionBtn.onClick.AddListener(() => { SelectChangeModeBtn(otherSectionBtn, otherSpace); });
 
         rTransform = transform as RectTransform;
         //toggleBtn.onClick.AddListener(ShowAndHide);
         originAnchoredPosition = rTransform.anchoredPosition;
+
+        Init();
+       
+    }
+
+    private void Init()
+    {
         objects = Resources.LoadAll<GameObject>(path);
+        otherObjects = Resources.LoadAll<GameObject>(otherObjPath);
+        backgroundObjects = Resources.LoadAll<GameObject>(backgroundObjPath);
+
         objPreviewSprites = Resources.LoadAll<Sprite>(objPreviewSpritePath);
+        otherObjPreviewSprites = Resources.LoadAll<Sprite>(otherPreviewSpritePath);
+        backgroundObjPreviewSprites = Resources.LoadAll<Sprite>(backgroundPreviewSpritePath);
+
         LoadAllObject();
     }
 
@@ -61,18 +91,52 @@ public class ObjectSpaceUI : MonoBehaviour
         onHide = false;
         rTransform.anchoredPosition = originAnchoredPosition;
         objectContent.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+
+        if (upBtn.gameObject.activeSelf)
+        {
+            upBtn.gameObject.SetActive(false);
+            downBtn.gameObject.SetActive(true);
+        }
+
     }
 
     void LoadAllObject()
     {
+        //for (int i = 0; i < objects.Length; i++)
+        //{
+        //    GameObject obj = Instantiate(objectSpaceUIItem, objectContent);
+        //    for (int j = 0; j < objPreviewSprites.Length; j++)
+        //    {
+        //        if (objects[i].name == objPreviewSprites[j].name)
+        //        {
+        //            obj.GetComponent<Interaction_BuildItem>().Init(objects[i], objPreviewSprites[j]);
+
+        //            obj.AddComponent<UI_ShowToolTip>();
+        //            obj.GetComponent<UI_ShowToolTip>().SetText(objects[i].name);
+
+        //        }
+        //    }
+
+        //}
+
+        CreateObjContents(objectSpace,objects, objPreviewSprites, objectContent);
+        CreateObjContents(otherSpace, otherObjects, otherObjPreviewSprites, otherContent);
+        CreateObjContents(backgroundSpace, backgroundObjects, backgroundObjPreviewSprites, backgroundContent);
+
+
+    }
+
+    void CreateObjContents(GameObject container,GameObject[] objects, Sprite[] sprites,Transform content)
+    {
+        if (!container.activeSelf) container.SetActive(true);
         for (int i = 0; i < objects.Length; i++)
         {
-            GameObject obj = Instantiate(objectSpaceUIItem, objectContent);
-            for (int j = 0; j < objPreviewSprites.Length; j++)
+            GameObject obj = Instantiate(objectSpaceUIItem, content);
+            for (int j = 0; j < sprites.Length; j++)
             {
-                if (objects[i].name == objPreviewSprites[j].name)
+                if (objects[i].name == sprites[j].name)
                 {
-                    obj.GetComponent<Interaction_BuildItem>().Init(objects[i], objPreviewSprites[j]);
+                    obj.GetComponent<Interaction_BuildItem>().Init(objects[i], sprites[j]);
 
                     obj.AddComponent<UI_ShowToolTip>();
                     obj.GetComponent<UI_ShowToolTip>().SetText(objects[i].name);
@@ -81,9 +145,9 @@ public class ObjectSpaceUI : MonoBehaviour
             }
 
         }
+        container.SetActive(false);
 
     }
-
 
 
     IEnumerator Co_LoadAllObject()
@@ -145,7 +209,7 @@ public class ObjectSpaceUI : MonoBehaviour
         else
         {
             onHide = true;
-            num = -rectTransform.rect.height;
+            num = -rectTransform.rect.height - 85;
         }
         while (percent < 1)
         {
@@ -166,6 +230,29 @@ public class ObjectSpaceUI : MonoBehaviour
         }
 
 
+    }
+
+
+
+    private void SelectChangeModeBtn(Button btn,GameObject space)
+    {
+        if(currentBtn != null)
+        {
+            currentSpace.SetActive(false);
+
+            ColorBlock currentColorBlock = currentBtn.colors;
+            currentColorBlock.normalColor = Color.white;
+            currentBtn.colors = currentColorBlock;
+        }
+
+        currentSpace = space;
+        currentSpace.SetActive(true);
+        currentBtn = btn;
+
+        ColorBlock colorBlock = btn.colors;
+        colorBlock.selectedColor = activeColor;
+        colorBlock.normalColor = activeColor;
+        btn.colors = colorBlock;
     }
 
 }

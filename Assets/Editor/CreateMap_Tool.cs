@@ -22,7 +22,7 @@ public class CreateMap_Tool : EditorWindow
     bool isMapEditor;
     GameObject obj;
     //test
-
+    
     // 
     /// <summary>
     ///Load in Prefabs/MapEditor Directory. 
@@ -60,6 +60,8 @@ public class CreateMap_Tool : EditorWindow
     GUIStyle _GUIStyle_Text;
     GUIStyle _GUIStyle_Cell;
     GUIStyle _GUIStyle_HeadTitleText;
+
+    
 
     [Header("Mode")]
     ModeType modeType;
@@ -139,6 +141,8 @@ public class CreateMap_Tool : EditorWindow
         _GUIStyle_HeadTitleText.fixedWidth = 350;
         _GUIStyle_HeadTitleText.alignment = TextAnchor.MiddleCenter;
 
+     
+
 
     }
 
@@ -159,39 +163,65 @@ public class CreateMap_Tool : EditorWindow
         DrawLayouts();
 
         DrawHeader();
-        DrawMode();
-        if(isMapEditor) DrawObjectContent();
+
+        DrawMode(); // mode Change btn
+
+        if(isMapEditor) DrawObjectContent(); 
 
         DrawGenratorObjectPreviewSpriteContent();
-
 
     }
     #region Draw
 
+    //private void DrawLayouts()
+    //{
+    //    //headerSection.x = 0;
+    //    //headerSection.y = 0;
+    //    //headerSection.width = 350;
+    //    //headerSection.height = 80;
+    //    headerSection = new Rect(0, 0, 350, 80);
+    //    GUI.DrawTexture(headerSection, headerSectionTexture);
+
+    //    //SetLayout(headerSection, 0, 0, 350, 80, headerSectionTexture);
+
+
+    //    modeSction.x = 0;
+    //    modeSction.y = 80;
+    //    modeSction.width = 350;
+    //    modeSction.height = 120;
+
+    //    objectSection.x = 0;
+    //    objectSection.y = 120;
+    //    objectSection.width = 350;
+    //    objectSection.height = 320;
+    //    GUI.DrawTexture(objectSection, objectSectionTexture);
+
+    //    generatorObjectPreviewSpriteSection.x = 0;
+    //    generatorObjectPreviewSpriteSection.y = 500;
+    //    generatorObjectPreviewSpriteSection.width = 350;
+    //    generatorObjectPreviewSpriteSection.height = 550;
+    //}
+
+
+    #region REFECTORINGCODE 0510
+
     private void DrawLayouts()
     {
-        headerSection.x = 0;
-        headerSection.y = 0;
-        headerSection.width = 350;
-        headerSection.height = 80;
+        headerSection = new Rect(0, 0, 350, 80);
         GUI.DrawTexture(headerSection, headerSectionTexture);
-
-        modeSction.x = 0;
-        modeSction.y = 80;
-        modeSction.width = 350;
-        modeSction.height = 120;
-
-        objectSection.x = 0;
-        objectSection.y = 120;
-        objectSection.width = 350;
-        objectSection.height = 320;
+        modeSction = new Rect(0, 80, 350, 120);
+        objectSection = new Rect(0, 120, 350, 320);
         GUI.DrawTexture(objectSection, objectSectionTexture);
+        generatorObjectPreviewSpriteSection = new Rect(0, 500, 350, 550);
 
-        generatorObjectPreviewSpriteSection.x = 0;
-        generatorObjectPreviewSpriteSection.y = 500;
-        generatorObjectPreviewSpriteSection.width = 350;
-        generatorObjectPreviewSpriteSection.height = 550;
     }
+
+  
+    #endregion
+
+
+    
+
 
     private void DrawHeader()
     {
@@ -222,11 +252,9 @@ public class CreateMap_Tool : EditorWindow
         GUILayout.BeginArea(modeSction);
         GUILayout.BeginHorizontal(GUILayout.Width(350));
 
-
         if (GUI.Button(new Rect(5, 5, 80, 30), "Object"))
         {
             modeType = ModeType.Object;
-
         }
 
         if (GUI.Button(new Rect(90, 5, 80, 30), "Scene"))
@@ -313,7 +341,7 @@ public class CreateMap_Tool : EditorWindow
         float screenWidth = 240f;
         int index = 0;
         float curWidth = 0;
-        foreach (GUIContent content in contentsList)
+        foreach (GUIContent content in contentsList) //
         {
             if (curWidth == 0)
             {
@@ -365,14 +393,15 @@ public class CreateMap_Tool : EditorWindow
     //            contentsList.Add(new GUIContent(texture));
     //        }
     //    }
-    //    else if(modeType == ModeType.Scenes)
+    //    else if (modeType == ModeType.Scenes)
     //    {
     //        foreach (GameObject obj in sceneObjLists)
     //        {
     //            Texture2D texture = AssetPreview.GetAssetPreview(obj);
     //            contentsList.Add(new GUIContent(texture));
     //        }
-    //    }else if(modeType == ModeType.BackGround)
+    //    }
+    //    else if (modeType == ModeType.BackGround)
     //    {
     //        foreach (GameObject obj in backgroundObjLists)
     //        {
@@ -412,8 +441,8 @@ public class CreateMap_Tool : EditorWindow
     //        }
 
     //        if (modeType == ModeType.Scenes) GUILayout.Label(sceneObjLists[index].name, _GUIStyle_Text);
-    //        else if(modeType == ModeType.Object) GUILayout.Label(objLists[index].name, _GUIStyle_Text);
-    //        else if(modeType == ModeType.Other) GUILayout.Label(otherObjLists[index].name, _GUIStyle_Text);
+    //        else if (modeType == ModeType.Object) GUILayout.Label(objLists[index].name, _GUIStyle_Text);
+    //        else if (modeType == ModeType.Other) GUILayout.Label(otherObjLists[index].name, _GUIStyle_Text);
     //        else if (modeType == ModeType.BackGround) GUILayout.Label(backgroundObjLists[index].name, _GUIStyle_Text);
 
     //        if (curWidth > screenWidth - 10)
@@ -422,7 +451,8 @@ public class CreateMap_Tool : EditorWindow
     //            index++;
     //            GUILayout.EndHorizontal();
     //            continue;
-    //        }else if(index == contentsList.Count - 1)
+    //        }
+    //        else if (index == contentsList.Count - 1)
     //        {
     //            GUILayout.EndHorizontal();
     //        }
@@ -501,97 +531,149 @@ public class CreateMap_Tool : EditorWindow
         Selection.activeGameObject = Instantiate(obj, transform);
     }
 
-
-    void GeneratorObjPreviewSprite()
+    private void CreatePreviewSprite(ModeType modeType)
     {
-        foreach(GameObject obj in objLists)
+        switch (modeType)
         {
-            string path = Path.Combine(saveSpritePath, $"Object/{obj.name}.png");
+            case ModeType.Object:
+                CreatePreviewSprite(modeType, objLists);
+                break;
+            case ModeType.BackGround:
+                CreatePreviewSprite(modeType, backgroundObjLists);
+                break;
+            case ModeType.Other:
+                CreatePreviewSprite(modeType, otherObjLists);
+                break;
+        }
+    }
+
+    private void CreatePreviewSprite(ModeType modeType, List<GameObject> list)
+    {
+        foreach (GameObject obj in list)
+        {
+            string path = Path.Combine(saveSpritePath, $"{modeType}/{obj.name}.png");
             if (!FileExists(saveSpritePath, path))
             {
                 Texture2D texture = AssetPreview.GetAssetPreview(obj);
-
                 Texture2D transparentTexture = new Texture2D(texture.width, texture.height, TextureFormat.RGBA32, false);
 
                 Color[] pixels = texture.GetPixels();
                 Color backgroundColor = pixels[0];
+
                 for (int i = 0; i < pixels.Length; i++)
                 {
-                    if (pixels[i] == backgroundColor) pixels[i].a = 0; 
+                    if (pixels[i] == backgroundColor) pixels[i].a = 0;
                 }
 
                 transparentTexture.SetPixels(pixels);
                 transparentTexture.Apply();
 
-
-                byte[] bytes = transparentTexture.EncodeToPNG();
-
-
-                File.WriteAllBytes(path, bytes);
-                
-            }
-            
-        }
-        foreach (GameObject obj in backgroundObjLists)
-        {
-            string path = Path.Combine(saveSpritePath, $"Background/{obj.name}.png");
-            if (!FileExists(saveSpritePath, path))
-            {
-                Texture2D texture = AssetPreview.GetAssetPreview(obj);
-
-                Texture2D transparentTexture = new Texture2D(texture.width, texture.height, TextureFormat.RGBA32, false);
-                Color[] pixels = texture.GetPixels();
-
-                //Get the background color
-                Color backgroundColor = pixels[0];
-                for (int i = 0; i < pixels.Length; i++)
-                {
-                    if (pixels[i] == backgroundColor) pixels[i].a = 0; //If this pixel is exactly the background color, make it transparent
-                }
-                transparentTexture.SetPixels(pixels);
-                transparentTexture.Apply();
-
-
                 byte[] bytes = transparentTexture.EncodeToPNG();
 
                 File.WriteAllBytes(path, bytes);
-                
+
             }
-
         }
-        foreach (GameObject obj in otherObjLists)
-        {
-            string path = Path.Combine(saveSpritePath, $"Other/{obj.name}.png");
-            if (!FileExists(saveSpritePath, path))
-            {
-                Texture2D texture = AssetPreview.GetAssetPreview(obj);
-
-                Texture2D transparentTexture = new Texture2D(texture.width, texture.height, TextureFormat.RGBA32, false);
-                Color[] pixels = texture.GetPixels();
-
-                //Get the background color
-                Color backgroundColor = pixels[0];
-                for (int i = 0; i < pixels.Length; i++)
-                {
-                    if (pixels[i] == backgroundColor) pixels[i].a = 0; //If this pixel is exactly the background color, make it transparent
-                }
-                transparentTexture.SetPixels(pixels);
-                transparentTexture.Apply();
+    }
 
 
-                byte[] bytes = transparentTexture.EncodeToPNG();
+    //void GeneratorObjPreviewSprite()
+    //{
+    //    foreach (GameObject obj in objLists)
+    //    {
+    //        string path = Path.Combine(saveSpritePath, $"Object/{obj.name}.png");
+    //        if (!FileExists(saveSpritePath, path))
+    //        {
+    //            Texture2D texture = AssetPreview.GetAssetPreview(obj);
 
-                File.WriteAllBytes(path, bytes);
-                
-            }
+    //            Texture2D transparentTexture = new Texture2D(texture.width, texture.height, TextureFormat.RGBA32, false);
 
-        }
+    //            Color[] pixels = texture.GetPixels();
+    //            Color backgroundColor = pixels[0];
+    //            for (int i = 0; i < pixels.Length; i++)
+    //            {
+    //                if (pixels[i] == backgroundColor) pixels[i].a = 0;
+    //            }
 
+    //            transparentTexture.SetPixels(pixels);
+    //            transparentTexture.Apply();
+
+
+    //            byte[] bytes = transparentTexture.EncodeToPNG();
+
+
+    //            File.WriteAllBytes(path, bytes);
+
+    //        }
+
+    //    }
+    //    foreach (GameObject obj in backgroundObjLists)
+    //    {
+    //        string path = Path.Combine(saveSpritePath, $"Background/{obj.name}.png");
+    //        if (!FileExists(saveSpritePath, path))
+    //        {
+    //            Texture2D texture = AssetPreview.GetAssetPreview(obj);
+
+    //            Texture2D transparentTexture = new Texture2D(texture.width, texture.height, TextureFormat.RGBA32, false);
+    //            Color[] pixels = texture.GetPixels();
+    //            Color backgroundColor = pixels[0];
+    //            for (int i = 0; i < pixels.Length; i++)
+    //            {
+    //                if (pixels[i] == backgroundColor) pixels[i].a = 0; //If this pixel is exactly the background color, make it transparent
+    //            }
+    //            transparentTexture.SetPixels(pixels);
+    //            transparentTexture.Apply();
+
+
+    //            byte[] bytes = transparentTexture.EncodeToPNG();
+
+    //            File.WriteAllBytes(path, bytes);
+
+    //        }
+
+    //    }
+    //    foreach (GameObject obj in otherObjLists)
+    //    {
+    //        string path = Path.Combine(saveSpritePath, $"Other/{obj.name}.png");
+    //        if (!FileExists(saveSpritePath, path))
+    //        {
+    //            Texture2D texture = AssetPreview.GetAssetPreview(obj);
+
+    //            Texture2D transparentTexture = new Texture2D(texture.width, texture.height, TextureFormat.RGBA32, false);
+    //            Color[] pixels = texture.GetPixels();
+
+    //            //Get the background color
+    //            Color backgroundColor = pixels[0];
+    //            for (int i = 0; i < pixels.Length; i++)
+    //            {
+    //                if (pixels[i] == backgroundColor) pixels[i].a = 0; //If this pixel is exactly the background color, make it transparent
+    //            }
+    //            transparentTexture.SetPixels(pixels);
+    //            transparentTexture.Apply();
+
+
+    //            byte[] bytes = transparentTexture.EncodeToPNG();
+
+    //            File.WriteAllBytes(path, bytes);
+
+    //        }
+
+    //    }
+
+
+    //    AssetDatabase.Refresh();
+
+    //}
+
+    void GeneratorObjPreviewSprite() //REFECTORING CODE 0510
+    {
+        CreatePreviewSprite(ModeType.Object);
+        CreatePreviewSprite(ModeType.BackGround);
+        CreatePreviewSprite(ModeType.Other);
 
         AssetDatabase.Refresh();
-
-
     }
+
 
     bool FileExists(string path, string fileName)
     {

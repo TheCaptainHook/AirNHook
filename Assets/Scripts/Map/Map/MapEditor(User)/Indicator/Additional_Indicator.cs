@@ -41,22 +41,34 @@ public class Additional_Indicator : Indicator
         base.SetLinkObj(obj);
         if(obj.GetComponent<BuildObj>().id == 305)
         {
-            ui = ResourceManager.Instantiate("Prefabs/UI/UI_InteractionDoorInfo");
-            ui.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-            ui.transform.rotation = Quaternion.identity;
-            ui.SetActive(false);
+            if(ui == null)
+            {
+                ui = ResourceManager.Instantiate("Prefabs/UI/UI_InteractionDoorInfo");
+                ui.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                ui.transform.rotation = Quaternion.identity;
+                ui.SetActive(false);
+            }
+            
         }else if(obj.GetComponent<BuildObj>().id == 306)
         {
-            ui = ResourceManager.Instantiate("Prefabs/UI/UI_InteractionInfo");
-            ui.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-            ui.transform.rotation = Quaternion.identity;
-            ui.SetActive(false);
+            if(ui == null)
+            {
+                ui = ResourceManager.Instantiate("Prefabs/UI/UI_InteractionInfo");
+                ui.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                ui.transform.rotation = Quaternion.identity;
+                ui.SetActive(false);
+            }
+           
         }else if(obj.GetComponent<BuildObj>().id == 312)
         {
-            ui = ResourceManager.Instantiate("Prefabs/UI/UI_InteractionLeverInfo");
-            ui.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-            ui.transform.rotation = Quaternion.identity;
-            ui.SetActive(false);
+            if(ui == null)
+            {
+                ui = ResourceManager.Instantiate("Prefabs/UI/UI_InteractionLeverInfo");
+                ui.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                ui.transform.rotation = Quaternion.identity;
+                ui.SetActive(false);
+            }
+            
         }
     }
     public override void OnPointerEnter(PointerEventData data)

@@ -90,13 +90,7 @@ public class MapEditor : MonoBehaviour
     //[Header("Create")]
     //public GameObject[,] tileObjectArray;
 
-    [Space(10)]
-    [Header("----------------------------------------------------")]
-    private Map curMap;
-    public Map CurMap {
-        get { return curMap; }
-        set { curMap = value; stageClear = false; } }
-    [Header("----------------------------------------------------")]
+   
     public bool stageClear;
     [Space(10)]
 
@@ -118,9 +112,19 @@ public class MapEditor : MonoBehaviour
 
     public TextMeshProUGUI stageText;
 
+   
+
+    [Space(10)]
+    [Header("----------------------------------------------------")]
+    public Map curMap;
+    public Map CurMap
+    {
+        get { return curMap; }
+        set { curMap = value; stageClear = false; }
+    }
+    [Header("----------------------------------------------------")]
     [Header("ScreenShot")]
     public GameObject screenShotCamera;
-
     #region event Action
     public event Action OnStageMove;
     public event Action OnScreen;
@@ -409,7 +413,6 @@ public class MapEditor : MonoBehaviour
             return;
         }
 
-
         Init();
         placeMentSystem.ResetTileMap();
         mapEditorType = MapEditorType.Load;
@@ -418,13 +421,8 @@ public class MapEditor : MonoBehaviour
         SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);
 
         //start Point
-        startPosition = curMap.startPosition;
-        startPositionObject = Instantiate(Resources.Load<GameObject>(Managers.Data.mapData.mapObjectDataDictionary[302].path));
-        startPositionObject.transform.position = curMap.startPosition;
-        startPositionObject.transform.SetParent(dontSaveObjectTransform);
-        //start Point
-
-
+        CreateStartPosition();
+        //ParallaxCamera Reset
         if (Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate != null) { Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate = null; }
         Camera.main.GetComponent<ParallaxCamera>().oldPosition = startPosition.x;
 
@@ -439,15 +437,6 @@ public class MapEditor : MonoBehaviour
 
     public void LoadMap(string name)
     {
-        //if (!Managers.Data.mapData.mapMainAndSceneDictionary.ContainsKey(name))
-        //{
-        //    Debug.Log("Can't find Map");
-        //    Init();
-        //    mapEditorType = MapEditorType.New;
-        //    return;
-        //}
-
-
         Init();
         placeMentSystem.ResetTileMap();
         mapEditorType = MapEditorType.Load;
@@ -456,16 +445,11 @@ public class MapEditor : MonoBehaviour
         SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);
 
         //start Point
-        startPosition = curMap.startPosition;
-        startPositionObject = Instantiate(Resources.Load<GameObject>(Managers.Data.mapData.mapObjectDataDictionary[302].path));
-        startPositionObject.transform.position = curMap.startPosition;
-        startPositionObject.transform.SetParent(dontSaveObjectTransform);
-        //start Point
+        CreateStartPosition();
 
-
+        //ParallaxCamera Reset
         if (Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate != null) { Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate = null; }
         Camera.main.GetComponent<ParallaxCamera>().oldPosition = startPosition.x;
-
 
         interactionBtnDictionary = new(); //todo 0412
 
@@ -482,9 +466,6 @@ public class MapEditor : MonoBehaviour
             foreach (Vector2 pot in interactionBtnDictionary[key])
             {
                 Managers.Stage.BatchObject(btn.name, pot, key);
-                //GameObject btnActivated = Instantiate(Resources.Load<GameObject>(btn.path));
-                //btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, key);
-                //btnActivated.transform.SetParent(dontSaveObjectTransform);
             }
         }
 
@@ -702,6 +683,15 @@ public class MapEditor : MonoBehaviour
             obj.GetComponent<BuildObj>().TurnOff();
             placeMentSystem.curPlaceObjList.Add(obj.GetComponent<BuildObj>());
         }
+    }
+
+
+    void CreateStartPosition()
+    {
+        startPosition = curMap.startPosition;
+        startPositionObject = Instantiate(Resources.Load<GameObject>(Managers.Data.mapData.mapObjectDataDictionary[302].path));
+        startPositionObject.transform.position = curMap.startPosition;
+        startPositionObject.transform.SetParent(dontSaveObjectTransform);
     }
     #endregion
 

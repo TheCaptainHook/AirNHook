@@ -95,7 +95,7 @@ public class UI_ShowToolTip : MousePointerEntity
         this.text.text = text;
     }
 
-   IEnumerator Co_Timer()
+    IEnumerator Co_Timer()
     {
         while (OnPointer)
         {

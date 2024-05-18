@@ -53,6 +53,10 @@ public class LeverBody : BuildObj, IInteractable
 
     }
 
+
+   
+
+
     IEnumerator Co_ReLinkDoor()
     {
         isRunningCoroutine = true;
@@ -128,6 +132,7 @@ public class LeverBody : BuildObj, IInteractable
     {
         linkDoorList.Clear();
     }
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -255,4 +260,6 @@ public class LeverBody : BuildObj, IInteractable
     {
         Managers.UI.HideUI<UI_ShowEButton>();
     }
+
+
 }
