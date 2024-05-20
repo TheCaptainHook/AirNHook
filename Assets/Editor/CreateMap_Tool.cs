@@ -484,7 +484,7 @@ public class CreateMap_Tool : EditorWindow
     void CreateObject(int i)
     {
 
-        GameObject obj = modeType == ModeType.Object ? objLists[i] : modeType == ModeType.Scenes ? sceneObjLists[i]: modeType == ModeType.Other ? otherObjLists[i] : null;
+        GameObject obj = modeType == ModeType.Object ? objLists[i] : modeType == ModeType.Scenes ? sceneObjLists[i]: modeType == ModeType.Other ? otherObjLists[i] : backgroundObjLists[i];
         BuildObj buildObj = obj.GetComponent<BuildObj>();
         //GameObject obj = objLists[i];
 

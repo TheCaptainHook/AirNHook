@@ -50,7 +50,7 @@ public class ButtonActivated : BuildObj
     //}
     private void Update()
     {
-        if (!NetworkServer.active || !NetworkClient.isConnected) return;
+        //if (!NetworkServer.active || !NetworkClient.isConnected) return; //24.05.20
 
         if (Managers.Game.CurrentState == GameState.Editor)
         {

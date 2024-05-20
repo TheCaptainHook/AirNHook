@@ -102,6 +102,8 @@ public class PlaceMentSystem : MonoBehaviour
 
     [Header("Interaction State")]
     public bool onInteraction; //Only interaction with the UI if this value is true.
+    //todo 24.0520
+    public bool onEnterMapEditorUi; // If the mouse pointer enters the Editor UI Controller Ui, it does not handle tile mode.
 
     [Header("Effect")]
     public ParticleSystem particleEffect_ObejctClear;
@@ -162,6 +164,8 @@ public class PlaceMentSystem : MonoBehaviour
     #region Tile
     void TileMode()
     {
+        if (onEnterMapEditorUi) return;
+        
         switch (modeState)
         {
             case ModeState.Tile_Draw:

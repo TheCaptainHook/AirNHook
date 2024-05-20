@@ -430,7 +430,6 @@ public class MapEditor_Editor : Editor
             GetButtonActivateDoorStructList(mapEditor),
             mapEditor.cellSize,0, await CurrentMapScreenShot(mapEditor),mapEditor.audioType) ;
         string json = JsonUtility.ToJson(map, true);
-        //todo 0417
         if(mapEditor.mapType == MapType.Main)
         {
             filePath = Path.Combine(folderPath,$"{mapEditor.mapType}/{mapEditor.stageLevel}");
@@ -445,17 +444,17 @@ public class MapEditor_Editor : Editor
             }
             
         }
-        else
-        {
-            filePath = Path.Combine(folderPath, $"{mapEditor.mapType}/{map.mapID}.json");
-        }
-        //todo 0417
 
         File.WriteAllText(filePath, json);
         UnityEditor.AssetDatabase.Refresh();
     }
 
-    List<TileData> GetTileData(Tilemap tileMap)
+        //else
+        //{
+        //    filePath = Path.Combine(folderPath, $"{mapEditor.mapType}/{map.mapID}.json");
+        //}
+
+List<TileData> GetTileData(Tilemap tileMap)
     {
         List<TileData> list = new();
         BoundsInt bounds = tileMap.cellBounds;
@@ -560,7 +559,6 @@ public class MapEditor_Editor : Editor
             mapEditor.screenShotCamera = Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/ScreenShotCamera"));
         }
 
-
         GameObject camera = mapEditor.screenShotCamera;
 
         Vector2 startPot = mapEditor.FindObj(mapEditor.dontSaveObjectTransform, 302).transform.position;
@@ -572,6 +570,9 @@ public class MapEditor_Editor : Editor
         camera.gameObject.transform.position += new Vector3(0, 2, -1);
 
         Task<byte[]> encodingTask = camera.GetComponent<ScreenShotCamera>().ScreenShot();
+
+        
+
 
         return encodingTask;
 
