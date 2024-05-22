@@ -30,7 +30,7 @@ public class MapEditorControllerUI : MonoBehaviour
     [SerializeField] Button initBtn;
     //[SerializeField] TextMeshProUGUI messageText;
     [SerializeField] Button onOffBtn;
-
+    
     [Header("Mode")]
     [SerializeField] Button tileMode;
     [SerializeField] Button objectMode;

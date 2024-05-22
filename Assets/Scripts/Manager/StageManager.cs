@@ -100,44 +100,12 @@ public class StageManager
         var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
         Debug.Log("Create Interaction door");
 
-        if (!MapEditor.Instance.interactionBtnDictionary.ContainsKey(data.linkId))
-        {
-            MapEditor.Instance.interactionBtnDictionary[data.linkId] = new HashSet<Vector2>();
-        }
-
-        foreach (Vector2 pot in data.buttonActivatePositionList)
-        {
-            MapEditor.Instance.interactionBtnDictionary[data.linkId].Add(pot);
-        }
-
-        
-        Debug.Log("Create!!");
-
 
         ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
         door.ButtonActivatedDoorStruct = data;
-        door.CheckActiveRequirAmount();
+
         obj.transform.SetParent(MapEditor.Instance.interactionObjectTransform);
 
-        //todo 0425
-        //MapDataStruct btn = Managers.Data.mapData.mapObjectDataDictionary[306];
-
-        //foreach (Vector2 pot in data.buttonActivatePositionList)
-        //{
-        //    //GameObject btnActivated = Object.Instantiate(Resources.Load<GameObject>(btn.path));
-        //    GameObject btnActivated = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[btn.name]);
-        //    btnActivated.GetComponent<ButtonActivated>().SetLinkDoor(pot, door);
-        //    btnActivated.transform.SetParent(MapEditor.Instance.dontSaveObjectTransform);
-        //}
-        //foreach (Vector2 pot in data.leverPositionList)
-        //{
-        //    GameObject leverBody = CmdBatchObject("LeverBody", MapEditor.Instance.dontSaveObjectTransform, pot);
-
-        //    if (leverBody is not null)
-        //        leverBody.GetComponent<LeverBodyNet>().CmdSetLinkDoor(pot, data.linkId);
-
-        //}
-        //todo 0425
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
 
     }

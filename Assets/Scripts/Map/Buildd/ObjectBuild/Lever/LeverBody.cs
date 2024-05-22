@@ -31,6 +31,22 @@ public class LeverBody : BuildObj, IInteractable
     private static readonly int OnActive = Animator.StringToHash("OnActive");
     private static readonly int OnCompletion = Animator.StringToHash("OnCompletion");
 
+
+    [Header("Data Setting")]
+    private ButtonActivatedObject buttonActivatedObject;
+    public ButtonActivatedObject ButtonActivatedObject
+    {
+        get { return buttonActivatedObject; }
+        set
+        {
+            buttonActivatedObject = value;
+            ObjectData = new ObjectData(value.id, value.position, value.scale);
+            linkId = value.linkId;
+            transform.position = value.position;
+            transform.localScale = value.scale;
+        }
+    }
+
     private void Awake()
     {
         _leverBodyNet = GetComponent<LeverBodyNet>();
@@ -68,20 +84,20 @@ public class LeverBody : BuildObj, IInteractable
         isRunningCoroutine = false;
         LinkDoor();
     }
-    //public void DataSaveLinkDoor()//Editor_Editor only
-    //{
-    //    if (linkDoorList.Count > 0)
-    //    {
-    //        foreach (ButtonActivatedDoor linkDoor in linkDoorList)
-    //        {
-    //            if (linkDoor.leverBodyPotiionList.Contains(transform.position))
-    //            {
-    //                linkDoor.leverBodyPotiionList.Remove(transform.position);
-    //            }
-    //            linkDoor.leverBodyPotiionList.Add(transform.position);
-    //        }
-    //    }
-    //}
+    public void DataSaveLinkDoor()//Editor_Editor only
+    {
+        if (linkDoorList.Count > 0)
+        {
+            foreach (ButtonActivatedDoor linkDoor in linkDoorList)
+            {
+                if (linkDoor.leverBodyPotiionList.Contains(transform.position))
+                {
+                    linkDoor.leverBodyPotiionList.Remove(transform.position);
+                }
+                linkDoor.leverBodyPotiionList.Add(transform.position);
+            }
+        }
+    }
 
     public void LinkDoor()
     {
@@ -261,5 +277,12 @@ public class LeverBody : BuildObj, IInteractable
         Managers.UI.HideUI<UI_ShowEButton>();
     }
 
+
+
+
+    public ButtonActivatedObject GetData()
+    {
+        return new ButtonActivatedObject(id, linkId, transform.position,transform.localScale);
+    }
 
 }

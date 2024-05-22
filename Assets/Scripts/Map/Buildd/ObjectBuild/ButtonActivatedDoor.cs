@@ -22,6 +22,9 @@ public class ButtonActivatedDoor : BuildBase
     public int curLinkBtn;//현재 링크된 버튼 
     public int curActiveBtn;//현재 활성화된 버튼 //todo 0426 
     public int activeRequirAmount;//문 활성화 조건
+    /// <summary>
+    /// 수정
+    /// </summary>
     public int CurActiveBtn
     {
         set { curActiveBtn += value; Debug.Log($"{curActiveBtn}");
@@ -29,6 +32,7 @@ public class ButtonActivatedDoor : BuildBase
             if (curActiveBtn == activeRequirAmount) { Activation(); }
             else { Deactivated(); }
         } }
+
     public List<Vector2> buttonActivatedBtnList = new List<Vector2>();
     //todo 0416
     public List<Vector2> leverBodyPotiionList;
@@ -40,8 +44,6 @@ public class ButtonActivatedDoor : BuildBase
                 ObjectData = new ObjectData(_buttonActivatedDoorStruct.id, _buttonActivatedDoorStruct.position, _buttonActivatedDoorStruct.quaternion,_buttonActivatedDoorStruct.scale);
                 linkId = _buttonActivatedDoorStruct.linkId;
                 activeRequirAmount = value.activeRequirAmount;
-                buttonActivatedBtnList = value.buttonActivatePositionList;
-                leverBodyPotiionList = value.leverPositionList;
                 transform.position = value.position;
                 transform.rotation = value.quaternion;
                 transform.localScale = value.scale;
@@ -55,7 +57,7 @@ public class ButtonActivatedDoor : BuildBase
 
     public ButtonActivatedDoorStruct GetButtonActivatedDoorStruct()
     {
-        return new ButtonActivatedDoorStruct(id, linkId, activeRequirAmount,transform.position, buttonActivatedBtnList, leverBodyPotiionList, transform.rotation, transform.localScale);
+        return new ButtonActivatedDoorStruct(id, linkId, activeRequirAmount,transform.position, transform.rotation, transform.localScale);
     }
 
     private void Awake()
@@ -63,13 +65,6 @@ public class ButtonActivatedDoor : BuildBase
         _animator = GetComponent<NetworkAnimator>();
     }
 
-    private void LateUpdate()
-    {
-        if (!NetworkServer.active || !NetworkClient.isConnected) return;
-
-        if (Managers.Game.CurrentState != GameState.Editor)
-            CheckActiveRequirAmount();
-    }
 
 
     void Activation()
@@ -95,15 +90,17 @@ public class ButtonActivatedDoor : BuildBase
         //StartCoroutine(Co_Deactivated());
     }
 
-    public void CheckActiveRequirAmount()
-    {
-        //if (onPrograss || onOpen) return;
-        if (activeRequirAmount == curActiveBtn) { Activation(); Debug.Log("CheckActiveRequirAmount"); _animator.SetTrigger(UnlockTrigger); } else
-        {
-            Deactivated();
-            _animator.SetTrigger(LockTrigger);
-        }
-    }
+    //public void CheckActiveRequirAmount() todo 0522
+    //{
+    //    //if (onPrograss || onOpen) return;
+    //    if (activeRequirAmount == curActiveBtn) { Activation(); Debug.Log("CheckActiveRequirAmount"); _animator.SetTrigger(UnlockTrigger);
+    //    }
+    //    else
+    //    {
+    //        Deactivated();
+    //        _animator.SetTrigger(LockTrigger);
+    //    }
+    //}
 
 
     IEnumerator Co_Activation()
@@ -132,15 +129,5 @@ public class ButtonActivatedDoor : BuildBase
         _animator.SetTrigger(LockTrigger);
         onPrograss = false;
     }
-
-
-    //public override void TurnOff()
-    //{
-
-    //}
-    //public override void TurnOn()
-    //{
-    //    base.TurnOn();
-    //}
 
 }

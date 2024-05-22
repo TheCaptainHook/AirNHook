@@ -37,6 +37,18 @@ public class ButtonActivated : BuildObj
 
     bool onPrograss;
 
+
+    [Header("Data Setting")]
+    private ButtonActivatedObject buttonActivatedObject;
+    public ButtonActivatedObject ButtonActivatedObject {
+        get { return buttonActivatedObject; }
+        set { buttonActivatedObject = value;
+            ObjectData = new ObjectData(value.id, value.position, value.scale);
+            linkId = value.linkId;
+            transform.position = value.position;
+            transform.localScale = value.scale;
+        } }
+
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -97,23 +109,9 @@ public class ButtonActivated : BuildObj
     public void LinkDoor()
     {
         Debug.Log("LInk");
-        Vector2 pot = new Vector2(Mathf.Round(transform.position.x * 10f) / 10f, Mathf.Round(transform.position.y * 10f) / 10f);
-        transform.position = pot;
-        if (linkDoorList.Count > 0)
-        {
-            foreach (ButtonActivatedDoor linkDoor in linkDoorList)
-            {
-                if (linkDoor.buttonActivatedBtnList.Contains(curPosition))
-                {
-                    linkDoor.buttonActivatedBtnList.Remove(curPosition);
-                }
-                linkDoor.buttonActivatedBtnList.Add(pot);
-                curPosition = pot;
-            }
+        //Vector2 pot = new Vector2(Mathf.Round(transform.position.x * 10f) / 10f, Mathf.Round(transform.position.y * 10f) / 10f);
+        //transform.position = pot;
 
-        }
-        else
-        {
             foreach (Transform transform in MapEditor.Instance.interactionObjectTransform)
             {
                 if (transform.GetComponent<ButtonActivatedDoor>().linkId == linkId)
@@ -128,15 +126,15 @@ public class ButtonActivated : BuildObj
                             linkDoor.buttonActivatedBtnList.Remove(curPosition);
                         }
 
-                        linkDoor.buttonActivatedBtnList.Add(pot);
+                        linkDoor.buttonActivatedBtnList.Add(transform.position);
                         linkDoorList.Add(linkDoor);
-                        curPosition = pot;
+                        //curPosition = pot;
                     }
 
                   
                 }
             }
-        }
+        
 
     }
 
@@ -193,6 +191,14 @@ public class ButtonActivated : BuildObj
             }
         }
     }
+
+
+    public ButtonActivatedObject GetData()
+    {
+        return new ButtonActivatedObject(id, linkId, transform.position,transform.localScale);
+    }
+
+
 
     IEnumerator Co_ReLinkDoor()
     {
@@ -285,6 +291,8 @@ public class ButtonActivated : BuildObj
         onPrograss = false;
     }
 
+
+
     public override void TurnOff()
     {
         base.TurnOff();
@@ -294,9 +302,6 @@ public class ButtonActivated : BuildObj
         {
             Deactivated();
         }
-
-
-
 
     }
 

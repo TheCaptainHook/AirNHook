@@ -348,6 +348,7 @@ public class CreateMap_Tool : EditorWindow
                 GUILayout.BeginHorizontal(GUILayout.Width(Screen.width));
             }
 
+        
             if (GUILayout.Button(content, _GUIStyle_Cell))
             {
                 CreateObject(index);
@@ -498,14 +499,10 @@ public class CreateMap_Tool : EditorWindow
                 FindObj(curMapEditor.exitDoorObjectTransform, obj);
                 SelectActiveOBJ(objLists[i], curMapEditor.exitDoorObjectTransform);
                 break;
-            case 306:
-                SelectActiveOBJ(obj, curMapEditor.dontSaveObjectTransform);
-                break;
             case 305:
-                SelectActiveOBJ(obj, curMapEditor.interactionObjectTransform);
-                break;
+            case 306:
             case 312:
-                SelectActiveOBJ(obj, curMapEditor.dontSaveObjectTransform);
+                SelectActiveOBJ(obj, curMapEditor.interactionObjectTransform);
                 break;
             default:
                 SelectActiveOBJ(obj, curMapEditor.objectTransform);

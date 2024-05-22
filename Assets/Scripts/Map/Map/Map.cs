@@ -16,6 +16,10 @@ public class Map
     public List<TileData> mapTileDataList = new();
     public List<ObjectData> mapObjectDataList = new List<ObjectData>();
     public List<ButtonActivatedDoorStruct> mapButtonActivatedDoorDataList = new List<ButtonActivatedDoorStruct>();
+
+    //todo 0522
+    public List<ButtonActivatedObject> buttonActivatedObjectList = new();
+
     public List<ExitObjStruct> mapExitObjectDataList = new();
     public int dataType; //0:Main,1:User
     public float cellSize;
@@ -27,6 +31,7 @@ public class Map
         List<TileData> tileList, 
         List<ObjectData> objectList,
         List<ButtonActivatedDoorStruct> mapButtonActivatedDoorDataList,
+        List<ButtonActivatedObject> buttonActivatedObjectList,
         float cellSize,int dataType = 0, byte[] bytesImage = null,AudioType audioType = AudioType.None)
     {
         mapID = id;
@@ -37,6 +42,7 @@ public class Map
         this.mapExitObjectDataList = mapExitObjectDataList;
         this.mapSize = mapSize;
         this.mapButtonActivatedDoorDataList = mapButtonActivatedDoorDataList;
+        this.buttonActivatedObjectList = buttonActivatedObjectList;
         this.cellSize = cellSize;
         this.dataType = dataType;
         this.bytesImage = bytesImage;
@@ -85,20 +91,35 @@ public class Map
 
 
 [System.Serializable]
+public struct ButtonActivatedObject
+{
+    public int id;
+    public int linkId;
+    public Vector2 position;
+    public Vector3 scale;
+
+    public ButtonActivatedObject(int id,int linkId,Vector2 position,Vector3 scale)
+    {
+        this.id = id;
+        this.linkId = linkId;
+        this.position = position;
+        this.scale = scale;
+    }
+
+}
+
+
+[System.Serializable]
 public struct ButtonActivatedDoorStruct
 {
     public int id;
     public int linkId;
     public int activeRequirAmount;
     public Vector2 position;
-    public List<Vector2> buttonActivatePositionList;//Vector2의 개수만큼 버튼 생성
-    public List<Vector2> leverPositionList;
     public Quaternion quaternion;
     public Vector3 scale;
 
     public ButtonActivatedDoorStruct(int id, int linkId, int activeRequirAmount, Vector2 position,
-        List<Vector2> buttonActivatePositionList,
-        List<Vector2> leverPosition,
         Quaternion quaternion,
         Vector3 scale)
     {
@@ -106,8 +127,6 @@ public struct ButtonActivatedDoorStruct
         this.linkId= linkId;
         this.activeRequirAmount = activeRequirAmount;
         this.position = position;
-        this.buttonActivatePositionList = buttonActivatePositionList;
-        this.leverPositionList = leverPosition;
         this .quaternion = quaternion;
         this.scale = scale;
     }

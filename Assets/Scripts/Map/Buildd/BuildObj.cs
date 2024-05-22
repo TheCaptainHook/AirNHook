@@ -159,4 +159,6 @@ public class BuildObj : MousePointerEntity,IDamageable
         orgPosition = transform.position;
     }
 
+
+
 }
