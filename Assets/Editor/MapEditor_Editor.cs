@@ -425,6 +425,9 @@ public class MapEditor_Editor : Editor
                 filePath = Path.Combine(filePath, $"{map.mapID}.json");
             }
             
+        }else
+        {
+            filePath = Path.Combine(folderPath, $"{mapEditor.mapType}/{map.mapID}.json");
         }
 
         File.WriteAllText(filePath, json);

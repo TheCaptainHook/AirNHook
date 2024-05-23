@@ -75,23 +75,10 @@ public class UI_InteractionLeverInfo : UI_Base
             }
             else
             {
-                //if(bA.linkId != int.Parse(dropdown.options[dropdown.value].text)){
-                //    bA.linkDoor.buttonActivatedBtnList.Remove(bA.curPosition);
-                //    bA.linkDoor = null;
-                //    bA.linkId = int.Parse(dropdown.options[dropdown.value].text);
-                //    bA.LinkDoor();
-                //}
+    
                 if (lb.linkId != int.Parse(dropdown.options[dropdown.value].text))
                 {
                     lb.linkId = int.Parse(dropdown.options[dropdown.value].text);
-                    foreach (ButtonActivatedDoor linkDoor in lb.linkDoorList)
-                    {
-                        linkDoor.leverBodyPotiionList.Remove(lb.curPosition);
-
-                    }
-                    lb.linkId = int.Parse(dropdown.options[dropdown.value].text);
-                    lb.linkDoorList.Clear();
-                    lb.LinkDoor();
 
                 }
 

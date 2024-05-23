@@ -410,38 +410,38 @@ public class MapEditor : MonoBehaviour
         CreateObj(interactionObjectTransform, 4); //interactionObjectTransform
     }
 
-    public void LoadMap(string name, MapType mapType)
-    {
-        if (!Managers.Data.mapData.GetDictionary(mapType).ContainsKey(name))
-        {
-            Debug.Log("Can't find Map");
-            return;
-        }
+    //public void LoadMap(string name, MapType mapType)
+    //{
+    //    if (!Managers.Data.mapData.GetDictionary(mapType).ContainsKey(name))
+    //    {
+    //        Debug.Log("Can't find Map");
+    //        return;
+    //    }
 
-        Init();
-        placeMentSystem.ResetTileMap();
-        mapEditorType = MapEditorType.Load;
-        mapID = name;
-        CurMap = Managers.Data.mapData.GetDictionary(mapType)[name];
-        SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);
+    //    Init();
+    //    placeMentSystem.ResetTileMap();
+    //    mapEditorType = MapEditorType.Load;
+    //    mapID = name;
+    //    CurMap = Managers.Data.mapData.GetDictionary(mapType)[name];
+    //    SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);
 
-        //start Point
-        CreateStartPosition();
-        //ParallaxCamera Reset
-        if (Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate != null) { Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate = null; }
-        Camera.main.GetComponent<ParallaxCamera>().oldPosition = startPosition.x;
+    //    //start Point
+    //    CreateStartPosition();
+    //    //ParallaxCamera Reset
+    //    if (Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate != null) { Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate = null; }
+    //    Camera.main.GetComponent<ParallaxCamera>().oldPosition = startPosition.x;
 
-        CreateObj(floorTransform, 0); //floorTransform
-        CreateObj(objectTransform, 1); //objectTransform
-        CreateObj(interactionObjectTransform, 2); //interactionObjectTransform
-        CreateObj(exitDoorObjectTransform, 3); //exitDoorObjectTransform
-        CreateObj(interactionObjectTransform, 4); //interactionObjectTransform
+    //    CreateObj(floorTransform, 0); //floorTransform
+    //    CreateObj(objectTransform, 1); //objectTransform
+    //    CreateObj(interactionObjectTransform, 2); //interactionObjectTransform
+    //    CreateObj(exitDoorObjectTransform, 3); //exitDoorObjectTransform
+    //    CreateObj(interactionObjectTransform, 4); //interactionObjectTransform
 
 
-        //
-    }
+    //    //
+    //}
 
-    public void LoadMap(string name)
+    public void LoadMap(string name) // main Load 
     {
         Init();
         placeMentSystem.ResetTileMap();
@@ -581,7 +581,16 @@ public class MapEditor : MonoBehaviour
                 foreach (ButtonActivatedObject data in curMap.buttonActivatedObjectList)
                 {
                     MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
-                    Create(transform, mapDataStruct, data);
+
+                    if (Managers.Game.CurrentState != GameState.Editor)
+                    {
+                        Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
+                    }
+                    else
+                    {
+                        Create(transform, mapDataStruct, data);
+                    }
+
                 }
                 break;
         }

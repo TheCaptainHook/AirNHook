@@ -59,6 +59,31 @@ public class StageManager
 
     }
 
+    [Command]
+    public void CmdBatchObject(string objName, ButtonActivatedObject data)
+    {
+        if (!NetworkServer.active || !NetworkClient.isConnected) return;
+
+        var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+
+        if (data.id == 306)
+        {
+            ButtonActivated btn = obj.GetComponent<ButtonActivated>();
+            btn.ButtonActivatedObject = data;
+
+        }
+        else if (data.id == 312)
+        {
+            LeverBody leverBody = obj.GetComponent<LeverBody>();
+            leverBody.ButtonActivatedObject = data;
+        }
+
+        obj.transform.SetParent(MapEditor.Instance.interactionObjectTransform);
+
+        NetworkServer.Spawn(obj, NetworkServer.localConnection);
+
+    }
+
     //[Command]
     //public void CmdBatchObject(string objName, ButtonActivatedDoorStruct data)
     //{
@@ -110,15 +135,14 @@ public class StageManager
 
     }
 
-    public void BatchObject(string objName, Vector3 position, int linkId)
-    {
-        if (!NetworkServer.active || !NetworkClient.isConnected) return;
+    //public void BatchObject(string objName, Vector3 position, int linkId)
+    //{
+    //    if (!NetworkServer.active || !NetworkClient.isConnected) return;
         
-        var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
-        obj.GetComponent<ButtonActivated>().SetLinkDoor(position, linkId);
-        obj.transform.SetParent(MapEditor.Instance.dontSaveObjectTransform);
-        NetworkServer.Spawn(obj, NetworkServer.localConnection);
-    }
+    //    var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+    //    obj.transform.SetParent(MapEditor.Instance.dontSaveObjectTransform);
+    //    NetworkServer.Spawn(obj, NetworkServer.localConnection);
+    //}
 
     //todo 0425
     //private async Task<GameObject> GetTaskObj(string objName)

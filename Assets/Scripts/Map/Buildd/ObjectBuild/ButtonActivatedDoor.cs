@@ -28,14 +28,14 @@ public class ButtonActivatedDoor : BuildBase
     public int CurActiveBtn
     {
         set { curActiveBtn += value; Debug.Log($"{curActiveBtn}");
-            curActiveBtn = Mathf.Clamp(curActiveBtn, 0, curLinkBtn);
+            //curActiveBtn = Mathf.Clamp(curActiveBtn, 0, curLinkBtn);
             if (curActiveBtn == activeRequirAmount) { Activation(); }
             else { Deactivated(); }
         } }
 
-    public List<Vector2> buttonActivatedBtnList = new List<Vector2>();
-    //todo 0416
-    public List<Vector2> leverBodyPotiionList;
+    //public List<Vector2> buttonActivatedBtnList = new List<Vector2>();
+    ////todo 0416
+    //public List<Vector2> leverBodyPotiionList;
     //todo 0416
     private ButtonActivatedDoorStruct _buttonActivatedDoorStruct;
     public ButtonActivatedDoorStruct ButtonActivatedDoorStruct { 
@@ -47,7 +47,7 @@ public class ButtonActivatedDoor : BuildBase
                 transform.position = value.position;
                 transform.rotation = value.quaternion;
                 transform.localScale = value.scale;
-                curLinkBtn = buttonActivatedBtnList.Count;
+
             } }
     }
     public bool onOpen;

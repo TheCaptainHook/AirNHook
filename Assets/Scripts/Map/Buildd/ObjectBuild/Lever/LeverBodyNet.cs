@@ -11,17 +11,17 @@ public class LeverBodyNet : NetworkBehaviour
         _leverBody = GetComponent<LeverBody>();
     }
 
-    [Command(requiresAuthority = false)]
-    public void CmdSetLinkDoor(Vector2 pot, int linkId)
-    {
-        RpcSetLinkDoor(pot, linkId);
-    }
+    //[Command(requiresAuthority = false)]
+    //public void CmdSetLinkDoor(Vector2 pot, int linkId)
+    //{
+    //    RpcSetLinkDoor(pot, linkId);
+    //}
 
-    [ClientRpc]
-    private void RpcSetLinkDoor(Vector2 pot, int linkId)
-    {
-        _leverBody.SetLinkDoor(pot, linkId, MapEditor.Instance.interactionObjectTransform);
-    }
+    //[ClientRpc]
+    //private void RpcSetLinkDoor(Vector2 pot, int linkId)
+    //{
+    //    _leverBody.SetLinkDoor(pot, linkId, MapEditor.Instance.interactionObjectTransform);
+    //}
 
     [Command(requiresAuthority = false)]
     public void CmdLeverActivate()

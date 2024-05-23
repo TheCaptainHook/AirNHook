@@ -53,17 +53,29 @@ public class UI_InteractionDoorInfo : UI_Base
         linkBtnList = GetLinkBtns();
         linkLeverList = GetLinkLever();
 
-        for (int i = 0; i < bAD.buttonActivatedBtnList.Count; i++)
+        int i = 0;
+        foreach(Transform tr in MapEditor.Instance.interactionObjectTransform)
         {
-            btnOptions.Add(new TMP_Dropdown.OptionData($"{i}.Btn :[{bAD.buttonActivatedBtnList[i].x},{bAD.buttonActivatedBtnList[i].y}"));
+            ButtonActivated ba = tr.GetComponent<ButtonActivated>();
+            if(ba != null && bAD.linkId == ba.linkId)
+            {
+                i++;
+                btnOptions.Add(new TMP_Dropdown.OptionData($"{i}.Btn :[{ba.transform.position.x},{ba.transform.position.y}]"));
+            }
         }
         linkedBtn_Dropdown.options = btnOptions;
         linkedBtn_Dropdown.RefreshShownValue();
 
+        i = 0;
 
-        for (int i = 0; i < bAD.leverBodyPotiionList.Count; i++)
+        foreach (Transform tr in MapEditor.Instance.interactionObjectTransform)
         {
-            leverOptions.Add(new TMP_Dropdown.OptionData($"{i}.Lever :[{bAD.leverBodyPotiionList[i].x},{bAD.leverBodyPotiionList[i].y}"));
+            LeverBody lb = tr.GetComponent<LeverBody>();
+            if (lb != null && bAD.linkId == lb.linkId)
+            {
+                i++;
+                leverOptions.Add(new TMP_Dropdown.OptionData($"{i}.Btn :[{lb.transform.position.x},{lb.transform.position.y}]"));
+            }
         }
         linkedLever_Dropdown.options = leverOptions;
         linkedLever_Dropdown.RefreshShownValue();
@@ -73,7 +85,20 @@ public class UI_InteractionDoorInfo : UI_Base
 
     public void ConditionInputFieldClamping()
     {
-        int max = bAD.buttonActivatedBtnList.Count + bAD.leverBodyPotiionList.Count;
+        int max = 0;
+
+        foreach(Transform tr in MapEditor.Instance.interactionObjectTransform)
+        {
+            if(tr.GetComponent<ButtonActivated>() || tr.GetComponent<LeverBody>())
+            {
+                if (tr.GetComponent<ButtonActivated>().linkId == bAD.linkId || tr.GetComponent<LeverBody>().linkId == bAD.linkId)
+                {
+                    max++;
+                }
+            }
+
+        }
+
         int conditionInputFiledText = int.Parse(conditionInputField.text);
         conditionInputFiledText = Mathf.Clamp(conditionInputFiledText, 0, max);
         conditionInputField.text = conditionInputFiledText.ToString();
@@ -84,12 +109,12 @@ public class UI_InteractionDoorInfo : UI_Base
     {
         List<GameObject> list = new();
 
-        foreach(Transform tr in MapEditor.Instance.dontSaveObjectTransform)
+        foreach(Transform tr in MapEditor.Instance.interactionObjectTransform)
         {
             ButtonActivated btn = tr.GetComponent<ButtonActivated>();
             if(btn != null)
             {
-                if (btn.linkDoorList[0].linkId == bAD.linkId)
+                if (btn.linkId == bAD.linkId)
                 {
                     list.Add(btn.gameObject);
                 }
@@ -117,50 +142,46 @@ public class UI_InteractionDoorInfo : UI_Base
         return list;
 
     }
-    public void ChangeLinkId()
-    {
-        bAD.buttonActivatedBtnList.Clear();
-        bAD.leverBodyPotiionList.Clear();
-        linkBtnList.Clear();
-        linkLeverList.Clear();
+    //public void ChangeLinkId()
+    //{
 
-        foreach(Transform tf in MapEditor.Instance.dontSaveObjectTransform)
-        {
-            ButtonActivated ba = tf.gameObject.GetComponent<ButtonActivated>();
-            LeverBody lb = tf.GetComponent<LeverBody>();
+    //    foreach(Transform tf in MapEditor.Instance.interactionObjectTransform)
+    //    {
+    //        ButtonActivated ba = tf.gameObject.GetComponent<ButtonActivated>();
+    //        LeverBody lb = tf.GetComponent<LeverBody>();
 
-            if(ba != null)
-            {
-                if(ba.linkId == int.Parse(idInputField.text))
-                {
-                    bAD.buttonActivatedBtnList.Add(ba.curPosition);
-                    linkBtnList.Add(ba.gameObject);
-                    //버튼 라인렌더러 함수 재실행,
-                }
-                else
-                {
-                    //버튼 라인렌더러 함수 재실행
-                }
+    //        if(ba != null)
+    //        {
+    //            if(ba.linkId == int.Parse(idInputField.text))
+    //            {
+    //                bAD.buttonActivatedBtnList.Add(ba.curPosition);
+    //                linkBtnList.Add(ba.gameObject);
+    //                //버튼 라인렌더러 함수 재실행,
+    //            }
+    //            else
+    //            {
+    //                //버튼 라인렌더러 함수 재실행
+    //            }
                
-            }else if(lb != null)
-            {
-                if (lb.linkId == int.Parse(idInputField.text))
-                {
-                    bAD.leverBodyPotiionList.Add(lb.curPosition);
-                    linkLeverList.Add(lb.gameObject);
-                    //버튼 라인렌더러 함수 재실행,
-                }
-                else
-                {
-                    //버튼 라인렌더러 함수 재실행
-                }
-            }
+    //        }else if(lb != null)
+    //        {
+    //            if (lb.linkId == int.Parse(idInputField.text))
+    //            {
+    //                bAD.leverBodyPotiionList.Add(lb.curPosition);
+    //                linkLeverList.Add(lb.gameObject);
+    //                //버튼 라인렌더러 함수 재실행,
+    //            }
+    //            else
+    //            {
+    //                //버튼 라인렌더러 함수 재실행
+    //            }
+    //        }
 
 
 
-        }
+    //    }
        
-    }
+    //}
 
     private void Confirm()
     {

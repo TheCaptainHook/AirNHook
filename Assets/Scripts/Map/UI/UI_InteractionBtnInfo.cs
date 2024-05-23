@@ -35,14 +35,18 @@ public class UI_InteractionBtnInfo : UI_Base
         List<int> check = new();
         foreach(Transform tr in MapEditor.Instance.interactionObjectTransform)
         {
-            TMP_Dropdown.OptionData tdod = new TMP_Dropdown.OptionData($"{tr.GetComponent<ButtonActivatedDoor>().linkId}");
-            int id = tr.GetComponent<ButtonActivatedDoor>().linkId;
-            if (!check.Contains(id))
+            ButtonActivatedDoor bd = tr.GetComponent<ButtonActivatedDoor>();
+            if(bd != null)
             {
-                options.Add(tdod);
-                check.Add(id);
+                TMP_Dropdown.OptionData tdod = new TMP_Dropdown.OptionData($"{bd.linkId}");
+                int id = bd.linkId;
+                if (!check.Contains(id))
+                {
+                    options.Add(tdod);
+                    check.Add(id);
+                }
             }
-           
+
         }
         dropdown.options = options;
         dropdown.RefreshShownValue();
@@ -78,24 +82,9 @@ public class UI_InteractionBtnInfo : UI_Base
             }
             else
             {
-                //if(bA.linkId != int.Parse(dropdown.options[dropdown.value].text)){
-                //    bA.linkDoor.buttonActivatedBtnList.Remove(bA.curPosition);
-                //    bA.linkDoor = null;
-                //    bA.linkId = int.Parse(dropdown.options[dropdown.value].text);
-                //    bA.LinkDoor();
-                //}
                 if (bA.linkId != int.Parse(dropdown.options[dropdown.value].text))
                 {
                     bA.linkId = int.Parse(dropdown.options[dropdown.value].text);
-                    foreach (ButtonActivatedDoor linkDoor in bA.linkDoorList)
-                    {
-                        linkDoor.buttonActivatedBtnList.Remove(bA.curPosition);
-
-                    }
-                    bA.linkId = int.Parse(dropdown.options[dropdown.value].text);
-                    bA.linkDoorList.Clear();
-                    bA.LinkDoor();
-
                 }
 
                 Destroy(gameObject);
