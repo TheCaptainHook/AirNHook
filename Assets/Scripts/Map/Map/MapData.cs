@@ -59,7 +59,6 @@ public class MapData
         }
         foreach (var value in MapObjectData.BackGroundData.BackGroundDataList)
         {
-            Debug.Log(value.id);
             mapBackgroundDataDictionary.Add(value.id, new MapDataStruct(value.name, value.type, value.path));
         }
 

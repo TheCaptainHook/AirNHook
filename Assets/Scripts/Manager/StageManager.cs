@@ -123,8 +123,6 @@ public class StageManager
         if (!NetworkServer.active || !NetworkClient.isConnected) return;
 
         var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
-        Debug.Log("Create Interaction door");
-
 
         ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
         door.ButtonActivatedDoorStruct = data;
@@ -132,6 +130,8 @@ public class StageManager
         obj.transform.SetParent(MapEditor.Instance.interactionObjectTransform);
 
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
+
+        door.CheckActiveRequirAmount();
 
     }
 

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
-using UnityEngine.Rendering;
+
 
 //ButtonActivatedDoor가 무조건 있어야함
 public class ButtonActivated : BuildObj
@@ -62,8 +62,7 @@ public class ButtonActivated : BuildObj
     //}
     private void Update()
     {
-        //if (!NetworkServer.active || !NetworkClient.isConnected) return; //24.05.20
-        
+        //if (!NetworkServer.active || !NetworkClient.isConnected) return; //24.05.20        
 
         if (isPressed && !onActive)
         {
@@ -74,7 +73,6 @@ public class ButtonActivated : BuildObj
     }
 
     
-
     private void FixedUpdate()
     {
         if (!NetworkServer.active || !NetworkClient.isConnected) return;
@@ -213,7 +211,6 @@ public class ButtonActivated : BuildObj
     {
         onPrograss = true;
 
-
         _animator.SetBool(IsActivated, true);
 
         FindLinkDoorAndActivated(true);
@@ -233,7 +230,6 @@ public class ButtonActivated : BuildObj
         FindLinkDoorAndActivated(false);
 
         yield return new WaitForSeconds(0.5f);
-        Debug.Log("Btn Deactivated");
         onPrograss = false;
     }
 

@@ -13,7 +13,7 @@ public class ButtonActivatedDoor : BuildBase
     [Header("Components")]
     [SerializeField] private BoxCollider2D _collider;
     private NetworkAnimator _animator;
-    
+
     #region StringCache
     private static readonly int UnlockTrigger = Animator.StringToHash("UnlockTrigger");
     private static readonly int LockTrigger = Animator.StringToHash("LockTrigger");
@@ -38,10 +38,10 @@ public class ButtonActivatedDoor : BuildBase
     //public List<Vector2> leverBodyPotiionList;
     //todo 0416
     private ButtonActivatedDoorStruct _buttonActivatedDoorStruct;
-    public ButtonActivatedDoorStruct ButtonActivatedDoorStruct { 
+    public ButtonActivatedDoorStruct ButtonActivatedDoorStruct {
         get { return _buttonActivatedDoorStruct; }
-        set { {  _buttonActivatedDoorStruct = value; 
-                ObjectData = new ObjectData(_buttonActivatedDoorStruct.id, _buttonActivatedDoorStruct.position, _buttonActivatedDoorStruct.quaternion,_buttonActivatedDoorStruct.scale);
+        set { { _buttonActivatedDoorStruct = value;
+                ObjectData = new ObjectData(_buttonActivatedDoorStruct.id, _buttonActivatedDoorStruct.position, _buttonActivatedDoorStruct.quaternion, _buttonActivatedDoorStruct.scale);
                 linkId = _buttonActivatedDoorStruct.linkId;
                 activeRequirAmount = value.activeRequirAmount;
                 transform.position = value.position;
@@ -57,15 +57,13 @@ public class ButtonActivatedDoor : BuildBase
 
     public ButtonActivatedDoorStruct GetButtonActivatedDoorStruct()
     {
-        return new ButtonActivatedDoorStruct(id, linkId, activeRequirAmount,transform.position, transform.rotation, transform.localScale);
+        return new ButtonActivatedDoorStruct(id, linkId, activeRequirAmount, transform.position, transform.rotation, transform.localScale);
     }
 
     private void Awake()
     {
         _animator = GetComponent<NetworkAnimator>();
     }
-
-
 
     void Activation()
     {
@@ -77,6 +75,7 @@ public class ButtonActivatedDoor : BuildBase
         Debug.Log("OpenOpen");
         //StartCoroutine(Co_Activation());
     }
+
     void Deactivated()
     {
         //if (onPrograss) return;
@@ -90,20 +89,13 @@ public class ButtonActivatedDoor : BuildBase
         //StartCoroutine(Co_Deactivated());
     }
 
-    //public void CheckActiveRequirAmount() todo 0522
-    //{
-    //    //if (onPrograss || onOpen) return;
-    //    if (activeRequirAmount == curActiveBtn) { Activation(); Debug.Log("CheckActiveRequirAmount"); _animator.SetTrigger(UnlockTrigger);
-    //    }
-    //    else
-    //    {
-    //        Deactivated();
-    //        _animator.SetTrigger(LockTrigger);
-    //    }
-    //}
+    public void CheckActiveRequirAmount()
+    {
+         if (activeRequirAmount == curActiveBtn) { Activation(); }
+    }
 
 
-    IEnumerator Co_Activation()
+IEnumerator Co_Activation()
     {
         onPrograss = true;
 
