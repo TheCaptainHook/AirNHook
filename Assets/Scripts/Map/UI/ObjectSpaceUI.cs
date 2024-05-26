@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
-public class ObjectSpaceUI : MonoBehaviour
+public class ObjectSpaceUI : MousePointerEntity
 {
   
     RectTransform rTransform;
@@ -253,6 +254,20 @@ public class ObjectSpaceUI : MonoBehaviour
         colorBlock.selectedColor = activeColor;
         colorBlock.normalColor = activeColor;
         btn.colors = colorBlock;
+    }
+
+
+
+    public override void OnPointerEnter(PointerEventData data)
+    {
+        Debug.Log("false");
+        MapEditor.Instance.placeMentSystem.isInteractable = false;
+    }
+
+    public override void OnPointerExit(PointerEventData data)
+    {
+        Debug.Log("true");
+        MapEditor.Instance.placeMentSystem.isInteractable = true;
     }
 
 }

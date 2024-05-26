@@ -3600,6 +3600,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 465335328}
+    - target: {fileID: 1143521439065016346, guid: 25407cbca963249a484a007fbaf77069, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 1281302903942744382, guid: 25407cbca963249a484a007fbaf77069, type: 3}
       propertyPath: indicaitor
       value: 

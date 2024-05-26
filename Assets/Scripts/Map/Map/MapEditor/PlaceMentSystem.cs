@@ -50,6 +50,7 @@ public class PlaceMentSystem : MonoBehaviour
         }
 
     }
+
     [HideInInspector]  public GameObject first_holdingObj;// Click Interaction_BuildItem
     public GameObject curIndicatior;//Move,Rotation,Scale indicator
     public GameObject CurIndicatior
@@ -89,6 +90,7 @@ public class PlaceMentSystem : MonoBehaviour
     private Vector3Int curPosition;
     private Vector3Int lastPosition;
 
+    public bool isInteractable;
     
 
     [Header("Indicator")]

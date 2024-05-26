@@ -5,9 +5,9 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 using System.Text.RegularExpressions;
+using UnityEngine.EventSystems;
 
-
-public class MapEditorControllerUI : MonoBehaviour
+public class MapEditorControllerUI : MousePointerEntity
 {
     [Header("Components")]
     PlaceMentSystem placeMentSystem;
@@ -189,6 +189,20 @@ public class MapEditorControllerUI : MonoBehaviour
 
 
         }
+    }
+
+
+
+    public override void OnPointerEnter(PointerEventData data)
+    {
+        Debug.Log("false");
+        placeMentSystem.isInteractable = false;
+    }
+
+    public override void OnPointerExit(PointerEventData data)
+    {
+        Debug.Log("true");
+        placeMentSystem.isInteractable = true;
     }
     //todo 0427
 
