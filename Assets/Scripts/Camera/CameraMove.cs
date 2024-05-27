@@ -42,7 +42,7 @@ public class CameraMove : MonoBehaviour
     {
         if (Managers.Game.CurrentState is GameState.Editor)
         {
-            if (MapEditor.Instance.placeMentSystem.onInteraction)
+            if (!MapEditor.Instance.placeMentSystem.onEnterMapEditorUi)
             {
                 PanCamera();
                 ZoomInAndOut();
@@ -98,4 +98,17 @@ public class CameraMove : MonoBehaviour
             // ignored
         }
     }
+
+
+
+    #region Util
+    //todo 0527
+    public void Camera_MoveToObjectPosition(Vector3 position)
+    {
+        Camera.main.gameObject.transform.position = position;
+    }
+
+    //todo 0527
+    #endregion
+
 }

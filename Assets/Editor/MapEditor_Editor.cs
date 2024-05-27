@@ -169,7 +169,7 @@ public class MapEditor_Editor : Editor
             startPoint.transform.SetParent(mapEditor.dontSaveObjectTransform);
             //start Point
 
-            mapEditor.interactionBtnDictionary = new(); //todo 0412
+            //mapEditor.interactionBtnDictionary = new(); //todo 0412
 
             CreateObj(mapEditor.floorTransform, map, mapEditor.placeMentSystem, 0);
             CreateObj(mapEditor.objectTransform, map, mapEditor.placeMentSystem, 1);
@@ -212,7 +212,7 @@ public class MapEditor_Editor : Editor
         startPoint.transform.SetParent(mapEditor.dontSaveObjectTransform);
         //start Point
 
-        mapEditor.interactionBtnDictionary = new(); //todo 0412
+        //mapEditor.interactionBtnDictionary = new(); //todo 0412
 
         CreateObj(mapEditor.floorTransform, map, mapEditor.placeMentSystem, 0);
         CreateObj(mapEditor.objectTransform, map, mapEditor.placeMentSystem, 1);

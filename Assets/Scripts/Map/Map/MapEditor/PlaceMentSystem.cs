@@ -90,7 +90,6 @@ public class PlaceMentSystem : MonoBehaviour
     private Vector3Int curPosition;
     private Vector3Int lastPosition;
 
-    public bool isInteractable;
     
 
     [Header("Indicator")]
@@ -103,9 +102,13 @@ public class PlaceMentSystem : MonoBehaviour
     public List<BuildObj> curPlaceObjList = new(); //use Object Mode, placed object all turn on / turn off
 
     [Header("Interaction State")]
-    public bool onInteraction; //Only interaction with the UI if this value is true.
+    public bool onInteraction; //Only interaction with the UI if this value is true. ex) interation infoUI.
     //todo 24.0520
-    public bool onEnterMapEditorUi; // If the mouse pointer enters the Editor UI Controller Ui, it does not handle tile mode.
+    /// <summary>
+    /// If the mouse pointer enters the Editor UI Controller Ui
+    /// cant build tile and object
+    /// </summary>
+    public bool onEnterMapEditorUi; 
 
     [Header("Effect")]
     public ParticleSystem particleEffect_ObejctClear;
@@ -127,23 +130,29 @@ public class PlaceMentSystem : MonoBehaviour
 
         //if (MapEditor.Instance.mapEditorState != MapEditorState.NoEditor)
         //{
-            
-            
+
+
         //}
 
 
         //tile
-        if (MapEditor.Instance.mapEditorState == MapEditorState.Tile)
+        if (!onEnterMapEditorUi)
         {
-            GetMousePosition();
-            TileMode();
-        }else if(MapEditor.Instance.mapEditorState == MapEditorState.Object)
-        {
-            mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePosition = new Vector3(mousePosition.x, mousePosition.y, 0);
-            ObjectMode();
+            if (MapEditor.Instance.mapEditorState == MapEditorState.Tile)
+            {
+                GetMousePosition();
+                TileMode();
+            }
+            else if (MapEditor.Instance.mapEditorState == MapEditorState.Object)
+            {
+                mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                mousePosition = new Vector3(mousePosition.x, mousePosition.y, 0);
+                ObjectMode();
+            }
+            //else if(MapEditor.Instance.mapEditorState == MapEditorState.Background){ BackgroundMode();} // todo 0427
         }
-        //else if(MapEditor.Instance.mapEditorState == MapEditorState.Background){ BackgroundMode();} // todo 0427
+
+
     }
 
     #region INIT
@@ -166,8 +175,6 @@ public class PlaceMentSystem : MonoBehaviour
     #region Tile
     void TileMode()
     {
-        if (onEnterMapEditorUi) return;
-        
         switch (modeState)
         {
             case ModeState.Tile_Draw:
@@ -335,6 +342,9 @@ public class PlaceMentSystem : MonoBehaviour
     #region Object
     private void ObjectMode()
     {
+
+        if (onEnterMapEditorUi) return;
+
         if (first_holdingObj != null)
         {
             //first_holdingObj.transform.position = new Vector3(mousePosition.x, mousePosition.y, 0);
@@ -466,8 +476,10 @@ public class PlaceMentSystem : MonoBehaviour
         }
     }
 
-    public bool CheckMousePosition_InGridBoundary()
+    public bool CheckMousePosition_InGridBoundary(bool isBackgroundObj = false)
     {
+        if (isBackgroundObj == true) return true; // if Background Object then need not check grid boundary.
+
         int x = (int)MapEditor.Instance.gridPlane.transform.localScale.x;
         int y = (int)MapEditor.Instance.gridPlane.transform.localScale.y;
 

@@ -260,14 +260,14 @@ public class ObjectSpaceUI : MousePointerEntity
 
     public override void OnPointerEnter(PointerEventData data)
     {
-        Debug.Log("false");
-        MapEditor.Instance.placeMentSystem.isInteractable = false;
+        MapEditor.Instance.placeMentSystem.onEnterMapEditorUi = true;
+        Debug.Log("inter UI");
     }
 
     public override void OnPointerExit(PointerEventData data)
     {
-        Debug.Log("true");
-        MapEditor.Instance.placeMentSystem.isInteractable = true;
+        MapEditor.Instance.placeMentSystem.onEnterMapEditorUi = false;
+        Debug.Log("Exit UI");
     }
 
 }

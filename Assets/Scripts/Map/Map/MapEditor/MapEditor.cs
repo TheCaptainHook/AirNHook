@@ -83,7 +83,7 @@ public class MapEditor : MonoBehaviour
     [HideInInspector] public Transform poolingContainer;
 
     //todo 0412
-    public Dictionary<int, HashSet<Vector2>> interactionBtnDictionary;
+    //public Dictionary<int, HashSet<Vector2>> interactionBtnDictionary;
     //todo 0412
 
     //[Space(5)]
@@ -457,7 +457,7 @@ public class MapEditor : MonoBehaviour
         if (Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate != null) { Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate = null; }
         Camera.main.GetComponent<ParallaxCamera>().oldPosition = startPosition.x;
 
-        interactionBtnDictionary = new(); //todo 0412
+        //interactionBtnDictionary = new(); //todo 0412
 
         CreateObj(floorTransform, 0); //floorTransform
         CreateObj(objectTransform, 1); //objectTransform

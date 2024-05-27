@@ -13,6 +13,7 @@ public class UI_ShowToolTip : MousePointerEntity
     public string toolTipText;
     public GameObject toolTipObj;
     private TextMeshProUGUI text;
+    
 
     private void Awake()
     {
@@ -59,7 +60,9 @@ public class UI_ShowToolTip : MousePointerEntity
 
         toolTipObj.AddComponent<Canvas>();
         Canvas canvas = toolTipObj.GetComponent<Canvas>();
+
         canvas.overrideSorting = true;
+        canvas.sortingOrder = 10000;
 
         //bg
         backGround.AddComponent<Image>().color = Color.gray;
@@ -105,7 +108,7 @@ public class UI_ShowToolTip : MousePointerEntity
                 break;
 
             }
-            timer += Time.deltaTime;
+            timer += Time.deltaTime+0.1f;
             yield return null;
 
         }

@@ -54,8 +54,14 @@ public class MapEditorControllerUI : MousePointerEntity
     [SerializeField] Button scaleBtn;
     [SerializeField] Button clearBtn;
     [SerializeField] Button curBtn; // Currently selected object
-   
 
+    //todo 0527
+    [Header("Camera")]
+    [SerializeField] Button findGridBtn;
+
+    [Header("Object Collection")]
+    [SerializeField] Button objectCollectionBtn;
+    //todo 0527
 
     public Button[] tileDrawBtns;
     public Button[] objectDrawBtns;
@@ -100,16 +106,8 @@ public class MapEditorControllerUI : MousePointerEntity
             }});
         clearBtn.onClick.AddListener(() => { ObjectDrawModeBtn_Reset(); placeMentSystem.objectModeClient.Clear(); });
         objectDrawBtns = new Button[] { moveBtn, rotationBtn, scaleBtn, clearBtn };
+        //Obejct Mode Btn
     }
-
-    //private void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Escape))
-    //    {
-    //        Managers.Game.CurrentState = GameState.Lobby;
-    //        Managers.UI.ShowUI<UI_Option>();
-    //    }
-    //}
 
     void TileMode() //타일모드로 진입할때, //todo
     {
@@ -195,14 +193,14 @@ public class MapEditorControllerUI : MousePointerEntity
 
     public override void OnPointerEnter(PointerEventData data)
     {
-        Debug.Log("false");
-        placeMentSystem.isInteractable = false;
+        placeMentSystem.onEnterMapEditorUi = true;
+        Debug.Log("inter UI");
     }
 
     public override void OnPointerExit(PointerEventData data)
     {
-        Debug.Log("true");
-        placeMentSystem.isInteractable = true;
+        placeMentSystem.onEnterMapEditorUi = false;
+        Debug.Log("Exit UI");
     }
     //todo 0427
 
@@ -533,7 +531,9 @@ public class MapEditorControllerUI : MousePointerEntity
         MapSizeInit();
 
         
-        
     }
+
+  
+
     #endregion
 }
