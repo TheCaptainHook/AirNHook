@@ -14,6 +14,12 @@ public class Map
     public int stageLevel;
     public Vector2 startPosition;
     public List<TileData> mapTileDataList = new();
+
+    //todo 0602
+    /// <summary>
+    /// why create other tilemap, for one way tile.
+    /// </summary>
+
     public List<ObjectData> mapObjectDataList = new List<ObjectData>();
     public List<ButtonActivatedDoorStruct> mapButtonActivatedDoorDataList = new List<ButtonActivatedDoorStruct>();
 
@@ -180,9 +186,9 @@ public struct TileData
     public int id;
     public Vector3Int position;
 
-    public TileData(Vector3Int position)
+    public TileData(Vector3Int position, int id)
     {
-        this.id = 1;
+        this.id = id;
         this.position = position;
     }
 }

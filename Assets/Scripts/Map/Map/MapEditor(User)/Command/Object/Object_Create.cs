@@ -34,7 +34,7 @@ public class Object_Create
                 break;
             case 306:
             case 312:
-                curObj.transform.SetParent(MapEditor.Instance.dontSaveObjectTransform);
+                curObj.transform.SetParent(MapEditor.Instance.interactionObjectTransform);
                 break;
             default:
                 curObj.transform.SetParent(MapEditor.Instance.objectTransform);

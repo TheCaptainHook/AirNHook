@@ -107,6 +107,11 @@ public class MapEditorControllerUI : MousePointerEntity
         clearBtn.onClick.AddListener(() => { ObjectDrawModeBtn_Reset(); placeMentSystem.objectModeClient.Clear(); });
         objectDrawBtns = new Button[] { moveBtn, rotationBtn, scaleBtn, clearBtn };
         //Obejct Mode Btn
+
+
+        findGridBtn.onClick.AddListener(() => { Camera.main.transform.position = FindGridPlane(); });
+
+
     }
 
     void TileMode() //타일모드로 진입할때, //todo
@@ -223,6 +228,8 @@ public class MapEditorControllerUI : MousePointerEntity
 
         widthInputField.text = width.ToString();
         heightInputField.text = height.ToString();
+
+        Camera.main.orthographicSize = 13;
 
     }
 
@@ -533,7 +540,16 @@ public class MapEditorControllerUI : MousePointerEntity
         
     }
 
-  
 
+    Vector3 FindGridPlane()
+    {
+        Vector3 pot = MapEditor.Instance.gridPlane.gameObject.transform.position;
+        return new Vector3(pot.x, pot.y, -10);
+    }
+
+
+
+
+   
     #endregion
 }

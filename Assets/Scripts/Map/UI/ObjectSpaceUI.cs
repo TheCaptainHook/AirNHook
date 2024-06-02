@@ -126,6 +126,7 @@ public class ObjectSpaceUI : MousePointerEntity
 
 
     }
+    
 
     void CreateObjContents(GameObject container,GameObject[] objects, Sprite[] sprites,Transform content)
     {

@@ -74,7 +74,7 @@ public class CreateMap_Tool : EditorWindow
     //    set { if (modeToggle != value) { modeToggle = value; }
     //    } }
 
-    [MenuItem("Window/Create Map Tool")]
+    [MenuItem("Window/MapEditor Tool/Create Object Tool")]
     public static void ShowWindow()
     {
         CreateMap_Tool ct = (CreateMap_Tool)GetWindow(typeof(CreateMap_Tool));

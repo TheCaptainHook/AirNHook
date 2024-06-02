@@ -55,7 +55,6 @@ public class MapEditor_Editor : Editor
 
         if (GUILayout.Button("Save Data(개발자전용)"))
         {
-            Debug.Log("Buttom");
             SaveMapData(mapEditor);
         }
 
@@ -452,15 +451,18 @@ List<TileData> GetTileData(Tilemap tileMap)
                 TileBase tile = tileMap.GetTile(tilePos);
                 if (tile != null)
                 {
-                    TileData tileData = new TileData(tilePos);
+                    TileData tileData = new TileData(tilePos,int.Parse(tile.name));
                     list.Add(tileData);
                 }
             }
-        }
 
+           
+        }
       
         return list;
     }
+
+
 
 
     List<ObjectData> GetList(Transform transform)
@@ -513,7 +515,6 @@ List<TileData> GetTileData(Tilemap tileMap)
         int keyAmount = 0;
         foreach(Transform tr in mapEditor.objectTransform)
         {
-            Debug.Log(tr.name);
             if(tr.GetComponent<BuildObj>().id == 307)
             {
                 keyAmount++;

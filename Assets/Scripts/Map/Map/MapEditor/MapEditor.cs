@@ -248,7 +248,7 @@ public class MapEditor : MonoBehaviour
                 TileBase tile = tileMap.GetTile(tilePos);
                 if (tile != null)
                 {
-                    TileData tileData = new TileData(tilePos);
+                    TileData tileData = new TileData(tilePos,int.Parse(tile.name));
                     list.Add(tileData);
                 }
             }

@@ -108,6 +108,7 @@ public class CameraMove : MonoBehaviour
         Camera.main.gameObject.transform.position = position;
     }
 
+
     //todo 0527
     #endregion
 

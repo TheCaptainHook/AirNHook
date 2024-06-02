@@ -24,9 +24,6 @@ public class ScreenShotCamera : MonoBehaviour
         encodingTask = EncodeToPNG(texture);
         byte[] bytes = await encodingTask;
 
-
-        Debug.Log(encodingTask);
-
         return bytes;
 
     }
@@ -34,7 +31,6 @@ public class ScreenShotCamera : MonoBehaviour
 
     private async Task<byte[]> EncodeToPNG(Texture2D texture)
     {
-        Debug.Log("Encode");
         return texture.EncodeToPNG();
     }
 

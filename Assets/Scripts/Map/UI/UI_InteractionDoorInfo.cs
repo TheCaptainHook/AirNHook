@@ -185,6 +185,12 @@ public class UI_InteractionDoorInfo : UI_Base
 
     private void Confirm()
     {
+        //if(curObject.GetComponent<ButtonActivatedDoor>().linkId != int.Parse(idInputField.text))
+        //{
+
+        //} // todo 0602 if change link id, all check interaction transfrom obj and change same linkid activate obj.
+
+
         MapEditor.Instance.placeMentSystem.onInteraction = true;
         curObject.GetComponent<ButtonActivatedDoor>().linkId = int.Parse(idInputField.text);
         curObject.GetComponent<ButtonActivatedDoor>().activeRequirAmount = int.Parse(conditionInputField.text);
