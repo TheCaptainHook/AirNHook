@@ -101,10 +101,10 @@ MonoBehaviour:
   transformID: 1
   position: {x: 0, y: 0}
   offset: {x: 0, y: 0}
+  turnOff: 0
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0
-  onScaleable: 0
+  onScaleable: 1
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  outlineBox: {fileID: 0}
