@@ -55,10 +55,10 @@ public class UI_ComputerScreen : MonoBehaviour
     {
         //Todo 0501
 
-        Refresh();
+        //Refresh();
         //Todo 0501
         transform.gameObject.SetActive(true);
-        //Reset();
+        Refresh();
     }
 
     public void SetData(string mapId)

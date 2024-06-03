@@ -369,6 +369,7 @@ public class UI_StageSelect : UI_Base
     {
         ResetStageInMapItem();
         ResetUserMapItem();
+        //ResetComputerScreen();
     }
 
     private void ResetStageInMapItem()
@@ -385,6 +386,12 @@ public class UI_StageSelect : UI_Base
     {
         if (userMapSelect != null)
             userMapSelect.GetComponent<UI_UserMapSelect>().ResetItem();
+    }
+
+
+    private void ResetComputerScreen()
+    {
+        computerScreen.GetComponent<UI_ComputerScreen>().Reset();
     }
     #endregion
 

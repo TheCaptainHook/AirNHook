@@ -32,7 +32,7 @@
   {
     "stageID": "Tutorial_3",
     "stageClear": true,
-    "clearTime": 0.0,
+    "clearTime": 51.3079834,
     "totalDeath": 0,
     "deathCount": 0,
     "skip": false,
@@ -51,8 +51,8 @@
   },
   {
     "stageID": "Stage1-2",
-    "stageClear": false,
-    "clearTime": 0.0,
+    "stageClear": true,
+    "clearTime": 39.97905,
     "totalDeath": 0,
     "deathCount": 0,
     "skip": false,

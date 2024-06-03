@@ -14,10 +14,11 @@ public class Map
     public int stageLevel;
     public Vector2 startPosition;
     public List<TileData> mapTileDataList = new();
+    public List<TileData> mapHalfTileDataList = new();
 
     //todo 0602
     /// <summary>
-    /// why create other tilemap, for one way tile.
+    
     /// </summary>
 
     public List<ObjectData> mapObjectDataList = new List<ObjectData>();
@@ -34,7 +35,10 @@ public class Map
 
     public Map(Vector2 mapSize, string id, int stageLevel,Vector2 startPosition,
         List<ExitObjStruct> mapExitObjectDataList,
-        List<TileData> tileList, 
+        List<TileData> tileList,
+        //todo 0603
+        List<TileData> halfTileList,
+
         List<ObjectData> objectList,
         List<ButtonActivatedDoorStruct> mapButtonActivatedDoorDataList,
         List<ButtonActivatedObject> buttonActivatedObjectList,
@@ -43,6 +47,7 @@ public class Map
         mapID = id;
         this.stageLevel = stageLevel;
         mapTileDataList = tileList;
+        mapHalfTileDataList = halfTileList;
         mapObjectDataList = objectList;
         this.startPosition = startPosition;
         this.mapExitObjectDataList = mapExitObjectDataList;
@@ -58,19 +63,6 @@ public class Map
     public Map() { } //dont delet
 
 
-    //public List<Vector2> FindObject_Vector2(int id)
-    //{
-    //    List<Vector2> list = new List<Vector2>();
-
-    //    foreach(ObjectData objectData in mapObjectDataList)
-    //    {
-    //        if(objectData.id == id)
-    //        {
-    //            list.Add(objectData.position);
-    //        }
-    //    }
-    //    return list;
-    //}
     public ObjectData FindObjectData(int id)
     {
         foreach (ObjectData objectData in mapObjectDataList)
@@ -93,7 +85,22 @@ public class Map
     //}
 
 
+    //todo 0603
+
+    //public void Test_CheckTile()
+    //{
+    //   foreach(TileData data in mapTileDataList)
+    //    {
+    //        if(min.sqrMagnitude > data.position.sqrMagnitude) { min = data.position; }
+    //        if(max.sqrMagnitude < data.position.sqrMagnitude) { max = data.position; }
+    //    }
+
+    //    Debug.Log($"min : {min}, max : {max}");
+    //}
+
 }
+
+
 
 
 [System.Serializable]

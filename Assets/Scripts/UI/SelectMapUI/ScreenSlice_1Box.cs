@@ -39,11 +39,11 @@ public class ScreenSlice_1Box : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
 
-        while(sprite == null)
-        {
-            Debug.Log("Loading");
-            yield return null;
-        }
+        //while(sprite == null)
+        //{
+        //    Debug.Log("Loading");
+        //    yield return null;
+        //}
 
         if(Managers.Game.CurrentState == GameState.Title) { StopCoroutine(CreateSprtie(bytes)); }
 

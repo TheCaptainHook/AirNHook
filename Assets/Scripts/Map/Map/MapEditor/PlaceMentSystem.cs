@@ -27,6 +27,10 @@ public class PlaceMentSystem : MonoBehaviour
     public Dictionary<Vector3Int, int> tileDic = new();
      public Tilemap preViewTileMap;//only use,Editor mode
      public Tilemap floorTileMap;
+    //todo 0603
+    public Tilemap halfTileMap;
+    //todo 0603
+
 
     [HideInInspector] public TileBase tileBase;
     public TileBase previewTileBase;
@@ -42,6 +46,8 @@ public class PlaceMentSystem : MonoBehaviour
         {
             if (curArrowIndicatorTrack != null) { Destroy(curArrowIndicatorTrack); }
             if(curAdditionalIndicatorTrack != null) { Destroy(curAdditionalIndicatorTrack);}
+            if(curBuildObject != null) { ResetColorObj(); }
+
             CurIndicatior = null;
             curBuildObject = value;
             SelectCurBuildObj();//after
@@ -456,9 +462,14 @@ public class PlaceMentSystem : MonoBehaviour
     {
         if(curIndicatior != null){ Destroy(curIndicatior); }
         if(first_holdingObj != null){ Destroy(first_holdingObj); }
-        if(CurbuildObject != null) { CurbuildObject = null; }
-        if(curArrowIndicatorTrack != null) { Destroy(curArrowIndicatorTrack); }
+        if(CurbuildObject != null) { ResetColorObj();  CurbuildObject = null; }
+        //if(curArrowIndicatorTrack != null) { Destroy(curArrowIndicatorTrack); }
         if(curAdditionalIndicatorTrack != null) { Destroy(curAdditionalIndicatorTrack); }
+
+
+
+
+
     }
 
     public void CurPlacedObjTurnOff()
@@ -502,8 +513,12 @@ public class PlaceMentSystem : MonoBehaviour
     {
         if(CurbuildObject != null)
         {
-            curArrowIndicatorTrack = Instantiate(curObj_ArrowIndicator, CurbuildObject.transform);
-            curArrowIndicatorTrack.GetComponent<Arrow_Indicator>().SetLinkObj(CurbuildObject);
+            //curArrowIndicatorTrack = Instantiate(curObj_ArrowIndicator, CurbuildObject.transform);
+            //curArrowIndicatorTrack.GetComponent<Arrow_Indicator>().SetLinkObj(CurbuildObject);
+
+            //todo 0603
+            SelectColorObj();
+            //todo 0603
 
             BuildObj buildObj = CurbuildObject.GetComponent<BuildObj>();
 
@@ -517,6 +532,34 @@ public class PlaceMentSystem : MonoBehaviour
         }
 
     }
+
+
+
+    //todo 0603
+    private void SelectColorObj()
+    {
+        ChangeColorRecursively(CurbuildObject.transform,Color.green);
+    }
+
+    private void ResetColorObj()
+    {
+        ChangeColorRecursively(CurbuildObject.transform, Color.white);
+    }
+
+    void ChangeColorRecursively(Transform parent,Color color)
+    {
+        SpriteRenderer spriteRenderer = parent.GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = color;
+        }
+        foreach (Transform child in parent)
+        {
+            ChangeColorRecursively(child,color);
+        }
+    }
+    //todo 0603
+
 
 
     public void CreateIndicator(ModeState modeState)

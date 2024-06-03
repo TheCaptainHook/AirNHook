@@ -180,6 +180,7 @@ public class MapEditor : MonoBehaviour
         GridPalette = Instantiate(floorTileMap);
         placeMentSystem.floorTileMap = GridPalette.transform.Find("Floor").GetComponent<Tilemap>();
 
+        placeMentSystem.halfTileMap = GridPalette.transform.Find("HalfTiles").GetComponent<Tilemap>();
     }
     void CreatePreviewPalet()
     {
@@ -253,6 +254,9 @@ public class MapEditor : MonoBehaviour
                 }
             }
         }
+
+
+        
         return list;
     }
 
@@ -354,6 +358,7 @@ public class MapEditor : MonoBehaviour
     async void CreateJsonFile()
     {
         mapTileDataList = GetTileData(placeMentSystem.floorTileMap);
+
         mapObjectDataList = GetList(objectTransform);
         startPosition = FindObj(dontSaveObjectTransform, 302).transform.position;
 
@@ -362,6 +367,7 @@ public class MapEditor : MonoBehaviour
         Map map = new Map(new Vector2(width, height), mapID, stageLevel, startPosition,
             GetExitObjStructsList(exitDoorObjectTransform),
             mapTileDataList,
+            GetTileData(placeMentSystem.halfTileMap),
             mapObjectDataList,
             GetButtonActivateDoorStructList(),
             GetButtonActivatedObjectList(),
@@ -497,6 +503,14 @@ public class MapEditor : MonoBehaviour
                     placeMentSystem.floorTileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
                     placeMentSystem.tileDic[data.position] = data.id;
                 }
+
+                foreach (TileData data in curMap.mapHalfTileDataList)
+                {
+                    MapDataStruct mapDataStruct = Managers.Data.mapData.mapTileDataDictionary[data.id];
+                    placeMentSystem.halfTileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
+                    placeMentSystem.tileDic[data.position] = data.id;
+                }
+
                 break;
             case 1:
 

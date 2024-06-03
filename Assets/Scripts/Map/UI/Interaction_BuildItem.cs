@@ -45,6 +45,7 @@ public class Interaction_BuildItem : MonoBehaviour
             {
                 GameObject obj = Instantiate(buildObj);
                 MapEditor.Instance.placeMentSystem.first_holdingObj = obj;
+                MapEditor.Instance.placeMentSystem.CurbuildObject = obj;
                 obj.GetComponent<BuildObj>().TurnOff();
             }
         }

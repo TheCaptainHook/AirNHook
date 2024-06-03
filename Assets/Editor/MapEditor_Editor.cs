@@ -186,6 +186,11 @@ public class MapEditor_Editor : Editor
             Debug.Log("Map not found");
         }
 
+        ///
+        /// 플로어 타일 맵의 바운드셀로 최솟값 최댓값 알 수 있음.
+        ///
+        Debug.Log($"min : {mapEditor.placeMentSystem.floorTileMap.cellBounds.min}, max : {mapEditor.placeMentSystem.floorTileMap.cellBounds.max}");
+
     }
 
     //0422 testtest
@@ -265,6 +270,15 @@ public class MapEditor_Editor : Editor
                     placeMentSystem.floorTileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
                     placeMentSystem.tileDic[data.position] = data.id;
                 }
+
+                foreach(TileData data in map.mapHalfTileDataList)
+                {
+                    MapDataStruct mapDataStruct = mapTileDataDictionary[data.id];
+                    placeMentSystem.halfTileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
+                    placeMentSystem.tileDic[data.position] = data.id;
+                }
+
+
                 break;
             case 1:
                 foreach (ObjectData data in map.mapObjectDataList)
@@ -401,15 +415,20 @@ public class MapEditor_Editor : Editor
     {
         string filePath = "";
         mapEditor.mapTileDataList = GetTileData(mapEditor.placeMentSystem.floorTileMap);
+
+
+
+
         mapEditor.mapObjectDataList = GetList(mapEditor.objectTransform);
         mapEditor.startPosition = FindObj(mapEditor.dontSaveObjectTransform, 302).transform.position;
-        Map map = new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, mapEditor.stageLevel,mapEditor.startPosition,
-            GetExitObjStructsList(mapEditor.exitDoorObjectTransform,mapEditor),
+        Map map = new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, mapEditor.stageLevel, mapEditor.startPosition,
+            GetExitObjStructsList(mapEditor.exitDoorObjectTransform, mapEditor),
             mapEditor.mapTileDataList,
+            GetTileData(mapEditor.placeMentSystem.halfTileMap),
             mapEditor.mapObjectDataList,
             GetButtonActivateDoorStructList(mapEditor),
             GetButtonActivatedObjectList(mapEditor),
-            mapEditor.cellSize,0, await CurrentMapScreenShot(mapEditor),mapEditor.audioType) ;
+            mapEditor.cellSize, 0, await CurrentMapScreenShot(mapEditor), mapEditor.audioType);; ;
         string json = JsonUtility.ToJson(map, true);
         if(mapEditor.mapType == MapType.Main)
         {
@@ -458,6 +477,7 @@ List<TileData> GetTileData(Tilemap tileMap)
 
            
         }
+        //Debug.Log($"min : {bounds.min}, max : {bounds.max}");
       
         return list;
     }
