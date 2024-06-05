@@ -11,16 +11,21 @@ public class StageSelectObject : MonoBehaviour, IInteractable
     //{
     //    Managers.Sound.PlaySound(AudioType.Lobby,AudioMixerGroupType.BGM,true,1f, 0.6f);
     //}
-
+    //todo 0605
     public void Interaction(Transform accessor = null)
     {
         if (!NetworkServer.active || !NetworkClient.isConnected)
             return;
 
-        if(!Managers.UI.IsActive<UI_StageSelect>())
-            Managers.UI.ShowUI<UI_StageSelect>();
+        //if(!Managers.UI.IsActive<UI_StageSelect>())
+        //    Managers.UI.ShowUI<UI_StageSelect>();
+        //else
+        //    Managers.UI.HideUI<UI_StageSelect>();
+        if (!Managers.UI.IsActive<UI_StageSelect_Var2>())
+            Managers.UI.ShowUI<UI_StageSelect_Var2>();
         else
-            Managers.UI.HideUI<UI_StageSelect>();
+            Managers.UI.HideUI<UI_StageSelect_Var2>();
+
     }
 
     public bool CanInteract()
