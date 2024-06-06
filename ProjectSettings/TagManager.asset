@@ -15,7 +15,7 @@ TagManager:
   - Ground/AllAllowed
   - Ground/NotHookable
   - Ground/OnlyHookable
-  - 
+  - Ground/HalfTiles
   - Player
   - 
   - 
