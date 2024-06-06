@@ -21,13 +21,28 @@ public class UI_StageSelect_Var2 : UI_Base
 
     [Header("Main Stage Select")]
     [SerializeField] GameObject mainMapSelectContainer;
+    [SerializeField] GameObject userMapSelectContainer;
 
-    
+
+    [Header("Etc Button")]
+    [SerializeField] Button exitBtn;
+    [SerializeField] Button spawnKeyBtn;
+
+    public Transform container;
+
+    GameObject key;
+
+
+
     //event Action<string> OnSelectMap;
 
+    /// <summary>
+    /// UI_StageSelect_Var2 -> MainMapSelectContainer -> MainMapStageSelectItem -> StageSelectScrollView -> MainMapItem
+    /// </summary>
 
     private void Awake()
     {
+        //Main, User Change Button
         mainBtn.onClick.AddListener(() => { if (!onInteractable) return;
             //reset
             if (currentMainAndUserMapChangeBtn != null && mainBtn != currentMainAndUserMapChangeBtn)
@@ -39,6 +54,8 @@ public class UI_StageSelect_Var2 : UI_Base
             StartCoroutine(FadeInChangeBtn(mainBtn));
 
             mainMapSelectContainer.SetActive(true);
+            userMapSelectContainer.SetActive(false);
+
         });
 
         userBtn.onClick.AddListener(() => { if (!onInteractable) return;
@@ -55,12 +72,16 @@ public class UI_StageSelect_Var2 : UI_Base
             if (mainMapSelectContainer.activeSelf)
             {
                 mainMapSelectContainer.SetActive(false);
+                userMapSelectContainer.SetActive(true);
             }
 
         });
 
-    }
+        //Etc Button
+        exitBtn.onClick.AddListener(() => { CloseUI(); });
+        spawnKeyBtn.onClick.AddListener(() => { SpawnKey(); });
 
+    }
 
 
     public override void OnEnable()
@@ -75,11 +96,9 @@ public class UI_StageSelect_Var2 : UI_Base
     }
     protected override void CloseUI()
     {
-        base.CloseUI();
+        gameObject.SetActive(false);
+
     }
-
-
-
 
 
     #region Button
@@ -134,6 +153,32 @@ public class UI_StageSelect_Var2 : UI_Base
     }
 
 
+    #endregion
+
+
+    #region Key
+    public void SpawnKey()
+    {
+        ExitPointObj obj = MapEditor.Instance.exitDoorObjectTransform.GetChild(0).gameObject.GetComponent<ExitPointObj>();
+        if (obj.nextMapId != string.Empty)
+        {
+            if(key == null)
+            {
+                key = Managers.Stage.CmdBatchObject("Key");
+            }
+
+            ObjectData data = MapEditor.Instance.CurMap.FindObjectData(1000);
+            key.transform.position = data.position;
+            Vector2 launchDirection = new Vector2(-1, 1).normalized;
+
+            key.GetComponent<Rigidbody2D>().AddForce(launchDirection * 5f, ForceMode2D.Impulse);
+
+            CloseUI();
+        }
+
+
+
+    }
     #endregion
 
 }

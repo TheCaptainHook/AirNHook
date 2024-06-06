@@ -371,10 +371,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2880155737357075944, guid: 36de53166b3b449b39a153eaf2568bbf, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4481828273857866623, guid: 36de53166b3b449b39a153eaf2568bbf, type: 3}
       propertyPath: m_Name
       value: UI_StageSelect_var2

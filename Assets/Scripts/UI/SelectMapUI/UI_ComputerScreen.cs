@@ -33,7 +33,7 @@ public class UI_ComputerScreen : MonoBehaviour
         screen1 = Instantiate(screenSlice_1Box, contents).GetComponent<ScreenSlice_1Box>();
         screen2 = Instantiate(screenSlice_2Box, contents).GetComponent<ScreenSlice_2Box>();
         MapEditor.Instance.OnStageMove += TurnOff;
-        MapEditor.Instance.OnScreen += TurnOn;
+        //MapEditor.Instance.OnScreen += TurnOn;
 
     }
 
@@ -41,7 +41,8 @@ public class UI_ComputerScreen : MonoBehaviour
     {
         //Reset();
         RectTransform rect = contents as RectTransform;
-        //rect.anchoredPosition = new Vector2(0, 0);
+        rect.anchoredPosition = new Vector2(0, 0);
+        Reset();
         transform.gameObject.SetActive(false);
     }
 
@@ -58,7 +59,7 @@ public class UI_ComputerScreen : MonoBehaviour
         //Refresh();
         //Todo 0501
         transform.gameObject.SetActive(true);
-        Refresh();
+        //Refresh();
     }
 
     public void SetData(string mapId)

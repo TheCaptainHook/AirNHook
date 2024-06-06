@@ -186,7 +186,9 @@ public class UIManager
         HideUI<UI_Option>();
         ShowUI<UI_EmoteWheel>();
         HideUI<UI_EmoteWheel>();
-        ShowUI<UI_StageSelect>();
-        HideUI<UI_StageSelect>();
+        //ShowUI<UI_StageSelect>();
+        //HideUI<UI_StageSelect>();
+        ShowUI<UI_StageSelect_Var2>();
+        HideUI<UI_StageSelect_Var2>();
     }
 }
