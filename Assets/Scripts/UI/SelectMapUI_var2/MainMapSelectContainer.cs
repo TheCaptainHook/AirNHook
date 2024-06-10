@@ -8,6 +8,9 @@ using Unity.VisualScripting;
 public class MainMapSelectContainer : MonoBehaviour
 {
 
+    /// <summary>
+    /// 현재까지 만들어진 스테이지 설정
+    /// </summary>
     [SerializeField] int allStage;
     [SerializeField] Transform layout;
     [SerializeField] GameObject mapSelectItem;

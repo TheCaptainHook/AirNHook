@@ -10,7 +10,7 @@ public class MainMapStageSelectItem : MonoBehaviour
 
     [SerializeField] GameObject stageSelectScrollView;
     [SerializeField] TextMeshProUGUI text;
-
+    [SerializeField] GameObject particle;
 
     private StageSelectScrollView curStageSelectScrollView;
 
@@ -70,11 +70,11 @@ public class MainMapStageSelectItem : MonoBehaviour
 
     public void Activation()
     {
-        GetComponent<Image>().color = Color.blue;
+        particle.SetActive(true);
     }
     public void Deactivation()
     {
-        GetComponent<Image>().color = Color.white;
+        particle.SetActive(false);
     }
 
 }

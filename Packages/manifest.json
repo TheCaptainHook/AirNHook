@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.coffee.ui-particle": "5.0.0-preview.1",
     "com.shlifedev.ugs": "1.0.8",
     "com.unity.addressables": "1.21.20",
     "com.unity.cinemachine": "2.9.7",
@@ -53,6 +54,13 @@
       "url": "https://package.openupm.com",
       "scopes": [
         "com.shlifedev.ugs"
+      ]
+    },
+    {
+      "name": "UI Particle System",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.coffee.ui-particle"
       ]
     }
   ]
