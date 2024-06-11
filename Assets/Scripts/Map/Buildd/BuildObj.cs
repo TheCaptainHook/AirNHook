@@ -98,6 +98,11 @@ public class BuildObj : MousePointerEntity,IDamageable
         SetOrgPosition();
     }
 
+    public virtual void Reset()
+    {
+
+    }
+
     public virtual void EditorMode_Destroy()
     {
         if (MapEditor.Instance.placeMentSystem.curPlaceObjList.Contains(this))
