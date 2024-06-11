@@ -15,16 +15,13 @@ public class Map
     public Vector2 startPosition;
     public List<TileData> mapTileDataList = new();
     public List<TileData> mapHalfTileDataList = new();
+    public List<TileData> mapBackgroundTileDataList = new();
 
-    //todo 0602
-    /// <summary>
-    
-    /// </summary>
+
 
     public List<ObjectData> mapObjectDataList = new List<ObjectData>();
     public List<ButtonActivatedDoorStruct> mapButtonActivatedDoorDataList = new List<ButtonActivatedDoorStruct>();
 
-    //todo 0522
     public List<ButtonActivatedObject> buttonActivatedObjectList = new();
 
     public List<ExitObjStruct> mapExitObjectDataList = new();
@@ -33,12 +30,13 @@ public class Map
     [HideInInspector]public byte[] bytesImage;
     public AudioType audioType;
 
-    public Map(Vector2 mapSize, string id, int stageLevel,Vector2 startPosition,
+    public Map(Vector2 mapSize, string id, int stageLevel, Vector2 startPosition,
         List<ExitObjStruct> mapExitObjectDataList,
+        //tile
         List<TileData> tileList,
-        //todo 0603
         List<TileData> halfTileList,
-
+        List<TileData> mapBackgroundTileDataList,
+        //object
         List<ObjectData> objectList,
         List<ButtonActivatedDoorStruct> mapButtonActivatedDoorDataList,
         List<ButtonActivatedObject> buttonActivatedObjectList,
@@ -46,16 +44,20 @@ public class Map
     {
         mapID = id;
         this.stageLevel = stageLevel;
+        //tile
         mapTileDataList = tileList;
         mapHalfTileDataList = halfTileList;
+        this.mapBackgroundTileDataList = mapBackgroundTileDataList;
+        //object
         mapObjectDataList = objectList;
         this.startPosition = startPosition;
         this.mapExitObjectDataList = mapExitObjectDataList;
-        this.mapSize = mapSize;
         this.mapButtonActivatedDoorDataList = mapButtonActivatedDoorDataList;
         this.buttonActivatedObjectList = buttonActivatedObjectList;
+
+        this.mapSize = mapSize;
         this.cellSize = cellSize;
-        this.dataType = dataType;
+        this.dataType = dataType;//main and userData
         this.bytesImage = bytesImage;
         this.audioType = audioType;
     }

@@ -277,7 +277,12 @@ public class MapEditor_Editor : Editor
                     placeMentSystem.halfTileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
                     placeMentSystem.tileDic[data.position] = data.id;
                 }
-
+                foreach (TileData data in map.mapBackgroundTileDataList)
+                {
+                    MapDataStruct mapDataStruct = mapTileDataDictionary[data.id];
+                    placeMentSystem.backgroundTileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
+                    placeMentSystem.tileDic[data.position] = data.id;
+                }
 
                 break;
             case 1:
@@ -423,8 +428,11 @@ public class MapEditor_Editor : Editor
         mapEditor.startPosition = FindObj(mapEditor.dontSaveObjectTransform, 302).transform.position;
         Map map = new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, mapEditor.stageLevel, mapEditor.startPosition,
             GetExitObjStructsList(mapEditor.exitDoorObjectTransform, mapEditor),
+            //tile
             mapEditor.mapTileDataList,
             GetTileData(mapEditor.placeMentSystem.halfTileMap),
+            GetTileData(mapEditor.placeMentSystem.backgroundTileMap),
+            //object
             mapEditor.mapObjectDataList,
             GetButtonActivateDoorStructList(mapEditor),
             GetButtonActivatedObjectList(mapEditor),

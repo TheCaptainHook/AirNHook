@@ -34,6 +34,7 @@ public enum MapEditorState
 public enum TileType
 {
     Floor,
+    Background,
     Object,
     InteractionObject
 
@@ -181,6 +182,7 @@ public class MapEditor : MonoBehaviour
         placeMentSystem.floorTileMap = GridPalette.transform.Find("Floor").GetComponent<Tilemap>();
 
         placeMentSystem.halfTileMap = GridPalette.transform.Find("HalfTiles").GetComponent<Tilemap>();
+        placeMentSystem.backgroundTileMap = GridPalette.transform.Find("BackgroundTiles").GetComponent<Tilemap>();
     }
     void CreatePreviewPalet()
     {
@@ -366,8 +368,11 @@ public class MapEditor : MonoBehaviour
 
         Map map = new Map(new Vector2(width, height), mapID, stageLevel, startPosition,
             GetExitObjStructsList(exitDoorObjectTransform),
+            //tile
             mapTileDataList,
             GetTileData(placeMentSystem.halfTileMap),
+            GetTileData(placeMentSystem.backgroundTileMap),
+            //object
             mapObjectDataList,
             GetButtonActivateDoorStructList(),
             GetButtonActivatedObjectList(),
@@ -508,6 +513,12 @@ public class MapEditor : MonoBehaviour
                 {
                     MapDataStruct mapDataStruct = Managers.Data.mapData.mapTileDataDictionary[data.id];
                     placeMentSystem.halfTileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
+                    placeMentSystem.tileDic[data.position] = data.id;
+                }
+                foreach (TileData data in curMap.mapBackgroundTileDataList)
+                {
+                    MapDataStruct mapDataStruct = Managers.Data.mapData.mapTileDataDictionary[data.id];
+                    placeMentSystem.backgroundTileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
                     placeMentSystem.tileDic[data.position] = data.id;
                 }
 
