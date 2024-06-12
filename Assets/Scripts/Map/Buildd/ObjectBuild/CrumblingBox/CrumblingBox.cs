@@ -13,7 +13,8 @@ public class CrumblingBox : BuildObj
     [Header("Components")]
     [SerializeField] GameObject hitBox;
     [SerializeField] SpriteRenderer spriteRenderer;
-    [SerializeField] ParticleSystem particle;
+    [SerializeField] ParticleSystem spark_Particle;
+    [SerializeField] ParticleSystem bumb_Particle;
 
     //Test Code
     public Color[] colors = new Color[3] { Color.red, Color.yellow, Color.white };
@@ -34,7 +35,7 @@ public class CrumblingBox : BuildObj
         }
 
         //Test Code
-        particle.Play();
+        spark_Particle.Play();
         spriteRenderer.color = colors[curCrumblingAmount];
     }
 
@@ -42,7 +43,7 @@ public class CrumblingBox : BuildObj
 
     IEnumerator DestroyBox()
     {
-        particle.Play();
+        bumb_Particle.Play();
         yield return new WaitForSeconds(0.2f);
 
         //Test Code
