@@ -52,7 +52,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ce3b2d89824ec2447b9f2ef8b91c5fdd, type: 2}
+  - {fileID: 2100000, guid: 811368f226b1fd84fab485bd402692ff, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -73,12 +73,12 @@ SpriteRenderer:
   m_SortingLayerID: -688237417
   m_SortingLayer: 5
   m_SortingOrder: 7
-  m_Sprite: {fileID: 21300000, guid: 40da430dd8ab6e54dac97e00b4cd8d1a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f6d82df9282ba2f4280abf86b24311ae, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.56, y: 2.56}
+  m_Size: {x: 1, y: 0.9921875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -209,15 +209,14 @@ GameObject:
   - component: {fileID: -6472365049540394354}
   - component: {fileID: 7581738418688039792}
   - component: {fileID: -270225028426460243}
-  - component: {fileID: 8495657423424250234}
-  - component: {fileID: 1073523619191105079}
+  - component: {fileID: 7062143118284945217}
   - component: {fileID: -5810413876586093780}
   - component: {fileID: 1730392308196055233}
   - component: {fileID: 4664830097871362257}
   - component: {fileID: -7384810213336840947}
   - component: {fileID: 7248189904295600147}
   m_Layer: 19
-  m_Name: StrongBox
+  m_Name: InvincibleBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -252,7 +251,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 5
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 2
@@ -330,7 +329,7 @@ MonoBehaviour:
   _objectType: 1
   _offset: {x: 0, y: 1}
   _inhalePower: 800
---- !u!114 &8495657423424250234
+--- !u!114 &7062143118284945217
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -339,35 +338,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 8716440483222482088}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87b61f6a03056ee40a5d31413b548963, type: 3}
+  m_Script: {fileID: 11500000, guid: 274406d3a8bf5874a9aa756a39406d7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 311
+  id: 316
   transformID: 1
   position: {x: 0, y: 0}
   offset: {x: 0, y: 1.5}
   turnOff: 0
-  distructionStatus: 1
+  distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  health: 5
+  health: 1
   spriteRenderer: {fileID: 4733320072026686442}
---- !u!114 &1073523619191105079
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8716440483222482088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d0680288e776eb4081ef1fdf5182889, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _collider2D: {fileID: 0}
 --- !u!114 &-5810413876586093780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,7 +367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
-  _assetId: 2499318652
+  _assetId: 3245848277
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
