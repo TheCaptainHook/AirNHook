@@ -17,8 +17,7 @@ public class CrumblingBox : BuildObj
     [SerializeField] ParticleSystem bumb_Particle;
 
     //Test Code
-    public Color[] colors = new Color[3] { Color.red, Color.yellow, Color.white };
-
+    public Sprite[] sprites;
     private void Awake()
     {
         curCrumblingAmount= maxCrumblingAmount;
@@ -36,7 +35,7 @@ public class CrumblingBox : BuildObj
 
         //Test Code
         spark_Particle.Play();
-        spriteRenderer.color = colors[curCrumblingAmount];
+        spriteRenderer.sprite = sprites[curCrumblingAmount];
     }
 
   
@@ -83,7 +82,7 @@ public class CrumblingBox : BuildObj
         //Test Code
         GetComponent<Collider2D>().enabled = true;
         spriteRenderer.enabled = true;
-        spriteRenderer.color = colors[maxCrumblingAmount];
+        spriteRenderer.sprite = sprites[maxCrumblingAmount];
 
     }
 }
