@@ -525,6 +525,7 @@ public class CreateMap_Tool : EditorWindow
 
     void SelectActiveOBJ(GameObject obj,Transform transform)
     {
+
         Selection.activeGameObject = Instantiate(obj, transform);
     }
 

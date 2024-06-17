@@ -10,7 +10,7 @@ public class TeslaBezierCurve : MonoBehaviour
     {
         lineRenderer.positionCount = numPoints;
         //DrawQuadraticBezierCurve(start, p1, end);
-        Debug.Log($"{start},{p1},{end}");
+
         StartCoroutine(TestCoroutine(lineRenderer,start, p1, end));
     }
 
@@ -25,10 +25,11 @@ public class TeslaBezierCurve : MonoBehaviour
             positions[i] = CalculateQuadraticBezierPoint(t, start, p1, end);
         }
         lineRenderer.SetPositions(positions);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(.4f);
 
         lineRenderer.positionCount = 0;
 
+        lineRenderer.gameObject.SetActive(false);
 
     }
 

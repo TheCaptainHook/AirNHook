@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1556023629441922847
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7619620760434981820}
+  m_Layer: 18
+  m_Name: HitPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7619620760434981820
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1556023629441922847}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.708, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6964912461378082790}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5674586703969503208
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,7 +126,7 @@ GameObject:
   - component: {fileID: 6964912461378082790}
   - component: {fileID: 5747106109533041271}
   - component: {fileID: 4056870032569646700}
-  - component: {fileID: 6689581616457775299}
+  - component: {fileID: 2838522749310776917}
   - component: {fileID: 5611207507894210805}
   - component: {fileID: -2176134299502383376}
   - component: {fileID: -3856991798806897737}
@@ -123,6 +154,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 59999164860956811}
+  - {fileID: 7619620760434981820}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &5747106109533041271
@@ -140,7 +172,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -187,7 +219,7 @@ CapsuleCollider2D:
   m_Offset: {x: -0.000000059604645, y: 0.49956644}
   m_Size: {x: 0.25886154, y: 1.02474}
   m_Direction: 0
---- !u!114 &6689581616457775299
+--- !u!114 &2838522749310776917
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -196,13 +228,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7773345652000642256}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c113694d8473140448192e3fbcd8023f, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d5810f53acc04dcf9bb97a06b9e7f46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   id: 317
   transformID: 1
   position: {x: 0, y: 0}
-  offset: {x: 0, y: 2.5}
+  offset: {x: 0, y: 0}
   turnOff: 0
   distructionStatus: 1
   onPlaceable: 0
@@ -210,7 +242,8 @@ MonoBehaviour:
   onScaleable: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  spriteRenderer: {fileID: 7178825718306028271}
+  hitPoint: {fileID: 7619620760434981820}
+  particles: []
 --- !u!114 &5611207507894210805
 MonoBehaviour:
   m_ObjectHideFlags: 0
