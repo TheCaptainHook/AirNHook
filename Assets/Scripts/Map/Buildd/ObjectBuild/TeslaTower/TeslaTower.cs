@@ -101,17 +101,17 @@ public class TeslaTower : BuildObj
 
         lineRendererQueue.Enqueue(newObj);
 
-        if (target.gameObject.TryGetComponent<IDamageable>(out IDamageable component))
+        if(target.gameObject.TryGetComponent(out LightningRod lightningRod))
+        {
+            lightningRod.Electric();
+
+        }
+        else if(target.gameObject.TryGetComponent(out IDamageable component))
         {
             component.TakeDamage();
         }
-
-        if(target.gameObject.TryGetComponent<LightningRod>(out LightningRod lightningRod))
-        {
-
-        }
-            //target.GetComponent<IDamageable>().TakeDamage();
-            target.gameObject.SetActive(false);
+        ////target.GetComponent<IDamageable>().TakeDamage();
+        //target.gameObject.SetActive(false);
 
     }
 

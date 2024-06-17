@@ -5,15 +5,15 @@ using UnityEngine;
 public class TeslaLightningHitBox : MonoBehaviour
 {
     [SerializeField] TeslaTower teslaTower;
-    bool onLightningRod;
-    public float curLightningRate;
+    private bool onLightningRod;
+    private float curLightningRate;
 
-    public Collider2D lightningRodCollider;
-    public Collider2D playerColider;
+    private Collider2D lightningRodCollider;
+    private Collider2D playerColider;
 
     private LightningRod lightningRod;
 
-    Coroutine coroutine;
+    private int coroutineCount;
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
@@ -21,11 +21,13 @@ public class TeslaLightningHitBox : MonoBehaviour
         {
             lightningRodCollider = collision.GetComponent<Collider2D>();
 
-            if (teslaTower.onCharge)
+            if (teslaTower.onCharge && playerColider)
             {
+                if (coroutineCount > 2) return;
+
                 onLightningRod = true;
                 lightningRod = collision.GetComponent<LightningRod>();
-                coroutine = StartCoroutine(Lightning(lightningRod));
+                StartCoroutine(Lightning(lightningRod));
             }
             
         }else if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
@@ -58,9 +60,8 @@ public class TeslaLightningHitBox : MonoBehaviour
         }else if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             playerColider = null;
-        }
 
-        
+        }
 
     }
 
@@ -69,17 +70,20 @@ public class TeslaLightningHitBox : MonoBehaviour
 
     IEnumerator Lightning(LightningRod lightningRod)
     {
-        while (onLightningRod)
+        coroutineCount++;
+        while (onLightningRod && teslaTower.onCharge)
         {
             curLightningRate -= Time.deltaTime;
             if(curLightningRate <= 0)
             {
                 teslaTower.Lightning(lightningRod.hitPoint);
+                lightningRod.Electric();
                 curLightningRate = teslaTower.lightningRate;
             }
-
+   
             yield return null;
         }
+        coroutineCount--;
 
     }
 

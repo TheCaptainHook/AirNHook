@@ -8,6 +8,8 @@ public class LightningRod : BuildObj
     float dissolveRate = 0.05f;
     public Transform hitPoint;
     private bool onElectric;
+    [SerializeField] float maxDurationRate; //Electric Duration
+    public float curDurationRate;
 
     [SerializeField] ParticleSystem[] particles;
 
@@ -22,7 +24,11 @@ public class LightningRod : BuildObj
         _collider = GetComponent<Collider2D>();
         _rb = GetComponent<Rigidbody2D>();
         OnDissolveAction += Dissolve;
+
+        curDurationRate = maxDurationRate;
     }
+
+
 
 
     #region Effect
@@ -73,8 +79,12 @@ public class LightningRod : BuildObj
     {
         if (!onElectric)
         {
-            onElectric = true;
             Activate();
+            StartCoroutine(Timer());
+        }
+        else
+        {
+            curDurationRate = maxDurationRate;
         }
 
     }
@@ -82,16 +92,34 @@ public class LightningRod : BuildObj
 
    public void Activate()
     {
-        foreach(ParticleSystem ps in particles)
+        onElectric = true;
+        foreach (ParticleSystem ps in particles)
         {
             ps.Play();
         }
     }
     public void Deactivate()
     {
+        onElectric = false;
         foreach (ParticleSystem ps in particles)
         {
             ps.Stop();
+            
         }
+    }
+
+
+
+
+
+    IEnumerator Timer()
+    {
+        while(curDurationRate > 0 && onElectric)
+        {
+            curDurationRate -= Time.deltaTime;
+            yield return null;
+        }
+        Deactivate();
+        curDurationRate = maxDurationRate;
     }
 }
