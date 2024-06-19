@@ -6,15 +6,19 @@ public class CrumblingBox : BuildObj
 {
     [Header("Info")]
     [SerializeField] float maxCrumblingRate;
-    private float curCrumblingRate;
+    public float curCrumblingRate;
     [SerializeField] int maxCrumblingAmount;
-    private int curCrumblingAmount;
+    public int curCrumblingAmount;
 
     [Header("Components")]
+    [SerializeField] Animator animator;
     [SerializeField] GameObject hitBox;
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] ParticleSystem spark_Particle;
     [SerializeField] ParticleSystem bumb_Particle;
+    bool onPrograss;
+
+    private string[] animationId = new string[] { "Red", "Yellow", "Green" };
 
     //Test Code
     public Sprite[] sprites;
@@ -27,30 +31,33 @@ public class CrumblingBox : BuildObj
     public void Crumbling()
     {
         curCrumblingAmount--;
-        if(curCrumblingAmount < 0)
+        curCrumblingAmount = Mathf.Clamp(curCrumblingAmount, -1, 2);
+        if(curCrumblingAmount == -1 && !onPrograss)
         {
-            StartCoroutine(DestroyBox());
+            animator.SetTrigger("Explosion");
             return;
         }
 
-        //Test Code
         spark_Particle.Play();
-        spriteRenderer.sprite = sprites[curCrumblingAmount];
+        animator.SetTrigger(animationId[curCrumblingAmount]);
     }
 
   
 
     IEnumerator DestroyBox()
     {
+        onPrograss = true;
         bumb_Particle.Play();
         yield return new WaitForSeconds(0.2f);
 
         //Test Code
         GetComponent<Collider2D>().enabled = false;
+        hitBox.SetActive(false);
         spriteRenderer.enabled = false;
         //Test Code
         StartCoroutine(Timer());
     }
+
     IEnumerator Timer()
     {
         while (curCrumblingRate > 0)
@@ -62,7 +69,6 @@ public class CrumblingBox : BuildObj
 
         Reset();
     }
-
 
     public override void TurnOff()
     {
@@ -81,8 +87,11 @@ public class CrumblingBox : BuildObj
 
         //Test Code
         GetComponent<Collider2D>().enabled = true;
+        hitBox.SetActive(true);
         spriteRenderer.enabled = true;
-        spriteRenderer.sprite = sprites[maxCrumblingAmount];
+        
+        animator.SetTrigger(animationId[curCrumblingAmount]);
+        onPrograss = false;
 
     }
 }

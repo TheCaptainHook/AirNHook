@@ -7,7 +7,8 @@ public class LightningRod : BuildObj
 
     float dissolveRate = 0.05f;
     public Transform hitPoint;
-    private bool onElectric;
+
+    public bool onElectric;
     [SerializeField] float maxDurationRate; //Electric Duration
     public float curDurationRate;
 
