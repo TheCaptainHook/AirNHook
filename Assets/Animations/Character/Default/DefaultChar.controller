@@ -446,6 +446,32 @@ BlendTree:
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
+--- !u!1102 &-2727741319117565721
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: DefaultShockDeath
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: e6851d6a74858b4479377e46f56294df, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1101 &-1718851013883241964
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -646,10 +672,13 @@ AnimatorStateMachine:
     m_Position: {x: 500, y: 10, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4253809786166287372}
-    m_Position: {x: 535, y: 75, z: 0}
+    m_Position: {x: 830, y: 280, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7352792195118996462}
-    m_Position: {x: 570, y: 140, z: 0}
+    m_Position: {x: 830, y: 220, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -2727741319117565721}
+    m_Position: {x: 865, y: 285, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 5497256340704373710}

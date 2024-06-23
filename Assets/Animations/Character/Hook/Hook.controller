@@ -58,6 +58,32 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1102 &-8488861231840570360
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hook_Explosion
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: fd71d6fb7b40b8846b158213ba62a1ea, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &-8275398857648444254
 AnimatorState:
   serializedVersion: 6
@@ -1163,7 +1189,10 @@ AnimatorStateMachine:
     m_Position: {x: 860, y: 290, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4066619285403428666}
-    m_Position: {x: 895, y: 355, z: 0}
+    m_Position: {x: 870, y: 170, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -8488861231840570360}
+    m_Position: {x: 870, y: 220, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 5497256340704373710}

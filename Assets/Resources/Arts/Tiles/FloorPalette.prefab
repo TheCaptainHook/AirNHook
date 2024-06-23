@@ -91,7 +91,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 4
-      m_TileSpriteIndex: 4
+      m_TileSpriteIndex: 0
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -101,7 +101,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 2
-      m_TileSpriteIndex: 0
+      m_TileSpriteIndex: 1
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -111,7 +111,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 3
-      m_TileSpriteIndex: 3
+      m_TileSpriteIndex: 2
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -120,18 +120,28 @@ Tilemap:
   - first: {x: -1, y: 0, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 0
-      m_TileSpriteIndex: 1
+      m_TileIndex: 5
+      m_TileSpriteIndex: 4
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 2147483650
+  - first: {x: 0, y: 0, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 0
+      m_TileSpriteIndex: 3
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741826
   - first: {x: 2, y: 0, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 1
-      m_TileSpriteIndex: 2
+      m_TileSpriteIndex: 5
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -140,7 +150,7 @@ Tilemap:
   m_AnimatedTiles: {}
   m_TileAssetArray:
   - m_RefCount: 1
-    m_Data: {fileID: 11400000, guid: 58ecfbf504e3e284c8b39769de102068, type: 2}
+    m_Data: {fileID: 11400000, guid: 80450c0de6902c547964b77f9454317f, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 5501ddc9a2a784e56bf7379e4b908bcd, type: 2}
   - m_RefCount: 1
@@ -149,19 +159,23 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 2d7723b83a53c4d44a56f8c652db29de, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 78d6b9c4cbe92de4fbe6410cf63825d0, type: 2}
+  - m_RefCount: 1
+    m_Data: {fileID: 11400000, guid: da0437d0d4f0f5c4fbed069ab5195cc0, type: 2}
   m_TileSpriteArray:
+  - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: 46768e8f9e27cc2498e0d35276f19966, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: b4d3036fb6ef14c45babfa5665d0a351, type: 3}
   - m_RefCount: 1
-    m_Data: {fileID: 960313712, guid: cd93536edc9c8324796ae5b08022ae2f, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: 0e24b06cf0f654b8a80da7a7cd0b23ae, type: 3}
-  - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: 087d19b67ade49e4880efbd9fa76d550, type: 3}
   - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: 46768e8f9e27cc2498e0d35276f19966, type: 3}
+    m_Data: {fileID: 21300000, guid: 440af396ce6473545bb30201273ec649, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: -500552895, guid: cd93536edc9c8324796ae5b08022ae2f, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: 0e24b06cf0f654b8a80da7a7cd0b23ae, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 5
+  - m_RefCount: 6
     m_Data:
       e00: 1
       e01: 0
@@ -180,12 +194,8 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 5
+  - m_RefCount: 6
     m_Data: {r: 1, g: 1, b: 1, a: 1}
-  - m_RefCount: 0
-    m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
-  - m_RefCount: 0
-    m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -259,7 +269,7 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
---- !u!114 &2415872566318684381
+--- !u!114 &8597020086298330977
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -271,6 +281,6 @@ MonoBehaviour:
   m_Script: {fileID: 12395, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: Palette Settings
   m_EditorClassIdentifier: 
-  cellSizing: 0
+  cellSizing: 100
   m_TransparencySortMode: 0
   m_TransparencySortAxis: {x: 0, y: 0, z: 1}
