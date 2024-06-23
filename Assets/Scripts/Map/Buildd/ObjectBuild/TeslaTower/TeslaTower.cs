@@ -9,13 +9,11 @@ public class TeslaTower : BuildObj
     [SerializeField] Transform lightningBox;
     [SerializeField] TeslaBezierCurve bezierCurve;
     [SerializeField] Transform lineRendererContainer;
-
+    [SerializeField] Material lightningShaderMat;
     public float lightningRate;
     public bool onCharge;
 
     Queue<GameObject> lineRendererQueue;
-
-
 
     private int enterBoundaryPlayerAmount;
     public int EnterBoundaryPlayerAmount
@@ -52,15 +50,18 @@ public class TeslaTower : BuildObj
         {
             GameObject obj = new GameObject("LineRenderer");
             LineRenderer lineRenderer = obj.AddComponent<LineRenderer>();
-            lineRenderer.startWidth = .1f;
+            lineRenderer.startWidth = 1f;
             lineRenderer.sortingLayerName = "ForeGround";
             lineRenderer.sortingOrder = 100;
+            lineRenderer.material = lightningShaderMat;
             obj.transform.SetParent(lineRendererContainer);
             obj.SetActive(false);
             lineRendererQueue.Enqueue(obj);
         }
 
     }
+
+    #region Effect
 
     public void StartChargeEffect()
     {
@@ -89,30 +90,59 @@ public class TeslaTower : BuildObj
         }
     }
 
+    #endregion
 
-    public void Lightning(Transform target)
+    public void Lightning(GameObject target)
     {
-        Vector3 dir = (target.transform.position - transform.position).normalized;
-        GameObject newObj = lineRendererQueue.Dequeue();
-        newObj.SetActive(true);
-
-        StartLightningEffect();
-        bezierCurve.Generator(newObj.GetComponent<LineRenderer>(),lightningBox.position,lightningBox.position + dir*3, target.position);
-
-        lineRendererQueue.Enqueue(newObj);
-
-        if(target.gameObject.TryGetComponent(out LightningRod lightningRod))
+        ///
+        /// If the Lightning Rod is within the attack range
+        /// Unconditionally, a Lightning Rod attack.
+        ///
+        if (target.TryGetComponent(out LightningRod lightningRod1))
         {
-            lightningRod.Electric();
-
+            DrawLineRenderer(target.transform, lightningRod1.hitPoint);
+            lightningRod1.Electric();
+            return;
         }
-        else if(target.gameObject.TryGetComponent(out IDamageable component))
+
+
+        if (target.TryGetComponent(out Hook hook))
         {
+            LightningRod lightningRod = hook.GetGrabbedItem<LightningRod>();
+            if(lightningRod != null)
+            {
+                DrawLineRenderer(target.transform, lightningRod.hitPoint);
+                return;
+            }
+            
+        }
+
+        //if(target.TryGetComponent(out Air air))
+        //{
+        //    Debug.Log("Air");
+        //}
+
+        if (target.gameObject.TryGetComponent(out IDamageable component))
+        {
+            DrawLineRenderer(target.transform, target.transform);
             component.TakeDamage();
         }
-        ////target.GetComponent<IDamageable>().TakeDamage();
-        //target.gameObject.SetActive(false);
 
+        return;
+
+
+    }
+
+
+
+    private void DrawLineRenderer(Transform target,Transform hitPoint)
+    {
+       Vector3 dir = (target.position - transform.position).normalized;
+        GameObject newObj = lineRendererQueue.Dequeue();
+        newObj.SetActive(true);
+        StartLightningEffect();
+        bezierCurve.Generator(newObj.GetComponent<LineRenderer>(), lightningBox.position, lightningBox.position + dir * 3, hitPoint.position);
+        lineRendererQueue.Enqueue(newObj);
     }
 
 }

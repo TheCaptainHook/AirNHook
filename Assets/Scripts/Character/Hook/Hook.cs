@@ -6,9 +6,10 @@ using UnityEngine;
 public class Hook : Player
 {
     [field: SerializeField] private Grappling _grappling;
-    //private Transform _grabbedItem;
     private Transform _grabbedItem;
     
+
+
     private static readonly int IsGrabbing = Animator.StringToHash("IsGrabbing");
 
     protected override void Start()
@@ -208,5 +209,18 @@ public class Hook : Player
         _collider2D.enabled = false;
         if(_grabbedItem is not null)
             Interaction();
+    }
+
+
+
+    //todo 0621 TeslaTower Test Code
+    public T GetGrabbedItem<T>() where T:class
+    {
+        if(_grabbedItem != null && _grabbedItem.TryGetComponent(out T component)){
+            return component;
+        }
+
+        return null;
+        
     }
 }

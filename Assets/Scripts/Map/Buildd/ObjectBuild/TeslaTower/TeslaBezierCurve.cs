@@ -25,7 +25,7 @@ public class TeslaBezierCurve : MonoBehaviour
             positions[i] = CalculateQuadraticBezierPoint(t, start, p1, end);
         }
         lineRenderer.SetPositions(positions);
-        yield return new WaitForSeconds(.4f);
+        yield return new WaitForSeconds(.1f);
 
         lineRenderer.positionCount = 0;
 

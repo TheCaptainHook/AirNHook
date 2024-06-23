@@ -24378,7 +24378,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -24449,6 +24449,7 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   hitPoint: {fileID: 7619620760434981820}
+  onElectric: 0
   maxDurationRate: 5
   curDurationRate: 0
   particles:

@@ -5,87 +5,68 @@ using UnityEngine;
 public class TeslaLightningHitBox : MonoBehaviour
 {
     [SerializeField] TeslaTower teslaTower;
-    private bool onLightningRod;
-    private float curLightningRate;
+    public float curLightningRate;
 
-    private Collider2D lightningRodCollider;
-    private Collider2D playerColider;
+    Collider2D lightningRodCollider;
 
-    private LightningRod lightningRod;
+    Coroutine _Coroutine;
 
-    private int coroutineCount;
+
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.GetComponent<LightningRod>())
         {
-            lightningRodCollider = collision.GetComponent<Collider2D>();
+            lightningRodCollider = collision;
+        }
 
-            if (teslaTower.onCharge && playerColider)
-            {
-                if (coroutineCount > 2) return;
-
-                onLightningRod = true;
-                lightningRod = collision.GetComponent<LightningRod>();
-                StartCoroutine(Lightning(lightningRod));
-            }
-            
-        }else if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-           playerColider = collision.GetComponent<Collider2D>();
-           if(lightningRodCollider != null)
+            if (lightningRodCollider)
             {
-                OnTriggerEnter2D(lightningRodCollider);
+                _Coroutine = StartCoroutine(Lightning(lightningRodCollider.gameObject));
                 return;
             }
 
-            teslaTower.Lightning(collision.transform);
+            _Coroutine = StartCoroutine(Lightning(collision.gameObject));
         }
 
     }
 
-
-
-    private void OnTriggerExit2D(Collider2D collision)
+    public void OnTriggerExit2D(Collider2D collision)
     {
+
         if (collision.GetComponent<LightningRod>())
         {
-            onLightningRod = false;
             lightningRodCollider = null;
-            lightningRod = null;
-            if(playerColider != null)
-            {
-                OnTriggerEnter2D(playerColider);
-            }
-        }else if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
-        {
-            playerColider = null;
-
         }
 
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            StopCoroutine(_Coroutine);
+        }
+       
     }
 
 
-
-
-    IEnumerator Lightning(LightningRod lightningRod)
+    IEnumerator Lightning(GameObject target)
     {
-        coroutineCount++;
-        while (onLightningRod && teslaTower.onCharge)
+        while (teslaTower.onCharge)
         {
             curLightningRate -= Time.deltaTime;
             if(curLightningRate <= 0)
-            {
-                teslaTower.Lightning(lightningRod.hitPoint);
-                lightningRod.Electric();
+            {   
+                teslaTower.Lightning(target);
                 curLightningRate = teslaTower.lightningRate;
             }
    
             yield return null;
         }
-        coroutineCount--;
+        
 
     }
 
+
+    
 
 }
