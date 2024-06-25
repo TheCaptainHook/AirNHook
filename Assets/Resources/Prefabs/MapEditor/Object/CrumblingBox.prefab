@@ -4987,7 +4987,7 @@ GameObject:
   - component: {fileID: 47538381301867106}
   - component: {fileID: 5963646655122534061}
   - component: {fileID: 4380164616182860271}
-  - component: {fileID: 3148273457572209763}
+  - component: {fileID: -2624206789614154955}
   m_Layer: 7
   m_Name: CrumblingBox
   m_TagString: Untagged
@@ -5212,7 +5212,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3148273457572209763
+--- !u!114 &-2624206789614154955
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5224,11 +5224,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 1
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  clientAuthority: 0
-  animator: {fileID: 0}
+  clientAuthority: 1
+  animator: {fileID: 5963646655122534061}
 --- !u!1 &5701185126392362918
 GameObject:
   m_ObjectHideFlags: 0

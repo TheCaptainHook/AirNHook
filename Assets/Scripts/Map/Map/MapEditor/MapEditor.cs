@@ -557,8 +557,17 @@ public class MapEditor : MonoBehaviour
                     else
                     {
                         MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
-                        Debug.Log(mapDataStruct.name);
-                        if (Managers.Game.CurrentState != GameState.Editor && (data.id == 307 || data.id == 300 || data.id == 311 || data.id == 313 || data.id == 315 || data.id == 317))
+                        if (Managers.Game.CurrentState != GameState.Editor &&
+                            (
+                            data.id == 307 ||
+                            data.id == 300 ||
+                            data.id == 311 ||
+                            data.id == 313 ||
+                            data.id == 315 ||
+                            data.id == 317 ||
+                            data.id == 318 ||
+                            data.id == 319
+                            ))
                         {
                             Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
                         }

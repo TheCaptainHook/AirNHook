@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using TMPro;
+using System.Threading.Tasks;
 
 public class Util
 {
@@ -28,9 +30,27 @@ public class Util
         textMesh.fontSize = fontSize;
         textMesh.color = fontColor;
         textMesh.GetComponent<MeshRenderer>().sortingOrder = sortingOrder;
-
+        
         return textMesh;
     }
+
+
+
+
+    
+    public async Task TypingEffectTesk(TextMeshProUGUI text,string sentence, float delayTime)
+    {
+        int time = Mathf.FloorToInt(delayTime * 1000);
+        Debug.Log(time);
+        text.text = "";
+        for(int i = 0; i < sentence.Length; i++)
+        {
+            if (Input.anyKey) { Debug.Log("anykey"); }
+            text.text += sentence[i];
+            await Task.Delay(time);
+        }
+    }
+
     #endregion
 
     #region  Mouse
@@ -67,5 +87,6 @@ public class Util
 
 
     #endregion
+
 
 }
