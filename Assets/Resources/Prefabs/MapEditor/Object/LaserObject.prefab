@@ -4894,7 +4894,7 @@ MonoBehaviour:
   _endVFX: {fileID: 5345449485699939287}
   _layerMask:
     serializedVersion: 2
-    m_Bits: 2049216
+    m_Bits: 18826432
   _isEnabled: 1
 --- !u!61 &5690823865466912599
 BoxCollider2D:
