@@ -139,7 +139,7 @@ MonoBehaviour:
   _jumpingPower: 10
   _floorLayer:
     serializedVersion: 2
-    m_Bits: 2164916928
+    m_Bits: 2148139712
   _rigidbd: {fileID: 3123692007149661597}
   _moveSpeed: 3
   _charPivot: {fileID: 9177120215743396866}
