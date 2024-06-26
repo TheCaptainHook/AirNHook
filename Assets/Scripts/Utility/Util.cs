@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;
 using TMPro;
 using System.Threading.Tasks;
+using System;
 
 public class Util
 {
@@ -37,18 +38,43 @@ public class Util
 
 
 
-    
-    public async Task TypingEffectTesk(TextMeshProUGUI text,string sentence, float delayTime)
+
+    public async Task TypingEffectTesk(TextMeshProUGUI text, string sentence, float delayTime = 0.01f)
     {
         int time = Mathf.FloorToInt(delayTime * 1000);
         Debug.Log(time);
         text.text = "";
         for(int i = 0; i < sentence.Length; i++)
         {
-            if (Input.anyKey) { Debug.Log("anykey"); }
             text.text += sentence[i];
             await Task.Delay(time);
         }
+    }
+
+    public List<string> SplitText(string text, int length, char[] delimiters)
+    {
+        List<string> result = new List<string>();
+
+        // 먼저 구두점으로 텍스트를 분할합니다.
+        string[] parts = text.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+
+        foreach (string part in parts)
+        {
+            // 분할된 각 부분을 다시 length 크기로 분할합니다.
+            for (int i = 0; i < part.Length; i += length)
+            {
+                if (i + length <= part.Length)
+                {
+                    result.Add(part.Substring(i, length));
+                }
+                else
+                {
+                    result.Add(part.Substring(i));
+                }
+            }
+        }
+
+        return result;
     }
 
     #endregion
@@ -70,7 +96,7 @@ public class Util
     {
         if (parent.Find(name) != null)
         {
-            Object.Destroy(parent.Find(name).gameObject);
+           UnityEngine.Object.Destroy(parent.Find(name).gameObject);
         }
 
         GameObject childObject = new GameObject(name);
