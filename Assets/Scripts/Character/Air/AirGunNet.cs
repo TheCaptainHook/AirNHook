@@ -561,6 +561,8 @@ public class AirGunNet : NetworkBehaviour
         _isInhaledHook = false;
         _inhaling = false;
         _shootPower = 0f;
+        //CameraShake.instance.ShakeCamera(0.2f, 1f);
+        StartCoroutine(CameraShake.instance.Co_Shake(0.2f, 0.2f));
     }
     
     private IEnumerator Co_CoolDown()
