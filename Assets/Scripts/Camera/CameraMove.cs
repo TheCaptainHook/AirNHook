@@ -33,7 +33,7 @@ public class CameraMove : MonoBehaviour
     {
         if (Managers.Game.CurrentState is GameState.Game or GameState.Lobby)
         {
-            FollowPlayer();
+            //FollowPlayer();
             InGameZoomInAndOut();
         }
     }
@@ -83,21 +83,21 @@ public class CameraMove : MonoBehaviour
         _cam.orthographicSize = Mathf.SmoothDamp(_cam.orthographicSize, _zoom, ref _velocity, _smoothTime);
     }
 
-    private void FollowPlayer()
-    {
-        try
-        {
-            if (_player == null) return;
-
-            var _playerPos = new Vector3(_player.position.x, _player.position.y + 1f, transform.position.z);
-            transform.position = Vector3.SmoothDamp(transform.position, _playerPos, ref _vecVelocity, _smoothSpeed,
-                float.MaxValue, Time.fixedDeltaTime);
-        }
-        catch (Exception)
-        {
-            // ignored
-        }
-    }
+    // private void FollowPlayer()
+    // {
+    //     try
+    //     {
+    //         if (_player == null) return;
+    //
+    //         var _playerPos = new Vector3(_player.position.x, _player.position.y + 1f, transform.position.z);
+    //         transform.position = Vector3.SmoothDamp(transform.position, _playerPos, ref _vecVelocity, _smoothSpeed,
+    //             float.MaxValue, Time.fixedDeltaTime);
+    //     }
+    //     catch (Exception)
+    //     {
+    //         // ignored
+    //     }
+    // }
 
 
 
