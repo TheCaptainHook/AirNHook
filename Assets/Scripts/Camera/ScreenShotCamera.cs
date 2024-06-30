@@ -31,7 +31,8 @@ public class ScreenShotCamera : MonoBehaviour
 
     private async Task<byte[]> EncodeToPNG(Texture2D texture)
     {
-        return texture.EncodeToPNG();
+        await Task.Delay(100);
+        return  texture.EncodeToPNG();
     }
 
     public async Task Delay()

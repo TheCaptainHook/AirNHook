@@ -73,11 +73,13 @@ public class BreakableWall : BuildObj
     }
 
 
-    private void Reset()
+    public override void Reset()
     {
         health = 5f;
         _collider.enabled = true;
         _animator.SetTrigger(Recovery);
     }
+
+
 
 }

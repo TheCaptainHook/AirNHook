@@ -5,6 +5,7 @@ using System.IO;
 using TMPro;
 using System.Threading.Tasks;
 using System;
+using System.Text;
 
 public class Util
 {
@@ -39,24 +40,91 @@ public class Util
 
 
 
-    public async Task TypingEffectTesk(TextMeshProUGUI text, string sentence, float delayTime = 0.01f)
+    public async Task TypingEffectTask(TextMeshProUGUI text, string sentence, Color color, float fontSize,float delayTime)
     {
-        int time = Mathf.FloorToInt(delayTime * 1000);
-        Debug.Log(time);
-        text.text = "";
-        for(int i = 0; i < sentence.Length; i++)
+        if (text == null)
         {
-            text.text += sentence[i];
-            await Task.Delay(time);
+            Debug.LogError("TextMeshProUGUI is null!");
+            return;
         }
+
+
+        int time = Mathf.FloorToInt(delayTime * 1000);
+        text.text = "";
+
+        StringBuilder typedSentence = new StringBuilder();
+        for (int i = 0; i < sentence.Length; i++)
+        {
+            typedSentence.Append(sentence[i]);
+            text.color = color;
+            text.text = typedSentence.ToString(); // Update text with typed characters
+            text.fontSize = fontSize;
+            // Await Task.Delay asynchronously
+            try
+            {
+                await Task.Delay(time);
+            }
+            catch (TaskCanceledException ex)
+            {
+                Debug.LogWarning("Typing effect task was canceled: " + ex.Message);
+                text.text = sentence;
+                return;
+
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("Error during typing effect task: " + ex.Message);
+            }
+        }
+
+        //for(int i = 0; i < sentence.Length; i++)
+        //{
+        //    text.text += sentence[i];
+        //    await Task.Delay(time);
+        //}
     }
+
+
+    public async Task EraserEffectTask(TextMeshProUGUI text, float delayTime = 0.01f)
+    {
+        if (text == null)
+        {
+            Debug.LogError("TextMeshProUGUI is null! or string.Empty");
+            return;
+        }
+
+        int time = Mathf.FloorToInt(delayTime * 1000);
+        for (int i = text.text.Length-1; i >=0; i--)
+        {
+            try
+            {
+                text.text = text.text[..i];
+                await Task.Delay(time);
+            }
+            catch (TaskCanceledException ex)
+            {
+                Debug.LogWarning("Typing effect task was canceled: " + ex.Message);
+                text.text = "";
+                return;
+
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("Error during typing effect task: " + ex.Message);
+                text.text = "";
+            }
+            
+        }
+
+    }
+
 
     public List<string> SplitText(string text, int length, char[] delimiters)
     {
         List<string> result = new List<string>();
 
         // 먼저 구두점으로 텍스트를 분할합니다.
-        string[] parts = text.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+        string[] parts = text.Split(delimiters, StringSplitOptions.None);
 
         foreach (string part in parts)
         {
@@ -114,5 +182,9 @@ public class Util
 
     #endregion
 
+
+    #region Date
+
+    #endregion
 
 }
