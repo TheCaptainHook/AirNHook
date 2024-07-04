@@ -50,6 +50,7 @@ public class ExitPointObj : BuildBase
     {
         condition_KeyAmount = data.condition_KeyAmount;
         nextMapId = data.nextMapId;
+        
         SetTileData(data.position);
     }
 

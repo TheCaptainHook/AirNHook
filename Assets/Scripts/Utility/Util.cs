@@ -94,11 +94,13 @@ public class Util
         }
 
         int time = Mathf.FloorToInt(delayTime * 1000);
-        for (int i = text.text.Length-1; i >=0; i--)
+        string st = text.text;
+
+        for (int i = st.Length-1; i >=0; i--)
         {
             try
             {
-                text.text = text.text[..i];
+                text.text = st.Substring(0, i);
                 await Task.Delay(time);
             }
             catch (TaskCanceledException ex)

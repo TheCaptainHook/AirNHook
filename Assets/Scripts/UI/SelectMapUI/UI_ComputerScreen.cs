@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class UI_ComputerScreen : MonoBehaviour
+public class UI_ComputerScreen : UI_Base
 {
     [SerializeField] Transform contents;
 
@@ -25,6 +25,10 @@ public class UI_ComputerScreen : MonoBehaviour
 
 
 
+    public override void OnEnable()
+    {
+        transform.localPosition = new Vector3(21, -1);
+    }
 
     private void Awake()
     {
@@ -65,8 +69,8 @@ public class UI_ComputerScreen : MonoBehaviour
     public void SetData(string mapId)
     {
         curMap = Managers.Data.mapData.mapAllDictionary[mapId];
-
-        if(curMap.dataType == 1)
+        
+        if(curMap.dataType == 1)// 0 -> Main, 1 -> user map
         {
             UserMapData data = Managers.Data.mapData.mapUserDictionary[int.Parse(mapId)];
             screen1.SetData(data.GetMapId(),data.mapImage);

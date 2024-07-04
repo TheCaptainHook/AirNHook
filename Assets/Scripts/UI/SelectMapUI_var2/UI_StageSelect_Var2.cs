@@ -176,8 +176,6 @@ public class UI_StageSelect_Var2 : UI_Base
             CloseUI();
         }
 
-
-
     }
     #endregion
 

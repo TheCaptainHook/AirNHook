@@ -210,6 +210,7 @@ GameObject:
   - component: {fileID: 8347696149705710383}
   - component: {fileID: 877718310819255596}
   - component: {fileID: 8474490001552183806}
+  - component: {fileID: 9059025572870461403}
   m_Layer: 5
   m_Name: UI_StageSelect_var3
   m_TagString: Untagged
@@ -313,11 +314,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _WriteAndEraserDelayRate: 0.1
-  maxHorizontaText: 0
-  contentMoveRect_TextLineIndex: 22
+  maxHorizontaText: 85
+  contentMoveRect_TextLineIndex: 19
+  pathTextLineIndex: 4
   content: {fileID: 758561251292658986}
   textLine: {fileID: 8764680385182326310, guid: f507c3550eb45410686fce5218b8530f, type: 3}
   maxTextLine: 100
+  animator: {fileID: 9059025572870461403}
+--- !u!95 &9059025572870461403
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965042516988232146}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2b33794541b0d494881a4e569d4e3105, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2587222398592245150
 GameObject:
   m_ObjectHideFlags: 0
@@ -430,7 +454,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1080, y: 720}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3627746206167974652
 CanvasRenderer:

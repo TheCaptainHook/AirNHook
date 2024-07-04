@@ -6,25 +6,37 @@ public class StageSelectObject : MonoBehaviour, IInteractable
 {
     public ObjectTypeEnum objectType = ObjectTypeEnum.Interaction;
     public Vector2 offset;
-
+    
+    [SerializeField] StageSelectorComputer _StageSelectorComputer;
     //private void Awake()
     //{
     //    Managers.Sound.PlaySound(AudioType.Lobby,AudioMixerGroupType.BGM,true,1f, 0.6f);
     //}
     //todo 0605
+
     public void Interaction(Transform accessor = null)
     {
         if (!NetworkServer.active || !NetworkClient.isConnected)
             return;
 
-        //if(!Managers.UI.IsActive<UI_StageSelect>())
-        //    Managers.UI.ShowUI<UI_StageSelect>();
+        Debug.Log("EEEEE1");
+        if (Managers.UI.GetUI<UI_StageSelect_var3>().GetComponent<UI_StageSelect_var3>().onPrograss) return;
+
+        Debug.Log("EEEEE2");
+
+        if (!Managers.UI.IsActive<UI_StageSelect_var3>())
+        {   
+            _StageSelectorComputer.Surprise_();
+            Managers.UI.ShowUI<UI_StageSelect_var3>();
+        }
         //else
-        //    Managers.UI.HideUI<UI_StageSelect>();
-        if (!Managers.UI.IsActive<UI_StageSelect_Var2>())
-            Managers.UI.ShowUI<UI_StageSelect_Var2>();
-        else
-            Managers.UI.HideUI<UI_StageSelect_Var2>();
+        //{
+        //    Debug.Log("EEEEE3");
+        //    Managers.UI.GetUI<UI_StageSelect_var3>().GetComponent<UI_StageSelect_var3>().SetDown();
+        //    _StageSelectorComputer.LineIdle();
+        //}
+            
+        
 
     }
 

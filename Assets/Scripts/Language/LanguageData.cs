@@ -35,7 +35,6 @@ public class LanguageData
         {
             dict.Add(sentence.id, sentence.text);
         }
-        
         // 언어 세팅 설정
         Managers.UI.SettingLanguage();
     }
@@ -57,10 +56,14 @@ public class LanguageData
         {
             dict.Add(sentence.id, sentence.text);
         }
+
+        
         
         // 언어 세팅 설정
         Managers.UI.SettingLanguage();
     }
+
+    
 
     public string GetSentence(int id)
     {

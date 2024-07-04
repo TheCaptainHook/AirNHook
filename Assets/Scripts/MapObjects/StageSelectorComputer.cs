@@ -1,15 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Org.BouncyCastle.Pqc.Crypto.Lms;
 using UnityEngine;
 
 public class StageSelectorComputer : MonoBehaviour
 {
     #region StringCache
-    private static readonly int IsTalking = Animator.StringToHash("IsTalking");
-    private static readonly int LeftClick = Animator.StringToHash("LeftClick");
-    private static readonly int RightClick = Animator.StringToHash("RightClick");
+    private static readonly int Talk = Animator.StringToHash("Talk");
+    private static readonly int Left = Animator.StringToHash("Left");
+    private static readonly int Right = Animator.StringToHash("Right");
     private static readonly int Surprise = Animator.StringToHash("Surprise");
+    private static readonly int Reset = Animator.StringToHash("Reset");
+    private static readonly int Line = Animator.StringToHash("Line");
     #endregion
 
     private Animator _animator;
@@ -29,12 +32,15 @@ public class StageSelectorComputer : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
-    private void Update() //테스트용
-    {
-        //Click();
-        //KeySpawn();
-        Talking();
-    }
+    //private void Update() //테스트용
+    //{
+    //    //Click();
+    //    //KeySpawn();
+    //    //Talking();
+    //}
+
+
+
 
     //private void Click() // 테스트용
     //{
@@ -64,9 +70,57 @@ public class StageSelectorComputer : MonoBehaviour
     //    }
     //}
 
-    private void Talking()
+    //private void Talking()
+    //{
+    //    _animator.SetBool(IsTalking, _isTalking);
+    //}
+
+
+
+    public void Talking()
     {
-        _animator.SetBool(IsTalking, _isTalking);
+        _animator.SetTrigger(Talk);
     }
-    
+    public void LineIdle()
+    {
+        _animator.SetTrigger(Line);
+    }
+    public void Right_()
+    {
+        _animator.SetTrigger(Right);
+    }
+    public void Left_()
+    {
+        _animator.SetTrigger(Left);
+    }
+
+    public void Surprise_()
+    {
+        _animator.SetTrigger(Surprise);
+    }
+
+
+
+    public void SpawnKey()
+    {
+        ExitPointObj obj = MapEditor.Instance.exitDoorObjectTransform.GetChild(0).gameObject.GetComponent<ExitPointObj>();
+        if (obj.nextMapId != string.Empty)
+        {
+            if (_key == null)
+            {
+                _key = Managers.Stage.CmdBatchObject("Key");
+            }
+
+            ObjectData data = MapEditor.Instance.CurMap.FindObjectData(1000);
+            _key.transform.position = data.position;
+            Vector2 launchDirection = new Vector2(-1, 1).normalized;
+            _animator.SetTrigger(Left);
+            _key.GetComponent<Rigidbody2D>().AddForce(launchDirection * 5f, ForceMode2D.Impulse);
+            
+        }
+
+    }
+
+
+
 }

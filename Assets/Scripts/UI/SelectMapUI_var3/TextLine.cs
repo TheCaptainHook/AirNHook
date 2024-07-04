@@ -23,7 +23,7 @@ public class TextLine : MonoBehaviour
     [Header("Component")]
     [SerializeField] TextMeshProUGUI text;
     Util util = new Util();
-
+    bool _OnTasking;
     #region Write
 
     /// <summary>
@@ -111,6 +111,7 @@ public class TextLine : MonoBehaviour
     public void Clear()
     {
         text.text = "";
+        mainSentence = "";
     }
 
     public void ErrorProsses()
