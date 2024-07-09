@@ -40,8 +40,6 @@ public class StageSelectorComputer : MonoBehaviour
     //}
 
 
-
-
     //private void Click() // 테스트용
     //{
     //    if (IsLeftClicking)

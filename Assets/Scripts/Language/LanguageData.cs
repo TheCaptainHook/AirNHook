@@ -18,6 +18,9 @@ public class LanguageData
 
     public void Setup()
     {
+        //testCode 0707
+        TestCSVRead();
+        
         // 저장된 데이터 확인
         if(!PlayerPrefs.HasKey("Language"))
             PlayerPrefs.SetString("Language", "English");
@@ -68,5 +71,21 @@ public class LanguageData
     public string GetSentence(int id)
     {
         return dict.GetValueOrDefault(id, " ");
+    }
+
+
+
+    //todo Test code 0707
+    public void TestCSVRead()
+    {
+        List<Dictionary<string, object>> list = CSVReader.Read("DialogueDB_Eng");
+
+
+        foreach(var text in list)
+        {
+            Debug.Log($"{text.Keys}");
+        }
+
+
     }
 }

@@ -52,7 +52,10 @@ public class ExitPointObj : BuildBase
         nextMapId = data.nextMapId;
         
         SetTileData(data.position);
+
     }
+
+
 
     public void Init(int condition_keyAmount)
     {
