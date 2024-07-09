@@ -98,6 +98,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Suicide"",
+                    ""type"": ""Button"",
+                    ""id"": ""9c582a4d-6378-437c-971b-49483d4a8c6c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -232,6 +241,17 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""Interaction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3b952f53-40ae-41d6-991a-dab8d96c69c3"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Suicide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -293,6 +313,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_SubAction = m_Player.FindAction("SubAction", throwIfNotFound: true);
         m_Player_Emote = m_Player.FindAction("Emote", throwIfNotFound: true);
         m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
+        m_Player_Suicide = m_Player.FindAction("Suicide", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Option = m_UI.FindAction("Option", throwIfNotFound: true);
@@ -365,6 +386,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_SubAction;
     private readonly InputAction m_Player_Emote;
     private readonly InputAction m_Player_Interaction;
+    private readonly InputAction m_Player_Suicide;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -377,6 +399,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @SubAction => m_Wrapper.m_Player_SubAction;
         public InputAction @Emote => m_Wrapper.m_Player_Emote;
         public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
+        public InputAction @Suicide => m_Wrapper.m_Player_Suicide;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -410,6 +433,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Interaction.started += instance.OnInteraction;
             @Interaction.performed += instance.OnInteraction;
             @Interaction.canceled += instance.OnInteraction;
+            @Suicide.started += instance.OnSuicide;
+            @Suicide.performed += instance.OnSuicide;
+            @Suicide.canceled += instance.OnSuicide;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -438,6 +464,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Interaction.started -= instance.OnInteraction;
             @Interaction.performed -= instance.OnInteraction;
             @Interaction.canceled -= instance.OnInteraction;
+            @Suicide.started -= instance.OnSuicide;
+            @Suicide.performed -= instance.OnSuicide;
+            @Suicide.canceled -= instance.OnSuicide;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -520,6 +549,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnSubAction(InputAction.CallbackContext context);
         void OnEmote(InputAction.CallbackContext context);
         void OnInteraction(InputAction.CallbackContext context);
+        void OnSuicide(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
