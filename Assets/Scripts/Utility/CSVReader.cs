@@ -15,31 +15,11 @@ public class CSVReader
         var list = new List<Dictionary<string, object>>();
 
 
-        var path = Path.Combine(Application.streamingAssetsPath, "Localization/");
+        var path = Path.Combine(Application.streamingAssetsPath, $"Localization/Dialogue/{file}.csv");
 
 
 
-
-
-        string[] files = Directory.GetFiles(path);
-
-        foreach (var test in files)
-        {
-            Debug.Log("File: " + test);
-        }
-
-
-
-
-
-
-
-
-        string data = File.ReadAllText(path);
-        //TextAsset data = Resources.Load(file) as TextAsset;
-    
-
-
+        var data = File.ReadAllText(path);
 
         var lines = Regex.Split(data, LINE_SPLIT_RE);
 

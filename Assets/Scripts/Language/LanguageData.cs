@@ -10,19 +10,22 @@ public struct Sentence
     public string text;
 }
 
+
 public class LanguageData
 {
     public Dictionary<int, string> dict;
     
     private string _currentLanguage;
 
+    //testCode Dialogue System 0707
+    Dictionary<int, List<Dialogue>> map;
+    //testCode Dialogue System 0707
+
+
     public void Setup()
     {
-        //testCode 0707
-        //TestCSVRead();
-        
         // 저장된 데이터 확인
-        if(!PlayerPrefs.HasKey("Language"))
+        if (!PlayerPrefs.HasKey("Language"))
             PlayerPrefs.SetString("Language", "English");
 
         _currentLanguage = PlayerPrefs.GetString("Language");
@@ -38,6 +41,11 @@ public class LanguageData
         {
             dict.Add(sentence.id, sentence.text);
         }
+
+        //testCode Dialogue System 0707
+        map = TestCSVRead("English");
+        //testCode Dialogue System 0707
+
         // 언어 세팅 설정
         Managers.UI.SettingLanguage();
     }
@@ -60,8 +68,11 @@ public class LanguageData
             dict.Add(sentence.id, sentence.text);
         }
 
-        
-        
+        //testCode Dialogue System 0707
+        map.Clear();
+        map = TestCSVRead(language);
+        //testCode Dialogue System 0707
+
         // 언어 세팅 설정
         Managers.UI.SettingLanguage();
     }
@@ -73,19 +84,63 @@ public class LanguageData
         return dict.GetValueOrDefault(id, " ");
     }
 
+    #region Dialogue System Test Code 0710
 
-
-    //todo Test code 0707
-    public void TestCSVRead()
+    public Dictionary<int, List<Dialogue>> TestCSVRead(string language)
     {
-        List<Dictionary<string, object>> list = CSVReader.Read("DialogueDB_Eng");
+        List<Dictionary<string, object>> list = CSVReader.Read($"DialogueDB_{language}");
 
+        Dictionary<int, List<Dialogue>> map = new();
 
-        foreach(var text in list)
+        foreach (var entry in list)
         {
-            Debug.Log($"{text.Keys}");
+            int id = (int)entry["id"];
+            int index = (int)entry["index"];
+            string name = entry["name"].ToString();
+            string emotion = entry["emotion"].ToString();
+            string sentence = entry["sentence"].ToString();
+
+            Dialogue dialogue = new Dialogue(index, name, emotion, sentence);
+
+            if (!map.ContainsKey(id))
+            {
+                map[id] = new List<Dialogue>();
+            }
+            map[id].Add(dialogue);
         }
 
+        foreach (var aa in map.Keys)
+        {
+            List<Dialogue> aaaa = map[aa];
+            foreach (Dialogue di in aaaa)
+            {
+                Debug.Log($"id:{aa},index:{di.index},emotion:{di.emotion},sentence:{di.sentence}");
+            }
 
+        }
+
+        return map;
     }
+
+    public class Dialogue
+    {
+        public int index;
+        public string name;
+        public string emotion;
+        public string sentence;
+
+        public Dialogue(int index, string name, string emotion, string sentence)
+        {
+            this.index = index;
+            this.name = name;
+            this.emotion = emotion;
+            this.sentence = sentence;
+        }
+    }
+    #endregion
 }
+
+
+
+
+
