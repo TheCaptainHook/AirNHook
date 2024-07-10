@@ -101,6 +101,7 @@ public class StageSelectorComputer : MonoBehaviour
 
     public void SpawnKey()
     {
+
         ExitPointObj obj = MapEditor.Instance.exitDoorObjectTransform.GetChild(0).gameObject.GetComponent<ExitPointObj>();
         if (obj.nextMapId != string.Empty)
         {

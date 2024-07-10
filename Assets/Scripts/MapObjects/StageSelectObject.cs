@@ -19,10 +19,10 @@ public class StageSelectObject : MonoBehaviour, IInteractable
         if (!NetworkServer.active || !NetworkClient.isConnected)
             return;
 
-        Debug.Log("EEEEE1");
+        
         if (Managers.UI.GetUI<UI_StageSelect_var3>().GetComponent<UI_StageSelect_var3>().onPrograss) return;
 
-        Debug.Log("EEEEE2");
+        
 
         if (!Managers.UI.IsActive<UI_StageSelect_var3>())
         {   

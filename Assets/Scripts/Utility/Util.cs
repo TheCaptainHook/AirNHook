@@ -77,15 +77,10 @@ public class Util
             }
         }
 
-        //for(int i = 0; i < sentence.Length; i++)
-        //{
-        //    text.text += sentence[i];
-        //    await Task.Delay(time);
-        //}
     }
 
 
-    public async Task EraserEffectTask(TextMeshProUGUI text, float delayTime = 0.01f)
+    public async Task EraserEffectTask(TextMeshProUGUI text, float delayTime = 0.005f)
     {
         if (text == null)
         {

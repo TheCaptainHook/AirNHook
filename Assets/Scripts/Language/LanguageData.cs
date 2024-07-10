@@ -19,7 +19,7 @@ public class LanguageData
     public void Setup()
     {
         //testCode 0707
-        TestCSVRead();
+        //TestCSVRead();
         
         // 저장된 데이터 확인
         if(!PlayerPrefs.HasKey("Language"))
