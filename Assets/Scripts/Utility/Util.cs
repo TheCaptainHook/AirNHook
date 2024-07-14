@@ -6,6 +6,7 @@ using TMPro;
 using System.Threading.Tasks;
 using System;
 using System.Text;
+using System.Threading;
 
 public class Util
 {
@@ -40,7 +41,7 @@ public class Util
 
 
 
-    public async Task TypingEffectTask(TextMeshProUGUI text, string sentence, Color color, float fontSize,float delayTime)
+    public async Task TypingEffectTask(TextMeshProUGUI text, string sentence, Color color, float fontSize,float delayTime, CancellationTokenSource token = null)
     {
         if (text == null)
         {
@@ -49,12 +50,21 @@ public class Util
         }
 
 
+        CancellationToken _token = (CancellationToken)token?.Token; // Simplified the initialization
+
+
         int time = Mathf.FloorToInt(delayTime * 1000);
         text.text = "";
 
         StringBuilder typedSentence = new StringBuilder();
         for (int i = 0; i < sentence.Length; i++)
         {
+            if (_token != null && _token.IsCancellationRequested)
+            {
+                text.text = sentence;
+                return;
+            }
+
             typedSentence.Append(sentence[i]);
             text.color = color;
             text.text = typedSentence.ToString(); // Update text with typed characters
@@ -62,15 +72,13 @@ public class Util
             // Await Task.Delay asynchronously
             try
             {
-                await Task.Delay(time);
+                await Task.Delay(time,_token);
             }
-            catch (TaskCanceledException ex)
-            {
-                Debug.LogWarning("Typing effect task was canceled: " + ex.Message);
-                text.text = sentence;
-                return;
-
-            }
+            //catch (TaskCanceledException)
+            //{
+            //    text.text = sentence;
+            //    return;
+            //}
             catch (Exception ex)
             {
                 Debug.LogError("Error during typing effect task: " + ex.Message);

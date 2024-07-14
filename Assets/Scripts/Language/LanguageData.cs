@@ -18,7 +18,8 @@ public class LanguageData
     private string _currentLanguage;
 
     //testCode Dialogue System 0707
-    Dictionary<int, List<Dialogue>> map;
+    public Dictionary<int, List<Dialogue>> map;
+    
     //testCode Dialogue System 0707
 
 
@@ -43,7 +44,7 @@ public class LanguageData
         }
 
         //testCode Dialogue System 0707
-        map = TestCSVRead("English");
+        map = GetDialogueData("English");
         //testCode Dialogue System 0707
 
         // 언어 세팅 설정
@@ -70,7 +71,7 @@ public class LanguageData
 
         //testCode Dialogue System 0707
         map.Clear();
-        map = TestCSVRead(language);
+        map = GetDialogueData(language);
         //testCode Dialogue System 0707
 
         // 언어 세팅 설정
@@ -86,7 +87,7 @@ public class LanguageData
 
     #region Dialogue System Test Code 0710
 
-    public Dictionary<int, List<Dialogue>> TestCSVRead(string language)
+    public Dictionary<int, List<Dialogue>> GetDialogueData(string language)
     {
         List<Dictionary<string, object>> list = CSVReader.Read($"DialogueDB_{language}");
 
@@ -98,9 +99,11 @@ public class LanguageData
             int index = (int)entry["index"];
             string name = entry["name"].ToString();
             string emotion = entry["emotion"].ToString();
+            string spritePosition = entry["spritePosition"].ToString();
+            string textBoxPosition = entry["textBoxPosition"].ToString();
             string sentence = entry["sentence"].ToString();
-
-            Dialogue dialogue = new Dialogue(index, name, emotion, sentence);
+            
+            Dialogue dialogue = new Dialogue(index, name, emotion, textBoxPosition, spritePosition, sentence);
 
             if (!map.ContainsKey(id))
             {
@@ -109,35 +112,52 @@ public class LanguageData
             map[id].Add(dialogue);
         }
 
-        foreach (var aa in map.Keys)
-        {
-            List<Dialogue> aaaa = map[aa];
-            foreach (Dialogue di in aaaa)
-            {
-                Debug.Log($"id:{aa},index:{di.index},emotion:{di.emotion},sentence:{di.sentence}");
-            }
+        //foreach (var aa in map.Keys)
+        //{
+        //    List<Dialogue> aaaa = map[aa];
+        //    foreach (Dialogue di in aaaa)
+        //    {
+        //        Debug.Log($"id:{aa}\nindex:{di.index}\nemotion:{di.emotion}\nsp : {di.spritePosition}\ntp : {di.textBoxPivot}\nsentence:{di.sentence}");
+        //    }
 
-        }
+        //}
 
         return map;
     }
 
-    public class Dialogue
-    {
-        public int index;
-        public string name;
-        public string emotion;
-        public string sentence;
-
-        public Dialogue(int index, string name, string emotion, string sentence)
-        {
-            this.index = index;
-            this.name = name;
-            this.emotion = emotion;
-            this.sentence = sentence;
-        }
-    }
+   
     #endregion
+}
+
+public class Dialogue
+{
+    public int index;
+    public string name;
+    public string emotion;
+    public TextBoxPivot textBoxPivot;
+    public SpritePosition spritePosition;
+    public string sentence;
+
+    public Dialogue(int index, string name, string emotion,string textBoxPivotStr,string spritePositionStr, string sentence)
+    {
+        this.index = index;
+        this.name = name;
+        this.emotion = emotion;
+        this.sentence = sentence;
+
+
+        if (Enum.TryParse(textBoxPivotStr, true, out TextBoxPivot textBoxPivot))
+        {
+            this.textBoxPivot = textBoxPivot;
+        }
+       
+
+        if (Enum.TryParse(spritePositionStr, true, out SpritePosition spritePosition))
+        {
+            this.spritePosition = spritePosition;
+        }
+      
+    }
 }
 
 

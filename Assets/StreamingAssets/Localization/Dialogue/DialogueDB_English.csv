@@ -1,9 +1,9 @@
-id,index,name,emotion,sentence
-0,0,kim,normal,Hi~
-0,1,lee,normal,Hello
-0,2,kim,laugh,Who are you
-0,3,lee,laugh,I'm Lee
-1,0,kk,normal,aaaaaaaaaaaaaaaaaa
-1,1,aa,normal,bbbbbbbbbbbbbbbbbb
-1,2,kk,normal,ccccccccccccccccc
-1,3,aa,normal,ggggggggggggggg
+id,index,name,emotion,spritePosition,textBoxPosition,sentence
+0,0,kim,Normal,Right,Top,Hi~Hi~Hi~Hi~Hi~Hi~Hi~Hi~Hi~Hi~
+0,1,lee,Normal,Left,Bottom,HelloHelloHelloHelloHelloHelloHelloHello
+0,2,kim,Laugh,Right,Top,Who are youWho are youWho are youWho are you
+0,3,lee,Normal,Left,Bottom,I'm LeeI'm LeeI'm LeeI'm LeeI'm Lee
+1,0,kk,Laugh,Right,Top,aaaaaaaaaaaaaaaaaa
+1,1,aa,Normal,Left,Bottom,bbbbbbbbbbbbbbbbbb
+1,2,kk,Laugh,Right,Top,ccccccccccccccccc
+1,3,"aa,kk",Normal,Both,Bottom,ggggggggggggggg
