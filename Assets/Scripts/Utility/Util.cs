@@ -59,11 +59,11 @@ public class Util
         StringBuilder typedSentence = new StringBuilder();
         for (int i = 0; i < sentence.Length; i++)
         {
-            if (_token != null && _token.IsCancellationRequested)
-            {
-                text.text = sentence;
-                return;
-            }
+            //if (_token != null && _token.IsCancellationRequested)
+            //{
+            //    text.text = sentence;
+            //    return;
+            //}
 
             typedSentence.Append(sentence[i]);
             text.color = color;
@@ -74,11 +74,11 @@ public class Util
             {
                 await Task.Delay(time,_token);
             }
-            //catch (TaskCanceledException)
-            //{
-            //    text.text = sentence;
-            //    return;
-            //}
+            catch (TaskCanceledException)
+            {
+                text.text = sentence;
+                return;
+            }
             catch (Exception ex)
             {
                 Debug.LogError("Error during typing effect task: " + ex.Message);

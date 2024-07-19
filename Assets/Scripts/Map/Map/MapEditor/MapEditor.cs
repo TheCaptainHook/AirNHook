@@ -268,7 +268,18 @@ public class MapEditor : MonoBehaviour
         List<ObjectData> list = new();
         foreach(Transform cur in transform)
         {
-            cur.GetComponent<BuildObj>().SetTileData(cur.position, cur.rotation);
+            //cur.GetComponent<BuildObj>().SetTileData(cur.position, cur.rotation);
+            cur.GetComponent<BuildObj>().SetTileData();
+
+            //if (cur.TryGetComponent(out Trigger_Dialogue component))
+            //{
+            //    component.SetTileData();
+            //}
+            //else
+            //{
+            //    cur.GetComponent<BuildObj>().SetTileData();
+            //}
+
             list.Add(cur.GetComponent<BuildObj>().ObjectData);
         }
         return list;
@@ -353,7 +364,19 @@ public class MapEditor : MonoBehaviour
         return list;
     }
 
+    //List<DialogueData> GetDialogueStructsList() //todo 0718
+    //{
+    //    List<DialogueData> list = new();
+    //    foreach (Transform tr in objectTransform)
+    //    {
+    //        if (tr.TryGetComponent(out Trigger_Dialogue dialogue))
+    //        {
+    //            list.Add(dialogue.GetDialogueData());
+    //        }
+    //    }
 
+    //    return list;
+    //}
 
     #endregion
 
@@ -530,7 +553,7 @@ public class MapEditor : MonoBehaviour
                     if (Managers.Data.mapData.mapSceneDataDictionary.ContainsKey(data.id))
                     {
                         MapDataStruct mapDataStruct = Managers.Data.mapData.mapSceneDataDictionary[data.id];
-                        if (Managers.Game.CurrentState != GameState.Editor && (data.id == 1001 || data.id == 1002))
+                        if (Managers.Game.CurrentState != GameState.Editor && (data.id == 1001 || data.id == 1002 || data.id==1003))
                         {
                             Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
                         }
@@ -638,9 +661,11 @@ public class MapEditor : MonoBehaviour
     {
         GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
         obj.GetComponent<BuildObj>().ObjectData = data;
+        //obj.GetComponent<BuildObj>().SetData(data);//todo
         obj.transform.position = data.position;
         obj.transform.rotation = data.quaternion;
         obj.transform.localScale = data.scale;
+
         obj.transform.SetParent(transform);
 
         if(mapEditorState != MapEditorState.NoEditor)

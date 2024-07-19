@@ -6,6 +6,7 @@ using TMPro;
 using System.Threading.Tasks;
 using System.Threading;
 using Unity.VisualScripting;
+using static Cinemachine.CinemachineFreeLook;
 
 public enum TextBoxPivot
 {
@@ -42,8 +43,10 @@ public enum AnchorPresets
 public class UI_Dialogue : UI_Base
 {
     [Header("Text Box Anchor Position")]
-    public float _TopPosition;
-    public float _BottomPosition;
+    public float _TopTextBoxPosition;
+    public float _BottomTextBoxPosition;
+    public float _LeftTextBoxPosition;
+    public float _RightTextBoxPosition;
 
     [Header("Sprite Anchor Positon")]
     public float _SpriteTopPosition;
@@ -59,22 +62,27 @@ public class UI_Dialogue : UI_Base
     [Header("Components")]
     [SerializeField] TextMeshProUGUI _TextBoxText;
     [SerializeField] TextMeshProUGUI _TextNameText;
+    [SerializeField] Image _Panel;
     private Util Util = new Util();
-    private Image _LeftImage;
-    private Image _RightImage;
-
+    
+    public Image _LeftImage;
+    public Image _RightImage;
+    
 
 
     [Header("Main Logic")]
     private int dialogueId;
-    private int dialogueIndex;
+    private int nextDialogueIndex;
     private List<Dialogue> list;
     private bool onPrograss;
+    private string path = "Arts/Sprites/DialogueSprites";
     
+    private string _PreviousDialogueName;//
 
     [Header("Color")]
-    Color _Alpha_1 = new Color(255, 255, 255, 255);
-    Color _Alpha_0 = new Color(255, 255, 255, 0);
+    Color _Alpha_1 = new Color(1, 1, 1, 1);
+    Color _Alpha_0 = new Color(1, 1, 1, 0);
+    Color _Alpha_translucent = new Color(0, 0, 0, 180f/255f);
 
     [Header("WaitforSecond")]
     WaitForSeconds delay = new WaitForSeconds(0.1f);
@@ -92,13 +100,7 @@ public class UI_Dialogue : UI_Base
     {
         _LeftImage = _SpriteLeftRT.GetComponent<Image>();
         _RightImage = _SpriteRightRT.GetComponent<Image>();
-
-
-
-        //TestCode
-
-        SetData(0);
-
+     
     }
 
     //public override void SetLanguage()
@@ -115,8 +117,7 @@ public class UI_Dialogue : UI_Base
     public void SetData(int id)
     {
         //Init
-        dialogueIndex = 0;
-
+        nextDialogueIndex = 1;
         dialogueId = id;
         
         list = Managers.Data.language.map[id];
@@ -128,89 +129,57 @@ public class UI_Dialogue : UI_Base
 
     IEnumerator StartDialogue()
     {
+        _Panel.color = _Alpha_translucent;
         // Player 못 움직이게 설정
 
         //
+        //TextBox SetActive
+        if (!_TextBoxRT.gameObject.activeSelf) { _TextBoxRT.gameObject.SetActive(true); }
+        //TextBox SetActive
 
         for (int i = 0; i < list.Count; i++)
         {
             yield return Dialogue(list[i]);
+            nextDialogueIndex++;
         }
 
 
 
         //Dialogue ShutDown
-
 
         DialogueReset(); //todo test
 
+        _Panel.color = _Alpha_0;
         //Dialogue ShutDown
 
+        // Player 다시 움직이게 설정
+
+        //
+
+
     }
 
-    public string[] Split_DialogueName(string str)
-    {
-       return str.Split(",", System.StringSplitOptions.None);
 
-    }
 
     IEnumerator Dialogue(Dialogue dialogue)
     {
-        Sprite _LeftImage;
-        Sprite _RightImage;
 
-        //Sprite Alpha,Pivot Setting
-        // dialogue.spritePositon == left 면 이미지 플립시켜주기
-        switch (dialogue.spritePosition)
-        {
-            case SpritePosition.Left:
-                break;
-            case SpritePosition.Right:
-                break;
-            case SpritePosition.Both:
-                break;
-            case SpritePosition.None:
-                break;
-            default:
-                break;
-        }
+        //Sprite image, Pivot Setting and FadeIn
+        DialogueSpriteSetting(dialogue);
+        //Sprite image, Pivot Setting and FadeIn
 
-        //Sprite Alpha,Pivot Setting
-
-
-        //TextBox Alpha,Pivot Setting
-        switch (dialogue.textBoxPivot)
-        {
-            case TextBoxPivot.Top:
-                SetAnchor(_TextBoxRT, AnchorPresets.TopCenter);
-                SetAnchor(_SpriteLeftRT, AnchorPresets.TopLeft);
-                SetAnchor(_SpriteRightRT, AnchorPresets.TopRight);
-
-                _TextBoxRT.anchoredPosition = new Vector2(_TextBoxRT.anchoredPosition.x, _TopPosition);
-                _SpriteLeftRT.anchoredPosition = new Vector2(_SpriteLeftRT.anchoredPosition.x, _SpriteTopPosition);
-                _SpriteRightRT.anchoredPosition = new Vector2(_SpriteRightRT.anchoredPosition.x, _SpriteTopPosition);
-
-                break;
-            case TextBoxPivot.Bottom:
-                SetAnchor(_TextBoxRT, AnchorPresets.BottomCenter);
-                SetAnchor(_SpriteLeftRT, AnchorPresets.BottomLeft);
-                SetAnchor(_SpriteRightRT, AnchorPresets.BottomRight);
-                _TextBoxRT.anchoredPosition = new Vector2(_TextBoxRT.anchoredPosition.x, _BottomPosition);
-                _SpriteLeftRT.anchoredPosition = new Vector2(_SpriteLeftRT.anchoredPosition.x, _SpriteBottomPosition);
-                _SpriteRightRT.anchoredPosition = new Vector2(_SpriteRightRT.anchoredPosition.x, _SpriteBottomPosition);
-
-                break;
-        }
-        //TextBox Alpha, Pivot Setting
-        //TextName Text
-        _TextNameText.text = dialogue.name;
-        //TextName Text
-
-
+        //TextBox and Pivot Setting
+        DialoguePositionSetting(dialogue);
+        //TextBox and Pivot Setting
+        
+        _PreviousDialogueName = dialogue.name;
+        
+        //Typing Effect
         _cancellationTokenSource = new CancellationTokenSource();
+        Task task = Util.TypingEffectTask(_TextBoxText, dialogue.sentence, Color.black, 36, .1f, _cancellationTokenSource);
+        //Typing Effect
 
-        Task task = Util.TypingEffectTask(_TextBoxText, dialogue.sentence, Color.black, 36, 1f, _cancellationTokenSource);
-
+        //TypingEffectTask Cancel
         while (!task.IsCompleted)
         {
             if (Input.anyKeyDown)
@@ -220,31 +189,237 @@ public class UI_Dialogue : UI_Base
             }
             yield return null;
         }
-        bool onAnyKey = false;
+        //TypingEffectTask Cancel
 
-        
+        //Start Next Dialogue
+        bool onAnyKey = false;
         while (!onAnyKey)
         {
             if (Input.anyKeyDown)
             {
                 onAnyKey = true;
             }
-
             Debug.Log("Delay");
             yield return null;
         }
+        _TextBoxText.text = "";
+        //Start Next Dialogue
 
+        ///
+        /// 다음 실행할 다이얼로그가 없거나,다음 실행할 다이얼로그가 같은 캐릭턱 아닌 경우
+        ///
+        if (nextDialogueIndex>=list.Count || !Check_PrivousCharacterNameMatch(list[nextDialogueIndex].name))
+        {
+            _TextNameText.text = "";
+            if (_LeftImage.enabled)
+            {
+                StartCoroutine(SpriteFadeOut(_LeftImage));
+            }
+
+            if (_RightImage.enabled)
+            {
+                StartCoroutine(SpriteFadeOut(_RightImage));
+                
+            }
+
+            yield return new WaitForSeconds(.5f);
+
+        }
+    
 
     }
+
+
+    //todo 0718
+   // 텍스트박스 아래위치일때 스프라이트 대각선 위쪽으로
+   //위쪽위치할때는 그대로.ㄴ
+
+    private void DialogueSpriteSetting(Dialogue dialogue)
+    {
+        string path = $"{this.path}/{dialogue.name}/{dialogue.emotion}";
+
+        switch (dialogue.spritePosition)
+        {
+            case SpritePosition.Left:
+               
+                _RightImage.enabled = false;
+                // dialogue.spritePositon == left 면 이미지 플립시켜주기
+                _LeftImage.sprite = Resources.Load<Sprite>(path);
+                if (!_LeftImage.enabled)
+                {
+                    StartCoroutine(SpriteFadeIn(_LeftImage));
+                }
+                _TextNameText.text = dialogue.name;
+                break;
+            case SpritePosition.Right:
+                _LeftImage.enabled = false;
+                _RightImage.sprite = Resources.Load<Sprite>(path);
+
+                if (!_RightImage.enabled)
+                {
+                    //Fade in
+                    StartCoroutine(SpriteFadeIn(_RightImage));
+                }
+                _TextNameText.text = dialogue.name;
+                break;
+            case SpritePosition.Both:
+                Sprite_SettingBoth(dialogue);
+                _TextNameText.text = "";
+                break;
+            case SpritePosition.None:
+                break;
+            default:
+                break;
+        }
+    }
+    private void DialoguePositionSetting(Dialogue dialogue)
+    {
+        switch (dialogue.textBoxPivot)
+        {
+            case TextBoxPivot.Top:
+                if(dialogue.spritePosition == SpritePosition.Left)
+                {
+                    SetAnchor(_TextBoxRT, AnchorPresets.TopRight);
+                 
+                    _TextBoxRT.anchoredPosition = new Vector2(_RightTextBoxPosition, _TopTextBoxPosition);
+                }
+                else if(dialogue.spritePosition == SpritePosition.Right)
+                {
+                    SetAnchor(_TextBoxRT, AnchorPresets.TopLeft);
+                    _TextBoxRT.anchoredPosition = new Vector2(_LeftTextBoxPosition, _TopTextBoxPosition);
+
+                }
+                else
+                {
+                    SetAnchor(_TextBoxRT, AnchorPresets.TopCenter);
+                    _TextBoxRT.anchoredPosition = new Vector2(0, _TopTextBoxPosition);
+                }
+
+                SetAnchor(_SpriteLeftRT, AnchorPresets.TopLeft);
+                SetAnchor(_SpriteRightRT, AnchorPresets.TopRight);
+
+               
+                _SpriteLeftRT.anchoredPosition = new Vector2(_SpriteLeftRT.anchoredPosition.x, _SpriteTopPosition);
+                _SpriteRightRT.anchoredPosition = new Vector2(_SpriteRightRT.anchoredPosition.x, _SpriteTopPosition);
+
+                break;
+            case TextBoxPivot.Bottom:
+                //if (dialogue.spritePosition == SpritePosition.Left)
+                //{
+                //    SetAnchor(_TextBoxRT, AnchorPresets.BottomRight);
+                //    _TextBoxRT.anchoredPosition = new Vector2(_RightTextBoxPosition, _BottomTextBoxPosition);
+                //}
+                //else if (dialogue.spritePosition == SpritePosition.Right)
+                //{
+                //    SetAnchor(_TextBoxRT, AnchorPresets.BottomLeft);
+                //    _TextBoxRT.anchoredPosition = new Vector2(_LeftTextBoxPosition, _BottomTextBoxPosition);
+                //}
+                //else
+                //{
+                //    SetAnchor(_TextBoxRT, AnchorPresets.BottomCenter);
+                //    _TextBoxRT.anchoredPosition = new Vector2(0, _BottomTextBoxPosition);
+                //}
+                SetAnchor(_TextBoxRT, AnchorPresets.BottomCenter);
+                SetAnchor(_SpriteLeftRT, AnchorPresets.BottomLeft);
+                SetAnchor(_SpriteRightRT, AnchorPresets.BottomRight);
+
+                _TextBoxRT.anchoredPosition = new Vector2(0, _BottomTextBoxPosition);
+                _SpriteLeftRT.anchoredPosition = new Vector2(_SpriteLeftRT.anchoredPosition.x, _SpriteBottomPosition);
+                _SpriteRightRT.anchoredPosition = new Vector2(_SpriteRightRT.anchoredPosition.x, _SpriteBottomPosition);
+
+                break;
+        }
+    }
+
+
+
+
+    #region Utility
+
+    private void Sprite_SettingBoth(Dialogue dialogue)
+    {
+        string[] names = Split_DialogueName(dialogue.name);
+        string[] emotions = Split_DialogueName(dialogue.emotion);
+
+        string path1 = $"{this.path}/{names[0]}/{emotions[0]}";
+        string path2 = $"{this.path}/{names[1]}/{emotions[1]}";
+
+        _LeftImage.sprite = Resources.Load<Sprite>(path1);
+        _RightImage.sprite = Resources.Load<Sprite>(path2);
+
+        if (!_LeftImage.enabled)
+        {
+            StartCoroutine(SpriteFadeIn(_LeftImage));
+        }
+        if (!_RightImage.enabled)
+        {
+            StartCoroutine(SpriteFadeIn(_RightImage));
+        }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="nextName">this parameter is next Dialogue name</param>
+    /// <returns></returns>
+    private bool Check_PrivousCharacterNameMatch(string nextName)
+    {
+        if (string.Empty == nextName) { Debug.Log("false"); return false; }
+
+        if (_PreviousDialogueName.Contains(nextName)) { Debug.Log("next dialogue name contains previouse dialogue name,true"); return true; }
+        if (nextName.Contains(_PreviousDialogueName)) { Debug.Log("previouse Dialogue name contain next dialogue name,true"); return true; }
+        if (string.Compare(_PreviousDialogueName, nextName) == 0) { Debug.Log("Compare =0,ture"); return true; }
+
+        Debug.Log("else, false");
+        return false;
+
+    }
+
+    public string[] Split_DialogueName(string str)
+    {
+        return str.Split(",", System.StringSplitOptions.None);
+    }
+
 
 
     private void DialogueReset()
     {
+        _PreviousDialogueName = "";
         _LeftImage.enabled = false;
         _RightImage.enabled = false;
         _TextBoxRT.gameObject.SetActive(false);
+
+    }
+  
+    IEnumerator SpriteFadeOut(Image image)
+    {
+
+        float percent = 0;
+        while (percent < 1)
+        {
+            percent += Time.deltaTime;
+            image.color = Color.Lerp(image.color, _Alpha_0, percent);
+            yield return null;
+        }
+
+        image.color = _Alpha_0;
+        image.enabled = false;
+
     }
 
+    IEnumerator SpriteFadeIn(Image image)
+    {
+        image.enabled = true;
+        float percent = 0;
+        while (percent < 1)
+        {
+            percent += Time.deltaTime;
+            image.color = Color.Lerp(image.color, _Alpha_1, percent);
+            yield return null;
+        }
+        image.color = _Alpha_1;
+    }
+
+    #endregion
 
     #region Anchor
 

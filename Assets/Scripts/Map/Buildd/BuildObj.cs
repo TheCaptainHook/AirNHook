@@ -58,12 +58,31 @@ public class BuildObj : MousePointerEntity,IDamageable
         ObjectData = new ObjectData(id, position,transform.localScale);
     }
 
-    public void SetTileData(Vector2 position,Quaternion quaternion)
+    public  void SetTileData(Vector2 position,Quaternion quaternion)
     {
         ObjectData = new ObjectData(id, position, quaternion,transform.localScale);
     }
-    
-   public virtual void TakeDamage()
+
+    public virtual void SetTileData()
+    {
+        //ObjectData = new ObjectData(id, position, quaternion, transform.localScale);
+        Debug.Log("BuildObj");
+        ObjectData = new ObjectData(id, transform.position, transform.rotation, transform.localScale);
+    }
+
+    public virtual void SetData(ObjectData data)
+    {
+        ObjectData = data;
+        transform.position = data.position;
+        transform.rotation = data.quaternion;
+        transform.localScale = data.scale;
+    }
+    //public virtual void SetTileData(ObjectData data)
+    //{
+
+    //}
+
+    public virtual void TakeDamage()
    {
         if(distructionStatus == DistructionStatus.Destructible)
         {

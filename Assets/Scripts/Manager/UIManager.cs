@@ -191,5 +191,8 @@ public class UIManager
         HideUI<UI_StageSelect_var3>();
         ShowUI<UI_ComputerScreen>();
         HideUI<UI_ComputerScreen>();
+
+        ShowUI<UI_Dialogue>();
+
     }
 }

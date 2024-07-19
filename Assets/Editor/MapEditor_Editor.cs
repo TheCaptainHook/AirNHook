@@ -189,7 +189,6 @@ public class MapEditor_Editor : Editor
         ///
         /// 플로어 타일 맵의 바운드셀로 최솟값 최댓값 알 수 있음.
         ///
-        Debug.Log($"min : {mapEditor.placeMentSystem.floorTileMap.cellBounds.min}, max : {mapEditor.placeMentSystem.floorTileMap.cellBounds.max}");
 
     }
 
@@ -436,6 +435,7 @@ public class MapEditor_Editor : Editor
             mapEditor.mapObjectDataList,
             GetButtonActivateDoorStructList(mapEditor),
             GetButtonActivatedObjectList(mapEditor),
+            //GetDialogueStructsList(mapEditor), //todo 0718
             mapEditor.cellSize, 0, await CurrentMapScreenShot(mapEditor), mapEditor.audioType);; ;
         string json = JsonUtility.ToJson(map, true);
         if(mapEditor.mapType == MapType.Main)
@@ -498,7 +498,9 @@ List<TileData> GetTileData(Tilemap tileMap)
         List<ObjectData> list = new();
         foreach (Transform cur in transform)
         {
-            cur.GetComponent<BuildObj>().SetTileData(cur.position, cur.rotation);
+
+            //cur.GetComponent<BuildObj>().SetTileData(cur.position, cur.rotation);
+            cur.GetComponent<BuildObj>().SetTileData();
             list.Add(cur.GetComponent<BuildObj>().ObjectData);
         }
         return list;
@@ -557,6 +559,20 @@ List<TileData> GetTileData(Tilemap tileMap)
 
         return list;
     }
+
+    //List<DialogueData> GetDialogueStructsList(MapEditor mapEditor) //todo 0718
+    //{
+    //    List<DialogueData> list = new();
+    //    foreach (Transform tr in mapEditor.objectTransform)
+    //    {
+    //        if (tr.TryGetComponent(out Trigger_Dialogue dialogue))
+    //        {
+    //            list.Add(dialogue.GetDialogueData());
+    //        }
+    //    }
+
+    //    return list;
+    //}
 
 
     GameObject FindObj(Transform transform,int id)

@@ -34,18 +34,19 @@ public class StageManager
     public void CmdBatchObject(string objName,ObjectData data)
     {
         if (!NetworkServer.active || !NetworkClient.isConnected) return;
-
-        Debug.Log($"{objName};\nCrumblingBox;\n");
      
         GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
 
 
-        obj.transform.position = data.position;
-        //todo 0425
-        obj.GetComponent<BuildObj>().position = obj.transform.position;
-        //todo 0425
+        //obj.transform.position = data.position;
+        ////todo 0425
+        //obj.GetComponent<BuildObj>().position = obj.transform.position;
+        ////todo 0425
 
-        obj.GetComponent<BuildObj>().ObjectData = data;
+        //obj.GetComponent<BuildObj>().ObjectData = data;
+
+        obj.GetComponent<BuildObj>().SetData(data);
+
         obj.transform.SetParent(MapEditor.Instance.networkingObjectTransform);
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
     }
