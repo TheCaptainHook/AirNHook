@@ -11,7 +11,7 @@ public class Trigger_Dialogue : BuildObj
     public int _DialogueId;
     private bool OnExcuted;
 
-    [SerializeField] UI_Dialogue dialogue;//TESTCODE
+    //[SerializeField] UI_Dialogue dialogue;//TESTCODE
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -20,11 +20,11 @@ public class Trigger_Dialogue : BuildObj
             Debug.Log("Trigger");
             OnExcuted = true;
             //TESTCODE
-            dialogue.SetData(_DialogueId);
+            //dialogue.SetData(_DialogueId);
             //TESTCODE
 
             //UI_Dialogue active
-            //Managers.UI.GetUI<UI_Dialogue>().GetComponent<UI_Dialogue>().SetData(_DialogueId);
+            Managers.UI.GetUI<UI_Dialogue>().GetComponent<UI_Dialogue>().SetData(_DialogueId);
         }
     }
 
