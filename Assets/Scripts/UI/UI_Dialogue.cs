@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,6 +43,12 @@ public enum AnchorPresets
 
 public class UI_Dialogue : UI_Base
 {
+    [Header("For Anims")] 
+    [SerializeField] private GameObject _mainFrame;
+    [SerializeField] private GameObject _leftSprite;
+    [SerializeField] private GameObject _rightSprite;
+    [SerializeField] private AnimationCurve _curve;
+    
     [Header("Text Box Anchor Position")]
     public float _TopTextBoxPosition;
     public float _BottomTextBoxPosition;
@@ -93,14 +100,21 @@ public class UI_Dialogue : UI_Base
 
     public override void OnEnable()
     {
-        
+        //AppendAnim(_mainFrame, 1.1f, 0.2f, 1f, 0.1f);
     }
+
+    // public void OnDisable()
+    // {
+    //     //켜질 때 다시 커지는 애니메이션이 나오도록
+    //     _mainFrame.transform.localScale = Vector3.one * 0.1f;
+    // }
 
     protected override void Start()
     {
         _LeftImage = _SpriteLeftRT.GetComponent<Image>();
         _RightImage = _SpriteRightRT.GetComponent<Image>();
-     
+        StartCoroutine(BounceRoutine(_leftSprite,Vector3.one, Vector3.one * 0.935f, _curve));
+        StartCoroutine(BounceRoutine(_rightSprite,Vector3.one, Vector3.one * 0.935f, _curve));
     }
 
     //public override void SetLanguage()
@@ -176,7 +190,7 @@ public class UI_Dialogue : UI_Base
         
         //Typing Effect
         _cancellationTokenSource = new CancellationTokenSource();
-        Task task = Util.TypingEffectTask(_TextBoxText, dialogue.sentence, Color.black, 36, .1f, _cancellationTokenSource);
+        Task task = Util.TypingEffectTask(_TextBoxText, dialogue.sentence, Color.black, 42, .05f, _cancellationTokenSource);
         //Typing Effect
 
         //TypingEffectTask Cancel
@@ -402,12 +416,13 @@ public class UI_Dialogue : UI_Base
 
         image.color = _Alpha_0;
         image.enabled = false;
-
+        _mainFrame.transform.localScale = Vector3.one * 0.1f;
     }
 
     IEnumerator SpriteFadeIn(Image image)
     {
         image.enabled = true;
+        AppendAnim(_mainFrame, 1.15f, 0.2f, 1f, 0.1f);
         float percent = 0;
         while (percent < 1)
         {

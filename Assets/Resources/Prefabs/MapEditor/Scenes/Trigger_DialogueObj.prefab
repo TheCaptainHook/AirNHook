@@ -99,7 +99,7 @@ MonoBehaviour:
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0
-  onScaleable: 0
+  onScaleable: 1
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _DialogueId: 0
