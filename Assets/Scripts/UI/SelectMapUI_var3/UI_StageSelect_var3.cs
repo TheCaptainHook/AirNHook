@@ -363,7 +363,7 @@ public class UI_StageSelect_var3: UI_Base
         onInteractable = false;
         nextWriteTextLineIndex = 0;
         
-
+        Managers.Sound.PlaySound(AudioType.Computer_On, AudioMixerGroupType.Effects, false, 0.50f, 0f);
         List<string> sentenceList = util.SplitText(openningSentence, maxHorizontaText, new char[] { ',' });
         
         Debug.Log(sentenceList.Count);

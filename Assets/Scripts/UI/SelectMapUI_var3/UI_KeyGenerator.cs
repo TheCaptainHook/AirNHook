@@ -11,6 +11,7 @@ public class UI_KeyGenerator : MonoBehaviour
 
     public void KeyPrintingAni()
     {
+        Managers.Sound.PlaySound(AudioType.Key_Printing, AudioMixerGroupType.Effects, false, 0.35f, 0f);
         animator.SetTrigger(KeyPrinting);
     }
 }
