@@ -243,7 +243,6 @@ public class UI_Dialogue : UI_Base
             case SpritePosition.Left:
                
                 _RightImage.enabled = false;
-                // dialogue.spritePositon == left 면 이미지 플립시켜주기
                 _LeftImage.sprite = Resources.Load<Sprite>(path);
                 if (!_LeftImage.enabled)
                 {

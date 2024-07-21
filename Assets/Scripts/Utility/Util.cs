@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System;
 using System.Text;
 using System.Threading;
+using Unity.VisualScripting.Antlr3.Runtime;
 
 public class Util
 {
@@ -50,7 +51,7 @@ public class Util
         }
 
 
-        CancellationToken _token = (CancellationToken)token?.Token; // Simplified the initialization
+        CancellationToken _token = token?.Token ?? CancellationToken.None; // Simplified the initialization
 
 
         int time = Mathf.FloorToInt(delayTime * 1000);

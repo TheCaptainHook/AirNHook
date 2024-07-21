@@ -109,18 +109,9 @@ public class LanguageData
             {
                 map[id] = new List<Dialogue>();
             }
+
             map[id].Add(dialogue);
         }
-
-        //foreach (var aa in map.Keys)
-        //{
-        //    List<Dialogue> aaaa = map[aa];
-        //    foreach (Dialogue di in aaaa)
-        //    {
-        //        Debug.Log($"id:{aa}\nindex:{di.index}\nemotion:{di.emotion}\nsp : {di.spritePosition}\ntp : {di.textBoxPivot}\nsentence:{di.sentence}");
-        //    }
-
-        //}
 
         return map;
     }

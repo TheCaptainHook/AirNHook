@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 2107890714141186530}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.02124, y: -1.7894945, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -101,10 +101,10 @@ MonoBehaviour:
   transformID: 1
   position: {x: 0, y: 0}
   offset: {x: 0, y: 0}
+  turnOff: 0
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 1
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  outlineBox: {fileID: 0}

@@ -103,7 +103,6 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _DialogueId: 0
-  dialogue: {fileID: 0}
 --- !u!114 &3037825631947539904
 MonoBehaviour:
   m_ObjectHideFlags: 0

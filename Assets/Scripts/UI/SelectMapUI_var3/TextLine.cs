@@ -59,7 +59,7 @@ public class TextLine : MonoBehaviour
 
         yield return new WaitUntil(() => task.IsCompleted);
 
-        Debug.Log("Finish");
+        Debug.Log($"Finish{sentence}");
     }
 
 

@@ -17,8 +17,6 @@ public class CSVReader
 
         var path = Path.Combine(Application.streamingAssetsPath, $"Localization/Dialogue/{file}.csv");
 
-
-
         var data = File.ReadAllText(path);
 
         var lines = Regex.Split(data, LINE_SPLIT_RE);

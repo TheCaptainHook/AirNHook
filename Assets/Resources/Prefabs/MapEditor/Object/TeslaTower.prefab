@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6430192435816557250}
   - component: {fileID: 6944445019840464710}
   - component: {fileID: 8493037615852673333}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Charging
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4860,7 +4860,7 @@ GameObject:
   - component: {fileID: 6250251855223812160}
   - component: {fileID: 1806471560680823596}
   - component: {fileID: 824015742741698990}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: HitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4939,7 +4939,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8518621071171430250}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: ChargeContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4974,7 +4974,7 @@ GameObject:
   - component: {fileID: 3480996328057937113}
   - component: {fileID: 1968984231930824565}
   - component: {fileID: 8711475794969814719}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: HitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5085,7 +5085,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 175705919679026333}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: LightningEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5118,7 +5118,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2830289360457904242}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: LightningContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5251,7 +5251,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 1.4279475}
+  m_Offset: {x: 0, y: 1.7313412}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -5262,7 +5262,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 2.9131002}
+  m_Size: {x: 1, y: 3.5198877}
   m_EdgeRadius: 0
 --- !u!114 &687487418611922214
 MonoBehaviour:
@@ -5305,7 +5305,7 @@ GameObject:
   - component: {fileID: 566746172470493265}
   - component: {fileID: 7439038947226822193}
   - component: {fileID: 6022514678863212314}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Spark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10135,7 +10135,7 @@ GameObject:
   - component: {fileID: 2995624348348241925}
   - component: {fileID: 75810170605323052}
   - component: {fileID: 7829182686558497613}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Bloom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14965,7 +14965,7 @@ GameObject:
   - component: {fileID: 5400662512774801970}
   - component: {fileID: 1959151456514246702}
   - component: {fileID: 8112927972997757275}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Particle System (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19885,7 +19885,7 @@ GameObject:
   - component: {fileID: 5222442977982572497}
   - component: {fileID: 5374738514019070092}
   - component: {fileID: 3929679546458354517}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Lightning_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24732,7 +24732,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 647378414862987009}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: ChargeEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24853,7 +24853,7 @@ GameObject:
   - component: {fileID: 2415533863824411089}
   - component: {fileID: 4315325629135287059}
   - component: {fileID: 4804432846199881586}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}

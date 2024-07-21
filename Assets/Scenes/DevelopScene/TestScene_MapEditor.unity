@@ -84336,6 +84336,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Trigger_DialogueObj
       objectReference: {fileID: 0}
+    - target: {fileID: 6516039523270145911, guid: 7a1dc7e3d79d7460dbcbabad7bb1597f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -84432,7 +84436,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!50 &1050398032
 Rigidbody2D:
   serializedVersion: 4
@@ -84880,7 +84884,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1965042516988232146, guid: 0c81bbe30b13b4d75a0fda571ef0e39b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5389437347950009650, guid: 0c81bbe30b13b4d75a0fda571ef0e39b, type: 3}
       propertyPath: m_Pivot.x
@@ -84978,6 +84982,10 @@ PrefabInstance:
     - target: {fileID: 774328710121444816, guid: b4757367d6da841f19a5a5e43121cf4f, type: 3}
       propertyPath: m_Name
       value: UI_Dialogue
+      objectReference: {fileID: 0}
+    - target: {fileID: 774328710121444816, guid: b4757367d6da841f19a5a5e43121cf4f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6576402843911189337, guid: b4757367d6da841f19a5a5e43121cf4f, type: 3}
       propertyPath: m_Pivot.x

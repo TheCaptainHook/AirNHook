@@ -660,11 +660,11 @@ public class MapEditor : MonoBehaviour
     void Create(Transform transform, MapDataStruct mapDataStruct, ObjectData data)
     {
         GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
-        obj.GetComponent<BuildObj>().ObjectData = data;
+        obj.GetComponent<BuildObj>().SetData(data);
         //obj.GetComponent<BuildObj>().SetData(data);//todo
-        obj.transform.position = data.position;
-        obj.transform.rotation = data.quaternion;
-        obj.transform.localScale = data.scale;
+        //obj.transform.position = data.position;
+        //obj.transform.rotation = data.quaternion;
+        //obj.transform.localScale = data.scale;
 
         obj.transform.SetParent(transform);
 

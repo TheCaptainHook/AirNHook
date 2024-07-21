@@ -80,8 +80,8 @@ public class UI_StageSelect_var3: UI_Base
     private int minSelectTextLineListIndex; // 선택 가능한 라인 인덱스
     private int maxSelectTextLineListIndex; // 선택 가능한 라인 인덱스
 
-    [HideInInspector]public bool onInteractable;
-    [HideInInspector]public bool onPrograss;
+    public bool onInteractable;
+    public bool onPrograss;
     private bool inputProcessed;
     public float inputDelay; // 입력 딜레이 시간 설정 
 
@@ -248,13 +248,11 @@ public class UI_StageSelect_var3: UI_Base
 
     IEnumerator WriteLine(string sentence, Color color, bool readAntWrite, float fontSize = 25, float delayTime = 0.007f, bool onSelectable = true)
     {
-     
         if (textLineList[nextWriteTextLineIndex].CheckCompareString(sentence))
         {
             nextWriteTextLineIndex++;
             yield break;
         }
-
 
         if (nextWriteTextLineIndex >= contentMoveRect_TextLineIndex)
         {
@@ -397,7 +395,6 @@ public class UI_StageSelect_var3: UI_Base
         onInteractable = false;
         nextWriteTextLineIndex = 0;
         _PrograssLevel = PrograssLevel.One;
-
         List<string> sentenceList = util.SplitText(sentence, maxHorizontaText, new char[] { '\n' });
         for (int i = 0; i < sentenceList.Count; i++)
         {
@@ -561,6 +558,7 @@ public class UI_StageSelect_var3: UI_Base
 
         onPrograss = false;
         onInteractable = true;
+        gameObject.SetActive(false);
     }
 
     private void SetScreenDataAndActive(string selectMapId)

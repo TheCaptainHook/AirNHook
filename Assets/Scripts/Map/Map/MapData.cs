@@ -15,7 +15,6 @@ public class MapData
 
     public Dictionary<string, Map> mapSceneDictionary = new Dictionary<string, Map>();
     public Dictionary<string, Map> mapMainDictionary = new Dictionary<string, Map>();
-
     public Dictionary<string, Map> mapAllDictionary = new Dictionary<string, Map>(); // todo 0423
 
 
@@ -26,10 +25,8 @@ public class MapData
 
     public void SetUp()
     {
-
         UGS_MapDataLoad();
         MapJsonLoad();
-        
     }
 
     void UGS_MapDataLoad()
@@ -80,6 +77,7 @@ public class MapData
             
         }
 
+        //User Map Data Load
         string path = Path.Combine(Application.dataPath, "UserMapData");
     
         string[] filePaths = Directory.GetFiles(path, "*.json");
@@ -92,6 +90,7 @@ public class MapData
             mapAllDictionary.Add(data.hashValue.ToString(), data.LoadMap());
 
         }
+        //User Map Data Load
 
     }
     public void RefreshUserMapData()

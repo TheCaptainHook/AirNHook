@@ -339,10 +339,10 @@ public class MapEditor_Editor : Editor
     void Create(Transform transform, MapDataStruct mapDataStruct, ObjectData data)
     {
         GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
-        obj.GetComponent<BuildObj>().ObjectData = data;
-        obj.transform.position = data.position;
-        obj.transform.rotation = data.quaternion;
-        obj.transform.localScale = data.scale;
+        obj.GetComponent<BuildObj>().SetData(data);
+        //obj.transform.position = data.position;
+        //obj.transform.rotation = data.quaternion;
+        //obj.transform.localScale = data.scale;
         obj.transform.SetParent(transform);
     }
     void Create(Transform transform, MapDataStruct mapDataStruct, ButtonActivatedDoorStruct data)
@@ -390,52 +390,45 @@ public class MapEditor_Editor : Editor
     public void SaveMapData(MapEditor mapEditor)
     {
         string folderPath = Path.Combine(Application.dataPath, "Resources/MapDat");
-        if (mapEditor.mapEditorType == MapEditorType.New)
-        {
-            string path = Path.Combine(folderPath, $"{mapEditor.mapID}.json");
-            bool fileExists = File.Exists(path);
-            while (fileExists)
-            {
-                int num = 1;
-                path = Path.Combine(folderPath, $"{mapEditor.mapID}{num}.json");
-                if (!File.Exists(path))
-                {
-                    mapEditor.mapID = $"{mapEditor.mapID}{num}";
-                    fileExists = false;
-                }
+        //if (mapEditor.mapEditorType == MapEditorType.New)
+        //{
+        //    string path = Path.Combine(folderPath, $"{mapEditor.mapID}.json");
+        //    bool fileExists = File.Exists(path);
+        //    while (fileExists)
+        //    {
+        //        int num = 1;
+        //        path = Path.Combine(folderPath, $"{mapEditor.mapID}{num}.json");
+        //        if (!File.Exists(path))
+        //        {
+        //            mapEditor.mapID = $"{mapEditor.mapID}{num}";
+        //            fileExists = false;
+        //        }
 
-                num++;
-            }
+        //        num++;
+        //    }
+        //    CreateJsonFile(mapEditor, folderPath);
+        //}
+        //else
+        //{
             CreateJsonFile(mapEditor, folderPath);
-        }
-        else
-        {
-            CreateJsonFile(mapEditor, folderPath);
-        }
+        //}
 
     }
 
     async void CreateJsonFile(MapEditor mapEditor, string folderPath)
     {
         string filePath = "";
-        mapEditor.mapTileDataList = GetTileData(mapEditor.placeMentSystem.floorTileMap);
-
-
-
-
-        mapEditor.mapObjectDataList = GetList(mapEditor.objectTransform);
         mapEditor.startPosition = FindObj(mapEditor.dontSaveObjectTransform, 302).transform.position;
         Map map = new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, mapEditor.stageLevel, mapEditor.startPosition,
             GetExitObjStructsList(mapEditor.exitDoorObjectTransform, mapEditor),
             //tile
-            mapEditor.mapTileDataList,
+            GetTileData(mapEditor.placeMentSystem.floorTileMap),
             GetTileData(mapEditor.placeMentSystem.halfTileMap),
             GetTileData(mapEditor.placeMentSystem.backgroundTileMap),
             //object
-            mapEditor.mapObjectDataList,
+            GetList(mapEditor.objectTransform),
             GetButtonActivateDoorStructList(mapEditor),
             GetButtonActivatedObjectList(mapEditor),
-            //GetDialogueStructsList(mapEditor), //todo 0718
             mapEditor.cellSize, 0, await CurrentMapScreenShot(mapEditor), mapEditor.audioType);; ;
         string json = JsonUtility.ToJson(map, true);
         if(mapEditor.mapType == MapType.Main)

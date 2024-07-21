@@ -34,16 +34,13 @@ public class BuildObj : MousePointerEntity,IDamageable
 
     public event Action<Vector2> OnDissolveAction;
     public event Action OnDisableAction;
-
     public event Action OnInteractableObjectRelease;
 
 
     [Header("Only use Editor mode")]
     [HideInInspector] public bool setPosition; // When created and placed set this parameter
     [HideInInspector] public Vector2 orgPosition;
-    //todo 0426 Outline Test
-    //[HideInInspector] public GameObject outlineBox;
-    //todo 0426
+
     [Header("Indicator")]
     private bool onEnterPointer;
 
