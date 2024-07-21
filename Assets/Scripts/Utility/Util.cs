@@ -64,7 +64,7 @@ public class Util
             //    text.text = sentence;
             //    return;
             //}
-
+            Managers.Sound.PlaySound(AudioType.Dialogue_Click, AudioMixerGroupType.Effects, false, 0.35f, 0f);
             typedSentence.Append(sentence[i]);
             text.color = color;
             text.text = typedSentence.ToString(); // Update text with typed characters

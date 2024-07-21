@@ -71,6 +71,7 @@ public class UI_Title : UI_Base
 
     private void OnJoinBtn()
     {
+        OnClick();
         if (Managers.UI.IsActive<UI_Join>())
             Managers.UI.HideUI<UI_Join>();
         else
@@ -79,6 +80,7 @@ public class UI_Title : UI_Base
 
     private void OnCreateRoomBtn()
     {
+        OnClick();
         //CloseUI();
         Managers.Game.CurrentState = GameState.Lobby;
         //Managers.Game.CurrentState = GameState.Editor;//Editor TEST
@@ -93,12 +95,14 @@ public class UI_Title : UI_Base
 
     private void OnMapEditorBtn()
     {
+        OnClick();
         Managers.UI.sceneName = "EditorScene";
         SceneManager.LoadScene("EditorScene");
         Managers.UI.ShowUI<UI_Loading>();
     }
     private void OnOptionBtn()
     {
+        OnClick();
         if (Managers.UI.IsActive<UI_Option>())
             Managers.UI.HideUI<UI_Option>();
         else
@@ -115,6 +119,11 @@ public class UI_Title : UI_Base
 
     }
 
+    private void OnClick()
+    {
+        Managers.Sound.PlaySound(AudioType.UI_Click, AudioMixerGroupType.Effects, false, 0.35f, 0f);
+    }
+    
     public override void SetLanguage()
     {
         SetSentence(_joinText, 2001);
