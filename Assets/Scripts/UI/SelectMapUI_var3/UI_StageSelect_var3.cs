@@ -548,7 +548,7 @@ public class UI_StageSelect_var3: UI_Base
         animator.SetTrigger(close);
         _UI_KeyGenerator.gameObject.SetActive(true);
         _UI_KeyGenerator.KeyPrintingAni();
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(6f);
         _UI_KeyGenerator.gameObject.SetActive(false);
         // Screen On
         SetScreenDataAndActive(selectMapId);

@@ -229,7 +229,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: mapID
-      value: TestScene
+      value: Lobby
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: mapType
@@ -253,11 +253,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: startPosition.x
-      value: -20.099976
+      value: -37.7
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: startPosition.y
-      value: -11.719971
+      value: -10.2
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: garbageTransform
@@ -84883,6 +84883,10 @@ PrefabInstance:
       value: UI_StageSelect_var3
       objectReference: {fileID: 0}
     - target: {fileID: 1965042516988232146, guid: 0c81bbe30b13b4d75a0fda571ef0e39b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4982724904290335230, guid: 0c81bbe30b13b4d75a0fda571ef0e39b, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}

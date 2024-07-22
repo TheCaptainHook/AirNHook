@@ -28,23 +28,31 @@ public enum AudioMixerGroupType
     BGM,
 }
 
+//TODO 0722 Develop code line : 42,53,91,108,149
+
 public class SoundManager
 {
     public AudioMixer audioMixer { get; private set; }
     private Dictionary<AudioType, AudioClip> _audioClipDict = new();
     private Queue<AudioSource> _deactivatedAudioSources = new();
     private AudioSource _bgmAudioSource;
-    
+
     private WaitForSeconds _waitForSeconds = new(1f);
     private Dictionary<string, AudioMixerGroup> _audioMixerGroups = new();
     private const string AUDIO_SOURCE_PATH = "Prefabs/Sound/AudioSource";
+
+    //todo 0722 JS
+    private const int INITIAL_AUDIO_SOURCE_COUNT = 10; // 초기 오디오 소스 개수
+    private const int MAX_ADDITIONAL_AUDIO_SOURCE_COUNT = 20; // 최대 추가 생성 가능한 오디오 소스 개수
+    private int _additionalAudioSourceCount = 0;
+    //todo 0722 JS 
 
     #region SetUpMethod
     public void SetUp()
     {
         AudioMixSetUp();
         AudioClipSetUp();
-        AddAudioSources(8);
+        AddAudioSources(INITIAL_AUDIO_SOURCE_COUNT); //todo 0722 JS
     }
     private void AudioMixSetUp()
     {
@@ -53,8 +61,8 @@ public class SoundManager
         var audioMixerGroupArray = audioMixer.FindMatchingGroups(string.Empty);
         foreach (var audioMixerGroup in audioMixerGroupArray)
             _audioMixerGroups.Add(audioMixerGroup.name, audioMixerGroup);
-        
-        audioMixer.SetFloat("MasterParam",GetAudioMixVolume(PlayerPrefs.GetFloat("MasterVolume", 1f)));
+
+        audioMixer.SetFloat("MasterParam", GetAudioMixVolume(PlayerPrefs.GetFloat("MasterVolume", 1f)));
         audioMixer.SetFloat("BGMParam", GetAudioMixVolume(PlayerPrefs.GetFloat("BGMVolume", 1f)));
         audioMixer.SetFloat("EffectsParam", GetAudioMixVolume(PlayerPrefs.GetFloat("EffectsVolume", 1f)));
     }
@@ -63,7 +71,7 @@ public class SoundManager
     {
         return Mathf.Log10(volume) * 20;
     }
-    
+
     private void AudioClipSetUp()
     {
         // audioClip save form scriptable object
@@ -82,6 +90,22 @@ public class SoundManager
             _deactivatedAudioSources.Enqueue(audioSource);
         }
     }
+    //todo 0722 JS
+    public AudioClip GetAudioClip(AudioType audioType)
+    {
+        return _audioClipDict[audioType];
+    }
+    public AudioMixerGroup GetAudioMixerGroup(string name)
+    {
+        return _audioMixerGroups[name];
+    }
+    public AudioSource GetAudioSource()
+    {
+        return _deactivatedAudioSources.Dequeue();
+    }
+    //todo 0722 JS
+
+
     #endregion
 
     #region PlaySoundMethod
@@ -94,9 +118,21 @@ public class SoundManager
     /// <param name="volume"> 소리 조절. default is 1f. </param>
     public void PlaySound(AudioType audioType, AudioMixerGroupType audioMixerGroupType, bool isLoop = false, float volume = 1f, float spatialBlend = 0f)
     {
-        GetAudioSource(out var audioSource);
-        
-        PlayAudioClip(audioSource, audioType, audioMixerGroupType, isLoop, volume, spatialBlend);
+        //GetAudioSource(out var audioSource);
+
+        //PlayAudioClip(audioSource, audioType, audioMixerGroupType, isLoop, volume, spatialBlend);
+
+
+        //todo 0722 JS
+        if (GetAudioSource(out var audioSource))
+        {
+            PlayAudioClip(audioSource, audioType, audioMixerGroupType, isLoop, volume, spatialBlend);
+        }
+        else
+        {
+            Debug.LogWarning("No available audio source to play sound.");
+        }
+        //todo 0722 JS
     }
 
     /// <summary>
@@ -109,7 +145,7 @@ public class SoundManager
     public void PlayBGM(AudioType audioType, AudioMixerGroupType audioMixerGroupType, bool isLoop = false, float volume = 1f, float spatialBlend = 0f)
     {
         AudioSource audioSource;
-        
+
         //TODO Fade out Fade IN ?
         if (_bgmAudioSource is null)
             GetAudioSource(out audioSource);
@@ -119,14 +155,36 @@ public class SoundManager
         _bgmAudioSource = audioSource;
         PlayAudioClip(audioSource, audioType, audioMixerGroupType, isLoop, volume, spatialBlend);
     }
-    
-    private void GetAudioSource(out AudioSource audioSource)
+
+    //private void GetAudioSource(out AudioSource audioSource)
+    //{
+    //    if (_deactivatedAudioSources.TryDequeue(out audioSource)) return;
+
+    //    AddAudioSources(5);
+    //    audioSource = _deactivatedAudioSources.Dequeue();
+    //}
+
+    //todo 0722 JS
+    private bool GetAudioSource(out AudioSource audioSource)
     {
-        if (_deactivatedAudioSources.TryDequeue(out audioSource)) return;
-        
-        AddAudioSources(5);
-        audioSource = _deactivatedAudioSources.Dequeue();
+        if (_deactivatedAudioSources.TryDequeue(out audioSource))
+        {
+            return true;
+        }
+
+        if (_additionalAudioSourceCount < MAX_ADDITIONAL_AUDIO_SOURCE_COUNT)
+        {
+            AddAudioSources(5);
+            _additionalAudioSourceCount += 5;
+            audioSource = _deactivatedAudioSources.Dequeue();
+            return true;
+        }
+
+        audioSource = null;
+        return false;
     }
+    //todo 0722 JS
+
 
     // 오디오 클립 재생. 윗쪽 Method에서 호출함.
     private void PlayAudioClip(AudioSource audioSource, AudioType audioType, AudioMixerGroupType audioMixerGroupType, bool isLoop, float volume, float spatialBlend)
@@ -139,7 +197,7 @@ public class SoundManager
         audioSource.clip = audioClip;
         audioSource.spatialBlend = spatialBlend;
         audioSource.Play();
-        if(!isLoop)
+        if (!isLoop)
             Managers.Instance.StartCoroutine(CollectSoundSource(audioSource, audioClip.length));
     }
     #endregion

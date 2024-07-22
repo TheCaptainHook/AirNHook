@@ -134,7 +134,7 @@ public class UI_Dialogue : UI_Base
         nextDialogueIndex = 1;
         dialogueId = id;
         
-        list = Managers.Data.language.map[id];
+        list = Managers.Data.language.dialogueMap[id];
 
         StartCoroutine(StartDialogue());
 
@@ -190,7 +190,7 @@ public class UI_Dialogue : UI_Base
         
         //Typing Effect
         _cancellationTokenSource = new CancellationTokenSource();
-        Task task = Util.TypingEffectTask(_TextBoxText, dialogue.sentence, Color.black, 42, .05f, _cancellationTokenSource);
+        Task task = Util.TypingEffectTask(_TextBoxText, Managers.Data.language.dict[dialogue.sentenceID], Color.black, 42, .05f, _cancellationTokenSource,true);
         //Typing Effect
 
         //TypingEffectTask Cancel

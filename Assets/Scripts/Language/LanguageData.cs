@@ -18,7 +18,7 @@ public class LanguageData
     private string _currentLanguage;
 
     //testCode Dialogue System 0707
-    public Dictionary<int, List<Dialogue>> map;
+    public Dictionary<int, List<Dialogue>> dialogueMap;
     
     //testCode Dialogue System 0707
 
@@ -44,7 +44,7 @@ public class LanguageData
         }
 
         //testCode Dialogue System 0707
-        map = GetDialogueData("English");
+        dialogueMap = GetDialogueData();
         //testCode Dialogue System 0707
 
         // 언어 세팅 설정
@@ -69,11 +69,6 @@ public class LanguageData
             dict.Add(sentence.id, sentence.text);
         }
 
-        //testCode Dialogue System 0707
-        map.Clear();
-        map = GetDialogueData(language);
-        //testCode Dialogue System 0707
-
         // 언어 세팅 설정
         Managers.UI.SettingLanguage();
     }
@@ -87,9 +82,9 @@ public class LanguageData
 
     #region Dialogue System Test Code 0710
 
-    public Dictionary<int, List<Dialogue>> GetDialogueData(string language)
+    public Dictionary<int, List<Dialogue>> GetDialogueData()
     {
-        List<Dictionary<string, object>> list = CSVReader.Read($"DialogueDB_{language}");
+        List<Dictionary<string, object>> list = CSVReader.Read($"DialogueDB");
 
         Dictionary<int, List<Dialogue>> map = new();
 
@@ -101,9 +96,9 @@ public class LanguageData
             string emotion = entry["emotion"].ToString();
             string spritePosition = entry["spritePosition"].ToString();
             string textBoxPosition = entry["textBoxPosition"].ToString();
-            string sentence = entry["sentence"].ToString();
+            int sentenceID = (int)entry["sentence"];
             
-            Dialogue dialogue = new Dialogue(index, name, emotion, textBoxPosition, spritePosition, sentence);
+            Dialogue dialogue = new Dialogue(index, name, emotion, textBoxPosition, spritePosition, sentenceID);
 
             if (!map.ContainsKey(id))
             {
@@ -127,14 +122,14 @@ public class Dialogue
     public string emotion;
     public TextBoxPivot textBoxPivot;
     public SpritePosition spritePosition;
-    public string sentence;
+    public int sentenceID;
 
-    public Dialogue(int index, string name, string emotion,string textBoxPivotStr,string spritePositionStr, string sentence)
+    public Dialogue(int index, string name, string emotion,string textBoxPivotStr,string spritePositionStr, int sentenceID)
     {
         this.index = index;
         this.name = name;
         this.emotion = emotion;
-        this.sentence = sentence;
+        this.sentenceID = sentenceID;
 
 
         if (Enum.TryParse(textBoxPivotStr, true, out TextBoxPivot textBoxPivot))
