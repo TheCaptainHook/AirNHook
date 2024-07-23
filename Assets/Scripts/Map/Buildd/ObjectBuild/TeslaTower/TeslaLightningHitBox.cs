@@ -1,6 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+
+
+
 
 public class TeslaLightningHitBox : MonoBehaviour
 {
@@ -8,45 +13,53 @@ public class TeslaLightningHitBox : MonoBehaviour
     public float curLightningRate;
 
     Collider2D lightningRodCollider;
-
     Coroutine _Coroutine;
 
-
-
-    public void OnTriggerEnter2D(Collider2D collision)
+  
+    private void Update()
     {
-        if (collision.GetComponent<LightningRod>())
-        {
-            lightningRodCollider = collision;
-        }
-
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
-        {
-            if (lightningRodCollider)
-            {
-                _Coroutine = StartCoroutine(Lightning(lightningRodCollider.gameObject));
-                return;
-            }
-
-            _Coroutine = StartCoroutine(Lightning(collision.gameObject));
-        }
-
+        
     }
 
-    public void OnTriggerExit2D(Collider2D collision)
-    {
+    //public void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    //if (collision.GetComponent<LightningRod>())
+    //    //{
 
-        if (collision.GetComponent<LightningRod>())
-        {
-            lightningRodCollider = null;
-        }
+    //    //    Debug.Log(CheckInsulator(collision.GetComponent<BuildObj>().id));
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
-        {
-            StopCoroutine(_Coroutine);
-        }
-       
-    }
+    //    //    lightningRodCollider = collision;
+    //    //}
+
+    //    //if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+    //    //{
+    //    //    if (lightningRodCollider)
+    //    //    {
+    //    //        _Coroutine = StartCoroutine(Lightning(lightningRodCollider.gameObject));
+    //    //        return;
+    //    //    }
+
+    //    //    _Coroutine = StartCoroutine(Lightning(collision.gameObject));
+    //    //}
+    //    Debug.Log(collision.name);
+    //}
+
+    //public void OnTriggerExit2D(Collider2D collision)
+    //{
+
+    //    if (collision.GetComponent<LightningRod>())
+    //    {
+    //        lightningRodCollider = null;
+    //    }
+
+    //    if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+    //    {
+    //        StopCoroutine(_Coroutine);
+    //    }
+
+    //}
+
+   
 
 
     IEnumerator Lightning(GameObject target)
@@ -67,6 +80,6 @@ public class TeslaLightningHitBox : MonoBehaviour
     }
 
 
-    
+  
 
 }

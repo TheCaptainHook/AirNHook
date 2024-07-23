@@ -1,7 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//TODO 0723 Develop code Line : 51,101
+
+enum Insulator
+{
+    LightningRod,
+    LeverHead
+}
 public class TeslaTower : BuildObj
 {
     [SerializeField] ParticleSystem[] chargeEffects;
@@ -27,7 +35,6 @@ public class TeslaTower : BuildObj
             enterBoundaryPlayerAmount += value;
 
             enterBoundaryPlayerAmount = Mathf.Clamp(enterBoundaryPlayerAmount, 0, 2);
-            Debug.Log(enterBoundaryPlayerAmount);
             if (enterBoundaryPlayerAmount == 0)
             {
                 StopChargeEffect();
@@ -40,6 +47,18 @@ public class TeslaTower : BuildObj
 
         }
     }
+
+    //TODO 0723
+    [SerializeField] float detectionRadiusX=4;// 감지 범위의 X축 반지름
+    [SerializeField] float detectionRadiusY=3; // 감지 범위의 Y축 반지름
+    private Vector3 detectOffset = new Vector3(0, 1.5f);
+    private HashSet<GameObject> detectedObjects = new HashSet<GameObject>();
+    private System.Type[] _DetectObjComponentTypes = { typeof(Player), typeof(BuildObj) };
+
+
+    private float maxLightningRate = 1f;
+    private float curLightningRate = 0;
+    //TODO 0723
 
 
     private void Start()
@@ -61,6 +80,142 @@ public class TeslaTower : BuildObj
 
     }
 
+    private void Update()
+    {
+        DetectObjectsWithComponents(_DetectObjComponentTypes);
+
+
+        if (onCharge)
+        {
+            curLightningRate += Time.deltaTime;
+            if (curLightningRate >= maxLightningRate)
+            {
+                Check_DetectObjectsAndLightning();
+                curLightningRate = 0;
+            }
+        }   
+    }
+
+
+    #region DetectObjects
+    //TODO 0723
+    private void DetectObjectsWithComponents(System.Type[] componentTypes)
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, Mathf.Max(detectionRadiusX, detectionRadiusY));
+
+        HashSet<GameObject> currentDetectedObjects = new HashSet<GameObject>();
+
+        foreach (Collider2D collider in colliders)
+        {
+            GameObject obj = collider.gameObject;
+
+            if (collider.gameObject == gameObject) continue;
+
+            foreach (var type in componentTypes)
+            {
+                var component = obj.GetComponent(type);
+
+                if (component != null)
+                {
+                    Vector2 position = transform.position + detectOffset;
+                    Vector2 objPosition = obj.transform.position;
+
+                    // 타원 내에 있는지 체크
+                    if (IsInsideEllipse(position, objPosition, detectionRadiusX, detectionRadiusY))
+                    {
+                        currentDetectedObjects.Add(obj);
+
+                        if (!detectedObjects.Contains(obj))
+                        {
+                            detectedObjects.Add(obj);
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        detectedObjects.IntersectWith(currentDetectedObjects);
+    }
+
+    private void Check_DetectObjectsAndLightning()
+    {
+        if (detectedObjects.Count > 0 && onCharge)
+        {
+            foreach(var obj in detectedObjects) //Find LightningRod
+            {
+                if(obj.TryGetComponent(out LightningRod lightningRod))
+                {
+                    DrawLineRenderer(obj.transform, lightningRod.hitPoint);
+                    lightningRod.TakeDamage();
+                    return;
+                }
+            }
+
+            foreach(var obj in detectedObjects)
+            {
+                if(obj.TryGetComponent(out BuildObj buildObj))
+                {
+                    if (CheckInsulator(buildObj.id))
+                    {
+                        DrawLineRenderer(obj.transform, obj.transform);
+                        buildObj.TakeDamage();
+                        return;
+                    }
+                    
+                }
+            }
+
+            foreach(var obj in detectedObjects)
+            {
+                if(obj.layer == LayerMask.NameToLayer("Player"))
+                {
+                    DrawLineRenderer(obj.transform, obj.transform);
+                    obj.GetComponent<Player>().TakeDamage();
+                }
+            }
+
+        }
+    }
+
+
+
+    //TODO 0723
+    private bool CheckInsulator(int id)
+    {
+        string name = Managers.Data.mapData.mapObjectDataDictionary[id].name;
+        return Enum.IsDefined(typeof(Insulator), name);
+    }
+
+    private bool IsInsideEllipse(Vector2 center, Vector2 point, float radiusX, float radiusY)
+    {
+        float dx = point.x - center.x;
+        float dy = point.y - center.y;
+        return (dx * dx) / (radiusX * radiusX) + (dy * dy) / (radiusY * radiusY) <= 1;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red; // 디버그 타원의 색상을 빨간색으로 설정
+
+        // 타원의 세그먼트 수
+        int segments = 100;
+        Vector3[] points = new Vector3[segments + 1];
+
+        for (int i = 0; i <= segments; i++)
+        {
+            float angle = 2 * Mathf.PI * i / segments;
+            float x = Mathf.Cos(angle) * detectionRadiusX;
+            float y = Mathf.Sin(angle) * detectionRadiusY;
+            points[i] = new Vector3(transform.position.x + x, transform.position.y + y, 0) + detectOffset;
+        }
+
+        for (int i = 0; i < segments; i++)
+        {
+            Gizmos.DrawLine(points[i], points[i + 1]);
+        }
+    }
+    #endregion
+
     #region Effect
 
     public void StartChargeEffect()
@@ -70,7 +225,7 @@ public class TeslaTower : BuildObj
         {
             ps.Play();
         }
-        
+
     }
 
     public void StopChargeEffect()
@@ -92,6 +247,7 @@ public class TeslaTower : BuildObj
 
     #endregion
 
+
     public void Lightning(GameObject target)
     {
         ///
@@ -102,6 +258,13 @@ public class TeslaTower : BuildObj
         {
             DrawLineRenderer(target.transform, lightningRod1.hitPoint);
             lightningRod1.Electric();
+            return;
+        }
+
+        if (target.gameObject.TryGetComponent(out BuildObj buildObj))
+        {
+            DrawLineRenderer(target.transform, target.transform);
+            buildObj.TakeDamage();
             return;
         }
 
@@ -117,16 +280,19 @@ public class TeslaTower : BuildObj
             
         }
 
-        //if(target.TryGetComponent(out Air air))
+        if(target.TryGetComponent(out IDamageable damageable))
+        {
+            damageable.TakeDamage();
+        }
+
+
+        //if (target.TryGetComponent(out Air air))
         //{
         //    Debug.Log("Air");
+           
         //}
 
-        if (target.gameObject.TryGetComponent(out IDamageable component))
-        {
-            DrawLineRenderer(target.transform, target.transform);
-            component.TakeDamage();
-        }
+       
 
         return;
 

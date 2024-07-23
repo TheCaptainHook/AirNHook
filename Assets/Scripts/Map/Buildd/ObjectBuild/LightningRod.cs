@@ -123,4 +123,9 @@ public class LightningRod : BuildObj
         Deactivate();
         curDurationRate = maxDurationRate;
     }
+
+    public override void TakeDamage()
+    {
+        Electric();
+    }
 }
