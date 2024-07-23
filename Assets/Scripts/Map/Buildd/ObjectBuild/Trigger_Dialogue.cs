@@ -28,18 +28,20 @@ public class Trigger_Dialogue : BuildObj
         }
     }
 
-    public ObjectData GetDialogueData()
+    public DialogueData GetDialogueData()
     {
-        ObjectData data = new ObjectData(id,transform.position,transform.localScale,_DialogueId);
+        //ObjectData data = new ObjectData(id,transform.position,transform.localScale,_DialogueId);
+        DialogueData data = new DialogueData(id, OnExcuted,_DialogueId, transform.position, transform.rotation, transform.localScale);
         return data;
     }
 
-    public void SetDialogueData(ObjectData data)
+    public void SetDialogueData(DialogueData data)
     {
-        ObjectData = data;
+        ObjectData = new ObjectData(data.id, data.position, data.scale);
         transform.position = data.position;
         transform.localScale = data.scale;
         _DialogueId = data.dialogueId;
+        OnExcuted = data.excuted;
     }
 
 

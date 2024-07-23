@@ -159,6 +159,8 @@ public class TeslaTower : BuildObj
                     {
                         DrawLineRenderer(obj.transform, obj.transform);
                         buildObj.TakeDamage();
+
+                        // 플레이어가 오브젝트를 들고있는 경우 제대로 작동 안댐
                         return;
                     }
                     

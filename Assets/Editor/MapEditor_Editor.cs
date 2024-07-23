@@ -7,6 +7,9 @@ using UGS;
 using System.IO;
 using System.Threading.Tasks;
 
+
+//TODO 0724 Develop code line : 435,506
+
 [CustomEditor(typeof(MapEditor))]
 public class MapEditor_Editor : Editor
 {
@@ -175,6 +178,7 @@ public class MapEditor_Editor : Editor
             CreateObj(mapEditor.interactionObjectTransform, map, mapEditor.placeMentSystem, 2);
             CreateObj(mapEditor.exitDoorObjectTransform, map, mapEditor.placeMentSystem, 3);
             CreateObj(mapEditor.interactionObjectTransform, map, mapEditor.placeMentSystem, 4);
+            CreateObj(mapEditor.triggerDialogueTransform, map, mapEditor.placeMentSystem, 5);
 
             mapEditor.stageLevel = mapEditor.CurMap.stageLevel;
             mapEditor.mapID = mapEditor.CurMap.mapID;
@@ -222,8 +226,9 @@ public class MapEditor_Editor : Editor
         CreateObj(mapEditor.interactionObjectTransform, map, mapEditor.placeMentSystem, 2);
         CreateObj(mapEditor.exitDoorObjectTransform, map, mapEditor.placeMentSystem, 3);
         CreateObj(mapEditor.interactionObjectTransform, map, mapEditor.placeMentSystem, 4);
+        CreateObj(mapEditor.triggerDialogueTransform, map, mapEditor.placeMentSystem, 5);
 
-  
+
     }
     
 
@@ -332,6 +337,13 @@ public class MapEditor_Editor : Editor
                     Create(transform, mapDataStruct, data);
                 }
                 break;
+            case 5:
+                foreach(DialogueData data in map.dialogueDataList)
+                {
+                    MapDataStruct mapDataStruct = mapSceneDataDictionary[data.id];
+                    Create(transform, mapDataStruct, data);
+                }
+                break;
         }
 
     }
@@ -343,6 +355,12 @@ public class MapEditor_Editor : Editor
         //obj.transform.position = data.position;
         //obj.transform.rotation = data.quaternion;
         //obj.transform.localScale = data.scale;
+        obj.transform.SetParent(transform);
+    }
+    void Create(Transform transform, MapDataStruct mapDataStruct, DialogueData data)
+    {
+        GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
+        obj.GetComponent<Trigger_Dialogue>().SetDialogueData(data);
         obj.transform.SetParent(transform);
     }
     void Create(Transform transform, MapDataStruct mapDataStruct, ButtonActivatedDoorStruct data)
@@ -370,9 +388,6 @@ public class MapEditor_Editor : Editor
 
         obj.transform.SetParent(transform);
     }
-
-        
-
 
     void Create(Transform transform,MapDataStruct mapDataStruct,ExitObjStruct data)
     {
@@ -429,8 +444,10 @@ public class MapEditor_Editor : Editor
             GetList(mapEditor.objectTransform),
             GetButtonActivateDoorStructList(mapEditor),
             GetButtonActivatedObjectList(mapEditor),
+            GetDialogueList(mapEditor.triggerDialogueTransform), // todo0724
             mapEditor.cellSize, 0, await CurrentMapScreenShot(mapEditor), mapEditor.audioType);; ;
         string json = JsonUtility.ToJson(map, true);
+
         if(mapEditor.mapType == MapType.Main)
         {
             filePath = Path.Combine(folderPath,$"{mapEditor.mapType}/{mapEditor.stageLevel}");
@@ -495,6 +512,19 @@ List<TileData> GetTileData(Tilemap tileMap)
             //cur.GetComponent<BuildObj>().SetTileData(cur.position, cur.rotation);
             cur.GetComponent<BuildObj>().SetTileData();
             list.Add(cur.GetComponent<BuildObj>().ObjectData);
+        }
+        return list;
+    }
+
+    List<DialogueData> GetDialogueList(Transform transform)
+    {
+        List<DialogueData> list = new();
+        foreach(Transform tr in transform)
+        {
+            if(tr.TryGetComponent(out Trigger_Dialogue component))
+            {
+                list.Add(component.GetDialogueData());
+            }
         }
         return list;
     }

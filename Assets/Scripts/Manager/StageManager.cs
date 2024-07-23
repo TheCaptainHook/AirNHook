@@ -52,6 +52,19 @@ public class StageManager
     }
 
     [Command]
+    public void CmdBatchObject(string objName, DialogueData data)
+    {
+        if (!NetworkServer.active || !NetworkClient.isConnected) return;
+
+        GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+
+        obj.GetComponent<Trigger_Dialogue>().SetDialogueData(data);
+
+        obj.transform.SetParent(MapEditor.Instance.triggerDialogueTransform);
+        NetworkServer.Spawn(obj, NetworkServer.localConnection);
+    }
+
+    [Command]
     public void CmdBatchObject(string objName, ExitObjStruct data)
     {
         if (!NetworkServer.active || !NetworkClient.isConnected) return;

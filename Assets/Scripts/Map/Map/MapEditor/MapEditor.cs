@@ -40,7 +40,7 @@ public enum TileType
 
 }
 
-
+//TODO O723 Develop code line (Trigger Diaglogue Obj) : 163
 public class MapEditor : MonoBehaviour
 {
     public static MapEditor Instance;
@@ -80,6 +80,10 @@ public class MapEditor : MonoBehaviour
     [HideInInspector] public Transform dontSaveObjectTransform;
     [HideInInspector] public Transform networkingObjectTransform;
     [HideInInspector] public Transform garbageTransform;
+
+    //TOdo 0723
+    [HideInInspector] public Transform triggerDialogueTransform;
+    //TOdo 0723
 
     [HideInInspector] public Transform poolingContainer;
 
@@ -160,7 +164,9 @@ public class MapEditor : MonoBehaviour
         dontSaveObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "DontSaveObjectTransform");
         garbageTransform = Util.CreateChildTransform(mapObjBoxTransform, "GarbageTransform");
         networkingObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "networkingObjectTransform");
-
+        //TODO 0723
+        triggerDialogueTransform = Util.CreateChildTransform(mapObjBoxTransform, "triggerDialogueTransform");
+        //TODO 0723
         poolingContainer = Util.CreateChildTransform(mapObjBoxTransform, "PoolingContainer");
     }
 
@@ -268,17 +274,7 @@ public class MapEditor : MonoBehaviour
         List<ObjectData> list = new();
         foreach(Transform cur in transform)
         {
-            //cur.GetComponent<BuildObj>().SetTileData(cur.position, cur.rotation);
             cur.GetComponent<BuildObj>().SetTileData();
-
-            //if (cur.TryGetComponent(out Trigger_Dialogue component))
-            //{
-            //    component.SetTileData();
-            //}
-            //else
-            //{
-            //    cur.GetComponent<BuildObj>().SetTileData();
-            //}
 
             list.Add(cur.GetComponent<BuildObj>().ObjectData);
         }
@@ -286,19 +282,7 @@ public class MapEditor : MonoBehaviour
     }
 
 
-    //List<ButtonActivatedDoorStruct> GetButtonActivateDoorStructList(Transform transform)
-    //{
-    //    List<ButtonActivatedDoorStruct> list = new();
-    //    foreach(Transform cur in transform)
-    //    {
-    //        Debug.Log("asdasd");
-    //        ButtonActivatedDoor curDoor = cur.GetComponent<ButtonActivatedDoor>();
-    //        curDoor.SetTileData(cur.position,cur.rotation);
 
-    //        list.Add(curDoor.GetButtonActivatedDoorStruct());
-    //    }
-    //    return list;
-    //}
     List<ButtonActivatedDoorStruct> GetButtonActivateDoorStructList()
     {
         List<ButtonActivatedDoorStruct> list = new();
@@ -330,18 +314,6 @@ public class MapEditor : MonoBehaviour
         return list;
     }
 
-    //List<ExitObjStruct> GetExitObjStructsList(Transform transform)
-    //{
-    //    List<ExitObjStruct> list = new();
-
-    //    foreach (Transform cur in transform)
-    //    {
-
-    //        list.Add(cur.GetComponent<ExitPointObj>().GetExitObjectStruct());
-    //    }
-
-    //    return list;
-    //}
     List<ExitObjStruct> GetExitObjStructsList(Transform transform)
     {
         List<ExitObjStruct> list = new();
@@ -364,19 +336,19 @@ public class MapEditor : MonoBehaviour
         return list;
     }
 
-    //List<DialogueData> GetDialogueStructsList() //todo 0718
-    //{
-    //    List<DialogueData> list = new();
-    //    foreach (Transform tr in objectTransform)
-    //    {
-    //        if (tr.TryGetComponent(out Trigger_Dialogue dialogue))
-    //        {
-    //            list.Add(dialogue.GetDialogueData());
-    //        }
-    //    }
 
-    //    return list;
-    //}
+    List<DialogueData> GetDialogueList()
+    {
+        List<DialogueData> list = new();
+        foreach (Transform tr in triggerDialogueTransform)
+        {
+            if (tr.TryGetComponent(out Trigger_Dialogue component))
+            {
+                list.Add(component.GetDialogueData());
+            }
+        }
+        return list;
+    }
 
     #endregion
 
@@ -399,6 +371,7 @@ public class MapEditor : MonoBehaviour
             mapObjectDataList,
             GetButtonActivateDoorStructList(),
             GetButtonActivatedObjectList(),
+            GetDialogueList(),
             cellSize,1,bytesImage,audioType);
 
         string mapDatajson = JsonUtility.ToJson(map, true);
@@ -444,36 +417,6 @@ public class MapEditor : MonoBehaviour
         CreateObj(interactionObjectTransform, 4); //interactionObjectTransform
     }
 
-    //public void LoadMap(string name, MapType mapType)
-    //{
-    //    if (!Managers.Data.mapData.GetDictionary(mapType).ContainsKey(name))
-    //    {
-    //        Debug.Log("Can't find Map");
-    //        return;
-    //    }
-
-    //    Init();
-    //    placeMentSystem.ResetTileMap();
-    //    mapEditorType = MapEditorType.Load;
-    //    mapID = name;
-    //    CurMap = Managers.Data.mapData.GetDictionary(mapType)[name];
-    //    SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);
-
-    //    //start Point
-    //    CreateStartPosition();
-    //    //ParallaxCamera Reset
-    //    if (Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate != null) { Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate = null; }
-    //    Camera.main.GetComponent<ParallaxCamera>().oldPosition = startPosition.x;
-
-    //    CreateObj(floorTransform, 0); //floorTransform
-    //    CreateObj(objectTransform, 1); //objectTransform
-    //    CreateObj(interactionObjectTransform, 2); //interactionObjectTransform
-    //    CreateObj(exitDoorObjectTransform, 3); //exitDoorObjectTransform
-    //    CreateObj(interactionObjectTransform, 4); //interactionObjectTransform
-
-
-    //    //
-    //}
 
     public void LoadMap(string name) // main Load 
     {
@@ -498,6 +441,10 @@ public class MapEditor : MonoBehaviour
         CreateObj(interactionObjectTransform, 2); //interactionObjectTransform
         CreateObj(exitDoorObjectTransform, 3); //exitDoorObjectTransform
         CreateObj(interactionObjectTransform, 4); //interactionObjectTransform
+        //todo 0723
+        CreateObj(triggerDialogueTransform, 5); //triggerDialogueTransform
+        //todo 0723
+
 
 
         Managers.Sound.PlayBGM(CurMap.audioType, AudioMixerGroupType.BGM, true,.1f);
@@ -553,7 +500,7 @@ public class MapEditor : MonoBehaviour
                     if (Managers.Data.mapData.mapSceneDataDictionary.ContainsKey(data.id))
                     {
                         MapDataStruct mapDataStruct = Managers.Data.mapData.mapSceneDataDictionary[data.id];
-                        if (Managers.Game.CurrentState != GameState.Editor && (data.id == 1001 || data.id == 1002 || data.id==1003))
+                        if (Managers.Game.CurrentState != GameState.Editor && (data.id == 1001 || data.id == 1002))
                         {
                             Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
                         }
@@ -651,6 +598,21 @@ public class MapEditor : MonoBehaviour
 
                 }
                 break;
+            case 5:
+                foreach(DialogueData data in curMap.dialogueDataList)
+                {
+                    MapDataStruct mapDataStruct = Managers.Data.mapData.mapSceneDataDictionary[data.id];
+                    if(Managers.Game.CurrentState != GameState.Editor)
+                    {
+                        Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
+                    }
+                    else
+                    {
+                        Create(transform, mapDataStruct, data);
+                    }
+                  
+                }
+                break;
         }
 
     }
@@ -661,10 +623,6 @@ public class MapEditor : MonoBehaviour
     {
         GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
         obj.GetComponent<BuildObj>().SetData(data);
-        //obj.GetComponent<BuildObj>().SetData(data);//todo
-        //obj.transform.position = data.position;
-        //obj.transform.rotation = data.quaternion;
-        //obj.transform.localScale = data.scale;
 
         obj.transform.SetParent(transform);
 
@@ -674,6 +632,15 @@ public class MapEditor : MonoBehaviour
             placeMentSystem.curPlaceObjList.Add(obj.GetComponent<BuildObj>());
         }
     }
+    void Create(Transform transform, MapDataStruct mapDataStruct, DialogueData data)
+    {
+        GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
+        obj.GetComponent<Trigger_Dialogue>().SetDialogueData(data);
+
+        obj.transform.SetParent(transform);
+
+    }
+
     void Create(Transform transform, MapDataStruct mapDataStruct, ButtonActivatedDoorStruct data)
     {
         GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
@@ -722,6 +689,8 @@ public class MapEditor : MonoBehaviour
             placeMentSystem.curPlaceObjList.Add(obj.GetComponent<BuildObj>());
         }
     }
+
+
 
 
     void CreateStartPosition()

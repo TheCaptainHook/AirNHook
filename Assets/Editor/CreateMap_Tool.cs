@@ -484,7 +484,6 @@ public class CreateMap_Tool : EditorWindow
     #region Function
     void CreateObject(int i)
     {
-
         GameObject obj = modeType == ModeType.Object ? objLists[i] : modeType == ModeType.Scenes ? sceneObjLists[i]: modeType == ModeType.Other ? otherObjLists[i] : backgroundObjLists[i];
         BuildObj buildObj = obj.GetComponent<BuildObj>();
         //GameObject obj = objLists[i];
@@ -503,6 +502,9 @@ public class CreateMap_Tool : EditorWindow
             case 306:
             case 312:
                 SelectActiveOBJ(obj, curMapEditor.interactionObjectTransform);
+                break;
+            case 1003:
+                SelectActiveOBJ(obj, curMapEditor.triggerDialogueTransform);
                 break;
             default:
                 SelectActiveOBJ(obj, curMapEditor.objectTransform);

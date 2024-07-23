@@ -24,6 +24,7 @@ public class Map
     public List<ButtonActivatedDoorStruct> mapButtonActivatedDoorDataList = new List<ButtonActivatedDoorStruct>();
     public List<ButtonActivatedObject> buttonActivatedObjectList = new();
     public List<ExitObjStruct> mapExitObjectDataList = new();
+    public List<DialogueData> dialogueDataList = new();
 
     public int dataType; //0:Main,1:User
     public float cellSize;
@@ -40,6 +41,7 @@ public class Map
         List<ObjectData> objectList,
         List<ButtonActivatedDoorStruct> mapButtonActivatedDoorDataList,
         List<ButtonActivatedObject> buttonActivatedObjectList,
+        List<DialogueData> dialogueDataList,
         float cellSize,int dataType = 0, byte[] bytesImage = null,AudioType audioType = AudioType.None)
     {
         mapID = id;
@@ -54,6 +56,7 @@ public class Map
         this.mapExitObjectDataList = mapExitObjectDataList;
         this.mapButtonActivatedDoorDataList = mapButtonActivatedDoorDataList;
         this.buttonActivatedObjectList = buttonActivatedObjectList;
+        this.dialogueDataList = dialogueDataList;
 
         this.mapSize = mapSize;
         this.cellSize = cellSize;
@@ -208,31 +211,25 @@ public struct TileData
     }
 }
 
-//[System.Serializable]
-//public struct DialogueData
-//{
-//    public int id;
-//    public int dialogueId;
-//    public Vector2 position;
-//    public Quaternion quaternion;
-//    public Vector3 scale;
+[System.Serializable]
+public struct DialogueData
+{
+    public int id;
+    public bool excuted;
+    public int dialogueId;
+    public Vector2 position;
+    public Quaternion quaternion;
+    public Vector3 scale;
 
-//    public DialogueData(int id,int dialogueId,Vector2 position,Quaternion quaternion,Vector3 scale)
-//    {
-//        this.id = id;
-//        this.dialogueId = dialogueId;
-//        this.position = position;
-//        this.quaternion = quaternion;
-//        this.scale = scale;
-        
-//    }
-//    public DialogueData(int id, int dialogueId, Vector2 position)
-//    {
-//        this.id = id;
-//        this.dialogueId = dialogueId;
-//        this.position = position;
-//        this.quaternion = Quaternion.identity;
-//        this.scale = Vector3.one;
+    public DialogueData(int id, bool excuted,int dialogueId, Vector2 position, Quaternion quaternion, Vector3 scale)
+    {
+        this.id = id;
+        this.excuted = excuted;
+        this.dialogueId = dialogueId;
+        this.position = position;
+        this.quaternion = quaternion;
+        this.scale = scale;
 
-//    }
-//}
+    }
+   
+}
