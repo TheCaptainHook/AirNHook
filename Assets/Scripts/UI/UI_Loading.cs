@@ -1,24 +1,34 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UI_Loading : UI_Base
 {
+    [Header("■ Animations")]
+    [SerializeField] private AnimationCurve _curve;
+    
     [Header("■ CanvasGroup")]
     [SerializeField] private CanvasGroup _canvasGroup; //로딩화면 캔버스
     
     [Header("■ Image")]
-    [SerializeField] private Image _progressBar;
     [SerializeField] private Image _loadingImg;
+    [SerializeField] private GameObject _loadingImgFrame;
+    [SerializeField] private GameObject _titleImg;
     
+    [Header("■ Text")]
+    [SerializeField] private TMP_Text _loadingText;
+
+    [SerializeField] private Slider _slider;
     private Sprite[] _loadingSprites; // 랜덤한 로딩 스프라이트 배열
     private string _loadSceneName; // 로드할 씬의 이름
 
     public override void OnEnable()
     {
         OpenUI();
-
+        StartCoroutine(BounceRoutine(_titleImg,Vector3.one, Vector3.one * 0.9f, _curve));
+        StartCoroutine(BounceRoutine(_loadingImgFrame,Vector3.one, Vector3.one * 0.95f, _curve));
         _loadSceneName = Managers.UI.sceneName;
         LoadSpritesFromResources();
         SetRandomBackground();
@@ -39,7 +49,7 @@ public class UI_Loading : UI_Base
 
     private IEnumerator Co_LoadSceneProcess()
     {
-        _progressBar.fillAmount = 0f;
+        _slider.value = 0f;
         yield return StartCoroutine(Fade(true, _canvasGroup));
 
         AsyncOperation op = SceneManager.LoadSceneAsync(_loadSceneName);
@@ -54,14 +64,14 @@ public class UI_Loading : UI_Base
             if(op.progress < 0.9f)
             {
                 // 씬 로드 진행률에 따라 프로그레스 바 갱신
-                _progressBar.fillAmount = op.progress;
+                _slider.value = op.progress;
             }
             else
             {
                 timer += Time.unscaledDeltaTime * 0.5f;
                 // 로드가 거의 완료된 경우 프로그레스 바를 가득 채움
-                _progressBar.fillAmount = Mathf.Lerp(0.9f, 1f, timer);
-                if(_progressBar.fillAmount >= 1f)
+                _slider.value = Mathf.Lerp(0.9f, 1f, timer);
+                if(_slider.value >= 1f)
                 {
                     op.allowSceneActivation = true;
                     yield break;
@@ -105,5 +115,9 @@ public class UI_Loading : UI_Base
         }
         
         Debug.Log("BGSpriteLoad");
+    }
+    public override void SetLanguage()
+    {
+        SetSentence(_loadingText, 2011);
     }
 }
