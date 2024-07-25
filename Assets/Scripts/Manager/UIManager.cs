@@ -193,6 +193,7 @@ public class UIManager
         HideUI<UI_ComputerScreen>();
 
         ShowUI<UI_Dialogue>();
+        HideUI<UI_Dialogue>();
 
     }
 }

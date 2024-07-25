@@ -215,17 +215,17 @@ public struct TileData
 public struct DialogueData
 {
     public int id;
-    public bool excuted;
     public int dialogueId;
+    public bool excuted;
     public Vector2 position;
     public Quaternion quaternion;
     public Vector3 scale;
 
-    public DialogueData(int id, bool excuted,int dialogueId, Vector2 position, Quaternion quaternion, Vector3 scale)
+    public DialogueData(int id, int dialogueId,bool excuted, Vector2 position, Quaternion quaternion, Vector3 scale)
     {
         this.id = id;
-        this.excuted = excuted;
         this.dialogueId = dialogueId;
+        this.excuted = excuted;
         this.position = position;
         this.quaternion = quaternion;
         this.scale = scale;

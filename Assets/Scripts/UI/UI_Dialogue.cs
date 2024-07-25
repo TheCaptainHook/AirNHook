@@ -109,12 +109,16 @@ public class UI_Dialogue : UI_Base
     //     _mainFrame.transform.localScale = Vector3.one * 0.1f;
     // }
 
-    protected override void Start()
+    private void Awake()
     {
         _LeftImage = _SpriteLeftRT.GetComponent<Image>();
         _RightImage = _SpriteRightRT.GetComponent<Image>();
-        StartCoroutine(BounceRoutine(_leftSprite,Vector3.one, Vector3.one * 0.935f, _curve));
-        StartCoroutine(BounceRoutine(_rightSprite,Vector3.one, Vector3.one * 0.935f, _curve));
+    }
+
+    protected override void Start()
+    {
+        //StartCoroutine(BounceRoutine(_leftSprite,Vector3.one, Vector3.one * 0.935f, _curve));
+        //StartCoroutine(BounceRoutine(_rightSprite,Vector3.one, Vector3.one * 0.935f, _curve));
     }
 
     //public override void SetLanguage()
@@ -148,7 +152,10 @@ public class UI_Dialogue : UI_Base
 
         //
         //TextBox SetActive
-        if (!_TextBoxRT.gameObject.activeSelf) { _TextBoxRT.gameObject.SetActive(true); }
+        if (!_TextBoxRT.gameObject.activeSelf)
+        {
+            _TextBoxRT.gameObject.SetActive(true);
+        }
         //TextBox SetActive
 
         for (int i = 0; i < list.Count; i++)
@@ -169,7 +176,7 @@ public class UI_Dialogue : UI_Base
         // Player 다시 움직이게 설정
 
         //
-
+        Managers.UI.HideUI<UI_Dialogue>();
 
     }
 
@@ -187,8 +194,11 @@ public class UI_Dialogue : UI_Base
         //TextBox and Pivot Setting
         
         _PreviousDialogueName = dialogue.name;
-        
+
         //Typing Effect
+        yield return ScaleOverTime(new Vector3(0.7f, 0.7f), new Vector3(1.2f, 1.2f),0.2f);
+        yield return ScaleOverTime(new Vector3(1.2f, 1.2f), new Vector3(1f, 1f), 0.3f);
+
         _cancellationTokenSource = new CancellationTokenSource();
         Task task = Util.TypingEffectTask(_TextBoxText, Managers.Data.language.dict[dialogue.sentenceID], Color.black, 42, .05f, _cancellationTokenSource,true);
         //Typing Effect
@@ -216,6 +226,7 @@ public class UI_Dialogue : UI_Base
             Debug.Log("Delay");
             yield return null;
         }
+
         _TextBoxText.text = "";
         //Start Next Dialogue
 
@@ -401,6 +412,7 @@ public class UI_Dialogue : UI_Base
         _RightImage.enabled = false;
         _TextBoxRT.gameObject.SetActive(false);
 
+
     }
   
     IEnumerator SpriteFadeOut(Image image)
@@ -431,6 +443,19 @@ public class UI_Dialogue : UI_Base
             yield return null;
         }
         image.color = _Alpha_1;
+    }
+
+    //TextBoxRT
+    private IEnumerator ScaleOverTime(Vector3 fromScale, Vector3 toScale, float time)
+    {
+        float elapsedTime = 0;
+        while (elapsedTime < time)
+        {
+            _TextBoxRT.localScale = Vector3.Lerp(fromScale, toScale, elapsedTime / time);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        transform.localScale = toScale;
     }
 
     #endregion

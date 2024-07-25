@@ -13,8 +13,8 @@
     "stageID": "Tutorial_1",
     "stageClear": true,
     "clearTime": 23.7917023,
-    "totalDeath": 4,
-    "deathCount": 1,
+    "totalDeath": 5,
+    "deathCount": 0,
     "skip": false,
     "stageLevel": 0,
     "stageHiddenObject": 0

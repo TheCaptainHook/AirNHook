@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Threading.Tasks;
 public class FadeInOutPanel : MonoBehaviour
 {
     Image image;
@@ -24,6 +25,9 @@ public class FadeInOutPanel : MonoBehaviour
     IEnumerator FadeInOut(string mapId)
     {
         image.enabled = true;
+        //Save Data
+        yield return new WaitUntil(() => Managers.Data.saveData.Save_SaveFile().IsCompleted);
+        //Save Data
         float percent = 0;
         Color fadeOutcolor = new Color(orgColor.r, orgColor.g, orgColor.b, 1);
         Managers.Stage.stageName = mapId;

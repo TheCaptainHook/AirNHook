@@ -598,11 +598,27 @@ public class MapEditor : MonoBehaviour
 
                 }
                 break;
+            //case 5:
+            //    foreach (DialogueData data in curMap.dialogueDataList)
+            //    {
+            //        MapDataStruct mapDataStruct = Managers.Data.mapData.mapSceneDataDictionary[data.id];
+            //        if (Managers.Game.CurrentState != GameState.Editor)
+            //        {
+            //            Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
+            //        }
+            //        else
+            //        {
+            //            Create(transform, mapDataStruct, data);
+            //        }
+
+            //    }
+            //    break;
+            //Trigger Dialogue Obj create SaveData.SerializableSaveMapDataDictionary in MapSaveData
             case 5:
-                foreach(DialogueData data in curMap.dialogueDataList)
+                foreach (DialogueData data in Managers.Data.saveData.dic[curMap.mapID]._DialogueDataList)
                 {
                     MapDataStruct mapDataStruct = Managers.Data.mapData.mapSceneDataDictionary[data.id];
-                    if(Managers.Game.CurrentState != GameState.Editor)
+                    if (Managers.Game.CurrentState != GameState.Editor)
                     {
                         Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
                     }
@@ -610,7 +626,7 @@ public class MapEditor : MonoBehaviour
                     {
                         Create(transform, mapDataStruct, data);
                     }
-                  
+
                 }
                 break;
         }
@@ -749,7 +765,6 @@ public class MapEditor : MonoBehaviour
         {
             hash = (hash * 31) + input[i];
         }
-        Debug.Log(hash);
         return hash + randomNumber;
 
     }

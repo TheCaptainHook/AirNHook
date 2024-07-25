@@ -8,12 +8,17 @@ public class DataManager
     public LanguageData language;
     public MapData mapData;
     public LoadData loadData;
+   
+    public SaveData saveData;//todo 0724
 
     public DataManager()
     {
         language = new LanguageData();
         mapData = new MapData();
         loadData = new LoadData();
+        //TODO TESTCODE 0725
+        saveData = new SaveData();
+        //TODO TESTCODE 0725
     }
 
     public void Setup()
@@ -21,8 +26,11 @@ public class DataManager
         language.Setup();
         mapData.SetUp();
         loadData.Setup();
+        //TODO TESTCODE 0725
+        saveData.SetUp();
+        //TODO TESTCODE 0725
     }
-    
+
     public T[] ReadJson<T>(string path)
     {
         // json 읽기
