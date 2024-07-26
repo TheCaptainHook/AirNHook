@@ -10,7 +10,7 @@ public enum GameState
     Game,
     Editor,
 }
-
+//TODO 0726 Develop Code Line(Data) : 102,124,155,
 public class GameManager
 {
     public GameState CurrentState { get; set; }
@@ -99,7 +99,7 @@ public class GameManager
         _stageID = mapID;
         _startTime = Time.time;
         _clearDeath = 0;
-        _totalDeath = Managers.Data.loadData.playData[_stageID].totalDeath;
+        //_totalDeath = Managers.Data.loadData.playData[_stageID].totalDeath; //TODO0726
         _skip = false;
     }
 
@@ -121,16 +121,19 @@ public class GameManager
     {
         if (stageID.Equals("Lobby")) return;
 
-        _stageID = stageID;
-        _clearTime = Time.time;
-        Managers.Data.loadData.playData[stageID].stageClear = true;
+        //TODO0726
+        //_stageID = stageID;
+        //_clearTime = Time.time;
+        //Managers.Data.loadData.playData[stageID].stageClear = true;
 
-        DeathCompare();
-        TimeCompare();
+        //DeathCompare();
+        //TimeCompare();
 
-        Managers.Data.loadData.Save();
-        _startTime = 0;
-        _clearTime = 0;
+        //Managers.Data.loadData.Save();
+        //_startTime = 0;
+        //_clearTime = 0;
+        //TODO0726
+        PlayerAndMapSavaDataUpdate();
     }
 
     public void DeathCompare()
@@ -149,4 +152,26 @@ public class GameManager
             DeathCompare();
         }
     }
+    //TODO 0726
+    public void PlayerAndMapSavaDataUpdate()
+    {
+        PlayerSaveData data = Managers.Data.saveData._SaveFileData._PlayerSaveData;
+        MapSaveData mapData = Managers.Data.saveData.dic[mapID];
+
+        //Updata MapSavaData//최단시간 클리어,가장 최근 클리어,해당맵 죽은 횟수,
+        float clearTime = Time.time - _startTime;
+        mapData.ClearMapDataUpdate(clearTime, _clearDeath);
+        //Updata MapSavaData
+
+
+        //Updata PlayerSavaData // 죽은 횟수 총합,클리어한 맵
+        data.AddTotalDeath(_clearDeath);
+        data.AddClearMapId(mapID);
+        //Updata PlayerSavaData
+
+
+
+
+    }
+    //TODO 0726 
 }

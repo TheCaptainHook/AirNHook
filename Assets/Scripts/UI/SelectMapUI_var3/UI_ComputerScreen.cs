@@ -74,12 +74,14 @@ public class UI_ComputerScreen : UI_Base
         {
             UserMapData data = Managers.Data.mapData.mapUserDictionary[int.Parse(mapId)];
             screen1.SetData(data.GetMapId(),data.mapImage);
-            screen2.SetData(Managers.Data.loadData.playData[mapId]);
+            //screen2.SetData(Managers.Data.loadData.playData[mapId]);
+            screen2.SetData(mapId);
         }
         else
         {
             screen1.SetData(mapId, curMap.bytesImage);
-            screen2.SetData(Managers.Data.loadData.playData[mapId]);
+            //screen2.SetData(Managers.Data.loadData.playData[mapId]);
+            screen2.SetData(mapId);
         }
 
        
@@ -93,12 +95,13 @@ public class UI_ComputerScreen : UI_Base
             {
                 UserMapData data = Managers.Data.mapData.mapUserDictionary[int.Parse(curMap.mapID)];
                 screen1.SetData(data.GetMapId(), data.mapImage);
-                screen2.SetData(Managers.Data.loadData.playData[curMap.mapID]);
+                screen2.SetData(curMap.mapID);
             }
             else
             {
                 screen1.SetData(curMap.mapID, curMap.bytesImage);
-                screen2.SetData(Managers.Data.loadData.playData[curMap.mapID]);
+                //screen2.SetData(Managers.Data.loadData.playData[curMap.mapID]);
+                screen2.SetData(curMap.mapID);
             }
 
         }

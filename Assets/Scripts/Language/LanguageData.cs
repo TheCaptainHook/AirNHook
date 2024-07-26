@@ -80,7 +80,7 @@ public class LanguageData
         return dict.GetValueOrDefault(id, " ");
     }
 
-    #region Dialogue System Test Code 0710
+    #region Dialogue System
 
     public Dictionary<int, List<Dialogue>> GetDialogueData()
     {

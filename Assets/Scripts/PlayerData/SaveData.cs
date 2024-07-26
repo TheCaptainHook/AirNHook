@@ -128,16 +128,22 @@ public class SaveFileData
 [Serializable]
 public class MapSaveData
 {
+
     public string mapName;
     public bool clear;
-    public float clearTime;
-    public List<DialogueData> _DialogueDataList;
+    public float shortestClearTime;
+    public float recentlyClearTime;
+    public int deathCount; //해당맵에 몇번 죽었나 
+    public List<DialogueData> _DialogueDataList;//해당 맵에 존재하는 다이얼로그 트리거 오브젝트
 
-    public MapSaveData(string mapName, bool clear, float clearTime, List<DialogueData> _DialogueDataList)
+    public MapSaveData(string mapName, bool clear, float clearTime, List<DialogueData> _DialogueDataList) //초기화
     {
         this.mapName = mapName;
         this.clear = clear;
-        this.clearTime = clearTime;
+        this.shortestClearTime = 0;
+        this.recentlyClearTime = 0;
+        this.deathCount = 0;
+
         this._DialogueDataList = _DialogueDataList;
     }
 
@@ -155,16 +161,55 @@ public class MapSaveData
             }
         }
     }
+    private void ModifyClearTime(float time)
+    {
+       if(shortestClearTime == 0)
+        {
+            shortestClearTime = time;
+        }else if(shortestClearTime > time)
+        {
+            shortestClearTime = time;
+        }
+
+        recentlyClearTime = time;
+    }
+
+
+    public void ClearMapDataUpdate(float clearTime,int deathCount)
+    {
+        clear = true;
+        ModifyClearTime(clearTime);
+        this.deathCount = deathCount;
+    }
+
 }
 
 [Serializable]
 public class PlayerSaveData
 {
-   public int totalDeath;
+    private int totalDeath;
+    public int TotalDeath { get { return totalDeath; } }
+    private List<string> clearMapId;
+    //클리어한 맵들
 
-   public PlayerSaveData()
+    public PlayerSaveData()
     {
         this.totalDeath = 0;
+        this.clearMapId = new();
+    }
+
+
+    public void AddClearMapId(string mapId)
+    {
+        if (!clearMapId.Contains(mapId))
+        {
+            clearMapId.Add(mapId);
+        }
+    }
+
+    public void AddTotalDeath(int death)
+    {
+        totalDeath += death;
     }
 }
 

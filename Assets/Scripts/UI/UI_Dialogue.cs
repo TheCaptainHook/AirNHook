@@ -100,7 +100,8 @@ public class UI_Dialogue : UI_Base
 
     public override void OnEnable()
     {
-        //AppendAnim(_mainFrame, 1.1f, 0.2f, 1f, 0.1f);
+        StartCoroutine(BounceRoutine(_leftSprite, Vector3.one, Vector3.one * 0.935f, _curve));
+        StartCoroutine(BounceRoutine(_rightSprite, Vector3.one, Vector3.one * 0.935f, _curve));
     }
 
     // public void OnDisable()
@@ -115,22 +116,7 @@ public class UI_Dialogue : UI_Base
         _RightImage = _SpriteRightRT.GetComponent<Image>();
     }
 
-    protected override void Start()
-    {
-        //StartCoroutine(BounceRoutine(_leftSprite,Vector3.one, Vector3.one * 0.935f, _curve));
-        //StartCoroutine(BounceRoutine(_rightSprite,Vector3.one, Vector3.one * 0.935f, _curve));
-    }
-
-    //public override void SetLanguage()
-    //{
-    //    list = Managers.Data.language.map[dialogueId];
-    //}
-
-
-    /// <summary>
-    /// SetData -> StartDialogue(Co) - > Dialogue(Co)
-    /// </summary>
-    /// <param name="id"></param>
+   
 
     public void SetData(int id)
     {
@@ -434,7 +420,7 @@ public class UI_Dialogue : UI_Base
     IEnumerator SpriteFadeIn(Image image)
     {
         image.enabled = true;
-        AppendAnim(_mainFrame, 1.15f, 0.2f, 1f, 0.1f);
+        //AppendAnim(_mainFrame, 1.15f, 0.2f, 1f, 0.1f);
         float percent = 0;
         while (percent < 1)
         {
