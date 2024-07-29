@@ -4,7 +4,7 @@ using UnityEngine;
 using Mirror;
 using System;
 
-//TODO 0729 Develop Code Line : 
+//TODO 0729 Develop Code Line(key bubble) : 21,22,23,24,37,58,79,104
 public class ExitPointObj : BuildBase
 {
     [Header("State")]
@@ -18,8 +18,11 @@ public class ExitPointObj : BuildBase
     private int current_KeyAmount;
     public int Current_KeyAmount {
         get { return current_KeyAmount; }
-        set { current_KeyAmount--; //TODO 0729
+        set { current_KeyAmount -= value; //TODO 0729
+            Debug.Log(current_KeyAmount+"aa");
             current_KeyAmount = Math.Clamp(current_KeyAmount,0, condition_KeyAmount);//TODO 0729
+            Debug.Log(current_KeyAmount+"bb");
+            keyBubble.MinusConditionKeyAmount(current_KeyAmount);//TODO 0729
             if (current_KeyAmount == 0) //TODO 0729
             {
                 stageClear = true;
@@ -33,7 +36,7 @@ public class ExitPointObj : BuildBase
     Collider2D _col;
 
 
-
+    [SerializeField] KeyBubble keyBubble;//TODO 0729
 
 
 
@@ -58,6 +61,7 @@ public class ExitPointObj : BuildBase
     {
         condition_KeyAmount = data.condition_KeyAmount;
         current_KeyAmount = condition_KeyAmount;//TODO 0729
+        keyBubble.SetData(current_KeyAmount);//TODO 0729
 
         nextMapId = data.nextMapId;
         
@@ -72,11 +76,15 @@ public class ExitPointObj : BuildBase
         this.condition_KeyAmount = condition_keyAmount;
     }
 
-    private void ClientGetKey(GameObject obj)
+    private void ClientGetKey(GameObject obj) //TOdo 0729
     {
+        if (Managers.Game.CurrentState != GameState.Editor)
+        {
+            Managers.Command.DestroyKey(obj);
+        }
         Current_KeyAmount = 1;
     }
-    
+
     void GetKey(GameObject obj)
     {
         if(Managers.Game.CurrentState != GameState.Editor)
@@ -93,7 +101,7 @@ public class ExitPointObj : BuildBase
 
 
 
-
+    //TOdo 0729
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Key") && !turnOff)
@@ -101,8 +109,8 @@ public class ExitPointObj : BuildBase
         
         if (Managers.Game.CurrentState == GameState.Editor || !Managers.Game.Player.GetComponent<Player>().isServer) return;
         
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Key") && !turnOff)
-            GetKey(collision.gameObject);
+        //if (collision.gameObject.layer == LayerMask.NameToLayer("Key") && !turnOff)
+        //    GetKey(collision.gameObject);
         
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
