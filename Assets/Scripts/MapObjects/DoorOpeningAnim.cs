@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
-
+//TODO Develop Code Line(Reset) : 20,24,46
 public class DoorOpeningAnim : NetworkBehaviour
 {
     [Header("State")] 
@@ -17,9 +17,11 @@ public class DoorOpeningAnim : NetworkBehaviour
     private Animator _animator;
 
     public event Action OnUnlockAnimation;
+    public event Action OnLockAnimation;//TODO 0729
 
     #region StringCache
     private static readonly int IsUnlocking = Animator.StringToHash("IsUnlocking");
+    private static readonly int Reset = Animator.StringToHash("Reset");//TODO 0729
     #endregion
 
     private void Awake()
@@ -28,16 +30,36 @@ public class DoorOpeningAnim : NetworkBehaviour
         _lockCollider2D.enabled = false;
         _animator = GetComponent<Animator>();
         OnUnlockAnimation += SetTriggerUnlocking;
+        OnLockAnimation += Ani_Reset;
     }
+
 
     //private void Update()
     //{
-    //    if (_isClear)
+    //    //TEST  
+    //    if (Input.GetKeyDown(KeyCode.P))
     //    {
-    //        _animator.SetTrigger(IsUnlocking);
+    //        Ani_Reset();
     //    }
     //}
 
+    //TODO 0729 Where is the logic of the lock object disappearing
+    public void Ani_Reset()
+    {
+        _animator.SetTrigger(Reset);
+    }
+
+    private void Lock() // add event, in Reset animation
+    {
+        _lockRigidbody2D.velocity = Vector2.zero;
+        _lockRigidbody2D.constraints = RigidbodyConstraints2D.FreezeAll;
+        _lockGameObject.transform.position = new Vector3(0, 2.05f, 0);
+        _lockGameObject.transform.rotation = Quaternion.identity;
+        _lockCollider2D.enabled = false;
+
+        _lockGameObject.SetActive(true);
+    }
+    //TODO 0729
 
     private void SetTriggerUnlocking()
     {

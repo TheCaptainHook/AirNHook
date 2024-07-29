@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using System;
 
+//TODO 0729 Develop Code Line : 
 public class ExitPointObj : BuildBase
 {
     [Header("State")]
@@ -17,8 +18,9 @@ public class ExitPointObj : BuildBase
     private int current_KeyAmount;
     public int Current_KeyAmount {
         get { return current_KeyAmount; }
-        set { current_KeyAmount++;
-            if (current_KeyAmount >= condition_KeyAmount)
+        set { current_KeyAmount--; //TODO 0729
+            current_KeyAmount = Math.Clamp(current_KeyAmount,0, condition_KeyAmount);//TODO 0729
+            if (current_KeyAmount == 0) //TODO 0729
             {
                 stageClear = true;
                 MapEditor.Instance.stageClear = true;
@@ -29,6 +31,12 @@ public class ExitPointObj : BuildBase
     [Header("Componenets")]
     DoorOpeningAnim doorOpeningAnim;
     Collider2D _col;
+
+
+
+
+
+
     private void Awake()
     {
         doorOpeningAnim = GetComponent<DoorOpeningAnim>();
@@ -49,6 +57,8 @@ public class ExitPointObj : BuildBase
     public void SetData(ExitObjStruct data)
     {
         condition_KeyAmount = data.condition_KeyAmount;
+        current_KeyAmount = condition_KeyAmount;//TODO 0729
+
         nextMapId = data.nextMapId;
         
         SetTileData(data.position);

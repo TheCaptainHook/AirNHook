@@ -80,6 +80,9 @@ public class Map
 
         return new ObjectData();
     }
+
+
+   
     //Box,stringBox,key,
     //public Sprite LoadImage(int width, int height)
     //{
