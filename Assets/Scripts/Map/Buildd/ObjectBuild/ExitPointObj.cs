@@ -19,11 +19,9 @@ public class ExitPointObj : BuildBase
     public int Current_KeyAmount {
         get { return current_KeyAmount; }
         set { current_KeyAmount -= value; //TODO 0729
-            Debug.Log(current_KeyAmount+"aa");
             current_KeyAmount = Math.Clamp(current_KeyAmount,0, condition_KeyAmount);//TODO 0729
-            Debug.Log(current_KeyAmount+"bb");
             keyBubble.MinusConditionKeyAmount(current_KeyAmount);//TODO 0729
-            if (current_KeyAmount == 0) //TODO 0729
+            if (current_KeyAmount == 0 && !stageClear) //TODO 0729
             {
                 stageClear = true;
                 MapEditor.Instance.stageClear = true;
