@@ -5,6 +5,7 @@ using Mirror;
 using System;
 
 //TODO 0729 Develop Code Line(key bubble) : 21,22,23,24,37,58,79,104
+//TODO 0801 Develop Code Line(AbsencePanel) :40
 public class ExitPointObj : BuildBase
 {
     [Header("State")]
@@ -26,6 +27,7 @@ public class ExitPointObj : BuildBase
                 stageClear = true;
                 MapEditor.Instance.stageClear = true;
                 doorOpeningAnim.CallOnUnlockAnimation();
+                //AbsenecePanel Setting
             }
             } }
 
@@ -35,6 +37,7 @@ public class ExitPointObj : BuildBase
 
 
     [SerializeField] KeyBubble keyBubble;//TODO 0729
+    [SerializeField] AbsencePanel absencePanel;//TOdo 0801
 
 
 
@@ -137,10 +140,18 @@ public class ExitPointObj : BuildBase
         }
     }
 
-    public void MoveNextStage()
+    //public void MoveNextStage()
+    //{
+    //    doorOpeningAnim.CmdMoveNextStage(nextMapId);
+    //}
+
+    //TODO TEST CODE 0801
+    public async void MoveNextStage() 
     {
+        await absencePanel.NextMoveAnimation();
         doorOpeningAnim.CmdMoveNextStage(nextMapId);
     }
+
 
     public override void TurnOff()
     {
