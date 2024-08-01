@@ -133,7 +133,7 @@
  },
  {
   "id": 10002,
-  "text": "Where you become useful beans and do your solemn duty!"
+  "text": "Where you become useful beans and help you do your solemn duty!"
  },
  {
   "id": 10003,
@@ -166,5 +166,25 @@
  {
   "id": 10010,
   "text": "This is the second tutorial course. It seems you two were smarter than average beans."
+ },
+ {
+  "id": 10011,
+  "text": "This is the third and the last tutorial course. Most beans aren't getting this far, so congrats."
+ },
+ {
+  "id": 10012,
+  "text": "Maybe you think this tutorials are too easy."
+ },
+ {
+  "id": 10013,
+  "text": "But remember, most beans can't even open the peanut butter jar."
+ },
+ {
+  "id": 10014,
+  "text": "Congrats on finishing all three tutorial."
+ },
+ {
+  "id": 10015,
+  "text": "Finally we can do some real things."
  }
 ]
