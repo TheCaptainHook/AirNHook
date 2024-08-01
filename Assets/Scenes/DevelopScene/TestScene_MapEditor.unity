@@ -84292,17 +84292,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: ExitDoor
       objectReference: {fileID: 0}
-    - target: {fileID: 1403613117175697264, guid: bcff53a0ba8a3c74397db944a46521c2, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3092430756794957390, guid: bcff53a0ba8a3c74397db944a46521c2, type: 3}
       propertyPath: sceneId
       value: 4225110010
-      objectReference: {fileID: 0}
-    - target: {fileID: 7086148753327743811, guid: bcff53a0ba8a3c74397db944a46521c2, type: 3}
-      propertyPath: sceneId
-      value: 3802467645
       objectReference: {fileID: 0}
     - target: {fileID: 8216439556350585627, guid: bcff53a0ba8a3c74397db944a46521c2, type: 3}
       propertyPath: m_LocalPosition.x

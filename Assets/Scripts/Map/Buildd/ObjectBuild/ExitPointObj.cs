@@ -5,7 +5,7 @@ using Mirror;
 using System;
 
 //TODO 0729 Develop Code Line(key bubble) : 21,22,23,24,37,58,79,104
-//TODO 0801 Develop Code Line(AbsencePanel) :40
+//TODO 0801 Develop Code Line(AbsencePanel) :40,148
 public class ExitPointObj : BuildBase
 {
     [Header("State")]
