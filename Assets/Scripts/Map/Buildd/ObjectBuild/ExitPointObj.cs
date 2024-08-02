@@ -5,8 +5,9 @@ using Mirror;
 using System;
 
 //TODO 0729 Develop Code Line(key bubble) : 21,22,23,24,37,58,79,104
-//TODO 0801 Develop Code Line(AbsencePanel) :40,148
-public class ExitPointObj : BuildBase
+//TODO 0801 Develop Code Line(AbsencePanel) :40
+//TODO 0802 Develop Code Line(AbsencePanel,Network) :
+public class ExitPointObj : BuildObj
 {
     [Header("State")]
     [SerializeField] bool stageClear;
@@ -21,13 +22,13 @@ public class ExitPointObj : BuildBase
         get { return current_KeyAmount; }
         set { current_KeyAmount -= value; //TODO 0729
             current_KeyAmount = Math.Clamp(current_KeyAmount,0, condition_KeyAmount);//TODO 0729
-            keyBubble.MinusConditionKeyAmount(current_KeyAmount);//TODO 0729
+            keyBubble.MinusConditionKeyAmount(current_KeyAmount);//TODO 0802 Need Network
             if (current_KeyAmount == 0 && !stageClear) //TODO 0729
             {
                 stageClear = true;
                 MapEditor.Instance.stageClear = true;
                 doorOpeningAnim.CallOnUnlockAnimation();
-                //AbsenecePanel Setting
+                absencePanel.OnAbsencePanel(); //TOdo 0802 Need Network
             }
             } }
 
@@ -36,8 +37,8 @@ public class ExitPointObj : BuildBase
     Collider2D _col;
 
 
-    [SerializeField] KeyBubble keyBubble;//TODO 0729
-    [SerializeField] AbsencePanel absencePanel;//TOdo 0801
+    [SerializeField] KeyBubble keyBubble;//TOdo 0802 Need Network
+    [SerializeField] AbsencePanel absencePanel;//TOdo 0802 Need Network
 
 
 
@@ -62,7 +63,8 @@ public class ExitPointObj : BuildBase
     {
         condition_KeyAmount = data.condition_KeyAmount;
         current_KeyAmount = condition_KeyAmount;//TODO 0729
-        keyBubble.SetData(current_KeyAmount);//TODO 0729
+        
+        keyBubble.SetData(current_KeyAmount);//TODO 0802 need Networking
 
         nextMapId = data.nextMapId;
         
@@ -113,8 +115,9 @@ public class ExitPointObj : BuildBase
         //if (collision.gameObject.layer == LayerMask.NameToLayer("Key") && !turnOff)
         //    GetKey(collision.gameObject);
         
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && stageClear)
         {
+            absencePanel.SetPanel(collision.gameObject);//TODO 0802 Need Networking
             curPlayerInDoor++;
             if(stageClear && curPlayerInDoor >= 2)
             {
@@ -133,8 +136,9 @@ public class ExitPointObj : BuildBase
     {
         if (Managers.Game.CurrentState != GameState.Editor && !Managers.Game.Player.GetComponent<Player>().isServer) return;
         
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && stageClear)
         {
+            absencePanel.SetPanel(collision.gameObject);//TODO 0802 Need Networking
             curPlayerInDoor--;
             if(curPlayerInDoor < 0) { curPlayerInDoor = 0; }
         }
@@ -145,11 +149,16 @@ public class ExitPointObj : BuildBase
     //    doorOpeningAnim.CmdMoveNextStage(nextMapId);
     //}
 
-    //TODO TEST CODE 0801
-    public async void MoveNextStage() 
+    //TODO 0802
+    public void MoveNextStage() 
     {
-        await absencePanel.NextMoveAnimation();
-        doorOpeningAnim.CmdMoveNextStage(nextMapId);
+        //absencePanel.NextMoveAnimation(); //TODO 0802 Need Networking
+
+        StartCoroutine(ExecuteAfterDelay(1f, () => //TODO 0802
+        {
+            doorOpeningAnim.CmdMoveNextStage(nextMapId);
+        }));
+
     }
 
 
@@ -163,4 +172,23 @@ public class ExitPointObj : BuildBase
         base.TurnOn();
         turnOff = false;
     }
+
+
+    public override void Reset()
+    {
+        keyBubble.gameObject.SetActive(false);
+        absencePanel.gameObject.SetActive(false);
+        stageClear = false;
+        //Door Lock
+    }
+
+    #region Util
+
+    private IEnumerator ExecuteAfterDelay(float delay, System.Action action)
+    {
+        yield return new WaitForSeconds(delay);
+        action();
+    }
+
+    #endregion
 }

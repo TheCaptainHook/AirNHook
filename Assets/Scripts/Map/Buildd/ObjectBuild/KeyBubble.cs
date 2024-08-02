@@ -2,12 +2,26 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Mirror;
 using UnityEngine;
 
-public class KeyBubble : MonoBehaviour//TODO 0729
+public class KeyBubble : MonoBehaviour
 {
     [SerializeField] private TMP_Text _text;
     
+
+    public void SatisfiedCondition()
+    {
+        if(gameObject.activeSelf == false)
+        {
+            return;
+        }
+
+        Debug.Log("Satisfied condition");
+        gameObject.SetActive(false);
+    }
+
+
     public void SetData(int keyAmount)
     {
         if (keyAmount == 0) return;
@@ -22,18 +36,8 @@ public class KeyBubble : MonoBehaviour//TODO 0729
             SatisfiedCondition();
             return;
         }
-            _text.text = amount.ToString();
+        _text.text = amount.ToString();
     }
 
-
-    public void SatisfiedCondition()
-    {
-        if(gameObject.activeSelf == false)
-        {
-            return;
-        }
-
-        Debug.Log("Satisfied condition");
-        gameObject.SetActive(false);
-    }
+   
 }

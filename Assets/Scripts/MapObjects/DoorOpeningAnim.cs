@@ -126,5 +126,9 @@ public class DoorOpeningAnim : NetworkBehaviour
             MapEditor.Instance.MoveNextStage(nextMapId);
         }
     }
+
     #endregion
+
+
+
 }
