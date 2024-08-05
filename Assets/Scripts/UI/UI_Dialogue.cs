@@ -6,8 +6,6 @@ using UnityEngine.UI;
 using TMPro;
 using System.Threading.Tasks;
 using System.Threading;
-using Unity.VisualScripting;
-using static Cinemachine.CinemachineFreeLook;
 
 public enum TextBoxPivot
 {
@@ -521,6 +519,25 @@ public class UI_Dialogue : UI_Base
     }
 
 
+
+
+    #endregion
+
+
+
+
+    #region Dialogue
+    public IEnumerator TutorialClearDialogue()
+    {
+        nextDialogueIndex = 1;
+        dialogueId = 105;
+        list = Managers.Data.language.dialogueMap[105];
+
+        if (!gameObject.activeSelf) gameObject.SetActive(true);
+
+        yield return StartDialogue();
+        
+    }
 
 
     #endregion

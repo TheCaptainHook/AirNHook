@@ -18,3 +18,8 @@ id,index,name,emotion,spritePosition,textBoxPosition,sentence
 102,0,Speaker,Normal,Right,Bottom,10008
 102,1,Speaker,Normal,Right,Bottom,10009
 103,0,Speaker,Normal,Right,Bottom,10010
+104,0,Speaker,Normal,Right,Bottom,10011
+104,1,Speaker,Normal,Right,Bottom,10012
+104,2,Speaker,Normal,Right,Bottom,10013
+105,0,Speaker,Normal,Right,Bottom,10014
+105,1,Speaker,Normal,Right,Bottom,10015

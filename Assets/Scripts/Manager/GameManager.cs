@@ -120,7 +120,6 @@ public class GameManager
     public void StageClear(string stageID)
     {
         if (stageID.Equals("Lobby")) return;
-
         //TODO0726
         //_stageID = stageID;
         //_clearTime = Time.time;
@@ -133,8 +132,9 @@ public class GameManager
         //_startTime = 0;
         //_clearTime = 0;
         //TODO0726
-        PlayerAndMapSavaDataUpdate();
+        PlayerAndMapSavaDataUpdate(stageID);
     }
+
 
     public void DeathCompare()
     {
@@ -153,11 +153,10 @@ public class GameManager
         }
     }
     //TODO 0726
-    public void PlayerAndMapSavaDataUpdate()
+    public void PlayerAndMapSavaDataUpdate(string stageID)
     {
         PlayerSaveData data = Managers.Data.saveData._SaveFileData._PlayerSaveData;
-        MapSaveData mapData = Managers.Data.saveData.dic[mapID];
-
+        MapSaveData mapData = Managers.Data.saveData.dic[stageID];
         //Updata MapSavaData//최단시간 클리어,가장 최근 클리어,해당맵 죽은 횟수,
         float clearTime = Time.time - _startTime;
         mapData.ClearMapDataUpdate(clearTime, _clearDeath);

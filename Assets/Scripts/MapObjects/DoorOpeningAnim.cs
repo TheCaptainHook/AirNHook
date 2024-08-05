@@ -94,8 +94,11 @@ public class DoorOpeningAnim : NetworkBehaviour
     [ClientRpc]
     private void RpcMoveNextStage(string nextMapId)
     {
-        Managers.Game.StageClear(Managers.Stage.stageName);
+        Debug.Log("TEST 0");
+        Managers.Game.StageClear(Managers.Stage.stageName); //TODO 0805
+        Debug.Log("TEST 1");
         Managers.Stage.stageName = nextMapId;
+        Debug.Log("TEST 2");
         Camera.main.GetComponent<ParallaxCamera>().enabled = false;
 
         if (string.IsNullOrEmpty(nextMapId))

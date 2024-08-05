@@ -14,6 +14,7 @@ public class SaveData
 {
     private string filePath;
     public SaveFileData _SaveFileData;
+
     public Dictionary<string, MapSaveData> dic = new();
 
 
@@ -49,7 +50,7 @@ public class SaveData
         foreach (var key in Managers.Data.mapData.mapAllDictionary.Keys)
         {
             Map map = Managers.Data.mapData.mapAllDictionary[key];
-            _SSMDD.Add(map.mapID, new MapSaveData(map.mapID,false,0,map.dialogueDataList));
+            _SSMDD.Add(map.mapID, new MapSaveData(map.mapID,false,false,0,map.dialogueDataList));
         }
 
         _SaveFileData = new SaveFileData(_SSMDD, new PlayerSaveData());
@@ -130,16 +131,18 @@ public class MapSaveData
 {
 
     public string mapName;
+    public bool openStage;
     public bool clear;
     public float shortestClearTime;
     public float recentlyClearTime;
     public int deathCount; //해당맵에 몇번 죽었나 
     public List<DialogueData> _DialogueDataList;//해당 맵에 존재하는 다이얼로그 트리거 오브젝트
 
-    public MapSaveData(string mapName, bool clear, float clearTime, List<DialogueData> _DialogueDataList) //초기화
+    public MapSaveData(string mapName, bool clear, bool openStage,float clearTime, List<DialogueData> _DialogueDataList) //초기화
     {
         this.mapName = mapName;
         this.clear = clear;
+        this.openStage = openStage;
         this.shortestClearTime = 0;
         this.recentlyClearTime = 0;
         this.deathCount = 0;
@@ -182,6 +185,7 @@ public class MapSaveData
         this.deathCount = deathCount;
     }
 
+    
 }
 
 [Serializable]
@@ -192,15 +196,24 @@ public class PlayerSaveData
     private List<string> clearMapId;
     //클리어한 맵들
 
+    //State
+    public bool _IstutorialClear;
+
     public PlayerSaveData()
     {
         this.totalDeath = 0;
         this.clearMapId = new();
+
+        //State
+        _IstutorialClear = false;
     }
 
 
     public void AddClearMapId(string mapId)
     {
+        if (mapId == "Tutorial_3") _IstutorialClear = true;
+
+
         if (!clearMapId.Contains(mapId))
         {
             clearMapId.Add(mapId);
@@ -267,6 +280,18 @@ public class SerializableSaveMapDataDictionary<TKey, TValue>
         }
     }
 
+    public int GetKeyIndex(TKey key)
+    {
+        for (int i = 0; i < keys.Count; i++)
+        {
+            if(key.Equals(keys[i]))
+            {
+                return i;
+            }
+        }
+
+        return 9999;
+    }
 }
 #endregion
 

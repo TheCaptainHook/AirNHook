@@ -6,7 +6,8 @@ using System;
 
 //TODO 0729 Develop Code Line(key bubble) : 21,22,23,24,37,58,79,104
 //TODO 0801 Develop Code Line(AbsencePanel) :40
-//TODO 0802 Develop Code Line(AbsencePanel,Network) :
+//TODO 0802 Develop Code Line(AbsencePanel,Network) : 25,31,40,41,67,120,141,155,
+//TODO 0805 Develop Code Line : 
 public class ExitPointObj : BuildObj
 {
     [Header("State")]
@@ -29,13 +30,15 @@ public class ExitPointObj : BuildObj
                 MapEditor.Instance.stageClear = true;
                 doorOpeningAnim.CallOnUnlockAnimation();
                 absencePanel.OnAbsencePanel(); //TOdo 0802 Need Network
+
+                
             }
             } }
 
     [Header("Componenets")]
     DoorOpeningAnim doorOpeningAnim;
     Collider2D _col;
-
+    UI_Dialogue dialogue; //TODO 0805
 
     [SerializeField] KeyBubble keyBubble;//TOdo 0802 Need Network
     [SerializeField] AbsencePanel absencePanel;//TOdo 0802 Need Network
@@ -46,8 +49,13 @@ public class ExitPointObj : BuildObj
     {
         doorOpeningAnim = GetComponent<DoorOpeningAnim>();
         _col = GetComponent<Collider2D>();
+       
     }
 
+    private void Start()
+    {
+        dialogue = Managers.UI.GetUI<UI_Dialogue>().gameObject.GetComponent<UI_Dialogue>();//TODO 0805
+    }
     //event Action OnCheckKey;
     bool isClear;
 
@@ -117,7 +125,7 @@ public class ExitPointObj : BuildObj
         
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && stageClear)
         {
-            absencePanel.SetPanel(collision.gameObject);//TODO 0802 Need Networking
+            absencePanel.Enter(collision.gameObject);//TODO 0802 Need Networking
             curPlayerInDoor++;
             if(stageClear && curPlayerInDoor >= 2)
             {
@@ -138,7 +146,7 @@ public class ExitPointObj : BuildObj
         
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && stageClear)
         {
-            absencePanel.SetPanel(collision.gameObject);//TODO 0802 Need Networking
+            absencePanel.Exit(collision.gameObject);//TODO 0802 Need Networking
             curPlayerInDoor--;
             if(curPlayerInDoor < 0) { curPlayerInDoor = 0; }
         }
@@ -153,12 +161,22 @@ public class ExitPointObj : BuildObj
     public void MoveNextStage() 
     {
         //absencePanel.NextMoveAnimation(); //TODO 0802 Need Networking
-
-        StartCoroutine(ExecuteAfterDelay(1f, () => //TODO 0802
+        //TODO 0804
+        if (MapEditor.Instance.CurMap.mapID == "Tutorial_3")
         {
-            doorOpeningAnim.CmdMoveNextStage(nextMapId);
-        }));
+            StartCoroutine(ExecuteAfterDelay(dialogue.TutorialClearDialogue(), () =>
+            {
+                doorOpeningAnim.CmdMoveNextStage(nextMapId);
+            }));
 
+            return;
+        }
+       
+            StartCoroutine(ExecuteAfterDelay(1f, () => //TODO 0802
+            {
+                doorOpeningAnim.CmdMoveNextStage(nextMapId);
+            }));
+        
     }
 
 
@@ -189,6 +207,16 @@ public class ExitPointObj : BuildObj
         yield return new WaitForSeconds(delay);
         action();
     }
+
+    private IEnumerator ExecuteAfterDelay(IEnumerator coroutine, System.Action action)
+    {
+        yield return coroutine;
+        yield return new WaitForSeconds(1f);
+        action();
+        
+    }
+
+    
 
     #endregion
 }

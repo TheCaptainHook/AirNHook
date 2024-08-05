@@ -488,7 +488,39 @@ public class UI_StageSelect_var3: UI_Base
     }
 
 
-    IEnumerator Select_PrograssLevel_2Co(int stageLevel)
+    //IEnumerator Select_PrograssLevel_2Co(int stageLevel)
+    //{
+
+    //    onPrograss = true;
+    //    onInteractable = false;
+
+    //    _PrograssLevel = PrograssLevel.Three;
+
+    //    yield return EraserTextLineCo(minSelectTextLineListIndex, maxSelectTextLineListIndex);
+    //    Map[] maps = Managers.Data.mapData.mapMainStageDictionary[stageLevel];
+    //    bool[] clearMaps = CheckPlayerData(maps);
+
+    //    for (int i = 0; i < clearMaps.Length; i++)
+    //    {
+    //        if (clearMaps[i])
+    //        {
+    //            yield return WriteLine(maps[i].mapID, localColor, true);
+    //        }
+    //        else
+    //        {
+    //            yield return WriteLine(maps[i].mapID, Color.red, true,25,0.01f,false);
+    //        }
+    //    }
+
+    //    maxSelectTextLineListIndex = minSelectTextLineListIndex + maps.Length-1;
+    //    curSelectTextLineIndex = maxSelectTextLineListIndex;
+
+
+    //    onPrograss = false;
+    //    onInteractable = true;
+    //}
+
+    IEnumerator Select_PrograssLevel_2Co(int stageLevel) //TODO 0805
     {
 
         onPrograss = true;
@@ -498,21 +530,25 @@ public class UI_StageSelect_var3: UI_Base
 
         yield return EraserTextLineCo(minSelectTextLineListIndex, maxSelectTextLineListIndex);
         Map[] maps = Managers.Data.mapData.mapMainStageDictionary[stageLevel];
-        bool[] clearMaps = CheckPlayerData(maps);
+        MapSaveData[] mapDatas = CheckPlayerData(maps);
 
-        for (int i = 0; i < clearMaps.Length; i++)
+        for (int i = 0; i < mapDatas.Length; i++)
         {
-            if (clearMaps[i])
+            if (mapDatas[i].clear)
             {
                 yield return WriteLine(maps[i].mapID, localColor, true);
             }
+            else if (mapDatas[i].openStage)
+            {
+                yield return WriteLine(maps[i].mapID, Color.yellow, true);
+            }
             else
             {
-                yield return WriteLine(maps[i].mapID, Color.red, true,25,0.01f,false);
+                yield return WriteLine(maps[i].mapID, Color.red, true, 25, 0.01f, false);
             }
         }
 
-        maxSelectTextLineListIndex = minSelectTextLineListIndex + maps.Length-1;
+        maxSelectTextLineListIndex = minSelectTextLineListIndex + maps.Length - 1;
         curSelectTextLineIndex = maxSelectTextLineListIndex;
 
 
@@ -520,7 +556,7 @@ public class UI_StageSelect_var3: UI_Base
         onInteractable = true;
     }
 
- 
+
 
     //이부분만 수정하면 됨.
     IEnumerator Select_PrograssLevel_3Co()
@@ -651,61 +687,100 @@ public class UI_StageSelect_var3: UI_Base
 
     }
 
-    private bool[] CheckPlayerData(Map[] map)
+    //private bool[] CheckPlayerData(Map[] map)
+    //{
+    //    bool[] array = new bool[map.Length];
+
+    //    if (map[0].stageLevel == 0)
+    //    {
+    //        for (int i = 0; i < map.Length; i++)
+    //        {
+    //            if (Managers.Data.loadData.playData[map[i].mapID].stageClear)
+    //            {
+    //                array[i] = true;
+    //            }
+    //            else
+    //            {
+    //                array[i] = false;
+    //            }
+    //        }
+    //    }
+    //    else
+    //    {
+    //        Map[] beforeStage = Managers.Data.mapData.mapMainStageDictionary[map[0].stageLevel - 1];
+    //        for (int i = 0; i < map.Length; i++)
+    //        {
+    //            if (i == 0)
+    //            {
+    //                if (Managers.Data.loadData.playData[beforeStage[beforeStage.Length - 1].mapID].stageClear)
+    //                {
+    //                    array[i] = true;
+    //                }
+    //                else
+    //                {
+    //                    array[i] = false;
+    //                }
+    //            }
+    //            else
+    //            {
+    //                if (Managers.Data.loadData.playData[map[i].mapID].stageClear)
+    //                {
+    //                    array[i] = true;
+    //                }
+    //                else
+    //                {
+    //                    array[i] = false;
+    //                }
+    //            }
+
+    //        }
+
+    //    }
+
+
+    //    return array;
+
+    //}
+
+
+    private MapSaveData[] CheckPlayerData(Map[] map) //TODO 0805
     {
-        bool[] array = new bool[map.Length];
+        MapSaveData[] array = new MapSaveData[map.Length];
+
+        for (int i = 0; i < map.Length; i++)
+        {
+            array[i] = Managers.Data.saveData.dic[map[i].mapID];
+
+
+            if (map[0].stageLevel > 0 && i == 0)
+            {
+                Map[] beforMaps = Managers.Data.mapData.mapMainStageDictionary[map[0].stageLevel-1];
+                string beforMapId = beforMaps[beforMaps.Length - 1].mapID;
+                if (Managers.Data.saveData.dic[beforMapId].clear)
+                {
+                    array[i].openStage = true;
+                }
+
+            }
+            else
+            {
+                if (array[i].clear && i < map.Length - 1)
+                {
+                    Managers.Data.saveData.dic[map[i + 1].mapID].openStage = true;
+                }
+            }
+
+            
+        }
 
         if (map[0].stageLevel == 0)
         {
-            for (int i = 0; i < map.Length; i++)
-            {
-                if (Managers.Data.loadData.playData[map[i].mapID].stageClear)
-                {
-                    array[i] = true;
-                }
-                else
-                {
-                    array[i] = false;
-                }
-            }
+            array[0].openStage = true;
         }
-        else
-        {
-            Map[] beforeStage = Managers.Data.mapData.mapMainStageDictionary[map[0].stageLevel - 1];
-            for (int i = 0; i < map.Length; i++)
-            {
-                if (i == 0)
-                {
-                    if (Managers.Data.loadData.playData[beforeStage[beforeStage.Length - 1].mapID].stageClear)
-                    {
-                        array[i] = true;
-                    }
-                    else
-                    {
-                        array[i] = false;
-                    }
-                }
-                else
-                {
-                    if (Managers.Data.loadData.playData[map[i].mapID].stageClear)
-                    {
-                        array[i] = true;
-                    }
-                    else
-                    {
-                        array[i] = false;
-                    }
-                }
-
-            }
-
-        }
-
-
+  
         return array;
 
     }
-
 
 
     private IEnumerator ProcessInputWithDelay(KeyCode keyCode)
