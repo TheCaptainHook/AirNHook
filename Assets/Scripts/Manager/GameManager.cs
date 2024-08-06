@@ -153,7 +153,7 @@ public class GameManager
         }
     }
     //TODO 0726
-    public void PlayerAndMapSavaDataUpdate(string stageID)
+    public async void PlayerAndMapSavaDataUpdate(string stageID)
     {
         PlayerSaveData data = Managers.Data.saveData._SaveFileData._PlayerSaveData;
         MapSaveData mapData = Managers.Data.saveData.dic[stageID];
@@ -165,10 +165,10 @@ public class GameManager
 
         //Updata PlayerSavaData // 죽은 횟수 총합,클리어한 맵
         data.AddTotalDeath(_clearDeath);
-        data.AddClearMapId(mapID);
+        data.AddClearMapId(stageID);
         //Updata PlayerSavaData
 
-
+        await Managers.Data.saveData.Save_SaveFile();
 
 
     }

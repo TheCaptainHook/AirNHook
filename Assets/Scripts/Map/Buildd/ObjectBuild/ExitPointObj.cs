@@ -162,7 +162,7 @@ public class ExitPointObj : BuildObj
     {
         //absencePanel.NextMoveAnimation(); //TODO 0802 Need Networking
         //TODO 0804
-        if (MapEditor.Instance.CurMap.mapID == "Tutorial_3")
+        if (MapEditor.Instance.CurMap.mapID == "Tutorial_3"&& !Managers.Data.saveData._SaveFileData._PlayerSaveData._IstutorialClear)
         {
             StartCoroutine(ExecuteAfterDelay(dialogue.TutorialClearDialogue(), () =>
             {
@@ -171,6 +171,10 @@ public class ExitPointObj : BuildObj
 
             return;
         }
+
+
+
+
        
             StartCoroutine(ExecuteAfterDelay(1f, () => //TODO 0802
             {

@@ -191,9 +191,9 @@ public class MapSaveData
 [Serializable]
 public class PlayerSaveData
 {
-    private int totalDeath;
+    public int totalDeath;
     public int TotalDeath { get { return totalDeath; } }
-    private List<string> clearMapId;
+    public List<string> clearMapId;
     //클리어한 맵들
 
     //State
