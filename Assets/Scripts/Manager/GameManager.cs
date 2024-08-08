@@ -78,7 +78,7 @@ public class GameManager
                 Debug.Log("Scene Loaded 0");
                 Managers.Instance.CheckNetworkManager();
                 Managers.Game.CurrentState = GameState.Title;
-                Managers.UI.ShowUI<UI_Title>();
+                Managers.UI.ShowUI<UI_ScreenSaver>();
                 break;
             // MainScene
             case 1:

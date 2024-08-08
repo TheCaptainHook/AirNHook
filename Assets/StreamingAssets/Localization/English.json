@@ -116,6 +116,10 @@
   "text": "Loading..."
  },
  {
+  "id": 2012,
+  "text": "Press Any Key!"
+ },
+ {
   "id": 2101,
   "text": "Stage Start"
  },
@@ -185,6 +189,10 @@
  },
  {
   "id": 10015,
-  "text": "Finally we can do some real things."
+  "text": "........"
+ },
+ {
+  "id": 10016,
+  "text": "Finally we can do some real tests."
  }
 ]
