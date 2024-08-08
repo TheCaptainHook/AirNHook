@@ -27,8 +27,8 @@ public class UI_Loading : UI_Base
     public override void OnEnable()
     {
         OpenUI();
-        StartCoroutine(BounceRoutine(_titleImg,Vector3.one, Vector3.one * 0.9f, _curve));
-        StartCoroutine(BounceRoutine(_loadingImgFrame,Vector3.one, Vector3.one * 0.95f, _curve));
+        StartCoroutine(BounceRoutine(_titleImg,Vector3.one * 0.25f, Vector3.one * 0.22f, _curve));
+        StartCoroutine(BounceRoutine(_loadingImgFrame,Vector3.one * 0.95f, Vector3.one * 0.90f, _curve));
         _loadSceneName = Managers.UI.sceneName;
         LoadSpritesFromResources();
         SetRandomBackground();
