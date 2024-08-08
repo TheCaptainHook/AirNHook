@@ -445,7 +445,15 @@ public class MapEditor_Editor : Editor
             GetButtonActivateDoorStructList(mapEditor),
             GetButtonActivatedObjectList(mapEditor),
             GetDialogueList(mapEditor.triggerDialogueTransform), // todo0724
-            mapEditor.cellSize, 0, await CurrentMapScreenShot(mapEditor), mapEditor.audioType);; ;
+            mapEditor.cellSize, 0, await CurrentMapScreenShot(mapEditor), mapEditor.audioType);
+
+        //TestCode TOdo 0807
+        //map.mapSize = new Vector2(
+        //    map.mapTileDataList[0].position.x,
+        //     map.mapTileDataList[map.mapTileDataList.Count - 1].position.x);
+        var poss = map.GetStartEndPosition();
+        Debug.Log($"Start : {poss.start},End : {poss.end}");
+
         string json = JsonUtility.ToJson(map, true);
 
         if(mapEditor.mapType == MapType.Main)
@@ -466,6 +474,7 @@ public class MapEditor_Editor : Editor
             filePath = Path.Combine(folderPath, $"{mapEditor.mapType}/{map.mapID}.json");
         }
 
+       
         File.WriteAllText(filePath, json);
         UnityEditor.AssetDatabase.Refresh();
     }

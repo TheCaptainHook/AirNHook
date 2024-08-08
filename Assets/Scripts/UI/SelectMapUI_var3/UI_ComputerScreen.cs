@@ -27,7 +27,7 @@ public class UI_ComputerScreen : UI_Base
 
     public override void OnEnable()
     {
-        transform.localPosition = new Vector3(21, -1);
+        transform.localPosition = new Vector3(12, 0.5f);
     }
 
     private void Awake()
@@ -39,6 +39,16 @@ public class UI_ComputerScreen : UI_Base
         MapEditor.Instance.OnStageMove += TurnOff;
         //MapEditor.Instance.OnScreen += TurnOn;
 
+    }
+
+
+    //TestCode 0807
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            SetData("Tutorial_1");
+        }
     }
 
     public void TurnOff()
@@ -137,7 +147,7 @@ public class UI_ComputerScreen : UI_Base
         Vector2 target;
         if(num == 0)//right
         {
-            target = new Vector2(-370, 0);
+            target = new Vector2(-550, 0);
         }
         else//left
         {

@@ -106,6 +106,13 @@ public class Map
     //    Debug.Log($"min : {min}, max : {max}");
     //}
 
+
+    public (Vector2 start,Vector2 end) GetStartEndPosition() //TODO 0807 GEt Map Size
+    {
+        Vector2 start = new Vector2(mapTileDataList[0].position.x, mapTileDataList[0].position.y);
+        Vector2 end = new Vector2(mapTileDataList[mapTileDataList.Count-1].position.x, mapTileDataList[mapTileDataList.Count - 1].position.y);
+        return (start, end);
+    }
 }
 
 
