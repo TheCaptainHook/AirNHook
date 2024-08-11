@@ -35,6 +35,7 @@ public class UI_ScreenSaver : UI_Base
 
     protected override void Start()
     {
+        base.Start();
         _audioMixer = Managers.Sound.audioMixer;
         _audioMixer.SetFloat("MasterParam",GetAudioMixVolume(PlayerPrefs.GetFloat("MasterVolume", 1f)));
         _audioMixer.SetFloat("BGMParam", GetAudioMixVolume(PlayerPrefs.GetFloat("BGMVolume", 1f)));
