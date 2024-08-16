@@ -115454,8 +115454,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 1731360109}
   OtherPlayer: {fileID: 1527811771}
-  _TriggerDistance: 12
-  _MaxDistance: 25
+  _TriggerDistance: 7
+  _MaxDistance: 16
   _MinZoom: 8
   _MaxZoom: 10
 --- !u!1 &1517482951

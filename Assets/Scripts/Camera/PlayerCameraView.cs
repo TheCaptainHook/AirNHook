@@ -33,8 +33,8 @@ public class PlayerCameraView : MonoBehaviour
 
     [Header("Info")]
     //need two player coord, update()
-    [SerializeField] float _TriggerDistance; //12
-    [SerializeField] float _MaxDistance; // 25
+    [SerializeField] float _TriggerDistance; //7
+    [SerializeField] float _MaxDistance; // 16
 
     [SerializeField] float _MinZoom; //8
     [SerializeField] float _MaxZoom; //10
@@ -95,14 +95,13 @@ public class PlayerCameraView : MonoBehaviour
 
         float distance = GetDistance(Player.position,OtherPlayer.position);
 
-        //if (distance > _MaxDistance) // Mark
-        //{
-        //    onMarker = true;
-
-        //    //
-        //} else
-        if (distance > _TriggerDistance) 
+        if (IsDistanceWithinThreshold(_MaxDistance)) // Mark
         {
+            OnMarkerMode();
+        }
+        else if (IsDistanceWithinThreshold(_TriggerDistance))  //IsDistanceWithInThreshold 부터 작업하기, onmark 작업하기
+        {
+            onMarker = false;
             WideViewMode();
             //
         }else//
@@ -115,8 +114,6 @@ public class PlayerCameraView : MonoBehaviour
 
     }
 
-
-
     #region TEST CODE
 
     private float GetDistance(Vector3 point1, Vector3 point2)
@@ -127,11 +124,6 @@ public class PlayerCameraView : MonoBehaviour
     private float GetDistance()
     {
         float distance = Vector3.Distance(Player.position, OtherPlayer.position);
-
-        float p1 = Vector3.SqrMagnitude(Player.position);
-        float p2 = Vector3.SqrMagnitude(OtherPlayer.position);
-
-        Debug.Log($"Distance :{distance}, p1-p2 : {Vector3.SqrMagnitude(Player.position - OtherPlayer.position)}");
         return distance;
     }
 
@@ -166,7 +158,11 @@ public class PlayerCameraView : MonoBehaviour
 
 
 
-
+   private void OnMarkerMode()
+    {
+        mainCamera.orthographicSize = _MinZoom;
+        FollowCamera(Player);
+    }
 
     #region Util
 
@@ -229,8 +225,6 @@ public class PlayerCameraView : MonoBehaviour
             yield return null;
         }
 
-        _FadeZoomCoroutine = null;
-
         onPrograss = false;
 
     }
@@ -262,7 +256,6 @@ public class PlayerCameraView : MonoBehaviour
             yield return null;
         }
 
-        _FadeZoomCoroutine = null;
         onPrograss = false;
     }
 
@@ -280,6 +273,7 @@ public class PlayerCameraView : MonoBehaviour
         }
 
         mainCamera.orthographicSize = target;
+        _FadeZoomCoroutine = null;
     }
     #endregion
 
@@ -299,6 +293,23 @@ public class PlayerCameraView : MonoBehaviour
         return isInView;
     }
 
+
+    bool IsDistanceWithinThreshold(float thresholdDistance)
+    {
+        // 두 오브젝트 간의 월드 좌표 거리 계산
+        Vector3 worldDistance = Player.position - OtherPlayer.position;
+
+        // 카메라의 가로 세로 비율에 따라 거리 조정
+        Vector3 adjustedDistance = new Vector3(worldDistance.x / mainCamera.aspect, worldDistance.y, worldDistance.z);
+
+        // 조정된 거리를 이용해 크기 계산
+        float adjustedMagnitude = adjustedDistance.magnitude;
+
+        Debug.Log($"distance : {worldDistance}, adjustedDistance : {adjustedDistance}, magnutude : {adjustedMagnitude}");
+
+        // 조정된 거리가 특정 임계값(thresholdDistance) 이내인지 확인
+        return adjustedMagnitude >= thresholdDistance;
+    }
 
     #endregion
 }
