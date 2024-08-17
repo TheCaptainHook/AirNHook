@@ -9,19 +9,11 @@ using UnityEngine;
 
 public class PlayerCameraView : MonoBehaviour
 {
-    // Camera position -> Mathf.Abs(player1.positon - player2.position) /2
-    // when two plyaer distance
-    // how to check when i player1? player2?
-
-    //plyaer not control camera zooom,
-    //other player distacne check, control camera zoom
-
-
     //CameraHolder in CameraFollow Script => PlayerCameraView
     //CameraMove -> PlayerCameraView 
 
 
-    //Take Care Task    1. Method prograss when condition are met
+    //Take Care Task    1. 
     //                  2. 
     
     Camera mainCamera;
@@ -68,9 +60,9 @@ public class PlayerCameraView : MonoBehaviour
 
 
 
-    //TODO 0817
+    
 
-    [SerializeField] PlayerCameraViewMarker marker;
+    [SerializeField] PlayerCameraViewMarker marker; //TODO 0817
 
 
 
@@ -110,9 +102,9 @@ public class PlayerCameraView : MonoBehaviour
         {
             onMarker = true;
             Debug.Log("MARKER Mode");
-            OnMarkerMode();
+            OnMarkerMode();//TODO 0817
         }
-        else if (IsDistanceWithinThreshold(_TriggerDistance))  //IsDistanceWithInThreshold 부터 작업하기, onmark 작업하기
+        else if (IsDistanceWithinThreshold(_TriggerDistance)) 
         {
             Debug.Log("WideView Mode");
             if (marker.gameObject.activeSelf)
@@ -176,7 +168,7 @@ public class PlayerCameraView : MonoBehaviour
 
 
 
-   private void OnMarkerMode() //TODO 0817 MARK
+   private void OnMarkerMode() //TODO 0817
     {
         mainCamera.orthographicSize = _MinZoom;
 
