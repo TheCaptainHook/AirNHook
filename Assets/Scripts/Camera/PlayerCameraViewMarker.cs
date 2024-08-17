@@ -30,36 +30,42 @@ public class PlayerCameraViewMarker : MonoBehaviour
 
         if (viewport.x < 0)
         {
-            edgeViewportPosition.x = 0;
+            edgeViewportPosition.x = 0.1f;
         }
         else if(viewport.x > 1)
         {
-            edgeViewportPosition.x = 1;
+            edgeViewportPosition.x = 0.9f;
         }
 
 
         if(viewport.y < 0)
         {
-            edgeViewportPosition.y = 0;
+            edgeViewportPosition.y = 0.2f;
         }
         else if(viewport.y > 1)
         {
-            edgeViewportPosition.y = 1;
+            edgeViewportPosition.y = .8f;
         }
-
-
-
-        
 
         Debug.Log($"Viewport : {edgeViewportPosition}, normalized : {edgeViewportPosition.normalized}");
 
+        edgeViewportPosition = Camera.main.ViewportToWorldPoint(edgeViewportPosition);
+        TargetRotation(player.position);
+
+        return new Vector3(edgeViewportPosition.x, edgeViewportPosition.y, 0);
+
+    }
 
 
 
-        gameObject.transform.right = edgeViewportPosition.normalized;
+    private void TargetRotation(Vector3 target)
+    {
+        Vector3 dir = target - transform.position;
 
-        return Camera.main.ViewportToWorldPoint(edgeViewportPosition);
+        float targetAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        Quaternion targetRotation = Quaternion.Euler(0, 0, targetAngle);
 
+        transform.rotation = targetRotation;
     }
 
 

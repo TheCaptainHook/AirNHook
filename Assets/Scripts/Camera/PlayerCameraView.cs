@@ -19,20 +19,21 @@ public class PlayerCameraView : MonoBehaviour
     Camera mainCamera;
 
     [Header("Test Code")]
+    //Test Code
     [SerializeField] Transform Player;
     [SerializeField] Transform OtherPlayer;
-
+    //Release Code
     //private Transform Player => Managers.Game.Player.transform;
-    //private Transform OtherPlayer => Managers.Game.OtherPlayer.transform;
+    //private Transform OtherPlayer => Managers.Game.OtherPlayer?.transform;
 
 
     [Header("Info")]
     //need two player coord, update()
     [SerializeField] float _TriggerDistance; //7
-    [SerializeField] float _MaxDistance; // 16
+    [SerializeField] float _MaxDistance; // 12
 
-    [SerializeField] float _MinZoom; //8
-    [SerializeField] float _MaxZoom; //10
+    [SerializeField] float _MinZoom; //6
+    [SerializeField] float _MaxZoom; //8
 
     [Header("Main Logic")]
     private bool onPrograss; //change cameraSize methode prograss
@@ -100,6 +101,8 @@ public class PlayerCameraView : MonoBehaviour
 
         if (IsDistanceWithinThreshold(_MaxDistance)) // Mark
         {
+            beforeDistance = 0;
+
             onMarker = true;
             Debug.Log("MARKER Mode");
             OnMarkerMode();//TODO 0817
@@ -117,8 +120,17 @@ public class PlayerCameraView : MonoBehaviour
             //
         }else//
         {
+            beforeDistance = 0;
+
             Debug.Log("default Mode");
             onMarker = false;
+
+            if(_FadeZoomCoroutine != null)
+            {
+                StopCoroutine(_FadeZoomCoroutine);
+            }
+
+            _FadeZoomCoroutine = StartCoroutine(FadeZoom(_MinZoom));
 
             FollowCamera(Player);
         }
@@ -230,9 +242,9 @@ public class PlayerCameraView : MonoBehaviour
         while (!p1CameraInView || !p2CameraInView)
         {
             float cameraSize = mainCamera.orthographicSize + cameraOrthograpicSizeAdd;
-            //cameraSize = Math.Clamp(cameraSize, _MinZoom, _MaxZoom);
-   
-            if(_FadeZoomCoroutine != null)
+            cameraSize = Math.Clamp(cameraSize, _MinZoom, _MaxZoom);
+
+            if (_FadeZoomCoroutine != null)
             {
                 StopCoroutine(_FadeZoomCoroutine);
                 _FadeZoomCoroutine = StartCoroutine(FadeZoom(cameraSize));
@@ -262,7 +274,7 @@ public class PlayerCameraView : MonoBehaviour
         while (p1CameraInView && p2CameraInView)
         {
             float cameraSize = mainCamera.orthographicSize - cameraOrthograpicSizeAdd;
-            cameraSize = Math.Clamp(cameraSize, _MinZoom, 100);
+            cameraSize = Math.Clamp(cameraSize, _MinZoom, _MaxZoom);
 
             if (_FadeZoomCoroutine != null)
             {
@@ -291,7 +303,7 @@ public class PlayerCameraView : MonoBehaviour
         {
             percent += Time.deltaTime*3;
             mainCamera.orthographicSize = Mathf.SmoothDamp(mainCamera.orthographicSize, target, ref _vecSpeed, _smoothSpeed, float.MaxValue, percent);
-            //mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, target, percent);
+            
             yield return null;
         }
 
@@ -325,7 +337,7 @@ public class PlayerCameraView : MonoBehaviour
         // 조정된 거리를 이용해 크기 계산
         float adjustedMagnitude = adjustedDistance.magnitude;
 
-        //Debug.Log($"distance : {worldDistance}, adjustedDistance : {adjustedDistance}, magnutude : {adjustedMagnitude}");
+        Debug.Log($"distance : {worldDistance}, adjustedDistance : {adjustedDistance}, magnutude : {adjustedMagnitude}");
 
         return adjustedMagnitude >= thresholdDistance;
     }
