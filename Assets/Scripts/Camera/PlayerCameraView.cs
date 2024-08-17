@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+//TODO 0817 DEVELOP CODE LINE : 
+
+
 public class PlayerCameraView : MonoBehaviour
 {
     // Camera position -> Mathf.Abs(player1.positon - player2.position) /2
@@ -63,6 +66,14 @@ public class PlayerCameraView : MonoBehaviour
     private float increasedCameraViewRate = .9f;
     private float decreasedCameraViewRate = .92f;
 
+
+
+    //TODO 0817
+
+    [SerializeField] PlayerCameraViewMarker marker;
+
+
+
     private void Awake()
     {
         mainCamera = Camera.main;
@@ -97,16 +108,24 @@ public class PlayerCameraView : MonoBehaviour
 
         if (IsDistanceWithinThreshold(_MaxDistance)) // Mark
         {
+            onMarker = true;
+            Debug.Log("MARKER Mode");
             OnMarkerMode();
         }
         else if (IsDistanceWithinThreshold(_TriggerDistance))  //IsDistanceWithInThreshold 부터 작업하기, onmark 작업하기
         {
-            onMarker = false;
+            Debug.Log("WideView Mode");
+            if (marker.gameObject.activeSelf)
+            {
+                marker.gameObject.SetActive(false);
+                onMarker = false;
+            }
+            
             WideViewMode();
             //
         }else//
         {
-            onPrograss = false;
+            Debug.Log("default Mode");
             onMarker = false;
 
             FollowCamera(Player);
@@ -139,7 +158,6 @@ public class PlayerCameraView : MonoBehaviour
 
         //Check camera Viewport
 
-
         if (!onPrograss)
         {
             if(distance > beforeDistance)
@@ -158,9 +176,22 @@ public class PlayerCameraView : MonoBehaviour
 
 
 
-   private void OnMarkerMode()
+   private void OnMarkerMode() //TODO 0817 MARK
     {
         mainCamera.orthographicSize = _MinZoom;
+
+        //marker Setting
+        if (!marker.gameObject.activeSelf)
+        {
+            marker.gameObject.SetActive(true);
+            marker.SettingCam(OtherPlayer);
+        }
+        else
+        {
+            marker.SettingCam(OtherPlayer);
+        }
+        
+
         FollowCamera(Player);
     }
 
@@ -281,7 +312,6 @@ public class PlayerCameraView : MonoBehaviour
 
     bool IsObjectInView(Transform obj,float rate)
     {
-        // 월드 좌표를 뷰포트 좌표로 변환
         Vector3 viewportPoint = mainCamera.WorldToViewportPoint(obj.position);
 
         // 뷰포트 좌표는 (0, 0)에서 (1, 1) 사이에 있음
@@ -296,18 +326,15 @@ public class PlayerCameraView : MonoBehaviour
 
     bool IsDistanceWithinThreshold(float thresholdDistance)
     {
-        // 두 오브젝트 간의 월드 좌표 거리 계산
         Vector3 worldDistance = Player.position - OtherPlayer.position;
-
         // 카메라의 가로 세로 비율에 따라 거리 조정
         Vector3 adjustedDistance = new Vector3(worldDistance.x / mainCamera.aspect, worldDistance.y, worldDistance.z);
 
         // 조정된 거리를 이용해 크기 계산
         float adjustedMagnitude = adjustedDistance.magnitude;
 
-        Debug.Log($"distance : {worldDistance}, adjustedDistance : {adjustedDistance}, magnutude : {adjustedMagnitude}");
+        //Debug.Log($"distance : {worldDistance}, adjustedDistance : {adjustedDistance}, magnutude : {adjustedMagnitude}");
 
-        // 조정된 거리가 특정 임계값(thresholdDistance) 이내인지 확인
         return adjustedMagnitude >= thresholdDistance;
     }
 
