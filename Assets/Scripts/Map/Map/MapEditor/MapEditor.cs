@@ -283,6 +283,20 @@ public class MapEditor : MonoBehaviour
     }
 
 
+    List<ForkDoorData> GetForkDoor() //todo 0822 forkDoor
+    {
+        List<ForkDoorData> list = new();
+
+        foreach (Transform tr in objectTransform)
+        {
+            if (tr.TryGetComponent(out ForkDoor component))
+            {
+                list.Add(component.GetData());
+            }
+        }
+
+        return list;
+    }
 
     List<ButtonActivatedDoorStruct> GetButtonActivateDoorStructList()
     {
@@ -370,6 +384,7 @@ public class MapEditor : MonoBehaviour
             GetTileData(placeMentSystem.backgroundTileMap),
             //object
             mapObjectDataList,
+            GetForkDoor(),
             GetButtonActivateDoorStructList(),
             GetButtonActivatedObjectList(),
             GetDialogueList(),
@@ -445,6 +460,9 @@ public class MapEditor : MonoBehaviour
         //todo 0723
         CreateObj(triggerDialogueTransform, 5); //triggerDialogueTransform
         //todo 0723
+        CreateObj(objectTransform, 6);
+
+
 
 
 
@@ -603,21 +621,7 @@ public class MapEditor : MonoBehaviour
 
                 }
                 break;
-            //case 5:
-            //    foreach (DialogueData data in curMap.dialogueDataList)
-            //    {
-            //        MapDataStruct mapDataStruct = Managers.Data.mapData.mapSceneDataDictionary[data.id];
-            //        if (Managers.Game.CurrentState != GameState.Editor)
-            //        {
-            //            Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
-            //        }
-            //        else
-            //        {
-            //            Create(transform, mapDataStruct, data);
-            //        }
-
-            //    }
-            //    break;
+          
             //Trigger Dialogue Obj create SaveData.SerializableSaveMapDataDictionary in MapSaveData
             case 5:
                 foreach (DialogueData data in Managers.Data.saveData.dic[curMap.mapID]._DialogueDataList)
@@ -632,6 +636,20 @@ public class MapEditor : MonoBehaviour
                         Create(transform, mapDataStruct, data);
                     }
 
+                }
+                break;
+            case 6:
+                foreach(ForkDoorData data in curMap.forkDoorDataList)
+                {
+                    MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
+                    if (Managers.Game.CurrentState != GameState.Editor)
+                    {
+                        Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
+                    }
+                    else
+                    {
+                        Create(transform, mapDataStruct, data);
+                    }
                 }
                 break;
         }
@@ -653,6 +671,15 @@ public class MapEditor : MonoBehaviour
             placeMentSystem.curPlaceObjList.Add(obj.GetComponent<BuildObj>());
         }
     }
+    void Create(Transform transform, MapDataStruct mapDataStruct, ForkDoorData data)
+    {
+        GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
+        obj.GetComponent<ForkDoor>().SetData(data);
+        obj.transform.SetParent(transform);
+
+    }
+
+
     void Create(Transform transform, MapDataStruct mapDataStruct, DialogueData data)
     {
         GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));

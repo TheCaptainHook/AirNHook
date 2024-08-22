@@ -8,6 +8,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Unity.EditorCoroutines.Editor;
 using System.Collections;
+using NPOI.OpenXmlFormats.Spreadsheet;
 
 //TODO 0724 Develop code line : 435,506
 
@@ -189,6 +190,8 @@ public class MapEditor_Editor : Editor
             CreateObj(mapEditor.exitDoorObjectTransform, map, mapEditor.placeMentSystem, 3);
             CreateObj(mapEditor.interactionObjectTransform, map, mapEditor.placeMentSystem, 4);
             CreateObj(mapEditor.triggerDialogueTransform, map, mapEditor.placeMentSystem, 5);
+            CreateObj(mapEditor.objectTransform, map, mapEditor.placeMentSystem, 6);
+
 
             mapEditor.stageLevel = mapEditor.CurMap.stageLevel;
             mapEditor.mapID = mapEditor.CurMap.mapID;
@@ -238,6 +241,7 @@ public class MapEditor_Editor : Editor
         CreateObj(mapEditor.exitDoorObjectTransform, map, mapEditor.placeMentSystem, 3);
         CreateObj(mapEditor.interactionObjectTransform, map, mapEditor.placeMentSystem, 4);
         CreateObj(mapEditor.triggerDialogueTransform, map, mapEditor.placeMentSystem, 5);
+        CreateObj(mapEditor.objectTransform, map, mapEditor.placeMentSystem, 6);
 
 
     }
@@ -357,6 +361,14 @@ public class MapEditor_Editor : Editor
                     Create(transform, mapDataStruct, data);
                 }
                 break;
+            case 6:
+                foreach (ForkDoorData data in map.forkDoorDataList)
+                {
+                    MapDataStruct mapDataStruct = mapObjectDataDictionary[data.id];
+                    
+                    Create(transform, mapDataStruct, data);
+                }
+                break;
         }
 
     }
@@ -370,6 +382,15 @@ public class MapEditor_Editor : Editor
         //obj.transform.localScale = data.scale;
         obj.transform.SetParent(transform);
     }
+
+    void Create(Transform transform, MapDataStruct mapDataStruct, ForkDoorData data)
+    {
+        GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
+        obj.GetComponent<ForkDoor>().SetData(data);
+        obj.transform.SetParent(transform);
+
+    }
+
     void Create(Transform transform, MapDataStruct mapDataStruct, DialogueData data)
     {
         GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
@@ -437,6 +458,7 @@ public class MapEditor_Editor : Editor
             GetTileData(mapEditor.placeMentSystem.backgroundTileMap),
             //object
             GetList(mapEditor.objectTransform),
+            GetForkDoor(mapEditor.objectTransform), //todo 0822 forkDoor
             GetButtonActivateDoorStructList(mapEditor),
             GetButtonActivatedObjectList(mapEditor),
             GetDialogueList(mapEditor.triggerDialogueTransform), // todo0724
@@ -505,7 +527,20 @@ List<TileData> GetTileData(Tilemap tileMap)
     }
 
 
+    List<ForkDoorData> GetForkDoor(Transform transform) //todo 0822 forkDoor
+    {
+        List<ForkDoorData> list = new();
 
+        foreach (Transform tr in transform)
+        {
+            if (tr.TryGetComponent(out ForkDoor component))
+            {
+                list.Add(component.GetData());
+            }
+        }
+
+        return list;
+    }
 
     List<ObjectData> GetList(Transform transform)
     {
@@ -514,6 +549,7 @@ List<TileData> GetTileData(Tilemap tileMap)
         {
 
             //cur.GetComponent<BuildObj>().SetTileData(cur.position, cur.rotation);
+            if (cur.GetComponent<BuildObj>().id == 321) continue;
             cur.GetComponent<BuildObj>().SetTileData();
             list.Add(cur.GetComponent<BuildObj>().ObjectData);
         }

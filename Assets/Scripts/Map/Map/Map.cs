@@ -26,6 +26,10 @@ public class Map
     public List<ExitObjStruct> mapExitObjectDataList = new();
     public List<DialogueData> dialogueDataList = new();
 
+    
+    public List<ForkDoorData> forkDoorDataList = new();//TODO0822 Fork Door
+
+
     public int dataType; //0:Main,1:User
     public float cellSize;
     [HideInInspector]public byte[] bytesImage;
@@ -39,6 +43,7 @@ public class Map
         List<TileData> mapBackgroundTileDataList,
         //object
         List<ObjectData> objectList,
+        List<ForkDoorData> forkDoorDataList, // todo 0822 forkDoor
         List<ButtonActivatedDoorStruct> mapButtonActivatedDoorDataList,
         List<ButtonActivatedObject> buttonActivatedObjectList,
         List<DialogueData> dialogueDataList,
@@ -52,6 +57,7 @@ public class Map
         this.mapBackgroundTileDataList = mapBackgroundTileDataList;
         //object
         mapObjectDataList = objectList;
+        this.forkDoorDataList = forkDoorDataList; //TODO0822 Fork Door
         this.startPosition = startPosition;
         this.mapExitObjectDataList = mapExitObjectDataList;
         this.mapButtonActivatedDoorDataList = mapButtonActivatedDoorDataList;
@@ -242,4 +248,21 @@ public struct DialogueData
 
     }
    
+}
+
+
+
+[System.Serializable]
+public struct ForkDoorData
+{
+    public int id;
+    public Vector2 position;
+    public string linkMapId;
+
+    public ForkDoorData(int id,Vector2 position,string linkMapId)
+    {
+        this.id = id;
+        this.position = position;
+        this.linkMapId = linkMapId;
+    }
 }

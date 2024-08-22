@@ -74,10 +74,7 @@ public class BuildObj : MousePointerEntity,IDamageable
         transform.rotation = data.quaternion;
         transform.localScale = data.scale;
     }
-    //public virtual void SetTileData(ObjectData data)
-    //{
 
-    //}
 
     public virtual void TakeDamage()
    {

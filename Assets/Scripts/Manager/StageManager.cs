@@ -27,26 +27,38 @@ public class StageManager
         //    }
         //}
     }
-    
+
     #region Editor
 
     [Command]
-    public void CmdBatchObject(string objName,ObjectData data)
+    public void CmdBatchObject(string objName, ObjectData data, int offset = 0) //TODO 0822 
     {
+
+        ObjectData newData = data;
+
         if (!NetworkServer.active || !NetworkClient.isConnected) return;
      
         GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
 
+        if(offset != 0)
+        {
+            newData = new(data.id, data.position + new Vector2(offset, offset), data.scale);
+        }
+   
+        obj.GetComponent<BuildObj>().SetData(newData);
 
-        //obj.transform.position = data.position;
-        ////todo 0425
-        //obj.GetComponent<BuildObj>().position = obj.transform.position;
-        ////todo 0425
+        obj.transform.SetParent(MapEditor.Instance.networkingObjectTransform);
+        NetworkServer.Spawn(obj, NetworkServer.localConnection);
+    }
 
-        //obj.GetComponent<BuildObj>().ObjectData = data;
+    [Command]
+    public void CmdBatchObject(string objName, ForkDoorData data)
+    {
+        if (!NetworkServer.active || !NetworkClient.isConnected) return;
 
-        obj.GetComponent<BuildObj>().SetData(data);
+        GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
 
+        obj.GetComponent<ForkDoor>().SetData(data);
         obj.transform.SetParent(MapEditor.Instance.networkingObjectTransform);
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
     }

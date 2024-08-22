@@ -241,7 +241,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: mapType
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: audioType
@@ -249,7 +249,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: stageLevel
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: floorTransform
@@ -89593,10 +89593,6 @@ PrefabInstance:
       propertyPath: sceneId
       value: 4225110010
       objectReference: {fileID: 0}
-    - target: {fileID: 5379903827939834663, guid: bcff53a0ba8a3c74397db944a46521c2, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8216439556350585627, guid: bcff53a0ba8a3c74397db944a46521c2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 11.35
@@ -115786,8 +115782,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa68a83c80f404b52be4ef7954f83868, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 1731360109}
-  OtherPlayer: {fileID: 1527811771}
   _TriggerDistance: 7
   _MaxDistance: 16
   _MinZoom: 8

@@ -12,13 +12,12 @@ public class PlayerCameraView : MonoBehaviour
     
     Camera mainCamera;
 
-    [Header("Test Code")]
     //Test Code
-    [SerializeField] Transform Player;
-    [SerializeField] Transform OtherPlayer;
+    //[SerializeField] Transform Player;
+    //[SerializeField] Transform OtherPlayer;
     //Release Code
-    //private Transform Player => Managers.Game.Player.transform;
-    //private Transform OtherPlayer => Managers.Game.OtherPlayer?.transform;
+    private Transform Player => Managers.Game.Player.transform;
+    private Transform OtherPlayer => Managers.Game.OtherPlayer?.transform;
 
 
     [Header("Info")]
