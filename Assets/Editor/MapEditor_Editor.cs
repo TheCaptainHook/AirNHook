@@ -6,7 +6,8 @@ using UnityEditor;
 using UGS;
 using System.IO;
 using System.Threading.Tasks;
-
+using Unity.EditorCoroutines.Editor;
+using System.Collections;
 
 //TODO 0724 Develop code line : 435,506
 
@@ -19,10 +20,13 @@ public class MapEditor_Editor : Editor
     public Dictionary<int, MapDataStruct> mapBackgroundDataDictionary = new Dictionary<int, MapDataStruct>();
     public Dictionary<int, MapDataStruct> mapOtherDataDictionary = new Dictionary<int, MapDataStruct>();
 
+    MapEditor mapEditor;//TODO 0822
+
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
-        MapEditor mapEditor = target as MapEditor;
+
+        mapEditor = target as MapEditor;
 
         GUILayout.Space(10);
 
@@ -32,6 +36,7 @@ public class MapEditor_Editor : Editor
         if (GUILayout.Button("Load Data(인게임용)"))
         {
             mapEditor.LoadMap(mapEditor.mapID);
+            
         }
 
         GUILayout.Space(10);
@@ -50,15 +55,17 @@ public class MapEditor_Editor : Editor
 
         GUILayout.Space(10);
 
-        if (GUILayout.Button("Load Data(개발자전용)"))
+        if (GUILayout.Button("Load Data(개발자전용)")) //TODO 0822
         {
             _Reset(mapEditor);
             LoadMap(mapEditor);
+
         }
 
         if (GUILayout.Button("Save Data(개발자전용)"))
         {
             SaveMapData(mapEditor);
+            
         }
 
         GUILayout.Space(10);
@@ -70,7 +77,12 @@ public class MapEditor_Editor : Editor
             mapEditor.audioType = AudioType.None;
 
         }
+
+
+      
+
     }
+
 
     private void _Reset(MapEditor mapEditor)
     {
@@ -164,14 +176,12 @@ public class MapEditor_Editor : Editor
             mapEditor.CurMap = map;
             mapEditor.SetMapSize((int)map.mapSize.x, (int)map.mapSize.y);
 
-            //start Point
+            ////start Point
             GameObject startPoint = Instantiate(Resources.Load<GameObject>(mapObjectDataDictionary[302].path));
             mapEditor.startPositionObject = startPoint;
             startPoint.transform.position = map.startPosition;
             startPoint.transform.SetParent(mapEditor.dontSaveObjectTransform);
             //start Point
-
-            //mapEditor.interactionBtnDictionary = new(); //todo 0412
 
             CreateObj(mapEditor.floorTransform, map, mapEditor.placeMentSystem, 0);
             CreateObj(mapEditor.objectTransform, map, mapEditor.placeMentSystem, 1);
@@ -193,13 +203,14 @@ public class MapEditor_Editor : Editor
         ///
         /// 플로어 타일 맵의 바운드셀로 최솟값 최댓값 알 수 있음.
         ///
-
+        Debug.Log("Lode Complete");
     }
 
     //0422 testtest
     public void TestLoad(MapEditor mapEditor) // user map Test Code
     {
         UGS_MapDataLoad();
+
         string path = Path.Combine(Application.dataPath, "UserMapData");
         string[] filePaths = Directory.GetFiles(path, "*.json");
 
@@ -254,6 +265,8 @@ public class MapEditor_Editor : Editor
                 }
                 break;
             case MapType.User:
+                return Resources.Load<TextAsset>($"MapDat/{mapType}/{id}");
+            case MapType.Fork:
                 return Resources.Load<TextAsset>($"MapDat/{mapType}/{id}");
         }
 
@@ -405,28 +418,10 @@ public class MapEditor_Editor : Editor
     public void SaveMapData(MapEditor mapEditor)
     {
         string folderPath = Path.Combine(Application.dataPath, "Resources/MapDat");
-        //if (mapEditor.mapEditorType == MapEditorType.New)
-        //{
-        //    string path = Path.Combine(folderPath, $"{mapEditor.mapID}.json");
-        //    bool fileExists = File.Exists(path);
-        //    while (fileExists)
-        //    {
-        //        int num = 1;
-        //        path = Path.Combine(folderPath, $"{mapEditor.mapID}{num}.json");
-        //        if (!File.Exists(path))
-        //        {
-        //            mapEditor.mapID = $"{mapEditor.mapID}{num}";
-        //            fileExists = false;
-        //        }
 
-        //        num++;
-        //    }
-        //    CreateJsonFile(mapEditor, folderPath);
-        //}
-        //else
-        //{
-            CreateJsonFile(mapEditor, folderPath);
-        //}
+        CreateJsonFile(mapEditor, folderPath);
+
+
 
     }
 

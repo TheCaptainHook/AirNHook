@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 
-
 public enum ModeType
 {
     Tile,

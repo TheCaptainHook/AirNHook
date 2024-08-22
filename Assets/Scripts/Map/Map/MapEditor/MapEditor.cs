@@ -12,7 +12,8 @@ public enum MapType
 {
     Scene,
     Main,
-    User
+    User,
+    Fork
 }
 
 public enum MapEditorType
@@ -121,7 +122,7 @@ public class MapEditor : MonoBehaviour
 
     [Space(10)]
     [Header("----------------------------------------------------")]
-    public Map curMap;
+    private Map curMap;
     public Map CurMap
     {
         get { return curMap; }
@@ -450,6 +451,10 @@ public class MapEditor : MonoBehaviour
         Managers.Sound.PlayBGM(CurMap.audioType, AudioMixerGroupType.BGM, true,.1f);
         //
     }
+
+
+
+
     #endregion
     
     #region Util 

@@ -9,12 +9,6 @@ using UnityEngine;
 
 public class PlayerCameraView : MonoBehaviour
 {
-    //CameraHolder in CameraFollow Script => PlayerCameraView
-    //CameraMove -> PlayerCameraView 
-
-
-    //Take Care Task    1. 
-    //                  2. 
     
     Camera mainCamera;
 
@@ -39,8 +33,8 @@ public class PlayerCameraView : MonoBehaviour
     private bool onPrograss; //change cameraSize methode prograss
     private bool onMarker;
 
-    private Vector3 beforeCameraPosition;
-    private Vector3 beforeCameraSize;
+    //private Vector3 beforeCameraPosition;
+    //private Vector3 beforeCameraSize;
 
     private float beforeDistance;
 
@@ -59,9 +53,6 @@ public class PlayerCameraView : MonoBehaviour
     private float increasedCameraViewRate = .9f;
     private float decreasedCameraViewRate = .92f;
 
-
-
-    
 
     [SerializeField] PlayerCameraViewMarker marker; //TODO 0817
 
@@ -337,7 +328,7 @@ public class PlayerCameraView : MonoBehaviour
         // 조정된 거리를 이용해 크기 계산
         float adjustedMagnitude = adjustedDistance.magnitude;
 
-        Debug.Log($"distance : {worldDistance}, adjustedDistance : {adjustedDistance}, magnutude : {adjustedMagnitude}");
+        //Debug.Log($"distance : {worldDistance}, adjustedDistance : {adjustedDistance}, magnutude : {adjustedMagnitude}");
 
         return adjustedMagnitude >= thresholdDistance;
     }
