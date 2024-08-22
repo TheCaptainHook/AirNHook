@@ -126,7 +126,7 @@ public class MapEditor : MonoBehaviour
     public Map CurMap
     {
         get { return curMap; }
-        set { curMap = value; stageClear = false; }
+        set { curMap = value; stageClear = false; mapType = value.mapType; }
     }
     [Header("----------------------------------------------------")]
     [Header("ScreenShot")]
@@ -376,7 +376,7 @@ public class MapEditor : MonoBehaviour
 
         byte[] bytesImage = await CurrentMapScreenShot();
 
-        Map map = new Map(new Vector2(width, height), mapID, stageLevel, startPosition,
+        Map map = new Map(mapType,new Vector2(width, height), mapID, stageLevel, startPosition,
             GetExitObjStructsList(exitDoorObjectTransform),
             //tile
             mapTileDataList,
@@ -444,6 +444,7 @@ public class MapEditor : MonoBehaviour
         SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);
 
         //start Point
+
         CreateStartPosition();
 
         //ParallaxCamera Reset

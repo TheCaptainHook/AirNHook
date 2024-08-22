@@ -9,6 +9,8 @@ using UnityEngine.UI;
 [System.Serializable]
 public class Map
 {
+    public MapType mapType = MapType.Main;
+
     public Vector2 mapSize;
     public string mapID;
     public int stageLevel;
@@ -35,7 +37,7 @@ public class Map
     [HideInInspector]public byte[] bytesImage;
     public AudioType audioType;
 
-    public Map(Vector2 mapSize, string id, int stageLevel, Vector2 startPosition,
+    public Map(MapType mapType,Vector2 mapSize, string id, int stageLevel, Vector2 startPosition,
         List<ExitObjStruct> mapExitObjectDataList,
         //tile
         List<TileData> tileList,
@@ -49,6 +51,7 @@ public class Map
         List<DialogueData> dialogueDataList,
         float cellSize,int dataType = 0, byte[] bytesImage = null,AudioType audioType = AudioType.None)
     {
+        this.mapType = mapType;// todo 0822 forkDoor
         mapID = id;
         this.stageLevel = stageLevel;
         //tile

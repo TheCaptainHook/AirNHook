@@ -449,8 +449,13 @@ public class MapEditor_Editor : Editor
     async void CreateJsonFile(MapEditor mapEditor, string folderPath)
     {
         string filePath = "";
-        mapEditor.startPosition = FindObj(mapEditor.dontSaveObjectTransform, 302).transform.position;
-        Map map = new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, mapEditor.stageLevel, mapEditor.startPosition,
+        if(mapEditor.mapType != MapType.Fork)
+        {
+            mapEditor.startPosition = FindObj(mapEditor.dontSaveObjectTransform, 302).transform.position;
+        }
+    
+
+        Map map = new Map(mapEditor.mapType,new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, mapEditor.stageLevel, mapEditor.startPosition,
             GetExitObjStructsList(mapEditor.exitDoorObjectTransform, mapEditor),
             //tile
             GetTileData(mapEditor.placeMentSystem.floorTileMap),
@@ -655,6 +660,8 @@ List<TileData> GetTileData(Tilemap tileMap)
     #region Util
     private Task<byte[]> CurrentMapScreenShot(MapEditor mapEditor)
     {
+        Vector2 startPot;
+        Vector2 endPot;
 
         if (mapEditor.screenShotCamera == null)
         {
@@ -663,8 +670,18 @@ List<TileData> GetTileData(Tilemap tileMap)
 
         GameObject camera = mapEditor.screenShotCamera;
 
-        Vector2 startPot = mapEditor.FindObj(mapEditor.dontSaveObjectTransform, 302).transform.position;
-        Vector2 endPot = mapEditor.FindObj(mapEditor.exitDoorObjectTransform, 301).transform.position;
+        if(mapEditor.mapType == MapType.Fork)
+        {
+            startPot = Vector2.zero;
+            endPot = Vector2.zero;
+        }
+        else
+        {
+            startPot = mapEditor.FindObj(mapEditor.dontSaveObjectTransform, 302).transform.position;
+            endPot = mapEditor.FindObj(mapEditor.exitDoorObjectTransform, 301).transform.position;
+        }
+
+       
 
         var distance = (startPot + endPot) / 2;
 

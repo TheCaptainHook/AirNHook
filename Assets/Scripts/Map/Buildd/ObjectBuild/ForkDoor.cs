@@ -19,7 +19,7 @@ public class ForkDoor : BuildObj
     [SerializeField] AbsencePanel absencePanel;
     private int curPlayerInDoor;
 
-    private Vector3Int _CreateOffset = new Vector3Int(1000,1000);
+    private int createOffset = 1000;
 
     #region Components
     private PlaceMentSystem placeMentSystem;
@@ -34,7 +34,6 @@ public class ForkDoor : BuildObj
     {
         placeMentSystem = MapEditor.Instance.placeMentSystem;
     }
-
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -74,6 +73,8 @@ public class ForkDoor : BuildObj
         linkMapId = data.linkMapId;
 
         //Create ForkMap
+
+        CreateForkMap(data.linkMapId);
     }
 
     public void SetExitPot(Vector2 pot)
@@ -86,7 +87,7 @@ public class ForkDoor : BuildObj
 
 
 
-    async void CreateForkMap(string linkMapId)
+    public async void CreateForkMap(string linkMapId)
     {
 
         TextAsset textAsset = Resources.Load<TextAsset>($"MapDat/Fork/{linkMapId}");
@@ -98,29 +99,25 @@ public class ForkDoor : BuildObj
 
  
 
-
-
-    
-
     private void CreateTile(Map curMap)
     {
         foreach (TileData data in curMap.mapTileDataList)
         {
             MapDataStruct mapDataStruct = Managers.Data.mapData.mapTileDataDictionary[data.id];
-            placeMentSystem.floorTileMap.SetTile(data.position + _CreateOffset, Resources.Load<TileBase>(mapDataStruct.path));
+            placeMentSystem.floorTileMap.SetTile(data.position + new Vector3Int(createOffset,createOffset), Resources.Load<TileBase>(mapDataStruct.path));
             placeMentSystem.tileDic[data.position] = data.id;
         }
 
         foreach (TileData data in curMap.mapHalfTileDataList)
         {
             MapDataStruct mapDataStruct = Managers.Data.mapData.mapTileDataDictionary[data.id];
-            placeMentSystem.halfTileMap.SetTile(data.position + _CreateOffset, Resources.Load<TileBase>(mapDataStruct.path));
+            placeMentSystem.halfTileMap.SetTile(data.position + new Vector3Int(createOffset, createOffset), Resources.Load<TileBase>(mapDataStruct.path));
             placeMentSystem.tileDic[data.position] = data.id;
         }
         foreach (TileData data in curMap.mapBackgroundTileDataList)
         {
             MapDataStruct mapDataStruct = Managers.Data.mapData.mapTileDataDictionary[data.id];
-            placeMentSystem.backgroundTileMap.SetTile(data.position + _CreateOffset, Resources.Load<TileBase>(mapDataStruct.path));
+            placeMentSystem.backgroundTileMap.SetTile(data.position + new Vector3Int(createOffset, createOffset), Resources.Load<TileBase>(mapDataStruct.path));
             placeMentSystem.tileDic[data.position] = data.id;
         }
 
@@ -130,28 +127,30 @@ public class ForkDoor : BuildObj
     {
         foreach (ObjectData data in curMap.mapObjectDataList)
         {
-            if (Managers.Data.mapData.mapSceneDataDictionary.ContainsKey(data.id))
+            ObjectData newData = new ObjectData(data.id, data.position + new Vector2(createOffset, createOffset), data.scale);
+
+            if (Managers.Data.mapData.mapSceneDataDictionary.ContainsKey(newData.id))
             {
-                MapDataStruct mapDataStruct = Managers.Data.mapData.mapSceneDataDictionary[data.id];
-                if (Managers.Game.CurrentState != GameState.Editor && (data.id == 1001 || data.id == 1002))
+                MapDataStruct mapDataStruct = Managers.Data.mapData.mapSceneDataDictionary[newData.id];
+                if (Managers.Game.CurrentState != GameState.Editor && (newData.id == 1001 || newData.id == 1002))
                 {
-                    Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
+                    Managers.Stage.CmdBatchObject(mapDataStruct.name, newData);
                 }
              
 
             }
-            else if (Managers.Data.mapData.mapBackgroundDataDictionary.ContainsKey(data.id))
+            else if (Managers.Data.mapData.mapBackgroundDataDictionary.ContainsKey(newData.id))
             {
-                MapDataStruct mapDataStruct = Managers.Data.mapData.mapBackgroundDataDictionary[data.id];
+                MapDataStruct mapDataStruct = Managers.Data.mapData.mapBackgroundDataDictionary[newData.id];
 
-                Create(transform, mapDataStruct, data);
+                Create(transform, mapDataStruct, newData);
 
             }
-            else if (Managers.Data.mapData.mapOtherDataDictionary.ContainsKey(data.id))
+            else if (Managers.Data.mapData.mapOtherDataDictionary.ContainsKey(newData.id))
             {
-                MapDataStruct mapDataStruct = Managers.Data.mapData.mapOtherDataDictionary[data.id];
+                MapDataStruct mapDataStruct = Managers.Data.mapData.mapOtherDataDictionary[newData.id];
 
-                Create(transform, mapDataStruct, data);
+                Create(transform, mapDataStruct, newData);
 
             }
             else
@@ -169,7 +168,7 @@ public class ForkDoor : BuildObj
                     data.id == 319
                     ))
                 {
-                    Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
+                    Managers.Stage.CmdBatchObject(mapDataStruct.name, newData);
                 }
               
             }

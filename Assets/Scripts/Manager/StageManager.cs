@@ -31,21 +31,15 @@ public class StageManager
     #region Editor
 
     [Command]
-    public void CmdBatchObject(string objName, ObjectData data, int offset = 0) //TODO 0822 
+    public void CmdBatchObject(string objName, ObjectData data) //TODO 0822 
     {
 
-        ObjectData newData = data;
 
         if (!NetworkServer.active || !NetworkClient.isConnected) return;
      
         GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
 
-        if(offset != 0)
-        {
-            newData = new(data.id, data.position + new Vector2(offset, offset), data.scale);
-        }
-   
-        obj.GetComponent<BuildObj>().SetData(newData);
+        obj.GetComponent<BuildObj>().SetData(data);
 
         obj.transform.SetParent(MapEditor.Instance.networkingObjectTransform);
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
