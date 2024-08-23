@@ -62,8 +62,6 @@ public class BuildObj : MousePointerEntity,IDamageable
 
     public virtual void SetTileData()
     {
-        //ObjectData = new ObjectData(id, position, quaternion, transform.localScale);
-        Debug.Log("BuildObj");
         ObjectData = new ObjectData(id, transform.position, transform.rotation, transform.localScale);
     }
 

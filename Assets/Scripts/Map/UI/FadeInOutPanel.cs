@@ -13,7 +13,7 @@ public class FadeInOutPanel : MonoBehaviour
     private void Awake()
     {
         image = GetComponent<Image>();
-        orgColor = image.color;
+        orgColor = new Color(0, 0, 0, 0);
     }
 
     public void MoveNextStage(string mapId)
@@ -126,5 +126,40 @@ public class FadeInOutPanel : MonoBehaviour
 
     }
 
+
+
+    #region Default Fade In, Out
+
+
+   public IEnumerator FadeOut()
+    {
+        float percent = 0;
+        Color fadeOutcolor = new Color(orgColor.r, orgColor.g, orgColor.b, 0);
+        while (percent < 1)
+        {
+            percent += Time.deltaTime;
+            image.color = Color.Lerp(fadeOutcolor, orgColor, percent);
+            yield return null;
+        }
+
+        image.color = new Color(orgColor.r, orgColor.g, orgColor.b, 0);
+        image.enabled = false;
+
+    }
+   public IEnumerator FadeIn()
+    {
+        image.enabled = true;
+        float percent = 0;
+        Color fadeIncolor = new Color(orgColor.r, orgColor.g, orgColor.b, 1);
+
+        while (percent < 1)
+        {
+            percent += Time.deltaTime;
+            image.color = Color.Lerp(orgColor, fadeIncolor, percent);
+            yield return null;
+        }
+
+    }
+    #endregion
 
 }

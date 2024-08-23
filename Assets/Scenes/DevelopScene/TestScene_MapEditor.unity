@@ -131,6 +131,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1225094914943414133, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1225094914943414133, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2005102887669488765, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: m_Name
       value: MapEditor
@@ -241,7 +249,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: mapType
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: audioType
@@ -89464,7 +89472,7 @@ Transform:
   m_GameObject: {fileID: 345856628}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.55862665, y: -0.32328272, z: -17.723019}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -89712,7 +89720,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 113140694087859592, guid: 7f453d83eee6a419c9251c07691119b0, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -38.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 113140694087859592, guid: 7f453d83eee6a419c9251c07691119b0, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -115817,7 +115825,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d64d8aa25fe3f1478f052c302c99684, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  oldPosition: -0.55862665
+  oldPosition: 0
 --- !u!114 &1746031361
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using UnityEngine;
-using System.IO;
-using UnityEngine.UI;
+
 
 
 [System.Serializable]
@@ -187,14 +185,17 @@ public struct ObjectData
     public Vector2 position;
     public Quaternion quaternion;
     public Vector3 scale;
-    
-    public ObjectData(int id,Vector2 position,Vector3 scale,int dialogueId = 0)
+
+    public Vector2 talPot;
+
+    public ObjectData(int id, Vector2 position, Vector3 scale, int dialogueId = 0, Vector2 talPot = default)
     {
         this.id = id;
         this.dialogueId = dialogueId;
         this.position = position;
         quaternion = Quaternion.identity;
         this.scale = scale;
+        this.talPot = talPot;
     }
     public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, int dialogueId = 0)
     {
@@ -203,6 +204,7 @@ public struct ObjectData
         this.position = position;
         this.quaternion = quaternion;
         this.scale = scale;
+        this.talPot = Vector2.zero;
     }
 
 
