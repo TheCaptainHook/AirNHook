@@ -79,16 +79,16 @@ public class Portal : BuildObj,IInteractable
     IEnumerator CoPortal()
     {
         onPrograss = true;
+        GameObject player = Managers.Game.Player;
+        Rigidbody2D rg = player.GetComponent<Rigidbody2D>();
+        //TODO Take Care logic : Cant Move Player 
+        rg.simulated = false;
 
         FindTargetPortal();
         targetPortal.onPrograss = true;
 
-        //TODO Take Care logic : Cant Move Player 
-
         // FadeOut
         yield return MapEditor.Instance.fadeInOutPanel.FadeIn();
-
-        GameObject player = Managers.Game.Player;
         player.transform.position = targetPosition;
 
 
@@ -99,7 +99,7 @@ public class Portal : BuildObj,IInteractable
         targetPortal.onPrograss = false;
 
         //TODO Take Care logic : Can Move Player 
-
+        rg.simulated = true;
     }
 
     public bool CanInteract()
