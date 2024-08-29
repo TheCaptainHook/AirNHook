@@ -115794,8 +115794,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa68a83c80f404b52be4ef7954f83868, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 1731360109}
-  OtherPlayer: {fileID: 1527811771}
   _TriggerDistance: 7
   _MaxDistance: 16
   _MinZoom: 8

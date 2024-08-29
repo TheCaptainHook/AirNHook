@@ -8,6 +8,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Unity.EditorCoroutines.Editor;
 using System.Collections;
+using DefaultTable;
 
 //TODO 0724 Develop code line : 435,506
 
@@ -183,12 +184,12 @@ public class MapEditor_Editor : Editor
             startPoint.transform.SetParent(mapEditor.dontSaveObjectTransform);
             //start Point
 
-            CreateObj(mapEditor.floorTransform, map, mapEditor.placeMentSystem, 0);
-            CreateObj(mapEditor.objectTransform, map, mapEditor.placeMentSystem, 1);
-            CreateObj(mapEditor.interactionObjectTransform, map, mapEditor.placeMentSystem, 2);
-            CreateObj(mapEditor.exitDoorObjectTransform, map, mapEditor.placeMentSystem, 3);
-            CreateObj(mapEditor.interactionObjectTransform, map, mapEditor.placeMentSystem, 4);
-            CreateObj(mapEditor.triggerDialogueTransform, map, mapEditor.placeMentSystem, 5);
+            CreateObj(map, mapEditor.placeMentSystem, 0);
+            CreateObj(map, mapEditor.placeMentSystem, 1,mapEditor.objectTransform);
+            CreateObj(map, mapEditor.placeMentSystem, 2,mapEditor.buttonActivatedObjectTransform);
+            CreateObj(map, mapEditor.placeMentSystem, 3,mapEditor.exitDoorObjectTransform);
+            CreateObj(map, mapEditor.placeMentSystem, 4,mapEditor.buttonObjectTransform);
+            CreateObj(map, mapEditor.placeMentSystem, 5,mapEditor.triggerDialogueTransform);
 
             mapEditor.stageLevel = mapEditor.CurMap.stageLevel;
             mapEditor.mapID = mapEditor.CurMap.mapID;
@@ -231,13 +232,14 @@ public class MapEditor_Editor : Editor
         //start Point
 
         //mapEditor.interactionBtnDictionary = new(); //todo 0412
-
-        CreateObj(mapEditor.floorTransform, map, mapEditor.placeMentSystem, 0);
-        CreateObj(mapEditor.objectTransform, map, mapEditor.placeMentSystem, 1);
-        CreateObj(mapEditor.interactionObjectTransform, map, mapEditor.placeMentSystem, 2);
-        CreateObj(mapEditor.exitDoorObjectTransform, map, mapEditor.placeMentSystem, 3);
-        CreateObj(mapEditor.interactionObjectTransform, map, mapEditor.placeMentSystem, 4);
-        CreateObj(mapEditor.triggerDialogueTransform, map, mapEditor.placeMentSystem, 5);
+         CreateObj(map, mapEditor.placeMentSystem, 0);
+            CreateObj(map, mapEditor.placeMentSystem, 1,mapEditor.objectTransform);
+            CreateObj(map, mapEditor.placeMentSystem, 2,mapEditor.buttonActivatedObjectTransform);
+            CreateObj(map, mapEditor.placeMentSystem, 3,mapEditor.exitDoorObjectTransform);
+            CreateObj(map, mapEditor.placeMentSystem, 4,mapEditor.buttonObjectTransform);
+            CreateObj(map, mapEditor.placeMentSystem, 5,mapEditor.triggerDialogueTransform);
+      
+      
 
 
     }
@@ -274,7 +276,7 @@ public class MapEditor_Editor : Editor
         return null;
     }
 
-    public void CreateObj(Transform transform,Map map,PlaceMentSystem placeMentSystem,int num)
+    public void CreateObj(Map map,PlaceMentSystem placeMentSystem,int num,Transform transform = null)
     {
 
         switch (num)
@@ -330,7 +332,7 @@ public class MapEditor_Editor : Editor
                 break;
             case 2:
                 
-                foreach (ButtonActivatedDoorStruct data in map.mapButtonActivatedDoorDataList)
+                foreach (ButtonActivatableObjectStruct data in map.mapButtonActivatableObjectDataList)
                 {
                     MapDataStruct mapDataStruct = mapObjectDataDictionary[data.id];
                     Create(transform, mapDataStruct, data);
@@ -344,7 +346,7 @@ public class MapEditor_Editor : Editor
                 }
                 break;
             case 4:
-                foreach (ButtonActivatedObject data in map.buttonActivatedObjectList)
+                foreach (ButtonObjectStruct data in map.buttonObjectList)
                 {
                     MapDataStruct mapDataStruct = mapObjectDataDictionary[data.id];
                     Create(transform, mapDataStruct, data);
@@ -376,28 +378,30 @@ public class MapEditor_Editor : Editor
         obj.GetComponent<Trigger_Dialogue>().SetDialogueData(data);
         obj.transform.SetParent(transform);
     }
-    void Create(Transform transform, MapDataStruct mapDataStruct, ButtonActivatedDoorStruct data)
+    void Create(Transform transform, MapDataStruct mapDataStruct, ButtonActivatableObjectStruct data)
     {
         GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
-        ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
-        door.ButtonActivatedDoorStruct = data;
+        obj.GetComponent<BuildObj>().SetData(data);
+        // ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
+        // door.ButtonActivatedDoorStruct = data;
         obj.transform.SetParent(transform);
 
     }
 
-    void Create(Transform transform,MapDataStruct mapDataStruct,ButtonActivatedObject data)
+    void Create(Transform transform,MapDataStruct mapDataStruct,ButtonObjectStruct data)
     {
         GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
-        if(data.id == 306)
-        {
-            ButtonActivated btn = obj.GetComponent<ButtonActivated>();
-            btn.ButtonActivatedObject = data;
+        obj.GetComponent<BuildObj>().SetData(data);
+        // if(data.id == 306)
+        // {
+        //     ButtonActivated btn = obj.GetComponent<ButtonActivated>();
+        //     btn.ButtonActivatedObject = data;
 
-        }else if( data.id == 312)
-        {
-            LeverBody leverBody = obj.GetComponent<LeverBody>();
-            leverBody.ButtonActivatedObject = data;
-        }
+        // }else if( data.id == 312)
+        // {
+        //     LeverBody leverBody = obj.GetComponent<LeverBody>();
+        //     leverBody.ButtonActivatedObject = data;
+        // }
 
         obj.transform.SetParent(transform);
     }
@@ -437,8 +441,8 @@ public class MapEditor_Editor : Editor
             GetTileData(mapEditor.placeMentSystem.backgroundTileMap),
             //object
             GetList(mapEditor.objectTransform),
-            GetButtonActivateDoorStructList(mapEditor),
-            GetButtonActivatedObjectList(mapEditor),
+            GetButtonActivatedObjectStructList(mapEditor),
+            GetButtonObjectList(mapEditor),
             GetDialogueList(mapEditor.triggerDialogueTransform), // todo0724
             mapEditor.cellSize, 0, await CurrentMapScreenShot(mapEditor), mapEditor.audioType);
 
@@ -533,36 +537,37 @@ List<TileData> GetTileData(Tilemap tileMap)
         return list;
     }
 
-    List<ButtonActivatedDoorStruct> GetButtonActivateDoorStructList(MapEditor mapEditor)
+    List<ButtonActivatableObjectStruct> GetButtonActivatedObjectStructList(MapEditor mapEditor)
     {
-        List<ButtonActivatedDoorStruct> list = new();
+        List<ButtonActivatableObjectStruct> list = new();
 
-        foreach (Transform cur in mapEditor.interactionObjectTransform)
+        foreach (Transform cur in mapEditor.buttonActivatedObjectTransform)
         {
-            if(cur.GetComponent<BuildObj>().id == 305)
-            {
-                ButtonActivatedDoor curDoor = cur.GetComponent<ButtonActivatedDoor>();
-                curDoor.SetTileData(cur.position, cur.rotation);
+            list.Add(cur.GetComponent<BuildObj>().GetData<ButtonActivatableObjectStruct>());
+            // if(cur.GetComponent<BuildObj>().id == 305)
+            // {
+            //     ButtonActivatedDoor curDoor = cur.GetComponent<ButtonActivatedDoor>();
+            //     curDoor.SetTileData(cur.position, cur.rotation);
 
-                list.Add(curDoor.GetButtonActivatedDoorStruct());
-            }
+            //     list.Add(curDoor.GetButtonActivatedDoorStruct());
+            // }
 
         }
         return list;
     }
 
-    List<ButtonActivatedObject> GetButtonActivatedObjectList(MapEditor mapEditor)
+    List<ButtonObjectStruct> GetButtonObjectList(MapEditor mapEditor)
     {
-        List<ButtonActivatedObject> list = new();
-        foreach (Transform cur in mapEditor.interactionObjectTransform)
+        List<ButtonObjectStruct> list = new();
+        foreach (Transform cur in mapEditor.buttonObjectTransform)
         {
-            if(cur.GetComponent<BuildObj>().id == 306){
-                list.Add(cur.GetComponent<ButtonActivated>().GetData());
-            }else if (cur.GetComponent<BuildObj>().id == 312){
-                list.Add(cur.GetComponent<LeverBody>().GetData());
-            }    
+            list.Add(cur.GetComponent<BuildObj>().GetData<ButtonObjectStruct>());
+            // if(cur.GetComponent<BuildObj>().id == 306){
+            //     list.Add(cur.GetComponent<ButtonActivated>().GetData());
+            // }else if (cur.GetComponent<BuildObj>().id == 312){
+            //     list.Add(cur.GetComponent<LeverBody>().GetData());
+            // }    
         }
-        Debug.Log(list.Count);
         return list;
     }
 

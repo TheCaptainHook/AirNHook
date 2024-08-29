@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
 public enum DistructionStatus
 {
@@ -72,10 +73,13 @@ public class BuildObj : MousePointerEntity,IDamageable
         transform.rotation = data.quaternion;
         transform.localScale = data.scale;
     }
-    //public virtual void SetTileData(ObjectData data)
-    //{
+  
+    public virtual T GetData<T>()  
+    {
+       return default(T);
+    }
+    public virtual void SetData<T>(T data)  {}
 
-    //}
 
     public virtual void TakeDamage()
    {

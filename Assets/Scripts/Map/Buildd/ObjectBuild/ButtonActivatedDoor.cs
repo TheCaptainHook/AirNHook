@@ -5,8 +5,7 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
-//ButtonActivated 가 1개 이상 존재해야함
-public class ButtonActivatedDoor : BuildBase
+public class ButtonActivatedDoor : ActivatableObjectEntity
 {
     public int linkId;
 
@@ -37,12 +36,11 @@ public class ButtonActivatedDoor : BuildBase
     ////todo 0416
     //public List<Vector2> leverBodyPotiionList;
     //todo 0416
-    private ButtonActivatedDoorStruct _buttonActivatedDoorStruct;
-    public ButtonActivatedDoorStruct ButtonActivatedDoorStruct {
-        get { return _buttonActivatedDoorStruct; }
-        set { { _buttonActivatedDoorStruct = value;
-                ObjectData = new ObjectData(_buttonActivatedDoorStruct.id, _buttonActivatedDoorStruct.position, _buttonActivatedDoorStruct.quaternion, _buttonActivatedDoorStruct.scale);
-                linkId = _buttonActivatedDoorStruct.linkId;
+    private ButtonActivatableObjectStruct _buttonActivatedObjectStruct;
+    public ButtonActivatableObjectStruct ButtonActivatedObjectStruct {
+        get { return _buttonActivatedObjectStruct; }
+        set { { _buttonActivatedObjectStruct = value;
+                ObjectData = new ObjectData(_buttonActivatedObjectStruct.id, _buttonActivatedObjectStruct.position, _buttonActivatedObjectStruct.quaternion, _buttonActivatedObjectStruct.scale);
                 activeRequirAmount = value.activeRequirAmount;
                 transform.position = value.position;
                 transform.rotation = value.quaternion;
@@ -55,19 +53,46 @@ public class ButtonActivatedDoor : BuildBase
 
     public bool onPrograss;
 
-    public ButtonActivatedDoorStruct GetButtonActivatedDoorStruct()
-    {
-        return new ButtonActivatedDoorStruct(id, linkId, activeRequirAmount, transform.position, transform.rotation, transform.localScale);
-    }
-
     private void Awake()
     {
         _animator = GetComponent<NetworkAnimator>();
     }
 
-    void Activation()
+
+
+    #region  GET,SET
+    public override T GetData<T>()
     {
-        //if (onPrograss) return;
+         if(typeof(T) == typeof(ButtonActivatableObjectStruct)){
+            return (T)(object)new ButtonActivatableObjectStruct(id,activeRequirAmount,transform.position,transform.rotation,transform.localScale);
+        }
+
+        return default(T);
+    }
+
+    public override void SetData<T>(T data)
+    {
+        try{
+            if (typeof(T) == typeof(ButtonActivatableObjectStruct))
+        {
+         ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
+         ButtonActivatedObjectStruct = objData;
+
+        }
+        }catch(Exception ex){
+                Debug.Log($"{ex}\n{typeof(T)}");
+        }
+        
+    }
+    #endregion
+
+    public void ApplyActive(int num){
+        CurActiveBtn = num;
+    }
+
+    protected override void Activation()
+    {
+        if (onPrograss) return;
         if (onOpen) return;
         onOpen = true;
         _collider.enabled = false;
@@ -76,9 +101,10 @@ public class ButtonActivatedDoor : BuildBase
         //StartCoroutine(Co_Activation());
     }
 
-    void Deactivated()
+
+    protected override void Deactivated()
     {
-        //if (onPrograss) return;
+          //if (onPrograss) return;
         if (!onOpen) return;
 
         onOpen = false;
@@ -87,6 +113,11 @@ public class ButtonActivatedDoor : BuildBase
 
         Debug.Log("Deactivate");
         //StartCoroutine(Co_Deactivated());
+    }
+
+    protected override void PrograssButtonActivatedObject(int num)
+    {
+        
     }
 
     public void CheckActiveRequirAmount()
@@ -123,3 +154,8 @@ IEnumerator Co_Activation()
     }
 
 }
+
+
+
+
+

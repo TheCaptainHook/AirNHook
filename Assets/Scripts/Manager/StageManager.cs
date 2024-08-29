@@ -37,14 +37,6 @@ public class StageManager
      
         GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
 
-
-        //obj.transform.position = data.position;
-        ////todo 0425
-        //obj.GetComponent<BuildObj>().position = obj.transform.position;
-        ////todo 0425
-
-        //obj.GetComponent<BuildObj>().ObjectData = data;
-
         obj.GetComponent<BuildObj>().SetData(data);
 
         obj.transform.SetParent(MapEditor.Instance.networkingObjectTransform);
@@ -78,46 +70,50 @@ public class StageManager
     }
 
     [Command]
-    public void CmdBatchObject(string objName, ButtonActivatedObject data)
+    public void CmdBatchObject(string objName, ButtonObjectStruct data)
     {
         if (!NetworkServer.active || !NetworkClient.isConnected) return;
 
         var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
 
-        if (data.id == 306)
-        {
-            ButtonActivated btn = obj.GetComponent<ButtonActivated>();
-            btn.ButtonActivatedObject = data;
+    obj.GetComponent<BuildObj>().SetData(data);
+//-------------------------------------------------- TOdo 0829
+        // if (data.id == 306)
+        // {
+        //     ButtonActivated btn = obj.GetComponent<ButtonActivated>();
+        //     btn.ButtonActivatedObject = data;
 
-        }
-        else if (data.id == 312)
-        {
-            LeverBody leverBody = obj.GetComponent<LeverBody>();
-            leverBody.ButtonActivatedObject = data;
-        }
-
-        obj.transform.SetParent(MapEditor.Instance.interactionObjectTransform);
+        // }
+        // else if (data.id == 312)
+        // {
+        //     LeverBody leverBody = obj.GetComponent<LeverBody>();
+        //     leverBody.ButtonActivatedObject = data;
+        // }
+//--------------------------------------------------care this fix
+        obj.transform.SetParent(MapEditor.Instance.buttonActivatedObjectTransform);
 
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
 
     }
 
- 
+ //todo 0829
     [Command]
-    public void CmdBatchObject(string objName,ButtonActivatedDoorStruct data)
+    public void CmdBatchObject(string objName,ButtonActivatableObjectStruct data)
     {
         if (!NetworkServer.active || !NetworkClient.isConnected) return;
 
         var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+        obj.GetComponent<BuildObj>().SetData(data);
+        // ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
+        // door.ButtonActivatedDoorStruct = data;
 
-        ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
-        door.ButtonActivatedDoorStruct = data;
-
-        obj.transform.SetParent(MapEditor.Instance.interactionObjectTransform);
+        obj.transform.SetParent(MapEditor.Instance.buttonActivatedObjectTransform);
 
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
 
-        door.CheckActiveRequirAmount();
+
+        //IButtonActivatedObject.CheckActiveRequirAmount();
+        
 
     }
 

@@ -7,6 +7,7 @@ using GoogleSheet.Core.Type;
 using TMPro;
 using System;
 using System.Threading.Tasks;
+using UnityEditor;
 
 public enum MapType
 {
@@ -41,7 +42,7 @@ public enum TileType
 
 }
 
-//TODO O723 Develop code line (Trigger Diaglogue Obj) : 163
+//TODO FIXED CODE LINE 0829 : 
 public class MapEditor : MonoBehaviour
 {
     public static MapEditor Instance;
@@ -74,10 +75,11 @@ public class MapEditor : MonoBehaviour
     public GameObject PreviewPalette { get { return previewPalette; } set { { if (previewPalette != null) { Destroy(previewPalette); } previewPalette = value; } } }
     public Transform mapObjBoxTransform;
     //[HideInInspector] public Transform gridPlateTransform;
-    [HideInInspector] public Transform floorTransform;
+    // [HideInInspector] public Transform floorTransform;
     [HideInInspector] public Transform objectTransform;
     [HideInInspector] public Transform exitDoorObjectTransform;
-    [HideInInspector] public Transform interactionObjectTransform;
+    [HideInInspector] public Transform buttonActivatedObjectTransform; //TODO 0829
+    [HideInInspector] public Transform buttonObjectTransform; //TODO 0829
     [HideInInspector] public Transform dontSaveObjectTransform;
     [HideInInspector] public Transform networkingObjectTransform;
     [HideInInspector] public Transform garbageTransform;
@@ -87,14 +89,6 @@ public class MapEditor : MonoBehaviour
     //TOdo 0723
 
     [HideInInspector] public Transform poolingContainer;
-
-    //todo 0412
-    //public Dictionary<int, HashSet<Vector2>> interactionBtnDictionary;
-    //todo 0412
-
-    //[Space(5)]
-    //[Header("Create")]
-    //public GameObject[,] tileObjectArray;
 
    
     public bool stageClear;
@@ -158,10 +152,11 @@ public class MapEditor : MonoBehaviour
 
         mapObjBoxTransform = Util.CreateChildTransform("MapObjBox");
 
-        floorTransform = Util.CreateChildTransform(mapObjBoxTransform, "FloorTransform");
+        // floorTransform = Util.CreateChildTransform(mapObjBoxTransform, "FloorTransform");
         objectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ObjectTransform");
         exitDoorObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ExitDoorObjectTransform");
-        interactionObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "InteractionObjectTransform");
+        buttonActivatedObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "buttonActivatedObjectTransform");
+        buttonObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "buttonObjectTransform");
         dontSaveObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "DontSaveObjectTransform");
         garbageTransform = Util.CreateChildTransform(mapObjBoxTransform, "GarbageTransform");
         networkingObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "networkingObjectTransform");
@@ -284,33 +279,34 @@ public class MapEditor : MonoBehaviour
 
 
 
-    List<ButtonActivatedDoorStruct> GetButtonActivateDoorStructList()
+    List<ButtonActivatableObjectStruct> GetButtonActivateObjectStructList()
     {
-        List<ButtonActivatedDoorStruct> list = new();
+        List<ButtonActivatableObjectStruct> list = new();
 
-        foreach (Transform cur in interactionObjectTransform)
+        foreach (Transform cur in buttonActivatedObjectTransform)
         {
-            ButtonActivatedDoor curDoor = cur.GetComponent<ButtonActivatedDoor>();
-            curDoor.SetTileData(cur.position, cur.rotation);
-
-            list.Add(curDoor.GetButtonActivatedDoorStruct());
+           list.Add(cur.GetComponent<BuildObj>().GetData<ButtonActivatableObjectStruct>()); 
         }
         return list;
     }
 
-    List<ButtonActivatedObject> GetButtonActivatedObjectList()
+    List<ButtonObjectStruct> GetButtonObjectList()
     {
-        List<ButtonActivatedObject> list = new();
-        foreach (Transform cur in interactionObjectTransform)
+        List<ButtonObjectStruct> list = new();
+        foreach (Transform cur in buttonObjectTransform)
         {
-            if (cur.GetComponent<BuildObj>().id == 306)
-            {
-                list.Add(cur.GetComponent<ButtonActivated>().GetData());
-            }
-            else if (cur.GetComponent<BuildObj>().id == 312)
-            {
-                list.Add(cur.GetComponent<LeverBody>().GetData());
-            }
+           list.Add(cur.GetComponent<BuildObj>().GetData<ButtonObjectStruct>()); 
+            
+
+
+            // if (cur.GetComponent<BuildObj>().id == 306)
+            // {
+            //     list.Add(cur.GetComponent<ButtonActivated>().GetData());
+            // }
+            // else if (cur.GetComponent<BuildObj>().id == 312)
+            // {
+            //     list.Add(cur.GetComponent<LeverBody>().GetData());
+            // }
         }
         return list;
     }
@@ -370,8 +366,8 @@ public class MapEditor : MonoBehaviour
             GetTileData(placeMentSystem.backgroundTileMap),
             //object
             mapObjectDataList,
-            GetButtonActivateDoorStructList(),
-            GetButtonActivatedObjectList(),
+            GetButtonActivateObjectStructList(),
+            GetButtonObjectList(),
             GetDialogueList(),
             cellSize,1,bytesImage,audioType);
 
@@ -411,11 +407,13 @@ public class MapEditor : MonoBehaviour
         startPositionObject.transform.SetParent(dontSaveObjectTransform);
         //start Point
 
-        CreateObj(floorTransform, 0); //floorTransform
-        CreateObj(objectTransform, 1); //objectTransform
-        CreateObj(interactionObjectTransform, 2); //interactionObjectTransform
-        CreateObj(exitDoorObjectTransform, 3); //exitDoorObjectTransform
-        CreateObj(interactionObjectTransform, 4); //interactionObjectTransform
+        CreateObj(0); //floorTransform
+        CreateObj(1,objectTransform); //objectTransform
+        CreateObj(2,buttonActivatedObjectTransform); //interactionObjectTransform
+        CreateObj(3,exitDoorObjectTransform); //exitDoorObjectTransform
+        CreateObj(4,buttonObjectTransform); //interactionObjectTransform
+        //todo 0723
+        CreateObj(5,triggerDialogueTransform); //triggerDialogueTransform
     }
 
 
@@ -437,16 +435,14 @@ public class MapEditor : MonoBehaviour
 
         //interactionBtnDictionary = new(); //todo 0412
 
-        CreateObj(floorTransform, 0); //floorTransform
-        CreateObj(objectTransform, 1); //objectTransform
-        CreateObj(interactionObjectTransform, 2); //interactionObjectTransform
-        CreateObj(exitDoorObjectTransform, 3); //exitDoorObjectTransform
-        CreateObj(interactionObjectTransform, 4); //interactionObjectTransform
+        CreateObj(0); //floorTransform
+        CreateObj(1,objectTransform); //objectTransform
+        CreateObj(2,buttonActivatedObjectTransform); //interactionObjectTransform
+        CreateObj(3,exitDoorObjectTransform); //exitDoorObjectTransform
+        CreateObj(4,buttonObjectTransform); //interactionObjectTransform
         //todo 0723
-        CreateObj(triggerDialogueTransform, 5); //triggerDialogueTransform
+        CreateObj(5,triggerDialogueTransform); //triggerDialogueTransform
         //todo 0723
-
-
 
         Managers.Sound.PlayBGM(CurMap.audioType, AudioMixerGroupType.BGM, true,.1f);
         //
@@ -472,7 +468,7 @@ public class MapEditor : MonoBehaviour
     }
 
     #region Create
-    public void CreateObj(Transform transform, int num)
+    public void CreateObj(int num,Transform transform = null)
     {
         switch (num)
         {
@@ -555,7 +551,7 @@ public class MapEditor : MonoBehaviour
                 }
                 break;
             case 2:
-                foreach (ButtonActivatedDoorStruct data in curMap.mapButtonActivatedDoorDataList)
+                foreach (ButtonActivatableObjectStruct data in curMap.mapButtonActivatableObjectDataList)
                 {
                     MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
                     
@@ -588,7 +584,7 @@ public class MapEditor : MonoBehaviour
                 }
                 break;
             case 4:
-                foreach (ButtonActivatedObject data in curMap.buttonActivatedObjectList)
+                foreach (ButtonObjectStruct data in curMap.buttonObjectList)
                 {
                     MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
 
@@ -661,13 +657,16 @@ public class MapEditor : MonoBehaviour
         obj.transform.SetParent(transform);
 
     }
-
-    void Create(Transform transform, MapDataStruct mapDataStruct, ButtonActivatedDoorStruct data)
+    //todo 0829
+    void Create(Transform transform, MapDataStruct mapDataStruct, ButtonActivatableObjectStruct data)
     {
         GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
-        ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
-        door.ButtonActivatedDoorStruct = data;
-        obj.transform.SetParent(transform);
+        obj.GetComponent<BuildObj>().SetData(data); //todo 0829
+        // ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
+
+        
+        // door.ButtonActivatedDoorStruct = data;
+        // obj.transform.SetParent(transform);
 
         if (mapEditorState != MapEditorState.NoEditor)
         {
@@ -678,20 +677,23 @@ public class MapEditor : MonoBehaviour
     }
 
     //todo 0522
-    void Create(Transform transform, MapDataStruct mapDataStruct, ButtonActivatedObject data)
+    void Create(Transform transform, MapDataStruct mapDataStruct, ButtonObjectStruct data)
     {
         GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
-        if (data.id == 306)
-        {
-            ButtonActivated btn = obj.GetComponent<ButtonActivated>();
-            btn.ButtonActivatedObject = data;
+       
+       
+       obj.GetComponent<BuildObj>().SetData(data);
+        // if (data.id == 306)
+        // {
+        //     ButtonActivated btn = obj.GetComponent<ButtonActivated>();
+        //     btn.ButtonActivatedObject = data;
 
-        }
-        else if (data.id == 312)
-        {
-            LeverBody leverBody = obj.GetComponent<LeverBody>();
-            leverBody.ButtonActivatedObject = data;
-        }
+        // }
+        // else if (data.id == 312)
+        // {
+        //     LeverBody leverBody = obj.GetComponent<LeverBody>();
+        //     leverBody.ButtonActivatedObject = data;
+        // }
 
         obj.transform.SetParent(transform);
 
@@ -722,19 +724,6 @@ public class MapEditor : MonoBehaviour
         startPositionObject.transform.SetParent(dontSaveObjectTransform);
     }
     #endregion
-
-    public List<Transform> GetEditorTransform()
-    {
-        List<Transform> list = new();
-        list.Add(floorTransform);
-        list.Add(objectTransform);
-        list.Add(exitDoorObjectTransform);
-        list.Add(interactionObjectTransform);
-        list.Add(dontSaveObjectTransform);
-        list.Add(garbageTransform);
-        return list;
-
-    }
 
     public void MoveNextStage(string mapId)
     {

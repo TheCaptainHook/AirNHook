@@ -19,8 +19,8 @@ public class Map
 
     [Header("Object")]
     public List<ObjectData> mapObjectDataList = new List<ObjectData>();
-    public List<ButtonActivatedDoorStruct> mapButtonActivatedDoorDataList = new List<ButtonActivatedDoorStruct>();
-    public List<ButtonActivatedObject> buttonActivatedObjectList = new();
+    public List<ButtonActivatableObjectStruct> mapButtonActivatableObjectDataList = new();
+    public List<ButtonObjectStruct> buttonObjectList = new();
     public List<ExitObjStruct> mapExitObjectDataList = new();
     public List<DialogueData> dialogueDataList = new();
 
@@ -37,8 +37,8 @@ public class Map
         List<TileData> mapBackgroundTileDataList,
         //object
         List<ObjectData> objectList,
-        List<ButtonActivatedDoorStruct> mapButtonActivatedDoorDataList,
-        List<ButtonActivatedObject> buttonActivatedObjectList,
+        List<ButtonActivatableObjectStruct> mapButtonActivatabledObjectDataList,
+        List<ButtonObjectStruct> buttonObjectList,
         List<DialogueData> dialogueDataList,
         float cellSize,int dataType = 0, byte[] bytesImage = null,AudioType audioType = AudioType.None)
     {
@@ -52,8 +52,8 @@ public class Map
         mapObjectDataList = objectList;
         this.startPosition = startPosition;
         this.mapExitObjectDataList = mapExitObjectDataList;
-        this.mapButtonActivatedDoorDataList = mapButtonActivatedDoorDataList;
-        this.buttonActivatedObjectList = buttonActivatedObjectList;
+        this.mapButtonActivatableObjectDataList = mapButtonActivatabledObjectDataList;
+        this.buttonObjectList = buttonObjectList;
         this.dialogueDataList = dialogueDataList;
 
         this.mapSize = mapSize;
@@ -80,31 +80,6 @@ public class Map
     }
 
 
-   
-    //Box,stringBox,key,
-    //public Sprite LoadImage(int width, int height)
-    //{
-    //    Texture2D texture = new Texture2D(width, height, TextureFormat.ARGB32, false);
-    //    texture.LoadImage(bytesImage);
-    //    Sprite sprite = Sprite.Create(texture, new Rect(0, 0, width, height), new Vector2(0.5f, 0.5f), 100f);
-    //    return sprite;
-    //}
-
-
-    //todo 0603
-
-    //public void Test_CheckTile()
-    //{
-    //   foreach(TileData data in mapTileDataList)
-    //    {
-    //        if(min.sqrMagnitude > data.position.sqrMagnitude) { min = data.position; }
-    //        if(max.sqrMagnitude < data.position.sqrMagnitude) { max = data.position; }
-    //    }
-
-    //    Debug.Log($"min : {min}, max : {max}");
-    //}
-
-
     public (Vector2 start,Vector2 end) GetStartEndPosition() //TODO 0807 GEt Map Size
     {
         Vector2 start = new Vector2(mapTileDataList[0].position.x, mapTileDataList[0].position.y);
@@ -117,17 +92,18 @@ public class Map
 
 
 [System.Serializable]
-public struct ButtonActivatedObject
+public struct ButtonObjectStruct
 {
     public int id;
-    public int linkId;
     public Vector2 position;
     public Vector3 scale;
 
-    public ButtonActivatedObject(int id,int linkId,Vector2 position,Vector3 scale)
+    public List<Vector2> targetPositions;
+
+    public ButtonObjectStruct(int id,List<Vector2> targetPositions,Vector2 position,Vector3 scale)
     {
         this.id = id;
-        this.linkId = linkId;
+        this.targetPositions = targetPositions;
         this.position = position;
         this.scale = scale;
     }
@@ -136,21 +112,19 @@ public struct ButtonActivatedObject
 
 
 [System.Serializable]
-public struct ButtonActivatedDoorStruct
+public struct ButtonActivatableObjectStruct
 {
     public int id;
-    public int linkId;
     public int activeRequirAmount;
     public Vector2 position;
     public Quaternion quaternion;
     public Vector3 scale;
 
-    public ButtonActivatedDoorStruct(int id, int linkId, int activeRequirAmount, Vector2 position,
+    public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
         Quaternion quaternion,
         Vector3 scale)
     {
         this.id= id;
-        this.linkId= linkId;
         this.activeRequirAmount = activeRequirAmount;
         this.position = position;
         this .quaternion = quaternion;
