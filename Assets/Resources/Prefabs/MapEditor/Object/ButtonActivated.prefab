@@ -501,16 +501,14 @@ MonoBehaviour:
   onScaleable: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  linkId: 0
+  targetObjects: []
+  TEST_Parm: 0
   mask:
     serializedVersion: 2
     m_Bits: 2032640
   onActive: 0
   isPressed: 0
-  time: 2
-  curPosition: {x: 0, y: 0}
   buttonTransform: {fileID: 1603824504014076954}
-  linkDoorList: []
 --- !u!95 &6538494676459900832
 Animator:
   serializedVersion: 5

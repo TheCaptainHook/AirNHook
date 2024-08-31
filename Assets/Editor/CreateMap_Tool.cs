@@ -523,7 +523,7 @@ public class CreateMap_Tool : EditorWindow
     void SelectActiveOBJ(GameObject obj,Transform transform)
     {
         if(obj.GetComponent<BuildObj>().id == 312){
-            Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/Object/LeverHead"),transform);
+            Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/Object/LeverHead"),curMapEditor.objectTransform);
         }
 
         Selection.activeGameObject = Instantiate(obj, transform);

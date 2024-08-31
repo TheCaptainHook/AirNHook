@@ -558,11 +558,6 @@ List<TileData> GetTileData(Tilemap tileMap)
         foreach (Transform cur in mapEditor.buttonObjectTransform)
         {
             list.Add(cur.GetComponent<BuildObj>().GetData<ButtonObjectStruct>());
-            // if(cur.GetComponent<BuildObj>().id == 306){
-            //     list.Add(cur.GetComponent<ButtonActivated>().GetData());
-            // }else if (cur.GetComponent<BuildObj>().id == 312){
-            //     list.Add(cur.GetComponent<LeverBody>().GetData());
-            // }    
         }
         return list;
     }

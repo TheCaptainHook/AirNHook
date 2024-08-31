@@ -5,9 +5,12 @@ using UnityEngine;
 
 public class ButtonEntity : BuildObj
 {
-    
-    [SerializeField] protected List<GameObject> targetObjects;//TODO 0829
 
+    [CustomHeader("HEADER",0,0,0)]
+    [SerializeField] protected List<GameObject> targetObjects;//TODO 0829 
+
+    public int TEST_Parm;   
+    
     private ButtonObjectStruct buttonObjectData;
     public ButtonObjectStruct ButtonObjectData {
         get { return buttonObjectData; }
