@@ -60,7 +60,7 @@ public class Object_Clear
                 }
                 break;
             case 2:
-                curBuildObj.transform.SetParent(MapEditor.Instance.interactionObjectTransform);
+                curBuildObj.transform.SetParent(MapEditor.Instance.buttonActivatableObjectTransform);
                 break;
             case 3:
                 curBuildObj.transform.SetParent(MapEditor.Instance.exitDoorObjectTransform);

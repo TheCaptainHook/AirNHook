@@ -186,7 +186,7 @@ public class MapEditor_Editor : Editor
 
             CreateObj(map, mapEditor.placeMentSystem, 0);
             CreateObj(map, mapEditor.placeMentSystem, 1,mapEditor.objectTransform);
-            CreateObj(map, mapEditor.placeMentSystem, 2,mapEditor.buttonActivatedObjectTransform);
+            CreateObj(map, mapEditor.placeMentSystem, 2,mapEditor.buttonActivatableObjectTransform);
             CreateObj(map, mapEditor.placeMentSystem, 3,mapEditor.exitDoorObjectTransform);
             CreateObj(map, mapEditor.placeMentSystem, 4,mapEditor.buttonObjectTransform);
             CreateObj(map, mapEditor.placeMentSystem, 5,mapEditor.triggerDialogueTransform);
@@ -234,7 +234,7 @@ public class MapEditor_Editor : Editor
         //mapEditor.interactionBtnDictionary = new(); //todo 0412
          CreateObj(map, mapEditor.placeMentSystem, 0);
             CreateObj(map, mapEditor.placeMentSystem, 1,mapEditor.objectTransform);
-            CreateObj(map, mapEditor.placeMentSystem, 2,mapEditor.buttonActivatedObjectTransform);
+            CreateObj(map, mapEditor.placeMentSystem, 2,mapEditor.buttonActivatableObjectTransform);
             CreateObj(map, mapEditor.placeMentSystem, 3,mapEditor.exitDoorObjectTransform);
             CreateObj(map, mapEditor.placeMentSystem, 4,mapEditor.buttonObjectTransform);
             CreateObj(map, mapEditor.placeMentSystem, 5,mapEditor.triggerDialogueTransform);
@@ -392,16 +392,12 @@ public class MapEditor_Editor : Editor
     {
         GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
         obj.GetComponent<BuildObj>().SetData(data);
-        // if(data.id == 306)
-        // {
-        //     ButtonActivated btn = obj.GetComponent<ButtonActivated>();
-        //     btn.ButtonActivatedObject = data;
 
-        // }else if( data.id == 312)
-        // {
-        //     LeverBody leverBody = obj.GetComponent<LeverBody>();
-        //     leverBody.ButtonActivatedObject = data;
-        // }
+        #if UNITY_EDITOR
+        obj.GetComponent<ButtonEntity>().EditorMode_FindTargetObject(mapEditor.buttonActivatableObjectTransform);
+        #else
+        obj.GetComponent<ButtonEntity>().EditorMode_FindTargetObject();
+        #endif
 
         obj.transform.SetParent(transform);
     }
@@ -541,7 +537,7 @@ List<TileData> GetTileData(Tilemap tileMap)
     {
         List<ButtonActivatableObjectStruct> list = new();
 
-        foreach (Transform cur in mapEditor.buttonActivatedObjectTransform)
+        foreach (Transform cur in mapEditor.buttonActivatableObjectTransform)
         {
             list.Add(cur.GetComponent<BuildObj>().GetData<ButtonActivatableObjectStruct>());
             // if(cur.GetComponent<BuildObj>().id == 305)

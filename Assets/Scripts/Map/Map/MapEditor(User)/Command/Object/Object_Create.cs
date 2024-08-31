@@ -30,11 +30,11 @@ public class Object_Create
                 curObj.transform.SetParent(MapEditor.Instance.exitDoorObjectTransform);
                 break;
             case 305:
-                curObj.transform.SetParent(MapEditor.Instance.interactionObjectTransform);
+                curObj.transform.SetParent(MapEditor.Instance.buttonActivatableObjectTransform);
                 break;
             case 306:
             case 312:
-                curObj.transform.SetParent(MapEditor.Instance.interactionObjectTransform);
+                curObj.transform.SetParent(MapEditor.Instance.buttonObjectTransform);
                 break;
             default:
                 curObj.transform.SetParent(MapEditor.Instance.objectTransform);

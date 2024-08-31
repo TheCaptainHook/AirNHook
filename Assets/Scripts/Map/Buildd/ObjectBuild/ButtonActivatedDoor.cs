@@ -7,8 +7,6 @@ using UnityEngine;
 
 public class ButtonActivatedDoor : ActivatableObjectEntity
 {
-    public int linkId;
-
     [Header("Components")]
     [SerializeField] private BoxCollider2D _collider;
     private NetworkAnimator _animator;

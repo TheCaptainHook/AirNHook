@@ -3,21 +3,18 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
-public class LeverBody : BuildObj, IInteractable
+public class LeverBody : ButtonEntity, IInteractable
 {
     [Header("Info")]
     ObjectTypeEnum objectTypeEnum = ObjectTypeEnum.Interaction;
-    public int linkId;
+    // public int linkId;
     //public List<ButtonActivatedDoor> linkDoorList;
     public LeverHead leverHead;
     public Transform attachedLeverHead;
-    [SerializeField] Transform leverHeadTransform;
-    public Vector2 curPosition;
+    // [SerializeField] Transform leverHeadTransform;
+    // public Vector2 curPosition;
     private LeverBodyNet _leverBodyNet;
     //public Vector2 offset;
-
-    public float time = 2;
-    bool isRunningCoroutine;
 
     [Header("State")]
     public bool onCompletionParts;
@@ -31,106 +28,11 @@ public class LeverBody : BuildObj, IInteractable
     private static readonly int OnActive = Animator.StringToHash("OnActive");
     private static readonly int OnCompletion = Animator.StringToHash("OnCompletion");
 
-
-    [Header("Data Setting")]
-    private ButtonActivatedObject buttonActivatedObject;
-    public ButtonActivatedObject ButtonActivatedObject
-    {
-        get { return buttonActivatedObject; }
-        set
-        {
-            buttonActivatedObject = value;
-            ObjectData = new ObjectData(value.id, value.position, value.scale);
-            linkId = value.linkId;
-            transform.position = value.position;
-            transform.localScale = value.scale;
-        }
-    }
-
     private void Awake()
     {
         _leverBodyNet = GetComponent<LeverBodyNet>();
         animator = GetComponent<Animator>();
     }
-
-    //private void Update()
-    //{
-    //    //if (!linked)
-    //    //{
-    //    //    LinkDoor();
-    //    //}
-
-    //    if (Managers.Game.CurrentState == GameState.Editor && curPosition != new Vector2(Mathf.Round(transform.position.x * 10f) / 10f, Mathf.Round(transform.position.y * 10f) / 10f))
-    //    {
-    //        if (isRunningCoroutine) { StopCoroutine(Co_ReLinkDoor()); isRunningCoroutine = false; }
-    //        time = 2;
-    //        StartCoroutine(Co_ReLinkDoor());
-    //    }
-
-    //}
-
-
-   
-
-
-    //IEnumerator Co_ReLinkDoor()
-    //{
-    //    isRunningCoroutine = true;
-    //    while (time > 0)
-    //    {
-    //        time -= Time.deltaTime;
-    //        yield return null;
-    //    }
-    //    isRunningCoroutine = false;
-    //}
-
-
-    //public void LinkDoor()
-    //{
-    //    Vector2 pot = new Vector2(Mathf.Round(transform.position.x * 10f) / 10f, Mathf.Round(transform.position.y * 10f) / 10f);
-    //    transform.position = pot;
-
-    //    if (linkDoorList.Count > 0)
-    //    {
-    //        foreach (ButtonActivatedDoor linkDoor in linkDoorList)
-    //        {
-    //            if (linkDoor.leverBodyPotiionList.Contains(curPosition))
-    //            {
-    //                linkDoor.leverBodyPotiionList.Remove(curPosition);
-    //                linkDoor.curLinkBtn--;
-    //            }
-    //            linkDoor.leverBodyPotiionList.Add(pot);
-    //            linkDoor.curLinkBtn++;
-    //            curPosition = pot;
-    //        }
-
-    //    }
-    //    else
-    //    {
-    //        foreach (Transform transform in MapEditor.Instance.interactionObjectTransform)
-    //        {
-    //            if (transform.GetComponent<ButtonActivatedDoor>().linkId == linkId)
-    //            {
-    //                ButtonActivatedDoor linkDoor = transform.GetComponent<ButtonActivatedDoor>();
-
-    //                if (linkDoor.leverBodyPotiionList.Contains(curPosition))
-    //                {
-    //                    linkDoor.leverBodyPotiionList.Remove(curPosition);
-    //                    linkDoor.curLinkBtn--;
-    //                }
-
-    //                linkDoor.leverBodyPotiionList.Add(pot);
-    //                linkDoor.curLinkBtn++;
-    //                linkDoorList.Add(linkDoor);
-    //                curPosition = pot;
-    //            }
-    //        }
-    //    }
-
-
-    //}
-
-
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -156,28 +58,12 @@ public class LeverBody : BuildObj, IInteractable
         }
     }
 
-    //public void SetLinkDoor(Vector2 pot, int linkId, Transform interactionDoorTransform)
-    //{
-
-    //    curPosition = pot;
-    //    transform.position = pot;
-    //    this.linkId = linkId;
-
-    //    foreach (Transform tr in interactionDoorTransform)
-    //    {
-    //        ButtonActivatedDoor bd = tr.GetComponent<ButtonActivatedDoor>();
-    //        if (bd.linkId == linkId)
-    //        {
-    //            linkDoorList.Add(bd);
-    //            bd.curLinkBtn++;
-    //        }
-    //    }
-    //}
-    
-    public void Activation()
+    public void RpcActivation(){
+        Activation();
+    }
+    protected override void Activation()
     {
-
-            onAcitve = !onAcitve;
+         onAcitve = !onAcitve;
             StartCoroutine(Co_Operation());
     }
 
@@ -206,14 +92,14 @@ public class LeverBody : BuildObj, IInteractable
             animator.SetBool(OnActive, true);
             AnimatorStateInfo animationState = animator.GetCurrentAnimatorStateInfo(0);
             Debug.Log(animationState.length);
-            FindLinkDoorAndActivated(true);
+            PrograssButtonActivatedObject(true);
             yield return new WaitForSeconds(animationState.length+0.5f);
         }
         else
         {
             animator.SetBool(OnActive, false);
             AnimatorStateInfo animationState = animator.GetCurrentAnimatorStateInfo(0);
-            FindLinkDoorAndActivated(false);
+            PrograssButtonActivatedObject(false);
             yield return new WaitForSeconds(animationState.length+0.5f);
             
         }
@@ -221,26 +107,7 @@ public class LeverBody : BuildObj, IInteractable
         
 
     }
-
-
-    void FindLinkDoorAndActivated(bool onActivate)
-    {
-        foreach (Transform tr in MapEditor.Instance.interactionObjectTransform)
-        {
-            ButtonActivatedDoor bd = tr.GetComponent<ButtonActivatedDoor>();
-            if (bd != null && bd.linkId == linkId)
-            {
-                if (onActivate)
-                {
-                    bd.CurActiveBtn = 1;
-                }
-                else
-                {
-                    bd.CurActiveBtn = -1;
-                }
-            }
-        }
-    }
+    #region  Interaction
 
     public void Interaction(Transform accessor = null)
     {
@@ -277,12 +144,6 @@ public class LeverBody : BuildObj, IInteractable
         Managers.UI.HideUI<UI_ShowEButton>();
     }
 
-
-
-
-    public ButtonActivatedObject GetData()
-    {
-        return new ButtonActivatedObject(id, linkId, transform.position,transform.localScale);
-    }
+#endregion
 
 }

@@ -87,7 +87,7 @@ public class CreateMap_Tool : EditorWindow
     /// </summary>
     private void OnEnable()
     {
-        objLists = new List<GameObject>(Resources.LoadAll<GameObject>("Prefabs/MapEditor/Object"));
+        objLists = GetResourcesList("Object");
         sceneObjLists = new List<GameObject>(Resources.LoadAll<GameObject>("Prefabs/MapEditor/Scenes"));
         backgroundObjLists = new List<GameObject>(Resources.LoadAll<GameObject>("Prefabs/MapEditor/Background"));
         //todo 0415
@@ -98,7 +98,31 @@ public class CreateMap_Tool : EditorWindow
         InitGUIStyle();
     }
 
+
+    private List<GameObject> GetResourcesList(string type){
+        List<GameObject> list  = new();
+        foreach(var obj in Resources.LoadAll<GameObject>($"Prefabs/MapEditor/{type}")){
+            if(obj.TryGetComponent(out BuildObj component)){
+                if(component.id ==308) continue;
+                if(component.id ==313) continue;
+                if(component.id ==315) continue;
+                if(component.id ==320) continue;
+                if(component.id ==321) continue;
+
+                list.Add(obj);
+
+            }
+        }
+
+        return list;
+
+
+    }
+
     #region  Init 
+
+
+
 
     private void InitTextures()
     {
@@ -171,36 +195,6 @@ public class CreateMap_Tool : EditorWindow
 
     }
     #region Draw
-
-    //private void DrawLayouts()
-    //{
-    //    //headerSection.x = 0;
-    //    //headerSection.y = 0;
-    //    //headerSection.width = 350;
-    //    //headerSection.height = 80;
-    //    headerSection = new Rect(0, 0, 350, 80);
-    //    GUI.DrawTexture(headerSection, headerSectionTexture);
-
-    //    //SetLayout(headerSection, 0, 0, 350, 80, headerSectionTexture);
-
-
-    //    modeSction.x = 0;
-    //    modeSction.y = 80;
-    //    modeSction.width = 350;
-    //    modeSction.height = 120;
-
-    //    objectSection.x = 0;
-    //    objectSection.y = 120;
-    //    objectSection.width = 350;
-    //    objectSection.height = 320;
-    //    GUI.DrawTexture(objectSection, objectSectionTexture);
-
-    //    generatorObjectPreviewSpriteSection.x = 0;
-    //    generatorObjectPreviewSpriteSection.y = 500;
-    //    generatorObjectPreviewSpriteSection.width = 350;
-    //    generatorObjectPreviewSpriteSection.height = 550;
-    //}
-
 
     #region REFECTORINGCODE 0510
 
@@ -498,9 +492,11 @@ public class CreateMap_Tool : EditorWindow
                 SelectActiveOBJ(objLists[i], curMapEditor.exitDoorObjectTransform);
                 break;
             case 305:
+                SelectActiveOBJ(obj, curMapEditor.buttonActivatableObjectTransform);
+                break;
             case 306:
             case 312:
-                SelectActiveOBJ(obj, curMapEditor.interactionObjectTransform);
+                SelectActiveOBJ(obj,curMapEditor.buttonObjectTransform);
                 break;
             case 1003:
                 SelectActiveOBJ(obj, curMapEditor.triggerDialogueTransform);
@@ -526,6 +522,9 @@ public class CreateMap_Tool : EditorWindow
 
     void SelectActiveOBJ(GameObject obj,Transform transform)
     {
+        if(obj.GetComponent<BuildObj>().id == 312){
+            Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/Object/LeverHead"),transform);
+        }
 
         Selection.activeGameObject = Instantiate(obj, transform);
     }
@@ -574,95 +573,6 @@ public class CreateMap_Tool : EditorWindow
             }
         }
     }
-
-
-    //void GeneratorObjPreviewSprite()
-    //{
-    //    foreach (GameObject obj in objLists)
-    //    {
-    //        string path = Path.Combine(saveSpritePath, $"Object/{obj.name}.png");
-    //        if (!FileExists(saveSpritePath, path))
-    //        {
-    //            Texture2D texture = AssetPreview.GetAssetPreview(obj);
-
-    //            Texture2D transparentTexture = new Texture2D(texture.width, texture.height, TextureFormat.RGBA32, false);
-
-    //            Color[] pixels = texture.GetPixels();
-    //            Color backgroundColor = pixels[0];
-    //            for (int i = 0; i < pixels.Length; i++)
-    //            {
-    //                if (pixels[i] == backgroundColor) pixels[i].a = 0;
-    //            }
-
-    //            transparentTexture.SetPixels(pixels);
-    //            transparentTexture.Apply();
-
-
-    //            byte[] bytes = transparentTexture.EncodeToPNG();
-
-
-    //            File.WriteAllBytes(path, bytes);
-
-    //        }
-
-    //    }
-    //    foreach (GameObject obj in backgroundObjLists)
-    //    {
-    //        string path = Path.Combine(saveSpritePath, $"Background/{obj.name}.png");
-    //        if (!FileExists(saveSpritePath, path))
-    //        {
-    //            Texture2D texture = AssetPreview.GetAssetPreview(obj);
-
-    //            Texture2D transparentTexture = new Texture2D(texture.width, texture.height, TextureFormat.RGBA32, false);
-    //            Color[] pixels = texture.GetPixels();
-    //            Color backgroundColor = pixels[0];
-    //            for (int i = 0; i < pixels.Length; i++)
-    //            {
-    //                if (pixels[i] == backgroundColor) pixels[i].a = 0; //If this pixel is exactly the background color, make it transparent
-    //            }
-    //            transparentTexture.SetPixels(pixels);
-    //            transparentTexture.Apply();
-
-
-    //            byte[] bytes = transparentTexture.EncodeToPNG();
-
-    //            File.WriteAllBytes(path, bytes);
-
-    //        }
-
-    //    }
-    //    foreach (GameObject obj in otherObjLists)
-    //    {
-    //        string path = Path.Combine(saveSpritePath, $"Other/{obj.name}.png");
-    //        if (!FileExists(saveSpritePath, path))
-    //        {
-    //            Texture2D texture = AssetPreview.GetAssetPreview(obj);
-
-    //            Texture2D transparentTexture = new Texture2D(texture.width, texture.height, TextureFormat.RGBA32, false);
-    //            Color[] pixels = texture.GetPixels();
-
-    //            //Get the background color
-    //            Color backgroundColor = pixels[0];
-    //            for (int i = 0; i < pixels.Length; i++)
-    //            {
-    //                if (pixels[i] == backgroundColor) pixels[i].a = 0; //If this pixel is exactly the background color, make it transparent
-    //            }
-    //            transparentTexture.SetPixels(pixels);
-    //            transparentTexture.Apply();
-
-
-    //            byte[] bytes = transparentTexture.EncodeToPNG();
-
-    //            File.WriteAllBytes(path, bytes);
-
-    //        }
-
-    //    }
-
-
-    //    AssetDatabase.Refresh();
-
-    //}
 
     void GeneratorObjPreviewSprite() //REFECTORING CODE 0510
     {

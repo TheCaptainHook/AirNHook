@@ -32,6 +32,6 @@ public class LeverBodyNet : NetworkBehaviour
     [ClientRpc]
     private void RpcLeverActivate()
     {
-        _leverBody.Activation();
+        _leverBody.RpcActivation();
     }
 }

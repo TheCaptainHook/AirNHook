@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine;
 public class ButtonEntity : BuildObj
 {
     
-    [SerializeField] List<GameObject> targetObjects;//TODO 0829
+    [SerializeField] protected List<GameObject> targetObjects;//TODO 0829
 
     private ButtonObjectStruct buttonObjectData;
     public ButtonObjectStruct ButtonObjectData {
@@ -22,7 +23,14 @@ public class ButtonEntity : BuildObj
 
     protected virtual void Activation(){}
     protected virtual void Deactivated(){}
-    protected virtual void PrograssButtonActivatedObject(bool onActivate){}
+    protected virtual void PrograssButtonActivatedObject(bool onActivate)
+    {
+        foreach(GameObject obj in targetObjects){
+           if(obj.TryGetComponent(out ActivatableObjectEntity component)){
+            component.ApplyActive(onActivate ? 1 :-1);
+           }
+        }
+    }
 
 
 
@@ -32,20 +40,14 @@ public class ButtonEntity : BuildObj
     {
         try{
             if (typeof(T) == typeof(ButtonObjectStruct))
-        {
-         ButtonObjectStruct buttonData = (ButtonObjectStruct)(object)data;
-         ButtonObjectData = buttonData;
-
-        //Set Target
-
-        FindTargetObject(ButtonObjectData.targetPositions);
-
+            {
+                 ButtonObjectStruct buttonData = (ButtonObjectStruct)(object)data;
+                 ButtonObjectData = buttonData;
+                
+            }
+        }catch(Exception ex){
+                Debug.Log($"{ex}");
         }
-        }catch{
-                Debug.Log($"ERROR\n{typeof(T)}");
-        }
-        
-
         
     }
     public override T GetData<T>()
@@ -69,24 +71,35 @@ public class ButtonEntity : BuildObj
         return list;
     }
 
-    private void FindTargetObject(List<Vector2> list){
+    public void FindTargetObject(){
 
         List<GameObject> objList = new();
 
-        foreach(Vector2 vec in list){
-            foreach(Transform tr in MapEditor.Instance.buttonActivatedObjectTransform){
-             BuildObj buildObj = tr.GetComponent<BuildObj>();
-              if(buildObj != null){
-                if(buildObj.position == vec){
-                    objList.Add(tr.gameObject);
+        foreach(Vector2 vec in targetPosition){
+           foreach(Transform obj in MapEditor.Instance.buttonActivatableObjectTransform){
+            if(obj.TryGetComponent(out ActivatableObjectEntity component)){
+                if(component.ButtonActivatedObjectStruct.position == vec){
+                    objList.Add(obj.gameObject);
                 }
-             }
+            }
+           }   
         }
-
         targetObjects = objList;
-        }
+    }
 
-       
+    public void EditorMode_FindTargetObject(Transform tr){
+        List<GameObject> objList = new();
+
+        foreach(Vector2 vec in targetPosition){
+           foreach(Transform obj in tr){
+            if(obj.TryGetComponent(out ActivatableObjectEntity component)){
+                if(component.ButtonActivatedObjectStruct.position == vec){
+                    objList.Add(obj.gameObject);
+                }
+            }
+           }   
+        }
+        targetObjects = objList;
     }
 
     #endregion

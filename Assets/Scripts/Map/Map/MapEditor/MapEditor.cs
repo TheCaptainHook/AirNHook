@@ -78,7 +78,7 @@ public class MapEditor : MonoBehaviour
     // [HideInInspector] public Transform floorTransform;
     [HideInInspector] public Transform objectTransform;
     [HideInInspector] public Transform exitDoorObjectTransform;
-    [HideInInspector] public Transform buttonActivatedObjectTransform; //TODO 0829
+    [HideInInspector] public Transform buttonActivatableObjectTransform; //TODO 0829
     [HideInInspector] public Transform buttonObjectTransform; //TODO 0829
     [HideInInspector] public Transform dontSaveObjectTransform;
     [HideInInspector] public Transform networkingObjectTransform;
@@ -155,7 +155,7 @@ public class MapEditor : MonoBehaviour
         // floorTransform = Util.CreateChildTransform(mapObjBoxTransform, "FloorTransform");
         objectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ObjectTransform");
         exitDoorObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ExitDoorObjectTransform");
-        buttonActivatedObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "buttonActivatedObjectTransform");
+        buttonActivatableObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "buttonActivatableObjectTransform");
         buttonObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "buttonObjectTransform");
         dontSaveObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "DontSaveObjectTransform");
         garbageTransform = Util.CreateChildTransform(mapObjBoxTransform, "GarbageTransform");
@@ -283,7 +283,7 @@ public class MapEditor : MonoBehaviour
     {
         List<ButtonActivatableObjectStruct> list = new();
 
-        foreach (Transform cur in buttonActivatedObjectTransform)
+        foreach (Transform cur in buttonActivatableObjectTransform)
         {
            list.Add(cur.GetComponent<BuildObj>().GetData<ButtonActivatableObjectStruct>()); 
         }
@@ -409,7 +409,7 @@ public class MapEditor : MonoBehaviour
 
         CreateObj(0); //floorTransform
         CreateObj(1,objectTransform); //objectTransform
-        CreateObj(2,buttonActivatedObjectTransform); //interactionObjectTransform
+        CreateObj(2,buttonActivatableObjectTransform); //interactionObjectTransform
         CreateObj(3,exitDoorObjectTransform); //exitDoorObjectTransform
         CreateObj(4,buttonObjectTransform); //interactionObjectTransform
         //todo 0723
@@ -437,7 +437,7 @@ public class MapEditor : MonoBehaviour
 
         CreateObj(0); //floorTransform
         CreateObj(1,objectTransform); //objectTransform
-        CreateObj(2,buttonActivatedObjectTransform); //interactionObjectTransform
+        CreateObj(2,buttonActivatableObjectTransform); //interactionObjectTransform
         CreateObj(3,exitDoorObjectTransform); //exitDoorObjectTransform
         CreateObj(4,buttonObjectTransform); //interactionObjectTransform
         //todo 0723
@@ -679,24 +679,12 @@ public class MapEditor : MonoBehaviour
     //todo 0522
     void Create(Transform transform, MapDataStruct mapDataStruct, ButtonObjectStruct data)
     {
-        GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
-       
-       
-       obj.GetComponent<BuildObj>().SetData(data);
-        // if (data.id == 306)
-        // {
-        //     ButtonActivated btn = obj.GetComponent<ButtonActivated>();
-        //     btn.ButtonActivatedObject = data;
-
-        // }
-        // else if (data.id == 312)
-        // {
-        //     LeverBody leverBody = obj.GetComponent<LeverBody>();
-        //     leverBody.ButtonActivatedObject = data;
-        // }
+        GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));       
+        obj.GetComponent<ButtonEntity>().SetData(data);
+        
+        obj.GetComponent<ButtonEntity>().FindTargetObject();
 
         obj.transform.SetParent(transform);
-
     }
 
     void Create(Transform transform, MapDataStruct mapDataStruct, ExitObjStruct data)

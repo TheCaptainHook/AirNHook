@@ -75,23 +75,11 @@ public class StageManager
         if (!NetworkServer.active || !NetworkClient.isConnected) return;
 
         var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+        
+        obj.GetComponent<ButtonEntity>().SetData(data);
+        obj.GetComponent<ButtonEntity>().FindTargetObject();
 
-    obj.GetComponent<BuildObj>().SetData(data);
-//-------------------------------------------------- TOdo 0829
-        // if (data.id == 306)
-        // {
-        //     ButtonActivated btn = obj.GetComponent<ButtonActivated>();
-        //     btn.ButtonActivatedObject = data;
-
-        // }
-        // else if (data.id == 312)
-        // {
-        //     LeverBody leverBody = obj.GetComponent<LeverBody>();
-        //     leverBody.ButtonActivatedObject = data;
-        // }
-//--------------------------------------------------care this fix
-        obj.transform.SetParent(MapEditor.Instance.buttonActivatedObjectTransform);
-
+        obj.transform.SetParent(MapEditor.Instance.buttonObjectTransform);
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
 
     }
@@ -107,7 +95,7 @@ public class StageManager
         // ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
         // door.ButtonActivatedDoorStruct = data;
 
-        obj.transform.SetParent(MapEditor.Instance.buttonActivatedObjectTransform);
+        obj.transform.SetParent(MapEditor.Instance.buttonActivatableObjectTransform);
 
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
 
