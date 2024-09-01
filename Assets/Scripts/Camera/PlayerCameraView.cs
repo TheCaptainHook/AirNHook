@@ -16,7 +16,11 @@ public class PlayerCameraView : MonoBehaviour
     //[SerializeField] Transform Player;
     //[SerializeField] Transform OtherPlayer;
     //Release Code
-    private Transform Player => Managers.Game.Player.transform;
+    private Transform Player{
+        get{
+            return Managers.Game.Player?.transform;
+        }
+        }
     private Transform OtherPlayer => Managers.Game.OtherPlayer?.transform;
 
 
@@ -64,10 +68,7 @@ public class PlayerCameraView : MonoBehaviour
 
     private void Update() 
     {
-        if (Input.GetKeyDown(KeyCode.M))//TODO TEST CODE
-        {
-            GetDistance();
-        }
+        if(Player == null) return;
 
         SetCameraAngle();
 

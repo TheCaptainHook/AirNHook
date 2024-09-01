@@ -557,13 +557,10 @@ MonoBehaviour:
   onScaleable: 1
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  linkId: 0
-  _collider: {fileID: 2079940608723542123}
-  curLinkBtn: 0
-  curActiveBtn: 0
   activeRequirAmount: 0
-  buttonActivatedBtnList: []
-  leverBodyPotiionList: []
+  curActiveBtn: 0
+  _collider: {fileID: 2079940608723542123}
+  _animator: {fileID: -8033369550424605698}
   onOpen: 0
   onPrograss: 0
 --- !u!95 &4035336826809509372

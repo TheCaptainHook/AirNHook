@@ -15,10 +15,17 @@ public class ActivatableObjectEntity : BuildObj
                 transform.position = value.position;
                 transform.rotation = value.quaternion;
                 transform.localScale = value.scale;
-
             } }
     }
    
+  public int curActiveBtn;//현재 활성화된 버튼 //todo 0426 
+    public int CurActiveBtn
+    {
+        set { curActiveBtn += value;
+            if (curActiveBtn == activeRequirAmount) { Activation(); }
+            else { Deactivated(); }
+        } }
+
    protected virtual void Activation(){}
    protected virtual void Deactivated(){}
    public virtual void ApplyActive(int num){}
@@ -33,7 +40,7 @@ public class ActivatableObjectEntity : BuildObj
         return default(T);
     }
 
-     public override void SetData<T>(T data)
+     public override async void SetData<T>(T data)
     {
         try{
             if (typeof(T) == typeof(ButtonActivatableObjectStruct))
@@ -46,6 +53,16 @@ public class ActivatableObjectEntity : BuildObj
                 Debug.Log($"ERROR,{typeof(T)}");
         }
         
+
+         Util util  = new Util();
+         await util.Delay(()=>{CheckActiveRequirAmount();});
     }
+
     #endregion
+
+
+    public void CheckActiveRequirAmount()
+    {
+         if (activeRequirAmount == curActiveBtn) { Debug.Log("CheckActive");Activation();  }
+    }
 }

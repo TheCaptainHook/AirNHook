@@ -437,9 +437,9 @@ public class MapEditor : MonoBehaviour
 
         CreateObj(0); //floorTransform
         CreateObj(1,objectTransform); //objectTransform
-        CreateObj(2,buttonActivatableObjectTransform); //interactionObjectTransform
-        CreateObj(3,exitDoorObjectTransform); //exitDoorObjectTransform
-        CreateObj(4,buttonObjectTransform); //interactionObjectTransform
+        CreateObj(2,buttonActivatableObjectTransform); //
+        CreateObj(3,exitDoorObjectTransform); //
+        CreateObj(4,buttonObjectTransform); //
         //todo 0723
         CreateObj(5,triggerDialogueTransform); //triggerDialogueTransform
         //todo 0723

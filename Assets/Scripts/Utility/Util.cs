@@ -152,7 +152,12 @@ public class Util
         }
 
     }
-
+    public async Task Delay(Action action,int delayTime = 1500){
+        
+        await Task.Delay(delayTime);
+        action?.Invoke();
+        
+    }
 
     public List<string> SplitText(string text, int length, char[] delimiters)
     {
