@@ -2,11 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
-using Org.BouncyCastle.Crypto.Encodings;
 using UnityEngine;
 
 public class ButtonActivated : ButtonEntity
 {
+    [CustomHeader("ButtonActivated")]
     public LayerMask mask;
     //bool linked;
     public bool onActive;

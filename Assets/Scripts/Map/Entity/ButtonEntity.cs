@@ -6,11 +6,9 @@ using UnityEngine;
 public class ButtonEntity : BuildObj
 {
 
-    [CustomHeader("HEADER",0,0,0)]
-    [SerializeField] protected List<GameObject> targetObjects;//TODO 0829 
+    [CustomHeader("ButtonEntity,Inner Target Object")]
+    public List<GameObject> targetObjects;//TODO 0829 
 
-    public int TEST_Parm;   
-    
     private ButtonObjectStruct buttonObjectData;
     public ButtonObjectStruct ButtonObjectData {
         get { return buttonObjectData; }
@@ -24,6 +22,11 @@ public class ButtonEntity : BuildObj
     private List<Vector2> targetPosition; //TODO 0829
 
 
+    #region  Debug
+    private Transform debugModeTransform;
+    private List<LineRenderer> lineRendererList;
+    #endregion
+    
     protected virtual void Activation(){}
     protected virtual void Deactivated(){}
     protected virtual void PrograssButtonActivatedObject(bool onActivate)
@@ -64,6 +67,7 @@ public class ButtonEntity : BuildObj
 #endregion
 
     #region Util
+
     private List<Vector2> GetTargetPositions(){
         List<Vector2> list = new();
 
@@ -106,4 +110,19 @@ public class ButtonEntity : BuildObj
     }
 
     #endregion
+
+
+#region  DebugMode
+public void DebugMode(){
+
 }
+
+
+
+#endregion
+
+
+
+}
+
+

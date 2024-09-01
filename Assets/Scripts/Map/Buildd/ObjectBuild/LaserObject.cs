@@ -7,6 +7,7 @@ namespace MapObjects
 {
     public class LaserObject : BuildObj
     {
+        [CustomHeader("LaserObject")]
         [SerializeField] private float _defDistanceRay = 50f;
         public float _curDistanceRay;
         [SerializeField] private LineRenderer _lineRenderer;
@@ -28,21 +29,6 @@ namespace MapObjects
             _lineRenderer.enabled = _isEnabled;
         }
 
-
-        //private void Update()
-        //{
-        //    if (MapEditor.Instance.stageClear || turnOff)
-        //    {
-        //        _isEnabled = false;
-        //    }
-       
-        //}
-
-        //private void Toggle()
-        //{
-        //    _lineRenderer.enabled = _isEnabled;
-        //    _endVFX.SetActive(_isEnabled);
-        //}
 
         private void FixedUpdate()
         {

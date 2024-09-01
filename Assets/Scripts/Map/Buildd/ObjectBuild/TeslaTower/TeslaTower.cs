@@ -12,6 +12,7 @@ enum Insulator
 }
 public class TeslaTower : BuildObj
 {
+    [CustomHeader("TeslaTower")]
     [SerializeField] ParticleSystem[] chargeEffects;
     [SerializeField] ParticleSystem[] lightningEffects;
     [SerializeField] Transform lightningBox;

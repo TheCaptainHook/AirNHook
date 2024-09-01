@@ -16,7 +16,7 @@ public enum DistructionStatus
 [System.Serializable]
 public class BuildObj : MousePointerEntity,IDamageable
 {
-    [Header("BuildObj Script")]
+    [CustomHeader("BuildObj")]
     public int id;
     [Tooltip("Transform ID to be created")]
     public int transformID;
@@ -44,6 +44,7 @@ public class BuildObj : MousePointerEntity,IDamageable
 
     [Header("Indicator")]
     private bool onEnterPointer;
+    
 
     public void CallOnInterableObjectRelease()
     {

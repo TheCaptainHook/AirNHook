@@ -14,7 +14,7 @@ public class CustomHeaderAttribute : PropertyAttribute
     public readonly string header;
     public readonly Color headerColor;
 
-    public CustomHeaderAttribute(string header, float r, float g, float b)
+    public CustomHeaderAttribute(string header, float r = 31f/255f, float g=222f/255f, float b=38f/255f)
     {
         this.header = header;
         this.headerColor = new Color(r, g, b);
@@ -31,24 +31,22 @@ public class CustomHeaderDrawer : DecoratorDrawer
     {
         return base.GetHeight() + 20;
     }
-    
+
     public override void OnGUI(Rect position)
     {
         EditorGUI.DrawRect(new Rect(0,0,position.width,3),Color.cyan);
-
-
-        string sss = $"X:{position.x},Y:{position.y},Width:{position.width},Height : {GetHeight()}";
-
         GUIStyle textStyle = new GUIStyle()
         {
             alignment = TextAnchor.MiddleLeft,
             fontStyle = FontStyle.Bold,
             fontSize = 15,
-            normal = new GUIStyleState() { textColor = Color.white }
+            normal = new GUIStyleState() { textColor = CustomHeader.headerColor }
         };
-        EditorGUI.LabelField(new Rect(0,0,position.width,GetHeight()),sss,textStyle);
+
+        EditorGUI.LabelField(new Rect(0,0,position.width,GetHeight()+30),CustomHeader.header,textStyle);
     }
 
 }
+
 #endregion
 

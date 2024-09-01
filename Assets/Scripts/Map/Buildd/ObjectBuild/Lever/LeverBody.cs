@@ -5,16 +5,12 @@ using UnityEngine;
 
 public class LeverBody : ButtonEntity, IInteractable
 {
-    [Header("Info")]
-    ObjectTypeEnum objectTypeEnum = ObjectTypeEnum.Interaction;
-    // public int linkId;
-    //public List<ButtonActivatedDoor> linkDoorList;
+    [CustomHeader("LeverBody")]
     public LeverHead leverHead;
     public Transform attachedLeverHead;
-    // [SerializeField] Transform leverHeadTransform;
-    // public Vector2 curPosition;
-    private LeverBodyNet _leverBodyNet;
-    //public Vector2 offset;
+
+    ObjectTypeEnum objectTypeEnum = ObjectTypeEnum.Interaction;
+     private LeverBodyNet _leverBodyNet;
 
     [Header("State")]
     public bool onCompletionParts;

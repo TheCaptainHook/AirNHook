@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ActivatableObjectEntity : BuildObj
 {
+    [CustomHeader("ActivatableObjectEntity")]
    public int activeRequirAmount;//문 활성화 조건
    private ButtonActivatableObjectStruct _buttonActivatedObjectStruct;
    public ButtonActivatableObjectStruct ButtonActivatedObjectStruct {

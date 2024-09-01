@@ -6,9 +6,6 @@ using UnityEditor;
 using UGS;
 using System.IO;
 using System.Threading.Tasks;
-using Unity.EditorCoroutines.Editor;
-using System.Collections;
-using DefaultTable;
 
 //TODO 0724 Develop code line : 435,506
 
