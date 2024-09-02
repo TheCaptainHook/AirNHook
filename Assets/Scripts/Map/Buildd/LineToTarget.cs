@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
+using UnityEditor;
 using UnityEditor.Build.Pipeline;
 using UnityEngine;
+using UnityEngine.InputSystem.Interactions;
 using UnityEngine.UI;
 
 
@@ -10,20 +12,15 @@ using UnityEngine.UI;
 [ExecuteInEditMode]
 public class LineToTarget : MonoBehaviour
 {
-   private List<LineRenderer> lineRendererList;
-   private Transform debugmodeTransform;
+    private List<LineRenderer> lineRendererList;
+    private Transform debugmodeTransform;
 
-   public void TrackTarget(List<GameObject> targets){
-    if(targets.Count == 0) return;
-    
-    for(int i =0 ; i<targets.Count ; i++){
-        if(targets[i] != null){
-           GameObject obj = GeneratorLineRenderer();
-           SetLine(obj.GetComponent<LineRenderer>(),targets[i].transform.position);
+    private List<Vector3> previousTargetVecList;
 
-        }
-    }
-   }
+
+    private List<GameObject> curTargetObjectList;
+
+    private bool readyForTracking;
 
     public void Setting(){
         if(debugmodeTransform == null){
@@ -34,7 +31,68 @@ public class LineToTarget : MonoBehaviour
         }
     }
 
-    private GameObject GeneratorLineRenderer(){
+
+    public void DestroyDebugmodeTransform(){
+        lineRendererList = null;
+        previousTargetVecList = null;
+        readyForTracking = false;
+        Undo.DestroyObjectImmediate(debugmodeTransform.gameObject);
+    }
+
+    public void EnableToggle(bool onActive){
+        
+        foreach(var obj in lineRendererList){
+            obj.enabled = onActive;
+        }
+    }
+
+
+
+#region  Target Object
+ 
+     public void SetTargetObjectList(List<GameObject> list){
+
+        curTargetObjectList = list;
+            //Check Previous TargetObject List;
+            if(previousTargetVecList == null){
+                previousTargetVecList = GetTargetPositionList();
+
+                for(int i =0;i<list.Count; i++){
+                    LineRenderer lineRenderer = GeneratorLineRenderer();
+                    SetLine(lineRenderer,previousTargetVecList[i]);
+                }
+
+                readyForTracking = true;
+            }
+    }
+
+
+
+
+ //Compare the capacities of two lists
+    // private bool CompareCapacityList(List<GameObject> list){
+    //     //if two list deff capacity 
+            
+    //     //
+    // }
+    // private bool CheckTargetObjectTransform(List<GameObject> list){
+
+    // } //TODO 0902
+
+    private List<Vector3> GetTargetPositionList(){
+        List<Vector3> list = new();
+        foreach(var obj in curTargetObjectList){
+            list.Add(obj.transform.position);
+        }
+
+        return list;
+    }
+
+#endregion
+
+#region  Line
+
+    private LineRenderer GeneratorLineRenderer(){
 
         GameObject obj = new GameObject("LineRenderer");
         LineRenderer lineRenderer = obj.AddComponent<LineRenderer>();
@@ -45,25 +103,31 @@ public class LineToTarget : MonoBehaviour
 
         obj.transform.SetParent(debugmodeTransform);
 
-        return obj;
+        return lineRenderer;
     }
 
-    private void SetLine(LineRenderer lineRenderer,Vector3 end){
+
+
+     private void SetLine(LineRenderer lineRenderer,Vector3 end){
         lineRenderer.positionCount = 2;
         lineRenderer.SetPosition(0,transform.position);
         lineRenderer.SetPosition(1,end);
     }
 
-    private void Reset(){
-       
-    }
 
 
-    public void EnableToggle(bool onActive){
-        
-        foreach(var obj in lineRendererList){
-            obj.enabled = onActive;
+    public void RefrashLineRenderer_ThisTransform(){
+        if(!readyForTracking) return;
+        for(int i = 0;i<lineRendererList.Count;i++){
+            SetLine(lineRendererList[i],previousTargetVecList[i]);
         }
+        
     }
+
+    public void RefrashLineRenderer_TargetObject(){
+        
+    }
+#endregion
+
 
 }

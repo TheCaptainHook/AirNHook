@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+
 [CustomEditor(typeof(LineToTarget))]
 public class LineToTargetEditor : Editor
 {
-   private SerializedProperty serializedProperty;
-   private int previousListSize;
+   private SerializedProperty serializedProperty; //ButtonEntity-targetObjects
    private LineToTarget lineToTarget;
 
-//todo
-    private List<Object> previousList;
 
+#region  Previous
+private Vector3 previousThisTransfromPosition;
+private int previousListSize;
+private List<Object> previousList;
+#endregion
 
-   private void OnEnable(){
+    private void OnEnable(){
     lineToTarget = (LineToTarget)target;
     lineToTarget.Setting();
 
@@ -23,12 +26,16 @@ public class LineToTargetEditor : Editor
     if(entity != null){
         SerializedObject serializedObject = new SerializedObject(entity);
         serializedProperty = serializedObject.FindProperty("targetObjects");
-        // List<GameObject> list = serializedProperty.value;
         
+        previousThisTransfromPosition = entity.gameObject.transform.position;
         previousListSize = serializedProperty.arraySize;
-        if(previousList ==null){previousList = new(); previousList.Capacity = 100;};
+
+        if(previousList ==null){previousList = new();};
+
+
+
         UpdateList();
-        lineToTarget.TrackTarget(GetGameObjectListFromSerializedProperty(serializedProperty));
+        lineToTarget.SetTargetObjectList(GetGameObjectListFromSerializedProperty(serializedProperty));
 
     }else{
         Debug.Log("Not Found Property");
@@ -40,6 +47,7 @@ public class LineToTargetEditor : Editor
    private void OnDisable()
     {
         EditorApplication.update -= OnEditorUpdate;
+        lineToTarget.DestroyDebugmodeTransform();
     }
 
     public override void OnInspectorGUI()
@@ -77,25 +85,37 @@ public class LineToTargetEditor : Editor
         {
             serializedProperty.serializedObject.Update();
 
+            if(((LineToTarget)target).gameObject.transform.position != previousThisTransfromPosition){
+
+                
+                previousThisTransfromPosition = ((LineToTarget)target).gameObject.transform.position;
+                // Debug.Log("Change Transform");
+                lineToTarget.RefrashLineRenderer_ThisTransform();
+                Debug.Log("Different this Transform");
+                return;
+            }
+
+
             int currentListSize = serializedProperty.arraySize;
             if (currentListSize != previousListSize)
             {
                 previousListSize = currentListSize;
-                lineToTarget.TrackTarget(GetGameObjectListFromSerializedProperty(serializedProperty));
+               lineToTarget.SetTargetObjectList(GetGameObjectListFromSerializedProperty(serializedProperty));
                 UpdateList();
-                // Repaint(); // 인스펙터 창을 다시 그립니다.
+                Debug.Log("Different Size");
                 return;
             }
 
-                if(previousList.Count == 0) return;
+            if(previousList.Count == 0) return;
 
-                for(int i = 0; i< serializedProperty.arraySize;i++){
-                    if(previousList[i] != serializedProperty.GetArrayElementAtIndex(i).objectReferenceValue){
-                        UpdateList();
-                        lineToTarget.TrackTarget(GetGameObjectListFromSerializedProperty(serializedProperty));
-                        return;
-                    }
+            for(int i = 0; i< serializedProperty.arraySize;i++){
+                if(previousList[i] != serializedProperty.GetArrayElementAtIndex(i).objectReferenceValue){
+                    UpdateList();
+                    lineToTarget.SetTargetObjectList(GetGameObjectListFromSerializedProperty(serializedProperty));
+                    Debug.Log("Different property");
+                    return;
                 }
+            }
 
 
 
@@ -112,12 +132,11 @@ public class LineToTargetEditor : Editor
              {
                     if(previousList[i] != serializedProperty.GetArrayElementAtIndex(i).objectReferenceValue){
                         UpdateList();
-                        lineToTarget.TrackTarget(GetGameObjectListFromSerializedProperty(serializedProperty));
+                       lineToTarget.SetTargetObjectList(GetGameObjectListFromSerializedProperty(serializedProperty));
                         return true;
                     }
              }    
              return false;
-               
     }
     // private bool CheckPreviouseValue_Position(){
     //     bool isBool;
@@ -140,7 +159,11 @@ public class LineToTargetEditor : Editor
             for (int i = 0; i < property.arraySize; i++)
             {
                 SerializedProperty elementProperty = property.GetArrayElementAtIndex(i);
-                list.Add((GameObject)elementProperty.objectReferenceValue);
+                GameObject obj = (GameObject)elementProperty.objectReferenceValue;
+
+                if(obj == null) continue;
+
+                list.Add(obj);
             }
         }
 
