@@ -44,10 +44,14 @@ private List<Object> previousList;
    }
 
 
+    
    private void OnDisable()
     {
         EditorApplication.update -= OnEditorUpdate;
-        lineToTarget.DestroyDebugmodeTransform();
+        if(lineToTarget != null){
+            lineToTarget.DestroyDebugmodeTransform();
+        }
+        
     }
 
     public override void OnInspectorGUI()
@@ -55,7 +59,7 @@ private List<Object> previousList;
         DrawDefaultInspector();
 
          // BuildObj의 objlist를 그립니다.
-        if (serializedProperty != null)
+        if (serializedProperty != null && lineToTarget != null)
         {
             serializedObject.Update();
             // EditorGUILayout.PropertyField(serializedProperty, new GUIContent("Object List"),true);
@@ -77,11 +81,12 @@ private List<Object> previousList;
          if(GUILayout.Button("비활성화",GUILayout.Width(100))){
             lineToTarget.EnableToggle(false);
         }
+
     }
 
 
     private void OnEditorUpdate(){
-           if (serializedProperty != null)
+           if (serializedProperty != null && lineToTarget != null)
         {
             serializedProperty.serializedObject.Update();
 

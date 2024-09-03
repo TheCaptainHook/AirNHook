@@ -43,7 +43,8 @@ public class CustomHeaderDrawer : DecoratorDrawer
             normal = new GUIStyleState() { textColor = CustomHeader.headerColor }
         };
 
-        EditorGUI.LabelField(new Rect(0,0,position.width,GetHeight()+30),CustomHeader.header,textStyle);
+        EditorGUI.LabelField(new Rect(0,0,position.width,GetHeight()),CustomHeader.header,textStyle);
+        GUILayout.Space(10);
     }
 
 }

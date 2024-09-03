@@ -116,6 +116,37 @@ Transform:
   - {fileID: 3197964739542362488}
   m_Father: {fileID: 5678925743708245159}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1738904992978014020
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4472152981161041542}
+  m_Layer: 0
+  m_Name: DebugmodeTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4472152981161041542
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738904992978014020}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5678925743708245159}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2067596451904155818
 GameObject:
   m_ObjectHideFlags: 0
@@ -248,6 +279,7 @@ GameObject:
   - component: {fileID: -5722112349519866952}
   - component: {fileID: 7435758235303093614}
   - component: {fileID: 289896671005724370}
+  - component: {fileID: 653484888137801755}
   m_Layer: 17
   m_Name: LeverBody
   m_TagString: Untagged
@@ -270,6 +302,7 @@ Transform:
   m_Children:
   - {fileID: 4103635366060125348}
   - {fileID: 1629655540741973551}
+  - {fileID: 4472152981161041542}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &6928806751215276433
@@ -390,19 +423,16 @@ MonoBehaviour:
   transformID: 4
   position: {x: 0, y: 0}
   offset: {x: 0, y: 2}
+  turnOff: 0
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  linkId: 0
-  linkDoorList: []
+  targetObjects: []
   leverHead: {fileID: 0}
   attachedLeverHead: {fileID: 3197964739542362488}
-  leverHeadTransform: {fileID: 4103635366060125348}
-  curPosition: {x: 0, y: 0}
-  time: 2
   onCompletionParts: 0
 --- !u!114 &-5722112349519866952
 MonoBehaviour:
@@ -453,3 +483,15 @@ MonoBehaviour:
   syncInterval: 0
   clientAuthority: 1
   animator: {fileID: 5291748806770992330}
+--- !u!114 &653484888137801755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5854981168511148043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47cbe461e052440acba8e390cc208ed1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

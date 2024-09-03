@@ -330,6 +330,7 @@ GameObject:
   - component: {fileID: 6538494676459900832}
   - component: {fileID: 7684903196300218065}
   - component: {fileID: -2202390588482861308}
+  - component: {fileID: 2675762856716472400}
   m_Layer: 7
   m_Name: ButtonActivated
   m_TagString: Untagged
@@ -352,7 +353,7 @@ Transform:
   m_Children:
   - {fileID: 1603824504014076954}
   - {fileID: 7905839168709484301}
-  - {fileID: 6494070218633595275}
+  - {fileID: 2273311668627117503}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1887095859145471571
@@ -564,7 +565,19 @@ MonoBehaviour:
   syncInterval: 0
   clientAuthority: 0
   animator: {fileID: 6538494676459900832}
---- !u!1 &5916977945100560227
+--- !u!114 &2675762856716472400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5485989114999524422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47cbe461e052440acba8e390cc208ed1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &8001689007374959392
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -572,7 +585,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6494070218633595275}
+  - component: {fileID: 2273311668627117503}
   m_Layer: 0
   m_Name: DebugmodeTransform
   m_TagString: Untagged
@@ -580,13 +593,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6494070218633595275
+--- !u!4 &2273311668627117503
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5916977945100560227}
+  m_GameObject: {fileID: 8001689007374959392}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
