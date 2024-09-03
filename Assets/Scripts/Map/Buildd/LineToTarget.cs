@@ -14,23 +14,39 @@ public class LineToTarget : MonoBehaviour
 
     private List<Vector3> previousTargetVecList;
 
-
     private List<GameObject> curTargetObjectList;
 
     private bool readyForTracking;
 
-
+    [HideInInspector] public bool isNotPrefab;
     private Coroutine trackTargetCoroutine;
+
     public void Setting(){
+        Transform debugTransform = gameObject.transform.Find("DebugmodeTransform");
+        if(debugTransform !=null) Undo.DestroyObjectImmediate(debugTransform.gameObject);
+
         if(debugmodeTransform == null){
             GameObject obj = new GameObject("DebugmodeTransform");
+            if (!PrefabUtility.IsPartOfPrefabInstance(transform))
+            {
+                Undo.DestroyObjectImmediate(obj);
+                isNotPrefab = true;
+                return;
+            }else{
+                isNotPrefab = false;
+            }
+
             obj.transform.SetParent(transform);
             debugmodeTransform = obj.transform;
             lineRendererList = new();
 
-            OverridePrefabWithoutDebugTransform();
+            // OverridePrefabWithoutDebugTransform();
 
         }
+
+
+        
+
     }
 
     public void DestroyDebugmodeTransform(){
@@ -198,19 +214,20 @@ public class LineToTarget : MonoBehaviour
 
 #region Override Prefab
     public void OverridePrefabWithoutDebugTransform(){
-         GameObject prefabRoot = PrefabUtility.GetNearestPrefabInstanceRoot(gameObject);
+
+        GameObject prefabRoot = PrefabUtility.GetNearestPrefabInstanceRoot(gameObject);
 
         if (prefabRoot == null)
         {
             Debug.LogWarning("The selected object is not part of a prefab instance.");
             return;
         }
-
-        Transform debugTransform = gameObject.transform.Find("DebugTransform");
+       
+        Transform debugTransform = gameObject.transform.Find("DebugmodeTransform");
         if (debugTransform != null)
         {
             // DebugTransform 오브젝트의 변경 사항을 되돌리기
-            PrefabUtility.RevertObjectOverride(debugTransform.gameObject, InteractionMode.UserAction);
+            PrefabUtility.RevertObjectOverride(gameObject, InteractionMode.UserAction);
             Debug.Log("DebugTransform has been excluded from prefab override.");
         }
         else

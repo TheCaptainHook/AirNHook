@@ -21,6 +21,8 @@ private List<Object> previousList;
     lineToTarget = (LineToTarget)target;
     lineToTarget.Setting();
 
+    if(lineToTarget.isNotPrefab) return;
+
     ButtonEntity entity = lineToTarget.GetComponent<ButtonEntity>();
 
     if(entity != null){
@@ -48,7 +50,7 @@ private List<Object> previousList;
    private void OnDisable()
     {
         EditorApplication.update -= OnEditorUpdate;
-        if(lineToTarget != null){
+        if(lineToTarget != null && !lineToTarget.isNotPrefab){
             lineToTarget.DestroyDebugmodeTransform();
         }
         
@@ -86,8 +88,11 @@ private List<Object> previousList;
 
 
     private void OnEditorUpdate(){
-           if (serializedProperty != null && lineToTarget != null)
+
+        if (serializedProperty != null && lineToTarget != null)
         {
+            if(lineToTarget.isNotPrefab) return;
+
             serializedProperty.serializedObject.Update();
 
             if(((LineToTarget)target).gameObject.transform.position != previousThisTransfromPosition){
