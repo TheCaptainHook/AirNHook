@@ -47,13 +47,36 @@ public class LineToTarget : MonoBehaviour
     }
 
 
+    IEnumerator TrackTargetObj(){
+        bool onChange = false;
+
+        while(true){
+                if(!readyForTracking) yield return null;
+        
+           for(int i = 0 ;i<curTargetObjectList.Count;i++){
+            if(curTargetObjectList[i].transform.position != previousTargetVecList[i]){
+                previousTargetVecList = GetTargetPositionList();
+                onChange = true;
+                break;
+            }
+           }
+
+           if(onChange){
+            RefrashLineRenderer_ThisTransform();
+           }
+           
+           onChange = false;
+
+            yield return null;
+        }
+    }
 
 #region  Target Object
  
      public void SetTargetObjectList(List<GameObject> list){
 
         curTargetObjectList = list;
-            //Check Previous TargetObject List;
+            //INIT
             if(previousTargetVecList == null){
                 previousTargetVecList = GetTargetPositionList();
 
@@ -64,17 +87,41 @@ public class LineToTarget : MonoBehaviour
 
                 readyForTracking = true;
             }
+            //CHECK capacity
+            if(CompareCapacityList(list)){
+                StartCoroutine(CompareCapacityListCoroutine(list));
+            }
+
     }
 
-
-
-
  //Compare the capacities of two lists
-    // private bool CompareCapacityList(List<GameObject> list){
-    //     //if two list deff capacity 
-            
-    //     //
-    // }
+    private bool CompareCapacityList(List<GameObject> list){
+        if(list.Count != previousTargetVecList.Count){
+            return true;
+        }
+
+        return false;
+    }
+    
+
+    IEnumerator CompareCapacityListCoroutine(List<GameObject> list){
+        readyForTracking = false;
+
+        if(list.Count > previousTargetVecList.Count){
+            for(int i = 0; i<list.Count - previousTargetVecList.Count;i++){
+                LineRenderer lineRenderer = GeneratorLineRenderer();
+                // SetLine(lineRenderer,list[list.Count - i+1].transform.position);
+            }
+        }else{
+
+        }
+
+
+        yield return new WaitForSeconds(0.1f);
+
+        previousTargetVecList = GetTargetPositionList();
+        readyForTracking = true;
+    }
     // private bool CheckTargetObjectTransform(List<GameObject> list){
 
     // } //TODO 0902
@@ -124,9 +171,6 @@ public class LineToTarget : MonoBehaviour
         
     }
 
-    public void RefrashLineRenderer_TargetObject(){
-        
-    }
 #endregion
 
 

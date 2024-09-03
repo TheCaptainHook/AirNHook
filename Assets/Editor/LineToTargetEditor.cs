@@ -116,7 +116,7 @@ private List<Object> previousList;
                     return;
                 }
             }
-
+            
 
 
         }
@@ -162,6 +162,11 @@ private List<Object> previousList;
                 GameObject obj = (GameObject)elementProperty.objectReferenceValue;
 
                 if(obj == null) continue;
+                if(i>0){
+                    if(property.GetArrayElementAtIndex(i-1) == property.GetArrayElementAtIndex(i)){
+                        continue;
+                    };
+                }
 
                 list.Add(obj);
             }
