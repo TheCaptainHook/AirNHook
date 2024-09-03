@@ -7,6 +7,7 @@ public class UI_ScreenSaver : UI_Base
     #region SerializeFields
     [Header("Animations")]
     [SerializeField] private AnimationCurve _curve;
+    [SerializeField] private AnimationCurve _curve2;
     
     [Header("Frames")]
     [SerializeField] private CanvasGroup _canvasGroup;
@@ -14,6 +15,8 @@ public class UI_ScreenSaver : UI_Base
 
     [Header("Texts")]
     [SerializeField] private TMP_Text _pressText;
+
+    [SerializeField] private GameObject _textToBounce;
 
     private AudioMixer _audioMixer;
     private bool _keyPressed = false;
@@ -30,7 +33,8 @@ public class UI_ScreenSaver : UI_Base
     private void Show()
     {
         //StartCoroutine(Fade(true, _canvasGroup));
-        StartCoroutine(BounceRoutine(_titleImg,Vector3.one * 0.65f, Vector3.one * 0.58f, _curve));
+        StartCoroutine(BounceRoutine(_titleImg,Vector3.one * 0.5f, Vector3.one * 0.475f, _curve));
+        StartCoroutine(BounceRoutine(_textToBounce,Vector3.one * 1.05f, Vector3.one * 0.975f, _curve2));
     }
 
     protected override void Start()
