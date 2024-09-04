@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -18,46 +19,48 @@ private List<Object> previousList;
 #endregion
 
     private void OnEnable(){
-    lineToTarget = (LineToTarget)target;
-    lineToTarget.Setting();
 
-    if(lineToTarget.isNotPrefab) return;
+        lineToTarget = (LineToTarget)target;
+        lineToTarget.Setting();
+        ButtonEntity entity = lineToTarget.GetComponent<ButtonEntity>();
 
-    ButtonEntity entity = lineToTarget.GetComponent<ButtonEntity>();
+        if(entity != null && lineToTarget.onHierarchy){
+            SerializedObject serializedObject = new SerializedObject(entity);
+            serializedProperty = serializedObject.FindProperty("targetObjects");
+            
+            previousThisTransfromPosition = entity.gameObject.transform.position;
+            previousListSize = serializedProperty.arraySize;
 
-    if(entity != null){
-        SerializedObject serializedObject = new SerializedObject(entity);
-        serializedProperty = serializedObject.FindProperty("targetObjects");
-        
-        previousThisTransfromPosition = entity.gameObject.transform.position;
-        previousListSize = serializedProperty.arraySize;
+            if(previousList ==null){previousList = new();};
+            UpdateList();
+            lineToTarget.SetTargetObjectList(GetGameObjectListFromSerializedProperty(serializedProperty));
 
-        if(previousList ==null){previousList = new();};
-
-
-
-        UpdateList();
-        lineToTarget.SetTargetObjectList(GetGameObjectListFromSerializedProperty(serializedProperty));
-
-    }else{
-        Debug.Log("Not Found Property");
-    }
-        EditorApplication.update += OnEditorUpdate;
+        }else{
+            Debug.Log("Not Found Property");
+        }
+            EditorApplication.update += OnEditorUpdate;
    }
 
 
     
    private void OnDisable()
     {
+        if(!lineToTarget.onHierarchy) return;
+
         EditorApplication.update -= OnEditorUpdate;
-        if(lineToTarget != null && !lineToTarget.isNotPrefab){
-            lineToTarget.DestroyDebugmodeTransform();
+        if(lineToTarget != null){
+            if(lineToTarget.debugmodeTransform != null){
+                lineToTarget.DestroyDebugmodeTransform();
+            }
+            
         }
         
     }
 
     public override void OnInspectorGUI()
     {
+        if(!lineToTarget.onHierarchy) return;
+
         DrawDefaultInspector();
 
          // BuildObj의 objlist를 그립니다.
@@ -84,14 +87,19 @@ private List<Object> previousList;
             lineToTarget.EnableToggle(false);
         }
 
+        if(GUILayout.Button("리프레쉬",GUILayout.Width(100))){
+            lineToTarget.DestroyDebugmodeTransform();
+            OnEnable();
+        }
+
     }
 
 
     private void OnEditorUpdate(){
+        if(!lineToTarget.onHierarchy) return;
 
         if (serializedProperty != null && lineToTarget != null)
         {
-            if(lineToTarget.isNotPrefab) return;
 
             serializedProperty.serializedObject.Update();
 
@@ -136,22 +144,7 @@ private List<Object> previousList;
 
     #region  Util
 
-    private bool CheckPreviouseListValue()
-    {
-             for(int i = 0; i< serializedProperty.arraySize;i++)
-             {
-                    if(previousList[i] != serializedProperty.GetArrayElementAtIndex(i).objectReferenceValue){
-                        UpdateList();
-                       lineToTarget.SetTargetObjectList(GetGameObjectListFromSerializedProperty(serializedProperty));
-                        return true;
-                    }
-             }    
-             return false;
-    }
-    // private bool CheckPreviouseValue_Position(){
-    //     bool isBool;
-    // }
-
+    
     private void UpdateList(){
        previousList.Clear();
 

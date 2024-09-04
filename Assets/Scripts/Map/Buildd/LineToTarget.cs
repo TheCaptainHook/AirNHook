@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using IO.Swagger.Model;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,33 +11,27 @@ using UnityEngine;
 public class LineToTarget : MonoBehaviour
 {
     private List<LineRenderer> lineRendererList;
-    private Transform debugmodeTransform;
+    public Transform debugmodeTransform;
 
     private List<Vector3> previousTargetVecList;
 
     private List<GameObject> curTargetObjectList;
 
     private bool readyForTracking;
-
-    [HideInInspector] public bool isNotPrefab;
+    public bool onHierarchy;
+    // [HideInInspector] public bool isNotPrefab;
     private Coroutine trackTargetCoroutine;
 
     public void Setting(){
+        onHierarchy = CheckFocusedObjectPresence();
+        if(!onHierarchy) return;
+
         Transform debugTransform = gameObject.transform.Find("DebugmodeTransform");
         if(debugTransform !=null) Undo.DestroyObjectImmediate(debugTransform.gameObject);
-
+        
         if(debugmodeTransform == null){
-            GameObject obj = new GameObject("DebugmodeTransform");
-            if (!PrefabUtility.IsPartOfPrefabInstance(transform))
-            {
-                Undo.DestroyObjectImmediate(obj);
-                isNotPrefab = true;
-                return;
-            }else{
-                isNotPrefab = false;
-            }
-
-            obj.transform.SetParent(transform);
+            GameObject obj = new GameObject("DebugmodeTransform");        
+            obj.transform.SetParent(transform);            
             debugmodeTransform = obj.transform;
             lineRendererList = new();
 
@@ -48,6 +43,26 @@ public class LineToTarget : MonoBehaviour
         
 
     }
+    private bool CheckFocusedObjectPresence()
+    {
+        GameObject selectedObject = Selection.activeGameObject;
+        GameObject obj = GameObject.Find(selectedObject.name);
+
+        if (obj != null)
+        {
+            // 선택된 오브젝트가 하이라키에 존재하는지 확인
+            return true;
+        }
+        else
+        {
+            // 선택된 오브젝트가 없는 경우
+            return false;
+        }
+    }
+
+
+
+
 
     public void DestroyDebugmodeTransform(){
         lineRendererList = null;
@@ -58,8 +73,12 @@ public class LineToTarget : MonoBehaviour
             if(trackTargetCoroutine != null)StopCoroutine(trackTargetCoroutine);
             trackTargetCoroutine = null;
         }
-
-        Undo.DestroyObjectImmediate(debugmodeTransform.gameObject);
+        
+        GameObject obj = GameObject.Find("DebugmodeTransform");
+        if(obj != null){
+            Undo.DestroyObjectImmediate(debugmodeTransform.gameObject);
+        }
+        
     }
 
 
@@ -186,7 +205,8 @@ public class LineToTarget : MonoBehaviour
         lineRenderer.startWidth = 0.1f;
         lineRenderer.endWidth = 0.1f;
         lineRenderer.positionCount = 0;
-
+        lineRenderer.sortingLayerName ="ForeGround";
+        lineRenderer.sortingOrder = 10000;
         obj.transform.SetParent(debugmodeTransform);
 
         return lineRenderer;
