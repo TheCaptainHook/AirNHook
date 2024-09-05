@@ -14,7 +14,13 @@ public class Portal : BuildObj,IInteractable
     bool onPrograss;
 
     private Coroutine portalCoroutine;
-
+    
+    [Header("Animation")]
+    [SerializeField] private Animator _animator;
+    
+    #region StringCache
+    private static readonly int IsActive = Animator.StringToHash("IsActive");
+    #endregion
 
     #region Get,Set
 
@@ -56,7 +62,9 @@ public class Portal : BuildObj,IInteractable
 
 
     #region Portal Logic
-
+    //TODO : 포탈 껏다 켜짐 옵션으로 애니메이터 조절
+    //_animator.SetBool(IsActive, true);
+    //_animator.SetBool(IsActive, false);
     #endregion
 
     #region Interactable
