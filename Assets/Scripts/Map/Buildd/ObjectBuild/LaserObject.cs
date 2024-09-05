@@ -45,42 +45,74 @@ namespace MapObjects
         }
 
 
+        //private void UpdateLaser()
+        //{
+        //    RaycastHit2D hit = Physics2D.Raycast(_firePoint.position,_firePoint.right, _curDistanceRay,_layerMask);
+        //    Debug.DrawRay(_firePoint.position, _firePoint.right * _curDistanceRay, Color.blue);
+        //    if (hit.collider is not null)
+        //    {
+        //        onHit = true;
+        //        _curDistanceRay = hit.distance;
+        //        //Debug.DrawRay(_firePoint.position, _firePoint.right * _curDistanceRay, Color.green);
+        //        // 레이캐스트에 충돌한 객체가 IDamageable을 가진 경우
+        //        if (hit.collider.TryGetComponent(out IDamageable damageable))
+        //        {
+        //            // If successful, apply damage
+        //            damageable.TakeDamage();
+        //        }
+
+
+
+        //        SetLaser(hit.point);
+
+        //    }
+        //    else
+        //    {
+        //        onHit = false;
+        //        if (!onRecoveryRay)
+        //        {
+        //            StartCoroutine(Co_RecoveryRay());
+        //        }
+        //    }
+
+        //}
         private void UpdateLaser()
         {
-            RaycastHit2D hit = Physics2D.Raycast(_firePoint.position,_firePoint.right, _curDistanceRay,_layerMask);
-            Debug.DrawRay(_firePoint.position, _firePoint.right * _curDistanceRay, Color.blue);
-            if (hit.collider is not null)
+            Vector2 start = transform.position;
+            Vector2 dir = transform.right;
+
+            for (int i = 0; i < 3; i++)
             {
-                onHit = true;
-                _curDistanceRay = hit.distance;
-                //Debug.DrawRay(_firePoint.position, _firePoint.right * _curDistanceRay, Color.green);
-                // 레이캐스트에 충돌한 객체가 IDamageable을 가진 경우
-                if (hit.collider.TryGetComponent(out IDamageable damageable))
+                var ray = new Ray(start, dir);
+                RaycastHit2D rr = Physics2D.Raycast(ray.origin, ray.direction, 10);
+                if (rr.collider != null)
                 {
-                    // If successful, apply damage
-                    damageable.TakeDamage();
+                    Vector2 colDir = rr.normal;
+                    //Debug.DrawLine(start, rr.point, Color.green);
+                    DrawLaser(i,start, rr.point);
+                    start = rr.point;
+                    dir = Vector2.Reflect(start, colDir);
+
+                }
+                else
+                {
+                   
+                    break;
                 }
 
-
-                DrawLaser(hit.point);
-                _endVFX.SetActive(true);
-                _lineRenderer.enabled = true;
-                _endVFX.transform.position = hit.point;
-
-            }
-            else
-            {
-                onHit = false;
-                if (!onRecoveryRay)
-                {
-                    StartCoroutine(Co_RecoveryRay());
-                }
             }
 
-
-           
 
         }
+
+        //private void SetLaser(Vector2 hit)
+        //{
+        //    DrawLaser(hit);
+        //    _endVFX.SetActive(true);
+        //    _lineRenderer.enabled = true;
+        //    _endVFX.transform.position = hit;
+        //}
+
 
         IEnumerator Co_RecoveryRay()
         {
@@ -98,12 +130,19 @@ namespace MapObjects
         }
 
 
-        private void DrawLaser(Vector2 endPos)
+        //private void DrawLaser(Vector2 endPos)
+        //{
+        //    _lineRenderer.SetPosition(0,_firePoint.position);
+        //    _lineRenderer.SetPosition(1, endPos);
+        //}
+        private void DrawLaser(int num,Vector2 start, Vector2 endPos)
         {
-            _lineRenderer.SetPosition(0,_firePoint.position);
-            _lineRenderer.SetPosition(1, endPos);
+            _lineRenderer.positionCount = num + 2;
+            _lineRenderer.SetPosition(num, start);
+            _lineRenderer.SetPosition(num+1, endPos);
         }
-        
+
+
 #if UNITY_EDITOR
 
         //private void OnDrawGizmos()
