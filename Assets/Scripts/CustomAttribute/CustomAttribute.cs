@@ -51,3 +51,22 @@ public class CustomHeaderDrawer : DecoratorDrawer
 
 #endregion
 
+#region  ReadOnly
+// ReadOnly 어트리뷰트 정의
+public class ReadOnlyAttribute : PropertyAttribute
+{
+}
+
+[CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
+public class ReadOnlyDrawer : PropertyDrawer
+{
+    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+    {
+        GUI.enabled = false;  // 인스펙터에서 편집을 불가능하게 만듦
+        EditorGUI.PropertyField(position, property, label);
+        EditorGUILayout.Space(10);
+        GUI.enabled = true;  // 다시 편집 가능하게 복원
+    }
+}
+#endregion
+

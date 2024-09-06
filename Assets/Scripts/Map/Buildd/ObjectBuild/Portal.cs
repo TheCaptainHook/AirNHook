@@ -10,6 +10,8 @@ public class Portal : ActivatableObjectEntity,IInteractable
     public Vector2 btnOffset;
 
     public Portal targetPortal;
+    
+    [ReadOnly]
     public Vector2 targetPosition;
 
     bool onPrograss;

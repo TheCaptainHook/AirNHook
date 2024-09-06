@@ -17,7 +17,7 @@ public class ActivatableObjectEntity : BuildObj
                 transform.localScale = value.scale;
             } }
     }
-   
+   [ReadOnly]
   public int curActiveBtn;//현재 활성화된 버튼 //todo 0426 
     public int CurActiveBtn
     {
