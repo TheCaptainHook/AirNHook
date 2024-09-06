@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -97,7 +98,6 @@ public struct ButtonObjectStruct
     public int id;
     public Vector2 position;
     public Vector3 scale;
-
     public List<Vector2> targetPositions;
 
     public ButtonObjectStruct(int id,List<Vector2> targetPositions,Vector2 position,Vector3 scale)
@@ -119,16 +119,21 @@ public struct ButtonActivatableObjectStruct
     public Vector2 position;
     public Quaternion quaternion;
     public Vector3 scale;
+    public Vector2 talPot;
+
 
     public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
         Quaternion quaternion,
-        Vector3 scale)
+        Vector3 scale,
+        Vector2 talPot = default
+        )
     {
         this.id= id;
         this.activeRequirAmount = activeRequirAmount;
         this.position = position;
         this .quaternion = quaternion;
         this.scale = scale;
+        this.talPot = talPot;
     }
 }
 
@@ -159,7 +164,6 @@ public struct ObjectData
     public Vector2 position;
     public Quaternion quaternion;
     public Vector3 scale;
-
     public Vector2 talPot;
 
     public ObjectData(int id, Vector2 position, Vector3 scale, int dialogueId = 0, Vector2 talPot = default)

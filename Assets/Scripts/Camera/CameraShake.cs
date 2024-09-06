@@ -77,6 +77,11 @@ public class CameraShake : MonoBehaviour
     #region instance
     public static CameraShake instance = null; 
     
+    [SerializeField] Transform holder;
+    [SerializeField] AnimationCurve curve;
+    
+    private Vector3 velocity = Vector3.zero;
+
     private void Awake()
     {
         if (instance == null)
@@ -91,25 +96,49 @@ public class CameraShake : MonoBehaviour
     }
     #endregion
 
-    public IEnumerator Co_Shake(float duration, float magnitude)
+    // public IEnumerator Co_Shake(float duration, float magnitude)
+    // {
+    //     Debug.Log("Shake");
+    //     Vector3 originPos = new Vector3(0, 0, 0);
+
+    //     float elapsedTime = 0f;
+
+    //     while (elapsedTime < duration)
+    //     {
+    //         float xOffset = Random.Range(-0.5f, 0.5f) * magnitude;
+    //         float yOffset = Random.Range(-0.5f, 0.5f) * magnitude;
+
+    //         transform.localPosition = new Vector3(xOffset, yOffset, originPos.z);
+
+    //         elapsedTime += Time.deltaTime;
+
+    //         yield return null;
+    //     }
+
+    //     transform.localPosition = originPos;
+    // }
+
+     public IEnumerator Co_Shake(float duration, float magnitude)
     {
         Debug.Log("Shake");
         Vector3 originPos = new Vector3(0, 0, 0);
+        Vector3 left = new Vector3(-1f,.5f,0);
+        Vector3 right = new Vector3(1f,-.5f,0);
 
         float elapsedTime = 0f;
 
         while (elapsedTime < duration)
         {
-            float xOffset = Random.Range(-0.5f, 0.5f) * magnitude;
-            float yOffset = Random.Range(-0.5f, 0.5f) * magnitude;
-
-            transform.localPosition = new Vector3(xOffset, yOffset, originPos.z);
-
             elapsedTime += Time.deltaTime;
+            Vector3 targetPosition = Vector3.Lerp(left,right,curve.Evaluate(elapsedTime/duration));
+
+            holder.position = Vector3.SmoothDamp(holder.position, targetPosition, ref velocity, 0.1f); 
 
             yield return null;
         }
 
-        transform.localPosition = originPos;
+        holder.position = originPos;
     }
+
+
 }

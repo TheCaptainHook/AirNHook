@@ -321,7 +321,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: mapID
-      value: Lobby
+      value: TestScene
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: width
@@ -105401,6 +105401,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LaserObject
       objectReference: {fileID: 0}
+    - target: {fileID: 996093479032505842, guid: 0c1c12fdaa0a2f946b69f6ae0938ae9c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5345449485699939287, guid: 0c1c12fdaa0a2f946b69f6ae0938ae9c, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -105467,7 +105471,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1133144635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116052,7 +116056,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1566127977
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -116314,6 +116318,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61a251068d051b4438cec5bb054a544b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  holder: {fileID: 345856629}
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.25
+      value: -0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.75
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &1746031360
 MonoBehaviour:
   m_ObjectHideFlags: 0

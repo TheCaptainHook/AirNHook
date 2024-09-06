@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
-public class Portal : BuildObj,IInteractable
+public class Portal : ActivatableObjectEntity,IInteractable
 {
+    [CustomHeader("Portal")]
     public ObjectTypeEnum objectType = ObjectTypeEnum.Interaction;
     public Vector2 btnOffset;
 
     public Portal targetPortal;
-    private Vector2 targetPosition;
+    public Vector2 targetPosition;
 
     bool onPrograss;
 
@@ -24,25 +25,45 @@ public class Portal : BuildObj,IInteractable
 
     #region Get,Set
 
-    public override void SetData(ObjectData data)
+    public override T GetData<T>()
     {
-        ObjectData = data;
-        transform.position = data.position;
-        targetPosition = data.talPot;
+         if(typeof(T) == typeof(ButtonActivatableObjectStruct)){
+            return (T)(object)new ButtonActivatableObjectStruct(id,activeRequirAmount,transform.position,transform.rotation,transform.localScale,targetPortal.transform.position);
+        }
 
+        return default(T);
     }
 
-    public override void SetTileData()
+    public override async void SetData<T>(T data)
     {
-        targetPosition = targetPortal.transform.position;
-        ObjectData = new ObjectData(id, transform.position, transform.localScale, 0, targetPosition);
+         try{
+            if (typeof(T) == typeof(ButtonActivatableObjectStruct))
+        {
+         ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
+         ButtonActivatedObjectStruct = objData;
+         targetPosition = objData.talPot;
+
+        }
+        }catch{
+                Debug.Log($"ERROR,{typeof(T)}");
+        }
+        
+
+         Util util  = new Util();
+         await util.Delay(()=>{CheckActiveRequirAmount();});
+        
+    }
+
+    public override void ApplyActive(int num)
+    {
+        CurActiveBtn = num;
     }
 
     public void FindTargetPortal()
     {
         if (targetPortal != null) return;
 
-        foreach(Transform tr in MapEditor.Instance.objectTransform)
+        foreach(Transform tr in MapEditor.Instance.buttonActivatableObjectTransform)
         {
             Portal portal = tr.GetComponent<Portal>();
 
@@ -65,6 +86,18 @@ public class Portal : BuildObj,IInteractable
     //TODO : 포탈 껏다 켜짐 옵션으로 애니메이터 조절
     //_animator.SetBool(IsActive, true);
     //_animator.SetBool(IsActive, false);
+
+    protected override void Activation()
+    {
+        _animator.SetBool(IsActive, true);
+    }
+
+    protected override void Deactivated()
+    {
+        _animator.SetBool(IsActive, false);
+    }
+
+
     #endregion
 
     #region Interactable

@@ -555,7 +555,6 @@ public class MapEditor : MonoBehaviour
                 {
                     MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
                     
-
                     if(Managers.Game.CurrentState != GameState.Editor)
                     {
                         Managers.Stage.CmdBatchObject(mapDataStruct.name,data);
