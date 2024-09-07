@@ -27,6 +27,8 @@ public class ButtonEntity : BuildObj
     private List<LineRenderer> lineRendererList;
     #endregion
     
+
+    #region Main Logic
     protected virtual void Activation(){}
     protected virtual void Deactivated(){}
     protected virtual void PrograssButtonActivatedObject(bool onActivate)
@@ -37,6 +39,8 @@ public class ButtonEntity : BuildObj
            }
         }
     }
+
+    #endregion
 
 
 
@@ -110,18 +114,6 @@ public class ButtonEntity : BuildObj
     }
 
     #endregion
-
-
-#region  DebugMode
-public void DebugMode(){
-
-}
-
-
-
-#endregion
-
-
 
 }
 

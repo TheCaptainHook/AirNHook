@@ -589,7 +589,11 @@ public class MapEditor : MonoBehaviour
 
                     if (Managers.Game.CurrentState != GameState.Editor)
                     {
-                        Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
+                        if(data.id == 324){
+                            Create(transform, mapDataStruct, data);
+                        }else{
+                            Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
+                        }
                     }
                     else
                     {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
     public class LaserObject : BuildObj
     {
@@ -13,7 +14,7 @@ using UnityEngine;
         [SerializeField] LayerMask _layerMask;
         [SerializeField] private bool _isEnabled;
 
-
+        private Ray ray;
         bool onHit;
         bool onRecoveryRay;
 
@@ -82,10 +83,11 @@ using UnityEngine;
             Vector2 dir = transform.right;
 
             int hitCount = 0;  
-
-            for (int i = 0; i < 3; i++)
+            
+            
+            for (int i = 0; i < 10; i++)
             {
-                var ray = new Ray(start, dir);
+                ray = new Ray(start, dir);  
                 RaycastHit2D rh = Physics2D.Raycast(ray.origin, ray.direction, _defDistanceRay);
                 if (rh.collider != null)
                 {
@@ -94,14 +96,19 @@ using UnityEngine;
                     DrawLaser(i,start, rh.point);
                     hitCount++;
                     //Check collider
-
-                     if(rh.collider.TryGetComponent(out IDamageable component) && Application.isPlaying){
+                     if(rh.collider.TryGetComponent(out Player component) && Application.isPlaying){
                          component.TakeDamage();
                          break;
                      }else if(rh.collider.TryGetComponent(out MirrorObject component1)){
                          start = rh.point;
-                         dir = Vector2.Reflect(start, colDir);
-                     }else{
+                         dir = Vector2.Reflect(ray.direction, colDir);
+                     }else if(rh.collider.TryGetComponent(out LaserTriggerButton component2)){
+                            if(Application.isPlaying){
+                                Debug.Log("Is playing,Detected Laser Object");
+                                component2.SendMessage("Charging",SendMessageOptions.DontRequireReceiver);
+                            }else{
+                                Debug.Log("Detected Laser Trigger Object");
+                            }
                          break;
                      }
 
@@ -138,20 +145,10 @@ using UnityEngine;
 
         #endregion
 
-        //private void SetLaser(Vector2 hit)
-        //{
-        //    DrawLaser(hit);
-        //    _endVFX.SetActive(true);
-        //    _lineRenderer.enabled = true;
-        //    _endVFX.transform.position = hit;
-        //}
-
 
         IEnumerator Co_RecoveryRay()
         {
             onRecoveryRay = true;
-            //_lineRenderer.enabled = false;
-            //_endVFX.transform.position = transform.position;
 
             while (!onHit && _curDistanceRay <_defDistanceRay)
             {
