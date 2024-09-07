@@ -34,7 +34,7 @@ public class SaveData
         if (File.Exists(filePath))
         {
             Load_SaveFile();
-            DICCHECK_TESTCODE();
+            // DICCHECK_TESTCODE();
         }
         else
         {
@@ -102,13 +102,13 @@ public class SaveData
     }
 
     #region TEST CODE
-    private void DICCHECK_TESTCODE()
-    {
-        foreach(var data in dic)
-        {
-            Debug.Log(dic[data.Key].mapName);
-        }
-    }
+    // private void DICCHECK_TESTCODE()
+    // {
+    //     foreach(var data in dic)
+    //     {
+    //         Debug.Log(dic[data.Key].mapName);
+    //     }
+    // }
     #endregion
 
 }

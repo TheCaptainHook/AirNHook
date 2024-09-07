@@ -2,9 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-namespace MapObjects
-{
     public class LaserObject : BuildObj
     {
         [CustomHeader("LaserObject")]
@@ -20,6 +17,9 @@ namespace MapObjects
         bool onHit;
         bool onRecoveryRay;
 
+        #region Editor Property
+        public Coroutine editor_showLaserCoroutine;
+        #endregion
 
         private void Awake()
         {
@@ -81,29 +81,62 @@ namespace MapObjects
             Vector2 start = transform.position;
             Vector2 dir = transform.right;
 
+            int hitCount = 0;  
+
             for (int i = 0; i < 3; i++)
             {
                 var ray = new Ray(start, dir);
-                RaycastHit2D rr = Physics2D.Raycast(ray.origin, ray.direction, 10);
-                if (rr.collider != null)
+                RaycastHit2D rh = Physics2D.Raycast(ray.origin, ray.direction, _defDistanceRay);
+                if (rh.collider != null)
                 {
-                    Vector2 colDir = rr.normal;
-                    //Debug.DrawLine(start, rr.point, Color.green);
-                    DrawLaser(i,start, rr.point);
-                    start = rr.point;
-                    dir = Vector2.Reflect(start, colDir);
+                    Vector2 colDir = rh.normal;
+                    // Debug.DrawLine(start, rh.point, Color.green);
+                    DrawLaser(i,start, rh.point);
+                    hitCount++;
+                    //Check collider
+
+                     if(rh.collider.TryGetComponent(out IDamageable component) && Application.isPlaying){
+                         component.TakeDamage();
+                         break;
+                     }else if(rh.collider.TryGetComponent(out MirrorObject component1)){
+                         start = rh.point;
+                         dir = Vector2.Reflect(start, colDir);
+                     }else{
+                         break;
+                     }
 
                 }
                 else
                 {
-                   
+                    if(hitCount == 0){
+                        _lineRenderer.positionCount = 0;
+                    }
                     break;
                 }
 
             }
 
-
         }
+
+        #region  Editor
+        public void Editor_Awake(){
+            _isEnabled = true;
+
+            _endVFX.SetActive(_isEnabled);
+            _lineRenderer.enabled = _isEnabled;
+        }
+        public void Editor_UpdateLaser(){
+            Debug.Log("Editor Laser");
+            UpdateLaser();
+        }
+       public void ResetLaser(){
+        _lineRenderer.positionCount = 0;
+        _isEnabled = false;
+        _endVFX.SetActive(_isEnabled);
+        _lineRenderer.enabled = _isEnabled;
+       }
+
+        #endregion
 
         //private void SetLaser(Vector2 hit)
         //{
@@ -164,4 +197,4 @@ namespace MapObjects
             _isEnabled = true;
         }
     }
-}
+

@@ -379,9 +379,11 @@ public class MapEditor_Editor : Editor
     {
         GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
         obj.GetComponent<BuildObj>().SetData(data);
-        // ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
-        // door.ButtonActivatedDoorStruct = data;
         obj.transform.SetParent(transform);
+
+        if(obj.TryGetComponent(out Portal component)){
+            component.Editor_SetTarget(mapEditor);
+        }
 
     }
 

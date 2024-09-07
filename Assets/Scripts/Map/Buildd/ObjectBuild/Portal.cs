@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using Mirror;
+using Unity.Collections.LowLevel.Unsafe;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Portal : ActivatableObjectEntity,IInteractable
@@ -15,7 +18,7 @@ public class Portal : ActivatableObjectEntity,IInteractable
     public Vector2 targetPosition;
 
     bool onPrograss;
-
+    bool onActivable;
     private Coroutine portalCoroutine;
     
     [Header("Animation")]
@@ -50,11 +53,53 @@ public class Portal : ActivatableObjectEntity,IInteractable
                 Debug.Log($"ERROR,{typeof(T)}");
         }
         
-
-         Util util  = new Util();
-         await util.Delay(()=>{CheckActiveRequirAmount();});
+        if(Application.isPlaying){
+              Util util  = new Util();
+              await util.Delay(()=>{CheckActiveRequirAmount();});
+        }
+       
         
     }
+
+    public override void CheckActiveRequirAmount()
+    {
+        base.CheckActiveRequirAmount();
+
+        foreach(Transform tr in MapEditor.Instance.buttonActivatableObjectTransform){
+            if(tr.TryGetComponent(out Portal component)){
+                if(targetPosition == (Vector2)component.transform.position){
+                    targetPortal = component;
+                    return;
+                }
+            }
+        }
+    }
+
+
+    #region Editor
+    public async void Editor_SetTarget(MapEditor editor){
+        Util util = new Util();
+            await util.Delay(()=>{
+                try{
+                    foreach(Transform tr in editor.buttonActivatableObjectTransform){
+                        if(tr.TryGetComponent(out Portal component)){
+                            if(targetPosition == (Vector2)component.transform.position){
+                                targetPortal = component;
+                                return;
+                            }
+                        }       
+                    }
+                }catch{
+                    Debug.Log("Can't find Transform");
+                    return;
+                }
+
+                
+        });
+       
+    }
+
+    #endregion
 
     public override void ApplyActive(int num)
     {
@@ -92,11 +137,13 @@ public class Portal : ActivatableObjectEntity,IInteractable
     protected override void Activation()
     {
         _animator.SetBool(IsActive, true);
+        onActivable = true;
     }
 
     protected override void Deactivated()
     {
         _animator.SetBool(IsActive, false);
+        onActivable= false;
     }
 
 
@@ -108,7 +155,7 @@ public class Portal : ActivatableObjectEntity,IInteractable
         if (!NetworkServer.active || !NetworkClient.isConnected)
             return;
 
-        if (!onPrograss)
+        if (!onPrograss && onActivable)
         {
             if(portalCoroutine != null)
             {

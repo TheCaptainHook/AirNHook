@@ -53,15 +53,16 @@ public class ActivatableObjectEntity : BuildObj
                 Debug.Log($"ERROR,{typeof(T)}");
         }
         
-
-         Util util  = new Util();
-         await util.Delay(()=>{CheckActiveRequirAmount();});
+        if(Application.isPlaying){
+            Util util  = new Util();
+            await util.Delay(()=>{CheckActiveRequirAmount();});
+        }
+    
     }
 
-    #endregion
+#endregion
 
-
-    public void CheckActiveRequirAmount()
+    public virtual void CheckActiveRequirAmount()
     {
          if (activeRequirAmount == curActiveBtn) { Debug.Log("CheckActive");Activation();  }
     }
