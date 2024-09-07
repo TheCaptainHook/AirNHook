@@ -95,7 +95,7 @@ public class PlayerCameraView : MonoBehaviour
             beforeDistance = 0;
 
             onMarker = true;
-            Debug.Log("MARKER Mode");
+            //Debug.Log("MARKER Mode");
             OnMarkerMode();//TODO 0817
         }
         else if (IsDistanceWithinThreshold(_TriggerDistance)) 
