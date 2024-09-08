@@ -94,7 +94,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &113140694087859592
 RectTransform:
   m_ObjectHideFlags: 0
@@ -131,14 +131,14 @@ Canvas:
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
-  m_OverrideSorting: 0
+  m_OverrideSorting: 1
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -1676102083
+  m_SortingOrder: 50
   m_TargetDisplay: 0
 --- !u!114 &8100277657064802084
 MonoBehaviour:
@@ -162,7 +162,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &6085635874375084094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,7 +179,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
 --- !u!114 &1435239968671072987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -398,14 +398,14 @@ RectTransform:
   m_GameObject: {fileID: 5612468184949759069}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.96465, y: 0.96465, z: 0.96465}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.96465}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7841525234462762458}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.053025007}
+  m_AnchoredPosition: {x: 0, y: 0.47}
   m_SizeDelta: {x: 3, y: 3}
   m_Pivot: {x: 0.5, y: -0.000000013038516}
 --- !u!222 &504691061179195153

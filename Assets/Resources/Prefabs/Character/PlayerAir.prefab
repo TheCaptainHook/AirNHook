@@ -54,6 +54,7 @@ GameObject:
   - component: {fileID: -379765799759230663}
   - component: {fileID: -7113277246732209337}
   - component: {fileID: 2937603552494309783}
+  - component: {fileID: 5908284460361452664}
   m_Layer: 10
   m_Name: PlayerAir
   m_TagString: Untagged
@@ -555,6 +556,56 @@ SortingGroup:
   m_SortingLayer: 6
   m_SortingOrder: 1
   m_SortAtRoot: 0
+--- !u!114 &5908284460361452664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1771380657003557902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ComponentVersion: 1
+  m_LightType: 3
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.5
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 0
+  m_LightVolumeIntensity: 1
+  m_LightVolumeIntensityEnabled: 0
+  m_ApplyToSortingLayers: 0000000079fff5dc156d27bc93974e373dfa80d69754fad67bd34c9e4b693136d173aa4009c81f543db6189c
+  m_LightCookieSprite: {fileID: 0}
+  m_DeprecatedPointLightCookieSprite: {fileID: 0}
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_OverlapOperation: 0
+  m_NormalMapDistance: 3
+  m_NormalMapQuality: 2
+  m_UseNormalMap: 0
+  m_ShadowIntensityEnabled: 0
+  m_ShadowIntensity: 0.75
+  m_ShadowVolumeIntensityEnabled: 0
+  m_ShadowVolumeIntensity: 0.75
+  m_LocalBounds:
+    m_Center: {x: 0, y: -0.00000011920929, z: 0}
+    m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 1
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 0.5
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
 --- !u!1 &3049429453135474500
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,7 +617,7 @@ GameObject:
   - component: {fileID: 6477058053142286001}
   - component: {fileID: 6352433328000077562}
   - component: {fileID: 5107094214634885578}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Jump Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5409,8 +5460,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayerID: -1639132293
+  m_SortingLayer: 6
   m_SortingOrder: 20
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -5455,7 +5506,7 @@ GameObject:
   - component: {fileID: 779685183609844378}
   - component: {fileID: 1590240598690941604}
   - component: {fileID: 3298963160577578309}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Launch Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10297,8 +10348,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayerID: -1639132293
+  m_SortingLayer: 6
   m_SortingOrder: 20
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -10342,7 +10393,7 @@ GameObject:
   m_Component:
   - component: {fileID: 879032910673399759}
   - component: {fileID: 3010728488189502526}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Hand(L)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10402,8 +10453,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayerID: -1639132293
+  m_SortingLayer: 6
   m_SortingOrder: 8
   m_Sprite: {fileID: 21300000, guid: d4bc4dd4ea9171944ae81b1ea6d03901, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -10489,8 +10540,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayerID: -1639132293
+  m_SortingLayer: 6
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: e60e669d07872ca459701e35159711d1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -10513,7 +10564,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5233228942067745081}
   - component: {fileID: 3801895643785911362}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Add_Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10573,8 +10624,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayerID: -1639132293
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -10597,7 +10648,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2359111971658837741}
   - component: {fileID: 4833142403077763029}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10657,8 +10708,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayerID: -1639132293
+  m_SortingLayer: 6
   m_SortingOrder: 7
   m_Sprite: {fileID: 21300000, guid: af49c2a6abf75cb459d1aaa72a932680, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -10741,8 +10792,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayerID: -1639132293
+  m_SortingLayer: 6
   m_SortingOrder: 9
   m_Sprite: {fileID: 21300000, guid: 06982f79f62bbe942a7925207e3311fc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -10766,7 +10817,7 @@ GameObject:
   - component: {fileID: 7122284521857435803}
   - component: {fileID: 3801523937959093438}
   - component: {fileID: 1061795533904091061}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: ExhaleDust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15646,8 +15697,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayerID: -1639132293
+  m_SortingLayer: 6
   m_SortingOrder: 15
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -15691,7 +15742,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2111949010966765396}
   - component: {fileID: 192561449968009598}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Eyes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15751,8 +15802,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayerID: -1639132293
+  m_SortingLayer: 6
   m_SortingOrder: 8
   m_Sprite: {fileID: 21300000, guid: 574dc5d24ea59b84da9ac313bb71e3d2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -15775,7 +15826,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5853918058364472248}
   - component: {fileID: 8185047908423732618}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Hand(R)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15835,8 +15886,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayerID: -1639132293
+  m_SortingLayer: 6
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: d4bc4dd4ea9171944ae81b1ea6d03901, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -15930,7 +15981,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9177120215743396866}
   - component: {fileID: 5022556399982518508}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: CharPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16000,7 +16051,7 @@ GameObject:
   - component: {fileID: 632885157939892979}
   - component: {fileID: 5132154906828901315}
   - component: {fileID: 179583985014689880}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: InhaleDust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20793,8 +20844,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -696190403
-  m_SortingLayer: 4
+  m_SortingLayerID: -1639132293
+  m_SortingLayer: 6
   m_SortingOrder: 10
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -20839,7 +20890,7 @@ GameObject:
   - component: {fileID: 3316860917092865448}
   - component: {fileID: 8303112938069692247}
   - component: {fileID: 2581810401409064998}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Land Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25690,8 +25741,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayerID: -1639132293
+  m_SortingLayer: 6
   m_SortingOrder: 20
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -25734,7 +25785,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4715537775762500794}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
