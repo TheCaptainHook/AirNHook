@@ -46,6 +46,7 @@ public class UI_StageSelect_var3: UI_Base
     [SerializeField] GameObject textLine;
     private List<TextLine> textLineList;
 
+    #region Text
     string openningSentence = @",Preparing spawn area: 91%
 ,Preparing start region for level 7 (Seed: 5437123091234567890)
 ,Preparing start region for level 8 (Seed: 9342938470123456789)
@@ -103,7 +104,8 @@ public class UI_StageSelect_var3: UI_Base
 [Up - Up Arrow]      [Down - Down Arrow]   [Select - Enter]
 [Back - Backspace]   [Q - Exit]
 -------------------------------------------------------------------------";
-
+    #endregion
+    
     Color localColor = new Color(48f / 255f, 172f / 255f, 52f / 255f); 
 
     [Header("Stats")]
@@ -570,10 +572,10 @@ public class UI_StageSelect_var3: UI_Base
         // textLineList[4].TextMeshProTextControllerActive();
         // yield return textLineList[4].curTMTC.CreateTextSplitWordCoroutine();
         yield return textLineList[4].ChangeEncryption();
-        yield return textLineList[4].curTMTC.Eraser();
-        // yield return EraserTextLineCo(0,minSelectTextLineListIndex);
+        Debug.Log("Encryption Finish");
+        yield return textLineList[4].curTMTC.EraserAll();
+        yield return EraserTextLineCo(0, minSelectTextLineListIndex);
 
-        yield break;
         //TODO 0909
         
 

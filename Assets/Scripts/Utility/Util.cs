@@ -53,7 +53,9 @@ public class Util
         CancellationToken _token = token?.Token ?? CancellationToken.None; // Simplified the initialization
 
 
-        int time = Mathf.FloorToInt(delayTime * 1000);
+        //int time = Mathf.FloorToInt(delayTime * 1000);
+       
+        int time = (int)(delayTime * 1000);
         text.text = "";
 
         StringBuilder typedSentence = new StringBuilder();

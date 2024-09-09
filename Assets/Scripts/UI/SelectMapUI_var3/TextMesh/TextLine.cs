@@ -160,7 +160,7 @@ public class TextLine : MonoBehaviour
 
         for(int i = 0; i < encryptionText.Length;i++){
             curTMTC.ChangeTexSplitWord(i,encryptionText[i]);
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(.1f);
         }
 
         yield return new WaitForSeconds(0.5f);

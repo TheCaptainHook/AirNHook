@@ -24,65 +24,47 @@ public class TextMeshTextController : MonoBehaviour
     }
 
     public void CreateTextSplitWord(){
-          int defFontSize = (int)parentTextMeshPro.fontSize;
+        int defFontSize = (int)parentTextMeshPro.fontSize;
 
         char[] charArr = mainSentence.ToCharArray();
 
-        for(int i =0 ; i<charArr.Length;i++){
-            TextSplitWord word = Instantiate(_TextSplitWordPrefab,transform);
+        for (int i = 0; i < charArr.Length; i++)
+        {
+            TextSplitWord word = Instantiate(_TextSplitWordPrefab, transform);
             textSplitWordList.Add(word);
-            word.Setting(defFontSize,charArr[i].ToString());
+            word.Setting(defFontSize, charArr[i].ToString());
         }
 
         Debug.Log($"Complet,{mainSentence}");
     }
 
     public void ChangeTexSplitWord(int i,char c){
-        int fontSize = GetRandomFontSize();
-        textSplitWordList[i].Setting(fontSize,c.ToString());
+        float r = Random.Range(0, 255) / 255f;
+        float g = Random.Range(0, 255) / 255f;
+        float b = Random.Range(0, 255) / 255f;
+        textSplitWordList[i].Setting(GetRandomFontSize(),c.ToString(),new Color(r,g,b));
     }
-
-    // public IEnumerator CreateTextSplitWordCoroutine(){
-    //      int defFontSize = (int)parentTextMeshPro.fontSize;
-
-    //     char[] charArr = mainSentence.ToCharArray();
-
-    //     for(int i =0 ; i<charArr.Length;i++){
-    //         TextSplitWord word = Instantiate(_TextSplitWordPrefab,transform);
-    //         textSplitWordList.Add(word);
-    //         var source = GetFontSizeAndWidth(defFontSize);
-    //         word.Setting(source.width,source.fontSize,charArr[i].ToString());
-
-    //         yield return new WaitForSeconds(0.5f);
-    //     }
-
-    //     Debug.Log($"Complet,{mainSentence}");
-    // }
 
 
     #region  Util
      private float ConvertWidthFromFontSize(int fontSize){
         return fontSize/5f * 3;
     }
-    asdasdasdasdasda
 
     private int GetRandomFontSize(){
         return Random.Range(15,55);
     }
-
-    // private (float width,int fontSize) GetFontSizeAndWidth(int fontSize){
-    //     float width = ConvertWidthFromFontSize(fontSize);
-    //     return (width,fontSize);
-    // }
-
     #endregion
 
-   public IEnumerator Eraser(){
-    for(int i = textSplitWordList.Count-1; i<=0 ;i--){
+   public IEnumerator EraserAll(){
+    for(int i = textSplitWordList.Count-1; i>=0 ;i--){
         Destroy(textSplitWordList[i].gameObject);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.01f);
     }
    }
+
+
+
 
     
 

@@ -17,13 +17,17 @@ public class TextSplitWord : MonoBehaviour
         textMeshPro.color = localColor;
     }
 
-   public void Setting(int fontSize,string word){
-    textMeshPro.text = word;
-    Debug.Log(textMeshPro.preferredWidth);
-    Vector2 sizeDelta = new Vector2(textMeshPro.preferredWidth,rectTransform.sizeDelta.y);
-    rectTransform.sizeDelta = sizeDelta;
-    textMeshPro.fontSize = fontSize;
-    
+   public void Setting(int fontSize,string word,Color color = default){
+        textMeshPro.text = word;
+        textMeshPro.fontSize = fontSize;
+        Debug.Log(textMeshPro.preferredWidth);
+        Vector2 sizeDelta = new Vector2(textMeshPro.preferredWidth, rectTransform.sizeDelta.y);
+        rectTransform.sizeDelta = sizeDelta;
+        if(color != default)
+        {
+            textMeshPro.color = color;
+        }
+    }
 
-   }
+
 }
