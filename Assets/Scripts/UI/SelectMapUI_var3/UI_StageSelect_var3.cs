@@ -6,6 +6,8 @@ using TMPro;
 using System;
 using System.IO;
 using UnityEngine.InputSystem;
+using Unity.VisualScripting;
+using UnityEditor.Tilemaps;
 
 enum PrograssLevel
 {
@@ -14,6 +16,12 @@ enum PrograssLevel
     Three,
     End
 }
+
+
+//DEVELOP CODE LINE, Method 0909 
+//  :Select_PrograssLevel_3Co
+//  : 
+
 
 public class UI_StageSelect_var3: UI_Base
 {
@@ -38,31 +46,58 @@ public class UI_StageSelect_var3: UI_Base
     [SerializeField] GameObject textLine;
     private List<TextLine> textLineList;
 
-    string openningSentence = @"Mob Spawn Range: 4
-,Hopper Transfer: 8 Hopper Check: 8 Hopper Amount: 1
+    string openningSentence = @",Preparing spawn area: 91%
+,Preparing start region for level 7 (Seed: 5437123091234567890)
+,Preparing start region for level 8 (Seed: 9342938470123456789)
+,Preparing start region for level 9 (Seed: 7219238471293857102)
+,Preparing start region for level 10 (Seed: 6789054321092345678)
+,Preparing spawn area: 92%
+,Hopper Transfer: 8 Hopper Check: 10 Hopper Amount: 1
+,Mob Spawn Range: 4
 ,Random Lighting Updates: false
 ,Structure Info Saving: true
-,Cactus Growth Modifier: 100%
-,Cane Growth Modifier: 100%
-,Melon Growth Modifier: 100%
-,Mushroom Growth Modifier: 100%
-,Pumpkin Growth Modifier: 100%
-,Sapling Growth Modifier: 100%
-,Wheat Growth Modifier: 100%
-,NetherWart Growth Modifier: 100%
-,Vine Growth Modifier: 100%
-,Cocoa Growth Modifier: 100%
-,Tile Max Tick Time: 50ms Entity max Tick Time: 50ms
-,Preparing start region for level 0 (Seed: 2127560419623009344)
-,Preparing spawn area: 89%
-,Preparing start region for level 1 (Seed: 2127560419623009344)
-,Preparing start region for level 2 (Seed: 2127560419623009344)
+,Cactus Growth Modifier: 120%
+,Cane Growth Modifier: 120%
+,Melon Growth Modifier: 120%
+,Mushroom Growth Modifier: 120%
+,Pumpkin Growth Modifier: 120%
+,Sapling Growth Modifier: 120%
+,Wheat Growth Modifier: 120%
+,NetherWart Growth Modifier: 120%
+,Vine Growth Modifier: 120%
+,Cocoa Growth Modifier: 120%
+,Tile Max Tick Time: 60ms Entity Max Tick Time: 60ms
+,Preparing spawn area: 95%
+,Preparing start region for level 11 (Seed: 5698234567012345678)
+,Preparing start region for level 12 (Seed: 9876123456789012345)
+,Preparing start region for level 13 (Seed: 1023456789123456789)
+,Thanks for downloading SetSpawn!
+,Enabling SetSpawn v2.2
+,Enabling RaspberryJuice v1.8
+,ThreadListener Started
+,Preparing spawn area: 97%
+,Preparing start region for level 14 (Seed: 6789234567890123456)
+,Preparing start region for level 15 (Seed: 1234567890987654321)
+,Preparing start region for level 16 (Seed: 9081726345012345678)
+,Preparing start region for level 17 (Seed: 8712345678901234567)
 ,Thanks for downloading SetSpawn!
 ,http://dev.bukkit.org/bukkit-plugins/setspawn
-,Enabling SetSpawn v2.1
-,Enabling RaspberryJuice v1.7
-,ThreadListener Started
-,Server permissions file permissions.";
+,Enabling SetSpawn v2.3
+,Enabling RaspberryJuice v1.9
+,Mob Spawn Range: 5
+,Preparing start region for level 18 (Seed: 1239874567890123456)
+,Preparing start region for level 19 (Seed: 6578123456789012345)
+,Preparing start region for level 20 (Seed: 4098172634567890123)
+,Preparing start region for level 21 (Seed: 9847123456789012345)
+,Preparing start region for level 22 (Seed: 8123456789012345678)
+,Preparing start region for level 23 (Seed: 5678901234567890123)
+,Preparing start region for level 24 (Seed: 1234567890123456789)
+,Preparing start region for level 25 (Seed: 9081276345123456789)
+,Preparing start region for level 26 (Seed: 6738123456789012345)
+,Preparing start region for level 27 (Seed: 4527890123456789012)
+,Preparing start region for level 28 (Seed: 7812345678901234567)
+,Preparing start region for level 29 (Seed: 9012345678901234567)
+,Preparing spawn area: 100%";
 
     string titleSentence = @"-------------------------------------------------------------------------
 [Up - Up Arrow]      [Down - Down Arrow]   [Select - Enter]
@@ -74,7 +109,7 @@ public class UI_StageSelect_var3: UI_Base
     [Header("Stats")]
     [SerializeField] int maxTextLine;
     private TextLine curSelectTextLine; //현재 선택된 텍스트라인
-    public int curSelectTextLineIndex; //현재 선택된 텍스트라인 인덱
+    public int curSelectTextLineIndex; //현재 선택된 텍스트라인 인덱스
 
     private int nextWriteTextLineIndex; //다음에 쓸 Line Index
     private int minSelectTextLineListIndex; // 선택 가능한 라인 인덱스
@@ -123,8 +158,6 @@ public class UI_StageSelect_var3: UI_Base
 
         
         //TestCode
-
-
 
     }
 
@@ -203,8 +236,6 @@ public class UI_StageSelect_var3: UI_Base
 
     }
 
-
-
     private void SelectTextLine()
     {
         if(curSelectTextLineIndex < minSelectTextLineListIndex)
@@ -224,7 +255,6 @@ public class UI_StageSelect_var3: UI_Base
             contentRectTransform.localPosition = position;
         }
    
-
         if(curSelectTextLine != null)
         {
             curSelectTextLine.UnSelectSentence();
@@ -236,17 +266,13 @@ public class UI_StageSelect_var3: UI_Base
             curSelectTextLine = textLineList[curSelectTextLineIndex];
             curSelectTextLine.SelectSentence();
         }
-    
     }
-
 
     #region Write
 
     //Title
 
-
-
-    IEnumerator WriteLine(string sentence, Color color, bool readAntWrite, float fontSize = 25, float delayTime = 0.007f, bool onSelectable = true)
+    IEnumerator WriteLine(string sentence, Color color, bool readAntWrite, float fontSize = 25, float delayTime = 0.001f, bool onSelectable = true)
     {
         if (textLineList[nextWriteTextLineIndex].CheckCompareString(sentence))
         {
@@ -325,7 +351,6 @@ public class UI_StageSelect_var3: UI_Base
         }
 
         nextWriteTextLineIndex = 0;
-        
     }
 
     private void EraserAllClear()
@@ -346,8 +371,6 @@ public class UI_StageSelect_var3: UI_Base
 
     }
     #endregion
-
-
 
     private void OpenningTitle_()
     {
@@ -401,15 +424,13 @@ public class UI_StageSelect_var3: UI_Base
             yield return WriteLine(sentenceList[i], localColor, true);
         }
 
-        nextWriteTextLineIndex = sentenceList.Count + 1;
+        nextWriteTextLineIndex = sentenceList.Count + 2;
 
         //Init Select Line
         
-
         yield return WriteLine("Main", localColor, true);
         yield return WriteLine("UserMap (준비중)", localColor, true, 25, 0.01f, false);
 
-        
         maxSelectTextLineListIndex = nextWriteTextLineIndex - 1;
         minSelectTextLineListIndex = maxSelectTextLineListIndex -1;
         curSelectTextLineIndex = maxSelectTextLineListIndex;
@@ -424,8 +445,8 @@ public class UI_StageSelect_var3: UI_Base
         if (curSelectTextLine == null) return;
         if (!curSelectTextLine.onSelectable) return;
 
-        curSelectTextLine.Reset();
-        
+        curSelectTextLine.Reset(); 
+
         textLineList[pathTextLineIndex].WriteText($"/{curSelectTextLine.mainSentence}");
         curSelectTextLine = null;
 
@@ -441,8 +462,6 @@ public class UI_StageSelect_var3: UI_Base
             curSelectTextLine.Reset();
             curSelectTextLine = null;
         }
-
-
         _PrograssCoroutine = StartCoroutine(Select_PrograssLevel_1Co());
     }
 
@@ -484,45 +503,13 @@ public class UI_StageSelect_var3: UI_Base
         curSelectTextLine.Reset();
         curSelectTextLine = null;
 
+        // nextWriteTextLineIndex++; //0909
+
         _PrograssCoroutine = StartCoroutine(Select_PrograssLevel_2Co(stageLevel));
     }
 
-
-    //IEnumerator Select_PrograssLevel_2Co(int stageLevel)
-    //{
-
-    //    onPrograss = true;
-    //    onInteractable = false;
-
-    //    _PrograssLevel = PrograssLevel.Three;
-
-    //    yield return EraserTextLineCo(minSelectTextLineListIndex, maxSelectTextLineListIndex);
-    //    Map[] maps = Managers.Data.mapData.mapMainStageDictionary[stageLevel];
-    //    bool[] clearMaps = CheckPlayerData(maps);
-
-    //    for (int i = 0; i < clearMaps.Length; i++)
-    //    {
-    //        if (clearMaps[i])
-    //        {
-    //            yield return WriteLine(maps[i].mapID, localColor, true);
-    //        }
-    //        else
-    //        {
-    //            yield return WriteLine(maps[i].mapID, Color.red, true,25,0.01f,false);
-    //        }
-    //    }
-
-    //    maxSelectTextLineListIndex = minSelectTextLineListIndex + maps.Length-1;
-    //    curSelectTextLineIndex = maxSelectTextLineListIndex;
-
-
-    //    onPrograss = false;
-    //    onInteractable = true;
-    //}
-
     IEnumerator Select_PrograssLevel_2Co(int stageLevel) //TODO 0805
     {
-
         onPrograss = true;
         onInteractable = false;
 
@@ -556,8 +543,6 @@ public class UI_StageSelect_var3: UI_Base
         onInteractable = true;
     }
 
-
-
     //이부분만 수정하면 됨.
     IEnumerator Select_PrograssLevel_3Co()
     {
@@ -565,7 +550,6 @@ public class UI_StageSelect_var3: UI_Base
         onInteractable = false;
         _PrograssLevel = PrograssLevel.End;
 
-       
         try
         {
             ExitPointObj obj = MapEditor.Instance.FindObj(MapEditor.Instance.exitDoorObjectTransform, 301).GetComponent<ExitPointObj>();
@@ -577,9 +561,21 @@ public class UI_StageSelect_var3: UI_Base
             Debug.Log(ex);
         }
 
+        //TODO 0909
+        // yield return EraserTextLineCo(0, maxSelectTextLineListIndex);
+        yield return EraserTextLineCo(minSelectTextLineListIndex,maxSelectTextLineListIndex);
 
-        yield return EraserTextLineCo(0, maxSelectTextLineListIndex);
+        Debug.Log(minSelectTextLineListIndex);
 
+        // textLineList[4].TextMeshProTextControllerActive();
+        // yield return textLineList[4].curTMTC.CreateTextSplitWordCoroutine();
+        yield return textLineList[4].ChangeEncryption();
+        yield return textLineList[4].curTMTC.Eraser();
+        // yield return EraserTextLineCo(0,minSelectTextLineListIndex);
+
+        yield break;
+        //TODO 0909
+        
 
         animator.SetTrigger(close);
         _UI_KeyGenerator.gameObject.SetActive(true);
@@ -596,15 +592,11 @@ public class UI_StageSelect_var3: UI_Base
         onInteractable = true;
         gameObject.SetActive(false);
     }
-
     private void SetScreenDataAndActive(string selectMapId)
     {
         _UI_ComputerScreen.SetActive(true);
         _UI_ComputerScreen.GetComponent<UI_ComputerScreen>().SetData(selectMapId);
     }
-
-
-
 
     private void BackPrograss()
     {
@@ -687,62 +679,6 @@ public class UI_StageSelect_var3: UI_Base
 
     }
 
-    //private bool[] CheckPlayerData(Map[] map)
-    //{
-    //    bool[] array = new bool[map.Length];
-
-    //    if (map[0].stageLevel == 0)
-    //    {
-    //        for (int i = 0; i < map.Length; i++)
-    //        {
-    //            if (Managers.Data.loadData.playData[map[i].mapID].stageClear)
-    //            {
-    //                array[i] = true;
-    //            }
-    //            else
-    //            {
-    //                array[i] = false;
-    //            }
-    //        }
-    //    }
-    //    else
-    //    {
-    //        Map[] beforeStage = Managers.Data.mapData.mapMainStageDictionary[map[0].stageLevel - 1];
-    //        for (int i = 0; i < map.Length; i++)
-    //        {
-    //            if (i == 0)
-    //            {
-    //                if (Managers.Data.loadData.playData[beforeStage[beforeStage.Length - 1].mapID].stageClear)
-    //                {
-    //                    array[i] = true;
-    //                }
-    //                else
-    //                {
-    //                    array[i] = false;
-    //                }
-    //            }
-    //            else
-    //            {
-    //                if (Managers.Data.loadData.playData[map[i].mapID].stageClear)
-    //                {
-    //                    array[i] = true;
-    //                }
-    //                else
-    //                {
-    //                    array[i] = false;
-    //                }
-    //            }
-
-    //        }
-
-    //    }
-
-
-    //    return array;
-
-    //}
-
-
     private MapSaveData[] CheckPlayerData(Map[] map) //TODO 0805
     {
         MapSaveData[] array = new MapSaveData[map.Length];
@@ -750,7 +686,6 @@ public class UI_StageSelect_var3: UI_Base
         for (int i = 0; i < map.Length; i++)
         {
             array[i] = Managers.Data.saveData.dic[map[i].mapID];
-
 
             if (map[0].stageLevel > 0 && i == 0)
             {
@@ -760,7 +695,6 @@ public class UI_StageSelect_var3: UI_Base
                 {
                     array[i].openStage = true;
                 }
-
             }
             else
             {
@@ -769,8 +703,6 @@ public class UI_StageSelect_var3: UI_Base
                     Managers.Data.saveData.dic[map[i + 1].mapID].openStage = true;
                 }
             }
-
-            
         }
 
         if (map[0].stageLevel == 0)

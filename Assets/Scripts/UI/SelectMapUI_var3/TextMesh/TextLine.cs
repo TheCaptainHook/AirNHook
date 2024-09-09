@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using System.Threading.Tasks;
 using System.Drawing;
-
+using Random = UnityEngine.Random;
 public enum TypingType
 {
     Write,
@@ -14,7 +14,7 @@ public enum TypingType
 public class TextLine : MonoBehaviour
 {
     [Header("Info")]
-    [HideInInspector] public int index;
+    public int index;
     [HideInInspector] public string mainSentence;
     UnityEngine.Color orgColor;
     UnityEngine.Color selectColor = new UnityEngine.Color(51f / 255f, 118f / 255f, 182f / 255f);
@@ -23,8 +23,14 @@ public class TextLine : MonoBehaviour
 
     [Header("Component")]
     [SerializeField] TextMeshProUGUI text;
+
+    [Header("Text Mesh Pro Controller")]
+    [SerializeField] TextMeshTextController _TextMeshTextController;
+    public TextMeshTextController curTMTC;
     Util util = new Util();
     
+
+    string[] ranString = new string[]{"#","!","@","$","%","^","&","*","(",")","-","_","+","=","1","2","3","4","5","6","7","8","9"};
     #region Write
 
 
@@ -141,4 +147,46 @@ public class TextLine : MonoBehaviour
     }
 
     #endregion
+
+
+    //0909
+
+
+    public IEnumerator ChangeEncryption(){
+        string encryptionText = GetEncryptionText(text.text);
+
+        TextMeshProTextControllerActive();
+        curTMTC.CreateTextSplitWord();
+
+        for(int i = 0; i < encryptionText.Length;i++){
+            curTMTC.ChangeTexSplitWord(i,encryptionText[i]);
+            yield return new WaitForSeconds(.5f);
+        }
+
+        yield return new WaitForSeconds(0.5f);
+        Debug.Log("Encryption");
+    }
+
+
+    private string GetEncryptionText(string text){
+
+        string encryptionText = "";
+        for(int i = 0; i< text.Length;i++){
+            encryptionText += ranString[Random.Range(0,ranString.Length)];
+        }
+        return encryptionText;
+    }
+
+
+    //0909
+
+    public void TextMeshProTextControllerActive(){
+        if(curTMTC != null){
+            Destroy(curTMTC.gameObject);
+        }
+
+        curTMTC = Instantiate(_TextMeshTextController,transform);
+        curTMTC.Setting(text);
+    }
+
 }

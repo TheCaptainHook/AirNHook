@@ -118,7 +118,7 @@ public class Util
         audioSource.Play();
     }
 
-    public async Task EraserEffectTask(TextMeshProUGUI text, float delayTime = 0.005f)
+    public async Task EraserEffectTask(TextMeshProUGUI text, float delayTime = 0.001f)
     {
         if (text == null)
         {

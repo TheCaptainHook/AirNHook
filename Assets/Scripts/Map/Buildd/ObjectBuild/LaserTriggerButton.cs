@@ -50,7 +50,6 @@ public class LaserTriggerButton : ButtonEntity
             PrograssButtonActivatedObject(true);
             Debug.Log("Activation");
         }
-        
     }
 
     protected override void Deactivated()

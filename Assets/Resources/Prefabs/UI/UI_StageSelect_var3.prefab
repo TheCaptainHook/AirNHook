@@ -315,14 +315,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _UI_KeyGenerator: {fileID: 7842503029657970393}
-  _WriteAndEraserDelayRate: 0.1
+  _WriteAndEraserDelayRate: 0.05
   maxHorizontaText: 85
   contentMoveRect_TextLineIndex: 19
   pathTextLineIndex: 4
   _BGContainerRectTransform: {fileID: 4969350635597387410}
   content: {fileID: 758561251292658986}
   textLine: {fileID: 8764680385182326310, guid: f507c3550eb45410686fce5218b8530f, type: 3}
-  maxTextLine: 100
+  maxTextLine: 150
   curSelectTextLineIndex: 0
   onInteractable: 0
   onPrograss: 0
