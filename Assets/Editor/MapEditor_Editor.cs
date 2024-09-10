@@ -6,6 +6,7 @@ using UnityEditor;
 using UGS;
 using System.IO;
 using System.Threading.Tasks;
+using System.Net;
 
 //TODO 0724 Develop code line : 435,506
 
@@ -612,7 +613,7 @@ List<TileData> GetTileData(Tilemap tileMap)
 
 
     #region Util
-    private Task<byte[]> CurrentMapScreenShot(MapEditor mapEditor)
+    private async Task<byte[]> CurrentMapScreenShot(MapEditor mapEditor)
     {
 
         if (mapEditor.screenShotCamera == null)
@@ -620,7 +621,7 @@ List<TileData> GetTileData(Tilemap tileMap)
             mapEditor.screenShotCamera = Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/ScreenShotCamera"));
         }
 
-        GameObject camera = mapEditor.screenShotCamera;
+        Camera camera = mapEditor.screenShotCamera.GetComponent<Camera>();
 
         Vector2 startPot = mapEditor.FindObj(mapEditor.dontSaveObjectTransform, 302).transform.position;
         Vector2 endPot = mapEditor.FindObj(mapEditor.exitDoorObjectTransform, 301).transform.position;
@@ -630,14 +631,63 @@ List<TileData> GetTileData(Tilemap tileMap)
         camera.gameObject.transform.position = distance;
         camera.gameObject.transform.position += new Vector3(0, 2, -1);
 
-        Task<byte[]> encodingTask = camera.GetComponent<ScreenShotCamera>().ScreenShot();
+        //0910
 
+        // camera.GetComponent<Camera>().orthographicSize = CalculateMinimumOrthographicSize(startPot,endPot,camera);
         
+        //0910
+
+        await CalculateMinimumOrthographicSize(startPot,endPot,camera);
+
+        Task<byte[]> encodingTask = camera.GetComponent<ScreenShotCamera>().ScreenShot();
+        return await encodingTask;
+    }
 
 
-        return encodingTask;
+     private async Task CalculateMinimumOrthographicSize(Vector2 pointA, Vector2 pointB,Camera camera)
+    {
+            // 최대, 최소 orthographic size를 설정
+        float minSize = camera.orthographicSize;   // 현재 카메라 사이즈를 최소로 설정
+        float maxSize = 100f;  // 임의의 큰 값으로 초기 최대 크기 설정 (적절히 조정 가능)
+        float tolerance = 0.01f; // 원하는 오차 범위
+
+        // 이진 탐색으로 최적의 orthographic size 찾기
+        while (maxSize - minSize > tolerance)
+        {
+            float midSize = (minSize + maxSize) / 2;
+            camera.orthographicSize = midSize;
+
+            bool pointAVisible = IsPointInViewport(camera, pointA);
+            bool pointBVisible = IsPointInViewport(camera, pointB);
+
+            if (pointAVisible && pointBVisible)
+            {
+                // 두 좌표가 모두 보이면 사이즈를 더 줄여도 되는지 확인
+                maxSize = midSize;
+            }
+            else
+            {
+                // 두 좌표 중 하나가 보이지 않으면 더 큰 사이즈가 필요
+                minSize = midSize;
+            }
+
+            // 약간의 대기시간 추가
+            await Task.Yield(); // 비동기 작업이므로 프레임 차단을 피하기 위한 대기
+        }
+
+        // 최종적으로 최소 사이즈로 설정
+        camera.orthographicSize = maxSize;
 
     }
 
+     bool IsPointInViewport(Camera cam, Vector3 point)
+    {
+        // 월드 좌표를 뷰포트 좌표로 변환 (뷰포트 좌표는 (0, 0) ~ (1, 1) 사이의 값)
+        Vector3 viewportPos = cam.WorldToViewportPoint(point);
+
+        // 뷰포트 좌표가 0 ~ 1 범위 내에 있는지 확인
+        return viewportPos.x >= .05f && viewportPos.x <= .95 && viewportPos.y >= .05 && viewportPos.y <= .95;
+    }
+  
     #endregion
 }

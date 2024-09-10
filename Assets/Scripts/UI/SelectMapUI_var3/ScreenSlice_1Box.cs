@@ -10,7 +10,7 @@ public class ScreenSlice_1Box : MonoBehaviour
 
     public void SetData(string text,byte[] bytes)
     {
-        mapIdText.text = text;
+        // mapIdText.text = text;
         StartCoroutine(CreateSprtie(bytes));
     }
     public void Reset()
@@ -18,17 +18,6 @@ public class ScreenSlice_1Box : MonoBehaviour
         mapIdText.text = "";
         mapIdImage.sprite = null;
     }
-
-
-
-    //public Sprite LoadImage(int width, int height)
-    //{
-    //    Texture2D texture = new Texture2D(width, height, TextureFormat.ARGB32, false);
-    //    texture.LoadImage(bytesImage);
-    //    Sprite sprite = Sprite.Create(texture, new Rect(0, 0, width, height), new Vector2(0.5f, 0.5f), 100f);
-
-    //    return sprite;
-    //}
 
     IEnumerator CreateSprtie(byte[] bytes)
     {
@@ -38,12 +27,6 @@ public class ScreenSlice_1Box : MonoBehaviour
         Sprite sprite = Sprite.Create(texture, new Rect(0, 0, 1920, 1080), new Vector2(0.5f, 0.5f), 100f);
 
         yield return new WaitForSeconds(0.5f);
-
-        //while(sprite == null)
-        //{
-        //    Debug.Log("Loading");
-        //    yield return null;
-        //}
 
         if(Managers.Game.CurrentState == GameState.Title) { StopCoroutine(CreateSprtie(bytes)); }
 

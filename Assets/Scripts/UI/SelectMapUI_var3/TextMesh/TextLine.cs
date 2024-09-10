@@ -141,11 +141,6 @@ public class TextLine : MonoBehaviour
         mainSentence = "";
     }
 
-    public void ErrorProsses()
-    {
-        
-    }
-
     #endregion
 
 
@@ -154,20 +149,36 @@ public class TextLine : MonoBehaviour
 
     public IEnumerator ChangeEncryption(){
         string encryptionText = GetEncryptionText(text.text);
+        int[] indexs = SuffleIndex(encryptionText);
 
         TextMeshProTextControllerActive();
         curTMTC.CreateTextSplitWord();
 
         for(int i = 0; i < encryptionText.Length;i++){
-            curTMTC.ChangeTexSplitWord(i,encryptionText[i]);
-            yield return new WaitForSeconds(.1f);
+            curTMTC.ChangeTexSplitWord(indexs[i],encryptionText[indexs[i]]);
+            yield return new WaitForSeconds(.2f);
         }
 
         yield return new WaitForSeconds(0.5f);
-        Debug.Log("Encryption");
     }
 
+    private int[] SuffleIndex(string sentence){
+        int[] arr = new int[sentence.Length];
+        Debug.Log(sentence.Length);
+        for(int i = 0;i<arr.Length;i++){
+            arr[i] = i;
+        }
 
+        for(int i = 0;i<arr.Length;i++){
+            int randomNum = Random.Range(i,arr.Length);
+            int term = arr[i];
+            arr[i] = arr[randomNum];
+            arr[randomNum] = term;
+
+            Debug.Log(arr[i]);
+        }
+        return arr;
+    }
     private string GetEncryptionText(string text){
 
         string encryptionText = "";

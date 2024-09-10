@@ -564,20 +564,13 @@ public class UI_StageSelect_var3: UI_Base
         }
 
         //TODO 0909
-        // yield return EraserTextLineCo(0, maxSelectTextLineListIndex);
+
         yield return EraserTextLineCo(minSelectTextLineListIndex,maxSelectTextLineListIndex);
-
-        Debug.Log(minSelectTextLineListIndex);
-
-        // textLineList[4].TextMeshProTextControllerActive();
-        // yield return textLineList[4].curTMTC.CreateTextSplitWordCoroutine();
         yield return textLineList[4].ChangeEncryption();
-        Debug.Log("Encryption Finish");
         yield return textLineList[4].curTMTC.EraserAll();
         yield return EraserTextLineCo(0, minSelectTextLineListIndex);
 
         //TODO 0909
-        
 
         animator.SetTrigger(close);
         _UI_KeyGenerator.gameObject.SetActive(true);
