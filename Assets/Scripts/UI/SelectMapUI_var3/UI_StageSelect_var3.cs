@@ -566,10 +566,10 @@ public class UI_StageSelect_var3: UI_Base
         //TODO 0909
 
         yield return EraserTextLineCo(minSelectTextLineListIndex,maxSelectTextLineListIndex);
-        yield return textLineList[4].ChangeEncryption();
-        yield return textLineList[4].curTMTC.EraserAll();
+        StartCoroutine(textLineList[4].ChangeEncryption());
         yield return EraserTextLineCo(0, minSelectTextLineListIndex);
-
+        yield return textLineList[4].curTMTC.EraserAll();
+        
         //TODO 0909
 
         animator.SetTrigger(close);

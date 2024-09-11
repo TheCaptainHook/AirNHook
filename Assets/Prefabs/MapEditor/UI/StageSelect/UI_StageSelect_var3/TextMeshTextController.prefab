@@ -76,3 +76,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _TextSplitWordPrefab: {fileID: 4385266468717618819, guid: 6e0867927044844d6a77c335fcfbdc1b, type: 3}
+  pacman: {fileID: 4702651202798698444, guid: d61f6c360534b45cead8f04c1093ae18, type: 3}

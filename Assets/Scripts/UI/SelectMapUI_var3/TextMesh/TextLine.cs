@@ -22,11 +22,12 @@ public class TextLine : MonoBehaviour
     [HideInInspector] public bool onSelectable;
 
     [Header("Component")]
-    [SerializeField] TextMeshProUGUI text;
+     [HideInInspector] public TextMeshProUGUI text;
 
     [Header("Text Mesh Pro Controller")]
     [SerializeField] TextMeshTextController _TextMeshTextController;
     public TextMeshTextController curTMTC;
+    [HideInInspector]public bool isEncryption;
     Util util = new Util();
     
 
@@ -148,18 +149,21 @@ public class TextLine : MonoBehaviour
 
 
     public IEnumerator ChangeEncryption(){
+        isEncryption = true;
+
         string encryptionText = GetEncryptionText(text.text);
         int[] indexs = SuffleIndex(encryptionText);
 
         TextMeshProTextControllerActive();
-        curTMTC.CreateTextSplitWord();
+        
 
         for(int i = 0; i < encryptionText.Length;i++){
             curTMTC.ChangeTexSplitWord(indexs[i],encryptionText[indexs[i]]);
-            yield return new WaitForSeconds(.2f);
+            yield return new WaitForSeconds(.05f);
         }
 
         yield return new WaitForSeconds(0.5f);
+        isEncryption = false;
     }
 
     private int[] SuffleIndex(string sentence){
@@ -197,7 +201,8 @@ public class TextLine : MonoBehaviour
         }
 
         curTMTC = Instantiate(_TextMeshTextController,transform);
-        curTMTC.Setting(text);
+        curTMTC.Setting(this);
+        curTMTC.CreateTextSplitWord();
     }
 
 }

@@ -7,20 +7,22 @@ using Random = UnityEngine.Random;
 public class TextMeshTextController : MonoBehaviour
 {
     [SerializeField] TextSplitWord _TextSplitWordPrefab;
+    [SerializeField] GameObject pacman;
 
 
 
-    RectTransform parent;
+
+    TextLine parent;
     TextMeshProUGUI parentTextMeshPro;
     string mainSentence;
     List<TextSplitWord> textSplitWordList;
 
-    public void Setting(TextMeshProUGUI textMeshPro){
-        parent = textMeshPro.transform as RectTransform;
-        parentTextMeshPro = textMeshPro;
-        mainSentence = textMeshPro.text;   
+    public void Setting(TextLine textLine){
+        parent = textLine;
+        parentTextMeshPro = textLine.text;
+        mainSentence = textLine.mainSentence;   
         textSplitWordList = new();
-        textMeshPro.text = "";
+        textLine.text.text = "";
     }
 
     public void CreateTextSplitWord(){
@@ -39,10 +41,7 @@ public class TextMeshTextController : MonoBehaviour
     }
 
     public void ChangeTexSplitWord(int i,char c){
-        float r = Random.Range(0, 255) / 255f;
-        float g = Random.Range(0, 255) / 255f;
-        float b = Random.Range(0, 255) / 255f;
-        textSplitWordList[i].Setting(GetRandomFontSize(),c.ToString(),new Color(r,g,b));
+        textSplitWordList[i].Setting(30,c.ToString(),new Color(230f/255,170/255f,50/255f));
     }
 
 
@@ -57,10 +56,19 @@ public class TextMeshTextController : MonoBehaviour
     #endregion
 
    public IEnumerator EraserAll(){
+
+    while(parent.isEncryption){
+        Debug.Log("Is ENcryption");
+        yield return null;
+    }
+
+    GameObject pacmanObj = Instantiate(pacman,transform);
+
     for(int i = textSplitWordList.Count-1; i>=0 ;i--){
         Destroy(textSplitWordList[i].gameObject);
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(0.15f);
     }
+    Destroy(pacmanObj.gameObject);
    }
 
 
