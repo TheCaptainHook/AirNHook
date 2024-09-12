@@ -95952,7 +95952,6 @@ GameObject:
   - component: {fileID: 1746031364}
   - component: {fileID: 1746031363}
   - component: {fileID: 1746031362}
-  - component: {fileID: 1746031361}
   - component: {fileID: 1746031360}
   - component: {fileID: 1746031359}
   - component: {fileID: 1746031358}
@@ -95991,7 +95990,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 1731360109}
-  OtherPlayer: {fileID: 0}
+  OtherPlayer: {fileID: 1527811771}
   _TriggerDistance: 7
   _MaxDistance: 16
   _MinZoom: 8
@@ -96065,18 +96064,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   oldPosition: 0
---- !u!114 &1746031361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1746031356}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45ea817b83b716f45b36deac2f6b87a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1746031362
 MonoBehaviour:
   m_ObjectHideFlags: 0
