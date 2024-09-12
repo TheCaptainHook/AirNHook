@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -13,15 +14,12 @@ public class PlayerCameraView : MonoBehaviour
     Camera mainCamera;
 
     //Test Code
-    //[SerializeField] Transform Player;
-    //[SerializeField] Transform OtherPlayer;
+    [SerializeField] Transform Player;
+    [SerializeField] Transform OtherPlayer;
     //Release Code
-    private Transform Player{
-        get{
-            return Managers.Game.Player?.transform;
-        }
-        }
-    private Transform OtherPlayer => Managers.Game.OtherPlayer?.transform;
+    // private Transform Player{
+    //     get{ return Managers.Game.Player?.transform;}}
+    // private Transform OtherPlayer => Managers.Game.OtherPlayer?.transform;
 
 
     [Header("Info")]
@@ -35,14 +33,17 @@ public class PlayerCameraView : MonoBehaviour
     [Header("Main Logic")]
     private bool onPrograss; //change cameraSize methode prograss
     private bool onMarker;
-
+    private bool onWideMode;
+    private bool onDefaultMode;
+    private bool onTwoPlayer;
+    private bool onFadeZoom;
     //private Vector3 beforeCameraPosition;
     //private Vector3 beforeCameraSize;
 
     private float beforeDistance;
 
     private Coroutine _FadeZoomCoroutine;
-    private Coroutine _CameraSizeChangeCoroutine;
+    // private Coroutine _CameraSizeChangeCoroutine;
 
 
     [Header("Follow Camera")]
@@ -64,6 +65,7 @@ public class PlayerCameraView : MonoBehaviour
     private void Awake()
     {
         mainCamera = Camera.main;
+        OtherPlayer = null;
     }
 
     private void Update() 
@@ -73,56 +75,67 @@ public class PlayerCameraView : MonoBehaviour
         SetCameraAngle();
 
     }
-
+  
     private void Reset()
     {
         mainCamera.orthographicSize = _MinZoom;
     }
 
-
+    private bool CheckTwoPlayer(){
+        if(Player != null && OtherPlayer != null){
+            if(_FadeZoomCoroutine!=null){
+                StopCoroutine(_FadeZoomCoroutine);
+                _FadeZoomCoroutine = null;
+            }
+          return true;      
+        } 
+        return false;
+    }
     private void SetCameraAngle()
     {
-        if (OtherPlayer == null)
-        {
-            FollowCamera(Player);
-            return;
-        }
-
-        float distance = GetDistance(Player.position,OtherPlayer.position);
+       onTwoPlayer = CheckTwoPlayer();
 
         if (IsDistanceWithinThreshold(_MaxDistance)) // Mark
         {
-            beforeDistance = 0;
+            
+                Debug.Log("MARKER Mode");
+                beforeDistance = 0;
+                onMarker = true;
 
-            onMarker = true;
-            //Debug.Log("MARKER Mode");
-            OnMarkerMode();//TODO 0817
+            // OnMarkerMode();//TODO 0817
+            
         }
         else if (IsDistanceWithinThreshold(_TriggerDistance)) 
         {
-            Debug.Log("WideView Mode");
-            if (marker.gameObject.activeSelf)
-            {
-                marker.gameObject.SetActive(false);
-                onMarker = false;
-            }
             
-            WideViewMode();
+             Debug.Log("WideView Mode");
+            // if (marker.gameObject.activeSelf)
+            // {
+            //     marker.gameObject.SetActive(false);
+            //     onMarker = false;
+            // }
+            
+            // WideViewMode();
             //
+            
         }else//
         {
-            beforeDistance = 0;
+            if(OtherPlayer == null){
+                onTwoPlayer = false;
+            }
 
             Debug.Log("default Mode");
+            beforeDistance = 0;
             onMarker = false;
-
+            
             if(_FadeZoomCoroutine != null)
             {
                 StopCoroutine(_FadeZoomCoroutine);
             }
-
-            _FadeZoomCoroutine = StartCoroutine(FadeZoom(_MinZoom));
-
+            if(mainCamera.orthographicSize > _MinZoom){
+                _FadeZoomCoroutine = StartCoroutine(FadeZoom(_MinZoom));
+            }
+       
             FollowCamera(Player);
         }
 
@@ -200,8 +213,11 @@ public class PlayerCameraView : MonoBehaviour
             if (target == null) return;
 
             var _playerPos = new Vector3(target.position.x, target.position.y + 1f, -1);
-            transform.position = Vector3.SmoothDamp(transform.position, _playerPos, ref _vecVelocity, _smoothSpeed,
+            if(Vector3.Distance(transform.position,target.position)>0.01f){
+                 transform.position = Vector3.SmoothDamp(transform.position, _playerPos, ref _vecVelocity, _smoothSpeed,
                 float.MaxValue, Time.fixedDeltaTime);
+            }
+           
         }
         catch (Exception)
         {
@@ -215,8 +231,11 @@ public class PlayerCameraView : MonoBehaviour
     private void FollowCamera(Vector3 target)
     {
         var _playerPos = new Vector3(target.x, target.y + 1f, -1);
-        transform.position = Vector3.SmoothDamp(transform.position, _playerPos, ref _vecVelocity, _smoothSpeed,
+        if(Vector3.Distance(transform.position,target)> 0.01f){
+            transform.position = Vector3.SmoothDamp(transform.position, _playerPos, ref _vecVelocity, _smoothSpeed,
             float.MaxValue, Time.fixedDeltaTime);
+        }
+        
     }
 
 
@@ -235,12 +254,12 @@ public class PlayerCameraView : MonoBehaviour
             float cameraSize = mainCamera.orthographicSize + cameraOrthograpicSizeAdd;
             cameraSize = Math.Clamp(cameraSize, _MinZoom, _MaxZoom);
 
-            if (_FadeZoomCoroutine != null)
+            if (_FadeZoomCoroutine != null && Math.Abs(mainCamera.orthographicSize - cameraSize) >0.01f)
             {
                 StopCoroutine(_FadeZoomCoroutine);
                 _FadeZoomCoroutine = StartCoroutine(FadeZoom(cameraSize));
             }
-            else
+            else if(_FadeZoomCoroutine == null)
             {
                 _FadeZoomCoroutine = StartCoroutine(FadeZoom(cameraSize));
             }
@@ -267,12 +286,12 @@ public class PlayerCameraView : MonoBehaviour
             float cameraSize = mainCamera.orthographicSize - cameraOrthograpicSizeAdd;
             cameraSize = Math.Clamp(cameraSize, _MinZoom, _MaxZoom);
 
-            if (_FadeZoomCoroutine != null)
+            if (_FadeZoomCoroutine != null && Math.Abs(mainCamera.orthographicSize - cameraSize) >0.01f)
             {
                 StopCoroutine(_FadeZoomCoroutine);
                 _FadeZoomCoroutine = StartCoroutine(FadeZoom(cameraSize));
             }
-            else
+            else if(_FadeZoomCoroutine == null)
             {
                 _FadeZoomCoroutine = StartCoroutine(FadeZoom(cameraSize));
             }
@@ -288,19 +307,20 @@ public class PlayerCameraView : MonoBehaviour
 
     IEnumerator FadeZoom(float target)
     {
-        float percent = 0;
+        onFadeZoom = true;
 
-        while (percent < 1)
-        {
-            percent += Time.deltaTime*3;
-            mainCamera.orthographicSize = Mathf.SmoothDamp(mainCamera.orthographicSize, target, ref _vecSpeed, _smoothSpeed, float.MaxValue, percent);
-            
-            yield return null;
-        }
+            while (Mathf.Abs(mainCamera.orthographicSize - target) > 0.01f)
+            {
+                mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, target, Time.deltaTime * 3);
+
+                yield return null;
+            }
 
         mainCamera.orthographicSize = target;
+        onFadeZoom = false;
         _FadeZoomCoroutine = null;
     }
+    
     #endregion
 
 
@@ -321,16 +341,19 @@ public class PlayerCameraView : MonoBehaviour
 
     bool IsDistanceWithinThreshold(float thresholdDistance)
     {
-        Vector3 worldDistance = Player.position - OtherPlayer.position;
-        // 카메라의 가로 세로 비율에 따라 거리 조정
-        Vector3 adjustedDistance = new Vector3(worldDistance.x / mainCamera.aspect, worldDistance.y, worldDistance.z);
+        if(!onTwoPlayer) return false;
+        // Vector3 worldDistance = Player.position - OtherPlayer.position;
+        // // 카메라의 가로 세로 비율에 따라 거리 조정
+        // Vector3 adjustedDistance = new Vector3(worldDistance.x / mainCamera.aspect, worldDistance.y, worldDistance.z);
 
-        // 조정된 거리를 이용해 크기 계산
-        float adjustedMagnitude = adjustedDistance.magnitude;
+        // // 조정된 거리를 이용해 크기 계산
+        // float adjustedMagnitude = adjustedDistance.magnitude;
 
-        //Debug.Log($"distance : {worldDistance}, adjustedDistance : {adjustedDistance}, magnutude : {adjustedMagnitude}");
+        // //Debug.Log($"distance : {worldDistance}, adjustedDistance : {adjustedDistance}, magnutude : {adjustedMagnitude}");
 
-        return adjustedMagnitude >= thresholdDistance;
+        // return adjustedMagnitude >= thresholdDistance;
+         float adjustedMagnitude = Vector3.Distance(Player.position, OtherPlayer.position) / mainCamera.aspect;
+         return adjustedMagnitude >= thresholdDistance;
     }
 
     #endregion

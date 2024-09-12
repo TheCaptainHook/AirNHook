@@ -46,9 +46,6 @@ public class PlayerCameraViewMarker : MonoBehaviour
         {
             edgeViewportPosition.y = .8f;
         }
-
-        Debug.Log($"Viewport : {edgeViewportPosition}, normalized : {edgeViewportPosition.normalized}");
-
         edgeViewportPosition = Camera.main.ViewportToWorldPoint(edgeViewportPosition);
         TargetRotation(player.position);
 

@@ -266,6 +266,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa68a83c80f404b52be4ef7954f83868, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Player: {fileID: 0}
+  OtherPlayer: {fileID: 0}
   _TriggerDistance: 7
   _MaxDistance: 16
   _MinZoom: 8
@@ -362,6 +364,10 @@ PrefabInstance:
     - target: {fileID: 1619836637891772377, guid: 7f453d83eee6a419c9251c07691119b0, type: 3}
       propertyPath: m_Name
       value: PlayerCameraViewMarker
+      objectReference: {fileID: 0}
+    - target: {fileID: 1619836637891772377, guid: 7f453d83eee6a419c9251c07691119b0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8100277657064802084, guid: 7f453d83eee6a419c9251c07691119b0, type: 3}
       propertyPath: m_PresetInfoIsWorld
