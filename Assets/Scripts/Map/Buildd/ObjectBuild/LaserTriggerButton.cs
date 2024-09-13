@@ -20,6 +20,13 @@ public class LaserTriggerButton : ButtonEntity
 
     private bool onActivate;
 
+    [Header("Animation")]
+    [SerializeField] private Animator _animator;
+    
+    #region StringCache
+    private static readonly int IsActive = Animator.StringToHash("IsActive");
+    #endregion
+    
     #region State
     private bool onCharging;
     #endregion
