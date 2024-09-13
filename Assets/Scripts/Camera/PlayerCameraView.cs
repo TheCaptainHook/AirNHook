@@ -75,6 +75,10 @@ public class PlayerCameraView : MonoBehaviour
 
         SetCameraAngle();
 
+
+        if(Input.GetKeyDown(KeyCode.M)){
+            OtherPlayer = null;
+        }
     }
   
     private void Reset()
@@ -98,12 +102,10 @@ public class PlayerCameraView : MonoBehaviour
 
         if (IsDistanceWithinThreshold(_MaxDistance)) // Mark
         {
-            
                 Debug.Log("MARKER Mode");
                 beforeDistance = 0;
-                onMarker = true;
 
-            // OnMarkerMode();//TODO 0817
+            OnMarkerMode();//TODO 0817
             
         }
         else if (IsDistanceWithinThreshold(_TriggerDistance)) 
@@ -129,7 +131,13 @@ public class PlayerCameraView : MonoBehaviour
             if(mainCamera.orthographicSize > _MinZoom && !onFadeZoom){
                 _FadeZoomCoroutine = StartCoroutine(FadeZoom(_MinZoom));
             }
-       
+
+            if (marker.gameObject.activeSelf)
+            {
+                marker.gameObject.SetActive(false);
+                onMarker = false;
+            }
+
             FollowCamera(Player);
         }
 
@@ -188,8 +196,6 @@ public class PlayerCameraView : MonoBehaviour
 
    private void OnMarkerMode() //TODO 0817
     {
-        mainCamera.orthographicSize = _MinZoom;
-
         //marker Setting
         if (!marker.gameObject.activeSelf)
         {
@@ -246,6 +252,7 @@ public class PlayerCameraView : MonoBehaviour
     #region Camera Size
     IEnumerator AdjustCameraSize(bool isIncreasing)
     {
+        if(Player == null || OtherPlayer == null) yield break;
         onPrograss = true;
 
         float viewRate = isIncreasing ? increasedCameraViewRate : decreasedCameraViewRate;
@@ -256,10 +263,13 @@ public class PlayerCameraView : MonoBehaviour
 
         while((isIncreasing && (!p1CameraInView || !p2CameraInView)) || (!isIncreasing && p1CameraInView && p2CameraInView))
         {
+            
             float cameraSize = mainCamera.orthographicSize + addCameraSize;
             cameraSize = Math.Clamp(cameraSize, _MinZoom, _MaxZoom);
 
             yield return FadeZoom(cameraSize);
+
+            if(Player == null || OtherPlayer == null) break;
 
             p1CameraInView = IsObjectInView(Player, viewRate);
             p2CameraInView = IsObjectInView(OtherPlayer, viewRate);
@@ -318,8 +328,16 @@ public class PlayerCameraView : MonoBehaviour
     bool IsDistanceWithinThreshold(float thresholdDistance)
     {
         if(!onTwoPlayer) return false;
-         float adjustedMagnitude = Vector3.Distance(Player.position, OtherPlayer.position) / mainCamera.aspect;
-         return adjustedMagnitude >= thresholdDistance;
+        Vector3 worldDistance = Player.position - OtherPlayer.position;
+        // 카메라의 가로 세로 비율에 따라 거리 조정
+        Vector3 adjustedDistance = new Vector3(worldDistance.x / mainCamera.aspect, worldDistance.y, worldDistance.z);
+        // 조정된 거리를 이용해 크기 계산
+        float adjustedMagnitude = adjustedDistance.magnitude;
+
+        Debug.Log($"distance : {worldDistance}, adjustedDistance : {adjustedDistance}, magnutude : {adjustedMagnitude}");
+
+        return adjustedMagnitude >= thresholdDistance;  
+
     }
 
     #endregion
