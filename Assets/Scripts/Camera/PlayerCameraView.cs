@@ -15,12 +15,12 @@ public class PlayerCameraView : MonoBehaviour
     Camera mainCamera;
 
     //Test Code
-    [SerializeField] Transform Player;
-    [SerializeField] Transform OtherPlayer;
+    // [SerializeField] Transform Player;
+    // [SerializeField] Transform OtherPlayer;
     //Release Code
-    // private Transform Player{
-    //     get{ return Managers.Game.Player?.transform;}}
-    // private Transform OtherPlayer => Managers.Game.OtherPlayer?.transform;
+    private Transform Player{
+        get{ return Managers.Game.Player?.transform;}}
+    private Transform OtherPlayer => Managers.Game.OtherPlayer?.transform;
 
 
     [Header("Info")]
@@ -66,7 +66,7 @@ public class PlayerCameraView : MonoBehaviour
     private void Awake()
     {
         mainCamera = Camera.main;
-        OtherPlayer = null;
+        
     }
 
     private void Update() 
@@ -74,11 +74,6 @@ public class PlayerCameraView : MonoBehaviour
         if(Player == null) return;
 
         SetCameraAngle();
-
-
-        if(Input.GetKeyDown(KeyCode.M)){
-            OtherPlayer = null;
-        }
     }
   
     private void Reset()

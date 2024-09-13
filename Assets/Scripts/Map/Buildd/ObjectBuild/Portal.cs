@@ -1,17 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using Mirror;
-using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
-public class Portal : ActivatableObjectEntity,IInteractable
+public class Portal : ActivatableObjectEntity
 {
     [CustomHeader("Portal")]
     public ObjectTypeEnum objectType = ObjectTypeEnum.Interaction;
     public Vector2 btnOffset;
-
     public Portal targetPortal;
     
     [ReadOnly]
@@ -20,9 +16,11 @@ public class Portal : ActivatableObjectEntity,IInteractable
     bool onPrograss;
     bool onActivable;
     private Coroutine portalCoroutine;
-    
+    private Util util;
+
     [Header("Animation")]
     [SerializeField] private Animator _animator;
+    [SerializeField] GameObject _TpEffect;
     
     #region StringCache
     private static readonly int IsActive = Animator.StringToHash("IsActive");
@@ -30,6 +28,9 @@ public class Portal : ActivatableObjectEntity,IInteractable
 
     #region Get,Set
 
+    private void Awake(){
+        util = new Util();
+    }
     public override T GetData<T>()
     {
          if(typeof(T) == typeof(ButtonActivatableObjectStruct)){
@@ -54,7 +55,6 @@ public class Portal : ActivatableObjectEntity,IInteractable
         }
         
         if(Application.isPlaying){
-              Util util  = new Util();
               await util.Delay(()=>{CheckActiveRequirAmount();});
         }
        
@@ -106,43 +106,47 @@ public class Portal : ActivatableObjectEntity,IInteractable
         CurActiveBtn = num;
     }
 
-    public void FindTargetPortal()
-    {
-        if (targetPortal != null) return;
+    // public void FindTargetPortal()
+    // {
+    //     if (targetPortal != null) return;
 
-        foreach(Transform tr in MapEditor.Instance.buttonActivatableObjectTransform)
-        {
-            Portal portal = tr.GetComponent<Portal>();
+    //     foreach(Transform tr in MapEditor.Instance.buttonActivatableObjectTransform)
+    //     {
+    //         Portal portal = tr.GetComponent<Portal>();
 
-            if(portal != null)
-            {
-                if (portal.ObjectData.position == targetPosition)
-                {
-                    targetPortal = portal;
-                    return;
-                }
-            }
-        }
-    }
+    //         if(portal != null)
+    //         {
+    //             if (portal.ObjectData.position == targetPosition)
+    //             {
+    //                 targetPortal = portal;
+    //                 return;
+    //             }
+    //         }
+    //     }
+    // }
 
 
     #endregion
 
 
     #region Portal Logic
-    //TODO : 포탈 껏다 켜짐 옵션으로 애니메이터 조절
-    //_animator.SetBool(IsActive, true);
-    //_animator.SetBool(IsActive, false);
+    private void FixedUpdate(){
+        if(onActivable){
+            ActiveOnRay();
+        }
+    }
 
     protected override void Activation()
     {
         _animator.SetBool(IsActive, true);
+        _TpEffect.SetActive(true);
         onActivable = true;
     }
 
     protected override void Deactivated()
     {
         _animator.SetBool(IsActive, false);
+        _TpEffect.SetActive(false);
         onActivable= false;
     }
 
@@ -150,21 +154,38 @@ public class Portal : ActivatableObjectEntity,IInteractable
     #endregion
 
     #region Interactable
-    public void Interaction(Transform accessor = null)
-    {
-        if (!NetworkServer.active || !NetworkClient.isConnected)
-            return;
+    // public void Interaction(Transform accessor = null)
+    // {
+    //     if (!NetworkServer.active || !NetworkClient.isConnected)
+    //         return;
 
-        if (!onPrograss && onActivable)
-        {
-            if(portalCoroutine != null)
-            {
-                StopCoroutine(CoPortal());
-            }
+    //     if (!onPrograss && onActivable)
+    //     {
+    //         if(portalCoroutine != null)
+    //         {
+    //             StopCoroutine(CoPortal());
+    //         }
 
-            portalCoroutine = StartCoroutine(CoPortal());
+    //         portalCoroutine = StartCoroutine(CoPortal());
+    //     }
+    // }
+
+    //todo 0913 RayCast
+    private void ActiveOnRay(){
+        RaycastHit2D hit = Physics2D.Raycast(transform.position,transform.up,.5f);
+        if(hit.collider != null){
+             if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Player")){
+                if(!onPrograss){
+                    StartCoroutine(CoPortal());
+                }
+             }
         }
+       
     }
+   private void OnDrawGizmos(){
+    Gizmos.color = Color.red;
+    Gizmos.DrawRay(transform.position,transform.up*.5f);
+   }
 
     IEnumerator CoPortal()
     {
@@ -174,22 +195,24 @@ public class Portal : ActivatableObjectEntity,IInteractable
         //TODO Take Care logic : Cant Move Player 
         rg.simulated = false;
 
-        FindTargetPortal();
+        // FindTargetPortal();
         targetPortal.onPrograss = true;
 
         // FadeOut
         yield return MapEditor.Instance.fadeInOutPanel.FadeIn();
-        player.transform.position = targetPosition;
+        player.transform.position = targetPosition + Vector2.up;
 
 
         //Finish
         yield return MapEditor.Instance.fadeInOutPanel.FadeOut();
+        rg.simulated = true;
+        yield return new WaitForSeconds(2f);
         portalCoroutine = null;
         onPrograss = false;
         targetPortal.onPrograss = false;
 
         //TODO Take Care logic : Can Move Player 
-        rg.simulated = true;
+        
     }
 
     public bool CanInteract()

@@ -147,7 +147,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6291767547938426381
 Transform:
   m_ObjectHideFlags: 0
@@ -5148,6 +5148,7 @@ MonoBehaviour:
   targetPortal: {fileID: 0}
   targetPosition: {x: 0, y: 0}
   _animator: {fileID: -2000141949827509853}
+  _TpEffect: {fileID: 2840986932733129456}
 --- !u!50 &1416254538327619251
 Rigidbody2D:
   serializedVersion: 4

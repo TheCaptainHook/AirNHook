@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Org.BouncyCastle.Pqc.Crypto.Lms;
+
 using UnityEngine;
 
 public class StageSelectorComputer : MonoBehaviour
@@ -23,9 +20,9 @@ public class StageSelectorComputer : MonoBehaviour
     [SerializeField] private Rigidbody2D _keyrb;
     
     //애니메이션 test용
-    public bool IsLeftClicking;
-    public bool IsRightClicking;
-    public bool IsSpawningKey;
+    // public bool IsLeftClicking;
+    // public bool IsRightClicking;
+    // public bool IsSpawningKey;
 
     private void Awake()
     {
@@ -99,9 +96,8 @@ public class StageSelectorComputer : MonoBehaviour
 
 
 
-    public void SpawnKey()
+    public async void SpawnKey()
     {
-
         ExitPointObj obj = MapEditor.Instance.exitDoorObjectTransform.GetChild(0).gameObject.GetComponent<ExitPointObj>();
         if (obj.nextMapId != string.Empty)
         {
@@ -117,6 +113,9 @@ public class StageSelectorComputer : MonoBehaviour
             _key.GetComponent<Rigidbody2D>().AddForce(launchDirection * 5f, ForceMode2D.Impulse);
             
         }
+
+         Util util = new Util();
+         await util.Delay(()=>{Talking();});
 
     }
 
