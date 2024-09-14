@@ -777,6 +777,15 @@ public class MapEditor : MonoBehaviour
 
     }
 
+    public void ResetInteractableObjectPosition(){
+        foreach(Transform tr in networkingObjectTransform){
+            BuildObj obj = tr.GetComponent<BuildObj>();
+            if(obj != null && obj.GetDissolveObject()){
+                obj.Dissolve(obj.position);
+            }
+        }
+    }
+
 
     #endregion
 

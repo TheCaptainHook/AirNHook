@@ -5,9 +5,9 @@ using UnityEngine.Serialization;
 
 public class BreakableWall : BuildObj
 {
-    private Rigidbody2D _rb;
+    // private Rigidbody2D _rb;
     private Animator _animator;
-    [SerializeField] private Collider2D _collider;
+    // [SerializeField] private Collider2D _collider;
     [SerializeField] private ParticleSystem _BrokenPartsParticles;
     [SerializeField] private ParticleSystem _DustParticles;
 

@@ -20,6 +20,7 @@ public class BuildObj : MousePointerEntity,IDamageable
     public int id;
     [Tooltip("Transform ID to be created")]
     public int transformID;
+    [ReadOnly]
     public Vector2 position;
     [Tooltip("Use this parameter in editor mode")]
     public Vector2 offset; // Use this parameter in editor mode.
@@ -31,21 +32,39 @@ public class BuildObj : MousePointerEntity,IDamageable
     public bool onScaleable;
     
     private ObjectData _objectData;
-    public ObjectData ObjectData { get { return _objectData; } set { _objectData = value; id = _objectData.id; } }
-
-    public event Action<Vector2> OnDissolveAction;
-    public event Action OnDisableAction;
-    public event Action OnInteractableObjectRelease;
+    public ObjectData ObjectData{
+         get{ 
+                return _objectData;
+            } 
+         set{
+                _objectData = value; 
+                id = _objectData.id; 
+                position = value.position;
+            } 
+    }
 
 
     [Header("Only use Editor mode")]
     [HideInInspector] public bool setPosition; // When created and placed set this parameter
     [HideInInspector] public Vector2 orgPosition;
 
-    [Header("Indicator")]
-    private bool onEnterPointer;
-    
 
+    #region  Dissolve Effect
+    [Header("Dissolve Effect")]
+    [SerializeField] SpriteRenderer _Dissolve_MainSprite;
+    private static readonly int DissolveAmount = Shader.PropertyToID("_DissolveAmount");
+
+    protected Material _dissolveMaterial;
+    protected Rigidbody2D _rb;
+    protected Collider2D _collider;
+    float dissolveRate = 0.015f;
+
+    public event Action<Vector2> OnDissolveAction;
+    public event Action OnDisableAction;
+    public event Action OnInteractableObjectRelease;
+    protected bool _IsDissolveObject;
+
+    #endregion
     public void CallOnInterableObjectRelease()
     {
         OnInteractableObjectRelease?.Invoke();
@@ -57,10 +76,10 @@ public class BuildObj : MousePointerEntity,IDamageable
         ObjectData = new ObjectData(id, position,transform.localScale);
     }
 
-    public  void SetTileData(Vector2 position,Quaternion quaternion)
-    {
-        ObjectData = new ObjectData(id, position, quaternion,transform.localScale);
-    }
+    // public  void SetTileData(Vector2 position,Quaternion quaternion)
+    // {
+    //     ObjectData = new ObjectData(id, position, quaternion,transform.localScale);
+    // }
 
     public virtual void SetTileData()
     {
@@ -183,6 +202,73 @@ public class BuildObj : MousePointerEntity,IDamageable
         orgPosition = transform.position;
     }
 
+
+    #region Destructible Obj Dissolve Effect Logic
+    protected void DissolveInitSetting(){
+        _dissolveMaterial = _Dissolve_MainSprite.material;
+        _rb = GetComponent<Rigidbody2D>();
+        _collider = GetComponent<Collider2D>();
+        _IsDissolveObject = true;
+        OnDissolveAction += Dissolve;
+        OnInteractableObjectRelease += GetComponent<InteractableObject>().Destroyed;
+
+    }
+
+    public void Dissolve(Vector2 pot)
+    {
+        if(MapEditor.Instance.mapEditorState != MapEditorState.NoEditor)
+        {
+            //EditorMode_Destroy();
+            
+            StartCoroutine(Co_Dissolve(orgPosition));
+        }
+        else
+        {
+            StartCoroutine(Co_Dissolve(pot));
+        }
+        
+    }
+
+    IEnumerator Co_Dissolve(Vector2 pot)
+    {
+        float percent = 1;
+        _collider.enabled = false;
+        _rb.velocity = Vector2.zero;
+        _rb.gravityScale = 0;
+        while (percent> 0)
+        {
+            percent -= dissolveRate;
+            _dissolveMaterial.SetFloat(DissolveAmount, percent);
+            yield return null;
+        }
+       
+        transform.position = pot;
+
+        while(percent < 1)
+        {
+            percent += dissolveRate;
+            _dissolveMaterial.SetFloat(DissolveAmount, percent);
+            yield return null;
+        }
+        _collider.enabled = true;
+        _rb.gravityScale = 1;
+        GetComponent<InteractableObject>().Respawned();
+
+        if (MapEditor.Instance.mapEditorState == MapEditorState.Object)
+        {
+            TurnOff();
+        }
+       
+    }
+
+    public bool GetDissolveObject(){
+        if(_IsDissolveObject){
+            return true;
+        }
+         return false;
+    }
+    
+    #endregion
 
 
 }

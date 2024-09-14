@@ -6,7 +6,6 @@ public class SawObject : BuildObj
 {
     //[SerializeField] GameObject hitBox;
     [SerializeField] GameObject sawPivot;
-    Collider2D _collider;
     Animator animator;
 
     private void Awake()

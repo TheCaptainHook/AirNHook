@@ -188,6 +188,7 @@ MonoBehaviour:
   onScaleable: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 349216705317907799}
 --- !u!114 &-2767788134810897182
 MonoBehaviour:
   m_ObjectHideFlags: 0

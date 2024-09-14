@@ -5,22 +5,16 @@ using UnityEngine;
 
 public class LeverHead : BuildObj
 {
-    Collider2D _collider;
-    Rigidbody2D _rb;
-    [SerializeField] SpriteRenderer spriteRenderer;
     //Material dissolveMaterial;
     //effect
-    float dissolveRate = 0.05f;
     private Vector2 _firstPos;
     private InteractableObject _interactableObject;
 
     private void Awake()
     {
-        _collider = GetComponent<Collider2D>();
-        _rb = GetComponent<Rigidbody2D>();
-        _interactableObject = GetComponent<InteractableObject>();
-        //dissolveMaterial = spriteRenderer.material;
-        OnDissolveAction += Dissolve;
+        DissolveInitSetting();
+        // _interactableObject = GetComponent<InteractableObject>();
+        
     }
 
     private void Start()
@@ -66,44 +60,44 @@ public class LeverHead : BuildObj
 
     #region Effect
 
-    public void Dissolve(Vector2 pot)
-    {
-        if (MapEditor.Instance.mapEditorState != MapEditorState.NoEditor)
-        {
-            StartCoroutine(Co_Dissolve(orgPosition));
-        }
-        else
-        {
-            StartCoroutine(Co_Dissolve(_firstPos));
-        }
+    // public void Dissolve(Vector2 pot)
+    // {
+    //     if (MapEditor.Instance.mapEditorState != MapEditorState.NoEditor)
+    //     {
+    //         StartCoroutine(Co_Dissolve(orgPosition));
+    //     }
+    //     else
+    //     {
+    //         StartCoroutine(Co_Dissolve(_firstPos));
+    //     }
 
-    }
+    // }
 
-    IEnumerator Co_Dissolve(Vector2 pot)
-    {
-        float percent = 1;
-        _collider.enabled = false;
-        _rb.velocity = Vector2.zero;
-        _rb.gravityScale = 0;
-        while (percent > 0)
-        {
-            percent -= dissolveRate;
-            //dissolveMaterial.SetFloat("_DissolveAmount", percent);
-            yield return null;
-        }
+    // IEnumerator Co_Dissolve(Vector2 pot)
+    // {
+    //     float percent = 1;
+    //     _collider.enabled = false;
+    //     _rb.velocity = Vector2.zero;
+    //     _rb.gravityScale = 0;
+    //     while (percent > 0)
+    //     {
+    //         percent -= dissolveRate;
+    //         //dissolveMaterial.SetFloat("_DissolveAmount", percent);
+    //         yield return null;
+    //     }
 
-        transform.position = pot;
+    //     transform.position = pot;
 
-        while (percent < 1)
-        {
-            percent += dissolveRate;
-            //dissolveMaterial.SetFloat("_DissolveAmount", percent);
-            yield return null;
-        }
-        _collider.enabled = true;
-        _rb.gravityScale = 1;
-        GetComponent<InteractableObject>().Respawned();
-    }
+    //     while (percent < 1)
+    //     {
+    //         percent += dissolveRate;
+    //         //dissolveMaterial.SetFloat("_DissolveAmount", percent);
+    //         yield return null;
+    //     }
+    //     _collider.enabled = true;
+    //     _rb.gravityScale = 1;
+    //     GetComponent<InteractableObject>().Respawned();
+    // }
     #endregion
 
     //public void Activation()

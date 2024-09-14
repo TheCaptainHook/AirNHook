@@ -147,7 +147,7 @@ public class TeslaTower : BuildObj
                 if(obj.TryGetComponent(out LightningRod lightningRod))
                 {
                     DrawLineRenderer(obj.transform, lightningRod.hitPoint);
-                    lightningRod.TakeDamage();
+                    lightningRod.Electric();
                     return;
                 }
             }

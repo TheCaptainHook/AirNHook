@@ -37,8 +37,14 @@ public class MapEditor_Editor : Editor
             mapEditor.LoadMap(mapEditor.mapID);
             
         }
-
         GUILayout.Space(10);
+
+          if (GUILayout.Button("Reset Interactable Object Position(인게임용)"))
+        {
+            mapEditor.ResetInteractableObjectPosition();
+        }
+        GUILayout.Space(10);
+
 
         if (GUILayout.Button("개발자용, 맵 새로만들 때 먼저 누르기,Init!"))
         {

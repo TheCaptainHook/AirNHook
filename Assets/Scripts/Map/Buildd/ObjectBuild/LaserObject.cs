@@ -13,6 +13,9 @@ using UnityEngine;
         [SerializeField] private GameObject _endVFX;
         [SerializeField] LayerMask _layerMask;
         [SerializeField] private bool _isEnabled;
+        
+        [Header("Effect")]
+        [SerializeField] ParticleSystem hitEffectParticle;
 
         private Ray ray;
         bool onHit;
@@ -44,39 +47,6 @@ using UnityEngine;
                 _lineRenderer.enabled = false;
             }
         }
-
-
-        //private void UpdateLaser()
-        //{
-        //    RaycastHit2D hit = Physics2D.Raycast(_firePoint.position,_firePoint.right, _curDistanceRay,_layerMask);
-        //    Debug.DrawRay(_firePoint.position, _firePoint.right * _curDistanceRay, Color.blue);
-        //    if (hit.collider is not null)
-        //    {
-        //        onHit = true;
-        //        _curDistanceRay = hit.distance;
-        //        //Debug.DrawRay(_firePoint.position, _firePoint.right * _curDistanceRay, Color.green);
-        //        // 레이캐스트에 충돌한 객체가 IDamageable을 가진 경우
-        //        if (hit.collider.TryGetComponent(out IDamageable damageable))
-        //        {
-        //            // If successful, apply damage
-        //            damageable.TakeDamage();
-        //        }
-
-
-
-        //        SetLaser(hit.point);
-
-        //    }
-        //    else
-        //    {
-        //        onHit = false;
-        //        if (!onRecoveryRay)
-        //        {
-        //            StartCoroutine(Co_RecoveryRay());
-        //        }
-        //    }
-
-        //}
         private void UpdateLaser()
         {
             Vector2 start = transform.position;
@@ -96,7 +66,8 @@ using UnityEngine;
                     DrawLaser(i,start, rh.point);
                     hitCount++;
                     //Check collider
-                     if(rh.collider.TryGetComponent(out Player component) && Application.isPlaying){
+                     if(rh.collider.TryGetComponent(out IDamageable component)  && Application.isPlaying){
+                         SetHitParticleRotate(start,rh.point); // todo 0914
                          component.TakeDamage();
                          break;
                      }else if(rh.collider.TryGetComponent(out MirrorObject component1)){
@@ -105,13 +76,13 @@ using UnityEngine;
                      }else if(rh.collider.TryGetComponent(out LaserTriggerButton component2)){
                             if(Application.isPlaying){
                                 Debug.Log("Is playing,Detected Laser Object");
+                                SetHitParticleRotate(start,rh.point); // todo 0914
                                 component2.SendMessage("Charging",SendMessageOptions.DontRequireReceiver);
                             }else{
                                 Debug.Log("Detected Laser Trigger Object");
                             }
                          break;
                      }
-
                 }
                 else
                 {
@@ -122,6 +93,23 @@ using UnityEngine;
                 }
 
             }
+
+        }
+        private void SetHitParticleRotate(Vector3 start,Vector3 hitPoint){
+            if(hitEffectParticle.transform.position != hitPoint){
+                hitEffectParticle.transform.position = hitPoint;
+            }
+
+            Vector2 direction = hitPoint - start;
+            float angle = Mathf.Atan2(direction.y,direction.x)*Mathf.Rad2Deg;
+            Quaternion rotation = Quaternion.Euler(angle,-90,0);
+
+            if(hitEffectParticle.transform.rotation != rotation){
+                hitEffectParticle.transform.rotation = Quaternion.Euler(angle,-90,0);
+            }
+
+
+            hitEffectParticle.Play();
 
         }
 

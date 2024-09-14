@@ -1,19 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Org.BouncyCastle.Crypto.Engines;
 using UnityEngine;
 
 public class Shield : BuildObj
 {
-    private Rigidbody2D _rb;
 
-
-  
-    private void Awake()
-    {
-        _rb = GetComponent<Rigidbody2D>();
+    private void Awake(){
+        DissolveInitSetting();
     }
-
     public override void TurnOff()
     {
         base.TurnOff();

@@ -105,10 +105,8 @@ public class CreateMap_Tool : EditorWindow
             if(obj.TryGetComponent(out BuildObj component)){
                 if(component.id ==308) continue;
                 if(component.id ==313) continue;
-                if(component.id ==315) continue;
                 if(component.id ==320) continue;
                 if(component.id ==321) continue;
-
                 list.Add(obj);
 
             }

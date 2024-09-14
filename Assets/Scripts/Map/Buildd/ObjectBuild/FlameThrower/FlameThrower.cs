@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class FlameThrower : BuildObj
 {
-    
-    BoxCollider2D _collider;
-
     float maxRate = 6.3f;
     float curRate;
 

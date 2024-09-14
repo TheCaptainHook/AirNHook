@@ -353,8 +353,8 @@ MonoBehaviour:
   onScaleable: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 4733320072026686442}
   health: 5
-  spriteRenderer: {fileID: 4733320072026686442}
 --- !u!114 &1073523619191105079
 MonoBehaviour:
   m_ObjectHideFlags: 0

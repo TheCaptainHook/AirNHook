@@ -8,7 +8,7 @@ using UnityEngine;
 public class ButtonActivatedDoor : ActivatableObjectEntity
 {
     [CustomHeader("ButtonActivatedDoor")]
-    [SerializeField] private BoxCollider2D _collider;
+    // [SerializeField] private BoxCollider2D _collider;
     [SerializeField] NetworkAnimator _animator;
 
     #region StringCache
