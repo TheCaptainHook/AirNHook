@@ -83,6 +83,9 @@ using UnityEngine;
                          break;
                      }else{
                         SetHitParticleRotate(start,rh.point);
+                        if(rh.collider.TryGetComponent(out IDamageable damageable)){
+                            damageable.TakeDamage();
+                        }
                         break;
                      }
                 }

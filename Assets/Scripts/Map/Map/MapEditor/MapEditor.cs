@@ -178,7 +178,6 @@ public class MapEditor : MonoBehaviour
 
     void CreateGridPalet()
     {
-
         GridPalette = Instantiate(floorTileMap);
         placeMentSystem.floorTileMap = GridPalette.transform.Find("Floor").GetComponent<Tilemap>();
 
