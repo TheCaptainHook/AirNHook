@@ -8,6 +8,7 @@ using TMPro;
 using System;
 using System.Threading.Tasks;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 
 public enum MapType
 {
@@ -435,7 +436,8 @@ public class MapEditor : MonoBehaviour
 
         //interactionBtnDictionary = new(); //todo 0412
 
-        CreateObj(0); //floorTransform
+        // CreateObj(0); //floorTransform
+        Create_Tile();
         CreateObj(1,objectTransform); //objectTransform
         CreateObj(2,buttonActivatableObjectTransform); //
         CreateObj(3,exitDoorObjectTransform); //
@@ -468,6 +470,92 @@ public class MapEditor : MonoBehaviour
     }
 
     #region Create
+
+    public void Create_Tile(){
+        //  foreach (TileData data in curMap.mapTileDataList)
+        //         {
+        //             MapDataStruct mapDataStruct = Managers.Data.mapData.mapTileDataDictionary[data.id];
+        //             placeMentSystem.floorTileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
+        //             placeMentSystem.tileDic[data.position] = data.id;
+        //         }
+        //         foreach (TileData data in curMap.mapHalfTileDataList)
+        //         {
+        //             MapDataStruct mapDataStruct = Managers.Data.mapData.mapTileDataDictionary[data.id];
+        //             placeMentSystem.halfTileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
+        //             placeMentSystem.tileDic[data.position] = data.id;
+        //         }
+        //         foreach (TileData data in curMap.mapBackgroundTileDataList)
+        //         {
+        //             MapDataStruct mapDataStruct = Managers.Data.mapData.mapTileDataDictionary[data.id];
+        //             placeMentSystem.backgroundTileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
+        //             placeMentSystem.tileDic[data.position] = data.id;
+        //         }
+                DrawTile(placeMentSystem.floorTileMap,curMap.mapTileDataList);
+                DrawTile(placeMentSystem.halfTileMap,curMap.mapHalfTileDataList);
+                DrawTile(placeMentSystem.backgroundTileMap,curMap.mapBackgroundTileDataList);
+    }
+    private void DrawTile(Tilemap tileMap,List<TileData> list){
+         foreach (TileData data in list)
+         {
+            MapDataStruct mapDataStruct = Managers.Data.mapData.mapTileDataDictionary[data.id];
+            tileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
+            placeMentSystem.tileDic[data.position] = data.id;        
+         }
+    }
+    public void Create_Object(Transform transfrom){
+         foreach (ObjectData data in curMap.mapObjectDataList){
+                    if (Managers.Data.mapData.mapSceneDataDictionary.ContainsKey(data.id))
+                    {
+                        MapDataStruct mapDataStruct = Managers.Data.mapData.mapSceneDataDictionary[data.id];
+                        if (Managers.Game.CurrentState != GameState.Editor && (data.id == 1001 || data.id == 1002))
+                        {
+                            Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
+                        }
+                        else
+                        {
+                            Create(transform, mapDataStruct, data);
+                        }
+
+                    }
+                    else if (Managers.Data.mapData.mapBackgroundDataDictionary.ContainsKey(data.id))
+                    {
+                        MapDataStruct mapDataStruct = Managers.Data.mapData.mapBackgroundDataDictionary[data.id];
+
+                        Create(transform, mapDataStruct, data);
+
+                    }
+                    else if (Managers.Data.mapData.mapOtherDataDictionary.ContainsKey(data.id))
+                    {
+                        MapDataStruct mapDataStruct = Managers.Data.mapData.mapOtherDataDictionary[data.id];
+
+                        Create(transform, mapDataStruct, data);
+
+                    }
+                    else
+                    {
+                        MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
+                        if (Managers.Game.CurrentState != GameState.Editor &&
+                            (
+                            data.id == 307 ||
+                            data.id == 300 ||
+                            data.id == 311 ||
+                            data.id == 313 ||
+                            data.id == 315 ||
+                            data.id == 317 ||
+                            data.id == 318 ||
+                            data.id == 319
+                            ))
+                        {
+                            Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
+                        }
+                        else
+                        {
+                            Create(transform, mapDataStruct, data);
+                        }
+                    }
+         }
+    }
+
     public void CreateObj(int num,Transform transform = null)
     {
         switch (num)
@@ -602,22 +690,6 @@ public class MapEditor : MonoBehaviour
 
                 }
                 break;
-            //case 5:
-            //    foreach (DialogueData data in curMap.dialogueDataList)
-            //    {
-            //        MapDataStruct mapDataStruct = Managers.Data.mapData.mapSceneDataDictionary[data.id];
-            //        if (Managers.Game.CurrentState != GameState.Editor)
-            //        {
-            //            Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
-            //        }
-            //        else
-            //        {
-            //            Create(transform, mapDataStruct, data);
-            //        }
-
-            //    }
-            //    break;
-            //Trigger Dialogue Obj create SaveData.SerializableSaveMapDataDictionary in MapSaveData
             case 5:
                 foreach (DialogueData data in Managers.Data.saveData.dic[curMap.mapID]._DialogueDataList)
                 {
