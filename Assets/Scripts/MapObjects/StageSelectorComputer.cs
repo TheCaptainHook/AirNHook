@@ -14,10 +14,10 @@ public class StageSelectorComputer : MonoBehaviour
 
     private Animator _animator;
     
-    [SerializeField] private bool _isTalking = false;
+    // [SerializeField] private bool _isTalking = false;
     
     [SerializeField] private GameObject _key;
-    [SerializeField] private Rigidbody2D _keyrb;
+    // [SerializeField] private Rigidbody2D _keyrb;
     
     //애니메이션 test용
     // public bool IsLeftClicking;

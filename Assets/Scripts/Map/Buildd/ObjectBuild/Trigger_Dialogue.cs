@@ -8,8 +8,11 @@ using UnityEngine;
 
 public class Trigger_Dialogue : BuildObj
 {
+    [CustomHeader("Trigger Dialogue")]
+    [ReadOnly]
     public int _DialogueId;
-    private bool OnExcuted;
+    [ReadOnly]
+    public bool OnExcuted;
 
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -35,14 +38,26 @@ public class Trigger_Dialogue : BuildObj
         return data;
     }
 
-    public void SetDialogueData(DialogueData data)
-    {
-        ObjectData = new ObjectData(data.id, data.position, data.scale);
-        transform.position = data.position;
-        transform.localScale = data.scale;
-        _DialogueId = data.dialogueId;
-        OnExcuted = data.excuted;
+    // public void SetDialogueData(DialogueData data)
+    // {
+    //     ObjectData = new ObjectData(data.id, data.position, data.scale);
+    //     transform.position = data.position;
+    //     transform.localScale = data.scale;
+    //     _DialogueId = data.dialogueId;
+    //     OnExcuted = data.excuted;
         
+    // }
+
+    public override void SetData<T>(T data)
+    {
+        if(typeof(T)== typeof(DialogueData)){
+            DialogueData ddate = (DialogueData)(object)data;
+            ObjectData = new ObjectData(ddate.id, ddate.position, ddate.scale);
+            transform.position = ddate.position;
+            transform.localScale = ddate.scale;
+            _DialogueId = ddate.dialogueId;
+            OnExcuted = ddate.excuted;
+        }
     }
 
     /// <summary>

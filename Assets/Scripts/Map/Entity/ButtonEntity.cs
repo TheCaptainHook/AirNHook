@@ -17,6 +17,7 @@ public class ButtonEntity : BuildObj
             transform.position = value.position;
             transform.localScale = value.scale;
             targetPosition = value.targetPositions;
+            FindTargetObject();
         } }
 
     private List<Vector2> targetPosition; //TODO 0829
@@ -53,8 +54,8 @@ public class ButtonEntity : BuildObj
             {
                  ButtonObjectStruct buttonData = (ButtonObjectStruct)(object)data;
                  ButtonObjectData = buttonData;
-                
             }
+                
         }catch(Exception ex){
                 Debug.Log($"{ex}");
         }

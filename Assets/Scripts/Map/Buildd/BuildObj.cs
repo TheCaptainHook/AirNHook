@@ -98,7 +98,14 @@ public class BuildObj : MousePointerEntity,IDamageable
     {
        return default(T);
     }
-    public virtual void SetData<T>(T data)  {}
+    public virtual void SetData<T>(T data)  
+    {
+        if(typeof(T) == typeof(ObjectData)){
+            ObjectData objData = (ObjectData)(object)data;
+            SetData(objData);
+        }
+
+    }
 
 
     public virtual void TakeDamage()

@@ -6,11 +6,11 @@ using UnityEngine;
 
 public class MapData
 {
-    public Dictionary<int, MapDataStruct> mapTileDataDictionary = new Dictionary<int, MapDataStruct>();
+    // public Dictionary<int, MapDataStruct> mapTileDataDictionary = new Dictionary<int, MapDataStruct>();
     public Dictionary<int, MapDataStruct> mapObjectDataDictionary = new Dictionary<int, MapDataStruct>();
-    public Dictionary<int, MapDataStruct> mapSceneDataDictionary = new Dictionary<int, MapDataStruct>();
-    public Dictionary<int, MapDataStruct> mapBackgroundDataDictionary = new Dictionary<int, MapDataStruct>();// todo 0426 Load Background Data
-    public Dictionary<int, MapDataStruct> mapOtherDataDictionary = new Dictionary<int, MapDataStruct>();
+    // public Dictionary<int, MapDataStruct> mapSceneDataDictionary = new Dictionary<int, MapDataStruct>();
+    // public Dictionary<int, MapDataStruct> mapBackgroundDataDictionary = new Dictionary<int, MapDataStruct>();// todo 0426 Load Background Data
+    // public Dictionary<int, MapDataStruct> mapOtherDataDictionary = new Dictionary<int, MapDataStruct>();
 
 
     public Dictionary<string, Map> mapSceneDictionary = new Dictionary<string, Map>();
@@ -36,27 +36,27 @@ public class MapData
         //UnityGoogleSheet.Load<MapObjectData.TileData>();
         foreach (var value in MapObjectData.TileData.TileDataList)
         {
-            mapTileDataDictionary.Add(value.id, new MapDataStruct(value.name,value.type, value.path));
+            mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.id,value.name,value.type, value.path));
         }
         //Object Data
         //UnityGoogleSheet.Load<MapObjectData.ObjectData>();
         foreach (var value in MapObjectData.ObjectData.ObjectDataList)
         {
-            mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.name, value.type, value.path));
+            mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.id,value.name, value.type, value.path));
         }
         //UnityGoogleSheet.Load<MapObjectData.SceneData>();
         foreach (var value in MapObjectData.SceneData.SceneDataList)
         {
-            mapSceneDataDictionary.Add(value.id, new MapDataStruct(value.name, value.type, value.path));
+            mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.id,value.name, value.type, value.path));
         }
         //UnityGoogleSheet.Load<MapObjectData.OtherData>();
         foreach (var value in MapObjectData.OtherData.OtherDataList)
         {
-            mapOtherDataDictionary.Add(value.id, new MapDataStruct(value.name, value.type, value.path));
+            mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.id,value.name, value.type, value.path));
         }
         foreach (var value in MapObjectData.BackGroundData.BackGroundDataList)
         {
-            mapBackgroundDataDictionary.Add(value.id, new MapDataStruct(value.name, value.type, value.path));
+            mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.id,value.name, value.type, value.path));
         }
 
     }
@@ -170,12 +170,14 @@ public class MapData
 
 public struct MapDataStruct
 {
+    public int id;
     public TileType tileType;
     public string name;
     public string path;
 
-    public MapDataStruct(string name ,TileType tileType,string path)
+    public MapDataStruct(int id,string name ,TileType tileType,string path)
     {
+        this.id = id;
         this.name = name;
         this.tileType = tileType;
         this.path = path;

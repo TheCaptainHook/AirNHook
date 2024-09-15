@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
+using Org.BouncyCastle.Crypto.Engines;
 
 public class ButtonActivatedDoor : ActivatableObjectEntity
 {
@@ -25,7 +26,9 @@ public class ButtonActivatedDoor : ActivatableObjectEntity
         CurActiveBtn = num;
     }
 
-
+    private void Awake(){
+        _collider = GetComponent<Collider2D>();
+    }
     protected override void Activation()
     {
         if (onPrograss) return;

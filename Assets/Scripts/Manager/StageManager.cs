@@ -31,91 +31,16 @@ public class StageManager
     #region Editor
 
     [Command]
-    public void CmdBatchObject(string objName,ObjectData data)
+    public void CmdBatchObject<T>(string objName,T data,Transform tr)
     {
         if (!NetworkServer.active || !NetworkClient.isConnected) return;
      
         GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
 
         obj.GetComponent<BuildObj>().SetData(data);
-
-        obj.transform.SetParent(MapEditor.Instance.networkingObjectTransform);
-        NetworkServer.Spawn(obj, NetworkServer.localConnection);
-    }
-
-    [Command]
-    public void CmdBatchObject(string objName, DialogueData data)
-    {
-        if (!NetworkServer.active || !NetworkClient.isConnected) return;
-
-        GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
-
-        obj.GetComponent<Trigger_Dialogue>().SetDialogueData(data);
-
-        obj.transform.SetParent(MapEditor.Instance.triggerDialogueTransform);
-        NetworkServer.Spawn(obj, NetworkServer.localConnection);
-    }
-
-    [Command]
-    public void CmdBatchObject(string objName, ExitObjStruct data)
-    {
-        if (!NetworkServer.active || !NetworkClient.isConnected) return;
-
-        var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
-        obj.transform.position = data.position;
-        obj.GetComponent<ExitPointObj>().SetData(data);
-        obj.transform.SetParent(MapEditor.Instance.exitDoorObjectTransform);
-        NetworkServer.Spawn(obj, NetworkServer.localConnection);
-
-    }
-
-    [Command]
-    public void CmdBatchObject(string objName, ButtonObjectStruct data)
-    {
-        if (!NetworkServer.active || !NetworkClient.isConnected) return;
-
-        var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
-        
-        obj.GetComponent<ButtonEntity>().SetData(data);
-        obj.GetComponent<ButtonEntity>().FindTargetObject();
-
-        obj.transform.SetParent(MapEditor.Instance.buttonObjectTransform);
-        NetworkServer.Spawn(obj, NetworkServer.localConnection);
-
-    }
-
- //todo 0829
-    [Command]
-    public void CmdBatchObject(string objName,ButtonActivatableObjectStruct data)
-    {
-        if (!NetworkServer.active || !NetworkClient.isConnected) return;
-
-        var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
-        obj.GetComponent<BuildObj>().SetData(data);
-        // ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
-        // door.ButtonActivatedDoorStruct = data;
-
-        obj.transform.SetParent(MapEditor.Instance.buttonActivatableObjectTransform);
-
-        NetworkServer.Spawn(obj, NetworkServer.localConnection);
-
-
-        //IButtonActivatedObject.CheckActiveRequirAmount();
-        
-
-    }
-
-    [Command]
-    public GameObject CmdBatchObject(string objName, Transform transform, Vector2 pot)
-    {
-        if (!NetworkServer.active || !NetworkClient.isConnected) return null;
-
-        var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName], pot);
-        obj.transform.SetParent(transform);
+        obj.transform.SetParent(tr);
         
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
-        return obj;
-
     }
 
     [Command]

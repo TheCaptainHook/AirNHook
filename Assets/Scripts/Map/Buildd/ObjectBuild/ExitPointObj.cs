@@ -67,17 +67,30 @@ public class ExitPointObj : BuildObj
     }
     
     
-    public void SetData(ExitObjStruct data)
+    // public void SetData(ExitObjStruct data)
+    // {
+    //     condition_KeyAmount = data.condition_KeyAmount;
+    //     current_KeyAmount = condition_KeyAmount;//TODO 0729
+        
+    //     keyBubble.SetData(current_KeyAmount);//TODO 0802 need Networking
+
+    //     nextMapId = data.nextMapId;
+        
+    //     SetTileData(data.position);
+
+    // }
+    public override void SetData<T>(T data)
     {
-        condition_KeyAmount = data.condition_KeyAmount;
-        current_KeyAmount = condition_KeyAmount;//TODO 0729
-        
-        keyBubble.SetData(current_KeyAmount);//TODO 0802 need Networking
+        if(typeof(T)==typeof(ExitObjStruct)){
+            ExitObjStruct eData = (ExitObjStruct)(object)data;
+            condition_KeyAmount = eData.condition_KeyAmount;
+            current_KeyAmount = condition_KeyAmount;
+            keyBubble.SetData(current_KeyAmount);
+            nextMapId = eData.nextMapId;
+            SetTileData(eData.position);
 
-        nextMapId = data.nextMapId;
-        
-        SetTileData(data.position);
-
+            transform.position = eData.position;
+        }
     }
 
 

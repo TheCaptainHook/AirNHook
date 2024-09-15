@@ -18,8 +18,8 @@ using UnityEngine;
         [SerializeField] ParticleSystem hitEffectParticle;
 
         private Ray ray;
-        bool onHit;
-        bool onRecoveryRay;
+        // bool onHit;
+        // bool onRecoveryRay;
 
         #region Editor Property
         public Coroutine editor_showLaserCoroutine;
@@ -28,7 +28,6 @@ using UnityEngine;
         private void Awake()
         {
             _isEnabled = true;
-
             _endVFX.SetActive(_isEnabled);
             _lineRenderer.enabled = _isEnabled;
         }
@@ -134,18 +133,18 @@ using UnityEngine;
         #endregion
 
 
-        IEnumerator Co_RecoveryRay()
-        {
-            onRecoveryRay = true;
+        // IEnumerator Co_RecoveryRay()
+        // {
+        //     onRecoveryRay = true;
 
-            while (!onHit && _curDistanceRay <_defDistanceRay)
-            {
-                _curDistanceRay += Time.deltaTime+1f;
-                yield return null;
-            }
-            onRecoveryRay = false;
+        //     while (!onHit && _curDistanceRay <_defDistanceRay)
+        //     {
+        //         _curDistanceRay += Time.deltaTime+1f;
+        //         yield return null;
+        //     }
+        //     onRecoveryRay = false;
 
-        }
+        // }
 
 
         //private void DrawLaser(Vector2 endPos)

@@ -7,8 +7,7 @@ using GoogleSheet.Core.Type;
 using TMPro;
 using System;
 using System.Threading.Tasks;
-using UnityEditor;
-using UnityEditor.Experimental.GraphView;
+using System.Reflection;
 
 public enum MapType
 {
@@ -36,10 +35,9 @@ public enum MapEditorState
 [UGS(typeof(TileType))]
 public enum TileType
 {
-    Floor,
-    Background,
+    Tile,
     Object,
-    InteractionObject
+    N_Object
 
 }
 
@@ -229,18 +227,6 @@ public class MapEditor : MonoBehaviour
 
     #region GetList
 
-    //List<TileData> GetTileList(Transform transform)
-    //{
-    //    List<TileData> list = new();
-    //    foreach (Vector3Int cur in placeMentSystem.tileDic.Keys)
-    //    {
-    //        TileData tileData = new TileData(cur);
-    //        list.Add(tileData);
-
-    //    }
-    //    return list;
-    //}
-
     List<TileData> GetTileData(Tilemap tileMap)
     {
         List<TileData> list = new();
@@ -259,8 +245,6 @@ public class MapEditor : MonoBehaviour
                 }
             }
         }
-
-
         
         return list;
     }
@@ -297,17 +281,7 @@ public class MapEditor : MonoBehaviour
         foreach (Transform cur in buttonObjectTransform)
         {
            list.Add(cur.GetComponent<BuildObj>().GetData<ButtonObjectStruct>()); 
-            
 
-
-            // if (cur.GetComponent<BuildObj>().id == 306)
-            // {
-            //     list.Add(cur.GetComponent<ButtonActivated>().GetData());
-            // }
-            // else if (cur.GetComponent<BuildObj>().id == 312)
-            // {
-            //     list.Add(cur.GetComponent<LeverBody>().GetData());
-            // }
         }
         return list;
     }
@@ -408,13 +382,13 @@ public class MapEditor : MonoBehaviour
         startPositionObject.transform.SetParent(dontSaveObjectTransform);
         //start Point
 
-        CreateObj(0); //floorTransform
-        CreateObj(1,objectTransform); //objectTransform
-        CreateObj(2,buttonActivatableObjectTransform); //interactionObjectTransform
-        CreateObj(3,exitDoorObjectTransform); //exitDoorObjectTransform
-        CreateObj(4,buttonObjectTransform); //interactionObjectTransform
-        //todo 0723
-        CreateObj(5,triggerDialogueTransform); //triggerDialogueTransform
+        // CreateObj(0); //floorTransform
+        // CreateObj(1,objectTransform); //objectTransform
+        // CreateObj(2,buttonActivatableObjectTransform); //interactionObjectTransform
+        // CreateObj(3,exitDoorObjectTransform); //exitDoorObjectTransform
+        // CreateObj(4,buttonObjectTransform); //interactionObjectTransform
+        // //todo 0723
+        // CreateObj(5,triggerDialogueTransform); //triggerDialogueTransform
     }
 
 
@@ -433,24 +407,18 @@ public class MapEditor : MonoBehaviour
         //ParallaxCamera Reset
         if (Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate != null) { Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate = null; }
         Camera.main.GetComponent<ParallaxCamera>().oldPosition = startPosition.x;
-
-        //interactionBtnDictionary = new(); //todo 0412
-
-        // CreateObj(0); //floorTransform
-        Create_Tile();
-        CreateObj(1,objectTransform); //objectTransform
-        CreateObj(2,buttonActivatableObjectTransform); //
-        CreateObj(3,exitDoorObjectTransform); //
-        CreateObj(4,buttonObjectTransform); //
-        //todo 0723
-        CreateObj(5,triggerDialogueTransform); //triggerDialogueTransform
-        //todo 0723
-
+      
+            Create_Tile(); //Draw Tile 0915
+            Create_Object(curMap.mapObjectDataList,objectTransform);
+            Create_Object(curMap.mapButtonActivatableObjectDataList,buttonActivatableObjectTransform);
+            Create_Object(curMap.mapExitObjectDataList,exitDoorObjectTransform);
+            Create_Object(curMap.buttonObjectList,buttonObjectTransform);
+            Create_Object(Managers.Data.saveData.dic[curMap.mapID]._DialogueDataList,triggerDialogueTransform);
+       
+       
         Managers.Sound.PlayBGM(CurMap.audioType, AudioMixerGroupType.BGM, true,.1f);
-        //
+        
     }
-
-
 
 
     #endregion
@@ -470,314 +438,69 @@ public class MapEditor : MonoBehaviour
     }
 
     #region Create
-
     public void Create_Tile(){
-        //  foreach (TileData data in curMap.mapTileDataList)
-        //         {
-        //             MapDataStruct mapDataStruct = Managers.Data.mapData.mapTileDataDictionary[data.id];
-        //             placeMentSystem.floorTileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
-        //             placeMentSystem.tileDic[data.position] = data.id;
-        //         }
-        //         foreach (TileData data in curMap.mapHalfTileDataList)
-        //         {
-        //             MapDataStruct mapDataStruct = Managers.Data.mapData.mapTileDataDictionary[data.id];
-        //             placeMentSystem.halfTileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
-        //             placeMentSystem.tileDic[data.position] = data.id;
-        //         }
-        //         foreach (TileData data in curMap.mapBackgroundTileDataList)
-        //         {
-        //             MapDataStruct mapDataStruct = Managers.Data.mapData.mapTileDataDictionary[data.id];
-        //             placeMentSystem.backgroundTileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
-        //             placeMentSystem.tileDic[data.position] = data.id;
-        //         }
-                DrawTile(placeMentSystem.floorTileMap,curMap.mapTileDataList);
-                DrawTile(placeMentSystem.halfTileMap,curMap.mapHalfTileDataList);
-                DrawTile(placeMentSystem.backgroundTileMap,curMap.mapBackgroundTileDataList);
+        DrawTile(placeMentSystem.floorTileMap,curMap.mapTileDataList);
+        DrawTile(placeMentSystem.halfTileMap,curMap.mapHalfTileDataList);
+        DrawTile(placeMentSystem.backgroundTileMap,curMap.mapBackgroundTileDataList);       
     }
     private void DrawTile(Tilemap tileMap,List<TileData> list){
          foreach (TileData data in list)
          {
-            MapDataStruct mapDataStruct = Managers.Data.mapData.mapTileDataDictionary[data.id];
+            MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
             tileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
             placeMentSystem.tileDic[data.position] = data.id;        
          }
     }
-    public void Create_Object(Transform transfrom){
-         foreach (ObjectData data in curMap.mapObjectDataList){
-                    if (Managers.Data.mapData.mapSceneDataDictionary.ContainsKey(data.id))
-                    {
-                        MapDataStruct mapDataStruct = Managers.Data.mapData.mapSceneDataDictionary[data.id];
-                        if (Managers.Game.CurrentState != GameState.Editor && (data.id == 1001 || data.id == 1002))
-                        {
-                            Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
-                        }
-                        else
-                        {
-                            Create(transform, mapDataStruct, data);
-                        }
+    // private void CreateNetWork_Or_NormalObject(ObjectData data,Transform transform){
+        
+    //         MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
+    //         if(mapDataStruct.tileType == TileType.N_Object && Application.isPlaying){
+    //             Managers.Stage.CmdBatchObject(mapDataStruct.name, data,transform);
+    //         }else{
+    //             Create(transform, mapDataStruct, data);
+    //         }
+        
+    // }
+    // public void Create_Object(Transform transform){
+        
+    //      foreach (ObjectData data in curMap.mapObjectDataList){
+    //         CreateNetWork_Or_NormalObject(data,transform);
+            
+    //      }
+    // }
 
-                    }
-                    else if (Managers.Data.mapData.mapBackgroundDataDictionary.ContainsKey(data.id))
-                    {
-                        MapDataStruct mapDataStruct = Managers.Data.mapData.mapBackgroundDataDictionary[data.id];
+    public void Create_Object<T>(List<T> list ,Transform transform){
+        MapDataStruct mapDataStruct;
+        Transform _TR;
+        foreach(T data in list){
+            var isField = typeof(T).GetField("id",BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
-                        Create(transform, mapDataStruct, data);
-
-                    }
-                    else if (Managers.Data.mapData.mapOtherDataDictionary.ContainsKey(data.id))
-                    {
-                        MapDataStruct mapDataStruct = Managers.Data.mapData.mapOtherDataDictionary[data.id];
-
-                        Create(transform, mapDataStruct, data);
-
-                    }
-                    else
-                    {
-                        MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
-                        if (Managers.Game.CurrentState != GameState.Editor &&
-                            (
-                            data.id == 307 ||
-                            data.id == 300 ||
-                            data.id == 311 ||
-                            data.id == 313 ||
-                            data.id == 315 ||
-                            data.id == 317 ||
-                            data.id == 318 ||
-                            data.id == 319
-                            ))
-                        {
-                            Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
-                        }
-                        else
-                        {
-                            Create(transform, mapDataStruct, data);
-                        }
-                    }
-         }
-    }
-
-    public void CreateObj(int num,Transform transform = null)
-    {
-        switch (num)
-        {
-            case 0:
-                foreach (TileData data in curMap.mapTileDataList)
-                {
-                    MapDataStruct mapDataStruct = Managers.Data.mapData.mapTileDataDictionary[data.id];
-                    placeMentSystem.floorTileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
-                    placeMentSystem.tileDic[data.position] = data.id;
-                }
-
-                foreach (TileData data in curMap.mapHalfTileDataList)
-                {
-                    MapDataStruct mapDataStruct = Managers.Data.mapData.mapTileDataDictionary[data.id];
-                    placeMentSystem.halfTileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
-                    placeMentSystem.tileDic[data.position] = data.id;
-                }
-                foreach (TileData data in curMap.mapBackgroundTileDataList)
-                {
-                    MapDataStruct mapDataStruct = Managers.Data.mapData.mapTileDataDictionary[data.id];
-                    placeMentSystem.backgroundTileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
-                    placeMentSystem.tileDic[data.position] = data.id;
-                }
-
-                break;
-            case 1:
-
-                foreach (ObjectData data in curMap.mapObjectDataList)
-                {
-                    if (Managers.Data.mapData.mapSceneDataDictionary.ContainsKey(data.id))
-                    {
-                        MapDataStruct mapDataStruct = Managers.Data.mapData.mapSceneDataDictionary[data.id];
-                        if (Managers.Game.CurrentState != GameState.Editor && (data.id == 1001 || data.id == 1002))
-                        {
-                            Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
-                        }
-                        else
-                        {
-                            Create(transform, mapDataStruct, data);
-                        }
-
-                    }
-                    else if (Managers.Data.mapData.mapBackgroundDataDictionary.ContainsKey(data.id))
-                    {
-                        MapDataStruct mapDataStruct = Managers.Data.mapData.mapBackgroundDataDictionary[data.id];
-
-                        Create(transform, mapDataStruct, data);
-
-                    }
-                    else if (Managers.Data.mapData.mapOtherDataDictionary.ContainsKey(data.id))
-                    {
-                        MapDataStruct mapDataStruct = Managers.Data.mapData.mapOtherDataDictionary[data.id];
-
-                        Create(transform, mapDataStruct, data);
-
-                    }
-                    else
-                    {
-                        MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
-                        if (Managers.Game.CurrentState != GameState.Editor &&
-                            (
-                            data.id == 307 ||
-                            data.id == 300 ||
-                            data.id == 311 ||
-                            data.id == 313 ||
-                            data.id == 315 ||
-                            data.id == 317 ||
-                            data.id == 318 ||
-                            data.id == 319
-                            ))
-                        {
-                            Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
-                        }
-                        else
-                        {
-                            Create(transform, mapDataStruct, data);
-                        }
-                    }
-
-                }
-                break;
-            case 2:
-                foreach (ButtonActivatableObjectStruct data in curMap.mapButtonActivatableObjectDataList)
-                {
-                    MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
-                    
-                    if(Managers.Game.CurrentState != GameState.Editor)
-                    {
-                        Managers.Stage.CmdBatchObject(mapDataStruct.name,data);
-
-                    }
-                    else
-                    {
-                        Create(transform, mapDataStruct, data); //interaction 
-                    }
-
-                }
-                break;
-            case 3:
-                foreach (ExitObjStruct data in curMap.mapExitObjectDataList)
-                {
-                    MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
-                    if(Managers.Game.CurrentState != GameState.Editor)
-                    {
-                        Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
-                    }
-                    else
-                    {
-                        Create(transform, mapDataStruct, data); 
-                    }
-                    
-                }
-                break;
-            case 4:
-                foreach (ButtonObjectStruct data in curMap.buttonObjectList)
-                {
-                    MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
-
-                    if (Managers.Game.CurrentState != GameState.Editor)
-                    {
-                        if(data.id == 324){
-                            Create(transform, mapDataStruct, data);
+            if(isField != null){
+                var value = isField.GetValue(data);
+                if(value is int intValue){
+                    mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[intValue];
+                     if(mapDataStruct.tileType == TileType.N_Object && Application.isPlaying){
+                        if(transform == objectTransform){
+                            _TR = networkingObjectTransform;
                         }else{
-                            Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
+                            _TR = transform;
                         }
-                    }
-                    else
-                    {
-                        Create(transform, mapDataStruct, data);
-                    }
-
+                        Managers.Stage.CmdBatchObject(mapDataStruct.name,data,_TR);
+                     }else{
+                        Create(transform,mapDataStruct,data);
+                     }
                 }
-                break;
-            case 5:
-                foreach (DialogueData data in Managers.Data.saveData.dic[curMap.mapID]._DialogueDataList)
-                {
-                    MapDataStruct mapDataStruct = Managers.Data.mapData.mapSceneDataDictionary[data.id];
-                    if (Managers.Game.CurrentState != GameState.Editor)
-                    {
-                        Managers.Stage.CmdBatchObject(mapDataStruct.name, data);
-                    }
-                    else
-                    {
-                        Create(transform, mapDataStruct, data);
-                    }
-
-                }
-                break;
+               
+            }
+   
         }
-
     }
 
-
-
-    void Create(Transform transform, MapDataStruct mapDataStruct, ObjectData data)
-    {
+    void Create<T>(Transform transform,MapDataStruct mapDataStruct,T data){
         GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
         obj.GetComponent<BuildObj>().SetData(data);
-
-        obj.transform.SetParent(transform);
-
-        if(mapEditorState != MapEditorState.NoEditor)
-        {
-            obj.GetComponent<BuildObj>().TurnOff();
-            placeMentSystem.curPlaceObjList.Add(obj.GetComponent<BuildObj>());
-        }
-    }
-    void Create(Transform transform, MapDataStruct mapDataStruct, DialogueData data)
-    {
-        GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
-        obj.GetComponent<Trigger_Dialogue>().SetDialogueData(data);
-
-        obj.transform.SetParent(transform);
-
-    }
-    //todo 0829
-    void Create(Transform transform, MapDataStruct mapDataStruct, ButtonActivatableObjectStruct data)
-    {
-        GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
-        obj.GetComponent<BuildObj>().SetData(data); //todo 0829
-        // ButtonActivatedDoor door = obj.GetComponent<ButtonActivatedDoor>();
-
-        
-        // door.ButtonActivatedDoorStruct = data;
-        // obj.transform.SetParent(transform);
-
-        if (mapEditorState != MapEditorState.NoEditor)
-        {
-            obj.GetComponent<BuildObj>().TurnOff();
-            placeMentSystem.curPlaceObjList.Add(obj.GetComponent<BuildObj>());
-        }
-
-    }
-
-    //todo 0522
-    void Create(Transform transform, MapDataStruct mapDataStruct, ButtonObjectStruct data)
-    {
-        GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));       
-        obj.GetComponent<ButtonEntity>().SetData(data);
-        
-        obj.GetComponent<ButtonEntity>().FindTargetObject();
-
         obj.transform.SetParent(transform);
     }
-
-    void Create(Transform transform, MapDataStruct mapDataStruct, ExitObjStruct data)
-    {
-        GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
-        obj.transform.position = data.position;
-        obj.transform.SetParent(transform);
-        ExitPointObj door = obj.GetComponent<ExitPointObj>();
-        door.SetData(data);
-        if (mapEditorState != MapEditorState.NoEditor)
-        {
-            obj.GetComponent<BuildObj>().TurnOff();
-            placeMentSystem.curPlaceObjList.Add(obj.GetComponent<BuildObj>());
-        }
-    }
-
-
-
 
     void CreateStartPosition()
     {
@@ -787,6 +510,7 @@ public class MapEditor : MonoBehaviour
         startPositionObject.transform.SetParent(dontSaveObjectTransform);
     }
     #endregion
+
 
     public void MoveNextStage(string mapId)
     {
