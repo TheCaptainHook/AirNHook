@@ -65,7 +65,7 @@ using UnityEngine;
                     DrawLaser(i,start, rh.point);
                     hitCount++;
                     //Check collider
-                     if(rh.collider.TryGetComponent(out IDamageable component)  && Application.isPlaying){
+                     if(rh.collider.TryGetComponent(out Player component)  && Application.isPlaying){
                          SetHitParticleRotate(start,rh.point); // todo 0914
                          component.TakeDamage();
                          break;
@@ -81,6 +81,9 @@ using UnityEngine;
                                 Debug.Log("Detected Laser Trigger Object");
                             }
                          break;
+                     }else{
+                        SetHitParticleRotate(start,rh.point);
+                        break;
                      }
                 }
                 else

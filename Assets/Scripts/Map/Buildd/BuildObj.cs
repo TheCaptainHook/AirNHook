@@ -277,5 +277,7 @@ public class BuildObj : MousePointerEntity,IDamageable
     
     #endregion
 
-
-}
+    #region  Editor
+        public virtual void Editor_Setting(Transform transform){}
+    #endregion
+}   

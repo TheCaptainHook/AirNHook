@@ -9,12 +9,13 @@ public class Portal : ActivatableObjectEntity
     public ObjectTypeEnum objectType = ObjectTypeEnum.Interaction;
     public Vector2 btnOffset;
     public Portal targetPortal;
-    
+    [SerializeField] LayerMask layer;
+
     [ReadOnly]
     public Vector2 targetPosition;
 
     bool onPrograss;
-    bool onActivable;
+    public bool onActivable;
     private Coroutine portalCoroutine;
     private Util util;
 
@@ -77,11 +78,12 @@ public class Portal : ActivatableObjectEntity
 
 
     #region Editor
-    public async void Editor_SetTarget(MapEditor editor){
-        Util util = new Util();
+    public async override void Editor_Setting(Transform transform)
+    {
+         Util util = new Util();
             await util.Delay(()=>{
                 try{
-                    foreach(Transform tr in editor.buttonActivatableObjectTransform){
+                    foreach(Transform tr in transform){
                         if(tr.TryGetComponent(out Portal component)){
                             if(targetPosition == (Vector2)component.transform.position){
                                 targetPortal = component;
@@ -96,7 +98,6 @@ public class Portal : ActivatableObjectEntity
 
                 
         });
-       
     }
 
     #endregion
@@ -172,13 +173,12 @@ public class Portal : ActivatableObjectEntity
 
     //todo 0913 RayCast
     private void ActiveOnRay(){
-        RaycastHit2D hit = Physics2D.Raycast(transform.position,transform.up,.5f);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position,transform.up,.5f,layer);
         if(hit.collider != null){
-             if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Player")){
+             Debug.Log("Player!");
                 if(!onPrograss){
                     StartCoroutine(CoPortal());
-                }
-             }
+                } 
         }
        
     }

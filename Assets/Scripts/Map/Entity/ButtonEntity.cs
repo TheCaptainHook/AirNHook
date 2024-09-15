@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 public class ButtonEntity : BuildObj
@@ -98,12 +99,12 @@ public class ButtonEntity : BuildObj
         }
         targetObjects = objList;
     }
-
-    public void EditorMode_FindTargetObject(Transform tr){
-        List<GameObject> objList = new();
+    public override void Editor_Setting(Transform transform)
+    {
+         List<GameObject> objList = new();
 
         foreach(Vector2 vec in targetPosition){
-           foreach(Transform obj in tr){
+           foreach(Transform obj in transform){
             if(obj.TryGetComponent(out ActivatableObjectEntity component)){
                 if(component.ButtonActivatedObjectStruct.position == vec){
                     objList.Add(obj.gameObject);
@@ -113,6 +114,7 @@ public class ButtonEntity : BuildObj
         }
         targetObjects = objList;
     }
+
 
     #endregion
 

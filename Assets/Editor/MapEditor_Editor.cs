@@ -231,11 +231,7 @@ public class MapEditor_Editor : Editor
                 var value = isField.GetValue(data);
                 if(value is int intValue){
                     mapDataStruct = mapObjectDataDictionary[intValue];
-                     if(mapDataStruct.tileType == TileType.N_Object && Application.isPlaying){
-                        Managers.Stage.CmdBatchObject(mapDataStruct.name,data,transform);
-                     }else{
-                        Create(transform,mapDataStruct,data);
-                     }
+                    Create(transform,mapDataStruct,data);
                 }
                
             }
@@ -244,9 +240,13 @@ public class MapEditor_Editor : Editor
     }
       void Create<T>(Transform transform,MapDataStruct mapDataStruct,T data){
         GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
-        obj.GetComponent<BuildObj>().SetData(data);
+        BuildObj buildObj = obj.GetComponent<BuildObj>();
+        buildObj.SetData(data);
+        buildObj.Editor_Setting(mapEditor.buttonActivatableObjectTransform);
+        
         obj.transform.SetParent(transform);
     }
+
     //0422 testtest
     public void TestLoad(MapEditor mapEditor) // user map Test Code
     {
