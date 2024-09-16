@@ -57,19 +57,20 @@ using UnityEngine;
             for (int i = 0; i < 10; i++)
             {
                 ray = new Ray(start, dir);  
-                RaycastHit2D rh = Physics2D.Raycast(ray.origin, ray.direction, _defDistanceRay);
+                RaycastHit2D rh = Physics2D.Raycast(ray.origin, ray.direction, _defDistanceRay,_layerMask);
                 if (rh.collider != null)
                 {
                     Vector2 colDir = rh.normal;
                     // Debug.DrawLine(start, rh.point, Color.green);
                     DrawLaser(i,start, rh.point);
                     hitCount++;
+            
                     //Check collider
                      if(rh.collider.TryGetComponent(out Player component)  && Application.isPlaying){
                          SetHitParticleRotate(start,rh.point); // todo 0914
                          component.TakeDamage();
                          break;
-                     }else if(rh.collider.TryGetComponent(out MirrorObject component1)){
+                     }else if(rh.collider.gameObject.name == "Mirror"){
                          start = rh.point;
                          dir = Vector2.Reflect(ray.direction, colDir);
                      }else if(rh.collider.TryGetComponent(out LaserTriggerButton component2)){
@@ -130,6 +131,7 @@ using UnityEngine;
             UpdateLaser();
         }
        public void ResetLaser(){
+        if(_lineRenderer == null) return; 
         _lineRenderer.positionCount = 0;
         _isEnabled = false;
         _endVFX.SetActive(_isEnabled);

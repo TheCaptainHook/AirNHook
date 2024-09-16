@@ -1,16 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Rendering;
 using UnityEngine;
 using Random = UnityEngine.Random;
 public class TextMeshTextController : MonoBehaviour
 {
     [SerializeField] TextSplitWord _TextSplitWordPrefab;
     [SerializeField] GameObject pacman;
-
-
-
 
     TextLine parent;
     TextMeshProUGUI parentTextMeshPro;
@@ -57,18 +53,39 @@ public class TextMeshTextController : MonoBehaviour
 
    public IEnumerator EraserAll(){
 
+    
     while(parent.isEncryption){
         Debug.Log("Is ENcryption");
         yield return null;
     }
+    
+    int num = Random.Range(0,101);
+    if(num > 50){
+        GameObject pacmanObj = Instantiate(pacman,transform);
+        for(int i = textSplitWordList.Count-1; i>=0 ;i--){
+            Destroy(textSplitWordList[i].gameObject);
+            yield return new WaitForSeconds(0.15f);
+        }
+        Destroy(pacmanObj);
+    }else{
+        for(int i = textSplitWordList.Count-1; i>=0 ;i--){
+            textSplitWordList[i].gameObject.SetActive(false);
+        }    
+        yield return new WaitForSeconds(0.1f);
 
-    GameObject pacmanObj = Instantiate(pacman,transform);
+        for(int i = textSplitWordList.Count-1; i>=0 ;i--){
+            textSplitWordList[i].gameObject.SetActive(true);
+        }
+        yield return new WaitForSeconds(0.2f);
 
-    for(int i = textSplitWordList.Count-1; i>=0 ;i--){
-        Destroy(textSplitWordList[i].gameObject);
-        yield return new WaitForSeconds(0.15f);
+        for(int i = textSplitWordList.Count-1; i>=0 ;i--){
+            Destroy(textSplitWordList[i].gameObject);
+        }
     }
-    Destroy(pacmanObj.gameObject);
+
+    
+   
+    
    }
 
 
