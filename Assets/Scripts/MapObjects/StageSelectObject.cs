@@ -19,17 +19,16 @@ public class StageSelectObject : MonoBehaviour, IInteractable
         if (!NetworkServer.active || !NetworkClient.isConnected)
             return;
 
-
         if (Managers.UI.GetUI<UI_StageSelect_var3>().GetComponent<UI_StageSelect_var3>().onPrograss) {  return; }
         
-
-        
-
         if (!Managers.UI.IsActive<UI_StageSelect_var3>())
         {
             _StageSelectorComputer.Surprise_();
             Managers.UI.ShowUI<UI_StageSelect_var3>();
+            Managers.Game.Player.GetComponent<PlayerMovement>().canControl = false;
+            Managers.Game.Player.GetComponent<Rigidbody2D>().velocity  = Vector2.zero;
         }
+
         //else
         //{
         //    Debug.Log("EEEEE3");

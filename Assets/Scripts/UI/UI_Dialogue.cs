@@ -134,8 +134,8 @@ public class UI_Dialogue : UI_Base
         _Panel.color = _Alpha_translucent;
         // Player 못 움직이게 설정
         GameObject player = Managers.Game.Player;
-        Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
-        rb.simulated = false;
+        player.GetComponent<PlayerMovement>().canControl = false;
+        Managers.Game.Player.GetComponent<Rigidbody2D>().velocity  = Vector2.zero;
         //
         //TextBox SetActive
         if (!_TextBoxRT.gameObject.activeSelf)
@@ -160,7 +160,7 @@ public class UI_Dialogue : UI_Base
         //Dialogue ShutDown
 
         // Player 다시 움직이게 설정
-        rb.simulated = true;
+        player.GetComponent<PlayerMovement>().canControl = true;
         //
         Managers.UI.HideUI<UI_Dialogue>();
 

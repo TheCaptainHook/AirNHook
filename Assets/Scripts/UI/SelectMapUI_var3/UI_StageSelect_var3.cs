@@ -583,6 +583,13 @@ public class UI_StageSelect_var3: UI_Base
         //todo 0709 SpawnKey
         computer.GetComponent<StageSelectorComputer>().SpawnKey();
 
+        //player Move control
+        PlayerMovement playerMovement = Managers.Game.Player.GetComponent<PlayerMovement>();
+        if(!playerMovement.canControl){
+            playerMovement.canControl = true;
+        }
+        //player Move control
+
         onPrograss = false;
         onInteractable = true;
         gameObject.SetActive(false);
@@ -630,7 +637,12 @@ public class UI_StageSelect_var3: UI_Base
         yield return EraserTextLineCo(0, maxSelectTextLineListIndex);
         animator.SetTrigger(close);
         yield return new WaitForSeconds(.5f);
-
+    //player Move control
+        PlayerMovement playerMovement = Managers.Game.Player.GetComponent<PlayerMovement>();
+        if(!playerMovement.canControl){
+            playerMovement.canControl = true;
+        }
+    //player Move control
         onPrograss = false;
         gameObject.SetActive(false);
 

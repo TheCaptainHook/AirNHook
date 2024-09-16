@@ -70,6 +70,7 @@ public class MirrorObject : BuildObj,IInteractable
     private void OnActiveMirrorRotate(){
         if(_ConnectPlayer == null) return;
         _ConnectPlayer.GetComponent<PlayerMovement>().canControl = false;
+        Managers.Game.Player.GetComponent<Rigidbody2D>().velocity  = Vector2.zero;
         onActive = true;
         
     }
