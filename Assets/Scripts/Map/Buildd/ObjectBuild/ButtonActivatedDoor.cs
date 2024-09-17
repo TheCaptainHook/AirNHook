@@ -1,10 +1,6 @@
-using JetBrains.Annotations;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
-using Org.BouncyCastle.Crypto.Engines;
+
 
 public class ButtonActivatedDoor : ActivatableObjectEntity
 {
@@ -20,11 +16,6 @@ public class ButtonActivatedDoor : ActivatableObjectEntity
     public bool onOpen;
 
     public bool onPrograss;
-
-    public override void ApplyActive(int num)
-    {
-        CurActiveBtn = num;
-    }
 
     private void Awake(){
         _collider = GetComponent<Collider2D>();

@@ -45,6 +45,7 @@ public class CreateMap_Tool : EditorWindow
     
 
     [Header("Section")]
+    float viewWidth;
     Rect headerSection;
     Rect modeSction;
     Rect objectSection;
@@ -53,7 +54,7 @@ public class CreateMap_Tool : EditorWindow
     Color headerSectionColor = new Color(13f / 255f, 32f / 255f, 44f / 255f, 1f);
     Color objectSectonColor = new Color(0, 0, 0,1);
 
-    int objectSectionPot;
+    // int objectSectionPot;
 
     [Header("GUI Style")]
     GUIStyle _GUIStyle_Text;
@@ -73,7 +74,7 @@ public class CreateMap_Tool : EditorWindow
     //    set { if (modeToggle != value) { modeToggle = value; }
     //    } }
 
-    [MenuItem("Window/MapEditor Tool/Create Object Tool")]
+    [MenuItem("Tools/MapEditor Tool/Create Object Tool")]
     public static void ShowWindow()
     {
         CreateMap_Tool ct = (CreateMap_Tool)GetWindow(typeof(CreateMap_Tool));
@@ -158,13 +159,10 @@ public class CreateMap_Tool : EditorWindow
         _GUIStyle_HeadTitleText = new GUIStyle();
         _GUIStyle_HeadTitleText.fontSize = 20;
         _GUIStyle_HeadTitleText.normal.textColor = Color.green;
-        _GUIStyle_HeadTitleText.fixedHeight = 20;
-        _GUIStyle_HeadTitleText.fixedWidth = 350;
+        _GUIStyle_HeadTitleText.fixedHeight = 40;
+
+        // _GUIStyle_HeadTitleText.fixedWidth = viewWidth;
         _GUIStyle_HeadTitleText.alignment = TextAnchor.MiddleCenter;
-
-     
-
-
     }
 
     #endregion
@@ -198,12 +196,13 @@ public class CreateMap_Tool : EditorWindow
 
     private void DrawLayouts()
     {
-        headerSection = new Rect(0, 0, 350, 80);
+        viewWidth = EditorGUIUtility.currentViewWidth;
+        headerSection = new Rect(0, 0, viewWidth, 80); //350
         GUI.DrawTexture(headerSection, headerSectionTexture);
-        modeSction = new Rect(0, 80, 350, 120);
-        objectSection = new Rect(0, 120, 350, 320);
+        modeSction = new Rect(0, 80, viewWidth, 120);
+        objectSection = new Rect(0, 120, viewWidth, 320);
         GUI.DrawTexture(objectSection, objectSectionTexture);
-        generatorObjectPreviewSpriteSection = new Rect(0, 500, 350, 550);
+        generatorObjectPreviewSpriteSection = new Rect(0, 450, viewWidth, 550);
 
     }
 
@@ -212,13 +211,16 @@ public class CreateMap_Tool : EditorWindow
 
 
     
-
+    private float GetPosition(float layoutWidth){
+        return (viewWidth -layoutWidth)/2;
+        
+    }
 
     private void DrawHeader()
     {
         GUILayout.BeginArea(headerSection);
         GUILayout.Label("Object Create Tool",_GUIStyle_HeadTitleText);
-        if(GUI.Button(new Rect(100,30,150,20),"Click [Create MapEditor]"))
+        if(GUI.Button(new Rect(GetPosition(150),30,150,20),"Click [Create MapEditor]"))
         {
             MapEditor mapEditor = FindObjectOfType<MapEditor>();
             if (mapEditor == null)
@@ -241,27 +243,26 @@ public class CreateMap_Tool : EditorWindow
     private void DrawMode()
     {
         GUILayout.BeginArea(modeSction);
-        GUILayout.BeginHorizontal(GUILayout.Width(350));
+        GUILayout.BeginHorizontal(GUILayout.Width(viewWidth));
 
-        if (GUI.Button(new Rect(5, 5, 80, 30), "Object"))
-        {
-            modeType = ModeType.Object;
-        }
+        GUILayout.FlexibleSpace();
+        GUILayout.BeginHorizontal();
 
-        if (GUI.Button(new Rect(90, 5, 80, 30), "Scene"))
-        {
-            modeType = ModeType.Scenes;
+        if(GUILayout.Button("Object",GUILayout.Width(85),GUILayout.Height(30))){
+             modeType = ModeType.Object;
         }
-
-        if (GUI.Button(new Rect(175, 5, 80, 30), "BackGround"))
-        {
-            modeType = ModeType.BackGround;
+        if(GUILayout.Button("Scene",GUILayout.Width(85),GUILayout.Height(30))){
+             modeType = ModeType.Scenes;
         }
-
-        if (GUI.Button(new Rect(260, 5, 80, 30), "Other"))
-        {
-            modeType = ModeType.Other;
+         if(GUILayout.Button("BackGround",GUILayout.Width(85),GUILayout.Height(30))){
+             modeType = ModeType.BackGround;
         }
+         if(GUILayout.Button("Other",GUILayout.Width(85),GUILayout.Height(30))){
+             modeType = ModeType.Other;
+        }
+       
+        GUILayout.EndHorizontal();
+        GUILayout.FlexibleSpace();
 
         GUILayout.EndHorizontal();
         GUILayout.EndArea();
@@ -324,19 +325,19 @@ public class CreateMap_Tool : EditorWindow
     private void DrawObjectContent()
     {
         GUILayout.BeginArea(objectSection);
-        scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(350), GUILayout.Height(300));
+        scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(viewWidth), GUILayout.Height(300));
         List<GUIContent> contentsList = new();
 
         CreateContents(modeType, contentsList);
 
-        float screenWidth = 240f;
+        float screenWidth = viewWidth -10;
         int index = 0;
         float curWidth = 0;
         foreach (GUIContent content in contentsList) //
         {
             if (curWidth == 0)
             {
-                GUILayout.BeginHorizontal(GUILayout.Width(Screen.width));
+                GUILayout.BeginHorizontal(GUILayout.Width(screenWidth));
             }
 
         
@@ -462,7 +463,7 @@ public class CreateMap_Tool : EditorWindow
     private void DrawGenratorObjectPreviewSpriteContent()
     {
         GUILayout.BeginArea(generatorObjectPreviewSpriteSection);
-        if(GUI.Button(new Rect(70,0,200,30),"Genrator Object Preview Sprite"))
+        if(GUI.Button(new Rect(GetPosition(200),0,200,30),"Genrator Object Preview Sprite"))
         {
             GeneratorObjPreviewSprite();
         }
@@ -490,6 +491,7 @@ public class CreateMap_Tool : EditorWindow
                 SelectActiveOBJ(objLists[i], curMapEditor.exitDoorObjectTransform);
                 break;
             case 305:
+            case 304:
             case 322:
                 SelectActiveOBJ(obj, curMapEditor.buttonActivatableObjectTransform);
                 break;

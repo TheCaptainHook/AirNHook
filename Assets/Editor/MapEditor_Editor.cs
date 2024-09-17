@@ -18,73 +18,124 @@ public class MapEditor_Editor : Editor
     // public Dictionary<int, MapDataStruct> mapSceneDataDictionary = new Dictionary<int, MapDataStruct>();
     // public Dictionary<int, MapDataStruct> mapBackgroundDataDictionary = new Dictionary<int, MapDataStruct>();
     // public Dictionary<int, MapDataStruct> mapOtherDataDictionary = new Dictionary<int, MapDataStruct>();
-
+    
     MapEditor mapEditor;//TODO 0822
-
+    bool onLoad;
     public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-
+    {  
         mapEditor = target as MapEditor;
-
+       
         GUILayout.Space(10);
 
-        EditorGUILayout.LabelField("Map Editor------------------------------------", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("Map Editor",GetGUIStyle_Label(Color.black,14,FontStyle.Bold));
         EditorGUILayout.HelpBox($"프로젝트 실행할때 꼭 개발자용 데이터 세이브 후 Reset 버튼 누른다음 실행하기.", MessageType.Info);
-
-        if (GUILayout.Button("Load Data(인게임용)"))
-        {
-            mapEditor.LoadMap(mapEditor.mapID);
-            
+    
+        GUILayout.BeginVertical(onLoad ? "Save" : "Load", new GUIStyle(GUI.skin.window));
+        mapEditor.mapType = (MapType)EditorGUILayout.EnumPopup("Map Type",mapEditor.mapType);
+        mapEditor.stageLevel = EditorGUILayout.IntField("Stage Level",mapEditor.stageLevel);
+        mapEditor.mapID = EditorGUILayout.TextField("Map ID",mapEditor.mapID);
+        if(!onLoad){
+              using (new EditorGUI.DisabledScope(true))
+                {
+                    mapEditor.audioType = (AudioType)EditorGUILayout.EnumPopup("Audio Type",mapEditor.audioType);
+                }
+        }else{
+            mapEditor.audioType = (AudioType)EditorGUILayout.EnumPopup("Audio Type",mapEditor.audioType);
         }
+        
+        GUILayout.EndVertical();
+
         GUILayout.Space(10);
-
-          if (GUILayout.Button("Reset Interactable Object Position(인게임용)"))
-        {
-            mapEditor.ResetInteractableObjectPosition();
-        }
-        GUILayout.Space(10);
-
-
-        if (GUILayout.Button("개발자용, 맵 새로만들 때 먼저 누르기,Init!"))
-        {
-            _Reset(mapEditor);
-            mapEditor.Init();
-            EditorApplication.ExecuteMenuItem("Window/2D/Tile Palette");
-        }
-
-        if (GUILayout.Button("- Object Create Tool -"))
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        
+        if (GUILayout.Button("Object Create Tool",GetGUIStyle_Button(Color.green,14,FontStyle.Bold),GUILayout.Width(300),GUILayout.Height(40)))
         {
             CreateMap_Tool.ShowWindow();
         }
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
+        GUILayout.Space(20);
 
+        if(!Application.isPlaying){
+            GUILayout.FlexibleSpace();
+            GUILayout.Label("개발자 전용",GetGUIStyle_Label((Color.blue),14,FontStyle.Bold));
+            GUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+
+            if (GUILayout.Button("Load Data(개발자전용)",GUILayout.Width(150),GUILayout.Height(30)))//TODO 0822
+            {
+                _Reset(mapEditor);
+                LoadMap(mapEditor);
+                onLoad =true;
+            }
+
+            if (GUILayout.Button("Save Data(개발자전용)",GUILayout.Width(150),GUILayout.Height(30)))
+            {
+                SaveMapData(mapEditor);
+                onLoad = false;
+                
+            }
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+            if (GUILayout.Button("개발자용, 맵 새로만들 때 먼저 누르기,Init!"))
+            {
+                _Reset(mapEditor);
+                mapEditor.Init();
+                EditorApplication.ExecuteMenuItem("Window/2D/Tile Palette");
+          
+            }
+            GUILayout.FlexibleSpace();
+        }
+       
+
+
+        if(Application.isPlaying){
+        onLoad = false;
         GUILayout.Space(10);
 
-        if (GUILayout.Button("Load Data(개발자전용)")) //TODO 0822
-        {
-            _Reset(mapEditor);
-            LoadMap(mapEditor);
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        GUILayout.Label("인게임 전용");
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
 
-        }
+            if (GUILayout.Button("Load Data(인게임용)"))
+            {
+                mapEditor.LoadMap(mapEditor.mapID);
+                
+            }
 
-        if (GUILayout.Button("Save Data(개발자전용)"))
-        {
-            SaveMapData(mapEditor);
-            
-        }
+            if (GUILayout.Button("Reset Interactable Object Position(인게임용)"))
+            {
+                mapEditor.ResetInteractableObjectPosition();
+            }
 
         GUILayout.Space(10);
+        }   
+       
 
-        if (GUILayout.Button("Reset"))
+        GUILayout.Space(10);
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        if (GUILayout.Button("Reset",GetGUIStyle_Button(Color.red,14,FontStyle.Bold),GUILayout.Width(100),GUILayout.Height(30)))
         {
             _Reset(mapEditor);
             mapEditor.CurMap = new Map();
+            mapEditor.mapID = "";
+            mapEditor.mapType = MapType.Main;
             mapEditor.audioType = AudioType.None;
+            mapEditor.stageLevel = 0;
+
+            onLoad = false;      
+              
 
         }
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
 
+        
 
-      
 
     }
 
@@ -107,8 +158,6 @@ public class MapEditor_Editor : Editor
         {
             Undo.DestroyObjectImmediate(mapEditor.screenShotCamera.gameObject);
         }
-
-       
 
     }
     void UGS_MapDataLoad()
@@ -572,5 +621,30 @@ List<TileData> GetTileData(Tilemap tileMap)
         return viewportPos.x >= .05f && viewportPos.x <= .95 && viewportPos.y >= .05 && viewportPos.y <= .95;
     }
   
+    #endregion
+
+
+    #region  GUI
+    private GUIStyle GetGUIStyle_Button(Color color,int font_Size = 12,FontStyle font_Style = FontStyle.Normal){
+
+        return new GUIStyle(GUI.skin.button){
+                normal = {textColor = color},
+                fontSize = font_Size,
+                fontStyle = font_Style,
+                hover = {textColor = color},
+                };
+
+    }
+
+     private GUIStyle GetGUIStyle_Label(Color color,int font_Size = 12,FontStyle font_Style = FontStyle.Normal){
+
+        return new GUIStyle(GUI.skin.label){
+                normal = {textColor = color},
+                fontSize = font_Size,
+                fontStyle = font_Style,
+                hover = {textColor = color},
+                };
+
+    }
     #endregion
 }

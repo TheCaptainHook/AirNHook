@@ -58,7 +58,9 @@ public class SaveData
 
         await Save_SaveFile();
     }
-
+    //TEST 0917
+   
+    //TEST 0917
     public async Task Save_SaveFile()
     {
         _SaveFileData.SerializableSaveMapDataDictionary.FromDictionary(dic);
@@ -73,7 +75,6 @@ public class SaveData
     {
         string json = File.ReadAllText(filePath);
         _SaveFileData = JsonUtility.FromJson<SaveFileData>(json);
-
         dic = _SaveFileData.SerializableSaveMapDataDictionary.ToDictionary();
         Debug.Log("Data Load");
     }
@@ -164,6 +165,29 @@ public class MapSaveData
             }
         }
     }
+//0917 Validata must take care
+    private void ValidateDialougeData(List<DialogueData> dataList){
+        foreach(DialogueData data in dataList){
+            foreach(DialogueData sD in _DialogueDataList){
+                if(sD.dialogueId == data.dialogueId){
+
+                    break;
+                }
+            }
+        }
+    }
+    private DialogueData ValidateDialougeDataPosition(DialogueData newData , DialogueData oldData){
+        DialogueData data;
+        if(newData.position != oldData.position){
+            data = newData;
+            newData.excuted = oldData.excuted;
+        }else{
+            data = oldData;
+        }
+        return data;
+    }
+//0917 Validata must take care
+
     private void ModifyClearTime(float time)
     {
        if(shortestClearTime == 0)

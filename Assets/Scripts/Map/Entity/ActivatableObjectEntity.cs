@@ -28,7 +28,10 @@ public class ActivatableObjectEntity : BuildObj
 
    protected virtual void Activation(){}
    protected virtual void Deactivated(){}
-   public virtual void ApplyActive(int num){}
+   public virtual void ApplyActive(int num)
+   {
+    CurActiveBtn = num;
+   }
 
    #region GET,SET
     public override T GetData<T>()

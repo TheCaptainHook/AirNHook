@@ -100,13 +100,15 @@ public class MapEditor : MonoBehaviour
     [Tooltip("Only use MapType.Main")]
     public int stageLevel;
     public string mapID;
+    [ReadOnly]
     public Vector2 startPosition;
+    [ReadOnly]
     public GameObject startPositionObject;
     public AudioType audioType = AudioType.None;
     //[HideInInspector] public int condition_KeyAmount;
     [HideInInspector] public List<TileData> mapTileDataList = new List<TileData>();
     [HideInInspector] public List<ObjectData> mapObjectDataList = new List<ObjectData>();
-
+    [ReadOnly]
     public bool onStageSelect;
 
     public TextMeshProUGUI stageText;
@@ -123,6 +125,7 @@ public class MapEditor : MonoBehaviour
     }
     [Header("----------------------------------------------------")]
     [Header("ScreenShot")]
+    [ReadOnly]
     public GameObject screenShotCamera;
     #region event Action
     public event Action OnStageMove;

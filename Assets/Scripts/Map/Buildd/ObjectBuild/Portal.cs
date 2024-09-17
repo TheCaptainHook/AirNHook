@@ -102,11 +102,6 @@ public class Portal : ActivatableObjectEntity
 
     #endregion
 
-    public override void ApplyActive(int num)
-    {
-        CurActiveBtn = num;
-    }
-
     // public void FindTargetPortal()
     // {
     //     if (targetPortal != null) return;

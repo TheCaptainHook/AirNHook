@@ -1,9 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+
 using UnityEngine;
-    public class LaserObject : BuildObj
+    public class LaserObject : ActivatableObjectEntity
     {
         [CustomHeader("LaserObject")]
         [SerializeField] private float _defDistanceRay = 50f;
@@ -13,7 +10,8 @@ using UnityEngine;
         [SerializeField] private GameObject _endVFX;
         [SerializeField] LayerMask _layerMask;
         [SerializeField] private bool _isEnabled;
-        
+        private bool onActive;
+
         [Header("Effect")]
         [SerializeField] ParticleSystem hitEffectParticle;
 
@@ -25,17 +23,17 @@ using UnityEngine;
         public Coroutine editor_showLaserCoroutine;
         #endregion
 
-        private void Awake()
-        {
-            _isEnabled = true;
-            _endVFX.SetActive(_isEnabled);
-            _lineRenderer.enabled = _isEnabled;
-        }
+        // private void Awake()
+        // {
+        //     // _isEnabled = true;
+        //     // _endVFX.SetActive(_isEnabled);
+        //     // _lineRenderer.enabled = _isEnabled;
+        // }
 
 
         private void FixedUpdate()
         {
-            if(!MapEditor.Instance.stageClear && !turnOff)
+            if(!MapEditor.Instance.stageClear && !turnOff && onActive)
             {
                 UpdateLaser();
             }
@@ -46,7 +44,21 @@ using UnityEngine;
                 _lineRenderer.enabled = false;
             }
         }
-        private void UpdateLaser()
+    protected override void Activation()
+    {
+        _isEnabled = true;
+        _endVFX.SetActive(_isEnabled);
+        _lineRenderer.enabled = _isEnabled;
+        
+        onActive = true;
+    }
+
+    protected override void Deactivated()
+    {
+        onActive = false;
+    }
+
+    private void UpdateLaser()
         {
             Vector2 start = transform.position;
             Vector2 dir = transform.right;
@@ -139,27 +151,6 @@ using UnityEngine;
        }
 
         #endregion
-
-
-        // IEnumerator Co_RecoveryRay()
-        // {
-        //     onRecoveryRay = true;
-
-        //     while (!onHit && _curDistanceRay <_defDistanceRay)
-        //     {
-        //         _curDistanceRay += Time.deltaTime+1f;
-        //         yield return null;
-        //     }
-        //     onRecoveryRay = false;
-
-        // }
-
-
-        //private void DrawLaser(Vector2 endPos)
-        //{
-        //    _lineRenderer.SetPosition(0,_firePoint.position);
-        //    _lineRenderer.SetPosition(1, endPos);
-        //}
         private void DrawLaser(int num,Vector2 start, Vector2 endPos)
         {
             _lineRenderer.positionCount = num + 2;
