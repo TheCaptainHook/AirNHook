@@ -96,6 +96,10 @@ public class BuildObj : MousePointerEntity,IDamageable
   
     public virtual T GetData<T>()  
     {
+        if(typeof(T)==typeof(ObjectData)){
+            return (T)(object)new ObjectData(id,transform.position,transform.rotation,transform.localScale);
+        }
+
        return default(T);
     }
     public virtual void SetData<T>(T data)  

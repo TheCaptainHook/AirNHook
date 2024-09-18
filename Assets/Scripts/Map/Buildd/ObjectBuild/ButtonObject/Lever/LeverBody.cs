@@ -6,6 +6,7 @@ using UnityEngine;
 public class LeverBody : ButtonEntity, IInteractable
 {
     [CustomHeader("LeverBody")]
+    [ReadOnly]
     public LeverHead leverHead;
     public Transform attachedLeverHead;
 
@@ -13,6 +14,7 @@ public class LeverBody : ButtonEntity, IInteractable
      private LeverBodyNet _leverBodyNet;
 
     [Header("State")]
+    [ReadOnly]
     public bool onCompletionParts;
     bool onAcitve;
     bool onOperation;
@@ -109,7 +111,8 @@ public class LeverBody : ButtonEntity, IInteractable
     {
         if (onCompletionParts && !onOperation)
         {
-            _leverBodyNet.CmdLeverActivate();
+            // _leverBodyNet.CmdLeverActivate();
+            Activation();
         }
         
     }

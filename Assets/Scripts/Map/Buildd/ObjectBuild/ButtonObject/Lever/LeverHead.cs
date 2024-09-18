@@ -13,7 +13,7 @@ public class LeverHead : BuildObj
     private void Awake()
     {
         DissolveInitSetting();
-        // _interactableObject = GetComponent<InteractableObject>();
+        _interactableObject = GetComponent<InteractableObject>();
         
     }
 

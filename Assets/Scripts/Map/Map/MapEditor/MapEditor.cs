@@ -201,31 +201,31 @@ public class MapEditor : MonoBehaviour
     /// <summary>
     /// This function is only used when in game Editor.
     /// </summary>
-    public void SaveMapData() 
-    {
-        if(mapEditorType == MapEditorType.New ){
-            string path = Path.Combine(folderPath, $"{mapID}.json");
-            bool fileExists = File.Exists(path);
-            while (fileExists)
-            {
-                int num = 1;
-                path = Path.Combine(folderPath, $"{mapID}{num}.json");
-                if (!File.Exists(path))
-                {
-                    mapID = $"{mapID}{num}";
-                    fileExists = false;
-                }
+    // public void SaveMapData() 
+    // {
+    //     if(mapEditorType == MapEditorType.New ){
+    //         string path = Path.Combine(folderPath, $"{mapID}.json");
+    //         bool fileExists = File.Exists(path);
+    //         while (fileExists)
+    //         {
+    //             int num = 1;
+    //             path = Path.Combine(folderPath, $"{mapID}{num}.json");
+    //             if (!File.Exists(path))
+    //             {
+    //                 mapID = $"{mapID}{num}";
+    //                 fileExists = false;
+    //             }
 
-                num++;
-            }
-            CreateJsonFile();
-        }
-        else
-        {
-            CreateJsonFile();
-        }
+    //             num++;
+    //         }
+    //         CreateJsonFile();
+    //     }
+    //     else
+    //     {
+    //         CreateJsonFile();
+    //     }
 
-    }
+    // }
 
     #region GetList
 
@@ -252,118 +252,126 @@ public class MapEditor : MonoBehaviour
     }
 
 
-    List<ObjectData> GetList(Transform transform)
-    {
-        List<ObjectData> list = new();
-        foreach(Transform cur in transform)
-        {
-            cur.GetComponent<BuildObj>().SetTileData();
-
-            list.Add(cur.GetComponent<BuildObj>().ObjectData);
+    //todo 0918
+    private List<T> GetList<T>(Transform transform){
+        List<T> list = new();
+        foreach(Transform tr in transform){
+          T data =(T)(object)tr.GetComponent<BuildObj>().GetData<ObjectData>();
+          list.Add(data);
         }
         return list;
     }
+    //todo 0918
+    // List<ObjectData> GetList(Transform transform)
+    // {
+    //     List<ObjectData> list = new();
+    //     foreach(Transform cur in transform)
+    //     {
+    //         cur.GetComponent<BuildObj>().SetTileData();
+
+    //         list.Add(cur.GetComponent<BuildObj>().ObjectData);
+    //     }
+    //     return list;
+    // }
 
 
 
-    List<ButtonActivatableObjectStruct> GetButtonActivateObjectStructList()
-    {
-        List<ButtonActivatableObjectStruct> list = new();
+    // List<ButtonActivatableObjectStruct> GetButtonActivateObjectStructList()
+    // {
+    //     List<ButtonActivatableObjectStruct> list = new();
 
-        foreach (Transform cur in buttonActivatableObjectTransform)
-        {
-           list.Add(cur.GetComponent<BuildObj>().GetData<ButtonActivatableObjectStruct>()); 
-        }
-        return list;
-    }
+    //     foreach (Transform cur in buttonActivatableObjectTransform)
+    //     {
+    //        list.Add(cur.GetComponent<BuildObj>().GetData<ButtonActivatableObjectStruct>()); 
+    //     }
+    //     return list;
+    // }
 
-    List<ButtonObjectStruct> GetButtonObjectList()
-    {
-        List<ButtonObjectStruct> list = new();
-        foreach (Transform cur in buttonObjectTransform)
-        {
-           list.Add(cur.GetComponent<BuildObj>().GetData<ButtonObjectStruct>()); 
+    // List<ButtonObjectStruct> GetButtonObjectList()
+    // {
+    //     List<ButtonObjectStruct> list = new();
+    //     foreach (Transform cur in buttonObjectTransform)
+    //     {
+    //        list.Add(cur.GetComponent<BuildObj>().GetData<ButtonObjectStruct>()); 
 
-        }
-        return list;
-    }
+    //     }
+    //     return list;
+    // }
 
-    List<ExitObjStruct> GetExitObjStructsList(Transform transform)
-    {
-        List<ExitObjStruct> list = new();
-        int keyAmount = 0;
-        foreach (Transform tr in objectTransform)
-        {
-            Debug.Log(tr.name);
-            if (tr.GetComponent<BuildObj>().id == 307)
-            {
-                keyAmount++;
-            }
-        }
+    // List<ExitObjStruct> GetExitObjStructsList(Transform transform)
+    // {
+    //     List<ExitObjStruct> list = new();
+    //     int keyAmount = 0;
+    //     foreach (Transform tr in objectTransform)
+    //     {
+    //         Debug.Log(tr.name);
+    //         if (tr.GetComponent<BuildObj>().id == 307)
+    //         {
+    //             keyAmount++;
+    //         }
+    //     }
 
-        foreach (Transform cur in transform)
-        {
-            cur.GetComponent<ExitPointObj>().condition_KeyAmount = keyAmount;
-            list.Add(cur.GetComponent<ExitPointObj>().GetExitObjectStruct());
-        }
+    //     foreach (Transform cur in transform)
+    //     {
+    //         cur.GetComponent<ExitPointObj>().condition_KeyAmount = keyAmount;
+    //         list.Add(cur.GetComponent<ExitPointObj>().GetExitObjectStruct());
+    //     }
 
-        return list;
-    }
+    //     return list;
+    // }
 
 
-    List<DialogueData> GetDialogueList()
-    {
-        List<DialogueData> list = new();
-        foreach (Transform tr in triggerDialogueTransform)
-        {
-            if (tr.TryGetComponent(out Trigger_Dialogue component))
-            {
-                list.Add(component.GetDialogueData());
-            }
-        }
-        return list;
-    }
+    // List<DialogueData> GetDialogueList()
+    // {
+    //     List<DialogueData> list = new();
+    //     foreach (Transform tr in triggerDialogueTransform)
+    //     {
+    //         if (tr.TryGetComponent(out Trigger_Dialogue component))
+    //         {
+    //             list.Add(component.GetDialogueData());
+    //         }
+    //     }
+    //     return list;
+    // }
 
     #endregion
 
-    async void CreateJsonFile()
-    {
-        mapTileDataList = GetTileData(placeMentSystem.floorTileMap);
+    // async void CreateJsonFile()
+    // {
+    //     mapTileDataList = GetTileData(placeMentSystem.floorTileMap);
 
-        mapObjectDataList = GetList(objectTransform);
-        startPosition = FindObj(dontSaveObjectTransform, 302).transform.position;
+    //     mapObjectDataList = GetList(objectTransform);
+    //     startPosition = FindObj(dontSaveObjectTransform, 302).transform.position;
 
-        byte[] bytesImage = await CurrentMapScreenShot();
+    //     byte[] bytesImage = await CurrentMapScreenShot();
 
-        Map map = new Map(new Vector2(width, height), mapID, stageLevel, startPosition,
-            GetExitObjStructsList(exitDoorObjectTransform),
-            //tile
-            mapTileDataList,
-            GetTileData(placeMentSystem.halfTileMap),
-            GetTileData(placeMentSystem.backgroundTileMap),
-            //object
-            mapObjectDataList,
-            GetButtonActivateObjectStructList(),
-            GetButtonObjectList(),
-            GetDialogueList(),
-            cellSize,1,bytesImage,audioType);
+    //     Map map = new Map(new Vector2(width, height), mapID, stageLevel, startPosition,
+    //         GetExitObjStructsList(exitDoorObjectTransform),
+    //         //tile
+    //         mapTileDataList,
+    //         GetTileData(placeMentSystem.halfTileMap),
+    //         GetTileData(placeMentSystem.backgroundTileMap),
+    //         //object
+    //         mapObjectDataList,
+    //         GetButtonActivateObjectStructList(),
+    //         GetButtonObjectList(),
+    //         GetDialogueList(),
+    //         cellSize,1,bytesImage,audioType);
 
-        string mapDatajson = JsonUtility.ToJson(map, true);
-        string dateTimedate = JsonUtility.ToJson(new DateTimeData(System.DateTime.Now), true);
+    //     string mapDatajson = JsonUtility.ToJson(map, true);
+    //     string dateTimedate = JsonUtility.ToJson(new DateTimeData(System.DateTime.Now), true);
         
 
-        //string filePath = Path.Combine(folderPath, $"User/{map.mapID}.json");
-        string filePath = Path.Combine(Application.dataPath, $"UserMapData/{mapID}.json");
+    //     //string filePath = Path.Combine(folderPath, $"User/{map.mapID}.json");
+    //     string filePath = Path.Combine(Application.dataPath, $"UserMapData/{mapID}.json");
 
-        string json = JsonUtility.ToJson(new UserMapData(mapDatajson,bytesImage , dateTimedate,GetHashValue(map.mapID)),true);
+    //     string json = JsonUtility.ToJson(new UserMapData(mapDatajson,bytesImage , dateTimedate,GetHashValue(map.mapID)),true);
 
-        Debug.Log(filePath);
-        File.WriteAllText(filePath, json);
+    //     Debug.Log(filePath);
+    //     File.WriteAllText(filePath, json);
 
-        Managers.Data.mapData.RefreshUserMapData();
-
-
-    }
+    //     Managers.Data.mapData.RefreshUserMapData();
+    // }
 
 
     #endregion

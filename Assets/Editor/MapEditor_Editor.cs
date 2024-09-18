@@ -1,12 +1,17 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 using UnityEngine.Tilemaps;
 using UnityEditor;
 using UGS;
 using System.IO;
 using System.Threading.Tasks;
 using System.Reflection;
+
+using System.Diagnostics;
+
+
 
 //TODO 0724 Develop code line : 435,506
 
@@ -219,25 +224,10 @@ public class MapEditor_Editor : Editor
             mapEditor.CurMap = map;
             mapEditor.SetMapSize((int)map.mapSize.x, (int)map.mapSize.y);
 
-            ////start Point
-            GameObject startPoint = Instantiate(Resources.Load<GameObject>(mapObjectDataDictionary[302].path));
-            mapEditor.startPositionObject = startPoint;
-            startPoint.transform.position = map.startPosition;
-            startPoint.transform.SetParent(mapEditor.dontSaveObjectTransform);
-            //start Point
-
+            Create_StartPoint(map);
             Create_Tile(); 
-            Create_Object(mapEditor.CurMap.mapObjectDataList,mapEditor.objectTransform);
-            Create_Object(mapEditor.CurMap.mapButtonActivatableObjectDataList,mapEditor.buttonActivatableObjectTransform);
-            Create_Object(mapEditor.CurMap.mapExitObjectDataList,mapEditor.exitDoorObjectTransform);
-            Create_Object(mapEditor.CurMap.buttonObjectList,mapEditor.buttonObjectTransform);
-            Create_Object(mapEditor.CurMap.dialogueDataList,mapEditor.triggerDialogueTransform);
-            // mapEditor.Create_Object(mapEditor.objectTransform);
-            // mapEditor.Create_Object(mapEditor.CurMap.mapButtonActivatableObjectDataList,mapEditor.buttonActivatableObjectTransform);
-            // mapEditor.Create_Object(mapEditor.CurMap.mapExitObjectDataList,mapEditor.exitDoorObjectTransform);
-            // mapEditor.Create_Object(mapEditor.CurMap.buttonObjectList,mapEditor.buttonObjectTransform);
-            // mapEditor.Create_Object(mapEditor.CurMap.dialogueDataList,mapEditor.triggerDialogueTransform);
-
+            Create_Object();
+     
             mapEditor.stageLevel = mapEditor.CurMap.stageLevel;
             mapEditor.mapID = mapEditor.CurMap.mapID;
             mapEditor.audioType = mapEditor.CurMap.audioType;
@@ -254,13 +244,26 @@ public class MapEditor_Editor : Editor
         Debug.Log("Lode Complete");
     }
 
-
-
-     public void Create_Tile(){
+    #region  Generate
+    private void Create_StartPoint(Map map){
+        GameObject startPoint = Instantiate(Resources.Load<GameObject>(mapObjectDataDictionary[302].path));
+        mapEditor.startPositionObject = startPoint;
+        startPoint.transform.position = map.startPosition;
+        startPoint.transform.SetParent(mapEditor.dontSaveObjectTransform);
+    }
+    public void Create_Tile(){
         DrawTile(mapEditor.placeMentSystem.floorTileMap,mapEditor.CurMap.mapTileDataList);
         DrawTile(mapEditor.placeMentSystem.halfTileMap,mapEditor.CurMap.mapHalfTileDataList);
         DrawTile(mapEditor.placeMentSystem.backgroundTileMap,mapEditor.CurMap.mapBackgroundTileDataList);       
     }
+    public void Create_Object(){
+            Create_Object(mapEditor.CurMap.mapObjectDataList,mapEditor.objectTransform);
+            Create_Object(mapEditor.CurMap.mapButtonActivatableObjectDataList,mapEditor.buttonActivatableObjectTransform);
+            Create_Object(mapEditor.CurMap.mapExitObjectDataList,mapEditor.exitDoorObjectTransform);
+            Create_Object(mapEditor.CurMap.buttonObjectList,mapEditor.buttonObjectTransform);
+            Create_Object(mapEditor.CurMap.dialogueDataList,mapEditor.triggerDialogueTransform);
+    }
+
     private void DrawTile(Tilemap tileMap,List<TileData> list){
          foreach (TileData data in list)
          {
@@ -268,9 +271,7 @@ public class MapEditor_Editor : Editor
             tileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
             mapEditor.placeMentSystem.tileDic[data.position] = data.id;        
          }
-    }
-
-
+    }       
     public void Create_Object<T>(List<T> list ,Transform transform){
         MapDataStruct mapDataStruct;
         foreach(T data in list){
@@ -284,9 +285,9 @@ public class MapEditor_Editor : Editor
                 }
                
             }
-   
         }
     }
+
       void Create<T>(Transform transform,MapDataStruct mapDataStruct,T data){
         GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
         BuildObj buildObj = obj.GetComponent<BuildObj>();
@@ -295,46 +296,6 @@ public class MapEditor_Editor : Editor
         
         obj.transform.SetParent(transform);
     }
-
-    //0422 testtest
-    public void TestLoad(MapEditor mapEditor) // user map Test Code
-    {
-        UGS_MapDataLoad();
-
-        string path = Path.Combine(Application.dataPath, "UserMapData");
-        string[] filePaths = Directory.GetFiles(path, "*.json");
-
-        string jsonString = File.ReadAllText(filePaths[0]);
-        UserMapData data = JsonUtility.FromJson<UserMapData>(jsonString);
-        Map map = data.LoadMap();
-
-        mapEditor.Init();
-
-        mapEditor.CurMap = map;
-        mapEditor.SetMapSize((int)map.mapSize.x, (int)map.mapSize.y);
-
-        //start Point
-        GameObject startPoint = Instantiate(Resources.Load<GameObject>(mapObjectDataDictionary[302].path));
-        mapEditor.startPositionObject = startPoint;
-        startPoint.transform.position = map.startPosition;
-        startPoint.transform.SetParent(mapEditor.dontSaveObjectTransform);
-        //start Point
-
-        //mapEditor.interactionBtnDictionary = new(); //todo 0412
-        //  CreateObj(map, mapEditor.placeMentSystem, 0);
-        //     CreateObj(map, mapEditor.placeMentSystem, 1,mapEditor.objectTransform);
-        //     CreateObj(map, mapEditor.placeMentSystem, 2,mapEditor.buttonActivatableObjectTransform);
-        //     CreateObj(map, mapEditor.placeMentSystem, 3,mapEditor.exitDoorObjectTransform);
-        //     CreateObj(map, mapEditor.placeMentSystem, 4,mapEditor.buttonObjectTransform);
-        //     CreateObj(map, mapEditor.placeMentSystem, 5,mapEditor.triggerDialogueTransform);
-      
-      
-
-
-    }
-    
-
-    //0422 testtest
 
     TextAsset GetTextAsset(MapType mapType,string id)
     {
@@ -364,7 +325,8 @@ public class MapEditor_Editor : Editor
 
         return null;
     }
-
+    #endregion
+    
     #endregion
 
 
@@ -375,26 +337,14 @@ public class MapEditor_Editor : Editor
 
         CreateJsonFile(mapEditor, folderPath);
 
-
-
     }
 
     async void CreateJsonFile(MapEditor mapEditor, string folderPath)
     {
         string filePath = "";
         mapEditor.startPosition = FindObj(mapEditor.dontSaveObjectTransform, 302).transform.position;
-        Map map = new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, mapEditor.stageLevel, mapEditor.startPosition,
-            GetExitObjStructsList(mapEditor.exitDoorObjectTransform, mapEditor),
-            //tile
-            GetTileData(mapEditor.placeMentSystem.floorTileMap),
-            GetTileData(mapEditor.placeMentSystem.halfTileMap),
-            GetTileData(mapEditor.placeMentSystem.backgroundTileMap),
-            //object
-            GetList(mapEditor.objectTransform),
-            GetButtonActivatedObjectStructList(mapEditor),
-            GetButtonObjectList(mapEditor),
-            GetDialogueList(mapEditor.triggerDialogueTransform), // todo0724
-            mapEditor.cellSize, 0, await CurrentMapScreenShot(mapEditor), mapEditor.audioType);
+      
+        Map map = await CreateMap(mapEditor);
 
         //TestCode TOdo 0807
         //map.mapSize = new Vector2(
@@ -433,6 +383,24 @@ public class MapEditor_Editor : Editor
         //    filePath = Path.Combine(folderPath, $"{mapEditor.mapType}/{map.mapID}.json");
         //}
 
+private async  Task<Map> CreateMap(MapEditor mapEditor){
+    Map map =  new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, mapEditor.stageLevel, mapEditor.startPosition,
+            GetExitObjStructsList(mapEditor.exitDoorObjectTransform, mapEditor),
+            //tile
+            GetTileData(mapEditor.placeMentSystem.floorTileMap),
+            GetTileData(mapEditor.placeMentSystem.halfTileMap),
+            GetTileData(mapEditor.placeMentSystem.backgroundTileMap),
+            //object
+            GetList<ObjectData>(mapEditor.objectTransform),
+            // GetButtonActivatedObjectStructList(mapEditor),
+            GetList<ButtonActivatableObjectStruct>(mapEditor.buttonActivatableObjectTransform),
+            // GetButtonObjectList(mapEditor),
+            GetList<ButtonObjectStruct>(mapEditor.buttonObjectTransform),
+            GetList<DialogueData>(mapEditor.triggerDialogueTransform),
+            // GetDialogueList(mapEditor.triggerDialogueTransform), // todo0724
+            mapEditor.cellSize, 0, await CurrentMapScreenShot(mapEditor), mapEditor.audioType);
+    return  map;
+}
 List<TileData> GetTileData(Tilemap tileMap)
     {
         List<TileData> list = new();
@@ -458,53 +426,12 @@ List<TileData> GetTileData(Tilemap tileMap)
         return list;
     }
 
-
-
-
-    List<ObjectData> GetList(Transform transform)
-    {
-        List<ObjectData> list = new();
-        foreach (Transform cur in transform)
-        {
-
-            //cur.GetComponent<BuildObj>().SetTileData(cur.position, cur.rotation);
-            cur.GetComponent<BuildObj>().SetTileData();
-            list.Add(cur.GetComponent<BuildObj>().ObjectData);
-        }
-        return list;
-    }
-
-    List<DialogueData> GetDialogueList(Transform transform)
-    {
-        List<DialogueData> list = new();
-        foreach(Transform tr in transform)
-        {
-            if(tr.TryGetComponent(out Trigger_Dialogue component))
-            {
-                list.Add(component.GetDialogueData());
-            }
-        }
-        return list;
-    }
-
-    List<ButtonActivatableObjectStruct> GetButtonActivatedObjectStructList(MapEditor mapEditor)
-    {
-        List<ButtonActivatableObjectStruct> list = new();
-
-        foreach (Transform cur in mapEditor.buttonActivatableObjectTransform)
-        {
-            list.Add(cur.GetComponent<BuildObj>().GetData<ButtonActivatableObjectStruct>());
-
-        }
-        return list;
-    }
-
-    List<ButtonObjectStruct> GetButtonObjectList(MapEditor mapEditor)
-    {
-        List<ButtonObjectStruct> list = new();
-        foreach (Transform cur in mapEditor.buttonObjectTransform)
-        {
-            list.Add(cur.GetComponent<BuildObj>().GetData<ButtonObjectStruct>());
+    //todo 0918
+    private List<T> GetList<T>(Transform transform){
+        List<T> list = new();
+        foreach(Transform tr in transform){
+            T data =(T)(object)tr.GetComponent<BuildObj>().GetData<T>();
+            list.Add(data);
         }
         return list;
     }
@@ -603,7 +530,7 @@ List<TileData> GetTileData(Tilemap tileMap)
                 minSize = midSize;
             }
 
-            // 약간의 대기시간 추가
+            // 약간의 대기시간
             await Task.Yield(); // 비동기 작업이므로 프레임 차단을 피하기 위한 대기
         }
 

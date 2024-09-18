@@ -375,7 +375,7 @@ public class MapEditorControllerUI : MousePointerEntity
 
 
 
-            MapEditor.Instance.SaveMapData();
+            // MapEditor.Instance.SaveMapData();
 
             StartCoroutine(Co_SaveMessage());
             //데이터 저장 완료 유아이.

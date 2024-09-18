@@ -32,10 +32,18 @@ public class Trigger_Dialogue : BuildObj
         }
     }
 
-    public DialogueData GetDialogueData()
+    // public DialogueData GetDialogueData()
+    // {
+    //     DialogueData data = new DialogueData(id,_DialogueId, false,transform.position, transform.rotation, transform.localScale);
+    //     return data;
+    // }
+    public override T GetData<T>()
     {
-        DialogueData data = new DialogueData(id,_DialogueId, false,transform.position, transform.rotation, transform.localScale);
-        return data;
+        if(typeof(T)==typeof(DialogueData)){
+            return (T)(object)new DialogueData(id,_DialogueId, false,transform.position, transform.rotation, transform.localScale);
+        }
+
+        return default(T);
     }
 
     // public void SetDialogueData(DialogueData data)
@@ -45,7 +53,7 @@ public class Trigger_Dialogue : BuildObj
     //     transform.localScale = data.scale;
     //     _DialogueId = data.dialogueId;
     //     OnExcuted = data.excuted;
-        
+
     // }
 
     public override void SetData<T>(T data)

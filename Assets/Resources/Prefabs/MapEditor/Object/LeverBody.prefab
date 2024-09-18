@@ -398,6 +398,7 @@ MonoBehaviour:
   onScaleable: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 0}
   targetObjects: []
   leverHead: {fileID: 0}
   attachedLeverHead: {fileID: 3197964739542362488}
@@ -463,3 +464,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47cbe461e052440acba8e390cc208ed1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugmodeTransform: {fileID: 0}
+  onHierarchy: 0
