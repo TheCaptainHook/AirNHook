@@ -89703,13 +89703,17 @@ PrefabInstance:
       propertyPath: sceneId
       value: 2353493640
       objectReference: {fileID: 0}
+    - target: {fileID: 2840986932733129456, guid: 2ee561663a58f4f8aa0c7732888eb358, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3227932219690051067, guid: 2ee561663a58f4f8aa0c7732888eb358, type: 3}
       propertyPath: m_Name
       value: Portal
       objectReference: {fileID: 0}
     - target: {fileID: 3227932219690051067, guid: 2ee561663a58f4f8aa0c7732888eb358, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7527202856157951427, guid: 2ee561663a58f4f8aa0c7732888eb358, type: 3}
       propertyPath: m_LocalPosition.x
