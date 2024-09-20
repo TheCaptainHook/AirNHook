@@ -159,7 +159,6 @@ public class MapSaveData
             {
                 DialogueData data = _DialogueDataList[i];
                 DialogueData modifyData = new DialogueData(data.id, data.dialogueId, true, data.position, data.quaternion, data.scale);
-                Debug.Log($"ID:{modifyData.dialogueId} Modify : {modifyData.excuted}");
                 _DialogueDataList[i] = modifyData;
                 return;
             }
