@@ -63,7 +63,6 @@ private List<Object> previousList;
 
         DrawDefaultInspector();
 
-         // BuildObj의 objlist를 그립니다.
         if (serializedProperty != null && lineToTarget != null)
         {
             serializedObject.Update();
@@ -190,7 +189,7 @@ private List<Object> previousList;
         // 배열을 그립니다.
         EditorGUI.PropertyField(arrayRect, property, new GUIContent("Target Object"), true);
 
-        // 다음 요소를 그리기 위해 충분한 간격을 둡니다.
+        // 다음 요소를 그리기 위해 충분한 간격
         GUILayout.Space(arrayHeight);
 
         // EditorGUILayout.PropertyField(property, new GUIContent(label), true);
