@@ -86,6 +86,8 @@ public class MapEditor : MonoBehaviour
     //TOdo 0723
     [HideInInspector] public Transform triggerDialogueTransform;
     //TOdo 0723
+    [HideInInspector] public Transform droneTransform;
+
 
     [HideInInspector] public Transform poolingContainer;
 
@@ -165,6 +167,7 @@ public class MapEditor : MonoBehaviour
         //TODO 0723
         triggerDialogueTransform = Util.CreateChildTransform(mapObjBoxTransform, "triggerDialogueTransform");
         //TODO 0723
+        droneTransform = Util.CreateChildTransform(mapObjBoxTransform,"DroneTransform");
         poolingContainer = Util.CreateChildTransform(mapObjBoxTransform, "PoolingContainer");
     }
 
@@ -424,6 +427,7 @@ public class MapEditor : MonoBehaviour
             Create_Object(curMap.mapExitObjectDataList,exitDoorObjectTransform);
             Create_Object(curMap.buttonObjectList,buttonObjectTransform);
             Create_Object(Managers.Data.saveData.dic[curMap.mapID]._DialogueDataList,triggerDialogueTransform);
+            Create_Object(curMap.droneStructList,droneTransform);
        
        
         Managers.Sound.PlayBGM(CurMap.audioType, AudioMixerGroupType.BGM, true,.1f);

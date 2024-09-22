@@ -503,6 +503,9 @@ public class CreateMap_Tool : EditorWindow
             case 1003:
                 SelectActiveOBJ(obj, curMapEditor.triggerDialogueTransform);
                 break;
+            case 325:
+                SelectActiveOBJ(obj,curMapEditor.droneTransform);
+            break;
             default:
                 SelectActiveOBJ(obj, curMapEditor.objectTransform);
                 break;

@@ -19,6 +19,7 @@ public class BuildObj : MousePointerEntity,IDamageable
     [CustomHeader("BuildObj")]
     public int id;
     [Tooltip("Transform ID to be created")]
+    [ReadOnly]
     public int transformID;
     [ReadOnly]
     public Vector2 position;

@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Org.BouncyCastle.Asn1.X509.Qualified;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -15,6 +11,8 @@ public class DrawDronePath_Editor : Editor
     #region  Previous
     private Vector2 previousTransformPosition;
     private Vector2[] previousPaths;
+
+    private bool IsPlay => Application.isPlaying;
     #endregion
 
    private void OnEnable(){
@@ -36,8 +34,8 @@ public class DrawDronePath_Editor : Editor
 
    }
    private void OnDisable(){
-    EditorApplication.update -= OnEditorUpdate;
     drawDronePath.Disable();
+    EditorApplication.update -= OnEditorUpdate;
 
    }
    public override void OnInspectorGUI()
@@ -51,14 +49,23 @@ public class DrawDronePath_Editor : Editor
         DrawReadOnlyProperty(serializedProperty,"Target Paths");
         serializedObject.ApplyModifiedProperties();
 
-    
+    if(GUILayout.Button("Prograss Path",GUILayout.Width(50),GUILayout.Height(30))){
+
+    }
+    if(GUILayout.Button("Reset",GUILayout.Width(50),GUILayout.Height(30))){
+
+    }
+    if(GUILayout.Button("Refrash",GUILayout.Width(50),GUILayout.Height(30))){
+
+    }
+
 
 
    }
 
 
    private void OnEditorUpdate(){
-    if(!drawDronePath.onHierarchy) return;
+    if(!drawDronePath.onHierarchy || drawDronePath == null) return;
 
     serializedProperty.serializedObject.Update();
     if(drone.paths != null){

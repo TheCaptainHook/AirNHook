@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Numerics;
-using Org.BouncyCastle.Crypto.Modes;
+
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 using Vector2 = UnityEngine.Vector2;
 
 [ExecuteInEditMode]
@@ -44,7 +40,6 @@ public class DrawDronePath : MonoBehaviour
         line.SetPosition(0,previousTransformPosition);
             for(int i =1 ;i<=paths.Length; i++){
                 line.SetPosition(i,paths[i-1]);
-                Debug.Log(paths[i-1]);
             }
     }
 
@@ -54,6 +49,7 @@ public class DrawDronePath : MonoBehaviour
 
    #region  Util
    public void CheckTransform(){
+    if(Application.isPlaying) return;
     if(previousTransformPosition != (Vector2)transform.position){
         previousTransformPosition = transform.position;
         
@@ -63,11 +59,13 @@ public class DrawDronePath : MonoBehaviour
     }
    }
     private void DestroyDebugTransform(){
-        var tr = transform.Find("DebugTransform");
-        if(tr != null) Undo.DestroyObjectImmediate(tr.gameObject);
+       if(parents != null){
+        Undo.DestroyObjectImmediate(parents.gameObject);
+       }
     }
     private bool CheckFocusedObjectPresence(){
         GameObject selectedObject = Selection.activeGameObject;
+        if(selectedObject == null) return false;
         GameObject obj = GameObject.Find(selectedObject.name);
 
         if (obj != null)
@@ -88,7 +86,10 @@ public class DrawDronePath : MonoBehaviour
 
 
     public void Disable(){
-        Undo.DestroyObjectImmediate(parents.gameObject);
+        if(parents != null){
+            Undo.DestroyObjectImmediate(parents.gameObject);
+        }
+        
     }
 
     private LineRenderer GeneratorLineRenderer(){

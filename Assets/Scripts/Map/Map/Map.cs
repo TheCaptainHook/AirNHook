@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 
@@ -24,6 +25,7 @@ public class Map
     public List<ButtonObjectStruct> buttonObjectList = new();
     public List<ExitObjStruct> mapExitObjectDataList = new();
     public List<DialogueData> dialogueDataList = new();
+    public List<DroneStruct> droneStructList = new(); //TODO 0922
 
     public int dataType; //0:Main,1:User
     public float cellSize;
@@ -41,6 +43,7 @@ public class Map
         List<ButtonActivatableObjectStruct> mapButtonActivatabledObjectDataList,
         List<ButtonObjectStruct> buttonObjectList,
         List<DialogueData> dialogueDataList,
+        List<DroneStruct> droneStructList,
         float cellSize,int dataType = 0, byte[] bytesImage = null,AudioType audioType = AudioType.None)
     {
         mapID = id;
@@ -56,6 +59,7 @@ public class Map
         this.mapButtonActivatableObjectDataList = mapButtonActivatabledObjectDataList;
         this.buttonObjectList = buttonObjectList;
         this.dialogueDataList = dialogueDataList;
+        this.droneStructList = droneStructList;
 
         this.mapSize = mapSize;
         this.cellSize = cellSize;
@@ -90,7 +94,7 @@ public class Map
 }
 
 
-
+#region  Struct
 
 [System.Serializable]
 public struct ButtonObjectStruct
@@ -221,5 +225,24 @@ public struct DialogueData
         this.scale = scale;
 
     }
-   
 }
+[System.Serializable]
+public struct DroneStruct{
+    public int id;
+    public Vector2 position;
+    public Quaternion quaternion;
+    public Vector3 scale;
+    public Vector2[] paths;
+    public float moveSpeed;
+
+    public DroneStruct(int id,Vector2 position,Vector3 scale,Vector2[] paths,float moveSpeed){
+        this.id = id;
+        this.position = position;
+        this.scale = scale;
+        this.paths = paths;
+        this.moveSpeed = moveSpeed;
+        quaternion = Quaternion.identity;
+    }
+
+}
+#endregion
