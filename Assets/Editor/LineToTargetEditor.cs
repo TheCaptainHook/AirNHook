@@ -42,7 +42,6 @@ private List<Object> previousList;
    }
 
 
-    
    private void OnDisable()
     {
         if(!lineToTarget.onHierarchy) return;
@@ -52,7 +51,6 @@ private List<Object> previousList;
             if(lineToTarget.debugmodeTransform != null){
                 lineToTarget.DestroyDebugmodeTransform();
             }
-            
         }
         
     }
@@ -61,7 +59,7 @@ private List<Object> previousList;
     {
         if(!lineToTarget.onHierarchy) return;
 
-        DrawDefaultInspector();
+        // DrawDefaultInspector();
 
         if (serializedProperty != null && lineToTarget != null)
         {
