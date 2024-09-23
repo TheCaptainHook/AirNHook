@@ -1,9 +1,17 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
-using Steamworks;
 using UnityEngine;
 
-public class Drone : BuildObj
+
+
+public enum DroneState{
+    Forward,
+    Idle,
+    Back
+}
+
+[RequireComponent(typeof(DrawDronePath))]
+public class DroneEntity : BuildObj
 {
     [CustomHeader("Drone")]
     public Vector2[] paths;
@@ -22,28 +30,18 @@ public class Drone : BuildObj
             paths = value.paths;
             moveSpeed = value.moveSpeed;
         }}
-
+    private Coroutine animationMovingCoroutine;
 
     //TEST
     public bool OnError;
     //TEST
+    [Header("Components")]
+    private Animator animator;
 
-    //Custom Editor
-    // 1. DrawDronePath
-    //     - previousPathList , cur PathList Check and refrash.
-    //     - Create LineRenderer util func.
-    // 2. DrawDronePath_Editor
-    //     - Tracking SerializedProperty, and linerenderer refrash.
-
-
-
-    // 1. MapEditor - Create Drone Transfrom,
-    // 2. Map
-    //    - Craete Drone data struct
-    //    - Add Map Drone Data Struct list
-    // 3. Create_Tool 
-    //    - 
-
+    [Header("Animator")]
+    private readonly int _Moveing = Animator.StringToHash("Moving");
+    public float transitionSpeed;
+    #region GET,SET
     public override T GetData<T>()
     {
         if(typeof(T)==typeof(DroneStruct)){
@@ -65,22 +63,26 @@ public class Drone : BuildObj
         }
         
     }
-
-    private Vector2[] ConvertPaths(Vector2[] paths){
-        Vector2[] targetPaths = new Vector2[paths.Length+1];
-        targetPaths[0] = transform.position;
-        for(int i = 1; i<= paths.Length;i++){
-            targetPaths[i] =  paths[i-1];
-        }
-        return targetPaths;
-    }
+   #endregion
 
     private void Awake(){
         _rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
+
+    //TEST CODE
+   private void Start(){
+        paths = ConvertPaths(paths);
+        Prograss(paths);
+   }
+
+    //TEST CODE
+
+
     private void OnDisable(){
         StopAllCoroutines();
     }
+
     #region  Main
     public void Prograss(Vector2[] paths){
         StartCoroutine(Prograss_Co(paths));
@@ -112,6 +114,10 @@ public class Drone : BuildObj
                 }
 
                 targetPosition = paths[index];
+                //animation Setting
+                //TODO 0923
+                DroneMovingAnimation(GetDroneState(_rb.position,targetPosition));
+
             }
             
             float step = moveSpeed * Time.deltaTime; 
@@ -126,9 +132,63 @@ public class Drone : BuildObj
         }
         return false;
     }
+
+    private void DroneMovingAnimation(DroneState state){
+        if(animator == null) return;
+        if(animationMovingCoroutine != null){
+            StopCoroutine(animationMovingCoroutine);
+        }
+
+        animationMovingCoroutine = StartCoroutine(DroneMovingAnimationCorountine(state));
+    }
+    IEnumerator DroneMovingAnimationCorountine(DroneState state){
+        
+        float _Animator_MovingRate = animator.GetFloat(_Moveing);
+        float targetRate = GetAnimatorMovingRate(state);
+        while(!Mathf.Approximately(_Animator_MovingRate,targetRate)){
+            
+            _Animator_MovingRate = Mathf.Lerp(_Animator_MovingRate,targetRate,transitionSpeed * Time.deltaTime);
+            animator.SetFloat(_Moveing,_Animator_MovingRate);
+            yield return null;
+        }
+    }
+
     #endregion
 
+    #region  Util
+    private DroneState GetDroneState(Vector2 curPos,Vector2 targetPos){
+        Vector2 dir = (targetPos - curPos).normalized;
+        if(dir.x >0){
+            return DroneState.Forward;
+        }else if(dir.x <0){
+            return DroneState.Back;
+        }
+        else{
+            return DroneState.Idle;
+        }
+    }
+     private Vector2[] ConvertPaths(Vector2[] paths){
+        Vector2[] targetPaths = new Vector2[paths.Length+1];
+        targetPaths[0] = transform.position;
+        for(int i = 1; i<= paths.Length;i++){
+            targetPaths[i] =  paths[i-1];
+        }
+        return targetPaths;
+    }
 
+    private float GetAnimatorMovingRate(DroneState state){
+        switch(state){
+            case DroneState.Forward:
+            return 1;
+            case DroneState.Idle:
+            return 0;
+            case DroneState.Back:
+            return -1;
+            default:
+            return 0;
+        }
+    }
+    #endregion
 
     #region  Editor
     // public void StopPrograss(){

@@ -6,7 +6,7 @@ public class DrawDronePath_Editor : Editor
 {
    private SerializedProperty serializedProperty;
    private DrawDronePath drawDronePath;
-   private Drone drone;
+   private DroneEntity drone;
 
     #region  Previous
     private Vector2 previousTransformPosition;
@@ -17,7 +17,7 @@ public class DrawDronePath_Editor : Editor
 
    private void OnEnable(){
     drawDronePath = (DrawDronePath)target;
-    drone = drawDronePath.GetComponent<Drone>();
+    drone = drawDronePath.GetComponent<DroneEntity>();
     if(drone != null){
         //init
         SerializedObject serializedObject = new SerializedObject(drone);
