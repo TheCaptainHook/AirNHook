@@ -578,7 +578,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d84364052745d49fbaa79e574a527041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  id: 325
   transformID: 0
   position: {x: 0, y: 0}
   offset: {x: 0, y: 0}
@@ -591,9 +591,9 @@ MonoBehaviour:
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
   paths: []
-  moveSpeed: 0
+  moveSpeed: 5
   OnError: 0
-  transitionSpeed: 0
+  transitionSpeed: 2
 --- !u!114 &625496163732216387
 MonoBehaviour:
   m_ObjectHideFlags: 0

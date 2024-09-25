@@ -107,7 +107,8 @@ public class MapEditor_Editor : Editor
 
             if (GUILayout.Button("Load Data(인게임용)"))
             {
-                mapEditor.LoadMap(mapEditor.mapID);
+                //mapEditor.LoadMap(mapEditor.mapID);
+                mapEditor.MoveNextStage(mapEditor.mapID);
                 
             }
 

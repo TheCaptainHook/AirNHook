@@ -59,6 +59,7 @@ public class DroneEntity : BuildObj
         }
         //Test
         if(Application.isPlaying){
+            Debug.Log("Drone Prograss");
             Prograss(DroneStruct.paths);
         }
         
@@ -71,10 +72,10 @@ public class DroneEntity : BuildObj
     }
 
     //TEST CODE
-   private void Start(){
-        paths = ConvertPaths(paths);
-        Prograss(paths);
-   }
+   //private void Start(){
+   //     paths = ConvertPaths(paths);
+   //     Prograss(paths);
+   //}
 
     //TEST CODE
 
@@ -119,7 +120,7 @@ public class DroneEntity : BuildObj
                 DroneMovingAnimation(GetDroneState(_rb.position,targetPosition));
 
             }
-            
+            Debug.Log(targetPosition);
             float step = moveSpeed * Time.deltaTime; 
             _rb.position = Vector2.MoveTowards(_rb.position, targetPosition, step);
             yield return null; 
@@ -127,7 +128,7 @@ public class DroneEntity : BuildObj
     }
 
     private bool CheckDistance(Vector2 curPos,Vector2 targetPos){
-        if(Vector3.Distance(curPos,targetPos) < 0.001f){
+        if(Vector3.Distance(curPos,targetPos) < 0.01f){
             return true;
         }
         return false;

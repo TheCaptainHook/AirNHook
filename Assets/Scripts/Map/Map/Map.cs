@@ -168,8 +168,11 @@ public struct ObjectData
     public Vector2 position;
     public Quaternion quaternion;
     public Vector3 scale;
+    //potal
     public Vector2 talPot;
-
+    //WorldTextObject
+    public Vector2 size;
+    public string text;
     public ObjectData(int id, Vector2 position, Vector3 scale, int dialogueId = 0, Vector2 talPot = default)
     {
         this.id = id;
@@ -178,6 +181,8 @@ public struct ObjectData
         quaternion = Quaternion.identity;
         this.scale = scale;
         this.talPot = talPot;
+        this.size = Vector2.zero;
+        this.text = string.Empty;
     }
     public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, int dialogueId = 0)
     {
@@ -187,6 +192,20 @@ public struct ObjectData
         this.quaternion = quaternion;
         this.scale = scale;
         this.talPot = Vector2.zero;
+        this.size = Vector2.zero;
+        this.text = string.Empty;
+    }
+    //WorldTextObject
+    public ObjectData(int id,Vector2 position,Vector2 size,string text)
+    {
+        this.id = id;
+        this.dialogueId = 0;
+        this.position = position;
+        this.quaternion = Quaternion.identity;
+        this.scale = Vector3.one;
+        this.talPot = Vector2.zero;
+        this.size = size;
+        this.text = text;
     }
 
 
@@ -245,4 +264,5 @@ public struct DroneStruct{
     }
 
 }
+
 #endregion
