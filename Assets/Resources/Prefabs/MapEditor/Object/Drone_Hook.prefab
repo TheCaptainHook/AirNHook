@@ -377,9 +377,11 @@ GameObject:
   - component: {fileID: 6538494676459900832}
   - component: {fileID: 7684903196300218065}
   - component: {fileID: -2202390588482861308}
+  - component: {fileID: 1413350595728113696}
   - component: {fileID: 2349395023922785365}
   - component: {fileID: 1013779983779823635}
   - component: {fileID: 2204604940283841952}
+  - component: {fileID: 625496163732216387}
   m_Layer: 14
   m_Name: Drone_Hook
   m_TagString: Untagged
@@ -458,6 +460,40 @@ MonoBehaviour:
   syncInterval: 0
   clientAuthority: 0
   animator: {fileID: 6538494676459900832}
+--- !u!114 &1413350595728113696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5485989114999524422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 3150436631828177710}
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  onlySyncOnChange: 1
+  compressRotation: 1
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  sendIntervalMultiplier: 1
+  timelineOffset: 0
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  onlySyncOnChangeCorrectionMultiplier: 2
+  rotationSensitivity: 0.01
+  positionPrecision: 0.01
+  scalePrecision: 0.01
 --- !u!61 &2349395023922785365
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -542,6 +578,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d84364052745d49fbaa79e574a527041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
+  transformID: 0
+  position: {x: 0, y: 0}
+  offset: {x: 0, y: 0}
+  turnOff: 0
+  distructionStatus: 0
+  onPlaceable: 0
+  onRotateable: 0
+  onScaleable: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 0}
+  paths: []
+  moveSpeed: 0
+  OnError: 0
+  transitionSpeed: 0
+--- !u!114 &625496163732216387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5485989114999524422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f94c8f0b6f1c40b58d12bba8601b7f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parents: {fileID: 0}
+  curPath: []
+  line: {fileID: 0}
+  onHierarchy: 0
 --- !u!1 &7418276887607424029
 GameObject:
   m_ObjectHideFlags: 0
