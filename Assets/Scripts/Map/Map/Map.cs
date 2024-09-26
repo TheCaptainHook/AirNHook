@@ -173,6 +173,7 @@ public struct ObjectData
     //WorldTextObject
     public Vector2 size;
     public string text;
+    public float fontSize;
     public ObjectData(int id, Vector2 position, Vector3 scale, int dialogueId = 0, Vector2 talPot = default)
     {
         this.id = id;
@@ -183,6 +184,7 @@ public struct ObjectData
         this.talPot = talPot;
         this.size = Vector2.zero;
         this.text = string.Empty;
+        this.fontSize = 0;
     }
     public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, int dialogueId = 0)
     {
@@ -194,9 +196,10 @@ public struct ObjectData
         this.talPot = Vector2.zero;
         this.size = Vector2.zero;
         this.text = string.Empty;
+        this.fontSize = 0;
     }
     //WorldTextObject
-    public ObjectData(int id,Vector2 position,Vector2 size,string text)
+    public ObjectData(int id,Vector2 position,Vector2 size,string text,float fontSize)
     {
         this.id = id;
         this.dialogueId = 0;
@@ -206,6 +209,7 @@ public struct ObjectData
         this.talPot = Vector2.zero;
         this.size = size;
         this.text = text;
+        this.fontSize = fontSize;
     }
 
 

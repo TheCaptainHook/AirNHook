@@ -32,8 +32,8 @@ public enum MapEditorState
     Background
 }
 
-[UGS(typeof(TileType))]
-public enum TileType
+[UGS(typeof(ObjectType))]
+public enum ObjectType
 {
     Tile,
     Object,
@@ -405,36 +405,42 @@ public class MapEditor : MonoBehaviour
     }
 
 
-    public void LoadMap(string name) // main Load 
+    public void LoadMap(string name)
     {
         Init();
         placeMentSystem.ResetTileMap();
         mapEditorType = MapEditorType.Load;
         mapID = name;
         CurMap = Managers.Data.mapData.mapAllDictionary[name];
-        SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);
-
+        
         //start Point
         CreateStartPosition();
+        ParallaxCameraReset();
 
-        //ParallaxCamera Reset
-        if (Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate != null) { Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate = null; }
-        Camera.main.GetComponent<ParallaxCamera>().oldPosition = startPosition.x;
-      
-            Create_Tile(); //Draw Tile 0915
-            Create_Object(curMap.mapObjectDataList,objectTransform);
-            Create_Object(curMap.mapButtonActivatableObjectDataList,buttonActivatableObjectTransform);
-            Create_Object(curMap.mapExitObjectDataList,exitDoorObjectTransform);
-            Create_Object(curMap.buttonObjectList,buttonObjectTransform);
-            Create_Object(Managers.Data.saveData.dic[curMap.mapID]._DialogueDataList,triggerDialogueTransform);
-            Create_Object(curMap.droneStructList,droneTransform);
-       
-       
+        Create_Tile();
+        Create_Object();
+        
         Managers.Sound.PlayBGM(CurMap.audioType, AudioMixerGroupType.BGM, true,.1f);
         
     }
 
+// SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);
 
+    private void ParallaxCameraReset(){
+        if (Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate != null) 
+        { 
+            Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate = null;
+        }
+        Camera.main.GetComponent<ParallaxCamera>().oldPosition = startPosition.x;
+    }
+    private void Create_Object(){
+        Create_Object(curMap.mapObjectDataList,objectTransform);
+        Create_Object(curMap.mapButtonActivatableObjectDataList,buttonActivatableObjectTransform);
+        Create_Object(curMap.mapExitObjectDataList,exitDoorObjectTransform);
+        Create_Object(curMap.buttonObjectList,buttonObjectTransform);
+        Create_Object(Managers.Data.saveData.dic[curMap.mapID]._DialogueDataList,triggerDialogueTransform);
+        Create_Object(curMap.droneStructList,droneTransform);
+    }
     #endregion
     
     #region Util 
@@ -493,7 +499,7 @@ public class MapEditor : MonoBehaviour
                 var value = isField.GetValue(data);
                 if(value is int intValue){
                     mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[intValue];
-                     if(mapDataStruct.tileType == TileType.N_Object && Application.isPlaying){
+                     if(mapDataStruct.objectType == ObjectType.N_Object && Application.isPlaying){
                         if(transform == objectTransform){
                             _TR = networkingObjectTransform;
                         }else{

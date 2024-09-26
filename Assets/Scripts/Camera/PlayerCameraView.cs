@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.ComponentModel.Design;
 using UnityEngine;
 
 
@@ -37,6 +38,7 @@ public class PlayerCameraView : MonoBehaviour
     private bool onDefaultMode;
     private bool onTwoPlayer;
     private bool onFadeZoom;
+    private bool onUserControlZoom;
     //private Vector3 beforeCameraPosition;
     //private Vector3 beforeCameraSize;
 
@@ -45,6 +47,7 @@ public class PlayerCameraView : MonoBehaviour
     private Coroutine _FadeZoomCoroutine;
      private Coroutine _AdjustCameraSizeCoroutine;
 
+    float _Zoom;
 
     [Header("Follow Camera")]
     private float _smoothSpeed = 0.5f;
@@ -54,8 +57,8 @@ public class PlayerCameraView : MonoBehaviour
     private float cameraOrthograpicSizeAdd = 0.1f;
 
     [Header("Camera Size")]
-    private float increasedCameraViewRate = .9f;
-    private float decreasedCameraViewRate = .92f;
+    private float increasedCameraViewRate = .95f;
+    private float decreasedCameraViewRate = .95f;
 
 
     [SerializeField] PlayerCameraViewMarker marker; //TODO 0817
@@ -72,6 +75,7 @@ public class PlayerCameraView : MonoBehaviour
     {
         if(Player == null) return;
 
+        // InGameZoomInAndOut();
         SetCameraAngle();
     }
   
@@ -94,17 +98,9 @@ public class PlayerCameraView : MonoBehaviour
     {
        onTwoPlayer = CheckTwoPlayer();
 
-        if (IsDistanceWithinThreshold(_MaxDistance)) // Mark
+       if (IsDistanceWithinThreshold(_TriggerDistance)) 
         {
-                Debug.Log("MARKER Mode");
-                beforeDistance = 0;
-
-            OnMarkerMode();//TODO 0817
-            
-        }
-        else if (IsDistanceWithinThreshold(_TriggerDistance)) 
-        {
-            
+            onWideMode = true;
             Debug.Log("WideView Mode");
             if (marker.gameObject.activeSelf)
             {
@@ -119,20 +115,8 @@ public class PlayerCameraView : MonoBehaviour
         else//
         {
             Debug.Log("default Mode");
-            beforeDistance = 0;
-            onMarker = false;
-
-            if(mainCamera.orthographicSize > _MinZoom && !onFadeZoom){
-                _FadeZoomCoroutine = StartCoroutine(FadeZoom(_MinZoom));
-            }
-
-            if (marker.gameObject.activeSelf)
-            {
-                marker.gameObject.SetActive(false);
-                onMarker = false;
-            }
-
-            FollowCamera(Player);
+            onWideMode = false;
+            OnDefaultMode();
         }
 
     }
@@ -155,6 +139,10 @@ public class PlayerCameraView : MonoBehaviour
 
     private void WideViewMode()
     {
+        if(marker.gameObject.activeSelf){
+            marker.gameObject.SetActive(false);
+        }
+
         Vector3 center = (Player.position + OtherPlayer.position) / 2;
         FollowCamera(center);
 
@@ -162,7 +150,7 @@ public class PlayerCameraView : MonoBehaviour
 
         //Check camera Viewport
 
-        if (!onPrograss && Mathf.Abs(distance - beforeDistance) > 0.1f)
+        if (!onPrograss && Mathf.Abs(distance - beforeDistance) > 0.001f)
         {
             if(distance > beforeDistance )
             {
@@ -204,8 +192,57 @@ public class PlayerCameraView : MonoBehaviour
 
         FollowCamera(Player);
     }
+    private void OnDefaultMode(){
+        beforeDistance = 0;
+        CheckOtherPlayerAndMarker();
+
+        FollowCamera(Player);
+    }
 
     #region Util
+    private void CheckOtherPlayerAndMarker(){
+        if(OtherPlayer != null){
+            if(!IsObjectInView(OtherPlayer,1)){
+                 if (marker.gameObject.activeSelf){
+                    marker.SettingCam(OtherPlayer);
+                }else{
+                    marker.gameObject.SetActive(true);
+                    marker.SettingCam(OtherPlayer);
+                }
+            }else{
+                marker.gameObject.SetActive(false);
+            }
+        }else{
+            if(marker.gameObject.activeSelf){
+                marker.gameObject.SetActive(false);
+            }
+        }
+    }
+     private void InGameZoomInAndOut()
+    {
+        if(onFadeZoom) return;
+        
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        if(scroll == 0 && _Zoom>= _MaxDistance){
+            onUserControlZoom = false;
+        }else if(scroll != 0){
+            _Zoom -= scroll * 1;
+            onUserControlZoom = true;
+            StopAllCoroutines();
+            _Zoom = Mathf.Clamp(_Zoom, _MinZoom, _MaxZoom);
+            mainCamera.orthographicSize = _Zoom;
+
+        }
+        
+        
+
+       
+
+        
+        // mainCamera.orthographicSize = Mathf.SmoothDamp(mainCamera.orthographicSize, _Zoom, ref _vecVelocity, _smoothSpeed);
+        
+    }
+
 
     #region Follow Camera
     private void FollowCamera(Transform target)
@@ -259,9 +296,10 @@ public class PlayerCameraView : MonoBehaviour
         {
             
             float cameraSize = mainCamera.orthographicSize + addCameraSize;
-            cameraSize = Math.Clamp(cameraSize, _MinZoom, _MaxZoom);
+            cameraSize = Math.Clamp(cameraSize, _MinZoom, 99);
 
-            yield return FadeZoom(cameraSize);
+            // yield return FadeZoom(cameraSize);
+            mainCamera.orthographicSize = cameraSize;
 
             if(Player == null || OtherPlayer == null) break;
 

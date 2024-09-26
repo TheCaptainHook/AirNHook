@@ -266,11 +266,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa68a83c80f404b52be4ef7954f83868, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
-  OtherPlayer: {fileID: 0}
   _TriggerDistance: 7
   _MaxDistance: 16
-  _MinZoom: 8
+  _MinZoom: 6
   _MaxZoom: 10
   marker: {fileID: 5745908724491517193}
 --- !u!1001 &6653908672482607058

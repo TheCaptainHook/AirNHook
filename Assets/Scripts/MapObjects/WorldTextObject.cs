@@ -7,6 +7,7 @@ public class WorldTextObject : BuildObj
 {
     public Vector2 size;
     public string mainText;
+    public float fontSize;
 
     [SerializeField] RectTransform _CanvasRT;
     [SerializeField] TextMeshProUGUI textMesh;
@@ -29,18 +30,22 @@ public class WorldTextObject : BuildObj
         mainText = text;
         textMesh.text = text;
     }
+    public void SetFontSize(float fontSize){
+        textMesh.fontSize = fontSize;
+    }
 
     public override void SetData(ObjectData data)
     {
         SetSize(data.size);
         SetText(data.text);
+        SetFontSize(data.fontSize);
     }
 
     public override T GetData<T>()
     {
         if (typeof(T) == typeof(ObjectData))
         {
-            return (T)(object)new ObjectData(id, transform.position, size, mainText);
+            return (T)(object)new ObjectData(id, transform.position, size, mainText,fontSize);
         }
         
         return default(T);

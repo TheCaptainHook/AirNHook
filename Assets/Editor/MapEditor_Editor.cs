@@ -31,7 +31,21 @@ public class MapEditor_Editor : Editor
         mapEditor = target as MapEditor;
        
         GUILayout.Space(10);
+        Draw_MainContents();
+        GUILayout.Space(10);
+        Draw_ToolContent();
+        GUILayout.Space(20);
 
+        if(!Application.isPlaying){
+            Draw_DevContents();
+        }else{
+            Draw_InGameContents();
+        }
+        GUILayout.Space(10);
+        Draw_ResetContent();
+    }
+
+    private void Draw_MainContents(){
         EditorGUILayout.LabelField("Map Editor",GetGUIStyle_Label(Color.black,14,FontStyle.Bold));
         EditorGUILayout.HelpBox($"프로젝트 실행할때 꼭 개발자용 데이터 세이브 후 Reset 버튼 누른다음 실행하기.", MessageType.Info);
     
@@ -47,10 +61,10 @@ public class MapEditor_Editor : Editor
         }else{
             mapEditor.audioType = (AudioType)EditorGUILayout.EnumPopup("Audio Type",mapEditor.audioType);
         }
-        
         GUILayout.EndVertical();
+    }
 
-        GUILayout.Space(10);
+    private void Draw_ToolContent(){
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
         
@@ -60,10 +74,9 @@ public class MapEditor_Editor : Editor
         }
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
-        GUILayout.Space(20);
-
-        if(!Application.isPlaying){
-            GUILayout.FlexibleSpace();
+    }
+    private void Draw_DevContents(){
+          GUILayout.FlexibleSpace();
             GUILayout.Label("개발자 전용",GetGUIStyle_Label((Color.blue),14,FontStyle.Bold));
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
@@ -91,12 +104,9 @@ public class MapEditor_Editor : Editor
           
             }
             GUILayout.FlexibleSpace();
-        }
-       
-
-
-        if(Application.isPlaying){
-        onLoad = false;
+    }
+    private void Draw_InGameContents(){
+         onLoad = false;
         GUILayout.Space(10);
 
         GUILayout.BeginHorizontal();
@@ -118,10 +128,8 @@ public class MapEditor_Editor : Editor
             }
 
         GUILayout.Space(10);
-        }   
-       
-
-        GUILayout.Space(10);
+    }
+    private void Draw_ResetContent(){
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
         if (GUILayout.Button("Reset",GetGUIStyle_Button(Color.red,14,FontStyle.Bold),GUILayout.Width(100),GUILayout.Height(30)))
@@ -139,13 +147,7 @@ public class MapEditor_Editor : Editor
         }
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
-
-        
-
-
     }
-
-
     private void _Reset(MapEditor mapEditor)
     {
         if (mapEditor.mapObjBoxTransform)
@@ -166,6 +168,7 @@ public class MapEditor_Editor : Editor
         }
 
     }
+
     void UGS_MapDataLoad()
     {
         UnityGoogleSheet.LoadAllData();
@@ -336,11 +339,8 @@ public class MapEditor_Editor : Editor
     public void SaveMapData(MapEditor mapEditor)
     {
         string folderPath = Path.Combine(Application.dataPath, "Resources/MapDat");
-
         CreateJsonFile(mapEditor, folderPath);
-
     }
-
     async void CreateJsonFile(MapEditor mapEditor, string folderPath)
     {
         string filePath = "";
@@ -348,18 +348,22 @@ public class MapEditor_Editor : Editor
       
         Map map = await CreateMap(mapEditor);
 
-        //TestCode TOdo 0807
-        //map.mapSize = new Vector2(
-        //    map.mapTileDataList[0].position.x,
-        //     map.mapTileDataList[map.mapTileDataList.Count - 1].position.x);
-        var poss = map.GetStartEndPosition();
-        Debug.Log($"Start : {poss.start},End : {poss.end}");
-
         string json = JsonUtility.ToJson(map, true);
 
         if(mapEditor.mapType == MapType.Main)
         {
-            filePath = Path.Combine(folderPath,$"{mapEditor.mapType}/{mapEditor.stageLevel}");
+            filePath = CheckDirectory(folderPath,map);
+        }else
+        {
+            filePath = Path.Combine(folderPath, $"{mapEditor.mapType}/{map.mapID}.json");
+        }
+        File.WriteAllText(filePath, json);
+        AssetDatabase.Refresh();
+    }
+
+    private string CheckDirectory(string folderPath,Map map){
+        string filePath = "";
+         filePath = Path.Combine(folderPath,$"{mapEditor.mapType}/{mapEditor.stageLevel}");
             if (Directory.Exists(filePath))
             {
                 filePath = Path.Combine(filePath, $"{map.mapID}.json");
@@ -369,23 +373,23 @@ public class MapEditor_Editor : Editor
                 Directory.CreateDirectory(filePath);
                 filePath = Path.Combine(filePath, $"{map.mapID}.json");
             }
-            
-        }else
-        {
-            filePath = Path.Combine(folderPath, $"{mapEditor.mapType}/{map.mapID}.json");
-        }
 
-       
-        File.WriteAllText(filePath, json);
-        UnityEditor.AssetDatabase.Refresh();
+            return filePath;
+
     }
+        //TestCode TOdo 0807
+        //map.mapSize = new Vector2(
+        //    map.mapTileDataList[0].position.x,
+        //     map.mapTileDataList[map.mapTileDataList.Count - 1].position.x);
+        // var poss = map.GetStartEndPosition();
+
 
         //else
         //{
         //    filePath = Path.Combine(folderPath, $"{mapEditor.mapType}/{map.mapID}.json");
         //}
 
-private async  Task<Map> CreateMap(MapEditor mapEditor){
+private async Task<Map> CreateMap(MapEditor mapEditor){
     Map map =  new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, mapEditor.stageLevel, mapEditor.startPosition,
             GetExitObjStructsList(mapEditor.exitDoorObjectTransform, mapEditor),
             //tile
@@ -394,13 +398,10 @@ private async  Task<Map> CreateMap(MapEditor mapEditor){
             GetTileData(mapEditor.placeMentSystem.backgroundTileMap),
             //object
             GetList<ObjectData>(mapEditor.objectTransform),
-            // GetButtonActivatedObjectStructList(mapEditor),
             GetList<ButtonActivatableObjectStruct>(mapEditor.buttonActivatableObjectTransform),
-            // GetButtonObjectList(mapEditor),
             GetList<ButtonObjectStruct>(mapEditor.buttonObjectTransform),
             GetList<DialogueData>(mapEditor.triggerDialogueTransform),
             GetList<DroneStruct>(mapEditor.droneTransform),
-            // GetDialogueList(mapEditor.triggerDialogueTransform), // todo0724
             mapEditor.cellSize, 0, await CurrentMapScreenShot(mapEditor), mapEditor.audioType);
     return  map;
 }
@@ -422,7 +423,6 @@ List<TileData> GetTileData(Tilemap tileMap)
                 }
             }
 
-           
         }
         //Debug.Log($"min : {bounds.min}, max : {bounds.max}");
       

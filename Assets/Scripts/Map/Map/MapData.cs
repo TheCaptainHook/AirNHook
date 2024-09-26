@@ -6,12 +6,7 @@ using UnityEngine;
 
 public class MapData
 {
-    // public Dictionary<int, MapDataStruct> mapTileDataDictionary = new Dictionary<int, MapDataStruct>();
     public Dictionary<int, MapDataStruct> mapObjectDataDictionary = new Dictionary<int, MapDataStruct>();
-    // public Dictionary<int, MapDataStruct> mapSceneDataDictionary = new Dictionary<int, MapDataStruct>();
-    // public Dictionary<int, MapDataStruct> mapBackgroundDataDictionary = new Dictionary<int, MapDataStruct>();// todo 0426 Load Background Data
-    // public Dictionary<int, MapDataStruct> mapOtherDataDictionary = new Dictionary<int, MapDataStruct>();
-
 
     public Dictionary<string, Map> mapSceneDictionary = new Dictionary<string, Map>();
     public Dictionary<string, Map> mapMainDictionary = new Dictionary<string, Map>();
@@ -171,15 +166,15 @@ public class MapData
 public struct MapDataStruct
 {
     public int id;
-    public TileType tileType;
+    public ObjectType objectType;
     public string name;
     public string path;
 
-    public MapDataStruct(int id,string name ,TileType tileType,string path)
+    public MapDataStruct(int id,string name ,ObjectType objectType,string path)
     {
         this.id = id;
         this.name = name;
-        this.tileType = tileType;
+        this.objectType = objectType;
         this.path = path;
     }
 }
