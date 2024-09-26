@@ -135,6 +135,7 @@ MonoBehaviour:
   _Dissolve_MainSprite: {fileID: 0}
   paths: []
   moveSpeed: 0
+  OnError: 0
 --- !u!114 &9153876743183467830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,7 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
-  _assetId: 3462377891
+  _assetId: 3738032796
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
