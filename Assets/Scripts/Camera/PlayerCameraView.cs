@@ -273,6 +273,9 @@ public class PlayerCameraView : MonoBehaviour
         if(Vector3.Distance(transform.position,target)> 0.01f){
             transform.position = Vector3.SmoothDamp(transform.position, _playerPos, ref _vecVelocity, _smoothSpeed,
             float.MaxValue, Time.fixedDeltaTime);
+            
+
+            
         }
         
     }
@@ -370,6 +373,18 @@ public class PlayerCameraView : MonoBehaviour
 
         return adjustedMagnitude >= thresholdDistance;  
 
+    }
+    float IsDistanceWithinThreshold(){
+         if(!onTwoPlayer) return 0;
+
+        Vector3 worldDistance = Player.position - OtherPlayer.position;
+        // 카메라의 가로 세로 비율에 따라 거리 조정
+        Vector3 adjustedDistance = new Vector3(worldDistance.x / mainCamera.aspect, worldDistance.y, worldDistance.z);
+        // 조정된 거리를 이용해 크기 계산
+        float adjustedMagnitude = adjustedDistance.magnitude;
+
+        Debug.Log($"distance : {worldDistance}, adjustedDistance : {adjustedDistance}, magnutude : {adjustedMagnitude}");
+        return adjustedMagnitude;
     }
 
     #endregion
