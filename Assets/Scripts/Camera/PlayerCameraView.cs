@@ -20,7 +20,7 @@ public class PlayerCameraView : MonoBehaviour
     private ViewMode _ViewMode;
     private float _PreviousDistance;
 
-
+    private int testCount;
     Camera mainCamera;
 
     //Test Code
@@ -57,7 +57,7 @@ public class PlayerCameraView : MonoBehaviour
     float _Zoom;
 
     [Header("Follow Camera")]
-    private float _smoothSpeed = 0.5f;
+    private float _smoothSpeed = 0.3f;
     [Header("Camera Zoom")]
     private Vector3 _vecVelocity = Vector3.zero;
     private float _floatVelocity = 0;
@@ -66,8 +66,8 @@ public class PlayerCameraView : MonoBehaviour
     private float cameraOrthograpicSizeAdd = 0.1f;
 
     [Header("Camera Size")]
-    private float increasedCameraViewRate = .95f;
-    private float decreasedCameraViewRate = .95f;
+    private float increasedCameraViewRate = 0.96f;
+    private float decreasedCameraViewRate = .97f;
 
 
     [SerializeField] PlayerCameraViewMarker marker; //TODO 0817
@@ -85,16 +85,12 @@ public class PlayerCameraView : MonoBehaviour
         mainCamera.orthographicSize = _MinZoom;
     }
 
-    // private bool CheckTwoPlayer(){
-    //     if(Player != null && OtherPlayer != null){
-    //         if(_FadeZoomCoroutine!=null){
-    //             StopCoroutine(_FadeZoomCoroutine);
-    //             _FadeZoomCoroutine = null;
-    //         }
-    //       return true;      
-    //     } 
-    //     return false;
-    // }
+    private bool CheckTwoPlayer(){
+        if(Player != null && OtherPlayer != null){
+          return true;      
+        } 
+        return false;
+    }
     // private void SetCameraAngle()
     // {
     //    onTwoPlayer = CheckTwoPlayer();
@@ -123,27 +119,23 @@ public class PlayerCameraView : MonoBehaviour
     // }
 
     private void Update(){
-        float scroll = Input.GetAxis("MouseScrollWheel");
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
 
         _ViewMode = Ch_ViewMode(scroll);
         Debug.Log(_ViewMode);
 
         switch(_ViewMode){
             case ViewMode.Wide:
-                //OnWideViewMode;
-                if(marker.gameObject.activeSelf){
-                    marker.gameObject.SetActive(false);
-                }
-                Debug.Log("WideMode");
+                WideViewMode();
             break;
             case ViewMode.Default:
+                _PreviousDistance = 0;
                 OnDefaultMode();
             break;
         }
              
         if(_ViewMode == ViewMode.Default){
             //MouseZoomInOut;
-            Debug.Log(scroll);
             InGameZoomInAndOut(scroll);
         }
 	
@@ -153,12 +145,58 @@ public class PlayerCameraView : MonoBehaviour
     private ViewMode Ch_ViewMode(float scroll){
         if(OtherPlayer == null) return ViewMode.Default;
 
-        if(IsDistanceWithinThreshold(_TriggerDistance) && IsDistanceWithinThreshold() <= 12 && scroll >= 0 && mainCamera.orthographicSize >= _MaxZoom){
+        if(IsDistanceWithinThreshold(_TriggerDistance) && IsDistanceWithinThreshold() <= 20 && scroll >= 0 && mainCamera.orthographicSize >= _MaxZoom){
             return ViewMode.Wide;
         }else{
             return ViewMode.Default;
         }
     }
+
+    private void WideViewMode(){
+        if(marker.gameObject.activeSelf){
+            marker.gameObject.SetActive(false);
+        }
+
+    Vector3 center = (Player.position + OtherPlayer.position) / 2;
+    FollowCamera(center);
+	// float curDistance = IsDistanceWithinThreshold();
+            var p1 =  IsObjectInView(Player, increasedCameraViewRate);
+            var p2 = IsObjectInView(OtherPlayer, increasedCameraViewRate);
+            if(!p1.isInView || !p2.isInView){
+                AdjustCameraView(true);
+            }
+     
+        // }else if(_PreviousDistance > curDistance){
+        //     var p1 =  IsObjectInView(Player, decreasedCameraViewRate);
+        //     var p2 = IsObjectInView(OtherPlayer, decreasedCameraViewRate);
+        //     if(p1.isInView && p2.isInView){
+        //         Debug.Log($"[Decreased] p1 : {p1.viewPort}, p2 : {p2.viewPort}");
+        //     }
+        //     _PreviousDistance = curDistance;
+        //     // AdjustCameraView(false);
+                
+        // }
+        // Debug.Log($"{_PreviousDistance},{curDistance}");
+        
+
+    }
+
+
+    private void FadeZoom(float target){
+        mainCamera.orthographicSize = Mathf.SmoothDamp(mainCamera.orthographicSize,target,ref _floatVelocity,_smoothSpeed,float.MaxValue,Time.fixedDeltaTime);
+         
+    }
+
+    private void AdjustCameraView(bool isIncreasing){
+       
+        // float viewRate = isIncreasing ? increasedCameraViewRate : decreasedCameraViewRate; 
+        float addCameraSize = isIncreasing ? cameraOrthograpicSizeAdd : -cameraOrthograpicSizeAdd;
+        float target = mainCamera.orthographicSize += addCameraSize;
+        FadeZoom(target);   
+     
+    }
+
+
     #endregion
 
     #region TEST CODE
@@ -216,6 +254,8 @@ public class PlayerCameraView : MonoBehaviour
 
 
 
+
+
 //    private void OnMarkerMode() //TODO 0817
 //     {
 //         //marker Setting
@@ -242,7 +282,7 @@ public class PlayerCameraView : MonoBehaviour
     #region Util
     private void CheckOtherPlayerAndMarker(){
         if(OtherPlayer != null){
-            if(!IsObjectInView(OtherPlayer,1)){
+            if(!IsObjectInView(OtherPlayer,1).isInView){
                  if (marker.gameObject.activeSelf){
                     marker.SettingCam(OtherPlayer);
                 }else{
@@ -263,9 +303,7 @@ public class PlayerCameraView : MonoBehaviour
         mainCamera.orthographicSize  = Mathf.Clamp(mainCamera.orthographicSize,_MinZoom,_MaxZoom);
         _Zoom = mainCamera.orthographicSize + scroll;
 
-        mainCamera.orthographicSize = Mathf.SmoothDamp(mainCamera.orthographicSize,_Zoom,ref _floatVelocity,_smoothSpeed,Time.fixedDeltaTime);
-
-        // mainCamera.orthographicSize = Mathf.SmoothDamp(mainCamera.orthographicSize, _Zoom, ref _vecVelocity, _smoothSpeed);
+        mainCamera.orthographicSize = Mathf.SmoothDamp(mainCamera.orthographicSize,_Zoom,ref _floatVelocity,_smoothSpeed,float.MaxValue,Time.fixedDeltaTime);
         
     }
 
@@ -372,44 +410,43 @@ public class PlayerCameraView : MonoBehaviour
 
 
 
-    bool IsObjectInView(Transform obj,float rate)
+    (bool isInView,Vector3 viewPort) IsObjectInView(Transform obj,float rate)
     {
         Vector3 viewportPoint = mainCamera.WorldToViewportPoint(obj.position);
-
+        
         // 뷰포트 좌표는 (0, 0)에서 (1, 1) 사이에 있음
         // z값은 카메라 앞에 있을 경우 양수, 뒤에 있을 경우 음수임
         bool isInView = viewportPoint.x >= 1-rate && viewportPoint.x <= rate &&
                         viewportPoint.y >= 1-rate && viewportPoint.y <= rate &&
                         viewportPoint.z > 0;
-
-        return isInView;
+        return (isInView,viewportPoint);
     }
 
 
     bool IsDistanceWithinThreshold(float thresholdDistance)
     {
-        if(!onTwoPlayer) return false;
+        if(OtherPlayer == null) return false;
         Vector3 worldDistance = Player.position - OtherPlayer.position;
         // 카메라의 가로 세로 비율에 따라 거리 조정
         Vector3 adjustedDistance = new Vector3(worldDistance.x / mainCamera.aspect, worldDistance.y, worldDistance.z);
         // 조정된 거리를 이용해 크기 계산
         float adjustedMagnitude = adjustedDistance.magnitude;
 
-        Debug.Log($"distance : {worldDistance}, adjustedDistance : {adjustedDistance}, magnutude : {adjustedMagnitude}");
+        // Debug.Log($"[BOOL] distance : {worldDistance}, adjustedDistance : {adjustedDistance}, magnutude : {adjustedMagnitude}");
 
         return adjustedMagnitude >= thresholdDistance;  
 
     }
     float IsDistanceWithinThreshold(){
-         if(!onTwoPlayer) return 0;
+         if(OtherPlayer == null) return 0;
 
         Vector3 worldDistance = Player.position - OtherPlayer.position;
         // 카메라의 가로 세로 비율에 따라 거리 조정
         Vector3 adjustedDistance = new Vector3(worldDistance.x / mainCamera.aspect, worldDistance.y, worldDistance.z);
         // 조정된 거리를 이용해 크기 계산
-        float adjustedMagnitude = adjustedDistance.magnitude;
+        float adjustedMagnitude = Mathf.Floor(adjustedDistance.magnitude * 100) /100f;
 
-        Debug.Log($"distance : {worldDistance}, adjustedDistance : {adjustedDistance}, magnutude : {adjustedMagnitude}");
+        // Debug.Log($"[FLOAT]  distance : {worldDistance}, adjustedDistance : {adjustedDistance}, magnutude : {adjustedMagnitude}");
         return adjustedMagnitude;
     }
 

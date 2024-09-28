@@ -269,7 +269,7 @@ MonoBehaviour:
   _TriggerDistance: 7
   _MaxDistance: 16
   _MinZoom: 6
-  _MaxZoom: 10
+  _MaxZoom: 8
   marker: {fileID: 5745908724491517193}
 --- !u!1001 &6653908672482607058
 PrefabInstance:
