@@ -642,7 +642,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parents: {fileID: 0}
-  curPath: []
+  curPath:
+  - {x: 5, y: 0}
+  - {x: 5, y: 5}
+  - {x: 0, y: 5}
+  - {x: 0, y: 10}
+  - {x: 5, y: 10}
   line: {fileID: 0}
   onHierarchy: 0
 --- !u!114 &896915870225831016

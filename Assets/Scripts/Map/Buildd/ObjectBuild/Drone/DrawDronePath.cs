@@ -1,4 +1,5 @@
 
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
@@ -50,6 +51,8 @@ public class DrawDronePath : MonoBehaviour
    #region  Util
    public void CheckTransform(){
     if(Application.isPlaying) return;
+    if(parents == null) return;
+    
     if(previousTransformPosition != (Vector2)transform.position){
         previousTransformPosition = transform.position;
         
@@ -58,11 +61,21 @@ public class DrawDronePath : MonoBehaviour
         RefrashLine();
     }
    }
-    private void DestroyDebugTransform(){
-       if(parents != null){
-        Undo.DestroyObjectImmediate(parents.gameObject);
-       }
+    public void DestroyDebugTransform(){
+
+        foreach(Transform tr in transform){
+            if(tr.gameObject.name == "DebugTransfrom"){
+                Undo.DestroyObjectImmediate(tr.gameObject);
+            }
+        }
     }
+
+    public void Destroy_Parents(){
+        if(parents != null){
+            Undo.DestroyObjectImmediate(parents.gameObject);
+        }
+    }
+    
     private bool CheckFocusedObjectPresence(){
         GameObject selectedObject = Selection.activeGameObject;
         if(selectedObject == null) return false;
@@ -87,9 +100,13 @@ public class DrawDronePath : MonoBehaviour
 
     public void Disable(){
         if(parents != null){
-            Undo.DestroyObjectImmediate(parents.gameObject);
+            parents.gameObject.SetActive(false);
         }
-        
+    }
+    public void Enable(){
+        if(parents != null){
+            parents.gameObject.SetActive(true);
+        }
     }
 
     private LineRenderer GeneratorLineRenderer(){

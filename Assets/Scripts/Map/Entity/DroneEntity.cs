@@ -72,10 +72,10 @@ public class DroneEntity : BuildObj
     }
 
     //TEST CODE
-   //private void Start(){
-   //     paths = ConvertPaths(paths);
-   //     Prograss(paths);
-   //}
+//    private void Start(){
+//        paths = ConvertPaths(paths);
+//        Prograss(paths);
+//    }
 
     //TEST CODE
 
@@ -93,15 +93,19 @@ public class DroneEntity : BuildObj
         int index = 0;
         int increment = 1;
         Vector2 targetPosition = paths[index];
-
+        
         while (true)
         {
+            Vector2 dir = Vector2.zero;
+
             while(OnError){
                 yield return null;
             }
             if (CheckDistance(_rb.position, targetPosition))
             {
+                _rb.velocity = Vector2.zero;
                 _rb.position = targetPosition;
+
                 index += increment;
                 if (index >= maxIndex || index < 0)
                 {
@@ -115,20 +119,23 @@ public class DroneEntity : BuildObj
                 }
 
                 targetPosition = paths[index];
-                //animation Setting
-                //TODO 0923
-                DroneMovingAnimation(GetDroneState(_rb.position,targetPosition));
 
             }
-            Debug.Log(targetPosition);
-            float step = moveSpeed * Time.deltaTime; 
-            _rb.position = Vector2.MoveTowards(_rb.position, targetPosition, step);
+
+            dir = (targetPosition - _rb.position).normalized;
+            DroneMovingAnimation(GetDroneState(_rb.position,dir));
+            
+            _rb.AddForce(dir,ForceMode2D.Force);
+            if (_rb.velocity.magnitude > moveSpeed)
+            {
+                _rb.velocity = _rb.velocity.normalized * moveSpeed;
+            }
             yield return null; 
         }
     }
 
     private bool CheckDistance(Vector2 curPos,Vector2 targetPos){
-        if(Vector3.Distance(curPos,targetPos) < 0.01f){
+        if(Vector3.Distance(curPos,targetPos) < 0.1f){
             return true;
         }
         return false;
@@ -157,8 +164,7 @@ public class DroneEntity : BuildObj
     #endregion
 
     #region  Util
-    private DroneState GetDroneState(Vector2 curPos,Vector2 targetPos){
-        Vector2 dir = (targetPos - curPos).normalized;
+    private DroneState GetDroneState(Vector2 curPos,Vector2 dir){
         if(dir.x >0){
             return DroneState.Forward;
         }else if(dir.x <0){

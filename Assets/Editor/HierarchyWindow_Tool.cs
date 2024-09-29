@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEditor;
 public class HierarchyWindow_Tool :EditorWindow
@@ -41,7 +40,7 @@ public class HierarchyWindow_Tool :EditorWindow
     private void OnEnable()
     {
         InitTexture();
-        Init();
+        // Init();
     }
 
 
@@ -68,10 +67,10 @@ public class HierarchyWindow_Tool :EditorWindow
         mainSectionTexture.Apply();
 
     }
-    private void Init()
-    {
-        _GUIStyle_TitleText = _GUIStyleGenerator.Generator(20, Color.green, TextAnchor.MiddleCenter,80,350);
-    }
+    // private void Init()
+    // {
+    //     _GUIStyle_TitleText = _GUIStyleGenerator.Generator(20, Color.green, TextAnchor.MiddleCenter,80,350);
+    // }
     #endregion
 
 

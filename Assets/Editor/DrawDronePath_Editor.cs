@@ -4,6 +4,7 @@ using UnityEngine;
 [CustomEditor(typeof(DrawDronePath))]
 public class DrawDronePath_Editor : Editor
 {
+   private GUIStyleGenerator _GUIStyleGenerator = new();
    private SerializedProperty serializedProperty;
    private DrawDronePath drawDronePath;
    private DroneEntity drone;
@@ -34,8 +35,8 @@ public class DrawDronePath_Editor : Editor
 
    }
    private void OnDisable(){
-    drawDronePath.Disable();
     EditorApplication.update -= OnEditorUpdate;
+    drawDronePath.Destroy_Parents();
 
    }
    public override void OnInspectorGUI()
@@ -49,16 +50,32 @@ public class DrawDronePath_Editor : Editor
         DrawReadOnlyProperty(serializedProperty,"Target Paths");
         serializedObject.ApplyModifiedProperties();
 
-    if(GUILayout.Button("Prograss Path",GUILayout.Width(50),GUILayout.Height(30))){
-
+    GUILayout.BeginHorizontal();
+    GUILayout.FlexibleSpace();
+    if(GUILayout.Button("ON",_GUIStyleGenerator.Generator("button",10,Color.white,TextAnchor.MiddleCenter,FontStyle.Normal),GUILayout.Width(45),GUILayout.Height(40))){
+        drawDronePath.Enable();
     }
-    if(GUILayout.Button("Reset",GUILayout.Width(50),GUILayout.Height(30))){
-
+    if(GUILayout.Button("OFF",_GUIStyleGenerator.Generator("button",10,Color.white,TextAnchor.MiddleCenter,FontStyle.Normal),GUILayout.Width(45),GUILayout.Height(40))){
+        drawDronePath.Disable();
     }
-    if(GUILayout.Button("Refrash",GUILayout.Width(50),GUILayout.Height(30))){
+    GUILayout.FlexibleSpace();
+    GUILayout.EndHorizontal();
 
+
+    GUILayout.BeginHorizontal();
+    GUILayout.FlexibleSpace();
+    if(GUILayout.Button("Refrash",_GUIStyleGenerator.Generator("button",15,Color.white,TextAnchor.MiddleCenter,FontStyle.Bold),GUILayout.Width(100),GUILayout.Height(40))){
+      
+        EditorApplication.update -= OnEditorUpdate;
+        // drawDronePath.DestroyDebugTransform();
+        drawDronePath.Init(previousPaths);
+        EditorApplication.update += OnEditorUpdate;
+
+        Debug.Log("Refrash");
+        
     }
-
+    GUILayout.FlexibleSpace();
+    GUILayout.EndHorizontal();
 
 
    }
