@@ -131,6 +131,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 409332154628176857, guid: d88c8402ac47d4d8d8fdaf97730b843a, type: 3}
+      propertyPath: orthographic size
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2988443644864144751, guid: d88c8402ac47d4d8d8fdaf97730b843a, type: 3}
       propertyPath: m_Name
       value: CameraHolder

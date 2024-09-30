@@ -16,10 +16,8 @@ public class PlayerCameraView : MonoBehaviour
 {
     //TODO 0928
     private ViewMode _ViewMode;
-
-    private int testCount;
     Camera mainCamera;
-
+    float tolerance = 0.001f;
     //Test Code
     //[SerializeField] Transform Player;
     //[SerializeField] Transform OtherPlayer;
@@ -28,7 +26,18 @@ public class PlayerCameraView : MonoBehaviour
     {
         get { return Managers.Game.Player?.transform; }
     }
-    private Transform OtherPlayer => Managers.Game.OtherPlayer?.transform;
+
+    // private Transform OtherPlayer => Managers.Game.OtherPlayer?.transform;
+    private Transform OtherPlayer{
+        get{
+             try{
+                return Managers.Game.OtherPlayer?.transform;
+            }catch(MissingReferenceException ex){
+                Debug.Log(ex);
+                return null;
+            }
+        }
+    } 
 
 
     [Header("Info")]
@@ -118,6 +127,12 @@ public class PlayerCameraView : MonoBehaviour
         }
     }
 
+    private void OnDefaultMode(){
+        CheckOtherPlayerAndMarker();
+
+        FollowCamera(Player);
+    }
+
     private void WideViewMode(){
         if(marker.gameObject.activeSelf){
              marker.gameObject.SetActive(false);
@@ -135,6 +150,7 @@ public class PlayerCameraView : MonoBehaviour
     }
 
     private void FadeZoom(float target){
+        
         mainCamera.orthographicSize = Mathf.SmoothDamp(mainCamera.orthographicSize,target,ref _floatVelocity,_smoothSpeed,float.MaxValue,Time.deltaTime);
          
     }
@@ -167,12 +183,6 @@ public class PlayerCameraView : MonoBehaviour
 
     #endregion
 
-    private void OnDefaultMode(){
-        CheckOtherPlayerAndMarker();
-
-        FollowCamera(Player);
-    }
-
     #region Util
     private void CheckOtherPlayerAndMarker(){
         if(OtherPlayer != null){
@@ -194,10 +204,16 @@ public class PlayerCameraView : MonoBehaviour
     }
      private void InGameZoomInAndOut(float scroll)
     {
-        mainCamera.orthographicSize  = Mathf.Clamp(mainCamera.orthographicSize,_MinZoom,_MaxZoom);
-        _Zoom = mainCamera.orthographicSize + scroll;
+        _Zoom = Math.Min(mainCamera.orthographicSize, _MaxZoom) + scroll;
+        _Zoom = Mathf.Clamp(_Zoom, _MinZoom, _MaxZoom);
 
-        mainCamera.orthographicSize = Mathf.SmoothDamp(mainCamera.orthographicSize,_Zoom,ref _floatVelocity,0.1f,float.MaxValue,Time.deltaTime);
+        mainCamera.orthographicSize = Mathf.SmoothDamp(mainCamera.orthographicSize, _Zoom, ref _floatVelocity, 0.1f, float.MaxValue, Time.deltaTime);
+
+        // 허용 오차 내에 있으면 정확하게 _MaxZoom으로 설정
+        if (Mathf.Abs(mainCamera.orthographicSize - _MaxZoom) < tolerance)
+        {
+            mainCamera.orthographicSize = _MaxZoom;
+        }
         
     }
 
