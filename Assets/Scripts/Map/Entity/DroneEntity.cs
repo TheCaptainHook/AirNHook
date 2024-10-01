@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -60,7 +59,7 @@ public class DroneEntity : BuildObj
         //Test
         if(Application.isPlaying){
             Debug.Log("Drone Prograss");
-            Prograss(DroneStruct.paths);
+            Prograss();
         }
         
     }
@@ -72,10 +71,10 @@ public class DroneEntity : BuildObj
     }
 
     //TEST CODE
-//    private void Start(){
-//        paths = ConvertPaths(paths);
-//        Prograss(paths);
-//    }
+   private void Start(){
+       paths = ConvertPaths(paths);
+       Prograss();
+   }
 
     //TEST CODE
 
@@ -85,7 +84,7 @@ public class DroneEntity : BuildObj
     }
 
     #region  Main
-    public void Prograss(Vector2[] paths){
+    public void Prograss(){
         StartCoroutine(Prograss_Co(paths));
     }
     IEnumerator Prograss_Co(Vector2[] paths){
@@ -123,7 +122,7 @@ public class DroneEntity : BuildObj
             }
 
             dir = (targetPosition - _rb.position).normalized;
-            DroneMovingAnimation(GetDroneState(_rb.position,dir));
+            DroneMovingAnimation(GetDroneState(dir));
             
             _rb.AddForce(dir,ForceMode2D.Force);
             if (_rb.velocity.magnitude > moveSpeed)
@@ -164,7 +163,7 @@ public class DroneEntity : BuildObj
     #endregion
 
     #region  Util
-    private DroneState GetDroneState(Vector2 curPos,Vector2 dir){
+    private DroneState GetDroneState(Vector2 dir){
         if(dir.x >0){
             return DroneState.Forward;
         }else if(dir.x <0){
