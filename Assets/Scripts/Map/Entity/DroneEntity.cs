@@ -39,7 +39,7 @@ public class DroneEntity : BuildObj
 
     [Header("Animator")]
     private readonly int _Moveing = Animator.StringToHash("Moving");
-    public float transitionSpeed;
+    public float _Animation_Transition_Speed;
     #region GET,SET
     public override T GetData<T>()
     {
@@ -68,6 +68,7 @@ public class DroneEntity : BuildObj
     private void Awake(){
         _rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        
     }
 
     //TEST CODE
@@ -154,7 +155,7 @@ public class DroneEntity : BuildObj
         float targetRate = GetAnimatorMovingRate(state);
         while(!Mathf.Approximately(_Animator_MovingRate,targetRate)){
             
-            _Animator_MovingRate = Mathf.Lerp(_Animator_MovingRate,targetRate,transitionSpeed * Time.deltaTime);
+            _Animator_MovingRate = Mathf.Lerp(_Animator_MovingRate,targetRate,_Animation_Transition_Speed * Time.deltaTime);
             animator.SetFloat(_Moveing,_Animator_MovingRate);
             yield return null;
         }

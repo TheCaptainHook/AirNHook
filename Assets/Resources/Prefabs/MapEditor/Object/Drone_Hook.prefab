@@ -677,7 +677,7 @@ MonoBehaviour:
   paths: []
   moveSpeed: 4
   OnError: 0
-  transitionSpeed: 3
+  _Animation_Transition_Speed: 3
 --- !u!1 &7418276887607424029
 GameObject:
   m_ObjectHideFlags: 0
