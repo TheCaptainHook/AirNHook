@@ -72,10 +72,10 @@ public class DroneEntity : BuildObj
     }
 
     //TEST CODE
-   private void Start(){
-       paths = ConvertPaths(paths);
-       Prograss();
-   }
+//    private void Start(){
+//        paths = ConvertPaths(paths);
+//        Prograss();
+//    }
 
     //TEST CODE
 
@@ -86,6 +86,7 @@ public class DroneEntity : BuildObj
 
     #region  Main
     public void Prograss(){
+        if(paths.Length <=0) return;
         StartCoroutine(Prograss_Co(paths));
     }
     IEnumerator Prograss_Co(Vector2[] paths){

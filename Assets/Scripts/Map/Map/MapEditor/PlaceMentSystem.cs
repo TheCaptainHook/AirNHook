@@ -452,12 +452,12 @@ public class PlaceMentSystem : MonoBehaviour
 
     //}
 
-    private void OnDrawGizmos()
-    {
-        //mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(mousePosition, 0.1f);
-    }
+    // private void OnDrawGizmos()
+    // {
+    //     //mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    //     Gizmos.color = Color.red;
+    //     Gizmos.DrawSphere(mousePosition, 0.1f);
+    // }
 
     public void ObjectMode_Reset() //Indicatior,mouseHolding Object, curObj, arrow, additional Reset
     {
