@@ -8,12 +8,11 @@ using UnityEngine.UIElements;
 
 public class DroneGuardVision : MonoBehaviour
 {
-    private Collider2D _Col;
 
     private bool _OnFind;
 
     // private float _MinRot = 0;
-    private float _MaxRot = 150;
+    private float _MaxRot = 120;
 
     [SerializeField] GameObject _FoundTargetObj;
 
@@ -33,44 +32,36 @@ public class DroneGuardVision : MonoBehaviour
     public Vector3[] _Vertices;
     public Vector2[] _UV;
     public int[] _Triangles;
-    public float offset;
 
 
 
-    private void Awake(){
-        _Col = GetComponent<Collider2D>();
-        // _Mesh = GetComponent<MeshFilter>().mesh;
+
+
+    private  void Start(){
+        _Mesh = new Mesh();
+            GetComponent<MeshFilter>().mesh = _Mesh;
+        StartCoroutine(GuardVisionPrograss());
+
     }
 
 
+    IEnumerator GuardVisionPrograss(){
 
-private  void Start(){
-     _Mesh = new Mesh();
-        GetComponent<MeshFilter>().mesh = _Mesh;
-    // StartCoroutine(GuardVisionPrograss());
-}
+        while(true){
+            while(_OnFind){
+                if(_FoundTargetObj == null){
+                    _OnFind = false;
+                }
+                Debug.Log("Find Target");
+                yield return null;
+            }
 
+           _Angle = Mathf.PingPong(Time.time *_RotSpeed,_MaxRot) * -1;
+        
+          yield return null;
 
-    // IEnumerator GuardVisionPrograss(){
-    //     float z;
-    //     Vector2 curRot;
-    //     while(true){
-    //         while(_OnFind){
-    //             if(_FoundTargetObj == null){
-    //                 _OnFind = false;
-    //             }
-    //             Debug.Log("Find Target");
-    //             yield return null;
-    //         }
-
-    //        z = Mathf.PingPong(Time.deltaTime*_RotSpeed,_MaxRot);
-    //        curRot = transform.eulerAngles;
-    //        transform.eulerAngles = new Vector3(curRot.x,curRot.y,z);
-
-    //       yield return null;
-
-    //     }
-    // }
+        }
+    }
 
 
     //TEST
@@ -81,7 +72,6 @@ private  void Start(){
 
     #region  Create View Field
     private void CreateMesh(){
-       _Angle = 0;
        Vector2 curPot = transform.position;
         //INIT
         _Vertices = new Vector3[_RayCount+2];
@@ -98,7 +88,6 @@ private  void Start(){
             Vector3 vertex;
             
             RaycastHit2D hit = Physics2D.Raycast(curPot,GetVectorFromAngle(_Angle),_ViewDistance);
-            Debug.DrawRay(transform.position,GetVectorFromAngle(_Angle)*_ViewDistance,Color.green);
 
             if(hit.collider == null){
                 // vertex = transform.position + GetVectorFromAngle(_Angle) * _ViewDistance;

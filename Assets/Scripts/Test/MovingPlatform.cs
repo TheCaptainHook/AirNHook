@@ -26,6 +26,7 @@ public class MovingPlatform :  BuildObj
 
 
     [Header("Main")]
+
     public float step;
     public Vector2 dir;
     public event Action<Vector2> MoveAction;
@@ -110,6 +111,7 @@ public class MovingPlatform :  BuildObj
         dir = (target-curP).normalized;
         step = moveSpeed * Time.fixedDeltaTime; 
         _rb.position = Vector2.MoveTowards(_rb.position,_rb.position +dir,step);
+        
     }
 
     private bool CheckDistance(Vector2 curPos,Vector2 targetPos){

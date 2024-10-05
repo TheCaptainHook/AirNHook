@@ -95,12 +95,13 @@ public class AddForcePlatform : MonoBehaviour
         foreach(DetectObj obj in _PreviousDetactObjects){
             Vector2 curPot = obj._Rb.position;
             obj._Rb.position = Vector2.MoveTowards(curPot,curPot+ConvertVec(_MovingPlatform.dir),_MovingPlatform.step);
+            
         }
     }
     private Vector2 ConvertVec(Vector2 vec){
         Vector2 newVec = vec;
         if(vec.y>0){
-            newVec.y = 0.1f;
+            newVec.y = 0;
         }
 
         return newVec;

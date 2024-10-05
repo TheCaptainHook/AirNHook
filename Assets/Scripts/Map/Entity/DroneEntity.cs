@@ -71,15 +71,6 @@ public class DroneEntity : BuildObj
         
     }
 
-    //TEST CODE
-//    private void Start(){
-//        paths = ConvertPaths(paths);
-//        Prograss();
-//    }
-
-    //TEST CODE
-
-
     private void OnDisable(){
         StopAllCoroutines();
     }
@@ -175,7 +166,7 @@ public class DroneEntity : BuildObj
             return DroneState.Idle;
         }
     }
-     private Vector2[] ConvertPaths(Vector2[] paths){
+     protected Vector2[] ConvertPaths(Vector2[] paths){
         Vector2[] targetPaths = new Vector2[paths.Length+1];
         targetPaths[0] = transform.position;
         for(int i = 1; i<= paths.Length;i++){

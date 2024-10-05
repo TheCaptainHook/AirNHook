@@ -10,7 +10,11 @@ public class Drone_Laser : DroneEntity
 
     //Limit Rot : 0 ~ 150
 
-    
+     private void Start(){
+       paths = ConvertPaths(paths);
+       Prograss();
+   }
+
 
 
 
