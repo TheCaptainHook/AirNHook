@@ -93,10 +93,6 @@ public class AddForcePlatform : MonoBehaviour
     public void AddForce(Vector2 vec){
         if(_PreviousDetactObjects.Count <=0) return;
         foreach(DetectObj obj in _PreviousDetactObjects){
-            // if(obj.obj.layer == LayerMask.NameToLayer("Player")){
-            //     obj.obj.GetComponent<PlayerMovement>().isGround = true;
-            // }
-            // obj._Rb.position += ConvertVec(vec);
             Vector2 curPot = obj._Rb.position;
             obj._Rb.position = Vector2.MoveTowards(curPot,curPot+ConvertVec(_MovingPlatform.dir),_MovingPlatform.step);
         }

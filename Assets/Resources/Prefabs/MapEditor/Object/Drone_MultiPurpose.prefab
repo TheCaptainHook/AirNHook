@@ -542,11 +542,11 @@ GameObject:
   - component: {fileID: 2116466263461292560}
   - component: {fileID: 6505566608330904754}
   - component: {fileID: 2601364852210658549}
-  - component: {fileID: 9153876743183467830}
   - component: {fileID: 248568403052513572}
   - component: {fileID: -4017891748306720770}
   - component: {fileID: 7557043212710527452}
   - component: {fileID: 7058010000968380228}
+  - component: {fileID: 9153876743183467830}
   m_Layer: 0
   m_Name: Drone_MultiPurpose
   m_TagString: Untagged
@@ -642,27 +642,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &9153876743183467830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7348580558311126004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f94c8f0b6f1c40b58d12bba8601b7f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parents: {fileID: 0}
-  curPath:
-  - {x: 0, y: 0}
-  - {x: 0, y: 5}
-  - {x: 5, y: 5}
-  - {x: 5, y: -5}
-  - {x: -10, y: -5}
-  line: {fileID: 0}
-  onHierarchy: 0
 --- !u!114 &248568403052513572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -741,6 +720,27 @@ MonoBehaviour:
   moveSpeed: 5
   OnError: 0
   _Animation_Transition_Speed: 3
+--- !u!114 &9153876743183467830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7348580558311126004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f94c8f0b6f1c40b58d12bba8601b7f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parents: {fileID: 0}
+  curPath:
+  - {x: 0, y: 0}
+  - {x: 0, y: 5}
+  - {x: 5, y: 5}
+  - {x: 5, y: -5}
+  - {x: -10, y: -5}
+  line: {fileID: 0}
+  onHierarchy: 0
 --- !u!1 &8818742273796467428
 GameObject:
   m_ObjectHideFlags: 0
