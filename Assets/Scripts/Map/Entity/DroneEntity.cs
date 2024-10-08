@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -32,7 +34,8 @@ public class DroneEntity : BuildObj
     private Coroutine animationMovingCoroutine;
 
     //TEST
-    public bool OnError;
+    public bool OnStop;
+    public bool IsBroken;
     //TEST
     [Header("Components")]
     private Animator animator;
@@ -40,6 +43,12 @@ public class DroneEntity : BuildObj
     [Header("Animator")]
     private readonly int _Moveing = Animator.StringToHash("Moving");
     public float _Animation_Transition_Speed;
+
+
+    //Action
+    public event Action PrograssAction;//start operation
+    public event Action BrokenAction; //stop operation
+
     #region GET,SET
     public override T GetData<T>()
     {
@@ -59,9 +68,16 @@ public class DroneEntity : BuildObj
         //Test
         if(Application.isPlaying){
             Debug.Log("Drone Prograss");
-            Prograss();
+            // Prograss();
+            CallPrograssAction();
         }
         
+    }
+    public void CallPrograssAction(){
+        PrograssAction?.Invoke();
+    }
+    public void CallBrokenAction(){
+        BrokenAction?.Invoke();
     }
    #endregion
 
@@ -71,9 +87,26 @@ public class DroneEntity : BuildObj
         
     }
 
+    protected virtual void Start(){
+        PrograssAction+= Prograss;
+        BrokenAction += Broken;
+    }
+
     private void OnDisable(){
         StopAllCoroutines();
     }
+
+   
+
+    #region  Action
+
+     private void Broken(){
+        StopAllCoroutines();
+        IsBroken = true;
+        _rb.velocity = Vector2.zero;
+        // _rb.gravityScale =1;
+    }
+    #endregion
 
     #region  Main
     public void Prograss(){
@@ -86,11 +119,14 @@ public class DroneEntity : BuildObj
         int increment = 1;
         Vector2 targetPosition = paths[index];
         
-        while (true)
+        while (!IsBroken)
         {
             Vector2 dir = Vector2.zero;
 
-            while(OnError){
+            while(OnStop){
+                if(_rb.velocity.magnitude > 0){
+                    _rb.velocity = Vector2.zero;
+                }
                 yield return null;
             }
             if (CheckDistance(_rb.position, targetPosition))

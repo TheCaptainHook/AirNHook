@@ -1,97 +1,125 @@
 using System.Collections;
-using System.Collections.Generic;
 using Org.BouncyCastle.Crypto.Engines;
-using TMPro.EditorUtilities;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.Assertions.Must;
+
 
 public class DroneGuardVision : MonoBehaviour
 {
 
-    private bool _OnFind;
+    public bool _OnFind;
 
     // private float _MinRot = 0;
-    private float _MaxRot = 120;
+    private float _MaxRot = 130;
 
-    [SerializeField] GameObject _FoundTargetObj;
+    // [SerializeField] GameObject _FoundTargetObj;
 
     [SerializeField] float _RotSpeed;
-
+    public LayerMask layerMask;
 
 
     [Header("View Field")]
-    
+    MeshFilter meshFilter;
     private Mesh _Mesh;
-    public float _Fov; //30 ,View Area
-    public int _RayCount; // Mesh Point
-    public float _Angle; // 0
+    [SerializeField] float _Fov; //40 ,View Area
+    [SerializeField] int _RayCount; //30 Mesh Point
+    private float _Angle; // 0
+    // private float previousAngle;
     private float AngleIncrease => _Fov/_RayCount;
-    public float _ViewDistance;
+    [SerializeField] float _ViewDistance; //10
 
-    public Vector3[] _Vertices;
-    public Vector2[] _UV;
-    public int[] _Triangles;
+    private Vector3[] _Vertices;
+    private Vector2[] _UV;
+    private int[] _Triangles;
 
+    [SerializeField] Drone_Laser drone_Laser;
 
-
-
+    private void Awake(){
+        meshFilter = GetComponent<MeshFilter>();
+        _Mesh = new Mesh();
+    }
 
     private  void Start(){
-        _Mesh = new Mesh();
-            GetComponent<MeshFilter>().mesh = _Mesh;
-        StartCoroutine(GuardVisionPrograss());
-
+        drone_Laser.PrograssAction += GuardVisionPrograss;
+        drone_Laser.BrokenAction += Broken;
     }
+    
 
-
-    IEnumerator GuardVisionPrograss(){
-
-        while(true){
-            while(_OnFind){
-                if(_FoundTargetObj == null){
-                    _OnFind = false;
+    private void GuardVisionPrograss(){
+         
+        StartCoroutine(GuardVisionPrograssCo());
+    }
+    IEnumerator GuardVisionPrograssCo(){
+        float percent = 0;
+        while(!drone_Laser.IsBroken){
+            if(_OnFind){
+                if(drone_Laser.target != null){
+                    Vector2 dir = (drone_Laser.target.transform.position - transform.position).normalized;
+                    float deg = GetAngleFromVector(dir);
+                    // Debug.Log($"Deg : {deg},ANgP :{_Angle}");
+                    _Angle = deg;
+                    CreateMesh(deg+20);
+                    //LazerRot
+                    drone_Laser.RotLazerAnimation(deg);
                 }
-                Debug.Log("Find Target");
-                yield return null;
+                // _Angle = previousAngle;
+            }else{
+                DelMesh();
+                percent += Time.deltaTime;
+                _Angle = (Mathf.PingPong(percent *_RotSpeed,_MaxRot)+20) * -1;
+                // _Angle = PingPong(_Angle,Time.time * _RotSpeed,_MaxRot);
             }
 
-           _Angle = Mathf.PingPong(Time.time *_RotSpeed,_MaxRot) * -1;
-        
-          yield return null;
+        GuardVisionRay(_Angle);
+        yield return null;
 
         }
+
+    }
+
+    private void Broken(){
+        StopAllCoroutines();
+        GetComponent<MeshFilter>().mesh = null;
     }
 
 
-    //TEST
-    private void Update(){
-      CreateMesh();
+    private void GuardVisionRay(float _Angle){
+        Vector2 curPot = transform.position;
+        float newAngle = _Angle;
+        RaycastHit2D hit = Physics2D.Raycast(curPot,GetVectorFromAngle(newAngle),_ViewDistance,layerMask);
+        Debug.DrawRay(curPot,GetVectorFromAngle(newAngle)*_ViewDistance,Color.red);
+
+        if(hit.collider != null){
+            if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Player")){
+                _OnFind = true;
+                drone_Laser.target = hit.collider.gameObject;
+            }
+        }else{
+            _OnFind = false;
+        }
     }
-
-
     #region  Create View Field
-    private void CreateMesh(){
-       Vector2 curPot = transform.position;
+    private void CreateMesh(float _Angle){
+        _Mesh = new Mesh();
+        meshFilter.mesh = _Mesh;
+      
+        Vector2 curPot = transform.position;
         //INIT
         _Vertices = new Vector3[_RayCount+2];
         _UV = new Vector2[_Vertices.Length];
         _Triangles = new int[_RayCount *3];
-
+        float newAngle = _Angle;
         _Vertices[0] = transform.InverseTransformPoint(curPot);
         int verticesIdx = 1;
         int trianglesIdx = 0;
         //INIT
-
-
+        
         for(int i = 0; i<=_RayCount; i++){
             Vector3 vertex;
-            
-            RaycastHit2D hit = Physics2D.Raycast(curPot,GetVectorFromAngle(_Angle),_ViewDistance);
+            RaycastHit2D hit = Physics2D.Raycast(curPot,GetVectorFromAngle(newAngle),_ViewDistance);
 
             if(hit.collider == null){
-                // vertex = transform.position + GetVectorFromAngle(_Angle) * _ViewDistance;
-                vertex = transform.InverseTransformPoint((Vector3)curPot + GetVectorFromAngle(_Angle) * _ViewDistance);
+                vertex = transform.InverseTransformPoint((Vector3)curPot + GetVectorFromAngle(newAngle) * _ViewDistance);
             }else{
                 vertex = transform.InverseTransformPoint((Vector3)hit.point);
             }
@@ -106,7 +134,8 @@ public class DroneGuardVision : MonoBehaviour
             }
              
              verticesIdx++;
-             _Angle -= AngleIncrease;
+            //  _Angle -= AngleIncrease;
+                newAngle -= AngleIncrease;    
         }
 
         _Mesh.vertices = _Vertices;
@@ -117,12 +146,22 @@ public class DroneGuardVision : MonoBehaviour
     #endregion
 
 
-
     #region  Util
+    private void DelMesh(){
+        
+        if(meshFilter.mesh != null){
+            meshFilter.mesh = null;
+        }
+    }
     private Vector3 GetVectorFromAngle(float angle){
         //Convert Radian from angle
         float radian = angle * (Mathf.PI / 180f);
         return new Vector3(Mathf.Cos(radian),Mathf.Sin(radian)).normalized;
+    }
+
+    private float GetAngleFromVector(Vector3 dir){
+        float angle = Mathf.Atan2(dir.y,dir.x) * Mathf.Rad2Deg;
+        return angle;
     }
     #endregion
 
