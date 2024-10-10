@@ -1,5 +1,8 @@
 using System.Collections;
+using System.Data;
 using Org.BouncyCastle.Crypto.Engines;
+using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
 
@@ -33,17 +36,14 @@ public class DroneGuardVision : MonoBehaviour
     private int[] _Triangles;
 
     [SerializeField] Drone_Laser drone_Laser;
+    [SerializeField] Transform _LightTR;
 
     private void Awake(){
         meshFilter = GetComponent<MeshFilter>();
         _Mesh = new Mesh();
-    }
-
-    private  void Start(){
         drone_Laser.PrograssAction += GuardVisionPrograss;
         drone_Laser.BrokenAction += Broken;
     }
-    
 
     private void GuardVisionPrograss(){
          
@@ -54,6 +54,7 @@ public class DroneGuardVision : MonoBehaviour
         while(!drone_Laser.IsBroken){
             if(_OnFind){
                 if(drone_Laser.target != null){
+                    drone_Laser.Stop();
                     Vector2 dir = (drone_Laser.target.transform.position - transform.position).normalized;
                     float deg = GetAngleFromVector(dir);
                     // Debug.Log($"Deg : {deg},ANgP :{_Angle}");
@@ -61,10 +62,16 @@ public class DroneGuardVision : MonoBehaviour
                     CreateMesh(deg+20);
                     //LazerRot
                     drone_Laser.RotLazerAnimation(deg);
+                    if(!drone_Laser.OnLazer){
+                        yield return new WaitForSeconds(0.1f);
+                        drone_Laser.TurnOnLazer();
+                    }
                 }
                 // _Angle = previousAngle;
             }else{
                 DelMesh();
+                drone_Laser.TurnOffLazer();
+                drone_Laser.Go();
                 percent += Time.deltaTime;
                 _Angle = (Mathf.PingPong(percent *_RotSpeed,_MaxRot)+20) * -1;
                 // _Angle = PingPong(_Angle,Time.time * _RotSpeed,_MaxRot);
@@ -88,21 +95,24 @@ public class DroneGuardVision : MonoBehaviour
         float newAngle = _Angle;
         RaycastHit2D hit = Physics2D.Raycast(curPot,GetVectorFromAngle(newAngle),_ViewDistance,layerMask);
         Debug.DrawRay(curPot,GetVectorFromAngle(newAngle)*_ViewDistance,Color.red);
-
+        _LightTR.eulerAngles = new Vector3(0,0,newAngle);
+        
         if(hit.collider != null){
             if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Player")){
                 _OnFind = true;
                 drone_Laser.target = hit.collider.gameObject;
+            }else{
+                _OnFind = false;
             }
         }else{
             _OnFind = false;
         }
+        
     }
     #region  Create View Field
     private void CreateMesh(float _Angle){
         _Mesh = new Mesh();
         meshFilter.mesh = _Mesh;
-      
         Vector2 curPot = transform.position;
         //INIT
         _Vertices = new Vector3[_RayCount+2];

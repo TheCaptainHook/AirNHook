@@ -47,6 +47,7 @@ private List<Object> previousList;
         if(!lineToTarget.onHierarchy) return;
 
         EditorApplication.update -= OnEditorUpdate;
+
         if(lineToTarget != null){
             if(lineToTarget.debugmodeTransform != null){
                 lineToTarget.DestroyDebugmodeTransform();
@@ -97,47 +98,53 @@ private List<Object> previousList;
 
         if (serializedProperty != null && lineToTarget != null)
         {
-
             serializedProperty.serializedObject.Update();
 
-            if(((LineToTarget)target).gameObject.transform.position != previousThisTransfromPosition){
-
-                
-                previousThisTransfromPosition = ((LineToTarget)target).gameObject.transform.position;
-                // Debug.Log("Change Transform");
-                lineToTarget.RefrashLineRenderer_ThisTransform();
-                Debug.Log("Different this Transform");
+            if(((LineToTarget)target).gameObject.transform.position != previousThisTransfromPosition)
+            {
+                RefrashMainObjTransform();
                 return;
             }
-
 
             int currentListSize = serializedProperty.arraySize;
             if (currentListSize != previousListSize)
             {
-                previousListSize = currentListSize;
-               lineToTarget.SetTargetObjectList(GetGameObjectListFromSerializedProperty(serializedProperty));
-                UpdateList();
-                Debug.Log("Different Size");
+                RefrashPropertyList(currentListSize);
                 return;
             }
 
             if(previousList.Count == 0) return;
-
-            for(int i = 0; i< serializedProperty.arraySize;i++){
-                if(previousList[i] != serializedProperty.GetArrayElementAtIndex(i).objectReferenceValue){
-                    UpdateList();
-                    lineToTarget.SetTargetObjectList(GetGameObjectListFromSerializedProperty(serializedProperty));
-                    Debug.Log("Different property");
-                    return;
-                }
+            if(CheckDifferentProperty())
+            {
+                return;
             }
-            
-
-
         }
     }
 
-
+    private void RefrashMainObjTransform(){
+        previousThisTransfromPosition = ((LineToTarget)target).gameObject.transform.position;
+        lineToTarget.RefrashLineRenderer_ThisTransform();
+        Debug.Log("Different this Transform");
+    }
+    private void RefrashPropertyList(int currentListSize){
+        previousListSize = currentListSize;
+        lineToTarget.SetTargetObjectList(GetGameObjectListFromSerializedProperty(serializedProperty));
+        UpdateList();
+        Debug.Log("Different Size");
+    }
+    private bool CheckDifferentProperty(){
+        for(int i = 0; i< serializedProperty.arraySize;i++)
+        {
+            if(previousList[i] != serializedProperty.GetArrayElementAtIndex(i).objectReferenceValue)
+            {
+                UpdateList();
+                lineToTarget.SetTargetObjectList(GetGameObjectListFromSerializedProperty(serializedProperty));
+                Debug.Log("Different property");
+                return true;
+            }
+        }   
+        return false;
+    }
 
     #region  Util
 
@@ -159,15 +166,16 @@ private List<Object> previousList;
             for (int i = 0; i < property.arraySize; i++)
             {
                 SerializedProperty elementProperty = property.GetArrayElementAtIndex(i);
-                GameObject obj = (GameObject)elementProperty.objectReferenceValue;
+                GameObject obj = elementProperty.objectReferenceValue as GameObject;
 
                 if(obj == null) continue;
                 if(i>0){
-                    if(property.GetArrayElementAtIndex(i-1) == property.GetArrayElementAtIndex(i)){
+                    GameObject previousObj = property.GetArrayElementAtIndex(i - 1).objectReferenceValue as GameObject;
+                    if (previousObj == obj)
+                    {
                         continue;
-                    };
+                    }
                 }
-
                 list.Add(obj);
             }
         }

@@ -61,6 +61,7 @@ public class DrawDronePath : MonoBehaviour
         RefrashLine();
     }
    }
+   
     public void DestroyDebugTransform(){
 
         foreach(Transform tr in transform){

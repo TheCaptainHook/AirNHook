@@ -119,10 +119,6 @@ public class CreateMap_Tool : EditorWindow
     }
 
     #region  Init 
-
-
-
-
     private void InitTextures()
     {
         headerSectionTexture = new Texture2D(1, 1);
@@ -190,6 +186,7 @@ public class CreateMap_Tool : EditorWindow
         DrawGenratorObjectPreviewSpriteContent();
 
     }
+    
     #region Draw
 
     #region REFECTORINGCODE 0510
@@ -333,13 +330,50 @@ public class CreateMap_Tool : EditorWindow
         float screenWidth = viewWidth -10;
         int index = 0;
         float curWidth = 0;
+
+        SettingContents(contentsList,screenWidth,ref index,ref curWidth);
+
+        GUILayout.EndScrollView();
+        GUILayout.EndArea();
+    }
+ // foreach (GUIContent content in contentsList) //
+        // {
+        //     if (curWidth == 0)
+        //     {
+        //         GUILayout.BeginHorizontal(GUILayout.Width(screenWidth));
+        //     }
+        
+        //     if (GUILayout.Button(content, _GUIStyle_Cell))
+        //     {
+        //         CreateObject(index);
+        //     }
+
+        //     CreateLabel(modeType, index);
+
+        //     if (curWidth > screenWidth - 10)
+        //     {
+        //         curWidth = 0;
+        //         index++;
+        //         GUILayout.EndHorizontal();
+        //         continue;
+        //     }
+        //     else if (index == contentsList.Count - 1)
+        //     {
+        //         GUILayout.EndHorizontal();
+        //     }
+        //     curWidth += _GUIStyle_Cell.fixedWidth;
+        //     index++;
+
+        // }
+
+
+    private void SettingContents(List<GUIContent> contentsList,float screenWidth,ref int index,ref float curWidth){
         foreach (GUIContent content in contentsList) //
         {
             if (curWidth == 0)
             {
                 GUILayout.BeginHorizontal(GUILayout.Width(screenWidth));
             }
-
         
             if (GUILayout.Button(content, _GUIStyle_Cell))
             {
@@ -363,9 +397,6 @@ public class CreateMap_Tool : EditorWindow
             index++;
 
         }
-
-        GUILayout.EndScrollView();
-        GUILayout.EndArea();
     }
 
     //todo TEST REFECTORING CODE 0503

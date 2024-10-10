@@ -34,7 +34,7 @@ public class DroneEntity : BuildObj
     private Coroutine animationMovingCoroutine;
 
     //TEST
-    public bool OnStop;
+    private bool OnStop;
     public bool IsBroken;
     //TEST
     [Header("Components")]
@@ -84,19 +84,30 @@ public class DroneEntity : BuildObj
     private void Awake(){
         _rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        PrograssAction+= Prograss;
+        BrokenAction += Broken;
         
     }
 
     protected virtual void Start(){
-        PrograssAction+= Prograss;
-        BrokenAction += Broken;
+        
     }
 
     private void OnDisable(){
         StopAllCoroutines();
     }
 
-   
+   public virtual void Stop(){
+    if(!OnStop){
+        OnStop = true;
+    }
+    
+   }
+   public virtual void Go(){
+    if(OnStop){
+        OnStop = false;
+    }
+   }
 
     #region  Action
 
