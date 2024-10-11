@@ -55,31 +55,37 @@ public class DroneGuardVision : MonoBehaviour
         while(!drone_Laser.IsBroken){
             if(_OnFind){
                 if(drone_Laser.target != null){
-                    drone_Laser.Stop();
-                    Vector2 dir = (drone_Laser.target.transform.position - transform.position).normalized;
-                    float deg = GetAngleFromVector(dir);
-                    _Angle = deg;
-                    CreateMesh(deg+20);
-                    drone_Laser.RotLazerAnimation(deg);
+                    FindTarget(ref _Angle);
                     if(!drone_Laser.OnLazer){
                         yield return new WaitForSeconds(0.1f);
                         drone_Laser.TurnOnLazer();
                     }
                 }
-                // _Angle = previousAngle;
             }else{
-                DelMesh();
-                drone_Laser.TurnOffLazer();
-                drone_Laser.Go();
-                percent += Time.deltaTime;
-                _Angle = (Mathf.PingPong(percent *_RotSpeed,_MaxRot)+20) * -1;
+                LostTarget(ref _Angle,ref percent);
             }
 
         GuardVisionRay(_Angle);
         yield return null;
-
         }
 
+    }
+    private void FindTarget(ref float _Angle)
+    {
+        drone_Laser.Stop();
+        Vector2 dir = (drone_Laser.target.transform.position - transform.position).normalized;
+        float deg = GetAngleFromVector(dir);
+        _Angle = deg;
+        CreateMesh(deg+20);
+        drone_Laser.RotLazerAnimation(deg);
+    }
+    private void LostTarget(ref float _Angle,ref float percent)
+    {
+        DelMesh();
+        drone_Laser.TurnOffLazer();
+        drone_Laser.Go();
+        percent += Time.deltaTime;
+        _Angle = (Mathf.PingPong(percent *_RotSpeed,_MaxRot)+20) * -1;   
     }
 
     private void Broken(){
@@ -113,19 +119,16 @@ public class DroneGuardVision : MonoBehaviour
     }
     #region  Create View Field
     private void CreateMesh(float _Angle){
-        _Mesh = new Mesh();
-        meshFilter.mesh = _Mesh;
+       
         Vector2 curPot = transform.position;
-        //INIT
-        _Vertices = new Vector3[_RayCount+2];
-        _UV = new Vector2[_Vertices.Length];
-        _Triangles = new int[_RayCount *3];
         float newAngle = _Angle;
-        _Vertices[0] = transform.InverseTransformPoint(curPot);
         int verticesIdx = 1;
         int trianglesIdx = 0;
         Vector2 dir;
-        //INIT
+  
+        CreateMeshInit();
+
+        _Vertices[0] = transform.InverseTransformPoint(curPot);
         
         for(int i = 0; i<=_RayCount; i++){
             Vector3 vertex;
@@ -157,8 +160,21 @@ public class DroneGuardVision : MonoBehaviour
         _Mesh.triangles = _Triangles;
 
     }
+          //INIT
+        //  _Mesh = new Mesh();
+        // meshFilter.mesh = _Mesh;
+        // _Vertices = new Vector3[_RayCount+2];
+        // _UV = new Vector2[_Vertices.Length];
+        // _Triangles = new int[_RayCount *3];
+    private void CreateMeshInit(){
+        _Mesh = new Mesh();
+        meshFilter.mesh = _Mesh;
+        _Vertices = new Vector3[_RayCount+2];
+        _UV = new Vector2[_Vertices.Length];
+        _Triangles = new int[_RayCount *3];
+    }
     #endregion
-
+    
 
     #region  Util
     private void DelMesh(){

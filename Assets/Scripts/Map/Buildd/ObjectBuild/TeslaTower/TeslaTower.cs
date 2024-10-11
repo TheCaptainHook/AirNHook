@@ -99,12 +99,51 @@ public class TeslaTower : BuildObj
 
 
     #region DetectObjects
+//     private void DetectObjectsWithComponents(System.Type[] componentTypes)
+// {
+//     float maxRadius = Mathf.Max(detectionRadiusX, detectionRadiusY);
+//     Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, maxRadius);
+
+//     Vector2 position = (Vector2)transform.position + detectOffset;
+//     HashSet<GameObject> currentDetectedObjects = new HashSet<GameObject>();
+
+//     foreach (Collider2D collider in colliders)
+//     {
+//         GameObject obj = collider.gameObject;
+
+//         if (obj == gameObject || currentDetectedObjects.Contains(obj)) continue;
+
+//         Vector2 objPosition = obj.transform.position;
+
+//         foreach (var type in componentTypes)
+//         {
+//             if (obj.GetComponent(type) != null)
+//             {
+//                 if (IsInsideEllipse(position, objPosition, detectionRadiusX, detectionRadiusY))
+//                 {
+//                     currentDetectedObjects.Add(obj);
+//                     break;
+//                 }
+//             }
+//         }
+//     }
+
+//     // 새로 탐지된 객체
+//     var newDetectedObjects = new HashSet<GameObject>(currentDetectedObjects);
+//     newDetectedObjects.ExceptWith(detectedObjects);
+//     detectedObjects.UnionWith(newDetectedObjects);
+
+//     // 떠난 객체
+//     detectedObjects.IntersectWith(currentDetectedObjects);
+// }
     //TODO 0723
     private void DetectObjectsWithComponents(System.Type[] componentTypes)
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, Mathf.Max(detectionRadiusX, detectionRadiusY));
-
         HashSet<GameObject> currentDetectedObjects = new HashSet<GameObject>();
+
+        Vector2 position = transform.position + detectOffset;
+        Vector2 objPosition;
 
         foreach (Collider2D collider in colliders)
         {
@@ -115,11 +154,11 @@ public class TeslaTower : BuildObj
             foreach (var type in componentTypes)
             {
                 var component = obj.GetComponent(type);
-
+                
                 if (component != null)
                 {
-                    Vector2 position = transform.position + detectOffset;
-                    Vector2 objPosition = obj.transform.position;
+                    // Vector2 position = transform.position + detectOffset;
+                    objPosition = obj.transform.position;
 
                     // 타원 내에 있는지 체크
                     if (IsInsideEllipse(position, objPosition, detectionRadiusX, detectionRadiusY))

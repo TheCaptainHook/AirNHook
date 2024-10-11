@@ -35,15 +35,15 @@ readonly int _Directon = Animator.StringToHash("Direction");
    #endregion
 
 //TEST
-    // protected override void Start()
-    // {
-    //    //TEST CODE
-    //   paths = ConvertPaths(paths);
-    //     //TEST CODE
+    protected override void Start()
+    {
+       //TEST CODE
+      paths = ConvertPaths(paths);
+        //TEST CODE
 
-    //   base.Start();
+      base.Start();
        
-    // }
+    }
 
    //  public override void TakeDamage()
    //  {
@@ -53,16 +53,16 @@ readonly int _Directon = Animator.StringToHash("Direction");
    //      }
    //  }
 
-    // private void Update(){
-    //   if(Input.GetKeyDown(KeyCode.A)){
-    //      IsBroken = false;
-    //    CallPrograssAction();
-    //   }
+    private void Update(){
+      if(Input.GetKeyDown(KeyCode.A)){
+         IsBroken = false;
+       CallPrograssAction();
+      }
 
-    //   if(Input.GetKeyDown(KeyCode.S)){
-    //      CallBrokenAction();
-    //   }
-    // }
+      if(Input.GetKeyDown(KeyCode.S)){
+         CallBrokenAction();
+      }
+    }
 
 
 
@@ -112,7 +112,7 @@ public void TurnOffLazer(){
                     //Check collider
                      if(rh.collider.TryGetComponent(out Player component)  && Application.isPlaying){
                         //  SetHitParticleRotate(start,rh.point); // todo 0914
-                        //  component.TakeDamage();
+                         component.TakeDamage();
                          break;
                      }else if(rh.collider.gameObject.name == "Mirror"){
                          start = rh.point;
@@ -150,7 +150,8 @@ public void TurnOffLazer(){
     NormalizationLazerAndAttackPot(newDeg);
   }
 
-  private void NormalizationLazerAndAttackPot(int locDeg){
+  private void NormalizationLazerAndAttackPot(int locDeg)
+  {
     if(target == null) return;
     if(CompareInverseTransformPoint(attackPot,previousTargetPosition,target.transform)){
         return;
