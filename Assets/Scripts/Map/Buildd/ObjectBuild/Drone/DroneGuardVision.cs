@@ -36,7 +36,8 @@ public class DroneGuardVision : MonoBehaviour
     private int[] _Triangles;
 
     [SerializeField] Drone_Laser drone_Laser;
-    [SerializeField] Transform _LightTR;
+    [SerializeField] Transform lightTr;
+    [SerializeField] LineRenderer lineRenderer;
 
     private void Awake(){
         meshFilter = GetComponent<MeshFilter>();
@@ -57,10 +58,8 @@ public class DroneGuardVision : MonoBehaviour
                     drone_Laser.Stop();
                     Vector2 dir = (drone_Laser.target.transform.position - transform.position).normalized;
                     float deg = GetAngleFromVector(dir);
-                    // Debug.Log($"Deg : {deg},ANgP :{_Angle}");
                     _Angle = deg;
                     CreateMesh(deg+20);
-                    //LazerRot
                     drone_Laser.RotLazerAnimation(deg);
                     if(!drone_Laser.OnLazer){
                         yield return new WaitForSeconds(0.1f);
@@ -74,7 +73,6 @@ public class DroneGuardVision : MonoBehaviour
                 drone_Laser.Go();
                 percent += Time.deltaTime;
                 _Angle = (Mathf.PingPong(percent *_RotSpeed,_MaxRot)+20) * -1;
-                // _Angle = PingPong(_Angle,Time.time * _RotSpeed,_MaxRot);
             }
 
         GuardVisionRay(_Angle);
@@ -93,18 +91,22 @@ public class DroneGuardVision : MonoBehaviour
     private void GuardVisionRay(float _Angle){
         Vector2 curPot = transform.position;
         float newAngle = _Angle;
-        RaycastHit2D hit = Physics2D.Raycast(curPot,GetVectorFromAngle(newAngle),_ViewDistance,layerMask);
+        Vector2 dir =GetVectorFromAngle(newAngle);
+        RaycastHit2D hit = Physics2D.Raycast(curPot,dir,_ViewDistance,layerMask);
         Debug.DrawRay(curPot,GetVectorFromAngle(newAngle)*_ViewDistance,Color.red);
-        _LightTR.eulerAngles = new Vector3(0,0,newAngle);
         
         if(hit.collider != null){
             if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Player")){
+                lineRenderer.positionCount = 0;
                 _OnFind = true;
                 drone_Laser.target = hit.collider.gameObject;
             }else{
+                DrawLine(hit.point);
+                Debug.DrawRay(curPot,dir * hit.point,Color.green);
                 _OnFind = false;
             }
         }else{
+            DrawLine(curPot+dir*_ViewDistance);
             _OnFind = false;
         }
         
@@ -122,11 +124,13 @@ public class DroneGuardVision : MonoBehaviour
         _Vertices[0] = transform.InverseTransformPoint(curPot);
         int verticesIdx = 1;
         int trianglesIdx = 0;
+        Vector2 dir;
         //INIT
         
         for(int i = 0; i<=_RayCount; i++){
             Vector3 vertex;
-            RaycastHit2D hit = Physics2D.Raycast(curPot,GetVectorFromAngle(newAngle),_ViewDistance);
+            dir = GetVectorFromAngle(newAngle);
+            RaycastHit2D hit = Physics2D.Raycast(curPot,dir,_ViewDistance,layerMask);
 
             if(hit.collider == null){
                 vertex = transform.InverseTransformPoint((Vector3)curPot + GetVectorFromAngle(newAngle) * _ViewDistance);
@@ -172,6 +176,12 @@ public class DroneGuardVision : MonoBehaviour
     private float GetAngleFromVector(Vector3 dir){
         float angle = Mathf.Atan2(dir.y,dir.x) * Mathf.Rad2Deg;
         return angle;
+    }
+
+    private void DrawLine(Vector2 target){
+        lineRenderer.positionCount = 2;
+        lineRenderer.SetPosition(0,lightTr.position);
+        lineRenderer.SetPosition(1,target);
     }
     #endregion
 

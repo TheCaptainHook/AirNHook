@@ -102,7 +102,7 @@ public void TurnOffLazer(){
             {
                 ray = new Ray(start, dir);  
                 RaycastHit2D rh = Physics2D.Raycast(ray.origin, ray.direction, 10,layerMask);
-                Debug.DrawRay(start,dir*10,Color.blue);
+                // Debug.DrawRay(start,dir*10,Color.blue);
                 if (rh.collider != null)
                 {
                     Vector2 colDir = rh.normal;

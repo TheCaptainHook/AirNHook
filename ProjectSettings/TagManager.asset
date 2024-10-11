@@ -21,7 +21,7 @@ TagManager:
   - 
   - Object/Background
   - Object/ForeGround
-  - 
+  - Object/ForeGround/MovingObject
   - Interactable/NotWalkable
   - Interactable/Walkable
   - Interactable/Inhaleable/NotWalkable
