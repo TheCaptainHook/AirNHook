@@ -98249,6 +98249,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Drone_Laser
       objectReference: {fileID: 0}
+    - target: {fileID: 7348580558311126004, guid: acf82173c46e8aa4197f3618e5705377, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

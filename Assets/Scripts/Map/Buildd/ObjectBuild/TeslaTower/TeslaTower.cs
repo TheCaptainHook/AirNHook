@@ -143,8 +143,20 @@ public class TeslaTower : BuildObj
         HashSet<GameObject> currentDetectedObjects = new HashSet<GameObject>();
 
         Vector2 position = transform.position + detectOffset;
-        Vector2 objPosition;
+        Vector2 objPosition = Vector2.zero;
+        CheckDetectObjectsIsInsideEllipse(componentTypes,currentDetectedObjects,colliders,position);
+        detectedObjects.IntersectWith(currentDetectedObjects);
+    }
 
+    private void CheckDetectObjectsIsInsideEllipse(
+        System.Type[] componentTypes,
+        HashSet<GameObject> currentDetectedObjects,
+        Collider2D[] colliders,
+        Vector2 position
+        )
+    {
+        
+        Vector2 objPosition;
         foreach (Collider2D collider in colliders)
         {
             GameObject obj = collider.gameObject;
@@ -174,7 +186,6 @@ public class TeslaTower : BuildObj
                 }
             }
         }
-        detectedObjects.IntersectWith(currentDetectedObjects);
     }
 
     private void Check_DetectObjectsAndLightning()
