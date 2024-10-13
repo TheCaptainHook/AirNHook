@@ -52,7 +52,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 811368f226b1fd84fab485bd402692ff, type: 2}
+  - {fileID: 2100000, guid: fa68e89795bf44c189f660203b6e7f45, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -352,8 +352,8 @@ MonoBehaviour:
   onScaleable: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 0}
   health: 1
-  spriteRenderer: {fileID: 4733320072026686442}
 --- !u!114 &-5810413876586093780
 MonoBehaviour:
   m_ObjectHideFlags: 0
