@@ -31,19 +31,23 @@ public class SaveData
 
     private void SearchSaveFile()
     {
+         Managers.UI.ShowUI<UI_SaveAndLoad>();
+         UI_SaveAndLoad uI_SaveAndLoad =  Managers.UI.GetUI<UI_SaveAndLoad>().GetComponent<UI_SaveAndLoad>();
         if (File.Exists(filePath))
         {
-            Load_SaveFile();
+            // await Load_SaveFile();
+            uI_SaveAndLoad.LoadData(Load_SaveFile());
             // DICCHECK_TESTCODE();
         }
         else
         {
-            Create_NewSaveDataFile();
+            uI_SaveAndLoad.LoadData(Create_NewSaveDataFile());
+        //    await Create_NewSaveDataFile();
         }
     }
 
     // TODO 0724 Async 작업중
-    private async void Create_NewSaveDataFile()
+    private async Task Create_NewSaveDataFile()
     {
         SerializableSaveMapDataDictionary<string, MapSaveData> _SSMDD = new();
 
@@ -65,15 +69,15 @@ public class SaveData
     {
         _SaveFileData.SerializableSaveMapDataDictionary.FromDictionary(dic);
        
-        string json = JsonUtility.ToJson(_SaveFileData);
+        string json = JsonUtility.ToJson(_SaveFileData,true);
         //File.WriteAllText(filePath, json);
         await WriteTextAsync(filePath, json);
         Debug.Log("Data Saved to " + filePath);
     }
 
-    private void Load_SaveFile()
+    private async Task Load_SaveFile()
     {
-        string json = File.ReadAllText(filePath);
+        string json = await File.ReadAllTextAsync(filePath);
         _SaveFileData = JsonUtility.FromJson<SaveFileData>(json);
         dic = _SaveFileData.SerializableSaveMapDataDictionary.ToDictionary();
         Debug.Log("Data Load");

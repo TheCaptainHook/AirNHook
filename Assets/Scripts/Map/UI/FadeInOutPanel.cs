@@ -26,7 +26,7 @@ public class FadeInOutPanel : MonoBehaviour
     {
         image.enabled = true;
         //Save Data
-        yield return new WaitUntil(() => Managers.Data.saveData.Save_SaveFile().IsCompleted);
+        // yield return new WaitUntil(() => Managers.Data.saveData.Save_SaveFile().IsCompleted);
         //Save Data
         float percent = 0;
         Color fadeOutcolor = new Color(orgColor.r, orgColor.g, orgColor.b, 1);
@@ -46,14 +46,6 @@ public class FadeInOutPanel : MonoBehaviour
 
 
         yield return new WaitForSeconds(1f);
-        //while (!CheckNetworkStartPos())
-        //{
-        //    Debug.Log("Loading");
-        //    yield return null;
-        //}
-
-        //Debug.Log($"startPos[0] : {(Vector2)Managers.Network.startPos[0].position}, MapEditor start pot: {MapEditor.Instance.startPosition}");
-        //Debug.Log($"{(Vector2)Managers.Network.startPos[0].position == MapEditor.Instance.startPosition}");
 
         Managers.Game.Player.GetComponent<Player>().Respawning();
         //Managers.Game.OtherPlayer.GetComponent<Player>().Respawning();
@@ -70,7 +62,7 @@ public class FadeInOutPanel : MonoBehaviour
         Managers.Game.StageStart(mapId);
         image.enabled = false;
         //StartCoroutine(FadeInOut(mapId));
-        StartCoroutine(Fadein(mapId));
+        // StartCoroutine(Fadein(mapId));
     }
 
     public IEnumerator Fadein(string mapId)

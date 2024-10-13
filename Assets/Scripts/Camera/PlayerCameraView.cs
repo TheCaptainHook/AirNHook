@@ -24,10 +24,17 @@ public class PlayerCameraView : MonoBehaviour
     //Release Code
     private Transform Player
     {
-        get { return Managers.Game.Player?.transform; }
+        get { 
+            try{
+                return Managers.Game.Player?.transform; 
+            }catch(MissingReferenceException ex){
+                Debug.Log(ex);
+                return null;
+            }
+            
+        }
     }
 
-    // private Transform OtherPlayer => Managers.Game.OtherPlayer?.transform;
     private Transform OtherPlayer{
         get{
              try{
@@ -87,15 +94,16 @@ public class PlayerCameraView : MonoBehaviour
         mainCamera.orthographicSize = _MinZoom;
     }
 
-    private bool CheckTwoPlayer(){
-        if(Player != null && OtherPlayer != null){
-          return true;      
-        } 
-        return false;
-    }
+    // private bool CheckTwoPlayer(){
+    //     if(Player != null && OtherPlayer != null){
+    //       return true;      
+    //     } 
+    //     return false;
+    // }
 
 
     private void Update(){
+        if(Player == null) return;
         float scroll = Input.GetAxis("Mouse ScrollWheel");
 
         _ViewMode = Ch_ViewMode(scroll);

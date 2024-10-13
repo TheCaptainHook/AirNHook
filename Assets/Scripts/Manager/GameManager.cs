@@ -1,5 +1,6 @@
 using System;
 using Mirror;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -95,7 +96,6 @@ public class GameManager
     public void StageStart(string mapID)
     {
         if (mapID is null or "Lobby") return;
-        
         _stageID = mapID;
         _startTime = Time.time;
         _clearDeath = 0;
@@ -153,7 +153,7 @@ public class GameManager
         }
     }
     //TODO 0726
-    public async void PlayerAndMapSavaDataUpdate(string stageID)
+    public void PlayerAndMapSavaDataUpdate(string stageID)
     {
         PlayerSaveData data = Managers.Data.saveData._SaveFileData._PlayerSaveData;
         MapSaveData mapData = Managers.Data.saveData.dic[stageID];
@@ -168,7 +168,13 @@ public class GameManager
         data.AddClearMapId(stageID);
         //Updata PlayerSavaData
 
-        await Managers.Data.saveData.Save_SaveFile();
+        Managers.UI.ShowUI<UI_SaveAndLoad>();
+        UI_SaveAndLoad uI_SaveAndLoad =  Managers.UI.GetUI<UI_SaveAndLoad>().GetComponent<UI_SaveAndLoad>();
+       
+       
+        uI_SaveAndLoad.SaveData(Managers.Data.saveData.Save_SaveFile());
+       
+        // await Managers.Data.saveData.Save_SaveFile();
 
 
     }

@@ -35,15 +35,15 @@ readonly int _Directon = Animator.StringToHash("Direction");
    #endregion
 
 //TEST
-    protected override void Start()
-    {
-       //TEST CODE
-      paths = ConvertPaths(paths);
-        //TEST CODE
+    // protected override void Start()
+    // {
+    //    //TEST CODE
+    //   paths = ConvertPaths(paths);
+    //     //TEST CODE
 
-      base.Start();
+    //   base.Start();
        
-    }
+    // }
 
    //  public override void TakeDamage()
    //  {
@@ -53,16 +53,16 @@ readonly int _Directon = Animator.StringToHash("Direction");
    //      }
    //  }
 
-    private void Update(){
-      if(Input.GetKeyDown(KeyCode.A)){
-         IsBroken = false;
-       CallPrograssAction();
-      }
+    // private void Update(){
+    //   if(Input.GetKeyDown(KeyCode.A)){
+    //      IsBroken = false;
+    //    CallPrograssAction();
+    //   }
 
-      if(Input.GetKeyDown(KeyCode.S)){
-         CallBrokenAction();
-      }
-    }
+    //   if(Input.GetKeyDown(KeyCode.S)){
+    //      CallBrokenAction();
+    //   }
+    // }
 
 
 
