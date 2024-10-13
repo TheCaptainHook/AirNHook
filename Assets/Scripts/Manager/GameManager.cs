@@ -132,7 +132,7 @@ public class GameManager
         //_startTime = 0;
         //_clearTime = 0;
         //TODO0726
-        PlayerAndMapSavaDataUpdate(stageID);
+        PlayerAndMapSavaDataUpdate();
     }
 
 
@@ -153,8 +153,9 @@ public class GameManager
         }
     }
     //TODO 0726
-    public void PlayerAndMapSavaDataUpdate(string stageID)
+    public void PlayerAndMapSavaDataUpdate()
     {
+        string stageID = Managers.Stage.stageName;
         PlayerSaveData data = Managers.Data.saveData._SaveFileData._PlayerSaveData;
         MapSaveData mapData = Managers.Data.saveData.dic[stageID];
         //Updata MapSavaData//최단시간 클리어,가장 최근 클리어,해당맵 죽은 횟수,

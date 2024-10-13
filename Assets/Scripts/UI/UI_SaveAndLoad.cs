@@ -24,9 +24,19 @@ public class UI_SaveAndLoad : UI_Base
     public void SaveData(Task task){
 
         stack.Push(new SaveAndLoadTask(Managers.Data.language.GetSentence(2014),true,task));
-        SaveAndLoadInfo();
+        SaveAndLoad();
     }
-    IEnumerator SaveAndLoadInfoCo(){
+    public void LoadData(Task task){
+        stack.Push(new SaveAndLoadTask(Managers.Data.language.GetSentence(2013),false,task));
+        SaveAndLoad();
+    }
+    public void SaveAndLoad(){
+        if(!onPrograss){
+            StartCoroutine(SaveAndLoadCo());
+        }
+    }
+
+    IEnumerator SaveAndLoadCo(){
         onPrograss = true;
         while(stack.Count > 0){
             SaveAndLoadTask task = stack.Pop();
@@ -39,16 +49,8 @@ public class UI_SaveAndLoad : UI_Base
         CloseUI();
        
     }
-    public void LoadData(Task task){
-        stack.Push(new SaveAndLoadTask(Managers.Data.language.GetSentence(2013),false,task));
-        SaveAndLoadInfo();
-    }
+    
 
-    public void SaveAndLoadInfo(){
-        if(!onPrograss){
-            StartCoroutine(SaveAndLoadInfoCo());
-        }
-    }
 
     public void Complete(SaveAndLoadTask task){
         if(task.loadAndSave){
@@ -60,7 +62,6 @@ public class UI_SaveAndLoad : UI_Base
 /// <summary>
 /// loadAndSave : true -> Save, false -> Load
 /// </summary>
-
     public struct SaveAndLoadTask{
         public string text;
         public bool loadAndSave; 

@@ -153,7 +153,7 @@ public class UI_Dialogue : UI_Base
 
 
         //Dialogue ShutDown
-
+        Managers.Game.PlayerAndMapSavaDataUpdate();
         DialogueReset(); //todo test
 
         _Panel.color = _Alpha_0;
@@ -163,6 +163,7 @@ public class UI_Dialogue : UI_Base
         player.GetComponent<PlayerMovement>().canControl = true;
         //
         Managers.UI.HideUI<UI_Dialogue>();
+
 
     }
 

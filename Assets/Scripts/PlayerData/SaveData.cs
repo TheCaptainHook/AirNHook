@@ -1,11 +1,10 @@
 using System;
 using System.Threading.Tasks;
 using System.IO;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using System.Text;
+using Org.BouncyCastle.Bcpg.Sig;
 
 
 //TODO Develop Code Line (Async): 21
@@ -23,30 +22,27 @@ public class SaveData
     {
         filePath = Path.Combine(Application.persistentDataPath, "savefile.json");
 
-        //TODO TESTCODE 0725
         SearchSaveFile();
-        //DeletFile();
-        //TODO TESTCODE 0725
     }
 
     private void SearchSaveFile()
     {
-         Managers.UI.ShowUI<UI_SaveAndLoad>();
-         UI_SaveAndLoad uI_SaveAndLoad =  Managers.UI.GetUI<UI_SaveAndLoad>().GetComponent<UI_SaveAndLoad>();
+         UI_SaveAndLoad uI_SaveAndLoad =  GetUI_SaveAndLoad();
         if (File.Exists(filePath))
         {
-            // await Load_SaveFile();
             uI_SaveAndLoad.LoadData(Load_SaveFile());
-            // DICCHECK_TESTCODE();
         }
         else
         {
             uI_SaveAndLoad.LoadData(Create_NewSaveDataFile());
-        //    await Create_NewSaveDataFile();
         }
     }
 
-    // TODO 0724 Async 작업중
+    private UI_SaveAndLoad GetUI_SaveAndLoad(){
+        Managers.UI.ShowUI<UI_SaveAndLoad>();
+        return Managers.UI.GetUI<UI_SaveAndLoad>().GetComponent<UI_SaveAndLoad>();
+    }
+    
     private async Task Create_NewSaveDataFile()
     {
         SerializableSaveMapDataDictionary<string, MapSaveData> _SSMDD = new();
@@ -62,27 +58,23 @@ public class SaveData
 
         await Save_SaveFile();
     }
-    //TEST 0917
    
-    //TEST 0917
     public async Task Save_SaveFile()
     {
         _SaveFileData.SerializableSaveMapDataDictionary.FromDictionary(dic);
        
         string json = JsonUtility.ToJson(_SaveFileData,true);
-        //File.WriteAllText(filePath, json);
         await WriteTextAsync(filePath, json);
         Debug.Log("Data Saved to " + filePath);
     }
+    
 
     private async Task Load_SaveFile()
     {
         string json = await File.ReadAllTextAsync(filePath);
         _SaveFileData = JsonUtility.FromJson<SaveFileData>(json);
         dic = _SaveFileData.SerializableSaveMapDataDictionary.ToDictionary();
-        Debug.Log("Data Load");
     }
-
 
     private async Task WriteTextAsync(string path, string content)
     {
@@ -95,27 +87,6 @@ public class SaveData
             await sourceStream.WriteAsync(encodedText, 0, encodedText.Length);
         };
     }
-
-
-    private void DeletFile()
-    {
-        if (File.Exists(filePath))
-        {
-            File.Delete(filePath);
-            Debug.Log("File deleted: " + filePath);
-        }
-    }
-
-    #region TEST CODE
-    // private void DICCHECK_TESTCODE()
-    // {
-    //     foreach(var data in dic)
-    //     {
-    //         Debug.Log(dic[data.Key].mapName);
-    //     }
-    // }
-    #endregion
-
 }
 
 [Serializable]
@@ -134,7 +105,6 @@ public class SaveFileData
 [Serializable]
 public class MapSaveData
 {
-
     public string mapName;
     public bool openStage;
     public bool clear;
@@ -168,29 +138,42 @@ public class MapSaveData
             }
         }
     }
-//0917 Validata must take care
-    private void ValidateDialougeData(List<DialogueData> dataList){
-        foreach(DialogueData data in dataList){
-            foreach(DialogueData sD in _DialogueDataList){
-                if(sD.dialogueId == data.dialogueId){
+// //0917 Validata must take care
+//     private void ValidateDialougeData(List<DialogueData> dataList){
+//         foreach(DialogueData data in dataList){
+//             foreach(DialogueData sD in _DialogueDataList){
+//                 if(sD.dialogueId == data.dialogueId){
 
-                    break;
-                }
-            }
+//                     break;
+//                 }
+//             }
+//         }
+//     }
+//     private DialogueData ValidateDialougeDataPosition(DialogueData newData , DialogueData oldData){
+//         DialogueData data;
+//         if(newData.position != oldData.position){
+//             data = newData;
+//             newData.excuted = oldData.excuted;
+//         }else{
+//             data = oldData;
+//         }
+//         return data;
+//     }    
+//0917 Validata must take care
+//1013
+private bool CheckValidateDialougeData(List<DialogueData> list){
+    //1 size check
+    if(_DialogueDataList.Count != list.Count){
+        return false;
+    }
+    for(int i =0;i<list.Count;i++){
+        if(_DialogueDataList[i].dialogueId != list[i].dialogueId){
+            return false;
         }
     }
-    private DialogueData ValidateDialougeDataPosition(DialogueData newData , DialogueData oldData){
-        DialogueData data;
-        if(newData.position != oldData.position){
-            data = newData;
-            newData.excuted = oldData.excuted;
-        }else{
-            data = oldData;
-        }
-        return data;
-    }
-//0917 Validata must take care
-
+    //2 value check
+    return true;
+}
     private void ModifyClearTime(float time)
     {
        if(shortestClearTime == 0)
