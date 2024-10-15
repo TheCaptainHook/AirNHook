@@ -141,9 +141,7 @@ public class TeslaTower : BuildObj
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, Mathf.Max(detectionRadiusX, detectionRadiusY));
         HashSet<GameObject> currentDetectedObjects = new HashSet<GameObject>();
-
         Vector2 position = transform.position + detectOffset;
-        Vector2 objPosition = Vector2.zero;
         CheckDetectObjectsIsInsideEllipse(componentTypes,currentDetectedObjects,colliders,position);
         detectedObjects.IntersectWith(currentDetectedObjects);
     }

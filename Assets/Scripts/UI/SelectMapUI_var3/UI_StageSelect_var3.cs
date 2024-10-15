@@ -1,13 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 using System;
 using System.IO;
-using UnityEngine.InputSystem;
-using Unity.VisualScripting;
-using UnityEditor.Tilemaps;
 
 enum PrograssLevel
 {
@@ -158,9 +153,6 @@ public class UI_StageSelect_var3: UI_Base
 
         }
 
-        
-        //TestCode
-
     }
 
 
@@ -205,8 +197,40 @@ public class UI_StageSelect_var3: UI_Base
 
         if (onInteractable && !onPrograss && !inputProcessed)
         {
+            GetKeyEvent();
+            // if (Input.GetKeyDown(KeyCode.DownArrow))
+            // {
+            //     StartCoroutine(ProcessInputWithDelay(KeyCode.DownArrow));
+            // }
 
-            if (Input.GetKeyDown(KeyCode.DownArrow))
+            // if (Input.GetKeyDown(KeyCode.UpArrow))
+            // {
+            //     StartCoroutine(ProcessInputWithDelay(KeyCode.UpArrow));
+            // }
+            
+            // if (Input.GetKeyDown(KeyCode.Return))
+            // {
+            //     StartCoroutine(ProcessInputWithDelay(KeyCode.Return));
+            // }
+
+
+            // if (Input.GetKeyDown(KeyCode.Backspace))
+            // {
+            //     StartCoroutine(ProcessInputWithDelay(KeyCode.Backspace));
+
+            // }
+
+            // if (Input.GetKeyDown(KeyCode.Q))
+            // {
+            //     StartCoroutine(ProcessInputWithDelay(KeyCode.Q));
+            // }
+
+
+        }
+
+    }
+    private void GetKeyEvent(){
+         if (Input.GetKeyDown(KeyCode.DownArrow))
             {
                 StartCoroutine(ProcessInputWithDelay(KeyCode.DownArrow));
             }
@@ -232,10 +256,6 @@ public class UI_StageSelect_var3: UI_Base
             {
                 StartCoroutine(ProcessInputWithDelay(KeyCode.Q));
             }
-
-
-        }
-
     }
 
     private void SelectTextLine()
@@ -389,7 +409,6 @@ public class UI_StageSelect_var3: UI_Base
         Managers.Sound.PlaySound(AudioType.Computer_On, AudioMixerGroupType.Effects, false, 0.50f, 0f);
         List<string> sentenceList = util.SplitText(openningSentence, maxHorizontaText, new char[] { ',' });
         
-        Debug.Log(sentenceList.Count);
         for (int i = 0; i < sentenceList.Count; i++)
         {
             nextWriteTextLineIndex++;
@@ -414,6 +433,7 @@ public class UI_StageSelect_var3: UI_Base
         
     }
 
+
     IEnumerator WriteTextLineCo_Title(string sentence)
     {
         onPrograss = true;
@@ -425,18 +445,18 @@ public class UI_StageSelect_var3: UI_Base
         {
             yield return WriteLine(sentenceList[i], localColor, true);
         }
-
-        nextWriteTextLineIndex = sentenceList.Count + 2;
+        
+        nextWriteTextLineIndex = sentenceList.Count + 1;
 
         //Init Select Line
         
         yield return WriteLine("Main", localColor, true);
-        yield return WriteLine("UserMap (준비중)", localColor, true, 25, 0.01f, false);
+        // yield return WriteLine("UserMap (준비중)", localColor, true, 25, 0.01f, false);
 
-        maxSelectTextLineListIndex = nextWriteTextLineIndex - 1;
-        minSelectTextLineListIndex = maxSelectTextLineListIndex -1;
+        maxSelectTextLineListIndex = nextWriteTextLineIndex;
+        minSelectTextLineListIndex = maxSelectTextLineListIndex;
         curSelectTextLineIndex = maxSelectTextLineListIndex;
-
+        
         onInteractable = true;
         onPrograss = false;
         
@@ -477,10 +497,10 @@ public class UI_StageSelect_var3: UI_Base
             _PrograssLevel = PrograssLevel.Two;
             yield return EraserTextLineCo(minSelectTextLineListIndex, maxSelectTextLineListIndex);
             
-            int index = CheckDirectory();
-            for (int i = 0; i <= index; i++)
+            int index = Managers.Data.saveData._SaveFileData._PlayerSaveData.curStageLevel;
+            // nextWriteTextLineIndex++;
+            for (int i = 0; i <=index; i++)
             {
-                Debug.Log(i);
                yield return WriteLine($"{i}", localColor, true);
             }
 
@@ -505,8 +525,6 @@ public class UI_StageSelect_var3: UI_Base
         curSelectTextLine.Reset();
         curSelectTextLine = null;
 
-        // nextWriteTextLineIndex++; //0909
-
         _PrograssCoroutine = StartCoroutine(Select_PrograssLevel_2Co(stageLevel));
     }
 
@@ -520,6 +538,8 @@ public class UI_StageSelect_var3: UI_Base
         yield return EraserTextLineCo(minSelectTextLineListIndex, maxSelectTextLineListIndex);
         Map[] maps = Managers.Data.mapData.mapMainStageDictionary[stageLevel];
         MapSaveData[] mapDatas = CheckPlayerData(maps);
+        
+        nextWriteTextLineIndex++;
 
         for (int i = 0; i < mapDatas.Length; i++)
         {
@@ -537,7 +557,8 @@ public class UI_StageSelect_var3: UI_Base
             }
         }
 
-        maxSelectTextLineListIndex = minSelectTextLineListIndex + maps.Length - 1;
+        // maxSelectTextLineListIndex = minSelectTextLineListIndex + maps.Length - 1;
+        maxSelectTextLineListIndex = nextWriteTextLineIndex -1;
         curSelectTextLineIndex = maxSelectTextLineListIndex;
 
 
@@ -545,7 +566,6 @@ public class UI_StageSelect_var3: UI_Base
         onInteractable = true;
     }
 
-    //이부분만 수정하면 됨.
     IEnumerator Select_PrograssLevel_3Co()
     {
         onPrograss = true;

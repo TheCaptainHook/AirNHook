@@ -204,6 +204,7 @@ public class PlayerSaveData
     public int totalDeath;
     public int TotalDeath { get { return totalDeath; } }
     public List<string> clearMapId;
+    public int curStageLevel;
     //클리어한 맵들
 
     //State
@@ -213,7 +214,7 @@ public class PlayerSaveData
     {
         this.totalDeath = 0;
         this.clearMapId = new();
-
+        curStageLevel = 0;
         //State
         _IstutorialClear = false;
     }

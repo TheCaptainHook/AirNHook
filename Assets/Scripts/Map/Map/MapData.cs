@@ -64,9 +64,9 @@ public class MapData
             mapSceneDictionary.Add(map.mapID, map);
             mapAllDictionary.Add(map.mapID, map);
         }
-
+        int index = GetMainStageLevelIndex();
         //todo
-        for(int i = 0; i <= 1; i++)
+        for(int i = 0; i <= index; i++)
         {
             GetMainStageMapData(i);
             
@@ -157,7 +157,22 @@ public class MapData
 
     }
 
+ int GetMainStageLevelIndex()
+    {
+        string path = Path.Combine(Application.dataPath, "Resources/MapDat/Main");
+        int index = 0;
+        while (true)
+        {
+            if (Directory.Exists(Path.Combine(path, index.ToString())))
+            {
+                index++;
 
+            }
+            else { break; }
+
+        }
+        return index - 1;
+    }
 
 
 }

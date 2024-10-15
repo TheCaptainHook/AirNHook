@@ -1,13 +1,11 @@
 
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
 using TMPro;
 using System.Threading.Tasks;
 using System;
 using System.Text;
 using System.Threading;
-using System.Collections;
 
 public class Util
 {
@@ -38,11 +36,14 @@ public class Util
         return textMesh;
     }
 
-
-
-
-
-    public async Task TypingEffectTask(TextMeshProUGUI text, string sentence, Color color, float fontSize, float delayTime, CancellationTokenSource token = null, bool audioActive = false)
+    public async Task TypingEffectTask(
+        TextMeshProUGUI text, 
+        string sentence, 
+        Color color,
+        float fontSize, 
+        float delayTime, 
+        CancellationTokenSource token = null,
+        bool audioActive = false)
     {
         if (text == null)
         {
@@ -50,19 +51,14 @@ public class Util
             return;
         }
 
-        CancellationToken _token = token?.Token ?? CancellationToken.None; // Simplified the initialization
-
-
-        //int time = Mathf.FloorToInt(delayTime * 1000);
+        CancellationToken _token = token?.Token ?? CancellationToken.None; 
        
         int time = (int)(delayTime * 1000);
         text.text = "";
 
         StringBuilder typedSentence = new StringBuilder();
-
-
-        //Audio 0722
         AudioSource audioSource;
+
         if (audioActive)
         {
             audioSource = Managers.Sound.GetAudioSource();
@@ -72,21 +68,16 @@ public class Util
             audioSource = null;
         }
 
-
-
         for (int i = 0; i < sentence.Length; i++)
         {
-
-            //Managers.Sound.PlaySound(AudioType.Dialogue_Click, AudioMixerGroupType.Effects, false, 0.35f, 0f);
-            if (audioActive) //0722
-                PlayAudioClip(audioSource, AudioType.Dialogue_Click, AudioMixerGroupType.Effects, false, 0.35f, 0f);//todo 0722
+            if (audioActive)
+                PlayAudioClip(audioSource, AudioType.Dialogue_Click, AudioMixerGroupType.Effects, false, 0.35f, 0f);
 
             typedSentence.Append(sentence[i]);
             text.color = color;
-            text.text = typedSentence.ToString(); // Update text with typed characters
+            text.text = typedSentence.ToString();
             text.fontSize = fontSize;
 
-            // Await Task.Delay asynchronously
             try
             {
                 await Task.Delay(time, _token);
@@ -102,9 +93,7 @@ public class Util
                 Debug.LogError("Error during typing effect task: " + ex.Message);
             }
         }
-
         if (audioSource != null) audioSource.gameObject.SetActive(false);
-
     }
 
     private void PlayAudioClip(AudioSource audioSource, AudioType audioType, AudioMixerGroupType audioMixerGroupType, bool isLoop, float volume, float spatialBlend)
