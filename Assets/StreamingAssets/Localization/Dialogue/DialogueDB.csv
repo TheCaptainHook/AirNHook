@@ -1,13 +1,9 @@
 id,index,name,emotion,spritePosition,textBoxPosition,sentence
-0,0,kim,Normal,Right,Top,1000000
-0,1,lee,Normal,Left,Bottom,1000001
-0,2,kim,Laugh,Right,Top,1000002
-0,3,lee,Normal,Left,Bottom,1000003
 1,0,Robot,Sigh,Right,Top,1000004
-1,1,Robot,Sigh,Left,Bottom,1000005
-1,2,Robot,Angry,Right,Top,1000006
+1,1,Speaker,Normal,Left,Bottom,1000005
+1,2,"Robot,Speaker","Angry,Normal",Both,Top,1000006
 1,3,,Normal,None,Bottom,1000007
-1,4,"Robot,Robot","Angry,Sigh",Both,Top,1000008
+1,4,"Speaker,Robot","Normal,Sigh",Both,Top,1000008
 100,0,Speaker,Normal,Right,Bottom,10001
 100,1,Speaker,Normal,Right,Bottom,10002
 100,2,Speaker,Normal,Right,Bottom,10003

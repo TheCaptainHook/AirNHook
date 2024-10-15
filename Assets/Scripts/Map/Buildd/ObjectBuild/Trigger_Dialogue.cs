@@ -9,7 +9,7 @@ using UnityEngine;
 public class Trigger_Dialogue : BuildObj
 {
     [CustomHeader("Trigger Dialogue")]
-    [ReadOnly]
+    
     public int _DialogueId;
     [ReadOnly]
     public bool OnExcuted;

@@ -445,15 +445,15 @@ public class UI_StageSelect_var3: UI_Base
         {
             yield return WriteLine(sentenceList[i], localColor, true);
         }
+        nextWriteTextLineIndex+=2;
+        // nextWriteTextLineIndex = sentenceList.Count;
         
-        nextWriteTextLineIndex = sentenceList.Count + 1;
-
         //Init Select Line
         
         yield return WriteLine("Main", localColor, true);
         // yield return WriteLine("UserMap (준비중)", localColor, true, 25, 0.01f, false);
 
-        maxSelectTextLineListIndex = nextWriteTextLineIndex;
+        maxSelectTextLineListIndex = nextWriteTextLineIndex -1;
         minSelectTextLineListIndex = maxSelectTextLineListIndex;
         curSelectTextLineIndex = maxSelectTextLineListIndex;
         
@@ -498,13 +498,13 @@ public class UI_StageSelect_var3: UI_Base
             yield return EraserTextLineCo(minSelectTextLineListIndex, maxSelectTextLineListIndex);
             
             int index = Managers.Data.saveData._SaveFileData._PlayerSaveData.curStageLevel;
-            // nextWriteTextLineIndex++;
             for (int i = 0; i <=index; i++)
             {
                yield return WriteLine($"{i}", localColor, true);
             }
 
-            maxSelectTextLineListIndex = minSelectTextLineListIndex + index;
+            // maxSelectTextLineListIndex = minSelectTextLineListIndex + index;
+            maxSelectTextLineListIndex = nextWriteTextLineIndex-1;
         }
         else
         {
@@ -538,8 +538,6 @@ public class UI_StageSelect_var3: UI_Base
         yield return EraserTextLineCo(minSelectTextLineListIndex, maxSelectTextLineListIndex);
         Map[] maps = Managers.Data.mapData.mapMainStageDictionary[stageLevel];
         MapSaveData[] mapDatas = CheckPlayerData(maps);
-        
-        nextWriteTextLineIndex++;
 
         for (int i = 0; i < mapDatas.Length; i++)
         {
@@ -553,12 +551,12 @@ public class UI_StageSelect_var3: UI_Base
             }
             else
             {
-                yield return WriteLine(maps[i].mapID, Color.red, true, 25, 0.01f, false);
+                // yield return WriteLine(maps[i].mapID, Color.red, true, 25, 0.01f, false);
             }
         }
 
         // maxSelectTextLineListIndex = minSelectTextLineListIndex + maps.Length - 1;
-        maxSelectTextLineListIndex = nextWriteTextLineIndex -1;
+        maxSelectTextLineListIndex = nextWriteTextLineIndex-1;
         curSelectTextLineIndex = maxSelectTextLineListIndex;
 
 

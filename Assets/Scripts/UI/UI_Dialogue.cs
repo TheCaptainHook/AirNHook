@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Threading.Tasks;
 using System.Threading;
+using Unity.VisualScripting;
 
 public enum TextBoxPivot
 {
@@ -220,6 +221,19 @@ public class UI_Dialogue : UI_Base
         ///
         /// 다음 실행할 다이얼로그가 없거나,다음 실행할 다이얼로그가 같은 캐릭턱 아닌 경우
         ///
+
+
+        // if(nextDialogueIndex >=list.Count){
+
+        //     //SetDown
+        //     yield break;
+        // }
+
+        // if(!Check_PrivousCharacterNameMatch(list[nextDialogueIndex].name)){
+
+        // }
+
+
         if (nextDialogueIndex>=list.Count || !Check_PrivousCharacterNameMatch(list[nextDialogueIndex].name))
         {
             _TextNameText.text = "";
@@ -234,7 +248,7 @@ public class UI_Dialogue : UI_Base
                 
             }
 
-            yield return new WaitForSeconds(.5f);
+            // yield return new WaitForSeconds(.5f);
 
         }
     
@@ -253,7 +267,6 @@ public class UI_Dialogue : UI_Base
         switch (dialogue.spritePosition)
         {
             case SpritePosition.Left:
-               
                 _RightImage.enabled = false;
                 _LeftImage.sprite = Resources.Load<Sprite>(path);
                 if (!_LeftImage.enabled)
@@ -404,7 +417,6 @@ public class UI_Dialogue : UI_Base
   
     IEnumerator SpriteFadeOut(Image image)
     {
-
         float percent = 0;
         while (percent < 1)
         {
@@ -415,7 +427,7 @@ public class UI_Dialogue : UI_Base
 
         image.color = _Alpha_0;
         image.enabled = false;
-        _mainFrame.transform.localScale = Vector3.one * 0.1f;
+        // _mainFrame.transform.localScale = Vector3.one * 0.1f;
     }
 
     IEnumerator SpriteFadeIn(Image image)
