@@ -1,5 +1,5 @@
 using System;
-using Unity.VisualScripting;
+using System.Collections;
 using UnityEngine;
 
 
@@ -67,7 +67,7 @@ public class PlayerCameraView : MonoBehaviour
     float _Zoom;
 
     [Header("Follow Camera")]
-    private float _smoothSpeed = 0.5f;
+    private float _smoothSpeed = 1f;
     [Header("Camera Zoom")]
     private Vector3 _vecVelocity = Vector3.zero;
     private float _floatVelocity = 0;
@@ -106,12 +106,17 @@ public class PlayerCameraView : MonoBehaviour
        
 	
     // }
-    
+    private float scroll;
+    private bool onChangeModeDefaultFromWide;
     private void LateUpdate(){
          if(Player == null) return;
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-
+        scroll = Input.GetAxis("Mouse ScrollWheel");
+        ViewMode previousMode = _ViewMode;
         _ViewMode = Ch_ViewMode(scroll);
+
+        if(previousMode == ViewMode.Wide && _ViewMode == ViewMode.Default){
+            StartCoroutine(SmoothZoomToDefault());
+        }
 
         switch(_ViewMode){
             case ViewMode.Wide:
@@ -129,6 +134,7 @@ public class PlayerCameraView : MonoBehaviour
     }
 
     #region REFACTORING
+    
     private ViewMode Ch_ViewMode(float scroll){
         if(OtherPlayer == null) return ViewMode.Default;
 
@@ -142,9 +148,28 @@ public class PlayerCameraView : MonoBehaviour
             return ViewMode.Default;
         }
     }
+   private IEnumerator SmoothZoomToDefault() {
+    float targetZoom = _MaxZoom - 0.01f;
+    onChangeModeDefaultFromWide = true;
+    while (mainCamera.orthographicSize > targetZoom) {
+        mainCamera.orthographicSize = Mathf.SmoothDamp(
+            mainCamera.orthographicSize, 
+            targetZoom, 
+            ref _floatVelocity, 
+            _smoothSpeed, 
+            float.MaxValue, 
+            Time.deltaTime
+        );
+
+        yield return null;
+    }
+    onChangeModeDefaultFromWide = false;
+}
 
     private void DefaultViewMode(){
-        CheckOtherPlayerAndMarker();
+        if(!onChangeModeDefaultFromWide){
+            CheckOtherPlayerAndMarker();
+        }
         FollowCamera(Player);
     }
 
@@ -166,16 +191,11 @@ public class PlayerCameraView : MonoBehaviour
     }
 
     private void FadeZoom(float target){
-        if(_ViewMode == ViewMode.Default){
-            mainCamera.orthographicSize = 8;
-            return;
-        }
         mainCamera.orthographicSize = Mathf.SmoothDamp(mainCamera.orthographicSize,target,ref _floatVelocity,_smoothSpeed,float.MaxValue,Time.deltaTime);
     }
 
     
     private void AdjustCameraView(bool isIncreasing){
-       
         float addCameraSize = isIncreasing ? cameraOrthograpicSizeAdd : -cameraOrthograpicSizeAdd;
         float target = mainCamera.orthographicSize += addCameraSize;
         FadeZoom(target);   
@@ -216,13 +236,11 @@ public class PlayerCameraView : MonoBehaviour
             marker.SettingCam(OtherPlayer);
         }
     }
-
     private void SetMarkerActive(bool isActive) {
     if (marker.gameObject.activeSelf != isActive) {
         marker.gameObject.SetActive(isActive);
     }
 }
-
      private void InGameZoomInAndOut(float scroll)
     {
         _Zoom = Math.Min(mainCamera.orthographicSize, _MaxZoom) + scroll;
