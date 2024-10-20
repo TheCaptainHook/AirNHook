@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 3712810446770808296}
   - component: {fileID: 7075297078118204645}
   - component: {fileID: 5303856946659025086}
+  - component: {fileID: 8913615222216163368}
   m_Layer: 13
   m_Name: CloningTank
   m_TagString: Untagged
@@ -247,6 +248,30 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8913615222216163368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886414899863216249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104eb1c96815b4820b4be071555180b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 5308
+  transformID: 0
+  position: {x: 0, y: 0}
+  offset: {x: 0, y: 0}
+  turnOff: 0
+  distructionStatus: 0
+  onPlaceable: 1
+  onRotateable: 0
+  onScaleable: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 0}
 --- !u!1 &971795843900870556
 GameObject:
   m_ObjectHideFlags: 0
