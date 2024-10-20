@@ -172,24 +172,17 @@ public class UI_Dialogue : UI_Base
 
     IEnumerator Dialogue(Dialogue dialogue)
     {
-
         //Sprite image, Pivot Setting and FadeIn
         DialogueSpriteSetting(dialogue);
-        //Sprite image, Pivot Setting and FadeIn
-
         //TextBox and Pivot Setting
         DialoguePositionSetting(dialogue);
-        //TextBox and Pivot Setting
         
         _PreviousDialogueName = dialogue.name;
-
-        //Typing Effect
         yield return ScaleOverTime(new Vector3(0.7f, 0.7f), new Vector3(1.2f, 1.2f),0.2f);
         yield return ScaleOverTime(new Vector3(1.2f, 1.2f), new Vector3(1f, 1f), 0.3f);
-
+        //Typing Effect
         _cancellationTokenSource = new CancellationTokenSource();
         Task task = Util.TypingEffectTask(_TextBoxText, Managers.Data.language.dict[dialogue.sentenceID], Color.black, 42, .05f, _cancellationTokenSource,true);
-        //Typing Effect
 
         //TypingEffectTask Cancel
         while (!task.IsCompleted)
@@ -197,13 +190,10 @@ public class UI_Dialogue : UI_Base
             if (Input.anyKeyDown)
             {
                 _cancellationTokenSource.Cancel();
-
             }
             yield return null;
         }
-        //TypingEffectTask Cancel
 
-        //Start Next Dialogue
         bool onAnyKey = false;
         while (!onAnyKey)
         {
@@ -211,28 +201,10 @@ public class UI_Dialogue : UI_Base
             {
                 onAnyKey = true;
             }
-            Debug.Log("Delay");
             yield return null;
         }
 
         _TextBoxText.text = "";
-        //Start Next Dialogue
-
-        ///
-        /// 다음 실행할 다이얼로그가 없거나,다음 실행할 다이얼로그가 같은 캐릭턱 아닌 경우
-        ///
-
-
-        // if(nextDialogueIndex >=list.Count){
-
-        //     //SetDown
-        //     yield break;
-        // }
-
-        // if(!Check_PrivousCharacterNameMatch(list[nextDialogueIndex].name)){
-
-        // }
-
 
         if (nextDialogueIndex>=list.Count || !Check_PrivousCharacterNameMatch(list[nextDialogueIndex].name))
         {
@@ -247,12 +219,7 @@ public class UI_Dialogue : UI_Base
                 StartCoroutine(SpriteFadeOut(_RightImage));
                 
             }
-
-            // yield return new WaitForSeconds(.5f);
-
         }
-    
-
     }
 
 

@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Org.BouncyCastle.Crypto.Engines;
 using TMPro;
 using UnityEngine;
 
@@ -17,14 +14,14 @@ public class TextSplitWord : MonoBehaviour
         textMeshPro.color = localColor;
     }
 
-   public void Setting(int fontSize,string word,Color color = default){
+   public void Setting(int fontSize,string word,Color? color = null){
         textMeshPro.text = word;
         textMeshPro.fontSize = fontSize;
         Vector2 sizeDelta = new Vector2(textMeshPro.preferredWidth, rectTransform.sizeDelta.y);
         rectTransform.sizeDelta = sizeDelta;
-        if(color != default)
+        if(color.HasValue)
         {
-            textMeshPro.color = color;
+            textMeshPro.color = color.Value;
         }
     }
 

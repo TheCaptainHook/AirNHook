@@ -12,10 +12,7 @@ public class PlayerCameraViewMarker : MonoBehaviour
 
     public void SettingCam(Transform player)
     {
-        //gameObject Position Setting
-        gameObject.transform.position = GetCameraEdgePosition(player);
-
-        //markingCam Positiion Setting
+        gameObject.transform.position = GetCameraEdgePosition(player);   
         markingCam.transform.position = new Vector3(player.position.x, player.position.y+.6f, -1);
     }
 
@@ -26,6 +23,34 @@ public class PlayerCameraViewMarker : MonoBehaviour
     {
         Vector3 viewport = Camera.main.WorldToViewportPoint(player.position);
 
+        // Vector3 edgeViewportPosition = viewport;
+        Vector3 edgeViewportPosition = ConvertViewport(viewport);
+        // var _GetViewport = GetViewport(viewport);
+        // if (viewport.x < 0)
+        // {
+        //     edgeViewportPosition.x = 0.1f;
+        // }
+        // else if(viewport.x > 1)
+        // {
+        //     edgeViewportPosition.x = 0.9f;
+        // }
+        // if(viewport.y < 0)
+        // {
+        //     edgeViewportPosition.y = 0.2f;
+        // }
+        // else if(viewport.y > 1)
+        // {
+        //     edgeViewportPosition.y = .8f;
+        // }
+        // ConvertViewport(viewport,ref edgeViewportPosition);
+        edgeViewportPosition = Camera.main.ViewportToWorldPoint(edgeViewportPosition);
+        TargetRotation(player.position);
+
+        return new Vector3(edgeViewportPosition.x, edgeViewportPosition.y, 0);
+
+    }
+
+    private Vector3 ConvertViewport(Vector3 viewport){    
         Vector3 edgeViewportPosition = viewport;
 
         if (viewport.x < 0)
@@ -36,8 +61,6 @@ public class PlayerCameraViewMarker : MonoBehaviour
         {
             edgeViewportPosition.x = 0.9f;
         }
-
-
         if(viewport.y < 0)
         {
             edgeViewportPosition.y = 0.2f;
@@ -46,14 +69,9 @@ public class PlayerCameraViewMarker : MonoBehaviour
         {
             edgeViewportPosition.y = .8f;
         }
-        edgeViewportPosition = Camera.main.ViewportToWorldPoint(edgeViewportPosition);
-        TargetRotation(player.position);
 
-        return new Vector3(edgeViewportPosition.x, edgeViewportPosition.y, 0);
-
+        return edgeViewportPosition;
     }
-
-
 
     private void TargetRotation(Vector3 target)
     {

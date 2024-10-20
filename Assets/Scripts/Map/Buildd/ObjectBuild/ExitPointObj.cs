@@ -185,9 +185,6 @@ public class ExitPointObj : BuildObj
             return;
         }
 
-
-
-
        
             StartCoroutine(ExecuteAfterDelay(1f, () => //TODO 0802
             {

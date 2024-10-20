@@ -32,8 +32,6 @@ public class TextMeshTextController : MonoBehaviour
             textSplitWordList.Add(word);
             word.Setting(defFontSize, charArr[i].ToString());
         }
-
-        Debug.Log($"Complet,{mainSentence}");
     }
 
     public void ChangeTexSplitWord(int i,char c){
