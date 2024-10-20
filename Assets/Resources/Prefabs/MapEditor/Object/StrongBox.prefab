@@ -52,7 +52,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ce3b2d89824ec2447b9f2ef8b91c5fdd, type: 2}
+  - {fileID: 2100000, guid: fa68e89795bf44c189f660203b6e7f45, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -279,7 +279,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 16576
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 1144988983
