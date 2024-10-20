@@ -16,38 +16,14 @@ public class PlayerCameraViewMarker : MonoBehaviour
         markingCam.transform.position = new Vector3(player.position.x, player.position.y+.6f, -1);
     }
 
-
-
-
     private Vector3 GetCameraEdgePosition(Transform player)
     {
         Vector3 viewport = Camera.main.WorldToViewportPoint(player.position);
-
-        // Vector3 edgeViewportPosition = viewport;
         Vector3 edgeViewportPosition = ConvertViewport(viewport);
-        // var _GetViewport = GetViewport(viewport);
-        // if (viewport.x < 0)
-        // {
-        //     edgeViewportPosition.x = 0.1f;
-        // }
-        // else if(viewport.x > 1)
-        // {
-        //     edgeViewportPosition.x = 0.9f;
-        // }
-        // if(viewport.y < 0)
-        // {
-        //     edgeViewportPosition.y = 0.2f;
-        // }
-        // else if(viewport.y > 1)
-        // {
-        //     edgeViewportPosition.y = .8f;
-        // }
-        // ConvertViewport(viewport,ref edgeViewportPosition);
         edgeViewportPosition = Camera.main.ViewportToWorldPoint(edgeViewportPosition);
         TargetRotation(player.position);
 
         return new Vector3(edgeViewportPosition.x, edgeViewportPosition.y, 0);
-
     }
 
     private Vector3 ConvertViewport(Vector3 viewport){    

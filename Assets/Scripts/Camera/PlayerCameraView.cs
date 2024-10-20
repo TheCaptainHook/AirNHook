@@ -166,6 +166,10 @@ public class PlayerCameraView : MonoBehaviour
     }
 
     private void FadeZoom(float target){
+        if(_ViewMode == ViewMode.Default){
+            mainCamera.orthographicSize = 8;
+            return;
+        }
         mainCamera.orthographicSize = Mathf.SmoothDamp(mainCamera.orthographicSize,target,ref _floatVelocity,_smoothSpeed,float.MaxValue,Time.deltaTime);
     }
 
