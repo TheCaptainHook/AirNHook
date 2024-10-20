@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4596783747364002581}
   - component: {fileID: 3731696681399202368}
   - component: {fileID: 8878106318482448287}
+  - component: {fileID: 3035044831029176182}
   m_Layer: 0
   m_Name: Radio
   m_TagString: Untagged
@@ -101,6 +102,30 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3035044831029176182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2430859862792595060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104eb1c96815b4820b4be071555180b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 5301
+  transformID: 0
+  position: {x: 0, y: 0}
+  offset: {x: 0, y: 0}
+  turnOff: 0
+  distructionStatus: 0
+  onPlaceable: 1
+  onRotateable: 0
+  onScaleable: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 0}
 --- !u!1 &7108496691391073394
 GameObject:
   m_ObjectHideFlags: 0
