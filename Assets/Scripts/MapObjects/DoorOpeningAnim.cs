@@ -94,8 +94,9 @@ public class DoorOpeningAnim : NetworkBehaviour
     [ClientRpc]
     private void RpcMoveNextStage(string nextMapId)
     {
+        string curStage = Managers.Stage.stageName;
         Debug.Log("TEST 0");
-        Managers.Game.StageClear(Managers.Stage.stageName); //TODO 0805
+        // Managers.Game.StageClear(Managers.Stage.stageName); //TODO 0805
         Debug.Log("TEST 1");
         Managers.Stage.stageName = nextMapId;
         Debug.Log("TEST 2");
@@ -110,6 +111,7 @@ public class DoorOpeningAnim : NetworkBehaviour
                     Managers.Game.stageLevel++;
                     Managers.Data.saveData._SaveFileData._PlayerSaveData.curStageLevel = Managers.Game.stageLevel;
                     Debug.Log("level++");
+
                 }
 
                 //Managers.Game.StageLevelPlus()
@@ -129,6 +131,8 @@ public class DoorOpeningAnim : NetworkBehaviour
             Managers.Game.CurrentState = GameState.Game;
             MapEditor.Instance.MoveNextStage(nextMapId);
         }
+
+        Managers.Game.StageClear(curStage);
     }
 
     #endregion

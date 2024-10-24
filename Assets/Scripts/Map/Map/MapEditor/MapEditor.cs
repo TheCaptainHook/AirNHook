@@ -37,7 +37,9 @@ public enum ObjectType
 {
     Tile,
     Object,
-    N_Object
+    N_Object,
+    Background,
+    Grapic
 
 }
 
@@ -91,6 +93,10 @@ public class MapEditor : MonoBehaviour
 
     [HideInInspector] public Transform poolingContainer;
 
+    //TODO 1024
+    [HideInInspector] public Transform grapicContainer; 
+    [HideInInspector] public Transform backgroundObjectContainer;
+    //TODO 1024
    
     public bool stageClear;
     [Space(10)]
@@ -169,6 +175,11 @@ public class MapEditor : MonoBehaviour
         //TODO 0723
         droneTransform = Util.CreateChildTransform(mapObjBoxTransform,"DroneTransform");
         poolingContainer = Util.CreateChildTransform(mapObjBoxTransform, "PoolingContainer");
+        //TODO 1024
+        grapicContainer = Util.CreateChildTransform(mapObjBoxTransform,"GrapicContainer");
+        backgroundObjectContainer = Util.CreateChildTransform(mapObjBoxTransform,"BackgroundObjectContainer");
+        //TODO 1024
+        
     }
 
     public void EditorMode_Init()
@@ -189,6 +200,8 @@ public class MapEditor : MonoBehaviour
 
         placeMentSystem.halfTileMap = GridPalette.transform.Find("HalfTiles").GetComponent<Tilemap>();
         placeMentSystem.backgroundTileMap = GridPalette.transform.Find("BackgroundTiles").GetComponent<Tilemap>();
+        placeMentSystem.ropeTileMap = GridPalette.transform.Find("RopeTiles").GetComponent<Tilemap>();
+        placeMentSystem.accessoryTileMap = GridPalette.transform.Find("AccessoryTiles").GetComponent<Tilemap>();
     }
     void CreatePreviewPalet()
     {
@@ -435,6 +448,8 @@ public class MapEditor : MonoBehaviour
     }
     private void Create_Object(){
         Create_Object(curMap.mapObjectDataList,objectTransform);
+        Create_Object(curMap.mapBackgroundObjectList,backgroundObjectContainer);
+        Create_Object(curMap.mapGraphicObjectList,grapicContainer);
         Create_Object(curMap.mapButtonActivatableObjectDataList,buttonActivatableObjectTransform);
         Create_Object(curMap.mapExitObjectDataList,exitDoorObjectTransform);
         Create_Object(curMap.buttonObjectList,buttonObjectTransform);

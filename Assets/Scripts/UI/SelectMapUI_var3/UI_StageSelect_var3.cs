@@ -294,7 +294,7 @@ public class UI_StageSelect_var3: UI_Base
 
     //Title
 
-    IEnumerator WriteLine(string sentence, Color color, bool readAntWrite, float fontSize = 25, float delayTime = 0.001f, bool onSelectable = true)
+    IEnumerator WriteLine(string sentence, Color color, bool readAntWrite, float fontSize = 25, float delayTime = 0.01f, bool onSelectable = true)
     {
         if (textLineList[nextWriteTextLineIndex].CheckCompareString(sentence))
         {
@@ -429,13 +429,19 @@ public class UI_StageSelect_var3: UI_Base
 
         yield return new WaitForSeconds(1);
         EraserAllClear();
-        yield return _PrograssCoroutine = StartCoroutine(WriteTextLineCo_Title(titleSentence));
+        yield return _PrograssCoroutine = StartCoroutine(WriteTextLineCo_Title(titleSentence,false));
         
     }
 
 
-    IEnumerator WriteTextLineCo_Title(string sentence)
+    IEnumerator WriteTextLineCo_Title(string sentence,bool back = true)
     {
+        if(back){
+            yield return EraserTextLineCo(minSelectTextLineListIndex,maxSelectTextLineListIndex);
+        }
+        // TODO 1022
+        //Eraser before TEXT
+        //
         onPrograss = true;
         onInteractable = false;
         nextWriteTextLineIndex = 0;

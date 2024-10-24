@@ -28,9 +28,12 @@ public class PlaceMentSystem : MonoBehaviour
      public Tilemap preViewTileMap;//only use,Editor mode
      public Tilemap floorTileMap;
     public Tilemap halfTileMap;
-    // 0611
     public Tilemap backgroundTileMap;
-    // 0611
+    // 1022
+    public Tilemap ropeTileMap;
+    public Tilemap accessoryTileMap;
+    // 1022
+    
 
 
     [HideInInspector] public TileBase tileBase;

@@ -18,9 +18,16 @@ public class Map
     public List<TileData> mapTileDataList = new();
     public List<TileData> mapHalfTileDataList = new();
     public List<TileData> mapBackgroundTileDataList = new();
+    //TODO 1022
+    public List<TileData> mapRopeTileDataList = new();
+    public List<TileData> mapAccessoryTIleDataList = new();
 
     [Header("Object")]
     public List<ObjectData> mapObjectDataList = new List<ObjectData>();
+    //TODO 1024
+    public List<ObjectData> mapBackgroundObjectList = new List<ObjectData>();
+    public List<ObjectData> mapGraphicObjectList = new List<ObjectData>();
+    //TODO 1024
     public List<ButtonActivatableObjectStruct> mapButtonActivatableObjectDataList = new();
     public List<ButtonObjectStruct> buttonObjectList = new();
     public List<ExitObjStruct> mapExitObjectDataList = new();
@@ -38,8 +45,12 @@ public class Map
         List<TileData> tileList,
         List<TileData> halfTileList,
         List<TileData> mapBackgroundTileDataList,
+        List<TileData> ropeTileDataList,
+        List<TileData> accessoryTileDataList,
         //object
         List<ObjectData> objectList,
+        List<ObjectData> backgroundObjectList,
+        List<ObjectData> graphicObjectList,
         List<ButtonActivatableObjectStruct> mapButtonActivatabledObjectDataList,
         List<ButtonObjectStruct> buttonObjectList,
         List<DialogueData> dialogueDataList,
@@ -52,8 +63,12 @@ public class Map
         mapTileDataList = tileList;
         mapHalfTileDataList = halfTileList;
         this.mapBackgroundTileDataList = mapBackgroundTileDataList;
+        mapRopeTileDataList = ropeTileDataList;
+        mapAccessoryTIleDataList = accessoryTileDataList;
         //object
         mapObjectDataList = objectList;
+        mapBackgroundObjectList = backgroundObjectList;
+        mapGraphicObjectList = graphicObjectList;
         this.startPosition = startPosition;
         this.mapExitObjectDataList = mapExitObjectDataList;
         this.mapButtonActivatableObjectDataList = mapButtonActivatabledObjectDataList;

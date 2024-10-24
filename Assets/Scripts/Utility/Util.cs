@@ -53,7 +53,8 @@ public class Util
 
         CancellationToken _token = token?.Token ?? CancellationToken.None; 
        
-        int time = (int)(delayTime * 1000);
+        // int time = (int)(delayTime * 1000);
+        int time = Mathf.FloorToInt(delayTime * 1000);
         text.text = "";
 
         StringBuilder typedSentence = new StringBuilder();
@@ -109,7 +110,7 @@ public class Util
         audioSource.Play();
     }
 
-    public async Task EraserEffectTask(TextMeshProUGUI text, float delayTime = 0.001f)
+    public async Task EraserEffectTask(TextMeshProUGUI text, float delayTime = 0.01f)
     {
         if (text == null)
         {

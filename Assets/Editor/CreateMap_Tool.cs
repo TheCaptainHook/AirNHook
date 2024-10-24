@@ -503,7 +503,6 @@ public class CreateMap_Tool : EditorWindow
 
     #endregion
 
-
     #region Function
     void CreateObject(int i)
     {
@@ -511,15 +510,20 @@ public class CreateMap_Tool : EditorWindow
         BuildObj buildObj = obj.GetComponent<BuildObj>();
         //GameObject obj = objLists[i];
 
+        if(modeType == ModeType.BackGround){
+            SelectActiveOBJ(obj,curMapEditor.backgroundObjectContainer);
+            return;
+        }
+
         switch (buildObj.id)
         {
             case 302:
                 FindObj(curMapEditor.dontSaveObjectTransform, obj);
-                SelectActiveOBJ(objLists[i], curMapEditor.dontSaveObjectTransform);
+                SelectActiveOBJ(obj, curMapEditor.dontSaveObjectTransform);
                 break;
             case 301:
                 FindObj(curMapEditor.exitDoorObjectTransform, obj);
-                SelectActiveOBJ(objLists[i], curMapEditor.exitDoorObjectTransform);
+                SelectActiveOBJ(obj, curMapEditor.exitDoorObjectTransform);
                 break;
             case 305:
             case 304:

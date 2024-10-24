@@ -11,7 +11,7 @@ public class UI_SaveAndLoad : UI_Base
     [SerializeField] TextMeshProUGUI text;
     [SerializeField] Animator animator;
 
-    private Stack<SaveAndLoadTask> stack = new();
+    private Queue<SaveAndLoadTask> queue = new();
     private bool onPrograss;
 
     public override void OnEnable()
@@ -23,11 +23,11 @@ public class UI_SaveAndLoad : UI_Base
 
     public void SaveData(Task task){
 
-        stack.Push(new SaveAndLoadTask(Managers.Data.language.GetSentence(2014),true,task));
+        queue.Enqueue(new SaveAndLoadTask(Managers.Data.language.GetSentence(2014),true,task));
         SaveAndLoad();
     }
     public void LoadData(Task task){
-        stack.Push(new SaveAndLoadTask(Managers.Data.language.GetSentence(2013),false,task));
+        queue.Enqueue(new SaveAndLoadTask(Managers.Data.language.GetSentence(2013),false,task));
         SaveAndLoad();
     }
     public void SaveAndLoad(){
@@ -38,8 +38,8 @@ public class UI_SaveAndLoad : UI_Base
 
     IEnumerator SaveAndLoadCo(){
         onPrograss = true;
-        while(stack.Count > 0){
-            SaveAndLoadTask task = stack.Pop();
+        while(queue.Count > 0){
+            SaveAndLoadTask task = queue.Dequeue();
             text.text = task.text;
             yield return new WaitUntil(()=>task.task.IsCompleted);
             Complete(task);
@@ -47,7 +47,6 @@ public class UI_SaveAndLoad : UI_Base
         }
         onPrograss = false;
         CloseUI();
-       
     }
     
 

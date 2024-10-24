@@ -258,10 +258,14 @@ public class MapEditor_Editor : Editor
     public void Create_Tile(){
         DrawTile(mapEditor.placeMentSystem.floorTileMap,mapEditor.CurMap.mapTileDataList);
         DrawTile(mapEditor.placeMentSystem.halfTileMap,mapEditor.CurMap.mapHalfTileDataList);
-        DrawTile(mapEditor.placeMentSystem.backgroundTileMap,mapEditor.CurMap.mapBackgroundTileDataList);       
+        DrawTile(mapEditor.placeMentSystem.backgroundTileMap,mapEditor.CurMap.mapBackgroundTileDataList); 
+        DrawTile(mapEditor.placeMentSystem.ropeTileMap,mapEditor.CurMap.mapRopeTileDataList); 
+        DrawTile(mapEditor.placeMentSystem.accessoryTileMap,mapEditor.CurMap.mapAccessoryTIleDataList);       
     }
     public void Create_Object(){
             Create_Object(mapEditor.CurMap.mapObjectDataList,mapEditor.objectTransform);
+            Create_Object(mapEditor.CurMap.mapBackgroundObjectList,mapEditor.backgroundObjectContainer);
+            Create_Object(mapEditor.CurMap.mapGraphicObjectList,mapEditor.grapicContainer);
             Create_Object(mapEditor.CurMap.mapButtonActivatableObjectDataList,mapEditor.buttonActivatableObjectTransform);
             Create_Object(mapEditor.CurMap.mapExitObjectDataList,mapEditor.exitDoorObjectTransform);
             Create_Object(mapEditor.CurMap.buttonObjectList,mapEditor.buttonObjectTransform);
@@ -396,8 +400,12 @@ private async Task<Map> CreateMap(MapEditor mapEditor){
             GetTileData(mapEditor.placeMentSystem.floorTileMap),
             GetTileData(mapEditor.placeMentSystem.halfTileMap),
             GetTileData(mapEditor.placeMentSystem.backgroundTileMap),
+            GetTileData(mapEditor.placeMentSystem.ropeTileMap),
+            GetTileData(mapEditor.placeMentSystem.accessoryTileMap),
             //object
             GetList<ObjectData>(mapEditor.objectTransform),
+            GetList<ObjectData>(mapEditor.backgroundObjectContainer),
+            GetList<ObjectData>(mapEditor.grapicContainer),
             GetList<ButtonActivatableObjectStruct>(mapEditor.buttonActivatableObjectTransform),
             GetList<ButtonObjectStruct>(mapEditor.buttonObjectTransform),
             GetList<DialogueData>(mapEditor.triggerDialogueTransform),

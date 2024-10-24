@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -107,15 +108,31 @@ public class PlayerCameraView : MonoBehaviour
 	
     // }
     private float scroll;
-    private bool onChangeModeDefaultFromWide;
+    public bool onChangeModeDefaultFromWide;
+    private Coroutine smoothZoomToDefaultCo;
     private void LateUpdate(){
          if(Player == null) return;
         scroll = Input.GetAxis("Mouse ScrollWheel");
         ViewMode previousMode = _ViewMode;
         _ViewMode = Ch_ViewMode(scroll);
 
-        if(previousMode == ViewMode.Wide && _ViewMode == ViewMode.Default){
-            StartCoroutine(SmoothZoomToDefault());
+        // // if(previousMode == ViewMode.Wide && _ViewMode == ViewMode.Default && !onChangeModeDefaultFromWide){
+        // if(previousMode == ViewMode.Wide && _ViewMode == ViewMode.Default){
+        //     Debug.Log("ONCHANGE VIEW");
+        //     // if(smoothZoomToDefaultCo != null){
+        //     //     StopCoroutine(smoothZoomToDefaultCo);
+        //     //     smoothZoomToDefaultCo = null;
+        //     // }
+        //     // smoothZoomToDefaultCo = StartCoroutine(SmoothZoomToDefault());
+            
+        // }
+        if(previousMode == ViewMode.Wide && _ViewMode == ViewMode.Default && !onChangeModeDefaultFromWide){
+            onChangeModeDefaultFromWide = true;
+            smoothZoomToDefaultCo = StartCoroutine(SmoothZoomToDefault());
+        }
+        if(onChangeModeDefaultFromWide && mainCamera.orthographicSize < _MaxZoom){
+            StopCoroutine(smoothZoomToDefaultCo);
+            onChangeModeDefaultFromWide = false;
         }
 
         switch(_ViewMode){
@@ -149,8 +166,7 @@ public class PlayerCameraView : MonoBehaviour
         }
     }
    private IEnumerator SmoothZoomToDefault() {
-    float targetZoom = _MaxZoom - 0.01f;
-    onChangeModeDefaultFromWide = true;
+    float targetZoom = _MaxZoom - 0.1f;
     while (mainCamera.orthographicSize > targetZoom) {
         mainCamera.orthographicSize = Mathf.SmoothDamp(
             mainCamera.orthographicSize, 
@@ -163,7 +179,7 @@ public class PlayerCameraView : MonoBehaviour
 
         yield return null;
     }
-    onChangeModeDefaultFromWide = false;
+    smoothZoomToDefaultCo = null;
 }
 
     private void DefaultViewMode(){
@@ -178,6 +194,7 @@ public class PlayerCameraView : MonoBehaviour
              marker.gameObject.SetActive(false);
         }
         if(_ViewMode == ViewMode.Default) return;
+        if(onChangeModeDefaultFromWide) return;
 
         Vector3 center = (Player.position + OtherPlayer.position) / 2;
         FollowCamera(center);
@@ -253,7 +270,7 @@ public class PlayerCameraView : MonoBehaviour
             mainCamera.orthographicSize = _MaxZoom;
         }
 
-        Debug.Log($"os : {mainCamera.orthographicSize}, _floatVel : {_floatVelocity}");
+        // Debug.Log($"os : {mainCamera.orthographicSize}, _floatVel : {_floatVelocity}");
         
     }
 
