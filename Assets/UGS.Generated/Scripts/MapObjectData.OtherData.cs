@@ -57,7 +57,7 @@ namespace MapObjectData
 /* Fields. */
 
 		public System.Int32 id;
-		public ObjectType type;
+		public System.String type;
 		public System.String name;
 		public System.String path;
   

@@ -39,7 +39,7 @@ public enum ObjectType
     Object,
     N_Object,
     Background,
-    Grapic
+    Other,//Grapic
 
 }
 

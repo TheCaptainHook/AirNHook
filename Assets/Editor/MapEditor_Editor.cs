@@ -8,6 +8,7 @@ using UGS;
 using System.IO;
 using System.Threading.Tasks;
 using System.Reflection;
+using System.Linq;
 
 using System.Diagnostics;
 
@@ -201,7 +202,8 @@ public class MapEditor_Editor : Editor
         {
             if (!mapObjectDataDictionary.ContainsKey(value.id))
             {
-                mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.id,value.name, value.type, value.path));
+                 var type = GetObjectType(value.type);
+                 mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.id,value.name, type.type, value.path,type.subType));
             }
 
         }
@@ -557,6 +559,34 @@ List<TileData> GetTileData(Tilemap tileMap)
 
         // 뷰포트 좌표가 0 ~ 1 범위 내에 있는지 확인
         return viewportPos.x >= .05f && viewportPos.x <= .95 && viewportPos.y >= .05 && viewportPos.y <= .95;
+    }
+
+    private (ObjectType type,string[] subType) GetObjectType(string objectType){
+        string[] arr = objectType.Split("/");
+        if(arr.Length>1){
+            return(GetType(arr[0]),arr.Skip(1).ToArray());
+            
+        }else{
+            return (GetType(arr[0]),null);
+        }
+    }
+
+    private ObjectType GetType(string type){
+        switch(type){
+            case "Tile":
+            return ObjectType.Tile;
+            case "Object":
+            return ObjectType.Object;
+            case "N_Object":
+            return ObjectType.N_Object;
+            case "Background":
+            return ObjectType.Background;
+            case "Other":
+            default :
+            return ObjectType.Other;
+            
+            
+        }
     }
   
     #endregion
