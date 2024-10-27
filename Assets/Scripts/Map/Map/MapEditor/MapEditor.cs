@@ -94,7 +94,7 @@ public class MapEditor : MonoBehaviour
     [HideInInspector] public Transform poolingContainer;
 
     //TODO 1024
-    [HideInInspector] public Transform grapicContainer; 
+    [HideInInspector] public Transform otherContainer; 
     [HideInInspector] public Transform backgroundObjectContainer;
     //TODO 1024
    
@@ -176,7 +176,8 @@ public class MapEditor : MonoBehaviour
         droneTransform = Util.CreateChildTransform(mapObjBoxTransform,"DroneTransform");
         poolingContainer = Util.CreateChildTransform(mapObjBoxTransform, "PoolingContainer");
         //TODO 1024
-        grapicContainer = Util.CreateChildTransform(mapObjBoxTransform,"GrapicContainer");
+        otherContainer = Util.CreateChildTransform(mapObjBoxTransform,"OtherContainer");
+        otherContainer.gameObject.AddComponent<OtherContainer>();
         backgroundObjectContainer = Util.CreateChildTransform(mapObjBoxTransform,"BackgroundObjectContainer");
         //TODO 1024
         
@@ -278,77 +279,7 @@ public class MapEditor : MonoBehaviour
         return list;
     }
     //todo 0918
-    // List<ObjectData> GetList(Transform transform)
-    // {
-    //     List<ObjectData> list = new();
-    //     foreach(Transform cur in transform)
-    //     {
-    //         cur.GetComponent<BuildObj>().SetTileData();
-
-    //         list.Add(cur.GetComponent<BuildObj>().ObjectData);
-    //     }
-    //     return list;
-    // }
-
-
-
-    // List<ButtonActivatableObjectStruct> GetButtonActivateObjectStructList()
-    // {
-    //     List<ButtonActivatableObjectStruct> list = new();
-
-    //     foreach (Transform cur in buttonActivatableObjectTransform)
-    //     {
-    //        list.Add(cur.GetComponent<BuildObj>().GetData<ButtonActivatableObjectStruct>()); 
-    //     }
-    //     return list;
-    // }
-
-    // List<ButtonObjectStruct> GetButtonObjectList()
-    // {
-    //     List<ButtonObjectStruct> list = new();
-    //     foreach (Transform cur in buttonObjectTransform)
-    //     {
-    //        list.Add(cur.GetComponent<BuildObj>().GetData<ButtonObjectStruct>()); 
-
-    //     }
-    //     return list;
-    // }
-
-    // List<ExitObjStruct> GetExitObjStructsList(Transform transform)
-    // {
-    //     List<ExitObjStruct> list = new();
-    //     int keyAmount = 0;
-    //     foreach (Transform tr in objectTransform)
-    //     {
-    //         Debug.Log(tr.name);
-    //         if (tr.GetComponent<BuildObj>().id == 307)
-    //         {
-    //             keyAmount++;
-    //         }
-    //     }
-
-    //     foreach (Transform cur in transform)
-    //     {
-    //         cur.GetComponent<ExitPointObj>().condition_KeyAmount = keyAmount;
-    //         list.Add(cur.GetComponent<ExitPointObj>().GetExitObjectStruct());
-    //     }
-
-    //     return list;
-    // }
-
-
-    // List<DialogueData> GetDialogueList()
-    // {
-    //     List<DialogueData> list = new();
-    //     foreach (Transform tr in triggerDialogueTransform)
-    //     {
-    //         if (tr.TryGetComponent(out Trigger_Dialogue component))
-    //         {
-    //             list.Add(component.GetDialogueData());
-    //         }
-    //     }
-    //     return list;
-    // }
+  
 
     #endregion
 
@@ -449,7 +380,8 @@ public class MapEditor : MonoBehaviour
     private void Create_Object(){
         Create_Object(curMap.mapObjectDataList,objectTransform);
         Create_Object(curMap.mapBackgroundObjectList,backgroundObjectContainer);
-        Create_Object(curMap.mapGraphicObjectList,grapicContainer);
+        // Create_Object(curMap.mapOtherObjectList,otherContainer);
+        Create_OtherObject(curMap.mapOtherObjectList,otherContainer);
         Create_Object(curMap.mapButtonActivatableObjectDataList,buttonActivatableObjectTransform);
         Create_Object(curMap.mapExitObjectDataList,exitDoorObjectTransform);
         Create_Object(curMap.buttonObjectList,buttonObjectTransform);
@@ -486,24 +418,30 @@ public class MapEditor : MonoBehaviour
             placeMentSystem.tileDic[data.position] = data.id;        
          }
     }
-    // private void CreateNetWork_Or_NormalObject(ObjectData data,Transform transform){
-        
-    //         MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
-    //         if(mapDataStruct.tileType == TileType.N_Object && Application.isPlaying){
-    //             Managers.Stage.CmdBatchObject(mapDataStruct.name, data,transform);
-    //         }else{
-    //             Create(transform, mapDataStruct, data);
-    //         }
-        
-    // }
-    // public void Create_Object(Transform transform){
-        
-    //      foreach (ObjectData data in curMap.mapObjectDataList){
-    //         CreateNetWork_Or_NormalObject(data,transform);
-            
-    //      }
-    // }
+    public void Create_OtherObject(List<ObjectData> list,Transform transform){
+       MapDataStruct mapDataStruct;
+        foreach(ObjectData data in list){
+            mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
+            Create_OtherObject(mapDataStruct,data,transform);
+        };
+    }
+    private void Create_OtherObject(MapDataStruct mapDataStruct,ObjectData data,Transform transform){
+        string[] tags = mapDataStruct.name.Split("_");
+        Transform curTr = transform;
+        OtherContainer otherContainer = curTr.GetComponent<OtherContainer>();
+        for(int i =0;i<tags.Length-1;i++){
+            Transform findTr =curTr.Find(tags[i]);
+            if(findTr == null){
+                findTr = new GameObject(tags[i]).transform;
+                findTr.SetParent(curTr);
+            }
+            curTr = findTr;
+        }
 
+        otherContainer.SetGroup(curTr);
+        Create(curTr,mapDataStruct,data);
+
+    }
     public void Create_Object<T>(List<T> list ,Transform transform){
         MapDataStruct mapDataStruct;
         Transform _TR;

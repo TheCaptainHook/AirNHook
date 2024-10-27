@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Linq;
 
 using System.Diagnostics;
+using NPOI.SS.Formula.Functions;
 
 
 
@@ -267,7 +268,8 @@ public class MapEditor_Editor : Editor
     public void Create_Object(){
             Create_Object(mapEditor.CurMap.mapObjectDataList,mapEditor.objectTransform);
             Create_Object(mapEditor.CurMap.mapBackgroundObjectList,mapEditor.backgroundObjectContainer);
-            Create_Object(mapEditor.CurMap.mapGraphicObjectList,mapEditor.grapicContainer);
+            // Create_Object(mapEditor.CurMap.mapOtherObjectList,mapEditor.otherContainer);
+            Create_OtherObject(mapEditor.CurMap.mapOtherObjectList);
             Create_Object(mapEditor.CurMap.mapButtonActivatableObjectDataList,mapEditor.buttonActivatableObjectTransform);
             Create_Object(mapEditor.CurMap.mapExitObjectDataList,mapEditor.exitDoorObjectTransform);
             Create_Object(mapEditor.CurMap.buttonObjectList,mapEditor.buttonObjectTransform);
@@ -283,6 +285,30 @@ public class MapEditor_Editor : Editor
             mapEditor.placeMentSystem.tileDic[data.position] = data.id;        
          }
     }       
+    public void Create_OtherObject(List<ObjectData> list){
+       MapDataStruct mapDataStruct;
+        foreach(ObjectData data in list){
+            mapDataStruct = mapObjectDataDictionary[data.id];
+            Create_OtherObject(mapDataStruct,data);
+        };
+    }
+    private void Create_OtherObject(MapDataStruct mapDataStruct,ObjectData data){
+        string[] tags = mapDataStruct.name.Split("_");
+        Transform curTr = mapEditor.otherContainer;
+        OtherContainer otherContainer = curTr.GetComponent<OtherContainer>();
+        for(int i =0;i<tags.Length-1;i++){
+            Transform transform =curTr.Find(tags[i]);
+            if(transform == null){
+                transform = new GameObject(tags[i]).transform;
+                transform.SetParent(curTr);
+            }
+            curTr = transform;
+        }
+
+        otherContainer.SetGroup(curTr);
+        Create(curTr,mapDataStruct,data);
+
+    }
     public void Create_Object<T>(List<T> list ,Transform transform){
         MapDataStruct mapDataStruct;
         foreach(T data in list){
@@ -407,7 +433,8 @@ private async Task<Map> CreateMap(MapEditor mapEditor){
             //object
             GetList<ObjectData>(mapEditor.objectTransform),
             GetList<ObjectData>(mapEditor.backgroundObjectContainer),
-            GetList<ObjectData>(mapEditor.grapicContainer),
+            // GetList<ObjectData>(mapEditor.otherContainer),
+            GetList_Depth<ObjectData>(mapEditor.otherContainer.GetComponent<OtherContainer>()),
             GetList<ButtonActivatableObjectStruct>(mapEditor.buttonActivatableObjectTransform),
             GetList<ButtonObjectStruct>(mapEditor.buttonObjectTransform),
             GetList<DialogueData>(mapEditor.triggerDialogueTransform),
@@ -447,6 +474,9 @@ List<TileData> GetTileData(Tilemap tileMap)
             list.Add(data);
         }
         return list;
+    }
+    private List<T> GetList_Depth<T>(OtherContainer otherContainer){
+        return otherContainer.GetTypeObject<T>();
     }
 
     List<ExitObjStruct> GetExitObjStructsList(Transform transform,MapEditor mapEditor)

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
+using Mono.CecilX;
+using Unity.VisualScripting;
 
 public enum ModeType
 {
@@ -60,7 +62,7 @@ public class CreateMap_Tool : EditorWindow
     GUIStyle _GUIStyle_Text;
     GUIStyle _GUIStyle_Cell;
     GUIStyle _GUIStyle_HeadTitleText;
-
+    GUIStyle _GUIStyle_Tooltip;
     
 
     [Header("Mode")]
@@ -91,13 +93,12 @@ public class CreateMap_Tool : EditorWindow
         objLists = GetResourcesList("Object");
         sceneObjLists = new List<GameObject>(Resources.LoadAll<GameObject>("Prefabs/MapEditor/Scenes"));
         backgroundObjLists = new List<GameObject>(Resources.LoadAll<GameObject>("Prefabs/MapEditor/Background"));
-        //todo 0415
         otherObjLists = new List<GameObject>(Resources.LoadAll<GameObject>("Prefabs/MapEditor/Other"));
-        //todo 0415
-        //ruleTile = Resources.Load<RuleTile>("Arts/Tiles/1");
+        
         InitTextures();
         InitGUIStyle();
     }
+
 
 
     private List<GameObject> GetResourcesList(string type){
@@ -159,6 +160,16 @@ public class CreateMap_Tool : EditorWindow
 
         // _GUIStyle_HeadTitleText.fixedWidth = viewWidth;
         _GUIStyle_HeadTitleText.alignment = TextAnchor.MiddleCenter;
+
+        _GUIStyle_Tooltip = new GUIStyle(GUI.skin.label);
+        _GUIStyle_Tooltip.fontSize = 12;
+        _GUIStyle_Tooltip.normal.textColor = Color.white;
+        _GUIStyle_Tooltip.fontStyle = FontStyle.Bold;
+        _GUIStyle_Tooltip.alignment = TextAnchor.MiddleCenter;
+        Texture2D texture = new Texture2D(1,1);
+        texture.SetPixel(0,0,new Color(0,0,0,0.75f));
+        texture.Apply();
+        _GUIStyle_Tooltip.normal.background = texture;
     }
 
     #endregion
@@ -273,51 +284,33 @@ public class CreateMap_Tool : EditorWindow
                 foreach (GameObject obj in objLists)
                 {
                     Texture2D texture = AssetPreview.GetAssetPreview(obj);
-                    contents.Add(new GUIContent(texture));
+                    contents.Add(new GUIContent(texture,obj.name));
                 }
                 break;
             case ModeType.Scenes:
                 foreach (GameObject obj in sceneObjLists)
                 {
                     Texture2D texture = AssetPreview.GetAssetPreview(obj);
-                    contents.Add(new GUIContent(texture));
+                    contents.Add(new GUIContent(texture,obj.name));
                 }
                 break;
             case ModeType.BackGround:
                 foreach (GameObject obj in backgroundObjLists)
                 {
                     Texture2D texture = AssetPreview.GetAssetPreview(obj);
-                    contents.Add(new GUIContent(texture));
+                    contents.Add(new GUIContent(texture,obj.name));
                 }
                 break;
             case ModeType.Other:
                 foreach (GameObject obj in otherObjLists)
                 {
                     Texture2D texture = AssetPreview.GetAssetPreview(obj);
-                    contents.Add(new GUIContent(texture));
+                    contents.Add(new GUIContent(texture,obj.name));
+                    
                 }
                 break;
         }
     } //todo TEST REFECTORING CODE 0503
-
-    private void CreateLabel(ModeType modeType, int index)
-    {
-        switch (modeType)
-        {
-            case ModeType.Scenes:
-                GUILayout.Label(sceneObjLists[index].name, _GUIStyle_Text);
-                break;
-            case ModeType.Object:
-                GUILayout.Label(objLists[index].name, _GUIStyle_Text);
-                break;
-            case ModeType.Other:
-                GUILayout.Label(otherObjLists[index].name, _GUIStyle_Text);
-                break;
-            case ModeType.BackGround:
-                GUILayout.Label(backgroundObjLists[index].name, _GUIStyle_Text);
-                break;
-        }
-    }
 
     private void DrawObjectContent()
     {
@@ -374,13 +367,19 @@ public class CreateMap_Tool : EditorWindow
             {
                 GUILayout.BeginHorizontal(GUILayout.Width(screenWidth));
             }
-        
-            if (GUILayout.Button(content, _GUIStyle_Cell))
+            GUIContent btnContent = new GUIContent(content.image,"");
+            if (GUILayout.Button(btnContent, _GUIStyle_Cell))
             {
                 CreateObject(index);
             }
 
-            CreateLabel(modeType, index);
+            // CreateLabel(modeType, index);
+            Rect lastRect = GUILayoutUtility.GetLastRect();
+            // 마우스가 버튼 위에 있을 때 툴팁을 보여줍니다.
+            if (lastRect.Contains(Event.current.mousePosition))
+            {
+                GUI.Label(new Rect(lastRect.x, lastRect.y+20, lastRect.width, 20), content.tooltip,_GUIStyle_Tooltip);
+            }
 
             if (curWidth > screenWidth - 10)
             {
@@ -402,93 +401,6 @@ public class CreateMap_Tool : EditorWindow
     //todo TEST REFECTORING CODE 0503
     #endregion
 
-    //private void DrawObjectContent()
-    //{
-    //    GUILayout.BeginArea(objectSection);
-    //    scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(350), GUILayout.Height(300));
-
-    //    List<GUIContent> contentsList = new();
-
-    //    if (modeType == ModeType.Object)
-    //    {
-    //        foreach (GameObject obj in objLists)
-    //        {
-    //            Texture2D texture = AssetPreview.GetAssetPreview(obj);
-    //            contentsList.Add(new GUIContent(texture));
-    //        }
-    //    }
-    //    else if (modeType == ModeType.Scenes)
-    //    {
-    //        foreach (GameObject obj in sceneObjLists)
-    //        {
-    //            Texture2D texture = AssetPreview.GetAssetPreview(obj);
-    //            contentsList.Add(new GUIContent(texture));
-    //        }
-    //    }
-    //    else if (modeType == ModeType.BackGround)
-    //    {
-    //        foreach (GameObject obj in backgroundObjLists)
-    //        {
-    //            Texture2D texture = AssetPreview.GetAssetPreview(obj);
-    //            contentsList.Add(new GUIContent(texture));
-    //        }
-    //    }
-    //    else if (modeType == ModeType.Other)
-    //    {
-    //        foreach (GameObject obj in otherObjLists)
-    //        {
-    //            Texture2D texture = AssetPreview.GetAssetPreview(obj);
-    //            contentsList.Add(new GUIContent(texture));
-    //        }
-    //    }
-
-    //    //objectSectionPot = GUILayout.SelectionGrid(objectSectionPot, contentsList.ToArray(), 6,_GUIStyle_Cell);
-
-    //    float screenWidth = 240f;
-    //    int index = 0;
-    //    float curWidth = 0;
-    //    foreach (GUIContent content in contentsList)
-    //    {
-    //        if (curWidth == 0)
-    //        {
-    //            GUILayout.BeginHorizontal(GUILayout.Width(Screen.width));
-    //        }
-
-
-    //        if (GUILayout.Button(content, _GUIStyle_Cell))
-    //        {
-    //            //if(modeToggle) Debug.Log($"{index}, {sceneObjLists[index]}");
-    //            //else Debug.Log($"{index}, {objLists[index]}");
-
-    //            CreateObject(index);
-
-    //        }
-
-    //        if (modeType == ModeType.Scenes) GUILayout.Label(sceneObjLists[index].name, _GUIStyle_Text);
-    //        else if (modeType == ModeType.Object) GUILayout.Label(objLists[index].name, _GUIStyle_Text);
-    //        else if (modeType == ModeType.Other) GUILayout.Label(otherObjLists[index].name, _GUIStyle_Text);
-    //        else if (modeType == ModeType.BackGround) GUILayout.Label(backgroundObjLists[index].name, _GUIStyle_Text);
-
-    //        if (curWidth > screenWidth - 10)
-    //        {
-    //            curWidth = 0;
-    //            index++;
-    //            GUILayout.EndHorizontal();
-    //            continue;
-    //        }
-    //        else if (index == contentsList.Count - 1)
-    //        {
-    //            GUILayout.EndHorizontal();
-    //        }
-    //        curWidth += _GUIStyle_Cell.fixedWidth;
-    //        index++;
-
-    //    }
-    //    //GUILayout.EndHorizontal();
-
-    //    GUILayout.EndScrollView();
-    //    GUILayout.EndArea();
-    //}
 
 
     private void DrawGenratorObjectPreviewSpriteContent()
@@ -504,6 +416,22 @@ public class CreateMap_Tool : EditorWindow
     #endregion
 
     #region Function
+    private void SelectActiveOBJ_OtherType(GameObject obj){
+        string[] str = obj.name.Split("_");
+        Transform curTr = curMapEditor.otherContainer;
+        OtherContainer otherContainer = curTr.GetComponent<OtherContainer>();
+
+        for(int i =0;i<str.Length-1;i++){
+            Transform transform =curTr.Find(str[i]);
+            if(transform == null){
+                transform = new GameObject(str[i]).transform;
+                transform.SetParent(curTr);
+            }
+            curTr = transform;
+        }
+        otherContainer.SetGroup(curTr);
+        SelectActiveOBJ(obj,curTr);
+    }
     void CreateObject(int i)
     {
         GameObject obj = modeType == ModeType.Object ? objLists[i] : modeType == ModeType.Scenes ? sceneObjLists[i]: modeType == ModeType.Other ? otherObjLists[i] : backgroundObjLists[i];
@@ -512,6 +440,10 @@ public class CreateMap_Tool : EditorWindow
 
         if(modeType == ModeType.BackGround){
             SelectActiveOBJ(obj,curMapEditor.backgroundObjectContainer);
+            return;
+        }
+        if(modeType == ModeType.Other){
+            SelectActiveOBJ_OtherType(obj);
             return;
         }
 

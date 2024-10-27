@@ -26,7 +26,7 @@ public class Map
     public List<ObjectData> mapObjectDataList = new List<ObjectData>();
     //TODO 1024
     public List<ObjectData> mapBackgroundObjectList = new List<ObjectData>();
-    public List<ObjectData> mapGraphicObjectList = new List<ObjectData>();
+    public List<ObjectData> mapOtherObjectList = new List<ObjectData>();
     //TODO 1024
     public List<ButtonActivatableObjectStruct> mapButtonActivatableObjectDataList = new();
     public List<ButtonObjectStruct> buttonObjectList = new();
@@ -50,7 +50,7 @@ public class Map
         //object
         List<ObjectData> objectList,
         List<ObjectData> backgroundObjectList,
-        List<ObjectData> graphicObjectList,
+        List<ObjectData> otherObjectList,
         List<ButtonActivatableObjectStruct> mapButtonActivatabledObjectDataList,
         List<ButtonObjectStruct> buttonObjectList,
         List<DialogueData> dialogueDataList,
@@ -68,7 +68,7 @@ public class Map
         //object
         mapObjectDataList = objectList;
         mapBackgroundObjectList = backgroundObjectList;
-        mapGraphicObjectList = graphicObjectList;
+        mapOtherObjectList = otherObjectList;
         this.startPosition = startPosition;
         this.mapExitObjectDataList = mapExitObjectDataList;
         this.mapButtonActivatableObjectDataList = mapButtonActivatabledObjectDataList;
