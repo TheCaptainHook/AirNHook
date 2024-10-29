@@ -12,12 +12,12 @@ GameObject:
   - component: {fileID: 1887095859145471571}
   - component: {fileID: 7702681937336161352}
   - component: {fileID: 1402179452141489168}
-  - component: {fileID: 5541719228948252903}
   - component: {fileID: 6538494676459900832}
   - component: {fileID: 7684903196300218065}
   - component: {fileID: -2202390588482861308}
   - component: {fileID: 2675762856716472400}
-  m_Layer: 7
+  - component: {fileID: 8499923676822758438}
+  m_Layer: 16
   m_Name: ToggleButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,10 +120,10 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.013459623, y: 0.11177881}
+  m_Offset: {x: 0.0059821308, y: -0.34015214}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -134,7 +134,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.3490673, y: 0.2685779}
+  m_Size: {x: 0.45474583, y: 1.4771869}
   m_EdgeRadius: 0
 --- !u!50 &1402179452141489168
 Rigidbody2D:
@@ -163,37 +163,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &5541719228948252903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5485989114999524422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb7372d0956e82046a1a490ce69bd529, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 306
-  transformID: 4
-  position: {x: 0, y: 0}
-  offset: {x: 0, y: 1.5}
-  turnOff: 0
-  distructionStatus: 0
-  onPlaceable: 0
-  onRotateable: 0
-  onScaleable: 0
-  setPosition: 0
-  orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
-  targetObjects: []
-  mask:
-    serializedVersion: 2
-    m_Bits: 2032640
-  onActive: 0
-  isPressed: 0
-  buttonTransform: {fileID: 0}
 --- !u!95 &6538494676459900832
 Animator:
   serializedVersion: 5
@@ -263,3 +232,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debugmodeTransform: {fileID: 0}
   onHierarchy: 0
+--- !u!114 &8499923676822758438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5485989114999524422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4491313a3d0284f86ba3a609fe1badb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 329
+  transformID: 0
+  position: {x: 0, y: 0}
+  offset: {x: 0, y: 0}
+  turnOff: 0
+  distructionStatus: 0
+  onPlaceable: 0
+  onRotateable: 0
+  onScaleable: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 0}
+  targetObjects: []
+  _BtnOffset: 1
+  _objectType: 0

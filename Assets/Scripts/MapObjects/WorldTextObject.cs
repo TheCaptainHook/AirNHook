@@ -31,6 +31,7 @@ public class WorldTextObject : BuildObj
         textMesh.text = text;
     }
     public void SetFontSize(float fontSize){
+        this.fontSize = fontSize;
         textMesh.fontSize = fontSize;
     }
 

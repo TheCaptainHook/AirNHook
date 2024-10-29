@@ -470,9 +470,14 @@ public class MapEditor : MonoBehaviour
     }
 
     void Create<T>(Transform transform,MapDataStruct mapDataStruct,T data){
-        GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
-        obj.GetComponent<BuildObj>().SetData(data);
-        obj.transform.SetParent(transform);
+        try{
+            GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
+            obj.GetComponent<BuildObj>().SetData(data);
+            obj.transform.SetParent(transform);
+        }catch(Exception ex){
+            Debug.Log($"{ex},{mapDataStruct.id}");
+        }
+       
     }
 
     void CreateStartPosition()

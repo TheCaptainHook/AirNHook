@@ -1,7 +1,4 @@
 using Mirror;
-using Org.BouncyCastle.Asn1.Esf;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class MirrorObject : BuildObj,IInteractable
@@ -113,8 +110,6 @@ public class MirrorObject : BuildObj,IInteractable
     }
 
     public void ShowEButton(){
-        // if(onActive) return; 
-        Debug.Log("SHow E btn");
         _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
         _E_Btn.transform.position =  transform.position + (transform.up * _BtnOffset);
     }

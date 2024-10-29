@@ -5,7 +5,6 @@ public class OtherContainer : MonoBehaviour
 {
    public List<Transform> group;
 
-
     public void SetGroup(Transform tr){
         if(group == null) group = new();
 
@@ -14,10 +13,9 @@ public class OtherContainer : MonoBehaviour
         }
         
     }
-
     public List<T> GetTypeObject<T>(){
         List<T> list = new();
-
+        if(group == null) return null;
         foreach(Transform tr in group){
             foreach(Transform item in tr){
                 if(item.TryGetComponent(out BuildObj component)){

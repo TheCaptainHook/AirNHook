@@ -38,7 +38,7 @@ public class WorldTextObject_Editor : Editor
         _SerializedProperty_FontSize.serializedObject.Update();
 
         GUILayout.BeginVertical();
-
+        _WorldTextObject.id = EditorGUILayout.IntField("Build ID",_WorldTextObject.id);
         // Draw fields for size and text
         _WorldTextObject.size = EditorGUILayout.Vector2Field("Width and Height", _WorldTextObject.size);
         _WorldTextObject.mainText = EditorGUILayout.TextField("Text", _WorldTextObject.mainText);
@@ -81,6 +81,10 @@ public class WorldTextObject_Editor : Editor
         {
             _WorldTextObject.SetText(previousText);
             previousText = curText;
+        }
+        if(curFontSize != previousFontSize){
+            _WorldTextObject.SetFontSize(curFontSize);
+            previousFontSize = curFontSize;
         }
     }
 

@@ -8,8 +8,6 @@ public class ButtonActivated : ButtonEntity
 {
     [CustomHeader("ButtonActivated")]
     public LayerMask mask;
-    //bool linked;
-    public bool onActive;
     public bool isPressed = false;
 
     public Transform buttonTransform;
@@ -25,8 +23,6 @@ public class ButtonActivated : ButtonEntity
     #region StringCache
     private static readonly int IsActivated = Animator.StringToHash("IsActivated");
     #endregion
-
-    bool onPrograss;
 
 
     private void Awake()
@@ -82,12 +78,22 @@ public class ButtonActivated : ButtonEntity
         if (!onActive) return;
         StartCoroutine(Co_Deactivated());
     }
- 
 
-    IEnumerator Co_Activation()
+
+    // override IEnumerator Co_Activation()
+    // {
+    //     onPrograss = true;
+
+    //     _animator.SetBool(IsActivated, true);
+
+    //     PrograssButtonActivatedObject(true);
+
+    //     yield return new WaitForSeconds(0.5f);
+    //     onPrograss = false;
+    // }
+    protected override IEnumerator Co_Activation()
     {
         onPrograss = true;
-
         _animator.SetBool(IsActivated, true);
 
         PrograssButtonActivatedObject(true);
@@ -95,9 +101,9 @@ public class ButtonActivated : ButtonEntity
         yield return new WaitForSeconds(0.5f);
         onPrograss = false;
     }
-    IEnumerator Co_Deactivated()
+    protected override IEnumerator Co_Deactivated()
     {
-        onPrograss = true;
+         onPrograss = true;
 
         isPressed = false;
         onActive = false;
@@ -109,6 +115,20 @@ public class ButtonActivated : ButtonEntity
         yield return new WaitForSeconds(0.5f);
         onPrograss = false;
     }
+    // IEnumerator Co_Deactivated()
+    // {
+    //     onPrograss = true;
+
+    //     isPressed = false;
+    //     onActive = false;
+
+    //     _animator.SetBool(IsActivated, false);
+
+    //     PrograssButtonActivatedObject(false);
+
+    //     yield return new WaitForSeconds(0.5f);
+    //     onPrograss = false;
+    // }
 
     public override void TurnOff()
     {

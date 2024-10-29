@@ -12,6 +12,7 @@ using System.Linq;
 
 using System.Diagnostics;
 using NPOI.SS.Formula.Functions;
+using System;
 
 
 
@@ -326,12 +327,17 @@ public class MapEditor_Editor : Editor
     }
 
       void Create<T>(Transform transform,MapDataStruct mapDataStruct,T data){
-        GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
-        BuildObj buildObj = obj.GetComponent<BuildObj>();
-        buildObj.SetData(data);
-        buildObj.Editor_Setting(mapEditor.buttonActivatableObjectTransform);
-        
-        obj.transform.SetParent(transform);
+        try{
+            GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
+            BuildObj buildObj = obj.GetComponent<BuildObj>();
+            buildObj.SetData(data);
+            buildObj.Editor_Setting(mapEditor.buttonActivatableObjectTransform);
+            
+            obj.transform.SetParent(transform);
+        }catch(Exception ex){
+            Debug.Log($"{ex},{mapDataStruct.id}");
+        }
+       
     }
 
     TextAsset GetTextAsset(MapType mapType,string id)

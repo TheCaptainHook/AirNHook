@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ButtonEntity : BuildObj
@@ -31,10 +32,15 @@ public class ButtonEntity : BuildObj
     
 
     #region Main Logic
+    protected bool onPrograss;
+    protected bool onActive;
+    protected virtual IEnumerator Co_Activation(){yield break; }
+    protected virtual IEnumerator Co_Deactivated(){yield break; }
     protected virtual void Activation(){}
     protected virtual void Deactivated(){}
     protected virtual void PrograssButtonActivatedObject(bool onActivate)
     {
+        if(targetObjects == null) return;
         foreach(GameObject obj in targetObjects){
            if(obj.TryGetComponent(out ActivatableObjectEntity component)){
             component.ApplyActive(onActivate ? 1 :-1);
