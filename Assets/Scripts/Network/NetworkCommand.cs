@@ -40,22 +40,22 @@ public class NetworkCommand : NetworkBehaviour
     #region StageDataCheck
     public Action<string, bool> stageCheckCallback;
 
-    [Command(requiresAuthority = false)]
-    public void StageDataCheck(string value)
-    {
-        RpcStageDataCheck(value);
-    }
+    //[Command(requiresAuthority = false)]
+    //public void StageDataCheck(string value)
+    //{
+    //    RpcStageDataCheck(value);
+    //}
 
-    [ClientRpc(includeOwner = false)]
-    private void RpcStageDataCheck(string value)
-    {
-        var isMapExist = Managers.Data.mapData.mapAllDictionary.ContainsKey(value);
-        CmdStageDataChecked(value, isMapExist);
+    //[ClientRpc(includeOwner = false)]
+    //private void RpcStageDataCheck(string value)
+    //{
+    //    var isMapExist = Managers.Data.mapData.mapAllDictionary.ContainsKey(value);
+    //    CmdStageDataChecked(value, isMapExist);
         
-        if (!isMapExist) return;
-        var stageUI = (UI_StageSelect)Managers.UI.GetUI<UI_StageSelect>();
-        stageUI.MapSelected(value, true);
-    }
+    //    if (!isMapExist) return;
+    //    var stageUI = (UI_StageSelect)Managers.UI.GetUI<UI_StageSelect>();
+    //    stageUI.MapSelected(value, true);
+    //}
 
     [Command(requiresAuthority = false)]
     private void CmdStageDataChecked(string mapID, bool value)

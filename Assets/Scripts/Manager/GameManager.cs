@@ -136,22 +136,22 @@ public class GameManager
     }
 
 
-    public void DeathCompare()
-    {
-        Managers.Data.loadData.playData[_stageID].deathCount = _clearDeath;
-        Managers.Data.loadData.playData[_stageID].totalDeath = _totalDeath;
-    }
+    //public void DeathCompare()
+    //{
+    //    Managers.Data.loadData.playData[_stageID].deathCount = _clearDeath;
+    //    Managers.Data.loadData.playData[_stageID].totalDeath = _totalDeath;
+    //}
 
-    public void TimeCompare()
-    {
-        var timeGap = _clearTime - _startTime;
+    //public void TimeCompare()
+    //{
+    //    var timeGap = _clearTime - _startTime;
 
-        if (Managers.Data.loadData.playData[_stageID].clearTime == 0 || timeGap < Managers.Data.loadData.playData[_stageID].clearTime)
-        {
-            Managers.Data.loadData.playData[_stageID].clearTime = timeGap;
-            DeathCompare();
-        }
-    }
+    //    if (Managers.Data.loadData.playData[_stageID].clearTime == 0 || timeGap < Managers.Data.loadData.playData[_stageID].clearTime)
+    //    {
+    //        Managers.Data.loadData.playData[_stageID].clearTime = timeGap;
+    //        DeathCompare();
+    //    }
+    //}
     //TODO 0726
     public void PlayerAndMapSavaDataUpdate(string stageID)
     {
@@ -178,6 +178,11 @@ public class GameManager
         // await Managers.Data.saveData.Save_SaveFile();
 
 
+    }
+
+    public (float clearTIme,float deathCount) GetClearData()
+    {
+        return (Time.time - _startTime,_clearDeath);
     }
     //TODO 0726 
 }

@@ -4,7 +4,6 @@ using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
-using Org.BouncyCastle.Bcpg.Sig;
 
 
 //TODO Develop Code Line (Async): 21
@@ -12,16 +11,15 @@ using Org.BouncyCastle.Bcpg.Sig;
 public class SaveData
 {
     private string filePath;
+
     public SaveFileData _SaveFileData;
-
     public Dictionary<string, MapSaveData> dic = new();
-
 
 
     public void SetUp()
     {
         filePath = Path.Combine(Application.persistentDataPath, "savefile.json");
-
+        Debug.Log(filePath);
         SearchSaveFile();
     }
 
@@ -38,10 +36,28 @@ public class SaveData
         }
     }
 
-    private UI_SaveAndLoad GetUI_SaveAndLoad(){
-        Managers.UI.ShowUI<UI_SaveAndLoad>();
-        return Managers.UI.GetUI<UI_SaveAndLoad>().GetComponent<UI_SaveAndLoad>();
+    //TODO 1101
+    public void Save()
+    {
+        GetUI_SaveAndLoad().SaveData(Save_SaveFile());
     }
+    public void Load()
+    {
+        GetUI_SaveAndLoad().LoadData(Load_SaveFile());
+    }
+
+    public void ClearMap(string key)
+    {
+        if (dic.ContainsKey(key))
+        {
+            
+        }
+        else
+        {
+            Debug.Log("Can't find key");
+        }
+    }
+   
     
     private async Task Create_NewSaveDataFile()
     {
@@ -58,24 +74,23 @@ public class SaveData
 
         await Save_SaveFile();
     }
-   
+
+
+
+
+
+
+
+
+    #region Save
     public async Task Save_SaveFile()
     {
-        _SaveFileData.SerializableSaveMapDataDictionary.FromDictionary(dic);
-       
-        string json = JsonUtility.ToJson(_SaveFileData,true);
+        //_SaveFileData.SerializableSaveMapDataDictionary.FromDictionary(dic);
+        _SaveFileData.SSDD_Update(dic);
+        string json = JsonUtility.ToJson(_SaveFileData, true);
         await WriteTextAsync(filePath, json);
         Debug.Log("Data Saved to " + filePath);
     }
-    
-
-    private async Task Load_SaveFile()
-    {
-        string json = await File.ReadAllTextAsync(filePath);
-        _SaveFileData = JsonUtility.FromJson<SaveFileData>(json);
-        dic = _SaveFileData.SerializableSaveMapDataDictionary.ToDictionary();
-    }
-
     private async Task WriteTextAsync(string path, string content)
     {
         byte[] encodedText = Encoding.UTF8.GetBytes(content);
@@ -87,6 +102,27 @@ public class SaveData
             await sourceStream.WriteAsync(encodedText, 0, encodedText.Length);
         };
     }
+    #endregion
+
+    #region Load
+    private async Task Load_SaveFile()
+    {
+        string json = await File.ReadAllTextAsync(filePath);
+        _SaveFileData = JsonUtility.FromJson<SaveFileData>(json);
+        //dic = _SaveFileData.SerializableSaveMapDataDictionary.ToDictionary();
+        dic = _SaveFileData.SSDD_LoadDictionary();
+    }
+    #endregion
+
+
+    #region Util
+    private UI_SaveAndLoad GetUI_SaveAndLoad()
+    {
+        Managers.UI.ShowUI<UI_SaveAndLoad>();
+        return Managers.UI.GetUI<UI_SaveAndLoad>().GetComponent<UI_SaveAndLoad>();
+    }
+    #endregion
+
 }
 
 [Serializable]
@@ -100,6 +136,19 @@ public class SaveFileData
         this.SerializableSaveMapDataDictionary = SerializableSaveMapDataDictionary;
         this._PlayerSaveData = _PlayerSaveData;
     }
+
+
+    public void SSDD_Update(Dictionary<string,MapSaveData> dic)
+    {
+        SerializableSaveMapDataDictionary.FromDictionary(dic);
+    }
+    public Dictionary<string,MapSaveData> SSDD_LoadDictionary()
+    {
+        return SerializableSaveMapDataDictionary.ToDictionary();
+    }
+
+
+
 }
 
 [Serializable]
@@ -118,9 +167,9 @@ public class MapSaveData
         this.mapName = mapName;
         this.clear = clear;
         this.openStage = openStage;
-        this.shortestClearTime = 0;
-        this.recentlyClearTime = 0;
-        this.deathCount = 0;
+        shortestClearTime = 0;
+        recentlyClearTime = 0;
+        deathCount = 0;
 
         this._DialogueDataList = _DialogueDataList;
     }
@@ -191,6 +240,7 @@ private bool CheckValidateDialougeData(List<DialogueData> list){
     public void ClearMapDataUpdate(float clearTime,int deathCount)
     {
         clear = true;
+        openStage = true;
         ModifyClearTime(clearTime);
         this.deathCount = deathCount;
     }

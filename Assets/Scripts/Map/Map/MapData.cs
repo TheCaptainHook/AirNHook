@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Mono.CecilX;
 using UGS;
 using UnityEngine;
-using UnityEngine.UIElements.Experimental;
 
 public class MapData
 {
@@ -62,36 +60,92 @@ public class MapData
 
     void MapJsonLoad()
     {
+        SceneMapDataLoad();
+
+        MainMapDataLoad();
+
+        //User Map Data Load
+        UserMapDataLoad();
+        //User Map Data Load
+
+    }
+    private void SceneMapDataLoad()
+    {
         foreach (TextAsset json in Resources.LoadAll<TextAsset>("MapDat/Scene"))
         {
             Map map = JsonUtility.FromJson<Map>(json.text);
             mapSceneDictionary.Add(map.mapID, map);
             mapAllDictionary.Add(map.mapID, map);
         }
-        int index = GetMainStageLevelIndex();
-        //todo
-        for(int i = 0; i <= index; i++)
-        {
-            GetMainStageMapData(i);
-            
-        }
+    }
 
-        //User Map Data Load
+    private void UserMapDataLoad()
+    {
         string path = Path.Combine(Application.dataPath, "UserMapData");
-    
+
         string[] filePaths = Directory.GetFiles(path, "*.json");
-        
-        foreach (string filePath in filePaths)
+
+        foreach (string file in filePaths)
         {
-            string jsonString = File.ReadAllText(filePath);
+            string jsonString = File.ReadAllText(file);
             UserMapData data = JsonUtility.FromJson<UserMapData>(jsonString);
             mapUserDictionary.Add(data.hashValue, data);
-            mapAllDictionary.Add(data.hashValue.ToString(), data.LoadMap());
+            //mapAllDictionary.Add(data.hashValue.ToString(), data.LoadMap()); 1101
 
         }
-        //User Map Data Load
+    }
+    private void MainMapDataLoad()
+    {
+        int index = GetMainStageLevelIndex();
+        for (int i = 0; i <= index; i++)
+        {
+            GetMainStageMapData(i);
+        }
+    }
+
+    #region Main Map Load
+    public void GetMainStageMapData(int level)
+    {
+        //string path = Path.Combine(Application.dataPath, $"Resources/MapDat/Main/{level}"); //1101
+
+        TextAsset[] jsons = Resources.LoadAll<TextAsset>($"MapDat/Main/{level}");
+        if (jsons.Length != 0)
+        {
+            Map[] maps = new Map[jsons.Length];
+
+            for (int i = 0; i < maps.Length; i++)
+            {
+                Map map = JsonUtility.FromJson<Map>(jsons[i].text);
+                maps[i] = map;
+                mapMainDictionary.Add(map.mapID, map);
+                mapAllDictionary.Add(map.mapID, map);
+            }
+            mapMainStageDictionary.Add(level, maps);
+        }
+
 
     }
+
+    int GetMainStageLevelIndex()
+    {
+        string path = Path.Combine(Application.dataPath, "Resources/MapDat/Main");
+        int index = 0;
+        while (true)
+        {
+            if (Directory.Exists(Path.Combine(path, index.ToString())))
+            {
+                index++;
+
+            }
+            else { break; }
+
+        }
+        return index - 1;
+    }
+
+    #endregion
+
+    #region User Map Load
     public void RefreshUserMapData()
     {
         string path = Path.Combine(Application.dataPath, "UserMapData");
@@ -110,38 +164,8 @@ public class MapData
 
         }
     }
+    #endregion
 
-    public void GetMainStageMapData(int level)
-    {
-        string path = Path.Combine(Application.dataPath, $"Resources/MapDat/Main/{level}");
-        
-        TextAsset[] jsons = Resources.LoadAll<TextAsset>($"MapDat/Main/{level}");
-        if (jsons.Length != 0)
-        {
-            Map[] maps = new Map[jsons.Length];
-            for (int j = 0; j < maps.Length; j++)
-            {
-                maps[j] = JsonUtility.FromJson<Map>(jsons[j].text);
-            }
-
-            mapMainStageDictionary.Add(level, maps);
-            for (int j = 0; j < jsons.Length; j++)
-            {
-                Map map = JsonUtility.FromJson<Map>(jsons[j].text);
-                mapMainDictionary.Add(map.mapID, map);
-                mapAllDictionary.Add(map.mapID, map);
-            }
-        }
-
-        //mapMainStageDictionary.Add(level, maps);
-        //for (int j = 0; j < jsons.Length; j++)
-        //{
-        //    Map map = JsonUtility.FromJson<Map>(jsons[j].text);
-        //    mapMainDictionary.Add(map.mapID, map);
-        //}
-        //Managers.Data.loadData.Setup();
-
-    }
 
     public Dictionary<string,Map> GetDictionary(MapType mapType)
     {
@@ -161,22 +185,7 @@ public class MapData
 
     }
 
- int GetMainStageLevelIndex()
-    {
-        string path = Path.Combine(Application.dataPath, "Resources/MapDat/Main");
-        int index = 0;
-        while (true)
-        {
-            if (Directory.Exists(Path.Combine(path, index.ToString())))
-            {
-                index++;
-
-            }
-            else { break; }
-
-        }
-        return index - 1;
-    }
+ 
 
 private (ObjectType type,string[] subType) GetObjectType(string objectType){
     string[] arr = objectType.Split("/");

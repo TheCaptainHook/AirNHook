@@ -86,23 +86,23 @@ public class StageButton : MonoBehaviour
 
    
 
-    public void StageFalse()
-    {
-        _timeCheck = false;
-        Managers.Data.loadData.Save();
-    }
+    //public void StageFalse()
+    //{
+    //    _timeCheck = false;
+    //    Managers.Data.loadData.Save();
+    //}
 
-    public void StageSkip()
-    {
-        Managers.Data.loadData.playData[_selectStage].skip = _skip;
-        Managers.Data.loadData.Save();
-    }
+    //public void StageSkip()
+    //{
+    //    Managers.Data.loadData.playData[_selectStage].skip = _skip;
+    //    Managers.Data.loadData.Save();
+    //}
 
-    public void TimeCompare()
-    {
-        if (Managers.Data.loadData.playData[_selectStage].clearTime == 0 || _clearTime < Managers.Data.loadData.playData[_selectStage].clearTime)
-            Managers.Data.loadData.playData[_selectStage].clearTime = _clearTime;
-    }
+    //public void TimeCompare()
+    //{
+    //    if (Managers.Data.loadData.playData[_selectStage].clearTime == 0 || _clearTime < Managers.Data.loadData.playData[_selectStage].clearTime)
+    //        Managers.Data.loadData.playData[_selectStage].clearTime = _clearTime;
+    //}
 
     
 
