@@ -109,6 +109,8 @@ public class MapEditor : MonoBehaviour
     public int stageLevel;
     public string mapID;
     [ReadOnly]
+    public string nextMapId;
+    [ReadOnly]
     public Vector2 startPosition;
     [ReadOnly]
     public GameObject startPositionObject;
@@ -510,6 +512,16 @@ public class MapEditor : MonoBehaviour
                 return cur.gameObject;
             }
         }
+        return null;
+    }
+    public T FindObj<T>(Transform transform) where T :class
+    {
+        foreach(Transform item in transform){
+            if(item.TryGetComponent(out T component)){
+                return item.GetComponent<T>();
+            }
+        }
+
         return null;
     }
 

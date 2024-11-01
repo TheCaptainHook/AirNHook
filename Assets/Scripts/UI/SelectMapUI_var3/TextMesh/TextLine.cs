@@ -126,7 +126,8 @@ public class TextLine : MonoBehaviour
 
     public bool CheckCompareString(string sentence)
     {
-        if (mainSentence == sentence) return true;
+        // if (mainSentence == sentence) return true;
+        if(mainSentence.Equals(sentence)) return true;
         return false;
     }
 

@@ -9,9 +9,6 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.Linq;
-
-using System.Diagnostics;
-using NPOI.SS.Formula.Functions;
 using System;
 
 
@@ -21,12 +18,8 @@ using System;
 [CustomEditor(typeof(MapEditor))]
 public class MapEditor_Editor : Editor
 {
-    // public Dictionary<int, MapDataStruct> mapTileDataDictionary = new Dictionary<int, MapDataStruct>();
     public Dictionary<int, MapDataStruct> mapObjectDataDictionary = new Dictionary<int, MapDataStruct>();
-    // public Dictionary<int, MapDataStruct> mapSceneDataDictionary = new Dictionary<int, MapDataStruct>();
-    // public Dictionary<int, MapDataStruct> mapBackgroundDataDictionary = new Dictionary<int, MapDataStruct>();
-    // public Dictionary<int, MapDataStruct> mapOtherDataDictionary = new Dictionary<int, MapDataStruct>();
-    
+   
     MapEditor mapEditor;//TODO 0822
     bool onLoad;
     public override void OnInspectorGUI()
@@ -240,6 +233,7 @@ public class MapEditor_Editor : Editor
             mapEditor.mapID = mapEditor.CurMap.mapID;
             mapEditor.audioType = mapEditor.CurMap.audioType;
             mapEditor.startPosition = mapEditor.CurMap.startPosition;
+            mapEditor.nextMapId = mapEditor.CurMap.nextMapId;
         }
         else
         {
@@ -428,7 +422,7 @@ public class MapEditor_Editor : Editor
         //}
 
 private async Task<Map> CreateMap(MapEditor mapEditor){
-    Map map =  new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, mapEditor.stageLevel, mapEditor.startPosition,
+    Map map =  new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, GetNextMapId(),mapEditor.stageLevel, mapEditor.startPosition,
             GetExitObjStructsList(mapEditor.exitDoorObjectTransform, mapEditor),
             //tile
             GetTileData(mapEditor.placeMentSystem.floorTileMap),
@@ -499,8 +493,9 @@ List<TileData> GetTileData(Tilemap tileMap)
 
         foreach (Transform cur in transform)
         {
-            cur.GetComponent<ExitPointObj>().condition_KeyAmount = keyAmount;
-            list.Add(cur.GetComponent<ExitPointObj>().GetExitObjectStruct());
+            ExitPointObj eObj = cur.GetComponent<ExitPointObj>();
+            eObj.condition_KeyAmount = keyAmount;
+            list.Add(eObj.GetExitObjectStruct());
         }
 
         return list;
@@ -516,6 +511,11 @@ List<TileData> GetTileData(Tilemap tileMap)
             }
         }
         return null;
+    }
+
+    private string GetNextMapId(){
+        ExitPointObj eObj = FindObj<ExitPointObj>(mapEditor.exitDoorObjectTransform);
+        return eObj.nextMapId;
     }
     #endregion
 
@@ -625,6 +625,17 @@ List<TileData> GetTileData(Tilemap tileMap)
         }
     }
   
+    public T FindObj<T>(Transform transform) where T :class
+    {
+        foreach(Transform item in transform){
+            if(item.TryGetComponent(out T component)){
+                return item.GetComponent<T>();
+            }
+        }
+        
+        return null;
+    }
+
     #endregion
 
 

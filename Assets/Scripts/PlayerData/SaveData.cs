@@ -4,6 +4,7 @@ using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
+using Unity.VisualScripting;
 
 
 //TODO Develop Code Line (Async): 21
@@ -68,7 +69,6 @@ public class SaveData
         }
     }
 
-
    
     
     private async Task Create_NewSaveDataFile()
@@ -78,7 +78,7 @@ public class SaveData
         foreach (var key in Managers.Data.mapData.mapAllDictionary.Keys)
         {
             Map map = Managers.Data.mapData.mapAllDictionary[key];
-            _SSMDD.Add(map.mapID, new MapSaveData(map.mapID,false,false,0,map.dialogueDataList));
+            _SSMDD.Add(map.mapID, new MapSaveData(map.mapID,map.nextMapId,false,false,0,map.dialogueDataList));
         }
 
         _SaveFileData = new SaveFileData(_SSMDD, new PlayerSaveData());
@@ -156,7 +156,14 @@ public class SaveFileData
 
     public void StageLevelUp()
     {
-        _PlayerSaveData.curStageLevel++;
+        int curStage = ++_PlayerSaveData.curStageLevel;
+        string firstStageMapName = Managers.Data.mapData.GetMainMapStageArray(curStage)[0].mapID;
+        try{
+            Managers.Data.saveData.dic[firstStageMapName].openStage = true;
+        }catch{
+            Debug.Log("Can't Find key");
+        }
+        
     }
 
 
@@ -166,6 +173,7 @@ public class SaveFileData
 public class MapSaveData
 {
     public string mapName;
+    public string nextMapId;
     public bool openStage;
     public bool clear;
     public float shortestClearTime;
@@ -173,9 +181,10 @@ public class MapSaveData
     public int deathCount; //해당맵에 몇번 죽었나 
     public List<DialogueData> _DialogueDataList;//해당 맵에 존재하는 다이얼로그 트리거 오브젝트
 
-    public MapSaveData(string mapName, bool clear, bool openStage,float clearTime, List<DialogueData> _DialogueDataList) //초기화
+    public MapSaveData(string mapName, string nextMapId,bool clear, bool openStage,float clearTime, List<DialogueData> _DialogueDataList) //초기화
     {
         this.mapName = mapName;
+        this.nextMapId = nextMapId;
         this.clear = clear;
         this.openStage = openStage;
         shortestClearTime = 0;
@@ -254,6 +263,15 @@ private bool CheckValidateDialougeData(List<DialogueData> list){
         openStage = true;
         ModifyClearTime(clearTime);
         this.deathCount = deathCount;
+        if(!string.IsNullOrEmpty(nextMapId)){
+            try{
+                Managers.Data.saveData.dic[nextMapId].openStage = true;
+            }catch{
+                Debug.Log("Can't Find key");
+            }
+            
+        }
+        
     }
 
     
@@ -278,18 +296,6 @@ public class PlayerSaveData
         curStageLevel = 0;
         //State
         _IstutorialClear = false;
-    }
-
-
-    public void AddClearMapId(string mapId)
-    {
-        if (mapId == "Tutorial_3") _IstutorialClear = true;
-
-
-        if (!clearMapId.Contains(mapId))
-        {
-            clearMapId.Add(mapId);
-        }
     }
 
     public void AddTotalDeath(int death)

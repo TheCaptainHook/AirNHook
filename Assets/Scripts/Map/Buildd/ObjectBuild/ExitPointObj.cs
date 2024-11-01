@@ -66,19 +66,7 @@ public class ExitPointObj : BuildObj
         return new ExitObjStruct(id,transform.position, condition_KeyAmount, nextMapId);
     }
     
-    
-    // public void SetData(ExitObjStruct data)
-    // {
-    //     condition_KeyAmount = data.condition_KeyAmount;
-    //     current_KeyAmount = condition_KeyAmount;//TODO 0729
-        
-    //     keyBubble.SetData(current_KeyAmount);//TODO 0802 need Networking
 
-    //     nextMapId = data.nextMapId;
-        
-    //     SetTileData(data.position);
-
-    // }
     public override void SetData<T>(T data)
     {
         if(typeof(T)==typeof(ExitObjStruct)){
@@ -92,7 +80,6 @@ public class ExitPointObj : BuildObj
             transform.position = eData.position;
         }
     }
-
 
 
     public void Init(int condition_keyAmount)
@@ -177,6 +164,7 @@ public class ExitPointObj : BuildObj
         //TODO 0804
         if (MapEditor.Instance.CurMap.mapID == "Tutorial_3"&& !Managers.Data.saveData._SaveFileData._PlayerSaveData._IstutorialClear)
         {
+            Managers.Data.saveData._SaveFileData._PlayerSaveData._IstutorialClear = true;
             StartCoroutine(ExecuteAfterDelay(dialogue.TutorialClearDialogue(), () =>
             {
                 doorOpeningAnim.CmdMoveNextStage(nextMapId);

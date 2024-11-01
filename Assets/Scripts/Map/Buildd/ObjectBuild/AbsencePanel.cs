@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System.Threading.Tasks;
-using Mirror;
+
 public class AbsencePanel : MonoBehaviour
 {
 
@@ -36,7 +34,7 @@ public class AbsencePanel : MonoBehaviour
             _CharacterFadeEffectCoroutineHook = StartCoroutine(ScaleCoroutine(_Hook.transform, new Vector3(.8f, .8f), new Vector3(.4f, .4f)));
 
             _OnHook = true;
-            _Hook.SetActive(true);
+            _Hook.SetActive(_OnHook);
         }
         else if (obj.TryGetComponent(out Air air))
         {
@@ -48,7 +46,7 @@ public class AbsencePanel : MonoBehaviour
             _CharacterFadeEffectCoroutineAir = StartCoroutine(ScaleCoroutine(_Air.transform, new Vector3(.8f, .8f), new Vector3(.4f, .4f)));
 
             _OnAir = true;
-            _Air.SetActive(true);
+            _Air.SetActive(_OnAir);
         }
     }
 

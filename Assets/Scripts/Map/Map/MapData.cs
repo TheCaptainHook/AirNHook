@@ -179,10 +179,8 @@ public class MapData
         return null;
     }
 
-    public  Map[] GetDictionary(int i)
-    {
-        return mapMainStageDictionary[i];
-
+    public Map[] GetMainMapStageArray(int level){
+        return mapMainStageDictionary[level];
     }
 
  

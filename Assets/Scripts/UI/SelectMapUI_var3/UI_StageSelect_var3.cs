@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.IO;
+using Steamworks;
+using UnityEditor;
 
 enum PrograssLevel
 {
@@ -136,11 +138,6 @@ public class UI_StageSelect_var3: UI_Base
 
     private void Awake()
     {
-        //_IEnumeratorList = new()
-        //{
-        //    WriteTextLineCo_Title(titleSentence),
-        //};
-
         contentRectTransform = content.transform as RectTransform;
 
         //TextLine Pooling
@@ -198,33 +195,7 @@ public class UI_StageSelect_var3: UI_Base
         if (onInteractable && !onPrograss && !inputProcessed)
         {
             GetKeyEvent();
-            // if (Input.GetKeyDown(KeyCode.DownArrow))
-            // {
-            //     StartCoroutine(ProcessInputWithDelay(KeyCode.DownArrow));
-            // }
-
-            // if (Input.GetKeyDown(KeyCode.UpArrow))
-            // {
-            //     StartCoroutine(ProcessInputWithDelay(KeyCode.UpArrow));
-            // }
             
-            // if (Input.GetKeyDown(KeyCode.Return))
-            // {
-            //     StartCoroutine(ProcessInputWithDelay(KeyCode.Return));
-            // }
-
-
-            // if (Input.GetKeyDown(KeyCode.Backspace))
-            // {
-            //     StartCoroutine(ProcessInputWithDelay(KeyCode.Backspace));
-
-            // }
-
-            // if (Input.GetKeyDown(KeyCode.Q))
-            // {
-            //     StartCoroutine(ProcessInputWithDelay(KeyCode.Q));
-            // }
-
 
         }
 
@@ -263,7 +234,6 @@ public class UI_StageSelect_var3: UI_Base
         if(curSelectTextLineIndex < minSelectTextLineListIndex)
         {
             curSelectTextLineIndex = maxSelectTextLineListIndex;
-            
         }
         else if(curSelectTextLineIndex > maxSelectTextLineListIndex)
         {
@@ -272,9 +242,7 @@ public class UI_StageSelect_var3: UI_Base
 
         if(curSelectTextLineIndex >= contentMoveRect_TextLineIndex)
         {
-            Vector2 position = contentRectTransform.localPosition;
-            position.y = 30 * (curSelectTextLineIndex - contentMoveRect_TextLineIndex);
-            contentRectTransform.localPosition = position;
+            ScrollingWirteLine(curSelectTextLineIndex);
         }
    
         if(curSelectTextLine != null)
@@ -294,25 +262,31 @@ public class UI_StageSelect_var3: UI_Base
 
     //Title
 
-    IEnumerator WriteLine(string sentence, Color color, bool readAntWrite, float fontSize = 25, float delayTime = 0.01f, bool onSelectable = true)
+    IEnumerator WriteLine(string sentence, Color color, bool readAntWrite, float fontSize = 25, float delayTime = 0.001f, bool onSelectable = true)
     {
         if (textLineList[nextWriteTextLineIndex].CheckCompareString(sentence))
         {
             nextWriteTextLineIndex++;
             yield break;
         }
-
         if (nextWriteTextLineIndex >= contentMoveRect_TextLineIndex)
         {
-            Vector2 position = contentRectTransform.localPosition;
-            position.y = 30 * (nextWriteTextLineIndex - contentMoveRect_TextLineIndex);
-            contentRectTransform.localPosition = position;
+            ScrollingWirteLine(nextWriteTextLineIndex);
         }
         TextLine textLine = textLineList[nextWriteTextLineIndex];
         nextWriteTextLineIndex++;
 
         yield return textLine.Task_WriteTyping(sentence, color, readAntWrite, fontSize, delayTime, onSelectable);
 
+    }
+    /// <summary>
+    /// condition : lineIdx >= contentMoveRect_TextLineIndex
+    /// </summary>
+    /// <param name="lineIdx"></param>
+    private void ScrollingWirteLine(int lineIdx){
+        Vector2 position = contentRectTransform.localPosition;
+        position.y = 30 * (lineIdx - contentMoveRect_TextLineIndex);
+        contentRectTransform.localPosition = position;
     }
 
     //private void WriteLine(string sentence, Color color, bool readAntWrite, float fontSize = 25, float delayTime = 0.01f, bool onSelectable = true)
@@ -335,10 +309,10 @@ public class UI_StageSelect_var3: UI_Base
     //    nextWriteTextLineIndex++;
     //}
 
-    private void Write(string sentence, Color color, bool readAntWrite, float fontSize = 25, float delayTime = 0.01f, bool onSelectable = true)
-    {
-        textLineList[nextWriteTextLineIndex].WriteText(sentence, color, readAntWrite, fontSize, delayTime, onSelectable);
-    }
+    // private void Write(string sentence, Color color, bool readAntWrite, float fontSize = 25, float delayTime = 0.01f, bool onSelectable = true)
+    // {
+    //     textLineList[nextWriteTextLineIndex].WriteText(sentence, color, readAntWrite, fontSize, delayTime, onSelectable);
+    // }
 
 
     #endregion
@@ -361,19 +335,19 @@ public class UI_StageSelect_var3: UI_Base
         }
     }
 
-    IEnumerator EraserTextLineCo() //All Eraser
-    {
-        for (int i = maxTextLine-1; i >= 0; i--)
-        {
-            if (textLineList[i].type == TypingType.Read) continue;
-            if (textLineList[i].CheckEmpty()) continue;
+    // IEnumerator EraserTextLineCo() //All Eraser
+    // {
+    //     for (int i = maxTextLine-1; i >= 0; i--)
+    //     {
+    //         if (textLineList[i].type == TypingType.Read) continue;
+    //         if (textLineList[i].CheckEmpty()) continue;
 
-            textLineList[i].EraserText();
-            yield return new WaitForSeconds(_WriteAndEraserDelayRate);
-        }
+    //         textLineList[i].EraserText();
+    //         yield return new WaitForSeconds(_WriteAndEraserDelayRate);
+    //     }
 
-        nextWriteTextLineIndex = 0;
-    }
+    //     nextWriteTextLineIndex = 0;
+    // }
 
     private void EraserAllClear()
     {
@@ -394,7 +368,7 @@ public class UI_StageSelect_var3: UI_Base
     }
     #endregion
 
-    private void OpenningTitle_()
+    private void OpenningTitle_() //Animator.event : Open
     {
         _PrograssLevel = PrograssLevel.One;
        _PrograssCoroutine = StartCoroutine(OpenningTitle());
@@ -425,8 +399,6 @@ public class UI_StageSelect_var3: UI_Base
 
         }
 
-        //todo ... 0629
-
         yield return new WaitForSeconds(1);
         EraserAllClear();
         yield return _PrograssCoroutine = StartCoroutine(WriteTextLineCo_Title(titleSentence,false));
@@ -451,16 +423,14 @@ public class UI_StageSelect_var3: UI_Base
         {
             yield return WriteLine(sentenceList[i], localColor, true);
         }
+        
         nextWriteTextLineIndex+=2;
-        // nextWriteTextLineIndex = sentenceList.Count;
         
-        //Init Select Line
-        
+        minSelectTextLineListIndex = nextWriteTextLineIndex;
         yield return WriteLine("Main", localColor, true);
         // yield return WriteLine("UserMap (준비중)", localColor, true, 25, 0.01f, false);
 
-        maxSelectTextLineListIndex = nextWriteTextLineIndex -1;
-        minSelectTextLineListIndex = maxSelectTextLineListIndex;
+        maxSelectTextLineListIndex = nextWriteTextLineIndex-1;
         curSelectTextLineIndex = maxSelectTextLineListIndex;
         
         onInteractable = true;
@@ -508,8 +478,6 @@ public class UI_StageSelect_var3: UI_Base
             {
                yield return WriteLine($"{i}", localColor, true);
             }
-
-            // maxSelectTextLineListIndex = minSelectTextLineListIndex + index;
             maxSelectTextLineListIndex = nextWriteTextLineIndex-1;
         }
         else
@@ -517,8 +485,7 @@ public class UI_StageSelect_var3: UI_Base
             //usermap Prograss
         }
 
-        curSelectTextLineIndex = maxSelectTextLineListIndex;
-       
+        curSelectTextLineIndex = nextWriteTextLineIndex;
 
         onPrograss = false;
         onInteractable = true;
@@ -555,16 +522,11 @@ public class UI_StageSelect_var3: UI_Base
             {
                 yield return WriteLine(maps[i].mapID, Color.yellow, true);
             }
-            else
-            {
-                // yield return WriteLine(maps[i].mapID, Color.red, true, 25, 0.01f, false);
-            }
+           
         }
 
-        // maxSelectTextLineListIndex = minSelectTextLineListIndex + maps.Length - 1;
         maxSelectTextLineListIndex = nextWriteTextLineIndex-1;
-        curSelectTextLineIndex = maxSelectTextLineListIndex;
-
+        curSelectTextLineIndex = nextWriteTextLineIndex;
 
         onPrograss = false;
         onInteractable = true;
@@ -717,23 +679,7 @@ public class UI_StageSelect_var3: UI_Base
         for (int i = 0; i < map.Length; i++)
         {
             array[i] = Managers.Data.saveData.dic[map[i].mapID];
-
-            if (map[0].stageLevel > 0 && i == 0)
-            {
-                Map[] beforMaps = Managers.Data.mapData.mapMainStageDictionary[map[0].stageLevel-1];
-                string beforMapId = beforMaps[beforMaps.Length - 1].mapID;
-                if (Managers.Data.saveData.dic[beforMapId].clear)
-                {
-                    array[i].openStage = true;
-                }
-            }
-            else
-            {
-                if (array[i].clear && i < map.Length - 1)
-                {
-                    Managers.Data.saveData.dic[map[i + 1].mapID].openStage = true;
-                }
-            }
+          
         }
 
         if (map[0].stageLevel == 0)

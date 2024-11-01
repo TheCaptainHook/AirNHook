@@ -39,7 +39,12 @@ public class Map
     [HideInInspector]public byte[] bytesImage;
     public AudioType audioType;
 
-    public Map(Vector2 mapSize, string id, int stageLevel, Vector2 startPosition,
+    //1101
+    public string nextMapId;
+
+    public Map(Vector2 mapSize, string id,
+        string nextMapId,
+        int stageLevel, Vector2 startPosition,
         List<ExitObjStruct> mapExitObjectDataList,
         //tile
         List<TileData> tileList,
@@ -55,9 +60,11 @@ public class Map
         List<ButtonObjectStruct> buttonObjectList,
         List<DialogueData> dialogueDataList,
         List<DroneStruct> droneStructList,
-        float cellSize,int dataType = 0, byte[] bytesImage = null,AudioType audioType = AudioType.None)
+        float cellSize,int dataType = 0, byte[] bytesImage = null,AudioType audioType = AudioType.None
+        )
     {
         mapID = id;
+        this.nextMapId = nextMapId;
         this.stageLevel = stageLevel;
         //tile
         mapTileDataList = tileList;
@@ -80,7 +87,7 @@ public class Map
         this.cellSize = cellSize;
         this.dataType = dataType;//main and userData
         this.bytesImage = bytesImage;
-        this.audioType = audioType;
+        this.audioType = audioType; 
     }
 
     public Map() { } //dont delet
