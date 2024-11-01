@@ -154,7 +154,8 @@ public class UI_Dialogue : UI_Base
 
 
         //Dialogue ShutDown
-        Managers.Game.PlayerAndMapSavaDataUpdate(Managers.Stage.stageName);
+        //Managers.Game.PlayerAndMapSavaDataUpdate(Managers.Stage.stageName);
+        Managers.Data.saveData.Save();
         DialogueReset(); //todo test
 
         _Panel.color = _Alpha_0;

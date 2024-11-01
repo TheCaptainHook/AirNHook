@@ -28,7 +28,8 @@ public class SaveData
          UI_SaveAndLoad uI_SaveAndLoad =  GetUI_SaveAndLoad();
         if (File.Exists(filePath))
         {
-            uI_SaveAndLoad.LoadData(Load_SaveFile());
+            //uI_SaveAndLoad.LoadData(Load_SaveFile());
+            Load();
         }
         else
         {
@@ -46,17 +47,28 @@ public class SaveData
         GetUI_SaveAndLoad().LoadData(Load_SaveFile());
     }
 
-    public void ClearMap(string key)
+    public void ClearMap(string key,bool stageLevelUp = false)
     {
         if (dic.ContainsKey(key))
         {
-            
+            var data = Managers.Game.GetClearData();
+            _SaveFileData._PlayerSaveData.AddTotalDeath(data.deathCount);
+            dic[key].ClearMapDataUpdate(data.clearTIme,data.deathCount);
+
+            if (stageLevelUp)
+            {
+                _SaveFileData.StageLevelUp();
+            }
+
+            Save();
         }
         else
         {
             Debug.Log("Can't find key");
         }
     }
+
+
    
     
     private async Task Create_NewSaveDataFile()
@@ -74,11 +86,6 @@ public class SaveData
 
         await Save_SaveFile();
     }
-
-
-
-
-
 
 
 
@@ -147,6 +154,10 @@ public class SaveFileData
         return SerializableSaveMapDataDictionary.ToDictionary();
     }
 
+    public void StageLevelUp()
+    {
+        _PlayerSaveData.curStageLevel++;
+    }
 
 
 }

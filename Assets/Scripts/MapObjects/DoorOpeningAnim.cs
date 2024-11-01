@@ -95,23 +95,20 @@ public class DoorOpeningAnim : NetworkBehaviour
     private void RpcMoveNextStage(string nextMapId)
     {
         string curStage = Managers.Stage.stageName;
-        Debug.Log("TEST 0");
-        // Managers.Game.StageClear(Managers.Stage.stageName); //TODO 0805
-        Debug.Log("TEST 1");
+
         Managers.Stage.stageName = nextMapId;
-        Debug.Log("TEST 2");
         Camera.main.GetComponent<ParallaxCamera>().enabled = false;
 
         if (string.IsNullOrEmpty(nextMapId))
         {
             if(MapEditor.Instance.CurMap.mapID != "Lobby")
             {
-                if (MapEditor.Instance.CurMap.stageLevel == Managers.Game.stageLevel) //todo 0419
+                if (MapEditor.Instance.CurMap.stageLevel == Managers.Game.stageLevel)
                 {
-                    Managers.Game.stageLevel++;
-                    Managers.Data.saveData._SaveFileData._PlayerSaveData.curStageLevel = Managers.Game.stageLevel;
-                    Debug.Log("level++");
-
+                    //Managers.Game.stageLevel++;
+                    //Managers.Data.saveData._SaveFileData._PlayerSaveData.curStageLevel = Managers.Game.stageLevel;
+                    //Debug.Log("level++");
+                    Managers.Game.StageClear(curStage,true);
                 }
 
                 //Managers.Game.StageLevelPlus()
@@ -130,9 +127,10 @@ public class DoorOpeningAnim : NetworkBehaviour
         {
             Managers.Game.CurrentState = GameState.Game;
             MapEditor.Instance.MoveNextStage(nextMapId);
+            Managers.Game.StageClear(curStage);
         }
 
-        Managers.Game.StageClear(curStage);
+       
     }
 
     #endregion

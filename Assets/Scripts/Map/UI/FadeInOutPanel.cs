@@ -25,9 +25,6 @@ public class FadeInOutPanel : MonoBehaviour
     IEnumerator FadeInOut(string mapId)
     {
         image.enabled = true;
-        //Save Data
-        // yield return new WaitUntil(() => Managers.Data.saveData.Save_SaveFile().IsCompleted);
-        //Save Data
         float percent = 0;
         Color fadeOutcolor = new Color(orgColor.r, orgColor.g, orgColor.b, 1);
         Managers.Stage.stageName = mapId;
@@ -43,13 +40,9 @@ public class FadeInOutPanel : MonoBehaviour
         Managers.Network.startPos.Clear();
         MapEditor.Instance.LoadMap(mapId);
 
-
-
         yield return new WaitForSeconds(1f);
 
         Managers.Game.Player.GetComponent<Player>().Respawning();
-        //Managers.Game.OtherPlayer.GetComponent<Player>().Respawning();
-
         Camera.main.GetComponent<ParallaxCamera>().enabled = true;
 
         while (percent > 0)
@@ -61,8 +54,7 @@ public class FadeInOutPanel : MonoBehaviour
 
         Managers.Game.StageStart(mapId);
         image.enabled = false;
-        //StartCoroutine(FadeInOut(mapId));
-        // StartCoroutine(Fadein(mapId));
+   
     }
 
     public IEnumerator Fadein(string mapId)

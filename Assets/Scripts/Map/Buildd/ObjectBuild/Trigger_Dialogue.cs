@@ -32,11 +32,6 @@ public class Trigger_Dialogue : BuildObj
         }
     }
 
-    // public DialogueData GetDialogueData()
-    // {
-    //     DialogueData data = new DialogueData(id,_DialogueId, false,transform.position, transform.rotation, transform.localScale);
-    //     return data;
-    // }
     public override T GetData<T>()
     {
         if(typeof(T)==typeof(DialogueData)){
@@ -46,15 +41,6 @@ public class Trigger_Dialogue : BuildObj
         return default(T);
     }
 
-    // public void SetDialogueData(DialogueData data)
-    // {
-    //     ObjectData = new ObjectData(data.id, data.position, data.scale);
-    //     transform.position = data.position;
-    //     transform.localScale = data.scale;
-    //     _DialogueId = data.dialogueId;
-    //     OnExcuted = data.excuted;
-
-    // }
 
     public override void SetData<T>(T data)
     {
@@ -68,18 +54,5 @@ public class Trigger_Dialogue : BuildObj
         }
     }
 
-    /// <summary>
-    ///This method is used in the MapEditor_Editor Save process.
-    /// </summary>
-    //public override void SetTileData()
-    //{
-    //    Debug.Log("Trigger Obejcg Data Save");
-    //    ObjectData = new ObjectData(id, transform.position, transform.localScale, _DialogueId);
-    //}
 
-    //public override void SetData(ObjectData data)
-    //{
-    //    base.SetData(data);
-    //    _DialogueId = data.dialogueId;
-    //}
 }
