@@ -94,12 +94,14 @@ public class CreateMap_Tool : EditorWindow
         sceneObjLists = new List<GameObject>(Resources.LoadAll<GameObject>("Prefabs/MapEditor/Scenes"));
         backgroundObjLists = new List<GameObject>(Resources.LoadAll<GameObject>("Prefabs/MapEditor/Background"));
         otherObjLists = new List<GameObject>(Resources.LoadAll<GameObject>("Prefabs/MapEditor/Other"));
-        
+    }
+    bool isGUIStyleInitialized;
+    private void Init_TextureAndGUI(){
+        if(isGUIStyleInitialized) return;
+        isGUIStyleInitialized = true;
         InitTextures();
         InitGUIStyle();
     }
-
-
 
     private List<GameObject> GetResourcesList(string type){
         List<GameObject> list  = new();
@@ -185,6 +187,7 @@ public class CreateMap_Tool : EditorWindow
             }
             else isMapEditor = true;
         }
+        Init_TextureAndGUI();
 
         DrawLayouts();
 

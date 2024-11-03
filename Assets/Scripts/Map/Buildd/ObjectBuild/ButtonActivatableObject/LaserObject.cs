@@ -60,11 +60,17 @@ using UnityEngine;
 
     private void UpdateLaser()
         {
-            Vector2 start = transform.position;
-            Vector2 dir = transform.right;
+            Vector2 start;
+            Vector2 dir;
+            try{
+                start = transform.position;
+                dir = transform.right;
+            }catch{
+                Debug.Log($"Application.isPlaying : {Application.isPlaying}, can't find transform");
+                return;
+            }
 
             int hitCount = 0;  
-            
             
             for (int i = 0; i < 10; i++)
             {
@@ -139,8 +145,7 @@ using UnityEngine;
             _lineRenderer.enabled = _isEnabled;
         }
         public void Editor_UpdateLaser(){
-            Debug.Log("Editor Laser");
-            UpdateLaser();
+            if(_isEnabled) UpdateLaser();
         }
        public void ResetLaser(){
         if(_lineRenderer == null) return; 

@@ -16,8 +16,9 @@ public class ShowLaser_Editor : Editor
     }
 
     private void OnDisable(){        
-        EditorApplication.update -= OnEditorUpdate;
         showLaser.laserObject.ResetLaser();
+        onPrograss = false;
+        EditorApplication.update -= OnEditorUpdate;
     }
 
     public override void OnInspectorGUI()
@@ -37,6 +38,8 @@ public class ShowLaser_Editor : Editor
             
         }
     }
+
+
 
 
 
