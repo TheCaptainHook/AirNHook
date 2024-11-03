@@ -4,10 +4,7 @@ using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
-using Unity.VisualScripting;
-
-
-//TODO Develop Code Line (Async): 21
+using System.Linq;
 
 public class SaveData
 {
@@ -29,7 +26,6 @@ public class SaveData
          UI_SaveAndLoad uI_SaveAndLoad =  GetUI_SaveAndLoad();
         if (File.Exists(filePath))
         {
-            //uI_SaveAndLoad.LoadData(Load_SaveFile());
             Load();
         }
         else
@@ -47,6 +43,39 @@ public class SaveData
     {
         GetUI_SaveAndLoad().LoadData(Load_SaveFile());
     }
+
+
+     #region  Intergrity Check
+    //1101
+    private async Task IntergrityCheck(){
+       await Task.Run(() => {
+        int updatedVariableCount = 0;
+        
+        var keysToRemove = dic.Keys.Where(key => !Managers.Data.mapData.mapAllDictionary.ContainsKey(key)).ToList();
+        foreach (var key in keysToRemove) {
+            dic.Remove(key);
+            Debug.Log($"Delete: {key}");
+            updatedVariableCount++;
+        }
+
+        foreach (var source in Managers.Data.mapData.mapAllDictionary) {
+            if (!dic.ContainsKey(source.Key)) {
+                AddDic_NewMapSource(source.Value);
+                Debug.Log($"Add: {source.Key}");
+                updatedVariableCount++;
+            }
+        }
+            return updatedVariableCount > 0;
+        }).ContinueWith(task => {
+            if (task.Result) Save();
+        }, TaskScheduler.FromCurrentSynchronizationContext());
+    }
+    private void AddDic_NewMapSource(Map map)
+    {
+        MapSaveData data = new MapSaveData(map.mapID,map.nextMapId,false,false,0,map.dialogueDataList);
+        dic[map.mapID] = data;
+    }
+    #endregion
 
     public void ClearMap(string key,bool stageLevelUp = false)
     {
@@ -118,9 +147,12 @@ public class SaveData
         _SaveFileData = JsonUtility.FromJson<SaveFileData>(json);
         //dic = _SaveFileData.SerializableSaveMapDataDictionary.ToDictionary();
         dic = _SaveFileData.SSDD_LoadDictionary();
+
+        await IntergrityCheck();
+
     }
     #endregion
-
+    //intergrity Check
 
     #region Util
     private UI_SaveAndLoad GetUI_SaveAndLoad()
@@ -130,6 +162,7 @@ public class SaveData
     }
     #endregion
 
+   
 }
 
 [Serializable]
@@ -207,42 +240,7 @@ public class MapSaveData
             }
         }
     }
-// //0917 Validata must take care
-//     private void ValidateDialougeData(List<DialogueData> dataList){
-//         foreach(DialogueData data in dataList){
-//             foreach(DialogueData sD in _DialogueDataList){
-//                 if(sD.dialogueId == data.dialogueId){
-
-//                     break;
-//                 }
-//             }
-//         }
-//     }
-//     private DialogueData ValidateDialougeDataPosition(DialogueData newData , DialogueData oldData){
-//         DialogueData data;
-//         if(newData.position != oldData.position){
-//             data = newData;
-//             newData.excuted = oldData.excuted;
-//         }else{
-//             data = oldData;
-//         }
-//         return data;
-//     }    
-//0917 Validata must take care
-//1013
-private bool CheckValidateDialougeData(List<DialogueData> list){
-    //1 size check
-    if(_DialogueDataList.Count != list.Count){
-        return false;
-    }
-    for(int i =0;i<list.Count;i++){
-        if(_DialogueDataList[i].dialogueId != list[i].dialogueId){
-            return false;
-        }
-    }
-    //2 value check
-    return true;
-}
+    #region  Clear
     private void ModifyClearTime(float time)
     {
        if(shortestClearTime == 0)
@@ -273,6 +271,8 @@ private bool CheckValidateDialougeData(List<DialogueData> list){
         }
         
     }
+    #endregion
+    
 
     
 }
