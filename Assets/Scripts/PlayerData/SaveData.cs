@@ -63,6 +63,8 @@ public class SaveData
                 AddDic_NewMapSource(source.Value);
                 Debug.Log($"Add: {source.Key}");
                 updatedVariableCount++;
+            }else if(!IntergrityCheck_Detail(source.Value,dic[source.Key])){
+                updatedVariableCount++;
             }
         }
             return updatedVariableCount > 0;
@@ -70,6 +72,12 @@ public class SaveData
             if (task.Result) Save();
         }, TaskScheduler.FromCurrentSynchronizationContext());
     }
+
+    private bool IntergrityCheck_Detail(Map value,MapSaveData data){
+     return data.IntergrityCheck(value);
+    }
+   
+
     private void AddDic_NewMapSource(Map map)
     {
         MapSaveData data = new MapSaveData(map.mapID,map.nextMapId,false,false,0,map.dialogueDataList);
@@ -272,7 +280,28 @@ public class MapSaveData
         
     }
     #endregion
-    
+    #region  Intergrity Check
+    public bool IntergrityCheck(Map map){
+        if(!DialougeCheck(map)){
+            return false;
+        }
+
+        return true;
+    }
+    private bool DialougeCheck(Map map){
+         if(map.dialogueDataList.Count != _DialogueDataList.Count){
+            _DialogueDataList.Clear();
+            Debug.Log("diff dialogueDataList Count");
+            _DialogueDataList = new List<DialogueData>(map.dialogueDataList);
+            return false;
+        }
+        
+        //Dialogue Id Check
+        //
+
+        return true;
+    }
+    #endregion
 
     
 }
