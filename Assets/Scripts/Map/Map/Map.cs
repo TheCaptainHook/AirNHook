@@ -142,6 +142,7 @@ public struct ButtonActivatableObjectStruct
 {
     public int id;
     public int activeRequirAmount;
+    public int jumpingPower;
     public Vector2 position;
     public Quaternion quaternion;
     public Vector3 scale;
@@ -160,6 +161,21 @@ public struct ButtonActivatableObjectStruct
         this .quaternion = quaternion;
         this.scale = scale;
         this.talPot = talPot;
+        jumpingPower = 0;
+    }
+    public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
+       Quaternion quaternion,
+       Vector3 scale,
+       int jumpingPower
+       )
+    {
+        this.id = id;
+        this.activeRequirAmount = activeRequirAmount;
+        this.position = position;
+        this.quaternion = quaternion;
+        this.scale = scale;
+        talPot = Vector2.zero;
+        this.jumpingPower = jumpingPower;
     }
 }
 
