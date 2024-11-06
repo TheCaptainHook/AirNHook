@@ -142,11 +142,15 @@ public struct ButtonActivatableObjectStruct
 {
     public int id;
     public int activeRequirAmount;
-    public int jumpingPower;
+    public int jumpingPower; //JumpingPad
     public Vector2 position;
     public Quaternion quaternion;
     public Vector3 scale;
-    public Vector2 talPot;
+    public Vector2 talPot;//Potal
+    //Turret
+    public float rotateRate;
+    public float fireRate;
+    public bool onLeft;
 
 
     public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
@@ -162,6 +166,9 @@ public struct ButtonActivatableObjectStruct
         this.scale = scale;
         this.talPot = talPot;
         jumpingPower = 0;
+        rotateRate = 0;
+        fireRate = 0;
+        onLeft = false;
     }
     public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
        Quaternion quaternion,
@@ -176,6 +183,28 @@ public struct ButtonActivatableObjectStruct
         this.scale = scale;
         talPot = Vector2.zero;
         this.jumpingPower = jumpingPower;
+        rotateRate = 0;
+        fireRate = 0;
+        onLeft = false;
+    }
+    public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
+      Quaternion quaternion,
+      Vector3 scale,
+      float rotateRate,
+      float fireRate,
+      bool onLeft = false
+      )
+    {
+        this.id = id;
+        this.activeRequirAmount = activeRequirAmount;
+        this.position = position;
+        this.quaternion = quaternion;
+        this.scale = scale;
+        talPot = Vector2.zero;
+        jumpingPower = 0;
+        this.rotateRate = rotateRate;
+        this.fireRate = fireRate;
+        this.onLeft = onLeft;
     }
 }
 

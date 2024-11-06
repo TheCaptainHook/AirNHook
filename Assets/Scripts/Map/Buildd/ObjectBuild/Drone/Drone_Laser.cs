@@ -34,38 +34,6 @@ readonly int _Directon = Animator.StringToHash("Direction");
 
    #endregion
 
-//TEST
-    // protected override void Start()
-    // {
-    //    //TEST CODE
-    //   paths = ConvertPaths(paths);
-    //     //TEST CODE
-
-    //   base.Start();
-       
-    // }
-
-   //  public override void TakeDamage()
-   //  {
-   //      if(!IsBroken){
-   //       IsBroken = true;
-   //       CallBrokenAction();
-   //      }
-   //  }
-
-    // private void Update(){
-    //   if(Input.GetKeyDown(KeyCode.A)){
-    //      IsBroken = false;
-    //    CallPrograssAction();
-    //   }
-
-    //   if(Input.GetKeyDown(KeyCode.S)){
-    //      CallBrokenAction();
-    //   }
-    // }
-
-
-
 
 public void TurnOnLazer(){
   if(!onLazer){
@@ -102,7 +70,6 @@ public void TurnOffLazer(){
             {
                 ray = new Ray(start, dir);  
                 RaycastHit2D rh = Physics2D.Raycast(ray.origin, ray.direction, 10,layerMask);
-                // Debug.DrawRay(start,dir*10,Color.blue);
                 if (rh.collider != null)
                 {
                     Vector2 colDir = rh.normal;

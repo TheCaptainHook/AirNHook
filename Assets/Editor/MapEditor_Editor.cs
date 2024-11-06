@@ -391,6 +391,7 @@ public class MapEditor_Editor : Editor
         }
         File.WriteAllText(filePath, json);
         AssetDatabase.Refresh();
+        Debug.Log("Save Complete");
     }
 
     private string CheckDirectory(string folderPath,Map map){

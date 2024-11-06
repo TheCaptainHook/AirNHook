@@ -97963,7 +97963,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -103714,6 +103714,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6680630093674330357, guid: 2ee561663a58f4f8aa0c7732888eb358, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7527202856157951427, guid: 2ee561663a58f4f8aa0c7732888eb358, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -104443,7 +104447,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4216828170776038451, guid: 197e3a3910409204bb346462eded77a5, type: 3}
       propertyPath: jumpingPower
-      value: 20
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4348318174859944563, guid: 197e3a3910409204bb346462eded77a5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -104493,9 +104497,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: JumpingPad
       objectReference: {fileID: 0}
-    - target: {fileID: 8700179628134346584, guid: 197e3a3910409204bb346462eded77a5, type: 3}
-      propertyPath: m_BodyType
-      value: 1
+    - target: {fileID: 8199011107301918480, guid: 197e3a3910409204bb346462eded77a5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

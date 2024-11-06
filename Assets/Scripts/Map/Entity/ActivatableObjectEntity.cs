@@ -18,7 +18,7 @@ public class ActivatableObjectEntity : BuildObj
             } }
     }
    [ReadOnly]
-  public int curActiveBtn;//현재 활성화된 버튼 //todo 0426 
+    public int curActiveBtn;//현재 활성화된 버튼 //todo 0426 
     public int CurActiveBtn
     {
         set { curActiveBtn += value;
@@ -67,6 +67,6 @@ public class ActivatableObjectEntity : BuildObj
 
     public virtual void CheckActiveRequirAmount()
     {
-         if (activeRequirAmount == curActiveBtn) { Debug.Log("CheckActive");Activation();  }
+         if (activeRequirAmount == curActiveBtn) { Debug.Log("Check and Active");Activation();  }
     }
 }
