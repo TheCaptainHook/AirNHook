@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ArrowTrap : BuildObj
 {
-    Pooling pool;
 
     RaycastHit2D hit;
 
@@ -24,8 +23,8 @@ public class ArrowTrap : BuildObj
   
     private void Start()
     {
-        pool = GetComponent<Pooling>();
-        pool.CreatePoolItem(MapEditor.Instance.poolingContainer);
+        //pool = GetComponent<Pooling>();
+        //pool.CreatePoolItem(MapEditor.Instance.poolingContainer);
         _animator = GetComponent<Animator>();
     }
     private void Update()
@@ -57,13 +56,13 @@ public class ArrowTrap : BuildObj
 
 
                 float z = Mathf.Atan2(transform.right.y, transform.right.x) + Random.Range(-5,5);
-                GameObject obj = pool.GetPoolItem("Arrow");
-                obj.transform.right = transform.right;
-                obj.transform.Rotate(transform.forward * z);
-                obj.GetComponent<Projectile_Arrow>().Reset();
-                obj.transform.position = transform.position;
-                obj.SetActive(true);
-                pool.Destroy(obj, 10f);
+                //GameObject obj = pool.GetPoolItem("Arrow");
+                //obj.transform.right = transform.right;
+                //obj.transform.Rotate(transform.forward * z);
+                //obj.GetComponent<Projectile_Arrow>().Reset();
+                //obj.transform.position = transform.position;
+                //obj.SetActive(true);
+                //pool.Destroy(obj, 10f);
             }
           
         }

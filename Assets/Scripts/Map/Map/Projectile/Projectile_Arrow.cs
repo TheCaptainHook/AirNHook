@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TreeEditor;
 using UnityEngine;
 
-public class Projectile_Arrow : MonoBehaviour
+public class Projectile_Arrow : MonoBehaviour,IPooling
 {
 
     bool onHit;
@@ -13,6 +14,9 @@ public class Projectile_Arrow : MonoBehaviour
 
     RaycastHit2D hit;
 
+    bool onFire;
+
+    Vector2 dir;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -21,20 +25,23 @@ public class Projectile_Arrow : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!onHit)
+        if (!onHit && onFire)
         {
-            hit = Physics2D.Raycast(transform.position, transform.right, 0.6f, layerMask);
+            hit = Physics2D.Raycast(transform.position+ (Vector3.right * 0.5f), transform.right, 0.6f, layerMask);
 
             if (hit)
             {
                 onHit = true;
                 rb.velocity = Vector2.zero;
                 rb.gravityScale = 0;
-
+                Debug.Log(hit.collider.name);
                 if (hit.collider.TryGetComponent(out IDamageable damageable))
                 {
                     damageable.TakeDamage();
+                    ReleaseToPool();
+                    return;
                 }
+                StartCoroutine(DelayRelease());
             }
             else
             {
@@ -45,27 +52,42 @@ public class Projectile_Arrow : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        //if (collision.gameObject.TryGetComponent(out IDamageable damageable))
-        //{
-        //    damageable.TakeDamage();
-        //    _collider.enabled = false;
-        //}
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Floor"))
-        {
-            rb.gravityScale = 0;
-            rb.velocity = Vector2.zero;
-        }
-    }
-    private void OnTriggerExit2D(Collider2D collision)
+    #region Pooling
+    public void ReleaseToPool()
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
-        {
-            rb.gravityScale = 1;
-        }
+        Reset();
+        Managers.Pooling.ReleaseToPool<Projectile_Arrow>(gameObject);
     }
+    #endregion
+
+
+
+    public void Setting(Vector2 point,Vector3 dir)
+    {
+        this.dir = dir;
+        transform.position = point;
+        float z = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, z);
+        onFire = true;
+    }
+
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if(collision.gameObject.layer != LayerMask.NameToLayer("Player")){
+    //        rb.gravityScale = 0;
+    //        rb.velocity = Vector2.zero;
+    //        StartCoroutine(DelayRelease());
+    //    }
+       
+    //}
+
+    IEnumerator DelayRelease()
+    {
+        yield return new WaitForSeconds(5);
+        ReleaseToPool();
+    }
+
     public void Reset()
     {
         rb.gravityScale = 0;
@@ -77,6 +99,6 @@ public class Projectile_Arrow : MonoBehaviour
     {
         // 스피어 캐스트를 그리기 위해 씬 상에 범위를 표시
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, transform.right * 0.6f);
+        Gizmos.DrawRay(transform.position+(Vector3.right*0.5f), transform.right * 0.6f);
     }
 }

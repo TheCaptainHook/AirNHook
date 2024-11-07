@@ -11,7 +11,9 @@ public class Managers : MonoBehaviour
     private SoundManager _sound = new();
     private CustomNetworkManager _network;
     private NetworkCommand _command = null;
-
+    //1107
+    private PoolingManager _pool = new();
+    //1107
     public static GameManager Game => Instance._game;
     public static UIManager UI => Instance._uiManager;
     public static StageManager Stage => Instance._stage;
@@ -23,7 +25,10 @@ public class Managers : MonoBehaviour
         get => Instance._command;
         set => Instance._command = value;
     }
-
+    //1107
+    public static PoolingManager Pooling => Instance._pool;
+    //1107
+    
     /// <summary> 게임 시작시 자동으로 호출 - Scene에 넣을 필요 X </summary>
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void Execute()
@@ -51,6 +56,7 @@ public class Managers : MonoBehaviour
         
         Data.Setup();
         Sound.SetUp();
+        Pooling.Setup();
     }
 
     /// <summary>

@@ -67,6 +67,6 @@ public class ActivatableObjectEntity : BuildObj
 
     public virtual void CheckActiveRequirAmount()
     {
-         if (activeRequirAmount == curActiveBtn) { Debug.Log("Check and Active");Activation();  }
+         if (activeRequirAmount == curActiveBtn) {Activation();  }
     }
 }

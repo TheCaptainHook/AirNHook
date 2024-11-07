@@ -1,4 +1,5 @@
 
+using Mirror;
 using UnityEngine;
 
 public class Turret : ActivatableObjectEntity
@@ -8,7 +9,6 @@ public class Turret : ActivatableObjectEntity
     [SerializeField] float rotateRate;
     [SerializeField] float fireRate;
     [SerializeField] bool onLeft;
-    private bool onFindTarget;
     private bool onActive;
     [Space(20)]
     [ReadOnly]
@@ -17,7 +17,7 @@ public class Turret : ActivatableObjectEntity
     [SerializeField] ParticleSystem fireEffect;
 
     public float curTime;
-    private float rayDistance;
+
     #region Fire
     public float curFireTime;
     private bool onFire;
@@ -32,7 +32,6 @@ public class Turret : ActivatableObjectEntity
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        rayDistance = 50;
     }
 
 
@@ -73,26 +72,26 @@ public class Turret : ActivatableObjectEntity
 
     private void Update()
     {
-        curTime += Time.deltaTime;
-        curFireTime += Time.deltaTime;
-
-        if(curTime >= rotateRate && !onFindTarget)
+        if (!onFire)
         {
-            curTime = 0;
-            onLeft = !onLeft;
-            animator.SetBool(Left, onLeft);
+            curFireTime += Time.deltaTime;
+            curTime += Time.deltaTime;
+
+            if (curTime >= rotateRate)
+            {
+                curTime = 0;
+                curFireTime = 0;
+                onLeft = !onLeft;
+                animator.SetBool(Left, onLeft);
+            }
+
+            if (curFireTime >= fireRate)
+            {
+                onFire = true;
+                Fire();
+                Debug.Log("Fire");
+            }
         }
-
-        if (curFireTime >= fireRate && !onFire && onFindTarget)
-        {
-            onFire = true;
-        }
-
-    }
-    private void FixedUpdate()
-    {
-
-        TrackOrFire();
 
     }
 
@@ -114,41 +113,48 @@ public class Turret : ActivatableObjectEntity
 
 
     #region Main
-    private void TrackOrFire()
-    {
-        RaycastHit2D hit = Physics2D.Raycast(firePoint.position, firePoint.right * rayDistance);
+    //private void TrackOrFire()
+    //{
+    //    RaycastHit2D hit = Physics2D.Raycast(firePoint.position, firePoint.right * rayDistance);
 
-        if (hit)
-        {
-            if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
-            {
-                onFindTarget = true;
-                Fire();
-            }
-            else
-            {
-                onFindTarget = false;
-            }
-        }
-        else
-        {
-            onFindTarget = false;
-        }
+    //    if (hit)
+    //    {
+    //        if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+    //        {
+    //            onFindTarget = true;
+    //            Fire();
+    //        }
+    //        else
+    //        {
+    //            onFindTarget = false;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        onFindTarget = false;
+    //    }
        
-    }
+    //}
 
 
     private void Fire()
     {
-        if (onFire && onFindTarget)
-        {
-            Debug.Log("fire");
-            fireEffect.Play();
-            onFire = false;
-            curFireTime = 0;
-            curTime = 0;
-        }
+        ReloadAmmo();
+        fireEffect.Play();
+
+        onFire = false;
+        curFireTime = 0;
+
     }
-    #endregion
+
+    private void ReloadAmmo()
+    {
+        Projectile_Arrow arrow =  Managers.Pooling.GetItme_T<Projectile_Arrow>();
+        Vector2 target = firePoint.TransformPoint(Vector2.zero);
+        arrow.Setting(target, firePoint.right);
+        arrow.gameObject.SetActive(true);
+
+    }
+#endregion
 
 }

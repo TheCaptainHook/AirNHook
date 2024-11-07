@@ -9279,7 +9279,7 @@
                 "y": 0.0
             },
             "rotateRate": 5.0,
-            "fireRate": 5.0,
+            "fireRate": 4.0,
             "onLeft": false
         }
     ],
