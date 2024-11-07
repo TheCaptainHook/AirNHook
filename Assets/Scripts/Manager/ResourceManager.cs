@@ -21,6 +21,7 @@ public class ResourceManager
         //TODO 오브젝트 풀 사용시 코드 추가.
 
         var go = Object.Instantiate(origin, parent);
+        
         go.name = origin.name;
 
         return go;

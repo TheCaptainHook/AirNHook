@@ -1,6 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using TreeEditor;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Projectile_Arrow : MonoBehaviour,IPooling
@@ -15,8 +14,8 @@ public class Projectile_Arrow : MonoBehaviour,IPooling
     RaycastHit2D hit;
 
     bool onFire;
-
     Vector2 dir;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -34,13 +33,13 @@ public class Projectile_Arrow : MonoBehaviour,IPooling
                 onHit = true;
                 rb.velocity = Vector2.zero;
                 rb.gravityScale = 0;
-                Debug.Log(hit.collider.name);
                 if (hit.collider.TryGetComponent(out IDamageable damageable))
                 {
                     damageable.TakeDamage();
                     ReleaseToPool();
                     return;
                 }
+                transform.position = hit.point;
                 StartCoroutine(DelayRelease());
             }
             else
@@ -57,11 +56,9 @@ public class Projectile_Arrow : MonoBehaviour,IPooling
     public void ReleaseToPool()
     {
         Reset();
-        Managers.Pooling.ReleaseToPool<Projectile_Arrow>(gameObject);
+        Managers.Pooling.N_ReleaseToPool<Projectile_Arrow>(gameObject);
     }
     #endregion
-
-
 
     public void Setting(Vector2 point,Vector3 dir)
     {
@@ -71,16 +68,6 @@ public class Projectile_Arrow : MonoBehaviour,IPooling
         transform.rotation = Quaternion.Euler(0, 0, z);
         onFire = true;
     }
-
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if(collision.gameObject.layer != LayerMask.NameToLayer("Player")){
-    //        rb.gravityScale = 0;
-    //        rb.velocity = Vector2.zero;
-    //        StartCoroutine(DelayRelease());
-    //    }
-       
-    //}
 
     IEnumerator DelayRelease()
     {

@@ -95,9 +95,11 @@ GameObject:
   - component: {fileID: 4207799436377025379}
   - component: {fileID: -1055571321575970891}
   - component: {fileID: 3951190342511661651}
-  - component: {fileID: 1533981553927762337}
   - component: {fileID: 4372533102286470937}
   - component: {fileID: 618963904027766403}
+  - component: {fileID: 8712615195608084389}
+  - component: {fileID: 59227357395326983}
+  - component: {fileID: 2829689702645248256}
   m_Layer: 14
   m_Name: ArrowTrap
   m_TagString: Untagged
@@ -199,22 +201,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1533981553927762337
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1765376050649186438}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 529da25c64a36406294d08b0af13a0f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poolList:
-  - name: Arrow
-    prefeb: {fileID: 6577318668199586757, guid: d06948e9a634942f4828d3e3316cad40, type: 3}
-    amount: 5
 --- !u!114 &4372533102286470937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,12 +217,14 @@ MonoBehaviour:
   transformID: 1
   position: {x: 0, y: 0}
   offset: {x: 0, y: 1.5}
+  turnOff: 0
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 1
   onScaleable: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -263,6 +251,75 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8712615195608084389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1765376050649186438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 4199773640
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
+--- !u!114 &59227357395326983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1765376050649186438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 4207799436377025379}
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  onlySyncOnChange: 1
+  compressRotation: 1
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  sendIntervalMultiplier: 1
+  timelineOffset: 0
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  bufferResetMultiplier: 3
+  changedDetection: 1
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
+--- !u!114 &2829689702645248256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1765376050649186438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  clientAuthority: 0
+  animator: {fileID: 618963904027766403}
 --- !u!1 &4389542963694811320
 GameObject:
   m_ObjectHideFlags: 0

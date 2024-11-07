@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class ArrowTrap : BuildObj
@@ -54,8 +53,8 @@ public class ArrowTrap : BuildObj
                 isShot = true;
                 curtime = cooltime;
 
-
-                float z = Mathf.Atan2(transform.right.y, transform.right.x) + Random.Range(-5,5);
+                Shot();
+                // float z = Mathf.Atan2(transform.right.y, transform.right.x) + Random.Range(-5,5);
                 //GameObject obj = pool.GetPoolItem("Arrow");
                 //obj.transform.right = transform.right;
                 //obj.transform.Rotate(transform.forward * z);
@@ -66,6 +65,11 @@ public class ArrowTrap : BuildObj
             }
           
         }
+    }
+    private void Shot(){
+        Projectile_Arrow arrow = Managers.Pooling.N_GetItme<Projectile_Arrow>().GetComponent<Projectile_Arrow>();
+        arrow.Setting(transform.position,transform.right);
+        arrow.gameObject.SetActive(true);
     }
 
     // private void RotateTrap()

@@ -2,21 +2,50 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Object = UnityEngine.Object;
 
 public class PoolingManager
 {
-    public Dictionary<string, object> poolingDic;
-   
+    public Dictionary<string, object> N_Dic;
+    public Dictionary<string, object> D_Dic;
 
-    public GameObject GetItme<T>() where T : class
+
+    public void Setup()
     {
-        if (!poolingDic.ContainsKey(typeof(T).Name))
+        N_Dic = new();
+        D_Dic = new();
+    }
+
+
+    #region  Default Pooling
+    public GameObject D_GetItem(GameObject obj) 
+    {
+        if(!D_Dic.ContainsKey(obj.name))
         {
-            poolingDic[typeof(T).Name] = new Pool<T>(CreateTransform<T>());
+            D_Dic[obj.name] = new D_Pooling(obj,CreateTransform(obj)); 
+        }
+
+        D_Pooling pooling = D_Dic[obj.name] as D_Pooling;
+        return pooling.GetItem();
+    }
+    public void D_ReleaseToPool(GameObject obj)
+    {
+        D_Pooling pooling = D_Dic[obj.name] as D_Pooling;
+        pooling.Enqueue(obj);
+    }
+    #endregion 
+
+    #region  NetWork Pooling
+    
+    public GameObject N_GetItme<T>() where T : class
+    {
+        if (!N_Dic.ContainsKey(typeof(T).Name))
+        {
+            N_Dic[typeof(T).Name] = new N_Pool<T>(CreateTransform<T>());
         }
         try
         {
-           Pool<T> pool = poolingDic[typeof(T).Name] as Pool<T>;
+           N_Pool<T> pool = N_Dic[typeof(T).Name] as N_Pool<T>;
            return pool.GetItem();
         }
         catch(Exception ex)
@@ -25,29 +54,12 @@ public class PoolingManager
             return null;
         }
     }
-    public T GetItme_T<T>() where T : class
-    {
-        if (!poolingDic.ContainsKey(typeof(T).Name))
-        {
-            poolingDic[typeof(T).Name] = new Pool<T>(CreateTransform<T>());
-        }
-        try
-        {
-            Pool<T> pool = poolingDic[typeof(T).Name] as Pool<T>;
-            return pool.GetItem().GetComponent<T>();
-        }
-        catch (Exception ex)
-        {
-            Debug.Log(ex);
-            return default;
-        }
-    }
 
-    public void ReleaseToPool<T>(GameObject obj) where T : class
+    public void N_ReleaseToPool<T>(GameObject obj) where T : class
     {
         try
         {
-            Pool<T> pool = poolingDic[typeof(T).Name] as Pool<T>;
+            N_Pool<T> pool = N_Dic[typeof(T).Name] as N_Pool<T>;
             pool.Enqueue(obj);
         }
         catch (Exception ex)
@@ -55,28 +67,67 @@ public class PoolingManager
             Debug.LogError(ex);
         }
     }
+    #endregion
 
-    public void Setup()
-    {
-        poolingDic = new();
+
+    private Transform CreateTransform(GameObject obj){
+        GameObject Ob = new GameObject(obj.name);
+        Ob.transform.SetParent(Managers.Instance.gameObject.transform);
+        return Ob.transform;
     }
-
-
     private Transform CreateTransform<T>()
     {
         GameObject obj = new GameObject(typeof(T).Name);
         obj.transform.SetParent(Managers.Instance.gameObject.transform);
         return obj.transform;
-
     }
 }
 
-public class Pool<T> where T : class
+#region Default
+public class D_Pooling
+{
+    GameObject obj;
+    Transform parents;
+    Queue<GameObject> queue;
+    public D_Pooling(GameObject obj,Transform parents){
+        this.obj = obj;
+        this.parents = parents;
+        queue = new();
+    }
+
+    public GameObject GetItem(){
+        if(IsEmpty()){
+            Create();
+        }
+        return queue.Dequeue();
+    }
+    private void Create(int amount = 5){
+        for(int i =0;i<amount;i++){
+            GameObject obj = Object.Instantiate(this.obj);
+            obj.name = this.obj.name;
+            obj.SetActive(false);
+            obj.transform.SetParent(parents);
+            queue.Enqueue(obj);
+        }
+    }
+    public void Enqueue(GameObject obj){
+        obj.SetActive(false);
+        queue.Enqueue(obj);
+    }
+    public bool IsEmpty(){
+         return queue.Count == 0;
+    }
+
+}
+#endregion
+
+#region  NetWork
+public class N_Pool<T> where T : class
 {
     public Queue<GameObject> queue;
     public Transform parents;
 
-    public Pool(Transform parents)
+    public N_Pool(Transform parents)
     {
         queue = new();
         this.parents = parents;
@@ -119,3 +170,4 @@ public class Pool<T> where T : class
     }
 
 }
+#endregion

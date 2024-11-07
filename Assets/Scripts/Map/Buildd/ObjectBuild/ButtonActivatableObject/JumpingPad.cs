@@ -62,6 +62,7 @@ public class JumpingPad : ActivatableObjectEntity
     {
         if (!onActive) return;
         Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
+        playerRb.velocity = Vector2.zero;
         playerRb.AddForce(Vector2.up * jumpingPower, ForceMode2D.Impulse);
     }
     #endregion

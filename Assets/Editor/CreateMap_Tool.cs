@@ -107,7 +107,6 @@ public class CreateMap_Tool : EditorWindow
         List<GameObject> list  = new();
         foreach(var obj in Resources.LoadAll<GameObject>($"Prefabs/MapEditor/{type}")){
             if(obj.TryGetComponent(out BuildObj component)){
-                if(component.id ==308) continue;
                 if(component.id ==313) continue;
                 if(component.id ==320) continue;
                 if(component.id ==321) continue;

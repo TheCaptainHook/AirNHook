@@ -99,11 +99,12 @@ public class Turret : ActivatableObjectEntity
     {
         onLeft = !onLeft;
         curTime = 0;
+        curFireTime = 0;
         animator.SetBool(Left, onLeft);
     }
     protected override void Deactivated()
     {
-        base.Deactivated();
+        Activation();
     }
 
     public override void CheckActiveRequirAmount()
@@ -149,7 +150,7 @@ public class Turret : ActivatableObjectEntity
 
     private void ReloadAmmo()
     {
-        Projectile_Arrow arrow =  Managers.Pooling.GetItme_T<Projectile_Arrow>();
+        Projectile_Arrow arrow =  Managers.Pooling.N_GetItme<Projectile_Arrow>().GetComponent<Projectile_Arrow>();
         Vector2 target = firePoint.TransformPoint(Vector2.zero);
         arrow.Setting(target, firePoint.right);
         arrow.gameObject.SetActive(true);

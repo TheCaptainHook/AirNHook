@@ -209,7 +209,7 @@ MonoBehaviour:
   speed: 2
   layerMask:
     serializedVersion: 2
-    m_Bits: 1074251712
+    m_Bits: 1074251713
 --- !u!114 &1561112952292813625
 MonoBehaviour:
   m_ObjectHideFlags: 0
