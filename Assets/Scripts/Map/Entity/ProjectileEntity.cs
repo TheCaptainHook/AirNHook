@@ -1,0 +1,84 @@
+
+using System.Collections;
+using UnityEngine;
+
+public class ProjectileEntity : MonoBehaviour,IPooling
+{
+    protected bool onHit;
+    protected bool onFire;
+    protected RaycastHit2D hit;
+    #region Components
+    protected Rigidbody2D rb;
+    protected Collider2D _collider;
+    #endregion
+
+
+    public float speed;
+    public LayerMask hitLayerMask;
+
+    public virtual void Reset() { }
+    public virtual void SpawnImpactEffect() { }
+
+    #region Defalut
+
+    protected virtual void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        _collider = GetComponent<BoxCollider2D>();
+    }
+
+    protected virtual void FixedUpdate()
+    {
+        if (!onHit && onFire)
+        {
+            float hitDistance = rb.velocity.magnitude * Time.fixedDeltaTime * 1.5f;
+            hit = Physics2D.Raycast(transform.position + (transform.right * 0.5f), transform.right, hitDistance, hitLayerMask);
+
+            if (hit)
+            {
+                onHit = true;
+                rb.velocity = Vector2.zero;
+                rb.gravityScale = 0;
+
+                SpawnImpactEffect();
+                
+                if (hit.collider.TryGetComponent(out IDamageable damageable))
+                {
+                    damageable.TakeDamage();
+                    ReleaseToPool();
+                    return;
+                }
+                transform.position = hit.point;
+                StartCoroutine(DelayRelease());
+            }
+            else
+            {
+                rb.AddForce(transform.right * speed, ForceMode2D.Impulse);
+            }
+        }
+    }
+
+
+  
+    public virtual void Setting(Vector2 point, Vector3 dir)
+    {
+        transform.position = point;
+        float z = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, z);
+        onFire = true;
+    }
+
+
+
+    protected IEnumerator DelayRelease()
+    {
+        yield return new WaitForSeconds(5);
+        ReleaseToPool();
+    }
+    public void ReleaseToPool()
+    {
+        Reset();
+        Managers.Pooling.N_ReleaseToPool<Projectile_Arrow>(gameObject);
+    }
+    #endregion
+}

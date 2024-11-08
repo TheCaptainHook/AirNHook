@@ -8,6 +8,7 @@ public class Turret : ActivatableObjectEntity
     [CustomHeader("Turret")]
     [SerializeField] float rotateRate;
     [SerializeField] float fireRate;
+    [SerializeField] bool onHoldRotation;
     [SerializeField] bool onLeft;
     private bool onActive;
     [Space(20)]
@@ -41,7 +42,7 @@ public class Turret : ActivatableObjectEntity
     {
         if (typeof(T) == typeof(ButtonActivatableObjectStruct))
         {
-            return (T)(object)new ButtonActivatableObjectStruct(id, activeRequirAmount, transform.position, transform.rotation, transform.localScale, rotateRate,fireRate,onLeft);
+            return (T)(object)new ButtonActivatableObjectStruct(id, activeRequirAmount, transform.position, transform.rotation, transform.localScale, rotateRate,fireRate,onHoldRotation,onLeft);
         }
 
         return default(T);
@@ -56,6 +57,7 @@ public class Turret : ActivatableObjectEntity
                 ButtonActivatedObjectStruct = objData;
                 rotateRate = objData.rotateRate;
                 onLeft = objData.onLeft;
+                onHoldRotation = objData.onHoldRotation;
                 fireRate = objData.fireRate;
 
                 if (onLeft) animator.SetBool(Left, onLeft);
@@ -77,7 +79,7 @@ public class Turret : ActivatableObjectEntity
             curFireTime += Time.deltaTime;
             curTime += Time.deltaTime;
 
-            if (curTime >= rotateRate)
+            if (curTime >= rotateRate &&!onHoldRotation)
             {
                 curTime = 0;
                 curFireTime = 0;

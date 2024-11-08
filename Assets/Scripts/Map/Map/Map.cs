@@ -150,6 +150,7 @@ public struct ButtonActivatableObjectStruct
     //Turret
     public float rotateRate;
     public float fireRate;
+    public bool onHoldRotation;
     public bool onLeft;
 
 
@@ -169,6 +170,7 @@ public struct ButtonActivatableObjectStruct
         rotateRate = 0;
         fireRate = 0;
         onLeft = false;
+        onHoldRotation = false;
     }
     public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
        Quaternion quaternion,
@@ -186,12 +188,14 @@ public struct ButtonActivatableObjectStruct
         rotateRate = 0;
         fireRate = 0;
         onLeft = false;
+        onHoldRotation = false;
     }
     public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
       Quaternion quaternion,
       Vector3 scale,
       float rotateRate,
       float fireRate,
+      bool onHoldRotation = false,
       bool onLeft = false
       )
     {
@@ -204,6 +208,7 @@ public struct ButtonActivatableObjectStruct
         jumpingPower = 0;
         this.rotateRate = rotateRate;
         this.fireRate = fireRate;
+        this.onHoldRotation = onHoldRotation;
         this.onLeft = onLeft;
     }
 }
