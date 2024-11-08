@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 237154667066776025}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.59999996, z: 0}
+  m_LocalPosition: {x: -0.3400002, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -52,7 +52,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: b31868fc3f59e6040ae176abbb78e900, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -73,8 +73,8 @@ SpriteRenderer:
   m_SortingLayerID: -688237417
   m_SortingLayer: 5
   m_SortingOrder: 5
-  m_Sprite: {fileID: 21300000, guid: ac176cf26085df64a93b22a5279764ff, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 38164a288622b084bbd5447a0222dec4, type: 3}
+  m_Color: {r: 0.7647059, g: 0.7647059, b: 0.7647059, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -112,7 +112,7 @@ Transform:
   m_GameObject: {fileID: 466255447430158425}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.603, z: 0}
+  m_LocalPosition: {x: -0.3400002, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -159,7 +159,7 @@ SpriteRenderer:
   m_SortingLayerID: -688237417
   m_SortingLayer: 5
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 56c09efe641ea0e43a017c8b51f55a2b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 86a055ea516ce4147a5fd7ecbc9a77fe, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -205,8 +205,8 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0.48085243}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
-    oldSize: {x: 1.3333334, y: 0.6666667}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.171875, y: 1.171875}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -268,14 +268,14 @@ RectTransform:
   m_GameObject: {fileID: 5156194758569285633}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 8, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3150436631828177710}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.467}
+  m_AnchoredPosition: {x: -2.146, y: -0.02}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!331 &5159767610160480397
@@ -340,7 +340,7 @@ GameObject:
   - component: {fileID: 967735462531540321}
   - component: {fileID: 1373928277461803099}
   m_Layer: 7
-  m_Name: Lever
+  m_Name: Press
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -355,7 +355,7 @@ Transform:
   m_GameObject: {fileID: 5318551089113178509}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.16700003, z: 0}
+  m_LocalPosition: {x: -1.847, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -402,7 +402,7 @@ SpriteRenderer:
   m_SortingLayerID: -688237417
   m_SortingLayer: 5
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300000, guid: 56d97c11732505f4398987cebe5e0b78, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e80138e52e2f97745b29ea41080ce7b1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -425,11 +425,11 @@ GameObject:
   - component: {fileID: 6538494676459900832}
   - component: {fileID: 7684903196300218065}
   - component: {fileID: -2202390588482861308}
-  - component: {fileID: 4685576112943327550}
   - component: {fileID: 2675762856716472400}
-  - component: {fileID: 8736576774963853244}
+  - component: {fileID: 8889051555089874298}
+  - component: {fileID: 3563850275506238468}
   m_Layer: 7
-  m_Name: PullLever
+  m_Name: HydraulicPress
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -464,7 +464,7 @@ Animator:
   m_GameObject: {fileID: 5485989114999524422}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 199e9f77ddc4928459ba3a48782ed3b2, type: 2}
+  m_Controller: {fileID: 9100000, guid: 4d91eceddc5fd474b8d45948a1140223, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -488,7 +488,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
-  _assetId: 1447224248
+  _assetId: 3313812889
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
@@ -509,37 +509,6 @@ MonoBehaviour:
   syncInterval: 0
   clientAuthority: 0
   animator: {fileID: 6538494676459900832}
---- !u!114 &4685576112943327550
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5485989114999524422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edfca3a50947442618f474bb4e5c099b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 0
-  transformID: 0
-  position: {x: 0, y: 0}
-  offset: {x: 0, y: 0}
-  turnOff: 0
-  distructionStatus: 0
-  onPlaceable: 0
-  onRotateable: 0
-  onScaleable: 0
-  setPosition: 0
-  orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
-  targetObjects: []
-  duration: 5
-  curDuration: 0
-  prograssSpeed: 1
-  _OnPrograss: 0
-  conditionWeight: 5
-  curWeight: 0
 --- !u!114 &2675762856716472400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -554,7 +523,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debugmodeTransform: {fileID: 0}
   onHierarchy: 0
---- !u!210 &8736576774963853244
+--- !u!114 &8889051555089874298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5485989114999524422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104eb1c96815b4820b4be071555180b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  transformID: 0
+  position: {x: 0, y: 0}
+  offset: {x: 0, y: 0}
+  turnOff: 0
+  distructionStatus: 0
+  onPlaceable: 0
+  onRotateable: 0
+  onScaleable: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 0}
+--- !u!210 &3563850275506238468
 SortingGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
