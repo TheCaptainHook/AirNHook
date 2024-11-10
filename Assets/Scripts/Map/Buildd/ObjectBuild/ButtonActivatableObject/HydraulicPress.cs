@@ -32,36 +32,6 @@ public class HydraulicPress : ActivatableObjectEntity
         animator = GetComponent<Animator>();
     }
 
-    #region Get,Set
-    public override T GetData<T>()
-    {
-        if (typeof(T) == typeof(ButtonActivatableObjectStruct))
-        {
-            return (T)(object)new ButtonActivatableObjectStruct(id, activeRequirAmount, transform.position, transform.rotation, transform.localScale);
-        }
-
-        return default(T);
-    }
-    public override void SetData<T>(T data)
-    {
-        try
-        {
-            if (typeof(T) == typeof(ButtonActivatableObjectStruct))
-            {
-                ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
-                ButtonActivatedObjectStruct = objData;
-            }
-        }
-        catch
-        {
-            Debug.Log($"ERROR,{typeof(T)}");
-        }
-    }
-
-    #endregion
-
-
-
 
     private void Update()
     {
