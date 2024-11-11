@@ -20,11 +20,18 @@ public class ArrowTrap : BuildObj
     private static readonly int FireEnd = Animator.StringToHash("FireEnd");
     #endregion
   
+
+    private Vector2 orgDirRight;
+
     private void Start()
     {
         //pool = GetComponent<Pooling>();
         //pool.CreatePoolItem(MapEditor.Instance.poolingContainer);
         _animator = GetComponent<Animator>();
+
+        //Test 1111
+        orgDirRight = transform.right;
+        //Test 1111
     }
     private void Update()
     {
@@ -97,9 +104,12 @@ public class ArrowTrap : BuildObj
         {
             // 현재 탐지된 오브젝트와의 거리 계산
             float distance = Vector2.Distance(transform.position, collider.transform.position);
-
+            //semiCircle Detection
+            Vector2 dir = collider.gameObject.transform.position - transform.position;
+            float angleToObj = Vector2.Angle(orgDirRight,dir);
             // 가장 가까운 오브젝트를 찾음
-            if (distance < nearestDistance)
+
+            if (angleToObj <=90f && distance < nearestDistance)
             {
                 nearestDistance = distance;
                 nearestPlayer = collider.transform;
@@ -115,10 +125,28 @@ public class ArrowTrap : BuildObj
         }
     }
     
-    private void OnDrawGizmosSelected()
+   private void OnDrawGizmos()
+{
+    Gizmos.color = Color.blue;
+    // Gizmos.DrawWireSphere(transform.position, radius);
+
+    // 반원 그리기
+    int segments = 20; // 반원을 그릴 세그먼트 수 (조절 가능)
+    float angleStep = 180f / segments; // 각 세그먼트 간의 각도 차이
+
+    Vector3 startPoint = transform.position + Quaternion.Euler(0, 0, -90) * orgDirRight * radius;
+    Vector3 previousPoint = startPoint;
+
+    for (int i = 1; i <= segments; i++)
     {
-        // 스피어 캐스트를 그리기 위해 씬 상에 범위를 표시
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, radius);
+        float angle = -90 + i * angleStep;
+        Vector3 nextPoint = transform.position + Quaternion.Euler(0, 0, angle) * orgDirRight * radius;
+        Gizmos.DrawLine(previousPoint, nextPoint);
+        previousPoint = nextPoint;
     }
+
+    // transform의 오른쪽 방향을 나타내는 선
+    Gizmos.color = Color.red;
+    Gizmos.DrawLine(transform.position, transform.position + (Vector3)orgDirRight * radius);
+}
 }
