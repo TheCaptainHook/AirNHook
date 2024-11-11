@@ -5,13 +5,20 @@ public class JumpingPad : ActivatableObjectEntity
 {
     [CustomHeader("Jumping Pad")]
     public int jumpingPower;
+
+    private Animator animator;
+
+
     private bool onActive;
 
+    #region  Animation
+    readonly int Activated = Animator.StringToHash("Activated");
+    #endregion
 
     private Util util;
     private void Awake()
     {
-        util = new Util();
+        animator = GetComponent<Animator>();
     }
 
     #region Get,Set
@@ -43,6 +50,7 @@ public class JumpingPad : ActivatableObjectEntity
 
         if (Application.isPlaying)
         {
+            util = new Util();
             await util.Delay(() => { CheckActiveRequirAmount(); });
         }
     }
@@ -69,9 +77,11 @@ public class JumpingPad : ActivatableObjectEntity
     protected override void Activation()
     {
         onActive = true;
+        animator.SetBool(Activated,onActive);
     }
     protected override void Deactivated()
     {
         onActive = false;
+        animator.SetBool(Activated,onActive);
     }
 }
