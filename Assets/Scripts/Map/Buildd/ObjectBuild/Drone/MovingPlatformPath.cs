@@ -14,6 +14,7 @@ public class MovingPlatformPath : MonoBehaviour
 
 
     public void Init(Vector2[] paths){
+        
     onHierarchy = CheckFocusedObjectPresence();
     if(!onHierarchy) return;
 

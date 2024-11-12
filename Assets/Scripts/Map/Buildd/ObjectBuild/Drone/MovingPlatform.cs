@@ -1,6 +1,5 @@
 
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using System;
 
@@ -30,9 +29,11 @@ public class MovingPlatform :  BuildObj
     public float step;
     public Vector2 dir;
     public event Action<Vector2> MoveAction;
+    private AddForcePlatform addForcePlatform;
 
   private void Awake(){
     _rb = GetComponent<Rigidbody2D>();
+    addForcePlatform = GetComponent<AddForcePlatform>();
   }
 
 
@@ -52,19 +53,22 @@ public class MovingPlatform :  BuildObj
           DroneStruct dronsSt = (DroneStruct)(object)data;
           DroneStruct = dronsSt;
         }
-        //Test
+        
         if(Application.isPlaying){
             Debug.Log("Drone Prograss");
+            addForcePlatform.Init();
             Prograss();
         }
         
     }
     #endregion
 
+    #region Test Code, [latest update: 11/12 ]
     // private void Start(){
     //     paths = ConvertPaths(paths);
     //     Prograss();
     // }
+    #endregion
 
     public void Prograss(){
         if(paths.Length <=0) return;
@@ -120,7 +124,11 @@ public class MovingPlatform :  BuildObj
         }
         return false;
     }
-
+    /// <summary>
+    /// This function adds the first index’s transform position to the paths array.
+    /// </summary>
+    /// <param name="paths"></param>
+    /// <returns></returns>
      private Vector2[] ConvertPaths(Vector2[] paths){
         Vector2[] targetPaths = new Vector2[paths.Length+1];
         targetPaths[0] = transform.position;

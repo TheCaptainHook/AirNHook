@@ -68,7 +68,7 @@ public class PlayerCameraView : MonoBehaviour
     float _Zoom;
 
     [Header("Follow Camera")]
-    private float _smoothSpeed = 1f;
+    private float _smoothSpeed = .5f;
     [Header("Camera Zoom")]
     private Vector3 _vecVelocity = Vector3.zero;
     private float _floatVelocity = 0;

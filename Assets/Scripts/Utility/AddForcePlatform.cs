@@ -10,7 +10,6 @@ public class AddForcePlatform : MonoBehaviour
     public float _LimitVelocity;
 
     [Header("Ray")]
-    private float rayLength;
     public LayerMask layerMask;
 
     [Header("Main")]
@@ -25,67 +24,74 @@ public class AddForcePlatform : MonoBehaviour
 
     [SerializeField] MovingPlatform _MovingPlatform;
 
-
-    private void Awake(){
-        _Collider = GetComponent<Collider2D>();
-        _Rb = GetComponent<Rigidbody2D>();
-        _PreviousDetactObjects = new();
-
+#region  Test
+    
+#endregion
+    private void Update(){
+        
         var wh = GetColliderWH();
         w = wh.width;
         h = wh.height;
 
-        _MovingPlatform.MoveAction+=AddForce;
-    }
-
-    private void Update(){
-        //test
-        if(Input.GetKeyDown(KeyCode.A)){
-           foreach(DetectObj obj in _PreviousDetactObjects){
-            Debug.Log(obj.obj.name);
-           }
-        }
-    }
-    private void FixedUpdate(){
-    //    CheckDetectObjectSet(DetectObjectsInRaycast());
         _PreviousDetactObjects = DetectObjectsInRaycast();
+
+    }
+    // private void FixedUpdate(){
+    //     _PreviousDetactObjects = DetectObjectsInRaycast();
+    // }
+
+    public void Init(){
+        _Collider = GetComponent<Collider2D>();
+        _Rb = GetComponent<Rigidbody2D>();
+        _PreviousDetactObjects = new();
+
+        _MovingPlatform.MoveAction+=AddForce;
     }
 
     #region  Main
     
-    private void CheckDetectObjectSet(HashSet<DetectObj> curSet){
-        // HashSet<DetectObj> detectObjs = new(_PreviousDetactObjects);
-        // detectObjs.ExceptWith(curSet);
-
-        // foreach(DetectObj obj in detectObjs){ 
-        //     Debug.Log(obj.obj.name);
-        //     obj.ReturnRbMass();
-        // }
-
-        // curSet.UnionWith(_PreviousDetactObjects);
-
-        foreach(DetectObj detectObj in curSet){
-            Debug.Log(detectObj.obj.name);
-            // detectObj._Rb.position += _MovingPlatform.dir * _MovingPlatform.step;
-        }
-        
-
-        _PreviousDetactObjects = curSet;
-
-    }
 
     private HashSet<DetectObj> DetectObjectsInRaycast(){
 
         HashSet<DetectObj> set = new();
+        HashSet<GameObject> visitedObj = new();
+
+        Debug.DrawRay(GetRayStart(),Vector2.right*w,Color.red);
         RaycastHit2D[] hits = Physics2D.RaycastAll(GetRayStart(),Vector2.right,w,layerMask);
         foreach(RaycastHit2D hit in hits){
             if(hit.collider != null && hit.collider.gameObject != gameObject){
-                // var att = GetDetectObjAttribute(hit.collider);
-                DetectObj detectObj = new DetectObj(hit.collider.gameObject);
-                set.Add(detectObj);
+                if(visitedObj.Add(hit.collider.gameObject)){
+                    DetectObj detectObj = new DetectObj(hit.collider.gameObject);
+                    set.Add(detectObj);
+                    Debug.Log($"{detectObj.obj.name}");
+                }
+                
             }
         }
-        // Debug.DrawRay(GetRayStart(),Vector2.right * w,Color.red);
+
+        List<DetectObj> newDetectObjs = new();
+
+        foreach(DetectObj obj in set){
+            var detect = GetDetectObjRayStart(obj);
+            RaycastHit2D[] hits2 = Physics2D.RaycastAll(detect.startPot,Vector2.right,detect.width,layerMask);
+            foreach(RaycastHit2D hit in hits2){
+                if(hit.collider != null && hit.collider.gameObject != gameObject){
+                    if(visitedObj.Add(hit.collider.gameObject)){
+                        DetectObj detectObj = new DetectObj(hit.collider.gameObject);
+                        newDetectObjs.Add(detectObj);
+                        
+                    }
+                   
+                }
+            }
+            
+        }
+
+        foreach (DetectObj newObj in newDetectObjs)
+        {
+            set.Add(newObj);
+            Debug.Log($"{newObj.obj.name}");
+        }
 
         return set;
     }
@@ -94,25 +100,12 @@ public class AddForcePlatform : MonoBehaviour
         if(_PreviousDetactObjects.Count <=0) return;
         foreach(DetectObj obj in _PreviousDetactObjects){
             Vector2 curPot = obj._Rb.position;
-            obj._Rb.position = Vector2.MoveTowards(curPot,curPot+ConvertVec(_MovingPlatform.dir),_MovingPlatform.step);
-            
+            Vector2 target = curPot + vec;
+            obj._Rb.position = Vector2.MoveTowards(curPot,target,_MovingPlatform.step);
         }
     }
-    private Vector2 ConvertVec(Vector2 vec){
-        Vector2 newVec = vec;
-        if(vec.y>0){
-            newVec.y = 0;
-        }
-
-        return newVec;
-
-    }
-    public bool CheckObject(GameObject obj){
-        foreach(DetectObj dtobj in _PreviousDetactObjects){
-            if(dtobj.obj == obj) return true;
-        }
-        return false;
-    }
+    
+   
     #endregion
 
     #region  Util
@@ -123,25 +116,23 @@ public class AddForcePlatform : MonoBehaviour
         return (width,height);
     }
 
-
     private Vector2 GetRayStart(){
         Vector2 cur = transform.position;
         cur.x  -= w/2;
-        cur.y += h*0.6f;
+        cur.y += h + 0.1f;
         return cur;
     }
-
-    // private (GameObject obj,float mass) GetDetectObjAttribute(Collider2D col){
-    //     GameObject obj = col.gameObject;
-    //     float mass = 0;
-    //     if(obj.TryGetComponent(out Rigidbody2D component)){
-    //         mass = component.mass;
-    //     }
-
-    //     return (obj,mass);
-    // }
+    private (Vector2 startPot,float width) GetDetectObjRayStart(DetectObj obj){
+    
+      Vector2 pot = obj.obj.transform.position;
+      float detectobjX = obj._Col.bounds.size.x/2;
+      pot.x -= detectobjX;
+      pot.y += h + 0.1f;
+      Debug.DrawRay(pot,Vector2.right*obj._Col.bounds.size.x,Color.red);
+      return (pot,obj._Col.bounds.size.x);
+      
+    }
     #endregion
-
 
    
 }
@@ -150,10 +141,12 @@ public class AddForcePlatform : MonoBehaviour
 public class DetectObj{
     public GameObject obj;
     public Rigidbody2D _Rb;
+    public Collider2D _Col;
 
     public DetectObj(GameObject obj){
         this.obj = obj;
         _Rb = obj.GetComponent<Rigidbody2D>();
+        _Col = obj.GetComponent<Collider2D>();
     }
 
     public override int GetHashCode()
@@ -168,13 +161,5 @@ public class DetectObj{
         }
         return false;
     }
-
-    // public void MassChangeAndVelocityZero(Vector2 parentsRBVelocity){
-    //     _Rb.velocity =parentsRBVelocity;
-    //     if(!Mathf.Approximately(_Rb.mass,0.001f)){
-    //         _Rb.mass = 0.001f;
-    //     }
-        
-    // }
 
 }
