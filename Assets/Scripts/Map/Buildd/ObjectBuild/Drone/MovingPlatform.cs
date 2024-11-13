@@ -26,7 +26,9 @@ public class MovingPlatform :  BuildObj
 
     [Header("Main")]
 
+    [ReadOnly]
     public float step;
+    [ReadOnly]
     public Vector2 dir;
     public event Action<Vector2> MoveAction;
     private AddForcePlatform addForcePlatform;
@@ -83,7 +85,6 @@ public class MovingPlatform :  BuildObj
         
         while (true)
         {
-
             if (CheckDistance(_rb.position, targetPosition))
             {
                 // _rb.velocity = Vector2.zero;

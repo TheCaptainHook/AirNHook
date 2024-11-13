@@ -87,7 +87,7 @@ public class MovingPlatformPath_Editor : Editor
 
     serializedProperty.serializedObject.Update();
     if(movingPlatform.paths != null){
-       
+
         movingPlatformPath.SetPath(movingPlatform.paths);
         previousPaths = movingPlatform.paths;
        

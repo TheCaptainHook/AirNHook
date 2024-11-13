@@ -24,13 +24,24 @@ public class BuildObj : MousePointerEntity,IDamageable
     [ReadOnly]
     public Vector2 position;
     [Tooltip("Use this parameter in editor mode")]
-    public Vector2 offset; // Use this parameter in editor mode.
-    public bool turnOff;
+    
+    
     [SerializeField] protected DistructionStatus distructionStatus;
+
+    #region User Editor
     [Header("State")]
+    [ReadOnly]
     public bool onPlaceable;
+    [ReadOnly]
     public bool onRotateable;
+    [ReadOnly]
     public bool onScaleable;
+    [ReadOnly]
+    public Vector2 offset; // Use this parameter in editor mode.
+    [ReadOnly]
+    public bool turnOff;
+    #endregion
+    
     
     private ObjectData _objectData;
     public ObjectData ObjectData{
