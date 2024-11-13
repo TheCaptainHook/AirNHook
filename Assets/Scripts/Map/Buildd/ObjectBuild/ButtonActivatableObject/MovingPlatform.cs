@@ -1,28 +1,15 @@
 
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class MovingPlatform :  BuildObj
+
+public class MovingPlatform :  ActivatableObjectEntity
 {
     [CustomHeader("Moving Platform")]
     public Vector2[] paths;
     public float moveSpeed;
-
-    private DroneStruct droneStruct;
-    public DroneStruct DroneStruct {
-        get{
-            return droneStruct;
-            }
-        set{
-            droneStruct = value;
-            id = value.id;
-            transform.position = value.position;
-            transform.localScale = value.scale;
-            paths = value.paths;
-            moveSpeed = value.moveSpeed;
-        }}
-
 
     [Header("Main")]
 
@@ -32,6 +19,7 @@ public class MovingPlatform :  BuildObj
     public Vector2 dir;
     public event Action<Vector2> MoveAction;
     private AddForcePlatform addForcePlatform;
+    private bool onActive;
 
   private void Awake(){
     _rb = GetComponent<Rigidbody2D>();
@@ -40,28 +28,38 @@ public class MovingPlatform :  BuildObj
 
 
     #region  GET,SET (Will take care this logic)
-   public override T GetData<T>()
+    public override T GetData<T>()
     {
-        if(typeof(T)==typeof(DroneStruct)){
+        if(typeof(T)==typeof(ButtonActivatableObjectStruct)){
             Debug.Log("Drone");
-            return (T)(object)new DroneStruct(id,transform.position,transform.localScale,ConvertPaths(paths),moveSpeed);
+            return (T)(object)new ButtonActivatableObjectStruct(id,activeRequirAmount,transform.position,transform.rotation,transform.localScale,paths,moveSpeed);
         }
+        
         return default(T);
 
     }
-    public override void SetData<T>(T data)
+    
+    public override async void SetData<T>(T data)
     {
-        if(typeof(T)==typeof(DroneStruct)){
-          DroneStruct dronsSt = (DroneStruct)(object)data;
-          DroneStruct = dronsSt;
+         try{
+            if (typeof(T) == typeof(ButtonActivatableObjectStruct))
+            {
+            ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
+            ButtonActivatedObjectStruct = objData;
+            //Moving Platform
+            paths = ConvertPaths(objData.paths);
+            moveSpeed = objData.moveSpeed;
+            addForcePlatform.Init();
+            Prograss();
+            }
+        }catch{
+                Debug.Log($"ERROR,{typeof(T)}");
         }
         
         if(Application.isPlaying){
-            Debug.Log("Drone Prograss");
-            addForcePlatform.Init();
-            Prograss();
+            Util util  = new Util();
+            await util.Delay(()=>{CheckActiveRequirAmount();});
         }
-        
     }
     #endregion
 
@@ -85,6 +83,10 @@ public class MovingPlatform :  BuildObj
         
         while (true)
         {
+                while(!onActive){
+                    Debug.Log("de active");
+                    yield return null;
+                }
             if (CheckDistance(_rb.position, targetPosition))
             {
                 // _rb.velocity = Vector2.zero;
@@ -111,7 +113,18 @@ public class MovingPlatform :  BuildObj
             yield return null; 
         }
     }
+    #region  Activatable
+    protected override void Activation()
+    {
+        onActive = true;
+    }
+    protected override void Deactivated()
+    {
+        onActive = false;
+    }
+    #endregion
 
+    #region  Util
     private void MoveTowards(Vector2 curP,Vector2 target){
         dir = (target-curP).normalized;
         step = moveSpeed * Time.fixedDeltaTime; 
@@ -138,6 +151,9 @@ public class MovingPlatform :  BuildObj
         }
         return targetPaths;
     }
+
+#endregion
+
 
 }
 

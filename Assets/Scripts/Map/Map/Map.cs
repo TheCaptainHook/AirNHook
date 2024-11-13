@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Org.BouncyCastle.Asn1.Mozilla;
 using UnityEditor;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.Scripting.APIUpdating;
 
 
 
@@ -152,8 +154,13 @@ public struct ButtonActivatableObjectStruct
     public float fireRate;
     public bool onHoldRotation;
     public bool onLeft;
+    //MovingPlatform
+    public Vector2[] paths;
+    public float moveSpeed;
+    //Weight Detection Moving Platform
+    public float moveDistance;
 
-
+    #region Default
     public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
         Quaternion quaternion,
         Vector3 scale,
@@ -171,7 +178,13 @@ public struct ButtonActivatableObjectStruct
         fireRate = 0;
         onLeft = false;
         onHoldRotation = false;
+        paths = null;
+        moveSpeed = 0;
+        moveDistance = 0;
+
     }
+    #endregion
+    #region JumpingPad
     public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
        Quaternion quaternion,
        Vector3 scale,
@@ -189,7 +202,12 @@ public struct ButtonActivatableObjectStruct
         fireRate = 0;
         onLeft = false;
         onHoldRotation = false;
+        paths = null;
+        moveSpeed = 0;
+        moveDistance = 0;
     }
+    #endregion
+    #region Turret
     public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
       Quaternion quaternion,
       Vector3 scale,
@@ -210,8 +228,64 @@ public struct ButtonActivatableObjectStruct
         this.fireRate = fireRate;
         this.onHoldRotation = onHoldRotation;
         this.onLeft = onLeft;
+        paths = null;
+        moveSpeed = 0;
+        moveDistance = 0;
     }
+    #endregion
+    #region MovingPlatform
+     public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
+        Quaternion quaternion,
+        Vector3 scale,
+        Vector2[] paths,
+        float moveSpeed
+        )
+    {
+        this.id= id;
+        this.activeRequirAmount = activeRequirAmount;
+        this.position = position;
+        this .quaternion = quaternion;
+        this.scale = scale;
+        talPot = Vector2.zero;
+        jumpingPower = 0;
+        rotateRate = 0;
+        fireRate = 0;
+        onLeft = false;
+        onHoldRotation = false;
+        this.paths = paths;
+        this.moveSpeed = moveSpeed;
+        moveDistance = 0;
+
+    }
+    #endregion
+    #region  Weight Detection Moving Platform
+     public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
+        Quaternion quaternion,
+        Vector3 scale,
+        float moveDistance,
+        float moveSpeed
+        
+        )
+    {
+        this.id= id;
+        this.activeRequirAmount = activeRequirAmount;
+        this.position = position;
+        this .quaternion = quaternion;
+        this.scale = scale;
+        talPot = Vector2.zero;
+        jumpingPower = 0;
+        rotateRate = 0;
+        fireRate = 0;
+        onLeft = false;
+        onHoldRotation = false;
+        paths = null;
+        this.moveDistance = moveDistance;
+        this.moveSpeed = moveSpeed;
+
+    }
+    #endregion
 }
+
 
 [System.Serializable]
 public struct ExitObjStruct
