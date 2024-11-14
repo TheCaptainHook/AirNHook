@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-
+[RequireComponent(typeof(WDMP_Path))]
 public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
 {
     [CustomHeader("Weight Detection Moving Platform")]
