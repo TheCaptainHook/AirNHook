@@ -31,7 +31,6 @@ public class MovingPlatform :  ActivatableObjectEntity
     public override T GetData<T>()
     {
         if(typeof(T)==typeof(ButtonActivatableObjectStruct)){
-            Debug.Log("Drone");
             return (T)(object)new ButtonActivatableObjectStruct(id,activeRequirAmount,transform.position,transform.rotation,transform.localScale,paths,moveSpeed);
         }
         
