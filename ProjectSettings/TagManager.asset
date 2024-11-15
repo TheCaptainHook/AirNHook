@@ -17,7 +17,7 @@ TagManager:
   - Ground/OnlyHookable
   - Ground/HalfTiles
   - Player
-  - 
+  - Ground/Background
   - 
   - Object/Background
   - Object/ForeGround

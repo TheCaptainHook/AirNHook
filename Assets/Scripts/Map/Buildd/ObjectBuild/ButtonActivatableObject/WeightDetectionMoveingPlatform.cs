@@ -1,4 +1,5 @@
 using System;
+using Unity.Mathematics;
 using UnityEngine;
 
 [RequireComponent(typeof(WDMP_Path))]
@@ -50,12 +51,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
         path  = GetPath();
         curTargetPot = orgPot;
 
-        float dis =Vector2.Distance(transform.position,rightPoint.position);
-
-        rayLength = bodyCol.bounds.size.x/2f - dis;
-
-        Debug.Log(dis);
-
+        rayLength = bodyCol.bounds.size.x/2f;
     }
     #endregion
 
@@ -112,6 +108,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
 
     private void Start(){
         Init(); //TEST CODE
+        onActive = true;
     }
 
     private void Update(){
@@ -150,7 +147,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
         }
         weight = (lw-rw)/10f;
         //tilt platform
-        transform.Rotate(0,0,weight);
+        Rotate(weight);
         //move platform
         if(moveDistance == 0) return;
         if(!onActive) return;
@@ -167,8 +164,13 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
         MoveTowards(leftHit);
         MoveTowards(rightHit);
             
-           
 
+    }
+    private void Rotate(float weight){
+        Vector3 euler = transform.rotation.eulerAngles;
+        euler.z += weight;
+        euler.z = Mathf.Clamp(euler.z > 180 ? euler.z - 360 : euler.z,-30,30);
+        transform.rotation = Quaternion.Euler(euler);
     }
     private void MoveTowards(){
 
