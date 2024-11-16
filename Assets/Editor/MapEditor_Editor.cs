@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.Linq;
 using System;
+using NPOI.SS.Formula.Functions;
 
 
 
@@ -40,7 +41,8 @@ public class MapEditor_Editor : Editor
         GUILayout.Space(10);
         Draw_ResetContent();
     }
-
+    #region  Draw
+    
     private void Draw_MainContents(){
         EditorGUILayout.LabelField("Map Editor",GetGUIStyle_Label(Color.black,14,FontStyle.Bold));
         EditorGUILayout.HelpBox($"프로젝트 실행할때 꼭 개발자용 데이터 세이브 후 Reset 버튼 누른다음 실행하기.", MessageType.Info);
@@ -48,7 +50,9 @@ public class MapEditor_Editor : Editor
         GUILayout.BeginVertical(onLoad ? "Save" : "Load", new GUIStyle(GUI.skin.window));
         mapEditor.mapType = (MapType)EditorGUILayout.EnumPopup("Map Type",mapEditor.mapType);
         mapEditor.stageLevel = EditorGUILayout.IntField("Stage Level",mapEditor.stageLevel);
-        mapEditor.mapID = EditorGUILayout.TextField("Map ID",mapEditor.mapID);
+        // mapEditor.mapID = EditorGUILayout.TextField("Map ID",mapEditor.mapID);
+        Draw_MainContents_MapId();
+        mapEditor.subMapName = EditorGUILayout.TextField(new GUIContent("Map Sub Name","This is the sub-name for the map, but it’s okay to leave it empty."),mapEditor.subMapName);
         if(!onLoad){
               using (new EditorGUI.DisabledScope(true))
                 {
@@ -58,6 +62,14 @@ public class MapEditor_Editor : Editor
             mapEditor.audioType = (AudioType)EditorGUILayout.EnumPopup("Audio Type",mapEditor.audioType);
         }
         GUILayout.EndVertical();
+    }
+     private void Draw_MainContents_MapId(){
+        Color orgCol = GUI.backgroundColor;
+        if(string.IsNullOrEmpty(mapEditor.mapID)){
+            GUI.backgroundColor = Color.red;
+        }
+        mapEditor.mapID = EditorGUILayout.TextField(new GUIContent("Map ID","Unique identifier for the map. This field is required."),mapEditor.mapID);
+        GUI.backgroundColor = orgCol;
     }
 
     private void Draw_ToolContent(){
@@ -97,10 +109,24 @@ public class MapEditor_Editor : Editor
                 _Reset(mapEditor);
                 mapEditor.Init();
                 EditorApplication.ExecuteMenuItem("Window/2D/Tile Palette");
+                onLoad =true;
           
             }
             GUILayout.FlexibleSpace();
     }
+//Check for duplicate Map ID TODO 1116
+    private bool Check_DuplicateMapId(string mapId){
+       string path = Path.Combine(Application.dataPath,$"Resources/MapDat/Main");
+       string[] jsonFiles = Directory.GetFiles(path, "*.json",SearchOption.AllDirectories);
+       List<string> fileNames = jsonFiles.Select(file => Path.GetFileNameWithoutExtension(file)).ToList();
+     
+       if(fileNames.Contains(mapId)){
+        return true;
+       }
+
+       return false;
+       
+    }   
     private void Draw_InGameContents(){
          onLoad = false;
         GUILayout.Space(10);
@@ -144,6 +170,8 @@ public class MapEditor_Editor : Editor
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
     }
+    #endregion
+
     private void _Reset(MapEditor mapEditor)
     {
         if (mapEditor.mapObjBoxTransform)
@@ -423,7 +451,7 @@ public class MapEditor_Editor : Editor
         //}
 
 private async Task<Map> CreateMap(MapEditor mapEditor){
-    Map map =  new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, GetNextMapId(),mapEditor.stageLevel, mapEditor.startPosition,
+    Map map =  new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, mapEditor.subMapName,GetNextMapId(),mapEditor.stageLevel, mapEditor.startPosition,
             GetExitObjStructsList(mapEditor.exitDoorObjectTransform, mapEditor),
             //tile
             GetTileData(mapEditor.placeMentSystem.floorTileMap),

@@ -1,10 +1,7 @@
-using System.Collections;
+
 using System.Collections.Generic;
-using Org.BouncyCastle.Asn1.Mozilla;
-using UnityEditor;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.Scripting.APIUpdating;
+
 
 
 
@@ -44,7 +41,7 @@ public class Map
     //1101
     public string nextMapId;
 
-    public Map(Vector2 mapSize, string id,
+    public Map(Vector2 mapSize, string id, string subMapName,
         string nextMapId,
         int stageLevel, Vector2 startPosition,
         List<ExitObjStruct> mapExitObjectDataList,

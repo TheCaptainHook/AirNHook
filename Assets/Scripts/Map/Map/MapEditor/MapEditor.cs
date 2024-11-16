@@ -107,7 +107,9 @@ public class MapEditor : MonoBehaviour
     [HideInInspector] public int height;
     [Tooltip("Only use MapType.Main")]
     public int stageLevel;
-    public string mapID;
+    public string mapID; // Map main id
+    [Tooltip("A simple explanation of the sub-name for a map.")]
+    public string subMapName; // 1116
     [ReadOnly]
     public string nextMapId;
     [ReadOnly]
