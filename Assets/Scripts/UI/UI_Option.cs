@@ -194,7 +194,7 @@ public class UI_Option : UI_Base
     {
         OnOptionExit();
         // Managers.UI.ShowLoadingUI("Test_TitleScene");
-        if (Managers.Game.Player.GetComponent<Player>().isServer)
+        if (Managers.Game.Player.GetComponent<PlayerSM>().isServer)
         {
             Managers.Network.StopHost();
         }

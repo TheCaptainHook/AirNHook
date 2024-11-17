@@ -1,0 +1,31 @@
+using UnityEngine;
+
+public class StickAtHookState : BaseState
+{
+    public StickAtHookState(StateMachine stateMachine) : base(stateMachine) { }
+    
+    public override void EnterState()
+    {
+        stateMachine.player.animator.SetBool(GlobalText.AIR_ATTACHED_ANIMATION_STRING, true);
+    }
+
+    public override void ExitState()
+    {
+        stateMachine.player.animator.SetBool(GlobalText.AIR_ATTACHED_ANIMATION_STRING, false);
+    }
+    
+    public override void Update()
+    {
+        base.Update();
+    }
+
+    protected override void OnMove()
+    {
+        // Freeze
+    }
+
+    protected override void Move()
+    {
+        // Freeze
+    }
+}

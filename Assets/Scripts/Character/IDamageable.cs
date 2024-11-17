@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IDamageable
 {
-    public void TakeDamage();
+    public void TakeDamage(DamageType damageType = DamageType.Default);
 }

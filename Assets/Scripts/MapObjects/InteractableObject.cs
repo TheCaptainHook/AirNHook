@@ -15,6 +15,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     private float _gravityScale;
     [SyncVar] private bool _isFixed;
     [SyncVar] private bool _canInteract = true;
+    private bool _isGrab;
     
     // e button ui
     [Header("E Button UI")]
@@ -62,7 +63,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     private void FixedUpdate()
     {
-        if(!isOwned || _fixedPoint is null) return;
+        if (!isOwned || _fixedPoint is null || _isGrab) return;
 
         Inhale();
     }
@@ -84,6 +85,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     protected virtual void Grab()
     {
         _isFixed = true;
+        _isGrab = true;
         _canInteract = false;
         ChangeState(true);
         HideEButton();
@@ -99,12 +101,13 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     public virtual void Release()
     {
         _isFixed = false;
+        _isGrab = false;
         _canInteract = true;
         ChangeState(false);
         ShowEButton();
 
         _rigidbody.bodyType = _originType;
-        _rigidbody.velocity = Vector2.zero;
+        //_rigidbody.velocity = Vector2.zero;
         _rigidbody.gravityScale = _gravityScale;
         _fixedPoint = null;
         _rigidbody.constraints = _originRot;
@@ -115,6 +118,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     public void Destroyed()
     {
         _isFixed = false;
+        _isGrab = false;
         _canInteract = false;
         CmdChangeFixedState(false);
         CmdChangeInteractState(false);
@@ -124,7 +128,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
         _rigidbody.bodyType = _originType;
         
-        if (_fixedPoint is not null && _fixedPoint.root.TryGetComponent<Hook>(out var hook))
+        if (_fixedPoint is not null && _fixedPoint.root.TryGetComponent<HookSM>(out var hook))
             hook.ReleaseItem();
 
         _fixedPoint = null;
@@ -178,12 +182,15 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     public void StopInhale()
     {
         _fixedPoint = null;
+        _rigidbody.drag = 0f;
         _rigidbody.gravityScale = _gravityScale;
     }
 
     public void Fixed(bool value)
     {
+        _rigidbody.drag = 0f;
         _isFixed = value;
+        _isGrab = false;
         _canInteract = !value;
     }
 
@@ -195,6 +202,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     public void Shooting(Vector2 force)
     {
         _fixedPoint = null;
+        _rigidbody.drag = 0f;
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.gravityScale = _gravityScale;
         _rigidbody.AddForce(force, ForceMode2D.Impulse);
@@ -209,6 +217,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     {
         var direction = (_fixedPoint.position - transform.position).normalized;
         var power = _inhalePower * Time.fixedDeltaTime;
+        _rigidbody.drag = 10f;
         _rigidbody.gravityScale = 0f;
         _rigidbody.AddForce(direction * power);
     }
