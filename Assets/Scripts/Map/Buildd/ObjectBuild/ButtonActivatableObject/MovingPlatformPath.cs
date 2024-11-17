@@ -12,7 +12,7 @@ public class MovingPlatformPath : MonoBehaviour
    public LineRenderer line;
    public bool onHierarchy;
 
-
+#if UNITY_EDITOR
     public void Init(Vector2[] paths){
         
     onHierarchy = CheckFocusedObjectPresence();
@@ -124,4 +124,5 @@ public class MovingPlatformPath : MonoBehaviour
         return lineRenderer;
     }
    #endregion
+   #endif
 }

@@ -1,6 +1,8 @@
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Scripting.APIUpdating;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 [ExecuteInEditMode]
 public class WDMP_Path : MonoBehaviour
@@ -13,6 +15,7 @@ public class WDMP_Path : MonoBehaviour
 
   private Vector2 target;
 
+#if UNITY_EDITOR
   public void Init(float moveDistance){
     onHierarchy = CheckFocusedObjectPresence();
     if(!onHierarchy) return;
@@ -98,4 +101,5 @@ public class WDMP_Path : MonoBehaviour
     return Mathf.Approximately(a,b);
 }
   #endregion
+  #endif
 }

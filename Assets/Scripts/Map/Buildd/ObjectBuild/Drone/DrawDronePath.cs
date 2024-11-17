@@ -1,8 +1,9 @@
-
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 [ExecuteInEditMode]
 public class DrawDronePath : MonoBehaviour
@@ -12,7 +13,7 @@ public class DrawDronePath : MonoBehaviour
    public Vector2[] curPath;
    public LineRenderer line;
    public bool onHierarchy;
-
+#if UNITY_EDITOR
    public void Init(Vector2[] paths){
     onHierarchy = CheckFocusedObjectPresence();
     if(!onHierarchy) return;
@@ -125,5 +126,5 @@ public class DrawDronePath : MonoBehaviour
         return lineRenderer;
     }
    #endregion
-
+#endif
 }

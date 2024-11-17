@@ -1,5 +1,7 @@
-using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
+using UnityEngine;
 
 
 #region  HEADER
@@ -21,7 +23,7 @@ public class CustomHeaderAttribute : PropertyAttribute
     }
 }
 
-
+#if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(CustomHeaderAttribute))]
 public class CustomHeaderDrawer : DecoratorDrawer
 {
@@ -34,7 +36,11 @@ public class CustomHeaderDrawer : DecoratorDrawer
 
     public override void OnGUI(Rect position)
     {
-        EditorGUI.DrawRect(new Rect(0,0,position.width,3),Color.cyan);
+
+        Rect lineRect = new Rect(position.x, position.y, position.width, 3);
+        EditorGUI.DrawRect(lineRect, Color.cyan);
+
+        // EditorGUI.DrawRect(new Rect(0,0,position.width,3),Color.cyan);
         GUIStyle textStyle = new GUIStyle()
         {
             alignment = TextAnchor.MiddleLeft,
@@ -42,13 +48,14 @@ public class CustomHeaderDrawer : DecoratorDrawer
             fontSize = 15,
             normal = new GUIStyleState() { textColor = CustomHeader.headerColor }
         };
-
-        EditorGUI.LabelField(new Rect(0,0,position.width,GetHeight()),CustomHeader.header,textStyle);
-        GUILayout.Space(10);
+        Rect textRect = new Rect(position.x, position.y + 5, position.width, position.height);
+        EditorGUI.LabelField(textRect, CustomHeader.header, textStyle);
+        // EditorGUI.LabelField(new Rect(0,0,position.width,GetHeight()),CustomHeader.header,textStyle);
+        // GUILayout.Space(10);
     }
 
 }
-
+#endif
 #endregion
 
 #region  ReadOnly
@@ -57,6 +64,7 @@ public class ReadOnlyAttribute : PropertyAttribute
 {
 }
 
+#if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
 public class ReadOnlyDrawer : PropertyDrawer
 {
@@ -68,5 +76,6 @@ public class ReadOnlyDrawer : PropertyDrawer
         GUI.enabled = true;  // 다시 편집 가능하게 복원
     }
 }
+#endif
 #endregion
 

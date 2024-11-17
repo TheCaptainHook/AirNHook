@@ -57,7 +57,6 @@ public class SaveData
             Debug.Log($"Delete: {key}");
             updatedVariableCount++;
         }
-
         foreach (var source in Managers.Data.mapData.mapAllDictionary) {
             if (!dic.ContainsKey(source.Key)) {
                 AddDic_NewMapSource(source.Value);
@@ -156,7 +155,7 @@ public class SaveData
         //dic = _SaveFileData.SerializableSaveMapDataDictionary.ToDictionary();
         dic = _SaveFileData.SSDD_LoadDictionary();
 
-        await IntergrityCheck();
+        // await IntergrityCheck();
 
     }
     #endregion

@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using IO.Swagger.Model;
-using UnityEditor;
 using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 
 
@@ -21,10 +23,12 @@ public class LineToTarget : MonoBehaviour
     public bool onHierarchy;
     // [HideInInspector] public bool isNotPrefab;
     private Coroutine trackTargetCoroutine;
-
+    
+#if UNITY_EDITOR
     public void Setting(){
         onHierarchy = CheckFocusedObjectPresence();
         if(!onHierarchy) return;
+
 
         Transform debugTransform = gameObject.transform.Find("DebugmodeTransform");
         if(debugTransform !=null) Undo.DestroyObjectImmediate(debugTransform.gameObject);
@@ -39,8 +43,6 @@ public class LineToTarget : MonoBehaviour
 
         }
 
-
-        
 
     }
     private bool CheckFocusedObjectPresence()
@@ -59,10 +61,6 @@ public class LineToTarget : MonoBehaviour
             return false;
         }
     }
-
-
-
-
 
     public void DestroyDebugmodeTransform(){
         lineRendererList = null;
@@ -259,5 +257,5 @@ public class LineToTarget : MonoBehaviour
         Debug.Log("Prefab override applied, excluding DebugTransform.");
     }
 #endregion
-
+#endif
 }

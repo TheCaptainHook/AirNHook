@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.IO;
-using Steamworks;
-using UnityEditor;
+
 
 enum PrograssLevel
 {
@@ -494,6 +493,7 @@ public class UI_StageSelect_var3: UI_Base
     void Select_PrograssLevel_2()
     {
         int stageLevel = int.Parse(curSelectTextLine.mainSentence);
+        Debug.Log(stageLevel);
         textLineList[pathTextLineIndex].WriteText($"/{curSelectTextLine.mainSentence}");
         curSelectTextLine.Reset();
         curSelectTextLine = null;

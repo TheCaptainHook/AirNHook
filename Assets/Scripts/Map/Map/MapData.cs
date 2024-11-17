@@ -65,7 +65,7 @@ public class MapData
         MainMapDataLoad();
 
         //User Map Data Load
-        UserMapDataLoad();
+        // UserMapDataLoad();
         //User Map Data Load
 
     }
@@ -79,25 +79,25 @@ public class MapData
         }
     }
 
-    private void UserMapDataLoad()
-    {
-        string path = Path.Combine(Application.dataPath, "UserMapData");
+    // private void UserMapDataLoad()
+    // {
+    //     string path = Path.Combine(Application.dataPath, "UserMapData");
 
-        string[] filePaths = Directory.GetFiles(path, "*.json");
+    //     string[] filePaths = Directory.GetFiles(path, "*.json");
 
-        foreach (string file in filePaths)
-        {
-            string jsonString = File.ReadAllText(file);
-            UserMapData data = JsonUtility.FromJson<UserMapData>(jsonString);
-            mapUserDictionary.Add(data.hashValue, data);
-            //mapAllDictionary.Add(data.hashValue.ToString(), data.LoadMap()); 1101
+    //     foreach (string file in filePaths)
+    //     {
+    //         string jsonString = File.ReadAllText(file);
+    //         UserMapData data = JsonUtility.FromJson<UserMapData>(jsonString);
+    //         mapUserDictionary.Add(data.hashValue, data);
+    //         //mapAllDictionary.Add(data.hashValue.ToString(), data.LoadMap()); 1101
 
-        }
-    }
+    //     }
+    // }
     private void MainMapDataLoad()
     {
-        int index = GetMainStageLevelIndex();
-        for (int i = 0; i <= index; i++)
+        // int index = GetMainStageLevelIndex();
+        for (int i = 0; i <= 1; i++)
         {
             GetMainStageMapData(i);
         }
@@ -107,7 +107,7 @@ public class MapData
     public void GetMainStageMapData(int level)
     {
         //string path = Path.Combine(Application.dataPath, $"Resources/MapDat/Main/{level}"); //1101
-
+        Debug.Log("GetMainStageMapDataGetMainStageMapDataGetMainStageMapDataGetMainStageMapData");
         TextAsset[] jsons = Resources.LoadAll<TextAsset>($"MapDat/Main/{level}");
         if (jsons.Length != 0)
         {
@@ -116,6 +116,7 @@ public class MapData
             for (int i = 0; i < maps.Length; i++)
             {
                 Map map = JsonUtility.FromJson<Map>(jsons[i].text);
+                Debug.Log($"Map ID : {map.mapID}");
                 maps[i] = map;
                 mapMainDictionary.Add(map.mapID, map);
                 mapAllDictionary.Add(map.mapID, map);
