@@ -15562,10 +15562,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2458403146348124987}
-  - component: {fileID: 6040925326947453419}
-  - component: {fileID: 6338225487528084249}
-  - component: {fileID: -4687636900996350018}
-  - component: {fileID: 3785503928006515861}
+  - component: {fileID: -1128286184812858002}
   - component: {fileID: 3090883480896541386}
   - component: {fileID: 132653500868264655}
   - component: {fileID: 5435873216370784481}
@@ -15603,7 +15600,7 @@ Transform:
   - {fileID: 1371195024743693775}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6040925326947453419
+--- !u!114 &-1128286184812858002
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -15612,98 +15609,39 @@ MonoBehaviour:
   m_GameObject: {fileID: 8428015766500747352}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 861dde34105cf4d4b96db3e429945819, type: 3}
+  m_Script: {fileID: 11500000, guid: 08e40c57c8a545a4936f7d6981692e2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 1
   syncMode: 0
   syncInterval: 0
-  _jumpParticles: {fileID: 8220490199284304412}
-  _landParticles: {fileID: 2649949143537624615}
+  <playerData>k__BackingField: {fileID: 11400000, guid: e7a5e2da6aadae444b0a97d18ddecac4, type: 2}
   canControl: 0
-  _coyoteTime: 0.2
-  specificJump: 0
-  _isDead: 0
-  _jumpingPower: 10
-  _floorLayer:
+  <charPivot>k__BackingField: {fileID: 759945192256969836}
+  coyoteTimeCount: 0
+  _halfPlatformLayer:
     serializedVersion: 2
-    m_Bits: 2148139712
-  _rigidbd: {fileID: 3090883480896541386}
-  _moveSpeed: 3
-  _charPivot: {fileID: 759945192256969836}
-  _networkRigidbodySync: {fileID: 6689382284729753449}
+    m_Bits: 512
+  isHalfPlatform: 0
+  isDownThroughPlatform: 0
+  rigidbody2D: {fileID: 3090883480896541386}
+  collider2D: {fileID: 132653500868264655}
+  <networkRigidbodySync>k__BackingField: {fileID: 6689382284729753449}
+  <grabPoint>k__BackingField: {fileID: 1527109819433215527}
+  <jumpParticle>k__BackingField: {fileID: 8220490199284304412}
+  <landParticle>k__BackingField: {fileID: 2649949143537624615}
+  <animator>k__BackingField: {fileID: 2193380815047965984}
   isSwinging: 0
-  swingJump: 0
-  isAirAttached: 0
-  ropeHook: {x: 0, y: 0}
-  swingForce: 5
-  grappling: {fileID: 6338225487528084249}
-  _inhalePower: 800
---- !u!114 &6338225487528084249
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8428015766500747352}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56baa070b848c684faa1ca2d5d0f6f54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  playerMovement: {fileID: 6040925326947453419}
-  distanceJoint: {fileID: 5435873216370784481}
-  climbSpeed: 3
-  swingJumpPower: 3
-  coolTime: 0.8
   grappleAttached: 0
-  canControl: 0
-  ropeStartPos: {fileID: 7108341943427896224}
-  ropeRenderer: {fileID: 8853369850858447523}
-  ropeSpeed: 35
-  hookAnchor: {fileID: 6268434231699285335}
-  hookSprite: {fileID: 7720316559390274372}
-  hookStartPos: {fileID: 7108341943427896224}
-  hookLayerMask:
+  isAirAttached: 0
+  <hookAnchor>k__BackingField: {fileID: 6268434231699285335}
+  <hookSprite>k__BackingField: {fileID: 7720316559390274372}
+  <hookStartPos>k__BackingField: {fileID: 7108341943427896224}
+  <ropeStartPos>k__BackingField: {fileID: 7108341943427896224}
+  <ropeRenderer>k__BackingField: {fileID: 8853369850858447523}
+  <hookLayerMask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 2147483968
---- !u!114 &-4687636900996350018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8428015766500747352}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7aecdd973b22e645a122da66eca68f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  characterType: 1
-  isDead: 0
-  _grabPoint: {fileID: 1527109819433215527}
-  _interactableLayer:
-    serializedVersion: 2
-    m_Bits: 2031616
-  _grappling: {fileID: 6338225487528084249}
---- !u!114 &3785503928006515861
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8428015766500747352}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fc3ce3f86efeb0488592042faabab37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+    m_Bits: 832
 --- !u!50 &3090883480896541386
 Rigidbody2D:
   serializedVersion: 4

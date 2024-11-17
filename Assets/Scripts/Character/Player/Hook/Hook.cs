@@ -67,7 +67,7 @@ public class Hook : Player
                 continue;
             }
 
-            closestTarget = null;
+            closestTarget = null; 
 
             foreach (var collision in collisions)
             {
@@ -181,7 +181,7 @@ public class Hook : Player
         interactable.Interaction(_grabPoint);
         item.GetComponent<Rigidbody2D>().velocity = _rigidbd.velocity;
         
-        Managers.Command.AuthorityToServer(_grabbedItem.GetComponent<NetworkIdentity>().netId, true);
+        //Managers.Command.AuthorityToServer(_grabbedItem.GetComponent<NetworkIdentity>().netId, true);
         ReleaseItem();
     }
     
@@ -193,7 +193,7 @@ public class Hook : Player
         _animator.SetBool(IsGrabbing, false);
     }
     
-    public override void TakeDamage()
+    public override void TakeDamage(DamageType damageType = DamageType.Default)
     {
         if(!isLocalPlayer)
             return;

@@ -28,7 +28,7 @@ public class StrongBox : BuildObj
         DissolveInitSetting();
     }
 
-    public override void TakeDamage()
+    public override void TakeDamage(DamageType damageType = DamageType.Default)
     {
         health -= 1f;
         if (health <= 0f)

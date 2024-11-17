@@ -64,7 +64,7 @@ public class Player : NetworkBehaviour, IDamageable
 
     #region Animations
     // 사망 메서드
-    public virtual void TakeDamage()
+    public virtual void TakeDamage(DamageType damageType = DamageType.Default)
     {
         if(!isLocalPlayer)
             return;

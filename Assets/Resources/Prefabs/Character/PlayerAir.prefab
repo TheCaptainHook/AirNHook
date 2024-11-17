@@ -40,10 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9095037024881079552}
-  - component: {fileID: 1060811388936270286}
-  - component: {fileID: 675613252641030517}
-  - component: {fileID: 7233980298641959794}
-  - component: {fileID: 4543725574064118888}
+  - component: {fileID: 1634632590416375284}
   - component: {fileID: 3123692007149661597}
   - component: {fileID: 5969139581006705340}
   - component: {fileID: 5995454702025683127}
@@ -80,7 +77,7 @@ Transform:
   - {fileID: 4715537775762500794}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1060811388936270286
+--- !u!114 &1634632590416375284
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -89,96 +86,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 1771380657003557902}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4724754ad43a4092be639b218cacaa49, type: 3}
+  m_Script: {fileID: 11500000, guid: 99069ddfdf9040c2a72a22621ec4d61f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  _armPivot: {fileID: 4462666554605769596}
-  _charPivot: {fileID: 9177120215743396866}
-  canHandle: 0
-  <weaponPoint>k__BackingField: {fileID: 1621305863906642240}
-  _objectMask:
-    serializedVersion: 2
-    m_Bits: 538711040
-  _obstacleMask:
-    serializedVersion: 2
-    m_Bits: 2686342592
-  _detectionDistance: 5
-  _rigidbody2D: {fileID: 3123692007149661597}
-  _shootPower: 20
-  _minShootPower: 5
-  _maxShootPower: 20
-  _numberOfPoints: 50
-  _spaceBetweenPoints: 0.025
-  _flyPower: 12
-  _inhaleParticles: {fileID: 5132154906828901315}
-  _exhaleParticles: {fileID: 3801523937959093438}
-  _stickToHookSpeed: 100
---- !u!114 &675613252641030517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1771380657003557902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 529686831d779a347abc28ccb763d4e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  _jumpParticles: {fileID: 6352433328000077562}
-  _landParticles: {fileID: 8303112938069692247}
+  <playerData>k__BackingField: {fileID: 11400000, guid: 0db80b8c5bc27d649a7b3385c6a1833d, type: 2}
   canControl: 0
-  _coyoteTime: 0.2
-  specificJump: 0
-  _isDead: 0
-  _jumpingPower: 10
-  _floorLayer:
+  <charPivot>k__BackingField: {fileID: 9177120215743396866}
+  coyoteTimeCount: 0
+  _halfPlatformLayer:
     serializedVersion: 2
-    m_Bits: 2148139712
-  _rigidbd: {fileID: 3123692007149661597}
-  _moveSpeed: 3
-  _charPivot: {fileID: 9177120215743396866}
-  _networkRigidbodySync: {fileID: -7113277246732209337}
---- !u!114 &7233980298641959794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1771380657003557902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db5359014638447194672bd63552a0b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  characterType: 2
-  isDead: 0
-  _grabPoint: {fileID: 9095037024881079552}
-  _interactableLayer:
-    serializedVersion: 2
-    m_Bits: 196608
-  _airGun: {fileID: 1060811388936270286}
---- !u!114 &4543725574064118888
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1771380657003557902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fc3ce3f86efeb0488592042faabab37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+    m_Bits: 512
+  isHalfPlatform: 0
+  isDownThroughPlatform: 0
+  rigidbody2D: {fileID: 3123692007149661597}
+  collider2D: {fileID: 5969139581006705340}
+  <networkRigidbodySync>k__BackingField: {fileID: -7113277246732209337}
+  <grabPoint>k__BackingField: {fileID: 9095037024881079552}
+  <jumpParticle>k__BackingField: {fileID: 6352433328000077562}
+  <landParticle>k__BackingField: {fileID: 8303112938069692247}
+  <animator>k__BackingField: {fileID: 5995454702025683127}
+  armPivot: {fileID: 4462666554605769596}
+  weaponPoint: {fileID: 1621305863906642240}
+  lineRenderer: {fileID: 7937956941434319031}
+  <inhaleParticle>k__BackingField: {fileID: 5132154906828901315}
+  <exhaleParticle>k__BackingField: {fileID: 3801523937959093438}
 --- !u!50 &3123692007149661597
 Rigidbody2D:
   serializedVersion: 4

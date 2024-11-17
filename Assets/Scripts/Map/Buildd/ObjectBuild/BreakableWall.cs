@@ -25,7 +25,7 @@ public class BreakableWall : BuildObj
         _rb = GetComponent<Rigidbody2D>();
     }
 
-    public override void TakeDamage()
+    public override void TakeDamage(DamageType damageType = DamageType.Default)
     {
         health -= 1f;
         switch (health)

@@ -143,7 +143,6 @@ public class HookMovement : PlayerMovement, IInhalable
     
     public void Inhalation(Transform accessor)
     {
-        Debug.Log("a");
         canControl = false;
         grappling.canControl = false;
         _fixedPoint = accessor;
@@ -156,7 +155,6 @@ public class HookMovement : PlayerMovement, IInhalable
         {
             if (!_isFixed)
             {
-                Debug.Log("b");
                 yield return _waitForFixedUpdate;
 
                 if (_fixedPoint is null) break;
@@ -187,7 +185,6 @@ public class HookMovement : PlayerMovement, IInhalable
 
     public void StopInhale()
     {
-        Debug.Log("d");
         if(_inhaleCoroutine is not null)
             StopCoroutine(_inhaleCoroutine);
         canControl = true;

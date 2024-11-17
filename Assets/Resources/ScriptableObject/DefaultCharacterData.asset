@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b96dfdd2bc9933c4c8e3887775060cd9, type: 3}
+  m_Name: DefaultCharacterData
+  m_EditorClassIdentifier: 
+  <characterType>k__BackingField: 0
+  <moveSpeed>k__BackingField: 4
+  <jumpPower>k__BackingField: 11.2
+  <floorLayerMask>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 656064
+  <coyoteTime>k__BackingField: 0.1
+  <interactableLayerMask>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 196608
+  <detectDistance>k__BackingField: 1.5
+  <inhalePower>k__BackingField: 20
