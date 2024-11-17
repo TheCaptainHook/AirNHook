@@ -52,13 +52,14 @@ public class MapEditor_Editor : Editor
         mapEditor.stageLevel = EditorGUILayout.IntField("Stage Level",mapEditor.stageLevel);
         // mapEditor.mapID = EditorGUILayout.TextField("Map ID",mapEditor.mapID);
         Draw_MainContents_MapId();
-        mapEditor.subMapName = EditorGUILayout.TextField(new GUIContent("Map Sub Name","This is the sub-name for the map, but it’s okay to leave it empty."),mapEditor.subMapName);
+
         if(!onLoad){
               using (new EditorGUI.DisabledScope(true))
                 {
                     mapEditor.audioType = (AudioType)EditorGUILayout.EnumPopup("Audio Type",mapEditor.audioType);
                 }
         }else{
+            mapEditor.subMapName = EditorGUILayout.TextField(new GUIContent("Map Sub Name","This is the sub-name for the map, but it’s okay to leave it empty."),mapEditor.subMapName);
             mapEditor.audioType = (AudioType)EditorGUILayout.EnumPopup("Audio Type",mapEditor.audioType);
         }
         GUILayout.EndVertical();
@@ -98,8 +99,22 @@ public class MapEditor_Editor : Editor
 
             if (GUILayout.Button("Save Data(개발자전용)",GUILayout.Width(150),GUILayout.Height(30)))
             {
-                SaveMapData(mapEditor);
-                onLoad = false;
+                if(Check_DuplicateMapId(mapEditor.mapID)){
+                    EditorUtility.DisplayDialog(
+                        "중복된 ID 감지",
+                        "이미 존재하는 Map ID 입니다. 다른 ID를 사용하세요",
+                        "확인"
+                    );
+                    return;
+                }
+
+                try{
+                    SaveMapData(mapEditor);
+                    onLoad = false;
+                }catch(Exception ex){
+                    Debug.Log(ex);
+                }
+               
                 
             }
             GUILayout.FlexibleSpace();
@@ -119,7 +134,7 @@ public class MapEditor_Editor : Editor
        string path = Path.Combine(Application.dataPath,$"Resources/MapDat/Main");
        string[] jsonFiles = Directory.GetFiles(path, "*.json",SearchOption.AllDirectories);
        List<string> fileNames = jsonFiles.Select(file => Path.GetFileNameWithoutExtension(file)).ToList();
-     
+
        if(fileNames.Contains(mapId)){
         return true;
        }
@@ -262,6 +277,7 @@ public class MapEditor_Editor : Editor
             mapEditor.audioType = mapEditor.CurMap.audioType;
             mapEditor.startPosition = mapEditor.CurMap.startPosition;
             mapEditor.nextMapId = mapEditor.CurMap.nextMapId;
+            mapEditor.subMapName = mapEditor.CurMap.subMapName;
         }
         else
         {
@@ -396,30 +412,52 @@ public class MapEditor_Editor : Editor
 
 
     #region SAVE
-    public void SaveMapData(MapEditor mapEditor)
+    public async void SaveMapData(MapEditor mapEditor)
     {
-        string folderPath = Path.Combine(Application.dataPath, "Resources/MapDat");
-        CreateJsonFile(mapEditor, folderPath);
-    }
-    async void CreateJsonFile(MapEditor mapEditor, string folderPath)
-    {
-        string filePath = "";
-        mapEditor.startPosition = FindObj(mapEditor.dontSaveObjectTransform, 302).transform.position;
-      
-        Map map = await CreateMap(mapEditor);
+        string folderPath;
+        try{
+            EditorUtility.DisplayProgressBar("Saving Map Data","Initializing save process...",0f);
+            folderPath = Path.Combine(Application.dataPath, "Resources/MapDat");
+            EditorUtility.DisplayProgressBar("Saving Map Data","Preparing map data...",0.1f);
 
-        string json = JsonUtility.ToJson(map, true);
+            await CreateJsonFile(mapEditor, folderPath);
 
-        if(mapEditor.mapType == MapType.Main)
-        {
-            filePath = CheckDirectory(folderPath,map);
-        }else
-        {
-            filePath = Path.Combine(folderPath, $"{mapEditor.mapType}/{map.mapID}.json");
+            EditorUtility.ClearProgressBar();
+        }catch(Exception ex){
+            Debug.Log(ex);
+            EditorUtility.ClearProgressBar();
+            EditorUtility.DisplayDialog("Error","","Confirm");
         }
-        File.WriteAllText(filePath, json);
-        AssetDatabase.Refresh();
-        Debug.Log("Save Complete");
+        // string folderPath = Path.Combine(Application.dataPath, "Resources/MapDat");
+        // CreateJsonFile(mapEditor, folderPath);
+    }
+    
+    async Task CreateJsonFile(MapEditor mapEditor, string folderPath)
+    {
+        try{
+            EditorUtility.DisplayProgressBar("Saving Map Data", "Gathering map information...", 0.4f);
+            
+            string filePath = "";
+            
+            mapEditor.startPosition = FindObj(mapEditor.dontSaveObjectTransform, 302).transform.position;
+            Map map = await CreateMap(mapEditor);
+            EditorUtility.DisplayProgressBar("Saving Map Data", "Serializing data to JSON...", 0.6f);
+            
+            string json = JsonUtility.ToJson(map, true);
+            EditorUtility.DisplayProgressBar("Saving Map Data", "Writing data to file...", 0.8f);
+            if(mapEditor.mapType == MapType.Main)
+            {
+                filePath = CheckDirectory(folderPath,map);
+            }else
+            {
+                filePath = Path.Combine(folderPath, $"{mapEditor.mapType}/{map.mapID}.json");
+            }
+            File.WriteAllText(filePath, json);
+            AssetDatabase.Refresh();
+        }finally{
+             EditorUtility.DisplayProgressBar("Saving Map Data", "Finalizing...", 0.9f);
+        }
+      
     }
 
     private string CheckDirectory(string folderPath,Map map){
@@ -522,9 +560,11 @@ List<TileData> GetTileData(Tilemap tileMap)
 
         foreach (Transform cur in transform)
         {
-            ExitPointObj eObj = cur.GetComponent<ExitPointObj>();
-            eObj.condition_KeyAmount = keyAmount;
-            list.Add(eObj.GetExitObjectStruct());
+            if(cur.TryGetComponent(out ExitPointObj component)){
+                component.condition_KeyAmount = keyAmount;
+                list.Add(component.GetExitObjectStruct());
+            }
+
         }
 
         return list;
@@ -543,8 +583,14 @@ List<TileData> GetTileData(Tilemap tileMap)
     }
 
     private string GetNextMapId(){
-        ExitPointObj eObj = FindObj<ExitPointObj>(mapEditor.exitDoorObjectTransform);
-        return eObj.nextMapId;
+        try{
+            ExitPointObj eObj = FindObj<ExitPointObj>(mapEditor.exitDoorObjectTransform);
+            return eObj.nextMapId;
+        }catch{
+            Debug.Log("Exception");
+            return "";
+        }
+        
     }
     #endregion
 
@@ -559,10 +605,10 @@ List<TileData> GetTileData(Tilemap tileMap)
         }
 
         Camera camera = mapEditor.screenShotCamera.GetComponent<Camera>();
-
         Vector2 startPot = mapEditor.FindObj(mapEditor.dontSaveObjectTransform, 302).transform.position;
         Vector2 endPot = mapEditor.FindObj(mapEditor.exitDoorObjectTransform, 301).transform.position;
 
+       
         var distance = (startPot + endPot) / 2;
 
         camera.gameObject.transform.position = distance;

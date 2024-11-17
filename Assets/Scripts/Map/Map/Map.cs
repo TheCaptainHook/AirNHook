@@ -10,6 +10,7 @@ public class Map
 {
     public Vector2 mapSize;
     public string mapID;
+    public string subMapName;
     public int stageLevel;
     public Vector2 startPosition;
 
@@ -63,6 +64,7 @@ public class Map
         )
     {
         mapID = id;
+        this.subMapName = subMapName;
         this.nextMapId = nextMapId;
         this.stageLevel = stageLevel;
         //tile

@@ -1,5 +1,5 @@
 
-using Unity.VisualScripting;
+
 using UnityEngine;
 
 public enum DrawType{
@@ -68,11 +68,10 @@ public class DetectionFieldDestroyer : MonoBehaviour
         bool detectFloor = false;
         GameObject playerObj = null;
         foreach(Collider2D col in cols){
-
             if((groundLayerMask.value & (1 << col.gameObject.layer)) != 0){
                 float _Distance = Vector3.Distance(transform.position,col.ClosestPoint(transform.position));
+                Debug.Log($"{col.gameObject.name}, {_Distance}");
                 if(previousDistanceToFloor > _Distance){
-                    Debug.Log($"col : {col.gameObject.name} , {_Distance}");
                     previousDistanceToFloor = _Distance;
                     detectFloor = true;
                 }else{

@@ -10,7 +10,7 @@ public class HydraulicPress : ActivatableObjectEntity
     public bool onPrograss;
     private RaycastHit2D hit;
     private float curPressLength;
-
+    
     #region Animation
     readonly int Val = Animator.StringToHash("Val");
     #endregion
@@ -20,7 +20,6 @@ public class HydraulicPress : ActivatableObjectEntity
     #endregion
 
     #region Steam Ani
-
     [SerializeField] Animator _UPStem;
     [SerializeField] Animator _DownStem;
     #endregion  

@@ -37,6 +37,8 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     private float minDis_Clamp; //Compare orgPot, path.
     private float maxDis_Clamp; //Compare orgPot, path.
     private Vector2 curTargetPot; //next move point.
+    private float releaseCount =3;
+    private float curReleaseCount;
     #endregion
 
     
@@ -106,26 +108,15 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
 
     }
 
-    private void Start(){
-        Init(); //TEST CODE
-        onActive = true;
-    }
+    // private void Start(){//TEST CODE
+    //     Init(); 
+    //     onActive = true;
+    // }
 
     private void Update(){
         ShootRay();
-
-
-        if(Input.GetKeyDown(KeyCode.B)){
-            foreach(RaycastHit2D hit in leftHit){
-                Debug.Log($"name: {hit.collider.name}\npoint : {hit.point}\ndiff:{Vector3.Distance(transform.position,hit.point)}");
-            }
-        }
-        if(Input.GetKeyDown(KeyCode.N)){
-            foreach(RaycastHit2D hit in rightHit){
-                Debug.Log($"name: {hit.collider.name}\npoint : {hit.point}\ndiff:{Vector3.Distance(transform.position,hit.point)}");
-            }
-        }
     }
+
     // - : right
     // + : left
 
@@ -145,6 +136,18 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
         foreach(RaycastHit2D hit in rightHit){
             rw += Weight(hit);
         }
+
+
+        if(leftHit.Length == 0 && rightHit.Length == 0){
+            curReleaseCount+=Time.fixedDeltaTime;
+            if(curReleaseCount >= releaseCount){
+                transform.rotation = Quaternion.Lerp(transform.rotation,Quaternion.identity,Time.fixedDeltaTime);
+            }
+        }else{
+            curReleaseCount = 0;
+        }
+
+
         weight = (lw-rw)/10f;
         //tilt platform
         Rotate(weight);

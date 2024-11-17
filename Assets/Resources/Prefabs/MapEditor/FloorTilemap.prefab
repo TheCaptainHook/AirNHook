@@ -578,7 +578,7 @@ GameObject:
   - component: {fileID: 4790415294089246651}
   - component: {fileID: 7739385914226669174}
   - component: {fileID: 8070877003029583371}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: BackgroundTiles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
