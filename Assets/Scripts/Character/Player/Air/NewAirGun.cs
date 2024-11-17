@@ -1,0 +1,683 @@
+using System;
+using System.Collections;
+using Mirror;
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+public class NewAirGun
+{
+    private AirSM _air;
+    private Animator _animator;
+    private Transform _transform;
+    private Transform _armPivot;
+    private Transform _charPivot;
+    private Collider2D _collider;
+    private bool _canControl => _air.canControl;
+    private PlayerInput _playerInput => Managers.Game.playerInput;
+    private Camera _mainCamera;
+    private Vector2 _mousePosition;
+    private bool _rightClick;
+    
+    // TargetDetections
+    private Transform _weaponPoint;
+    private Collider2D _closestTarget = null;
+    private Collider2D _latestTarget = null;
+    private LayerMask _objectMask;
+    private LayerMask _obstacleMask;
+    private float _airGunDistance;
+    private float _shortestDistance = float.MaxValue;
+    private Coroutine _keepGrapplingCheckCoroutine;
+    
+    // InhaleAction
+    private Rigidbody2D _rigidbody2D => _air.rigidbody2D;
+    private Collider2D _inhaleTarget;
+    private bool _isAttached;
+    private bool _inhaling;
+    private bool _isAttachedToHook;
+    private bool _isInhaledHook;
+    
+    // ShootAction
+    private LineRenderer _lineRenderer => _air.lineRenderer;
+    private float _shootPower;
+    private float _minShootPower;
+    private float _maxShootPower;
+    private float _numberOfPoints;
+    private float _spaceBetweenPoints;
+    private float _latestTargetGravityScale;
+    private Coroutine _chargingCoroutine;
+    private bool _canInhale = true;
+    
+    // FlyAction
+    private float _flyPower;
+    private HookSM _hook;
+    private bool _canStick;
+    private bool _isStick;
+    public bool sticking;
+    
+    // HookInteraction
+    private float _stickToHookSpeed;
+    private Vector3 _offset = new(0, -1f);
+    private Coroutine _stickToHookCoroutine;
+    private WaitForFixedUpdate _waitForFixedUpdate = new();
+
+    // ParticleSystems
+    private ParticleSystem _inhaleParticles;
+    private ParticleSystem _exhaleParticles;
+    
+    public NewAirGun(AirSM air)
+    {
+        _air = air;
+        Start();
+    }
+
+    private void Start()
+    {
+        _animator = _air.animator;
+        _transform = _air.transform;
+        _armPivot = _air.armPivot;
+        _charPivot = _air.charPivot;
+        _collider = _air.collider2D;
+        _mainCamera = Camera.main;
+        _weaponPoint = _air.weaponPoint;
+        _inhaleParticles = _air.inhaleParticle;
+        _exhaleParticles = _air.exhaleParticle;
+        
+        var airData = (AirDataSO)_air.playerData;
+        
+        _objectMask = airData.objectMask;
+        _obstacleMask = airData.obstacleMask;
+        _airGunDistance = airData.AirGunDistance;
+
+        _minShootPower = airData.minShootPower;
+        _maxShootPower = airData.maxShootPower;
+        _numberOfPoints = airData.numberOfPoints;
+        _spaceBetweenPoints = airData.spaceBetweenPoints;
+        _flyPower = airData.flyPower;
+        _stickToHookSpeed = airData.stickToHookSpeed;
+        
+        if (!_air.isLocalPlayer) return;
+
+        SubscribeInput();
+
+        Managers.Command.itemInhaleCallback += Inhaling;
+        Managers.Command.fixItemCallback += FixInhaleTarget;
+    }
+
+    public void OnDisable()
+    {
+        UnSubscribeInput();
+        
+        Managers.Command.itemInhaleCallback -= Inhaling;
+        Managers.Command.fixItemCallback -= FixInhaleTarget;
+    }
+
+    public void Reset()
+    {
+        StopInhaleTarget();
+        StopSticking();
+        _inhaling = false;
+        _isAttached = false;
+        _canStick = false;
+        _isInhaledHook = false;
+        _latestTarget = null;
+        _lineRenderer.enabled = false;
+        _shortestDistance = float.MaxValue;
+        StopInhaleParticle();
+    }
+
+    #region UpdateMethod
+    public void Update()
+    {
+        if (!_air.isLocalPlayer) return;
+
+        if (!_canControl) return;
+
+        RotateGun();
+        DetectObject();
+        ObjectCheck();
+        AnimationPlay();
+    }
+    #endregion
+
+    #region ObjectCheckForAirGun
+    private void DetectObject()
+    {
+        if (!_rightClick || _isAttached || sticking || !_canInhale || _isInhaledHook)
+        {
+            _animator.SetBool(GlobalText.INHAILING_ANIMATION_STRING, false);
+            StopInhaleParticle();
+            return;
+        }
+        
+        _animator.SetBool(GlobalText.INHAILING_ANIMATION_STRING, true);
+        
+        var collisions = Physics2D.OverlapCircleAll(_weaponPoint.position, _airGunDistance, _objectMask);
+
+        if (collisions.Length <= 1)
+        {
+            if (_latestTarget is null) return;
+            
+            StopInhaleTarget();
+            _inhaling = false;
+            _isAttached = false;
+            _isInhaledHook = false;
+            _latestTarget = null;
+            return;
+        }
+        
+        _closestTarget = null;
+
+        foreach (var collision in collisions)
+        {
+            if (collision.Equals(_collider)) continue;
+            
+            var targetDistance = Vector2.Distance(_weaponPoint.position, collision.transform.position);
+            
+            if (targetDistance > _shortestDistance) continue;
+            
+            if (!collision.TryGetComponent<IInhalable>(out var inhalable)) continue;
+            
+            if (!inhalable.CanInhale()) continue;
+            
+            if (targetDistance <= 0.6f)
+            {
+                _closestTarget = collision;
+                _shortestDistance = targetDistance;
+            }
+            else
+            {
+                var objectVector = (collision.transform.position - _weaponPoint.position).normalized;
+                var weaponVector = _weaponPoint.transform.right;
+                
+                var angle = Vector2.Angle(weaponVector, objectVector);
+                
+                if (angle > 45) continue;
+                
+                var hit = Physics2D.Raycast(_weaponPoint.position, objectVector, targetDistance, _obstacleMask);
+                IInhalable obstacle = null;
+                if (hit.collider is not null)
+                    hit.collider.TryGetComponent(out obstacle);
+                
+                if (Vector2.Distance(_weaponPoint.position, hit.point) < targetDistance) continue;
+                
+                //if (!ReferenceEquals(hit.collider, collision) || (obstacle is not null && !obstacle.CanInhale())) continue;
+
+                _closestTarget = collision;
+                _shortestDistance = targetDistance;
+            }
+        }
+        
+        if (_closestTarget is null)
+        {
+            if (_latestTarget is null) return;
+
+            StopInhaleTarget();
+            _inhaling = false;
+            _isAttached = false;
+            _isInhaledHook = false;
+            _latestTarget = null;
+            return;
+        }
+        
+        if (ReferenceEquals(_latestTarget, _closestTarget))
+        {
+            if ( _inhaleTarget is not null && ReferenceEquals(_inhaleTarget, _latestTarget) && _shortestDistance < 0.3f)
+            {
+                if(_inhaleTarget.TryGetComponent<IInhalable>(out var inhalable))
+                    Managers.Command.TryFixInhaleItem(_air.gameObject, _inhaleTarget.GetComponent<NetworkIdentity>().netId);
+            }
+
+            _shortestDistance = float.MaxValue;
+            return;
+        }
+        
+        StopInhaleTarget();
+        _inhaling = false;
+        _isAttached = false;
+        _isInhaledHook = false;
+        _latestTarget = _closestTarget;
+        if(_latestTarget.attachedRigidbody.gravityScale > 0)
+            _latestTargetGravityScale = _latestTarget.attachedRigidbody.gravityScale;
+        
+        _shortestDistance = float.MaxValue;
+    }
+    
+    private void ObjectCheck()
+    {
+        if (!_rightClick || _latestTarget is null || _isAttached || sticking || !_canInhale) return;
+        
+        if (_hook is null && ReferenceEquals(_latestTarget.gameObject, Managers.Game.OtherPlayer))
+        {
+            if (_latestTarget.TryGetComponent(out _hook) && _hook.isSwinging)
+            {
+                _canStick = false;
+                _keepGrapplingCheckCoroutine = _air.StartCoroutine(KeepGrapplingCheck());
+            }
+        }
+        else if (_hook is not null && _hook.isSwinging)
+        {
+            if(!_canStick) return;
+            
+            StickToHook();
+        }
+        else
+        {
+            _hook = null;
+            StartInhale();
+        }
+    }
+    #endregion
+    
+    #region AirGun
+    #region Inhaling
+    private void StartInhale()
+    {
+        if(!_canInhale || (_inhaling && ReferenceEquals(_latestTarget, _inhaleTarget))) return;
+
+        _inhaleTarget = _latestTarget;
+        _inhaling = true;
+        Managers.Command.TryInhaleItem(_air.gameObject, _latestTarget.GetComponent<NetworkIdentity>().netId);
+    }
+
+    private void Inhaling(NetworkIdentity item, bool value)
+    {
+        if (!value)
+        {
+            _inhaleTarget = null;
+            _inhaling = false;
+            return;
+        }
+
+        if (ReferenceEquals(Managers.Game.OtherPlayer, item.gameObject))
+        {
+            _air.CmdInhalePlayer();
+            return;
+        }
+
+        if(!item.TryGetComponent<IInhalable>(out var inhalable)) return;
+        
+        inhalable.Inhalation(_weaponPoint);
+    }
+
+    private void StopInhaleTarget()
+    {
+        if (_inhaleTarget is null || !_inhaling || _canStick) return;
+
+        StopInhale();
+    }
+
+    private void StopInhale()
+    {
+        _inhaling = false;
+        if (_chargingCoroutine is not null)
+        {
+            _air.StopCoroutine(_chargingCoroutine);
+            _lineRenderer.enabled = false;
+        }
+        
+        _isAttached = false;
+        _isInhaledHook = false;
+        
+        if (_inhaleTarget is null) return;
+
+        if (ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject))
+            _air.CmdStopInhalePlayer();
+        else
+            _inhaleTarget.GetComponent<IInhalable>().StopInhale();
+        
+        Managers.Command.StopInhaleItem(_inhaleTarget.GetComponent<NetworkIdentity>().netId);
+    }
+
+    private void FixInhaleTarget(bool value, bool isHookInhaled)
+    {
+        if (!value || _isAttached || _isInhaledHook)
+        {
+            StopInhale();
+            return;
+        }
+
+        if (isHookInhaled)
+            _isInhaledHook = true;
+        else
+            _isAttached = true;
+    }
+    #endregion
+    
+    #region InteractionWithHook
+    private void StickToHook()
+    {
+        _canStick = false;
+        sticking = true;
+        
+        _stickToHookCoroutine = _air.StartCoroutine(Co_StickHook());
+    }
+    
+    private IEnumerator Co_StickHook()
+    {
+        var stick = false;
+        sticking = true;
+        _rigidbody2D.drag = 10f;
+        while (true)
+        {
+            if (!stick)
+            {
+                yield return _waitForFixedUpdate;
+               
+                try
+                {
+                    _rigidbody2D.gravityScale = 0f;
+                    _rigidbody2D.velocity = Vector2.zero;
+
+                    var objectVector = (_transform.position - _hook.transform.position).normalized;
+                    var targetDistance = Vector2.Distance(_transform.position, _hook.transform.position);
+                
+                    var hit = Physics2D.Raycast(_weaponPoint.position, objectVector, targetDistance, _obstacleMask);
+                
+                    if (!ReferenceEquals(hit.collider, _collider) || !_hook.isSwinging)
+                        StopSticking();
+
+                    var direction = (_hook.transform.position + _offset - _transform.position).normalized;
+
+                    _rigidbody2D.AddForce(direction * _stickToHookSpeed);
+
+                    var dir = (_hook.transform.position + new Vector3(0, 0.5f) - _armPivot.position).normalized;
+                    var rotZ = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+                    _armPivot.rotation = Quaternion.AngleAxis(rotZ, Vector3.forward);
+
+                    if (Mathf.Abs(rotZ) > 90f)
+                    {
+                        rotZ = -rotZ;
+                        _charPivot.rotation = Quaternion.Euler(0f, 180f, 0f);
+                        _armPivot.rotation = Quaternion.Euler(-190f, 0f, rotZ);
+                    }
+                    else
+                    {
+                        _charPivot.rotation = Quaternion.identity;
+                    }
+                
+                    if (Vector2.Distance(_hook.transform.position, _transform.position + new Vector3(0, 1.0f)) <= 0.2f)
+                        stick = true;
+                }
+                catch (NullReferenceException) { StopSticking(); }
+            }
+            else
+            {
+                yield return null;
+                try
+                {
+                    if (!_hook.isSwinging)
+                        StopSticking();
+
+                    _rigidbody2D.velocity = Vector2.zero;
+                    _transform.position = _hook.transform.position + _offset;
+                    
+                    if (_air.IsStick()) continue;
+
+                    _air.StickToHook();
+                    _rigidbody2D.drag = 0f;
+                    _hook.CmdAirAttached(true);
+                    _isStick = true;
+                    _isAttachedToHook = true;
+                }
+                catch (NullReferenceException) { StopSticking(); }
+            }
+        }
+    }
+    
+    private void FlyAway()
+    {
+        _isStick = false;
+        _canStick = false;
+        sticking = false;
+        _isAttachedToHook = false;
+        _rigidbody2D.drag = 0f;
+        _hook.CmdAirAttached(false);
+        _air.StopCoroutine(_stickToHookCoroutine);
+        _stickToHookCoroutine = null;
+        _air.StickJump();
+        
+        Vector2 mousePos = _mainCamera.ScreenToWorldPoint(_mousePosition);
+        Vector2 dir = (mousePos - (Vector2)_transform.position).normalized;
+
+        if (_chargingCoroutine is not null)
+        {
+            _air.StopCoroutine(_chargingCoroutine);
+            _chargingCoroutine = null;
+        }
+        _canInhale = false;
+        _air.StartCoroutine(Co_CoolDown());
+        _hook = null;
+
+        _rigidbody2D.velocity = Vector2.zero;
+        _rigidbody2D.gravityScale = 3f;
+        _rigidbody2D.AddForce(dir * -_flyPower, ForceMode2D.Impulse);
+    }
+
+    private void StopSticking()
+    {
+        if (_keepGrapplingCheckCoroutine is not null)
+        {
+            _air.StopCoroutine(_keepGrapplingCheckCoroutine);
+            _keepGrapplingCheckCoroutine = null;
+        }
+        _isAttachedToHook = false;
+        _rigidbody2D.drag = 0f;
+        
+        if (_stickToHookCoroutine is null) return;
+        _air.StopCoroutine(_stickToHookCoroutine);
+        _stickToHookCoroutine = null;
+        _isStick = false;
+        _canStick = false;
+        sticking = false;
+        if(_hook is not null)
+            _hook.CmdAirAttached(false);
+        else
+            if (Managers.Game.OtherPlayer.TryGetComponent(out HookSM hook))
+                hook.CmdAirAttached(false);
+        _hook = null;
+        _rigidbody2D.velocity = Vector2.zero;
+        _rigidbody2D.gravityScale = 3f;
+    }
+    
+    private IEnumerator KeepGrapplingCheck()
+    {
+        yield return new WaitForSeconds(1f);
+        _canStick = true;
+    }
+    #endregion
+    
+    #region ShootingAction
+    private void RotateGun()
+    {
+        if (!_rightClick || sticking) return;
+        
+        var mousePos = _mainCamera.ScreenToWorldPoint(_mousePosition);
+        var newAim = mousePos - _armPivot.position;
+
+        var rotZ = Mathf.Atan2(newAim.y, newAim.x) * Mathf.Rad2Deg;
+
+        if (rotZ is < -10f and > -90f)
+            rotZ = -10f;
+        else if (rotZ is > -170f and < -90f)
+            rotZ = -170f;
+        
+        _armPivot.rotation = Quaternion.AngleAxis(rotZ, Vector3.forward);
+        
+        if (Mathf.Abs(rotZ) > 90f) {
+            rotZ = -rotZ;
+            _charPivot.rotation = Quaternion.Euler(0f, 180f, 0f);
+            _armPivot.rotation = Quaternion.Euler(-180f, 0f, rotZ);
+        } 
+        else
+        {
+            _charPivot.rotation = Quaternion.identity;
+        }
+    }
+    
+    private void Charging()
+    {
+        if ((!_isAttached && !_isInhaledHook) || !_canControl) return;
+        
+        _chargingCoroutine = _air.StartCoroutine(Co_PowerCharging());
+    }
+    
+    private IEnumerator Co_PowerCharging()
+    {
+        _shootPower = _minShootPower;
+        _lineRenderer.enabled = true;
+        
+        var chargingTime = 0f;
+        while (true)
+        {
+            if (_shootPower < _maxShootPower)
+            {
+                chargingTime += Time.deltaTime;
+
+                _shootPower = chargingTime * (_maxShootPower - _minShootPower) + _minShootPower;
+            }
+            else if (_shootPower > _maxShootPower)
+            {
+                _shootPower = _maxShootPower;
+            }
+            
+            ProjectilePredict();
+            yield return null;
+        }
+    }
+    
+    private void ShootObject()
+    {
+        if ((!_isAttached && !_isInhaledHook) || _shootPower <= 0f) return;
+        
+        if (_inhaleTarget is null)
+        {
+            StopInhale();
+            return;
+        }
+        
+        if (_chargingCoroutine != null)
+        {
+            _air.StopCoroutine(_chargingCoroutine);
+            _chargingCoroutine = null;
+        }
+        _air.StartCoroutine(Co_CoolDown());
+        StopInhaleTarget();
+
+        _lineRenderer.enabled = false;
+        
+        _inhaleTarget.GetComponent<IInhalable>().Shooting(_weaponPoint.right * _shootPower);
+        _air.CmdShootObject(_inhaleTarget.gameObject, _weaponPoint.right * _shootPower);
+        _inhaleTarget = null;
+        _isAttached = false;
+        _isInhaledHook = false;
+        _inhaling = false;
+        _shootPower = 0f;
+        _air.StartCoroutine(CameraShake.instance.Co_Shake(0.2f, 0.2f));
+    }
+    
+    private IEnumerator Co_CoolDown()
+    {
+        _canInhale = false;
+        
+        yield return new WaitForSeconds(1.5f);
+        
+        _canInhale = true;
+    }
+    
+    private void ProjectilePredict()
+    {
+        for (var i = 0; i < _numberOfPoints; i++)
+        {
+            _lineRenderer.SetPosition(i, PointPosition(i * _spaceBetweenPoints));
+        }
+    }
+    
+    private Vector2 PointPosition(float t)
+    {
+        Vector2 dir = _weaponPoint.transform.right;
+    
+        var position = (Vector2)_weaponPoint.position
+                       + (dir * (_shootPower * t))
+                       + (Physics2D.gravity * (0.5f * (t * t) * _latestTargetGravityScale));
+        
+        return position;
+    }
+    #endregion
+    #endregion
+
+    #region Animations
+    private void AnimationPlay()
+    {
+        _animator.SetBool(GlobalText.FLYING_ANIMATION_STRING, sticking);
+        _animator.SetBool(GlobalText.AIR_ATTACHED_ANIMATION_STRING, _isAttachedToHook);
+        _animator.SetBool(GlobalText.HOOK_INHALED_ANIMATION_STRING, _isInhaledHook);
+    }
+    #endregion
+
+    #region Particles
+    private void StopInhaleParticle()
+    {
+        if (!_inhaleParticles.isPlaying) return;
+        
+        _inhaleParticles.Stop();
+        _air.CmdStopInhaleParticle();
+    }
+    #endregion
+    
+    #region Input
+    private void SubscribeInput()
+    {
+        _playerInput.playerActions.Action.started += OnMainActionStarted;
+        _playerInput.playerActions.Action.canceled += OnMainActionCanceled;
+        _playerInput.playerActions.SubAction.started += OnSubActionStarted;
+        _playerInput.playerActions.SubAction.canceled += OnSubActionCanceled;
+        _playerInput.playerActions.Look.performed += OnLook;
+    }
+
+    private void UnSubscribeInput()
+    {
+        _playerInput.playerActions.Action.started -= OnMainActionStarted;
+        _playerInput.playerActions.Action.canceled -= OnMainActionCanceled;
+        _playerInput.playerActions.SubAction.started -= OnSubActionStarted;
+        _playerInput.playerActions.SubAction.canceled -= OnSubActionCanceled;
+        _playerInput.playerActions.Look.performed -= OnLook;
+    }
+
+    private void OnMainActionStarted(InputAction.CallbackContext context)
+    {
+        if (!_canControl) return;
+        
+        Charging();
+    }
+
+    private void OnMainActionCanceled(InputAction.CallbackContext context)
+    {
+        if (!_canControl) return;
+        
+        _animator.SetTrigger(GlobalText.EXHAILING_ANIMATION_STRING);
+        if (_isStick) FlyAway();
+        else ShootObject();
+    }
+
+    private void OnSubActionStarted(InputAction.CallbackContext context)
+    {
+        _rightClick = true;
+    }
+    
+    private void OnSubActionCanceled(InputAction.CallbackContext context)
+    {
+        _rightClick = false;
+
+        StopInhaleParticle();
+        StopInhaleTarget();
+        StopSticking();
+        _hook = null;
+    }
+
+    private void OnLook(InputAction.CallbackContext context)
+    {
+        _mousePosition = context.ReadValue<Vector2>();
+    }
+    #endregion
+}

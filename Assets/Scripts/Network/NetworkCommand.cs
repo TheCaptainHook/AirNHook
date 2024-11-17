@@ -109,9 +109,9 @@ public class NetworkCommand : NetworkBehaviour
     {
         if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
         
-        if(!item.TryGetComponent<IInteractable>(out var interactable)) return;
+        if (!item.TryGetComponent<IInteractable>(out var interactable)) return;
         
-        item.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        //item.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         interactable.Interacting(false);
         ReleaseItem(target.GetComponent<NetworkIdentity>().connectionToClient, itemNetId);
     }
@@ -120,6 +120,13 @@ public class NetworkCommand : NetworkBehaviour
     private void ReleaseItem(NetworkConnectionToClient conn, uint itemNetId)
     {
         itemReleaseCallback?.Invoke(itemNetId);
+    }
+
+    [Command(requiresAuthority = false)]
+    public void SyncVelocity(GameObject target, Vector2 velocity)
+    {
+        target.GetComponent<Rigidbody2D>().velocity = velocity;
+        target.GetComponent<Rigidbody2D>().angularVelocity = 0f;
     }
     #endregion
 
@@ -180,7 +187,7 @@ public class NetworkCommand : NetworkBehaviour
             _assignAuthorityCoroutine.TryAdd(itemNetId, delayAssignAuthorityCoroutine);
         }
         
-        if(!item.TryGetComponent<IInhalable>(out var inhalable)) return;
+        if (!item.TryGetComponent<IInhalable>(out var inhalable)) return;
         
         inhalable.Inhaling(false);
         inhalable.Fixed(false);
@@ -258,7 +265,7 @@ public class NetworkCommand : NetworkBehaviour
     
     #region AuthorityToServer
     [Command(requiresAuthority = false)]
-    public void AuthorityToServer(uint itemNetId, bool isRelease)
+    public void AuthorityToServer(uint itemNetId, bool isRelease, Vector2 velocity)
     {
         if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
 
@@ -271,12 +278,13 @@ public class NetworkCommand : NetworkBehaviour
         if (item.isOwned) return;
 
         AssignAuthority(item);
-
+        
         if (isRelease)
         {
             if (item.TryGetComponent<InteractableObject>(out var interactableObject))
             {
                 interactableObject.Release();
+                interactableObject.GetComponent<Rigidbody2D>().velocity = velocity;
             }
         }
     }

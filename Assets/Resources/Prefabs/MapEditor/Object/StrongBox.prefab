@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1706727966108476841}
   - component: {fileID: 4733320072026686442}
-  m_Layer: 19
+  m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 1659307244957870039}
   - component: {fileID: 4923787726590674330}
   - component: {fileID: 8520170872096709300}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: OneWayPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -329,7 +329,7 @@ MonoBehaviour:
   syncInterval: 0
   _objectType: 1
   _offset: {x: 0, y: 1}
-  _inhalePower: 800
+  _inhalePower: 4000
 --- !u!114 &8495657423424250234
 MonoBehaviour:
   m_ObjectHideFlags: 0

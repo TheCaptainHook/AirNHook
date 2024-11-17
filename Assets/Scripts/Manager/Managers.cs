@@ -53,6 +53,7 @@ public class Managers : MonoBehaviour
         Instance = go.GetComponent<Managers>();
 
         go.AddComponent<SteamManager>();
+        go.AddComponent<PlayerInput>();
         
         Data.Setup();
         Sound.SetUp();
@@ -75,9 +76,9 @@ public class Managers : MonoBehaviour
         {
 
             //#if UNITY_EDITOR
-            var go = ResourceManager.Instantiate("Prefabs/Manager/NetworkManagerKCP"); // todo 0425
+            //var go = ResourceManager.Instantiate("Prefabs/Manager/NetworkManagerKCP"); // todo 0425
             //#else
-            //var go = ResourceManager.Instantiate("Prefabs/Manager/NetworkManager");
+            var go = ResourceManager.Instantiate("Prefabs/Manager/NetworkManager");
             //#endif
             Instance._network = go.GetComponent<CustomNetworkManager>();
         }

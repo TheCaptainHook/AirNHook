@@ -4,7 +4,7 @@ public class Air : Player
 {
     [field: SerializeField] private AirGunNet _airGun;
     
-    public override void TakeDamage()
+    public override void TakeDamage(DamageType damageType = DamageType.Default)
     {
         if(!isLocalPlayer)
             return;
