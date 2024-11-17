@@ -204,14 +204,14 @@ public class NewGrappling
         {
             _distanceJoint2D.distance -= Time.deltaTime * _climbSpeed;
         }
-        else if (_vertical < 0f && _distanceJoint2D.distance < _ropeMaxDistance)
+        else if (_vertical < 0f && _distanceJoint2D.distance < _ropeMaxDistance && !_hook.isGround)
         {
             var distance = _distanceJoint2D.distance + Time.deltaTime * _climbSpeed;
             _distanceJoint2D.distance = Mathf.Min(distance, _ropeMaxDistance);
         }
         
         var playerDistance = Vector2.Distance(_hook.transform.position, hookAnchor.transform.position);
-        if (playerDistance - _distanceJoint2D.distance >= 0.1f)
+        if (Mathf.Abs(playerDistance - _distanceJoint2D.distance) >= 0.1f)
         {
             _distanceJoint2D.distance = playerDistance;
         }
@@ -219,13 +219,12 @@ public class NewGrappling
 
     private void ThrowHook()
     {
-        if (grappleAttached || _isCoolDown || _hook.isGround || !_hook.canControl) return;
+        if (grappleAttached || _isCoolDown || !_hook.canControl) return;
         
         var hit = Physics2D.Raycast(_hook.transform.position, _aimDirection, _ropeMaxDistance, hookLayerMask);
 
         if (hit.collider == null) return;
         grappleAttached = true;
-        //CmdChangeGrappleState(true);
         _hook.ThrowHook();
 
         if (_ropePosition == hit.point) return;
@@ -234,14 +233,12 @@ public class NewGrappling
         var targetVec = (_ropePosition - (Vector2)_hook.transform.position).normalized * 0.25f;
 
         hookAnchorPos = _ropePosition - targetVec;
-        //playerMovement.ropeHook = hookAnchorPos;
         
         _distanceJoint2D.distance = Vector2.Distance(_hook.transform.position, hookAnchorPos);
         _distanceJoint2D.enabled = true;
         
         hookAnchor.transform.position = hookAnchorPos;
         _hookAnchorRb.bodyType = RigidbodyType2D.Static;
-        //CmdChangeHookBody(RigidbodyType2D.Static);
         
         var targetVector = (hookAnchorPos - (Vector2)hookSprite.position).normalized;
         hookSprite.Rotate(0, 0, -Vector2.SignedAngle(targetVector, hookSprite.up));
