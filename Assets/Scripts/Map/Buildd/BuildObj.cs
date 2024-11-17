@@ -14,7 +14,7 @@ public enum DistructionStatus
 
 
 [System.Serializable]
-public class BuildObj : MousePointerEntity,IDamageable
+public class BuildObj : MousePointerEntity, IDamageable
 {
     [CustomHeader("BuildObj")]
     public int id;
@@ -113,7 +113,7 @@ public class BuildObj : MousePointerEntity,IDamageable
     }
 
 
-    public virtual void TakeDamage()
+    public virtual void TakeDamage(DamageType damageType = DamageType.Default)
    {
         if(distructionStatus == DistructionStatus.Destructible)
         {
