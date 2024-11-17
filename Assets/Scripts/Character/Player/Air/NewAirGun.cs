@@ -175,7 +175,9 @@ public class NewAirGun
             
             if (targetDistance > _shortestDistance) continue;
             
-            if (collision.TryGetComponent<IInhalable>(out var inhalable) && !inhalable.CanInhale()) continue;
+            if (!collision.TryGetComponent<IInhalable>(out var inhalable)) continue;
+            
+            if (!inhalable.CanInhale()) continue;
             
             if (targetDistance <= 0.6f)
             {
@@ -196,7 +198,9 @@ public class NewAirGun
                 if (hit.collider is not null)
                     hit.collider.TryGetComponent(out obstacle);
                 
-                if (!ReferenceEquals(hit.collider, collision) || (obstacle is not null && !obstacle.CanInhale())) continue;
+                if (Vector2.Distance(_weaponPoint.position, hit.point) < targetDistance) continue;
+                
+                //if (!ReferenceEquals(hit.collider, collision) || (obstacle is not null && !obstacle.CanInhale())) continue;
 
                 _closestTarget = collision;
                 _shortestDistance = targetDistance;

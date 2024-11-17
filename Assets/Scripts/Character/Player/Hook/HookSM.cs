@@ -112,13 +112,15 @@ public class HookSM : PlayerSM, IInhalable
                 latestTarget = null;
                 continue;
             }
-
+            
             closestTarget = null;
 
             foreach (var collision in collisions)
             {
-                if (collision.TryGetComponent<IInteractable>(out var inhalable) && !inhalable.CanInteract()) continue;
+                if (!collision.TryGetComponent<IInteractable>(out var inhalable)) continue;
                 
+                if (!inhalable.CanInteract()) continue;
+
                 var targetDistance = Vector2.Distance(transform.position + offset, collision.transform.position);
                 if (targetDistance < shortestDistance)
                 {
@@ -126,7 +128,7 @@ public class HookSM : PlayerSM, IInhalable
                     closestTarget = collision;
                 }
             }
-  
+
             if (closestTarget is null)
             { 
                 try

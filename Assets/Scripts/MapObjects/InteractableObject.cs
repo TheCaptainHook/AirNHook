@@ -15,6 +15,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     private float _gravityScale;
     [SyncVar] private bool _isFixed;
     [SyncVar] private bool _canInteract = true;
+    private bool _isGrab;
     
     // e button ui
     [Header("E Button UI")]
@@ -62,7 +63,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     private void FixedUpdate()
     {
-        if (!isOwned || _fixedPoint is null) return;
+        if (!isOwned || _fixedPoint is null || _isGrab) return;
 
         Inhale();
     }
@@ -84,6 +85,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     protected virtual void Grab()
     {
         _isFixed = true;
+        _isGrab = true;
         _canInteract = false;
         ChangeState(true);
         HideEButton();
@@ -99,6 +101,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     public virtual void Release()
     {
         _isFixed = false;
+        _isGrab = false;
         _canInteract = true;
         ChangeState(false);
         ShowEButton();
@@ -115,6 +118,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     public void Destroyed()
     {
         _isFixed = false;
+        _isGrab = false;
         _canInteract = false;
         CmdChangeFixedState(false);
         CmdChangeInteractState(false);
@@ -186,6 +190,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     {
         _rigidbody.drag = 0f;
         _isFixed = value;
+        _isGrab = false;
         _canInteract = !value;
     }
 
