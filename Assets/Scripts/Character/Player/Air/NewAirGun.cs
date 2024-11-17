@@ -310,14 +310,17 @@ public class NewAirGun
             _air.StopCoroutine(_chargingCoroutine);
             _lineRenderer.enabled = false;
         }
+        
+        _isAttached = false;
+        _isInhaledHook = false;
+        
+        if (_inhaleTarget is null) return;
 
         if (ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject))
             _air.CmdStopInhalePlayer();
         else
             _inhaleTarget.GetComponent<IInhalable>().StopInhale();
         
-        _isAttached = false;
-        _isInhaledHook = false;
         Managers.Command.StopInhaleItem(_inhaleTarget.GetComponent<NetworkIdentity>().netId);
     }
 

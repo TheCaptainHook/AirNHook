@@ -328,7 +328,7 @@ MonoBehaviour:
   syncInterval: 0
   _objectType: 1
   _offset: {x: 0, y: 1}
-  _inhalePower: 160
+  _inhalePower: 4000
 --- !u!114 &5841928186188957514
 MonoBehaviour:
   m_ObjectHideFlags: 0

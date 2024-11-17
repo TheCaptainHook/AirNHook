@@ -178,11 +178,13 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     public void StopInhale()
     {
         _fixedPoint = null;
+        _rigidbody.drag = 0f;
         _rigidbody.gravityScale = _gravityScale;
     }
 
     public void Fixed(bool value)
     {
+        _rigidbody.drag = 0f;
         _isFixed = value;
         _canInteract = !value;
     }
@@ -195,6 +197,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     public void Shooting(Vector2 force)
     {
         _fixedPoint = null;
+        _rigidbody.drag = 0f;
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.gravityScale = _gravityScale;
         _rigidbody.AddForce(force, ForceMode2D.Impulse);
@@ -209,6 +212,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     {
         var direction = (_fixedPoint.position - transform.position).normalized;
         var power = _inhalePower * Time.fixedDeltaTime;
+        _rigidbody.drag = 10f;
         _rigidbody.gravityScale = 0f;
         _rigidbody.AddForce(direction * power);
     }
