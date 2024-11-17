@@ -16,7 +16,6 @@ public class AirSM : PlayerSM
     [field: Header("AirGun Particles")]
     [field: SerializeField] public ParticleSystem inhaleParticle { get; private set; }
     [field: SerializeField] public ParticleSystem exhaleParticle { get; private set; }
-
     
     protected override void Awake()
     {

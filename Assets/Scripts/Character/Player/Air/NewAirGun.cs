@@ -541,8 +541,14 @@ public class NewAirGun
     
     private void ShootObject()
     {
-        if((!_isAttached && !_isInhaledHook) || _shootPower <= 0f) return;
-
+        if ((!_isAttached && !_isInhaledHook) || _shootPower <= 0f) return;
+        
+        if (_inhaleTarget is null)
+        {
+            StopInhale();
+            return;
+        }
+        
         if (_chargingCoroutine != null)
         {
             _air.StopCoroutine(_chargingCoroutine);
@@ -656,7 +662,6 @@ public class NewAirGun
     {
         _rightClick = false;
 
-        _animator.SetTrigger(GlobalText.EXHAILING_ANIMATION_STRING);
         StopInhaleParticle();
         StopInhaleTarget();
         StopSticking();
