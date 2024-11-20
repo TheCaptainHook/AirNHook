@@ -52,6 +52,8 @@ public class MapEditor : MonoBehaviour
     //private Grid grid;
 
     [Header("EditorMode")]
+    public bool onLoad;
+    public bool isLoadMap;
     public PlaceMentSystem placeMentSystem;
     [HideInInspector] public GameObject gridPlane;
     [Header("UI")]

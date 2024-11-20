@@ -583,7 +583,7 @@ public class UI_StageSelect_var3: UI_Base
 
         yield return EraserTextLineCo(0, maxSelectTextLineListIndex);
         animator.SetTrigger(close);
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(1f);
     //player Move control
         // PlayerMovement playerMovement = Managers.Game.Player.GetComponent<PlayerMovement>();
         // if(!playerMovement.canControl){

@@ -10,8 +10,6 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.Linq;
 using System;
-using NPOI.SS.Formula.Functions;
-
 
 
 //TODO 0724 Develop code line : 435,506
@@ -22,11 +20,11 @@ public class MapEditor_Editor : Editor
     public Dictionary<int, MapDataStruct> mapObjectDataDictionary = new Dictionary<int, MapDataStruct>();
    
     MapEditor mapEditor;//TODO 0822
-    bool onLoad;
+
     public override void OnInspectorGUI()
     {  
         mapEditor = target as MapEditor;
-       
+     
         GUILayout.Space(10);
         Draw_MainContents();
         GUILayout.Space(10);
@@ -47,13 +45,14 @@ public class MapEditor_Editor : Editor
         EditorGUILayout.LabelField("Map Editor",GetGUIStyle_Label(Color.black,14,FontStyle.Bold));
         EditorGUILayout.HelpBox($"프로젝트 실행할때 꼭 개발자용 데이터 세이브 후 Reset 버튼 누른다음 실행하기.", MessageType.Info);
     
-        GUILayout.BeginVertical(onLoad ? "Save" : "Load", new GUIStyle(GUI.skin.window));
+        GUILayout.BeginVertical(mapEditor.onLoad ? "Save" : "Load", new GUIStyle(GUI.skin.window));
         mapEditor.mapType = (MapType)EditorGUILayout.EnumPopup("Map Type",mapEditor.mapType);
         mapEditor.stageLevel = EditorGUILayout.IntField("Stage Level",mapEditor.stageLevel);
         // mapEditor.mapID = EditorGUILayout.TextField("Map ID",mapEditor.mapID);
         Draw_MainContents_MapId();
 
-        if(!onLoad){
+        if(!mapEditor.onLoad)
+        {
               using (new EditorGUI.DisabledScope(true))
                 {
                     mapEditor.audioType = (AudioType)EditorGUILayout.EnumPopup("Audio Type",mapEditor.audioType);
@@ -94,12 +93,15 @@ public class MapEditor_Editor : Editor
             {
                 _Reset(mapEditor);
                 LoadMap(mapEditor);
-                onLoad =true;
+                mapEditor.onLoad = true;
+                mapEditor.isLoadMap = true;
+
             }
 
             if (GUILayout.Button("Save Data(개발자전용)",GUILayout.Width(150),GUILayout.Height(30)))
             {
-                if(Check_DuplicateMapId(mapEditor.mapID)){
+
+                if(!mapEditor.isLoadMap && Check_DuplicateMapId(mapEditor.mapID)){
                     EditorUtility.DisplayDialog(
                         "중복된 ID 감지",
                         "이미 존재하는 Map ID 입니다. 다른 ID를 사용하세요",
@@ -110,7 +112,7 @@ public class MapEditor_Editor : Editor
 
                 try{
                     SaveMapData(mapEditor);
-                    onLoad = false;
+                    mapEditor.onLoad = false;
                 }catch(Exception ex){
                     Debug.Log(ex);
                 }
@@ -124,7 +126,7 @@ public class MapEditor_Editor : Editor
                 _Reset(mapEditor);
                 mapEditor.Init();
                 EditorApplication.ExecuteMenuItem("Window/2D/Tile Palette");
-                onLoad =true;
+                mapEditor.onLoad = true;
           
             }
             GUILayout.FlexibleSpace();
@@ -143,7 +145,7 @@ public class MapEditor_Editor : Editor
        
     }   
     private void Draw_InGameContents(){
-         onLoad = false;
+        mapEditor.onLoad = false;
         GUILayout.Space(10);
 
         GUILayout.BeginHorizontal();
@@ -178,8 +180,10 @@ public class MapEditor_Editor : Editor
             mapEditor.audioType = AudioType.None;
             mapEditor.stageLevel = 0;
 
-            onLoad = false;      
-              
+            mapEditor.subMapName = "";
+
+            mapEditor.onLoad = false;
+            mapEditor.isLoadMap = false;
 
         }
         GUILayout.FlexibleSpace();
