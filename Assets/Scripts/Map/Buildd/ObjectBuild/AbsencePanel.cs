@@ -24,7 +24,7 @@ public class AbsencePanel : MonoBehaviour
 
     public void Enter(GameObject obj)
     {
-        if (obj.TryGetComponent(out Hook hook))
+        if (obj.TryGetComponent(out HookSM hook))
         {
             if (_CharacterFadeEffectCoroutineHook != null)
             {
@@ -36,7 +36,7 @@ public class AbsencePanel : MonoBehaviour
             _OnHook = true;
             _Hook.SetActive(_OnHook);
         }
-        else if (obj.TryGetComponent(out Air air))
+        else if (obj.TryGetComponent(out AirSM air))
         {
             if (_CharacterFadeEffectCoroutineAir != null)
             {
@@ -52,12 +52,12 @@ public class AbsencePanel : MonoBehaviour
 
     public void Exit(GameObject obj)
     {
-        if (obj.TryGetComponent(out Hook hook))
+        if (obj.TryGetComponent(out HookSM hook))
         {
             _OnHook = false;
             _Hook.SetActive(false);
         }
-        else if (obj.TryGetComponent(out Air air))
+        else if (obj.TryGetComponent(out AirSM air))
         {
             _OnAir = false;
             _Air.SetActive(false);

@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: -7463184381176112592}
   - component: {fileID: -5865282541700739371}
   - component: {fileID: 389640917045990011}
-  m_Layer: 20
+  m_Layer: 18
   m_Name: Key
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,12 +180,12 @@ MonoBehaviour:
   id: 307
   transformID: 1
   position: {x: 0, y: 0}
-  offset: {x: 0, y: 2}
-  turnOff: 0
   distructionStatus: 1
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
+  offset: {x: 0, y: 2}
+  turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 349216705317907799}
