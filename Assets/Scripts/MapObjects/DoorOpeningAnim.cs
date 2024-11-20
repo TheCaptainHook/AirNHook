@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
-//TODO Develop Code Line(Reset) : 20,24,46
+
 public class DoorOpeningAnim : NetworkBehaviour
 {
     [Header("State")] 
@@ -17,7 +17,7 @@ public class DoorOpeningAnim : NetworkBehaviour
     private Animator _animator;
 
     public event Action OnUnlockAnimation;
-    public event Action OnLockAnimation;//TODO 0729
+    //public event Action OnLockAnimation;//TODO 0729
 
     #region StringCache
     private static readonly int IsUnlocking = Animator.StringToHash("IsUnlocking");
@@ -30,7 +30,7 @@ public class DoorOpeningAnim : NetworkBehaviour
         _lockCollider2D.enabled = false;
         _animator = GetComponent<Animator>();
         OnUnlockAnimation += SetTriggerUnlocking;
-        OnLockAnimation += Ani_Reset;
+        //OnLockAnimation += Ani_Reset;
     }
 
 
