@@ -172,7 +172,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     private void Rotate(float weight){
         Vector3 euler = transform.rotation.eulerAngles;
         euler.z += weight;
-        euler.z = Mathf.Clamp(euler.z > 180 ? euler.z - 360 : euler.z,-30,30);
+        euler.z = Mathf.Clamp(euler.z > 180 ? euler.z - 360 : euler.z,-maxRotate,maxRotate);
         transform.rotation = Quaternion.Euler(euler);
     }
     private void MoveTowards(){
