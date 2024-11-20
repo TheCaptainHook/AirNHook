@@ -155,7 +155,7 @@ public class SaveData
         //dic = _SaveFileData.SerializableSaveMapDataDictionary.ToDictionary();
         dic = _SaveFileData.SSDD_LoadDictionary();
 
-        // await IntergrityCheck();
+        await IntergrityCheck();
 
     }
     #endregion

@@ -261,7 +261,7 @@ public class UI_StageSelect_var3: UI_Base
 
     //Title
 
-    IEnumerator WriteLine(string sentence, Color color, bool readAntWrite, float fontSize = 25, float delayTime = 0.001f, bool onSelectable = true)
+    IEnumerator WriteLine(string sentence, Color color, bool readAntWrite, float fontSize = 25, float delayTime = 0.01f, bool onSelectable = true)
     {
         if (textLineList[nextWriteTextLineIndex].CheckCompareString(sentence))
         {
@@ -288,32 +288,6 @@ public class UI_StageSelect_var3: UI_Base
         contentRectTransform.localPosition = position;
     }
 
-    //private void WriteLine(string sentence, Color color, bool readAntWrite, float fontSize = 25, float delayTime = 0.01f, bool onSelectable = true)
-    //{
-    //    if (textLineList[nextWriteTextLineIndex].CheckCompareString(sentence))
-    //    {
-    //        nextWriteTextLineIndex++;
-    //        return;
-    //    }
-
-
-    //    if (nextWriteTextLineIndex >= contentMoveRect_TextLineIndex)
-    //    {
-    //        Vector2 position = contentRectTransform.localPosition;
-    //        position.y = 30 * (nextWriteTextLineIndex - contentMoveRect_TextLineIndex);
-    //        contentRectTransform.localPosition = position;
-    //    }
-
-    //    textLineList[nextWriteTextLineIndex].WriteText(sentence, color, readAntWrite, fontSize, delayTime, onSelectable);
-    //    nextWriteTextLineIndex++;
-    //}
-
-    // private void Write(string sentence, Color color, bool readAntWrite, float fontSize = 25, float delayTime = 0.01f, bool onSelectable = true)
-    // {
-    //     textLineList[nextWriteTextLineIndex].WriteText(sentence, color, readAntWrite, fontSize, delayTime, onSelectable);
-    // }
-
-
     #endregion
 
     #region Eraser
@@ -334,19 +308,6 @@ public class UI_StageSelect_var3: UI_Base
         }
     }
 
-    // IEnumerator EraserTextLineCo() //All Eraser
-    // {
-    //     for (int i = maxTextLine-1; i >= 0; i--)
-    //     {
-    //         if (textLineList[i].type == TypingType.Read) continue;
-    //         if (textLineList[i].CheckEmpty()) continue;
-
-    //         textLineList[i].EraserText();
-    //         yield return new WaitForSeconds(_WriteAndEraserDelayRate);
-    //     }
-
-    //     nextWriteTextLineIndex = 0;
-    // }
 
     private void EraserAllClear()
     {
@@ -570,10 +531,10 @@ public class UI_StageSelect_var3: UI_Base
         computer.GetComponent<StageSelectorComputer>().SpawnKey();
 
         //player Move control
-        PlayerMovement playerMovement = Managers.Game.Player.GetComponent<PlayerMovement>();
-        if(!playerMovement.canControl){
-            playerMovement.canControl = true;
-        }
+        // PlayerMovement playerMovement = Managers.Game.Player.GetComponent<PlayerMovement>();
+        // if(!playerMovement.canControl){
+        //     playerMovement.canControl = true;
+        // }
         //player Move control
 
         onPrograss = false;
@@ -624,10 +585,10 @@ public class UI_StageSelect_var3: UI_Base
         animator.SetTrigger(close);
         yield return new WaitForSeconds(.5f);
     //player Move control
-        PlayerMovement playerMovement = Managers.Game.Player.GetComponent<PlayerMovement>();
-        if(!playerMovement.canControl){
-            playerMovement.canControl = true;
-        }
+        // PlayerMovement playerMovement = Managers.Game.Player.GetComponent<PlayerMovement>();
+        // if(!playerMovement.canControl){
+        //     playerMovement.canControl = true;
+        // }
     //player Move control
         onPrograss = false;
         gameObject.SetActive(false);
