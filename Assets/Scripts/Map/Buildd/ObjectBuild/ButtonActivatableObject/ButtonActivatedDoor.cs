@@ -1,7 +1,6 @@
 using Mirror;
 using UnityEngine;
 
-
 public class ButtonActivatedDoor : ActivatableObjectEntity
 {
     [CustomHeader("ButtonActivatedDoor")]

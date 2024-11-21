@@ -40,6 +40,8 @@ public class GrapplingState : BaseState
 
     protected override void OnMove()
     {
+        rigidbd.drag = stateMachine.horizontal == 0 ? 0.3f : 0.2f;
+        
         if (stateMachine.horizontal < 0)
             stateMachine.player.charPivot.rotation = Quaternion.Euler(0f, 180f, 0f);
         else if (stateMachine.horizontal > 0)

@@ -268,11 +268,6 @@ public class HookSM : PlayerSM, IInhalable
     {
         isSwinging = false;
         stateMachine.ChangeState(((HookStateMachine)stateMachine).GrapplingJumpState);
-        
-        if (rigidbody2D.velocity.y > 0)
-        {
-            rigidbody2D.AddForce(new Vector2(0, grappling.swingJumpPower * rigidbody2D.velocity.magnitude * 0.1f), ForceMode2D.Impulse);
-        }
     }
     #endregion
 
