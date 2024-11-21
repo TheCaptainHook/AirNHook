@@ -278,7 +278,10 @@ public class MapEditor_Editor : Editor
      
             mapEditor.stageLevel = mapEditor.CurMap.stageLevel;
             mapEditor.mapID = mapEditor.CurMap.mapID;
+
             mapEditor.audioType = mapEditor.CurMap.audioType;
+            
+            
             mapEditor.startPosition = mapEditor.CurMap.startPosition;
             mapEditor.nextMapId = mapEditor.CurMap.nextMapId;
             mapEditor.subMapName = mapEditor.CurMap.subMapName;
