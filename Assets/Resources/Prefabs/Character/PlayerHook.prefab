@@ -15642,7 +15642,7 @@ MonoBehaviour:
   <ropeRenderer>k__BackingField: {fileID: 8853369850858447523}
   <hookLayerMask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 832
+    m_Bits: 320
 --- !u!50 &3090883480896541386
 Rigidbody2D:
   serializedVersion: 4

@@ -4877,15 +4877,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa9df2f3f7dcd4f4aac03f6d0c5eeee3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 304
+  id: 335
   transformID: 1
   position: {x: 0, y: 0}
-  offset: {x: 0, y: 1.5}
-  turnOff: 0
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 1
   onScaleable: 0
+  offset: {x: 0, y: 1.5}
+  turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
