@@ -83,7 +83,6 @@ public class MovingPlatform :  ActivatableObjectEntity
         while (true)
         {
                 while(!onActive){
-                    Debug.Log("de active");
                     yield return null;
                 }
             if (CheckDistance(_rb.position, targetPosition))

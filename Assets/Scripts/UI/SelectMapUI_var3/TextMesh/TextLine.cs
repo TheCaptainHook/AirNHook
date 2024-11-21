@@ -71,7 +71,7 @@ public class TextLine : MonoBehaviour
 
     }
     #region Typing
-    public IEnumerator WriteTyping(string sentece,UnityEngine.Color color, float fontSize, float delayTime,int batchSize = 2){
+    public IEnumerator WriteTyping(string sentece,UnityEngine.Color color, float fontSize, float delayTime,int batchSize = 3){
        text.color = color;
        text.fontSize = fontSize;
         StringBuilder sb = new();
@@ -107,7 +107,7 @@ public class TextLine : MonoBehaviour
         // yield return new WaitUntil(() => task.IsCompleted);
         yield return EraserEffect();
     }
-    public IEnumerator EraserEffect(int batchSize = 2){
+    public IEnumerator EraserEffect(int batchSize = 3){
        if(string.IsNullOrEmpty(text.text)) yield break;
 
         mainSentence = "";

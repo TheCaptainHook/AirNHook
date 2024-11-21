@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
-using Mono.CecilX;
 using Unity.VisualScripting;
 
 public enum ModeType
@@ -331,36 +330,6 @@ public class CreateMap_Tool : EditorWindow
         GUILayout.EndScrollView();
         GUILayout.EndArea();
     }
- // foreach (GUIContent content in contentsList) //
-        // {
-        //     if (curWidth == 0)
-        //     {
-        //         GUILayout.BeginHorizontal(GUILayout.Width(screenWidth));
-        //     }
-        
-        //     if (GUILayout.Button(content, _GUIStyle_Cell))
-        //     {
-        //         CreateObject(index);
-        //     }
-
-        //     CreateLabel(modeType, index);
-
-        //     if (curWidth > screenWidth - 10)
-        //     {
-        //         curWidth = 0;
-        //         index++;
-        //         GUILayout.EndHorizontal();
-        //         continue;
-        //     }
-        //     else if (index == contentsList.Count - 1)
-        //     {
-        //         GUILayout.EndHorizontal();
-        //     }
-        //     curWidth += _GUIStyle_Cell.fixedWidth;
-        //     index++;
-
-        // }
-
 
     private void SettingContents(List<GUIContent> contentsList,float screenWidth,ref int index,ref float curWidth){
         foreach (GUIContent content in contentsList) //
@@ -505,11 +474,28 @@ public class CreateMap_Tool : EditorWindow
 
     void SelectActiveOBJ(GameObject obj,Transform transform)
     {
+        GameObject prefab;
         if(obj.GetComponent<BuildObj>().id == 312){
-            Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/Object/LeverHead"),curMapEditor.objectTransform);
+           prefab = Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/Object/LeverHead"),curMapEditor.objectTransform);
+           prefab.transform.position = GetSceneViewCenter();
         }
 
-        Selection.activeGameObject = Instantiate(obj, transform);
+        prefab = Instantiate(obj, transform);
+        prefab.transform.position = GetSceneViewCenter();
+
+        Selection.activeGameObject = prefab;
+    }
+    private Vector3 GetSceneViewCenter(){
+        SceneView sceneView = SceneView.lastActiveSceneView;
+        if (sceneView != null)
+        {
+            Debug.Log(sceneView.pivot);
+            return sceneView.pivot;
+        }
+        else
+        {
+            return Vector3.zero;
+        }
     }
 
     private void CreatePreviewSprite(ModeType modeType)

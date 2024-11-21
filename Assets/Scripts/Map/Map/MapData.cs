@@ -106,8 +106,6 @@ public class MapData
     #region Main Map Load
     public void GetMainStageMapData(int level)
     {
-        //string path = Path.Combine(Application.dataPath, $"Resources/MapDat/Main/{level}"); //1101
-        Debug.Log("GetMainStageMapDataGetMainStageMapDataGetMainStageMapDataGetMainStageMapData");
         TextAsset[] jsons = Resources.LoadAll<TextAsset>($"MapDat/Main/{level}");
         if (jsons.Length != 0)
         {
@@ -116,7 +114,6 @@ public class MapData
             for (int i = 0; i < maps.Length; i++)
             {
                 Map map = JsonUtility.FromJson<Map>(jsons[i].text);
-                Debug.Log($"Map ID : {map.mapID}");
                 maps[i] = map;
                 mapMainDictionary.Add(map.mapID, map);
                 mapAllDictionary.Add(map.mapID, map);
