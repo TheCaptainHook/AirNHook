@@ -70,6 +70,7 @@ public class NewGrappling
         swingJumpPower = hookDataSo.swingJumpForce;
         _ropeMaxDistance = hookDataSo.ropeMaxDistance;
         _coolDown = hookDataSo.coolDown;
+        _grappleCoolTime = new WaitForSeconds(_coolDown);
         
         if (!_hook.isLocalPlayer) return;
         

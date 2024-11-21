@@ -118,7 +118,7 @@ public class ExitPointObj : BuildObj
         if (collision.gameObject.layer == LayerMask.NameToLayer("Key") && !turnOff)
             ClientGetKey(collision.gameObject);
         
-        if (Managers.Game.CurrentState == GameState.Editor || !Managers.Game.Player.GetComponent<Player>().isServer) return;
+        if (Managers.Game.CurrentState == GameState.Editor || !Managers.Game.Player.GetComponent<PlayerSM>().isServer) return;
         
         //if (collision.gameObject.layer == LayerMask.NameToLayer("Key") && !turnOff)
         //    GetKey(collision.gameObject);

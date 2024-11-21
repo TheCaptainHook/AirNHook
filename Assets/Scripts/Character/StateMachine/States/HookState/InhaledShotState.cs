@@ -20,7 +20,13 @@ public class InhaledShotState : BaseState
         OnMove();
     }
 
-    protected override void OnMove() { }
+    protected override void OnMove()
+    {
+        if (stateMachine.horizontal < 0)
+            stateMachine.player.charPivot.rotation = Quaternion.Euler(0f, 180f, 0f);
+        else if (stateMachine.horizontal > 0)
+            stateMachine.player.charPivot.rotation = Quaternion.Euler(0f, 0f, 0f);
+    }
     
     protected override void Move()
     {
