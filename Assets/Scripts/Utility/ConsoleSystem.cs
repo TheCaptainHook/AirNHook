@@ -9,32 +9,41 @@ using UnityEngine.UI;
 
 public class ConsoleSystem : MonoBehaviour
 {
-    private List<string> lists;
-
-    private string myText;
-    private string oldText;
-
     public TMP_InputField inputField;
 
     private string path;
-
+    
     private StringBuilder sb;
     [SerializeField] TextMeshProUGUI logText;
     [SerializeField] GameObject container;
     private bool onConsole;
 
 
-    private string helpSentence = @"    - Help
-    Map Load -> ex) Load Main {mapId}, Load Scene {mapId}
+    #region Map
+    private List<string> mapIDList;
+    #endregion
+
+    private string helpSentence = @"    [Command]
+    Map Load 
+        -> ex) Load {mapId}
+    Reset Interactable Object
+        -> ex) Reset Object
+    Show All Map ID
+        -> ex) Show MapID
+
 ";
+
+    private List<string> GetMapIDList(){
+        string[] jsonFiles = Directory.GetFiles(path, "*.json", SearchOption.AllDirectories);
+        
+        return jsonFiles.Select(file => Path.GetFileNameWithoutExtension(file)).ToList();
+    }
 
     void Start()
     {
         sb = new();
         path = Path.Combine(Application.dataPath, $"Resources/MapDat");
-        lists = new();
-        lists.Add("Load");
-
+        mapIDList = GetMapIDList();
         if (container.activeSelf)
         {
             container.SetActive(false);
@@ -65,58 +74,91 @@ public class ConsoleSystem : MonoBehaviour
             }
         }
     }
-    private void WriteLog(string sentence)
-    {
-        sb.Append($"\n{sentence}");
-        logText.text = sb.ToString();
-    }
-
+     #region Main
     private void CommandRead()
     {
         if (string.IsNullOrEmpty(inputField.text))
         {
-            WriteLog($"{inputField.text} \n -text is null or empty\n");
+            WriteLog($"{inputField.text} \n - text is null or empty\n");
             return;
         }
 
-        string[] strings = inputField.text.Split(" "); //ex Load Scene mapId
-
-
         if (inputField.text=="?")
         {
-            WriteLog(helpSentence);
+            WriteLog($"?\n{helpSentence}");
             inputField.text = "";
             return;
         }
 
-
-        if (strings.Length != 3)
-        {
-            WriteLog($"{inputField.text} \n -Can't find command\n");
+        if(inputField.text == "Reset Object"){
+            WriteLog($"\n   >Reset Object\n");
+            MapEditor.Instance.ResetInteractableObjectPosition();
             return;
         }
+        if(inputField.text == "Show MapID"){
+            WriteLog($"\n   >Show MapId");
+            foreach(string id in mapIDList){
+                WriteLog($"\t-{id}");
+            }
+            inputField.text = "";
+            return;
+        }
+
+        string[] strings = inputField.text.Split(" "); //ex Load mapId
         
-        string newPath;
         switch (strings[0])
         {
             case "Load":
-                newPath = Path.Combine(path, $"{strings[1]}");
-                string[] jsonFiles = Directory.GetFiles(newPath, "*.json", SearchOption.AllDirectories);
-                List<string> fileNames = jsonFiles.Select(file => Path.GetFileNameWithoutExtension(file)).ToList();
-                if (fileNames.Contains(strings[2]))
+          
+                if (mapIDList.Contains(strings[1]))
                 {
                     WriteLog($"\n   >{inputField.text}\n");
                     inputField.text = ""; 
-                    MapEditor.Instance.MoveNextStage(strings[2]);
+                    MapEditor.Instance.MoveNextStage(strings[1]);
                 }
                 else
                 {
-                    WriteLog($"{inputField.text} \n -Can't find map\n");
+                    WriteLog($"{inputField.text} \n - Can't find map\n");
                     return;
                 }
                
                 break;
+            default:
+                  WriteLog($"{inputField.text} \n - Can't find command\n");
+            return;
         }
     }
+     #endregion
 
+
+    private void WriteLog(string sentence)
+    {
+        sb.Append($"\n{sentence}");
+        logText.text = sb.ToString();
+        
+    }
+
+
+    private void UIAtLastCharacter(){
+         TMP_TextInfo textInfo = inputField.textComponent.textInfo;
+
+        // 텍스트가 비어 있을 경우 처리
+        if (textInfo.characterCount == 0)
+        {
+            Debug.LogWarning("The text is empty.");
+            return;
+        }
+
+        TMP_CharacterInfo lastCharInfo = textInfo.characterInfo[textInfo.characterCount - 1];
+        Vector2 localPosition = (lastCharInfo.bottomLeft + lastCharInfo.topRight) / 2;
+
+        // TextMeshPro의 로컬 좌표를 캔버스의 로컬 좌표로 변환
+        Vector3 canvasLocalPosition = inputField.textComponent.rectTransform.localToWorldMatrix.MultiplyPoint3x4(localPosition);
+        canvasLocalPosition = transform.worldToLocalMatrix.MultiplyPoint3x4(canvasLocalPosition);
+
+        Debug.Log(canvasLocalPosition);
+
+    }
+  
 }
+

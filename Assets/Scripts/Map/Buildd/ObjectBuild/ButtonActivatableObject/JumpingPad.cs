@@ -59,19 +59,18 @@ public class JumpingPad : ActivatableObjectEntity
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.TryGetComponent(out Player component))
-        {
+
+        if(collision.TryGetComponent(out Rigidbody2D component)){
             Jumping(component);
         }
     }
 
     #region Main
-    public void Jumping(Player player)
+    public void Jumping(Rigidbody2D rb)
     {
         if (!onActive) return;
-        Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
-        playerRb.velocity = Vector2.zero;
-        playerRb.AddForce(Vector2.up * jumpingPower, ForceMode2D.Impulse);
+        rb.velocity = Vector2.zero;
+        rb.AddForce(Vector2.up * jumpingPower, ForceMode2D.Impulse);
     }
     #endregion
     protected override void Activation()

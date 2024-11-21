@@ -53,7 +53,6 @@ public class DroneEntity : BuildObj
     public override T GetData<T>()
     {
         if(typeof(T)==typeof(DroneStruct)){
-            Debug.Log("Drone");
             return (T)(object)new DroneStruct(id,transform.position,transform.localScale,ConvertPaths(paths),moveSpeed);
         }
         return default(T);
@@ -67,7 +66,6 @@ public class DroneEntity : BuildObj
         }
         //Test
         if(Application.isPlaying){
-            Debug.Log("Drone Prograss");
             // Prograss();
             CallPrograssAction();
         }

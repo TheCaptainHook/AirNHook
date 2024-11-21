@@ -7,7 +7,6 @@ public class LeverBodyNet : NetworkBehaviour
 
     private void Awake()
     {
-        Debug.Log("awake");
         _leverBody = GetComponent<LeverBody>();
     }
 
