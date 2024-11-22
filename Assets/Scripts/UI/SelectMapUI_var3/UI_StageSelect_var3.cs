@@ -148,7 +148,6 @@ public class UI_StageSelect_var3: UI_Base
             textLineList.Add(newTextLine);
 
         }
-
     }
 
 
@@ -163,14 +162,14 @@ public class UI_StageSelect_var3: UI_Base
 
         computer.GetComponent<StageSelectorComputer>().Talking();
 
-        try
-        {
-            if (_UI_ComputerScreen == null) { _UI_ComputerScreen = Managers.UI.GetUI<UI_ComputerScreen>().gameObject; }
-        }
-        catch(Exception ex)
-        {
-            Debug.Log($"EX : {ex}");
-        }
+        // try
+        // {
+        //     if (_UI_ComputerScreen == null) { _UI_ComputerScreen = Managers.UI.GetUI<UI_ComputerScreen>().gameObject; }
+        // }
+        // catch(Exception ex)
+        // {
+        //     Debug.Log($"EX : {ex}");
+        // }
         
 
     }
@@ -454,7 +453,6 @@ public class UI_StageSelect_var3: UI_Base
     void Select_PrograssLevel_2()
     {
         int stageLevel = int.Parse(curSelectTextLine.mainSentence);
-        Debug.Log(stageLevel);
         textLineList[pathTextLineIndex].WriteText($"/{curSelectTextLine.mainSentence}");
         curSelectTextLine.Reset();
         curSelectTextLine = null;
@@ -543,6 +541,14 @@ public class UI_StageSelect_var3: UI_Base
     }
     private void SetScreenDataAndActive(string selectMapId)
     {
+         try
+        {
+            if (_UI_ComputerScreen == null) { _UI_ComputerScreen = Managers.UI.GetUI<UI_ComputerScreen>().gameObject; }
+        }
+        catch(Exception ex)
+        {
+            Debug.Log($"EX : {ex}");
+        }
         _UI_ComputerScreen.SetActive(true);
         _UI_ComputerScreen.GetComponent<UI_ComputerScreen>().SetData(selectMapId);
     }

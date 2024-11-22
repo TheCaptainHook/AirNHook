@@ -53,7 +53,6 @@ public class TextMeshTextController : MonoBehaviour
 
     
     while(parent.isEncryption){
-        Debug.Log("Is ENcryption");
         yield return null;
     }
     

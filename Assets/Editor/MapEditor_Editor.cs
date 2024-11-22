@@ -21,6 +21,20 @@ public class MapEditor_Editor : Editor
    
     MapEditor mapEditor;//TODO 0822
 
+
+    #region AUDIO
+     private List<string> autoCompleteOptions = new List<string>
+    {
+        GlobalText.TITLE_SOUND,
+        GlobalText.LOBBY_SOUND,
+        GlobalText.TUTORIAL_SOUND,
+        GlobalText.STAGE_1_FINAL_SOUND,
+        GlobalText.STAGE_1_NORMAL_SOUND    
+    };
+    private List<string> filteredOptions = new List<string>();
+    private bool showDropdown = false;
+    #endregion
+
     public override void OnInspectorGUI()
     {  
         mapEditor = target as MapEditor;
@@ -49,6 +63,7 @@ public class MapEditor_Editor : Editor
         mapEditor.mapType = (MapType)EditorGUILayout.EnumPopup("Map Type",mapEditor.mapType);
         mapEditor.stageLevel = EditorGUILayout.IntField("Stage Level",mapEditor.stageLevel);
         // mapEditor.mapID = EditorGUILayout.TextField("Map ID",mapEditor.mapID);
+
         Draw_MainContents_MapId();
 
         if(!mapEditor.onLoad)
@@ -59,7 +74,8 @@ public class MapEditor_Editor : Editor
                 }
         }else{
             mapEditor.subMapName = EditorGUILayout.TextField(new GUIContent("Map Sub Name","This is the sub-name for the map, but it’s okay to leave it empty."),mapEditor.subMapName);
-            mapEditor.audioName = EditorGUILayout.TextField(new GUIContent("BGM",""),mapEditor.audioName);
+            // mapEditor.audioName = EditorGUILayout.TextField(new GUIContent("BGM",""),mapEditor.audioName);
+            DrawBGMContents();
         }
         GUILayout.EndVertical();
     }
@@ -70,6 +86,43 @@ public class MapEditor_Editor : Editor
         }
         mapEditor.mapID = EditorGUILayout.TextField(new GUIContent("Map ID","Unique identifier for the map. This field is required."),mapEditor.mapID);
         GUI.backgroundColor = orgCol;
+    }
+
+    private void DrawBGMContents(){
+        GUI.SetNextControlName("BGM");
+        mapEditor.audioName = EditorGUILayout.TextField(new GUIContent("BGM",""),mapEditor.audioName);
+
+        if(!string.IsNullOrEmpty(mapEditor.audioName)){
+             filteredOptions = autoCompleteOptions
+                    .FindAll(option => option.ToLower().Contains(mapEditor.audioName.ToLower()));
+                    showDropdown = filteredOptions.Count>0;
+        }else if(GUI.GetNameOfFocusedControl()=="BGM" && string.IsNullOrEmpty(mapEditor.audioName)){
+            filteredOptions = new(autoCompleteOptions);
+            showDropdown = filteredOptions.Count > 0;
+        }else{
+            showDropdown = false;
+        }
+
+        if(showDropdown) DrawAudioDropDown();
+
+    }
+
+    private void DrawAudioDropDown(){
+          GUILayout.BeginVertical("Box");
+        foreach (string option in filteredOptions)
+        {
+            if (GUILayout.Button(option, GUILayout.ExpandWidth(true)))
+            {
+                // 선택한 값을 TextField에 반영
+                mapEditor.audioName = option;
+                // 드롭다운 숨김
+                showDropdown = false;
+
+                GUI.FocusControl(null); 
+                Repaint(); 
+            }
+        }   
+        GUILayout.EndVertical();
     }
 
     private void Draw_ToolContent(){
@@ -85,7 +138,7 @@ public class MapEditor_Editor : Editor
     }
     private void Draw_DevContents(){
           GUILayout.FlexibleSpace();
-            GUILayout.Label("개발자 전용",GetGUIStyle_Label((Color.blue),14,FontStyle.Bold));
+            GUILayout.Label("개발자 전용",GetGUIStyle_Label((Color.white),14,FontStyle.Bold));
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
 
@@ -121,7 +174,10 @@ public class MapEditor_Editor : Editor
             }
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
-            if (GUILayout.Button("개발자용, 맵 새로만들 때 먼저 누르기,Init!"))
+
+            GUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("개발자용, 맵 새로만들 때 먼저 누르기,Init!",GUILayout.Width(300),GUILayout.Height(30)))
             {
                 _Reset(mapEditor);
                 mapEditor.Init();
@@ -129,6 +185,9 @@ public class MapEditor_Editor : Editor
                 mapEditor.onLoad = true;
           
             }
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+
             GUILayout.FlexibleSpace();
     }
 //Check for duplicate Map ID TODO 1116
@@ -150,7 +209,7 @@ public class MapEditor_Editor : Editor
 
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
-        GUILayout.Label("인게임 전용");
+        GUILayout.Label("인게임 전용",GetGUIStyle_Label((Color.white),14,FontStyle.Bold));
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
 
@@ -375,7 +434,7 @@ public class MapEditor_Editor : Editor
         try{
             GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
             BuildObj buildObj = obj.GetComponent<BuildObj>();
-            buildObj.SetData(data);
+            buildObj.SetData<T>(data);
             buildObj.Editor_Setting(mapEditor.buttonActivatableObjectTransform);
             
             obj.transform.SetParent(transform);

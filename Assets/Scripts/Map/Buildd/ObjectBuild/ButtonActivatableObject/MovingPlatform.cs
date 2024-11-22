@@ -23,7 +23,6 @@ public class MovingPlatform :  ActivatableObjectEntity
 
   private void Awake(){
     _rb = GetComponent<Rigidbody2D>();
-    addForcePlatform = GetComponent<AddForcePlatform>();
   }
 
 
@@ -38,27 +37,29 @@ public class MovingPlatform :  ActivatableObjectEntity
 
     }
     
-    public override async void SetData<T>(T data)
+    public override void SetData<T>(T data)
     {
          try{
             if (typeof(T) == typeof(ButtonActivatableObjectStruct))
             {
+            addForcePlatform = GetComponent<AddForcePlatform>();
+            
             ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
             ButtonActivatedObjectStruct = objData;
             //Moving Platform
             paths = ConvertPaths(objData.paths);
             moveSpeed = objData.moveSpeed;
             addForcePlatform.Init();
-            Prograss();
             }
-        }catch{
-                Debug.Log($"ERROR,{typeof(T)}");
+        }catch(Exception ex){
+                Debug.Log($"{ex},{typeof(T)}");
         }
         
-        if(Application.isPlaying){
-            Util util  = new Util();
-            await util.Delay(()=>{CheckActiveRequirAmount();});
-        }
+        // if(Application.isPlaying){
+        //     Util util  = new Util();
+        //     await util.Delay(()=>{CheckActiveRequirAmount();});
+        //     Prograss();
+        // }
     }
     #endregion
 

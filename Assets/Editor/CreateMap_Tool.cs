@@ -95,6 +95,7 @@ public class CreateMap_Tool : EditorWindow
         otherObjLists = new List<GameObject>(Resources.LoadAll<GameObject>("Prefabs/MapEditor/Other"));
     }
     bool isGUIStyleInitialized;
+
     private void Init_TextureAndGUI(){
         if(isGUIStyleInitialized) return;
         isGUIStyleInitialized = true;

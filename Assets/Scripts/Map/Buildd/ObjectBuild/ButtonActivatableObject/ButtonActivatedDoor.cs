@@ -27,7 +27,6 @@ public class ButtonActivatedDoor : ActivatableObjectEntity
         onOpen = true;
         _collider.enabled = false;
         _animator.SetTrigger(UnlockTrigger);
-        Debug.Log("OpenOpen");
         //StartCoroutine(Co_Activation());
     }
 
