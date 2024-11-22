@@ -55,11 +55,11 @@ public class MapEditor_Editor : Editor
         {
               using (new EditorGUI.DisabledScope(true))
                 {
-                    mapEditor.audioType = (AudioType)EditorGUILayout.EnumPopup("Audio Type",mapEditor.audioType);
+                    mapEditor.audioName = EditorGUILayout.TextField(new GUIContent("BGM","BGM"),mapEditor.audioName);
                 }
         }else{
             mapEditor.subMapName = EditorGUILayout.TextField(new GUIContent("Map Sub Name","This is the sub-name for the map, but it’s okay to leave it empty."),mapEditor.subMapName);
-            mapEditor.audioType = (AudioType)EditorGUILayout.EnumPopup("Audio Type",mapEditor.audioType);
+            mapEditor.audioName = EditorGUILayout.TextField(new GUIContent("BGM",""),mapEditor.audioName);
         }
         GUILayout.EndVertical();
     }
@@ -177,7 +177,7 @@ public class MapEditor_Editor : Editor
             mapEditor.CurMap = new Map();
             mapEditor.mapID = "";
             mapEditor.mapType = MapType.Main;
-            mapEditor.audioType = AudioType.None;
+            mapEditor.audioName = "";
             mapEditor.stageLevel = 0;
 
             mapEditor.subMapName = "";
@@ -276,15 +276,15 @@ public class MapEditor_Editor : Editor
             Create_Tile(); 
             Create_Object();
      
-            mapEditor.stageLevel = mapEditor.CurMap.stageLevel;
-            mapEditor.mapID = mapEditor.CurMap.mapID;
+            mapEditor.stageLevel = map.stageLevel;
+            mapEditor.mapID = map.mapID;
 
-            mapEditor.audioType = mapEditor.CurMap.audioType;
+            // mapEditor.audioType = mapEditor.CurMap.audioType;
+            mapEditor.audioName = map.audioName;
             
-            
-            mapEditor.startPosition = mapEditor.CurMap.startPosition;
-            mapEditor.nextMapId = mapEditor.CurMap.nextMapId;
-            mapEditor.subMapName = mapEditor.CurMap.subMapName;
+            mapEditor.startPosition = map.startPosition;
+            mapEditor.nextMapId = map.nextMapId;
+            mapEditor.subMapName = map.subMapName;
         }
         else
         {
@@ -513,7 +513,7 @@ private async Task<Map> CreateMap(MapEditor mapEditor){
             GetList<ButtonObjectStruct>(mapEditor.buttonObjectTransform),
             GetList<DialogueData>(mapEditor.triggerDialogueTransform),
             GetList<DroneStruct>(mapEditor.droneTransform),
-            mapEditor.cellSize, 0, await CurrentMapScreenShot(mapEditor), mapEditor.audioType);
+            mapEditor.cellSize, 0, await CurrentMapScreenShot(mapEditor), mapEditor.audioName);
     return  map;
 }
 List<TileData> GetTileData(Tilemap tileMap)

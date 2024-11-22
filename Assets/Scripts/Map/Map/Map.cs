@@ -37,7 +37,8 @@ public class Map
     public int dataType; //0:Main,1:User
     public float cellSize;
     [HideInInspector]public byte[] bytesImage;
-    public AudioType audioType;
+    // public AudioType audioType;
+    public string audioName;
 
     //1101
     public string nextMapId;
@@ -60,7 +61,7 @@ public class Map
         List<ButtonObjectStruct> buttonObjectList,
         List<DialogueData> dialogueDataList,
         List<DroneStruct> droneStructList,
-        float cellSize,int dataType = 0, byte[] bytesImage = null,AudioType audioType = AudioType.None
+        float cellSize,int dataType = 0, byte[] bytesImage = null,string audioName =""
         )
     {
         mapID = id;
@@ -88,7 +89,7 @@ public class Map
         this.cellSize = cellSize;
         this.dataType = dataType;//main and userData
         this.bytesImage = bytesImage;
-        this.audioType = audioType; 
+        this.audioName = audioName; 
     }
 
     public Map() { } //dont delet

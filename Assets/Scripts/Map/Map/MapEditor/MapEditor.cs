@@ -118,7 +118,11 @@ public class MapEditor : MonoBehaviour
     public Vector2 startPosition;
     [ReadOnly]
     public GameObject startPositionObject;
-    public AudioType audioType = AudioType.None;
+    //1122//1122//1122//1122//1122//1122//1122//1122
+    public string audioName;
+
+
+    // public AudioType audioType = AudioType.None;
     //[HideInInspector] public int condition_KeyAmount;
     [HideInInspector] public List<TileData> mapTileDataList = new List<TileData>();
     [HideInInspector] public List<ObjectData> mapObjectDataList = new List<ObjectData>();
@@ -370,7 +374,9 @@ public class MapEditor : MonoBehaviour
         Create_Tile();
         Create_Object();
         
-        Managers.Sound.PlayBGM(CurMap.audioType, AudioMixerGroupType.BGM, true,.1f);
+        // Managers.Sound.PlayBGM(CurMap.audioType, AudioMixerGroupType.BGM, true,.1f);
+        if(!string.IsNullOrEmpty(audioName))
+            Managers.Sound.PlayBGM(audioName);
     }
 
 // SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);
@@ -414,6 +420,8 @@ public class MapEditor : MonoBehaviour
         DrawTile(placeMentSystem.floorTileMap,curMap.mapTileDataList);
         DrawTile(placeMentSystem.halfTileMap,curMap.mapHalfTileDataList);
         DrawTile(placeMentSystem.backgroundTileMap,curMap.mapBackgroundTileDataList);       
+        DrawTile(placeMentSystem.ropeTileMap,curMap.mapRopeTileDataList);
+        DrawTile(placeMentSystem.accessoryTileMap,curMap.mapAccessoryTIleDataList);
     }
     private void DrawTile(Tilemap tileMap,List<TileData> list){
          foreach (TileData data in list)

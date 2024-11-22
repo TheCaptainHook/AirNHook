@@ -48,7 +48,10 @@ public class SoundManager
         // audioClip save form scriptable object
         var audioClipSO = ResourceManager.Load<AudioClipSO>(GlobalText.AUDIO_CLIP_SO_PATH);
         foreach (var audioClipData in audioClipSO.audioList)
-            _audioClipDict.Add(audioClipData.ToString(), audioClipData);
+        {
+            _audioClipDict.Add(audioClipData.name, audioClipData); 
+        }
+            
     }
 
     private void AddAudioSources(int amount)
