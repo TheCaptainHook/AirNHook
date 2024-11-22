@@ -27,7 +27,7 @@ public class UI_ComputerScreen : UI_Base
 
     public override void OnEnable()
     {
-        transform.localPosition = new Vector3(12, 0.5f);
+        transform.localPosition = new Vector3(20, 0.5f);
     }
 
     private void Awake()
