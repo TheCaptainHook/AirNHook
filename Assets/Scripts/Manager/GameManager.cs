@@ -89,7 +89,7 @@ public class GameManager
             // EditorScene
             case 2:
                 Debug.Log("Scene Loaded 2");
-                Managers.Sound.PlayBGM(AudioType.Lobby,AudioMixerGroupType.BGM, true);
+                Managers.Sound.PlayBGM(GlobalText.LOBBY_SOUND);
                 break;
         }
     }
