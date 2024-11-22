@@ -19,7 +19,6 @@ public class ButtonEntity : BuildObj
             transform.position = value.position;
             transform.localScale = value.scale;
             targetPosition = value.targetPositions;
-            FindTargetObject();
         } }
 
     private List<Vector2> targetPosition; //TODO 0829
@@ -61,10 +60,11 @@ public class ButtonEntity : BuildObj
             {
                  ButtonObjectStruct buttonData = (ButtonObjectStruct)(object)data;
                  ButtonObjectData = buttonData;
+                 FindTargetObject();
             }
                 
         }catch(Exception ex){
-                Debug.Log($"{ex}");
+                Debug.Log($"name : {gameObject.name},{ex}");
         }
         
     }
@@ -95,13 +95,16 @@ public class ButtonEntity : BuildObj
         List<GameObject> objList = new();
 
         foreach(Vector2 vec in targetPosition){
-           foreach(Transform obj in MapEditor.Instance.buttonActivatableObjectTransform){
-            if(obj.TryGetComponent(out ActivatableObjectEntity component)){
-                if(component.ButtonActivatedObjectStruct.position == vec){
-                    objList.Add(obj.gameObject);
-                }
-            }
-           }   
+            if(Application.isPlaying){
+                foreach(Transform obj in MapEditor.Instance.buttonActivatableObjectTransform){
+                    if(obj.TryGetComponent(out ActivatableObjectEntity component)){
+                        if(component.ButtonActivatedObjectStruct.position == vec){
+                            objList.Add(obj.gameObject);
+                        }
+                    }
+                }   
+            }  
+            
         }
         targetObjects = objList;
     }

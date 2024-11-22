@@ -31,15 +31,17 @@ public static class GlobalText
     #region Sound Name String
     public const string UI_CLICK_SOUND = "Click1";
     public const string DIALOGUE_CLICK_SOUND = "Click2";
-    public const string TITLE_SOUND = "Danya Vodovoz - High NRG (mp3cut.net)";
-    public const string LOBBY_SOUND = "LobbyMusic_Onion";
-    public const string TUTORIAL_SOUND = "WBA Free Track - Race Against Sunset";
-    public const string STAGE_1_NORMAL_SOUND = "WBA Free Track - Legend";
-    public const string STAGE_1_FINAL_SOUND = "WBA Free Track - Hackers";
     public const string KET_PRINTING_SOUND = "PrintClang";
     public const string COMPUTER_ON_SOUND = "ComTurnOn";
     public const string COMPUTER_OFF_SOUND = "ComTurnOff";
+
+    #region BGM
+        public const string TITLE_SOUND = "Danya Vodovoz - High NRG (mp3cut.net)";
+        public const string LOBBY_SOUND = "LobbyMusic_Onion";
+        public const string TUTORIAL_SOUND = "WBA Free Track - Race Against Sunset";
+        public const string STAGE_1_NORMAL_SOUND = "WBA Free Track - Legend";
+        public const string STAGE_1_FINAL_SOUND = "WBA Free Track - Hackers";
+        #endregion
     #endregion
-    
     #endregion
 }
