@@ -86,9 +86,11 @@ public class SoundManager
     /// 2D effect sound 재생
     /// </summary>
     /// <param name="audioName">음악 이름(Global Text사용)</param>
-    public void PlaySound(string audioName, float volume = 1f)
+    /// <param name="volume">volume 0~1, default : 1</param>
+    /// <param name="isLoop">반복(default : false)</param>
+    public void PlaySound(string audioName, float volume = 1f, bool isLoop = false)
     {
-        PlayAudioClip(audioName, volume);
+        PlayAudioClip(audioName, volume, isLoop);
     }
 
     /// <summary>
@@ -97,9 +99,10 @@ public class SoundManager
     /// <param name="audioName">음악 이름(Global Text사용)</param>
     /// <param name="position">재생 위치</param>
     /// <param name="volume">volume 0~1, default : 1</param>
-    public void PlaySound3D(string audioName, Vector3 position, float volume = 1f)
+    /// <param name="isLoop">반복(default : false)</param>
+    public void PlaySound3D(string audioName, Vector3 position, float volume = 1f, bool isLoop = false)
     {
-        PlayAudioClip(audioName, position, volume);
+        PlayAudioClip(audioName, position, volume, isLoop);
     }
     
     /// <summary>
@@ -108,10 +111,11 @@ public class SoundManager
     /// <param name="audioName">음악 이름(Global Text사용)</param>
     /// <param name="obj">따라갈 오브젝트의 transform</param>
     /// <param name="volume">volume 0~1, default : 1</param> 
+    /// <param name="isLoop">반복(default : false)</param>
     /// <param name="destroyWhenParentsDestroyed">따라갈 오브젝트가 Destroy될 시, 사운드도 사라지게하기</param>
-    public void PlaySound3D(string audioName, Transform obj, float volume = 1f, bool destroyWhenParentsDestroyed = false)
+    public void PlaySound3D(string audioName, Transform obj, float volume = 1f, bool isLoop = false, bool destroyWhenParentsDestroyed = false)
     {
-        PlayAudioClip(audioName, obj, volume, destroyWhenParentsDestroyed);
+        PlayAudioClip(audioName, obj, volume, destroyWhenParentsDestroyed, isLoop);
     }
 
     /// <summary>
@@ -127,9 +131,7 @@ public class SoundManager
     private bool GetAudioSource(out AudioSource audioSource)
     {
         if (_deactivatedAudioSources.TryDequeue(out audioSource))
-        {
             return true;
-        }
 
         if (_additionalAudioSourceCount < MAX_ADDITIONAL_AUDIO_SOURCE_COUNT)
         {
@@ -145,39 +147,39 @@ public class SoundManager
     }
 
     // 2D effect sound용
-    private void PlayAudioClip(string audioName, float volume)
+    private void PlayAudioClip(string audioName, float volume, bool loop)
     {
         if (!GetAudioSource(out var audioSource)) return;
 
         var audioClip = _audioClipDict[audioName];
         audioSource.outputAudioMixerGroup = _audioMixerGroups[GlobalText.EFFECTS_STRING];
-        SetAudioSource(audioSource, audioClip, volume, 0);
+        SetAudioSource(audioSource, audioClip, volume, 0, loop);
         
         Managers.Instance.StartCoroutine(CollectSoundSource(audioSource, audioClip.length));
     }
 
     // 3D effect sound용
-    private void PlayAudioClip(string audioName, Vector3 position, float volume)
+    private void PlayAudioClip(string audioName, Vector3 position, float volume, bool loop)
     {
         if (!GetAudioSource(out var audioSource)) return;
 
         var audioClip = _audioClipDict[audioName];
         audioSource.outputAudioMixerGroup = _audioMixerGroups[GlobalText.EFFECTS_STRING];
         audioSource.transform.position = position;
-        SetAudioSource(audioSource, audioClip, volume, 1);
+        SetAudioSource(audioSource, audioClip, volume, 1, loop);
         
         Managers.Instance.StartCoroutine(CollectSoundSource(audioSource, audioClip.length));
     }
 
     // 3D effect sound용
-    private void PlayAudioClip(string audioName, Transform obj, float volume, bool destroyWhenParentDestroyed)
+    private void PlayAudioClip(string audioName, Transform obj, float volume, bool destroyWhenParentDestroyed, bool loop)
     {
         if (!GetAudioSource(out var audioSource)) return;
 
         var audioClip = _audioClipDict[audioName];
         audioSource.outputAudioMixerGroup = _audioMixerGroups[GlobalText.EFFECTS_STRING];
         audioSource.transform.position = obj.position;
-        SetAudioSource(audioSource, audioClip, volume, 1);
+        SetAudioSource(audioSource, audioClip, volume, 1, loop);
         
         Managers.Instance.StartCoroutine(CollectSoundSource(audioSource, audioClip.length, obj, destroyWhenParentDestroyed));
     }
@@ -198,15 +200,15 @@ public class SoundManager
 
         var audioClip = _audioClipDict[audioName];
         audioSource.outputAudioMixerGroup = _audioMixerGroups[GlobalText.BGM_STRING];
-        audioSource.loop = true;
-        SetAudioSource(audioSource, audioClip, volume, 0);
+        SetAudioSource(audioSource, audioClip, volume, 0, true);
     }
 
-    private void SetAudioSource(AudioSource audioSource, AudioClip clip, float volume, float spatialBlend)
+    private void SetAudioSource(AudioSource audioSource, AudioClip clip, float volume, float spatialBlend, bool loop)
     {
         audioSource.clip = clip;
         audioSource.volume = volume;
         audioSource.spatialBlend = spatialBlend;
+        audioSource.loop = loop;
         audioSource.gameObject.SetActive(true);
         audioSource.Play();
     }
