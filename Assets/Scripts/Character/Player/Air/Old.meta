@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Animations/Character/Hook/Hook_GrappleSwing1.anim.meta
+guid: 484f34af79f7d9e43bb66167986fd253
+NativeFormatImporter:
+========
+guid: fd72a653435fb4640a863a7561792a03
+folderAsset: yes
+DefaultImporter:
+>>>>>>>> 97c5877d (Fix: hook right click, swing animation):Assets/Scripts/Character/Player/Air/Old.meta
+  externalObjects: {}
+  mainObjectFileID: 7400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

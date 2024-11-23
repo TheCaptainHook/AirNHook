@@ -47,7 +47,9 @@ public class GrapplingState : BaseState
         else if (stateMachine.horizontal > 0)
             stateMachine.player.charPivot.rotation = Quaternion.Euler(0f, 0f, 0f);
         
-        _swingFloat = stateMachine.horizontal != 0 ? _swingFloat += Time.deltaTime : 0;
+        _swingFloat += (stateMachine.horizontal != 0 ? 1 : -1) * Time.deltaTime;
+        _swingFloat = Mathf.Clamp(_swingFloat, 0f, 1f);
+        
         stateMachine.player.animator.SetFloat(((HookAnimationData)stateMachine.player.animationData).SwingForceParameterHash, _swingFloat);
     }
 
