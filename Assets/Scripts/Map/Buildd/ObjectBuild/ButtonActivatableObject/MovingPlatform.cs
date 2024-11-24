@@ -37,7 +37,7 @@ public class MovingPlatform :  ActivatableObjectEntity
 
     }
     
-    public override void SetData<T>(T data)
+    public override async void SetData<T>(T data)
     {
          try{
             if (typeof(T) == typeof(ButtonActivatableObjectStruct))
@@ -54,12 +54,13 @@ public class MovingPlatform :  ActivatableObjectEntity
         }catch(Exception ex){
                 Debug.Log($"{ex},{typeof(T)}");
         }
-        
-        // if(Application.isPlaying){
-        //     Util util  = new Util();
-        //     await util.Delay(()=>{CheckActiveRequirAmount();});
-        //     Prograss();
-        // }
+
+        if (Application.isPlaying)
+        {
+            Util util = new Util();
+            await util.Delay(() => { CheckActiveRequirAmount(); });
+            Prograss();
+        }
     }
     #endregion
 
@@ -143,12 +144,18 @@ public class MovingPlatform :  ActivatableObjectEntity
     /// <param name="paths"></param>
     /// <returns></returns>
      private Vector2[] ConvertPaths(Vector2[] paths){
-        Vector2[] targetPaths = new Vector2[paths.Length+1];
-        targetPaths[0] = transform.position;
-        for(int i = 1; i<= paths.Length;i++){
-            targetPaths[i] =  paths[i-1];
+        if (Application.isPlaying)
+        {
+            Vector2[] targetPaths = new Vector2[paths.Length + 1];
+            targetPaths[0] = transform.position;
+            for (int i = 1; i <= paths.Length; i++)
+            {
+                targetPaths[i] = paths[i - 1];
+            }
+            return targetPaths;
         }
-        return targetPaths;
+
+        return paths;
     }
 
 #endregion
