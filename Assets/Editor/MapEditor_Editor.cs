@@ -58,10 +58,8 @@ public class MapEditor_Editor : Editor
     private void Draw_MainContents(){
         EditorGUILayout.LabelField("Map Editor",GetGUIStyle_Label(Color.black,14,FontStyle.Bold));
         EditorGUILayout.HelpBox($"프로젝트 실행할때 꼭 개발자용 데이터 세이브 후 Reset 버튼 누른다음 실행하기.", MessageType.Info);
-    
         GUILayout.BeginVertical(mapEditor.onLoad ? "Save" : "Load", new GUIStyle(GUI.skin.window));
         mapEditor.mapType = (MapType)EditorGUILayout.EnumPopup("Map Type",mapEditor.mapType);
-        mapEditor.stageLevel = EditorGUILayout.IntField("Stage Level",mapEditor.stageLevel);
         // mapEditor.mapID = EditorGUILayout.TextField("Map ID",mapEditor.mapID);
 
         Draw_MainContents_MapId();
@@ -73,12 +71,13 @@ public class MapEditor_Editor : Editor
                     mapEditor.audioName = EditorGUILayout.TextField(new GUIContent("BGM","BGM"),mapEditor.audioName);
                 }
         }else{
+            mapEditor.stageLevel = EditorGUILayout.IntField("Stage Level",mapEditor.stageLevel);
             mapEditor.subMapName = EditorGUILayout.TextField(new GUIContent("Map Sub Name","This is the sub-name for the map, but it’s okay to leave it empty."),mapEditor.subMapName);
-            // mapEditor.audioName = EditorGUILayout.TextField(new GUIContent("BGM",""),mapEditor.audioName);
             DrawBGMContents();
         }
         GUILayout.EndVertical();
     }
+
      private void Draw_MainContents_MapId(){
         Color orgCol = GUI.backgroundColor;
         if(string.IsNullOrEmpty(mapEditor.mapID)){
@@ -102,9 +101,7 @@ public class MapEditor_Editor : Editor
         }else{
             showDropdown = false;
         }
-
         if(showDropdown) DrawAudioDropDown();
-
     }
 
     private void DrawAudioDropDown(){
@@ -137,18 +134,31 @@ public class MapEditor_Editor : Editor
         GUILayout.EndHorizontal();
     }
     private void Draw_DevContents(){
-          GUILayout.FlexibleSpace();
+            GUILayout.FlexibleSpace();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
             GUILayout.Label("개발자 전용",GetGUIStyle_Label((Color.white),14,FontStyle.Bold));
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
 
-            if (GUILayout.Button("Load Data(개발자전용)",GUILayout.Width(150),GUILayout.Height(30)))//TODO 0822
+            if (GUILayout.Button("Load Data(개발자전용)",GUILayout.Width(150),GUILayout.Height(30)))
             {
+                if(!Check_DuplicateMapId(mapEditor.mapID)){
+                     EditorUtility.DisplayDialog(
+                        "Map not found",
+                        "The map does not exist. Please try again",
+                        "OK"
+                    );
+                return;
+                }
                 _Reset(mapEditor);
                 LoadMap(mapEditor);
                 mapEditor.onLoad = true;
                 mapEditor.isLoadMap = true;
-
             }
 
             if (GUILayout.Button("Save Data(개발자전용)",GUILayout.Width(150),GUILayout.Height(30)))
@@ -156,16 +166,15 @@ public class MapEditor_Editor : Editor
 
                 if(!mapEditor.isLoadMap && Check_DuplicateMapId(mapEditor.mapID)){
                     EditorUtility.DisplayDialog(
-                        "중복된 ID 감지",
-                        "이미 존재하는 Map ID 입니다. 다른 ID를 사용하세요",
-                        "확인"
+                        "Duplicate ID Detected",
+                        "The Map ID already exists. Please use a different MapID",
+                        "OK"
                     );
                     return;
                 }
 
                 try{
                     SaveMapData(mapEditor);
-                    mapEditor.onLoad = false;
                 }catch(Exception ex){
                     Debug.Log(ex);
                 }
@@ -192,7 +201,7 @@ public class MapEditor_Editor : Editor
     }
 //Check for duplicate Map ID TODO 1116
     private bool Check_DuplicateMapId(string mapId){
-       string path = Path.Combine(Application.dataPath,$"Resources/MapDat/Main");
+       string path = Path.Combine(Application.dataPath,$"Resources/MapDat/{mapEditor.mapType}");
        string[] jsonFiles = Directory.GetFiles(path, "*.json",SearchOption.AllDirectories);
        List<string> fileNames = jsonFiles.Select(file => Path.GetFileNameWithoutExtension(file)).ToList();
 
@@ -212,19 +221,26 @@ public class MapEditor_Editor : Editor
         GUILayout.Label("인게임 전용",GetGUIStyle_Label((Color.white),14,FontStyle.Bold));
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
-
-            if (GUILayout.Button("Load Data(인게임용)"))
+        
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+            if (GUILayout.Button("Load Data(인게임용)",GUILayout.Width(300),GUILayout.Height(30)))
             {
                 //mapEditor.LoadMap(mapEditor.mapID);
                 mapEditor.MoveNextStage(mapEditor.mapID);
                 
             }
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
 
-            if (GUILayout.Button("Reset Interactable Object Position(인게임용)"))
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+            if (GUILayout.Button("Reset Interactable Object Position(인게임용)",GUILayout.Width(300),GUILayout.Height(30)))
             {
                 mapEditor.ResetInteractableObjectPosition();
             }
-
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
         GUILayout.Space(10);
     }
     private void Draw_ResetContent(){
@@ -489,10 +505,11 @@ public class MapEditor_Editor : Editor
             await CreateJsonFile(mapEditor, folderPath);
 
             EditorUtility.ClearProgressBar();
+            mapEditor.onLoad = false;
         }catch(Exception ex){
             Debug.Log(ex);
             EditorUtility.ClearProgressBar();
-            EditorUtility.DisplayDialog("Error","","Confirm");
+            EditorUtility.DisplayDialog("Error",$"Please check the following.\n 1. Did you press the init button before creating the map.\n2.Is the MapID field empty?","Confirm");
         }
         // string folderPath = Path.Combine(Application.dataPath, "Resources/MapDat");
         // CreateJsonFile(mapEditor, folderPath);
