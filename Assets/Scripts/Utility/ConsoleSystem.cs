@@ -10,8 +10,6 @@ using UnityEngine.UI;
 public class ConsoleSystem : MonoBehaviour
 {
     public TMP_InputField inputField;
-
-    private string path;
     
     private StringBuilder sb;
     [SerializeField] TextMeshProUGUI logText;
@@ -34,15 +32,15 @@ public class ConsoleSystem : MonoBehaviour
 ";
 
     private List<string> GetMapIDList(){
-        string[] jsonFiles = Directory.GetFiles(path, "*.json", SearchOption.AllDirectories);
+        //string[] jsonFiles = Directory.GetFiles(path, "*.json", SearchOption.AllDirectories);
+        TextAsset[] jsonFiles = Resources.LoadAll<TextAsset>("MapDat");
         
-        return jsonFiles.Select(file => Path.GetFileNameWithoutExtension(file)).ToList();
+        return jsonFiles.Select(file => file.name).ToList();
     }
 
     void Start()
     {
         sb = new();
-        path = Path.Combine(Application.dataPath, $"Resources/MapDat");
         mapIDList = GetMapIDList();
         if (container.activeSelf)
         {
