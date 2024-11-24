@@ -524,12 +524,12 @@ MonoBehaviour:
   id: 0
   transformID: 0
   position: {x: 0, y: 0}
-  offset: {x: 0, y: 0}
-  turnOff: 0
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
+  offset: {x: 0, y: 0}
+  turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
