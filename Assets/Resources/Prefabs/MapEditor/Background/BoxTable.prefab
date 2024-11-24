@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4956344676863628315}
   - component: {fileID: 6288721566565281864}
   - component: {fileID: 8498635386574920878}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: OneWayPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8683805379665016771}
   - component: {fileID: 4684687439439529792}
-  m_Layer: 19
+  m_Layer: 0
   m_Name: sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -194,7 +194,7 @@ GameObject:
   - component: {fileID: 5176273818889611295}
   - component: {fileID: 5995116111848026723}
   - component: {fileID: 5641744025921653641}
-  m_Layer: 19
+  m_Layer: 17
   m_Name: BoxTable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -317,12 +317,12 @@ MonoBehaviour:
   id: 5300
   transformID: 0
   position: {x: 0, y: 0}
-  offset: {x: 0, y: 0}
-  turnOff: 0
   distructionStatus: 0
   onPlaceable: 1
   onRotateable: 0
   onScaleable: 0
+  offset: {x: 0, y: 0}
+  turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}

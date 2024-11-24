@@ -263,7 +263,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6484365528241890097}
   - component: {fileID: 1138045928720991655}
-  m_Layer: 15
+  m_Layer: 8
   m_Name: HookSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -317,7 +317,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.014159858, y: -0.08865172}
+  m_Offset: {x: -0.017571837, y: -0.04555294}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -328,7 +328,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5036912, y: 0.52458954}
+  m_Size: {x: 0.6196987, y: 0.62515336}
   m_EdgeRadius: 0
 --- !u!1 &2143084196776163110
 GameObject:
@@ -660,12 +660,12 @@ MonoBehaviour:
   id: 325
   transformID: 0
   position: {x: 0, y: 0}
-  offset: {x: 0, y: 0}
-  turnOff: 0
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
+  offset: {x: 0, y: 0}
+  turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
