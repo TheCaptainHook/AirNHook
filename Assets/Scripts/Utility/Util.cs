@@ -75,7 +75,8 @@ public class Util
         for (int i = 0; i < sentence.Length; i++)
         {
             if (audioActive)
-                PlayAudioClip(GlobalText.DIALOGUE_CLICK_SOUND);
+                // PlayAudioClip(GlobalText.DIALOGUE_CLICK_SOUND);
+                Managers.Sound.PlaySound(GlobalText.DIALOGUE_CLICK_SOUND);
                 // PlayAudioClip(audioSource, AudioType.Dialogue_Click, AudioMixerGroupType.Effects, false, 0.35f, 0f);
 
             typedSentence.Append(sentence[i]);
@@ -112,19 +113,19 @@ public class Util
     //     audioSource.Play();
     // }
 
-    private void PlayAudioClip(string audioName)
-    {
-        Managers.Sound.PlaySound(audioName);
-        // var audioClip = Managers.Sound.GetAudioClip(audioType);
-        // audioSource.outputAudioMixerGroup = Managers.Sound.GetAudioMixerGroup(audioMixerGroupType.ToString());
-        // audioSource.loop = isLoop;
-        // audioSource.volume = volume;
+    // private void PlayAudioClip(string audioName)
+    // {
+    //     Managers.Sound.PlaySound(audioName);
+    //     // var audioClip = Managers.Sound.GetAudioClip(audioType);
+    //     // audioSource.outputAudioMixerGroup = Managers.Sound.GetAudioMixerGroup(audioMixerGroupType.ToString());
+    //     // audioSource.loop = isLoop;
+    //     // audioSource.volume = volume;
 
-        // audioSource.gameObject.SetActive(true);
-        // audioSource.clip = audioClip;
-        // audioSource.spatialBlend = spatialBlend;
-        // audioSource.Play();
-    }
+    //     // audioSource.gameObject.SetActive(true);
+    //     // audioSource.clip = audioClip;
+    //     // audioSource.spatialBlend = spatialBlend;
+    //     // audioSource.Play();
+    // }
     
 
     public async Task EraserEffectTask(TextMeshProUGUI text, float delayTime = 0.01f)
