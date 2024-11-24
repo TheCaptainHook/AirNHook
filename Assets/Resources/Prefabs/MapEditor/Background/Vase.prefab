@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4832693040663857099}
   - component: {fileID: 8501126919804895739}
   - component: {fileID: -8415057848268007295}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Vase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,12 +166,12 @@ MonoBehaviour:
   id: 5307
   transformID: 0
   position: {x: 0, y: 0}
-  offset: {x: 0, y: 0}
-  turnOff: 0
   distructionStatus: 0
   onPlaceable: 1
   onRotateable: 0
   onScaleable: 0
+  offset: {x: 0, y: 0}
+  turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
