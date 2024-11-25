@@ -15,6 +15,6 @@ public class AirDataSO : PlayerDataSO
     [field: SerializeField] public float stickToHookSpeed { get; private set; }
     
     [field: Header("lineRenderer")]
-    [field: SerializeField] public float numberOfPoints { get; private set; }
+    [field: SerializeField] public int numberOfPoints { get; private set; }
     [field: SerializeField] public float spaceBetweenPoints { get; private set; }
 }
