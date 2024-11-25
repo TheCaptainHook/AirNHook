@@ -96,6 +96,7 @@ public class DoorOpeningAnim : NetworkBehaviour
     {
         string curStage = Managers.Stage.stageName;
 
+        Managers.Sound.CollectAmbientSoundSource();
         Managers.Stage.stageName = nextMapId;
         Camera.main.GetComponent<ParallaxCamera>().enabled = false;
 

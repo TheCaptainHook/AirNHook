@@ -8,9 +8,10 @@ public class SoundManager
     public AudioMixer audioMixer { get; private set; }
     private Dictionary<string, AudioClip> _audioClipDict = new();
     private Queue<AudioSource> _deactivatedAudioSources = new();
+    private List<AudioSource> _ambientAudioSources = new();
     private AudioSource _bgmAudioSource;
 
-    private WaitForSeconds _waitForSeconds = new(1f);
+    private WaitForSeconds _waitForSeconds = new(0.2f);
     private Dictionary<string, AudioMixerGroup> _audioMixerGroups = new();
 
     private const int INITIAL_AUDIO_SOURCE_COUNT = 10; // 초기 오디오 소스 개수
@@ -33,9 +34,9 @@ public class SoundManager
         foreach (var audioMixerGroup in audioMixerGroupArray)
             _audioMixerGroups.Add(audioMixerGroup.name, audioMixerGroup);
 
-        audioMixer.SetFloat("MasterParam", GetAudioMixVolume(PlayerPrefs.GetFloat("MasterVolume", 1f)));
-        audioMixer.SetFloat("BGMParam", GetAudioMixVolume(PlayerPrefs.GetFloat("BGMVolume", 1f)));
-        audioMixer.SetFloat("EffectsParam", GetAudioMixVolume(PlayerPrefs.GetFloat("EffectsVolume", 1f)));
+        audioMixer.SetFloat(GlobalText.MASTER_PARAMETER_STRING, GetAudioMixVolume(PlayerPrefs.GetFloat(GlobalText.MASTER_VOLUME_STRING, 1f)));
+        audioMixer.SetFloat(GlobalText.BGM_PARAMETER_STRING, GetAudioMixVolume(PlayerPrefs.GetFloat(GlobalText.BGM_VOLUME_STRING, 1f)));
+        audioMixer.SetFloat(GlobalText.EFFECT_PARAMETER_STRING, GetAudioMixVolume(PlayerPrefs.GetFloat(GlobalText.EFFECT_VOLUME_STRING, 1f)));
     }
 
     private float GetAudioMixVolume(float volume)
@@ -51,7 +52,6 @@ public class SoundManager
         {
             _audioClipDict.Add(audioClipData.name, audioClipData); 
         }
-            
     }
 
     private void AddAudioSources(int amount)
@@ -155,7 +155,10 @@ public class SoundManager
         audioSource.outputAudioMixerGroup = _audioMixerGroups[GlobalText.EFFECTS_STRING];
         SetAudioSource(audioSource, audioClip, volume, 0, loop);
         
-        Managers.Instance.StartCoroutine(CollectSoundSource(audioSource, audioClip.length));
+        if (loop)
+            _ambientAudioSources.Add(audioSource);
+        else
+            Managers.Instance.StartCoroutine(CollectSoundSource(audioSource, audioClip.length));
     }
 
     // 3D effect sound용
@@ -168,7 +171,10 @@ public class SoundManager
         audioSource.transform.position = position;
         SetAudioSource(audioSource, audioClip, volume, 1, loop);
         
-        Managers.Instance.StartCoroutine(CollectSoundSource(audioSource, audioClip.length));
+        if (loop)
+            _ambientAudioSources.Add(audioSource);
+        else
+            Managers.Instance.StartCoroutine(CollectSoundSource(audioSource, audioClip.length));
     }
 
     // 3D effect sound용
@@ -180,7 +186,7 @@ public class SoundManager
         audioSource.outputAudioMixerGroup = _audioMixerGroups[GlobalText.EFFECTS_STRING];
         audioSource.transform.position = obj.position;
         SetAudioSource(audioSource, audioClip, volume, 1, loop);
-        
+
         Managers.Instance.StartCoroutine(CollectSoundSource(audioSource, audioClip.length, obj, destroyWhenParentDestroyed));
     }
 
@@ -201,6 +207,7 @@ public class SoundManager
         var audioClip = _audioClipDict[audioName];
         audioSource.outputAudioMixerGroup = _audioMixerGroups[GlobalText.BGM_STRING];
         SetAudioSource(audioSource, audioClip, volume, 0, true);
+        _bgmAudioSource = audioSource;
     }
 
     private void SetAudioSource(AudioSource audioSource, AudioClip clip, float volume, float spatialBlend, bool loop)
@@ -222,7 +229,7 @@ public class SoundManager
         while (time <= clipLength)
         {
             yield return _waitForSeconds;
-            time += 1f;
+            time += 0.2f;
         }
 
         audioSource.gameObject.SetActive(false);
@@ -251,6 +258,17 @@ public class SoundManager
 
         audioSource.gameObject.SetActive(false);
         _deactivatedAudioSources.Enqueue(audioSource);
+    }
+
+    public void CollectAmbientSoundSource()
+    {
+        foreach (var audioSource in _ambientAudioSources)
+        {
+            audioSource.gameObject.SetActive(false);
+            _deactivatedAudioSources.Enqueue(audioSource);
+        }
+        
+        _ambientAudioSources.Clear();
     }
     #endregion
 }

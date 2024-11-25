@@ -85,11 +85,11 @@ public class GameManager
             // MainScene
             case 1:
                 Debug.Log("Scene Loaded 1");
+                Managers.Sound.PlayBGM(GlobalText.LOBBY_SOUND);
                 break;
             // EditorScene
             case 2:
                 Debug.Log("Scene Loaded 2");
-                Managers.Sound.PlayBGM(GlobalText.LOBBY_SOUND);
                 break;
         }
     }

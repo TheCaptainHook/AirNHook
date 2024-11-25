@@ -376,7 +376,7 @@ public class MapEditor : MonoBehaviour
         
         // Managers.Sound.PlayBGM(CurMap.audioType, AudioMixerGroupType.BGM, true,.1f);
         if(!string.IsNullOrEmpty(audioName))
-            Managers.Sound.PlayBGM(audioName);
+            Managers.Sound.PlayBGM(audioName, 0.1f);
     }
 
 // SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);

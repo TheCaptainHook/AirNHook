@@ -76,7 +76,7 @@ public class Util
         {
             if (audioActive)
                 // PlayAudioClip(GlobalText.DIALOGUE_CLICK_SOUND);
-                Managers.Sound.PlaySound(GlobalText.DIALOGUE_CLICK_SOUND);
+                Managers.Sound.PlaySound(GlobalText.DIALOGUE_CLICK_SOUND, 0.35f);
                 // PlayAudioClip(audioSource, AudioType.Dialogue_Click, AudioMixerGroupType.Effects, false, 0.35f, 0f);
 
             typedSentence.Append(sentence[i]);
