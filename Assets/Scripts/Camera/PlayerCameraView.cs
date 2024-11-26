@@ -23,6 +23,8 @@ public class PlayerCameraView : MonoBehaviour
     //[SerializeField] Transform Player;
     //[SerializeField] Transform OtherPlayer;
     //Release Code
+
+    public CameraGlobalVolumeController _CameraGlobalVolumeController;
     private Transform Player
     {
         get { 
