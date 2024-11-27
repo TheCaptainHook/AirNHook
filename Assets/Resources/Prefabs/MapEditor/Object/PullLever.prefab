@@ -521,7 +521,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edfca3a50947442618f474bb4e5c099b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  id: 336
   transformID: 0
   position: {x: 0, y: 0}
   distructionStatus: 0

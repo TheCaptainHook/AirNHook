@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5863341794033811640}
   - component: {fileID: 4993536960986351614}
   - component: {fileID: 3893755856956567956}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Sofa
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -258,12 +258,12 @@ MonoBehaviour:
   id: 5306
   transformID: 0
   position: {x: 0, y: 0}
-  offset: {x: 0, y: 0}
-  turnOff: 0
   distructionStatus: 0
   onPlaceable: 1
   onRotateable: 0
   onScaleable: 0
+  offset: {x: 0, y: 0}
+  turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
