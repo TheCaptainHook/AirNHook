@@ -54,7 +54,7 @@ public class TeslaTower : BuildObj
     [SerializeField] float detectionRadiusY=3; // 감지 범위의 Y축 반지름
     private Vector3 detectOffset = new Vector3(0, 1.5f);
     private HashSet<GameObject> detectedObjects = new HashSet<GameObject>();
-    private System.Type[] _DetectObjComponentTypes = { typeof(Player), typeof(BuildObj) };
+    private System.Type[] _DetectObjComponentTypes = { typeof(PlayerSM), typeof(BuildObj) };
 
 
     private float maxLightningRate = 1f;
@@ -188,8 +188,10 @@ public class TeslaTower : BuildObj
 
     private void Check_DetectObjectsAndLightning()
     {
+        Debug.Log("TEST 1");
         if (detectedObjects.Count > 0 && onCharge)
         {
+            #region take care IInsulator, delet this region code line
             foreach(var obj in detectedObjects) //Find LightningRod
             {
                 if(obj.TryGetComponent(out LightningRod lightningRod))
@@ -199,6 +201,7 @@ public class TeslaTower : BuildObj
                     return;
                 }
             }
+            #endregion
 
             foreach(var obj in detectedObjects)
             {
@@ -218,10 +221,11 @@ public class TeslaTower : BuildObj
 
             foreach(var obj in detectedObjects)
             {
+                Debug.Log(obj.name);
                 if(obj.layer == LayerMask.NameToLayer("Player"))
                 {
                     DrawLineRenderer(obj.transform, obj.transform);
-                    obj.GetComponent<Player>().TakeDamage();
+                    obj.GetComponent<PlayerSM>().TakeDamage();
                 }
             }
 

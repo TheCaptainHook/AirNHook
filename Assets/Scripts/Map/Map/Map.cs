@@ -332,6 +332,18 @@ public struct ObjectData
         this.text = string.Empty;
         this.fontSize = 0;
     }
+    public ObjectData(int id, Vector2 position,Vector2 size)
+    {
+        this.id = id;
+        this.dialogueId = 0;
+        this.position = position;
+        quaternion = Quaternion.identity;
+        this.scale = Vector3.one;
+        this.talPot = Vector2.zero;
+        this.size = size;
+        this.text = string.Empty;
+        this.fontSize = 0;
+    }
     public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, int dialogueId = 0)
     {
         this.id = id;

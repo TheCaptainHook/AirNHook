@@ -4807,8 +4807,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayerID: -1639132293
+  m_SortingLayer: 6
   m_SortingOrder: 10000
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -4899,5 +4899,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2dd7883340b2c04fbb3d4ad12b031d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 337
+  transformID: 0
+  position: {x: 0, y: 0}
+  distructionStatus: 0
+  onPlaceable: 0
+  onRotateable: 0
+  onScaleable: 0
+  offset: {x: 0, y: 0}
+  turnOff: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 0}
   size: {x: 10, y: 10}
   innerFogEffect: {fileID: 5178017545146749406, guid: b0307a64aa73eb64b97d84d7dd63e868, type: 3}

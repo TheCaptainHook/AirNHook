@@ -1,16 +1,17 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class Fog : MonoBehaviour
+public class Fog : BuildObj
 {
-
+    [CustomHeader("Fog")]
     public Vector2 size;
 
     private ParticleSystem _MainParticle;
     private BoxCollider2D _Colider;
 
+    [ReadOnly]
     [SerializeField] GameObject innerFogEffect;
 
 
@@ -19,36 +20,54 @@ public class Fog : MonoBehaviour
     // a*b*0.4
 
     #region Particle
-    private float rateOverTime;
     private Vector3 shapeScale;
     #endregion
+
     public void Init()
     {
         _MainParticle = GetComponent<ParticleSystem>();
         _Colider = GetComponent<BoxCollider2D>();
     }
 
-    private void Awake()
+    #region Get,Set
+    public override void SetData<T>(T data)
     {
-        Init();
+        if(typeof(T) == typeof(ObjectData)){
+            ObjectData objData = (ObjectData)(object)data;
+            SetData(objData);
+            Init();
+            SetParticleSetting();
+        }
     }
-
-    private void Setting()
+    public override void SetData(ObjectData data)
     {
-        _Colider.size = size;
-        SetParticleShapeScale(size);
+        base.SetData(data);
+        size = data.size;
+        
+    }
+    public override T GetData<T>()
+    {
+        if(typeof(T)==typeof(ObjectData)){
+            return (T)(object)new ObjectData(id,transform.position,size);
+        }
+
+       return default(T);
+    }
+    #endregion
+    #region Particle    
+    public void SetParticleSetting(){
+        SetParticleShapeScale();
         SetParticleEmissionRate();
     }
-
-    #region Particle
     private void SetParticleEmissionRate()
     {
         float rate = size.x * size.y * 0.4f;
         var emission = _MainParticle.emission;
         emission.rateOverTime = rate;
     }
-    private void SetParticleShapeScale(Vector2 size)
+    private void SetParticleShapeScale()
     {
+        _Colider.size = size;
         var shape = _MainParticle.shape;
         shape.scale = size;
     }
@@ -84,19 +103,28 @@ public class Fog : MonoBehaviour
     {
         Vector2 dir= (collision.transform.position - transform.position).normalized;
         float deg = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        GameObject fog = Managers.Pooling.D_GetItem(innerFogEffect);   
-        fog.transform.position = collision.transform.position;
-        fog.transform.eulerAngles = new Vector3(fog.transform.rotation.x, deg, 0);
-        fog.SetActive(true);
-        StartCoroutine(InnerFogCoroutine(fog));
+        GameObject fogEffect = Managers.Pooling.D_GetItem(innerFogEffect);   
+        try{
+            fogEffect.transform.position = collision.transform.position;
+            fogEffect.transform.eulerAngles = new Vector3(fogEffect.transform.rotation.x, deg, 0);
+            fogEffect.SetActive(true);
+            fogEffect.GetComponent<IPooling>().ReleaseToPool();
+            // StartCoroutine(InnerFogCoroutine(fog));
+        }catch(Exception ex){
+            Debug.Log(ex);
+        }
+       
 
     }
 
-    IEnumerator InnerFogCoroutine(GameObject innerFogEffect)
-    {
-        yield return new WaitForSeconds(2);
-        innerFogEffect.SetActive(false);
-        Managers.Pooling.D_ReleaseToPool(innerFogEffect);
-    }
+    // IEnumerator InnerFogCoroutine(GameObject innerFogEffect)
+    // {
+    //         yield return new WaitForSeconds(2);
+        
+    //         innerFogEffect.SetActive(false);
+    //         Managers.Pooling.D_ReleaseToPool(innerFogEffect);
+       
+       
+    // }
    
 }
