@@ -8,7 +8,7 @@ using UnityEngine;
 public class ButtonEntity : BuildObj
 {
 
-    [CustomHeader("ButtonEntity,Inner Target Object")]
+    [CustomHeader("ButtonEntity, Target Object")]
     public List<GameObject> targetObjects;//TODO 0829 
 
     private ButtonObjectStruct buttonObjectData;

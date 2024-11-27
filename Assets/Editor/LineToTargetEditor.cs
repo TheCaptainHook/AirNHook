@@ -38,6 +38,7 @@ private List<Object> previousList;
         }else{
             Debug.Log("Not Found Property");
         }
+        
             EditorApplication.update += OnEditorUpdate;
    }
 

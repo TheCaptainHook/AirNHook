@@ -197,7 +197,6 @@ public class CreateMap_Tool : EditorWindow
         if(isMapEditor) DrawObjectContent(); 
 
         DrawGenratorObjectPreviewSpriteContent();
-
     }
     
     #region Draw
@@ -345,9 +344,8 @@ public class CreateMap_Tool : EditorWindow
                 CreateObject(index);
             }
 
-            // CreateLabel(modeType, index);
             Rect lastRect = GUILayoutUtility.GetLastRect();
-            // 마우스가 버튼 위에 있을 때 툴팁을 보여줍니다.
+
             if (lastRect.Contains(Event.current.mousePosition))
             {
                 GUI.Label(new Rect(lastRect.x, lastRect.y+20, lastRect.width, 20), content.tooltip,_GUIStyle_Tooltip);
@@ -370,7 +368,6 @@ public class CreateMap_Tool : EditorWindow
         }
     }
 
-    //todo TEST REFECTORING CODE 0503
     #endregion
 
 

@@ -155,6 +155,7 @@ public class MapEditor_Editor : Editor
                     );
                 return;
                 }
+
                 _Reset(mapEditor);
                 LoadMap(mapEditor);
                 mapEditor.onLoad = true;
@@ -351,27 +352,20 @@ public class MapEditor_Editor : Editor
             Create_Tile(); 
             Create_Object();
      
-            mapEditor.stageLevel = map.stageLevel;
-            mapEditor.mapID = map.mapID;
-
-            // mapEditor.audioType = mapEditor.CurMap.audioType;
-            mapEditor.audioName = map.audioName;
-            
-            mapEditor.startPosition = map.startPosition;
-            mapEditor.nextMapId = map.nextMapId;
-            mapEditor.subMapName = map.subMapName;
+            MapEditorFieldSetting(map);
         }
-        else
-        {
-            Debug.Log("Map not found");
-        }
-
-        ///
-        /// 플로어 타일 맵의 바운드셀로 최솟값 최댓값 알 수 있음.
-        ///
-        Debug.Log("Lode Complete");
     }
 
+
+    private void MapEditorFieldSetting(Map map)
+    {
+         mapEditor.stageLevel = map.stageLevel;
+         mapEditor.mapID = map.mapID;
+         mapEditor.audioName = map.audioName;
+         mapEditor.startPosition = map.startPosition;
+         mapEditor.nextMapId = map.nextMapId;
+         mapEditor.subMapName = map.subMapName;
+    }
     #region  Generate
     private void Create_StartPoint(Map map){
         GameObject startPoint = Instantiate(Resources.Load<GameObject>(mapObjectDataDictionary[302].path));
@@ -511,8 +505,6 @@ public class MapEditor_Editor : Editor
             EditorUtility.ClearProgressBar();
             EditorUtility.DisplayDialog("Error",$"Please check the following.\n 1. Did you press the init button before creating the map.\n2.Is the MapID field empty?","Confirm");
         }
-        // string folderPath = Path.Combine(Application.dataPath, "Resources/MapDat");
-        // CreateJsonFile(mapEditor, folderPath);
     }
     
     async Task CreateJsonFile(MapEditor mapEditor, string folderPath)
@@ -540,7 +532,6 @@ public class MapEditor_Editor : Editor
         }finally{
              EditorUtility.DisplayProgressBar("Saving Map Data", "Finalizing...", 0.9f);
         }
-      
     }
 
     private string CheckDirectory(string folderPath,Map map){
@@ -583,7 +574,6 @@ private async Task<Map> CreateMap(MapEditor mapEditor){
             //object
             GetList<ObjectData>(mapEditor.objectTransform),
             GetList<ObjectData>(mapEditor.backgroundObjectContainer),
-            // GetList<ObjectData>(mapEditor.otherContainer),
             GetList_Depth<ObjectData>(mapEditor.otherContainer.GetComponent<OtherContainer>()),
             GetList<ButtonActivatableObjectStruct>(mapEditor.buttonActivatableObjectTransform),
             GetList<ButtonObjectStruct>(mapEditor.buttonObjectTransform),
