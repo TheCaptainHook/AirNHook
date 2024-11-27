@@ -170,7 +170,6 @@ public class Portal : ActivatableObjectEntity
     private void ActiveOnRay(){
         RaycastHit2D hit = Physics2D.Raycast(transform.position,transform.up,.5f,layer);
         if(hit.collider != null){
-             Debug.Log("Player!");
                 if(!onPrograss){
                     StartCoroutine(CoPortal());
                 } 
@@ -194,14 +193,16 @@ public class Portal : ActivatableObjectEntity
         targetPortal.onPrograss = true;
 
         // FadeOut
-        yield return MapEditor.Instance.fadeInOutPanel.FadeIn();
+        //yield return MapEditor.Instance.fadeInOutPanel.FadeIn();
+        Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.PortalSpace_TimeTransitionEffect();
         player.transform.position = targetPosition + Vector2.up;
 
-
         //Finish
-        yield return MapEditor.Instance.fadeInOutPanel.FadeOut();
+        //yield return MapEditor.Instance.fadeInOutPanel.FadeOut();
+       
+        yield return new WaitForSeconds(1f);
         rg.simulated = true;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         //portalCoroutine = null;
         onPrograss = false;
         targetPortal.onPrograss = false;
