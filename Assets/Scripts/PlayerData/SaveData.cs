@@ -79,7 +79,7 @@ public class SaveData
 
     private void AddDic_NewMapSource(Map map)
     {
-        MapSaveData data = new MapSaveData(map.mapID,map.nextMapId,false,false,0,map.dialogueDataList);
+        MapSaveData data = new MapSaveData(map.mapID,map.nextMapId,false,false,0,map.dialogueDataList,map.collectableObjectStructList);
         dic[map.mapID] = data;
     }
     #endregion
@@ -114,7 +114,7 @@ public class SaveData
         foreach (var key in Managers.Data.mapData.mapAllDictionary.Keys)
         {
             Map map = Managers.Data.mapData.mapAllDictionary[key];
-            _SSMDD.Add(map.mapID, new MapSaveData(map.mapID,map.nextMapId,false,false,0,map.dialogueDataList));
+            _SSMDD.Add(map.mapID, new MapSaveData(map.mapID,map.nextMapId,false,false,0,map.dialogueDataList,map.collectableObjectStructList));
         }
 
         _SaveFileData = new SaveFileData(_SSMDD, new PlayerSaveData());
@@ -166,6 +166,13 @@ public class SaveData
     }
     #endregion
 
+
+    #region  Player Data Update
+
+    public void AddCollectable(int id){
+        _SaveFileData._PlayerSaveData.AddCollectable(id);
+    }
+    #endregion
    
 }
 
@@ -217,8 +224,9 @@ public class MapSaveData
     public float recentlyClearTime;
     public int deathCount; //해당맵에 몇번 죽었나 
     public List<DialogueData> _DialogueDataList;//해당 맵에 존재하는 다이얼로그 트리거 오브젝트
+    public List<CollectableObjectStruct> _CollectableObjectStructList;
 
-    public MapSaveData(string mapName, string nextMapId,bool clear, bool openStage,float clearTime, List<DialogueData> _DialogueDataList) //초기화
+    public MapSaveData(string mapName, string nextMapId,bool clear, bool openStage,float clearTime, List<DialogueData> _DialogueDataList,List<CollectableObjectStruct> _CollectableObjectStructList) //초기화
     {
         this.mapName = mapName;
         this.nextMapId = nextMapId;
@@ -229,6 +237,7 @@ public class MapSaveData
         deathCount = 0;
 
         this._DialogueDataList = _DialogueDataList;
+        this._CollectableObjectStructList = _CollectableObjectStructList;
     }
 
     public void ModifyDialogueData(int id)
@@ -314,6 +323,8 @@ public class PlayerSaveData
     //State
     public bool _IstutorialClear;
 
+    public List<int> collectableList;
+
     public PlayerSaveData()
     {
         this.totalDeath = 0;
@@ -321,11 +332,16 @@ public class PlayerSaveData
         curStageLevel = 0;
         //State
         _IstutorialClear = false;
+
+        collectableList = new();
     }
 
     public void AddTotalDeath(int death)
     {
         totalDeath += death;
+    }
+    public void AddCollectable(int id){
+        collectableList.Add(id);
     }
 }
 

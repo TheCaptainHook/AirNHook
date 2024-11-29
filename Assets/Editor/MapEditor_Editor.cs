@@ -390,6 +390,7 @@ public class MapEditor_Editor : Editor
             Create_Object(mapEditor.CurMap.buttonObjectList,mapEditor.buttonObjectTransform);
             Create_Object(mapEditor.CurMap.dialogueDataList,mapEditor.triggerDialogueTransform);
             Create_Object(mapEditor.CurMap.droneStructList,mapEditor.droneTransform);
+            Create_Object(mapEditor.CurMap.collectableObjectStructList,mapEditor.collectableContainer);
     }
 
     private void DrawTile(Tilemap tileMap,List<TileData> list){
@@ -579,6 +580,7 @@ private async Task<Map> CreateMap(MapEditor mapEditor){
             GetList<ButtonObjectStruct>(mapEditor.buttonObjectTransform),
             GetList<DialogueData>(mapEditor.triggerDialogueTransform),
             GetList<DroneStruct>(mapEditor.droneTransform),
+            GetList<CollectableObjectStruct>(mapEditor.collectableContainer),
             mapEditor.cellSize, 0, await CurrentMapScreenShot(mapEditor), mapEditor.audioName);
     return  map;
 }

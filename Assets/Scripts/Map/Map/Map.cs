@@ -34,6 +34,8 @@ public class Map
     public List<DialogueData> dialogueDataList = new();
     public List<DroneStruct> droneStructList = new(); //TODO 0922
 
+    public List<CollectableObjectStruct> collectableObjectStructList = new();//TODO 1129
+
     public int dataType; //0:Main,1:User
     public float cellSize;
     [HideInInspector]public byte[] bytesImage;
@@ -61,6 +63,7 @@ public class Map
         List<ButtonObjectStruct> buttonObjectList,
         List<DialogueData> dialogueDataList,
         List<DroneStruct> droneStructList,
+        List<CollectableObjectStruct> collectableObjectStructList,
         float cellSize,int dataType = 0, byte[] bytesImage = null,string audioName =""
         )
     {
@@ -84,6 +87,7 @@ public class Map
         this.buttonObjectList = buttonObjectList;
         this.dialogueDataList = dialogueDataList;
         this.droneStructList = droneStructList;
+        this.collectableObjectStructList = collectableObjectStructList;
 
         this.mapSize = mapSize;
         this.cellSize = cellSize;
@@ -119,6 +123,19 @@ public class Map
 
 
 #region  Struct
+
+ [System.Serializable]
+  public struct CollectableObjectStruct{
+    public int id;
+    public Vector2 position;
+    public Quaternion quaternion;
+
+    public CollectableObjectStruct(int id,Vector2 position,Quaternion quaternion){
+        this.id = id;
+        this.position= position;
+        this.quaternion= quaternion;
+    }
+  }
 
 [System.Serializable]
 public struct ButtonObjectStruct
@@ -161,6 +178,7 @@ public struct ButtonActivatableObjectStruct
     public float moveDistance;
 
     #region Default
+   
     public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
         Quaternion quaternion,
         Vector3 scale,

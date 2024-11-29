@@ -263888,6 +263888,7 @@
             "moveSpeed": 5.0
         }
     ],
+    "collectableObjectStructList":[],
     "dataType": 0,
     "cellSize": 2.0,
     "bytesImage": [
