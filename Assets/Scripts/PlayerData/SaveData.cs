@@ -128,7 +128,6 @@ public class SaveData
     #region Save
     public async Task Save_SaveFile()
     {
-        //_SaveFileData.SerializableSaveMapDataDictionary.FromDictionary(dic);
         _SaveFileData.SSDD_Update(dic);
         string json = JsonUtility.ToJson(_SaveFileData, true);
         await WriteTextAsync(filePath, json);
@@ -152,11 +151,9 @@ public class SaveData
     {
         string json = await File.ReadAllTextAsync(filePath);
         _SaveFileData = JsonUtility.FromJson<SaveFileData>(json);
-        //dic = _SaveFileData.SerializableSaveMapDataDictionary.ToDictionary();
         dic = _SaveFileData.SSDD_LoadDictionary();
 
         await IntergrityCheck();
-
     }
     #endregion
     //intergrity Check

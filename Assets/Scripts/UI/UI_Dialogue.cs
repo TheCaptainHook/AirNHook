@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Threading;
 using Unity.VisualScripting;
 
+
+
 public enum TextBoxPivot
 {
     Top,
@@ -84,6 +86,12 @@ public class UI_Dialogue : UI_Base
     private string path = "Arts/Sprites/DialogueSprites";
     
     private string _PreviousDialogueName;//
+    // 1129// 1129// 1129// 1129// 1129// 1129// 1129// 1129// 1129// 1129// 1129
+    private Queue<int> queue;
+    
+    public Coroutine mainCoroutine;
+
+
 
     [Header("Color")]
     Color _Alpha_1 = new Color(1, 1, 1, 1);
@@ -113,30 +121,47 @@ public class UI_Dialogue : UI_Base
     {
         _LeftImage = _SpriteLeftRT.GetComponent<Image>();
         _RightImage = _SpriteRightRT.GetComponent<Image>();
-    }
-
-   
-
-    public void SetData(int id)
-    {
-        //Init
-        nextDialogueIndex = 1;
-        dialogueId = id;
-        
-        list = Managers.Data.language.dialogueMap[id];
-
-        StartCoroutine(StartDialogue());
-
+        queue = new();
     }
 
 
-    IEnumerator StartDialogue()
+    // 1129// 1129// 1129// 1129// 1129// 1129// 1129// 1129// 1129// 1129// 1129
+    public void StartDialogue(int id)
     {
-        _Panel.color = _Alpha_translucent;
+        queue.Enqueue(id);
+
+        if(!onPrograss){
+            StartInit();
+           mainCoroutine = StartCoroutine(StartDialougeCo());
+        }
+
+    }
+    IEnumerator StartDialougeCo(){
+        onPrograss = true;
+        while(queue.Count>0)
+        {
+            int id = queue.Dequeue();
+            Debug.Log(id);
+            nextDialogueIndex = 1;
+            list = Managers.Data.language.dialogueMap[id];
+            
+            for (int i = 0; i < list.Count; i++)
+             {
+                yield return Dialogue(list[i]);
+                nextDialogueIndex++;
+             }
+        }
+
+        onPrograss = false;
+        DialogueShutDown();
+    }
+
+    private void StartInit()
+    {
+          _Panel.color = _Alpha_translucent;
         // Player 못 움직이게 설정
-        GameObject player = Managers.Game.Player;
-        player.GetComponent<PlayerMovement>().canControl = false;
-        Managers.Game.Player.GetComponent<Rigidbody2D>().velocity  = Vector2.zero;
+        // player.GetComponent<PlayerMovement>().canControl = false;
+        // Managers.Game.Player.GetComponent<Rigidbody2D>().velocity  = Vector2.zero;
         //
         //TextBox SetActive
         if (!_TextBoxRT.gameObject.activeSelf)
@@ -144,32 +169,24 @@ public class UI_Dialogue : UI_Base
             _TextBoxRT.gameObject.SetActive(true);
         }
         //TextBox SetActive
+    }
 
-        for (int i = 0; i < list.Count; i++)
-        {
-            yield return Dialogue(list[i]);
-            nextDialogueIndex++;
-        }
+    // 1129// 1129// 1129// 1129// 1129// 1129// 1129// 1129// 1129// 1129// 1129
 
 
-
-        //Dialogue ShutDown
-        //Managers.Game.PlayerAndMapSavaDataUpdate(Managers.Stage.stageName);
+    private void DialogueShutDown()
+    {
+         //Dialogue ShutDown
         Managers.Data.saveData.Save();
         DialogueReset(); //todo test
 
         _Panel.color = _Alpha_0;
-        //Dialogue ShutDown
 
         // Player 다시 움직이게 설정
-        player.GetComponent<PlayerMovement>().canControl = true;
+        // player.GetComponent<PlayerMovement>().canControl = true;
         //
         Managers.UI.HideUI<UI_Dialogue>();
-
-
     }
-
-
 
     IEnumerator Dialogue(Dialogue dialogue)
     {
@@ -379,6 +396,7 @@ public class UI_Dialogue : UI_Base
         _LeftImage.enabled = false;
         _RightImage.enabled = false;
         _TextBoxRT.gameObject.SetActive(false);
+        mainCoroutine = null;
 
 
     }
@@ -510,16 +528,11 @@ public class UI_Dialogue : UI_Base
 
 
     #region Dialogue
-    public IEnumerator TutorialClearDialogue()
-    {
-        nextDialogueIndex = 1;
-        dialogueId = 105;
-        list = Managers.Data.language.dialogueMap[105];
-
-        if (!gameObject.activeSelf) gameObject.SetActive(true);
-
-        yield return StartDialogue();
-        
+   
+    public IEnumerator TutorialClearDialogue(){
+        if(!gameObject.activeSelf) gameObject.SetActive(true);
+        StartDialogue(105);
+        yield return mainCoroutine;
     }
 
 

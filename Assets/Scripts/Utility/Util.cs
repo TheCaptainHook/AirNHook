@@ -57,30 +57,17 @@ public class Util
         text.text = "";
 
         StringBuilder typedSentence = new StringBuilder();
-        // AudioSource audioSource;
-
-        // if (audioActive)
-        // {
-        //     audioSource = Managers.Sound.GetAudioSource();
-        // }
-        // else
-        // {
-        //     audioSource = null;
-        // }
 
         text.color = color;
         text.text = typedSentence.ToString();
         text.fontSize = fontSize;
-        
         for (int i = 0; i < sentence.Length; i++)
         {
             if (audioActive)
-                // PlayAudioClip(GlobalText.DIALOGUE_CLICK_SOUND);
                 Managers.Sound.PlaySound(GlobalText.DIALOGUE_CLICK_SOUND);
-                // PlayAudioClip(audioSource, AudioType.Dialogue_Click, AudioMixerGroupType.Effects, false, 0.35f, 0f);
 
             typedSentence.Append(sentence[i]);
-           
+            text.text = typedSentence.ToString();
 
             try
             {

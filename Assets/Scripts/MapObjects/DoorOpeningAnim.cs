@@ -102,7 +102,7 @@ public class DoorOpeningAnim : NetworkBehaviour
         if (string.IsNullOrEmpty(nextMapId))
         {
             if(MapEditor.Instance.CurMap.mapID != "Lobby")
-            {
+            {   
                 if (MapEditor.Instance.CurMap.stageLevel == Managers.Game.stageLevel)
                 {
                     //Managers.Game.stageLevel++;
@@ -112,12 +112,12 @@ public class DoorOpeningAnim : NetworkBehaviour
                 }
 
                 //Managers.Game.StageLevelPlus()
-
-                var player = Managers.Game.Player.GetComponent<Player>();
+                var player = Managers.Game.Player.GetComponent<PlayerSM>();
                 if (player.isServer)
                 {
                     Managers.Command.ChangeStage("Lobby");
                 }
+                
 
             }
             Debug.Log("Stage Clear");

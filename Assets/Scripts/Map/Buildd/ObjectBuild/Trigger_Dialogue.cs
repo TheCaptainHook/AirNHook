@@ -27,7 +27,8 @@ public class Trigger_Dialogue : BuildObj
 
             //UI_Dialogue active
             UI_Dialogue _UI = Managers.UI.ShowUI<UI_Dialogue>().GetComponent<UI_Dialogue>();
-            _UI.SetData(_DialogueId);
+            // _UI.SetData(_DialogueId);
+            _UI.StartDialogue(_DialogueId);
            
         }
     }
