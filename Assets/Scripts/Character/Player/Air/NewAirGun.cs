@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -38,16 +37,11 @@ public class NewAirGun
     private bool _isInhaledHook;
     
     // ShootAction
-    private Transform _crossHair;
     private LineRenderer _lineRenderer => _air.lineRenderer;
-    private LayerMask _floorLayerMask;
     private float _shootPower;
     private float _minShootPower;
     private float _maxShootPower;
-    private Vector3[] _positions;
-    private Vector2 _checkBoxSize = new Vector2(0.2f, 0.2f);
-    private LayerMask _halfTileLayerMask;
-    private int _numberOfPoints;
+    private float _numberOfPoints;
     private float _spaceBetweenPoints;
     private float _latestTargetGravityScale;
     private Coroutine _chargingCoroutine;
@@ -63,7 +57,6 @@ public class NewAirGun
     // HookInteraction
     private float _stickToHookSpeed;
     private Vector3 _offset = new(0, -1f);
-    private Vector3 _weaponOffset = new(0, 1f);
     private Coroutine _stickToHookCoroutine;
     private WaitForFixedUpdate _waitForFixedUpdate = new();
 
@@ -83,18 +76,16 @@ public class NewAirGun
         _transform = _air.transform;
         _armPivot = _air.armPivot;
         _charPivot = _air.charPivot;
-        _crossHair = _air.crossHair;
         _collider = _air.collider2D;
         _mainCamera = Camera.main;
         _weaponPoint = _air.weaponPoint;
         _inhaleParticles = _air.inhaleParticle;
         _exhaleParticles = _air.exhaleParticle;
-        _halfTileLayerMask = LayerMask.GetMask("Ground/HalfTiles");
         
         var airData = (AirDataSO)_air.playerData;
         
-        _objectMask = airData.objectMask;
-        _obstacleMask = airData.obstacleMask;
+        _objectMask = airData.objectLayerMask;
+        _obstacleMask = airData.obstacleLayerMask;
         _airGunDistance = airData.AirGunDistance;
 
         _minShootPower = airData.minShootPower;
@@ -103,9 +94,6 @@ public class NewAirGun
         _spaceBetweenPoints = airData.spaceBetweenPoints;
         _flyPower = airData.flyPower;
         _stickToHookSpeed = airData.stickToHookSpeed;
-        _floorLayerMask = airData.floorLayerMask;
-        
-        _positions = new Vector3[_numberOfPoints];
         
         if (!_air.isLocalPlayer) return;
 
@@ -208,7 +196,7 @@ public class NewAirGun
                 var hit = Physics2D.Raycast(_weaponPoint.position, objectVector, targetDistance, _obstacleMask);
                 
                 if (Vector2.Distance(_weaponPoint.position, hit.point) < targetDistance) continue;
-                
+
                 _closestTarget = collision;
                 _shortestDistance = targetDistance;
             }
@@ -279,7 +267,7 @@ public class NewAirGun
     #region Inhaling
     private void StartInhale()
     {
-        if (!_canInhale || (_inhaling && ReferenceEquals(_latestTarget, _inhaleTarget))) return;
+        if(!_canInhale || (_inhaling && ReferenceEquals(_latestTarget, _inhaleTarget))) return;
 
         _inhaleTarget = _latestTarget;
         _inhaling = true;
@@ -572,7 +560,6 @@ public class NewAirGun
         StopInhaleTarget();
 
         _lineRenderer.enabled = false;
-        _crossHair.gameObject.SetActive(false);
         
         _inhaleTarget.GetComponent<IInhalable>().Shooting(_weaponPoint.right * _shootPower);
         _air.CmdShootObject(_inhaleTarget.gameObject, _weaponPoint.right * _shootPower);
@@ -595,44 +582,10 @@ public class NewAirGun
     
     private void ProjectilePredict()
     {
-        var pos = _air.transform.position + _weaponOffset;
-        var firstHit = Physics2D.Raycast(pos, _weaponPoint.position - pos, Vector2.Distance(pos, _weaponPoint.position), _obstacleMask);
-
-        if (firstHit && !firstHit.collider.Equals(_inhaleTarget))
+        for (var i = 0; i < _numberOfPoints; i++)
         {
-            Debug.Log(firstHit.collider);
-            return;
+            _lineRenderer.SetPosition(i, PointPosition(i * _spaceBetweenPoints));
         }
-
-        int i;
-        for (i = 0; i < _numberOfPoints; i++)
-        {
-            Vector3 point = PointPosition(i * _spaceBetweenPoints);
-            var hit = Physics2D.OverlapBox(point, _checkBoxSize, 0, _floorLayerMask);
-            
-            if (hit && !hit.gameObject.Equals(_inhaleTarget.gameObject))
-            {
-                var isHalfTile = (_halfTileLayerMask & (1 << hit.gameObject.layer)) > 0;
-                var isUpVector = i <= 0 || (point - _positions[i - 1]).y <= 0;
-
-                if (!isHalfTile || isUpVector)
-                    break;
-            }
-
-            _positions[i] = point;
-        }
-
-        if (i < 5)
-        {
-            _lineRenderer.positionCount = 0;
-            _crossHair.gameObject.SetActive(false);
-            return;
-        }
-        
-        _lineRenderer.positionCount = i - 3;
-        _lineRenderer.SetPositions(_positions);
-        _crossHair.position = _positions[i - 1];
-        _crossHair.gameObject.SetActive(true);
     }
     
     private Vector2 PointPosition(float t)
