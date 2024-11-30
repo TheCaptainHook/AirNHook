@@ -84,8 +84,8 @@ public class NewAirGun
         
         var airData = (AirDataSO)_air.playerData;
         
-        _objectMask = airData.objectMask;
-        _obstacleMask = airData.obstacleMask;
+        _objectMask = airData.objectLayerMask;
+        _obstacleMask = airData.obstacleLayerMask;
         _airGunDistance = airData.AirGunDistance;
 
         _minShootPower = airData.minShootPower;
@@ -194,13 +194,8 @@ public class NewAirGun
                 if (angle > 45) continue;
                 
                 var hit = Physics2D.Raycast(_weaponPoint.position, objectVector, targetDistance, _obstacleMask);
-                IInhalable obstacle = null;
-                if (hit.collider is not null)
-                    hit.collider.TryGetComponent(out obstacle);
                 
                 if (Vector2.Distance(_weaponPoint.position, hit.point) < targetDistance) continue;
-                
-                //if (!ReferenceEquals(hit.collider, collision) || (obstacle is not null && !obstacle.CanInhale())) continue;
 
                 _closestTarget = collision;
                 _shortestDistance = targetDistance;
