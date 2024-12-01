@@ -70,7 +70,6 @@ public class DetectionFieldDestroyer : MonoBehaviour
         foreach(Collider2D col in cols){
             if((groundLayerMask.value & (1 << col.gameObject.layer)) != 0){
                 float _Distance = Vector3.Distance(transform.position,col.ClosestPoint(transform.position));
-                Debug.Log($"{col.gameObject.name}, {_Distance}");
                 if(previousDistanceToFloor > _Distance){
                     previousDistanceToFloor = _Distance;
                     detectFloor = true;

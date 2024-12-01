@@ -23,7 +23,6 @@ public class MovingPlatform :  ActivatableObjectEntity
 
   private void Awake(){
     _rb = GetComponent<Rigidbody2D>();
-    addForcePlatform = GetComponent<AddForcePlatform>();
   }
 
 
@@ -43,21 +42,24 @@ public class MovingPlatform :  ActivatableObjectEntity
          try{
             if (typeof(T) == typeof(ButtonActivatableObjectStruct))
             {
+            addForcePlatform = GetComponent<AddForcePlatform>();
+            
             ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
             ButtonActivatedObjectStruct = objData;
             //Moving Platform
             paths = ConvertPaths(objData.paths);
             moveSpeed = objData.moveSpeed;
             addForcePlatform.Init();
-            Prograss();
             }
-        }catch{
-                Debug.Log($"ERROR,{typeof(T)}");
+        }catch(Exception ex){
+                Debug.Log($"{ex},{typeof(T)}");
         }
-        
-        if(Application.isPlaying){
-            Util util  = new Util();
-            await util.Delay(()=>{CheckActiveRequirAmount();});
+
+        if (Application.isPlaying)
+        {
+            Util util = new Util();
+            await util.Delay(() => { CheckActiveRequirAmount(); });
+            Prograss();
         }
     }
     #endregion
@@ -83,7 +85,6 @@ public class MovingPlatform :  ActivatableObjectEntity
         while (true)
         {
                 while(!onActive){
-                    Debug.Log("de active");
                     yield return null;
                 }
             if (CheckDistance(_rb.position, targetPosition))
@@ -143,12 +144,18 @@ public class MovingPlatform :  ActivatableObjectEntity
     /// <param name="paths"></param>
     /// <returns></returns>
      private Vector2[] ConvertPaths(Vector2[] paths){
-        Vector2[] targetPaths = new Vector2[paths.Length+1];
-        targetPaths[0] = transform.position;
-        for(int i = 1; i<= paths.Length;i++){
-            targetPaths[i] =  paths[i-1];
+        if (Application.isPlaying)
+        {
+            Vector2[] targetPaths = new Vector2[paths.Length + 1];
+            targetPaths[0] = transform.position;
+            for (int i = 1; i <= paths.Length; i++)
+            {
+                targetPaths[i] = paths[i - 1];
+            }
+            return targetPaths;
         }
-        return targetPaths;
+
+        return paths;
     }
 
 #endregion

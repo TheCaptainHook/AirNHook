@@ -27,7 +27,7 @@ public class UI_ScreenSaver : UI_Base
         OpenUI();
         Show();
         _keyPressed = false;
-        Managers.Sound.PlayBGM(AudioType.Title, AudioMixerGroupType.BGM, true);
+        Managers.Sound.PlayBGM(GlobalText.TITLE_SOUND);
     }
 
     private void Show()
@@ -66,7 +66,7 @@ public class UI_ScreenSaver : UI_Base
 
     private void OnClick()
     {
-        Managers.Sound.PlaySound(AudioType.UI_Click, AudioMixerGroupType.Effects, false, 0.35f, 0f);
+        Managers.Sound.PlaySound(GlobalText.UI_CLICK_SOUND, 0.35f);
     }
 
     public override void SetLanguage()

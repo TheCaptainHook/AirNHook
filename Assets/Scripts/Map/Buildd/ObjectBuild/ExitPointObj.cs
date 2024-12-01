@@ -115,10 +115,14 @@ public class ExitPointObj : BuildObj
     //TOdo 0729
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Key") && !turnOff)
+        // if (collision.gameObject.layer == LayerMask.NameToLayer("Key") && !turnOff)
+        //     ClientGetKey(collision.gameObject);
+
+        if(collision.TryGetComponent(out Key component) && !turnOff){
             ClientGetKey(collision.gameObject);
+        }
         
-        if (Managers.Game.CurrentState == GameState.Editor || !Managers.Game.Player.GetComponent<Player>().isServer) return;
+        if (Managers.Game.CurrentState == GameState.Editor || !Managers.Game.Player.GetComponent<PlayerSM>().isServer) return;
         
         //if (collision.gameObject.layer == LayerMask.NameToLayer("Key") && !turnOff)
         //    GetKey(collision.gameObject);
@@ -142,7 +146,7 @@ public class ExitPointObj : BuildObj
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (Managers.Game.CurrentState != GameState.Editor && !Managers.Game.Player.GetComponent<Player>().isServer) return;
+        if (Managers.Game.CurrentState != GameState.Editor && !Managers.Game.Player.GetComponent<PlayerSM>().isServer) return;
         
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && stageClear)
         {

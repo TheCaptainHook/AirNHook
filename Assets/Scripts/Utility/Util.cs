@@ -53,31 +53,34 @@ public class Util
 
         CancellationToken _token = token?.Token ?? CancellationToken.None; 
        
-        // int time = (int)(delayTime * 1000);
         int time = Mathf.FloorToInt(delayTime * 1000);
         text.text = "";
 
         StringBuilder typedSentence = new StringBuilder();
-        AudioSource audioSource;
+        // AudioSource audioSource;
 
-        if (audioActive)
-        {
-            audioSource = Managers.Sound.GetAudioSource();
-        }
-        else
-        {
-            audioSource = null;
-        }
+        // if (audioActive)
+        // {
+        //     audioSource = Managers.Sound.GetAudioSource();
+        // }
+        // else
+        // {
+        //     audioSource = null;
+        // }
 
+        text.color = color;
+        text.text = typedSentence.ToString();
+        text.fontSize = fontSize;
+        
         for (int i = 0; i < sentence.Length; i++)
         {
             if (audioActive)
-                PlayAudioClip(audioSource, AudioType.Dialogue_Click, AudioMixerGroupType.Effects, false, 0.35f, 0f);
+                // PlayAudioClip(GlobalText.DIALOGUE_CLICK_SOUND);
+                Managers.Sound.PlaySound(GlobalText.DIALOGUE_CLICK_SOUND, 0.35f);
+                // PlayAudioClip(audioSource, AudioType.Dialogue_Click, AudioMixerGroupType.Effects, false, 0.35f, 0f);
 
             typedSentence.Append(sentence[i]);
-            text.color = color;
-            text.text = typedSentence.ToString();
-            text.fontSize = fontSize;
+           
 
             try
             {
@@ -86,7 +89,7 @@ public class Util
             catch (TaskCanceledException)
             {
                 text.text = sentence;
-                if (audioSource != null) audioSource.gameObject.SetActive(false);
+                // if (audioSource != null) audioSource.gameObject.SetActive(false);
                 return;
             }
             catch (Exception ex)
@@ -94,21 +97,36 @@ public class Util
                 Debug.LogError("Error during typing effect task: " + ex.Message);
             }
         }
-        if (audioSource != null) audioSource.gameObject.SetActive(false);
+        // if (audioSource != null) audioSource.gameObject.SetActive(false);
     }
 
-    private void PlayAudioClip(AudioSource audioSource, AudioType audioType, AudioMixerGroupType audioMixerGroupType, bool isLoop, float volume, float spatialBlend)
-    {
-        var audioClip = Managers.Sound.GetAudioClip(audioType);
-        audioSource.outputAudioMixerGroup = Managers.Sound.GetAudioMixerGroup(audioMixerGroupType.ToString());
-        audioSource.loop = isLoop;
-        audioSource.volume = volume;
+    // private void PlayAudioClip(AudioSource audioSource, AudioType audioType, AudioMixerGroupType audioMixerGroupType, bool isLoop, float volume, float spatialBlend)
+    // {
+    //     var audioClip = Managers.Sound.GetAudioClip(audioType);
+    //     audioSource.outputAudioMixerGroup = Managers.Sound.GetAudioMixerGroup(audioMixerGroupType.ToString());
+    //     audioSource.loop = isLoop;
+    //     audioSource.volume = volume;
 
-        audioSource.gameObject.SetActive(true);
-        audioSource.clip = audioClip;
-        audioSource.spatialBlend = spatialBlend;
-        audioSource.Play();
-    }
+    //     audioSource.gameObject.SetActive(true);
+    //     audioSource.clip = audioClip;
+    //     audioSource.spatialBlend = spatialBlend;
+    //     audioSource.Play();
+    // }
+
+    // private void PlayAudioClip(string audioName)
+    // {
+    //     Managers.Sound.PlaySound(audioName);
+    //     // var audioClip = Managers.Sound.GetAudioClip(audioType);
+    //     // audioSource.outputAudioMixerGroup = Managers.Sound.GetAudioMixerGroup(audioMixerGroupType.ToString());
+    //     // audioSource.loop = isLoop;
+    //     // audioSource.volume = volume;
+
+    //     // audioSource.gameObject.SetActive(true);
+    //     // audioSource.clip = audioClip;
+    //     // audioSource.spatialBlend = spatialBlend;
+    //     // audioSource.Play();
+    // }
+    
 
     public async Task EraserEffectTask(TextMeshProUGUI text, float delayTime = 0.01f)
     {

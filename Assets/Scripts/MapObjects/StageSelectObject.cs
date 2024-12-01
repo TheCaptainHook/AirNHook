@@ -25,7 +25,8 @@ public class StageSelectObject : MonoBehaviour, IInteractable
         {
             _StageSelectorComputer.Surprise_();
             Managers.UI.ShowUI<UI_StageSelect_var3>();
-            Managers.Game.Player.GetComponent<PlayerMovement>().canControl = false;
+
+            // Managers.Game.Player.GetComponent<PlayerMovement>().canControl = false;
             Managers.Game.Player.GetComponent<Rigidbody2D>().velocity  = Vector2.zero;
         }
 

@@ -4880,12 +4880,12 @@ MonoBehaviour:
   id: 304
   transformID: 1
   position: {x: 0, y: 0}
-  offset: {x: 0, y: 1.5}
-  turnOff: 0
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 1
   onScaleable: 0
+  offset: {x: 0, y: 1.5}
+  turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
@@ -4899,7 +4899,7 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 20924352
-  _isEnabled: 1
+  _isEnabled: 0
   hitEffectParticle: {fileID: 7676629228877518604}
 --- !u!61 &5690823865466912599
 BoxCollider2D:
@@ -14803,7 +14803,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5260708701647465726}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -14912,7 +14912,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7732277339000004859
 Transform:
   m_ObjectHideFlags: 0

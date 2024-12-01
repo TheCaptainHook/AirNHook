@@ -42,7 +42,7 @@ public class FadeInOutPanel : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        Managers.Game.Player.GetComponent<Player>().Respawning();
+        Managers.Game.Player.GetComponent<PlayerSM>().Respawning();
         Camera.main.GetComponent<ParallaxCamera>().enabled = true;
 
         while (percent > 0)

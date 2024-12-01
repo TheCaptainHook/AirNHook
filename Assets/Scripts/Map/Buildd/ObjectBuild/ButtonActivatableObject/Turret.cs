@@ -91,7 +91,6 @@ public class Turret : ActivatableObjectEntity
             {
                 onFire = true;
                 Fire();
-                Debug.Log("Fire");
             }
         }
 

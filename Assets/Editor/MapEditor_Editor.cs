@@ -10,8 +10,6 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.Linq;
 using System;
-using NPOI.SS.Formula.Functions;
-
 
 
 //TODO 0724 Develop code line : 435,506
@@ -22,11 +20,25 @@ public class MapEditor_Editor : Editor
     public Dictionary<int, MapDataStruct> mapObjectDataDictionary = new Dictionary<int, MapDataStruct>();
    
     MapEditor mapEditor;//TODO 0822
-    bool onLoad;
+
+
+    #region AUDIO
+     private List<string> autoCompleteOptions = new List<string>
+    {
+        GlobalText.TITLE_SOUND,
+        GlobalText.LOBBY_SOUND,
+        GlobalText.TUTORIAL_SOUND,
+        GlobalText.STAGE_1_FINAL_SOUND,
+        GlobalText.STAGE_1_NORMAL_SOUND    
+    };
+    private List<string> filteredOptions = new List<string>();
+    private bool showDropdown = false;
+    #endregion
+
     public override void OnInspectorGUI()
     {  
         mapEditor = target as MapEditor;
-       
+     
         GUILayout.Space(10);
         Draw_MainContents();
         GUILayout.Space(10);
@@ -46,24 +58,26 @@ public class MapEditor_Editor : Editor
     private void Draw_MainContents(){
         EditorGUILayout.LabelField("Map Editor",GetGUIStyle_Label(Color.black,14,FontStyle.Bold));
         EditorGUILayout.HelpBox($"프로젝트 실행할때 꼭 개발자용 데이터 세이브 후 Reset 버튼 누른다음 실행하기.", MessageType.Info);
-    
-        GUILayout.BeginVertical(onLoad ? "Save" : "Load", new GUIStyle(GUI.skin.window));
+        GUILayout.BeginVertical(mapEditor.onLoad ? "Save" : "Load", new GUIStyle(GUI.skin.window));
         mapEditor.mapType = (MapType)EditorGUILayout.EnumPopup("Map Type",mapEditor.mapType);
-        mapEditor.stageLevel = EditorGUILayout.IntField("Stage Level",mapEditor.stageLevel);
         // mapEditor.mapID = EditorGUILayout.TextField("Map ID",mapEditor.mapID);
+
         Draw_MainContents_MapId();
 
-        if(!onLoad){
+        if(!mapEditor.onLoad)
+        {
               using (new EditorGUI.DisabledScope(true))
                 {
-                    mapEditor.audioType = (AudioType)EditorGUILayout.EnumPopup("Audio Type",mapEditor.audioType);
+                    mapEditor.audioName = EditorGUILayout.TextField(new GUIContent("BGM","BGM"),mapEditor.audioName);
                 }
         }else{
+            mapEditor.stageLevel = EditorGUILayout.IntField("Stage Level",mapEditor.stageLevel);
             mapEditor.subMapName = EditorGUILayout.TextField(new GUIContent("Map Sub Name","This is the sub-name for the map, but it’s okay to leave it empty."),mapEditor.subMapName);
-            mapEditor.audioType = (AudioType)EditorGUILayout.EnumPopup("Audio Type",mapEditor.audioType);
+            DrawBGMContents();
         }
         GUILayout.EndVertical();
     }
+
      private void Draw_MainContents_MapId(){
         Color orgCol = GUI.backgroundColor;
         if(string.IsNullOrEmpty(mapEditor.mapID)){
@@ -71,6 +85,41 @@ public class MapEditor_Editor : Editor
         }
         mapEditor.mapID = EditorGUILayout.TextField(new GUIContent("Map ID","Unique identifier for the map. This field is required."),mapEditor.mapID);
         GUI.backgroundColor = orgCol;
+    }
+
+    private void DrawBGMContents(){
+        GUI.SetNextControlName("BGM");
+        mapEditor.audioName = EditorGUILayout.TextField(new GUIContent("BGM",""),mapEditor.audioName);
+
+        if(!string.IsNullOrEmpty(mapEditor.audioName)){
+             filteredOptions = autoCompleteOptions
+                    .FindAll(option => option.ToLower().Contains(mapEditor.audioName.ToLower()));
+                    showDropdown = filteredOptions.Count>0;
+        }else if(GUI.GetNameOfFocusedControl()=="BGM" && string.IsNullOrEmpty(mapEditor.audioName)){
+            filteredOptions = new(autoCompleteOptions);
+            showDropdown = filteredOptions.Count > 0;
+        }else{
+            showDropdown = false;
+        }
+        if(showDropdown) DrawAudioDropDown();
+    }
+
+    private void DrawAudioDropDown(){
+          GUILayout.BeginVertical("Box");
+        foreach (string option in filteredOptions)
+        {
+            if (GUILayout.Button(option, GUILayout.ExpandWidth(true)))
+            {
+                // 선택한 값을 TextField에 반영
+                mapEditor.audioName = option;
+                // 드롭다운 숨김
+                showDropdown = false;
+
+                GUI.FocusControl(null); 
+                Repaint(); 
+            }
+        }   
+        GUILayout.EndVertical();
     }
 
     private void Draw_ToolContent(){
@@ -85,32 +134,47 @@ public class MapEditor_Editor : Editor
         GUILayout.EndHorizontal();
     }
     private void Draw_DevContents(){
-          GUILayout.FlexibleSpace();
-            GUILayout.Label("개발자 전용",GetGUIStyle_Label((Color.blue),14,FontStyle.Bold));
+            GUILayout.FlexibleSpace();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+            GUILayout.Label("개발자 전용",GetGUIStyle_Label((Color.white),14,FontStyle.Bold));
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
 
-            if (GUILayout.Button("Load Data(개발자전용)",GUILayout.Width(150),GUILayout.Height(30)))//TODO 0822
+            if (GUILayout.Button("Load Data(개발자전용)",GUILayout.Width(150),GUILayout.Height(30)))
             {
+                if(!Check_DuplicateMapId(mapEditor.mapID)){
+                     EditorUtility.DisplayDialog(
+                        "Map not found",
+                        "The map does not exist. Please try again",
+                        "OK"
+                    );
+                return;
+                }
                 _Reset(mapEditor);
                 LoadMap(mapEditor);
-                onLoad =true;
+                mapEditor.onLoad = true;
+                mapEditor.isLoadMap = true;
             }
 
             if (GUILayout.Button("Save Data(개발자전용)",GUILayout.Width(150),GUILayout.Height(30)))
             {
-                if(Check_DuplicateMapId(mapEditor.mapID)){
+
+                if(!mapEditor.isLoadMap && Check_DuplicateMapId(mapEditor.mapID)){
                     EditorUtility.DisplayDialog(
-                        "중복된 ID 감지",
-                        "이미 존재하는 Map ID 입니다. 다른 ID를 사용하세요",
-                        "확인"
+                        "Duplicate ID Detected",
+                        "The Map ID already exists. Please use a different MapID",
+                        "OK"
                     );
                     return;
                 }
 
                 try{
                     SaveMapData(mapEditor);
-                    onLoad = false;
                 }catch(Exception ex){
                     Debug.Log(ex);
                 }
@@ -119,19 +183,25 @@ public class MapEditor_Editor : Editor
             }
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
-            if (GUILayout.Button("개발자용, 맵 새로만들 때 먼저 누르기,Init!"))
+
+            GUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("개발자용, 맵 새로만들 때 먼저 누르기,Init!",GUILayout.Width(300),GUILayout.Height(30)))
             {
                 _Reset(mapEditor);
                 mapEditor.Init();
                 EditorApplication.ExecuteMenuItem("Window/2D/Tile Palette");
-                onLoad =true;
+                mapEditor.onLoad = true;
           
             }
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+
             GUILayout.FlexibleSpace();
     }
 //Check for duplicate Map ID TODO 1116
     private bool Check_DuplicateMapId(string mapId){
-       string path = Path.Combine(Application.dataPath,$"Resources/MapDat/Main");
+       string path = Path.Combine(Application.dataPath,$"Resources/MapDat/{mapEditor.mapType}");
        string[] jsonFiles = Directory.GetFiles(path, "*.json",SearchOption.AllDirectories);
        List<string> fileNames = jsonFiles.Select(file => Path.GetFileNameWithoutExtension(file)).ToList();
 
@@ -143,27 +213,34 @@ public class MapEditor_Editor : Editor
        
     }   
     private void Draw_InGameContents(){
-         onLoad = false;
+        mapEditor.onLoad = false;
         GUILayout.Space(10);
 
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
-        GUILayout.Label("인게임 전용");
+        GUILayout.Label("인게임 전용",GetGUIStyle_Label((Color.white),14,FontStyle.Bold));
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
-
-            if (GUILayout.Button("Load Data(인게임용)"))
+        
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+            if (GUILayout.Button("Load Data(인게임용)",GUILayout.Width(300),GUILayout.Height(30)))
             {
                 //mapEditor.LoadMap(mapEditor.mapID);
                 mapEditor.MoveNextStage(mapEditor.mapID);
                 
             }
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
 
-            if (GUILayout.Button("Reset Interactable Object Position(인게임용)"))
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+            if (GUILayout.Button("Reset Interactable Object Position(인게임용)",GUILayout.Width(300),GUILayout.Height(30)))
             {
                 mapEditor.ResetInteractableObjectPosition();
             }
-
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
         GUILayout.Space(10);
     }
     private void Draw_ResetContent(){
@@ -175,11 +252,13 @@ public class MapEditor_Editor : Editor
             mapEditor.CurMap = new Map();
             mapEditor.mapID = "";
             mapEditor.mapType = MapType.Main;
-            mapEditor.audioType = AudioType.None;
+            mapEditor.audioName = "";
             mapEditor.stageLevel = 0;
 
-            onLoad = false;      
-              
+            mapEditor.subMapName = "";
+
+            mapEditor.onLoad = false;
+            mapEditor.isLoadMap = false;
 
         }
         GUILayout.FlexibleSpace();
@@ -272,12 +351,15 @@ public class MapEditor_Editor : Editor
             Create_Tile(); 
             Create_Object();
      
-            mapEditor.stageLevel = mapEditor.CurMap.stageLevel;
-            mapEditor.mapID = mapEditor.CurMap.mapID;
-            mapEditor.audioType = mapEditor.CurMap.audioType;
-            mapEditor.startPosition = mapEditor.CurMap.startPosition;
-            mapEditor.nextMapId = mapEditor.CurMap.nextMapId;
-            mapEditor.subMapName = mapEditor.CurMap.subMapName;
+            mapEditor.stageLevel = map.stageLevel;
+            mapEditor.mapID = map.mapID;
+
+            // mapEditor.audioType = mapEditor.CurMap.audioType;
+            mapEditor.audioName = map.audioName;
+            
+            mapEditor.startPosition = map.startPosition;
+            mapEditor.nextMapId = map.nextMapId;
+            mapEditor.subMapName = map.subMapName;
         }
         else
         {
@@ -368,7 +450,7 @@ public class MapEditor_Editor : Editor
         try{
             GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
             BuildObj buildObj = obj.GetComponent<BuildObj>();
-            buildObj.SetData(data);
+            buildObj.SetData<T>(data);
             buildObj.Editor_Setting(mapEditor.buttonActivatableObjectTransform);
             
             obj.transform.SetParent(transform);
@@ -423,10 +505,11 @@ public class MapEditor_Editor : Editor
             await CreateJsonFile(mapEditor, folderPath);
 
             EditorUtility.ClearProgressBar();
+            mapEditor.onLoad = false;
         }catch(Exception ex){
             Debug.Log(ex);
             EditorUtility.ClearProgressBar();
-            EditorUtility.DisplayDialog("Error","","Confirm");
+            EditorUtility.DisplayDialog("Error",$"Please check the following.\n 1. Did you press the init button before creating the map.\n2.Is the MapID field empty?","Confirm");
         }
         // string folderPath = Path.Combine(Application.dataPath, "Resources/MapDat");
         // CreateJsonFile(mapEditor, folderPath);
@@ -506,7 +589,7 @@ private async Task<Map> CreateMap(MapEditor mapEditor){
             GetList<ButtonObjectStruct>(mapEditor.buttonObjectTransform),
             GetList<DialogueData>(mapEditor.triggerDialogueTransform),
             GetList<DroneStruct>(mapEditor.droneTransform),
-            mapEditor.cellSize, 0, await CurrentMapScreenShot(mapEditor), mapEditor.audioType);
+            mapEditor.cellSize, 0, await CurrentMapScreenShot(mapEditor), mapEditor.audioName);
     return  map;
 }
 List<TileData> GetTileData(Tilemap tileMap)

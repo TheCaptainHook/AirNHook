@@ -148,7 +148,6 @@ public class UI_StageSelect_var3: UI_Base
             textLineList.Add(newTextLine);
 
         }
-
     }
 
 
@@ -163,14 +162,14 @@ public class UI_StageSelect_var3: UI_Base
 
         computer.GetComponent<StageSelectorComputer>().Talking();
 
-        try
-        {
-            if (_UI_ComputerScreen == null) { _UI_ComputerScreen = Managers.UI.GetUI<UI_ComputerScreen>().gameObject; }
-        }
-        catch(Exception ex)
-        {
-            Debug.Log($"EX : {ex}");
-        }
+        // try
+        // {
+        //     if (_UI_ComputerScreen == null) { _UI_ComputerScreen = Managers.UI.GetUI<UI_ComputerScreen>().gameObject; }
+        // }
+        // catch(Exception ex)
+        // {
+        //     Debug.Log($"EX : {ex}");
+        // }
         
 
     }
@@ -261,7 +260,7 @@ public class UI_StageSelect_var3: UI_Base
 
     //Title
 
-    IEnumerator WriteLine(string sentence, Color color, bool readAntWrite, float fontSize = 25, float delayTime = 0.001f, bool onSelectable = true)
+    IEnumerator WriteLine(string sentence, Color color, bool readAntWrite, float fontSize = 25, float delayTime = 0.01f, bool onSelectable = true)
     {
         if (textLineList[nextWriteTextLineIndex].CheckCompareString(sentence))
         {
@@ -288,32 +287,6 @@ public class UI_StageSelect_var3: UI_Base
         contentRectTransform.localPosition = position;
     }
 
-    //private void WriteLine(string sentence, Color color, bool readAntWrite, float fontSize = 25, float delayTime = 0.01f, bool onSelectable = true)
-    //{
-    //    if (textLineList[nextWriteTextLineIndex].CheckCompareString(sentence))
-    //    {
-    //        nextWriteTextLineIndex++;
-    //        return;
-    //    }
-
-
-    //    if (nextWriteTextLineIndex >= contentMoveRect_TextLineIndex)
-    //    {
-    //        Vector2 position = contentRectTransform.localPosition;
-    //        position.y = 30 * (nextWriteTextLineIndex - contentMoveRect_TextLineIndex);
-    //        contentRectTransform.localPosition = position;
-    //    }
-
-    //    textLineList[nextWriteTextLineIndex].WriteText(sentence, color, readAntWrite, fontSize, delayTime, onSelectable);
-    //    nextWriteTextLineIndex++;
-    //}
-
-    // private void Write(string sentence, Color color, bool readAntWrite, float fontSize = 25, float delayTime = 0.01f, bool onSelectable = true)
-    // {
-    //     textLineList[nextWriteTextLineIndex].WriteText(sentence, color, readAntWrite, fontSize, delayTime, onSelectable);
-    // }
-
-
     #endregion
 
     #region Eraser
@@ -334,19 +307,6 @@ public class UI_StageSelect_var3: UI_Base
         }
     }
 
-    // IEnumerator EraserTextLineCo() //All Eraser
-    // {
-    //     for (int i = maxTextLine-1; i >= 0; i--)
-    //     {
-    //         if (textLineList[i].type == TypingType.Read) continue;
-    //         if (textLineList[i].CheckEmpty()) continue;
-
-    //         textLineList[i].EraserText();
-    //         yield return new WaitForSeconds(_WriteAndEraserDelayRate);
-    //     }
-
-    //     nextWriteTextLineIndex = 0;
-    // }
 
     private void EraserAllClear()
     {
@@ -379,7 +339,7 @@ public class UI_StageSelect_var3: UI_Base
         onInteractable = false;
         nextWriteTextLineIndex = 0;
         
-        Managers.Sound.PlaySound(AudioType.Computer_On, AudioMixerGroupType.Effects, false, 0.50f, 0f);
+        Managers.Sound.PlaySound(GlobalText.COMPUTER_ON_SOUND, 0.5f);
         List<string> sentenceList = util.SplitText(openningSentence, maxHorizontaText, new char[] { ',' });
         
         for (int i = 0; i < sentenceList.Count; i++)
@@ -493,7 +453,6 @@ public class UI_StageSelect_var3: UI_Base
     void Select_PrograssLevel_2()
     {
         int stageLevel = int.Parse(curSelectTextLine.mainSentence);
-        Debug.Log(stageLevel);
         textLineList[pathTextLineIndex].WriteText($"/{curSelectTextLine.mainSentence}");
         curSelectTextLine.Reset();
         curSelectTextLine = null;
@@ -570,10 +529,10 @@ public class UI_StageSelect_var3: UI_Base
         computer.GetComponent<StageSelectorComputer>().SpawnKey();
 
         //player Move control
-        PlayerMovement playerMovement = Managers.Game.Player.GetComponent<PlayerMovement>();
-        if(!playerMovement.canControl){
-            playerMovement.canControl = true;
-        }
+        // PlayerMovement playerMovement = Managers.Game.Player.GetComponent<PlayerMovement>();
+        // if(!playerMovement.canControl){
+        //     playerMovement.canControl = true;
+        // }
         //player Move control
 
         onPrograss = false;
@@ -582,6 +541,14 @@ public class UI_StageSelect_var3: UI_Base
     }
     private void SetScreenDataAndActive(string selectMapId)
     {
+         try
+        {
+            if (_UI_ComputerScreen == null) { _UI_ComputerScreen = Managers.UI.GetUI<UI_ComputerScreen>().gameObject; }
+        }
+        catch(Exception ex)
+        {
+            Debug.Log($"EX : {ex}");
+        }
         _UI_ComputerScreen.SetActive(true);
         _UI_ComputerScreen.GetComponent<UI_ComputerScreen>().SetData(selectMapId);
     }
@@ -622,12 +589,12 @@ public class UI_StageSelect_var3: UI_Base
 
         yield return EraserTextLineCo(0, maxSelectTextLineListIndex);
         animator.SetTrigger(close);
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(1f);
     //player Move control
-        PlayerMovement playerMovement = Managers.Game.Player.GetComponent<PlayerMovement>();
-        if(!playerMovement.canControl){
-            playerMovement.canControl = true;
-        }
+        // PlayerMovement playerMovement = Managers.Game.Player.GetComponent<PlayerMovement>();
+        // if(!playerMovement.canControl){
+        //     playerMovement.canControl = true;
+        // }
     //player Move control
         onPrograss = false;
         gameObject.SetActive(false);

@@ -26,10 +26,10 @@ MonoBehaviour:
   <AirGunDistance>k__BackingField: 3
   <objectMask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 1836032
+    m_Bits: 787456
   <obstacleMask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 1984448
+    m_Bits: 935872
   <minShootPower>k__BackingField: 5
   <maxShootPower>k__BackingField: 20
   <flyPower>k__BackingField: 14

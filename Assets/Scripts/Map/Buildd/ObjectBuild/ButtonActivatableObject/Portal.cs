@@ -16,7 +16,7 @@ public class Portal : ActivatableObjectEntity
 
     bool onPrograss;
     public bool onActivable;
-    private Coroutine portalCoroutine;
+    //private Coroutine portalCoroutine;
     private Util util;
 
     [Header("Animation")]
@@ -202,7 +202,7 @@ public class Portal : ActivatableObjectEntity
         yield return MapEditor.Instance.fadeInOutPanel.FadeOut();
         rg.simulated = true;
         yield return new WaitForSeconds(2f);
-        portalCoroutine = null;
+        //portalCoroutine = null;
         onPrograss = false;
         targetPortal.onPrograss = false;
 

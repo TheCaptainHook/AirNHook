@@ -5,6 +5,8 @@ using TMPro;
 using System.Threading.Tasks;
 using System.Drawing;
 using Random = UnityEngine.Random;
+using System.Text;
+using Unity.VisualScripting;
 public enum TypingType
 {
     Write,
@@ -42,16 +44,16 @@ public class TextLine : MonoBehaviour
     /// <param name="sentence"></param>
     /// <param name="color"></param>
     /// <param name="WriteAndRead"> Write -> true, Read -> false</param>
-    public void WriteText(string sentence, UnityEngine.Color color, bool WriteAndRead, float fontSize, float delayTime, bool onSelectable)
-    {
-        StartCoroutine(Task_WriteTyping(sentence, color, WriteAndRead, fontSize, delayTime, onSelectable));
-    }
+    // public void WriteText(string sentence, UnityEngine.Color color, bool WriteAndRead, float fontSize, float delayTime, bool onSelectable)
+    // {
+    //     StartCoroutine(Task_WriteTyping(sentence, color, WriteAndRead, fontSize, delayTime, onSelectable));
+    // }
 
    
-    public IEnumerator Task_WriteTyping(string sentence, UnityEngine.Color color, bool WriteAndRead, float fontSize, float delayTime, bool onSelectable)
+    public IEnumerator Task_WriteTyping(string sentence, UnityEngine.Color color, bool writeAndRead, float fontSize, float delayTime, bool onSelectable)
     {
         this.onSelectable = onSelectable;
-        if (WriteAndRead)
+        if (writeAndRead)
         {
             type = TypingType.Write;
         }
@@ -62,12 +64,25 @@ public class TextLine : MonoBehaviour
         orgColor = color;
         mainSentence = sentence;
 
-        Task task = util.TypingEffectTask(text, sentence, color, fontSize, delayTime);
+        // Task task = util.TypingEffectTask(text, sentence, color, fontSize, delayTime);
 
-        yield return new WaitUntil(() => task.IsCompleted);
+        // yield return new WaitUntil(() => task.IsCompleted);
+        yield return WriteTyping(sentence,color,fontSize,delayTime);
 
     }
-
+    #region Typing
+    public IEnumerator WriteTyping(string sentece,UnityEngine.Color color, float fontSize, float delayTime,int batchSize = 3){
+       text.color = color;
+       text.fontSize = fontSize;
+        StringBuilder sb = new();
+        for(int i = 0; i< sentece.Length;i+=batchSize){
+            int length = Mathf.Min(batchSize,sentece.Length-i);
+            sb.Append(sentece.Substring(i,length));
+            text.text  = sb.ToString();
+            yield return new WaitForSecondsRealtime(delayTime);
+        }
+    }
+    #endregion
 
     public void WriteText(string sentence, UnityEngine.Color color)
     {
@@ -88,10 +103,24 @@ public class TextLine : MonoBehaviour
 
     public IEnumerator Task_EraserText() {
         mainSentence = "";
-        Task task = util.EraserEffectTask(text);
-        yield return new WaitUntil(() => task.IsCompleted);
+        // Task task = util.EraserEffectTask(text);
+        // yield return new WaitUntil(() => task.IsCompleted);
+        yield return EraserEffect();
     }
+    public IEnumerator EraserEffect(int batchSize = 3){
+       if(string.IsNullOrEmpty(text.text)) yield break;
 
+        mainSentence = "";
+        StringBuilder sb = new(text.text);
+        while(sb.Length>0){
+            int charsToRemove = Mathf.Min(batchSize,sb.Length);
+            sb.Remove(sb.Length - charsToRemove,charsToRemove);
+            text.text = sb.ToString();
+            yield return new WaitForSeconds(0.01f);
+        }
+        text.text = "";
+       
+    }
     public async void EraserText()
     {
         mainSentence = "";
@@ -178,8 +207,6 @@ public class TextLine : MonoBehaviour
             int term = arr[i];
             arr[i] = arr[randomNum];
             arr[randomNum] = term;
-
-            Debug.Log(arr[i]);
         }
         return arr;
     }
