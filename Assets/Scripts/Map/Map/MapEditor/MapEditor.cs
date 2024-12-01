@@ -91,7 +91,6 @@ public class MapEditor : MonoBehaviour
     [HideInInspector] public Transform triggerDialogueTransform;
     //TOdo 0723
     [HideInInspector] public Transform droneTransform;
-    [HideInInspector] public Transform collectableContainer; // TODO 1129
 
 
     [HideInInspector] public Transform poolingContainer;
@@ -191,10 +190,6 @@ public class MapEditor : MonoBehaviour
         otherContainer.gameObject.AddComponent<OtherContainer>();
         backgroundObjectContainer = Util.CreateChildTransform(mapObjBoxTransform,"BackgroundObjectContainer");
         //TODO 1024
-
-        //TODO 1129
-        collectableContainer = Util.CreateChildTransform(mapObjBoxTransform,"CollectableContainer");
-        //TODO 1129
         
     }
 
@@ -381,7 +376,7 @@ public class MapEditor : MonoBehaviour
         
         // Managers.Sound.PlayBGM(CurMap.audioType, AudioMixerGroupType.BGM, true,.1f);
         if(!string.IsNullOrEmpty(audioName))
-            Managers.Sound.PlayBGM(audioName);
+            Managers.Sound.PlayBGM(audioName, 0.1f);
     }
 
 // SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);
