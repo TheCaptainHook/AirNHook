@@ -140,8 +140,7 @@ public class UI_Dialogue : UI_Base
         onPrograss = true;
         while(queue.Count>0)
         {
-            int id = queue.Dequeue();
-            Debug.Log(id);
+            int id = queue.Dequeue();            
             nextDialogueIndex = 1;
             list = Managers.Data.language.dialogueMap[id];
             

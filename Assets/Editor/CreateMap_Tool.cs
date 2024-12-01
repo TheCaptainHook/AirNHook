@@ -452,6 +452,9 @@ public class CreateMap_Tool : EditorWindow
             case 328:
                 SelectActiveOBJ(obj,curMapEditor.droneTransform);
             break;
+            case 338:
+                SelectActiveOBJ(obj,curMapEditor.collectableContainer);
+                break;
             default:
                 SelectActiveOBJ(obj, curMapEditor.objectTransform);
                 break;
@@ -488,7 +491,6 @@ public class CreateMap_Tool : EditorWindow
         SceneView sceneView = SceneView.lastActiveSceneView;
         if (sceneView != null)
         {
-            Debug.Log(sceneView.pivot);
             return sceneView.pivot;
         }
         else

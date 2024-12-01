@@ -129,11 +129,13 @@ public class Map
     public int id;
     public Vector2 position;
     public Quaternion quaternion;
+    public bool isFound;
 
-    public CollectableObjectStruct(int id,Vector2 position,Quaternion quaternion){
+    public CollectableObjectStruct(int id,Vector2 position,Quaternion quaternion,bool isFound = false){
         this.id = id;
         this.position= position;
         this.quaternion= quaternion;
+        this.isFound = isFound;
     }
   }
 

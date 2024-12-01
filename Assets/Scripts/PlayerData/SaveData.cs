@@ -6,6 +6,7 @@ using UnityEngine;
 using System.Text;
 using System.Linq;
 
+
 public class SaveData
 {
     private string filePath;
@@ -89,7 +90,8 @@ public class SaveData
         if (dic.ContainsKey(key))
         {
             var data = Managers.Game.GetClearData();
-            _SaveFileData._PlayerSaveData.AddTotalDeath(data.deathCount);
+            // _SaveFileData._PlayerSaveData.AddTotalDeath(data.deathCount);
+            _SaveFileData._PlayerSaveData.UpdateClearData(key);
             dic[key].ClearMapDataUpdate(data.clearTIme,data.deathCount);
 
             if (stageLevelUp)
@@ -169,8 +171,10 @@ public class SaveData
 
     #region  Player Data Update
 
-    public void AddCollectable(int id){
-        _SaveFileData._PlayerSaveData.AddCollectable(id);
+    public void AddCollectable(string mapId,Vector2 position){
+        dic[mapId].ModifyCollectable(position);
+        _SaveFileData._PlayerSaveData.AddCollectable();
+        Save();
     }
     #endregion
    
@@ -307,7 +311,28 @@ public class MapSaveData
         return true;
     }
     #endregion
-
+    #region  Collectable
+    public bool CheckIsFoundCollectableObject(Vector2 position){
+        foreach(CollectableObjectStruct data in _CollectableObjectStructList){
+            if(Mathf.Approximately(data.position.x,position.x) && Mathf.Approximately(data.position.y,position.y)){
+                return data.isFound;
+            }
+        }
+        return false;
+    }    
+    public void ModifyCollectable(Vector2 position){
+        for(int i =0;i<_CollectableObjectStructList.Count;i++){
+            Vector2 a = _CollectableObjectStructList[i].position;
+            if(Mathf.Approximately(a.x,position.x) && Mathf.Approximately(a.y,position.y)){
+                CollectableObjectStruct data = _CollectableObjectStructList[i];
+                CollectableObjectStruct modifyData = new CollectableObjectStruct(data.id,data.position,data.quaternion,true);
+                _CollectableObjectStructList[i] = modifyData;
+                return;
+            }
+            
+        }
+    }
+    #endregion
     
 }
 
@@ -323,7 +348,7 @@ public class PlayerSaveData
     //State
     public bool _IstutorialClear;
 
-    public List<int> collectableList;
+    public int collectableAmount;
 
     public PlayerSaveData()
     {
@@ -333,16 +358,18 @@ public class PlayerSaveData
         //State
         _IstutorialClear = false;
 
-        collectableList = new();
+        collectableAmount = 0;
     }
 
-    public void AddTotalDeath(int death)
-    {
-        totalDeath += death;
+    public void UpdateClearData(string clearMapId){
+        var data = Managers.Game.GetClearData();
+        totalDeath += data.deathCount;
+        this.clearMapId.Add(clearMapId);
     }
-    public void AddCollectable(int id){
-        collectableList.Add(id);
-    }
+
+        public void AddCollectable(){
+            collectableAmount++;
+        }
 }
 
 
