@@ -92,14 +92,17 @@ public class MapEditor : MonoBehaviour
     //TOdo 0723
     [HideInInspector] public Transform droneTransform;
 
-
+   
     [HideInInspector] public Transform poolingContainer;
 
     //TODO 1024
     [HideInInspector] public Transform otherContainer; 
     [HideInInspector] public Transform backgroundObjectContainer;
     //TODO 1024
-   
+    //TODO 1202
+    [HideInInspector] public Transform collectableContainer;
+
+
     public bool stageClear;
     [Space(10)]
 
@@ -190,7 +193,8 @@ public class MapEditor : MonoBehaviour
         otherContainer.gameObject.AddComponent<OtherContainer>();
         backgroundObjectContainer = Util.CreateChildTransform(mapObjBoxTransform,"BackgroundObjectContainer");
         //TODO 1024
-        
+        //TODO 1202
+        collectableContainer = Util.CreateChildTransform(mapObjBoxTransform, "CollectableContainer");
     }
 
     public void EditorMode_Init()
