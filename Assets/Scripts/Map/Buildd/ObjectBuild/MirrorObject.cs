@@ -43,11 +43,8 @@ public class MirrorObject : BuildObj,IInteractable
     }
 
     private void OnTriggerExit2D(Collider2D other){
-        if(onActive){
-            OnDeactiveMirrorRotate();
-        }  
-
         // HideEButton();
+        if (onActive) onActive = false;
         _ConnectPlayer = null;
     }
   
@@ -66,15 +63,16 @@ public class MirrorObject : BuildObj,IInteractable
     }
     private void OnActiveMirrorRotate(){
         if(_ConnectPlayer == null) return;
-        _ConnectPlayer.GetComponent<PlayerMovement>().canControl = false;
+        //_ConnectPlayer.GetComponent<PlayerSM>().canControl = false;
+        //Managers.Game.Player.GetComponent<Rigidbody2D>().simulated = false;
         Managers.Game.Player.GetComponent<Rigidbody2D>().velocity  = Vector2.zero;
         onActive = true;
         
     }
     private void OnDeactiveMirrorRotate(){
-        _ConnectPlayer.GetComponent<PlayerMovement>().canControl = true;
+        //_ConnectPlayer.GetComponent<PlayerSM>().canControl = true;
+        //Managers.Game.Player.GetComponent<Rigidbody2D>().simulated = true;
         onActive  = false;
-        _ConnectPlayer = null;
     }
     
 
@@ -84,10 +82,9 @@ public class MirrorObject : BuildObj,IInteractable
     public void Interaction(Transform accessor = null){
          if (!NetworkServer.active || !NetworkClient.isConnected)
             return;
-
-        if(_ConnectPlayer != null){
-            if(onActive){
-                 OnDeactiveMirrorRotate();
+        if (_ConnectPlayer != null){
+            if (onActive){
+                OnDeactiveMirrorRotate();
             }else{
                 OnActiveMirrorRotate();
             }

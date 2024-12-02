@@ -205,11 +205,8 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     protected virtual void Interaction()
     {
         if (latestTarget is null) return;
-        
         if (!latestTarget.TryGetComponent<IInteractable>(out var interactable)) return;
-        
         if (interactable.GetObjectType() == ObjectTypeEnum.Grab) return;
-        
         interactable.Interaction(transform);
     }
     #endregion

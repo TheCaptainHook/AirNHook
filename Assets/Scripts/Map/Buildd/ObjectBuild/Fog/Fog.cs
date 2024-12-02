@@ -54,6 +54,8 @@ public class Fog : BuildObj
        return default(T);
     }
     #endregion
+
+
     #region Particle    
     public void SetParticleSetting(){
         SetParticleShapeScale();
@@ -61,7 +63,7 @@ public class Fog : BuildObj
     }
     private void SetParticleEmissionRate()
     {
-        float rate = size.x * size.y * 0.4f;
+        float rate = size.x * size.y * 0.5f;
         var emission = _MainParticle.emission;
         emission.rateOverTime = rate;
     }
@@ -117,14 +119,4 @@ public class Fog : BuildObj
 
     }
 
-    // IEnumerator InnerFogCoroutine(GameObject innerFogEffect)
-    // {
-    //         yield return new WaitForSeconds(2);
-        
-    //         innerFogEffect.SetActive(false);
-    //         Managers.Pooling.D_ReleaseToPool(innerFogEffect);
-       
-       
-    // }
-   
 }

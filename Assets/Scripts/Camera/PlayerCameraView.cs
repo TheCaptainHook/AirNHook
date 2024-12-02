@@ -70,6 +70,7 @@ public class PlayerCameraView : MonoBehaviour
     float _Zoom;
 
     [Header("Follow Camera")]
+    public bool notFollowCam;
     private float _smoothSpeed = .5f;
     [Header("Camera Zoom")]
     private Vector3 _vecVelocity = Vector3.zero;
@@ -283,7 +284,7 @@ public class PlayerCameraView : MonoBehaviour
         try
         {
             if (target == null) return;
-
+            if (notFollowCam) return;
             var _playerPos = new Vector3(target.position.x, target.position.y + 1f, -1);
             if(Vector3.Distance(transform.position,target.position)>0.01f){
                  transform.position = Vector3.SmoothDamp(transform.position, _playerPos, ref _vecVelocity, _smoothSpeed,
@@ -296,8 +297,20 @@ public class PlayerCameraView : MonoBehaviour
             // ignored
         }
     }
-
-
+    
+    public void SetCamerPosition()
+    {
+        try
+        {
+            transform.position = Player.position + new Vector3(0,0,-1);
+            if (notFollowCam) notFollowCam = false;
+        }
+        catch
+        {
+            Debug.Log("Can't find Player");
+        }
+       
+    }
 
 
     private void FollowCamera(Vector3 target)

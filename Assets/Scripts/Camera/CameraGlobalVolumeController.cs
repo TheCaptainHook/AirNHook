@@ -47,12 +47,18 @@ public class CameraGlobalVolumeController : MonoBehaviour
     {
         _LensDistortion.active = true;
         float percent = 0;
+        // holding camera
+        Camera.main.GetComponent<PlayerCameraView>().notFollowCam = true;
+
         while(percent < 1)
         {
             percent += Time.fixedDeltaTime*1.8f;
             _Volume.weight = percent;
             yield return null;
         }
+        //Transform position
+        Camera.main.GetComponent<PlayerCameraView>().SetCamerPosition();
+
         while (percent > 0)
         {
             percent -= Time.fixedDeltaTime * 1.8f;

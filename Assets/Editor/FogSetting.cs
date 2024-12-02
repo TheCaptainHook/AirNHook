@@ -1,7 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 
@@ -13,6 +13,7 @@ public class FogSetting : Editor
 
     private Vector2 previousSize;
 
+#if UNITY_EDITOR
     private void OnEnable(){
         fog = (Fog)target;
         fog.Init();
@@ -44,4 +45,5 @@ public class FogSetting : Editor
         serializedProperty.serializedObject.Update();
 
     }
+#endif
 }
