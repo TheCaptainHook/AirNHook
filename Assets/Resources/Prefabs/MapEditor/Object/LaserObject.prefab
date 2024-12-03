@@ -4898,7 +4898,7 @@ MonoBehaviour:
   _endVFX: {fileID: 5345449485699939287}
   _layerMask:
     serializedVersion: 2
-    m_Bits: 20924352
+    m_Bits: 19875776
   _isEnabled: 0
   hitEffectParticle: {fileID: 7676629228877518604}
 --- !u!61 &5690823865466912599
