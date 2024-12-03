@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4729177506055982236}
   - component: {fileID: 7947521403535783670}
   - component: {fileID: 2068554927914634329}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: MapBackWallBlue_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,11 +100,12 @@ MonoBehaviour:
   id: 6102
   transformID: 1
   position: {x: 0, y: 0}
-  offset: {x: 0, y: 0}
-  turnOff: 0
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 1
+  offset: {x: 0, y: 0}
+  turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 0}

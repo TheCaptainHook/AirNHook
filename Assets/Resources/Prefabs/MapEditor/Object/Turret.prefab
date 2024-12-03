@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2771323103432618973}
   - component: {fileID: 2385932891363147402}
-  m_Layer: 7
+  m_Layer: 14
   m_Name: Bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 2331992458008449857}
   - component: {fileID: 5325542820177514359}
   - component: {fileID: 7457352967083843958}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: ExhaleDust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5020,7 +5020,7 @@ GameObject:
   m_Component:
   - component: {fileID: 350511905385519305}
   - component: {fileID: 6294561643083456202}
-  m_Layer: 7
+  m_Layer: 14
   m_Name: TopLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5103,7 +5103,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8547298488332605700}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5141,7 +5141,7 @@ GameObject:
   - component: {fileID: -2000141949827509853}
   - component: {fileID: 8611386600391597754}
   - component: {fileID: 5990140042596155439}
-  m_Layer: 17
+  m_Layer: 14
   m_Name: Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5309,12 +5309,12 @@ MonoBehaviour:
   id: 331
   transformID: 0
   position: {x: 0, y: 0}
-  offset: {x: 0, y: 0}
-  turnOff: 0
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
+  offset: {x: 0, y: 0}
+  turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
@@ -5322,6 +5322,7 @@ MonoBehaviour:
   curActiveBtn: 0
   rotateRate: 0
   fireRate: 0
+  onHoldRotation: 0
   onLeft: 0
   firePoint: {fileID: 8547298488332605700}
   fireEffect: {fileID: 5325542820177514359}
@@ -5337,7 +5338,7 @@ GameObject:
   m_Component:
   - component: {fileID: 11490995408081342}
   - component: {fileID: 1735034770076449896}
-  m_Layer: 7
+  m_Layer: 14
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5420,7 +5421,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4485853627197103065}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5455,7 +5456,7 @@ GameObject:
   m_Component:
   - component: {fileID: 789582306031020629}
   - component: {fileID: 1181219437956576979}
-  m_Layer: 7
+  m_Layer: 14
   m_Name: TopTopColor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5539,7 +5540,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3515739418548987624}
   - component: {fileID: 3020853595452193287}
-  m_Layer: 7
+  m_Layer: 14
   m_Name: TopShade
   m_TagString: Untagged
   m_Icon: {fileID: 0}

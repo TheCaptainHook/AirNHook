@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8239013785726220437}
   - component: {fileID: 359833345830380419}
   - component: {fileID: 4667477143272384614}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Layer-1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 8444230274400775961}
   - component: {fileID: 1479689600109097596}
   - component: {fileID: 722703091497079263}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Layer-3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -193,7 +193,7 @@ SpriteRenderer:
   m_Size: {x: 78.81516, y: 39.600002}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &2726772226512577136
@@ -207,7 +207,7 @@ GameObject:
   - component: {fileID: 3380520252600497449}
   - component: {fileID: 5947632319825770838}
   - component: {fileID: 4892646125974496146}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Layer-4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -291,7 +291,7 @@ SpriteRenderer:
   m_Size: {x: 78.81516, y: 39.600002}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &4716880260946789865
@@ -305,7 +305,7 @@ GameObject:
   - component: {fileID: 124074403016761541}
   - component: {fileID: 8168891517826637313}
   - component: {fileID: 5752533577829303736}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Layer-0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -403,7 +403,7 @@ GameObject:
   - component: {fileID: 8893106963729198329}
   - component: {fileID: 7055427391927607029}
   - component: {fileID: 4966940330891393002}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Layer-2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -502,7 +502,7 @@ GameObject:
   - component: {fileID: 3854100492633569515}
   - component: {fileID: 354706182273321140}
   - component: {fileID: 7726892027218428272}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: MapBackGround_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -569,11 +569,12 @@ MonoBehaviour:
   id: 6001
   transformID: 1
   position: {x: 0, y: 0}
-  offset: {x: 0, y: 0}
-  turnOff: 0
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 1
   onScaleable: 1
+  offset: {x: 0, y: 0}
+  turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 0}

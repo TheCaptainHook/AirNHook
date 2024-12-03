@@ -158,7 +158,7 @@ MonoBehaviour:
   _LimitVelocity: 2
   layerMask:
     serializedVersion: 2
-    m_Bits: 4146176
+    m_Bits: 3097600
   _MovingPlatform: {fileID: 280356420529785168}
 --- !u!114 &3602550238883226528
 MonoBehaviour:

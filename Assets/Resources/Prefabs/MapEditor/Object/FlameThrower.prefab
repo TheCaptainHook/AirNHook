@@ -207,18 +207,19 @@ MonoBehaviour:
   id: 309
   transformID: 1
   position: {x: 0, y: 0}
-  offset: {x: 0, y: 1.5}
-  turnOff: 0
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 1
   onScaleable: 0
+  offset: {x: 0, y: 1.5}
+  turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 0}
   onActive: 0
   layerMask:
     serializedVersion: 2
-    m_Bits: 2049216
+    m_Bits: 1000640
   flame: {fileID: 1256057224243392037}
 --- !u!1 &9092146968563663255
 GameObject:

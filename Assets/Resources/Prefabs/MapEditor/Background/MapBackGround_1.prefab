@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1283915515237647519}
   - component: {fileID: 4431352560829404219}
   - component: {fileID: 4736437855553368620}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Layer-0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 5687791089851274664}
   - component: {fileID: 4582443307469025516}
   - component: {fileID: 9101746831127672723}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Layer-2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,7 +207,7 @@ GameObject:
   - component: {fileID: 1677639629918733645}
   - component: {fileID: 2580809147549078880}
   - component: {fileID: 5046041046883999311}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Layer-1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -305,7 +305,7 @@ GameObject:
   - component: {fileID: 305374572880140406}
   - component: {fileID: 343317168084417665}
   - component: {fileID: 218981007557779075}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Layer-3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -404,7 +404,7 @@ GameObject:
   - component: {fileID: 772669873944702011}
   - component: {fileID: 1807685068437500954}
   - component: {fileID: 2204562967083446817}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: MapBackGround_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -470,11 +470,12 @@ MonoBehaviour:
   id: 6000
   transformID: 1
   position: {x: 0, y: 0}
-  offset: {x: 0, y: 0}
-  turnOff: 0
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 1
   onScaleable: 1
+  offset: {x: 0, y: 0}
+  turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 0}
