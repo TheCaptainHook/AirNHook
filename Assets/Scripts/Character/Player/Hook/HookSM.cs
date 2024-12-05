@@ -22,6 +22,9 @@ public class HookSM : PlayerSM, IInhalable
     [field: SerializeField] public LineRenderer ropeRenderer { get; private set; }
     [field: SerializeField] public LayerMask hookLayerMask { get; private set; }
     
+    [field: Header("Hook Particles")]
+    [field: SerializeField] public ParticleSystem hookParticle { get; private set; }
+    
     [field: Header("Inhale")]
     private Transform _fixedPoint;
     private Coroutine _inhaleCoroutine;
@@ -269,6 +272,7 @@ public class HookSM : PlayerSM, IInhalable
     {
         isSwinging = true;
         stateMachine.ChangeState(((HookStateMachine)stateMachine).GrapplingState);
+        PlayHookParticle();
     }
     
     public void WithdrawHook()
@@ -375,6 +379,13 @@ public class HookSM : PlayerSM, IInhalable
         isAirAttached = value;
         
         animator.SetBool(GlobalText.SWINGING_WITH_AIR_ANIMATION_STRING, isAirAttached);
+    }
+    #endregion
+    
+    #region Particles
+    public void PlayHookParticle()
+    {
+        hookParticle.Play();
     }
     #endregion
 }

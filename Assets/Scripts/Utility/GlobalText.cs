@@ -19,6 +19,10 @@ public static class GlobalText
     public const string FLYING_ANIMATION_STRING = "IsFlying";
     public const string HOOK_INHALED_ANIMATION_STRING = "IsHookInhaled";
     public const string AIR_ATTACHED_ANIMATION_STRING = "IsAttached";
+    //DeathParameter
+    public const string FIRE_DEATH_ANIMATION_STRING = "DeathByFire";
+    public const string ELECTRIC_DEATH_ANIMATION_STRING = "DeathByElectric";
+    public const string SUICIDE_DEATH_ANIMATION_STRING = "DeathBySucide";
     #endregion
 
     #region Sound String

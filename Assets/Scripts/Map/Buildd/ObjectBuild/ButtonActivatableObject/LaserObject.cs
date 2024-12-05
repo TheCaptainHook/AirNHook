@@ -63,7 +63,7 @@ using UnityEngine;
             Vector2 start;
             Vector2 dir;
             try{
-                start = transform.position;
+                start = _firePoint.position;
                 dir = transform.right;
             }catch{
                 Debug.Log($"Application.isPlaying : {Application.isPlaying}, can't find transform");
@@ -86,8 +86,8 @@ using UnityEngine;
                     //Check collider
                      if(rh.collider.TryGetComponent(out Player component)  && Application.isPlaying){
                          SetHitParticleRotate(start,rh.point); // todo 0914
-                         component.TakeDamage();
-                         break;
+                         component.TakeDamage(DamageType.Fire);
+                             break;
                      }else if(rh.collider.gameObject.name == "Mirror"){
                          start = rh.point;
                          dir = Vector2.Reflect(ray.direction, colDir);
@@ -103,7 +103,7 @@ using UnityEngine;
                      }else{
                         SetHitParticleRotate(start,rh.point);
                         if(rh.collider.TryGetComponent(out IDamageable damageable)){
-                            damageable.TakeDamage();
+                            damageable.TakeDamage(DamageType.Fire);
                         }
                         break;
                      }
@@ -122,6 +122,7 @@ using UnityEngine;
         private void SetHitParticleRotate(Vector3 start,Vector3 hitPoint){
             if(hitEffectParticle.transform.position != hitPoint){
                 hitEffectParticle.transform.position = hitPoint;
+                _endVFX.transform.position = hitPoint;
             }
 
             Vector2 direction = hitPoint - start;
@@ -130,6 +131,7 @@ using UnityEngine;
 
             if(hitEffectParticle.transform.rotation != rotation){
                 hitEffectParticle.transform.rotation = Quaternion.Euler(angle,-90,0);
+                _endVFX.transform.rotation = Quaternion.Euler(angle, -90, 0);
             }
 
 

@@ -225,7 +225,7 @@ public class TeslaTower : BuildObj
                 if(obj.layer == LayerMask.NameToLayer("Player"))
                 {
                     DrawLineRenderer(obj.transform, obj.transform);
-                    obj.GetComponent<PlayerSM>().TakeDamage();
+                    obj.GetComponent<PlayerSM>().TakeDamage(DamageType.Electric);
                 }
             }
 

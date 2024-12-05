@@ -228,7 +228,11 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         canControl = false;
         rigidbody2D.constraints = RigidbodyConstraints2D.FreezeAll;
         collider2D.enabled = false;
-        animator.SetTrigger(animationData.DefaultDeathParameterHash);
+        // DamageType에 따른 애니메이션 트리거 실행
+        animator.SetTrigger(
+            animationData.DeathParameterHashes.ContainsKey(damageType)
+                ? animationData.DeathParameterHashes[damageType]
+                : animationData.DeathParameterHashes[DamageType.Default]);
     }
     
     public virtual void Respawning()
