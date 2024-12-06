@@ -5,21 +5,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 using System.Linq;
+using System.Threading;
 
 
 public class SaveData
 {
     private string filePath;
+    private string achievmentDataPath;
 
     public SaveFileData _SaveFileData;
+    public AchievementData _AchievementData; // TODO 1206
     public Dictionary<string, MapSaveData> dic = new();
 
 
     public void SetUp()
     {
         filePath = Path.Combine(Application.persistentDataPath, "savefile.json");
+        achievmentDataPath = Path.Combine(Application.persistentDataPath,"acData.json");
+
         Debug.Log(filePath);
         SearchSaveFile();
+        
+        //TODO 1206
+        SearchAcData();
     }
 
     private void SearchSaveFile()
@@ -44,7 +52,57 @@ public class SaveData
     {
         GetUI_SaveAndLoad().LoadData(Load_SaveFile());
     }
+    #region Achievement
+    private CancellationTokenSource _cts = new CancellationTokenSource();
+    private Task _lastAcSaveTask = Task.CompletedTask;
+    private readonly object _lock = new object();
+    private bool _saveScheduled = false;
+    public async void SearchAcData(){
+        if(File.Exists(achievmentDataPath)){
+            await Ac_Load();
+            return;    
+        }
 
+        Ac_CreateNewData();
+        
+    }
+    public async Task Ac_Load(){
+        string json = await File.ReadAllTextAsync(achievmentDataPath);
+        _AchievementData = JsonUtility.FromJson<AchievementData>(json);
+    }
+    public async Task Ac_Save(){
+       lock (_lock){ //already call this function,
+        if(_saveScheduled){
+            _cts.Cancel();
+            _cts = new CancellationTokenSource();
+        }
+        _saveScheduled = true;
+       }
+
+       try{
+        await Task.Delay(10000,_cts.Token);
+       }catch(TaskCanceledException){
+        return;
+       }
+
+       lock(_lock){
+        _saveScheduled = false;
+        _lastAcSaveTask = PerformAc_Save();
+       }
+
+       await _lastAcSaveTask;
+
+    }
+    private async Task PerformAc_Save(){
+        string json = JsonUtility.ToJson(_AchievementData);
+        await WriteTextAsync(achievmentDataPath,json);
+        Debug.Log("Ac data Save");
+    }
+    public async void Ac_CreateNewData(){
+        _AchievementData = new AchievementData();
+        await Ac_Save();
+    }
+    #endregion
 
      #region  Intergrity Check
     //1101
@@ -441,3 +499,18 @@ public class SerializableSaveMapDataDictionary<TKey, TValue>
 }
 #endregion
 
+#region Achievement
+public class AchievementData{
+    //Object
+    public int use_Portal;
+        //btn
+    //Player
+    public int player_Jumping;
+        //Death type
+        
+    public AchievementData(){
+        use_Portal = 0;
+        player_Jumping = 0;
+    }
+}
+#endregion

@@ -201,6 +201,8 @@ public class Portal : ActivatableObjectEntity
         //yield return MapEditor.Instance.fadeInOutPanel.FadeOut();
        
         yield return new WaitForSeconds(1f);
+        //TODO 1206, AcData Update
+        Managers.AcManager.CallUsePortal();
         rg.simulated = true;
         yield return new WaitForSeconds(1f);
         //portalCoroutine = null;

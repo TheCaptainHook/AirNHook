@@ -53,4 +53,13 @@ public static class GlobalText
     #endregion
     #endregion
     #endregion
+
+    #region Achievement Id
+    //Player
+    public const string PLAYER_JUMPING_100 = "Player_Jumping_100";
+    //Object
+    public const string USE_PORTAL_1 = "Use_Portal_1";
+    public const string USE_PORTAL_50 = "Use_Portal_50";
+
+    #endregion
 }

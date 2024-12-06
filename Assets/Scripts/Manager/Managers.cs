@@ -14,6 +14,8 @@ public class Managers : MonoBehaviour
     //1107
     private PoolingManager _pool = new();
     //1107
+    //1206
+    private AchievementManager _acManager = new();
     public static GameManager Game => Instance._game;
     public static UIManager UI => Instance._uiManager;
     public static StageManager Stage => Instance._stage;
@@ -27,6 +29,7 @@ public class Managers : MonoBehaviour
     }
     //1107
     public static PoolingManager Pooling => Instance._pool;
+    public static AchievementManager AcManager => Instance._acManager;
     //1107
     
     /// <summary> 게임 시작시 자동으로 호출 - Scene에 넣을 필요 X </summary>
@@ -58,6 +61,7 @@ public class Managers : MonoBehaviour
         Data.Setup();
         Sound.SetUp();
         Pooling.Setup();
+        AcManager.SetUp(); // 1206
     }
 
     /// <summary>
