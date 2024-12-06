@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: DefaultCharacterData
   m_EditorClassIdentifier: 
   <characterType>k__BackingField: 0
-  <moveSpeed>k__BackingField: 4
-  <jumpPower>k__BackingField: 11.2
+  <moveSpeed>k__BackingField: 3.5
+  <jumpPower>k__BackingField: 11.4
   <floorLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 688832
