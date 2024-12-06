@@ -15,6 +15,7 @@ public class AchievementManager
     
     #endregion
 
+    public bool onRequestSteamUserState;
     // List<string> achievementList = new List<string>()
     // {
     //     GlobalText.PLAYER_JUMPING,
@@ -24,6 +25,10 @@ public class AchievementManager
 
 
   public void SetUp(){
+    if(SteamUserStats.RequestCurrentStats()){
+        onRequestSteamUserState = true;
+    }
+
     //Object
     usePortalEvent += UsePortal;
     //Player
@@ -59,8 +64,10 @@ private void AchievementUnlock(string achievementID){
 #region Event
     #region  Object
 
-private async void UsePortal(){
+private async void UsePortal(){ 
    int usePortal = ++Managers.Data.saveData._AchievementData.use_Portal;
+
+   if(onRequestSteamUserState)
    switch(usePortal){
         case 1:
             if(IsAchievementUnlocked(GlobalText.USE_PORTAL_1)){
@@ -81,6 +88,8 @@ private async void UsePortal(){
     #region Player
     private async void PlayerJumping(){
         int player_Jumping = ++Managers.Data.saveData._AchievementData.player_Jumping;
+       
+        if(onRequestSteamUserState)
         switch (player_Jumping){
             case 100:
             if(IsAchievementUnlocked(GlobalText.PLAYER_JUMPING_100)){
