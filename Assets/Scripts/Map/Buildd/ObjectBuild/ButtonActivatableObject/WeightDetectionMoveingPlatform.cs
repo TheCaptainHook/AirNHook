@@ -1,4 +1,5 @@
 using System;
+using System.Security.Cryptography;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -45,9 +46,14 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
    #region  Components
    private Rigidbody2D rb;
    private Collider2D bodyCol;
+   private Animator animator;
    #endregion
-
-    #region  Test Init
+    
+    #region Animation
+    private readonly int leftDown = Animator.StringToHash("LeftDown");
+    private readonly int rightDown = Animator.StringToHash("RightDown");
+    #endregion
+    
     private void Init(){
         orgPot = transform.position;
         path  = GetPath();
@@ -55,8 +61,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
 
         rayLength = bodyCol.bounds.size.x/2f;
     }
-    #endregion
-
+ 
 
     #region  Get,Set
     public override T GetData<T>()
@@ -105,6 +110,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     private void Awake(){
         rb = GetComponent<Rigidbody2D>();
         bodyCol = GetComponent<Collider2D>();
+        animator = GetComponent<Animator>();
 
     }
 
@@ -137,7 +143,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
             rw += Weight(hit);
         }
 
-
+        //recover tilt
         if(leftHit.Length == 0 && rightHit.Length == 0){
             curReleaseCount+=Time.fixedDeltaTime;
             if(curReleaseCount >= releaseCount){
@@ -147,8 +153,10 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
             curReleaseCount = 0;
         }
 
-
+        
         weight = (lw-rw)/10f;
+        //tilt animation
+        TiltAnimationSet(lw,rw);
         //tilt platform
         Rotate(weight);
         //move platform
@@ -169,10 +177,19 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
             
 
     }
+
+    // z>0 : left , z<0 :right
     private void Rotate(float weight){
         Vector3 euler = transform.rotation.eulerAngles;
         euler.z += weight;
-        euler.z = Mathf.Clamp(euler.z > 180 ? euler.z - 360 : euler.z,-maxRotate,maxRotate);
+
+        if(euler.z > 180){
+            euler.z -= 360;
+        }
+
+        euler.z = Mathf.Clamp(euler.z , -maxRotate,maxRotate);
+        // TiltAnimationSet(euler.z);
+       
         transform.rotation = Quaternion.Euler(euler);
     }
     private void MoveTowards(){
@@ -195,6 +212,19 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
 
 
 #region  Util
+private void TiltAnimationSet(float l,float r){
+     if(l > r){//left
+            animator.SetBool(leftDown,true);
+            animator.SetBool(rightDown,false);
+        }else if(l < r){//right
+            animator.SetBool(leftDown,false);
+            animator.SetBool(rightDown,true);
+        }else{
+            animator.SetBool(leftDown,false);
+            animator.SetBool(rightDown,false);
+        }
+}
+
 private Vector2 GetPath(){
     if(moveDistance == 0) return orgPot;
     Vector2 target = new Vector2(orgPot.x + moveDistance,orgPot.y);
@@ -206,9 +236,15 @@ private Vector2 GetPath(){
 }
 
 private float Weight(RaycastHit2D hit){
-    float dis = Mathf.Floor(Vector3.Distance(transform.position,hit.point)*100)/100;
-    float mass = hit.collider.GetComponent<Rigidbody2D>().mass;
-    return dis*mass;
+    if(hit.collider.TryGetComponent(out Rigidbody2D component))
+    {
+        float dis = Mathf.Floor(Vector3.Distance(transform.position,hit.point)*100)/100;
+        float mass = component.mass;
+        return dis*mass;
+    }
+
+    return 0;
+   
 }
 private bool CheckMaxAndMinClamp(){
         if(dir == Vector2.right){

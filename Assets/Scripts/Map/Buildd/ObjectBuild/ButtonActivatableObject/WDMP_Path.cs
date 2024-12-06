@@ -40,7 +40,10 @@ public class WDMP_Path : MonoBehaviour
         if((Vector2)transform.position != previousTransformPosition){
             previousTransformPosition = transform.position;
             line.SetPosition(0,previousTransformPosition);
+            target.Set(transform.position.x+previousMoveDistance,previousTransformPosition.y);
+            line.SetPosition(1,target);
         }
+        
         if(!CheckMoveDistance(previousMoveDistance,moveDistance)){
             previousMoveDistance = moveDistance;
             target.Set(transform.position.x+previousMoveDistance,previousTransformPosition.y);

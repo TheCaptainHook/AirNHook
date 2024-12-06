@@ -1,5 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -11,6 +11,8 @@ public class WDMP_Path_Editor : Editor
     private WDMP_Path _WDMP_Path;
 
     float previousMoveDistance;
+    Vector2 previousPosition;
+
 
     private void OnEnable(){
         _WDMP_Path  = (WDMP_Path)target;
@@ -20,7 +22,9 @@ public class WDMP_Path_Editor : Editor
             serializedProperty = so.FindProperty("moveDistance");
             previousMoveDistance = serializedProperty.floatValue;
             _WDMP_Path.Init(previousMoveDistance);
+            previousPosition = _WDMP.gameObject.transform.position;
         }
+
 
         EditorApplication.update += OnEditorUpdate;
     }
