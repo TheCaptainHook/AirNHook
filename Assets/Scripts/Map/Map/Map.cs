@@ -178,6 +178,9 @@ public struct ButtonActivatableObjectStruct
     public float moveSpeed;
     //Weight Detection Moving Platform
     public float moveDistance;
+    //Bridge Box
+    public float bridgeLength;
+    public Vector2 connectionPoint;
 
     #region Default
    
@@ -201,6 +204,8 @@ public struct ButtonActivatableObjectStruct
         paths = null;
         moveSpeed = 0;
         moveDistance = 0;
+        bridgeLength = 0;
+        connectionPoint = Vector2.zero;
 
     }
     #endregion
@@ -225,7 +230,10 @@ public struct ButtonActivatableObjectStruct
         paths = null;
         moveSpeed = 0;
         moveDistance = 0;
+        bridgeLength = 0;
+        connectionPoint = Vector2.zero;
     }
+
     #endregion
     #region Turret
     public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
@@ -251,6 +259,8 @@ public struct ButtonActivatableObjectStruct
         paths = null;
         moveSpeed = 0;
         moveDistance = 0;
+        bridgeLength = 0;
+        connectionPoint = Vector2.zero;
     }
     #endregion
     #region MovingPlatform
@@ -275,6 +285,8 @@ public struct ButtonActivatableObjectStruct
         this.paths = paths;
         this.moveSpeed = moveSpeed;
         moveDistance = 0;
+        bridgeLength = 0;
+        connectionPoint = Vector2.zero;
 
     }
     #endregion
@@ -301,7 +313,34 @@ public struct ButtonActivatableObjectStruct
         paths = null;
         this.moveDistance = moveDistance;
         this.moveSpeed = moveSpeed;
-
+        bridgeLength = 0;
+        connectionPoint = Vector2.zero;
+    }
+    #endregion
+    #region  BridgeBox
+      public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
+        Quaternion quaternion,
+        Vector3 scale,
+        float bridgeLength,
+        Vector2 connectionPoint
+        )
+    {
+        this.id= id;
+        this.activeRequirAmount = activeRequirAmount;
+        this.position = position;
+        this .quaternion = quaternion;
+        this.scale = scale;
+        talPot = Vector2.zero;
+        jumpingPower = 0;
+        rotateRate = 0;
+        fireRate = 0;
+        onLeft = false;
+        onHoldRotation = false;
+        paths = null;
+        moveDistance = 0;
+        moveSpeed = 0;
+        this.bridgeLength = bridgeLength;
+        this.connectionPoint= connectionPoint;
     }
     #endregion
 }

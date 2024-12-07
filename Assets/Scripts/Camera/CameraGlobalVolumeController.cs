@@ -6,7 +6,6 @@ using UnityEngine.Rendering.Universal;
 
 public class CameraGlobalVolumeController : MonoBehaviour
 {
-
     private Volume _Volume;
     private Vignette _Vignette;
     private LensDistortion _LensDistortion;
@@ -49,7 +48,6 @@ public class CameraGlobalVolumeController : MonoBehaviour
         float percent = 0;
         // holding camera
         Camera.main.GetComponent<PlayerCameraView>().notFollowCam = true;
-
         while(percent < 1)
         {
             percent += Time.fixedDeltaTime*1.8f;
@@ -58,13 +56,13 @@ public class CameraGlobalVolumeController : MonoBehaviour
         }
         //Transform position
         Camera.main.GetComponent<PlayerCameraView>().SetCamerPosition();
-
         while (percent > 0)
         {
             percent -= Time.fixedDeltaTime * 1.8f;
             _Volume.weight = percent;
             yield return null;
         }
+        
         _Volume.weight = 0;
         _LensDistortion.active = false;
     }

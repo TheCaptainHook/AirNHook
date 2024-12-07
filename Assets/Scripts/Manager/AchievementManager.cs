@@ -9,9 +9,9 @@ public class AchievementManager
 {
     #region Event    
     //Player
-    public event Action playerJumpingEvent;
+    private event Action playerJumpingEvent;
     //Object
-    public event Action usePortalEvent;
+    private event Action usePortalEvent;
     
     #endregion
 
@@ -25,9 +25,9 @@ public class AchievementManager
 
 
   public void SetUp(){
-    if(SteamUserStats.RequestCurrentStats()){
-        onRequestSteamUserState = true;
-    }
+    // if(SteamUserStats.RequestCurrentStats()){
+    //     onRequestSteamUserState = true;
+    // }
 
     //Object
     usePortalEvent += UsePortal;
@@ -35,7 +35,7 @@ public class AchievementManager
     playerJumpingEvent += PlayerJumping;
   }
 
-  #region Call Event
+#region Call Event
   public void CallUsePortal(){
     usePortalEvent?.Invoke();
   }
@@ -44,6 +44,8 @@ public class AchievementManager
   }
   #endregion
 
+
+#region SteamWorks
 public bool IsAchievementUnlocked(string achievementID)
 {
         bool achieved = false;
@@ -57,8 +59,7 @@ private void AchievementUnlock(string achievementID){
     SteamUserStats.SetAchievement(achievementID);
     SteamUserStats.StoreStats();
 }
-
-
+#endregion
 
 
 #region Event
