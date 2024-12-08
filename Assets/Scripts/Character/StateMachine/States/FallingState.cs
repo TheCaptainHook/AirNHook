@@ -46,7 +46,8 @@ public class FallingState : BaseState
                 return;
             }
         }
-
+        
+        stateMachine.player.isDownThroughPlatform = false;
         stateMachine.ChangeState(stateMachine.horizontal != 0 ? stateMachine.WalkState : stateMachine.IdleState);
     }
     #endregion

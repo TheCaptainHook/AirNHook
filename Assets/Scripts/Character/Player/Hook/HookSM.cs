@@ -122,7 +122,7 @@ public class HookSM : PlayerSM, IInhalable
                 if (!inhalable.CanInteract()) continue;
 
                 var pos = transform.position + offset;
-                var objectVector = (collider2D.transform.position - pos).normalized;
+                var objectVector = (collision.transform.position - pos).normalized;
                 var targetDistance = Vector2.Distance(transform.position + offset, collision.transform.position);
 
                 var hit = Physics2D.Raycast(pos, objectVector, targetDistance, obstacleMask);
