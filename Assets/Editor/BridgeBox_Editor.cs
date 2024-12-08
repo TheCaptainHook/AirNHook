@@ -47,7 +47,7 @@ public class BridgeBox_Editor : Editor
 
         serializedProperty.serializedObject.Update();
         if(!CheckBridgeLengthValue()){
-            previousBridgeLength = Mathf.Floor(serializedProperty.floatValue);
+            previousBridgeLength =serializedProperty.floatValue;
             
             if(previousBridgeLength <1){
                 bridgeConnect_Editor.DisconnectBridge();

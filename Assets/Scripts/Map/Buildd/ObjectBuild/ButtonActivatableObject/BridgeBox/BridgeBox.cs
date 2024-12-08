@@ -20,7 +20,7 @@ using UnityEngine;
         public override T GetData<T>()
         {
             if(typeof(T) == typeof(ButtonActivatableObjectStruct)){
-                return (T)(object) new ButtonActivatableObjectStruct(id,activeRequirAmount,transform.position,transform.rotation,transform.localScale,Mathf.Floor(bridgeLength),GetConnectionPoint());
+                return (T)(object) new ButtonActivatableObjectStruct(id,activeRequirAmount,transform.position,transform.rotation,transform.localScale,bridgeLength,GetConnectionPoint());
             }   
             return default(T);
         }
@@ -53,7 +53,6 @@ using UnityEngine;
         private void Awake(){
             rb = GetComponent<Rigidbody2D>();
             boxCol = GetComponent<BoxCollider2D>();
-            // bridgeCol = lineRenderer.GetComponent<BoxCollider2D>();
         }
 
         private void BridgeSetting(){
@@ -94,11 +93,10 @@ using UnityEngine;
             float angle = Mathf.Atan2(dir.y,dir.x) * Mathf.Rad2Deg;
             obj.transform.rotation = Quaternion.Euler(0,0,angle);
             
-            obj.layer = transform.gameObject.layer;
+            obj.layer = LayerMask.NameToLayer("Ground/NotHookable");
             obj.transform.SetParent(transform);
         }
         private void DrawLine(){
-            // Vector2 targetPot = transform.position + transform.right*bridgeLength;
             lineRenderer.positionCount =2;
             lineRenderer.SetPosition(0,lineRenderer.transform.position);
             lineRenderer.SetPosition(1,connectionPoint+GetOffset());
@@ -140,7 +138,6 @@ using UnityEngine;
             Vector2 dir = transform.right;
             return (Vector2)transform.position + dir*bridgeLength;
             
-
         }
     }
 
