@@ -11,6 +11,7 @@ public class HookStateMachine : PlayerStateMachine
     
     #region InputValue
     public float swingForce => ((HookDataSO)hook.playerData).swingForce;
+    public float swingJumpPower => ((HookDataSO)hook.playerData).swingJumpForce;
     #endregion
     
     public HookStateMachine(PlayerSM player) : base(player)

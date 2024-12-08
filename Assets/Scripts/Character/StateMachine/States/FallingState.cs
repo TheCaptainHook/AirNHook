@@ -30,21 +30,24 @@ public class FallingState : BaseState
 
         if (stateMachine.isJumping || stateMachine.isJumpPerformed)
         {
-            if (stateMachine.player.isDownThroughPlatform || stateMachine.vertical < 0)
+            if (stateMachine.vertical < 0)
             {
+                stateMachine.player.isDownThroughPlatform = true;
                 if (stateMachine.player.isHalfPlatform)
-                {
+                {    
                     stateMachine.player.DownThroughHalfPlatform();
                     return;
                 }
             }
             else
             {
+                stateMachine.player.isDownThroughPlatform = false;
                 stateMachine.ChangeState(stateMachine.JumpState);
                 return;
             }
         }
-
+        
+        stateMachine.player.isDownThroughPlatform = false;
         stateMachine.ChangeState(stateMachine.horizontal != 0 ? stateMachine.WalkState : stateMachine.IdleState);
     }
     #endregion

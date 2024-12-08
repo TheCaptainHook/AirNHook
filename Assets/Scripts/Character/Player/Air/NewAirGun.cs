@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -93,8 +92,8 @@ public class NewAirGun
         
         var airData = (AirDataSO)_air.playerData;
         
-        _objectMask = airData.objectMask;
-        _obstacleMask = airData.obstacleMask;
+        _objectMask = airData.objectLayerMask;
+        _obstacleMask = airData.obstacleLayerMask;
         _airGunDistance = airData.AirGunDistance;
 
         _minShootPower = airData.minShootPower;
