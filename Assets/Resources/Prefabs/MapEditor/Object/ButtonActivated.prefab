@@ -494,19 +494,19 @@ MonoBehaviour:
   id: 306
   transformID: 4
   position: {x: 0, y: 0}
-  offset: {x: 0, y: 1.5}
-  turnOff: 0
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
+  offset: {x: 0, y: 1.5}
+  turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 0}
   targetObjects: []
   mask:
     serializedVersion: 2
-    m_Bits: 2032640
-  onActive: 0
+    m_Bits: 984064
   isPressed: 0
   buttonTransform: {fileID: 1603824504014076954}
 --- !u!95 &6538494676459900832
@@ -576,4 +576,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47cbe461e052440acba8e390cc208ed1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isNotPrefab: 1
+  debugmodeTransform: {fileID: 0}
+  onHierarchy: 0

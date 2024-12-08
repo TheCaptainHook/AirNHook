@@ -11,6 +11,7 @@ public class AirSM : PlayerSM
 
     public Transform armPivot;
     public Transform weaponPoint;
+    public Transform crossHair;
     public LineRenderer lineRenderer;
     
     [field: Header("AirGun Particles")]

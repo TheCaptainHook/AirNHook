@@ -1148,12 +1148,12 @@ MonoBehaviour:
   id: 328
   transformID: 0
   position: {x: 0, y: 0}
-  offset: {x: 0, y: 0}
-  turnOff: 0
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
+  offset: {x: 0, y: 0}
+  turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
@@ -1169,7 +1169,7 @@ MonoBehaviour:
   lineRenderer: {fileID: 2821746452775799054}
   layerMask:
     serializedVersion: 2
-    m_Bits: 2049985
+    m_Bits: 1001409
 --- !u!1 &8732067415727849449
 GameObject:
   m_ObjectHideFlags: 0

@@ -29,10 +29,10 @@ MonoBehaviour:
     m_Bits: 787456
   <obstacleMask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 935872
+    m_Bits: 148416
   <minShootPower>k__BackingField: 5
   <maxShootPower>k__BackingField: 20
   <flyPower>k__BackingField: 14
   <stickToHookSpeed>k__BackingField: 500
-  <numberOfPoints>k__BackingField: 50
-  <spaceBetweenPoints>k__BackingField: 0.025
+  <numberOfPoints>k__BackingField: 100
+  <spaceBetweenPoints>k__BackingField: 0.015

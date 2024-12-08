@@ -49,14 +49,14 @@ BoxCollider2D:
     m_Bits: 1024
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 1145004535
+    m_Bits: 1294986231
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
     m_Bits: 4294967295
   m_ForceReceiveLayers:
     serializedVersion: 2
-    m_Bits: 1145004535
+    m_Bits: 1294986231
   m_ContactCaptureLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -278,10 +278,10 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 671936
+    m_Bits: 672704
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 1144333623
+    m_Bits: 1294314551
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -344,12 +344,12 @@ MonoBehaviour:
   id: 300
   transformID: 1
   position: {x: 0, y: 0}
-  offset: {x: 0, y: 1.5}
-  turnOff: 0
   distructionStatus: 1
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
+  offset: {x: 0, y: 1.5}
+  turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 4684687439439529792}
