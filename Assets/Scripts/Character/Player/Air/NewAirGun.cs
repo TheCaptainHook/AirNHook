@@ -63,6 +63,7 @@ public class NewAirGun
     // HookInteraction
     private float _stickToHookSpeed;
     private Vector3 _offset = new(0, -1f);
+    private Vector3 _weaponOffset = new(0, 1f);
     private Coroutine _stickToHookCoroutine;
     private WaitForFixedUpdate _waitForFixedUpdate = new();
 
@@ -205,14 +206,9 @@ public class NewAirGun
                 if (angle > 45) continue;
                 
                 var hit = Physics2D.Raycast(_weaponPoint.position, objectVector, targetDistance, _obstacleMask);
-                IInhalable obstacle = null;
-                if (hit.collider is not null)
-                    hit.collider.TryGetComponent(out obstacle);
                 
                 if (Vector2.Distance(_weaponPoint.position, hit.point) < targetDistance) continue;
                 
-                //if (!ReferenceEquals(hit.collider, collision) || (obstacle is not null && !obstacle.CanInhale())) continue;
-
                 _closestTarget = collision;
                 _shortestDistance = targetDistance;
             }
@@ -599,6 +595,15 @@ public class NewAirGun
     
     private void ProjectilePredict()
     {
+        var pos = _air.transform.position + _weaponOffset;
+        var firstHit = Physics2D.Raycast(pos, _weaponPoint.position - pos, Vector2.Distance(pos, _weaponPoint.position), _obstacleMask);
+
+        if (firstHit && !firstHit.collider.Equals(_inhaleTarget))
+        {
+            Debug.Log(firstHit.collider);
+            return;
+        }
+
         int i;
         for (i = 0; i < _numberOfPoints; i++)
         {
