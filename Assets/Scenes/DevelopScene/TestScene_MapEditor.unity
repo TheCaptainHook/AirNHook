@@ -96921,7 +96921,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5b4e32fbc2471a34b861dc089c637721, type: 2}
   m_sharedMaterial: {fileID: 5359831757883840851, guid: 5b4e32fbc2471a34b861dc089c637721, type: 2}
@@ -103632,48 +103632,9 @@ MonoBehaviour:
   main_Text: {fileID: 1086659483}
   font: {fileID: 11400000, guid: 5b4e32fbc2471a34b861dc089c637721, type: 2}
   textMeshEffectStructList: []
-  scaleCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1.5
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.25
-      value: 0.5
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.5
-      value: 1.25
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  testSentence: Lorem [Ipsum] is simply [dummy] /1
+  animationSpeed: 2
+  scaleMultiplier: 1.5
 --- !u!114 &1859315736
 MonoBehaviour:
   m_ObjectHideFlags: 0
