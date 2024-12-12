@@ -26,10 +26,7 @@ public class UI_EventEchoDialogue : UI_Base
 
     //1210 Text Effect
     public List<TextMeshEffectStruct> textMeshEffectStructList;
-
-    #region Mark_1
-
-    #endregion
+    private List<TMP_EffectField> allTMP_EffectFieldList;
 
     #region  Components
 
@@ -52,13 +49,17 @@ public class UI_EventEchoDialogue : UI_Base
     #endregion
 
 
+    #region  Color
+    private Color transparencyColor = new Color(1,1,1,0);
+    #endregion
+
     private void Update()
     {
         //test
         if (Input.GetKeyDown(KeyCode.P))
         {
 
-            Test();
+            SetDialogue(testSentence);
 
         }
     }
@@ -66,11 +67,13 @@ public class UI_EventEchoDialogue : UI_Base
     private void Init()
     {
         textMeshEffectStructList = new();
+        allTMP_EffectFieldList = new();
     }
 
     public void Reset()
     {
         textMeshEffectStructList.Clear();
+        allTMP_EffectFieldList.Clear();
         StopAllCoroutines();
         mark_1_EffectCoroutine = null;
         mark_2_EffectCoroutine = null;
@@ -87,9 +90,9 @@ public class UI_EventEchoDialogue : UI_Base
     public Coroutine mark_1_EffectCoroutine;
     public Coroutine mark_2_EffectCoroutine;
 
-    public void Test()
+    public void SetDialogue(string text)
     {
-        string text = testSentence;
+        // string text = testSentence;
         //1. Replace
         Replace(ref text);
         //Search mark
@@ -98,22 +101,27 @@ public class UI_EventEchoDialogue : UI_Base
         main_Text.text = text;
 
         main_Text.ForceMeshUpdate();
-        List<TMP_EffectField> fadeInList = new();
+        List<TMP_EffectField> scaleList = new();
         List<TMP_EffectField> bounceList = new();
 
-        //on Effect
+        //start Color
         foreach (TextMeshEffectStruct data in textMeshEffectStructList)
         {
-            ChangeColor(data, Color.red);
+            ChangeColor(data, transparencyColor);
 
-            if (data.mark == Mark.Mark_1) GetEffectFieldList(data, ref fadeInList);
+            if (data.mark == Mark.Mark_1) GetEffectFieldList(data, ref scaleList);
             if (data.mark == Mark.Mark_2) GetEffectFieldList(data, ref bounceList);
         }
 
         main_Text.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
 
+        //on effect
+
+        // StartCoroutine(AppearEffect(bounceList));
+        // StartCoroutine(AppearEffect(scaleList));
+
         if (mark_1_EffectCoroutine != null) StopCoroutine(mark_1_EffectCoroutine);
-        mark_1_EffectCoroutine = StartCoroutine(ScaleEffectCo(fadeInList));
+        mark_1_EffectCoroutine = StartCoroutine(ScaleEffectCo(scaleList));
 
         if (mark_2_EffectCoroutine != null) StopCoroutine(mark_2_EffectCoroutine);
         mark_2_EffectCoroutine = StartCoroutine(BounceEffectCo(bounceList));
@@ -129,8 +137,6 @@ public class UI_EventEchoDialogue : UI_Base
 
         //main text.text
         main_Text.text = sentence;
-
-
 
         //CreateTextMesh("aaaaaa".ToCharArray());
         //CreateTextMesh("bbbbbb".ToCharArray());
@@ -189,20 +195,21 @@ public class UI_EventEchoDialogue : UI_Base
             if (!charInfo.isVisible) continue;
 
             list.Add(new TMP_EffectField(main_Text.textInfo, charInfo, data.mark));
+
         }
     }
 
     #endregion
+    #region  Effect
 
-
-    public float animationSpeed = 2f;      // 애니메이션 속도
+    public float scaleAnimationSpeed = 2f;      // 애니메이션 속도
     public float scaleMultiplier = 1.5f;   // 최대 스케일 배수
     IEnumerator ScaleEffectCo(List<TMP_EffectField> list)
     {
         float scale;
         while (true)
         {
-            scale = 1 + (Mathf.Sin(Time.time * animationSpeed) * (scaleMultiplier - 1f));
+            scale = 1 + (Mathf.Sin(Time.time * scaleAnimationSpeed) * (scaleMultiplier - 1f));
 
             foreach (var f in list)
             {
@@ -210,6 +217,7 @@ public class UI_EventEchoDialogue : UI_Base
                 {
                     //f.vertices[f.vertexIndex + i] = f.charCenter + (f.vertices[f.vertexIndex + i] - f.charCenter) * scale;
                     f.vertices[f.vertexIndex + i] = f.charCenter + (f.originalVertices[f.vertexIndex + i] - f.charCenter) * scale;
+                    
                 }
             }
 
@@ -225,16 +233,13 @@ public class UI_EventEchoDialogue : UI_Base
 
     }
     float amplitude = 7;
+    float bounceAnimationSpeed = 2;
     IEnumerator BounceEffectCo(List<TMP_EffectField> list)
     {
-        float value;
         while (true)
         {
-            value = (Mathf.Sin(Time.time * 3) + 1) / 2f;
-
             foreach (var f in list)
             {
-
                 for (int i = 0; i < 4; i++)
                 {
 
@@ -242,7 +247,7 @@ public class UI_EventEchoDialogue : UI_Base
                     pot.x = 0;
                     //f.vertices[f.vertexIndex + i] = f.charCenter + (f.vertices[f.vertexIndex + i] - f.charCenter) * scale;
                     //f.vertices[f.vertexIndex + i] = f.charCenter + (f.originalVertices[f.vertexIndex + i] - f.charCenter) * scale;
-                    f.vertices[f.vertexIndex + i] = f.originalVertices[f.vertexIndex + i] - new Vector3(0, Mathf.Sin(Time.time * animationSpeed) * amplitude, 0);
+                    f.vertices[f.vertexIndex + i] = f.originalVertices[f.vertexIndex + i] - new Vector3(0, Mathf.Sin(Time.time * bounceAnimationSpeed) * amplitude, 0);
                 }
             }
 
@@ -257,6 +262,26 @@ public class UI_EventEchoDialogue : UI_Base
         }
     }
 
+    float appearAnimationSpeed =1;
+    
+    IEnumerator AppearEffect(List<TMP_EffectField> list){
+        float percent =0;
+
+        while(percent <1){
+            percent += Time.deltaTime * appearAnimationSpeed;
+            foreach(var f in list){
+                var meshInfo = f.tmp.meshInfo[f.materialIndex];
+                Color32[] colors = meshInfo.colors32;
+                for(int i = 0; i<4;i++) colors[f.vertexIndex + i] = Color.Lerp(transparencyColor,Color.red,percent);
+                meshInfo.mesh.colors32 = colors;
+            }
+            main_Text.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+            yield return null;
+        }
+          
+    }
+
+    #endregion
 
     private void ChangeColor(TextMeshEffectStruct data, Color targetColor)
     {
@@ -266,21 +291,23 @@ public class UI_EventEchoDialogue : UI_Base
             var charInfo = main_Text.textInfo.characterInfo[i];
             if (!charInfo.isVisible)
                 continue;
+            ChangeColor(charInfo,targetColor);
+        }
 
-            int materialIndex = charInfo.materialReferenceIndex;
+    }
+
+    private void ChangeColor(TMP_CharacterInfo charInfo,Color targetColor){
+         int materialIndex = charInfo.materialReferenceIndex;
             int vertexIndex = charInfo.vertexIndex;
 
             // vertex 색상 참조
             Color32[] colors = main_Text.textInfo.meshInfo[materialIndex].colors32;
 
-            colors[vertexIndex + 0] = targetColor / 0.5f;
+            colors[vertexIndex + 0] = targetColor;
             colors[vertexIndex + 1] = targetColor;
-            colors[vertexIndex + 2] = targetColor / 1.5f;
-            colors[vertexIndex + 3] = targetColor / 2;
-        }
-
+            colors[vertexIndex + 2] = targetColor;
+            colors[vertexIndex + 3] = targetColor;
     }
-
 
 
     private void UpdateTextMeshEffectStructList(ref string sentence)
@@ -289,9 +316,7 @@ public class UI_EventEchoDialogue : UI_Base
         int textLength = 0;
         int mark = 0;
         StringBuilder sb = new();
-        // 0123 45 678 9
-        //[abcd]e [asd]s //5
-        //01234567891123
+       
         for (int i = 0; i < sentence.Length; i++)
         {
             switch (sentence[i])
@@ -341,7 +366,7 @@ public class UI_EventEchoDialogue : UI_Base
 
     public class TMP_EffectField
     {
-        TMP_TextInfo tmp;
+        public TMP_TextInfo tmp;
         public TMP_CharacterInfo charInfo;
         public Vector3[] vertices;
         public Vector3[] originalVertices;

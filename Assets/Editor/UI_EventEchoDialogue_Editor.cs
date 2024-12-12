@@ -18,7 +18,7 @@ public class UI_EventEchoDialogue_Editor : Editor
         base.OnInspectorGUI();
         if (GUILayout.Button("TEST"))
         {
-            ui_EventEchoDialogue.Test();
+            // ui_EventEchoDialogue.Test();
         }
 
         if (GUILayout.Button("Reset"))

@@ -103632,8 +103632,8 @@ MonoBehaviour:
   main_Text: {fileID: 1086659483}
   font: {fileID: 11400000, guid: 5b4e32fbc2471a34b861dc089c637721, type: 2}
   textMeshEffectStructList: []
-  testSentence: Lorem [Ipsum] is simply [dummy] /1
-  animationSpeed: 2
+  testSentence: Lorem [Ipsum] is sim<ply> [dummy] /1
+  scaleAnimationSpeed: 2
   scaleMultiplier: 1.5
 --- !u!114 &1859315736
 MonoBehaviour:
