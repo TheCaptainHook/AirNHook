@@ -219,6 +219,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     #endregion
     
     #region Dead
+    // ReSharper disable Unity.PerformanceAnalysis
     public virtual void TakeDamage(DamageType damageType = DamageType.Default)
     {
         if (!isLocalPlayer) return;
@@ -230,6 +231,10 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         collider2D.enabled = false;
         // DamageType에 따른 애니메이션 트리거 실행
         animator.SetTrigger(
+            animationData.DeathParameterHashes.ContainsKey(damageType)
+                ? animationData.DeathParameterHashes[damageType]
+                : animationData.DeathParameterHashes[DamageType.Default]);
+        Camera.main.GetComponent<PlayerCameraView>()._CameraImageEffects.animator.SetTrigger(
             animationData.DeathParameterHashes.ContainsKey(damageType)
                 ? animationData.DeathParameterHashes[damageType]
                 : animationData.DeathParameterHashes[DamageType.Default]);
