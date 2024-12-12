@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Steamworks;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class AchievementManager
 {
@@ -64,6 +65,11 @@ public class AchievementManager
         #region  Object
             private async void UsePortal(){ 
             int usePortal = ++Managers.Data.saveData._AchievementData.use_Portal;
+
+            //test 1212
+            UI_EventEchoDialogue ui_EED = Managers.UI.ShowUI<UI_EventEchoDialogue>().gameObject.GetComponent<UI_EventEchoDialogue>();
+            ui_EED.SetDialogue("use portal [/2] count");
+            //test 1212
 
             if(onRequestSteamUserState)
             switch(usePortal){

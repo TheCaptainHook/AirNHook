@@ -5,8 +5,6 @@ using System.Text;
 using System.Collections;
 using System;
 using System.Collections.Generic;
-using UnityEditor;
-
 
 public enum Mark
 {
@@ -26,7 +24,7 @@ public class UI_EventEchoDialogue : UI_Base
 
     //1210 Text Effect
     public List<TextMeshEffectStruct> textMeshEffectStructList;
-    private List<TMP_EffectField> allTMP_EffectFieldList;
+    // private List<TMP_EffectField> allTMP_EffectFieldList;
 
     #region  Components
 
@@ -46,6 +44,7 @@ public class UI_EventEchoDialogue : UI_Base
 
     #region Pattern
     private string stringToIntPattern_PlayerDeath = "/1"; //player death
+    private string stringToIntPattern_PlayerUsePortal = "/2"; // use portal
     #endregion
 
 
@@ -67,29 +66,29 @@ public class UI_EventEchoDialogue : UI_Base
     private void Init()
     {
         textMeshEffectStructList = new();
-        allTMP_EffectFieldList = new();
+        // allTMP_EffectFieldList = new();
     }
 
     public void Reset()
     {
         textMeshEffectStructList.Clear();
-        allTMP_EffectFieldList.Clear();
+        // allTMP_EffectFieldList.Clear();
         StopAllCoroutines();
         mark_1_EffectCoroutine = null;
         mark_2_EffectCoroutine = null;
 
         main_Text.text = "";
         main_Text.ForceMeshUpdate();
-#if UNITY_EDITOR
-        EditorUtility.SetDirty(main_Text.gameObject); // 텍스트가 속한 게임 오브젝트를 수정된 상태로 표시
-        //UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene()); // 현재 씬을 더티 상태로 표시
-#endif
+
     }
 
 
     public Coroutine mark_1_EffectCoroutine;
     public Coroutine mark_2_EffectCoroutine;
 
+   
+    #region Main
+    
     public void SetDialogue(string text)
     {
         // string text = testSentence;
@@ -107,7 +106,7 @@ public class UI_EventEchoDialogue : UI_Base
         //start Color
         foreach (TextMeshEffectStruct data in textMeshEffectStructList)
         {
-            ChangeColor(data, transparencyColor);
+            ChangeColor(data, Color.red);
 
             if (data.mark == Mark.Mark_1) GetEffectFieldList(data, ref scaleList);
             if (data.mark == Mark.Mark_2) GetEffectFieldList(data, ref bounceList);
@@ -126,25 +125,15 @@ public class UI_EventEchoDialogue : UI_Base
         if (mark_2_EffectCoroutine != null) StopCoroutine(mark_2_EffectCoroutine);
         mark_2_EffectCoroutine = StartCoroutine(BounceEffectCo(bounceList));
 
-    }
-
-
-    #region Main
-    private void StartDialogue(string sentence) //0
-    {
-        //Replace
-        Replace(ref sentence);
-
-        //main text.text
-        main_Text.text = sentence;
-
-        //CreateTextMesh("aaaaaa".ToCharArray());
-        //CreateTextMesh("bbbbbb".ToCharArray());
-        //CreateTextMesh("cccccc".ToCharArray());
+        StartCoroutine(ShutDownCo());
 
     }
 
-
+    IEnumerator ShutDownCo(){
+        yield return new WaitForSeconds(5);
+        Reset();
+        CloseUI();
+    }
     #endregion
 
 
@@ -152,6 +141,7 @@ public class UI_EventEchoDialogue : UI_Base
     #region UI
     public override void OnEnable()
     {
+
     }
 
     protected override void OpenUI()
@@ -180,7 +170,8 @@ public class UI_EventEchoDialogue : UI_Base
     private void Replace(ref string sentence)
     {
         StringBuilder sb = new StringBuilder(sentence);
-        sb.Replace(stringToIntPattern_PlayerDeath, 5.ToString());
+        // sb.Replace(stringToIntPattern_PlayerDeath, 5.ToString());
+        sb.Replace(stringToIntPattern_PlayerUsePortal,Managers.Data.saveData._AchievementData.use_Portal.ToString());
 
         sentence = sb.ToString();
     }
@@ -202,8 +193,8 @@ public class UI_EventEchoDialogue : UI_Base
     #endregion
     #region  Effect
 
-    public float scaleAnimationSpeed = 2f;      // 애니메이션 속도
-    public float scaleMultiplier = 1.5f;   // 최대 스케일 배수
+    private float scaleAnimationSpeed = 2f;      // 애니메이션 속도
+    private float scaleMultiplier = 1.5f;   // 최대 스케일 배수
     IEnumerator ScaleEffectCo(List<TMP_EffectField> list)
     {
         float scale;
