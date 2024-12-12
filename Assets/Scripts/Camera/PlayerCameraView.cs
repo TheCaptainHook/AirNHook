@@ -25,6 +25,7 @@ public class PlayerCameraView : MonoBehaviour
     //Release Code
 
     public CameraGlobalVolumeController _CameraGlobalVolumeController;
+    public CameraImageEffects _CameraImageEffects;
     private Transform Player
     {
         get { 

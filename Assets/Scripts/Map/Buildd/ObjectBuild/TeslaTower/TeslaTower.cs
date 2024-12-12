@@ -50,8 +50,8 @@ public class TeslaTower : BuildObj
     }
 
     //TODO 0723
-    [SerializeField] float detectionRadiusX=4;// 감지 범위의 X축 반지름
-    [SerializeField] float detectionRadiusY=3; // 감지 범위의 Y축 반지름
+    [SerializeField] float detectionRadiusX=5;// 감지 범위의 X축 반지름
+    [SerializeField] float detectionRadiusY=4; // 감지 범위의 Y축 반지름
     private Vector3 detectOffset = new Vector3(0, 1.5f);
     private HashSet<GameObject> detectedObjects = new HashSet<GameObject>();
     private System.Type[] _DetectObjComponentTypes = { typeof(PlayerSM), typeof(BuildObj) };
@@ -70,7 +70,7 @@ public class TeslaTower : BuildObj
         {
             GameObject obj = new GameObject("LineRenderer");
             LineRenderer lineRenderer = obj.AddComponent<LineRenderer>();
-            lineRenderer.startWidth = 1f;
+            lineRenderer.startWidth = 2f;
             lineRenderer.sortingLayerName = "ForeGround";
             lineRenderer.sortingOrder = 100;
             lineRenderer.material = lightningShaderMat;
@@ -225,7 +225,7 @@ public class TeslaTower : BuildObj
                 if(obj.layer == LayerMask.NameToLayer("Player"))
                 {
                     DrawLineRenderer(obj.transform, obj.transform);
-                    obj.GetComponent<PlayerSM>().TakeDamage();
+                    obj.GetComponent<PlayerSM>().TakeDamage(DamageType.Electric);
                 }
             }
 
