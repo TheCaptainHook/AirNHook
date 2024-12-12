@@ -13,5 +13,6 @@ public class PlayerDataSO : ScriptableObject
     
     [field: Header("Interaction")]
     [field: SerializeField] public LayerMask interactableLayerMask { get; private set; }
+    [field: SerializeField] public LayerMask obstacleLayerMask { get; private set; }
     [field: SerializeField] public float detectDistance { get; private set; }
 }

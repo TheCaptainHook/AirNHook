@@ -70,6 +70,7 @@ public class NewGrappling
         swingJumpPower = hookDataSo.swingJumpForce;
         _ropeMaxDistance = hookDataSo.ropeMaxDistance;
         _coolDown = hookDataSo.coolDown;
+        _grappleCoolTime = new WaitForSeconds(_coolDown);
         
         if (!_hook.isLocalPlayer) return;
         
@@ -114,15 +115,9 @@ public class NewGrappling
         grappleAttached = false;
         if (isAirAttached)
             isAirAttached = false;
-        //CmdChangeGrappleState(false);
-        //playerMovement.isSwinging = false;
-        //playerMovement.swingJump = true;
         _hook.isSwinging = false;
-        
-        
         _ropePosition = Vector2.negativeInfinity;
         _hookAnchorRb.bodyType = RigidbodyType2D.Kinematic;
-        //CmdChangeHookBody(RigidbodyType2D.Kinematic);
     }
     
     public void StopRope()
@@ -280,6 +275,8 @@ public class NewGrappling
     private void OnSubActionStarted(InputAction.CallbackContext context)
     {
         if (!_canControl) return;
+        
+        if (!grappleAttached) return;
         
         WithdrawHook();
     }

@@ -5,6 +5,7 @@ public class LeverBodyNet : NetworkBehaviour
 {
     private LeverBody _leverBody;
 
+    
     private void Awake()
     {
         _leverBody = GetComponent<LeverBody>();

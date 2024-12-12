@@ -33,6 +33,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     protected PlayerInput input => Managers.Game.playerInput;
     [field: SerializeField] protected Transform grabPoint { get; private set; }
     protected LayerMask interactableLayerMask => playerData.interactableLayerMask;
+    protected LayerMask obstacleMask => playerData.obstacleLayerMask;
     protected float detectDistance => playerData.detectDistance;
     protected Collider2D latestTarget;
 
@@ -157,7 +158,13 @@ public class PlayerSM : NetworkBehaviour, IDamageable
 
                 if (interactable is not null && interactable.GetObjectType() == ObjectTypeEnum.Grab) continue;
 
+                var pos = transform.position + offset;
+                var objectVector = (collision.transform.position - pos).normalized;
                 var targetDistance = Vector2.Distance(transform.position + offset, collision.transform.position);
+                var hit = Physics2D.Raycast(pos, objectVector, targetDistance, obstacleMask);
+                
+                if (Vector2.Distance(pos, hit.point) < targetDistance) continue;
+
                 if (targetDistance < shortestDistance)
                 {
                     shortestDistance = targetDistance;

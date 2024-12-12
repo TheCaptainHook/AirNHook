@@ -121,7 +121,14 @@ public class HookSM : PlayerSM, IInhalable
                 
                 if (!inhalable.CanInteract()) continue;
 
+                var pos = transform.position + offset;
+                var objectVector = (collision.transform.position - pos).normalized;
                 var targetDistance = Vector2.Distance(transform.position + offset, collision.transform.position);
+
+                var hit = Physics2D.Raycast(pos, objectVector, targetDistance, obstacleMask);
+                
+                if (Vector2.Distance(pos, hit.point) < targetDistance) continue;
+
                 if (targetDistance < shortestDistance)
                 {
                     shortestDistance = targetDistance;
@@ -268,11 +275,6 @@ public class HookSM : PlayerSM, IInhalable
     {
         isSwinging = false;
         stateMachine.ChangeState(((HookStateMachine)stateMachine).GrapplingJumpState);
-        
-        if (rigidbody2D.velocity.y > 0)
-        {
-            rigidbody2D.AddForce(new Vector2(0, grappling.swingJumpPower * rigidbody2D.velocity.magnitude * 0.1f), ForceMode2D.Impulse);
-        }
     }
     #endregion
 
