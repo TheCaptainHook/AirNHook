@@ -485,6 +485,8 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 984064
+  rail_Prefabs: {fileID: 7834071034627693989, guid: 4f169f16daaea482da08a58d3a53f699, type: 3}
+  rail_Line: {fileID: 6443439262299581446, guid: 275793db7c14f413ebce84c81e704b8d, type: 3}
 --- !u!114 &9098322007249484212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -549,7 +551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 350660b8d146f4829a1d0412fae3c900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onHierarchy: 1
+  onHierarchy: 0
 --- !u!95 &8000034518117762505
 Animator:
   serializedVersion: 5

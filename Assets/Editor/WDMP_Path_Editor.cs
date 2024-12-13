@@ -15,6 +15,7 @@ public class WDMP_Path_Editor : Editor
 
 
     private void OnEnable(){
+        if(EditorApplication.isPlaying) return;
         _WDMP_Path  = (WDMP_Path)target;
         _WDMP = _WDMP_Path.GetComponent<WeightDetectionMoveingPlatform>();
         if(_WDMP !=null){
@@ -29,6 +30,7 @@ public class WDMP_Path_Editor : Editor
         EditorApplication.update += OnEditorUpdate;
     }
     private void OnDisable(){
+        if(EditorApplication.isPlaying) return;
         EditorApplication.update -= OnEditorUpdate;
         _WDMP_Path.Destroy_Parents();
     }

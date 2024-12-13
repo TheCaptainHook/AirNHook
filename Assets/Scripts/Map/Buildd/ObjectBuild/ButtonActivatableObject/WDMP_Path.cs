@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -17,7 +17,7 @@ public class WDMP_Path : MonoBehaviour
 
 #if UNITY_EDITOR
   public void Init(float moveDistance){
-    onHierarchy = CheckFocusedObjectPresence();
+    onHierarchy = CheckFocusedObjectPresence(gameObject);
     if(!onHierarchy) return;
     CheckDebugTr();
 
@@ -67,22 +67,25 @@ public class WDMP_Path : MonoBehaviour
             }
         }
   }
-  private bool CheckFocusedObjectPresence(){
-        GameObject selectedObject = Selection.activeGameObject;
-        if(selectedObject == null) return false;
-        GameObject obj = GameObject.Find(selectedObject.name);
+  private bool CheckFocusedObjectPresence(GameObject obj){
+        // GameObject selectedObject = Selection.activeGameObject;
+        // if(selectedObject == null) return false;
+        // GameObject obj = GameObject.Find(selectedObject.name);
 
-        if (obj != null)
-        {
-            // 선택된 오브젝트가 하이라키에 존재하는지 확인
-            return true;
-        }
-        else
-        {
-            // 선택된 오브젝트가 없는 경우
-            return false;
-        }
+        // if (obj != null)
+        // {
+        //     // 선택된 오브젝트가 하이라키에 존재하는지 확인
+        //     return true;
+        // }
+        // else
+        // {
+        //     // 선택된 오브젝트가 없는 경우
+        //     return false;
+        // }
+        return obj.scene.IsValid() && obj.scene == SceneManager.GetActiveScene();
     }
+
+    
 
     private LineRenderer GeneratorLineRenderer(){
 

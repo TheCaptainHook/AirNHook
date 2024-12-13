@@ -104045,6 +104045,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI_EventEchoDialogue
       objectReference: {fileID: 0}
+    - target: {fileID: 45723080077137526, guid: 838139f2645b04cb09a5fe551dc5558c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 905453326183013369, guid: 838139f2645b04cb09a5fe551dc5558c, type: 3}
       propertyPath: m_Pivot.x
       value: 0

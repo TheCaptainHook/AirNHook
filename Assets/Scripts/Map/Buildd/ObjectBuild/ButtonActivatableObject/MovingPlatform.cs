@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
+using UnityEditor;
 
 
 public class MovingPlatform :  ActivatableObjectEntity
@@ -20,6 +22,9 @@ public class MovingPlatform :  ActivatableObjectEntity
     public event Action<Vector2> MoveAction;
     private AddForcePlatform addForcePlatform;
     private bool onActive;
+
+    [SerializeField] GameObject rail_Prefabs;
+    [SerializeField] LineRenderer rail_Line;
 
   private void Awake(){
     _rb = GetComponent<Rigidbody2D>();
@@ -46,8 +51,10 @@ public class MovingPlatform :  ActivatableObjectEntity
             
             ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
             ButtonActivatedObjectStruct = objData;
+
             //Moving Platform
             paths = ConvertPaths(objData.paths);
+            
             moveSpeed = objData.moveSpeed;
             addForcePlatform.Init();
             }
@@ -57,12 +64,50 @@ public class MovingPlatform :  ActivatableObjectEntity
 
         if (Application.isPlaying)
         {
+            CreateRail(paths);
             Util util = new Util();
             await util.Delay(() => { CheckActiveRequirAmount(); });
             Prograss();
         }
     }
     #endregion
+
+    //1213
+    private void CreateRail(Vector2[] paths){ //rail node, rail lineRenderer
+        Transform parents = MapEditor.Instance.dontSaveObjectTransform;
+        Transform container = new GameObject("Rail_Container").transform;
+        container.SetParent(parents);
+        
+        //Rail Node
+        LineRenderer line = Instantiate(rail_Line,container);
+        //Draw Line
+        DrawLine(line,paths);
+
+        Vector2 startPot = line.GetPosition(0);
+        Vector2 endPot = line.GetPosition(paths.Length-1);
+        
+        GameObject railNode_1;
+        GameObject railNode_2;
+
+        if(startPot == endPot){
+            railNode_1 = Instantiate(rail_Prefabs,container);
+            railNode_1.transform.position = startPot;
+        }else{
+            railNode_1 = Instantiate(rail_Prefabs,container);
+            railNode_1.transform.position = startPot;
+            railNode_2 = Instantiate(rail_Prefabs,container);
+            railNode_2.transform.position = endPot;
+        }
+
+    }
+    private void DrawLine(LineRenderer line,Vector2[] path){
+        line.positionCount = path.Length;
+        for(int i = 0; i<path.Length;i++){
+            line.SetPosition(i,path[i]+new Vector2(0,0.25f));
+        }
+        
+    }
+
 
     #region Test Code, [latest update: 11/12 ]
     // private void Start(){

@@ -144,6 +144,8 @@ MonoBehaviour:
   moveSpeed: 1
   step: 0
   dir: {x: 0, y: 0}
+  rail_Prefabs: {fileID: 7834071034627693989, guid: 4f169f16daaea482da08a58d3a53f699, type: 3}
+  rail_Line: {fileID: 6443439262299581446, guid: 275793db7c14f413ebce84c81e704b8d, type: 3}
 --- !u!114 &512112756729641441
 MonoBehaviour:
   m_ObjectHideFlags: 0

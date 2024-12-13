@@ -48,6 +48,8 @@ public class MovingPlatformPath_Editor : Editor
         }
         
         serializedObject.Update();
+
+        
         DrawReadOnlyProperty(serializedProperty,"Target Paths");
         serializedObject.ApplyModifiedProperties();
 

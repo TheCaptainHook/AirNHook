@@ -1,7 +1,9 @@
 using System;
 using System.Security.Cryptography;
+using DG.Tweening;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Scripting.APIUpdating;
 
 [RequireComponent(typeof(WDMP_Path))]
 public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
@@ -24,11 +26,12 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     [SerializeField] Transform rightPoint;
     public float moveDistance;
     public float moveSpeed;
-    private float maxRotate = 30;
+    private float maxRotate = 40;
     private bool onActive; 
 
     [SerializeField] LayerMask layerMask;
-
+    [SerializeField] GameObject rail_Prefabs;
+    [SerializeField] LineRenderer rail_Line;
     
     private float weight;
     private Vector2 dir;
@@ -38,7 +41,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     private float minDis_Clamp; //Compare orgPot, path.
     private float maxDis_Clamp; //Compare orgPot, path.
     private Vector2 curTargetPot; //next move point.
-    private float releaseCount =3;
+    private float releaseCount =1;
     private float curReleaseCount;
     #endregion
 
@@ -59,7 +62,11 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
         path  = GetPath();
         curTargetPot = orgPot;
 
+
+        bodyCol = GetComponent<Collider2D>();
         rayLength = bodyCol.bounds.size.x/2f;
+
+        // CreateRail();
     }
  
 
@@ -83,13 +90,16 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
                 moveDistance = objData.moveDistance;
                 moveSpeed = objData.moveSpeed;
                 Init();
+
+
           
             }
-        }catch{
-                Debug.Log($"ERROR,{typeof(T)}");
+        }catch(Exception ex){
+                Debug.Log($"ERROR,{typeof(T)},{ex}");
         }
         
         if(Application.isPlaying){
+            CreateRail();
             Util util  = new Util();
             await util.Delay(()=>{CheckActiveRequirAmount();});
         }
@@ -109,7 +119,6 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
 
     private void Awake(){
         rb = GetComponent<Rigidbody2D>();
-        bodyCol = GetComponent<Collider2D>();
         animator = GetComponent<Animator>();
 
     }
@@ -126,6 +135,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     // - : right
     // + : left
 
+    bool onMove;
     private void ShootRay(){
         float lw = 0;
         float rw = 0;
@@ -145,15 +155,17 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
 
         //recover tilt
         if(leftHit.Length == 0 && rightHit.Length == 0){
-            curReleaseCount+=Time.fixedDeltaTime;
+            curReleaseCount+=Time.deltaTime;
             if(curReleaseCount >= releaseCount){
+                onMove = false;
                 transform.rotation = Quaternion.Lerp(transform.rotation,Quaternion.identity,Time.fixedDeltaTime);
             }
         }else{
             curReleaseCount = 0;
+            onMove = true;
         }
-
-        
+        if(!onMove) return;
+            
         weight = (lw-rw)/10f;
         //tilt animation
         TiltAnimationSet(lw,rw);
@@ -231,6 +243,8 @@ private Vector2 GetPath(){
 
     minDis_Clamp = orgPot.x > target.x ? target.x : orgPot.x;
     maxDis_Clamp = orgPot.x < target.x ? target.x : orgPot.x;
+
+    Debug.Log($"{minDis_Clamp},{maxDis_Clamp}");
     return target;
 
 }
@@ -248,11 +262,11 @@ private float Weight(RaycastHit2D hit){
 }
 private bool CheckMaxAndMinClamp(){
         if(dir == Vector2.right){
-            if(curTargetPot.x >= maxDis_Clamp){
+            if(curTargetPot.x > maxDis_Clamp){
                 return false;
             }
         }else if(dir == -Vector2.right){
-            if(curTargetPot.x <= minDis_Clamp){
+            if(curTargetPot.x < minDis_Clamp){
                 return false;
             }
         }else if(dir == Vector2.zero ){
@@ -261,6 +275,27 @@ private bool CheckMaxAndMinClamp(){
 
         return true;
 }
+private void CreateRail(){ //rail node, rail lineRenderer
+        Transform parents = MapEditor.Instance.dontSaveObjectTransform;
+        Transform container = new GameObject("Rail_Container").transform;
+        container.SetParent(parents);
+
+        LineRenderer line = Instantiate(rail_Line,container);
+        //Draw Line
+        DrawLine(line);
+
+        GameObject railNode_1 = Instantiate(rail_Prefabs,container);
+        railNode_1.transform.position = line.GetPosition(0);
+        GameObject railNode_2 = Instantiate(rail_Prefabs,container);
+        railNode_2.transform.position = line.GetPosition(1);
+    }
+    private void DrawLine(LineRenderer line){
+        line.positionCount = 2;
+        line.SetPosition(0,transform.position);
+        Vector2 target = new Vector2(transform.position.x + moveDistance,transform.position.y);
+        line.SetPosition(1,target);
+           
+    }
    
 
 #endregion
