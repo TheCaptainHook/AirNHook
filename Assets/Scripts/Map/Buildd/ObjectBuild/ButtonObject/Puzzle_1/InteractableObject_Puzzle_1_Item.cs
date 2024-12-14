@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Mirror.Experimental;
 using UnityEngine;
 
 public class InteractableObject_Puzzle_1_Item : InteractableObject
@@ -36,9 +37,10 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
         _rigidbody.constraints = _originRot;
         _sortingGroup.sortingLayerID = _originSortingLayerID;
         CmdChangeSortingLayer(false);
-
-        _rigidbody.velocity = Vector3.zero;
-        _rigidbody.simulated = false;
+        
+        _rigidbody.gravityScale = 0;
+        _rigidbody.velocity = Vector2.zero;
+        _rigidbody.angularVelocity = 0;
 
     }
 }

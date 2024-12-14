@@ -47,10 +47,6 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
     private void OnTriggerEnter2D(Collider2D collider){
          if(collider.TryGetComponent(out HookSM component)){
-            if(onSocketItem){
-                 ShowEButton();
-                 return;
-            }
             Transform grabItem = component.GetGrabbedItem();
             if(grabItem != null){
                 if(grabItem.TryGetComponent(out Puzzle_1_Item component1)){
