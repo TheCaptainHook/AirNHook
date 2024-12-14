@@ -7,15 +7,15 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 {
     // grab release
     [Header("Grab n Release")]
-    private Rigidbody2D _rigidbody;
-    private Transform _fixedPoint;
-    private RigidbodyType2D _originType;
-    private RigidbodyConstraints2D _originRot;
-    [field: SerializeField] private ObjectTypeEnum _objectType = ObjectTypeEnum.Grab;
-    private float _gravityScale;
-    [SyncVar] private bool _isFixed;
-    [SyncVar] private bool _canInteract = true;
-    private bool _isGrab;
+    protected Rigidbody2D _rigidbody;
+    protected Transform _fixedPoint;
+    protected RigidbodyType2D _originType;
+    protected RigidbodyConstraints2D _originRot;
+    [field: SerializeField] protected ObjectTypeEnum _objectType = ObjectTypeEnum.Grab;
+    [SerializeField]protected float _gravityScale;
+    [SyncVar] protected bool _isFixed;
+    [SyncVar] protected bool _canInteract = true;
+    protected bool _isGrab;
     
     // e button ui
     [Header("E Button UI")]
@@ -28,11 +28,11 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     [field: SerializeField] private float _inhalePower = 20f;
     
     // sorting layer
-    private SortingGroup _sortingGroup;
-    private int _originSortingLayerID;
+    protected SortingGroup _sortingGroup;
+    protected int _originSortingLayerID;
     private const string GrabObj = "GrabObj";
     
-    private void Awake()
+    protected virtual void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _sortingGroup = GetComponent<SortingGroup>();
@@ -224,7 +224,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     #endregion
     
     #region Command
-    private void ChangeState(bool value)
+    protected void ChangeState(bool value)
     {
         CmdChangeFixedState(value);
         CmdChangeInteractState(!value);
@@ -243,7 +243,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     }
 
     [Command(requiresAuthority = false)]
-    private void CmdChangeSortingLayer(bool isGrab)
+    protected void CmdChangeSortingLayer(bool isGrab)
     {
         RpcChangeSortingLayer(isGrab);
     }
