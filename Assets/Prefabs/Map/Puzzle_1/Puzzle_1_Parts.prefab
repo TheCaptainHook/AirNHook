@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6315454863514245786}
   - component: {fileID: 4247901793021170628}
   - component: {fileID: 6528749553039152547}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Puzzle_1_Parts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -143,4 +143,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0995619a5aadd4cdab45f646eb9ba93d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _BtnOffset: 0
+  onSocketItem: {fileID: 0}
+  _BtnOffset: 1
+  puzzleAnswer: 0
+  _objectType: 0
+  isCorrectAnswer: 0
