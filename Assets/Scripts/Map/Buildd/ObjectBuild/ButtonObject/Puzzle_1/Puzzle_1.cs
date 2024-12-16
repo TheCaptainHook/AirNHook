@@ -1,32 +1,63 @@
- using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
 
-public class Puzzle_1 : MonoBehaviour
+using UnityEngine;
+using System;
+using Random = UnityEngine.Random;
+public class Puzzle_1 : ButtonEntity
 {
+    [CustomHeader("Puzzle_1")]
     [SerializeField] Puzzle_1_Parts[] puzzle_1_Parts;
+
+    [SerializeField] Transform partsContainer;
+    [SerializeField] Transform itemContainer;
+
     private string[] puzzle_1_Items = new string[] {"Puzzle_1_Item (1)", "Puzzle_1_Item (2)", "Puzzle_1_Item (3)"};
 
-    public int[] indexs;
+    [ReadOnly]
+    public string answer; //test
+
+    //1. parts position, item position
+
+    private Vector2[] partsPosition;
+    private Vector2[] itemsPosition; //Fill in this field through the editor
+
+    #region  Get,Set
+    public override T GetData<T>()
+    {
+        if(typeof(T) == typeof(ButtonObjectStruct)){
+            return (T)(object)new ButtonObjectStruct(id,GetTargetPositions(),transform.position,transform.localScale);
+        }
+
+        return default(T);
+    }
+    public override void SetData<T>(T data)
+    {
+        try{
+            if (typeof(T) == typeof(ButtonObjectStruct))
+            {
+                 ButtonObjectStruct buttonData = (ButtonObjectStruct)(object)data;
+                 ButtonObjectData = buttonData;
+                 FindTargetObject();
+
+                 partsPosition = buttonData.partsPositions;
+                 itemsPosition = buttonData.itemPositions;
+
+                 //Setting parts and Item;
+            }
+                
+        }catch(Exception ex){
+                Debug.Log($"name : {gameObject.name},{ex}");
+        }
+    }
+    #endregion
 
 
-
-
-
-
-   private void Update()
+    private void Update() //test
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            Suffle();
-
-            for (int i = 0; i < 3; i++)
-            {
-                GameObject obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[i]);
-                obj.transform.position = Vector2.zero;
-                puzzle_1_Parts[i].SetAnswer(indexs[i]);
-            }
+            // GetItemAndAnswerArray();
+            partsPosition = new Vector2[5]; //test
+            Setting();
         }
 
         if (Input.GetKeyDown(KeyCode.O))
@@ -36,18 +67,24 @@ public class Puzzle_1 : MonoBehaviour
 
     }
 
-   
+   private void Setting(){
+    for(int i = 0; i< partsPosition.Length;i++){
+        // puzzle_1_Parts[i].transform.position = partsPosition[i];
+
+        int num = Random.Range(1, 4);
+        GameObject obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[num-1]);
+            
+        obj.transform.position = Vector2.zero; // Set Position
+        // obj.transform.position = itemsPosition[i];
+            
+        puzzle_1_Parts[i].SetAnswer(num);
+        answer += num.ToString();
+    }
+   }
 
 
 
     #region Answer
-    private void SetAnswer()
-    {
-        for (int i = 0; i < puzzle_1_Parts.Length; i++)
-        {
-            puzzle_1_Parts[i].SetAnswer(indexs[i]);
-        }
-    }
 
     private bool CheckAnswer()
     {
@@ -62,26 +99,8 @@ public class Puzzle_1 : MonoBehaviour
     }
     #endregion
 
-
     #region Util
 
-    private void GetAnswerArray()
-    {
-        for(int i = 0; i < puzzle_1_Parts.Length; i++)
-        {
-            int num = Random.Range(0, 3);
-        }
-    }
-    private void Suffle()
-    {
-        for(int i = indexs.Length - 1; i >0; i--)
-        {
-            int j = Random.Range(0, i + 1);
-            int temp = indexs[i];
-            indexs[i] = indexs[j];
-            indexs[j] = temp;
-        }
-    }
 
     private Vector2[] GetPartsPosition()
     {
@@ -92,13 +111,14 @@ public class Puzzle_1 : MonoBehaviour
         }
         return pots;
     }
-    private void SetPartsPosition(Vector2[] pots)
-    {
-        for(int i = 0; i < pots.Length; i++)
-        {
-            puzzle_1_Parts[i].transform.position = pots[i];
-        }
-    }
   
+    public int GetNumberOfParts(){
+        int num =0;
+        foreach(Transform tr in partsContainer){
+            num++;
+        }
+        return num;
+    }
+
     #endregion
 }

@@ -80,7 +80,7 @@ public class ButtonEntity : BuildObj
 
     #region Util
 
-    private List<Vector2> GetTargetPositions(){
+    protected List<Vector2> GetTargetPositions(){
         List<Vector2> list = new();
 
         foreach(GameObject obj in targetObjects){

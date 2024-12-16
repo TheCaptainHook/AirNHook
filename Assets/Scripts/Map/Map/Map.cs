@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Lumin;
 
 
 
@@ -146,6 +147,9 @@ public struct ButtonObjectStruct
     public Vector2 position;
     public Vector3 scale;
     public List<Vector2> targetPositions;
+    //puzzle_1
+    public Vector2[] partsPositions;
+    public Vector2[] itemPositions;
 
     public ButtonObjectStruct(int id,List<Vector2> targetPositions,Vector2 position,Vector3 scale)
     {
@@ -153,6 +157,19 @@ public struct ButtonObjectStruct
         this.targetPositions = targetPositions;
         this.position = position;
         this.scale = scale;
+        partsPositions = null;
+        itemPositions = null;
+    }
+    public ButtonObjectStruct(int id,List<Vector2> targetPositions,Vector2 position,Vector3 scale,
+    Vector2[] partsPositions,
+    Vector2[] itemPositions)
+    {
+        this.id = id;
+        this.targetPositions = targetPositions;
+        this.position = position;
+        this.scale = scale;
+        this.partsPositions = partsPositions;
+        this.itemPositions = itemPositions;
     }
 
 }
