@@ -99,13 +99,15 @@ public class Puzzle_1_Helper : MonoBehaviour
     }
 
 
-    #endregion
+    #endregion  
 
-    #region Util
-    public void Destory()
+    public void Destroy()
     {
-        Undo.DestroyObjectImmediate(debugTransform.gameObject);
+        if (debugTransform)
+            Undo.DestroyObjectImmediate(debugTransform.gameObject);
     }
+    #region Util
+  
     #region Item
     public GameObject Add_Item(){
         try

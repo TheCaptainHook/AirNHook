@@ -146,5 +146,6 @@ MonoBehaviour:
   onSocketItem: {fileID: 0}
   _BtnOffset: 1
   puzzleAnswer: 0
+  boomArea: 2
   _objectType: 0
   isCorrectAnswer: 0

@@ -5,10 +5,11 @@ using Random = UnityEngine.Random;
 using System.Collections.Generic;
 using Org.BouncyCastle.Asn1.Crmf;
 using UnityEditor.Build.Pipeline.Tasks;
+using Unity.VisualScripting;
 public class Puzzle_1 : ButtonEntity
 {
     [CustomHeader("Puzzle_1")]
-    List<Puzzle_1_Parts> puzzle_1_Parts;
+    public List<Puzzle_1_Parts> puzzle_1_Parts;
 
     [ReadOnly]
     [SerializeField] Transform partsContainer;
@@ -66,7 +67,7 @@ public class Puzzle_1 : ButtonEntity
         if (Input.GetKeyDown(KeyCode.P))
         {
             // GetItemAndAnswerArray();
-            partsPosition = new Vector2[5]; //test
+            partsPosition = new Vector2[3]; //test
             Setting();
         }
 
@@ -78,7 +79,7 @@ public class Puzzle_1 : ButtonEntity
             }
             else
             {
-
+                Boom();
             }
         }
 
@@ -113,6 +114,25 @@ public class Puzzle_1 : ButtonEntity
         }
 
         return num == puzzle_1_Parts.Count;
+    }
+    private void Boom()
+    {
+        HashSet<Collider2D> col = new();
+        foreach (Puzzle_1_Parts parts in puzzle_1_Parts)
+        {
+            parts.Boom(ref col);
+        }
+
+        if(col.Count> 0)
+        {
+            foreach(var c in col)
+            {
+               if(c.TryGetComponent(out PlayerSM component))
+                {
+                    component.TakeDamage(DamageType.Boom);
+                }
+            }
+        }
     }
     #endregion
 

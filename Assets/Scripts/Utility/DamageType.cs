@@ -4,4 +4,5 @@ public enum DamageType
     Fire,
     Electric,
     Suicide,
+    Boom
 }

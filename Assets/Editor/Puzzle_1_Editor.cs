@@ -45,10 +45,8 @@ public class Puzzle_1_Editor : Editor
     }
     private void OnDisable()
     {
-        helper.Destory();
+        helper.Destroy();
     }
-
-
     private void CheckPartsItemHint()
     {
         partsNumberColor = helper.GetPartsField().number > 0 ? Color.green : Color.red;

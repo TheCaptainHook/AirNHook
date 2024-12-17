@@ -1,4 +1,7 @@
 
+using Steamworks;
+using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Puzzle_1_Parts : MonoBehaviour,IInteractable
@@ -15,7 +18,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     //Test
     private SpriteRenderer sprite;
 
-
+    public float boomArea;
 
     #region Components
     private Collider2D col;
@@ -70,6 +73,27 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
             WrongAnswer();
         }
     }
+
+    public void Boom(ref HashSet<Collider2D> col)
+    {
+        if (isCorrectAnswer) return;
+        int playerLayerMask = 1 << LayerMask.NameToLayer("Player");
+
+        //effect
+
+        Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, boomArea,playerLayerMask);
+        foreach (Collider2D c in cols)
+        {
+            col.Add(c);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, boomArea);
+    }
+
     private void InCorrectAnswer()
     {
         isCorrectAnswer = true;

@@ -238,6 +238,8 @@ public class PlayerSM : NetworkBehaviour, IDamageable
             animationData.DeathParameterHashes.ContainsKey(damageType)
                 ? animationData.DeathParameterHashes[damageType]
                 : animationData.DeathParameterHashes[DamageType.Default]);
+
+        if (damageType == DamageType.Boom) StartCoroutine(CameraShake.instance.Co_Shake(0.5f, 0.2f));
     }
     
     public virtual void Respawning()
