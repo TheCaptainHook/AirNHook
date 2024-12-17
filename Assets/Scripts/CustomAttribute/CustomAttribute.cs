@@ -72,7 +72,7 @@ public class ReadOnlyDrawer : PropertyDrawer
     {
         GUI.enabled = false;  // 인스펙터에서 편집을 불가능하게 만듦
         EditorGUI.PropertyField(position, property, label);
-        EditorGUILayout.Space(10);
+        // EditorGUILayout.Space(10);
         GUI.enabled = true;  // 다시 편집 가능하게 복원
     }
 }

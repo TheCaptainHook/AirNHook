@@ -52,7 +52,7 @@ public class Puzzle_1_Item : MonoBehaviour
     #endregion
 
     #region Effect
-    private float forceStrength = 3f;
+    private float forceStrength = 7f;
     private float horizontalVariation = 1f;
     private void RemoveSocketEffect()
     {

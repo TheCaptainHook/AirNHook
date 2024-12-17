@@ -443,6 +443,7 @@ public class CreateMap_Tool : EditorWindow
             case 312:
             case 324:
             case 329:
+            case 341:
                 SelectActiveOBJ(obj,curMapEditor.buttonObjectTransform);
                 break;
             case 1003:

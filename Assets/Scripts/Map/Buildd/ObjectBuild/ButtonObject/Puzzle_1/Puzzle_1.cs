@@ -3,9 +3,7 @@ using UnityEngine;
 using System;
 using Random = UnityEngine.Random;
 using System.Collections.Generic;
-using Org.BouncyCastle.Asn1.Crmf;
-using UnityEditor.Build.Pipeline.Tasks;
-using Unity.VisualScripting;
+
 public class Puzzle_1 : ButtonEntity
 {
     [CustomHeader("Puzzle_1")]
@@ -16,13 +14,14 @@ public class Puzzle_1 : ButtonEntity
     [ReadOnly]
     [SerializeField] Transform itemContainer;
     [ReadOnly]
-    [SerializeField] GameObject parts;
+    [SerializeField] GameObject partsPrefab;
     [ReadOnly]
     public string answer; //test
 
     private string[] puzzle_1_Items = new string[] { "Puzzle_1_Item (1)", "Puzzle_1_Item (2)", "Puzzle_1_Item (3)" };
     private Vector2[] partsPosition;
     private Vector2[] itemsPosition; //Fill in this field through the editor
+
 
     #region  Get,Set
     public override T GetData<T>()
@@ -52,6 +51,7 @@ public class Puzzle_1 : ButtonEntity
                 partsPosition = buttonData.partsPositions;
                 itemsPosition = buttonData.itemPositions;
 
+                Setting();
                 //Setting parts and Item;
             }
 
@@ -64,18 +64,18 @@ public class Puzzle_1 : ButtonEntity
 
     private void Update() //test
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            // GetItemAndAnswerArray();
-            partsPosition = new Vector2[3]; //test
-            Setting();
-        }
+        // if (Input.GetKeyDown(KeyCode.P))
+        // {
+        //     // GetItemAndAnswerArray();
+        //     partsPosition = new Vector2[3]; //test
+        //     Setting();
+        // }
 
         if (Input.GetKeyDown(KeyCode.O))
         {
             if (CheckAnswer())
             {
-
+                Activation();
             }
             else
             {
@@ -87,20 +87,48 @@ public class Puzzle_1 : ButtonEntity
 
     private void Setting() {
         for (int i = 0; i < partsPosition.Length; i++) {
-            // puzzle_1_Parts[i].transform.position = partsPosition[i];
-
             int num = Random.Range(1, 4);
-            GameObject obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[num - 1]);
 
-            obj.transform.position = Vector2.zero; // Set Position
-            //obj.transform.position = itemsPosition[i];
+            #if UNITY_EDITOR
+            Puzzle_1_Helper helper = GetComponent<Puzzle_1_Helper>();
+            helper.Init();
+            #endif
 
-            puzzle_1_Parts[i].SetAnswer(num);
+            GameObject obj;
+            if(Application.isPlaying){  
+                obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[num - 1]);
+            }else{
+                obj = helper.Add_Item();
+            }
+            
+            obj.transform.position = itemsPosition[i];
+            obj.transform.SetParent(itemContainer);
+
+            CreateParts(partsPosition[i],num);
+
+            // obj.transform.position = Vector2.zero; // test
+            // puzzle_1_Parts[i].SetAnswer(num); //test
+
             answer += num.ToString();
         }
     }
 
+    private void CreateParts(Vector2 pot,int answer){
+        Puzzle_1_Parts obj = Instantiate(partsPrefab).GetComponent<Puzzle_1_Parts>();
+        obj.transform.SetParent(partsContainer);
+        puzzle_1_Parts.Add(obj);
+        obj.transform.position = pot;
+        obj.SetAnswer(answer);
 
+    }
+
+
+    protected override void Activation()
+    {
+        PrograssButtonActivatedObject(true);
+        Debug.Log("Activation");
+    }
+    
 
     #region Answer
 
@@ -176,7 +204,7 @@ public class Puzzle_1 : ButtonEntity
         {
             var obj = puzzle_1_Parts[i];
 
-            if (obj == null && !ReferenceEquals(obj, null))
+            if (obj == null)
             {
                 puzzle_1_Parts.RemoveAt(i);
             }

@@ -13,16 +13,20 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     private bool is_E_BtnEnabled;
     [SerializeField] float _BtnOffset;
 
-    public int puzzleAnswer;
-
-    //Test
-    private SpriteRenderer sprite;
-
+    
+    private SpriteRenderer sprite; //Test
     public float boomArea;
+    [SerializeField] ParticleSystem[] particles;
+
+    [ReadOnly]
+    public int puzzleAnswer;
+    [ReadOnly]
+    public bool isCorrectAnswer;
 
     #region Components
     private Collider2D col;
     #endregion
+    [Header("Interactable")]
     [field: SerializeField] protected ObjectTypeEnum _objectType = ObjectTypeEnum.Grab;
     private void Awake(){
         col = GetComponent<Collider2D>();
@@ -51,7 +55,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     #endregion
 
     #region Answer
-    public bool isCorrectAnswer;
+    
     public void SetAnswer(int answer)
     {
         puzzleAnswer = answer;
@@ -97,6 +101,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     private void InCorrectAnswer()
     {
         isCorrectAnswer = true;
+        onSocketItem.GetComponent<Collider2D>().enabled = false;
         //animation
         sprite.color = Color.green; //test
     }
@@ -107,6 +112,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     #endregion
 
     private void OnTriggerEnter2D(Collider2D collider){
+        if(isCorrectAnswer) return;
          if(collider.TryGetComponent(out HookSM component)){
             Transform grabItem = component.GetGrabbedItem();
             if(grabItem != null){
@@ -146,6 +152,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     {
         if (onSocketItem)
         {
+            foreach(var p in particles) p.Play();
             onSocketItem.RemoveSocket();
             onSocketItem = null;
             HideEButton();
@@ -178,7 +185,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     #region Interaction
     public void Interaction(Transform accessor = null)
     {
-        if (onSocketItem != null)
+        if (onSocketItem != null && !isCorrectAnswer)
         {
             RemoveSocket();
         }

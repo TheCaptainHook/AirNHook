@@ -8,7 +8,6 @@ using UnityEditor.Rendering;
 public class Puzzle_1_Helper : MonoBehaviour
 {
     #if UNITY_EDITOR
-    private Transform debugTransform;
     private Puzzle_1 puzzle_1;
 
     //Dummy obj
@@ -32,7 +31,6 @@ public class Puzzle_1_Helper : MonoBehaviour
         circleTexturePath = "Assets/Artwork/Sprites/Assets/UI Elements/Extras/circle64.png";
         partsPath = "Assets/Prefabs/Map/Puzzle_1/Puzzle_1_Parts.prefab";
 
-        CreateDebugTransform();
         puzzle_1 = GetComponent<Puzzle_1>();
         items = new();
         increasingPartsX = 1;
@@ -59,18 +57,18 @@ public class Puzzle_1_Helper : MonoBehaviour
     #endregion
 
 
-    private void CreateDebugTransform(){
-        foreach(Transform tr in transform){
-            if(tr.name == "DebugTransform"){
-                debugTransform = tr;
-                return;
-            }
-        }    
+    // private void CreateDebugTransform(){
+    //     foreach(Transform tr in transform){
+    //         if(tr.name == "DebugTransform"){
+    //             debugTransform = tr;
+    //             return;
+    //         }
+    //     }    
 
-        GameObject obj = new GameObject("DebugTransform");
-        obj.transform.SetParent(transform);
-        debugTransform = obj.transform;
-    }
+    //     GameObject obj = new GameObject("DebugTransform");
+    //     obj.transform.SetParent(transform);
+    //     debugTransform = obj.transform;
+    // }
 
 
     #region INIT
@@ -101,11 +99,11 @@ public class Puzzle_1_Helper : MonoBehaviour
 
     #endregion  
 
-    public void Destroy()
-    {
-        if (debugTransform)
-            Undo.DestroyObjectImmediate(debugTransform.gameObject);
-    }
+    // public void Destroy()
+    // {
+    //     if (debugTransform)
+    //         Undo.DestroyObjectImmediate(debugTransform.gameObject);
+    // }
     #region Util
   
     #region Item
@@ -115,6 +113,8 @@ public class Puzzle_1_Helper : MonoBehaviour
             GameObject obj = new GameObject("Dummy Item");
             SpriteRenderer sprite = obj.AddComponent<SpriteRenderer>();
             sprite.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(circleTexturePath);
+            sprite.sortingLayerName = "ForeGround";
+            sprite.sortingOrder = 2;
             sprite.color = new Color(1, 1, 1, 0.5f);
             obj.transform.SetParent(itemContainer);
 

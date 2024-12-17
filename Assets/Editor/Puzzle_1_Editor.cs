@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 
 [CustomEditor(typeof(Puzzle_1_Helper))]
 public class Puzzle_1_Editor : Editor
@@ -38,15 +38,17 @@ public class Puzzle_1_Editor : Editor
         checkBtnTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(checkBtnPath);
         helper = (Puzzle_1_Helper)target;
 
+        if(!IsObjectVisibleInInspector(helper.gameObject)) return;
+
         helper.Init();
         puzzle_1 = helper.GetComponent<Puzzle_1>();
 
         checkContent = new GUIContent(checkBtnTexture);
     }
-    private void OnDisable()
-    {
-        helper.Destroy();
-    }
+    // private void OnDisable()
+    // {
+    //     helper.Destroy();
+    // }
     private void CheckPartsItemHint()
     {
         partsNumberColor = helper.GetPartsField().number > 0 ? Color.green : Color.red;
@@ -59,6 +61,8 @@ public class Puzzle_1_Editor : Editor
     {
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
+
+        if(!IsObjectVisibleInInspector(helper.gameObject)) return;
 
         CheckPartsItemHint();
 
@@ -217,5 +221,10 @@ public class Puzzle_1_Editor : Editor
            true
            );
        
+    }
+
+     private bool IsObjectVisibleInInspector(GameObject obj){
+     return obj.scene.IsValid() && obj.scene == SceneManager.GetActiveScene();
+        
     }
 }
