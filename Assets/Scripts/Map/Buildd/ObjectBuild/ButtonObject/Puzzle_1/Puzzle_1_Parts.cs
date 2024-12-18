@@ -107,7 +107,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     }
     private void WrongAnswer()
     {
-        RemoveSocket();
+        RemoveSocket(true);
     }
     #endregion
 
@@ -148,12 +148,14 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         }
         
     }
-    public void RemoveSocket()
+    public void RemoveSocket(bool onEffect = false)
     {
+
+        if (onEffect) foreach (var p in particles) p.Play();
+
         if (onSocketItem)
         {
-            foreach(var p in particles) p.Play();
-            onSocketItem.RemoveSocket();
+            onSocketItem.RemoveSocket(onEffect);
             onSocketItem = null;
             HideEButton();
         }

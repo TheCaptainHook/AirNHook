@@ -159,7 +159,8 @@ public class UI_StageSelect_var3: UI_Base
         }
         
         animator.SetTrigger(open);
-
+        
+        if(computer)
         computer.GetComponent<StageSelectorComputer>().Talking();
 
         // try

@@ -31,11 +31,11 @@ public class Puzzle_1_Item : MonoBehaviour
         col.enabled = false;
     }
    }
-    public void RemoveSocket()
+    public void RemoveSocket(bool onEffect = false)
     {
         col.enabled = true;
         rb.gravityScale = 1;
-        RemoveSocketEffect();
+        RemoveSocketEffect(onEffect);
     }
 
  
@@ -53,11 +53,22 @@ public class Puzzle_1_Item : MonoBehaviour
 
     #region Effect
     private float forceStrength = 7f;
+    private float forceDefault = 3f;
     private float horizontalVariation = 1f;
-    private void RemoveSocketEffect()
+    private void RemoveSocketEffect(bool Power = false)
     {
         float xForce = Random.Range(-horizontalVariation, horizontalVariation);
-        rb.AddForce(new Vector2(xForce, forceStrength),ForceMode2D.Impulse);
+
+        if (Power)
+        {
+            rb.AddForce(new Vector2(xForce, forceStrength), ForceMode2D.Impulse);
+        }
+        else
+        {
+            rb.AddForce(new Vector2(xForce, forceDefault), ForceMode2D.Impulse);
+        }
+
+       
     }
     #endregion
 

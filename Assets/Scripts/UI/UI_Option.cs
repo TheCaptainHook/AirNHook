@@ -172,7 +172,7 @@ public class UI_Option : UI_Base
     //==================게임 옵션===========================
     private void OnLobbyBtn()
     {
-        if(!Managers.Game.Player.TryGetComponent<Player>(out var player)) return;
+        if(!Managers.Game.Player.TryGetComponent<PlayerSM>(out var player)) return;
         
         if (!player.isServer) return;
         
@@ -182,7 +182,7 @@ public class UI_Option : UI_Base
     
     private void OnStageRestartBtn()
     {
-        if(!Managers.Game.Player.TryGetComponent<Player>(out var player)) return;
+        if(!Managers.Game.Player.TryGetComponent<PlayerSM>(out var player)) return;
 
         if (!player.isServer) return;
         

@@ -3,6 +3,7 @@ using UnityEngine;
 using System;
 using Random = UnityEngine.Random;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class Puzzle_1 : ButtonEntity
 {
@@ -64,23 +65,10 @@ public class Puzzle_1 : ButtonEntity
 
     private void Update() //test
     {
-        // if (Input.GetKeyDown(KeyCode.P))
-        // {
-        //     // GetItemAndAnswerArray();
-        //     partsPosition = new Vector2[3]; //test
-        //     Setting();
-        // }
-
-        if (Input.GetKeyDown(KeyCode.O))
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            if (CheckAnswer())
-            {
-                Activation();
-            }
-            else
-            {
-                Boom();
-            }
+            Power();
+
         }
 
     }
@@ -131,7 +119,17 @@ public class Puzzle_1 : ButtonEntity
     
 
     #region Answer
-
+    public void Power()
+    {
+        if (CheckAnswer())
+        {
+            Activation();
+        }
+        else
+        {
+            Boom();
+        }
+    }
     private bool CheckAnswer()
     {
         int num = 0;
