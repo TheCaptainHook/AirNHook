@@ -28,14 +28,21 @@ public class PlayerCameraView : MonoBehaviour
     public CameraImageEffects _CameraImageEffects;
     private Transform Player
     {
-        get { 
-            try{
-                return Managers.Game.Player?.transform; 
-            }catch(MissingReferenceException ex){
-                Debug.Log(ex);
+        get {
+            //try{
+            //    return Managers.Game.Player?.transform; 
+            //}catch(MissingReferenceException ex){
+            //    Debug.Log(ex);
+            //    return null;
+            //}
+            if (Managers.Game.Player == null)
+            {
                 return null;
             }
-            
+
+            return Managers.Game.Player.transform;
+
+
         }
     }
 

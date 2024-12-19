@@ -147,7 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onSocketItem: {fileID: 0}
   _BtnOffset: 1
-  boomArea: 2
+  boomArea: 1
   particles:
   - {fileID: 3187068910201326530}
   - {fileID: 6899640187317318790}

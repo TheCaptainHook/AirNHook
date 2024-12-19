@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using System;
 using UnityEditor.Rendering;
+using UnityEngine.Assertions.Must;
 [ExecuteInEditMode]
 public class Puzzle_1_Helper : MonoBehaviour
 {
@@ -185,9 +186,20 @@ public class Puzzle_1_Helper : MonoBehaviour
     public void RemoveParts()
     {
         if (partsContainer.childCount <= 0) return;
-     
+
+        int partsListCount = puzzle_1.GetPartsCount();
+        if(partsListCount < partsContainer.childCount)
+        {
+            for(int i =0; i<partsContainer.childCount - partsListCount;i++)
+            {
+                Undo.DestroyObjectImmediate(partsContainer.GetChild(partsContainer.childCount-1).gameObject);
+                recent_Parts = partsContainer.GetChild(partsContainer.childCount - 1).gameObject;
+            }
+        }
+
         puzzle_1.RemoveParts();
         Undo.DestroyObjectImmediate(recent_Parts);
+
         int index = partsContainer.childCount;
         if(index <= 0)
         {
@@ -203,6 +215,13 @@ public class Puzzle_1_Helper : MonoBehaviour
     public GameObject GetParts(int index)
     {
         return partsContainer.GetChild(index).gameObject;
+    }
+    #endregion
+
+    #region Hint
+    public void SetHintText()
+    {
+        puzzle_1.SetHintScreenText(GetPartsField().number);
     }
     #endregion
 

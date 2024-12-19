@@ -148,8 +148,10 @@ public struct ButtonObjectStruct
     public Vector3 scale;
     public List<Vector2> targetPositions;
     //puzzle_1
+    public bool onHint;
     public Vector2[] partsPositions;
     public Vector2[] itemPositions;
+    public Vector2 hintPosition;
 
     public ButtonObjectStruct(int id,List<Vector2> targetPositions,Vector2 position,Vector3 scale)
     {
@@ -159,10 +161,14 @@ public struct ButtonObjectStruct
         this.scale = scale;
         partsPositions = null;
         itemPositions = null;
+        onHint = false;
+        hintPosition = Vector2.zero;
     }
-    public ButtonObjectStruct(int id,List<Vector2> targetPositions,Vector2 position,Vector3 scale,
+    public ButtonObjectStruct(int id, List<Vector2> targetPositions, Vector2 position, Vector3 scale,
     Vector2[] partsPositions,
-    Vector2[] itemPositions)
+    Vector2[] itemPositions,
+    bool onHint,
+    Vector2 hintPosition = default)
     {
         this.id = id;
         this.targetPositions = targetPositions;
@@ -170,6 +176,8 @@ public struct ButtonObjectStruct
         this.scale = scale;
         this.partsPositions = partsPositions;
         this.itemPositions = itemPositions;
+        this.onHint = onHint;
+        this.hintPosition = hintPosition;
     }
 
 }

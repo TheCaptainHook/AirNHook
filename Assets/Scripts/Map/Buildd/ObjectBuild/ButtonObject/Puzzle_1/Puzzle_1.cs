@@ -4,12 +4,17 @@ using System;
 using Random = UnityEngine.Random;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using Edgegap;
+using System.Text;
 
 public class Puzzle_1 : ButtonEntity
 {
     [CustomHeader("Puzzle_1")]
     public List<Puzzle_1_Parts> puzzle_1_Parts;
 
+
+
+    [SerializeField] Puzzle_1_HintScreen hintScreen;
     [ReadOnly]
     [SerializeField] Transform partsContainer;
     [ReadOnly]
@@ -22,7 +27,8 @@ public class Puzzle_1 : ButtonEntity
     private string[] puzzle_1_Items = new string[] { "Puzzle_1_Item (1)", "Puzzle_1_Item (2)", "Puzzle_1_Item (3)" };
     private Vector2[] partsPosition;
     private Vector2[] itemsPosition; //Fill in this field through the editor
-
+    public bool onHint;
+    private Vector2 hintPosition;
 
     #region  Get,Set
     public override T GetData<T>()
@@ -34,7 +40,9 @@ public class Puzzle_1 : ButtonEntity
                 transform.position,
                 transform.localScale,
                 GetPartsPosition(),
-                GetItemPosition()
+                GetItemPosition(),
+                onHint,
+                onHint ? hintScreen.transform.position : default
                 );
         }
 
@@ -51,6 +59,16 @@ public class Puzzle_1 : ButtonEntity
 
                 partsPosition = buttonData.partsPositions;
                 itemsPosition = buttonData.itemPositions;
+                if (buttonData.onHint)
+                {
+                    onHint = true;
+                    hintPosition = buttonData.hintPosition;
+                }
+                else
+                {
+                    onHint = false;
+                    hintPosition = default;
+                }
 
                 Setting();
                 //Setting parts and Item;
@@ -74,21 +92,43 @@ public class Puzzle_1 : ButtonEntity
     }
 
     private void Setting() {
+        int previousNum = 0;
         for (int i = 0; i < partsPosition.Length; i++) {
             int num = Random.Range(1, 4);
+            while(previousNum == num) num = Random.Range(1, 4);
+            previousNum = num;
+            GameObject obj;
+            answer += num.ToString();
 
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             Puzzle_1_Helper helper = GetComponent<Puzzle_1_Helper>();
             helper.Init();
-            #endif
-
-            GameObject obj;
-            if(Application.isPlaying){  
+            if (Application.isPlaying)
+            {
                 obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[num - 1]);
-            }else{
-                obj = helper.Add_Item();
             }
-            
+            else
+            {
+                obj = helper.Add_Item();
+                if (onHint) 
+                {
+                    hintScreen.gameObject.SetActive(true);
+                }
+
+            }
+
+#else
+
+             obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[num - 1]);
+             //hint
+              if (onHint) 
+               {
+                    hintScreen.gameObject.SetActive(true);
+                     SetHint();
+               }
+           
+#endif
+
             obj.transform.position = itemsPosition[i];
             obj.transform.SetParent(itemContainer);
 
@@ -97,9 +137,28 @@ public class Puzzle_1 : ButtonEntity
             // obj.transform.position = Vector2.zero; // test
             // puzzle_1_Parts[i].SetAnswer(num); //test
 
-            answer += num.ToString();
+           
+        }
+
+        SetHint();
+        
+
+    }
+
+    private void SetHint()
+    {
+        if (onHint)
+        {
+            hintScreen.gameObject.SetActive(true);
+            hintScreen.transform.position = hintPosition;
+            hintScreen.SetHint(answer);
+        }
+        else
+        {
+            hintScreen.gameObject.SetActive(false);
         }
     }
+
 
     private void CreateParts(Vector2 pot,int answer){
         Puzzle_1_Parts obj = Instantiate(partsPrefab).GetComponent<Puzzle_1_Parts>();
@@ -116,7 +175,10 @@ public class Puzzle_1 : ButtonEntity
         PrograssButtonActivatedObject(true);
         Debug.Log("Activation");
     }
-    
+
+    #region Hint
+
+    #endregion
 
     #region Answer
     public void Power()
@@ -195,6 +257,18 @@ public class Puzzle_1 : ButtonEntity
     {
         puzzle_1_Parts.RemoveAt(puzzle_1_Parts.Count - 1);
     }
+    public int GetPartsCount()
+    {
+        return puzzle_1_Parts.Count;
+    }
+    public bool GetOnHint()
+    {
+        return onHint;
+    }
+    public void SetOnHint(bool onhint)
+    {
+        onHint = onhint;
+    }
     public void RefrashPartsList()
     {
         if (puzzle_1_Parts == null) return;
@@ -207,6 +281,24 @@ public class Puzzle_1 : ButtonEntity
                 puzzle_1_Parts.RemoveAt(i);
             }
         }
+    }
+
+    public void SetHintScreenText(int num)
+    {
+        StringBuilder sb = new();
+        for(int i = 0; i < num; i++)
+        {
+            sb.Append(i % 2 == 0 ? 'X' : '0');
+        }
+        hintScreen.SetText(sb.ToString());
+    }
+    public void SetScreenActive(bool active)
+    {
+        hintScreen.gameObject.SetActive(active);
+    }
+    public Puzzle_1_HintScreen GetHintScreen()
+    {
+        return hintScreen;
     }
     #endregion
 }

@@ -21,21 +21,28 @@ public class Puzzle_1_Editor : Editor
     Mode mode;
 
     Texture2D checkBtnTexture;
-    string checkBtnPath = "Assets/Resources/Arts/Icons/check-mark.png";
-    GUIContent checkContent;
+    Texture2D X_Texture;
 
+    Texture2D spriteSheet;
+    Object subAsset;
+
+    GUIContent checkContent;
+    GUIContent X_Content;
+
+    bool isHint;
 
     #region Style
     private GUIStyle buttonStyle;
 
     private Color partsNumberColor;
     private Color itemNumberColor;
-    private Color hintNumberColor;
+    private Color hintColor;
     #endregion
 
 
     private void OnEnable(){
-        checkBtnTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(checkBtnPath);
+
+
         helper = (Puzzle_1_Helper)target;
 
         if(!IsObjectVisibleInInspector(helper.gameObject)) return;
@@ -43,7 +50,7 @@ public class Puzzle_1_Editor : Editor
         helper.Init();
         puzzle_1 = helper.GetComponent<Puzzle_1>();
 
-        checkContent = new GUIContent(checkBtnTexture);
+        isHint = puzzle_1.GetOnHint();
     }
     // private void OnDisable()
     // {
@@ -54,9 +61,12 @@ public class Puzzle_1_Editor : Editor
         partsNumberColor = helper.GetPartsField().number > 0 ? Color.green : Color.red;
         itemNumberColor = (helper.GetItemField() != helper.GetPartsField().number) ?
             Color.red :
-             (helper.GetItemField() == helper.GetPartsField().number) && helper.GetItemField() != 0 ? Color.green : Color.red; 
+             (helper.GetItemField() == helper.GetPartsField().number) && helper.GetItemField() != 0 ? Color.green : Color.red;
+        hintColor = isHint ? Color.green : Color.red;
 
     }
+ 
+
     public override void OnInspectorGUI()
     {
         GUILayout.BeginHorizontal();
@@ -79,7 +89,7 @@ public class Puzzle_1_Editor : Editor
 
         GUILayout.BeginHorizontal();
             GUILayout.Label("Hint\t: ", GetGUIStyle_Label(Color.white));
-            GUILayout.Label($"X", GetGUIStyle_Label(hintNumberColor));
+            GUILayout.Label(isHint ? "O" : "X", GetGUIStyle_Label(hintColor));
         GUILayout.EndHorizontal();
         GUILayout.EndVertical();
 
@@ -100,11 +110,13 @@ public class Puzzle_1_Editor : Editor
                 DrawSection_Item();
                 break;
             case Mode.Hint:
+                DrawSectionHint();
                 break;
         }
 
         //
-       
+        helper.SetHintText();
+
 
     }
 
@@ -159,6 +171,8 @@ public class Puzzle_1_Editor : Editor
 
         EditorGUILayout.EndVertical();
     }
+
+
     private void DrawSection_Item()
     {
     
@@ -185,6 +199,57 @@ public class Puzzle_1_Editor : Editor
 
         EditorGUILayout.EndVertical();
     }
+
+    private void DrawSectionHint()
+    {
+        EditorGUILayout.LabelField("Hint", GetGUIStyle_Label(Color.white, 20, FontStyle.Bold));
+        EditorGUILayout.BeginVertical(new GUIStyle(GUI.skin.window));
+
+        EditorGUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        EditorGUILayout.LabelField("Check Hint", GetGUIStyle_Label(Color.white, 12, FontStyle.Bold), GUILayout.Width(70));
+        isHint = EditorGUILayout.Toggle(isHint);
+        EditorGUILayout.EndHorizontal();
+
+
+       
+        if (isHint)
+        {
+            puzzle_1.SetOnHint(true);
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+            puzzle_1.SetScreenActive(true);
+
+            int num = helper.GetPartsField().number;
+            for(int i = 0; i< num; i++)
+            {
+                EditorGUILayout.LabelField((i)%2==0 ? "X" : "O"
+                    , GetGUIStyle_Label(Color.white, 12, FontStyle.Bold), GUILayout.Width(20));
+            }
+            GUILayout.FlexibleSpace();
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.ObjectField(
+
+           $"Hint Screen",
+           puzzle_1.GetHintScreen(),
+           typeof(GameObject),
+           true
+           );
+
+        }
+        else
+        {
+            puzzle_1.SetScreenActive(false);
+            puzzle_1.SetOnHint(false);
+        }
+       
+       
+
+        EditorGUILayout.EndVertical();
+
+    }
+
     #endregion
 
     private bool Button(string title,int width = 80,int height = 25)

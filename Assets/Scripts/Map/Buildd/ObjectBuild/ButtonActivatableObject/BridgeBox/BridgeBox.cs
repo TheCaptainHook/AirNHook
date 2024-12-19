@@ -95,6 +95,8 @@ using UnityEngine;
             
             obj.layer = LayerMask.NameToLayer("Ground/NotHookable");
             obj.transform.SetParent(transform);
+
+            bridgeCol.enabled = false;
         }
         private void DrawLine(){
             lineRenderer.positionCount =2;
@@ -125,7 +127,7 @@ using UnityEngine;
             BoxCollider2D bcol = obj.AddComponent<BoxCollider2D>();
             boxCol.offset = this.boxCol.offset;
             boxCol.size  = this.boxCol.size;
-
+            
             obj.transform.rotation = transform.rotation;
             obj.transform.position = connectionPoint;
 
