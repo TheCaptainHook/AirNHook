@@ -55,14 +55,15 @@ MonoBehaviour:
   id: 314
   transformID: 1
   position: {x: 0, y: 0}
-  offset: {x: 0, y: 2}
   distructionStatus: 2
   onPlaceable: 0
   onRotateable: 1
   onScaleable: 1
+  offset: {x: 0, y: 2}
+  turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _collider: {fileID: 9114381663352480180}
+  _Dissolve_MainSprite: {fileID: 0}
   _BrokenPartsParticles: {fileID: 1852802768431880783}
   _DustParticles: {fileID: 4890439913986961227}
   health: 5
