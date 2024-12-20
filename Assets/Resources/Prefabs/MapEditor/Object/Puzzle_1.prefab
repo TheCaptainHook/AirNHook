@@ -816,7 +816,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 909207883
+  m_SortingLayerID: -688237417
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &8459635952901275488
@@ -1064,6 +1064,7 @@ MonoBehaviour:
   itemContainer: {fileID: 8687266841447918549}
   partsPrefab: {fileID: 1615267805471075121, guid: fe8033987ee3e4ff585d684cae8d9102, type: 3}
   answer: 
+  onHint: 0
 --- !u!114 &7061253011019916209
 MonoBehaviour:
   m_ObjectHideFlags: 0
