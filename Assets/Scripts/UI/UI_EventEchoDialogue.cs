@@ -88,7 +88,6 @@ public class UI_EventEchoDialogue : UI_Base
 
    
     #region Main
-    
     public void SetDialogue(string text)
     {
         // string text = testSentence;

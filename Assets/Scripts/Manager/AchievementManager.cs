@@ -1,15 +1,14 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Steamworks;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
+
 
 public class AchievementManager
 {
     #region Event
         //Player
         private event Action playerJumpingEvent;
+
         //Object
         private event Action usePortalEvent;
     #endregion
@@ -35,12 +34,24 @@ public class AchievementManager
     }
 
     #region Call Event
+        #region  Obejct
         public void CallUsePortal(){
             usePortalEvent?.Invoke();
         }
+        //
+        //
+        #endregion
+        #region  Player
+        //player
         public void CallPlayerJumping(){
         playerJumpingEvent?.Invoke();
-    }
+        }
+        //PlayerDeath
+        //PlayerDeath_Sucide
+        //Clear_Toturial
+        
+        #endregion
+
     #endregion
 
 
@@ -62,7 +73,7 @@ public class AchievementManager
 
 
     #region Event
-        #region  Object
+        #region Object
             private async void UsePortal(){ 
             int usePortal = ++Managers.Data.saveData._AchievementData.use_Portal;
 
@@ -104,6 +115,12 @@ public class AchievementManager
                 }
                 await Managers.Data.saveData.Ac_Save();
             }
+
+
+
+        #endregion
+        #region  Map
+       
         #endregion
     #endregion
 

@@ -80,7 +80,7 @@ public class SaveData
        }
 
        try{
-        await Task.Delay(10000,_cts.Token);
+        await Task.Delay(1000,_cts.Token);
        }catch(TaskCanceledException){
         return;
        }
@@ -158,6 +158,7 @@ public class SaveData
             }
 
             Save();
+
         }
         else
         {
@@ -503,10 +504,12 @@ public class SerializableSaveMapDataDictionary<TKey, TValue>
 public class AchievementData{
     //Object
     public int use_Portal;
-        //btn
+     //btn
     //Player
     public int player_Jumping;
-        //Death type
+     //Death type
+    //Map 1220
+
         
     public AchievementData(){
         use_Portal = 0;

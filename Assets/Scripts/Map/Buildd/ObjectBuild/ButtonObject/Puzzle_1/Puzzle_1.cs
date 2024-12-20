@@ -3,8 +3,6 @@ using UnityEngine;
 using System;
 using Random = UnityEngine.Random;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using Edgegap;
 using System.Text;
 
 public class Puzzle_1 : ButtonEntity

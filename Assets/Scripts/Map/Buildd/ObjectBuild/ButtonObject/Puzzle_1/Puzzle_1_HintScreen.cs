@@ -10,6 +10,8 @@ public class Puzzle_1_HintScreen : MonoBehaviour
     public void SetHint(string answer)
     {
         ConvertAnswer(answer);
+        //Effect Coroutine
+        
     }
 
 
