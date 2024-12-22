@@ -99,6 +99,8 @@ GameObject:
   - component: {fileID: 1912061667540384569}
   - component: {fileID: 6464654479886526947}
   - component: {fileID: 6332937188113323379}
+  - component: {fileID: 1975591882027516896}
+  - component: {fileID: 7338807210957550940}
   m_Layer: 15
   m_Name: MovingSaw
   m_TagString: Untagged
@@ -132,7 +134,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3690635770919025948}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -175,12 +177,10 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
-  activeRequirAmount: 0
-  curActiveBtn: 0
   paths: []
-  moveSpeed: 0
-  step: 0
-  dir: {x: 0, y: 0}
+  moveSpeed: 5
+  IsBroken: 0
+  _Animation_Transition_Speed: 0
   _greenLight: {fileID: 7910590487191826475}
 --- !u!114 &7857764052154975748
 MonoBehaviour:
@@ -289,6 +289,39 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1975591882027516896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3690635770919025948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f94c8f0b6f1c40b58d12bba8601b7f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parents: {fileID: 0}
+  curPath: []
+  line: {fileID: 0}
+  onHierarchy: 0
+--- !u!114 &7338807210957550940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3690635770919025948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 1
+  syncInterval: 0
+  clientAuthority: 0
+  animator: {fileID: 6332937188113323379}
 --- !u!1 &3962016352224804910
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,9 +392,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -688237417
-  m_SortingLayer: 5
-  m_SortingOrder: 10
+  m_SortingLayerID: -1138266859
+  m_SortingLayer: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 95234dd77ffb7794fa73b64b6d08989c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

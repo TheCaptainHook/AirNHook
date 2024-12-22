@@ -178,7 +178,7 @@ public class DroneEntity : BuildObj
         return false;
     }
 
-    private void DroneMovingAnimation(DroneState state){
+    protected virtual void DroneMovingAnimation(DroneState state){
         if(animator == null) return;
         if(animationMovingCoroutine != null){
             StopCoroutine(animationMovingCoroutine);
