@@ -11,7 +11,7 @@ public class Puzzle_1 : ButtonEntity
     public List<Puzzle_1_Parts> puzzle_1_Parts;
 
 
-
+    [SerializeField] Puzzle_1_Button button;
     [SerializeField] Puzzle_1_HintScreen hintScreen;
     [ReadOnly]
     [SerializeField] Transform partsContainer;
@@ -179,7 +179,7 @@ public class Puzzle_1 : ButtonEntity
     #endregion
 
     #region Answer
-    public void Power()
+    private void Power()
     {
         if (CheckAnswer())
         {
@@ -188,6 +188,7 @@ public class Puzzle_1 : ButtonEntity
         else
         {
             Boom();
+            Wrong();
         }
     }
     private bool CheckAnswer()
@@ -201,6 +202,7 @@ public class Puzzle_1 : ButtonEntity
 
         return num == puzzle_1_Parts.Count;
     }
+
     private void Boom()
     {
         HashSet<Collider2D> col = new();
@@ -219,6 +221,21 @@ public class Puzzle_1 : ButtonEntity
                 }
             }
         }
+    }
+    #endregion
+
+    #region Charging // Network processing required
+    public void Charging()
+    {
+        if(button.Charging())
+        {
+            Power();
+        }
+       
+    }
+    private void Wrong()
+    {
+        button.Wrong();
     }
     #endregion
 

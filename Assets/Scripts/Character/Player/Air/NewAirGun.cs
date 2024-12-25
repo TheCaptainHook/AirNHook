@@ -32,7 +32,7 @@ public class NewAirGun
     private Rigidbody2D _rigidbody2D => _air.rigidbody2D;
     private Collider2D _inhaleTarget;
     private bool _isAttached;
-    private bool _inhaling;
+    public bool _inhaling;
     private bool _isAttachedToHook;
     private bool _isInhaledHook;
     
