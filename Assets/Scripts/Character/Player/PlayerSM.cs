@@ -44,6 +44,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     [field: Header("Animation")]
     [field: SerializeField] public Animator animator { get; private set; }
     public PlayerAnimationData animationData { get; protected set; }
+    private bool _isSuicideActive;
     
     #region Setup
     protected virtual void Awake()
@@ -236,6 +237,12 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         HandleDeathCameraEffects(damageType);
     }
 
+    private void TakeSuicideDamage()
+    {
+        //애니메이션 트리거 용도
+        TakeDamage(DamageType.Suicide);
+    }
+
     private void PlayDeathAnimation(DamageType damageType)
     {
         // DamageType에 따른 애니메이션 트리거 실행
@@ -385,6 +392,12 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         if (!canControl) return;
         
         TakeDamage(DamageType.Suicide);
+        //TODO - 이렇게 하니까 누를때만 트리거 방식으로 인식해서 안되는데 꾹 누르다가 캔슬하는 것을 체크해야함
+        /*_isSuicideActive = context.performed; // 눌림(true) 또는 뗌(false) 처리
+        if (_isSuicideActive && canControl)
+        {
+            animator.SetBool(animationData.SuicideParameterHash, _isSuicideActive);
+        }*/
     }
     
     private void SubscribeInput()
