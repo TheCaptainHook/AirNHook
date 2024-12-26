@@ -65,7 +65,7 @@ public class MirrorObject : BuildObj,IInteractable
         if(_ConnectPlayer == null) return;
         //_ConnectPlayer.GetComponent<PlayerSM>().canControl = false;
         //Managers.Game.Player.GetComponent<Rigidbody2D>().simulated = false;
-        Managers.Game.Player.GetComponent<Rigidbody2D>().velocity  = Vector2.zero;
+        //Managers.Game.Player.GetComponent<Rigidbody2D>().velocity  = Vector2.zero;
         onActive = true;
         
     }

@@ -79,6 +79,7 @@ public class ProjectileEntity : MonoBehaviour,IPooling
     {
         Reset();
         Managers.Pooling.N_ReleaseToPool<Projectile_Arrow>(gameObject);
+        //Managers.Pooling.D_ReleaseToPool(gameObject);
     }
     #endregion
 }

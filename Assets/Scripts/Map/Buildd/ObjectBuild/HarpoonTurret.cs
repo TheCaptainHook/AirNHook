@@ -14,10 +14,10 @@ public class HarpoonTurret : BuildObj
     [SerializeField] private ParticleSystem _shellParticle;
     [SerializeField] private Animator _topSteam;
     [SerializeField] private Animator _bottomSteam;
-    
     private Animator _animator;
     public float radius = 10f; // 스피어 캐스트의 반지름
-    
+
+    [SerializeField] GameObject arrowPrefab;
     
     #region StringCache
     private static readonly int IsFiring = Animator.StringToHash("IsFiring");
@@ -56,8 +56,8 @@ public class HarpoonTurret : BuildObj
 
     private void FixedUpdate()
     {
-        hit = Physics2D.Raycast(transform.position, transform.right, 100f, layerMask);
-
+        hit = Physics2D.Raycast(transform.position, _holder.transform.right, 100f, layerMask);
+        Debug.DrawRay(transform.position, transform.right * 100f);
         if (hit)
         {
             if (!isShot)
@@ -81,9 +81,11 @@ public class HarpoonTurret : BuildObj
     }
     private void Shot(){
         Projectile_Arrow arrow = Managers.Pooling.N_GetItme<Projectile_Arrow>().GetComponent<Projectile_Arrow>();
-        arrow.Setting(transform.position,transform.right);
+        //GameObject obj = Managers.Stage.CmdBatchObject("Projectile_Arrow");
+        arrow.Setting(transform.position, _holder.transform.right);
         arrow.gameObject.SetActive(true);
-    }
+
+    }   
 
     // private void RotateTrap()
     // {
@@ -125,7 +127,7 @@ public class HarpoonTurret : BuildObj
         // 가장 가까운 오브젝트를 향해 회전
         if (nearestPlayer != null)
         {
-            Vector2 direction = nearestPlayer.position - transform.position;
+            Vector2 direction = nearestPlayer.position + new Vector3(0,0.5f) - transform.position;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             _holder.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }

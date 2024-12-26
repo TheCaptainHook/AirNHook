@@ -5067,7 +5067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e8c1e4bebcb22e4590827f09ea592a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  id: 342
   transformID: 0
   position: {x: 0, y: 0}
   distructionStatus: 0
@@ -5087,7 +5087,8 @@ MonoBehaviour:
   _shellParticle: {fileID: 645326699124061494}
   _topSteam: {fileID: 2868477511076414545}
   _bottomSteam: {fileID: 8270035442196099591}
-  radius: 20
+  radius: 10
+  arrowPrefab: {fileID: 0}
 --- !u!50 &-1055571321575970891
 Rigidbody2D:
   serializedVersion: 4
