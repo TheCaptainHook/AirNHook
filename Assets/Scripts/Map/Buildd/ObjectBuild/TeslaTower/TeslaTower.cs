@@ -8,7 +8,8 @@ using UnityEngine;
 enum Insulator
 {
     LightningRod,
-    LeverHead
+    LeverHead,
+    Battery
 }
 public class TeslaTower : BuildObj
 {
@@ -188,7 +189,6 @@ public class TeslaTower : BuildObj
 
     private void Check_DetectObjectsAndLightning()
     {
-        Debug.Log("TEST 1");
         if (detectedObjects.Count > 0 && onCharge)
         {
             #region take care IInsulator, delet this region code line
@@ -210,9 +210,8 @@ public class TeslaTower : BuildObj
                     if (CheckInsulator(buildObj.id))
                     {
                         DrawLineRenderer(obj.transform, obj.transform);
-                        buildObj.TakeDamage();
+                        buildObj.TakeDamage(DamageType.Electric);
 
-                        // 플레이어가 오브젝트를 들고있는 경우 제대로 작동 안댐
                         return;
                     }
                     
@@ -324,10 +323,11 @@ public class TeslaTower : BuildObj
         }
 
 
-        if (target.TryGetComponent(out Hook hook))
+        if (target.TryGetComponent(out HookSM hook))
         {
-            LightningRod lightningRod = hook.GetGrabbedItem<LightningRod>();
-            if(lightningRod != null)
+            Transform item = hook.GetGrabbedItem();
+            LightningRod lightningRod = item.GetComponent<LightningRod>();
+            if (lightningRod != null)
             {
                 DrawLineRenderer(target.transform, lightningRod.hitPoint);
                 return;
@@ -337,17 +337,8 @@ public class TeslaTower : BuildObj
 
         if(target.TryGetComponent(out IDamageable damageable))
         {
-            damageable.TakeDamage();
+            damageable.TakeDamage(DamageType.Electric);
         }
-
-
-        //if (target.TryGetComponent(out Air air))
-        //{
-        //    Debug.Log("Air");
-           
-        //}
-
-       
 
         return;
 

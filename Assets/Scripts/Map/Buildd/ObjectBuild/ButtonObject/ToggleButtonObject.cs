@@ -2,9 +2,15 @@ using System.Collections;
 using Mirror;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class ToggleButtonObject : ButtonEntity,IInteractable
 {
+    [CustomHeader("Toggle")]
+    [Tooltip("Default : false")]
+    public bool chargeRequired = false;
+    [ReadOnly]
+    public bool hasPower;
     #region Components
     private Animator animator;
     #endregion
@@ -17,11 +23,43 @@ public class ToggleButtonObject : ButtonEntity,IInteractable
     [SerializeField] float _BtnOffset;
     public ObjectTypeEnum _objectType = ObjectTypeEnum.Interaction;
     private UI_Base _E_Btn;
-    private UI_Base _AorD_Btn;
+
+   
 
     private void Awake(){
         animator = GetComponent<Animator>();
     }
+
+    #region Get,Set
+    public override T GetData<T>()
+    {
+        if (typeof(T) == typeof(ButtonObjectStruct))
+        {
+            return (T)(object)new ButtonObjectStruct(id, GetTargetPositions(), transform.position, transform.localScale, chargeRequired);
+        }
+
+        return default(T);
+    }
+    public override void SetData<T>(T data)
+    {
+        try
+        {
+            if (typeof(T) == typeof(ButtonObjectStruct))
+            {
+                ButtonObjectStruct buttonData = (ButtonObjectStruct)(object)data;
+                ButtonObjectData = buttonData;
+                FindTargetObject();
+                chargeRequired = buttonData.chargeRequired;
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Debug.Log($"name : {gameObject.name},{ex}");
+        }
+    }
+    #endregion
+
 
 
     protected override void Activation()
@@ -62,6 +100,14 @@ public class ToggleButtonObject : ButtonEntity,IInteractable
     public void Interaction(Transform accessor = null){
        if (!NetworkServer.active || !NetworkClient.isConnected)
             return;
+        if (chargeRequired)
+        {
+            if (!hasPower)
+            {
+                return;
+            }
+        }
+
         if(onActive){
             Deactivated();
         }else{

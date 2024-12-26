@@ -152,8 +152,8 @@ public struct ButtonObjectStruct
     public Vector2[] partsPositions;
     public Vector2[] itemPositions;
     public Vector2 hintPosition;
-
-    public ButtonObjectStruct(int id,List<Vector2> targetPositions,Vector2 position,Vector3 scale)
+    public bool chargeRequired;
+    public ButtonObjectStruct(int id,List<Vector2> targetPositions,Vector2 position,Vector3 scale,bool chargeRequired = false)
     {
         this.id = id;
         this.targetPositions = targetPositions;
@@ -163,7 +163,9 @@ public struct ButtonObjectStruct
         itemPositions = null;
         onHint = false;
         hintPosition = Vector2.zero;
+        this.chargeRequired = chargeRequired;
     }
+
     public ButtonObjectStruct(int id, List<Vector2> targetPositions, Vector2 position, Vector3 scale,
     Vector2[] partsPositions,
     Vector2[] itemPositions,
@@ -178,6 +180,7 @@ public struct ButtonObjectStruct
         this.itemPositions = itemPositions;
         this.onHint = onHint;
         this.hintPosition = hintPosition;
+        chargeRequired = false;
     }
 
 }

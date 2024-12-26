@@ -327,6 +327,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _objectType: 1
+  _gravityScale: 0
   _offset: {x: 0, y: 1}
   _inhalePower: 4000
 --- !u!114 &5841928186188957514
