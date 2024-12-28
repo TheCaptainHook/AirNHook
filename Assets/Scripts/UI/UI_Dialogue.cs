@@ -7,6 +7,7 @@ using TMPro;
 using System.Threading.Tasks;
 using System.Threading;
 using Unity.VisualScripting;
+using System.Runtime.CompilerServices;
 
 
 
@@ -104,6 +105,7 @@ public class UI_Dialogue : UI_Base
 
     private CancellationTokenSource _cancellationTokenSource;
 
+    private TypingEffect typingEffect;
 
     public override void OnEnable()
     {
@@ -122,9 +124,25 @@ public class UI_Dialogue : UI_Base
         _LeftImage = _SpriteLeftRT.GetComponent<Image>();
         _RightImage = _SpriteRightRT.GetComponent<Image>();
         queue = new();
+        typingEffect = GetComponent<TypingEffect>();
     }
 
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            StartDialogue(100);
+        }
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            StartDialogue(101);
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            StartDialogue(102);
+        }
+    }
     // 1129// 1129// 1129// 1129// 1129// 1129// 1129// 1129// 1129// 1129// 1129
     public void StartDialogue(int id)
     {
@@ -140,7 +158,8 @@ public class UI_Dialogue : UI_Base
         onPrograss = true;
         while(queue.Count>0)
         {
-            int id = queue.Dequeue();            
+            int id = queue.Dequeue();
+            Debug.Log(id);
             nextDialogueIndex = 1;
             list = Managers.Data.language.dialogueMap[id];
             
@@ -198,18 +217,22 @@ public class UI_Dialogue : UI_Base
         yield return ScaleOverTime(new Vector3(0.7f, 0.7f), new Vector3(1.2f, 1.2f),0.2f);
         yield return ScaleOverTime(new Vector3(1.2f, 1.2f), new Vector3(1f, 1f), 0.3f);
         //Typing Effect
-        _cancellationTokenSource = new CancellationTokenSource();
-        Task task = Util.TypingEffectTask(_TextBoxText, Managers.Data.language.dict[dialogue.sentenceID], Color.black, 42, .05f, _cancellationTokenSource,true);
+        //1228
+        //_cancellationTokenSource = new CancellationTokenSource();
+        //Task task = Util.TypingEffectTask(_TextBoxText, Managers.Data.language.dict[dialogue.sentenceID], Color.black, 42, .05f, _cancellationTokenSource,true);
 
-        //TypingEffectTask Cancel
-        while (!task.IsCompleted)
-        {
-            if (Input.anyKeyDown)
-            {
-                _cancellationTokenSource.Cancel();
-            }
-            yield return null;
-        }
+        ////TypingEffectTask Cancel
+        //while (!task.IsCompleted)
+        //{
+        //    if (Input.anyKeyDown)
+        //    {
+        //        _cancellationTokenSource.Cancel();
+        //    }
+        //    yield return null;
+        //}
+        //1228
+        yield return typingEffect.Typing(_TextBoxText, Managers.Data.language.dict[dialogue.sentenceID], Color.black);
+       
 
         bool onAnyKey = false;
         while (!onAnyKey)
@@ -238,11 +261,6 @@ public class UI_Dialogue : UI_Base
             }
         }
     }
-
-
-    //todo 0718
-   // 텍스트박스 아래위치일때 스프라이트 대각선 위쪽으로
-   //위쪽위치할때는 그대로.ㄴ
 
     private void DialogueSpriteSetting(Dialogue dialogue)
     {
@@ -403,7 +421,7 @@ public class UI_Dialogue : UI_Base
     IEnumerator SpriteFadeOut(Image image)
     {
         float percent = 0;
-        while (percent < 1)
+        while (percent < .5f)
         {
             percent += Time.deltaTime;
             image.color = Color.Lerp(image.color, _Alpha_0, percent);
@@ -420,7 +438,7 @@ public class UI_Dialogue : UI_Base
         image.enabled = true;
         //AppendAnim(_mainFrame, 1.15f, 0.2f, 1f, 0.1f);
         float percent = 0;
-        while (percent < 1)
+        while (percent < .5f)
         {
             percent += Time.deltaTime;
             image.color = Color.Lerp(image.color, _Alpha_1, percent);

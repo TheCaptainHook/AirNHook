@@ -113,6 +113,7 @@ GameObject:
   - component: {fileID: 716504505021499473}
   - component: {fileID: 2122381404537913265}
   - component: {fileID: 8852995709779911483}
+  - component: {fileID: 2733842567116359143}
   m_Layer: 5
   m_Name: UI_Dialogue
   m_TagString: Untagged
@@ -258,6 +259,22 @@ MonoBehaviour:
   _Panel: {fileID: 6697164730690986509}
   _LeftImage: {fileID: 0}
   _RightImage: {fileID: 0}
+--- !u!114 &2733842567116359143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774328710121444816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 867f7232e41609644b254dc44c9164d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  letterDelay: 0.1
+  animationDuration: 0.3
+  startOffset: {x: 50, y: 25}
+  startRotationAngle: 90
 --- !u!1 &1413492805090108224
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,7 +497,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -11, y: 12}
+  m_AnchoredPosition: {x: -11, y: -5}
   m_SizeDelta: {x: -363.3896, y: -206.3018}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3081154559748073275
@@ -545,8 +562,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
