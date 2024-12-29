@@ -1,24 +1,87 @@
 using Org.BouncyCastle.Asn1.Crmf;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
+using UnityEngine.Tilemaps;
 
 public class PathFinder : MonoBehaviour
 {
-
-
-
+    //test
+    public LayerMask obstacleLayer;
     private float cellSize = 1.0f; // 그리드 셀 크기
 
     Vector2Int[] directions = { Vector2Int.down,Vector2Int.left,Vector2Int.up,Vector2Int.right};
 
+    public Tilemap floorTileMap;
+
+    public List<Vector2Int> FindPath(Vector2Int start, Vector2Int end)
+    {
+
+        floorTileMap = MapEditor.Instance.placeMentSystem.floorTileMap;
+
+        PriorityQueue<(Vector2Int position,int gCost,List<Vector2Int> path)> openSet = new();
+
+        HashSet<Vector2Int> closedSet = new HashSet<Vector2Int>();
+
+        openSet.Enqueue((start, 0,new List<Vector2Int> { start }),0+Heuristic(start,end));
+
+        while (openSet.Count > 0)
+        {
+            var current = openSet.Dequeue();
+            Vector2Int curPosition = current.position;
+            int curGCost = current.gCost;
+            List<Vector2Int> curPath = current.path;
+
+            if (curPosition == end) return current.path;
+
+            closedSet.Add(curPosition);
+
+            foreach(var dir in directions)
+            {
+                Vector2Int nextPosition = curPosition + dir;
+
+                if (closedSet.Contains(nextPosition) || IsObstacle(nextPosition)){ continue;}
+
+                int nextGCost = curGCost + 1;
+                int nextHCost = Heuristic(nextPosition, end);
+
+                List<Vector2Int> nextPath = new List<Vector2Int>(curPath) {nextPosition };
+                openSet.Enqueue((nextPosition, nextGCost, nextPath), nextGCost + nextHCost);
+
+                  
+            }
+        }
+        return null;
+    }
 
 
-  
+    private bool IsObstacle(Vector2Int gridPosition)
+    {
+        // 월드 좌표로 변환
+        Vector3 worldPosition = GridToWorld(gridPosition);
+        
+        // 해당 위치에 장애물이 있는지 확인
+        
+        TileBase tile = floorTileMap.GetTile(floorTileMap.WorldToCell(worldPosition));
+
+        if (tile != null)
+        {
+            return true;
+        }
+        else return false;
 
 
-    
-    private Vector2Int WorldToGrid(Vector3 worldPosition)
+    }
+
+    private int Heuristic(Vector2Int a, Vector2Int b)
+    {
+        return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
+    }
+
+
+    public Vector2Int WorldToGrid(Vector3 worldPosition)
     {
       
         // 월드 좌표를 그리드 좌표로 변환
@@ -28,7 +91,7 @@ public class PathFinder : MonoBehaviour
         );
     }
 
-    private Vector3 GridToWorld(Vector2Int gridPosition)
+    public Vector3 GridToWorld(Vector2Int gridPosition)
     {
         // 그리드 좌표를 월드 좌표로 변환
         return new Vector3(gridPosition.x * cellSize, gridPosition.y * cellSize, 0);

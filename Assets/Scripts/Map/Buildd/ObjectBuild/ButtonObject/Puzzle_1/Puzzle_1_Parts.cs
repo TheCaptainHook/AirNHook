@@ -23,6 +23,10 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     [ReadOnly]
     public bool isCorrectAnswer;
 
+
+    private Puzzle_1 puzzle_1;
+    private LineRenderer lineRenderer;
+    private PathFinder pathFinder;
     #region Components
     private Collider2D col;
     #endregion
@@ -31,6 +35,8 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     private void Awake(){
         col = GetComponent<Collider2D>();
         sprite = GetComponent<SpriteRenderer>();
+        lineRenderer = GetComponent<LineRenderer>();
+        pathFinder = GetComponent<PathFinder>();
     }
 
     #region Insert,Remove
@@ -56,9 +62,12 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
     #region Answer
     
-    public void SetAnswer(int answer)
+    public void Settting(int answer,Puzzle_1 puzzle_1)
     {
         puzzleAnswer = answer;
+        this.puzzle_1 = puzzle_1;
+        if(Application.isPlaying)
+        DrawPath(transform, puzzle_1.transform);
     }
     public void CheckAnswer()
     {
@@ -207,7 +216,31 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
 
 
+    #region Path
+    public void DrawPath(Transform start, Transform end)
+    {
+        Vector2Int startPot = pathFinder.WorldToGrid(start.position);
+        Vector2Int endPot = pathFinder.WorldToGrid(end.position);
 
+        List<Vector2Int> path = pathFinder.FindPath(startPot, endPot);
 
+        if (path == null) { return; }
 
+        lineRenderer.positionCount = path.Count;
+        for (int i = 0; i < path.Count; i++)
+        {
+            Vector3 worldPosition = pathFinder.GridToWorld(path[i]);
+            lineRenderer.SetPosition(i, worldPosition);
+        }
+    }
+
+    #endregion
+
+    public Vector2 GetPosition()
+    {
+        return new Vector2(
+            Mathf.RoundToInt(transform.position.x),
+            Mathf.RoundToInt(transform.position.y)
+            );
+    }
 }

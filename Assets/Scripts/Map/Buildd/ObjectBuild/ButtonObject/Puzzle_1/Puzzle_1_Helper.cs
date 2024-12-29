@@ -50,6 +50,26 @@ public class Puzzle_1_Helper : MonoBehaviour
 
     }
 
+  
+    public void RoundPosition()
+    {
+        RoundPosition(puzzle_1.transform);
+
+        foreach(Transform t in partsContainer)
+        {
+            RoundPosition(t);
+        }
+
+
+    }
+
+
+    private void RoundPosition(Transform t)
+    {
+        t.position = new Vector2(
+            Mathf.RoundToInt(t.position.x),
+            Mathf.RoundToInt(t.position.y));
+    }
     #region Get
     public (int number,GameObject recentParts) GetPartsField()
     {

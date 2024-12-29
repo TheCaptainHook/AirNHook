@@ -35,7 +35,7 @@ public class Puzzle_1 : ButtonEntity
             return (T)(object)new ButtonObjectStruct(
                 id,
                 GetTargetPositions(),
-                transform.position,
+                GetPosition(),
                 transform.localScale,
                 GetPartsPosition(),
                 GetItemPosition(),
@@ -46,6 +46,14 @@ public class Puzzle_1 : ButtonEntity
 
         return default(T);
     }
+
+    private Vector2 GetPosition()
+    {
+        return new Vector2(
+            Mathf.RoundToInt(transform.position.x),
+            Mathf.RoundToInt(transform.position.y));
+    }
+
     public override void SetData<T>(T data)
     {
         try {
@@ -163,7 +171,7 @@ public class Puzzle_1 : ButtonEntity
         obj.transform.SetParent(partsContainer);
         puzzle_1_Parts.Add(obj);
         obj.transform.position = pot;
-        obj.SetAnswer(answer);
+        obj.Settting(answer,this);
 
     }
 
@@ -247,7 +255,7 @@ public class Puzzle_1 : ButtonEntity
         Vector2[] pots = new Vector2[puzzle_1_Parts.Count];
         for (int i = 0; i < pots.Length; i++)
         {
-            pots[i] = puzzle_1_Parts[i].transform.position;
+            pots[i] = puzzle_1_Parts[i].GetPosition();
         }
         return pots;
     }

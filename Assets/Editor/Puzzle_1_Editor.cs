@@ -51,11 +51,13 @@ public class Puzzle_1_Editor : Editor
         puzzle_1 = helper.GetComponent<Puzzle_1>();
 
         isHint = puzzle_1.GetOnHint();
+
+        EditorApplication.update += EditorUpdate;
     }
-    // private void OnDisable()
-    // {
-    //     helper.Destroy();
-    // }
+    private void OnDisable()
+    {
+        EditorApplication.update -= EditorUpdate;
+    }
     private void CheckPartsItemHint()
     {
         partsNumberColor = helper.GetPartsField().number > 0 ? Color.green : Color.red;
@@ -118,6 +120,13 @@ public class Puzzle_1_Editor : Editor
         helper.SetHintText();
 
 
+    }
+
+
+    private void EditorUpdate()
+    {
+        if (puzzle_1 == null) return;
+        helper.RoundPosition();
     }
 
     #region Draw
