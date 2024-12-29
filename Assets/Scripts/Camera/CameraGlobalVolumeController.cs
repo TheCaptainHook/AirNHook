@@ -11,6 +11,7 @@ public class CameraGlobalVolumeController : MonoBehaviour
     private LensDistortion _LensDistortion;
 
     private Coroutine InnerFogCoroutine;
+    private Coroutine DeathVignetteCoroutine;
     private bool isInFog;
 
 
@@ -140,5 +141,63 @@ public class CameraGlobalVolumeController : MonoBehaviour
         _Volume.weight = 0;
         isInFog = false;
     }
+    #endregion
+
+    #region DeathVignette
+
+    public void DeathVignette(bool inout)
+    {
+        if ( isInFog ) return;
+        
+        _Volume.weight = 0.65f;
+
+        if (DeathVignetteCoroutine != null)
+        {
+            StopCoroutine(DeathVignetteCoroutine);
+        }
+
+        if (inout)
+        {
+            DeathVignetteCoroutine = StartCoroutine(DeathVignetteCoroutine_In(0.3f, 0.7f));
+        }
+        else
+        {
+            DeathVignetteCoroutine = StartCoroutine(DeathVignetteCoroutine_Out());
+        }
+
+    }
+    IEnumerator DeathVignetteCoroutine_In(float targetIntensity = 1.0f, float speed = 1.0f)
+    {
+        if (!_Vignette.active) _Vignette.active = true;
+
+        float percent = _Vignette.intensity.value;
+        while (percent < targetIntensity)
+        {
+            percent += Time.fixedDeltaTime * speed;
+            _Vignette.intensity.value = Mathf.Clamp01(percent); // 값 제한
+            yield return null;
+        }
+        _Vignette.intensity.value = targetIntensity;
+        DeathVignetteCoroutine = null;
+    }
+
+    IEnumerator DeathVignetteCoroutine_Out(float targetIntensity = 0.0f, float speed = 1.0f)
+    {
+        float percent = _Vignette.intensity.value;
+        while (percent > targetIntensity)
+        {
+            percent -= Time.fixedDeltaTime * speed;
+            _Vignette.intensity.value = Mathf.Clamp01(percent); // 값 제한
+            yield return null;
+        }
+        _Vignette.intensity.value = targetIntensity;
+        if (targetIntensity <= 0)
+        {
+            _Vignette.active = false;
+            _Volume.weight = 0;
+        }
+        DeathVignetteCoroutine = null;
+    }
+
     #endregion
 }
