@@ -96,29 +96,7 @@ public class CameraShake : MonoBehaviour
     }
     #endregion
 
-    // public IEnumerator Co_Shake(float duration, float magnitude)
-    // {
-    //     Debug.Log("Shake");
-    //     Vector3 originPos = new Vector3(0, 0, 0);
-
-    //     float elapsedTime = 0f;
-
-    //     while (elapsedTime < duration)
-    //     {
-    //         float xOffset = Random.Range(-0.5f, 0.5f) * magnitude;
-    //         float yOffset = Random.Range(-0.5f, 0.5f) * magnitude;
-
-    //         transform.localPosition = new Vector3(xOffset, yOffset, originPos.z);
-
-    //         elapsedTime += Time.deltaTime;
-
-    //         yield return null;
-    //     }
-
-    //     transform.localPosition = originPos;
-    // }
-
-     public IEnumerator Co_Shake(float duration, float magnitude)
+     /*public IEnumerator Co_Shake(float duration, float magnitude)
     {
         Debug.Log("Shake");
         Vector3 originPos = new Vector3(0, 0, 0);
@@ -138,7 +116,34 @@ public class CameraShake : MonoBehaviour
         }
 
         holder.position = originPos;
-    }
+    }*/
 
+     public IEnumerator Co_Shake(float duration, float magnitude)
+     {
+         Debug.Log("Shake");
+         Vector3 originPos = new Vector3(0, 0, 0);
+         float elapsedTime = 0f;
+
+         float minMagnitude = magnitude * 0.5f;
+
+         while (elapsedTime < duration)
+         {
+             elapsedTime += Time.deltaTime;
+
+             float randomX = Random.Range(-magnitude, magnitude) * (Random.Range(0, 2) == 0 ? 1 : -1);
+             float randomY = Random.Range(-magnitude, magnitude) * (Random.Range(0, 2) == 0 ? 1 : -1);
+
+             randomX = Mathf.Clamp(randomX, -magnitude, -minMagnitude);
+             randomY = Mathf.Clamp(randomY, -magnitude, -minMagnitude);
+
+             Vector3 randomOffset = new Vector3(randomX, randomY, 0);
+             Vector3 targetPosition = originPos + randomOffset;
+
+             holder.position = targetPosition;
+             
+             yield return null;
+         }
+         holder.position = originPos;
+     }
 
 }

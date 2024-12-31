@@ -44,6 +44,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     [field: Header("Animation")]
     [field: SerializeField] public Animator animator { get; private set; }
     public PlayerAnimationData animationData { get; protected set; }
+    private bool _isSuicideActive;
     
     #region Setup
     protected virtual void Awake()
@@ -222,24 +223,53 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     // ReSharper disable Unity.PerformanceAnalysis
     public virtual void TakeDamage(DamageType damageType = DamageType.Default)
     {
-        if (!isLocalPlayer) return;
-        
-        if (!canControl) return;
-        
+        if (!isLocalPlayer || !canControl) return;
+
         canControl = false;
         rigidbody2D.constraints = RigidbodyConstraints2D.FreezeAll;
         collider2D.enabled = false;
-        // DamageType에 따른 애니메이션 트리거 실행
-        animator.SetTrigger(
-            animationData.DeathParameterHashes.ContainsKey(damageType)
-                ? animationData.DeathParameterHashes[damageType]
-                : animationData.DeathParameterHashes[DamageType.Default]);
-        Camera.main.GetComponent<PlayerCameraView>()._CameraImageEffects.animator.SetTrigger(
-            animationData.DeathParameterHashes.ContainsKey(damageType)
-                ? animationData.DeathParameterHashes[damageType]
-                : animationData.DeathParameterHashes[DamageType.Default]);
+        Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.DeathVignette(true);
+        
+        // 애니메이션 처리
+        PlayDeathAnimation(damageType);
 
-        if (damageType == DamageType.Boom) StartCoroutine(CameraShake.instance.Co_Shake(0.5f, 0.2f));
+        // 카메라 효과 처리
+        HandleDeathCameraEffects(damageType);
+    }
+
+    private void TakeSuicideDamage()
+    {
+        //애니메이션 트리거 용도
+        TakeDamage(DamageType.Suicide);
+    }
+
+    private void PlayDeathAnimation(DamageType damageType)
+    {
+        // DamageType에 따른 애니메이션 트리거 실행
+        int triggerHash = animationData.DeathParameterHashes.ContainsKey(damageType)
+            ? animationData.DeathParameterHashes[damageType]
+            : animationData.DeathParameterHashes[DamageType.Default];
+
+        animator.SetTrigger(triggerHash);
+
+        // 카메라 이미지 효과 애니메이션
+        Camera.main.GetComponent<PlayerCameraView>()._CameraImageEffects.animator.SetTrigger(triggerHash);
+    }
+
+    private void HandleDeathCameraEffects(DamageType damageType)
+    {
+        // 카메라 흔들림 처리
+        (float duration, float intensity) shakeParam = damageType switch
+        {
+            DamageType.Boom or DamageType.Suicide => (0.5f, 0.3f),
+            DamageType.Electric or DamageType.Fire => (0.8f, 0.1f),
+            DamageType.Default => (0.3f, 0.15f),
+        };
+
+        if (shakeParam.duration > 0)
+        {
+            StartCoroutine(CameraShake.instance.Co_Shake(shakeParam.duration, shakeParam.intensity));
+        }
     }
     
     public virtual void Respawning()
@@ -247,6 +277,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         rigidbody2D.velocity = Vector2.zero;
         transform.position = Managers.Network.startPos[0].position;
         animator.SetTrigger(animationData.RespawningParameterHash);
+        Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.DeathVignette(false);
     }
     
     public void RespawnEnd()
@@ -361,6 +392,12 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         if (!canControl) return;
         
         TakeDamage(DamageType.Suicide);
+        //TODO - 이렇게 하니까 누를때만 트리거 방식으로 인식해서 안되는데 꾹 누르다가 캔슬하는 것을 체크해야함
+        /*_isSuicideActive = context.performed; // 눌림(true) 또는 뗌(false) 처리
+        if (_isSuicideActive && canControl)
+        {
+            animator.SetBool(animationData.SuicideParameterHash, _isSuicideActive);
+        }*/
     }
     
     private void SubscribeInput()
