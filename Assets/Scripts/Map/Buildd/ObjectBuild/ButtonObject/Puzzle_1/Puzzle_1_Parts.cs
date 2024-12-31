@@ -17,7 +17,9 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     [SerializeField] Gradient wrongGradient;
     [SerializeField] Gradient correctGradient;
     //test 241231
-    private SpriteRenderer sprite; //Test
+    //private SpriteRenderer sprite; //Test
+    [SerializeField] private GameObject _holderOpened;
+    [SerializeField] private GameObject _holderClosed;
     
     public float boomArea;
     [Space(20)]
@@ -41,7 +43,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     [field: SerializeField] protected ObjectTypeEnum _objectType = ObjectTypeEnum.Grab;
     private void Awake(){
         col = GetComponent<Collider2D>();
-        sprite = GetComponent<SpriteRenderer>();
+        //sprite = GetComponent<SpriteRenderer>();
         pathFinder = GetComponent<PathFinder>();
     }
 
@@ -61,6 +63,8 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
             col.enabled = false;
             col.enabled = true;
+            _holderOpened.SetActive(false);
+            _holderOpened.SetActive(true);
         }
 
     }
@@ -125,7 +129,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         
         
         //In Correct Effect
-        sprite.color = Color.green; //test
+        //sprite.color = Color.green; //test
         lineRenderer.colorGradient = correctGradient;//test
 
 
@@ -187,8 +191,10 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
         isCorrectAnswer = false;
         //animation
-        sprite.color = Color.red; //test
+        //sprite.color = Color.red; //test
         lineRenderer.colorGradient=wrongGradient;
+        _holderOpened.SetActive(true);
+        _holderOpened.SetActive(false);
     }
     #region UI
     private void ShowBtn()
