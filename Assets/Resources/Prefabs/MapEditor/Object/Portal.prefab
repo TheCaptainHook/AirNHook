@@ -5093,6 +5093,7 @@ GameObject:
   - component: {fileID: 64979305273645154}
   - component: {fileID: -2000141949827509853}
   - component: {fileID: 8611386600391597754}
+  - component: {fileID: 3633906889052293247}
   m_Layer: 17
   m_Name: Portal
   m_TagString: Untagged
@@ -5133,12 +5134,12 @@ MonoBehaviour:
   id: 322
   transformID: 2
   position: {x: 0, y: 0}
-  offset: {x: 0, y: 0}
-  turnOff: 0
   distructionStatus: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
+  offset: {x: 0, y: 0}
+  turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
@@ -5333,6 +5334,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.3333334, y: 0.43171793}
   m_EdgeRadius: 0
+--- !u!210 &3633906889052293247
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3227932219690051067}
+  m_Enabled: 1
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
+  m_SortingOrder: 10
+  m_SortAtRoot: 0
 --- !u!1 &5269584977423057727
 GameObject:
   m_ObjectHideFlags: 0
