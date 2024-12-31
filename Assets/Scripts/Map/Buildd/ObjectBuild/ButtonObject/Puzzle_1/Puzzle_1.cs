@@ -138,7 +138,7 @@ public class Puzzle_1 : ButtonEntity
             obj.transform.position = itemsPosition[i];
             obj.transform.SetParent(itemContainer);
 
-            CreateParts(partsPosition[i],num);
+            CreateParts(partsPosition[i],num,i);
 
             // obj.transform.position = Vector2.zero; // test
             // puzzle_1_Parts[i].SetAnswer(num); //test
@@ -166,12 +166,12 @@ public class Puzzle_1 : ButtonEntity
     }
 
 
-    private void CreateParts(Vector2 pot,int answer){
+    private void CreateParts(Vector2 pot,int answer,int index){
         Puzzle_1_Parts obj = Instantiate(partsPrefab).GetComponent<Puzzle_1_Parts>();
         obj.transform.SetParent(partsContainer);
         puzzle_1_Parts.Add(obj);
         obj.transform.position = pot;
-        obj.Settting(answer,this);
+        obj.Settting(this,answer,index);
 
     }
 
@@ -192,11 +192,13 @@ public class Puzzle_1 : ButtonEntity
         if (CheckAnswer())
         {
             Activation();
+            hintScreen.Correct();
         }
         else
         {
             Boom();
             Wrong();
+            hintScreen.False();
         }
     }
     private bool CheckAnswer()

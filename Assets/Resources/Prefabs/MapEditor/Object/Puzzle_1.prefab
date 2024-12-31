@@ -102,7 +102,7 @@ Transform:
   m_GameObject: {fileID: 360872727897176713}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.3, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -166,6 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzle_1: {fileID: 8948425008551480789}
+  button: {fileID: 1673485768780107428}
   air: {fileID: 0}
   airWeaponPivot: {fileID: 0}
 --- !u!1 &1207420672746872705
@@ -334,7 +335,6 @@ RectTransform:
   m_Children:
   - {fileID: 3288352541869961266}
   - {fileID: 4169307053113986546}
-  - {fileID: 404697277357544899}
   m_Father: {fileID: 3605547300314939623}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -519,6 +519,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8529892390719302073}
+  - {fileID: 404697277357544899}
   - {fileID: 9099926685019690644}
   m_Father: {fileID: 389620120599283547}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -603,6 +604,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 3771988285775055992}
+  glowImage: {fileID: 5715766254020819495}
+  redMat: {fileID: 2100000, guid: a71b7d6eda4f5d34cbc2d11d05b9293d, type: 2}
+  greenMat: {fileID: 2100000, guid: b31868fc3f59e6040ae176abbb78e900, type: 2}
+  orgMat: {fileID: 2100000, guid: b38c1456bb1d4124b9f6c449bb0cc9c6, type: 2}
+  correctObj: {fileID: 326893290696158053}
+  _falseObj: {fileID: 3576245900003820433}
 --- !u!1 &5938652892923914618
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,7 +640,7 @@ RectTransform:
   m_Children:
   - {fileID: 8872360245483316090}
   - {fileID: 1547959785682507203}
-  m_Father: {fileID: 8529892390719302073}
+  m_Father: {fileID: 3605547300314939623}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -656,7 +663,7 @@ GameObject:
   m_Layer: 0
   m_Name: Puzzle_1
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7422848464349959988, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -785,7 +792,7 @@ Transform:
   m_GameObject: {fileID: 7031136592058459931}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.3, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -849,6 +856,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzle_1: {fileID: 8948425008551480789}
+  button: {fileID: 1673485768780107428}
   air: {fileID: 0}
   airWeaponPivot: {fileID: 0}
 --- !u!1 &7241419666889964207
@@ -1040,6 +1048,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 389620120599283547}
     m_Modifications:
+    - target: {fileID: 3649917778501173674, guid: c5679d6423392ef46b8491e3a03c7e68, type: 3}
+      propertyPath: m_Size.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3649917778501173674, guid: c5679d6423392ef46b8491e3a03c7e68, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3649917778501173674, guid: c5679d6423392ef46b8491e3a03c7e68, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3649917778501173674, guid: c5679d6423392ef46b8491e3a03c7e68, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3936697215669887322, guid: c5679d6423392ef46b8491e3a03c7e68, type: 3}
       propertyPath: m_Name
       value: BalloonButton
@@ -1050,7 +1074,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4158948831523570674, guid: c5679d6423392ef46b8491e3a03c7e68, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4158948831523570674, guid: c5679d6423392ef46b8491e3a03c7e68, type: 3}
       propertyPath: m_LocalPosition.z

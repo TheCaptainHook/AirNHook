@@ -1,14 +1,14 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+
 
 public class Puzzle_1_Button : MonoBehaviour
 {
+    [SerializeField] Puzzle_1 puzzle_1;
     private Animator animator;
     
     private readonly int FULLNESS = Animator.StringToHash("Fullness");
-
+    private readonly int EXPLODE = Animator.StringToHash("Explode");
     private AirSM air;
 
     private float curChargeRate;
@@ -67,15 +67,30 @@ public class Puzzle_1_Button : MonoBehaviour
         }
         animator.SetFloat(FULLNESS, curChargeRate);
     }
-
+    
+    public bool onRecover;
     public void Wrong()
     {
         //test
+        // curChargeRate = 0;
+        // onCharging = false;
+        // onFullCharge = false;
+        
+        // animator.SetTrigger(EXPLODE);
+        StartCoroutine(WrongAndRecover());
+    }
+
+    IEnumerator WrongAndRecover(){
+        onRecover = true;
         curChargeRate = 0;
         onCharging = false;
         onFullCharge = false;
-        animator.SetFloat(FULLNESS, curChargeRate);
+        animator.SetTrigger(EXPLODE);
+        yield return new WaitForSeconds(1.5f);
+        animator.SetFloat(FULLNESS,curChargeRate);
+        onRecover = false;
     }
+
     //private void OnTriggerEnter2D(Collider2D collision)
     //{
     //    if(collision != null)

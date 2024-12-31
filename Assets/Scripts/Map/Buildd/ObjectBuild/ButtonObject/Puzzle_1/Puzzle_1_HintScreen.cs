@@ -3,13 +3,25 @@ using System.Collections;
 using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class Puzzle_1_HintScreen : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI text;
 
     CharInfoField[] charInfos;
-    //float glitchIntensity = 7f; // 흔들리는 강도
+    
+    [Header("Answer")]
+    [SerializeField] Image glowImage;
+    [SerializeField] Material redMat;
+    [SerializeField] Material greenMat;
+    [SerializeField] Material orgMat;
+
+    [SerializeField] GameObject correctObj;
+    [SerializeField] GameObject _falseObj;
+    private Coroutine answerCoroutine;
+    private WaitForSeconds waitSeconds = new WaitForSeconds(1);
 
     public void SetHint(string answer)
     {
@@ -50,6 +62,41 @@ public class Puzzle_1_HintScreen : MonoBehaviour
 
     #endregion
 
+    #region Answer
+
+    public void Correct(){
+        StopAllCoroutines();
+        text.text = "";
+        if(_falseObj.activeSelf) _falseObj.SetActive(false);
+
+        glowImage.material = greenMat;
+        correctObj.SetActive(true);
+
+    }
+    public void False(){
+        if(answerCoroutine != null)
+        {
+             StopCoroutine(answerCoroutine);
+            _falseObj.SetActive(false);
+        }
+        answerCoroutine = StartCoroutine(FalseCo());
+    }
+   
+
+   bool isAnswerFalse;
+    IEnumerator FalseCo(){
+        isAnswerFalse = true;
+        _falseObj.SetActive(true);
+        glowImage.material= redMat;
+        yield return waitSeconds;
+
+        glowImage.material= orgMat;
+        _falseObj.SetActive(false);
+        answerCoroutine = null;
+        isAnswerFalse = false;
+    }
+    
+    #endregion
 
     #region Effect
  
@@ -64,17 +111,19 @@ public class Puzzle_1_HintScreen : MonoBehaviour
         }
     }
 
+
     IEnumerator EffectCo(CharInfoField[] charInfos)
     {
         while (true)
         {
             int num = Random.Range(0, charInfos.Length);
+
             yield return CharEffectCo();
 
             yield return new WaitForSeconds(1f);
         }
     }
-
+    
     IEnumerator CharEffectCo()
     {
         float percent = 0;
@@ -107,7 +156,6 @@ public class Puzzle_1_HintScreen : MonoBehaviour
                     text.SetText(cached);
                 }
 
-                //float size = 1 - percent;
                 for (int j = 0; j < 4; j++)
                 {
                     Vector3 offset = new Vector3(
@@ -126,11 +174,8 @@ public class Puzzle_1_HintScreen : MonoBehaviour
 
             if (changeCharPercent > 0.3f) changeCharPercent = 0;
 
-
-
             yield return null;
         }
-
 
         for (int i = 0; i < c.Length; i++)
         {

@@ -1,17 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Puzzle_1_LeftTrigger : MonoBehaviour
 {
     [SerializeField] Puzzle_1 puzzle_1;
+    [SerializeField] Puzzle_1_Button button;
+    [ReadOnly]
     public AirSM air;
+    [ReadOnly]
     public Transform airWeaponPivot;
 
 
     private void Update()
     {
-        if(Input.GetMouseButton(1) && air)
+        if(Input.GetMouseButton(1) && air && !button.onRecover)
         {
             if (GetReadyToCharge(GetAirDir()) &&!air.airGun._inhaling)
             {

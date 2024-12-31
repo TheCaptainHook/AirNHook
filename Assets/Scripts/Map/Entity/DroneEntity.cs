@@ -187,15 +187,27 @@ public class DroneEntity : BuildObj
         animationMovingCoroutine = StartCoroutine(DroneMovingAnimationCorountine(state));
     }
     IEnumerator DroneMovingAnimationCorountine(DroneState state){
-        
+
+        if(!HasParameterOfType(animator,_Moveing,AnimatorControllerParameterType.Float)) yield break;
+          
         float _Animator_MovingRate = animator.GetFloat(_Moveing);
         float targetRate = GetAnimatorMovingRate(state);
-        while(!Mathf.Approximately(_Animator_MovingRate,targetRate)){
-            
+        while(!Mathf.Approximately(_Animator_MovingRate,targetRate)){  
             _Animator_MovingRate = Mathf.Lerp(_Animator_MovingRate,targetRate,_Animation_Transition_Speed * Time.deltaTime);
             animator.SetFloat(_Moveing,_Animator_MovingRate);
             yield return null;
         }
+    }
+
+    private bool HasParameterOfType(Animator animator,int stringToHash, AnimatorControllerParameterType type){
+        foreach(AnimatorControllerParameter param in animator.parameters){
+            if(param.nameHash == stringToHash){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return false;
     }
 
     #endregion

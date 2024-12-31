@@ -12,20 +12,27 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     private UI_Base _E_Btn;
     private bool is_E_BtnEnabled;
     [SerializeField] float _BtnOffset;
-
-    
+    //test 241231
+    [Header("Answer")]
+    [SerializeField] Gradient wrongGradient;
+    [SerializeField] Gradient correctGradient;
+    //test 241231
     private SpriteRenderer sprite; //Test
+    
     public float boomArea;
+    [Space(20)]
+    [Header("Effect")]
     [SerializeField] ParticleSystem[] particles;
 
     [ReadOnly]
     public int puzzleAnswer;
     [ReadOnly]
     public bool isCorrectAnswer;
-
+    [ReadOnly]
+    public int index;
 
     private Puzzle_1 puzzle_1;
-    private LineRenderer lineRenderer;
+    [SerializeField] LineRenderer lineRenderer;
     private PathFinder pathFinder;
     #region Components
     private Collider2D col;
@@ -35,7 +42,6 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     private void Awake(){
         col = GetComponent<Collider2D>();
         sprite = GetComponent<SpriteRenderer>();
-        lineRenderer = GetComponent<LineRenderer>();
         pathFinder = GetComponent<PathFinder>();
     }
 
@@ -62,12 +68,17 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
     #region Answer
     
-    public void Settting(int answer,Puzzle_1 puzzle_1)
+    public void Settting(Puzzle_1 puzzle_1,int answer,int index)
     {
         puzzleAnswer = answer;
+        this.index = index;
         this.puzzle_1 = puzzle_1;
         if(Application.isPlaying)
         DrawPath(transform, puzzle_1.transform);
+
+        //
+        lineRenderer.colorGradient=wrongGradient;
+
     }
     public void CheckAnswer()
     {
@@ -111,8 +122,13 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     {
         isCorrectAnswer = true;
         onSocketItem.GetComponent<Collider2D>().enabled = false;
-        //animation
+        
+        
+        //In Correct Effect
         sprite.color = Color.green; //test
+        lineRenderer.colorGradient = correctGradient;//test
+
+
     }
     private void WrongAnswer()
     {
@@ -172,6 +188,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         isCorrectAnswer = false;
         //animation
         sprite.color = Color.red; //test
+        lineRenderer.colorGradient=wrongGradient;
     }
     #region UI
     private void ShowBtn()
