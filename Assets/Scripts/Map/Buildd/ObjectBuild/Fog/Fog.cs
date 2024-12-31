@@ -1,6 +1,5 @@
 using System;
-using System.Collections;
-using Unity.VisualScripting;
+
 using UnityEngine;
 
 public class Fog : BuildObj
@@ -107,6 +106,7 @@ public class Fog : BuildObj
         float deg = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         GameObject fogEffect = Managers.Pooling.D_GetItem(innerFogEffect);   
         try{
+            if(fogEffect == null) return;
             fogEffect.transform.position = collision.transform.position;
             fogEffect.transform.eulerAngles = new Vector3(fogEffect.transform.rotation.x, deg, 0);
             fogEffect.SetActive(true);

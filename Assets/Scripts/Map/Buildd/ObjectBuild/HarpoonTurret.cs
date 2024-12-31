@@ -56,8 +56,7 @@ public class HarpoonTurret : BuildObj
 
     private void FixedUpdate()
     {
-        hit = Physics2D.Raycast(transform.position, _holder.transform.right, 100f, layerMask);
-        Debug.DrawRay(transform.position, transform.right * 100f);
+        hit = Physics2D.Raycast(transform.position, _holder.transform.right, 10f, layerMask);
         if (hit)
         {
             if (!isShot)

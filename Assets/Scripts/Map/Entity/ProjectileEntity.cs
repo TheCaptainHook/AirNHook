@@ -13,6 +13,8 @@ public class ProjectileEntity : MonoBehaviour,IPooling
     #endregion
 
 
+    
+
     public float speed;
     public LayerMask hitLayerMask;
 
@@ -24,7 +26,7 @@ public class ProjectileEntity : MonoBehaviour,IPooling
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        _collider = GetComponent<BoxCollider2D>();
+        _collider = GetComponent<Collider2D>();
     }
 
     protected virtual void FixedUpdate()
@@ -75,11 +77,21 @@ public class ProjectileEntity : MonoBehaviour,IPooling
         yield return new WaitForSeconds(5);
         ReleaseToPool();
     }
+
+    protected T GetTypeEntity<T>() where T: class
+    {
+        return this as T;
+    }
+
     public void ReleaseToPool()
     {
         Reset();
-        Managers.Pooling.N_ReleaseToPool<Projectile_Arrow>(gameObject);
-        //Managers.Pooling.D_ReleaseToPool(gameObject);
+        ReleaseToPool_Projectile();
     }
+
+    protected virtual void ReleaseToPool_Projectile(){
+
+    }
+
     #endregion
 }

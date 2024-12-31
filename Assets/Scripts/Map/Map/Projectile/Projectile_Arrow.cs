@@ -10,7 +10,10 @@ public class Projectile_Arrow : ProjectileEntity
         _collider.enabled = true;
         onHit = false;
     }
-   
+   protected override void ReleaseToPool_Projectile()
+    {
+        Managers.Pooling.N_ReleaseToPool<Projectile_Arrow>(gameObject);
+    }
 
     //private void OnDrawGizmosSelected()
     //{

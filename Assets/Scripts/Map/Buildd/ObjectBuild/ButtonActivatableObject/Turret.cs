@@ -151,10 +151,11 @@ public class Turret : ActivatableObjectEntity
 
     private void ReloadAmmo()
     {
-        Projectile_Arrow arrow =  Managers.Pooling.N_GetItme<Projectile_Arrow>().GetComponent<Projectile_Arrow>();
+        // Projectile_Arrow arrow =  Managers.Pooling.N_GetItme<Projectile_Arrow>().GetComponent<Projectile_Arrow>();
+        Projectile_Shell shell = Managers.Pooling.N_GetItme<Projectile_Shell>().GetComponent<Projectile_Shell>();
         Vector2 target = firePoint.TransformPoint(Vector2.zero);
-        arrow.Setting(target, firePoint.right);
-        arrow.gameObject.SetActive(true);
+        shell.Setting(target, firePoint.right);
+        shell.gameObject.SetActive(true);
 
     }
 #endregion
