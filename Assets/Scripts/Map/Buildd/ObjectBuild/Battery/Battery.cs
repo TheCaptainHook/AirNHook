@@ -4,6 +4,7 @@ using UnityEngine;
 public class Battery : BuildObj
 {
     
+
     private float maxCapacity = 100;
     [CustomHeader("Battery")]
     [ReadOnly]
@@ -14,10 +15,13 @@ public class Battery : BuildObj
         set { 
             batteryCapacity += value;
             if(batteryCapacity > maxCapacity) batteryCapacity = maxCapacity;
+            animator.SetFloat(CAPACITY,batteryCapacity/maxCapacity);
         }
     }
-
+    [ReadOnly]
     public BatteryCharger batteryCharger;
+    [ReadOnly]
+    public PowerSupply powerSupply;
 
     public override void TakeDamage(DamageType damageType = DamageType.Default)
     {
@@ -27,22 +31,14 @@ public class Battery : BuildObj
         }
     }
 
-    enum BatteryState
-    {
-        Idle,
-        Charging,
-        Discharging
-    }
-
-    private BatteryState batteryState;
-
     #region Components
-    Animator Animator;
+    Animator animator;
     Collider2D col;
     Rigidbody2D rb;
     #endregion
 
     #region Animation
+    private readonly int CAPACITY = Animator.StringToHash("Capacity");
     #endregion
 
 
@@ -50,9 +46,10 @@ public class Battery : BuildObj
     {
         col = GetComponent<Collider2D>();
         rb = GetComponent<Rigidbody2D>();
+        animator= GetComponent<Animator>();
     }
 
-    public void InsertSocket()
+    public void InsertChargerSocket()
     {
         if (batteryCharger)
         {
@@ -61,6 +58,14 @@ public class Battery : BuildObj
         }
     }
 
+    public void InsertPowerSocket()
+    {
+        if(powerSupply){
+            col.enabled = false;
+            //powerSupply.Use
+            
+        }
+    }
     public void RemoveSocket()
     {
         col.enabled = true;

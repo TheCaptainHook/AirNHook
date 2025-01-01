@@ -23,13 +23,16 @@ public class BuildObj : MousePointerEntity, IDamageable
     public int transformID;
     [ReadOnly]
     public Vector2 position;
-    [Tooltip("Use this parameter in editor mode")]
-    
-    
+
     [SerializeField] protected DistructionStatus distructionStatus;
 
+    [Space(20)]
+    [Tooltip("The default value of this variable is false, and to use it, the IPowerConsumer interface must be implemented.")]
+    public bool chargeRequired = false;
+    [Space(20)]
+
     #region User Editor
-    [Header("State")]
+    [Header("User Editor-only parameter")]
     [ReadOnly]
     public bool onPlaceable;
     [ReadOnly]

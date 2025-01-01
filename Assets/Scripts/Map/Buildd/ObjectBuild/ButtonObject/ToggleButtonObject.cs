@@ -1,14 +1,11 @@
 using System.Collections;
 using Mirror;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class ToggleButtonObject : ButtonEntity,IInteractable
+public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
 {
     [CustomHeader("Toggle")]
-    [Tooltip("Default : false")]
-    public bool chargeRequired = false;
     [ReadOnly]
     public bool hasPower;
     #region Components
@@ -24,8 +21,15 @@ public class ToggleButtonObject : ButtonEntity,IInteractable
     public ObjectTypeEnum _objectType = ObjectTypeEnum.Interaction;
     private UI_Base _E_Btn;
 
-   
-
+    #region  Power
+    public void PowerOn(){hasPower = true;}
+    public void PowerOff(){hasPower = false;}
+    public Vector2 GetPowerLineConnectionPoint(){
+        return transform.position;
+    }
+    #endregion
+    
+    
     private void Awake(){
         animator = GetComponent<Animator>();
     }

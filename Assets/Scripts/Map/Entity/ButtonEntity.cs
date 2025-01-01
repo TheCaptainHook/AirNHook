@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Mirror;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ButtonEntity : BuildObj
@@ -90,7 +88,7 @@ public class ButtonEntity : BuildObj
         return list;
     }
 
-    public void FindTargetObject(){
+    public virtual void FindTargetObject(){
 
         List<GameObject> objList = new();
 
@@ -98,7 +96,10 @@ public class ButtonEntity : BuildObj
             if(Application.isPlaying){
                 foreach(Transform obj in MapEditor.Instance.buttonActivatableObjectTransform){
                     if(obj.TryGetComponent(out ActivatableObjectEntity component)){
-                        if(component.ButtonActivatedObjectStruct.position == vec){
+                        // if(component.ButtonActivatedObjectStruct.position == vec){
+                        //     objList.Add(obj.gameObject);
+                        // }
+                        if(CompareVec(component.ButtonActivatedObjectStruct.position,vec)){
                             objList.Add(obj.gameObject);
                         }
                     }
@@ -107,6 +108,12 @@ public class ButtonEntity : BuildObj
             
         }
         targetObjects = objList;
+    }
+    private bool CompareVec(Vector3 p1,Vector3 p2){
+        bool x = Mathf.Approximately(p1.x,p2.x);
+        bool y = Mathf.Approximately(p1.y,p2.y);
+
+        return x&&y;
     }
     public override void Editor_Setting(Transform transform)
     {

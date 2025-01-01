@@ -1,6 +1,5 @@
 using Mirror;
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class BatteryInteractable : InteractableObject
@@ -17,8 +16,13 @@ public class BatteryInteractable : InteractableObject
     {
         if(battery.batteryCharger != null)
         {
-            BatteryRelease();
-            battery.InsertSocket();
+            BatteryRelease(battery.batteryCharger.transform.position);
+            battery.InsertChargerSocket();
+        }
+        else if(battery.powerSupply != null)
+        {
+            BatteryRelease(battery.powerSupply.GetSocketPosition());
+            battery.InsertPowerSocket();
         }
         else
         {
@@ -27,7 +31,7 @@ public class BatteryInteractable : InteractableObject
     }
 
 
-    private void BatteryRelease()
+    private void BatteryRelease(Vector2 releasePosition)
     {
         _isFixed = false;
         _isGrab = false;
@@ -41,7 +45,7 @@ public class BatteryInteractable : InteractableObject
 
         CmdChangeSortingLayer(false);
         CmdResetVelocity();
-        CmdSetTransform(battery.batteryCharger.transform.position);
+        CmdSetTransform(releasePosition);
     }
 
     [Command(requiresAuthority = false)]
