@@ -5,15 +5,16 @@ using UnityEngine;
 public class Portal : ActivatableObjectEntity
 {
     [CustomHeader("Portal")]
-    public ObjectTypeEnum objectType = ObjectTypeEnum.Interaction;
-    public Vector2 btnOffset;
+    // public ObjectTypeEnum objectType = ObjectTypeEnum.Interaction;
+    // public Vector2 btnOffset;
     public Portal targetPortal;
     [SerializeField] LayerMask layer;
-
+    [Space(20)]
     [ReadOnly]
     public Vector2 targetPosition;
 
     bool onPrograss;
+    [ReadOnly]
     public bool onActivable;
     //private Coroutine portalCoroutine;
     private Util util;
@@ -77,12 +78,33 @@ public class Portal : ActivatableObjectEntity
 
 
     #region Editor
-    public async override void Editor_Setting(Transform transform)
+    // public async override void Editor_Setting(Transform transform)
+    // {
+    //      Util util = new Util();
+    //         await util.Delay(()=>{
+    //             try{
+    //                 foreach(Transform tr in transform){
+    //                     if(tr.TryGetComponent(out Portal component)){
+    //                         if(targetPosition == (Vector2)component.transform.position){
+    //                             targetPortal = component;
+    //                             return;
+    //                         }
+    //                     }       
+    //                 }
+    //             }catch{
+    //                 Debug.Log("Can't find Transform");
+    //                 return;
+    //             }
+
+
+    //     });
+    // }
+    public async override void Editor_Setting(MapEditor mapEditor)
     {
-         Util util = new Util();
+        Util util = new Util();
             await util.Delay(()=>{
                 try{
-                    foreach(Transform tr in transform){
+                    foreach(Transform tr in mapEditor.buttonActivatableObjectTransform){
                         if(tr.TryGetComponent(out Portal component)){
                             if(targetPosition == (Vector2)component.transform.position){
                                 targetPortal = component;
@@ -95,10 +117,9 @@ public class Portal : ActivatableObjectEntity
                     return;
                 }
 
-                
+
         });
     }
-
     #endregion
 
     // public void FindTargetPortal()
@@ -212,31 +233,31 @@ public class Portal : ActivatableObjectEntity
         
     }
 
-    public bool CanInteract()
-    {
-        return true;
-    }
+    // public bool CanInteract()
+    // {
+    //     return true;
+    // }
 
-    public void Interacting(bool value)
-    {
-        return;
-    }
+    // public void Interacting(bool value)
+    // {
+    //     return;
+    // }
 
-    public ObjectTypeEnum GetObjectType()
-    {
-        return objectType;
-    }
+    // public ObjectTypeEnum GetObjectType()
+    // {
+    //     return objectType;
+    // }
 
-    public void ShowEButton()
-    {
-        var eButtonUI = Managers.UI.ShowUI<UI_ShowEButton>();
-        eButtonUI.transform.position = transform.position + (Vector3)btnOffset;
-    }
+    // public void ShowEButton()
+    // {
+    //     var eButtonUI = Managers.UI.ShowUI<UI_ShowEButton>();
+    //     eButtonUI.transform.position = transform.position + (Vector3)btnOffset;
+    // }
 
-    public void HideEButton()
-    {
-        Managers.UI.HideUI<UI_ShowEButton>();
-    }
+    // public void HideEButton()
+    // {
+    //     Managers.UI.HideUI<UI_ShowEButton>();
+    // }
 
     #endregion
 

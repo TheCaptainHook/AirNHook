@@ -16,7 +16,6 @@ public class Puzzle_1_Button : MonoBehaviour
     private bool onFullCharge;
     private bool onCharging;
 
-    private float recoverRate = 1;
     private float curRecoverRate =1;
 
     private void Awake()

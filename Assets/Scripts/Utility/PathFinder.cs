@@ -14,6 +14,7 @@ public class PathFinder : MonoBehaviour
 
     Vector2Int[] directions = { Vector2Int.down,Vector2Int.left,Vector2Int.up,Vector2Int.right};
 
+    [ReadOnly]
     public Tilemap floorTileMap;
 
     public List<Vector2Int> FindPath(Vector2Int start, Vector2Int end)

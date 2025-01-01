@@ -447,7 +447,7 @@ public class MapEditor_Editor : Editor
             GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
             BuildObj buildObj = obj.GetComponent<BuildObj>();
             buildObj.SetData<T>(data);
-            buildObj.Editor_Setting(mapEditor.buttonActivatableObjectTransform);
+            buildObj.Editor_Setting(mapEditor);
             
             obj.transform.SetParent(transform);
         }catch(Exception ex){

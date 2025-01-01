@@ -149,7 +149,7 @@ public class Util
         }
 
     }
-    public async Task Delay(Action action,int delayTime = 1500){
+    public async Task Delay(Action action,int delayTime = 1000){
         
         await Task.Delay(delayTime);
         action?.Invoke();

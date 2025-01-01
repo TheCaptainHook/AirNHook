@@ -62,8 +62,8 @@ public class Battery : BuildObj
     {
         if(powerSupply){
             col.enabled = false;
-            //powerSupply.Use
-            
+            powerSupply.InsertSocket(this);
+
         }
     }
     public void RemoveSocket()

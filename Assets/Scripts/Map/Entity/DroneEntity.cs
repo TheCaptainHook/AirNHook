@@ -252,7 +252,15 @@ public class DroneEntity : BuildObj
     //     _rb.position = 
 
     // }
-    public override void Editor_Setting(Transform transform = default)
+    // public override void Editor_Setting(Transform transform = default)
+    // {
+    //     Vector2[] newVec = new Vector2[paths.Length-1];
+    //     for(int i = 1;i<paths.Length;i++){
+    //         newVec[i-1] = paths[i];
+    //     }
+    //     paths = newVec;
+    // }
+    public override void Editor_Setting(MapEditor mapEditor)
     {
         Vector2[] newVec = new Vector2[paths.Length-1];
         for(int i = 1;i<paths.Length;i++){

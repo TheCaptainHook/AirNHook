@@ -178,13 +178,13 @@ public class MapEditor : MonoBehaviour
         // floorTransform = Util.CreateChildTransform(mapObjBoxTransform, "FloorTransform");
         objectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ObjectTransform");
         exitDoorObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ExitDoorObjectTransform");
-        buttonActivatableObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "buttonActivatableObjectTransform");
-        buttonObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "buttonObjectTransform");
+        buttonActivatableObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ButtonActivatableObjectTransform");
+        buttonObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ButtonObjectTransform");
         dontSaveObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "DontSaveObjectTransform");
         garbageTransform = Util.CreateChildTransform(mapObjBoxTransform, "GarbageTransform");
-        networkingObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "networkingObjectTransform");
+        networkingObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "NetworkingObjectTransform");
         //TODO 0723
-        triggerDialogueTransform = Util.CreateChildTransform(mapObjBoxTransform, "triggerDialogueTransform");
+        triggerDialogueTransform = Util.CreateChildTransform(mapObjBoxTransform, "TriggerDialogueTransform");
         //TODO 0723
         droneTransform = Util.CreateChildTransform(mapObjBoxTransform,"DroneTransform");
         poolingContainer = Util.CreateChildTransform(mapObjBoxTransform, "PoolingContainer");

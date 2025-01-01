@@ -7,7 +7,7 @@ public class ButtonEntity : BuildObj
 {
 
     [CustomHeader("ButtonEntity, Target Object")]
-    public List<GameObject> targetObjects;//TODO 0829 
+    public List<GameObject> targetObjects;
 
     private ButtonObjectStruct buttonObjectData;
     public ButtonObjectStruct ButtonObjectData {
@@ -19,7 +19,7 @@ public class ButtonEntity : BuildObj
             targetPosition = value.targetPositions;
         } }
 
-    private List<Vector2> targetPosition; //TODO 0829
+    protected List<Vector2> targetPosition; //TODO 0829
 
 
     #region  Debug
@@ -78,7 +78,7 @@ public class ButtonEntity : BuildObj
 
     #region Util
 
-    protected List<Vector2> GetTargetPositions(){
+    protected virtual List<Vector2> GetTargetPositions(){
         List<Vector2> list = new();
 
         foreach(GameObject obj in targetObjects){
@@ -90,39 +90,55 @@ public class ButtonEntity : BuildObj
 
     public virtual void FindTargetObject(){
 
+        if(!Application.isPlaying) return;
         List<GameObject> objList = new();
 
-        foreach(Vector2 vec in targetPosition){
-            if(Application.isPlaying){
-                foreach(Transform obj in MapEditor.Instance.buttonActivatableObjectTransform){
-                    if(obj.TryGetComponent(out ActivatableObjectEntity component)){
-                        // if(component.ButtonActivatedObjectStruct.position == vec){
-                        //     objList.Add(obj.gameObject);
-                        // }
-                        if(CompareVec(component.ButtonActivatedObjectStruct.position,vec)){
-                            objList.Add(obj.gameObject);
-                        }
-                    }
-                }   
-            }  
-            
+        foreach(Vector2 vec in targetPosition)
+        {
+           foreach(Transform obj in MapEditor.Instance.buttonActivatableObjectTransform){
+                if(obj.TryGetComponent(out ActivatableObjectEntity component))
+                {
+                            if(CompareVec(component.ButtonActivatedObjectStruct.position,vec)){
+                                objList.Add(obj.gameObject);
+                            }
+                }
+            }    
         }
         targetObjects = objList;
     }
-    private bool CompareVec(Vector3 p1,Vector3 p2){
+    protected bool CompareVec(Vector3 p1,Vector3 p2){
         bool x = Mathf.Approximately(p1.x,p2.x);
         bool y = Mathf.Approximately(p1.y,p2.y);
 
         return x&&y;
     }
-    public override void Editor_Setting(Transform transform)
+    // public override void Editor_Setting(Transform transform)
+    // {
+    //      List<GameObject> objList = new();
+
+    //     foreach(Vector2 vec in targetPosition){
+    //        foreach(Transform obj in transform){
+    //         if(obj.TryGetComponent(out ActivatableObjectEntity component)){
+    //             if(component.ButtonActivatedObjectStruct.position == vec){
+    //                 objList.Add(obj.gameObject);
+    //             }
+    //         }
+    //        }   
+    //     }
+    //     targetObjects = objList;
+    // }
+
+    public override void Editor_Setting(MapEditor mapEditor)
     {
          List<GameObject> objList = new();
 
         foreach(Vector2 vec in targetPosition){
-           foreach(Transform obj in transform){
+           foreach(Transform obj in mapEditor.buttonActivatableObjectTransform){
             if(obj.TryGetComponent(out ActivatableObjectEntity component)){
-                if(component.ButtonActivatedObjectStruct.position == vec){
+                // if(component.ButtonActivatedObjectStruct.position == vec){
+                //     objList.Add(obj.gameObject);
+                // }
+                if(CompareVec(component.ButtonActivatedObjectStruct.position,vec)){
                     objList.Add(obj.gameObject);
                 }
             }
@@ -130,7 +146,6 @@ public class ButtonEntity : BuildObj
         }
         targetObjects = objList;
     }
-
 
     #endregion
 

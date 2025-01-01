@@ -8,33 +8,40 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
     [CustomHeader("Toggle")]
     [ReadOnly]
     public bool hasPower;
-    #region Components
+#region Components
     private Animator animator;
-    #endregion
+#endregion
 
-    #region Animation
+#region Animation
     readonly int OnPressed = Animator.StringToHash("OnPressed");
-    #endregion
+#endregion
 
     [Header("Interacte")]
     [SerializeField] float _BtnOffset;
     public ObjectTypeEnum _objectType = ObjectTypeEnum.Interaction;
     private UI_Base _E_Btn;
 
-    #region  Power
+#region IPowerConsumer
     public void PowerOn(){hasPower = true;}
-    public void PowerOff(){hasPower = false;}
+    public void PowerOff()
+    {
+        hasPower = false;
+        Deactivated();
+    }
     public Vector2 GetPowerLineConnectionPoint(){
         return transform.position;
     }
-    #endregion
+    public Vector2 GetTransformPosition(){
+        return transform.position;
+    }
+#endregion
     
     
     private void Awake(){
         animator = GetComponent<Animator>();
     }
 
-    #region Get,Set
+ #region Get,Set
     public override T GetData<T>()
     {
         if (typeof(T) == typeof(ButtonObjectStruct))
@@ -62,7 +69,7 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
             Debug.Log($"name : {gameObject.name},{ex}");
         }
     }
-    #endregion
+#endregion
 
 
 
@@ -100,7 +107,7 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
     }
 
 
-    #region  Interacte
+#region  Interacte
     public void Interaction(Transform accessor = null){
        if (!NetworkServer.active || !NetworkClient.isConnected)
             return;
@@ -141,5 +148,5 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
         _E_Btn = null;
         Managers.UI.HideUI<UI_ShowEButton>();
     }
-    #endregion
+#endregion
 }
