@@ -12,12 +12,11 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     private UI_Base _E_Btn;
     private bool is_E_BtnEnabled;
     [SerializeField] float _BtnOffset;
-    //test 241231
+
     [Header("Answer")]
+    //test
     [SerializeField] Gradient wrongGradient;
     [SerializeField] Gradient correctGradient;
-    //test 241231
-    //private SpriteRenderer sprite; //Test
     [SerializeField] private GameObject _holderOpened;
     [SerializeField] private GameObject _holderClosed;
     
@@ -45,6 +44,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         col = GetComponent<Collider2D>();
         //sprite = GetComponent<SpriteRenderer>();
         pathFinder = GetComponent<PathFinder>();
+        lineRenderer.colorGradient = wrongGradient;
     }
 
     #region Insert,Remove
@@ -64,14 +64,33 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
             col.enabled = false;
             col.enabled = true;
             _holderOpened.SetActive(false);
-            _holderOpened.SetActive(true);
+            _holderClosed.SetActive(true);
         }
 
+    }
+
+    public void RemoveSocket(bool onEffect = false)
+    {
+
+        if (onEffect) foreach (var p in particles) p.Play();
+
+        if (onSocketItem)
+        {
+            onSocketItem.RemoveSocket(onEffect);
+            onSocketItem = null;
+            HideEButton();
+        }
+
+        isCorrectAnswer = false;
+        //animation
+        lineRenderer.colorGradient = wrongGradient;
+        _holderOpened.SetActive(true);
+        _holderClosed.SetActive(false);
     }
     #endregion
 
     #region Answer
-    
+
     public void Settting(Puzzle_1 puzzle_1,int answer,int index)
     {
         puzzleAnswer = answer;
@@ -129,7 +148,6 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         
         
         //In Correct Effect
-        //sprite.color = Color.green; //test
         lineRenderer.colorGradient = correctGradient;//test
 
 
@@ -177,25 +195,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         }
         
     }
-    public void RemoveSocket(bool onEffect = false)
-    {
 
-        if (onEffect) foreach (var p in particles) p.Play();
-
-        if (onSocketItem)
-        {
-            onSocketItem.RemoveSocket(onEffect);
-            onSocketItem = null;
-            HideEButton();
-        }
-
-        isCorrectAnswer = false;
-        //animation
-        //sprite.color = Color.red; //test
-        lineRenderer.colorGradient=wrongGradient;
-        _holderOpened.SetActive(true);
-        _holderOpened.SetActive(false);
-    }
     #region UI
     private void ShowBtn()
     {

@@ -237,8 +237,8 @@ MonoBehaviour:
   _BtnOffset: 1
   wrongGradient:
     serializedVersion: 2
-    key0: {r: 1, g: 0, b: 0, a: 1}
-    key1: {r: 1, g: 0, b: 0, a: 1}
+    key0: {r: 1, g: 0.4481132, b: 0.4481132, a: 1}
+    key1: {r: 1, g: 0.42352945, b: 0.42352945, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -267,8 +267,8 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   correctGradient:
     serializedVersion: 2
-    key0: {r: 0.05870401, g: 0.8962264, b: 0.04650232, a: 1}
-    key1: {r: 0.023529412, g: 0.90588236, b: 0.043137256, a: 1}
+    key0: {r: 0.48584908, g: 1, b: 0.5886793, a: 1}
+    key1: {r: 0.4784314, g: 1, b: 0.58431375, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -295,12 +295,12 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
+  _holderOpened: {fileID: 4099901524616151280}
+  _holderClosed: {fileID: 1185871543315773075}
   boomArea: 1
   particles:
   - {fileID: 3187068910201326530}
   - {fileID: 6899640187317318790}
-  _holderClosed: {fileID: 1185871543315773075}
-  _holderOpened: {fileID: 4099901524616151280}
   puzzleAnswer: 0
   isCorrectAnswer: 0
   index: 0
@@ -357,7 +357,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.1
+        value: 0.05
         inSlope: 0
         outSlope: 0
         tangentMode: 0

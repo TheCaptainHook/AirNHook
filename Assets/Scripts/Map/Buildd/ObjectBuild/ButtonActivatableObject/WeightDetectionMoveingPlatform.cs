@@ -178,7 +178,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
         dir = transform.rotation.z == 0 ? Vector2.zero : transform.rotation.z>0 ? -Vector2.right : Vector2.right;
         
         if(CheckMaxAndMinClamp()){
-           step = moveSpeed * Time.fixedDeltaTime;
+           step = moveSpeed * rate * Time.fixedDeltaTime;
         }else{
             step = 0;
         }
@@ -189,7 +189,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
             
 
     }
-
+    float rate = 0;
     // z>0 : left , z<0 :right
     private void Rotate(float weight){
         Vector3 euler = transform.rotation.eulerAngles;
@@ -200,8 +200,8 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
         }
 
         euler.z = Mathf.Clamp(euler.z , -maxRotate,maxRotate);
-        // TiltAnimationSet(euler.z);
-       
+        rate = Mathf.Abs(euler.z) / maxRotate;
+
         transform.rotation = Quaternion.Euler(euler);
     }
     private void MoveTowards(){
@@ -250,14 +250,22 @@ private Vector2 GetPath(){
 }
 
 private float Weight(RaycastHit2D hit){
-    if(hit.collider.TryGetComponent(out Rigidbody2D component))
-    {
-        float dis = Mathf.Floor(Vector3.Distance(transform.position,hit.point)*100)/100;
-        float mass = component.mass;
-        return dis*mass;
-    }
+        if (hit.collider.TryGetComponent(out HookSM hook))
+        {
+            if (hook.isSwinging)
+            {
+                return 0;
+            }
+           
+        }
+        if (hit.collider.TryGetComponent(out Rigidbody2D component))
+        {
+            float dis = Mathf.Floor(Vector3.Distance(transform.position, hit.point) * 100) / 100;
+            float mass = component.mass;
+            return dis * mass;
+        }
 
-    return 0;
+        return 0;
    
 }
 private bool CheckMaxAndMinClamp(){
