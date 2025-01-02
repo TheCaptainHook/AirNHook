@@ -8,8 +8,8 @@ public class HarpoonTurret : BuildObj
 
     public LayerMask layerMask;
     private bool isShot;
-    public float cooltime;
-    private float curtime;
+    //public float cooltime;
+    //private float curtime;
     [SerializeField] private GameObject _holder;
     [SerializeField] private ParticleSystem _shellParticle;
     [SerializeField] private Animator _topSteam;
@@ -41,7 +41,7 @@ public class HarpoonTurret : BuildObj
     }
     private void Update()
     {
-        if (isShot)
+        /*if (isShot)
         {
             curtime -= Time.deltaTime;
             if(curtime <= 0)
@@ -49,7 +49,7 @@ public class HarpoonTurret : BuildObj
                 isShot = false;
                 _animator.SetTrigger(IsReloadingFinished);
             }
-        }
+        }*/
         RotateTrap();
     }
 
@@ -63,7 +63,7 @@ public class HarpoonTurret : BuildObj
             {
                 _animator.SetTrigger(IsFiring);
                 isShot = true;
-                curtime = cooltime;
+                //curtime = cooltime;
 
                 Shot();
                 // float z = Mathf.Atan2(transform.right.y, transform.right.x) + Random.Range(-5,5);
@@ -84,7 +84,17 @@ public class HarpoonTurret : BuildObj
         arrow.Setting(transform.position, _holder.transform.right);
         arrow.gameObject.SetActive(true);
 
-    }   
+    }
+
+    private void Reloaded()
+    {
+        _animator.SetTrigger(IsReloadingFinished);
+    }
+
+    private void ShotReady()
+    {
+        isShot = false;
+    }
 
     // private void RotateTrap()
     // {
