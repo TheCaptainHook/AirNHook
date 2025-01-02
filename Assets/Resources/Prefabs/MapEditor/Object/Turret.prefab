@@ -5141,6 +5141,7 @@ GameObject:
   - component: {fileID: -2000141949827509853}
   - component: {fileID: 8611386600391597754}
   - component: {fileID: 5990140042596155439}
+  - component: {fileID: 763823665871053021}
   m_Layer: 14
   m_Name: Turret
   m_TagString: Untagged
@@ -5328,6 +5329,18 @@ MonoBehaviour:
   fireEffect: {fileID: 5325542820177514359}
   curTime: 0
   curFireTime: 0
+--- !u!210 &763823665871053021
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3227932219690051067}
+  m_Enabled: 1
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
+  m_SortingOrder: 5
+  m_SortAtRoot: 0
 --- !u!1 &5269584977423057727
 GameObject:
   m_ObjectHideFlags: 0
