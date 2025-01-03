@@ -129,6 +129,7 @@ public class UI_StageSelect_var3: UI_Base
     [Header("Animation")]
     [SerializeField] Animator animator;
     private readonly int open = Animator.StringToHash("Open");
+    private readonly int open_onPower = Animator.StringToHash("Open_onPower");
     private readonly int close = Animator.StringToHash("Close");
 
     [Header("Coroutine")]
@@ -157,8 +158,9 @@ public class UI_StageSelect_var3: UI_Base
         {
             computer = MapEditor.Instance.FindObj(MapEditor.Instance.objectTransform, 1000);
         }
+        if(!computer.GetComponent<StageSelectObject>().onPower) animator.SetTrigger(open);
+        else animator.SetTrigger(open_onPower);
         
-        animator.SetTrigger(open);
         
         if(computer)
         computer.GetComponent<StageSelectorComputer>().Talking();
@@ -333,7 +335,11 @@ public class UI_StageSelect_var3: UI_Base
         _PrograssLevel = PrograssLevel.One;
        _PrograssCoroutine = StartCoroutine(OpenningTitle());
     }
-
+    private void OpenningTitle_OnPower() //Animator.event : Open_onPower
+    {
+        _PrograssCoroutine = StartCoroutine(WriteTextLineCo_Title(titleSentence,false));
+    }
+    
     IEnumerator OpenningTitle()
     {
         onPrograss = true;
@@ -497,7 +503,7 @@ public class UI_StageSelect_var3: UI_Base
         onPrograss = true;
         onInteractable = false;
         _PrograssLevel = PrograssLevel.End;
-
+        textLineList[pathTextLineIndex].type = TypingType.Read;
         try
         {
             ExitPointObj obj = MapEditor.Instance.FindObj(MapEditor.Instance.exitDoorObjectTransform, 301).GetComponent<ExitPointObj>();
@@ -509,16 +515,20 @@ public class UI_StageSelect_var3: UI_Base
             Debug.Log(ex);
         }
 
-        //TODO 0909
-
         yield return EraserTextLineCo(minSelectTextLineListIndex,maxSelectTextLineListIndex);
-        StartCoroutine(textLineList[4].ChangeEncryption());
+        // StartCoroutine(textLineList[4].ChangeEncryption());
         yield return EraserTextLineCo(0, minSelectTextLineListIndex);
-        yield return textLineList[4].curTMTC.EraserAll();
-        
-        //TODO 0909
+        // yield return textLineList[4].curTMTC.EraserAll();
 
-        animator.SetTrigger(close);
+        //Path Text Eraser Effect.
+
+        //Path Text Eraser Effect.
+
+
+        textLineList[pathTextLineIndex].type = TypingType.Write;
+        //250103
+        animator.SetTrigger(close); 
+        //250103
         _UI_KeyGenerator.gameObject.SetActive(true);
         _UI_KeyGenerator.KeyPrintingAni();
         yield return new WaitForSeconds(6f);

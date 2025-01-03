@@ -1,5 +1,5 @@
 using System.Collections;
-
+using System.Text;
 using TMPro;
 using UnityEngine;
 
@@ -44,6 +44,9 @@ public class TypingEffect : MonoBehaviour
 
         onPrograss = true;
 
+        //250103
+        StringBuilder sb = new();
+        
         for (int i = 0; i < totalCharacters; i++)
         {
             if (isSkip)
@@ -52,7 +55,8 @@ public class TypingEffect : MonoBehaviour
             }
 
             // 현재 글자 활성화
-            textMesh.text = sentence.Substring(0, i + 1);
+            sb.Append(sentence[i]);
+            textMesh.text = sb.ToString();
             // 애니메이션 코루틴 시작
             if (audioActive)
                 Managers.Sound.PlaySound(GlobalText.DIALOGUE_CLICK_SOUND);
@@ -112,7 +116,52 @@ public class TypingEffect : MonoBehaviour
 
 
 
+#region  Default
+public IEnumerator NormalTyping(
+    TextMeshProUGUI textMesh,
+    string sentence,
+    Color color,
+    int batchSize,
+    float fontSize = 25,
+    float delay = 0.01f,
+    bool audioActive = false
+    )
+{
+    //Dealy : 0.1f
+    textMesh.color = color;
+    textMesh.fontSize = fontSize;
 
+    StringBuilder sb = new();
+
+    for(int i = 0;i<sentence.Length;i+=batchSize)
+    {
+        int len = Mathf.Min(batchSize, sentence.Length - i);
+        for (int j = 0; j < len; j++)
+        {
+            sb.Append(sentence[i + j]);
+            textMesh.text = sb.ToString();
+        }
+        yield return new WaitForSeconds(delay);
+    }
+
+}
+public IEnumerator NormalEraser(
+    TextMeshProUGUI textMesh,
+    int batchSize,
+    float delay= 0.01f
+    )
+{
+    StringBuilder sb = new(textMesh.text);
+    while (sb.Length > 0)
+    {
+        int len = Mathf.Min(batchSize,sb.Length);
+        sb.Remove(sb.Length - len,len);
+        textMesh.text = sb.ToString();
+
+        yield return new WaitForSeconds(delay);
+    }
+}
+#endregion
 
 
 

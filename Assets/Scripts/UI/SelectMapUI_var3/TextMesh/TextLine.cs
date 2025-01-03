@@ -1,12 +1,9 @@
 using System.Collections;
-
 using UnityEngine;
 using TMPro;
-using System.Threading.Tasks;
-using System.Drawing;
 using Random = UnityEngine.Random;
 using System.Text;
-using Unity.VisualScripting;
+
 public enum TypingType
 {
     Write,
@@ -20,35 +17,19 @@ public class TextLine : MonoBehaviour
     [HideInInspector] public string mainSentence;
     UnityEngine.Color orgColor;
     UnityEngine.Color selectColor = new UnityEngine.Color(51f / 255f, 118f / 255f, 182f / 255f);
-    [HideInInspector]public TypingType type;
+    [ReadOnly]
+    public TypingType type;
     [HideInInspector] public bool onSelectable;
 
     [Header("Component")]
-     [HideInInspector] public TextMeshProUGUI text;
+    public TextMeshProUGUI text;
 
-    [Header("Text Mesh Pro Controller")]
-    [SerializeField] TextMeshTextController _TextMeshTextController;
-    public TextMeshTextController curTMTC;
-    [HideInInspector]public bool isEncryption;
-    Util util = new Util();
-    
+    //todo 250103
+    [SerializeField] TypingEffect typingEffect;
 
     string[] ranString = new string[]{"#","!","@","$","%","^","&","*","(",")","-","_","+","=","1","2","3","4","5","6","7","8","9"};
-    #region Write
 
-
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="sentence"></param>
-    /// <param name="color"></param>
-    /// <param name="WriteAndRead"> Write -> true, Read -> false</param>
-    // public void WriteText(string sentence, UnityEngine.Color color, bool WriteAndRead, float fontSize, float delayTime, bool onSelectable)
-    // {
-    //     StartCoroutine(Task_WriteTyping(sentence, color, WriteAndRead, fontSize, delayTime, onSelectable));
-    // }
-
+#region Write
    
     public IEnumerator Task_WriteTyping(string sentence, UnityEngine.Color color, bool writeAndRead, float fontSize, float delayTime, bool onSelectable)
     {
@@ -64,13 +45,11 @@ public class TextLine : MonoBehaviour
         orgColor = color;
         mainSentence = sentence;
 
-        // Task task = util.TypingEffectTask(text, sentence, color, fontSize, delayTime);
-
-        // yield return new WaitUntil(() => task.IsCompleted);
-        yield return WriteTyping(sentence,color,fontSize,delayTime);
-
+        yield return typingEffect.NormalTyping(text,sentence,color,3,fontSize);
     }
-    #region Typing
+
+#region Typing
+
     public IEnumerator WriteTyping(string sentece,UnityEngine.Color color, float fontSize, float delayTime,int batchSize = 3){
        text.color = color;
        text.fontSize = fontSize;
@@ -82,7 +61,7 @@ public class TextLine : MonoBehaviour
             yield return new WaitForSecondsRealtime(delayTime);
         }
     }
-    #endregion
+#endregion
 
     public void WriteText(string sentence, UnityEngine.Color color)
     {
@@ -97,37 +76,17 @@ public class TextLine : MonoBehaviour
         mainSentence = text.text;
     }
 
-    #endregion
+ #endregion
 
-    #region Eraser
+#region Eraser
 
     public IEnumerator Task_EraserText() {
         mainSentence = "";
-        // Task task = util.EraserEffectTask(text);
-        // yield return new WaitUntil(() => task.IsCompleted);
-        yield return EraserEffect();
+        yield return typingEffect.NormalEraser(text,3);
     }
-    public IEnumerator EraserEffect(int batchSize = 3){
-       if(string.IsNullOrEmpty(text.text)) yield break;
+   
 
-        mainSentence = "";
-        StringBuilder sb = new(text.text);
-        while(sb.Length>0){
-            int charsToRemove = Mathf.Min(batchSize,sb.Length);
-            sb.Remove(sb.Length - charsToRemove,charsToRemove);
-            text.text = sb.ToString();
-            yield return new WaitForSeconds(0.01f);
-        }
-        text.text = "";
-       
-    }
-    public async void EraserText()
-    {
-        mainSentence = "";
-        await util.EraserEffectTask(text);
-    }
-
-    #endregion
+ #endregion
 
     public void SelectSentence()
     {
@@ -144,7 +103,7 @@ public class TextLine : MonoBehaviour
         text.text = mainSentence;
     }
 
-    #region Util
+ #region Util
 
     public void Reset()
     {
@@ -171,33 +130,11 @@ public class TextLine : MonoBehaviour
         mainSentence = "";
     }
 
-    #endregion
+#endregion
 
-
-    //0909
-
-
-    public IEnumerator ChangeEncryption(){
-        isEncryption = true;
-
-        string encryptionText = GetEncryptionText(text.text);
-        int[] indexs = SuffleIndex(encryptionText);
-
-        TextMeshProTextControllerActive();
-        
-
-        for(int i = 0; i < encryptionText.Length;i++){
-            curTMTC.ChangeTexSplitWord(indexs[i],encryptionText[indexs[i]]);
-            yield return new WaitForSeconds(.05f);
-        }
-
-        yield return new WaitForSeconds(0.5f);
-        isEncryption = false;
-    }
 
     private int[] SuffleIndex(string sentence){
         int[] arr = new int[sentence.Length];
-        Debug.Log(sentence.Length);
         for(int i = 0;i<arr.Length;i++){
             arr[i] = i;
         }
@@ -211,25 +148,13 @@ public class TextLine : MonoBehaviour
         return arr;
     }
     private string GetEncryptionText(string text){
-
-        string encryptionText = "";
+        StringBuilder sb = new();
         for(int i = 0; i< text.Length;i++){
-            encryptionText += ranString[Random.Range(0,ranString.Length)];
+            // encryptionText += ranString[Random.Range(0,ranString.Length)];
+            sb.Append(ranString[Random.Range(0,ranString.Length)]);
         }
-        return encryptionText;
+        return sb.ToString();
     }
 
-
-    //0909
-
-    public void TextMeshProTextControllerActive(){
-        if(curTMTC != null){
-            Destroy(curTMTC.gameObject);
-        }
-
-        curTMTC = Instantiate(_TextMeshTextController,transform);
-        curTMTC.Setting(this);
-        curTMTC.CreateTextSplitWord();
-    }
 
 }

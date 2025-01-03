@@ -1,10 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+
 
 public class ConsoleSystem : MonoBehaviour
 {
@@ -26,7 +25,9 @@ public class ConsoleSystem : MonoBehaviour
     Reset Interactable Object
         -> ex) Reset Object
     Show All Map ID
-        -> ex) Show MapID
+        -> ex) Show mapID
+    Open All Map
+        -> ex) Open all map
 
 ";
 
@@ -100,6 +101,10 @@ public class ConsoleSystem : MonoBehaviour
             inputField.text = "";
             return;
         }
+        if(inputField.text == "Open all map"){
+            WriteLog($"\n   >Open all map\n");
+            OpenAllMap();
+        }
 
         string[] strings = inputField.text.Split(" "); //ex Load mapId
         
@@ -136,25 +141,11 @@ public class ConsoleSystem : MonoBehaviour
     }
 
 
-    private void UIAtLastCharacter(){
-         TMP_TextInfo textInfo = inputField.textComponent.textInfo;
 
-        // 텍스트가 비어 있을 경우 처리
-        if (textInfo.characterCount == 0)
-        {
-            Debug.LogWarning("The text is empty.");
-            return;
-        }
-
-        TMP_CharacterInfo lastCharInfo = textInfo.characterInfo[textInfo.characterCount - 1];
-        Vector2 localPosition = (lastCharInfo.bottomLeft + lastCharInfo.topRight) / 2;
-
-        // TextMeshPro의 로컬 좌표를 캔버스의 로컬 좌표로 변환
-        Vector3 canvasLocalPosition = inputField.textComponent.rectTransform.localToWorldMatrix.MultiplyPoint3x4(localPosition);
-        canvasLocalPosition = transform.worldToLocalMatrix.MultiplyPoint3x4(canvasLocalPosition);
-
-        Debug.Log(canvasLocalPosition);
-
+    private void OpenAllMap(){
+        //1. modify PlayerSaveData.curStageLevel
+        Managers.Data.saveData._SaveFileData._PlayerSaveData.curStageLevel = 1;
+        
     }
   
 }

@@ -146,6 +146,7 @@ GameObject:
   - component: {fileID: 5207117932438507627}
   - component: {fileID: 4834397332766386713}
   - component: {fileID: 8756039294060640011}
+  - component: {fileID: 2542641677337396611}
   m_Layer: 5
   m_Name: TextLine
   m_TagString: Untagged
@@ -231,3 +232,20 @@ MonoBehaviour:
   _TextMeshTextController: {fileID: 4578200515547489799, guid: f041f242c468049c1a4e3013b4b75d22, type: 3}
   curTMTC: {fileID: 0}
   isEncryption: 0
+  typingEffect: {fileID: 2542641677337396611}
+--- !u!114 &2542641677337396611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8764680385182326310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 867f7232e41609644b254dc44c9164d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  letterDelay: 0.1
+  animationDuration: 0.5
+  startOffset: {x: 0, y: 0}
+  startRotationAngle: 45

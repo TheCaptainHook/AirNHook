@@ -7,6 +7,9 @@ public class StageSelectObject : MonoBehaviour, IInteractable
     public ObjectTypeEnum objectType = ObjectTypeEnum.Interaction;
     public Vector2 offset;
     
+    [ReadOnly]
+    public bool onPower;
+
     [SerializeField] StageSelectorComputer _StageSelectorComputer;
     //private void Awake()
     //{
@@ -25,9 +28,10 @@ public class StageSelectObject : MonoBehaviour, IInteractable
         {
             _StageSelectorComputer.Surprise_();
             Managers.UI.ShowUI<UI_StageSelect_var3>();
+            onPower =true;
 
             // Managers.Game.Player.GetComponent<PlayerMovement>().canControl = false;
-            Managers.Game.Player.GetComponent<Rigidbody2D>().velocity  = Vector2.zero;
+            // Managers.Game.Player.GetComponent<Rigidbody2D>().velocity  = Vector2.zero;
         }
 
         //else
