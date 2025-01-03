@@ -605,6 +605,7 @@ MonoBehaviour:
   transformID: 0
   position: {x: 0, y: 0}
   distructionStatus: 0
+  chargeRequired: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
@@ -619,6 +620,9 @@ MonoBehaviour:
   rayDistance: 0.095
   onActive: 0
   onPrograss: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 64
   _UPStem: {fileID: 6523186124190423156}
   _DownStem: {fileID: 7242306415295674344}
 --- !u!1 &8122281178979117997

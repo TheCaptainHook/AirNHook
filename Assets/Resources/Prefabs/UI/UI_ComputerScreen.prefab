@@ -440,6 +440,7 @@ GameObject:
   - component: {fileID: 2590915405553237386}
   - component: {fileID: 7170452826567768582}
   - component: {fileID: 4820927792676785100}
+  - component: {fileID: 3684394720842586289}
   m_Layer: 5
   m_Name: UI_ComputerScreen
   m_TagString: Untagged
@@ -559,6 +560,18 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!210 &3684394720842586289
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5573035102780734551}
+  m_Enabled: 1
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
+  m_SortingOrder: -1
+  m_SortAtRoot: 0
 --- !u!1 &5805936852947229508
 GameObject:
   m_ObjectHideFlags: 0

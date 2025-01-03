@@ -10,162 +10,126 @@ using System.Threading;
 public class Util
 {
 
-    #region  Text
+#region  Text
 
     // Create Text in the World
-    public  TextMesh CreateWorldText(string text, Transform parent = null, Vector3 localPosition = default(Vector3), int fontSize = 40, Color? color = null, TextAnchor textAnchor = TextAnchor.UpperLeft, TextAlignment textAlignment = TextAlignment.Left, int sortingOrder = 500)
-    {
-        if (color == null) color = Color.white;
-        return CreateWorldText(parent, text, localPosition, fontSize, (Color)color, textAnchor, textAlignment, sortingOrder);
-    }
+    //public  TextMesh CreateWorldText(string text, Transform parent = null, Vector3 localPosition = default(Vector3), int fontSize = 40, Color? color = null, TextAnchor textAnchor = TextAnchor.UpperLeft, TextAlignment textAlignment = TextAlignment.Left, int sortingOrder = 500)
+    //{
+    //    if (color == null) color = Color.white;
+    //    return CreateWorldText(parent, text, localPosition, fontSize, (Color)color, textAnchor, textAlignment, sortingOrder);
+    //}
 
-    public  TextMesh CreateWorldText(Transform parent,string text,Vector3 localPosition,int fontSize,Color fontColor,TextAnchor textAnchor,TextAlignment textAlignment, int sortingOrder)
-    {
-        GameObject gameObject = new GameObject("World_Text", typeof(TextMesh));
-        Transform transform = gameObject.transform;
-        transform.SetParent(parent, false);
-        transform.localPosition = localPosition;
-        TextMesh textMesh = gameObject.GetComponent<TextMesh>();
-        textMesh.anchor = textAnchor;
-        textMesh.alignment = textAlignment;
-        textMesh.text = text;
-        textMesh.fontSize = fontSize;
-        textMesh.color = fontColor;
-        textMesh.GetComponent<MeshRenderer>().sortingOrder = sortingOrder;
+    //public  TextMesh CreateWorldText(Transform parent,string text,Vector3 localPosition,int fontSize,Color fontColor,TextAnchor textAnchor,TextAlignment textAlignment, int sortingOrder)
+    //{
+    //    GameObject gameObject = new GameObject("World_Text", typeof(TextMesh));
+    //    Transform transform = gameObject.transform;
+    //    transform.SetParent(parent, false);
+    //    transform.localPosition = localPosition;
+    //    TextMesh textMesh = gameObject.GetComponent<TextMesh>();
+    //    textMesh.anchor = textAnchor;
+    //    textMesh.alignment = textAlignment;
+    //    textMesh.text = text;
+    //    textMesh.fontSize = fontSize;
+    //    textMesh.color = fontColor;
+    //    textMesh.GetComponent<MeshRenderer>().sortingOrder = sortingOrder;
         
-        return textMesh;
-    }
+    //    return textMesh;
+    //}
 
-    public async Task TypingEffectTask(
-        TextMeshProUGUI text, 
-        string sentence, 
-        Color color,
-        float fontSize, 
-        float delayTime, 
-        CancellationTokenSource token = null,
-        bool audioActive = false)
-    {
-        if (text == null)
-        {
-            Debug.LogError("TextMeshProUGUI is null!");
-            return;
-        }
+    //public async Task TypingEffectTask(
+    //    TextMeshProUGUI text, 
+    //    string sentence, 
+    //    Color color,
+    //    float fontSize, 
+    //    float delayTime, 
+    //    CancellationTokenSource token = null,
+    //    bool audioActive = false)
+    //{
+    //    if (text == null)
+    //    {
+    //        Debug.LogError("TextMeshProUGUI is null!");
+    //        return;
+    //    }
 
-        CancellationToken _token = token?.Token ?? CancellationToken.None; 
+    //    CancellationToken _token = token?.Token ?? CancellationToken.None; 
        
-        int time = Mathf.FloorToInt(delayTime * 1000);
-        text.text = "";
+    //    int time = Mathf.FloorToInt(delayTime * 1000);
+    //    text.text = "";
 
-        StringBuilder typedSentence = new StringBuilder();
+    //    StringBuilder typedSentence = new StringBuilder();
 
-        text.color = color;
-        text.text = typedSentence.ToString();
-        text.fontSize = fontSize;
-        for (int i = 0; i < sentence.Length; i++)
-        {
-            if (audioActive)
-                Managers.Sound.PlaySound(GlobalText.DIALOGUE_CLICK_SOUND);
+    //    text.color = color;
+    //    text.text = typedSentence.ToString();
+    //    text.fontSize = fontSize;
+    //    for (int i = 0; i < sentence.Length; i++)
+    //    {
+    //        if (audioActive)
+    //            Managers.Sound.PlaySound(GlobalText.DIALOGUE_CLICK_SOUND);
 
-            typedSentence.Append(sentence[i]);
-            text.text = typedSentence.ToString();
+    //        typedSentence.Append(sentence[i]);
+    //        text.text = typedSentence.ToString();
 
-            try
-            {
-                await Task.Delay(time, _token);
-            }
-            catch (TaskCanceledException)
-            {
-                text.text = sentence;
-                // if (audioSource != null) audioSource.gameObject.SetActive(false);
-                return;
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError("Error during typing effect task: " + ex.Message);
-            }
-        }
-        // if (audioSource != null) audioSource.gameObject.SetActive(false);
-    }
+    //        try
+    //        {
+    //            await Task.Delay(time, _token);
+    //        }
+    //        catch (TaskCanceledException)
+    //        {
+    //            text.text = sentence;
+    //            // if (audioSource != null) audioSource.gameObject.SetActive(false);
+    //            return;
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            Debug.LogError("Error during typing effect task: " + ex.Message);
+    //        }
+    //    }
+    //    // if (audioSource != null) audioSource.gameObject.SetActive(false);
+    //}
 
-    // private void PlayAudioClip(AudioSource audioSource, AudioType audioType, AudioMixerGroupType audioMixerGroupType, bool isLoop, float volume, float spatialBlend)
-    // {
-    //     var audioClip = Managers.Sound.GetAudioClip(audioType);
-    //     audioSource.outputAudioMixerGroup = Managers.Sound.GetAudioMixerGroup(audioMixerGroupType.ToString());
-    //     audioSource.loop = isLoop;
-    //     audioSource.volume = volume;
+    //public async Task EraserEffectTask(TextMeshProUGUI text, float delayTime = 0.01f)
+    //{
+    //    if (text == null)
+    //    {
+    //        Debug.LogError("TextMeshProUGUI is null! or string.Empty");
+    //        return;
+    //    }
 
-    //     audioSource.gameObject.SetActive(true);
-    //     audioSource.clip = audioClip;
-    //     audioSource.spatialBlend = spatialBlend;
-    //     audioSource.Play();
-    // }
+    //    int time = Mathf.FloorToInt(delayTime * 1000);
+    //    string st = text.text;
 
-    // private void PlayAudioClip(string audioName)
-    // {
-    //     Managers.Sound.PlaySound(audioName);
-    //     // var audioClip = Managers.Sound.GetAudioClip(audioType);
-    //     // audioSource.outputAudioMixerGroup = Managers.Sound.GetAudioMixerGroup(audioMixerGroupType.ToString());
-    //     // audioSource.loop = isLoop;
-    //     // audioSource.volume = volume;
+    //    for (int i = st.Length-1; i >=0; i--)
+    //    {
+    //        try
+    //        {
+    //            text.text = st.Substring(0, i);
+    //            await Task.Delay(time);
+    //        }
+    //        catch (TaskCanceledException ex)
+    //        {
+    //            Debug.LogWarning("Typing effect task was canceled: " + ex.Message);
+    //            text.text = "";
+    //            return;
 
-    //     // audioSource.gameObject.SetActive(true);
-    //     // audioSource.clip = audioClip;
-    //     // audioSource.spatialBlend = spatialBlend;
-    //     // audioSource.Play();
-    // }
-    
-
-    public async Task EraserEffectTask(TextMeshProUGUI text, float delayTime = 0.01f)
-    {
-        if (text == null)
-        {
-            Debug.LogError("TextMeshProUGUI is null! or string.Empty");
-            return;
-        }
-
-        int time = Mathf.FloorToInt(delayTime * 1000);
-        string st = text.text;
-
-        for (int i = st.Length-1; i >=0; i--)
-        {
-            try
-            {
-                text.text = st.Substring(0, i);
-                await Task.Delay(time);
-            }
-            catch (TaskCanceledException ex)
-            {
-                Debug.LogWarning("Typing effect task was canceled: " + ex.Message);
-                text.text = "";
-                return;
-
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError("Error during typing effect task: " + ex.Message);
-                text.text = "";
-            }
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            Debug.LogError("Error during typing effect task: " + ex.Message);
+    //            text.text = "";
+    //        }
             
-        }
+    //    }
 
-    }
-    public async Task Delay(Action action,int delayTime = 1000){
-        
-        await Task.Delay(delayTime);
-        action?.Invoke();
-        
-    }
+    //}
 
     public List<string> SplitText(string text, int length, char[] delimiters)
     {
         List<string> result = new List<string>();
 
-        // 먼저 구두점으로 텍스트를 분할합니다.
         string[] parts = text.Split(delimiters, StringSplitOptions.None);
 
         foreach (string part in parts)
         {
-            // 분할된 각 부분을 다시 length 크기로 분할합니다.
             for (int i = 0; i < part.Length; i += length)
             {
                 if (i + length <= part.Length)
@@ -182,9 +146,9 @@ public class Util
         return result;
     }
 
-    #endregion
+#endregion
 
-    #region  Mouse
+#region  Mouse
 
     public Vector3 GetMouseWorldPosition(Vector3 screenPosition, Camera camera)
     {
@@ -193,10 +157,10 @@ public class Util
         return worldPosition;
     }
 
-    #endregion
+#endregion
 
 
-    #region Transform
+#region Transform
     public Transform CreateChildTransform(Transform parent, string name)
     {
         if (parent.Find(name) != null)
@@ -220,10 +184,17 @@ public class Util
     #endregion
 
 
-    #region Date
+#region Date
 
     #endregion
 
+    public async Task Delay(Action action, int delayTime = 1000)
+    {
+
+        await Task.Delay(delayTime);
+        action?.Invoke();
+
+    }
 
 
 }

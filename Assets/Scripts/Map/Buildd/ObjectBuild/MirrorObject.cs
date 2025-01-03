@@ -53,11 +53,11 @@ public class MirrorObject : BuildObj,IInteractable
     private void MirrorRotate(bool pm){
         if(pm){
             Quaternion curRot = _Mirror.transform.rotation;
-            curRot.z +=.01f;
+            curRot.z +=.005f;
             _Mirror.transform.rotation = curRot;
         }else{
             Quaternion curRot = _Mirror.transform.rotation;
-            curRot.z -=.01f;
+            curRot.z -=.005f;
             _Mirror.transform.rotation = curRot;
         }
     }

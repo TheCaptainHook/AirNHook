@@ -181,15 +181,15 @@ public class UI_StageSelect_var3: UI_Base
     private void Update()
     {
         //Test Code
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            HideUIOutsideCamera();
-        }
+        //if (Input.GetKeyDown(KeyCode.N))
+        //{
+        //    HideUIOutsideCamera();
+        //}
 
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            OpenUIOutsideCamera();
-        }
+        //if (Input.GetKeyDown(KeyCode.M))
+        //{
+        //    OpenUIOutsideCamera();
+        //}
 
         //Interaction
 
@@ -197,7 +197,6 @@ public class UI_StageSelect_var3: UI_Base
         {
             GetKeyEvent();
             
-
         }
 
     }
@@ -473,7 +472,6 @@ public class UI_StageSelect_var3: UI_Base
         onInteractable = false;
 
         _PrograssLevel = PrograssLevel.Three;
-
         yield return EraserTextLineCo(minSelectTextLineListIndex, maxSelectTextLineListIndex);
         Map[] maps = Managers.Data.mapData.mapMainStageDictionary[stageLevel];
         MapSaveData[] mapDatas = CheckPlayerData(maps);
@@ -482,11 +480,12 @@ public class UI_StageSelect_var3: UI_Base
         {
             if (mapDatas[i].clear)
             {
-                yield return WriteLine(maps[i].mapID, localColor, true);
+                //yield return WriteLine(maps[i].mapID, localColor, true);\
+                yield return WriteLine(string.IsNullOrWhiteSpace(maps[i].subMapName) ? maps[i].mapID : maps[i].subMapName,localColor,true);
             }
             else if (mapDatas[i].openStage)
             {
-                yield return WriteLine(maps[i].mapID, Color.yellow, true);
+                yield return WriteLine(string.IsNullOrWhiteSpace(maps[i].subMapName) ? maps[i].mapID : maps[i].subMapName, Color.yellow, true);
             }
            
         }
@@ -503,7 +502,10 @@ public class UI_StageSelect_var3: UI_Base
         onPrograss = true;
         onInteractable = false;
         _PrograssLevel = PrograssLevel.End;
+
         textLineList[pathTextLineIndex].type = TypingType.Read;
+        textLineList[pathTextLineIndex].text.color = Color.yellow;
+
         try
         {
             ExitPointObj obj = MapEditor.Instance.FindObj(MapEditor.Instance.exitDoorObjectTransform, 301).GetComponent<ExitPointObj>();
@@ -521,9 +523,8 @@ public class UI_StageSelect_var3: UI_Base
         // yield return textLineList[4].curTMTC.EraserAll();
 
         //Path Text Eraser Effect.
-
+        textLineList[pathTextLineIndex].Clear();
         //Path Text Eraser Effect.
-
 
         textLineList[pathTextLineIndex].type = TypingType.Write;
         //250103
@@ -657,7 +658,6 @@ public class UI_StageSelect_var3: UI_Base
         for (int i = 0; i < map.Length; i++)
         {
             array[i] = Managers.Data.saveData.dic[map[i].mapID];
-          
         }
 
         if (map[0].stageLevel == 0)

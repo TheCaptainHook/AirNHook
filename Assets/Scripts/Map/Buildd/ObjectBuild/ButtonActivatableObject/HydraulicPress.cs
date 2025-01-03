@@ -10,7 +10,7 @@ public class HydraulicPress : ActivatableObjectEntity
     public bool onPrograss;
     private RaycastHit2D hit;
     private float curPressLength;
-    
+    [SerializeField] LayerMask layerMask;
     #region Animation
     readonly int Val = Animator.StringToHash("Val");
     #endregion
@@ -63,7 +63,7 @@ public class HydraulicPress : ActivatableObjectEntity
     {
         if(!onPrograss) onPrograss = true;
 
-        hit = Physics2D.Raycast(rayPoint.position, transform.right, rayDistance);
+        hit = Physics2D.Raycast(rayPoint.position, transform.right, rayDistance,layerMask);
         if (!hit)
         {
             curPressLength += Time.fixedDeltaTime * 0.1f;

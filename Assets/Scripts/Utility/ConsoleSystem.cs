@@ -20,15 +20,16 @@ public class ConsoleSystem : MonoBehaviour
     #endregion
 
     private string helpSentence = @"    [Command]
-    Map Load 
+    Map Load (mapId case sensitive)
         -> ex) Load {mapId}
-    Reset Interactable Object
-        -> ex) Reset Object
-    Show All Map ID
+    Reset Interactable Object (Case insensitive)
+        -> ex) Reset Object 
+    Show All Map ID (Case insensitive)
         -> ex) Show mapID
-    Open All Map
+    Stage Select Open All Map (Case insensitive)
         -> ex) Open all map
-
+    Log Clear (Case insensitive)
+        -> ex) Clear
 ";
 
     private List<string> GetMapIDList(){
@@ -52,7 +53,7 @@ public class ConsoleSystem : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (container.activeSelf && Input.GetKeyDown(KeyCode.Return))
         {
             CommandRead();
             inputField.ActivateInputField();
@@ -75,6 +76,8 @@ public class ConsoleSystem : MonoBehaviour
      #region Main
     private void CommandRead()
     {
+       
+
         if (string.IsNullOrEmpty(inputField.text))
         {
             WriteLog($"{inputField.text} \n - text is null or empty\n");
@@ -88,29 +91,42 @@ public class ConsoleSystem : MonoBehaviour
             return;
         }
 
-        if(inputField.text == "Reset Object"){
-            WriteLog($"\n   >Reset Object\n");
+        string command = inputField.text.ToLower();
+
+        if (command == "reset object"){
+            WriteLog($"\n   >{inputField.text}\n");
             MapEditor.Instance.ResetInteractableObjectPosition();
+            inputField.text = "";
             return;
         }
-        if(inputField.text == "Show MapID"){
-            WriteLog($"\n   >Show MapId");
+
+        if(command == "show mapID"){
+            WriteLog($"\n   >{inputField.text}");
             foreach(string id in mapIDList){
                 WriteLog($"\t-{id}");
             }
             inputField.text = "";
             return;
         }
-        if(inputField.text == "Open all map"){
-            WriteLog($"\n   >Open all map\n");
+        if(command == "open all map"){
+            WriteLog($"\n   >{inputField.text}\n\n");
             OpenAllMap();
+            inputField.text = "";
+            return;
+        }
+        if (command == "clear")
+        {
+            sb.Clear();
+            logText.text = "";
+            inputField.text = "";
+            return;
         }
 
         string[] strings = inputField.text.Split(" "); //ex Load mapId
-        
+        strings[0].ToLower();
         switch (strings[0])
         {
-            case "Load":
+            case "load":
           
                 if (mapIDList.Contains(strings[1]))
                 {
@@ -133,6 +149,7 @@ public class ConsoleSystem : MonoBehaviour
      #endregion
 
 
+
     private void WriteLog(string sentence)
     {
         sb.Append($"\n{sentence}");
@@ -145,7 +162,11 @@ public class ConsoleSystem : MonoBehaviour
     private void OpenAllMap(){
         //1. modify PlayerSaveData.curStageLevel
         Managers.Data.saveData._SaveFileData._PlayerSaveData.curStageLevel = 1;
-        
+
+        foreach (var item in Managers.Data.saveData.dic)
+        {
+            item.Value.openStage = true;
+        }
     }
   
 }

@@ -64,8 +64,11 @@ public class HarpoonTurret : BuildObj
                 _animator.SetTrigger(IsFiring);
                 isShot = true;
                 //curtime = cooltime;
-
-                Shot();
+                if(hit.collider.TryGetComponent(out PlayerSM component))
+                {
+                    Shot();
+                }
+                
                 // float z = Mathf.Atan2(transform.right.y, transform.right.x) + Random.Range(-5,5);
                 //GameObject obj = pool.GetPoolItem("Arrow");
                 //obj.transform.right = transform.right;

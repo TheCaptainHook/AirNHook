@@ -132,7 +132,6 @@ public IEnumerator NormalTyping(
     textMesh.fontSize = fontSize;
 
     StringBuilder sb = new();
-
     for(int i = 0;i<sentence.Length;i+=batchSize)
     {
         int len = Mathf.Min(batchSize, sentence.Length - i);

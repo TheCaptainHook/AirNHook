@@ -213,7 +213,7 @@ public class SaveData
         string json = await File.ReadAllTextAsync(filePath);
         _SaveFileData = JsonUtility.FromJson<SaveFileData>(json);
         dic = _SaveFileData.SSDD_LoadDictionary();
-
+ 
         await IntergrityCheck();
     }
     #endregion

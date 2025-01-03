@@ -88,8 +88,11 @@ using UnityEngine;
                          SetHitParticleRotate(start,rh.point); // todo 0914
                          component.TakeDamage(DamageType.Fire);
                              break;
-                     }else if(rh.collider.gameObject.name == "Mirror"){
-                         start = rh.point;
+                    //}else if(rh.collider.gameObject.name == "Mirror"){
+                }
+                else if (rh.collider.gameObject.layer == LayerMask.NameToLayer("Mirror"))
+                {
+                    start = rh.point;
                          dir = Vector2.Reflect(ray.direction, colDir);
                      }else if(rh.collider.TryGetComponent(out LaserTriggerButton component2)){
                             if(Application.isPlaying){
@@ -102,10 +105,12 @@ using UnityEngine;
                          break;
                      }else{
                         SetHitParticleRotate(start,rh.point);
-                        if(rh.collider.TryGetComponent(out IDamageable damageable)){
-                            damageable.TakeDamage(DamageType.Fire);
+                        if (rh.collider.TryGetComponent(out IDamageable damageable))
+                        {
+                            if (Application.isPlaying) damageable.TakeDamage(DamageType.Fire);
+
                         }
-                        break;
+                    break;
                      }
                 }
                 else
