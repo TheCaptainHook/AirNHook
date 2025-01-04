@@ -622,9 +622,7 @@ MonoBehaviour:
   _RotSpeed: 20
   layerMask:
     serializedVersion: 2
-    m_Bits: 4147136
-  _Fov: 40
-  _RayCount: 30
+    m_Bits: 24104896
   _ViewDistance: 10
   drone_Laser: {fileID: 2836901596953615608}
   lightTr: {fileID: 5816087826237662570}
@@ -636,7 +634,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4993893622796333578}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -868,15 +866,6 @@ LineRenderer:
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.50318474
-        value: 0.0729927
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -1149,6 +1138,7 @@ MonoBehaviour:
   transformID: 0
   position: {x: 0, y: 0}
   distructionStatus: 0
+  chargeRequired: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
@@ -1169,7 +1159,8 @@ MonoBehaviour:
   lineRenderer: {fileID: 2821746452775799054}
   layerMask:
     serializedVersion: 2
-    m_Bits: 1001409
+    m_Bits: 1984
+  droneGuardVision: {fileID: 8896907158667411981}
 --- !u!1 &8732067415727849449
 GameObject:
   m_ObjectHideFlags: 0

@@ -132,12 +132,14 @@ public class DroneEntity : BuildObj
         {
             Vector2 dir = Vector2.zero;
 
-            while(OnStop){
+            while(OnStop)
+            {
                 if(_rb.velocity.magnitude > 0){
                     _rb.velocity = Vector2.zero;
                 }
                 yield return null;
             }
+            
             if (CheckDistance(_rb.position, targetPosition))
             {
                 _rb.velocity = Vector2.zero;
@@ -158,10 +160,11 @@ public class DroneEntity : BuildObj
                 targetPosition = paths[index];
 
             }
-
+            //Animation
             dir = (targetPosition - _rb.position).normalized;
             DroneMovingAnimation(GetDroneState(dir));
             
+            //Move, normalized moveSpeed 
             _rb.AddForce(dir,ForceMode2D.Force);
             if (_rb.velocity.magnitude > moveSpeed)
             {

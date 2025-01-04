@@ -1,5 +1,4 @@
-using Org.BouncyCastle.Asn1.Crmf;
-using System.Collections;
+
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -56,7 +55,47 @@ public class PathFinder : MonoBehaviour
         }
         return null;
     }
+    public List<Vector2> FindPath(Vector2 start,Vector2 end)
+    {
+        PriorityQueue<(Vector2 position,int gCost,List<Vector2> path)> openSet = new();
 
+        HashSet<Vector2> closedSet = new HashSet<Vector2>();
+        openSet.Enqueue((start, 0,new List<Vector2> { start }),0+Heuristic(start,end));
+        while(openSet.Count>0)
+        {
+            var current = openSet.Dequeue();
+            Vector2 curPosition = current.position;
+            int curGCost = current.gCost;
+            List<Vector2> curPath = current.path;
+
+            if(CheckDistance(curPosition,end))
+            {
+                List<Vector2> nextPath = new List<Vector2>(curPath){end};
+                return nextPath;
+            }
+
+            closedSet.Add(curPosition);
+
+            foreach(var dir in directions)
+            {
+                Vector2 nextPosition =curPosition + dir;
+                if(closedSet.Contains(nextPosition)||IsObstacle(nextPosition)){continue;}
+
+                int nextGCost = curGCost+1;
+                int nextHCost = Heuristic(nextPosition,end);
+
+                List<Vector2> nextPath = new List<Vector2>(curPath) {nextPosition };
+                openSet.Enqueue((nextPosition, nextGCost, nextPath), nextGCost + nextHCost);
+            }
+        }
+
+        return null;
+    }
+
+    private bool CheckDistance(Vector2 cur,Vector2 end)
+    {
+        return Vector2.Distance(cur,end) <= 1;
+    }
 
     private bool IsObstacle(Vector2Int gridPosition)
     {
@@ -72,13 +111,20 @@ public class PathFinder : MonoBehaviour
             return true;
         }
         else return false;
-
-
     }
+
+private bool IsObstacle(Vector2 position)
+{
+    Collider2D hit = Physics2D.OverlapPoint(position, obstacleLayer);
+    return hit != null;
+}
 
     private int Heuristic(Vector2Int a, Vector2Int b)
     {
         return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
+    }
+    private int Heuristic(Vector2 a,Vector2 b){
+        return Mathf.RoundToInt(Mathf.Abs(a.x-b.x)) +Mathf.RoundToInt(Mathf.Abs(a.y-b.y)); 
     }
 
 

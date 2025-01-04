@@ -1,10 +1,8 @@
 
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Unity.VisualScripting;
-using UnityEditor;
+
 
 
 public class MovingPlatform :  ActivatableObjectEntity

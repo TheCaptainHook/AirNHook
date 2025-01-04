@@ -1,6 +1,4 @@
 
-using Steamworks;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -17,8 +15,9 @@ public class Drone_Laser : DroneEntity
 readonly int _Directon = Animator.StringToHash("Direction");
 #endregion
 
-   #region Laser
+#region Laser
    [Header("Laser")]
+   [ReadOnly]
    public GameObject target;
    [SerializeField] Transform _LazerBody;
    [SerializeField] Transform attackPot;
@@ -32,7 +31,11 @@ readonly int _Directon = Animator.StringToHash("Direction");
     // 1008
     private Vector2 previousTargetPosition;
 
-   #endregion
+#endregion
+//----------------------------------------------------------------------------------------250104
+public DroneGuardVision droneGuardVision;
+
+//----------------------------------------------------------------------------------------250104
 
 
 public void TurnOnLazer(){
@@ -48,13 +51,13 @@ public void TurnOffLazer(){
 }
    private void FixedUpdate()
    {
-    if(onLazer){
-      UpdateLaser();
-    }
+    // if(onLazer){
+    //   UpdateLaser();
+    // }
+    droneGuardVision.SwitchDroneTrackState();
    }
 
-
-
+  
 
 #region  Laser
 
@@ -119,13 +122,23 @@ public void TurnOffLazer(){
 
   private void NormalizationLazerAndAttackPot(int locDeg)
   {
-    if(target == null) return;
-    if(CompareInverseTransformPoint(attackPot,previousTargetPosition,target.transform)){
+    // if(target == null) return;
+    if(target != null)
+    {
+      previousTargetPosition = attackPot.transform.InverseTransformPoint((Vector2)target.transform.position);
+      if(CompareInverseTransformPoint(attackPot,previousTargetPosition,target.transform))
+      {
         return;
+      }   
+    }else
+    {
+      previousTargetPosition = attackPot.transform.InverseTransformPoint(droneGuardVision.hitPoint);
     }
+    
+
     float deg;
     _LazerBody.eulerAngles = Vector3.zero;
-    previousTargetPosition = attackPot.transform.InverseTransformPoint((Vector2)target.transform.position);
+    
 
     Vector2 dir = (previousTargetPosition - (Vector2)attackPot.position).normalized;
     if(locDeg<-100){

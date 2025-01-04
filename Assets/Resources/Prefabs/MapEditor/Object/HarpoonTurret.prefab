@@ -5071,6 +5071,7 @@ MonoBehaviour:
   transformID: 0
   position: {x: 0, y: 0}
   distructionStatus: 0
+  chargeRequired: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
@@ -5081,8 +5082,7 @@ MonoBehaviour:
   _Dissolve_MainSprite: {fileID: 0}
   layerMask:
     serializedVersion: 2
-    m_Bits: 1024
-  cooltime: 3.5
+    m_Bits: 4196288
   _holder: {fileID: 8923308927599904813}
   _shellParticle: {fileID: 645326699124061494}
   _topSteam: {fileID: 2868477511076414545}
