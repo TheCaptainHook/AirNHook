@@ -1,7 +1,5 @@
 
-using Steamworks;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class Puzzle_1_Parts : MonoBehaviour,IInteractable

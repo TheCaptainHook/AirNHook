@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.Linq;
 using System;
-using NPOI.HSSF.Record.Aggregates.Chart;
 
 
 //TODO 0724 Develop code line : 435,506

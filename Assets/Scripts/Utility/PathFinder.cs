@@ -1,8 +1,8 @@
 
+using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+
 using UnityEngine;
-using UnityEngine.Assertions.Must;
 using UnityEngine.Tilemaps;
 
 public class PathFinder : MonoBehaviour
@@ -55,41 +55,69 @@ public class PathFinder : MonoBehaviour
         }
         return null;
     }
-    public List<Vector2> FindPath(Vector2 start,Vector2 end)
-    {
-        PriorityQueue<(Vector2 position,int gCost,List<Vector2> path)> openSet = new();
 
+    public List<Vector2> FindPath(Vector2 start, Vector2 end)
+    {
+        PriorityQueue<Node> openSet = new();
         HashSet<Vector2> closedSet = new HashSet<Vector2>();
-        openSet.Enqueue((start, 0,new List<Vector2> { start }),0+Heuristic(start,end));
-        while(openSet.Count>0)
+
+        openSet.Enqueue(new Node(start, 0, null), Heuristic(start, end));
+
+        while (openSet.Count > 0)
         {
             var current = openSet.Dequeue();
-            Vector2 curPosition = current.position;
-            int curGCost = current.gCost;
-            List<Vector2> curPath = current.path;
+            Vector2 curPosition = current.Position;
 
-            if(CheckDistance(curPosition,end))
+            // 종료 조건: 목적지에 충분히 근접
+            if (CheckDistance(curPosition, end))
             {
-                List<Vector2> nextPath = new List<Vector2>(curPath){end};
-                return nextPath;
+                Node endNode = new Node(end, current.GCost+1, current);
+                return ReconstructPath(endNode);
             }
 
             closedSet.Add(curPosition);
 
-            foreach(var dir in directions)
+            // 이웃 탐색
+            foreach (var dir in directions)
             {
-                Vector2 nextPosition =curPosition + dir;
-                if(closedSet.Contains(nextPosition)||IsObstacle(nextPosition)){continue;}
+                Vector2 nextPosition = curPosition + dir;
 
-                int nextGCost = curGCost+1;
-                int nextHCost = Heuristic(nextPosition,end);
+                if (closedSet.Contains(nextPosition) || IsObstacle(nextPosition))
+                    continue;
 
-                List<Vector2> nextPath = new List<Vector2>(curPath) {nextPosition };
-                openSet.Enqueue((nextPosition, nextGCost, nextPath), nextGCost + nextHCost);
+                float nextGCost = current.GCost + 1;
+
+                if (openSet.Contains(nextPosition, out var existingNode))
+                {
+                    // 이미 존재하면 더 짧은 경로인지 확인
+                    if (nextGCost < existingNode.GCost)
+                    {
+                        existingNode.Update(nextGCost, current);
+                        openSet.UpdatePriority(existingNode, nextGCost + Heuristic(nextPosition, end));
+                    }
+                }
+                else
+                {
+                    // 새 노드 추가
+                    var nextNode = new Node(nextPosition, nextGCost, current);
+                    openSet.Enqueue(nextNode, nextGCost + Heuristic(nextPosition, end));
+                }
             }
         }
 
+        // 경로를 찾지 못함
         return null;
+    }
+    private List<Vector2> ReconstructPath(Node node)
+    {
+        List<Vector2> path = new List<Vector2>();
+        while (node != null)
+        {
+            path.Add(node.Position);
+            node = node.Parent;
+        }
+        path.Reverse();
+        return path;
     }
 
     private bool CheckDistance(Vector2 cur,Vector2 end)
@@ -123,8 +151,8 @@ private bool IsObstacle(Vector2 position)
     {
         return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
     }
-    private int Heuristic(Vector2 a,Vector2 b){
-        return Mathf.RoundToInt(Mathf.Abs(a.x-b.x)) +Mathf.RoundToInt(Mathf.Abs(a.y-b.y)); 
+    private float Heuristic(Vector2 a,Vector2 b){
+        return Vector2.Distance(a, b);
     }
 
 
@@ -146,25 +174,86 @@ private bool IsObstacle(Vector2 position)
 }
 
 
+public class Node
+{
+    public Vector2 Position { get; }
+    public float GCost { get; private set; }
+    public Node Parent { get; private set; }
+
+    public Node(Vector2 position, float gCost, Node parent)
+    {
+        Position = position;
+        GCost = gCost;
+        Parent = parent;
+    }
+
+    public void Update(float gCost, Node parent)
+    {
+        GCost = gCost;
+        Parent = parent;
+    }
+  
+}
+
 public class PriorityQueue<T>
 {
-    private List<(T Item, int Priority)> heap = new();
+    private List<(T Item, float Priority)> heap = new();
     public int Count => heap.Count;
 
-    public void Enqueue(T item, int priority) 
+    public void Enqueue(T item, float priority) 
     {
         heap.Add((item,priority));
         int currentIndex = heap.Count-1;
 
-        while(currentIndex> 0)
+        //while(currentIndex> 0)
+        //{
+        //    int parentIndex = (currentIndex - 1) / 2;
+        //    if (heap[currentIndex].Priority >= heap[parentIndex].Priority) break;
+
+        //    (heap[currentIndex], heap[parentIndex]) = (heap[parentIndex], heap[currentIndex]);
+        //    currentIndex = parentIndex;
+        //}
+        HeapifyUp(currentIndex);
+
+    }
+    private void HeapifyUp(int index)
+    {
+        while (index > 0)
         {
-            int parentIndex = (currentIndex - 1) / 2;
-            if (heap[currentIndex].Priority >= heap[parentIndex].Priority) break;
+            int parentIndex = (index - 1) / 2;
+            if (heap[index].Priority >= heap[parentIndex].Priority)
+                break;
 
-            (heap[currentIndex], heap[parentIndex]) = (heap[parentIndex], heap[currentIndex]);
-            currentIndex = parentIndex;
+            Swap(index, parentIndex);
+            index = parentIndex;
         }
+    }
+    private void HeapifyDown(int index)
+    {
+        int lastIndex = heap.Count - 1;
 
+        while (true)
+        {
+            int leftChildIndex = 2 * index + 1;
+            int rightChildIndex = 2 * index + 2;
+            int smallestIndex = index;
+
+            if (leftChildIndex <= lastIndex && heap[leftChildIndex].Priority < heap[smallestIndex].Priority)
+            {
+                smallestIndex = leftChildIndex;
+            }
+
+            if (rightChildIndex <= lastIndex && heap[rightChildIndex].Priority < heap[smallestIndex].Priority)
+            {
+                smallestIndex = rightChildIndex;
+            }
+
+            if (smallestIndex == index)
+                break;
+
+            Swap(index, smallestIndex);
+            index = smallestIndex;
+        }
     }
     public T Dequeue()
     {
@@ -176,24 +265,63 @@ public class PriorityQueue<T>
 
 
         int currentIndex = 0;
-        while (true)
-        {
-            int leftChildIndex = 2 * currentIndex + 1;
-            int rightChildIndex = 2 * currentIndex + 2;
+        HeapifyDown(currentIndex);
+        //while (true)
+        //{
+        //    int leftChildIndex = 2 * currentIndex + 1;
+        //    int rightChildIndex = 2 * currentIndex + 2;
 
-            if (leftChildIndex >= heap.Count) break;
+        //    if (leftChildIndex >= heap.Count) break;
 
-            int smallestChildIndex = (rightChildIndex < heap.Count && heap[rightChildIndex].Priority < heap[leftChildIndex].Priority)
-                ? rightChildIndex
-                : leftChildIndex;
+        //    int smallestChildIndex = (rightChildIndex < heap.Count && heap[rightChildIndex].Priority < heap[leftChildIndex].Priority)
+        //        ? rightChildIndex
+        //        : leftChildIndex;
 
-            if (heap[currentIndex].Priority <= heap[smallestChildIndex].Priority) break;
+        //    if (heap[currentIndex].Priority <= heap[smallestChildIndex].Priority) break;
 
-            (heap[currentIndex], heap[smallestChildIndex]) = (heap[smallestChildIndex], heap[currentIndex]);
-            currentIndex = smallestChildIndex;
-        }
+        //    (heap[currentIndex], heap[smallestChildIndex]) = (heap[smallestChildIndex], heap[currentIndex]);
+        //    currentIndex = smallestChildIndex;
+        //}
 
         return root;
 
+    }
+    public bool Contains(Vector2 item,out Node node)
+    {
+        foreach(var el in heap)
+        {
+           if(el.Item is Node nodeItem && nodeItem.Position == item)
+            {
+                node = nodeItem;
+                return true;
+            }
+        }
+        node = default;
+        return false;
+    }
+
+    public void UpdatePriority(T item, float newPriority)
+    {
+        for (int i = 0; i < heap.Count; i++)
+        {
+            if (EqualityComparer<T>.Default.Equals(heap[i].Item, item))
+            {
+                heap[i] = (item, newPriority);
+
+                // 위로 또는 아래로 힙 구조를 복구
+                HeapifyUp(i);
+                HeapifyDown(i);
+                return;
+            }
+        }
+
+        throw new InvalidOperationException("Item not found in queue.");
+    }
+
+    private void Swap(int index1, int index2)
+    {
+        var temp = heap[index1];
+        heap[index1] = heap[index2];
+        heap[index2] = temp;
     }
 }
