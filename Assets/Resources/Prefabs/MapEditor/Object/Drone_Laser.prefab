@@ -619,14 +619,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ead55a5e5b64f33bd4e6c54ace0ce0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _OnFind: 0
   _RotSpeed: 20
-  layerMask:
+  visionLayerMask:
     serializedVersion: 2
-    m_Bits: 24104896
+    m_Bits: 1984
   drone_Laser: {fileID: 2836901596953615608}
   lightTr: {fileID: 5816087826237662570}
   lineRenderer: {fileID: 2500765658490781438}
+  _OnFind: 0
   hitPoint: {x: 0, y: 0}
 --- !u!23 &8612809403096582036
 MeshRenderer:
@@ -1176,7 +1176,7 @@ MonoBehaviour:
   lineRenderer: {fileID: 2821746452775799054}
   layerMask:
     serializedVersion: 2
-    m_Bits: 1984
+    m_Bits: 5179328
   droneGuardVision: {fileID: 8896907158667411981}
 --- !u!1 &8732067415727849449
 GameObject:

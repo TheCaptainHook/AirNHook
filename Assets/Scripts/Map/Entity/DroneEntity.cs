@@ -122,6 +122,7 @@ public class DroneEntity : BuildObj
         if(paths.Length <=0) return;
         StartCoroutine(Prograss_Co(paths));
     }
+
     IEnumerator Prograss_Co(Vector2[] paths){
         int maxIndex = paths.Length;
         int index = 0;

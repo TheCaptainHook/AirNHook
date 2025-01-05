@@ -1,3 +1,4 @@
+using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
@@ -14,16 +15,13 @@ public enum DroneTrackState
 
 public class DroneGuardVision : MonoBehaviour
 {
-
-    public bool _OnFind;
-
     // private float _MinRot = 0;
     private float _MaxRot = 130;
 
     // [SerializeField] GameObject _FoundTargetObj;
 
     [SerializeField] float _RotSpeed;
-    public LayerMask layerMask;
+    public LayerMask visionLayerMask;
     private float _Angle; // 0
     // [SerializeField] float _ViewDistance; //10
     private float attackRange = 20;
@@ -53,7 +51,7 @@ public class DroneGuardVision : MonoBehaviour
         pathFinder = GetComponent<PathFinder>();
         droneTrackState = DroneTrackState.GUARD;
         drone_Laser.BrokenAction += Broken;
-        moveSpeed = 30;
+        moveSpeed = 5;
 
     }
 
@@ -76,14 +74,22 @@ public class DroneGuardVision : MonoBehaviour
       //Return path -> Go() -> GUARD
       break;
       case DroneTrackState.ONATTACK:
+        OnAttackPrograss();
         Debug.Log("On Attack");
       //UpdateLaser
       break;
     }
   }
   #region  Guard
-   float time;
-   private void GuardPrograss()
+    float time;
+    [ReadOnly]
+    public bool _OnFind;
+    [ReadOnly]
+    public Vector2 hitPoint;
+    private float senseTargetRate = 2;
+    private float curSenseTargetRate;
+
+    private void GuardPrograss()
     {
         if(!_OnFind)
         {
@@ -122,14 +128,12 @@ public class DroneGuardVision : MonoBehaviour
             drone_Laser.target = null;
         }
     }
-    private float senseTargetRate =2;
-    private float curSenseTargetRate;
-    private Vector2 recoverPosition;
+
     private void GuardVisionRay(float _Angle){
         Vector2 curPot = transform.position;
         float newAngle = _Angle;
         Vector2 dir =GetVectorFromAngle(newAngle);
-        RaycastHit2D hit = Physics2D.Raycast(curPot,dir,layerMask);
+        RaycastHit2D hit = Physics2D.Raycast(curPot,dir, visionLayerMask);
     
         if(hit.collider != null){
             if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Player")){
@@ -140,13 +144,13 @@ public class DroneGuardVision : MonoBehaviour
 
                 if(curSenseTargetRate >= senseTargetRate)
                 {
+                    curSenseTargetRate = 0;
                     if(GetTargetDistance(drone_Laser.target) <= attackRange)
                     {
                         droneTrackState = DroneTrackState.ONATTACK;
                     }
                     else
                     {
-                        recoverPosition = transform.position;
                         droneTrackState = DroneTrackState.TRACKING;
                     }
                     
@@ -164,14 +168,14 @@ public class DroneGuardVision : MonoBehaviour
   #endregion
 
   #region  Tracking
-  private float trackingSenseRate =5; //test
-  private float curTrackingSenseRate;
+    private float trackingSenseRate =5; //test
+    private float curTrackingSenseRate;
   private void TrackingVisionRay(float _Angle)
   {
         Vector2 curPot = transform.position;
         float newAngle = _Angle;
         Vector2 dir =GetVectorFromAngle(newAngle);
-        RaycastHit2D hit = Physics2D.Raycast(curPot,dir,layerMask);
+        RaycastHit2D hit = Physics2D.Raycast(curPot,dir, visionLayerMask);
 
         if(hit.collider != null)
         {
@@ -180,18 +184,17 @@ public class DroneGuardVision : MonoBehaviour
                 {
                     drone_Laser.target = hit.collider.gameObject;
                 }
-                
-                curSenseTargetRate = 0;
 
                 Rigidbody2D _rb = drone_Laser.GetComponent<Rigidbody2D>();
-                
-                _rb.AddForce(dir * 100,ForceMode2D.Force);
-                
-                if (_rb.velocity.magnitude > moveSpeed)
-                {
-                    _rb.velocity = _rb.velocity.normalized * moveSpeed;
-                }
-                if(GetTargetDistance(drone_Laser.target)<= attackRange)
+
+                _rb.position += dir * Time.deltaTime * moveSpeed;
+
+                //if (_rb.velocity.magnitude > moveSpeed)
+                //{
+                //    _rb.velocity = _rb.velocity.normalized * moveSpeed;
+                //}
+
+                if (GetTargetDistance(drone_Laser.target) <= attackRange)
                 {
                     droneTrackState = DroneTrackState.ONATTACK;
                 }
@@ -204,7 +207,7 @@ public class DroneGuardVision : MonoBehaviour
                 if(drone_Laser.target != null)
                 {
                     Rigidbody2D _rb = drone_Laser.GetComponent<Rigidbody2D>();
-                    _rb.velocity = Vector2.zero;
+                    //_rb.velocity = Vector2.zero;
                     drone_Laser.target = null;
                 }
                 
@@ -243,12 +246,6 @@ public class DroneGuardVision : MonoBehaviour
   #region  Lost Target
    private void LostTargetPrograss()
     {
-        if(recoverPosition == Vector2.zero)
-        {
-             droneTrackState = DroneTrackState.GUARD;
-             return;
-        }
-
         if(!onReturn)
         {   
             lineRenderer.positionCount = 0;
@@ -265,38 +262,35 @@ public class DroneGuardVision : MonoBehaviour
         onReturn = true;
         Rigidbody2D rb = drone_Laser.GetComponent<Rigidbody2D>();
 
-        List<Vector2> paths = pathFinder.FindPath(transform.position,recoverPosition);
+        List<Vector2> paths = pathFinder.FindPath(transform.position, drone_Laser.paths[0]);
         int index = 0;
-        Vector2 target = paths[index];
+        Vector2 target;
         Vector2 dir;
-        while(index < paths.Count-1 && onReturn)
+        while(index < paths.Count && onReturn)
         {
-            if(CheckDistance_Recover(rb.position,target))
+            target = paths[index];
+            dir = (target - rb.position).normalized;
+
+            if (CheckDistance_Recover(rb.position, target))
             {
-                rb.velocity = Vector2.zero;
                 rb.position = target;
                 index++;
-                if(index > paths.Count-1)continue;
-                target = paths[index];
+                continue;
             }
 
-            dir =(target - rb.position).normalized;
+           
             drone_Laser.SetDroneAnim(dir);
-            rb.AddForce(dir*100,ForceMode2D.Force);
-             if (rb.velocity.magnitude > moveSpeed + 10)
-            {
-                rb.velocity = rb.velocity.normalized * moveSpeed;
-            }
+            rb.position += dir * Time.deltaTime * (moveSpeed+5);
+          
             yield return null;
         }
-        // rb.velocity = Vector2.zero;
-        // rb.position = target;
+        rb.position = paths[paths.Count-1];
         onReturn = false;
         droneTrackState = DroneTrackState.GUARD;
     }
     private bool CheckDistance_Recover(Vector2 cur,Vector2 target)
     {
-        if (Vector2.Distance(cur,target) < 0.1f)
+        if (Vector2.Distance(cur,target) < 0.01f)
         {
             return true;
         }
@@ -306,9 +300,26 @@ public class DroneGuardVision : MonoBehaviour
   #endregion
 
   #region  On Attack
-   private void OnAttackPrograss() //attack range 70,sqrMagnitude
+   private void OnAttackPrograss() 
     {
-
+        drone_Laser.UpdateLaser();
+        if(drone_Laser.target == null)
+        {
+            droneTrackState = DroneTrackState.LOSTTARGET;
+            drone_Laser.LaserLineClear();
+            return;
+        }
+        if(drone_Laser.target.TryGetComponent(out PlayerSM component))
+        {
+            if (!component.canControl)
+            {
+                drone_Laser.target = null;
+                drone_Laser.LaserLineClear();
+                droneTrackState = DroneTrackState.LOSTTARGET;
+                return;
+            }
+        }
+        
     }
   #endregion
 
@@ -372,9 +383,7 @@ public class DroneGuardVision : MonoBehaviour
         GetComponent<MeshFilter>().mesh = null;
     }
 
-    public Vector2 hitPoint;
    
-
 
     
     #region  Create View Field

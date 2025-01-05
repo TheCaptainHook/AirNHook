@@ -1,4 +1,5 @@
 
+using System.Collections;
 using UnityEngine;
 
 
@@ -113,6 +114,15 @@ public void TurnOffLazer(){
                 }
             }
         }
+    public void LaserLineClear()
+    {
+        StartCoroutine(LaserClear());
+    }
+    IEnumerator LaserClear()
+    {
+        yield return new WaitForSeconds(0.2f);
+        lineRenderer.positionCount = 0;
+    }
         
   public void RotLazerAnimation(float deg){
     int newDeg = Mathf.FloorToInt(deg);
