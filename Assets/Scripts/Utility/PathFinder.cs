@@ -1,7 +1,6 @@
 
 using System;
 using System.Collections.Generic;
-
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -11,8 +10,18 @@ public class PathFinder : MonoBehaviour
     public LayerMask obstacleLayer;
     private float cellSize = 1.0f; // 그리드 셀 크기
 
-    Vector2Int[] directions = { Vector2Int.down,Vector2Int.left,Vector2Int.up,Vector2Int.right};
-
+    Vector2Int[] directions_4 = { Vector2Int.down,Vector2Int.left,Vector2Int.up,Vector2Int.right};
+    Vector2Int[] directions_8 = new Vector2Int[]
+{
+    new Vector2Int(0, 1),   
+    new Vector2Int(0, -1),  
+    new Vector2Int(1, 0),   
+    new Vector2Int(-1, 0),  
+    new Vector2Int(1, 1),   
+    new Vector2Int(1, -1),  
+    new Vector2Int(-1, 1),  
+    new Vector2Int(-1, -1)  
+};
     [ReadOnly]
     public Tilemap floorTileMap;
 
@@ -20,42 +29,51 @@ public class PathFinder : MonoBehaviour
     {
 
         floorTileMap = MapEditor.Instance.placeMentSystem.floorTileMap;
-
-        PriorityQueue<(Vector2Int position,int gCost,List<Vector2Int> path)> openSet = new();
-
+        PriorityQueue<Node> openSet = new();
         HashSet<Vector2Int> closedSet = new HashSet<Vector2Int>();
 
-        openSet.Enqueue((start, 0,new List<Vector2Int> { start }),0+Heuristic(start,end));
+        openSet.Enqueue(new Node(start,0,null),Heuristic(start,end));
 
         while (openSet.Count > 0)
         {
             var current = openSet.Dequeue();
-            Vector2Int curPosition = current.position;
-            int curGCost = current.gCost;
-            List<Vector2Int> curPath = current.path;
+            Vector2Int curPosition = Vector2Int.RoundToInt(current.Position);
 
-            if (curPosition == end) return current.path;
+            if (curPosition == end)
+            {
+                Node endNode = new Node(end,current.GCost+1,current);
+                return ReconstructPath_Vector2Int(endNode);
+            }
 
             closedSet.Add(curPosition);
 
-            foreach(var dir in directions)
+            foreach(var dir in directions_4)
             {
                 Vector2Int nextPosition = curPosition + dir;
 
                 if (closedSet.Contains(nextPosition) || IsObstacle(nextPosition)){ continue;}
 
-                int nextGCost = curGCost + 1;
-                int nextHCost = Heuristic(nextPosition, end);
-
-                List<Vector2Int> nextPath = new List<Vector2Int>(curPath) {nextPosition };
-                openSet.Enqueue((nextPosition, nextGCost, nextPath), nextGCost + nextHCost);
-
+                float nextGCost = current.GCost+1;
+                if(openSet.Contains(nextPosition,out var existingNode))
+                {
+                    if (nextGCost < existingNode.GCost)
+                    {
+                        existingNode.Update(nextGCost, current);
+                        openSet.UpdatePriority(existingNode, nextGCost + Heuristic(nextPosition, end));
+                    }
+                }
+                else
+                {
+                    // 새 노드 추가
+                    var nextNode = new Node(nextPosition, nextGCost, current);
+                    openSet.Enqueue(nextNode, nextGCost + Heuristic(nextPosition, end));
+                }
                   
             }
         }
         return null;
     }
-
+  
     public List<Vector2> FindPath(Vector2 start, Vector2 end)
     {
         PriorityQueue<Node> openSet = new();
@@ -78,7 +96,7 @@ public class PathFinder : MonoBehaviour
             closedSet.Add(curPosition);
 
             // 이웃 탐색
-            foreach (var dir in directions)
+            foreach (var dir in directions_8)
             {
                 Vector2 nextPosition = curPosition + dir;
 
@@ -108,12 +126,71 @@ public class PathFinder : MonoBehaviour
         // 경로를 찾지 못함
         return null;
     }
+    
     private List<Vector2> ReconstructPath(Node node)
     {
         List<Vector2> path = new List<Vector2>();
+        Vector2 previousPosition = node.Position;
+        Vector2 curDir = Vector2.zero;
+
+        Node curNode = node;
+
         while (node != null)
         {
-            path.Add(node.Position);
+            curNode = node;
+            //1. 이전 위치
+            //2. 현재 위치
+            //3. 현재 진행방향
+            if(!CheckDir(curDir,previousPosition,node.Position))
+            {
+                if (path.Count == 0 || path[^1] != previousPosition) // 중복 방지
+                {
+                    path.Add(previousPosition);
+                }
+                curDir = (node.Position - previousPosition).normalized;
+                previousPosition = node.Position;
+
+            }else
+            {
+                previousPosition = node.Position;
+            }
+            // if(CheckDir(previousDir,node.Position))
+            // {
+            //     accumulated =node.Position;
+            // }
+            // else
+            // {
+            //     path.Add(accumulated);
+            //     previousDir = node.Position.normalized;
+            //     accumulated = node.Position;
+
+            // }
+
+            node = node.Parent;
+
+            // path.Add(node.Position);
+            
+        }
+        if (path.Count == 0 || path[^1] != curNode.Position)
+        {
+            path.Add(curNode.Position);
+        }
+
+        path.Reverse();
+        return path;
+    }
+    private bool CheckDir(Vector2 curDir ,Vector2 previousPosition,Vector2 curPosition)
+    {
+        Vector2 dir = (curPosition - previousPosition).normalized;
+
+        return Vector2.Dot(curDir, dir) > 0.999f; 
+    }
+     private List<Vector2Int> ReconstructPath_Vector2Int(Node node)
+    {
+        List<Vector2Int> path = new List<Vector2Int>();
+        while (node != null)
+        {
+            path.Add(Vector2Int.RoundToInt(node.Position));
             node = node.Parent;
         }
         path.Reverse();

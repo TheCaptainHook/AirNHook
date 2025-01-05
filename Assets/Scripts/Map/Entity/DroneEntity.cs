@@ -214,7 +214,10 @@ public class DroneEntity : BuildObj
     }
 
     #endregion
-
+    public void SetDroneAnim(Vector2 dir)
+    {
+        DroneMovingAnimation(GetDroneState(dir));
+    }
     #region  Util
     private DroneState GetDroneState(Vector2 dir){
         if(dir.x >0){

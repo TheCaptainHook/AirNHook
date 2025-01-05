@@ -31,7 +31,6 @@ public class ConsoleSystem : MonoBehaviour
     Log Clear (Case insensitive)
         -> ex) Clear
 ";
-
     private List<string> GetMapIDList(){
         //string[] jsonFiles = Directory.GetFiles(path, "*.json", SearchOption.AllDirectories);
         TextAsset[] jsonFiles = Resources.LoadAll<TextAsset>("MapDat");
@@ -76,8 +75,6 @@ public class ConsoleSystem : MonoBehaviour
      #region Main
     private void CommandRead()
     {
-       
-
         if (string.IsNullOrEmpty(inputField.text))
         {
             WriteLog($"{inputField.text} \n - text is null or empty\n");
@@ -90,7 +87,7 @@ public class ConsoleSystem : MonoBehaviour
             inputField.text = "";
             return;
         }
-
+        
         string command = inputField.text.ToLower();
 
         if (command == "reset object"){
@@ -123,7 +120,7 @@ public class ConsoleSystem : MonoBehaviour
         }
 
         string[] strings = inputField.text.Split(" "); //ex Load mapId
-        strings[0].ToLower();
+        strings[0] = strings[0].ToLower();
         switch (strings[0])
         {
             case "load":

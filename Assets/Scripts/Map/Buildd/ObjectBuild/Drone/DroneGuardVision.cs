@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 
@@ -24,7 +25,8 @@ public class DroneGuardVision : MonoBehaviour
     [SerializeField] float _RotSpeed;
     public LayerMask layerMask;
     private float _Angle; // 0
-    [SerializeField] float _ViewDistance; //10
+    // [SerializeField] float _ViewDistance; //10
+    private float attackRange = 20;
     private PathFinder pathFinder;
     // [Header("View Field")]
     // MeshFilter meshFilter;
@@ -51,7 +53,7 @@ public class DroneGuardVision : MonoBehaviour
         pathFinder = GetComponent<PathFinder>();
         droneTrackState = DroneTrackState.GUARD;
         drone_Laser.BrokenAction += Broken;
-        moveSpeed = drone_Laser.moveSpeed;
+        moveSpeed = 30;
 
     }
 
@@ -69,6 +71,7 @@ public class DroneGuardVision : MonoBehaviour
         Debug.Log("Trackging");
       break;
       case DroneTrackState.LOSTTARGET:
+        LostTargetPrograss();
         Debug.Log("Lost Target");
       //Return path -> Go() -> GUARD
       break;
@@ -88,10 +91,16 @@ public class DroneGuardVision : MonoBehaviour
             _Angle = (Mathf.PingPong(time *_RotSpeed,_MaxRot)+20) * -1;  
         }else
         {
-            _Angle = GetAngleFromTargetPositionDir();
+            if(drone_Laser.target == null)
+            {
+                time += Time.deltaTime;
+                _Angle = (Mathf.PingPong(time *_RotSpeed,_MaxRot)+20) * -1;  
+            }else{
+                _Angle = GetAngleFromTargetPositionDir();
+            }   
+            
         }
 
-        
         drone_Laser.RotLazerAnimation(_Angle);
         GuardVisionRay(_Angle); 
     }
@@ -115,6 +124,7 @@ public class DroneGuardVision : MonoBehaviour
     }
     private float senseTargetRate =2;
     private float curSenseTargetRate;
+    private Vector2 recoverPosition;
     private void GuardVisionRay(float _Angle){
         Vector2 curPot = transform.position;
         float newAngle = _Angle;
@@ -130,13 +140,21 @@ public class DroneGuardVision : MonoBehaviour
 
                 if(curSenseTargetRate >= senseTargetRate)
                 {
-                    droneTrackState = DroneTrackState.TRACKING;
+                    if(GetTargetDistance(drone_Laser.target) <= attackRange)
+                    {
+                        droneTrackState = DroneTrackState.ONATTACK;
+                    }
+                    else
+                    {
+                        recoverPosition = transform.position;
+                        droneTrackState = DroneTrackState.TRACKING;
+                    }
+                    
                 }
                 
             }else{
            
                 LostTarget();
-
                 curSenseTargetRate = 0;
                 hitPoint = hit.point;
                 DrawLine(hit.point);
@@ -146,7 +164,7 @@ public class DroneGuardVision : MonoBehaviour
   #endregion
 
   #region  Tracking
-  private float trackingSenseRate =20;
+  private float trackingSenseRate =5; //test
   private float curTrackingSenseRate;
   private void TrackingVisionRay(float _Angle)
   {
@@ -162,17 +180,18 @@ public class DroneGuardVision : MonoBehaviour
                 {
                     drone_Laser.target = hit.collider.gameObject;
                 }
+                
+                curSenseTargetRate = 0;
 
                 Rigidbody2D _rb = drone_Laser.GetComponent<Rigidbody2D>();
                 
-                // Vector2 newDir = (drone_Laser.target.transform.position - transform.position).normalized;
-                _rb.AddForce(dir * 50,ForceMode2D.Force);
+                _rb.AddForce(dir * 100,ForceMode2D.Force);
                 
                 if (_rb.velocity.magnitude > moveSpeed)
                 {
                     _rb.velocity = _rb.velocity.normalized * moveSpeed;
                 }
-                if(GetTargetDistance(drone_Laser.target)<= 10)
+                if(GetTargetDistance(drone_Laser.target)<= attackRange)
                 {
                     droneTrackState = DroneTrackState.ONATTACK;
                 }
@@ -194,6 +213,7 @@ public class DroneGuardVision : MonoBehaviour
                 {
                     droneTrackState = DroneTrackState.LOSTTARGET;
                     curTrackingSenseRate = 0;
+                    drone_Laser.target = null;
                 }
 
                 DrawLine(hit.point);
@@ -223,7 +243,65 @@ public class DroneGuardVision : MonoBehaviour
   #region  Lost Target
    private void LostTargetPrograss()
     {
+        if(recoverPosition == Vector2.zero)
+        {
+             droneTrackState = DroneTrackState.GUARD;
+             return;
+        }
+
+        if(!onReturn)
+        {   
+            lineRenderer.positionCount = 0;
+            StartCoroutine(Return());
+        }
+        //Return recover position,
+
         
+    }
+
+    private bool onReturn;
+    IEnumerator Return()
+    {
+        onReturn = true;
+        Rigidbody2D rb = drone_Laser.GetComponent<Rigidbody2D>();
+
+        List<Vector2> paths = pathFinder.FindPath(transform.position,recoverPosition);
+        int index = 0;
+        Vector2 target = paths[index];
+        Vector2 dir;
+        while(index < paths.Count-1 && onReturn)
+        {
+            if(CheckDistance_Recover(rb.position,target))
+            {
+                rb.velocity = Vector2.zero;
+                rb.position = target;
+                index++;
+                if(index > paths.Count-1)continue;
+                target = paths[index];
+            }
+
+            dir =(target - rb.position).normalized;
+            drone_Laser.SetDroneAnim(dir);
+            rb.AddForce(dir*100,ForceMode2D.Force);
+             if (rb.velocity.magnitude > moveSpeed + 10)
+            {
+                rb.velocity = rb.velocity.normalized * moveSpeed;
+            }
+            yield return null;
+        }
+        // rb.velocity = Vector2.zero;
+        // rb.position = target;
+        onReturn = false;
+        droneTrackState = DroneTrackState.GUARD;
+    }
+    private bool CheckDistance_Recover(Vector2 cur,Vector2 target)
+    {
+        if (Vector2.Distance(cur,target) < 0.1f)
+        {
+            return true;
+        }
+
+        return false;
     }
   #endregion
 
