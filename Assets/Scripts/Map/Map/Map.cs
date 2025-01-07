@@ -22,7 +22,10 @@ public class Map
     //TODO 1022
     public List<TileData> mapRopeTileDataList = new();
     public List<TileData> mapAccessoryTIleDataList = new();
-
+//------------------------------------------------------------------------------------------------------250107 Shadow
+    [Header("Shadow")]
+    public List<ShadowCasterStruct> mapShadowCasterDataList = new();
+//------------------------------------------------------------------------------------------------------250107 Shadow
     [Header("Object")]
     public List<ObjectData> mapObjectDataList = new List<ObjectData>();
     //TODO 1024

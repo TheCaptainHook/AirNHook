@@ -12,7 +12,6 @@ using System.Reflection;
 using System.Linq;
 using System;
 using UnityEngine.Rendering.Universal;
-using Mono.CecilX.Cil;
 
 
 /**250107 Shadow
@@ -100,13 +99,12 @@ public class MapEditor_Editor : Editor
         GUILayout.BeginVertical("Shadow Test Container", new GUIStyle(GUI.skin.window));
         if (GUILayout.Button("그림자 생성", GUILayout.Width(150), GUILayout.Height(30)))
         {
-            Tilemap map = mapEditor.placeMentSystem.floorTileMap;
-            CreateShadow(map);
+            CreateShadow();
 
         }
         if (GUILayout.Button("그림자 제거", GUILayout.Width(150), GUILayout.Height(30)))
         {
-            DestroyShadow(mapEditor.placeMentSystem.floorTileMap);
+            
         }
 
         GUILayout.EndHorizontal();
@@ -387,6 +385,9 @@ public class MapEditor_Editor : Editor
 
             Create_StartPoint(map);
             Create_Tile();
+            //Shadow Setting
+
+
             Create_Object();
 
             MapEditorFieldSetting(map);
@@ -417,6 +418,19 @@ public class MapEditor_Editor : Editor
         DrawTile(mapEditor.placeMentSystem.ropeTileMap, mapEditor.CurMap.mapRopeTileDataList);
         DrawTile(mapEditor.placeMentSystem.accessoryTileMap, mapEditor.CurMap.mapAccessoryTIleDataList);
     }
+    //------------------------------------------------------------------------------------------------------250107 Shadow
+    public void Create_Shadow()
+    {
+        foreach(ShadowCasterStruct data in mapEditor.CurMap.mapShadowCasterDataList)
+        {
+            ShadowCasterSetting shadowSetting = Instantiate(Resources.Load<GameObject>(shadowPath)).GetComponent<ShadowCasterSetting>();
+            shadowSetting.gameObject.transform.SetParent(mapEditor.shadowContainer);    
+
+            shadowSetting.SetShadowCasterData(data);
+        }
+
+    }
+    //------------------------------------------------------------------------------------------------------250107 Shadow
     public void Create_Object() {
         Create_Object(mapEditor.CurMap.mapObjectDataList, mapEditor.objectTransform);
         Create_Object(mapEditor.CurMap.mapBackgroundObjectList, mapEditor.backgroundObjectContainer);
@@ -524,21 +538,28 @@ public class MapEditor_Editor : Editor
 
     #region Shadow
     //----------------------------------------------------------------------------------------------------------------------Shadow 250107
-    private void DestroyShadow(Tilemap map)
+
+
+    string shadowPath = "Prefabs/MapEditor/ShadowCaster";
+    private void CreateShadow()
     {
-        foreach(Transform tr in map.gameObject.transform)
+      GameObject shadowObj = Instantiate(Resources.Load<GameObject>(shadowPath));
+      shadowObj.transform.SetParent(mapEditor.shadowContainer);
+      shadowObj.transform.position = GetSceneViewCenter();
+      Selection.activeGameObject = shadowObj;
+    }
+
+    private Vector3 GetSceneViewCenter(){
+        SceneView sceneView = SceneView.lastActiveSceneView;
+        if (sceneView != null)
         {
-            Undo.DestroyObjectImmediate(tr.gameObject);
+            return sceneView.pivot;
+        }
+        else
+        {
+            return Vector3.zero;
         }
     }
-    private async void CreateShadow(Tilemap map)
-    {
-        CompositeCollider2D tilemapCollider = map.gameObject.GetComponent<CompositeCollider2D>();
-        await CreateShadowCastersAsync(tilemapCollider);
-        //CreateShadowCastersAsync(tilemapCollider);
-    }
-
-
 
     public async Task CreateShadowCastersAsync(CompositeCollider2D tilemapCollider)
     //public void CreateShadowCastersAsync(CompositeCollider2D tilemapCollider)
@@ -567,14 +588,9 @@ public class MapEditor_Editor : Editor
         shadowContainer.transform.SetParent(tilemapCollider.transform);
 
         int pathCount = tilemapCollider.pathCount;
-        Debug.Log(pathCount);
         for (int i = 0; i < pathCount; i++)
         {
             Vector2[] pathVertices = new Vector2[tilemapCollider.GetPathPointCount(i)];
-            foreach(var  pathVertex in pathVertices)
-            {
-                Debug.Log(pathVertex);
-            }
             tilemapCollider.GetPath(i, pathVertices);
 
             // ShadowCaster 생성
@@ -710,6 +726,19 @@ private async Task<Map> CreateMap(MapEditor mapEditor){
             mapEditor.cellSize, 0, await CurrentMapScreenShot(mapEditor), mapEditor.audioName);
     return  map;
 }
+//------------------------------------------------------------------------------------------------------250107 Shadow
+private List<ShadowCasterStruct> GetShadowData()
+{
+    List<ShadowCasterStruct> list = new();
+    foreach(Transform tr in mapEditor.shadowContainer)
+    {
+        ShadowCasterSetting setting = tr.GetComponent<ShadowCasterSetting>();
+        list.Add(setting.GetShadowCasterStruct());
+    }
+    return list;
+}
+//------------------------------------------------------------------------------------------------------250107 Shadow
+
 List<TileData> GetTileData(Tilemap tileMap)
     {
         List<TileData> list = new();

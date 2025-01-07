@@ -102,7 +102,8 @@ public class MapEditor : MonoBehaviour
     //TODO 1202
     [HideInInspector] public Transform collectableContainer;
 
-
+    //0107 Shadow
+    [HideInInspector] public Transform shadowContainer;
     public bool stageClear;
     [Space(10)]
 
@@ -195,6 +196,9 @@ public class MapEditor : MonoBehaviour
         //TODO 1024
         //TODO 1202
         collectableContainer = Util.CreateChildTransform(mapObjBoxTransform, "CollectableContainer");
+    
+        //0107 Shadow
+        shadowContainer = Util.CreateChildTransform(mapObjBoxTransform,"ShadowContainer");
     }
 
     public void EditorMode_Init()

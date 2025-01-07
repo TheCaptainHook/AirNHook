@@ -411,5 +411,17 @@ public struct DroneStruct{
     }
 
 }
-
 #endregion
+
+public struct ShadowCasterStruct{
+    public bool selfShadows;
+    public int[] sortingLayers;
+    public Vector3[] vertices;
+
+    public ShadowCasterStruct(bool selfShadows,int[] sortingLayers,Vector3[] vertices)
+    {
+        this.selfShadows = selfShadows;
+        this.sortingLayers = sortingLayers;
+        this.vertices = vertices;
+    }
+}
