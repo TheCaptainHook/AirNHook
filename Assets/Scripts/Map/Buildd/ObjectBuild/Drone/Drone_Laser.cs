@@ -52,9 +52,6 @@ public void TurnOffLazer(){
 }
    private void FixedUpdate()
    {
-    // if(onLazer){
-    //   UpdateLaser();
-    // }
     droneGuardVision.SwitchDroneTrackState();
    }
 

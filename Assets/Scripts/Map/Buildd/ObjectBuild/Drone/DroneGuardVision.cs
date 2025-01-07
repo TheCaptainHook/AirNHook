@@ -1,7 +1,5 @@
-using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 
@@ -59,27 +57,23 @@ public class DroneGuardVision : MonoBehaviour
   private float moveSpeed;
   private DroneTrackState droneTrackState;
   
-  public void SwitchDroneTrackState(){ // droneLaser fixedUpdate
+  public void SwitchDroneTrackState(){ 
     switch(droneTrackState){
       case DroneTrackState.GUARD:
-        GuardPrograss();
+        GuardProgress();
       break;
       case DroneTrackState.TRACKING:
-        TrackingPrograss();
-        Debug.Log("Trackging");
+        TrackingProgress();
       break;
       case DroneTrackState.LOSTTARGET:
-        LostTargetPrograss();
-        Debug.Log("Lost Target");
-      //Return path -> Go() -> GUARD
+        LostTargetProgress();
       break;
       case DroneTrackState.ONATTACK:
-        OnAttackPrograss();
-        Debug.Log("On Attack");
-      //UpdateLaser
+        OnAttackProgress();
       break;
     }
   }
+
   #region  Guard
     float time;
     [ReadOnly]
@@ -89,7 +83,7 @@ public class DroneGuardVision : MonoBehaviour
     private float senseTargetRate = 2;
     private float curSenseTargetRate;
 
-    private void GuardPrograss()
+    private void GuardProgress()
     {
         if(!_OnFind)
         {
@@ -189,11 +183,6 @@ public class DroneGuardVision : MonoBehaviour
 
                 _rb.position += dir * Time.deltaTime * moveSpeed;
 
-                //if (_rb.velocity.magnitude > moveSpeed)
-                //{
-                //    _rb.velocity = _rb.velocity.normalized * moveSpeed;
-                //}
-
                 if (GetTargetDistance(drone_Laser.target) <= attackRange)
                 {
                     droneTrackState = DroneTrackState.ONATTACK;
@@ -224,7 +213,7 @@ public class DroneGuardVision : MonoBehaviour
         }
   }
 
-   private void TrackingPrograss()
+   private void TrackingProgress()
     {
         if(drone_Laser.target == null)
         {
@@ -244,16 +233,14 @@ public class DroneGuardVision : MonoBehaviour
   #endregion
 
   #region  Lost Target
-   private void LostTargetPrograss()
+   private void LostTargetProgress()
     {
         if(!onReturn)
         {   
             lineRenderer.positionCount = 0;
             StartCoroutine(Return());
         }
-        //Return recover position,
 
-        
     }
 
     private bool onReturn;
@@ -300,7 +287,7 @@ public class DroneGuardVision : MonoBehaviour
   #endregion
 
   #region  On Attack
-   private void OnAttackPrograss() 
+   private void OnAttackProgress() 
     {
         drone_Laser.UpdateLaser();
         if(drone_Laser.target == null)

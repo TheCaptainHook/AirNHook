@@ -95,7 +95,6 @@ public class PathFinder : MonoBehaviour
 
             closedSet.Add(curPosition);
 
-            // 이웃 탐색
             foreach (var dir in directions_8)
             {
                 Vector2 nextPosition = curPosition + dir;
@@ -107,7 +106,6 @@ public class PathFinder : MonoBehaviour
 
                 if (openSet.Contains(nextPosition, out var existingNode))
                 {
-                    // 이미 존재하면 더 짧은 경로인지 확인
                     if (nextGCost < existingNode.GCost)
                     {
                         existingNode.Update(nextGCost, current);
@@ -116,7 +114,6 @@ public class PathFinder : MonoBehaviour
                 }
                 else
                 {
-                    // 새 노드 추가
                     var nextNode = new Node(nextPosition, nextGCost, current);
                     openSet.Enqueue(nextNode, nextGCost + Heuristic(nextPosition, end));
                 }
@@ -138,9 +135,7 @@ public class PathFinder : MonoBehaviour
         while (node != null)
         {
             curNode = node;
-            //1. 이전 위치
-            //2. 현재 위치
-            //3. 현재 진행방향
+
             if(!CheckDir(curDir,previousPosition,node.Position))
             {
                 if (path.Count == 0 || path[^1] != previousPosition) // 중복 방지
@@ -154,22 +149,9 @@ public class PathFinder : MonoBehaviour
             {
                 previousPosition = node.Position;
             }
-            // if(CheckDir(previousDir,node.Position))
-            // {
-            //     accumulated =node.Position;
-            // }
-            // else
-            // {
-            //     path.Add(accumulated);
-            //     previousDir = node.Position.normalized;
-            //     accumulated = node.Position;
-
-            // }
 
             node = node.Parent;
 
-            // path.Add(node.Position);
-            
         }
         if (path.Count == 0 || path[^1] != curNode.Position)
         {
@@ -282,14 +264,6 @@ public class PriorityQueue<T>
         heap.Add((item,priority));
         int currentIndex = heap.Count-1;
 
-        //while(currentIndex> 0)
-        //{
-        //    int parentIndex = (currentIndex - 1) / 2;
-        //    if (heap[currentIndex].Priority >= heap[parentIndex].Priority) break;
-
-        //    (heap[currentIndex], heap[parentIndex]) = (heap[parentIndex], heap[currentIndex]);
-        //    currentIndex = parentIndex;
-        //}
         HeapifyUp(currentIndex);
 
     }
@@ -343,23 +317,7 @@ public class PriorityQueue<T>
 
         int currentIndex = 0;
         HeapifyDown(currentIndex);
-        //while (true)
-        //{
-        //    int leftChildIndex = 2 * currentIndex + 1;
-        //    int rightChildIndex = 2 * currentIndex + 2;
-
-        //    if (leftChildIndex >= heap.Count) break;
-
-        //    int smallestChildIndex = (rightChildIndex < heap.Count && heap[rightChildIndex].Priority < heap[leftChildIndex].Priority)
-        //        ? rightChildIndex
-        //        : leftChildIndex;
-
-        //    if (heap[currentIndex].Priority <= heap[smallestChildIndex].Priority) break;
-
-        //    (heap[currentIndex], heap[smallestChildIndex]) = (heap[smallestChildIndex], heap[currentIndex]);
-        //    currentIndex = smallestChildIndex;
-        //}
-
+    
         return root;
 
     }

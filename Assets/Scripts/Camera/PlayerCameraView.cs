@@ -50,8 +50,7 @@ public class PlayerCameraView : MonoBehaviour
         get{
              try{
                 return Managers.Game.OtherPlayer?.transform;
-            }catch(MissingReferenceException ex){
-                Debug.Log(ex);
+            }catch{
                 return null;
             }
         }
@@ -127,16 +126,6 @@ public class PlayerCameraView : MonoBehaviour
         ViewMode previousMode = _ViewMode;
         _ViewMode = Ch_ViewMode(scroll);
 
-        // // if(previousMode == ViewMode.Wide && _ViewMode == ViewMode.Default && !onChangeModeDefaultFromWide){
-        // if(previousMode == ViewMode.Wide && _ViewMode == ViewMode.Default){
-        //     Debug.Log("ONCHANGE VIEW");
-        //     // if(smoothZoomToDefaultCo != null){
-        //     //     StopCoroutine(smoothZoomToDefaultCo);
-        //     //     smoothZoomToDefaultCo = null;
-        //     // }
-        //     // smoothZoomToDefaultCo = StartCoroutine(SmoothZoomToDefault());
-            
-        // }
         if(previousMode == ViewMode.Wide && _ViewMode == ViewMode.Default && !onChangeModeDefaultFromWide){
             onChangeModeDefaultFromWide = true;
             smoothZoomToDefaultCo = StartCoroutine(SmoothZoomToDefault());
@@ -176,6 +165,8 @@ public class PlayerCameraView : MonoBehaviour
             return ViewMode.Default;
         }
     }
+
+
    private IEnumerator SmoothZoomToDefault() {
     float targetZoom = _MaxZoom - 0.1f;
     while (mainCamera.orthographicSize > targetZoom) {
@@ -210,7 +201,7 @@ public class PlayerCameraView : MonoBehaviour
         Vector3 center = (Player.position + OtherPlayer.position) / 2;
         FollowCamera(center);
         
-        var p1 =  IsObjectInView(Player, increasedCameraViewRate);
+        var p1 = IsObjectInView(Player, increasedCameraViewRate);
         var p2 = IsObjectInView(OtherPlayer, increasedCameraViewRate);
 
         if(!p1.isInView || !p2.isInView){
@@ -264,6 +255,7 @@ public class PlayerCameraView : MonoBehaviour
             marker.SettingCam(OtherPlayer);
         }
     }
+
     private void SetMarkerActive(bool isActive) {
     if (marker.gameObject.activeSelf != isActive) {
         marker.gameObject.SetActive(isActive);
