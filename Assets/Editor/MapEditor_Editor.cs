@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
+using Random = UnityEngine.Random;
 using UnityEngine.Tilemaps;
 using UnityEditor;
 using UGS;
@@ -10,6 +11,16 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.Linq;
 using System;
+using UnityEngine.Rendering.Universal;
+using Mono.CecilX.Cil;
+
+
+/**250107 Shadow
+1. 중첩 쉐도우 캐스터 문제.
+    - 그림자 설정 오브젝트 일일이 설정해주기
+    - 저장할때 Shadow cater 설정 값만 데이터로 저장,
+    - 타일 만들고난 후 위 데이터로 그림자 오브젝트 생성.
+**/
 
 
 //TODO 0724 Develop code line : 435,506
@@ -18,94 +29,121 @@ using System;
 public class MapEditor_Editor : Editor
 {
     public Dictionary<int, MapDataStruct> mapObjectDataDictionary = new Dictionary<int, MapDataStruct>();
-   
+
     MapEditor mapEditor;//TODO 0822
 
 
     #region AUDIO
-     private List<string> autoCompleteOptions = new List<string>
+    private List<string> autoCompleteOptions = new List<string>
     {
         GlobalText.TITLE_SOUND,
         GlobalText.LOBBY_SOUND,
         GlobalText.TUTORIAL_SOUND,
         GlobalText.STAGE_1_FINAL_SOUND,
-        GlobalText.STAGE_1_NORMAL_SOUND    
+        GlobalText.STAGE_1_NORMAL_SOUND
     };
     private List<string> filteredOptions = new List<string>();
     private bool showDropdown = false;
     #endregion
 
     public override void OnInspectorGUI()
-    {  
+    {
         mapEditor = target as MapEditor;
-     
+
         GUILayout.Space(10);
         Draw_MainContents();
         GUILayout.Space(10);
         Draw_ToolContent();
         GUILayout.Space(20);
 
-        if(!Application.isPlaying){
+        if (!Application.isPlaying) {
             Draw_DevContents();
-        }else{
+        } else {
             Draw_InGameContents();
         }
         GUILayout.Space(10);
         Draw_ResetContent();
     }
     #region  Draw
-    
-    private void Draw_MainContents(){
-        EditorGUILayout.LabelField("Map Editor",GetGUIStyle_Label(Color.black,14,FontStyle.Bold));
+
+    private void Draw_MainContents() {
+        EditorGUILayout.LabelField("Map Editor", GetGUIStyle_Label(Color.black, 14, FontStyle.Bold));
         EditorGUILayout.HelpBox($"프로젝트 실행할때 꼭 개발자용 데이터 세이브 후 Reset 버튼 누른다음 실행하기.", MessageType.Info);
         GUILayout.BeginVertical(mapEditor.onLoad ? "Save" : "Load", new GUIStyle(GUI.skin.window));
-        mapEditor.mapType = (MapType)EditorGUILayout.EnumPopup("Map Type",mapEditor.mapType);
+        mapEditor.mapType = (MapType)EditorGUILayout.EnumPopup("Map Type", mapEditor.mapType);
         // mapEditor.mapID = EditorGUILayout.TextField("Map ID",mapEditor.mapID);
 
         Draw_MainContents_MapId();
 
-        if(!mapEditor.onLoad)
+        if (!mapEditor.onLoad)
         {
-              using (new EditorGUI.DisabledScope(true))
-                {
-                    mapEditor.audioName = EditorGUILayout.TextField(new GUIContent("BGM","BGM"),mapEditor.audioName);
-                }
-        }else{
-            mapEditor.stageLevel = EditorGUILayout.IntField("Stage Level",mapEditor.stageLevel);
-            mapEditor.subMapName = EditorGUILayout.TextField(new GUIContent("Map Sub Name","This is the sub-name for the map, but it’s okay to leave it empty."),mapEditor.subMapName);
+            using (new EditorGUI.DisabledScope(true))
+            {
+                mapEditor.audioName = EditorGUILayout.TextField(new GUIContent("BGM", "BGM"), mapEditor.audioName);
+            }
+        } else {
+            DrawShadow();
+
+            mapEditor.stageLevel = EditorGUILayout.IntField("Stage Level", mapEditor.stageLevel);
+            mapEditor.subMapName = EditorGUILayout.TextField(new GUIContent("Map Sub Name", "This is the sub-name for the map, but it’s okay to leave it empty."), mapEditor.subMapName);
             DrawBGMContents();
         }
         GUILayout.EndVertical();
     }
 
-     private void Draw_MainContents_MapId(){
+    private void DrawShadow()
+    {
+        GUILayout.Space(20);
+
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        GUILayout.BeginVertical("Shadow Test Container", new GUIStyle(GUI.skin.window));
+        if (GUILayout.Button("그림자 생성", GUILayout.Width(150), GUILayout.Height(30)))
+        {
+            Tilemap map = mapEditor.placeMentSystem.floorTileMap;
+            CreateShadow(map);
+
+        }
+        if (GUILayout.Button("그림자 제거", GUILayout.Width(150), GUILayout.Height(30)))
+        {
+            DestroyShadow(mapEditor.placeMentSystem.floorTileMap);
+        }
+
+        GUILayout.EndHorizontal();
+        GUILayout.FlexibleSpace();
+        GUILayout.EndVertical();
+
+        GUILayout.Space(20);
+    }
+
+    private void Draw_MainContents_MapId() {
         Color orgCol = GUI.backgroundColor;
-        if(string.IsNullOrEmpty(mapEditor.mapID)){
+        if (string.IsNullOrEmpty(mapEditor.mapID)) {
             GUI.backgroundColor = Color.red;
         }
-        mapEditor.mapID = EditorGUILayout.TextField(new GUIContent("Map ID","Unique identifier for the map. This field is required."),mapEditor.mapID);
+        mapEditor.mapID = EditorGUILayout.TextField(new GUIContent("Map ID", "Unique identifier for the map. This field is required."), mapEditor.mapID);
         GUI.backgroundColor = orgCol;
     }
 
-    private void DrawBGMContents(){
+    private void DrawBGMContents() {
         GUI.SetNextControlName("BGM");
-        mapEditor.audioName = EditorGUILayout.TextField(new GUIContent("BGM",""),mapEditor.audioName);
+        mapEditor.audioName = EditorGUILayout.TextField(new GUIContent("BGM", ""), mapEditor.audioName);
 
-        if(!string.IsNullOrEmpty(mapEditor.audioName)){
-             filteredOptions = autoCompleteOptions
-                    .FindAll(option => option.ToLower().Contains(mapEditor.audioName.ToLower()));
-                    showDropdown = filteredOptions.Count>0;
-        }else if(GUI.GetNameOfFocusedControl()=="BGM" && string.IsNullOrEmpty(mapEditor.audioName)){
+        if (!string.IsNullOrEmpty(mapEditor.audioName)) {
+            filteredOptions = autoCompleteOptions
+                   .FindAll(option => option.ToLower().Contains(mapEditor.audioName.ToLower()));
+            showDropdown = filteredOptions.Count > 0;
+        } else if (GUI.GetNameOfFocusedControl() == "BGM" && string.IsNullOrEmpty(mapEditor.audioName)) {
             filteredOptions = new(autoCompleteOptions);
             showDropdown = filteredOptions.Count > 0;
-        }else{
+        } else {
             showDropdown = false;
         }
-        if(showDropdown) DrawAudioDropDown();
+        if (showDropdown) DrawAudioDropDown();
     }
 
-    private void DrawAudioDropDown(){
-          GUILayout.BeginVertical("Box");
+    private void DrawAudioDropDown() {
+        GUILayout.BeginVertical("Box");
         foreach (string option in filteredOptions)
         {
             if (GUILayout.Button(option, GUILayout.ExpandWidth(true)))
@@ -115,139 +153,138 @@ public class MapEditor_Editor : Editor
                 // 드롭다운 숨김
                 showDropdown = false;
 
-                GUI.FocusControl(null); 
-                Repaint(); 
+                GUI.FocusControl(null);
+                Repaint();
             }
-        }   
+        }
         GUILayout.EndVertical();
     }
 
-    private void Draw_ToolContent(){
+    private void Draw_ToolContent() {
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
-        
-        if (GUILayout.Button("Object Create Tool",GetGUIStyle_Button(Color.green,14,FontStyle.Bold),GUILayout.Width(300),GUILayout.Height(40)))
+
+        if (GUILayout.Button("Object Create Tool", GetGUIStyle_Button(Color.green, 14, FontStyle.Bold), GUILayout.Width(300), GUILayout.Height(40)))
         {
             CreateMap_Tool.ShowWindow();
         }
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
     }
-    private void Draw_DevContents(){
-            GUILayout.FlexibleSpace();
+    private void Draw_DevContents() {
+        GUILayout.FlexibleSpace();
+        GUILayout.BeginHorizontal();
 
-            GUILayout.BeginHorizontal();
-            GUILayout.FlexibleSpace();
-            GUILayout.Label("개발자 전용",GetGUIStyle_Label((Color.white),14,FontStyle.Bold));
-            GUILayout.FlexibleSpace();
-            GUILayout.EndHorizontal();
+        GUILayout.FlexibleSpace();
+        GUILayout.Label("개발자 전용", GetGUIStyle_Label((Color.white), 14, FontStyle.Bold));
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
 
-            GUILayout.BeginHorizontal();
-            GUILayout.FlexibleSpace();
-
-            if (GUILayout.Button("Load Data(개발자전용)",GUILayout.Width(150),GUILayout.Height(30)))
-            {
-                if(!Check_DuplicateMapId(mapEditor.mapID)){
-                     EditorUtility.DisplayDialog(
-                        "Map not found",
-                        "The map does not exist. Please try again",
-                        "OK"
-                    );
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        if (GUILayout.Button("Load Data(개발자전용)", GUILayout.Width(150), GUILayout.Height(30)))
+        {
+            if (!Check_DuplicateMapId(mapEditor.mapID)) {
+                EditorUtility.DisplayDialog(
+                   "Map not found",
+                   "The map does not exist. Please try again",
+                   "OK"
+               );
                 return;
-                }
-
-                _Reset(mapEditor);
-                LoadMap(mapEditor);
-                mapEditor.onLoad = true;
-                mapEditor.isLoadMap = true;
             }
 
-            if (GUILayout.Button("Save Data(개발자전용)",GUILayout.Width(150),GUILayout.Height(30)))
-            {
+            _Reset(mapEditor);
+            LoadMap(mapEditor);
+            mapEditor.onLoad = true;
+            mapEditor.isLoadMap = true;
+        }
 
-                if(!mapEditor.isLoadMap && Check_DuplicateMapId(mapEditor.mapID)){
-                    EditorUtility.DisplayDialog(
-                        "Duplicate ID Detected",
-                        "The Map ID already exists. Please use a different MapID",
-                        "OK"
-                    );
-                    return;
-                }
+        if (GUILayout.Button("Save Data(개발자전용)", GUILayout.Width(150), GUILayout.Height(30)))
+        {
 
-                try{
-                    SaveMapData(mapEditor);
-                }catch(Exception ex){
-                    Debug.Log(ex);
-                }
-               
-                
+            if (!mapEditor.isLoadMap && Check_DuplicateMapId(mapEditor.mapID)) {
+                EditorUtility.DisplayDialog(
+                    "Duplicate ID Detected",
+                    "The Map ID already exists. Please use a different MapID",
+                    "OK"
+                );
+                return;
             }
-            GUILayout.FlexibleSpace();
-            GUILayout.EndHorizontal();
 
-            GUILayout.BeginHorizontal();
-            GUILayout.FlexibleSpace();
-            if (GUILayout.Button("개발자용, 맵 새로만들 때 먼저 누르기,Init!",GUILayout.Width(300),GUILayout.Height(30)))
-            {
-                _Reset(mapEditor);
-                mapEditor.Init();
-                EditorApplication.ExecuteMenuItem("Window/2D/Tile Palette");
-                mapEditor.onLoad = true;
-          
+            try {
+                SaveMapData(mapEditor);
+            } catch (Exception ex) {
+                Debug.Log(ex);
             }
-            GUILayout.FlexibleSpace();
-            GUILayout.EndHorizontal();
 
-            GUILayout.FlexibleSpace();
+
+        }
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
+
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        if (GUILayout.Button("개발자용, 맵 새로만들 때 먼저 누르기,Init!", GUILayout.Width(300), GUILayout.Height(30)))
+        {
+            _Reset(mapEditor);
+            mapEditor.Init();
+            EditorApplication.ExecuteMenuItem("Window/2D/Tile Palette");
+            mapEditor.onLoad = true;
+
+        }
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
+
+        GUILayout.FlexibleSpace();
     }
-//Check for duplicate Map ID TODO 1116
-    private bool Check_DuplicateMapId(string mapId){
-       string path = Path.Combine(Application.dataPath,$"Resources/MapDat/{mapEditor.mapType}");
-       string[] jsonFiles = Directory.GetFiles(path, "*.json",SearchOption.AllDirectories);
-       List<string> fileNames = jsonFiles.Select(file => Path.GetFileNameWithoutExtension(file)).ToList();
+    //Check for duplicate Map ID TODO 1116
+    private bool Check_DuplicateMapId(string mapId) {
+        string path = Path.Combine(Application.dataPath, $"Resources/MapDat/{mapEditor.mapType}");
+        string[] jsonFiles = Directory.GetFiles(path, "*.json", SearchOption.AllDirectories);
+        List<string> fileNames = jsonFiles.Select(file => Path.GetFileNameWithoutExtension(file)).ToList();
 
-       if(fileNames.Contains(mapId)){
-        return true;
-       }
+        if (fileNames.Contains(mapId)) {
+            return true;
+        }
 
-       return false;
-       
-    }   
-    private void Draw_InGameContents(){
+        return false;
+
+    }
+    private void Draw_InGameContents() {
         mapEditor.onLoad = false;
         GUILayout.Space(10);
 
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
-        GUILayout.Label("인게임 전용",GetGUIStyle_Label((Color.white),14,FontStyle.Bold));
-        GUILayout.FlexibleSpace();
-        GUILayout.EndHorizontal();
-        
-        GUILayout.BeginHorizontal();
-        GUILayout.FlexibleSpace();
-            if (GUILayout.Button("Load Data(인게임용)",GUILayout.Width(300),GUILayout.Height(30)))
-            {
-                //mapEditor.LoadMap(mapEditor.mapID);
-                mapEditor.MoveNextStage(mapEditor.mapID);
-                
-            }
+        GUILayout.Label("인게임 전용", GetGUIStyle_Label((Color.white), 14, FontStyle.Bold));
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
 
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
-            if (GUILayout.Button("Reset Interactable Object Position(인게임용)",GUILayout.Width(300),GUILayout.Height(30)))
-            {
-                mapEditor.ResetInteractableObjectPosition();
-            }
+        if (GUILayout.Button("Load Data(인게임용)", GUILayout.Width(300), GUILayout.Height(30)))
+        {
+            //mapEditor.LoadMap(mapEditor.mapID);
+            mapEditor.MoveNextStage(mapEditor.mapID);
+
+        }
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
+
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        if (GUILayout.Button("Reset Interactable Object Position(인게임용)", GUILayout.Width(300), GUILayout.Height(30)))
+        {
+            mapEditor.ResetInteractableObjectPosition();
+        }
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
         GUILayout.Space(10);
     }
-    private void Draw_ResetContent(){
+    private void Draw_ResetContent() {
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
-        if (GUILayout.Button("Reset",GetGUIStyle_Button(Color.red,14,FontStyle.Bold),GUILayout.Width(100),GUILayout.Height(30)))
+        if (GUILayout.Button("Reset", GetGUIStyle_Button(Color.red, 14, FontStyle.Bold), GUILayout.Width(100), GUILayout.Height(30)))
         {
             _Reset(mapEditor);
             mapEditor.CurMap = new Map();
@@ -295,7 +332,7 @@ public class MapEditor_Editor : Editor
         {
             if (!mapObjectDataDictionary.ContainsKey(value.id))
             {
-                mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.id,value.name, value.type, value.path));
+                mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.id, value.name, value.type, value.path));
             }
 
         }
@@ -304,7 +341,7 @@ public class MapEditor_Editor : Editor
         {
             if (!mapObjectDataDictionary.ContainsKey(value.id))
             {
-                mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.id,value.name, value.type, value.path));
+                mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.id, value.name, value.type, value.path));
             }
 
         }
@@ -313,15 +350,15 @@ public class MapEditor_Editor : Editor
             if (!mapObjectDataDictionary.ContainsKey(value.id))
             {
 
-                mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.id,value.name, value.type, value.path));
+                mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.id, value.name, value.type, value.path));
             }
         }
         foreach (var value in MapObjectData.OtherData.OtherDataList)
         {
             if (!mapObjectDataDictionary.ContainsKey(value.id))
             {
-                 var type = GetObjectType(value.type);
-                 mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.id,value.name, type.type, value.path,type.subType));
+                var type = GetObjectType(value.type);
+                mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.id, value.name, type.type, value.path, type.subType));
             }
 
         }
@@ -329,7 +366,7 @@ public class MapEditor_Editor : Editor
         {
             if (!mapObjectDataDictionary.ContainsKey(value.id))
             {
-                mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.id,value.name, value.type, value.path));
+                mapObjectDataDictionary.Add(value.id, new MapDataStruct(value.id, value.name, value.type, value.path));
             }
 
         }
@@ -349,9 +386,9 @@ public class MapEditor_Editor : Editor
             mapEditor.SetMapSize((int)map.mapSize.x, (int)map.mapSize.y);
 
             Create_StartPoint(map);
-            Create_Tile(); 
+            Create_Tile();
             Create_Object();
-     
+
             MapEditorFieldSetting(map);
         }
     }
@@ -359,62 +396,63 @@ public class MapEditor_Editor : Editor
 
     private void MapEditorFieldSetting(Map map)
     {
-         mapEditor.stageLevel = map.stageLevel;
-         mapEditor.mapID = map.mapID;
-         mapEditor.audioName = map.audioName;
-         mapEditor.startPosition = map.startPosition;
-         mapEditor.nextMapId = map.nextMapId;
-         mapEditor.subMapName = map.subMapName;
+        mapEditor.stageLevel = map.stageLevel;
+        mapEditor.mapID = map.mapID;
+        mapEditor.audioName = map.audioName;
+        mapEditor.startPosition = map.startPosition;
+        mapEditor.nextMapId = map.nextMapId;
+        mapEditor.subMapName = map.subMapName;
     }
     #region  Generate
-    private void Create_StartPoint(Map map){
+    private void Create_StartPoint(Map map) {
         GameObject startPoint = Instantiate(Resources.Load<GameObject>(mapObjectDataDictionary[302].path));
         mapEditor.startPositionObject = startPoint;
         startPoint.transform.position = map.startPosition;
         startPoint.transform.SetParent(mapEditor.dontSaveObjectTransform);
     }
-    public void Create_Tile(){
-        DrawTile(mapEditor.placeMentSystem.floorTileMap,mapEditor.CurMap.mapTileDataList);
-        DrawTile(mapEditor.placeMentSystem.halfTileMap,mapEditor.CurMap.mapHalfTileDataList);
-        DrawTile(mapEditor.placeMentSystem.backgroundTileMap,mapEditor.CurMap.mapBackgroundTileDataList); 
-        DrawTile(mapEditor.placeMentSystem.ropeTileMap,mapEditor.CurMap.mapRopeTileDataList); 
-        DrawTile(mapEditor.placeMentSystem.accessoryTileMap,mapEditor.CurMap.mapAccessoryTIleDataList);       
+    public void Create_Tile() {
+        DrawTile(mapEditor.placeMentSystem.floorTileMap, mapEditor.CurMap.mapTileDataList);
+        DrawTile(mapEditor.placeMentSystem.halfTileMap, mapEditor.CurMap.mapHalfTileDataList);
+        DrawTile(mapEditor.placeMentSystem.backgroundTileMap, mapEditor.CurMap.mapBackgroundTileDataList);
+        DrawTile(mapEditor.placeMentSystem.ropeTileMap, mapEditor.CurMap.mapRopeTileDataList);
+        DrawTile(mapEditor.placeMentSystem.accessoryTileMap, mapEditor.CurMap.mapAccessoryTIleDataList);
     }
-    public void Create_Object(){
-            Create_Object(mapEditor.CurMap.mapObjectDataList,mapEditor.objectTransform);
-            Create_Object(mapEditor.CurMap.mapBackgroundObjectList,mapEditor.backgroundObjectContainer);
-            // Create_Object(mapEditor.CurMap.mapOtherObjectList,mapEditor.otherContainer);
-            Create_OtherObject(mapEditor.CurMap.mapOtherObjectList);
-            Create_Object(mapEditor.CurMap.mapButtonActivatableObjectDataList,mapEditor.buttonActivatableObjectTransform);
-            Create_Object(mapEditor.CurMap.mapExitObjectDataList,mapEditor.exitDoorObjectTransform);
-            Create_Object(mapEditor.CurMap.buttonObjectList,mapEditor.buttonObjectTransform);
-            Create_Object(mapEditor.CurMap.dialogueDataList,mapEditor.triggerDialogueTransform);
-            Create_Object(mapEditor.CurMap.droneStructList,mapEditor.droneTransform);
-            Create_Object(mapEditor.CurMap.collectableObjectStructList,mapEditor.collectableContainer);
+    public void Create_Object() {
+        Create_Object(mapEditor.CurMap.mapObjectDataList, mapEditor.objectTransform);
+        Create_Object(mapEditor.CurMap.mapBackgroundObjectList, mapEditor.backgroundObjectContainer);
+        // Create_Object(mapEditor.CurMap.mapOtherObjectList,mapEditor.otherContainer);
+        Create_OtherObject(mapEditor.CurMap.mapOtherObjectList);
+        Create_Object(mapEditor.CurMap.mapButtonActivatableObjectDataList, mapEditor.buttonActivatableObjectTransform);
+        Create_Object(mapEditor.CurMap.mapExitObjectDataList, mapEditor.exitDoorObjectTransform);
+        Create_Object(mapEditor.CurMap.buttonObjectList, mapEditor.buttonObjectTransform);
+        Create_Object(mapEditor.CurMap.dialogueDataList, mapEditor.triggerDialogueTransform);
+        Create_Object(mapEditor.CurMap.droneStructList, mapEditor.droneTransform);
+        Create_Object(mapEditor.CurMap.collectableObjectStructList, mapEditor.collectableContainer);
     }
 
-    private void DrawTile(Tilemap tileMap,List<TileData> list){
-         foreach (TileData data in list)
-         {
+    private void DrawTile(Tilemap tileMap, List<TileData> list) {
+        foreach (TileData data in list)
+        {
             MapDataStruct mapDataStruct = mapObjectDataDictionary[data.id];
             tileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
-            mapEditor.placeMentSystem.tileDic[data.position] = data.id;        
-         }
-    }       
-    public void Create_OtherObject(List<ObjectData> list){
-       MapDataStruct mapDataStruct;
-        foreach(ObjectData data in list){
+            mapEditor.placeMentSystem.tileDic[data.position] = data.id;
+        }
+  
+    }
+    public void Create_OtherObject(List<ObjectData> list) {
+        MapDataStruct mapDataStruct;
+        foreach (ObjectData data in list) {
             mapDataStruct = mapObjectDataDictionary[data.id];
-            Create_OtherObject(mapDataStruct,data);
+            Create_OtherObject(mapDataStruct, data);
         };
     }
-    private void Create_OtherObject(MapDataStruct mapDataStruct,ObjectData data){
+    private void Create_OtherObject(MapDataStruct mapDataStruct, ObjectData data) {
         string[] tags = mapDataStruct.name.Split("_");
         Transform curTr = mapEditor.otherContainer;
         OtherContainer otherContainer = curTr.GetComponent<OtherContainer>();
-        for(int i =0;i<tags.Length-1;i++){
-            Transform transform =curTr.Find(tags[i]);
-            if(transform == null){
+        for (int i = 0; i < tags.Length - 1; i++) {
+            Transform transform = curTr.Find(tags[i]);
+            if (transform == null) {
                 transform = new GameObject(tags[i]).transform;
                 transform.SetParent(curTr);
             }
@@ -422,40 +460,40 @@ public class MapEditor_Editor : Editor
         }
 
         otherContainer.SetGroup(curTr);
-        Create(curTr,mapDataStruct,data);
+        Create(curTr, mapDataStruct, data);
 
     }
-    public void Create_Object<T>(List<T> list ,Transform transform){
+    public void Create_Object<T>(List<T> list, Transform transform) {
         MapDataStruct mapDataStruct;
-        foreach(T data in list){
-            var isField = typeof(T).GetField("id",BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+        foreach (T data in list) {
+            var isField = typeof(T).GetField("id", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
-            if(isField != null){
+            if (isField != null) {
                 var value = isField.GetValue(data);
-                if(value is int intValue){
+                if (value is int intValue) {
                     mapDataStruct = mapObjectDataDictionary[intValue];
-                    Create(transform,mapDataStruct,data);
+                    Create(transform, mapDataStruct, data);
                 }
-               
+
             }
         }
     }
 
-      void Create<T>(Transform transform,MapDataStruct mapDataStruct,T data){
-        try{
+    void Create<T>(Transform transform, MapDataStruct mapDataStruct, T data) {
+        try {
             GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
             BuildObj buildObj = obj.GetComponent<BuildObj>();
             buildObj.SetData<T>(data);
             buildObj.Editor_Setting(mapEditor);
-            
+
             obj.transform.SetParent(transform);
-        }catch(Exception ex){
+        } catch (Exception ex) {
             Debug.Log($"{ex},{mapDataStruct.id}");
         }
-       
+
     }
 
-    TextAsset GetTextAsset(MapType mapType,string id)
+    TextAsset GetTextAsset(MapType mapType, string id)
     {
         switch (mapType)
         {
@@ -483,8 +521,94 @@ public class MapEditor_Editor : Editor
 
         return null;
     }
+
+    #region Shadow
+    //----------------------------------------------------------------------------------------------------------------------Shadow 250107
+    private void DestroyShadow(Tilemap map)
+    {
+        foreach(Transform tr in map.gameObject.transform)
+        {
+            Undo.DestroyObjectImmediate(tr.gameObject);
+        }
+    }
+    private async void CreateShadow(Tilemap map)
+    {
+        CompositeCollider2D tilemapCollider = map.gameObject.GetComponent<CompositeCollider2D>();
+        await CreateShadowCastersAsync(tilemapCollider);
+        //CreateShadowCastersAsync(tilemapCollider);
+    }
+
+
+
+    public async Task CreateShadowCastersAsync(CompositeCollider2D tilemapCollider)
+    //public void CreateShadowCastersAsync(CompositeCollider2D tilemapCollider)
+    {
+        FieldInfo meshField = typeof(ShadowCaster2D).GetField("m_Mesh", BindingFlags.NonPublic | BindingFlags.Instance);
+        FieldInfo shapePathField = typeof(ShadowCaster2D).GetField("m_ShapePath", BindingFlags.NonPublic | BindingFlags.Instance);
+        FieldInfo shapePathHashField = typeof(ShadowCaster2D).GetField("m_ShapePathHash", BindingFlags.NonPublic | BindingFlags.Instance);
+        MethodInfo generateShadowMeshMethod = typeof(ShadowCaster2D)
+                                        .Assembly
+                                        .GetType("UnityEngine.Rendering.Universal.ShadowUtility")
+                                        .GetMethod("GenerateShadowMesh", BindingFlags.Public | BindingFlags.Static);
+
+        if (meshField == null || shapePathField == null || shapePathHashField == null || generateShadowMeshMethod == null)
+        {
+            Debug.LogError("Reflection 실패");
+            return;
+        }
+
+        // 기존 ShadowCaster 삭제 (옵션)
+        foreach(Transform tr in tilemapCollider.gameObject.transform)
+        {
+            Undo.DestroyObjectImmediate(tr.gameObject);
+        }
+
+        GameObject shadowContainer = new GameObject("Shadow_Container");
+        shadowContainer.transform.SetParent(tilemapCollider.transform);
+
+        int pathCount = tilemapCollider.pathCount;
+        Debug.Log(pathCount);
+        for (int i = 0; i < pathCount; i++)
+        {
+            Vector2[] pathVertices = new Vector2[tilemapCollider.GetPathPointCount(i)];
+            foreach(var  pathVertex in pathVertices)
+            {
+                Debug.Log(pathVertex);
+            }
+            tilemapCollider.GetPath(i, pathVertices);
+
+            // ShadowCaster 생성
+            GameObject shadowCaster = new GameObject("shadow_caster_" + i);
+            shadowCaster.transform.SetParent(shadowContainer.transform);
+
+            ShadowCaster2D shadowCasterComponent = shadowCaster.AddComponent<ShadowCaster2D>();
+            shadowCasterComponent.selfShadows = true;
+
+            Vector3[] testPath = new Vector3[pathVertices.Length];
+            for (int j = 0; j < pathVertices.Length; j++)
+            {
+                testPath[j] = pathVertices[j];
+            }
+
+            shapePathField.SetValue(shadowCasterComponent, testPath);
+            shapePathHashField.SetValue(shadowCasterComponent, UnityEngine.Random.Range(int.MinValue, int.MaxValue));
+            meshField.SetValue(shadowCasterComponent, new Mesh());
+            generateShadowMeshMethod.Invoke(shadowCasterComponent,
+                new object[] { meshField.GetValue(shadowCasterComponent), shapePathField.GetValue(shadowCasterComponent) });
+
+            // 작업 진행을 10번 단위로 나누어 UI 업데이트 및 멈춤 제공
+            if (i % 10 == 0)
+            {
+                await Task.Yield(); // 다른 작업과 병렬 실행 가능
+            }
+        }
+    }
+
     #endregion
-    
+
+    //----------------------------------------------------------------------------------------------------------------------Shadow 250107
+    #endregion
+
     #endregion
 
 
@@ -500,7 +624,7 @@ public class MapEditor_Editor : Editor
             await CreateJsonFile(mapEditor, folderPath);
 
             EditorUtility.ClearProgressBar();
-            mapEditor.onLoad = false;
+            //mapEditor.onLoad = false;
         }catch(Exception ex){
             Debug.Log(ex);
             EditorUtility.ClearProgressBar();
@@ -567,7 +691,9 @@ private async Task<Map> CreateMap(MapEditor mapEditor){
     Map map =  new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, mapEditor.subMapName,GetNextMapId(),mapEditor.stageLevel, mapEditor.startPosition,
             GetExitObjStructsList(mapEditor.exitDoorObjectTransform, mapEditor),
             //tile
+            
             GetTileData(mapEditor.placeMentSystem.floorTileMap),
+
             GetTileData(mapEditor.placeMentSystem.halfTileMap),
             GetTileData(mapEditor.placeMentSystem.backgroundTileMap),
             GetTileData(mapEditor.placeMentSystem.ropeTileMap),
