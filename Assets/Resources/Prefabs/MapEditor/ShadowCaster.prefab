@@ -58,7 +58,7 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   m_ShapePathHash: 1253111735
   m_Mesh: {fileID: 0}
-  m_InstanceId: 43972
+  m_InstanceId: 47678
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
@@ -74,3 +74,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4793af89aeb11484b9ca4fa1a3d62129, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shadowCaster2D: {fileID: 6465994444033057257}

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -18,23 +16,24 @@ public class ShadowCasterSetting : MonoBehaviour
 									.GetMethod("GenerateShadowMesh", BindingFlags.Public | BindingFlags.Static);
 #endregion
 
-    private ShadowCaster2D shadowCaster2D;
+    [SerializeField] ShadowCaster2D shadowCaster2D;
 
-    public void Setting()
-    {
-        shadowCaster2D = GetComponent<ShadowCaster2D>();
-    }
+    // public void Setting()
+    // {
+    //     shadowCaster2D = GetComponent<ShadowCaster2D>();
+    // }
 
 
-    private void Start(){
+    // private void Start(){
     
-        //Test
-       shadowCaster2D = GetComponent<ShadowCaster2D>();
-    }
+    //     //Test
+    //    shadowCaster2D = GetComponent<ShadowCaster2D>();
+    // }
 #region Get,Set
    public ShadowCasterStruct GetShadowCasterStruct()
    {
-    return new ShadowCasterStruct(shadowCaster2D.selfShadows,GetSortingLayers(),shadowCaster2D.shapePath);
+    ShadowCasterStruct data = new ShadowCasterStruct(transform.position,shadowCaster2D.selfShadows,GetSortingLayers(),shadowCaster2D.shapePath);
+    return data;
    }
 
     private int[] GetSortingLayers()
@@ -55,8 +54,8 @@ public class ShadowCasterSetting : MonoBehaviour
    }
    private void SetSortingLayer(int[] layers)
    {
-        var renderer = GetComponent<Renderer>();
-        sortingLayersField.SetValue(renderer,layers);
+        // var renderer = GetComponent<Renderer>();
+        sortingLayersField.SetValue(shadowCaster2D,layers);
    }
 #endregion
 }

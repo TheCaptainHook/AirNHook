@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Linq;
 using System;
 using UnityEngine.Rendering.Universal;
+using NPOI.SS.Formula.Functions;
 
 
 /**250107 Shadow
@@ -386,7 +387,7 @@ public class MapEditor_Editor : Editor
             Create_StartPoint(map);
             Create_Tile();
             //Shadow Setting
-
+            Create_Shadow();
 
             Create_Object();
 
@@ -425,7 +426,7 @@ public class MapEditor_Editor : Editor
         {
             ShadowCasterSetting shadowSetting = Instantiate(Resources.Load<GameObject>(shadowPath)).GetComponent<ShadowCasterSetting>();
             shadowSetting.gameObject.transform.SetParent(mapEditor.shadowContainer);    
-
+            shadowSetting.transform.position = data.position;
             shadowSetting.SetShadowCasterData(data);
         }
 
@@ -548,7 +549,7 @@ public class MapEditor_Editor : Editor
       shadowObj.transform.position = GetSceneViewCenter();
       Selection.activeGameObject = shadowObj;
     }
-
+   
     private Vector3 GetSceneViewCenter(){
         SceneView sceneView = SceneView.lastActiveSceneView;
         if (sceneView != null)
@@ -714,6 +715,8 @@ private async Task<Map> CreateMap(MapEditor mapEditor){
             GetTileData(mapEditor.placeMentSystem.backgroundTileMap),
             GetTileData(mapEditor.placeMentSystem.ropeTileMap),
             GetTileData(mapEditor.placeMentSystem.accessoryTileMap),
+            //Shadow
+            GetShadowData(),
             //object
             GetList<ObjectData>(mapEditor.objectTransform),
             GetList<ObjectData>(mapEditor.backgroundObjectContainer),
@@ -729,9 +732,11 @@ private async Task<Map> CreateMap(MapEditor mapEditor){
 //------------------------------------------------------------------------------------------------------250107 Shadow
 private List<ShadowCasterStruct> GetShadowData()
 {
+
     List<ShadowCasterStruct> list = new();
     foreach(Transform tr in mapEditor.shadowContainer)
     {
+        Debug.Log($"{tr.name}");
         ShadowCasterSetting setting = tr.GetComponent<ShadowCasterSetting>();
         list.Add(setting.GetShadowCasterStruct());
     }

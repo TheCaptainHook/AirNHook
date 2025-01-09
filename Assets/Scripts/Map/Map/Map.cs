@@ -59,6 +59,8 @@ public class Map
         List<TileData> mapBackgroundTileDataList,
         List<TileData> ropeTileDataList,
         List<TileData> accessoryTileDataList,
+        //Shadow 250109
+        List<ShadowCasterStruct> shadowCasterStructs,
         //object
         List<ObjectData> objectList,
         List<ObjectData> backgroundObjectList,
@@ -81,6 +83,8 @@ public class Map
         this.mapBackgroundTileDataList = mapBackgroundTileDataList;
         mapRopeTileDataList = ropeTileDataList;
         mapAccessoryTIleDataList = accessoryTileDataList;
+        //shadow
+        this.mapShadowCasterDataList = shadowCasterStructs;
         //object
         mapObjectDataList = objectList;
         mapBackgroundObjectList = backgroundObjectList;

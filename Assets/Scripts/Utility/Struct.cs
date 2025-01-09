@@ -412,14 +412,16 @@ public struct DroneStruct{
 
 }
 #endregion
-
+[System.Serializable]
 public struct ShadowCasterStruct{
+    public Vector2 position;
     public bool selfShadows;
     public int[] sortingLayers;
     public Vector3[] vertices;
 
-    public ShadowCasterStruct(bool selfShadows,int[] sortingLayers,Vector3[] vertices)
+    public ShadowCasterStruct(Vector2 position ,bool selfShadows,int[] sortingLayers,Vector3[] vertices)
     {
+        this.position = position;
         this.selfShadows = selfShadows;
         this.sortingLayers = sortingLayers;
         this.vertices = vertices;
