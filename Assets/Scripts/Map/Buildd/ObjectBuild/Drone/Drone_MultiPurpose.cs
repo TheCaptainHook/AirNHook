@@ -21,10 +21,8 @@ public class Drone_MultiPurpose : DroneEntity
     [CustomHeader("Drone MultiPurpose")]
     public Drone_TransportItemType drone_TransportItemType;
 
-
+    [ReadOnly]
     public Transform itemPlacementPosition;
-
-
     private GameObject transportItem;
 
     public override T GetData<T>()
@@ -50,11 +48,43 @@ public class Drone_MultiPurpose : DroneEntity
         }
     }
 
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if (collision != null)
+    //    {
+    //        Debug.Log("collision");
+    //        if (collision.gameObject.TryGetComponent(out Rigidbody2D component))
+    //        {
+    //            float vel = component.velocity.magnitude;
+    //            Debug.Log(vel);
+    //            component.velocity = Vector2.zero;
+    //        }
+    //    }
+    //}
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider != null)
+        {
+            if (collider.TryGetComponent(out Rigidbody2D component))
+            {
+                float vel = component.velocity.magnitude;
+                if(vel >= 10)
+                {
+                    DroneDropTransportItem();
+                }
+                component.velocity = Vector2.zero;
+            }
+        }
+
+    }
+
 
     private void SetTransformItem()
     {
         if(DroneStruct.drone_TransportItemType == Drone_TransportItemType.None) return;
         GameObject item = Managers.Stage.CmdBatchObject(drone_TransportItemType.ToString());
+        item.transform.SetParent(MapEditor.Instance.networkingObjectTransform);
         transportItem = item;
         Debug.Log(item);
         if(item == null) return;
@@ -62,23 +92,24 @@ public class Drone_MultiPurpose : DroneEntity
             case Drone_TransportItemType.Key:
                 MapEditor.Instance.exitDoorObjectTransform.GetChild(0).GetComponent<ExitPointObj>().AddKeyAmount();
                 //SetPosition
-                SettingTransformItem(item);
-            break;
-            default:
+                SettingTransportItem(item);
+                break;
 
-            break;
+            default:
+                SettingTransportItem(item);
+                break;
             
 
         }
     }
 
-    private void SettingTransformItem(GameObject item)
+    private void SettingTransportItem(GameObject item)
     {
         BuildObj obj = item.GetComponent<BuildObj>();
         obj.SettingTransportItem(itemPlacementPosition);
     }
 
-    private void DropTransformItem()
+    private void DroneDropTransportItem()
     {
         if(transportItem == null) return;
 

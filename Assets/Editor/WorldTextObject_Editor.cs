@@ -14,8 +14,12 @@ public class WorldTextObject_Editor : Editor
     private string previousText;
     private float previousFontSize;
 
+    private bool isPlaying;
+
     private void OnEnable()
     {
+        if (Application.isPlaying) { isPlaying = true; return; }
+
         _WorldTextObject = target as WorldTextObject;
         _SerializedProperty_Size = new SerializedObject(_WorldTextObject).FindProperty("size");
         previousSize = _SerializedProperty_Size.vector2Value;
@@ -31,6 +35,7 @@ public class WorldTextObject_Editor : Editor
 
     public override void OnInspectorGUI()
     {
+        if (isPlaying) return;
 
         // Update the serialized properties first
         _SerializedProperty_Size.serializedObject.Update();

@@ -282,7 +282,7 @@ BoxCollider2D:
     m_Bits: 672704
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 1294314551
+    m_Bits: 1294281783
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -328,6 +328,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _objectType: 1
+  _gravityScale: 0
   _offset: {x: 0, y: 1}
   _inhalePower: 4000
 --- !u!114 &8495657423424250234
@@ -346,6 +347,7 @@ MonoBehaviour:
   transformID: 1
   position: {x: 0, y: 0}
   distructionStatus: 1
+  chargeRequired: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0

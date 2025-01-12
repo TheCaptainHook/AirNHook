@@ -105,7 +105,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 1024
@@ -181,6 +181,7 @@ MonoBehaviour:
   transformID: 1
   position: {x: 0, y: 0}
   distructionStatus: 1
+  chargeRequired: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
@@ -205,6 +206,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _objectType: 1
+  _gravityScale: 0
   _offset: {x: 0, y: 1.4}
   _inhalePower: 4000
 --- !u!114 &-3325528363225173584

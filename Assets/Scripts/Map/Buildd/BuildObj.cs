@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using System;
 using UnityEngine.EventSystems;
+using UnityEngine.Animations;
 
 public enum DistructionStatus
 {
@@ -133,18 +134,49 @@ public class BuildObj : MousePointerEntity, IDamageable
     {
         _rb.gravityScale = 0;
         _collider.enabled = false;
+
         this.carrierTransform = carrierTransform;
         transform.position = carrierTransform.position;
         //연결시키기
+        ParentConstraint constraint = gameObject.AddComponent<ParentConstraint>();
+        SetParentConstraint(constraint,carrierTransform);
+
         // transform.SetParent(carrierTransform);
         isTransformItem = true;
     }
     public void DropTransportItem()
     {
         // transform.SetParent(MapEditor.Instance.networkingObjectTransform);
-        //연결해제
+        if(TryGetComponent(out ParentConstraint constraint))
+        {
+            Destroy(constraint);
+        }
+        
         _collider.enabled =true;
         _rb.gravityScale =1;
+    }
+    private void SetParentConstraint(ParentConstraint constraint,Transform parent)
+    {
+        ConstraintSource source = new ConstraintSource
+        {
+            sourceTransform = parent,
+            weight = 1.0f 
+        };
+
+        constraint.AddSource(source);
+
+        // 트랜스폼 옵션 설정 (위치와 회전을 따라가도록 설정)
+        constraint.translationAtRest = transform.localPosition;
+        constraint.rotationAtRest = transform.localRotation.eulerAngles;
+
+        // 위치와 회전을 활성화
+        constraint.translationOffsets = new Vector3[constraint.sourceCount];
+        constraint.rotationOffsets = new Vector3[constraint.sourceCount];
+        constraint.constraintActive = true;
+
+        // 속성 업데이트
+        constraint.locked = true; // 소스가 변경되지 않도록 잠금
+
     }
 #endregion
 
@@ -290,7 +322,7 @@ public class BuildObj : MousePointerEntity, IDamageable
         }
        if(isTransformItem)
        {
-
+            SettingTransportItem(carrierTransform);
        }else{
         transform.position = pot;
        }
@@ -302,8 +334,14 @@ public class BuildObj : MousePointerEntity, IDamageable
             _dissolveMaterial.SetFloat(DissolveAmount, percent);
             yield return null;
         }
-        _collider.enabled = true;
-        _rb.gravityScale = 1;
+
+        if (!isTransformItem)
+        {
+            _collider.enabled = true;
+            _rb.gravityScale = 1;
+        }
+
+       
         GetComponent<InteractableObject>().Respawned();
 
         //CustomEditor

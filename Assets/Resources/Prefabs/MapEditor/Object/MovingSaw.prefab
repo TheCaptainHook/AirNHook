@@ -5067,6 +5067,7 @@ MonoBehaviour:
   transformID: 0
   position: {x: 0, y: 0}
   distructionStatus: 0
+  chargeRequired: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
@@ -5143,10 +5144,10 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 787457
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2

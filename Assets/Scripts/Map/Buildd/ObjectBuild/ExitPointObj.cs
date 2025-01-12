@@ -17,6 +17,7 @@ public class ExitPointObj : BuildObj
 
 
     [Header("Info")]
+    [ReadOnly]
     public int condition_KeyAmount;
     private int current_KeyAmount;
     public int Current_KeyAmount {
@@ -68,6 +69,8 @@ public class ExitPointObj : BuildObj
     public void AddKeyAmount()
     {
         keyBubble.AddKeyAmount();
+        condition_KeyAmount++;
+        current_KeyAmount++;
     }
 
     public override void SetData<T>(T data)
