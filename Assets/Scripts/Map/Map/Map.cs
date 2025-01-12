@@ -26,6 +26,9 @@ public class Map
     [Header("Shadow")]
     public List<ShadowCasterStruct> mapShadowCasterDataList = new();
 //------------------------------------------------------------------------------------------------------250107 Shadow
+//------------------------------------------------------------------------------------------------------250112 Global Light
+    public LightStruct globalLightStruct;
+//------------------------------------------------------------------------------------------------------250112 Global Light
     [Header("Object")]
     public List<ObjectData> mapObjectDataList = new List<ObjectData>();
     //TODO 1024
@@ -61,6 +64,8 @@ public class Map
         List<TileData> accessoryTileDataList,
         //Shadow 250109
         List<ShadowCasterStruct> shadowCasterStructs,
+        //Light 250112
+        LightStruct globalLightStruct,
         //object
         List<ObjectData> objectList,
         List<ObjectData> backgroundObjectList,
@@ -85,6 +90,8 @@ public class Map
         mapAccessoryTIleDataList = accessoryTileDataList;
         //shadow
         this.mapShadowCasterDataList = shadowCasterStructs;
+        //Light
+        this.globalLightStruct = globalLightStruct;
         //object
         mapObjectDataList = objectList;
         mapBackgroundObjectList = backgroundObjectList;

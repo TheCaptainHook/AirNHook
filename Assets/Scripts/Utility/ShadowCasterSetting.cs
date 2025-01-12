@@ -1,8 +1,9 @@
 using System.Reflection;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class ShadowCasterSetting : MonoBehaviour
+public class ShadowCasterSetting : MonoBehaviour,IPooling
 {
 
 #region Reflection field
@@ -18,17 +19,8 @@ public class ShadowCasterSetting : MonoBehaviour
 
     [SerializeField] ShadowCaster2D shadowCaster2D;
 
-    // public void Setting()
-    // {
-    //     shadowCaster2D = GetComponent<ShadowCaster2D>();
-    // }
+   
 
-
-    // private void Start(){
-    
-    //     //Test
-    //    shadowCaster2D = GetComponent<ShadowCaster2D>();
-    // }
 #region Get,Set
    public ShadowCasterStruct GetShadowCasterStruct()
    {
@@ -59,5 +51,12 @@ public class ShadowCasterSetting : MonoBehaviour
         
    }
 #endregion
+
+
+
+    public void ReleaseToPool()
+    {
+        Managers.Pooling.D_ReleaseToPool(gameObject);
+    }
 }
 

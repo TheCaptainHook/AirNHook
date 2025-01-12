@@ -97,7 +97,7 @@ public class ConsoleSystem : MonoBehaviour
             return;
         }
 
-        if(command == "show mapID"){
+        if(command == "show mapid"){
             WriteLog($"\n   >{inputField.text}");
             foreach(string id in mapIDList){
                 WriteLog($"\t-{id}");

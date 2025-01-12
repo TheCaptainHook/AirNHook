@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-using System.Threading.Tasks;
+
 public class FadeInOutPanel : MonoBehaviour
 {
     Image image;
     Color orgColor;
     float fadeTime = 1f;
+
+
+    public event Action preMapLoadEvent;
 
     private void Awake()
     {
@@ -24,6 +27,8 @@ public class FadeInOutPanel : MonoBehaviour
 
     IEnumerator FadeInOut(string mapId)
     {
+        preMapLoadEvent?.Invoke(); //Event to be executed before map transition
+    
         image.enabled = true;
         float percent = 0;
         Color fadeOutcolor = new Color(orgColor.r, orgColor.g, orgColor.b, 1);

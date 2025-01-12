@@ -36,7 +36,7 @@ public class UI_ComputerScreen : UI_Base
         arrow_Left.onClick.AddListener(()=> { if (!onInteraction) ArrowLeft(); });
         screen1 = Instantiate(screenSlice_1Box, contents).GetComponent<ScreenSlice_1Box>();
         screen2 = Instantiate(screenSlice_2Box, contents).GetComponent<ScreenSlice_2Box>();
-        MapEditor.Instance.OnStageMove += TurnOff;
+        MapEditor.Instance.fadeInOutPanel.preMapLoadEvent += TurnOff;
         //MapEditor.Instance.OnScreen += TurnOn;
 
     }

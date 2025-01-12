@@ -68,4 +68,8 @@ public static class GlobalText
     public const string USE_PORTAL_50 = "Use_Portal_50";
 
     #endregion
+
+    #region MapEditor
+    public const string SHADOW_PREFAB_PATH = "Prefabs/MapEditor/ShadowCaster";
+    #endregion
 }

@@ -412,6 +412,7 @@ public struct DroneStruct{
 
 }
 #endregion
+#region Shadow
 [System.Serializable]
 public struct ShadowCasterStruct{
     public Vector2 position;
@@ -427,3 +428,26 @@ public struct ShadowCasterStruct{
         this.vertices = vertices;
     }
 }
+#endregion
+#region Light
+[System.Serializable]
+public struct LightStruct{
+    public UnityEngine.Rendering.Universal.Light2D.LightType type;
+    public Color color;
+    public float intensity;
+    public LightStruct(UnityEngine.Rendering.Universal.Light2D.LightType type,Color color,float intensity){
+        this.type = type;
+        this.color = color;
+        this.intensity = intensity;
+    }
+
+    public LightStruct Default()
+    {
+        return new LightStruct(
+            UnityEngine.Rendering.Universal.Light2D.LightType.Global, 
+            Color.white,                                             
+            1f                                                      
+        );
+    }
+}
+#endregion

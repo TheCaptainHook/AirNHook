@@ -12,15 +12,7 @@ using System.Reflection;
 using System.Linq;
 using System;
 using UnityEngine.Rendering.Universal;
-using NPOI.SS.Formula.Functions;
-
-
-/**250107 Shadow
-1. 중첩 쉐도우 캐스터 문제.
-    - 그림자 설정 오브젝트 일일이 설정해주기
-    - 저장할때 Shadow cater 설정 값만 데이터로 저장,
-    - 타일 만들고난 후 위 데이터로 그림자 오브젝트 생성.
-**/
+using Unity.VisualScripting;
 
 
 //TODO 0724 Develop code line : 435,506
@@ -82,7 +74,23 @@ public class MapEditor_Editor : Editor
                 mapEditor.audioName = EditorGUILayout.TextField(new GUIContent("BGM", "BGM"), mapEditor.audioName);
             }
         } else {
-            DrawShadow();
+            GUILayout.Space(20);
+            GUILayout.BeginHorizontal();
+          
+                GUILayout.BeginVertical("Shadow And Light", new GUIStyle(GUI.skin.window));
+                    GUILayout.BeginHorizontal();
+                        DrawShadow();
+
+                        GUILayout.BeginVertical("Global Light", new GUIStyle(GUI.skin.window));
+                        DrawLight();
+                        GUILayout.EndVertical();
+
+                    GUILayout.EndHorizontal();
+
+                GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
+            GUILayout.Space(20);    
+
 
             mapEditor.stageLevel = EditorGUILayout.IntField("Stage Level", mapEditor.stageLevel);
             mapEditor.subMapName = EditorGUILayout.TextField(new GUIContent("Map Sub Name", "This is the sub-name for the map, but it’s okay to leave it empty."), mapEditor.subMapName);
@@ -93,27 +101,49 @@ public class MapEditor_Editor : Editor
 
     private void DrawShadow()
     {
-        GUILayout.Space(20);
+        VerticalScope(()=>{
+             GUILayout.FlexibleSpace();
 
-        GUILayout.BeginHorizontal();
-        GUILayout.FlexibleSpace();
-        GUILayout.BeginVertical("Shadow Test Container", new GUIStyle(GUI.skin.window));
-        if (GUILayout.Button("그림자 생성", GUILayout.Width(150), GUILayout.Height(30)))
-        {
-            CreateShadow();
+            if (GUILayout.Button("그림자 생성", GUILayout.Width(150), GUILayout.Height(30)))
+            {
+                CreateShadow();
+            }
 
-        }
-        if (GUILayout.Button("그림자 제거", GUILayout.Width(150), GUILayout.Height(30)))
-        {
-            
-        }
-
-        GUILayout.EndHorizontal();
-        GUILayout.FlexibleSpace();
-        GUILayout.EndVertical();
-
-        GUILayout.Space(20);
+            GUILayout.FlexibleSpace();
+        });
+        
     }
+    private void DrawLight()
+    {
+        GUILayout.BeginVertical();
+
+        VerticalScope(()=>{
+            HorizontalScope(()=>{
+                EditorGUILayout.LabelField("Color",GetGUIStyle_Label(Color.white,12,FontStyle.Bold),GUILayout.Width(60));
+                Color newColor = EditorGUILayout.ColorField(mapEditor.GlobalLight.color);
+                if (newColor != mapEditor.GlobalLight.color)
+                {
+                    Undo.RecordObject(mapEditor, "Change Global Light Color");
+                    mapEditor.GlobalLight.color = newColor;
+                    EditorUtility.SetDirty(mapEditor);
+                }
+            });
+            HorizontalScope(()=>{
+                EditorGUILayout.LabelField("Intensity",GetGUIStyle_Label(Color.white,12,FontStyle.Bold),GUILayout.Width(60));
+                float newIntensity = EditorGUILayout.Slider(mapEditor.GlobalLight.intensity, 0f, 5f);
+                if (!Mathf.Approximately(newIntensity, mapEditor.GlobalLight.intensity))
+                {
+                    Undo.RecordObject(mapEditor, "Change Global Light Intensity");
+                    mapEditor.GlobalLight.intensity = newIntensity;
+                    EditorUtility.SetDirty(mapEditor); // 변경 사항 저장
+                }
+            });
+        });
+
+        GUILayout.EndVertical();
+    }
+
+   
 
     private void Draw_MainContents_MapId() {
         Color orgCol = GUI.backgroundColor;
@@ -388,6 +418,8 @@ public class MapEditor_Editor : Editor
             Create_Tile();
             //Shadow Setting
             Create_Shadow();
+            //Light Setting
+            SetGlobalLight(map.globalLightStruct);
 
             Create_Object();
 
@@ -424,7 +456,7 @@ public class MapEditor_Editor : Editor
     {
         foreach(ShadowCasterStruct data in mapEditor.CurMap.mapShadowCasterDataList)
         {
-            ShadowCasterSetting shadowSetting = Instantiate(Resources.Load<GameObject>(shadowPath)).GetComponent<ShadowCasterSetting>();
+            ShadowCasterSetting shadowSetting = Instantiate(Resources.Load<GameObject>(GlobalText.SHADOW_PREFAB_PATH)).GetComponent<ShadowCasterSetting>();
             shadowSetting.gameObject.transform.SetParent(mapEditor.shadowContainer);    
             shadowSetting.transform.position = data.position;
             shadowSetting.SetShadowCasterData(data);
@@ -541,10 +573,9 @@ public class MapEditor_Editor : Editor
     //----------------------------------------------------------------------------------------------------------------------Shadow 250107
 
 
-    string shadowPath = "Prefabs/MapEditor/ShadowCaster";
     private void CreateShadow()
     {
-      GameObject shadowObj = Instantiate(Resources.Load<GameObject>(shadowPath));
+      GameObject shadowObj = Instantiate(Resources.Load<GameObject>(GlobalText.SHADOW_PREFAB_PATH));
       shadowObj.transform.SetParent(mapEditor.shadowContainer);
       shadowObj.transform.position = GetSceneViewCenter();
       Selection.activeGameObject = shadowObj;
@@ -708,15 +739,15 @@ private async Task<Map> CreateMap(MapEditor mapEditor){
     Map map =  new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, mapEditor.subMapName,GetNextMapId(),mapEditor.stageLevel, mapEditor.startPosition,
             GetExitObjStructsList(mapEditor.exitDoorObjectTransform, mapEditor),
             //tile
-            
             GetTileData(mapEditor.placeMentSystem.floorTileMap),
-
             GetTileData(mapEditor.placeMentSystem.halfTileMap),
             GetTileData(mapEditor.placeMentSystem.backgroundTileMap),
             GetTileData(mapEditor.placeMentSystem.ropeTileMap),
             GetTileData(mapEditor.placeMentSystem.accessoryTileMap),
             //Shadow
             GetShadowData(),
+            //Light
+            GetGlobalLightStruct(),
             //object
             GetList<ObjectData>(mapEditor.objectTransform),
             GetList<ObjectData>(mapEditor.backgroundObjectContainer),
@@ -743,6 +774,13 @@ private List<ShadowCasterStruct> GetShadowData()
     return list;
 }
 //------------------------------------------------------------------------------------------------------250107 Shadow
+//------------------------------------------------------------------------------------------------------250112 Light
+private LightStruct GetGlobalLightStruct()
+{
+    Light2D target = mapEditor.GlobalLight;
+    return new LightStruct(target.lightType,target.color,target.intensity);
+}
+//------------------------------------------------------------------------------------------------------250112 Light
 
 List<TileData> GetTileData(Tilemap tileMap)
     {
@@ -796,7 +834,7 @@ List<TileData> GetTileData(Tilemap tileMap)
         foreach (Transform cur in transform)
         {
             if(cur.TryGetComponent(out ExitPointObj component)){
-                component.condition_KeyAmount = keyAmount;
+                component.condition_KeyAmount += keyAmount;
                 list.Add(component.GetExitObjectStruct());
             }
 
@@ -945,6 +983,30 @@ List<TileData> GetTileData(Tilemap tileMap)
         
         return null;
     }
+    private void SetGlobalLight(LightStruct? data)
+    {
+        if(data == null)
+        {
+            mapEditor.GlobalLight.lightType = Light2D.LightType.Global;
+            mapEditor.GlobalLight.color = Color.white;
+            mapEditor.GlobalLight.intensity = 1;
+            return;
+        }
+
+        var lightData = data.Value;
+
+        if(lightData.type == default)
+        {
+            mapEditor.GlobalLight.lightType = Light2D.LightType.Global;
+            mapEditor.GlobalLight.color = Color.white;
+            mapEditor.GlobalLight.intensity = 1;
+            return;
+        }
+
+        mapEditor.GlobalLight.lightType = lightData.type;
+        mapEditor.GlobalLight.color = lightData.color;
+        mapEditor.GlobalLight.intensity = lightData.intensity;
+    }
 
     #endregion
 
@@ -970,6 +1032,39 @@ List<TileData> GetTileData(Tilemap tileMap)
                 hover = {textColor = color},
                 };
 
+    }
+
+    //   using(new GUILayout.VerticalScope("Shadow And Light",new GUIStyle(GUI.skin.window))){
+
+    //         }
+
+     private void VerticalScope(Action action,string label = "",GUIStyle style = null)
+    {
+        if (style == null)
+        style = GUIStyle.none;
+
+        using (new GUILayout.VerticalScope(label,style))
+        {
+            // if (Event.current.type == EventType.Layout || Event.current.type == EventType.Repaint)
+            // {
+            //     action?.Invoke();
+            // }
+            action?.Invoke();
+        }
+    }
+    private void HorizontalScope(Action action,string label = "",GUIStyle style = null)
+    {
+        if (style == null)
+        style = GUIStyle.none;
+
+        using (new GUILayout.HorizontalScope(label,style))
+        {
+            // if (Event.current.type == EventType.Layout || Event.current.type == EventType.Repaint)
+            // {
+            //     action?.Invoke();
+            // }
+            action?.Invoke();
+        }
     }
     #endregion
 }

@@ -111,6 +111,7 @@ public class D_Pooling
         }
     }
     public void Enqueue(GameObject obj){
+        obj.transform.SetParent(parents);
         obj.SetActive(false);
         queue.Enqueue(obj);
     }

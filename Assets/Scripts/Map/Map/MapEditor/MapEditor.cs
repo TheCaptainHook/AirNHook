@@ -8,6 +8,7 @@ using TMPro;
 using System;
 using System.Threading.Tasks;
 using System.Reflection;
+using UnityEngine.Rendering.Universal;
 
 public enum MapType
 {
@@ -105,8 +106,21 @@ public class MapEditor : MonoBehaviour
     //0107 Shadow
     [HideInInspector] public Transform shadowContainer;
     public bool stageClear;
-    [Space(10)]
 
+    private Light2D globalLight;
+    public Light2D GlobalLight
+    {
+        get
+        {
+            if(globalLight == null){
+                globalLight = GetGlobalLight();
+            }
+            return globalLight;
+        }
+    } //-----------------------------------------------------------------------Light
+
+
+    [Space(10)]
     [Header("Save Data")]
     public MapType mapType;
     [HideInInspector] public int width;
@@ -150,7 +164,7 @@ public class MapEditor : MonoBehaviour
     [ReadOnly]
     public GameObject screenShotCamera;
     #region event Action
-    public event Action OnStageMove;
+    // public event Action OnStageMove;
     public event Action OnScreen;
     #endregion
 
@@ -161,6 +175,8 @@ public class MapEditor : MonoBehaviour
         else Instance = this;
 
         folderPath = Path.Combine(Application.dataPath, "Resources/MapDat"); //todo
+        
+        fadeInOutPanel.preMapLoadEvent+=ReleasePooling;
     }
 
     //todo
@@ -380,6 +396,11 @@ public class MapEditor : MonoBehaviour
         ParallaxCameraReset();
 
         Create_Tile();
+        //Shadow Setting
+        Create_Shadow();
+        //Light Setting
+        SetGlobalLight();
+
         Create_Object();
         
         // Managers.Sound.PlayBGM(CurMap.audioType, AudioMixerGroupType.BGM, true,.1f);
@@ -509,12 +530,40 @@ public class MapEditor : MonoBehaviour
         startPositionObject.transform.position = curMap.startPosition;
         startPositionObject.transform.SetParent(dontSaveObjectTransform);
     }
+
+    private void Create_Shadow()
+    {
+        GameObject shadowPrefab =Resources.Load<GameObject>(GlobalText.SHADOW_PREFAB_PATH);
+        foreach(ShadowCasterStruct data in curMap.mapShadowCasterDataList)
+        {
+            ShadowCasterSetting shadowSetting = Managers.Pooling.D_GetItem(shadowPrefab).GetComponent<ShadowCasterSetting>();
+            shadowSetting.gameObject.SetActive(true);
+            shadowSetting.gameObject.transform.SetParent(shadowContainer);    
+            shadowSetting.transform.position = data.position;
+            shadowSetting.SetShadowCasterData(data);
+        }
+    }
+    private void SetGlobalLight()
+    {
+        var lightData = curMap.globalLightStruct;
+
+        if(lightData.type == default)
+        {
+            GlobalLight.lightType = Light2D.LightType.Global;
+            GlobalLight.color = Color.white;
+            GlobalLight.intensity = 1;
+            return;
+        }
+
+        GlobalLight.lightType = lightData.type;
+        GlobalLight.color = lightData.color;
+        GlobalLight.intensity = lightData.intensity;
+    }
     #endregion
 
 
     public void MoveNextStage(string mapId)
     {
-        OnStageMove?.Invoke();
         fadeInOutPanel.MoveNextStage(mapId);
 
         if(mapId == "Lobby")
@@ -592,6 +641,23 @@ public class MapEditor : MonoBehaviour
         }
     }
 
+
+    private Light2D GetGlobalLight(){
+        foreach(Transform tr in transform){
+            if(tr.name == "Global Light"){
+                return tr.GetComponent<Light2D>();
+            }
+        }
+        return null;
+    }
+    private void ReleasePooling()
+    {
+       for(int i = shadowContainer.childCount-1;i>=0;i--)
+       {
+            Transform tr = shadowContainer.GetChild(i);
+            tr.GetComponent<IPooling>().ReleaseToPool();
+       }
+    }
 
     #endregion
 
