@@ -56,6 +56,7 @@ public class ShadowCasterSetting : MonoBehaviour
    {
         // var renderer = GetComponent<Renderer>();
         sortingLayersField.SetValue(shadowCaster2D,layers);
+        
    }
 #endregion
 }

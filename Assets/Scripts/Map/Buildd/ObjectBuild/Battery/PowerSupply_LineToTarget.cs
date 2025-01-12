@@ -96,6 +96,7 @@ public class PowerSupply_LineToTarget : MonoBehaviour
         }
     }
     public void Destroy(){
+        if(debugTr == null) return;
         Undo.DestroyObjectImmediate(debugTr.gameObject);
     }
 

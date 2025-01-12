@@ -60,6 +60,7 @@ public class AddForcePlatform : MonoBehaviour
         RaycastHit2D[] hits = Physics2D.RaycastAll(GetRayStart(),Vector2.right,w,layerMask);
         foreach(RaycastHit2D hit in hits){
             if(hit.collider != null && hit.collider.gameObject != gameObject){
+                if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Default")) continue;
                 if(visitedObj.Add(hit.collider.gameObject)){
                     DetectObj detectObj = new DetectObj(hit.collider.gameObject);
                     set.Add(detectObj);
@@ -75,6 +76,7 @@ public class AddForcePlatform : MonoBehaviour
             var detect = GetDetectObjRayStart(obj);
             RaycastHit2D[] hits2 = Physics2D.RaycastAll(detect.startPot,Vector2.right,detect.width,layerMask);
             foreach(RaycastHit2D hit in hits2){
+                if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Default")) continue;
                 if(hit.collider != null && hit.collider.gameObject != gameObject){
                     if(visitedObj.Add(hit.collider.gameObject)){
                         DetectObj detectObj = new DetectObj(hit.collider.gameObject);

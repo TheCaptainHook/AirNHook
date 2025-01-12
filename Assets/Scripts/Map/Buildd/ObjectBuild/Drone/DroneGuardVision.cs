@@ -22,7 +22,7 @@ public class DroneGuardVision : MonoBehaviour
     public LayerMask visionLayerMask;
     private float _Angle; // 0
     // [SerializeField] float _ViewDistance; //10
-    private float attackRange = 20;
+    private float attackRange = 40;
     private PathFinder pathFinder;
     // [Header("View Field")]
     // MeshFilter meshFilter;

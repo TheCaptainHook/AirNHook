@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6288721566565281864}
   - component: {fileID: 8498635386574920878}
   - component: {fileID: 2493776325111875114}
-  m_Layer: 19
+  m_Layer: 0
   m_Name: OneWayPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -346,6 +346,7 @@ MonoBehaviour:
   transformID: 1
   position: {x: 0, y: 0}
   distructionStatus: 1
+  chargeRequired: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
