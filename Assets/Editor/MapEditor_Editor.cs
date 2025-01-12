@@ -13,6 +13,7 @@ using System.Linq;
 using System;
 using UnityEngine.Rendering.Universal;
 using Unity.VisualScripting;
+using NPOI.SS.Formula.Functions;
 
 
 //TODO 0724 Develop code line : 435,506
@@ -465,12 +466,11 @@ public class MapEditor_Editor : Editor
     }
     //------------------------------------------------------------------------------------------------------250107 Shadow
     public void Create_Object() {
+        CreateExitObject(mapEditor.CurMap.mapExitObjectStruct);
         Create_Object(mapEditor.CurMap.mapObjectDataList, mapEditor.objectTransform);
         Create_Object(mapEditor.CurMap.mapBackgroundObjectList, mapEditor.backgroundObjectContainer);
-        // Create_Object(mapEditor.CurMap.mapOtherObjectList,mapEditor.otherContainer);
         Create_OtherObject(mapEditor.CurMap.mapOtherObjectList);
         Create_Object(mapEditor.CurMap.mapButtonActivatableObjectDataList, mapEditor.buttonActivatableObjectTransform);
-        Create_Object(mapEditor.CurMap.mapExitObjectDataList, mapEditor.exitDoorObjectTransform);
         Create_Object(mapEditor.CurMap.buttonObjectList, mapEditor.buttonObjectTransform);
         Create_Object(mapEditor.CurMap.dialogueDataList, mapEditor.triggerDialogueTransform);
         Create_Object(mapEditor.CurMap.droneStructList, mapEditor.droneTransform);
@@ -492,6 +492,12 @@ public class MapEditor_Editor : Editor
             mapDataStruct = mapObjectDataDictionary[data.id];
             Create_OtherObject(mapDataStruct, data);
         };
+    }
+    private void CreateExitObject(ExitObjStruct data)
+    {
+        MapDataStruct mapDataStruct = mapObjectDataDictionary[data.id];
+        Create(mapEditor.exitDoorObjectTransform,mapDataStruct,data);
+
     }
     private void Create_OtherObject(MapDataStruct mapDataStruct, ObjectData data) {
         string[] tags = mapDataStruct.name.Split("_");
@@ -819,9 +825,8 @@ List<TileData> GetTileData(Tilemap tileMap)
         return otherContainer.GetTypeObject<T>();
     }
 
-    List<ExitObjStruct> GetExitObjStructsList(Transform transform,MapEditor mapEditor)
+    ExitObjStruct GetExitObjStructsList(Transform transform,MapEditor mapEditor)
     {
-        List<ExitObjStruct> list = new();
         int keyAmount = 0;
         foreach(Transform tr in mapEditor.objectTransform)
         {
@@ -831,16 +836,16 @@ List<TileData> GetTileData(Tilemap tileMap)
             }
         }
 
-        foreach (Transform cur in transform)
-        {
-            if(cur.TryGetComponent(out ExitPointObj component)){
-                component.condition_KeyAmount += keyAmount;
-                list.Add(component.GetExitObjectStruct());
-            }
-
-        }
-
-        return list;
+        ExitPointObj exitObj = transform.GetChild(0).GetComponent<ExitPointObj>();
+        exitObj.condition_KeyAmount += keyAmount;
+        
+        return exitObj.GetComponent<ExitPointObj>().GetExitObjectStruct();
+  
+    }
+    
+    public void AddExitPointObjKeyAmount(){
+        ExitPointObj exit = mapEditor.exitDoorObjectTransform.GetChild(0).GetComponent<ExitPointObj>();
+        exit.condition_KeyAmount++;
     }
 
     GameObject FindObj(Transform transform,int id)

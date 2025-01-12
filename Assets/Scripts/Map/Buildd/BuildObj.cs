@@ -1,9 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.EventSystems;
-using Unity.VisualScripting;
 
 public enum DistructionStatus
 {
@@ -30,6 +28,11 @@ public class BuildObj : MousePointerEntity, IDamageable
     [Tooltip("The default value of this variable is false, and to use it, the IPowerConsumer interface must be implemented.")]
     public bool chargeRequired = false;
     [Space(20)]
+
+    #region Transform Item
+    private bool isTransformItem;
+    private Transform carrierTransform;
+    #endregion
 
     #region User Editor
     [Header("User Editor-only parameter")]
@@ -125,7 +128,25 @@ public class BuildObj : MousePointerEntity, IDamageable
         }
 
     }
-
+#region Transport Item
+    public void SettingTransportItem(Transform carrierTransform)
+    {
+        _rb.gravityScale = 0;
+        _collider.enabled = false;
+        this.carrierTransform = carrierTransform;
+        transform.position = carrierTransform.position;
+        //연결시키기
+        // transform.SetParent(carrierTransform);
+        isTransformItem = true;
+    }
+    public void DropTransportItem()
+    {
+        // transform.SetParent(MapEditor.Instance.networkingObjectTransform);
+        //연결해제
+        _collider.enabled =true;
+        _rb.gravityScale =1;
+    }
+#endregion
 
     public virtual void TakeDamage(DamageType damageType = DamageType.Default)
    {
@@ -267,8 +288,13 @@ public class BuildObj : MousePointerEntity, IDamageable
             _dissolveMaterial.SetFloat(DissolveAmount, percent);
             yield return null;
         }
-       
+       if(isTransformItem)
+       {
+
+       }else{
         transform.position = pot;
+       }
+        
 
         while(percent < 1)
         {
@@ -280,10 +306,11 @@ public class BuildObj : MousePointerEntity, IDamageable
         _rb.gravityScale = 1;
         GetComponent<InteractableObject>().Respawned();
 
-        if (MapEditor.Instance.mapEditorState == MapEditorState.Object)
-        {
-            TurnOff();
-        }
+        //CustomEditor
+        // if (MapEditor.Instance.mapEditorState == MapEditorState.Object)
+        // {
+        //     TurnOff();
+        // }
        
     }
 

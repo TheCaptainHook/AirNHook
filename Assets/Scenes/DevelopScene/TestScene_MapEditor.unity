@@ -20842,73 +20842,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1591239810280784288, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: m_Color.a
-      value: 0
+    - target: {fileID: 510517863331905739, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: halfTileMap
+      value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 1591239810280784288, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: m_Intensity
-      value: 1
+    - target: {fileID: 510517863331905739, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: ropeTileMap
+      value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 1591239810280784288, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: m_ShapePath.Array.size
-      value: 5
+    - target: {fileID: 510517863331905739, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: floorTileMap
+      value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 1591239810280784288, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: m_LocalBounds.m_Center.x
-      value: -0.00080001354
+    - target: {fileID: 510517863331905739, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: preViewTileMap
+      value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 1591239810280784288, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: m_LocalBounds.m_Center.y
-      value: 0.096050024
+    - target: {fileID: 510517863331905739, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: accessoryTileMap
+      value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 1591239810280784288, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: m_LocalBounds.m_Extent.x
-      value: 1.4496
-      objectReference: {fileID: 0}
-    - target: {fileID: 1591239810280784288, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: m_LocalBounds.m_Extent.y
-      value: 1.40425
-      objectReference: {fileID: 0}
-    - target: {fileID: 1591239810280784288, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: m_ShapePath.Array.data[0].x
-      value: -0.9510566
-      objectReference: {fileID: 0}
-    - target: {fileID: 1591239810280784288, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: m_ShapePath.Array.data[0].y
-      value: 0.3090168
-      objectReference: {fileID: 0}
-    - target: {fileID: 1591239810280784288, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: m_ShapePath.Array.data[1].x
-      value: -0.58778507
-      objectReference: {fileID: 0}
-    - target: {fileID: 1591239810280784288, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: m_ShapePath.Array.data[1].y
-      value: -0.8090171
-      objectReference: {fileID: 0}
-    - target: {fileID: 1591239810280784288, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: m_ShapePath.Array.data[2].x
-      value: 0.5877855
-      objectReference: {fileID: 0}
-    - target: {fileID: 1591239810280784288, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: m_ShapePath.Array.data[2].y
-      value: -0.8090168
-      objectReference: {fileID: 0}
-    - target: {fileID: 1591239810280784288, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: m_ShapePath.Array.data[3].x
-      value: 0.9510564
-      objectReference: {fileID: 0}
-    - target: {fileID: 1591239810280784288, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: m_ShapePath.Array.data[3].y
-      value: 0.30901727
-      objectReference: {fileID: 0}
-    - target: {fileID: 1591239810280784288, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: m_ShapePath.Array.data[4].x
-      value: -0.00000033776624
-      objectReference: {fileID: 0}
-    - target: {fileID: 1591239810280784288, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: m_ShapePath.Array.data[4].y
-      value: 1
+    - target: {fileID: 510517863331905739, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: backgroundTileMap
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2005102887669488765, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: m_Name

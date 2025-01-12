@@ -37,7 +37,7 @@ public class Map
     //TODO 1024
     public List<ButtonActivatableObjectStruct> mapButtonActivatableObjectDataList = new();
     public List<ButtonObjectStruct> buttonObjectList = new();
-    public List<ExitObjStruct> mapExitObjectDataList = new();
+    public ExitObjStruct mapExitObjectStruct;
     public List<DialogueData> dialogueDataList = new();
     public List<DroneStruct> droneStructList = new(); //TODO 0922
 
@@ -55,7 +55,7 @@ public class Map
     public Map(Vector2 mapSize, string id, string subMapName,
         string nextMapId,
         int stageLevel, Vector2 startPosition,
-        List<ExitObjStruct> mapExitObjectDataList,
+        ExitObjStruct mapExitObjectStruct,
         //tile
         List<TileData> tileList,
         List<TileData> halfTileList,
@@ -97,7 +97,7 @@ public class Map
         mapBackgroundObjectList = backgroundObjectList;
         mapOtherObjectList = otherObjectList;
         this.startPosition = startPosition;
-        this.mapExitObjectDataList = mapExitObjectDataList;
+        this.mapExitObjectStruct = mapExitObjectStruct;
         this.mapButtonActivatableObjectDataList = mapButtonActivatabledObjectDataList;
         this.buttonObjectList = buttonObjectList;
         this.dialogueDataList = dialogueDataList;

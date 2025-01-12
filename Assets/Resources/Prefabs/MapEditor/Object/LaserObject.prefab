@@ -4881,6 +4881,7 @@ MonoBehaviour:
   transformID: 1
   position: {x: 0, y: 0}
   distructionStatus: 0
+  chargeRequired: 0
   onPlaceable: 0
   onRotateable: 1
   onScaleable: 0

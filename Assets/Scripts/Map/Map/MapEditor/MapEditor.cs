@@ -418,12 +418,11 @@ public class MapEditor : MonoBehaviour
         Camera.main.GetComponent<ParallaxCamera>().oldPosition = startPosition.x;
     }
     private void Create_Object(){
+        CreateExitObject(curMap.mapExitObjectStruct);
         Create_Object(curMap.mapObjectDataList,objectTransform);
         Create_Object(curMap.mapBackgroundObjectList,backgroundObjectContainer);
-        // Create_Object(curMap.mapOtherObjectList,otherContainer);
         Create_OtherObject(curMap.mapOtherObjectList,otherContainer);
         Create_Object(curMap.mapButtonActivatableObjectDataList,buttonActivatableObjectTransform);
-        Create_Object(curMap.mapExitObjectDataList,exitDoorObjectTransform);
         Create_Object(curMap.buttonObjectList,buttonObjectTransform);
         Create_Object(Managers.Data.saveData.dic[curMap.mapID]._DialogueDataList,triggerDialogueTransform);
         Create_Object(curMap.droneStructList,droneTransform);
@@ -461,6 +460,7 @@ public class MapEditor : MonoBehaviour
             placeMentSystem.tileDic[data.position] = data.id;        
          }
     }
+
     public void Create_OtherObject(List<ObjectData> list,Transform transform){
        MapDataStruct mapDataStruct;
         foreach(ObjectData data in list){
@@ -468,6 +468,13 @@ public class MapEditor : MonoBehaviour
             Create_OtherObject(mapDataStruct,data,transform);
         };
     }
+    private void CreateExitObject(ExitObjStruct data)
+    {
+        MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
+        Create(exitDoorObjectTransform,mapDataStruct,data);
+
+    }
+
     private void Create_OtherObject(MapDataStruct mapDataStruct,ObjectData data,Transform transform){
         string[] tags = mapDataStruct.name.Split("_");
         Transform curTr = transform;

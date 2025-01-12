@@ -392,6 +392,7 @@ public struct DialogueData
 
     }
 }
+#region  Drone
 [System.Serializable]
 public struct DroneStruct{
     public int id;
@@ -400,17 +401,21 @@ public struct DroneStruct{
     public Vector3 scale;
     public Vector2[] paths;
     public float moveSpeed;
+    public Drone_TransportItemType drone_TransportItemType;
 
-    public DroneStruct(int id,Vector2 position,Vector3 scale,Vector2[] paths,float moveSpeed){
+    public DroneStruct(int id,Vector2 position,Vector3 scale,Vector2[] paths,float moveSpeed,Drone_TransportItemType drone_TransportItemType = Drone_TransportItemType.None){
         this.id = id;
         this.position = position;
         this.scale = scale;
         this.paths = paths;
         this.moveSpeed = moveSpeed;
         quaternion = Quaternion.identity;
+        this.drone_TransportItemType = drone_TransportItemType;
     }
 
+
 }
+#endregion
 #endregion
 #region Shadow
 [System.Serializable]

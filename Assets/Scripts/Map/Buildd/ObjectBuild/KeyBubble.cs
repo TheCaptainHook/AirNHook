@@ -1,14 +1,11 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using TMPro;
-using Mirror;
 using UnityEngine;
 
 public class KeyBubble : MonoBehaviour
 {
     [SerializeField] private TMP_Text _text;
-    
+    private int keyAmount;
 
     public void SatisfiedCondition()
     {
@@ -27,6 +24,7 @@ public class KeyBubble : MonoBehaviour
         if (keyAmount == 0) return;
         _text.text = keyAmount.ToString();
         gameObject.SetActive(true);
+        this.keyAmount = keyAmount;
     }
 
     public void MinusConditionKeyAmount(int amount)
@@ -36,8 +34,14 @@ public class KeyBubble : MonoBehaviour
             SatisfiedCondition();
             return;
         }
+        keyAmount = amount;
         _text.text = amount.ToString();
     }
 
+    public void AddKeyAmount()
+    {
+        keyAmount++;
+        _text.text = keyAmount.ToString();
+    }
    
 }

@@ -266096,17 +266096,15 @@
             "chargeRequired": true
         }
     ],
-    "mapExitObjectDataList": [
-        {
-            "id": 301,
-            "position": {
-                "x": 20.399999618530275,
-                "y": -14.09000015258789
-            },
-            "condition_KeyAmount": 1,
-            "nextMapId": ""
-        }
-    ],
+    "mapExitObjectStruct": {
+        "id": 301,
+        "position": {
+            "x": 20.399999618530275,
+            "y": -14.09000015258789
+        },
+        "condition_KeyAmount": 1,
+        "nextMapId": ""
+    },
     "dialogueDataList": [],
     "droneStructList": [
         {
@@ -266148,7 +266146,8 @@
                     "y": 2.930000066757202
                 }
             ],
-            "moveSpeed": 5.0
+            "moveSpeed": 5.0,
+            "drone_TransportItemType": 7
         },
         {
             "id": 340,
@@ -266193,7 +266192,38 @@
                     "y": 14.0
                 }
             ],
-            "moveSpeed": 3.0
+            "moveSpeed": 3.0,
+            "drone_TransportItemType": 7
+        },
+        {
+            "id": 326,
+            "position": {
+                "x": -35.83000183105469,
+                "y": 18.690000534057618
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 0.6499999761581421,
+                "y": 0.6499999761581421,
+                "z": 1.0
+            },
+            "paths": [
+                {
+                    "x": -35.83000183105469,
+                    "y": 18.690000534057618
+                },
+                {
+                    "x": -28.5,
+                    "y": 18.690000534057618
+                }
+            ],
+            "moveSpeed": 5.0,
+            "drone_TransportItemType": 4
         }
     ],
     "collectableObjectStructList": [

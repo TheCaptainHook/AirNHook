@@ -172874,7 +172874,7 @@
             "chargeRequired": false
         }
     ],
-    "mapExitObjectDataList": [
+    "mapExitObjectStruct": 
         {
             "id": 301,
             "position": {
@@ -172884,7 +172884,7 @@
             "condition_KeyAmount": 1,
             "nextMapId": ""
         }
-    ],
+    ,
     "dialogueDataList": [],
     "droneStructList": [
         {

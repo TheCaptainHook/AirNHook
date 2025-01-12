@@ -63449,8 +63449,7 @@
             ]
         }
     ],
-    "mapExitObjectDataList": [
-        {
+    "mapExitObjectStruct": {
             "id": 301,
             "position": {
                 "x": 43.0,
@@ -63458,8 +63457,7 @@
             },
             "condition_KeyAmount": 0,
             "nextMapId": ""
-        }
-    ],
+    },
     "dialogueDataList": [
         {
             "id": 1003,

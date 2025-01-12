@@ -65,7 +65,10 @@ public class ExitPointObj : BuildObj
       
         return new ExitObjStruct(id,transform.position, condition_KeyAmount, nextMapId);
     }
-    
+    public void AddKeyAmount()
+    {
+        keyBubble.AddKeyAmount();
+    }
 
     public override void SetData<T>(T data)
     {

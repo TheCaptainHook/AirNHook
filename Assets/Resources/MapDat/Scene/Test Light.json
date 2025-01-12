@@ -7078,17 +7078,15 @@
     "mapOtherObjectList": [],
     "mapButtonActivatableObjectDataList": [],
     "buttonObjectList": [],
-    "mapExitObjectDataList": [
-        {
-            "id": 301,
-            "position": {
-                "x": -1.2699999809265137,
-                "y": 6.739999771118164
-            },
-            "condition_KeyAmount": 0,
-            "nextMapId": ""
-        }
-    ],
+    "mapExitObjectStruct":{
+        "id": 301,
+        "position": {
+            "x": -1.2699999809265137,
+            "y": 6.739999771118164
+        },
+        "condition_KeyAmount": 0,
+        "nextMapId": ""
+    },
     "dialogueDataList": [],
     "droneStructList": [],
     "collectableObjectStructList": [],
