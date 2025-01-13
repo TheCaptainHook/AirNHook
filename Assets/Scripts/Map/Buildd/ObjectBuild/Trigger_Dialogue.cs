@@ -17,7 +17,7 @@ public class Trigger_Dialogue : BuildObj
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.TryGetComponent(out Player component) && !OnExcuted)
+        if(collision.TryGetComponent(out PlayerSM component) && !OnExcuted)
         {
             OnExcuted = true;
    
@@ -25,9 +25,8 @@ public class Trigger_Dialogue : BuildObj
             MapSaveData _MapSaveData = Managers.Data.saveData.dic[MapEditor.Instance.CurMap.mapID];
             _MapSaveData.ModifyDialogueData(_DialogueId);
 
-            //UI_Dialogue active
             UI_Dialogue _UI = Managers.UI.ShowUI<UI_Dialogue>().GetComponent<UI_Dialogue>();
-            // _UI.SetData(_DialogueId);
+            
             _UI.StartDialogue(_DialogueId);
            
         }

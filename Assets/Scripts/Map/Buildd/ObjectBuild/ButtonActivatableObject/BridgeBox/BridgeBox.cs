@@ -9,6 +9,7 @@ using UnityEngine;
         private Vector2 connectionPoint;
         [ReadOnly]
         [SerializeField] LineRenderer lineRenderer;
+        [ReadOnly]
         [SerializeField] GameObject spriteObj;
         #region  Components
         Rigidbody2D rb;

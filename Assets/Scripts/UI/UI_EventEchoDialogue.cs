@@ -39,7 +39,7 @@ public class UI_EventEchoDialogue : UI_Base
     #endregion
 
 
-    public string testSentence = "Lorem [Ipsum] is simply dummy /1";
+    string testSentence = "Lorem [Ipsum] is <simply> dummy /1";
 
 
     #region Pattern
@@ -57,9 +57,7 @@ public class UI_EventEchoDialogue : UI_Base
         //test
         if (Input.GetKeyDown(KeyCode.P))
         {
-
             SetDialogue(testSentence);
-
         }
     }
 
@@ -90,8 +88,7 @@ public class UI_EventEchoDialogue : UI_Base
     #region Main
     public void SetDialogue(string text)
     {
-        // string text = testSentence;
-        //1. Replace
+        //1. Replace, stringToIntPattern
         Replace(ref text);
         //Search mark
         UpdateTextMeshEffectStructList(ref text);
@@ -105,7 +102,7 @@ public class UI_EventEchoDialogue : UI_Base
         //start Color
         foreach (TextMeshEffectStruct data in textMeshEffectStructList)
         {
-            ChangeColor(data, Color.red);
+            ChangeColor(data, transparencyColor);
 
             if (data.mark == Mark.Mark_1) GetEffectFieldList(data, ref scaleList);
             if (data.mark == Mark.Mark_2) GetEffectFieldList(data, ref bounceList);
@@ -115,8 +112,8 @@ public class UI_EventEchoDialogue : UI_Base
 
         //on effect
 
-        // StartCoroutine(AppearEffect(bounceList));
-        // StartCoroutine(AppearEffect(scaleList));
+        StartCoroutine(AppearEffect(bounceList));
+        StartCoroutine(AppearEffect(scaleList));
 
         if (mark_1_EffectCoroutine != null) StopCoroutine(mark_1_EffectCoroutine);
         mark_1_EffectCoroutine = StartCoroutine(ScaleEffectCo(scaleList));
@@ -169,7 +166,8 @@ public class UI_EventEchoDialogue : UI_Base
     private void Replace(ref string sentence)
     {
         StringBuilder sb = new StringBuilder(sentence);
-        // sb.Replace(stringToIntPattern_PlayerDeath, 5.ToString());
+
+        sb.Replace(stringToIntPattern_PlayerDeath, Managers.Data.saveData._SaveFileData._PlayerSaveData.totalDeath.ToString());
         sb.Replace(stringToIntPattern_PlayerUsePortal,Managers.Data.saveData._AchievementData.use_Portal.ToString());
 
         sentence = sb.ToString();
@@ -205,9 +203,7 @@ public class UI_EventEchoDialogue : UI_Base
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    //f.vertices[f.vertexIndex + i] = f.charCenter + (f.vertices[f.vertexIndex + i] - f.charCenter) * scale;
-                    f.vertices[f.vertexIndex + i] = f.charCenter + (f.originalVertices[f.vertexIndex + i] - f.charCenter) * scale;
-                    
+                    f.vertices[f.vertexIndex + i] = f.charCenter + (f.originalVertices[f.vertexIndex + i] - f.charCenter) * scale;   
                 }
             }
 
@@ -225,18 +221,17 @@ public class UI_EventEchoDialogue : UI_Base
     float amplitude = 7;
     float bounceAnimationSpeed = 2;
     IEnumerator BounceEffectCo(List<TMP_EffectField> list)
-    {
+    {   
+        if(list.Count == 0) yield break;
+
         while (true)
         {
             foreach (var f in list)
             {
                 for (int i = 0; i < 4; i++)
                 {
-
                     Vector3 pot = f.charCenter * 4f;
                     pot.x = 0;
-                    //f.vertices[f.vertexIndex + i] = f.charCenter + (f.vertices[f.vertexIndex + i] - f.charCenter) * scale;
-                    //f.vertices[f.vertexIndex + i] = f.charCenter + (f.originalVertices[f.vertexIndex + i] - f.charCenter) * scale;
                     f.vertices[f.vertexIndex + i] = f.originalVertices[f.vertexIndex + i] - new Vector3(0, Mathf.Sin(Time.time * bounceAnimationSpeed) * amplitude, 0);
                 }
             }
@@ -255,6 +250,8 @@ public class UI_EventEchoDialogue : UI_Base
     float appearAnimationSpeed =1;
     
     IEnumerator AppearEffect(List<TMP_EffectField> list){
+        if(list.Count == 0) yield break;
+
         float percent =0;
 
         while(percent <1){

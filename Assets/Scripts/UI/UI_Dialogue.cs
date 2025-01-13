@@ -4,10 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Threading.Tasks;
 using System.Threading;
-using Unity.VisualScripting;
-using System.Runtime.CompilerServices;
+
 
 
 
@@ -83,7 +81,7 @@ public class UI_Dialogue : UI_Base
     private int dialogueId;
     private int nextDialogueIndex;
     private List<Dialogue> list;
-    private bool onPrograss;
+    private bool onProgress;
     private string path = "Arts/Sprites/DialogueSprites";
     
     private string _PreviousDialogueName;//
@@ -148,18 +146,17 @@ public class UI_Dialogue : UI_Base
     {
         queue.Enqueue(id);
 
-        if(!onPrograss){
+        if(!onProgress){
             StartInit();
            mainCoroutine = StartCoroutine(StartDialougeCo());
         }
 
     }
     IEnumerator StartDialougeCo(){
-        onPrograss = true;
+        onProgress = true;
         while(queue.Count>0)
         {
             int id = queue.Dequeue();
-            Debug.Log(id);
             nextDialogueIndex = 1;
             list = Managers.Data.language.dialogueMap[id];
             
@@ -170,7 +167,7 @@ public class UI_Dialogue : UI_Base
              }
         }
 
-        onPrograss = false;
+        onProgress = false;
         DialogueShutDown();
     }
 
