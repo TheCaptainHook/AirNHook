@@ -465,8 +465,8 @@ GameObject:
   - component: {fileID: 8864067844301257339}
   - component: {fileID: 2349395023922785365}
   - component: {fileID: 4183380097483767015}
-  - component: {fileID: 444707294828945258}
   - component: {fileID: 896915870225831016}
+  - component: {fileID: 444707294828945258}
   m_Layer: 15
   m_Name: Drone_Hook
   m_TagString: Untagged
@@ -629,22 +629,6 @@ SortingGroup:
   m_SortingLayer: 5
   m_SortingOrder: 5
   m_SortAtRoot: 0
---- !u!114 &444707294828945258
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5485989114999524422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f94c8f0b6f1c40b58d12bba8601b7f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parents: {fileID: 0}
-  curPath: []
-  line: {fileID: 0}
-  onHierarchy: 0
 --- !u!114 &896915870225831016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -661,6 +645,7 @@ MonoBehaviour:
   transformID: 0
   position: {x: 0, y: 0}
   distructionStatus: 0
+  chargeRequired: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
@@ -673,6 +658,23 @@ MonoBehaviour:
   moveSpeed: 4
   IsBroken: 0
   _Animation_Transition_Speed: 3
+--- !u!114 &444707294828945258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5485989114999524422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f94c8f0b6f1c40b58d12bba8601b7f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parents: {fileID: 0}
+  onHierarchy: 0
+  debugmodeTransform: {fileID: 0}
+  curPath: []
+  line: {fileID: 0}
 --- !u!1 &7418276887607424029
 GameObject:
   m_ObjectHideFlags: 0

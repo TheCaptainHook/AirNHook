@@ -12,8 +12,6 @@ using System.Reflection;
 using System.Linq;
 using System;
 using UnityEngine.Rendering.Universal;
-using Unity.VisualScripting;
-using NPOI.SS.Formula.Functions;
 
 
 //TODO 0724 Develop code line : 435,506
@@ -1050,10 +1048,6 @@ List<TileData> GetTileData(Tilemap tileMap)
 
         using (new GUILayout.VerticalScope(label,style))
         {
-            // if (Event.current.type == EventType.Layout || Event.current.type == EventType.Repaint)
-            // {
-            //     action?.Invoke();
-            // }
             action?.Invoke();
         }
     }
@@ -1064,10 +1058,6 @@ List<TileData> GetTileData(Tilemap tileMap)
 
         using (new GUILayout.HorizontalScope(label,style))
         {
-            // if (Event.current.type == EventType.Layout || Event.current.type == EventType.Repaint)
-            // {
-            //     action?.Invoke();
-            // }
             action?.Invoke();
         }
     }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -9,106 +10,56 @@ using UnityEditor;
 public class DrawDronePath : MonoBehaviour
 {
    public Transform parents;
-   private Vector2 previousTransformPosition;
-   public Vector2[] curPath;
-   public LineRenderer line;
-   public bool onHierarchy;
-#if UNITY_EDITOR
-   public void Init(Vector2[] paths){
-    onHierarchy = CheckFocusedObjectPresence();
-    if(!onHierarchy) return;
-
-    //setting parents Transform
-    DestroyDebugTransform();
-
-    parents = new GameObject("DebugTransfrom").transform;
-    parents.SetParent(transform);
-    line = GeneratorLineRenderer();
-
-    previousTransformPosition = transform.position;
-
-    if(paths != null){
-        curPath = paths;
-        SetPath(curPath);
-    }
-    //
-    
-   }
-    
-    #region  Main
-     public void SetPath(Vector2[] paths){
-        curPath = paths;
-        line.positionCount = paths.Length+1;
-        line.SetPosition(0,previousTransformPosition);
-            for(int i =1 ;i<=paths.Length; i++){
-                line.SetPosition(i,paths[i-1]);
-            }
-    }
-
-
-    #endregion
-  
-
-   #region  Util
-   public void CheckTransform(){
-    if(Application.isPlaying) return;
-    if(parents == null) return;
-    
-    if(previousTransformPosition != (Vector2)transform.position){
-        previousTransformPosition = transform.position;
-        
-        if(curPath == null) return;
-
-        RefrashLine();
-    }
-   }
    
-    public void DestroyDebugTransform(){
+   
+   public bool onHierarchy;
 
+
+    private DroneEntity entity;
+    public Transform debugmodeTransform;
+    public Vector2[] curPath;
+    public LineRenderer line;
+    private Vector2 previousTransformPosition;
+
+
+#if UNITY_EDITOR
+public void Setting()
+{
+    entity = GetComponent<DroneEntity>();
+    CheckDebugTransform();
+    line = GeneratorLineRenderer();
+}
+
+    public void DrawPath()
+    {
+        line.positionCount = entity.paths.Length+1;
+        line.SetPosition(0,transform.position);
+        for(int i = 0;i<entity.paths.Length;i++)
+        {
+            line.SetPosition(i+1,entity.paths[i]);
+        }
+    }
+    public void Reset()
+    {
         foreach(Transform tr in transform){
-            if(tr.gameObject.name == "DebugTransfrom"){
-                Undo.DestroyObjectImmediate(tr.gameObject);
+            if(tr.name == "DebugmodeTransform")
+            {
+                DestroyImmediate(tr.gameObject);
             }
         }
     }
 
-    public void Destroy_Parents(){
-        if(parents != null){
-            Undo.DestroyObjectImmediate(parents.gameObject);
-        }
-    }
-    
-    private bool CheckFocusedObjectPresence(){
-        GameObject selectedObject = Selection.activeGameObject;
-        if(selectedObject == null) return false;
-        GameObject obj = GameObject.Find(selectedObject.name);
+    private void CheckDebugTransform()
+    {
+        Transform debugTransform = gameObject.transform.Find("DebugmodeTransform");
+            if(debugTransform !=null) Undo.DestroyObjectImmediate(debugTransform.gameObject);
+            
+            if(debugmodeTransform == null){
+                GameObject obj = new GameObject("DebugmodeTransform");        
+                obj.transform.SetParent(transform);            
+                debugmodeTransform = obj.transform;
+            }
 
-        if (obj != null)
-        {
-            // 선택된 오브젝트가 하이라키에 존재하는지 확인
-            return true;
-        }
-        else
-        {
-            // 선택된 오브젝트가 없는 경우
-            return false;
-        }
-    }
-
-   public void RefrashLine(){
-    line.SetPosition(0,previousTransformPosition);
-   }
-
-
-    public void Disable(){
-        if(parents != null){
-            parents.gameObject.SetActive(false);
-        }
-    }
-    public void Enable(){
-        if(parents != null){
-            parents.gameObject.SetActive(true);
-        }
     }
 
     private LineRenderer GeneratorLineRenderer(){
@@ -121,10 +72,9 @@ public class DrawDronePath : MonoBehaviour
         lineRenderer.positionCount = 0;
         lineRenderer.sortingLayerName ="ForeGround";
         lineRenderer.sortingOrder = 10000;
-        obj.transform.SetParent(parents);
+        obj.transform.SetParent(debugmodeTransform);
 
         return lineRenderer;
     }
-   #endregion
 #endif
 }

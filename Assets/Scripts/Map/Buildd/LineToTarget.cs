@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.VisualScripting;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -12,186 +14,210 @@ using UnityEditor;
 [ExecuteInEditMode]
 public class LineToTarget : MonoBehaviour
 {
-    private List<LineRenderer> lineRendererList;
     public Transform debugmodeTransform;
 
-    private List<Vector3> previousTargetVecList;
+//------------------------------------------------------------Refactoring 0114
+    // Vector2 previousPot;
+    List<TargetTrackingField> targetList;
+    // Queue<LineRenderer> lineQueue;
+    //1 사이즈 차이
+    //개별 오브젝트 비교, 차이나면 바로 리프레쉬
+    ButtonEntity entity;
 
-    private List<GameObject> curTargetObjectList;
-
-    private bool readyForTracking;
-    public bool onHierarchy;
-    // [HideInInspector] public bool isNotPrefab;
-    private Coroutine trackTargetCoroutine;
     
 #if UNITY_EDITOR
-    public void Setting(){
-        onHierarchy = CheckFocusedObjectPresence();
-        if(!onHierarchy) return;
 
 
-        Transform debugTransform = gameObject.transform.Find("DebugmodeTransform");
+  public void Setting()
+  {
+    entity  = GetComponent<ButtonEntity>();
+    CheckDebugTransform();
+
+    targetList = new();
+    // lineQueue = new();   
+    
+    CheckNullAndMissingValue();
+
+    foreach(var target in entity.targetObjects)
+    {
+        targetList.Add(new TargetTrackingField(transform,GeneratorLineRenderer(),target.transform));
+    }
+    
+  }
+
+public void Reset()
+{
+    if(entity == null) return;
+    foreach(Transform tr in transform)
+    {
+        if(tr.name == "DebugmodeTransform")
+        {
+            DestroyImmediate(tr.gameObject);
+        }
+    }
+    // if(debugmodeTransform != null) DestroyImmediate(debugmodeTransform.gameObject);
+    targetList.Clear();
+    // lineQueue.Clear();
+}
+
+
+
+public void Tracking()
+{
+    CheckNullAndMissingValue();
+
+    CheckEntityTargetValue();
+
+    if(targetList.Count != entity.targetObjects.Count) return;
+
+    EntityTargetRefrash();
+    TargetRefrash();
+}
+
+private void CheckNullAndMissingValue()
+{
+    for(int i = entity.targetObjects.Count-1;i>=0;i--)
+    {
+        if(entity.targetObjects[i]==null)
+        {
+            entity.targetObjects.Remove(entity.targetObjects[i]);
+        }
+    }
+}
+
+private void CheckEntityTargetValue()
+{
+    if(targetList.Count != entity.targetObjects.Count)
+    {
+        if(targetList.Count > entity.targetObjects.Count)
+        {
+            for(int i = 0;i<targetList.Count - entity.targetObjects.Count;i++)
+            {
+                var lastVal = targetList[^1];
+                targetList.Remove(lastVal);
+                lastVal.DestroyLine();
+
+            }
+
+
+        }else{
+            for(int i = 0;i < entity.targetObjects.Count - targetList.Count;i++)
+            {
+                targetList.Add(new TargetTrackingField(transform,GeneratorLineRenderer()));
+            }
+        }
+    }
+}
+private void EntityTargetRefrash()
+{
+    for(int i =0; i<entity.targetObjects.Count;i++)
+    {
+        targetList[i].CompareTarget(entity.targetObjects[i]);
+    }
+}
+
+
+private void TargetRefrash()
+{
+    foreach(var target in targetList)
+    {
+        target.Refrash();
+    }
+}
+
+private void CheckDebugTransform()
+{
+     Transform debugTransform = gameObject.transform.Find("DebugmodeTransform");
         if(debugTransform !=null) Undo.DestroyObjectImmediate(debugTransform.gameObject);
         
         if(debugmodeTransform == null){
             GameObject obj = new GameObject("DebugmodeTransform");        
             obj.transform.SetParent(transform);            
             debugmodeTransform = obj.transform;
-            lineRendererList = new();
-
-            // OverridePrefabWithoutDebugTransform();
-
         }
 
+}
 
-    }
-    private bool CheckFocusedObjectPresence()
+
+public class TargetTrackingField
+{
+    public Transform main;
+    public Transform target;
+    public LineRenderer line;
+    private Vector2 previousMainPot;
+    private Vector2 previousPot;
+    private Vector3 previousRot;
+
+    public TargetTrackingField(Transform main,LineRenderer line,Transform target = null)
     {
-        GameObject selectedObject = Selection.activeGameObject;
-        GameObject obj = GameObject.Find(selectedObject.name);
+        this.main = main;
+        this.target = target;
 
-        if (obj != null)
+        this.line = line;
+        line.positionCount = 2;
+
+        previousMainPot = main.position;
+        line.SetPosition(0,main.position);
+
+        if(target != null)
         {
-            // 선택된 오브젝트가 하이라키에 존재하는지 확인
-            return true;
+            previousPot = target.position;
+            previousRot = target.rotation.eulerAngles;
+            
+            line.SetPosition(1,target.position);
         }
-        else
+
+    }
+    #region  Check
+    private bool CheckTargetPosition()
+    {
+        bool pot =  (Vector2)target.position == previousPot;
+        bool rot = previousRot == target.rotation.eulerAngles;
+
+        return pot && rot;
+    }
+    private bool CheckMainPosition()
+    {
+        return previousMainPot == (Vector2)main.position;
+    }
+    #endregion
+   
+    public void Refrash()
+    {
+        if(!CheckMainPosition())
         {
-            // 선택된 오브젝트가 없는 경우
-            return false;
+            line.SetPosition(0,main.position);
+            previousMainPot = main.position;
         }
-    }
-
-    public void DestroyDebugmodeTransform(){
-        lineRendererList = null;
-        previousTargetVecList = null;
-        readyForTracking = false;
-
-        if(trackTargetCoroutine != null){
-            if(trackTargetCoroutine != null)StopCoroutine(trackTargetCoroutine);
-            trackTargetCoroutine = null;
-        }
-        
-        GameObject obj = GameObject.Find("DebugmodeTransform");
-        if(obj != null){
-            Undo.DestroyObjectImmediate(debugmodeTransform.gameObject);
-        }
-        
-    }
-
-
-
-
-    public void EnableToggle(bool onActive){
-        
-        foreach(var obj in lineRendererList){
-            obj.enabled = onActive;
+        if(!CheckTargetPosition())
+        {
+            line.SetPosition(1,target.transform.position);
+            previousPot = target.position;
+            previousRot = target.rotation.eulerAngles;
         }
     }
 
 
-    IEnumerator TrackTargetObj(){
-        bool onChange = false;
+    public void CompareTarget(GameObject obj)
+    {
+        if(obj == null) return;
+        if(target == null || obj != target.gameObject)
+        {
+            target = obj.transform;
+            line.SetPosition(1,target.position);
 
-        while(true){
-                if(!readyForTracking) yield return null;
-           for(int i = 0 ;i<curTargetObjectList.Count;i++){
-            if(curTargetObjectList[i].transform.position != previousTargetVecList[i]){
-                previousTargetVecList = GetTargetPositionList(curTargetObjectList);
-                onChange = true;
-                break;
-            }
-           }
-
-           if(onChange){
-            RefrashLineRenderer_ThisTransform();
-           }
-           
-            onChange = false;
-
-            Debug.Log("Tracking");
-
-            yield return null;
         }
     }
 
-#region  Target Object
- 
-     public void SetTargetObjectList(List<GameObject> list){
-
-        curTargetObjectList = list;
-        if(trackTargetCoroutine != null){
-            StopCoroutine(trackTargetCoroutine);
-        }
-
-            //INIT
-            if(previousTargetVecList == null){
-                previousTargetVecList = GetTargetPositionList(list);
-
-                for(int i =0;i<list.Count; i++){
-                    LineRenderer lineRenderer = GeneratorLineRenderer();
-                    SetLine(lineRenderer,previousTargetVecList[i]);
-                }
-
-                readyForTracking = true;
-            }
-            //CHECK capacity
-            if(CompareCapacityList(list)){
-                StartCoroutine(CompareCapacityListCoroutine(list));
-            }
-
-
-
-        trackTargetCoroutine = StartCoroutine(TrackTargetObj());
-
+    public void DestroyLine()
+    {
+        if(line == null) return;
+        Undo.DestroyObjectImmediate(line.gameObject);
     }
+}
 
- //Compare the capacities of two lists
-    private bool CompareCapacityList(List<GameObject> list){
-        if(list.Count != previousTargetVecList.Count){
-            return true;
-        }
+//------------------------------------------------------------Refactoring 0114
 
-        return false;
-    }
-    
-
-    IEnumerator CompareCapacityListCoroutine(List<GameObject> list){
-        readyForTracking = false;
-
-        if(list.Count > previousTargetVecList.Count){
-            for(int i = 0; i<list.Count - previousTargetVecList.Count;i++){
-                LineRenderer lineRenderer = GeneratorLineRenderer();
-                SetLine(lineRenderer,list[list.Count - (i+1)].transform.position); 
-            }
-        }else{
-            for(int i = previousTargetVecList.Count-1; i>list.Count-1 ; i--){
-                GameObject obj = lineRendererList[i].gameObject;
-                lineRendererList.RemoveRange(i,1);
-                Undo.DestroyObjectImmediate(obj);
-            }
-        }
-
-        previousTargetVecList = GetTargetPositionList(list);
-        yield return new WaitForSeconds(0.1f);
-
-        
-        readyForTracking = true;
-    }
-    // private bool CheckTargetObjectTransform(List<GameObject> list){
-
-    // } //TODO 0902
-
-    private List<Vector3> GetTargetPositionList(List<GameObject> list){
-        List<Vector3> vecList = new();
-        foreach(var obj in curTargetObjectList){
-            vecList.Add(obj.transform.position);
-        }
-
-        return vecList;
-    }
-
-#endregion
 
 #region  Line
 
@@ -199,7 +225,7 @@ public class LineToTarget : MonoBehaviour
 
         GameObject obj = new GameObject("LineRenderer");
         LineRenderer lineRenderer = obj.AddComponent<LineRenderer>();
-        lineRendererList.Add(lineRenderer);
+        // lineRendererList.Add(lineRenderer);
         lineRenderer.startWidth = 0.1f;
         lineRenderer.endWidth = 0.1f;
         lineRenderer.positionCount = 0;
@@ -211,51 +237,7 @@ public class LineToTarget : MonoBehaviour
     }
 
 
-
-     private void SetLine(LineRenderer lineRenderer,Vector3 end){
-        lineRenderer.positionCount = 2;
-        lineRenderer.SetPosition(0,transform.position);
-        lineRenderer.SetPosition(1,end);
-    }
-
-
-
-    public void RefrashLineRenderer_ThisTransform(){
-        if(!readyForTracking) return;
-        for(int i = 0;i<lineRendererList.Count;i++){
-            SetLine(lineRendererList[i],previousTargetVecList[i]);
-        }
-        
-    }
-
 #endregion
 
-#region Override Prefab
-    public void OverridePrefabWithoutDebugTransform(){
-
-        GameObject prefabRoot = PrefabUtility.GetNearestPrefabInstanceRoot(gameObject);
-
-        if (prefabRoot == null)
-        {
-            Debug.LogWarning("The selected object is not part of a prefab instance.");
-            return;
-        }
-       
-        Transform debugTransform = gameObject.transform.Find("DebugmodeTransform");
-        if (debugTransform != null)
-        {
-            // DebugTransform 오브젝트의 변경 사항을 되돌리기
-            PrefabUtility.RevertObjectOverride(gameObject, InteractionMode.UserAction);
-            Debug.Log("DebugTransform has been excluded from prefab override.");
-        }
-        else
-        {
-            Debug.LogWarning("DebugTransform object not found.");
-        }
-
-        PrefabUtility.ApplyPrefabInstance(gameObject, InteractionMode.UserAction);
-        Debug.Log("Prefab override applied, excluding DebugTransform.");
-    }
-#endregion
 #endif
 }
