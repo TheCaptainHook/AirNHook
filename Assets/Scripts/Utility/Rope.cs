@@ -7,9 +7,10 @@ public class Rope : MonoBehaviour
     private LineRenderer lineRenderer;
     private List<RopeSegment> ropeSegments = new List<RopeSegment>();
     private float ropeSegLen = 0.25f;
-    private int segmentLength = 4;
+    private int segmentLength = 5;
     private float lineWidth = 0.1f;
 
+    [ReadOnly]
     public Vector2 ropeStartPoint;
     public Transform head;
     public Transform tail;
