@@ -71,5 +71,7 @@ public static class GlobalText
 
     #region MapEditor
     public const string SHADOW_PREFAB_PATH = "Prefabs/MapEditor/ShadowCaster";
+    public const string TILEBASE_CABLE = "Prefabs/MapEditor/Tile/100";
+    public const string TILEBASE_CHAIN = "Prefabs/MapEditor/Tile/101";
     #endregion
 }

@@ -18,7 +18,7 @@ TagManager:
   - Ground/HalfTiles
   - Player
   - Ground/Background
-  - 
+  - Ground/Rope
   - Object/Background
   - Object/ForeGround
   - Object/ForeGround/MovingObject
