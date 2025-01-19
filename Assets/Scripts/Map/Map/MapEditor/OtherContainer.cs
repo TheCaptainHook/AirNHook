@@ -20,7 +20,6 @@ public class OtherContainer : MonoBehaviour
             foreach(Transform item in tr){
                 if(item.TryGetComponent(out BuildObj component)){
                     list.Add(component.GetData<T>());
-                    Debug.Log(item.name);
                 }
             }
         }
