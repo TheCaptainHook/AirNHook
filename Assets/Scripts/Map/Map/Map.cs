@@ -96,7 +96,7 @@ public class Map
         mapObjectDataList = objectList;
         mapBackgroundObjectList = backgroundObjectList;
         mapOtherObjectList = otherObjectList;
-        this.startPosition = startPosition;
+        this.startPosition = FloorVector2(startPosition);
         this.mapExitObjectStruct = mapExitObjectStruct;
         this.mapButtonActivatableObjectDataList = mapButtonActivatabledObjectDataList;
         this.buttonObjectList = buttonObjectList;
@@ -133,6 +133,16 @@ public class Map
         Vector2 start = new Vector2(mapTileDataList[0].position.x, mapTileDataList[0].position.y);
         Vector2 end = new Vector2(mapTileDataList[mapTileDataList.Count-1].position.x, mapTileDataList[mapTileDataList.Count - 1].position.y);
         return (start, end);
+    }
+
+    private Vector2 FloorVector2(Vector2 vec)
+    {
+        return new Vector2(FloorValue_2(vec.x), FloorValue_2(vec.y));
+    }
+    private float FloorValue_2(float val)
+    {
+        float num = val * 100;
+        return Mathf.Floor(num)/100f;
     }
 }
 

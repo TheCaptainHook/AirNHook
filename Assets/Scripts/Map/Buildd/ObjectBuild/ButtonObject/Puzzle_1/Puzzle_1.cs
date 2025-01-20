@@ -22,7 +22,14 @@ public class Puzzle_1 : ButtonEntity
     [ReadOnly]
     public string answer; //test
 
-    private string[] puzzle_1_Items = new string[] { "Puzzle_1_Item (1)", "Puzzle_1_Item (2)", "Puzzle_1_Item (3)" };
+    private string[] puzzle_1_Items = new string[] { 
+        "Puzzle_1_Item (1)", 
+        "Puzzle_1_Item (2)", 
+        "Puzzle_1_Item (3)",
+        "Puzzle_1_Item (4)",
+        "Puzzle_1_Item (5)",
+        "Puzzle_1_Item (6)"
+    };
     private Vector2[] partsPosition;
     private Vector2[] itemsPosition; //Fill in this field through the editor
     public bool onHint;
@@ -100,8 +107,8 @@ public class Puzzle_1 : ButtonEntity
     private void Setting() {
         int previousNum = 0;
         for (int i = 0; i < partsPosition.Length; i++) {
-            int num = Random.Range(1, 4);
-            while(previousNum == num) num = Random.Range(1, 4);
+            int num = Random.Range(1, 7);
+            while(previousNum == num) num = Random.Range(1, 7);
             previousNum = num;
             GameObject obj;
             answer += num.ToString();

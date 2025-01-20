@@ -300,6 +300,7 @@ MonoBehaviour:
   transformID: 0
   position: {x: 0, y: 0}
   distructionStatus: 0
+  chargeRequired: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0

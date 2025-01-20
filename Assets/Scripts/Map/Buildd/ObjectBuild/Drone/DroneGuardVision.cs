@@ -80,7 +80,7 @@ public class DroneGuardVision : MonoBehaviour
     public bool _OnFind;
     [ReadOnly]
     public Vector2 hitPoint;
-    private float senseTargetRate = 2;
+    private float senseTargetRate = 1;
     private float curSenseTargetRate;
 
     private void GuardProgress()
@@ -136,18 +136,15 @@ public class DroneGuardVision : MonoBehaviour
                 curSenseTargetRate += Time.deltaTime;
                 DrawLine(hit.point);
 
-                if(curSenseTargetRate >= senseTargetRate)
+                if (GetTargetDistance(drone_Laser.target) <= attackRange)
                 {
-                    curSenseTargetRate = 0;
-                    if(GetTargetDistance(drone_Laser.target) <= attackRange)
-                    {
-                        droneTrackState = DroneTrackState.ONATTACK;
-                    }
-                    else
-                    {
+                    droneTrackState = DroneTrackState.ONATTACK;
+                    return;
+                }
+
+                if (curSenseTargetRate >= senseTargetRate)
+                {   
                         droneTrackState = DroneTrackState.TRACKING;
-                    }
-                    
                 }
                 
             }else{
@@ -220,10 +217,13 @@ public class DroneGuardVision : MonoBehaviour
             time += Time.deltaTime;
             float newAngle = Mathf.PingPong(time * _RotSpeed, 40) - 20 + _Angle;
             TrackingVisionRay(newAngle);
-        }else
+            drone_Laser.RotLazerAnimation(newAngle);
+        }
+        else
         {
             _Angle = GetAngleFromTargetPositionDir();
             TrackingVisionRay(_Angle);
+            drone_Laser.RotLazerAnimation(_Angle);
         }
         
         
@@ -289,6 +289,9 @@ public class DroneGuardVision : MonoBehaviour
   #region  On Attack
    private void OnAttackProgress() 
     {
+        _Angle = GetAngleFromTargetPositionDir();
+        drone_Laser.RotLazerAnimation(_Angle);
+
         drone_Laser.UpdateLaser();
         if(drone_Laser.target == null)
         {

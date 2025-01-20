@@ -1059,7 +1059,7 @@ List<TileData> GetTileData(Tilemap tileMap)
         }
 
         ExitPointObj exitObj = transform.GetChild(0).GetComponent<ExitPointObj>();
-        exitObj.condition_KeyAmount += keyAmount;
+        exitObj.condition_KeyAmount = keyAmount;
         
         return exitObj.GetComponent<ExitPointObj>().GetExitObjectStruct();
   

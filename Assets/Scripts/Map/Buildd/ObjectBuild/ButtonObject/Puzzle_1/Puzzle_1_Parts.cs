@@ -17,7 +17,9 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     [SerializeField] Gradient correctGradient;
     [SerializeField] private GameObject _holderOpened;
     [SerializeField] private GameObject _holderClosed;
-    
+    [SerializeField] List<GameObject> numbering;
+
+
     public float boomArea;
     [Space(20)]
     [Header("Effect")]
@@ -96,7 +98,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         this.puzzle_1 = puzzle_1;
         if(Application.isPlaying)
         DrawPath(transform, puzzle_1.transform);
-
+        numbering[index].SetActive(true);
         //
         lineRenderer.colorGradient=wrongGradient;
 

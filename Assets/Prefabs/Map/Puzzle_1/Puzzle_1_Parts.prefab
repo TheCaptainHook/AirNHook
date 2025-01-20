@@ -184,7 +184,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &809284812520933131
 Transform:
   m_ObjectHideFlags: 0
@@ -556,6 +556,13 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   _holderOpened: {fileID: 4099901524616151280}
   _holderClosed: {fileID: 1185871543315773075}
+  numbering:
+  - {fileID: 1264232342796746068}
+  - {fileID: 6956878005146488106}
+  - {fileID: 6674385828901863644}
+  - {fileID: 1380693417088489473}
+  - {fileID: 666243729843009308}
+  - {fileID: 8244676673134818665}
   boomArea: 1
   particles:
   - {fileID: 3187068910201326530}

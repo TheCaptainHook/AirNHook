@@ -117,29 +117,32 @@ public void TurnOffLazer(){
     }
     IEnumerator LaserClear()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         lineRenderer.positionCount = 0;
     }
         
   public void RotLazerAnimation(float deg){
-    int newDeg = Mathf.FloorToInt(deg);
-    _LazerAnimator.SetFloat(_Directon,newDeg);
-    NormalizationLazerAndAttackPot(newDeg);
-  }
+        //int newDeg = Mathf.FloorToInt(deg);
+        float newDeg = deg;
+        //_LazerAnimator.SetFloat(_Directon, newDeg);
+        NormalizationLazerAndAttackPot(newDeg);
+    }
 
-  private void NormalizationLazerAndAttackPot(int locDeg)
+  private void NormalizationLazerAndAttackPot(float locDeg)
   {
     // if(target == null) return;
     if(target != null)
     {
-      previousTargetPosition = attackPot.transform.InverseTransformPoint((Vector2)target.transform.position);
-      if(CompareInverseTransformPoint(attackPot,previousTargetPosition,target.transform))
-      {
-        return;
-      }   
+            //previousTargetPosition = attackPot.transform.InverseTransformPoint((Vector2)target.transform.position);
+            previousTargetPosition = target.transform.position;
+      //if (CompareInverseTransformPoint(attackPot,previousTargetPosition,target.transform))
+      //{
+      //  return;
+      //}   
     }else
     {
-      previousTargetPosition = attackPot.transform.InverseTransformPoint(droneGuardVision.hitPoint);
+            //previousTargetPosition = attackPot.transform.InverseTransformPoint(droneGuardVision.hitPoint);
+            previousTargetPosition = droneGuardVision.hitPoint;
     }
     
 
@@ -148,15 +151,18 @@ public void TurnOffLazer(){
     
 
     Vector2 dir = (previousTargetPosition - (Vector2)attackPot.position).normalized;
-    if(locDeg<-100){
-        deg = GetAngleFromVector(dir)*-1;
-    }else{
-        deg = GetAngleFromVector(dir);
-    }
-    
-    Vector3 rot = _LazerBody.eulerAngles;
-    rot.z = deg;
-    _LazerBody.eulerAngles = rot;
+
+        //if(locDeg<-100){
+        //    deg = GetAngleFromVector(dir)*-1;
+        //}else{
+        //    deg = GetAngleFromVector(dir);
+        //}
+
+        //deg = GetAngleFromVector(dir);
+        _LazerBody.right = dir;
+    //Vector3 rot = _LazerBody.eulerAngles;
+    //rot.z = deg;
+    //_LazerBody.eulerAngles = rot;
 
   }
   private float GetAngleFromVector(Vector3 dir){

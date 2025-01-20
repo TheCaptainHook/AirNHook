@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc17663c113c4640a5e418ab76958e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  socketNumber: 3
+  socketNumber: 6
   possibleInsertSocket: 0
   parts: {fileID: 0}
 --- !u!114 &5038330697434322713

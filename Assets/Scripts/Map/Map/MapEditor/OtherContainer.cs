@@ -14,6 +14,7 @@ public class OtherContainer : MonoBehaviour
         
     }
     public List<T> GetTypeObject<T>(){
+        CheckNull();
         List<T> list = new();
         if(group == null) return null;
         foreach(Transform tr in group){
@@ -24,5 +25,18 @@ public class OtherContainer : MonoBehaviour
             }
         }
         return list;
+    }
+
+
+
+    private void CheckNull()
+    {
+        for (int i = group.Count - 1; i >= 0; i--)
+        {
+            if (group[i] == null)
+            {
+                group.RemoveAt(i);
+            }
+        }
     }
 }

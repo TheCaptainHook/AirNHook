@@ -17,6 +17,7 @@ public class FlameThrower : BuildObj
     Vector3 hitDown;
     Vector3 hitUp;
 
+    [SerializeField] Transform lightTR;
     private void Awake()
     {
         _collider = GetComponent<BoxCollider2D>();
@@ -84,6 +85,7 @@ public class FlameThrower : BuildObj
         while (curRate <= maxRate)
         {
             curRate += Time.deltaTime+0.015f;
+            lightTR.localScale = new Vector3(curRate / maxRate, curRate / maxRate, 1);
             yield return null;
         }
         onRecoveryRay = false;
@@ -105,14 +107,17 @@ public class FlameThrower : BuildObj
         if(curRate < 0.5f)
         {
             main.startLifetime = 0.05f;
+            lightTR.localScale = new Vector3(curRate/maxRate,curRate/maxRate,1);
         }
         else if(curRate < 1f)
         {
             main.startLifetime = 0.1f;
+            lightTR.localScale = new Vector3(curRate / maxRate, curRate / maxRate, 1);
         }
         else
         {
             main.startLifetime = 0.3f * hit.distance;
+            lightTR.localScale = new Vector3(curRate / maxRate, curRate / maxRate, 1);
         }
 
     }
