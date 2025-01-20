@@ -1033,6 +1033,8 @@ List<TileData> GetTileData(Tilemap tileMap)
       
         return list;
     }
+    //---------------------------------------------------------------------------------------------------- 250120 Tile Data Refactoring
+    //---------------------------------------------------------------------------------------------------- 250120 Tile Data Refactoring
 
     //todo 0918
     private List<T> GetList<T>(Transform transform){

@@ -372,6 +372,26 @@ public struct TileData
     }
 }
 
+public struct CompressedTileData
+{
+    public int TileId { get; set; }
+    public Vector2Int Start { get; set; }
+    public Vector2Int End { get; set; }
+
+    public CompressedTileData(int tileId, Vector2Int start,Vector2Int end)
+    {
+        TileId = tileId;
+        Start = start;
+        End = end;
+    }
+
+    // End와 Step을 갱신하는 메서드
+    public void Extend(Vector2Int newEnd)
+    {
+        End = newEnd;
+    }
+}
+
 [System.Serializable]
 public struct DialogueData
 {
