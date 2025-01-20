@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.Universal.Light2D;
 
 #region  Struct
 
- [System.Serializable]
+[System.Serializable]
   public struct CollectableObjectStruct{
     public int id;
     public Vector2 position;
@@ -440,10 +441,28 @@ public struct LightStruct{
     public UnityEngine.Rendering.Universal.Light2D.LightType type;
     public Color color;
     public float intensity;
-    public LightStruct(UnityEngine.Rendering.Universal.Light2D.LightType type,Color color,float intensity){
+    public int[] targetSorting;
+    public int blendStyleIndex;
+    public int lightOrder;
+    public OverlapOperation overlapOeration;
+
+    public LightStruct(
+        UnityEngine.Rendering.Universal.Light2D.LightType type,
+        Color color,
+        float intensity, 
+        int[] targetSorting,
+        int blendStyleIndex,
+        int lightOrder,
+         OverlapOperation overlapOeration
+        )
+    {
         this.type = type;
         this.color = color;
         this.intensity = intensity;
+        this.targetSorting = targetSorting;
+        this.blendStyleIndex = blendStyleIndex;
+        this.lightOrder = lightOrder;
+        this.overlapOeration = overlapOeration;
     }
 
     public LightStruct Default()
@@ -451,7 +470,11 @@ public struct LightStruct{
         return new LightStruct(
             UnityEngine.Rendering.Universal.Light2D.LightType.Global, 
             Color.white,                                             
-            1f                                                      
+            1f,
+            new int[] {0},
+            0,
+            0,
+            OverlapOperation.Additive
         );
     }
 }

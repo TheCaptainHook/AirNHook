@@ -21675,8 +21675,28 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: mapID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: onLoad
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: mapType
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: audioName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: isLoadMap
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: stageLevel
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: droneTransform
@@ -21695,6 +21715,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: startPosition.x
+      value: -36.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: startPosition.y
+      value: -10.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: garbageTransform
       value: 
       objectReference: {fileID: 0}
@@ -21703,7 +21731,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: screenShotCamera
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: mapObjBoxTransform
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: startPositionObject
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}

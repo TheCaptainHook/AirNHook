@@ -9,6 +9,7 @@ using System;
 using System.Threading.Tasks;
 using System.Reflection;
 using UnityEngine.Rendering.Universal;
+using UnityEditor.UI;
 
 public enum MapType
 {
@@ -552,6 +553,8 @@ public class MapEditor : MonoBehaviour
     }
     private void SetGlobalLight()
     {
+        FieldInfo sortingLayerField = typeof(Light2D).GetField("m_ApplyToSortingLayers", BindingFlags.NonPublic | BindingFlags.Instance);
+
         var lightData = curMap.globalLightStruct;
 
         if(lightData.type == default)
@@ -559,12 +562,20 @@ public class MapEditor : MonoBehaviour
             GlobalLight.lightType = Light2D.LightType.Global;
             GlobalLight.color = Color.white;
             GlobalLight.intensity = 1;
+            sortingLayerField.SetValue(GlobalLight, new int[] { 0 });
+            GlobalLight.blendStyleIndex = 0;
+            GlobalLight.lightOrder = 0;
+            GlobalLight.overlapOperation = 0;
             return;
         }
 
         GlobalLight.lightType = lightData.type;
         GlobalLight.color = lightData.color;
         GlobalLight.intensity = lightData.intensity;
+        sortingLayerField.SetValue(GlobalLight, lightData.targetSorting);
+        GlobalLight.blendStyleIndex = lightData.blendStyleIndex;
+        GlobalLight.lightOrder = lightData.lightOrder;
+        GlobalLight.overlapOperation = lightData.overlapOeration;
     }
     #endregion
 

@@ -12,7 +12,7 @@ using System.Reflection;
 using System.Linq;
 using System;
 using UnityEngine.Rendering.Universal;
-using Unity.VisualScripting;
+using static UnityEngine.Rendering.Universal.Light2D;
 
 
 //TODO 0724 Develop code line : 435,506
@@ -58,8 +58,8 @@ public class MapEditor_Editor : Editor
         sortingLayerField = typeof(Light2D).GetField("m_ApplyToSortingLayers", BindingFlags.NonPublic | BindingFlags.Instance);
         curSortingLayers = (int[])sortingLayerField.GetValue(mapEditor.GlobalLight.GetComponent<Light2D>());
         sortingLayerMask = ConvertSortingLayerIDsToBitFlag(curSortingLayers);
-        onImg = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Resources/Arts/Emotes/arrow-down.png");
-        offImg =  AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Resources/Arts/Emotes/arrow-Up.png");
+        onImg = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Artwork/Sprites/Assets/UI Elements/White/1x/down arrow.png");
+        offImg =  AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Artwork/Sprites/Assets/UI Elements/White/1x/menu2.png");
     }
 
     public override void OnInspectorGUI()
@@ -106,17 +106,21 @@ public class MapEditor_Editor : Editor
                     GUILayout.FlexibleSpace();
                     GUILayout.Label("Shadow And Global Light",GetGUIStyle_Label(Color.white,15,FontStyle.Bold,TextAnchor.MiddleCenter));
                     GUILayout.FlexibleSpace();
-                    GUILayout.BeginHorizontal();
-                        DrawShadow();
-                        
-                        GUILayout.BeginVertical(new GUIStyle(GUI.skin.window));
+                    GUILayout.BeginVertical();
+
+            
+            DrawShadow();
+            
+
+            GUILayout.BeginVertical(new GUIStyle(GUI.skin.window));
                             HorizontalScope(()=>{
                                 GUILayout.FlexibleSpace();
-                                EditorGUILayout.LabelField("Global Light",GetGUIStyle_Label(Color.white,12,FontStyle.Bold,TextAnchor.MiddleRight),GUILayout.Width(80),GUILayout.Height(25));
-                                if (GUILayout.Button(new GUIContent(isLight ? offImg : onImg), GUILayout.Width(25), GUILayout.Height(25)))
+                                EditorGUILayout.LabelField("Global Light",GetGUIStyle_Label(Color.white,12,FontStyle.Bold,TextAnchor.MiddleLeft),GUILayout.Width(80),GUILayout.Height(25));
+                                if (GUILayout.Button(new GUIContent(isLight ? onImg : offImg),GUILayout.Width(25), GUILayout.Height(25)))
                                 {
                                     isLight = !isLight;
                                 }
+                                GUILayout.FlexibleSpace();
                             });
                             
 
@@ -128,7 +132,7 @@ public class MapEditor_Editor : Editor
                         
                        
 
-                    GUILayout.EndHorizontal();
+                    GUILayout.EndVertical();
 
                 GUILayout.EndVertical();
             GUILayout.EndHorizontal();
@@ -145,25 +149,23 @@ public class MapEditor_Editor : Editor
     private void DrawShadow()
     {
         VerticalScope(()=>{
-             GUILayout.FlexibleSpace();
-
+            GUILayout.FlexibleSpace();
             if (GUILayout.Button("그림자 생성", GUILayout.Width(100), GUILayout.Height(30)))
             {
                 CreateShadow();
             }
-
             GUILayout.FlexibleSpace();
-        });
-        
+        });  
     }
+
 #region Light
     private void DrawLight()
     {
         GUILayout.BeginVertical();
 
-        VerticalScope(()=>{
-            HorizontalScope(()=>{
-                EditorGUILayout.LabelField("Color",GetGUIStyle_Label(Color.white,12,FontStyle.Bold),GUILayout.Width(60));
+        VerticalScope(() => {
+            HorizontalScope(() => {
+                EditorGUILayout.LabelField("Color", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
                 Color newColor = EditorGUILayout.ColorField(mapEditor.GlobalLight.color);
                 if (newColor != mapEditor.GlobalLight.color)
                 {
@@ -172,8 +174,8 @@ public class MapEditor_Editor : Editor
                     EditorUtility.SetDirty(mapEditor);
                 }
             });
-            HorizontalScope(()=>{
-                EditorGUILayout.LabelField("Intensity",GetGUIStyle_Label(Color.white,12,FontStyle.Bold),GUILayout.Width(60));
+            HorizontalScope(() => {
+                EditorGUILayout.LabelField("Intensity", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
                 float newIntensity = EditorGUILayout.Slider(mapEditor.GlobalLight.intensity, 0f, 5f);
                 if (!Mathf.Approximately(newIntensity, mapEditor.GlobalLight.intensity))
                 {
@@ -182,13 +184,36 @@ public class MapEditor_Editor : Editor
                     EditorUtility.SetDirty(mapEditor); // 변경 사항 저장
                 }
             });
-            HorizontalScope(()=>{
-                EditorGUILayout.LabelField("Target Sorting Layers",GetGUIStyle_Label(Color.white,8,FontStyle.Bold),GUILayout.Width(60));
+            HorizontalScope(() => {
+                EditorGUILayout.LabelField("Target Sorting Layers", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
 
                 if (EditorGUILayout.DropdownButton(new GUIContent(GetCurrentState_SortingLayer()), FocusType.Keyboard))
                 {
                     ShowSortingLayerPopup();
                 }
+            });
+            HorizontalScope(() =>{
+                DrawHorizontalLine(Color.white);
+            });
+            HorizontalScope(() => {
+                EditorGUILayout.LabelField("Blend Style", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
+                mapEditor.GlobalLight.blendStyleIndex = EditorGUILayout.IntPopup(
+                    "",
+                    mapEditor.GlobalLight.blendStyleIndex,
+                    new string[] { "Multiply", "Additive", "Multiply with Mask (R)", "Additive with Mask (R)" },
+                    new int[] { 0, 1, 2, 3 }
+                );
+                EditorUtility.SetDirty(mapEditor);
+            });
+            HorizontalScope(() => {
+                EditorGUILayout.LabelField("Light Order", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
+                mapEditor.GlobalLight.lightOrder = EditorGUILayout.IntField(mapEditor.GlobalLight.lightOrder);
+                EditorUtility.SetDirty(mapEditor);
+            });
+            HorizontalScope(() => {
+                EditorGUILayout.LabelField("Overlap Operation", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
+                mapEditor.GlobalLight.overlapOperation = (OverlapOperation)EditorGUILayout.EnumPopup(mapEditor.GlobalLight.overlapOperation);
+                EditorUtility.SetDirty(mapEditor);
             });
         });
 
@@ -325,6 +350,7 @@ public class MapEditor_Editor : Editor
         return sortingLayerIDs.ToArray();
     }
 #endregion
+
     private void Draw_MainContents_MapId() {
         Color orgCol = GUI.backgroundColor;
         if (string.IsNullOrEmpty(mapEditor.mapID)) {
@@ -435,6 +461,7 @@ public class MapEditor_Editor : Editor
         GUILayout.FlexibleSpace();
         if (GUILayout.Button("개발자용, 맵 새로만들 때 먼저 누르기,Init!", GUILayout.Width(300), GUILayout.Height(30)))
         {
+            GlobalLightReset();
             _Reset(mapEditor);
             mapEditor.Init();
             EditorApplication.ExecuteMenuItem("Window/2D/Tile Palette");
@@ -445,6 +472,15 @@ public class MapEditor_Editor : Editor
         GUILayout.EndHorizontal();
 
         GUILayout.FlexibleSpace();
+    }
+    private void GlobalLightReset()
+    {
+        mapEditor.GlobalLight.color = Color.white;
+        mapEditor.GlobalLight.intensity = 1;
+        sortingLayerField.SetValue(mapEditor.GlobalLight, new int[] { 0 });
+        mapEditor.GlobalLight.blendStyleIndex = 0;
+        mapEditor.GlobalLight.lightOrder = 0;
+        mapEditor.GlobalLight.overlapOperation = 0;
     }
     //Check for duplicate Map ID TODO 1116
     private bool Check_DuplicateMapId(string mapId) {
@@ -963,7 +999,14 @@ private List<ShadowCasterStruct> GetShadowData()
 private LightStruct GetGlobalLightStruct()
 {
     Light2D target = mapEditor.GlobalLight;
-    return new LightStruct(target.lightType,target.color,target.intensity);
+    return new LightStruct(
+        target.lightType,
+        target.color,
+        target.intensity,
+        (int[])sortingLayerField.GetValue(target),
+        target.blendStyleIndex,
+        target.lightOrder,
+        target.overlapOperation);
 }
 //------------------------------------------------------------------------------------------------------250112 Light
 
@@ -1174,6 +1217,10 @@ List<TileData> GetTileData(Tilemap tileMap)
             mapEditor.GlobalLight.lightType = Light2D.LightType.Global;
             mapEditor.GlobalLight.color = Color.white;
             mapEditor.GlobalLight.intensity = 1;
+            sortingLayerField.SetValue(mapEditor.GlobalLight, new int[] { 0 });
+            mapEditor.GlobalLight.blendStyleIndex = 0;
+            mapEditor.GlobalLight.lightOrder = 0;
+            mapEditor.GlobalLight.overlapOperation = 0;
             return;
         }
 
@@ -1184,12 +1231,20 @@ List<TileData> GetTileData(Tilemap tileMap)
             mapEditor.GlobalLight.lightType = Light2D.LightType.Global;
             mapEditor.GlobalLight.color = Color.white;
             mapEditor.GlobalLight.intensity = 1;
+            sortingLayerField.SetValue(mapEditor.GlobalLight, new int[] { 0 });
+            mapEditor.GlobalLight.blendStyleIndex = 0;
+            mapEditor.GlobalLight.lightOrder = 0;
+            mapEditor.GlobalLight.overlapOperation = 0;
             return;
         }
 
         mapEditor.GlobalLight.lightType = lightData.type;
         mapEditor.GlobalLight.color = lightData.color;
         mapEditor.GlobalLight.intensity = lightData.intensity;
+        sortingLayerField.SetValue(mapEditor.GlobalLight, lightData.targetSorting);
+        mapEditor.GlobalLight.blendStyleIndex = lightData.blendStyleIndex;
+        mapEditor.GlobalLight.lightOrder = lightData.lightOrder;
+        mapEditor.GlobalLight.overlapOperation = lightData.overlapOeration;
     }
 
     #endregion
@@ -1209,13 +1264,13 @@ List<TileData> GetTileData(Tilemap tileMap)
 
      private GUIStyle GetGUIStyle_Label(Color color,int font_Size = 12,FontStyle font_Style = FontStyle.Normal,TextAnchor textAnchor = TextAnchor.MiddleLeft){
 
-        return new GUIStyle(GUI.skin.label){
-                alignment = textAnchor,
-                normal = {textColor = color},
-                fontSize = font_Size,
-                fontStyle = font_Style,
-                hover = {textColor = color},
-                };
+        return new GUIStyle(GUI.skin.label) {
+            alignment = textAnchor,
+            normal = { textColor = color },
+            fontSize = font_Size,
+            fontStyle = font_Style,
+            hover = { textColor = color },
+        };
 
     }
 
@@ -1242,6 +1297,11 @@ List<TileData> GetTileData(Tilemap tileMap)
         {
             action?.Invoke();
         }
+    }
+    private void DrawHorizontalLine(Color color, float thickness = 1.0f)
+    {
+        Rect rect = EditorGUILayout.GetControlRect(false, thickness);
+        EditorGUI.DrawRect(rect, color);
     }
     #endregion
 }
