@@ -661,7 +661,7 @@ public class MapEditor_Editor : Editor
         startPoint.transform.SetParent(mapEditor.dontSaveObjectTransform);
     }
     public void Create_Tile() {
-        DrawTile(mapEditor.placeMentSystem.floorTileMap, mapEditor.CurMap.mapTileDataList);
+        DrawTile(mapEditor.placeMentSystem.floorTileMap, mapEditor.CurMap.mapTileDataList); //rect
         DrawTile(mapEditor.placeMentSystem.halfTileMap, mapEditor.CurMap.mapHalfTileDataList);
         DrawTile(mapEditor.placeMentSystem.backgroundTileMap, mapEditor.CurMap.mapBackgroundTileDataList);
         DrawTile(mapEditor.placeMentSystem.ropeTileMap, mapEditor.CurMap.mapRopeTileDataList);
@@ -769,11 +769,9 @@ public class MapEditor_Editor : Editor
                 return Resources.Load<TextAsset>($"MapDat/{mapType}/{id}");
             case MapType.Main:
                 string path = Path.Combine(Application.dataPath, "Resources/MapDat/Main");
-                Debug.Log(path);
                 for (int i = 0; i <= 4; i++)
                 {
                     string checkPath = Path.Combine(path, $"{i}/{id}.json");
-                    Debug.Log(checkPath);
                     if (File.Exists(checkPath))
                     {
                         return Resources.Load<TextAsset>($"MapDat/{mapType}/{i}/{id}");
@@ -960,7 +958,8 @@ private async Task<Map> CreateMap(MapEditor mapEditor){
     Map map =  new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, mapEditor.subMapName,GetNextMapId(),mapEditor.stageLevel, mapEditor.startPosition,
             GetExitObjStructsList(mapEditor.exitDoorObjectTransform, mapEditor),
             //tile
-            GetTileData(mapEditor.placeMentSystem.floorTileMap),
+            GetTileData(mapEditor.placeMentSystem.floorTileMap),//rect
+            // GetCompressedTileData(mapEditor.placeMentSystem.floorTileMap),
             GetTileData(mapEditor.placeMentSystem.halfTileMap),
             GetTileData(mapEditor.placeMentSystem.backgroundTileMap),
             GetTileData(mapEditor.placeMentSystem.ropeTileMap),
@@ -1034,6 +1033,81 @@ List<TileData> GetTileData(Tilemap tileMap)
         return list;
     }
     //---------------------------------------------------------------------------------------------------- 250120 Tile Data Refactoring
+
+    List<CompressedTileData> GetCompressedTileData(Tilemap tileMap)
+    {
+        List<TileData> list = GetTileData(tileMap);
+        return CompressTileData_Second(CompressTileData(list));
+    }
+
+     public List<CompressedTileData> CompressTileData(List<TileData> tileDataList) //first compress
+    {
+        List<CompressedTileData> compressedList = new List<CompressedTileData>();
+        CompressedTileData? currentCompressedData = null;
+
+        foreach (var tileData in tileDataList)
+        {
+            if (currentCompressedData == null ||
+                tileData.id != currentCompressedData.Value.TileId ||
+                !IsAdjacent((Vector2Int)tileData.position, currentCompressedData.Value.End))
+            {
+                if (currentCompressedData != null) compressedList.Add(currentCompressedData.Value);
+                currentCompressedData = new CompressedTileData(tileData.id, (Vector2Int)tileData.position, (Vector2Int)tileData.position);
+            }
+            else
+            {
+                var updatedData = currentCompressedData.Value;
+                updatedData.Extend((Vector2Int)tileData.position);
+                currentCompressedData = updatedData;
+            }
+        }
+        if (currentCompressedData != null)
+        {
+            compressedList.Add(currentCompressedData.Value);
+        }
+
+        return compressedList;
+    }
+
+    public List<CompressedTileData> CompressTileData_Second(List<CompressedTileData> list)
+    {
+       List<CompressedTileData> compressedList = new List<CompressedTileData>();
+       CompressedTileData? curData = null;
+
+       foreach (var tileData in list)
+       {
+            if(curData == null || 
+                tileData.TileId != curData.Value.TileId ||
+                !IsAdjacent_2(tileData,curData.Value)
+            )
+            {
+                if(curData != null) compressedList.Add(curData.Value);
+                curData = new CompressedTileData(tileData.TileId,tileData.Start,tileData.End);
+            }else{
+                var updateData = curData.Value;
+                updateData.Extend(tileData.End);
+                curData = updateData;
+            }
+            
+       }
+       if(curData != null)
+       {
+        compressedList.Add(curData.Value);
+       }
+       return compressedList;
+    }
+     private bool IsAdjacent(Vector2Int current, Vector2Int previous)
+    {
+        return (current.x == previous.x && Mathf.Abs(current.y - previous.y) == 1) ||
+               (current.y == previous.y && Mathf.Abs(current.x - previous.x) == 1);
+    }
+    private bool IsAdjacent_2(CompressedTileData cur,CompressedTileData pre)
+    {
+        return (cur.Start.y == pre.Start.y) &&
+                (cur.End.y == pre.End.y) &&
+                (Mathf.Abs(cur.Start.x - pre.End.x) ==1);
+    }
+
     //---------------------------------------------------------------------------------------------------- 250120 Tile Data Refactoring
 
     //todo 0918

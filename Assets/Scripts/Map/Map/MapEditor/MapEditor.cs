@@ -447,7 +447,7 @@ public class MapEditor : MonoBehaviour
 
     #region Create
     public void Create_Tile(){
-        DrawTile(placeMentSystem.floorTileMap,curMap.mapTileDataList);
+        DrawTile(placeMentSystem.floorTileMap,curMap.mapTileDataList); //rect
         DrawTile(placeMentSystem.halfTileMap,curMap.mapHalfTileDataList);
         DrawTile(placeMentSystem.backgroundTileMap,curMap.mapBackgroundTileDataList);       
         DrawTile(placeMentSystem.ropeTileMap,curMap.mapRopeTileDataList);

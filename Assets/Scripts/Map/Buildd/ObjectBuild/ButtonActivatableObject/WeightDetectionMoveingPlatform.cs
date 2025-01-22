@@ -244,7 +244,6 @@ private Vector2 GetPath(){
     minDis_Clamp = orgPot.x > target.x ? target.x : orgPot.x;
     maxDis_Clamp = orgPot.x < target.x ? target.x : orgPot.x;
 
-    Debug.Log($"{minDis_Clamp},{maxDis_Clamp}");
     return target;
 
 }

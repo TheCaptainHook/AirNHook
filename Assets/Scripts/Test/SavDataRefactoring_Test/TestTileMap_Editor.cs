@@ -30,5 +30,9 @@ public class TestTileMap_Editor : Editor
         {
             testTileMap.Clear();
         }
+        if (GUILayout.Button("Draw Tile"))
+        {
+            testTileMap.DrawTile();
+        }
     }
 }

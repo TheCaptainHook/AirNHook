@@ -1,4 +1,5 @@
 
+using System;
 using Mirror;
 using UnityEngine;
 
@@ -30,12 +31,6 @@ public class Turret : ActivatableObjectEntity
     readonly int Activated = Animator.StringToHash("Activated");
     #endregion
 
-    private void Awake()
-    {
-        animator = GetComponent<Animator>();
-    }
-
-
 
     #region Get,Set
     public override T GetData<T>()
@@ -53,6 +48,9 @@ public class Turret : ActivatableObjectEntity
         {
             if (typeof(T) == typeof(ButtonActivatableObjectStruct))
             {
+
+                animator = GetComponent<Animator>();
+                
                 ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
                 ButtonActivatedObjectStruct = objData;
                 rotateRate = objData.rotateRate;
@@ -65,9 +63,9 @@ public class Turret : ActivatableObjectEntity
                 animator.SetBool(Activated, true);
             }
         }
-        catch
+        catch(Exception ex)
         {
-            Debug.Log($"ERROR,{typeof(T)}");
+            Debug.Log($"ERROR,{ex}");
         }
     }
     #endregion

@@ -16,7 +16,8 @@ public class Map
     public Vector2 startPosition;
 
     [Header("Tile")]
-    public List<TileData> mapTileDataList = new();
+    // public List<CompressedTileData> mapTileDataList = new(); //rec
+    public List<TileData> mapTileDataList = new(); //rec
     public List<TileData> mapHalfTileDataList = new();
     public List<TileData> mapBackgroundTileDataList = new();
     //TODO 1022
@@ -57,7 +58,8 @@ public class Map
         int stageLevel, Vector2 startPosition,
         ExitObjStruct mapExitObjectStruct,
         //tile
-        List<TileData> tileList,
+        // List<CompressedTileData> tileList, // refc
+        List<TileData> tileList, // refc
         List<TileData> halfTileList,
         List<TileData> mapBackgroundTileDataList,
         List<TileData> ropeTileDataList,
@@ -128,12 +130,12 @@ public class Map
     }
 
 
-    public (Vector2 start,Vector2 end) GetStartEndPosition() //TODO 0807 GEt Map Size
-    {
-        Vector2 start = new Vector2(mapTileDataList[0].position.x, mapTileDataList[0].position.y);
-        Vector2 end = new Vector2(mapTileDataList[mapTileDataList.Count-1].position.x, mapTileDataList[mapTileDataList.Count - 1].position.y);
-        return (start, end);
-    }
+    // public (Vector2 start,Vector2 end) GetStartEndPosition() //TODO 0807 GEt Map Size
+    // {
+    //     Vector2 start = new Vector2(mapTileDataList[0].position.x, mapTileDataList[0].position.y);
+    //     Vector2 end = new Vector2(mapTileDataList[mapTileDataList.Count-1].position.x, mapTileDataList[mapTileDataList.Count - 1].position.y);
+    //     return (start, end);
+    // }
 
     private Vector2 FloorVector2(Vector2 vec)
     {
