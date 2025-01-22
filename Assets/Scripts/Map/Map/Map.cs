@@ -16,14 +16,19 @@ public class Map
     public Vector2 startPosition;
 
     [Header("Tile")]
-    // public List<CompressedTileData> mapTileDataList = new(); //rec
-    public List<TileData> mapTileDataList = new(); //rec
-    public List<TileData> mapHalfTileDataList = new();
-    public List<TileData> mapBackgroundTileDataList = new();
+    public List<CompressedTileData> mapTileDataList = new(); //rec
+    public List<CompressedTileData> mapHalfTileDataList = new();
+    public List<CompressedTileData> mapBackgroundTileDataList = new();
     //TODO 1022
-    public List<TileData> mapRopeTileDataList = new();
-    public List<TileData> mapAccessoryTIleDataList = new();
-//------------------------------------------------------------------------------------------------------250107 Shadow
+    public List<CompressedTileData> mapRopeTileDataList = new();
+    public List<CompressedTileData> mapAccessoryTIleDataList = new();
+
+    //public List<TileData> mapTileDataList = new(); //rec
+    //public List<TileData> mapHalfTileDataList = new();
+    //public List<TileData> mapBackgroundTileDataList = new();
+    //public List<TileData> mapRopeTileDataList = new();
+    //public List<TileData> mapAccessoryTIleDataList = new();
+    //------------------------------------------------------------------------------------------------------250107 Shadow
     [Header("Shadow")]
     public List<ShadowCasterStruct> mapShadowCasterDataList = new();
 //------------------------------------------------------------------------------------------------------250107 Shadow
@@ -58,12 +63,17 @@ public class Map
         int stageLevel, Vector2 startPosition,
         ExitObjStruct mapExitObjectStruct,
         //tile
-        // List<CompressedTileData> tileList, // refc
-        List<TileData> tileList, // refc
-        List<TileData> halfTileList,
-        List<TileData> mapBackgroundTileDataList,
-        List<TileData> ropeTileDataList,
-        List<TileData> accessoryTileDataList,
+        List<CompressedTileData> tileList, // refc
+        List<CompressedTileData> halfTileList,
+        List<CompressedTileData> mapBackgroundTileDataList,
+        List<CompressedTileData> ropeTileDataList,
+        List<CompressedTileData> accessoryTileDataList,
+
+        //List<TileData> tileList, // refc
+        //List<TileData> halfTileList,
+        //List<TileData> mapBackgroundTileDataList,
+        // List<TileData> ropeTileDataList,
+        //List<TileData> accessoryTileDataList,
         //Shadow 250109
         List<ShadowCasterStruct> shadowCasterStructs,
         //Light 250112

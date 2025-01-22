@@ -8,7 +8,9 @@ public class ScreenShotCamera : MonoBehaviour
     public RenderTexture rt;
     public byte[] resultBytes;
 
-    public async Task<byte[]> ScreenShot()
+    string savePath = "Resources/Prefabs/MapScreenShot";
+
+    public async Task<byte[]> ScreenShot(string mapId)
     {
         await Delay();
 
@@ -24,32 +26,24 @@ public class ScreenShotCamera : MonoBehaviour
         encodingTask = EncodeToPNG(texture);
         byte[] bytes = await encodingTask;
 
-        Test_SaveSprite(bytes);
+        SaveSprite(bytes,mapId);
 
         Debug.Log("Screen Shot");
         return bytes;
 
     }
 
-
-    #region  TEST
-
-    private void Test_SaveSprite(byte[] bytes){
-        string path = Path.Combine(Application.dataPath,"TEST");
+    private void SaveSprite(byte[] bytes,string mapId){
+        string path = Path.Combine(Application.dataPath,savePath);
         Debug.Log(path);
         if(!Directory.Exists(path)){
             Debug.Log("Can't found Path");
             return;
         }else{
-            path = Path.Combine(path,"Sprite.png");
+            path = Path.Combine(path, $"{mapId}.png");
             File.WriteAllBytes(path, bytes);
         }
-
-
-
     }
-
-    #endregion
 
     private async Task<byte[]> EncodeToPNG(Texture2D texture)
     {

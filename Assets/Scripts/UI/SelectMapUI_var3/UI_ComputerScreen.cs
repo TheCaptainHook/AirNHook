@@ -79,17 +79,20 @@ public class UI_ComputerScreen : UI_Base
     public void SetData(string mapId)
     {
         curMap = Managers.Data.mapData.mapAllDictionary[mapId];
-        
+        Texture2D texture = Resources.Load<Texture2D>($"Prefabs/MapScreenShot/{mapId}");
+
         if(curMap.dataType == 1)// 0 -> Main, 1 -> user map
         {
             UserMapData data = Managers.Data.mapData.mapUserDictionary[int.Parse(mapId)];
-            screen1.SetData(data.GetMapId(),data.mapImage);
+            //screen1.SetData(data.GetMapId(),data.mapImage);
+            screen1.SetData(data.GetMapId(), texture);
             //screen2.SetData(Managers.Data.loadData.playData[mapId]);
             screen2.SetData(mapId);
         }
         else
         {
-            screen1.SetData(mapId, curMap.bytesImage);
+            //screen1.SetData(mapId, curMap.bytesImage);
+            screen1.SetData(mapId, texture);
             //screen2.SetData(Managers.Data.loadData.playData[mapId]);
             screen2.SetData(mapId);
         }
@@ -97,27 +100,27 @@ public class UI_ComputerScreen : UI_Base
        
     }
 
-    public void Refresh() // todo 0501
-    {
-        if (curMap != null)
-        {
-            if (curMap.dataType == 1)
-            {
-                UserMapData data = Managers.Data.mapData.mapUserDictionary[int.Parse(curMap.mapID)];
-                screen1.SetData(data.GetMapId(), data.mapImage);
-                screen2.SetData(curMap.mapID);
-            }
-            else
-            {
-                screen1.SetData(curMap.mapID, curMap.bytesImage);
-                //screen2.SetData(Managers.Data.loadData.playData[curMap.mapID]);
-                screen2.SetData(curMap.mapID);
-            }
+    //public void Refresh() // todo 0501
+    //{
+    //    if (curMap != null)
+    //    {
+    //        if (curMap.dataType == 1)
+    //        {
+    //            UserMapData data = Managers.Data.mapData.mapUserDictionary[int.Parse(curMap.mapID)];
+    //            screen1.SetData(data.GetMapId(), data.mapImage);
+    //            screen2.SetData(curMap.mapID);
+    //        }
+    //        else
+    //        {
+    //            screen1.SetData(curMap.mapID, curMap.bytesImage);
+    //            //screen2.SetData(Managers.Data.loadData.playData[curMap.mapID]);
+    //            screen2.SetData(curMap.mapID);
+    //        }
 
-        }
+    //    }
 
 
-    }
+    //}
 
 
     private void ArrowRight()

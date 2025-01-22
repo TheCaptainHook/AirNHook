@@ -222,6 +222,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1000640
   flame: {fileID: 1256057224243392037}
+  lightTR: {fileID: 525170644129183911}
 --- !u!1 &5476498711238793479
 GameObject:
   m_ObjectHideFlags: 0

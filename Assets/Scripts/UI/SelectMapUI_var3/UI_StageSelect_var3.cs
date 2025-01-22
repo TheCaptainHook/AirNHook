@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.IO;
+using Org.BouncyCastle.Bcpg;
 
 
 enum PrograssLevel
@@ -432,7 +433,7 @@ public class UI_StageSelect_var3: UI_Base
     {
         onPrograss = true;
         onInteractable = false;
-        
+
         if (GetSplitSentenceAndLaststring(textLineList[pathTextLineIndex].mainSentence) == "Main")
         {
             _PrograssLevel = PrograssLevel.Two;
@@ -466,10 +467,12 @@ public class UI_StageSelect_var3: UI_Base
         _PrograssCoroutine = StartCoroutine(Select_PrograssLevel_2Co(stageLevel));
     }
 
+    private int curStageLevel;
     IEnumerator Select_PrograssLevel_2Co(int stageLevel) //TODO 0805
     {
         onPrograss = true;
         onInteractable = false;
+        curStageLevel = stageLevel;
 
         _PrograssLevel = PrograssLevel.Three;
         yield return EraserTextLineCo(minSelectTextLineListIndex, maxSelectTextLineListIndex);
@@ -497,6 +500,21 @@ public class UI_StageSelect_var3: UI_Base
         onInteractable = true;
     }
 
+
+    private Map GetMap(string mapName)
+    {
+        Map[] maps = Managers.Data.mapData.mapMainStageDictionary[curStageLevel];
+
+        foreach(var map in maps)
+        {
+            if (map.mapID == mapName || map.subMapName == mapName) return map;
+
+        }
+
+        return null;
+
+    }
+
     IEnumerator Select_PrograssLevel_3Co()
     {
         onPrograss = true;
@@ -509,8 +527,10 @@ public class UI_StageSelect_var3: UI_Base
         try
         {
             ExitPointObj obj = MapEditor.Instance.FindObj(MapEditor.Instance.exitDoorObjectTransform, 301).GetComponent<ExitPointObj>();
-            obj.nextMapId = curSelectTextLine.mainSentence;
-            selectMapId = curSelectTextLine.mainSentence;
+
+            Map map = GetMap(curSelectTextLine.mainSentence);
+            obj.nextMapId = map.mapID;
+            selectMapId = map.mapID;
         }
         catch(Exception ex)
         {

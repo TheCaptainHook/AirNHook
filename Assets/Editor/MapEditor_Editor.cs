@@ -661,11 +661,11 @@ public class MapEditor_Editor : Editor
         startPoint.transform.SetParent(mapEditor.dontSaveObjectTransform);
     }
     public void Create_Tile() {
-        DrawTile(mapEditor.placeMentSystem.floorTileMap, mapEditor.CurMap.mapTileDataList); //rect
-        DrawTile(mapEditor.placeMentSystem.halfTileMap, mapEditor.CurMap.mapHalfTileDataList);
-        DrawTile(mapEditor.placeMentSystem.backgroundTileMap, mapEditor.CurMap.mapBackgroundTileDataList);
-        DrawTile(mapEditor.placeMentSystem.ropeTileMap, mapEditor.CurMap.mapRopeTileDataList);
-        DrawTile(mapEditor.placeMentSystem.accessoryTileMap, mapEditor.CurMap.mapAccessoryTIleDataList);
+        DrawTile_C(mapEditor.placeMentSystem.floorTileMap, mapEditor.CurMap.mapTileDataList); //rect
+        DrawTile_C(mapEditor.placeMentSystem.halfTileMap, mapEditor.CurMap.mapHalfTileDataList);
+        DrawTile_C(mapEditor.placeMentSystem.backgroundTileMap, mapEditor.CurMap.mapBackgroundTileDataList);
+        DrawTile_C(mapEditor.placeMentSystem.ropeTileMap, mapEditor.CurMap.mapRopeTileDataList);
+        DrawTile_C(mapEditor.placeMentSystem.accessoryTileMap, mapEditor.CurMap.mapAccessoryTIleDataList);
     }
     //------------------------------------------------------------------------------------------------------250107 Shadow
     public void Create_Shadow()
@@ -908,6 +908,10 @@ public class MapEditor_Editor : Editor
             
             mapEditor.startPosition = FindObj(mapEditor.dontSaveObjectTransform, 302).transform.position;
             Map map = await CreateMap(mapEditor);
+
+            //Create Screen Shot
+            await CurrentMapScreenShot(mapEditor);
+
             EditorUtility.DisplayProgressBar("Saving Map Data", "Serializing data to JSON...", 0.6f);
             
             string json = JsonUtility.ToJson(map, true);
@@ -958,12 +962,18 @@ private async Task<Map> CreateMap(MapEditor mapEditor){
     Map map =  new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, mapEditor.subMapName,GetNextMapId(),mapEditor.stageLevel, mapEditor.startPosition,
             GetExitObjStructsList(mapEditor.exitDoorObjectTransform, mapEditor),
             //tile
-            GetTileData(mapEditor.placeMentSystem.floorTileMap),//rect
-            // GetCompressedTileData(mapEditor.placeMentSystem.floorTileMap),
-            GetTileData(mapEditor.placeMentSystem.halfTileMap),
-            GetTileData(mapEditor.placeMentSystem.backgroundTileMap),
-            GetTileData(mapEditor.placeMentSystem.ropeTileMap),
-            GetTileData(mapEditor.placeMentSystem.accessoryTileMap),
+            GetCompressedTileData(mapEditor.placeMentSystem.floorTileMap),
+            GetCompressedTileData(mapEditor.placeMentSystem.halfTileMap),
+            GetCompressedTileData(mapEditor.placeMentSystem.backgroundTileMap),
+            GetCompressedTileData(mapEditor.placeMentSystem.ropeTileMap),
+            GetCompressedTileData(mapEditor.placeMentSystem.accessoryTileMap),
+
+            //GetTileData(mapEditor.placeMentSystem.floorTileMap),//rect
+            //GetTileData(mapEditor.placeMentSystem.halfTileMap),
+            //GetTileData(mapEditor.placeMentSystem.backgroundTileMap),
+            //GetTileData(mapEditor.placeMentSystem.ropeTileMap),
+            //GetTileData(mapEditor.placeMentSystem.accessoryTileMap),
+
             //Shadow
             GetShadowData(),
             //Light
@@ -977,7 +987,11 @@ private async Task<Map> CreateMap(MapEditor mapEditor){
             GetList<DialogueData>(mapEditor.triggerDialogueTransform),
             GetList<DroneStruct>(mapEditor.droneTransform),
             GetList<CollectableObjectStruct>(mapEditor.collectableContainer),
-            mapEditor.cellSize, 0, await CurrentMapScreenShot(mapEditor), mapEditor.audioName);
+            mapEditor.cellSize, 
+            0,
+            //await CurrentMapScreenShot(mapEditor),
+            null,
+            mapEditor.audioName);
     return  map;
 }
 //------------------------------------------------------------------------------------------------------250107 Shadow
@@ -1107,7 +1121,49 @@ List<TileData> GetTileData(Tilemap tileMap)
                 (cur.End.y == pre.End.y) &&
                 (Mathf.Abs(cur.Start.x - pre.End.x) ==1);
     }
+    public void DrawTile_C(Tilemap tileMap,List<CompressedTileData> list)
+    {
+        foreach (var data in list)
+        {
+            MapDataStruct mapDataStruct = mapObjectDataDictionary[data.TileId];
+            TileBase tileBase = Resources.Load<TileBase>(mapDataStruct.path);
 
+            var values = GetMaxMin(data);
+
+            for (int i = values.minX; i <= values.maxX; i++)
+            {
+                for (int j = values.minY; j <= values.maxY; j++)
+                {
+                    tileMap.SetTile(new Vector3Int(i, j, 0), tileBase);
+                }
+            }
+
+
+        }
+    }
+
+    private (int maxX, int minX, int maxY, int minY) GetMaxMin(CompressedTileData data)
+    {
+
+        Vector2Int start = data.Start; //0 ,5
+        Vector2Int end = data.End; // 5 , 7
+
+        int maxX = Mathf.Max(start.x, end.x);
+        int minX = Mathf.Min(start.x, end.x);
+        int maxY = Mathf.Max(start.y, end.y);
+        int minY = Mathf.Min(start.y, end.y);
+
+        return (maxX, minX, maxY, minY);
+
+    }
+    public void Sorting(List<TileData> tileList)
+    {
+        tileList = tileList
+        .OrderBy(td => td.id)
+        .ThenBy(td => td.position.x)
+        .ThenBy(td => td.position.y)
+        .ToList();
+    }
     //---------------------------------------------------------------------------------------------------- 250120 Tile Data Refactoring
 
     //todo 0918
@@ -1197,8 +1253,7 @@ List<TileData> GetTileData(Tilemap tileMap)
         //0910
 
         await CalculateMinimumOrthographicSize(startPot,endPot,camera);
-
-        Task<byte[]> encodingTask = camera.GetComponent<ScreenShotCamera>().ScreenShot();
+        Task<byte[]> encodingTask = camera.GetComponent<ScreenShotCamera>().ScreenShot(mapEditor.mapID);
         return await encodingTask;
     }
 

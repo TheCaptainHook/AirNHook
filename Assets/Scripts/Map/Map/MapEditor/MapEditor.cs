@@ -447,11 +447,17 @@ public class MapEditor : MonoBehaviour
 
     #region Create
     public void Create_Tile(){
-        DrawTile(placeMentSystem.floorTileMap,curMap.mapTileDataList); //rect
-        DrawTile(placeMentSystem.halfTileMap,curMap.mapHalfTileDataList);
-        DrawTile(placeMentSystem.backgroundTileMap,curMap.mapBackgroundTileDataList);       
-        DrawTile(placeMentSystem.ropeTileMap,curMap.mapRopeTileDataList);
-        DrawTile(placeMentSystem.accessoryTileMap,curMap.mapAccessoryTIleDataList);
+        DrawTile_C(placeMentSystem.floorTileMap, curMap.mapTileDataList); //rect
+        DrawTile_C(placeMentSystem.halfTileMap, curMap.mapHalfTileDataList);
+        DrawTile_C(placeMentSystem.backgroundTileMap, curMap.mapBackgroundTileDataList);
+        DrawTile_C(placeMentSystem.ropeTileMap, curMap.mapRopeTileDataList);
+        DrawTile_C(placeMentSystem.accessoryTileMap, curMap.mapAccessoryTIleDataList);
+
+        //DrawTile(placeMentSystem.floorTileMap,curMap.mapTileDataList); //rect
+        //DrawTile(placeMentSystem.halfTileMap,curMap.mapHalfTileDataList);
+        //DrawTile(placeMentSystem.backgroundTileMap,curMap.mapBackgroundTileDataList);       
+        //DrawTile(placeMentSystem.ropeTileMap,curMap.mapRopeTileDataList);
+        //DrawTile(placeMentSystem.accessoryTileMap,curMap.mapAccessoryTIleDataList);
     }
     private void DrawTile(Tilemap tileMap,List<TileData> list){
          foreach (TileData data in list)
@@ -460,6 +466,41 @@ public class MapEditor : MonoBehaviour
             tileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
             placeMentSystem.tileDic[data.position] = data.id;        
          }
+    }
+    public void DrawTile_C(Tilemap tileMap, List<CompressedTileData> list)
+    {
+        foreach (var data in list)
+        {
+            MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.TileId];
+            TileBase tileBase = Resources.Load<TileBase>(mapDataStruct.path);
+
+            var values = GetMaxMin(data);
+
+            for (int i = values.minX; i <= values.maxX; i++)
+            {
+                for (int j = values.minY; j <= values.maxY; j++)
+                {
+                    tileMap.SetTile(new Vector3Int(i, j, 0), tileBase);
+                }
+            }
+
+
+        }
+    }
+
+    private (int maxX, int minX, int maxY, int minY) GetMaxMin(CompressedTileData data)
+    {
+
+        Vector2Int start = data.Start; //0 ,5
+        Vector2Int end = data.End; // 5 , 7
+
+        int maxX = Mathf.Max(start.x, end.x);
+        int minX = Mathf.Min(start.x, end.x);
+        int maxY = Mathf.Max(start.y, end.y);
+        int minY = Mathf.Min(start.y, end.y);
+
+        return (maxX, minX, maxY, minY);
+
     }
 
     public void Create_OtherObject(List<ObjectData> list,Transform transform){
@@ -627,28 +668,28 @@ public class MapEditor : MonoBehaviour
 
     }
 
-    private Task<byte[]> CurrentMapScreenShot()
-    {
-        if (screenShotCamera == null)
-        {
-            screenShotCamera = Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/ScreenShotCamera"));
-        }
+    //private Task<byte[]> CurrentMapScreenShot()
+    //{
+    //    if (screenShotCamera == null)
+    //    {
+    //        screenShotCamera = Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/ScreenShotCamera"));
+    //    }
 
-        GameObject camera = screenShotCamera;
+    //    GameObject camera = screenShotCamera;
 
-        Vector2 startPot = FindObj(dontSaveObjectTransform, 302).transform.position;
-        Vector2 endPot = FindObj(exitDoorObjectTransform, 301).transform.position;
+    //    Vector2 startPot = FindObj(dontSaveObjectTransform, 302).transform.position;
+    //    Vector2 endPot = FindObj(exitDoorObjectTransform, 301).transform.position;
 
-        var distance = (startPot + endPot) / 2;
+    //    var distance = (startPot + endPot) / 2;
 
-        camera.gameObject.transform.position = distance;
-        camera.gameObject.transform.position += new Vector3(0, 2, -1);
+    //    camera.gameObject.transform.position = distance;
+    //    camera.gameObject.transform.position += new Vector3(0, 2, -1);
 
-        Task<byte[]> encodingTask = camera.GetComponent<ScreenShotCamera>().ScreenShot();
+    //    //Task<byte[]> encodingTask = camera.GetComponent<ScreenShotCamera>().ScreenShot();
 
-        return encodingTask;
+    //    return encodingTask;
 
-    }
+    //}
 
     public void ResetInteractableObjectPosition(){
         foreach(Transform tr in networkingObjectTransform){
