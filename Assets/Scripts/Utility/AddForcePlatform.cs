@@ -19,8 +19,27 @@ public class AddForcePlatform : MonoBehaviour
     [Header("INIT")]
     private float w;
     private float h;
-    Collider2D _Collider;
-    Rigidbody2D _Rb;
+    
+    Collider2D _collider;
+    Collider2D _Collider {
+        get{
+            if(_collider == null){
+                _collider = GetComponent<Collider2D>();
+                return _collider;
+            }
+            return _collider;
+        }
+    }
+    Rigidbody2D rb;
+    Rigidbody2D _Rb{
+        get{
+            if(rb == null){
+                rb = GetComponent<Rigidbody2D>();
+                return rb;
+            }
+            return rb;
+        }
+    }
 
     [SerializeField] MovingPlatform _MovingPlatform;
 
@@ -41,10 +60,7 @@ public class AddForcePlatform : MonoBehaviour
     // }
 
     public void Init(){
-        _Collider = GetComponent<Collider2D>();
-        _Rb = GetComponent<Rigidbody2D>();
         _PreviousDetactObjects = new();
-
         _MovingPlatform.MoveAction+=AddForce;
     }
 
