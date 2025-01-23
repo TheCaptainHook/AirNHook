@@ -549,17 +549,18 @@ MonoBehaviour:
   id: 305
   transformID: 3
   position: {x: 0, y: 0}
-  offset: {x: 0, y: 2.5}
-  turnOff: 0
   distructionStatus: 0
+  chargeRequired: 0
   onPlaceable: 0
   onRotateable: 1
   onScaleable: 1
+  offset: {x: 0, y: 2.5}
+  turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 0}
   activeRequirAmount: 0
   curActiveBtn: 0
-  _collider: {fileID: 2079940608723542123}
   _animator: {fileID: -8033369550424605698}
   onOpen: 0
   onPrograss: 0

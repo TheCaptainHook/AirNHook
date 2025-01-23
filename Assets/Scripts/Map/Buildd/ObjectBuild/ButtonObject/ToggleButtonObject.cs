@@ -21,6 +21,16 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
     public ObjectTypeEnum _objectType = ObjectTypeEnum.Interaction;
     private UI_Base _E_Btn;
 
+
+    private ToggleButton_Net toggleButton_Net;
+    private ToggleButton_Net ToggleButton_Net
+    {
+        get
+        {
+            if(toggleButton_Net == null) toggleButton_Net = GetComponent<ToggleButton_Net>();
+            return toggleButton_Net;
+        }
+    }
 #region IPowerConsumer
     public void PowerOn(){hasPower = true;}
     public void PowerOff()
@@ -72,6 +82,15 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
 #endregion
 
 
+    
+    public void Net_Activation()
+    {
+        Activation();
+    }
+    public void Net_Deactivated()
+    {
+        Deactivated();
+    }
 
     protected override void Activation()
     {
@@ -90,7 +109,7 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
         onActive = true;
         animator.SetBool(OnPressed,onActive);
         PrograssButtonActivatedObject(onActive);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.8f);
         onPrograss = false;
         
     }
@@ -102,15 +121,13 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
         animator.SetBool(OnPressed,onActive);
         PrograssButtonActivatedObject(onActive);
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.8f);
         onPrograss = false;
     }
 
 
 #region  Interacte
     public void Interaction(Transform accessor = null){
-       if (!NetworkServer.active || !NetworkClient.isConnected)
-            return;
         if (chargeRequired)
         {
             if (!hasPower)
@@ -120,9 +137,11 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
         }
 
         if(onActive){
-            Deactivated();
+            //Deactivated();
+            ToggleButton_Net.CmdDeactived();
         }else{
-            Activation();
+            //Activation();
+            ToggleButton_Net.CmdActive();
         }
     }
 

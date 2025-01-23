@@ -15,8 +15,9 @@ GameObject:
   - component: {fileID: 6538494676459900832}
   - component: {fileID: 7684903196300218065}
   - component: {fileID: -2202390588482861308}
-  - component: {fileID: 2675762856716472400}
   - component: {fileID: 8499923676822758438}
+  - component: {fileID: 2675762856716472400}
+  - component: {fileID: 589034012429756506}
   m_Layer: 16
   m_Name: ToggleButton
   m_TagString: Untagged
@@ -218,20 +219,6 @@ MonoBehaviour:
   syncInterval: 0
   clientAuthority: 0
   animator: {fileID: 6538494676459900832}
---- !u!114 &2675762856716472400
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5485989114999524422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47cbe461e052440acba8e390cc208ed1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  debugmodeTransform: {fileID: 0}
-  onHierarchy: 0
 --- !u!114 &8499923676822758438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,6 +235,7 @@ MonoBehaviour:
   transformID: 0
   position: {x: 0, y: 0}
   distructionStatus: 0
+  chargeRequired: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
@@ -257,7 +245,34 @@ MonoBehaviour:
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
   targetObjects: []
-  chargeRequired: 0
   hasPower: 0
   _BtnOffset: 1
   _objectType: 0
+--- !u!114 &2675762856716472400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5485989114999524422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47cbe461e052440acba8e390cc208ed1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugmodeTransform: {fileID: 0}
+--- !u!114 &589034012429756506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5485989114999524422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 142a2ff94d0d4514c976922eaeaf73fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0

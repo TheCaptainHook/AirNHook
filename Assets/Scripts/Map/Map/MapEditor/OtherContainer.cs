@@ -31,6 +31,7 @@ public class OtherContainer : MonoBehaviour
 
     private void CheckNull()
     {
+        if(group == null ||  group.Count == 0) return;
         for (int i = group.Count - 1; i >= 0; i--)
         {
             if (group[i] == null)
