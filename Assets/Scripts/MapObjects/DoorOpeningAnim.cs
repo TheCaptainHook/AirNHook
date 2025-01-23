@@ -45,14 +45,23 @@ public class DoorOpeningAnim : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void Enter(GameObject obj)
     {
+       RpcEnter(obj);
+    }
+    [ClientRpc]
+    private void RpcEnter(GameObject obj)
+    {
         Panel.Enter(obj);
     }
     [Command(requiresAuthority = false)]
     public void Exit(GameObject obj)
     {
+        RpcExit(obj);
+    }
+    [ClientRpc]
+    private void RpcExit(GameObject obj)
+    {
         Panel.Exit(obj);
     }
-
     //private void Update()
     //{
     //    //TEST  
