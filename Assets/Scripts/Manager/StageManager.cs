@@ -34,12 +34,24 @@ public class StageManager
     public void CmdBatchObject<T>(string objName,T data,Transform tr)
     {
         if (!NetworkServer.active || !NetworkClient.isConnected) return;
-     
+
+        //GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+
+        //obj.GetComponent<BuildObj>().SetData(data);
+        //obj.transform.SetParent(tr);
+
+        //NetworkServer.Spawn(obj, NetworkServer.localConnection);
+        Create(objName, data, tr);
+    }
+
+    [ClientRpc]
+    private void Create<T>(string objName,T data,Transform tr)
+    {
         GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
 
         obj.GetComponent<BuildObj>().SetData(data);
         obj.transform.SetParent(tr);
-        
+
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
     }
 

@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class ToggleButton_Net : NetworkBehaviour
 {
-    bool HasClientsExceptHost => NetworkServer.connections.Count > 1;
 
     ToggleButtonObject toggle;
     ToggleButtonObject Toggle
@@ -19,10 +18,10 @@ public class ToggleButton_Net : NetworkBehaviour
     }
 
     // 클라이언트에서 서버로 명령을 전달하는 Command
-    [Command]
+    [Command(requiresAuthority =false)]
     public void CmdActive()
     {
-        RpcActive();
+            RpcActive();        
     }
 
     // 서버에서 클라이언트로 전달하는 ClientRpc
@@ -32,7 +31,7 @@ public class ToggleButton_Net : NetworkBehaviour
         Toggle.Net_Activation();
     }
 
-    [Command]
+    [Command(requiresAuthority = false)]
     public void CmdDeactived()
     {
         RpcDeactived();
@@ -44,4 +43,6 @@ public class ToggleButton_Net : NetworkBehaviour
     {
         Toggle.Net_Deactivated();
     }
+
+
 }

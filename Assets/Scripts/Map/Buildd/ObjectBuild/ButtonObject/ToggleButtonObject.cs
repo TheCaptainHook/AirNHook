@@ -83,7 +83,7 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
 
 
     
-    public void Net_Activation()
+    public void Net_Activation( )
     {
         Activation();
     }

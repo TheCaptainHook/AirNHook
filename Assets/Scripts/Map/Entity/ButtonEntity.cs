@@ -31,10 +31,10 @@ public class ButtonEntity : BuildObj
     #region Main Logic
     protected bool onPrograss;
     protected bool onActive;
-    protected virtual IEnumerator Co_Activation(){yield break; }
-    protected virtual IEnumerator Co_Deactivated(){yield break; }
-    protected virtual void Activation(){}
-    protected virtual void Deactivated(){}
+    protected virtual IEnumerator Co_Activation() {yield break; }
+    protected virtual IEnumerator Co_Deactivated() {yield break; }
+    protected virtual void Activation() {}
+    protected virtual void Deactivated(){ }
     protected virtual void PrograssButtonActivatedObject(bool onActivate)
     {
         if(targetObjects == null) return;
