@@ -18,7 +18,16 @@ public class DoorOpeningAnim : NetworkBehaviour
 
     public event Action OnUnlockAnimation;
     //public event Action OnLockAnimation;//TODO 0729
-
+    private AbsencePanel panel;
+    private AbsencePanel Panel
+    {
+        get { 
+            if (panel == null) panel = GetComponent<AbsencePanel>();
+            return panel;
+        }
+           
+           
+    }
     #region StringCache
     private static readonly int IsUnlocking = Animator.StringToHash("IsUnlocking");
     private static readonly int Reset = Animator.StringToHash("Reset");//TODO 0729
@@ -33,6 +42,16 @@ public class DoorOpeningAnim : NetworkBehaviour
         //OnLockAnimation += Ani_Reset;
     }
 
+    [Command(requiresAuthority = false)]
+    public void Enter(GameObject obj)
+    {
+        Panel.Enter(obj);
+    }
+    [Command(requiresAuthority = false)]
+    public void Exit(GameObject obj)
+    {
+        Panel.Exit(obj);
+    }
 
     //private void Update()
     //{

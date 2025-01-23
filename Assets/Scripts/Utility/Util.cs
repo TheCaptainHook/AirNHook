@@ -173,16 +173,6 @@ public class Util
         Transform childTransform = childObject.transform;
         childTransform.SetParent(parent);
 
-        if (Application.isPlaying)
-        {
-            childObject.AddComponent<NetworkIdentity>();
-
-            if (NetworkServer.active)
-                NetworkServer.Spawn(childObject, NetworkServer.localConnection);
-
-            
-        }
-
         return childTransform;
 
     }

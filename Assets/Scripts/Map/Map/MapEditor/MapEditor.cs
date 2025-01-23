@@ -247,6 +247,7 @@ public class MapEditor : MonoBehaviour
     }
 
 
+
     #region Save 
 
     //Json 파일로 저장
@@ -555,7 +556,7 @@ public class MapEditor : MonoBehaviour
                         {
                             _TR = transform;
                         }
-                        Managers.Stage.CmdBatchObject(mapDataStruct.name, data, _TR.GetComponent<NetworkIdentity>().netId);
+                        Managers.Stage.CmdBatchObject(mapDataStruct.name, data, _TR.name);
                     }
                     else
                     {

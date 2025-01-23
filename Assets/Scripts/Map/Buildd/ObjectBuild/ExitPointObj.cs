@@ -135,7 +135,8 @@ public class ExitPointObj : BuildObj
         
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && stageClear)
         {
-            absencePanel.Enter(collision.gameObject);//TODO 0802 Need Networking
+            //absencePanel.Enter(collision.gameObject);//TODO 0802 Need Networking
+            doorOpeningAnim.Enter(collision.gameObject);
             curPlayerInDoor++;
             if(stageClear && curPlayerInDoor >= 2)
             {
@@ -156,7 +157,8 @@ public class ExitPointObj : BuildObj
         
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && stageClear)
         {
-            absencePanel.Exit(collision.gameObject);//TODO 0802 Need Networking
+            //absencePanel.Exit(collision.gameObject);//TODO 0802 Need Networking
+            doorOpeningAnim.Exit(collision.gameObject);
             curPlayerInDoor--;
             if(curPlayerInDoor < 0) { curPlayerInDoor = 0; }
         }
