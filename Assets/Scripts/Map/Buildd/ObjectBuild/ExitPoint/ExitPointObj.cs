@@ -44,7 +44,15 @@ public class ExitPointObj : BuildObj
     [SerializeField] KeyBubble keyBubble;//TOdo 0802 Need Network
     [SerializeField] AbsencePanel absencePanel;//TOdo 0802 Need Network
 
-
+    ExitPoint_Net exitPoint_Net;
+    ExitPoint_Net ExitPoint_Net
+    {
+        get
+        {
+            if(exitPoint_Net == null) exitPoint_Net = GetComponent<ExitPoint_Net>();
+            return exitPoint_Net;
+        }
+    }
 
     private void Awake()
     {
@@ -136,7 +144,8 @@ public class ExitPointObj : BuildObj
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && stageClear)
         {
             //absencePanel.Enter(collision.gameObject);//TODO 0802 Need Networking
-            doorOpeningAnim.Enter(collision.gameObject);
+            //doorOpeningAnim.Enter(collision.gameObject);
+            ExitPoint_Net.Enter(collision.gameObject);
             curPlayerInDoor++;
             if(stageClear && curPlayerInDoor >= 2)
             {
@@ -158,7 +167,8 @@ public class ExitPointObj : BuildObj
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && stageClear)
         {
             //absencePanel.Exit(collision.gameObject);//TODO 0802 Need Networking
-            doorOpeningAnim.Exit(collision.gameObject);
+            //doorOpeningAnim.Exit(collision.gameObject);
+            ExitPoint_Net.Exit(collision.gameObject);
             curPlayerInDoor--;
             if(curPlayerInDoor < 0) { curPlayerInDoor = 0; }
         }

@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 813398060793260257}
   - component: {fileID: 5945179436293438050}
   - component: {fileID: 5223177737092824754}
+  - component: {fileID: 1045330855647730413}
   m_Layer: 13
   m_Name: ExitDoor
   m_TagString: Untagged
@@ -232,14 +233,16 @@ MonoBehaviour:
   id: 301
   transformID: 3
   position: {x: 0, y: 0}
-  offset: {x: 0, y: 3}
-  turnOff: 0
   distructionStatus: 0
+  chargeRequired: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
+  offset: {x: 0, y: 3}
+  turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 0}
   stageClear: 0
   nextMapId: 
   curPlayerInDoor: 0
@@ -356,6 +359,18 @@ MonoBehaviour:
   syncInterval: 0
   clientAuthority: 0
   animator: {fileID: 5945179436293438050}
+--- !u!114 &1045330855647730413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1403613117175697264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a18f9e53a763444cacb6c2701af5d34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2469310004978593281
 GameObject:
   m_ObjectHideFlags: 0

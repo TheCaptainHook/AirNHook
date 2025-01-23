@@ -65,11 +65,6 @@ public class AbsencePanel : MonoBehaviour
     }
 
 
-    public void NextMoveAnimation()
-    {
-        Debug.Log("Animation");
-    }
-
 
     IEnumerator ScaleCoroutine(Transform transform,Vector3 targetScaleUp, Vector3 targetScale)
     {
