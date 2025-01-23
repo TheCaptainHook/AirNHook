@@ -27,30 +27,41 @@ public class StageManager
         //    }
         //}
     }
-    
+
     #region Editor
 
+    //[Command]
+    //public void CmdBatchObject<T>(string objName,T data,Transform tr)
+    //{
+    //    if (!NetworkServer.active || !NetworkClient.isConnected) return;
+
+    //    GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+
+    //    obj.GetComponent<BuildObj>().SetData(data);
+    //    obj.transform.SetParent(tr);
+
+    //    NetworkServer.Spawn(obj, NetworkServer.localConnection);
+    //}
+
     [Command]
-    public void CmdBatchObject<T>(string objName,T data,Transform tr)
+    public void CmdBatchObject<T>(string objName, T data, string trName)
     {
         if (!NetworkServer.active || !NetworkClient.isConnected) return;
 
-        //GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
-
-        //obj.GetComponent<BuildObj>().SetData(data);
-        //obj.transform.SetParent(tr);
-
-        //NetworkServer.Spawn(obj, NetworkServer.localConnection);
-        Create(objName, data, tr);
-    }
-
-    [ClientRpc]
-    private void Create<T>(string objName,T data,Transform tr)
-    {
         GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
 
         obj.GetComponent<BuildObj>().SetData(data);
-        obj.transform.SetParent(tr);
+        Transform parent = null;
+        foreach(Transform tr in MapEditor.Instance.mapObjBoxTransform)
+        {
+            if(tr.name == trName)
+            {
+                parent = tr;
+                break;
+            }
+        }
+        if(parent != null)
+        obj.transform.SetParent(parent);
 
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
     }

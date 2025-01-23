@@ -194,28 +194,28 @@ public class MapEditor : MonoBehaviour
         mapObjBoxTransform = Util.CreateChildTransform("MapObjBox");
 
         // floorTransform = Util.CreateChildTransform(mapObjBoxTransform, "FloorTransform");
-        objectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ObjectTransform");
-        exitDoorObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ExitDoorObjectTransform");
-        buttonActivatableObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ButtonActivatableObjectTransform");
-        buttonObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "ButtonObjectTransform");
-        dontSaveObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "DontSaveObjectTransform");
-        garbageTransform = Util.CreateChildTransform(mapObjBoxTransform, "GarbageTransform");
-        networkingObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "NetworkingObjectTransform");
+        objectTransform = Util.CreateChildTransform(mapObjBoxTransform, "objectTransform");
+        exitDoorObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "exitDoorObjectTransform");
+        buttonActivatableObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "buttonActivatableObjectTransform");
+        buttonObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "buttonObjectTransform");
+        dontSaveObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "dontSaveObjectTransform");
+        garbageTransform = Util.CreateChildTransform(mapObjBoxTransform, "garbageTransform");
+        networkingObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "networkingObjectTransform");
         //TODO 0723
-        triggerDialogueTransform = Util.CreateChildTransform(mapObjBoxTransform, "TriggerDialogueTransform");
+        triggerDialogueTransform = Util.CreateChildTransform(mapObjBoxTransform, "triggerDialogueTransform");
         //TODO 0723
-        droneTransform = Util.CreateChildTransform(mapObjBoxTransform,"DroneTransform");
-        poolingContainer = Util.CreateChildTransform(mapObjBoxTransform, "PoolingContainer");
+        droneTransform = Util.CreateChildTransform(mapObjBoxTransform, "droneTransform");
+        poolingContainer = Util.CreateChildTransform(mapObjBoxTransform, "poolingContainer");
         //TODO 1024
-        otherContainer = Util.CreateChildTransform(mapObjBoxTransform,"OtherContainer");
+        otherContainer = Util.CreateChildTransform(mapObjBoxTransform, "otherContainer");
         otherContainer.gameObject.AddComponent<OtherContainer>();
-        backgroundObjectContainer = Util.CreateChildTransform(mapObjBoxTransform,"BackgroundObjectContainer");
+        backgroundObjectContainer = Util.CreateChildTransform(mapObjBoxTransform, "backgroundObjectContainer");
         //TODO 1024
         //TODO 1202
-        collectableContainer = Util.CreateChildTransform(mapObjBoxTransform, "CollectableContainer");
+        collectableContainer = Util.CreateChildTransform(mapObjBoxTransform, "collectableContainer");
     
         //0107 Shadow
-        shadowContainer = Util.CreateChildTransform(mapObjBoxTransform,"ShadowContainer");
+        shadowContainer = Util.CreateChildTransform(mapObjBoxTransform, "shadowContainer");
     }
 
     public void EditorMode_Init()
@@ -544,16 +544,23 @@ public class MapEditor : MonoBehaviour
                 var value = isField.GetValue(data);
                 if(value is int intValue){
                     mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[intValue];
-                     if(mapDataStruct.objectType == ObjectType.N_Object && Application.isPlaying){
-                        if(transform == objectTransform){
+                    if (mapDataStruct.objectType == ObjectType.N_Object && Application.isPlaying)
+                    {
+                        if (transform == objectTransform)
+                        {
                             _TR = networkingObjectTransform;
-                        }else{
+                        }
+                        else
+                        {
                             _TR = transform;
                         }
-                        Managers.Stage.CmdBatchObject(mapDataStruct.name,data,_TR);
-                     }else{
-                        Create(transform,mapDataStruct,data);
-                     }
+                        Managers.Stage.CmdBatchObject(mapDataStruct.name, data, _TR.name);
+                    }
+                    else
+                    {
+                        Create(transform, mapDataStruct, data);
+                    }
+                  
                 }
                
             }
