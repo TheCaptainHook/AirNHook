@@ -5,17 +5,18 @@ using UnityEngine;
 
 public class ExitPoint_Net : NetworkBehaviour
 {
-    AbsencePanel panel;
-    AbsencePanel Panel
-    {
-        get
-        {
-            if(panel== null) panel = GetComponent<AbsencePanel>();
-            return panel;
-        }
-       
-    }
+    [SerializeField] ExitPointObj exit;
 
+    [Command(requiresAuthority = false)]
+    public void OnAbsencePanel()
+    {
+        RpcOnAbsencePanel();
+    }
+    [ClientRpc]
+    public void RpcOnAbsencePanel()
+    {
+        exit.OnAbsence();
+    }
     [Command(requiresAuthority = false)]
     public void Enter(GameObject obj)
     {
@@ -24,7 +25,7 @@ public class ExitPoint_Net : NetworkBehaviour
     [ClientRpc]
     public void RpcEnter(GameObject obj)
     {
-        Panel.Enter(obj);
+        exit.Enter(obj);
     }
     [Command(requiresAuthority = false)]
     public void Exit(GameObject obj)
@@ -34,7 +35,7 @@ public class ExitPoint_Net : NetworkBehaviour
     [ClientRpc]
     public void RpcExit(GameObject obj)
     {
-        Panel.Exit(obj);
+        exit.Exit(obj);
     }
     
 

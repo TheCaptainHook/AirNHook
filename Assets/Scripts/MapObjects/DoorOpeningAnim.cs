@@ -18,16 +18,8 @@ public class DoorOpeningAnim : NetworkBehaviour
 
     public event Action OnUnlockAnimation;
     //public event Action OnLockAnimation;//TODO 0729
-    private AbsencePanel panel;
-    private AbsencePanel Panel
-    {
-        get { 
-            if (panel == null) panel = GetComponent<AbsencePanel>();
-            return panel;
-        }
-           
-           
-    }
+    [SerializeField] AbsencePanel panel;
+    [SerializeField] ExitPointObj exit;
     #region StringCache
     private static readonly int IsUnlocking = Animator.StringToHash("IsUnlocking");
     private static readonly int Reset = Animator.StringToHash("Reset");//TODO 0729
@@ -90,6 +82,9 @@ public class DoorOpeningAnim : NetworkBehaviour
         Vector2 forceDirection = Random.insideUnitCircle.normalized;
         float forceMagnitude = Random.Range(10f, 20f); // 힘의 크기를 랜덤으로 지정
         _lockRigidbody2D.AddForce(forceDirection * forceMagnitude, ForceMode2D.Impulse);
+
+        exit.OnAbsence();
+
     }
 
     #region Network

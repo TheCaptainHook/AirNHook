@@ -515,8 +515,8 @@ public class MapEditor : MonoBehaviour
     private void CreateExitObject(ExitObjStruct data)
     {
         MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
-        Create(exitDoorObjectTransform,mapDataStruct,data);
-
+        //Create(exitDoorObjectTransform,mapDataStruct,data);
+        Managers.Stage.CmdBatchObject(mapDataStruct.name, data, exitDoorObjectTransform.name);
     }
 
     private void Create_OtherObject(MapDataStruct mapDataStruct,ObjectData data,Transform transform){

@@ -20,21 +20,42 @@ public class ExitPointObj : BuildObj
     [ReadOnly]
     public int condition_KeyAmount;
     private int current_KeyAmount;
-    public int Current_KeyAmount {
-        get { return current_KeyAmount; }
-        set { current_KeyAmount -= value; //TODO 0729
-            current_KeyAmount = Math.Clamp(current_KeyAmount,0, condition_KeyAmount);//TODO 0729
-            keyBubble.MinusConditionKeyAmount(current_KeyAmount);//TODO 0802 Need Network
-            if (current_KeyAmount == 0 && !stageClear) //TODO 0729
-            {
-                stageClear = true;
-                MapEditor.Instance.stageClear = true;
-                doorOpeningAnim.CallOnUnlockAnimation();
-                absencePanel.OnAbsencePanel(); //TOdo 0802 Need Network
+    //public int Current_KeyAmount {
+    //    get { return current_KeyAmount; }
+    //    set { current_KeyAmount -= value; //TODO 0729
+    //        current_KeyAmount = Math.Clamp(current_KeyAmount,0, condition_KeyAmount);//TODO 0729
+    //        keyBubble.MinusConditionKeyAmount(current_KeyAmount);//TODO 0802 Need Network
+    //        if (current_KeyAmount == 0 && !stageClear) //TODO 0729
+    //        {
+    //            stageClear = true;
+    //            MapEditor.Instance.stageClear = true;
+    //            doorOpeningAnim.CallOnUnlockAnimation();
+    //            //absencePanel.OnAbsencePanel(); //TOdo 0802 Need Network
+    //            ExitPoint_Net.OnAbsencePanel();
 
-                
-            }
-            } }
+
+    //        }
+    //        } }
+
+
+    private int curKeyAmount = 0;
+    public void SetKey()
+    {
+        curKeyAmount--;
+        keyBubble.MinusConditionKeyAmount(curKeyAmount);
+        if (current_KeyAmount <= 0 && !stageClear) //TODO 0729
+        {
+            stageClear = true;
+            MapEditor.Instance.stageClear = true;
+            doorOpeningAnim.CallOnUnlockAnimation();
+            //absencePanel.OnAbsencePanel(); //TOdo 0802 Need Network
+            //ExitPoint_Net.OnAbsencePanel();
+
+
+        }
+
+    }
+
 
     [Header("Componenets")]
     DoorOpeningAnim doorOpeningAnim;
@@ -49,7 +70,7 @@ public class ExitPointObj : BuildObj
     {
         get
         {
-            if(exitPoint_Net == null) exitPoint_Net = GetComponent<ExitPoint_Net>();
+            if (exitPoint_Net == null) exitPoint_Net = GetComponent<ExitPoint_Net>();
             return exitPoint_Net;
         }
     }
@@ -107,22 +128,23 @@ public class ExitPointObj : BuildObj
         {
             Managers.Command.DestroyKey(obj);
         }
-        Current_KeyAmount = 1;
+        //Current_KeyAmount = 1;
+        SetKey();
     }
 
-    void GetKey(GameObject obj)
-    {
-        if(Managers.Game.CurrentState != GameState.Editor)
-        {
-            //obj.GetComponent<Key>().CallOnInterableObjectRelease();
-            //obj.GetComponent<SpriteRenderer>().enabled = false;
-            //obj.GetComponent<IInteractable>().Interacting(true);
-            //obj.transform.position = new Vector3(-1000, -1000);
-            //Destroy(obj, 1f);
-            Managers.Command.DestroyKey(obj);
-            Current_KeyAmount = 1;
-        }
-    }
+    //void GetKey(GameObject obj)
+    //{
+    //    if(Managers.Game.CurrentState != GameState.Editor)
+    //    {
+    //        //obj.GetComponent<Key>().CallOnInterableObjectRelease();
+    //        //obj.GetComponent<SpriteRenderer>().enabled = false;
+    //        //obj.GetComponent<IInteractable>().Interacting(true);
+    //        //obj.transform.position = new Vector3(-1000, -1000);
+    //        //Destroy(obj, 1f);
+    //        Managers.Command.DestroyKey(obj);
+    //        Current_KeyAmount = 1;
+    //    }
+    //}
 
 
 
@@ -242,5 +264,17 @@ public class ExitPointObj : BuildObj
 
     
 
+    public void Enter(GameObject obj)
+    {
+        absencePanel.Enter(obj);
+    }
+    public void Exit(GameObject obj)
+    {
+        absencePanel.Exit(obj);
+    }
+    public void OnAbsence()
+    {
+        absencePanel.OnAbsencePanel();
+    }
     #endregion
 }

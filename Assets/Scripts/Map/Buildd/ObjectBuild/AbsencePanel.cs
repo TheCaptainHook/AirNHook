@@ -24,6 +24,7 @@ public class AbsencePanel : MonoBehaviour
 
     public void Enter(GameObject obj)
     {
+        if (!gameObject.activeSelf) return;
         if (obj.TryGetComponent(out HookSM hook))
         {
             if (_CharacterFadeEffectCoroutineHook != null)
