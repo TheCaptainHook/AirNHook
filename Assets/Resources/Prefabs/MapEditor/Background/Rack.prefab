@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 0.1
   m_LightVolumeIntensityEnabled: 1
-  m_ApplyToSortingLayers: 0000000079fff5dc156d27bc93974e373dfa80d69754fad67bd34c9e4b693136d173aa4009c81f543db6189c
+  m_ApplyToSortingLayers: 93974e373dfa80d67bd34c9e4b693136d173aa409754fad679fff5dc156d27bc
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -181,6 +181,7 @@ GameObject:
   - component: {fileID: 6849360156719453090}
   - component: {fileID: -3875062622474266727}
   - component: {fileID: 6040369290464576250}
+  - component: {fileID: 1671111534642922820}
   m_Layer: 9
   m_Name: Rack
   m_TagString: Untagged
@@ -336,6 +337,7 @@ MonoBehaviour:
   transformID: 0
   position: {x: 0, y: 0}
   distructionStatus: 0
+  chargeRequired: 0
   onPlaceable: 1
   onRotateable: 0
   onScaleable: 0
@@ -356,3 +358,33 @@ SortingGroup:
   m_SortingLayer: 4
   m_SortingOrder: 10
   m_SortAtRoot: 0
+--- !u!114 &1671111534642922820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6699016938382177801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 0000000079fff5dc156d27bc93974e373dfa80d69754fad67bd34c9e4b693136d173aa4009c81f543db6189c
+  m_ShapePath:
+  - {x: -1.0029438, y: 0.13246834, z: 0}
+  - {x: -0.99899745, y: 0.3806101, z: 0}
+  - {x: 0.9961196, y: 0.3791319, z: 0}
+  - {x: 0.9970561, y: 0.12952447, z: 0}
+  m_ShapePathHash: 812790727
+  m_Mesh: {fileID: 0}
+  m_InstanceId: -3294
+  m_LocalBounds:
+    m_Center: {x: -0.0029438138, y: 0.2550673, z: 0}
+    m_Extent: {x: 0.99999994, y: 0.12554282, z: 0}
