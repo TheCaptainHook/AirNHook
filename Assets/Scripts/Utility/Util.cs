@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System;
 using System.Text;
 using System.Threading;
+using Mirror;
 
 public class Util
 {
@@ -171,7 +172,19 @@ public class Util
         GameObject childObject = new GameObject(name);
         Transform childTransform = childObject.transform;
         childTransform.SetParent(parent);
+
+        if (Application.isPlaying)
+        {
+            childObject.AddComponent<NetworkIdentity>();
+
+            if (NetworkServer.active)
+                NetworkServer.Spawn(childObject, NetworkServer.localConnection);
+
+            
+        }
+
         return childTransform;
+
     }
     public Transform CreateChildTransform( string name)
     {

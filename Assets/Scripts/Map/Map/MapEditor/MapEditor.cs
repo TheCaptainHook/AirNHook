@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using UnityEngine.Rendering.Universal;
 using UnityEditor.UI;
+using Mirror;
 
 public enum MapType
 {
@@ -554,7 +555,7 @@ public class MapEditor : MonoBehaviour
                         {
                             _TR = transform;
                         }
-                        Managers.Stage.CmdBatchObject(mapDataStruct.name, data, _TR.name);
+                        Managers.Stage.CmdBatchObject(mapDataStruct.name, data, _TR.GetComponent<NetworkIdentity>().netId);
                     }
                     else
                     {

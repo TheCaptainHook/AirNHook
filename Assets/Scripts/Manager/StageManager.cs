@@ -44,24 +44,61 @@ public class StageManager
     //}
 
     [Command]
-    public void CmdBatchObject<T>(string objName, T data, string trName)
+    public void CmdBatchObject<T>(string objName, T data, uint trId)
     {
         if (!NetworkServer.active || !NetworkClient.isConnected) return;
 
         GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
-
         obj.GetComponent<BuildObj>().SetData(data);
+        //obj.GetComponent<BuildObj>().SetData(data);
+        //Transform parent = null;
+        //foreach(Transform tr in MapEditor.Instance.mapObjBoxTransform)
+        //{
+        //    if(tr.name == trName)
+        //    {
+        //        parent = tr;
+        //        break;
+        //    }
+        //}
+        //if(parent != null)
+        //obj.transform.SetParent(parent);
+
+        //NetworkServer.Spawn(obj, NetworkServer.localConnection);
         Transform parent = null;
-        foreach(Transform tr in MapEditor.Instance.mapObjBoxTransform)
+        foreach (Transform tr in MapEditor.Instance.mapObjBoxTransform)
         {
-            if(tr.name == trName)
+            Debug.Log($"{tr.GetComponent<NetworkIdentity>().netId}\ntrId : {trId}");
+            if (tr.GetComponent<NetworkIdentity>().netId == trId)
             {
                 parent = tr;
                 break;
             }
         }
-        if(parent != null)
-        obj.transform.SetParent(parent);
+        if (parent != null)
+            obj.transform.SetParent(parent);
+
+        NetworkServer.Spawn(obj, NetworkServer.localConnection);
+
+      
+    }
+
+    [ClientRpc]
+    private void Create<T>(string objName,T data,uint trId)
+    {
+        GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+        obj.GetComponent<BuildObj>().SetData(data);
+
+        Transform parent = null;
+        foreach (Transform tr in MapEditor.Instance.mapObjBoxTransform)
+        {
+            if (tr.GetComponent<NetworkIdentity>().netId == trId)
+            {
+                parent = tr;
+                break;
+            }
+        }
+        if (parent != null)
+            obj.transform.SetParent(parent);
 
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
     }
