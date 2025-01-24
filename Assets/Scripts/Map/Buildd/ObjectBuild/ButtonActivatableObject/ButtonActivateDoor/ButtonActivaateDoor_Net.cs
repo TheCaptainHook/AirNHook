@@ -52,15 +52,15 @@ public class ButtonActivaateDoor_Net : NetworkBehaviour
     }
 
 
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        if(isOpen){
-            Door.Open();
-        }{
-            Door.Close();
-        }
-    }
+    //public override void OnStartClient()
+    //{
+    //    base.OnStartClient();
+    //    if(isOpen){
+    //        Door.Open();
+    //    }{
+    //        Door.Close();
+    //    }
+    //}
 
   
 

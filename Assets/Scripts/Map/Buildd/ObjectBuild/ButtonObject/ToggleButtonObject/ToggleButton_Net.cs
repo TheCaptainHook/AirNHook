@@ -60,7 +60,7 @@ public class ToggleButton_Net : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
-        Toggle.SetActive(isActive);
+        CmdSetState(isActive);
     }
 
 
