@@ -82,16 +82,7 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
 #endregion
 
 
-    
-    public void Net_Activation( )
-    {
-        Activation();
-    }
-    public void Net_Deactivated()
-    {
-        Deactivated();
-    }
-
+ 
     protected override void Activation()
     {
         if (onPrograss || onActive) return;
@@ -103,11 +94,15 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
         StartCoroutine(Co_Deactivated());
     }
 
+   
+
     protected override IEnumerator Co_Activation()
     {
         onPrograss = true;
         onActive = true;
+        //network
         animator.SetBool(OnPressed,onActive);
+        //
         PrograssButtonActivatedObject(onActive);
         yield return new WaitForSeconds(0.8f);
         onPrograss = false;
@@ -117,14 +112,33 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
     {
         onPrograss = true;
         onActive = false;
-        
+        ////network
         animator.SetBool(OnPressed,onActive);
+        //
         PrograssButtonActivatedObject(onActive);
 
         yield return new WaitForSeconds(0.8f);
         onPrograss = false;
     }
 
+#region  NetWork
+       
+    public void Net_Activation( )
+    {
+        Activation();
+    }
+    public void Net_Deactivated()
+    {
+        Deactivated();
+    }
+
+#endregion
+#region Client
+    public void SetActive(bool val)
+    {
+        animator.SetBool(OnPressed,val);
+    }
+#endregion
 
 #region  Interacte
     public void Interaction(Transform accessor = null){
@@ -136,12 +150,12 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
             }
         }
 
-        if(onActive){
+        if(onActive && !onPrograss){
             //Deactivated();
-            ToggleButton_Net.CmdDeactived();
+            ToggleButton_Net.SetState(false);
         }else{
             //Activation();
-            ToggleButton_Net.CmdActive();
+            ToggleButton_Net.SetState(true);
         }
     }
 

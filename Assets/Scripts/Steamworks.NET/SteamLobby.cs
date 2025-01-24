@@ -101,7 +101,8 @@ public class SteamLobby : MonoBehaviour
         {
             var lobbyID = SteamMatchmaking.GetLobbyByIndex(i);
             
-            Debug.Log(lobbyID.m_SteamID);
+            // Debug.Log(lobbyID.m_SteamID);
+            Debug.Log($"{lobbyID.m_SteamID}\n{Base62Converter.ToBase62(lobbyID.m_SteamID)}");
             lobbyIDDict.Add(lobbyID.m_SteamID, lobbyID);
         }
         joinLobbyCallback?.Invoke();

@@ -17,21 +17,35 @@ public class ActivatableObjectEntity : BuildObj
                 transform.localScale = value.scale;
             } }
     }
-   [ReadOnly]
-    public int curActiveBtn;//현재 활성화된 버튼 //todo 0426 
-    public int CurActiveBtn
+//    [ReadOnly]
+//     public int curActiveBtn;//현재 활성화된 버튼 //todo 0426 
+//     public int CurActiveBtn
+//     {
+//         set { curActiveBtn += value;
+//             if (curActiveBtn == activeRequirAmount) { Activation(); }
+//             else { Deactivated(); }
+//         } }
+    [ReadOnly]
+    public int curActiveBtn;
+    //----------------------------------------------------------------Refactoring 250124
+    public void ApplyActive(int num)
     {
-        set { curActiveBtn += value;
-            if (curActiveBtn == activeRequirAmount) { Activation(); }
-            else { Deactivated(); }
-        } }
+        curActiveBtn += num;
+        if(curActiveBtn == activeRequirAmount)
+        {
+            Activation();
+        }else{
+            Deactivated();
+        }
+    }
+    //----------------------------------------------------------------Refactoring 250124
 
    protected virtual void Activation(){}
    protected virtual void Deactivated(){}
-   public virtual void ApplyActive(int num)
-   {
-    CurActiveBtn = num;
-   }
+//    public virtual void ApplyActive(int num)
+//    {
+//     CurActiveBtn = num;
+//    }
 
    #region GET,SET
     public override T GetData<T>()

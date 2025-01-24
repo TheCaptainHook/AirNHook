@@ -380,10 +380,11 @@ GameObject:
   - component: {fileID: 5394254430798962942}
   - component: {fileID: 2079940608723542123}
   - component: {fileID: -124463395790896061}
-  - component: {fileID: 6409072115485855946}
   - component: {fileID: 4035336826809509372}
   - component: {fileID: -3357477157442156931}
   - component: {fileID: -8033369550424605698}
+  - component: {fileID: 6409072115485855946}
+  - component: {fileID: 2127257292914860975}
   m_Layer: 7
   m_Name: ButtonActivatedDoor
   m_TagString: Untagged
@@ -534,36 +535,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &6409072115485855946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6993925836768963658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82729ff58103e84439848fa87a087cec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 305
-  transformID: 3
-  position: {x: 0, y: 0}
-  distructionStatus: 0
-  chargeRequired: 0
-  onPlaceable: 0
-  onRotateable: 1
-  onScaleable: 1
-  offset: {x: 0, y: 2.5}
-  turnOff: 0
-  setPosition: 0
-  orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
-  activeRequirAmount: 0
-  curActiveBtn: 0
-  _animator: {fileID: -8033369550424605698}
-  onOpen: 0
-  onPrograss: 0
 --- !u!95 &4035336826809509372
 Animator:
   serializedVersion: 5
@@ -572,7 +543,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6993925836768963658}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 172a1d9619e7f8b479d844d7ee622c75, type: 2}
   m_CullingMode: 0
@@ -619,6 +590,54 @@ MonoBehaviour:
   syncInterval: 0
   clientAuthority: 0
   animator: {fileID: 4035336826809509372}
+--- !u!114 &6409072115485855946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6993925836768963658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82729ff58103e84439848fa87a087cec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 305
+  transformID: 3
+  position: {x: 0, y: 0}
+  distructionStatus: 0
+  chargeRequired: 0
+  onPlaceable: 0
+  onRotateable: 1
+  onScaleable: 1
+  offset: {x: 0, y: 2.5}
+  turnOff: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 0}
+  activeRequirAmount: 0
+  curActiveBtn: 0
+  _animator: {fileID: -8033369550424605698}
+  onOpen: 0
+  onPrograss: 0
+  door_Net: {fileID: 2127257292914860975}
+  topDoor: {fileID: 6876650001963253034}
+  bottomDoor: {fileID: 8020788218279620096}
+--- !u!114 &2127257292914860975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6993925836768963658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa203f35af09943f0b7dcc641116215a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!1 &8169169655005324946
 GameObject:
   m_ObjectHideFlags: 0
