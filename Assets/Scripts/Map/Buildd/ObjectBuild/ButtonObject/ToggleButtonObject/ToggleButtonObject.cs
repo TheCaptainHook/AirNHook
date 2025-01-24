@@ -2,6 +2,7 @@ using System.Collections;
 using Mirror;
 using UnityEngine;
 using System;
+using UnityEngine.Rendering;
 
 public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
 {
@@ -128,7 +129,7 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
         Activation();
     }
     public void Net_Deactivated()
-    {
+    { 
         Deactivated();
     }
 
@@ -150,11 +151,17 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
             }
         }
 
-        if(onActive && !onPrograss){
+        if (onPrograss) return;
+
+
+        Debug.Log("Zero");
+        if(onActive){
             //Deactivated();
+            Debug.Log("Dea");
             ToggleButton_Net.HandleSetState(false);
         }else{
             //Activation();
+            Debug.Log("Act");
             ToggleButton_Net.HandleSetState(true);
         }
     }

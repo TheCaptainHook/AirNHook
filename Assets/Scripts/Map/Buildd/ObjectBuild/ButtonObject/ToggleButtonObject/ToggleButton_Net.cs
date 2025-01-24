@@ -49,11 +49,9 @@ public class ToggleButton_Net : NetworkBehaviour
         // Toggle.SetActive(newVal);
         if(newVal)
         {
-            Debug.Log("Act");
             Toggle.Net_Activation();
         }else
         {   
-            Debug.Log("Dac");
             Toggle.Net_Deactivated();
         }
 
