@@ -56,8 +56,7 @@ public class ButtonActivatedDoor : ActivatableObjectEntity
         if (!onOpen) return;
 
         onOpen = false;
-        _collider.enabled = true;
-
+       
         //Door close
         // _animator.SetTrigger(LockTrigger);
         //250124
@@ -83,13 +82,13 @@ public class ButtonActivatedDoor : ActivatableObjectEntity
     public void Open()
     {
         if(operateDoorCoroutine != null) StopCoroutine(operateDoorCoroutine);
-
+        _collider.enabled = false;
         operateDoorCoroutine = StartCoroutine(Operation(true));
     }
     public void Close()
     {
         if(operateDoorCoroutine != null) StopCoroutine(operateDoorCoroutine);
-
+        _collider.enabled = true;
         operateDoorCoroutine = StartCoroutine(Operation(false));
     }
 
