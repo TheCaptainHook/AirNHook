@@ -152,10 +152,10 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
 
         if(onActive && !onPrograss){
             //Deactivated();
-            ToggleButton_Net.SetState(false);
+            ToggleButton_Net.HandleSetState(false);
         }else{
             //Activation();
-            ToggleButton_Net.SetState(true);
+            ToggleButton_Net.HandleSetState(true);
         }
     }
 

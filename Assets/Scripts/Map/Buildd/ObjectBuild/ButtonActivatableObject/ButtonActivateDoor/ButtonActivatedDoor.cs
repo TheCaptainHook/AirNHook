@@ -31,22 +31,23 @@ public class ButtonActivatedDoor : ActivatableObjectEntity
         // _animator.SetTrigger(UnlockTrigger);
         //250124
         // Open();
-        door_Net.SetDoorState(true);
+        
+        door_Net.HandleSetState(true);
 
 
     }
 
     // test
-    public void Update(){
-        if(Input.GetKeyDown(KeyCode.Q))
-        {
-            ApplyActive(1);
-        }
-        if(Input.GetKeyDown(KeyCode.W))
-        {
-            ApplyActive(-1);
-        }
-    }
+    //public void Update(){
+    //    if(Input.GetKeyDown(KeyCode.Q))
+    //    {
+    //        ApplyActive(1);
+    //    }
+    //    if(Input.GetKeyDown(KeyCode.W))
+    //    {
+    //        ApplyActive(-1);
+    //    }
+    //}
 
 
     protected override void Deactivated()
@@ -61,7 +62,7 @@ public class ButtonActivatedDoor : ActivatableObjectEntity
         // _animator.SetTrigger(LockTrigger);
         //250124
         // Close();
-        door_Net.SetDoorState(false);
+        door_Net.HandleSetState(false);
 
     }
 

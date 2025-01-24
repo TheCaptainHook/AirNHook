@@ -18,12 +18,28 @@ public class ButtonActivaateDoor_Net : NetworkBehaviour
     private bool isOpen;
 
     [Server]
-    public void SetDoorState(bool open)
+    private void SetState(bool open)
     {
         isOpen = open; // 이 시점에 hook 메서드가 클라이언트에서 실행됩니다.
     }
 
+    [Command(requiresAuthority = false)]
+    private void CmdSetState(bool newState)
+    {
+        SetState(newState);
+    }
 
+
+    public void HandleSetState(bool newState)
+    {
+        if(isServer)
+        {
+            SetState(newState);
+        }else
+        {
+            CmdSetState(newState);
+        }
+    }
 
     private void OnDoorStateChanged(bool oldValue, bool newValue)
     {
@@ -32,6 +48,7 @@ public class ButtonActivaateDoor_Net : NetworkBehaviour
        }else{
         Door.Close();
        }
+
     }
 
 
@@ -45,29 +62,30 @@ public class ButtonActivaateDoor_Net : NetworkBehaviour
         }
     }
 
+  
 
-    //    [Command(requiresAuthority =false)]
-    //    public void CmdOpen()
-    //    {
-    //     RpcOpen();
-    //    }
-    //    [ClientRpc]
-    //    public void RpcOpen()
-    //    {
-    //     isOpen = true;
-    //     Door.Open();
-    //    }
-    //    [Command(requiresAuthority =false)]
-    //    public void CmdClose()
-    //    {
-    //     RpcClose();
-    //    }
-    //    [ClientRpc]
-    //    public void RpcClose()
-    //    {
-    //     isOpen = false;
-    //     Door.Close();
-    //    }
+    //[Command(requiresAuthority = false)]
+    //public void CmdOpen()
+    //{
+    //    RpcOpen();
+    //}
+    //[ClientRpc]
+    //public void RpcOpen()
+    //{
+    //    isOpen = true;
+    //    Door.Open();
+    //}
+    //[Command(requiresAuthority = false)]
+    //public void CmdClose()
+    //{
+    //    RpcClose();
+    //}
+    //[ClientRpc]
+    //public void RpcClose()
+    //{
+    //    isOpen = false;
+    //    Door.Close();
+    //}
 
 
 

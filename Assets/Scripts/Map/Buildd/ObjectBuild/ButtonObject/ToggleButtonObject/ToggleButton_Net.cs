@@ -21,11 +21,28 @@ public class ToggleButton_Net : NetworkBehaviour
     private bool isActive;
 
     [Server]
-    public void SetState(bool state)
+    private void SetState(bool state)
     {
         isActive = state;
     }
 
+    [Command(requiresAuthority = false)]
+    private void CmdSetState(bool state)
+    {
+        SetState(state);
+    }
+
+    public void HandleSetState(bool state)
+    {
+        if(isServer)
+        {
+            SetState(state);
+        }
+        else
+        {
+            CmdSetState(state);
+        }
+    }
 
     public void OnStateChanged(bool oldVal,bool newVal)
     {
