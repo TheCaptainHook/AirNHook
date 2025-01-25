@@ -95,13 +95,18 @@ public class Puzzle_1_Button : MonoBehaviour
         StartCoroutine(WrongAndRecover());
     }
     
+    public void AniWrong()
+    {
+        animator.SetTrigger(EXPLODE);
+    }
 
     IEnumerator WrongAndRecover(){
         onProgress = true;
         onRecover = true;
         onCharging = false;
         //curChargeRate = 0;
-        animator.SetTrigger(EXPLODE);
+        //animator.SetTrigger(EXPLODE);
+        puzzle_Net.CmdWrong();
 
         yield return new WaitForSeconds(2f);
         puzzle_Net.CmdReset();

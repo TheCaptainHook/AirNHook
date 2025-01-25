@@ -91,6 +91,6 @@ public class Puzzle_1_Net : NetworkBehaviour
     [ClientRpc]
     public void RpcWrong()
     {
-        puzzle.Net_Wrong();
+        button.AniWrong();
     }
 }
