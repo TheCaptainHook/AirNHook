@@ -12,9 +12,10 @@ public class Puzzle_1_Button : MonoBehaviour
     private readonly int EXPLODE = Animator.StringToHash("Explode");
     private AirSM air;
 
-    private float curChargeRate;
+    [ReadOnly]
+    public float curChargeRate;
 
-    private bool onFullCharge;
+    public bool onFullCharge;
     private bool onCharging;
 
     private float curRecoverRate =1;
@@ -44,11 +45,11 @@ public class Puzzle_1_Button : MonoBehaviour
         onCharging = true;
         curRecoverRate = 1;
         //
-        curChargeRate += Time.fixedDeltaTime;
+        //curChargeRate += Time.fixedDeltaTime;
         //puzzle_1.SetButtonAnimation(curChargeRate);
-        SyncAnimation(curChargeRate);
+        SyncAnimation(0.01f);
 
-        if (curChargeRate >= 1)
+        if (puzzle_Net.chargingRate >= 1)
         {
             onFullCharge = true;
             return true;
@@ -65,6 +66,7 @@ public class Puzzle_1_Button : MonoBehaviour
     }
     public void SetAnimation(float rate)
     {
+        curChargeRate += rate;
         float val = Mathf.Clamp01(rate);
         animator.SetFloat(FULLNESS, val);
     }
@@ -74,13 +76,14 @@ public class Puzzle_1_Button : MonoBehaviour
 
     private void UnCharging()
     {
-        curChargeRate -= Time.fixedDeltaTime;
-        if (curChargeRate <= 0)
+
+        SyncAnimation(-0.01f);
+        if (puzzle_Net.chargingRate <= 0)
         {
             onCharging = false;
             curChargeRate = 0;
         }
-        SyncAnimation(curChargeRate);
+      
     }
     
     public bool onRecover;
@@ -96,6 +99,9 @@ public class Puzzle_1_Button : MonoBehaviour
         onCharging = false;
         onFullCharge = false;
         animator.SetTrigger(EXPLODE);
+
+        puzzle_Net.CmdReset();
+
         yield return new WaitForSeconds(1.5f);
         animator.SetFloat(FULLNESS,curChargeRate);
         onRecover = false;

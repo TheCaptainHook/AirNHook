@@ -14,10 +14,11 @@ public class Puzzle_1_LeftTrigger : MonoBehaviour
     {
         if(Input.GetMouseButton(1) && air && !button.onRecover)
         {
-            if (GetReadyToCharge(GetAirDir()) &&!air.airGun._inhaling)
+            if (GetReadyToCharge(GetAirDir()) &&!air.airGun._inhaling && !button.onFullCharge)
             {
                 //Charging;
-                puzzle_1.Charging();
+                //puzzle_1.Charging();
+                puzzle_1.Net_Charging();
             }
         }
     }

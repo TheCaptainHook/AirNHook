@@ -19,12 +19,13 @@ public class Puzzle_1_Net : NetworkBehaviour
     #region Animation Sync
 
     [SyncVar(hook = nameof(OnRateChanged))]
-    private float chargingRate;
+    public float chargingRate;
 
     [Server]
     public void SetRate(float rate)
     {
-        chargingRate = rate;
+        chargingRate += rate;
+        chargingRate = Mathf.Clamp01(chargingRate);
     }
     private void CmdSetRate(float rate)
     {
@@ -42,14 +43,25 @@ public class Puzzle_1_Net : NetworkBehaviour
             CmdSetRate(rate);
         }
     }
+    public void OnRateChanged(float old, float newVal)
+    {
+        Debug.Log(newVal);
+        button.SetAnimation(newVal);
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CmdReset()
+    {
+        RpcReset();
+    }
+    [ClientRpc]
+    public void RpcReset()
+    {
+        chargingRate = 0;
+    }
     #endregion
 
 
-    public void OnRateChanged(float old,float newVal)
-    {
-        button.SetAnimation(newVal);
-      
-    }
 
 
 
