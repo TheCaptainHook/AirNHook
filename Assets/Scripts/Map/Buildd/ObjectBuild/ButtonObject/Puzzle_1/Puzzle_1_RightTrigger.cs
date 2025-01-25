@@ -20,7 +20,8 @@ public class Puzzle_1_RightTrigger : MonoBehaviour
             if (GetReadyToCharge(GetAirDir()) && !air.airGun._inhaling)
             {
                 //Charging;
-                puzzle_1.Charging();
+                puzzle_1.Net_Charging();
+                //puzzle_1.Charging();
             }
         }
     }

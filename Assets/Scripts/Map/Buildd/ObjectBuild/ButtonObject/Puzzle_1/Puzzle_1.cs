@@ -94,15 +94,25 @@ public class Puzzle_1 : ButtonEntity
     #endregion
 
 
-    private void Update() //test
+    Puzzle_1_Net puzzle_net;
+    Puzzle_1_Net Puzzle_Net
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        get
         {
-            Power();
-
+            if (puzzle_net == null) puzzle_net = GetComponent<Puzzle_1_Net>();
+            return puzzle_net;
         }
-
     }
+
+    //private void Update() //test
+    //{
+    //    if (Input.GetKeyDown(KeyCode.P))
+    //    {
+    //        Power();
+
+    //    }
+
+    //}
 
     private void Setting() {
         int previousNum = 0;
@@ -254,6 +264,15 @@ public class Puzzle_1 : ButtonEntity
     {
         button.Wrong();
     }
+
+    #region NetWork
+    public void Net_Charging()
+    {
+        Puzzle_Net.CmdCharging();
+    }
+    #endregion
+
+
     #endregion
 
     #region Util
