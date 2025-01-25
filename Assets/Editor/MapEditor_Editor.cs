@@ -88,7 +88,6 @@ public class MapEditor_Editor : Editor
         EditorGUILayout.HelpBox($"프로젝트 실행할때 꼭 개발자용 데이터 세이브 후 Reset 버튼 누른다음 실행하기.", MessageType.Info);
         GUILayout.BeginVertical(mapEditor.onLoad ? "Save" : "Load", new GUIStyle(GUI.skin.window));
         mapEditor.mapType = (MapType)EditorGUILayout.EnumPopup("Map Type", mapEditor.mapType);
-        // mapEditor.mapID = EditorGUILayout.TextField("Map ID",mapEditor.mapID);
 
         Draw_MainContents_MapId();
 
@@ -99,35 +98,50 @@ public class MapEditor_Editor : Editor
                 mapEditor.audioName = EditorGUILayout.TextField(new GUIContent("BGM", "BGM"), mapEditor.audioName);
             }
         } else {
-            GUILayout.Space(20);
+            Draw_ShadwAndLight();
+            
+            mapEditor.stageLevel = EditorGUILayout.IntField("Stage Level", mapEditor.stageLevel);
+            mapEditor.subMapName = EditorGUILayout.TextField(
+                new GUIContent("Map Sub Name", "This is the sub-name for the map, but it’s okay to leave it empty."),
+                mapEditor.subMapName
+                );
+
+            DrawBGMContents();
+        }
+        GUILayout.EndVertical();
+    }
+    private void Draw_ShadwAndLight()
+    {
+        GUILayout.Space(20);
             GUILayout.BeginHorizontal();
           
                 GUILayout.BeginVertical(new GUIStyle(GUI.skin.window));
                     GUILayout.FlexibleSpace();
                     GUILayout.Label("Shadow And Global Light",GetGUIStyle_Label(Color.white,15,FontStyle.Bold,TextAnchor.MiddleCenter));
                     GUILayout.FlexibleSpace();
+
                     GUILayout.BeginVertical();
 
+                        DrawShadow();
             
-            DrawShadow();
-            
-
-            GUILayout.BeginVertical(new GUIStyle(GUI.skin.window));
-                            HorizontalScope(()=>{
-                                GUILayout.FlexibleSpace();
-                                EditorGUILayout.LabelField("Global Light",GetGUIStyle_Label(Color.white,12,FontStyle.Bold,TextAnchor.MiddleLeft),GUILayout.Width(80),GUILayout.Height(25));
-                                if (GUILayout.Button(new GUIContent(isLight ? onImg : offImg),GUILayout.Width(25), GUILayout.Height(25)))
+                        GUILayout.BeginVertical(new GUIStyle(GUI.skin.window));
+                                HorizontalScope(()=>{
+                                    GUILayout.FlexibleSpace();
+                                    EditorGUILayout.LabelField("Global Light",GetGUIStyle_Label(
+                                        Color.white,12,FontStyle.Bold,TextAnchor.MiddleLeft),GUILayout.Width(80),GUILayout.Height(25)
+                                        );
+                                    if (GUILayout.Button(new GUIContent(isLight ? onImg : offImg),GUILayout.Width(25), GUILayout.Height(25)))
+                                    {
+                                        isLight = !isLight;
+                                    }
+                                    GUILayout.FlexibleSpace();
+                                });
+                                
+                                if(isLight)
                                 {
-                                    isLight = !isLight;
+                                    DrawLight();
                                 }
-                                GUILayout.FlexibleSpace();
-                            });
-                            
 
-                            if(isLight)
-                            {
-                                DrawLight();
-                            }
                         GUILayout.EndVertical();
                         
                        
@@ -136,16 +150,9 @@ public class MapEditor_Editor : Editor
 
                 GUILayout.EndVertical();
             GUILayout.EndHorizontal();
+
             GUILayout.Space(20);    
-
-
-            mapEditor.stageLevel = EditorGUILayout.IntField("Stage Level", mapEditor.stageLevel);
-            mapEditor.subMapName = EditorGUILayout.TextField(new GUIContent("Map Sub Name", "This is the sub-name for the map, but it’s okay to leave it empty."), mapEditor.subMapName);
-            DrawBGMContents();
-        }
-        GUILayout.EndVertical();
     }
-
     private void DrawShadow()
     {
         VerticalScope(()=>{
@@ -907,7 +914,7 @@ public class MapEditor_Editor : Editor
             string filePath = "";
             
             mapEditor.startPosition = FindObj(mapEditor.dontSaveObjectTransform, 302).transform.position;
-            Map map = await CreateMap(mapEditor);
+            Map map = CreateMap(mapEditor);
 
             //Create Screen Shot
             await CurrentMapScreenShot(mapEditor);
@@ -958,7 +965,7 @@ public class MapEditor_Editor : Editor
         //    filePath = Path.Combine(folderPath, $"{mapEditor.mapType}/{map.mapID}.json");
         //}
 
-private async Task<Map> CreateMap(MapEditor mapEditor){
+private Map CreateMap(MapEditor mapEditor){
     Map map =  new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, mapEditor.subMapName,GetNextMapId(),mapEditor.stageLevel, mapEditor.startPosition,
             GetExitObjStructsList(mapEditor.exitDoorObjectTransform, mapEditor),
             //tile
@@ -989,11 +996,11 @@ private async Task<Map> CreateMap(MapEditor mapEditor){
             GetList<CollectableObjectStruct>(mapEditor.collectableContainer),
             mapEditor.cellSize, 
             0,
-            //await CurrentMapScreenShot(mapEditor),
             null,
             mapEditor.audioName);
     return  map;
 }
+
 //------------------------------------------------------------------------------------------------------250107 Shadow
 private List<ShadowCasterStruct> GetShadowData()
 {

@@ -88,8 +88,8 @@ public class TypingEffect : MonoBehaviour
 
         for (int j = 0; j < 4; j++)
         {
-            originalPositions[j] = vertices[vertexIndex + j]; // 원래 위치 저장
-            vertices[vertexIndex + j] += (Vector3)startOffset; // 대각선 시작 위치로 이동 + rotate
+            originalPositions[j] = vertices[vertexIndex + j];
+            vertices[vertexIndex + j] += (Vector3)startOffset;
             vertices[vertexIndex + j] = rotation * (vertices[vertexIndex + j] - charMidBaseline) + charMidBaseline;
         }
 
