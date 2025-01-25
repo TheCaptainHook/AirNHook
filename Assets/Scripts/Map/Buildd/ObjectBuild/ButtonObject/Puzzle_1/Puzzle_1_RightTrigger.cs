@@ -71,7 +71,6 @@ public class Puzzle_1_RightTrigger : MonoBehaviour
 
     private bool GetReadyToCharge(Vector3 rot)
     {
-        Debug.Log(rot);
         float z = rot.z - 360;
         if (rot.y == 180 && (z >= -10 && z <= 0))
         {

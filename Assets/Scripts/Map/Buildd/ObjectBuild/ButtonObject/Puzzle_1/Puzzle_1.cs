@@ -270,6 +270,7 @@ public class Puzzle_1 : ButtonEntity
     {
         Puzzle_Net.CmdCharging();
     }
+
     #endregion
 
 

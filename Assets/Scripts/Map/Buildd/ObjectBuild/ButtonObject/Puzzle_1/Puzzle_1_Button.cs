@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Puzzle_1_Button : MonoBehaviour
 {
-    [SerializeField] Puzzle_1 puzzle_1;
+    //[SerializeField] Puzzle_1 puzzle_1;
+    [SerializeField] Puzzle_1_Net puzzle_Net;
     private Animator animator;
     
     private readonly int FULLNESS = Animator.StringToHash("Fullness");
@@ -42,40 +43,50 @@ public class Puzzle_1_Button : MonoBehaviour
 
         onCharging = true;
         curRecoverRate = 1;
-        curChargeRate += Time.deltaTime;
-        if(curChargeRate >= 1)
+        //
+        curChargeRate += Time.fixedDeltaTime;
+        //puzzle_1.SetButtonAnimation(curChargeRate);
+        SyncAnimation(curChargeRate);
+
+        if (curChargeRate >= 1)
         {
             onFullCharge = true;
-            animator.SetFloat(FULLNESS, 1);
-
-            
             return true;
         }
 
-        animator.SetFloat(FULLNESS, curChargeRate);
         return false;
+
     }
+
+    #region NetWork
+    public void SyncAnimation(float rate)
+    {
+        puzzle_Net.HandleSetRate(rate);
+    }
+    public void SetAnimation(float rate)
+    {
+        float val = Mathf.Clamp01(rate);
+        animator.SetFloat(FULLNESS, val);
+    }
+    #endregion
+
+
 
     private void UnCharging()
     {
-        curChargeRate -= Time.deltaTime;
+        curChargeRate -= Time.fixedDeltaTime;
         if (curChargeRate <= 0)
         {
             onCharging = false;
             curChargeRate = 0;
         }
-        animator.SetFloat(FULLNESS, curChargeRate);
+        SyncAnimation(curChargeRate);
     }
     
     public bool onRecover;
     public void Wrong()
     {
-        //test
-        // curChargeRate = 0;
-        // onCharging = false;
-        // onFullCharge = false;
-        
-        // animator.SetTrigger(EXPLODE);
+
         StartCoroutine(WrongAndRecover());
     }
 
