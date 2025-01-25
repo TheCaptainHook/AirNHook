@@ -92,6 +92,7 @@ public class Puzzle_1_Button : MonoBehaviour
 
         StartCoroutine(WrongAndRecover());
     }
+    
 
     IEnumerator WrongAndRecover(){
         onRecover = true;
@@ -100,10 +101,9 @@ public class Puzzle_1_Button : MonoBehaviour
         onFullCharge = false;
         animator.SetTrigger(EXPLODE);
 
-        puzzle_Net.CmdReset();
-
         yield return new WaitForSeconds(1.5f);
-        animator.SetFloat(FULLNESS,curChargeRate);
+        puzzle_Net.CmdReset();
+        //animator.SetFloat(FULLNESS,curChargeRate);
         onRecover = false;
     }
 

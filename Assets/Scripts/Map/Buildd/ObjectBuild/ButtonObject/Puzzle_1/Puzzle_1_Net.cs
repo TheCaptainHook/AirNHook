@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System.Runtime.CompilerServices;
 
 public class Puzzle_1_Net : NetworkBehaviour
 {
@@ -27,6 +28,8 @@ public class Puzzle_1_Net : NetworkBehaviour
         chargingRate += rate;
         chargingRate = Mathf.Clamp01(chargingRate);
     }
+
+    [Command(requiresAuthority = false)]
     private void CmdSetRate(float rate)
     {
         SetRate(rate);
@@ -45,7 +48,6 @@ public class Puzzle_1_Net : NetworkBehaviour
     }
     public void OnRateChanged(float old, float newVal)
     {
-        Debug.Log(newVal);
         button.SetAnimation(newVal);
     }
 
@@ -74,5 +76,16 @@ public class Puzzle_1_Net : NetworkBehaviour
     private void RpcCharging()
     {
         Puzzle.Charging();
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CmdWrong()
+    {
+        RpcWrong();
+    }
+    [ClientRpc]
+    public void RpcWrong()
+    {
+        puzzle.Net_Wrong();
     }
 }
