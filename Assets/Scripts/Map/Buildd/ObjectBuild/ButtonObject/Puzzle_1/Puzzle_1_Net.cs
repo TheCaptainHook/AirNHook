@@ -28,6 +28,11 @@ public class Puzzle_1_Net : NetworkBehaviour
         chargingRate += rate;
         chargingRate = Mathf.Clamp01(chargingRate);
     }
+    [Server]
+    public void Sever_Reset()
+    {
+        chargingRate = 0;
+    }
 
     [Command(requiresAuthority = false)]
     private void CmdSetRate(float rate)
@@ -59,7 +64,7 @@ public class Puzzle_1_Net : NetworkBehaviour
     [ClientRpc]
     public void RpcReset()
     {
-        chargingRate = 0;
+        Sever_Reset();
     }
     #endregion
 

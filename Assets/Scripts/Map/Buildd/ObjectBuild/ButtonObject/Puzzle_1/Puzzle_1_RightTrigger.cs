@@ -17,7 +17,7 @@ public class Puzzle_1_RightTrigger : MonoBehaviour
     {
         if (Input.GetMouseButton(1) && air && !button.onRecover)
         {
-            if (GetReadyToCharge(GetAirDir()) && !air.airGun._inhaling && !button.onFullCharge)
+            if (GetReadyToCharge(GetAirDir()) && !air.airGun._inhaling && !button.onProgress)
             {
                 //Charging;
                 puzzle_1.Net_Charging();

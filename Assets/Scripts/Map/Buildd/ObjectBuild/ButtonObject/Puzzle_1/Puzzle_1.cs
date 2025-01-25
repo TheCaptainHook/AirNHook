@@ -272,7 +272,7 @@ public class Puzzle_1 : ButtonEntity
     }
     public void Net_Wrong()
     {
-        button.Wrong();
+        Wrong();
     }
     #endregion
 

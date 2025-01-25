@@ -20,6 +20,8 @@ public class Puzzle_1_Button : MonoBehaviour
 
     private float curRecoverRate =1;
 
+    public bool onProgress;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -89,22 +91,24 @@ public class Puzzle_1_Button : MonoBehaviour
     public bool onRecover;
     public void Wrong()
     {
-
         StartCoroutine(WrongAndRecover());
     }
     
 
     IEnumerator WrongAndRecover(){
+        onProgress = true;
         onRecover = true;
-        curChargeRate = 0;
         onCharging = false;
-        onFullCharge = false;
+        curChargeRate = 0;
         animator.SetTrigger(EXPLODE);
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2f);
         puzzle_Net.CmdReset();
         //animator.SetFloat(FULLNESS,curChargeRate);
+        
+        onFullCharge = false;
         onRecover = false;
+        onProgress = false;
     }
 
     //private void OnTriggerEnter2D(Collider2D collision)
