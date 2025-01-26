@@ -143,12 +143,13 @@ public class Puzzle_1_Net : NetworkBehaviour
         parts.Settting(Puzzle, previousNumber, index);
 
         uint netId = parts.GetComponent<NetworkIdentity>().netId;
+
         RpcSetParent(netId);
     }
 
-    [ClientRpc]
-    private void RpcSetParent(uint netId)
+    IEnumerator RpcSetParentCo(uint netId)
     {
+        yield return null;
         // netId를 통해 현재 클라이언트에서 해당 오브젝트를 찾는다
         if (NetworkClient.spawned.TryGetValue(netId, out NetworkIdentity identity))
         {
@@ -161,6 +162,12 @@ public class Puzzle_1_Net : NetworkBehaviour
         {
             Debug.LogWarning($"[ClientRpc] netId({netId})로 Spawn된 오브젝트를 찾지 못했습니다.");
         }
+    }
+
+    [ClientRpc]
+    private void RpcSetParent(uint netId)
+    {
+        StartCoroutine(RpcSetParentCo(netId));
     }
 
     //[ClientRpc]
