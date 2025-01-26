@@ -69,26 +69,26 @@ public class StageManager
       
     }
 
-    [ClientRpc]
-    private void Create<T>(string objName,T data,uint trId)
-    {
-        GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
-        obj.GetComponent<BuildObj>().SetData(data);
+    // [ClientRpc]
+    // private void Create<T>(string objName,T data,uint trId)
+    // {
+    //     GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+    //     obj.GetComponent<BuildObj>().SetData(data);
 
-        Transform parent = null;
-        foreach (Transform tr in MapEditor.Instance.mapObjBoxTransform)
-        {
-            if (tr.GetComponent<NetworkIdentity>().netId == trId)
-            {
-                parent = tr;
-                break;
-            }
-        }
-        if (parent != null)
-            obj.transform.SetParent(parent);
+    //     Transform parent = null;
+    //     foreach (Transform tr in MapEditor.Instance.mapObjBoxTransform)
+    //     {
+    //         if (tr.GetComponent<NetworkIdentity>().netId == trId)
+    //         {
+    //             parent = tr;
+    //             break;
+    //         }
+    //     }
+    //     if (parent != null)
+    //         obj.transform.SetParent(parent);
 
-        NetworkServer.Spawn(obj, NetworkServer.localConnection);
-    }
+    //     NetworkServer.Spawn(obj, NetworkServer.localConnection);
+    // }
 
     [Command]
     public GameObject CmdBatchObject(string objName)

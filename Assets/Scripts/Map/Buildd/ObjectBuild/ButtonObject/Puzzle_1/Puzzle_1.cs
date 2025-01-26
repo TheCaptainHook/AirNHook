@@ -114,21 +114,73 @@ public class Puzzle_1 : ButtonEntity
 
     //}
 
-    private void Setting() {
-        int previousNum = 0;
-        for (int i = 0; i < partsPosition.Length; i++) {
-            int num = Random.Range(1, 7);
-            while(previousNum == num) num = Random.Range(1, 7);
-            previousNum = num;
-            GameObject obj;
-            answer += num.ToString();
+//     private void Setting() {
+//         int previousNum = 0;
+//         for (int i = 0; i < partsPosition.Length; i++) {
+//             int num = Random.Range(1, 7);
+//             while(previousNum == num) num = Random.Range(1, 7);
+//             previousNum = num;
+//             GameObject obj;
+//             answer += num.ToString();
 
-#if UNITY_EDITOR
-            Puzzle_1_Helper helper = GetComponent<Puzzle_1_Helper>();
+// #if UNITY_EDITOR
+//             Puzzle_1_Helper helper = GetComponent<Puzzle_1_Helper>();
+//             helper.Init();
+//             if (Application.isPlaying)
+//             {
+//                 obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[num - 1]);
+//             }
+//             else
+//             {
+//                 obj = helper.Add_Item();
+//                 if (onHint) 
+//                 {
+//                     hintScreen.gameObject.SetActive(true);
+//                 }
+
+//             }
+
+// #else
+
+//              obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[num - 1]);
+//              //hint
+//               if (onHint) 
+//                {
+//                     hintScreen.gameObject.SetActive(true);
+//                      SetHint();
+//                }
+           
+// #endif
+
+//             obj.transform.position = itemsPosition[i];
+//             obj.transform.SetParent(itemContainer);
+
+//             CreateParts(partsPosition[i],num,i);
+
+//             // obj.transform.position = Vector2.zero; // test
+//             // puzzle_1_Parts[i].SetAnswer(num); //test
+
+           
+//         }
+
+//         SetHint();
+        
+
+//     }
+
+
+    //-------------------------------------------------------------Network 250126
+    private void Editor_Setting(int index)
+    {
+        GameObject obj;
+        Puzzle_1_Helper helper = GetComponent<Puzzle_1_Helper>();
             helper.Init();
             if (Application.isPlaying)
             {
-                obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[num - 1]);
+                // obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[num - 1]);
+                puzzle_net.Server_CreatePuzzle_Item(
+                    index,itemsPosition[index],partsPosition[index]
+                );
             }
             else
             {
@@ -138,7 +190,37 @@ public class Puzzle_1 : ButtonEntity
                     hintScreen.gameObject.SetActive(true);
                 }
 
+                obj.transform.position = itemsPosition[index];
+                obj.transform.SetParent(itemContainer);
+
+                CreateParts(partsPosition[index],0,index);
+
             }
+    }
+     private void Setting() {
+        // int previousNum = 0;
+        for (int i = 0; i < partsPosition.Length; i++) {
+
+            // GameObject obj;
+            // answer += num.ToString();
+
+#if UNITY_EDITOR
+            Editor_Setting(i);
+            // Puzzle_1_Helper helper = GetComponent<Puzzle_1_Helper>();
+            // helper.Init();
+            // if (Application.isPlaying)
+            // {
+            //     obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[num - 1]);
+            // }
+            // else
+            // {
+            //     obj = helper.Add_Item();
+            //     if (onHint) 
+            //     {
+            //         hintScreen.gameObject.SetActive(true);
+            //     }
+
+            // }
 
 #else
 
@@ -152,10 +234,10 @@ public class Puzzle_1 : ButtonEntity
            
 #endif
 
-            obj.transform.position = itemsPosition[i];
-            obj.transform.SetParent(itemContainer);
+            // obj.transform.position = itemsPosition[i];
+            // obj.transform.SetParent(itemContainer);
 
-            CreateParts(partsPosition[i],num,i);
+            // CreateParts(partsPosition[i],num,i);
 
             // obj.transform.position = Vector2.zero; // test
             // puzzle_1_Parts[i].SetAnswer(num); //test
@@ -167,6 +249,8 @@ public class Puzzle_1 : ButtonEntity
         
 
     }
+    //-------------------------------------------------------------Network 250126
+
 
     private void SetHint()
     {
@@ -191,6 +275,11 @@ public class Puzzle_1 : ButtonEntity
         obj.Settting(this,answer,index);
 
     }
+    public void Net_CreateParts(Vector2 pot, int answer,int index)
+    {
+        CreateParts(pot,answer,index);
+    }
+    
 
 
     protected override void Activation()
@@ -274,6 +363,13 @@ public class Puzzle_1 : ButtonEntity
     {
         Wrong();
     }
+
+
+    public void Net_CreatePuzzleItem(int num)
+    {
+        Managers.Stage.CmdBatchObject(puzzle_1_Items[num - 1]);
+    }
+
     #endregion
 
 
