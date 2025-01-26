@@ -49,9 +49,10 @@ public class StageManager
         if (!NetworkServer.active || !NetworkClient.isConnected) return;
 
         GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
-        obj.GetComponent<BuildObj>().SetData(data);
-        
 
+        NetworkServer.Spawn(obj, NetworkServer.localConnection);
+
+        obj.GetComponent<BuildObj>().SetData(data);
 
         Transform parent = null;
         foreach (Transform tr in MapEditor.Instance.mapObjBoxTransform)
@@ -65,7 +66,7 @@ public class StageManager
         if (parent != null)
             obj.transform.SetParent(parent);
 
-        NetworkServer.Spawn(obj, NetworkServer.localConnection);
+       
       
     }
 

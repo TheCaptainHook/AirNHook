@@ -350,6 +350,7 @@ GameObject:
   - component: {fileID: 6528749553039152547}
   - component: {fileID: 5731081128865216846}
   - component: {fileID: 7677768255498783464}
+  - component: {fileID: 8364969231043788233}
   m_Layer: 16
   m_Name: Puzzle_1_Parts
   m_TagString: Untagged
@@ -690,6 +691,23 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   floorTileMap: {fileID: 0}
+--- !u!114 &8364969231043788233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615267805471075121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 1418108301
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &3266328274536730748
 GameObject:
   m_ObjectHideFlags: 0

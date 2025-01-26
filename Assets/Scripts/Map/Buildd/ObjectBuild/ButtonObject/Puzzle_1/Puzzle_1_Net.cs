@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System.Security.Cryptography;
 
 public class Puzzle_1_Net : NetworkBehaviour
 {
@@ -124,41 +125,60 @@ public class Puzzle_1_Net : NetworkBehaviour
         Vector2 partPot
         )
         {
-            if(!isServer) return;
+            if (!isServer) return;
             int num = Random.Range(1, 7);
-            while(previousNumber == num) num = Random.Range(1, 7);
+            while (previousNumber == num) num = Random.Range(1, 7);
             previousNumber = num;
             answer += previousNumber.ToString();
-            RpcCreatePuzzle_Item(num,index,itemPot,partPot);
-        }
 
-    [ClientRpc]
-    public void RpcCreatePuzzle_Item(
-        int randomNumber,
-        int index,
-        Vector2 itemPot,
-        Vector2 partPot)
-    {
-        GameObject obj =Managers.Stage.CmdBatchObject(puzzle_1_Items[randomNumber - 1]);
-        obj.transform.position= itemPot;
+        Debug.Log($"{previousNumber}, {answer},{index},{itemPot},{partPot}");
+
+        GameObject obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[previousNumber - 1]);
+        Debug.Log("1");
+        obj.transform.position = itemPot;
         obj.transform.SetParent(itemContainer);
-
-        puzzle.Net_CreateParts(partPot,randomNumber,index);
-
+        Debug.Log("2");
+        //puzzle.Net_CreateParts(Puzzle,partPot, previousNumber, index);
+        Puzzle_1_Parts parts = Managers.Stage.CmdBatchObject("Puzzle_1_Parts").GetComponent<Puzzle_1_Parts>();
+        parts.transform.SetParent(partsContainer);
+        parts.transform.position = partPot;
+        parts.Settting(Puzzle, previousNumber, index);
+        Debug.Log("3");
+    
+        //RpcCreatePuzzle_Item(previousNumber, index, itemPot, partPot);
     }
+
+    //[ClientRpc]
+    //public void RpcCreatePuzzle_Item(
+    //    int randomNumber,
+    //    int index,
+    //    Vector2 itemPot,
+    //    Vector2 partPot)
+    //{
+    //    Debug.Log("1");
+    //    GameObject obj =Managers.Stage.CmdBatchObject(puzzle_1_Items[randomNumber - 1]);
+    //    obj.transform.position= itemPot;
+    //    obj.transform.SetParent(itemContainer);
+    //    Debug.Log("2");
+    //    puzzle.Net_CreateParts(partPot,randomNumber,index);
+       
+    //}
 
     [Server]
-    public void Server_SetHintPosition(Vector2 position)
+    public void Server_SetHintPosition(bool isScreen,Vector2 position)
     {
         if(!isServer) return;
+        if (isScreen)
+        {
+            hintScreen.gameObject.SetActive(true);
+            hintScreen.transform.position = position;
+            hintScreen.SetHint(answer);
+        }
+        else
+        {
+            hintScreen.gameObject.SetActive(false);
+        }
 
-        RpcSetHintScreen(position);
-
-    }
-    [ClientRpc]
-    private void RpcSetHintScreen(Vector2 position)
-    {
-        puzzle.Net_SetHint(answer,position);
     }
 
 

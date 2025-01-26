@@ -177,10 +177,9 @@ public class Puzzle_1 : ButtonEntity
             helper.Init();
             if (Application.isPlaying)
             {
-                // obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[num - 1]);
-                puzzle_net.Server_CreatePuzzle_Item(
-                    index,itemsPosition[index],partsPosition[index]
-                );
+                Puzzle_Net.Server_CreatePuzzle_Item(
+                       index, itemsPosition[index], partsPosition[index]
+                   );
             }
             else
             {
@@ -202,33 +201,38 @@ public class Puzzle_1 : ButtonEntity
         for (int i = 0; i < partsPosition.Length; i++) {
 
 #if UNITY_EDITOR
+           
             Editor_Setting(i);
 
 #else
 
-         puzzle_net.Server_CreatePuzzle_Item(
+         Puzzle_Net.Server_CreatePuzzle_Item(
                     i,itemsPosition[i],partsPosition[i]
                 );
            
 #endif
-           
+
         }
-        puzzle_net.Server_SetHintPosition(hintPosition);
+        if (Application.isPlaying)
+        {
+            Puzzle_Net.Server_SetHintPosition(onHint, hintPosition);
+        }
+        else
+        {
+            SetHint();
+        }
+        //Puzzle_Net.Server_SetHintPosition(onHint, hintPosition);
 
     }
     //-------------------------------------------------------------Network 250126
 
-    public void Net_SetHint(string answer,Vector2 hintPoition)
-    {
-        SetHint(answer,hintPoition);
-    }
-    private void SetHint(string answer,Vector2 hintPosition)
+    private void SetHint()
     {
         if (onHint)
         {
             hintScreen.gameObject.SetActive(true);
             hintScreen.transform.position = hintPosition;
-            hintScreen.SetHint(answer);
+            //hintScreen.SetHint(answer);
         }
         else
         {
@@ -245,11 +249,7 @@ public class Puzzle_1 : ButtonEntity
         obj.Settting(this,answer,index);
 
     }
-    public void Net_CreateParts(Vector2 pot, int answer,int index)
-    {
-        CreateParts(pot,answer,index);
-    }
-    
+
 
 
     protected override void Activation()
