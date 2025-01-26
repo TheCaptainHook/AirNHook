@@ -2,10 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using System.Runtime.CompilerServices;
 
 public class Puzzle_1_Net : NetworkBehaviour
 {
+    [SerializeField] Transform partsContainer;
+    [SerializeField] Transform itemContainer;
+    [SerializeField] Puzzle_1_HintScreen hintScreen;
+
+    
+     private string[] puzzle_1_Items = new string[] { 
+        "Puzzle_1_Item (1)", 
+        "Puzzle_1_Item (2)", 
+        "Puzzle_1_Item (3)",
+        "Puzzle_1_Item (4)",
+        "Puzzle_1_Item (5)",
+        "Puzzle_1_Item (6)"
+    };
+
     Puzzle_1 puzzle;
     Puzzle_1 Puzzle
     {
@@ -126,8 +139,28 @@ public class Puzzle_1_Net : NetworkBehaviour
         Vector2 itemPot,
         Vector2 partPot)
     {
+        GameObject obj =Managers.Stage.CmdBatchObject(puzzle_1_Items[randomNumber - 1]);
+        obj.transform.position= itemPot;
+        obj.transform.SetParent(itemContainer);
+
+        puzzle.Net_CreateParts(partPot,randomNumber,index);
 
     }
+
+    [Server]
+    public void Server_SetHintPosition(Vector2 position)
+    {
+        if(!isServer) return;
+
+        RpcSetHintScreen(position);
+
+    }
+    [ClientRpc]
+    private void RpcSetHintScreen(Vector2 position)
+    {
+        puzzle.Net_SetHint(answer,position);
+    }
+
 
     #endregion
 
