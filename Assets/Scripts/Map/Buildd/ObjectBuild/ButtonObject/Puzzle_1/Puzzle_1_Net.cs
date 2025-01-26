@@ -131,21 +131,36 @@ public class Puzzle_1_Net : NetworkBehaviour
             previousNumber = num;
             answer += previousNumber.ToString();
 
-        Debug.Log($"{previousNumber}, {answer},{index},{itemPot},{partPot}");
-
         GameObject obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[previousNumber - 1]);
-        Debug.Log("1");
+
         obj.transform.position = itemPot;
         obj.transform.SetParent(itemContainer);
-        Debug.Log("2");
         //puzzle.Net_CreateParts(Puzzle,partPot, previousNumber, index);
         Puzzle_1_Parts parts = Managers.Stage.CmdBatchObject("Puzzle_1_Parts").GetComponent<Puzzle_1_Parts>();
-        parts.transform.SetParent(partsContainer);
+
         parts.transform.position = partPot;
+        //parts.transform.SetParent(partsContainer);
         parts.Settting(Puzzle, previousNumber, index);
-        Debug.Log("3");
-    
-        //RpcCreatePuzzle_Item(previousNumber, index, itemPot, partPot);
+
+        uint netId = parts.GetComponent<NetworkIdentity>().netId;
+        RpcSetParent(netId);
+    }
+
+    [ClientRpc]
+    private void RpcSetParent(uint netId)
+    {
+        // netId를 통해 현재 클라이언트에서 해당 오브젝트를 찾는다
+        if (NetworkClient.spawned.TryGetValue(netId, out NetworkIdentity identity))
+        {
+            // partsContainer가 클라이언트 쪽에서도 동일한 Transform(씬 오브젝트나 싱글톤 매니저 등)
+            identity.transform.SetParent(partsContainer);
+
+            Debug.Log($"[ClientRpc] {identity.name} 오브젝트를 {partsContainer.name}의 자식으로 설정.");
+        }
+        else
+        {
+            Debug.LogWarning($"[ClientRpc] netId({netId})로 Spawn된 오브젝트를 찾지 못했습니다.");
+        }
     }
 
     //[ClientRpc]
@@ -161,26 +176,35 @@ public class Puzzle_1_Net : NetworkBehaviour
     //    obj.transform.SetParent(itemContainer);
     //    Debug.Log("2");
     //    puzzle.Net_CreateParts(partPot,randomNumber,index);
-       
+
     //}
 
     [Server]
-    public void Server_SetHintPosition(bool isScreen,Vector2 position)
+    public void Server_SetHintPosition(bool isHint, Vector2 position)
     {
         if(!isServer) return;
-        if (isScreen)
-        {
-            hintScreen.gameObject.SetActive(true);
-            hintScreen.transform.position = position;
-            hintScreen.SetHint(answer);
-        }
-        else
-        {
-            hintScreen.gameObject.SetActive(false);
-        }
-
+        Debug.Log("1");
+        //RpcSetHint();
+  
     }
 
+
+    [ClientRpc]
+    public void RpcSetHint(bool isHint,Vector2 position)
+    {
+        Debug.Log("2");
+        //if (isHint)
+        //{
+        //    hintScreen.gameObject.SetActive(true);
+        //    hintScreen.transform.position = position;
+        //    hintScreen.SetHint(answer);
+        //}
+        //else
+        //{
+        //    hintScreen.gameObject.SetActive(false);
+        //}
+   
+    }
 
     #endregion
 
