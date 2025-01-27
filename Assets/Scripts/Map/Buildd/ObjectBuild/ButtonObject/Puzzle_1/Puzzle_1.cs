@@ -213,14 +213,14 @@ public class Puzzle_1 : ButtonEntity
 #endif
 
         }
-        //if (Application.isPlaying)
-        //{
-        //    Puzzle_Net.Server_SetHintPosition(onHint, hintPosition);
-        //}
-        //else
-        //{
-        //    SetHint();
-        //}
+        if (Application.isPlaying)
+        {
+           Puzzle_Net.Server_SetHintPosition(onHint, hintPosition);
+        }
+        else
+        {
+           SetHint();
+        }
         //Puzzle_Net.Server_SetHintPosition(onHint, hintPosition);
 
     }
@@ -233,6 +233,18 @@ public class Puzzle_1 : ButtonEntity
             hintScreen.gameObject.SetActive(true);
             hintScreen.transform.position = hintPosition;
             //hintScreen.SetHint(answer);
+        }
+        else
+        {
+            hintScreen.gameObject.SetActive(false);
+        }
+    }
+    public void Net_SetHint(bool onHint,string answer,Vector2 position){
+         if (onHint)
+        {
+            hintScreen.gameObject.SetActive(true);
+            hintScreen.transform.position = position;
+            hintScreen.SetHint(answer);
         }
         else
         {

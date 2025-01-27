@@ -40,6 +40,12 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     #endregion
     [Header("Interactable")]
     [field: SerializeField] protected ObjectTypeEnum _objectType = ObjectTypeEnum.Grab;
+
+
+    private Puzzle_1_Parts_Net Parts_Net{
+        get{return GetComponent<Puzzle_1_Parts_Net>();}
+    }
+
     private void Awake(){
         col = GetComponent<Collider2D>();
         //sprite = GetComponent<SpriteRenderer>();
@@ -61,12 +67,28 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
             onSocketItem = item;
             HideEButton();
 
-            col.enabled = false;
-            col.enabled = true;
-            _holderOpened.SetActive(false);
-            _holderClosed.SetActive(true);
+            // col.enabled = false;
+            // col.enabled = true;
+            // _holderOpened.SetActive(false);
+            // _holderClosed.SetActive(true);
+            Parts_Net.CmdLock();
         }
 
+    }
+    public void Net_Lock()
+    {
+        col.enabled = false;
+        col.enabled = true;
+        _holderOpened.SetActive(false);
+        _holderClosed.SetActive(true);
+    }
+    public void Net_UnLock()
+    {
+         isCorrectAnswer = false;
+        //animation
+        lineRenderer.colorGradient = wrongGradient;
+        _holderOpened.SetActive(true);
+        _holderClosed.SetActive(false);
     }
 
     public void RemoveSocket(bool onEffect = false)
@@ -81,11 +103,12 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
             HideEButton();
         }
 
-        isCorrectAnswer = false;
-        //animation
-        lineRenderer.colorGradient = wrongGradient;
-        _holderOpened.SetActive(true);
-        _holderClosed.SetActive(false);
+        // isCorrectAnswer = false;
+        // //animation
+        // lineRenderer.colorGradient = wrongGradient;
+        // _holderOpened.SetActive(true);
+        // _holderClosed.SetActive(false);
+        Parts_Net.CmdUnLock();
     }
     #endregion
 
