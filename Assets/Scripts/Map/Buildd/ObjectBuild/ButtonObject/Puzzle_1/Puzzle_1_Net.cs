@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using System.Security.Cryptography;
+using Random = UnityEngine.Random;
+using System;
 
 public class Puzzle_1_Net : NetworkBehaviour
 {
@@ -126,13 +127,16 @@ public class Puzzle_1_Net : NetworkBehaviour
         )
         {
             if (!isServer) return;
+
+
+
+
             int num = Random.Range(1, 7);
             while (previousNumber == num) num = Random.Range(1, 7);
             previousNumber = num;
             answer += previousNumber.ToString();
 
         GameObject obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[previousNumber - 1]);
-
         obj.transform.position = itemPot;
         obj.transform.SetParent(itemContainer);
         //puzzle.Net_CreateParts(Puzzle,partPot, previousNumber, index);
@@ -142,32 +146,44 @@ public class Puzzle_1_Net : NetworkBehaviour
         //parts.transform.SetParent(partsContainer);
         parts.Settting(Puzzle, previousNumber, index);
 
-        uint netId = parts.GetComponent<NetworkIdentity>().netId;
+        StartCoroutine(Delay(() => 
+        {
+            RpcSetParent();
+        }));
 
-        RpcSetParent(netId);
+        //obj.transform.position = itemPot;
+        //obj.transform.SetParent(itemContainer);
+        ////puzzle.Net_CreateParts(Puzzle,partPot, previousNumber, index);
+        //Puzzle_1_Parts parts = Managers.Stage.CmdBatchObject("Puzzle_1_Parts").GetComponent<Puzzle_1_Parts>();
+
+        //parts.transform.position = partPot;
+        ////parts.transform.SetParent(partsContainer);
+        //parts.Settting(Puzzle, previousNumber, index);
+
+        //uint netId = parts.GetComponent<NetworkIdentity>().netId;
+
     }
 
-    IEnumerator RpcSetParentCo(uint netId)
+
+
+    IEnumerator Delay(Action action)
     {
         yield return null;
-        // netId를 통해 현재 클라이언트에서 해당 오브젝트를 찾는다
-        if (NetworkClient.spawned.TryGetValue(netId, out NetworkIdentity identity))
-        {
-            // partsContainer가 클라이언트 쪽에서도 동일한 Transform(씬 오브젝트나 싱글톤 매니저 등)
-            identity.transform.SetParent(partsContainer);
-
-            Debug.Log($"[ClientRpc] {identity.name} 오브젝트를 {partsContainer.name}의 자식으로 설정.");
-        }
-        else
-        {
-            Debug.LogWarning($"[ClientRpc] netId({netId})로 Spawn된 오브젝트를 찾지 못했습니다.");
-        }
+            action();
     }
 
+
+    //[Command]
+    //private void CmdTest()
+    //{
+    //    RpcSetParent();
+    //}
+
     [ClientRpc]
-    private void RpcSetParent(uint netId)
+    private void RpcSetParent()
     {
-        StartCoroutine(RpcSetParentCo(netId));
+
+        Debug.Log("RPC");
     }
 
     //[ClientRpc]
