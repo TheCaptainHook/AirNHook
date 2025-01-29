@@ -197,8 +197,8 @@ public class Puzzle_1_Net : NetworkBehaviour
             Debug.Log("RPC");
         foreach(var part in parts)
         {
-            NetworkIdentity puzzle = GetNetworkIdentity(part.puzzleNetId);
-            NetworkIdentity netPart = GetNetworkIdentity(part.netId);
+            NetworkIdentity puzzle = Client_GetNetworkIdentity(part.puzzleNetId);
+            NetworkIdentity netPart = Client_GetNetworkIdentity(part.netId);
 
             Debug.Log($"part : {part.netId}, puzzle : {part.puzzleNetId}");
             Debug.Log($"{puzzle.name},{netPart.name}");
@@ -207,7 +207,7 @@ public class Puzzle_1_Net : NetworkBehaviour
             Transform partTr = netPart.gameObject.transform;
 
             partTr.SetParent(parent);
-            //netPart.GetComponent<Puzzle_1_Parts>().Settting(puzzle.GetComponent<Puzzle_1>(),part.answer,part.index);
+            netPart.GetComponent<Puzzle_1_Parts>().Settting(puzzle.GetComponent<Puzzle_1>(),part.answer,part.index);
         }
     }
     #endregion
@@ -299,27 +299,36 @@ public class Puzzle_1_Net : NetworkBehaviour
     public void RpcWrong()
     {
         button.AniWrong();
+
     }
 
 
 
 
     #region  Util
-    private NetworkIdentity GetNetworkIdentity(GameObject obj)
+    private NetworkIdentity GetNetworkIdentity(GameObject obj,Func<uint,NetworkIdentity> action)
     {
         if(obj.TryGetComponent(out NetworkIdentity component))
         {
-            return GetNetworkIdentity(component.netId);
+            return action(component.netId);
         }
 
         return null;
     }
-    private NetworkIdentity GetNetworkIdentity(uint netId)
+    private NetworkIdentity Server_GetNetworkIdentity(uint netId)
     {
           if(NetworkServer.spawned.TryGetValue(netId, out NetworkIdentity identity))
           {
             return identity;
           }
+        return null;
+    }
+    private NetworkIdentity Client_GetNetworkIdentity(uint netId)
+    {
+        if (NetworkClient.spawned.TryGetValue(netId, out NetworkIdentity identity))
+        {
+            return identity;
+        }
         return null;
     }
 
