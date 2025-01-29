@@ -116,7 +116,7 @@ public class Puzzle_1_Net : NetworkBehaviour
     [SyncVar] private int previousNumber;
     [SyncVar] private string answer;
 
-    public List<Part> parts;
+    public List<Part> partsList;
 
     #region Server
 
@@ -161,13 +161,14 @@ public class Puzzle_1_Net : NetworkBehaviour
 
     private void Server_SetParts(uint partNetId,int answer,int index)
     {
-        parts.Add(new Part(Puzzle_netId, partNetId, answer, index));
+        if (partsList == null) partsList = new();
+        partsList.Add(new Part(Puzzle_netId, partNetId, answer, index));
     }
 
     [Server]
     private void Server_SetPuzzleSetting()
     {
-        Rpc_SetPuzzleSetting();
+        Rpc_SetPuzzleSetting(partsList);
     }
    
 
@@ -188,13 +189,16 @@ public class Puzzle_1_Net : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void Rpc_SetPuzzleSetting()
+    private void Rpc_SetPuzzleSetting(List<Part> parts)
     {
         Debug.Log("RPC");
         foreach(var part in parts)
         {
+            Debug.Log($"{part.netId},{part.index}");
             NetworkIdentity puzzle = GetNetworkIdentity(part.puzzleNetId);
             NetworkIdentity netPart = GetNetworkIdentity(part.netId);
+
+            Debug.Log($"part : {part.netId}, puzzle : {part.puzzleNetId}");
 
             netPart.transform.SetParent(puzzle.transform.GetChild(0));
             netPart.GetComponent<Puzzle_1_Parts>().Settting(puzzle.GetComponent<Puzzle_1>(),part.answer,part.index);
