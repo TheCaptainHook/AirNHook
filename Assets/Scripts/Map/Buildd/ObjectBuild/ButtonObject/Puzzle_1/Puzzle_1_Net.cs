@@ -163,6 +163,12 @@ public class Puzzle_1_Net : NetworkBehaviour
     {
         parts.Add(new Part(Puzzle_netId, partNetId, answer, index));
     }
+
+    [Server]
+    private void Server_SetPuzzleSetting()
+    {
+        Rpc_SetPuzzleSetting();
+    }
    
 
     [Server]
@@ -175,15 +181,16 @@ public class Puzzle_1_Net : NetworkBehaviour
 
     }
 
-    [Command]
+    [Command(requiresAuthority = false)]
     public void Cmd_SetPuzzleSetting()
     {
-        Rpc_SetPuzzleSetting();
+        Server_SetPuzzleSetting();
     }
 
     [ClientRpc]
     private void Rpc_SetPuzzleSetting()
     {
+        Debug.Log("RPC");
         foreach(var part in parts)
         {
             NetworkIdentity puzzle = GetNetworkIdentity(part.puzzleNetId);
@@ -214,36 +221,37 @@ public class Puzzle_1_Net : NetworkBehaviour
     }
 
 
-    [ClientRpc]
-    private void RpcSetParent(GameObject target,int puzzleContainerIndex)
-    {
-        Debug.Log("Rpc 1");
-        NetworkIdentity target_Identity = GetNetworkIdentity(target);
-        if(target_Identity == null){
-            Debug.Log("Can't found NetworkIdentity");
-            return;
-        }
-        Debug.Log("Rpc 2");
+    //[ClientRpc]
+    //private void RpcSetParent(GameObject target,int puzzleContainerIndex)
+    //{
+    //    Debug.Log("Rpc 1");
+    //    NetworkIdentity target_Identity = GetNetworkIdentity(target);
+    //    if(target_Identity == null){
+    //        Debug.Log("Can't found NetworkIdentity");
+    //        return;
+    //    }
+    //    Debug.Log("Rpc 2");
 
-        NetworkIdentity puzzle = GetNetworkIdentity(Puzzle_netId);
-        if(puzzle == null) return;
-        Debug.Log("Rpc 3");
+    //    NetworkIdentity puzzle = GetNetworkIdentity(Puzzle_netId);
+    //    if(puzzle == null) return;
+    //    Debug.Log("Rpc 3");
 
-        Transform puzzleTr = puzzle.gameObject.transform;   
-        Transform targetTr = puzzleTr.GetChild(puzzleContainerIndex);
+    //    Transform puzzleTr = puzzle.gameObject.transform;   
+    //    Transform targetTr = puzzleTr.GetChild(puzzleContainerIndex);
 
-        target_Identity.gameObject.transform.SetParent(targetTr);
+    //    target_Identity.gameObject.transform.SetParent(targetTr);
 
-        Debug.Log("RPC 4");
-    }
-    [ClientRpc]
-    private void RpcPartsSetting(GameObject parts,int answer,int index)
-    {
-        NetworkIdentity identity = GetNetworkIdentity(parts);
-        Puzzle_1_Parts target = identity.GetComponent<Puzzle_1_Parts>();
+    //    Debug.Log("RPC 4");
+    //}
 
-        target.Settting(Puzzle,answer,index);
-    }
+    //[ClientRpc]
+    //private void RpcPartsSetting(GameObject parts,int answer,int index)
+    //{
+    //    NetworkIdentity identity = GetNetworkIdentity(parts);
+    //    Puzzle_1_Parts target = identity.GetComponent<Puzzle_1_Parts>();
+
+    //    target.Settting(Puzzle,answer,index);
+    //}
 
 
 
