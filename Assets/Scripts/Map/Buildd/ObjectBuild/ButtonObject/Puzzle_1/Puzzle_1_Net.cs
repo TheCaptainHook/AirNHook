@@ -101,6 +101,12 @@ public class Puzzle_1_Net : NetworkBehaviour
     private List<Item> itemsList;
     private Hint hint;
 
+    /**
+     * Pooling Release reset list
+     *  - partsList
+     *  - itemsList
+     *  - hint
+    **/
     #region Server
 
 
@@ -154,9 +160,7 @@ public class Puzzle_1_Net : NetworkBehaviour
         var hint = Puzzle.GetHintData();
         this.hint = new Hint(hint.isHint, answer, hint.position);
 
-        Puzzle.SetHint(answer);
-
-        StartCoroutine(Delay(() => { Rpc_SetPuzzleSetting(partsList,itemsList); }));
+        StartCoroutine(Delay(() => { Rpc_SetPuzzleSetting(partsList,itemsList,this.hint); }));
     }
    
  
@@ -180,35 +184,37 @@ public class Puzzle_1_Net : NetworkBehaviour
 
     #region Init_Rpc
     [ClientRpc]
-    private void Rpc_SetPuzzleSetting(List<Part> parts, List<Item> items)
+    private void Rpc_SetPuzzleSetting(List<Part> parts, List<Item> items,Hint hint)
     {
-        if (isServer) return;
-
-        NetworkIdentity puzzle = Client_GetNetworkIdentity(Puzzle_netId);
-        foreach (var part in parts)
+        if (!isServer)
         {
-            NetworkIdentity netPart = Client_GetNetworkIdentity(part.netId);
+            NetworkIdentity puzzle = Client_GetNetworkIdentity(Puzzle_netId);
+            foreach (var part in parts)
+            {
+                NetworkIdentity netPart = Client_GetNetworkIdentity(part.netId);
 
-            Transform parent = puzzle.gameObject.transform.GetChild(0);
-            Transform partTr = netPart.gameObject.transform;
+                Transform parent = puzzle.gameObject.transform.GetChild(0);
+                Transform partTr = netPart.gameObject.transform;
 
-            partTr.SetParent(parent);
-            partTr.position = part.position;
+                partTr.SetParent(parent);
+                partTr.position = part.position;
 
-            netPart.GetComponent<Puzzle_1_Parts>().Settting(puzzle.GetComponent<Puzzle_1>(), part.answer, part.index); 
+                netPart.GetComponent<Puzzle_1_Parts>().Settting(puzzle.GetComponent<Puzzle_1>(), part.answer, part.index);
+            }
+
+            foreach (var item in items)
+            {
+                NetworkIdentity netitem = Client_GetNetworkIdentity(item.netId);
+
+                Transform parent = puzzle.gameObject.transform.GetChild(1);
+                Transform itemTr = netitem.gameObject.transform;
+
+                itemTr.SetParent(parent);
+                itemTr.position = item.position;
+            }
         }
 
-        foreach(var item in items)
-        {
-            NetworkIdentity netitem = Client_GetNetworkIdentity(item.netId);
-
-            Transform parent = puzzle.gameObject.transform.GetChild(1);
-            Transform itemTr = netitem.gameObject.transform;
-
-            itemTr.SetParent(parent);
-            itemTr.position = item.position;
-        }
-
+      
         Transform hintTr = puzzle.gameObject.transform.GetChild(3);
         Puzzle_1_HintScreen hintScreen = hintTr.GetComponent<Puzzle_1_HintScreen>();
 
