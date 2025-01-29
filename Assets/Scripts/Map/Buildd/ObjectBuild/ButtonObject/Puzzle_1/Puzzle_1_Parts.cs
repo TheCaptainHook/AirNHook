@@ -59,7 +59,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         if (onSocketItem)
         {
             //RemoveSocket();
-            Net_RemoveSocket();
+            Net_RemoveSocket(false);
 
             onSocketItem = item;
             return;
@@ -183,7 +183,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
 
     #region Network
-    public void Net_RemoveSocket(bool onEffect = false)
+    public void Net_RemoveSocket(bool onEffect)
     {
         Parts_Net.CmdRemoveSocket(onEffect);
     }
@@ -264,7 +264,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         if (onSocketItem != null && !isCorrectAnswer)
         {
             //RemoveSocket();
-            Parts_Net.CmdRemoveSocket();
+            Parts_Net.CmdRemoveSocket(false);
         }
     }
     public bool CanInteract()

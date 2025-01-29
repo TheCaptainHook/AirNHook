@@ -12,8 +12,10 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
     }
 
 
-    [SyncVar] private GameObject item;
-    [SyncVar] private bool isCorrectAnswer;
+    [SyncVar] 
+    private GameObject item;
+    [SyncVar] 
+    private bool isCorrectAnswer;
 
 
 
@@ -45,7 +47,7 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
 
 
     [Command(requiresAuthority =false)]
-    public void CmdRemoveSocket(bool onEffect=false)
+    public void CmdRemoveSocket(bool onEffect)
     {
         RpcRemoveSocket(onEffect);
     }
