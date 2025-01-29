@@ -185,6 +185,7 @@ public class Puzzle_1_Net : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void Cmd_SetPuzzleSetting()
     {
+        if(!isServer)
         Server_SetPuzzleSetting();
     }
 
@@ -194,14 +195,17 @@ public class Puzzle_1_Net : NetworkBehaviour
         Debug.Log("RPC");
         foreach(var part in parts)
         {
-            Debug.Log($"{part.netId},{part.index}");
             NetworkIdentity puzzle = GetNetworkIdentity(part.puzzleNetId);
             NetworkIdentity netPart = GetNetworkIdentity(part.netId);
 
             Debug.Log($"part : {part.netId}, puzzle : {part.puzzleNetId}");
+            Debug.Log($"{puzzle.name},{netPart.name}");
+            //netPart.transform.SetParent(puzzle.transform.GetChild(0));
+            //Transform parent = puzzle.gameObject.transform.GetChild(0);
+            //Transform partTr = netPart.gameObject.transform;
 
-            netPart.transform.SetParent(puzzle.transform.GetChild(0));
-            netPart.GetComponent<Puzzle_1_Parts>().Settting(puzzle.GetComponent<Puzzle_1>(),part.answer,part.index);
+            //partTr.SetParent(parent);
+            //netPart.GetComponent<Puzzle_1_Parts>().Settting(puzzle.GetComponent<Puzzle_1>(),part.answer,part.index);
         }
     }
     #endregion
