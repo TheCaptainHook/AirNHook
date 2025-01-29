@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using Random = UnityEngine.Random;
 using System;
+using UnityEditor.Experimental.GraphView;
 
 public class Puzzle_1_Net : NetworkBehaviour
 {
@@ -116,9 +117,11 @@ public class Puzzle_1_Net : NetworkBehaviour
     [SyncVar] private int previousNumber;
     [SyncVar] private string answer;
 
-    public List<Part> partsList;
+    private List<Part> partsList;
+    private List<Item> itemsList;
 
     #region Server
+
 
     [Server]
     public void Server_CreatePuzzle_Item(
@@ -135,40 +138,38 @@ public class Puzzle_1_Net : NetworkBehaviour
         answer += previousNumber.ToString();
 
         //item
-        //GameObject obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[previousNumber - 1]);
+        GameObject obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[previousNumber - 1]);
 
-        //obj.transform.SetParent(Puzzle.transform.GetChild(1));
-        //obj.transform.position = itemPot;
+        obj.transform.SetParent(Puzzle.transform.GetChild(1));
+        obj.transform.position = itemPot;
 
+        Server_SetItems(GetNetId(obj), itemPot); //Server Data Save
 
         //parts
-         Puzzle_1_Parts parts = Managers.Stage.CmdBatchObject("Puzzle_1_Parts").GetComponent<Puzzle_1_Parts>();
+        Puzzle_1_Parts parts = Managers.Stage.CmdBatchObject("Puzzle_1_Parts").GetComponent<Puzzle_1_Parts>();
          parts.transform.SetParent(Puzzle.transform.GetChild(0));
          parts.transform.position = partPot;
          parts.Settting(Puzzle, previousNumber, index);
 
-        Server_SetParts(GetNetId(parts.gameObject), previousNumber, index);
-
-        // StartCoroutine(Delay(() =>
-        //{
-        //    RpcSetParent(parts.gameObject,0);
-        //    //parts.transform.SetParent(Puzzle.transform.GetChild(0));
-        //    parts.transform.position = partPot;
-        //    RpcPartsSetting(parts.gameObject, previousNumber, index);
-        //}));
+        Server_SetParts(GetNetId(parts.gameObject), previousNumber, index,partPot);  //Server Data Save
 
     }
 
-    private void Server_SetParts(uint partNetId,int answer,int index)
+    private void Server_SetParts(uint partNetId,int answer,int index,Vector2 position)
     {
         if (partsList == null) partsList = new();
-        partsList.Add(new Part(Puzzle_netId, partNetId, answer, index));
+        partsList.Add(new Part(Puzzle_netId, partNetId, answer, index,position));
+    }
+    private void Server_SetItems(uint partNetId, Vector2 position)
+    {
+        if (itemsList == null) itemsList = new();
+        itemsList.Add(new Item(Puzzle_netId, partNetId, position));
     }
 
     [Server]
     private void Server_SetPuzzleSetting()
     {
-        StartCoroutine(Delay(() => { Rpc_SetPuzzleSetting(partsList); }));
+        StartCoroutine(Delay(() => { Rpc_SetPuzzleSetting(partsList,itemsList); }));
        
     }
    
@@ -183,37 +184,57 @@ public class Puzzle_1_Net : NetworkBehaviour
 
     }
 
+   
+ 
+    #endregion
+
+
+
+
+
+    #endregion
+
+
+    #region Init_Cmd
     [Command(requiresAuthority = false)]
     public void Cmd_SetPuzzleSetting()
     {
         Server_SetPuzzleSetting();
     }
 
+    #endregion
+
+    #region Init_Rpc
     [ClientRpc]
-    private void Rpc_SetPuzzleSetting(List<Part> parts)
+    private void Rpc_SetPuzzleSetting(List<Part> parts, List<Item> items)
     {
         if (isServer) return;
-
-            Debug.Log("RPC");
-        foreach(var part in parts)
+        NetworkIdentity puzzle = Client_GetNetworkIdentity(Puzzle_netId);
+        foreach (var part in parts)
         {
-            NetworkIdentity puzzle = Client_GetNetworkIdentity(part.puzzleNetId);
             NetworkIdentity netPart = Client_GetNetworkIdentity(part.netId);
-
-            Debug.Log($"part : {part.netId}, puzzle : {part.puzzleNetId}");
-            Debug.Log($"{puzzle.name},{netPart.name}");
 
             Transform parent = puzzle.gameObject.transform.GetChild(0);
             Transform partTr = netPart.gameObject.transform;
 
             partTr.SetParent(parent);
-            netPart.GetComponent<Puzzle_1_Parts>().Settting(puzzle.GetComponent<Puzzle_1>(),part.answer,part.index);
+            partTr.position = part.position;
+
+            netPart.GetComponent<Puzzle_1_Parts>().Settting(puzzle.GetComponent<Puzzle_1>(), part.answer, part.index);
         }
+
+        foreach(var item in items)
+        {
+            NetworkIdentity netitem = Client_GetNetworkIdentity(item.netId);
+
+            Transform parent = puzzle.gameObject.transform.GetChild(1);
+            Transform itemTr = netitem.gameObject.transform;
+
+            itemTr.SetParent(parent);
+            itemTr.position = item.position;
+        }
+
     }
-    #endregion
-
-
-
     #endregion
 
 
@@ -340,20 +361,35 @@ public class Puzzle_1_Net : NetworkBehaviour
 
 }
 
-[Serializable]
 public struct Part
 {
     public uint puzzleNetId;
     public uint netId;
     public int answer;
     public int index;
+    public Vector2 position;
 
-    public Part(uint puzzleNetId,uint netId, int answer, int index)
+    public Part(uint puzzleNetId,uint netId, int answer, int index, Vector2 position )
     {
         this.puzzleNetId = puzzleNetId;
         this.netId = netId;
         this.answer = answer;
         this.index = index;
+        this.position = position;
+    }
+
+}
+public struct Item
+{
+    public uint puzzleNetId;
+    public uint netId;
+    public Vector2 position;
+
+    public Item(uint puzzleNetId,uint netId,Vector2 position)
+    {
+        this.puzzleNetId=puzzleNetId;
+        this.netId = netId;
+        this.position = position;
     }
 
 }
