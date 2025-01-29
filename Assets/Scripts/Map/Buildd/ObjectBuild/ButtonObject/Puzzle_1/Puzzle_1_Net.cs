@@ -116,40 +116,95 @@ public class Puzzle_1_Net : NetworkBehaviour
     [SyncVar] private int previousNumber;
     [SyncVar] private string answer;
 
+    public List<Part> parts;
+
+    #region Server
+
     [Server]
     public void Server_CreatePuzzle_Item(
-        int index,
-        Vector2 itemPot,
-        Vector2 partPot
-        )
-        {
-            if (!isServer) return;
+       int index,
+       Vector2 itemPot,
+       Vector2 partPot
+       )
+    {
+        if (!isServer) return;
 
-            int num = Random.Range(1, 7);
-            while (previousNumber == num) num = Random.Range(1, 7);
-            previousNumber = num;
-            answer += previousNumber.ToString();
+        int num = Random.Range(1, 7);
+        while (previousNumber == num) num = Random.Range(1, 7);
+        previousNumber = num;
+        answer += previousNumber.ToString();
 
-        GameObject obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[previousNumber - 1]);
-        
-        StartCoroutine(Delay(() => 
-        {
-            RpcSetParent(obj,1);
-            obj.transform.position = itemPot;
-        }));
+        //item
+        //GameObject obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[previousNumber - 1]);
 
-        Puzzle_1_Parts parts = Managers.Stage.CmdBatchObject("Puzzle_1_Parts").GetComponent<Puzzle_1_Parts>();
-    
-         StartCoroutine(Delay(() => 
-        {
-            RpcSetParent(parts.gameObject,0);
-            parts.transform.position = partPot;
-            RpcPartsSetting(parts.gameObject,previousNumber,index);
-        }));
+        //obj.transform.SetParent(Puzzle.transform.GetChild(1));
+        //obj.transform.position = itemPot;
 
+
+        //parts
+         Puzzle_1_Parts parts = Managers.Stage.CmdBatchObject("Puzzle_1_Parts").GetComponent<Puzzle_1_Parts>();
+         parts.transform.SetParent(Puzzle.transform.GetChild(0));
+         parts.transform.position = partPot;
+         parts.Settting(Puzzle, previousNumber, index);
+
+        Server_SetParts(GetNetId(parts.gameObject), previousNumber, index);
+
+        // StartCoroutine(Delay(() =>
+        //{
+        //    RpcSetParent(parts.gameObject,0);
+        //    //parts.transform.SetParent(Puzzle.transform.GetChild(0));
+        //    parts.transform.position = partPot;
+        //    RpcPartsSetting(parts.gameObject, previousNumber, index);
+        //}));
 
     }
 
+    private void Server_SetParts(uint partNetId,int answer,int index)
+    {
+        parts.Add(new Part(Puzzle_netId, partNetId, answer, index));
+    }
+   
+
+    [Server]
+    public void Server_SetHintPosition(bool isHint, Vector2 position)
+    {
+        if (!isServer) return;
+        StartCoroutine(Delay(() => {
+            RpcSetHint(isHint, position);
+        }));
+
+    }
+
+    [Command]
+    public void Cmd_SetPuzzleSetting()
+    {
+        Rpc_SetPuzzleSetting();
+    }
+
+    [ClientRpc]
+    private void Rpc_SetPuzzleSetting()
+    {
+        foreach(var part in parts)
+        {
+            NetworkIdentity puzzle = GetNetworkIdentity(part.puzzleNetId);
+            NetworkIdentity netPart = GetNetworkIdentity(part.netId);
+
+            netPart.transform.SetParent(puzzle.transform.GetChild(0));
+            netPart.GetComponent<Puzzle_1_Parts>().Settting(puzzle.GetComponent<Puzzle_1>(),part.answer,part.index);
+        }
+    }
+    #endregion
+
+
+
+    #endregion
+
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        Cmd_SetPuzzleSetting();
+    }
 
 
     IEnumerator Delay(Action action)
@@ -191,27 +246,17 @@ public class Puzzle_1_Net : NetworkBehaviour
     }
 
 
-    [Server]
-    public void Server_SetHintPosition(bool isHint, Vector2 position)
-    {
-        if(!isServer) return;
-        StartCoroutine(Delay(()=>{
-            RpcSetHint(isHint,position);
-        }));
-  
-    }
-
 
     [ClientRpc]
     public void RpcSetHint(bool isHint,Vector2 position)
     {
-        NetworkIdentity main =GetNetworkIdentity(Puzzle_netId);
-        Puzzle_1 puzzle = main.GetComponent<Puzzle_1>();
-        puzzle.Net_SetHint(isHint,answer,position);
+        //NetworkIdentity main =GetNetworkIdentity(Puzzle_netId);
+
+        //Puzzle_1 puzzle = main.GetComponent<Puzzle_1>();
+        Puzzle.Net_SetHint(isHint, answer,position);
+        //puzzle.Net_SetHint(isHint,answer,position);
       
     }
-
-    #endregion
 
 
 
@@ -259,6 +304,29 @@ public class Puzzle_1_Net : NetworkBehaviour
           }
         return null;
     }
+
+    private uint GetNetId(GameObject obj)
+    {
+        return obj.GetComponent<NetworkIdentity>().netId;
+    }
     #endregion
+
+}
+
+[Serializable]
+public struct Part
+{
+    public uint puzzleNetId;
+    public uint netId;
+    public int answer;
+    public int index;
+
+    public Part(uint puzzleNetId,uint netId, int answer, int index)
+    {
+        this.puzzleNetId = puzzleNetId;
+        this.netId = netId;
+        this.answer = answer;
+        this.index = index;
+    }
 
 }
