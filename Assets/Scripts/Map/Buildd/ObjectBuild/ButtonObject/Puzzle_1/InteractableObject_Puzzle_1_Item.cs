@@ -18,7 +18,8 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
     {
         if(item.GetPossibleInsertSocket()){ 
             Puzzle_Item_Release();
-            item.InsertSocket();
+            //item.InsertSocket();
+            Cmd_InserSocket();
         }else{
             _rigidbody.simulated = true;
             base.Release();
@@ -36,12 +37,27 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
         _fixedPoint = null;
         _rigidbody.constraints = _originRot;
         _sortingGroup.sortingLayerID = _originSortingLayerID;
-        _rigidbody.gravityScale = 0;
         CmdChangeSortingLayer(false);
         CmdResetVelocity();
         CmdSetTransform(item.GetPartsPosition());
 
     }
+
+
+    [Command(requiresAuthority = false)]
+    private void Cmd_InserSocket()
+    {
+        Rpc_InserSocket();
+    }
+    [ClientRpc]
+    private void Rpc_InserSocket()
+    {
+
+        item.InsertSocket();
+    }
+
+
+
 
     [Command(requiresAuthority = false)]
     public void CmdResetVelocity()
@@ -51,6 +67,7 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
     [ClientRpc]
     private void RpcResetVelocity()
     {
+        _rigidbody.gravityScale = 0;
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.angularVelocity = 0;
     }

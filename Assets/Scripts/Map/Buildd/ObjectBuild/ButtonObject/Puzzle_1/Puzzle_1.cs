@@ -247,6 +247,14 @@ public class Puzzle_1 : ButtonEntity
         return (onHint, hintPosition);
     }
 
+    #region Network
+    public void SetPart(Puzzle_1_Parts part)
+    {
+        if (puzzle_1_Parts == null) puzzle_1_Parts = new();
+
+        puzzle_1_Parts.Add(part);
+    }
+    #endregion
 
     //public void Net_SetHint(bool onHint,string answer,Vector2 position){
     //     if (onHint)

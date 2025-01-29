@@ -137,6 +137,7 @@ public class Puzzle_1_Net : NetworkBehaviour
         parts.transform.SetParent(Puzzle.transform.GetChild(0));
          parts.transform.position = partPot;
          parts.Settting(Puzzle, previousNumber, index);
+        Puzzle.SetPart(parts);
 
         Server_SetParts(GetNetId(parts.gameObject), previousNumber, index,partPot);  //Server Data Save
 
@@ -189,6 +190,8 @@ public class Puzzle_1_Net : NetworkBehaviour
         if (!isServer)
         {
             NetworkIdentity puzzle = Client_GetNetworkIdentity(Puzzle_netId);
+            Puzzle_1 puzzle_1 = puzzle.gameObject.GetComponent<Puzzle_1>();
+
             foreach (var part in parts)
             {
                 NetworkIdentity netPart = Client_GetNetworkIdentity(part.netId);
@@ -200,6 +203,8 @@ public class Puzzle_1_Net : NetworkBehaviour
                 partTr.position = part.position;
 
                 netPart.GetComponent<Puzzle_1_Parts>().Settting(puzzle.GetComponent<Puzzle_1>(), part.answer, part.index);
+
+                puzzle_1.SetPart(partTr.GetComponent<Puzzle_1_Parts>());
             }
 
             foreach (var item in items)
