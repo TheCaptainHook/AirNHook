@@ -45,7 +45,7 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
 
 
     [Command(requiresAuthority =false)]
-    public void CmdRemoveSocket(bool onEffect)
+    public void CmdRemoveSocket(bool onEffect=false)
     {
         RpcRemoveSocket(onEffect);
     }

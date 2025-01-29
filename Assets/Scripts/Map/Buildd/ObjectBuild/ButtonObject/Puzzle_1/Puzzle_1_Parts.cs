@@ -263,7 +263,8 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     {
         if (onSocketItem != null && !isCorrectAnswer)
         {
-            RemoveSocket();
+            //RemoveSocket();
+            Parts_Net.CmdRemoveSocket();
         }
     }
     public bool CanInteract()
