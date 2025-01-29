@@ -4,6 +4,7 @@ using System;
 using Random = UnityEngine.Random;
 using System.Collections.Generic;
 using System.Text;
+using Steamworks;
 
 public class Puzzle_1 : ButtonEntity
 {
@@ -215,7 +216,8 @@ public class Puzzle_1 : ButtonEntity
         }
         if (Application.isPlaying)
         {
-           Puzzle_Net.Server_SetHintPosition(onHint, hintPosition);
+            //Puzzle_Net.Server_SetHintPosition(onHint, hintPosition);
+            Puzzle_Net.Cmd_SetPuzzleSetting();
         }
         else
         {
@@ -226,24 +228,12 @@ public class Puzzle_1 : ButtonEntity
     }
     //-------------------------------------------------------------Network 250126
 
-    private void SetHint()
+    public void SetHint(string answer = "ANSWER")
     {
         if (onHint)
         {
             hintScreen.gameObject.SetActive(true);
             hintScreen.transform.position = hintPosition;
-            //hintScreen.SetHint(answer);
-        }
-        else
-        {
-            hintScreen.gameObject.SetActive(false);
-        }
-    }
-    public void Net_SetHint(bool onHint,string answer,Vector2 position){
-         if (onHint)
-        {
-            hintScreen.gameObject.SetActive(true);
-            hintScreen.transform.position = position;
             hintScreen.SetHint(answer);
         }
         else
@@ -251,6 +241,25 @@ public class Puzzle_1 : ButtonEntity
             hintScreen.gameObject.SetActive(false);
         }
     }
+
+    public (bool isHint,Vector2 position) GetHintData()
+    {
+        return (onHint, hintPosition);
+    }
+
+
+    //public void Net_SetHint(bool onHint,string answer,Vector2 position){
+    //     if (onHint)
+    //    {
+    //        hintScreen.gameObject.SetActive(true);
+    //        hintScreen.transform.position = position;
+    //        hintScreen.SetHint(answer);
+    //    }
+    //    else
+    //    {
+    //        hintScreen.gameObject.SetActive(false);
+    //    }
+    //}
 
 
 
