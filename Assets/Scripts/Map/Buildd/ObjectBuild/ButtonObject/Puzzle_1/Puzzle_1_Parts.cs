@@ -58,7 +58,9 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     {
         if (onSocketItem)
         {
-            RemoveSocket();
+            //RemoveSocket();
+            Net_RemoveSocket();
+
             onSocketItem = item;
             return;
         }
@@ -75,21 +77,15 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         }
 
     }
-    public void Net_Lock()
-    {
-        col.enabled = false;
-        col.enabled = true;
-        _holderOpened.SetActive(false);
-        _holderClosed.SetActive(true);
-    }
-    public void Net_UnLock()
-    {
-         isCorrectAnswer = false;
-        //animation
-        lineRenderer.colorGradient = wrongGradient;
-        _holderOpened.SetActive(true);
-        _holderClosed.SetActive(false);
-    }
+
+    //public void Net_UnLock()
+    //{
+    //     isCorrectAnswer = false;
+    //    //animation
+    //    lineRenderer.colorGradient = wrongGradient;
+    //    _holderOpened.SetActive(true);
+    //    _holderClosed.SetActive(false);
+    //}
 
     public void RemoveSocket(bool onEffect = false)
     {
@@ -103,13 +99,14 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
             HideEButton();
         }
 
-        // isCorrectAnswer = false;
-        // //animation
-        // lineRenderer.colorGradient = wrongGradient;
-        // _holderOpened.SetActive(true);
-        // _holderClosed.SetActive(false);
-        Parts_Net.CmdUnLock();
+        isCorrectAnswer = false;
+        //animation
+        lineRenderer.colorGradient = wrongGradient;
+        _holderOpened.SetActive(true);
+        _holderClosed.SetActive(false);
+        //Parts_Net.CmdUnLock();
     }
+   
     #endregion
 
     #region Answer
@@ -175,9 +172,31 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
 
     }
+
+   
     private void WrongAnswer()
     {
-        RemoveSocket(true);
+        //RemoveSocket(true);
+        Net_RemoveSocket(true);
+    }
+    #endregion
+
+
+    #region Network
+    public void Net_RemoveSocket(bool onEffect = false)
+    {
+        Parts_Net.CmdRemoveSocket(onEffect);
+    }
+    public void Net_InCorrectAnswer()
+    {
+        InCorrectAnswer();
+    }
+    public void Net_Lock()
+    {
+        col.enabled = false;
+        col.enabled = true;
+        _holderOpened.SetActive(false);
+        _holderClosed.SetActive(true);
     }
     #endregion
 
