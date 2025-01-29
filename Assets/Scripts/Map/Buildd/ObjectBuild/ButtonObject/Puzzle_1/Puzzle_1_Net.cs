@@ -168,7 +168,8 @@ public class Puzzle_1_Net : NetworkBehaviour
     [Server]
     private void Server_SetPuzzleSetting()
     {
-        Rpc_SetPuzzleSetting(partsList);
+        StartCoroutine(Delay(() => { Rpc_SetPuzzleSetting(partsList); }));
+       
     }
    
 
@@ -185,14 +186,15 @@ public class Puzzle_1_Net : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void Cmd_SetPuzzleSetting()
     {
-        if(!isServer)
         Server_SetPuzzleSetting();
     }
 
     [ClientRpc]
     private void Rpc_SetPuzzleSetting(List<Part> parts)
     {
-        Debug.Log("RPC");
+        if (isServer) return;
+
+            Debug.Log("RPC");
         foreach(var part in parts)
         {
             NetworkIdentity puzzle = GetNetworkIdentity(part.puzzleNetId);
@@ -200,11 +202,11 @@ public class Puzzle_1_Net : NetworkBehaviour
 
             Debug.Log($"part : {part.netId}, puzzle : {part.puzzleNetId}");
             Debug.Log($"{puzzle.name},{netPart.name}");
-            //netPart.transform.SetParent(puzzle.transform.GetChild(0));
-            //Transform parent = puzzle.gameObject.transform.GetChild(0);
-            //Transform partTr = netPart.gameObject.transform;
 
-            //partTr.SetParent(parent);
+            Transform parent = puzzle.gameObject.transform.GetChild(0);
+            Transform partTr = netPart.gameObject.transform;
+
+            partTr.SetParent(parent);
             //netPart.GetComponent<Puzzle_1_Parts>().Settting(puzzle.GetComponent<Puzzle_1>(),part.answer,part.index);
         }
     }
