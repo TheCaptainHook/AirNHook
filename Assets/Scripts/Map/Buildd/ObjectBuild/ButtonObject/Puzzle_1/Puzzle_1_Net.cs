@@ -5,6 +5,16 @@ using Mirror;
 using Random = UnityEngine.Random;
 using System;
 
+
+/**
+ * Task
+ *  1. Hint Screen Wrong, Correct sync
+ *  2. Puzzle Parts
+ *      - SyncVar field
+ *      - Wrong, Correct Sync
+ **/
+
+
 public class Puzzle_1_Net : NetworkBehaviour
 {
     [SerializeField] Transform partsContainer;
