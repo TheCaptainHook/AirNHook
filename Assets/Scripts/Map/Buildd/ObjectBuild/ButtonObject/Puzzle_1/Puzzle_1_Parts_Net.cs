@@ -30,12 +30,26 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
     }
 
     private void OnChangeSocketItem(GameObject old,GameObject newVal)
-    {     
-        Parts.Net_InsertSocketItem(newVal);
+    {    
+        if(newVal == null)
+        {
+            Parts.RemoveSocket();
+        }else{
+            Parts.Net_InsertSocketItem(newVal);
+        }
+        
     }
 
 
-
+    [Command]
+    public void Cmd_RemoveEffect()
+    {
+        Rpc_RemoveEffect();
+    }
+    [ClientRpc]
+    public void Rpc_RemoveEffect(){
+        Parts.Net_RemovEffect();
+    }
 
     // [Command(requiresAuthority = false)]
     // public void CmdLock()
@@ -65,16 +79,16 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
     /// false : Not effect
     /// </summary>
     /// <param name="onEffect"></param>
-    [Command(requiresAuthority =false)]
-    public void CmdRemoveSocket(bool onEffect)
-    {
-        RpcRemoveSocket(onEffect);
-    }
-    [ClientRpc]
-    public void RpcRemoveSocket(bool onEffect)
-    {
-        Parts.RemoveSocket(onEffect);
-    }
+    // [Command(requiresAuthority =false)]
+    // public void CmdRemoveSocket(bool onEffect)
+    // {
+    //     RpcRemoveSocket(onEffect);
+    // }
+    // [ClientRpc]
+    // public void RpcRemoveSocket(bool onEffect)
+    // {
+    //     Parts.RemoveSocket(onEffect);
+    // }
 
 
     [Command(requiresAuthority =false)]

@@ -88,7 +88,8 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         if (onSocketItem)
         {
             // RemoveSocket();
-            Parts_Net.CmdRemoveSocket(false);
+            // Parts_Net.CmdRemoveSocket(false);
+            Parts_Net.Cmd_SetSocketItem(null);
         }
        
         HideEButton();
@@ -112,7 +113,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     public void RemoveSocket(bool onEffect = false)
     {
 
-        if (onEffect) foreach (var p in particles) p.Play();
+        // if (onEffect) foreach (var p in particles) p.Play();
 
         if (onSocketItem)
         {
@@ -129,6 +130,11 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         // Parts_Net.CmdUnLock();
     }
    
+
+    public void Net_RemovEffect(){
+        foreach (var p in particles) p.Play();
+    }
+
     #endregion
 
     #region Answer
@@ -199,16 +205,18 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     private void WrongAnswer()
     {
         //RemoveSocket(true);
-        Net_RemoveSocket(true);
+        // Net_RemoveSocket(true);
+        Parts_Net.Cmd_RemoveEffect();
+        Parts_Net.Cmd_SetSocketItem(null);
     }
     #endregion
 
 
     #region Network
-    public void Net_RemoveSocket(bool onEffect)
-    {
-        Parts_Net.CmdRemoveSocket(onEffect);
-    }
+    // public void Net_RemoveSocket(bool onEffect)
+    // {
+    //     Parts_Net.CmdRemoveSocket(onEffect);
+    // }
     public void Net_InCorrectAnswer()
     {
         InCorrectAnswer();
@@ -304,7 +312,8 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         if (onSocketItem != null && !isCorrectAnswer)
         {
             //RemoveSocket();
-            Parts_Net.CmdRemoveSocket(false);
+            // Parts_Net.CmdRemoveSocket(false);
+            Parts_Net.Cmd_SetSocketItem(null);
         }
     }
     public bool CanInteract()

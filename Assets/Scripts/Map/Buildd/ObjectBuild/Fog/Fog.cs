@@ -110,7 +110,7 @@ public class Fog : BuildObj
             fogEffect.transform.position = collision.transform.position;
             fogEffect.transform.eulerAngles = new Vector3(fogEffect.transform.rotation.x, deg, 0);
             fogEffect.SetActive(true);
-            fogEffect.GetComponent<IPooling>().ReleaseToPool();
+            fogEffect.GetComponent<IPooling>().D_ReleaseToPool();
             // StartCoroutine(InnerFogCoroutine(fog));
         }catch(Exception ex){
             Debug.Log(ex);

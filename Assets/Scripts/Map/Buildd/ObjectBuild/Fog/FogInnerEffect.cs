@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FogInnerEffect : MonoBehaviour,IPooling
 {
-   public void ReleaseToPool(){
+   public void D_ReleaseToPool(){
     StartCoroutine(ReleaseCoroutine());
    }
 
@@ -20,4 +20,7 @@ public class FogInnerEffect : MonoBehaviour,IPooling
     }
     
    }
+
+    
+    public void N_ReleaseToPool(){}
 }
