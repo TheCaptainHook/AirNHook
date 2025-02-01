@@ -54,38 +54,60 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     }
 
     #region Insert,Remove
+    // public void InsertSocket(Puzzle_1_Item item)
+    // {
+    //     if (onSocketItem)
+    //     {
+    //         RemoveSocket();
+    //         // Parts_Net.Cmd_SetSocketItem(item.gameObject);
+    //         // Net_RemoveSocket(false);
+
+    //         // onSocketItem = item;
+    //         // return;
+    //     }
+    //     else
+    //     {
+
+    //         HideEButton();
+
+    //         // onSocketItem = item;
+    //         // col.enabled = false;
+    //         // col.enabled = true;
+    //         // _holderOpened.SetActive(false);
+    //         // _holderClosed.SetActive(true);
+
+    //         // Parts_Net.CmdLock();
+
+    //     }
+        
+    //     Parts_Net.Cmd_SetSocketItem(item.gameObject);
+
+    // }
     public void InsertSocket(Puzzle_1_Item item)
     {
         if (onSocketItem)
         {
-            //RemoveSocket();
-            Net_RemoveSocket(false);
-
-            onSocketItem = item;
-            return;
+            // RemoveSocket();
+            Parts_Net.CmdRemoveSocket(false);
         }
-        else
-        {
-            onSocketItem = item;
-            HideEButton();
-
-            // col.enabled = false;
-            // col.enabled = true;
-            // _holderOpened.SetActive(false);
-            // _holderClosed.SetActive(true);
-            Parts_Net.CmdLock();
-        }
+       
+        HideEButton();
+        Parts_Net.Cmd_SetSocketItem(item.gameObject);
 
     }
+    
+    public void Net_InsertSocketItem(GameObject item)
+    {
+        if(item.TryGetComponent(out Puzzle_1_Item component))
+        {
+            onSocketItem = component;
+            col.enabled = false;
+            col.enabled = true;
+            _holderOpened.SetActive(false);
+            _holderClosed.SetActive(true);
+        }
+    }
 
-    //public void Net_UnLock()
-    //{
-    //     isCorrectAnswer = false;
-    //    //animation
-    //    lineRenderer.colorGradient = wrongGradient;
-    //    _holderOpened.SetActive(true);
-    //    _holderClosed.SetActive(false);
-    //}
 
     public void RemoveSocket(bool onEffect = false)
     {
@@ -100,11 +122,11 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         }
 
         isCorrectAnswer = false;
-        //animation
+        // animation
         lineRenderer.colorGradient = wrongGradient;
         _holderOpened.SetActive(true);
         _holderClosed.SetActive(false);
-        //Parts_Net.CmdUnLock();
+        // Parts_Net.CmdUnLock();
     }
    
     #endregion
@@ -191,12 +213,28 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     {
         InCorrectAnswer();
     }
-    public void Net_Lock()
+    // public void Net_Lock()
+    // {
+    //     col.enabled = false;
+    //     col.enabled = true;
+    //     _holderOpened.SetActive(false);
+    //     _holderClosed.SetActive(true);
+    // }
+
+    public void Net_UnLock()
     {
-        col.enabled = false;
-        col.enabled = true;
-        _holderOpened.SetActive(false);
-        _holderClosed.SetActive(true);
+        if (onSocketItem)
+        {
+            onSocketItem.RemoveSocket(true);
+            onSocketItem = null;
+            HideEButton();
+        }
+
+        isCorrectAnswer = false;
+       //animation
+       lineRenderer.colorGradient = wrongGradient;
+       _holderOpened.SetActive(true);
+       _holderClosed.SetActive(false);
     }
     #endregion
 
@@ -208,7 +246,8 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
                 if(grabItem.TryGetComponent(out Puzzle_1_Item component1)){
                     
                     ShowBtn();
-                    component1.PossibleInsertSocket(this);
+                    // component1.PossibleInsertSocket(this);
+                    component1.Net_HandleSetParts(this);
                 }
             }
             else
@@ -230,7 +269,8 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
             if(grabItem != null){
                 if(grabItem.TryGetComponent(out Puzzle_1_Item component1)){
                     HideEButton();
-                    component1.UnPossibleInsertSocket();
+                    // component1.UnPossibleInsertSocket();
+                    component1.Net_HandleSetParts(null);
                 }
                 
             }

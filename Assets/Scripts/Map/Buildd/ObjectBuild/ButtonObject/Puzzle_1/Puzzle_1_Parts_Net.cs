@@ -5,47 +5,66 @@ using UnityEngine;
 
 public class Puzzle_1_Parts_Net : NetworkBehaviour
 {
-    Puzzle_1_Parts parts {
+    Puzzle_1_Parts Parts {
         get{
             return GetComponent<Puzzle_1_Parts>();
         }
     }
 
 
-    [SyncVar] 
-    private GameObject item;
+    [SyncVar(hook = nameof(OnChangeSocketItem))] 
+    public GameObject item;
     [SyncVar] 
     private bool isCorrectAnswer;
 
 
-
-
-
+    [Server]
+    public void SetSocketItem(GameObject item)
+    {
+        this.item = item;
+    }
     [Command(requiresAuthority = false)]
-    public void CmdLock()
+    public void Cmd_SetSocketItem(GameObject item)
     {
-        RpcLock();
+        SetSocketItem(item);
     }
-    [ClientRpc]
-    private void RpcLock()
-    {
-        parts.Net_Lock();
+
+    private void OnChangeSocketItem(GameObject old,GameObject newVal)
+    {     
+        Parts.Net_InsertSocketItem(newVal);
     }
+
+
+
 
     // [Command(requiresAuthority = false)]
-    //public void CmdUnLock()
-    //{
-    //     RpcUnLock();
-    //}
-    //[ClientRpc]
-    //private void RpcUnLock()
-    //{
-    //     parts.Net_UnLock();
-    //}
+    // public void CmdLock()
+    // {
+    //     RpcLock();
+    // }
+    // [ClientRpc]
+    // private void RpcLock()
+    // {
+    //     Parts.Net_Lock();
+    // }
+
+    [Command(requiresAuthority = false)]
+    public void CmdUnLock()
+    {
+        RpcUnLock();
+    }
+    [ClientRpc]
+    private void RpcUnLock()
+    {
+        Parts.Net_UnLock();
+    }
 
 
 
-
+    /// <summary>
+    /// false : Not effect
+    /// </summary>
+    /// <param name="onEffect"></param>
     [Command(requiresAuthority =false)]
     public void CmdRemoveSocket(bool onEffect)
     {
@@ -54,7 +73,7 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
     [ClientRpc]
     public void RpcRemoveSocket(bool onEffect)
     {
-        parts.RemoveSocket(onEffect);
+        Parts.RemoveSocket(onEffect);
     }
 
 
@@ -66,6 +85,6 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
     [ClientRpc]
     public void RpcCorrectAnswer()
     {
-        parts.Net_InCorrectAnswer();
+        Parts.Net_InCorrectAnswer();
     }
 }

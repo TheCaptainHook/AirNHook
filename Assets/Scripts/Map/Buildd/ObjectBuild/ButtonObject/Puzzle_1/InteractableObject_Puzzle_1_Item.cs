@@ -42,8 +42,32 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
         CmdSetTransform(item.GetPartsPosition());
 
     }
+//-------------------------------------------------------------------------Sync 1/30
+    [SyncVar(hook = nameof(OnPartsChange))] 
+    public GameObject parts;
 
 
+    [Server]
+    public void SetParts(GameObject parts){
+        this.parts = parts;
+    }
+    public void OnPartsChange(GameObject old,GameObject newVal)
+    {
+        if(newVal == null)
+        {
+            item.UnPossibleInsertSocket();
+        }else{
+            Puzzle_1_Parts parts = newVal.GetComponent<Puzzle_1_Parts>();
+            item.PossibleInsertSocket(parts);
+        }
+    }
+
+    [Command(requiresAuthority = false)]
+    public void HandleSetParts(GameObject parts){
+        SetParts(parts);
+    }
+
+//-------------------------------------------------------------------------Sync 1/30
     [Command(requiresAuthority = false)]
     private void Cmd_InserSocket()
     {
@@ -52,7 +76,6 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
     [ClientRpc]
     private void Rpc_InserSocket()
     {
-
         item.InsertSocket();
     }
 

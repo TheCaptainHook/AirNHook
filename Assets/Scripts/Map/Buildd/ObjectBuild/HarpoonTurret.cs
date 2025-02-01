@@ -82,7 +82,8 @@ public class HarpoonTurret : BuildObj
         }
     }
     private void Shot(){
-        Projectile_Arrow arrow = Managers.Pooling.N_GetItme<Projectile_Arrow>().GetComponent<Projectile_Arrow>();
+        // Projectile_Arrow arrow = Managers.Pooling.N_GetItme<Projectile_Arrow>().GetComponent<Projectile_Arrow>();
+        Projectile_Arrow arrow = Managers.Pooling.N_GetItme(typeof(Projectile_Arrow).Name).GetComponent<Projectile_Arrow>();
         //GameObject obj = Managers.Stage.CmdBatchObject("Projectile_Arrow");
         arrow.Setting(transform.position, _holder.transform.right);
         arrow.gameObject.SetActive(true);

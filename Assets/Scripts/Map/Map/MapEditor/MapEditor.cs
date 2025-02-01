@@ -571,6 +571,7 @@ public class MapEditor : MonoBehaviour
     void Create<T>(Transform transform,MapDataStruct mapDataStruct,T data){
         try{
             GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
+            obj.name = mapDataStruct.name;
             obj.GetComponent<BuildObj>().SetData(data);
             obj.transform.SetParent(transform);
         }catch(Exception ex){
@@ -721,7 +722,7 @@ public class MapEditor : MonoBehaviour
        for(int i = shadowContainer.childCount-1;i>=0;i--)
        {
             Transform tr = shadowContainer.GetChild(i);
-            tr.GetComponent<IPooling>().ReleaseToPool();
+            tr.GetComponent<IPooling>().D_ReleaseToPool();
        }
     }
 

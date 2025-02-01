@@ -15,6 +15,14 @@ public class Puzzle_1_Item : MonoBehaviour
     #region Components
     private Rigidbody2D rb;
     private Collider2D col;
+
+    private InteractableObject_Puzzle_1_Item Net_Item
+    {
+        get
+        {
+            return GetComponent<InteractableObject_Puzzle_1_Item>();
+        }
+    }
     #endregion
  
 
@@ -38,7 +46,13 @@ public class Puzzle_1_Item : MonoBehaviour
         RemoveSocketEffect(onEffect);
     }
 
- 
+    public void Net_HandleSetParts(Puzzle_1_Parts parts){
+        if(parts == null){
+            Net_Item.HandleSetParts(null);
+        }else
+        Net_Item.HandleSetParts(parts.gameObject);
+    }
+
    public void PossibleInsertSocket(Puzzle_1_Parts parts){
     this.parts = parts;
     possibleInsertSocket = true;

@@ -5,6 +5,8 @@ using Random = UnityEngine.Random;
 using System.Collections.Generic;
 using System.Text;
 using Steamworks;
+using System.Collections;
+using Mirror;
 
 public class Puzzle_1 : ButtonEntity
 {
@@ -115,60 +117,6 @@ public class Puzzle_1 : ButtonEntity
 
     //}
 
-//     private void Setting() {
-//         int previousNum = 0;
-//         for (int i = 0; i < partsPosition.Length; i++) {
-//             int num = Random.Range(1, 7);
-//             while(previousNum == num) num = Random.Range(1, 7);
-//             previousNum = num;
-//             GameObject obj;
-//             answer += num.ToString();
-
-// #if UNITY_EDITOR
-//             Puzzle_1_Helper helper = GetComponent<Puzzle_1_Helper>();
-//             helper.Init();
-//             if (Application.isPlaying)
-//             {
-//                 obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[num - 1]);
-//             }
-//             else
-//             {
-//                 obj = helper.Add_Item();
-//                 if (onHint) 
-//                 {
-//                     hintScreen.gameObject.SetActive(true);
-//                 }
-
-//             }
-
-// #else
-
-//              obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[num - 1]);
-//              //hint
-//               if (onHint) 
-//                {
-//                     hintScreen.gameObject.SetActive(true);
-//                      SetHint();
-//                }
-           
-// #endif
-
-//             obj.transform.position = itemsPosition[i];
-//             obj.transform.SetParent(itemContainer);
-
-//             CreateParts(partsPosition[i],num,i);
-
-//             // obj.transform.position = Vector2.zero; // test
-//             // puzzle_1_Parts[i].SetAnswer(num); //test
-
-           
-//         }
-
-//         SetHint();
-        
-
-//     }
-
 
     //-------------------------------------------------------------Network 250126
     private void Editor_Setting(int index)
@@ -217,7 +165,8 @@ public class Puzzle_1 : ButtonEntity
         if (Application.isPlaying)
         {
             //Puzzle_Net.Server_SetHintPosition(onHint, hintPosition);
-            Puzzle_Net.Cmd_SetPuzzleSetting();
+            // Puzzle_Net.Cmd_SetPuzzleSetting();
+            StartCoroutine(ClientDelay(()=>{Puzzle_Net.Cmd_SetPuzzleSetting();}));
         }
         else
         {
@@ -228,6 +177,11 @@ public class Puzzle_1 : ButtonEntity
     }
     //-------------------------------------------------------------Network 250126
 
+    IEnumerator ClientDelay(Action? action)
+    {
+        while(!NetworkClient.ready){yield return null; Debug.Log("Is Not Ready Network");} 
+        action?.Invoke();
+    }
     public void SetHint(string answer = "ANSWER")
     {
         if (onHint)
@@ -255,20 +209,6 @@ public class Puzzle_1 : ButtonEntity
         puzzle_1_Parts.Add(part);
     }
     #endregion
-
-    //public void Net_SetHint(bool onHint,string answer,Vector2 position){
-    //     if (onHint)
-    //    {
-    //        hintScreen.gameObject.SetActive(true);
-    //        hintScreen.transform.position = position;
-    //        hintScreen.SetHint(answer);
-    //    }
-    //    else
-    //    {
-    //        hintScreen.gameObject.SetActive(false);
-    //    }
-    //}
-
 
 
     private void CreateParts(Vector2 pot,int answer,int index){
@@ -298,13 +238,18 @@ public class Puzzle_1 : ButtonEntity
         if (CheckAnswer())
         {
             Activation();
-            hintScreen.Correct();
+
+            
+
+            // hintScreen.Correct();
+            Puzzle_Net.Cmd_HintScreen_Correct();
         }
         else
         {
             Boom();
             Wrong();
-            hintScreen.False();
+            // hintScreen.False();
+            Puzzle_Net.Cmd_HintScreen_False();
         }
     }
     private bool CheckAnswer()
@@ -340,7 +285,7 @@ public class Puzzle_1 : ButtonEntity
     }
     #endregion
 
-    #region Charging // Network processing required
+    #region Charging 
     public void Charging()
     {
         if(button.Charging())
@@ -364,12 +309,12 @@ public class Puzzle_1 : ButtonEntity
         Wrong();
     }
 
-
-    // public void Net_CreatePuzzleItem(int num)
-    // {
-    //     Managers.Stage.CmdBatchObject(puzzle_1_Items[num - 1]);
-    // }
-
+    public void Net_HintScreen_Correct(){
+        hintScreen.Correct();
+    }
+    public void Net_HintScreen_False(){
+        hintScreen.False();
+    }
     #endregion
 
 

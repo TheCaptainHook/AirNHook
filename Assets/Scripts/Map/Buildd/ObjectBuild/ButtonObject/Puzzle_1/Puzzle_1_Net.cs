@@ -51,7 +51,7 @@ public class Puzzle_1_Net : NetworkBehaviour
 
     [SerializeField] Puzzle_1_Button button;
 
-    #region Animation Sync
+    #region -------------------------------------------Animation Sync
 
     [SyncVar(hook = nameof(OnRateChanged))]
     public float chargingRate;
@@ -87,22 +87,19 @@ public class Puzzle_1_Net : NetworkBehaviour
     }
     public void OnRateChanged(float old, float newVal)
     {
-        button.SetAnimation(newVal);
+        if(newVal == 0){
+            button.Net_Reset();
+            button.SetAnimation(newVal);
+
+        }else{
+            button.SetAnimation(newVal);
+        }
+        
     }
 
-    [Command(requiresAuthority = false)]
-    public void CmdReset()
-    {
-        RpcReset();
-    }
-    [ClientRpc]
-    public void RpcReset()
-    {
-        Sever_Reset();
-    }
     #endregion
 
-    #region Init Sync
+    #region -------------------------------------------Init Sync
 
     [SyncVar] private int previousNumber;
     [SyncVar] private string answer;
@@ -171,7 +168,9 @@ public class Puzzle_1_Net : NetworkBehaviour
         var hint = Puzzle.GetHintData();
         this.hint = new Hint(hint.isHint, answer, hint.position);
 
-        StartCoroutine(Delay(() => { Rpc_SetPuzzleSetting(partsList,itemsList,this.hint); }));
+        // StartCoroutine(Delay(() => { Rpc_SetPuzzleSetting(partsList,itemsList,this.hint); }));
+        // StartCoroutine(ClientDelay(()=>{Rpc_SetPuzzleSetting(partsList,itemsList,this.hint);}));
+        Rpc_SetPuzzleSetting(partsList,itemsList,this.hint);
     }
    
  
@@ -253,15 +252,26 @@ public class Puzzle_1_Net : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
+        if(!isServer)
+        // StartCoroutine(ClientDelay(()=>{Cmd_SetPuzzleSetting();}));
         Cmd_SetPuzzleSetting();
     }
 
 
-    IEnumerator Delay(Action action)
-    {
-        yield return new WaitForSeconds(0.1f);
-            action();
-    }
+    // IEnumerator Delay(Action action)
+    // {
+    //     yield return new WaitForSeconds(0.1f);
+    //         action();
+    // }
+    // IEnumerator ClientDelay(Action action)
+    // {
+    //     while(!NetworkClient.ready)
+    //     {
+    //         Debug.Log("Client Not Ready");
+    //         yield return null; 
+    //     }
+    //     action?.Invoke();
+    // }
 
 
     [Command(requiresAuthority = false)]
@@ -283,11 +293,39 @@ public class Puzzle_1_Net : NetworkBehaviour
     [ClientRpc]
     public void RpcWrong()
     {
-        button.AniWrong();
+        button.Net_Wrong();
+    }
 
+    [Command(requiresAuthority = false)]
+    public void CmdReset()
+    {
+        RpcReset();
+    }
+    [ClientRpc]
+    public void RpcReset()
+    {
+        Sever_Reset();
     }
 
 
+    #region -------------------------------------------Hint Screen
+    [Command]
+    public void Cmd_HintScreen_Correct(){
+        Rpc_HintScreen_Correct();
+    }
+    [ClientRpc]
+    public void Rpc_HintScreen_Correct(){
+        Puzzle.Net_HintScreen_Correct();
+    }
+    [Command]
+    public void Cmd_HintScreen_False(){
+        Rpc_HintScreen_False();
+    }
+    [ClientRpc]
+    public void Rpc_HintScreen_False(){
+        Puzzle.Net_HintScreen_False();
+    }
+    #endregion
 
 
     #region  Util

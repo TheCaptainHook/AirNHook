@@ -50,6 +50,8 @@ public class StageManager
 
         GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
 
+        obj.name = objName;
+
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
 
         obj.GetComponent<BuildObj>().SetData(data);
@@ -66,9 +68,24 @@ public class StageManager
         if (parent != null)
             obj.transform.SetParent(parent);
 
-       
-      
     }
+
+    // [ClientRpc]
+    // private void Rpc_SetTransformParents(uint netId,string trName)
+    // {
+    //     NetworkClient.spawned.TryGetValue(netId,out NetworkIdentity identity);
+    //     if(identity == null) return;
+
+    //     foreach(Transform tr in MapEditor.Instance.mapObjBoxTransform)
+    //     {
+    //         if(tr.name == trName)
+    //         {
+    //             identity.gameObject.transform.SetParent(tr);
+    //             return;
+    //         }
+    //     }
+    // }
+
 
     // [ClientRpc]
     // private void Create<T>(string objName,T data,uint trId)

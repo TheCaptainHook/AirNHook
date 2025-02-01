@@ -7561,6 +7561,35 @@
             },
             "text": "",
             "fontSize": 0.0
+        },
+        {
+            "id": 342,
+            "dialogueId": 0,
+            "position": {
+                "x": 29.200000762939454,
+                "y": 0.1599999964237213
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -1.0,
+                "w": 0.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0
         }
     ],
     "mapBackgroundObjectList": [
@@ -8362,7 +8391,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.449999451637268,
+                "y": 1.449999213218689,
                 "z": 1.0
             },
             "talPot": {
@@ -8429,6 +8458,43 @@
                 }
             ],
             "moveSpeed": 1.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 331,
+            "activeRequirAmount": 0,
+            "chargeRequired": false,
+            "jumpingPower": 0,
+            "position": {
+                "x": 10.529999732971192,
+                "y": -0.15000000596046449
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 3.0,
+            "onHoldRotation": true,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
             "moveDistance": 0.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
