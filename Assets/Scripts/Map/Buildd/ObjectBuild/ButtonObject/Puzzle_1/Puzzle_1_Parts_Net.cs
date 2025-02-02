@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class Puzzle_1_Parts_Net : NetworkBehaviour
 {
-    Puzzle_1_Parts Parts {
-        get{
+    Puzzle_1_Parts Parts
+    {
+        get
+        {
             return GetComponent<Puzzle_1_Parts>();
         }
     }
@@ -14,9 +16,9 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
     private Collider2D Collider => GetComponent<Collider2D>();
     public Puzzle_1_Item GetItem => item ? item.GetComponent<Puzzle_1_Item>() : null;
 
-    [SyncVar(hook = nameof(OnChangeSocketItem))] 
+    [SyncVar(hook = nameof(OnChangeSocketItem))]
     public GameObject item;
-    [SyncVar(hook = nameof(OnChangeCorrect))] 
+    [SyncVar(hook = nameof(OnChangeCorrect))]
     public bool isCorrectAnswer;
 
 
@@ -43,7 +45,7 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
         this.isCorrectAnswer = val;
     }
 
-    private void OnChangeSocketItem(GameObject old,GameObject newVal)
+    private void OnChangeSocketItem(GameObject old, GameObject newVal)
     {
         if (old) RemoveSocket(old);
 
@@ -65,12 +67,12 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
 
     private void RemoveSocket(GameObject item)
     {
-       if(item.TryGetComponent(out Puzzle_1_Item component))
+        if (item.TryGetComponent(out Puzzle_1_Item component))
         {
             component.RemoveSocket();
             Parts.InsertAnimation(false);
         }
-        
+
     }
     private void InsertSocket(GameObject item)
     {
@@ -87,8 +89,10 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
         Rpc_RemoveEffect();
     }
     [ClientRpc]
-    public void Rpc_RemoveEffect(){
+    public void Rpc_RemoveEffect()
+    {
         Parts.Net_RemovEffect();
     }
+}
 
 
