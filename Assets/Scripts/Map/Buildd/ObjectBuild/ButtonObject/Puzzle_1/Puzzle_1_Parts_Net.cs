@@ -81,7 +81,7 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
 
 
 
-    [Command]
+    [Command(requiresAuthority = false)]
     public void Cmd_RemoveEffect()
     {
         Rpc_RemoveEffect();
@@ -92,15 +92,4 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
     }
 
 
-
-    //[Command(requiresAuthority =false)]
-    //public void CmdCorrectAnswer()
-    //{
-    //    RpcCorrectAnswer();
-    //}
-    //[ClientRpc]
-    //public void RpcCorrectAnswer()
-    //{
-    //    Parts.Net_InCorrectAnswer();
-    //}
 }

@@ -5,9 +5,7 @@ using UnityEngine;
 
 public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 {
-    //public Puzzle_1_Item onSocketItem;
-    //private bool onSocket;
-    
+
     private UI_Base _E_Btn;
     private bool is_E_BtnEnabled;
     [SerializeField] float _BtnOffset;
@@ -27,8 +25,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
     [ReadOnly]
     public int puzzleAnswer;
-    //[ReadOnly]
-    //public bool isCorrectAnswer;
+
     [ReadOnly]
     public int index;
 
@@ -48,7 +45,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
     private void Awake(){
         col = GetComponent<Collider2D>();
-        //sprite = GetComponent<SpriteRenderer>();
+
         pathFinder = GetComponent<PathFinder>();
         lineRenderer.colorGradient = wrongGradient;
     }
@@ -151,8 +148,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     }
     private void WrongAnswer()
     {
-        //RemoveSocket(true);
-        // Net_RemoveSocket(true);
+
         Parts_Net.Cmd_RemoveEffect();
         Parts_Net.Cmd_SetSocketItem(null);
     }
@@ -160,37 +156,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
 
     #region Network
-    // public void Net_RemoveSocket(bool onEffect)
-    // {
-    //     Parts_Net.CmdRemoveSocket(onEffect);
-    // }
-    //public void Net_InCorrectAnswer()
-    //{
-    //    InCorrectAnswer();
-    //}
-    // public void Net_Lock()
-    // {
-    //     col.enabled = false;
-    //     col.enabled = true;
-    //     _holderOpened.SetActive(false);
-    //     _holderClosed.SetActive(true);
-    // }
-
-    //public void Net_UnLock()
-    //{
-    //    if (onSocketItem)
-    //    {
-    //        onSocketItem.RemoveSocket(true);
-    //        onSocketItem = null;
-    //        HideEButton();
-    //    }
-
-    //    isCorrectAnswer = false;
-    //   //animation
-    //   lineRenderer.colorGradient = wrongGradient;
-    //   _holderOpened.SetActive(true);
-    //   _holderClosed.SetActive(false);
-    //}
+   
     #endregion
 
 
@@ -227,7 +193,6 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
             if(grabItem != null){
                 if(grabItem.TryGetComponent(out Puzzle_1_Item component1)){
                     HideEButton();
-                    // component1.UnPossibleInsertSocket();
                     component1.Net_HandleSetParts(null);
                 }
                 
@@ -262,8 +227,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     {
         if ( OnSocket && !IsCorrectAnswer)
         {
-            //RemoveSocket();
-            // Parts_Net.CmdRemoveSocket(false);
+
             Parts_Net.Cmd_SetSocketItem(null);
         }
     }

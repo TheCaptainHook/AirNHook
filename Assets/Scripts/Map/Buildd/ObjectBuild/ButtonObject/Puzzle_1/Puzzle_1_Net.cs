@@ -6,15 +6,6 @@ using Random = UnityEngine.Random;
 using System;
 
 
-/**
- * Task
- *  1. Hint Screen Wrong, Correct sync
- *  2. Puzzle Parts
- *      - SyncVar field
- *      - Wrong, Correct Sync
- **/
-
-
 public class Puzzle_1_Net : NetworkBehaviour
 {
     [SerializeField] Transform partsContainer;
@@ -108,12 +99,6 @@ public class Puzzle_1_Net : NetworkBehaviour
     private List<Item> itemsList;
     private Hint hint;
 
-    /**
-     * Pooling Release reset list
-     *  - partsList
-     *  - itemsList
-     *  - hint
-    **/
     #region Server
 
 
@@ -168,8 +153,6 @@ public class Puzzle_1_Net : NetworkBehaviour
         var hint = Puzzle.GetHintData();
         this.hint = new Hint(hint.isHint, answer, hint.position);
 
-        // StartCoroutine(Delay(() => { Rpc_SetPuzzleSetting(partsList,itemsList,this.hint); }));
-        // StartCoroutine(ClientDelay(()=>{Rpc_SetPuzzleSetting(partsList,itemsList,this.hint);}));
         Rpc_SetPuzzleSetting(partsList,itemsList,this.hint);
     }
    
@@ -293,7 +276,7 @@ public class Puzzle_1_Net : NetworkBehaviour
 
 
     #region -------------------------------------------Hint Screen
-    [Command]
+    [Command(requiresAuthority = false)]
     public void Cmd_HintScreen_Correct(){
         Rpc_HintScreen_Correct();
     }
@@ -301,7 +284,7 @@ public class Puzzle_1_Net : NetworkBehaviour
     public void Rpc_HintScreen_Correct(){
         Puzzle.Net_HintScreen_Correct();
     }
-    [Command]
+    [Command(requiresAuthority = false)]
     public void Cmd_HintScreen_False(){
         Rpc_HintScreen_False();
     }
