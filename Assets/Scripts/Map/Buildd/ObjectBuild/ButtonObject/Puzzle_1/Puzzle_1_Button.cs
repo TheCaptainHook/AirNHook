@@ -22,6 +22,8 @@ public class Puzzle_1_Button : MonoBehaviour
 
     public bool onProgress;
 
+    private bool onCorrect;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -42,6 +44,7 @@ public class Puzzle_1_Button : MonoBehaviour
 
     public bool Charging()
     {
+        if (onCorrect) return false;
         if (onFullCharge) return false;
 
         onCharging = true;
@@ -95,6 +98,12 @@ public class Puzzle_1_Button : MonoBehaviour
         StartCoroutine(WrongAndRecover());
     }
     
+    public void Net_Correct()
+    {
+        onCharging = false;
+        onCorrect = true;
+    }
+
     public void Net_Wrong()
     {
         onProgress = true;

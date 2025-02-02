@@ -199,6 +199,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
                 }
                 
             }
+            if (_E_Btn != null) HideEButton();
         }
         
     }
@@ -226,7 +227,6 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     private bool IsCorrectAnswer => Parts_Net.isCorrectAnswer;
     public void Interaction(Transform accessor = null)
     {
-        if (_E_Btn != null) HideEButton();
         if ( OnSocket && !IsCorrectAnswer)
         {
 

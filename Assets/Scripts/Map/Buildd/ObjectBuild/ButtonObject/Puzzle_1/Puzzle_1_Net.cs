@@ -87,6 +87,16 @@ public class Puzzle_1_Net : NetworkBehaviour
         }
         
     }
+    [Command(requiresAuthority = false)]
+    public void CmdCorrect()
+    {
+        RpcCorrect();
+    }
+    [ClientRpc]
+    public void RpcCorrect()
+    {
+        button.Net_Correct();
+    }
 
     #endregion
 
@@ -262,6 +272,8 @@ public class Puzzle_1_Net : NetworkBehaviour
     {
         button.Net_Wrong();
     }
+ 
+
 
     [Command(requiresAuthority = false)]
     public void CmdReset()

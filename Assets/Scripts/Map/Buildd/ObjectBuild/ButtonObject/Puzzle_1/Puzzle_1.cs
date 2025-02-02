@@ -239,7 +239,7 @@ public class Puzzle_1 : ButtonEntity
         {
             Activation();
 
-            
+            Puzzle_Net.CmdCorrect();
 
             // hintScreen.Correct();
             Puzzle_Net.Cmd_HintScreen_Correct();
