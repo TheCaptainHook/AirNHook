@@ -168,8 +168,9 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
             Transform grabItem = component.GetGrabbedItem();
             if(grabItem != null){
                 if(grabItem.TryGetComponent(out Puzzle_1_Item component1)){
-                    
-                    ShowBtn();
+
+                    //ShowBtn();
+                    Parts_Net.Cmd_ShowShowBtn();
                     // component1.PossibleInsertSocket(this);
                     component1.Net_HandleSetParts(this);
                 }
@@ -178,7 +179,8 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
             {
                 if (OnSocket)
                 {
-                    ShowBtn();
+                    //ShowBtn();
+                    Parts_Net.Cmd_ShowShowBtn();
                 }
                 
             }
@@ -202,14 +204,13 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     }
 
     #region UI
-    private void ShowBtn()
+    public void ShowBtn()
     {
         _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
         _E_Btn.transform.position = transform.position + (transform.up * _BtnOffset);
     }
     public void ShowEButton()
     {
-
         return;
     }
     public void HideEButton()
