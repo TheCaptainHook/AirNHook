@@ -92,10 +92,3 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
     }
 
 
-
-    [Command]
-    public void Cmd_ShowShowBtn()
-    {
-        Parts.ShowBtn();
-    }
-}

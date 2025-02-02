@@ -169,8 +169,8 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
             if(grabItem != null){
                 if(grabItem.TryGetComponent(out Puzzle_1_Item component1)){
 
-                    //ShowBtn();
-                    Parts_Net.Cmd_ShowShowBtn();
+                    ShowBtn();
+                  
                     // component1.PossibleInsertSocket(this);
                     component1.Net_HandleSetParts(this);
                 }
@@ -179,8 +179,8 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
             {
                 if (OnSocket)
                 {
-                    //ShowBtn();
-                    Parts_Net.Cmd_ShowShowBtn();
+                    ShowBtn();
+
                 }
                 
             }
@@ -226,6 +226,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     private bool IsCorrectAnswer => Parts_Net.isCorrectAnswer;
     public void Interaction(Transform accessor = null)
     {
+        if (_E_Btn != null) HideEButton();
         if ( OnSocket && !IsCorrectAnswer)
         {
 
