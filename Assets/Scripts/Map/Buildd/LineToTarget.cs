@@ -14,6 +14,7 @@ using UnityEditor;
 [ExecuteInEditMode]
 public class LineToTarget : MonoBehaviour
 {
+#if UNITY_EDITOR
     public Transform debugmodeTransform;
 
 //------------------------------------------------------------Refactoring 0114
@@ -25,7 +26,7 @@ public class LineToTarget : MonoBehaviour
     ButtonEntity entity;
 
     
-#if UNITY_EDITOR
+
 
 
   public void Setting()
