@@ -11,11 +11,13 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
         }
     }
 
+    private Collider2D Collider => GetComponent<Collider2D>();
+    public Puzzle_1_Item GetItem => item ? item.GetComponent<Puzzle_1_Item>() : null;
 
     [SyncVar(hook = nameof(OnChangeSocketItem))] 
     public GameObject item;
-    [SyncVar] 
-    private bool isCorrectAnswer;
+    [SyncVar(hook = nameof(OnChangeCorrect))] 
+    public bool isCorrectAnswer;
 
 
     [Server]
@@ -23,22 +25,60 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
     {
         this.item = item;
     }
+    [Server]
+    private void SetCorrect(bool isCorrectAnswer)
+    {
+        this.isCorrectAnswer = isCorrectAnswer;
+    }
+
+
     [Command(requiresAuthority = false)]
     public void Cmd_SetSocketItem(GameObject item)
     {
         SetSocketItem(item);
     }
+    [Command(requiresAuthority = false)]
+    public void Cmd_SetCorrect(bool val)
+    {
+        this.isCorrectAnswer = val;
+    }
 
     private void OnChangeSocketItem(GameObject old,GameObject newVal)
-    {    
-        if(newVal == null)
+    {
+        if (old) RemoveSocket(old);
+
+        if (newVal)
         {
-            Parts.RemoveSocket();
-        }else{
-            Parts.Net_InsertSocketItem(newVal);
+            InsertSocket(newVal);
+        }
+
+    }
+    private void OnChangeCorrect(bool old, bool newVal)
+    {
+        if (newVal)
+        {
+            Collider.enabled = false;
+            Parts.Net_SetCorrectEffect();
+        }
+    }
+
+
+    private void RemoveSocket(GameObject item)
+    {
+       if(item.TryGetComponent(out Puzzle_1_Item component))
+        {
+            component.RemoveSocket();
+            Parts.InsertAnimation(false);
         }
         
     }
+    private void InsertSocket(GameObject item)
+    {
+        Collider.enabled = false;
+        Collider.enabled = true;
+        Parts.InsertAnimation(true);
+    }
+
 
 
     [Command]
@@ -51,54 +91,16 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
         Parts.Net_RemovEffect();
     }
 
-    // [Command(requiresAuthority = false)]
-    // public void CmdLock()
-    // {
-    //     RpcLock();
-    // }
-    // [ClientRpc]
-    // private void RpcLock()
-    // {
-    //     Parts.Net_Lock();
-    // }
-
-    [Command(requiresAuthority = false)]
-    public void CmdUnLock()
-    {
-        RpcUnLock();
-    }
-    [ClientRpc]
-    private void RpcUnLock()
-    {
-        Parts.Net_UnLock();
-    }
 
 
-
-    /// <summary>
-    /// false : Not effect
-    /// </summary>
-    /// <param name="onEffect"></param>
-    // [Command(requiresAuthority =false)]
-    // public void CmdRemoveSocket(bool onEffect)
-    // {
-    //     RpcRemoveSocket(onEffect);
-    // }
-    // [ClientRpc]
-    // public void RpcRemoveSocket(bool onEffect)
-    // {
-    //     Parts.RemoveSocket(onEffect);
-    // }
-
-
-    [Command(requiresAuthority =false)]
-    public void CmdCorrectAnswer()
-    {
-        RpcCorrectAnswer();
-    }
-    [ClientRpc]
-    public void RpcCorrectAnswer()
-    {
-        Parts.Net_InCorrectAnswer();
-    }
+    //[Command(requiresAuthority =false)]
+    //public void CmdCorrectAnswer()
+    //{
+    //    RpcCorrectAnswer();
+    //}
+    //[ClientRpc]
+    //public void RpcCorrectAnswer()
+    //{
+    //    Parts.Net_InCorrectAnswer();
+    //}
 }

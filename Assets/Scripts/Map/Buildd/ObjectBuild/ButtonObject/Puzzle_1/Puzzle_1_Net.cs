@@ -253,25 +253,9 @@ public class Puzzle_1_Net : NetworkBehaviour
     {
         base.OnStartClient();
         if(!isServer)
-        // StartCoroutine(ClientDelay(()=>{Cmd_SetPuzzleSetting();}));
         Cmd_SetPuzzleSetting();
     }
 
-
-    // IEnumerator Delay(Action action)
-    // {
-    //     yield return new WaitForSeconds(0.1f);
-    //         action();
-    // }
-    // IEnumerator ClientDelay(Action action)
-    // {
-    //     while(!NetworkClient.ready)
-    //     {
-    //         Debug.Log("Client Not Ready");
-    //         yield return null; 
-    //     }
-    //     action?.Invoke();
-    // }
 
 
     [Command(requiresAuthority = false)]

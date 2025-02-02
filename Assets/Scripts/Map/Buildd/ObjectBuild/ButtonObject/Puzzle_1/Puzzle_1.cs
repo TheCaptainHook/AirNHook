@@ -257,10 +257,12 @@ public class Puzzle_1 : ButtonEntity
         int num = 0;
         foreach (Puzzle_1_Parts parts in puzzle_1_Parts)
         {
-            parts.CheckAnswer();
-            if (parts.isCorrectAnswer) num++;
+
+            if (parts.CheckAnswer()) num++;
         }
 
+
+        Debug.Log($"{num}, count :{puzzle_1_Parts.Count}");
         return num == puzzle_1_Parts.Count;
     }
 

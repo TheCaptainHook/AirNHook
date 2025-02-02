@@ -1,11 +1,12 @@
 
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 {
-    public Puzzle_1_Item onSocketItem;
-    private bool onSocket;
+    //public Puzzle_1_Item onSocketItem;
+    //private bool onSocket;
     
     private UI_Base _E_Btn;
     private bool is_E_BtnEnabled;
@@ -19,7 +20,6 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     [SerializeField] private GameObject _holderClosed;
     [SerializeField] List<GameObject> numbering;
 
-
     public float boomArea;
     [Space(20)]
     [Header("Effect")]
@@ -27,8 +27,8 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
     [ReadOnly]
     public int puzzleAnswer;
-    [ReadOnly]
-    public bool isCorrectAnswer;
+    //[ReadOnly]
+    //public bool isCorrectAnswer;
     [ReadOnly]
     public int index;
 
@@ -53,83 +53,32 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         lineRenderer.colorGradient = wrongGradient;
     }
 
+    #region ------------------------------------------------------Network Field
+    private bool OnSocket => (Parts_Net.item) ? true : false;
+    public bool OnCorrect => Parts_Net.isCorrectAnswer;
+    #endregion
+
     #region Insert,Remove
-    // public void InsertSocket(Puzzle_1_Item item)
-    // {
-    //     if (onSocketItem)
-    //     {
-    //         RemoveSocket();
-    //         // Parts_Net.Cmd_SetSocketItem(item.gameObject);
-    //         // Net_RemoveSocket(false);
-
-    //         // onSocketItem = item;
-    //         // return;
-    //     }
-    //     else
-    //     {
-
-    //         HideEButton();
-
-    //         // onSocketItem = item;
-    //         // col.enabled = false;
-    //         // col.enabled = true;
-    //         // _holderOpened.SetActive(false);
-    //         // _holderClosed.SetActive(true);
-
-    //         // Parts_Net.CmdLock();
-
-    //     }
-        
-    //     Parts_Net.Cmd_SetSocketItem(item.gameObject);
-
-    // }
-    public void InsertSocket(Puzzle_1_Item item)
+    public void InsertSocket(GameObject item)
     {
-        if (onSocketItem)
-        {
-            // RemoveSocket();
-            // Parts_Net.CmdRemoveSocket(false);
-            Parts_Net.Cmd_SetSocketItem(null);
-        }
-       
-        HideEButton();
-        Parts_Net.Cmd_SetSocketItem(item.gameObject);
-
+        Parts_Net.Cmd_SetSocketItem(item);
     }
-    
-    public void Net_InsertSocketItem(GameObject item)
+
+
+    public void InsertAnimation(bool val)
     {
-        if(item.TryGetComponent(out Puzzle_1_Item component))
+        if (val)
         {
-            onSocketItem = component;
-            col.enabled = false;
-            col.enabled = true;
             _holderOpened.SetActive(false);
             _holderClosed.SetActive(true);
         }
-    }
-
-
-    public void RemoveSocket(bool onEffect = false)
-    {
-
-        // if (onEffect) foreach (var p in particles) p.Play();
-
-        if (onSocketItem)
+        else
         {
-            onSocketItem.RemoveSocket(onEffect);
-            onSocketItem = null;
-            HideEButton();
+            _holderOpened.SetActive(true);
+            _holderClosed.SetActive(false);
         }
-
-        isCorrectAnswer = false;
-        // animation
-        lineRenderer.colorGradient = wrongGradient;
-        _holderOpened.SetActive(true);
-        _holderClosed.SetActive(false);
-        // Parts_Net.CmdUnLock();
     }
-   
+ 
 
     public void Net_RemovEffect(){
         foreach (var p in particles) p.Play();
@@ -151,27 +100,29 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         lineRenderer.colorGradient=wrongGradient;
 
     }
-    public void CheckAnswer()
+    public bool CheckAnswer()
     {
-        if (!onSocketItem)
+        if (!OnSocket)
         {
             WrongAnswer();
-            return;
+            return false;
         }
 
-        if (onSocketItem.socketNumber == puzzleAnswer) 
+        if (Parts_Net.GetItem.socketNumber == puzzleAnswer)
         {
             InCorrectAnswer();
+            return true;
         }
         else
         {
             WrongAnswer();
+            return false;
         }
     }
 
     public void Boom(ref HashSet<Collider2D> col)
     {
-        if (isCorrectAnswer) return;
+        if (OnCorrect) return;
         int playerLayerMask = 1 << LayerMask.NameToLayer("Player");
 
         //effect
@@ -191,17 +142,13 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
     private void InCorrectAnswer()
     {
-        isCorrectAnswer = true;
-        onSocketItem.GetComponent<Collider2D>().enabled = false;
-        
-        
-        //In Correct Effect
-        lineRenderer.colorGradient = correctGradient;//test
-
-
+        Parts_Net.Cmd_SetCorrect(true);
     }
 
-   
+    public void Net_SetCorrectEffect()
+    {
+        lineRenderer.colorGradient = correctGradient;
+    }
     private void WrongAnswer()
     {
         //RemoveSocket(true);
@@ -217,10 +164,10 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     // {
     //     Parts_Net.CmdRemoveSocket(onEffect);
     // }
-    public void Net_InCorrectAnswer()
-    {
-        InCorrectAnswer();
-    }
+    //public void Net_InCorrectAnswer()
+    //{
+    //    InCorrectAnswer();
+    //}
     // public void Net_Lock()
     // {
     //     col.enabled = false;
@@ -229,25 +176,28 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     //     _holderClosed.SetActive(true);
     // }
 
-    public void Net_UnLock()
-    {
-        if (onSocketItem)
-        {
-            onSocketItem.RemoveSocket(true);
-            onSocketItem = null;
-            HideEButton();
-        }
+    //public void Net_UnLock()
+    //{
+    //    if (onSocketItem)
+    //    {
+    //        onSocketItem.RemoveSocket(true);
+    //        onSocketItem = null;
+    //        HideEButton();
+    //    }
 
-        isCorrectAnswer = false;
-       //animation
-       lineRenderer.colorGradient = wrongGradient;
-       _holderOpened.SetActive(true);
-       _holderClosed.SetActive(false);
-    }
+    //    isCorrectAnswer = false;
+    //   //animation
+    //   lineRenderer.colorGradient = wrongGradient;
+    //   _holderOpened.SetActive(true);
+    //   _holderClosed.SetActive(false);
+    //}
     #endregion
 
+
+    
+
     private void OnTriggerEnter2D(Collider2D collider){
-        if(isCorrectAnswer) return;
+        if(OnCorrect) return;
          if(collider.TryGetComponent(out HookSM component)){
             Transform grabItem = component.GetGrabbedItem();
             if(grabItem != null){
@@ -260,7 +210,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
             }
             else
             {
-                if (onSocketItem)
+                if (OnSocket)
                 {
                     ShowBtn();
                 }
@@ -307,9 +257,10 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     #endregion
 
     #region Interaction
+    private bool IsCorrectAnswer => Parts_Net.isCorrectAnswer;
     public void Interaction(Transform accessor = null)
     {
-        if (onSocketItem != null && !isCorrectAnswer)
+        if ( OnSocket && !IsCorrectAnswer)
         {
             //RemoveSocket();
             // Parts_Net.CmdRemoveSocket(false);
@@ -358,4 +309,6 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
             Mathf.RoundToInt(transform.position.y)
             );
     }
+
+
 }
