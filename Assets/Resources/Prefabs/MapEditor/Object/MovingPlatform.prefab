@@ -130,6 +130,7 @@ MonoBehaviour:
   transformID: 0
   position: {x: 0, y: 0}
   distructionStatus: 0
+  chargeRequired: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
@@ -161,7 +162,7 @@ MonoBehaviour:
   _LimitVelocity: 2
   layerMask:
     serializedVersion: 2
-    m_Bits: 3097600
+    m_Bits: 1000448
   _MovingPlatform: {fileID: 280356420529785168}
 --- !u!114 &3602550238883226528
 MonoBehaviour:
