@@ -4901,7 +4901,7 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 24069568
-  _isEnabled: 0
+  _isEnabled: 1
   hitEffectParticle: {fileID: 7676629228877518604}
 --- !u!61 &5690823865466912599
 BoxCollider2D:
@@ -14805,7 +14805,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5260708701647465726}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -14914,7 +14914,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7732277339000004859
 Transform:
   m_ObjectHideFlags: 0

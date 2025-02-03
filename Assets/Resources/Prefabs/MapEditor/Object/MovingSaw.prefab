@@ -5116,7 +5116,7 @@ MonoBehaviour:
   target: {fileID: 1621393986771204216}
   syncPosition: 1
   syncRotation: 1
-  syncScale: 0
+  syncScale: 1
   onlySyncOnChange: 1
   compressRotation: 1
   interpolatePosition: 1
@@ -5201,9 +5201,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parents: {fileID: 0}
+  onHierarchy: 0
+  debugmodeTransform: {fileID: 0}
   curPath: []
   line: {fileID: 0}
-  onHierarchy: 0
 --- !u!114 &7338807210957550940
 MonoBehaviour:
   m_ObjectHideFlags: 0
