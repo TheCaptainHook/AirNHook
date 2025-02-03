@@ -216,22 +216,23 @@ public class Portal : ActivatableObjectEntity
         //TODO Take Care logic : Cant Move Player 
         rg.simulated = false;
 
-        // FindTargetPortal();
         targetPortal.onPrograss = true;
 
         // FadeOut
-        //yield return MapEditor.Instance.fadeInOutPanel.FadeIn();
-        //Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.PortalSpace_TimeTransitionEffect();
+        
         Portal_Net.Cmd_CameraEffect();
-        player.transform.position = Portal_Net.targetPortalPosition + Vector2.up;
+
+        //player.transform.position = Portal_Net.targetPortalPosition + Vector2.up;
+        Portal_Net.Cmd_Portal(player);
 
         //Finish
-        //yield return MapEditor.Instance.fadeInOutPanel.FadeOut();
-       
+
         yield return new WaitForSeconds(1f);
         //TODO 1206, AcData Update
         //Managers.AcManager.CallUsePortal();
+        
         Portal_Net.Cmd_CallUsePortal();
+
         rg.simulated = true;
         yield return new WaitForSeconds(1f);
         //portalCoroutine = null;

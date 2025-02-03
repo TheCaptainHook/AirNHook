@@ -28,6 +28,15 @@ public class Portal_Net : NetworkBehaviour
     }
 
 
-
+    [Command(requiresAuthority = false)]
+    public void Cmd_Portal(GameObject obj)
+    {
+        Rpc_Portal(obj);
+    }
+    [ClientRpc]
+    public void Rpc_Portal(GameObject obj)
+    {
+        obj.transform.position = targetPortalPosition + Vector2.up;
+    }
 
 }
