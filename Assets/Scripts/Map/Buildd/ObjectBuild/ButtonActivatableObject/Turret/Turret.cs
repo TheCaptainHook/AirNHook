@@ -1,7 +1,6 @@
 
 using System;
-using Mirror;
-using Org.BouncyCastle.Crypto.Digests;
+
 using UnityEngine;
 
 public class Turret : ActivatableObjectEntity
@@ -107,10 +106,10 @@ public class Turret : ActivatableObjectEntity
     //    }
 
     //}
-    public void RotateAnimation(bool onLeft)
-    {
-        animator.SetBool(Left, onLeft);
-    }
+    //public void RotateAnimation(bool onLeft)
+    //{
+    //    animator.SetBool(Left, onLeft);
+    //}
 
     protected override void Activation()
     {
@@ -131,10 +130,10 @@ public class Turret : ActivatableObjectEntity
         Activation();
     }
 
-    public void TurnOnAnimation()
-    {
-        animator.SetBool(Activated, true);
-    }
+    //public void TurnOnAnimation()
+    //{
+    //    animator.SetBool(Activated, true);
+    //}
 
     #region Main
     //private void TrackOrFire()

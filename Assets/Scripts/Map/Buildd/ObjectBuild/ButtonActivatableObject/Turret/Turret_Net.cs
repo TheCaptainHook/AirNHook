@@ -7,25 +7,30 @@ public class Turret_Net : NetworkBehaviour
 {
     private Turret Turret => GetComponent<Turret>();
 
-
+    #region Animator
+    readonly int Left = Animator.StringToHash("Left");
+    readonly int Activated = Animator.StringToHash("Activated");
+    #endregion
+    [Space(20)]
     [SerializeField] Transform firePoint;
     [SerializeField] ParticleSystem fireEffect;
 
     [SerializeField] GameObject ammoPrefab;
+    [SerializeField] Animator animator;
+    [Header("--------------------------------------------")]
+    [Space(20)]
 
-
-    [SyncVar] public ButtonActivatableObjectStruct data;
+    //[SyncVar] public ButtonActivatableObjectStruct data;
 
     ///Init Data
+    [Header("Sync Data")]
     [SyncVar] public float rotateRate;
     [SyncVar] public bool onHoldRotation;
     [SyncVar] public float fireRate;
 
     [SyncVar(hook =nameof(ChangeOnLeft))] 
     public bool onLeft;
-    
-
-
+ 
     [SyncVar] public bool onFire;
     [SyncVar] public float curFireTime;
     [SyncVar] public float curRotateTime;
@@ -38,6 +43,7 @@ public class Turret_Net : NetworkBehaviour
 
     private void Update()
     {
+        if (!isServer) return;
         MainLogic();
     }
 
@@ -72,19 +78,21 @@ public class Turret_Net : NetworkBehaviour
     [Server]
     public void SetData(ButtonActivatableObjectStruct data)
     {
-        this.data = data;
         rotateRate = data.rotateRate;
         onHoldRotation = data.onHoldRotation;
         fireRate = data.fireRate;
         onLeft = data.onLeft;
 
         gameObject.transform.position = data.position;
-        Turret.TurnOnAnimation();
+        //Turret.TurnOnAnimation();
+        animator.SetBool(Activated, true);
     }
 
     private void ChangeOnLeft(bool old, bool newVal)
     {
-        Turret.RotateAnimation(newVal);
+        //Turret.RotateAnimation(newVal);
+        animator.SetBool(Left, newVal);
+
     }
     #endregion
 
