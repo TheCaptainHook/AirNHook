@@ -2,6 +2,7 @@ using Mirror;
 using UnityEngine;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class StageManager
 {
@@ -43,6 +44,28 @@ public class StageManager
     //    NetworkServer.Spawn(obj, NetworkServer.localConnection);
     //}
 
+    Dictionary<string, List<uint>> dic;
+
+    [Server]
+    public void SetDic(GameObject obj,string trName)
+    {
+        if (dic == null) dic = new();
+        if(!dic.ContainsKey(trName)) dic[trName] = new List<uint>();
+
+        if(obj.TryGetComponent(out NetworkIdentity component))
+        {
+            uint netId = component.netId;
+            dic[trName].Add(netId);
+        }
+
+    }
+
+    [Server]
+    public void Clear_Dic()
+    {
+        dic.Clear();
+    }
+
     [Command]
     public void CmdBatchObject<T>(string objName, T data, string trName)
     {
@@ -54,7 +77,10 @@ public class StageManager
 
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
 
+        SetDic(obj, trName);
+
         obj.GetComponent<BuildObj>().SetData(data);
+
 
         Transform parent = null;
         foreach (Transform tr in MapEditor.Instance.mapObjBoxTransform)
@@ -68,6 +94,39 @@ public class StageManager
         if (parent != null)
             obj.transform.SetParent(parent);
 
+    }
+
+
+    public void NetworkObject_SetParent()
+    {
+
+        Debug.Log("Set parent");
+        foreach (var item in dic )
+        {         
+            Transform  parent = GetMapEditorTransform(item.Key);
+            foreach(uint id in item.Value)
+            {
+                Transform tr = GetNetworkIdentity(id).gameObject.transform;
+                tr.SetParent(parent);
+            }
+        }
+
+    }
+    
+    private Transform GetMapEditorTransform(string trName)
+    {
+        foreach (Transform tr in MapEditor.Instance.mapObjBoxTransform)
+        {
+            if (tr.name == trName)
+            {
+                return tr;
+            }
+        }
+        return null;
+    }
+    private NetworkIdentity GetNetworkIdentity(uint id)
+    {
+        return NetworkClient.spawned.TryGetValue(id,out NetworkIdentity identity) ? identity : null;
     }
 
     // [ClientRpc]

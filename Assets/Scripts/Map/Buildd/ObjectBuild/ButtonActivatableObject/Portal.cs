@@ -190,8 +190,9 @@ public class Portal : ActivatableObjectEntity
     private void ActiveOnRay(){
         RaycastHit2D hit = Physics2D.Raycast(transform.position,transform.up,.5f,layer);
         if(hit.collider != null){
+            
                 if(!onPrograss){
-                    StartCoroutine(CoPortal());
+                    StartCoroutine(CoPortal(hit.collider.gameObject));
                 } 
         }
        
@@ -201,11 +202,15 @@ public class Portal : ActivatableObjectEntity
     Gizmos.DrawRay(transform.position,transform.up*.5f);
    }
 
-    IEnumerator CoPortal()
+    IEnumerator CoPortal(GameObject targetObj)
     {
         onPrograss = true;
-        GameObject player = Managers.Game.Player;
+        //GameObject player = Managers.Game.Player;
+        GameObject player = targetObj;
         Rigidbody2D rg = player.GetComponent<Rigidbody2D>();
+
+        if (rg == null) yield break;
+
         //TODO Take Care logic : Cant Move Player 
         rg.simulated = false;
 

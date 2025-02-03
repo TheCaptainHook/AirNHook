@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Mirror;
+using Org.BouncyCastle.Asn1.X509;
 using UnityEngine;
 
 public class CustomNetworkManager : NetworkManager
@@ -198,6 +199,9 @@ public class CustomNetworkManager : NetworkManager
         };
 
         NetworkClient.Send(characterMessage);
+
+        //TEST 250203
+        Managers.Stage.NetworkObject_SetParent();
     }
     #endregion
 }
