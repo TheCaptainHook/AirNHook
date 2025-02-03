@@ -23,6 +23,7 @@ public class Portal : ActivatableObjectEntity
     [SerializeField] private Animator _animator;
     [SerializeField] GameObject _TpEffect;
     
+    private Portal_Net Portal_Net => GetComponent<Portal_Net>();
     #region StringCache
     private static readonly int IsActive = Animator.StringToHash("IsActive");
     #endregion
@@ -49,7 +50,8 @@ public class Portal : ActivatableObjectEntity
          ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
          ButtonActivatedObjectStruct = objData;
          targetPosition = objData.talPot;
-
+            
+         Portal_Net.SetTargetPortal(targetPosition); ;
         }
         }catch{
                 Debug.Log($"ERROR,{typeof(T)}");
@@ -219,15 +221,17 @@ public class Portal : ActivatableObjectEntity
 
         // FadeOut
         //yield return MapEditor.Instance.fadeInOutPanel.FadeIn();
-        Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.PortalSpace_TimeTransitionEffect();
-        player.transform.position = targetPosition + Vector2.up;
+        //Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.PortalSpace_TimeTransitionEffect();
+        Portal_Net.Cmd_CameraEffect();
+        player.transform.position = Portal_Net.targetPortalPosition + Vector2.up;
 
         //Finish
         //yield return MapEditor.Instance.fadeInOutPanel.FadeOut();
        
         yield return new WaitForSeconds(1f);
         //TODO 1206, AcData Update
-        Managers.AcManager.CallUsePortal();
+        //Managers.AcManager.CallUsePortal();
+        Portal_Net.Cmd_CallUsePortal();
         rg.simulated = true;
         yield return new WaitForSeconds(1f);
         //portalCoroutine = null;
