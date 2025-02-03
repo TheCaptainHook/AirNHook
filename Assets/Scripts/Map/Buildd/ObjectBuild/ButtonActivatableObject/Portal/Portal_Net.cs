@@ -64,20 +64,20 @@ public class Portal_Net : NetworkBehaviour
 
 
 
-    [TargetRpc]
-    public void Target_CameraEffect(NetworkConnection target)
-    {
-        if (Camera.main != null)
-        {
-            Camera.main.GetComponent<PlayerCameraView>()?._CameraGlobalVolumeController?
-                .PortalSpace_TimeTransitionEffect();
-        }
-    }
+    //[TargetRpc]
+    //public void Target_CameraEffect(NetworkConnection target)
+    //{
+    //    if (Camera.main != null)
+    //    {
+    //        Camera.main.GetComponent<PlayerCameraView>()?._CameraGlobalVolumeController?
+    //            .PortalSpace_TimeTransitionEffect();
+    //    }
+    //}
 
     [Command]
     public void Cmd_UsePortal(GameObject obj)
     {
-        Target_CameraEffect(connectionToClient);
+        //Target_CameraEffect(connectionToClient);
         UsePortal(obj);
 
     }
