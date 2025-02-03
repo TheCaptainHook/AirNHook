@@ -6,13 +6,23 @@ using Unity.VisualScripting;
 
 public class Portal_Net : NetworkBehaviour
 {
+    [SerializeField] GameObject _TpEffect;
+    [Space(20)]
+    [Header("------------------------------------")]
     [SyncVar] public Vector2 targetPortalPosition;
     [SyncVar] public bool onPrograss;
 
     [SyncVar] public GameObject targetPortal;
 
-    private Portal Portal => GetComponent<Portal>();
 
+    [SyncVar(hook = nameof(ChangeOnActive))] public bool onActive;
+
+    #region StringCache
+    private static readonly int IsActive = Animator.StringToHash("IsActive");
+    #endregion
+
+    private Portal Portal => GetComponent<Portal>();
+    private Animator Animator => GetComponent<Animator>();
     [Server]
     public void SetTargetPortal(Vector2 targetPortalPosition)
     {
@@ -55,7 +65,25 @@ public class Portal_Net : NetworkBehaviour
         onPrograss = !onPrograss;
     }
 
- 
+    [Server] //sync
+    public void Server_SetOnActive(bool val)
+    {
+        onActive = val;
+    }
+
+    private void ChangeOnActive(bool old,bool newVal)
+    {
+        Animator.SetBool(IsActive, newVal);
+        _TpEffect.SetActive(newVal);
+
+    }
+    [Command]
+    public void Cmd_CallSetOnActive(bool val)
+    {
+        Server_SetOnActive(val);
+    }
+
+
 
     [ClientRpc]
     public void Rpc_TransmitPosition(GameObject obj)

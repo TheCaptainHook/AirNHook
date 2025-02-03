@@ -5396,7 +5396,11 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  _TpEffect: {fileID: 2840986932733129456}
+  targetPortalPosition: {x: 0, y: 0}
+  onPrograss: 0
   targetPortal: {fileID: 0}
+  onActive: 0
 --- !u!1 &5269584977423057727
 GameObject:
   m_ObjectHideFlags: 0

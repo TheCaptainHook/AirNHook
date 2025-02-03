@@ -24,10 +24,7 @@ public class Portal : ActivatableObjectEntity
     [SerializeField] GameObject _TpEffect;
     
     private Portal_Net Portal_Net => GetComponent<Portal_Net>();
-    #region StringCache
-    private static readonly int IsActive = Animator.StringToHash("IsActive");
-    #endregion
-
+  
     #region Get,Set
 
     private void Awake(){
@@ -155,23 +152,25 @@ public class Portal : ActivatableObjectEntity
     #endregion
     #region Portal Logic
     private void FixedUpdate(){
-        if(onActivable){
+        if(Portal_Net.onActive){
             ActiveOnRay();
         }
     }
 
     protected override void Activation()
     {
-        _animator.SetBool(IsActive, true);
-        _TpEffect.SetActive(true);
-        onActivable = true;
+        //_animator.SetBool(IsActive, true);
+        //_TpEffect.SetActive(true);
+        //onActivable = true;
+        Portal_Net.Cmd_CallSetOnActive(true);
     }
 
     protected override void Deactivated()
     {
-        _animator.SetBool(IsActive, false);
-        _TpEffect.SetActive(false);
-        onActivable= false;
+        //_animator.SetBool(IsActive, false);
+        //_TpEffect.SetActive(false);
+        //onActivable= false;
+        Portal_Net.Cmd_CallSetOnActive(false);
     }
 
 

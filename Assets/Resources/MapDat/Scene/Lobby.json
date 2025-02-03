@@ -8391,7 +8391,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.449998378753662,
+                "y": 1.4499982595443726,
                 "z": 1.0
             },
             "talPot": {
@@ -8504,7 +8504,7 @@
         },
         {
             "id": 322,
-            "activeRequirAmount": 0,
+            "activeRequirAmount": 1,
             "chargeRequired": false,
             "jumpingPower": 0,
             "position": {
@@ -8541,7 +8541,7 @@
         },
         {
             "id": 322,
-            "activeRequirAmount": 0,
+            "activeRequirAmount": 1,
             "chargeRequired": false,
             "jumpingPower": 0,
             "position": {
@@ -8796,6 +8796,36 @@
             "hintPosition": {
                 "x": -16.479999542236329,
                 "y": 1.2100000381469727
+            },
+            "chargeRequired": false
+        },
+        {
+            "id": 306,
+            "position": {
+                "x": -5.150000095367432,
+                "y": -6.010000228881836
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "targetPositions": [
+                {
+                    "x": 5.519999980926514,
+                    "y": 0.019999999552965165
+                },
+                {
+                    "x": 2.059999942779541,
+                    "y": -5.989999771118164
+                }
+            ],
+            "onHint": false,
+            "partsPositions": [],
+            "itemPositions": [],
+            "hintPosition": {
+                "x": 0.0,
+                "y": 0.0
             },
             "chargeRequired": false
         }
