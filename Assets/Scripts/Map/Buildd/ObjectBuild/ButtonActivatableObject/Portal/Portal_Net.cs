@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using Unity.VisualScripting;
 
 public class Portal_Net : NetworkBehaviour
 {
@@ -64,20 +65,25 @@ public class Portal_Net : NetworkBehaviour
 
 
 
-    //[TargetRpc]
-    //public void Target_CameraEffect(NetworkConnection target)
-    //{
-    //    if (Camera.main != null)
-    //    {
-    //        Camera.main.GetComponent<PlayerCameraView>()?._CameraGlobalVolumeController?
-    //            .PortalSpace_TimeTransitionEffect();
-    //    }
-    //}
+    [TargetRpc]
+    public void Target_CameraEffect(NetworkConnection target)
+    {
+        if (Camera.main != null)
+        {
+            Camera.main.GetComponent<PlayerCameraView>()?._CameraGlobalVolumeController?
+                .PortalSpace_TimeTransitionEffect();
+        }
+        Debug.Log("Target!");
+
+    }
 
     [Command]
     public void Cmd_UsePortal(GameObject obj)
     {
-        //Target_CameraEffect(connectionToClient);
+        var netIdentity = obj.GetComponent<NetworkIdentity>();
+        var playerConn = netIdentity.connectionToClient;
+        Target_CameraEffect(playerConn);
+
         UsePortal(obj);
 
     }

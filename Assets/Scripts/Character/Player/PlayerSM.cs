@@ -418,12 +418,4 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     #endregion
 
 
-
-
-    //test 
-    public void UsePortCamerEffect()
-    {
-        Camera.main.GetComponent<PlayerCameraView>()?._CameraGlobalVolumeController?
-               .PortalSpace_TimeTransitionEffect();
-    }
 }

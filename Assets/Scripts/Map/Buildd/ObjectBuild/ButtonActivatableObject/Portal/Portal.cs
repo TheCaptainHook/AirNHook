@@ -201,7 +201,7 @@ public class Portal : ActivatableObjectEntity
             
                 if(!Portal_Net.onPrograss){
                 //StartCoroutine(CoPortal(hit.collider.gameObject));
-                    hit.collider.GetComponent<PlayerSM>().UsePortCamerEffect();
+                    //hit.collider.GetComponent<PlayerSM>().UsePortCamerEffect();
                     Portal_Net.Cmd_UsePortal(hit.collider.gameObject);
                 } 
         }
