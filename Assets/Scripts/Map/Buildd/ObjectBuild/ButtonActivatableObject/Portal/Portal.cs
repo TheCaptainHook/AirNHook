@@ -13,7 +13,7 @@ public class Portal : ActivatableObjectEntity
     [ReadOnly]
     public Vector2 targetPosition;
 
-    bool onPrograss;
+    //bool onPrograss;
     [ReadOnly]
     public bool onActivable;
     //private Coroutine portalCoroutine;
@@ -71,7 +71,8 @@ public class Portal : ActivatableObjectEntity
         foreach(Transform tr in MapEditor.Instance.buttonActivatableObjectTransform){
             if(tr.TryGetComponent(out Portal component)){
                 if(targetPosition == (Vector2)component.transform.position){
-                    targetPortal = component;
+                    //targetPortal = component;
+                    Portal_Net.SetTargetPortal(component.gameObject);
                     return;
                 }
             }
@@ -146,7 +147,12 @@ public class Portal : ActivatableObjectEntity
 
     #endregion
 
-
+    #region Network
+    public void Net_ChangeOnPrograss()
+    {
+        Portal_Net.Server_ChangePrograss();
+    }
+    #endregion
     #region Portal Logic
     private void FixedUpdate(){
         if(onActivable){
@@ -193,8 +199,9 @@ public class Portal : ActivatableObjectEntity
         RaycastHit2D hit = Physics2D.Raycast(transform.position,transform.up,.5f,layer);
         if(hit.collider != null){
             
-                if(!onPrograss){
-                    StartCoroutine(CoPortal(hit.collider.gameObject));
+                if(!Portal_Net.onPrograss){
+                //StartCoroutine(CoPortal(hit.collider.gameObject));
+                    Portal_Net.Cmd_UsePortal(hit.collider.gameObject);
                 } 
         }
        
@@ -204,44 +211,47 @@ public class Portal : ActivatableObjectEntity
     Gizmos.DrawRay(transform.position,transform.up*.5f);
    }
 
-    IEnumerator CoPortal(GameObject targetObj)
-    {
-        onPrograss = true;
-        //GameObject player = Managers.Game.Player;
-        GameObject player = targetObj;
-        Rigidbody2D rg = player.GetComponent<Rigidbody2D>();
+    //IEnumerator CoPortal(GameObject targetObj)
+    //{
+    //    onPrograss = true;
+    //    //GameObject player = Managers.Game.Player;
+    //    GameObject player = targetObj;
+    //    Rigidbody2D rg = player.GetComponent<Rigidbody2D>();
 
-        if (rg == null) yield break;
+    //    if (rg == null) yield break;
 
-        //TODO Take Care logic : Cant Move Player 
-        rg.simulated = false;
+    //    //TODO Take Care logic : Cant Move Player 
+    //    //rg.simulated = false;
+    //    //Portal_Net.Cmd_HoldPlayer(player);
 
-        targetPortal.onPrograss = true;
+    //    //targetPortal.onPrograss = true;
 
-        // FadeOut
+    //    // FadeOut
+
+    //    //Portal_Net.Cmd_CameraEffect();
+    //    //Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.PortalSpace_TimeTransitionEffect();
+
+    //    //player.transform.position = Portal_Net.targetPortalPosition + Vector2.up;
+    //    Portal_Net.Cmd_Portal(player);
+
+    //    //Finish
+
+    //    yield return new WaitForSeconds(1f);
+    //    //TODO 1206, AcData Update
+    //    //Managers.AcManager.CallUsePortal();
         
-        Portal_Net.Cmd_CameraEffect();
+    //    Portal_Net.Cmd_CallUsePortal();
 
-        //player.transform.position = Portal_Net.targetPortalPosition + Vector2.up;
-        Portal_Net.Cmd_Portal(player);
+    //    //rg.simulated = true;
+    //    Portal_Net.Cmd_RecoverPlayer(player);
+    //    yield return new WaitForSeconds(1f);
+    //    //portalCoroutine = null;
+    //    onPrograss = false;
+    //    //targetPortal.onPrograss = false;
 
-        //Finish
-
-        yield return new WaitForSeconds(1f);
-        //TODO 1206, AcData Update
-        //Managers.AcManager.CallUsePortal();
+    //    //TODO Take Care logic : Can Move Player 
         
-        Portal_Net.Cmd_CallUsePortal();
-
-        rg.simulated = true;
-        yield return new WaitForSeconds(1f);
-        //portalCoroutine = null;
-        onPrograss = false;
-        targetPortal.onPrograss = false;
-
-        //TODO Take Care logic : Can Move Player 
-        
-    }
+    //}
 
     // public bool CanInteract()
     // {
