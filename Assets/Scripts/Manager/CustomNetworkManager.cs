@@ -201,7 +201,7 @@ public class CustomNetworkManager : NetworkManager
         NetworkClient.Send(characterMessage);
 
         //TEST 250203
-        Managers.Stage.NetworkObject_SetParent();
+        //Managers.Stage.NetworkObject_SetParent();
     }
     #endregion
 }

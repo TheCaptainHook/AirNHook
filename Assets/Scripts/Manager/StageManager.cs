@@ -1,8 +1,7 @@
 using Mirror;
 using UnityEngine;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+
+
 
 public class StageManager
 {
@@ -45,7 +44,7 @@ public class StageManager
     //}
 
 
-    SyncDictionary<string, SyncList<uint>> dic;
+    public SyncDictionary<string, SyncList<uint>> dic;
 
     //Dictionary<string, List<uint>> dic;
 
@@ -100,30 +99,41 @@ public class StageManager
     }
 
 
-    [Server]
+    [Command]
     public void Server_SetParent()
-    {
-        Rpc_SetParent(dic);
-    }
-    [ClientRpc]
-    private void Rpc_SetParent(SyncDictionary<string, SyncList<uint>> dic)
     {
         foreach (var item in dic)
         {
-            Transform parent = GetMapEditorTransform(item.Key);
+            //Transform parent = GetMapEditorTransform(item.Key);
+            Debug.Log($"parent {GetMapEditorTransform(item.Key)}");
             foreach (uint id in item.Value)
             {
-                Transform tr = GetNetworkIdentity(id).gameObject.transform;
-                tr.SetParent(parent);
+                //Transform tr = GetNetworkIdentity(id).gameObject.transform;
+                //tr.SetParent(parent);
+                Debug.Log($"id : {id}");
             }
         }
     }
+    //[ClientRpc]
+    //private void Rpc_SetParent(SyncDictionary<string, SyncList<uint>> dic)
+    //{
+    //    foreach (var item in dic)
+    //    {
+    //        //Transform parent = GetMapEditorTransform(item.Key);
+    //        Debug.Log($"parent {GetMapEditorTransform(item.Key)}");
+    //        foreach (uint id in item.Value)
+    //        {
+    //            //Transform tr = GetNetworkIdentity(id).gameObject.transform;
+    //            //tr.SetParent(parent);
+    //            Debug.Log($"id : {id}");
+    //        }
+    //    }
+    //}
 
     [Command]
     public void NetworkObject_SetParent()
     {
         Server_SetParent();
-
     }
     
     private Transform GetMapEditorTransform(string trName)
@@ -200,11 +210,5 @@ public class StageManager
     #endregion
 
 
-
-    public async Task Delay() //todo 0425
-    {
-        Task delayTask = Task.Delay(100);
-        await delayTask;
-    }
 
 }
