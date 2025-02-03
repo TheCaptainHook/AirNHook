@@ -20,6 +20,14 @@ public class Turret : ActivatableObjectEntity
 
     public float curTime;
 
+
+    [ReadOnly]
+    public bool isClient;
+
+    #region Network
+    private Turret_Net Turret_Net => GetComponent<Turret_Net>();
+    #endregion
+
     #region Fire
     public float curFireTime;
     private bool onFire;
@@ -72,6 +80,8 @@ public class Turret : ActivatableObjectEntity
 
     private void Update()
     {
+        if (isClient) return;
+
         if (!onFire)
         {
             curFireTime += Time.deltaTime;
@@ -88,7 +98,8 @@ public class Turret : ActivatableObjectEntity
             if (curFireTime >= fireRate)
             {
                 onFire = true;
-                Fire();
+                //Fire();
+                Turret_Net.Fire();
             }
         }
 
@@ -137,25 +148,35 @@ public class Turret : ActivatableObjectEntity
     //}
 
 
-    private void Fire()
-    {
-        ReloadAmmo();
-        fireEffect.Play();
+    //private void Fire()
+    //{
+    //    ReloadAmmo();
+    //    fireEffect.Play();
 
+    //    onFire = false;
+    //    curFireTime = 0;
+
+    //}
+    
+    public void Net_Effect()
+    {
+        fireEffect.Play();
+    }
+    public void ReadyToFire()
+    {
         onFire = false;
         curFireTime = 0;
-
     }
 
-    private void ReloadAmmo()
-    {
-        // Projectile_Arrow arrow =  Managers.Pooling.N_GetItme<Projectile_Arrow>().GetComponent<Projectile_Arrow>();
-        Projectile_Shell shell = Managers.Pooling.N_GetItme(typeof(Projectile_Shell).Name).GetComponent<Projectile_Shell>();
-        Vector2 target = firePoint.TransformPoint(Vector2.zero);
-        shell.Setting(target, firePoint.right);
-        shell.gameObject.SetActive(true);
+    //private void ReloadAmmo()
+    //{
+    //    // Projectile_Arrow arrow =  Managers.Pooling.N_GetItme<Projectile_Arrow>().GetComponent<Projectile_Arrow>();
+    //    Projectile_Shell shell = Managers.Pooling.N_GetItme(typeof(Projectile_Shell).Name).GetComponent<Projectile_Shell>();
+    //    Vector2 target = firePoint.TransformPoint(Vector2.zero);
+    //    shell.Setting(target, firePoint.right);
+    //    shell.gameObject.SetActive(true);
 
-    }
+    //}
 #endregion
 
 }
