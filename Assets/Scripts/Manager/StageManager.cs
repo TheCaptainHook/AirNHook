@@ -44,13 +44,16 @@ public class StageManager
     //    NetworkServer.Spawn(obj, NetworkServer.localConnection);
     //}
 
-    Dictionary<string, List<uint>> dic;
+
+    SyncDictionary<string, SyncList<uint>> dic;
+
+    //Dictionary<string, List<uint>> dic;
 
     [Server]
     public void SetDic(GameObject obj,string trName)
     {
         if (dic == null) dic = new();
-        if(!dic.ContainsKey(trName)) dic[trName] = new List<uint>();
+        if(!dic.ContainsKey(trName)) dic[trName] = new SyncList<uint>();
 
         if(obj.TryGetComponent(out NetworkIdentity component))
         {
@@ -97,9 +100,11 @@ public class StageManager
     }
 
 
+
+
+    [Command]
     public void NetworkObject_SetParent()
     {
-
         Debug.Log("Set parent");
         foreach (var item in dic )
         {         
