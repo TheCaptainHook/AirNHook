@@ -1,6 +1,7 @@
 
 using System;
 using Mirror;
+using Org.BouncyCastle.Crypto.Digests;
 using UnityEngine;
 
 public class Turret : ActivatableObjectEntity
@@ -19,10 +20,6 @@ public class Turret : ActivatableObjectEntity
     [SerializeField] ParticleSystem fireEffect;
 
     public float curTime;
-
-
-    [ReadOnly]
-    public bool isClient;
 
     #region Network
     private Turret_Net Turret_Net => GetComponent<Turret_Net>();
@@ -56,19 +53,27 @@ public class Turret : ActivatableObjectEntity
         {
             if (typeof(T) == typeof(ButtonActivatableObjectStruct))
             {
+                if(Application.isPlaying)
+                {
+                    animator = GetComponent<Animator>();
+                    Turret_Net.SetData((ButtonActivatableObjectStruct)(object)data);
+                }
+                else
+                {
+                    animator = GetComponent<Animator>();
 
-                animator = GetComponent<Animator>();
-                
-                ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
-                ButtonActivatedObjectStruct = objData;
-                rotateRate = objData.rotateRate;
-                onLeft = objData.onLeft;
-                onHoldRotation = objData.onHoldRotation;
-                fireRate = objData.fireRate;
+                    ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
+                    ButtonActivatedObjectStruct = objData;
+                    rotateRate = objData.rotateRate;
+                    onLeft = objData.onLeft;
+                    onHoldRotation = objData.onHoldRotation;
+                    fireRate = objData.fireRate;
+                }
+             
 
-                if (onLeft) animator.SetBool(Left, onLeft);
+                //if (onLeft) animator.SetBool(Left, onLeft);
 
-                animator.SetBool(Activated, true);
+                //animator.SetBool(Activated, true);
             }
         }
         catch(Exception ex)
@@ -78,43 +83,47 @@ public class Turret : ActivatableObjectEntity
     }
     #endregion
 
-    private void Update()
+    //private void Update()
+    //{
+    //    if (!onFire)
+    //    {
+    //        curFireTime += Time.deltaTime;
+    //        curTime += Time.deltaTime;
+
+    //        if (curTime >= rotateRate &&!onHoldRotation)
+    //        {
+    //            curTime = 0;
+    //            curFireTime = 0;
+    //            onLeft = !onLeft;
+    //            animator.SetBool(Left, onLeft);
+    //        }
+
+    //        if (curFireTime >= fireRate)
+    //        {
+    //            onFire = true;
+    //            //Fire();
+    //            Turret_Net.Cmd_Fire();
+    //        }
+    //    }
+
+    //}
+    public void RotateAnimation(bool onLeft)
     {
-        if (isClient) return;
-
-        if (!onFire)
-        {
-            curFireTime += Time.deltaTime;
-            curTime += Time.deltaTime;
-
-            if (curTime >= rotateRate &&!onHoldRotation)
-            {
-                curTime = 0;
-                curFireTime = 0;
-                onLeft = !onLeft;
-                animator.SetBool(Left, onLeft);
-            }
-
-            if (curFireTime >= fireRate)
-            {
-                onFire = true;
-                //Fire();
-                Turret_Net.Fire();
-            }
-        }
-
+        animator.SetBool(Left, onLeft);
     }
 
     protected override void Activation()
     {
-        onLeft = !onLeft;
-        curTime = 0;
-        curFireTime = 0;
-        animator.SetBool(Left, onLeft);
+        //onLeft = !onLeft;
+        //curTime = 0;
+        //curFireTime = 0;
+        //animator.SetBool(Left, onLeft);
+        Turret_Net.Cmd_Activation();
     }
     protected override void Deactivated()
     {
-        Activation();
+        //Activation();;
+        Turret_Net.Cmd_Activation();
     }
 
     public override void CheckActiveRequirAmount()
@@ -122,6 +131,10 @@ public class Turret : ActivatableObjectEntity
         Activation();
     }
 
+    public void TurnOnAnimation()
+    {
+        animator.SetBool(Activated, true);
+    }
 
     #region Main
     //private void TrackOrFire()
@@ -158,15 +171,11 @@ public class Turret : ActivatableObjectEntity
 
     //}
     
-    public void Net_Effect()
+    public void Fire_Effect()
     {
         fireEffect.Play();
     }
-    public void ReadyToFire()
-    {
-        onFire = false;
-        curFireTime = 0;
-    }
+
 
     //private void ReloadAmmo()
     //{

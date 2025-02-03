@@ -5225,7 +5225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 1
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0
   clientAuthority: 0
@@ -5342,7 +5342,6 @@ MonoBehaviour:
   firePoint: {fileID: 8547298488332605700}
   fireEffect: {fileID: 5325542820177514359}
   curTime: 0
-  isClient: 0
   curFireTime: 0
 --- !u!114 &3761053918402171264
 MonoBehaviour:
@@ -5361,6 +5360,32 @@ MonoBehaviour:
   syncInterval: 0
   firePoint: {fileID: 8547298488332605700}
   fireEffect: {fileID: 5325542820177514359}
+  ammoPrefab: {fileID: 3048323261120989730, guid: b1282530b78a7e845b60c9718171af26, type: 3}
+  data:
+    id: 0
+    activeRequirAmount: 0
+    chargeRequired: 0
+    jumpingPower: 0
+    position: {x: 0, y: 0}
+    quaternion: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 0, y: 0, z: 0}
+    talPot: {x: 0, y: 0}
+    rotateRate: 0
+    fireRate: 0
+    onHoldRotation: 0
+    onLeft: 0
+    paths: []
+    moveSpeed: 0
+    moveDistance: 0
+    bridgeLength: 0
+    connectionPoint: {x: 0, y: 0}
+  rotateRate: 0
+  onHoldRotation: 0
+  fireRate: 0
+  onLeft: 0
+  onFire: 0
+  curFireTime: 0
+  curRotateTime: 0
 --- !u!1 &5269584977423057727
 GameObject:
   m_ObjectHideFlags: 0

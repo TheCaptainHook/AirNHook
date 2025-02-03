@@ -8391,7 +8391,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.4499988555908204,
+                "y": 1.4499984979629517,
                 "z": 1.0
             },
             "talPot": {
@@ -8471,8 +8471,8 @@
             "chargeRequired": false,
             "jumpingPower": 0,
             "position": {
-                "x": 10.829999923706055,
-                "y": -0.09000000357627869
+                "x": 10.75,
+                "y": -0.029999999329447748
             },
             "quaternion": {
                 "x": 0.0,
@@ -8489,9 +8489,9 @@
                 "x": 0.0,
                 "y": 0.0
             },
-            "rotateRate": 0.0,
+            "rotateRate": 2.0,
             "fireRate": 1.0,
-            "onHoldRotation": true,
+            "onHoldRotation": false,
             "onLeft": false,
             "paths": [],
             "moveSpeed": 0.0,

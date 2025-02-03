@@ -11,37 +11,113 @@ public class Turret_Net : NetworkBehaviour
     [SerializeField] Transform firePoint;
     [SerializeField] ParticleSystem fireEffect;
 
- 
- 
+    [SerializeField] GameObject ammoPrefab;
+
+
+    [SyncVar] public ButtonActivatableObjectStruct data;
+
+    ///Init Data
+    [SyncVar] public float rotateRate;
+    [SyncVar] public bool onHoldRotation;
+    [SyncVar] public float fireRate;
+
+    [SyncVar(hook =nameof(ChangeOnLeft))] 
+    public bool onLeft;
+    
+
+
+    [SyncVar] public bool onFire;
+    [SyncVar] public float curFireTime;
+    [SyncVar] public float curRotateTime;
+
+
+    //onLeft : 회전
+    //curFireTime : 공격 타이머
+    //curRotateTime : 회전 타이머
+
+
+    private void Update()
+    {
+        MainLogic();
+    }
 
     [Server]
-    public void Fire()
+    private void MainLogic()
     {
-        ReloadAmmo();
-        Rpc_FireEffect();
-        Turret.ReadyToFire();
+        if (!onFire)
+        {
+            curFireTime += Time.deltaTime;
+            curRotateTime += Time.deltaTime;
 
+            if (curRotateTime >= rotateRate && !onHoldRotation)
+            {
+                curRotateTime = 0;
+                curFireTime = 0;
+                onLeft = !onLeft;
+
+            }
+
+            if (curFireTime >= fireRate)
+            {
+                //Fire();
+                Rpc_Fire();
+                curFireTime = 0;
+         
+            }
+        }
+
+    }
+
+    #region Server
+    [Server]
+    public void SetData(ButtonActivatableObjectStruct data)
+    {
+        this.data = data;
+        rotateRate = data.rotateRate;
+        onHoldRotation = data.onHoldRotation;
+        fireRate = data.fireRate;
+        onLeft = data.onLeft;
+
+        gameObject.transform.position = data.position;
+        Turret.TurnOnAnimation();
+    }
+
+    private void ChangeOnLeft(bool old, bool newVal)
+    {
+        Turret.RotateAnimation(newVal);
+    }
+    #endregion
+
+
+    [Server]
+    private void Server_Activation()
+    {
+        curFireTime = 0;
+        curRotateTime = 0;
+        onLeft = !onLeft; 
+    }
+    [Command]
+    public void Cmd_Activation()
+    {
+        Server_Activation();
     }
 
     [ClientRpc]
-    private void Rpc_FireEffect()
+    private void Rpc_Fire()
     {
-        Turret.Net_Effect();
+        Turret.Fire_Effect();
+        ReloadAmmo();
     }
+
 
     private void ReloadAmmo()
     {
-        Projectile_Shell shell = Managers.Pooling.N_GetItme(typeof(Projectile_Shell).Name).GetComponent<Projectile_Shell>();
+        //Projectile_Shell shell = Managers.Pooling.N_GetItme(typeof(Projectile_Shell).Name).GetComponent<Projectile_Shell>();
+        Projectile_Shell shell = Managers.Pooling.D_GetItem(ammoPrefab).GetComponent<Projectile_Shell>();
         Vector2 target = firePoint.TransformPoint(Vector2.zero);
         shell.Setting(target, firePoint.right);
         shell.gameObject.SetActive(true);
     }
 
 
-    public override void OnStartClient()
-    {
-        if (isServer) return;
-        base.OnStartClient();
-        Turret.isClient = true;
-    }
 }
