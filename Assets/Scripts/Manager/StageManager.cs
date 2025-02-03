@@ -100,21 +100,29 @@ public class StageManager
     }
 
 
-
-
-    [Command]
-    public void NetworkObject_SetParent()
+    [Server]
+    public void Server_SetParent()
     {
-        Debug.Log("Set parent");
-        foreach (var item in dic )
-        {         
-            Transform  parent = GetMapEditorTransform(item.Key);
-            foreach(uint id in item.Value)
+        Rpc_SetParent(dic);
+    }
+    [ClientRpc]
+    private void Rpc_SetParent(SyncDictionary<string, SyncList<uint>> dic)
+    {
+        foreach (var item in dic)
+        {
+            Transform parent = GetMapEditorTransform(item.Key);
+            foreach (uint id in item.Value)
             {
                 Transform tr = GetNetworkIdentity(id).gameObject.transform;
                 tr.SetParent(parent);
             }
         }
+    }
+
+    [Command]
+    public void NetworkObject_SetParent()
+    {
+        Server_SetParent();
 
     }
     
