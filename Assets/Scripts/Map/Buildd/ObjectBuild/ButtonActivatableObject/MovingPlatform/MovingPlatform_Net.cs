@@ -38,8 +38,8 @@ public class MovingPlatform_Net : NetworkBehaviour
     public void Server_CreateRail(Vector2[] paths)
     {
         dataPath = new DataPath(paths);
-        CreateRail();
     }
+
 
     public void CreateRail()
     {
@@ -48,30 +48,31 @@ public class MovingPlatform_Net : NetworkBehaviour
         Transform parents = MapEditor.Instance.dontSaveObjectTransform;
         Transform container = new GameObject("Rail_Container").transform;
         container.SetParent(parents);
-        
+
         //Rail Node
-        LineRenderer line = Instantiate(rail_Line_Prefabs,container);
+        LineRenderer line = Instantiate(rail_Line_Prefabs, container);
         //Draw Line
-        DrawLine(line,paths);
+        DrawLine(line, paths);
 
         Vector2 startPot = line.GetPosition(0);
-        Vector2 endPot = line.GetPosition(paths.Length-1);
-        
+        Vector2 endPot = line.GetPosition(paths.Length - 1);
+
         GameObject railNode_1;
         GameObject railNode_2;
 
-        if(startPot == endPot){
-            railNode_1 = Instantiate(rail_Node_Prefabs,container);
+        if (startPot == endPot)
+        {
+            railNode_1 = Instantiate(rail_Node_Prefabs, container);
             railNode_1.transform.position = startPot;
-        }else{
-            railNode_1 = Instantiate(rail_Node_Prefabs,container);
+        }
+        else
+        {
+            railNode_1 = Instantiate(rail_Node_Prefabs, container);
             railNode_1.transform.position = startPot;
-            railNode_2 = Instantiate(rail_Node_Prefabs,container);
+            railNode_2 = Instantiate(rail_Node_Prefabs, container);
             railNode_2.transform.position = endPot;
         }
     }
-
-
     private void DrawLine(LineRenderer line,Vector2[] path)
     {
         line.positionCount = path.Length;
@@ -79,6 +80,12 @@ public class MovingPlatform_Net : NetworkBehaviour
             line.SetPosition(i,path[i]+new Vector2(0,0.25f));
         }
         
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        CreateRail();
     }
 
 }

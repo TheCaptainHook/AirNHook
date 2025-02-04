@@ -18,9 +18,10 @@ public class WDMP_Net : NetworkBehaviour
     [Server]
     public void Server_SetData(float moveDistance)
     {
-        this.moveDistance = moveDistance;   
-       CreateRail();
+       this.moveDistance = moveDistance;   
     }
+
+
 
     private void CreateRail() //rail node, rail lineRenderer
     { 
@@ -49,7 +50,7 @@ public class WDMP_Net : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
-        Debug.Log("Sync Client");
+        CreateRail();
     }
 
 }
