@@ -624,6 +624,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41265e494dfc848f68ad0728f6ba62f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  rail_Node_Prefabs: {fileID: 7834071034627693989, guid: 4f169f16daaea482da08a58d3a53f699, type: 3}
+  rail_Line_Prefabs: {fileID: 6443439262299581446, guid: 275793db7c14f413ebce84c81e704b8d, type: 3}
+  moveDistance: 0
 --- !u!114 &6678477908738241609
 MonoBehaviour:
   m_ObjectHideFlags: 0

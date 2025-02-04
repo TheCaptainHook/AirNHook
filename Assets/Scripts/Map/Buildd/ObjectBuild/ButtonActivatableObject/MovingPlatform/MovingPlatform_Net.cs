@@ -41,7 +41,6 @@ public class MovingPlatform_Net : NetworkBehaviour
         CreateRail();
     }
 
-    [ClientRpc]
     public void CreateRail()
     {
         Vector2[] paths = dataPath.paths;

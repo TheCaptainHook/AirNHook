@@ -28,18 +28,18 @@ public class Fog_Net : NetworkBehaviour
 
     #region ------------------------------------------Inner Camer Effect
     [TargetRpc]
-    private void TRpc_InnerFogEffect(NetworkConnection target)
+    private void TRpc_InnerFogEffect(NetworkConnection target,bool inOut)
     {
-        Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.InnerFog(true);
+        Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.InnerFog(inOut);
     }
 
     [Command]
-    public void Cmd_InnerFog(GameObject obj)
+    public void Cmd_InnerFog(GameObject obj,bool inOut)
     {
         if(obj.TryGetComponent(out NetworkIdentity identity))
         {
             var conn = identity.connectionToClient;
-            TRpc_InnerFogEffect(conn);
+            TRpc_InnerFogEffect(conn,inOut);
         }
     }
     #endregion  

@@ -86,7 +86,7 @@ public class Fog : BuildObj
             if(collision.TryGetComponent(out PlayerSM component))
             {
                 // Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.InnerFog(true);
-                Fog_Net.Cmd_InnerFog(component.gameObject);
+                Fog_Net.Cmd_InnerFog(component.gameObject,true);
             }
             
         }
@@ -100,7 +100,7 @@ public class Fog : BuildObj
             if (collision.TryGetComponent(out PlayerSM component))
             {
                 // Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.InnerFog(false);
-                Fog_Net.Cmd_InnerFog(component.gameObject);
+                Fog_Net.Cmd_InnerFog(component.gameObject,false);
             }
         }
     }

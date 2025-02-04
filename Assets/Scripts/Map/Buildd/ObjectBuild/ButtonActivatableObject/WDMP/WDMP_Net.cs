@@ -22,7 +22,6 @@ public class WDMP_Net : NetworkBehaviour
        CreateRail();
     }
 
-    [ClientRpc]
     private void CreateRail() //rail node, rail lineRenderer
     { 
         Transform parents = MapEditor.Instance.dontSaveObjectTransform;

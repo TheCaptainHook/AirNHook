@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1690458858205349574}
   - component: {fileID: -748073264025894886}
   - component: {fileID: -3326690181658770355}
+  - component: {fileID: 4838560635724338132}
   m_Layer: 0
   m_Name: Fog
   m_TagString: Untagged
@@ -4967,3 +4968,19 @@ MonoBehaviour:
   rotationSensitivity: 0.01
   positionPrecision: 0.01
   scalePrecision: 0.01
+--- !u!114 &4838560635724338132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4282809276848784271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28d39dc9411154e53a90defdd83e53c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  size: {x: 0, y: 0}
