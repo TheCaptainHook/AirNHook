@@ -119,13 +119,14 @@ public class MovingPlatform :  ActivatableObjectEntity
         StartCoroutine(AddForceCo());
     }
 
+    WaitForFixedUpdate waitSecond = new();
     IEnumerator AddForceCo()
     {
         while(true)
         {
             //MoveAction?.Invoke(MovingPlatform_Net.velocity);
             addForcePlatform.AddForce(MovingPlatform_Net.velocity);
-            yield return null;
+            yield return waitSecond;
         }
     }
 
@@ -176,7 +177,7 @@ public class MovingPlatform :  ActivatableObjectEntity
             
             MoveTowards(_rb.position, targetPosition);
             //MoveAction?.Invoke(dir*step);
-            yield return null; 
+            yield return waitSecond; 
         }
     }
     #region  Activatable
