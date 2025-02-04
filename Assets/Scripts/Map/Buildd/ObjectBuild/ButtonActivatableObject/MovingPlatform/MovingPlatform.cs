@@ -123,7 +123,7 @@ public class MovingPlatform :  ActivatableObjectEntity
     {
         while(true)
         {
-            MoveAction?.Invoke(dir * step);
+            MoveAction?.Invoke(MovingPlatform_Net.velocity);
             yield return null;
         }
     }
