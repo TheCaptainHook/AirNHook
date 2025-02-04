@@ -123,7 +123,8 @@ public class MovingPlatform :  ActivatableObjectEntity
     {
         while(true)
         {
-            MoveAction?.Invoke(MovingPlatform_Net.velocity);
+            //MoveAction?.Invoke(MovingPlatform_Net.velocity);
+            addForcePlatform.AddForce(MovingPlatform_Net.velocity);
             yield return null;
         }
     }
@@ -194,7 +195,7 @@ public class MovingPlatform :  ActivatableObjectEntity
         dir = (target-curP).normalized;
         step = moveSpeed * Time.fixedDeltaTime;
 
-        MovingPlatform_Net.Server_SetVelocity(dir * step);
+        MovingPlatform_Net.Server_SetVelocity(dir * step,step);
 
         _rb.position = Vector2.MoveTowards(_rb.position,_rb.position +dir,step);
         

@@ -14,7 +14,17 @@ public class AddForcePlatform : MonoBehaviour
 
     [Header("Main")]
     public HashSet<DetectObj> _PreviousDetactObjects;
-    
+
+
+    private MovingPlatform_Net movingPlatform_Net;
+    private MovingPlatform_Net MovingPlatform_Net
+    {
+        get
+        {
+            if(movingPlatform_Net == null)movingPlatform_Net = GetComponent<MovingPlatform_Net>();
+            return movingPlatform_Net;
+        }
+    }
 
     [Header("INIT")]
     private float w;
@@ -116,7 +126,7 @@ public class AddForcePlatform : MonoBehaviour
         foreach(DetectObj obj in _PreviousDetactObjects){
             Vector2 curPot = obj._Rb.position;
             Vector2 target = curPot + vec;
-            obj._Rb.position = Vector2.MoveTowards(curPot,target,_MovingPlatform.step);
+            obj._Rb.position = Vector2.MoveTowards(curPot,target,MovingPlatform_Net.step);
         }
     }
     
