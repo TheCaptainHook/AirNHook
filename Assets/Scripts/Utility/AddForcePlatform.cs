@@ -43,9 +43,6 @@ public class AddForcePlatform : MonoBehaviour
 
     [SerializeField] MovingPlatform _MovingPlatform;
 
-#region  Test
-    
-#endregion
     private void Update(){
         
         var wh = GetColliderWH();

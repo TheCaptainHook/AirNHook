@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
 
 
 
@@ -29,6 +30,8 @@ public class MovingPlatform :  ActivatableObjectEntity
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        addForcePlatform = GetComponent<AddForcePlatform>();
+        addForcePlatform.Init();
     }
 
 
@@ -48,16 +51,15 @@ public class MovingPlatform :  ActivatableObjectEntity
          try{
             if (typeof(T) == typeof(ButtonActivatableObjectStruct))
             {
-            addForcePlatform = GetComponent<AddForcePlatform>();
+            //addForcePlatform = GetComponent<AddForcePlatform>();
             
             ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
             ButtonActivatedObjectStruct = objData;
 
             //Moving Platform
-            paths = ConvertPaths(objData.paths);
-            
+            paths = ConvertPaths(objData.paths);     
             moveSpeed = objData.moveSpeed;
-            addForcePlatform.Init();
+            
             }
         }catch(Exception ex){
                 Debug.Log($"{ex},{typeof(T)}");
@@ -80,7 +82,7 @@ public class MovingPlatform :  ActivatableObjectEntity
     //     Transform parents = MapEditor.Instance.dontSaveObjectTransform;
     //     Transform container = new GameObject("Rail_Container").transform;
     //     container.SetParent(parents);
-        
+
     //     //Rail Node
     //     LineRenderer line = Instantiate(rail_Line,container);
     //     //Draw Line
@@ -88,7 +90,7 @@ public class MovingPlatform :  ActivatableObjectEntity
 
     //     Vector2 startPot = line.GetPosition(0);
     //     Vector2 endPot = line.GetPosition(paths.Length-1);
-        
+
     //     GameObject railNode_1;
     //     GameObject railNode_2;
 
@@ -108,9 +110,22 @@ public class MovingPlatform :  ActivatableObjectEntity
     //     for(int i = 0; i<path.Length;i++){
     //         line.SetPosition(i,path[i]+new Vector2(0,0.25f));
     //     }
-        
+
     // }
 
+    public void Start()
+    {
+        StartCoroutine(AddForceCo());
+    }
+
+    IEnumerator AddForceCo()
+    {
+        while(true)
+        {
+            MoveAction?.Invoke(dir * step);
+            yield return null;
+        }
+    }
 
     #region Test Code, [latest update: 11/12 ]
     // private void Start(){
@@ -133,6 +148,7 @@ public class MovingPlatform :  ActivatableObjectEntity
         while (true)
         {
                 while(!onActive){
+                    dir = Vector2.zero;
                     yield return null;
                 }
             if (CheckDistance(_rb.position, targetPosition))
@@ -157,7 +173,7 @@ public class MovingPlatform :  ActivatableObjectEntity
             }
             
             MoveTowards(_rb.position, targetPosition);
-            MoveAction?.Invoke(dir*step);
+            //MoveAction?.Invoke(dir*step);
             yield return null; 
         }
     }
@@ -175,7 +191,10 @@ public class MovingPlatform :  ActivatableObjectEntity
     #region  Util
     private void MoveTowards(Vector2 curP,Vector2 target){
         dir = (target-curP).normalized;
-        step = moveSpeed * Time.fixedDeltaTime; 
+        step = moveSpeed * Time.fixedDeltaTime;
+
+        MovingPlatform_Net.Server_SetVelocity(dir * step);
+
         _rb.position = Vector2.MoveTowards(_rb.position,_rb.position +dir,step);
         
     }

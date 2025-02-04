@@ -33,6 +33,7 @@ public class MovingPlatform_Net : NetworkBehaviour
 
 
     [SyncVar] public DataPath dataPath;
+    [SyncVar] public Vector2 velocity;
 
     [Server]
     public void Server_CreateRail(Vector2[] paths)
@@ -40,6 +41,12 @@ public class MovingPlatform_Net : NetworkBehaviour
         dataPath = new DataPath(paths);
     }
 
+
+    [Server]
+    public void Server_SetVelocity(Vector2 velocity)
+    {
+        this.velocity = velocity;
+    }
 
     public void CreateRail()
     {
