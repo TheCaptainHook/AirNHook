@@ -113,7 +113,8 @@ public class MovingPlatform :  ActivatableObjectEntity
 
     // }
 
-    public void Start()
+
+    public void AddForce()
     {
         StartCoroutine(AddForceCo());
     }

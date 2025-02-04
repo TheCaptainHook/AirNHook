@@ -20,6 +20,7 @@ public class MovingPlatform_Net : NetworkBehaviour
         }
     }
 
+    MovingPlatform MovingPlatform => GetComponent<MovingPlatform>();
     
     [Serializable]
     public struct DataPath
@@ -93,6 +94,8 @@ public class MovingPlatform_Net : NetworkBehaviour
     {
         base.OnStartClient();
         CreateRail();
+        MovingPlatform.AddForce();
+        
     }
 
 }
