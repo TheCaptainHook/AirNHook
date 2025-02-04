@@ -83,9 +83,9 @@ public class Puzzle_1_HintScreen : MonoBehaviour
     }
    
 
-   bool isAnswerFalse;
+//    bool isAnswerFalse;
     IEnumerator FalseCo(){
-        isAnswerFalse = true;
+        // isAnswerFalse = true;
         _falseObj.SetActive(true);
         glowImage.material= redMat;
         yield return waitSeconds;
@@ -93,7 +93,7 @@ public class Puzzle_1_HintScreen : MonoBehaviour
         glowImage.material= orgMat;
         _falseObj.SetActive(false);
         answerCoroutine = null;
-        isAnswerFalse = false;
+        // isAnswerFalse = false;
     }
     
     #endregion

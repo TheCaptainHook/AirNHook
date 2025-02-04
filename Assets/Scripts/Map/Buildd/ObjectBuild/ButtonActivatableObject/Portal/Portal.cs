@@ -48,7 +48,7 @@ public class Portal : ActivatableObjectEntity
          ButtonActivatedObjectStruct = objData;
          targetPosition = objData.talPot;
             
-         Portal_Net.SetTargetPortal(targetPosition); ;
+         Portal_Net.SetTargetPortal(targetPosition);
         }
         }catch{
                 Debug.Log($"ERROR,{typeof(T)}");
@@ -99,6 +99,8 @@ public class Portal : ActivatableObjectEntity
 
     //     });
     // }
+    
+    #if UNITY_EDITOR
     public async override void Editor_Setting(MapEditor mapEditor)
     {
         Util util = new Util();
@@ -120,26 +122,8 @@ public class Portal : ActivatableObjectEntity
 
         });
     }
+    #endif
     #endregion
-
-    // public void FindTargetPortal()
-    // {
-    //     if (targetPortal != null) return;
-
-    //     foreach(Transform tr in MapEditor.Instance.buttonActivatableObjectTransform)
-    //     {
-    //         Portal portal = tr.GetComponent<Portal>();
-
-    //         if(portal != null)
-    //         {
-    //             if (portal.ObjectData.position == targetPosition)
-    //             {
-    //                 targetPortal = portal;
-    //                 return;
-    //             }
-    //         }
-    //     }
-    // }
 
 
     #endregion

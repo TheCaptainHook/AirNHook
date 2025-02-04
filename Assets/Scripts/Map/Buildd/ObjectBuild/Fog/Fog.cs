@@ -9,6 +9,7 @@ public class Fog : BuildObj
 
     private ParticleSystem _MainParticle;
     private BoxCollider2D _Colider;
+    private Fog_Net Fog_Net => GetComponent<Fog_Net>();
 
     [ReadOnly]
     [SerializeField] GameObject innerFogEffect;
@@ -18,9 +19,6 @@ public class Fog : BuildObj
     //20 : 20 = 160
     // a*b*0.4
 
-    #region Particle
-    private Vector3 shapeScale;
-    #endregion
 
     public void Init()
     {
@@ -35,7 +33,12 @@ public class Fog : BuildObj
             ObjectData objData = (ObjectData)(object)data;
             SetData(objData);
             Init();
+
+            if(!Application.isPlaying)
             SetParticleSetting();
+
+            Fog_Net.Server_SetSize(objData.size);
+
         }
     }
     public override void SetData(ObjectData data)
@@ -55,7 +58,7 @@ public class Fog : BuildObj
     #endregion
 
 
-    #region Particle    
+    #region ------------------------------------Use Editor    
     public void SetParticleSetting(){
         SetParticleShapeScale();
         SetParticleEmissionRate();
@@ -82,7 +85,8 @@ public class Fog : BuildObj
             InnerFogSetting(collision);
             if(collision.TryGetComponent(out PlayerSM component))
             {
-                Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.InnerFog(true);
+                // Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.InnerFog(true);
+                Fog_Net.Cmd_InnerFog(component.gameObject);
             }
             
         }
@@ -95,7 +99,8 @@ public class Fog : BuildObj
             InnerFogSetting(collision);
             if (collision.TryGetComponent(out PlayerSM component))
             {
-                Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.InnerFog(false);
+                // Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.InnerFog(false);
+                Fog_Net.Cmd_InnerFog(component.gameObject);
             }
         }
     }
@@ -118,5 +123,8 @@ public class Fog : BuildObj
        
 
     }
+
+
+    
 
 }
