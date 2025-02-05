@@ -44,29 +44,6 @@ public class StageManager
     //}
 
 
-    public SyncDictionary<string, SyncList<uint>> dic;
-
-    //Dictionary<string, List<uint>> dic;
-
-    [Server]
-    public void SetDic(GameObject obj,string trName)
-    {
-        if (dic == null) dic = new();
-        if(!dic.ContainsKey(trName)) dic[trName] = new SyncList<uint>();
-
-        if(obj.TryGetComponent(out NetworkIdentity component))
-        {
-            uint netId = component.netId;
-            dic[trName].Add(netId);
-        }
-
-    }
-
-    [Server]
-    public void Clear_Dic()
-    {
-        dic.Clear();
-    }
 
     [Command]
     public void CmdBatchObject<T>(string objName, T data, string trName)
@@ -78,8 +55,6 @@ public class StageManager
         obj.name = objName;
 
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
-
-        SetDic(obj, trName);
 
         obj.GetComponent<BuildObj>().SetData(data);
 
@@ -99,21 +74,21 @@ public class StageManager
     }
 
 
-    [Command]
-    public void Server_SetParent()
-    {
-        foreach (var item in dic)
-        {
-            //Transform parent = GetMapEditorTransform(item.Key);
-            Debug.Log($"parent {GetMapEditorTransform(item.Key)}");
-            foreach (uint id in item.Value)
-            {
-                //Transform tr = GetNetworkIdentity(id).gameObject.transform;
-                //tr.SetParent(parent);
-                Debug.Log($"id : {id}");
-            }
-        }
-    }
+    //[Command]
+    //public void Server_SetParent()
+    //{
+    //    foreach (var item in dic)
+    //    {
+    //        //Transform parent = GetMapEditorTransform(item.Key);
+    //        Debug.Log($"parent {GetMapEditorTransform(item.Key)}");
+    //        foreach (uint id in item.Value)
+    //        {
+    //            //Transform tr = GetNetworkIdentity(id).gameObject.transform;
+    //            //tr.SetParent(parent);
+    //            Debug.Log($"id : {id}");
+    //        }
+    //    }
+    //}
     //[ClientRpc]
     //private void Rpc_SetParent(SyncDictionary<string, SyncList<uint>> dic)
     //{
@@ -130,11 +105,11 @@ public class StageManager
     //    }
     //}
 
-    [Command]
-    public void NetworkObject_SetParent()
-    {
-        Server_SetParent();
-    }
+    //[Command]
+    //public void NetworkObject_SetParent()
+    //{
+    //    Server_SetParent();
+    //}
     
     private Transform GetMapEditorTransform(string trName)
     {

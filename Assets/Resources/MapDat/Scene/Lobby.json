@@ -3623,6 +3623,17 @@
             "TileId": 2,
             "Start": {
                 "x": 27,
+                "y": 5
+            },
+            "End": {
+                "x": 27,
+                "y": 5
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 27,
                 "y": 11
             },
             "End": {
@@ -3645,6 +3656,17 @@
             "TileId": 2,
             "Start": {
                 "x": 28,
+                "y": 5
+            },
+            "End": {
+                "x": 28,
+                "y": 5
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 28,
                 "y": 11
             },
             "End": {
@@ -3667,6 +3689,17 @@
             "TileId": 2,
             "Start": {
                 "x": 29,
+                "y": 5
+            },
+            "End": {
+                "x": 29,
+                "y": 5
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 29,
                 "y": 11
             },
             "End": {
@@ -3711,6 +3744,17 @@
             "TileId": 2,
             "Start": {
                 "x": 30,
+                "y": 5
+            },
+            "End": {
+                "x": 30,
+                "y": 5
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 30,
                 "y": 11
             },
             "End": {
@@ -3749,6 +3793,17 @@
             "End": {
                 "x": 31,
                 "y": -6
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 31,
+                "y": 5
+            },
+            "End": {
+                "x": 31,
+                "y": 5
             }
         },
         {
@@ -3821,6 +3876,17 @@
             "TileId": 2,
             "Start": {
                 "x": 32,
+                "y": 5
+            },
+            "End": {
+                "x": 32,
+                "y": 5
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 32,
                 "y": 11
             },
             "End": {
@@ -3887,6 +3953,17 @@
             "TileId": 2,
             "Start": {
                 "x": 33,
+                "y": 5
+            },
+            "End": {
+                "x": 33,
+                "y": 5
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 33,
                 "y": 11
             },
             "End": {
@@ -3925,6 +4002,17 @@
             "End": {
                 "x": 34,
                 "y": -5
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 34,
+                "y": 5
+            },
+            "End": {
+                "x": 34,
+                "y": 5
             }
         },
         {
@@ -4019,6 +4107,17 @@
             "TileId": 2,
             "Start": {
                 "x": 35,
+                "y": 5
+            },
+            "End": {
+                "x": 35,
+                "y": 5
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 35,
                 "y": 11
             },
             "End": {
@@ -4079,6 +4178,17 @@
             "End": {
                 "x": 36,
                 "y": -5
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 36,
+                "y": 5
+            },
+            "End": {
+                "x": 36,
+                "y": 5
             }
         },
         {
@@ -12364,7 +12474,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.4499990940093995,
+                "y": 1.4499989748001099,
                 "z": 1.0
             },
             "talPot": {
@@ -12493,6 +12603,97 @@
             "onLeft": false,
             "paths": [],
             "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 331,
+            "activeRequirAmount": 0,
+            "chargeRequired": false,
+            "jumpingPower": 0,
+            "position": {
+                "x": 7.960000038146973,
+                "y": 5.949999809265137
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 2.0,
+            "onHoldRotation": true,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 333,
+            "activeRequirAmount": 0,
+            "chargeRequired": false,
+            "jumpingPower": 0,
+            "position": {
+                "x": 12.0,
+                "y": 3.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [
+                {
+                    "x": 21.799999237060548,
+                    "y": 3.0
+                },
+                {
+                    "x": 21.799999237060548,
+                    "y": 0.8999999761581421
+                },
+                {
+                    "x": 12.0,
+                    "y": 0.8999999761581421
+                },
+                {
+                    "x": 12.0,
+                    "y": 3.0
+                }
+            ],
+            "moveSpeed": 1.0,
             "moveDistance": 0.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
@@ -12707,6 +12908,45 @@
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
+            },
+            "chargeRequired": false
+        },
+        {
+            "id": 341,
+            "position": {
+                "x": 31.0,
+                "y": 6.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "targetPositions": [],
+            "onHint": true,
+            "partsPositions": [
+                {
+                    "x": 34.0,
+                    "y": 7.0
+                },
+                {
+                    "x": 36.0,
+                    "y": 7.0
+                }
+            ],
+            "itemPositions": [
+                {
+                    "x": 28.190000534057618,
+                    "y": 7.210000038146973
+                },
+                {
+                    "x": 29.09000015258789,
+                    "y": 8.690000534057618
+                }
+            ],
+            "hintPosition": {
+                "x": 39.849998474121097,
+                "y": 8.680000305175782
             },
             "chargeRequired": false
         }
