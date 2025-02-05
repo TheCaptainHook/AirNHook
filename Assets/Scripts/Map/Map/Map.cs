@@ -72,7 +72,7 @@ public class Map
         //List<TileData> tileList, // refc
         //List<TileData> halfTileList,
         //List<TileData> mapBackgroundTileDataList,
-        // List<TileData> ropeTileDataList,
+        //List<TileData> ropeTileDataList,
         //List<TileData> accessoryTileDataList,
         //Shadow 250109
         List<ShadowCasterStruct> shadowCasterStructs,

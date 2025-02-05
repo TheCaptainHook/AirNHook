@@ -21839,6 +21839,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1591239810280784288, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1591239810280784288, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: m_Intensity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1591239810280784288, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: m_LightType
       value: 4
       objectReference: {fileID: 0}
@@ -21864,7 +21872,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1591239810280784288, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: m_ApplyToSortingLayers.Array.size
-      value: 11
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1591239810280784288, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: m_ApplyToSortingLayers.Array.data[4]
@@ -21980,27 +21988,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: mapID
-      value: TestScene
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: onLoad
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
-      propertyPath: mapType
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
+      propertyPath: mapType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: audioName
-      value: Danya Vodovoz - High NRG (mp3cut.net)
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: isLoadMap
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: stageLevel
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: subMapName
@@ -22024,11 +22032,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: startPosition.x
-      value: -36.8
+      value: -45
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: startPosition.y
-      value: -10.7
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 7281374305885701388, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: garbageTransform
