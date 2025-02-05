@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 3690635770919025948}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.081003845}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -130,6 +130,7 @@ MonoBehaviour:
   transformID: 0
   position: {x: 0, y: 0}
   distructionStatus: 0
+  chargeRequired: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
@@ -240,6 +241,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3728231607148563472}
   - component: {fileID: 2390295528388680293}
+  - component: {fileID: 458689733530927540}
   m_Layer: 15
   m_Name: MainSprite
   m_TagString: Untagged
@@ -314,6 +316,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &458689733530927540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3962016352224804910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 1
+  m_ApplyToSortingLayers: 0000000079fff5dc156d27bc93974e373dfa80d69754fad67bd34c9e4b693136d173aa4009c81f543db6189c
+  m_ShapePath:
+  - {x: -1, y: 0, z: 0}
+  - {x: -1, y: 0.4921875, z: 0}
+  - {x: 1, y: 0.4921875, z: 0}
+  - {x: 1, y: 0, z: 0}
+  m_ShapePathHash: 0
+  m_Mesh: {fileID: 0}
+  m_InstanceId: 60752
+  m_LocalBounds:
+    m_Center: {x: 0, y: 0.24609375, z: 0}
+    m_Extent: {x: 1, y: 0.24609375, z: 0}
 --- !u!1 &6227386768595365351
 GameObject:
   m_ObjectHideFlags: 0

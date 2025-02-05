@@ -184,7 +184,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &809284812520933131
 Transform:
   m_ObjectHideFlags: 0
@@ -496,8 +496,8 @@ MonoBehaviour:
   _BtnOffset: 1
   wrongGradient:
     serializedVersion: 2
-    key0: {r: 1, g: 0.4481132, b: 0.4481132, a: 1}
-    key1: {r: 1, g: 0.42352945, b: 0.42352945, a: 1}
+    key0: {r: 1, g: 0, b: 0, a: 1}
+    key1: {r: 1, g: 0, b: 0, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -526,8 +526,8 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   correctGradient:
     serializedVersion: 2
-    key0: {r: 0.48584908, g: 1, b: 0.5886793, a: 1}
-    key1: {r: 0.4784314, g: 1, b: 0.58431375, a: 1}
+    key0: {r: 0.05870401, g: 0.8962264, b: 0.04650232, a: 1}
+    key1: {r: 0.023529412, g: 0.90588236, b: 0.043137256, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -556,13 +556,6 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   _holderOpened: {fileID: 4099901524616151280}
   _holderClosed: {fileID: 1185871543315773075}
-  numbering:
-  - {fileID: 1264232342796746068}
-  - {fileID: 6956878005146488106}
-  - {fileID: 6674385828901863644}
-  - {fileID: 1380693417088489473}
-  - {fileID: 666243729843009308}
-  - {fileID: 8244676673134818665}
   boomArea: 1
   particles:
   - {fileID: 3187068910201326530}
@@ -623,7 +616,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.07
+        value: 0.30548248
         inSlope: 0
         outSlope: 0
         tangentMode: 0
