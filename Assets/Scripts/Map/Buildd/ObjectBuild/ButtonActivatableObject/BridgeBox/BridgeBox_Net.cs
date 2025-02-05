@@ -14,11 +14,22 @@ public class BridgeBox_Net : NetworkBehaviour
 
     [SyncVar] public float bridgeLength;
     [SyncVar] public Vector2 connectionPoint;
+    [SyncVar(hook = nameof(OnChangeActive))] public bool onActive;
+
 
     private BoxCollider2D Collider => GetComponent<BoxCollider2D>();
 
 
-
+    [Server]
+    public void Server_ChangeOnActive()
+    {
+        onActive = !onActive;
+    }
+    private void OnChangeActive(bool old,bool newVal)
+    {
+        if (newVal) Active();
+        else Deactive();
+    }
 
     [Server]
    public void Server_SetData(float bridgeLength,Vector2 connectionPoint)
@@ -32,6 +43,11 @@ public class BridgeBox_Net : NetworkBehaviour
         //SetBridgeCollider();
     }
 
+    [Command(requiresAuthority = false)]
+    public void Cmd_SetOnActive()
+    {
+        Server_ChangeOnActive();
+    }
 
     //[ClientRpc]
     //private void Rpc_BridgeSetting()
@@ -96,31 +112,41 @@ public class BridgeBox_Net : NetworkBehaviour
 
 
 
-    [Command]
-    public void Cmd_Activation()
-    {
-        Rpc_Activation();
-    }
-    [ClientRpc]
-    private void Rpc_Activation()
+    //[Command]
+    //public void Cmd_Activation()
+    //{
+    //    Rpc_Activation();
+    //}
+    //[ClientRpc]
+    //private void Rpc_Activation()
+    //{
+    //    bridgeCollider.enabled = true;
+    //    DrawLine();
+    //}
+
+
+    //[Command]
+    //public void Cmd_Deactivated()
+    //{
+    //    Rpc_Deactivated();
+    //}
+    //[ClientRpc]
+    //private void Rpc_Deactivated()
+    //{
+    //    lineRenderer.positionCount = 0;
+    //    bridgeCollider.enabled = false;
+    //}
+
+    private void Active()
     {
         bridgeCollider.enabled = true;
         DrawLine();
     }
-
-
-    [Command]
-    public void Cmd_Deactivated()
-    {
-        Rpc_Deactivated();
-    }
-    [ClientRpc]
-    private void Rpc_Deactivated()
+    private void Deactive()
     {
         lineRenderer.positionCount = 0;
         bridgeCollider.enabled = false;
     }
-
 
      private void DrawLine()
      {
@@ -136,5 +162,9 @@ public class BridgeBox_Net : NetworkBehaviour
         base.OnStartClient();
         CreateConnectionObject();
         SetBridgeCollider();
+        if (!isServer)
+        {
+            if (onActive) Active();
+        }
     }
 }

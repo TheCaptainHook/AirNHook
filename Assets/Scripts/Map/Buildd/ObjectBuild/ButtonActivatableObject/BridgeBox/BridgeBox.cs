@@ -75,11 +75,11 @@ using UnityEngine;
     #region  Main
     protected override void Activation()
     {
-        BridgeBox_Net.Cmd_Activation();
+        BridgeBox_Net.Cmd_SetOnActive();
     }
     protected override void Deactivated()
     {
-        BridgeBox_Net.Cmd_Deactivated();
+        BridgeBox_Net.Cmd_SetOnActive();
 
     }
     // private void ConnectBridge(){
