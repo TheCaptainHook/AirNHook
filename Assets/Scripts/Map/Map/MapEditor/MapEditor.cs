@@ -453,11 +453,11 @@ public class MapEditor : MonoBehaviour
         DrawTile_C(placeMentSystem.ropeTileMap, curMap.mapRopeTileDataList);
         DrawTile_C(placeMentSystem.accessoryTileMap, curMap.mapAccessoryTIleDataList);
 
-        //DrawTile(placeMentSystem.floorTileMap,curMap.mapTileDataList); //rect
-        //DrawTile(placeMentSystem.halfTileMap,curMap.mapHalfTileDataList);
-        //DrawTile(placeMentSystem.backgroundTileMap,curMap.mapBackgroundTileDataList);       
-        //DrawTile(placeMentSystem.ropeTileMap,curMap.mapRopeTileDataList);
-        //DrawTile(placeMentSystem.accessoryTileMap,curMap.mapAccessoryTIleDataList);
+        //DrawTile(placeMentSystem.floorTileMap, curMap.mapTileDataList); //rect
+        //DrawTile(placeMentSystem.halfTileMap, curMap.mapHalfTileDataList);
+        //DrawTile(placeMentSystem.backgroundTileMap, curMap.mapBackgroundTileDataList);
+        //DrawTile(placeMentSystem.ropeTileMap, curMap.mapRopeTileDataList);
+        //DrawTile(placeMentSystem.accessoryTileMap, curMap.mapAccessoryTIleDataList);
     }
     private void DrawTile(Tilemap tileMap,List<TileData> list){
          foreach (TileData data in list)
