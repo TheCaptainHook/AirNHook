@@ -222,7 +222,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1000640
   flame: {fileID: 1256057224243392037}
-  lightTR: {fileID: 525170644129183911}
 --- !u!1 &5476498711238793479
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,7 +249,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3806905416122518029}
@@ -270,12 +269,12 @@ MonoBehaviour:
   m_ComponentVersion: 1
   m_LightType: 1
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.9
+  m_FalloffIntensity: 0.7
   m_Color: {r: 1, g: 0.12916441, b: 0.051886797, a: 1}
   m_Intensity: 1.2
   m_LightVolumeIntensity: 0.5
   m_LightVolumeIntensityEnabled: 1
-  m_ApplyToSortingLayers: 0000000079fff5dc156d27bc93974e373dfa80d69754fad67bd34c9e4b693136d173aa40
+  m_ApplyToSortingLayers: 93974e373dfa80d67bd34c9e4b693136d173aa409754fad679fff5dc156d27bc
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -289,8 +288,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.05005002, y: 2.37415, z: 0}
-    m_Extent: {x: 3.64115, y: 5.57845, z: 0}
+    m_Center: {x: 0.14295006, y: 2.7982001, z: 0}
+    m_Extent: {x: 3.63745, y: 6.0017, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -301,16 +300,12 @@ MonoBehaviour:
   m_ShapeLightFalloffSize: 3
   m_ShapeLightFalloffOffset: {x: 0, y: 0}
   m_ShapePath:
-  - {x: -0.43951187, y: 2.0385823, z: 0}
+  - {x: -0.4624213, y: 2.8747716, z: 0}
   - {x: 0.020084266, y: -0.20529431, z: 0}
-  - {x: 0.6902024, y: 2.363683, z: 0}
-  - {x: 0.6919132, y: 3.4787145, z: -0.00000021234155}
-  - {x: 0.6494317, y: 4.121789, z: -0.00000021234155}
-  - {x: 0.47427508, y: 4.6699986, z: -0.00000021234155}
-  - {x: 0.095018834, y: 4.9517517, z: 0}
-  - {x: -0.23591276, y: 4.647088, z: -0.00000021234155}
-  - {x: -0.4262761, y: 4.163099, z: -0.00000021234155}
-  - {x: -0.591007, y: 3.2038028, z: -0.00000021234155}
+  - {x: 0.7818394, y: 2.9593246, z: 0}
+  - {x: 0.75252265, y: 4.7632494, z: -0.00000021234155}
+  - {x: 0.12938224, y: 5.799395, z: 0}
+  - {x: -0.49500436, y: 4.735831, z: -0.00000021234155}
 --- !u!1 &9092146968563663255
 GameObject:
   m_ObjectHideFlags: 0
@@ -1640,7 +1635,7 @@ ParticleSystem:
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
         ctime1: 17348
-        ctime2: 49344
+        ctime2: 47031
         ctime3: 65342
         ctime4: 0
         ctime5: 0
@@ -4160,8 +4155,8 @@ ParticleSystem:
       properties: 0
       emitProbability: 1
   LightsModule:
-    enabled: 1
-    ratio: 0.5
+    enabled: 0
+    ratio: 0
     light: {fileID: 0}
     randomDistribution: 1
     color: 1
