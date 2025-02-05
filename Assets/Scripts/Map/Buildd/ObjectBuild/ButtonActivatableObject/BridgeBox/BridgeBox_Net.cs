@@ -5,7 +5,8 @@ using Mirror;
 
 public class BridgeBox_Net : NetworkBehaviour
 {
-
+    [SerializeField] BoxCollider2D bridgeCollider;
+    [SerializeField] LineRenderer lineRenderer;
     [SerializeField] GameObject spriteObj;
 
     [Space(20)]
@@ -14,37 +15,30 @@ public class BridgeBox_Net : NetworkBehaviour
     [SyncVar] public float bridgeLength;
     [SyncVar] public Vector2 connectionPoint;
 
-    [SyncVar] public GameObject bridge;
-
     private BoxCollider2D Collider => GetComponent<BoxCollider2D>();
-    private LineRenderer lineRenderer;
-    private LineRenderer LineRenderer 
-    {
-        get
-        {
-            if(!lineRenderer) lineRenderer = GetComponent<LineRenderer>();
-            return lineRenderer;
-        }
-    }
 
 
 
-   [Server]
+
+    [Server]
    public void Server_SetData(float bridgeLength,Vector2 connectionPoint)
    {
         this.bridgeLength = bridgeLength;
         this.connectionPoint = connectionPoint;
 
-        Rpc_BridgeSetting();
-   }
 
-
-    [ClientRpc]
-    private void Rpc_BridgeSetting()
-    {
-        CreateConnectionObject();
-        SetBridgeCollider();
+        //Rpc_BridgeSetting();
+        //CreateConnectionObject();
+        //SetBridgeCollider();
     }
+
+
+    //[ClientRpc]
+    //private void Rpc_BridgeSetting()
+    //{
+    //    CreateConnectionObject();
+    //    SetBridgeCollider();
+    //}
 
     #region  ---------------------------------------Server_Util
     private void CreateConnectionObject()
@@ -71,33 +65,30 @@ public class BridgeBox_Net : NetworkBehaviour
 
     }
 
-    
+
     private void SetBridgeCollider()
     {
-            bridge = new GameObject("bridge");
-            BoxCollider2D boxCol = bridge.AddComponent<BoxCollider2D>();
-            
-            Vector2 a = LineRenderer.gameObject.transform.position;
-            Vector2 b = connectionPoint + GetOffset();
+     
+        Vector2 a = lineRenderer.gameObject.transform.position;
+        Vector2 b = connectionPoint + GetOffset();
 
-            Vector2 mid = (a+b)/2;
-            float distance = Vector2.Distance(a,b);
-            Vector2 dir = (b-a).normalized;
+        Vector2 mid = (a + b) / 2;
+        float distance = Vector2.Distance(a, b);
+        Vector2 dir = (b - a).normalized;
 
-            boxCol.size = new Vector2(distance,boxCol.size.y);
-            bridge.transform.position = mid;
-            float angle = Mathf.Atan2(dir.y,dir.x) * Mathf.Rad2Deg;
-            bridge.transform.rotation = Quaternion.Euler(0,0,angle);
-            
-            bridge.layer = LayerMask.NameToLayer("Ground/NotHookable");
-            bridge.transform.SetParent(transform);
+        bridgeCollider.size = new Vector2(distance, bridgeCollider.size.y);
+        bridgeCollider.transform.position = mid;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        bridgeCollider.transform.rotation = Quaternion.Euler(0, 0, angle);
 
-            // bridgeCol.enabled = false;
-            bridge.SetActive(false);
+        bridgeCollider.gameObject.layer = LayerMask.NameToLayer("Ground/NotHookable");
+
+        bridgeCollider.enabled = false;
+
     }
     private Vector2 GetOffset()
     {
-        return transform.position - LineRenderer.transform.position;
+        return transform.position - lineRenderer.transform.position;
     }
     #endregion
 
@@ -113,7 +104,7 @@ public class BridgeBox_Net : NetworkBehaviour
     [ClientRpc]
     private void Rpc_Activation()
     {
-        bridge.SetActive(false);
+        bridgeCollider.enabled = true;
         DrawLine();
     }
 
@@ -126,15 +117,24 @@ public class BridgeBox_Net : NetworkBehaviour
     [ClientRpc]
     private void Rpc_Deactivated()
     {
-        LineRenderer.positionCount = 0;
-        bridge.SetActive(false);
+        lineRenderer.positionCount = 0;
+        bridgeCollider.enabled = false;
     }
 
 
      private void DrawLine()
      {
-            LineRenderer.positionCount =2;
-            LineRenderer.SetPosition(0,LineRenderer.transform.position);
-            LineRenderer.SetPosition(1,connectionPoint+GetOffset());
+        lineRenderer.positionCount =2;
+        lineRenderer.SetPosition(0, lineRenderer.transform.position);
+        lineRenderer.SetPosition(1,connectionPoint+GetOffset());
+    }
+
+
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        CreateConnectionObject();
+        SetBridgeCollider();
     }
 }
