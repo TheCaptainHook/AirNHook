@@ -13,7 +13,7 @@ public enum DistructionStatus
 
 
 [System.Serializable]
-public class BuildObj : MousePointerEntity, IDamageable
+public class BuildObj : MousePointerEntity, IDamageable,IPooling
 {
     [CustomHeader("BuildObj")]
     public int id;
@@ -365,4 +365,17 @@ public class BuildObj : MousePointerEntity, IDamageable
         // public virtual void Editor_Setting(Transform transform){}
         public virtual void Editor_Setting(MapEditor mapEditor){}
     #endregion
+
+
+     public void D_ReleaseToPool()
+     {
+        Managers.Pooling.D_ReleaseToPool(gameObject);
+     }
+    public void N_ReleaseToPool()
+    {
+        Managers.Pooling.N_ReleaseToPool(gameObject);
+    }
+
+
+
 }   

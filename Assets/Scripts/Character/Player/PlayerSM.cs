@@ -416,4 +416,6 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         input.playerActions.Suicide.started -= Suicide;
     }
     #endregion
+
+
 }

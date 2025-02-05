@@ -1,7 +1,7 @@
 using Mirror;
 using UnityEngine;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+
+
 
 public class StageManager
 {
@@ -43,14 +43,45 @@ public class StageManager
     //    NetworkServer.Spawn(obj, NetworkServer.localConnection);
     //}
 
+
+    public SyncDictionary<string, SyncList<uint>> dic;
+
+    //Dictionary<string, List<uint>> dic;
+
+    [Server]
+    public void SetDic(GameObject obj,string trName)
+    {
+        if (dic == null) dic = new();
+        if(!dic.ContainsKey(trName)) dic[trName] = new SyncList<uint>();
+
+        if(obj.TryGetComponent(out NetworkIdentity component))
+        {
+            uint netId = component.netId;
+            dic[trName].Add(netId);
+        }
+
+    }
+
+    [Server]
+    public void Clear_Dic()
+    {
+        dic.Clear();
+    }
+
     [Command]
     public void CmdBatchObject<T>(string objName, T data, string trName)
     {
         if (!NetworkServer.active || !NetworkClient.isConnected) return;
 
         GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+
+        obj.name = objName;
+
+        NetworkServer.Spawn(obj, NetworkServer.localConnection);
+
+        SetDic(obj, trName);
+
         obj.GetComponent<BuildObj>().SetData(data);
-        
 
 
         Transform parent = null;
@@ -65,30 +96,99 @@ public class StageManager
         if (parent != null)
             obj.transform.SetParent(parent);
 
-        NetworkServer.Spawn(obj, NetworkServer.localConnection);
-      
     }
 
-    [ClientRpc]
-    private void Create<T>(string objName,T data,uint trId)
-    {
-        GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
-        obj.GetComponent<BuildObj>().SetData(data);
 
-        Transform parent = null;
-        foreach (Transform tr in MapEditor.Instance.mapObjBoxTransform)
+    [Command]
+    public void Server_SetParent()
+    {
+        foreach (var item in dic)
         {
-            if (tr.GetComponent<NetworkIdentity>().netId == trId)
+            //Transform parent = GetMapEditorTransform(item.Key);
+            Debug.Log($"parent {GetMapEditorTransform(item.Key)}");
+            foreach (uint id in item.Value)
             {
-                parent = tr;
-                break;
+                //Transform tr = GetNetworkIdentity(id).gameObject.transform;
+                //tr.SetParent(parent);
+                Debug.Log($"id : {id}");
             }
         }
-        if (parent != null)
-            obj.transform.SetParent(parent);
-
-        NetworkServer.Spawn(obj, NetworkServer.localConnection);
     }
+    //[ClientRpc]
+    //private void Rpc_SetParent(SyncDictionary<string, SyncList<uint>> dic)
+    //{
+    //    foreach (var item in dic)
+    //    {
+    //        //Transform parent = GetMapEditorTransform(item.Key);
+    //        Debug.Log($"parent {GetMapEditorTransform(item.Key)}");
+    //        foreach (uint id in item.Value)
+    //        {
+    //            //Transform tr = GetNetworkIdentity(id).gameObject.transform;
+    //            //tr.SetParent(parent);
+    //            Debug.Log($"id : {id}");
+    //        }
+    //    }
+    //}
+
+    [Command]
+    public void NetworkObject_SetParent()
+    {
+        Server_SetParent();
+    }
+    
+    private Transform GetMapEditorTransform(string trName)
+    {
+        foreach (Transform tr in MapEditor.Instance.mapObjBoxTransform)
+        {
+            if (tr.name == trName)
+            {
+                return tr;
+            }
+        }
+        return null;
+    }
+    private NetworkIdentity GetNetworkIdentity(uint id)
+    {
+        return NetworkClient.spawned.TryGetValue(id,out NetworkIdentity identity) ? identity : null;
+    }
+
+    // [ClientRpc]
+    // private void Rpc_SetTransformParents(uint netId,string trName)
+    // {
+    //     NetworkClient.spawned.TryGetValue(netId,out NetworkIdentity identity);
+    //     if(identity == null) return;
+
+    //     foreach(Transform tr in MapEditor.Instance.mapObjBoxTransform)
+    //     {
+    //         if(tr.name == trName)
+    //         {
+    //             identity.gameObject.transform.SetParent(tr);
+    //             return;
+    //         }
+    //     }
+    // }
+
+
+    // [ClientRpc]
+    // private void Create<T>(string objName,T data,uint trId)
+    // {
+    //     GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+    //     obj.GetComponent<BuildObj>().SetData(data);
+
+    //     Transform parent = null;
+    //     foreach (Transform tr in MapEditor.Instance.mapObjBoxTransform)
+    //     {
+    //         if (tr.GetComponent<NetworkIdentity>().netId == trId)
+    //         {
+    //             parent = tr;
+    //             break;
+    //         }
+    //     }
+    //     if (parent != null)
+    //         obj.transform.SetParent(parent);
+
+    //     NetworkServer.Spawn(obj, NetworkServer.localConnection);
+    // }
 
     [Command]
     public GameObject CmdBatchObject(string objName)
@@ -110,11 +210,5 @@ public class StageManager
     #endregion
 
 
-
-    public async Task Delay() //todo 0425
-    {
-        Task delayTask = Task.Delay(100);
-        await delayTask;
-    }
 
 }

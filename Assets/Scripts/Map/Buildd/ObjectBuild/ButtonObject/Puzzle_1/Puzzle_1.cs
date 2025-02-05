@@ -4,6 +4,9 @@ using System;
 using Random = UnityEngine.Random;
 using System.Collections.Generic;
 using System.Text;
+using Steamworks;
+using System.Collections;
+using Mirror;
 
 public class Puzzle_1 : ButtonEntity
 {
@@ -22,14 +25,14 @@ public class Puzzle_1 : ButtonEntity
     [ReadOnly]
     public string answer; //test
 
-    private string[] puzzle_1_Items = new string[] { 
-        "Puzzle_1_Item (1)", 
-        "Puzzle_1_Item (2)", 
-        "Puzzle_1_Item (3)",
-        "Puzzle_1_Item (4)",
-        "Puzzle_1_Item (5)",
-        "Puzzle_1_Item (6)"
-    };
+    // private string[] puzzle_1_Items = new string[] { 
+    //     "Puzzle_1_Item (1)", 
+    //     "Puzzle_1_Item (2)", 
+    //     "Puzzle_1_Item (3)",
+    //     "Puzzle_1_Item (4)",
+    //     "Puzzle_1_Item (5)",
+    //     "Puzzle_1_Item (6)"
+    // };
     private Vector2[] partsPosition;
     private Vector2[] itemsPosition; //Fill in this field through the editor
     public bool onHint;
@@ -114,21 +117,18 @@ public class Puzzle_1 : ButtonEntity
 
     //}
 
-    private void Setting() {
-        int previousNum = 0;
-        for (int i = 0; i < partsPosition.Length; i++) {
-            int num = Random.Range(1, 7);
-            while(previousNum == num) num = Random.Range(1, 7);
-            previousNum = num;
-            GameObject obj;
-            answer += num.ToString();
 
-#if UNITY_EDITOR
-            Puzzle_1_Helper helper = GetComponent<Puzzle_1_Helper>();
+    //-------------------------------------------------------------Network 250126
+    private void Editor_Setting(int index)
+    {
+        GameObject obj;
+        Puzzle_1_Helper helper = GetComponent<Puzzle_1_Helper>();
             helper.Init();
             if (Application.isPlaying)
             {
-                obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[num - 1]);
+                Puzzle_Net.Server_CreatePuzzle_Item(
+                       index, itemsPosition[index], partsPosition[index]
+                   );
             }
             else
             {
@@ -138,37 +138,51 @@ public class Puzzle_1 : ButtonEntity
                     hintScreen.gameObject.SetActive(true);
                 }
 
+                obj.transform.position = itemsPosition[index];
+                obj.transform.SetParent(itemContainer);
+
+                CreateParts(partsPosition[index],0,index);
+
             }
+    }
+
+     private void Setting() {
+        for (int i = 0; i < partsPosition.Length; i++) {
+
+#if UNITY_EDITOR
+           
+            Editor_Setting(i);
 
 #else
 
-             obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[num - 1]);
-             //hint
-              if (onHint) 
-               {
-                    hintScreen.gameObject.SetActive(true);
-                     SetHint();
-               }
+         Puzzle_Net.Server_CreatePuzzle_Item(
+                    i,itemsPosition[i],partsPosition[i]
+                );
            
 #endif
 
-            obj.transform.position = itemsPosition[i];
-            obj.transform.SetParent(itemContainer);
-
-            CreateParts(partsPosition[i],num,i);
-
-            // obj.transform.position = Vector2.zero; // test
-            // puzzle_1_Parts[i].SetAnswer(num); //test
-
-           
         }
-
-        SetHint();
-        
+        if (Application.isPlaying)
+        {
+            //Puzzle_Net.Server_SetHintPosition(onHint, hintPosition);
+            // Puzzle_Net.Cmd_SetPuzzleSetting();
+            StartCoroutine(ClientDelay(()=>{Puzzle_Net.Cmd_SetPuzzleSetting();}));
+        }
+        else
+        {
+           SetHint();
+        }
+        //Puzzle_Net.Server_SetHintPosition(onHint, hintPosition);
 
     }
+    //-------------------------------------------------------------Network 250126
 
-    private void SetHint()
+    IEnumerator ClientDelay(Action? action)
+    {
+        while(!NetworkClient.ready){yield return null; Debug.Log("Is Not Ready Network");} 
+        action?.Invoke();
+    }
+    public void SetHint(string answer = "ANSWER")
     {
         if (onHint)
         {
@@ -182,6 +196,20 @@ public class Puzzle_1 : ButtonEntity
         }
     }
 
+    public (bool isHint,Vector2 position) GetHintData()
+    {
+        return (onHint, hintPosition);
+    }
+
+    #region Network
+    public void SetPart(Puzzle_1_Parts part)
+    {
+        if (puzzle_1_Parts == null) puzzle_1_Parts = new();
+
+        puzzle_1_Parts.Add(part);
+    }
+    #endregion
+
 
     private void CreateParts(Vector2 pot,int answer,int index){
         Puzzle_1_Parts obj = Instantiate(partsPrefab).GetComponent<Puzzle_1_Parts>();
@@ -191,6 +219,7 @@ public class Puzzle_1 : ButtonEntity
         obj.Settting(this,answer,index);
 
     }
+
 
 
     protected override void Activation()
@@ -209,13 +238,18 @@ public class Puzzle_1 : ButtonEntity
         if (CheckAnswer())
         {
             Activation();
-            hintScreen.Correct();
+
+            Puzzle_Net.CmdCorrect();
+
+            // hintScreen.Correct();
+            Puzzle_Net.Cmd_HintScreen_Correct();
         }
         else
         {
             Boom();
             Wrong();
-            hintScreen.False();
+            // hintScreen.False();
+            Puzzle_Net.Cmd_HintScreen_False();
         }
     }
     private bool CheckAnswer()
@@ -223,10 +257,12 @@ public class Puzzle_1 : ButtonEntity
         int num = 0;
         foreach (Puzzle_1_Parts parts in puzzle_1_Parts)
         {
-            parts.CheckAnswer();
-            if (parts.isCorrectAnswer) num++;
+
+            if (parts.CheckAnswer()) num++;
         }
 
+
+        Debug.Log($"{num}, count :{puzzle_1_Parts.Count}");
         return num == puzzle_1_Parts.Count;
     }
 
@@ -251,7 +287,7 @@ public class Puzzle_1 : ButtonEntity
     }
     #endregion
 
-    #region Charging // Network processing required
+    #region Charging 
     public void Charging()
     {
         if(button.Charging())
@@ -273,6 +309,13 @@ public class Puzzle_1 : ButtonEntity
     public void Net_Wrong()
     {
         Wrong();
+    }
+
+    public void Net_HintScreen_Correct(){
+        hintScreen.Correct();
+    }
+    public void Net_HintScreen_False(){
+        hintScreen.False();
     }
     #endregion
 

@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
 
 
 
@@ -21,12 +22,17 @@ public class MovingPlatform :  ActivatableObjectEntity
     private AddForcePlatform addForcePlatform;
     private bool onActive;
 
-    [SerializeField] GameObject rail_Prefabs;
-    [SerializeField] LineRenderer rail_Line;
+    // [SerializeField] GameObject rail_Prefabs;
+    // [SerializeField] LineRenderer rail_Line;
 
-  private void Awake(){
-    _rb = GetComponent<Rigidbody2D>();
-  }
+
+    private MovingPlatform_Net MovingPlatform_Net => GetComponent<MovingPlatform_Net>();
+    private void Awake()
+    {
+        _rb = GetComponent<Rigidbody2D>();
+        addForcePlatform = GetComponent<AddForcePlatform>();
+        addForcePlatform.Init();
+    }
 
 
     #region  GET,SET (Will take care this logic)
@@ -45,16 +51,15 @@ public class MovingPlatform :  ActivatableObjectEntity
          try{
             if (typeof(T) == typeof(ButtonActivatableObjectStruct))
             {
-            addForcePlatform = GetComponent<AddForcePlatform>();
+            //addForcePlatform = GetComponent<AddForcePlatform>();
             
             ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
             ButtonActivatedObjectStruct = objData;
 
             //Moving Platform
-            paths = ConvertPaths(objData.paths);
-            
+            paths = ConvertPaths(objData.paths);     
             moveSpeed = objData.moveSpeed;
-            addForcePlatform.Init();
+            
             }
         }catch(Exception ex){
                 Debug.Log($"{ex},{typeof(T)}");
@@ -62,7 +67,9 @@ public class MovingPlatform :  ActivatableObjectEntity
 
         if (Application.isPlaying)
         {
-            CreateRail(paths);
+            // CreateRail(paths);
+            MovingPlatform_Net.Server_CreateRail(paths);
+
             Util util = new Util();
             await util.Delay(() => { CheckActiveRequirAmount(); });
             Prograss();
@@ -71,41 +78,57 @@ public class MovingPlatform :  ActivatableObjectEntity
     #endregion
 
     //1213
-    private void CreateRail(Vector2[] paths){ //rail node, rail lineRenderer
-        Transform parents = MapEditor.Instance.dontSaveObjectTransform;
-        Transform container = new GameObject("Rail_Container").transform;
-        container.SetParent(parents);
-        
-        //Rail Node
-        LineRenderer line = Instantiate(rail_Line,container);
-        //Draw Line
-        DrawLine(line,paths);
+    // private void CreateRail(Vector2[] paths){ //rail node, rail lineRenderer
+    //     Transform parents = MapEditor.Instance.dontSaveObjectTransform;
+    //     Transform container = new GameObject("Rail_Container").transform;
+    //     container.SetParent(parents);
 
-        Vector2 startPot = line.GetPosition(0);
-        Vector2 endPot = line.GetPosition(paths.Length-1);
-        
-        GameObject railNode_1;
-        GameObject railNode_2;
+    //     //Rail Node
+    //     LineRenderer line = Instantiate(rail_Line,container);
+    //     //Draw Line
+    //     DrawLine(line,paths);
 
-        if(startPot == endPot){
-            railNode_1 = Instantiate(rail_Prefabs,container);
-            railNode_1.transform.position = startPot;
-        }else{
-            railNode_1 = Instantiate(rail_Prefabs,container);
-            railNode_1.transform.position = startPot;
-            railNode_2 = Instantiate(rail_Prefabs,container);
-            railNode_2.transform.position = endPot;
-        }
+    //     Vector2 startPot = line.GetPosition(0);
+    //     Vector2 endPot = line.GetPosition(paths.Length-1);
 
+    //     GameObject railNode_1;
+    //     GameObject railNode_2;
+
+    //     if(startPot == endPot){
+    //         railNode_1 = Instantiate(rail_Prefabs,container);
+    //         railNode_1.transform.position = startPot;
+    //     }else{
+    //         railNode_1 = Instantiate(rail_Prefabs,container);
+    //         railNode_1.transform.position = startPot;
+    //         railNode_2 = Instantiate(rail_Prefabs,container);
+    //         railNode_2.transform.position = endPot;
+    //     }
+
+    // }
+    // private void DrawLine(LineRenderer line,Vector2[] path){
+    //     line.positionCount = path.Length;
+    //     for(int i = 0; i<path.Length;i++){
+    //         line.SetPosition(i,path[i]+new Vector2(0,0.25f));
+    //     }
+
+    // }
+
+
+    public void AddForce()
+    {
+        StartCoroutine(AddForceCo());
     }
-    private void DrawLine(LineRenderer line,Vector2[] path){
-        line.positionCount = path.Length;
-        for(int i = 0; i<path.Length;i++){
-            line.SetPosition(i,path[i]+new Vector2(0,0.25f));
-        }
-        
-    }
 
+    WaitForFixedUpdate waitSecond = new();
+    IEnumerator AddForceCo()
+    {
+        while(true)
+        {
+            //MoveAction?.Invoke(MovingPlatform_Net.velocity);
+            addForcePlatform.AddForce(MovingPlatform_Net.velocity);
+            yield return waitSecond;
+        }
+    }
 
     #region Test Code, [latest update: 11/12 ]
     // private void Start(){
@@ -128,6 +151,7 @@ public class MovingPlatform :  ActivatableObjectEntity
         while (true)
         {
                 while(!onActive){
+                    dir = Vector2.zero;
                     yield return null;
                 }
             if (CheckDistance(_rb.position, targetPosition))
@@ -152,8 +176,8 @@ public class MovingPlatform :  ActivatableObjectEntity
             }
             
             MoveTowards(_rb.position, targetPosition);
-            MoveAction?.Invoke(dir*step);
-            yield return null; 
+            //MoveAction?.Invoke(dir*step);
+            yield return waitSecond; 
         }
     }
     #region  Activatable
@@ -170,7 +194,10 @@ public class MovingPlatform :  ActivatableObjectEntity
     #region  Util
     private void MoveTowards(Vector2 curP,Vector2 target){
         dir = (target-curP).normalized;
-        step = moveSpeed * Time.fixedDeltaTime; 
+        step = moveSpeed * Time.fixedDeltaTime;
+
+        MovingPlatform_Net.Server_SetVelocity(dir * step,step);
+
         _rb.position = Vector2.MoveTowards(_rb.position,_rb.position +dir,step);
         
     }

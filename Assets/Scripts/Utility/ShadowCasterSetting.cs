@@ -54,9 +54,14 @@ public class ShadowCasterSetting : MonoBehaviour,IPooling
 
 
 
-    public void ReleaseToPool()
+    public void D_ReleaseToPool()
     {
         Managers.Pooling.D_ReleaseToPool(gameObject);
     }
+     public void N_ReleaseToPool()
+    {
+        // Managers.Pooling.D_ReleaseToPool(gameObject);
+    }
+
 }
 

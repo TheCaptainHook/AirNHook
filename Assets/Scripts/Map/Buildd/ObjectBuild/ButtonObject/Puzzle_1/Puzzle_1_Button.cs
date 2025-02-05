@@ -22,6 +22,8 @@ public class Puzzle_1_Button : MonoBehaviour
 
     public bool onProgress;
 
+    private bool onCorrect;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -42,6 +44,7 @@ public class Puzzle_1_Button : MonoBehaviour
 
     public bool Charging()
     {
+        if (onCorrect) return false;
         if (onFullCharge) return false;
 
         onCharging = true;
@@ -95,15 +98,28 @@ public class Puzzle_1_Button : MonoBehaviour
         StartCoroutine(WrongAndRecover());
     }
     
-    public void AniWrong()
+    public void Net_Correct()
     {
-        animator.SetTrigger(EXPLODE);
+        onCharging = false;
+        onCorrect = true;
     }
 
-    IEnumerator WrongAndRecover(){
+    public void Net_Wrong()
+    {
         onProgress = true;
         onRecover = true;
         onCharging = false;
+        animator.SetTrigger(EXPLODE);
+    }
+    public void Net_Reset(){
+        onFullCharge = false;
+        onRecover = false;
+        onProgress = false;
+    }
+    IEnumerator WrongAndRecover(){
+        // onProgress = true;
+        // onRecover = true;
+        // onCharging = false;
         //curChargeRate = 0;
         //animator.SetTrigger(EXPLODE);
         puzzle_Net.CmdWrong();
@@ -111,10 +127,11 @@ public class Puzzle_1_Button : MonoBehaviour
         yield return new WaitForSeconds(2f);
         puzzle_Net.CmdReset();
 
-        onFullCharge = false;
-        onRecover = false;
-        onProgress = false;
+        // onFullCharge = false;
+        // onRecover = false;
+        // onProgress = false;
     }
+
 
     //private void OnTriggerEnter2D(Collider2D collision)
     //{

@@ -12,7 +12,9 @@ public class Projectile_Arrow : ProjectileEntity
     }
    protected override void ReleaseToPool_Projectile()
     {
-        Managers.Pooling.N_ReleaseToPool<Projectile_Arrow>(gameObject);
+        // Managers.Pooling.N_ReleaseToPool<Projectile_Arrow>(gameObject);
+        //Managers.Pooling.N_ReleaseToPool(gameObject);
+        Managers.Pooling.D_ReleaseToPool(gameObject);
     }
 
     //private void OnDrawGizmosSelected()

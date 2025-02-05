@@ -5140,8 +5140,10 @@ GameObject:
   - component: {fileID: 64979305273645154}
   - component: {fileID: -2000141949827509853}
   - component: {fileID: 8611386600391597754}
-  - component: {fileID: 5990140042596155439}
   - component: {fileID: 763823665871053021}
+  - component: {fileID: 5990140042596155439}
+  - component: {fileID: 3761053918402171264}
+  - component: {fileID: 7913252737643662134}
   m_Layer: 14
   m_Name: Turret
   m_TagString: Untagged
@@ -5224,7 +5226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 1
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0
   clientAuthority: 0
@@ -5295,6 +5297,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.3333334, y: 0.43171793}
   m_EdgeRadius: 0
+--- !u!210 &763823665871053021
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3227932219690051067}
+  m_Enabled: 1
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
+  m_SortingOrder: 5
+  m_SortAtRoot: 0
 --- !u!114 &5990140042596155439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5311,6 +5325,7 @@ MonoBehaviour:
   transformID: 0
   position: {x: 0, y: 0}
   distructionStatus: 0
+  chargeRequired: 0
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
@@ -5329,18 +5344,66 @@ MonoBehaviour:
   fireEffect: {fileID: 5325542820177514359}
   curTime: 0
   curFireTime: 0
---- !u!210 &763823665871053021
-SortingGroup:
+--- !u!114 &3761053918402171264
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3227932219690051067}
   m_Enabled: 1
-  m_SortingLayerID: -688237417
-  m_SortingLayer: 5
-  m_SortingOrder: 5
-  m_SortAtRoot: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 084c2b86d65cc594781297c050e048d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  firePoint: {fileID: 8547298488332605700}
+  fireEffect: {fileID: 5325542820177514359}
+  ammoPrefab: {fileID: 3048323261120989730, guid: b1282530b78a7e845b60c9718171af26, type: 3}
+  animator: {fileID: -2000141949827509853}
+  rotateRate: 0
+  onHoldRotation: 0
+  fireRate: 0
+  onLeft: 0
+  onFire: 0
+  curFireTime: 0
+  curRotateTime: 0
+--- !u!114 &7913252737643662134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3227932219690051067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 7527202856157951427}
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  onlySyncOnChange: 1
+  compressRotation: 1
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  sendIntervalMultiplier: 1
+  timelineOffset: 0
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  onlySyncOnChangeCorrectionMultiplier: 2
+  rotationSensitivity: 0.01
+  positionPrecision: 0.01
+  scalePrecision: 0.01
 --- !u!1 &5269584977423057727
 GameObject:
   m_ObjectHideFlags: 0

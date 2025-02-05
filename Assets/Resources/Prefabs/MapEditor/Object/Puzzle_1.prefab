@@ -781,6 +781,9 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  partsContainer: {fileID: 5618218835064300309}
+  itemContainer: {fileID: 8687266841447918549}
+  hintScreen: {fileID: 2410220426263547716}
   button: {fileID: 1673485768780107428}
   chargingRate: 0
 --- !u!1 &7031136592058459931

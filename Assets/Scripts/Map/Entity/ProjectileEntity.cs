@@ -47,7 +47,7 @@ public class ProjectileEntity : MonoBehaviour,IPooling
                 if (hit.collider.TryGetComponent(out IDamageable damageable))
                 {
                     damageable.TakeDamage();
-                    ReleaseToPool();
+                    N_ReleaseToPool();
                     return;
                 }
                 transform.position = hit.point;
@@ -75,7 +75,7 @@ public class ProjectileEntity : MonoBehaviour,IPooling
     protected IEnumerator DelayRelease()
     {
         yield return new WaitForSeconds(5);
-        ReleaseToPool();
+        N_ReleaseToPool();
     }
 
     protected T GetTypeEntity<T>() where T: class
@@ -83,14 +83,19 @@ public class ProjectileEntity : MonoBehaviour,IPooling
         return this as T;
     }
 
-    public void ReleaseToPool()
-    {
-        Reset();
-        ReleaseToPool_Projectile();
-    }
+  
 
     protected virtual void ReleaseToPool_Projectile(){
 
+    }
+
+    
+    public void D_ReleaseToPool(){}
+
+    public void N_ReleaseToPool()
+    {
+        Reset();
+        ReleaseToPool_Projectile();
     }
 
     #endregion

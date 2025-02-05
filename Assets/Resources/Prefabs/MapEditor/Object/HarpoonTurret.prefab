@@ -5082,7 +5082,7 @@ MonoBehaviour:
   _Dissolve_MainSprite: {fileID: 0}
   layerMask:
     serializedVersion: 2
-    m_Bits: 4196288
+    m_Bits: 1024
   _holder: {fileID: 8923308927599904813}
   _shellParticle: {fileID: 645326699124061494}
   _topSteam: {fileID: 2868477511076414545}
@@ -5217,7 +5217,7 @@ MonoBehaviour:
   target: {fileID: 4207799436377025379}
   syncPosition: 1
   syncRotation: 1
-  syncScale: 0
+  syncScale: 1
   onlySyncOnChange: 1
   compressRotation: 1
   interpolatePosition: 1

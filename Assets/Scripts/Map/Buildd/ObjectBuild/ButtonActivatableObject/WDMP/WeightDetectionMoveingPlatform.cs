@@ -1,9 +1,7 @@
 using System;
-using System.Security.Cryptography;
-using DG.Tweening;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
+
 
 [RequireComponent(typeof(WDMP_Path))]
 public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
@@ -50,6 +48,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
    private Rigidbody2D rb;
    private Collider2D bodyCol;
    private Animator animator;
+   private WDMP_Net WDMP_Net => GetComponent<WDMP_Net>();
    #endregion
     
     #region Animation
@@ -99,7 +98,9 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
         }
         
         if(Application.isPlaying){
-            CreateRail();
+            // CreateRail();
+            WDMP_Net.Server_SetData(moveDistance);
+            
             Util util  = new Util();
             await util.Delay(()=>{CheckActiveRequirAmount();});
         }

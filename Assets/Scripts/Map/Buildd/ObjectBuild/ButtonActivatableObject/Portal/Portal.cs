@@ -13,7 +13,7 @@ public class Portal : ActivatableObjectEntity
     [ReadOnly]
     public Vector2 targetPosition;
 
-    bool onPrograss;
+    //bool onPrograss;
     [ReadOnly]
     public bool onActivable;
     //private Coroutine portalCoroutine;
@@ -23,10 +23,8 @@ public class Portal : ActivatableObjectEntity
     [SerializeField] private Animator _animator;
     [SerializeField] GameObject _TpEffect;
     
-    #region StringCache
-    private static readonly int IsActive = Animator.StringToHash("IsActive");
-    #endregion
-
+    private Portal_Net Portal_Net => GetComponent<Portal_Net>();
+  
     #region Get,Set
 
     private void Awake(){
@@ -49,7 +47,8 @@ public class Portal : ActivatableObjectEntity
          ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
          ButtonActivatedObjectStruct = objData;
          targetPosition = objData.talPot;
-
+            
+         Portal_Net.SetTargetPortal(targetPosition);
         }
         }catch{
                 Debug.Log($"ERROR,{typeof(T)}");
@@ -69,7 +68,8 @@ public class Portal : ActivatableObjectEntity
         foreach(Transform tr in MapEditor.Instance.buttonActivatableObjectTransform){
             if(tr.TryGetComponent(out Portal component)){
                 if(targetPosition == (Vector2)component.transform.position){
-                    targetPortal = component;
+                    //targetPortal = component;
+                    Portal_Net.SetTargetPortal(component.gameObject);
                     return;
                 }
             }
@@ -99,6 +99,8 @@ public class Portal : ActivatableObjectEntity
 
     //     });
     // }
+    
+    #if UNITY_EDITOR
     public async override void Editor_Setting(MapEditor mapEditor)
     {
         Util util = new Util();
@@ -120,50 +122,39 @@ public class Portal : ActivatableObjectEntity
 
         });
     }
+    #endif
     #endregion
-
-    // public void FindTargetPortal()
-    // {
-    //     if (targetPortal != null) return;
-
-    //     foreach(Transform tr in MapEditor.Instance.buttonActivatableObjectTransform)
-    //     {
-    //         Portal portal = tr.GetComponent<Portal>();
-
-    //         if(portal != null)
-    //         {
-    //             if (portal.ObjectData.position == targetPosition)
-    //             {
-    //                 targetPortal = portal;
-    //                 return;
-    //             }
-    //         }
-    //     }
-    // }
 
 
     #endregion
 
-
+    #region Network
+    public void Net_ChangeOnPrograss()
+    {
+        Portal_Net.Server_ChangePrograss();
+    }
+    #endregion
     #region Portal Logic
     private void FixedUpdate(){
-        if(onActivable){
+        if(Portal_Net.onActive){
             ActiveOnRay();
         }
     }
 
     protected override void Activation()
     {
-        _animator.SetBool(IsActive, true);
-        _TpEffect.SetActive(true);
-        onActivable = true;
+        //_animator.SetBool(IsActive, true);
+        //_TpEffect.SetActive(true);
+        //onActivable = true;
+        Portal_Net.Cmd_CallSetOnActive(true);
     }
 
     protected override void Deactivated()
     {
-        _animator.SetBool(IsActive, false);
-        _TpEffect.SetActive(false);
-        onActivable= false;
+        //_animator.SetBool(IsActive, false);
+        //_TpEffect.SetActive(false);
+        //onActivable= false;
+        Portal_Net.Cmd_CallSetOnActive(false);
     }
 
 
@@ -190,8 +181,11 @@ public class Portal : ActivatableObjectEntity
     private void ActiveOnRay(){
         RaycastHit2D hit = Physics2D.Raycast(transform.position,transform.up,.5f,layer);
         if(hit.collider != null){
-                if(!onPrograss){
-                    StartCoroutine(CoPortal());
+            
+                if(!Portal_Net.onPrograss){
+                //StartCoroutine(CoPortal(hit.collider.gameObject));
+                    //hit.collider.GetComponent<PlayerSM>().UsePortCamerEffect();
+                    Portal_Net.Cmd_UsePortal(hit.collider.gameObject);
                 } 
         }
        
@@ -201,37 +195,47 @@ public class Portal : ActivatableObjectEntity
     Gizmos.DrawRay(transform.position,transform.up*.5f);
    }
 
-    IEnumerator CoPortal()
-    {
-        onPrograss = true;
-        GameObject player = Managers.Game.Player;
-        Rigidbody2D rg = player.GetComponent<Rigidbody2D>();
-        //TODO Take Care logic : Cant Move Player 
-        rg.simulated = false;
+    //IEnumerator CoPortal(GameObject targetObj)
+    //{
+    //    onPrograss = true;
+    //    //GameObject player = Managers.Game.Player;
+    //    GameObject player = targetObj;
+    //    Rigidbody2D rg = player.GetComponent<Rigidbody2D>();
 
-        // FindTargetPortal();
-        targetPortal.onPrograss = true;
+    //    if (rg == null) yield break;
 
-        // FadeOut
-        //yield return MapEditor.Instance.fadeInOutPanel.FadeIn();
-        Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.PortalSpace_TimeTransitionEffect();
-        player.transform.position = targetPosition + Vector2.up;
+    //    //TODO Take Care logic : Cant Move Player 
+    //    //rg.simulated = false;
+    //    //Portal_Net.Cmd_HoldPlayer(player);
 
-        //Finish
-        //yield return MapEditor.Instance.fadeInOutPanel.FadeOut();
-       
-        yield return new WaitForSeconds(1f);
-        //TODO 1206, AcData Update
-        Managers.AcManager.CallUsePortal();
-        rg.simulated = true;
-        yield return new WaitForSeconds(1f);
-        //portalCoroutine = null;
-        onPrograss = false;
-        targetPortal.onPrograss = false;
+    //    //targetPortal.onPrograss = true;
 
-        //TODO Take Care logic : Can Move Player 
+    //    // FadeOut
+
+    //    //Portal_Net.Cmd_CameraEffect();
+    //    //Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.PortalSpace_TimeTransitionEffect();
+
+    //    //player.transform.position = Portal_Net.targetPortalPosition + Vector2.up;
+    //    Portal_Net.Cmd_Portal(player);
+
+    //    //Finish
+
+    //    yield return new WaitForSeconds(1f);
+    //    //TODO 1206, AcData Update
+    //    //Managers.AcManager.CallUsePortal();
         
-    }
+    //    Portal_Net.Cmd_CallUsePortal();
+
+    //    //rg.simulated = true;
+    //    Portal_Net.Cmd_RecoverPlayer(player);
+    //    yield return new WaitForSeconds(1f);
+    //    //portalCoroutine = null;
+    //    onPrograss = false;
+    //    //targetPortal.onPrograss = false;
+
+    //    //TODO Take Care logic : Can Move Player 
+        
+    //}
 
     // public bool CanInteract()
     // {

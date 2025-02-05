@@ -12,9 +12,14 @@ using UnityEngine;
         [ReadOnly]
         [SerializeField] GameObject spriteObj;
         #region  Components
-        Rigidbody2D rb;
-        BoxCollider2D boxCol;
+        // Rigidbody2D rb;
+        // BoxCollider2D boxCol;
         BoxCollider2D bridgeCol;
+        #endregion
+
+
+        #region Network
+        private BridgeBox_Net BridgeBox_Net => GetComponent<BridgeBox_Net>();
         #endregion
 
         #region  Get,Set
@@ -33,8 +38,13 @@ using UnityEngine;
                 {
                     ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
                     ButtonActivatedObjectStruct = objData;
-                    bridgeLength = objData.bridgeLength;
-                    connectionPoint = objData.connectionPoint;
+
+                    if(!Application.isPlaying)
+                    {
+                        bridgeLength = objData.bridgeLength;
+                        connectionPoint = objData.connectionPoint;
+                    }
+
                 }
             }
             catch
@@ -44,7 +54,9 @@ using UnityEngine;
 
                 if (Application.isPlaying)
                 {
-                    BridgeSetting();
+                    // BridgeSetting();
+                    BridgeBox_Net.Server_SetData(bridgeLength,connectionPoint);
+
                     await new Util().Delay(() => { CheckActiveRequirAmount(); });
                 }
             }
@@ -52,90 +64,94 @@ using UnityEngine;
 
 
         private void Awake(){
-            rb = GetComponent<Rigidbody2D>();
-            boxCol = GetComponent<BoxCollider2D>();
+            // rb = GetComponent<Rigidbody2D>();
+            // boxCol = GetComponent<BoxCollider2D>();
         }
 
-        private void BridgeSetting(){
-            CreateConnectionObject();
-            SetBridgeCollider();
-        }
+        // private void BridgeSetting(){
+
+        //     // CreateConnectionObject();
+        //     // SetBridgeCollider();
+        // }
 
 
         #region  Main
-        protected override void Activation()
-        {
-            ConnectBridge();
-        }
-        protected override void Deactivated()
-        {
-            DisconnectBridge();
-        }
+        // protected override void Activation()
+        // {
+        //     ConnectBridge();
+        // }
+        // protected override void Deactivated()
+        // {
+        //     DisconnectBridge();
+        // }
+        // private void ConnectBridge(){
+        //     DrawLine();
+        //     bridgeCol.enabled = true;
+        // }
+        // private void DrawLine(){
+        //     lineRenderer.positionCount =2;
+        //     lineRenderer.SetPosition(0,lineRenderer.transform.position);
+        //     lineRenderer.SetPosition(1,connectionPoint+GetOffset());
+        // }
+
+        //  private void DisconnectBridge(){
+        //     lineRenderer.positionCount = 0;
+        //     bridgeCol.enabled =false;
+        // }
 
 
-        private void ConnectBridge(){
-            DrawLine();
-            bridgeCol.enabled = true;
-        }
-
-        private void SetBridgeCollider(){
-            GameObject obj = new GameObject("bridge");
-            bridgeCol = obj.AddComponent<BoxCollider2D>();
+        // private void SetBridgeCollider(){
+        //     GameObject obj = new GameObject("bridge");
+        //     bridgeCol = obj.AddComponent<BoxCollider2D>();
             
-            Vector2 a = lineRenderer.gameObject.transform.position;
-            Vector2 b = connectionPoint + GetOffset();
+        //     Vector2 a = lineRenderer.gameObject.transform.position;
+        //     Vector2 b = connectionPoint + GetOffset();
 
-            Vector2 mid = (a+b)/2;
-            float distance = Vector2.Distance(a,b);
-            Vector2 dir = (b-a).normalized;
+        //     Vector2 mid = (a+b)/2;
+        //     float distance = Vector2.Distance(a,b);
+        //     Vector2 dir = (b-a).normalized;
 
-            bridgeCol.size = new Vector2(distance,bridgeCol.size.y);
-            obj.transform.position = mid;
-            float angle = Mathf.Atan2(dir.y,dir.x) * Mathf.Rad2Deg;
-            obj.transform.rotation = Quaternion.Euler(0,0,angle);
+        //     bridgeCol.size = new Vector2(distance,bridgeCol.size.y);
+        //     obj.transform.position = mid;
+        //     float angle = Mathf.Atan2(dir.y,dir.x) * Mathf.Rad2Deg;
+        //     obj.transform.rotation = Quaternion.Euler(0,0,angle);
             
-            obj.layer = LayerMask.NameToLayer("Ground/NotHookable");
-            obj.transform.SetParent(transform);
+        //     obj.layer = LayerMask.NameToLayer("Ground/NotHookable");
+        //     obj.transform.SetParent(transform);
 
-            bridgeCol.enabled = false;
-        }
-        private void DrawLine(){
-            lineRenderer.positionCount =2;
-            lineRenderer.SetPosition(0,lineRenderer.transform.position);
-            lineRenderer.SetPosition(1,connectionPoint+GetOffset());
-        }
-        private Vector2 GetOffset(){
-            return transform.position - lineRenderer.transform.position;
-        }
-        private void DisconnectBridge(){
-            lineRenderer.positionCount = 0;
-            bridgeCol.enabled =false;
-        }
+        //     bridgeCol.enabled = false;
+        // }
+
+      
+        // private Vector2 GetOffset(){
+        //     return transform.position - lineRenderer.transform.position;
+        // }
+       
         #endregion
 
 
-        private void CreateConnectionObject(){
-            GameObject obj = new GameObject("Connect Object");
+        // private void CreateConnectionObject(){
+        //     GameObject obj = new GameObject("Connect Object");
         
-            GameObject spO = Instantiate(spriteObj);
-            spO.transform.localScale = new Vector3(-1,1,1);
-            spO.transform.SetParent(obj.transform);
+        //     GameObject spO = Instantiate(spriteObj);
+        //     spO.transform.localScale = new Vector3(-1,1,1);
+        //     spO.transform.SetParent(obj.transform);
 
-            Rigidbody2D rb = obj.AddComponent<Rigidbody2D>();
-            rb.isKinematic = true;
-            rb.gravityScale = 0;
+        //     Rigidbody2D rb = obj.AddComponent<Rigidbody2D>();
+        //     rb.isKinematic = true;
+        //     rb.gravityScale = 0;
 
-            BoxCollider2D bcol = obj.AddComponent<BoxCollider2D>();
-            boxCol.offset = this.boxCol.offset;
-            boxCol.size  = this.boxCol.size;
+        //     BoxCollider2D bcol = obj.AddComponent<BoxCollider2D>();
+        //     bcol.offset = this.boxCol.offset;
+        //     bcol.size  = this.boxCol.size;
             
-            obj.transform.rotation = transform.rotation;
-            obj.transform.position = connectionPoint;
+        //     obj.transform.rotation = transform.rotation;
+        //     obj.transform.position = connectionPoint;
 
-            obj.transform.SetParent(transform);
-            obj.layer  = transform.gameObject.layer;
+        //     obj.transform.SetParent(transform);
+        //     obj.layer  = transform.gameObject.layer;
 
-        }
+        // }
 
         private Vector2 GetConnectionPoint(){
             Vector2 dir = transform.right;

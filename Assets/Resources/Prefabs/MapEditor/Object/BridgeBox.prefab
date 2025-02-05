@@ -350,10 +350,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 994488778957814542}
-  - component: {fileID: 2383001159389326128}
+  - component: {fileID: 6005928724695008609}
   - component: {fileID: -5810413876586093780}
   - component: {fileID: 9140861429212292789}
   - component: {fileID: 1562416277386610745}
+  - component: {fileID: 2383001159389326128}
+  - component: {fileID: 1718351203705897030}
   - component: {fileID: 4752608457244889415}
   m_Layer: 6
   m_Name: BridgeBox
@@ -380,7 +382,7 @@ Transform:
   - {fileID: 7548269095300892846}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2383001159389326128
+--- !u!114 &6005928724695008609
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -389,26 +391,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 8716440483222482088}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99ddba805bbbda74fa278a5f77d7640e, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 339
-  transformID: 0
-  position: {x: 0, y: 0}
-  distructionStatus: 0
-  onPlaceable: 0
-  onRotateable: 1
-  onScaleable: 0
-  offset: {x: 0, y: 1}
-  turnOff: 0
-  setPosition: 0
-  orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
-  activeRequirAmount: 0
-  curActiveBtn: 0
-  bridgeLength: 0
-  lineRenderer: {fileID: 103981424466455261}
-  spriteObj: {fileID: 2564782956103689011}
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 994488778957814542}
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  onlySyncOnChange: 1
+  compressRotation: 1
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  sendIntervalMultiplier: 1
+  timelineOffset: 0
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  onlySyncOnChangeCorrectionMultiplier: 2
+  rotationSensitivity: 0.01
+  positionPrecision: 0.01
+  scalePrecision: 0.01
 --- !u!114 &-5810413876586093780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -498,6 +505,55 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &2383001159389326128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8716440483222482088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99ddba805bbbda74fa278a5f77d7640e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 339
+  transformID: 0
+  position: {x: 0, y: 0}
+  distructionStatus: 0
+  chargeRequired: 0
+  onPlaceable: 0
+  onRotateable: 1
+  onScaleable: 0
+  offset: {x: 0, y: 1}
+  turnOff: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 0}
+  activeRequirAmount: 0
+  curActiveBtn: 0
+  bridgeLength: 0
+  lineRenderer: {fileID: 103981424466455261}
+  spriteObj: {fileID: 2564782956103689011}
+--- !u!114 &1718351203705897030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8716440483222482088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a21f8f66c8fcb4510a12b170f9444c16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  spriteObj: {fileID: 2564782956103689011}
+  bridgeLength: 0
+  connectionPoint: {x: 0, y: 0}
+  bridge: {fileID: 0}
 --- !u!114 &4752608457244889415
 MonoBehaviour:
   m_ObjectHideFlags: 0
