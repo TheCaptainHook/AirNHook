@@ -130,7 +130,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     // }
 
     private void Update(){
-        ShootRay();
+        if (onActive) ShootRay();
     }
 
     // - : right
@@ -174,7 +174,6 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
         Rotate(weight);
         //move platform
         if(moveDistance == 0) return;
-        if(!onActive) return;
 
         dir = transform.rotation.z == 0 ? Vector2.zero : transform.rotation.z>0 ? -Vector2.right : Vector2.right;
         
