@@ -271,6 +271,7 @@ private float Weight(RaycastHit2D hit){
         }
         if (hit.collider.TryGetComponent(out Rigidbody2D component))
         {
+            Debug.Log($"{component.gameObject.name}");
             float dis = Mathf.Floor(Vector3.Distance(transform.position, hit.point) * 100) / 100;
             float mass = component.mass;
             return dis * mass;
