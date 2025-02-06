@@ -23,7 +23,7 @@ public class WDMP_Net : NetworkBehaviour
     [SyncVar] public float maxDis_Clamp;
 
     [Server]
-    public void Server_SetData(float moveDistance)
+    public void Server_SetMoveDistance(float moveDistance)
     {
        this.moveDistance = moveDistance;   
     }
@@ -38,6 +38,7 @@ public class WDMP_Net : NetworkBehaviour
     {
         this.step = step;
     }
+    [Server]
     public void Server_SetClamp(float min,float max)
     {
         this.minDis_Clamp = min;

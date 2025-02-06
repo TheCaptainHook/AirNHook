@@ -36,8 +36,8 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     //private float step;
 
     
-    private float minDis_Clamp; //Compare orgPot, path.
-    private float maxDis_Clamp; //Compare orgPot, path.
+    //private float minDis_Clamp; //Compare orgPot, path.
+    //private float maxDis_Clamp; //Compare orgPot, path.
     private Vector2 curTargetPot; //next move point.
     private float releaseCount =1;
     private float curReleaseCount;
@@ -57,6 +57,8 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     #endregion
     
     private void Init(){
+        WDMP_Net.Server_SetMoveDistance(ButtonActivatedObjectStruct.moveDistance);
+
         orgPot = transform.position;
         path  = GetPath();
         curTargetPot = orgPot;
@@ -86,10 +88,10 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
             {
                 ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
                 ButtonActivatedObjectStruct = objData;
-                moveDistance = objData.moveDistance;
-                moveSpeed = objData.moveSpeed;
-                Init();
 
+                //moveDistance = objData.moveDistance;
+                //WDMP_Net.Server_SetMoveDistance(objData.moveDistance);
+                moveSpeed = objData.moveSpeed;
 
           
             }
@@ -98,8 +100,9 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
         }
         
         if(Application.isPlaying){
+            Init();
             // CreateRail();
-            WDMP_Net.Server_SetData(moveDistance);
+            
             
             Util util  = new Util();
             await util.Delay(()=>{CheckActiveRequirAmount();});
@@ -173,7 +176,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
         //tilt platform
         Rotate(weight);
         //move platform
-        if(moveDistance == 0) return;
+        if(WDMP_Net.moveDistance == 0) return;
 
         //dir = transform.rotation.z == 0 ? Vector2.zero : transform.rotation.z>0 ? -Vector2.right : Vector2.right;
         Vector2 dir = transform.rotation.z == 0 ? Vector2.zero : transform.rotation.z > 0 ? -Vector2.right : Vector2.right;
@@ -212,8 +215,8 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
 
         //curTargetPot = rb.position + dir;
         curTargetPot = rb.position + WDMP_Net.dir;
-        curTargetPot.x = Mathf.Clamp(curTargetPot.x,minDis_Clamp,maxDis_Clamp);
-
+        //curTargetPot.x = Mathf.Clamp(curTargetPot.x,minDis_Clamp,maxDis_Clamp);
+        curTargetPot.x = Mathf.Clamp(curTargetPot.x, WDMP_Net.minDis_Clamp, WDMP_Net.maxDis_Clamp);
         //rb.position = Vector2.MoveTowards(rb.position,curTargetPot,step);
         rb.position = Vector2.MoveTowards(rb.position, curTargetPot, WDMP_Net.step);
     }
@@ -245,11 +248,11 @@ private void TiltAnimationSet(float l,float r){
 }
 
 private Vector2 GetPath(){
-    if(moveDistance == 0) return orgPot;
-    Vector2 target = new Vector2(orgPot.x + moveDistance,orgPot.y);
+    if(WDMP_Net.moveDistance == 0) return orgPot;
+    Vector2 target = new Vector2(orgPot.x + WDMP_Net.moveDistance, orgPot.y);
 
-    minDis_Clamp = orgPot.x > target.x ? target.x : orgPot.x;
-    maxDis_Clamp = orgPot.x < target.x ? target.x : orgPot.x;
+    float minDis_Clamp = orgPot.x > target.x ? target.x : orgPot.x;
+    float maxDis_Clamp = orgPot.x < target.x ? target.x : orgPot.x;
 
     WDMP_Net.Server_SetClamp(minDis_Clamp,maxDis_Clamp);
 
@@ -278,11 +281,13 @@ private float Weight(RaycastHit2D hit){
 }
 private bool CheckMaxAndMinClamp(){
         if(WDMP_Net.dir == Vector2.right){
-            if(curTargetPot.x > maxDis_Clamp){
+            if(curTargetPot.x > WDMP_Net.maxDis_Clamp)
+            {
                 return false;
             }
         }else if(WDMP_Net.dir == -Vector2.right){
-            if(curTargetPot.x < minDis_Clamp){
+            if(curTargetPot.x < WDMP_Net.minDis_Clamp)
+            {
                 return false;
             }
         }else if(WDMP_Net.dir == Vector2.zero ){
@@ -308,7 +313,7 @@ private void CreateRail(){ //rail node, rail lineRenderer
     private void DrawLine(LineRenderer line){
         line.positionCount = 2;
         line.SetPosition(0,transform.position);
-        Vector2 target = new Vector2(transform.position.x + moveDistance,transform.position.y);
+        Vector2 target = new Vector2(transform.position.x + WDMP_Net.moveDistance,transform.position.y);
         line.SetPosition(1,target);
            
     }
