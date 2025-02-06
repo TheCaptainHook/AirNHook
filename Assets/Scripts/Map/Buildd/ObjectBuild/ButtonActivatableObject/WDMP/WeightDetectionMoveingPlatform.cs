@@ -66,6 +66,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
 
         bodyCol = GetComponent<Collider2D>();
         rayLength = bodyCol.bounds.size.x/2f;
+        WDMP_Net.Server_SetRayLength(rayLength);
 
         // CreateRail();
     }
@@ -297,27 +298,27 @@ private bool CheckMaxAndMinClamp(){
 
         return true;
 }
-private void CreateRail(){ //rail node, rail lineRenderer
-        Transform parents = MapEditor.Instance.dontSaveObjectTransform;
-        Transform container = new GameObject("Rail_Container").transform;
-        container.SetParent(parents);
+//private void CreateRail(){ //rail node, rail lineRenderer
+//        Transform parents = MapEditor.Instance.dontSaveObjectTransform;
+//        Transform container = new GameObject("Rail_Container").transform;
+//        container.SetParent(parents);
 
-        LineRenderer line = Instantiate(rail_Line,container);
-        //Draw Line
-        DrawLine(line);
+//        LineRenderer line = Instantiate(rail_Line,container);
+//        //Draw Line
+//        DrawLine(line);
 
-        GameObject railNode_1 = Instantiate(rail_Prefabs,container);
-        railNode_1.transform.position = line.GetPosition(0);
-        GameObject railNode_2 = Instantiate(rail_Prefabs,container);
-        railNode_2.transform.position = line.GetPosition(1);
-    }
-    private void DrawLine(LineRenderer line){
-        line.positionCount = 2;
-        line.SetPosition(0,transform.position);
-        Vector2 target = new Vector2(transform.position.x + WDMP_Net.moveDistance,transform.position.y);
-        line.SetPosition(1,target);
+//        GameObject railNode_1 = Instantiate(rail_Prefabs,container);
+//        railNode_1.transform.position = line.GetPosition(0);
+//        GameObject railNode_2 = Instantiate(rail_Prefabs,container);
+//        railNode_2.transform.position = line.GetPosition(1);
+//    }
+    //private void DrawLine(LineRenderer line){
+    //    line.positionCount = 2;
+    //    line.SetPosition(0,transform.position);
+    //    Vector2 target = new Vector2(transform.position.x + WDMP_Net.moveDistance,transform.position.y);
+    //    line.SetPosition(1,target);
            
-    }
+    //}
    
 
 #endregion

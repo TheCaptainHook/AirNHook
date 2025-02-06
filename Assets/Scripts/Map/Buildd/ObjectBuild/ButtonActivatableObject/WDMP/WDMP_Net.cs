@@ -13,7 +13,7 @@ public class WDMP_Net : NetworkBehaviour
     // private Collider2D Collider => GetComponent<Collider2D>();
 
     [SyncVar] public float moveDistance;
-
+    [SyncVar] public float rayLength;
 
     [SyncVar] public Vector2 dir;
     [SyncVar] public float step;
@@ -43,6 +43,11 @@ public class WDMP_Net : NetworkBehaviour
     {
         this.minDis_Clamp = min;
         this.maxDis_Clamp = max;
+    }
+    [Server]
+    public void Server_SetRayLength(float rayLength)
+    {
+        this.rayLength = rayLength;
     }
 
     private void CreateRail() //rail node, rail lineRenderer
