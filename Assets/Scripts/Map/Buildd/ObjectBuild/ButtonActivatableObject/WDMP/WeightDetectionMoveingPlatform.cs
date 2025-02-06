@@ -13,7 +13,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     #region  TEST
     private Vector2 orgPot;
     #endregion
-    private float rayLength;
+    //private float rayLength;
 
     #region Main
     private RaycastHit2D[] leftHit;
@@ -65,7 +65,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
 
 
         bodyCol = GetComponent<Collider2D>();
-        rayLength = bodyCol.bounds.size.x/2f;
+        float rayLength = bodyCol.bounds.size.x/2f;
         WDMP_Net.Server_SetRayLength(rayLength);
 
         // CreateRail();
@@ -145,10 +145,10 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
         float lw = 0;
         float rw = 0;
 
-        Debug.DrawRay(leftPoint.position,-transform.right*rayLength,Color.red);
-        Debug.DrawRay(rightPoint.position,transform.right*rayLength,Color.blue);
-        leftHit = Physics2D.RaycastAll(leftPoint.position,-transform.right,rayLength,layerMask);
-        rightHit = Physics2D.RaycastAll(rightPoint.position,transform.right,rayLength,layerMask);
+        Debug.DrawRay(leftPoint.position,-transform.right*WDMP_Net.rayLength,Color.red);
+        Debug.DrawRay(rightPoint.position,transform.right* WDMP_Net.rayLength, Color.blue);
+        leftHit = Physics2D.RaycastAll(leftPoint.position,-transform.right, WDMP_Net.rayLength, layerMask);
+        rightHit = Physics2D.RaycastAll(rightPoint.position,transform.right, WDMP_Net.rayLength, layerMask);
 
         foreach(RaycastHit2D hit in leftHit){
             lw += Weight(hit);
