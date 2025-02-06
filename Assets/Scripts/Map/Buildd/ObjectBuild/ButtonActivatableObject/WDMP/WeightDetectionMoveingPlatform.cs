@@ -32,8 +32,8 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     [SerializeField] LineRenderer rail_Line;
     
     private float weight;
-    private Vector2 dir;
-    private float step;
+    //private Vector2 dir;
+    //private float step;
 
     
     private float minDis_Clamp; //Compare orgPot, path.
@@ -130,7 +130,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     // }
 
     private void Update(){
-        if (onActive) ShootRay();
+        ShootRay();
     }
 
     // - : right
@@ -175,12 +175,16 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
         //move platform
         if(moveDistance == 0) return;
 
-        dir = transform.rotation.z == 0 ? Vector2.zero : transform.rotation.z>0 ? -Vector2.right : Vector2.right;
-        
-        if(CheckMaxAndMinClamp()){
-           step = moveSpeed * rate * Time.fixedDeltaTime;
+        //dir = transform.rotation.z == 0 ? Vector2.zero : transform.rotation.z>0 ? -Vector2.right : Vector2.right;
+        Vector2 dir = transform.rotation.z == 0 ? Vector2.zero : transform.rotation.z > 0 ? -Vector2.right : Vector2.right;
+        WDMP_Net.Server_SetDir(dir);
+
+        if (CheckMaxAndMinClamp()){
+            //step = moveSpeed * rate * Time.fixedDeltaTime;
+            WDMP_Net.Server_SetStep(moveSpeed * rate * Time.fixedDeltaTime);
         }else{
-            step = 0;
+            //step = 0;
+            WDMP_Net.Server_SetStep(0);
         }
 
         MoveTowards();   
@@ -206,15 +210,18 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     }
     private void MoveTowards(){
 
-        curTargetPot = rb.position + dir;
+        //curTargetPot = rb.position + dir;
+        curTargetPot = rb.position + WDMP_Net.dir;
         curTargetPot.x = Mathf.Clamp(curTargetPot.x,minDis_Clamp,maxDis_Clamp);
 
-        rb.position = Vector2.MoveTowards(rb.position,curTargetPot,step);
+        //rb.position = Vector2.MoveTowards(rb.position,curTargetPot,step);
+        rb.position = Vector2.MoveTowards(rb.position, curTargetPot, WDMP_Net.step);
     }
     private void MoveTowards(RaycastHit2D[] hits){
             foreach(RaycastHit2D hit in hits){
                 if(hit.collider.TryGetComponent(out Rigidbody2D component)){
-                component.position = Vector2.MoveTowards(component.position,component.position + dir,step);
+                //component.position = Vector2.MoveTowards(component.position,component.position + dir,step);
+                component.position = Vector2.MoveTowards(component.position, component.position + WDMP_Net.dir, WDMP_Net.step);
             }
         }
     }
@@ -244,6 +251,8 @@ private Vector2 GetPath(){
     minDis_Clamp = orgPot.x > target.x ? target.x : orgPot.x;
     maxDis_Clamp = orgPot.x < target.x ? target.x : orgPot.x;
 
+    WDMP_Net.Server_SetClamp(minDis_Clamp,maxDis_Clamp);
+
     return target;
 
 }
@@ -268,15 +277,15 @@ private float Weight(RaycastHit2D hit){
    
 }
 private bool CheckMaxAndMinClamp(){
-        if(dir == Vector2.right){
+        if(WDMP_Net.dir == Vector2.right){
             if(curTargetPot.x > maxDis_Clamp){
                 return false;
             }
-        }else if(dir == -Vector2.right){
+        }else if(WDMP_Net.dir == -Vector2.right){
             if(curTargetPot.x < minDis_Clamp){
                 return false;
             }
-        }else if(dir == Vector2.zero ){
+        }else if(WDMP_Net.dir == Vector2.zero ){
             return false;
         }
 

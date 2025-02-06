@@ -15,13 +15,34 @@ public class WDMP_Net : NetworkBehaviour
     [SyncVar] public float moveDistance;
 
 
+    [SyncVar] public Vector2 dir;
+    [SyncVar] public float step;
+
+
+    [SyncVar] public float minDis_Clamp;
+    [SyncVar] public float maxDis_Clamp;
+
     [Server]
     public void Server_SetData(float moveDistance)
     {
        this.moveDistance = moveDistance;   
     }
 
-
+    [Server]
+    public void Server_SetDir(Vector2 dir)
+    {
+        this.dir = dir;
+    }
+    [Server]
+    public void Server_SetStep(float step)
+    {
+        this.step = step;
+    }
+    public void Server_SetClamp(float min,float max)
+    {
+        this.minDis_Clamp = min;
+        this.maxDis_Clamp = max;
+    }
 
     private void CreateRail() //rail node, rail lineRenderer
     { 
