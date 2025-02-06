@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5593329883615460087}
   - component: {fileID: 1031660717709507983}
   m_Layer: 0
-  m_Name: Sign_RobotSign
+  m_Name: Sign_AirGunSign
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: -696190403
   m_SortingLayer: 4
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 96dab41835b77b04c9382c894fe70520, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 327d63f1ae431ab43aa12c998ffd26e3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 104eb1c96815b4820b4be071555180b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 5353
+  id: 5355
   transformID: 0
   position: {x: 0, y: 0}
   distructionStatus: 0
