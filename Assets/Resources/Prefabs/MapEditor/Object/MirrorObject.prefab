@@ -270,6 +270,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1030760113723832143}
   - component: {fileID: 3796624355465384780}
+  - component: {fileID: 8428942988980601487}
   - component: {fileID: 5154744132076820605}
   - component: {fileID: -38647474503824497}
   - component: {fileID: -184160304766102073}
@@ -327,6 +328,23 @@ MonoBehaviour:
   onActive: 0
   _BtnOffset: 0
   _objectType: 0
+--- !u!114 &8428942988980601487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7610186992763077023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0566b944f69a3417e8a0397fed3b6135, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  _Mirror: {fileID: 0}
+  InnerPlayer: {fileID: 0}
 --- !u!61 &5154744132076820605
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -401,7 +419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 1
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0
   target: {fileID: 1030760113723832143}

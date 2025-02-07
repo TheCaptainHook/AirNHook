@@ -32,10 +32,13 @@ public class DroneEntity : BuildObj
         }}
     private Coroutine animationMovingCoroutine;
 
-    //TEST
+
+    #region  Damageable Option
     private bool OnStop;
     public bool IsBroken;
-    //TEST
+    #endregion
+
+    
     [Header("Components")]
     private Animator animator;
 
@@ -83,10 +86,6 @@ public class DroneEntity : BuildObj
         animator = GetComponent<Animator>();
         PrograssAction+= Prograss;
         BrokenAction += Broken;
-        
-    }
-
-    protected virtual void Start(){
         
     }
 
