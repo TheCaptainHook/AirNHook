@@ -40,10 +40,9 @@ public class MirrorObject_Net : NetworkBehaviour
         }
     }
 
+    [Command(requiresAuthority = false)]
      private void GrantOrRevokeAuthority(GameObject obj,bool isAuthorized)
     {
-        if (!isServer) return;
-
         if(obj.TryGetComponent(out NetworkIdentity identity))
         {
            TRpc_CheckIdentity(identity.connectionToClient,isAuthorized,obj);
@@ -72,7 +71,7 @@ public class MirrorObject_Net : NetworkBehaviour
 
 
     #region UI
-    [Command]
+    [Command(requiresAuthority = false)]
     public void Cmd_ShowE(GameObject player,bool onOff)
     {
         if(player.TryGetComponent(out NetworkIdentity identity))
