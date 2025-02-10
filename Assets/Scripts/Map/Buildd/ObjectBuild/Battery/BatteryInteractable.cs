@@ -27,7 +27,7 @@ public class BatteryInteractable : InteractableObject
     [ReadOnly]
     [SyncVar]
     public GameObject batteryCharger;
-    [SyncVar(hook = nameof(OnChangeBatteryCapacity))] 
+    [SyncVar] 
     public float batteryCapacity; // hook
 
 
@@ -35,6 +35,7 @@ public class BatteryInteractable : InteractableObject
     private void Server_SetBatteryCharger(GameObject batteryCharger)
     {
         this.batteryCharger = batteryCharger;
+
     }
 
     [Server]
@@ -42,6 +43,8 @@ public class BatteryInteractable : InteractableObject
     {
         batteryCapacity += val;
         if(batteryCapacity > maxCapacity) batteryCapacity = maxCapacity;
+
+        Animator.SetFloat(CAPACITY, batteryCapacity / maxCapacity);
     }
 
 
@@ -55,13 +58,6 @@ public class BatteryInteractable : InteractableObject
     public void Cmd_SetBatteryCharger(GameObject batteryCharger)
     {
         Server_SetBatteryCharger(batteryCharger);
-    }
-
-
-    //---------------------------------Hook
-    private void OnChangeBatteryCapacity(float old,float newVal)
-    {
-        Animator.SetFloat(CAPACITY, newVal/maxCapacity);
     }
 
     #endregion
