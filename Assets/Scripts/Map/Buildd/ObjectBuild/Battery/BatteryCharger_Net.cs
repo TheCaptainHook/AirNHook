@@ -37,6 +37,8 @@ public class BatteryCharger_Net : NetworkBehaviour
     }
     private bool Compare(GameObject a, GameObject b)
     {
+        if (a == null || b == null) return false;
+
         NetworkIdentity aN = a.GetComponent<NetworkIdentity>();
         NetworkIdentity bN = b.GetComponent<NetworkIdentity>();
 
