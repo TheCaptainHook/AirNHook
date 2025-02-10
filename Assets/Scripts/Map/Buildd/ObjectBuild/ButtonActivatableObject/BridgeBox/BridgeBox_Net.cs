@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System.IO.Compression;
+using Org.BouncyCastle.Crypto.Engines;
 
 public class BridgeBox_Net : NetworkBehaviour
 {
@@ -19,6 +21,11 @@ public class BridgeBox_Net : NetworkBehaviour
 
     private BoxCollider2D Collider => GetComponent<BoxCollider2D>();
 
+
+    // public void Awake()
+    // {
+    //     lineRenderer.positionCount =2;
+    // }
 
     [Server]
     public void Server_ChangeOnActive()
@@ -46,6 +53,7 @@ public class BridgeBox_Net : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void Cmd_SetOnActive()
     {
+        if(isServer)
         Server_ChangeOnActive();
     }
 
@@ -84,7 +92,8 @@ public class BridgeBox_Net : NetworkBehaviour
 
     private void SetBridgeCollider()
     {
-     
+        // lineRenderer.SetPosition(0, lineRenderer.transform.position);
+
         Vector2 a = lineRenderer.gameObject.transform.position;
         Vector2 b = connectionPoint + GetOffset();
 
@@ -139,14 +148,56 @@ public class BridgeBox_Net : NetworkBehaviour
 
     private void Active()
     {
+        // StartCoroutine(On());
         bridgeCollider.enabled = true;
         DrawLine();
     }
     private void Deactive()
     {
+        // StartCoroutine(Off());
         lineRenderer.positionCount = 0;
         bridgeCollider.enabled = false;
     }
+
+    //------Test
+    // IEnumerator On()
+    // {
+    //     float percent = 0;
+    //     bridgeCollider.enabled = true;
+
+    //     Vector3 targetLine = connectionPoint + GetOffset();
+
+    //     while(percent <1)
+    //     {
+    //         percent += Time.fixedDeltaTime;
+    //         // bridgeCollider.transform.localScale = Vector3.Lerp(Vector3.zero,Vector3.one,percent);
+    //         Vector3 line = Vector3.Lerp(lineRenderer.transform.position,targetLine,percent);
+
+    //         lineRenderer.SetPosition(1,line);
+    //         yield return null;
+    //     }
+
+    //     // bridgeCollider.transform.localScale = Vector3.one;
+    //     lineRenderer.SetPosition(1,targetLine);
+    // }
+    // IEnumerator Off()
+    // {
+    //     float percent = 1;
+    //     Vector3 targetLine = connectionPoint + GetOffset();
+    //     while(percent>0)
+    //     {
+    //         percent -=Time.fixedDeltaTime;
+    //         // bridgeCollider.transform.localScale = Vector3.Lerp(Vector3.one,Vector3.zero,percent);
+    //         Vector3 line = Vector3.Lerp(lineRenderer.transform.position,targetLine,percent);
+    //         lineRenderer.SetPosition(1,line);
+
+    //         yield return null;
+    //     }
+    //     bridgeCollider.enabled = false;
+    //     // bridgeCollider.transform.localScale = Vector3.zero;
+    //     lineRenderer.SetPosition(1,lineRenderer.transform.position);
+    // }
+
 
      private void DrawLine()
      {
