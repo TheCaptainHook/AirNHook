@@ -80,7 +80,7 @@ public class BatteryInteractable : InteractableObject
     {
         if (batteryCharger != null)
         {
-            BatteryRelease(batteryCharger.transform.position);
+            BatteryRelease();
             //battery.InsertChargerSocket();
             Cmd_InsertChargerSocket(gameObject);
         }
@@ -96,7 +96,7 @@ public class BatteryInteractable : InteractableObject
     }
 
 
-    private void BatteryRelease(Vector2 releasePosition)
+    private void BatteryRelease()
     {
         _isFixed = false;
         _isGrab = false;
@@ -106,29 +106,30 @@ public class BatteryInteractable : InteractableObject
         _fixedPoint = null;
         _rigidbody.constraints = _originRot;
         _sortingGroup.sortingLayerID = _originSortingLayerID;
+
         _rigidbody.gravityScale = 0;
 
         CmdChangeSortingLayer(false);
 
         //CmdResetVelocity();
         //CmdSetTransform(releasePosition);
-        Cmd_Release(releasePosition);
+        Cmd_Release();
     }
 
 
     [Command(requiresAuthority = false)]
-    private void Cmd_Release(Vector2 releasePosition)
+    private void Cmd_Release()
     {
-        Rpc_Release(releasePosition);
+        Rpc_Release();
     }
 
     [ClientRpc]
-    private void Rpc_Release(Vector2 releasePosition)
+    private void Rpc_Release()
     {
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.angularVelocity = 0;
 
-        transform.position = releasePosition;
+        transform.position = batteryCharger.transform.position;
     }
 
     [Command(requiresAuthority = false)]

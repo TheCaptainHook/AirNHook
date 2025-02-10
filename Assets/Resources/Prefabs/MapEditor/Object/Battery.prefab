@@ -275,7 +275,6 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
-  batteryCapacity: 0
   powerSupply: {fileID: 0}
 --- !u!114 &8988956062262925408
 MonoBehaviour:
@@ -297,6 +296,7 @@ MonoBehaviour:
   _offset: {x: 0, y: 0.5}
   _inhalePower: 600
   batteryCharger: {fileID: 0}
+  batteryCapacity: 0
 --- !u!95 &6712209501634868520
 Animator:
   serializedVersion: 5

@@ -8,7 +8,7 @@ public class BatteryCharger_Net : NetworkBehaviour
     BatteryCharger BatteryCharger => GetComponent<BatteryCharger>();
 
     [ReadOnly]
-    [SyncVar(hook = nameof(OnChangeBattery))]
+    [SyncVar]
     public GameObject battery;
 
 
@@ -16,7 +16,23 @@ public class BatteryCharger_Net : NetworkBehaviour
     [Server]
     private void Server_SetBattery(GameObject battery)
     {
+        if(this.battery != null)
+        {
+            StopAllCoroutines();
+            //Remove battery
+            if (this.battery.TryGetComponent(out BatteryInteractable component))
+            {
+                component.Cmd_Recover();
+            }
+        }
+
         this.battery = battery;
+        if(battery != null)
+        {
+            Charge();
+        }
+
+
     }
 
     [Command(requiresAuthority = false)]
@@ -26,48 +42,8 @@ public class BatteryCharger_Net : NetworkBehaviour
     }
 
 
-    private void OnChangeBattery(GameObject old,GameObject newVal)
-    {
-        if (old != null)
-        {
-            //StopCharge
-            StopAllCoroutines();
-            //Remove battery
-            if (old.TryGetComponent(out BatteryInteractable component))
-            {
-                component.Cmd_Recover();
-            }
-        }
-
-        if (newVal != null)
-        {
-            Charge();
-        }
-    
-    }
-
-    //public void RemoveSocket()
-    //{
-    //    //if (chargeCorotine != null)
-    //    //{
-    //    //    StopCoroutine(chargeCorotine);
-    //    //    chargeCorotine = null;
-    //    //}
-
-    //    if (battery == null) return;
-
-    //    battery.RemoveSocket();
-    //    battery = null;
-
-    //}
     public void Charge()
     {
-        //if (this.battery != null)
-        //{
-        //    RemoveSocket();
-        //}
-
-        //this.battery = battery;
       StartCoroutine(ChargeCo());
     }
 
