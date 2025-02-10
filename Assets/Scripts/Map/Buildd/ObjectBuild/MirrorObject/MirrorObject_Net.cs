@@ -39,6 +39,8 @@ public class MirrorObject_Net : NetworkBehaviour
 
      private void GrantOrRevokeAuthority(GameObject obj,bool isAuthorized)
     {
+        if (!isServer) return;
+
         if(obj.TryGetComponent(out NetworkIdentity identity))
         {
            TRpc_CheckIdentity(identity.connectionToClient,isAuthorized,obj);
