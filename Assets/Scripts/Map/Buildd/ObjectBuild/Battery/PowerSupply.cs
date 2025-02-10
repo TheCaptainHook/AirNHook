@@ -209,25 +209,25 @@ public class PowerSupply : ButtonEntity,IInteractable
     
     private void UseBattery()
     {
-       StartCoroutine(UseBatteryCo());
+       //StartCoroutine(UseBatteryCo());
     }
    
-     private IEnumerator UseBatteryCo()
-     {
-        int consumption = targetObjects.Count;
+    // private IEnumerator UseBatteryCo()
+    // {
+    //    int consumption = targetObjects.Count;
 
-        //Use Battery Effect
+    //    //Use Battery Effect
 
-        //Use Battery Effect
+    //    //Use Battery Effect
 
-        while(battery.BatteryCapacity >0)
-        {
-            battery.BatteryCapacity = -consumption;
-            yield return waitForSeconds;
-        }
-        RemoveSocket();
+    //    while(battery.BatteryCapacity >0)
+    //    {
+    //        battery.BatteryCapacity = -consumption;
+    //        yield return waitForSeconds;
+    //    }
+    //    RemoveSocket();
        
-    }
+    //}
 
     public void InsertSocket(Battery battery){
         if(this.battery != null){

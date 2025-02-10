@@ -5,29 +5,37 @@ public class Battery : BuildObj
 {
     
 
-    private float maxCapacity = 100;
+    //private float maxCapacity = 100;
     [CustomHeader("Battery")]
-    [ReadOnly]
-    public float batteryCapacity;
-    public float BatteryCapacity 
-    { 
-        get { return batteryCapacity; }
-        set { 
-            batteryCapacity += value;
-            if(batteryCapacity > maxCapacity) batteryCapacity = maxCapacity;
-            animator.SetFloat(CAPACITY,batteryCapacity/maxCapacity);
-        }
-    }
-    [ReadOnly]
-    public BatteryCharger batteryCharger;
+
+    //public float batteryCapacity;
+    //public float BatteryCapacity 
+    //{ 
+    //    get { return batteryCapacity; }
+    //    set { 
+    //        batteryCapacity += value;
+    //        if(batteryCapacity > maxCapacity) batteryCapacity = maxCapacity;
+    //        animator.SetFloat(CAPACITY,batteryCapacity/maxCapacity);
+    //    }
+    //}
+    //[ReadOnly]
+    //public BatteryCharger batteryCharger;
+
     [ReadOnly]
     public PowerSupply powerSupply;
+
+
+    #region Network
+    private BatteryInteractable Battery_Net => GetComponent<BatteryInteractable>();
+    
+    #endregion
 
     public override void TakeDamage(DamageType damageType = DamageType.Default)
     {
         if(damageType == DamageType.Electric)
         {
-            BatteryCapacity = 10;
+            //BatteryCapacity = 10;
+            Battery_Net.Cmd_SetBatteryCapacity(10);
         }
     }
 
@@ -37,26 +45,33 @@ public class Battery : BuildObj
     Rigidbody2D rb;
     #endregion
 
-    #region Animation
-    private readonly int CAPACITY = Animator.StringToHash("Capacity");
-    #endregion
+    //#region Animation
+    //private readonly int CAPACITY = Animator.StringToHash("Capacity");
+    //#endregion
 
 
     private void Awake()
     {
-        col = GetComponent<Collider2D>();
+        //col = GetComponent<Collider2D>();
         rb = GetComponent<Rigidbody2D>();
         animator= GetComponent<Animator>();
     }
 
-    public void InsertChargerSocket()
-    {
-        if (batteryCharger)
-        {
-            col.enabled = false;
-            batteryCharger.Charge(this);
-        }
-    }
+    //public void InsertChargerSocket()
+    //{
+    //    //if (batteryCharger)
+    //    //{
+    //    //    col.enabled = false;
+    //    //    batteryCharger.Charge(this);
+    //    //}
+    //    if (Battery_Net.batteryCharger)
+    //    {
+    //        col.enabled = false;
+
+    //        //batterCharget -> SetBattery -> Charging
+    //        batteryCharger.Charge(this);
+    //    }
+    //}
 
     public void InsertPowerSocket()
     {
@@ -68,9 +83,10 @@ public class Battery : BuildObj
     }
     public void RemoveSocket()
     {
-        col.enabled = true;
-        rb.gravityScale = 1;
-        RemoveEffect();
+        //col.enabled = true;
+        //rb.gravityScale = 1;
+        //RemoveEffect();
+        Battery_Net.Cmd_Recover();
     }
 
 
@@ -81,10 +97,19 @@ public class Battery : BuildObj
 
 
 
-    private float horizontalVariation = 1f;
-    private void RemoveEffect()
+    //private float horizontalVariation = 1f;
+    //private void RemoveEffect()
+    //{
+    //    float xForce = Random.Range(-horizontalVariation, horizontalVariation);
+    //    rb.AddForce(new Vector2(xForce, 3f), ForceMode2D.Impulse);
+    //}
+
+
+
+    #region Network Sync
+    public void Net_SetBatteryCharger(GameObject obj)
     {
-        float xForce = Random.Range(-horizontalVariation, horizontalVariation);
-        rb.AddForce(new Vector2(xForce, 3f), ForceMode2D.Impulse);
+        Battery_Net.Cmd_SetBatteryCharger(obj);
     }
+    #endregion
 }
