@@ -91,7 +91,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         ChangeState(true);
         HideEButton();
         
-        _rigidbody.bodyType = RigidbodyType2D.Kinematic;
+        //_rigidbody.bodyType = RigidbodyType2D.Kinematic;
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         transform.rotation = Quaternion.identity;
