@@ -162,6 +162,9 @@ public class BatteryInteractable : InteractableObject
     public void Cmd_Recover()
     {
         Server_SetBatteryCharger(null);
+
+        RemoveEffect();
+
         Rpc_Recover();
     }
     [ClientRpc]
@@ -169,7 +172,7 @@ public class BatteryInteractable : InteractableObject
     {
         Col.enabled = true;
         _rigidbody.gravityScale = 1;
-        RemoveEffect();
+       
     }
     //-----------------------------------------------------------------------Interact
 
