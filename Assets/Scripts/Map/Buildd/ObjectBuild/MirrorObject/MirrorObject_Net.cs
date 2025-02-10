@@ -41,7 +41,7 @@ public class MirrorObject_Net : NetworkBehaviour
     }
 
     [Command(requiresAuthority = false)]
-     private void GrantOrRevokeAuthority(GameObject obj,bool isAuthorized)
+    private void GrantOrRevokeAuthority(GameObject obj,bool isAuthorized)
     {
         if(obj.TryGetComponent(out NetworkIdentity identity))
         {
@@ -107,7 +107,7 @@ public class MirrorObject_Net : NetworkBehaviour
 #endregion
 
    
-    [Command]
+    [Command(requiresAuthority = false)]
     public void Cmd_SetInnerPlayer(GameObject player)
     {
         Server_SetInnerPlayer(player);
