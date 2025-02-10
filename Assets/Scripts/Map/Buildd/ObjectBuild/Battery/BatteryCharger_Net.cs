@@ -12,27 +12,35 @@ public class BatteryCharger_Net : NetworkBehaviour
     public GameObject battery;
 
 
-
+    Coroutine charge;
     [Server]
-    private void Server_SetBattery(GameObject battery)
+    private void Server_SetBattery(GameObject newBattery)
     {
-        if(this.battery != null)
+
+        if(battery != null && !Compare(battery,newBattery))
         {
-            StopAllCoroutines();
+            StopCoroutine(charge);
             //Remove battery
-            if (this.battery.TryGetComponent(out BatteryInteractable component))
+            if (battery.TryGetComponent(out BatteryInteractable component))
             {
                 component.Cmd_Recover();
             }
         }
 
-        this.battery = battery;
-        if(battery != null)
+        battery = newBattery;
+        if(newBattery != null)
         {
             Charge();
         }
 
 
+    }
+    private bool Compare(GameObject a, GameObject b)
+    {
+        NetworkIdentity aN = a.GetComponent<NetworkIdentity>();
+        NetworkIdentity bN = b.GetComponent<NetworkIdentity>();
+
+        return aN.netId == bN.netId;
     }
 
     [Command(requiresAuthority = false)]
@@ -44,7 +52,7 @@ public class BatteryCharger_Net : NetworkBehaviour
 
     public void Charge()
     {
-      StartCoroutine(ChargeCo());
+     charge = StartCoroutine(ChargeCo());
     }
 
     IEnumerator ChargeCo()

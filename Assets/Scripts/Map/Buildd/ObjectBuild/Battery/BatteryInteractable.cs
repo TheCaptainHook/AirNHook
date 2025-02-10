@@ -175,19 +175,33 @@ public class BatteryInteractable : InteractableObject
 
     //-----------------------------------------------------------------------Insert Charger Socket
 
+    [Server]
+    private void Server_InsertChargeSocket(GameObject battery)
+    {
+        if (batteryCharger.TryGetComponent(out BatteryCharger component))
+        {
+            component.SetBattery(battery);
+        }
+
+        Rpc_InsertChargerSocket();
+    }
+
     [Command(requiresAuthority = false)]
     public void Cmd_InsertChargerSocket(GameObject battery)
     {
-        Rpc_InsertChargerSocket(battery);
+        //Server_InsertChargeSocket(battery);
 
         if (batteryCharger.TryGetComponent(out BatteryCharger component))
         {
             component.SetBattery(battery);
         }
 
+        Rpc_InsertChargerSocket();
+
     }
+
     [ClientRpc]
-    private void Rpc_InsertChargerSocket(GameObject battery)
+    private void Rpc_InsertChargerSocket()
     {
         if (batteryCharger)
         {
