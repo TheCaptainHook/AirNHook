@@ -104,7 +104,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _isFixed = false;
         _isGrab = false;
         _canInteract = true;
-        ChangeState(false);z
+        ChangeState(false);
         ShowEButton();
 
         _rigidbody.bodyType = _originType;
