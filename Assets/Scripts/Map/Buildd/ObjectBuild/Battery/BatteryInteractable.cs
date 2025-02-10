@@ -118,10 +118,18 @@ public class BatteryInteractable : InteractableObject
     }
 
 
+
+    [Server]
+    private void Server_Release()
+    {
+        transform.position = batteryCharger.transform.position;
+        Rpc_Release();
+    }
+
     [Command(requiresAuthority = false)]
     private void Cmd_Release()
     {
-        Rpc_Release();
+        Server_Release();
     }
 
     [ClientRpc]
@@ -130,7 +138,6 @@ public class BatteryInteractable : InteractableObject
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.angularVelocity = 0;
 
-        transform.position = batteryCharger.transform.position;
     }
 
     [Command(requiresAuthority = false)]
