@@ -153,7 +153,12 @@ public class BatteryInteractable : InteractableObject
     public void Cmd_InsertChargerSocket(GameObject battery)
     {
         Rpc_InsertChargerSocket(battery);
-     
+
+        if (batteryCharger.TryGetComponent(out BatteryCharger component))
+        {
+            component.SetBattery(battery);
+        }
+
     }
     [ClientRpc]
     private void Rpc_InsertChargerSocket(GameObject battery)
@@ -162,12 +167,6 @@ public class BatteryInteractable : InteractableObject
         {
             Col.enabled = false;
 
-            //batterCharget -> SetBattery -> Charging
-            //batteryCharger.Charge(this);
-            if(batteryCharger.TryGetComponent(out BatteryCharger component))
-            {
-                component.SetBattery(battery);
-            }
         }
     }
 
