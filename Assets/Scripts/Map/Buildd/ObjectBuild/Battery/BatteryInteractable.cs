@@ -66,8 +66,7 @@ public class BatteryInteractable : InteractableObject
 
     #endregion
 
-
-
+    //-----------------------------------------------------------------------Interact
     Battery battery;
     protected override void Awake()
     {
@@ -104,6 +103,7 @@ public class BatteryInteractable : InteractableObject
         ChangeState(false);
 
         _fixedPoint = null;
+        _rigidbody.bodyType = _originType;
         _rigidbody.constraints = _originRot;
         _sortingGroup.sortingLayerID = _originSortingLayerID;
 
@@ -145,6 +145,7 @@ public class BatteryInteractable : InteractableObject
         _rigidbody.gravityScale = 1;
         RemoveEffect();
     }
+    //-----------------------------------------------------------------------Interact
 
     //-----------------------------------------------------------------------Insert Charger Socket
 
