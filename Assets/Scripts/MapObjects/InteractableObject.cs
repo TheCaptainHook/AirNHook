@@ -48,7 +48,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _originSortingLayerID = _sortingGroup.sortingLayerID;
     }
 
-    private void Update()
+    protected void Update()
     {
         if (isOwned && _isFixed && _fixedPoint is not null)
         {
