@@ -93,8 +93,14 @@ public class Battery : BuildObj
 
 
 
-
-
+    public void Net_SetBatteryCapacity(float val)
+    {
+        Battery_Net.Cmd_SetBatteryCapacity(val);
+    }
+    public float BatteryCapacity()
+    {
+        return Battery_Net.batteryCapacity;
+    }
 
 
     //private float horizontalVariation = 1f;

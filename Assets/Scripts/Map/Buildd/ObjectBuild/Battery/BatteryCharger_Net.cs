@@ -49,12 +49,12 @@ public class BatteryCharger_Net : NetworkBehaviour
 
     IEnumerator ChargeCo()
     {
-        BatteryInteractable batteryNet = battery.GetComponent<BatteryInteractable>();
+        Battery battery = this.battery.GetComponent<Battery>();
 
-        while (batteryNet.batteryCapacity < 100)
+        while (battery.BatteryCapacity() < 100)
         {
             //battery.BatteryCapacity = 1;
-            batteryNet.Cmd_SetBatteryCapacity(1);
+            battery.Net_SetBatteryCapacity(1);
             yield return new WaitForSeconds(0.1f);
         }
 
