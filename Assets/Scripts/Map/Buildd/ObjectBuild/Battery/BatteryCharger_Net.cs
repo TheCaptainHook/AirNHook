@@ -19,7 +19,8 @@ public class BatteryCharger_Net : NetworkBehaviour
 
         if(battery != null && !Compare(battery,newBattery))
         {
-            StopCoroutine(charge);
+            if(charge!=null) StopCoroutine(charge);
+
             //Remove battery
             if (battery.TryGetComponent(out BatteryInteractable component))
             {
@@ -60,16 +61,17 @@ public class BatteryCharger_Net : NetworkBehaviour
 
     IEnumerator ChargeCo()
     {
-        Battery battery = this.battery.GetComponent<Battery>();
+        BatteryInteractable battery = this.battery.GetComponent<BatteryInteractable>();
 
-        while (battery.BatteryCapacity() < 100)
+        while (battery.batteryCapacity < 100)
         {
             //battery.BatteryCapacity = 1;
-            battery.Net_SetBatteryCapacity(1);
+            battery.Server_SetBatteryCapacity(1);
             yield return new WaitForSeconds(0.1f);
         }
-
-        Cmd_SetBattery(null);
+        charge = null;
+        battery.Cmd_Recover();
+        this.battery = null;
     }
 
 
