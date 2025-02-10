@@ -80,7 +80,9 @@ public class BatteryInteractable : InteractableObject
     {
         if (batteryCharger != null)
         {
-            BatteryRelease();
+            //BatteryRelease();
+            Cmd_Release();
+
             //battery.InsertChargerSocket();
             Cmd_InsertChargerSocket(gameObject);
         }
@@ -96,34 +98,34 @@ public class BatteryInteractable : InteractableObject
     }
 
 
-    private void BatteryRelease()
-    {
-        _isFixed = false;
-        _isGrab = false;
-        _canInteract = true;
-        ChangeState(false);
+    //private void BatteryRelease()
+    //{
+    //    _isFixed = false;
+    //    _isGrab = false;
+    //    _canInteract = true;
+    //    ChangeState(false);
 
-        _fixedPoint = null;
-        _rigidbody.bodyType = _originType;
-        _rigidbody.constraints = _originRot;
-        _sortingGroup.sortingLayerID = _originSortingLayerID;
+    //    _fixedPoint = null;
+    //    _rigidbody.bodyType = _originType;
+    //    _rigidbody.constraints = _originRot;
+    //    _sortingGroup.sortingLayerID = _originSortingLayerID;
 
-        _rigidbody.gravityScale = 0;
+    //    _rigidbody.gravityScale = 0;
 
-        CmdChangeSortingLayer(false);
+    //    CmdChangeSortingLayer(false);
 
-        //CmdResetVelocity();
-        //CmdSetTransform(releasePosition);
-        Cmd_Release();
-    }
+    //    //CmdResetVelocity();
+    //    //CmdSetTransform(releasePosition);
+    //    Cmd_Release();
+    //}
 
 
 
     [Server]
     private void Server_Release()
     {
-        transform.position = batteryCharger.transform.position;
         Rpc_Release();
+        transform.position = batteryCharger.transform.position;
     }
 
     [Command(requiresAuthority = false)]
@@ -135,8 +137,24 @@ public class BatteryInteractable : InteractableObject
     [ClientRpc]
     private void Rpc_Release()
     {
+        _isFixed = false;
+        _isGrab = false;
+        _canInteract = true;
+        ChangeState(false);
+
+        _fixedPoint = null;
+        _rigidbody.bodyType = _originType;
+        _rigidbody.constraints = _originRot;
+        _sortingGroup.sortingLayerID = _originSortingLayerID;
+
+        CmdChangeSortingLayer(false);
+
+
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.angularVelocity = 0;
+        _rigidbody.gravityScale = 0;
+
+        Col.enabled = false;
 
     }
 
