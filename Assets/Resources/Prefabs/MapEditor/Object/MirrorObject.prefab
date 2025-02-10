@@ -326,7 +326,7 @@ MonoBehaviour:
   _Mirror: {fileID: 4204660432047720022}
   _ConnectPlayer: {fileID: 0}
   onActive: 0
-  _BtnOffset: 0
+  _BtnOffset: 2
   _objectType: 0
 --- !u!114 &8428942988980601487
 MonoBehaviour:
@@ -343,8 +343,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  _Mirror: {fileID: 0}
+  _Mirror: {fileID: 4204660432047720022}
   InnerPlayer: {fileID: 0}
+  rotate_Z: 0
+  onActive: 0
 --- !u!61 &5154744132076820605
 BoxCollider2D:
   m_ObjectHideFlags: 0

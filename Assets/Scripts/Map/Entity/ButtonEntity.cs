@@ -82,6 +82,7 @@ public class ButtonEntity : BuildObj
         List<Vector2> list = new();
 
         foreach(GameObject obj in targetObjects){
+            if (obj == null) continue;
             list.Add(obj.transform.position);
         }
 
