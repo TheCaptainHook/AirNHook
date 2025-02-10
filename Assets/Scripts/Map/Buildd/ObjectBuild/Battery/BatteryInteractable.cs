@@ -39,7 +39,7 @@ public class BatteryInteractable : InteractableObject
     }
 
     [Server]
-    private void Server_SetBatteryCapacity(float val)
+    public void Server_SetBatteryCapacity(float val)
     {
         batteryCapacity += val;
         if(batteryCapacity > maxCapacity) batteryCapacity = maxCapacity;
@@ -47,12 +47,17 @@ public class BatteryInteractable : InteractableObject
         Animator.SetFloat(CAPACITY, batteryCapacity / maxCapacity);
     }
 
-
     [Command(requiresAuthority = false)]
     public void Cmd_SetBatteryCapacity(float val)
     {
         Server_SetBatteryCapacity(val);
     }
+
+    //[Command(requiresAuthority = false)]
+    //public void Cmd_SetBatteryCapacity(float val)
+    //{
+    //    Server_SetBatteryCapacity(val);
+    //}
 
     [Command(requiresAuthority = false)]
     public void Cmd_SetBatteryCharger(GameObject batteryCharger)

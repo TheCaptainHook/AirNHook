@@ -95,7 +95,7 @@ public class Battery : BuildObj
 
     public void Net_SetBatteryCapacity(float val)
     {
-        Battery_Net.Cmd_SetBatteryCapacity(val);
+        Battery_Net.Server_SetBatteryCapacity(val);
     }
     public float BatteryCapacity()
     {
