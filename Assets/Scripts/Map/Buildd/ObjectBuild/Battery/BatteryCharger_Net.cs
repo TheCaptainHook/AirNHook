@@ -27,9 +27,10 @@ public class BatteryCharger_Net : NetworkBehaviour
             }
         }
 
-        battery = newBattery;
-        if(newBattery != null)
+        
+        if(newBattery != null && !Compare(battery,newBattery))
         {
+            battery = newBattery;
             Charge();
         }
 
