@@ -76,7 +76,7 @@ public class MirrorObject : BuildObj,IInteractable
                 // M_Net.Cmd_SetInnerPlayer(hook.gameObject);
              
                 _ConnectPlayer = hook.gameObject;
-                ShowE();
+                M_Net.Cmd_ShowE(hook.gameObject, true);
             }
         }
      
@@ -90,7 +90,7 @@ public class MirrorObject : BuildObj,IInteractable
             if(other.TryGetComponent(out HookSM hook))
             {
                 // M_Net.Cmd_SetInnerPlayer(hook.gameObject);
-                HideE();
+                M_Net.Cmd_ShowE(hook.gameObject, false);
                 _ConnectPlayer = null;
             }
         }
@@ -150,6 +150,7 @@ public class MirrorObject : BuildObj,IInteractable
             HideE() ;
             if(IsActive)
             {
+                if (_ConnectPlayer) _ConnectPlayer = null; //test
                 M_Net.Cmd_SetInnerPlayer(null);
             }
             else
@@ -176,6 +177,11 @@ public class MirrorObject : BuildObj,IInteractable
         return;
         
     }
+ 
+    public void HideEButton(){
+        return;
+    }
+
     public void ShowE()
     {
         if (!IsInnerPlayer)
@@ -184,17 +190,13 @@ public class MirrorObject : BuildObj,IInteractable
             _E_Btn.transform.position = transform.position + (transform.up * _BtnOffset);
         }
     }
-    private void HideE()
+    public void HideE()
     {
         if (_E_Btn == null) return;
         _E_Btn = null;
         Managers.UI.HideUI<UI_ShowEButton>();
     }
-    
-    public void HideEButton(){
-        return;
-    }
-#endregion
+    #endregion
 
 
 

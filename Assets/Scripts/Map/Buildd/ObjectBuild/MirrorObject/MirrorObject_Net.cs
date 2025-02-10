@@ -12,10 +12,13 @@ public class MirrorObject_Net : NetworkBehaviour
     [SyncVar(hook =nameof(OnChange_ThisObjectAuthority))]
     public GameObject InnerPlayer;
 
-   [SyncVar(hook =nameof(OnChageRotate_Z))] 
-   public float rotate_Z;
+    [SyncVar(hook =nameof(OnChageRotate_Z))] 
+    public float rotate_Z;
 
+    
     public bool onActive;
+
+    private MirrorObject MirrorObject => GetComponent<MirrorObject>();
 
 #region  Server
     [Server]
@@ -66,7 +69,27 @@ public class MirrorObject_Net : NetworkBehaviour
         Server_SetRot_z(z);
     }
 
-   
+
+
+    #region UI
+    [Command]
+    public void Cmd_ShowE(GameObject player,bool onOff)
+    {
+        if(player.TryGetComponent(out NetworkIdentity identity))
+        {
+            TRpc_ShowE(identity.connectionToClient, onOff);
+        }
+       
+    }
+    [TargetRpc]
+    private void TRpc_ShowE(NetworkConnection conn,bool onOff)
+    {
+        if(onOff) MirrorObject.ShowE();
+        else MirrorObject.HideE();
+
+    }
+    #endregion
+
 
     //hook
     private void OnChageRotate_Z(float old,float newVal)
@@ -108,5 +131,10 @@ public class MirrorObject_Net : NetworkBehaviour
         onActive = false;
         //player recover
     }
+
+
+
+   
+
 
 }
