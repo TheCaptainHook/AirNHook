@@ -220,6 +220,6 @@ public class BatteryInteractable : InteractableObject
     private void RemoveEffect()
     {
         float xForce = Random.Range(-horizontalVariation, horizontalVariation);
-        _rigidbody.AddForce(new Vector2(xForce, 3f), ForceMode2D.Impulse);
+        _rigidbody.AddForce(new Vector2(xForce, 6f), ForceMode2D.Impulse);
     }
 }
