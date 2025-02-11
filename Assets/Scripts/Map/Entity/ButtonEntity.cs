@@ -83,10 +83,20 @@ public class ButtonEntity : BuildObj
 
         foreach(GameObject obj in targetObjects){
             if (obj == null) continue;
-            list.Add(obj.transform.position);
+            list.Add(ConvertPosition(obj.transform.position));
         }
 
         return list;
+    }
+
+    private Vector3 ConvertPosition(Vector3 vec)
+    {
+        return new Vector3(
+            Mathf.Round(vec.x * 100) / 100, 
+            Mathf.Round(vec.y * 100) / 100, 
+            Mathf.Round(vec.z * 100) / 100
+        );
+
     }
 
     public virtual void FindTargetObject(){

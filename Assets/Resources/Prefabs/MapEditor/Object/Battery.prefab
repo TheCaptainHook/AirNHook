@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.375, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
+  m_LocalScale: {x: 0.7, y: 0, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5727238660873102169}
@@ -298,6 +298,7 @@ MonoBehaviour:
   _inhalePower: 600
   batteryCharger: {fileID: 0}
   batteryCapacity: 0
+  powerSupply: {fileID: 0}
 --- !u!95 &6712209501634868520
 Animator:
   serializedVersion: 5

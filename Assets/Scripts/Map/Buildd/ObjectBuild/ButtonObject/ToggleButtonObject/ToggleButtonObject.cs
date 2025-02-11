@@ -1,14 +1,12 @@
 using System.Collections;
-using Mirror;
 using UnityEngine;
 using System;
-using UnityEngine.Rendering;
+
 
 public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
 {
     [CustomHeader("Toggle")]
-    [ReadOnly]
-    public bool hasPower;
+   
 #region Components
     private Animator animator;
 #endregion
@@ -33,6 +31,7 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
         }
     }
 #region IPowerConsumer
+    public bool hasPower{get; set;}
     public void PowerOn(){hasPower = true;}
     public void PowerOff()
     {
@@ -153,15 +152,11 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
 
         if (onPrograss) return;
 
-
-        Debug.Log("Zero");
         if(onActive){
             //Deactivated();
-            Debug.Log("Dea");
             ToggleButton_Net.HandleSetState(false);
         }else{
             //Activation();
-            Debug.Log("Act");
             ToggleButton_Net.HandleSetState(true);
         }
     }

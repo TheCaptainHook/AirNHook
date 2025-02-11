@@ -26,6 +26,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     [SerializeField] protected DistructionStatus distructionStatus;
 
     [Space(20)]
+    [Header("-------------IPowerConsumer Field")]
     [Tooltip("The default value of this variable is false, and to use it, the IPowerConsumer interface must be implemented.")]
     public bool chargeRequired = false;
     [Space(20)]

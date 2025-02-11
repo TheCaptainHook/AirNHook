@@ -1,7 +1,7 @@
 using Mirror;
-
+using Telepathy;
 using UnityEngine;
-using UnityEngine.UIElements;
+
 
 public class BatteryInteractable : InteractableObject
 {
@@ -25,32 +25,53 @@ public class BatteryInteractable : InteractableObject
     [Space(20)]
     [Header("---------------Sync")]
     [ReadOnly]
-    [SyncVar]
-    public GameObject batteryCharger;
+    [SyncVar] public GameObject batteryCharger;
+
+    [ReadOnly]
     [SyncVar] 
-    public float batteryCapacity; // hook
+    public float batteryCapacity;
+
+    [ReadOnly]
+    [SyncVar] public GameObject powerSupply;
 
 
-    [Server]
+    [Server]    //  Set battery charger
     private void Server_SetBatteryCharger(GameObject batteryCharger)
     {
         this.batteryCharger = batteryCharger;
 
     }
+     [Command(requiresAuthority = false)]
+    public void Cmd_SetBatteryCharger(GameObject batteryCharger)
+    {
+        Server_SetBatteryCharger(batteryCharger);
+    }
 
-    [Server]
+
+    [Server]    // use Battery capacity
     public void Server_SetBatteryCapacity(float val)
     {
         batteryCapacity += val;
         if(batteryCapacity > maxCapacity) batteryCapacity = maxCapacity;
+        if(batteryCapacity <0) batteryCapacity = 0;
 
         Animator.SetFloat(CAPACITY, batteryCapacity / maxCapacity);
     }
-
     [Command(requiresAuthority = false)]
     public void Cmd_SetBatteryCapacity(float val)
     {
         Server_SetBatteryCapacity(val);
+    }
+
+    [Server]    //  Set PowerSupply
+    public void Server_SetPowerSupply(GameObject powerSupply)
+    {
+        this.powerSupply = powerSupply;
+    }
+    [Command(requiresAuthority = false)]
+    public void Cmd_SetPowerSupply(GameObject powerSupply)
+    {
+        Server_SetPowerSupply(powerSupply);
     }
 
     //[Command(requiresAuthority = false)]
@@ -59,11 +80,7 @@ public class BatteryInteractable : InteractableObject
     //    Server_SetBatteryCapacity(val);
     //}
 
-    [Command(requiresAuthority = false)]
-    public void Cmd_SetBatteryCharger(GameObject batteryCharger)
-    {
-        Server_SetBatteryCharger(batteryCharger);
-    }
+   
 
     #endregion
 
@@ -81,16 +98,19 @@ public class BatteryInteractable : InteractableObject
         if (batteryCharger != null)
         {
             //BatteryRelease();
-            Cmd_Release();
+            Cmd_Release(batteryCharger.transform.position);
 
             //battery.InsertChargerSocket();
             Cmd_InsertChargerSocket(gameObject);
         }
-        //else if (battery.powerSupply != null)
-        //{
+        else if (powerSupply != null)
+        {
         //    BatteryRelease(battery.powerSupply.GetSocketPosition());
-        //    battery.InsertPowerSocket();
-        //}
+            Cmd_Release(powerSupply.transform.position);
+
+            // battery.InsertPowerSocket();
+            Cmd_InsertPowerSupplySocket(gameObject);
+        }
         else
         {
             base.Release();
@@ -122,16 +142,17 @@ public class BatteryInteractable : InteractableObject
 
 
     [Server]
-    private void Server_Release()
+    private void Server_Release(Vector3 releasePosition)
     {
         Rpc_Release();
-        transform.position = batteryCharger.transform.position;
+        // transform.position = batteryCharger.transform.position;
+        transform.position = releasePosition;
     }
 
     [Command(requiresAuthority = false)]
-    private void Cmd_Release()
+    private void Cmd_Release(Vector3 releasePosition)
     {
-        Server_Release();
+        Server_Release(releasePosition);
     }
 
     [ClientRpc]
@@ -162,6 +183,7 @@ public class BatteryInteractable : InteractableObject
     public void Cmd_Recover()
     {
         Server_SetBatteryCharger(null);
+        Server_SetPowerSupply(null);
 
         RemoveEffect();
 
@@ -178,16 +200,16 @@ public class BatteryInteractable : InteractableObject
 
     //-----------------------------------------------------------------------Insert Charger Socket
 
-    [Server]
-    private void Server_InsertChargeSocket(GameObject battery)
-    {
-        if (batteryCharger.TryGetComponent(out BatteryCharger component))
-        {
-            component.SetBattery(battery);
-        }
+    // [Server]
+    // private void Server_InsertChargeSocket(GameObject battery)
+    // {
+    //     if (batteryCharger.TryGetComponent(out BatteryCharger component))
+    //     {
+    //         component.SetBattery(battery);
+    //     }
 
-        Rpc_InsertChargerSocket();
-    }
+    //     Rpc_InsertChargerSocket();
+    // }
 
     [Command(requiresAuthority = false)]
     public void Cmd_InsertChargerSocket(GameObject battery)
@@ -214,7 +236,40 @@ public class BatteryInteractable : InteractableObject
     }
 
     //-----------------------------------------------------------------------Insert Charger Socket
+    //-----------------------------------------------------------------------Insert PowerSupply Socket
+    //  [Server]
+    // private void Server_InsertPowerSupplySocket(GameObject battery)
+    // {
+    //     if (batteryCharger.TryGetComponent(out BatteryCharger component))
+    //     {
+    //         component.SetBattery(battery);
+    //     }
 
+    //     Rpc_InsertChargerSocket();
+    // }
+
+    [Command(requiresAuthority = false)]
+    public void Cmd_InsertPowerSupplySocket(GameObject battery)
+    {
+        if (powerSupply.TryGetComponent(out PowerSupply component))
+        {
+            component.SetBattery(battery);
+        }
+
+        Rpc_InsertPowerSupplySocket();
+
+    }
+
+    [ClientRpc]
+    private void Rpc_InsertPowerSupplySocket()
+    {
+        if (powerSupply)
+        {
+            Col.enabled = false;
+
+        }
+    }
+    //-----------------------------------------------------------------------Insert PowerSupply Socket
 
     private float horizontalVariation = 1f;
     private void RemoveEffect()

@@ -24,6 +24,12 @@ public class PowerSupply : ButtonEntity,IInteractable
 
     private PathFinder pathFinder;
 
+
+    #region  Network
+    private PowerSupply_Net P_Net => GetComponent<PowerSupply_Net>();
+
+    #endregion
+
     private void Awake()
     {
         pathFinder = GetComponent<PathFinder>();
@@ -43,7 +49,9 @@ public class PowerSupply : ButtonEntity,IInteractable
             await util.Delay(()=>
             {
                 FindTargetObject();
-                CreateLine();
+                // CreateLine();
+                // //Test
+                // LineOn(true);
             });
         }
         
@@ -60,12 +68,20 @@ public class PowerSupply : ButtonEntity,IInteractable
     protected override void Activation()
     {
         PrograssButtonActivatedObject(true);
-        LineOn(true);
+        // LineOn(true);
     }
     protected override void Deactivated()
     {
         PrograssButtonActivatedObject(false);
-        LineOn(false);
+        // LineOn(false);
+    }
+    public void Net_Activation()
+    {
+        Activation();
+    }
+    public void Net_Deactivated()
+    {
+        Deactivated();
     }
 
      protected override void PrograssButtonActivatedObject(bool onActivate)
@@ -75,8 +91,9 @@ public class PowerSupply : ButtonEntity,IInteractable
 
     private void TogglePowerSupply(bool toggle)
     {
-        if(targetObjects.Count == 0) return;
-        foreach(var item in targetObjects){
+        if(targetObjects.Count == 0) return; // This field is for server settings only
+        // foreach(var item in targetObjects){
+        foreach(var item in P_Net.targets.targets){
             if(item.TryGetComponent(out IPowerConsumer component)){
                 if(toggle) component.PowerOn();
                 else component.PowerOff();
@@ -122,7 +139,9 @@ public class PowerSupply : ButtonEntity,IInteractable
             
         }
 
-        targetObjects = objList;
+        // targetObjects = objList;
+        //Network Sync
+        P_Net.Server_SetTargets(objList,targetPosition);
     }
     public async override void Editor_Setting(MapEditor mapEditor)
     {
@@ -135,12 +154,12 @@ public class PowerSupply : ButtonEntity,IInteractable
                         foreach(Transform tr in mapEditor.buttonActivatableObjectTransform){
                             if(tr.TryGetComponent(out ActivatableObjectEntity component))
                             {
-                            if(CompareVec(component.ButtonActivatedObjectStruct.position,vec))
-                            {
-                                    matchedObj = tr.gameObject;
-                                    objList.Add(matchedObj);
-                                    break;
-                            }          
+                                if(CompareVec(component.ButtonActivatedObjectStruct.position,vec))
+                                {
+                                        matchedObj = tr.gameObject;
+                                        objList.Add(matchedObj);
+                                        break;
+                                }          
                             }
                         }
 
@@ -149,18 +168,16 @@ public class PowerSupply : ButtonEntity,IInteractable
                         foreach(Transform tr in mapEditor.buttonObjectTransform){
                             if(tr.TryGetComponent(out ButtonEntity component))
                             {
-                            if(CompareVec(component.ButtonObjectData.position,vec))
-                            {
-                                    objList.Add(tr.gameObject);
-                                    break;
-                            }          
+                                if(CompareVec(component.ButtonObjectData.position,vec))
+                                {
+                                        objList.Add(tr.gameObject);
+                                        break;
+                                }          
                             }
                         }
                     }
                 targetObjects = objList;
             });
-       
-
     }
 
 
@@ -177,13 +194,17 @@ public class PowerSupply : ButtonEntity,IInteractable
             {
                 if (grabItem.TryGetComponent(out Battery battery))
                 {
-                    ShowEButton();
-                    battery.powerSupply = this;
+                    // ShowEButton(); 
+                    P_Net.Cmd_ShowE(component.gameObject,true);
+
+                    // battery.powerSupply = this;
+                    // P_Net.Cmd_SetBattery(battery.gameObject);
+                    battery.Net_SetPowerSupply(gameObject);
                 }
             }
             else
             {
-                if(battery != null) ShowEButton();
+                if(P_Net.battery) P_Net.Cmd_ShowE(component.gameObject,true);
             }
           
         }
@@ -199,8 +220,10 @@ public class PowerSupply : ButtonEntity,IInteractable
             {
                 if (grabItem.TryGetComponent(out Battery battery))
                 {
-                    HideEButton();
-                    battery.powerSupply = null;
+                    P_Net.Cmd_ShowE(component.gameObject,false);
+
+                    // P_Net.Cmd_SetBattery(null);
+                    battery.Net_SetPowerSupply(null);
                 }
 
             }
@@ -229,30 +252,30 @@ public class PowerSupply : ButtonEntity,IInteractable
        
     //}
 
-    public void InsertSocket(Battery battery){
-        if(this.battery != null){
-            RemoveSocket();
-        }
+    // public void InsertSocket(Battery battery){
+    //     if(this.battery != null){
+    //         RemoveSocket();
+    //     }
 
-        this.battery = battery;
-        Activation();
-        UseBattery();
-    }
+    //     this.battery = battery;
+    //     Activation();
+    //     UseBattery();
+    // }
 
-    private void RemoveSocket(){
-        if(battery){
-            //Effect Stop
+    // private void RemoveSocket(){
+    //     if(battery){
+    //         //Effect Stop
 
-            //Stop Use to Battery
-            StopAllCoroutines();
-            Deactivated();
-            //Remove Socket
-            battery.RemoveSocket();
-            battery = null;
-        }
-    }
+    //         //Stop Use to Battery
+    //         StopAllCoroutines();
+    //         Deactivated();
+    //         //Remove Socket
+    //         battery.RemoveSocket();
+    //         battery = null;
+    //     }
+    // }
 
-    private void LineOn(bool onoff){
+    public void LineOn(bool onoff){
         foreach(Transform tr in lineContainer){
             tr.gameObject.SetActive(onoff);
         }
@@ -261,11 +284,21 @@ public class PowerSupply : ButtonEntity,IInteractable
     
 #endregion
 
+
+#region  Network
+    public void SetBattery(GameObject battery)
+    {
+        P_Net.Cmd_SetBattery(battery);
+    }
+#endregion
+
+
+
 #region  Interacable
      public void Interaction(Transform accessor = null){
-            if(battery){
-                RemoveSocket();
-                HideEButton();
+            if(P_Net.battery){
+                if(_E_Btn != null) HideE();
+                P_Net.Cmd_SetBattery(null);
             }
        
     }
@@ -284,24 +317,44 @@ public class PowerSupply : ButtonEntity,IInteractable
     }
 
     public void ShowEButton(){
-         _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
+        return;
+    }
+    public void HideEButton(){
+       return;
+    }
+
+    public void ShowE()
+    {
+        _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
         _E_Btn.transform.position = transform.position + (transform.up * _BtnOffset);
     }
-    
-    public void HideEButton(){
+    public void HideE()
+    {
         _E_Btn = null;
         Managers.UI.HideUI<UI_ShowEButton>();
     }
+    
+    
 
 #endregion
 
 #region  Draw Line
-    private void CreateLine(){
-        Vector2Int startPot = pathFinder.WorldToGrid(transform.position);
+    public void CreateLine(List<Vector2> list){
+        // Vector2Int startPot = pathFinder.WorldToGrid(transform.position);
         
-        foreach(var position in ButtonObjectData.targetPositions)
+        // foreach(var position in ButtonObjectData.targetPositions)
+        // {
+        //     Vector2Int endPot = pathFinder.WorldToGrid(position);
+        //     LineRenderer line = GeneratorLineRenderer();
+        //     SetLine(line,pathFinder.FindPath(startPot,endPot));
+        //     line.gameObject.SetActive(false);
+        // }
+         Vector2 startPot = transform.position;
+        
+        // foreach(var position in ButtonObjectData.targetPositions)
+        foreach(var position in list)
         {
-            Vector2Int endPot = pathFinder.WorldToGrid(position);
+            Vector2 endPot = position;
             LineRenderer line = GeneratorLineRenderer();
             SetLine(line,pathFinder.FindPath(startPot,endPot));
             line.gameObject.SetActive(false);
@@ -321,11 +374,19 @@ public class PowerSupply : ButtonEntity,IInteractable
 
         return lineRenderer;
     }
-     private void SetLine(LineRenderer lineRenderer,List<Vector2Int> path){
+    //  private void SetLine(LineRenderer lineRenderer,List<Vector2Int> path){
+    //    lineRenderer.positionCount = path.Count;
+    //    for(int i = 0;i<path.Count;i++)
+    //    {
+    //         Vector3 worldPosition = pathFinder.GridToWorld(path[i]);
+    //         lineRenderer.SetPosition(i, worldPosition);
+    //    }
+    // }
+     private void SetLine(LineRenderer lineRenderer,List<Vector2> path){
        lineRenderer.positionCount = path.Count;
        for(int i = 0;i<path.Count;i++)
        {
-            Vector3 worldPosition = pathFinder.GridToWorld(path[i]);
+            Vector3 worldPosition = path[i];
             lineRenderer.SetPosition(i, worldPosition);
        }
     }

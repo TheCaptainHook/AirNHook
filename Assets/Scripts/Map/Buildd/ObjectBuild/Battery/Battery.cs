@@ -77,7 +77,7 @@ public class Battery : BuildObj
     {
         if(powerSupply){
             col.enabled = false;
-            powerSupply.InsertSocket(this);
+            // powerSupply.InsertSocket(this);
 
         }
     }
@@ -116,6 +116,10 @@ public class Battery : BuildObj
     public void Net_SetBatteryCharger(GameObject obj)
     {
         Battery_Net.Cmd_SetBatteryCharger(obj);
+    }
+    public void Net_SetPowerSupply(GameObject obj)
+    {
+        Battery_Net.Cmd_SetPowerSupply(obj);
     }
     #endregion
 }
