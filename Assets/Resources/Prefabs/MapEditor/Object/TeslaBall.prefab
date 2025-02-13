@@ -9953,7 +9953,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3669796454936144792}
@@ -10011,8 +10011,6 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
-  batteryCapacity: 0
-  batteryCharger: {fileID: 0}
   powerSupply: {fileID: 0}
 --- !u!114 &8988956062262925408
 MonoBehaviour:
@@ -10033,6 +10031,9 @@ MonoBehaviour:
   _gravityScale: 0
   _offset: {x: 0, y: 0}
   _inhalePower: 600
+  batteryCharger: {fileID: 0}
+  batteryCapacity: 0
+  powerSupply: {fileID: 0}
 --- !u!114 &5709025145916641661
 MonoBehaviour:
   m_ObjectHideFlags: 0
