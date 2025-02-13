@@ -11,8 +11,9 @@ public interface IPowerConsumer
         2.	In the Inspector, check the chargeRequired option as true.
         3.	Override the Get and Set methods (+ chargeRequired).
         4.	Define IPowerConsumer, Refer to 'ToggleButtonObject' as an example.
+        5.  network sync 'chargeRequired' field 
     **/
-   public bool hasPower{get; set;}
+    public bool hasPower{get; set;}
    public void PowerOn();
    public void PowerOff();
    public Vector2 GetPowerLineConnectionPoint();

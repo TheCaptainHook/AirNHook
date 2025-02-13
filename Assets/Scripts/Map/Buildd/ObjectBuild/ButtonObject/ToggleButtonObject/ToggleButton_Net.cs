@@ -17,6 +17,10 @@ public class ToggleButton_Net : NetworkBehaviour
     [SyncVar(hook = nameof(OnStateChanged))]
     private bool isActive;
 
+
+    [SyncVar] public bool chargeRequired;
+
+
     [Server]
     private void SetState(bool state)
     {
@@ -83,32 +87,15 @@ public class ToggleButton_Net : NetworkBehaviour
     }
 
 
-    // // 클라이언트에서 서버로 명령을 전달하는 Command
-    // [Command(requiresAuthority =false)]
-    // public void CmdActive()
-    // {
-    //         RpcActive();        
-    // }
 
-    // // 서버에서 클라이언트로 전달하는 ClientRpc
-    // [ClientRpc]
-    // private void RpcActive()
-    // {
-    //     Toggle.Net_Activation();
-    // }
 
-    // [Command(requiresAuthority = false)]
-    // public void CmdDeactived()
-    // {
-    //     RpcDeactived();
-    // }
+    [Server] //Set sync chargeRequired
+    public void Server_SetChargeRequired(bool chargeRequired)
+    {
+        this.chargeRequired = chargeRequired;
+    }
 
-    // // 서버에서 클라이언트로 전달하는 ClientRpc
-    // [ClientRpc]
-    // private void RpcDeactived()
-    // {
-    //     Toggle.Net_Deactivated();
-    // }
+
 
 
 }

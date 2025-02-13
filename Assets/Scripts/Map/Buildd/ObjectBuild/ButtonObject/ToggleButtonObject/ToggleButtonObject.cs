@@ -78,7 +78,8 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
                 ButtonObjectStruct buttonData = (ButtonObjectStruct)(object)data;
                 ButtonObjectData = buttonData;
                 FindTargetObject();
-                chargeRequired = buttonData.chargeRequired;
+                //chargeRequired = buttonData.chargeRequired;
+                ToggleButton_Net.Server_SetChargeRequired(buttonData.chargeRequired);
             }
 
         }
@@ -150,7 +151,7 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
 
 #region  Interacte
     public void Interaction(Transform accessor = null){
-        if (chargeRequired)
+        if (ToggleButton_Net.chargeRequired)
         {
             if (!hasPower)
             {
