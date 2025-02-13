@@ -74,7 +74,7 @@ public class PathFinder : MonoBehaviour
         return null;
     }
   
-    public List<Vector2> FindPath(Vector2 start, Vector2 end)
+    public List<Vector2> FindPath(Vector2 start, Vector2 end,bool notObstacle = false)
     {
         PriorityQueue<Node> openSet = new();
         HashSet<Vector2> closedSet = new HashSet<Vector2>();
@@ -99,7 +99,7 @@ public class PathFinder : MonoBehaviour
             {
                 Vector2 nextPosition = curPosition + dir;
 
-                if (closedSet.Contains(nextPosition) || IsObstacle(nextPosition))
+                if (closedSet.Contains(nextPosition) || IsObstacle(nextPosition, notObstacle))
                     continue;
 
                 float nextGCost = current.GCost + 1;
@@ -200,8 +200,9 @@ public class PathFinder : MonoBehaviour
         else return false;
     }
 
-private bool IsObstacle(Vector2 position)
+private bool IsObstacle(Vector2 position,bool notObstacle = false)
 {
+    if (notObstacle) return false;
     Collider2D hit = Physics2D.OverlapPoint(position, obstacleLayer);
     return hit != null;
 }

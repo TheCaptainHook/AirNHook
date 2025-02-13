@@ -54,6 +54,28 @@ public class ToggleButton_Net : NetworkBehaviour
 
     }
 
+
+    [Command(requiresAuthority = false)]
+    public void Cmd_SetHasPower(bool hasPower)
+    {
+        Rpc_SertHasPower(hasPower);
+    }
+    [ClientRpc]
+    public void Rpc_SertHasPower(bool hasPower)
+    {
+        Toggle.hasPower = hasPower;
+    }
+    [Command]
+    public void Cmd_CallDeactivated()
+    {
+        Rpc_CallDeactivated();
+    }
+    [ClientRpc]
+    private void Rpc_CallDeactivated()
+    {
+        Toggle.Net_Deactivated();
+    }    
+
     public override void OnStartClient()
     {
         base.OnStartClient();

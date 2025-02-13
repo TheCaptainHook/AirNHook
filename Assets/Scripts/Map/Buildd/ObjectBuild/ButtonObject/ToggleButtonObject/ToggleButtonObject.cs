@@ -32,11 +32,19 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
     }
 #region IPowerConsumer
     public bool hasPower{get; set;}
-    public void PowerOn(){hasPower = true;}
+    public void PowerOn()
+    {
+        Debug.Log("Power");
+        //hasPower = true;
+        ToggleButton_Net.Cmd_SetHasPower(true);
+    }
     public void PowerOff()
     {
-        hasPower = false;
-        Deactivated();
+        //hasPower = false;
+        ToggleButton_Net.Cmd_SetHasPower(false);
+        Debug.Log("Power Off");
+        //Deactivated();
+        ToggleButton_Net.Cmd_CallDeactivated();
     }
     public Vector2 GetPowerLineConnectionPoint(){
         return transform.position;

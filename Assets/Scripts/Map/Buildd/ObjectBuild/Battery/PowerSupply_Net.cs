@@ -10,7 +10,7 @@ public struct SupplyTargetStruct
 {
     public List<GameObject> targets;
     public List<Vector2> targetPositions;
-    public SupplyTargetStruct(List<GameObject> targets,List<Vector2> targetPositions)
+    public SupplyTargetStruct(List<GameObject> targets, List<Vector2> targetPositions)
     {
         this.targets = targets;
         this.targetPositions = targetPositions;
@@ -29,15 +29,41 @@ public class PowerSupply_Net : NetworkBehaviour
         }
     }
 
+    //[ReadOnly]
+    //public List<GameObject> targets;
+    //[ReadOnly]
+    //public List<Vector2> targetPositions;
+
+
+
     [SyncVar] public SupplyTargetStruct targets;
+
     [SyncVar] public float consumption;
     [SyncVar] public GameObject battery;
+
+    //[Command]
+    //public void Cmd_CallInitValue()
+    //{
+    //    Debug.Log("11");
+    //    TRpc_CallInitValue(connectionToClient,targetPositions);
+    //}
+    //[TargetRpc]
+    //private void TRpc_CallInitValue(NetworkConnection conn,List<Vector2> targetPositions)
+    //{
+    //    Debug.Log("22");
+    //    this.targetPositions = targetPositions;
+
+    //    PowerSupply.CreateLine(targetPositions);
+    //}
 
 
     [Server]    // Power Supply Candidates
     public void Server_SetTargets(List<GameObject> targets,List<Vector2> positions)
     {
         this.targets = new SupplyTargetStruct(targets,positions);
+        //this.targets = targets;
+        //targetPositions = positions;
+
         consumption = targets.Count;
     }
 
@@ -82,15 +108,7 @@ public class PowerSupply_Net : NetworkBehaviour
 
 
     }
-    private bool Compare(GameObject a, GameObject b)
-    {
-        if (a == null || b == null) return false;
 
-        NetworkIdentity aN = a.GetComponent<NetworkIdentity>();
-        NetworkIdentity bN = b.GetComponent<NetworkIdentity>();
-
-        return aN.netId == bN.netId;
-    }
 
     private bool Check_BatteryCapacity()
     {
@@ -106,21 +124,7 @@ public class PowerSupply_Net : NetworkBehaviour
 
 
 
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        StartCoroutine(Delay(()=>{PowerSupply.CreateLine(targets.targetPositions);}));
-        //Create Supply line
-        // PowerSupply.CreateLine(targets.targetPositions);
 
-    }
-
-    IEnumerator Delay(Action action)
-    {
-        yield return null;
-        action?.Invoke();
-    } 
-    
 
     private void Supply()
     {
@@ -167,4 +171,41 @@ public class PowerSupply_Net : NetworkBehaviour
         else PowerSupply.HideE();
     }
     #endregion
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        //StartCoroutine(Delay(() => { PowerSupply.CreateLine(targets.targetPositions); }));
+        //Create Supply line
+        // PowerSupply.CreateLine(targets.targetPositions);
+
+        Debug.Log("aaaa");
+
+        //Cmd_CallInitValue();
+        StartCoroutine(Delay(() =>
+        {
+            PowerSupply.CreateLine(targets.targetPositions);
+        }));
+       
+
+    }
+
+    IEnumerator Delay(Action action)
+    {
+        yield return new WaitForSeconds(1f);
+        //yield return null;
+        action?.Invoke();
+    }
+
+
+    private bool Compare(GameObject a, GameObject b)
+    {
+        if (a == null || b == null) return false;
+
+        NetworkIdentity aN = a.GetComponent<NetworkIdentity>();
+        NetworkIdentity bN = b.GetComponent<NetworkIdentity>();
+
+        return aN.netId == bN.netId;
+    }
+
 }

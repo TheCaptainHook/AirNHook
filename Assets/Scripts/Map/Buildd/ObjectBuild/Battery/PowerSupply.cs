@@ -139,7 +139,7 @@ public class PowerSupply : ButtonEntity,IInteractable
             
         }
 
-        // targetObjects = objList;
+         targetObjects = objList;
         //Network Sync
         P_Net.Server_SetTargets(objList,targetPosition);
     }
@@ -341,7 +341,7 @@ public class PowerSupply : ButtonEntity,IInteractable
 #region  Draw Line
     public void CreateLine(List<Vector2> list){
         // Vector2Int startPot = pathFinder.WorldToGrid(transform.position);
-        
+
         // foreach(var position in ButtonObjectData.targetPositions)
         // {
         //     Vector2Int endPot = pathFinder.WorldToGrid(position);
@@ -349,14 +349,15 @@ public class PowerSupply : ButtonEntity,IInteractable
         //     SetLine(line,pathFinder.FindPath(startPot,endPot));
         //     line.gameObject.SetActive(false);
         // }
-         Vector2 startPot = transform.position;
+        Debug.Log(list.Count);
+        Vector2 startPot = transform.position;
         
         // foreach(var position in ButtonObjectData.targetPositions)
         foreach(var position in list)
         {
             Vector2 endPot = position;
             LineRenderer line = GeneratorLineRenderer();
-            SetLine(line,pathFinder.FindPath(startPot,endPot));
+            SetLine(line,pathFinder.FindPath(startPot,endPot,true));
             line.gameObject.SetActive(false);
         }
     }
@@ -364,12 +365,13 @@ public class PowerSupply : ButtonEntity,IInteractable
 
         GameObject obj = new GameObject("LineRenderer");
         LineRenderer lineRenderer = obj.AddComponent<LineRenderer>();
+        lineRenderer.useWorldSpace = false;
         lineRenderer.startWidth = 0.1f;
         lineRenderer.endWidth = 0.1f;
         lineRenderer.material = mat;
         lineRenderer.positionCount = 0;
-        lineRenderer.sortingLayerName ="ForeGround";
-        lineRenderer.sortingOrder = 0;
+        lineRenderer.sortingLayerName ="Map/Tiles";
+        lineRenderer.sortingOrder = 3;
         obj.transform.SetParent(lineContainer);
 
         return lineRenderer;
