@@ -19,7 +19,7 @@ public class ToggleButton_Net : NetworkBehaviour
 
 
     [SyncVar] public bool chargeRequired;
-
+    [SyncVar] public bool hasPower;
 
     [Server]
     private void SetState(bool state)
@@ -58,17 +58,22 @@ public class ToggleButton_Net : NetworkBehaviour
 
     }
 
+    [Server]
+    private void Server_SetHasPower(bool hasPower)
+    {
+        this.hasPower = hasPower;
+    }
 
     [Command(requiresAuthority = false)]
     public void Cmd_SetHasPower(bool hasPower)
     {
-        Rpc_SertHasPower(hasPower);
+        Server_SetHasPower(hasPower);
     }
-    [ClientRpc]
-    public void Rpc_SertHasPower(bool hasPower)
-    {
-        Toggle.hasPower = hasPower;
-    }
+    //[ClientRpc]
+    //public void Rpc_SertHasPower(bool hasPower)
+    //{
+    //    Toggle.hasPower = hasPower;
+    //}
     [Command]
     public void Cmd_CallDeactivated()
     {

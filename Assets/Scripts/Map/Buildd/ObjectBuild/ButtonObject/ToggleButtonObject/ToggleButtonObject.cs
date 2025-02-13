@@ -31,7 +31,11 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
         }
     }
 #region IPowerConsumer
-    public bool hasPower{get; set;}
+    public bool hasPower
+    {
+        get { return ToggleButton_Net.hasPower; }
+        set { ToggleButton_Net.Cmd_SetHasPower(value); }
+    }
     public void PowerOn()
     {
         Debug.Log("Power");
