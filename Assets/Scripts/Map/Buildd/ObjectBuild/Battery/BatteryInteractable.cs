@@ -74,13 +74,6 @@ public class BatteryInteractable : InteractableObject
         Server_SetPowerSupply(powerSupply);
     }
 
-    //[Command(requiresAuthority = false)]
-    //public void Cmd_SetBatteryCapacity(float val)
-    //{
-    //    Server_SetBatteryCapacity(val);
-    //}
-
-   
 
     #endregion
 
@@ -116,28 +109,6 @@ public class BatteryInteractable : InteractableObject
             base.Release();
         }
     }
-
-
-    //private void BatteryRelease()
-    //{
-    //    _isFixed = false;
-    //    _isGrab = false;
-    //    _canInteract = true;
-    //    ChangeState(false);
-
-    //    _fixedPoint = null;
-    //    _rigidbody.bodyType = _originType;
-    //    _rigidbody.constraints = _originRot;
-    //    _sortingGroup.sortingLayerID = _originSortingLayerID;
-
-    //    _rigidbody.gravityScale = 0;
-
-    //    CmdChangeSortingLayer(false);
-
-    //    //CmdResetVelocity();
-    //    //CmdSetTransform(releasePosition);
-    //    Cmd_Release();
-    //}
 
 
 
@@ -200,16 +171,6 @@ public class BatteryInteractable : InteractableObject
 
     //-----------------------------------------------------------------------Insert Charger Socket
 
-    // [Server]
-    // private void Server_InsertChargeSocket(GameObject battery)
-    // {
-    //     if (batteryCharger.TryGetComponent(out BatteryCharger component))
-    //     {
-    //         component.SetBattery(battery);
-    //     }
-
-    //     Rpc_InsertChargerSocket();
-    // }
 
     [Command(requiresAuthority = false)]
     public void Cmd_InsertChargerSocket(GameObject battery)
@@ -237,16 +198,7 @@ public class BatteryInteractable : InteractableObject
 
     //-----------------------------------------------------------------------Insert Charger Socket
     //-----------------------------------------------------------------------Insert PowerSupply Socket
-    //  [Server]
-    // private void Server_InsertPowerSupplySocket(GameObject battery)
-    // {
-    //     if (batteryCharger.TryGetComponent(out BatteryCharger component))
-    //     {
-    //         component.SetBattery(battery);
-    //     }
 
-    //     Rpc_InsertChargerSocket();
-    // }
 
     [Command(requiresAuthority = false)]
     public void Cmd_InsertPowerSupplySocket(GameObject battery)
