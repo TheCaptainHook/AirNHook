@@ -8,6 +8,7 @@ using TMPro;
 using System;
 using System.Reflection;
 using UnityEngine.Rendering.Universal;
+using Edgegap;
 
 
 public enum MapType
@@ -198,7 +199,7 @@ public class MapEditor : MonoBehaviour
         buttonActivatableObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "buttonActivatableObjectTransform");
         buttonObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "buttonObjectTransform");
         dontSaveObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "dontSaveObjectTransform");
-        garbageTransform = Util.CreateChildTransform(mapObjBoxTransform, "garbageTransform");
+        // garbageTransform = Util.CreateChildTransform(mapObjBoxTransform, "garbageTransform");
         networkingObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "networkingObjectTransform");
         //TODO 0723
         triggerDialogueTransform = Util.CreateChildTransform(mapObjBoxTransform, "triggerDialogueTransform");
@@ -422,7 +423,9 @@ public class MapEditor : MonoBehaviour
         CreateExitObject(curMap.mapExitObjectStruct);
         Create_Object(curMap.mapObjectDataList,objectTransform);
         Create_Object(curMap.mapBackgroundObjectList,backgroundObjectContainer);
+
         Create_OtherObject(curMap.mapOtherObjectList,otherContainer);
+
         Create_Object(curMap.mapButtonActivatableObjectDataList,buttonActivatableObjectTransform);
         Create_Object(curMap.buttonObjectList,buttonObjectTransform);
         Create_Object(Managers.Data.saveData.dic[curMap.mapID]._DialogueDataList,triggerDialogueTransform);
@@ -514,7 +517,7 @@ public class MapEditor : MonoBehaviour
     {
         MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
         //Create(exitDoorObjectTransform,mapDataStruct,data);
-        Managers.Stage.CmdBatchObject(mapDataStruct.name, data, exitDoorObjectTransform.name);
+        Managers.Stage.CmdBatchObject(mapDataStruct.name, data, exitDoorObjectTransform);
     }
 
     private void Create_OtherObject(MapDataStruct mapDataStruct,ObjectData data,Transform transform){
@@ -529,11 +532,21 @@ public class MapEditor : MonoBehaviour
             }
             curTr = findTr;
         }
-
         otherContainer.SetGroup(curTr);
-        Create(curTr,mapDataStruct,data);
+
+        if(mapDataStruct.objectType == ObjectType.N_Object && Application.isPlaying)
+        {
+            Managers.Stage.CmdBatchObject(mapDataStruct.name, data, curTr);
+            Debug.Log(mapDataStruct.name);
+        }
+        else
+        {
+            Create(curTr,mapDataStruct,data);
+        }
+        
 
     }
+
     public void Create_Object<T>(List<T> list ,Transform transform){
         MapDataStruct mapDataStruct;
         Transform _TR;
@@ -554,7 +567,7 @@ public class MapEditor : MonoBehaviour
                         {
                             _TR = transform;
                         }
-                        Managers.Stage.CmdBatchObject(mapDataStruct.name, data, _TR.name);
+                        Managers.Stage.CmdBatchObject(mapDataStruct.name, data, _TR);
                     }
                     else
                     {

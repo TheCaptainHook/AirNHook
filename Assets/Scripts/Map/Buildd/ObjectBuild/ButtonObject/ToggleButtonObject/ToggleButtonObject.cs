@@ -68,7 +68,13 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
     {
         if (typeof(T) == typeof(ButtonObjectStruct))
         {
-            return (T)(object)new ButtonObjectStruct(id, GetTargetPositions(), transform.position, transform.localScale, chargeRequired);
+            return (T)(object)new ButtonObjectStruct(
+                id, 
+            GetTargetPositions(), 
+            GetLightPositions(),
+            transform.position, 
+            transform.localScale, 
+            chargeRequired);
         }
 
         return default(T);
@@ -82,7 +88,11 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
                 ButtonObjectStruct buttonData = (ButtonObjectStruct)(object)data;
                 ButtonObjectData = buttonData;
                 FindTargetObject();
-                //chargeRequired = buttonData.chargeRequired;
+
+                if(buttonData.lightPositions.Count >0) FindLightObject();
+                
+                chargeRequired = buttonData.chargeRequired;
+                if(Application.isPlaying)
                 ToggleButton_Net.Server_SetChargeRequired(buttonData.chargeRequired);
             }
 

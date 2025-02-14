@@ -46,7 +46,7 @@ public class StageManager
 
 
     [Command]
-    public void CmdBatchObject<T>(string objName, T data, string trName)
+    public void CmdBatchObject<T>(string objName, T data, Transform parent)
     {
         if (!NetworkServer.active || !NetworkClient.isConnected) return;
 
@@ -59,16 +59,16 @@ public class StageManager
         obj.GetComponent<BuildObj>().SetData(data);
 
 
-        Transform parent = null;
-        foreach (Transform tr in MapEditor.Instance.mapObjBoxTransform)
-        {
-            if (tr.name == trName)
-            {
-                parent = tr;
-                break;
-            }
-        }
-        if (parent != null)
+        // Transform parent = null;
+        // foreach (Transform tr in MapEditor.Instance.mapObjBoxTransform)
+        // {
+        //     if (tr.name == trName)
+        //     {
+        //         parent = tr;
+        //         break;
+        //     }
+        // }
+        // if (parent != null)
             obj.transform.SetParent(parent);
 
     }

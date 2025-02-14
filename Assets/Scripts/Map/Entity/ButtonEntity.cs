@@ -17,10 +17,11 @@ public class ButtonEntity : BuildObj
             transform.position = value.position;
             transform.localScale = value.scale;
             targetPosition = value.targetPositions;
+            lightPosition = value.lightPositions;
         } }
 
     protected List<Vector2> targetPosition; //TODO 0829
-
+    protected List<Vector2> lightPosition;
 
     #region  Debug
     private Transform debugModeTransform;
@@ -37,16 +38,33 @@ public class ButtonEntity : BuildObj
     protected virtual void Deactivated(){ }
     protected virtual void PrograssButtonActivatedObject(bool onActivate)
     {
+
         if(targetObjects == null) return;
         foreach(GameObject obj in targetObjects){
            if(obj.TryGetComponent(out ActivatableObjectEntity component)){
             component.ApplyActive(onActivate ? 1 :-1);
            }
         }
+        foreach(GameObject obj in lightObjects)
+        {
+            if(obj.TryGetComponent(out IPowerConsumer component))
+            {
+                if(onActivate) component.hasPower = true;
+                else component.hasPower = false;
+            }
+            
+        }
+
     }
 
     #endregion
 
+    #region IPowerConsumer, Light Object
+    [Header("*It is currently only available for ToggleButtonObjects")]
+    [Tooltip("*This object must have an IPowerConsumer")]
+    public List<GameObject> lightObjects;
+    
+    #endregion
 
 
     #region  GET,SET
@@ -88,6 +106,19 @@ public class ButtonEntity : BuildObj
 
         return list;
     }
+    protected virtual List<Vector2> GetLightPositions()
+    {
+        List<Vector2> list = new();
+        foreach(GameObject obj in lightObjects){
+            if (obj == null) continue;
+            if(obj.TryGetComponent(out IPowerConsumer component))
+            {
+                list.Add(component.GetTransformPosition());
+            }
+            
+        }
+        return list;
+    }
 
     private Vector3 ConvertPosition(Vector3 vec)
     {
@@ -116,6 +147,20 @@ public class ButtonEntity : BuildObj
             }    
         }
         targetObjects = objList;
+    }
+    public virtual void FindLightObject()
+    {
+        if(!Application.isPlaying) return;
+        List<GameObject> list = new();
+
+        OtherContainer otherContainer = MapEditor.Instance.otherContainer.GetComponent<OtherContainer>();
+
+        foreach(Vector2 vec in ButtonObjectData.lightPositions)
+        {
+            otherContainer.GetCompareVec(vec,ref list);
+            //otherObject vec 전달 -> group transform 순회 같은거 있는지 확인 -> 있으면 해당 IPowerConsumer 반환
+        }
+        lightObjects = list;
     }
     protected bool CompareVec(Vector3 p1,Vector3 p2){
         bool x = Mathf.Approximately(p1.x,p2.x);
@@ -156,6 +201,17 @@ public class ButtonEntity : BuildObj
            }   
         }
         targetObjects = objList;
+
+         List<GameObject> list = new();
+
+        OtherContainer otherContainer = mapEditor.otherContainer.GetComponent<OtherContainer>();
+
+        foreach(Vector2 vec in ButtonObjectData.lightPositions)
+        {
+            otherContainer.GetCompareVec(vec,ref list);
+            //otherObject vec 전달 -> group transform 순회 같은거 있는지 확인 -> 있으면 해당 IPowerConsumer 반환
+        }
+        lightObjects = list;
     }
 
     #endregion

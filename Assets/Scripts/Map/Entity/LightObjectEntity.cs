@@ -1,0 +1,103 @@
+using System.Collections;
+using System.Collections.Generic;
+using Mirror;
+using UnityEngine;
+
+[RequireComponent(typeof(LightObject_Net))]
+[RequireComponent(typeof(NetworkIdentity))]
+[RequireComponent(typeof(NetworkTransformUnreliable))]
+public class LightObjectEntity : BuildObj,IPowerConsumer
+{
+    [SerializeField] GameObject testLight;
+
+    private LightObject_Net lightObject_Net;
+    private LightObject_Net L_Net
+    {
+        get
+        {
+            if(lightObject_Net == null) lightObject_Net = GetComponent<LightObject_Net>();
+            return lightObject_Net;
+        }
+    }
+
+    #region IPowerConsumer
+    public bool hasPower
+    {
+        get
+        {
+            return L_Net.hasPower;
+        }
+        set
+        {
+            L_Net.Cmd_SetHasPower(value);
+        }
+    }
+    
+    public virtual void PowerOn()
+    {
+        Debug.Log("PowerOn");
+        //test
+        testLight.SetActive(true);
+    }
+    public virtual void PowerOff()
+    {
+        Debug.Log("PowerOff");
+        testLight.SetActive(false);
+    }
+    public Vector2 GetPowerLineConnectionPoint(){
+        return transform.position;
+    }
+    public Vector2 GetTransformPosition(){
+        return ConvertPosition(transform.position);
+    }
+    #endregion
+
+
+    #region  Get,Set
+    public override T GetData<T>()
+    {
+         if(typeof(T)==typeof(ObjectData)){
+            return (T)(object)new ObjectData(id,ConvertPosition(transform.position),transform.rotation,transform.localScale,chargeRequired);
+        }
+
+       return default(T);
+    }
+    public override void SetData<T>(T data)
+    {
+        if(typeof(T) == typeof(ObjectData)){
+            ObjectData objData = (ObjectData)(object)data;
+            SetData(objData);
+        }
+        
+        if(Application.isPlaying)
+        hasPower = !chargeRequired;
+        //check chargeRequired, init : L_Net.hasPower = false
+    }
+    public override void SetData(ObjectData data)
+    {
+        ObjectData = data;
+        transform.position = data.position;
+        transform.rotation = data.quaternion;
+        transform.localScale = data.scale;
+        chargeRequired = data.chargeRequired;
+
+    }
+    #endregion
+
+
+    private Vector3 ConvertPosition(Vector3 vec)
+    {
+
+        return new Vector3(
+            Mathf.Round(vec.x * 100) / 100, 
+            Mathf.Round(vec.y * 100) / 100, 
+            Mathf.Round(vec.z * 100) / 100
+        );
+
+
+    }
+
+
+
+
+}

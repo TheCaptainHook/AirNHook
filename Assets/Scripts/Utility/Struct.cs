@@ -27,11 +27,13 @@ public struct ButtonObjectStruct
     public Vector2 position;
     public Vector3 scale;
     public List<Vector2> targetPositions;
+    public List<Vector2> lightPositions;
     //puzzle_1
     public bool onHint;
     public Vector2[] partsPositions;
     public Vector2[] itemPositions;
     public Vector2 hintPosition;
+    
     public bool chargeRequired;
     public ButtonObjectStruct(int id,List<Vector2> targetPositions,Vector2 position,Vector3 scale,bool chargeRequired = false)
     {
@@ -44,6 +46,7 @@ public struct ButtonObjectStruct
         onHint = false;
         hintPosition = Vector2.zero;
         this.chargeRequired = chargeRequired;
+        lightPositions = null;
     }
 
     public ButtonObjectStruct(int id, List<Vector2> targetPositions, Vector2 position, Vector3 scale,
@@ -61,7 +64,31 @@ public struct ButtonObjectStruct
         this.onHint = onHint;
         this.hintPosition = hintPosition;
         chargeRequired = false;
+        lightPositions = null;
     }
+
+    public ButtonObjectStruct(int id,
+    List<Vector2> targetPositions,
+    List<Vector2> lightPositions,
+    Vector2 position,
+    Vector3 scale,
+    bool chargeRequired = false)
+    {
+        this.id = id;
+        this.targetPositions = targetPositions;
+        this.position = position;
+        this.scale = scale;
+        //puzzle
+        partsPositions = null;
+        itemPositions = null;
+        onHint = false;
+        hintPosition = Vector2.zero;
+
+        this.chargeRequired = chargeRequired;
+        this.lightPositions = lightPositions;
+    }
+
+    
 
 }
 #endregion
@@ -304,6 +331,7 @@ public struct ObjectData
     public Vector2 size;
     public string text;
     public float fontSize;
+    public bool chargeRequired;
     public ObjectData(int id, Vector2 position, Vector3 scale, int dialogueId = 0, Vector2 talPot = default)
     {
         this.id = id;
@@ -315,6 +343,23 @@ public struct ObjectData
         this.size = Vector2.zero;
         this.text = string.Empty;
         this.fontSize = 0;
+        this.chargeRequired = false;
+    }
+     public ObjectData(int id, Vector2 position,Quaternion quaternion ,Vector3 scale, bool chargeRequired)
+    {
+        this.id = id;
+        dialogueId = 0;
+        this.position = position;
+        this.quaternion = quaternion;
+        this.scale = scale;
+
+        talPot = default;
+
+        size = Vector2.zero;
+        text = string.Empty;
+        fontSize = 0;
+
+        this.chargeRequired = chargeRequired;
     }
     public ObjectData(int id, Vector2 position,Vector2 size)
     {
@@ -327,6 +372,7 @@ public struct ObjectData
         this.size = size;
         this.text = string.Empty;
         this.fontSize = 0;
+        chargeRequired = false;
     }
     public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, int dialogueId = 0)
     {
@@ -339,6 +385,7 @@ public struct ObjectData
         this.size = Vector2.zero;
         this.text = string.Empty;
         this.fontSize = 0;
+        chargeRequired = false;
     }
     //WorldTextObject
     public ObjectData(int id,Vector2 position,Vector2 size,string text,float fontSize)
@@ -352,6 +399,7 @@ public struct ObjectData
         this.size = size;
         this.text = text;
         this.fontSize = fontSize;
+        chargeRequired = false;
     }
 
 

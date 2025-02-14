@@ -31,19 +31,6 @@ public class ButtonActivated : ButtonEntity
         orgColor = spriteRenderer.material.color;
     }
 
-    //private void Update()
-    //{
-    //    //if (!NetworkServer.active || !NetworkClient.isConnected) return; //24.05.20        
-
-    //    if (isPressed && !onActive)
-    //    {
-    //        onActive = true;
-    //        Activation();
-    //    }
-    //}
-
-
-
     //-------------------------------------------------------------------------------------------------------Refeac 250213
     ButtonActivated_Net b_Net;
     ButtonActivated_Net B_Net
@@ -55,15 +42,6 @@ public class ButtonActivated : ButtonEntity
         }
     }
 
-    //private float rate;
-    //private float Rate
-    //{
-    //    get { return B_Net.rate; }
-    //    set 
-    //    {
-    //      B_Net.Cmd_SetRate(value);
-    //    }
-    //}
     private void Press()
     {
         if (B_Net.rate >= 1) return;
@@ -75,20 +53,10 @@ public class ButtonActivated : ButtonEntity
         B_Net.Cmd_SetRate(-Time.fixedDeltaTime);
     }
 
-    //private void Update()
-    //{
-    //    //if (!NetworkServer.active || !NetworkClient.isConnected) return; //24.05.20        
-
-    //    if (isPressed)
-    //    {
-    //        //Activation();
-    //        Press();
-    //    }
-    //}
-
     private void FixedUpdate()
     {
-        if (!NetworkServer.active || !NetworkClient.isConnected) return;
+        // if (!NetworkServer.active || !NetworkClient.isConnected) return;
+        if(!NetworkServer.active) return;
 
         RaycastHit2D hit = Physics2D.Raycast(buttonTransform.position, Vector2.up, 1, mask);
         if (hit.collider is not null)
