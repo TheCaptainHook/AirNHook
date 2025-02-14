@@ -31,52 +31,115 @@ public class ButtonActivated : ButtonEntity
         orgColor = spriteRenderer.material.color;
     }
 
-    private void Update()
-    {
-        //if (!NetworkServer.active || !NetworkClient.isConnected) return; //24.05.20        
+    //private void Update()
+    //{
+    //    //if (!NetworkServer.active || !NetworkClient.isConnected) return; //24.05.20        
 
-        if (isPressed && !onActive)
+    //    if (isPressed && !onActive)
+    //    {
+    //        onActive = true;
+    //        Activation();
+    //    }
+    //}
+
+
+
+    //-------------------------------------------------------------------------------------------------------Refeac 250213
+    ButtonActivated_Net b_Net;
+    ButtonActivated_Net B_Net
+    {
+        get 
         {
-            onActive = true;
-            Activation();
+            if(b_Net == null) b_Net = GetComponent<ButtonActivated_Net>();
+            return b_Net;
         }
     }
 
-    
+    //private float rate;
+    //private float Rate
+    //{
+    //    get { return B_Net.rate; }
+    //    set 
+    //    {
+    //      B_Net.Cmd_SetRate(value);
+    //    }
+    //}
+    private void Press()
+    {
+        if (B_Net.rate >= 1) return;
+       B_Net.Cmd_SetRate(Time.fixedDeltaTime);
+    }
+    private void Release()
+    {
+        if (B_Net.rate <= 0) return;
+        B_Net.Cmd_SetRate(-Time.fixedDeltaTime);
+    }
+
+    //private void Update()
+    //{
+    //    //if (!NetworkServer.active || !NetworkClient.isConnected) return; //24.05.20        
+
+    //    if (isPressed)
+    //    {
+    //        //Activation();
+    //        Press();
+    //    }
+    //}
+
     private void FixedUpdate()
     {
         if (!NetworkServer.active || !NetworkClient.isConnected) return;
-        
+
         RaycastHit2D hit = Physics2D.Raycast(buttonTransform.position, Vector2.up, 1, mask);
-        if(hit.collider is not null && !turnOff && !onPrograss)
+        if (hit.collider is not null)
         {
-            isPressed = true;
+            //isPressed = true;
+            Press();
         }
-        else if (isPressed && onActive && hit.collider is null && !onPrograss)
+        else
         {
-            Deactivated();
+            //Deactivated();
+            Release();
         }
     }
+
+    //-------------------------------------------------------------------------------------------------------Refeac
+
+    //private void FixedUpdate()
+    //{
+    //    if (!NetworkServer.active || !NetworkClient.isConnected) return;
+
+    //    RaycastHit2D hit = Physics2D.Raycast(buttonTransform.position, Vector2.up, 1, mask);
+    //    if(hit.collider is not null && !turnOff && !onPrograss)
+    //    {
+    //        isPressed = true;
+    //    }
+    //    else if (isPressed && onActive && hit.collider is null && !onPrograss)
+    //    {
+    //        Deactivated();
+    //    }
+    //}
 
     public override void EditorMode_Destroy()
     {   
             base.EditorMode_Destroy();
     }
 
-    protected override void Activation()
-    {
-         if (onPrograss) return;
 
-        StartCoroutine(Co_Activation());
-    }
+    //protected override void Activation()
+    //{
+    //     if (onPrograss) return;
 
-    protected override void Deactivated()
-    {
-        
-        if (onPrograss) return;
-        if (!onActive) return;
-        StartCoroutine(Co_Deactivated());
-    }
+    //    StartCoroutine(Co_Activation());
+    //}
+
+    //protected override void Deactivated()
+    //{
+
+    //    if (onPrograss) return;
+    //    if (!onActive) return;
+    //    StartCoroutine(Co_Deactivated());
+    //}
 
 
     // override IEnumerator Co_Activation()
@@ -90,30 +153,47 @@ public class ButtonActivated : ButtonEntity
     //     yield return new WaitForSeconds(0.5f);
     //     onPrograss = false;
     // }
-    protected override IEnumerator Co_Activation()
+    public void Net_Actvie()
     {
-        onPrograss = true;
-        _animator.SetBool(IsActivated, true);
-
+        Activation();
+    }
+    public void Net_Deactivated()
+    {
+        Deactivated();
+    }
+    protected override void Activation()
+    {
         PrograssButtonActivatedObject(true);
-
-        yield return new WaitForSeconds(0.5f);
-        onPrograss = false;
     }
-    protected override IEnumerator Co_Deactivated()
+
+    protected override void Deactivated()
     {
-         onPrograss = true;
-
-        isPressed = false;
-        onActive = false;
-        
-        _animator.SetBool(IsActivated, false);
-
         PrograssButtonActivatedObject(false);
-
-        yield return new WaitForSeconds(0.5f);
-        onPrograss = false;
     }
+    //protected override IEnumerator Co_Activation()
+    //{
+    //    onPrograss = true;
+    //    _animator.SetBool(IsActivated, true);
+
+    //    PrograssButtonActivatedObject(true);
+
+    //    yield return new WaitForSeconds(0.5f);
+    //    onPrograss = false;
+    //}
+    //protected override IEnumerator Co_Deactivated()
+    //{
+    //     onPrograss = true;
+
+    //    isPressed = false;
+    //    onActive = false;
+        
+    //    _animator.SetBool(IsActivated, false);
+
+    //    PrograssButtonActivatedObject(false);
+
+    //    yield return new WaitForSeconds(0.5f);
+    //    onPrograss = false;
+    //}
     // IEnumerator Co_Deactivated()
     // {
     //     onPrograss = true;

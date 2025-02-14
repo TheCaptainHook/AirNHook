@@ -158,11 +158,6 @@ public class PowerSupply_Net : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
-        //StartCoroutine(Delay(() => { PowerSupply.CreateLine(targets.targetPositions); }));
-        //Create Supply line
-        // PowerSupply.CreateLine(targets.targetPositions);
-
-        Debug.Log("aaaa");
 
         //Cmd_CallInitValue();
         StartCoroutine(Delay(() =>
