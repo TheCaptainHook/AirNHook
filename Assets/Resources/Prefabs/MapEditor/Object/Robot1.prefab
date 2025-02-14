@@ -4941,6 +4941,7 @@ GameObject:
   - component: {fileID: 2770081190175200026}
   - component: {fileID: 6369217656495120660}
   - component: {fileID: 5601444082035207858}
+  - component: {fileID: 2561798284295492891}
   m_Layer: 0
   m_Name: Robot1
   m_TagString: Untagged
@@ -5022,6 +5023,20 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
+--- !u!114 &2561798284295492891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4695069857083976172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7d61bf1c47a4484ba73d0b313c40e74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 6369217656495120660}
+  selectedTrigger: 0
 --- !u!1 &5644201962948139794
 GameObject:
   m_ObjectHideFlags: 0
