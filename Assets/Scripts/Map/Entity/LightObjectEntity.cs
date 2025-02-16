@@ -1,14 +1,15 @@
+
 using System.Collections;
-using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
-[RequireComponent(typeof(LightObject_Net))]
 [RequireComponent(typeof(NetworkIdentity))]
 [RequireComponent(typeof(NetworkTransformUnreliable))]
+[RequireComponent(typeof(LightObject_Net))]
 public class LightObjectEntity : BuildObj,IPowerConsumer
 {
-    [SerializeField] GameObject testLight;
+    [Header("Default Light Object")]
+    [SerializeField] GameObject _Light_Object;
 
     private LightObject_Net lightObject_Net;
     private LightObject_Net L_Net
@@ -37,12 +38,12 @@ public class LightObjectEntity : BuildObj,IPowerConsumer
     {
         Debug.Log("PowerOn");
         //test
-        testLight.SetActive(true);
+        _Light_Object.SetActive(true);
     }
     public virtual void PowerOff()
     {
         Debug.Log("PowerOff");
-        testLight.SetActive(false);
+        _Light_Object.SetActive(false);
     }
     public Vector2 GetPowerLineConnectionPoint(){
         return transform.position;
@@ -62,17 +63,31 @@ public class LightObjectEntity : BuildObj,IPowerConsumer
 
        return default(T);
     }
+    
     public override void SetData<T>(T data)
     {
         if(typeof(T) == typeof(ObjectData)){
             ObjectData objData = (ObjectData)(object)data;
             SetData(objData);
+
+            if(Application.isPlaying)
+            StartCoroutine(NetworkReady_SetChargeRequired());
         }
         
-        if(Application.isPlaying)
-        hasPower = !chargeRequired;
+        
         //check chargeRequired, init : L_Net.hasPower = false
     }
+
+
+    IEnumerator NetworkReady_SetChargeRequired()
+    {
+        while(!NetworkClient.ready)
+        {
+            yield return null;
+        }
+        L_Net.Cmd_SetChargeRequired(chargeRequired);
+    }
+
     public override void SetData(ObjectData data)
     {
         ObjectData = data;

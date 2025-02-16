@@ -5,8 +5,10 @@ using UnityEngine.SceneManagement;
 using System;
 
 
+
 #if UNITY_EDITOR
 using UnityEditor;
+using Unity.EditorCoroutines.Editor;
 #endif
 
 [ExecuteInEditMode]
@@ -22,6 +24,8 @@ public class PowerSupply_LineToTarget : MonoBehaviour
    #if UNITY_EDITOR
     public void Setting()
     {
+        StopAllCoroutines();
+
         powerSupply = GetComponent<PowerSupply>();
         previousePosition = ConvertPosition(transform.position);
 
@@ -37,7 +41,42 @@ public class PowerSupply_LineToTarget : MonoBehaviour
 
     }
 
-    
+    EditorCoroutine editorCoroutine;
+    Coroutine coroutine;
+
+    public void StartRefrash()
+    {
+        // StartCoroutine(RefrashCo());
+        coroutine = StartCoroutine(RefrashCo());
+
+        // editorCoroutine = EditorCoroutineUtility.StartCoroutine(RefrashCo(),this);
+    }
+    public void StopRefrash()
+    {
+        // if(editorCoroutine != null)
+        // {
+        //     EditorCoroutineUtility.StopCoroutine(editorCoroutine);
+        //     Destroy();
+        // }
+        if(coroutine != null)
+        {
+            StopCoroutine(coroutine);
+            Destroy();
+        }
+       
+    }
+
+    IEnumerator RefrashCo()
+    {
+
+        while(true)
+        {
+            Refrash();
+            yield return null;
+        }
+
+    }
+
     public void Refrash(){
         if(powerSupply == null) return;
 
@@ -98,6 +137,7 @@ public class PowerSupply_LineToTarget : MonoBehaviour
     public void Destroy(){
         if(debugTr == null) return;
         Undo.DestroyObjectImmediate(debugTr.gameObject);
+        
     }
 
     #region  Get

@@ -4,6 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+public enum Direction_Type
+{
+    Four,
+    Eight
+    
+}
+
 public class PathFinder : MonoBehaviour
 {
     //test
@@ -73,8 +80,8 @@ public class PathFinder : MonoBehaviour
         }
         return null;
     }
-  
-    public List<Vector2> FindPath(Vector2 start, Vector2 end,bool notObstacle = false)
+    
+    public List<Vector2> FindPath(Vector2 start, Vector2 end,bool notObstacle = false,Direction_Type type = Direction_Type.Eight)
     {
         PriorityQueue<Node> openSet = new();
         HashSet<Vector2> closedSet = new HashSet<Vector2>();
@@ -94,8 +101,8 @@ public class PathFinder : MonoBehaviour
             }
 
             closedSet.Add(curPosition);
-
-            foreach (var dir in directions_8)
+            Vector2Int[] direction = type == Direction_Type.Eight ? directions_8 : directions_4;
+            foreach (var dir in direction)
             {
                 Vector2 nextPosition = curPosition + dir;
 

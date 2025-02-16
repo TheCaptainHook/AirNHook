@@ -37,23 +37,41 @@ public class PowerSupply : ButtonEntity,IInteractable
 
     #region  Get,Set
 
+
+    public override T GetData<T>()
+    {
+        if (typeof(T) == typeof(ButtonObjectStruct))
+        {
+            return (T)(object)new ButtonObjectStruct(
+                id, 
+            GetTargetPositions(), 
+            GetLightPositions(),
+            transform.position, 
+            transform.localScale, 
+            false);
+        }
+
+        return default(T);
+    }
+
     public async override void SetData<T>(T data)
     {
          if (typeof(T) == typeof(ButtonObjectStruct))
             {
                  ButtonObjectStruct buttonData = (ButtonObjectStruct)(object)data;
                  ButtonObjectData = buttonData;
+
+                if(Application.isPlaying)
+                await util.Delay(()=>
+                {
+                    FindTargetObject();
+                    if(buttonData.lightPositions.Count > 0) FindLightObject();
+                    // CreateLine();
+                    // //Test
+                    // LineOn(true);
+                });
             }
 
-        if(Application.isPlaying){
-            await util.Delay(()=>
-            {
-                FindTargetObject();
-                // CreateLine();
-                // //Test
-                // LineOn(true);
-            });
-        }
         
         
     }
@@ -88,7 +106,7 @@ public class PowerSupply : ButtonEntity,IInteractable
     {
         TogglePowerSupply(onActivate);
     }
-
+    
     private void TogglePowerSupply(bool toggle)
     {
         if(targetObjects.Count == 0) return; // This field is for server settings only
@@ -99,6 +117,14 @@ public class PowerSupply : ButtonEntity,IInteractable
                 else component.PowerOff();
             }
         }
+        foreach(var item in lightObjects)
+        {
+            if(item.TryGetComponent(out LightObjectEntity component))
+            {
+                Debug.Log(item.name);
+                component.hasPower = toggle;
+            }
+        }
     }
     #endregion
 
@@ -106,7 +132,7 @@ public class PowerSupply : ButtonEntity,IInteractable
 
     public override void FindTargetObject()
     {
-        if(!Application.isPlaying) return;
+        // if(!Application.isPlaying) return;
         if(targetPosition.Count == 0) return;
 
         List<GameObject> objList = new();
@@ -143,6 +169,8 @@ public class PowerSupply : ButtonEntity,IInteractable
         //Network Sync
         P_Net.Server_SetTargets(objList,targetPosition);
     }
+
+    #if UNITY_EDITOR
     public async override void Editor_Setting(MapEditor mapEditor)
     {
         if(targetPosition.Count == 0) return;
@@ -177,8 +205,21 @@ public class PowerSupply : ButtonEntity,IInteractable
                         }
                     }
                 targetObjects = objList;
+
+                List<GameObject> list = new();
+                OtherContainer otherContainer = mapEditor.otherContainer.GetComponent<OtherContainer>();
+
+                foreach(Vector2 vec in ButtonObjectData.lightPositions)
+                {
+                    otherContainer.GetCompareVec(vec,ref list);
+                    //otherObject vec 전달 -> group transform 순회 같은거 있는지 확인 -> 있으면 해당 IPowerConsumer 반환
+                }
+                lightObjects = list;
+                Debug.Log($"Light Object Count : {lightObjects.Count}");
+
             });
     }
+    #endif
 
 
     #endregion
@@ -349,15 +390,14 @@ public class PowerSupply : ButtonEntity,IInteractable
         //     SetLine(line,pathFinder.FindPath(startPot,endPot));
         //     line.gameObject.SetActive(false);
         // }
-        Debug.Log(list.Count);
-        Vector2 startPot = transform.position;
+        Vector2 startPot = lineContainer.position;
         
         // foreach(var position in ButtonObjectData.targetPositions)
         foreach(var position in list)
         {
             Vector2 endPot = position;
             LineRenderer line = GeneratorLineRenderer();
-            SetLine(line,pathFinder.FindPath(startPot,endPot,true));
+            SetLine(line,pathFinder.FindPath(startPot,endPot,true,Direction_Type.Four));
             line.gameObject.SetActive(false);
         }
     }

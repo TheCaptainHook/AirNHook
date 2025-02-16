@@ -7,6 +7,11 @@ public class ButtonEntity : BuildObj
 {
 
     [CustomHeader("ButtonEntity, Target Object")]
+     [Header(@"
+    -------------ButtonEntity Field
+     * ↓ can added this field.
+        - ActivatableObjectEntity was inherited 
+    ")]
     public List<GameObject> targetObjects;
 
     private ButtonObjectStruct buttonObjectData;
@@ -60,8 +65,11 @@ public class ButtonEntity : BuildObj
     #endregion
 
     #region IPowerConsumer, Light Object
-    [Header("*It is currently only available for ToggleButtonObjects")]
-    [Tooltip("*This object must have an IPowerConsumer")]
+    [Header(@"
+    * ↓ Can use this field.
+        - ToggleButton
+        - PowerSupply
+    ")]
     public List<GameObject> lightObjects;
     
     #endregion

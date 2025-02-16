@@ -537,7 +537,6 @@ public class MapEditor : MonoBehaviour
         if(mapDataStruct.objectType == ObjectType.N_Object && Application.isPlaying)
         {
             Managers.Stage.CmdBatchObject(mapDataStruct.name, data, curTr);
-            Debug.Log(mapDataStruct.name);
         }
         else
         {
