@@ -5,25 +5,17 @@ using System;
 using System.IO;
 
 
-enum PrograssLevel
-{
-    One,
-    Two,
-    Three,
-    End
-}
-
 
 //DEVELOP CODE LINE, Method 0909 
 //  :Select_PrograssLevel_3Co
 //  : 
 
 
-public class UI_StageSelect_var3: UI_Base
+public class UI_StageSelect_var3_Dummy: UI_Base
 {
 
     [Header("Info")]
-    [SerializeField] UI_KeyGenerator _UI_KeyGenerator;
+    //[SerializeField] UI_KeyGenerator _UI_KeyGenerator;
     [SerializeField] float _WriteAndEraserDelayRate;
     [SerializeField] int maxHorizontaText;// 얼마나 써야 다음 줄로 넘어가는가.
     [SerializeField] int contentMoveRect_TextLineIndex; //Change content RectTransform.localPosition.  + 30;
@@ -160,16 +152,16 @@ public class UI_StageSelect_var3: UI_Base
 
     public override void OnEnable()
     {
-        if(computer == null)
-        {
-            computer = MapEditor.Instance.FindObj(MapEditor.Instance.objectTransform, 1000);
-        }
-        if(!computer.GetComponent<StageSelectObject>().onPower) animator.SetTrigger(open);
-        else animator.SetTrigger(open_onPower);
-        
-        
-        if(computer)
-        computer.GetComponent<StageSelectorComputer>().Talking();
+        //if (computer == null)
+        //{
+        //    computer = MapEditor.Instance.FindObj(MapEditor.Instance.objectTransform, 1000);
+        //}
+        //if (!computer.GetComponent<StageSelectObject>().onPower) animator.SetTrigger(open);
+        //else animator.SetTrigger(open_onPower);
+
+
+        //if (computer)
+        //    computer.GetComponent<StageSelectorComputer>().Talking();
 
         // try
         // {
@@ -179,11 +171,11 @@ public class UI_StageSelect_var3: UI_Base
         // {
         //     Debug.Log($"EX : {ex}");
         // }
-        
+
 
     }
 
-        
+
     private void Update()
     {
         //Test Code
@@ -199,11 +191,11 @@ public class UI_StageSelect_var3: UI_Base
 
         //Interaction
 
-        if (onInteractable && !onPrograss && !inputProcessed)
-        {
-            GetKeyEvent();
+        //if (onInteractable && !onPrograss && !inputProcessed)
+        //{
+        //    GetKeyEvent();
             
-        }
+        //}
 
     }
     private void GetKeyEvent(){
@@ -500,7 +492,6 @@ public class UI_StageSelect_var3: UI_Base
         {
             if (mapDatas[i].clear)
             {
-                //yield return WriteLine(maps[i].mapID, localColor, true);\
                 yield return WriteLine(string.IsNullOrWhiteSpace(maps[i].subMapName) ? maps[i].mapID : maps[i].subMapName,localColor,true);
             }
             else if (mapDatas[i].openStage)
@@ -541,18 +532,18 @@ public class UI_StageSelect_var3: UI_Base
         textLineList[pathTextLineIndex].type = TypingType.Read;
         textLineList[pathTextLineIndex].text.color = Color.yellow;
 
-        try
-        {
-            ExitPointObj obj = MapEditor.Instance.FindObj(MapEditor.Instance.exitDoorObjectTransform, 301).GetComponent<ExitPointObj>();
+        //try
+        //{
+        //    ExitPointObj obj = MapEditor.Instance.FindObj(MapEditor.Instance.exitDoorObjectTransform, 301).GetComponent<ExitPointObj>();
 
-            Map map = GetMap(curSelectTextLine.mainSentence);
-            obj.nextMapId = map.mapID;
-            selectMapId = map.mapID;
-        }
-        catch(Exception ex)
-        {
-            Debug.Log(ex);
-        }
+        //    Map map = GetMap(curSelectTextLine.mainSentence);
+        //    obj.nextMapId = map.mapID;
+        //    selectMapId = map.mapID;
+        //}
+        //catch(Exception ex)
+        //{
+        //    Debug.Log(ex);
+        //}
 
         yield return EraserTextLineCo(minSelectTextLineListIndex,maxSelectTextLineListIndex);
         // StartCoroutine(textLineList[4].ChangeEncryption());
@@ -565,17 +556,20 @@ public class UI_StageSelect_var3: UI_Base
 
         textLineList[pathTextLineIndex].type = TypingType.Write;
         //250103
-        animator.SetTrigger(close); 
+        animator.SetTrigger(close);
         //250103
-        _UI_KeyGenerator.gameObject.SetActive(true);
-        _UI_KeyGenerator.KeyPrintingAni();
+        //_UI_KeyGenerator.gameObject.SetActive(true);
+        //_UI_KeyGenerator.KeyPrintingAni();
+
+        CameraHolder.Instance.ShutDownStageSelectCamera();
+
         yield return new WaitForSeconds(6f);
-        _UI_KeyGenerator.gameObject.SetActive(false);
+        //_UI_KeyGenerator.gameObject.SetActive(false);
         // Screen On
         //SetScreenDataAndActive(selectMapId);
 
         //todo 0709 SpawnKey
-        computer.GetComponent<StageSelectorComputer>().SpawnKey();
+        //computer.GetComponent<StageSelectorComputer>().SpawnKey();
 
         //player Move control
         // PlayerMovement playerMovement = Managers.Game.Player.GetComponent<PlayerMovement>();

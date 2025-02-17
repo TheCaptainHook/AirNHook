@@ -28,6 +28,7 @@ public class StageSelectObject : MonoBehaviour, IInteractable
         {
             _StageSelectorComputer.Surprise_();
             Managers.UI.ShowUI<UI_StageSelect_var3>();
+            ShowDummy();
             onPower =true;
 
             // Managers.Game.Player.GetComponent<PlayerMovement>().canControl = false;
@@ -44,6 +45,19 @@ public class StageSelectObject : MonoBehaviour, IInteractable
         
 
     }
+
+    //------------------------------------------------Network 250217
+    [SerializeField] GameObject screen;
+    private UI_StageSelect_var3_Dummy dummy;
+    private void ShowDummy()
+    {
+        var dummy =  Managers.UI.ShowUI<UI_StageSelect_var3_Dummy>();
+        UI_StageSelect_var3_Dummy _dummy = dummy.GetComponent<UI_StageSelect_var3_Dummy>();
+        Canvas canvas = dummy.GetComponent<Canvas>();
+        canvas.worldCamera = CameraHolder.Instance.StageSelectCamera();
+    }
+
+    //------------------------------------------------Network
 
     public bool CanInteract()
     {

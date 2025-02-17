@@ -6920,7 +6920,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 303,
@@ -6949,7 +6950,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 303,
@@ -6978,7 +6980,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 303,
@@ -7007,7 +7010,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 303,
@@ -7036,7 +7040,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 303,
@@ -7065,7 +7070,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 303,
@@ -7094,7 +7100,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 300,
@@ -7123,7 +7130,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 318,
@@ -7152,7 +7160,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 318,
@@ -7181,7 +7190,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 318,
@@ -7210,7 +7220,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 303,
@@ -7239,7 +7250,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 303,
@@ -7268,7 +7280,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 303,
@@ -7297,7 +7310,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 300,
@@ -7326,7 +7340,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 337,
@@ -7355,7 +7370,8 @@
                 "y": 18.520000457763673
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 300,
@@ -7384,7 +7400,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 309,
@@ -7413,7 +7430,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 323,
@@ -7442,7 +7460,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 323,
@@ -7471,7 +7490,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 313,
@@ -7500,7 +7520,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 310,
@@ -7529,7 +7550,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 319,
@@ -7558,7 +7580,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 307,
@@ -7587,7 +7610,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 317,
@@ -7616,7 +7640,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 337,
@@ -7645,7 +7670,8 @@
                 "y": 5.099999904632568
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         }
     ],
     "mapBackgroundObjectList": [
@@ -7676,7 +7702,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 6100,
@@ -7705,7 +7732,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 6001,
@@ -7734,7 +7762,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 6100,
@@ -7763,7 +7792,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 6100,
@@ -7792,7 +7822,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         }
     ],
     "mapOtherObjectList": [
@@ -7801,7 +7832,7 @@
             "dialogueId": 0,
             "position": {
                 "x": 5.590000152587891,
-                "y": 4.988999843597412
+                "y": 4.989999771118164
             },
             "quaternion": {
                 "x": 0.0,
@@ -7823,14 +7854,15 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 10106,
             "dialogueId": 0,
             "position": {
                 "x": 16.239999771118165,
-                "y": 5.122208118438721
+                "y": 5.119999885559082
             },
             "quaternion": {
                 "x": 0.0,
@@ -7852,7 +7884,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 10103,
@@ -7881,7 +7914,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 10103,
@@ -7910,7 +7944,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 10107,
@@ -7939,13 +7974,14 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 10106,
             "dialogueId": 0,
             "position": {
-                "x": 2.361052989959717,
+                "x": 2.359999895095825,
                 "y": 50.97999954223633
             },
             "quaternion": {
@@ -7968,7 +8004,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 10102,
@@ -7997,14 +8034,15 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 10104,
             "dialogueId": 0,
             "position": {
-                "x": 78.7552719116211,
-                "y": 33.72853469848633
+                "x": 78.76000213623047,
+                "y": 33.72999954223633
             },
             "quaternion": {
                 "x": 0.0,
@@ -8026,7 +8064,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 10105,
@@ -8055,7 +8094,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 10102,
@@ -8084,7 +8124,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 10108,
@@ -8113,7 +8154,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 10108,
@@ -8142,7 +8184,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 10108,
@@ -8171,7 +8214,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 10109,
@@ -8200,7 +8244,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 10109,
@@ -8229,7 +8274,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 10109,
@@ -8258,7 +8304,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 10109,
@@ -8287,7 +8334,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 10109,
@@ -8316,7 +8364,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 10109,
@@ -8345,7 +8394,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 10109,
@@ -8374,7 +8424,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 10109,
@@ -8403,7 +8454,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 10108,
@@ -8432,7 +8484,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 10108,
@@ -8461,7 +8514,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         },
         {
             "id": 10101,
@@ -8490,7 +8544,8 @@
                 "y": 0.0
             },
             "text": "",
-            "fontSize": 0.0
+            "fontSize": 0.0,
+            "chargeRequired": false
         }
     ],
     "mapButtonActivatableObjectDataList": [
@@ -8511,7 +8566,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.7000024318695069,
+                "y": 1.7000025510787964,
                 "z": 1.0
             },
             "talPot": {
@@ -9094,7 +9149,7 @@
             "onLeft": false,
             "paths": [],
             "moveSpeed": 1.0,
-            "moveDistance": 16.920000076293947,
+            "moveDistance": 0.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
                 "x": 0.0,
@@ -9161,6 +9216,7 @@
                     "y": -2.0399999618530275
                 }
             ],
+            "lightPositions": [],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
@@ -9187,6 +9243,7 @@
                     "y": 29.68000030517578
                 }
             ],
+            "lightPositions": [],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
@@ -9213,6 +9270,7 @@
                     "y": 51.22999954223633
                 }
             ],
+            "lightPositions": [],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
@@ -9239,6 +9297,7 @@
                     "y": 70.58999633789063
                 }
             ],
+            "lightPositions": [],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
@@ -9265,6 +9324,7 @@
                     "y": 51.9900016784668
                 }
             ],
+            "lightPositions": [],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
@@ -9291,6 +9351,7 @@
                     "y": 43.66999816894531
                 }
             ],
+            "lightPositions": [],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
@@ -9317,6 +9378,7 @@
                     "y": 37.599998474121097
                 }
             ],
+            "lightPositions": [],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
@@ -9343,6 +9405,7 @@
                     "y": 45.0
                 }
             ],
+            "lightPositions": [],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
@@ -9373,6 +9436,7 @@
                     "y": 47.72999954223633
                 }
             ],
+            "lightPositions": [],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
