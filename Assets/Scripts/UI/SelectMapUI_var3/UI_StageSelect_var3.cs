@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.IO;
+using Mirror;
 
 
 enum PrograssLevel
@@ -158,82 +159,176 @@ public class UI_StageSelect_var3: UI_Base
     }
 
 
+    // public override void OnEnable()
+    // {
+    //     if(computer == null)
+    //     {
+    //         computer = MapEditor.Instance.FindObj(MapEditor.Instance.objectTransform, 1000);
+    //     }
+    //     if(!computer.GetComponent<StageSelectObject>().onPower) animator.SetTrigger(open);
+    //     else animator.SetTrigger(open_onPower);
+        
+        
+    //     if(computer)
+    //     computer.GetComponent<StageSelectorComputer>().Talking();
+
+    //     // try
+    //     // {
+    //     //     if (_UI_ComputerScreen == null) { _UI_ComputerScreen = Managers.UI.GetUI<UI_ComputerScreen>().gameObject; }
+    //     // }
+    //     // catch(Exception ex)
+    //     // {
+    //     //     Debug.Log($"EX : {ex}");
+    //     // }
+        
+
+    // }
+        
+    // private void Update()
+    // {
+    //     //Test Code
+    //     if (Input.GetKeyDown(KeyCode.N))
+    //     {
+    //        HideUIOutsideCamera();
+    //     }
+
+    //     if (Input.GetKeyDown(KeyCode.M))
+    //     {
+    //        OpenUIOutsideCamera();
+    //     }
+
+    //     //Interaction
+
+    //     // if (onInteractable && !onPrograss && !inputProcessed)
+    //     // {
+    //     //     GetKeyEvent();
+            
+    //     // }
+
+    // }
+
+
+
+    //------------------------------------------------------Network 250218
+    
     public override void OnEnable()
     {
-        if(computer == null)
-        {
-            computer = MapEditor.Instance.FindObj(MapEditor.Instance.objectTransform, 1000);
-        }
-        if(!computer.GetComponent<StageSelectObject>().onPower) animator.SetTrigger(open);
-        else animator.SetTrigger(open_onPower);
-        
-        
-        if(computer)
-        computer.GetComponent<StageSelectorComputer>().Talking();
+        // if(computer == null)
+        // {
+        //     computer = MapEditor.Instance.FindObj(MapEditor.Instance.objectTransform, 1000);
+        // }
+        // // if(!computer.GetComponent<StageSelectObject>().onPower) animator.SetTrigger(open);
+        // // else animator.SetTrigger(open_onPower);
 
-        // try
-        // {
-        //     if (_UI_ComputerScreen == null) { _UI_ComputerScreen = Managers.UI.GetUI<UI_ComputerScreen>().gameObject; }
-        // }
-        // catch(Exception ex)
-        // {
-        //     Debug.Log($"EX : {ex}");
-        // }
+        //  if(!computer.GetComponent<StageSelectObject>().onPower) animator.SetTrigger(open);
+        // else animator.SetTrigger(open_onPower);
         
+        
+        // if(computer)
+        // computer.GetComponent<StageSelectorComputer>().Talking();
+
 
     }
-
-        
-    private void Update()
+    bool onReady;
+    public void StartUi(uint computerId)
     {
-        //Test Code
-        //if (Input.GetKeyDown(KeyCode.N))
-        //{
-        //    HideUIOutsideCamera();
-        //}
-
-        //if (Input.GetKeyDown(KeyCode.M))
-        //{
-        //    OpenUIOutsideCamera();
-        //}
-
-        //Interaction
-
-        if (onInteractable && !onPrograss && !inputProcessed)
+        if (NetworkClient.spawned.TryGetValue(computerId, out NetworkIdentity foundObject))
         {
-            GetKeyEvent();
-            
+            computer = foundObject.gameObject;
+        }
+        if(computer == null) return;
+
+        if(!computer.GetComponent<Computer_Net>().onPower)animator.SetTrigger(open);
+        else animator.SetTrigger(open_onPower);
+
+        computer.GetComponent<StageSelectorComputer>().Talking();
+    }
+
+    
+    public void SetInputKey(int num)
+    {
+        if(onInteractable && !onPrograss && !inputProcessed && onReady)
+        {
+            StartCoroutine(ProcessInputWithDelay(num));
+        }
+    }
+    public IEnumerator ProcessInputWithDelay(int num)
+    {
+        inputProcessed = true;
+
+        switch (num)
+        {
+            case 1:
+                curSelectTextLineIndex++;
+                SelectTextLine();
+                break;
+            case 2:
+                curSelectTextLineIndex--;
+                SelectTextLine();
+                break;
+            case 3:
+                if (curSelectTextLine == null || !curSelectTextLine.onSelectable)
+                    break;
+
+                switch (_PrograssLevel)
+                {
+                    case PrograssLevel.One:
+                        Select_PrograssLevel_1();
+                        break;
+                    case PrograssLevel.Two:
+                        Select_PrograssLevel_2();
+                        break;
+                    case PrograssLevel.Three:
+                        textLineList[pathTextLineIndex].WriteText($"/{curSelectTextLine.mainSentence}");
+                        _PrograssCoroutine = StartCoroutine(Select_PrograssLevel_3Co());
+                        break;
+                }
+                break;
+            case 4:
+                BackPrograss();
+                break;
+            case 5:
+                if(_PrograssLevel == PrograssLevel.Three)mapInfo_UI.Reset();
+                Shutdown();
+                break;
         }
 
+        yield return new WaitForSeconds(inputDelay);
+        inputProcessed = false;
     }
-    private void GetKeyEvent(){
-         if (Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                StartCoroutine(ProcessInputWithDelay(KeyCode.DownArrow));
-            }
+    //------------------------------------------------------Network 250218
 
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                StartCoroutine(ProcessInputWithDelay(KeyCode.UpArrow));
-            }
+
+
+
+    // private void GetKeyEvent(){
+    //      if (Input.GetKeyDown(KeyCode.DownArrow))
+    //         {
+    //             StartCoroutine(ProcessInputWithDelay(KeyCode.DownArrow));
+    //         }
+
+    //         if (Input.GetKeyDown(KeyCode.UpArrow))
+    //         {
+    //             StartCoroutine(ProcessInputWithDelay(KeyCode.UpArrow));
+    //         }
             
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                StartCoroutine(ProcessInputWithDelay(KeyCode.Return));
-            }
+    //         if (Input.GetKeyDown(KeyCode.Return))
+    //         {
+    //             StartCoroutine(ProcessInputWithDelay(KeyCode.Return));
+    //         }
 
 
-            if (Input.GetKeyDown(KeyCode.Backspace))
-            {
-                StartCoroutine(ProcessInputWithDelay(KeyCode.Backspace));
+    //         if (Input.GetKeyDown(KeyCode.Backspace))
+    //         {
+    //             StartCoroutine(ProcessInputWithDelay(KeyCode.Backspace));
 
-            }
+    //         }
 
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                StartCoroutine(ProcessInputWithDelay(KeyCode.Q));
-            }
-    }
+    //         if (Input.GetKeyDown(KeyCode.Q))
+    //         {
+    //             StartCoroutine(ProcessInputWithDelay(KeyCode.Q));
+    //         }
+    // }
 
     private void SelectTextLine()
     {
@@ -418,6 +513,7 @@ public class UI_StageSelect_var3: UI_Base
         
         onInteractable = true;
         onPrograss = false;
+        onReady = true;
         
     }
 
@@ -541,6 +637,8 @@ public class UI_StageSelect_var3: UI_Base
         textLineList[pathTextLineIndex].type = TypingType.Read;
         textLineList[pathTextLineIndex].text.color = Color.yellow;
 
+        mapInfo_UI.Reset();
+
         try
         {
             ExitPointObj obj = MapEditor.Instance.FindObj(MapEditor.Instance.exitDoorObjectTransform, 301).GetComponent<ExitPointObj>();
@@ -566,6 +664,7 @@ public class UI_StageSelect_var3: UI_Base
         textLineList[pathTextLineIndex].type = TypingType.Write;
         //250103
         animator.SetTrigger(close); 
+        computer.GetComponent<Computer_Net>().Server_SetIsOpen(false);
         //250103
         _UI_KeyGenerator.gameObject.SetActive(true);
         _UI_KeyGenerator.KeyPrintingAni();
@@ -636,6 +735,8 @@ public class UI_StageSelect_var3: UI_Base
     {
         onPrograss = true;
         onInteractable = false;
+        
+        onReady = false;
 
         yield return EraserTextLineCo(0, maxSelectTextLineListIndex);
         animator.SetTrigger(close);
@@ -646,6 +747,8 @@ public class UI_StageSelect_var3: UI_Base
         //     playerMovement.canControl = true;
         // }
     //player Move control
+        computer.GetComponent<Computer_Net>().Server_SetIsOpen(false);
+
         onPrograss = false;
         gameObject.SetActive(false);
 
@@ -708,50 +811,50 @@ public class UI_StageSelect_var3: UI_Base
     }
 
 
-    private IEnumerator ProcessInputWithDelay(KeyCode keyCode)
-    {
-        inputProcessed = true;
+    // public IEnumerator ProcessInputWithDelay(KeyCode keyCode)
+    // {
+    //     inputProcessed = true;
 
-        switch (keyCode)
-        {
-            case KeyCode.DownArrow:
-                curSelectTextLineIndex++;
-                SelectTextLine();
-                break;
-            case KeyCode.UpArrow:
-                curSelectTextLineIndex--;
-                SelectTextLine();
-                break;
-            case KeyCode.Return:
-                if (curSelectTextLine == null || !curSelectTextLine.onSelectable)
-                    break;
+    //     switch (keyCode)
+    //     {
+    //         case KeyCode.DownArrow:
+    //             curSelectTextLineIndex++;
+    //             SelectTextLine();
+    //             break;
+    //         case KeyCode.UpArrow:
+    //             curSelectTextLineIndex--;
+    //             SelectTextLine();
+    //             break;
+    //         case KeyCode.Return:
+    //             if (curSelectTextLine == null || !curSelectTextLine.onSelectable)
+    //                 break;
 
-                switch (_PrograssLevel)
-                {
-                    case PrograssLevel.One:
-                        Select_PrograssLevel_1();
-                        break;
-                    case PrograssLevel.Two:
-                        Select_PrograssLevel_2();
-                        break;
-                    case PrograssLevel.Three:
-                        textLineList[pathTextLineIndex].WriteText($"/{curSelectTextLine.mainSentence}");
-                        _PrograssCoroutine = StartCoroutine(Select_PrograssLevel_3Co());
-                        break;
-                }
-                break;
-            case KeyCode.Backspace:
-                BackPrograss();
-                break;
-            case KeyCode.Q:
-                if(_PrograssLevel == PrograssLevel.Three)mapInfo_UI.Reset();
-                Shutdown();
-                break;
-        }
+    //             switch (_PrograssLevel)
+    //             {
+    //                 case PrograssLevel.One:
+    //                     Select_PrograssLevel_1();
+    //                     break;
+    //                 case PrograssLevel.Two:
+    //                     Select_PrograssLevel_2();
+    //                     break;
+    //                 case PrograssLevel.Three:
+    //                     textLineList[pathTextLineIndex].WriteText($"/{curSelectTextLine.mainSentence}");
+    //                     _PrograssCoroutine = StartCoroutine(Select_PrograssLevel_3Co());
+    //                     break;
+    //             }
+    //             break;
+    //         case KeyCode.Backspace:
+    //             BackPrograss();
+    //             break;
+    //         case KeyCode.Q:
+    //             if(_PrograssLevel == PrograssLevel.Three)mapInfo_UI.Reset();
+    //             Shutdown();
+    //             break;
+    //     }
 
-        yield return new WaitForSeconds(inputDelay);
-        inputProcessed = false;
-    }
+    //     yield return new WaitForSeconds(inputDelay);
+    //     inputProcessed = false;
+    // }
 
     #endregion
     /// <summary>
@@ -761,8 +864,8 @@ public class UI_StageSelect_var3: UI_Base
     #region Hide And Open UI
     public void HideUIOutsideCamera()
     {
-        float uiWidth = 1080f;
-        float uiHeight = 720f;
+        float uiWidth = 1920f;
+        float uiHeight = 1080f;
 
         Camera mainCamera = Camera.main;
 

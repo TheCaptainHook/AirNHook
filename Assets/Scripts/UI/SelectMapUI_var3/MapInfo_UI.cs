@@ -31,24 +31,33 @@ public class MapInfo_UI : MonoBehaviour
 
     public void Reset()
     {
-        mapImage.sprite = null;
-        StopAllCoroutines();
-        animator.SetBool(Open, false);
-        text.text = string.Empty;
+        if(isOpen)
+        {
+            mapImage.sprite = null;
+            StopAllCoroutines();
+            // animator.SetBool(Open, false);
+            animator.SetTrigger(Close);
+            text.text = string.Empty;
+            isOpen = false;
+        }
+        
     }
 
-
+    bool isOpen;
     Coroutine typingCoroutine;
     public void ShowMapInfo(string mapName,int curStageLevel)
     {
         if (typingCoroutine != null) StopCoroutine(typingCoroutine);
-        
+        mapImage.sprite = null;
         text.text = string.Empty;
 
         string id = mapName.Replace(">", "").Trim();
         Map map = GetMap(id,curStageLevel);
         if(map == null) return;
 
+
+        animator.SetTrigger(Open);
+        isOpen = true;
 
         MapSaveData data = GetMapSaveData(map.mapID);
         SetMapImage(map.mapID);
@@ -58,7 +67,8 @@ public class MapInfo_UI : MonoBehaviour
         string sentence = $"{name}\n\n Collect : {GetCollectableCount(data)}\n\nRecently : {data.recentlyClearTime}\nShort : {data.shortestClearTime}\nDeath : {data.deathCount}";
  
         //open anim
-        animator.SetBool(Open, true);
+        // animator.SetBool(Open, true);
+        
 
         typingCoroutine = StartCoroutine(TypingEffect.NormalTyping(text,sentence,localColor,1));
 

@@ -87,8 +87,8 @@ GameObject:
   - component: {fileID: 548720631477747303}
   - component: {fileID: 1410026548053689710}
   - component: {fileID: 3204643766018733800}
-  - component: {fileID: 2441978395072278542}
   - component: {fileID: 7394404780113431029}
+  - component: {fileID: 8262179039051959271}
   m_Layer: 31
   m_Name: UI_StageSelect_var3_Dummy
   m_TagString: Untagged
@@ -179,35 +179,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &2441978395072278542
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2803125792133314235}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ac98869fa0fc4ae9a261ac7fb8c8600, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _UI_KeyGenerator: {fileID: 0}
-  _WriteAndEraserDelayRate: 0.05
-  maxHorizontaText: 85
-  contentMoveRect_TextLineIndex: 19
-  pathTextLineIndex: 4
-  _BGContainerRectTransform: {fileID: 3554695486648757096}
-  content: {fileID: 5523841978840530998}
-  textLine: {fileID: 8764680385182326310, guid: f507c3550eb45410686fce5218b8530f, type: 3}
-  maxTextLine: 150
-  curSelectTextLineIndex: 0
-  onInteractable: 0
-  onPrograss: 0
-  inputDelay: 0.3
-  _UI_ComputerScreen: {fileID: 0}
-  computer: {fileID: 0}
-  animator: {fileID: 7394404780113431029}
-  mapInfo_UI: {fileID: 4216185640095389697}
 --- !u!95 &7394404780113431029
 Animator:
   serializedVersion: 5
@@ -229,6 +200,34 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8262179039051959271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2803125792133314235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d74ea3345bc2e1445977710eb193188f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _WriteAndEraserDelayRate: 0.05
+  maxHorizontaText: 85
+  contentMoveRect_TextLineIndex: 19
+  pathTextLineIndex: 4
+  _BGContainerRectTransform: {fileID: 3554695486648757096}
+  content: {fileID: 5523841978840530998}
+  textLine: {fileID: 8764680385182326310, guid: f507c3550eb45410686fce5218b8530f, type: 3}
+  maxTextLine: 150
+  curSelectTextLineIndex: 0
+  onInteractable: 0
+  onPrograss: 0
+  inputDelay: 0.3
+  _UI_ComputerScreen: {fileID: 0}
+  computer: {fileID: 0}
+  animator: {fileID: 7394404780113431029}
+  mapInfo_UI: {fileID: 4216185640095389697}
 --- !u!1 &3447257652264714551
 GameObject:
   m_ObjectHideFlags: 0
