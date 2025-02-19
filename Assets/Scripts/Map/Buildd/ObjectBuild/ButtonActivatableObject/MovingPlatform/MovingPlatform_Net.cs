@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System;
+using Unity.VisualScripting;
+using System.Linq;
 
 
 public class MovingPlatform_Net : NetworkBehaviour
@@ -53,11 +55,22 @@ public class MovingPlatform_Net : NetworkBehaviour
 
     public void CreateRail()
     {
+        
         Vector2[] paths = dataPath.paths;
 
         Transform parents = MapEditor.Instance.dontSaveObjectTransform;
         Transform container = new GameObject("Rail_Container").transform;
         container.SetParent(parents);
+
+
+        if (paths.Length == 0)
+        {
+            GameObject rail;
+            rail = Instantiate(rail_Node_Prefabs, container);
+            rail.transform.position = transform.position;
+            Debug.Log($"path : {paths.Length},Client : {isClient}");
+            return;
+        }
 
         //Rail Node
         LineRenderer line = Instantiate(rail_Line_Prefabs, container);
