@@ -20,6 +20,7 @@ public class ExitPoint_Net : NetworkBehaviour
     [SyncVar] public int condition_KeyAmount;
     [SyncVar(hook =nameof(OnChangeCurrent_KeyAmount))] public int current_KeyAmount;
     [SyncVar] public int curPlayerInDoor;
+    [SyncVar] public bool OnMoveNextStage; // 다음 맵 이동 조건 충족 
     #endregion
 
     #region Server_Init Sync
@@ -98,26 +99,26 @@ public class ExitPoint_Net : NetworkBehaviour
         if (stageClear && curPlayerInDoor >= 2)
         {
             //exit.MoveNextStage();
-            //MoveNextStage(nextMapId);
-            MapEditor.Instance.MoveNextStage(nextMapId);
+            MoveNextStage(nextMapId);
+            //MapEditor.Instance.MoveNextStage(nextMapId);
 
         }
     }
 
 
-    //[ClientRpc]
-    //private void MoveNextStage(string nextMapId)
-    //{
-    //    try
-    //    {
-    //        MapEditor.Instance.MoveNextStage(nextMapId);
-    //    }
-    //    catch (Exception e)
-    //    {
-    //        Debug.Log(e);
-    //    }
-      
-    //}
+    [ClientRpc]
+    private void MoveNextStage(string nextMapId)
+    {
+        try
+        {
+            MapEditor.Instance.MoveNextStage(nextMapId);
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e);
+        }
+
+    }
 
 
 

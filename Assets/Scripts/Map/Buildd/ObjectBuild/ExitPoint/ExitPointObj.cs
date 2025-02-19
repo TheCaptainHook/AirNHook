@@ -172,7 +172,7 @@ public class ExitPointObj : BuildObj
         {
             //absencePanel.Enter(collision.gameObject);//TODO 0802 Need Networking
             //doorOpeningAnim.Enter(collision.gameObject);
-            ExitPoint_Net.Enter(collision.gameObject);
+            //ExitPoint_Net.Enter(collision.gameObject);
 
             ExitPoint_Net.Server_SetInDoor(1);
             //curPlayerInDoor++;
@@ -197,10 +197,10 @@ public class ExitPointObj : BuildObj
         {
             //absencePanel.Exit(collision.gameObject);//TODO 0802 Need Networking
             //doorOpeningAnim.Exit(collision.gameObject);
-            ExitPoint_Net.Exit(collision.gameObject);
+            //ExitPoint_Net.Exit(collision.gameObject);
             //curPlayerInDoor--;
             //if(curPlayerInDoor < 0) { curPlayerInDoor = 0; }
-            ExitPoint_Net.Server_SetInDoor(-1);
+            //ExitPoint_Net.Server_SetInDoor(-1);
         }
     }
 
