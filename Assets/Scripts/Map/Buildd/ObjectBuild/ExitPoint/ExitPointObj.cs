@@ -209,6 +209,10 @@ public class ExitPointObj : BuildObj
     //}
 
     //TODO 0802
+    public void Net_SetNextMapId(string nextMapId)
+    {
+        ExitPoint_Net.Cmd_SetNextMapId(nextMapId);
+    }
     public void MoveNextStage() 
     {
         //absencePanel.NextMoveAnimation(); //TODO 0802 Need Networking

@@ -669,6 +669,8 @@ public class UI_StageSelect_var3: UI_Base
 
             Map map = GetMap(curSelectTextLine.mainSentence);
             obj.nextMapId = map.mapID;
+            obj.Net_SetNextMapId(map.mapID);
+
             selectMapId = map.mapID;
         }
         catch(Exception ex)
