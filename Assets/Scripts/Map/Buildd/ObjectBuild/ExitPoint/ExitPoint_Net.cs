@@ -25,9 +25,6 @@ public class ExitPoint_Net : NetworkBehaviour
     {
         condition_KeyAmount = condition;
         current_KeyAmount = condition;
-
-        //StartCoroutine(Delay());
-        StartCoroutine(WaitUntilAllClientsReady(() => { Rpc_KeySet(); }));
     }
     #endregion
 
@@ -42,6 +39,11 @@ public class ExitPoint_Net : NetworkBehaviour
             MapEditor.Instance.stageClear = true;
             doorOpeningAnim.CallOnUnlockAnimation();
         }
+    }
+    [Command]
+    public void Cmd_SetCurrent_KeyAmount(int amount)
+    {
+        if (isServer) Server_SetCurrent_KeyAmount(amount);
     }
 
     private void OnChangeCurrent_KeyAmount(int old,int newVal)
@@ -71,11 +73,7 @@ public class ExitPoint_Net : NetworkBehaviour
 
         Rpc_KeyBubble_Add();
     }
-    [ClientRpc]
-    private void Rpc_KeySet()
-    {
-        keyBubble.SetData(current_KeyAmount);
-    }
+
     [ClientRpc]
     private void Rpc_KeyBubble_Add()
     {
@@ -145,6 +143,12 @@ public class ExitPoint_Net : NetworkBehaviour
     #endregion
 
 
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        keyBubble.SetData(current_KeyAmount);
+    }
 
 
 }

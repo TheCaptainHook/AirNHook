@@ -50,7 +50,8 @@ public class ExitPointObj : BuildObj
 
 
         //}
-        ExitPoint_Net.Server_SetCurrent_KeyAmount(1);
+        //ExitPoint_Net.Server_SetCurrent_KeyAmount(1);
+        ExitPoint_Net.Cmd_SetCurrent_KeyAmount(1);
     }
 
 
@@ -118,6 +119,7 @@ public class ExitPointObj : BuildObj
         }
     }
 
+   
 
     public void Init(int condition_keyAmount)
     {
