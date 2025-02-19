@@ -74,8 +74,6 @@ public class Computer_Net : NetworkBehaviour
     {
         if (isOpen) return;
         isOpen = true;
-        onPower = true;
-
         //SaveFileData data = Managers.Data.saveData._SaveFileData;
 
         //// 서버에서 각 클라이언트로 데이터 전송
@@ -84,16 +82,17 @@ public class Computer_Net : NetworkBehaviour
         //    Target_SetHostSaveFile(conn, data);
         //}
 
+        Rpc_ShowUi();
 
-        StartCoroutine(Delay());
         //sync setting, main, dummy
         // -> Open ui,
+        onPower = true;
     }
-    IEnumerator Delay()
-    {
-        yield return new WaitForSeconds(0.2f);
-        Rpc_ShowUi();
-    }
+    //IEnumerator Delay()
+    //{
+    //    yield return new WaitForSeconds(0.2f);
+    //    Rpc_ShowUi();
+    //}
     //[TargetRpc]
     //private void Target_SetHostSaveFile(NetworkConnection target, SaveFileData data)
     //{
@@ -112,13 +111,13 @@ public class Computer_Net : NetworkBehaviour
     [ClientRpc]
     private void Rpc_ShowUi()
     {
-        if (isServer && isLocalPlayer)
+        if (!isServer )
         {
-            ShowMain(true);
             ShowDummy();
         }
         else
         {
+            ShowMain(true);
             ShowDummy();
         }
 
