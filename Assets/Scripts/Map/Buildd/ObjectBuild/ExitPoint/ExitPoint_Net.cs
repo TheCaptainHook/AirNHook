@@ -40,10 +40,10 @@ public class ExitPoint_Net : NetworkBehaviour
             doorOpeningAnim.CallOnUnlockAnimation();
         }
     }
-    [Command]
+    [Command(requiresAuthority = false)]
     public void Cmd_SetCurrent_KeyAmount(int amount)
     {
-        if (isServer) Server_SetCurrent_KeyAmount(amount);
+        Server_SetCurrent_KeyAmount(amount);
     }
 
     private void OnChangeCurrent_KeyAmount(int old,int newVal)
