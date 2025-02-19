@@ -378,6 +378,11 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   exit: {fileID: 4614319543247492676}
+  keyBubble: {fileID: 8688439935732841946}
+  doorOpeningAnim: {fileID: 7695271462647067305}
+  stageClear: 0
+  condition_KeyAmount: 0
+  current_KeyAmount: 0
 --- !u!114 &4692644490555630333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,7 +395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 1
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0
   target: {fileID: 8216439556350585627}

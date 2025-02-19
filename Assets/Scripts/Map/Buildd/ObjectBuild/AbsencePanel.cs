@@ -77,9 +77,10 @@ public class AbsencePanel : MonoBehaviour
     IEnumerator ScaleTo(Transform transform,Vector3 targetScale)
     {
         float percent = 0;
-        while (Vector3.Distance(transform.localScale, targetScale) > 0.01f)
+        //while (Vector3.Distance(transform.localScale, targetScale) > 0.01f)
+        while (percent <1)
         {
-            percent += Time.deltaTime;
+            percent += Time.deltaTime * 10;
             transform.localScale = Vector3.Lerp(transform.localScale, targetScale, percent);
             yield return null;
         }

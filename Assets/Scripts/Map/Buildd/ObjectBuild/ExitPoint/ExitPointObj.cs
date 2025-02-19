@@ -4,10 +4,7 @@ using UnityEngine;
 using Mirror;
 using System;
 
-//TODO 0729 Develop Code Line(key bubble) : 21,22,23,24,37,58,79,104
-//TODO 0801 Develop Code Line(AbsencePanel) :40
-//TODO 0802 Develop Code Line(AbsencePanel,Network) : 25,31,40,41,67,120,141,155,
-//TODO 0805 Develop Code Line : 
+
 public class ExitPointObj : BuildObj
 {
     [Header("State")]
@@ -41,19 +38,19 @@ public class ExitPointObj : BuildObj
     private int curKeyAmount = 0;
     public void SetKey()
     {
-        curKeyAmount--;
-        keyBubble.MinusConditionKeyAmount(curKeyAmount);
-        if (current_KeyAmount <= 0 && !stageClear) //TODO 0729
-        {
-            stageClear = true;
-            MapEditor.Instance.stageClear = true;
-            doorOpeningAnim.CallOnUnlockAnimation();
-            //absencePanel.OnAbsencePanel(); //TOdo 0802 Need Network
-            //ExitPoint_Net.OnAbsencePanel();
+        //curKeyAmount--;
+        //keyBubble.MinusConditionKeyAmount(curKeyAmount);
+        //if (current_KeyAmount <= 0 && !stageClear) //TODO 0729
+        //{
+        //    stageClear = true;
+        //    MapEditor.Instance.stageClear = true;
+        //    doorOpeningAnim.CallOnUnlockAnimation();
+        //    //absencePanel.OnAbsencePanel(); //TOdo 0802 Need Network
+        //    //ExitPoint_Net.OnAbsencePanel();
 
 
-        }
-
+        //}
+        ExitPoint_Net.Server_SetCurrent_KeyAmount(1);
     }
 
 
@@ -95,20 +92,25 @@ public class ExitPointObj : BuildObj
       
         return new ExitObjStruct(id,transform.position, condition_KeyAmount, nextMapId);
     }
+    //--------------------------------------------------------------------------------------------NetWork
     public void AddKeyAmount()
     {
-        keyBubble.AddKeyAmount();
-        condition_KeyAmount++;
-        current_KeyAmount++;
+        //keyBubble.AddKeyAmount();
+        //condition_KeyAmount++;
+        //current_KeyAmount++;
+        ExitPoint_Net.Server_AddKeyAmount();
     }
-
+    //--------------------------------------------------------------------------------------------NetWork
     public override void SetData<T>(T data)
     {
         if(typeof(T)==typeof(ExitObjStruct)){
             ExitObjStruct eData = (ExitObjStruct)(object)data;
             condition_KeyAmount = eData.condition_KeyAmount;
             current_KeyAmount = condition_KeyAmount;
-            keyBubble.SetData(current_KeyAmount);
+
+            //keyBubble.SetData(current_KeyAmount);
+            ExitPoint_Net.Server_SetInit(condition_KeyAmount);
+
             nextMapId = eData.nextMapId;
             SetTileData(eData.position);
 
@@ -163,22 +165,23 @@ public class ExitPointObj : BuildObj
         //if (collision.gameObject.layer == LayerMask.NameToLayer("Key") && !turnOff)
         //    GetKey(collision.gameObject);
         
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && stageClear)
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && ExitPoint_Net.stageClear)
         {
             //absencePanel.Enter(collision.gameObject);//TODO 0802 Need Networking
             //doorOpeningAnim.Enter(collision.gameObject);
             ExitPoint_Net.Enter(collision.gameObject);
-            curPlayerInDoor++;
-            if(stageClear && curPlayerInDoor >= 2)
-            {
+            ExitPoint_Net.Server_SetInDoor(1);
+            //curPlayerInDoor++;
+            //if(stageClear && curPlayerInDoor >= 2)
+            //{
 #if !UNITY_EDITOR
                 var playerCharacter = Managers.Game.Player.GetComponent<Player>().characterType;
                 var otherPlayerCharacter = Managers.Game.OtherPlayer.GetComponent<Player>().characterType;
 
                 if (playerCharacter != otherPlayerCharacter && playerCharacter != CharacterType.Default && otherPlayerCharacter != CharacterType.Default)
 #endif
-                    MoveNextStage();
-            }
+                    //MoveNextStage();
+            //}
         }
     }
 
@@ -186,13 +189,14 @@ public class ExitPointObj : BuildObj
     {
         if (Managers.Game.CurrentState != GameState.Editor && !Managers.Game.Player.GetComponent<PlayerSM>().isServer) return;
         
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && stageClear)
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && ExitPoint_Net.stageClear)
         {
             //absencePanel.Exit(collision.gameObject);//TODO 0802 Need Networking
             //doorOpeningAnim.Exit(collision.gameObject);
             ExitPoint_Net.Exit(collision.gameObject);
-            curPlayerInDoor--;
-            if(curPlayerInDoor < 0) { curPlayerInDoor = 0; }
+            //curPlayerInDoor--;
+            //if(curPlayerInDoor < 0) { curPlayerInDoor = 0; }
+            ExitPoint_Net.Server_SetInDoor(-1);
         }
     }
 
