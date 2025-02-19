@@ -85,11 +85,15 @@ public class Computer_Net : NetworkBehaviour
         //}
 
 
-        Rpc_ShowUi();
+        StartCoroutine(Delay());
         //sync setting, main, dummy
         // -> Open ui,
     }
-
+    IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(0.2f);
+        Rpc_ShowUi();
+    }
     //[TargetRpc]
     //private void Target_SetHostSaveFile(NetworkConnection target, SaveFileData data)
     //{
@@ -108,13 +112,13 @@ public class Computer_Net : NetworkBehaviour
     [ClientRpc]
     private void Rpc_ShowUi()
     {
-        if (!isServer)
+        if (isServer && isLocalPlayer)
         {
+            ShowMain(true);
             ShowDummy();
         }
         else
         {
-            ShowMain(true);
             ShowDummy();
         }
 

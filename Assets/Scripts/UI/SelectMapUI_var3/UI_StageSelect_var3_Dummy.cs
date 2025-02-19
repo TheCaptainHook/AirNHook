@@ -208,8 +208,9 @@ public class UI_StageSelect_var3_Dummy: UI_Base
             computer = foundObject.gameObject;
         }
         if(computer == null) return;
-
-        if(!computer.GetComponent<Computer_Net>().onPower)animator.SetTrigger(open);
+        Computer_Net net = computer.GetComponent<Computer_Net>();
+        Debug.Log($"Net.onPower : {net.onPower}");
+        if(!net.onPower)animator.SetTrigger(open);
         else animator.SetTrigger(open_onPower);
 
         computer.GetComponent<StageSelectorComputer>().Talking();
