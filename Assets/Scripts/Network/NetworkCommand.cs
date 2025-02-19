@@ -17,7 +17,16 @@ public class NetworkCommand : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void ChangeStage(string value)
     {
-        RpcChangeStage(value);
+        try
+        {
+
+        }
+        catch (Exception ex)
+        {
+            RpcChangeStage(value);
+        }
+
+       
     }
 
     [ClientRpc]

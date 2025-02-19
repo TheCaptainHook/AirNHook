@@ -63,17 +63,6 @@ public class ExitPoint_Net : NetworkBehaviour
         keyBubble.MinusConditionKeyAmount(newVal);
     }
 
-    [Server]
-    public void Server_SetInDoor(int num)
-    {
-        curPlayerInDoor += num;
-        if (curPlayerInDoor < 0) curPlayerInDoor = 0;
-
-        if(stageClear && curPlayerInDoor >=2)
-        {
-            exit.MoveNextStage();
-        }
-    }
 
 
     #region Key
@@ -97,12 +86,36 @@ public class ExitPoint_Net : NetworkBehaviour
 
     #endregion
 
+    #region Next Map
+    [Server]
+    public void Server_SetInDoor(int num)
+    {
+        curPlayerInDoor += num;
+        if (curPlayerInDoor < 0) curPlayerInDoor = 0;
 
+        if (stageClear && curPlayerInDoor >= 2)
+        {
+            //exit.MoveNextStage();
+            MoveNextStage(nextMapId);
+        }
+    }
+
+
+    [ClientRpc]
+    private void MoveNextStage(string nextMapId)
+    {
+        MapEditor.Instance.MoveNextStage(nextMapId);
+    }
+
+
+
+    #endregion
     //[Command(requiresAuthority = false)]
     //public void OnAbsencePanel()
     //{
     //    RpcOnAbsencePanel();
     //}
+
     private IEnumerator WaitUntilAllClientsReady(Action action)
     {
         while (!AllClientsReady()) // 모든 클라이언트가 준비될 때까지 대기

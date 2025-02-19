@@ -91,7 +91,16 @@ public class DoorOpeningAnim : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CmdMoveNextStage(string nextMapId)
     {
-        RpcMoveNextStage(nextMapId);
+        try
+        {
+            Debug.Log(nextMapId);
+            RpcMoveNextStage(nextMapId);
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e);
+        }
+        
     }
     
     //IEnumerator Delay(Action action)
@@ -104,44 +113,52 @@ public class DoorOpeningAnim : NetworkBehaviour
     [ClientRpc]
     private void RpcMoveNextStage(string nextMapId)
     {
-
-        string curStage = Managers.Stage.stageName;
-
-        Managers.Sound.CollectAmbientSoundSource();
-        Managers.Stage.stageName = nextMapId;
-        Camera.main.GetComponent<ParallaxCamera>().enabled = false;
-
-        if (string.IsNullOrEmpty(nextMapId))
+        try
         {
-            if (MapEditor.Instance.CurMap.mapID != "Lobby")
+            string curStage = Managers.Stage.stageName;
+
+            Managers.Sound.CollectAmbientSoundSource();
+            Managers.Stage.stageName = nextMapId;
+            Camera.main.GetComponent<ParallaxCamera>().enabled = false;
+
+            if (string.IsNullOrEmpty(nextMapId))
             {
-                if (MapEditor.Instance.CurMap.stageLevel == Managers.Game.stageLevel)
+                if (MapEditor.Instance.CurMap.mapID != "Lobby")
                 {
-                    //Managers.Game.stageLevel++;
-                    //Managers.Data.saveData._SaveFileData._PlayerSaveData.curStageLevel = Managers.Game.stageLevel;
-                    //Debug.Log("level++");
-                    Managers.Game.StageClear(curStage, true);
+                    if (MapEditor.Instance.CurMap.stageLevel == Managers.Game.stageLevel)
+                    {
+                        //Managers.Game.stageLevel++;
+                        //Managers.Data.saveData._SaveFileData._PlayerSaveData.curStageLevel = Managers.Game.stageLevel;
+                        //Debug.Log("level++");
+                        Managers.Game.StageClear(curStage, true);
+                    }
+
+                    //Managers.Game.StageLevelPlus()
+                    var player = Managers.Game.Player.GetComponent<PlayerSM>();
+                    if (player.isServer)
+                    {
+                        Managers.Command.ChangeStage("Lobby");
+                    }
+
+
                 }
-
-                //Managers.Game.StageLevelPlus()
-                var player = Managers.Game.Player.GetComponent<PlayerSM>();
-                if (player.isServer)
-                {
-                    Managers.Command.ChangeStage("Lobby");
-                }
-
-
+                Debug.Log("Stage Clear");
+                //Managers.Data.mapData.GetMainStageMapData(Managers.Game.stageLevel);
             }
-            Debug.Log("Stage Clear");
-            //Managers.Data.mapData.GetMainStageMapData(Managers.Game.stageLevel);
+            else
+            {
+                Managers.Game.CurrentState = GameState.Game;
+                MapEditor.Instance.MoveNextStage(nextMapId);
+                Managers.Game.StageClear(curStage);
+            }
+
         }
-        else
+        catch (Exception e)
         {
-            Managers.Game.CurrentState = GameState.Game;
-            MapEditor.Instance.MoveNextStage(nextMapId);
-            Managers.Game.StageClear(curStage);
+            Debug.Log(e);
         }
 
+      
 
     }
 
