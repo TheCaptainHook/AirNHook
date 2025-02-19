@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System;
 public class Computer_Net : NetworkBehaviour
 {
     [SerializeField] GameObject screen;
@@ -31,6 +32,23 @@ public class Computer_Net : NetworkBehaviour
     // [SyncVar] public bool previousOnPower;
     [SyncVar] public bool isOpen;
 
+    #region Stage Select Manu Sync
+
+    [SyncVar] public int index;
+    [SyncVar] public Host_MapData[] host_MapDatas;
+
+    [Server]
+    public void Server_SetIndex(int index)
+    {
+        this.index = index;
+    }
+    [Server]
+    public void Server_SetMapDatas(Host_MapData[] host_MapDatas)
+    {
+        this.host_MapDatas = host_MapDatas;
+    }
+    #endregion
+    
 
 
     private void Update()
@@ -42,24 +60,44 @@ public class Computer_Net : NetworkBehaviour
 
     }
 
-
-
-    [Server]
-    public void Server_SetOnPower()
-    {
-     if(isOpen) return;
-     isOpen = true;
-     onPower = true;
-
-     Rpc_ShowUi();
-        //sync setting, main, dummy
-        // -> Open ui,
-    }
+    #region Server_Init
     [Server]
     public void Server_SetComputer(GameObject computer)
     {
         this.computer = computer;
     }
+    #endregion
+
+
+    [Server]
+    public void Server_SetOnPower()
+    {
+        if (isOpen) return;
+        isOpen = true;
+        onPower = true;
+
+        //SaveFileData data = Managers.Data.saveData._SaveFileData;
+
+        //// 서버에서 각 클라이언트로 데이터 전송
+        //foreach (var conn in NetworkServer.connections.Values)
+        //{
+        //    Target_SetHostSaveFile(conn, data);
+        //}
+
+
+        Rpc_ShowUi();
+        //sync setting, main, dummy
+        // -> Open ui,
+    }
+
+    //[TargetRpc]
+    //private void Target_SetHostSaveFile(NetworkConnection target, SaveFileData data)
+    //{
+    //    saveData = data;
+    //    Debug.Log(data._PlayerSaveData.totalDeath);
+    //}
+
+
     [Server]
     public void Server_SetIsOpen(bool val)
     {
@@ -70,14 +108,16 @@ public class Computer_Net : NetworkBehaviour
     [ClientRpc]
     private void Rpc_ShowUi()
     {
-       if(!isServer)
-       {
-        Debug.Log("Client Show Ui");
-       }else{
-        ShowMain(true);
-        ShowDummy();
-       }
-        
+        if (!isServer)
+        {
+            ShowDummy();
+        }
+        else
+        {
+            ShowMain(true);
+            ShowDummy();
+        }
+
     }
     
     private void ShowDummy()
@@ -113,25 +153,61 @@ public class Computer_Net : NetworkBehaviour
         switch(num)
         {
             case 1:
-                Main.SetInputKey(1);
-                Dummy.SetInputKey(1);
+                if(!isServer)
+                {
+                    Dummy.SetInputKey(1);
+                }
+                else
+                {
+                    Main.SetInputKey(1);
+                    Dummy.SetInputKey(1);
+                }
+              
             break;
             case 2:
-                Main.SetInputKey(2);
-                Dummy.SetInputKey(2);
-            break;
+                if (!isServer)
+                {
+                    Dummy.SetInputKey(2);
+                }
+                else
+                {
+                    Main.SetInputKey(2);
+                    Dummy.SetInputKey(2);
+                }
+                break;
             case 3:
-                Main.SetInputKey(3);
-                Dummy.SetInputKey(3);
-            break;
+                if (!isServer)
+                {
+                    Dummy.SetInputKey(3);
+                }
+                else
+                {
+                    Main.SetInputKey(3);
+                    Dummy.SetInputKey(3);
+                }
+                break;
             case 4:
-                Main.SetInputKey(4);
-                Dummy.SetInputKey(4);
-            break;
+                if (!isServer)
+                {
+                    Dummy.SetInputKey(4);
+                }
+                else
+                {
+                    Main.SetInputKey(4);
+                    Dummy.SetInputKey(4);
+                }
+                break;
             case 5:
-                Main.SetInputKey(5);
-                Dummy.SetInputKey(5);
-            break;
+                if (!isServer)
+                {
+                    Dummy.SetInputKey(5);
+                }
+                else
+                {
+                    Main.SetInputKey(5);
+                    Dummy.SetInputKey(5);
+                }
+                break;
 
         }
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.Rendering.Universal.Light2D;
@@ -546,4 +547,30 @@ public struct LightStruct{
         );
     }
 }
+#endregion
+#region Network
+[Serializable]
+public struct Host_MapData
+{
+    public string mapId;
+    public string subMapName;
+    public bool clear;
+    public bool onOpenStage;
+    public Host_MapData(string mapId,string subMapName, bool clear, bool onOpenStage)
+    {
+        this.mapId = mapId;
+        this.subMapName = subMapName;
+        this.clear = clear;
+        this.onOpenStage = onOpenStage;
+    }
+}
+//[Serializable]
+//public struct Host_MapDatas
+//{
+//    public Host_MapData[] data;
+//    public Host_MapDatas(Host_MapData[] data)
+//    {
+//        this.data = data;
+//    }
+//}
 #endregion

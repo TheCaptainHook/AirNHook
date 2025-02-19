@@ -519,11 +519,13 @@ public class UI_StageSelect_var3_Dummy: UI_Base
             _PrograssLevel = PrograssLevel.Two;
             yield return EraserTextLineCo(minSelectTextLineListIndex, maxSelectTextLineListIndex);
             
-            int index = Managers.Data.saveData._SaveFileData._PlayerSaveData.curStageLevel;
-            for (int i = 0; i <=index; i++)
+            //int index = Managers.Data.saveData._SaveFileData._PlayerSaveData.curStageLevel;
+
+            for (int i = 0; i <=computer.GetComponent<Computer_Net>().index; i++)
             {
                yield return WriteLine($"{i}", localColor, true);
             }
+
             maxSelectTextLineListIndex = nextWriteTextLineIndex-1;
         }
         else
@@ -555,21 +557,39 @@ public class UI_StageSelect_var3_Dummy: UI_Base
         curStageLevel = stageLevel;
 
         _PrograssLevel = PrograssLevel.Three;
-        yield return EraserTextLineCo(minSelectTextLineListIndex, maxSelectTextLineListIndex);
-        Map[] maps = Managers.Data.mapData.mapMainStageDictionary[stageLevel];
-        MapSaveData[] mapDatas = CheckPlayerData(maps);
 
+
+        yield return EraserTextLineCo(minSelectTextLineListIndex, maxSelectTextLineListIndex);
+        //Map[] maps = Managers.Data.mapData.mapMainStageDictionary[stageLevel];
+        //MapSaveData[] mapDatas = CheckPlayerData(maps);
+
+        //for (int i = 0; i < mapDatas.Length; i++)
+        //{
+        //    if (mapDatas[i].clear)
+        //    {
+        //        yield return WriteLine(string.IsNullOrWhiteSpace(maps[i].subMapName) ? maps[i].mapID : maps[i].subMapName,localColor,true);
+        //    }
+        //    else if (mapDatas[i].openStage)
+        //    {
+        //        yield return WriteLine(string.IsNullOrWhiteSpace(maps[i].subMapName) ? maps[i].mapID : maps[i].subMapName, Color.yellow, true);
+        //    }
+
+        //}
+        Host_MapData[] mapDatas = computer.GetComponent<Computer_Net>().host_MapDatas;
         for (int i = 0; i < mapDatas.Length; i++)
         {
             if (mapDatas[i].clear)
             {
-                yield return WriteLine(string.IsNullOrWhiteSpace(maps[i].subMapName) ? maps[i].mapID : maps[i].subMapName,localColor,true);
+                //yield return WriteLine(maps[i].mapID, localColor, true);\
+                //yield return WriteLine(string.IsNullOrWhiteSpace(maps[i].subMapName) ? maps[i].mapID : maps[i].subMapName,localColor,true);
+                yield return WriteLine(string.IsNullOrWhiteSpace(mapDatas[i].subMapName) ? mapDatas[i].mapId : mapDatas[i].subMapName, localColor, true);
             }
-            else if (mapDatas[i].openStage)
+            else if (mapDatas[i].onOpenStage)
             {
-                yield return WriteLine(string.IsNullOrWhiteSpace(maps[i].subMapName) ? maps[i].mapID : maps[i].subMapName, Color.yellow, true);
+                //yield return WriteLine(string.IsNullOrWhiteSpace(maps[i].subMapName) ? maps[i].mapID : maps[i].subMapName, Color.yellow, true);
+                yield return WriteLine(string.IsNullOrWhiteSpace(mapDatas[i].subMapName) ? mapDatas[i].mapId : mapDatas[i].subMapName, Color.yellow, true);
             }
-           
+
         }
 
         maxSelectTextLineListIndex = nextWriteTextLineIndex-1;

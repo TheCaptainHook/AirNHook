@@ -167,8 +167,8 @@ public class UI_StageSelect_var3: UI_Base
     //     }
     //     if(!computer.GetComponent<StageSelectObject>().onPower) animator.SetTrigger(open);
     //     else animator.SetTrigger(open_onPower);
-        
-        
+
+
     //     if(computer)
     //     computer.GetComponent<StageSelectorComputer>().Talking();
 
@@ -180,10 +180,10 @@ public class UI_StageSelect_var3: UI_Base
     //     // {
     //     //     Debug.Log($"EX : {ex}");
     //     // }
-        
+
 
     // }
-        
+
     // private void Update()
     // {
     //     //Test Code
@@ -202,7 +202,7 @@ public class UI_StageSelect_var3: UI_Base
     //     // if (onInteractable && !onPrograss && !inputProcessed)
     //     // {
     //     //     GetKeyEvent();
-            
+
     //     // }
 
     // }
@@ -210,7 +210,12 @@ public class UI_StageSelect_var3: UI_Base
 
 
     //------------------------------------------------------Network 250218
-    
+    public void GetHost_MapData(int stageLevel)
+    {
+        Map[] maps = Managers.Data.mapData.mapMainStageDictionary[stageLevel];
+        Host_MapData[] mapDatas = CheckPlayerData(maps);
+        computer.GetComponent<Computer_Net>().Server_SetMapDatas(mapDatas);
+    }
     public override void OnEnable()
     {
         // if(computer == null)
@@ -550,13 +555,24 @@ public class UI_StageSelect_var3: UI_Base
         if (GetSplitSentenceAndLaststring(textLineList[pathTextLineIndex].mainSentence) == "Main")
         {
             _PrograssLevel = PrograssLevel.Two;
+
+            computer.GetComponent<Computer_Net>().Server_SetIndex(Managers.Data.saveData._SaveFileData._PlayerSaveData.curStageLevel);
+
             yield return EraserTextLineCo(minSelectTextLineListIndex, maxSelectTextLineListIndex);
-            
-            int index = Managers.Data.saveData._SaveFileData._PlayerSaveData.curStageLevel;
-            for (int i = 0; i <=index; i++)
+
+            //int index = Managers.Data.saveData._SaveFileData._PlayerSaveData.curStageLevel;
+
+            //computer.GetComponent<Computer_Net>().Server_SetIndex(Managers.Data.saveData._SaveFileData._PlayerSaveData.curStageLevel);
+
+            //for (int i = 0; i <=index; i++)
+            //{
+            //   yield return WriteLine($"{i}", localColor, true);
+            //}
+            for (int i = 0; i <= computer.GetComponent<Computer_Net>().index; i++)
             {
-               yield return WriteLine($"{i}", localColor, true);
+                yield return WriteLine($"{i}", localColor, true);
             }
+
             maxSelectTextLineListIndex = nextWriteTextLineIndex-1;
         }
         else
@@ -588,20 +604,28 @@ public class UI_StageSelect_var3: UI_Base
         curStageLevel = stageLevel;
 
         _PrograssLevel = PrograssLevel.Three;
+
+        GetHost_MapData(stageLevel);
+
         yield return EraserTextLineCo(minSelectTextLineListIndex, maxSelectTextLineListIndex);
-        Map[] maps = Managers.Data.mapData.mapMainStageDictionary[stageLevel];
-        MapSaveData[] mapDatas = CheckPlayerData(maps);
+
+        //Map[] maps = Managers.Data.mapData.mapMainStageDictionary[stageLevel];
+        //MapSaveData[] mapDatas = CheckPlayerData(maps);
+
+        Host_MapData[] mapDatas = computer.GetComponent<Computer_Net>().host_MapDatas;
 
         for (int i = 0; i < mapDatas.Length; i++)
         {
             if (mapDatas[i].clear)
             {
                 //yield return WriteLine(maps[i].mapID, localColor, true);\
-                yield return WriteLine(string.IsNullOrWhiteSpace(maps[i].subMapName) ? maps[i].mapID : maps[i].subMapName,localColor,true);
+                //yield return WriteLine(string.IsNullOrWhiteSpace(maps[i].subMapName) ? maps[i].mapID : maps[i].subMapName,localColor,true);
+                yield return WriteLine(string.IsNullOrWhiteSpace(mapDatas[i].subMapName) ? mapDatas[i].mapId : mapDatas[i].subMapName, localColor, true);
             }
-            else if (mapDatas[i].openStage)
+            else if (mapDatas[i].onOpenStage)
             {
-                yield return WriteLine(string.IsNullOrWhiteSpace(maps[i].subMapName) ? maps[i].mapID : maps[i].subMapName, Color.yellow, true);
+                //yield return WriteLine(string.IsNullOrWhiteSpace(maps[i].subMapName) ? maps[i].mapID : maps[i].subMapName, Color.yellow, true);
+                yield return WriteLine(string.IsNullOrWhiteSpace(mapDatas[i].subMapName) ? mapDatas[i].mapId : mapDatas[i].subMapName, Color.yellow, true);
             }
            
         }
@@ -792,18 +816,21 @@ public class UI_StageSelect_var3: UI_Base
 
     }
 
-    private MapSaveData[] CheckPlayerData(Map[] map) //TODO 0805
+    private Host_MapData[] CheckPlayerData(Map[] map) 
     {
-        MapSaveData[] array = new MapSaveData[map.Length];
+        //MapSaveData[] array = new MapSaveData[map.Length];
+        Host_MapData[] array = new Host_MapData[map.Length];
 
         for (int i = 0; i < map.Length; i++)
         {
-            array[i] = Managers.Data.saveData.dic[map[i].mapID];
+            //array[i] = Managers.Data.saveData.dic[map[i].mapID];
+            var info = Managers.Data.saveData.dic[map[i].mapID];      
+            array[i] = new Host_MapData(info.mapName,info.mapSubName, info.clear, info.openStage);
         }
 
         if (map[0].stageLevel == 0)
         {
-            array[0].openStage = true;
+            array[0] = new Host_MapData(array[0].mapId, array[0].subMapName, array[0].clear, true);
         }
   
         return array;
