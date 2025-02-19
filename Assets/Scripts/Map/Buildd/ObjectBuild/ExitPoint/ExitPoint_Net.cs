@@ -1,8 +1,10 @@
 using Edgegap.Editor.Api.Models.Results;
 using Mirror;
+using Mono.CecilX.Cil;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ExitPoint_Net : NetworkBehaviour
@@ -96,16 +98,26 @@ public class ExitPoint_Net : NetworkBehaviour
         if (stageClear && curPlayerInDoor >= 2)
         {
             //exit.MoveNextStage();
-            MoveNextStage(nextMapId);
+            //MoveNextStage(nextMapId);
+            MapEditor.Instance.MoveNextStage(nextMapId);
+
         }
     }
 
 
-    [ClientRpc]
-    private void MoveNextStage(string nextMapId)
-    {
-        MapEditor.Instance.MoveNextStage(nextMapId);
-    }
+    //[ClientRpc]
+    //private void MoveNextStage(string nextMapId)
+    //{
+    //    try
+    //    {
+    //        MapEditor.Instance.MoveNextStage(nextMapId);
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        Debug.Log(e);
+    //    }
+      
+    //}
 
 
 
@@ -148,7 +160,15 @@ public class ExitPoint_Net : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void Enter(GameObject obj)
     {
-        RpcEnter(obj);
+        try
+        {
+            RpcEnter(obj);
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e);
+        }
+
     }
     [ClientRpc]
     public void RpcEnter(GameObject obj)
@@ -158,7 +178,15 @@ public class ExitPoint_Net : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void Exit(GameObject obj)
     {
-        RpcExit(obj);
+        if (obj == null) return;
+        try
+        {
+            RpcExit(obj);
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e);
+        }
     }
     [ClientRpc]
     public void RpcExit(GameObject obj)

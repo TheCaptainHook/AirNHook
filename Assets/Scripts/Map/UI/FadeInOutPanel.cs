@@ -21,7 +21,15 @@ public class FadeInOutPanel : MonoBehaviour
 
     public void MoveNextStage(string mapId)
     {
-        StartCoroutine(FadeInOut(mapId));
+        try
+        {
+            StartCoroutine(FadeInOut(mapId));
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
+        
     }
 
 
@@ -42,12 +50,23 @@ public class FadeInOutPanel : MonoBehaviour
             yield return null;
         }
 
-        Managers.Network.startPos.Clear();
+        try
+        {
+            Managers.Network.startPos.Clear();
+        }
+
+        catch (Exception e) { Debug.LogError(e); }
+        
         MapEditor.Instance.LoadMap(mapId);
 
         yield return new WaitForSeconds(1f);
 
-        Managers.Game.Player.GetComponent<PlayerSM>().Respawning();
+        try
+        {
+            Managers.Game.Player.GetComponent<PlayerSM>().Respawning();
+        }
+        catch(Exception e) { Debug.LogError(e); }
+        
         Camera.main.GetComponent<ParallaxCamera>().enabled = true;
 
         while (percent > 0)
@@ -56,8 +75,12 @@ public class FadeInOutPanel : MonoBehaviour
             image.color = Color.Lerp(image.color, orgColor, percent);
             yield return null;
         }
-
-        Managers.Game.StageStart(mapId);
+        try
+        {
+            Managers.Game.StageStart(mapId);
+        }
+        catch (Exception e) { Debug.LogError(e); }
+        
         image.enabled = false;
    
     }

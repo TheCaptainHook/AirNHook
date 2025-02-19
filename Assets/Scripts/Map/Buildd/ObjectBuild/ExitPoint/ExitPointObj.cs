@@ -173,6 +173,7 @@ public class ExitPointObj : BuildObj
             //absencePanel.Enter(collision.gameObject);//TODO 0802 Need Networking
             //doorOpeningAnim.Enter(collision.gameObject);
             ExitPoint_Net.Enter(collision.gameObject);
+
             ExitPoint_Net.Server_SetInDoor(1);
             //curPlayerInDoor++;
             //if(stageClear && curPlayerInDoor >= 2)
@@ -213,30 +214,31 @@ public class ExitPointObj : BuildObj
     {
         ExitPoint_Net.Cmd_SetNextMapId(nextMapId);
     }
-    public void MoveNextStage() 
-    {
-        //absencePanel.NextMoveAnimation(); //TODO 0802 Need Networking
-        //TODO 0804
-        if (MapEditor.Instance.CurMap.mapID == "Tutorial_3"&& !Managers.Data.saveData._SaveFileData._PlayerSaveData._IstutorialClear)
-        {
-            Managers.Data.saveData._SaveFileData._PlayerSaveData._IstutorialClear = true;
-            StartCoroutine(ExecuteAfterDelay(dialogue.TutorialClearDialogue(), () =>
-            {
-                doorOpeningAnim.CmdMoveNextStage(ExitPoint_Net.nextMapId);
-                //doorOpeningAnim.CmdMoveNextStage(nextMapId);
-            }));
 
-            return;
-        }
+    //public void MoveNextStage() 
+    //{
+    //    //absencePanel.NextMoveAnimation(); //TODO 0802 Need Networking
+    //    //TODO 0804
+    //    if (MapEditor.Instance.CurMap.mapID == "Tutorial_3"&& !Managers.Data.saveData._SaveFileData._PlayerSaveData._IstutorialClear)
+    //    {
+    //        Managers.Data.saveData._SaveFileData._PlayerSaveData._IstutorialClear = true;
+    //        StartCoroutine(ExecuteAfterDelay(dialogue.TutorialClearDialogue(), () =>
+    //        {
+    //            doorOpeningAnim.CmdMoveNextStage(ExitPoint_Net.nextMapId);
+    //            //doorOpeningAnim.CmdMoveNextStage(nextMapId);
+    //        }));
+
+    //        return;
+    //    }
 
        
-            StartCoroutine(ExecuteAfterDelay(1f, () => //TODO 0802
-            {
-                //doorOpeningAnim.CmdMoveNextStage(nextMapId);
-                doorOpeningAnim.CmdMoveNextStage(ExitPoint_Net.nextMapId);
-            }));
+    //        StartCoroutine(ExecuteAfterDelay(1f, () => //TODO 0802
+    //        {
+    //            //doorOpeningAnim.CmdMoveNextStage(nextMapId);
+    //            doorOpeningAnim.CmdMoveNextStage(ExitPoint_Net.nextMapId);
+    //        }));
         
-    }
+    //}
 
 
     public override void TurnOff()
