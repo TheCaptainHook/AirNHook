@@ -53,7 +53,7 @@ public class Computer_Net : NetworkBehaviour
 
     private void Update()
     {
-        if(isServer && onPower)
+        if(isServer && onPower && isOpen)
         {
             GetKeyEvent();
         }
@@ -86,13 +86,13 @@ public class Computer_Net : NetworkBehaviour
 
         //sync setting, main, dummy
         // -> Open ui,
+        StartCoroutine(Delay());
+    }
+    IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(0.5f);
         onPower = true;
     }
-    //IEnumerator Delay()
-    //{
-    //    yield return new WaitForSeconds(0.2f);
-    //    Rpc_ShowUi();
-    //}
     //[TargetRpc]
     //private void Target_SetHostSaveFile(NetworkConnection target, SaveFileData data)
     //{
