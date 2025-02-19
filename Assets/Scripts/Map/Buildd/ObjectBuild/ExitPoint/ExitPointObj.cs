@@ -113,6 +113,7 @@ public class ExitPointObj : BuildObj
             ExitPoint_Net.Server_SetInit(condition_KeyAmount);
 
             nextMapId = eData.nextMapId;
+            ExitPoint_Net.Server_SetNextMapId(eData.nextMapId);
             SetTileData(eData.position);
 
             transform.position = eData.position;
@@ -217,7 +218,8 @@ public class ExitPointObj : BuildObj
             Managers.Data.saveData._SaveFileData._PlayerSaveData._IstutorialClear = true;
             StartCoroutine(ExecuteAfterDelay(dialogue.TutorialClearDialogue(), () =>
             {
-                doorOpeningAnim.CmdMoveNextStage(nextMapId);
+                doorOpeningAnim.CmdMoveNextStage(ExitPoint_Net.nextMapId);
+                //doorOpeningAnim.CmdMoveNextStage(nextMapId);
             }));
 
             return;
@@ -226,7 +228,8 @@ public class ExitPointObj : BuildObj
        
             StartCoroutine(ExecuteAfterDelay(1f, () => //TODO 0802
             {
-                doorOpeningAnim.CmdMoveNextStage(nextMapId);
+                //doorOpeningAnim.CmdMoveNextStage(nextMapId);
+                doorOpeningAnim.CmdMoveNextStage(ExitPoint_Net.nextMapId);
             }));
         
     }

@@ -54,8 +54,7 @@ public class MovingPlatform_Net : NetworkBehaviour
     }
 
     public void CreateRail()
-    {
-        
+    { 
         Vector2[] paths = dataPath.paths;
 
         Transform parents = MapEditor.Instance.dontSaveObjectTransform;
@@ -65,9 +64,6 @@ public class MovingPlatform_Net : NetworkBehaviour
 
         if (paths.Length == 0)
         {
-            GameObject rail;
-            rail = Instantiate(rail_Node_Prefabs, container);
-            rail.transform.position = transform.position;
             Debug.Log($"path : {paths.Length},Client : {isClient}");
             return;
         }

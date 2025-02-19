@@ -13,6 +13,7 @@ public class ExitPoint_Net : NetworkBehaviour
     [SerializeField] DoorOpeningAnim doorOpeningAnim;
 
     #region Data sync
+    [SyncVar] public string nextMapId;
     [SyncVar] public bool stageClear;
     [SyncVar] public int condition_KeyAmount;
     [SyncVar(hook =nameof(OnChangeCurrent_KeyAmount))] public int current_KeyAmount;
@@ -29,6 +30,17 @@ public class ExitPoint_Net : NetworkBehaviour
     #endregion
 
     #region Server_Data Sync
+    [Server]
+    public void Server_SetNextMapId(string nextMapId)
+    {
+        this.nextMapId = nextMapId;
+    }
+    [Server]
+    public void Cmd_SetNextMapId(string nextMapId)
+    {
+        Server_SetNextMapId(nextMapId);
+    }
+
     [Server]
     public void Server_SetCurrent_KeyAmount(int amount)
     {
