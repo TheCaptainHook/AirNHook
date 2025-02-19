@@ -21,11 +21,9 @@ public class KeyBubble : MonoBehaviour
 
     public void SetData(int keyAmount)
     {
-        Debug.Log("1");
         if (keyAmount == 0) return;
         _text.text = keyAmount.ToString();
         gameObject.SetActive(true);
-        Debug.Log("1");
         this.keyAmount = keyAmount;
     }
 

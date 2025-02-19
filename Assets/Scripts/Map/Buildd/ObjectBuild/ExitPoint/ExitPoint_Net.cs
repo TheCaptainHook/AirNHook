@@ -1,5 +1,6 @@
 using Edgegap.Editor.Api.Models.Results;
 using Mirror;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,7 +26,8 @@ public class ExitPoint_Net : NetworkBehaviour
         condition_KeyAmount = condition;
         current_KeyAmount = condition;
 
-        Rpc_KeySet();
+        //StartCoroutine(Delay());
+        StartCoroutine(WaitUntilAllClientsReady(() => { Rpc_KeySet(); }));
     }
     #endregion
 
@@ -60,7 +62,6 @@ public class ExitPoint_Net : NetworkBehaviour
     }
 
 
-
     #region Key
     [Server]
     public void Server_AddKeyAmount()
@@ -92,9 +93,29 @@ public class ExitPoint_Net : NetworkBehaviour
     //{
     //    RpcOnAbsencePanel();
     //}
+    private IEnumerator WaitUntilAllClientsReady(Action action)
+    {
+        while (!AllClientsReady()) // 모든 클라이언트가 준비될 때까지 대기
+        {
+            Debug.Log("클라이언트가 아직 준비되지 않음. 기다리는 중...");
+            yield return null;
+        }
 
+        Debug.Log("모든 클라이언트가 준비됨! ClientRpc 호출");
+        action?.Invoke();
+    }
 
-
+    private bool AllClientsReady()
+    {
+        foreach (var conn in NetworkServer.connections.Values)
+        {
+            if (!conn.isReady)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
     #region Absence Panel
     [ClientRpc]
     public void RpcOnAbsencePanel()
