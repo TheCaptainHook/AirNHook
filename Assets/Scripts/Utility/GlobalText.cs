@@ -8,7 +8,8 @@ public static class GlobalText
     public const string DEFAULT_DEATH_ANIMATION_STRING = "IsDead";
     public const string JUMP_ANIMATION_STRING = "IsJumping";
     public const string JUMPING_ANIMATION_STRING = "IsStayJumping";
-    public const string SUICIDE_ANIMATION_STRING = "SuicideInput";
+    public const string SUICIDE_ANIMATION_STRING = "TrySuicide";
+    public const string SUICIDE_CANCELED_ANIMATION_STRING = "CancelSuicide";
     //HookParameter
     public const string GRABBING_ANIMATION_STRING = "IsGrabbing";
     public const string GRAPPLING_ANIMATION_STRING = "IsGrappling";

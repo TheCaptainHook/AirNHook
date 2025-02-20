@@ -8,6 +8,7 @@ public class PlayerStateMachine : StateMachine
     public IState WalkState { get; protected set; }
     public IState JumpState { get; protected set; }
     public IState FallingState { get; protected set; }
+    public IState SuicideState { get; protected set; }
     #endregion
 
     #region InputValue
@@ -35,6 +36,7 @@ public class PlayerStateMachine : StateMachine
         WalkState = new WalkState(this);
         JumpState = new JumpState(this);
         FallingState = new FallingState(this);
+        SuicideState = new SuicideState(this);
 
         Initialize();
     }
