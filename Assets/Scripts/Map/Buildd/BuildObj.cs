@@ -96,20 +96,20 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     }
 
 
-    public void SetTileData(Vector2 position)
-    {
-        ObjectData = new ObjectData(id, position,transform.localScale);
-    }
+    // public void SetTileData(Vector2 position)
+    // {
+    //     ObjectData = new ObjectData(id, position,transform.localScale);
+    // }
 
     // public  void SetTileData(Vector2 position,Quaternion quaternion)
     // {
     //     ObjectData = new ObjectData(id, position, quaternion,transform.localScale);
     // }
 
-    public virtual void SetTileData()
-    {
-        ObjectData = new ObjectData(id, transform.position, transform.rotation, transform.localScale);
-    }
+    // public virtual void SetTileData()
+    // {
+    //     ObjectData = new ObjectData(id, transform.position, transform.rotation, transform.localScale);
+    // }
 
     public virtual void SetData(ObjectData data)
     {

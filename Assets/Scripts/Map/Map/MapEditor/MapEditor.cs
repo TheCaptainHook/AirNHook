@@ -164,9 +164,9 @@ public class MapEditor : MonoBehaviour
     [Header("ScreenShot")]
     [ReadOnly]
     public GameObject screenShotCamera;
-    #region event Action
+    #region ----------------------------------------Event Action
     // public event Action OnStageMove;
-    public event Action OnScreen;
+    // public event Action OnScreen;
     #endregion
 
     private void Awake()
@@ -387,6 +387,8 @@ public class MapEditor : MonoBehaviour
 
     public void LoadMap(string name)
     {
+        stageClear = false;
+
         Init();
         placeMentSystem.ResetTileMap();
         mapEditorType = MapEditorType.Load;
@@ -645,10 +647,10 @@ public class MapEditor : MonoBehaviour
     {
         fadeInOutPanel.MoveNextStage(mapId);
 
-        if(mapId == "Lobby")
-        {
-            OnScreen?.Invoke();
-        }
+        // if(mapId == "Lobby")
+        // {
+        //     OnScreen?.Invoke();
+        // }
     }
 
     public GameObject FindObj(Transform transform, int id)

@@ -152,7 +152,7 @@ public class SaveData
             _SaveFileData._PlayerSaveData.UpdateClearData(key);
             dic[key].ClearMapDataUpdate(data.clearTIme,data.deathCount);
 
-            if (stageLevelUp)
+            if (stageLevelUp && Managers.Game.stageLevel > _SaveFileData._PlayerSaveData.curStageLevel)
             {
                 _SaveFileData.StageLevelUp();
             }

@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
-using System;
+
 
 
 public class ExitPointObj : BuildObj
@@ -110,11 +109,15 @@ public class ExitPointObj : BuildObj
             current_KeyAmount = condition_KeyAmount;
 
             //keyBubble.SetData(current_KeyAmount);
-            ExitPoint_Net.Server_SetInit(condition_KeyAmount);
+            if(Application.isPlaying)
+            {
+                ExitPoint_Net.Server_SetCurMapId(MapEditor.Instance.mapID);
+                ExitPoint_Net.Server_SetInit(condition_KeyAmount);
+                ExitPoint_Net.Server_SetNextMapId(eData.nextMapId);
+            }
 
             nextMapId = eData.nextMapId;
-            ExitPoint_Net.Server_SetNextMapId(eData.nextMapId);
-            SetTileData(eData.position);
+            // SetTileData(eData.position);
 
             transform.position = eData.position;
         }
@@ -171,10 +174,11 @@ public class ExitPointObj : BuildObj
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && ExitPoint_Net.stageClear)
         {
             //absencePanel.Enter(collision.gameObject);//TODO 0802 Need Networking
-            //doorOpeningAnim.Enter(collision.gameObject);
-            //ExitPoint_Net.Enter(collision.gameObject);
+            // doorOpeningAnim.Enter(collision.gameObject);
 
+            ExitPoint_Net.Enter(collision.gameObject);
             ExitPoint_Net.Server_SetInDoor(1);
+            
             //curPlayerInDoor++;
             //if(stageClear && curPlayerInDoor >= 2)
             //{
@@ -191,16 +195,20 @@ public class ExitPointObj : BuildObj
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if(ExitPoint_Net.OnMoveNextStage) return;
         if (Managers.Game.CurrentState != GameState.Editor && !Managers.Game.Player.GetComponent<PlayerSM>().isServer) return;
         
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && ExitPoint_Net.stageClear)
         {
             //absencePanel.Exit(collision.gameObject);//TODO 0802 Need Networking
             //doorOpeningAnim.Exit(collision.gameObject);
-            //ExitPoint_Net.Exit(collision.gameObject);
+
+            ExitPoint_Net.Exit(collision.gameObject);
+            ExitPoint_Net.Server_SetInDoor(-1);
+            
             //curPlayerInDoor--;
             //if(curPlayerInDoor < 0) { curPlayerInDoor = 0; }
-            //ExitPoint_Net.Server_SetInDoor(-1);
+            
         }
     }
 
@@ -277,8 +285,10 @@ public class ExitPointObj : BuildObj
         
     }
 
-    
 
+    #endregion
+
+      #region  AbsenecePanel
     public void Enter(GameObject obj)
     {
         absencePanel.Enter(obj);

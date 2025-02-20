@@ -36,12 +36,12 @@ public class FadeInOutPanel : MonoBehaviour
     IEnumerator FadeInOut(string mapId)
     {
         preMapLoadEvent?.Invoke(); //Event to be executed before map transition
-    
+        Managers.Stage.stageName = mapId;
+        
         image.enabled = true;
         float percent = 0;
         Color fadeOutcolor = new Color(orgColor.r, orgColor.g, orgColor.b, 1);
-        Managers.Stage.stageName = mapId;
-
+        
         while (percent < 1)
         {
             percent += Time.deltaTime;
@@ -50,13 +50,8 @@ public class FadeInOutPanel : MonoBehaviour
             yield return null;
         }
 
-        try
-        {
-            Managers.Network.startPos.Clear();
-        }
-
-        catch (Exception e) { Debug.LogError(e); }
-        
+  
+        Managers.Network.startPos.Clear();
         MapEditor.Instance.LoadMap(mapId);
 
         yield return new WaitForSeconds(1f);
@@ -75,11 +70,9 @@ public class FadeInOutPanel : MonoBehaviour
             image.color = Color.Lerp(image.color, orgColor, percent);
             yield return null;
         }
-        try
-        {
             Managers.Game.StageStart(mapId);
-        }
-        catch (Exception e) { Debug.LogError(e); }
+        
+        
         
         image.enabled = false;
    

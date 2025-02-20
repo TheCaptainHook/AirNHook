@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum AnimationTrigger
+public enum AnimationTriggerType
 {
     Idle,  // 선택되었을 때 아무 애니메이션도 실행되지 않음
     Work1,
@@ -12,27 +12,33 @@ public enum AnimationTrigger
 public class AnimatorTriggerController : MonoBehaviour
 {
     [Header("Animation Settings")]
-    [SerializeField] private Animator animator;
-    [SerializeField] private AnimationTrigger selectedTrigger = AnimationTrigger.Idle;
-
-    private void Start()
-    {
-        if (animator == null)
-        {
-            animator = GetComponent<Animator>();
+    private Animator animator;
+    private Animator Animator {
+        get{
+            if(animator == null) animator = GetComponent<Animator>();
+            return animator;
         }
     }
+    // private AnimationTriggerType selectedTrigger = AnimationTriggerType.Idle;
 
-    public void PlayTrigger()
+    // private void Start()
+    // {
+    //     if (animator == null)
+    //     {
+    //         animator = GetComponent<Animator>();
+    //     }
+    // }
+
+    public void PlayTrigger(AnimationTriggerType type)
     {
-        if (animator != null)
+        if (Animator != null)
         {
-            if (selectedTrigger == AnimationTrigger.Idle)
+            if (type == AnimationTriggerType.Idle)
             {
                 return;
             }
 
-            animator.SetTrigger(selectedTrigger.ToString());
+            Animator.SetTrigger(type.ToString());
         }
         else
         {

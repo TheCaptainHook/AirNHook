@@ -1,9 +1,6 @@
-using Edgegap.Editor.Api.Models.Results;
 using Mirror;
-using Mono.CecilX.Cil;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -15,6 +12,7 @@ public class ExitPoint_Net : NetworkBehaviour
     [SerializeField] DoorOpeningAnim doorOpeningAnim;
 
     #region Data sync
+    [SyncVar] public string curMapId;
     [SyncVar] public string nextMapId;
     [SyncVar] public bool stageClear;
     [SyncVar] public int condition_KeyAmount;
@@ -43,6 +41,11 @@ public class ExitPoint_Net : NetworkBehaviour
     {
         Server_SetNextMapId(nextMapId);
     }
+    [Server]
+    public void Server_SetCurMapId(string curMapId)
+    {
+        this.curMapId = curMapId;
+    }
 
     [Server]
     public void Server_SetCurrent_KeyAmount(int amount)
@@ -50,8 +53,10 @@ public class ExitPoint_Net : NetworkBehaviour
         current_KeyAmount -= amount;
         if(current_KeyAmount <= 0 && !stageClear)
         {
+
             stageClear = true;
             MapEditor.Instance.stageClear = true;
+
             doorOpeningAnim.CallOnUnlockAnimation();
         }
     }
@@ -99,19 +104,49 @@ public class ExitPoint_Net : NetworkBehaviour
         if (stageClear && curPlayerInDoor >= 2)
         {
             //exit.MoveNextStage();
-            MoveNextStage(nextMapId);
+            OnMoveNextStage = true;
+
+            MoveNextStage();
             //MapEditor.Instance.MoveNextStage(nextMapId);
 
         }
     }
 
+    
 
     [ClientRpc]
-    private void MoveNextStage(string nextMapId)
+    private void MoveNextStage()
     {
         try
         {
-            MapEditor.Instance.MoveNextStage(nextMapId);
+            Managers.Sound.CollectAmbientSoundSource();
+            Managers.Stage.stageName = nextMapId;
+            Camera.main.GetComponent<ParallaxCamera>().enabled = false;
+
+            string nextMap = nextMapId;
+
+            //NextMapId 가 null 이면 스테이지 클리어. -> 로비로 이동
+            if(string.Empty == nextMap && curMapId != "Lobby")
+            {
+                Managers.Game.CurrentState = GameState.Lobby;
+                Managers.Game.StageClear(curMapId,true);
+                nextMap = "Lobby";
+                
+            }else //단순 맵 클리어
+            {
+                Managers.Game.CurrentState = GameState.Game;
+                Managers.Game.StageClear(curMapId);
+            }
+
+            //특정 스테이지 클리어시 나오는 다이어그램
+            // -> 실행 후 네트워크에 다음맵으로 이동할 준비가 됐다는 신호 보내기.
+
+            //페이드 아웃, -> 클라이언트 준비 중 UI 
+
+            //모든 클라이언트의 준비 확인. -> 맵 이동
+
+            MapEditor.Instance.MoveNextStage(nextMap);
+
         }
         catch (Exception e)
         {

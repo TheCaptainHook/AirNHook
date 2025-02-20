@@ -332,7 +332,10 @@ public struct ObjectData
     public Vector2 size;
     public string text;
     public float fontSize;
+
     public bool chargeRequired;
+    //NPC
+    public AnimationTriggerType animationTriggerType;
     public ObjectData(int id, Vector2 position, Vector3 scale, int dialogueId = 0, Vector2 talPot = default)
     {
         this.id = id;
@@ -345,6 +348,8 @@ public struct ObjectData
         this.text = string.Empty;
         this.fontSize = 0;
         this.chargeRequired = false;
+
+        animationTriggerType = AnimationTriggerType.Idle;
     }
      public ObjectData(int id, Vector2 position,Quaternion quaternion ,Vector3 scale, bool chargeRequired)
     {
@@ -361,6 +366,7 @@ public struct ObjectData
         fontSize = 0;
 
         this.chargeRequired = chargeRequired;
+        animationTriggerType = AnimationTriggerType.Idle;
     }
     public ObjectData(int id, Vector2 position,Vector2 size)
     {
@@ -374,6 +380,7 @@ public struct ObjectData
         this.text = string.Empty;
         this.fontSize = 0;
         chargeRequired = false;
+        animationTriggerType = AnimationTriggerType.Idle;
     }
     public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, int dialogueId = 0)
     {
@@ -387,6 +394,7 @@ public struct ObjectData
         this.text = string.Empty;
         this.fontSize = 0;
         chargeRequired = false;
+        animationTriggerType = AnimationTriggerType.Idle;
     }
     //WorldTextObject
     public ObjectData(int id,Vector2 position,Vector2 size,string text,float fontSize)
@@ -401,6 +409,23 @@ public struct ObjectData
         this.text = text;
         this.fontSize = fontSize;
         chargeRequired = false;
+        animationTriggerType = AnimationTriggerType.Idle;
+    }
+    //NPC Object
+     public ObjectData(int id,Vector2 position,AnimationTriggerType type)
+    {
+        this.id = id;
+        this.dialogueId = 0;
+        this.position = position;
+        this.quaternion = Quaternion.identity;
+        this.scale = Vector3.one;
+        this.talPot = Vector2.zero;
+        this.size = default;
+        this.text = string.Empty;
+        this.fontSize = 0;
+        chargeRequired = false;
+
+        animationTriggerType = type;
     }
 
 
