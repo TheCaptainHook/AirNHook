@@ -467,7 +467,7 @@ GameObject:
   - component: {fileID: 444707294828945258}
   - component: {fileID: 7684903196300218065}
   - component: {fileID: -2202390588482861308}
-  - component: {fileID: -1924870518746892053}
+  - component: {fileID: 5507025265456305952}
   m_Layer: 15
   m_Name: Drone_Hook
   m_TagString: Untagged
@@ -676,7 +676,7 @@ MonoBehaviour:
   syncInterval: 0
   clientAuthority: 0
   animator: {fileID: 6538494676459900832}
---- !u!114 &-1924870518746892053
+--- !u!114 &5507025265456305952
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -685,20 +685,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 5485989114999524422}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab2cbc52526ea384ba280d13cd1a57b9, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c7e12ad9b9ae443c9fdf37e9f5ecd36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 1
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  target: {fileID: 8864067844301257339}
-  clientAuthority: 0
-  syncVelocity: 1
-  clearVelocity: 0
-  velocitySensitivity: 0.1
-  syncAngularVelocity: 1
-  clearAngularVelocity: 0
-  angularVelocitySensitivity: 0.1
+  target: {fileID: 3150436631828177710}
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  onlySyncOnChange: 1
+  compressRotation: 1
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  sendIntervalMultiplier: 1
+  timelineOffset: 0
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  bufferResetMultiplier: 3
+  changedDetection: 1
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
 --- !u!1 &7418276887607424029
 GameObject:
   m_ObjectHideFlags: 0
