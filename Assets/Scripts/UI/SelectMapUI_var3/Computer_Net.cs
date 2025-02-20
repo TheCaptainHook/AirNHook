@@ -13,9 +13,9 @@ public class Computer_Net : NetworkBehaviour
     {
         get
         {
-            if(main == null) return null;
+            if (main == null) return null;
             return main.GetComponent<UI_StageSelect_var3>();
-            
+
         }
     }
     public GameObject dummy;
@@ -23,14 +23,26 @@ public class Computer_Net : NetworkBehaviour
     {
         get
         {
-            if(dummy == null) return null;
+            if (dummy == null) return null;
             return dummy.GetComponent<UI_StageSelect_var3_Dummy>();
         }
     }
 
     [SyncVar] public bool onPower;
-    // [SyncVar] public bool previousOnPower;
     [SyncVar] public bool isOpen;
+
+    //UI Control Condition
+    [SyncVar] public int readyAllClient;
+    [SyncVar] public bool onReady;
+
+    public int ConnectionClientCount
+    {
+        get
+        {
+            if (NetworkServer.active) return NetworkServer.connections.Count;
+            return 0;
+        }
+    }
 
     #region Stage Select Manu Sync
 
@@ -53,7 +65,7 @@ public class Computer_Net : NetworkBehaviour
 
     private void Update()
     {
-        if(isServer && onPower && isOpen)
+        if(isServer && onPower && isOpen && onReady)
         {
             GetKeyEvent();
         }
@@ -68,38 +80,31 @@ public class Computer_Net : NetworkBehaviour
     }
     #endregion
 
+    #region Server_Reset
+    [Server]
+    public void Server_Reset()
+    {
+        readyAllClient = 0;
+        onReady = false;
+    }
+    #endregion
 
     [Server]
     public void Server_SetOnPower()
     {
         if (isOpen) return;
         isOpen = true;
-        //SaveFileData data = Managers.Data.saveData._SaveFileData;
-
-        //// 서버에서 각 클라이언트로 데이터 전송
-        //foreach (var conn in NetworkServer.connections.Values)
-        //{
-        //    Target_SetHostSaveFile(conn, data);
-        //}
 
         Rpc_ShowUi();
 
-        //sync setting, main, dummy
-        // -> Open ui,
         StartCoroutine(Delay());
     }
+
     IEnumerator Delay()
     {
         yield return new WaitForSeconds(0.5f);
         onPower = true;
     }
-    //[TargetRpc]
-    //private void Target_SetHostSaveFile(NetworkConnection target, SaveFileData data)
-    //{
-    //    saveData = data;
-    //    Debug.Log(data._PlayerSaveData.totalDeath);
-    //}
-
 
     [Server]
     public void Server_SetIsOpen(bool val)
@@ -148,15 +153,32 @@ public class Computer_Net : NetworkBehaviour
 
         }
     }
+    [Server]
+    private void Server_SetReadyClient()
+    {
+        readyAllClient++;
+        if(readyAllClient >= ConnectionClientCount)
+        {
+            onReady = true;
+        }
+    }
+
+    [Command(requiresAuthority = false)]
+    public void Cmd_ReadyClient()
+    {
+        Server_SetReadyClient();
+    }
     #endregion
-   
+
+    #region Input
+
     [ClientRpc]
     private void Rpc_SetKey(int num)
     {
-        switch(num)
+        switch (num)
         {
             case 1:
-                if(!isServer)
+                if (!isServer)
                 {
                     Dummy.SetInputKey(1);
                 }
@@ -165,8 +187,8 @@ public class Computer_Net : NetworkBehaviour
                     Main.SetInputKey(1);
                     Dummy.SetInputKey(1);
                 }
-              
-            break;
+
+                break;
             case 2:
                 if (!isServer)
                 {
@@ -214,36 +236,34 @@ public class Computer_Net : NetworkBehaviour
 
         }
     }
+    private void GetKeyEvent()
+    {
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            Rpc_SetKey(1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            Rpc_SetKey(2);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            Rpc_SetKey(3);
+        }
 
 
-    #region  Utile
+        if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            Rpc_SetKey(4);
+        }
 
-    private void GetKeyEvent(){
-         if (Input.GetKeyDown(KeyCode.DownArrow))
-            {
-              Rpc_SetKey(1);
-            }
-
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-               Rpc_SetKey(2);
-            }
-            
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-               Rpc_SetKey(3);
-            }
-
-
-            if (Input.GetKeyDown(KeyCode.Backspace))
-            {
-             Rpc_SetKey(4);
-            }
-
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-              Rpc_SetKey(5); 
-            }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Rpc_SetKey(5);
+        }
     }
     #endregion
+
 }

@@ -216,6 +216,12 @@ public class UI_StageSelect_var3: UI_Base
         Host_MapData[] mapDatas = CheckPlayerData(maps);
         computer.GetComponent<Computer_Net>().Server_SetMapDatas(mapDatas);
     }
+
+    public void Reset()
+    {
+        Computer_Net net = computer.GetComponent<Computer_Net>();
+        net.Server_Reset();
+    }
     public override void OnEnable()
     {
         // if(computer == null)
@@ -511,6 +517,11 @@ public class UI_StageSelect_var3: UI_Base
         
         minSelectTextLineListIndex = nextWriteTextLineIndex;
         yield return WriteLine("Main", localColor, true);
+
+        //-----------------------------------------Net Ready
+        computer.GetComponent<Computer_Net>().Cmd_ReadyClient();
+        //-----------------------------------------Net Ready
+        
         // yield return WriteLine("UserMap (준비중)", localColor, true, 25, 0.01f, false);
 
         maxSelectTextLineListIndex = nextWriteTextLineIndex-1;
@@ -688,18 +699,18 @@ public class UI_StageSelect_var3: UI_Base
         //Path Text Eraser Effect.
 
         textLineList[pathTextLineIndex].type = TypingType.Write;
-        //250103
-        animator.SetTrigger(close); 
+     
+        animator.SetTrigger(close);
+        //-----------------------------Reset
         computer.GetComponent<Computer_Net>().Server_SetIsOpen(false);
-        //250103
+        Reset();
+        //-----------------------------Reset
+
         _UI_KeyGenerator.gameObject.SetActive(true);
         _UI_KeyGenerator.KeyPrintingAni();
         yield return new WaitForSeconds(6f);
         _UI_KeyGenerator.gameObject.SetActive(false);
-        // Screen On
-        //SetScreenDataAndActive(selectMapId);
 
-        //todo 0709 SpawnKey
         computer.GetComponent<StageSelectorComputer>().SpawnKey();
 
         //player Move control
@@ -763,6 +774,8 @@ public class UI_StageSelect_var3: UI_Base
         onInteractable = false;
         
         onReady = false;
+
+        Reset();
 
         yield return EraserTextLineCo(0, maxSelectTextLineListIndex);
         animator.SetTrigger(close);

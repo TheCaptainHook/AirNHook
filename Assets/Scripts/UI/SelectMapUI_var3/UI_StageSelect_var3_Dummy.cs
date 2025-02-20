@@ -474,6 +474,11 @@ public class UI_StageSelect_var3_Dummy: UI_Base
         
         minSelectTextLineListIndex = nextWriteTextLineIndex;
         yield return WriteLine("Main", localColor, true);
+
+        //-----------------------------------------Net Ready
+        computer.GetComponent<Computer_Net>().Cmd_ReadyClient();
+        //-----------------------------------------Net Ready
+
         // yield return WriteLine("UserMap (준비중)", localColor, true, 25, 0.01f, false);
 
         maxSelectTextLineListIndex = nextWriteTextLineIndex-1;
