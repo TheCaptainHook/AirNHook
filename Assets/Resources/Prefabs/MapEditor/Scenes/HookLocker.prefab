@@ -186,7 +186,7 @@ GameObject:
   - component: {fileID: 3020815491793248874}
   - component: {fileID: -3468869619191240960}
   - component: {fileID: 1653977427610279674}
-  - component: {fileID: 1790578994254138401}
+  - component: {fileID: 6162826516118829441}
   m_Layer: 16
   m_Name: HookLocker
   m_TagString: Untagged
@@ -464,7 +464,7 @@ MonoBehaviour:
   m_LocalBounds:
     m_Center: {x: -0.010115862, y: 1.5033718, z: 0}
     m_Extent: {x: 0.8145424, y: 1.5033718, z: 0}
---- !u!114 &1790578994254138401
+--- !u!114 &6162826516118829441
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -473,7 +473,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6071289470676819865}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
@@ -494,8 +494,7 @@ MonoBehaviour:
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  bufferResetMultiplier: 3
-  changedDetection: 1
-  positionSensitivity: 0.01
+  onlySyncOnChangeCorrectionMultiplier: 2
   rotationSensitivity: 0.01
-  scaleSensitivity: 0.01
+  positionPrecision: 0.01
+  scalePrecision: 0.01

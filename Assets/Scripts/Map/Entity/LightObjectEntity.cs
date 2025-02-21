@@ -4,7 +4,7 @@ using Mirror;
 using UnityEngine;
 
 [RequireComponent(typeof(NetworkIdentity))]
-[RequireComponent(typeof(NetworkTransformUnreliable))]
+[RequireComponent(typeof(NetworkTransformReliable))]
 [RequireComponent(typeof(LightObject_Net))]
 public class LightObjectEntity : BuildObj,IPowerConsumer
 {
