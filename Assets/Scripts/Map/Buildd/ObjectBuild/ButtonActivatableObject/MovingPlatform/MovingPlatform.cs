@@ -68,7 +68,7 @@ public class MovingPlatform :  ActivatableObjectEntity
         if (Application.isPlaying)
         {
             // CreateRail(paths);
-            MovingPlatform_Net.Server_CreateRail(paths);
+            MovingPlatform_Net.Server_CreateRail(paths,ButtonActivatedObjectStruct.position);
 
             Util util = new Util();
             await util.Delay(() => { CheckActiveRequirAmount(); });

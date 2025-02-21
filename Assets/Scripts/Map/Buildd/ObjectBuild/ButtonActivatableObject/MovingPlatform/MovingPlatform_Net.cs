@@ -32,8 +32,9 @@ public class MovingPlatform_Net : NetworkBehaviour
         } 
     }
 
+    [SyncVar(hook =nameof(OnDataPathUpdated))]
+    public DataPath dataPath;
 
-    [SyncVar] public DataPath dataPath;
     [SyncVar] public Vector2 velocity;
     [SyncVar] public float step;
 
@@ -41,6 +42,7 @@ public class MovingPlatform_Net : NetworkBehaviour
     public void Server_CreateRail(Vector2[] paths)
     {
         dataPath = new DataPath(paths);
+
     }
 
 
@@ -99,36 +101,22 @@ public class MovingPlatform_Net : NetworkBehaviour
         
     }
 
-    float timeOut = 10;
-    float elapsedTime = 0f;
-    IEnumerator WaitforSync()
+    private void OnDataPathUpdated(DataPath oldPath, DataPath newPath)
     {
-        while (dataPath.paths == null && elapsedTime < timeOut)
+        if (newPath.paths != null)
         {
-            Debug.Log(dataPath.paths.Length);
-            yield return null;
-            elapsedTime += Time.deltaTime;
+            CreateRail();
+            MovingPlatform.AddForce();
         }
-
-        if (dataPath.paths == null)
-        {
-            Debug.LogWarning("WaitforSync: 데이터 동기화가 시간 초과됨. 작업 취소됨.");
-            yield break; 
-        }
-        elapsedTime = 0f;
-
-        CreateRail();
-        MovingPlatform.AddForce();
     }
 
+    //public override void OnStartClient()
+    //{
+    //    base.OnStartClient();
+    //    //CreateRail();
+    //    //MovingPlatform.AddForce();
+    //    //StartCoroutine(WaitforSync());
 
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        //CreateRail();
-        //MovingPlatform.AddForce();
-        StartCoroutine(WaitforSync());
-        
-    }
+    //}
 
 }

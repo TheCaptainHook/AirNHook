@@ -27,7 +27,7 @@ public class WDMP_Net : NetworkBehaviour
     public void Server_SetMoveDistance(float moveDistance,Vector2 position)
     {
        this.moveDistance = moveDistance;   
-        this.position = position;
+       this.position = position;
     }
 
     [Server]
@@ -79,31 +79,13 @@ public class WDMP_Net : NetworkBehaviour
 
     float timeOut = 10;
     float elapsedTime = 0f;
-    IEnumerator WaitforSync()
-    {
-        while (position == Vector2.zero && elapsedTime < timeOut)
-        {
-            yield return null;
-            elapsedTime += Time.deltaTime;
-        }
-
-        if (position == Vector2.zero)
-        {
-            Debug.LogWarning("WaitforSync: 데이터 동기화가 시간 초과됨. 작업 취소됨.");
-            yield break;
-        }
-        elapsedTime = 0f;
-
-        CreateRail();
-
-    }
 
 
     public override void OnStartClient()
     {
         base.OnStartClient();
         //CreateRail();
-        StartCoroutine(WaitforSync());
+        CreateRail();
     }
 
 }
