@@ -5,6 +5,7 @@ using Mirror;
 using System;
 using Unity.VisualScripting;
 using System.Linq;
+using System.Threading;
 
 
 public class MovingPlatform_Net : NetworkBehaviour
@@ -101,11 +102,34 @@ public class MovingPlatform_Net : NetworkBehaviour
         
     }
 
+    float timeOut = 10;
+    float elapsedTime = 0f;
+    IEnumerator WaitforSync()
+    {
+        while (dataPath.paths == null && elapsedTime < timeOut)
+        {
+            yield return null;
+            elapsedTime += Time.deltaTime;
+        }
+
+        if (dataPath.paths == null)
+        {
+            Debug.LogWarning("WaitforSync: 데이터 동기화가 시간 초과됨. 작업 취소됨.");
+            yield break; 
+        }
+        elapsedTime = 0f;
+
+        CreateRail();
+        MovingPlatform.AddForce();
+    }
+
+
     public override void OnStartClient()
     {
         base.OnStartClient();
-        CreateRail();
-        MovingPlatform.AddForce();
+        //CreateRail();
+        //MovingPlatform.AddForce();
+        StartCoroutine(WaitforSync());
         
     }
 

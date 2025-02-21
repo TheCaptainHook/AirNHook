@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Mirror;
 
 using UnityEngine;
+using static MovingPlatform_Net;
 
 
 public class WDMP_Net : NetworkBehaviour
@@ -71,13 +73,36 @@ public class WDMP_Net : NetworkBehaviour
         line.SetPosition(0,transform.position);
         Vector2 target = new Vector2(transform.position.x + moveDistance,transform.position.y);
         line.SetPosition(1,target);
-           
     }
+
+
+    float timeOut = 10;
+    float elapsedTime = 0f;
+    IEnumerator WaitforSync()
+    {
+        while (moveDistance == 0 && elapsedTime < timeOut)
+        {
+            yield return null;
+            elapsedTime += Time.deltaTime;
+        }
+
+        if (moveDistance == 0)
+        {
+            Debug.LogWarning("WaitforSync: 데이터 동기화가 시간 초과됨. 작업 취소됨.");
+            yield break;
+        }
+        elapsedTime = 0f;
+
+        CreateRail();
+
+    }
+
 
     public override void OnStartClient()
     {
         base.OnStartClient();
-        CreateRail();
+        //CreateRail();
+        StartCoroutine(WaitforSync());
     }
 
 }
