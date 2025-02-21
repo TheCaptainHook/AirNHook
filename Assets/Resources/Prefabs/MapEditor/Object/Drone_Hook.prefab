@@ -467,7 +467,7 @@ GameObject:
   - component: {fileID: 444707294828945258}
   - component: {fileID: 7684903196300218065}
   - component: {fileID: -2202390588482861308}
-  - component: {fileID: 5507025265456305952}
+  - component: {fileID: 2924039672020373473}
   m_Layer: 15
   m_Name: Drone_Hook
   m_TagString: Untagged
@@ -676,7 +676,7 @@ MonoBehaviour:
   syncInterval: 0
   clientAuthority: 0
   animator: {fileID: 6538494676459900832}
---- !u!114 &5507025265456305952
+--- !u!114 &2924039672020373473
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -685,7 +685,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5485989114999524422}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c7e12ad9b9ae443c9fdf37e9f5ecd36, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ec4f7556ca1e4b55a3381fc6a02b1bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
@@ -706,11 +706,10 @@ MonoBehaviour:
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  bufferResetMultiplier: 3
-  changedDetection: 1
-  positionSensitivity: 0.01
+  onlySyncOnChangeCorrectionMultiplier: 2
   rotationSensitivity: 0.01
-  scaleSensitivity: 0.01
+  positionPrecision: 0.01
+  scalePrecision: 0.01
 --- !u!1 &7418276887607424029
 GameObject:
   m_ObjectHideFlags: 0

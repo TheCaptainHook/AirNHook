@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using Mirror;
 using UnityEngine;
-using static MovingPlatform_Net;
 
 
 public class WDMP_Net : NetworkBehaviour
@@ -13,9 +12,9 @@ public class WDMP_Net : NetworkBehaviour
 
     // private Collider2D Collider => GetComponent<Collider2D>();
 
+    [SyncVar] public float moveDistance;
     [SyncVar(hook =nameof(OnDataPathUpdated))] 
     public Vector2 position;
-    [SyncVar] public float moveDistance;
     [SyncVar] public float rayLength;
 
     [SyncVar] public Vector2 dir;
@@ -54,24 +53,29 @@ public class WDMP_Net : NetworkBehaviour
         this.rayLength = rayLength;
     }
 
+    Transform container;
+    GameObject railNode_1;
+    GameObject railNode_2;
+    LineRenderer line;
+
     private void CreateRail() //rail node, rail lineRenderer
     { 
         Transform parents = MapEditor.Instance.dontSaveObjectTransform;
-        Transform container = new GameObject("Rail_Container").transform;
+        container = new GameObject("Rail_Container").transform;
         container.SetParent(parents);
 
-        LineRenderer line = Instantiate(rail_Line_Prefabs,container);
+        line = Instantiate(rail_Line_Prefabs,container);
         //Draw Line
         DrawLine(line);
 
-        GameObject railNode_1 = Instantiate(rail_Node_Prefabs,container);
+        railNode_1 = Instantiate(rail_Node_Prefabs,container);
         railNode_1.transform.position = line.GetPosition(0);
-        GameObject railNode_2 = Instantiate(rail_Node_Prefabs,container);
+
+        railNode_2 = Instantiate(rail_Node_Prefabs,container);
         railNode_2.transform.position = line.GetPosition(1);
     }
     private void DrawLine(LineRenderer line)
     {
-
         line.positionCount = 2;
         line.SetPosition(0,position);
         Vector2 target = new Vector2(position.x + moveDistance, position.y);
@@ -79,7 +83,12 @@ public class WDMP_Net : NetworkBehaviour
     }
 
 
-
+    //private void CreateNode()
+    //{
+    //    DrawLine(line);
+    //    railNode_1.transform.position = line.GetPosition(0);
+    //    railNode_2.transform.position = line.GetPosition(1);
+    //}
 
     private void OnDataPathUpdated(Vector2 old, Vector2 newVal)
     {
@@ -88,6 +97,7 @@ public class WDMP_Net : NetworkBehaviour
             CreateRail();
         }
     }
+
 
 
 

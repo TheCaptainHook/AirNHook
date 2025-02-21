@@ -971,7 +971,7 @@ GameObject:
   - component: {fileID: 2836901596953615608}
   - component: {fileID: 3060094751298211678}
   - component: {fileID: 248568403052513572}
-  - component: {fileID: 4812231511112653489}
+  - component: {fileID: 8629357048997041048}
   m_Layer: 15
   m_Name: Drone_Laser
   m_TagString: Untagged
@@ -1186,7 +1186,7 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!114 &4812231511112653489
+--- !u!114 &8629357048997041048
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1195,7 +1195,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7348580558311126004}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c7e12ad9b9ae443c9fdf37e9f5ecd36, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ec4f7556ca1e4b55a3381fc6a02b1bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
@@ -1216,11 +1216,10 @@ MonoBehaviour:
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  bufferResetMultiplier: 3
-  changedDetection: 1
-  positionSensitivity: 0.01
+  onlySyncOnChangeCorrectionMultiplier: 2
   rotationSensitivity: 0.01
-  scaleSensitivity: 0.01
+  positionPrecision: 0.01
+  scalePrecision: 0.01
 --- !u!1 &8732067415727849449
 GameObject:
   m_ObjectHideFlags: 0
@@ -1448,7 +1447,7 @@ MonoBehaviour:
   - {x: -0.35144913, y: -0.3826578, z: 0}
   m_ShapePathHash: -1395270259
   m_Mesh: {fileID: 0}
-  m_InstanceId: 56220
+  m_InstanceId: 63102
   m_LocalBounds:
     m_Center: {x: 0.01257205, y: -0.47503752, z: 0}
     m_Extent: {x: 0.74721634, y: 0.24692696, z: 0}
