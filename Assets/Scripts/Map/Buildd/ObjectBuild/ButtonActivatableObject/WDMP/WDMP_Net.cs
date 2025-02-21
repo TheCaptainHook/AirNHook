@@ -67,9 +67,11 @@ public class WDMP_Net : NetworkBehaviour
     }
     private void DrawLine(LineRenderer line)
     {
+        Rigidbody2D rb = transform.GetComponent<Rigidbody2D>();
+
         line.positionCount = 2;
         line.SetPosition(0,transform.position);
-        Vector2 target = new Vector2(transform.position.x + moveDistance,transform.position.y);
+        Vector2 target = new Vector2(rb.position.x + moveDistance,rb.position.y);
         line.SetPosition(1,target);
     }
 
