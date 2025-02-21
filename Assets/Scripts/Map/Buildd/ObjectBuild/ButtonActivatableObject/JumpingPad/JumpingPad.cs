@@ -89,12 +89,12 @@ public class JumpingPad : ActivatableObjectEntity
     {
         //onActive = true;
         Net.Server_SetOnActive(true);
-        animator.SetBool(Activated,onActive);
+        animator.SetBool(Activated,Net.onActive);
     }
     protected override void Deactivated()
     {
         //onActive = false;
         Net.Server_SetOnActive(false);
-        animator.SetBool(Activated,onActive);
+        animator.SetBool(Activated, Net.onActive);
     }
 }
