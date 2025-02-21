@@ -129,6 +129,10 @@ public class MovingPlatform :  ActivatableObjectEntity
             yield return waitSecond;
         }
     }
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
 
     #region Test Code, [latest update: 11/12 ]
     // private void Start(){

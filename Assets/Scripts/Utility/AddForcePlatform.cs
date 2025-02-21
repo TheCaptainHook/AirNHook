@@ -124,6 +124,9 @@ public class AddForcePlatform : MonoBehaviour
     public void AddForce(Vector2 vec){
         if(_PreviousDetactObjects.Count <=0) return;
         foreach(DetectObj obj in _PreviousDetactObjects){
+
+            if (obj.obj == null) continue;
+
             Vector2 curPot = obj._Rb.position;
             Vector2 target = curPot + vec;
             obj._Rb.position = Vector2.MoveTowards(curPot,target,MovingPlatform_Net.step);
