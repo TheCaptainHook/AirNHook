@@ -186,6 +186,7 @@ GameObject:
   - component: {fileID: 3020815491793248874}
   - component: {fileID: -3468869619191240960}
   - component: {fileID: 1653977427610279674}
+  - component: {fileID: 1790578994254138401}
   m_Layer: 16
   m_Name: HookLocker
   m_TagString: Untagged
@@ -459,7 +460,42 @@ MonoBehaviour:
   - {x: 0.80442655, y: 0.006743918, z: 0}
   m_ShapePathHash: -1368322720
   m_Mesh: {fileID: 0}
-  m_InstanceId: -228098
+  m_InstanceId: 45964
   m_LocalBounds:
     m_Center: {x: -0.010115862, y: 1.5033718, z: 0}
     m_Extent: {x: 0.8145424, y: 1.5033718, z: 0}
+--- !u!114 &1790578994254138401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6071289470676819865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 6957026049440143431}
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  onlySyncOnChange: 1
+  compressRotation: 1
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  sendIntervalMultiplier: 1
+  timelineOffset: 0
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  bufferResetMultiplier: 3
+  changedDetection: 1
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01

@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: -5685142094333380490}
   - component: {fileID: -2892688109402222233}
   - component: {fileID: 5657013810750685248}
+  - component: {fileID: 7042925293675059479}
   m_Layer: 16
   m_Name: AirLocker
   m_TagString: Untagged
@@ -295,6 +296,41 @@ MonoBehaviour:
   m_LocalBounds:
     m_Center: {x: 0, y: 1.50366, z: 0}
     m_Extent: {x: 0.81700313, y: 1.49634, z: 0}
+--- !u!114 &7042925293675059479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4459367649880229040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 3474709972969235982}
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  onlySyncOnChange: 1
+  compressRotation: 1
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  sendIntervalMultiplier: 1
+  timelineOffset: 0
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  bufferResetMultiplier: 3
+  changedDetection: 1
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
 --- !u!1 &4721934840060962529
 GameObject:
   m_ObjectHideFlags: 0
