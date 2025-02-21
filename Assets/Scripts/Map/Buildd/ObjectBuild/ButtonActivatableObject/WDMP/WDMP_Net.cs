@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Mirror;
 using UnityEngine;
+using static MovingPlatform_Net;
 
 
 public class WDMP_Net : NetworkBehaviour
@@ -12,7 +13,8 @@ public class WDMP_Net : NetworkBehaviour
 
     // private Collider2D Collider => GetComponent<Collider2D>();
 
-    [SyncVar] public Vector2 position;
+    [SyncVar(hook =nameof(OnDataPathUpdated))] 
+    public Vector2 position;
     [SyncVar] public float moveDistance;
     [SyncVar] public float rayLength;
 
@@ -77,15 +79,16 @@ public class WDMP_Net : NetworkBehaviour
     }
 
 
-    float timeOut = 10;
-    float elapsedTime = 0f;
 
 
-    public override void OnStartClient()
+    private void OnDataPathUpdated(Vector2 old, Vector2 newVal)
     {
-        base.OnStartClient();
-        //CreateRail();
-        CreateRail();
+        if (newVal != Vector2.zero)
+        {
+            CreateRail();
+        }
     }
+
+
 
 }
