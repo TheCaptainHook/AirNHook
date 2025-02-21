@@ -12,6 +12,7 @@ public class WDMP_Net : NetworkBehaviour
 
     // private Collider2D Collider => GetComponent<Collider2D>();
 
+    [SyncVar] public Vector2 position;
     [SyncVar] public float moveDistance;
     [SyncVar] public float rayLength;
 
@@ -23,9 +24,10 @@ public class WDMP_Net : NetworkBehaviour
     [SyncVar] public float maxDis_Clamp;
 
     [Server]
-    public void Server_SetMoveDistance(float moveDistance)
+    public void Server_SetMoveDistance(float moveDistance,Vector2 position)
     {
        this.moveDistance = moveDistance;   
+        this.position = position;
     }
 
     [Server]
@@ -67,11 +69,10 @@ public class WDMP_Net : NetworkBehaviour
     }
     private void DrawLine(LineRenderer line)
     {
-        Rigidbody2D rb = transform.GetComponent<Rigidbody2D>();
 
         line.positionCount = 2;
-        line.SetPosition(0,transform.position);
-        Vector2 target = new Vector2(rb.position.x + moveDistance,rb.position.y);
+        line.SetPosition(0,position);
+        Vector2 target = new Vector2(position.x + moveDistance, position.y);
         line.SetPosition(1,target);
     }
 
@@ -80,13 +81,13 @@ public class WDMP_Net : NetworkBehaviour
     float elapsedTime = 0f;
     IEnumerator WaitforSync()
     {
-        while (moveDistance == 0 && elapsedTime < timeOut)
+        while (position == Vector2.zero && elapsedTime < timeOut)
         {
             yield return null;
             elapsedTime += Time.deltaTime;
         }
 
-        if (moveDistance == 0)
+        if (position == Vector2.zero)
         {
             Debug.LogWarning("WaitforSync: 데이터 동기화가 시간 초과됨. 작업 취소됨.");
             yield break;

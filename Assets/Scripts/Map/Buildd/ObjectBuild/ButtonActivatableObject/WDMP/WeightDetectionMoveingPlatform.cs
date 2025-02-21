@@ -57,7 +57,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     #endregion
     
     private void Init(){
-        WDMP_Net.Server_SetMoveDistance(ButtonActivatedObjectStruct.moveDistance);
+        WDMP_Net.Server_SetMoveDistance(ButtonActivatedObjectStruct.moveDistance,ButtonActivatedObjectStruct.position);
 
         orgPot = transform.position;
         path  = GetPath();

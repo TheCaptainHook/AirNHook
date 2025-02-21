@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System;
-using Unity.VisualScripting;
-using System.Linq;
-using System.Threading;
 
 
 public class MovingPlatform_Net : NetworkBehaviour
