@@ -600,12 +600,93 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0
         }
     ],
     "mapBackgroundObjectList": [],
     "mapOtherObjectList": [],
-    "mapButtonActivatableObjectDataList": [],
+    "mapButtonActivatableObjectDataList": [
+        {
+            "id": 327,
+            "activeRequirAmount": 0,
+            "chargeRequired": false,
+            "jumpingPower": 0,
+            "position": {
+                "x": 1.0,
+                "y": 3.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [
+                {
+                    "x": 10.0,
+                    "y": 3.0
+                }
+            ],
+            "moveSpeed": 1.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 334,
+            "activeRequirAmount": 0,
+            "chargeRequired": false,
+            "jumpingPower": 0,
+            "position": {
+                "x": 7.710000038146973,
+                "y": -0.4099999964237213
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 5.0,
+            "moveDistance": 7.079999923706055,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        }
+    ],
     "buttonObjectList": [],
     "mapExitObjectStruct": {
         "id": 301,

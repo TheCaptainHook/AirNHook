@@ -2,9 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using Mirror;
-
 using UnityEngine;
-using static MovingPlatform_Net;
 
 
 public class WDMP_Net : NetworkBehaviour

@@ -108,6 +108,7 @@ public class MovingPlatform_Net : NetworkBehaviour
     {
         while (dataPath.paths == null && elapsedTime < timeOut)
         {
+            Debug.Log(dataPath.paths.Length);
             yield return null;
             elapsedTime += Time.deltaTime;
         }
