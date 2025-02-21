@@ -10612,6 +10612,37 @@
             "fontSize": 0.0,
             "chargeRequired": false,
             "animationTriggerType": 0
+        },
+        {
+            "id": 323,
+            "dialogueId": 0,
+            "position": {
+                "x": -21.5,
+                "y": 21.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0
         }
     ],
     "mapBackgroundObjectList": [
@@ -13531,7 +13562,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.4499952793121338,
+                "y": 1.4499951601028443,
                 "z": 1.0
             },
             "talPot": {
