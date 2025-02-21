@@ -62,7 +62,7 @@ public class MirrorObject_Net : NetworkBehaviour
     {
         rotate_Z = z;
     }
-    [Command]
+    [Command(requiresAuthority = false)]
     public void Cmd_SetRot_z(float z)
     {
         Server_SetRot_z(z);
