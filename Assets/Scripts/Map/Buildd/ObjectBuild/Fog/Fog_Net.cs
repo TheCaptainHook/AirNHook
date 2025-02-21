@@ -16,14 +16,14 @@ public class Fog_Net : NetworkBehaviour
     public void Server_SetSize(Vector2 size)
     {
         this.size = size;
-        Rpc_SetFogSize();
+        //Rpc_SetFogSize();
     }
 
-    [ClientRpc]
-    private void Rpc_SetFogSize()
-    {
-        SetParticleSetting();
-    }
+    //[ClientRpc]
+    //private void Rpc_SetFogSize()
+    //{
+    //    SetParticleSetting();
+    //}
 
 
     #region ------------------------------------------Inner Camer Effect
@@ -68,8 +68,8 @@ public class Fog_Net : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
-        if(!isServer)
         SetParticleSetting();
+
     }
 
 }

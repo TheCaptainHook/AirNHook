@@ -34,10 +34,9 @@ public class Fog : BuildObj
             SetData(objData);
             Init();
 
-            if(!Application.isPlaying)
-            SetParticleSetting();
-
-            Fog_Net.Server_SetSize(objData.size);
+            
+            if (!Application.isPlaying) SetParticleSetting();
+            else Fog_Net.Server_SetSize(objData.size);
 
         }
     }

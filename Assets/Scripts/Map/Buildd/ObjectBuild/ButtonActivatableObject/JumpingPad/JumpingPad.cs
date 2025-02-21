@@ -15,10 +15,14 @@ public class JumpingPad : ActivatableObjectEntity
     readonly int Activated = Animator.StringToHash("Activated");
     #endregion
 
+    
+    private JumpingPad_Net Net;
+
     private Util util;
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        Net = GetComponent<JumpingPad_Net>();
     }
 
     #region Get,Set
@@ -42,17 +46,21 @@ public class JumpingPad : ActivatableObjectEntity
                 ButtonActivatedObjectStruct = objData;
                 jumpingPower = objData.jumpingPower;
             }
+
+            if (Application.isPlaying)
+            {
+                Net.Server_SetJumpingPower(jumpingPower);
+                util = new Util();
+                await util.Delay(() => { CheckActiveRequirAmount(); });
+            }
+
         }
         catch
         {
             Debug.Log($"ERROR,{typeof(T)}");
         }
 
-        if (Application.isPlaying)
-        {
-            util = new Util();
-            await util.Delay(() => { CheckActiveRequirAmount(); });
-        }
+        
     }
 
     #endregion
@@ -70,9 +78,10 @@ public class JumpingPad : ActivatableObjectEntity
     {
         if (!onActive) return;
         rb.velocity = Vector2.zero;
-        rb.AddForce(Vector2.up * jumpingPower, ForceMode2D.Impulse);
+        rb.AddForce(Vector2.up * Net.jumpingPower, ForceMode2D.Impulse);
     }
     #endregion
+
     protected override void Activation()
     {
         onActive = true;

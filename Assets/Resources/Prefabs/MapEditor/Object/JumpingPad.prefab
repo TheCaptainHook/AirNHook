@@ -5140,6 +5140,7 @@ GameObject:
   - component: {fileID: 4788232895510161706}
   - component: {fileID: 8700179628134346584}
   - component: {fileID: 4216828170776038451}
+  - component: {fileID: 966717442828433395}
   - component: {fileID: 440923098132029017}
   - component: {fileID: 5848864803275677424}
   - component: {fileID: 4551565961289643722}
@@ -5271,6 +5272,22 @@ MonoBehaviour:
   activeRequirAmount: 0
   curActiveBtn: 0
   jumpingPower: 20
+--- !u!114 &966717442828433395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8199011107301918480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d20426d8b0f14a44daf72da78537c259, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  jumpingPower: 0
 --- !u!95 &440923098132029017
 Animator:
   serializedVersion: 5
