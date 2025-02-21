@@ -1,6 +1,7 @@
 
 using UnityEngine;
 using Mirror;
+using System.Collections;
 
 public class Fog_Net : NetworkBehaviour
 {
@@ -49,13 +50,15 @@ public class Fog_Net : NetworkBehaviour
      public void SetParticleSetting(){
         SetParticleShapeScale();
         SetParticleEmissionRate();
+        MainPartice.Play();
     }
     private void SetParticleEmissionRate()
     {
         float rate = size.x * size.y * 0.5f;
         var emission = MainPartice.emission;
         emission.rateOverTime = rate;
-    }
+      
+    } 
     private void SetParticleShapeScale()
     {
         Collider.size = size;
@@ -65,11 +68,16 @@ public class Fog_Net : NetworkBehaviour
 
     #endregion
 
+    IEnumerator WaitForSync()
+    {
+        yield return new WaitUntil(() => size != Vector2.zero);
+        SetParticleSetting();
+    }
+
     public override void OnStartClient()
     {
         base.OnStartClient();
-        SetParticleSetting();
-
+        StartCoroutine(WaitForSync());
     }
 
 }
