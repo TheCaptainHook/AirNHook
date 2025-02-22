@@ -12,15 +12,15 @@ public class SuicideState : BaseState
 
     public override void EnterState()
     {
-        player.canMovable = false;
         Managers.Game.playerInput.playerActions.Suicide.canceled += SuicideCancel;
         player.animator.SetTrigger(player.animationData.SuicideParameterHash);
     }
 
     public override void ExitState()
     {
-        player.canMovable = true;
         Managers.Game.playerInput.playerActions.Suicide.canceled -= SuicideCancel;
+        player.animator.SetBool(stateMachine.player.animationData.JumpParameterHash, false);
+        player.animator.SetBool(stateMachine.player.animationData.FallingParameterHash, false);
     }
 
     public override void Update() {}
@@ -32,9 +32,8 @@ public class SuicideState : BaseState
 
     protected override void Move()
     {
-        var groundForce = stateMachine.moveSpeed * stateMachine.moveSpeedMultiplier * 4f;
-        
-        stateMachine.rigidbody2D.AddForce(new Vector2(- rigidbd.velocity.x * groundForce, 0f));
+        rigidbd.AddForce(isGround ? new Vector2(- rigidbd.velocity.x * stateMachine.moveSpeed * stateMachine.moveSpeedMultiplier, 0f)
+            : new Vector2(stateMachine.horizontal * stateMachine.moveSpeed, 0f));
         rigidbd.velocity = new Vector2(rigidbd.velocity.x, rigidbd.velocity.y);
     }
 
@@ -42,6 +41,6 @@ public class SuicideState : BaseState
     {
         Managers.Game.playerInput.playerActions.Suicide.canceled -= SuicideCancel;
         player.animator.SetTrigger(player.animationData.CancelSuicideParameterHash);
-        stateMachine.ChangeState(stateMachine.IdleState);
+        stateMachine.ChangeState(isGround ? stateMachine.IdleState : stateMachine.FallingState);
     }
 }

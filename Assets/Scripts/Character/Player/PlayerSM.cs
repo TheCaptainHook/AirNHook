@@ -9,7 +9,6 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     [field: Header("PlayerData")]
     [field: SerializeField] public PlayerDataSO playerData { get; protected set; }
     public bool canControl;
-    public bool canMovable;
     public bool invincible;
     [field: SerializeField] public Transform charPivot { get; private set; }
     private float _coyoteTime => playerData.coyoteTime;
@@ -113,6 +112,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
             
             if (isGround) return;
             
+            CmdLandParticlePlay();
             isGround = true;
             coyoteTimeCount = _coyoteTime;
             return;

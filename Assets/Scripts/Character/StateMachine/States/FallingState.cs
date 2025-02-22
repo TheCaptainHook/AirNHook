@@ -18,7 +18,7 @@ public class FallingState : BaseState
         
         if (!stateMachine.player.canControl) return;
         
-        stateMachine.player.CmdLandParticlePlay();
+        // stateMachine.player.CmdLandParticlePlay();
     }
 
     #region Loop Method
