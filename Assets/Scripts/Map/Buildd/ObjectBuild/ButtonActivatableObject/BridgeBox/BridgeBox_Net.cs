@@ -75,10 +75,11 @@ public class BridgeBox_Net : NetworkBehaviour
     private void CreateConnectionObject()
     {
             GameObject obj = new GameObject("Connect Object");
-        
+            obj.transform.SetParent(transform);
+
             GameObject spO = Instantiate(spriteObj);
-            spO.transform.localScale = new Vector3(-1,1,1);
             spO.transform.SetParent(obj.transform);
+            spO.transform.localScale = new Vector3(-1,1,1);
 
             Rigidbody2D rb = obj.AddComponent<Rigidbody2D>();
             rb.isKinematic = true;
@@ -87,12 +88,14 @@ public class BridgeBox_Net : NetworkBehaviour
             BoxCollider2D bcol = obj.AddComponent<BoxCollider2D>();
             bcol.offset = Collider.offset;
             bcol.size  = Collider.size;
-            
-            obj.transform.rotation = transform.rotation;
-            obj.transform.position = connectionPoint;
 
-            obj.transform.SetParent(transform);
-            obj.layer  = transform.gameObject.layer;
+        
+
+        obj.transform.rotation = transform.rotation;
+        obj.transform.position = connectionPoint;
+
+
+        obj.layer = transform.gameObject.layer;
 
     }
 
