@@ -83,6 +83,7 @@ public class BridgeBox_Net : NetworkBehaviour
 
         GameObject spO = Instantiate(spriteObj);
             spO.transform.SetParent(obj.transform);
+            spO.transform.position = Vector3.zero;
             spO.transform.localScale = new Vector3(-1,1,1);
 
             Rigidbody2D rb = obj.AddComponent<Rigidbody2D>();
