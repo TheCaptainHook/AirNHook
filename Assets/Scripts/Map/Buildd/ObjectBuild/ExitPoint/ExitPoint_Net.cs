@@ -55,11 +55,18 @@ public class ExitPoint_Net : NetworkBehaviour
         {
 
             stageClear = true;
-            MapEditor.Instance.stageClear = true;
+
+            Rpc_StageClear();
 
             doorOpeningAnim.CallOnUnlockAnimation();
         }
     }
+    [ClientRpc]
+    private void Rpc_StageClear()
+    {
+        MapEditor.Instance.stageClear = true;
+    }
+
     [Command(requiresAuthority = false)]
     public void Cmd_SetCurrent_KeyAmount(int amount)
     {

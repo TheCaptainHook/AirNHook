@@ -183,6 +183,8 @@ public class MapEditor : MonoBehaviour
     //todo
     public void Init()
     {
+        stageClear = false;
+
         if (mapEditorState != MapEditorState.NoEditor) { editorUIController.gameObject.SetActive(true); }
         else { editorUIController.gameObject.SetActive(false); }
 
