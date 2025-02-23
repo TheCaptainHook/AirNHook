@@ -679,15 +679,80 @@
             "onLeft": false,
             "paths": [],
             "moveSpeed": 5.0,
-            "moveDistance": 7.079999923706055,
+            "moveDistance": 0.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
                 "x": 0.0,
                 "y": 0.0
             }
+        },
+        {
+            "id": 339,
+            "activeRequirAmount": 1,
+            "chargeRequired": false,
+            "jumpingPower": 0,
+            "position": {
+                "x": 9.5600004196167,
+                "y": -3.8499999046325685
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.21667525172233582,
+                "w": 0.9762437343597412
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 7.190000057220459,
+            "connectionPoint": {
+                "x": 16.074886322021486,
+                "y": -0.8082294464111328
+            }
         }
     ],
-    "buttonObjectList": [],
+    "buttonObjectList": [
+        {
+            "id": 329,
+            "position": {
+                "x": 0.5299999713897705,
+                "y": -4.579999923706055
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "targetPositions": [
+                {
+                    "x": 9.5600004196167,
+                    "y": -3.8499999046325685
+                }
+            ],
+            "lightPositions": [],
+            "onHint": false,
+            "partsPositions": [],
+            "itemPositions": [],
+            "hintPosition": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "chargeRequired": false
+        }
+    ],
     "mapExitObjectStruct": {
         "id": 301,
         "position": {

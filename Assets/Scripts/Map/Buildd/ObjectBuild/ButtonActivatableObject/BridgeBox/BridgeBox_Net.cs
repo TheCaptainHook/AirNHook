@@ -15,8 +15,10 @@ public class BridgeBox_Net : NetworkBehaviour
     [Header("Sync Data")]
 
     [SyncVar] public float bridgeLength;
+
     [SyncVar(hook = nameof(OnChangeConnectionPoint))] 
     public Vector2 connectionPoint;
+
     [SyncVar(hook = nameof(OnChangeActive))] public bool onActive;
 
 
@@ -75,9 +77,11 @@ public class BridgeBox_Net : NetworkBehaviour
     private void CreateConnectionObject()
     {
             GameObject obj = new GameObject("Connect Object");
+            obj.transform.position = connectionPoint;
+            obj.transform.rotation = transform.rotation;
             obj.transform.SetParent(transform);
 
-            GameObject spO = Instantiate(spriteObj);
+        GameObject spO = Instantiate(spriteObj);
             spO.transform.SetParent(obj.transform);
             spO.transform.localScale = new Vector3(-1,1,1);
 
@@ -90,10 +94,6 @@ public class BridgeBox_Net : NetworkBehaviour
             bcol.size  = Collider.size;
 
         
-
-        obj.transform.rotation = transform.rotation;
-        obj.transform.position = connectionPoint;
-
 
         obj.layer = transform.gameObject.layer;
 
