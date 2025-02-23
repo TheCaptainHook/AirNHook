@@ -86,6 +86,7 @@ public class BridgeBox_Net : NetworkBehaviour
         transform.position = position;
 
         CreateConnectionObject();
+        SetBridgeCollider();
     }
 
     private void CreateConnectionObject()
@@ -94,12 +95,13 @@ public class BridgeBox_Net : NetworkBehaviour
             obj.transform.position = connectionPoint;
             obj.transform.SetParent(transform,true);
 
-            obj.transform.rotation = Quaternion.Euler(0, 0, 0);
+            obj.transform.localRotation = Quaternion.Euler(0,0,0);
 
 
         GameObject spO = Instantiate(spriteObj);
         spO.transform.SetParent(obj.transform, true);
         spO.transform.localPosition = Vector3.zero;
+        spO.transform.localRotation = Quaternion.Euler(0, 0, 0);
         spO.transform.localScale = new Vector3(-1, 1, 1);
 
         Rigidbody2D rb = obj.AddComponent<Rigidbody2D>();
