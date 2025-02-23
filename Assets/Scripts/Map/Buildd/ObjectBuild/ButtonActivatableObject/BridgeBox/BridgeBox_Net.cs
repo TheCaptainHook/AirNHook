@@ -84,13 +84,14 @@ public class BridgeBox_Net : NetworkBehaviour
         }
 
         CreateConnectionObject();
-        SetBridgeCollider();
+        //SetBridgeCollider();
     }
 
     private void CreateConnectionObject()
     {
             GameObject obj = new GameObject("Connect Object");
             obj.transform.position = connectionPoint;
+            obj.transform.rotation = Quaternion.identity;
             obj.transform.SetParent(transform);
 
 
@@ -139,7 +140,8 @@ public class BridgeBox_Net : NetworkBehaviour
     {
         Debug.Log($"Transform : {transform.position}, Line : {lineRenderer.transform.position}");
 
-        return transform.position - lineRenderer.transform.position;
+        //return transform.position - lineRenderer.transform.position;
+        return (Vector3)position - lineRenderer.transform.position;
     }
     #endregion
 
