@@ -84,14 +84,14 @@ public class BridgeBox_Net : NetworkBehaviour
         }
 
         CreateConnectionObject();
-        //SetBridgeCollider();
+        SetBridgeCollider();
     }
 
     private void CreateConnectionObject()
     {
             GameObject obj = new GameObject("Connect Object");
             obj.transform.position = connectionPoint;
-            obj.transform.rotation = Quaternion.identity;
+            obj.transform.rotation = Quaternion.Euler(0, 0, 0);
             obj.transform.SetParent(transform);
 
 
