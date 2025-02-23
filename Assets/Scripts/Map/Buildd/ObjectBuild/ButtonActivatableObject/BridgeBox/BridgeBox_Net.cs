@@ -15,7 +15,8 @@ public class BridgeBox_Net : NetworkBehaviour
     [Header("Sync Data")]
 
     [SyncVar] public float bridgeLength;
-    [SyncVar] public Vector2 connectionPoint;
+    [SyncVar(hook = nameof(OnChangeConnectionPoint))] 
+    public Vector2 connectionPoint;
     [SyncVar(hook = nameof(OnChangeActive))] public bool onActive;
 
 
@@ -58,13 +59,19 @@ public class BridgeBox_Net : NetworkBehaviour
     }
 
     //[ClientRpc]
-    //private void Rpc_BridgeSetting()
+    //private void Rpc_BridgeSetting() 
     //{
     //    CreateConnectionObject();
     //    SetBridgeCollider();
     //}
 
     #region  ---------------------------------------Server_Util
+    private void OnChangeConnectionPoint(Vector2 old, Vector2 newVal)
+    {
+        CreateConnectionObject();
+        SetBridgeCollider();
+    }
+
     private void CreateConnectionObject()
     {
             GameObject obj = new GameObject("Connect Object");
@@ -211,8 +218,8 @@ public class BridgeBox_Net : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
-        CreateConnectionObject();
-        SetBridgeCollider();
+        //CreateConnectionObject();
+        //SetBridgeCollider();
         if (!isServer)
         {
             if (onActive) Active();

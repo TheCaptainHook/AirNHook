@@ -10,7 +10,7 @@ using UnityEngine;
         [SerializeField] private GameObject _endVFX;
         [SerializeField] LayerMask _layerMask;
         [SerializeField] private bool _isEnabled;
-        private bool onActive;
+        //private bool onActive;
 
         [Header("Effect")]
         [SerializeField] ParticleSystem hitEffectParticle;
@@ -33,30 +33,58 @@ using UnityEngine;
 
         private void FixedUpdate()
         {
-            if(!MapEditor.Instance.stageClear && !turnOff && onActive)
+            if(!MapEditor.Instance.stageClear && !turnOff && OnActive)
             {
                 UpdateLaser();
             }
             else
             {
-                _isEnabled = false;
-                _endVFX.SetActive(_isEnabled);
-                _lineRenderer.enabled = false;
+                //_isEnabled = false;
+                //_endVFX.SetActive(_isEnabled);
+                //_lineRenderer.enabled = false;
+                _Net.Server_SetOnActive(false);
             }
         }
     protected override void Activation()
     {
-        _isEnabled = true;
-        _endVFX.SetActive(_isEnabled);
-        _lineRenderer.enabled = _isEnabled;
-        
-        onActive = true;
+        //_isEnabled = true;
+        //_endVFX.SetActive(_isEnabled);
+        //_lineRenderer.enabled = _isEnabled;
+
+        //onActive = true;
+        _Net.Server_SetOnActive(true);
     }
 
     protected override void Deactivated()
     {
-        onActive = false;
+        //onActive = false;
+        _Net.Server_SetOnActive(false);
     }
+
+    private void Awake()
+    {
+        _Net = GetComponent<LaserObject_Net>();
+    }
+    #region Network
+    private LaserObject_Net _Net;
+    private bool OnActive => _Net.onActive;
+
+    public void Net_Active()
+    {
+        _isEnabled = true;
+        _endVFX.SetActive(_isEnabled);
+        _lineRenderer.enabled = _isEnabled;
+
+        //onActive = true;
+    }
+    public void Net_Deactive()
+    {
+        //onActive = false;
+        _isEnabled = false;
+        _endVFX.SetActive(_isEnabled);
+        _lineRenderer.enabled = false;
+    }
+    #endregion
 
     private void UpdateLaser()
         {

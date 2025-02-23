@@ -4840,8 +4840,11 @@ GameObject:
   m_Component:
   - component: {fileID: 8196177442817728895}
   - component: {fileID: 1755334685966830132}
+  - component: {fileID: 2911012097398964247}
   - component: {fileID: 5690823865466912599}
   - component: {fileID: 7644672122073092584}
+  - component: {fileID: 6326434095408417984}
+  - component: {fileID: 118685325630265403}
   m_Layer: 7
   m_Name: LaserObject_New
   m_TagString: Untagged
@@ -4901,8 +4904,20 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 24069568
-  _isEnabled: 0
+  _isEnabled: 1
   hitEffectParticle: {fileID: 7676629228877518604}
+--- !u!114 &2911012097398964247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 996093479032505842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d4aaacc9ede80d4e8c823a6819969cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!61 &5690823865466912599
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4961,6 +4976,57 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laserObject: {fileID: 1755334685966830132}
+--- !u!114 &6326434095408417984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 996093479032505842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 1430116173
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
+--- !u!114 &118685325630265403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 996093479032505842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 8196177442817728895}
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 1
+  onlySyncOnChange: 1
+  compressRotation: 1
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  sendIntervalMultiplier: 1
+  timelineOffset: 0
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  onlySyncOnChangeCorrectionMultiplier: 2
+  rotationSensitivity: 0.01
+  positionPrecision: 0.01
+  scalePrecision: 0.01
 --- !u!1 &4013349505788404819
 GameObject:
   m_ObjectHideFlags: 0
@@ -14805,7 +14871,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5260708701647465726}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -14914,7 +14980,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7732277339000004859
 Transform:
   m_ObjectHideFlags: 0

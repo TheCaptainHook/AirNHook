@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 9028829803066579789}
   - component: {fileID: 168693677277981961}
   - component: {fileID: 5168037246213934871}
+  - component: {fileID: 3761158465264916531}
   - component: {fileID: -854036359654219659}
   - component: {fileID: 6046561057884329184}
   - component: {fileID: 8608289391009096854}
@@ -215,6 +216,7 @@ MonoBehaviour:
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
   targetObjects: []
+  lightObjects: []
   chargingCount: 0
   maxChargingCount: 200
   curChargingRate: 0
@@ -222,6 +224,18 @@ MonoBehaviour:
   _animator: {fileID: 6046561057884329184}
   particle: {fileID: 8109316274821702720}
   chargingSprite: {fileID: 6309391733743697038}
+--- !u!114 &3761158465264916531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5213734565096052912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b17c3f0f60dae44af7e51e9bb659e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &-854036359654219659
 MonoBehaviour:
   m_ObjectHideFlags: 0
