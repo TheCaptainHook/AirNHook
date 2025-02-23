@@ -82,33 +82,35 @@ public class BridgeBox_Net : NetworkBehaviour
             Debug.Log("Sync Wait");
             yield return null;
         }
+        
+        transform.position = position;
 
         CreateConnectionObject();
-        SetBridgeCollider();
     }
 
     private void CreateConnectionObject()
     {
             GameObject obj = new GameObject("Connect Object");
             obj.transform.position = connectionPoint;
+            obj.transform.SetParent(transform,true);
+
             obj.transform.rotation = Quaternion.Euler(0, 0, 0);
-            obj.transform.SetParent(transform);
 
 
-            GameObject spO = Instantiate(spriteObj);
-            spO.transform.SetParent(obj.transform);
-            spO.transform.localPosition = Vector3.zero;
-            spO.transform.localScale = new Vector3(-1,1,1);
+        GameObject spO = Instantiate(spriteObj);
+        spO.transform.SetParent(obj.transform, true);
+        spO.transform.localPosition = Vector3.zero;
+        spO.transform.localScale = new Vector3(-1, 1, 1);
 
-            Rigidbody2D rb = obj.AddComponent<Rigidbody2D>();
-            rb.isKinematic = true;
-            rb.gravityScale = 0;
+        Rigidbody2D rb = obj.AddComponent<Rigidbody2D>();
+        rb.isKinematic = true;
+        rb.gravityScale = 0;
 
-            BoxCollider2D bcol = obj.AddComponent<BoxCollider2D>();
-            bcol.offset = Collider.offset;
-            bcol.size  = Collider.size;
+        BoxCollider2D bcol = obj.AddComponent<BoxCollider2D>();
+        bcol.offset = Collider.offset;
+        bcol.size = Collider.size;
 
-        
+
 
         obj.layer = transform.gameObject.layer;
 
