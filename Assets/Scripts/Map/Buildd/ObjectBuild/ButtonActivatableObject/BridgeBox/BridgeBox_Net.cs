@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using System.IO.Compression;
-using Org.BouncyCastle.Crypto.Engines;
+
 
 public class BridgeBox_Net : NetworkBehaviour
 {
@@ -20,7 +19,7 @@ public class BridgeBox_Net : NetworkBehaviour
     public Vector2 connectionPoint;
 
     [SyncVar(hook = nameof(OnChangeActive))] public bool onActive;
-
+    [SyncVar] public Vector2 position;
 
     private BoxCollider2D Collider => GetComponent<BoxCollider2D>();
 
@@ -42,11 +41,11 @@ public class BridgeBox_Net : NetworkBehaviour
     }
 
     [Server]
-   public void Server_SetData(float bridgeLength,Vector2 connectionPoint)
+   public void Server_SetData(float bridgeLength,Vector2 connectionPoint,Vector2 position)
    {
         this.bridgeLength = bridgeLength;
         this.connectionPoint = connectionPoint;
-
+        this.position = position;
 
         //Rpc_BridgeSetting();
         //CreateConnectionObject();
@@ -70,6 +69,20 @@ public class BridgeBox_Net : NetworkBehaviour
     #region  ---------------------------------------Server_Util
     private void OnChangeConnectionPoint(Vector2 old, Vector2 newVal)
     {
+        //CreateConnectionObject();
+        //SetBridgeCollider();
+        StartCoroutine(WaitforSync());
+    }
+
+    IEnumerator WaitforSync()
+    {
+
+        while(bridgeLength <= 0 || connectionPoint == Vector2.zero || this.position == Vector2.zero)
+        {
+            Debug.Log("Sync Wait");
+            yield return null;
+        }
+
         CreateConnectionObject();
         SetBridgeCollider();
     }
@@ -78,10 +91,10 @@ public class BridgeBox_Net : NetworkBehaviour
     {
             GameObject obj = new GameObject("Connect Object");
             obj.transform.position = connectionPoint;
-            obj.transform.rotation = transform.rotation;
             obj.transform.SetParent(transform);
 
-        GameObject spO = Instantiate(spriteObj);
+
+            GameObject spO = Instantiate(spriteObj);
             spO.transform.SetParent(obj.transform);
             spO.transform.localPosition = Vector3.zero;
             spO.transform.localScale = new Vector3(-1,1,1);

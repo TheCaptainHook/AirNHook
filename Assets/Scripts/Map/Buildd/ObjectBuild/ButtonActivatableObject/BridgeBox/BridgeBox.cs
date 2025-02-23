@@ -52,7 +52,7 @@ using UnityEngine;
                 if (Application.isPlaying)
                 {
                     // BridgeSetting();
-                    BridgeBox_Net.Server_SetData(bridgeLength,connectionPoint);
+                    BridgeBox_Net.Server_SetData(bridgeLength,connectionPoint,ButtonActivatedObjectStruct.position);
 
                     await new Util().Delay(() => { CheckActiveRequirAmount(); });
                 }
