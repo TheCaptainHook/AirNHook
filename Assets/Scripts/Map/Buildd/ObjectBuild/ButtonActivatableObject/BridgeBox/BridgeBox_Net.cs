@@ -92,14 +92,17 @@ public class BridgeBox_Net : NetworkBehaviour
     private void CreateConnectionObject()
     {
             GameObject obj = new GameObject("Connect Object");
-            obj.transform.position = connectionPoint;
+            obj.transform.position = transform.right * bridgeLength + transform.position; 
             obj.transform.SetParent(transform,true);
 
-            obj.transform.localRotation = Quaternion.Euler(0,0,0);
+            //obj.transform.localRotation = Quaternion.Euler(0,0,0);
 
 
         GameObject spO = Instantiate(spriteObj);
         spO.transform.SetParent(obj.transform, true);
+
+        //spO.transform.position = transform.right * bridgeLength + transform.position;
+
         spO.transform.localPosition = Vector3.zero;
         spO.transform.localRotation = Quaternion.Euler(0, 0, 0);
         spO.transform.localScale = new Vector3(-1, 1, 1);
