@@ -95,7 +95,7 @@ public class BridgeBox_Net : NetworkBehaviour
             obj.transform.position = transform.right * bridgeLength + transform.position; 
             obj.transform.SetParent(transform,true);
 
-            //obj.transform.localRotation = Quaternion.Euler(0,0,0);
+            obj.transform.localRotation = Quaternion.Euler(0,0,0);
 
 
         GameObject spO = Instantiate(spriteObj);
