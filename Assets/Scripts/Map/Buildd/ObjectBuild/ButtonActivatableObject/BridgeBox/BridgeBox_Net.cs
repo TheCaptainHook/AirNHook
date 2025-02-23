@@ -83,7 +83,7 @@ public class BridgeBox_Net : NetworkBehaviour
 
         GameObject spO = Instantiate(spriteObj);
             spO.transform.SetParent(obj.transform);
-            spO.transform.position = Vector3.zero;
+            spO.transform.localPosition = Vector3.zero;
             spO.transform.localScale = new Vector3(-1,1,1);
 
             Rigidbody2D rb = obj.AddComponent<Rigidbody2D>();
@@ -124,6 +124,8 @@ public class BridgeBox_Net : NetworkBehaviour
     }
     private Vector2 GetOffset()
     {
+        Debug.Log($"Transform : {transform.position}, Line : {lineRenderer.transform.position}");
+
         return transform.position - lineRenderer.transform.position;
     }
     #endregion
