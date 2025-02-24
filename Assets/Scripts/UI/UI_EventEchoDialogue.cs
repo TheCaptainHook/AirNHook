@@ -10,25 +10,26 @@ public enum Mark
 {
     Default,
     Mark_1, //[] : Scale
-    Mark_2, //<> : Bounce
+    Mark_2, //<> : Bounce, Currently in development. not ready
     Mark_3
 }
 
-
+/**
+    1. Open Effect Animation
+    2. Default Animation Start
+    3. Set and Convert Text
+    4. Typing Sentence
+**/
 public class UI_EventEchoDialogue : UI_Base
 {
-    [SerializeField] Image mainSprite;
-    [SerializeField] TextMeshProUGUI main_Text;//Main_Text
-    [Space(20)]
-    [SerializeField] TMP_FontAsset font;
+    // [Space(20)]
+    // [SerializeField] TMP_FontAsset font;
 
     //1210 Text Effect
+    [ReadOnly]
     public List<TextMeshEffectStruct> textMeshEffectStructList;
     // private List<TMP_EffectField> allTMP_EffectFieldList;
 
-    #region  Components
-
-    #endregion
 
     #region Dialogue
 
@@ -38,8 +39,13 @@ public class UI_EventEchoDialogue : UI_Base
 
     #endregion
 
+    #region Components
+    [Space(20)]
+    [SerializeField] Animator mainAnimator;
+    [SerializeField] TextMeshProUGUI main_Text;//Main_Text
+    #endregion
 
-    string testSentence = "Lorem [Ipsum] is <simply> dummy /1";
+    string testSentence = "Lorem [Ipsum] is simply dummy /1";
 
 
     #region Pattern
@@ -47,10 +53,25 @@ public class UI_EventEchoDialogue : UI_Base
     private string stringToIntPattern_PlayerUsePortal = "/2"; // use portal
     #endregion
 
-
     #region  Color
     private Color transparencyColor = new Color(1,1,1,0);
     #endregion
+
+
+    #region Animation
+    private readonly int Open = Animator.StringToHash("Open");
+    private readonly int Close = Animator.StringToHash("Close");
+
+  
+    private  void StartUI()
+    {
+        mainAnimator.SetTrigger(Open);
+    }
+
+
+    #endregion
+
+   
 
     private void Update()
     {
@@ -85,48 +106,144 @@ public class UI_EventEchoDialogue : UI_Base
     public Coroutine mark_2_EffectCoroutine;
 
    
+   
     #region Main
     public void SetDialogue(string text)
     {
+        //Start UI Animation
+        StartUI();
+        //Start UI Animation
+
         //1. Replace, stringToIntPattern
         Replace(ref text);
         //Search mark
         UpdateTextMeshEffectStructList(ref text);
         //main_text init
         main_Text.text = text;
+        // main_Text.ForceMeshUpdate();
+        
 
-        main_Text.ForceMeshUpdate();
+        //-----------------------------------------------------------------------250224
+        // List<TMP_EffectField> defaultList = new();
+        // //-----------------------------------------------------------------------250224
+        // List<TMP_EffectField> scaleList = new();
+        // List<TMP_EffectField> bounceList = new();
+
+        // //start Color
+        // foreach (TextMeshEffectStruct data in textMeshEffectStructList)
+        // {
+        //     switch(data.mark)
+        //     {
+        //         case Mark.Mark_1:
+        //         ChangeColor(data, transparencyColor);
+        //         GetEffectFieldList(data, ref scaleList);
+        //         break;
+        //         case Mark.Mark_2:
+        //         ChangeColor(data, transparencyColor);
+        //         GetEffectFieldList(data, ref bounceList);
+        //         break;
+        //         case Mark.Default:
+        //         GetEffectFieldList(data,ref defaultList);
+        //         break;
+        //     }
+            
+        //     // if(data.mark == Mark.Default) GetEffectFieldList(data,ref defaultList);
+        //     // if (data.mark == Mark.Mark_1) GetEffectFieldList(data, ref scaleList);
+        //     // if (data.mark == Mark.Mark_2) GetEffectFieldList(data, ref bounceList);
+        // }
+
+        // main_Text.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+
+        //-----------------------------------------------------------------------250224
+        
+
+        
+
+         StartCoroutine(DialogueEffect());
+
+
+
+
+
+
+
+
+
+
+        // main_Text.ForceMeshUpdate();
+        //on effect
+
+        // StartCoroutine(AppearEffect(bounceList));
+        // StartCoroutine(AppearEffect(scaleList));
+
+        // if (mark_1_EffectCoroutine != null) StopCoroutine(mark_1_EffectCoroutine);
+        // mark_1_EffectCoroutine = StartCoroutine(ScaleEffectCo(scaleList));
+
+        // if (mark_2_EffectCoroutine != null) StopCoroutine(mark_2_EffectCoroutine);
+        // mark_2_EffectCoroutine = StartCoroutine(BounceEffectCo(bounceList));
+
+        // StartCoroutine(ShutDownCo());
+
+    }
+    //-----------------------------------------------------------------------250224
+    IEnumerator DialogueEffect()
+    {
+        List<TMP_EffectField> defaultList = new();
+        //-----------------------------------------------------------------------250224
         List<TMP_EffectField> scaleList = new();
         List<TMP_EffectField> bounceList = new();
+        main_Text.ForceMeshUpdate();
+        yield return new WaitForSeconds(0.1f);
 
         //start Color
         foreach (TextMeshEffectStruct data in textMeshEffectStructList)
         {
-            ChangeColor(data, transparencyColor);
-
-            if (data.mark == Mark.Mark_1) GetEffectFieldList(data, ref scaleList);
-            if (data.mark == Mark.Mark_2) GetEffectFieldList(data, ref bounceList);
+            switch(data.mark)
+            {
+                case Mark.Mark_1:
+                ChangeColor(data, transparencyColor);
+                GetEffectFieldList(data, ref scaleList);
+                break;
+                case Mark.Mark_2:
+                ChangeColor(data, transparencyColor);
+                GetEffectFieldList(data, ref bounceList);
+                break;
+                case Mark.Default:
+                GetEffectFieldList(data,ref defaultList);
+                break;
+            }
+            
+            // if(data.mark == Mark.Default) GetEffectFieldList(data,ref defaultList);
+            // if (data.mark == Mark.Mark_1) GetEffectFieldList(data, ref scaleList);
+            // if (data.mark == Mark.Mark_2) GetEffectFieldList(data, ref bounceList);
         }
-
         main_Text.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+        yield return new WaitForSeconds(0.3f);
 
-        //on effect
-
-        StartCoroutine(AppearEffect(bounceList));
+        // StartCoroutine(AppearEffect(bounceList));
         StartCoroutine(AppearEffect(scaleList));
+
+        // main_Text.ForceMeshUpdate();
+        // main_Text.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+        yield return new WaitForSeconds(0.2f);
 
         if (mark_1_EffectCoroutine != null) StopCoroutine(mark_1_EffectCoroutine);
         mark_1_EffectCoroutine = StartCoroutine(ScaleEffectCo(scaleList));
 
-        if (mark_2_EffectCoroutine != null) StopCoroutine(mark_2_EffectCoroutine);
-        mark_2_EffectCoroutine = StartCoroutine(BounceEffectCo(bounceList));
+        // if (mark_2_EffectCoroutine != null) StopCoroutine(mark_2_EffectCoroutine);
+        // mark_2_EffectCoroutine = StartCoroutine(BounceEffectCo(bounceList));
 
         StartCoroutine(ShutDownCo());
-
     }
+    //-----------------------------------------------------------------------250224
+
+
+
 
     IEnumerator ShutDownCo(){
         yield return new WaitForSeconds(5);
+        mainAnimator.SetTrigger(Close);
+        yield return new WaitForSeconds(0.3f);
         Reset();
         CloseUI();
     }
@@ -186,19 +303,20 @@ public class UI_EventEchoDialogue : UI_Base
 
         }
     }
-
+//a[aab] strat 1, lengh 5 -1-1 = 3
     #endregion
     #region  Effect
 
-    private float scaleAnimationSpeed = 2f;      // 애니메이션 속도
-    private float scaleMultiplier = 1.5f;   // 최대 스케일 배수
+    private float scaleAnimationSpeed = 5f;      // 애니메이션 속도
+    private float scaleMultiplier = 0.5f;   // 최대 스케일 배수
     IEnumerator ScaleEffectCo(List<TMP_EffectField> list)
     {
         float scale;
         while (true)
         {
-            scale = 1 + (Mathf.Sin(Time.time * scaleAnimationSpeed) * (scaleMultiplier - 1f));
-
+            // scale = 1 + (Mathf.Sin(Time.time * scaleAnimationSpeed) * (scaleMultiplier - 1f));
+            scale = 1 + (Mathf.Sin(Time.time * scaleAnimationSpeed) * scaleMultiplier);
+            Debug.Log(scale);
             foreach (var f in list)
             {
                 for (int i = 0; i < 4; i++)
@@ -247,22 +365,45 @@ public class UI_EventEchoDialogue : UI_Base
         }
     }
 
-    float appearAnimationSpeed =1;
+    float appearAnimationSpeed =1f;
     
     IEnumerator AppearEffect(List<TMP_EffectField> list){
         if(list.Count == 0) yield break;
 
         float percent =0;
 
+        foreach(var f in list)
+        {
+            // var meshInfo = main_Text.textInfo.meshInfo[f.materialIndex];
+            for(int i = 0; i<4;i++)
+            {
+                 f.vertices[f.vertexIndex + i] = f.charCenter + (f.originalVertices[f.vertexIndex + i] - f.charCenter) * 50;   
+            }
+        }
+        yield return null;
+
         while(percent <1){
             percent += Time.deltaTime * appearAnimationSpeed;
             foreach(var f in list){
                 var meshInfo = f.tmp.meshInfo[f.materialIndex];
                 Color32[] colors = meshInfo.colors32;
-                for(int i = 0; i<4;i++) colors[f.vertexIndex + i] = Color.Lerp(transparencyColor,Color.red,percent);
+                for(int i = 0; i<4;i++)
+                {
+                    colors[f.vertexIndex + i] = Color.Lerp(transparencyColor,Color.red,percent);
+                } 
                 meshInfo.mesh.colors32 = colors;
+
+                for(int i = 0; i<4;i++)
+                {
+                    f.vertices[f.vertexIndex + i] = Vector3.Lerp(f.vertices[f.vertexIndex+i],f.originalVertices[f.vertexIndex+i],percent);
+                }
+
+                meshInfo.mesh.vertices = f.vertices;
             }
-            main_Text.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+            
+            main_Text.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32 | TMP_VertexDataUpdateFlags.Vertices);
+            
+
             yield return null;
         }
           
@@ -284,55 +425,106 @@ public class UI_EventEchoDialogue : UI_Base
     }
 
     private void ChangeColor(TMP_CharacterInfo charInfo,Color targetColor){
-         int materialIndex = charInfo.materialReferenceIndex;
+            int materialIndex = charInfo.materialReferenceIndex;
             int vertexIndex = charInfo.vertexIndex;
 
+            var meshInfo =  main_Text.textInfo.meshInfo[materialIndex];
+
             // vertex 색상 참조
-            Color32[] colors = main_Text.textInfo.meshInfo[materialIndex].colors32;
+            
+            Color32[] colors = meshInfo.colors32;
 
             colors[vertexIndex + 0] = targetColor;
             colors[vertexIndex + 1] = targetColor;
             colors[vertexIndex + 2] = targetColor;
             colors[vertexIndex + 3] = targetColor;
+
+            meshInfo.colors32 = colors;
+
+            // Color32[] colors = main_Text.textInfo.meshInfo[materialIndex].colors32;
+            // main_Text.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+
     }
 
-
+    public List<string> testList;
     private void UpdateTextMeshEffectStructList(ref string sentence)
     {
         int startIndex = 0; //1
         int textLength = 0;
         int mark = 0;
         StringBuilder sb = new();
-       
+
+        bool isInsideMarker = false; // 마커 내부 여부 체크 변수
+        testList = new();
         for (int i = 0; i < sentence.Length; i++)
         {
             switch (sentence[i])
             {
                 case '[':
-                    startIndex = i - mark;
-                    mark++;
+                    startIndex = i - mark;  
+                    mark++;                 
+                    isInsideMarker = true;
                     break;
-                case ']':
-                    textLength = i - mark - startIndex;
-                    mark++;
+                case ']':  
+                    textLength = i - mark - startIndex; 
+                    mark++;                             
                     textMeshEffectStructList.Add(new TextMeshEffectStruct(startIndex, textLength, Mark.Mark_1));
+                    isInsideMarker = false;
                     break;
                 case '<':
                     startIndex = i - mark;
                     mark++;
+                    isInsideMarker = true;
                     break;
                 case '>':
                     textLength = i - mark - startIndex;
                     mark++;
                     textMeshEffectStructList.Add(new TextMeshEffectStruct(startIndex, textLength, Mark.Mark_2));
+                    isInsideMarker = true;
                     break;
                 default:
+                    if(!isInsideMarker)
+                    {
+                        textMeshEffectStructList.Add(new TextMeshEffectStruct(i-mark,1,Mark.Default));
+                    }
+                    
                     sb.Append(sentence[i]);
                     break;
             }
         }
+        
         sentence = sb.ToString();
-    }
+        Debug.Log(sentence);
+    //     for (int i = 0; i < sentence.Length; i++)
+    //     {
+    //         switch (sentence[i])
+    //         {
+    //             case '[':
+    //             case '<':
+    //                 if (sb.Length > 0)
+    //                 {
+    //                     testList.Add(sb.ToString()); // 마커 전에 있던 텍스트 저장
+    //                     sb.Clear();
+    //                 }
+    //                 isInsideMarker = true;
+    //                 startIndex = i - mark;
+    //                 mark++;
+    //                 break;
+    //             case ']':
+    //             case '>':
+    //                 textLength = i - mark - startIndex;
+    //                 mark++;
+    //                 isInsideMarker = false; // 마커 끝남
+    //                 break;
+    //             default:
+    //                 if (!isInsideMarker)
+    //                 {
+    //                     sb.Append(sentence[i]); // 마커 밖의 글자만 추가
+    //                 }
+    //                 break;
+    //         }
+        
+}
 
 
     [Serializable]
