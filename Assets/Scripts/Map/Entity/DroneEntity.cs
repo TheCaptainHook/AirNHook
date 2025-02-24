@@ -82,7 +82,7 @@ public class DroneEntity : BuildObj
    #endregion
 
     private void Awake(){
-        _rb = GetComponent<Rigidbody2D>();
+        // _rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         PrograssAction+= Prograss;
         BrokenAction += Broken;

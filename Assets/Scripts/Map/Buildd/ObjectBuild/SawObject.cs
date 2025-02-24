@@ -11,7 +11,7 @@ public class SawObject : BuildObj
     private void Awake()
     {
         animator = sawPivot.GetComponent<Animator>();
-        _collider = GetComponent<Collider2D>();
+        // _collider = GetComponent<Collider2D>();
     }
 
 

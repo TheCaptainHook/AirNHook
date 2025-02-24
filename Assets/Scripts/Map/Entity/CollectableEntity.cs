@@ -8,13 +8,13 @@ public class CollectableEntity : BuildObj
     private bool isFound;
 
     #region  Components
-    private Rigidbody2D rb;
+    private Rigidbody2D _rb;
     private Collider2D _Collider;
     #endregion
 
     private void Awake(){
-        rb = GetComponent<Rigidbody2D>();
-        _collider = GetComponent<Collider2D>();
+        // rb = GetComponent<Rigidbody2D>();
+        // _collider = GetComponent<Collider2D>();
     }
 
     #region  Get,Set

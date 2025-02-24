@@ -13562,7 +13562,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.4499950408935547,
+                "y": 1.4499949216842652,
                 "z": 1.0
             },
             "talPot": {
@@ -14266,7 +14266,7 @@
                 }
             ],
             "moveSpeed": 2.0,
-            "drone_TransportItemType": 2
+            "drone_TransportItemType": 3
         },
         {
             "id": 340,

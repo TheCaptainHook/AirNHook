@@ -29,7 +29,7 @@ public class MovingPlatform :  ActivatableObjectEntity
     private MovingPlatform_Net MovingPlatform_Net => GetComponent<MovingPlatform_Net>();
     private void Awake()
     {
-        _rb = GetComponent<Rigidbody2D>();
+        // _rb = GetComponent<Rigidbody2D>();
         addForcePlatform = GetComponent<AddForcePlatform>();
         addForcePlatform.Init();
     }

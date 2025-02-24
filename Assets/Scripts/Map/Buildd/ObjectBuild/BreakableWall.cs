@@ -22,7 +22,7 @@ public class BreakableWall : BuildObj
     private void Awake()
     {
         _animator = GetComponent<Animator>();
-        _rb = GetComponent<Rigidbody2D>();
+        // _rb = GetComponent<Rigidbody2D>();
     }
 
     public override void TakeDamage(DamageType damageType = DamageType.Default)

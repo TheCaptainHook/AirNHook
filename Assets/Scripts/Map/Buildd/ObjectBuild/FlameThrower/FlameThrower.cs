@@ -20,7 +20,7 @@ public class FlameThrower : BuildObj
     [SerializeField] Transform lightTR;
     private void Awake()
     {
-        _collider = GetComponent<BoxCollider2D>();
+        // _collider = GetComponent<BoxCollider2D>();
 
         hitDown = (Quaternion.Euler(0, 0, -10) * transform.right).normalized ;
         hitUp= (Quaternion.Euler(0, 0, 10) * transform.right).normalized;

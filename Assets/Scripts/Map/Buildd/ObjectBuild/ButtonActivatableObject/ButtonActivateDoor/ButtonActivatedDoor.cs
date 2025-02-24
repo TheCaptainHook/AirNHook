@@ -17,9 +17,9 @@ public class ButtonActivatedDoor : ActivatableObjectEntity
 
     public bool onPrograss;
 
-    private void Awake(){
-        _collider = GetComponent<Collider2D>();
-    }
+    // private void Awake(){
+    //     _collider = GetComponent<Collider2D>();
+    // }
     protected override void Activation()
     {
         if (onPrograss) return;

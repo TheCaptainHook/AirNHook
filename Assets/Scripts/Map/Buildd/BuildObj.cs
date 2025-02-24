@@ -80,8 +80,21 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     private static readonly int DissolveAmount = Shader.PropertyToID("_DissolveAmount");
 
     protected Material _dissolveMaterial;
-    protected Rigidbody2D _rb;
-    protected Collider2D _collider;
+    protected Rigidbody2D Rb;
+    protected Rigidbody2D _rb
+    {
+        get{
+            if(Rb == null) Rb = GetComponent<Rigidbody2D>();
+            return Rb;
+        }
+    }
+    protected Collider2D Collider;
+    protected Collider2D _collider{
+        get{
+            if(Collider == null) Collider = GetComponent<Collider2D>();
+            return Collider;
+        }
+    }
     float dissolveRate = 0.015f;
 
     public event Action<Vector2> OnDissolveAction;
@@ -138,6 +151,11 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
 #region Transport Item
     public void SettingTransportItem(Transform carrierTransform)
     {
+      if(_rb == null)
+      {
+        Debug.Log("Can't find Rigidbody2D");
+        return;
+      }
         _rb.gravityScale = 0;
         _collider.enabled = false;
 
@@ -291,8 +309,8 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     #region Destructible Obj Dissolve Effect Logic
     protected void DissolveInitSetting(){
         _dissolveMaterial = _Dissolve_MainSprite.material;
-        _rb = GetComponent<Rigidbody2D>();
-        _collider = GetComponent<Collider2D>();
+        // _rb = GetComponent<Rigidbody2D>();
+        // _collider = GetComponent<Collider2D>();
         _IsDissolveObject = true;
         OnDissolveAction += Dissolve;
         OnInteractableObjectRelease += GetComponent<InteractableObject>().Destroyed;
