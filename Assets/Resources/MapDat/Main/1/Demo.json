@@ -7363,7 +7363,7 @@
             "TileId": 2,
             "Start": {
                 "x": 820,
-                "y": 708
+                "y": 709
             },
             "End": {
                 "x": 820,
@@ -7440,7 +7440,7 @@
             "TileId": 2,
             "Start": {
                 "x": 821,
-                "y": 708
+                "y": 709
             },
             "End": {
                 "x": 821,
@@ -25888,13 +25888,13 @@
                     "z": 0.0
                 },
                 {
-                    "x": 39.755859375,
-                    "y": 13.11181640625,
+                    "x": 39.7657470703125,
+                    "y": 14.1217041015625,
                     "z": 0.0
                 },
                 {
-                    "x": 37.6544189453125,
-                    "y": 13.1171875,
+                    "x": 37.67425537109375,
+                    "y": 14.1171875,
                     "z": 0.0
                 },
                 {
@@ -31545,37 +31545,6 @@
             "animationTriggerType": 1
         },
         {
-            "id": 307,
-            "dialogueId": 0,
-            "position": {
-                "x": 821.0,
-                "y": 707.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0
-        },
-        {
             "id": 348,
             "dialogueId": 0,
             "position": {
@@ -32924,8 +32893,8 @@
                 "w": -0.7071068286895752
             },
             "scale": {
-                "x": 0.40000012516975405,
-                "y": 0.40000012516975405,
+                "x": 0.4000002145767212,
+                "y": 0.4000002145767212,
                 "z": 1.0
             },
             "talPot": {
@@ -37346,11 +37315,11 @@
             "animationTriggerType": 0
         },
         {
-            "id": 10109,
+            "id": 10105,
             "dialogueId": 0,
             "position": {
-                "x": 728.0,
-                "y": 700.0
+                "x": 711.0,
+                "y": 701.0
             },
             "quaternion": {
                 "x": 0.0,
@@ -37380,7 +37349,7 @@
             "id": 10109,
             "dialogueId": 0,
             "position": {
-                "x": 713.0,
+                "x": 728.0,
                 "y": 700.0
             },
             "quaternion": {
@@ -38284,7 +38253,7 @@
                     "y": 680.0
                 }
             ],
-            "moveSpeed": 1.0,
+            "moveSpeed": 1.399999976158142,
             "moveDistance": 0.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
@@ -38848,7 +38817,7 @@
                     "y": 710.0
                 }
             ],
-            "moveSpeed": 0.6000000238418579,
+            "moveSpeed": 0.800000011920929,
             "moveDistance": 0.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
@@ -38955,7 +38924,7 @@
                 "y": 0.0
             },
             "rotateRate": 8.0,
-            "fireRate": 4.0,
+            "fireRate": 2.0,
             "onHoldRotation": false,
             "onLeft": false,
             "paths": [],
@@ -39354,7 +39323,7 @@
             },
             "scale": {
                 "x": 0.6000000238418579,
-                "y": 0.6999997496604919,
+                "y": 0.6999995708465576,
                 "z": 1.0
             },
             "talPot": {
@@ -40468,8 +40437,8 @@
                 "w": 0.7071068286895752
             },
             "scale": {
-                "x": 0.6999998092651367,
-                "y": 0.6999998092651367,
+                "x": 0.6999996304512024,
+                "y": 0.6999996304512024,
                 "z": 1.0
             },
             "talPot": {
@@ -41425,7 +41394,7 @@
             "x": 792.0,
             "y": 697.0
         },
-        "condition_KeyAmount": 1,
+        "condition_KeyAmount": 0,
         "nextMapId": "Lobby"
     },
     "dialogueDataList": [],
@@ -41461,7 +41430,7 @@
                     "y": 703.0
                 }
             ],
-            "moveSpeed": 0.800000011920929,
+            "moveSpeed": 1.5,
             "drone_TransportItemType": 7
         },
         {
@@ -41495,7 +41464,7 @@
                     "y": 699.0
                 }
             ],
-            "moveSpeed": 1.5,
+            "moveSpeed": 2.0,
             "drone_TransportItemType": 7
         },
         {
@@ -41643,7 +41612,7 @@
                     "y": 688.0
                 }
             ],
-            "moveSpeed": 1.0,
+            "moveSpeed": 1.7999999523162842,
             "drone_TransportItemType": 7
         },
         {
@@ -41689,8 +41658,34 @@
                     "y": 687.0
                 }
             ],
-            "moveSpeed": 1.0,
+            "moveSpeed": 1.7999999523162842,
             "drone_TransportItemType": 7
+        },
+        {
+            "id": 326,
+            "position": {
+                "x": 821.0,
+                "y": 708.4600219726563
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 0.6499999761581421,
+                "y": 0.6499999761581421,
+                "z": 1.0
+            },
+            "paths": [
+                {
+                    "x": 821.0,
+                    "y": 708.4600219726563
+                }
+            ],
+            "moveSpeed": 5.0,
+            "drone_TransportItemType": 4
         }
     ],
     "collectableObjectStructList": [],
