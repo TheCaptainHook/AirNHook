@@ -8,47 +8,55 @@ public class LaserTriggerButton : ButtonEntity
     [CustomHeader("Laser Trigger Button")]
     public int chargingCount;
     public int maxChargingCount = 200; //200
-    private Coroutine chargingCoroutine;
-    private float defChargingRate = 3f;
-    [ReadOnly]
-    [SerializeField]private float curChargingRate;
+    //private Coroutine chargingCoroutine;
+    //private float defChargingRate = 3f;
+    //[ReadOnly]
+    //[SerializeField]private float curChargingRate;
 
     //todo Shader 0914
-    [SerializeField] SpriteRenderer testSpriteRenderer;
-    private Color color = new Color(0,0,0);
+    //[SerializeField] SpriteRenderer testSpriteRenderer;
+    //private Color color = new Color(0,0,0);
     //todo Shader 0914
 
 
-    private bool onActivate;
+    //private bool onActivate;
 
-    [Header("Animation")]
-    [SerializeField] private Animator _animator;
-    [Header("Effect")]
-    [SerializeField] ParticleSystem particle;
-    [SerializeField] GameObject chargingSprite;
+    //[Header("Animation")]
+    //[SerializeField] private Animator _animator;
+    //[Header("Effect")]
+    //[SerializeField] ParticleSystem particle;
+    //[SerializeField] GameObject chargingSprite;
 
     #region StringCache
     private static readonly int IsActive = Animator.StringToHash("IsActive");
     #endregion
     
     #region State
-    private bool onCharging;
+    //private bool onCharging;
     #endregion
 
-    private void Update(){
-        if(!onCharging && chargingCount != 0){
-            chargingCount--;
-            ChargingEffectIntensity();
-        }
+    //private void Update(){
+    //    if(!onCharging && chargingCount != 0){
+    //        chargingCount--;
+    //        ChargingEffectIntensity();
+    //    }
 
-        if(chargingCount >= maxChargingCount){
-            Activation();
-        }else{
-            Deactivated();
-        }
+    //    if(chargingCount >= maxChargingCount){
+    //        Activation();
+    //    }else{
+    //        Deactivated();
+    //    }
+    //}
+
+
+    public void Net_Act()
+    {
+        Activation();
     }
-
-
+    public void Net_Deact()
+    {
+        Deactivated();
+    }
     protected override void Activation()
     {
         if(!Application.isPlaying){
@@ -56,13 +64,13 @@ public class LaserTriggerButton : ButtonEntity
             return;
         }
 
-        if(!onActivate){
-            onActivate = true;
-            particle.Play();
-            _animator.SetBool(IsActive,onActivate);
-            PrograssButtonActivatedObject(onActivate);
+
+            //onActivate = true;
+            //particle.Play();
+            //_animator.SetBool(IsActive,onActivate);
+            PrograssButtonActivatedObject(true);
             Debug.Log("Activation");
-        }
+        
     }
 
     protected override void Deactivated()
@@ -72,58 +80,66 @@ public class LaserTriggerButton : ButtonEntity
             return;
         }
 
-        if(onActivate){
-            onActivate = false;
-            particle.Stop();
-            _animator.SetBool(IsActive,onActivate);
-            PrograssButtonActivatedObject(onActivate);
+   
+            //onActivate = false;
+            //particle.Stop();
+            //_animator.SetBool(IsActive,onActivate);
+            PrograssButtonActivatedObject(false);
             Debug.Log("Deactivation");
-        }
+        
         
     }
+    #region Network
+    private LaserTriggerButton_Net net;
+    private LaserTriggerButton_Net Net { get { if (net == null) net = GetComponent<LaserTriggerButton_Net>(); return net; } }
 
+    #endregion
 
     public void Charging()
     {
-        curChargingRate = defChargingRate;
+        if(!Application.isPlaying) return;
 
-        if(chargingCoroutine == null){
-            chargingCoroutine = StartCoroutine(ChargingTimerCoroutine());
-        }
+        Net.Server_SetChargingCount();
+        //curChargingRate = defChargingRate;
 
-        if(chargingCount < maxChargingCount){
-            chargingCount++;
+        //if(chargingCoroutine == null){
+        //    chargingCoroutine = StartCoroutine(ChargingTimerCoroutine());
+        //}
 
-            //todo Shader 0914
-            ChargingEffectIntensity();
-            //todo Shader 0914
-        }
-        Debug.Log("Charging");
+        //if(chargingCount < maxChargingCount){
+        //    chargingCount++;
+
+        //    //todo Shader 0914
+        //    ChargingEffectIntensity();
+        //    //todo Shader 0914
+        //}
+        //Debug.Log("Charging");
+
     }
 
-    private void ChargingEffectIntensity(){
-        float percent = chargingCount / 200f;
+    //private void ChargingEffectIntensity(){
+    //    float percent = chargingCount / 200f;
 
-        if(percent < 0.01f){
-            percent = 0;
-        }
+    //    if(percent < 0.01f){
+    //        percent = 0;
+    //    }
 
-        chargingSprite.transform.localScale = new Vector3(percent,percent);
-    }
+    //    chargingSprite.transform.localScale = new Vector3(percent,percent);
+    //}
 
 
-    IEnumerator ChargingTimerCoroutine(){
-        onCharging = true;
+    //IEnumerator ChargingTimerCoroutine(){
+    //    onCharging = true;
 
-        while(curChargingRate > 0){
-            curChargingRate -= Time.deltaTime;
-            yield return null;
+    //    while(curChargingRate > 0){
+    //        curChargingRate -= Time.deltaTime;
+    //        yield return null;
 
-        }
+    //    }
 
-        curChargingRate = 0;
-        onCharging = false;
-        chargingCoroutine = null;
-    }
+    //    curChargingRate = 0;
+    //    onCharging = false;
+    //    chargingCoroutine = null;
+    //}
 
 }

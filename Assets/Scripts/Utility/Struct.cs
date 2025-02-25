@@ -26,6 +26,7 @@ public struct ButtonObjectStruct
 {
     public int id;
     public Vector2 position;
+    public Quaternion quaternion;
     public Vector3 scale;
     public List<Vector2> targetPositions;
     public List<Vector2> lightPositions;
@@ -36,11 +37,12 @@ public struct ButtonObjectStruct
     public Vector2 hintPosition;
     
     public bool chargeRequired;
-    public ButtonObjectStruct(int id,List<Vector2> targetPositions,Vector2 position,Vector3 scale,bool chargeRequired = false)
+    public ButtonObjectStruct(int id,List<Vector2> targetPositions,Vector2 position,Quaternion quaternion,Vector3 scale,bool chargeRequired = false)
     {
         this.id = id;
         this.targetPositions = targetPositions;
         this.position = position;
+        this.quaternion = quaternion;
         this.scale = scale;
         partsPositions = null;
         itemPositions = null;
@@ -59,6 +61,7 @@ public struct ButtonObjectStruct
         this.id = id;
         this.targetPositions = targetPositions;
         this.position = position;
+        quaternion = Quaternion.identity;
         this.scale = scale;
         this.partsPositions = partsPositions;
         this.itemPositions = itemPositions;
@@ -78,6 +81,7 @@ public struct ButtonObjectStruct
         this.id = id;
         this.targetPositions = targetPositions;
         this.position = position;
+        quaternion = Quaternion.identity;
         this.scale = scale;
         //puzzle
         partsPositions = null;

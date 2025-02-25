@@ -236,6 +236,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0b17c3f0f60dae44af7e51e9bb659e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  chargingSprite: {fileID: 6309391733743697038}
+  particle: {fileID: 8109316274821702720}
+  _animator: {fileID: 6046561057884329184}
+  chargingCount: 0
+  curChargingRate: 0
+  onCharging: 0
+  onActivate: 0
 --- !u!114 &-854036359654219659
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -20,6 +20,7 @@ public class ButtonEntity : BuildObj
         set { buttonObjectData = value;
             ObjectData = new ObjectData(value.id, value.position, value.scale);
             transform.position = value.position;
+            transform.rotation = value.quaternion;
             transform.localScale = value.scale;
             targetPosition = value.targetPositions;
             lightPosition = value.lightPositions;
@@ -95,7 +96,7 @@ public class ButtonEntity : BuildObj
     public override T GetData<T>()
     {
         if(typeof(T) == typeof(ButtonObjectStruct)){
-            return (T)(object)new ButtonObjectStruct(id,GetTargetPositions(),transform.position,transform.localScale);
+            return (T)(object)new ButtonObjectStruct(id,GetTargetPositions(),transform.position,transform.rotation,transform.localScale);
         }
 
         return default(T);

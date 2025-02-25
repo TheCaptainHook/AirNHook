@@ -5,5 +5,128 @@ using Mirror;
 
 public class LaserTriggerButton_Net : NetworkBehaviour
 {
-  
+    //private int maxChargingCount = 200; //200
+    private float defChargingRate = 3f;
+    private int maxChargingCount = 200; //200
+
+    private LaserTriggerButton trigger;
+    private LaserTriggerButton Trigger { get { if (trigger == null) trigger = GetComponent<LaserTriggerButton>();return trigger; } }
+
+    [SerializeField] GameObject chargingSprite;
+    [SerializeField] ParticleSystem particle;
+    [SerializeField] private Animator _animator;
+
+    [Space(20)]
+    [SyncVar] public float chargingCount;
+    [SyncVar] public float curChargingRate;
+    [SyncVar] public bool onCharging;
+    [SyncVar] public bool onActivate;
+
+
+    [Server]
+    public void Server_SetChargingCount()
+    {
+        curChargingRate = defChargingRate;
+
+        if (chargingCoroutine == null)
+        {
+            chargingCoroutine = StartCoroutine(ChargingTimerCoroutine());
+        }
+
+        if (chargingCount < maxChargingCount)
+        {
+            chargingCount++;
+
+            ChargingEffectIntensity();
+
+        }
+    }
+
+    private void Update()
+    {
+        Debug.Log($"Is Server : {isServer}");
+        if (!isServer) return;
+        
+        if (!onCharging && chargingCount != 0)
+        {
+            chargingCount--;
+            ChargingEffectIntensity();
+        }
+
+        if (chargingCount >= maxChargingCount)
+        {
+            Net_Act();
+        }
+        else
+        {
+            Net_Deact();
+        }
+    }
+
+
+    private void Net_Act()
+    {
+        if (!onActivate)
+        {
+            onActivate = true;
+            Rpc_Effect(true);
+            Trigger.Net_Act();
+        }
+     
+    }
+    private void Net_Deact()
+    {
+        if (onActivate)
+        {
+            onActivate = false;
+            Rpc_Effect(false);
+            Trigger.Net_Deact();
+        }
+       
+    }
+
+    [ClientRpc]
+    private void Rpc_Effect(bool onOff)
+    {
+        if(onOff)
+        {
+            //파티클
+            //애니메이션
+        }
+        else
+        {
+
+        }
+        
+    }
+
+
+    private Coroutine chargingCoroutine;
+    IEnumerator ChargingTimerCoroutine()
+    {
+        onCharging = true;
+
+        while (curChargingRate > 0)
+        {
+            curChargingRate -= Time.deltaTime;
+            yield return null;
+
+        }
+
+        curChargingRate = 0;
+        onCharging = false;
+        chargingCoroutine = null;
+    }
+
+    private void ChargingEffectIntensity()
+    {
+        float percent = chargingCount / 200f;
+
+        if (percent < 0.01f)
+        {
+            percent = 0;
+        }
+
+        chargingSprite.transform.localScale = new Vector3(percent, percent);
+    }
 }
