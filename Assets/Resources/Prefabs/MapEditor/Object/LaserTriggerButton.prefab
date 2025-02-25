@@ -219,11 +219,6 @@ MonoBehaviour:
   lightObjects: []
   chargingCount: 0
   maxChargingCount: 200
-  curChargingRate: 0
-  testSpriteRenderer: {fileID: 0}
-  _animator: {fileID: 6046561057884329184}
-  particle: {fileID: 8109316274821702720}
-  chargingSprite: {fileID: 6309391733743697038}
 --- !u!114 &3761158465264916531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,7 +341,7 @@ MonoBehaviour:
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
   onlySyncOnChangeCorrectionMultiplier: 2
   rotationSensitivity: 0.01
-  positionPrecision: 0.01
+  positionPrecision: 1
   scalePrecision: 0.01
 --- !u!1 &6309391733743697038
 GameObject:

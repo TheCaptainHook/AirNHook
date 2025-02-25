@@ -22,6 +22,7 @@ public class LaserTriggerButton_Net : NetworkBehaviour
     [SyncVar] public bool onCharging;
     [SyncVar] public bool onActivate;
 
+    private static readonly int IsActive = Animator.StringToHash("IsActive");
 
     [Server]
     public void Server_SetChargingCount()
@@ -90,12 +91,15 @@ public class LaserTriggerButton_Net : NetworkBehaviour
     {
         if(onOff)
         {
+            particle.Play();
+            _animator.SetBool(IsActive, onActivate);
             //파티클
             //애니메이션
         }
         else
         {
-
+            particle.Stop();
+            _animator.SetBool(IsActive, onActivate);
         }
         
     }
@@ -118,6 +122,7 @@ public class LaserTriggerButton_Net : NetworkBehaviour
         chargingCoroutine = null;
     }
 
+    [ClientRpc]
     private void ChargingEffectIntensity()
     {
         float percent = chargingCount / 200f;
@@ -129,4 +134,7 @@ public class LaserTriggerButton_Net : NetworkBehaviour
 
         chargingSprite.transform.localScale = new Vector3(percent, percent);
     }
+
+
+    
 }
