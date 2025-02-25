@@ -203,7 +203,7 @@ public class Hook : Player
         _grappling.StopRope();
         _animator.SetTrigger(IsDead);
         Debug.Log("사망하였습니다.");
-        CmdIncreaseDeathCount();
+        //CmdIncreaseDeathCount();
         _movement.IsDead = true;
         _rigidbd.constraints = RigidbodyConstraints2D.FreezeAll;
         _collider2D.enabled = false;

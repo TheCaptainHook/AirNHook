@@ -150,7 +150,7 @@ public class SaveData
             var data = Managers.Game.GetClearData();
             // _SaveFileData._PlayerSaveData.AddTotalDeath(data.deathCount);
             _SaveFileData._PlayerSaveData.UpdateClearData(key);
-            dic[key].ClearMapDataUpdate(data.clearTIme,data.deathCount);
+            dic[key].ClearMapDataUpdate(data.clearTime,data.deathCount);
 
             if (stageLevelUp && Managers.Game.stageLevel > _SaveFileData._PlayerSaveData.curStageLevel)
             {
@@ -338,7 +338,7 @@ public class MapSaveData
         clear = true;
         openStage = true;
         ModifyClearTime(clearTime);
-        this.deathCount = deathCount;
+        this.deathCount += deathCount;
         if(!string.IsNullOrEmpty(nextMapId)){
             try{
                 Managers.Data.saveData.dic[nextMapId].openStage = true;
@@ -401,8 +401,8 @@ public class MapSaveData
 [Serializable]
 public class PlayerSaveData
 {
-    public int totalDeath;
-    public int TotalDeath { get { return totalDeath; } }
+    //public int totalDeath;
+    //public int TotalDeath { get { return totalDeath; } }
     public List<string> clearMapId;
     public int curStageLevel;
     //클리어한 맵들
@@ -414,7 +414,7 @@ public class PlayerSaveData
 
     public PlayerSaveData()
     {
-        this.totalDeath = 0;
+        //this.totalDeath = 0;
         this.clearMapId = new();
         curStageLevel = 0;
         //State
@@ -425,7 +425,7 @@ public class PlayerSaveData
 
     public void UpdateClearData(string clearMapId){
         var data = Managers.Game.GetClearData();
-        totalDeath += data.deathCount;
+        //totalDeath += data.deathCount;
         this.clearMapId.Add(clearMapId);
     }
 
@@ -510,6 +510,7 @@ public class AchievementData{
      //btn
     //Player
     public int player_Jumping;
+    public int player_Death;
      //Death type
     //Map 1220
 
@@ -517,6 +518,13 @@ public class AchievementData{
     public AchievementData(){
         use_Portal = 0;
         player_Jumping = 0;
+        player_Death = 0;
+    }
+
+    public void Update_Player_Death()
+    {
+        player_Death++;
+
     }
 }
 #endregion

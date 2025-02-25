@@ -235,6 +235,9 @@ public class PlayerSM : NetworkBehaviour, IDamageable
 
         // 카메라 효과 처리
         HandleDeathCameraEffects(damageType);
+        // 플레이어 죽었을 때 처리
+        Managers.AcManager.CallPlayerDeath();
+  
     }
 
     private void TakeSuicideDamage()

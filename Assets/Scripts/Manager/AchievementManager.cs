@@ -8,7 +8,7 @@ public class AchievementManager
     #region Event
         //Player
         private event Action playerJumpingEvent;
-
+        private event Action playerDeathEvent;
         //Object
         private event Action usePortalEvent;
     #endregion
@@ -31,32 +31,39 @@ public class AchievementManager
         usePortalEvent += UsePortal;
         //Player
         playerJumpingEvent += PlayerJumping;
+        playerDeathEvent += PlayerDeath;
     }
 
     #region Call Event
-        #region  Obejct
-        public void CallUsePortal(){
-            usePortalEvent?.Invoke();
-        }
-        //
-        //
-        #endregion
-        #region  Player
-        //player
-        public void CallPlayerJumping(){
+    #region  Obejct
+    public void CallUsePortal()
+    {
+        usePortalEvent?.Invoke();
+    }
+    //
+    //
+    #endregion
+    #region  Player
+    //player
+    public void CallPlayerJumping()
+    {
         playerJumpingEvent?.Invoke();
-        }
-        //PlayerDeath
-        //PlayerDeath_Sucide
-        //Clear_Toturial
-        
-        #endregion
+    }
+    public void CallPlayerDeath()
+    {
+        playerDeathEvent?.Invoke();
+    }
+    //PlayerDeath
+    //PlayerDeath_Sucide
+    //Clear_Toturial
 
     #endregion
 
+    #endregion
 
+    UI_EventEchoDialogue UI_EED => Managers.UI.ShowUI<UI_EventEchoDialogue>().gameObject.GetComponent<UI_EventEchoDialogue>();
     #region SteamWorks
-        public bool IsAchievementUnlocked(string achievementID)
+    public bool IsAchievementUnlocked(string achievementID)
         {
                 bool achieved = false;
                 if (SteamManager.Initialized)
@@ -72,14 +79,16 @@ public class AchievementManager
     #endregion
 
 
+
+
     #region Event
         #region Object
             private async void UsePortal(){ 
             int usePortal = ++Managers.Data.saveData._AchievementData.use_Portal;
 
             //test 1212
-            UI_EventEchoDialogue ui_EED = Managers.UI.ShowUI<UI_EventEchoDialogue>().gameObject.GetComponent<UI_EventEchoDialogue>();
-            ui_EED.SetDialogue("use portal [/2] count");
+            //UI_EventEchoDialogue ui_EED = Managers.UI.ShowUI<UI_EventEchoDialogue>().gameObject.GetComponent<UI_EventEchoDialogue>();
+        UI_EED.SetDialogue("use portal [/2] count");
             //test 1212
 
             if(onRequestSteamUserState)
@@ -99,29 +108,49 @@ public class AchievementManager
             }
                 await Managers.Data.saveData.Ac_Save();
             }
-        #endregion
-        #region Player
-            private async void PlayerJumping(){
-                int player_Jumping = ++Managers.Data.saveData._AchievementData.player_Jumping;
-            
-                if(onRequestSteamUserState)
-                switch (player_Jumping){
-                    case 100:
-                    if(IsAchievementUnlocked(GlobalText.PLAYER_JUMPING_100)){
+    #endregion
+    #region Player
+    private async void PlayerJumping()
+    {
+        int player_Jumping = ++Managers.Data.saveData._AchievementData.player_Jumping;
+
+        if (onRequestSteamUserState)
+            switch (player_Jumping)
+            {
+                case 100:
+                    if (IsAchievementUnlocked(GlobalText.PLAYER_JUMPING_100))
+                    {
                         AchievementUnlock(GlobalText.PLAYER_JUMPING_100);
                         Debug.Log("Achievement Data Update");
                     }
                     break;
-                }
-                await Managers.Data.saveData.Ac_Save();
             }
+        await Managers.Data.saveData.Ac_Save();
+    }
+    private async void PlayerDeath()
+    {
+        int playerDeath = ++Managers.Data.saveData._AchievementData.player_Death;
+
+        switch(playerDeath)
+        {
+            case 1:
+                UI_EED.SetDialogue("Player first Death.");
+                break;
+            case int n when n % 5 == 0:
+                UI_EED.SetDialogue("Player [/1] Death.");
+                break;
+        }
+
+
+        await Managers.Data.saveData.Ac_Save();
+    }
 
 
 
-        #endregion
-        #region  Map
-       
-        #endregion
+    #endregion
+    #region  Map
+
+    #endregion
     #endregion
 
 }

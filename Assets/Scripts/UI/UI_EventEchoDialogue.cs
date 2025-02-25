@@ -284,7 +284,7 @@ public class UI_EventEchoDialogue : UI_Base
     {
         StringBuilder sb = new StringBuilder(sentence);
 
-        sb.Replace(stringToIntPattern_PlayerDeath, Managers.Data.saveData._SaveFileData._PlayerSaveData.totalDeath.ToString());
+        sb.Replace(stringToIntPattern_PlayerDeath, Managers.Data.saveData._AchievementData.player_Death.ToString());
         sb.Replace(stringToIntPattern_PlayerUsePortal,Managers.Data.saveData._AchievementData.use_Portal.ToString());
 
         sentence = sb.ToString();
@@ -389,14 +389,16 @@ public class UI_EventEchoDialogue : UI_Base
                 Color32[] colors = meshInfo.colors32;
                 for(int i = 0; i<4;i++)
                 {
-                    colors[f.vertexIndex + i] = Color.Lerp(transparencyColor,Color.red,percent);
-                } 
+                    colors[f.vertexIndex + i] = Color.Lerp(transparencyColor, Color.red, percent);
+                    f.vertices[f.vertexIndex + i] = Vector3.Lerp(f.vertices[f.vertexIndex + i], f.originalVertices[f.vertexIndex + i], percent);
+
+                }
                 meshInfo.mesh.colors32 = colors;
 
-                for(int i = 0; i<4;i++)
-                {
-                    f.vertices[f.vertexIndex + i] = Vector3.Lerp(f.vertices[f.vertexIndex+i],f.originalVertices[f.vertexIndex+i],percent);
-                }
+                //for(int i = 0; i<4;i++)
+                //{
+                //    f.vertices[f.vertexIndex + i] = Vector3.Lerp(f.vertices[f.vertexIndex+i],f.originalVertices[f.vertexIndex+i],percent);
+                //}
 
                 meshInfo.mesh.vertices = f.vertices;
             }
@@ -494,7 +496,6 @@ public class UI_EventEchoDialogue : UI_Base
         }
         
         sentence = sb.ToString();
-        Debug.Log(sentence);
     //     for (int i = 0; i < sentence.Length; i++)
     //     {
     //         switch (sentence[i])

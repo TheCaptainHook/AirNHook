@@ -105,11 +105,18 @@ public class GameManager
     }
 
     //캐릭터 사망시 데스카운트추가
-    public void IncreaseDeathCount(bool isLocalPlayer)
+    //public void IncreaseDeathCount(bool isLocalPlayer)
+    //{
+    //    //_totalDeath++;
+    //    if(isLocalPlayer)
+    //        _clearDeath++;
+    //}
+    public  void IncreaseDeathCount()
     {
-        _totalDeath++;
-        if(isLocalPlayer)
             _clearDeath++;
+        //Managers.Data.saveData._AchievementData.Update_Player_Death();
+        //await Managers.Data.saveData.Ac_Save();
+
     }
 
     //스킵버튼클릭시 활성화
@@ -128,9 +135,18 @@ public class GameManager
 
 
 
-    public (float clearTIme,int deathCount) GetClearData()
+    public (float clearTime, int deathCount) GetClearData()
     {
         return (Time.time - _startTime,_clearDeath);
     }
     //TODO 0726 
 }
+
+
+
+/**
+ *  플레이어가 죽으면
+ *      1. GameManager clearDeath 올려주고
+ *      2. AchievementManager 에서 플레이어 데스 이벤트 호출 -> achieve Data 에서 playerDeath 올려주고 관련 이벤트 실행 후 ac_save진행
+ *      3. 맵 클리어시 GameManager clearDeath 맵 데이터 저장
+**/
