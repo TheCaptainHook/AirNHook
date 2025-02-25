@@ -4,5 +4,6 @@ public enum CameraShakeType
     AirGun,
     ChainSaw,
     TeslaTower,
+    Death,
     etc
 }

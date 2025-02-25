@@ -580,7 +580,8 @@ public class NewAirGun
         _isInhaledHook = false;
         _inhaling = false;
         _shootPower = 0f;
-        _air.StartCoroutine(CameraShake.instance.Co_Shake(0.2f, 0.2f));
+        //_air.StartCoroutine(CameraShake.instance.Co_Shake(0.2f, 0.2f));
+        Managers.Game.cameraShake.RequestShake(CameraShakeType.AirGun, 0.2f, 0.2f);
     }
     
     private IEnumerator Co_CoolDown()

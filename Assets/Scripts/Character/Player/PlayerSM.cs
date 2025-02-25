@@ -273,7 +273,8 @@ public class PlayerSM : NetworkBehaviour, IDamageable
 
         if (shakeParam.duration > 0)
         {
-            StartCoroutine(CameraShake.instance.Co_Shake(shakeParam.duration, shakeParam.intensity));
+            Managers.Game.cameraShake.RequestShake(CameraShakeType.Death, shakeParam.intensity, shakeParam.duration);
+            //StartCoroutine(CameraShake.instance.Co_Shake(shakeParam.duration, shakeParam.intensity));
         }
     }
     

@@ -35,6 +35,7 @@ public class NewCameraShake : MonoBehaviour
 
     public void RequestShake(CameraShakeType sourceType, float intensity, float duration)
     {
+        Debug.Log("requested" + intensity + " " + duration);
         ShakeRequest newShake;
 
         if (_activeShakes.TryGetValue(sourceType, out newShake))
