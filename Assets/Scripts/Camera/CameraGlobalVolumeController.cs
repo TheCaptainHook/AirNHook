@@ -33,7 +33,10 @@ public class CameraGlobalVolumeController : MonoBehaviour
             _LensDistortion = lensDistortion;
         }
     }
-
+    public void Volume_1()
+    {
+        _Volume.weight = 1;
+    }
 
     #region Portal
 
@@ -43,8 +46,6 @@ public class CameraGlobalVolumeController : MonoBehaviour
 
     }
 
-    //Scale 1 -> 0.1
-    //Intensity 0 -> -1
     float speed = 1;
     IEnumerator PSTTECoroutine()
     {

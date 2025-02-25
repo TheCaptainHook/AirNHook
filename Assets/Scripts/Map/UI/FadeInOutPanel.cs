@@ -63,6 +63,7 @@ public class FadeInOutPanel : MonoBehaviour
         catch(Exception e) { Debug.LogError(e); }
         
         Camera.main.GetComponent<ParallaxCamera>().enabled = true;
+        Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.Volume_1();
 
         while (percent > 0)
         {
