@@ -183,7 +183,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   socketNumber: 1
   possibleInsertSocket: 0
-  orgPosition: {x: 0, y: 0}
 --- !u!114 &5038330697434322713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,7 +232,7 @@ MonoBehaviour:
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
   bufferResetMultiplier: 3
   changedDetection: 1
-  positionSensitivity: 0.01
+  positionSensitivity: 0.1
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
 --- !u!210 &7009711972506207765
@@ -267,6 +266,7 @@ MonoBehaviour:
   _gravityScale: 0
   _offset: {x: 0, y: 0}
   _inhalePower: 600
+  orgPosition: {x: 0, y: 0, z: 0}
   parts: {fileID: 0}
   onInsert: 0
   possibleInsertSocket: 0

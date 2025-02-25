@@ -150,9 +150,9 @@ GameObject:
   - component: {fileID: 8988956062262925408}
   - component: {fileID: 6712209501634868520}
   - component: {fileID: 5709025145916641661}
-  - component: {fileID: 6450504806936334342}
   - component: {fileID: 6497137313016165049}
   - component: {fileID: 6888040462242624602}
+  - component: {fileID: 5980586429080748606}
   m_Layer: 18
   m_Name: Battery
   m_TagString: Untagged
@@ -299,6 +299,7 @@ MonoBehaviour:
   batteryCharger: {fileID: 0}
   batteryCapacity: 0
   powerSupply: {fileID: 0}
+  orgPosition: {x: 0, y: 0, z: 0}
 --- !u!95 &6712209501634868520
 Animator:
   serializedVersion: 5
@@ -337,41 +338,6 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!114 &6450504806936334342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6213857561148179821}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c7e12ad9b9ae443c9fdf37e9f5ecd36, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 1
-  syncMode: 0
-  syncInterval: 0
-  target: {fileID: 5727238660873102169}
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 0
-  onlySyncOnChange: 0
-  compressRotation: 1
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 1
-  coordinateSpace: 0
-  sendIntervalMultiplier: 1
-  timelineOffset: 0
-  showGizmos: 0
-  showOverlay: 0
-  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  bufferResetMultiplier: 3
-  changedDetection: 1
-  positionSensitivity: 0.01
-  rotationSensitivity: 0.01
-  scaleSensitivity: 0.01
 --- !u!114 &6497137313016165049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -401,6 +367,41 @@ SortingGroup:
   m_SortingLayer: 5
   m_SortingOrder: 5
   m_SortAtRoot: 0
+--- !u!114 &5980586429080748606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6213857561148179821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c7e12ad9b9ae443c9fdf37e9f5ecd36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 5727238660873102169}
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  onlySyncOnChange: 1
+  compressRotation: 1
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  sendIntervalMultiplier: 1
+  timelineOffset: 0
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  bufferResetMultiplier: 3
+  changedDetection: 1
+  positionSensitivity: 0.1
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
 --- !u!1 &6370455686804890750
 GameObject:
   m_ObjectHideFlags: 0
