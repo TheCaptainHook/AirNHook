@@ -1,4 +1,5 @@
 
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class Battery : BuildObj
@@ -25,6 +26,8 @@ public class Battery : BuildObj
     public PowerSupply powerSupply;
 
 
+    
+
     #region Network
     private BatteryInteractable Battery_Net => GetComponent<BatteryInteractable>();
     
@@ -37,6 +40,13 @@ public class Battery : BuildObj
             //BatteryCapacity = 10;
             Battery_Net.Cmd_SetBatteryCapacity(10);
         }
+        else
+        {
+            Battery_Net.Cmd_SetBatteryCapacity(-100);
+            base.TakeDamage();
+        }
+
+
     }
 
     #region Components
@@ -55,6 +65,7 @@ public class Battery : BuildObj
         //col = GetComponent<Collider2D>();
         rb = GetComponent<Rigidbody2D>();
         animator= GetComponent<Animator>();
+        DissolveInitSetting();
     }
 
     //public void InsertChargerSocket()
@@ -72,6 +83,9 @@ public class Battery : BuildObj
     //        batteryCharger.Charge(this);
     //    }
     //}
+
+
+   
 
     public void InsertPowerSocket()
     {

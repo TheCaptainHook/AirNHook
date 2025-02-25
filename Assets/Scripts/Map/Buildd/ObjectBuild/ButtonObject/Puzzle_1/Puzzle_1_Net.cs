@@ -131,6 +131,7 @@ public class Puzzle_1_Net : NetworkBehaviour
 
         obj.transform.SetParent(Puzzle.transform.GetChild(1));
         obj.transform.position = itemPot;
+        obj.GetComponent<Puzzle_1_Item>().Server_SetOrgPosition(itemPot);
 
         Server_SetItems(GetNetId(obj), itemPot); //Server Data Save
 
@@ -218,6 +219,7 @@ public class Puzzle_1_Net : NetworkBehaviour
 
                 itemTr.SetParent(parent);
                 itemTr.position = item.position;
+               
             }
         }
 

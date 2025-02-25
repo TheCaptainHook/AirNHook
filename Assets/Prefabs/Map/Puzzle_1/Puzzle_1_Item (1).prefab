@@ -183,6 +183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   socketNumber: 1
   possibleInsertSocket: 0
+  orgPosition: {x: 0, y: 0}
 --- !u!114 &5038330697434322713
 MonoBehaviour:
   m_ObjectHideFlags: 0

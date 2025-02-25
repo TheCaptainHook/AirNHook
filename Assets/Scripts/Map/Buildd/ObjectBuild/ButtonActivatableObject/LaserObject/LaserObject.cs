@@ -87,72 +87,84 @@ using UnityEngine;
     #endregion
 
     private void UpdateLaser()
+    {
+        Vector2 start;
+        Vector2 dir;
+        try
         {
-            Vector2 start;
-            Vector2 dir;
-            try{
-                start = _firePoint.position;
-                dir = transform.right;
-            }catch{
-                Debug.Log($"Application.isPlaying : {Application.isPlaying}, can't find transform");
-                return;
-            }
+            start = _firePoint.position;
+            dir = transform.right;
+        }
+        catch
+        {
+            Debug.Log($"Application.isPlaying : {Application.isPlaying}, can't find transform");
+            return;
+        }
 
-            int hitCount = 0;  
-            
-            for (int i = 0; i < 10; i++)
+        int hitCount = 0;
+
+        for (int i = 0; i < 10; i++)
+        {
+            ray = new Ray(start, dir);
+            RaycastHit2D rh = Physics2D.Raycast(ray.origin, ray.direction, _defDistanceRay, _layerMask);
+            if (rh.collider != null)
             {
-                ray = new Ray(start, dir);  
-                RaycastHit2D rh = Physics2D.Raycast(ray.origin, ray.direction, _defDistanceRay,_layerMask);
-                if (rh.collider != null)
+                Vector2 colDir = rh.normal;
+                // Debug.DrawLine(start, rh.point, Color.green);
+                DrawLaser(i, start, rh.point);
+                hitCount++;
+
+                //Check collider
+                if (rh.collider.TryGetComponent(out PlayerSM component) && Application.isPlaying)
                 {
-                    Vector2 colDir = rh.normal;
-                    // Debug.DrawLine(start, rh.point, Color.green);
-                    DrawLaser(i,start, rh.point);
-                    hitCount++;
-            
-                    //Check collider
-                     if(rh.collider.TryGetComponent(out Player component)  && Application.isPlaying){
-                         SetHitParticleRotate(start,rh.point); // todo 0914
-                         component.TakeDamage(DamageType.Fire);
-                             break;
+                    SetHitParticleRotate(start, rh.point); // todo 0914
+                    component.TakeDamage(DamageType.Fire);
+                    break;
                     //}else if(rh.collider.gameObject.name == "Mirror"){
                 }
                 else if (rh.collider.gameObject.layer == LayerMask.NameToLayer("Mirror"))
                 {
                     start = rh.point;
-                         dir = Vector2.Reflect(ray.direction, colDir);
-                     }else if(rh.collider.TryGetComponent(out LaserTriggerButton component2)){
-                            if(Application.isPlaying){
-                                Debug.Log("Is playing,Detected Laser Object");
-                                SetHitParticleRotate(start,rh.point); // todo 0914
-                                component2.SendMessage("Charging",SendMessageOptions.DontRequireReceiver);
-                            }else{
-                                Debug.Log("Detected Laser Trigger Object");
-                            }
-                         break;
-                     }else{
-                        SetHitParticleRotate(start,rh.point);
-                        if (rh.collider.TryGetComponent(out IDamageable damageable))
-                        {
-                            if (Application.isPlaying) damageable.TakeDamage(DamageType.Fire);
-
-                        }
-                    break;
-                     }
+                    dir = Vector2.Reflect(ray.direction, colDir);
                 }
-                else
+                else if (rh.collider.TryGetComponent(out LaserTriggerButton component2))
                 {
-                    if(hitCount == 0){
-                        _lineRenderer.positionCount = 0;
+                    if (Application.isPlaying)
+                    {
+                        Debug.Log("Is playing,Detected Laser Object");
+                        SetHitParticleRotate(start, rh.point); // todo 0914
+                        component2.SendMessage("Charging", SendMessageOptions.DontRequireReceiver);
+                    }
+                    else
+                    {
+                        Debug.Log("Detected Laser Trigger Object");
                     }
                     break;
                 }
+                else
+                {
+                    SetHitParticleRotate(start, rh.point);
+                    if (rh.collider.TryGetComponent(out IDamageable damageable))
+                    {
+                        if (Application.isPlaying) damageable.TakeDamage(DamageType.Fire);
 
+                    }
+                    break;
+                }
+            }
+            else
+            {
+                if (hitCount == 0)
+                {
+                    _lineRenderer.positionCount = 0;
+                }
+                break;
             }
 
         }
-        private void SetHitParticleRotate(Vector3 start,Vector3 hitPoint){
+
+    }
+    private void SetHitParticleRotate(Vector3 start,Vector3 hitPoint){
             if(hitEffectParticle.transform.position != hitPoint){
                 hitEffectParticle.transform.position = hitPoint;
                 _endVFX.transform.position = hitPoint;

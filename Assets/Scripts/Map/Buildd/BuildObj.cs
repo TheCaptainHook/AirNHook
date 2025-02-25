@@ -103,6 +103,11 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     protected bool _IsDissolveObject;
 
     #endregion
+
+
+
+
+
     public void CallOnInterableObjectRelease()
     {
         OnInteractableObjectRelease?.Invoke();

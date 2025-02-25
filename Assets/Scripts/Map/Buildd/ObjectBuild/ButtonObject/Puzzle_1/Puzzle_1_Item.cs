@@ -1,10 +1,11 @@
 
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(InteractableObject_Puzzle_1_Item))]
-public class Puzzle_1_Item : MonoBehaviour
+public class Puzzle_1_Item : MonoBehaviour,IDamageable
 {
 
     [Header("Puzzle")]
@@ -81,7 +82,24 @@ public class Puzzle_1_Item : MonoBehaviour
 
     #endregion
 
+    public void TakeDamage(DamageType damageType = DamageType.Default)
+    {
+        StartCoroutine(DestroyCo());
+    }
 
 
+    IEnumerator DestroyCo()
+    {
+        Net_Item.Destroyed();
+
+        yield return new WaitForSeconds(0.5f);
+        transform.position = Net_Item.orgPosition;
+        Net_Item.Respawned();
+    }
+
+    public void Server_SetOrgPosition(Vector3 pos)
+    {
+        Net_Item.Server_SetOrgPositon(pos);
+    }
 
 }

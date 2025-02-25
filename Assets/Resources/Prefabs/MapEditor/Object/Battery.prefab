@@ -266,7 +266,7 @@ MonoBehaviour:
   id: 343
   transformID: 0
   position: {x: 0, y: 0}
-  distructionStatus: 0
+  distructionStatus: 1
   chargeRequired: 0
   onPlaceable: 0
   onRotateable: 0
@@ -275,7 +275,7 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
+  _Dissolve_MainSprite: {fileID: 5213567269437679512}
   powerSupply: {fileID: 0}
 --- !u!114 &8988956062262925408
 MonoBehaviour:
@@ -568,7 +568,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: fa68e89795bf44c189f660203b6e7f45, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

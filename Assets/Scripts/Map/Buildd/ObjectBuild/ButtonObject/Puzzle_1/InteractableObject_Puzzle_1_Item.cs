@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 
 public class InteractableObject_Puzzle_1_Item : InteractableObject
 {
+    [SyncVar] public Vector3 orgPosition;
 
     Puzzle_1_Item item;
 
@@ -147,7 +148,11 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
     }
 
 
-
+    [Server]
+    public void Server_SetOrgPositon(Vector3 positon)
+    {
+        orgPosition = positon;
+    }
 
     //[Command(requiresAuthority = false)]
     //public void CmdResetVelocity()

@@ -22,7 +22,7 @@ public class NpcEntity : BuildObj
    public override T GetData<T>()  
     {
         if(typeof(T)==typeof(ObjectData)){
-            return (T)(object)new ObjectData(id,transform.position,animationType);
+            return (T)(object)new ObjectData(id,transform.position,transform.rotation,transform.localScale,animationType);
         }
 
        return default(T);
@@ -43,6 +43,8 @@ public class NpcEntity : BuildObj
     public override void SetData(ObjectData data)
     {
         transform.position = data.position;
+        transform.rotation = data.quaternion;
+        transform.localScale = data.scale;
         animationType = data.animationTriggerType;
     }
 

@@ -42,6 +42,10 @@ public class CameraGlobalVolumeController : MonoBehaviour
         StartCoroutine(PSTTECoroutine());
 
     }
+
+    //Scale 1 -> 0.1
+    //Intensity 0 -> -1
+    float speed = 1;
     IEnumerator PSTTECoroutine()
     {
         _LensDistortion.active = true;
@@ -50,20 +54,25 @@ public class CameraGlobalVolumeController : MonoBehaviour
         Camera.main.GetComponent<PlayerCameraView>().notFollowCam = true;
         while(percent < 1)
         {
-            percent += Time.fixedDeltaTime*1.8f;
-            _Volume.weight = percent;
+            percent += Time.fixedDeltaTime * speed;
+            _LensDistortion.intensity.value = Mathf.Lerp(0,-1,percent);
+            _LensDistortion.scale.value = Mathf.Lerp(1,0.01f,percent);
             yield return null;
         }
         //Transform position
         Camera.main.GetComponent<PlayerCameraView>().SetCamerPosition();
         while (percent > 0)
         {
-            percent -= Time.fixedDeltaTime * 1.8f;
-            _Volume.weight = percent;
+            percent -= Time.fixedDeltaTime * speed;
+            _LensDistortion.intensity.value = Mathf.Lerp(0, -1, percent);
+            _LensDistortion.scale.value = Mathf.Lerp(1, 0.01f, percent);
+            //_Volume.weight = percent;
             yield return null;
         }
+        _LensDistortion.intensity.value = 0;
+        _LensDistortion.scale.value = 1;
         
-        _Volume.weight = 0;
+        //_Volume.weight = 0;
         _LensDistortion.active = false;
     }
     #endregion
@@ -84,8 +93,6 @@ public class CameraGlobalVolumeController : MonoBehaviour
     #region Fog
     public void InnerFog(bool inout)
     {
-        _Volume.weight = 1;
-
         if (InnerFogCoroutine != null)
         {
             StopCoroutine(InnerFogCoroutine);
@@ -137,7 +144,6 @@ public class CameraGlobalVolumeController : MonoBehaviour
         _Vignette.intensity.value = 0;
         InnerFogCoroutine = null;
         _Vignette.active = false;
-        _Volume.weight = 0;
         isInFog = false;
     }
     #endregion

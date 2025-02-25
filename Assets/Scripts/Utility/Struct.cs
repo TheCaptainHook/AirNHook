@@ -412,13 +412,13 @@ public struct ObjectData
         animationTriggerType = AnimationTriggerType.Idle;
     }
     //NPC Object
-     public ObjectData(int id,Vector2 position,AnimationTriggerType type)
+     public ObjectData(int id,Vector2 position,Quaternion quaternion,Vector3 scale,AnimationTriggerType type)
     {
         this.id = id;
         this.dialogueId = 0;
         this.position = position;
-        this.quaternion = Quaternion.identity;
-        this.scale = Vector3.one;
+        this.quaternion = quaternion;
+        this.scale = scale;
         this.talPot = Vector2.zero;
         this.size = default;
         this.text = string.Empty;
