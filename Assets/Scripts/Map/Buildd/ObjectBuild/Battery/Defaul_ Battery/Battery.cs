@@ -26,7 +26,11 @@ public class Battery : BuildObj
     public PowerSupply powerSupply;
 
 
-    
+    public override void SetData<T>(T data)
+    {
+        base.SetData(data);
+        Battery_Net.Server_SetOrgPot(position);
+    }
 
     #region Network
     private BatteryInteractable Battery_Net => GetComponent<BatteryInteractable>();
@@ -35,6 +39,8 @@ public class Battery : BuildObj
 
     public override void TakeDamage(DamageType damageType = DamageType.Default)
     {
+        position = Battery_Net.orgPosition;
+
         if(damageType == DamageType.Electric)
         {
             //BatteryCapacity = 10;

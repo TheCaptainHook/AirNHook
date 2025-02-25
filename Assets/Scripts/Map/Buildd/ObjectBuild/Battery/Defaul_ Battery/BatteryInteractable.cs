@@ -33,7 +33,7 @@ public class BatteryInteractable : InteractableObject
 
     [ReadOnly]
     [SyncVar] public GameObject powerSupply;
-
+    [SyncVar] public Vector3 orgPosition;
 
     [Server]    //  Set battery charger
     private void Server_SetBatteryCharger(GameObject batteryCharger)
@@ -74,7 +74,12 @@ public class BatteryInteractable : InteractableObject
         Server_SetPowerSupply(powerSupply);
     }
 
-
+    [Server]
+    public void Server_SetOrgPot(Vector3 pot)
+    {
+        orgPosition = pot;
+    }
+    
     #endregion
 
     //-----------------------------------------------------------------------Interact
