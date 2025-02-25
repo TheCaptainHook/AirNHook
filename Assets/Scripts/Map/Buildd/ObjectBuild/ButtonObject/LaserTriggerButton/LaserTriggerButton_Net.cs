@@ -45,7 +45,6 @@ public class LaserTriggerButton_Net : NetworkBehaviour
 
     private void Update()
     {
-        Debug.Log($"Is Server : {isServer}");
         if (!isServer) return;
         
         if (!onCharging && chargingCount != 0)
