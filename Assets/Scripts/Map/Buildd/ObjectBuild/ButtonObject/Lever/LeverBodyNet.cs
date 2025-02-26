@@ -35,7 +35,8 @@ public class LeverBodyNet : NetworkBehaviour
     }
     IEnumerator Destroy_Head(LeverHead head)
     {
-        head.transform.GetChild(0).gameObject.SetActive(false);
+        //head.transform.GetChild(0).gameObject.SetActive(false);
+        head.Net_Att();
         yield return new WaitForSeconds(1f);
         NetworkServer.Destroy(head.gameObject);
     }

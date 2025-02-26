@@ -35,7 +35,10 @@ public class LeverHead : BuildObj
     //    this.transform.rotation = Quaternion.Euler(0, 0, 0);
     //    this.transform.position = transform.position;
     //}
-
+    public void Net_Att()
+    {
+        Net.Server_Att();
+    }
     public void AttachToLevelBody()
     {
         //_interactableObject.Destroyed();

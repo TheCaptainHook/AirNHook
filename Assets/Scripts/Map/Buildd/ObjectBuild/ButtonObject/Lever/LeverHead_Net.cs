@@ -23,5 +23,14 @@ public class LeverHead_Net : InteractableObject
         Col.enabled = false;
         Rd.simulated = false;
     }
-
+    [Server]
+    public void Server_Att()
+    {
+        Rpc_Att();
+    }
+    [ClientRpc]
+    private void Rpc_Att()
+    {
+        transform.GetChild(0).gameObject.SetActive(false);
+    }
 }
