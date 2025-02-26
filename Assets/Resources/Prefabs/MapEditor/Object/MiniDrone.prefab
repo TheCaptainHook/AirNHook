@@ -5205,8 +5205,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7019011407988570561}
-  - component: {fileID: 3212338507501683750}
   - component: {fileID: 3046934005411525759}
+  - component: {fileID: 4031499311462485807}
   - component: {fileID: 818852795545140580}
   m_Layer: 0
   m_Name: MiniDrone
@@ -5224,38 +5224,13 @@ Transform:
   m_GameObject: {fileID: 9213603709104475994}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.5509663, y: -0.43221042, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6109306708313771785}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3212338507501683750
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9213603709104475994}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 104eb1c96815b4820b4be071555180b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 349
-  transformID: 0
-  position: {x: 0, y: 0}
-  distructionStatus: 0
-  chargeRequired: 0
-  onPlaceable: 0
-  onRotateable: 0
-  onScaleable: 0
-  offset: {x: 0, y: 0}
-  turnOff: 0
-  setPosition: 0
-  orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
 --- !u!95 &3046934005411525759
 Animator:
   serializedVersion: 5
@@ -5277,6 +5252,32 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4031499311462485807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9213603709104475994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b47011b34e1af4f4592437172808af05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 349
+  transformID: 0
+  position: {x: 0, y: 0}
+  distructionStatus: 0
+  chargeRequired: 0
+  onPlaceable: 0
+  onRotateable: 0
+  onScaleable: 0
+  offset: {x: 0, y: 0}
+  turnOff: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 0}
+  animationType: 0
 --- !u!114 &818852795545140580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5289,5 +5290,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d61bf1c47a4484ba73d0b313c40e74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 3046934005411525759}
-  selectedTrigger: 0

@@ -402,9 +402,7 @@ MonoBehaviour:
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
   targetObjects: []
-  leverHead: {fileID: 0}
-  attachedLeverHead: {fileID: 3197964739542362488}
-  onCompletionParts: 0
+  lightObjects: []
 --- !u!114 &-5722112349519866952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -420,6 +418,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  attachedLeverHead: {fileID: 3197964739542362488}
+  onCompletionParts: 0
+  onActive: 0
+  onOperation: 0
 --- !u!114 &7435758235303093614
 MonoBehaviour:
   m_ObjectHideFlags: 0

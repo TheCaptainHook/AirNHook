@@ -10700,6 +10700,37 @@
             "fontSize": 0.0,
             "chargeRequired": false,
             "animationTriggerType": 0
+        },
+        {
+            "id": 313,
+            "dialogueId": 0,
+            "position": {
+                "x": -22.190000534057618,
+                "y": 21.6299991607666
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0
         }
     ],
     "mapBackgroundObjectList": [
@@ -13619,7 +13650,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.4499940872192383,
+                "y": 1.4499939680099488,
                 "z": 1.0
             },
             "talPot": {
@@ -14446,6 +14477,39 @@
                 "y": 0.0,
                 "z": -0.321573406457901,
                 "w": 0.9468847513198853
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "targetPositions": [
+                {
+                    "x": -13.720000267028809,
+                    "y": 20.920000076293947
+                }
+            ],
+            "lightPositions": [],
+            "onHint": false,
+            "partsPositions": [],
+            "itemPositions": [],
+            "hintPosition": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "chargeRequired": false
+        },
+        {
+            "id": 312,
+            "position": {
+                "x": -20.65999984741211,
+                "y": 20.989999771118165
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
             },
             "scale": {
                 "x": 1.0,

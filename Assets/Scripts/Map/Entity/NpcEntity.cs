@@ -15,7 +15,7 @@ public class NpcEntity : BuildObj
         }
     }
 
-
+    [CustomHeader("Npc Entity")]
     [SerializeField] private AnimationTriggerType animationType = AnimationTriggerType.Idle;
 
 

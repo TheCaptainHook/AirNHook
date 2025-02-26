@@ -23,6 +23,7 @@ public class CameraGlobalVolumeController : MonoBehaviour
     private void Init()
     {
         _Volume = GetComponent<Volume>();
+        _Volume.weight = 2;
 
         if (_Volume.profile.TryGet(out Vignette vignette))
         {
@@ -46,7 +47,7 @@ public class CameraGlobalVolumeController : MonoBehaviour
 
     }
 
-    float speed = 1;
+    float speed = 1.5f;
     IEnumerator PSTTECoroutine()
     {
         _LensDistortion.active = true;

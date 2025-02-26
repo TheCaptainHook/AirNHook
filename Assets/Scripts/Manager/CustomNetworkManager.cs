@@ -204,4 +204,13 @@ public class CustomNetworkManager : NetworkManager
         //Managers.Stage.NetworkObject_SetParent();
     }
     #endregion
+
+
+    #region Disconnect
+    public override void OnClientDisconnect()
+    {
+        base.OnClientDisconnect();
+        Debug.Log("Disconnect");
+    }
+    #endregion
 }

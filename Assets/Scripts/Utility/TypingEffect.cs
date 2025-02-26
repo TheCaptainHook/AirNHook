@@ -28,6 +28,7 @@ public class TypingEffect : MonoBehaviour
         }
     }
 
+
     public IEnumerator Typing(TextMeshProUGUI textMesh,string sentence,Color color,float fontSize = 42,bool audioActive = false)
     {
 

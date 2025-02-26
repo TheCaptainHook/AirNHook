@@ -1,37 +1,104 @@
 using Mirror;
+using System.Collections;
 using UnityEngine;
 
 public class LeverBodyNet : NetworkBehaviour
 {
-    private LeverBody _leverBody;
+    [SerializeField] Transform attachedLeverHead;
+    Animator Animator => GetComponent<Animator>();
+    private static readonly int OnActive = Animator.StringToHash("OnActive");
+    private static readonly int OnCompletion = Animator.StringToHash("OnCompletion");
 
-    
-    private void Awake()
+
+    private LeverBody body;
+    private LeverBody Body { get { if (body == null) body = GetComponent<LeverBody>(); return body; } }
+
+    [SyncVar] public bool onCompletionParts;
+    [SyncVar] public bool onActive;
+    [SyncVar] public bool onOperation;
+
+
+
+
+
+    [Server]
+    public void Server_SetLeverHead(LeverHead head)
     {
-        _leverBody = GetComponent<LeverBody>();
+        head.AttachToLevelBody();
+
+        StartCoroutine(Destroy_Head(head));
+
+        onCompletionParts = true;
+
+        Rpc_SetLeverHead();
+        
     }
-
-    //[Command(requiresAuthority = false)]
-    //public void CmdSetLinkDoor(Vector2 pot, int linkId)
-    //{
-    //    RpcSetLinkDoor(pot, linkId);
-    //}
-
-    //[ClientRpc]
-    //private void RpcSetLinkDoor(Vector2 pot, int linkId)
-    //{
-    //    _leverBody.SetLinkDoor(pot, linkId, MapEditor.Instance.interactionObjectTransform);
-    //}
-
-    [Command(requiresAuthority = false)]
-    public void CmdLeverActivate()
+    IEnumerator Destroy_Head(LeverHead head)
     {
-        RpcLeverActivate();
+        head.transform.GetChild(0).gameObject.SetActive(false);
+        yield return new WaitForSeconds(1f);
+        NetworkServer.Destroy(head.gameObject);
     }
 
     [ClientRpc]
-    private void RpcLeverActivate()
+    private void Rpc_SetLeverHead()
     {
-        _leverBody.RpcActivation();
+        attachedLeverHead.gameObject.SetActive(true);
+        Animator.SetTrigger(OnCompletion);
     }
+
+
+    [Server]
+    public void Server_Active()
+    {
+        onActive = !onActive;
+
+        StartCoroutine(Co_Operation());
+    }
+
+    [Command(requiresAuthority = false)]
+    public void Cmd_Active()
+    {
+        if(onCompletionParts && !onOperation)
+        {
+            Server_Active();
+        }
+    }
+
+    //[ClientRpc]
+    //public void Rpc_Active()
+    //{
+
+    //}
+
+
+
+
+
+    IEnumerator Co_Operation()
+    {
+        onOperation = true;
+        if (onActive)
+        {
+            Animator.SetBool(OnActive, true);
+            AnimatorStateInfo animationState = Animator.GetCurrentAnimatorStateInfo(0);
+            Debug.Log(animationState.length);
+            //PrograssButtonActivatedObject(true);
+            Body.Net_Act();
+            yield return new WaitForSeconds(animationState.length + 0.5f);
+        }
+        else
+        {
+            Animator.SetBool(OnActive, false);
+            AnimatorStateInfo animationState = Animator.GetCurrentAnimatorStateInfo(0);
+            //PrograssButtonActivatedObject(false);
+            Body.Net_Deac();
+            yield return new WaitForSeconds(animationState.length + 0.5f);
+
+        }
+
+        onOperation = false;
+
+    }
+
 }

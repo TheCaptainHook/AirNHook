@@ -1,11 +1,13 @@
+using Mirror;
 using UnityEngine;
 
 public class LeverHead : BuildObj
 {
     //Material dissolveMaterial;
     //effect
-    private Vector2 _firstPos;
+
     private InteractableObject _interactableObject;
+    private LeverHead_Net Net => GetComponent<LeverHead_Net>();
 
     private void Awake()
     {
@@ -14,36 +16,33 @@ public class LeverHead : BuildObj
         
     }
 
-    private void Start()
-    {
-        _firstPos = transform.position;
-    }
 
+    //public void AttachToLevelBody(Transform transform)
+    //{
+    //    //_collider.enabled = false;
+    //    //_rb.velocity = Vector2.zero;
+    //    //_rb.gravityScale = 0;
+    //    //_rb.bodyType = RigidbodyType2D.Kinematic;
+    //    //_rb.freezeRotation = true;
 
-    public void AttachToLevelBody(Transform transform)
-    {
-        //_collider.enabled = false;
-        //_rb.velocity = Vector2.zero;
-        //_rb.gravityScale = 0;
-        //_rb.bodyType = RigidbodyType2D.Kinematic;
-        //_rb.freezeRotation = true;
+    //    //this.transform.SetParent(transform);
+    //    //this.transform.rotation = Quaternion.Euler(0, 0, 0);
+    //    //this.transform.localPosition = Vector2.zero;
+    //    _collider.enabled = false;
+    //    _rb.simulated = false;
 
-        //this.transform.SetParent(transform);
-        //this.transform.rotation = Quaternion.Euler(0, 0, 0);
-        //this.transform.localPosition = Vector2.zero;
-        _collider.enabled = false;
-        _rb.simulated = false;
-
-        //this.transform.SetParent(transform);
-        this.transform.rotation = Quaternion.Euler(0, 0, 0);
-        this.transform.position = transform.position;
-    }
+    //    //this.transform.SetParent(transform);
+    //    this.transform.rotation = Quaternion.Euler(0, 0, 0);
+    //    this.transform.position = transform.position;
+    //}
 
     public void AttachToLevelBody()
     {
-        _interactableObject.Destroyed();
-        _collider.enabled = false;
-        _rb.simulated = false;
+        //_interactableObject.Destroyed();
+        //_collider.enabled = false;
+        //_rb.simulated = false;
+        if(NetworkServer.active)
+        Net.Server_Attach();
     }
 
     public void DetachToLevelBody()
