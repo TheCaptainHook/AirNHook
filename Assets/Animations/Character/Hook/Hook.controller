@@ -443,14 +443,6 @@ BlendTree:
     m_DirectBlendParameter: RunningTime
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 484f34af79f7d9e43bb66167986fd253, type: 2}
-    m_Threshold: 0.5
-    m_Position: {x: 0, y: 0}
-    m_TimeScale: 1
-    m_CycleOffset: 0
-    m_DirectBlendParameter: RunningTime
-    m_Mirror: 0
-  - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 1d60f01cbfdae674b9003f5abc8be5d0, type: 2}
     m_Threshold: 0.7
     m_Position: {x: 0, y: 0}
