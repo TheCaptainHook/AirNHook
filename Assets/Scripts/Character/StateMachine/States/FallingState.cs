@@ -16,7 +16,7 @@ public class FallingState : BaseState
         stateMachine.player.animator.SetBool(stateMachine.player.animationData.JumpParameterHash, false);
         stateMachine.player.animator.SetBool(stateMachine.player.animationData.FallingParameterHash, false);
         
-        if (!stateMachine.player.canControl) return;
+        //if (!stateMachine.player.canControl) return;
         
         // stateMachine.player.CmdLandParticlePlay();
     }
@@ -27,6 +27,12 @@ public class FallingState : BaseState
         OnMove();
         
         if (!isGround && coyoteTimeCount < 0f) return;
+
+        if (!stateMachine.canMovable || (!stateMachine.isJumping && !stateMachine.isJumpPerformed))
+        {
+            stateMachine.player.isDownThroughPlatform = false;
+            stateMachine.ChangeState(stateMachine.horizontal != 0 ? stateMachine.WalkState : stateMachine.IdleState);
+        }
 
         if (stateMachine.isJumping || stateMachine.isJumpPerformed)
         {
@@ -46,15 +52,14 @@ public class FallingState : BaseState
                 return;
             }
         }
-        
-        stateMachine.player.isDownThroughPlatform = false;
-        stateMachine.ChangeState(stateMachine.horizontal != 0 ? stateMachine.WalkState : stateMachine.IdleState);
     }
     #endregion
 
     #region Movement
     protected override void OnMove()
     {
+        if (!stateMachine.canMovable) return;
+
         stateMachine.player.animator.SetBool(stateMachine.player.animationData.JumpParameterHash, stateMachine.horizontal != 0);
         stateMachine.player.animator.SetBool(stateMachine.player.animationData.FallingParameterHash, stateMachine.horizontal == 0);
         if (stateMachine.horizontal < 0)
@@ -64,7 +69,9 @@ public class FallingState : BaseState
     }
 
     protected override void Move()
-    {
+    {   
+        if (!stateMachine.canMovable) return;
+
         var groundForce = stateMachine.moveSpeed * stateMachine.moveSpeedMultiplier;
         
         stateMachine.rigidbody2D.AddForce(new Vector2((stateMachine.horizontal * groundForce - rigidbd.velocity.x) * groundForce, 0f));

@@ -22,6 +22,8 @@ public class InhaledShotState : BaseState
 
     protected override void OnMove()
     {
+        if (!stateMachine.canMovable) return;
+
         if (stateMachine.horizontal < 0)
             stateMachine.player.charPivot.rotation = Quaternion.Euler(0f, 180f, 0f);
         else if (stateMachine.horizontal > 0)
@@ -30,6 +32,8 @@ public class InhaledShotState : BaseState
     
     protected override void Move()
     {
+        if (!stateMachine.canMovable) return;
+
         rigidbd.AddForce(new Vector2(stateMachine.horizontal * stateMachine.moveSpeed, 0f));
         rigidbd.velocity = new Vector2(rigidbd.velocity.x, rigidbd.velocity.y);
     }

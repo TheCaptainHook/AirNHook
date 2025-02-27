@@ -41,11 +41,14 @@ public class GrapplingState : BaseState
     protected override void OnMove()
     {
         rigidbd.drag = stateMachine.horizontal == 0 ? 0.3f : 0.2f;
-        
-        if (stateMachine.horizontal < 0)
-            stateMachine.player.charPivot.rotation = Quaternion.Euler(0f, 180f, 0f);
-        else if (stateMachine.horizontal > 0)
-            stateMachine.player.charPivot.rotation = Quaternion.Euler(0f, 0f, 0f);
+
+        if (stateMachine.canMovable)
+        {
+            if (stateMachine.horizontal < 0)
+                stateMachine.player.charPivot.rotation = Quaternion.Euler(0f, 180f, 0f);
+            else if (stateMachine.horizontal > 0)
+                stateMachine.player.charPivot.rotation = Quaternion.Euler(0f, 0f, 0f);
+        }
         
         _swingFloat += (stateMachine.horizontal != 0 ? 1 : -1) * Time.deltaTime;
         _swingFloat = Mathf.Clamp(_swingFloat, 0f, 1f);
@@ -55,6 +58,8 @@ public class GrapplingState : BaseState
 
     protected override void Move()
     {
+        if (!stateMachine.canMovable) return;
+
         var playerToHookDirection = (ropeHook - (Vector2)_hookStateMachine.player.transform.position).normalized;
 
         var perpendicularDirection = _hookStateMachine.horizontal < 0 ? new Vector2(-playerToHookDirection.y, playerToHookDirection.x) : new Vector2(playerToHookDirection.y, playerToHookDirection.x);

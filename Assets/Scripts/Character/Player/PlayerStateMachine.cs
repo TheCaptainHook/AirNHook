@@ -15,6 +15,7 @@ public class PlayerStateMachine : StateMachine
     protected PlayerInput input => Managers.Game.playerInput;
     public float horizontal { get; protected set; }
     public float vertical { get; protected set; }
+    public bool canMovable => player.canMovable;
     public float moveSpeed => player.playerData.moveSpeed;
     public float moveSpeedMultiplier = 2f;
     public bool isJumping = false;
