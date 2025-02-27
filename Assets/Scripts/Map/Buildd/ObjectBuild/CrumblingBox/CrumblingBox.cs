@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class CrumblingBox : BuildObj
 {
@@ -16,6 +17,7 @@ public class CrumblingBox : BuildObj
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] ParticleSystem spark_Particle;
     [SerializeField] ParticleSystem bumb_Particle;
+    [SerializeField] ShadowCaster2D shadowCaster2D;
     bool onPrograss;
 
     private string[] animationId = new string[] { "Red", "Yellow", "Green" };
@@ -54,6 +56,7 @@ public class CrumblingBox : BuildObj
         GetComponent<Collider2D>().enabled = false;
         hitBox.SetActive(false);
         spriteRenderer.enabled = false;
+        shadowCaster2D.enabled = false;
         //Test Code
         StartCoroutine(Timer());
     }
@@ -89,6 +92,7 @@ public class CrumblingBox : BuildObj
         GetComponent<Collider2D>().enabled = true;
         hitBox.SetActive(true);
         spriteRenderer.enabled = true;
+        shadowCaster2D.enabled = true;
         
         animator.SetTrigger(animationId[curCrumblingAmount]);
         onPrograss = false;
