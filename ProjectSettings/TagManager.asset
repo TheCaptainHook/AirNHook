@@ -66,6 +66,9 @@ TagManager:
   - name: GrabObj
     uniqueID: 1084912593
     locked: 0
+  - name: Effects
+    uniqueID: 2334305071
+    locked: 0
   - name: Indicator
     uniqueID: 1411368969
     locked: 0
