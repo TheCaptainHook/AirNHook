@@ -45,6 +45,8 @@ public class BaseState : IState
 
     protected virtual void OnMove()
     {
+        if (!stateMachine.canMovable) return;
+
         stateMachine.player.animator.SetBool(stateMachine.player.animationData.WalkParameterHash, stateMachine.horizontal != 0 && isGround);
         if (stateMachine.horizontal < 0)
         {
@@ -59,6 +61,8 @@ public class BaseState : IState
     protected virtual void OnJump()
     {
         if (!isGround) return;
+
+        if (!stateMachine.canMovable) return;
         
         if (coyoteTimeCount < 0f) return;
         
@@ -73,7 +77,10 @@ public class BaseState : IState
         stateMachine.ChangeState(stateMachine.JumpState);
     }
     
-    protected virtual void Move() { }
+    protected virtual void Move() 
+    {
+        if (!stateMachine.canMovable) return;
+    }
     
     protected virtual bool CheckFalling()
     {

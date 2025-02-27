@@ -19,6 +19,8 @@ public class StickJumpState : BaseState
     
     protected override void Move()
     {
+        if (!stateMachine.canMovable) return;
+        
         stateMachine.rigidbody2D.AddForce(new Vector2((stateMachine.horizontal * stateMachine.moveSpeed), 0f));
         rigidbd.velocity = new Vector2(rigidbd.velocity.x, rigidbd.velocity.y);
     }

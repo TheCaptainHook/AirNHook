@@ -31,6 +31,8 @@ public class GrapplingJumpState : BaseState
 
     protected override void OnMove()
     {
+        if (!stateMachine.canMovable) return;
+
         stateMachine.player.animator.SetBool(stateMachine.player.animationData.WalkParameterHash, true);
         stateMachine.player.animator.SetBool(stateMachine.player.animationData.JumpParameterHash, true);
         if (stateMachine.horizontal < 0)
@@ -41,6 +43,8 @@ public class GrapplingJumpState : BaseState
 
     protected override void Move()
     {
+        if (!stateMachine.canMovable) return;
+        
         rigidbd.AddForce(new Vector2(stateMachine.horizontal * stateMachine.moveSpeed, 0f));
         rigidbd.velocity = new Vector2(rigidbd.velocity.x, rigidbd.velocity.y);
     }

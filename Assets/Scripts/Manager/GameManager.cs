@@ -17,6 +17,7 @@ public class GameManager
     public GameState CurrentState { get; set; }
     public CharacterType playerCharacterType = CharacterType.Default;
     public PlayerInput playerInput;
+    public NewCameraShake cameraShake;
 
     public string mapID;
     private string _stageID;
