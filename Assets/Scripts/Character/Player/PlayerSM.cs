@@ -9,6 +9,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     [field: Header("PlayerData")]
     [field: SerializeField] public PlayerDataSO playerData { get; protected set; }
     public bool canControl;
+    public bool canMovable;
     public bool invincible;
     [field: SerializeField] public Transform charPivot { get; private set; }
     private float _coyoteTime => playerData.coyoteTime;
@@ -62,6 +63,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         }
 
         canControl = true;
+        canMovable = true;
         _defaultForceReceiveLayer = collider2D.forceReceiveLayers;
         collider2D.forceReceiveLayers = ~ _halfPlatformLayer;
         stateMachine.SubscribeInput();
@@ -242,11 +244,11 @@ public class PlayerSM : NetworkBehaviour, IDamageable
   
     }
 
-    private void TakeSuicideDamage()
-    {
-        //애니메이션 트리거 용도
-        TakeDamage(DamageType.Suicide);
-    }
+    //private void TakeSuicideDamage()
+    //{
+    //    //애니메이션 트리거 용도
+    //    TakeDamage(DamageType.Suicide);
+    //}
 
     private void PlayDeathAnimation(DamageType damageType)
     {
@@ -273,7 +275,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
 
         if (shakeParam.duration > 0)
         {
-            Managers.Game.cameraShake.RequestShake(CameraShakeType.Death, shakeParam.intensity, shakeParam.duration);
+            Managers.Game.cameraShake.RequestShake(gameObject, shakeParam.intensity, shakeParam.duration);
             //StartCoroutine(CameraShake.instance.Co_Shake(shakeParam.duration, shakeParam.intensity));
         }
     }

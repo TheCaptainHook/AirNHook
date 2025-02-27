@@ -14,14 +14,16 @@ public class NewCameraShake : MonoBehaviour
             this.endTime = Time.time + duration;
         }
 
-        public void UpdateDuration(float newDuration)
+        public void UpdateDuration(float newIntensity, float newDuration)
         {
+            this.intensity = newIntensity;
+
             if (newDuration > (endTime - Time.time))
                 endTime = Time.time + newDuration;
         }
     }
 
-    private Dictionary<CameraShakeType, ShakeRequest> _activeShakes = new();
+    private Dictionary<GameObject, ShakeRequest> _activeShakes = new();
     private Vector3 _originalPosition = Vector3.zero;
     private ShakeRequest _strongestShake = null;
     private Stack<ShakeRequest> _shakePool = new();
@@ -33,19 +35,24 @@ public class NewCameraShake : MonoBehaviour
         Managers.Game.cameraShake = this;
     }
 
-    public void RequestShake(CameraShakeType sourceType, float intensity, float duration)
+    /// <summary>
+    /// 카메라 흔들림 요청 함수
+    /// </summary>
+    /// <param name="obj">타입 지정. 같은 타입의 경우 카메라 흔들림 중복 안됨</param>
+    /// <param name="intensity">흔들림 강도</param>
+    /// <param name="duration">흔들림 시간</param>
+    public void RequestShake(GameObject obj, float intensity, float duration)
     {
-        Debug.Log("requested" + intensity + " " + duration);
         ShakeRequest newShake;
 
-        if (_activeShakes.TryGetValue(sourceType, out newShake))
+        if (_activeShakes.TryGetValue(obj, out newShake))
         {
-            newShake.UpdateDuration(duration);
+            newShake.UpdateDuration(intensity, duration);
         }
         else
         {
             newShake = GetShakeRequest(intensity, duration);
-            _activeShakes[sourceType] = newShake;
+            _activeShakes[obj] = newShake;
         }
 
         if (_strongestShake == null || intensity > _strongestShake.intensity)
@@ -78,7 +85,7 @@ public class NewCameraShake : MonoBehaviour
 
         float maxIntensity = 0;
         ShakeRequest maxShake = null;
-        CameraShakeType? expiredKey = null;
+        GameObject expiredKey = null;
 
         foreach (var kvp in _activeShakes)
         {
@@ -93,10 +100,10 @@ public class NewCameraShake : MonoBehaviour
             }
         }
 
-        if (expiredKey.HasValue)
+        if (expiredKey is not null)
         {
-            ReleaseShakeRequest(_activeShakes[expiredKey.Value]);
-            _activeShakes.Remove(expiredKey.Value);
+            ReleaseShakeRequest(_activeShakes[expiredKey]);
+            _activeShakes.Remove(expiredKey);
 
             if (_activeShakes.Count <= 0)
                 _isShaking = false;
