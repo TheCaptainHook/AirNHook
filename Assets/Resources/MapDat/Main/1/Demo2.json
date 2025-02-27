@@ -1,0 +1,80 @@
+{
+    "mapSize": {
+        "x": 20.0,
+        "y": 20.0
+    },
+    "mapID": "Demo2",
+    "subMapName": "ForDemo",
+    "stageLevel": 1,
+    "startPosition": {
+        "x": 752.0,
+        "y": 705.0
+    },
+    "mapTileDataList": [
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 751,
+                "y": 703
+            },
+            "End": {
+                "x": 762,
+                "y": 704
+            }
+        }
+    ],
+    "mapHalfTileDataList": [],
+    "mapBackgroundTileDataList": [],
+    "mapRopeTileDataList": [],
+    "mapAccessoryTIleDataList": [],
+    "mapShadowCasterDataList": [],
+    "globalLightStruct": {
+        "type": 4,
+        "color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "intensity": 1.0,
+        "targetSorting": [
+            0,
+            -587858055,
+            -1138266859,
+            927897491,
+            -696190403,
+            -688237417,
+            -1639132293,
+            909207883,
+            1084912593,
+            -1960662225,
+            1411368969,
+            -1676102083
+        ],
+        "blendStyleIndex": 0,
+        "lightOrder": 0,
+        "overlapOeration": 0
+    },
+    "mapObjectDataList": [],
+    "mapBackgroundObjectList": [],
+    "mapOtherObjectList": [],
+    "mapButtonActivatableObjectDataList": [],
+    "buttonObjectList": [],
+    "mapExitObjectStruct": {
+        "id": 301,
+        "position": {
+            "x": 761.0,
+            "y": 705.0
+        },
+        "condition_KeyAmount": 0,
+        "nextMapId": "Lobby"
+    },
+    "dialogueDataList": [],
+    "droneStructList": [],
+    "collectableObjectStructList": [],
+    "dataType": 0,
+    "cellSize": 2.0,
+    "bytesImage": [],
+    "audioName": "WBA Free Track - Hackers",
+    "nextMapId": "Lobby"
+}
