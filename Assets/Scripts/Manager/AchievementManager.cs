@@ -1,7 +1,7 @@
 using System;
 using Steamworks;
 using UnityEngine;
-
+using Random = UnityEngine.Random;
 
 public class AchievementManager
 {
@@ -127,6 +127,10 @@ public class AchievementManager
             }
         await Managers.Data.saveData.Ac_Save();
     }
+
+    //ID 70010~70012
+    private int[] idList = new int[] {70010,70011,70012 };
+    private int curDeathScriptPercent = 0;
     private async void PlayerDeath()
     {
         int playerDeath = ++Managers.Data.saveData._AchievementData.player_Death;
@@ -134,17 +138,40 @@ public class AchievementManager
         switch(playerDeath)
         {
             case 1:
-                UI_EED.SetDialogue("Player first Death.");
+                UI_EED.SetDialogue("[끔찍하군!] 하지만, 걱정 말라! 우리 슈퍼 연구소의 기술력으로 얼마든지 재생성할 수 있으니!.");
                 break;
-            case int n when n % 5 == 0:
-                UI_EED.SetDialogue("Player [/1] Death.");
-                break;
+            //case int n when n % 5 == 0:
+            //    UI_EED.SetDialogue("Player [/1] Death.");
+            //    break;
+        }
+
+        if(GetDeathPercent())
+        {
+            //print dialogue
+            int num = Random.Range(0, idList.Length);
+            UI_EED.SetDialogue($"Dialogue Id : [{num}]");
+            curDeathScriptPercent = 0;
+        }
+        else
+        {
+            curDeathScriptPercent += 4;
+
         }
 
 
         await Managers.Data.saveData.Ac_Save();
     }
 
+    private bool GetDeathPercent()
+    {
+        int num = Random.Range(1, 101);
+        if(num <= curDeathScriptPercent)
+        {
+            return true;
+        }
+
+        return false;
+    }
 
 
     #endregion

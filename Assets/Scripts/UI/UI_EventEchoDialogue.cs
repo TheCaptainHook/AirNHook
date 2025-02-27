@@ -316,7 +316,6 @@ public class UI_EventEchoDialogue : UI_Base
         {
             // scale = 1 + (Mathf.Sin(Time.time * scaleAnimationSpeed) * (scaleMultiplier - 1f));
             scale = 1 + (Mathf.Sin(Time.time * scaleAnimationSpeed) * scaleMultiplier);
-            Debug.Log(scale);
             foreach (var f in list)
             {
                 for (int i = 0; i < 4; i++)
