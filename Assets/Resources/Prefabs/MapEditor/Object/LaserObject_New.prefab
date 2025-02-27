@@ -4903,7 +4903,7 @@ MonoBehaviour:
   _endVFX: {fileID: 5345449485699939287}
   _layerMask:
     serializedVersion: 2
-    m_Bits: 24069568
+    m_Bits: 24102336
   _isEnabled: 1
   hitEffectParticle: {fileID: 7676629228877518604}
 --- !u!114 &2911012097398964247
@@ -4918,6 +4918,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d4aaacc9ede80d4e8c823a6819969cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  onActive: 0
 --- !u!61 &5690823865466912599
 BoxCollider2D:
   m_ObjectHideFlags: 0

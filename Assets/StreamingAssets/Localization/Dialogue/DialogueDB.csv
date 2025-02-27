@@ -19,3 +19,7 @@ id,index,name,emotion,spritePosition,textBoxPosition,sentence
 104,2,Speaker,Normal,Right,Bottom,10013
 105,0,Speaker,Normal,Right,Bottom,10014
 105,1,Speaker,Normal,Right,Bottom,10015
+1000,0,Robot,Sigh,Right,Bottom,50000
+1000,1,Robot,Dumbfounded,Right,Bottom,50001
+1001,0,Robot,Sigh,Right,Bottom,50002
+1001,1,Robot,Sigh,Right,Bottom,50003

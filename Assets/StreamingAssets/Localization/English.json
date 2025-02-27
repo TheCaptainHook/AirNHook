@@ -212,6 +212,38 @@
   "text": "Finally we can do some real tests."
  },
  {
+  "id": 50000,
+  "text": "Alright, now that you've learned all the basics, it's time to start the final test course."
+ },
+ {
+  "id": 50001,
+  "text": "I hope you succeed this time, unlike the ones before you."
+ },
+ {
+  "id": 50002,
+  "text": "Took you long enough. But at least you made it through the course, so that’s something."
+ },
+ {
+  "id": 50003,
+  "text": "Well done."
+ },
+ {
+  "id": 70001,
+  "text": "[Horrifying!] But worry not! With the cutting-edge technology of our super lab, we can reproduce as many times as needed!"
+ },
+ {
+  "id": 70010,
+  "text": "They sure do die a lot! That one is on their [/1st] reproduction now."
+ },
+ {
+  "id": 70011,
+  "text": "What, dead again? I expected a lot of deaths, but this is already their [/1st] time."
+ },
+ {
+  "id": 70012,
+  "text": "Ah, they died. What number was it again…? Oh right, [/1st]!"
+ },
+ {
   "id": 1000004,
   "text": "Test 1"
  },
