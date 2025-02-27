@@ -52,6 +52,7 @@ public class JumpingPad_Net : NetworkBehaviour
     {
         if (!onActive) return;
         rb.velocity = Vector2.zero;
-        rb.AddForce(Vector2.up * jumpingPower, ForceMode2D.Impulse);
+        //rb.AddForce(Vector2.up * jumpingPower, ForceMode2D.Impulse);
+        rb.AddForce(transform.up * jumpingPower, ForceMode2D.Impulse);
     }
 }

@@ -1,8 +1,10 @@
 using Mirror;
-
+using System.Collections;
+using UnityEngine;
 
 public class ToggleButton_Net : NetworkBehaviour
 {
+    [SerializeField] private GameObject energyIcon;
 
     ToggleButtonObject toggle;
     ToggleButtonObject Toggle
@@ -62,6 +64,7 @@ public class ToggleButton_Net : NetworkBehaviour
     private void Server_SetHasPower(bool hasPower)
     {
         this.hasPower = hasPower;
+        Rpc_SetIcon(!hasPower);
     }
 
     [Command(requiresAuthority = false)]
@@ -98,9 +101,26 @@ public class ToggleButton_Net : NetworkBehaviour
     public void Server_SetChargeRequired(bool chargeRequired)
     {
         this.chargeRequired = chargeRequired;
+        if (chargeRequired) StartCoroutine(Delay());
+    }
+    IEnumerator Delay()
+    {
+        while(!NetworkClient.ready) yield return null;
+        Rpc_SetIcon(true);
     }
 
-
+    [ClientRpc]
+    private void Rpc_SetIcon(bool onOff)
+    {
+        if (onOff) 
+        {
+            energyIcon.SetActive(true);
+        }
+        else
+        {
+            energyIcon.SetActive(false);
+        }
+    }
 
 
 }

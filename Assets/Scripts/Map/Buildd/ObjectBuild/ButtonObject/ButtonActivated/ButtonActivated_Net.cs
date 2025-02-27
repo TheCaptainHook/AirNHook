@@ -6,7 +6,7 @@ using Mirror;
 public class ButtonActivated_Net : NetworkBehaviour
 {
     private float max = -0.1f;
-    private float min = -0.2f;
+    private float min = -0.3f;
     [SerializeField] Transform plate;
     [SerializeField] GameObject _light;
 
@@ -28,11 +28,11 @@ public class ButtonActivated_Net : NetworkBehaviour
     public float rate;
 
 
-
+    private float pressSpeed = 3;
     [Server]
     public void Server_SetRate(float rate)
     {
-        this.rate += rate;
+        this.rate += rate*pressSpeed;
         this.rate = Mathf.Clamp01(this.rate);
 
         if(this.rate >= 1 && !onActive)

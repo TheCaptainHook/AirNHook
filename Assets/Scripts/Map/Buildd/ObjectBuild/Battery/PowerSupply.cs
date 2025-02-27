@@ -215,7 +215,7 @@ public class PowerSupply : ButtonEntity,IInteractable
                     //otherObject vec 전달 -> group transform 순회 같은거 있는지 확인 -> 있으면 해당 IPowerConsumer 반환
                 }
                 lightObjects = list;
-                Debug.Log($"Light Object Count : {lightObjects.Count}");
+                //Debug.Log($"Light Object Count : {lightObjects.Count}");
 
             });
     }

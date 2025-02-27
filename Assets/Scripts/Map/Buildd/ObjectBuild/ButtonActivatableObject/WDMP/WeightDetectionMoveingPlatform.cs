@@ -24,7 +24,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     [SerializeField] Transform rightPoint;
     public float moveDistance;
     public float moveSpeed;
-    private float maxRotate = 40;
+    private float maxRotate = 70;
     private bool onActive; 
 
     [SerializeField] LayerMask layerMask;
@@ -171,7 +171,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
         }
         if(!onMove) return;
             
-        weight = (lw-rw)/10f;
+        weight = (lw-rw);
         //tilt animation
         TiltAnimationSet(lw,rw);
         //tilt platform

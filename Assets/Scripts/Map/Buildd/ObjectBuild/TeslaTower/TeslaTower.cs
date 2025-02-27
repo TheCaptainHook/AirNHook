@@ -71,7 +71,7 @@ public class TeslaTower : BuildObj
         {
             GameObject obj = new GameObject("LineRenderer");
             LineRenderer lineRenderer = obj.AddComponent<LineRenderer>();
-            lineRenderer.startWidth = 2f;
+            lineRenderer.startWidth = 0.1f;
             lineRenderer.sortingLayerName = "ForeGround";
             lineRenderer.sortingOrder = 100;
             lineRenderer.material = lightningShaderMat;

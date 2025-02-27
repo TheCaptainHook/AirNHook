@@ -167,7 +167,7 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
     public void Interaction(Transform accessor = null){
         if (ToggleButton_Net.chargeRequired)
         {
-            if (!hasPower)
+            if (!ToggleButton_Net.hasPower)
             {
                 return;
             }
@@ -198,6 +198,10 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
     }
 
     public void ShowEButton(){
+        if (ToggleButton_Net.chargeRequired)
+        {
+            if (!ToggleButton_Net.hasPower) return;
+        }
         _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
         _E_Btn.transform.position =  transform.position + (transform.up * _BtnOffset);
     }

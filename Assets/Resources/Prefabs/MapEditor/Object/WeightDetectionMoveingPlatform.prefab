@@ -574,7 +574,7 @@ MonoBehaviour:
   moveSpeed: 1
   layerMask:
     serializedVersion: 2
-    m_Bits: 984064
+    m_Bits: 656384
   rail_Prefabs: {fileID: 7834071034627693989, guid: 4f169f16daaea482da08a58d3a53f699, type: 3}
   rail_Line: {fileID: 6443439262299581446, guid: 275793db7c14f413ebce84c81e704b8d, type: 3}
 --- !u!114 &851463365788888728
@@ -595,6 +595,7 @@ MonoBehaviour:
   rail_Node_Prefabs: {fileID: 7834071034627693989, guid: 4f169f16daaea482da08a58d3a53f699, type: 3}
   rail_Line_Prefabs: {fileID: 6443439262299581446, guid: 275793db7c14f413ebce84c81e704b8d, type: 3}
   moveDistance: 0
+  position: {x: 0, y: 0}
   rayLength: 0
   dir: {x: 0, y: 0}
   step: 0

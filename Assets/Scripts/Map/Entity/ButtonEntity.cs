@@ -68,8 +68,7 @@ public class ButtonEntity : BuildObj
     #region IPowerConsumer, Light Object
     [Header(@"
     * ↓ Can use this field.
-        - ToggleButton
-        - PowerSupply
+       - only Light Object
     ")]
     public List<GameObject> lightObjects;
     
@@ -118,7 +117,8 @@ public class ButtonEntity : BuildObj
     protected virtual List<Vector2> GetLightPositions()
     {
         List<Vector2> list = new();
-        foreach(GameObject obj in lightObjects){
+        foreach(GameObject obj in lightObjects)
+        {
             if (obj == null) continue;
             if(obj.TryGetComponent(out IPowerConsumer component))
             {

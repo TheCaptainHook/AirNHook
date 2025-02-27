@@ -33,7 +33,7 @@ using UnityEngine;
 
         private void FixedUpdate()
         {
-            if(!MapEditor.Instance.stageClear && !turnOff && OnActive)
+            if(!MapEditor.Instance.stageClear && !turnOff && _Net.onActive)
             {
                 UpdateLaser();
             }

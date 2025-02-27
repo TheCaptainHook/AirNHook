@@ -70,8 +70,7 @@ public class JumpingPad : ActivatableObjectEntity
     {
 
         if(collision.TryGetComponent(out Rigidbody2D component)){
-            Debug.Log("Jumping Client");
-            //Jumping(component);
+
             Net.Cmd_Jumping(component.gameObject);
         }
     }
