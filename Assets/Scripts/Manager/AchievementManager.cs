@@ -138,7 +138,7 @@ public class AchievementManager
         switch(playerDeath)
         {
             case 1:
-                UI_EED.SetDialogue("[끔찍하군!] 하지만, 걱정 말라! 우리 슈퍼 연구소의 기술력으로 얼마든지 재생성할 수 있으니!.");
+                UI_EED.SetDialogue(Managers.Data.language.GetSentence(70001));
                 break;
             //case int n when n % 5 == 0:
             //    UI_EED.SetDialogue("Player [/1] Death.");
@@ -149,7 +149,7 @@ public class AchievementManager
         {
             //print dialogue
             int num = Random.Range(0, idList.Length);
-            UI_EED.SetDialogue($"Dialogue Id : [{num}]");
+            UI_EED.SetDialogue(Managers.Data.language.GetSentence(idList[num]));
             curDeathScriptPercent = 0;
         }
         else
