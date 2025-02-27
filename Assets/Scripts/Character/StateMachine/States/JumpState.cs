@@ -33,6 +33,8 @@ public class JumpState : BaseState
     #region Movement
     protected override void OnMove()
     {
+        if (!stateMachine.canMovable) return;
+
         stateMachine.player.animator.SetBool(stateMachine.player.animationData.FallingParameterHash, stateMachine.horizontal == 0);
         stateMachine.player.animator.SetBool(stateMachine.player.animationData.JumpParameterHash, stateMachine.horizontal != 0);
         
@@ -44,6 +46,8 @@ public class JumpState : BaseState
 
     protected override void Move()
     {
+        if (!stateMachine.canMovable) return;
+
         var groundForce = stateMachine.moveSpeed * stateMachine.moveSpeedMultiplier;
         
         stateMachine.rigidbody2D.AddForce(new Vector2((stateMachine.horizontal * groundForce - rigidbd.velocity.x) * groundForce, 0f));

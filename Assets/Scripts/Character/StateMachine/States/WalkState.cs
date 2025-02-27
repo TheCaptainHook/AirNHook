@@ -12,6 +12,8 @@ public class WalkState : BaseState
     #region Movement
     protected override void OnMove()
     {
+        if (!stateMachine.canMovable) return;
+
         if(stateMachine.horizontal == 0)
             stateMachine.ChangeState(stateMachine.IdleState);
         else
@@ -26,6 +28,8 @@ public class WalkState : BaseState
     
     protected override void Move()
     {
+        if (!stateMachine.canMovable) return;
+        
         var groundForce = stateMachine.moveSpeed * stateMachine.moveSpeedMultiplier;
         
         stateMachine.rigidbody2D.AddForce(new Vector2((stateMachine.horizontal * groundForce - rigidbd.velocity.x) * groundForce, 0f));

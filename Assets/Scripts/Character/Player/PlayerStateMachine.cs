@@ -8,12 +8,14 @@ public class PlayerStateMachine : StateMachine
     public IState WalkState { get; protected set; }
     public IState JumpState { get; protected set; }
     public IState FallingState { get; protected set; }
+    public IState SuicideState { get; protected set; }
     #endregion
 
     #region InputValue
     protected PlayerInput input => Managers.Game.playerInput;
     public float horizontal { get; protected set; }
     public float vertical { get; protected set; }
+    public bool canMovable => player.canMovable;
     public float moveSpeed => player.playerData.moveSpeed;
     public float moveSpeedMultiplier = 2f;
     public bool isJumping = false;
@@ -35,6 +37,7 @@ public class PlayerStateMachine : StateMachine
         WalkState = new WalkState(this);
         JumpState = new JumpState(this);
         FallingState = new FallingState(this);
+        SuicideState = new SuicideState(this);
 
         Initialize();
     }

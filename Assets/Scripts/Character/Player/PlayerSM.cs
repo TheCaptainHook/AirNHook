@@ -9,6 +9,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     [field: Header("PlayerData")]
     [field: SerializeField] public PlayerDataSO playerData { get; protected set; }
     public bool canControl;
+    public bool canMovable;
     public bool invincible;
     [field: SerializeField] public Transform charPivot { get; private set; }
     private float _coyoteTime => playerData.coyoteTime;
@@ -62,6 +63,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         }
 
         canControl = true;
+        canMovable = true;
         _defaultForceReceiveLayer = collider2D.forceReceiveLayers;
         collider2D.forceReceiveLayers = ~ _halfPlatformLayer;
         stateMachine.SubscribeInput();
@@ -100,24 +102,25 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     {
         for (var i = -1; i < 2; i++)
         {
-            _hit = Physics2D.Raycast(transform.position + (Vector3.right * (0.4f * i)) + (Vector3.up * 0.05f), Vector2.down, 0.15f, playerData.floorLayerMask);
+            _hit = Physics2D.Raycast(transform.position + (Vector3.right * (0.4f * i)) + (Vector3.up * 0.2f), Vector2.down, 0.4f, playerData.floorLayerMask);
             if (!_hit) continue;
 
-            isHalfPlatform = _halfPlatformLayer == (_halfPlatformLayer | (1 << _hit.transform.gameObject.layer));
-            //isHalfPlatform = (1 << _hit.transform.gameObject.layer) == _halfPlatformLayer;
+            //isHalfPlatform = _halfPlatformLayer == (_halfPlatformLayer | (1 << _hit.transform.gameObject.layer));
+            isHalfPlatform = (1 << _hit.transform.gameObject.layer) == _halfPlatformLayer;
             if (isHalfPlatform && !isDownThroughPlatform)
                 collider2D.forceReceiveLayers = _defaultForceReceiveLayer;
             else
-                collider2D.forceReceiveLayers = ~ _halfPlatformLayer;
+                collider2D.forceReceiveLayers = ~_halfPlatformLayer;
             
             if (isGround) return;
             
+            CmdLandParticlePlay();
             isGround = true;
             coyoteTimeCount = _coyoteTime;
             return;
         }
         isHalfPlatform = false;
-        collider2D.forceReceiveLayers = ~ _halfPlatformLayer;
+        collider2D.forceReceiveLayers = ~_halfPlatformLayer;
         isGround = false;
         coyoteTimeCount -= Time.deltaTime;
     }
@@ -229,6 +232,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         rigidbody2D.constraints = RigidbodyConstraints2D.FreezeAll;
         collider2D.enabled = false;
         Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.DeathVignette(true);
+        stateMachine.ChangeState(stateMachine.IdleState);
         
         // 애니메이션 처리
         PlayDeathAnimation(damageType);
@@ -240,11 +244,11 @@ public class PlayerSM : NetworkBehaviour, IDamageable
   
     }
 
-    private void TakeSuicideDamage()
-    {
-        //애니메이션 트리거 용도
-        TakeDamage(DamageType.Suicide);
-    }
+    //private void TakeSuicideDamage()
+    //{
+    //    //애니메이션 트리거 용도
+    //    TakeDamage(DamageType.Suicide);
+    //}
 
     private void PlayDeathAnimation(DamageType damageType)
     {
@@ -271,7 +275,8 @@ public class PlayerSM : NetworkBehaviour, IDamageable
 
         if (shakeParam.duration > 0)
         {
-            StartCoroutine(CameraShake.instance.Co_Shake(shakeParam.duration, shakeParam.intensity));
+            Managers.Game.cameraShake.RequestShake(gameObject, shakeParam.intensity, shakeParam.duration);
+            //StartCoroutine(CameraShake.instance.Co_Shake(shakeParam.duration, shakeParam.intensity));
         }
     }
     
@@ -390,17 +395,18 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         Interaction();
     }
     
-    private void Suicide(InputAction.CallbackContext context)
+    private void TrySuicide(InputAction.CallbackContext context)
+    {
+        if (!canControl) return;
+        
+        stateMachine.ChangeState(stateMachine.SuicideState);
+    }
+
+    private void Suicided()
     {
         if (!canControl) return;
         
         TakeDamage(DamageType.Suicide);
-        //TODO - 이렇게 하니까 누를때만 트리거 방식으로 인식해서 안되는데 꾹 누르다가 캔슬하는 것을 체크해야함
-        /*_isSuicideActive = context.performed; // 눌림(true) 또는 뗌(false) 처리
-        if (_isSuicideActive && canControl)
-        {
-            animator.SetBool(animationData.SuicideParameterHash, _isSuicideActive);
-        }*/
     }
     
     private void SubscribeInput()
@@ -408,7 +414,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         input.playerActions.Emote.started += ShowEmote;
         input.playerActions.Emote.canceled += HideEmote;
         input.playerActions.Interaction.started += DoInteraction;
-        input.playerActions.Suicide.started += Suicide;
+        input.playerActions.Suicide.started += TrySuicide;
     }
     
     private void UnsubscribeInput()
@@ -416,7 +422,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         input.playerActions.Emote.started -= ShowEmote;
         input.playerActions.Emote.canceled -= HideEmote;
         input.playerActions.Interaction.started -= DoInteraction;
-        input.playerActions.Suicide.started -= Suicide;
+        input.playerActions.Suicide.started -= TrySuicide;
     }
     #endregion
 

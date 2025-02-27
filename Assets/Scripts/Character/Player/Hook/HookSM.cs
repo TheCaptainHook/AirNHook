@@ -262,6 +262,8 @@ public class HookSM : PlayerSM, IInhalable
         
         base.TakeDamage(damageType);
 
+        grappling.Reset();
+
         if (grabbedItem is not null)
             Interaction();
     }
