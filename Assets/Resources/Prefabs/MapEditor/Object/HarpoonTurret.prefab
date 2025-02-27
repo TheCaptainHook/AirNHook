@@ -5088,7 +5088,7 @@ MonoBehaviour:
   _topSteam: {fileID: 2868477511076414545}
   _bottomSteam: {fileID: 8270035442196099591}
   radius: 10
-  arrowPrefab: {fileID: 0}
+  arrowPrefab: {fileID: 6577318668199586757, guid: d06948e9a634942f4828d3e3316cad40, type: 3}
 --- !u!50 &-1055571321575970891
 Rigidbody2D:
   serializedVersion: 4
@@ -5720,7 +5720,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 1
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -5773,7 +5773,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 8
+      scalar: 10
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -5900,7 +5900,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 0.8
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -8267,7 +8267,7 @@ ParticleSystem:
     magnitude:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 8
+      scalar: 5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -8321,11 +8321,11 @@ ParticleSystem:
     inWorldSpace: 0
     multiplyDragByParticleSize: 0
     multiplyDragByParticleVelocity: 1
-    dampen: 0.8
+    dampen: 1
     drag:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.9
+      scalar: 0.8
       minScalar: 0
       maxCurve:
         serializedVersion: 2
