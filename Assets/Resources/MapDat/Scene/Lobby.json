@@ -13438,7 +13438,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.4499958753585816,
+                "y": 1.449995756149292,
                 "z": 1.0
             },
             "talPot": {
@@ -13649,13 +13649,13 @@
             }
         },
         {
-            "id": 335,
-            "activeRequirAmount": 1,
+            "id": 334,
+            "activeRequirAmount": 0,
             "chargeRequired": false,
             "jumpingPower": 0,
             "position": {
-                "x": -32.66999816894531,
-                "y": 24.579999923706056
+                "x": -29.0,
+                "y": 25.0
             },
             "quaternion": {
                 "x": 0.0,
@@ -13677,8 +13677,8 @@
             "onHoldRotation": false,
             "onLeft": false,
             "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
+            "moveSpeed": 1.0,
+            "moveDistance": 10.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
                 "x": 0.0,
@@ -13906,10 +13906,6 @@
                 {
                     "x": -34.5,
                     "y": 21.0
-                },
-                {
-                    "x": -32.66999816894531,
-                    "y": 24.579999923706056
                 }
             ],
             "lightPositions": [],

@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using Mirror;
+using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 
 
@@ -15,8 +17,9 @@ public class WDMP_Net : NetworkBehaviour
     [SyncVar] public float moveDistance;
     [SyncVar(hook =nameof(OnDataPathUpdated))] 
     public Vector2 position;
+    
     [SyncVar] public float rayLength;
-
+    [SyncVar] public float moveSpeed;
     [SyncVar] public Vector2 dir;
     [SyncVar] public float step;
 
@@ -24,11 +27,49 @@ public class WDMP_Net : NetworkBehaviour
     [SyncVar] public float minDis_Clamp;
     [SyncVar] public float maxDis_Clamp;
 
+    private float recoveryRate = 5;
+    [ReadOnly]
+    public float curRecoveryRate;
+
+    Coroutine recoveryCoroutine;
+
+    private bool onRecover;
+    private void Update()
+    {
+        if(!isServer) return;
+
+        if(moveDistance != 0 &&!Compare(transform.position,position)&& !onRecover)
+        {
+            curRecoveryRate += Time.fixedDeltaTime;
+            if(curRecoveryRate >= recoveryRate)
+            {
+                onRecover = true;
+                //Recover
+                recoveryCoroutine = StartCoroutine(Recover_Co());
+            }
+        }
+
+    }
+    IEnumerator Recover_Co()
+    {
+        var rb = GetComponent<Rigidbody2D>();
+
+        while(!Compare(rb.position,position))
+        {
+            rb.position = Vector2.MoveTowards(rb.position,position,moveSpeed*Time.fixedDeltaTime);
+            yield return null;
+        }
+        recoveryCoroutine = null;
+        rb.position = position;
+        onRecover = false;
+    }
+
     [Server]
-    public void Server_SetMoveDistance(float moveDistance,Vector2 position)
+    public void Server_SetMoveDistance(float moveDistance,Vector2 position,float moveSpeed)
     {
        this.moveDistance = moveDistance;   
        this.position = position;
+       this.moveSpeed = moveSpeed;
     }
 
     [Server]
@@ -39,6 +80,17 @@ public class WDMP_Net : NetworkBehaviour
     [Server]
     public void Server_SetStep(float step)
     {
+        if(step != 0)
+        {
+            //Stop Recover
+            if(recoveryCoroutine != null) 
+            {
+                StopCoroutine(recoveryCoroutine);
+                onRecover= false;
+            }
+            curRecoveryRate = 0;
+        }
+
         this.step = step;
     }
     [Server]
@@ -98,7 +150,10 @@ public class WDMP_Net : NetworkBehaviour
         }
     }
 
-
-
-
+    private bool Compare(Vector2 a,Vector2 b,float threshold = 0.01f)
+    {
+        Debug.Log($"a:{a},b:{b}");
+        return Vector2.Distance(a, b) < threshold;
+    }
+    
 }

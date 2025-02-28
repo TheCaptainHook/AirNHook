@@ -57,12 +57,12 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     #endregion
     
     private void Init(){
-        WDMP_Net.Server_SetMoveDistance(ButtonActivatedObjectStruct.moveDistance,ButtonActivatedObjectStruct.position);
+        WDMP_Net.Server_SetMoveDistance(ButtonActivatedObjectStruct.moveDistance,ButtonActivatedObjectStruct.position,ButtonActivatedObjectStruct.moveSpeed);
 
         orgPot = transform.position;
         path  = GetPath();
         curTargetPot = orgPot;
-
+        
 
         bodyCol = GetComponent<Collider2D>();
         float rayLength = bodyCol.bounds.size.x/2f;

@@ -597,10 +597,12 @@ MonoBehaviour:
   moveDistance: 0
   position: {x: 0, y: 0}
   rayLength: 0
+  moveSpeed: 0
   dir: {x: 0, y: 0}
   step: 0
   minDis_Clamp: 0
   maxDis_Clamp: 0
+  curRecoveryRate: 0
 --- !u!114 &6678477908738241609
 MonoBehaviour:
   m_ObjectHideFlags: 0
