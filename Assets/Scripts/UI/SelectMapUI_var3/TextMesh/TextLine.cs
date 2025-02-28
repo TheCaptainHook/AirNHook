@@ -45,22 +45,22 @@ public class TextLine : MonoBehaviour
         orgColor = color;
         mainSentence = sentence;
 
-        yield return typingEffect.NormalTyping(text,sentence,color,3,fontSize);
+        yield return typingEffect.NormalTyping(text,sentence,color,4,fontSize);
     }
 
 #region Typing
 
-    public IEnumerator WriteTyping(string sentece,UnityEngine.Color color, float fontSize, float delayTime,int batchSize = 3){
-       text.color = color;
-       text.fontSize = fontSize;
-        StringBuilder sb = new();
-        for(int i = 0; i< sentece.Length;i+=batchSize){
-            int length = Mathf.Min(batchSize,sentece.Length-i);
-            sb.Append(sentece.Substring(i,length));
-            text.text  = sb.ToString();
-            yield return new WaitForSecondsRealtime(delayTime);
-        }
-    }
+    // public IEnumerator WriteTyping(string sentece,UnityEngine.Color color, float fontSize, float delayTime,int batchSize = 3){
+    //    text.color = color;
+    //    text.fontSize = fontSize;
+    //     StringBuilder sb = new();
+    //     for(int i = 0; i< sentece.Length;i+=batchSize){
+    //         int length = Mathf.Min(batchSize,sentece.Length-i);
+    //         sb.Append(sentece.Substring(i,length));
+    //         text.text  = sb.ToString();
+    //         yield return new WaitForSecondsRealtime(delayTime);
+    //     }
+    // }
 #endregion
 
     public void WriteText(string sentence, UnityEngine.Color color)
@@ -82,7 +82,7 @@ public class TextLine : MonoBehaviour
 
     public IEnumerator Task_EraserText() {
         mainSentence = "";
-        yield return typingEffect.NormalEraser(text,3);
+        yield return typingEffect.NormalEraser(text,5);
     }
    
 

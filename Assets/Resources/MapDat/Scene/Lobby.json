@@ -10552,73 +10552,11 @@
             "animationTriggerType": 0
         },
         {
-            "id": 344,
+            "id": 313,
             "dialogueId": 0,
             "position": {
-                "x": -11.850000381469727,
-                "y": 27.1200008392334
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 0.5299999713897705,
-                "y": 0.5299999713897705,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0
-        },
-        {
-            "id": 343,
-            "dialogueId": 0,
-            "position": {
-                "x": -13.619999885559082,
-                "y": 26.8700008392334
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 0.75,
-                "y": 0.75,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0
-        },
-        {
-            "id": 319,
-            "dialogueId": 0,
-            "position": {
-                "x": -36.880001068115237,
-                "y": 21.059999465942384
+                "x": -14.130000114440918,
+                "y": 26.420000076293947
             },
             "quaternion": {
                 "x": 0.0,
@@ -12567,7 +12505,7 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false,
+            "chargeRequired": true,
             "animationTriggerType": 0
         },
         {
@@ -12598,7 +12536,7 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false,
+            "chargeRequired": true,
             "animationTriggerType": 0
         },
         {
@@ -13500,7 +13438,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.4499964714050294,
+                "y": 1.4499958753585816,
                 "z": 1.0
             },
             "talPot": {
@@ -13629,43 +13567,6 @@
             "onLeft": false,
             "paths": [],
             "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 334,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "jumpingPower": 0,
-            "position": {
-                "x": -27.040000915527345,
-                "y": 25.360000610351564
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 1.0,
             "moveDistance": 0.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
@@ -14024,7 +13925,7 @@
         {
             "id": 329,
             "position": {
-                "x": -33.0,
+                "x": -31.350000381469728,
                 "y": 22.0
             },
             "quaternion": {
@@ -14038,13 +13939,13 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "targetPositions": [
+            "targetPositions": [],
+            "lightPositions": [
                 {
-                    "x": -34.5,
-                    "y": 21.0
+                    "x": -22.0,
+                    "y": 29.0
                 }
             ],
-            "lightPositions": [],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
@@ -14052,13 +13953,13 @@
                 "x": 0.0,
                 "y": 0.0
             },
-            "chargeRequired": true
+            "chargeRequired": false
         },
         {
-            "id": 345,
+            "id": 306,
             "position": {
-                "x": -15.640000343322754,
-                "y": 27.020000457763673
+                "x": -11.989999771118164,
+                "y": 26.020000457763673
             },
             "quaternion": {
                 "x": 0.0,
@@ -14071,15 +13972,43 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "targetPositions": [
-                {
-                    "x": -33.0,
-                    "y": 22.0
-                }
-            ],
+            "targetPositions": [],
             "lightPositions": [
                 {
                     "x": -14.0,
+                    "y": 29.0
+                }
+            ],
+            "onHint": false,
+            "partsPositions": [],
+            "itemPositions": [],
+            "hintPosition": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "chargeRequired": false
+        },
+        {
+            "id": 312,
+            "position": {
+                "x": -16.139999389648439,
+                "y": 26.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "targetPositions": [],
+            "lightPositions": [
+                {
+                    "x": -30.0,
                     "y": 29.0
                 }
             ],

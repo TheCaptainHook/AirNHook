@@ -47,6 +47,7 @@ public class PowerSupply : ButtonEntity,IInteractable
             GetTargetPositions(), 
             GetLightPositions(),
             transform.position, 
+            transform.rotation,
             transform.localScale, 
             false);
         }

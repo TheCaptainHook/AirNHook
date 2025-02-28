@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,11 +34,13 @@ public class MapInfo_UI : MonoBehaviour
     {
         if(isOpen)
         {
-            mapImage.sprite = null;
+            
             StopAllCoroutines();
             // animator.SetBool(Open, false);
+            TypingEffect_Eraser();
             animator.SetTrigger(Close);
-            text.text = string.Empty;
+            // mapImage.sprite = null;
+            // text.text = string.Empty;
             isOpen = false;
         }
         
@@ -47,20 +50,25 @@ public class MapInfo_UI : MonoBehaviour
     Coroutine typingCoroutine;
     public void ShowMapInfo(string mapName,int curStageLevel)
     {
+        if(eraser_Co != null) StopCoroutine(eraser_Co);
         if (typingCoroutine != null) StopCoroutine(typingCoroutine);
-        mapImage.sprite = null;
+        
         text.text = string.Empty;
 
         string id = mapName.Replace(">", "").Trim();
         Map map = GetMap(id,curStageLevel);
         if(map == null) return;
 
-
         animator.SetTrigger(Open);
+        StartCoroutine(SetImageDelay(map.mapID));
+
+        // mapImage.sprite = null;
+        // SetMapImage(map.mapID);
+
         isOpen = true;
 
         MapSaveData data = GetMapSaveData(map.mapID);
-        SetMapImage(map.mapID);
+        
 
         string name = map.subMapName == string.Empty ? map.mapID : map.subMapName;
 
@@ -73,7 +81,19 @@ public class MapInfo_UI : MonoBehaviour
         typingCoroutine = StartCoroutine(TypingEffect.NormalTyping(text,sentence,localColor,1));
 
     }
+    IEnumerator SetImageDelay(string mapId)
+    {
+        yield return new WaitForSeconds(0.2f);
+        SetMapImage(mapId);
+    }
 
+    Coroutine eraser_Co;
+    //Animation trigger
+    private void TypingEffect_Eraser()
+    {
+        if(eraser_Co != null) StopCoroutine(eraser_Co);
+        eraser_Co = StartCoroutine(typingEffect.NormalEraser(text,5));
+    }
 
     private Map GetMap(string mapName,int curStageLevel)
     {

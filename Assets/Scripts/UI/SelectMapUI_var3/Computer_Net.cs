@@ -94,6 +94,11 @@ public class Computer_Net : NetworkBehaviour
     {
         if (isOpen) return;
         isOpen = true;
+//------------------------------------player Move control
+        var player = Managers.Game.Player.GetComponent<PlayerSM>();
+        player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        Managers.Game.Player.GetComponent<PlayerSM>().canMovable = false;
+//------------------------------------player Move control
 
         Rpc_ShowUi();
 

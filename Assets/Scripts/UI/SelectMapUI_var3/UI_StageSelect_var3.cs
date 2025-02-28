@@ -636,6 +636,7 @@ public class UI_StageSelect_var3: UI_Base
             else if (mapDatas[i].onOpenStage)
             {
                 //yield return WriteLine(string.IsNullOrWhiteSpace(maps[i].subMapName) ? maps[i].mapID : maps[i].subMapName, Color.yellow, true);
+                // Debug.Log($"Id : {mapDatas[i].mapId}\nsub : {mapDatas[i].subMapName}");
                 yield return WriteLine(string.IsNullOrWhiteSpace(mapDatas[i].subMapName) ? mapDatas[i].mapId : mapDatas[i].subMapName, Color.yellow, true);
             }
            
@@ -713,12 +714,10 @@ public class UI_StageSelect_var3: UI_Base
 
         computer.GetComponent<StageSelectorComputer>().SpawnKey();
 
-        //player Move control
-        // PlayerMovement playerMovement = Managers.Game.Player.GetComponent<PlayerMovement>();
-        // if(!playerMovement.canControl){
-        //     playerMovement.canControl = true;
-        // }
-        //player Move control
+    //------------------------------------player Move control
+        var player = Managers.Game.Player.GetComponent<PlayerSM>();
+        if(!player.canMovable) player.canMovable = true;
+    //------------------------------------player Move control
 
         onPrograss = false;
         onInteractable = true;
@@ -780,12 +779,10 @@ public class UI_StageSelect_var3: UI_Base
         yield return EraserTextLineCo(0, maxSelectTextLineListIndex);
         animator.SetTrigger(close);
         yield return new WaitForSeconds(1f);
-    //player Move control
-        // PlayerMovement playerMovement = Managers.Game.Player.GetComponent<PlayerMovement>();
-        // if(!playerMovement.canControl){
-        //     playerMovement.canControl = true;
-        // }
-    //player Move control
+    //------------------------------------player Move control
+        var player = Managers.Game.Player.GetComponent<PlayerSM>();
+        if(!player.canMovable) player.canMovable = true;
+    //------------------------------------player Move control
         computer.GetComponent<Computer_Net>().Server_SetIsOpen(false);
 
         onPrograss = false;

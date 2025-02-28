@@ -75,13 +75,14 @@ public struct ButtonObjectStruct
     List<Vector2> targetPositions,
     List<Vector2> lightPositions,
     Vector2 position,
+    Quaternion quaternion,
     Vector3 scale,
     bool chargeRequired = false)
     {
         this.id = id;
         this.targetPositions = targetPositions;
         this.position = position;
-        quaternion = Quaternion.identity;
+        this.quaternion = quaternion;
         this.scale = scale;
         //puzzle
         partsPositions = null;

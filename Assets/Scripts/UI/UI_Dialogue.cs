@@ -174,10 +174,15 @@ public class UI_Dialogue : UI_Base
     private void StartInit()
     {
           _Panel.color = _Alpha_translucent;
-        // Player 못 움직이게 설정
-        // player.GetComponent<PlayerMovement>().canControl = false;
-        // Managers.Game.Player.GetComponent<Rigidbody2D>().velocity  = Vector2.zero;
-        //
+    
+        //------------------------------------player Move control
+        var player = Managers.Game.Player.GetComponent<PlayerSM>();
+        player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+         Managers.Game.Player.GetComponent<PlayerSM>().canMovable = false;
+
+        //------------------------------------player Move control
+       
+
         //TextBox SetActive
         if (!_TextBoxRT.gameObject.activeSelf)
         {
@@ -197,9 +202,10 @@ public class UI_Dialogue : UI_Base
 
         _Panel.color = _Alpha_0;
 
-        // Player 다시 움직이게 설정
-        // player.GetComponent<PlayerMovement>().canControl = true;
-        //
+        //------------------------------------player Move control
+        var player = Managers.Game.Player.GetComponent<PlayerSM>();
+        if(!player.canMovable) player.canMovable = true;
+        //------------------------------------player Move control
         Managers.UI.HideUI<UI_Dialogue>();
     }
 

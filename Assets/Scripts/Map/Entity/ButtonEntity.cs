@@ -85,6 +85,8 @@ public class ButtonEntity : BuildObj
                  ButtonObjectStruct buttonData = (ButtonObjectStruct)(object)data;
                  ButtonObjectData = buttonData;
                  FindTargetObject();
+                 if(buttonData.lightPositions.Count >0) FindLightObject();
+
             }
                 
         }catch(Exception ex){
@@ -95,7 +97,15 @@ public class ButtonEntity : BuildObj
     public override T GetData<T>()
     {
         if(typeof(T) == typeof(ButtonObjectStruct)){
-            return (T)(object)new ButtonObjectStruct(id,GetTargetPositions(),transform.position,transform.rotation,transform.localScale);
+            return (T)(object)new ButtonObjectStruct(
+                id,
+                GetTargetPositions(),
+                GetLightPositions(),
+                transform.position,
+                transform.rotation,
+                transform.localScale,
+                chargeRequired
+                );
         }
 
         return default(T);

@@ -322,7 +322,7 @@ public class UI_StageSelect_var3_Dummy: UI_Base
 
             if(_PrograssLevel == PrograssLevel.Three)
             {
-                Debug.Log(curSelectTextLine.text.text);
+                
                 mapInfo_UI.ShowMapInfo(curSelectTextLine.text.text,curStageLevel);
             }
         }
@@ -333,7 +333,7 @@ public class UI_StageSelect_var3_Dummy: UI_Base
 
             if (_PrograssLevel == PrograssLevel.Three)
             {
-                Debug.Log(curSelectTextLine.text.text);
+                
                 mapInfo_UI.ShowMapInfo(curSelectTextLine.text.text, curStageLevel);
             }
         }

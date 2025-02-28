@@ -6,6 +6,7 @@ using UnityEngine;
 using System.Text;
 using System.Linq;
 using System.Threading;
+using UnityEngine.Rendering;
 
 
 public class SaveData
@@ -111,7 +112,8 @@ public class SaveData
         int updatedVariableCount = 0;
         
         var keysToRemove = dic.Keys.Where(key => !Managers.Data.mapData.mapAllDictionary.ContainsKey(key)).ToList();
-        foreach (var key in keysToRemove) {
+        //----------------------------------------------------Map ID Check, Update and Remove
+        foreach (var key in keysToRemove) { 
             dic.Remove(key);
             Debug.Log($"Delete: {key}");
             updatedVariableCount++;
@@ -125,6 +127,10 @@ public class SaveData
                 updatedVariableCount++;
             }
         }
+        //----------------------------------------------------Map ID Check, Update and Remove
+
+
+
             return updatedVariableCount > 0;
         }).ContinueWith(task => {
             if (task.Result) Save();
@@ -355,10 +361,16 @@ public class MapSaveData
         if(!DialougeCheck(map)){
             return false;
         }
-        if (this.mapSubName != map.subMapName) return false;
+        if (this.mapSubName != map.subMapName)
+        {
+            this.mapSubName = map.subMapName;
+            Debug.Log($"Intergrity : {mapSubName}");
+            return false;
+        } 
 
         return true;
     }
+    
     private bool DialougeCheck(Map map){
          if(map.dialogueDataList.Count != _DialogueDataList.Count){
             _DialogueDataList.Clear();

@@ -20,6 +20,7 @@ public class LineToTarget : MonoBehaviour
 //------------------------------------------------------------Refactoring 0114
     // Vector2 previousPot;
     List<TargetTrackingField> targetList;
+    List<TargetTrackingField> lightList;
     // Queue<LineRenderer> lineQueue;
     //1 사이즈 차이
     //개별 오브젝트 비교, 차이나면 바로 리프레쉬
@@ -35,13 +36,18 @@ public class LineToTarget : MonoBehaviour
     CheckDebugTransform();
 
     targetList = new();
+    lightList = new();
     // lineQueue = new();   
     
     CheckNullAndMissingValue();
 
     foreach(var target in entity.targetObjects)
     {
-        targetList.Add(new TargetTrackingField(transform,GeneratorLineRenderer(),target.transform));
+        targetList.Add(new TargetTrackingField(transform,GeneratorLineRenderer(Color.red),target.transform));
+    }
+    foreach(var light in entity.lightObjects)
+    {
+        lightList.Add(new TargetTrackingField(transform,GeneratorLineRenderer(Color.blue),light.transform));
     }
     
   }
@@ -58,6 +64,7 @@ public void Reset()
     }
     // if(debugmodeTransform != null) DestroyImmediate(debugmodeTransform.gameObject);
     targetList.Clear();
+    lightList.Clear();
     // lineQueue.Clear();
 }
 
@@ -66,10 +73,9 @@ public void Reset()
 public void Tracking()
 {
     CheckNullAndMissingValue();
-
     CheckEntityTargetValue();
 
-    if(targetList.Count != entity.targetObjects.Count) return;
+    if(targetList.Count != entity.targetObjects.Count || lightList.Count != entity.lightObjects.Count) return;
 
     EntityTargetRefrash();
     TargetRefrash();
@@ -84,6 +90,15 @@ private void CheckNullAndMissingValue()
             entity.targetObjects.Remove(entity.targetObjects[i]);
         }
     }
+    //----------------------------------------------Light
+    for(int i = entity.lightObjects.Count -1;i>=0;i--)
+    {
+        if(entity.lightObjects[i]==null)
+        {
+            entity.lightObjects.Remove(entity.lightObjects[i]);
+        }
+    }
+    //----------------------------------------------Light
 }
 
 private void CheckEntityTargetValue()
@@ -104,10 +119,35 @@ private void CheckEntityTargetValue()
         }else{
             for(int i = 0;i < entity.targetObjects.Count - targetList.Count;i++)
             {
-                targetList.Add(new TargetTrackingField(transform,GeneratorLineRenderer()));
+                targetList.Add(new TargetTrackingField(transform,GeneratorLineRenderer(Color.red)));
             }
         }
     }
+
+    //-------Light
+     if(lightList.Count != entity.lightObjects.Count)
+    {
+        if(lightList.Count > entity.lightObjects.Count)
+        {
+            for(int i = 0;i<lightList.Count - entity.lightObjects.Count;i++)
+            {
+                var lastVal = lightList[^1];
+                lightList.Remove(lastVal);
+                lastVal.DestroyLine();
+
+            }
+
+
+        }else{
+            for(int i = 0;i < entity.lightObjects.Count - lightList.Count;i++)
+            {
+                lightList.Add(new TargetTrackingField(transform,GeneratorLineRenderer(Color.blue)));
+            }
+        }
+    }
+
+
+
 }
 private void EntityTargetRefrash()
 {
@@ -115,6 +155,11 @@ private void EntityTargetRefrash()
     {
         targetList[i].CompareTarget(entity.targetObjects[i]);
     }
+     for(int i =0; i<entity.lightObjects.Count;i++)
+    {
+        lightList[i].CompareTarget(entity.lightObjects[i]);
+    }
+    
 }
 
 
@@ -123,6 +168,10 @@ private void TargetRefrash()
     foreach(var target in targetList)
     {
         target.Refrash();
+    }
+     foreach(var light in lightList)
+    {
+        light.Refrash();
     }
 }
 
@@ -222,11 +271,15 @@ public class TargetTrackingField
 
 #region  Line
 
-    private LineRenderer GeneratorLineRenderer(){
+    private LineRenderer GeneratorLineRenderer(Color color){
 
         GameObject obj = new GameObject("LineRenderer");
         LineRenderer lineRenderer = obj.AddComponent<LineRenderer>();
         // lineRendererList.Add(lineRenderer);
+        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        lineRenderer.startColor = color;
+        lineRenderer.endColor = color;
+        
         lineRenderer.startWidth = 0.1f;
         lineRenderer.endWidth = 0.1f;
         lineRenderer.positionCount = 0;

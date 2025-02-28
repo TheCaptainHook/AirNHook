@@ -15217,6 +15217,7 @@ MonoBehaviour:
   syncInterval: 0
   <playerData>k__BackingField: {fileID: 0}
   canControl: 0
+  canMovable: 0
   invincible: 0
   <charPivot>k__BackingField: {fileID: 0}
   coyoteTimeCount: 0

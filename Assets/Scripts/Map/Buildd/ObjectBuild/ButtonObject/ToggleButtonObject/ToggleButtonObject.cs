@@ -73,6 +73,7 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
             GetTargetPositions(), 
             GetLightPositions(),
             transform.position, 
+            transform.rotation,
             transform.localScale, 
             chargeRequired);
         }
@@ -91,9 +92,11 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
 
                 if(buttonData.lightPositions.Count >0) FindLightObject();
                 
+                //---------------------------------------------------------------------Use ChargeRequired
                 chargeRequired = buttonData.chargeRequired;
                 if(Application.isPlaying)
                 ToggleButton_Net.Server_SetChargeRequired(buttonData.chargeRequired);
+                //---------------------------------------------------------------------Use ChargeRequired
             }
 
         }
