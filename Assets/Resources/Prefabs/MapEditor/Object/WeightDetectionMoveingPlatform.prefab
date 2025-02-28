@@ -302,6 +302,7 @@ GameObject:
   - component: {fileID: 5668807585860074836}
   - component: {fileID: 851463365788888728}
   - component: {fileID: 6678477908738241609}
+  - component: {fileID: 9022313030282605620}
   m_Layer: 15
   m_Name: WeightDetectionMoveingPlatform
   m_TagString: Untagged
@@ -616,6 +617,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onHierarchy: 0
+--- !u!114 &9022313030282605620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3164631011725507869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 1
+  m_ApplyToSortingLayers: 0000000079fff5dc156d27bc93974e373dfa80d69754fad67bd34c9e4b693136d173aa402fab228b09c81f54432c1bc63db6189c
+  m_ShapePath:
+  - {x: -3, y: -0.24609375, z: 0}
+  - {x: -3, y: 0.24609375, z: 0}
+  - {x: 3, y: 0.24609375, z: 0}
+  - {x: 3, y: -0.24609375, z: 0}
+  m_ShapePathHash: 0
+  m_Mesh: {fileID: 0}
+  m_InstanceId: -324456
+  m_LocalBounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 3, y: 0.24609375, z: 0}
 --- !u!1 &3684428908794630225
 GameObject:
   m_ObjectHideFlags: 0
