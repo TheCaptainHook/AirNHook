@@ -92,7 +92,7 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
+  _Dissolve_MainSprite: {fileID: 6616581546084375191}
 --- !u!114 &-2767788134810897182
 MonoBehaviour:
   m_ObjectHideFlags: 0
