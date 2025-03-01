@@ -209,7 +209,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9147100661072102258}
   - component: {fileID: 4970683077433925754}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Mask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20686,6 +20686,7 @@ MonoBehaviour:
   syncInterval: 0
   <playerData>k__BackingField: {fileID: 11400000, guid: e7a5e2da6aadae444b0a97d18ddecac4, type: 2}
   canControl: 0
+  canMovable: 0
   invincible: 0
   <charPivot>k__BackingField: {fileID: 759945192256969836}
   coyoteTimeCount: 0
