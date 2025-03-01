@@ -26,10 +26,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   <detectDistance>k__BackingField: 2
-  <swingForce>k__BackingField: 7
-  <swingJumpForce>k__BackingField: 3
-  <climbSpeed>k__BackingField: 3
+  <swingForce>k__BackingField: 7.6
+  <swingJumpForce>k__BackingField: 3.4
+  <climbSpeed>k__BackingField: 3.4
   <ropeSpeed>k__BackingField: 35
-  <ropeMaxDistance>k__BackingField: 6
+  <ropeMaxDistance>k__BackingField: 7.2
   <coolDown>k__BackingField: 0.8
   <inhalePower>k__BackingField: 600

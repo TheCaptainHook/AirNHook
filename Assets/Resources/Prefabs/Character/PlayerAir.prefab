@@ -317,6 +317,7 @@ MonoBehaviour:
   syncInterval: 0
   <playerData>k__BackingField: {fileID: 11400000, guid: 0db80b8c5bc27d649a7b3385c6a1833d, type: 2}
   canControl: 0
+  canMovable: 0
   invincible: 0
   <charPivot>k__BackingField: {fileID: 9177120215743396866}
   coyoteTimeCount: 0
