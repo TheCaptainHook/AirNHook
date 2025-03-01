@@ -259,10 +259,11 @@ public class NetworkCommand : NetworkBehaviour
     private void RpcDestroyKey(GameObject target)
     {
         //target.GetComponent<SpriteRenderer>().enabled = false;
-        if (target.TryGetComponent(out SpriteRenderer spriteRenderer))
-        {
-            spriteRenderer.enabled = false;
-        }
+        //if (target.TryGetComponent(out SpriteRenderer spriteRenderer))
+        //{
+        //    spriteRenderer.enabled = false;
+        //}
+        target.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
         target.GetComponent<IInteractable>().Interacting(true);
         target.GetComponent<Key>().CallOnInterableObjectRelease();
         
