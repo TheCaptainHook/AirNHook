@@ -119,6 +119,7 @@ public class Puzzle_1 : ButtonEntity
 
 
     //-------------------------------------------------------------Network 250126
+    #if UNITY_EDITOR
     private void Editor_Setting(int index)
     {
         GameObject obj;
@@ -145,6 +146,7 @@ public class Puzzle_1 : ButtonEntity
 
             }
     }
+    #endif
 
      private void Setting() {
         for (int i = 0; i < partsPosition.Length; i++) {
