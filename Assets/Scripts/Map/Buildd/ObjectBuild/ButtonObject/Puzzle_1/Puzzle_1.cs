@@ -166,7 +166,7 @@ public class Puzzle_1 : ButtonEntity
         {
             //Puzzle_Net.Server_SetHintPosition(onHint, hintPosition);
             // Puzzle_Net.Cmd_SetPuzzleSetting();
-            StartCoroutine(ClientDelay(()=>{Puzzle_Net.Cmd_SetPuzzleSetting();}));
+            StartCoroutine(ClientDelay(()=>{Puzzle_Net.Server_SetPuzzleSetting();}));
         }
         else
         {

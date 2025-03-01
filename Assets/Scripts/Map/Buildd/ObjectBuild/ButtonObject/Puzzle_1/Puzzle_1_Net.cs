@@ -159,7 +159,7 @@ public class Puzzle_1_Net : NetworkBehaviour
     }
 
     [Server]
-    private void Server_SetPuzzleSetting()
+    public void Server_SetPuzzleSetting()
     {
         var hint = Puzzle.GetHintData();
         this.hint = new Hint(hint.isHint, answer, hint.position);
@@ -178,11 +178,11 @@ public class Puzzle_1_Net : NetworkBehaviour
 
 
     #region Init_Cmd
-    [Command(requiresAuthority = false)]
-    public void Cmd_SetPuzzleSetting()
-    {
-        Server_SetPuzzleSetting();
-    }
+    //[Command(requiresAuthority = false)]
+    //public void Cmd_SetPuzzleSetting()
+    //{
+    //    Server_SetPuzzleSetting();
+    //}
 
     #endregion
 
@@ -244,12 +244,12 @@ public class Puzzle_1_Net : NetworkBehaviour
     #endregion
 
 
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        if(!isServer)
-        Cmd_SetPuzzleSetting();
-    }
+    //public override void OnStartClient()
+    //{
+    //    base.OnStartClient();
+    //    if(!isServer)
+    //    //Cmd_SetPuzzleSetting();
+    //}
 
 
 
