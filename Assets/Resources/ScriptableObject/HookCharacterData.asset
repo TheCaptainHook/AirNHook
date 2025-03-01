@@ -17,7 +17,7 @@ MonoBehaviour:
   <jumpPower>k__BackingField: 11.4
   <floorLayerMask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 688832
+    m_Bits: 33472
   <coyoteTime>k__BackingField: 0.1
   <interactableLayerMask>k__BackingField:
     serializedVersion: 2
@@ -29,7 +29,7 @@ MonoBehaviour:
   <swingForce>k__BackingField: 7.6
   <swingJumpForce>k__BackingField: 3.4
   <climbSpeed>k__BackingField: 3.4
-  <ropeSpeed>k__BackingField: 35
+  <ropeSpeed>k__BackingField: 40
   <ropeMaxDistance>k__BackingField: 7.2
   <coolDown>k__BackingField: 0.8
   <inhalePower>k__BackingField: 600

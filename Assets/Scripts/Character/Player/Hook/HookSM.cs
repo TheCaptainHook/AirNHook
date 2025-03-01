@@ -78,6 +78,46 @@ public class HookSM : PlayerSM, IInhalable
     }
     #endregion
 
+    #region Ground
+    protected override void GroundCheck()
+    {
+        if (!isSwinging)
+        {
+            for (var i = -1; i < 2; i++)
+            {
+                _hit = Physics2D.Raycast(transform.position + (Vector3.right * (0.4f * i)) + (Vector3.up * 0.2f), Vector2.down, 0.4f, playerData.floorLayerMask);
+                if (!_hit) continue;
+
+                //isHalfPlatform = _halfPlatformLayer == (_halfPlatformLayer | (1 << _hit.transform.gameObject.layer));
+                isHalfPlatform = (1 << _hit.transform.gameObject.layer) == _halfPlatformLayer;
+                if (isHalfPlatform && !isDownThroughPlatform)
+                {
+                    rigidbody2D.excludeLayers = 0;
+                    collider2D.forceReceiveLayers = _defaultForceReceiveLayer;
+                }
+                else
+                {
+                    rigidbody2D.excludeLayers = _halfPlatformLayer;
+                    collider2D.forceReceiveLayers = ~_halfPlatformLayer;
+                }
+
+                if (isGround) return;
+
+                CmdLandParticlePlay();
+                isGround = true;
+                coyoteTimeCount = _coyoteTime;
+                Physics2D.SyncTransforms();
+                return;
+            }
+        }
+        isHalfPlatform = false;
+        rigidbody2D.excludeLayers = _halfPlatformLayer;
+        collider2D.forceReceiveLayers = ~_halfPlatformLayer;
+        isGround = false;
+        coyoteTimeCount -= Time.deltaTime;
+    }
+    #endregion
+
     #region Interaction
     protected override IEnumerator DetectInteraction()
     {
