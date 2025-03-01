@@ -29,10 +29,10 @@ public class DetectionFieldDestroyer : MonoBehaviour
     Gizmos.color = color;
     switch(drawType){
         case DrawType.Cube:
-        Gizmos.DrawCube(transform.position+ (Vector3)offset,_CubeSize);
+        Gizmos.DrawCube(transform.position+ (Vector3)(transform.rotation * offset),_CubeSize);
         break;
         case DrawType.Sphere:
-        Gizmos.DrawSphere(transform.position+ (Vector3)offset,_SphereRadius);
+        Gizmos.DrawSphere(transform.position+ (Vector3)(transform.rotation * offset),_SphereRadius);
         break;
     }
 
@@ -52,11 +52,20 @@ public class DetectionFieldDestroyer : MonoBehaviour
     private void DetectionField(){
         switch(drawType){
             case DrawType.Cube:
-            Collider2D[] colCube = Physics2D.OverlapBoxAll(transform.position+(Vector3)offset,_CubeSize,0,groundLayerMask | playerLayerMask);
+            Collider2D[] colCube = Physics2D.OverlapBoxAll(
+                // transform.position+(Vector3)offset,
+                transform.position + (Vector3)(transform.rotation * offset),
+                _CubeSize,
+                transform.eulerAngles.z,
+                groundLayerMask | playerLayerMask);
             DetectionAndDestroy(colCube);
             break;
             case DrawType.Sphere:
-            Collider2D[] colSphere = Physics2D.OverlapCircleAll(transform.position+(Vector3)offset,_SphereRadius,groundLayerMask | playerLayerMask);
+            Collider2D[] colSphere = Physics2D.OverlapCircleAll(
+                // transform.position+(Vector3)offset,
+                (Vector3)(transform.rotation * offset),
+                _SphereRadius,
+                groundLayerMask | playerLayerMask);
             DetectionAndDestroy(colSphere);
             break;
         }
