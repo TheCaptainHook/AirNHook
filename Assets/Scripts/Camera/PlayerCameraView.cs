@@ -78,7 +78,7 @@ public class PlayerCameraView : MonoBehaviour
 
     [Header("Follow Camera")]
     public bool notFollowCam;
-    private float _smoothSpeed = .5f;
+    private float _smoothSpeed = .8f;
     [Header("Camera Zoom")]
     private Vector3 _vecVelocity = Vector3.zero;
     private float _floatVelocity = 0;
@@ -263,7 +263,7 @@ public class PlayerCameraView : MonoBehaviour
 }
      private void InGameZoomInAndOut(float scroll)
     {
-        _Zoom = Math.Min(mainCamera.orthographicSize, _MaxZoom) + scroll;
+        _Zoom = Math.Min(mainCamera.orthographicSize, _MaxZoom) + scroll*20;
         _Zoom = Mathf.Clamp(_Zoom, _MinZoom, _MaxZoom);
 
         mainCamera.orthographicSize = Mathf.SmoothDamp(mainCamera.orthographicSize, _Zoom, ref _floatVelocity, 0.1f, float.MaxValue, Time.deltaTime);
