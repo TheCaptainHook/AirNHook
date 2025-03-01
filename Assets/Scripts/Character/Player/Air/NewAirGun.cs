@@ -89,7 +89,7 @@ public class NewAirGun
         _weaponPoint = _air.weaponPoint;
         _inhaleParticles = _air.inhaleParticle;
         _exhaleParticles = _air.exhaleParticle;
-        _halfTileLayerMask = LayerMask.GetMask("Ground/HalfTiles");
+        _halfTileLayerMask = LayerMask.GetMask("Ground/HalfPlatform");
         
         var airData = (AirDataSO)_air.playerData;
         
