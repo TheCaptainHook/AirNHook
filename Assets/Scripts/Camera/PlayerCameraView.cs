@@ -261,9 +261,10 @@ public class PlayerCameraView : MonoBehaviour
         marker.gameObject.SetActive(isActive);
     }
 }
+    private float zoomInOutSpeed = 20;
      private void InGameZoomInAndOut(float scroll)
     {
-        _Zoom = Math.Min(mainCamera.orthographicSize, _MaxZoom) + scroll*20;
+        _Zoom = Math.Min(mainCamera.orthographicSize, _MaxZoom) + scroll*zoomInOutSpeed;
         _Zoom = Mathf.Clamp(_Zoom, _MinZoom, _MaxZoom);
 
         mainCamera.orthographicSize = Mathf.SmoothDamp(mainCamera.orthographicSize, _Zoom, ref _floatVelocity, 0.1f, float.MaxValue, Time.deltaTime);
