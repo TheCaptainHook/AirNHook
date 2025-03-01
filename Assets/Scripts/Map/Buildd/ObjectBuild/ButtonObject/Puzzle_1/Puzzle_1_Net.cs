@@ -166,8 +166,8 @@ public class Puzzle_1_Net : NetworkBehaviour
 
         Rpc_SetPuzzleSetting(partsList,itemsList,this.hint);
     }
-   
- 
+
+
     #endregion
 
 
@@ -178,11 +178,11 @@ public class Puzzle_1_Net : NetworkBehaviour
 
 
     #region Init_Cmd
-    //[Command(requiresAuthority = false)]
-    //public void Cmd_SetPuzzleSetting()
-    //{
-    //    Server_SetPuzzleSetting();
-    //}
+    [Command(requiresAuthority = false)]
+    public void Cmd_SetPuzzleSetting()
+    {
+        Server_SetPuzzleSetting();
+    }
 
     #endregion
 
@@ -240,17 +240,25 @@ public class Puzzle_1_Net : NetworkBehaviour
 
     }
 
-     
+
     #endregion
 
 
-    //public override void OnStartClient()
-    //{
-    //    base.OnStartClient();
-    //    if(!isServer)
-    //    //Cmd_SetPuzzleSetting();
-    //}
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        //if (!isServer)
+        //Cmd_SetPuzzleSetting();
+        StartCoroutine(Delay());
+    }
 
+
+    IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(0.5f);
+        if (!isServer)
+            Cmd_SetPuzzleSetting();
+    }
 
 
     [Command(requiresAuthority = false)]
