@@ -59,6 +59,7 @@ public class RefreshPosition : InteractableObject
     {
         base.Release();
         OnHads = false;
+        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 
     }
 
