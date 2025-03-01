@@ -119,11 +119,13 @@ public class Puzzle_1 : ButtonEntity
 
 
     //-------------------------------------------------------------Network 250126
+#if UNITY_EDITOR
     private void Editor_Setting(int index)
     {
         GameObject obj;
         Puzzle_1_Helper helper = GetComponent<Puzzle_1_Helper>();
             helper.Init();
+
             if (Application.isPlaying)
             {
                 Puzzle_Net.Server_CreatePuzzle_Item(
@@ -145,8 +147,9 @@ public class Puzzle_1 : ButtonEntity
 
             }
     }
+#endif
 
-     private void Setting() {
+    private void Setting() {
         for (int i = 0; i < partsPosition.Length; i++) {
 
 #if UNITY_EDITOR
