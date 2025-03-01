@@ -40,6 +40,7 @@ public class NewAirGun
     private Transform _crossHair;
     private LineRenderer _lineRenderer => _air.lineRenderer;
     private LayerMask _floorLayerMask;
+    private LayerMask _predictLineLayerMask;
     private float _shootPower;
     private float _minShootPower;
     private float _maxShootPower;
@@ -103,6 +104,7 @@ public class NewAirGun
         _flyPower = airData.flyPower;
         _stickToHookSpeed = airData.stickToHookSpeed;
         _floorLayerMask = airData.floorLayerMask;
+        _predictLineLayerMask = airData.predictLineLayerMask;
         
         _positions = new Vector3[_numberOfPoints];
         
@@ -608,7 +610,7 @@ public class NewAirGun
         for (i = 0; i < _numberOfPoints; i++)
         {
             Vector3 point = PointPosition(i * _spaceBetweenPoints);
-            var hit = Physics2D.OverlapBox(point, _checkBoxSize, 0, _floorLayerMask);
+            var hit = Physics2D.OverlapBox(point, _checkBoxSize, 0, _predictLineLayerMask);
             
             if (hit && !hit.gameObject.Equals(_inhaleTarget.gameObject))
             {

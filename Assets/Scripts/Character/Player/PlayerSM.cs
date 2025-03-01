@@ -105,8 +105,8 @@ public class PlayerSM : NetworkBehaviour, IDamageable
             _hit = Physics2D.Raycast(transform.position + (Vector3.right * (0.4f * i)) + (Vector3.up * 0.2f), Vector2.down, 0.4f, playerData.floorLayerMask);
             if (!_hit) continue;
 
-            //isHalfPlatform = _halfPlatformLayer == (_halfPlatformLayer | (1 << _hit.transform.gameObject.layer));
-            isHalfPlatform = (1 << _hit.transform.gameObject.layer) == _halfPlatformLayer;
+            isHalfPlatform = _halfPlatformLayer == (_halfPlatformLayer | (1 << _hit.transform.gameObject.layer));
+            //isHalfPlatform = (1 << _hit.transform.gameObject.layer) == _halfPlatformLayer;
             if (isHalfPlatform && !isDownThroughPlatform)
                 collider2D.forceReceiveLayers = _defaultForceReceiveLayer;
             else
