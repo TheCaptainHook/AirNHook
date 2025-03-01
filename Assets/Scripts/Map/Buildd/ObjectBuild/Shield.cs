@@ -1,15 +1,27 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Org.BouncyCastle.Crypto.Engines;
+
 using UnityEngine;
 
 public class Shield : BuildObj
 {
+    RefreshPosition Net => GetComponent<RefreshPosition>();
+
 
     private void Awake(){
         DissolveInitSetting();
     }
+
+
+    public override void SetData<T>(T data)
+    {
+        base.SetData(data);
+
+        if(Application.isPlaying)
+        {
+            Net.Server_SetOrgPot(ObjectData.position);
+        }
+    }
+
+
     public override void TurnOff()
     {
         base.TurnOff();
