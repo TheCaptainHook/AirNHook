@@ -205,7 +205,7 @@ public class Puzzle_1 : ButtonEntity
     public void SetPart(Puzzle_1_Parts part)
     {
         if (puzzle_1_Parts == null) puzzle_1_Parts = new();
-
+        if (puzzle_1_Parts.Contains(part)) return;
         puzzle_1_Parts.Add(part);
     }
     #endregion
