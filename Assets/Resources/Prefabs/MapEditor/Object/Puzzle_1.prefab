@@ -661,7 +661,7 @@ GameObject:
   - component: {fileID: 115901517499643412}
   - component: {fileID: 1795141636223508753}
   - component: {fileID: 2267976049350943410}
-  - component: {fileID: -1054283832083966455}
+  - component: {fileID: 5458041871771799046}
   m_Layer: 0
   m_Name: Puzzle_1
   m_TagString: Untagged
@@ -788,7 +788,7 @@ MonoBehaviour:
   hintScreen: {fileID: 2410220426263547716}
   button: {fileID: 1673485768780107428}
   chargingRate: 0
---- !u!114 &-1054283832083966455
+--- !u!114 &5458041871771799046
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -797,7 +797,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6930252817865812817}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
@@ -818,11 +818,10 @@ MonoBehaviour:
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  bufferResetMultiplier: 3
-  changedDetection: 1
-  positionSensitivity: 0.01
+  onlySyncOnChangeCorrectionMultiplier: 2
   rotationSensitivity: 0.01
-  scaleSensitivity: 0.01
+  positionPrecision: 0.01
+  scalePrecision: 0.01
 --- !u!1 &7031136592058459931
 GameObject:
   m_ObjectHideFlags: 0
