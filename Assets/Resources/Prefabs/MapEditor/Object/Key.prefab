@@ -186,10 +186,10 @@ CapsuleCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 672704
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 220531767
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -206,8 +206,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.030611098, y: 0.026238084}
-  m_Size: {x: 0.52028763, y: 1.0092287}
+  m_Offset: {x: -0.030611098, y: 0.009522617}
+  m_Size: {x: 0.52028763, y: 0.9757978}
   m_Direction: 0
 --- !u!1 &8919751423055340418
 GameObject:
