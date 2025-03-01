@@ -5786,12 +5786,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1943913799136119114, guid: a9aeeed4f2b30d74b96f763194e1618f, type: 3}
+      propertyPath: radius
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1943913799136119114, guid: a9aeeed4f2b30d74b96f763194e1618f, type: 3}
       propertyPath: intensity
-      value: 1.25
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 1943913799136119114, guid: a9aeeed4f2b30d74b96f763194e1618f, type: 3}
       propertyPath: minDistance
-      value: 0.7
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 4243447674835193412, guid: a9aeeed4f2b30d74b96f763194e1618f, type: 3}
       propertyPath: m_Name

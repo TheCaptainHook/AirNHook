@@ -269,9 +269,9 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         // 카메라 흔들림 처리
         (float duration, float intensity) shakeParam = damageType switch
         {
-            DamageType.Boom or DamageType.Suicide => (0.5f, 0.3f),
-            DamageType.Electric or DamageType.Fire => (0.8f, 0.1f),
-            DamageType.Default => (0.3f, 0.15f),
+            DamageType.Boom or DamageType.Suicide => (0.35f, 10f),
+            DamageType.Electric or DamageType.Fire => (0.4f, 7f),
+            DamageType.Default => (0.3f, 6f),
         };
 
         if (shakeParam.duration > 0)
