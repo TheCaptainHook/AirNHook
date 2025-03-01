@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -8727639125033655133}
   - component: {fileID: 512112756729641441}
   - component: {fileID: 3602550238883226528}
+  - component: {fileID: 6630991627251228293}
   m_Layer: 15
   m_Name: MovingPlatform_Long
   m_TagString: Untagged
@@ -216,6 +217,8 @@ MonoBehaviour:
   rail_Line_Prefabs: {fileID: 6443439262299581446, guid: 275793db7c14f413ebce84c81e704b8d, type: 3}
   dataPath:
     paths: []
+  velocity: {x: 0, y: 0}
+  step: 0
 --- !u!114 &512112756729641441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,6 +252,36 @@ MonoBehaviour:
   curPath: []
   line: {fileID: 0}
   onHierarchy: 0
+--- !u!114 &6630991627251228293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3690635770919025948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 0
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 0000000079fff5dc156d27bc93974e373dfa80d69754fad67bd34c9e4b693136d173aa402fab228b09c81f54432c1bc63db6189c
+  m_ShapePath:
+  - {x: -1.5056014, y: -0.0037063956, z: 0}
+  - {x: -1.5056014, y: 0.5011916, z: 0}
+  - {x: 1.4976275, y: 0.5011916, z: 0}
+  - {x: 1.4976275, y: -0.0037063956, z: 0}
+  m_ShapePathHash: 0
+  m_Mesh: {fileID: 0}
+  m_InstanceId: -381406
+  m_LocalBounds:
+    m_Center: {x: -0.0039869547, y: 0.24874261, z: 0}
+    m_Extent: {x: 1.5016145, y: 0.252449, z: 0}
 --- !u!1 &3962016352224804910
 GameObject:
   m_ObjectHideFlags: 0
