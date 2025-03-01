@@ -12,13 +12,13 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     public bool canMovable;
     public bool invincible;
     [field: SerializeField] public Transform charPivot { get; private set; }
-    private float _coyoteTime => playerData.coyoteTime;
+    protected float _coyoteTime => playerData.coyoteTime;
     public float coyoteTimeCount;
     private bool _emoteOnCoolDown;
-    private RaycastHit2D _hit;
-    public bool isGround { get; private set; }
-    private LayerMask _defaultForceReceiveLayer;
-    [field: SerializeField] private LayerMask _halfPlatformLayer;
+    protected RaycastHit2D _hit;
+    public bool isGround { get; protected set; }
+    protected LayerMask _defaultForceReceiveLayer;
+    [field: SerializeField] protected LayerMask _halfPlatformLayer;
     public bool isHalfPlatform;
     public bool isDownThroughPlatform;
     
@@ -98,7 +98,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     #endregion
 
     #region Ground
-    private void GroundCheck()
+    protected virtual void GroundCheck()
     {
         for (var i = -1; i < 2; i++)
         {

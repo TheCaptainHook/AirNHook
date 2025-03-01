@@ -87,6 +87,7 @@ public class NewGrappling
     {
         if (_hook.isLocalPlayer && _hook.canControl)
             HandleRopeLength();
+            
         UpdateRopePosition();
     }
 
@@ -199,7 +200,7 @@ public class NewGrappling
         {
             _distanceJoint2D.distance -= Time.deltaTime * _climbSpeed;
         }
-        else if (_vertical < 0f && _distanceJoint2D.distance < _ropeMaxDistance && !_hook.isGround)
+        else if (_vertical < 0f && _distanceJoint2D.distance < _ropeMaxDistance)
         {
             var distance = _distanceJoint2D.distance + Time.deltaTime * _climbSpeed;
             _distanceJoint2D.distance = Mathf.Min(distance, _ropeMaxDistance);
