@@ -123,12 +123,17 @@ public class MirrorObject_Net : NetworkBehaviour
     {
         onActive = true;
         //player holding
-        
+        var pm = player.GetComponent<PlayerSM>();
+        pm.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+
+        pm.canMovable = false;
     }
     private void Recover(GameObject player)
     {
         onActive = false;
         //player recover
+        var pm = player.GetComponent<PlayerSM>();
+        pm.canMovable = true;
     }
 
 

@@ -5,6 +5,7 @@ using UnityEngine.Serialization;
 
 public class CameraImageEffects : MonoBehaviour
 {
+
     public Animator animator;
     private void Awake()
     {

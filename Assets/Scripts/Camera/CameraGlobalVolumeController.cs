@@ -201,7 +201,7 @@ public class CameraGlobalVolumeController : MonoBehaviour
         if (targetIntensity <= 0)
         {
             _Vignette.active = false;
-            _Volume.weight = 0;
+            _Volume.weight = 1;
         }
         DeathVignetteCoroutine = null;
     }
