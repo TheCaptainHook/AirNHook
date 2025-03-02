@@ -170,7 +170,7 @@ public class HookSM : PlayerSM, IInhalable
 
                 var hit = Physics2D.Raycast(pos, objectVector, targetDistance, obstacleMask);
                 
-                if (Vector2.Distance(pos, hit.point) < targetDistance) continue;
+                if (Vector2.Distance(pos, hit.point) < targetDistance - 0.2f) continue;
 
                 if (targetDistance < shortestDistance)
                 {

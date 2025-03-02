@@ -270,6 +270,7 @@ public class NewAirGun
         }
         else
         {
+            Debug.Log("s");
             _hook = null;
             StartInhale();
         }
@@ -370,24 +371,23 @@ public class NewAirGun
             if (!stick)
             {
                 yield return _waitForFixedUpdate;
-               
+                
                 try
                 {
                     _rigidbody2D.gravityScale = 0f;
                     _rigidbody2D.velocity = Vector2.zero;
 
-                    var objectVector = (_transform.position - _hook.transform.position).normalized;
-                    var targetDistance = Vector2.Distance(_transform.position, _hook.transform.position);
-                
-                    var hit = Physics2D.Raycast(_weaponPoint.position, objectVector, targetDistance, _obstacleMask);
-                
-                    if (!ReferenceEquals(hit.collider, _collider) || !_hook.isSwinging)
-                        StopSticking();
+                    var objectVector = (_hook.transform.position - _weaponPoint.position).normalized;
+                    var targetDistance = Vector2.Distance(_weaponPoint.position, _hook.transform.position);
 
+                    var hit = Physics2D.Raycast(_weaponPoint.position, objectVector, targetDistance - 0.1f, _obstacleMask);
+                
+                    if (hit || !_hook.isSwinging)
+                        StopSticking();
+                    
                     var direction = (_hook.transform.position + _offset - _transform.position).normalized;
 
                     _rigidbody2D.AddForce(direction * _stickToHookSpeed);
-
                     var dir = (_hook.transform.position + new Vector3(0, 0.5f) - _armPivot.position).normalized;
                     var rotZ = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
@@ -428,7 +428,7 @@ public class NewAirGun
                     _isStick = true;
                     _isAttachedToHook = true;
                 }
-                catch (NullReferenceException) { StopSticking(); }
+                catch (NullReferenceException) { Debug.Log("stick"); StopSticking(); }
             }
         }
     }

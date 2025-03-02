@@ -167,7 +167,8 @@ public class PlayerSM : NetworkBehaviour, IDamageable
                 var targetDistance = Vector2.Distance(transform.position + offset, collision.transform.position);
                 var hit = Physics2D.Raycast(pos, objectVector, targetDistance, obstacleMask);
                 
-                if (Vector2.Distance(pos, hit.point) < targetDistance) continue;
+                Debug.Log(Vector2.Distance(pos, hit.point) + " " + targetDistance);
+                if (Vector2.Distance(pos, hit.point) < targetDistance - 0.2f) continue;
 
                 if (targetDistance < shortestDistance)
                 {
