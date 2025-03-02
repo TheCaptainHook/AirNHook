@@ -86,7 +86,6 @@ public class Drone_MultiPurpose : DroneEntity
         GameObject item = Managers.Stage.CmdBatchObject(drone_TransportItemType.ToString());
         item.transform.SetParent(MapEditor.Instance.networkingObjectTransform);
         transportItem = item;
-        Debug.Log(item);
         if(item == null) return;
         switch(DroneStruct.drone_TransportItemType){
             case Drone_TransportItemType.Key:

@@ -27,6 +27,7 @@ public class ExitPoint_Net : NetworkBehaviour
     {
         condition_KeyAmount = condition;
         current_KeyAmount = condition;
+        Debug.Log($"Condition : {condition}");
     }
     #endregion
 
@@ -75,6 +76,7 @@ public class ExitPoint_Net : NetworkBehaviour
 
     private void OnChangeCurrent_KeyAmount(int old,int newVal)
     {
+        Debug.Log($"old : {old},new : {newVal}");
         keyBubble.MinusConditionKeyAmount(newVal);
     }
 
@@ -87,15 +89,15 @@ public class ExitPoint_Net : NetworkBehaviour
         condition_KeyAmount++;
         current_KeyAmount++;
 
-        Rpc_KeyBubble_Add();
+        // Rpc_KeyBubble_Add();
     }
 
-    [ClientRpc]
-    private void Rpc_KeyBubble_Add()
-    {
-        keyBubble.AddKeyAmount();
+    // [ClientRpc]
+    // private void Rpc_KeyBubble_Add()
+    // {
+    //     keyBubble.AddKeyAmount();
 
-    }
+    // }
 
     #endregion
 
@@ -240,11 +242,11 @@ public class ExitPoint_Net : NetworkBehaviour
 
 
 
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        keyBubble.SetData(current_KeyAmount);
-    }
+    // public override void OnStartClient()
+    // {
+    //     base.OnStartClient();
+    //     keyBubble.SetData(current_KeyAmount);
+    // }
 
 
 }
