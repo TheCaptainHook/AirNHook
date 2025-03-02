@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7028369440691742122}
   - component: {fileID: 2680208201779001054}
   - component: {fileID: 5883368890297186444}
-  m_Layer: 20
+  m_Layer: 9
   m_Name: MirrorStand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
