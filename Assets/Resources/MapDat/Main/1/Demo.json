@@ -10544,33 +10544,11 @@
             "TileId": 50,
             "Start": {
                 "x": 780,
-                "y": 663
-            },
-            "End": {
-                "x": 780,
-                "y": 669
-            }
-        },
-        {
-            "TileId": 50,
-            "Start": {
-                "x": 780,
                 "y": 711
             },
             "End": {
                 "x": 780,
                 "y": 714
-            }
-        },
-        {
-            "TileId": 50,
-            "Start": {
-                "x": 781,
-                "y": 663
-            },
-            "End": {
-                "x": 782,
-                "y": 669
             }
         },
         {
@@ -32671,37 +32649,6 @@
             "animationTriggerType": 0
         },
         {
-            "id": 315,
-            "dialogueId": 0,
-            "position": {
-                "x": 783.0,
-                "y": 704.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0
-        },
-        {
             "id": 323,
             "dialogueId": 0,
             "position": {
@@ -35538,8 +35485,8 @@
                 "w": -0.7071068286895752
             },
             "scale": {
-                "x": 0.4000009596347809,
-                "y": 0.4000009596347809,
+                "x": 0.40000098943710329,
+                "y": 0.40000098943710329,
                 "z": 1.0
             },
             "talPot": {
@@ -38072,6 +38019,68 @@
             "position": {
                 "x": 847.0,
                 "y": 715.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0
+        },
+        {
+            "id": 5352,
+            "dialogueId": 0,
+            "position": {
+                "x": 779.0,
+                "y": 705.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0
+        },
+        {
+            "id": 5352,
+            "dialogueId": 0,
+            "position": {
+                "x": 777.0,
+                "y": 705.0
             },
             "quaternion": {
                 "x": 0.0,
@@ -43391,7 +43400,7 @@
             },
             "scale": {
                 "x": 0.6000000238418579,
-                "y": 0.6999980807304382,
+                "y": 0.6999980211257935,
                 "z": 1.0
             },
             "talPot": {
@@ -44431,8 +44440,8 @@
                 "w": 0.7071068286895752
             },
             "scale": {
-                "x": 0.699998140335083,
-                "y": 0.699998140335083,
+                "x": 0.6999980807304382,
+                "y": 0.6999980807304382,
                 "z": 1.0
             },
             "talPot": {
@@ -45131,7 +45140,7 @@
             "id": 330,
             "activeRequirAmount": 0,
             "chargeRequired": false,
-            "jumpingPower": 35,
+            "jumpingPower": 50,
             "position": {
                 "x": 880.0,
                 "y": 703.0
@@ -45157,6 +45166,52 @@
             "onLeft": false,
             "paths": [],
             "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 333,
+            "activeRequirAmount": 0,
+            "chargeRequired": false,
+            "jumpingPower": 0,
+            "position": {
+                "x": 781.0,
+                "y": 670.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [
+                {
+                    "x": 781.0,
+                    "y": 670.0
+                },
+                {
+                    "x": 781.0,
+                    "y": 663.0
+                }
+            ],
+            "moveSpeed": 1.5,
             "moveDistance": 0.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
@@ -45774,10 +45829,6 @@
                 {
                     "x": 809.0,
                     "y": 697.0
-                },
-                {
-                    "x": 828.1799926757813,
-                    "y": 702.27001953125
                 }
             ],
             "lightPositions": [],
@@ -46082,16 +46133,11 @@
                 "w": 0.7071068286895752
             },
             "scale": {
-                "x": 0.7500000596046448,
-                "y": 0.8500000834465027,
+                "x": 0.7500001192092896,
+                "y": 0.8500001430511475,
                 "z": 1.0
             },
-            "targetPositions": [
-                {
-                    "x": 819.260009765625,
-                    "y": 690.3099975585938
-                }
-            ],
+            "targetPositions": [],
             "lightPositions": [],
             "onHint": false,
             "partsPositions": [],
