@@ -71,12 +71,12 @@ public class MirrorObject : BuildObj,IInteractable
 
         if(other)
         {
-            if(other.TryGetComponent(out HookSM hook))
+            if(other.TryGetComponent(out PlayerSM PS))
             {
                 // M_Net.Cmd_SetInnerPlayer(hook.gameObject);
              
-                _ConnectPlayer = hook.gameObject;
-                M_Net.Cmd_ShowE(hook.gameObject, true);
+                _ConnectPlayer = PS.gameObject;
+                M_Net.Cmd_ShowE(PS.gameObject, true);
             }
         }
      
@@ -87,10 +87,10 @@ public class MirrorObject : BuildObj,IInteractable
        if(IsInnerPlayer) return;
         if(other)
         {
-            if(other.TryGetComponent(out HookSM hook))
+            if(other.TryGetComponent(out PlayerSM PS))
             {
                 // M_Net.Cmd_SetInnerPlayer(hook.gameObject);
-                M_Net.Cmd_ShowE(hook.gameObject, false);
+                M_Net.Cmd_ShowE(PS.gameObject, false);
                 _ConnectPlayer = null;
             }
         }
