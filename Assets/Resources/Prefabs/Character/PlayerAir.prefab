@@ -324,7 +324,7 @@ MonoBehaviour:
   coyoteTimeCount: 0
   _halfPlatformLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 1049088
   isHalfPlatform: 0
   isDownThroughPlatform: 0
   rigidbody2D: {fileID: 3123692007149661597}

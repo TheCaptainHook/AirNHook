@@ -6,6 +6,7 @@ public class AirDataSO : PlayerDataSO
     [field: Header("AirGun")]
     [field: SerializeField] public float AirGunDistance { get; private set; }
     [field: SerializeField] public LayerMask objectLayerMask { get; private set; }
+    [field: SerializeField] public LayerMask predictLineLayerMask { get; private set; }
     [field: SerializeField] public float minShootPower { get; private set; }
     [field: SerializeField] public float maxShootPower { get; private set; }
     

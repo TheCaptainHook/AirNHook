@@ -17,7 +17,7 @@ MonoBehaviour:
   <jumpPower>k__BackingField: 11.4
   <floorLayerMask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 688832
+    m_Bits: 1082048
   <coyoteTime>k__BackingField: 0.1
   <interactableLayerMask>k__BackingField:
     serializedVersion: 2
