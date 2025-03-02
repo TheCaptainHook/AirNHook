@@ -24,7 +24,7 @@ MonoBehaviour:
     m_Bits: 983040
   <obstacleLayerMask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 1704384
+    m_Bits: 1049024
   <detectDistance>k__BackingField: 2
   <swingForce>k__BackingField: 7.6
   <swingJumpForce>k__BackingField: 3.4
