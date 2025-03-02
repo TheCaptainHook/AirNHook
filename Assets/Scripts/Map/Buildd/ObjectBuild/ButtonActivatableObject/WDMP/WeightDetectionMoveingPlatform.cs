@@ -93,7 +93,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
                 //moveDistance = objData.moveDistance;
                 //WDMP_Net.Server_SetMoveDistance(objData.moveDistance);
                 moveSpeed = objData.moveSpeed;
-
+                moveDistance = objData.moveDistance;
           
             }
         }catch(Exception ex){
