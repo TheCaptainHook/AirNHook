@@ -204,7 +204,11 @@ public class SoundManager
             audioSource = _bgmAudioSource;
         }
 
-        var audioClip = _audioClipDict[audioName];
+        if (!_audioClipDict.TryGetValue(audioName, out var audioClip))
+        {
+            Debug.LogWarning(audioName + " audio name is not in dictionary.");
+            return;
+        }
         audioSource.outputAudioMixerGroup = _audioMixerGroups[GlobalText.BGM_STRING];
         SetAudioSource(audioSource, audioClip, volume, 0, true);
         _bgmAudioSource = audioSource;
