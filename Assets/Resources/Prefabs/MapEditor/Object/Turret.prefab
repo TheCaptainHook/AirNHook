@@ -5144,7 +5144,9 @@ GameObject:
   - component: {fileID: 5990140042596155439}
   - component: {fileID: 3761053918402171264}
   - component: {fileID: 7913252737643662134}
-  m_Layer: 14
+  - component: {fileID: 8257560855383090454}
+  - component: {fileID: 8864647116276754345}
+  m_Layer: 9
   m_Name: Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5282,9 +5284,9 @@ BoxCollider2D:
     serializedVersion: 2
     m_Bits: 4294967295
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.21585897}
+  m_Offset: {x: -0.0052188635, y: 0.16366935}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -5295,7 +5297,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.3333334, y: 0.43171793}
+  m_Size: {x: 1.0201957, y: 0.3273387}
   m_EdgeRadius: 0
 --- !u!210 &763823665871053021
 SortingGroup:
@@ -5404,6 +5406,40 @@ MonoBehaviour:
   rotationSensitivity: 0.01
   positionPrecision: 0.01
   scalePrecision: 0.01
+--- !u!251 &8257560855383090454
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3227932219690051067}
+  m_Enabled: 1
+  m_UseColliderMask: 0
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 1
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 45
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
+--- !u!114 &8864647116276754345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3227932219690051067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eab2afdc25a16c446b52eb29fa0f0178, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  platformEffector2D: {fileID: 8257560855383090454}
+  _rb: {fileID: 1416254538327619251}
+  _boxCollider2D: {fileID: 8611386600391597754}
 --- !u!1 &5269584977423057727
 GameObject:
   m_ObjectHideFlags: 0
