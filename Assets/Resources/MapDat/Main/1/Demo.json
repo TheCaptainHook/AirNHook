@@ -35538,8 +35538,8 @@
                 "w": -0.7071068286895752
             },
             "scale": {
-                "x": 0.4000009298324585,
-                "y": 0.4000009298324585,
+                "x": 0.4000009596347809,
+                "y": 0.4000009596347809,
                 "z": 1.0
             },
             "talPot": {
@@ -43391,7 +43391,7 @@
             },
             "scale": {
                 "x": 0.6000000238418579,
-                "y": 0.699998140335083,
+                "y": 0.6999980807304382,
                 "z": 1.0
             },
             "talPot": {
@@ -44046,339 +44046,6 @@
             }
         },
         {
-            "id": 330,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "jumpingPower": 25,
-            "position": {
-                "x": 813.5,
-                "y": 696.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 330,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "jumpingPower": 25,
-            "position": {
-                "x": 820.0,
-                "y": 696.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 330,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "jumpingPower": 25,
-            "position": {
-                "x": 822.0,
-                "y": 696.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 330,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "jumpingPower": 25,
-            "position": {
-                "x": 824.0,
-                "y": 696.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 330,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "jumpingPower": 25,
-            "position": {
-                "x": 826.0,
-                "y": 696.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 330,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "jumpingPower": 25,
-            "position": {
-                "x": 820.0,
-                "y": 700.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 1.0,
-                "w": 0.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 330,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "jumpingPower": 25,
-            "position": {
-                "x": 822.0,
-                "y": 700.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 1.0,
-                "w": 0.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 330,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "jumpingPower": 25,
-            "position": {
-                "x": 824.0,
-                "y": 700.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 1.0,
-                "w": 0.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 330,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "jumpingPower": 25,
-            "position": {
-                "x": 826.0,
-                "y": 700.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 1.0,
-                "w": 0.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
             "id": 335,
             "activeRequirAmount": 1,
             "chargeRequired": false,
@@ -44764,8 +44431,8 @@
                 "w": 0.7071068286895752
             },
             "scale": {
-                "x": 0.6999981999397278,
-                "y": 0.6999981999397278,
+                "x": 0.699998140335083,
+                "y": 0.699998140335083,
                 "z": 1.0
             },
             "talPot": {
@@ -46107,6 +45774,10 @@
                 {
                     "x": 809.0,
                     "y": 697.0
+                },
+                {
+                    "x": 828.1799926757813,
+                    "y": 702.27001953125
                 }
             ],
             "lightPositions": [],
@@ -46140,10 +45811,6 @@
                 {
                     "x": 865.0,
                     "y": 689.0
-                },
-                {
-                    "x": 866.0599975585938,
-                    "y": 696.8300170898438
                 }
             ],
             "lightPositions": [],
@@ -46391,12 +46058,7 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "targetPositions": [
-                {
-                    "x": 828.1799926757813,
-                    "y": 702.27001953125
-                }
-            ],
+            "targetPositions": [],
             "lightPositions": [],
             "onHint": false,
             "partsPositions": [],
@@ -46420,11 +46082,16 @@
                 "w": 0.7071068286895752
             },
             "scale": {
-                "x": 0.75,
-                "y": 0.8500000238418579,
+                "x": 0.7500000596046448,
+                "y": 0.8500000834465027,
                 "z": 1.0
             },
-            "targetPositions": [],
+            "targetPositions": [
+                {
+                    "x": 819.260009765625,
+                    "y": 690.3099975585938
+                }
+            ],
             "lightPositions": [],
             "onHint": false,
             "partsPositions": [],
