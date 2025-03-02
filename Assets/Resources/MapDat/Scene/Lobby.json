@@ -13702,7 +13702,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.449995756149292,
+                "y": 1.4499956369400025,
                 "z": 1.0
             },
             "talPot": {
@@ -14114,28 +14114,7 @@
         "condition_KeyAmount": 0,
         "nextMapId": ""
     },
-    "dialogueDataList": [
-        {
-            "id": 1003,
-            "dialogueId": 100,
-            "excuted": false,
-            "position": {
-                "x": 11.199999809265137,
-                "y": -6.099999904632568
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            }
-        }
-    ],
+    "dialogueDataList": [],
     "droneStructList": [
         {
             "id": 325,
