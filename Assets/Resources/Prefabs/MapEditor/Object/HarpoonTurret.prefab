@@ -5082,7 +5082,8 @@ MonoBehaviour:
   _Dissolve_MainSprite: {fileID: 0}
   layerMask:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 1088
+  isShot: 0
   _holder: {fileID: 8923308927599904813}
   _shellParticle: {fileID: 645326699124061494}
   _topSteam: {fileID: 2868477511076414545}

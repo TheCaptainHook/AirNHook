@@ -6418,10 +6418,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 656a558dae68c344f897037d1a862350, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileMap: {fileID: 724448992}
-  tileList: []
-  compressedTileist: []
-  secondCompressedTileList: []
 --- !u!4 &413414098
 Transform:
   m_ObjectHideFlags: 0

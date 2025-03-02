@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class HarpoonTurret : BuildObj
 {
@@ -7,7 +8,11 @@ public class HarpoonTurret : BuildObj
     RaycastHit2D hit;
 
     public LayerMask layerMask;
-    private bool isShot;
+
+
+    public bool isShot;
+
+
     //public float cooltime;
     //private float curtime;
     [SerializeField] private GameObject _holder;
@@ -25,71 +30,55 @@ public class HarpoonTurret : BuildObj
     private static readonly int IsDestroyed = Animator.StringToHash("IsDestroyed");
     private static readonly int IsTurnedOff = Animator.StringToHash("IsTurnedOff");
     #endregion
-  
 
     private Vector2 orgDirRight;
 
     private void Start()
     {
-        //pool = GetComponent<Pooling>();
-        //pool.CreatePoolItem(MapEditor.Instance.poolingContainer);
         _animator = GetComponent<Animator>();
 
-        //Test 1111
         orgDirRight = transform.right;
-        //Test 1111
+
     }
     private void Update()
     {
-        /*if (isShot)
-        {
-            curtime -= Time.deltaTime;
-            if(curtime <= 0)
-            {
-                isShot = false;
-                _animator.SetTrigger(IsReloadingFinished);
-            }
-        }*/
         RotateTrap();
     }
 
-
+    private float shotCooldown = 4f; // 재발사까지의 딜레이
+    private float lastShotTime = -1f;
     private void FixedUpdate()
     {
+        if (Time.time - lastShotTime < shotCooldown) return;
+
         hit = Physics2D.Raycast(transform.position, _holder.transform.right, 10f, layerMask);
         if (hit)
         {
+            if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground/AllAllowed")) return;
             if (!isShot)
             {
-                _animator.SetTrigger(IsFiring);
                 isShot = true;
+                lastShotTime = Time.time;
+
+                _animator.SetTrigger(IsFiring);
                 //curtime = cooltime;
                 if(hit.collider.TryGetComponent(out PlayerSM component))
                 {
                     Shot();
                 }
-                
-                // float z = Mathf.Atan2(transform.right.y, transform.right.x) + Random.Range(-5,5);
-                //GameObject obj = pool.GetPoolItem("Arrow");
-                //obj.transform.right = transform.right;
-                //obj.transform.Rotate(transform.forward * z);
-                //obj.GetComponent<Projectile_Arrow>().Reset();
-                //obj.transform.position = transform.position;
-                //obj.SetActive(true);
-                //pool.Destroy(obj, 10f);
+
             }
           
         }
     }
     private void Shot(){
          Projectile_Arrow arrow = Managers.Pooling.D_GetItem(arrowPrefab).GetComponent<Projectile_Arrow>();
-        //Projectile_Arrow arrow = Managers.Pooling.N_GetItme(typeof(Projectile_Arrow).Name).GetComponent<Projectile_Arrow>();
-        //GameObject obj = Managers.Stage.CmdBatchObject("Projectile_Arrow");
         arrow.Setting(transform.position, _holder.transform.right);
         arrow.gameObject.SetActive(true);
 
     }
 
+    //--------------------------Animation Trigger
     private void Reloaded()
     {
         _animator.SetTrigger(IsReloadingFinished);
@@ -99,6 +88,7 @@ public class HarpoonTurret : BuildObj
     {
         isShot = false;
     }
+    //--------------------------Animation Trigger
 
     // private void RotateTrap()
     // {
@@ -118,13 +108,19 @@ public class HarpoonTurret : BuildObj
         // 스피어 캐스트를 통해 주변에 있는 플레이어 레이어를 가진 모든 오브젝트 탐지
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius, layerMask);
         Transform nearestPlayer = null;
+        //Vector2 nearestPlayer;
         float nearestDistance = Mathf.Infinity;
 
         // 주변에 있는 모든 플레이어 레이어를 가진 오브젝트에 대해 반복
         foreach (Collider2D collider in colliders)
         {
+            //Vector2 targetPosition = collider is TilemapCollider2D ? (Vector2)collider.bounds.center : (Vector2)collider.transform.position;
+            Vector2 targetPosition =  (Vector2)collider.transform.position;
+
+
             // 현재 탐지된 오브젝트와의 거리 계산
-            float distance = Vector2.Distance(transform.position, collider.transform.position);
+            //float distance = Vector2.Distance(transform.position, collider.transform.position);
+            float distance = Vector2.Distance(transform.position, targetPosition);
             //semiCircle Detection
             Vector2 dir = collider.gameObject.transform.position - transform.position;
             float angleToObj = Vector2.Angle(orgDirRight,dir);
@@ -134,6 +130,7 @@ public class HarpoonTurret : BuildObj
             {
                 nearestDistance = distance;
                 nearestPlayer = collider.transform;
+
             }
         }
 

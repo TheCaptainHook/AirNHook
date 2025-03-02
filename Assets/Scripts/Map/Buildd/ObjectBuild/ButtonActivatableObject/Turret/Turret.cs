@@ -9,7 +9,9 @@ public class Turret : ActivatableObjectEntity
     [CustomHeader("Turret")]
     [SerializeField] float rotateRate;
     [SerializeField] float fireRate;
+    [Header("Hold")]
     [SerializeField] bool onHoldRotation;
+    [Header("Start Left")]
     [SerializeField] bool onLeft;
     private bool onActive;
     [Space(20)]
@@ -52,23 +54,21 @@ public class Turret : ActivatableObjectEntity
         {
             if (typeof(T) == typeof(ButtonActivatableObjectStruct))
             {
-                if(Application.isPlaying)
+                animator = GetComponent<Animator>();
+
+                ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
+                ButtonActivatedObjectStruct = objData;
+                rotateRate = objData.rotateRate;
+                onLeft = objData.onLeft;
+                onHoldRotation = objData.onHoldRotation;
+                fireRate = objData.fireRate;
+
+
+                if (Application.isPlaying)
                 {
                     animator = GetComponent<Animator>();
                     Turret_Net.SetData((ButtonActivatableObjectStruct)(object)data);
                 }
-                else
-                {
-                    animator = GetComponent<Animator>();
-
-                    ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
-                    ButtonActivatedObjectStruct = objData;
-                    rotateRate = objData.rotateRate;
-                    onLeft = objData.onLeft;
-                    onHoldRotation = objData.onHoldRotation;
-                    fireRate = objData.fireRate;
-                }
-             
 
                 //if (onLeft) animator.SetBool(Left, onLeft);
 
