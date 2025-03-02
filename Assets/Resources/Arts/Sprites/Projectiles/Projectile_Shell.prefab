@@ -116,7 +116,7 @@ MonoBehaviour:
   speed: 0.05
   hitLayerMask:
     serializedVersion: 2
-    m_Bits: 968641
+    m_Bits: 1034177
 --- !u!58 &7571375789815804827
 CircleCollider2D:
   m_ObjectHideFlags: 0

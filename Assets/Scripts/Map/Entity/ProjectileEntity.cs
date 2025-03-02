@@ -33,9 +33,9 @@ public class ProjectileEntity : MonoBehaviour,IPooling
     {
         if (!onHit && onFire)
         {
-            float hitDistance = rb.velocity.magnitude * Time.fixedDeltaTime * 1.5f;
+            float hitDistance = rb.velocity.magnitude * Time.fixedDeltaTime * 1f;
             hit = Physics2D.Raycast(transform.position + (transform.right * 0.5f), transform.right, hitDistance, hitLayerMask);
-
+            Debug.DrawRay(transform.position + transform.right * 0.5f, transform.right * hitDistance, Color.red);
             if (hit)
             {
                 onHit = true;
@@ -50,7 +50,14 @@ public class ProjectileEntity : MonoBehaviour,IPooling
                     N_ReleaseToPool();
                     return;
                 }
-                transform.position = hit.point;
+                if(hit.collider.TryGetComponent(out Shield shield))
+                {
+                    N_ReleaseToPool();
+                    return;
+                }
+
+                //transform.position = hit.point;
+                rb.velocity = Vector2.zero;
                 StartCoroutine(DelayRelease());
             }
             else
