@@ -5,7 +5,7 @@ using UnityEngine;
 public class KeyBubble : MonoBehaviour
 {
     [SerializeField] private TMP_Text _text;
-    private int keyAmount;
+    private int keyAmount = 0;
 
     public void SatisfiedCondition()
     {
@@ -14,7 +14,6 @@ public class KeyBubble : MonoBehaviour
             return;
         }
 
-        Debug.Log("Satisfied condition");
         gameObject.SetActive(false);
     }
 
@@ -34,14 +33,25 @@ public class KeyBubble : MonoBehaviour
             SatisfiedCondition();
             return;
         }
+        if(amount ==1)
+        {
+            if(!gameObject.activeSelf)
+            {
+                gameObject.SetActive(true);
+            }
+        }
         keyAmount = amount;
         _text.text = amount.ToString();
     }
 
-    public void AddKeyAmount()
-    {
-        keyAmount++;
-        _text.text = keyAmount.ToString();
-    }
+    // public void AddKeyAmount()
+    // {
+    //     if(!gameObject.activeSelf)
+    //     {
+    //         gameObject.SetActive(true);
+    //     }
+    //     keyAmount++;
+    //     _text.text = keyAmount.ToString();
+    // }
    
 }
