@@ -5189,7 +5189,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3227932219690051067}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
   m_Name: 
@@ -5397,10 +5397,11 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _TpEffect: {fileID: 2840986932733129456}
+  onActive: 0
+  targetPortal: {fileID: 0}
+  onSync: 0
   targetPortalPosition: {x: 0, y: 0}
   onPrograss: 0
-  targetPortal: {fileID: 0}
-  onActive: 0
 --- !u!1 &5269584977423057727
 GameObject:
   m_ObjectHideFlags: 0

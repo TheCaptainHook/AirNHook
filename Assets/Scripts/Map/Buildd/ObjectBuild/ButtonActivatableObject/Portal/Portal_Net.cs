@@ -9,31 +9,128 @@ public class Portal_Net : NetworkBehaviour
     [SerializeField] GameObject _TpEffect;
     [Space(20)]
     [Header("------------------------------------")]
-    [SyncVar] public Vector2 targetPortalPosition;
-    [SyncVar] public bool onPrograss;
+    //[SyncVar] public Vector2 targetPortalPosition;
+    //[SyncVar] public bool onPrograss;
 
-    [SyncVar] public GameObject targetPortal;
+    //[SyncVar] public GameObject targetPortal;
 
-
+    //------------------------------------------------------------------Effect sync
     [SyncVar(hook = nameof(ChangeOnActive))] public bool onActive;
+    private void ChangeOnActive(bool old, bool newVal)
+    {
+        Animator.SetBool(IsActive, newVal);
+        _TpEffect.SetActive(newVal);
 
+    }
+    [Server] //sync
+    public void Server_SetOnActive(bool val)
+    {
+        onActive = val;
+    }
+
+
+    [Command]
+    public void Cmd_CallSetOnActive(bool val)
+    {
+        Server_SetOnActive(val);
+    }
+    //------------------------------------------------------------------Effect sync
+
+    //------------------------------------------------------------------Refactoring0303
+    public Vector2 orgPosition => Portal.ButtonActivatedObjectStruct.position;
+    public GameObject targetPortal;
+    public bool onSync;
+    public Vector2 targetPortalPosition;
+    public bool onPrograss;
+
+    [Server]
+    public void SetTargetPortal(GameObject obj)
+    {
+        targetPortal = obj;
+        onSync = true;
+    }
+
+    [Server]
+    public void SetTargetPortal(Vector2 targetPortalPosition)
+    {
+        this.targetPortalPosition = targetPortalPosition;  
+    }
+
+
+    IEnumerator UsePortal_Co(GameObject obj)
+    {
+        //onPrograss = true;
+        onPrograss = true;
+
+        Rpc_HoldPlayer(obj);
+        targetPortal.GetComponent<Portal>().Net_ChangeOnPrograss();
+        Rpc_TransmitPosition(obj,targetPortalPosition);
+
+        yield return new WaitForSeconds(1);
+
+        Rpc_RecoverPlayer(obj);
+        yield return new WaitForSeconds(1);
+        targetPortal.GetComponent<Portal>().Net_ChangeOnPrograss();
+
+        onPrograss = false;
+    }
+
+    [ClientRpc]
+    public void Rpc_TransmitPosition(GameObject obj,Vector2 position)
+    {
+        obj.transform.position = targetPortalPosition + Vector2.up;
+    }
+
+  
+    [Command]
+    private void Cmd_SyncData()
+    {
+        SyncData();
+    }
+
+    [Server]
+    public void SyncData()
+    {
+        Rpc_SyncData(targetPortalPosition, orgPosition);
+    }
+    [ClientRpc]
+    private void Rpc_SyncData(Vector2 targetPosition,Vector2 orgPosition)
+    {
+        if(!onSync)
+        {
+            transform.position = orgPosition;
+            this.targetPortalPosition = targetPosition;
+            onSync = true;
+        }
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        StartCoroutine(Delay());
+    }
+
+    IEnumerator Delay()
+    {
+        while (!NetworkClient.ready) yield return null;
+        Cmd_SyncData();
+    }
+
+    //------------------------------------------------------------------Refactoring
     #region StringCache
     private static readonly int IsActive = Animator.StringToHash("IsActive");
     #endregion
 
     private Portal Portal => GetComponent<Portal>();
     private Animator Animator => GetComponent<Animator>();
-    [Server]
-    public void SetTargetPortal(Vector2 targetPortalPosition)
-    {
-        this.targetPortalPosition = targetPortalPosition;
-    }
 
-    [Server]
-    public void SetTargetPortal(GameObject obj)
-    {
-        targetPortal = obj;
-    }
+   
+
+    //[Server]
+    //public void SetTargetPortal(GameObject obj)
+    //{
+    //    targetPortal = obj;
+    //}
 
     [Server]
     public void UsePortal(GameObject obj)
@@ -41,22 +138,22 @@ public class Portal_Net : NetworkBehaviour
         StartCoroutine(UsePortal_Co(obj));
     }
 
-    IEnumerator UsePortal_Co(GameObject obj)
-    {
-        //onPrograss = true;
-        Server_ChangePrograss();
+    //IEnumerator UsePortal_Co(GameObject obj)
+    //{
+    //    //onPrograss = true;
+    //    Server_ChangePrograss();
 
-        Rpc_HoldPlayer(obj);
-        targetPortal.GetComponent<Portal>().Net_ChangeOnPrograss();
-        Rpc_TransmitPosition(obj);
+    //    Rpc_HoldPlayer(obj);
+    //    targetPortal.GetComponent<Portal>().Net_ChangeOnPrograss();
+    //    Rpc_TransmitPosition(obj);
 
-        yield return new WaitForSeconds(1);
+    //    yield return new WaitForSeconds(1);
 
-        Rpc_RecoverPlayer(obj);
-        yield return new WaitForSeconds(1);
-        targetPortal.GetComponent<Portal>().Net_ChangeOnPrograss();
-        Server_ChangePrograss();
-    }
+    //    Rpc_RecoverPlayer(obj);
+    //    yield return new WaitForSeconds(1);
+    //    targetPortal.GetComponent<Portal>().Net_ChangeOnPrograss();
+    //    Server_ChangePrograss();
+    //}
 
 
     [Server]
@@ -65,31 +162,15 @@ public class Portal_Net : NetworkBehaviour
         onPrograss = !onPrograss;
     }
 
-    [Server] //sync
-    public void Server_SetOnActive(bool val)
-    {
-        onActive = val;
-    }
-
-    private void ChangeOnActive(bool old,bool newVal)
-    {
-        Animator.SetBool(IsActive, newVal);
-        _TpEffect.SetActive(newVal);
-
-    }
-    [Command]
-    public void Cmd_CallSetOnActive(bool val)
-    {
-        Server_SetOnActive(val);
-    }
+  
 
 
 
-    [ClientRpc]
-    public void Rpc_TransmitPosition(GameObject obj)
-    {
-        obj.transform.position = targetPortalPosition + Vector2.up;
-    }
+    //[ClientRpc]
+    //public void Rpc_TransmitPosition(GameObject obj)
+    //{
+    //    obj.transform.position = targetPortalPosition + Vector2.up;
+    //}
 
 
 
@@ -144,4 +225,5 @@ public class Portal_Net : NetworkBehaviour
             component.simulated = true;
         }
     }
+
 }
