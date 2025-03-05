@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Mirror;
-using Org.BouncyCastle.Asn1.X509;
 using UnityEngine;
 
 public class CustomNetworkManager : NetworkManager
@@ -25,6 +24,15 @@ public class CustomNetworkManager : NetworkManager
     public struct CreateCustomCharacterMessage : NetworkMessage
     {
         public CharacterType type;
+    }
+    public double GetPingMessage()
+    {
+        if(NetworkClient.isConnected)
+        {
+            return NetworkTime.rtt *1000f;
+        }
+        
+        return 9999;
     }
     #endregion
 
