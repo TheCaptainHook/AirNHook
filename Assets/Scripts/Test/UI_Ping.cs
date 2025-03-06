@@ -1,9 +1,10 @@
 
+using Mirror;
 using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
+using UnityEditor.Build.Pipeline;
 using UnityEngine;
-using UnityEngine.Networking;
+using UnityEngine.UI;
 
 /** ping criteria
 0~50    : green
@@ -13,70 +14,196 @@ using UnityEngine.Networking;
 250~    : Black
 **/
 
+public enum PingCriteria
+{
+    Green,
+    Yellow,
+    Orange,
+    Red,
+    Black
+}
+
 public class UI_Ping : MonoBehaviour
 {
     #region Client Ping
-    [SerializeField] TextMeshProUGUI pingText;
+
     #endregion
     #region Network Level
+    [SerializeField] Image image;
     [SerializeField] TextMeshProUGUI netPingText;
-    
     #endregion
-   
+
+    private PingCriteria curPingCriteria;
+
+    private WaitForSeconds wait;
+
+    private void Start()
+    {
+        wait = new WaitForSeconds(3);
+        curPingCriteria = PingCriteria.Black;
+    }
+
 
     private void Update()
     {
          if(Input.GetKeyDown(KeyCode.P))
         {
             Debug.Log("P");
-            StartCoroutine(CheckNetworkLatency());
+            ServerPingCheck();
         }
+    }
+
+    #region Server
+
+    private Coroutine serverPingCheckCoroutine;
+    public void ServerPingCheck()
+    {
+        if (serverPingCheckCoroutine != null) StopCoroutine(serverPingCheckCoroutine);
+        serverPingCheckCoroutine = StartCoroutine(CheckNetworkLatency());
     }
 
     private float lastLatency = -1f;
+    int sampleCount = 1;
+    PingCriteria previousPingCriteria;
     IEnumerator CheckNetworkLatency()
     {
-         while (true)
+        while (true)
         {
-            using (UnityWebRequest request = UnityWebRequest.Get("https://www.google.com"))
+            float totalLatency = 0f;
+            int validSampleCount = 0; 
+
+            for (int i = 0; i < sampleCount; i++)
             {
+                Ping ping = new Ping("8.8.8.8");
+
+                //Time Out
+                float timeout = 5f;
                 float startTime = Time.time;
-                yield return request.SendWebRequest();
+                //Time Out
 
-                if (request.result == UnityWebRequest.Result.Success)
+                while (!ping.isDone && (Time.time - startTime < timeout))
                 {
-                    float latency = (Time.time - startTime) * 1000; // ms 변환
+                    yield return null;
+                }
 
-                    if (Mathf.Abs(latency - lastLatency) > 1f) // 변화가 1ms 이상일 때만 업데이트
-                    {
-                        netPingText.text = $"{latency:F2} ms";
-                        lastLatency = latency;
-                    }
+                if (!ping.isDone)
+                {
+                    Debug.LogWarning("Ping Timeout!");
                 }
                 else
                 {
-                    netPingText.text = "No Connection";
+                    totalLatency += ping.time;
+                    validSampleCount++;
                 }
             }
 
-            yield return new WaitForSeconds(3);
+            // 평균값 계산
+            if (validSampleCount > 0)
+            {
+                float avgLatency = totalLatency / validSampleCount;
+
+                if (Mathf.Abs(avgLatency - lastLatency) > 1f)
+                {
+                    //------UI
+                    previousPingCriteria = GetPingCriteriaSwich(avgLatency);
+                    if(previousPingCriteria != curPingCriteria)
+                    {
+                        curPingCriteria = previousPingCriteria;
+                        ChangeImage(curPingCriteria);
+                    }
+                    //------UI
+                    netPingText.text = $"{Mathf.Floor(avgLatency)} ms";
+                    lastLatency = avgLatency;
+                }
+            }
+            else
+            {
+                curPingCriteria = PingCriteria.Black;
+                ChangeImage(curPingCriteria);
+                netPingText.text = "No Connection";
+                //Debug.LogWarning("All Ping Timeout.");
+            }
+
+            // 3초마다 측정
+            yield return wait;
         }
     }
 
-    Color pingColor;
-    private void PingCriteriaSwich(double ping)
+    #endregion
+
+    #region Client
+
+    private Coroutine clientPingCheckCoroutine;
+    public void ClientPingCheck()
     {
-       pingColor = ping switch
-        {
-            <= 50  => Color.green,
-            <= 100 => Color.yellow,
-            <= 150 => new Color(1, 150 / 255f, 0, 1),
-            <= 250 => Color.red,
-            _      => pingText.color
-        };
-        if(pingText.color != pingColor) pingText.color = pingColor;
-        pingText.text = $"{ping} ms";
+        if(clientPingCheckCoroutine != null) StopCoroutine(clientPingCheckCoroutine);
+        clientPingCheckCoroutine = StartCoroutine(ClientPingCheckCo());
     }
 
+    IEnumerator ClientPingCheckCo()
+    {
+        while(true)
+        {
+            //PingCriteriaSwich(NetworkTime.rtt);
+            //------UI
+            var ping = NetworkTime.rtt;
+            previousPingCriteria = GetPingCriteriaSwich(ping);
+            if (previousPingCriteria != curPingCriteria)
+            {
+                curPingCriteria = previousPingCriteria;
+                ChangeImage(curPingCriteria);
+            }
+            //------UI
+            yield return wait;
+        }
+    }
+
+
+    #endregion
+
+
+
+
+
+    #region Util
+
+    private PingCriteria GetPingCriteriaSwich(double ping)
+    {
+        return ping switch
+        {
+            <= 50 => PingCriteria.Green,
+            <= 100 => PingCriteria.Yellow,
+            <= 150 => PingCriteria.Orange,
+            <= 250 => PingCriteria.Red,
+            _ => PingCriteria.Black
+        };
+        //if (pingText.color != pingColor) pingText.color = pingColor;
+        //pingText.text = $"{ping} ms";
+    }
+    private void ChangeImage(PingCriteria pingCriteria)
+    {
+        switch (pingCriteria)
+        {
+            case PingCriteria.Green:
+                image.color = Color.green;
+                break;
+            case PingCriteria.Yellow:
+                image.color = Color.yellow;
+                break;
+            case PingCriteria.Orange:
+                image.color = new Color(100 / 255f, 1, 0, 1);
+                break;
+            case PingCriteria.Red:
+                image.color = Color.red;
+                break;
+            case PingCriteria.Black:
+                image.color = Color.black;
+                break;
+
+
+        }
+
+    }
+    #endregion
 }
 
