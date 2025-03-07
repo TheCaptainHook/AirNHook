@@ -48,7 +48,7 @@ public class StageManager
     [Command]
     public void CmdBatchObject<T>(string objName, T data, Transform parent)
     {
-        if (!NetworkServer.active || !NetworkClient.isConnected) return;
+        if (!NetworkServer.active ) return;
 
         GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
 

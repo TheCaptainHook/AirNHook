@@ -332,13 +332,20 @@ public class Puzzle_1_Net : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
+        Debug.Log("1111111111111111");
         if(!onSync)StartCoroutine(Delay());
+        Debug.Log("222222222222222");
     }
 
 
     IEnumerator Delay()
     {
-        while(!NetworkClient.ready) yield return null;
+        while (!NetworkClient.ready) 
+        {
+            Debug.Log("Wait ");
+            yield return null;
+        }
+       
         Cmd_Sync();
     }
 
