@@ -4,9 +4,7 @@ using System;
 using Random = UnityEngine.Random;
 using System.Collections.Generic;
 using System.Text;
-using Steamworks;
-using System.Collections;
-using Mirror;
+
 
 public class Puzzle_1 : ButtonEntity
 {
@@ -23,16 +21,9 @@ public class Puzzle_1 : ButtonEntity
     [ReadOnly]
     [SerializeField] GameObject partsPrefab;
     [ReadOnly]
-    public string answer; //test
+    public string answer; 
 
-    // private string[] puzzle_1_Items = new string[] { 
-    //     "Puzzle_1_Item (1)", 
-    //     "Puzzle_1_Item (2)", 
-    //     "Puzzle_1_Item (3)",
-    //     "Puzzle_1_Item (4)",
-    //     "Puzzle_1_Item (5)",
-    //     "Puzzle_1_Item (6)"
-    // };
+
     private Vector2[] partsPosition;
     private Vector2[] itemsPosition; //Fill in this field through the editor
     public bool onHint;
@@ -124,37 +115,21 @@ public class Puzzle_1 : ButtonEntity
     private void Editor_Setting(int index)
     {
         GameObject obj;
-        // Puzzle_1_Helper helper = GetComponent<Puzzle_1_Helper>();
 
-            // if (Application.isPlaying)
-            // {
-            //     Puzzle_Net.Server_CreatePuzzle_Item(
-            //            index, itemsPosition[index], partsPosition[index]
-            //        );
-            // }
-            // else
-            // {
+        //Item
+        obj = Helper.Add_Item();
+        obj.transform.position = itemsPosition[index];
+        obj.transform.SetParent(itemContainer);
+        //Item
 
-            //Item
-                obj = Helper.Add_Item();
-                // if (onHint) 
-                // {
-                //     hintScreen.gameObject.SetActive(true);
-                // }
+        //Part
+        CreateParts(partsPosition[index], 0, index);
+        //Part
 
-                obj.transform.position = itemsPosition[index];
-                obj.transform.SetParent(itemContainer);
-            //Item
-
-            //Part
-                CreateParts(partsPosition[index],0,index);
-            //Part
-
-            // }
     }
 #endif
-//-------------------------------------------------------------------------------250307 Refactoring
- private void Setting() 
+    //-------------------------------------------------------------------------------250307 Refactoring
+    private void Setting() 
  {
     #if UNITY_EDITOR
         Helper.Init();
@@ -172,7 +147,6 @@ public class Puzzle_1 : ButtonEntity
     #if UNITY_EDITOR
             else
             {
-                // Helper.Init();
                 Editor_Setting(i);
 
             }
@@ -180,98 +154,20 @@ public class Puzzle_1 : ButtonEntity
         }
 
 
-    // if (onHint) 
-    // {
-    //     hintScreen.gameObject.SetActive(true);
-    // }
 
     if (Application.isPlaying)
     {
-            // StartCoroutine(ClientDelay(()=>{Puzzle_Net.Server_SetPuzzleSetting();}));
+
             Puzzle_Net.Server_SetHintSetting();
     }
     else
     {
        SetHint();
     }
-    //Puzzle_Net.Server_SetHintPosition(onHint, hintPosition);
-
+ 
  }
 
 
-
-
-
-
-
-
-
-
-
-// #if UNITY_EDITOR
-           
-//             Editor_Setting(i);
-
-// #else
-
-//          Puzzle_Net.Server_CreatePuzzle_Item(
-//                     i,itemsPosition[i],partsPosition[i]
-//                 );
-           
-// #endif
-
-//         }
-//         if (Application.isPlaying)
-//         {
-//             //Puzzle_Net.Server_SetHintPosition(onHint, hintPosition);
-//             // Puzzle_Net.Cmd_SetPuzzleSetting();
-//             StartCoroutine(ClientDelay(()=>{Puzzle_Net.Server_SetPuzzleSetting();}));
-//         }
-//         else
-//         {
-//            SetHint();
-//         }
-//         //Puzzle_Net.Server_SetHintPosition(onHint, hintPosition);
-
-//     }
-//-------------------------------------------------------------------------------250307 Refactoring
-
-//     private void Setting() {
-//         for (int i = 0; i < partsPosition.Length; i++) {
-
-// #if UNITY_EDITOR
-           
-//             Editor_Setting(i);
-
-// #else
-
-//          Puzzle_Net.Server_CreatePuzzle_Item(
-//                     i,itemsPosition[i],partsPosition[i]
-//                 );
-           
-// #endif
-
-//         }
-//         if (Application.isPlaying)
-//         {
-//             //Puzzle_Net.Server_SetHintPosition(onHint, hintPosition);
-//             // Puzzle_Net.Cmd_SetPuzzleSetting();
-//             StartCoroutine(ClientDelay(()=>{Puzzle_Net.Server_SetPuzzleSetting();}));
-//         }
-//         else
-//         {
-//            SetHint();
-//         }
-//         //Puzzle_Net.Server_SetHintPosition(onHint, hintPosition);
-
-//     }
-    //-------------------------------------------------------------Network 250126
-
-    IEnumerator ClientDelay(Action? action)
-    {
-        while(!NetworkClient.ready){yield return null; Debug.Log("Is Not Ready Network");} 
-        action?.Invoke();
-    }
     public void SetHint(string answer = "ANSWER")
     {
         if (onHint)

@@ -194,17 +194,17 @@ public class Puzzle_1_Net : NetworkBehaviour
 
     #region Init_Cmd
 
-    [Server]
-    private void Server_Sync()
-    {
-        Rpc_SetPuzzleSetting(Puzzle.ButtonObjectData.position,partsList,itemsList,hint);
+    //[Server]
+    //private void Server_Sync()
+    //{
+    //    Rpc_SetPuzzleSetting(Puzzle.ButtonObjectData.position,partsList,itemsList,hint);
         
-    }
-    [Command]
-    public void Cmd_Sync()
-    {
-        Server_Sync();
-    }
+    //}
+    //[Command]
+    //public void Cmd_Sync()
+    //{
+    //    Server_Sync();
+    //}
     #endregion
 
     #region Init_Rpc
@@ -217,7 +217,6 @@ public class Puzzle_1_Net : NetworkBehaviour
         partsList = parts;
         itemsList = items;
         this.hint = hint;
-        Debug.Log($"position : {mainPosition}\npartsList : {partsList.Count}\nitemList: {itemsList.Count}");
         //data sync
 
         NetworkIdentity puzzle = Client_GetNetworkIdentity(Puzzle_netId);
@@ -228,7 +227,6 @@ public class Puzzle_1_Net : NetworkBehaviour
         {
             NetworkIdentity netPart = Client_GetNetworkIdentity(part.netId);
 
-            // Transform parent = puzzle.gameObject.transform.GetChild(0);
             Transform partTr = netPart.gameObject.transform;
 
             partTr.SetParent(puzzle_net.partsContainer);
@@ -243,7 +241,6 @@ public class Puzzle_1_Net : NetworkBehaviour
         {
             NetworkIdentity netitem = Client_GetNetworkIdentity(item.netId);
 
-            // Transform parent = puzzle.gameObject.transform.GetChild(1);
             Transform itemTr = netitem.gameObject.transform;
 
             itemTr.SetParent(puzzle_net.itemContainer);
@@ -252,16 +249,13 @@ public class Puzzle_1_Net : NetworkBehaviour
         }
 
 
-        // Transform hintTr = puzzle.gameObject.transform.GetChild(3);
-        // Puzzle_1_HintScreen hintScreen = hintTr.GetComponent<Puzzle_1_HintScreen>();
-
         if (hint.isHint)
         {
-            // hintTr.gameObject.SetActive(true);
+
             hintScreen.gameObject.SetActive(true); ;
-            // hintTr.position = hint.position;
+  
             hintScreen.transform.position = hint.position;
-            // hintScreen.SetHint(hint.answer);
+       
             hintScreen.SetHint(hint.answer);
         }
         else
@@ -273,83 +267,22 @@ public class Puzzle_1_Net : NetworkBehaviour
 
     }
 
-    // private void Rpc_SetPuzzleSetting(List<Part> parts, List<Item> items,Hint hint)
-    // {
-    //     if (!onSync)
-    //     {
-    //         NetworkIdentity puzzle = Client_GetNetworkIdentity(Puzzle_netId);
-    //         Puzzle_1 puzzle_1 = puzzle.gameObject.GetComponent<Puzzle_1>();
-
-    //         foreach (var part in parts)
-    //         {
-    //             NetworkIdentity netPart = Client_GetNetworkIdentity(part.netId);
-
-    //             Transform parent = puzzle.gameObject.transform.GetChild(0);
-    //             Transform partTr = netPart.gameObject.transform;
-
-    //             partTr.SetParent(parent);
-    //             partTr.position = part.position;
-
-    //             netPart.GetComponent<Puzzle_1_Parts>().Settting(puzzle.GetComponent<Puzzle_1>(), part.answer, part.index);
-
-    //             puzzle_1.SetPart(partTr.GetComponent<Puzzle_1_Parts>());
-    //         }
-
-    //         foreach (var item in items)
-    //         {
-    //             NetworkIdentity netitem = Client_GetNetworkIdentity(item.netId);
-
-    //             Transform parent = puzzle.gameObject.transform.GetChild(1);
-    //             Transform itemTr = netitem.gameObject.transform;
-
-    //             itemTr.SetParent(parent);
-    //             itemTr.position = item.position;
-
-    //         }
-
-
-    //     }
-
-
-    //     Transform hintTr = puzzle.gameObject.transform.GetChild(3);
-    //     Puzzle_1_HintScreen hintScreen = hintTr.GetComponent<Puzzle_1_HintScreen>();
-
-    //     if (hint.isHint)
-    //     {
-    //         hintTr.gameObject.SetActive(true);
-    //         hintTr.position = hint.position;
-    //         hintScreen.SetHint(hint.answer);
-    //     }
-    //     else
-    //     {
-    //         hintScreen.gameObject.SetActive(false);
-    //     }
-
-    // }
 
 
     #endregion
 
 
-    //public override void OnStartClient()
+
+    //IEnumerator Delay()
     //{
-    //    base.OnStartClient();
-    //    Debug.Log("1111111111111111");
-    //    if(!onSync)StartCoroutine(Delay());
-    //    Debug.Log("222222222222222");
-    //}
-
-
-    IEnumerator Delay()
-    {
-        while (!NetworkClient.ready) 
-        {
-            Debug.Log("Wait ");
-            yield return null;
-        }
+    //    while (!NetworkClient.ready) 
+    //    {
+    //        Debug.Log("Wait ");
+    //        yield return null;
+    //    }
        
-        Cmd_Sync();
-    }
+    //    Cmd_Sync();
+    //}
 
 
     [Command(requiresAuthority = false)]
