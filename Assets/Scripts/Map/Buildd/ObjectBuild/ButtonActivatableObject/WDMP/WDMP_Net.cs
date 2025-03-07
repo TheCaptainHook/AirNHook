@@ -151,7 +151,6 @@ public class WDMP_Net : NetworkBehaviour
 
     private bool Compare(Vector2 a,Vector2 b,float threshold = 0.01f)
     {
-        Debug.Log($"a:{a},b:{b}");
         return Vector2.Distance(a, b) < threshold;
     }
     
