@@ -109,9 +109,9 @@ public class Puzzle_1_Net : NetworkBehaviour
 
     private List<Part> partsList;
     private List<Item> itemsList;
-    private Hint hint;
+    public Hint hint;
     
-    private bool onSync; //-------------------------------------------------250307
+    public bool onSync; //-------------------------------------------------250307
 
     #region Server
 
@@ -215,6 +215,7 @@ public class Puzzle_1_Net : NetworkBehaviour
             partsList = parts;
             itemsList = items;
             this.hint = hint;
+        Debug.Log($"position : {mainPosition}\npartsList : {partsList.Count}\nitemList: {itemsList.Count}");
                 //data sync
 
             NetworkIdentity puzzle = Client_GetNetworkIdentity(Puzzle_netId);
@@ -465,6 +466,7 @@ public struct Item
     }
 
 }
+[Serializable]
 public struct Hint
 {
     public bool isHint;
