@@ -661,7 +661,6 @@ GameObject:
   - component: {fileID: 115901517499643412}
   - component: {fileID: 1795141636223508753}
   - component: {fileID: 2267976049350943410}
-  - component: {fileID: 5458041871771799046}
   m_Layer: 0
   m_Name: Puzzle_1
   m_TagString: Untagged
@@ -788,40 +787,6 @@ MonoBehaviour:
   hintScreen: {fileID: 2410220426263547716}
   button: {fileID: 1673485768780107428}
   chargingRate: 0
---- !u!114 &5458041871771799046
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6930252817865812817}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  target: {fileID: 389620120599283547}
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 0
-  onlySyncOnChange: 1
-  compressRotation: 1
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 1
-  coordinateSpace: 0
-  sendIntervalMultiplier: 1
-  timelineOffset: 0
-  showGizmos: 0
-  showOverlay: 0
-  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  onlySyncOnChangeCorrectionMultiplier: 2
-  rotationSensitivity: 0.01
-  positionPrecision: 0.01
-  scalePrecision: 0.01
 --- !u!1 &7031136592058459931
 GameObject:
   m_ObjectHideFlags: 0

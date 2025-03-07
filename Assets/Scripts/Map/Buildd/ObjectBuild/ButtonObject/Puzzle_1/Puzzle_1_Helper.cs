@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using System;
-using UnityEditor.Rendering;
-using UnityEngine.Assertions.Must;
+
 [ExecuteInEditMode]
 public class Puzzle_1_Helper : MonoBehaviour
 {

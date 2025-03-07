@@ -8,7 +8,6 @@ using TMPro;
 using System;
 using System.Reflection;
 using UnityEngine.Rendering.Universal;
-using Edgegap;
 
 
 public enum MapType

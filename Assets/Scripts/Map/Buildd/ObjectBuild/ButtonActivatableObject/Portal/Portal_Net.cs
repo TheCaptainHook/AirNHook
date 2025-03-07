@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using Unity.VisualScripting;
 
 public class Portal_Net : NetworkBehaviour
 {

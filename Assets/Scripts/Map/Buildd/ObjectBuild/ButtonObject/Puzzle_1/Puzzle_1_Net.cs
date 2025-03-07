@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 using System;
 
 
+
 public class Puzzle_1_Net : NetworkBehaviour
 {
     [SerializeField] Transform partsContainer;
@@ -102,12 +103,15 @@ public class Puzzle_1_Net : NetworkBehaviour
 
     #region -------------------------------------------Init Sync
 
-    [SyncVar] private int previousNumber;
-    [SyncVar] private string answer;
+    private int previousNumber;
+    // [SyncVar] private string answer;
+    private string answer;
 
     private List<Part> partsList;
     private List<Item> itemsList;
     private Hint hint;
+    
+    private bool onSync; //-------------------------------------------------250307
 
     #region Server
 
@@ -127,7 +131,7 @@ public class Puzzle_1_Net : NetworkBehaviour
         answer += previousNumber.ToString();
 
         //item
-        GameObject obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[previousNumber - 1]);//Pooling
+        GameObject obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[previousNumber - 1]);//Poozing
 
         obj.transform.SetParent(Puzzle.transform.GetChild(1));
         obj.transform.position = itemPot;
@@ -159,12 +163,22 @@ public class Puzzle_1_Net : NetworkBehaviour
     }
 
     [Server]
-    public void Server_SetPuzzleSetting()
+    public void Server_SetHintSetting()
     {
         var hint = Puzzle.GetHintData();
         this.hint = new Hint(hint.isHint, answer, hint.position);
 
-        Rpc_SetPuzzleSetting(partsList,itemsList,this.hint);
+        if(this.hint.isHint)
+        {
+            hintScreen.gameObject.SetActive(true);
+            hintScreen.transform.position = hint.position;
+            hintScreen.SetHint(this.hint.answer);
+        }
+
+
+        onSync  = true;
+
+        // Rpc_SetPuzzleSetting(partsList,itemsList,this.hint);
     }
 
 
@@ -178,31 +192,43 @@ public class Puzzle_1_Net : NetworkBehaviour
 
 
     #region Init_Cmd
-    [Command(requiresAuthority = false)]
-    public void Cmd_SetPuzzleSetting()
-    {
-        Server_SetPuzzleSetting();
-    }
 
+    [Server]
+    private void Server_Sync()
+    {
+        Rpc_SetPuzzleSetting(Puzzle.ButtonObjectData.position,partsList,itemsList,hint);
+        
+    }
+    [Command]
+    public void Cmd_Sync()
+    {
+        Server_Sync();
+    }
     #endregion
 
     #region Init_Rpc
     [ClientRpc]
-    private void Rpc_SetPuzzleSetting(List<Part> parts, List<Item> items,Hint hint)
+    private void Rpc_SetPuzzleSetting(Vector2 mainPosition,List<Part> parts, List<Item> items,Hint hint)
     {
-        if (!isServer)
-        {
+                //data sync
+            transform.position = mainPosition;
+            partsList = parts;
+            itemsList = items;
+            this.hint = hint;
+                //data sync
+
             NetworkIdentity puzzle = Client_GetNetworkIdentity(Puzzle_netId);
             Puzzle_1 puzzle_1 = puzzle.gameObject.GetComponent<Puzzle_1>();
+            Puzzle_1_Net puzzle_net = puzzle.gameObject.GetComponent<Puzzle_1_Net>();
 
             foreach (var part in parts)
             {
                 NetworkIdentity netPart = Client_GetNetworkIdentity(part.netId);
 
-                Transform parent = puzzle.gameObject.transform.GetChild(0);
+                // Transform parent = puzzle.gameObject.transform.GetChild(0);
                 Transform partTr = netPart.gameObject.transform;
 
-                partTr.SetParent(parent);
+                partTr.SetParent(puzzle_net.partsContainer);
                 partTr.position = part.position;
 
                 netPart.GetComponent<Puzzle_1_Parts>().Settting(puzzle.GetComponent<Puzzle_1>(), part.answer, part.index);
@@ -214,23 +240,25 @@ public class Puzzle_1_Net : NetworkBehaviour
             {
                 NetworkIdentity netitem = Client_GetNetworkIdentity(item.netId);
 
-                Transform parent = puzzle.gameObject.transform.GetChild(1);
+                // Transform parent = puzzle.gameObject.transform.GetChild(1);
                 Transform itemTr = netitem.gameObject.transform;
 
-                itemTr.SetParent(parent);
+                itemTr.SetParent(puzzle_net.itemContainer);
                 itemTr.position = item.position;
                
             }
-        }
 
       
-        Transform hintTr = puzzle.gameObject.transform.GetChild(3);
-        Puzzle_1_HintScreen hintScreen = hintTr.GetComponent<Puzzle_1_HintScreen>();
+        // Transform hintTr = puzzle.gameObject.transform.GetChild(3);
+        // Puzzle_1_HintScreen hintScreen = hintTr.GetComponent<Puzzle_1_HintScreen>();
 
         if (hint.isHint)
         {
-            hintTr.gameObject.SetActive(true);
-            hintTr.position = hint.position;
+            // hintTr.gameObject.SetActive(true);
+            hintScreen.gameObject.SetActive(true);;
+            // hintTr.position = hint.position;
+            hintScreen.transform.position = hint.position;
+            // hintScreen.SetHint(hint.answer);
             hintScreen.SetHint(hint.answer);
         }
         else
@@ -238,7 +266,63 @@ public class Puzzle_1_Net : NetworkBehaviour
             hintScreen.gameObject.SetActive(false);
         }
 
+        onSync = true;
+
     }
+
+    // private void Rpc_SetPuzzleSetting(List<Part> parts, List<Item> items,Hint hint)
+    // {
+    //     if (!onSync)
+    //     {
+    //         NetworkIdentity puzzle = Client_GetNetworkIdentity(Puzzle_netId);
+    //         Puzzle_1 puzzle_1 = puzzle.gameObject.GetComponent<Puzzle_1>();
+
+    //         foreach (var part in parts)
+    //         {
+    //             NetworkIdentity netPart = Client_GetNetworkIdentity(part.netId);
+
+    //             Transform parent = puzzle.gameObject.transform.GetChild(0);
+    //             Transform partTr = netPart.gameObject.transform;
+
+    //             partTr.SetParent(parent);
+    //             partTr.position = part.position;
+
+    //             netPart.GetComponent<Puzzle_1_Parts>().Settting(puzzle.GetComponent<Puzzle_1>(), part.answer, part.index);
+
+    //             puzzle_1.SetPart(partTr.GetComponent<Puzzle_1_Parts>());
+    //         }
+
+    //         foreach (var item in items)
+    //         {
+    //             NetworkIdentity netitem = Client_GetNetworkIdentity(item.netId);
+
+    //             Transform parent = puzzle.gameObject.transform.GetChild(1);
+    //             Transform itemTr = netitem.gameObject.transform;
+
+    //             itemTr.SetParent(parent);
+    //             itemTr.position = item.position;
+               
+    //         }
+
+            
+    //     }
+
+      
+    //     Transform hintTr = puzzle.gameObject.transform.GetChild(3);
+    //     Puzzle_1_HintScreen hintScreen = hintTr.GetComponent<Puzzle_1_HintScreen>();
+
+    //     if (hint.isHint)
+    //     {
+    //         hintTr.gameObject.SetActive(true);
+    //         hintTr.position = hint.position;
+    //         hintScreen.SetHint(hint.answer);
+    //     }
+    //     else
+    //     {
+    //         hintScreen.gameObject.SetActive(false);
+    //     }
+
+    // }
 
 
     #endregion
@@ -247,17 +331,14 @@ public class Puzzle_1_Net : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
-        //if (!isServer)
-        //Cmd_SetPuzzleSetting();
-        StartCoroutine(Delay());
+        if(!onSync)StartCoroutine(Delay());
     }
 
 
     IEnumerator Delay()
     {
-        yield return new WaitForSeconds(0.5f);
-        if (!isServer)
-            Cmd_SetPuzzleSetting();
+        while(!NetworkClient.ready) yield return null;
+        Cmd_Sync();
     }
 
 
