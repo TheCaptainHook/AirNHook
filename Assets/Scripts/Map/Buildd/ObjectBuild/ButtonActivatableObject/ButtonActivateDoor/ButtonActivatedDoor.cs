@@ -5,49 +5,32 @@ using UnityEngine;
 public class ButtonActivatedDoor : ActivatableObjectEntity
 {
     [CustomHeader("ButtonActivatedDoor")]
-    // [SerializeField] private BoxCollider2D _collider;
-    [SerializeField] NetworkAnimator _animator;
-
-    #region StringCache
-    private static readonly int UnlockTrigger = Animator.StringToHash("UnlockTrigger");
-    private static readonly int LockTrigger = Animator.StringToHash("LockTrigger");
-    #endregion
 
     public bool onOpen;
 
     public bool onPrograss;
 
-    // private void Awake(){
-    //     _collider = GetComponent<Collider2D>();
-    // }
+    #region Get,Set
+    public override void SetData<T>(T data)
+    {
+        base.SetData(data);
+        
+        door_Net.onSync = true;
+        door_Net.Server_InitSync();
+    }
+    #endregion
+
     protected override void Activation()
     {
         if (onPrograss) return;
         if (onOpen) return;
         onOpen = true;
         _collider.enabled = false;
-
-        //Door open
-        // _animator.SetTrigger(UnlockTrigger);
-        //250124
-        // Open();
         
         door_Net.HandleSetState(true);
 
-
     }
 
-    // test
-    //public void Update(){
-    //    if(Input.GetKeyDown(KeyCode.Q))
-    //    {
-    //        ApplyActive(1);
-    //    }
-    //    if(Input.GetKeyDown(KeyCode.W))
-    //    {
-    //        ApplyActive(-1);
-    //    }
-    //}
 
 
     protected override void Deactivated()
@@ -56,18 +39,12 @@ public class ButtonActivatedDoor : ActivatableObjectEntity
         if (!onOpen) return;
 
         onOpen = false;
-       
-        //Door close
-        // _animator.SetTrigger(LockTrigger);
-        //250124
-        // Close();
+
         door_Net.HandleSetState(false);
 
     }
 
-
-
-
+    
 
     //----------------------------------------------------------------Refactoring 250124
     [SerializeField]  ButtonActivaateDoor_Net door_Net;

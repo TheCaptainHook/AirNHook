@@ -34,24 +34,24 @@ public class ExitPointObj : BuildObj
     //        } }
 
 
-    private int curKeyAmount = 0;
-    public void SetKey()
-    {
-        //curKeyAmount--;
-        //keyBubble.MinusConditionKeyAmount(curKeyAmount);
-        //if (current_KeyAmount <= 0 && !stageClear) //TODO 0729
-        //{
-        //    stageClear = true;
-        //    MapEditor.Instance.stageClear = true;
-        //    doorOpeningAnim.CallOnUnlockAnimation();
-        //    //absencePanel.OnAbsencePanel(); //TOdo 0802 Need Network
-        //    //ExitPoint_Net.OnAbsencePanel();
+    // private int curKeyAmount = 0;
+    // public void SetKey()
+    // {
+    //     //curKeyAmount--;
+    //     //keyBubble.MinusConditionKeyAmount(curKeyAmount);
+    //     //if (current_KeyAmount <= 0 && !stageClear) //TODO 0729
+    //     //{
+    //     //    stageClear = true;
+    //     //    MapEditor.Instance.stageClear = true;
+    //     //    doorOpeningAnim.CallOnUnlockAnimation();
+    //     //    //absencePanel.OnAbsencePanel(); //TOdo 0802 Need Network
+    //     //    //ExitPoint_Net.OnAbsencePanel();
 
 
-        //}
-        //ExitPoint_Net.Server_SetCurrent_KeyAmount(1);
-        ExitPoint_Net.Cmd_SetCurrent_KeyAmount(1);
-    }
+    //     //}
+    //     //ExitPoint_Net.Server_SetCurrent_KeyAmount(1);
+    //     ExitPoint_Net.Cmd_SetCurrent_KeyAmount(1);
+    // }
 
 
     [Header("Componenets")]
@@ -111,23 +111,29 @@ public class ExitPointObj : BuildObj
             //keyBubble.SetData(current_KeyAmount);
             if(Application.isPlaying)
             {
-                ExitPoint_Net.Server_SetCurMapId(MapEditor.Instance.mapID);
-                ExitPoint_Net.Server_SetInit(condition_KeyAmount);
-                ExitPoint_Net.Server_SetNextMapId(eData.nextMapId);
+                // ExitPoint_Net.Server_SetCurMapId(MapEditor.Instance.mapID);
+                // ExitPoint_Net.Server_InitSync(MapEditor.Instance.mapID,eData.nextMapId);
+                // ExitPoint_Net.Server_SetInit(condition_KeyAmount);
+                // ExitPoint_Net.Server_SetNextMapId(eData.nextMapId);
+                NetworkSync(eData);
+                ExitPoint_Net.Server_InitSync();
+            }else{
+                nextMapId = eData.nextMapId;
+                transform.position = eData.position;
             }
 
-            nextMapId = eData.nextMapId;
-            // SetTileData(eData.position);
 
-            transform.position = eData.position;
         }
     }
 
-   
-
-    public void Init(int condition_keyAmount)
+    private void NetworkSync(ExitObjStruct eData)
     {
-        this.condition_KeyAmount = condition_keyAmount;
+        // transform.position = eData.position;
+        nextMapId = eData.nextMapId;
+        ExitPoint_Net.Server_InitSync(eData.position,MapEditor.Instance.mapID,eData.nextMapId);
+        ExitPoint_Net.Server_SetInit(condition_KeyAmount);
+
+        ExitPoint_Net.onSync = true;
     }
 
     private void ClientGetKey(GameObject obj) //TOdo 0729
@@ -137,7 +143,8 @@ public class ExitPointObj : BuildObj
             Managers.Command.DestroyKey(obj);
         }
         //Current_KeyAmount = 1;
-        SetKey();
+        // SetKey();
+        ExitPoint_Net.Cmd_SetCurrent_KeyAmount(1);
     }
 
     //void GetKey(GameObject obj)
@@ -171,7 +178,7 @@ public class ExitPointObj : BuildObj
         //if (collision.gameObject.layer == LayerMask.NameToLayer("Key") && !turnOff)
         //    GetKey(collision.gameObject);
         
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && ExitPoint_Net.stageClear)
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && MapEditor.Instance.stageClear)
         {
             //absencePanel.Enter(collision.gameObject);//TODO 0802 Need Networking
             // doorOpeningAnim.Enter(collision.gameObject);
@@ -198,7 +205,7 @@ public class ExitPointObj : BuildObj
         if(ExitPoint_Net.OnMoveNextStage) return;
         if (Managers.Game.CurrentState != GameState.Editor && !Managers.Game.Player.GetComponent<PlayerSM>().isServer) return;
         
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && ExitPoint_Net.stageClear)
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && MapEditor.Instance.stageClear)
         {
             //absencePanel.Exit(collision.gameObject);//TODO 0802 Need Networking
             //doorOpeningAnim.Exit(collision.gameObject);
@@ -217,10 +224,10 @@ public class ExitPointObj : BuildObj
     //    doorOpeningAnim.CmdMoveNextStage(nextMapId);
     //}
 
-    //TODO 0802
+    //Use Stage Select UI
     public void Net_SetNextMapId(string nextMapId)
     {
-        ExitPoint_Net.Cmd_SetNextMapId(nextMapId);
+        ExitPoint_Net.Server_SetNextMapId(nextMapId);
     }
 
     //public void MoveNextStage() 

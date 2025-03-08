@@ -12,9 +12,14 @@ public class ExitPoint_Net : NetworkBehaviour
     [SerializeField] DoorOpeningAnim doorOpeningAnim;
 
     #region Data sync
-    [SyncVar] public string curMapId;
-    [SyncVar] public string nextMapId;
-    [SyncVar] public bool stageClear;
+    [ReadOnly]
+    private Vector2 mainPosition;
+    [ReadOnly]
+    public string curMapId;
+    [ReadOnly]
+    public string nextMapId;
+    // [SyncVar] public bool stageClear;
+    private bool StageClear => MapEditor.Instance.stageClear;
     [SyncVar] public int condition_KeyAmount;
     [SyncVar(hook =nameof(OnChangeCurrent_KeyAmount))] public int current_KeyAmount;
     [SyncVar] public int curPlayerInDoor;
@@ -22,45 +27,84 @@ public class ExitPoint_Net : NetworkBehaviour
     #endregion
 
     #region Server_Init Sync
+    public bool onSync;
+
     [Server]
     public void Server_SetInit(int condition)
     {
         condition_KeyAmount = condition;
         current_KeyAmount = condition;
-        Debug.Log($"Condition : {condition}");
     }
+    [Server]
+    public void Server_InitSync(Vector2 mainPosition,string curMapId,string nextMapId)
+    {
+        this.mainPosition = mainPosition;
+        this.curMapId = curMapId;
+        this.nextMapId = nextMapId;
+        transform.position = mainPosition;
+    }
+    [Server]
+    public void Server_InitSync()
+    {
+        Rpc_InitSync(mainPosition,curMapId,nextMapId);
+    }
+    [ClientRpc]
+    private void Rpc_InitSync(Vector2 mainPosition,string curMapId,string nextMapId)
+    {
+        if(onSync) return;
+        this.mainPosition = mainPosition;
+        this.curMapId = curMapId;
+        this.nextMapId = nextMapId;
+        transform.position = mainPosition;
+        onSync = true;
+    }
+    [Command]
+    public void Cmd_InitSync()
+    {
+        Server_InitSync();
+    }
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        if(!onSync)Cmd_InitSync();
+    }
+
     #endregion
 
     #region Server_Data Sync
-    [Server]
-    public void Server_SetNextMapId(string nextMapId)
+    // [Server]
+    // public void Server_SetNextMapId(string nextMapId)
+    // {
+    //     this.nextMapId = nextMapId;
+    // }
+
+    [Server] //Use Stage Select UI
+    public void Server_SetNextMapId(string nextMapId) 
+    {
+        Rpc_SetNextMapId(nextMapId);
+    }
+    [ClientRpc] //Use Stage Select UI
+    private void Rpc_SetNextMapId(string nextMapId)
     {
         this.nextMapId = nextMapId;
     }
-    [Server]
-    public void Cmd_SetNextMapId(string nextMapId)
-    {
-        Server_SetNextMapId(nextMapId);
-    }
-    [Server]
-    public void Server_SetCurMapId(string curMapId)
-    {
-        this.curMapId = curMapId;
-    }
+
 
     [Server]
     public void Server_SetCurrent_KeyAmount(int amount)
     {
         current_KeyAmount -= amount;
-        if(current_KeyAmount <= 0 && !stageClear)
+        if(current_KeyAmount <= 0 && !StageClear)
         {
-
-            stageClear = true;
-
-            Rpc_StageClear();
-
             doorOpeningAnim.CallOnUnlockAnimation();
+            // Rpc_StageClear();
+            StartCoroutine(Delay());
         }
+    }
+    IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(2f);
+        Rpc_StageClear();
     }
     [ClientRpc]
     private void Rpc_StageClear()
@@ -76,7 +120,6 @@ public class ExitPoint_Net : NetworkBehaviour
 
     private void OnChangeCurrent_KeyAmount(int old,int newVal)
     {
-        Debug.Log($"old : {old},new : {newVal}");
         keyBubble.MinusConditionKeyAmount(newVal);
     }
 
@@ -110,7 +153,7 @@ public class ExitPoint_Net : NetworkBehaviour
         curPlayerInDoor += num;
         if (curPlayerInDoor < 0) curPlayerInDoor = 0;
 
-        if (stageClear && curPlayerInDoor >= 2)
+        if (StageClear && curPlayerInDoor >= 2)
         {
             //exit.MoveNextStage();
             OnMoveNextStage = true;
@@ -241,12 +284,6 @@ public class ExitPoint_Net : NetworkBehaviour
     #endregion
 
 
-
-    // public override void OnStartClient()
-    // {
-    //     base.OnStartClient();
-    //     keyBubble.SetData(current_KeyAmount);
-    // }
 
 
 }

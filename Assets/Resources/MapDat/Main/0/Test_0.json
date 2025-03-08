@@ -768,6 +768,12 @@
                 "x": 0.5299999713897705,
                 "y": -4.579999923706055
             },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
@@ -797,7 +803,7 @@
             "y": -6.949999809265137
         },
         "condition_KeyAmount": 1,
-        "nextMapId": ""
+        "nextMapId": "Demo"
     },
     "dialogueDataList": [],
     "droneStructList": [],
@@ -806,5 +812,5 @@
     "cellSize": 2.0,
     "bytesImage": [],
     "audioName": "",
-    "nextMapId": ""
+    "nextMapId": "Demo"
 }

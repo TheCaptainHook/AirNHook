@@ -23,7 +23,40 @@ public class ButtonActivated_Net : NetworkBehaviour
         }
     }
 
-    [SyncVar] public bool onActive;
+    public bool onSync;
+    public bool onActive;
+    
+
+#region  Init
+    [Server]
+    public void Server_SetPosition()
+    {
+        Rpc_SetPosition(Button.ButtonObjectData);
+    }
+    [ClientRpc]
+    private void Rpc_SetPosition(ButtonObjectStruct data)
+    {
+        if(onSync) return;
+        transform.position = data.position;
+        transform.rotation = data.quaternion;
+        transform.localScale = data.scale;
+        onSync = true;
+    }
+    [Command]
+    public void Cmd_SetPosition()
+    {
+        Server_SetPosition();
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        if(!onSync)Cmd_SetPosition();    
+    }
+        
+#endregion
+
+
     [SyncVar(hook =nameof(OnChageRate))] 
     public float rate;
 

@@ -5023,14 +5023,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4207799436377025379}
-  - component: {fileID: 7205159634737178920}
   - component: {fileID: -1055571321575970891}
   - component: {fileID: 3951190342511661651}
   - component: {fileID: 618963904027766403}
   - component: {fileID: 8712615195608084389}
-  - component: {fileID: 59227357395326983}
   - component: {fileID: 2829689702645248256}
   - component: {fileID: 3544548912466111098}
+  - component: {fileID: 7205159634737178920}
+  - component: {fileID: 5203370921611121155}
   m_Layer: 14
   m_Name: HarpoonTurret
   m_TagString: Untagged
@@ -5055,41 +5055,6 @@ Transform:
   - {fileID: 4804298900846582656}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7205159634737178920
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1765376050649186438}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e8c1e4bebcb22e4590827f09ea592a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 342
-  transformID: 0
-  position: {x: 0, y: 0}
-  distructionStatus: 0
-  chargeRequired: 0
-  onPlaceable: 0
-  onRotateable: 0
-  onScaleable: 0
-  offset: {x: 0, y: 0}
-  turnOff: 0
-  setPosition: 0
-  orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 1088
-  isShot: 0
-  _holder: {fileID: 8923308927599904813}
-  _shellParticle: {fileID: 645326699124061494}
-  _topSteam: {fileID: 2868477511076414545}
-  _bottomSteam: {fileID: 8270035442196099591}
-  radius: 10
-  arrowPrefab: {fileID: 6577318668199586757, guid: d06948e9a634942f4828d3e3316cad40, type: 3}
 --- !u!50 &-1055571321575970891
 Rigidbody2D:
   serializedVersion: 4
@@ -5200,41 +5165,6 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!114 &59227357395326983
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1765376050649186438}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 1
-  syncMode: 0
-  syncInterval: 0
-  target: {fileID: 4207799436377025379}
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 1
-  onlySyncOnChange: 1
-  compressRotation: 1
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 1
-  coordinateSpace: 0
-  sendIntervalMultiplier: 1
-  timelineOffset: 0
-  showGizmos: 0
-  showOverlay: 0
-  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  bufferResetMultiplier: 3
-  changedDetection: 1
-  positionSensitivity: 0.01
-  rotationSensitivity: 0.01
-  scaleSensitivity: 0.01
 --- !u!114 &2829689702645248256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5247,7 +5177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 1
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0
   clientAuthority: 0
@@ -5264,6 +5194,57 @@ SortingGroup:
   m_SortingLayer: 5
   m_SortingOrder: 5
   m_SortAtRoot: 0
+--- !u!114 &7205159634737178920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1765376050649186438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e8c1e4bebcb22e4590827f09ea592a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 342
+  transformID: 0
+  position: {x: 0, y: 0}
+  distructionStatus: 0
+  chargeRequired: 0
+  onPlaceable: 0
+  onRotateable: 0
+  onScaleable: 0
+  offset: {x: 0, y: 0}
+  turnOff: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 0}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1088
+  isShot: 0
+  _holder: {fileID: 8923308927599904813}
+  _shellParticle: {fileID: 645326699124061494}
+  _topSteam: {fileID: 2868477511076414545}
+  _bottomSteam: {fileID: 8270035442196099591}
+  radius: 10
+  arrowPrefab: {fileID: 6577318668199586757, guid: d06948e9a634942f4828d3e3316cad40, type: 3}
+--- !u!114 &5203370921611121155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1765376050649186438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4e86c716c45c4372a83e1ea2e1271c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  onSync: 0
 --- !u!1 &2404114946433188241
 GameObject:
   m_ObjectHideFlags: 0

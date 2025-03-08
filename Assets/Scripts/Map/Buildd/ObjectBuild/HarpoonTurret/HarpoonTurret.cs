@@ -1,6 +1,5 @@
 
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class HarpoonTurret : BuildObj
 {
@@ -44,6 +43,19 @@ public class HarpoonTurret : BuildObj
     {
         RotateTrap();
     }
+    #region  Get,Set
+    HarpoonTurret_Net Net => GetComponent<HarpoonTurret_Net>();
+    public override void SetData<T>(T data)
+    {
+        base.SetData(data);
+        transform.position = ObjectData.position;
+        transform.rotation = ObjectData.quaternion;
+        Net.onSync = true;
+
+        Net.Server_InitSync();
+
+    }
+    #endregion
 
     private float shotCooldown = 4f; // 재발사까지의 딜레이
     private float lastShotTime = -1f;

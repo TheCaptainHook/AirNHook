@@ -102,7 +102,6 @@ GameObject:
   - component: {fileID: 7695271462647067305}
   - component: {fileID: 4614319543247492676}
   - component: {fileID: 1045330855647730413}
-  - component: {fileID: 4692644490555630333}
   m_Layer: 13
   m_Name: ExitDoor
   m_TagString: Untagged
@@ -380,44 +379,13 @@ MonoBehaviour:
   exit: {fileID: 4614319543247492676}
   keyBubble: {fileID: 8688439935732841946}
   doorOpeningAnim: {fileID: 7695271462647067305}
+  curMapId: 
+  nextMapId: 
   stageClear: 0
   condition_KeyAmount: 0
   current_KeyAmount: 0
   curPlayerInDoor: 0
---- !u!114 &4692644490555630333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1403613117175697264}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  target: {fileID: 8216439556350585627}
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 0
-  onlySyncOnChange: 1
-  compressRotation: 1
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 1
-  coordinateSpace: 0
-  sendIntervalMultiplier: 1
-  timelineOffset: 0
-  showGizmos: 0
-  showOverlay: 0
-  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  onlySyncOnChangeCorrectionMultiplier: 2
-  rotationSensitivity: 0.01
-  positionPrecision: 0.01
-  scalePrecision: 0.01
+  OnMoveNextStage: 0
 --- !u!1 &2184687535908895107
 GameObject:
   m_ObjectHideFlags: 0
@@ -978,7 +946,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3688467807079261563, guid: 3db377ad46494e845ac2de0beb9c9c03, type: 3}
       propertyPath: m_SortingLayer
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3688467807079261563, guid: 3db377ad46494e845ac2de0beb9c9c03, type: 3}
       propertyPath: m_SortingLayerID
@@ -998,7 +966,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5817093633020250350, guid: 3db377ad46494e845ac2de0beb9c9c03, type: 3}
       propertyPath: m_SortingLayer
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5817093633020250350, guid: 3db377ad46494e845ac2de0beb9c9c03, type: 3}
       propertyPath: m_SortingLayerID
@@ -1006,7 +974,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7614407847377097951, guid: 3db377ad46494e845ac2de0beb9c9c03, type: 3}
       propertyPath: m_SortingLayer
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7614407847377097951, guid: 3db377ad46494e845ac2de0beb9c9c03, type: 3}
       propertyPath: m_SortingLayerID
@@ -1022,7 +990,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8063522068324135406, guid: 3db377ad46494e845ac2de0beb9c9c03, type: 3}
       propertyPath: m_SortingLayer
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8063522068324135406, guid: 3db377ad46494e845ac2de0beb9c9c03, type: 3}
       propertyPath: m_SortingLayerID
@@ -1038,7 +1006,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9159020260615863926, guid: 3db377ad46494e845ac2de0beb9c9c03, type: 3}
       propertyPath: m_SortingLayer
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 9159020260615863926, guid: 3db377ad46494e845ac2de0beb9c9c03, type: 3}
       propertyPath: m_SortingLayerID

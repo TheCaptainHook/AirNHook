@@ -17,10 +17,38 @@ public class ButtonActivaateDoor_Net : NetworkBehaviour
     [SyncVar(hook = nameof(OnDoorStateChanged))]
     private bool isOpen;
 
+    #region  Init
+    public bool onSync;
+    [Server]
+    public void Server_InitSync()
+    {
+        Rpc_InitSync(Door.ButtonActivatedObjectStruct);
+    }
+    [ClientRpc]
+    private void Rpc_InitSync(ButtonActivatableObjectStruct data)
+    {
+        if(onSync) return;
+        transform.position = data.position;
+        transform.rotation = data.quaternion;
+        transform.localScale = data.scale;
+        onSync = true;
+    }
+    [Command]
+    public void Cmd_InitSync()
+    {
+        Server_InitSync();
+    }
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        if(!onSync)Cmd_InitSync();
+    }
+    #endregion
+
     [Server]
     private void SetState(bool open)
     {
-        isOpen = open; // 이 시점에 hook 메서드가 클라이언트에서 실행됩니다.
+        isOpen = open; 
     }
 
     [Command(requiresAuthority = false)]
@@ -51,41 +79,6 @@ public class ButtonActivaateDoor_Net : NetworkBehaviour
 
     }
 
-
-    //public override void OnStartClient()
-    //{
-    //    base.OnStartClient();
-    //    if(isOpen){
-    //        Door.Open();
-    //    }{
-    //        Door.Close();
-    //    }
-    //}
-
-  
-
-    //[Command(requiresAuthority = false)]
-    //public void CmdOpen()
-    //{
-    //    RpcOpen();
-    //}
-    //[ClientRpc]
-    //public void RpcOpen()
-    //{
-    //    isOpen = true;
-    //    Door.Open();
-    //}
-    //[Command(requiresAuthority = false)]
-    //public void CmdClose()
-    //{
-    //    RpcClose();
-    //}
-    //[ClientRpc]
-    //public void RpcClose()
-    //{
-    //    isOpen = false;
-    //    Door.Close();
-    //}
 
 
 
