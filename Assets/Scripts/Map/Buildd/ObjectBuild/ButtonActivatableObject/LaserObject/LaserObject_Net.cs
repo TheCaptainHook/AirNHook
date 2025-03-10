@@ -19,6 +19,38 @@ public class LaserObject_Net : NetworkBehaviour
         }
     }
 
+
+    #region Init
+    public bool onSync;
+    [Server]
+    public void Server_InitSync()
+    {
+        Rpc_InitSync(Laser.ButtonActivatedObjectStruct);
+    }
+
+    [ClientRpc]
+    private void Rpc_InitSync(ButtonActivatableObjectStruct data)
+    {
+        if (onSync) return;
+        transform.position = data.position;
+        transform.rotation = data.quaternion;
+
+        onSync = true;
+    }
+    [Command]
+    private void Cmd_InitSync()
+    {
+        Server_InitSync();
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        if (!onSync) Cmd_InitSync();
+    }
+    #endregion
+
+
     [Server]
     public void Server_SetOnActive(bool active)
     {

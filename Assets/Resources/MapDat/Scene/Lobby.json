@@ -10473,6 +10473,68 @@
             "fontSize": 0.0,
             "chargeRequired": false,
             "animationTriggerType": 0
+        },
+        {
+            "id": 323,
+            "dialogueId": 0,
+            "position": {
+                "x": -12.100000381469727,
+                "y": 20.959999084472658
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0
+        },
+        {
+            "id": 323,
+            "dialogueId": 0,
+            "position": {
+                "x": -17.479999542236329,
+                "y": 28.989999771118165
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -1.0,
+                "w": 0.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0
         }
     ],
     "mapBackgroundObjectList": [
@@ -13702,44 +13764,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.4499956369400025,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 335,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "jumpingPower": 0,
-            "position": {
-                "x": -17.0,
-                "y": -17.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
+                "y": 1.4499952793121338,
                 "z": 1.0
             },
             "talPot": {
@@ -13815,6 +13840,43 @@
                 "y": 0.0,
                 "z": 0.0,
                 "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 335,
+            "activeRequirAmount": 0,
+            "chargeRequired": false,
+            "jumpingPower": 0,
+            "position": {
+                "x": -12.199999809265137,
+                "y": 28.579999923706056
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.7071068286895752,
+                "w": 0.7071068286895752
             },
             "scale": {
                 "x": 1.0,

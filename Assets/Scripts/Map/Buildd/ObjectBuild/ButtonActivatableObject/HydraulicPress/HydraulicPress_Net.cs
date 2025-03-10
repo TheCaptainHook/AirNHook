@@ -29,4 +29,5 @@ public class HydraulicPress_Net : NetworkBehaviour
         base.OnStartClient();
         if (!onSync) Cmd_InitSync();
     }
+    
 }

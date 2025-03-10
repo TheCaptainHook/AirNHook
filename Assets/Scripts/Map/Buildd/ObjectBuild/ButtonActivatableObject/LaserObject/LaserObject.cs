@@ -1,6 +1,7 @@
 
 using UnityEngine;
-    public class LaserObject : ActivatableObjectEntity
+using UnityEngine.VFX;
+public class LaserObject : ActivatableObjectEntity
     {
         [CustomHeader("LaserObject")]
         [SerializeField] private float _defDistanceRay = 50f;
@@ -21,30 +22,53 @@ using UnityEngine;
 
         #region Editor Property
         public Coroutine editor_showLaserCoroutine;
-        #endregion
+    #endregion
 
-        // private void Awake()
-        // {
-        //     // _isEnabled = true;
-        //     // _endVFX.SetActive(_isEnabled);
-        //     // _lineRenderer.enabled = _isEnabled;
-        // }
+    // private void Awake()
+    // {
+    //     // _isEnabled = true;
+    //     // _endVFX.SetActive(_isEnabled);
+    //     // _lineRenderer.enabled = _isEnabled;
+    // }
+    public override void SetData<T>(T data)
+    {
+        base.SetData(data);
+        _Net.onSync = true;
+        _Net.Server_InitSync();
+    }
+   
+    bool shouldRunFixedUpdate = false;
 
+    void CheckIfObjectIsVisible()
+    {
+        Vector3 viewportPos = Camera.main.WorldToViewportPoint(transform.position);
+        shouldRunFixedUpdate = viewportPos.x > -0.5f && viewportPos.x < 1.5f &&
+                               viewportPos.y > -0.5f && viewportPos.y < 1.5f &&
+                               viewportPos.z > 0;
+        Debug.Log(shouldRunFixedUpdate);
+    }
 
-        private void FixedUpdate()
+    private void Update()
+    {
+        CheckIfObjectIsVisible();
+    }
+
+    private void FixedUpdate()
+    {
+        if (!shouldRunFixedUpdate) return;
+        Debug.Log("Laser");
+        if (!MapEditor.Instance.stageClear && !turnOff && _Net.onActive)
         {
-            if(!MapEditor.Instance.stageClear && !turnOff && _Net.onActive)
-            {
-                UpdateLaser();
-            }
-            else
-            {
-                //_isEnabled = false;
-                //_endVFX.SetActive(_isEnabled);
-                //_lineRenderer.enabled = false;
-                _Net.Server_SetOnActive(false);
-            }
+            UpdateLaser();
         }
+        else
+        {
+            //_isEnabled = false;
+            //_endVFX.SetActive(_isEnabled);
+            //_lineRenderer.enabled = false;
+            _Net.Server_SetOnActive(false);
+        }
+    }
     protected override void Activation()
     {
         //_isEnabled = true;
@@ -60,14 +84,15 @@ using UnityEngine;
         //onActive = false;
         _Net.Server_SetOnActive(false);
     }
+    
 
     private void Awake()
     {
         _Net = GetComponent<LaserObject_Net>();
+
     }
     #region Network
     private LaserObject_Net _Net;
-    private bool OnActive => _Net.onActive;
 
     public void Net_Active()
     {
