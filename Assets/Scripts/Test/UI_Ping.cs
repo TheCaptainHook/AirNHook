@@ -22,8 +22,14 @@ public enum PingCriteria
     Red,
     Black
 }
+public enum PingType
+{
+    Server,
+    Client
+}
 
-public class UI_Ping : MonoBehaviour
+
+public class UI_Ping : UI_Base
 {
     #region Client Ping
 
@@ -37,22 +43,38 @@ public class UI_Ping : MonoBehaviour
 
     private WaitForSeconds wait;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         wait = new WaitForSeconds(3);
         curPingCriteria = PingCriteria.Black;
     }
-
-
-    private void Update()
+    public override void OnEnable()
     {
-         if(Input.GetKeyDown(KeyCode.P))
-        {
-            Debug.Log("P");
-            ServerPingCheck();
-        }
+     
+    }
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+        
     }
 
+
+
+    public void StartPingCheck(PingType type)
+    {
+        StopAllCoroutines();
+        if(type == PingType.Server)
+        {
+            ServerPingCheck();
+            Debug.Log("Server Ping Check");
+        }
+        else
+        {
+            ClientPingCheck();
+            Debug.Log("Client Ping Check");
+        }
+    }
     #region Server
 
     private Coroutine serverPingCheckCoroutine;

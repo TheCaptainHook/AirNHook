@@ -159,6 +159,11 @@ public class CustomNetworkManager : NetworkManager
         };
 
         NetworkClient.Send(characterMessage);
+
+        //TEST 250310 Ping Check
+        var ui = Managers.UI.ShowUI<UI_Ping>().gameObject.GetComponent<UI_Ping>();
+        ui.StartPingCheck(PingType.Server);
+        //TEST 250310 Ping Check
     }
 
     // 로딩 UI 구현을 위한 override
@@ -210,6 +215,10 @@ public class CustomNetworkManager : NetworkManager
 
         //TEST 250203
         //Managers.Stage.NetworkObject_SetParent();
+        //TEST 250310 Ping Check
+        var ui = Managers.UI.ShowUI<UI_Ping>().gameObject.GetComponent<UI_Ping>();
+        ui.StartPingCheck(PingType.Server);
+        //TEST 250310 Ping Check
     }
     #endregion
 
