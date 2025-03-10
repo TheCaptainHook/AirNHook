@@ -134,7 +134,7 @@ public class UI_Ping : UI_Base
                         ChangeImage(curPingCriteria);
                     }
                     //------UI
-                    netPingText.text = $"{Mathf.Floor(avgLatency)} ms";
+                    netPingText.text = $"[Server] {Mathf.Floor(avgLatency)} ms";
                     lastLatency = avgLatency;
                 }
             }
@@ -174,6 +174,7 @@ public class UI_Ping : UI_Base
             {
                 curPingCriteria = previousPingCriteria;
                 ChangeImage(curPingCriteria);
+                netPingText.text = $"[Client] {Mathf.Floor((float)ping)}";
             }
             //------UI
             yield return wait;
