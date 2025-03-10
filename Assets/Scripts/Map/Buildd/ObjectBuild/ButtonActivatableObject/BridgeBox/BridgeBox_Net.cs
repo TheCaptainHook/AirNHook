@@ -68,7 +68,7 @@ public class BridgeBox_Net : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
-        if (!onSync) Cmd_InitSync();
+        if (!onSync) StartCoroutine(Delay());
 
     }
 
