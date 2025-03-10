@@ -49,14 +49,17 @@ using UnityEngine;
                 Debug.Log($"ERROR,{typeof(T)}");
             }
 
-                if (Application.isPlaying)
-                {
-                    // BridgeSetting();
-                    BridgeBox_Net.Server_SetData(bridgeLength,connectionPoint,ButtonActivatedObjectStruct.position);
+        if (Application.isPlaying)
+        {
+            // BridgeSetting();
+            //BridgeBox_Net.Server_SetData(bridgeLength,connectionPoint,ButtonActivatedObjectStruct.position);
+            //BridgeBox_Net.Server_InitSync();
+            BridgeBox_Net.SetData(ButtonActivatedObjectStruct);
+            BridgeBox_Net.Server_InitSync();
 
-                    await new Util().Delay(() => { CheckActiveRequirAmount(); });
-                }
-            }
+            await new Util().Delay(() => { CheckActiveRequirAmount(); });
+        }
+    }
         #endregion
 
 

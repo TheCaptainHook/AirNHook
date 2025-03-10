@@ -45,7 +45,6 @@ public class LaserObject : ActivatableObjectEntity
         shouldRunFixedUpdate = viewportPos.x > -0.5f && viewportPos.x < 1.5f &&
                                viewportPos.y > -0.5f && viewportPos.y < 1.5f &&
                                viewportPos.z > 0;
-        Debug.Log(shouldRunFixedUpdate);
     }
 
     private void Update()
@@ -56,7 +55,6 @@ public class LaserObject : ActivatableObjectEntity
     private void FixedUpdate()
     {
         if (!shouldRunFixedUpdate) return;
-        Debug.Log("Laser");
         if (!MapEditor.Instance.stageClear && !turnOff && _Net.onActive)
         {
             UpdateLaser();

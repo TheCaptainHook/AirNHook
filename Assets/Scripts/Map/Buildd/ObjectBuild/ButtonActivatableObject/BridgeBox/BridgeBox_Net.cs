@@ -13,22 +13,78 @@ public class BridgeBox_Net : NetworkBehaviour
     [Space(20)]
     [Header("Sync Data")]
 
-    [SyncVar] public float bridgeLength;
-
-    [SyncVar(hook = nameof(OnChangeConnectionPoint))] 
+    public float bridgeLength;
     public Vector2 connectionPoint;
+    public Vector2 position;
 
     [SyncVar(hook = nameof(OnChangeActive))] public bool onActive;
-    [SyncVar] public Vector2 position;
 
+
+
+    private BridgeBox Main => GetComponent<BridgeBox>();
     private BoxCollider2D Collider => GetComponent<BoxCollider2D>();
 
 
-    // public void Awake()
-    // {
-    //     lineRenderer.positionCount =2;
-    // }
 
+
+    #region Init
+
+    public bool onSync;
+    [Server]
+    public void Server_InitSync()
+    {
+        Rpc_InitSync(Main.ButtonActivatedObjectStruct);
+    }
+    [ClientRpc]
+    private void Rpc_InitSync(ButtonActivatableObjectStruct data)
+    {
+        if (onSync) return;
+        SetData(data);
+        //this.bridgeLength = data.bridgeLength;
+        //this.connectionPoint = data.connectionPoint;
+        //this.position = data.position;
+
+        //transform.position = data.position;
+        //transform.rotation = data.quaternion;
+
+        //CreateBridge();
+
+        //onSync = true;
+    }
+
+    [Command]
+    private void Cmd_InitSync()
+    {
+        Server_InitSync();
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        if (!onSync) Cmd_InitSync();
+        //CreateConnectionObject();
+        //SetBridgeCollider();
+        //if (!isServer)
+        //{
+        //    if (onActive) Active();
+        //}
+    }
+
+    #endregion
+
+    public void SetData(ButtonActivatableObjectStruct data)
+    {
+        bridgeLength = data.bridgeLength;
+        connectionPoint = data.connectionPoint;
+        position = data.position;
+
+        transform.position = data.position;
+        transform.rotation = data.quaternion;
+
+        CreateBridge();
+        onSync = true;
+    }
+    
     [Server]
     public void Server_ChangeOnActive()
     {
@@ -40,17 +96,17 @@ public class BridgeBox_Net : NetworkBehaviour
         else Deactive();
     }
 
-    [Server]
-   public void Server_SetData(float bridgeLength,Vector2 connectionPoint,Vector2 position)
-   {
-        this.bridgeLength = bridgeLength;
-        this.connectionPoint = connectionPoint;
-        this.position = position;
+   // [Server]
+   //public void Server_SetData(float bridgeLength,Vector2 connectionPoint,Vector2 position)
+   //{
+   //     this.bridgeLength = bridgeLength;
+   //     this.connectionPoint = connectionPoint;
+   //     this.position = position;
 
-        //Rpc_BridgeSetting();
-        //CreateConnectionObject();
-        //SetBridgeCollider();
-    }
+   //     //Rpc_BridgeSetting();
+   //     //CreateConnectionObject();
+   //     //SetBridgeCollider();
+   // }
 
     [Command(requiresAuthority = false)]
     public void Cmd_SetOnActive()
@@ -67,57 +123,60 @@ public class BridgeBox_Net : NetworkBehaviour
     //}
 
     #region  ---------------------------------------Server_Util
-    private void OnChangeConnectionPoint(Vector2 old, Vector2 newVal)
-    {
-        //CreateConnectionObject();
-        //SetBridgeCollider();
-        StartCoroutine(WaitforSync());
-    }
+    //private void OnChangeConnectionPoint(Vector2 old, Vector2 newVal)
+    //{
+    //    //CreateConnectionObject();
+    //    //SetBridgeCollider();
+    //    StartCoroutine(WaitforSync());
+    //}
 
-    IEnumerator WaitforSync()
-    {
+    //IEnumerator WaitforSync()
+    //{
 
-        while(bridgeLength <= 0 || connectionPoint == Vector2.zero || this.position == Vector2.zero)
-        {
-            Debug.Log("Sync Wait");
-            yield return null;
-        }
+    //    while(bridgeLength <= 0 || connectionPoint == Vector2.zero || this.position == Vector2.zero)
+    //    {
+    //        Debug.Log("Sync Wait");
+    //        yield return null;
+    //    }
         
-        transform.position = position;
+    //    transform.position = position;
 
+    //    CreateConnectionObject();
+    //    SetBridgeCollider();
+    //}
+    public void CreateBridge()
+    {
         CreateConnectionObject();
         SetBridgeCollider();
     }
 
     private void CreateConnectionObject()
     {
-            GameObject obj = new GameObject("Connect Object");
-            obj.transform.position = transform.right * bridgeLength + transform.position; 
-            obj.transform.SetParent(transform,true);
+        //GameObject obj = new GameObject("Connect Object");
+        //obj.transform.SetParent(transform);
 
-            obj.transform.localRotation = Quaternion.Euler(0,0,0);
+        //obj.transform.position = transform.right * bridgeLength + transform.position;
+        //obj.transform.localRotation = Quaternion.Euler(0, 0, 0);
 
 
         GameObject spO = Instantiate(spriteObj);
-        spO.transform.SetParent(obj.transform, true);
+        spO.name = "Connect Object";
+        spO.transform.SetParent(transform);
+        spO.transform.position = transform.right * bridgeLength + transform.position;
 
         //spO.transform.position = transform.right * bridgeLength + transform.position;
 
-        spO.transform.localPosition = Vector3.zero;
+        //spO.transform.localPosition = Vector3.zero;
         spO.transform.localRotation = Quaternion.Euler(0, 0, 0);
         spO.transform.localScale = new Vector3(-1, 1, 1);
 
-        Rigidbody2D rb = obj.AddComponent<Rigidbody2D>();
-        rb.isKinematic = true;
-        rb.gravityScale = 0;
-
-        BoxCollider2D bcol = obj.AddComponent<BoxCollider2D>();
+        BoxCollider2D bcol = spO.AddComponent<BoxCollider2D>();
         bcol.offset = Collider.offset;
         bcol.size = Collider.size;
 
 
 
-        obj.layer = transform.gameObject.layer;
+        spO.layer = transform.gameObject.layer;
 
     }
 
@@ -243,14 +302,4 @@ public class BridgeBox_Net : NetworkBehaviour
 
 
 
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        //CreateConnectionObject();
-        //SetBridgeCollider();
-        if (!isServer)
-        {
-            if (onActive) Active();
-        }
-    }
 }
