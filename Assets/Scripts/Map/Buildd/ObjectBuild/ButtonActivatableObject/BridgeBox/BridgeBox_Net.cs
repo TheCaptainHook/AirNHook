@@ -33,39 +33,44 @@ public class BridgeBox_Net : NetworkBehaviour
     [Server]
     public void Server_InitSync()
     {
+        Debug.Log("CMD 2");
         Rpc_InitSync(Main.ButtonActivatedObjectStruct);
     }
     [ClientRpc]
     private void Rpc_InitSync(ButtonActivatableObjectStruct data)
     {
+        Debug.Log("CMD 3");
         if (onSync) return;
+        Debug.Log("CMD 4");
         SetData(data);
     }
 
     [Command]
     private void Cmd_InitSync()
     {
+        Debug.Log("CMD 1");
         Server_InitSync();
     }
     public void SetData(ButtonActivatableObjectStruct data)
     {
+        Debug.Log("CMD 5");
         bridgeLength = data.bridgeLength;
         connectionPoint = data.connectionPoint;
         position = data.position;
 
         transform.position = data.position;
         transform.rotation = data.quaternion;
-
-        //CreateBridge();
+        Debug.Log("CMD 6");
+        CreateBridge();
         onSync = true;
     }
 
-    //public override void OnStartClient()
-    //{
-    //    base.OnStartClient();
-    //    if (!onSync) Cmd_InitSync(); 
-   
-    //}
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        if (!onSync) Cmd_InitSync();
+
+    }
 
     IEnumerator Delay()
     {
