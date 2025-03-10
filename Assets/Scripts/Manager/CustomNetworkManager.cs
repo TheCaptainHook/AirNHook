@@ -217,7 +217,7 @@ public class CustomNetworkManager : NetworkManager
         //Managers.Stage.NetworkObject_SetParent();
         //TEST 250310 Ping Check
         var ui = Managers.UI.ShowUI<UI_Ping>().gameObject.GetComponent<UI_Ping>();
-        ui.StartPingCheck(PingType.Server);
+        ui.StartPingCheck(PingType.Client);
         //TEST 250310 Ping Check
     }
     #endregion
