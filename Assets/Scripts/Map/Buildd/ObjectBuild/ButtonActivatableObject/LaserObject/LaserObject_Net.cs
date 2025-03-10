@@ -9,6 +9,8 @@ public class LaserObject_Net : NetworkBehaviour
     public bool onActive;
 
 
+    public bool shouldRunFixedUpdate;
+
     LaserObject laser;
     LaserObject Laser
     {
@@ -67,4 +69,6 @@ public class LaserObject_Net : NetworkBehaviour
             Laser.Net_Deactive();
         }
     }
+
+
 }

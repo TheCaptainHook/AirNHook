@@ -41,10 +41,12 @@ public class LaserObject : ActivatableObjectEntity
 
     void CheckIfObjectIsVisible()
     {
+        bool val = false;
         Vector3 viewportPos = Camera.main.WorldToViewportPoint(transform.position);
         shouldRunFixedUpdate = viewportPos.x > -0.5f && viewportPos.x < 1.5f &&
                                viewportPos.y > -0.5f && viewportPos.y < 1.5f &&
                                viewportPos.z > 0;
+        
     }
 
     private void Update()

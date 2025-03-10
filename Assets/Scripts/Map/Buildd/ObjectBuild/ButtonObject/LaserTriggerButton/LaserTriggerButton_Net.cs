@@ -42,6 +42,11 @@ public class LaserTriggerButton_Net : NetworkBehaviour
 
         }
     }
+    [Command(requiresAuthority =false)]
+    public void Cmd_SetChargingCount()
+    {
+        Server_SetChargingCount();      
+    }
 
     private void Update()
     {
