@@ -168,13 +168,13 @@ public class UI_Ping : UI_Base
         {
             //PingCriteriaSwich(NetworkTime.rtt);
             //------UI
-            var ping = NetworkTime.rtt;
+            var ping =(float)NetworkTime.rtt*1000;
             previousPingCriteria = GetPingCriteriaSwich(ping);
             if (previousPingCriteria != curPingCriteria)
             {
                 curPingCriteria = previousPingCriteria;
                 ChangeImage(curPingCriteria);
-                netPingText.text = $"[Client] {Mathf.Floor((float)ping)}";
+                netPingText.text = $"[Client] {Mathf.Floor(ping)} ms";
             }
             //------UI
             yield return wait;
@@ -190,7 +190,7 @@ public class UI_Ping : UI_Base
 
     #region Util
 
-    private PingCriteria GetPingCriteriaSwich(double ping)
+    private PingCriteria GetPingCriteriaSwich(float ping)
     {
         return ping switch
         {
