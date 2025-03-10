@@ -40,16 +40,6 @@ public class BridgeBox_Net : NetworkBehaviour
     {
         if (onSync) return;
         SetData(data);
-        //this.bridgeLength = data.bridgeLength;
-        //this.connectionPoint = data.connectionPoint;
-        //this.position = data.position;
-
-        //transform.position = data.position;
-        //transform.rotation = data.quaternion;
-
-        //CreateBridge();
-
-        //onSync = true;
     }
 
     [Command]
@@ -57,21 +47,6 @@ public class BridgeBox_Net : NetworkBehaviour
     {
         Server_InitSync();
     }
-
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        if (!onSync) Cmd_InitSync();
-        //CreateConnectionObject();
-        //SetBridgeCollider();
-        //if (!isServer)
-        //{
-        //    if (onActive) Active();
-        //}
-    }
-
-    #endregion
-
     public void SetData(ButtonActivatableObjectStruct data)
     {
         bridgeLength = data.bridgeLength;
@@ -84,6 +59,23 @@ public class BridgeBox_Net : NetworkBehaviour
         CreateBridge();
         onSync = true;
     }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        if (!onSync) StartCoroutine(Delay());
+   
+    }
+
+    IEnumerator Delay()
+    {
+       while(!NetworkClient.ready) yield return null;
+        Cmd_InitSync();
+    }
+
+    #endregion
+
+
     
     [Server]
     public void Server_ChangeOnActive()
