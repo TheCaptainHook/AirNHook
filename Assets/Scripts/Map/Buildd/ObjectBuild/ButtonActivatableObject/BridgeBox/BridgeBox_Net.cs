@@ -33,34 +33,29 @@ public class BridgeBox_Net : NetworkBehaviour
     [Server]
     public void Server_InitSync()
     {
-        Debug.Log("CMD 2");
         Rpc_InitSync(Main.ButtonActivatedObjectStruct);
     }
     [ClientRpc]
     private void Rpc_InitSync(ButtonActivatableObjectStruct data)
     {
-        Debug.Log("CMD 3");
         if (onSync) return;
-        Debug.Log("CMD 4");
         SetData(data);
     }
 
     [Command(requiresAuthority = false)]
     private void Cmd_InitSync()
     {
-        Debug.Log("CMD 1");
         Server_InitSync();
     }
     public void SetData(ButtonActivatableObjectStruct data)
     {
-        Debug.Log("CMD 5");
         bridgeLength = data.bridgeLength;
         connectionPoint = data.connectionPoint;
         position = data.position;
 
         transform.position = data.position;
         transform.rotation = data.quaternion;
-        Debug.Log("CMD 6");
+
         CreateBridge();
         onSync = true;
     }
@@ -198,6 +193,8 @@ public class BridgeBox_Net : NetworkBehaviour
 
         bridgeCollider.enabled = false;
 
+        DrawLine();
+
     }
     private Vector2 GetOffset()
     {
@@ -240,13 +237,15 @@ public class BridgeBox_Net : NetworkBehaviour
     private void Active()
     {
         // StartCoroutine(On());
+        lineRenderer.enabled = true;
         bridgeCollider.enabled = true;
-        DrawLine();
+        //DrawLine();
     }
     private void Deactive()
     {
         // StartCoroutine(Off());
-        lineRenderer.positionCount = 0;
+        //lineRenderer.positionCount = 0;
+        lineRenderer.enabled = false;
         bridgeCollider.enabled = false;
     }
 
