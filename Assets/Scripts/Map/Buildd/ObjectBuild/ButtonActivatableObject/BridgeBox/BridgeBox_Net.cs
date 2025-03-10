@@ -56,14 +56,14 @@ public class BridgeBox_Net : NetworkBehaviour
         transform.position = data.position;
         transform.rotation = data.quaternion;
 
-        CreateBridge();
+        //CreateBridge();
         onSync = true;
     }
 
     public override void OnStartClient()
     {
         base.OnStartClient();
-        if (!onSync) StartCoroutine(Delay());
+        if (!onSync) Cmd_InitSync(); 
    
     }
 

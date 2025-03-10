@@ -55,7 +55,7 @@ using UnityEngine;
             //BridgeBox_Net.Server_SetData(bridgeLength,connectionPoint,ButtonActivatedObjectStruct.position);
             //BridgeBox_Net.Server_InitSync();
             BridgeBox_Net.SetData(ButtonActivatedObjectStruct);
-            BridgeBox_Net.Server_InitSync();
+            //BridgeBox_Net.Server_InitSync();
 
             await new Util().Delay(() => { CheckActiveRequirAmount(); });
         }
