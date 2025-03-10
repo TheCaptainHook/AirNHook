@@ -60,12 +60,12 @@ public class BridgeBox_Net : NetworkBehaviour
         onSync = true;
     }
 
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        if (!onSync) Cmd_InitSync(); 
+    //public override void OnStartClient()
+    //{
+    //    base.OnStartClient();
+    //    if (!onSync) Cmd_InitSync(); 
    
-    }
+    //}
 
     IEnumerator Delay()
     {
