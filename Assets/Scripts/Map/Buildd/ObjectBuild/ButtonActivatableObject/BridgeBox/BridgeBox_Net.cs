@@ -45,7 +45,7 @@ public class BridgeBox_Net : NetworkBehaviour
         SetData(data);
     }
 
-    [Command]
+    [Command(requiresAuthority = false)]
     private void Cmd_InitSync()
     {
         Debug.Log("CMD 1");
