@@ -29,6 +29,14 @@ public class HydraulicPress : ActivatableObjectEntity
         animator = GetComponent<Animator>();
     }
 
+    private HydraulicPress_Net Net => GetComponent<HydraulicPress_Net>();
+    public override void SetData<T>(T data)
+    {
+        base.SetData(data);
+        Net.onSync = true;
+        Net.Server_InitSync();
+
+    }
 
     private void Update()
     {

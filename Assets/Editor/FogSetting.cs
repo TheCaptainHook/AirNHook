@@ -16,7 +16,7 @@ public class FogSetting : Editor
 #if UNITY_EDITOR
     private void OnEnable(){
         fog = (Fog)target;
-        fog.Init();
+        //fog.Init();
         if(fog != null){
             SerializedObject serializedObject = new SerializedObject(fog);
             serializedProperty = serializedObject.FindProperty("size");

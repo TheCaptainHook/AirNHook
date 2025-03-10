@@ -7,8 +7,8 @@ public class Fog : BuildObj
     [CustomHeader("Fog")]
     public Vector2 size;
 
-    private ParticleSystem _MainParticle;
-    private BoxCollider2D _Colider;
+    private ParticleSystem _MainParticle => GetComponent<ParticleSystem>();
+    private BoxCollider2D _Colider => GetComponent<BoxCollider2D>();
     private Fog_Net Fog_Net => GetComponent<Fog_Net>();
 
     [ReadOnly]
@@ -20,11 +20,13 @@ public class Fog : BuildObj
     // a*b*0.4
 
 
-    public void Init()
-    {
-        _MainParticle = GetComponent<ParticleSystem>();
-        _Colider = GetComponent<BoxCollider2D>();
-    }
+
+
+    //public void Init()
+    //{
+    //    _MainParticle = GetComponent<ParticleSystem>();
+    //    _Colider = GetComponent<BoxCollider2D>();
+    //}
 
     #region Get,Set
     public override void SetData<T>(T data)
@@ -32,20 +34,31 @@ public class Fog : BuildObj
         if(typeof(T) == typeof(ObjectData)){
             ObjectData objData = (ObjectData)(object)data;
             SetData(objData);
-            Init();
+            //Init();
 
-            
-            if (!Application.isPlaying) SetParticleSetting();
-            else Fog_Net.Server_SetSize(objData.size);
+            SetParticleSetting();
+
+            if (Application.isPlaying)
+            {
+                Fog_Net.onSync = true;
+                Fog_Net.Server_InitSync();
+            }
+
 
         }
     }
     public override void SetData(ObjectData data)
     {
         base.SetData(data);
+        transform.position = data.position;
+        transform.rotation = data.quaternion;
         size = data.size;
         
     }
+
+
+
+
     public override T GetData<T>()
     {
         if(typeof(T)==typeof(ObjectData)){

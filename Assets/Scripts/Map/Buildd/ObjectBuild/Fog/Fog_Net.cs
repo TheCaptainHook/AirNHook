@@ -5,26 +5,47 @@ using System.Collections;
 
 public class Fog_Net : NetworkBehaviour
 {
-    [SyncVar] public Vector2 size;
+   public Vector2 size;
     
 
     private BoxCollider2D Collider => GetComponent<BoxCollider2D>();
     private ParticleSystem MainPartice => GetComponent<ParticleSystem>();
 
 
+    #region Init
+    public bool onSync;
+    private Fog Fog => GetComponent<Fog>();
+
 
     [Server]
-    public void Server_SetSize(Vector2 size)
+    public void Server_InitSync()
     {
-        this.size = size;
-        //Rpc_SetFogSize();
+        var data = Fog.ObjectData;
+        Rpc_InitSync(data);
+    }
+    [ClientRpc]
+    private void Rpc_InitSync(ObjectData data)
+    {
+        if (onSync) return;
+        this.size = data.size;
+        transform.position = data.position;
+        transform.rotation = data.quaternion;
+        SetParticleSetting();
+        onSync = true;
+    }
+    [Command]
+    private void Cmd_InitSync()
+    {
+        Server_InitSync();
     }
 
-    //[ClientRpc]
-    //private void Rpc_SetFogSize()
-    //{
-    //    SetParticleSetting();
-    //}
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        if (!onSync) Cmd_InitSync();
+    }
+    #endregion
+
 
 
     #region ------------------------------------------Inner Camer Effect
@@ -68,16 +89,12 @@ public class Fog_Net : NetworkBehaviour
 
     #endregion
 
-    IEnumerator WaitForSync()
-    {
-        yield return new WaitUntil(() => size != Vector2.zero);
-        SetParticleSetting();
-    }
+    //IEnumerator WaitForSync()
+    //{
+    //    yield return new WaitUntil(() => size != Vector2.zero);
+    //    SetParticleSetting();
+    //}
 
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        StartCoroutine(WaitForSync());
-    }
+
 
 }
