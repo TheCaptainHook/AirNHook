@@ -48,7 +48,8 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
         ToggleButton_Net.Cmd_SetHasPower(false);
         Debug.Log("Power Off");
         //Deactivated();
-        ToggleButton_Net.Cmd_CallDeactivated();
+        //ToggleButton_Net.Cmd_CallDeactivated();
+        ToggleButton_Net.HandleSetState(false);
     }
     public Vector2 GetPowerLineConnectionPoint(){
         return transform.position;
@@ -185,7 +186,7 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
                 return;
             }
         }
-
+        Debug.Log($"Prograss : {onPrograss}");
         if (onPrograss) return;
 
         if(onActive){

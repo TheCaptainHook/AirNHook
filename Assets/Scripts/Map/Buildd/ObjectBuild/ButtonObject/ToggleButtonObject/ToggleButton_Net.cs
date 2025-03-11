@@ -106,7 +106,6 @@ public class ToggleButton_Net : NetworkBehaviour
     [ClientRpc]
     private void Rpc_SetInit(ButtonObjectStruct data)
     {
-        Debug.Log("RRRRR");
         if (onSync) return;
         transform.position = data.position;
         transform.rotation = data.quaternion;
