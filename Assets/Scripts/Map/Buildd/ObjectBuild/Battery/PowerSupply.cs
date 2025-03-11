@@ -72,9 +72,7 @@ public class PowerSupply : ButtonEntity,IInteractable
                     P_Net.onSync = true;
 
                     P_Net.Server_SetInit();
-                    // CreateLine();
-                    // //Test
-                    // LineOn(true);
+
                 });
             }
 

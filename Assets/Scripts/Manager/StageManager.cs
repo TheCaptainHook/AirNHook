@@ -45,7 +45,7 @@ public class StageManager
 
 
 
-    [Command]
+    [Server]
     public void CmdBatchObject<T>(string objName, T data, Transform parent)
     {
         if (!NetworkServer.active ) return;
@@ -165,7 +165,7 @@ public class StageManager
     //     NetworkServer.Spawn(obj, NetworkServer.localConnection);
     // }
 
-    [Command]
+    [Server]
     public GameObject CmdBatchObject(string objName)
     {
         if (!NetworkServer.active || !NetworkClient.isConnected) return null;

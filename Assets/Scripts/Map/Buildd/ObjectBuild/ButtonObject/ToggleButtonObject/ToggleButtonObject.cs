@@ -19,7 +19,7 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
     [SerializeField] float _BtnOffset;
     public ObjectTypeEnum _objectType = ObjectTypeEnum.Interaction;
     private UI_Base _E_Btn;
-
+    [SerializeField] private GameObject energyIcon;
 
     private ToggleButton_Net toggleButton_Net;
     private ToggleButton_Net ToggleButton_Net
@@ -95,8 +95,17 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
                 //---------------------------------------------------------------------Use ChargeRequired
                 chargeRequired = buttonData.chargeRequired;
                 if (Application.isPlaying)
-                    //ToggleButton_Net.Server_SetChargeRequired(buttonData.chargeRequired);
+                {
+                    //energyIcon.SetActive(ButtonObjectData.chargeRequired);
+                    ToggleButton_Net.onSync = true;
                     ToggleButton_Net.Server_SetInit();
+
+
+                    ToggleButton_Net.Server_SetChargeRequired(buttonData.chargeRequired);
+                }
+                   
+                //ToggleButton_Net.Server_SetInit();
+
                 //---------------------------------------------------------------------Use ChargeRequired
             }
 

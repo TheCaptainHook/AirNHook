@@ -334,6 +334,7 @@ MonoBehaviour:
   lightObjects: []
   _BtnOffset: 1
   _objectType: 0
+  energyIcon: {fileID: 359566649937700367}
 --- !u!114 &2675762856716472400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -363,8 +364,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   energyIcon: {fileID: 359566649937700367}
+  isActive: 0
   chargeRequired: 0
   hasPower: 0
+  onSync: 0
 --- !u!114 &159873222936083646
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -40,16 +40,15 @@ public class PowerSupply_Net : NetworkBehaviour
     [Server]
     public void Server_SetInit()
     {
-        Rpc_SetInit(PowerSupply.ButtonObjectData);
+        Rpc_SetInit(PowerSupply.ButtonObjectData,targets);
     }
     [ClientRpc]
-    private void Rpc_SetInit(ButtonObjectStruct data)
+    private void Rpc_SetInit(ButtonObjectStruct data, SupplyTargetStruct targets)
     {
         if (onSync) return;
         transform.position = data.position;
         transform.rotation = data.quaternion;
 
-        Debug.Log(targets.targetPositions.Count);
         PowerSupply.CreateLine(targets.targetPositions);
 
         onSync = true;
@@ -59,18 +58,15 @@ public class PowerSupply_Net : NetworkBehaviour
     {
         Server_SetInit();
     }
+
     public override void OnStartClient()
     {
         base.OnStartClient();
-        //StartCoroutine(Delay(() =>
-        //{
-        //    if (!onSync)
-        //        Cmd_SetInit();
-        //}));
-        if (!onSync)
-                Cmd_SetInit();
-
+        StartCoroutine(Delay(() => { Cmd_SetInit(); }));
     }
+
+
+
     #endregion
 
     [SyncVar] public SupplyTargetStruct targets;
@@ -204,7 +200,7 @@ public class PowerSupply_Net : NetworkBehaviour
 
     IEnumerator Delay(Action action)
     {
-        while (!NetworkClient.ready) yield return null;
+        yield return new WaitForSeconds(1);
         //yield return new WaitForSeconds(1f);
         //yield return null;
         action?.Invoke();

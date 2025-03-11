@@ -91,6 +91,7 @@ public class ToggleButton_Net : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
+        if (!onSync) Cmd_SetInit();
         CmdSetState(isActive);
     }
 
@@ -106,6 +107,7 @@ public class ToggleButton_Net : NetworkBehaviour
     [ClientRpc]
     private void Rpc_SetInit(ButtonObjectStruct data)
     {
+        Debug.Log("RRRRR");
         if (onSync) return;
         transform.position = data.position;
         transform.rotation = data.quaternion;
@@ -131,7 +133,7 @@ public class ToggleButton_Net : NetworkBehaviour
     }
     IEnumerator Delay()
     {
-        while(!NetworkClient.ready) yield return null;
+        while (!NetworkClient.ready) yield return null;
         Rpc_SetIcon(true);
     }
 
