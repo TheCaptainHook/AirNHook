@@ -1643,6 +1643,17 @@
             "TileId": 2,
             "Start": {
                 "x": -22,
+                "y": 25
+            },
+            "End": {
+                "x": -22,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -22,
                 "y": 29
             },
             "End": {
@@ -1698,6 +1709,17 @@
             "TileId": 2,
             "Start": {
                 "x": -21,
+                "y": 25
+            },
+            "End": {
+                "x": -21,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -21,
                 "y": 29
             },
             "End": {
@@ -1742,6 +1764,17 @@
             "TileId": 2,
             "Start": {
                 "x": -20,
+                "y": 25
+            },
+            "End": {
+                "x": -20,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -20,
                 "y": 29
             },
             "End": {
@@ -1775,6 +1808,17 @@
             "TileId": 2,
             "Start": {
                 "x": -19,
+                "y": 25
+            },
+            "End": {
+                "x": -19,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -19,
                 "y": 29
             },
             "End": {
@@ -1819,6 +1863,17 @@
             "TileId": 2,
             "Start": {
                 "x": -18,
+                "y": 25
+            },
+            "End": {
+                "x": -18,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -18,
                 "y": 29
             },
             "End": {
@@ -1863,6 +1918,17 @@
             "TileId": 2,
             "Start": {
                 "x": -17,
+                "y": 25
+            },
+            "End": {
+                "x": -17,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -17,
                 "y": 29
             },
             "End": {
@@ -1907,6 +1973,17 @@
             "TileId": 2,
             "Start": {
                 "x": -16,
+                "y": 25
+            },
+            "End": {
+                "x": -16,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -16,
                 "y": 29
             },
             "End": {
@@ -1951,6 +2028,17 @@
             "TileId": 2,
             "Start": {
                 "x": -15,
+                "y": 25
+            },
+            "End": {
+                "x": -15,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -15,
                 "y": 29
             },
             "End": {
@@ -2006,6 +2094,17 @@
             "TileId": 2,
             "Start": {
                 "x": -14,
+                "y": 25
+            },
+            "End": {
+                "x": -14,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -14,
                 "y": 29
             },
             "End": {
@@ -2061,6 +2160,17 @@
             "TileId": 2,
             "Start": {
                 "x": -13,
+                "y": 25
+            },
+            "End": {
+                "x": -13,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -13,
                 "y": 29
             },
             "End": {
@@ -2110,6 +2220,17 @@
             "End": {
                 "x": -12,
                 "y": 20
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -12,
+                "y": 25
+            },
+            "End": {
+                "x": -12,
+                "y": 25
             }
         },
         {
@@ -10475,11 +10596,42 @@
             "animationTriggerType": 0
         },
         {
-            "id": 323,
+            "id": 344,
             "dialogueId": 0,
             "position": {
-                "x": -12.100000381469727,
-                "y": 20.959999084472658
+                "x": -17.309999465942384,
+                "y": 26.780000686645509
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 0.699999988079071,
+                "y": 0.699999988079071,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0
+        },
+        {
+            "id": 343,
+            "dialogueId": 0,
+            "position": {
+                "x": -14.6899995803833,
+                "y": 26.690000534057618
             },
             "quaternion": {
                 "x": 0.0,
@@ -10506,17 +10658,17 @@
             "animationTriggerType": 0
         },
         {
-            "id": 323,
+            "id": 343,
             "dialogueId": 0,
             "position": {
-                "x": -17.479999542236329,
-                "y": 28.989999771118165
+                "x": -13.140000343322754,
+                "y": 26.780000686645509
             },
             "quaternion": {
                 "x": 0.0,
                 "y": 0.0,
-                "z": -1.0,
-                "w": 0.0
+                "z": 0.0,
+                "w": 1.0
             },
             "scale": {
                 "x": 1.0,
@@ -12831,7 +12983,7 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false,
+            "chargeRequired": true,
             "animationTriggerType": 0
         },
         {
@@ -13764,7 +13916,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.4499949216842652,
+                "y": 1.449994444847107,
                 "z": 1.0
             },
             "talPot": {
@@ -13898,43 +14050,6 @@
             "connectionPoint": {
                 "x": 22.735763549804689,
                 "y": 1.8084793090820313
-            }
-        },
-        {
-            "id": 335,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "jumpingPower": 0,
-            "position": {
-                "x": -12.0,
-                "y": 28.600000381469728
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": -0.7071068286895752,
-                "w": 0.7071068286895752
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
             }
         }
     ],
@@ -14205,27 +14320,37 @@
                 "x": 0.0,
                 "y": 0.0
             },
-            "chargeRequired": false
+            "chargeRequired": true
         },
         {
-            "id": 324,
+            "id": 345,
             "position": {
-                "x": -24.329999923706056,
-                "y": 29.1299991607666
+                "x": -21.0,
+                "y": 27.0
             },
             "quaternion": {
                 "x": 0.0,
                 "y": 0.0,
-                "z": 1.0,
-                "w": 0.0
+                "z": 0.0,
+                "w": 1.0
             },
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
                 "z": 1.0
             },
-            "targetPositions": [],
-            "lightPositions": [],
+            "targetPositions": [
+                {
+                    "x": -33.0,
+                    "y": 22.0
+                }
+            ],
+            "lightPositions": [
+                {
+                    "x": -22.0,
+                    "y": 29.0
+                }
+            ],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],

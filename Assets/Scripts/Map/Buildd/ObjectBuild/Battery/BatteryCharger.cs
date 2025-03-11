@@ -11,6 +11,16 @@ public class BatteryCharger : BuildObj
     private Coroutine chargeCorotine;
 
 
+    public override void SetData<T>(T data)
+    {
+        base.SetData(data);
+        if(Application.isPlaying )
+        {
+            B_Net.onSync = true;
+            B_Net.Server_SetInit();
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.TryGetComponent(out HookSM component))

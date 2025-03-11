@@ -16,9 +16,9 @@ public struct SupplyTargetStruct
         this.targetPositions = targetPositions;
     }
 }
+
 public class PowerSupply_Net : NetworkBehaviour
 {
-    private IPowerConsumer IPowerConsumer => GetComponent<IPowerConsumer>();
     private PowerSupply powerSupply;
     private PowerSupply PowerSupply 
     {
@@ -35,6 +35,40 @@ public class PowerSupply_Net : NetworkBehaviour
     //public List<Vector2> targetPositions;
 
 
+    #region Init
+    public bool onSync;
+    [Server]
+    public void Server_SetInit()
+    {
+        Rpc_SetInit(PowerSupply.ButtonObjectData);
+    }
+    [ClientRpc]
+    private void Rpc_SetInit(ButtonObjectStruct data)
+    {
+        if (onSync) return;
+        transform.position = data.position;
+        transform.rotation = data.quaternion;
+
+        PowerSupply.CreateLine(targets.targetPositions);
+
+        onSync = true;
+    }
+    [Command]
+    private void Cmd_SetInit()
+    {
+        Server_SetInit();
+    }
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        if (!onSync) Cmd_SetInit();
+
+        //StartCoroutine(Delay(() =>
+        //{
+        //    PowerSupply.CreateLine(targets.targetPositions);
+        //}));
+    }
+    #endregion
 
     [SyncVar] public SupplyTargetStruct targets;
 
@@ -46,9 +80,6 @@ public class PowerSupply_Net : NetworkBehaviour
     public void Server_SetTargets(List<GameObject> targets,List<Vector2> positions)
     {
         this.targets = new SupplyTargetStruct(targets,positions);
-        //this.targets = targets;
-        //targetPositions = positions;
-
         consumption = targets.Count;
     }
 
@@ -155,18 +186,18 @@ public class PowerSupply_Net : NetworkBehaviour
     }
     #endregion
 
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
+    //public override void OnStartClient()
+    //{
+    //    base.OnStartClient();
 
-        //Cmd_CallInitValue();
-        StartCoroutine(Delay(() =>
-        {
-            PowerSupply.CreateLine(targets.targetPositions);
-        }));
+    //    //Cmd_CallInitValue();
+    //    StartCoroutine(Delay(() =>
+    //    {
+    //        PowerSupply.CreateLine(targets.targetPositions);
+    //    }));
        
 
-    }
+    //}
 
     IEnumerator Delay(Action action)
     {

@@ -63,10 +63,15 @@ public class PowerSupply : ButtonEntity,IInteractable
                  ButtonObjectData = buttonData;
 
                 if(Application.isPlaying)
+
                 await util.Delay(()=>
                 {
                     FindTargetObject();
                     if(buttonData.lightPositions.Count > 0) FindLightObject();
+                    CreateLine(P_Net.targets.targetPositions);
+                    P_Net.onSync = true;
+
+                    P_Net.Server_SetInit();
                     // CreateLine();
                     // //Test
                     // LineOn(true);
@@ -178,33 +183,37 @@ public class PowerSupply : ButtonEntity,IInteractable
 
             await util.Delay(()=>{
                 List<GameObject> objList = new();
-                    foreach(Vector2 vec in targetPosition){
-                        GameObject matchedObj  = null;
-                        foreach(Transform tr in mapEditor.buttonActivatableObjectTransform){
-                            if(tr.TryGetComponent(out ActivatableObjectEntity component))
+                foreach (Vector2 vec in targetPosition)
+                {
+                    GameObject matchedObj = null;
+                    foreach (Transform tr in mapEditor.buttonActivatableObjectTransform)
+                    {
+                        if (tr.TryGetComponent(out ActivatableObjectEntity component))
+                        {
+                            if (CompareVec(component.ButtonActivatedObjectStruct.position, vec))
                             {
-                                if(CompareVec(component.ButtonActivatedObjectStruct.position,vec))
-                                {
-                                        matchedObj = tr.gameObject;
-                                        objList.Add(matchedObj);
-                                        break;
-                                }          
-                            }
-                        }
-
-                        if(matchedObj != null) continue;
-                    
-                        foreach(Transform tr in mapEditor.buttonObjectTransform){
-                            if(tr.TryGetComponent(out ButtonEntity component))
-                            {
-                                if(CompareVec(component.ButtonObjectData.position,vec))
-                                {
-                                        objList.Add(tr.gameObject);
-                                        break;
-                                }          
+                                matchedObj = tr.gameObject;
+                                objList.Add(matchedObj);
+                                break;
                             }
                         }
                     }
+
+                    if (matchedObj != null) continue;
+
+                    foreach (Transform tr in mapEditor.buttonObjectTransform)
+                    {
+                        if (tr.TryGetComponent(out ButtonEntity component))
+                        {
+                            if (CompareVec(component.ButtonObjectData.position, vec))
+                            {
+                                objList.Add(tr.gameObject);
+                                break;
+                            }
+                        }
+                    }
+                }
+
                 targetObjects = objList;
 
                 List<GameObject> list = new();
@@ -382,18 +391,9 @@ public class PowerSupply : ButtonEntity,IInteractable
 
 #region  Draw Line
     public void CreateLine(List<Vector2> list){
-        // Vector2Int startPot = pathFinder.WorldToGrid(transform.position);
 
-        // foreach(var position in ButtonObjectData.targetPositions)
-        // {
-        //     Vector2Int endPot = pathFinder.WorldToGrid(position);
-        //     LineRenderer line = GeneratorLineRenderer();
-        //     SetLine(line,pathFinder.FindPath(startPot,endPot));
-        //     line.gameObject.SetActive(false);
-        // }
         Vector2 startPot = lineContainer.position;
         
-        // foreach(var position in ButtonObjectData.targetPositions)
         foreach(var position in list)
         {
             Vector2 endPot = position;

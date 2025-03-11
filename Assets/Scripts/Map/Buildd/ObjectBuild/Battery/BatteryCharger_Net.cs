@@ -11,6 +11,33 @@ public class BatteryCharger_Net : NetworkBehaviour
     [SyncVar]
     public GameObject battery;
 
+    #region Init
+    public bool onSync;
+    [Server]
+    public void Server_SetInit()
+    {
+        Rpc_SetInit(BatteryCharger.ObjectData);
+    }
+    [ClientRpc]
+    private void Rpc_SetInit(ObjectData data)
+    {
+        if (onSync) return;
+        transform.position = data.position;
+        transform.rotation = data.quaternion;
+
+        onSync = true;
+    }
+    [Command]
+    private void Cmd_SetInit()
+    {
+        Server_SetInit();
+    }
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        if (!onSync) Cmd_SetInit();
+    }
+    #endregion
 
     Coroutine charge;
     [Server]
