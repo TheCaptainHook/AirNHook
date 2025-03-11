@@ -127,17 +127,26 @@ public class ToggleButton_Net : NetworkBehaviour
     public void Server_SetChargeRequired(bool chargeRequired)
     {
         this.chargeRequired = chargeRequired;
-        if (chargeRequired) StartCoroutine(Delay());
+        //if (chargeRequired) StartCoroutine(Delay());
+        Debug.Log($"N_Read : {NetworkClient.ready}\nspawn id: {GetComponent<NetworkIdentity>().netId}");
+
+        //Rpc_SetIcon(chargeRequired);
+        StartCoroutine(Delay(chargeRequired));
     }
-    IEnumerator Delay()
+    //IEnumerator Delay()
+    //{
+    //    while (!NetworkClient.ready) yield return null;
+    //    Rpc_SetIcon(true);
+    //}
+    IEnumerator Delay(bool chargeRequired)
     {
         while (!NetworkClient.ready) yield return null;
-        Rpc_SetIcon(true);
+        Rpc_SetIcon(chargeRequired);
     }
-
     [ClientRpc]
     private void Rpc_SetIcon(bool onOff)
     {
+        Debug.Log("Toggle charge Required 2");
         if (onOff) 
         {
             energyIcon.SetActive(true);
