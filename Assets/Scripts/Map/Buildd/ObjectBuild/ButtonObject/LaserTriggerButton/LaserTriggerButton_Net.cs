@@ -7,7 +7,7 @@ public class LaserTriggerButton_Net : NetworkBehaviour
 {
     //private int maxChargingCount = 200; //200
     private float defChargingRate = 3f;
-    private int maxChargingCount = 200; //200
+    private int maxChargingCount = 100; //100
 
     private LaserTriggerButton trigger;
     private LaserTriggerButton Trigger { get { if (trigger == null) trigger = GetComponent<LaserTriggerButton>();return trigger; } }
@@ -42,11 +42,11 @@ public class LaserTriggerButton_Net : NetworkBehaviour
 
         }
     }
-    [Command(requiresAuthority =false)]
-    public void Cmd_SetChargingCount()
-    {
-        Server_SetChargingCount();      
-    }
+    //[Command(requiresAuthority =false)]
+    //public void Cmd_SetChargingCount()
+    //{
+    //    Server_SetChargingCount();      
+    //}
 
     private void Update()
     {
@@ -129,7 +129,7 @@ public class LaserTriggerButton_Net : NetworkBehaviour
     [ClientRpc]
     private void ChargingEffectIntensity()
     {
-        float percent = chargingCount / 200f;
+        float percent = chargingCount / maxChargingCount;
 
         if (percent < 0.01f)
         {

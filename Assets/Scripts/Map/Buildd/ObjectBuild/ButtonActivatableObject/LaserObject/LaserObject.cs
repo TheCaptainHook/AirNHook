@@ -1,6 +1,7 @@
 
+using System.Collections;
 using UnityEngine;
-using UnityEngine.VFX;
+
 public class LaserObject : ActivatableObjectEntity
     {
         [CustomHeader("LaserObject")]
@@ -37,38 +38,63 @@ public class LaserObject : ActivatableObjectEntity
         _Net.Server_InitSync();
     }
    
-    bool shouldRunFixedUpdate = false;
+    //bool shouldRunFixedUpdate = false;
 
-    void CheckIfObjectIsVisible()
-    {
-        bool val = false;
-        Vector3 viewportPos = Camera.main.WorldToViewportPoint(transform.position);
-        shouldRunFixedUpdate = viewportPos.x > -0.5f && viewportPos.x < 1.5f &&
-                               viewportPos.y > -0.5f && viewportPos.y < 1.5f &&
-                               viewportPos.z > 0;
+    //void CheckIfObjectIsVisible()
+    //{
+    //    bool val = false;
+    //    Vector3 viewportPos = Camera.main.WorldToViewportPoint(transform.position);
+    //    shouldRunFixedUpdate = viewportPos.x > -0.5f && viewportPos.x < 1.5f &&
+    //                           viewportPos.y > -0.5f && viewportPos.y < 1.5f &&
+    //                           viewportPos.z > 0;
         
+    //}
+
+    //private void Update()
+    //{
+    //    CheckIfObjectIsVisible();
+    //}
+
+    private void Start()
+    {
+         StartCoroutine(UpdateLaserRoutine());
     }
 
-    private void Update()
+
+    private IEnumerator UpdateLaserRoutine()
     {
-        CheckIfObjectIsVisible();
+        while (true)
+        {
+            yield return new WaitForSeconds(0.1f); // 0.1초마다 실행
+
+            //if (!_Net.shouldRunFixedUpdate) continue;
+
+            if (!MapEditor.Instance.stageClear && !turnOff && _Net.onActive)
+            {
+                UpdateLaser();
+            }
+            else
+            {
+                _Net.Server_SetOnActive(false);
+            }
+        }
     }
 
-    private void FixedUpdate()
-    {
-        if (!shouldRunFixedUpdate) return;
-        if (!MapEditor.Instance.stageClear && !turnOff && _Net.onActive)
-        {
-            UpdateLaser();
-        }
-        else
-        {
-            //_isEnabled = false;
-            //_endVFX.SetActive(_isEnabled);
-            //_lineRenderer.enabled = false;
-            _Net.Server_SetOnActive(false);
-        }
-    }
+    //private void FixedUpdate()
+    //{
+    //    if (!shouldRunFixedUpdate) return;
+    //    if (!MapEditor.Instance.stageClear && !turnOff && _Net.onActive)
+    //    {
+    //        UpdateLaser();
+    //    }
+    //    else
+    //    {
+    //        //_isEnabled = false;
+    //        //_endVFX.SetActive(_isEnabled);
+    //        //_lineRenderer.enabled = false;
+    //        _Net.Server_SetOnActive(false);
+    //    }
+    //}
     protected override void Activation()
     {
         //_isEnabled = true;
@@ -128,7 +154,7 @@ public class LaserObject : ActivatableObjectEntity
 
         int hitCount = 0;
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 5; i++)
         {
             ray = new Ray(start, dir);
             RaycastHit2D rh = Physics2D.Raycast(ray.origin, ray.direction, _defDistanceRay, _layerMask);

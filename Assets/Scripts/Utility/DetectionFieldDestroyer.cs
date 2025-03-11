@@ -37,6 +37,7 @@ public class DetectionFieldDestroyer : MonoBehaviour
     }
 
    }
+
    private void Start(){
     previousPosition = transform.position;
     previousDistanceToFloor = float.MaxValue;
@@ -88,7 +89,6 @@ public class DetectionFieldDestroyer : MonoBehaviour
             }
 
             if((playerLayerMask.value & (1 << col.gameObject.layer)) != 0){
-                Debug.Log(col.gameObject.name);
                 playerObj = col.gameObject;
             }
 

@@ -4906,7 +4906,6 @@ MonoBehaviour:
     m_Bits: 22005184
   _isEnabled: 0
   hitEffectParticle: {fileID: 7676629228877518604}
-  SF: {fileID: 0}
 --- !u!114 &2911012097398964247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4923,6 +4922,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   onActive: 0
+  shouldRunFixedUpdate: 0
   onSync: 0
 --- !u!61 &5690823865466912599
 BoxCollider2D:

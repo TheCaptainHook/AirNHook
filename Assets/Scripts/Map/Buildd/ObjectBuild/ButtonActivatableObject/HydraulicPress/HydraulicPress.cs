@@ -57,7 +57,7 @@ public class HydraulicPress : ActivatableObjectEntity
             if(curPressLength > 0)
             {
                 if(!onPrograss) onPrograss = true;
-                curPressLength -= Time.fixedDeltaTime * 0.1f;
+                curPressLength -= Time.fixedDeltaTime;
                 curPressLength = Mathf.Clamp(curPressLength, 0, 1);
                 animator.SetFloat(Val, curPressLength);
             }else{
@@ -74,7 +74,7 @@ public class HydraulicPress : ActivatableObjectEntity
         hit = Physics2D.Raycast(rayPoint.position, transform.right, rayDistance,layerMask);
         if (!hit)
         {
-            curPressLength += Time.fixedDeltaTime * 0.1f;
+            curPressLength += Time.fixedDeltaTime;
             curPressLength = Mathf.Clamp(curPressLength, 0, 1);
             animator.SetFloat(Val, curPressLength);
         }else{
