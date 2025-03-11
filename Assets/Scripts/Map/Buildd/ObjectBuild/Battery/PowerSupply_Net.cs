@@ -61,12 +61,12 @@ public class PowerSupply_Net : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
-        if (!onSync) Cmd_SetInit();
+        StartCoroutine(Delay(() => {
+            if (!onSync)
+                Cmd_SetInit();
+             }));
 
-        //StartCoroutine(Delay(() =>
-        //{
-        //    PowerSupply.CreateLine(targets.targetPositions);
-        //}));
+         
     }
     #endregion
 
