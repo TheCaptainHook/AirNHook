@@ -198,8 +198,6 @@ public class BridgeBox_Net : NetworkBehaviour
     }
     private Vector2 GetOffset()
     {
-        Debug.Log($"Transform : {transform.position}, Line : {lineRenderer.transform.position}");
-
         //return transform.position - lineRenderer.transform.position;
         return (Vector3)position - lineRenderer.transform.position;
     }

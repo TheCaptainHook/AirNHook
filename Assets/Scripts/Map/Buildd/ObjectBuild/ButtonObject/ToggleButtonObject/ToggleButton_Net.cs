@@ -20,7 +20,9 @@ public class ToggleButton_Net : NetworkBehaviour
     public bool isActive;
 
 
-    [SyncVar] public bool chargeRequired;
+    [SyncVar(hook = nameof(onChangeChargeRequired))] 
+    public bool chargeRequired;
+
     [SyncVar] public bool hasPower;
 
     [Server]
@@ -64,7 +66,8 @@ public class ToggleButton_Net : NetworkBehaviour
     private void Server_SetHasPower(bool hasPower)
     {
         this.hasPower = hasPower;
-        Rpc_SetIcon(!hasPower);
+        //Rpc_SetIcon(!hasPower);
+        Server_SetChargeRequired(!hasPower);
     }
 
     [Command(requiresAuthority = false)]
@@ -128,26 +131,37 @@ public class ToggleButton_Net : NetworkBehaviour
     {
         this.chargeRequired = chargeRequired;
         //if (chargeRequired) StartCoroutine(Delay());
-        Debug.Log($"N_Read : {NetworkClient.ready}\nspawn id: {GetComponent<NetworkIdentity>().netId}");
 
         //Rpc_SetIcon(chargeRequired);
-        StartCoroutine(Delay(chargeRequired));
+        //StartCoroutine(Delay(chargeRequired));
     }
     //IEnumerator Delay()
     //{
     //    while (!NetworkClient.ready) yield return null;
     //    Rpc_SetIcon(true);
     //}
-    IEnumerator Delay(bool chargeRequired)
+    //IEnumerator Delay(bool chargeRequired)
+    //{
+    //    while (!NetworkClient.ready) yield return null;
+    //    Rpc_SetIcon(chargeRequired);
+    //}
+    //[ClientRpc]
+    //private void Rpc_SetIcon(bool onOff)
+    //{
+    //    if (onOff) 
+    //    {
+    //        energyIcon.SetActive(true);
+    //    }
+    //    else
+    //    {
+    //        energyIcon.SetActive(false);
+    //    }
+    //}
+
+
+    private void onChangeChargeRequired(bool old,bool newVal)
     {
-        while (!NetworkClient.ready) yield return null;
-        Rpc_SetIcon(chargeRequired);
-    }
-    [ClientRpc]
-    private void Rpc_SetIcon(bool onOff)
-    {
-        Debug.Log("Toggle charge Required 2");
-        if (onOff) 
+        if (newVal)
         {
             energyIcon.SetActive(true);
         }
@@ -156,6 +170,4 @@ public class ToggleButton_Net : NetworkBehaviour
             energyIcon.SetActive(false);
         }
     }
-
-
 }
