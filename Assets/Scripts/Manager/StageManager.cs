@@ -54,7 +54,6 @@ public class StageManager
 
         obj.name = objName;
         obj.transform.SetParent(parent);
-
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
         obj.GetComponent<BuildObj>().SetData(data);
 

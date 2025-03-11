@@ -88,11 +88,11 @@ public class ToggleButton_Net : NetworkBehaviour
         Toggle.Net_Deactivated();
     }    
 
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        CmdSetState(isActive);
-    }
+    //public override void OnStartClient()
+    //{
+    //    base.OnStartClient();
+    //    CmdSetState(isActive);
+    //}
 
 
 
