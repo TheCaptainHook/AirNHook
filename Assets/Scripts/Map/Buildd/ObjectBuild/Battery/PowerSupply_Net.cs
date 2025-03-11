@@ -49,6 +49,7 @@ public class PowerSupply_Net : NetworkBehaviour
         transform.position = data.position;
         transform.rotation = data.quaternion;
 
+        Debug.Log(targets.targetPositions.Count);
         PowerSupply.CreateLine(targets.targetPositions);
 
         onSync = true;
@@ -61,12 +62,14 @@ public class PowerSupply_Net : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
-        StartCoroutine(Delay(() => {
-            if (!onSync)
+        //StartCoroutine(Delay(() =>
+        //{
+        //    if (!onSync)
+        //        Cmd_SetInit();
+        //}));
+        if (!onSync)
                 Cmd_SetInit();
-             }));
 
-         
     }
     #endregion
 
@@ -201,7 +204,8 @@ public class PowerSupply_Net : NetworkBehaviour
 
     IEnumerator Delay(Action action)
     {
-        yield return new WaitForSeconds(1f);
+        while (!NetworkClient.ready) yield return null;
+        //yield return new WaitForSeconds(1f);
         //yield return null;
         action?.Invoke();
     }

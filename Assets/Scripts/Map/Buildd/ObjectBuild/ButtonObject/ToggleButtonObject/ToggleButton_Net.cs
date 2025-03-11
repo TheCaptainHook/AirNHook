@@ -17,7 +17,7 @@ public class ToggleButton_Net : NetworkBehaviour
     }
 
     [SyncVar(hook = nameof(OnStateChanged))]
-    private bool isActive;
+    public bool isActive;
 
 
     [SyncVar] public bool chargeRequired;
@@ -95,6 +95,32 @@ public class ToggleButton_Net : NetworkBehaviour
     }
 
 
+
+    #region Init
+    public bool onSync;
+    [Server]
+    public void Server_SetInit()
+    {
+        Rpc_SetInit(Toggle.ButtonObjectData);
+    }
+    [ClientRpc]
+    private void Rpc_SetInit(ButtonObjectStruct data)
+    {
+        if (onSync) return;
+        transform.position = data.position;
+        transform.rotation = data.quaternion;
+
+        energyIcon.SetActive(data.chargeRequired);
+
+        onSync = true;
+    }
+    [Command]
+    private void Cmd_SetInit()
+    {
+        Server_SetInit();
+    }
+
+    #endregion
 
 
     [Server] //Set sync chargeRequired

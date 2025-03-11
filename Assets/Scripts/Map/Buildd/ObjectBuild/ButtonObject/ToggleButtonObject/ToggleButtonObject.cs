@@ -94,8 +94,9 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
                 
                 //---------------------------------------------------------------------Use ChargeRequired
                 chargeRequired = buttonData.chargeRequired;
-                if(Application.isPlaying)
-                ToggleButton_Net.Server_SetChargeRequired(buttonData.chargeRequired);
+                if (Application.isPlaying)
+                    //ToggleButton_Net.Server_SetChargeRequired(buttonData.chargeRequired);
+                    ToggleButton_Net.Server_SetInit();
                 //---------------------------------------------------------------------Use ChargeRequired
             }
 
