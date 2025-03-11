@@ -213,7 +213,7 @@ public class UI_Ping : UI_Base
                 image.color = Color.yellow;
                 break;
             case PingCriteria.Orange:
-                image.color = new Color(100 / 255f, 1, 0, 1);
+                image.color = new Color(1, 100/255f, 0, 1);
                 break;
             case PingCriteria.Red:
                 image.color = Color.red;
