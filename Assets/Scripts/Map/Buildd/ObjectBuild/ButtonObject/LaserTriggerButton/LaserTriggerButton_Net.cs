@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UnityEngine.Lumin;
 
 public class LaserTriggerButton_Net : NetworkBehaviour
 {
@@ -23,6 +24,36 @@ public class LaserTriggerButton_Net : NetworkBehaviour
     [SyncVar] public bool onActivate;
 
     private static readonly int IsActive = Animator.StringToHash("IsActive");
+
+    #region Init
+    public bool onSync;
+    [Server]
+    public void Server_InitSync()
+    {
+        Rpc_InitSync(Trigger.ButtonObjectData);
+    }
+    [ClientRpc]
+    public void Rpc_InitSync(ButtonObjectStruct data)
+    {
+        if (onSync) return;
+
+        transform.position = data.position;
+        transform.rotation = data.quaternion;
+
+        onSync = true;
+    }
+    [Command]
+    private void Cmd_InitSync()
+    {
+        Server_InitSync();
+    }
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        if (!onSync) Cmd_InitSync();
+    }
+    #endregion
+
 
     [Server]
     public void Server_SetChargingCount()

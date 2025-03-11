@@ -14,12 +14,20 @@ public class LaserTriggerButton : ButtonEntity
     #region StringCache
     private static readonly int IsActive = Animator.StringToHash("IsActive");
     #endregion
-    
+
     #region State
     //private bool onCharging;
     #endregion
 
-
+    public override void SetData<T>(T data)
+    {
+        base.SetData(data);
+        if (Application.isPlaying)
+        {
+            Net.onSync = true;
+            Net.Server_InitSync();
+        }
+    }
 
     public void Net_Act()
     {

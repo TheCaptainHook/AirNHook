@@ -13764,7 +13764,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.4499951601028443,
+                "y": 1.4499949216842652,
                 "z": 1.0
             },
             "talPot": {
@@ -13898,6 +13898,43 @@
             "connectionPoint": {
                 "x": 22.735763549804689,
                 "y": 1.8084793090820313
+            }
+        },
+        {
+            "id": 335,
+            "activeRequirAmount": 0,
+            "chargeRequired": false,
+            "jumpingPower": 0,
+            "position": {
+                "x": -12.0,
+                "y": 28.600000381469728
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.7071068286895752,
+                "w": 0.7071068286895752
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
             }
         }
     ],
@@ -14160,6 +14197,34 @@
                     "y": 21.0
                 }
             ],
+            "lightPositions": [],
+            "onHint": false,
+            "partsPositions": [],
+            "itemPositions": [],
+            "hintPosition": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "chargeRequired": false
+        },
+        {
+            "id": 324,
+            "position": {
+                "x": -24.329999923706056,
+                "y": 29.1299991607666
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 1.0,
+                "w": 0.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "targetPositions": [],
             "lightPositions": [],
             "onHint": false,
             "partsPositions": [],

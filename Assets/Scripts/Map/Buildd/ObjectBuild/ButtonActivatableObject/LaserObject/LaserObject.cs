@@ -34,10 +34,14 @@ public class LaserObject : ActivatableObjectEntity
     public override void SetData<T>(T data)
     {
         base.SetData(data);
-        _Net.onSync = true;
-        _Net.Server_InitSync();
+        if(Application.isPlaying)
+        {
+            _Net.onSync = true;
+            _Net.Server_InitSync();
+        }
+       
     }
-   
+
     //bool shouldRunFixedUpdate = false;
 
     //void CheckIfObjectIsVisible()
@@ -47,7 +51,7 @@ public class LaserObject : ActivatableObjectEntity
     //    shouldRunFixedUpdate = viewportPos.x > -0.5f && viewportPos.x < 1.5f &&
     //                           viewportPos.y > -0.5f && viewportPos.y < 1.5f &&
     //                           viewportPos.z > 0;
-        
+
     //}
 
     //private void Update()
@@ -55,46 +59,46 @@ public class LaserObject : ActivatableObjectEntity
     //    CheckIfObjectIsVisible();
     //}
 
-    private void Start()
-    {
-         StartCoroutine(UpdateLaserRoutine());
-    }
-
-
-    private IEnumerator UpdateLaserRoutine()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(0.1f); // 0.1초마다 실행
-
-            //if (!_Net.shouldRunFixedUpdate) continue;
-
-            if (!MapEditor.Instance.stageClear && !turnOff && _Net.onActive)
-            {
-                UpdateLaser();
-            }
-            else
-            {
-                _Net.Server_SetOnActive(false);
-            }
-        }
-    }
-
-    //private void FixedUpdate()
+    //private void Start()
     //{
-    //    if (!shouldRunFixedUpdate) return;
-    //    if (!MapEditor.Instance.stageClear && !turnOff && _Net.onActive)
+    //     StartCoroutine(UpdateLaserRoutine());
+    //}
+
+
+    //private IEnumerator UpdateLaserRoutine()
+    //{
+    //    while (true)
     //    {
-    //        UpdateLaser();
-    //    }
-    //    else
-    //    {
-    //        //_isEnabled = false;
-    //        //_endVFX.SetActive(_isEnabled);
-    //        //_lineRenderer.enabled = false;
-    //        _Net.Server_SetOnActive(false);
+    //        yield return new WaitForSeconds(0.05f); // 0.1초마다 실행
+
+    //        //if (!_Net.shouldRunFixedUpdate) continue;
+
+    //        if (!MapEditor.Instance.stageClear && !turnOff && _Net.onActive)
+    //        {
+    //            UpdateLaser();
+    //        }
+    //        else
+    //        {
+    //            _Net.Server_SetOnActive(false);
+    //        }
     //    }
     //}
+
+    private void FixedUpdate()
+    {
+        //if (!shouldRunFixedUpdate) return;
+        if (!MapEditor.Instance.stageClear && !turnOff && _Net.onActive)
+        {
+            UpdateLaser();
+        }
+        else
+        {
+            //_isEnabled = false;
+            //_endVFX.SetActive(_isEnabled);
+            //_lineRenderer.enabled = false;
+            _Net.Server_SetOnActive(false);
+        }
+    }
     protected override void Activation()
     {
         //_isEnabled = true;
