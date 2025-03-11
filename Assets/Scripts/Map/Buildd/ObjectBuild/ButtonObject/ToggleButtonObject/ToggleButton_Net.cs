@@ -91,7 +91,6 @@ public class ToggleButton_Net : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
-        if (!onSync) Cmd_SetInit();
         CmdSetState(isActive);
     }
 
@@ -112,7 +111,7 @@ public class ToggleButton_Net : NetworkBehaviour
         transform.position = data.position;
         transform.rotation = data.quaternion;
 
-        energyIcon.SetActive(data.chargeRequired);
+        energyIcon.SetActive(chargeRequired);
 
         onSync = true;
     }

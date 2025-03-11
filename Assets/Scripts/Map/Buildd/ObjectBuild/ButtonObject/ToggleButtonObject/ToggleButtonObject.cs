@@ -102,7 +102,7 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
 
 
                     ToggleButton_Net.Server_SetChargeRequired(buttonData.chargeRequired);
-                }
+                }   
                    
                 //ToggleButton_Net.Server_SetInit();
 
