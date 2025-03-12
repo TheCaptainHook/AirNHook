@@ -992,7 +992,38 @@
         "nextMapId": ""
     },
     "dialogueDataList": [],
-    "droneStructList": [],
+    "droneStructList": [
+        {
+            "id": 326,
+            "position": {
+                "x": 1969.2900390625,
+                "y": 1259.81005859375
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 0.6499999761581421,
+                "y": 0.6499999761581421,
+                "z": 1.0
+            },
+            "paths": [
+                {
+                    "x": 1969.2900390625,
+                    "y": 1259.81005859375
+                },
+                {
+                    "x": 1979.0,
+                    "y": 1259.81005859375
+                }
+            ],
+            "moveSpeed": 5.0,
+            "drone_TransportItemType": 3
+        }
+    ],
     "collectableObjectStructList": [],
     "dataType": 0,
     "cellSize": 2.0,

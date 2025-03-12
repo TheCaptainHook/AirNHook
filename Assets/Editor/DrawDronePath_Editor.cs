@@ -18,7 +18,13 @@ private void Disable()
     EditorApplication.update -= path.DrawPath;
     path.Reset();
 }
-   public override void OnInspectorGUI()
+
+    private void OnDestroy()
+    {
+        Disable();
+    }
+
+    public override void OnInspectorGUI()
    {
         GUILayout.BeginHorizontal(new GUIStyle(GUI.skin.window));
             GUILayout.FlexibleSpace();
