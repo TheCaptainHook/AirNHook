@@ -53,7 +53,7 @@ public class PowerSupply_Net : NetworkBehaviour
 
         onSync = true;
     }
-    [Command]
+    [Command(requiresAuthority = false)]
     private void Cmd_SetInit()
     {
         Server_SetInit();

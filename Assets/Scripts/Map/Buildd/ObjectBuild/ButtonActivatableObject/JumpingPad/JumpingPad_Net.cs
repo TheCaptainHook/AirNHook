@@ -37,7 +37,7 @@ public class JumpingPad_Net : NetworkBehaviour
         onSync = true;
     }
 
-    [Command]
+    [Command(requiresAuthority = false)]
     private void Cmd_InitSync()
     {
         Server_InitSync();
