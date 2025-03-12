@@ -5356,7 +5356,7 @@ MonoBehaviour:
   _Dissolve_MainSprite: {fileID: 0}
   activeRequirAmount: 0
   curActiveBtn: 0
-  jumpingPower: 20
+  jumpingPower: 0
 --- !u!114 &966717442828433395
 MonoBehaviour:
   m_ObjectHideFlags: 0

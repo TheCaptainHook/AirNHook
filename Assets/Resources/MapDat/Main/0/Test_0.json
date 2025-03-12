@@ -980,7 +980,45 @@
     ],
     "mapBackgroundObjectList": [],
     "mapOtherObjectList": [],
-    "mapButtonActivatableObjectDataList": [],
+    "mapButtonActivatableObjectDataList": [
+        {
+            "id": 330,
+            "activeRequirAmount": 0,
+            "chargeRequired": false,
+            "jumpingPower": 20,
+            "position": {
+                "x": 1975.3199462890625,
+                "y": 1254.25
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        }
+    ],
     "buttonObjectList": [],
     "mapExitObjectStruct": {
         "id": 301,

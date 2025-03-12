@@ -13916,7 +13916,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.4499942064285279,
+                "y": 1.4499940872192383,
                 "z": 1.0
             },
             "talPot": {
@@ -14056,7 +14056,7 @@
             "id": 330,
             "activeRequirAmount": 0,
             "chargeRequired": false,
-            "jumpingPower": 20,
+            "jumpingPower": 50,
             "position": {
                 "x": 20.420000076293947,
                 "y": -5.769999980926514

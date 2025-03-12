@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class JumpingPad_Net : NetworkBehaviour
 {
-
+    public int jumpingPower;
 
     #region  Animation
     Animator Animator => GetComponent<Animator>();
@@ -69,7 +69,7 @@ public class JumpingPad_Net : NetworkBehaviour
     #endregion
 
 
-    public int jumpingPower;
+
     [SyncVar(hook = nameof(OnChangeOnActive))] public bool onActive;
     private void OnChangeOnActive(bool old,bool newVal)
     {
