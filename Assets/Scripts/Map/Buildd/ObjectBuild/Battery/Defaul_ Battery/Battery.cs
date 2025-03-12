@@ -29,7 +29,9 @@ public class Battery : BuildObj
     public override void SetData<T>(T data)
     {
         base.SetData(data);
-        Battery_Net.Server_SetOrgPot(position);
+        // Battery_Net.Server_SetOrgPot(position);
+        Battery_Net.onSync = true;
+        Battery_Net.Server_InitSync();
     }
 
     #region Network

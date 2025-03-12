@@ -1,4 +1,5 @@
 
+using Mirror;
 using UnityEngine;
 
 
@@ -11,7 +12,6 @@ public enum Drone_TransportItemType{
     LeverHead,
     LightningRod,
     None
-
 
 }
 
@@ -80,7 +80,7 @@ public class Drone_MultiPurpose : DroneEntity
     }
 
 
-    private void SetTransformItem()
+    private void SetTransformItem() //Only Server
     {
         if(DroneStruct.drone_TransportItemType == Drone_TransportItemType.None) return;
         GameObject item = Managers.Stage.CmdBatchObject(drone_TransportItemType.ToString());
@@ -91,21 +91,22 @@ public class Drone_MultiPurpose : DroneEntity
             case Drone_TransportItemType.Key:
                 MapEditor.Instance.exitDoorObjectTransform.GetChild(0).GetComponent<ExitPointObj>().AddKeyAmount();
                 //SetPosition
-                SettingTransportItem(item);
+                DroneSettingTransportItem(item);
                 break;
 
             default:
-                SettingTransportItem(item);
+                DroneSettingTransportItem(item);
                 break;
             
 
         }
     }
 
-    private void SettingTransportItem(GameObject item)
+    private void DroneSettingTransportItem(GameObject item) //Only Server
     {
         BuildObj obj = item.GetComponent<BuildObj>();
-        obj.SettingTransportItem(itemPlacementPosition);
+        obj.SettingTransportItem(gameObject);
+        // obj.SettingTransportItem(GetComponent<NetworkIdentity>().netId);
     }
 
     private void DroneDropTransportItem()

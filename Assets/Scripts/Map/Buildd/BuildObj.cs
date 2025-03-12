@@ -3,6 +3,8 @@ using UnityEngine;
 using System;
 using UnityEngine.EventSystems;
 using UnityEngine.Animations;
+using Mirror;
+using UnityEngine.Analytics;
 
 public enum DistructionStatus
 {
@@ -37,8 +39,12 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     [Space(20)]
 
     #region Transform Item
-    private bool isTransformItem;
-    private Transform carrierTransform;
+    [ReadOnly]
+    public bool isTransformItem;
+    [ReadOnly]
+    public uint carrierTransformNetId;
+    [ReadOnly]
+    public Transform carrierTransform;
     #endregion
 
     #region User Editor
@@ -153,38 +159,75 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         }
 
     }
-#region Transport Item
-    public void SettingTransportItem(Transform carrierTransform)
+#region Transport Item 
+    public void SettingTransportItem(GameObject carrierObj) //Only Server
     {
       if(_rb == null)
       {
         Debug.Log("Can't find Rigidbody2D");
         return;
       }
-        _rb.gravityScale = 0;
-        _collider.enabled = false;
+      //-------------------------------------------Network Sync
+        // _rb.gravityScale = 0;
+        // _collider.enabled = false;
 
-        this.carrierTransform = carrierTransform;
-        transform.position = carrierTransform.position;
-        //연결시키기
+        // this.carrierTransform = carrierTransform;
+        // transform.position = carrierTransform.position;
+       
+
+        // // transform.SetParent(carrierTransform);
+        // isTransformItem = true;
+        // GetComponent<ITransportItem>().TransportItem_Constraint(carrierTransform);
+        // if(TryGetComponent(out NetworkIdentity component))
+        // {
+        //     // GetComponent<ITransportItem>().TransportItem_Constraint(component.netId);
+        //     //  //연결시키기
+        //     // ParentConstraint constraint = gameObject.AddComponent<ParentConstraint>();
+        //     // SetParentConstraint(constraint,carrierTransform);
+        // }
+        // carrierTransformNetId = netId;
+            // carrierTransformNetId = netId;
+            // GetComponent<ITransportItem>().TransportItem_Constraint(netId);
+
+             //연결시키기
+            // if(NetworkClient.spawned.TryGetValue(netId,out NetworkIdentity identity))
+            // {
+            //     var drone = identity.GetComponent<Drone_MultiPurpose>();
+            //     carrierTransform = drone.itemPlacementPosition;
+                
+               
+            // }
+        // this.carrierTransform = carrierTransform;
+        carrierTransformNetId = carrierObj.GetComponent<NetworkIdentity>().netId;
+        carrierTransform = carrierObj.GetComponent<Drone_MultiPurpose>().itemPlacementPosition;
+
+        
+        Connection_TransportItem();
+       
+        //-------------------------------------------Network Sync
+        
+    }
+    private void Connection_TransportItem()//Only Server
+    {
         ParentConstraint constraint = gameObject.AddComponent<ParentConstraint>();
         SetParentConstraint(constraint,carrierTransform);
 
-        // transform.SetParent(carrierTransform);
-        isTransformItem = true;
+        GetComponent<ITransportItem>().TransportItem_Constraint(carrierTransformNetId);
     }
-    public void DropTransportItem()
+    public void DropTransportItem()//Only Server
     {
+        if(!NetworkServer.active) return;
         // transform.SetParent(MapEditor.Instance.networkingObjectTransform);
         if(TryGetComponent(out ParentConstraint constraint))
         {
             Destroy(constraint);
         }
         
-        _collider.enabled =true;
-        _rb.gravityScale =1;
+        // _collider.enabled =true;
+        // _rb.gravityScale =1;
+        GetComponent<ITransportItem>().TransportItem_DropItem();
     }
-    private void SetParentConstraint(ParentConstraint constraint,Transform parent)
+    private void SetParentConstraint(ParentConstraint constraint,Transform parent)//Only Server
     {
         ConstraintSource source = new ConstraintSource
         {
@@ -213,8 +256,8 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
    {
         if(distructionStatus == DistructionStatus.Destructible)
         {
-            Debug.Log(gameObject.name);
-            Debug.Log("Distruction");
+            // Debug.Log(gameObject.name);
+            // Debug.Log("Distruction");
             if(Managers.Game.CurrentState != GameState.Editor)
             {
                 OnInteractableObjectRelease?.Invoke();
@@ -350,8 +393,11 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
             yield return null;
         }
        if(isTransformItem)
-       {
-            SettingTransportItem(carrierTransform);
+       {    
+            if(carrierTransform != null) 
+            // SettingTransportItem(carrierTransform);
+            Connection_TransportItem();
+            // SettingTransportItem(carrierTransform);
        }else{
         transform.position = pot;
        }

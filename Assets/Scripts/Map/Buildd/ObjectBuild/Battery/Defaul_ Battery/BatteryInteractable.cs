@@ -1,13 +1,65 @@
+using System;
+using System.Collections;
 using Mirror;
-using Telepathy;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 
-public class BatteryInteractable : InteractableObject
+public class BatteryInteractable : InteractableObject,ITransportItem
 {
-
+   
+    #region Transport Item
     private Collider2D Col => GetComponent<Collider2D>();
+    private Rigidbody2D Rb => GetComponent<Rigidbody2D>();
+    private BuildObj BuildObj => GetComponent<BuildObj>();
+     public void TransportItem_Constraint(uint netId)
+     {
+        StartCoroutine(AllClientReadyChecker_Co(()=>{Rpc_Transport_Init(netId);}));  
+     }
+    public void TransportItem_DropItem()
+    {
+        Rpc_Transport_Drop();
+    }
+    [ClientRpc]
+    private void Rpc_Transport_Drop()
+    {
+        Rb.gravityScale = 1;
+        Col.enabled = true;
+    }
 
+    [ClientRpc]
+    private void Rpc_Transport_Init(uint netId)
+    {
+        if(NetworkClient.spawned.TryGetValue(netId,out NetworkIdentity identity))
+        {
+            var drone = identity.GetComponent<Drone_MultiPurpose>();
+
+            Rb.gravityScale = 0;
+            Col.enabled = false;
+            transform.position = drone.itemPlacementPosition.position;
+            BuildObj.isTransformItem = true;
+        }
+    }
+    
+    IEnumerator AllClientReadyChecker_Co(Action action)
+    {
+        while(true)
+        {
+            int connectionClinetAmount = NetworkServer.connections.Count;
+            int num = 0;
+            foreach(var conn in NetworkServer.connections.Values)
+            {
+                if(conn.isReady) num++;
+            }
+
+            if(connectionClinetAmount == num) break;
+
+            yield return null;
+        }
+        action?.Invoke();
+
+    }
+    #endregion
 
     #region -------------------------------------------------------------------------------------Sync
     private float maxCapacity = 100;
@@ -33,7 +85,28 @@ public class BatteryInteractable : InteractableObject
 
     [ReadOnly]
     [SyncVar] public GameObject powerSupply;
-    [SyncVar] public Vector3 orgPosition;
+    public Vector3 orgPosition;
+
+    #region ---------------------------------------------Init Sync
+    public bool onSync;
+    [Server]
+    public void Server_InitSync()
+    {
+        Rpc_InitSync(battery.ObjectData); 
+    }
+
+    [ClientRpc]
+    private void Rpc_InitSync(ObjectData data)
+    {
+        Debug.Log("Server, Rpc, battery");
+        if(onSync) return;
+        transform.position = data.position;
+        transform.rotation = data.quaternion;
+        orgPosition = data.position;
+        onSync = true;
+    }
+
+    #endregion
 
     [Server]    //  Set battery charger
     private void Server_SetBatteryCharger(GameObject batteryCharger)
@@ -74,11 +147,11 @@ public class BatteryInteractable : InteractableObject
         Server_SetPowerSupply(powerSupply);
     }
 
-    [Server]
-    public void Server_SetOrgPot(Vector3 pot)
-    {
-        orgPosition = pot;
-    }
+    // [Server]
+    // public void Server_SetOrgPot(Vector3 pot)
+    // {
+    //     orgPosition = pot;
+    // }
     
     #endregion
 

@@ -13,9 +13,13 @@ public class FadeInOutPanel : MonoBehaviour
 
     public event Action preMapLoadEvent;
 
+
+    private PlayerCameraView playerCameraView;
+
     private void Awake()
     {
         image = GetComponent<Image>();
+        playerCameraView = Camera.main.GetComponent<PlayerCameraView>();
         orgColor = new Color(0, 0, 0, 0);
     }
 
@@ -49,6 +53,8 @@ public class FadeInOutPanel : MonoBehaviour
             image.color = Color.Lerp(image.color, fadeOutcolor, percent);
             yield return null;
         }
+        image.color = fadeOutcolor;
+        percent = 1;
 
   
         Managers.Network.startPos.Clear();
@@ -65,12 +71,16 @@ public class FadeInOutPanel : MonoBehaviour
         Camera.main.GetComponent<ParallaxCamera>().enabled = true;
         Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.Volume_1();
 
+        yield return new WaitUntil(()=>playerCameraView.isCameraCenter);
+
         while (percent > 0)
         {
             percent -= Time.deltaTime;
-            image.color = Color.Lerp(image.color, orgColor, percent);
+            image.color = Color.Lerp(orgColor,fadeOutcolor, percent);
             yield return null;
         }
+        image.color = orgColor;
+
             Managers.Game.StageStart(mapId);
         
         

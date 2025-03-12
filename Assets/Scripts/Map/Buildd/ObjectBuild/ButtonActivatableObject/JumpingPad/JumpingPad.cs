@@ -12,9 +12,6 @@ public class JumpingPad : ActivatableObjectEntity
 
     private bool onActive;
 
-    #region  Animation
-    readonly int Activated = Animator.StringToHash("Activated");
-    #endregion
 
     
     private JumpingPad_Net Net;
@@ -50,7 +47,11 @@ public class JumpingPad : ActivatableObjectEntity
 
             if (Application.isPlaying)
             {
-                Net.Server_SetJumpingPower(jumpingPower);
+                Net.jumpingPower = ButtonActivatedObjectStruct.jumpingPower;
+                Net.onSync = true;
+                Net.Server_InitSync();
+                // Net.Server_SetJumpingPower(jumpingPower);
+
                 util = new Util();
                 await util.Delay(() => { CheckActiveRequirAmount(); });
             }
@@ -88,12 +89,12 @@ public class JumpingPad : ActivatableObjectEntity
     {
         //onActive = true;
         Net.Server_SetOnActive(true);
-        animator.SetBool(Activated,Net.onActive);
+        // animator.SetBool(Activated,Net.onActive);
     }
     protected override void Deactivated()
     {
         //onActive = false;
         Net.Server_SetOnActive(false);
-        animator.SetBool(Activated, Net.onActive);
+        // animator.SetBool(Activated, Net.onActive);
     }
 }

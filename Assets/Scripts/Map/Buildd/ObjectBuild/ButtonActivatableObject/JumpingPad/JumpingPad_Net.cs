@@ -1,18 +1,89 @@
 using Mirror;
+using System;
 using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class JumpingPad_Net : NetworkBehaviour
 {
-    [SyncVar] public int jumpingPower;
-    [SyncVar] public bool onActive;
 
+
+    #region  Animation
+    Animator Animator => GetComponent<Animator>();
+    readonly int Activated = Animator.StringToHash("Activated");
+    #endregion
+
+    private JumpingPad Main => GetComponent<JumpingPad>();
+
+    #region  Init Sync
+    public bool onSync;
     [Server]
-    public void Server_SetJumpingPower(int jumpingPower)
+    public void Server_InitSync()
     {
-        this.jumpingPower = jumpingPower;
+        StartCoroutine(AllClientReadyChecker_Co(()=>{Rpc_InitSync(Main.ButtonActivatedObjectStruct);}));
     }
+
+    [ClientRpc]
+    private void Rpc_InitSync(ButtonActivatableObjectStruct data)
+    {
+        if(onSync) return;
+
+        transform.position = data.position;
+        transform.rotation = data.quaternion;
+        transform.localScale = data.scale;
+
+        jumpingPower = data.jumpingPower;
+
+        onSync = true;
+    }
+
+    [Command]
+    private void Cmd_InitSync()
+    {
+        Server_InitSync();
+    }
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        if(!onSync) Cmd_InitSync();
+    }
+
+    IEnumerator AllClientReadyChecker_Co(Action action)
+    {
+        while(true)
+        {
+            int connectionClinetAmount = NetworkServer.connections.Count;
+            int num = 0;
+            foreach(var conn in NetworkServer.connections.Values)
+            {
+                if(conn.isReady) num++;
+            }
+
+            if(connectionClinetAmount == num) break;
+
+            yield return null;
+        }
+        action?.Invoke();
+
+    }
+    #endregion
+
+
+    public int jumpingPower;
+    [SyncVar(hook = nameof(OnChangeOnActive))] public bool onActive;
+    private void OnChangeOnActive(bool old,bool newVal)
+    {
+        Animator.SetBool(Activated, newVal);
+    }
+
+
+
+    // [Server]
+    // public void Server_SetJumpingPower(int jumpingPower)
+    // {
+    //     this.jumpingPower = jumpingPower;
+    // }
+
     [Server]
     public void Server_SetOnActive(bool onActive)
     {

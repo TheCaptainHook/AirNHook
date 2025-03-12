@@ -7,8 +7,8 @@
     "subMapName": "Test",
     "stageLevel": 0,
     "startPosition": {
-        "x": -1.7000000476837159,
-        "y": -5.400000095367432
+        "x": 1969.5799560546875,
+        "y": 1255.6800537109375
     },
     "mapTileDataList": [
         {
@@ -538,6 +538,380 @@
                 "x": 19,
                 "y": 6
             }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1965,
+                "y": 1253
+            },
+            "End": {
+                "x": 1966,
+                "y": 1261
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1967,
+                "y": 1253
+            },
+            "End": {
+                "x": 1967,
+                "y": 1253
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1967,
+                "y": 1261
+            },
+            "End": {
+                "x": 1967,
+                "y": 1261
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1968,
+                "y": 1253
+            },
+            "End": {
+                "x": 1968,
+                "y": 1253
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1968,
+                "y": 1261
+            },
+            "End": {
+                "x": 1968,
+                "y": 1261
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1969,
+                "y": 1253
+            },
+            "End": {
+                "x": 1969,
+                "y": 1253
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1969,
+                "y": 1261
+            },
+            "End": {
+                "x": 1969,
+                "y": 1261
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1970,
+                "y": 1253
+            },
+            "End": {
+                "x": 1970,
+                "y": 1253
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1970,
+                "y": 1261
+            },
+            "End": {
+                "x": 1970,
+                "y": 1261
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1971,
+                "y": 1253
+            },
+            "End": {
+                "x": 1971,
+                "y": 1253
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1971,
+                "y": 1261
+            },
+            "End": {
+                "x": 1971,
+                "y": 1261
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1972,
+                "y": 1253
+            },
+            "End": {
+                "x": 1972,
+                "y": 1253
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1972,
+                "y": 1261
+            },
+            "End": {
+                "x": 1972,
+                "y": 1261
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1973,
+                "y": 1253
+            },
+            "End": {
+                "x": 1973,
+                "y": 1253
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1973,
+                "y": 1261
+            },
+            "End": {
+                "x": 1973,
+                "y": 1261
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1974,
+                "y": 1253
+            },
+            "End": {
+                "x": 1974,
+                "y": 1253
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1974,
+                "y": 1261
+            },
+            "End": {
+                "x": 1974,
+                "y": 1261
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1975,
+                "y": 1253
+            },
+            "End": {
+                "x": 1975,
+                "y": 1253
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1975,
+                "y": 1261
+            },
+            "End": {
+                "x": 1975,
+                "y": 1261
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1976,
+                "y": 1253
+            },
+            "End": {
+                "x": 1976,
+                "y": 1253
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1976,
+                "y": 1261
+            },
+            "End": {
+                "x": 1976,
+                "y": 1261
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1977,
+                "y": 1253
+            },
+            "End": {
+                "x": 1977,
+                "y": 1253
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1977,
+                "y": 1261
+            },
+            "End": {
+                "x": 1977,
+                "y": 1261
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1978,
+                "y": 1253
+            },
+            "End": {
+                "x": 1978,
+                "y": 1253
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1978,
+                "y": 1261
+            },
+            "End": {
+                "x": 1978,
+                "y": 1261
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1979,
+                "y": 1253
+            },
+            "End": {
+                "x": 1979,
+                "y": 1253
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1979,
+                "y": 1261
+            },
+            "End": {
+                "x": 1979,
+                "y": 1261
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1980,
+                "y": 1253
+            },
+            "End": {
+                "x": 1980,
+                "y": 1253
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1980,
+                "y": 1259
+            },
+            "End": {
+                "x": 1980,
+                "y": 1261
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1981,
+                "y": 1253
+            },
+            "End": {
+                "x": 1981,
+                "y": 1253
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1981,
+                "y": 1259
+            },
+            "End": {
+                "x": 1981,
+                "y": 1261
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1982,
+                "y": 1253
+            },
+            "End": {
+                "x": 1982,
+                "y": 1254
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1982,
+                "y": 1259
+            },
+            "End": {
+                "x": 1982,
+                "y": 1261
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": 1983,
+                "y": 1253
+            },
+            "End": {
+                "x": 1984,
+                "y": 1261
+            }
         }
     ],
     "mapHalfTileDataList": [],
@@ -573,11 +947,11 @@
     },
     "mapObjectDataList": [
         {
-            "id": 307,
+            "id": 343,
             "dialogueId": 0,
             "position": {
-                "x": 6.179999828338623,
-                "y": -3.2799999713897707
+                "x": 0.9100000262260437,
+                "y": -5.150000095367432
             },
             "quaternion": {
                 "x": 0.0,
@@ -606,204 +980,16 @@
     ],
     "mapBackgroundObjectList": [],
     "mapOtherObjectList": [],
-    "mapButtonActivatableObjectDataList": [
-        {
-            "id": 327,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "jumpingPower": 0,
-            "position": {
-                "x": 1.0,
-                "y": 3.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [
-                {
-                    "x": 10.0,
-                    "y": 3.0
-                }
-            ],
-            "moveSpeed": 1.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 334,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "jumpingPower": 0,
-            "position": {
-                "x": 7.710000038146973,
-                "y": -0.4099999964237213
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 5.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 339,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "jumpingPower": 0,
-            "position": {
-                "x": 9.5600004196167,
-                "y": -3.8499999046325685
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.21667525172233582,
-                "w": 0.9762437343597412
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 7.190000057220459,
-            "connectionPoint": {
-                "x": 16.074886322021486,
-                "y": -0.8082294464111328
-            }
-        },
-        {
-            "id": 335,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "jumpingPower": 0,
-            "position": {
-                "x": 2.7300000190734865,
-                "y": -5.670000076293945
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.7071068286895752,
-                "w": 0.7071068286895752
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        }
-    ],
-    "buttonObjectList": [
-        {
-            "id": 329,
-            "position": {
-                "x": 0.5299999713897705,
-                "y": -4.579999923706055
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "targetPositions": [
-                {
-                    "x": 9.5600004196167,
-                    "y": -3.8499999046325685
-                }
-            ],
-            "lightPositions": [],
-            "onHint": false,
-            "partsPositions": [],
-            "itemPositions": [],
-            "hintPosition": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "chargeRequired": false
-        }
-    ],
+    "mapButtonActivatableObjectDataList": [],
+    "buttonObjectList": [],
     "mapExitObjectStruct": {
         "id": 301,
         "position": {
-            "x": 17.0,
-            "y": -6.949999809265137
+            "x": 1978.739990234375,
+            "y": 1254.1800537109375
         },
-        "condition_KeyAmount": 1,
-        "nextMapId": "Demo"
+        "condition_KeyAmount": 0,
+        "nextMapId": ""
     },
     "dialogueDataList": [],
     "droneStructList": [],
@@ -812,5 +998,5 @@
     "cellSize": 2.0,
     "bytesImage": [],
     "audioName": "",
-    "nextMapId": "Demo"
+    "nextMapId": ""
 }

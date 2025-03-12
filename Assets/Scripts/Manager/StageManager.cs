@@ -57,19 +57,6 @@ public class StageManager
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
         obj.GetComponent<BuildObj>().SetData(data);
 
-      
-        // Transform parent = null;
-        // foreach (Transform tr in MapEditor.Instance.mapObjBoxTransform)
-        // {
-        //     if (tr.name == trName)
-        //     {
-        //         parent = tr;
-        //         break;
-        //     }
-        // }
-        // if (parent != null)
-
-
     }
 
 

@@ -280,18 +280,25 @@ public class PlayerCameraView : MonoBehaviour
 
 
     #region Follow Camera
+    public bool isCameraCenter;
     private void FollowCamera(Transform target)
     {
         try
         {
-            if (target == null) return;
-            if (notFollowCam) return;
+            if (target == null) {isCameraCenter = false; return;}
+            if (notFollowCam){isCameraCenter = false; return;}
             var _playerPos = new Vector3(target.position.x, target.position.y + 1f, -1);
-            if(Vector3.Distance(transform.position,target.position)>0.01f){
-                 transform.position = Vector3.SmoothDamp(transform.position, _playerPos, ref _vecVelocity, _smoothSpeed,
+            var dis = Vector2.Distance(transform.position,target.position);
+
+            if(dis>0.01f){
+                transform.position = Vector3.SmoothDamp(transform.position, _playerPos, ref _vecVelocity, _smoothSpeed,
                 float.MaxValue, Time.fixedDeltaTime);
+
+                if(dis < 1.5f)isCameraCenter = true;
+                else isCameraCenter = false;
+
             }
-           
+
         }
         catch (Exception)
         {
