@@ -976,25 +976,56 @@
             "fontSize": 0.0,
             "chargeRequired": false,
             "animationTriggerType": 0
-        }
-    ],
-    "mapBackgroundObjectList": [],
-    "mapOtherObjectList": [],
-    "mapButtonActivatableObjectDataList": [
+        },
         {
-            "id": 330,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "jumpingPower": 20,
+            "id": 300,
+            "dialogueId": 0,
             "position": {
-                "x": 1975.3199462890625,
-                "y": 1254.25
+                "x": 1971.699951171875,
+                "y": 1254.6700439453125
             },
             "quaternion": {
                 "x": 0.0,
                 "y": 0.0,
                 "z": 0.0,
                 "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0
+        }
+    ],
+    "mapBackgroundObjectList": [],
+    "mapOtherObjectList": [],
+    "mapButtonActivatableObjectDataList": [
+        {
+            "id": 335,
+            "activeRequirAmount": 0,
+            "chargeRequired": false,
+            "jumpingPower": 0,
+            "position": {
+                "x": 1977.780029296875,
+                "y": 1260.739990234375
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.7071068286895752,
+                "w": 0.7071068286895752
             },
             "scale": {
                 "x": 1.0,
@@ -1023,8 +1054,8 @@
     "mapExitObjectStruct": {
         "id": 301,
         "position": {
-            "x": 1978.739990234375,
-            "y": 1254.1800537109375
+            "x": 1980.699951171875,
+            "y": 1253.969970703125
         },
         "condition_KeyAmount": 0,
         "nextMapId": ""

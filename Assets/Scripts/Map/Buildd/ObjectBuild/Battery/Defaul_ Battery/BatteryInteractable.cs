@@ -5,61 +5,61 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 
-public class BatteryInteractable : InteractableObject,ITransportItem
+public class BatteryInteractable : TransportItemEntity
 {
    
-    #region Transport Item
-    private Collider2D Col => GetComponent<Collider2D>();
-    private Rigidbody2D Rb => GetComponent<Rigidbody2D>();
-    private BuildObj BuildObj => GetComponent<BuildObj>();
-     public void TransportItem_Constraint(uint netId)
-     {
-        StartCoroutine(AllClientReadyChecker_Co(()=>{Rpc_Transport_Init(netId);}));  
-     }
-    public void TransportItem_DropItem()
-    {
-        Rpc_Transport_Drop();
-    }
-    [ClientRpc]
-    private void Rpc_Transport_Drop()
-    {
-        Rb.gravityScale = 1;
-        Col.enabled = true;
-    }
+    //#region Transport Item
+    //private Collider2D Col => GetComponent<Collider2D>();
+    //private Rigidbody2D Rb => GetComponent<Rigidbody2D>();
+    //private BuildObj BuildObj => GetComponent<BuildObj>();
+    // public void TransportItem_Constraint(uint netId)
+    // {
+    //    StartCoroutine(AllClientReadyChecker_Co(()=>{Rpc_Transport_Init(netId);}));  
+    // }
+    //public void TransportItem_DropItem()
+    //{
+    //    Rpc_Transport_Drop();
+    //}
+    //[ClientRpc]
+    //private void Rpc_Transport_Drop()
+    //{
+    //    Rb.gravityScale = 1;
+    //    Col.enabled = true;
+    //}
 
-    [ClientRpc]
-    private void Rpc_Transport_Init(uint netId)
-    {
-        if(NetworkClient.spawned.TryGetValue(netId,out NetworkIdentity identity))
-        {
-            var drone = identity.GetComponent<Drone_MultiPurpose>();
+    //[ClientRpc]
+    //private void Rpc_Transport_Init(uint netId)
+    //{
+    //    if(NetworkClient.spawned.TryGetValue(netId,out NetworkIdentity identity))
+    //    {
+    //        var drone = identity.GetComponent<Drone_MultiPurpose>();
 
-            Rb.gravityScale = 0;
-            Col.enabled = false;
-            transform.position = drone.itemPlacementPosition.position;
-            BuildObj.isTransformItem = true;
-        }
-    }
+    //        Rb.gravityScale = 0;
+    //        Col.enabled = false;
+    //        transform.position = drone.itemPlacementPosition.position;
+    //        BuildObj.isTransformItem = true;
+    //    }
+    //}
     
-    IEnumerator AllClientReadyChecker_Co(Action action)
-    {
-        while(true)
-        {
-            int connectionClinetAmount = NetworkServer.connections.Count;
-            int num = 0;
-            foreach(var conn in NetworkServer.connections.Values)
-            {
-                if(conn.isReady) num++;
-            }
+    //IEnumerator AllClientReadyChecker_Co(Action action)
+    //{
+    //    while(true)
+    //    {
+    //        int connectionClinetAmount = NetworkServer.connections.Count;
+    //        int num = 0;
+    //        foreach(var conn in NetworkServer.connections.Values)
+    //        {
+    //            if(conn.isReady) num++;
+    //        }
 
-            if(connectionClinetAmount == num) break;
+    //        if(connectionClinetAmount == num) break;
 
-            yield return null;
-        }
-        action?.Invoke();
+    //        yield return null;
+    //    }
+    //    action?.Invoke();
 
-    }
-    #endregion
+    //}
+    //#endregion
 
     #region -------------------------------------------------------------------------------------Sync
     private float maxCapacity = 100;

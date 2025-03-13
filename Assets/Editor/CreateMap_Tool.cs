@@ -493,9 +493,13 @@ public class CreateMap_Tool : EditorWindow
     }
     private Vector3 GetSceneViewCenter(){
         SceneView sceneView = SceneView.lastActiveSceneView;
+         
+        
         if (sceneView != null)
         {
-            return sceneView.pivot;
+            Vector3 dir = sceneView.pivot;
+            dir.z = 0;
+            return dir;
         }
         else
         {
