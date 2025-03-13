@@ -254,7 +254,8 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
 
     public virtual void TakeDamage(DamageType damageType = DamageType.Default)
    {
-        Debug.Log($"position : {position},Network Server : {NetworkServer.active}");
+        //Debug.Log($"position : {position},Network Server : {NetworkServer.active}");
+        if (!NetworkServer.active) return;
         if(distructionStatus == DistructionStatus.Destructible)
         {
             // Debug.Log(gameObject.name);
@@ -402,7 +403,8 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
             Connection_TransportItem();
             // SettingTransportItem(carrierTransform);
        }else{
-        transform.position = pot;
+        //transform.position = pot;
+        _rb.position = position;
        }
         
 

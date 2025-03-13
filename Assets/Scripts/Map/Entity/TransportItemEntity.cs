@@ -65,6 +65,7 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     public void Server_InitSync()
     {
         Rpc_InitSync(BuildObj.ObjectData);
+        Rb.AddForce(Vector2.up, ForceMode2D.Force);
     }
 
     [ClientRpc]
