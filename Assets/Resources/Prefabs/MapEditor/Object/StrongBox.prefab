@@ -238,10 +238,8 @@ GameObject:
   - component: {fileID: 7581738418688039792}
   - component: {fileID: 8495657423424250234}
   - component: {fileID: 3126241958243634821}
-  - component: {fileID: 1073523619191105079}
   - component: {fileID: -5810413876586093780}
   - component: {fileID: 4664830097871362257}
-  - component: {fileID: -7384810213336840947}
   - component: {fileID: 7248189904295600147}
   m_Layer: 19
   m_Name: StrongBox
@@ -356,6 +354,9 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   distructionStatus: 1
   chargeRequired: 0
+  isTransformItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
@@ -364,7 +365,8 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 4733320072026686442}
-  health: 5
+  mainSprite: {fileID: 4733320072026686442}
+  health: 1000
 --- !u!114 &3126241958243634821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -384,20 +386,7 @@ MonoBehaviour:
   _gravityScale: 0
   _offset: {x: 0, y: 1}
   _inhalePower: 4000
-  orgPosition: {x: 0, y: 0}
---- !u!114 &1073523619191105079
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8716440483222482088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d0680288e776eb4081ef1fdf5182889, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _collider2D: {fileID: 0}
+  onSync: 0
 --- !u!114 &-5810413876586093780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,29 +439,6 @@ MonoBehaviour:
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
---- !u!114 &-7384810213336840947
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8716440483222482088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab2cbc52526ea384ba280d13cd1a57b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 1
-  syncMode: 0
-  syncInterval: 0
-  target: {fileID: -6472365049540394354}
-  clientAuthority: 1
-  syncVelocity: 1
-  clearVelocity: 0
-  velocitySensitivity: 0.1
-  syncAngularVelocity: 1
-  clearAngularVelocity: 0
-  angularVelocitySensitivity: 0.1
 --- !u!210 &7248189904295600147
 SortingGroup:
   m_ObjectHideFlags: 0

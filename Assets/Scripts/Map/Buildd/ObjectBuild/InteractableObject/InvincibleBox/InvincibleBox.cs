@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class InvincibleBox : BuildObj
 {
-    public float health = 1f;
-
-
     private void Awake()
     {
         DissolveInitSetting();
     }
 
+
+
+
+    private InvincibleBox_Net Net => GetComponent<InvincibleBox_Net>();
+    public override void SetData<T>(T data)
+    {
+        base.SetData(data);
+        Net.onSync = true;
+        Net.Server_InitSync();
+    }
 
     public override void TurnOff()
     {

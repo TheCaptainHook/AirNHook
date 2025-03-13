@@ -24332,11 +24332,9 @@ GameObject:
   - component: {fileID: 5747106109533041271}
   - component: {fileID: 4056870032569646700}
   - component: {fileID: 2838522749310776917}
-  - component: {fileID: 5611207507894210805}
+  - component: {fileID: 222044019592037452}
   - component: {fileID: -2176134299502383376}
-  - component: {fileID: -3856991798806897737}
   - component: {fileID: -1748015647269424119}
-  - component: {fileID: 4739931925688888049}
   - component: {fileID: 2884958338721759735}
   m_Layer: 18
   m_Name: LightningRod
@@ -24440,12 +24438,16 @@ MonoBehaviour:
   id: 317
   transformID: 1
   position: {x: 0, y: 0}
-  offset: {x: 0, y: 0}
-  turnOff: 0
   distructionStatus: 1
+  chargeRequired: 0
+  isTransformItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
+  offset: {x: 0, y: 0}
+  turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 7178825718306028271}
@@ -24459,7 +24461,7 @@ MonoBehaviour:
   - {fileID: 6388625012980227072}
   - {fileID: 1574511627782490115}
   - {fileID: 549174997686473716}
---- !u!114 &5611207507894210805
+--- !u!114 &222044019592037452
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -24468,15 +24470,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 7773345652000642256}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3369714a36eeff3448142e8610242ff9, type: 3}
+  m_Script: {fileID: 11500000, guid: dfda54c53e238dd4780177d2df19ffc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
   _objectType: 1
-  _offset: {x: 0, y: 0}
+  _gravityScale: 0
+  _offset: {x: 0, y: 1}
   _inhalePower: 600
+  onSync: 0
 --- !u!114 &-2176134299502383376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24494,41 +24498,6 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!114 &-3856991798806897737
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7773345652000642256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 1
-  syncMode: 0
-  syncInterval: 0
-  target: {fileID: 6964912461378082790}
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 0
-  onlySyncOnChange: 0
-  compressRotation: 1
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 1
-  coordinateSpace: 0
-  sendIntervalMultiplier: 1
-  timelineOffset: 0
-  showGizmos: 0
-  showOverlay: 0
-  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  bufferResetMultiplier: 3
-  changedDetection: 1
-  positionSensitivity: 0.01
-  rotationSensitivity: 0.01
-  scaleSensitivity: 0.01
 --- !u!114 &-1748015647269424119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24564,29 +24533,6 @@ MonoBehaviour:
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
---- !u!114 &4739931925688888049
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7773345652000642256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab2cbc52526ea384ba280d13cd1a57b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 1
-  syncMode: 0
-  syncInterval: 0
-  target: {fileID: 5747106109533041271}
-  clientAuthority: 1
-  syncVelocity: 1
-  clearVelocity: 0
-  velocitySensitivity: 0.1
-  syncAngularVelocity: 1
-  clearAngularVelocity: 0
-  angularVelocitySensitivity: 0.1
 --- !u!210 &2884958338721759735
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -24597,5 +24543,5 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: -688237417
   m_SortingLayer: 5
-  m_SortingOrder: 5
+  m_SortingOrder: 7
   m_SortAtRoot: 0

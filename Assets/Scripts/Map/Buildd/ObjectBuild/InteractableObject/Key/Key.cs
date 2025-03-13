@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Box : BuildObj
+public class Key : BuildObj
 {
-    
-    private Box_Net Net => GetComponent<Box_Net>();
+    private Key_Net Net => GetComponent<Key_Net>();
 
     private void Awake()
     {
@@ -15,13 +14,8 @@ public class Box : BuildObj
     public override void SetData<T>(T data)
     {
         base.SetData(data);
-        Net.Server_SetOrgPosition(position);
-    }
-
-    public override void TakeDamage(DamageType damageType = DamageType.Default)
-    {
-        position = Net.orgPosition;
-        base.TakeDamage(damageType);
+        Net.onSync = true;
+        Net.Server_InitSync();
     }
 
     public override void TurnOff()
@@ -29,10 +23,14 @@ public class Box : BuildObj
         base.TurnOff();
         _rb.gravityScale = 0;
         _rb.velocity = Vector2.zero;
+
     }
     public override void TurnOn()
     {
         base.TurnOn();
         _rb.gravityScale = 1;
+
     }
+
+
 }

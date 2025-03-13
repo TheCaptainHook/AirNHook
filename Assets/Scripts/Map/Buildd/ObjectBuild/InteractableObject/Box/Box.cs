@@ -1,0 +1,34 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Box : BuildObj
+{
+    
+    private Box_Net Net => GetComponent<Box_Net>();
+
+    private void Awake()
+    {
+        DissolveInitSetting();
+    }
+
+    public override void SetData<T>(T data)
+    {
+        base.SetData(data);
+       Net.onSync = true;
+       Net.Server_InitSync();
+    }
+
+
+    public override void TurnOff()
+    {
+        base.TurnOff();
+        _rb.gravityScale = 0;
+        _rb.velocity = Vector2.zero;
+    }
+    public override void TurnOn()
+    {
+        base.TurnOn();
+        _rb.gravityScale = 1;
+    }
+}

@@ -3,11 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LeverHead_Net : InteractableObject
+public class LeverHead_Net : TransportItemEntity
 {
-    private Collider2D Col => GetComponent<Collider2D>();
-    private Rigidbody2D Rd => GetComponent<Rigidbody2D>();
-
 
 
     [Server]
@@ -21,7 +18,7 @@ public class LeverHead_Net : InteractableObject
     private void Rpc_Attach()
     {
         Col.enabled = false;
-        Rd.simulated = false;
+        Rb.simulated = false;
     }
     [Server]
     public void Server_Att()
