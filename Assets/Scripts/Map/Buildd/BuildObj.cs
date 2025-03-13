@@ -254,6 +254,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
 
     public virtual void TakeDamage(DamageType damageType = DamageType.Default)
    {
+        Debug.Log($"position : {position},Network Server : {NetworkServer.active}");
         if(distructionStatus == DistructionStatus.Destructible)
         {
             // Debug.Log(gameObject.name);
