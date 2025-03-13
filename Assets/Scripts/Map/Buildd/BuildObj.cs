@@ -86,7 +86,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     private static readonly int DissolveAmount = Shader.PropertyToID("_DissolveAmount");
 
     protected Material _dissolveMaterial;
-    protected Rigidbody2D Rb;
+    private Rigidbody2D Rb;
     protected Rigidbody2D _rb
     {
         get{
@@ -254,12 +254,10 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
 
     public virtual void TakeDamage(DamageType damageType = DamageType.Default)
    {
-        //Debug.Log($"position : {position},Network Server : {NetworkServer.active}");
         if (!NetworkServer.active) return;
+
         if(distructionStatus == DistructionStatus.Destructible)
         {
-            // Debug.Log(gameObject.name);
-            // Debug.Log("Distruction");
             if(Managers.Game.CurrentState != GameState.Editor)
             {
                 OnInteractableObjectRelease?.Invoke();
@@ -349,11 +347,6 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     //} 
 
 
-    public void SetOrgPosition()
-    {
-        setPosition = true;
-        orgPosition = transform.position;
-    }
 
 
     #region Destructible Obj Dissolve Effect Logic
@@ -383,7 +376,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
 
     }
 
-    IEnumerator Co_Dissolve(Vector2 pot)
+     IEnumerator Co_Dissolve(Vector2 pot)
     {
         float percent = 1;
         _collider.enabled = false;
@@ -403,8 +396,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
             Connection_TransportItem();
             // SettingTransportItem(carrierTransform);
        }else{
-        //transform.position = pot;
-        _rb.position = position;
+            transform.position = pot;
        }
         
 
@@ -444,10 +436,22 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     #region  Editor
         // public virtual void Editor_Setting(Transform transform){}
         public virtual void Editor_Setting(MapEditor mapEditor){}
+
+
+
+
+
+
+    public void SetOrgPosition()
+    {
+        setPosition = true;
+        orgPosition = transform.position;
+    }
+
     #endregion
 
 
-     public void D_ReleaseToPool()
+    public void D_ReleaseToPool()
      {
         Managers.Pooling.D_ReleaseToPool(gameObject);
      }
