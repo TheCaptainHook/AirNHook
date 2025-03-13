@@ -41,7 +41,7 @@ public class Battery : BuildObj
 
     public override void TakeDamage(DamageType damageType = DamageType.Default)
     {
-        position = Battery_Net.orgPosition;
+        //position = Battery_Net.orgPosition;
 
         if(damageType == DamageType.Electric)
         {

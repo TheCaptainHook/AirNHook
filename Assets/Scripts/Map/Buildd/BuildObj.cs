@@ -367,25 +367,27 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
 
     public void Dissolve(Vector2 pot)
     {
-        if(MapEditor.Instance.mapEditorState != MapEditorState.NoEditor)
-        {
-            //EditorMode_Destroy();
-            
-            StartCoroutine(Co_Dissolve(orgPosition));
-        }
-        else
-        {
-            StartCoroutine(Co_Dissolve(pot));
-        }
-        
+        StartCoroutine(Co_Dissolve(pot));
+        //if(MapEditor.Instance.mapEditorState != MapEditorState.NoEditor)
+        //{
+        //    //EditorMode_Destroy();
+
+
+        //}
+        //else
+        //{
+        //    StartCoroutine(Co_Dissolve(pot));
+        //}
+
     }
 
     IEnumerator Co_Dissolve(Vector2 pot)
     {
         float percent = 1;
         _collider.enabled = false;
-        _rb.velocity = Vector2.zero;
+        _rb.simulated = false;
         _rb.gravityScale = 0;
+        _rb.velocity = Vector2.zero;
         while (percent> 0)
         {
             percent -= dissolveRate;
@@ -413,10 +415,10 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         if (!isTransformItem)
         {
             _collider.enabled = true;
-            _rb.gravityScale = 1;
+            _rb.gravityScale = 1; 
         }
+        _rb.simulated = true;
 
-       
         GetComponent<InteractableObject>().Respawned();
 
         //CustomEditor

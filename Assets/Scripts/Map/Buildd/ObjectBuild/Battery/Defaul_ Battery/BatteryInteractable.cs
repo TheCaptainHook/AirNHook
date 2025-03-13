@@ -85,28 +85,28 @@ public class BatteryInteractable : TransportItemEntity
 
     [ReadOnly]
     [SyncVar] public GameObject powerSupply;
-    public Vector3 orgPosition;
+    //public Vector3 orgPosition;
 
-    #region ---------------------------------------------Init Sync
-    public bool onSync;
-    [Server]
-    public void Server_InitSync()
-    {
-        Rpc_InitSync(battery.ObjectData); 
-    }
+    //#region ---------------------------------------------Init Sync
+    //public bool onSync;
+    //[Server]
+    //public void Server_InitSync()
+    //{
+    //    Rpc_InitSync(battery.ObjectData); 
+    //}
 
-    [ClientRpc]
-    private void Rpc_InitSync(ObjectData data)
-    {
-        Debug.Log("Server, Rpc, battery");
-        if(onSync) return;
-        transform.position = data.position;
-        transform.rotation = data.quaternion;
-        orgPosition = data.position;
-        onSync = true;
-    }
+    //[ClientRpc]
+    //private void Rpc_InitSync(ObjectData data)
+    //{
+    //    Debug.Log("Server, Rpc, battery");
+    //    if(onSync) return;
+    //    transform.position = data.position;
+    //    transform.rotation = data.quaternion;
+    //    orgPosition = data.position;
+    //    onSync = true;
+    //}
 
-    #endregion
+    //#endregion
 
     [Server]    //  Set battery charger
     private void Server_SetBatteryCharger(GameObject batteryCharger)

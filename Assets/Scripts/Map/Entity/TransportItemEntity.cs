@@ -57,4 +57,36 @@ public class TransportItemEntity : InteractableObject, ITransportItem
 
     }
     #endregion
+
+    #region ---------------------------------------------Init Sync
+    public bool onSync;
+
+    [Server]
+    public void Server_InitSync()
+    {
+        Rpc_InitSync(BuildObj.ObjectData);
+    }
+
+    [ClientRpc]
+    private void Rpc_InitSync(ObjectData data)
+    {
+        Debug.Log("Server, Rpc, battery");
+        if (onSync) return;
+        transform.position = data.position;
+        transform.rotation = data.quaternion;
+        BuildObj.position = data.position;
+        onSync = true;
+    }
+    [Command(requiresAuthority = false)]
+    private void Cmd_InitSync()
+    {
+        Server_InitSync();
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        if (!onSync) Cmd_InitSync();
+    }
+    #endregion
 }
