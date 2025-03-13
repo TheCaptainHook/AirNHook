@@ -254,8 +254,6 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
 
     public virtual void TakeDamage(DamageType damageType = DamageType.Default)
    {
-        if (!NetworkServer.active) return;
-
         if(distructionStatus == DistructionStatus.Destructible)
         {
             if(Managers.Game.CurrentState != GameState.Editor)
