@@ -64,18 +64,17 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     [Server]
     public void Server_InitSync()
     {
-        Rpc_InitSync(BuildObj.ObjectData);
+        Rpc_InitSync(BuildObj.ObjectData,transform.position);
         Rb.AddForce(Vector2.up, ForceMode2D.Force);
     }
 
     [ClientRpc]
-    private void Rpc_InitSync(ObjectData data)
+    private void Rpc_InitSync(ObjectData data, Vector2 position)
     {
-        Debug.Log("Server, Rpc, battery");
         if (onSync) return;
-        transform.position = data.position;
+        transform.position = position;
         transform.rotation = data.quaternion;
-        BuildObj.position = data.position;
+        //BuildObj.position = data.position;
         onSync = true;
     }
     [Command(requiresAuthority = false)]
