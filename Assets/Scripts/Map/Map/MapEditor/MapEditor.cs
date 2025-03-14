@@ -130,6 +130,7 @@ public class MapEditor : MonoBehaviour
     public string mapID; // Map main id
     [Tooltip("A simple explanation of the sub-name for a map.")]
     public string subMapName; // 1116
+    public int stageDifficulty; //250314
     [ReadOnly]
     public string nextMapId;
     [ReadOnly]

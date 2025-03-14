@@ -347,6 +347,9 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   distructionStatus: 0
   chargeRequired: 0
+  isTransformItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
@@ -381,11 +384,11 @@ MonoBehaviour:
   doorOpeningAnim: {fileID: 7695271462647067305}
   curMapId: 
   nextMapId: 
-  stageClear: 0
   condition_KeyAmount: 0
   current_KeyAmount: 0
   curPlayerInDoor: 0
   OnMoveNextStage: 0
+  onSync: 0
 --- !u!1 &2184687535908895107
 GameObject:
   m_ObjectHideFlags: 0
@@ -1099,6 +1102,10 @@ PrefabInstance:
     - target: {fileID: 5412033526833255162, guid: ad8830b430d18b745bd66cd28028e154, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6479216864301381055, guid: ad8830b430d18b745bd66cd28028e154, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

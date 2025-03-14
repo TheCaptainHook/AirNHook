@@ -144,7 +144,7 @@ public class SaveData
 
     private void AddDic_NewMapSource(Map map)
     {
-        MapSaveData data = new MapSaveData(map.mapID,map.subMapName, map.nextMapId,false,false,0,map.dialogueDataList,map.collectableObjectStructList);
+        MapSaveData data = new MapSaveData(map.mapID,map.subMapName, map.nextMapId,false,false,map.stageDifficulty,map.dialogueDataList,map.collectableObjectStructList);
         dic[map.mapID] = data;
     }
     #endregion
@@ -181,7 +181,7 @@ public class SaveData
         foreach (var key in Managers.Data.mapData.mapAllDictionary.Keys)
         {
             Map map = Managers.Data.mapData.mapAllDictionary[key];
-            _SSMDD.Add(map.mapID, new MapSaveData(map.mapID,map.subMapName,map.nextMapId,false,false,0,map.dialogueDataList,map.collectableObjectStructList));
+            _SSMDD.Add(map.mapID, new MapSaveData(map.mapID,map.subMapName,map.nextMapId,false,false,map.stageDifficulty,map.dialogueDataList,map.collectableObjectStructList));
         }
 
         _SaveFileData = new SaveFileData(_SSMDD, new PlayerSaveData());
@@ -293,10 +293,12 @@ public class MapSaveData
     public float shortestClearTime;
     public float recentlyClearTime;
     public int deathCount; //해당맵에 몇번 죽었나 
+    public int stageDifficulty;
     public List<DialogueData> _DialogueDataList;//해당 맵에 존재하는 다이얼로그 트리거 오브젝트
     public List<CollectableObjectStruct> _CollectableObjectStructList;
 
-    public MapSaveData(string mapName, string mapSubName,string nextMapId,bool clear, bool openStage,float clearTime, List<DialogueData> _DialogueDataList,List<CollectableObjectStruct> _CollectableObjectStructList) //초기화
+    public MapSaveData(string mapName, string mapSubName,string nextMapId,bool clear, bool openStage, int stageDifficulty,
+                        List<DialogueData> _DialogueDataList,List<CollectableObjectStruct> _CollectableObjectStructList) //초기화
     {
         this.mapName = mapName;
         this.mapSubName = mapSubName;
@@ -306,6 +308,8 @@ public class MapSaveData
         shortestClearTime = 0;
         recentlyClearTime = 0;
         deathCount = 0;
+
+        this.stageDifficulty = stageDifficulty;
 
         this._DialogueDataList = _DialogueDataList;
         this._CollectableObjectStructList = _CollectableObjectStructList;

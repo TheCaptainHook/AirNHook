@@ -106,6 +106,10 @@ public class MapEditor_Editor : Editor
                 mapEditor.subMapName
                 );
 
+            //Game difficulty
+            mapEditor.stageDifficulty = EditorGUILayout.IntField("Stage Difficulty",mapEditor.stageDifficulty);
+            //Game difficulty
+
             DrawBGMContents();
         }
         GUILayout.EndVertical();
@@ -472,6 +476,9 @@ public class MapEditor_Editor : Editor
             _Reset(mapEditor);
             mapEditor.Init();
             EditorApplication.ExecuteMenuItem("Window/2D/Tile Palette");
+            
+
+            MpaEditorFieldReset();
             mapEditor.onLoad = true;
 
         }
@@ -546,6 +553,7 @@ public class MapEditor_Editor : Editor
             mapEditor.stageLevel = 0;
 
             mapEditor.subMapName = "";
+            mapEditor.stageDifficulty = 0;
 
             mapEditor.onLoad = false;
             mapEditor.isLoadMap = false;
@@ -659,6 +667,22 @@ public class MapEditor_Editor : Editor
         mapEditor.startPosition = map.startPosition;
         mapEditor.nextMapId = map.nextMapId;
         mapEditor.subMapName = map.subMapName;
+        mapEditor.stageDifficulty = map.stageDifficulty;
+
+    }
+    private void MpaEditorFieldReset()
+    {
+           mapEditor.CurMap = new Map();
+            mapEditor.mapID = "";
+            mapEditor.mapType = MapType.Main;
+            mapEditor.audioName = "";
+            mapEditor.stageLevel = 0;
+
+            mapEditor.subMapName = "";
+            mapEditor.stageDifficulty = 0;
+
+            mapEditor.onLoad = false;
+            mapEditor.isLoadMap = false;
     }
     #region  Generate
     private void Create_StartPoint(Map map) {
@@ -972,7 +996,7 @@ public class MapEditor_Editor : Editor
         //}
 
 private Map CreateMap(MapEditor mapEditor){
-    Map map =  new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, mapEditor.subMapName,GetNextMapId(),mapEditor.stageLevel, mapEditor.startPosition,
+    Map map =  new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, mapEditor.subMapName,GetNextMapId(),mapEditor.stageLevel, mapEditor.startPosition,mapEditor.stageDifficulty,
             GetExitObjStructsList(mapEditor.exitDoorObjectTransform, mapEditor),
             //tile
             GetCompressedTileData(mapEditor.placeMentSystem.floorTileMap),

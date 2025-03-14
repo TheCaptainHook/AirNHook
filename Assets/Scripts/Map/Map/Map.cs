@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Lumin;
@@ -58,9 +59,10 @@ public class Map
     //1101
     public string nextMapId;
 
-    public Map(Vector2 mapSize, string id, string subMapName,
-        string nextMapId,
-        int stageLevel, Vector2 startPosition,
+    //250314
+    public int stageDifficulty;
+
+    public Map(Vector2 mapSize, string id, string subMapName,string nextMapId,int stageLevel, Vector2 startPosition,int stageDifficulty,
         ExitObjStruct mapExitObjectStruct,
         //tile
         List<CompressedTileData> tileList, // refc
@@ -94,6 +96,7 @@ public class Map
         this.subMapName = subMapName;
         this.nextMapId = nextMapId;
         this.stageLevel = stageLevel;
+        this.stageDifficulty = Mathf.Clamp(stageDifficulty,0,5);
         //tile
         mapTileDataList = tileList;
         mapHalfTileDataList = halfTileList;
