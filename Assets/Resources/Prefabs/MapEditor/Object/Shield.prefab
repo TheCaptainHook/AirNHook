@@ -94,9 +94,9 @@ GameObject:
   m_Component:
   - component: {fileID: 994488778957814542}
   - component: {fileID: -8846839930603035143}
-  - component: {fileID: 8808808188988864938}
   - component: {fileID: 146081564939722954}
-  - component: {fileID: 2662755915402618192}
+  - component: {fileID: 8808808188988864938}
+  - component: {fileID: 1432138131361962526}
   - component: {fileID: -5810413876586093780}
   - component: {fileID: -218796630117030723}
   - component: {fileID: 5995116111848026723}
@@ -150,31 +150,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &8808808188988864938
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8716440483222482088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b873a4828835df141b3b325f52431486, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 315
-  transformID: 1
-  position: {x: 0, y: 0}
-  distructionStatus: 0
-  chargeRequired: 0
-  onPlaceable: 0
-  onRotateable: 0
-  onScaleable: 0
-  offset: {x: 0, y: 4}
-  turnOff: 0
-  setPosition: 0
-  orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 4684687439439529792}
 --- !u!61 &146081564939722954
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -220,7 +195,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.9277239, y: 2.047256}
   m_EdgeRadius: 0
---- !u!114 &2662755915402618192
+--- !u!114 &8808808188988864938
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -229,7 +204,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 8716440483222482088}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 970ea820a2e6f42ff860f120c24d373d, type: 3}
+  m_Script: {fileID: 11500000, guid: b873a4828835df141b3b325f52431486, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 315
+  transformID: 1
+  position: {x: 0, y: 0}
+  distructionStatus: 0
+  chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
+  onPlaceable: 0
+  onRotateable: 0
+  onScaleable: 0
+  offset: {x: 0, y: 4}
+  turnOff: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 4684687439439529792}
+--- !u!114 &1432138131361962526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8716440483222482088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c3a1e7b4a84749dcaa05bfba30dcf63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0

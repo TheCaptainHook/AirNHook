@@ -7,7 +7,7 @@ public class Computer_Net : NetworkBehaviour
 {
     [SerializeField] GameObject screen;
 
-    [SyncVar] public GameObject computer;
+    // [SyncVar] public GameObject computer;
     public GameObject main;
     private UI_StageSelect_var3 Main
     {
@@ -71,13 +71,37 @@ public class Computer_Net : NetworkBehaviour
         }
 
     }
-
+    public bool onSync;
     #region Server_Init
-    [Server]
-    public void Server_SetComputer(GameObject computer)
-    {
-        this.computer = computer;
-    }
+    private StageSelectorComputer Computer => GetComponent<StageSelectorComputer>();
+    private ObjectData data;
+
+   [Server]
+   public void Server_InitSync()
+   {
+        data = Computer.ObjectData;
+        Rpc_InitSync(data);
+   }
+   [ClientRpc]
+   private void Rpc_InitSync(ObjectData data)
+   {
+    if(onSync) return;
+
+    transform.position = data.position;
+    onSync = true;
+   }
+   [Command(requiresAuthority =false)]
+   private void Cmd_InitSync()
+   {
+    Server_InitSync();
+   }
+   
+   public override void OnStartClient()
+   {
+        base.OnStartClient();
+        if(!onSync)Cmd_InitSync();
+   }
+
     #endregion
 
     #region Server_Reset
@@ -142,7 +166,7 @@ public class Computer_Net : NetworkBehaviour
 
             this.dummy = dummy.gameObject;
 
-            _dummy.StartUi(computer.GetComponent<NetworkIdentity>().netId);
+            _dummy.StartUi(GetComponent<NetworkIdentity>().netId);
     }
     private void ShowMain(bool server)
     {
@@ -151,7 +175,7 @@ public class Computer_Net : NetworkBehaviour
             var main =  Managers.UI.ShowUI<UI_StageSelect_var3>();
             UI_StageSelect_var3 _main = main.GetComponent<UI_StageSelect_var3>();
             this.main = main.gameObject;
-            _main.StartUi(computer.GetComponent<NetworkIdentity>().netId);
+            _main.StartUi(GetComponent<NetworkIdentity>().netId);
             // main.GetComponent<UI_StageSelect_var3>().HideUIOutsideCamera();
         }else
         {

@@ -17,40 +17,15 @@ public class StageSelectObject : MonoBehaviour, IInteractable
     //}
     //todo 0605
 
-    void Start()
-    {
-        Net.Server_SetComputer(gameObject);
-    }
+    // void Start()
+    // {
+    //     Net.Server_SetComputer(gameObject);
+    // }
 
     public void Interaction(Transform accessor = null)
     {
         if (!NetworkServer.active || !NetworkClient.isConnected)
             return;
-
-        // if (Managers.UI.GetUI<UI_StageSelect_var3>().GetComponent<UI_StageSelect_var3>().onPrograss) {  return; }
-        
-        // if (!Managers.UI.IsActive<UI_StageSelect_var3>())
-        // {
-        //     _StageSelectorComputer.Surprise_();
-
-
-
-        //     // NEtwork,
-        //     // Managers.UI.ShowUI<UI_StageSelect_var3>();
-
-        //     // ShowDummy();
-        //     // onPower =true;
-
-        //     // Managers.Game.Player.GetComponent<PlayerMovement>().canControl = false;
-        //     // Managers.Game.Player.GetComponent<Rigidbody2D>().velocity  = Vector2.zero;
-        // }
-
-        //else
-        //{
-        //    Debug.Log("EEEEE3");
-        //    Managers.UI.GetUI<UI_StageSelect_var3>().GetComponent<UI_StageSelect_var3>().SetDown();
-        //    _StageSelectorComputer.LineIdle();
-        //}
             
         if(Net.isOpen) return;
         Net.Server_SetOnPower();
@@ -59,15 +34,6 @@ public class StageSelectObject : MonoBehaviour, IInteractable
 
     //------------------------------------------------Network 250217
     public Computer_Net Net {get{return GetComponent<Computer_Net>();}}
-    // [SerializeField] GameObject screen;
-    // private UI_StageSelect_var3_Dummy dummy;
-    // private void ShowDummy()
-    // {
-    //     var dummy =  Managers.UI.ShowUI<UI_StageSelect_var3_Dummy>();
-    //     UI_StageSelect_var3_Dummy _dummy = dummy.GetComponent<UI_StageSelect_var3_Dummy>();
-    //     Canvas canvas = dummy.GetComponent<Canvas>();
-    //     canvas.worldCamera = CameraHolder.Instance.StageSelectCamera();
-    // }
 
     //------------------------------------------------Network
 

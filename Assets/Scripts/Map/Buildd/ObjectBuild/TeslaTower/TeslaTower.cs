@@ -52,14 +52,15 @@ public class TeslaTower : BuildObj
 
     //TODO 0723
     [SerializeField] float detectionRadiusX=5;// 감지 범위의 X축 반지름
-    [SerializeField] float detectionRadiusY=4; // 감지 범위의 Y축 반지름
+    [SerializeField] float detectionRadiusY=4.5f; // 감지 범위의 Y축 반지름
     private Vector3 detectOffset = new Vector3(0, 1.5f);
     private HashSet<GameObject> detectedObjects = new HashSet<GameObject>();
     private System.Type[] _DetectObjComponentTypes = { typeof(PlayerSM), typeof(BuildObj) };
 
 
     private float maxLightningRate = 1f;
-    private float curLightningRate = 0;
+    [ReadOnly]
+    public float curLightningRate = 0;
     //TODO 0723
 
 
@@ -82,15 +83,15 @@ public class TeslaTower : BuildObj
 
     }
 
+
     private void Update()
     {
-        DetectObjectsWithComponents(_DetectObjComponentTypes);
-
+        curLightningRate += Time.deltaTime;
 
         if (onCharge)
-        {
-            curLightningRate += Time.deltaTime;
-            if (curLightningRate >= maxLightningRate)
+        {   
+            DetectObjectsWithComponents(_DetectObjComponentTypes);
+            if (curLightningRate >= maxLightningRate && detectedObjects.Count > 0)
             {
                 Check_DetectObjectsAndLightning();
                 curLightningRate = 0;
@@ -142,7 +143,8 @@ public class TeslaTower : BuildObj
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, Mathf.Max(detectionRadiusX, detectionRadiusY));
         HashSet<GameObject> currentDetectedObjects = new HashSet<GameObject>();
-        Vector2 position = transform.position + detectOffset;
+        // Vector2 position = transform.position + detectOffset;
+        Vector2 position = (Vector2)transform.TransformPoint(detectOffset);
         CheckDetectObjectsIsInsideEllipse(componentTypes,currentDetectedObjects,colliders,position);
         detectedObjects.IntersectWith(currentDetectedObjects);
     }
@@ -220,7 +222,6 @@ public class TeslaTower : BuildObj
 
             foreach(var obj in detectedObjects)
             {
-                Debug.Log(obj.name);
                 if(obj.layer == LayerMask.NameToLayer("Player"))
                 {
                     DrawLineRenderer(obj.transform, obj.transform);
@@ -242,31 +243,23 @@ public class TeslaTower : BuildObj
 
     private bool IsInsideEllipse(Vector2 center, Vector2 point, float radiusX, float radiusY)
     {
-        float dx = point.x - center.x;
-        float dy = point.y - center.y;
-        return (dx * dx) / (radiusX * radiusX) + (dy * dy) / (radiusY * radiusY) <= 1;
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red; // 디버그 타원의 색상을 빨간색으로 설정
-
-        // 타원의 세그먼트 수
-        int segments = 100;
-        Vector3[] points = new Vector3[segments + 1];
-
-        for (int i = 0; i <= segments; i++)
-        {
-            float angle = 2 * Mathf.PI * i / segments;
-            float x = Mathf.Cos(angle) * detectionRadiusX;
-            float y = Mathf.Sin(angle) * detectionRadiusY;
-            points[i] = new Vector3(transform.position.x + x, transform.position.y + y, 0) + detectOffset;
-        }
-
-        for (int i = 0; i < segments; i++)
-        {
-            Gizmos.DrawLine(points[i], points[i + 1]);
-        }
+        // float dx = point.x - center.x;
+        // float dy = point.y - center.y;
+        // return (dx * dx) / (radiusX * radiusX) + (dy * dy) / (radiusY * radiusY) <= 1;
+            // 1. 월드 좌표에서 타원 중심과 검사할 점 사이의 차이를 구합니다.
+        Vector2 diff = point - center;
+        
+        // 2. 오브젝트의 회전 각도를 라디안 단위로 구합니다.
+        float angle = transform.eulerAngles.z * Mathf.Deg2Rad;
+        
+        // 3. 차이 벡터를 오브젝트의 로컬 좌표계로 변환하기 위해 역회전시킵니다.
+        float cos = Mathf.Cos(-angle);
+        float sin = Mathf.Sin(-angle);
+        float localX = diff.x * cos - diff.y * sin;
+        float localY = diff.x * sin + diff.y * cos;
+        
+        // 4. 표준 타원 방정식 적용 (로컬 좌표에서 타원은 축에 평행)
+        return (localX * localX) / (radiusX * radiusX) + (localY * localY) / (radiusY * radiusY) <= 1f;
     }
     #endregion
 
@@ -306,7 +299,7 @@ public class TeslaTower : BuildObj
     {
         ///
         /// If the Lightning Rod is within the attack range
-        /// Unconditionally, a Lightning Rod attack.
+        /// Unconditionally, a Lightning Rod attack.
         ///
         if (target.TryGetComponent(out LightningRod lightningRod1))
         {

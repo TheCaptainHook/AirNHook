@@ -18,7 +18,32 @@ public class LeverBodyNet : NetworkBehaviour
     [SyncVar] public bool onOperation;
 
 
+#region  InitSync
+    public bool onSync;
+    [Server]
+    public void Server_InitSync()
+    {
+        Rpc_InitSync(Body.ButtonObjectData);
+    }
+    [ClientRpc]
+    private void Rpc_InitSync(ButtonObjectStruct data)
+    {
+        if(onSync) return;
+        transform.position = data.position;
+        onSync = true;
 
+    }
+    [Command]
+    private void Cmd_InitSync()
+    {
+        Server_InitSync();
+    }
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        if(!onSync)Cmd_InitSync();
+    }
+#endregion
 
 
     [Server]

@@ -3,6 +3,7 @@ using UnityEngine;
 using Mirror;
 
 
+
 public class MirrorObject_Net : NetworkBehaviour
 {
    [SerializeField] GameObject _Mirror;
@@ -19,6 +20,38 @@ public class MirrorObject_Net : NetworkBehaviour
     public bool onActive;
 
     private MirrorObject MirrorObject => GetComponent<MirrorObject>();
+
+
+    #region  Init Sync
+    public bool onSync;
+
+    [Server]
+    public void Server_InitSync()
+    {
+        Rpc_InitSync(MirrorObject.ObjectData);
+    }
+    [ClientRpc]
+    private void Rpc_InitSync(ObjectData data)
+    {
+        if(onSync) return;
+        transform.position = data.position;
+        transform.rotation = data.quaternion;
+
+        onSync = true;
+    }
+    [Command(requiresAuthority = false)]
+    private void Cmd_InitSync()
+    {
+        Server_InitSync();
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        if(!onSync)Cmd_InitSync();
+    }
+    #endregion
+
 
 #region  Server
     [Server]
@@ -127,11 +160,20 @@ public class MirrorObject_Net : NetworkBehaviour
         //pm.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         pm.GetComponent<Rigidbody2D>().simulated = false;
 
+        //Show A,D button
+
+        //Show A,D button
+
         pm.canMovable = false;
     }
     private void Recover(GameObject player)
     {
         onActive = false;
+
+        //Hide A,D button
+        
+        //Hide A,D button
+
         //player recover
         var pm = player.GetComponent<PlayerSM>();
         pm.GetComponent<Rigidbody2D>().simulated = true;

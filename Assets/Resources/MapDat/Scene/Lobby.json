@@ -10718,6 +10718,99 @@
             "fontSize": 0.0,
             "chargeRequired": false,
             "animationTriggerType": 0
+        },
+        {
+            "id": 323,
+            "dialogueId": 0,
+            "position": {
+                "x": -20.989999771118165,
+                "y": 21.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0
+        },
+        {
+            "id": 315,
+            "dialogueId": 0,
+            "position": {
+                "x": -13.319999694824219,
+                "y": 22.030000686645509
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0
+        },
+        {
+            "id": 319,
+            "dialogueId": 0,
+            "position": {
+                "x": 12.930000305175782,
+                "y": -0.9800000190734863
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.64968341588974,
+                "w": 0.7602048516273499
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0
         }
     ],
     "mapBackgroundObjectList": [
@@ -13947,7 +14040,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.44999361038208,
+                "y": 1.4499927759170533,
                 "z": 1.0
             },
             "talPot": {
@@ -14081,43 +14174,6 @@
             "connectionPoint": {
                 "x": 22.735763549804689,
                 "y": 1.8084793090820313
-            }
-        },
-        {
-            "id": 330,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "jumpingPower": 50,
-            "position": {
-                "x": 20.420000076293947,
-                "y": -5.769999980926514
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
             }
         },
         {
@@ -14762,5 +14818,6 @@
     "cellSize": 2.0,
     "bytesImage": [],
     "audioName": "LobbyMusic_Onion",
-    "nextMapId": ""
+    "nextMapId": "",
+    "stageDifficulty": 0
 }

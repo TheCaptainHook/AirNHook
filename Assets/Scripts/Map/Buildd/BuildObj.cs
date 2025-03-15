@@ -40,7 +40,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
 
     #region Transform Item
     [ReadOnly]
-    public bool isTransformItem;
+    public bool isTransportItem;
     [ReadOnly]
     public uint carrierTransformNetId;
     [ReadOnly]
@@ -176,7 +176,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
        
 
         // // transform.SetParent(carrierTransform);
-        // isTransformItem = true;
+        // isTransportItem = true;
         // GetComponent<ITransportItem>().TransportItem_Constraint(carrierTransform);
         // if(TryGetComponent(out NetworkIdentity component))
         // {
@@ -387,7 +387,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
             _dissolveMaterial.SetFloat(DissolveAmount, percent);
             yield return null;
         }
-       if(isTransformItem)
+       if(isTransportItem)
        {    
             if(carrierTransform != null) 
             // SettingTransportItem(carrierTransform);
@@ -405,7 +405,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
             yield return null;
         }
 
-        if (!isTransformItem)
+        if (!isTransportItem)
         {
             _collider.enabled = true;
             _rb.gravityScale = 1; 

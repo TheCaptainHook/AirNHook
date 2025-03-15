@@ -34,7 +34,7 @@ public class TransportItemEntity : InteractableObject, ITransportItem
             Rb.gravityScale = 0;
             Col.enabled = false;
             transform.position = drone.itemPlacementPosition.position;
-            BuildObj.isTransformItem = true;
+            BuildObj.isTransportItem = true;
         }
     }
 
@@ -64,17 +64,23 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     [Server]
     public void Server_InitSync()
     {
-        Rpc_InitSync(BuildObj.ObjectData,transform.position);
+        Rpc_InitSync(BuildObj.ObjectData,transform.position,BuildObj.isTransportItem);
         Rb.AddForce(Vector2.up, ForceMode2D.Force);
     }
 
     [ClientRpc]
-    private void Rpc_InitSync(ObjectData data, Vector2 position)
+    private void Rpc_InitSync(ObjectData data, Vector2 position,bool isTransportItem)
     {
         if (onSync) return;
+        BuildObj.ObjectData = data;
+        
         transform.position = position;
         transform.rotation = data.quaternion;
         //BuildObj.position = data.position;
+        if(isTransportItem)
+        {
+            Col.enabled = false;
+        }
         onSync = true;
     }
     [Command(requiresAuthority = false)]

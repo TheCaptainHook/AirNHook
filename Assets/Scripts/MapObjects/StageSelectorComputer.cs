@@ -1,7 +1,8 @@
 
 using UnityEngine;
+using Mirror;
 
-public class StageSelectorComputer : MonoBehaviour
+public class StageSelectorComputer : BuildObj,IInteractable
 {
     #region StringCache
     private static readonly int Talk = Animator.StringToHash("Talk");
@@ -17,59 +18,24 @@ public class StageSelectorComputer : MonoBehaviour
     // [SerializeField] private bool _isTalking = false;
     
     [SerializeField] private GameObject _key;
-    // [SerializeField] private Rigidbody2D _keyrb;
-    
-    //애니메이션 test용
-    // public bool IsLeftClicking;
-    // public bool IsRightClicking;
-    // public bool IsSpawningKey;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
     }
 
-    //private void Update() //테스트용
-    //{
-    //    //Click();
-    //    //KeySpawn();
-    //    //Talking();
-    //}
+    public override void SetData<T>(T data)
+    {
+        // base.SetData(data);
+          if(typeof(T) == typeof(ObjectData)){
+            ObjectData = (ObjectData)(object)data;
+            if(Application.isPlaying)
+            Net.Server_InitSync();
+            else SetData(ObjectData);
 
+        }
 
-    //private void Click() // 테스트용
-    //{
-    //    if (IsLeftClicking)
-    //    {
-    //        _animator.SetTrigger(LeftClick);
-    //        IsLeftClicking = false;
-    //    }
-            
-
-    //    if (IsRightClicking)
-    //    {
-    //        _animator.SetTrigger(RightClick);
-    //        IsRightClicking = false;
-    //    }
-    //}
-
-    //private void KeySpawn() // 테스트용
-    //{
-    //    if (IsSpawningKey)
-    //    {
-    //        _animator.SetTrigger(Surprise);
-    //        _key.SetActive(true);
-    //        Vector2 launchDirection = new Vector2(-1, 1).normalized;
-    //        _keyrb.AddForce(launchDirection * 5f, ForceMode2D.Impulse);
-    //        IsSpawningKey = false;
-    //    }
-    //}
-
-    //private void Talking()
-    //{
-    //    _animator.SetBool(IsTalking, _isTalking);
-    //}
-
+    }
 
 
     public void Talking()
@@ -119,6 +85,55 @@ public class StageSelectorComputer : MonoBehaviour
 
     }
 
+
+#region  Interactable
+public ObjectTypeEnum objectType = ObjectTypeEnum.Interaction;
+    public Vector2 btn_offset;
+    
+    [ReadOnly]
+    public bool onPower;
+
+    public void Interaction(Transform accessor = null)
+    {
+        if (!NetworkServer.active || !NetworkClient.isConnected)
+            return;
+            
+        if(Net.isOpen) return;
+        Net.Server_SetOnPower();
+
+    }
+
+    //------------------------------------------------Network 250217
+    public Computer_Net Net {get{return GetComponent<Computer_Net>();}}
+
+    //------------------------------------------------Network
+
+    public bool CanInteract()
+    {
+        return true;
+    }
+
+    public void Interacting(bool value)
+    {
+        return;
+    }
+
+    public ObjectTypeEnum GetObjectType()
+    {
+        return objectType;
+    }
+
+    public void ShowEButton()
+    {
+        var eButtonUI = Managers.UI.ShowUI<UI_ShowEButton>();
+        eButtonUI.transform.position = transform.position + (Vector3)btn_offset;
+    }
+    
+    public void HideEButton()
+    {
+        Managers.UI.HideUI<UI_ShowEButton>();
+    }
+#endregion
 
 
 }

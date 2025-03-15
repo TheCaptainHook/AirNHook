@@ -24,8 +24,14 @@ public class LeverBody : ButtonEntity, IInteractable
     [Header("Components")]
     Animator animator;
 
+    public override void SetData<T>(T data)
+    {
+        base.SetData(data);
+        if(Application.isPlaying)
+        Net.Server_InitSync();
 
-  
+    }
+
 
     //private void Awake()
     //{
@@ -43,21 +49,10 @@ public class LeverBody : ButtonEntity, IInteractable
                 {
                     LeverHead leverHead = collision.gameObject.GetComponent<LeverHead>();
                     Net.Server_SetLeverHead(leverHead);
-                    //leverHead.AttachToLevelBody();
+
 
                 }
-                
-                //this.leverHead = leverHead;
-
-                //if(Managers.Game.CurrentState != GameState.Editor)
-                //{
-                //    collision.transform.GetChild(0).gameObject.SetActive(false);
-                //    Destroy(collision.gameObject, 1f);
-                //    //attachedLeverHead.gameObject.SetActive(true);
-                //}
-         
-                //onCompletionParts = true;
-                //animator.SetTrigger(OnCompletion);
+  
             }
            
         }
@@ -73,8 +68,7 @@ public class LeverBody : ButtonEntity, IInteractable
 
     protected override void Activation()
     {
-        //onAcitve = !onAcitve;
-        //   StartCoroutine(Co_Operation());
+
         PrograssButtonActivatedObject(true);
     }
     protected override void Deactivated()

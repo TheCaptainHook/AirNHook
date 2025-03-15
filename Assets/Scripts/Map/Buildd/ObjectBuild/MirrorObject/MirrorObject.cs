@@ -32,6 +32,16 @@ public class MirrorObject : BuildObj,IInteractable
     #endregion
 
 
+    public override void SetData<T>(T data)
+    {
+       if(typeof(T) == typeof(ObjectData)){
+            ObjectData = (ObjectData)(object)data;
+            if(Application.isPlaying)
+            M_Net.Server_InitSync();
+            else SetData(ObjectData);
+            // SetData(objData);
+        }
+    }
 
     private void Update(){
         if(IsActive){
@@ -47,23 +57,6 @@ public class MirrorObject : BuildObj,IInteractable
 
     
 
-    // private void OnTriggerEnter2D(Collider2D other)
-    // {
-    //     if(onActive) return;
-
-    //     if(_ConnectPlayer != null){
-    //         return;
-    //     }
-    //     // ShowEButton();
-    //    _ConnectPlayer = other.gameObject;
-    // }
-
-    // private void OnTriggerExit2D(Collider2D other){
-    //     // HideEButton();
-    //     if (onActive) onActive = false;
-    //     _ConnectPlayer = null;
-    // }
-  
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -129,19 +122,7 @@ public class MirrorObject : BuildObj,IInteractable
 #endregion
 
 #region  Interacte
-    // public void Interaction(Transform accessor = null){
-    //      if (!NetworkServer.active || !NetworkClient.isConnected)
-    //         return;
-    //     if (_ConnectPlayer != null){
-    //         if (onActive){
-    //             OnDeactiveMirrorRotate();
-    //         }else{
-    //             OnActiveMirrorRotate();
-    //         }
-    //     }
 
-      
-    // }
 
     public void Interaction(Transform accessor = null)
     {

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Shield : BuildObj
 {
-    RefreshPosition Net => GetComponent<RefreshPosition>();
+    Shield_Net Net => GetComponent<Shield_Net>();
 
 
     private void Awake(){
@@ -11,14 +11,16 @@ public class Shield : BuildObj
     }
 
 
+
     public override void SetData<T>(T data)
     {
         base.SetData(data);
-
-        if(Application.isPlaying)
-        {
-            Net.Server_SetOrgPot(ObjectData.position);
-        }
+        Net.onSync = true;
+        Net.Server_InitSync();
+        // if(Application.isPlaying)
+        // {
+        //     Net.Server_SetOrgPot(ObjectData.position);
+        // }
     }
 
 
