@@ -40,6 +40,39 @@ public class Turret_Net : NetworkBehaviour
     //curFireTime : 공격 타이머
     //curRotateTime : 회전 타이머
 
+    #region Init Sync
+    public bool onSync;
+    [Server]
+    public void Server_InitSync()
+    {
+        Rpc_InitSync(Turret.ButtonActivatedObjectStruct);
+    }
+    [ClientRpc]
+    private void Rpc_InitSync(ButtonActivatableObjectStruct data)
+    {
+        if (onSync) return;
+        rotateRate = data.rotateRate;
+        onHoldRotation = data.onHoldRotation;
+        fireRate = data.fireRate;
+        onLeft = data.onLeft;                                                                   
+
+        gameObject.transform.position = data.position;
+        //Turret.TurnOnAnimation();
+        animator.SetBool(Activated, true);
+        onSync = true;
+    }
+    [Command]
+    private void Cmd_InitSync()
+    {
+        Server_InitSync();
+    }
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        if (!onSync) Cmd_InitSync();
+    }
+    #endregion
+
 
     private void Update()
     {
@@ -75,18 +108,18 @@ public class Turret_Net : NetworkBehaviour
     }
 
     #region Server
-    [Server]
-    public void SetData(ButtonActivatableObjectStruct data)
-    {
-        rotateRate = data.rotateRate;
-        onHoldRotation = data.onHoldRotation;
-        fireRate = data.fireRate;
-        onLeft = data.onLeft;
+    //[Server]
+    //public void SetData(ButtonActivatableObjectStruct data)
+    //{
+    //    rotateRate = data.rotateRate;
+    //    onHoldRotation = data.onHoldRotation;
+    //    fireRate = data.fireRate;
+    //    onLeft = data.onLeft;
 
-        gameObject.transform.position = data.position;
-        //Turret.TurnOnAnimation();
-        animator.SetBool(Activated, true);
-    }
+    //    gameObject.transform.position = data.position;
+    //    //Turret.TurnOnAnimation();
+    //    animator.SetBool(Activated, true);
+    //}
 
     private void ChangeOnLeft(bool old, bool newVal)
     {

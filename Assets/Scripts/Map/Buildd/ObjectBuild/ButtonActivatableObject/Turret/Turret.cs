@@ -67,7 +67,7 @@ public class Turret : ActivatableObjectEntity
                 if (Application.isPlaying)
                 {
                     animator = GetComponent<Animator>();
-                    Turret_Net.SetData((ButtonActivatableObjectStruct)(object)data);
+                    Turret_Net.Server_InitSync();
                 }
 
                 //if (onLeft) animator.SetBool(Left, onLeft);

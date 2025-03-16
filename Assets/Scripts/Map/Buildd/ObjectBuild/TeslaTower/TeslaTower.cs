@@ -20,6 +20,7 @@ public class TeslaTower : BuildObj
     [SerializeField] TeslaBezierCurve bezierCurve;
     [SerializeField] Transform lineRendererContainer;
     [SerializeField] Material lightningShaderMat;
+    [SerializeField] AnimationCurve lightningLineCurve;
     public float lightningRate;
     public bool onCharge;
 
@@ -72,7 +73,8 @@ public class TeslaTower : BuildObj
         {
             GameObject obj = new GameObject("LineRenderer");
             LineRenderer lineRenderer = obj.AddComponent<LineRenderer>();
-            lineRenderer.startWidth = 0.1f;
+            //lineRenderer.startWidth = 0.1f;
+            lineRenderer.widthCurve = lightningLineCurve;
             lineRenderer.sortingLayerName = "ForeGround";
             lineRenderer.sortingOrder = 100;
             lineRenderer.material = lightningShaderMat;

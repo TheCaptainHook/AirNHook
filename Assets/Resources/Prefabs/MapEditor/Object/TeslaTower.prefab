@@ -5138,6 +5138,57 @@ MonoBehaviour:
   bezierCurve: {fileID: 687487418611922214}
   lineRendererContainer: {fileID: 2951771460884080791}
   lightningShaderMat: {fileID: 2100000, guid: 6508537fd56794b5fa84d52d5e7b6411, type: 2}
+  lightningLineCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.1328241
+      value: 0.5428463
+      inSlope: 0.038622256
+      outSlope: 0.038622256
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.8314126
+    - serializedVersion: 3
+      time: 0.29950958
+      value: 0.24949536
+      inSlope: 0.009974697
+      outSlope: 0.009974697
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 1
+    - serializedVersion: 3
+      time: 0.49968225
+      value: 2.0074422
+      inSlope: -4.426982
+      outSlope: -4.426982
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.22252795
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.9758735
+      value: 0.002318859
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   lightningRate: 2
   onCharge: 0
   detectionRadiusX: 5

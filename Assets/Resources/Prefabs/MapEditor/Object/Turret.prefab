@@ -5143,7 +5143,6 @@ GameObject:
   - component: {fileID: 763823665871053021}
   - component: {fileID: 5990140042596155439}
   - component: {fileID: 3761053918402171264}
-  - component: {fileID: 7913252737643662134}
   - component: {fileID: 8257560855383090454}
   - component: {fileID: 8864647116276754345}
   m_Layer: 9
@@ -5328,6 +5327,9 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   distructionStatus: 0
   chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
@@ -5372,40 +5374,7 @@ MonoBehaviour:
   onFire: 0
   curFireTime: 0
   curRotateTime: 0
---- !u!114 &7913252737643662134
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3227932219690051067}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 1
-  syncMode: 0
-  syncInterval: 0
-  target: {fileID: 7527202856157951427}
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 0
-  onlySyncOnChange: 1
-  compressRotation: 1
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 1
-  coordinateSpace: 0
-  sendIntervalMultiplier: 1
-  timelineOffset: 0
-  showGizmos: 0
-  showOverlay: 0
-  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  onlySyncOnChangeCorrectionMultiplier: 2
-  rotationSensitivity: 0.01
-  positionPrecision: 0.01
-  scalePrecision: 0.01
+  onSync: 0
 --- !u!251 &8257560855383090454
 PlatformEffector2D:
   m_ObjectHideFlags: 0
