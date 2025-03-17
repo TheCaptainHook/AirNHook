@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EraseField_Character_Net : NetworkBehaviour
+public class EraseField_Object_Net : NetworkBehaviour
 {
     [SerializeField] GameObject base_2_Field;
     [SerializeField] GameObject main_Field;
@@ -11,10 +11,10 @@ public class EraseField_Character_Net : NetworkBehaviour
 
     [SerializeField] SpriteRenderer main_Field_Sprite;
 
-    private Color color = Color.red;
-    private Color nonCol = new Color(1, 0, 0, 0);
+    private Color color = new Color(71 / 255f, 239 / 255f, 1, 1);
+    private Color nonCol = new Color(71 / 255f, 239 / 255f, 1, 0);
 
-    private EraseField_Character Main => GetComponent<EraseField_Character>();
+    private EraseField_Object Main => GetComponent<EraseField_Object>();
     private Collider2D Col => GetComponent<Collider2D>();
 
 
@@ -24,10 +24,10 @@ public class EraseField_Character_Net : NetworkBehaviour
     [Server]
     public void Server_InitSync()
     {
-        Rpc_InitSync(Main.ButtonActivatedObjectStruct,Main.Check_Condition_RequirAmount());
+        Rpc_InitSync(Main.ButtonActivatedObjectStruct, Main.Check_Condition_RequirAmount());
     }
     [ClientRpc]
-    private void Rpc_InitSync(ButtonActivatableObjectStruct data,bool onActive)
+    private void Rpc_InitSync(ButtonActivatableObjectStruct data, bool onActive)
     {
         if (onSync) return;
         transform.position = data.position;
@@ -44,7 +44,7 @@ public class EraseField_Character_Net : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
-        if(!onSync) Cmd_InitSync();
+        if (!onSync) Cmd_InitSync();
     }
     #endregion
 

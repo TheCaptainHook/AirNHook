@@ -373,7 +373,17 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         //}
 
     }
+    public void Respawn()
+    {
+        if (TryGetComponent(out InteractableObject component))
+        {
+            if(!component.CanInteract())
+            component.Release();
+        }
 
+        Dissolve(position);
+      
+    }
      IEnumerator Co_Dissolve(Vector2 pot)
     {
         float percent = 1;

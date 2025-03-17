@@ -354,7 +354,7 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   distructionStatus: 0
   chargeRequired: 0
-  isTransformItem: 0
+  isTransportItem: 0
   carrierTransformNetId: 0
   carrierTransform: {fileID: 0}
   onPlaceable: 0

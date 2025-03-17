@@ -354,7 +354,7 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   distructionStatus: 1
   chargeRequired: 0
-  isTransformItem: 0
+  isTransportItem: 0
   carrierTransformNetId: 0
   carrierTransform: {fileID: 0}
   onPlaceable: 0
@@ -366,7 +366,6 @@ MonoBehaviour:
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 4733320072026686442}
   mainSprite: {fileID: 4733320072026686442}
-  health: 1000
 --- !u!114 &3126241958243634821
 MonoBehaviour:
   m_ObjectHideFlags: 0

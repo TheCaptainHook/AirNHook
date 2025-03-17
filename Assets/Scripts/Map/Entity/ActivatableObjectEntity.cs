@@ -84,4 +84,8 @@ public class ActivatableObjectEntity : BuildObj
         if (activeRequirAmount == curActiveBtn) { Activation(); }
         else Deactivated();
     }
+    public bool Check_Condition_RequirAmount()
+    {
+        return activeRequirAmount == curActiveBtn;
+    }
 }

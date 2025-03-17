@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5755418978538226951}
   - component: {fileID: 8697465564652305147}
   - component: {fileID: 2772031886615473573}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: EraseField_Base2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31,8 +31,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2657361173392932500}
   - {fileID: 163939853220798206}
+  - {fileID: 2657361173392932500}
   m_Father: {fileID: 3527730740937512308}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8697465564652305147
@@ -73,9 +73,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -696190403
-  m_SortingLayer: 4
-  m_SortingOrder: 2
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 37ac16d20be9c70448209d9ff5584e21, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -95,9 +95,9 @@ SortingGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 60694404074583369}
   m_Enabled: 1
-  m_SortingLayerID: -696190403
-  m_SortingLayer: 4
-  m_SortingOrder: 0
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
+  m_SortingOrder: 3
   m_SortAtRoot: 0
 --- !u!1 &523638385175034215
 GameObject:
@@ -109,7 +109,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2657361173392932500}
   - component: {fileID: 5283605976814529832}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: EraseField_Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -193,7 +193,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3403952503701191724}
   - component: {fileID: 592353136326165496}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -275,7 +275,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8850633112548270579}
   - component: {fileID: 3910401765213147502}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: EnergyField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -489,7 +489,7 @@ GameObject:
   m_Component:
   - component: {fileID: 163939853220798206}
   - component: {fileID: 2225471305717717276}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: EraseField_Field
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -573,9 +573,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3527730740937512308}
   - component: {fileID: 4088172951223229662}
-  - component: {fileID: 201471942229771633}
-  - component: {fileID: 2659718950060450724}
-  m_Layer: 0
+  - component: {fileID: 7067578502096090259}
+  - component: {fileID: 1774822881563696914}
+  - component: {fileID: 600912761600305681}
+  m_Layer: 7
   m_Name: EraseField_Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -616,7 +617,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2372993015
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -633,7 +634,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 1.3914933}
+  m_Offset: {x: 0, y: 1.4}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -644,36 +645,9 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 2.780365}
+  m_Size: {x: 0.5, y: 2.8}
   m_EdgeRadius: 0
---- !u!50 &201471942229771633
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8162969793210008481}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!114 &2659718950060450724
+--- !u!114 &7067578502096090259
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -682,7 +656,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8162969793210008481}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 104eb1c96815b4820b4be071555180b0, type: 3}
+  m_Script: {fileID: 11500000, guid: 278843d49d7367e4aa2c29c08f77f76d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   id: 354
@@ -690,6 +664,9 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   distructionStatus: 0
   chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
@@ -698,3 +675,43 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
+  activeRequirAmount: 0
+  curActiveBtn: 0
+--- !u!114 &1774822881563696914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8162969793210008481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 335f6c411fa1b7b47b30f1fb09873e5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  base_2_Field: {fileID: 5767043856873232950}
+  main_Field: {fileID: 5139990301046049554}
+  main_Light: {fileID: 1495019376651709230}
+  main_Field_Sprite: {fileID: 3910401765213147502}
+  onActive: 0
+  onSync: 0
+--- !u!114 &600912761600305681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8162969793210008481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 2043437396
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0

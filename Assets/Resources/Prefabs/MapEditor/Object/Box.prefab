@@ -356,7 +356,7 @@ MonoBehaviour:
   _gravityScale: 0
   _offset: {x: 0, y: 1}
   _inhalePower: 4000
-  orgPosition: {x: 0, y: 0}
+  onSync: 0
 --- !u!114 &5841928186188957514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374,6 +374,9 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   distructionStatus: 1
   chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
