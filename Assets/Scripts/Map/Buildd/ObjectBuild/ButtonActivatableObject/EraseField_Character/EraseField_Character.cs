@@ -89,7 +89,14 @@ public class EraseField_Character : ActivatableObjectEntity
         Col.enabled = false;
     }
 
-
+    public void Net_Active()
+    {
+        Activation();
+    }
+    public void Net_Deactive()
+    {
+        Deactivated();
+    }
 
     private void SetEffect(bool onOff)
     {

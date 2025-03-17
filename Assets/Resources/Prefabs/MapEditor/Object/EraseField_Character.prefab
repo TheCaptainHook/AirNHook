@@ -574,6 +574,8 @@ GameObject:
   - component: {fileID: 3527730740937512308}
   - component: {fileID: 4088172951223229662}
   - component: {fileID: 6714735191863855616}
+  - component: {fileID: 2491636373525230243}
+  - component: {fileID: 1882674969398780930}
   m_Layer: 0
   m_Name: EraseField_Character
   m_TagString: Untagged
@@ -679,3 +681,36 @@ MonoBehaviour:
   main_Field: {fileID: 5139990301046049554}
   main_Light: {fileID: 1495019376651709230}
   main_Field_Sprite: {fileID: 3910401765213147502}
+--- !u!114 &2491636373525230243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8162969793210008481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c70d74d904b09c5419fbca2507ba9360, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  onSync: 0
+--- !u!114 &1882674969398780930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8162969793210008481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 1300031098
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
