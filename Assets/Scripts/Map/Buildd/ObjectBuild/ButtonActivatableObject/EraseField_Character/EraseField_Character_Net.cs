@@ -17,21 +17,24 @@ public class EraseField_Character_Net : NetworkBehaviour
     private EraseField_Character Main => GetComponent<EraseField_Character>();
     private Collider2D Col => GetComponent<Collider2D>();
 
+
+    public bool onActive;
     #region Init Sync
     public bool onSync;
     [Server]
     public void Server_InitSync()
     {
-        Rpc_InitSync(Main.ButtonActivatedObjectStruct);
+        Rpc_InitSync(Main.ButtonActivatedObjectStruct,onActive);
     }
     [ClientRpc]
-    private void Rpc_InitSync(ButtonActivatableObjectStruct data)
+    private void Rpc_InitSync(ButtonActivatableObjectStruct data,bool onActive)
     {
         if (onSync) return;
         transform.position = data.position;
         transform.rotation = data.quaternion;
         transform.localScale = data.scale;
         onSync = true;
+        if (!onActive) Active(false);
     }
     [Command(requiresAuthority = false)]
     private void Cmd_InitSync()
@@ -61,6 +64,7 @@ public class EraseField_Character_Net : NetworkBehaviour
     private void Active(bool onOff)
     {
         SetEffect(onOff);
+        onActive = onOff;
         if (effectCoroutine != null) StopCoroutine(effectCoroutine);
         effectCoroutine = StartCoroutine(EffectCo(onOff));
 
