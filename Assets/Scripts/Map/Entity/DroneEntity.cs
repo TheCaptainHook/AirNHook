@@ -15,6 +15,28 @@ public class DroneEntity : BuildObj
 {
     [CustomHeader("Drone")]
     public Vector2[] paths;
+    [ContextMenu("Add Current Position")]
+    public void AddCurrentPosition() 
+    {
+        if(paths.Length > 0) 
+        {
+            Vector2[] newPaths = new Vector2[paths.Length + 1];
+            for (int i = 0; i < paths.Length; i++)
+            {
+                newPaths[i] = paths[i];
+            }
+            newPaths[paths.Length] = transform.position;
+            paths = newPaths;
+        }
+        else
+        {
+            paths = new Vector2[1];
+            paths[0] = transform.position;
+        }
+       
+
+    }
+
     public float moveSpeed;
     
     private DroneStruct droneStruct;

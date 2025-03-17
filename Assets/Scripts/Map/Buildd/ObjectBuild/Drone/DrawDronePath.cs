@@ -32,6 +32,7 @@ public void Setting()
 
     public void DrawPath()
     {
+        if (line == null) return;
         line.positionCount = entity.paths.Length+1;
         line.SetPosition(0,transform.position);
         for(int i = 0;i<entity.paths.Length;i++)
@@ -41,12 +42,21 @@ public void Setting()
     }
     public void Reset()
     {
-        foreach(Transform tr in transform){
-            if(tr.name == "DebugmodeTransform")
+        try
+        {
+            foreach (Transform tr in transform)
             {
-                DestroyImmediate(tr.gameObject);
+                if (tr.name == "DebugmodeTransform")
+                {
+                    DestroyImmediate(tr.gameObject);
+                }
             }
         }
+        catch (System.Exception e)
+        {
+            Debug.Log(e);
+        }
+        
     }
 
     private void CheckDebugTransform()
