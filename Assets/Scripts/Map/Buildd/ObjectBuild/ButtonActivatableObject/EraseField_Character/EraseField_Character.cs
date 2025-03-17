@@ -4,20 +4,11 @@ using UnityEngine;
 
 public class EraseField_Character : ActivatableObjectEntity
 {
-    [CustomHeader("EraseField Character")]
-    [SerializeField] GameObject base_2_Field;
-    [SerializeField] GameObject main_Field;
-    [SerializeField] GameObject main_Light;
 
-    [SerializeField] SpriteRenderer main_Field_Sprite;
-
-    private Color color = Color.red;
-    private Color nonCol = new Color(1, 0, 0, 0);
-
-    private Collider2D Col;
+    EraseField_Character_Net Net;
     private void Awake()
     {
-        Col = GetComponent<Collider2D>();
+      Net = GetComponent<EraseField_Character_Net>();
     }
 
     public override async void SetData<T>(T data)
@@ -38,6 +29,7 @@ public class EraseField_Character : ActivatableObjectEntity
 
         if (Application.isPlaying)
         {
+
             Util util = new Util();
             await util.Delay(() => { CheckActiveRequirAmount(); });
         }
@@ -53,56 +45,13 @@ public class EraseField_Character : ActivatableObjectEntity
         }
     }
 
-    Coroutine effectCoroutine;
-    float percent = 0;
-    IEnumerator EffectCo(bool onOff)
-    {  
-        while(percent<1)
-        {
-            percent += Time.fixedDeltaTime;
-
-            if(onOff) main_Field_Sprite.color = Color.Lerp(nonCol, color, percent);
-            else main_Field_Sprite.color = Color.Lerp(color, nonCol, percent);
-
-            yield return null;
-        }
-        percent = 0;
-
-        if (onOff) main_Field_Sprite.color = color;
-        else main_Field_Sprite.color = nonCol;
-    }
     protected override void Activation()
     {
-        SetEffect(true);
-        if (effectCoroutine != null) StopCoroutine(effectCoroutine);
-        effectCoroutine = StartCoroutine(EffectCo(true));
-
-        Col.enabled = true;
+        Net.Rpc_Active();
     }
     protected override void Deactivated()
     {
-        SetEffect(false);
-        
-        if (effectCoroutine != null) StopCoroutine(effectCoroutine);
-        effectCoroutine = StartCoroutine(EffectCo(false));
-
-        Col.enabled = false;
-    }
-
-    public void Net_Active()
-    {
-        Activation();
-    }
-    public void Net_Deactive()
-    {
-        Deactivated();
-    }
-
-    private void SetEffect(bool onOff)
-    {
-        base_2_Field.SetActive(onOff);
-        //main_Field.SetActive(onOff);
-        main_Light.SetActive(onOff);
+        Net.Rpc_Deactive();
     }
 
 }

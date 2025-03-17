@@ -677,10 +677,6 @@ MonoBehaviour:
   _Dissolve_MainSprite: {fileID: 0}
   activeRequirAmount: 0
   curActiveBtn: 0
-  base_2_Field: {fileID: 234717741430986448}
-  main_Field: {fileID: 5139990301046049554}
-  main_Light: {fileID: 1495019376651709230}
-  main_Field_Sprite: {fileID: 3910401765213147502}
 --- !u!114 &2491636373525230243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -696,6 +692,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  base_2_Field: {fileID: 234717741430986448}
+  main_Field: {fileID: 5139990301046049554}
+  main_Light: {fileID: 1495019376651709230}
+  main_Field_Sprite: {fileID: 3910401765213147502}
   onSync: 0
 --- !u!114 &1882674969398780930
 MonoBehaviour:
