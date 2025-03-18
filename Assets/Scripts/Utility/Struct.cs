@@ -341,6 +341,9 @@ public struct ObjectData
     public bool chargeRequired;
     //NPC
     public AnimationTriggerType animationTriggerType;
+    //SpkieTrap
+    public float attackStartTime;
+    public float attackCooldown;
     public ObjectData(int id, Vector2 position, Vector3 scale, int dialogueId = 0, Vector2 talPot = default)
     {
         this.id = id;
@@ -355,6 +358,9 @@ public struct ObjectData
         this.chargeRequired = false;
 
         animationTriggerType = AnimationTriggerType.Idle;
+
+        attackStartTime = 0;
+        attackCooldown = 0;
     }
      public ObjectData(int id, Vector2 position,Quaternion quaternion ,Vector3 scale, bool chargeRequired)
     {
@@ -372,6 +378,10 @@ public struct ObjectData
 
         this.chargeRequired = chargeRequired;
         animationTriggerType = AnimationTriggerType.Idle;
+
+
+        attackStartTime = 0;
+        attackCooldown = 0;
     }
     public ObjectData(int id, Vector2 position,Vector2 size)
     {
@@ -386,6 +396,10 @@ public struct ObjectData
         this.fontSize = 0;
         chargeRequired = false;
         animationTriggerType = AnimationTriggerType.Idle;
+
+
+        attackStartTime = 0;
+        attackCooldown = 0;
     }
     public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, int dialogueId = 0)
     {
@@ -400,6 +414,10 @@ public struct ObjectData
         this.fontSize = 0;
         chargeRequired = false;
         animationTriggerType = AnimationTriggerType.Idle;
+
+
+        attackStartTime = 0;
+        attackCooldown = 0;
     }
     //WorldTextObject
     public ObjectData(int id,Vector2 position,Vector2 size,string text,float fontSize)
@@ -415,6 +433,10 @@ public struct ObjectData
         this.fontSize = fontSize;
         chargeRequired = false;
         animationTriggerType = AnimationTriggerType.Idle;
+
+
+        attackStartTime = 0;
+        attackCooldown = 0;
     }
     //NPC Object
      public ObjectData(int id,Vector2 position,Quaternion quaternion,Vector3 scale,AnimationTriggerType type)
@@ -431,8 +453,31 @@ public struct ObjectData
         chargeRequired = false;
 
         animationTriggerType = type;
-    }
 
+
+        attackStartTime = 0;
+        attackCooldown = 0;
+    }
+    //SpikeTrap
+    public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale,float attackStartTime,float attackCooldown )
+    {
+        this.id = id;
+        this.dialogueId = 0;
+        this.position = position;
+        this.quaternion = quaternion;
+        this.scale = scale;
+        this.talPot = Vector2.zero;
+        this.size = default;
+        this.text = string.Empty;
+        this.fontSize = 0;
+        chargeRequired = false;
+
+        animationTriggerType = default;
+
+
+        this.attackStartTime = attackStartTime;
+        this.attackCooldown = attackCooldown;
+    }
 
 
 }
