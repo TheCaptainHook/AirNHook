@@ -224,6 +224,12 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     }
     #endregion
     
+    public Transform GetFixedPointRootTransform()
+    {
+        if (_fixedPoint == null) return null;
+        return _fixedPoint.root;
+    }
+
     #region Command
     protected void ChangeState(bool value)
     {
