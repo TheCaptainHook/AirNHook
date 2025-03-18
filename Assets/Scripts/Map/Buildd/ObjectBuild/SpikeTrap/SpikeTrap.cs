@@ -53,6 +53,9 @@ public class SpikeTrap : BuildObj
         }
     }
 
+
+
+
     #endregion
 
     private (float startTime,float cooldown) GetInfo()
