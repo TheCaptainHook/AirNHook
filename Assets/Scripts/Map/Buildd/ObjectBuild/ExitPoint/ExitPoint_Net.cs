@@ -26,6 +26,9 @@ public class ExitPoint_Net : NetworkBehaviour
     [SyncVar] public bool OnMoveNextStage; // 다음 맵 이동 조건 충족 
     #endregion
 
+    private Collider2D col;
+    private Collider2D Col {get{if(col == null)col = GetComponent<Collider2D>(); return col;}}
+
     #region Server_Init Sync
     public bool onSync;
 
@@ -109,7 +112,10 @@ public class ExitPoint_Net : NetworkBehaviour
     [ClientRpc]
     private void Rpc_StageClear()
     {
+        Col.enabled = false;    
         MapEditor.Instance.stageClear = true;
+        
+        Col.enabled = true;
     }
 
     [Command(requiresAuthority = false)]
@@ -158,13 +164,18 @@ public class ExitPoint_Net : NetworkBehaviour
             //exit.MoveNextStage();
             OnMoveNextStage = true;
 
-            MoveNextStage();
+            StartCoroutine(_Delay(1,()=>{MoveNextStage();}));
+            
             //MapEditor.Instance.MoveNextStage(nextMapId);
 
         }
     }
 
-    
+    IEnumerator _Delay(float delayTime,Action action)
+    {
+        yield return new WaitForSeconds(delayTime);
+        action?.Invoke();
+    }    
 
     [ClientRpc]
     private void MoveNextStage()

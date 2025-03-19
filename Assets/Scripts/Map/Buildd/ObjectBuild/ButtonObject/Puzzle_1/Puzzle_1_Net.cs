@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using Random = UnityEngine.Random;
 using System;
+using Telepathy;
 
 
 
@@ -109,6 +110,7 @@ public class Puzzle_1_Net : NetworkBehaviour
 
     private List<Part> partsList;
     private List<Item> itemsList;
+    private List<Item> dummyItemList;
     public Hint hint;
     
     public bool onSync; //-------------------------------------------------250307
@@ -147,7 +149,6 @@ public class Puzzle_1_Net : NetworkBehaviour
         Puzzle.SetPart(parts);
 
         Server_SetParts(GetNetId(parts.gameObject), previousNumber, index,partPot);  //Server Data Save
-
         
     }
 
@@ -160,6 +161,11 @@ public class Puzzle_1_Net : NetworkBehaviour
     {
         if (itemsList == null) itemsList = new();
         itemsList.Add(new Item(Puzzle_netId, partNetId, position));
+    }
+    private void Server_SetDummyItem(uint itemNetId,Vector2 position)
+    {
+        if(dummyItemList == null) dummyItemList = new();
+        dummyItemList.Add(new Item(Puzzle_netId,itemNetId,position));
     }
 
     [Server]
@@ -177,11 +183,25 @@ public class Puzzle_1_Net : NetworkBehaviour
 
 
         onSync  = true;
-
+        
         Rpc_SetPuzzleSetting(Puzzle.ButtonObjectData.position, partsList, itemsList, this.hint);
 
+        if(dummyItemList.Count > 0)
+        Rpc_SetDummyItem(dummyItemList);
     }
 
+    [Server]
+    public void Server_Create_DummyItem(Vector2 dummyItemPot)
+    {
+        int randomNum  =Random.Range(1,7);
+        GameObject obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[randomNum-1]);//Poozing
+
+        obj.transform.SetParent(Puzzle.transform.GetChild(1));
+        obj.transform.position = dummyItemPot;
+        obj.GetComponent<Puzzle_1_Item>().Server_SetOrgPosition(dummyItemPot);
+
+        Server_SetDummyItem(GetNetId(obj),dummyItemPot);
+    }
 
     #endregion
 
@@ -267,7 +287,23 @@ public class Puzzle_1_Net : NetworkBehaviour
 
     }
 
+    [ClientRpc]
+    private void Rpc_SetDummyItem(List<Item> list)
+    {
+        NetworkIdentity puzzle = Client_GetNetworkIdentity(Puzzle_netId);
+        Puzzle_1 puzzle_1 = puzzle.gameObject.GetComponent<Puzzle_1>();
+        Puzzle_1_Net puzzle_net = puzzle.gameObject.GetComponent<Puzzle_1_Net>();
 
+        dummyItemList = list;
+        foreach(var item in list)
+        {
+            NetworkIdentity netitem = Client_GetNetworkIdentity(item.netId);
+            Transform itemTr = netitem.gameObject.transform;
+
+            itemTr.SetParent(puzzle_net.itemContainer);
+            itemTr.position = item.position;
+        }
+    }
 
     #endregion
 

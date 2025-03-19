@@ -61,9 +61,9 @@ public class Puzzle_1_Editor : Editor
     private void CheckPartsItemHint()
     {
         partsNumberColor = helper.GetPartsField().number > 0 ? Color.green : Color.red;
-        itemNumberColor = (helper.GetItemField() != helper.GetPartsField().number) ?
+        itemNumberColor = (helper.GetItemField() < helper.GetPartsField().number) ?
             Color.red :
-             (helper.GetItemField() == helper.GetPartsField().number) && helper.GetItemField() != 0 ? Color.green : Color.red;
+             (helper.GetItemField() >= helper.GetPartsField().number) && helper.GetItemField() != 0 ? Color.green : Color.red;
         hintColor = isHint ? Color.green : Color.red;
 
     }

@@ -1635,7 +1635,9 @@
             "text": "",
             "fontSize": 0.0,
             "chargeRequired": false,
-            "animationTriggerType": 0
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 300,
@@ -1666,7 +1668,9 @@
             "text": "",
             "fontSize": 0.0,
             "chargeRequired": false,
-            "animationTriggerType": 0
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         }
     ],
     "mapBackgroundObjectList": [],
@@ -1710,7 +1714,62 @@
             }
         }
     ],
-    "buttonObjectList": [],
+    "buttonObjectList": [
+        {
+            "id": 341,
+            "position": {
+                "x": 1988.0,
+                "y": 1254.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "targetPositions": [],
+            "lightPositions": [],
+            "onHint": true,
+            "partsPositions": [
+                {
+                    "x": 1990.0,
+                    "y": 1255.0
+                },
+                {
+                    "x": 1992.0,
+                    "y": 1255.0
+                }
+            ],
+            "itemPositions": [
+                {
+                    "x": 1979.0,
+                    "y": 1256.199951171875
+                },
+                {
+                    "x": 1981.02001953125,
+                    "y": 1256.199951171875
+                },
+                {
+                    "x": 1983.010009765625,
+                    "y": 1256.199951171875
+                },
+                {
+                    "x": 1985.300048828125,
+                    "y": 1256.1600341796875
+                }
+            ],
+            "hintPosition": {
+                "x": 1996.2900390625,
+                "y": 1256.9300537109375
+            },
+            "chargeRequired": false
+        }
+    ],
     "mapExitObjectStruct": {
         "id": 301,
         "position": {
@@ -1914,5 +1973,6 @@
     "cellSize": 2.0,
     "bytesImage": [],
     "audioName": "",
-    "nextMapId": ""
+    "nextMapId": "",
+    "stageDifficulty": 0
 }

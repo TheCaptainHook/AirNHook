@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
 public class Puzzle_1_RightTrigger : MonoBehaviour
 {
@@ -12,16 +13,43 @@ public class Puzzle_1_RightTrigger : MonoBehaviour
     [ReadOnly]
     public Transform airWeaponPivot;
 
-
+UI_Base eBtn;
     private void Update()
     {
-        if (Input.GetMouseButton(1) && air && !button.onRecover)
+        // if (Input.GetMouseButton(1) && air && !button.onRecover)
+        // {
+        //     if (GetReadyToCharge(GetAirDir()) && !air.airGun._inhaling && !button.onProgress)
+        //     {
+        //         //Charging;
+        //         puzzle_1.Net_Charging();
+        //         //puzzle_1.Charging();
+        //     }
+        // }
+        if(GetReadyToCharge(GetAirDir())&& !air.airGun._inhaling && !button.onProgress)
         {
-            if (GetReadyToCharge(GetAirDir()) && !air.airGun._inhaling && !button.onProgress)
+            //SHow UI
+                if(NetworkClient.localPlayer)
+                {
+                    if(eBtn == null){
+                        eBtn = Managers.UI.ShowUI<UI_ShowEButton>();
+                        eBtn.transform.position = transform.position + new Vector3(0,1,0);
+                    }
+                }
+            //SHow UI
+            if(Input.GetMouseButton(1) && !button.onRecover)
             {
-                //Charging;
-                puzzle_1.Net_Charging();
-                //puzzle_1.Charging();
+                //Charging
+                 puzzle_1.Net_Charging();
+                //Charging
+
+            }
+
+        }else{
+            if(NetworkClient.localPlayer && eBtn != null)
+            {
+                eBtn = null;
+                Managers.UI.HideUI<UI_ShowEButton>();
+
             }
         }
     }

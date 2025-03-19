@@ -33,7 +33,7 @@ public class KeyBubble : MonoBehaviour
             SatisfiedCondition();
             return;
         }
-        if(amount ==1)
+        if(amount >=1)
         {
             if(!gameObject.activeSelf)
             {

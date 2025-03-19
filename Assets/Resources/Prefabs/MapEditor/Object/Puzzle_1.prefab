@@ -140,7 +140,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1.5, y: -0.1}
+  m_Offset: {x: 1.8, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -706,6 +706,9 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   distructionStatus: 0
   chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
@@ -787,6 +790,11 @@ MonoBehaviour:
   hintScreen: {fileID: 2410220426263547716}
   button: {fileID: 1673485768780107428}
   chargingRate: 0
+  hint:
+    isHint: 0
+    answer: 
+    position: {x: 0, y: 0}
+  onSync: 0
 --- !u!1 &7031136592058459931
 GameObject:
   m_ObjectHideFlags: 0
@@ -852,7 +860,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -1.5, y: -0.1}
+  m_Offset: {x: -1.8, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}

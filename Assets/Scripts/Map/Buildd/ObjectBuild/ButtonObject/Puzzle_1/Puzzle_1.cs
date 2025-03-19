@@ -127,6 +127,13 @@ public class Puzzle_1 : ButtonEntity
         //Part
 
     }
+    private void Editor_Create_DummyItem(int index)
+    {
+        GameObject obj;
+        obj = Helper.Add_Item();
+        obj.transform.position = itemsPosition[index];
+        obj.transform.SetParent(itemContainer);
+    }
 #endif
     //-------------------------------------------------------------------------------250307 Refactoring
     private void Setting() 
@@ -157,12 +164,33 @@ public class Puzzle_1 : ButtonEntity
 
     if (Application.isPlaying)
     {
-
+            //Create Dummy Item 
+            if(itemsPosition.Length > partsPosition.Length)
+            {
+                for(int i = partsPosition.Length;i<itemsPosition.Length;i++)
+                {
+                    Puzzle_Net.Server_Create_DummyItem(itemsPosition[i]);
+                }
+            }
+            //Create Dummy Item 
             Puzzle_Net.Server_SetHintSetting();
     }
     else
     {
        SetHint();
+            //Create Dummy Item 
+
+            #if UNITY_EDITOR
+            int index = itemsPosition.Length - partsPosition.Length; 
+            if(index <=0) return;
+
+            for(int i = partsPosition.Length; i<itemsPosition.Length;i++) 
+            {
+                Editor_Create_DummyItem(i);
+            }
+            
+            #endif
+            //Create Dummy Item 
     }
  
  }

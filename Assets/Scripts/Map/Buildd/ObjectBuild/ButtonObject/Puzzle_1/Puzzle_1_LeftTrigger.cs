@@ -1,3 +1,4 @@
+using Mirror;
 using UnityEngine;
 
 public class Puzzle_1_LeftTrigger : MonoBehaviour
@@ -9,16 +10,57 @@ public class Puzzle_1_LeftTrigger : MonoBehaviour
     [ReadOnly]
     public Transform airWeaponPivot;
 
+    UI_Base eBtn;
 
     private void Update()
     {
-        if(Input.GetMouseButton(1) && air && !button.onRecover)
+        // if(Input.GetMouseButton(1) && air && !button.onRecover)
+        // {
+        //     if (GetReadyToCharge(GetAirDir()) &&!air.airGun._inhaling && !button.onProgress)
+        //     {
+        //         //Charging;
+        //         //puzzle_1.Charging();
+        //         if(NetworkClient.localPlayer)
+        //         {
+        //             if(eBtn == null){
+        //                 eBtn = Managers.UI.ShowUI<UI_ShowEButton>();
+        //             }
+        //         }
+        //         puzzle_1.Net_Charging();
+        //     }
+        // }else{
+        //     if(eBtn != null || eBtn.gameObject.activeSelf)
+        //     {
+        //         eBtn = null;
+        //         Managers.UI.HideUI<UI_ShowEButton>();
+
+        //     }
+        // }
+        if(GetReadyToCharge(GetAirDir())&& !air.airGun._inhaling && !button.onProgress)
         {
-            if (GetReadyToCharge(GetAirDir()) &&!air.airGun._inhaling && !button.onProgress)
+            //SHow UI
+                if(NetworkClient.localPlayer)
+                {
+                    if(eBtn == null){
+                        eBtn = Managers.UI.ShowUI<UI_ShowEButton>();
+                        eBtn.transform.position = transform.position + new Vector3(0,1,0);
+                    }
+                }
+            //SHow UI
+            if(Input.GetMouseButton(1) && !button.onRecover)
             {
-                //Charging;
-                //puzzle_1.Charging();
-                puzzle_1.Net_Charging();
+                //Charging
+                 puzzle_1.Net_Charging();
+                //Charging
+
+            }
+
+        }else{
+            if(NetworkClient.localPlayer && eBtn != null)
+            {
+                eBtn = null;
+                Managers.UI.HideUI<UI_ShowEButton>();
+
             }
         }
     }

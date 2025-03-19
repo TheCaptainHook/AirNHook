@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
+using System;
 using Unity.VisualScripting;
+using System.Text;
+using UnityEditor.Build.Reporting;
 
 public enum ModeType
 {
@@ -67,6 +70,13 @@ public class CreateMap_Tool : EditorWindow
     [Header("Mode")]
     ModeType modeType;
 
+    #region Search
+    private string search_inputText;
+    private bool onSearch;
+    private Texture2D onImg;
+    private Texture2D offImg;
+    #endregion
+
     [Header("Scroll")]
     Vector2 scrollPosition;
     //bool modeToggle;
@@ -93,6 +103,10 @@ public class CreateMap_Tool : EditorWindow
         sceneObjLists = new List<GameObject>(Resources.LoadAll<GameObject>("Prefabs/MapEditor/Scenes"));
         backgroundObjLists = new List<GameObject>(Resources.LoadAll<GameObject>("Prefabs/MapEditor/Background"));
         otherObjLists = new List<GameObject>(Resources.LoadAll<GameObject>("Prefabs/MapEditor/Other"));
+
+        onImg = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Artwork/Sprites/Assets/UI Elements/White/1x/exit left.png");
+        offImg =  AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Artwork/Sprites/Assets/UI Elements/White/1x/exit right.png");
+        search_inputText = "";
     }
     bool isGUIStyleInitialized;
 
@@ -208,10 +222,10 @@ public class CreateMap_Tool : EditorWindow
         viewWidth = EditorGUIUtility.currentViewWidth;
         headerSection = new Rect(0, 0, viewWidth, 80); //350
         GUI.DrawTexture(headerSection, headerSectionTexture);
-        modeSction = new Rect(0, 80, viewWidth, 120);
-        objectSection = new Rect(0, 120, viewWidth, 320);
+        modeSction = new Rect(0, 80, viewWidth, 150);
+        objectSection = new Rect(0, 150, viewWidth, 320);
         GUI.DrawTexture(objectSection, objectSectionTexture);
-        generatorObjectPreviewSpriteSection = new Rect(0, 450, viewWidth, 550);
+        generatorObjectPreviewSpriteSection = new Rect(0, 500, viewWidth, 550);
 
     }
 
@@ -255,7 +269,7 @@ public class CreateMap_Tool : EditorWindow
         GUILayout.BeginHorizontal(GUILayout.Width(viewWidth));
 
         GUILayout.FlexibleSpace();
-        GUILayout.BeginHorizontal();
+        // GUILayout.BeginHorizontal();
 
         if(GUILayout.Button("Object",GUILayout.Width(85),GUILayout.Height(30))){
              modeType = ModeType.Object;
@@ -270,10 +284,28 @@ public class CreateMap_Tool : EditorWindow
              modeType = ModeType.Other;
         }
        
-        GUILayout.EndHorizontal();
+        // GUILayout.EndHorizontal();
         GUILayout.FlexibleSpace();
-
         GUILayout.EndHorizontal();
+
+        //Search Area
+        
+        HorizontalScope(()=>{
+            GUILayout.FlexibleSpace();
+            if(onSearch) 
+            {
+                search_inputText = GUILayout.TextField(search_inputText,GetTextFieldStyle(20,Color.white),GUILayout.Width(250),GUILayout.Height(30));
+            }
+
+            if(GUILayout.Button(new GUIContent(onSearch ? offImg : onImg),GUILayout.Width(30),GUILayout.Height(30))){
+                onSearch = !onSearch;
+                if(!onSearch) search_inputText = "";
+            }
+
+            
+        });
+        //Search Area
+
         GUILayout.EndArea();
     }
     #region todo TEST REFECTORING CODE 0503
@@ -330,42 +362,74 @@ public class CreateMap_Tool : EditorWindow
         GUILayout.EndScrollView();
         GUILayout.EndArea();
     }
+    #region  Searching
+    private List<GUIContent> SearchingContents(List<GUIContent> main)
+    {
+        List<GUIContent> searchingList = new();
+        StringBuilder sb = new();
+        search_inputText = search_inputText.ToLower().Trim();
 
-    private void SettingContents(List<GUIContent> contentsList,float screenWidth,ref int index,ref float curWidth){
-        foreach (GUIContent content in contentsList) //
+        foreach(var item in main)
         {
-            if (curWidth == 0)
-            {
-                GUILayout.BeginHorizontal(GUILayout.Width(screenWidth));
-            }
-            GUIContent btnContent = new GUIContent(content.image,"");
-            if (GUILayout.Button(btnContent, _GUIStyle_Cell))
-            {
-                CreateObject(index);
-            }
+            sb.Clear().Append(item.tooltip.ToLower().Trim());
 
-            Rect lastRect = GUILayoutUtility.GetLastRect();
-
-            if (lastRect.Contains(Event.current.mousePosition))
+            if(sb.ToString().Contains(search_inputText))
             {
-                GUI.Label(new Rect(lastRect.x, lastRect.y+20, lastRect.width, 20), content.tooltip,_GUIStyle_Tooltip);
+                searchingList.Add(item);
             }
-
-            if (curWidth > screenWidth - 10)
-            {
-                curWidth = 0;
-                index++;
-                GUILayout.EndHorizontal();
-                continue;
-            }
-            else if (index == contentsList.Count - 1)
-            {
-                GUILayout.EndHorizontal();
-            }
-            curWidth += _GUIStyle_Cell.fixedWidth;
-            index++;
 
         }
+        return searchingList;
+    }
+    #endregion 
+    private void SettingContents(List<GUIContent> contentsList,float screenWidth,ref int index,ref float curWidth){
+        //Search Option
+        List<GUIContent> searchContents = contentsList;
+        // searchContents = contentsList;
+        if(onSearch)
+        {
+            searchContents = SearchingContents(contentsList);
+        }
+
+        //Search Option
+    
+                    foreach (GUIContent content in searchContents) //
+                    {
+                        if (curWidth == 0)
+                        {
+                            GUILayout.BeginHorizontal(GUILayout.Width(screenWidth));
+                        }
+                        GUIContent btnContent = new GUIContent(content.image,content.tooltip);
+                        if (GUILayout.Button(btnContent, _GUIStyle_Cell))
+                        {
+                            // CreateObject(index);
+                            CreateObject(btnContent);
+                        }
+
+                        Rect lastRect = GUILayoutUtility.GetLastRect();
+
+                        if (lastRect.Contains(Event.current.mousePosition))
+                        {
+                            GUI.Label(new Rect(lastRect.x, lastRect.y+20, lastRect.width, 20), content.tooltip,_GUIStyle_Tooltip);
+                        }
+
+                        if (curWidth > screenWidth - 10)
+                        {
+                            curWidth = 0;
+                            index++;
+                            GUILayout.EndHorizontal();
+                            continue;
+                        }
+                        else if (index == searchContents.Count - 1)
+                        {
+                            GUILayout.EndHorizontal();
+                        }
+                        curWidth += _GUIStyle_Cell.fixedWidth;
+                        index++;
+
+                    }        
+        
+       
     }
 
     #endregion
@@ -401,13 +465,23 @@ public class CreateMap_Tool : EditorWindow
         otherContainer.SetGroup(curTr);
         SelectActiveOBJ(obj,curTr);
     }
-    void CreateObject(int i)
+    void CreateObject(GUIContent content)
     {
-        GameObject obj = modeType == ModeType.Object ? objLists[i] : modeType == ModeType.Scenes ? sceneObjLists[i]: modeType == ModeType.Other ? otherObjLists[i] : backgroundObjLists[i];
-        BuildObj buildObj = obj.GetComponent<BuildObj>();
-        //GameObject obj = objLists[i];
+        GameObject obj = null;
+        List<GameObject> list = GetTypeObjectList();
+        foreach(GameObject item in list)
+        {
+            if(item.name == content.tooltip)
+            {
+                obj = item;
+                break;
+            }
+        }
+        if(obj == null){ Debug.Log("Can't Find Object"); return; }
 
-        if(modeType == ModeType.BackGround){
+        BuildObj buildObj = obj.GetComponent<BuildObj>();
+
+         if(modeType == ModeType.BackGround){
             SelectActiveOBJ(obj,curMapEditor.backgroundObjectContainer);
             return;
         }
@@ -465,7 +539,87 @@ public class CreateMap_Tool : EditorWindow
                 SelectActiveOBJ(obj, curMapEditor.objectTransform);
                 break;
         }
+        
     }
+    List<GameObject> GetTypeObjectList()
+    {
+        switch(modeType)
+        {
+            case ModeType.BackGround:
+            return backgroundObjLists;
+            case ModeType.Other:
+            return otherObjLists;
+            case ModeType.Scenes:
+            return sceneObjLists;
+            default:
+            return objLists;
+        }
+    }
+    // void CreateObject(int i)
+    // {
+    //     GameObject obj = modeType == ModeType.Object ? objLists[i] : modeType == ModeType.Scenes ? sceneObjLists[i]: modeType == ModeType.Other ? otherObjLists[i] : backgroundObjLists[i];
+    //     BuildObj buildObj = obj.GetComponent<BuildObj>();
+    //     //GameObject obj = objLists[i];
+
+    //     if(modeType == ModeType.BackGround){
+    //         SelectActiveOBJ(obj,curMapEditor.backgroundObjectContainer);
+    //         return;
+    //     }
+    //     if(modeType == ModeType.Other){
+    //         SelectActiveOBJ_OtherType(obj);
+    //         return;
+    //     }
+
+    //     switch (buildObj.id)
+    //     {
+    //         case 302:
+    //             FindObj(curMapEditor.dontSaveObjectTransform, obj);
+    //             SelectActiveOBJ(obj, curMapEditor.dontSaveObjectTransform);
+    //             break;
+    //         case 301:
+    //             FindObj(curMapEditor.exitDoorObjectTransform, obj);
+    //             SelectActiveOBJ(obj, curMapEditor.exitDoorObjectTransform);
+    //             break;
+    //         case 305:
+    //         case 304:
+    //         case 322:
+    //         case 327:
+    //         case 330:
+    //         case 331:
+    //         case 332:
+    //         case 333:
+    //         case 334:
+    //         case 335:
+    //         case 339:
+    //         case 353:
+    //         case 354:
+    //             SelectActiveOBJ(obj, curMapEditor.buttonActivatableObjectTransform);
+    //             break;
+    //         case 306:
+    //         case 312:
+    //         case 324:
+    //         case 329:
+    //         case 341:
+    //         case 345:
+    //             SelectActiveOBJ(obj,curMapEditor.buttonObjectTransform);
+    //             break;
+    //         case 1003:
+    //             SelectActiveOBJ(obj, curMapEditor.triggerDialogueTransform);
+    //             break;
+    //         case 325:
+    //         case 326:            
+    //         case 328:
+    //         case 340:
+    //             SelectActiveOBJ(obj,curMapEditor.droneTransform);
+    //         break;
+    //         case 338:
+    //             SelectActiveOBJ(obj,curMapEditor.collectableContainer);
+    //             break;
+    //         default:
+    //             SelectActiveOBJ(obj, curMapEditor.objectTransform);
+    //             break;
+    //     }
+    // }
 
 
     void FindObj(Transform transform, GameObject obj)
@@ -575,5 +729,36 @@ public class CreateMap_Tool : EditorWindow
 
     #endregion
 
+
+#region  Util
+ private void VerticalScope(Action action,string label = "",GUIStyle style = null)
+    {
+        if (style == null)
+        style = GUIStyle.none;
+
+        using (new GUILayout.VerticalScope(label,style))
+        {
+            action?.Invoke();
+        }
+    }
+    private void HorizontalScope(Action action,string label = "",GUIStyle style = null)
+    {
+        if (style == null)
+        style = GUIStyle.none;
+
+        using (new GUILayout.HorizontalScope(label,style))
+        {
+            action?.Invoke();
+        }
+    }
+    private GUIStyle GetTextFieldStyle(int fontSize,Color fontColor,TextAnchor anchor = TextAnchor.MiddleLeft)
+    {
+        GUIStyle style = new GUIStyle(GUI.skin.textField);
+        style.fontSize = fontSize; 
+        style.normal.textColor = fontColor;  
+        style.alignment = anchor;      
+        return style;
+    }
+#endregion
 
 }
