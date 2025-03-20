@@ -184,6 +184,9 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   distructionStatus: 0
   chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
@@ -278,7 +281,7 @@ MonoBehaviour:
   - {x: 1.4976275, y: -0.0037063956, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: -381406
+  m_InstanceId: 53810
   m_LocalBounds:
     m_Center: {x: -0.0039869547, y: 0.24874261, z: 0}
     m_Extent: {x: 1.5016145, y: 0.252449, z: 0}
@@ -670,6 +673,10 @@ PrefabInstance:
     - target: {fileID: 9151871927070970668, guid: 6175ca852c71e402f95c7e53dfbcc3c6, type: 3}
       propertyPath: m_Layer
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 9151871927070970668, guid: 6175ca852c71e402f95c7e53dfbcc3c6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
