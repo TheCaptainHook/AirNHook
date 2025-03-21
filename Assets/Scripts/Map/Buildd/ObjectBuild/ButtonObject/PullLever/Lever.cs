@@ -37,10 +37,11 @@ public class Lever : MonoBehaviour,IInteractable
     #region Interactable
     public ObjectTypeEnum _objectType = ObjectTypeEnum.Interaction;
 
-
+    public Vector3 offset;
     public void Interaction(Transform accessor = null)
     {
         //Pulling(true);
+        Debug.Log("EEEEE");
     }
 
     public bool CanInteract() { return true; }
@@ -56,7 +57,8 @@ public class Lever : MonoBehaviour,IInteractable
     {
         if(NetworkClient.localPlayer)
         {
-            Managers.UI.ShowUI<UI_ShowEButton>();
+          var ui =  Managers.UI.ShowUI<UI_ShowEButton>();
+            ui.transform.position = transform.position + offset;
         }
 
     }
