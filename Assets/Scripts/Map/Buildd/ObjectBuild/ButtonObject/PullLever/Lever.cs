@@ -1,18 +1,72 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Lever : MonoBehaviour
+public class Lever : MonoBehaviour,IInteractable
 {
     [SerializeField] PullLever main;
+    [SerializeField] PullLever_Net net;
 
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-  
-    //}
+    public GameObject player;
 
-    //private void OnTriggerExit2D(Collider2D collision)
-    //{
-   
-    //}
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(NetworkClient.localPlayer && player == null)
+        {
+            if(collision.TryGetComponent(out PlayerSM player))
+            {
+               this.player = collision.gameObject;
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(NetworkClient.localPlayer)
+        {
+            if(collision.gameObject == player)
+            {
+                player = null;
+            }
+        }
+    }
+
+
+    #region Interactable
+    public ObjectTypeEnum _objectType = ObjectTypeEnum.Interaction;
+
+
+    public void Interaction(Transform accessor = null)
+    {
+        //Pulling(true);
+    }
+
+    public bool CanInteract() { return true; }
+
+    public void Interacting(bool value) { return; }
+
+    public ObjectTypeEnum GetObjectType()
+    {
+        return _objectType;
+    }
+
+    public void ShowEButton()
+    {
+        if(NetworkClient.localPlayer)
+        {
+            Managers.UI.ShowUI<UI_ShowEButton>();
+        }
+
+    }
+
+    public void HideEButton()
+    {
+        if (NetworkClient.localPlayer)
+        {
+            Managers.UI.HideUI<UI_ShowEButton>();
+        }
+    }
+    #endregion
 }

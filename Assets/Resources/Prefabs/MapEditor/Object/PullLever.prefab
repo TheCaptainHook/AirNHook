@@ -341,7 +341,7 @@ GameObject:
   - component: {fileID: 1373928277461803099}
   - component: {fileID: 5107087418103252483}
   - component: {fileID: 2677214888463057300}
-  m_Layer: 7
+  m_Layer: 16
   m_Name: Lever
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -430,7 +430,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2373975031
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -472,7 +472,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b048d049a7afb440b76552f1e5fd1f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  main: {fileID: 0}
+  main: {fileID: 4685576112943327550}
+  net: {fileID: 3077196696768045893}
+  player: {fileID: 0}
+  _objectType: 0
 --- !u!1 &5485989114999524422
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,8 +487,10 @@ GameObject:
   - component: {fileID: 3150436631828177710}
   - component: {fileID: 6538494676459900832}
   - component: {fileID: 4685576112943327550}
+  - component: {fileID: 3077196696768045893}
   - component: {fileID: 2675762856716472400}
   - component: {fileID: 8736576774963853244}
+  - component: {fileID: 558907562454186088}
   m_Layer: 7
   m_Name: PullLever
   m_TagString: Untagged
@@ -564,7 +569,19 @@ MonoBehaviour:
   targetObjects: []
   lightObjects: []
   prograssSpeed: 1
-  _objectType: 0
+--- !u!114 &3077196696768045893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5485989114999524422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f7294eb1f29bb348be442c5c850dff2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player_1: {fileID: 0}
 --- !u!114 &2675762856716472400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -590,3 +607,20 @@ SortingGroup:
   m_SortingLayer: 5
   m_SortingOrder: 5
   m_SortAtRoot: 0
+--- !u!114 &558907562454186088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5485989114999524422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 1447224248
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
