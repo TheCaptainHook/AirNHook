@@ -1,33 +1,36 @@
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using UnityEngine;
 
 public class Lever : MonoBehaviour,IInteractable
 {
     [SerializeField] PullLever main;
     [SerializeField] PullLever_Net net;
-
+    
+    
+    [Space(20)]
+    [ReadOnly]
     public GameObject player;
 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out PlayerSM player))
+        if (player == null && collision.TryGetComponent(out PlayerSM _))
         {
-            this.player = collision.gameObject;
+            if(!net.onActive)net.Cmd_ShowE(collision.gameObject,true);
+            player = collision.gameObject;
         }
-
-
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out PlayerSM player))
+        if (player != null && collision.gameObject == player)
         {
-            this.player = null;
+            net.Cmd_ShowE(collision.gameObject,false);
+            player = null;
         }
-
     }
 
 
@@ -37,8 +40,18 @@ public class Lever : MonoBehaviour,IInteractable
     public Vector3 offset;
     public void Interaction(Transform accessor = null)
     {
-        //Pulling(true);
-        Debug.Log("EEEEE");
+        if(accessor.root.gameObject == player)
+        {
+            if(!net.onActive){
+                net.Cmd_ShowE(player,false);
+                net.Cmd_Interact(player.GetComponent<NetworkIdentity>().netId,true);
+            }else{
+                net.Cmd_Interact(player.GetComponent<NetworkIdentity>().netId,false);
+
+            }
+        }
+        
+        
     }
 
     public bool CanInteract() { return true; }
@@ -52,20 +65,24 @@ public class Lever : MonoBehaviour,IInteractable
 
     public void ShowEButton()
     {
-        if(NetworkClient.localPlayer)
-        {
-          var ui =  Managers.UI.ShowUI<UI_ShowEButton>();
-            ui.transform.position = transform.position + offset;
-        }
-
+        return;
     }
 
     public void HideEButton()
     {
-        if (NetworkClient.localPlayer)
-        {
-            Managers.UI.HideUI<UI_ShowEButton>();
-        }
+        return;
     }
     #endregion
+
+
+
+    public void ShowE()
+    {
+        var ui = Managers.UI.ShowUI<UI_ShowEButton>();
+        ui.transform.position = transform.position + offset;
+    }
+    public void HideE()
+    {
+        Managers.UI.HideUI<UI_ShowEButton>();
+    }
 }

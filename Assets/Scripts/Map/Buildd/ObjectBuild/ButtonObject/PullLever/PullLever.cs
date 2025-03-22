@@ -11,47 +11,16 @@ public class PullLever : ButtonEntity
 
     [Header("TEST CODE")]
     Animator animator;
-    //TEST CODE
-    //public float duration; //revoke prograss, lever length
-    //public float curDuration;
+ 
     public float prograssSpeed; //lever pulling speed 
-    //public bool _OnPrograss;
-
-    //public float conditionWeight;
-    //public float curWeight;
 
     //TEST CODE
     private void Start()
     {
         animator = GetComponent<Animator>();
-        //StartCoroutine(Prograss());
+   
     }
 
-
-    //private void OnDisable(){
-    //    StopAllCoroutines();
-    //}
-    private void Update()
-    {
-
-        // if (!_OnPrograss && curDuration > 0)
-        //{
-        //    curDuration -= Time.deltaTime;
-
-        //}
-        // // Check duration and only call LeverPulling when necessary
-        //if (curDuration <= 0){
-        //    LeverPulling(-prograssSpeed * Time.deltaTime);
-        //}   
-        //if(Input.GetKeyDown(KeyCode.P))
-        //{
-        //    Pulling(true);
-        //}
-        //if (Input.GetKeyDown(KeyCode.O))
-        //{
-        //    Pulling(false);
-        //}
-    }
 
     protected override void Activation()
     {
@@ -63,7 +32,7 @@ public class PullLever : ButtonEntity
     }
 
     Coroutine pullingCoroutine;
-    private void Pulling(bool onOff)
+    public void Pulling(bool onOff)
     {
         if (pullingCoroutine != null) StopCoroutine(pullingCoroutine);
         pullingCoroutine = StartCoroutine(PullingCo(onOff));
@@ -76,7 +45,7 @@ public class PullLever : ButtonEntity
         if (!onOff)
         {
             animator.SetBool(_IsActive, false);
-            Debug.Log("Deactive");
+            Deactivated();
         }
 
         float t = onOff ? prograssSpeed * Time.deltaTime : -prograssSpeed * Time.deltaTime;
@@ -95,7 +64,7 @@ public class PullLever : ButtonEntity
         if (cur == 1)
         {
             animator.SetBool(_IsActive, true);
-            Debug.Log("Active");
+            Activation();
         }
 
     }
@@ -109,6 +78,7 @@ public class PullLever : ButtonEntity
 
 
 /**
- 
+ 0322
+ player가 죽었을 때 걸어놓을 이벤트
 
  **/
