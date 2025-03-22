@@ -13,24 +13,21 @@ public class Lever : MonoBehaviour,IInteractable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(NetworkClient.localPlayer && player == null)
+        if (collision.TryGetComponent(out PlayerSM player))
         {
-            if(collision.TryGetComponent(out PlayerSM player))
-            {
-               this.player = collision.gameObject;
-            }
+            this.player = collision.gameObject;
         }
+
+
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if(NetworkClient.localPlayer)
+        if (collision.TryGetComponent(out PlayerSM player))
         {
-            if(collision.gameObject == player)
-            {
-                player = null;
-            }
+            this.player = null;
         }
+
     }
 
 

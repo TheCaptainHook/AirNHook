@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7905839168709484301}
   - component: {fileID: 1226818510410384007}
-  m_Layer: 7
+  m_Layer: 14
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 6244364148549648903}
   - component: {fileID: 5732584017567032563}
   - component: {fileID: 6832988797849042269}
-  m_Layer: 7
+  m_Layer: 14
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -252,7 +252,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1404496939275832112}
   - component: {fileID: 5159767610160480397}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Mask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -476,6 +476,7 @@ MonoBehaviour:
   net: {fileID: 3077196696768045893}
   player: {fileID: 0}
   _objectType: 0
+  offset: {x: 0, y: 0, z: 0}
 --- !u!1 &5485989114999524422
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,7 +492,7 @@ GameObject:
   - component: {fileID: 2675762856716472400}
   - component: {fileID: 8736576774963853244}
   - component: {fileID: 558907562454186088}
-  m_Layer: 7
+  m_Layer: 14
   m_Name: PullLever
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -582,6 +583,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player_1: {fileID: 0}
+  isPlayerInArea: 0
 --- !u!114 &2675762856716472400
 MonoBehaviour:
   m_ObjectHideFlags: 0
