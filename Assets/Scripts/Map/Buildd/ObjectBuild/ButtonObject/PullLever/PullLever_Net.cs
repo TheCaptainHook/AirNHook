@@ -132,11 +132,13 @@ public class PullLever_Net : NetworkBehaviour
     
     private void Event_Recover()
     {
+        Debug.Log("Recover 1");
         Recover(player);
+        Debug.Log("Recover 2");
         Cmd_PullLever(false);
-        
+        Debug.Log("Recover 3");
         //Remove event
-        
+
         //Remove event
     }
 
