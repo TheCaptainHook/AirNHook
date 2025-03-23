@@ -39,7 +39,7 @@ public class PullLever_Net : NetworkBehaviour
     }
 
 
-    [Command]
+    [Command(requiresAuthority = false)]
     public void Cmd_Interact(uint netId, bool onOff)
     {
         if (NetworkServer.spawned.TryGetValue(netId, out NetworkIdentity identity))
