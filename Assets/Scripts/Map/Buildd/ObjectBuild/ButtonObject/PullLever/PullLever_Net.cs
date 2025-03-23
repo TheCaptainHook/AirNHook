@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -53,11 +52,6 @@ public class PullLever_Net : NetworkBehaviour
     }
     #endregion
 
-    //[Server]
-    //private void Server_SetPlayer(GameObject player)
-    //{
-    //    this.player = player;
-    //}
   
     [ClientRpc]
     private void Rpc_SetPlayer(GameObject player)
@@ -77,8 +71,7 @@ public class PullLever_Net : NetworkBehaviour
             Server_SetActive(onOff);
 
             TRpc_Interact(identity.connectionToClient, onOff, identity.gameObject);
-            //Rpc_PullLever(onOff);
-
+   
 
         }
     }
@@ -89,12 +82,6 @@ public class PullLever_Net : NetworkBehaviour
         if(onOff) Holding(player);
         else Recover(player);
     }
-
-    //[ClientRpc]
-    //private void Rpc_PullLever(bool onOff)
-    //{
-    //    Main.Pulling(onOff);
-    //}
 
     private void Holding(GameObject player)
     {
@@ -154,21 +141,11 @@ public class PullLever_Net : NetworkBehaviour
     
     private void Event_Recover()
     {
-        Debug.Log("Recover 1");
         Recover(player);
-        Debug.Log("Recover 2");
         Cmd_SeActive(false);
-        Debug.Log("Recover 3");
-        //Remove event
-
-        //Remove event
     }
 
-    //[Command(requiresAuthority = false)]
-    //private void Cmd_PullLever(bool onOff)
-    //{
-    //    Rpc_PullLever(onOff);
-    //}
+
 
 
     #region  UI

@@ -194,6 +194,37 @@ MonoBehaviour:
   platformEffector2D: {fileID: 2680208201779001054}
   _rb: {fileID: 7028369440691742122}
   _boxCollider2D: {fileID: 6931760896136891772}
+--- !u!1 &3508101691198265994
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4246084813036576056}
+  m_Layer: 16
+  m_Name: HoldPivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4246084813036576056
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3508101691198265994}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.35, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1030760113723832143}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4204660432047720022
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,6 +390,7 @@ Transform:
   m_Children:
   - {fileID: 1043942596025424313}
   - {fileID: 3058935562160528359}
+  - {fileID: 4246084813036576056}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3796624355465384780
@@ -413,6 +445,7 @@ MonoBehaviour:
   InnerPlayer: {fileID: 0}
   rotate_Z: 0
   onActive: 0
+  hold_Pivot: {fileID: 4246084813036576056}
   onSync: 0
 --- !u!61 &5154744132076820605
 BoxCollider2D:

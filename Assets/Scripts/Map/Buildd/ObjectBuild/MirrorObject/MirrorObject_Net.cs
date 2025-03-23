@@ -1,6 +1,7 @@
 
 using UnityEngine;
 using Mirror;
+using UnityEngine.Animations;
 
 
 
@@ -21,7 +22,7 @@ public class MirrorObject_Net : NetworkBehaviour
 
     private MirrorObject MirrorObject => GetComponent<MirrorObject>();
 
-
+    [SerializeField] Transform hold_Pivot;
     #region  Init Sync
     public bool onSync;
 
@@ -155,34 +156,67 @@ public class MirrorObject_Net : NetworkBehaviour
     private void Holding(GameObject player)
     {
         onActive = true;
-        //player holding
         var pm = player.GetComponent<PlayerSM>();
-        //pm.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        pm.GetComponent<Rigidbody2D>().simulated = false;
 
         //Show A,D button
 
         //Show A,D button
 
+        Connection(player);
         pm.canMovable = false;
+
+        player.GetComponent<PlayerSM>().deathEvent += Event_Recover;
+
     }
     private void Recover(GameObject player)
     {
         onActive = false;
-
-        //Hide A,D button
-        
-        //Hide A,D button
-
-        //player recover
         var pm = player.GetComponent<PlayerSM>();
-        pm.GetComponent<Rigidbody2D>().simulated = true;
+       
+        //Hide A,D button
+
+        //Hide A,D button
+
+        Disconnection(player);
         pm.canMovable = true;
+
+        player.GetComponent<PlayerSM>().deathEvent -= Event_Recover;
     }
 
 
+    private void Event_Recover()
+    {
+        Cmd_SetInnerPlayer(null);
+    }
 
-   
+    #region  Util
+    private void Connection(GameObject player)
+    {
+        ParentConstraint constraint = player.AddComponent<ParentConstraint>();
+        SetParentConstraint(constraint, hold_Pivot);
+    }
+    private void Disconnection(GameObject player)
+    {
+        if (player.TryGetComponent(out ParentConstraint component))
+        {
+            Destroy(component);
+        }
+    }
+    private void SetParentConstraint(ParentConstraint constraint, Transform parent)
+    {
+        ConstraintSource source = new ConstraintSource
+        {
+            sourceTransform = parent,
+            weight = 1
+        };
+        constraint.AddSource(source);
 
+        constraint.translationAtRest = transform.localPosition;
+        constraint.translationOffsets = new Vector3[constraint.sourceCount];
+        constraint.constraintActive = true;
+
+        constraint.locked = true;
+    }
+    #endregion
 
 }
