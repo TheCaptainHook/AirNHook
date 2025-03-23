@@ -192,6 +192,8 @@ public class MirrorObject_Net : NetworkBehaviour
     #region  Util
     private void Connection(GameObject player)
     {
+        if (player.GetComponent<ParentConstraint>()) return;
+
         ParentConstraint constraint = player.AddComponent<ParentConstraint>();
         SetParentConstraint(constraint, hold_Pivot);
     }

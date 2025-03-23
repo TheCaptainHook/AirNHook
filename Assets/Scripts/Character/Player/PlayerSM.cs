@@ -225,9 +225,9 @@ public class PlayerSM : NetworkBehaviour, IDamageable
 
     #region Dead
     // ReSharper disable Unity.PerformanceAnalysis
-    //TEST 0323
+    //0323
     public event Action deathEvent;
-    //TEST 0323
+    //0323
     public virtual void TakeDamage(DamageType damageType = DamageType.Default)
     {
         if (!isLocalPlayer || !canControl) return;
@@ -245,7 +245,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         HandleDeathCameraEffects(damageType);
         // 플레이어 죽었을 때 처리
         Managers.AcManager.CallPlayerDeath();
-  
+        
         deathEvent?.Invoke();
     }
 
