@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Mirror;
 using UnityEngine;
@@ -221,9 +222,12 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         interactable.Interaction(transform);
     }
     #endregion
-    
+
     #region Dead
     // ReSharper disable Unity.PerformanceAnalysis
+    //TEST 0323
+    public event Action deathEvent;
+    //TEST 0323
     public virtual void TakeDamage(DamageType damageType = DamageType.Default)
     {
         if (!isLocalPlayer || !canControl) return;
@@ -242,6 +246,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         // 플레이어 죽었을 때 처리
         Managers.AcManager.CallPlayerDeath();
   
+        deathEvent?.Invoke();
     }
 
     //private void TakeSuicideDamage()

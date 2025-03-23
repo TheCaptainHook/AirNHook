@@ -5,14 +5,18 @@ using UnityEngine;
 
 public class PullLever : ButtonEntity
 {
-    [CustomHeader("Pull Lever")]
+   
     private readonly int _PullingAmount = Animator.StringToHash("PullingAmount");
     private readonly int _IsActive = Animator.StringToHash("IsActive");
-
-    [Header("TEST CODE")]
     Animator animator;
- 
+
+    [CustomHeader("Pull Lever")]
+    [ReadOnly]
+    [SerializeField] PullLever_Net Net;
+
     public float prograssSpeed; //lever pulling speed 
+
+  
 
     //TEST CODE
     private void Start()
@@ -45,7 +49,12 @@ public class PullLever : ButtonEntity
         if (!onOff)
         {
             animator.SetBool(_IsActive, false);
-            Deactivated();
+            if (Net.onPrograssButtonActivatedObject)
+            {
+                Net.Cmd_SetonPrograssButtonActivatedObject(false);
+                Deactivated();
+            }
+           
         }
 
         float t = onOff ? prograssSpeed * Time.deltaTime : -prograssSpeed * Time.deltaTime;
@@ -64,15 +73,13 @@ public class PullLever : ButtonEntity
         if (cur == 1)
         {
             animator.SetBool(_IsActive, true);
+            Net.Cmd_SetonPrograssButtonActivatedObject(true);
             Activation();
         }
 
     }
 
 
-    #region Net
-
-    #endregion
 
 }
 

@@ -14480,7 +14480,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.4499913454055787,
+                "y": 1.449991226196289,
                 "z": 1.0
             },
             "talPot": {
@@ -14718,6 +14718,43 @@
             "fireRate": 0.0,
             "onHoldRotation": false,
             "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 331,
+            "activeRequirAmount": 0,
+            "chargeRequired": false,
+            "jumpingPower": 0,
+            "position": {
+                "x": -13.229999542236329,
+                "y": 21.489999771118165
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 2.0,
+            "onHoldRotation": true,
+            "onLeft": true,
             "paths": [],
             "moveSpeed": 0.0,
             "moveDistance": 0.0,

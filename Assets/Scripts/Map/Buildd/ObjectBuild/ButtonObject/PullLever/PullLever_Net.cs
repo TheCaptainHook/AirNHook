@@ -12,10 +12,24 @@ public class PullLever_Net : NetworkBehaviour
     [SerializeField] Transform hold_Pivot;
 
     public bool onActive;
+    [ReadOnly]
+    public bool onPrograssButtonActivatedObject;
 
     #region Server
+
     [Space(20)]
     public GameObject player;
+
+    [Command(requiresAuthority =false)]
+    public void Cmd_SetonPrograssButtonActivatedObject(bool onOff)
+    {
+        Rpc_Cmd_SetonPrograssButtonActivatedObject(onOff);
+    }
+    [ClientRpc]
+    private void Rpc_Cmd_SetonPrograssButtonActivatedObject(bool onOff)
+    {
+        onPrograssButtonActivatedObject = onOff;
+    }
     #endregion
 
     [Server]
@@ -56,14 +70,14 @@ public class PullLever_Net : NetworkBehaviour
         onActive = true;
   
         //Connection,Adjust the position using the holdPivot.
-        Connection(player); 
+        Connection(player);
 
         //Player Animation
 
         //Player Animation
-        
+
         //Add Event
-
+        player.GetComponent<PlayerSM>().deathEvent += Event_Recover;
         //Add Event
     }
     private void Recover(GameObject player)
@@ -77,7 +91,7 @@ public class PullLever_Net : NetworkBehaviour
         //Stop Animation
 
         //Remove Event
-
+        player.GetComponent<PlayerSM>().deathEvent -= Event_Recover;
         //Remove Event
     }
     #region  Util

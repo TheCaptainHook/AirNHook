@@ -602,6 +602,7 @@ MonoBehaviour:
   targetObjects: []
   lightObjects: []
   prograssSpeed: 1
+  Net: {fileID: 3077196696768045893}
 --- !u!114 &3077196696768045893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -620,6 +621,8 @@ MonoBehaviour:
   lever: {fileID: 2677214888463057300}
   hold_Pivot: {fileID: 6436082477813762381}
   onActive: 0
+  onPrograssButtonActivatedObject: 0
+  player: {fileID: 0}
 --- !u!114 &2675762856716472400
 MonoBehaviour:
   m_ObjectHideFlags: 0
