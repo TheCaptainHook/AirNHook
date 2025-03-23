@@ -32,8 +32,14 @@ public class PullLever_Net : NetworkBehaviour
     }
     #endregion
 
-    [Server]
-    private void Server_SetPlayer(GameObject player)
+    //[Server]
+    //private void Server_SetPlayer(GameObject player)
+    //{
+    //    this.player = player;
+    //}
+  
+    [ClientRpc]
+    private void Rpc_SetPlayer(GameObject player)
     {
         this.player = player;
     }
@@ -44,8 +50,8 @@ public class PullLever_Net : NetworkBehaviour
     {
         if (NetworkServer.spawned.TryGetValue(netId, out NetworkIdentity identity))
         {
-            if(onOff) Server_SetPlayer(identity.gameObject);
-            else Server_SetPlayer(null);
+            if(onOff) Rpc_SetPlayer(identity.gameObject);
+            else Rpc_SetPlayer(null);
 
             TRpc_Interact(identity.connectionToClient, onOff, identity.gameObject);
             Rpc_PullLever(onOff);
