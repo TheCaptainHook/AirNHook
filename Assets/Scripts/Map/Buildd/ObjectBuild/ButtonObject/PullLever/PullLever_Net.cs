@@ -11,7 +11,7 @@ public class PullLever_Net : NetworkBehaviour
     [SerializeField]  Lever lever;
     [SerializeField] Transform hold_Pivot;
 
-    public bool onActive;
+    [SyncVar(hook =nameof(OnChangeOnActive))]public bool onActive;
     [ReadOnly]
     public bool onPrograssButtonActivatedObject;
 
@@ -29,6 +29,27 @@ public class PullLever_Net : NetworkBehaviour
     private void Rpc_Cmd_SetonPrograssButtonActivatedObject(bool onOff)
     {
         onPrograssButtonActivatedObject = onOff;
+    }
+    [Server]
+    private void Server_SetActive(bool active)
+    {
+        onActive = active;
+    }
+    [Command(requiresAuthority = false)]
+    public void Cmd_SeActive(bool active)
+    {
+        Server_SetActive(active);
+    }
+    private void OnChangeOnActive(bool old,bool newVal)
+    {
+        if(newVal)
+        {
+            Main.Pulling(newVal);
+        }
+        else
+        {
+            Main.Pulling(newVal);
+        }
     }
     #endregion
 
@@ -53,8 +74,12 @@ public class PullLever_Net : NetworkBehaviour
             if(onOff) Rpc_SetPlayer(identity.gameObject);
             else Rpc_SetPlayer(null);
 
+            Server_SetActive(onOff);
+
             TRpc_Interact(identity.connectionToClient, onOff, identity.gameObject);
-            Rpc_PullLever(onOff);
+            //Rpc_PullLever(onOff);
+
+
         }
     }
 
@@ -65,16 +90,14 @@ public class PullLever_Net : NetworkBehaviour
         else Recover(player);
     }
 
-    [ClientRpc]
-    private void Rpc_PullLever(bool onOff)
-    {
-        Main.Pulling(onOff);
-    }
+    //[ClientRpc]
+    //private void Rpc_PullLever(bool onOff)
+    //{
+    //    Main.Pulling(onOff);
+    //}
 
     private void Holding(GameObject player)
     {
-        onActive = true;
-  
         //Connection,Adjust the position using the holdPivot.
         Connection(player);
 
@@ -88,7 +111,6 @@ public class PullLever_Net : NetworkBehaviour
     }
     private void Recover(GameObject player)
     {
-        onActive = false;
 
         Disconnection(player);
 
@@ -135,18 +157,18 @@ public class PullLever_Net : NetworkBehaviour
         Debug.Log("Recover 1");
         Recover(player);
         Debug.Log("Recover 2");
-        Cmd_PullLever(false);
+        Cmd_SeActive(false);
         Debug.Log("Recover 3");
         //Remove event
 
         //Remove event
     }
 
-    [Command(requiresAuthority = false)]
-    private void Cmd_PullLever(bool onOff)
-    {
-        Rpc_PullLever(onOff);
-    }
+    //[Command(requiresAuthority = false)]
+    //private void Cmd_PullLever(bool onOff)
+    //{
+    //    Rpc_PullLever(onOff);
+    //}
 
 
     #region  UI
