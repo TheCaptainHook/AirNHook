@@ -12,6 +12,12 @@ public class Puzzle_1_LeftTrigger : MonoBehaviour
 
     UI_Base eBtn;
 
+
+
+
+
+
+
     private void Update()
     {
         // if(Input.GetMouseButton(1) && air && !button.onRecover)
@@ -36,43 +42,51 @@ public class Puzzle_1_LeftTrigger : MonoBehaviour
 
         //     }
         // }
-        if(GetReadyToCharge(GetAirDir())&& !air.airGun._inhaling && !button.onProgress)
-        {
-            //SHow UI
-                if(NetworkClient.localPlayer)
-                {
-                    if(eBtn == null){
-                        eBtn = Managers.UI.ShowUI<UI_ShowEButton>();
-                        eBtn.transform.position = transform.position + new Vector3(0,1,0);
-                    }
-                }
-            //SHow UI
-            if(Input.GetMouseButton(1) && !button.onRecover)
-            {
-                //Charging
-                 puzzle_1.Net_Charging();
-                //Charging
+        //if(GetReadyToCharge(GetAirDir())&& !air.airGun._inhaling && !button.onProgress)
+        //{
+        //    //SHow UI
+        //        if(NetworkClient.localPlayer)
+        //        {
+        //            if(eBtn == null){
+        //                eBtn = Managers.UI.ShowUI<UI_ShowEButton>();
+        //                eBtn.transform.position = transform.position + new Vector3(0,1,0);
+        //            }
+        //        }
+        //    //SHow UI
+        //    if(Input.GetMouseButton(1) && !button.onRecover)
+        //    {
+        //        //Charging
+        //         puzzle_1.Net_Charging();
+        //        //Charging
 
-            }
+        //    }
 
-        }else{
-            if(NetworkClient.localPlayer && eBtn != null)
-            {
-                eBtn = null;
-                Managers.UI.HideUI<UI_ShowEButton>();
+        //}else{
+        //    if(NetworkClient.localPlayer && eBtn != null)
+        //    {
+        //        eBtn = null;
+        //        Managers.UI.HideUI<UI_ShowEButton>();
 
-            }
-        }
+        //    }
+        //}
     }
+
+    //Refectoring 0324
+
+    public Vector3 offset;
+    [SerializeField] Puzzle_1_Net net;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision != null)
         {
-            if (collision.TryGetComponent(out AirSM component))
+            if (collision.TryGetComponent(out AirSM air))
             {
-                air = component;
-                //dir
+                if(NetworkClient.localPlayer)
+                {
+                    ShowE(true);
+                }
+                //net.Cmd_ShowE(collision.gameObject, true, true);
             }
         }
     }
@@ -81,43 +95,90 @@ public class Puzzle_1_LeftTrigger : MonoBehaviour
     {
         if (collision != null)
         {
-            if (collision.TryGetComponent(out AirSM component))
+            if (collision.TryGetComponent(out AirSM air))
             {
-                air = null;
-            }
-        }
-    }
-
-
-    private Vector3 GetAirDir()
-    {
-        if (air == null) return Vector3.zero;
-
-        if(airWeaponPivot == null)
-        {
-            foreach (Transform tr in air.transform)
-            {
-                if (tr.name == "WeaponPivot")
+                if (NetworkClient.localPlayer)
                 {
-                    airWeaponPivot = tr;
+                    ShowE(false);
                 }
+                //net.Cmd_ShowE(collision.gameObject, true, false);
             }
         }
-
-        return airWeaponPivot.rotation.eulerAngles;
-       
     }
+    //Refectoring 0324
 
-    private bool GetReadyToCharge(Vector3 rot)
+
+    #region UI
+    public void ShowE(bool onOff)
     {
-        float z = rot.z - 360;
-        if(rot.y ==0 && (z >=-10 && z <= 0))
+        if (onOff)
         {
-            return true;
+            var ui = Managers.UI.ShowUI<UI_ShowEButton>();
+            ui.transform.position = transform.position + offset;
+           
         }
         else
         {
-            return false;
+            Managers.UI.HideUI<UI_ShowEButton>();
         }
     }
+    #endregion
+
+
+    #region before
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision != null)
+    //    {
+    //        if (collision.TryGetComponent(out AirSM component))
+    //        {
+    //            air = component;
+    //            //dir
+    //        }
+    //    }
+    //}
+
+    //private void OnTriggerExit2D(Collider2D collision)
+    //{
+    //    if (collision != null)
+    //    {
+    //        if (collision.TryGetComponent(out AirSM component))
+    //        {
+    //            air = null;
+    //        }
+    //    }
+    //}
+
+    //private Vector3 GetAirDir()
+    //{
+    //    if (air == null) return Vector3.zero;
+
+    //    if(airWeaponPivot == null)
+    //    {
+    //        foreach (Transform tr in air.transform)
+    //        {
+    //            if (tr.name == "WeaponPivot")
+    //            {
+    //                airWeaponPivot = tr;
+    //            }
+    //        }
+    //    }
+
+    //    return airWeaponPivot.rotation.eulerAngles;
+
+    //}
+
+    //private bool GetReadyToCharge(Vector3 rot)
+    //{
+    //    float z = rot.z - 360;
+    //    if(rot.y ==0 && (z >=-10 && z <= 0))
+    //    {
+    //        return true;
+    //    }
+    //    else
+    //    {
+    //        return false;
+    //    }
+    //}
+    #endregion
 }

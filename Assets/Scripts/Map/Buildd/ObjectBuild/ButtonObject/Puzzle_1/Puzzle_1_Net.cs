@@ -13,9 +13,11 @@ public class Puzzle_1_Net : NetworkBehaviour
     [SerializeField] Transform partsContainer;
     [SerializeField] Transform itemContainer;
     [SerializeField] Puzzle_1_HintScreen hintScreen;
+    [Space(20)]
+    [SerializeField] Puzzle_1_LeftTrigger leftTrigger;
+    [SerializeField] Puzzle_1_RightTrigger rightTrigger;
 
-    
-     private string[] puzzle_1_Items = new string[] { 
+    private string[] puzzle_1_Items = new string[] { 
         "Puzzle_1_Item (1)", 
         "Puzzle_1_Item (2)", 
         "Puzzle_1_Item (3)",
@@ -410,6 +412,34 @@ public class Puzzle_1_Net : NetworkBehaviour
     }
     #endregion
 
+
+
+
+    #region Trigger
+    #region UI
+    [Command(requiresAuthority = false)]
+    public void Cmd_ShowE(GameObject player, bool leftOrRight,bool onOff) //left : true, right : false
+    {
+        if (player.TryGetComponent(out NetworkIdentity identity))
+        {
+            TRpc_ShowE(identity.connectionToClient, leftOrRight,onOff);
+        }
+    }
+    [TargetRpc]
+    private void TRpc_ShowE(NetworkConnection conn,bool leftOrRight, bool onOff)
+    {
+        if (leftOrRight)
+        {
+            //left
+            leftTrigger.ShowE(onOff);
+        }
+        else
+        {
+            //right
+        }
+    }
+    #endregion
+    #endregion
 }
 
 public struct Part
