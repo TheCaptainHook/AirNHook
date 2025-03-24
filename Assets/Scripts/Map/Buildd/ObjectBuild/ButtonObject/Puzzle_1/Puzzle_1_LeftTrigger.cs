@@ -82,11 +82,8 @@ public class Puzzle_1_LeftTrigger : MonoBehaviour
         {
             if (collision.TryGetComponent(out AirSM air))
             {
-                if(NetworkClient.localPlayer)
-                {
-                    ShowE(true);
-                }
-                //net.Cmd_ShowE(collision.gameObject, true, true);
+            
+                net.Cmd_ShowE(collision.gameObject, true, true);
             }
         }
     }
@@ -97,11 +94,8 @@ public class Puzzle_1_LeftTrigger : MonoBehaviour
         {
             if (collision.TryGetComponent(out AirSM air))
             {
-                if (NetworkClient.localPlayer)
-                {
-                    ShowE(false);
-                }
-                //net.Cmd_ShowE(collision.gameObject, true, false);
+           
+                net.Cmd_ShowE(collision.gameObject, true, false);
             }
         }
     }
