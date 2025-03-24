@@ -416,6 +416,16 @@ public class Puzzle_1_Net : NetworkBehaviour
 
 
     #region Trigger
+
+
+    //Left
+
+    //Left
+
+    //Right
+
+    //Right
+
     #region UI
     [Command(requiresAuthority = false)]
     public void Cmd_ShowE(GameObject player, bool leftOrRight,bool onOff) //left : true, right : false

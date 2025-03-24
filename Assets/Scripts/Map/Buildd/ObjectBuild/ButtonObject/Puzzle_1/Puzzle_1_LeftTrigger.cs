@@ -1,19 +1,14 @@
 using Mirror;
 using UnityEngine;
 
-public class Puzzle_1_LeftTrigger : MonoBehaviour
+public class Puzzle_1_LeftTrigger : MonoBehaviour, IInteractable
 {
     [SerializeField] Puzzle_1 puzzle_1;
     [SerializeField] Puzzle_1_Button button;
-    [ReadOnly]
-    public AirSM air;
-    [ReadOnly]
-    public Transform airWeaponPivot;
-
-    UI_Base eBtn;
-
-
-
+    //[ReadOnly]
+    //public AirSM air;
+    //[ReadOnly]
+    //public Transform airWeaponPivot;
 
 
 
@@ -75,6 +70,8 @@ public class Puzzle_1_LeftTrigger : MonoBehaviour
 
     public Vector3 offset;
     [SerializeField] Puzzle_1_Net net;
+    [ReadOnly]
+    public GameObject air;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -82,7 +79,7 @@ public class Puzzle_1_LeftTrigger : MonoBehaviour
         {
             if (collision.TryGetComponent(out AirSM air))
             {
-            
+                this.air = collision.gameObject;
                 net.Cmd_ShowE(collision.gameObject, true, true);
             }
         }
@@ -94,12 +91,43 @@ public class Puzzle_1_LeftTrigger : MonoBehaviour
         {
             if (collision.TryGetComponent(out AirSM air))
             {
-           
+                this.air = null;
                 net.Cmd_ShowE(collision.gameObject, true, false);
             }
         }
+
+
     }
-    //Refectoring 0324
+    #region Interactable
+    public ObjectTypeEnum _objectType = ObjectTypeEnum.Interaction;
+
+    public void Interaction(Transform accessor = null)
+    {
+        if(air != null)
+        {
+
+        }
+    }
+
+    public bool CanInteract() { return true; }
+
+    public void Interacting(bool value) { return; }
+
+    public ObjectTypeEnum GetObjectType()
+    {
+        return _objectType;
+    }
+
+    public void ShowEButton()
+    {
+        return;
+    }
+
+    public void HideEButton()
+    {
+        return;
+    }
+    #endregion
 
 
     #region UI
@@ -117,6 +145,7 @@ public class Puzzle_1_LeftTrigger : MonoBehaviour
         }
     }
     #endregion
+    //Refectoring 0324
 
 
     #region before
