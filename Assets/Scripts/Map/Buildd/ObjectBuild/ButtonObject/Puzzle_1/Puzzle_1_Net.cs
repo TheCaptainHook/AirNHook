@@ -4,7 +4,9 @@ using UnityEngine;
 using Mirror;
 using Random = UnityEngine.Random;
 using System;
-using Telepathy;
+using UnityEngine.Animations;
+using UnityEngine.Rendering;
+using UnityEngine.InputSystem;
 
 
 
@@ -362,18 +364,22 @@ public class Puzzle_1_Net : NetworkBehaviour
     #region -------------------------------------------Hint Screen
     [Command(requiresAuthority = false)]
     public void Cmd_HintScreen_Correct(){
+        if(hintScreen.gameObject.activeSelf)
         Rpc_HintScreen_Correct();
     }
     [ClientRpc]
     public void Rpc_HintScreen_Correct(){
+        if(hintScreen.gameObject.activeSelf)
         Puzzle.Net_HintScreen_Correct();
     }
     [Command(requiresAuthority = false)]
     public void Cmd_HintScreen_False(){
+        if(hintScreen.gameObject.activeSelf)
         Rpc_HintScreen_False();
     }
     [ClientRpc]
     public void Rpc_HintScreen_False(){
+        if(hintScreen.gameObject.activeSelf)
         Puzzle.Net_HintScreen_False();
     }
     #endregion
@@ -415,16 +421,139 @@ public class Puzzle_1_Net : NetworkBehaviour
 
 
 
-    #region Trigger
+    #region --------------------------------Trigger
 
+    public bool onActive;
+    [ReadOnly]
+    public GameObject airObject;
 
-    //Left
+    [Command(requiresAuthority = false)] //Left : true, Right : false
+    public void Cmd_Interact(uint playerNetworkId,bool leftOrRight,bool onOff)
+    {
+            if(NetworkClient.spawned.TryGetValue(playerNetworkId,out NetworkIdentity identity))
+            {
+                TRpc_Interact(identity.connectionToClient,identity.gameObject,leftOrRight,onOff);
+            }
+    }
+    [TargetRpc]
+    private void TRpc_Interact(NetworkConnection _,GameObject player,bool leftOrRight,bool onOff)
+    {
+       HoldAndRecover(player,leftOrRight,onOff);
+    }
 
-    //Left
+    private void HoldAndRecover(GameObject player,bool leftOrRight,bool onOff)
+    {
+        if(onOff)
+        {
+            Hold(player,leftOrRight);
 
-    //Right
+        }else
+        {
+           Recover(player);
+        }
+        
+    }
+    private void Hold(GameObject player,bool leftOrRight)
+    {
+        onActive = true;
+        airObject = player;
+        
+        var sm = player.GetComponent<PlayerSM>();
+        sm.canMovable = false;
+        Fix_AirGun_Direct(player,leftOrRight);
+        
+        //Input
+        var input = Managers.Game.playerInput;
+        input.playerActions.Action.started += OnHoldAirGun;
+        input.playerActions.Action.canceled += OnRecoverAirGun;
+        //Input
 
-    //Right
+        //Show UI
+
+        //Show UI
+
+        //Air ready for blow animation
+        
+        //Air ready for blow animation
+
+        Transform hold_Pivot = leftOrRight ? leftTrigger.Hold_Pivot : rightTrigger.Hold_Pivot; //right
+        Connection(player,hold_Pivot);
+
+        sm.deathEvent += Event_Recover;
+
+    }
+   
+    private void Fix_AirGun_Direct(GameObject player,bool leftOrRight)
+    {
+        if(leftOrRight)
+        {
+            //Left
+            Debug.Log("Set Direction to Air [Left]");
+        }else
+        {
+            //Right
+            Debug.Log("Set Direction to Air [Right]");
+        }
+        
+    }
+    private void Recover(GameObject player)
+    {
+        onActive = false;
+        
+        var sm = player.GetComponent<PlayerSM>();
+        sm.canMovable = true;
+
+        //Input
+        var input = Managers.Game.playerInput;
+        input.playerActions.Action.started -= OnHoldAirGun;
+        input.playerActions.Action.canceled -= OnRecoverAirGun;
+        //Input
+
+        //Hide UI
+
+        //Hide UI
+
+        //Recover Animation
+
+        //Recover Animation
+
+        Disconnection(player);
+        sm.deathEvent -= Event_Recover;
+        
+        airObject = null;
+
+    }
+    private void Event_Recover()
+    {
+        if(airObject)
+        {
+            HoldAndRecover(airObject,false,false);
+        }
+    }
+    private void OnRecoverAirGun(InputAction.CallbackContext context)
+    {
+        if(airObject)
+        {
+            var air = airObject.GetComponent<AirSM>();
+            air.canControl =true;
+
+            //Stop Air Blow Animation -> ready to blow Animation
+
+            //Stop Air Blow Animation -> ready to blow Animation
+        }
+    }
+    private void OnHoldAirGun(InputAction.CallbackContext context)
+    {
+        if(airObject)
+        {
+            var air = airObject.GetComponent<AirSM>();
+            air.canControl =false;
+
+            //ready to blow Animation -> Air Blow Animation
+
+            //ready to blow Animation -> Air Blow Animation
+        }
+    }
 
     #region UI
     [Command(requiresAuthority = false)]
@@ -446,9 +575,40 @@ public class Puzzle_1_Net : NetworkBehaviour
         else
         {
             //right
+            rightTrigger.ShowE(onOff);
         }
     }
     #endregion
+   
+    private void Connection(GameObject player,Transform hold_Pivot)
+    {
+        if(player.GetComponent<ParentConstraint>()) return;
+
+        ParentConstraint constraint = player.AddComponent<ParentConstraint>();
+        SetParentConstraint(constraint,hold_Pivot);
+    }
+    private void Disconnection(GameObject player)
+    {
+        if(player.TryGetComponent(out ParentConstraint component))
+        {
+            Destroy(component);
+        }
+    }
+    private void SetParentConstraint(ParentConstraint constraint,Transform parent)
+    {
+        ConstraintSource source = new ConstraintSource
+        {
+            sourceTransform = parent,
+            weight = 1
+        };
+        constraint.AddSource(source);
+
+        constraint.translationAtRest = transform.localPosition;
+        constraint.translationOffsets = new Vector3[constraint.sourceCount];
+        constraint.constraintActive = true;
+
+        constraint.locked = true;
+    }
     #endregion
 }
 

@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 2056907566461955579}
   - component: {fileID: 4021185386520318223}
   - component: {fileID: 6489064709981349243}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: RightTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ Transform:
   m_GameObject: {fileID: 360872727897176713}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 0.5, z: 0}
+  m_LocalPosition: {x: 2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -140,7 +140,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.4}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -165,10 +165,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53734b7a0042bdf408ec87f740a5d704, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puzzle_1: {fileID: 8948425008551480789}
-  button: {fileID: 1673485768780107428}
+  offset: {x: 0, y: 1.5, z: 0}
+  net: {fileID: 2267976049350943410}
   air: {fileID: 0}
-  airWeaponPivot: {fileID: 0}
+  _objectType: 0
 --- !u!1 &1207420672746872705
 GameObject:
   m_ObjectHideFlags: 0
@@ -797,6 +797,8 @@ MonoBehaviour:
     answer: 
     position: {x: 0, y: 0}
   onSync: 0
+  onActive: 0
+  airObject: {fileID: 0}
 --- !u!1 &7031136592058459931
 GameObject:
   m_ObjectHideFlags: 0
@@ -808,7 +810,7 @@ GameObject:
   - component: {fileID: 727736400167442977}
   - component: {fileID: 9161824961936172784}
   - component: {fileID: 3511995670744558025}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: LeftTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -824,7 +826,7 @@ Transform:
   m_GameObject: {fileID: 7031136592058459931}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2, y: 0.5, z: 0}
+  m_LocalPosition: {x: -2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -862,7 +864,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.4}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -887,12 +889,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ac7cd704145773459bd709cb905e62d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puzzle_1: {fileID: 8948425008551480789}
-  button: {fileID: 1673485768780107428}
-  air: {fileID: 0}
-  airWeaponPivot: {fileID: 0}
-  offset: {x: 0, y: 1, z: 0}
+  offset: {x: 0, y: 1.5, z: 0}
   net: {fileID: 2267976049350943410}
+  air: {fileID: 0}
+  _objectType: 0
 --- !u!1 &7241419666889964207
 GameObject:
   m_ObjectHideFlags: 0

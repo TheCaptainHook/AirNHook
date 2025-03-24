@@ -1,78 +1,19 @@
+using System.Collections;
 using Mirror;
 using UnityEngine;
 
 public class Puzzle_1_LeftTrigger : MonoBehaviour, IInteractable
 {
-    [SerializeField] Puzzle_1 puzzle_1;
-    [SerializeField] Puzzle_1_Button button;
-    //[ReadOnly]
-    //public AirSM air;
-    //[ReadOnly]
-    //public Transform airWeaponPivot;
-
-
-
-
-    private void Update()
-    {
-        // if(Input.GetMouseButton(1) && air && !button.onRecover)
-        // {
-        //     if (GetReadyToCharge(GetAirDir()) &&!air.airGun._inhaling && !button.onProgress)
-        //     {
-        //         //Charging;
-        //         //puzzle_1.Charging();
-        //         if(NetworkClient.localPlayer)
-        //         {
-        //             if(eBtn == null){
-        //                 eBtn = Managers.UI.ShowUI<UI_ShowEButton>();
-        //             }
-        //         }
-        //         puzzle_1.Net_Charging();
-        //     }
-        // }else{
-        //     if(eBtn != null || eBtn.gameObject.activeSelf)
-        //     {
-        //         eBtn = null;
-        //         Managers.UI.HideUI<UI_ShowEButton>();
-
-        //     }
-        // }
-        //if(GetReadyToCharge(GetAirDir())&& !air.airGun._inhaling && !button.onProgress)
-        //{
-        //    //SHow UI
-        //        if(NetworkClient.localPlayer)
-        //        {
-        //            if(eBtn == null){
-        //                eBtn = Managers.UI.ShowUI<UI_ShowEButton>();
-        //                eBtn.transform.position = transform.position + new Vector3(0,1,0);
-        //            }
-        //        }
-        //    //SHow UI
-        //    if(Input.GetMouseButton(1) && !button.onRecover)
-        //    {
-        //        //Charging
-        //         puzzle_1.Net_Charging();
-        //        //Charging
-
-        //    }
-
-        //}else{
-        //    if(NetworkClient.localPlayer && eBtn != null)
-        //    {
-        //        eBtn = null;
-        //        Managers.UI.HideUI<UI_ShowEButton>();
-
-        //    }
-        //}
-    }
+    // [SerializeField] Puzzle_1 puzzle_1;
+    // [SerializeField] Puzzle_1_Button button;
 
     //Refectoring 0324
-
     public Vector3 offset;
     [SerializeField] Puzzle_1_Net net;
     [ReadOnly]
     public GameObject air;
 
+    public Collider2D Col => GetComponent<Collider2D>();
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision != null)
@@ -80,7 +21,8 @@ public class Puzzle_1_LeftTrigger : MonoBehaviour, IInteractable
             if (collision.TryGetComponent(out AirSM air))
             {
                 this.air = collision.gameObject;
-                net.Cmd_ShowE(collision.gameObject, true, true);
+                if(!net.onActive)
+                net.Cmd_ShowE(collision.gameObject, true, true); //LEFT
             }
         }
     }
@@ -92,7 +34,7 @@ public class Puzzle_1_LeftTrigger : MonoBehaviour, IInteractable
             if (collision.TryGetComponent(out AirSM air))
             {
                 this.air = null;
-                net.Cmd_ShowE(collision.gameObject, true, false);
+                net.Cmd_ShowE(collision.gameObject, true, false); //LEFT
             }
         }
 
@@ -100,12 +42,20 @@ public class Puzzle_1_LeftTrigger : MonoBehaviour, IInteractable
     }
     #region Interactable
     public ObjectTypeEnum _objectType = ObjectTypeEnum.Interaction;
-
+    public Transform Hold_Pivot => transform;
     public void Interaction(Transform accessor = null)
     {
         if(air != null)
         {
-
+            var id = accessor.root.gameObject.GetComponent<NetworkIdentity>().netId;
+            if(!net.onActive){
+                
+                net.Cmd_ShowE(air,true,false); //LEFT
+                net.Cmd_Interact(id,true,true);//LEFT
+            }
+            else{
+                 net.Cmd_Interact(id,true,false);//LEFT
+            }
         }
     }
 
@@ -134,7 +84,7 @@ public class Puzzle_1_LeftTrigger : MonoBehaviour, IInteractable
     public void ShowE(bool onOff)
     {
         if (onOff)
-        {
+        {   
             var ui = Managers.UI.ShowUI<UI_ShowEButton>();
             ui.transform.position = transform.position + offset;
            
@@ -145,6 +95,7 @@ public class Puzzle_1_LeftTrigger : MonoBehaviour, IInteractable
         }
     }
     #endregion
+
     //Refectoring 0324
 
 

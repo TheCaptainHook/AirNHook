@@ -200,7 +200,7 @@ public class UI_StageSelect_var3_Dummy: UI_Base
     // }
 
     //------------------------------------------------------Network 250218
-     bool onReady;
+    //  bool onReady;
      public void StartUi(uint computerId)
     {
         if (NetworkClient.spawned.TryGetValue(computerId, out NetworkIdentity foundObject))
@@ -486,7 +486,7 @@ public class UI_StageSelect_var3_Dummy: UI_Base
         
         onInteractable = true;
         onPrograss = false;
-        onReady = true;
+        // onReady = true;
         
     }
 
@@ -718,7 +718,7 @@ public class UI_StageSelect_var3_Dummy: UI_Base
         onPrograss = true;
         onInteractable = false;
 
-        onReady = false;
+        // onReady = false;
         
         yield return EraserTextLineCo(0, maxSelectTextLineListIndex);
         animator.SetTrigger(close);

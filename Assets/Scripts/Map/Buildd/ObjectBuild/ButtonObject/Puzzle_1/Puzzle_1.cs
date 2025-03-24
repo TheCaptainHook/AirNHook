@@ -97,16 +97,21 @@ public class Puzzle_1 : ButtonEntity
             return puzzle_net;
         }
     }
+    PlayerInput input;
 
-    //private void Update() //test
-    //{
-    //    if (Input.GetKeyDown(KeyCode.P))
-    //    {
-    //        Power();
+    private void Start()
+    {
+        input = Managers.Game.playerInput;
+    }
 
-    //    }
+    private void Update()
+    {
+        if(Puzzle_Net.onActive && input.playerActions.Action.ReadValue<float>()>0f)
+        {
+            Net_Charging();
+        }
 
-    //}
+    }
 
 
     //-------------------------------------------------------------Network 250126

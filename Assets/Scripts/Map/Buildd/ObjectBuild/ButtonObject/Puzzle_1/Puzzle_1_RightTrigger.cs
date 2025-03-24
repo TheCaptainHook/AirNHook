@@ -3,65 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class Puzzle_1_RightTrigger : MonoBehaviour
+public class Puzzle_1_RightTrigger : MonoBehaviour,IInteractable
 {
-    [SerializeField] Puzzle_1 puzzle_1;
-    [SerializeField] Puzzle_1_Button button;
-    
+    // [SerializeField] Puzzle_1 puzzle_1;
+    // [SerializeField] Puzzle_1_Button button;
+
+    //Refectoring 0324
+    public Vector3 offset;
+    [SerializeField] Puzzle_1_Net net;
     [ReadOnly]
-    public AirSM air;
-    [ReadOnly]
-    public Transform airWeaponPivot;
+    public GameObject air;
 
-UI_Base eBtn;
-    private void Update()
-    {
-        // if (Input.GetMouseButton(1) && air && !button.onRecover)
-        // {
-        //     if (GetReadyToCharge(GetAirDir()) && !air.airGun._inhaling && !button.onProgress)
-        //     {
-        //         //Charging;
-        //         puzzle_1.Net_Charging();
-        //         //puzzle_1.Charging();
-        //     }
-        // }
-        if(GetReadyToCharge(GetAirDir())&& !air.airGun._inhaling && !button.onProgress)
-        {
-            //SHow UI
-                if(NetworkClient.localPlayer)
-                {
-                    if(eBtn == null){
-                        eBtn = Managers.UI.ShowUI<UI_ShowEButton>();
-                        eBtn.transform.position = transform.position + new Vector3(0,1,0);
-                    }
-                }
-            //SHow UI
-            if(Input.GetMouseButton(1) && !button.onRecover)
-            {
-                //Charging
-                 puzzle_1.Net_Charging();
-                //Charging
-
-            }
-
-        }else{
-            if(NetworkClient.localPlayer && eBtn != null)
-            {
-                eBtn = null;
-                Managers.UI.HideUI<UI_ShowEButton>();
-
-            }
-        }
-    }
-
+    public Collider2D Col => GetComponent<Collider2D>();
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision != null)
         {
-            if (collision.TryGetComponent(out AirSM component))
+            if (collision.TryGetComponent(out AirSM air))
             {
-                air = component;
-                //dir
+                this.air = collision.gameObject;
+                if(!net.onActive)
+                net.Cmd_ShowE(collision.gameObject, false, true); //Right
             }
         }
     }
@@ -70,43 +32,69 @@ UI_Base eBtn;
     {
         if (collision != null)
         {
-            if (collision.TryGetComponent(out AirSM component))
+            if (collision.TryGetComponent(out AirSM air))
             {
-                air = null;
+                this.air = null;
+                net.Cmd_ShowE(collision.gameObject, false, false); //Right
+            }
+        }
+
+
+    }
+    #region Interactable
+    public ObjectTypeEnum _objectType = ObjectTypeEnum.Interaction;
+    public Transform Hold_Pivot => transform;
+    public void Interaction(Transform accessor = null)
+    {
+        if(air != null)
+        {
+            var id = accessor.root.gameObject.GetComponent<NetworkIdentity>().netId;
+            if(!net.onActive){
+                
+                net.Cmd_ShowE(air,false,false); //Right
+                net.Cmd_Interact(id,false,true);//Right
+            }
+            else{
+                 net.Cmd_Interact(id,false,false);//Right
             }
         }
     }
 
+    public bool CanInteract() { return true; }
 
-    private Vector3 GetAirDir()
+    public void Interacting(bool value) { return; }
+
+    public ObjectTypeEnum GetObjectType()
     {
-        if (air == null) return Vector3.zero;
-
-        if (airWeaponPivot == null)
-        {
-            foreach (Transform tr in air.transform)
-            {
-                if (tr.name == "WeaponPivot")
-                {
-                    airWeaponPivot = tr;
-                }
-            }
-        }
-
-        return airWeaponPivot.rotation.eulerAngles;
-
+        return _objectType;
     }
 
-    private bool GetReadyToCharge(Vector3 rot)
+    public void ShowEButton()
     {
-        float z = rot.z - 360;
-        if (rot.y == 180 && (z >= -10 && z <= 0))
-        {
-            return true;
+        return;
+    }
+
+    public void HideEButton()
+    {
+        return;
+    }
+    #endregion
+
+
+    #region UI
+    public void ShowE(bool onOff)
+    {
+        if (onOff)
+        {   
+            var ui = Managers.UI.ShowUI<UI_ShowEButton>();
+            ui.transform.position = transform.position + offset;
+           
         }
         else
         {
-            return false;
+            Managers.UI.HideUI<UI_ShowEButton>();
         }
     }
+    #endregion
+
 }
