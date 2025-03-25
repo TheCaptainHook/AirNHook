@@ -5,7 +5,6 @@ using Mirror;
 using Random = UnityEngine.Random;
 using System;
 using UnityEngine.Animations;
-using UnityEngine.Rendering;
 using UnityEngine.InputSystem;
 
 
@@ -352,13 +351,14 @@ public class Puzzle_1_Net : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CmdReset()
     {
-        RpcReset();
-    }
-    [ClientRpc]
-    public void RpcReset()
-    {
+        //RpcReset();
         Sever_Reset();
     }
+    //[ClientRpc]
+    //public void RpcReset()
+    //{
+    //    Sever_Reset();
+    //}
 
 
     #region -------------------------------------------Hint Screen
