@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4242644980726191828}
   - component: {fileID: 1704063569304873684}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: BottomMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 7010004146643948836}
   - component: {fileID: 4816522087506460475}
   - component: {fileID: 7747777745030928878}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: BaseCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -216,7 +216,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2592200482329086331}
   - component: {fileID: 4547622944663435234}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: TopMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -300,7 +300,8 @@ GameObject:
   - component: {fileID: 8674191484247491696}
   - component: {fileID: 3587914121569848776}
   - component: {fileID: 8269741696365604063}
-  m_Layer: 0
+  - component: {fileID: 2382286424602724285}
+  m_Layer: 14
   m_Name: Beam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -388,7 +389,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -421,6 +422,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5808561, y: 2.657786}
   m_EdgeRadius: 0
+--- !u!114 &2382286424602724285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1989425280863379308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17e25ee5ffc97454f8b848b492cd03d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forcePower: 20
 --- !u!1 &2612311338827695920
 GameObject:
   m_ObjectHideFlags: 0
@@ -431,7 +445,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3277297087221241212}
   - component: {fileID: 6991517443397263941}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Light2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -513,7 +527,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1285397665923631357}
   - component: {fileID: 5666361976122058926}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: BeamDoor_Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -597,7 +611,7 @@ GameObject:
   m_Component:
   - component: {fileID: 374805783896710044}
   - component: {fileID: 538212955199074236}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Blocker_BR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -683,10 +697,11 @@ GameObject:
   - component: {fileID: 4161228635554283920}
   - component: {fileID: 5029497980831789417}
   - component: {fileID: 7369576480102910618}
-  - component: {fileID: 8511485609810720259}
-  - component: {fileID: 3668107497990074313}
-  - component: {fileID: 4558629577332249975}
-  m_Layer: 0
+  - component: {fileID: 5538456056412758438}
+  - component: {fileID: 8921135669249768789}
+  - component: {fileID: 4835629667014154255}
+  - component: {fileID: 7783511971361612682}
+  m_Layer: 14
   m_Name: BeamDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -797,7 +812,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8511485609810720259
+--- !u!114 &5538456056412758438
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -806,7 +821,41 @@ MonoBehaviour:
   m_GameObject: {fileID: 3834708855388144027}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 104eb1c96815b4820b4be071555180b0, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 2207442193
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
+--- !u!114 &8921135669249768789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3834708855388144027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  clientAuthority: 0
+  animator: {fileID: 7369576480102910618}
+--- !u!114 &4835629667014154255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3834708855388144027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ae8040f788ab4b6d9756e43eecc5de3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   id: 359
@@ -825,78 +874,26 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
---- !u!50 &3668107497990074313
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3834708855388144027}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!61 &4558629577332249975
-BoxCollider2D:
+  activeRequirAmount: 0
+  curActiveBtn: 0
+  onOpen: 0
+  onPrograss: 0
+--- !u!114 &7783511971361612682
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3834708855388144027}
   m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 1.5}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
-    oldSize: {x: 1, y: 3}
-    newSize: {x: 1, y: 3}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 3}
-  m_EdgeRadius: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15a9684df45d74b3ab78dc0c0b75e47b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  onSync: 0
 --- !u!1 &3983856959776153528
 GameObject:
   m_ObjectHideFlags: 0
@@ -906,7 +903,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8261483537865123107}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Blockers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -944,7 +941,7 @@ GameObject:
   m_Component:
   - component: {fileID: 969921880931824362}
   - component: {fileID: 7055433006741557653}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: BeamFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1028,7 +1025,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1764427083025827625}
   - component: {fileID: 2849100224404243726}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Blocker_TL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1112,7 +1109,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6468687711400446485}
   - component: {fileID: 576020766611899039}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Blocker_BL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1196,7 +1193,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6849366369874958646}
   - component: {fileID: 7045774041681286744}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Blocker_TR
   m_TagString: Untagged
   m_Icon: {fileID: 0}

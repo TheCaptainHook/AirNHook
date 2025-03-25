@@ -17,6 +17,10 @@ public class BeamDoor : ActivatableObjectEntity
     BeamDoor_Net Net => GetComponent<BeamDoor_Net>();
 
 
+    #region Animation
+    Animator Animator => GetComponent<Animator>();
+    readonly int Open = Animator.StringToHash("OnOpen");
+    #endregion
 
     #region Get,Set
     public override async void SetData<T>(T data)
@@ -37,7 +41,7 @@ public class BeamDoor : ActivatableObjectEntity
         if(Application.isPlaying)
         {
             //Network Sync
-
+            Net.Server_InitSync();
             //Network Sync
 
 
@@ -47,8 +51,6 @@ public class BeamDoor : ActivatableObjectEntity
     }
     #endregion
 
-
-    private Coroutine openOrCloseDoorCoroutine;
     protected override void Activation()
     {
         OpenDoor();
@@ -61,32 +63,35 @@ public class BeamDoor : ActivatableObjectEntity
 
     private void OpenDoor()
     {
-        if(openOrCloseDoorCoroutine != null) StopCoroutine(openOrCloseDoorCoroutine);
-        openOrCloseDoorCoroutine = StartCoroutine(OpenOrClose(true));
+
+        Animator.SetBool(Open, true);
+        //if(openOrCloseDoorCoroutine != null) StopCoroutine(openOrCloseDoorCoroutine);
+        //openOrCloseDoorCoroutine = StartCoroutine(OpenOrClose(true));
     }
 
     private void CloseDoor()
     {
-         if(openOrCloseDoorCoroutine != null) StopCoroutine(openOrCloseDoorCoroutine);
-        openOrCloseDoorCoroutine = StartCoroutine(OpenOrClose(false));
+        Animator.SetBool(Open, false);
+        // if(openOrCloseDoorCoroutine != null) StopCoroutine(openOrCloseDoorCoroutine);
+        //openOrCloseDoorCoroutine = StartCoroutine(OpenOrClose(false));
     }
-    private float percent;
-    public float animationSpeed;
-    IEnumerator OpenOrClose(bool onOff)
-    {
-        float val = onOff ? Time.fixedDeltaTime: -Time.fixedDeltaTime;
+    //    private float percent;
+    //    public float animationSpeed;
+    //    IEnumerator OpenOrClose(bool onOff)
+    //    {
+    //        float val = onOff ? Time.fixedDeltaTime: -Time.fixedDeltaTime;
 
-        while(0<=percent && percent <=1)
-        {
-            percent += val * animationSpeed;
-            /**
-            animator.SetFloat(XXX,percent);
-            **/
-            yield return null;
-        }
+    //        while(0<=percent && percent <=1)
+    //        {
+    //            percent += val * animationSpeed;
+    //            /**
+    //            animator.SetFloat(XXX,percent);
+    //            **/
+    //            yield return null;
+    //        }
 
-        percent = Mathf.Clamp01(percent);
-    }
+    //        percent = Mathf.Clamp01(percent);
+    //    }
 
 }
 
