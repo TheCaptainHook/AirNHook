@@ -50,7 +50,7 @@ public class UI_Title : UI_Base
         base.Start();
         _joinBtn.onClick.AddListener(OnJoinBtn);
         _createRoomBtn.onClick.AddListener(OnCreateRoomBtn);
-        _mapEditorBtn.onClick.AddListener(OnMapEditorBtn);
+        // _mapEditorBtn.onClick.AddListener(OnMapEditorBtn);
         _optionBtn.onClick.AddListener(OnOptionBtn);
         _exitGameBtn.onClick.AddListener(OnExitBtn);
     }
@@ -76,15 +76,17 @@ public class UI_Title : UI_Base
         //Managers.Network.StartHost(); // todo 0425
         //#else
         Managers.Network.steamLobby.HostLobby();
+        // Managers.Command.ChangeStage("Lobby");
         //#endif
     }
 
     private void OnMapEditorBtn()
     {
-        OnClick();
-        Managers.UI.sceneName = "EditorScene";
-        SceneManager.LoadScene("EditorScene");
-        Managers.UI.ShowUI<UI_Loading>();
+        // OnClick();
+        // Managers.UI.sceneName = "EditorScene";
+        // SceneManager.LoadScene("EditorScene");
+        // Managers.UI.ShowUI<UI_Loading>();
+        //Comming Soon...
     }
     private void OnOptionBtn()
     {
@@ -117,6 +119,6 @@ public class UI_Title : UI_Base
         SetSentence(_createRoomText, 2002);
         SetSentence(_optionText, 2003);
         SetSentence(_exitGameText, 2004);
-        SetSentence(_mapEditorText, 2010);
+        SetSentence(_mapEditorText, 2017);
     }
 }

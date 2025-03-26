@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 using Steamworks;
 using TMPro;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Mirror;
 
 public class UI_Option : UI_Base
 {
@@ -16,6 +16,7 @@ public class UI_Option : UI_Base
     [SerializeField] private GameObject _graphicsOption;
     [SerializeField] private GameObject _volumeOption;
     [SerializeField] private GameObject _languageOption;
+    [SerializeField] private UI_Ping _UI_Ping;
     [SerializeField] private Button _optionExitBtn;
 
     [Header("OptionBar")]
@@ -77,18 +78,24 @@ public class UI_Option : UI_Base
     private bool IsInLobby => CurrentGameState == GameState.Lobby;
     private bool IsInTitle => CurrentGameState == GameState.Title;
 
-
+    private bool IsServer => NetworkServer.active;
     #endregion
 
     public override void OnEnable()
     {
         OpenUI();
         AppendAnim(_mainFrame, 1.1f, 0.2f, 1f, 0.1f);
-        _inGameBtnGroups.SetActive(IsInGame);
-        _inLobbyBtnGroups.SetActive(IsInLobby);
-        _inExitBtnGroups.SetActive(IsInTitle);
-        _menuInfo.SetActive(IsInTitle);
-        _roomCodeBox.SetActive(IsInLobby);
+        _inGameBtnGroups.SetActive(IsServer); // -> Host Only
+        _inLobbyBtnGroups.SetActive(!IsInTitle); // is Not Title Only
+        _inExitBtnGroups.SetActive(true);
+
+        //UI_Ping
+        _UI_Ping.gameObject.SetActive(!IsInTitle);
+        if(_UI_Ping.gameObject.activeSelf)_UI_Ping.StartPingCheck(IsServer); 
+        //UI_Ping
+
+        // _menuInfo.SetActive(IsInTitle);
+        _roomCodeBox.SetActive(IsInLobby && IsServer);
         if(IsInLobby)
             GetRoomCode();
     }
@@ -172,19 +179,19 @@ public class UI_Option : UI_Base
     //==================게임 옵션===========================
     private void OnLobbyBtn()
     {
-        if(!Managers.Game.Player.TryGetComponent<PlayerSM>(out var player)) return;
+        // if(!Managers.Game.Player.TryGetComponent<PlayerSM>(out var player)) return;
         
-        if (!player.isServer) return;
+        // if (!player.isServer) return;
         
         OnOptionExit();
-        Managers.Command.ChangeStage("Lobby");
+        Managers.Command.ChangeStage(GlobalText.LOBBY);
     }
     
     private void OnStageRestartBtn()
     {
-        if(!Managers.Game.Player.TryGetComponent<PlayerSM>(out var player)) return;
+        // if(!Managers.Game.Player.TryGetComponent<PlayerSM>(out var player)) return;
 
-        if (!player.isServer) return;
+        // if (!player.isServer) return;
         
         OnOptionExit();
         Managers.Command.ChangeStage(Managers.Stage.stageName);
@@ -274,7 +281,7 @@ public class UI_Option : UI_Base
 
     public override void SetLanguage()
     {
-        SetSentence(_infoTxt, 1014);
+        // SetSentence(_infoTxt, 1014);
         SetSentence(_escText, 1001);
         SetSentence(_titleText, 1003);
         SetSentence(_lobbyText, 1004);

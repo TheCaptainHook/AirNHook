@@ -161,8 +161,10 @@ public class CustomNetworkManager : NetworkManager
         NetworkClient.Send(characterMessage);
 
         //TEST 250310 Ping Check
-        var ui = Managers.UI.ShowUI<UI_Ping>().gameObject.GetComponent<UI_Ping>();
-        ui.StartPingCheck(PingType.Server);
+        // var ui = Managers.UI.ShowUI<UI_Ping>().gameObject.GetComponent<UI_Ping>();
+        // ui.StartPingCheck(PingType.Server);
+
+        //UI_Option,Enable -> PingCheck, disable Stop Check.
         //TEST 250310 Ping Check
     }
 
@@ -216,18 +218,19 @@ public class CustomNetworkManager : NetworkManager
         //TEST 250203
         //Managers.Stage.NetworkObject_SetParent();
         //TEST 250310 Ping Check
-        var ui = Managers.UI.ShowUI<UI_Ping>().gameObject.GetComponent<UI_Ping>();
-        ui.StartPingCheck(PingType.Client);
+        // var ui = Managers.UI.ShowUI<UI_Ping>().gameObject.GetComponent<UI_Ping>();
+        // ui.StartPingCheck(PingType.Client);
         //TEST 250310 Ping Check
     }
     #endregion
 
 
     #region Disconnect
-    public override void OnClientDisconnect()
+    public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
-        base.OnClientDisconnect();
-        Debug.Log("Disconnect");
+        if(Managers.Stage.stageName != GlobalText.LOBBY) Managers.Command.ChangeStage(GlobalText.LOBBY);
+        
+        base.OnServerDisconnect(conn);
     }
     #endregion
 }

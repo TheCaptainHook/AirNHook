@@ -7,14 +7,14 @@ public class StageManager
 {
     //public int stage;
     // TODO 로비 이름으로 변경
-    public string stageName = "Lobby";
+    public string stageName = GlobalText.LOBBY;
     
-    public void LoadMap()
+    public void LoadMap() 
     {
-        if(!stageName.Equals("Lobby"))
-            Managers.Game.CurrentState = GameState.Game;
-        MapEditor.Instance.LoadMap(stageName);
-
+        // if(!stageName.Equals("Lobby"))
+        //     Managers.Game.CurrentState = GameState.Game;
+        // MapEditor.Instance.LoadMap(stageName);
+        MapEditor.Instance.LoadMap(GlobalText.LOBBY);
         //if (NetworkServer.active && NetworkClient.isConnected)
         //{
         //    var list = MapEditor.Instance.curMap.FindObject_Vector2(307);
@@ -43,7 +43,11 @@ public class StageManager
     //    NetworkServer.Spawn(obj, NetworkServer.localConnection);
     //}
 
-
+    // [ClientRpc]
+    // public void Rpc_ChangeStageName(string name)
+    // {
+    //     stageName = name;
+    // }
 
     [Server]
     public void CmdBatchObject<T>(string objName, T data, Transform parent)

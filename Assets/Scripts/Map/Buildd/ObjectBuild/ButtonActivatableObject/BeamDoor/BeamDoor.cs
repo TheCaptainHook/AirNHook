@@ -65,46 +65,16 @@ public class BeamDoor : ActivatableObjectEntity
     {
 
         Animator.SetBool(Open, true);
-        //if(openOrCloseDoorCoroutine != null) StopCoroutine(openOrCloseDoorCoroutine);
-        //openOrCloseDoorCoroutine = StartCoroutine(OpenOrClose(true));
+      
     }
 
     private void CloseDoor()
     {
         Animator.SetBool(Open, false);
-        // if(openOrCloseDoorCoroutine != null) StopCoroutine(openOrCloseDoorCoroutine);
-        //openOrCloseDoorCoroutine = StartCoroutine(OpenOrClose(false));
+     
     }
-    //    private float percent;
-    //    public float animationSpeed;
-    //    IEnumerator OpenOrClose(bool onOff)
-    //    {
-    //        float val = onOff ? Time.fixedDeltaTime: -Time.fixedDeltaTime;
-
-    //        while(0<=percent && percent <=1)
-    //        {
-    //            percent += val * animationSpeed;
-    //            /**
-    //            animator.SetFloat(XXX,percent);
-    //            **/
-    //            yield return null;
-    //        }
-
-    //        percent = Mathf.Clamp01(percent);
-    //    }
+   
 
 }
 
 
-/**
-    1. Init Sync
-        - ButtonActivatableObjectStruct
-    2. Open, Close Function
-    3. 
-
-
-
-    NetworkAnimation,
-
-
-**/

@@ -21,14 +21,14 @@ public enum PingCriteria
     Red,
     Black
 }
-public enum PingType
-{
-    Server,
-    Client
-}
+// public enum PingType
+// {
+//     Server,
+//     Client
+// }
 
 
-public class UI_Ping : UI_Base
+public class UI_Ping : MonoBehaviour
 {
     #region Client Ping
 
@@ -42,28 +42,24 @@ public class UI_Ping : UI_Base
 
     private WaitForSeconds wait;
 
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
         wait = new WaitForSeconds(3);
         curPingCriteria = PingCriteria.Black;
     }
-    public override void OnEnable()
-    {
-     
-    }
-    private void OnDisable()
-    {
-        StopAllCoroutines();
+   
+    // private void OnDisable()
+    // {
+    //     StopAllCoroutines();
         
-    }
+    // }
 
 
 
-    public void StartPingCheck(PingType type)
+    public void StartPingCheck(bool isServer)
     {
         StopAllCoroutines();
-        if(type == PingType.Server)
+        if(isServer)
         {
             ServerPingCheck();
             Debug.Log("Server Ping Check");
@@ -98,7 +94,7 @@ public class UI_Ping : UI_Base
                 Ping ping = new Ping("8.8.8.8");
 
                 //Time Out
-                float timeout = 5f;
+                float timeout = 2f;
                 float startTime = Time.time;
                 //Time Out
 
@@ -132,8 +128,11 @@ public class UI_Ping : UI_Base
                         curPingCriteria = previousPingCriteria;
                         ChangeImage(curPingCriteria);
                     }
+                    //if PingCriteria.Orange , Show UI_Warning_Image
+
+                    //if PingCriteria.Orange , Show UI_Warning_Image
                     //------UI
-                    netPingText.text = $"[Server] {Mathf.Floor(avgLatency)} ms";
+                    netPingText.text = $"[S]{Mathf.Floor(avgLatency)} ms";
                     lastLatency = avgLatency;
                 }
             }
@@ -173,8 +172,12 @@ public class UI_Ping : UI_Base
             {
                 curPingCriteria = previousPingCriteria;
                 ChangeImage(curPingCriteria);
-                netPingText.text = $"[Client] {Mathf.Floor(ping)} ms";
+                netPingText.text = $"[C]{Mathf.Floor(ping)} ms";
             }
+
+            //if PingCriteria.Orange , Show UI_Warning_Image
+                     
+            //if PingCriteria.Orange , Show UI_Warning_Image
             //------UI
             yield return wait;
         }
