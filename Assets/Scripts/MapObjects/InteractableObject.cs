@@ -301,7 +301,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
         float percent = 1;
         _collider.enabled = false;
-        _rigidbody.simulated = false;
+        //_rigidbody.simulated = false;
         _rigidbody.gravityScale = 0;
         _rigidbody.velocity = Vector2.zero;
         while (percent > 0)
@@ -322,7 +322,9 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             else
             {
                 //Debug.Log($"Server,{gameObject.name} . org pot: {pot}, position : {buildObj.position}");
-                transform.position = pot;
+                //transform.position = pot;
+                _rigidbody.position = pot;
+
             }
         }
 
@@ -339,7 +341,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             _collider.enabled = true;
             _rigidbody.gravityScale = 1;  
         }
-        _rigidbody.simulated = true;
+        //_rigidbody.simulated = true;
 
         GetComponent<InteractableObject>().Respawned();
 
