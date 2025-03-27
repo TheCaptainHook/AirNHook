@@ -321,6 +321,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
                 // SettingTransportItem(carrierTransform);
             }
         }
+        if(!buildObj.isTransportItem) transform.position = pot;
 
 
         while (percent < 1)
@@ -333,8 +334,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         if (!buildObj.isTransportItem)
         {
             _collider.enabled = true;
-            _rigidbody.gravityScale = 1;
-            transform.position = pot;
+            _rigidbody.gravityScale = 1;  
         }
         _rigidbody.simulated = true;
 
