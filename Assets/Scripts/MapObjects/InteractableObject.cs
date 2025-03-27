@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.ComponentModel;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -283,6 +284,10 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     [ClientRpc]
     private void Rpc_Dissolve()
     {
+        var root = GetFixedPointRootTransform();
+        if (root != null) if (root.TryGetComponent(out HookSM hook)) hook.ReleaseItem();
+        if (!CanInteract()) Release();
+
         var buildObj = GetComponent<BuildObj>();
         StartCoroutine(Co_Dissolve(buildObj.position));
     }

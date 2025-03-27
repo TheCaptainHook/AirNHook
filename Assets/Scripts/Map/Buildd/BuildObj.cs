@@ -387,11 +387,6 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
 
         if (TryGetComponent(out InteractableObject component))
         {
-            var root = component.GetFixedPointRootTransform();
-            if (root != null) if (root.TryGetComponent(out HookSM hook)) hook.ReleaseItem();
-
-            if (!component.CanInteract())
-            component.Release();
             component.Cmd_Dissolve();
         }
 
