@@ -177,12 +177,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     }
     public void Connection_TransportItem()//Only Server
     {
-        var net_rb = GetComponent<NetworkRigidbodyUnreliable2D>();
-        net_rb.syncDirection = SyncDirection.ServerToClient;
-        _rb.simulated = false;
-        _rb.velocity = Vector2.zero;
 
-        //ParentConstraint constraint = gameObject.AddComponent<ParentConstraint>();
         ParentConstraint constraint = gameObject.TryGetComponent(out ParentConstraint component) ? component : gameObject.AddComponent<ParentConstraint>();
         SetParentConstraint(constraint,carrierTransform);
 
@@ -191,19 +186,12 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     public void DropTransportItem()//Only Server
     {
         if(!NetworkServer.active) return;
-        // transform.SetParent(MapEditor.Instance.networkingObjectTransform);
+
         if(TryGetComponent(out ParentConstraint constraint))
         {
             Destroy(constraint);
         }
 
-        var net_rb = GetComponent<NetworkRigidbodyUnreliable2D>();
-        net_rb.syncDirection = SyncDirection.ClientToServer;
-        _rb.simulated = true;
-
-
-        // _collider.enabled =true;
-        // _rb.gravityScale =1;
         GetComponent<ITransportItem>().TransportItem_DropItem();
     }
     private void SetParentConstraint(ParentConstraint constraint,Transform parent)//Only Server

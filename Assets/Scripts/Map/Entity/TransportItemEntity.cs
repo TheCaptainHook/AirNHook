@@ -11,10 +11,15 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     protected BuildObj BuildObj => GetComponent<BuildObj>();
     public void TransportItem_Constraint(uint netId)
     {
-        StartCoroutine(AllClientReadyChecker_Co(() => { Rpc_Transport_Init(netId); }));
+        StartCoroutine(AllClientReadyChecker_Co(() => 
+        {
+            Rpc_Transport_Init(netId);
+            Rpc_ChangeSyncDirection(SyncDirection.ServerToClient);
+        }));
     }
     public void TransportItem_DropItem()
     {
+        Rpc_ChangeSyncDirection(SyncDirection.ClientToServer);
         Rpc_Transport_Drop();
     }
     [ClientRpc]
@@ -22,6 +27,26 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     {
         Rb.gravityScale = 1;
         Col.enabled = true;
+
+    }
+
+    [ClientRpc]
+    public void Rpc_ChangeSyncDirection(SyncDirection direction)
+    {
+        var net_rb = GetComponent<NetworkRigidbodyUnreliable2D>();
+        switch (direction)
+        {
+            case SyncDirection.ServerToClient:
+                net_rb.syncDirection = direction;
+                Rb.simulated = false;
+                Rb.velocity = Vector2.zero;
+                break;
+            case SyncDirection.ClientToServer:
+            default:
+                net_rb.syncDirection = direction;
+                Rb.simulated = true;
+                break;
+        }
     }
 
     [ClientRpc]
@@ -36,6 +61,7 @@ public class TransportItemEntity : InteractableObject, ITransportItem
             transform.position = drone.itemPlacementPosition.position;
             BuildObj.isTransportItem = true;
         }
+
     }
 
     IEnumerator AllClientReadyChecker_Co(Action action)

@@ -301,7 +301,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
         float percent = 1;
         _collider.enabled = false;
-        //_rigidbody.simulated = false;
         _rigidbody.gravityScale = 0;
         _rigidbody.velocity = Vector2.zero;
         while (percent > 0)
@@ -310,21 +309,17 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             buildObj.DissolveMaterial.SetFloat(DissolveAmount, percent);
             yield return null;
         }
+
         if (NetworkServer.active)
         {
             if (buildObj.isTransportItem)
             {
                 if (buildObj.carrierTransform != null)
-                    // SettingTransportItem(carrierTransform);
                     buildObj.Connection_TransportItem();
-                // SettingTransportItem(carrierTransform);
             }
             else
             {
-                //Debug.Log($"Server,{gameObject.name} . org pot: {pot}, position : {buildObj.position}");
-                //transform.position = pot;
                 _rigidbody.position = pot;
-
             }
         }
 
@@ -341,19 +336,12 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             _collider.enabled = true;
             _rigidbody.gravityScale = 1;  
         }
-        //_rigidbody.simulated = true;
 
         GetComponent<InteractableObject>().Respawned();
-
-        //CustomEditor
-        // if (MapEditor.Instance.mapEditorState == MapEditorState.Object)
-        // {
-        //     TurnOff();
-        // }
-
         buildObj.canRespawn = true;
 
     }
+
 
     #endregion
 
