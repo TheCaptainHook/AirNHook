@@ -138,6 +138,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     public virtual void SetData(ObjectData data)
     {
         ObjectData = data;
+        position = data.position;
         transform.position = data.position;
         transform.rotation = data.quaternion;
         transform.localScale = data.scale;

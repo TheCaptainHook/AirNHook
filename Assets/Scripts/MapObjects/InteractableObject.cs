@@ -321,7 +321,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             }
             else
             {
-                _rigidbody.position = pot;
+                //Debug.Log($"Server,{gameObject.name} . org pot: {pot}, position : {buildObj.position}");
+                transform.position = pot;
             }
         }
 
