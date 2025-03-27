@@ -109,7 +109,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _isGrab = false;
         _canInteract = true;
         ChangeState(false);
-        ShowEButton();
+        //ShowEButton();
 
         _rigidbody.bodyType = _originType;
         //_rigidbody.velocity = Vector2.zero;

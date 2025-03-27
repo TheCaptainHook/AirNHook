@@ -168,48 +168,19 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         Debug.Log("Can't find Rigidbody2D");
         return;
       }
-      //-------------------------------------------Network Sync
-        // _rb.gravityScale = 0;
-        // _collider.enabled = false;
 
-        // this.carrierTransform = carrierTransform;
-        // transform.position = carrierTransform.position;
-       
-
-        // // transform.SetParent(carrierTransform);
-        // isTransportItem = true;
-        // GetComponent<ITransportItem>().TransportItem_Constraint(carrierTransform);
-        // if(TryGetComponent(out NetworkIdentity component))
-        // {
-        //     // GetComponent<ITransportItem>().TransportItem_Constraint(component.netId);
-        //     //  //연결시키기
-        //     // ParentConstraint constraint = gameObject.AddComponent<ParentConstraint>();
-        //     // SetParentConstraint(constraint,carrierTransform);
-        // }
-        // carrierTransformNetId = netId;
-            // carrierTransformNetId = netId;
-            // GetComponent<ITransportItem>().TransportItem_Constraint(netId);
-
-             //연결시키기
-            // if(NetworkClient.spawned.TryGetValue(netId,out NetworkIdentity identity))
-            // {
-            //     var drone = identity.GetComponent<Drone_MultiPurpose>();
-            //     carrierTransform = drone.itemPlacementPosition;
-                
-               
-            // }
-        // this.carrierTransform = carrierTransform;
         carrierTransformNetId = carrierObj.GetComponent<NetworkIdentity>().netId;
         carrierTransform = carrierObj.GetComponent<Drone_MultiPurpose>().itemPlacementPosition;
-
         
         Connection_TransportItem();
-       
-        //-------------------------------------------Network Sync
-        
+
     }
     public void Connection_TransportItem()//Only Server
     {
+        var net_rb = GetComponent<NetworkRigidbodyUnreliable2D>();
+        net_rb.syncDirection = SyncDirection.ServerToClient;
+        _rb.simulated = false;
+        _rb.velocity = Vector2.zero;
 
         //ParentConstraint constraint = gameObject.AddComponent<ParentConstraint>();
         ParentConstraint constraint = gameObject.TryGetComponent(out ParentConstraint component) ? component : gameObject.AddComponent<ParentConstraint>();
@@ -225,7 +196,12 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         {
             Destroy(constraint);
         }
-        
+
+        var net_rb = GetComponent<NetworkRigidbodyUnreliable2D>();
+        net_rb.syncDirection = SyncDirection.ClientToServer;
+        _rb.simulated = true;
+
+
         // _collider.enabled =true;
         // _rb.gravityScale =1;
         GetComponent<ITransportItem>().TransportItem_DropItem();
