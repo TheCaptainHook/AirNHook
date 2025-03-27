@@ -29,7 +29,7 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
             Cmd_InserSocket();
         }else{
             _rigidbody.simulated = true;
-            Main.canRespawn = true;
+            Cmd_OnChangeCanRespawn();
             base.Release();
         }
 
@@ -37,7 +37,8 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
     protected override void Grab()
     {
         base.Grab();
-        Main.canRespawn = false;
+        //Main.canRespawn = false;
+        Cmd_OnChangeCanRespawn();
     }
 
     //private void Puzzle_Item_Release(){
@@ -65,6 +66,16 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
     public bool onInsert;
     [SyncVar] public bool possibleInsertSocket;
 
+    [Command(requiresAuthority = false)]
+    private void Cmd_OnChangeCanRespawn()
+    {
+        Rpc_OnChangeCanRespawn();
+    }
+    [ClientRpc]
+    private void Rpc_OnChangeCanRespawn()
+    {
+        Main.canRespawn = !Main.canRespawn;
+    }
 
 
     [Server]

@@ -64,13 +64,29 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     protected override void Grab()
     {
         base.Grab();
-        BuildObj.canRespawn = false;
+        //BuildObj.canRespawn = false;
+        Cmd_OnChangeCanRespawn();
     }
     public override void Release()
     {
         base.Release();
-        BuildObj.canRespawn = true;
+        //BuildObj.canRespawn = true;
+        Cmd_OnChangeCanRespawn();
     }
+
+
+
+    [Command(requiresAuthority = false)]
+    private void Cmd_OnChangeCanRespawn()
+    {
+        Rpc_OnChangeCanRespawn();
+    }
+    [ClientRpc]
+    private void Rpc_OnChangeCanRespawn()
+    {
+        BuildObj.canRespawn = !BuildObj.canRespawn;
+    }
+
     [Server]
     public void Server_InitSync()
     {
