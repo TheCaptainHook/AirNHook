@@ -310,17 +310,19 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             buildObj.DissolveMaterial.SetFloat(DissolveAmount, percent);
             yield return null;
         }
-
-        if (buildObj.isTransportItem)
+        if (NetworkServer.active)
         {
-            if (buildObj.carrierTransform != null)
+            if (buildObj.isTransportItem)
+            {
+                if (buildObj.carrierTransform != null)
+                    // SettingTransportItem(carrierTransform);
+                    buildObj.Connection_TransportItem();
                 // SettingTransportItem(carrierTransform);
-                buildObj.Connection_TransportItem();
-            // SettingTransportItem(carrierTransform);
-        }
-        else
-        {
-            transform.position = pot;
+            }
+            else
+            {
+                _rigidbody.position = pot;
+            }
         }
 
 
