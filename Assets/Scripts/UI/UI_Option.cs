@@ -35,6 +35,8 @@ public class UI_Option : UI_Base
     [SerializeField] private Button _toTitleBtn;
     [SerializeField] private Button _toLobbyBtn;
 
+    [SerializeField] private Button _respawnObjectBtn;
+
     [SerializeField] private Button _exitGameBtn;
 
     [SerializeField] private TMP_Text _infoTxt;
@@ -64,7 +66,7 @@ public class UI_Option : UI_Base
     [SerializeField] private TMP_Text _fullscreenText;
     [SerializeField] private TMP_Text _vsyncText;
     [SerializeField] private TMP_Text _applyText;
-
+    [SerializeField] private TMP_Text _respawnObjectText;
     //[SerializeField] private TMP_Text _resolutionWarningText;
     [SerializeField] private TMP_Text _roomCodeNumText;
     [SerializeField] private TMP_Text _joinCodeText;
@@ -119,7 +121,7 @@ public class UI_Option : UI_Base
         _toLobbyBtn.onClick.AddListener(OnLobbyBtn);
         _exitGameBtn.onClick.AddListener(OnExitBtn);
         _copyCodeBtn.onClick.AddListener(OnCopyBtn);
-
+        _respawnObjectBtn.onClick.AddListener(OnRespawnObjectBtn);
         // _infoTxt.text = menuGameOptionInfo;
         
         //GraphicsOption
@@ -222,6 +224,11 @@ public class UI_Option : UI_Base
 
     }
 
+    private void OnRespawnObjectBtn()
+    {
+        MapEditor.Instance.ResetInteractableObjectPosition();
+    }
+
     private void GetRoomCode()
     {
         _roomCodeNumText.text = Base62Converter.ToBase62(Managers.Network.steamLobby.currentLobbyID.m_SteamID);
@@ -297,5 +304,6 @@ public class UI_Option : UI_Base
         SetSentence(_applyText, 1013);
         //SetSentence(_resolutionWarningText, 1016);
         SetSentence(_joinCodeText, 1017);
+        SetSentence(_respawnObjectText,1018);
     }
 }

@@ -1,272 +1,274 @@
 [
- {
-  "id": 1000,
-  "text": "English"
- },
- {
-  "id": 1001,
-  "text": "Press ESC to Exit"
- },
- {
-  "id": 1002,
-  "text": "ExitGame"
- },
- {
-  "id": 1003,
-  "text": "Title"
- },
- {
-  "id": 1004,
-  "text": "Lobby"
- },
- {
-  "id": 1005,
-  "text": "StageRestart"
- },
- {
-  "id": 1006,
-  "text": "FullScreen"
- },
- {
-  "id": 1007,
-  "text": "Master"
- },
- {
-  "id": 1008,
-  "text": "Effects"
- },
- {
-  "id": 1009,
-  "text": "BGM"
- },
- {
-  "id": 1010,
-  "text": "Language"
- },
- {
-  "id": 1011,
-  "text": "Resolution"
- },
- {
-  "id": 1012,
-  "text": "Vsync"
- },
- {
-  "id": 1013,
-  "text": "APPLY CHANGE"
- },
- {
-  "id": 1014,
-  "text": "This option is not available now"
- },
- {
-  "id": 1015,
-  "text": "Sorry, Current UserTestBuild does not contain SOUNDS yet!!!"
- },
- {
-  "id": 1016,
-  "text": "Disabled when in game"
- },
- {
-  "id": 1017,
-  "text": "Join Code"
- },
- {
-  "id": 2001,
-  "text": "Join Game"
- },
- {
-  "id": 2002,
-  "text": "Create Room"
- },
- {
-  "id": 2003,
-  "text": "Option"
- },
- {
-  "id": 2004,
-  "text": "Exit"
- },
- {
-  "id": 2005,
-  "text": "Failed to Connect"
- },
- {
-  "id": 2006,
-  "text": "RETRY"
- },
- {
-  "id": 2007,
-  "text": "ENTER ROOM CODE"
- },
- {
-  "id": 2008,
-  "text": "Enter Code"
- },
- {
-  "id": 2009,
-  "text": "JOIN"
- },
- {
-  "id": 2010,
-  "text": "Map Editor"
- },
- {
-  "id": 2011,
-  "text": "Loading..."
- },
- {
-  "id": 2012,
-  "text": "Press Any Key!"
- },
- {
-  "id": 2013,
-  "text": "Loading data"
- },
- {
+  {
+    "id": 1000,
+    "text": "English"
+  },
+  {
+    "id": 1001,
+    "text": "Press ESC to Exit"
+  },
+  {
+    "id": 1002,
+    "text": "ExitGame"
+  },
+  {
+    "id": 1003,
+    "text": "Title"
+  },
+  {
+    "id": 1004,
+    "text": "Lobby"
+  },
+  {
+    "id": 1005,
+    "text": "StageRestart"
+  },
+  {
+    "id": 1006,
+    "text": "FullScreen"
+  },
+  {
+    "id": 1007,
+    "text": "Master"
+  },
+  {
+    "id": 1008,
+    "text": "Effects"
+  },
+  {
+    "id": 1009,
+    "text": "BGM"
+  },
+  {
+    "id": 1010,
+    "text": "Language"
+  },
+  {
+    "id": 1011,
+    "text": "Resolution"
+  },
+  {
+    "id": 1012,
+    "text": "Vsync"
+  },
+  {
+    "id": 1013,
+    "text": "APPLY CHANGE"
+  },
+  {
+    "id": 1014,
+    "text": "This option is not available now"
+  },
+  {
+    "id": 1015,
+    "text": "Sorry, Current UserTestBuild does not contain SOUNDS yet!!!"
+  },
+  {
+    "id": 1016,
+    "text": "Disabled when in game"
+  },
+  {
+    "id": 1017,
+    "text": "Join Code"
+  },
+  {
+    "id": 1018,
+    "text": "Respawn Obejct"
+  },
+  {
+    "id": 2001,
+    "text": "Join Game"
+  },
+  {
+    "id": 2002,
+    "text": "Create Room"
+  },
+  {
+    "id": 2003,
+    "text": "Option"
+  },
+  {
+    "id": 2004,
+    "text": "Exit"
+  },
+  {
+    "id": 2005,
+    "text": "Failed to Connect"
+  },
+  {
+    "id": 2006,
+    "text": "RETRY"
+  },
+  {
+    "id": 2007,
+    "text": "ENTER ROOM CODE"
+  },
+  {
+    "id": 2008,
+    "text": "Enter Code"
+  },
+  {
+    "id": 2009,
+    "text": "JOIN"
+  },
+  {
+    "id": 2010,
+    "text": "Map Editor"
+  },
+  {
+    "id": 2011,
+    "text": "Loading..."
+  },
+  {
+    "id": 2012,
+    "text": "Press Any Key!"
+  },
+  {
+    "id": 2013,
+    "text": "Loading data"
+  },
+  {
     "id": 2014,
     "text": "Saving data"
- },
- {
+  },
+  {
     "id": 2015,
     "text": "Load complete"
- },
- {
+  },
+  {
     "id": 2016,
     "text": "Save complete"
- },
- {
-   "id": 2017,
-   "text": "Comming Soon"
-},
- {
-  "id": 2101,
-  "text": "Stage Start"
- },
- {
-  "id": 4001,
-  "text": "Air"
- },
- {
-  "id": 4002,
-  "text": "Hook"
- },
- {
-  "id": 10001,
-  "text": "Welcome to SUPER SOLDIER TRAINING LAB!"
- },
- {
-  "id": 10002,
-  "text": "Where you become useful beans and help you do your solemn duty!"
- },
- {
-  "id": 10003,
-  "text": "Just do as I say and follow the crash course."
- },
- {
-  "id": 10004,
-  "text": "This is the first tutorial course so if you are smarter than squirrels. There would be no problem!"
- },
- {
-  "id": 10005,
-  "text": "Now, this is the first REAL obstacle of your life, not like that stupid puberty."
- },
- {
-  "id": 10006,
-  "text": "You can use your hook to swing to the next platform!"
- },
- {
-  "id": 10007,
-  "text": "But remember both of you need to cross. So use your airgun creatively."
- },
- {
-  "id": 10008,
-  "text": "Good, If you activate the bean pipe, consider that as a checkpoint for the course."
- },
- {
-  "id": 10009,
-  "text": "If your dumb partner is dead, We will slide another one of the clones through the pipe right away."
- },
- {
-  "id": 10010,
-  "text": "This is the second tutorial course. It seems you two were smarter than average beans."
- },
- {
-  "id": 10011,
-  "text": "This is the third and the last tutorial course. Most beans aren't getting this far, so congrats."
- },
- {
-  "id": 10012,
-  "text": "Maybe you think this tutorials are too easy."
- },
- {
-  "id": 10013,
-  "text": "But remember, most beans can't even open the peanut butter jar."
- },
- {
-  "id": 10014,
-  "text": "Congrats on finishing all three tutorial."
- },
- {
-  "id": 10015,
-  "text": "........"
- },
- {
-  "id": 10016,
-  "text": "Finally we can do some real tests."
- },
- {
-  "id": 50000,
-  "text": "Alright, now that you've learned all the basics, it's time to start the final test course."
- },
- {
-  "id": 50001,
-  "text": "I hope you succeed this time, unlike the ones before you."
- },
- {
-  "id": 50002,
-  "text": "Took you long enough. But at least you made it through the course, so that’s something."
- },
- {
-  "id": 50003,
-  "text": "Well done. You did bring the key, right?"
- },
- {
-  "id": 70001,
-  "text": "[Horrifying!] But worry not! With the cutting-edge technology of our super lab, we can reproduce as many times as needed!"
- },
- {
-  "id": 70010,
-  "text": "They sure do die a lot! That one is on their [/1st] reproduction now."
- },
- {
-  "id": 70011,
-  "text": "What, dead again? I expected a lot of deaths, but this is already their [/1st] time."
- },
- {
-  "id": 70012,
-  "text": "Ah, they died. What number was it again…? Oh right, [/1st]!"
- },
- {
-  "id": 1000004,
-  "text": "Test 1"
- },
- {
-  "id": 1000005,
-  "text": "Test 2."
- },
- {
-  "id": 1000006,
-  "text": "Test 3."
- }
- ,
- {
-  "id": 1000007,
-  "text": "Test 4"
- }
- ,
- {
-  "id": 1000008,
-  "text": "Test 5"
- }
+  },
+  {
+    "id": 2017,
+    "text": "Comming Soon"
+  },
+  {
+    "id": 2101,
+    "text": "Stage Start"
+  },
+  {
+    "id": 4001,
+    "text": "Air"
+  },
+  {
+    "id": 4002,
+    "text": "Hook"
+  },
+  {
+    "id": 10001,
+    "text": "Welcome to SUPER SOLDIER TRAINING LAB!"
+  },
+  {
+    "id": 10002,
+    "text": "Where you become useful beans and help you do your solemn duty!"
+  },
+  {
+    "id": 10003,
+    "text": "Just do as I say and follow the crash course."
+  },
+  {
+    "id": 10004,
+    "text": "This is the first tutorial course so if you are smarter than squirrels. There would be no problem!"
+  },
+  {
+    "id": 10005,
+    "text": "Now, this is the first REAL obstacle of your life, not like that stupid puberty."
+  },
+  {
+    "id": 10006,
+    "text": "You can use your hook to swing to the next platform!"
+  },
+  {
+    "id": 10007,
+    "text": "But remember both of you need to cross. So use your airgun creatively."
+  },
+  {
+    "id": 10008,
+    "text": "Good, If you activate the bean pipe, consider that as a checkpoint for the course."
+  },
+  {
+    "id": 10009,
+    "text": "If your dumb partner is dead, We will slide another one of the clones through the pipe right away."
+  },
+  {
+    "id": 10010,
+    "text": "This is the second tutorial course. It seems you two were smarter than average beans."
+  },
+  {
+    "id": 10011,
+    "text": "This is the third and the last tutorial course. Most beans aren't getting this far, so congrats."
+  },
+  {
+    "id": 10012,
+    "text": "Maybe you think this tutorials are too easy."
+  },
+  {
+    "id": 10013,
+    "text": "But remember, most beans can't even open the peanut butter jar."
+  },
+  {
+    "id": 10014,
+    "text": "Congrats on finishing all three tutorial."
+  },
+  {
+    "id": 10015,
+    "text": "........"
+  },
+  {
+    "id": 10016,
+    "text": "Finally we can do some real tests."
+  },
+  {
+    "id": 50000,
+    "text": "Alright, now that you've learned all the basics, it's time to start the final test course."
+  },
+  {
+    "id": 50001,
+    "text": "I hope you succeed this time, unlike the ones before you."
+  },
+  {
+    "id": 50002,
+    "text": "Took you long enough. But at least you made it through the course, so that’s something."
+  },
+  {
+    "id": 50003,
+    "text": "Well done. You did bring the key, right?"
+  },
+  {
+    "id": 70001,
+    "text": "[Horrifying!] But worry not! With the cutting-edge technology of our super lab, we can reproduce as many times as needed!"
+  },
+  {
+    "id": 70010,
+    "text": "They sure do die a lot! That one is on their [/1st] reproduction now."
+  },
+  {
+    "id": 70011,
+    "text": "What, dead again? I expected a lot of deaths, but this is already their [/1st] time."
+  },
+  {
+    "id": 70012,
+    "text": "Ah, they died. What number was it again…? Oh right, [/1st]!"
+  },
+  {
+    "id": 1000004,
+    "text": "Test 1"
+  },
+  {
+    "id": 1000005,
+    "text": "Test 2."
+  },
+  {
+    "id": 1000006,
+    "text": "Test 3."
+  },
+  {
+    "id": 1000007,
+    "text": "Test 4"
+  },
+  {
+    "id": 1000008,
+    "text": "Test 5"
+  }
 ]

@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -391,6 +390,8 @@ public class MapEditor : MonoBehaviour
     {
         stageClear = false;
 
+        event_reset = null;
+
         Init();
         placeMentSystem.ResetTileMap();
         mapEditorType = MapEditorType.Load;
@@ -714,14 +715,17 @@ public class MapEditor : MonoBehaviour
     //    return encodingTask;
 
     //}
-
+    public event Action event_reset;
     public void ResetInteractableObjectPosition(){
-        foreach(Transform tr in networkingObjectTransform){
-            BuildObj obj = tr.GetComponent<BuildObj>();
-            if(obj != null && obj.GetDissolveObject()){
-                obj.Dissolve(obj.position);
-            }
-        }
+        //foreach(Transform tr in networkingObjectTransform){
+        //    BuildObj obj = tr.GetComponent<BuildObj>();
+        //    if(obj != null && obj.GetDissolveObject()){
+        //        //obj.Dissolve(obj.position);
+        //        if(obj.canRespawn) obj.Respawn();
+
+        //    }
+        //}
+        event_reset?.Invoke();
     }
 
 

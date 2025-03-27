@@ -1,11 +1,12 @@
 
 using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(InteractableObject_Puzzle_1_Item))]
-public class Puzzle_1_Item : MonoBehaviour,IDamageable
+public class Puzzle_1_Item : BuildObj,IDamageable
 {
 
     [Header("Puzzle")]
@@ -26,6 +27,7 @@ public class Puzzle_1_Item : MonoBehaviour,IDamageable
 
     private void Awake(){
         rb = GetComponent<Rigidbody2D>();
+        DissolveInitSetting();
     }
 
    #region Socket
@@ -78,11 +80,12 @@ public class Puzzle_1_Item : MonoBehaviour,IDamageable
     }
     #endregion
 
+
     #region Util
 
     #endregion
 
-    public void TakeDamage(DamageType damageType = DamageType.Default)
+    public override void TakeDamage(DamageType damageType = DamageType.Default)
     {
         StartCoroutine(DestroyCo());
     }

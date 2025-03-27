@@ -157,6 +157,7 @@ public class BatteryInteractable : TransportItemEntity
 
     //-----------------------------------------------------------------------Interact
     Battery battery;
+    //BuildObj BuildObj => GetComponent<BuildObj>();
     protected override void Awake()
     {
         base.Awake();
@@ -225,7 +226,8 @@ public class BatteryInteractable : TransportItemEntity
         _rigidbody.gravityScale = 0;
 
         Col.enabled = false;
-
+        BuildObj.canRespawn = false;
+        Debug.Log($"Can Respawn : {BuildObj.canRespawn}");
     }
 
     [Command(requiresAuthority = false)]
@@ -243,7 +245,9 @@ public class BatteryInteractable : TransportItemEntity
     {
         Col.enabled = true;
         _rigidbody.gravityScale = 1;
-       
+        BuildObj.canRespawn = true;
+        Debug.Log($"Can Respawn : {BuildObj.canRespawn}");
+
     }
     //-----------------------------------------------------------------------Interact
 
@@ -269,6 +273,7 @@ public class BatteryInteractable : TransportItemEntity
     {
         if (batteryCharger)
         {
+            BuildObj.canRespawn = false;
             Col.enabled = false;
 
         }
@@ -295,6 +300,7 @@ public class BatteryInteractable : TransportItemEntity
     {
         if (powerSupply)
         {
+            BuildObj.canRespawn = false;
             Col.enabled = false;
 
         }

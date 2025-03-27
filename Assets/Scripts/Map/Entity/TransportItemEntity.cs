@@ -61,6 +61,16 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     #region ---------------------------------------------Init Sync
     public bool onSync;
 
+    protected override void Grab()
+    {
+        base.Grab();
+        BuildObj.canRespawn = false;
+    }
+    public override void Release()
+    {
+        base.Release();
+        BuildObj.canRespawn = true;
+    }
     [Server]
     public void Server_InitSync()
     {

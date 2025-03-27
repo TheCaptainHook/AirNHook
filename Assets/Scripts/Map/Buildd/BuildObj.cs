@@ -209,7 +209,9 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     }
     private void Connection_TransportItem()//Only Server
     {
-        ParentConstraint constraint = gameObject.AddComponent<ParentConstraint>();
+
+        //ParentConstraint constraint = gameObject.AddComponent<ParentConstraint>();
+        ParentConstraint constraint = gameObject.TryGetComponent(out ParentConstraint component) ? component : gameObject.AddComponent<ParentConstraint>();
         SetParentConstraint(constraint,carrierTransform);
 
         GetComponent<ITransportItem>().TransportItem_Constraint(carrierTransformNetId);
@@ -319,7 +321,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         }
     }
     //todo 0427
-  
+
     //todo 0427
 
     //public void SelectObjAndApplyOutline_EditorMode()
@@ -348,6 +350,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
 
 
     #region Destructible Obj Dissolve Effect Logic
+    public bool canRespawn;
     protected void DissolveInitSetting(){
         _dissolveMaterial = _Dissolve_MainSprite.material;
         // _rb = GetComponent<Rigidbody2D>();
@@ -355,11 +358,15 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         _IsDissolveObject = true;
         OnDissolveAction += Dissolve;
         OnInteractableObjectRelease += GetComponent<InteractableObject>().Destroyed;
+        canRespawn = true;
 
+        if(NetworkServer.active)
+        MapEditor.Instance.event_reset += Respawn;
     }
 
     public void Dissolve(Vector2 pot)
     {
+        Debug.Log($"Name : {gameObject.name}\n[BuildObject] code line - 366");
         StartCoroutine(Co_Dissolve(pot));
         //if(MapEditor.Instance.mapEditorState != MapEditorState.NoEditor)
         //{
@@ -375,6 +382,8 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     }
     public void Respawn()
     {
+        if (!canRespawn) return;
+
         if (TryGetComponent(out InteractableObject component))
         {
             if(!component.CanInteract())
@@ -386,6 +395,8 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     }
      IEnumerator Co_Dissolve(Vector2 pot)
     {
+        canRespawn = false;
+
         float percent = 1;
         _collider.enabled = false;
         _rb.simulated = false;
@@ -429,6 +440,8 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         // {
         //     TurnOff();
         // }
+
+        canRespawn = true;
        
     }
 

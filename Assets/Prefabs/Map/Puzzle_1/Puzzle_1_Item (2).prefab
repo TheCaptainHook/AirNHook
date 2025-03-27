@@ -98,8 +98,6 @@ GameObject:
   - component: {fileID: 8270888762000129830}
   - component: {fileID: 4043377264801801975}
   - component: {fileID: 5038330697434322713}
-  - component: {fileID: 4033531074295886671}
-  - component: {fileID: 2444540109984360316}
   - component: {fileID: 3181580861299466548}
   - component: {fileID: 7009711972506207765}
   - component: {fileID: 432890324054037823}
@@ -152,7 +150,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: fa68e89795bf44c189f660203b6e7f45, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -268,6 +266,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc17663c113c4640a5e418ab76958e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 9999
+  transformID: 0
+  position: {x: 0, y: 0}
+  distructionStatus: 0
+  chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
+  onPlaceable: 0
+  onRotateable: 0
+  onScaleable: 0
+  offset: {x: 0, y: 0}
+  turnOff: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 5903818644388520337}
+  canRespawn: 0
   socketNumber: 2
   possibleInsertSocket: 0
 --- !u!114 &5038330697434322713
@@ -287,64 +302,6 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!114 &4033531074295886671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1160749570545789211}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 1
-  syncMode: 0
-  syncInterval: 0
-  target: {fileID: 7456625781197213916}
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 0
-  onlySyncOnChange: 0
-  compressRotation: 1
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 0
-  coordinateSpace: 0
-  sendIntervalMultiplier: 1
-  timelineOffset: 0
-  showGizmos: 0
-  showOverlay: 0
-  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  bufferResetMultiplier: 3
-  changedDetection: 1
-  positionSensitivity: 0.01
-  rotationSensitivity: 0.01
-  scaleSensitivity: 0.01
---- !u!114 &2444540109984360316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1160749570545789211}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab2cbc52526ea384ba280d13cd1a57b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 1
-  syncMode: 0
-  syncInterval: 0
-  target: {fileID: 8270888762000129830}
-  clientAuthority: 1
-  syncVelocity: 1
-  clearVelocity: 0
-  velocitySensitivity: 0.1
-  syncAngularVelocity: 1
-  clearAngularVelocity: 0
-  angularVelocitySensitivity: 0.1
 --- !u!114 &3181580861299466548
 MonoBehaviour:
   m_ObjectHideFlags: 0

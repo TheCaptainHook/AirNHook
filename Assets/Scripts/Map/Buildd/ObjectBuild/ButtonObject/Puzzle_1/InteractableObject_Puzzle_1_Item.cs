@@ -8,15 +8,13 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
 {
     [SyncVar] public Vector3 orgPosition;
 
-    Puzzle_1_Item item;
+    Puzzle_1_Item Main => GetComponent<Puzzle_1_Item>();
 
     Collider2D Col => GetComponent<Collider2D>();
 
     protected override void Awake()
     {
         base.Awake();
-        item = GetComponent<Puzzle_1_Item>();
-        
     }
 
     public override void Release()
@@ -31,9 +29,15 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
             Cmd_InserSocket();
         }else{
             _rigidbody.simulated = true;
+            Main.canRespawn = true;
             base.Release();
         }
 
+    }
+    protected override void Grab()
+    {
+        base.Grab();
+        Main.canRespawn = false;
     }
 
     //private void Puzzle_Item_Release(){
@@ -110,14 +114,15 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
             //_sortingGroup.sortingLayerID = _originSortingLayerID;
 
             Col.enabled = false;
-            
+            Main.canRespawn = false;
         }
         else
         {
             //해제
             Col.enabled = true;
             _rigidbody.gravityScale = 1;
-            item.RemoveSocketEffect();
+            Main.RemoveSocketEffect();
+            Main.canRespawn = true;
         }
     }
 
@@ -144,7 +149,7 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
     [ClientRpc]
     private void Rpc_InserSocket()
     {
-        item.InsertSocket();
+        Main.InsertSocket();
     }
 
 
@@ -152,6 +157,7 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
     public void Server_SetOrgPositon(Vector3 positon)
     {
         orgPosition = positon;
+        Main.position = positon;
     }
 
     //[Command(requiresAuthority = false)]
