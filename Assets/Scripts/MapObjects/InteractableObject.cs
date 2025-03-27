@@ -320,11 +320,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
                     buildObj.Connection_TransportItem();
                 // SettingTransportItem(carrierTransform);
             }
-            else
-            {
-                transform.position = pot;
-            }
-
         }
 
 
@@ -339,6 +334,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         {
             _collider.enabled = true;
             _rigidbody.gravityScale = 1;
+            transform.position = pot;
         }
         _rigidbody.simulated = true;
 
