@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -8,33 +9,35 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     // grab release
     [Header("Grab n Release")]
     protected Rigidbody2D _rigidbody;
+    protected Collider2D _collider;
     protected Transform _fixedPoint;
     protected RigidbodyType2D _originType;
     protected RigidbodyConstraints2D _originRot;
     [field: SerializeField] protected ObjectTypeEnum _objectType = ObjectTypeEnum.Grab;
-    [SerializeField]protected float _gravityScale;
+    [SerializeField] protected float _gravityScale;
     [SyncVar] protected bool _isFixed;
     [SyncVar] protected bool _canInteract = true;
     protected bool _isGrab;
-    
+
     // e button ui
     [Header("E Button UI")]
     private UI_Base _eButtonUI;
     [field: SerializeField] private Vector2 _offset;
     private Vector3 _previous;
-    
+
     // inhale
     [Header("Inhale")]
     [field: SerializeField] private float _inhalePower = 20f;
-    
+
     // sorting layer
     protected SortingGroup _sortingGroup;
     protected int _originSortingLayerID;
     private const string GrabObj = "GrabObj";
-    
+
     protected virtual void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        _collider = GetComponent<Collider2D>();
         _sortingGroup = GetComponent<SortingGroup>();
     }
 
@@ -55,7 +58,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             _rigidbody.velocity = Vector2.zero;
             transform.position = _fixedPoint.position;
         }
-        
+
         if (!_isFixed && _eButtonUI is not null)
         {
             _eButtonUI.transform.position = transform.position + (Vector3)_offset;
@@ -82,7 +85,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             Grab();
         }
     }
-    
+
     protected virtual void Grab()
     {
         _isFixed = true;
@@ -90,7 +93,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _canInteract = false;
         ChangeState(true);
         HideEButton();
-        
+
         _rigidbody.bodyType = RigidbodyType2D.Kinematic;
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -115,7 +118,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _sortingGroup.sortingLayerID = _originSortingLayerID;
         CmdChangeSortingLayer(false);
     }
-    
+
     public void Destroyed()
     {
         _isFixed = false;
@@ -123,12 +126,12 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _canInteract = false;
         CmdChangeFixedState(false);
         CmdChangeInteractState(false);
-        
-        if(_eButtonUI is not null)
+
+        if (_eButtonUI is not null)
             HideEButton();
 
         _rigidbody.bodyType = _originType;
-        
+
         if (_fixedPoint is not null && _fixedPoint.root.TryGetComponent<HookSM>(out var hook))
             hook.ReleaseItem();
 
@@ -142,7 +145,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _canInteract = true;
         CmdChangeInteractState(true);
     }
-    
+
     public bool CanInteract()
     {
         return _canInteract;
@@ -160,12 +163,12 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void ShowEButton()
     {
-        if(!_canInteract) return;
-        
+        if (!_canInteract) return;
+
         _eButtonUI = Managers.UI.ShowUI<UI_ShowEButton>();
         _eButtonUI.transform.position = transform.position + (Vector3)_offset;
     }
-    
+
     public void HideEButton()
     {
         _eButtonUI = null;
@@ -223,7 +226,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _rigidbody.AddForce(direction * power);
     }
     #endregion
-    
+
     public Transform GetFixedPointRootTransform()
     {
         if (_fixedPoint == null) return null;
@@ -236,7 +239,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         CmdChangeFixedState(value);
         CmdChangeInteractState(!value);
     }
-    
+
     [Command(requiresAuthority = false)]
     private void CmdChangeFixedState(bool value)
     {
@@ -264,4 +267,88 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             _sortingGroup.sortingLayerID = _originSortingLayerID;
     }
     #endregion
+
+
+
+
+
+    #region Dissolve
+    private static readonly int DissolveAmount = Shader.PropertyToID("_DissolveAmount");
+    float dissolveRate = 0.015f;
+    [Command(requiresAuthority = false)]
+    public void Cmd_Dissolve()
+    {
+        Rpc_Dissolve();
+    }
+    [ClientRpc]
+    private void Rpc_Dissolve()
+    {
+        var buildObj = GetComponent<BuildObj>();
+        StartCoroutine(Co_Dissolve(buildObj.position));
+    }
+
+    IEnumerator Co_Dissolve(Vector2 pot)
+    {
+        var buildObj = GetComponent<BuildObj>();
+        if (buildObj == null) yield break;
+
+        buildObj.canRespawn = false;
+
+        float percent = 1;
+        _collider.enabled = false;
+        _rigidbody.simulated = false;
+        _rigidbody.gravityScale = 0;
+        _rigidbody.velocity = Vector2.zero;
+        while (percent > 0)
+        {
+            percent -= dissolveRate;
+            buildObj.DissolveMaterial.SetFloat(DissolveAmount, percent);
+            yield return null;
+        }
+
+        if(NetworkServer.active)
+        {
+            if (buildObj.isTransportItem)
+            {
+                if (buildObj.carrierTransform != null)
+                    // SettingTransportItem(carrierTransform);
+                    buildObj.Connection_TransportItem();
+                // SettingTransportItem(carrierTransform);
+            }
+            else
+            {
+                transform.position = pot;
+            }
+
+        }
+
+
+        while (percent < 1)
+        {
+            percent += dissolveRate;
+            buildObj.DissolveMaterial.SetFloat(DissolveAmount, percent);
+            yield return null;
+        }
+
+        if (!buildObj.isTransportItem)
+        {
+            _collider.enabled = true;
+            _rigidbody.gravityScale = 1;
+        }
+        _rigidbody.simulated = true;
+
+        GetComponent<InteractableObject>().Respawned();
+
+        //CustomEditor
+        // if (MapEditor.Instance.mapEditorState == MapEditorState.Object)
+        // {
+        //     TurnOff();
+        // }
+
+        buildObj.canRespawn = true;
+
+    }
+
+    #endregion
+
 }

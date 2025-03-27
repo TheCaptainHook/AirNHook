@@ -4,8 +4,6 @@ using System;
 using UnityEngine.EventSystems;
 using UnityEngine.Animations;
 using Mirror;
-using UnityEngine.Analytics;
-
 public enum DistructionStatus
 {
     Indestructible,
@@ -83,9 +81,10 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     #region  Dissolve Effect
     [Header("Dissolve Effect")]
     [SerializeField] SpriteRenderer _Dissolve_MainSprite;
-    private static readonly int DissolveAmount = Shader.PropertyToID("_DissolveAmount");
+    //private static readonly int DissolveAmount = Shader.PropertyToID("_DissolveAmount");
 
     protected Material _dissolveMaterial;
+    public Material DissolveMaterial => _dissolveMaterial;
     private Rigidbody2D Rb;
     protected Rigidbody2D _rb
     {
@@ -101,9 +100,10 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
             return Collider;
         }
     }
-    float dissolveRate = 0.015f;
+    //float dissolveRate = 0.015f;
 
-    public event Action<Vector2> OnDissolveAction;
+    //public event Action<Vector2> OnDissolveAction;
+    public event Action OnDissolveAction;
     public event Action OnDisableAction;
     public event Action OnInteractableObjectRelease;
     protected bool _IsDissolveObject;
@@ -207,7 +207,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         //-------------------------------------------Network Sync
         
     }
-    private void Connection_TransportItem()//Only Server
+    public void Connection_TransportItem()//Only Server
     {
 
         //ParentConstraint constraint = gameObject.AddComponent<ParentConstraint>();
@@ -262,7 +262,8 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
             {
                 OnInteractableObjectRelease?.Invoke();
             }
-            OnDissolveAction?.Invoke(position);
+            //OnDissolveAction?.Invoke(position);
+            OnDissolveAction?.Invoke();
             OnDisableAction?.Invoke();
         }
 
@@ -356,7 +357,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         // _rb = GetComponent<Rigidbody2D>();
         // _collider = GetComponent<Collider2D>();
         _IsDissolveObject = true;
-        OnDissolveAction += Dissolve;
+        OnDissolveAction += Respawn;
         OnInteractableObjectRelease += GetComponent<InteractableObject>().Destroyed;
         canRespawn = true;
 
@@ -364,86 +365,92 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         MapEditor.Instance.event_reset += Respawn;
     }
 
-    public void Dissolve(Vector2 pot)
-    {
-        Debug.Log($"Name : {gameObject.name}\n[BuildObject] code line - 366");
-        StartCoroutine(Co_Dissolve(pot));
-        //if(MapEditor.Instance.mapEditorState != MapEditorState.NoEditor)
-        //{
-        //    //EditorMode_Destroy();
+    //public void Dissolve(Vector2 pot)
+    //{
+    //    Debug.Log($"Name : {gameObject.name}\n[BuildObject] code line - 366");
+    //    //StartCoroutine(Co_Dissolve(pot));
+    //    //if(MapEditor.Instance.mapEditorState != MapEditorState.NoEditor)
+    //    //{
+    //    //    //EditorMode_Destroy();
 
 
-        //}
-        //else
-        //{
-        //    StartCoroutine(Co_Dissolve(pot));
-        //}
+    //    //}
+    //    //else
+    //    //{
+    //    //    StartCoroutine(Co_Dissolve(pot));
+    //    //}
 
-    }
+    //}
     public void Respawn()
     {
         if (!canRespawn) return;
 
         if (TryGetComponent(out InteractableObject component))
         {
-            if(!component.CanInteract())
+            var root = component.GetFixedPointRootTransform();
+            if (root != null) if (root.TryGetComponent(out HookSM hook)) hook.ReleaseItem();
+
+            if (!component.CanInteract())
             component.Release();
+            component.Cmd_Dissolve();
         }
 
-        Dissolve(position);
+        
+        //Dissolve(position);
       
     }
-     IEnumerator Co_Dissolve(Vector2 pot)
-    {
-        canRespawn = false;
+    // IEnumerator Co_Dissolve(Vector2 pot)
+    //{
+    //    canRespawn = false;
 
-        float percent = 1;
-        _collider.enabled = false;
-        _rb.simulated = false;
-        _rb.gravityScale = 0;
-        _rb.velocity = Vector2.zero;
-        while (percent> 0)
-        {
-            percent -= dissolveRate;
-            _dissolveMaterial.SetFloat(DissolveAmount, percent);
-            yield return null;
-        }
-       if(isTransportItem)
-       {    
-            if(carrierTransform != null) 
-            // SettingTransportItem(carrierTransform);
-            Connection_TransportItem();
-            // SettingTransportItem(carrierTransform);
-       }else{
-            transform.position = pot;
-       }
+    //    float percent = 1;
+    //    _collider.enabled = false;
+    //    _rb.simulated = false;
+    //    _rb.gravityScale = 0;
+    //    _rb.velocity = Vector2.zero;
+    //    while (percent> 0)
+    //    {
+    //        percent -= dissolveRate;
+    //        _dissolveMaterial.SetFloat(DissolveAmount, percent);
+    //        yield return null;
+    //    }
+
+    //   if(isTransportItem)
+    //   {    
+    //        if(carrierTransform != null) 
+    //        // SettingTransportItem(carrierTransform);
+    //        Connection_TransportItem();
+    //        // SettingTransportItem(carrierTransform);
+    //   }else{
+    //        transform.position = pot;
+    //   }
         
 
-        while(percent < 1)
-        {
-            percent += dissolveRate;
-            _dissolveMaterial.SetFloat(DissolveAmount, percent);
-            yield return null;
-        }
+    //    while(percent < 1)
+    //    {
+    //        percent += dissolveRate;
+    //        _dissolveMaterial.SetFloat(DissolveAmount, percent);
+    //        yield return null;
+    //    }
 
-        if (!isTransportItem)
-        {
-            _collider.enabled = true;
-            _rb.gravityScale = 1; 
-        }
-        _rb.simulated = true;
+    //    if (!isTransportItem)
+    //    {
+    //        _collider.enabled = true;
+    //        _rb.gravityScale = 1; 
+    //    }
+    //    _rb.simulated = true;
 
-        GetComponent<InteractableObject>().Respawned();
+    //    GetComponent<InteractableObject>().Respawned();
 
-        //CustomEditor
-        // if (MapEditor.Instance.mapEditorState == MapEditorState.Object)
-        // {
-        //     TurnOff();
-        // }
+    //    //CustomEditor
+    //    // if (MapEditor.Instance.mapEditorState == MapEditorState.Object)
+    //    // {
+    //    //     TurnOff();
+    //    // }
 
-        canRespawn = true;
+    //    canRespawn = true;
        
-    }
+    //}
 
     public bool GetDissolveObject(){
         if(_IsDissolveObject){

@@ -19,27 +19,20 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
 
     public override void Release()
     {
-        //if(item.GetPossibleInsertSocket()){
         if (possibleInsertSocket)
         {
-            //Puzzle_Item_Release();
-
-            //onInsert = false;
-            //item.InsertSocket();
             Cmd_InserSocket();
         }else{
             _rigidbody.simulated = true;
-            Cmd_OnChangeCanRespawn();
             base.Release();
         }
-
     }
-    protected override void Grab()
-    {
-        base.Grab();
-        //Main.canRespawn = false;
-        Cmd_OnChangeCanRespawn();
-    }
+    //protected override void Grab()
+    //{
+    //    base.Grab();
+    //    //Main.canRespawn = false;
+    //    Cmd_OnChangeCanRespawn();
+    //}
 
     //private void Puzzle_Item_Release(){
     //    _isFixed = false;
