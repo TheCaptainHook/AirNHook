@@ -161,6 +161,11 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
     public void Server_SetOrgPositon(Vector3 positon)
     {
         orgPosition = positon;
+        Rpc_SetOrgPosition(positon);
+    }
+    [ClientRpc]
+    private void Rpc_SetOrgPosition(Vector3 positon)
+    {
         Main.position = positon;
     }
 

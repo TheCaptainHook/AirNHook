@@ -99,7 +99,8 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     {
         if (onSync) return;
         BuildObj.ObjectData = data;
-        
+        BuildObj.position = data.position;
+
         transform.position = position;
         transform.rotation = data.quaternion;
         //BuildObj.position = data.position;
