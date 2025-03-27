@@ -311,17 +311,17 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             yield return null;
         }
 
-        if(NetworkServer.active)
+        if (buildObj.isTransportItem)
         {
-            if (buildObj.isTransportItem)
-            {
-                if (buildObj.carrierTransform != null)
-                    // SettingTransportItem(carrierTransform);
-                    buildObj.Connection_TransportItem();
+            if (buildObj.carrierTransform != null)
                 // SettingTransportItem(carrierTransform);
-            }
+                buildObj.Connection_TransportItem();
+            // SettingTransportItem(carrierTransform);
         }
-        if(!buildObj.isTransportItem) transform.position = pot;
+        else
+        {
+            transform.position = pot;
+        }
 
 
         while (percent < 1)
