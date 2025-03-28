@@ -183,8 +183,14 @@ public class ExitPointObj : BuildObj
             //absencePanel.Enter(collision.gameObject);//TODO 0802 Need Networking
             // doorOpeningAnim.Enter(collision.gameObject);
 
-            ExitPoint_Net.Enter(collision.gameObject);
-            ExitPoint_Net.Server_SetInDoor(1);
+            var air = collision.GetComponent<AirSM>();
+            var hook = collision.GetComponent<HookSM>();
+            if (air || hook)
+            {
+                ExitPoint_Net.Enter(collision.gameObject);
+                ExitPoint_Net.Server_SetInDoor(1);
+            }
+           
             
             //curPlayerInDoor++;
             //if(stageClear && curPlayerInDoor >= 2)
@@ -207,11 +213,17 @@ public class ExitPointObj : BuildObj
         
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && MapEditor.Instance.stageClear)
         {
+            var air = collision.GetComponent<AirSM>();
+            var hook = collision.GetComponent<HookSM>();
+            if (air || hook)
+            {
+                ExitPoint_Net.Exit(collision.gameObject);
+                ExitPoint_Net.Server_SetInDoor(-1);
+            }
             //absencePanel.Exit(collision.gameObject);//TODO 0802 Need Networking
             //doorOpeningAnim.Exit(collision.gameObject);
 
-            ExitPoint_Net.Exit(collision.gameObject);
-            ExitPoint_Net.Server_SetInDoor(-1);
+           
             
             //curPlayerInDoor--;
             //if(curPlayerInDoor < 0) { curPlayerInDoor = 0; }
