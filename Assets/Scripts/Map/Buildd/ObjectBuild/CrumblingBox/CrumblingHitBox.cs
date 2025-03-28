@@ -11,7 +11,7 @@ public class CrumblingHitBox : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Player") && GetFallingPlayer(collision))
         {
             if (NetworkServer.active) net.Server_SetCrumbringIndex();
         }
@@ -23,5 +23,19 @@ public class CrumblingHitBox : MonoBehaviour
         {
             Debug.Log("Exit");
         }
+    }
+
+
+
+
+
+    private bool GetFallingPlayer(Collider2D other)
+    {
+        var dir = (other.transform.position - transform.position).normalized;
+        return dir.y > 0.76f;
+       
+
+     
+
     }
 }

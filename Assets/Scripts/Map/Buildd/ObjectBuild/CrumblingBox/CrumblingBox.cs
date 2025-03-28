@@ -48,8 +48,9 @@ public class CrumblingBox : BuildObj
     //}
     public void Crumbling(int index)
     {
-        spark_Particle.Play();
         animator.SetTrigger(animationId[index]);
+        if(index >0)
+        spark_Particle.Play();
     }
 
 
