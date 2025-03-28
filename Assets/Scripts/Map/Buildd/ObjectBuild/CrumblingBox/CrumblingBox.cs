@@ -6,9 +6,9 @@ using UnityEngine.Rendering.Universal;
 public class CrumblingBox : BuildObj
 {
     [Header("Info")]
-    [SerializeField] float maxCrumblingRate;
+    private float maxCrumblingRate = 2;
     public float curCrumblingRate;
-    [SerializeField] int maxCrumblingAmount;
+    private int maxCrumblingAmount = 2;
     public int curCrumblingAmount;
 
     [Header("Components")]
@@ -20,9 +20,12 @@ public class CrumblingBox : BuildObj
     [SerializeField] ShadowCaster2D shadowCaster2D;
     bool onPrograss;
 
-    private string[] animationId = new string[] { "Red", "Yellow", "Green" };
+    //private string[] animationId = new string[] { "Explosion", "Red", "Yellow", "Green" };
+    private string[] animationId = new string[] { "Green", "Yellow", "Red", "Explosion",};
 
-    //Test Code
+
+    private CrumblingBox_Net Net => GetComponent<CrumblingBox_Net>();
+
     public Sprite[] sprites;
     private void Awake()
     {
@@ -30,23 +33,27 @@ public class CrumblingBox : BuildObj
         curCrumblingRate = maxCrumblingRate;
     }
 
-    public void Crumbling()
-    {
-        curCrumblingAmount--;
-        curCrumblingAmount = Mathf.Clamp(curCrumblingAmount, -1, 2);
-        if(curCrumblingAmount == -1 && !onPrograss)
-        {
-            animator.SetTrigger("Explosion");
-            return;
-        }
+    //public void Crumbling()
+    //{
+    //    curCrumblingAmount--;
+    //    curCrumblingAmount = Mathf.Clamp(curCrumblingAmount, -1, 2);
+    //    if(curCrumblingAmount == -1 && !onPrograss)
+    //    {
+    //        animator.SetTrigger("Explosion");
+    //        return;
+    //    }
 
+    //    spark_Particle.Play();
+    //    animator.SetTrigger(animationId[curCrumblingAmount]);
+    //}
+    public void Crumbling(int index)
+    {
         spark_Particle.Play();
-        animator.SetTrigger(animationId[curCrumblingAmount]);
+        animator.SetTrigger(animationId[index]);
     }
 
-  
 
-    IEnumerator DestroyBox()
+    IEnumerator DestroyBox() //Animation trigger
     {
         onPrograss = true;
         bumb_Particle.Play();

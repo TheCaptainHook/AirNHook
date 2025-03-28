@@ -1,10 +1,11 @@
 
+using Mirror;
 using UnityEngine;
 
 public class CrumblingHitBox : MonoBehaviour
 {
-    [SerializeField]CrumblingBox parent;
-
+    //[SerializeField]CrumblingBox parent;
+    [SerializeField] CrumblingBox_Net net;
 
 
 
@@ -12,7 +13,7 @@ public class CrumblingHitBox : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            parent.Crumbling();
+            if (NetworkServer.active) net.Server_SetCrumbringIndex();
         }
        
     }
