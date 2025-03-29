@@ -25,12 +25,6 @@ public class LaserObject : ActivatableObjectEntity
         public Coroutine editor_showLaserCoroutine;
     #endregion
 
-    // private void Awake()
-    // {
-    //     // _isEnabled = true;
-    //     // _endVFX.SetActive(_isEnabled);
-    //     // _lineRenderer.enabled = _isEnabled;
-    // }
     public override void SetData<T>(T data)
     {
         base.SetData(data);
@@ -42,48 +36,6 @@ public class LaserObject : ActivatableObjectEntity
        
     }
 
-    //bool shouldRunFixedUpdate = false;
-
-    //void CheckIfObjectIsVisible()
-    //{
-    //    bool val = false;
-    //    Vector3 viewportPos = Camera.main.WorldToViewportPoint(transform.position);
-    //    shouldRunFixedUpdate = viewportPos.x > -0.5f && viewportPos.x < 1.5f &&
-    //                           viewportPos.y > -0.5f && viewportPos.y < 1.5f &&
-    //                           viewportPos.z > 0;
-
-    //}
-
-    //private void Update()
-    //{
-    //    CheckIfObjectIsVisible();
-    //}
-
-    //private void Start()
-    //{
-    //     StartCoroutine(UpdateLaserRoutine());
-    //}
-
-
-    //private IEnumerator UpdateLaserRoutine()
-    //{
-    //    while (true)
-    //    {
-    //        yield return new WaitForSeconds(0.05f); // 0.1초마다 실행
-
-    //        //if (!_Net.shouldRunFixedUpdate) continue;
-
-    //        if (!MapEditor.Instance.stageClear && !turnOff && _Net.onActive)
-    //        {
-    //            UpdateLaser();
-    //        }
-    //        else
-    //        {
-    //            _Net.Server_SetOnActive(false);
-    //        }
-    //    }
-    //}
-
     private void FixedUpdate()
     {
         //if (!shouldRunFixedUpdate) return;
@@ -93,17 +45,11 @@ public class LaserObject : ActivatableObjectEntity
         }
         else
         {
-            //_isEnabled = false;
-            //_endVFX.SetActive(_isEnabled);
-            //_lineRenderer.enabled = false;
             _Net.Server_SetOnActive(false);
         }
     }
     protected override void Activation()
     {
-        //_isEnabled = true;
-        //_endVFX.SetActive(_isEnabled);
-        //_lineRenderer.enabled = _isEnabled;
 
         //onActive = true;
         _Net.Server_SetOnActive(true);
@@ -161,7 +107,7 @@ public class LaserObject : ActivatableObjectEntity
         for (int i = 0; i < 5; i++)
         {
             ray = new Ray(start, dir);
-            RaycastHit2D rh = Physics2D.Raycast(ray.origin, ray.direction, _defDistanceRay, _layerMask);
+            RaycastHit2D rh = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity, _layerMask);
             if (rh.collider != null)
             {
                 Vector2 colDir = rh.normal;

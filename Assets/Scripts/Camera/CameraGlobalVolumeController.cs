@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -48,7 +49,7 @@ public class CameraGlobalVolumeController : MonoBehaviour
     }
 
     float speed = 1.5f;
-    IEnumerator PSTTECoroutine()
+    public IEnumerator PSTTECoroutine()
     {
         _LensDistortion.active = true;
         float percent = 0;
@@ -56,16 +57,19 @@ public class CameraGlobalVolumeController : MonoBehaviour
         Camera.main.GetComponent<PlayerCameraView>().notFollowCam = true;
         while(percent < 1)
         {
-            percent += Time.fixedDeltaTime * speed;
+            percent += Time.deltaTime * speed;
             _LensDistortion.intensity.value = Mathf.Lerp(0,-1,percent);
             _LensDistortion.scale.value = Mathf.Lerp(1,0.01f,percent);
             yield return null;
         }
         //Transform position
         Camera.main.GetComponent<PlayerCameraView>().SetCamerPosition();
+
+        // action?.Invoke();/
+
         while (percent > 0)
         {
-            percent -= Time.fixedDeltaTime * speed;
+            percent -= Time.deltaTime * speed;
             _LensDistortion.intensity.value = Mathf.Lerp(0, -1, percent);
             _LensDistortion.scale.value = Mathf.Lerp(1, 0.01f, percent);
             //_Volume.weight = percent;

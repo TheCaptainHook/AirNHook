@@ -7,10 +7,6 @@ public class Portal_Net : NetworkBehaviour
     [SerializeField] GameObject _TpEffect;
     [Space(20)]
     [Header("------------------------------------")]
-    //[SyncVar] public Vector2 targetPortalPosition;
-    //[SyncVar] public bool onPrograss;
-
-    //[SyncVar] public GameObject targetPortal;
 
     //------------------------------------------------------------------Effect sync
     [SyncVar(hook = nameof(ChangeOnActive))] public bool onActive;
@@ -55,30 +51,8 @@ public class Portal_Net : NetworkBehaviour
     }
 
 
-    IEnumerator UsePortal_Co(GameObject obj)
-    {
-        //onPrograss = true;
-        onPrograss = true;
 
-        Rpc_HoldPlayer(obj);
-        targetPortal.GetComponent<Portal>().Net_ChangeOnPrograss();
-        Rpc_TransmitPosition(obj,targetPortalPosition);
-
-        yield return new WaitForSeconds(1);
-
-        Rpc_RecoverPlayer(obj);
-        yield return new WaitForSeconds(1);
-        targetPortal.GetComponent<Portal>().Net_ChangeOnPrograss();
-
-        onPrograss = false;
-    }
-
-    [ClientRpc]
-    public void Rpc_TransmitPosition(GameObject obj,Vector2 position)
-    {
-        obj.transform.position = targetPortalPosition + Vector2.up;
-    }
-
+#region  Sync Init
   
     [Command]
     private void Cmd_SyncData()
@@ -113,6 +87,7 @@ public class Portal_Net : NetworkBehaviour
         while (!NetworkClient.ready) yield return null;
         Cmd_SyncData();
     }
+    #endregion
 
     //------------------------------------------------------------------Refactoring
     #region StringCache
@@ -122,13 +97,18 @@ public class Portal_Net : NetworkBehaviour
     private Portal Portal => GetComponent<Portal>();
     private Animator Animator => GetComponent<Animator>();
 
-   
+    
 
-    //[Server]
-    //public void SetTargetPortal(GameObject obj)
-    //{
-    //    targetPortal = obj;
-    //}
+    [Command]
+    public void Cmd_UsePortal(GameObject obj)
+    {
+        // var netIdentity = obj.GetComponent<NetworkIdentity>();
+        // var playerConn = netIdentity.connectionToClient;
+        // Target_CameraEffect(playerConn); 
+
+        UsePortal(obj);
+
+    }
 
     [Server]
     public void UsePortal(GameObject obj)
@@ -136,42 +116,57 @@ public class Portal_Net : NetworkBehaviour
         StartCoroutine(UsePortal_Co(obj));
     }
 
-    //IEnumerator UsePortal_Co(GameObject obj)
-    //{
-    //    //onPrograss = true;
-    //    Server_ChangePrograss();
-
-    //    Rpc_HoldPlayer(obj);
-    //    targetPortal.GetComponent<Portal>().Net_ChangeOnPrograss();
-    //    Rpc_TransmitPosition(obj);
-
-    //    yield return new WaitForSeconds(1);
-
-    //    Rpc_RecoverPlayer(obj);
-    //    yield return new WaitForSeconds(1);
-    //    targetPortal.GetComponent<Portal>().Net_ChangeOnPrograss();
-    //    Server_ChangePrograss();
-    //}
-
-
-    [Server]
-    public void Server_ChangePrograss()
+    IEnumerator UsePortal_Co(GameObject obj)
     {
-        onPrograss = !onPrograss;
+        //onPrograss = true;
+        onPrograss = true;
+
+        Rpc_HoldPlayer(obj);
+        targetPortal.GetComponent<Portal>().Net_ChangeOnPrograss(true);
+
+        var netIdentity = obj.GetComponent<NetworkIdentity>();
+        var playerConn = netIdentity.connectionToClient;
+
+        Target_CameraEffect(playerConn);
+        Rpc_TransmitPosition(obj);
+
+
+        //Animation OFF
+        //main , targetPortal OFF
+        Animator.SetBool(IsActive, false);
+        _TpEffect.SetActive(false);
+        //Animation OFF
+
+        yield return new WaitForSeconds(1);
+
+        Rpc_RecoverPlayer(obj);
+        yield return new WaitForSeconds(2);
+
+        //Animation ON
+        //main , targetPortal ON
+        Animator.SetBool(IsActive, true);
+        _TpEffect.SetActive(true);
+        //Animation ON
+
+        targetPortal.GetComponent<Portal>().Net_ChangeOnPrograss(false);
+
+        onPrograss = false;
+    }
+    // [Server]
+    // public void Server_ChangePrograss()
+    // {
+    //     onPrograss = !onPrograss;
+    // }
+       
+
+    [ClientRpc]
+    public void Rpc_TransmitPosition(GameObject obj)
+    {
+        obj.transform.position = targetPortalPosition + Vector2.up;
     }
 
-  
 
-
-
-    //[ClientRpc]
-    //public void Rpc_TransmitPosition(GameObject obj)
-    //{
-    //    obj.transform.position = targetPortalPosition + Vector2.up;
-    //}
-
-
-
+#region  Camera
     [TargetRpc]
     public void Target_CameraEffect(NetworkConnection target)
     {
@@ -183,28 +178,11 @@ public class Portal_Net : NetworkBehaviour
         Debug.Log("Target!");
 
     }
+#endregion
 
-    [Command]
-    public void Cmd_UsePortal(GameObject obj)
-    {
-        var netIdentity = obj.GetComponent<NetworkIdentity>();
-        var playerConn = netIdentity.connectionToClient;
-        Target_CameraEffect(playerConn);
+    
 
-        UsePortal(obj);
-
-    }
-
-
-    //[Command]
-    //public void Cmd_CallUsePortal()
-    //{
-    //    Managers.AcManager.CallUsePortal();
-    //}
-
-
-
-
+#region  Hold,Recover
 
     [ClientRpc]
     public void Rpc_HoldPlayer(GameObject obj)
@@ -223,5 +201,5 @@ public class Portal_Net : NetworkBehaviour
             component.simulated = true;
         }
     }
-
+#endregion
 }

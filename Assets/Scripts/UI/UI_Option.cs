@@ -27,8 +27,8 @@ public class UI_Option : UI_Base
 
     [Header("GameOptionGroups")]
     [SerializeField] private GameObject _inGameBtnGroups;
-    [SerializeField] private GameObject _inLobbyBtnGroups;
-    [SerializeField] private GameObject _inExitBtnGroups;
+    // [SerializeField] private GameObject _inLobbyBtnGroups;
+    // [SerializeField] private GameObject _inExitBtnGroups;
 
     [Header("GameOption")]
     [SerializeField] private Button _stageRestartBtn;
@@ -88,8 +88,8 @@ public class UI_Option : UI_Base
         OpenUI();
         AppendAnim(_mainFrame, 1.1f, 0.2f, 1f, 0.1f);
         _inGameBtnGroups.SetActive(IsServer); // -> Host Only
-        _inLobbyBtnGroups.SetActive(!IsInTitle); // is Not Title Only
-        _inExitBtnGroups.SetActive(true);
+        _toTitleBtn.gameObject.SetActive(!IsInTitle); // is Not Title Only
+        _exitGameBtn.gameObject.SetActive(true);
 
         //UI_Ping
         _UI_Ping.gameObject.SetActive(!IsInTitle);
@@ -143,11 +143,12 @@ public class UI_Option : UI_Base
         _graphicsOption.SetActive(false);
         _volumeOption.SetActive(false);
         _languageOption.SetActive(false);
-        _inGameBtnGroups.SetActive(IsInGame);
-        _inLobbyBtnGroups.SetActive(IsInLobby);
-        _inExitBtnGroups.SetActive(IsInTitle);
-        _menuInfo.SetActive(IsInTitle);
-        _roomCodeBox.SetActive(IsInLobby);
+
+        _inGameBtnGroups.SetActive(IsServer);
+        _toTitleBtn.gameObject.SetActive(!IsInTitle);
+        _exitGameBtn.gameObject.SetActive(true);
+        // _menuInfo.SetActive(IsInTitle);
+        _roomCodeBox.SetActive(IsInLobby && IsServer);
         //_resolutionWarning.SetActive(false);
     }
     
