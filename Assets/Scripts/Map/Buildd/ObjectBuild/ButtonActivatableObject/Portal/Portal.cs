@@ -70,7 +70,7 @@ public class Portal : ActivatableObjectEntity
             if(tr.TryGetComponent(out Portal component)){
                 if(targetPosition == (Vector2)component.transform.position){
                     //targetPortal = component;
-                    Portal_Net.SetTargetPortal(component.gameObject);
+                    Portal_Net.Server_SetTargetPortal(component.gameObject);
                     return;
                 }
             }

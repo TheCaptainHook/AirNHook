@@ -38,24 +38,20 @@ public class Portal_Net : NetworkBehaviour
     public bool onPrograss;
 
     [Server]
-    public void SetTargetPortal(GameObject obj)
+    public void Server_SetTargetPortal(GameObject obj)
     {
-        //targetPortal = obj;
-        Rpc_SetTargetPortal(obj);
+        targetPortal = obj;
+        Rpc_SetTargetPortal(obj.GetComponent<NetworkIdentity>().netId);
         onSync = true;
     }
 
     [ClientRpc]
-    private void Rpc_SetTargetPortal(GameObject obj)
+    private void Rpc_SetTargetPortal(uint id)
     {
-        uint id = obj.GetComponent<NetworkIdentity>().netId;
         if(NetworkClient.spawned.TryGetValue(id,out NetworkIdentity networkIdentity))
         {
             targetPortal = networkIdentity.gameObject;
-        }
-            
-
-        
+        }       
     }
 
     [Server]
@@ -96,14 +92,11 @@ public class Portal_Net : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
-        StartCoroutine(Delay());
+        if (!onSync) Cmd_SyncData();
+
     }
 
-    IEnumerator Delay()
-    {
-        while (!NetworkClient.ready) yield return null;
-        Cmd_SyncData();
-    }
+
     #endregion
 
     //------------------------------------------------------------------Refactoring
