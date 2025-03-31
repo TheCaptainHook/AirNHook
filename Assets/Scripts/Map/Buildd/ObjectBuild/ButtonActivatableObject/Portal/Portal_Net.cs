@@ -65,7 +65,7 @@ public class Portal_Net : NetworkBehaviour
 
 #region  Sync Init
   
-    [Command]
+    [Command(requiresAuthority = false)]
     private void Cmd_SyncData()
     {
         Debug.Log("CMD 1");
@@ -93,7 +93,8 @@ public class Portal_Net : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
-        if (!onSync) StartCoroutine(Delay(()=> { Cmd_SyncData(); }));
+        //if (!onSync) StartCoroutine(Delay(()=> { }));
+        Cmd_SyncData();
 
     }
 
