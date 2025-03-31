@@ -5,7 +5,7 @@ using UnityEngine;
 public class LaserObject : ActivatableObjectEntity
     {
         [CustomHeader("LaserObject")]
-        [SerializeField] private float _defDistanceRay = 50f;
+        //[SerializeField] private float _defDistanceRay = 50f;
         public float _curDistanceRay;
         [SerializeField] private LineRenderer _lineRenderer;
         [SerializeField] private Transform _firePoint;

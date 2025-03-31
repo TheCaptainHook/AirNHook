@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -18,13 +17,8 @@ public class CrumblingBox : BuildObj
     [SerializeField] ParticleSystem spark_Particle;
     [SerializeField] ParticleSystem bumb_Particle;
     [SerializeField] ShadowCaster2D shadowCaster2D;
-    bool onPrograss;
 
-    //private string[] animationId = new string[] { "Explosion", "Red", "Yellow", "Green" };
     private string[] animationId = new string[] { "Green", "Yellow", "Red", "Explosion",};
-
-
-    private CrumblingBox_Net Net => GetComponent<CrumblingBox_Net>();
 
     public Sprite[] sprites;
     private void Awake()
@@ -33,19 +27,7 @@ public class CrumblingBox : BuildObj
         curCrumblingRate = maxCrumblingRate;
     }
 
-    //public void Crumbling()
-    //{
-    //    curCrumblingAmount--;
-    //    curCrumblingAmount = Mathf.Clamp(curCrumblingAmount, -1, 2);
-    //    if(curCrumblingAmount == -1 && !onPrograss)
-    //    {
-    //        animator.SetTrigger("Explosion");
-    //        return;
-    //    }
 
-    //    spark_Particle.Play();
-    //    animator.SetTrigger(animationId[curCrumblingAmount]);
-    //}
     public void Crumbling(int index)
     {
         animator.SetTrigger(animationId[index]);
@@ -53,10 +35,8 @@ public class CrumblingBox : BuildObj
         spark_Particle.Play();
     }
 
-
     IEnumerator DestroyBox() //Animation trigger
     {
-        onPrograss = true;
         bumb_Particle.Play();
         yield return new WaitForSeconds(0.2f);
 
@@ -103,7 +83,5 @@ public class CrumblingBox : BuildObj
         shadowCaster2D.enabled = true;
         
         animator.SetTrigger(animationId[curCrumblingAmount]);
-        onPrograss = false;
-
     }
 }

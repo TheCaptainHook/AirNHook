@@ -33,7 +33,7 @@ public class ButtonActivaateDoor_Net : NetworkBehaviour
         transform.localScale = data.scale;
         onSync = true;
     }
-    [Command]
+    [Command(requiresAuthority =false)]
     public void Cmd_InitSync()
     {
         Server_InitSync();
