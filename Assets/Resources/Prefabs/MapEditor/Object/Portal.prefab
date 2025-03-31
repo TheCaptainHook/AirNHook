@@ -5088,7 +5088,6 @@ GameObject:
   - component: {fileID: 7527202856157951427}
   - component: {fileID: 1416254538327619251}
   - component: {fileID: 1483742717128950042}
-  - component: {fileID: 64979305273645154}
   - component: {fileID: 6680630093674330357}
   - component: {fileID: -2000141949827509853}
   - component: {fileID: 8611386600391597754}
@@ -5164,23 +5163,6 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!114 &64979305273645154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3227932219690051067}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  clientAuthority: 0
-  animator: {fileID: -2000141949827509853}
 --- !u!212 &6680630093674330357
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5328,6 +5310,9 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   distructionStatus: 0
   chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
@@ -5336,6 +5321,7 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
+  canRespawn: 0
   activeRequirAmount: 0
   curActiveBtn: 0
   targetPortal: {fileID: 0}

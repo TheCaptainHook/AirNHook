@@ -78,15 +78,13 @@ public class Portal_Net : NetworkBehaviour
     [ClientRpc]
     private void Rpc_SyncData(Vector2 targetPosition,Vector2 orgPosition,GameObject targetPortal)
     {
-        if(!onSync)
-        {
+
             transform.position = orgPosition;
             this.targetPortalPosition = targetPosition;
 
             if (targetPortal != null) this.targetPortal = targetPortal;
 
             onSync = true;
-        }
     }
 
     public override void OnStartClient()
