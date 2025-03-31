@@ -40,8 +40,22 @@ public class Portal_Net : NetworkBehaviour
     [Server]
     public void SetTargetPortal(GameObject obj)
     {
-        targetPortal = obj;
+        //targetPortal = obj;
+        Rpc_SetTargetPortal(obj);
         onSync = true;
+    }
+
+    [ClientRpc]
+    private void Rpc_SetTargetPortal(GameObject obj)
+    {
+        uint id = obj.GetComponent<NetworkIdentity>().netId;
+        if(NetworkClient.spawned.TryGetValue(id,out NetworkIdentity networkIdentity))
+        {
+            targetPortal = networkIdentity.gameObject;
+        }
+            
+
+        
     }
 
     [Server]
@@ -63,15 +77,18 @@ public class Portal_Net : NetworkBehaviour
     [Server]
     public void SyncData()
     {
-        Rpc_SyncData(targetPortalPosition, orgPosition);
+        Rpc_SyncData(targetPortalPosition, orgPosition,targetPortal);
     }
     [ClientRpc]
-    private void Rpc_SyncData(Vector2 targetPosition,Vector2 orgPosition)
+    private void Rpc_SyncData(Vector2 targetPosition,Vector2 orgPosition,GameObject targetPortal)
     {
         if(!onSync)
         {
             transform.position = orgPosition;
             this.targetPortalPosition = targetPosition;
+
+            if (targetPortal != null) this.targetPortal = targetPortal;
+
             onSync = true;
         }
     }
@@ -118,46 +135,31 @@ public class Portal_Net : NetworkBehaviour
 
     IEnumerator UsePortal_Co(GameObject obj)
     {
-        //onPrograss = true;
-        onPrograss = true;
-
-        Rpc_HoldPlayer(obj);
-        targetPortal.GetComponent<Portal>().Net_ChangeOnPrograss(true);
-
         var netIdentity = obj.GetComponent<NetworkIdentity>();
         var playerConn = netIdentity.connectionToClient;
 
+        Target_OnPrograss(playerConn, true);
+
+        Rpc_HoldPlayer(obj);
+
         Target_CameraEffect(playerConn);
         Rpc_TransmitPosition(obj);
-
-
-        //Animation OFF
-        //main , targetPortal OFF
-        Animator.SetBool(IsActive, false);
-        _TpEffect.SetActive(false);
-        //Animation OFF
 
         yield return new WaitForSeconds(1);
 
         Rpc_RecoverPlayer(obj);
         yield return new WaitForSeconds(2);
 
-        //Animation ON
-        //main , targetPortal ON
-        Animator.SetBool(IsActive, true);
-        _TpEffect.SetActive(true);
-        //Animation ON
+        Target_OnPrograss(playerConn, false);
 
-        targetPortal.GetComponent<Portal>().Net_ChangeOnPrograss(false);
-
-        onPrograss = false;
     }
-    // [Server]
-    // public void Server_ChangePrograss()
-    // {
-    //     onPrograss = !onPrograss;
-    // }
+
        
+    public void Animation_Active(bool active)
+    {
+        Animator.SetBool(IsActive, active);
+        _TpEffect.SetActive(active);
+    }
 
     [ClientRpc]
     public void Rpc_TransmitPosition(GameObject obj)
@@ -178,8 +180,18 @@ public class Portal_Net : NetworkBehaviour
         Debug.Log("Target!");
 
     }
-#endregion
+    #endregion
+    [TargetRpc]
+    private void Target_OnPrograss(NetworkConnection conn,bool onOff)
+    {
+        onPrograss = onOff;
 
+        var net = targetPortal.GetComponent<Portal_Net>();
+        net.onPrograss = onOff;
+
+        Animation_Active(!onOff);
+        net.Animation_Active(!onOff);
+    }
     
 
 #region  Hold,Recover
