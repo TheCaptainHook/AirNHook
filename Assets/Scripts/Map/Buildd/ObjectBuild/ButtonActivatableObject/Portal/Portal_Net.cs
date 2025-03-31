@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using Mirror;
+using System;
 
 public class Portal_Net : NetworkBehaviour
 {
@@ -67,19 +68,21 @@ public class Portal_Net : NetworkBehaviour
     [Command]
     private void Cmd_SyncData()
     {
+        Debug.Log("CMD 1");
         SyncData();
     }
 
     [Server]
     public void SyncData()
     {
+        Debug.Log("CMD 2");
         Rpc_SyncData(targetPortalPosition, orgPosition,targetPortal);
     }
     [ClientRpc]
     private void Rpc_SyncData(Vector2 targetPosition,Vector2 orgPosition,GameObject targetPortal)
     {
-
-            transform.position = orgPosition;
+        Debug.Log("CMD 3");
+        transform.position = orgPosition;
             this.targetPortalPosition = targetPosition;
 
             if (targetPortal != null) this.targetPortal = targetPortal;
@@ -90,8 +93,15 @@ public class Portal_Net : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
-        if (!onSync) Cmd_SyncData();
+        if (!onSync) StartCoroutine(Delay(()=> { Cmd_SyncData(); }));
 
+    }
+
+    IEnumerator Delay(Action action)
+    {
+        while (!NetworkClient.ready) { Debug.Log("Ready Network Portal"); yield return null; }
+       
+        action?.Invoke();
     }
 
 
