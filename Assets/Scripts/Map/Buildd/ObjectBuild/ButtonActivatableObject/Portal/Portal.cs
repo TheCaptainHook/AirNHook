@@ -158,22 +158,20 @@ public class Portal : ActivatableObjectEntity
     #endregion
 
     #region Interactable
- 
+
     //todo 0913 RayCast
-    private void ActiveOnRay(){
-        RaycastHit2D hit = Physics2D.Raycast(transform.position,transform.up,.5f,layer);
-        if(hit.collider != null){
+    private void ActiveOnRay()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, .5f, layer);
+        if (hit.collider != null)
+        {
 
             Portal_Net.Cmd_UsePortal(hit.collider.gameObject);
 
-
-                //if(!Portal_Net.onPrograss){
-                //    Portal_Net.Cmd_UsePortal(hit.collider.gameObject);
-                //} 
         }
-       
+
     }
-   private void OnDrawGizmos(){
+    private void OnDrawGizmos(){
     Gizmos.color = Color.red;
     Gizmos.DrawRay(transform.position,transform.up*.5f);
    }
