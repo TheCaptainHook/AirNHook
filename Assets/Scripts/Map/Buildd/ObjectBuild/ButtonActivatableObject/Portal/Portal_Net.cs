@@ -68,26 +68,23 @@ public class Portal_Net : NetworkBehaviour
     [Command(requiresAuthority = false)]
     private void Cmd_SyncData()
     {
-        Debug.Log("CMD 1");
         SyncData();
     }
 
     [Server]
     public void SyncData()
     {
-        Debug.Log("CMD 2");
         Rpc_SyncData(targetPortalPosition, orgPosition,targetPortal);
     }
     [ClientRpc]
     private void Rpc_SyncData(Vector2 targetPosition,Vector2 orgPosition,GameObject targetPortal)
     {
-        Debug.Log("CMD 3");
         transform.position = orgPosition;
-            this.targetPortalPosition = targetPosition;
+        this.targetPortalPosition = targetPosition;
 
-            if (targetPortal != null) this.targetPortal = targetPortal;
+        if (targetPortal != null) this.targetPortal = targetPortal;
 
-            onSync = true;
+        onSync = true;
     }
 
     public override void OnStartClient()
@@ -118,41 +115,58 @@ public class Portal_Net : NetworkBehaviour
 
     
 
-    [Command]
+    [Command(requiresAuthority = false)]
     public void Cmd_UsePortal(GameObject obj)
     {
         // var netIdentity = obj.GetComponent<NetworkIdentity>();
         // var playerConn = netIdentity.connectionToClient;
         // Target_CameraEffect(playerConn); 
 
-        UsePortal(obj);
-
+        //UsePortal(obj);
+        var netIdentity = obj.GetComponent<NetworkIdentity>();
+        var playerConn = netIdentity.connectionToClient;
+        TRpc_Portal(playerConn, obj);
     }
 
-    [Server]
-    public void UsePortal(GameObject obj)
-    {
-        StartCoroutine(UsePortal_Co(obj));
-    }
+    //[Server]
+    //public void UsePortal(GameObject obj)
+    //{
+    //    StartCoroutine(UsePortal_Co(obj));
+    //}
 
     IEnumerator UsePortal_Co(GameObject obj)
     {
         var netIdentity = obj.GetComponent<NetworkIdentity>();
         var playerConn = netIdentity.connectionToClient;
 
-        Target_OnPrograss(playerConn, true);
+        OnPrograss(true);
 
-        Rpc_HoldPlayer(obj);
+        //Rpc_HoldPlayer(obj);
+        if (obj.TryGetComponent(out Rigidbody2D component))
+        {
+            component.simulated = false;
+        }
+       
 
-        Target_CameraEffect(playerConn);
-        Rpc_TransmitPosition(obj);
+        //Target_CameraEffect(playerConn);
+        if (Camera.main != null)
+        {
+            Camera.main.GetComponent<PlayerCameraView>()?._CameraGlobalVolumeController?
+                .PortalSpace_TimeTransitionEffect();
+        }
+        Debug.Log("Target!");
+
+        obj.transform.position = targetPortalPosition + Vector2.up;
+        //Rpc_TransmitPosition(obj);
 
         yield return new WaitForSeconds(1);
 
-        Rpc_RecoverPlayer(obj);
+        //Rpc_RecoverPlayer(obj);
+        component.simulated = true;
+
         yield return new WaitForSeconds(2);
 
-        Target_OnPrograss(playerConn, false);
+        OnPrograss(false);
 
     }
 
@@ -183,8 +197,7 @@ public class Portal_Net : NetworkBehaviour
 
     }
     #endregion
-    [TargetRpc]
-    private void Target_OnPrograss(NetworkConnection conn,bool onOff)
+    private void OnPrograss(bool onOff)
     {
         onPrograss = onOff;
 
@@ -214,6 +227,19 @@ public class Portal_Net : NetworkBehaviour
         {
             component.simulated = true;
         }
+    }
+
+
+
+
+    [TargetRpc]
+    public void TRpc_Portal(NetworkConnection conn,GameObject player)
+    {
+        if(!onPrograss)
+        {
+            StartCoroutine(UsePortal_Co(player));
+        }
+
     }
 #endregion
 }

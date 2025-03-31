@@ -163,10 +163,13 @@ public class Portal : ActivatableObjectEntity
     private void ActiveOnRay(){
         RaycastHit2D hit = Physics2D.Raycast(transform.position,transform.up,.5f,layer);
         if(hit.collider != null){
-            
-                if(!Portal_Net.onPrograss){
-                    Portal_Net.Cmd_UsePortal(hit.collider.gameObject);
-                } 
+
+            Portal_Net.Cmd_UsePortal(hit.collider.gameObject);
+
+
+                //if(!Portal_Net.onPrograss){
+                //    Portal_Net.Cmd_UsePortal(hit.collider.gameObject);
+                //} 
         }
        
     }
