@@ -84,8 +84,8 @@ public class HarpoonTurret : BuildObj
         }
     }
     private void Shot(){
-         Projectile_Arrow arrow = Managers.Pooling.D_GetItem(arrowPrefab).GetComponent<Projectile_Arrow>();
-        arrow.Setting(transform.position, _holder.transform.right);
+        Projectile_Arrow arrow = Managers.Pooling.D_GetItem(arrowPrefab).GetComponent<Projectile_Arrow>();
+        arrow.Setting(transform.position, _holder.transform.right,gameObject);
         arrow.gameObject.SetActive(true);
 
     }

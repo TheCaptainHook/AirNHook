@@ -3,25 +3,26 @@ using UnityEngine;
 
 public class Projectile_Arrow : ProjectileEntity
 {
+ 
+    public override void SpawnImpactEffect(Vector2 point)
+    {
+        spriteRenderer.sortingLayerID = MAPTILES_LAYERID;
+        _collider.enabled = false;
+        spriteRenderer.sortingOrder = 3;
 
+        transform.position = point;
+    }
     public override void Reset()
     {
-        rb.gravityScale = 0;
+        base.Reset();
+ 
         _collider.enabled = true;
-        onHit = false;
+
     }
    protected override void ReleaseToPool_Projectile()
     {
-        // Managers.Pooling.N_ReleaseToPool<Projectile_Arrow>(gameObject);
-        //Managers.Pooling.N_ReleaseToPool(gameObject);
         Managers.Pooling.D_ReleaseToPool(gameObject);
     }
 
-    //private void OnDrawGizmosSelected()
-    //{
-    //    // 스피어 캐스트를 그리기 위해 씬 상에 범위를 표시
-    //    Gizmos.color = Color.red;
-    //    float hitDistance =rb.velocity.magnitude * Time.fixedDeltaTime * 1.5f;
-    //    Gizmos.DrawRay(transform.position+(transform.right*0.5f), transform.right * hitDistance);
-    //}
+
 }

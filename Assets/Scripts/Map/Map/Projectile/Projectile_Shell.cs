@@ -1,27 +1,23 @@
 
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class Projectile_Shell : ProjectileEntity
 {
-    private SpriteRenderer spriteRenderer;
-    
-    protected override void Awake()
-    {
-        base.Awake();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-    }
+    private Light2D Light=> GetComponent<Light2D>();
 
 
     public override void Reset()
     {
+        base.Reset();
         spriteRenderer.enabled = true;
-        _collider.enabled = true;
-        onHit = false;
+        Light.intensity = 1;
     }
-    public override void SpawnImpactEffect()
+    public override void SpawnImpactEffect(Vector2 point)
     {
         spriteRenderer.enabled = false;
         _collider.enabled = false;
+        Light.intensity = 0;
     }
     protected override void ReleaseToPool_Projectile()
     {

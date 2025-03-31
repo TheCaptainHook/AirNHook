@@ -156,7 +156,7 @@ public class Turret_Net : NetworkBehaviour
         //Projectile_Shell shell = Managers.Pooling.N_GetItme(typeof(Projectile_Shell).Name).GetComponent<Projectile_Shell>();
         Projectile_Shell shell = Managers.Pooling.D_GetItem(ammoPrefab).GetComponent<Projectile_Shell>();
         Vector2 target = firePoint.TransformPoint(Vector2.zero);
-        shell.Setting(target, firePoint.right);
+        shell.Setting(target, firePoint.right,gameObject);
         shell.gameObject.SetActive(true);
     }
 

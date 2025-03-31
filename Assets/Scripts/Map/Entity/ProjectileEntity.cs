@@ -1,5 +1,6 @@
 
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ProjectileEntity : MonoBehaviour,IPooling
@@ -10,39 +11,56 @@ public class ProjectileEntity : MonoBehaviour,IPooling
     #region Components
     protected Rigidbody2D rb;
     protected Collider2D _collider;
+
     #endregion
-
-
-    
-
+    [Header("Setting Field")]
+    [SerializeField] protected SpriteRenderer spriteRenderer;
+    [SerializeField] Transform firePoint;
+    [Space(20)]
+    protected int FOREGROUND_LAYERID;
+    protected int MAPTILES_LAYERID;
+    public GameObject main;
     public float speed;
     public LayerMask hitLayerMask;
 
-    public virtual void Reset() { }
-    public virtual void SpawnImpactEffect() { }
+    public virtual void Reset() 
+    {
+        _collider.enabled = true;
+        onHit = false;
+        spriteRenderer.sortingLayerID = FOREGROUND_LAYERID;
+        spriteRenderer.sortingOrder = 10;
+    }
+    public virtual void SpawnImpactEffect(Vector2 point) { }
 
     #region Defalut
-
+    /**
+     * 1. Setting Field
+     * 2. SpawnImpactEffect Override
+     * 3. Reset Override
+     * 4. ReleaseToPool_Projectile Override
+     * **/
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<Collider2D>();
+        FOREGROUND_LAYERID = SortingLayer.NameToID("ForeGround");
+        MAPTILES_LAYERID = SortingLayer.NameToID("Map/Tiles");
     }
 
     protected virtual void FixedUpdate()
     {
         if (!onHit && onFire)
         {
-            float hitDistance = rb.velocity.magnitude * Time.fixedDeltaTime * 1f;
-            hit = Physics2D.Raycast(transform.position + (transform.right * 0.5f), transform.right, hitDistance, hitLayerMask);
-            Debug.DrawRay(transform.position + transform.right * 0.5f, transform.right * hitDistance, Color.red);
+            float hitDistance = rb.velocity.magnitude * Time.fixedDeltaTime * 2f;
+            hit = Physics2D.Raycast(firePoint.position, firePoint.right, hitDistance, hitLayerMask);
+     
             if (hit)
             {
                 onHit = true;
                 rb.velocity = Vector2.zero;
                 rb.gravityScale = 0;
 
-                SpawnImpactEffect();
+                SpawnImpactEffect(hit.point);
                 
                 if (hit.collider.TryGetComponent(out IDamageable damageable))
                 {
@@ -56,8 +74,6 @@ public class ProjectileEntity : MonoBehaviour,IPooling
                     return;
                 }
 
-                //transform.position = hit.point;
-                rb.velocity = Vector2.zero;
                 StartCoroutine(DelayRelease());
             }
             else
@@ -67,10 +83,31 @@ public class ProjectileEntity : MonoBehaviour,IPooling
         }
     }
 
-
-  
-    public virtual void Setting(Vector2 point, Vector3 dir)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(collision!= null)
+        {
+            if (collision.gameObject == main) return;
+
+            if (collision.TryGetComponent(out IDamageable damageable))
+            {
+                damageable.TakeDamage();
+                Debug.Log($"Hit Projectile: [{gameObject.name}]\n{collision.name}");
+                N_ReleaseToPool();
+                return;
+            }
+            if (collision.TryGetComponent(out Shield shield))
+            {
+                N_ReleaseToPool();
+                return;
+            }
+        }
+    }
+
+
+    public virtual void Setting(Vector2 point, Vector3 dir,GameObject obj)
+    {
+        main = obj;
         transform.position = point;
         float z = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, z);
