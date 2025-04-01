@@ -64,9 +64,7 @@ public class AddForcePlatform : MonoBehaviour
         _PreviousDetactObjects = DetectObjectsInRaycast();
 
     }
-    // private void FixedUpdate(){
-    //     _PreviousDetactObjects = DetectObjectsInRaycast();
-    // }
+
 
     public void Init(){
         _PreviousDetactObjects = new();

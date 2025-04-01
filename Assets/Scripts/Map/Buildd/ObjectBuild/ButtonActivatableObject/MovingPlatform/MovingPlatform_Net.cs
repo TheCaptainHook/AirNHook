@@ -106,7 +106,6 @@ public class MovingPlatform_Net : NetworkBehaviour
         if (newPath.paths != null)
         {
             CreateRail();
-            if(isServer)
             MovingPlatform.AddForce();
         }
     }

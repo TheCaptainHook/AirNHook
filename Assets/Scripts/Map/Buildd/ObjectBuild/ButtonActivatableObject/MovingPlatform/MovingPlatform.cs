@@ -55,11 +55,7 @@ public class MovingPlatform :  ActivatableObjectEntity
     {
         // _rb = GetComponent<Rigidbody2D>();
         addForcePlatform = GetComponent<AddForcePlatform>();
-
-        if(NetworkServer.active){
-            addForcePlatform.Init();
-            Debug.Log("SERVER READY");
-        }
+        addForcePlatform.Init();
         
     }
 
