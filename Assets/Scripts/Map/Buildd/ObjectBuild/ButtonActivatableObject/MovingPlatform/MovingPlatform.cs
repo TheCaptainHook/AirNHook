@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using System;
 using Unity.VisualScripting;
+using Mirror;
 
 
 
@@ -10,6 +11,29 @@ public class MovingPlatform :  ActivatableObjectEntity
 {
     [CustomHeader("Moving Platform")]
     public Vector2[] paths;
+    [ContextMenu("Add Current Position")]
+    public void AddCurrentPosition() 
+    {
+        if(paths.Length > 0) 
+        {
+            Vector2[] newPaths = new Vector2[paths.Length + 1];
+            for (int i = 0; i < paths.Length; i++)
+            {
+                newPaths[i] = paths[i];
+            }
+            newPaths[paths.Length] = transform.position;
+            paths = newPaths;
+        }
+        else
+        {
+            paths = new Vector2[1];
+            paths[0] = transform.position;
+        }
+       
+
+    }
+
+
     public float moveSpeed;
 
     [Header("Main")]
@@ -18,7 +42,7 @@ public class MovingPlatform :  ActivatableObjectEntity
     public float step;
     [ReadOnly]
     public Vector2 dir;
-    public event Action<Vector2> MoveAction;
+    // public event Action<Vector2> MoveAction;
     private AddForcePlatform addForcePlatform;
     private bool onActive;
 
@@ -31,7 +55,12 @@ public class MovingPlatform :  ActivatableObjectEntity
     {
         // _rb = GetComponent<Rigidbody2D>();
         addForcePlatform = GetComponent<AddForcePlatform>();
-        addForcePlatform.Init();
+
+        if(NetworkServer.active){
+            addForcePlatform.Init();
+            Debug.Log("SERVER READY");
+        }
+        
     }
 
 
@@ -72,47 +101,11 @@ public class MovingPlatform :  ActivatableObjectEntity
 
             Util util = new Util();
             await util.Delay(() => { CheckActiveRequirAmount(); });
-            Prograss();
+            if(NetworkServer.active)Prograss();
+            
         }
     }
     #endregion
-
-    //1213
-    // private void CreateRail(Vector2[] paths){ //rail node, rail lineRenderer
-    //     Transform parents = MapEditor.Instance.dontSaveObjectTransform;
-    //     Transform container = new GameObject("Rail_Container").transform;
-    //     container.SetParent(parents);
-
-    //     //Rail Node
-    //     LineRenderer line = Instantiate(rail_Line,container);
-    //     //Draw Line
-    //     DrawLine(line,paths);
-
-    //     Vector2 startPot = line.GetPosition(0);
-    //     Vector2 endPot = line.GetPosition(paths.Length-1);
-
-    //     GameObject railNode_1;
-    //     GameObject railNode_2;
-
-    //     if(startPot == endPot){
-    //         railNode_1 = Instantiate(rail_Prefabs,container);
-    //         railNode_1.transform.position = startPot;
-    //     }else{
-    //         railNode_1 = Instantiate(rail_Prefabs,container);
-    //         railNode_1.transform.position = startPot;
-    //         railNode_2 = Instantiate(rail_Prefabs,container);
-    //         railNode_2.transform.position = endPot;
-    //     }
-
-    // }
-    // private void DrawLine(LineRenderer line,Vector2[] path){
-    //     line.positionCount = path.Length;
-    //     for(int i = 0; i<path.Length;i++){
-    //         line.SetPosition(i,path[i]+new Vector2(0,0.25f));
-    //     }
-
-    // }
-
 
     public void AddForce()
     {

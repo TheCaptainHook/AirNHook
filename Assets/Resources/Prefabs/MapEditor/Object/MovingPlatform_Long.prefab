@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5544048623132846919}
   - component: {fileID: 8980493692623290019}
   - component: {fileID: 7857764052154975748}
-  - component: {fileID: 1912061667540384569}
+  - component: {fileID: 2968318087949111795}
   - component: {fileID: 280356420529785168}
   - component: {fileID: -8727639125033655133}
   - component: {fileID: 512112756729641441}
@@ -133,7 +133,7 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!114 &1912061667540384569
+--- !u!114 &2968318087949111795
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -142,7 +142,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3690635770919025948}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
+  m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
@@ -163,10 +163,11 @@ MonoBehaviour:
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  onlySyncOnChangeCorrectionMultiplier: 2
+  bufferResetMultiplier: 3
+  changedDetection: 1
+  positionSensitivity: 0.01
   rotationSensitivity: 0.01
-  positionPrecision: 0.01
-  scalePrecision: 0.01
+  scaleSensitivity: 0.01
 --- !u!114 &280356420529785168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,6 +196,7 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
+  canRespawn: 0
   activeRequirAmount: 0
   curActiveBtn: 0
   paths: []
@@ -281,7 +283,7 @@ MonoBehaviour:
   - {x: 1.4976275, y: -0.0037063956, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 53810
+  m_InstanceId: 47202
   m_LocalBounds:
     m_Center: {x: -0.0039869547, y: 0.24874261, z: 0}
     m_Extent: {x: 1.5016145, y: 0.252449, z: 0}

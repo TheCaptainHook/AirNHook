@@ -53,12 +53,14 @@ public class AddForcePlatform : MonoBehaviour
 
     [SerializeField] MovingPlatform _MovingPlatform;
 
+    private bool onReady;
     private void Update(){
-        
-        var wh = GetColliderWH();
-        w = wh.width;
-        h = wh.height;
-
+        //-------------------------------------250401
+        if(!onReady) return;
+        // var wh = GetColliderWH();
+        // w = wh.width;
+        // h = wh.height;
+        //-------------------------------------250401
         _PreviousDetactObjects = DetectObjectsInRaycast();
 
     }
@@ -68,7 +70,14 @@ public class AddForcePlatform : MonoBehaviour
 
     public void Init(){
         _PreviousDetactObjects = new();
-        _MovingPlatform.MoveAction+=AddForce;
+
+        //-------------------------------------250401
+        var wh = GetColliderWH();
+        w = wh.width;
+        h = wh.height;
+
+        onReady = true;
+        //-------------------------------------250401
     }
 
     #region  Main
