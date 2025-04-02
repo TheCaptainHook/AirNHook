@@ -53,7 +53,7 @@ public class AddForcePlatform : MonoBehaviour
 
     [SerializeField] MovingPlatform _MovingPlatform;
 
-    private bool onReady;
+    public bool onReady;
     private void Update(){
         //-------------------------------------250401
         if(!onReady) return;
@@ -74,7 +74,7 @@ public class AddForcePlatform : MonoBehaviour
         w = wh.width;
         h = wh.height;
 
-        onReady = true;
+        // onReady = true;
         //-------------------------------------250401
     }
 
@@ -87,48 +87,76 @@ public class AddForcePlatform : MonoBehaviour
         HashSet<GameObject> visitedObj = new();
 
         Debug.DrawRay(GetRayStart(),Vector2.right*w,Color.red);
-        RaycastHit2D[] hits = Physics2D.RaycastAll(GetRayStart(),Vector2.right,w,layerMask);
-        foreach(RaycastHit2D hit in hits){
-            if(hit.collider != null && hit.collider.gameObject != gameObject){
-                if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Default")) continue;
-                if(visitedObj.Add(hit.collider.gameObject)){
-                    DetectObj detectObj = new DetectObj(hit.collider.gameObject);
-                    set.Add(detectObj);
-                    Debug.Log($"{detectObj.obj.name}");
-                }
+        //Check first floor
+        DetectObjectsAlongRay(GetRayStart(),w,visitedObj,set);
+        // RaycastHit2D[] hits = Physics2D.RaycastAll(GetRayStart(),Vector2.right,w,layerMask);
+        // foreach(RaycastHit2D hit in hits){
+        //     if(hit.collider != null && hit.collider.gameObject != gameObject){
+        //         if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Default")) continue;
+        //         if(visitedObj.Add(hit.collider.gameObject)){
+        //             DetectObj detectObj = new DetectObj(hit.collider.gameObject);
+        //             set.Add(detectObj);
+        //             Debug.Log($"{detectObj.obj.name}");
+        //         }
                 
-            }
-        }
+        //     }
+        // }
 
+        //Check second floor
         List<DetectObj> newDetectObjs = new();
-
-        foreach(DetectObj obj in set){
+        foreach (DetectObj obj in set)
+        {
             var detect = GetDetectObjRayStart(obj);
-            RaycastHit2D[] hits2 = Physics2D.RaycastAll(detect.startPot,Vector2.right,detect.width,layerMask);
-            foreach(RaycastHit2D hit in hits2){
-                if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Default")) continue;
-                if(hit.collider != null && hit.collider.gameObject != gameObject){
-                    if(visitedObj.Add(hit.collider.gameObject)){
-                        DetectObj detectObj = new DetectObj(hit.collider.gameObject);
-                        newDetectObjs.Add(detectObj);
-                        
-                    }
-                   
-                }
-            }
-            
+            DetectObjectsAlongRay(detect.startPot, detect.width, visitedObj, newDetectObjs);
         }
+        // List<DetectObj> newDetectObjs = new();
+        // foreach(DetectObj obj in set){
+        //     var detect = GetDetectObjRayStart(obj);
+        //     RaycastHit2D[] hits2 = Physics2D.RaycastAll(detect.startPot,Vector2.right,detect.width,layerMask);
+        //     foreach(RaycastHit2D hit in hits2){
+        //         if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Default")) continue;
+        //         if(hit.collider != null && hit.collider.gameObject != gameObject){
+        //             if(visitedObj.Add(hit.collider.gameObject)){
+        //                 DetectObj detectObj = new DetectObj(hit.collider.gameObject);
+        //                 newDetectObjs.Add(detectObj);
+                        
+        //             }
+                   
+        //         }
+        //     }
+            
+        // }
 
         foreach (DetectObj newObj in newDetectObjs)
         {
             set.Add(newObj);
-            Debug.Log($"{newObj.obj.name}");
         }
 
         return set;
     }
 
-    public void AddForce(Vector2 vec){
+    void DetectObjectsAlongRay(Vector2 start, float width, HashSet<GameObject> visited, ICollection<DetectObj> collection)
+    {
+        RaycastHit2D[] hits = Physics2D.RaycastAll(start, Vector2.right, width, layerMask);
+        foreach (RaycastHit2D hit in hits)
+        {
+            if (hit.collider == null) continue;
+
+            GameObject obj = hit.collider.gameObject;
+
+            if (obj == gameObject) continue;
+            if (obj.layer == LayerMask.NameToLayer("Default")) continue;
+
+            if (visited.Add(obj))
+            {
+                var detectObj = new DetectObj(obj);
+                collection.Add(detectObj);
+                Debug.Log($"{detectObj.obj.name}");
+            }
+        }
+    }
+
+    public void AddForce(Vector2 vec,float step){
         if(_PreviousDetactObjects.Count <=0) return;
         foreach(DetectObj obj in _PreviousDetactObjects){
 
@@ -136,10 +164,14 @@ public class AddForcePlatform : MonoBehaviour
 
             Vector2 curPot = obj._Rb.position;
             Vector2 target = curPot + vec;
-            obj._Rb.position = Vector2.MoveTowards(curPot,target,MovingPlatform_Net.step);
+            obj._Rb.position = Vector2.MoveTowards(curPot,target,step);
         }
     }
     
+    /**
+         서버에서 이동하고(Network Transform), AddForce ClientRpc
+
+    **/
    
     #endregion
 
@@ -169,7 +201,6 @@ public class AddForcePlatform : MonoBehaviour
     }
     #endregion
 
-   
 }
 
 

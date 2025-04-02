@@ -10,18 +10,24 @@ public class MovingPlatform_Net : NetworkBehaviour
     [SerializeField] GameObject rail_Node_Prefabs;
     [SerializeField] LineRenderer rail_Line_Prefabs;
 
-    private LineRenderer lineRenderer;
-    private LineRenderer LineRenderer 
+    // private LineRenderer lineRenderer;
+    // private LineRenderer LineRenderer 
+    // {
+    //     get
+    //     {
+    //         if(!lineRenderer) lineRenderer = GetComponent<LineRenderer>();
+    //         return lineRenderer;
+    //     }
+    // }
+
+    // MovingPlatform MovingPlatform => GetComponent<MovingPlatform>();
+
+    [SyncVar(hook = nameof(Hook_Addforce_OnReady))] public bool addForce_OnReady;
+    private void Hook_Addforce_OnReady(bool old,bool newVal)
     {
-        get
-        {
-            if(!lineRenderer) lineRenderer = GetComponent<LineRenderer>();
-            return lineRenderer;
-        }
+        if(newVal) AddForcePlatform.onReady = true;
     }
 
-    MovingPlatform MovingPlatform => GetComponent<MovingPlatform>();
-    
     [Serializable]
     public struct DataPath
     {
@@ -34,10 +40,19 @@ public class MovingPlatform_Net : NetworkBehaviour
 
     [SyncVar(hook =nameof(OnDataPathUpdated))]
     public DataPath dataPath;
-
-    [SyncVar] public Vector2 velocity;
-    [SyncVar] public float step;
-
+//----------------------------------------------------------------040
+    // [SyncVar] public Vector2 velocity;
+    // [SyncVar] public float step;
+    private AddForcePlatform addForcePlatform;
+    private AddForcePlatform AddForcePlatform
+    {
+        get
+        {
+            addForcePlatform ??= GetComponent<AddForcePlatform>();
+            return addForcePlatform;
+        }
+    }
+//----------------------------------------------------------------0402
     [Server]
     public void Server_CreateRail(Vector2[] paths)
     {
@@ -45,13 +60,14 @@ public class MovingPlatform_Net : NetworkBehaviour
 
     }
 
-
-    [Server]
-    public void Server_SetVelocity(Vector2 velocity,float step)
-    {
-        this.velocity = velocity;
-        this.step = step;
-    }
+//----------------------------------------------------------------0402
+    // [Server]
+    // public void Server_SetVelocity(Vector2 velocity,float step)
+    // {
+    //     this.velocity = velocity;
+    //     this.step = step;
+    // }
+//----------------------------------------------------------------0402
 
     public void CreateRail()
     { 
@@ -92,6 +108,7 @@ public class MovingPlatform_Net : NetworkBehaviour
             railNode_2.transform.position = endPot;
         }
     }
+
     private void DrawLine(LineRenderer line,Vector2[] path)
     {
         line.positionCount = path.Length;
@@ -106,17 +123,24 @@ public class MovingPlatform_Net : NetworkBehaviour
         if (newPath.paths != null)
         {
             CreateRail();
-            MovingPlatform.AddForce();
+            // MovingPlatform.AddForce();
         }
     }
+    
 
-    //public override void OnStartClient()
-    //{
-    //    base.OnStartClient();
-    //    //CreateRail();
-    //    //MovingPlatform.AddForce();
-    //    //StartCoroutine(WaitforSync());
 
-    //}
+    #region AddForce Platform
+    [Server]
+    public void Server_AddForce(Vector2 velocity,float step)
+    {
+        Rpc_AddForce(velocity,step);
+    }
+    [ClientRpc]
+    private void Rpc_AddForce(Vector2 velocity,float step)
+    {
+        Debug.Log($"[Rpc_AddForce] velocoty : {velocity}, step : {step}\nisServer : {isServer}\nisClient : {isClient}");
+        AddForcePlatform.AddForce(velocity,step);
+    }
+    #endregion
 
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using Unity.VisualScripting;
 using Mirror;
+using System.Linq;
 
 
 
@@ -75,16 +76,16 @@ public class MovingPlatform :  ActivatableObjectEntity
     {
          try{
             if (typeof(T) == typeof(ButtonActivatableObjectStruct))
-            {
-            //addForcePlatform = GetComponent<AddForcePlatform>();
-            
-            ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
-            ButtonActivatedObjectStruct = objData;
+            {   
+                ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
+                ButtonActivatedObjectStruct = objData;
 
-            //Moving Platform
-            paths = ConvertPaths(objData.paths);     
-            moveSpeed = objData.moveSpeed;
-            
+                //Moving Platform
+                paths = ConvertPaths(objData.paths);     
+                moveSpeed = objData.moveSpeed;
+                //----------------------------------------------------------------0402
+                if(paths.Length>0) MovingPlatform_Net.addForce_OnReady = true;
+                //----------------------------------------------------------------0402
             }
         }catch(Exception ex){
                 Debug.Log($"{ex},{typeof(T)}");
@@ -102,22 +103,25 @@ public class MovingPlatform :  ActivatableObjectEntity
         }
     }
     #endregion
-
-    public void AddForce()
-    {
-        StartCoroutine(AddForceCo());
-    }
+//------------------------------------------------------0402
+    // public void AddForce()
+    // {
+    //     StartCoroutine(AddForceCo());
+    // }
 
     WaitForFixedUpdate waitSecond = new();
-    IEnumerator AddForceCo()
-    {
-        while(true)
-        {
-            //MoveAction?.Invoke(MovingPlatform_Net.velocity);
-            addForcePlatform.AddForce(MovingPlatform_Net.velocity);
-            yield return waitSecond;
-        }
-    }
+    // IEnumerator AddForceCo()
+    // {
+        
+    //     while(true)
+    //     {
+    //         //MoveAction?.Invoke(MovingPlatform_Net.velocity);
+    //         addForcePlatform.AddForce(MovingPlatform_Net.velocity);
+            
+    //         yield return waitSecond;
+    //     }
+    // }
+    //------------------------------------------------------0402
     private void OnDestroy()
     {
         StopAllCoroutines();
@@ -169,6 +173,7 @@ public class MovingPlatform :  ActivatableObjectEntity
             }
             
             MoveTowards(_rb.position, targetPosition);
+            
             //MoveAction?.Invoke(dir*step);
             yield return waitSecond; 
         }
@@ -188,11 +193,12 @@ public class MovingPlatform :  ActivatableObjectEntity
     private void MoveTowards(Vector2 curP,Vector2 target){
         dir = (target-curP).normalized;
         step = moveSpeed * Time.fixedDeltaTime;
-
-        MovingPlatform_Net.Server_SetVelocity(dir * step,step);
-
+//----------------------------------------------------------------0402
+        // MovingPlatform_Net.Server_SetVelocity(dir * step,step);
+//----------------------------------------------------------------0402
         _rb.position = Vector2.MoveTowards(_rb.position,_rb.position +dir,step);
-        
+        // addForcePlatform.AddForce(dir*step,step);
+        MovingPlatform_Net.Server_AddForce(dir*step,step);
     }
 
     private bool CheckDistance(Vector2 curPos,Vector2 targetPos){
