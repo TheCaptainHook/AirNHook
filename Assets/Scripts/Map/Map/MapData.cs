@@ -5,7 +5,7 @@ using System.Linq;
 using UGS;
 using UnityEngine;
 
-using MapType =ANH_MapEditor.MapType;
+using MapType = ANH_MapEditor.MapType;
 
 public class MapData
 {
