@@ -8,14 +8,16 @@ using System;
 using System.Reflection;
 using UnityEngine.Rendering.Universal;
 
+using TileData = ANH_MapEditor.TileData;
+using MapType = ANH_MapEditor.MapType;
 
-public enum MapType
-{
-    Scene,
-    Main,
-    User,
-    Fork
-}
+// public enum MapType
+// {
+//     Scene,
+//     Main,
+//     User,
+//     Fork
+// }
 
 public enum MapEditorType
 {

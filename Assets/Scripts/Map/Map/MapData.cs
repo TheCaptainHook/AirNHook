@@ -5,6 +5,8 @@ using System.Linq;
 using UGS;
 using UnityEngine;
 
+using MapType =ANH_MapEditor.MapType;
+
 public class MapData
 {
     public Dictionary<int, MapDataStruct> mapObjectDataDictionary = new Dictionary<int, MapDataStruct>();

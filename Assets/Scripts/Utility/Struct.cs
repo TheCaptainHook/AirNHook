@@ -483,18 +483,18 @@ public struct ObjectData
 }
 #endregion
 
-[System.Serializable]
-public struct TileData
-{
-    public int id;
-    public Vector3Int position;
+// [System.Serializable]
+// public struct TileData
+// {
+//     public int id;
+//     public Vector3Int position;
 
-    public TileData(Vector3Int position, int id)
-    {
-        this.id = id;
-        this.position = position;
-    }
-}
+//     public TileData(Vector3Int position, int id)
+//     {
+//         this.id = id;
+//         this.position = position;
+//     }
+// }
 //----------------------------------------------------------------250121 Refectoring
 [System.Serializable]
 public struct CompressedTileData
@@ -649,3 +649,29 @@ public struct Host_MapData
 //    }
 //}
 #endregion
+
+
+
+namespace ANH_MapEditor
+{
+    public enum MapType
+    {
+        Scene,
+        Main,
+        User,
+        Fork
+    }
+
+    [System.Serializable]
+    public struct TileData
+    {
+        public int id;
+        public Vector3Int position;
+
+        public TileData(Vector3Int position, int id)
+        {
+            this.id = id;
+            this.position = position;
+        }
+    }
+}
