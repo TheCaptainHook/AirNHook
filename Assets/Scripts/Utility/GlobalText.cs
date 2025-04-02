@@ -21,6 +21,8 @@ public static class GlobalText
     public const string FLYING_ANIMATION_STRING = "IsFlying";
     public const string HOOK_INHALED_ANIMATION_STRING = "IsHookInhaled";
     public const string AIR_ATTACHED_ANIMATION_STRING = "IsAttached";
+    public const string AIR_BALLON_USINGBTN_STRING ="IsUsingBallonButton";
+    public const string AIR_BALLON_EXHAILING_STRING="BallonButton_Exhailing";
     //DeathParameter
     public const string FIRE_DEATH_ANIMATION_STRING = "DeathByFire";
     public const string ELECTRIC_DEATH_ANIMATION_STRING = "DeathByElectric";
