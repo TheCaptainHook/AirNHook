@@ -192,8 +192,11 @@ public class AddForcePlatform : MonoBehaviour
             {
                 if (component.isOwned)
                 {
-                    obj._Rb.MovePosition(obj._Rb.position + dir);
-                    Debug.Log($"Name : {obj.obj.name} , isOwned : {component.isOwned}, ");
+                    //obj._Rb.MovePosition(obj._Rb.position + dir);
+                    var forceToApply = obj._Rb.mass * dir;
+                    //obj._Rb.velocity += forceToApply;
+                    obj._Rb.AddForce(forceToApply, ForceMode2D.Force);
+                    Debug.Log($"Name : {obj.obj.name} , isOwned : {component.isOwned}\nforceApply : {forceToApply}, dir : {dir} ");
                 }
             }
 

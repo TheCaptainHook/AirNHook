@@ -151,6 +151,7 @@ public class MovingPlatform_Net : NetworkBehaviour
 
     #region AddForce Platform
     float moveSpeed => Main.moveSpeed;
+    float forcePower = 850;
     [Server]
     public void Server_MovePlatform(Vector2 target)
     {
@@ -162,7 +163,7 @@ public class MovingPlatform_Net : NetworkBehaviour
     private void Rpc_MovePlatform(Vector2 curP,Vector2 dir)
     {
        MoveTowards(curP,dir);
-       AddForcePlatform.AddForce(dir);
+       AddForcePlatform.AddForce(dir*forcePower);
     }
 
     //[Server]

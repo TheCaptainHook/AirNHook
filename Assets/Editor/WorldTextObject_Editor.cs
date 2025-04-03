@@ -35,6 +35,7 @@ public class WorldTextObject_Editor : Editor
 
     public override void OnInspectorGUI()
     {
+        base.OnInspectorGUI();
         if (isPlaying) return;
 
         // Update the serialized properties first
