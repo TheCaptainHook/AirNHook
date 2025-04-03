@@ -312,6 +312,7 @@ MonoBehaviour:
   notFollowCam: 0
   marker: {fileID: 5745908724491517193}
   onChangeModeDefaultFromWide: 0
+  isCameraCenter: 0
 --- !u!1 &7400504435710701042
 GameObject:
   m_ObjectHideFlags: 0
