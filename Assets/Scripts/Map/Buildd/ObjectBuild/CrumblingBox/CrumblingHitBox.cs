@@ -32,7 +32,11 @@ public class CrumblingHitBox : MonoBehaviour
     private bool GetFallingPlayer(Collider2D other)
     {
         var dir = (other.transform.position - transform.position).normalized;
-        return dir.y > 0.76f;
+
+        bool x = -0.7f< dir.x && dir.x < 0.7f;
+        bool y = dir.y >= 0.74f;
+        Debug.Log($"Crum : {dir}\n x : {x}, y : {y}");
+        return x && y;
        
 
      

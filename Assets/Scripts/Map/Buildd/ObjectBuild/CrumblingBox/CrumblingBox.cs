@@ -27,11 +27,22 @@ public class CrumblingBox : BuildObj
         curCrumblingRate = maxCrumblingRate;
     }
 
+    CrumblingBox_Net net;
+    CrumblingBox_Net Net { get { net ??= GetComponent<CrumblingBox_Net>(); return net; } }
+    public override void SetData<T>(T data)
+    {
+        base.SetData(data);
+        if (Application.isPlaying)
+        {
+            Net.Server_InitSync();
+        }
+
+    }
 
     public void Crumbling(int index)
     {
         animator.SetTrigger(animationId[index]);
-        if(index >0)
+        if(index >=0)
         spark_Particle.Play();
     }
 
