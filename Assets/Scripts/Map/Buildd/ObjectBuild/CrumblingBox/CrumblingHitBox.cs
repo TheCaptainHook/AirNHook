@@ -35,7 +35,6 @@ public class CrumblingHitBox : MonoBehaviour
 
         bool x = -0.7f< dir.x && dir.x < 0.7f;
         bool y = dir.y >= 0.74f;
-        Debug.Log($"Crum : {dir}\n x : {x}, y : {y}");
         return x && y;
        
 

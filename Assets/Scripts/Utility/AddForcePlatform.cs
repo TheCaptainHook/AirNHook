@@ -216,7 +216,7 @@ public class AddForcePlatform : MonoBehaviour
             //Addforce
 
             //
-
+            Debug.Log($"name : {obj.obj.name}");
             //Debug.Log($"Name : {obj.obj.name} , isOwned : {component.isOwned}\nforceApply : {forceToApply}, dir : {dir} ");
         }
     }
