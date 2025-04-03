@@ -459,6 +459,8 @@ public class MapEditor_Editor : Editor
 
             try {
                 SaveMapData(mapEditor);
+                mapEditor.onLoad = true;
+                mapEditor.isLoadMap = true;
             } catch (Exception ex) {
                 Debug.Log(ex);
             }
