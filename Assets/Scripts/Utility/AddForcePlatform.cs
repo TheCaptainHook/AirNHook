@@ -188,36 +188,18 @@ public class AddForcePlatform : MonoBehaviour
         {
             if (obj.obj == null) continue;
 
-            //if (obj.obj.TryGetComponent(out NetworkIdentity component))
-            //{
-            //    if (component.isOwned)
-            //    {
-            //        //obj._Rb.MovePosition(obj._Rb.position + dir);
-            //        var forceToApply = obj._Rb.mass * dir;
+            if (obj.obj.TryGetComponent(out NetworkIdentity component))
+            {
+                if (component.isOwned)
+                {
+                    obj._Rb.MovePosition(obj._Rb.position + dir);
+                    Debug.Log($"Name : {obj.obj.name} , isOwned : {component.isOwned} ");
+                }
+            }
 
-            //        //MovePosition
-            //        obj._Rb.MovePosition(obj._Rb.position+dir);
-            //        //
-
-            //        //Addforce
-
-            //        //
-
-            //        Debug.Log($"Name : {obj.obj.name} , isOwned : {component.isOwned}\nforceApply : {forceToApply}, dir : {dir} ");
-            //    }
-            //}
             //obj._Rb.MovePosition(obj._Rb.position + dir);
-            var forceToApply = obj._Rb.mass * dir;
-
-            //MovePosition
-            obj._Rb.MovePosition(obj._Rb.position + dir);
-            //
-
-            //Addforce
-
-            //
-            Debug.Log($"name : {obj.obj.name}");
-            //Debug.Log($"Name : {obj.obj.name} , isOwned : {component.isOwned}\nforceApply : {forceToApply}, dir : {dir} ");
+            //Debug.Log($"name : {obj.obj.name}");
+        
         }
     }
     /**
