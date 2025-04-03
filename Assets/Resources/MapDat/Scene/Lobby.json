@@ -14425,7 +14425,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.4499902725219727,
+                "y": 1.449990153312683,
                 "z": 1.0
             },
             "talPot": {
@@ -14552,43 +14552,6 @@
             "fireRate": 0.0,
             "onHoldRotation": false,
             "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 331,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "jumpingPower": 0,
-            "position": {
-                "x": -14.300000190734864,
-                "y": 26.09000015258789
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 1.0,
-            "onHoldRotation": true,
-            "onLeft": true,
             "paths": [],
             "moveSpeed": 0.0,
             "moveDistance": 0.0,
@@ -14987,6 +14950,48 @@
                 "y": 0.0
             },
             "chargeRequired": true
+        },
+        {
+            "id": 341,
+            "position": {
+                "x": -18.0,
+                "y": 26.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "targetPositions": [],
+            "lightPositions": [],
+            "onHint": true,
+            "partsPositions": [
+                {
+                    "x": -12.0,
+                    "y": 27.0
+                }
+            ],
+            "itemPositions": [
+                {
+                    "x": -14.069999694824219,
+                    "y": 27.040000915527345
+                },
+                {
+                    "x": -24.200000762939454,
+                    "y": 27.170000076293947
+                }
+            ],
+            "hintPosition": {
+                "x": -28.049999237060548,
+                "y": 27.239999771118165
+            },
+            "chargeRequired": false
         }
     ],
     "mapExitObjectStruct": {

@@ -52,7 +52,7 @@ public class Puzzle_1_Button : MonoBehaviour
         //
         //curChargeRate += Time.fixedDeltaTime;
         //puzzle_1.SetButtonAnimation(curChargeRate);
-        SyncAnimation(0.05f);
+        SyncAnimation(0.01f);
 
         if (puzzle_Net.chargingRate >= 1)
         {

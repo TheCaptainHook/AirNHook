@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -41,7 +40,12 @@ public class Puzzle_1_Net : NetworkBehaviour
     {
         get
         {
-            return Puzzle.GetComponent<NetworkIdentity>().netId;
+            if(Puzzle.TryGetComponent(out NetworkIdentity identity))
+            {
+                return identity.netId;
+            }
+            return 99999;
+            
         }
     }
 
@@ -473,6 +477,8 @@ public class Puzzle_1_Net : NetworkBehaviour
         //Show UI
 
         //Air ready for blow animation
+        var air = player.TryGetComponent(out AirSM airSm);
+        if(air) airSm.animator.SetBool(GlobalText.AIR_BALLON_USINGBTN_STRING,true);
         
         //Air ready for blow animation
 
@@ -482,16 +488,27 @@ public class Puzzle_1_Net : NetworkBehaviour
         sm.deathEvent += Event_Recover;
 
     }
+   Vector3 airGun_Left = new Vector3(0,180,0);
+   Vector3 airCharPivot_Left = new Vector3(0,-180,0);
    
     private void Fix_AirGun_Direct(GameObject player,bool leftOrRight)
     {
+        var air = player.TryGetComponent(out AirSM airSm);
+        if(!air) return;
+
+
         if(leftOrRight)
         {
             //Left
+            // airSm.charPivot.rotation
+            //CharPivot Rotation.y = -180
+            //WeaponPivot Rotation.y = 180
             Debug.Log("Set Direction to Air [Left]");
         }else
         {
             //Right
+            //CharPivot transform.y = 0
+            //WeaponPivot Rotation.y = 0
             Debug.Log("Set Direction to Air [Right]");
         }
         
@@ -514,7 +531,8 @@ public class Puzzle_1_Net : NetworkBehaviour
         //Hide UI
 
         //Recover Animation
-
+        var air = player.TryGetComponent(out AirSM airSm);
+        if(air) airSm.animator.SetBool(GlobalText.AIR_BALLON_USINGBTN_STRING,false);
         //Recover Animation
 
         Disconnection(player);
@@ -538,7 +556,7 @@ public class Puzzle_1_Net : NetworkBehaviour
             air.canControl =true;
 
             //Stop Air Blow Animation -> ready to blow Animation
-
+            air.animator.SetFloat(GlobalText.AIR_BALLON_EXHAILING_STRING,0);
             //Stop Air Blow Animation -> ready to blow Animation
         }
     }
@@ -550,7 +568,7 @@ public class Puzzle_1_Net : NetworkBehaviour
             air.canControl =false;
 
             //ready to blow Animation -> Air Blow Animation
-
+            air.animator.SetFloat(GlobalText.AIR_BALLON_EXHAILING_STRING,1);
             //ready to blow Animation -> Air Blow Animation
         }
     }
