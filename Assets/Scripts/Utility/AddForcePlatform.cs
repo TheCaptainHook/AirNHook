@@ -186,7 +186,6 @@ public class AddForcePlatform : MonoBehaviour
 
         foreach (DetectObj obj in _PreviousDetactObjects)
         {
-
             if (obj.obj == null) continue;
 
             if (obj.obj.TryGetComponent(out NetworkIdentity component))

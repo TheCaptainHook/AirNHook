@@ -162,7 +162,7 @@ public class MovingPlatform_Net : NetworkBehaviour
     private void Rpc_MovePlatform(Vector2 curP,Vector2 dir)
     {
        MoveTowards(curP,dir);
-       //AddForcePlatform.AddForce()
+       AddForcePlatform.AddForce(dir);
     }
 
     //[Server]
