@@ -194,8 +194,15 @@ public class AddForcePlatform : MonoBehaviour
                 {
                     //obj._Rb.MovePosition(obj._Rb.position + dir);
                     var forceToApply = obj._Rb.mass * dir;
-                    //obj._Rb.velocity += forceToApply;
-                    obj._Rb.AddForce(forceToApply, ForceMode2D.Force);
+
+                    //MovePosition
+                    obj._Rb.MovePosition(obj._Rb.position+dir);
+                    //
+
+                    //Addforce
+                    //obj._Rb.AddForce(forceToApply, ForceMode2D.Force);
+                    //
+
                     Debug.Log($"Name : {obj.obj.name} , isOwned : {component.isOwned}\nforceApply : {forceToApply}, dir : {dir} ");
                 }
             }
