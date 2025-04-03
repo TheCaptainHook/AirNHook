@@ -1,5 +1,6 @@
 
 
+using Mirror;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -162,9 +163,17 @@ public class AddForcePlatform : MonoBehaviour
 
             if (obj.obj == null) continue;
 
-            Vector2 curPot = obj._Rb.position;
-            Vector2 target = curPot + vec;
-            obj._Rb.position = Vector2.MoveTowards(curPot,target,step);
+             if(obj.obj.TryGetComponent(out NetworkIdentity component))
+            {
+                if (component.isOwned)
+                {
+                    Vector2 curPot = obj._Rb.position;
+                    Vector2 target = curPot + vec;
+                    obj._Rb.position = Vector2.MoveTowards(curPot, target, step);
+                    Debug.Log($"Name : {obj.obj.name} , isOwned : {component.isOwned} ");
+                }
+            }
+
         }
     }
     
