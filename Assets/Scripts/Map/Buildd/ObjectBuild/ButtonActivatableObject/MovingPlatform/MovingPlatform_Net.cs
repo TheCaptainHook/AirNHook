@@ -22,6 +22,26 @@ public class MovingPlatform_Net : NetworkBehaviour
 
     // MovingPlatform MovingPlatform => GetComponent<MovingPlatform>();
 
+    #region Components
+    MovingPlatform main;
+    MovingPlatform Main 
+    { get
+        {
+            main ??= GetComponent<MovingPlatform>();
+            return main;
+        } 
+    }
+    Rigidbody2D rb;
+    Rigidbody2D RB 
+    {
+        get 
+        {
+            rb ??= GetComponent<Rigidbody2D>();
+            return rb;
+        }
+    }
+
+    #endregion
     [SyncVar(hook = nameof(Hook_Addforce_OnReady))] public bool addForce_OnReady;
     private void Hook_Addforce_OnReady(bool old,bool newVal)
     {
@@ -126,21 +146,46 @@ public class MovingPlatform_Net : NetworkBehaviour
             // MovingPlatform.AddForce();
         }
     }
-    
+
 
 
     #region AddForce Platform
+    float moveSpeed => Main.moveSpeed;
     [Server]
-    public void Server_AddForce(Vector2 velocity,float step)
+    public void Server_MovePlatform(Vector2 target)
     {
-        Rpc_AddForce(velocity,step);
+        dir = (target - RB.position).normalized *moveSpeed *Time.fixedDeltaTime;
+
+        Rpc_MovePlatform(RB.position,dir);
     }
     [ClientRpc]
-    private void Rpc_AddForce(Vector2 velocity,float step)
+    private void Rpc_MovePlatform(Vector2 curP,Vector2 dir)
     {
-        Debug.Log($"[Rpc_AddForce] velocoty : {velocity}, step : {step}\nisServer : {isServer}\nisClient : {isClient}");
-        AddForcePlatform.AddForce(velocity,step);
+       MoveTowards(curP,dir);
+       //AddForcePlatform.AddForce()
     }
+
+    //[Server]
+    //public void Server_AddForce(Vector2 velocity)
+    //{
+    //    Rpc_AddForce(velocity);
+    //}
+    //[ClientRpc]
+    //private void Rpc_AddForce(Vector2 velocity)
+    //{
+    //    AddForcePlatform.AddForce(velocity);
+    //}
+
+
+    Vector2 dir;
+    float moveStep;
+  
+
+    private void MoveTowards(Vector2 curP, Vector2 dir)
+    {
+        RB.MovePosition(curP+ dir);
+    }
+
     #endregion
 
 }

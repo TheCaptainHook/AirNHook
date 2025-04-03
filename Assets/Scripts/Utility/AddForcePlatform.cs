@@ -157,31 +157,54 @@ public class AddForcePlatform : MonoBehaviour
         }
     }
 
-    public void AddForce(Vector2 vec,float step){
-        if(_PreviousDetactObjects.Count <=0) return;
-        foreach(DetectObj obj in _PreviousDetactObjects){
+    float forcePower = 800;
+    //public void AddForce(Vector2 vec,float step){
+    //    if(_PreviousDetactObjects.Count <=0) return;
+    //    foreach(DetectObj obj in _PreviousDetactObjects){
+
+    //        if (obj.obj == null) continue;
+
+    //         if(obj.obj.TryGetComponent(out NetworkIdentity component))
+    //        {
+    //            if (component.isOwned)
+    //            {
+    //                Vector2 curPot = obj._Rb.position;
+    //                Vector2 target = curPot + vec;
+    //                //obj._Rb.position = Vector2.MoveTowards(curPot, target, step);
+    //                obj._Rb.MovePosition(obj._Rb.position+vec);
+    //                //obj._Rb.AddForce(vec*800, ForceMode2D.Force);
+    //                Debug.Log($"Name : {obj.obj.name} , isOwned : {component.isOwned}, ");
+    //            }
+    //        }
+
+    //    }
+    //}
+    public void AddForce(Vector2 dir)
+    {
+        if (_PreviousDetactObjects.Count <= 0) return;
+
+
+        foreach (DetectObj obj in _PreviousDetactObjects)
+        {
 
             if (obj.obj == null) continue;
 
-             if(obj.obj.TryGetComponent(out NetworkIdentity component))
+            if (obj.obj.TryGetComponent(out NetworkIdentity component))
             {
                 if (component.isOwned)
                 {
-                    Vector2 curPot = obj._Rb.position;
-                    Vector2 target = curPot + vec;
-                    obj._Rb.position = Vector2.MoveTowards(curPot, target, step);
-                    Debug.Log($"Name : {obj.obj.name} , isOwned : {component.isOwned} ");
+                    obj._Rb.MovePosition(obj._Rb.position + dir);
+                    Debug.Log($"Name : {obj.obj.name} , isOwned : {component.isOwned}, ");
                 }
             }
 
         }
     }
-    
     /**
          서버에서 이동하고(Network Transform), AddForce ClientRpc
 
     **/
-   
+
     #endregion
 
     #region  Util

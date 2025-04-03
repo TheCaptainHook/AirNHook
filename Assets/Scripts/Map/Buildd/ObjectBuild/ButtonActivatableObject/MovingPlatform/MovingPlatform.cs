@@ -171,8 +171,8 @@ public class MovingPlatform :  ActivatableObjectEntity
                 targetPosition = paths[index];
 
             }
-            
-            MoveTowards(_rb.position, targetPosition);
+            MovingPlatform_Net.Server_MovePlatform(targetPosition);
+            //MoveTowards(_rb.position, targetPosition);
             
             //MoveAction?.Invoke(dir*step);
             yield return waitSecond; 
@@ -191,14 +191,17 @@ public class MovingPlatform :  ActivatableObjectEntity
 
     #region  Util
     private void MoveTowards(Vector2 curP,Vector2 target){
-        dir = (target-curP).normalized;
+        dir = (target - curP).normalized;
         step = moveSpeed * Time.fixedDeltaTime;
-//----------------------------------------------------------------0402
-        // MovingPlatform_Net.Server_SetVelocity(dir * step,step);
-//----------------------------------------------------------------0402
-        _rb.position = Vector2.MoveTowards(_rb.position,_rb.position +dir,step);
+        //----------------------------------------------------------------0402
+        Vector2 moveDelta = dir * step;
+        //_rb.MovePosition(_rb.position + moveDelta);
+        //MovingPlatform_Net.Server_AddForce(dir*step);
+        //----------------------------------------------------------------0402
+        //_rb.position = Vector2.MoveTowards(_rb.position,_rb.position +dir,step);
+
         // addForcePlatform.AddForce(dir*step,step);
-        MovingPlatform_Net.Server_AddForce(dir*step,step);
+        //MovingPlatform_Net.Server_AddForce(dir*step,step);
     }
 
     private bool CheckDistance(Vector2 curPos,Vector2 targetPos){
