@@ -9,6 +9,7 @@ using System.Collections;
 
 
 
+
 public class Puzzle_1_Net : NetworkBehaviour
 {
     [SerializeField] Transform partsContainer;
@@ -50,8 +51,17 @@ public class Puzzle_1_Net : NetworkBehaviour
         }
     }
 
+
     [SerializeField] Puzzle_1_Button button;
 
+    private WaitForSeconds waitForSeconds;
+    // private WaitForSeconds recoverWait;
+
+    private void Awake()
+    {
+        waitForSeconds = new WaitForSeconds(2);
+        // recoverWait = new WaitForSeconds(2);
+    }
 
     #region -------------------------------------------Init Sync
 
@@ -248,6 +258,20 @@ public class Puzzle_1_Net : NetworkBehaviour
     private float defaultChargingRate = 0.01f;
     [SyncVar] public float chargingRate;
 
+    private Coroutine bullonRecoverCoroutine;
+   
+    IEnumerator BullonRecoverCo()
+    {
+        yield return waitForSeconds;
+
+        while(0 < chargingRate && chargingRate < 1)
+        {
+            chargingRate -= Time.fixedDeltaTime;
+            Rpc_Ballon_Animation_Charging(chargingRate);
+            yield return null;
+        }
+       
+    }
     [Server]
     private void Server_Puzzle_ChargingControl()
     {
@@ -255,12 +279,14 @@ public class Puzzle_1_Net : NetworkBehaviour
         if(onWrongPrograss) return;
 
         //Recover Coroutine
+        if(bullonRecoverCoroutine != null) StopCoroutine(bullonRecoverCoroutine);
+        bullonRecoverCoroutine = StartCoroutine(BullonRecoverCo());
 
         chargingRate += defaultChargingRate;
         
         //Ballon Animation Rpc
         if(chargingRate <1) Rpc_Ballon_Animation_Charging(chargingRate);
-        //Ballon Animation
+        
         if(chargingRate >=1)
         {
             //Check Answer
@@ -277,10 +303,7 @@ public class Puzzle_1_Net : NetworkBehaviour
                 Rpc_Wrong();
                 StartCoroutine(WrongPrograssCo());
             }
-            //Check Answer
         }
-
-
     }
     [Command(requiresAuthority = false)]
     public void CmdCharging()
@@ -300,10 +323,6 @@ public class Puzzle_1_Net : NetworkBehaviour
         button.SetAnimation_Explode();
     }
    
-
-    #region Check Answer
-
-    #endregion
     #region Correct 
     [ClientRpc]
     private void Rpc_Correct()
@@ -312,6 +331,7 @@ public class Puzzle_1_Net : NetworkBehaviour
         HintScreen_Correct();
     }
     #endregion
+
     #region  Wrong
     [ClientRpc]
     private void Rpc_Wrong()
@@ -319,14 +339,13 @@ public class Puzzle_1_Net : NetworkBehaviour
         Puzzle.Boom();
         HintScreen_False();
     }
-    WaitForSeconds waitForSeconds;
-    WaitForSeconds WaitForSeconds {get{waitForSeconds ??= new WaitForSeconds(2); return waitForSeconds;}}
+    
     private IEnumerator WrongPrograssCo()
     {
         onWrongPrograss = true;
         Rpc_Ballon_Animation_Explode();
         //Bullon Explode
-        yield return WaitForSeconds;
+        yield return waitForSeconds;
         chargingRate = 0;
         Rpc_Ballon_Animation_Charging(chargingRate);
         onWrongPrograss = false;
