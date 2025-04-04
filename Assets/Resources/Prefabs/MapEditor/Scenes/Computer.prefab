@@ -189,6 +189,7 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
+  canRespawn: 0
   _key: {fileID: 0}
   objectType: 0
   btn_offset: {x: 0, y: 2.5}
