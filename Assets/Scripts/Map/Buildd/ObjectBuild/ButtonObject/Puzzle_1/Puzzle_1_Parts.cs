@@ -148,7 +148,6 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     }
     private void WrongAnswer()
     {
-
         Parts_Net.Cmd_RemoveEffect();
         Parts_Net.Cmd_SetSocketItem(null);
     }

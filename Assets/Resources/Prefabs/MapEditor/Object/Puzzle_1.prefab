@@ -102,7 +102,7 @@ Transform:
   m_GameObject: {fileID: 360872727897176713}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 0, z: 0}
+  m_LocalPosition: {x: 2.1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -717,6 +717,7 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
+  canRespawn: 0
   targetObjects: []
   lightObjects: []
   puzzle_1_Parts: []
@@ -748,12 +749,14 @@ MonoBehaviour:
   leftTrigger: {fileID: 3511995670744558025}
   rightTrigger: {fileID: 6489064709981349243}
   button: {fileID: 1673485768780107428}
-  chargingRate: 0
   hint:
     isHint: 0
     answer: 
     position: {x: 0, y: 0}
   onSync: 0
+  onCorrect: 0
+  onWrongPrograss: 0
+  chargingRate: 0
   onActive: 0
   airObject: {fileID: 0}
 --- !u!114 &7061253011019916209
@@ -826,7 +829,7 @@ Transform:
   m_GameObject: {fileID: 7031136592058459931}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2, y: 0, z: 0}
+  m_LocalPosition: {x: -2.1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

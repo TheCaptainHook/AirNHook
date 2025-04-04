@@ -108,7 +108,8 @@ public class Puzzle_1 : ButtonEntity
     {
         if(Puzzle_Net.onActive && input.playerActions.Action.ReadValue<float>()>0f)
         {
-            Net_Charging();
+            // Net_Charging();
+            Puzzle_Net.CmdCharging();
         }
 
     }
@@ -240,7 +241,10 @@ public class Puzzle_1 : ButtonEntity
     protected override void Activation()
     {
         PrograssButtonActivatedObject(true);
-        Debug.Log("Activation");
+    }
+    public void Net_Activation()
+    {
+        Activation();
     }
 
     #region Hint
@@ -251,26 +255,8 @@ public class Puzzle_1 : ButtonEntity
     #endregion
 
     #region Answer
-    private void Power()
-    {
-        if (CheckAnswer())
-        {
-            Activation();
-
-            Puzzle_Net.CmdCorrect();
-
-            // hintScreen.Correct();
-            Puzzle_Net.Cmd_HintScreen_Correct();
-        }
-        else
-        {
-            Boom();
-            Wrong();
-            // hintScreen.False();
-            Puzzle_Net.Cmd_HintScreen_False();
-        }
-    }
-    private bool CheckAnswer()
+  
+    public bool CheckAnswer()
     {
         int num = 0;
         foreach (Puzzle_1_Parts parts in puzzle_1_Parts)
@@ -284,7 +270,7 @@ public class Puzzle_1 : ButtonEntity
         return num == puzzle_1_Parts.Count;
     }
 
-    private void Boom()
+    public void Boom()
     {
         HashSet<Collider2D> col = new();
         foreach (Puzzle_1_Parts parts in puzzle_1_Parts)
@@ -305,40 +291,14 @@ public class Puzzle_1 : ButtonEntity
     }
     #endregion
 
-    #region Charging 
-    public void Charging()
-    {
-        if(button.Charging())
-        {
-            Power();
-        }
-       
-    }
-    private void Wrong()
-    {
-        button.Wrong();
-    }
-
-    #region NetWork
-    public void Net_Charging()
-    {
-        Puzzle_Net.CmdCharging();
-    }
-    public void Net_Wrong()
-    {
-        Wrong();
-    }
-
+  
     public void Net_HintScreen_Correct(){
         hintScreen.Correct();
     }
     public void Net_HintScreen_False(){
         hintScreen.False();
     }
-    #endregion
-
-
-    #endregion
+  
 
     #region Util
 

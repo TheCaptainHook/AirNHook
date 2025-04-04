@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 using System;
 using UnityEngine.Animations;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 
 
@@ -51,63 +52,6 @@ public class Puzzle_1_Net : NetworkBehaviour
 
     [SerializeField] Puzzle_1_Button button;
 
-    #region -------------------------------------------Animation Sync
-
-    [SyncVar(hook = nameof(OnRateChanged))]
-    public float chargingRate;
-
-    [Server]
-    public void SetRate(float rate)
-    {
-        chargingRate += rate;
-        chargingRate = Mathf.Clamp01(chargingRate);
-    }
-    [Server]
-    public void Sever_Reset()
-    {
-        chargingRate = 0;
-    }
-
-    [Command(requiresAuthority = false)]
-    private void CmdSetRate(float rate)
-    {
-        SetRate(rate);
-    }
-
-    public void HandleSetRate(float rate)
-    {
-        if (isServer)
-        {
-            SetRate(rate);
-        }
-        else
-        {
-            CmdSetRate(rate);
-        }
-    }
-    public void OnRateChanged(float old, float newVal)
-    {
-        if(newVal == 0){
-            button.Net_Reset();
-            button.SetAnimation(newVal);
-
-        }else{
-            button.SetAnimation(newVal);
-        }
-        
-    }
-    [Command(requiresAuthority = false)]
-    public void CmdCorrect()
-    {
-        RpcCorrect();
-    }
-    [ClientRpc]
-    public void RpcCorrect()
-    {
-        button.Net_Correct();
-    }
-
-    #endregion
 
     #region -------------------------------------------Init Sync
 
@@ -218,22 +162,6 @@ public class Puzzle_1_Net : NetworkBehaviour
 
     #endregion
 
-
-    #region Init_Cmd
-
-    //[Server]
-    //private void Server_Sync()
-    //{
-    //    Rpc_SetPuzzleSetting(Puzzle.ButtonObjectData.position,partsList,itemsList,hint);
-        
-    //}
-    //[Command]
-    //public void Cmd_Sync()
-    //{
-    //    Server_Sync();
-    //}
-    #endregion
-
     #region Init_Rpc
     [ClientRpc]
     private void Rpc_SetPuzzleSetting(Vector2 mainPosition,List<Part> parts, List<Item> items,Hint hint)
@@ -314,75 +242,108 @@ public class Puzzle_1_Net : NetworkBehaviour
 
     #endregion
 
+    //-------------------------------------------------------250404 Refectoring
+    public bool onCorrect;
+    public bool onWrongPrograss;
+    private float defaultChargingRate = 0.01f;
+    [SyncVar] public float chargingRate;
+
+    [Server]
+    private void Server_Puzzle_ChargingControl()
+    {
+        if(onCorrect) return;
+        if(onWrongPrograss) return;
+
+        //Recover Coroutine
+
+        chargingRate += defaultChargingRate;
+        
+        //Ballon Animation Rpc
+        if(chargingRate <1) Rpc_Ballon_Animation_Charging(chargingRate);
+        //Ballon Animation
+        if(chargingRate >=1)
+        {
+            //Check Answer
+            if(Puzzle.CheckAnswer())
+            {
+                //Activation (Only Server)
+                Puzzle.Net_Activation();
+                //Correct
+                Rpc_Correct();
+
+            }
+            else
+            {
+                Rpc_Wrong();
+                StartCoroutine(WrongPrograssCo());
+            }
+            //Check Answer
+        }
 
 
-    //IEnumerator Delay()
-    //{
-    //    while (!NetworkClient.ready) 
-    //    {
-    //        Debug.Log("Wait ");
-    //        yield return null;
-    //    }
-       
-    //    Cmd_Sync();
-    //}
-
-
+    }
     [Command(requiresAuthority = false)]
     public void CmdCharging()
     {
-        RpcCharging();
+        Server_Puzzle_ChargingControl();
+    }
+
+
+    [ClientRpc]
+    private void Rpc_Ballon_Animation_Charging(float rate)
+    {
+        button.SetAnimation(rate);
     }
     [ClientRpc]
-    private void RpcCharging()
+    private void Rpc_Ballon_Animation_Explode()
     {
-        Puzzle.Charging();
+        button.SetAnimation_Explode();
     }
+   
 
-    [Command(requiresAuthority = false)]
-    public void CmdWrong()
-    {
-        RpcWrong();
-    }
+    #region Check Answer
+
+    #endregion
+    #region Correct 
     [ClientRpc]
-    public void RpcWrong()
+    private void Rpc_Correct()
     {
-        button.Net_Wrong();
+        onCorrect = true;
+        HintScreen_Correct();
     }
- 
-
-
-    [Command(requiresAuthority = false)]
-    public void CmdReset()
+    #endregion
+    #region  Wrong
+    [ClientRpc]
+    private void Rpc_Wrong()
     {
-        //RpcReset();
-        Sever_Reset();
+        Puzzle.Boom();
+        HintScreen_False();
     }
-    //[ClientRpc]
-    //public void RpcReset()
-    //{
-    //    Sever_Reset();
-    //}
+    WaitForSeconds waitForSeconds;
+    WaitForSeconds WaitForSeconds {get{waitForSeconds ??= new WaitForSeconds(2); return waitForSeconds;}}
+    private IEnumerator WrongPrograssCo()
+    {
+        onWrongPrograss = true;
+        Rpc_Ballon_Animation_Explode();
+        //Bullon Explode
+        yield return WaitForSeconds;
+        chargingRate = 0;
+        Rpc_Ballon_Animation_Charging(chargingRate);
+        onWrongPrograss = false;
+    }
+    #endregion
 
+    
 
     #region -------------------------------------------Hint Screen
-    [Command(requiresAuthority = false)]
-    public void Cmd_HintScreen_Correct(){
-        if(hintScreen.gameObject.activeSelf)
-        Rpc_HintScreen_Correct();
-    }
-    [ClientRpc]
-    public void Rpc_HintScreen_Correct(){
+ 
+    public void HintScreen_Correct(){
         if(hintScreen.gameObject.activeSelf)
         Puzzle.Net_HintScreen_Correct();
     }
-    [Command(requiresAuthority = false)]
-    public void Cmd_HintScreen_False(){
-        if(hintScreen.gameObject.activeSelf)
-        Rpc_HintScreen_False();
-    }
-    [ClientRpc]
-    public void Rpc_HintScreen_False(){
+ 
+    
+    public void HintScreen_False(){
         if(hintScreen.gameObject.activeSelf)
         Puzzle.Net_HintScreen_False();
     }
@@ -464,10 +425,12 @@ public class Puzzle_1_Net : NetworkBehaviour
         
         var sm = player.GetComponent<PlayerSM>();
         sm.canMovable = false;
+
         Fix_AirGun_Direct(player,leftOrRight);
         
         //Input
         var input = Managers.Game.playerInput;
+        input.playerActions.SubAction.Disable();
         input.playerActions.Action.started += OnHoldAirGun;
         input.playerActions.Action.canceled += OnRecoverAirGun;
         //Input
@@ -479,7 +442,6 @@ public class Puzzle_1_Net : NetworkBehaviour
         //Air ready for blow animation
         var air = player.TryGetComponent(out AirSM airSm);
         if(air) airSm.animator.SetBool(GlobalText.AIR_BALLON_USINGBTN_STRING,true);
-        
         //Air ready for blow animation
 
         Transform hold_Pivot = leftOrRight ? leftTrigger.Hold_Pivot : rightTrigger.Hold_Pivot; //right
@@ -488,27 +450,26 @@ public class Puzzle_1_Net : NetworkBehaviour
         sm.deathEvent += Event_Recover;
 
     }
-   Vector3 airGun_Left = new Vector3(0,180,0);
-   Vector3 airCharPivot_Left = new Vector3(0,-180,0);
-   
+
     private void Fix_AirGun_Direct(GameObject player,bool leftOrRight)
     {
         var air = player.TryGetComponent(out AirSM airSm);
         if(!air) return;
 
-
+        var charPivot = airSm.transform.GetChild(1);
+        var weaponPivot = airSm.transform.GetChild(2);
+        
         if(leftOrRight)
         {
             //Left
-            // airSm.charPivot.rotation
-            //CharPivot Rotation.y = -180
-            //WeaponPivot Rotation.y = 180
+            charPivot.rotation = Quaternion.Euler(0,0,0);
+            weaponPivot.rotation = Quaternion.Euler(0,0,0);
             Debug.Log("Set Direction to Air [Left]");
         }else
         {
             //Right
-            //CharPivot transform.y = 0
-            //WeaponPivot Rotation.y = 0
+            charPivot.rotation = Quaternion.Euler(0,-180,0);
+            weaponPivot.rotation = Quaternion.Euler(0,180,0);
             Debug.Log("Set Direction to Air [Right]");
         }
         
@@ -522,6 +483,7 @@ public class Puzzle_1_Net : NetworkBehaviour
 
         //Input
         var input = Managers.Game.playerInput;
+        input.playerActions.SubAction.Enable();
         input.playerActions.Action.started -= OnHoldAirGun;
         input.playerActions.Action.canceled -= OnRecoverAirGun;
         //Input
