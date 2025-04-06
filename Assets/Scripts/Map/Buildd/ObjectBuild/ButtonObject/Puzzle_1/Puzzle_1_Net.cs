@@ -55,12 +55,10 @@ public class Puzzle_1_Net : NetworkBehaviour
     [SerializeField] Puzzle_1_Button button;
 
     private WaitForSeconds waitForSeconds;
-    // private WaitForSeconds recoverWait;
 
     private void Awake()
     {
         waitForSeconds = new WaitForSeconds(2);
-        // recoverWait = new WaitForSeconds(2);
     }
 
     #region -------------------------------------------Init Sync
