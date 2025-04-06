@@ -556,6 +556,7 @@ public class Puzzle_1_Net : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void Cmd_ShowE(GameObject player, bool leftOrRight,bool onOff) //left : true, right : false
     {
+        if (player == null) return;
         if (player.TryGetComponent(out NetworkIdentity identity))
         {
             TRpc_ShowE(identity.connectionToClient, leftOrRight,onOff);
