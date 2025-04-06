@@ -66,7 +66,7 @@ public class FadeInOutPanel : MonoBehaviour
         {
             Managers.Game.Player.GetComponent<PlayerSM>().Respawning();
         }
-        catch(Exception e) { Debug.LogError(e); }
+        catch(Exception e) { Debug.Log(e); }
         
         Camera.main.GetComponent<ParallaxCamera>().enabled = true;
         Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.Volume_1();

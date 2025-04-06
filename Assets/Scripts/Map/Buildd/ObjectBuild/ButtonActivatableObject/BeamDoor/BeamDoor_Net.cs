@@ -29,7 +29,7 @@ private void Rpc_InitSync(ButtonActivatableObjectStruct data)
     onSync = true;
 
 }
-[Command]
+[Command(requiresAuthority = false)]
 public void Cmd_InitSync()
 {
     Server_InitSync();
