@@ -42,11 +42,12 @@ public class MovingPlatform_Net : NetworkBehaviour
     }
 
     #endregion
-    [SyncVar(hook = nameof(Hook_Addforce_OnReady))] public bool addForce_OnReady;
-    private void Hook_Addforce_OnReady(bool old,bool newVal)
-    {
-        if(newVal) AddForcePlatform.onReady = true;
-    }
+
+    //[SyncVar(hook = nameof(Hook_Addforce_OnReady))] public bool addForce_OnReady;
+    //private void Hook_Addforce_OnReady(bool old,bool newVal)
+    //{
+    //    if(newVal) AddForcePlatform.onReady = true;
+    //}
 
     [Serializable]
     public struct DataPath
@@ -63,15 +64,15 @@ public class MovingPlatform_Net : NetworkBehaviour
 //----------------------------------------------------------------040
     // [SyncVar] public Vector2 velocity;
     // [SyncVar] public float step;
-    private AddForcePlatform addForcePlatform;
-    private AddForcePlatform AddForcePlatform
-    {
-        get
-        {
-            addForcePlatform ??= GetComponent<AddForcePlatform>();
-            return addForcePlatform;
-        }
-    }
+    //private AddForcePlatform addForcePlatform;
+    //private AddForcePlatform AddForcePlatform
+    //{
+    //    get
+    //    {
+    //        addForcePlatform ??= GetComponent<AddForcePlatform>();
+    //        return addForcePlatform;
+    //    }
+    //}
 //----------------------------------------------------------------0402
     [Server]
     public void Server_CreateRail(Vector2[] paths)
@@ -149,21 +150,24 @@ public class MovingPlatform_Net : NetworkBehaviour
 
 
 
-    #region AddForce Platform
-    float moveSpeed => Main.moveSpeed;
-    float forcePower = 850;
+    #region Move Platform
+    public Vector2 dir;
+    public float moveSpeed => Main.moveSpeed;
+   
     [Server]
     public void Server_MovePlatform(Vector2 target)
     {
-        dir = (target - RB.position).normalized *moveSpeed *Time.fixedDeltaTime;
+        dir = (target - RB.position).normalized * moveSpeed * Time.fixedDeltaTime;
+        //dir = (target - RB.position).normalized;
 
-        Rpc_MovePlatform(RB.position,dir);
+        Rpc_MovePlatform(RB.position, dir);
     }
+
     [ClientRpc]
     private void Rpc_MovePlatform(Vector2 curP,Vector2 dir)
     {
        MoveTowards(curP,dir);
-       AddForcePlatform.AddForce(dir);
+        //AddForcePlatform.AddForce(dir);
     }
 
     //[Server]
@@ -178,13 +182,10 @@ public class MovingPlatform_Net : NetworkBehaviour
     //}
 
 
-    Vector2 dir;
-    float moveStep;
-  
-
     private void MoveTowards(Vector2 curP, Vector2 dir)
     {
         RB.MovePosition(curP+ dir);
+
     }
 
     #endregion

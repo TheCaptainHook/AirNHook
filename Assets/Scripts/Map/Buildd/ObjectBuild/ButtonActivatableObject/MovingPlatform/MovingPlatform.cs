@@ -71,7 +71,7 @@ public class MovingPlatform :  ActivatableObjectEntity
         return default(T);
 
     }
-    
+    private bool onStartPrograss;
     public override async void SetData<T>(T data)
     {
          try{
@@ -83,9 +83,7 @@ public class MovingPlatform :  ActivatableObjectEntity
                 //Moving Platform
                 paths = ConvertPaths(objData.paths);     
                 moveSpeed = objData.moveSpeed;
-                //----------------------------------------------------------------0402
-                if(paths.Length>0) MovingPlatform_Net.addForce_OnReady = true;
-                //----------------------------------------------------------------0402
+
             }
         }catch(Exception ex){
                 Debug.Log($"{ex},{typeof(T)}");
@@ -98,7 +96,7 @@ public class MovingPlatform :  ActivatableObjectEntity
 
             Util util = new Util();
             await util.Delay(() => { CheckActiveRequirAmount(); });
-            if(NetworkServer.active)Prograss();
+            //if(NetworkServer.active)Prograss();
             
         }
     }
@@ -127,57 +125,74 @@ public class MovingPlatform :  ActivatableObjectEntity
         StopAllCoroutines();
     }
 
-    #region Test Code, [latest update: 11/12 ]
-    // private void Start(){
-    //     paths = ConvertPaths(paths);
-    //     Prograss();
-    // }
-    #endregion
-
-    public void Prograss(){
-        if(paths.Length <=0) return;
-        StartCoroutine(Prograss_Co(paths));
-    }
-
-    IEnumerator Prograss_Co(Vector2[] paths){
-        int maxIndex = paths.Length;
-        int index = 0;
-        int increment = 1;
-        Vector2 targetPosition = paths[index];
-        
-        while (true)
+    //--------------------------------------------------------------------------------------------------------Refectoring 0406
+    private void FixedUpdate()
+    {
+        if(onStartPrograss)
         {
-                while(!onActive){
-                    dir = Vector2.zero;
-                    yield return null;
-                }
-            if (CheckDistance(_rb.position, targetPosition))
-            {
-                // _rb.velocity = Vector2.zero;
-                _rb.position = targetPosition;
 
-                index += increment;
-                if (index >= maxIndex || index < 0)
-                {
-                    if(index >=maxIndex && paths[maxIndex-1] == paths[0]){
-                        index = 0;
-                    }else{
-                        increment *= -1;
-                        index += increment;
-                    }
-                    
-                }
-
-                targetPosition = paths[index];
-
-            }
-            MovingPlatform_Net.Server_MovePlatform(targetPosition);
-            //MoveTowards(_rb.position, targetPosition);
-            
-            //MoveAction?.Invoke(dir*step);
-            yield return waitSecond; 
         }
     }
+
+
+    private void MovingPlatform_Prograss()
+    {
+        if (!onActive)
+        {
+            dir = Vector2.zero;
+            return;
+        }
+
+
+    }
+    //--------------------------------------------------------------------------------------------------------Refectoring 0406
+
+
+    //public void Prograss(){
+    //    if(paths.Length <=0) return;
+    //    StartCoroutine(Prograss_Co(paths));
+    //}
+
+    //IEnumerator Prograss_Co(Vector2[] paths){
+    //    int maxIndex = paths.Length;
+    //    int index = 0;
+    //    int increment = 1;
+    //    Vector2 targetPosition = paths[index];
+
+    //    while (true)
+    //    {
+    //            while(!onActive){
+    //                dir = Vector2.zero;
+    //                yield return null;
+    //            }
+    //        if (CheckDistance(_rb.position, targetPosition))
+    //        {
+    //            // _rb.velocity = Vector2.zero;
+    //            _rb.position = targetPosition;
+
+    //            index += increment;
+    //            if (index >= maxIndex || index < 0)
+    //            {
+    //                if(index >=maxIndex && paths[maxIndex-1] == paths[0]){
+    //                    index = 0;
+    //                }else{
+    //                    increment *= -1;
+    //                    index += increment;
+    //                }
+
+    //            }
+
+    //            targetPosition = paths[index];
+
+    //        }
+    //        MovingPlatform_Net.Server_MovePlatform(targetPosition);
+    //        //MoveTowards(_rb.position, targetPosition);
+
+    //        //MoveAction?.Invoke(dir*step);
+    //        yield return waitSecond; 
+    //    }
+    //}
+
     #region  Activatable
     protected override void Activation()
     {

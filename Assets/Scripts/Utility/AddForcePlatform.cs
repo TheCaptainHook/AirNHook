@@ -4,6 +4,7 @@ using Mirror;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class AddForcePlatform : MonoBehaviour
 {
@@ -90,18 +91,6 @@ public class AddForcePlatform : MonoBehaviour
         Debug.DrawRay(GetRayStart(),Vector2.right*w,Color.red);
         //Check first floor
         DetectObjectsAlongRay(GetRayStart(),w,visitedObj,set);
-        // RaycastHit2D[] hits = Physics2D.RaycastAll(GetRayStart(),Vector2.right,w,layerMask);
-        // foreach(RaycastHit2D hit in hits){
-        //     if(hit.collider != null && hit.collider.gameObject != gameObject){
-        //         if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Default")) continue;
-        //         if(visitedObj.Add(hit.collider.gameObject)){
-        //             DetectObj detectObj = new DetectObj(hit.collider.gameObject);
-        //             set.Add(detectObj);
-        //             Debug.Log($"{detectObj.obj.name}");
-        //         }
-                
-        //     }
-        // }
 
         //Check second floor
         List<DetectObj> newDetectObjs = new();
@@ -110,23 +99,7 @@ public class AddForcePlatform : MonoBehaviour
             var detect = GetDetectObjRayStart(obj);
             DetectObjectsAlongRay(detect.startPot, detect.width, visitedObj, newDetectObjs);
         }
-        // List<DetectObj> newDetectObjs = new();
-        // foreach(DetectObj obj in set){
-        //     var detect = GetDetectObjRayStart(obj);
-        //     RaycastHit2D[] hits2 = Physics2D.RaycastAll(detect.startPot,Vector2.right,detect.width,layerMask);
-        //     foreach(RaycastHit2D hit in hits2){
-        //         if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Default")) continue;
-        //         if(hit.collider != null && hit.collider.gameObject != gameObject){
-        //             if(visitedObj.Add(hit.collider.gameObject)){
-        //                 DetectObj detectObj = new DetectObj(hit.collider.gameObject);
-        //                 newDetectObjs.Add(detectObj);
-                        
-        //             }
-                   
-        //         }
-        //     }
-            
-        // }
+
 
         foreach (DetectObj newObj in newDetectObjs)
         {
@@ -192,21 +165,46 @@ public class AddForcePlatform : MonoBehaviour
             {
                 if (component.isOwned)
                 {
-                    obj._Rb.MovePosition(obj._Rb.position + dir);
+                    //obj._Rb.MovePosition(obj._Rb.position + dir);
+
                     Debug.Log($"Name : {obj.obj.name} , isOwned : {component.isOwned} ");
+
                 }
             }
 
             //obj._Rb.MovePosition(obj._Rb.position + dir);
             //Debug.Log($"name : {obj.obj.name}");
-        
+
         }
     }
+
     /**
-         서버에서 이동하고(Network Transform), AddForce ClientRpc
-
+       
+         
     **/
+    private void SetParentConstraint(ParentConstraint constraint, Transform parent)
+    {
+        ConstraintSource source = new ConstraintSource
+        {
+            sourceTransform = parent,
+            weight = 1.0f
+        };
 
+        constraint.AddSource(source);
+
+        // 트랜스폼 옵션 설정 (위치와 회전을 따라가도록 설정)
+        constraint.translationAtRest = transform.localPosition;
+        constraint.rotationAtRest = transform.localRotation.eulerAngles;
+
+        // 위치와 회전을 활성화
+        constraint.translationOffsets = new Vector3[constraint.sourceCount];
+        constraint.rotationOffsets = new Vector3[constraint.sourceCount];
+        constraint.constraintActive = true;
+
+        // 속성 업데이트
+        constraint.locked = true; // 소스가 변경되지 않도록 잠금
+
+    }
     #endregion
 
     #region  Util

@@ -5101,6 +5101,7 @@ GameObject:
   - component: {fileID: 2550386921602639545}
   - component: {fileID: 6283197758547860492}
   - component: {fileID: 3704341649995382589}
+  - component: {fileID: 5136920346327043914}
   m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
@@ -5350,6 +5351,25 @@ MonoBehaviour:
   <jumpParticle>k__BackingField: {fileID: 2950751490131989517}
   <landParticle>k__BackingField: {fileID: 6418844055165115295}
   <animator>k__BackingField: {fileID: 1572895618588539681}
+--- !u!114 &5136920346327043914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2743958777749711243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5ab0e36dbc862945b9985f94fdf9533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layer:
+    serializedVersion: 2
+    m_Bits: 32768
+  rayStartOffset: {x: 0, y: 0, z: 0}
+  rayDistance: 0.1
+  forcePower: 700
+  movingPlatform_Net: {fileID: 0}
 --- !u!1 &2817200425992069755
 GameObject:
   m_ObjectHideFlags: 0
