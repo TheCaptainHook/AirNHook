@@ -62,11 +62,18 @@ public class FadeInOutPanel : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        try
-        {
-            Managers.Game.Player.GetComponent<PlayerSM>().Respawning();
-        }
-        catch(Exception e) { Debug.LogError(e); }
+        var player =Managers.Game.Player.GetComponent<PlayerSM>();
+            if(player == null)
+            {
+                while(!player)
+                {
+                    Debug.Log("Lost Player");
+                    player = Managers.Game.Player.GetComponent<PlayerSM>();
+                    yield return null;
+                }
+            }
+
+        player.Respawning();
         
         Camera.main.GetComponent<ParallaxCamera>().enabled = true;
         Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.Volume_1();

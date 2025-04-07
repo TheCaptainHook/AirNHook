@@ -5366,10 +5366,9 @@ MonoBehaviour:
   layer:
     serializedVersion: 2
     m_Bits: 32768
-  rayStartOffset: {x: 0, y: 0, z: 0}
-  rayDistance: 0.1
-  forcePower: 700
-  movingPlatform_Net: {fileID: 0}
+  rayStartOffset: {x: 0, y: 0.1, z: 0}
+  rayDistance: 0.2
+  movingPlatform: {fileID: 0}
 --- !u!1 &2817200425992069755
 GameObject:
   m_ObjectHideFlags: 0
