@@ -44,7 +44,7 @@ public class UI_Ping : MonoBehaviour
 
     protected void Start()
     {
-        wait = new WaitForSeconds(3);
+        wait = new WaitForSeconds(1.5f);
         curPingCriteria = PingCriteria.Black;
     }
 
@@ -80,7 +80,7 @@ public class UI_Ping : MonoBehaviour
     }
 
     private float lastLatency = -1f;
-    int sampleCount = 1;
+    int sampleCount = 2;
     PingCriteria previousPingCriteria;
     IEnumerator CheckNetworkLatency()
     {
@@ -145,7 +145,6 @@ public class UI_Ping : MonoBehaviour
                 //Debug.LogWarning("All Ping Timeout.");
             }
 
-            // 3초마다 측정
             yield return wait;
         }
     }
@@ -174,7 +173,7 @@ public class UI_Ping : MonoBehaviour
                 curPingCriteria = previousPingCriteria;
                 ChangeImage(curPingCriteria);
                 netPingText.text = $"[C]{Mathf.Floor(ping)} ms";
-                this.ping = ping/1000f;
+                this.ping = ping;
             }
 
             //if PingCriteria.Orange , Show UI_Warning_Image
