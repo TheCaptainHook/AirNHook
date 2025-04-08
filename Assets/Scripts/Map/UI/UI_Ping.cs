@@ -47,15 +47,15 @@ public class UI_Ping : MonoBehaviour
         wait = new WaitForSeconds(3);
         curPingCriteria = PingCriteria.Black;
     }
-   
+
     // private void OnDisable()
     // {
     //     StopAllCoroutines();
-        
+
     // }
 
 
-
+    public float ping;
     public void StartPingCheck(bool isServer)
     {
         StopAllCoroutines();
@@ -134,6 +134,7 @@ public class UI_Ping : MonoBehaviour
                     //------UI
                     netPingText.text = $"[S]{Mathf.Floor(avgLatency)} ms";
                     lastLatency = avgLatency;
+                    this.ping = avgLatency;
                 }
             }
             else
@@ -173,6 +174,7 @@ public class UI_Ping : MonoBehaviour
                 curPingCriteria = previousPingCriteria;
                 ChangeImage(curPingCriteria);
                 netPingText.text = $"[C]{Mathf.Floor(ping)} ms";
+                this.ping = ping/1000f;
             }
 
             //if PingCriteria.Orange , Show UI_Warning_Image

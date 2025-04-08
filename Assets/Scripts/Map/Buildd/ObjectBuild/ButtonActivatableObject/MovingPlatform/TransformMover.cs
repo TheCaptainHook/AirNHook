@@ -2,8 +2,7 @@
 using Mirror;
 using Unity.VisualScripting;
 using UnityEngine;
-using System;
-using System.Collections;
+
 
 
 public class TransformMover : NetworkBehaviour
@@ -15,22 +14,6 @@ public class TransformMover : NetworkBehaviour
 
     NetworkIdentity identity;
 
-    public uint Main_NetID => identity.netId;
-    public uint movingPlatform_NetId 
-    {
-        get 
-        {
-            if(movingPlatform != null)
-            {
-                if(movingPlatform.TryGetComponent(out NetworkIdentity identity))
-                {
-                    return identity.netId;
-                }
-            }
-
-            return nullNetID;
-        }
-    }
     uint nullNetID = 99999;
     public Transform parent;
 
@@ -42,11 +25,10 @@ public class TransformMover : NetworkBehaviour
         identity = GetComponent<NetworkIdentity>();
     }
 
-
     private void FixedUpdate()
     {
         if (movingPlatform && identity.isOwned)
-        {
+        {     
             transform.position += (Vector3)movingPlatform.dir;
         }
     }
@@ -56,10 +38,8 @@ public class TransformMover : NetworkBehaviour
     {
         if (collision.gameObject.TryGetComponent(out MovingPlatform movingPlatform) && identity.isOwned)
         {
-            //this.movingPlatform = movingPlatform;
             var platformID = movingPlatform.TryGetComponent(out NetworkIdentity identity) ? identity.netId : nullNetID;
-            Cmd_SetTransform(Main_NetID, platformID);
-            //transform.SetParent(movingPlatform.transform);
+            Cmd_SetTransform(platformID,transform.position);
         }
      
     }
@@ -67,8 +47,7 @@ public class TransformMover : NetworkBehaviour
     {
         if (movingPlatform)
         {
-            Cmd_SetTransform(Main_NetID, nullNetID);
-            //movingPlatform = null;
+            Cmd_SetTransform(nullNetID, transform.position);
         }
 
     }
@@ -76,67 +55,39 @@ public class TransformMover : NetworkBehaviour
 
     #endregion
 
+
+ 
+
     #region Set Transform Network
     [Command(requiresAuthority = false)]
-    private void Cmd_SetTransform(uint mainID, uint platformID)
+    private void Cmd_SetTransform(uint platformID,Vector2 position)
     {
-        Rpc_SetTransform(mainID, platformID);
+        Rpc_SetTransform(platformID,position);
     }
 
     
 
     [ClientRpc]
-    private void Rpc_SetTransform(uint mainID, uint platformID)
+    private void Rpc_SetTransform( uint platformID,Vector2 position)
     {
-        var main = NetworkClient.spawned.TryGetValue(mainID, out NetworkIdentity main_identity) ? main_identity : null;
         var platform = NetworkClient.spawned.TryGetValue(platformID, out NetworkIdentity platform_identity) ? platform_identity : null;
-
-        //var netRb = main.GetComponent<NetworkRigidbodyUnreliable2D>();
-        //if (netRb && main.isOwned)
-        //{
-        //    netRb.enabled = false;
-        //}
 
         if (platform == null)
         {
-            //main.transform.SetParent(null, true);
             movingPlatform = null;
-            //if (netRb && main.isOwned)
-            //    main.StartCoroutine(ReenableNetworkRigidbody(netRb));
         }
         else
         {
             movingPlatform = platform.gameObject.TryGetComponent(out MovingPlatform component) ? component : null;
-            //main.transform.SetParent(platform.transform, true);
-            //if (netRb && main.isOwned)
-            //    main.StartCoroutine(ReenableNetworkRigidbody(netRb));
-
+            if(!identity.isOwned)
+            {
+                float ping = Managers.UI.GetUI<UI_Option>().GetComponent<UI_Option>()._UI_Ping.ping;
+                transform.position +=  (Vector3)movingPlatform.dir* (ping / 0.02f);
+            }
         }
 
     }
-    IEnumerator ReenableNetworkRigidbody(NetworkRigidbodyUnreliable2D netRb)
-    {
-        //yield return new WaitForEndOfFrame();
-        yield return new WaitForSeconds(0.1f);
-        netRb.enabled = true;
-    }
-    // NetworkRigidbody 가 동기화중, 메인 클라이언트에서 먼저 동기화 되면서 로컬포지션 동기화 -> 다른 클라이언트에서 동기화된 로컬 포지션값 동기화 후에 트렌스폼 세팅.
-
-
-    //Coroutine delayCo;
-    //private void DelaySet(Transform main, Transform parent, NetworkRigidbodyUnreliable2D rb)
-    //{
-    //    if (delayCo != null) StopCoroutine(delayCo);
-    //    delayCo = StartCoroutine(Delay(main, parent, rb));
-    //}
-
-    //IEnumerator Delay(Transform main,Transform parent,NetworkRigidbodyUnreliable2D rb)
-    //{
-    //    rb.enabled = false;
-
-    //    yield return new WaitForEndOfFrame();
-    //    rb.enabled = true;
-    //}
+ 
     #endregion
 
 
