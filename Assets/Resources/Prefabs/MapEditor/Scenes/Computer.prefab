@@ -189,6 +189,7 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
+  canRespawn: 0
   _key: {fileID: 0}
   objectType: 0
   btn_offset: {x: 0, y: 2.5}
@@ -456,7 +457,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: -688237417
+  m_SortingLayerID: 927897491
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &1411943394641083483

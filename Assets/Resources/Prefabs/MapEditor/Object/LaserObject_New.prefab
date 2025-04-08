@@ -4900,7 +4900,6 @@ MonoBehaviour:
   canRespawn: 0
   activeRequirAmount: 0
   curActiveBtn: 0
-  _defDistanceRay: 50
   _curDistanceRay: 0
   _lineRenderer: {fileID: 2717453816571275917}
   _firePoint: {fileID: 2979357953502741260}
