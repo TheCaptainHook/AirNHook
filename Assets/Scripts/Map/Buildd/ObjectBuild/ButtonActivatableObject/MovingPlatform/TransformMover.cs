@@ -72,11 +72,14 @@ public class TransformMover : NetworkBehaviour
         var main = NetworkClient.spawned.TryGetValue(mainID,out NetworkIdentity main_identity) ? main_identity : null;
         var platform = NetworkClient.spawned.TryGetValue(platformID, out NetworkIdentity platform_identity) ? platform_identity : null;
 
-
+        var cameraMain = Camera.main.TryGetComponent(out PlayerCameraView view) ? view : null;
+        if (cameraMain != null) cameraMain.onCancel = true;
 
         if (platform == null) main.transform.SetParent(null);
-        else main.transform.SetParent(platform.transform); 
+        else main.transform.SetParent(platform.transform);
 
+
+        if (cameraMain != null) cameraMain.onCancel = false;
     }
 
 }
