@@ -375,6 +375,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0200ad10fd7d6a74eb205cf3a9358e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _vignetteAmount: 0.15
+  _deathVignetteAmount: 0.4
 --- !u!1 &7493278857885697218
 GameObject:
   m_ObjectHideFlags: 0
