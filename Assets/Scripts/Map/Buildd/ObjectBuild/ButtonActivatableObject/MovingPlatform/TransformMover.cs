@@ -47,19 +47,20 @@ public class TransformMover : NetworkBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out MovingPlatform movingPlatform))
+        if (collision.gameObject.TryGetComponent(out MovingPlatform movingPlatform) )
         {
-            var platformID = movingPlatform.TryGetComponent(out NetworkIdentity identity) ? identity.netId : nullNetID;
-            Cmd_SetTransform(Main_NetID, platformID);
+            //var platformID = movingPlatform.TryGetComponent(out NetworkIdentity identity) ? identity.netId : nullNetID;
+            //Cmd_SetTransform(Main_NetID, platformID);
+            transform.SetParent(movingPlatform.transform);
         }
      
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (movingPlatform)
-        {
-            Cmd_SetTransform(Main_NetID, nullNetID);
-        }
+        //if (movingPlatform)
+        //{
+        //    Cmd_SetTransform(Main_NetID, nullNetID);
+        //}
 
     }
     #region Recover
@@ -80,7 +81,6 @@ public class TransformMover : NetworkBehaviour
     {
         var main = NetworkClient.spawned.TryGetValue(mainID, out NetworkIdentity main_identity) ? main_identity : null;
         var platform = NetworkClient.spawned.TryGetValue(platformID, out NetworkIdentity platform_identity) ? platform_identity : null;
-
 
         var netRb = main.GetComponent<NetworkRigidbodyUnreliable2D>();
         var rb = main.GetComponent<Rigidbody2D>();
