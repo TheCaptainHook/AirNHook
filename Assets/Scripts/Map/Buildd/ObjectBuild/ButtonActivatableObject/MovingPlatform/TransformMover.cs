@@ -68,62 +68,79 @@ public class TransformMover : NetworkBehaviour
     [Command(requiresAuthority = false)]
     private void Cmd_SetTransform(uint mainID, uint platformID)
     {
-        Rpc_SetTransform(mainID, platformID);
-    }
-
-    [ClientRpc]
-    private void Rpc_SetTransform(uint mainID, uint platformID)
-    {
         var main = NetworkClient.spawned.TryGetValue(mainID, out NetworkIdentity main_identity) ? main_identity : null;
         var platform = NetworkClient.spawned.TryGetValue(platformID, out NetworkIdentity platform_identity) ? platform_identity : null;
 
-        var networkRd = main.TryGetComponent(out NetworkRigidbodyUnreliable2D netRb) ? netRb : null;
-
-        try
+        if (platform == null)
         {
-            if (platform == null)
-            {
-                if (networkRd)
-                {
-                    DelaySet(main.transform, null, networkRd);
-                }
-                movingPlatform = null;
-            }
-            else
-            {
-                //parent = transform.parent;
-                movingPlatform = platform.gameObject.TryGetComponent(out MovingPlatform component) ? component : null;
+            main.transform.SetParent(null, true);
+            movingPlatform = null;
 
-                //if (identity.isOwned && networkRd) networkRd.enabled = false;
-                //main.transform.SetParent(platform.transform, true);
-                //if (identity.isOwned && networkRd) networkRd.enabled = true;
-
-                if (networkRd)
-                {
-                    DelaySet(main.transform, platform.transform, networkRd);
-                }
-            }
         }
-        catch (Exception e)
+        else
         {
-            Debug.Log(e);
+            //parent = transform.parent;
+            movingPlatform = platform.gameObject.TryGetComponent(out MovingPlatform component) ? component : null;
+            main.transform.SetParent(platform.transform, true);
         }
+
+        //Rpc_SetTransform(mainID, platformID);
     }
 
-    Coroutine delayCo;
-    private void DelaySet(Transform main, Transform parent, NetworkRigidbodyUnreliable2D rb)
-    {
-        if (delayCo != null) StopCoroutine(delayCo);
-        delayCo = StartCoroutine(Delay(main, parent, rb));
-    }
+    //[ClientRpc]
+    //private void Rpc_SetTransform(uint mainID, uint platformID)
+    //{
+    //    var main = NetworkClient.spawned.TryGetValue(mainID, out NetworkIdentity main_identity) ? main_identity : null;
+    //    var platform = NetworkClient.spawned.TryGetValue(platformID, out NetworkIdentity platform_identity) ? platform_identity : null;
 
-    IEnumerator Delay(Transform main,Transform parent,NetworkRigidbodyUnreliable2D rb)
-    {
-        rb.enabled = false;
-        main.SetParent(parent);
-        yield return new WaitForSeconds(0.1f);
-        rb.enabled = true;
-    }
+    //    //var networkRd = main.TryGetComponent(out NetworkRigidbodyUnreliable2D netRb) ? netRb : null;
+
+    //    try
+    //    {
+    //        if (platform == null)
+    //        {
+    //            //if (networkRd)
+    //            //{
+    //            //    DelaySet(main.transform, null, networkRd);
+    //            //}
+
+    //            main.transform.SetParent(null, true);
+    //            movingPlatform = null;
+
+    //        }
+    //        else
+    //        {
+    //            //parent = transform.parent;
+    //            movingPlatform = platform.gameObject.TryGetComponent(out MovingPlatform component) ? component : null;
+    //            main.transform.SetParent(platform.transform, true);
+
+
+    //            //if (networkRd)
+    //            //{
+    //            //    DelaySet(main.transform, platform.transform, networkRd);
+    //            //}
+    //        }
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        Debug.Log(e);
+    //    }
+    //}
+
+    //Coroutine delayCo;
+    //private void DelaySet(Transform main, Transform parent, NetworkRigidbodyUnreliable2D rb)
+    //{
+    //    if (delayCo != null) StopCoroutine(delayCo);
+    //    delayCo = StartCoroutine(Delay(main, parent, rb));
+    //}
+
+    //IEnumerator Delay(Transform main,Transform parent,NetworkRigidbodyUnreliable2D rb)
+    //{
+    //    rb.enabled = false;
+
+    //    yield return new WaitForEndOfFrame();
+    //    rb.enabled = true;
+    //}
     #endregion
 
 
