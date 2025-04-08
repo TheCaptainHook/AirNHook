@@ -106,7 +106,8 @@ public class TransformMover : NetworkBehaviour
     }
     IEnumerator ReenableNetworkRigidbody(NetworkRigidbodyUnreliable2D netRb)
     {
-        yield return new WaitForEndOfFrame(); // 또는 yield return null;
+        //yield return new WaitForEndOfFrame();
+        yield return new WaitForFixedUpdate();
         netRb.enabled = true;
     }
     // NetworkRigidbody 가 동기화중, 메인 클라이언트에서 먼저 동기화 되면서 로컬포지션 동기화 -> 다른 클라이언트에서 동기화된 로컬 포지션값 동기화 후에 트렌스폼 세팅.
