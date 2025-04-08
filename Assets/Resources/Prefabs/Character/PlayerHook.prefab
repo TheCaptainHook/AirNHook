@@ -21022,11 +21022,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5ab0e36dbc862945b9985f94fdf9533, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   layer:
     serializedVersion: 2
     m_Bits: 32768
   rayStartOffset: {x: 0, y: 0.1, z: 0}
-  rayDistance: 0.2
+  rayDistance: 0.3
   movingPlatform: {fileID: 0}
 --- !u!1 &8977629696714436571
 GameObject:

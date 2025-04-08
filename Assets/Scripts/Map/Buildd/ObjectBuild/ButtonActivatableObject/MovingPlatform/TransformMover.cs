@@ -74,8 +74,8 @@ public class TransformMover : NetworkBehaviour
         var main = NetworkClient.spawned.TryGetValue(mainID,out NetworkIdentity main_identity) ? main_identity : null;
         var platform = NetworkClient.spawned.TryGetValue(platformID, out NetworkIdentity platform_identity) ? platform_identity : null;
 
-        if (platform == null) main.transform.SetParent(null,worldPositionStays :true);
-        else main.transform.SetParent(platform.transform, worldPositionStays: true);
+        if (platform == null) main.transform.SetParent(null);
+        else main.transform.SetParent(platform.transform);
 
     }
 
