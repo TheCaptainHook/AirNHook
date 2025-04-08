@@ -68,30 +68,18 @@ public class TransformMover : NetworkBehaviour
     [Command(requiresAuthority = false)]
     private void Cmd_SetTransform(uint mainID, uint platformID)
     {
-        var main = NetworkClient.spawned.TryGetValue(mainID, out NetworkIdentity main_identity) ? main_identity : null;
-        var platform = NetworkClient.spawned.TryGetValue(platformID, out NetworkIdentity platform_identity) ? platform_identity : null;
-
-        Vector2 preLocPot;
-
-        if(platform)
-        {
-            preLocPot = platform.transform.InverseTransformPoint(main.transform.position);
-        }
-        else
-        {
-            preLocPot = default;
-        }
-
-        Rpc_SetTransform(mainID, platformID,preLocPot);
+        Rpc_SetTransform(mainID, platformID);
     }
 
     [ClientRpc]
-    private void Rpc_SetTransform(uint mainID, uint platformID,Vector2 locPot)
+    private void Rpc_SetTransform(uint mainID, uint platformID)
     {
         var main = NetworkClient.spawned.TryGetValue(mainID, out NetworkIdentity main_identity) ? main_identity : null;
         var platform = NetworkClient.spawned.TryGetValue(platformID, out NetworkIdentity platform_identity) ? platform_identity : null;
 
-        //var networkRd = main.TryGetComponent(out NetworkRigidbodyUnreliable2D netRb) ? netRb : null;
+        Vector3 preLocPot;
+        if (platform) preLocPot = platform.transform.InverseTransformPoint(main.transform.position);
+        else preLocPot = default;
 
         try
         {
@@ -105,13 +93,30 @@ public class TransformMover : NetworkBehaviour
             {
                 //parent = transform.parent;
                 movingPlatform = platform.gameObject.TryGetComponent(out MovingPlatform component) ? component : null;
+
+                TEST(main, false);
                 main.transform.SetParent(platform.transform, true);
-                main.transform.localPosition = locPot;
+                main.transform.localPosition = preLocPot;
+                TEST(main, true);
             }
         }
         catch (Exception e)
         {
             Debug.Log(e);
+        }
+    }
+
+    private void TEST(NetworkIdentity main,bool onoff)
+    {
+        var networkRb = main.GetComponent<NetworkRigidbodyUnreliable2D>();
+        var rb = main.GetComponent<Rigidbody2D>();
+
+        bool shouldDisable = networkRb && identity.isOwned;
+
+        if (shouldDisable)
+        {
+            networkRb.enabled = onoff;
+            rb.simulated = onoff;
         }
     }
 
