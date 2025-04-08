@@ -66,20 +66,22 @@ public class TransformMover : NetworkBehaviour
     {
         Rpc_SetTransform(mainID,platformID);
     }
+
+    
     [ClientRpc]
     private void Rpc_SetTransform(uint mainID, uint platformID)
     {
         var main = NetworkClient.spawned.TryGetValue(mainID,out NetworkIdentity main_identity) ? main_identity : null;
         var platform = NetworkClient.spawned.TryGetValue(platformID, out NetworkIdentity platform_identity) ? platform_identity : null;
 
-        var cameraMain = Camera.main.TryGetComponent(out PlayerCameraView view) ? view : null;
-        if (cameraMain != null) cameraMain.onCancel = true;
+        if (platform == null) main.transform.SetParent(null,worldPositionStays :true);
+        else main.transform.SetParent(platform.transform, worldPositionStays: true);
 
-        if (platform == null) main.transform.SetParent(null);
-        else main.transform.SetParent(platform.transform);
-
-
-        if (cameraMain != null) cameraMain.onCancel = false;
     }
+
+
+
+    //var cameraMain = Camera.main.TryGetComponent(out PlayerCameraView view) ? view : null;
+    //if (cameraMain != null) cameraMain.onCancel = true;
 
 }
