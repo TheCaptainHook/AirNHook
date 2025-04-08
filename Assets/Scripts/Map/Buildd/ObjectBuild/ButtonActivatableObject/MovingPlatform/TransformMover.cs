@@ -83,7 +83,10 @@ public class TransformMover : NetworkBehaviour
         {
             if (platform == null)
             {
-                //main.transform.SetParent(parent, true);
+                if (networkRd)
+                {
+                    DelaySet(main.transform, null, networkRd);
+                }
                 movingPlatform = null;
             }
             else
@@ -97,7 +100,7 @@ public class TransformMover : NetworkBehaviour
 
                 if (networkRd)
                 {
-                    StartCoroutine(Delay(main.transform, platform.transform, networkRd));
+                    DelaySet(main.transform, platform.transform, networkRd);
                 }
             }
         }
@@ -105,10 +108,14 @@ public class TransformMover : NetworkBehaviour
         {
             Debug.Log(e);
         }
-
-
     }
 
+    Coroutine delayCo;
+    private void DelaySet(Transform main, Transform parent, NetworkRigidbodyUnreliable2D rb)
+    {
+        if (delayCo != null) StopCoroutine(delayCo);
+        delayCo = StartCoroutine(Delay(main, parent, rb));
+    }
 
     IEnumerator Delay(Transform main,Transform parent,NetworkRigidbodyUnreliable2D rb)
     {
