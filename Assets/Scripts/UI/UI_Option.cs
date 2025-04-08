@@ -100,6 +100,11 @@ public class UI_Option : UI_Base
         _roomCodeBox.SetActive(IsInLobby && IsServer);
         if(IsInLobby)
             GetRoomCode();
+
+
+
+        Managers.UI.ShowUI<UI_PingAlways>(); //TEST
+
     }
 
     protected override void Start()

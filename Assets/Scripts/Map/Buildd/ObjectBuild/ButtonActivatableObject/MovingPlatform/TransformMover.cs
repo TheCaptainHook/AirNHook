@@ -81,7 +81,7 @@ public class TransformMover : NetworkBehaviour
             movingPlatform = platform.gameObject.TryGetComponent(out MovingPlatform component) ? component : null;
             if(!identity.isOwned)
             {
-                float ping = Managers.UI.GetUI<UI_Option>().GetComponent<UI_Option>()._UI_Ping.ping;
+                float ping = Managers.UI.GetUI<UI_PingAlways>().GetComponent<UI_PingAlways>().ping;
                 transform.position +=  (Vector3)movingPlatform.dir* (ping / 20);
                 Debug.Log(ping / 20);
             }
