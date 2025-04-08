@@ -1,87 +1,102 @@
+
 using Mirror;
-using Mono.CompilerServices.SymbolWriter;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using System;
 
 public class TransformMover : NetworkBehaviour
 {
-    public LayerMask layer;
 
-    public Vector3 rayStartOffset;
-    public float rayDistance;
-   
-    private RaycastHit2D hit;
-    
     [Space(20)]
+    [ReadOnly]
     public MovingPlatform movingPlatform;
 
     NetworkIdentity identity;
-    uint Main_NetID => identity.netId;
 
+    public uint Main_NetID => identity.netId;
+    public uint movingPlatform_NetId 
+    {
+        get 
+        {
+            if(movingPlatform != null)
+            {
+                if(movingPlatform.TryGetComponent(out NetworkIdentity identity))
+                {
+                    return identity.netId;
+                }
+            }
+
+            return nullNetID;
+        }
+    }
+    uint nullNetID = 99999;
+    Transform parent;
+
+    #region Recover
+
+    #endregion
     private void Awake()
     {
         identity = GetComponent<NetworkIdentity>();
     }
 
-    private void FixedUpdate()
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!identity.isOwned) return;
-
-        hit = Physics2D.Raycast(transform.position+rayStartOffset, Vector3.down, rayDistance, layer);
-        // Debug.DrawRay(transform.position+rayStartOffset, Vector3.down * rayDistance, Color.red);
-        if (hit)
+        if (collision.gameObject.TryGetComponent(out MovingPlatform movingPlatform))
         {
-            if(hit.collider.TryGetComponent(out MovingPlatform component))
-            {
-                if (movingPlatform == null)
-                {
-                    movingPlatform = component;
-                    if(component.TryGetComponent(out NetworkIdentity identity))
-                    {
-                        Cmd_SetTransform(Main_NetID, identity.netId);
-                    }
-                }
-            }
-  
+             var platformID = movingPlatform.TryGetComponent(out NetworkIdentity identity) ? identity.netId : nullNetID;
+             Cmd_SetTransform(Main_NetID, platformID);
         }
-        else
-        {
-            if(movingPlatform != null) Cmd_SetTransform(Main_NetID,99999);
-            movingPlatform = null;
-        }
+     
     }
-
-    private void OnDrawGizmos()
+    private void OnCollisionExit2D(Collision2D collision)
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position+rayStartOffset,Vector3.down*rayDistance);
+        if (movingPlatform)
+        {
+            Cmd_SetTransform(Main_NetID, nullNetID);
+        }
+
     }
+    #region Recover
+ 
+    #endregion
 
-
-
+    #region Set Transform Network
     [Command(requiresAuthority = false)]
-    private void Cmd_SetTransform(uint mainID,uint platformID)
+    private void Cmd_SetTransform(uint mainID, uint platformID)
     {
-        Rpc_SetTransform(mainID,platformID);
+        Rpc_SetTransform(mainID, platformID);
     }
 
-    
     [ClientRpc]
-    private void Rpc_SetTransform(uint mainID, uint platformID)
+    private void Rpc_SetTransform(uint mainID, uint platformID )
     {
-        var main = NetworkClient.spawned.TryGetValue(mainID,out NetworkIdentity main_identity) ? main_identity : null;
+        var main = NetworkClient.spawned.TryGetValue(mainID, out NetworkIdentity main_identity) ? main_identity : null;
         var platform = NetworkClient.spawned.TryGetValue(platformID, out NetworkIdentity platform_identity) ? platform_identity : null;
 
-        if (platform == null) main.transform.SetParent(null);
-        else main.transform.SetParent(platform.transform);
+        try
+        {
+            if (platform == null)
+            {
+                main.transform.SetParent(parent);
+            }
+            else
+            {
+                parent = transform.parent;
+                movingPlatform = platform.gameObject.TryGetComponent(out MovingPlatform component) ? component : null;
+                main.transform.SetParent(platform.transform);
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e);
+        }
+
 
     }
+    #endregion
 
 
-
-    //var cameraMain = Camera.main.TryGetComponent(out PlayerCameraView view) ? view : null;
-    //if (cameraMain != null) cameraMain.onCancel = true;
 
 }
