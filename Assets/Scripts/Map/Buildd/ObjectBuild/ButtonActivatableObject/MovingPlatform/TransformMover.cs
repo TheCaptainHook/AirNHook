@@ -68,11 +68,25 @@ public class TransformMover : NetworkBehaviour
     [Command(requiresAuthority = false)]
     private void Cmd_SetTransform(uint mainID, uint platformID)
     {
-        Rpc_SetTransform(mainID, platformID);
+        var main = NetworkClient.spawned.TryGetValue(mainID, out NetworkIdentity main_identity) ? main_identity : null;
+        var platform = NetworkClient.spawned.TryGetValue(platformID, out NetworkIdentity platform_identity) ? platform_identity : null;
+
+        Vector2 preLocPot;
+
+        if(platform)
+        {
+            preLocPot = platform.transform.InverseTransformPoint(main.transform.position);
+        }
+        else
+        {
+            preLocPot = default;
+        }
+
+        Rpc_SetTransform(mainID, platformID,preLocPot);
     }
 
     [ClientRpc]
-    private void Rpc_SetTransform(uint mainID, uint platformID)
+    private void Rpc_SetTransform(uint mainID, uint platformID,Vector2 locPot)
     {
         var main = NetworkClient.spawned.TryGetValue(mainID, out NetworkIdentity main_identity) ? main_identity : null;
         var platform = NetworkClient.spawned.TryGetValue(platformID, out NetworkIdentity platform_identity) ? platform_identity : null;
@@ -83,7 +97,6 @@ public class TransformMover : NetworkBehaviour
         {
             if (platform == null)
             {
-
                 main.transform.SetParent(null, true);
                 movingPlatform = null;
 
@@ -93,7 +106,7 @@ public class TransformMover : NetworkBehaviour
                 //parent = transform.parent;
                 movingPlatform = platform.gameObject.TryGetComponent(out MovingPlatform component) ? component : null;
                 main.transform.SetParent(platform.transform, true);
-
+                main.transform.localPosition = locPot;
             }
         }
         catch (Exception e)
