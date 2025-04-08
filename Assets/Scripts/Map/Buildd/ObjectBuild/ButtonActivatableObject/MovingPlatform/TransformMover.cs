@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using DG.Tweening.Core.Easing;
 using Mirror.Experimental;
+using UnityEngine.Animations;
 
 public class TransformMover : NetworkBehaviour
 {
@@ -69,13 +70,13 @@ public class TransformMover : NetworkBehaviour
     [Command(requiresAuthority = false)]
     private void Cmd_SetTransform(uint mainID, uint platformID)
     {
-        Rpc_SetTransform(mainID, platformID);
+        Rpc_SetTransform(mainID, platformID,transform.position);
     }
 
     
 
     [ClientRpc]
-    private void Rpc_SetTransform(uint mainID, uint platformID)
+    private void Rpc_SetTransform(uint mainID, uint platformID,Vector3 postion)
     {
         var main = NetworkClient.spawned.TryGetValue(mainID, out NetworkIdentity main_identity) ? main_identity : null;
         var platform = NetworkClient.spawned.TryGetValue(platformID, out NetworkIdentity platform_identity) ? platform_identity : null;
@@ -89,31 +90,25 @@ public class TransformMover : NetworkBehaviour
             netRb.enabled = false;
             rb.simulated = false;
         }
-        main.transform.SetParent(platform?.transform, true);
-        if (netRb && main.isOwned)
-            main.StartCoroutine(ReenableNetworkRigidbody(netRb, rb));
-        //if (platform == null)
-        //{
-        //    main.transform.SetParent(null, true);
-        //    movingPlatform = null;
 
-        //}
-        //else
-        //{
-        //    //parent = transform.parent;
-        //    movingPlatform = platform.gameObject.TryGetComponent(out MovingPlatform component) ? component : null;
+        if (platform == null)
+        {
+            transform.position = postion;
+            main.transform.SetParent(null, true);
+            movingPlatform = null;
+            if (netRb && main.isOwned)
+                main.StartCoroutine(ReenableNetworkRigidbody(netRb, rb));
+        }
+        else
+        {
+            movingPlatform = platform.gameObject.TryGetComponent(out MovingPlatform component) ? component : null;
+            transform.position = postion;
+            main.transform.SetParent(platform.transform, true);
+            if (netRb && main.isOwned)
+                main.StartCoroutine(ReenableNetworkRigidbody(netRb, rb));
 
-        //    main.transform.SetParent(platform.transform, true);
+        }
 
-        //    if (netRb && identity.isOwned)
-        //    {
-        //        if (!NetworkServer.active)
-        //        {
-        //            netRb.syncDirection = SyncDirection.ClientToServer;
-        //        }
-        //    }
-
-        //}
 
     }
     IEnumerator ReenableNetworkRigidbody(NetworkRigidbodyUnreliable2D netRb, Rigidbody2D rb)
