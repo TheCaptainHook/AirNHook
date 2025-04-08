@@ -43,10 +43,20 @@ public class TransformMover : NetworkBehaviour
     }
 
 
+    private void FixedUpdate()
+    {
+        if (movingPlatform && identity.isOwned)
+        {
+            transform.position += (Vector3)movingPlatform.dir;
+        }
+    }
+
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.TryGetComponent(out MovingPlatform movingPlatform) && identity.isOwned)
         {
+            //this.movingPlatform = movingPlatform;
             var platformID = movingPlatform.TryGetComponent(out NetworkIdentity identity) ? identity.netId : nullNetID;
             Cmd_SetTransform(Main_NetID, platformID);
             //transform.SetParent(movingPlatform.transform);
@@ -58,6 +68,7 @@ public class TransformMover : NetworkBehaviour
         if (movingPlatform)
         {
             Cmd_SetTransform(Main_NetID, nullNetID);
+            //movingPlatform = null;
         }
 
     }
@@ -80,34 +91,33 @@ public class TransformMover : NetworkBehaviour
         var main = NetworkClient.spawned.TryGetValue(mainID, out NetworkIdentity main_identity) ? main_identity : null;
         var platform = NetworkClient.spawned.TryGetValue(platformID, out NetworkIdentity platform_identity) ? platform_identity : null;
 
-        var netRb = main.GetComponent<NetworkRigidbodyUnreliable2D>();
-        if (netRb && main.isOwned)
-        {
-            netRb.enabled = false;
-        }
+        //var netRb = main.GetComponent<NetworkRigidbodyUnreliable2D>();
+        //if (netRb && main.isOwned)
+        //{
+        //    netRb.enabled = false;
+        //}
 
         if (platform == null)
         {
-            main.transform.SetParent(null, true);
+            //main.transform.SetParent(null, true);
             movingPlatform = null;
-            if (netRb && main.isOwned)
-                main.StartCoroutine(ReenableNetworkRigidbody(netRb));
+            //if (netRb && main.isOwned)
+            //    main.StartCoroutine(ReenableNetworkRigidbody(netRb));
         }
         else
         {
             movingPlatform = platform.gameObject.TryGetComponent(out MovingPlatform component) ? component : null;
-            main.transform.SetParent(platform.transform, true);
-            if (netRb && main.isOwned)
-                main.StartCoroutine(ReenableNetworkRigidbody(netRb));
+            //main.transform.SetParent(platform.transform, true);
+            //if (netRb && main.isOwned)
+            //    main.StartCoroutine(ReenableNetworkRigidbody(netRb));
 
         }
-
 
     }
     IEnumerator ReenableNetworkRigidbody(NetworkRigidbodyUnreliable2D netRb)
     {
         //yield return new WaitForEndOfFrame();
-        yield return new WaitForFixedUpdate();
+        yield return new WaitForSeconds(0.1f);
         netRb.enabled = true;
     }
     // NetworkRigidbody 가 동기화중, 메인 클라이언트에서 먼저 동기화 되면서 로컬포지션 동기화 -> 다른 클라이언트에서 동기화된 로컬 포지션값 동기화 후에 트렌스폼 세팅.
