@@ -239,8 +239,8 @@ GameObject:
   - component: {fileID: 5445276800588105874}
   - component: {fileID: 5841928186188957514}
   - component: {fileID: -5810413876586093780}
-  - component: {fileID: 5995116111848026723}
   - component: {fileID: 2817792782057913889}
+  - component: {fileID: 5995116111848026723}
   - component: {fileID: 5143413499476842947}
   m_Layer: 19
   m_Name: Box
@@ -404,18 +404,6 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!210 &5995116111848026723
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8716440483222482088}
-  m_Enabled: 1
-  m_SortingLayerID: -688237417
-  m_SortingLayer: 5
-  m_SortingOrder: 5
-  m_SortAtRoot: 0
 --- !u!114 &2817792782057913889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -451,6 +439,18 @@ MonoBehaviour:
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
+--- !u!210 &5995116111848026723
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8716440483222482088}
+  m_Enabled: 1
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
+  m_SortingOrder: 5
+  m_SortAtRoot: 0
 --- !u!114 &5143413499476842947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -466,9 +466,5 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  layer:
-    serializedVersion: 2
-    m_Bits: 32768
-  rayStartOffset: {x: 0, y: -0.4, z: 0}
-  rayDistance: 0.4
   movingPlatform: {fileID: 0}
+  parent: {fileID: 0}

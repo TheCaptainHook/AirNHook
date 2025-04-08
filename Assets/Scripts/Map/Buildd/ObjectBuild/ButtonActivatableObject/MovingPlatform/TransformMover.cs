@@ -76,19 +76,28 @@ public class TransformMover : NetworkBehaviour
         var main = NetworkClient.spawned.TryGetValue(mainID, out NetworkIdentity main_identity) ? main_identity : null;
         var platform = NetworkClient.spawned.TryGetValue(platformID, out NetworkIdentity platform_identity) ? platform_identity : null;
 
+        var networkRd = main.TryGetComponent(out NetworkRigidbodyUnreliable2D netRb) ? netRb : null;
+
         try
         {
             if (platform == null)
             {
+                if(identity.isOwned && networkRd) networkRd.enabled = false;
+                
                 main.transform.SetParent(parent,true);
                 movingPlatform = null;
+
+                if (identity.isOwned && networkRd) networkRd.enabled = true;
 
             }
             else
             {
                 //parent = transform.parent;
                 movingPlatform = platform.gameObject.TryGetComponent(out MovingPlatform component) ? component : null;
+
+                if (identity.isOwned && networkRd) networkRd.enabled = false;
                 main.transform.SetParent(platform.transform,true);
+                if (identity.isOwned && networkRd) networkRd.enabled = true;
 
 
             }
