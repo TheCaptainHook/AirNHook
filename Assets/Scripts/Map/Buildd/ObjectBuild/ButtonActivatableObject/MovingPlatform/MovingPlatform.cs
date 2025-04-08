@@ -121,7 +121,7 @@ public class MovingPlatform :  ActivatableObjectEntity
     }
     private Vector2 GetMovePosition()
     {
-        return (MovingPlatform_Net.targetPosition - _rb.position).normalized * moveSpeed * Time.fixedDeltaTime;
+        return (MovingPlatform_Net.targetPosition - _rb.position).normalized * MovingPlatform_Net.dataPath.moveSpeed * Time.fixedDeltaTime;
     }
 
     /**
