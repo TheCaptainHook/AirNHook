@@ -31,7 +31,7 @@ public class TransformMover : NetworkBehaviour
         }
     }
     uint nullNetID = 99999;
-    Transform parent;
+    public Transform parent;
 
     #region Recover
 
@@ -44,7 +44,7 @@ public class TransformMover : NetworkBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out MovingPlatform movingPlatform))
+        if (collision.gameObject.TryGetComponent(out MovingPlatform movingPlatform) && identity.isOwned)
         {
              var platformID = movingPlatform.TryGetComponent(out NetworkIdentity identity) ? identity.netId : nullNetID;
              Cmd_SetTransform(Main_NetID, platformID);
@@ -80,19 +80,16 @@ public class TransformMover : NetworkBehaviour
         {
             if (platform == null)
             {
-                //main.transform.SetParent(parent);
-                if (delayCoroutine != null) StopCoroutine(delayCoroutine);
-                delayCoroutine = StartCoroutine(SetParentDelayed(null));
+                main.transform.SetParent(parent,true);
+                movingPlatform = null;
+
             }
             else
             {
-                parent = transform.parent;
+                //parent = transform.parent;
                 movingPlatform = platform.gameObject.TryGetComponent(out MovingPlatform component) ? component : null;
+                main.transform.SetParent(platform.transform,true);
 
-                if(delayCoroutine != null)StopCoroutine(delayCoroutine);
-                delayCoroutine = StartCoroutine(SetParentDelayed(platform.transform));
-
-                //main.transform.SetParent(platform.transform,true);
 
             }
         }
@@ -104,14 +101,7 @@ public class TransformMover : NetworkBehaviour
 
     }
 
-    Coroutine delayCoroutine;
-
-   IEnumerator SetParentDelayed(Transform platformTr)
-    {
-        yield return new WaitForEndOfFrame();
-        transform.SetParent(platformTr, true);
-
-    }
+ 
     #endregion
 
 
