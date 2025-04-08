@@ -4,9 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using System;
 using System.Collections;
-using DG.Tweening.Core.Easing;
-using Mirror.Experimental;
-using UnityEngine.Animations;
+
 
 public class TransformMover : NetworkBehaviour
 {
@@ -47,20 +45,20 @@ public class TransformMover : NetworkBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out MovingPlatform movingPlatform) )
+        if (collision.gameObject.TryGetComponent(out MovingPlatform movingPlatform) && identity.isOwned)
         {
-            //var platformID = movingPlatform.TryGetComponent(out NetworkIdentity identity) ? identity.netId : nullNetID;
-            //Cmd_SetTransform(Main_NetID, platformID);
-            transform.SetParent(movingPlatform.transform);
+            var platformID = movingPlatform.TryGetComponent(out NetworkIdentity identity) ? identity.netId : nullNetID;
+            Cmd_SetTransform(Main_NetID, platformID);
+            //transform.SetParent(movingPlatform.transform);
         }
      
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-        //if (movingPlatform)
-        //{
-        //    Cmd_SetTransform(Main_NetID, nullNetID);
-        //}
+        if (movingPlatform)
+        {
+            Cmd_SetTransform(Main_NetID, nullNetID);
+        }
 
     }
     #region Recover
@@ -83,12 +81,9 @@ public class TransformMover : NetworkBehaviour
         var platform = NetworkClient.spawned.TryGetValue(platformID, out NetworkIdentity platform_identity) ? platform_identity : null;
 
         var netRb = main.GetComponent<NetworkRigidbodyUnreliable2D>();
-        var rb = main.GetComponent<Rigidbody2D>();
-
         if (netRb && main.isOwned)
         {
             netRb.enabled = false;
-            rb.simulated = false;
         }
 
         if (platform == null)
@@ -96,31 +91,26 @@ public class TransformMover : NetworkBehaviour
             main.transform.SetParent(null, true);
             movingPlatform = null;
             if (netRb && main.isOwned)
-                main.StartCoroutine(ReenableNetworkRigidbody(netRb, rb));
+                main.StartCoroutine(ReenableNetworkRigidbody(netRb));
         }
         else
         {
             movingPlatform = platform.gameObject.TryGetComponent(out MovingPlatform component) ? component : null;
             main.transform.SetParent(platform.transform, true);
             if (netRb && main.isOwned)
-                main.StartCoroutine(ReenableNetworkRigidbody(netRb, rb));
+                main.StartCoroutine(ReenableNetworkRigidbody(netRb));
 
         }
 
 
     }
-    IEnumerator ReenableNetworkRigidbody(NetworkRigidbodyUnreliable2D netRb, Rigidbody2D rb)
+    IEnumerator ReenableNetworkRigidbody(NetworkRigidbodyUnreliable2D netRb)
     {
         yield return new WaitForEndOfFrame(); // 또는 yield return null;
-
-        rb.simulated = true;
         netRb.enabled = true;
     }
     // NetworkRigidbody 가 동기화중, 메인 클라이언트에서 먼저 동기화 되면서 로컬포지션 동기화 -> 다른 클라이언트에서 동기화된 로컬 포지션값 동기화 후에 트렌스폼 세팅.
-    private void TEST(NetworkIdentity main,bool onoff)
-    {
-        
-    }
+
 
     //Coroutine delayCo;
     //private void DelaySet(Transform main, Transform parent, NetworkRigidbodyUnreliable2D rb)
