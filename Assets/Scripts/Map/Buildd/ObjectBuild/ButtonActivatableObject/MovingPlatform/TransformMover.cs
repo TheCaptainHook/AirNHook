@@ -3,6 +3,7 @@ using Mirror;
 using Unity.VisualScripting;
 using UnityEngine;
 using System;
+using System.Collections;
 
 public class TransformMover : NetworkBehaviour
 {
@@ -79,18 +80,20 @@ public class TransformMover : NetworkBehaviour
         {
             if (platform == null)
             {
-                main.transform.SetParent(parent);
+                //main.transform.SetParent(parent);
+                if (delayCoroutine != null) StopCoroutine(delayCoroutine);
+                delayCoroutine = StartCoroutine(SetParentDelayed(null));
             }
             else
             {
                 parent = transform.parent;
                 movingPlatform = platform.gameObject.TryGetComponent(out MovingPlatform component) ? component : null;
 
-                Vector3 worldPos = main.transform.position;
+                if(delayCoroutine != null)StopCoroutine(delayCoroutine);
+                delayCoroutine = StartCoroutine(SetParentDelayed(platform.transform));
 
-                main.transform.SetParent(platform.transform,true);
+                //main.transform.SetParent(platform.transform,true);
 
-                main.transform.position = worldPos;
             }
         }
         catch (Exception e)
@@ -98,6 +101,15 @@ public class TransformMover : NetworkBehaviour
             Debug.Log(e);
         }
 
+
+    }
+
+    Coroutine delayCoroutine;
+
+   IEnumerator SetParentDelayed(Transform platformTr)
+    {
+        yield return new WaitForEndOfFrame();
+        transform.SetParent(platformTr, true);
 
     }
     #endregion
