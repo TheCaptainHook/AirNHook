@@ -85,7 +85,12 @@ public class TransformMover : NetworkBehaviour
             {
                 parent = transform.parent;
                 movingPlatform = platform.gameObject.TryGetComponent(out MovingPlatform component) ? component : null;
-                main.transform.SetParent(platform.transform);
+
+                Vector3 worldPos = main.transform.position;
+
+                main.transform.SetParent(platform.transform,true);
+
+                main.transform.position = worldPos;
             }
         }
         catch (Exception e)

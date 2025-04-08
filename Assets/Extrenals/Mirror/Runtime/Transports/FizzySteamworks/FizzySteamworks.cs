@@ -119,7 +119,15 @@ namespace Mirror.FizzySteam
         {
             byte[] data = new byte[segment.Count];
             Array.Copy(segment.Array, segment.Offset, data, 0, segment.Count);
-            client.Send(data, channelId);
+            try
+            {
+                client.Send(data, channelId);
+            }
+            catch(Exception e)
+            {
+                Debug.Log(e);
+            }
+            
         }
 
         public override void ClientDisconnect()
