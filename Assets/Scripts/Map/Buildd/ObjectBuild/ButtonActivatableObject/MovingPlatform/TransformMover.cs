@@ -95,7 +95,7 @@ public class TransformMover : NetworkBehaviour
                 //main.transform.SetParent(platform.transform, true);
                 //if (identity.isOwned && networkRd) networkRd.enabled = true;
 
-                if (identity.isOwned && networkRd)
+                if (networkRd)
                 {
                     StartCoroutine(Delay(main.transform, platform.transform, networkRd));
                 }
