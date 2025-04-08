@@ -45,10 +45,12 @@ public class TransformMover : NetworkBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out MovingPlatform movingPlatform) && identity.isOwned)
+        if (collision.gameObject.TryGetComponent(out MovingPlatform movingPlatform))
         {
-             var platformID = movingPlatform.TryGetComponent(out NetworkIdentity identity) ? identity.netId : nullNetID;
-             Cmd_SetTransform(Main_NetID, platformID);
+            //var platformID = movingPlatform.TryGetComponent(out NetworkIdentity identity) ? identity.netId : nullNetID;
+            //Cmd_SetTransform(Main_NetID, platformID);
+            this.movingPlatform = movingPlatform;
+            transform.SetParent(movingPlatform.transform);
         }
      
     }
@@ -56,7 +58,9 @@ public class TransformMover : NetworkBehaviour
     {
         if (movingPlatform)
         {
-            Cmd_SetTransform(Main_NetID, nullNetID);
+            this.movingPlatform = null ;
+            transform.SetParent(null);
+            //Cmd_SetTransform(Main_NetID, nullNetID);
         }
 
     }
@@ -95,8 +99,13 @@ public class TransformMover : NetworkBehaviour
                 movingPlatform = platform.gameObject.TryGetComponent(out MovingPlatform component) ? component : null;
 
                 TEST(main, false);
+
                 main.transform.SetParent(platform.transform, true);
-                main.transform.localPosition = preLocPot;
+
+                main.transform.position = main.transform.position; // 선택: 안 해도 되지만 안전하게
+                main.transform.rotation = main.transform.rotation;
+                //main.transform.localPosition = preLocPot;
+
                 TEST(main, true);
             }
         }
