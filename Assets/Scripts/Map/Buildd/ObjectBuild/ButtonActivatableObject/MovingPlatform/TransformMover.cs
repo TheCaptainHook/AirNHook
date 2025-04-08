@@ -68,64 +68,39 @@ public class TransformMover : NetworkBehaviour
     [Command(requiresAuthority = false)]
     private void Cmd_SetTransform(uint mainID, uint platformID)
     {
+        Rpc_SetTransform(mainID, platformID);
+    }
+
+    [ClientRpc]
+    private void Rpc_SetTransform(uint mainID, uint platformID)
+    {
         var main = NetworkClient.spawned.TryGetValue(mainID, out NetworkIdentity main_identity) ? main_identity : null;
         var platform = NetworkClient.spawned.TryGetValue(platformID, out NetworkIdentity platform_identity) ? platform_identity : null;
 
-        if (platform == null)
-        {
-            main.transform.SetParent(null, true);
-            movingPlatform = null;
+        //var networkRd = main.TryGetComponent(out NetworkRigidbodyUnreliable2D netRb) ? netRb : null;
 
-        }
-        else
+        try
         {
-            //parent = transform.parent;
-            movingPlatform = platform.gameObject.TryGetComponent(out MovingPlatform component) ? component : null;
-            main.transform.SetParent(platform.transform, true);
-        }
+            if (platform == null)
+            {
 
-        //Rpc_SetTransform(mainID, platformID);
+                main.transform.SetParent(null, true);
+                movingPlatform = null;
+
+            }
+            else
+            {
+                //parent = transform.parent;
+                movingPlatform = platform.gameObject.TryGetComponent(out MovingPlatform component) ? component : null;
+                main.transform.SetParent(platform.transform, true);
+
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e);
+        }
     }
-
-    //[ClientRpc]
-    //private void Rpc_SetTransform(uint mainID, uint platformID)
-    //{
-    //    var main = NetworkClient.spawned.TryGetValue(mainID, out NetworkIdentity main_identity) ? main_identity : null;
-    //    var platform = NetworkClient.spawned.TryGetValue(platformID, out NetworkIdentity platform_identity) ? platform_identity : null;
-
-    //    //var networkRd = main.TryGetComponent(out NetworkRigidbodyUnreliable2D netRb) ? netRb : null;
-
-    //    try
-    //    {
-    //        if (platform == null)
-    //        {
-    //            //if (networkRd)
-    //            //{
-    //            //    DelaySet(main.transform, null, networkRd);
-    //            //}
-
-    //            main.transform.SetParent(null, true);
-    //            movingPlatform = null;
-
-    //        }
-    //        else
-    //        {
-    //            //parent = transform.parent;
-    //            movingPlatform = platform.gameObject.TryGetComponent(out MovingPlatform component) ? component : null;
-    //            main.transform.SetParent(platform.transform, true);
-
-
-    //            //if (networkRd)
-    //            //{
-    //            //    DelaySet(main.transform, platform.transform, networkRd);
-    //            //}
-    //        }
-    //    }
-    //    catch (Exception e)
-    //    {
-    //        Debug.Log(e);
-    //    }
-    //}
 
     //Coroutine delayCo;
     //private void DelaySet(Transform main, Transform parent, NetworkRigidbodyUnreliable2D rb)
