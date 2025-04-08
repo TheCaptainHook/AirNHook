@@ -70,13 +70,13 @@ public class TransformMover : NetworkBehaviour
     [Command(requiresAuthority = false)]
     private void Cmd_SetTransform(uint mainID, uint platformID)
     {
-        Rpc_SetTransform(mainID, platformID,transform.position);
+        Rpc_SetTransform(mainID, platformID);
     }
 
     
 
     [ClientRpc]
-    private void Rpc_SetTransform(uint mainID, uint platformID,Vector3 postion)
+    private void Rpc_SetTransform(uint mainID, uint platformID)
     {
         var main = NetworkClient.spawned.TryGetValue(mainID, out NetworkIdentity main_identity) ? main_identity : null;
         var platform = NetworkClient.spawned.TryGetValue(platformID, out NetworkIdentity platform_identity) ? platform_identity : null;
@@ -93,7 +93,6 @@ public class TransformMover : NetworkBehaviour
 
         if (platform == null)
         {
-            transform.position = postion;
             main.transform.SetParent(null, true);
             movingPlatform = null;
             if (netRb && main.isOwned)
@@ -102,7 +101,6 @@ public class TransformMover : NetworkBehaviour
         else
         {
             movingPlatform = platform.gameObject.TryGetComponent(out MovingPlatform component) ? component : null;
-            transform.position = postion;
             main.transform.SetParent(platform.transform, true);
             if (netRb && main.isOwned)
                 main.StartCoroutine(ReenableNetworkRigidbody(netRb, rb));
