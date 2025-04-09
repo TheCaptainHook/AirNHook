@@ -4893,9 +4893,9 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
+  canRespawn: 0
   activeRequirAmount: 0
   curActiveBtn: 0
-  _defDistanceRay: 50
   _curDistanceRay: 0
   _lineRenderer: {fileID: 2717453816571275917}
   _firePoint: {fileID: 2979357953502741260}

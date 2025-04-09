@@ -15,7 +15,6 @@ public class TransformMover : NetworkBehaviour
     NetworkIdentity identity;
 
     uint nullNetID = 99999;
-    public Transform parent;
 
     #region Recover
 
@@ -79,12 +78,15 @@ public class TransformMover : NetworkBehaviour
         else
         {
             movingPlatform = platform.gameObject.TryGetComponent(out MovingPlatform component) ? component : null;
-            if(!identity.isOwned)
-            {
-                float ping = Managers.UI.GetUI<UI_PingAlways>().GetComponent<UI_PingAlways>().ping;
-                transform.position +=  (Vector3)movingPlatform.dir* (ping / 20);
-                Debug.Log(ping / 20);
-            }
+
+            //--------Sync using ping
+                //if(!identity.isOwned)
+                //{
+                //    float ping = Managers.UI.GetUI<UI_PingAlways>().GetComponent<UI_PingAlways>().ping;
+                //    transform.position +=  (Vector3)movingPlatform.dir* (ping / 20);
+                //    Debug.Log(ping / 20);
+                //}
+            //--------Sync using ping
         }
 
     }

@@ -79,10 +79,10 @@ PolygonCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 672704
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 338999
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -257,11 +257,6 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  layer:
-    serializedVersion: 2
-    m_Bits: 32768
-  rayStartOffset: {x: -0.14, y: -0.33, z: 0}
-  rayDistance: 0.24
   movingPlatform: {fileID: 0}
 --- !u!1 &8919751423055340418
 GameObject:

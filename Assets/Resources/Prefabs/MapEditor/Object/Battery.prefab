@@ -222,7 +222,7 @@ BoxCollider2D:
     m_Bits: 672704
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 1294314551
+    m_Bits: 1294281783
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -422,11 +422,6 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  layer:
-    serializedVersion: 2
-    m_Bits: 32768
-  rayStartOffset: {x: 0, y: -0.4, z: 0}
-  rayDistance: 0.4
   movingPlatform: {fileID: 0}
 --- !u!1 &6370455686804890750
 GameObject:
