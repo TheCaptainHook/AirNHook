@@ -109,7 +109,8 @@ public class MapEditor_Editor : Editor
                 );
 
             //Game difficulty
-            mapEditor.stageDifficulty = EditorGUILayout.IntField("Stage Difficulty",mapEditor.stageDifficulty);
+            // mapEditor.stageDifficulty = EditorGUILayout.IntField("Stage Difficulty",mapEditor.stageDifficulty);
+            mapEditor.stageDifficulty = EditorGUILayout.IntSlider("Stage Difficulty",mapEditor.stageDifficulty,0,3);
             //Game difficulty
 
             DrawBGMContents();
