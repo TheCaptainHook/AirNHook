@@ -162,7 +162,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &6085635874375084094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,6 +193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   markingCam: {fileID: 2199067590296538850}
+  playerCamerView: {fileID: 0}
   offset: {x: 0, y: 0, z: 0}
 --- !u!1 &1795318884197116616
 GameObject:
@@ -226,10 +227,10 @@ RectTransform:
   - {fileID: 7841525234462762458}
   m_Father: {fileID: 113140694087859592}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2.5, y: 2.5}
+  m_AnchorMin: {x: 0.07012641, y: 0.076000005}
+  m_AnchorMax: {x: 0.9182554, y: 0.9298736}
+  m_AnchoredPosition: {x: 0.017564299, y: -0.008793116}
+  m_SizeDelta: {x: -0.045249745, y: -0.06512034}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8612757059787818043
 CanvasRenderer:
@@ -403,10 +404,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 7841525234462762458}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.46}
-  m_SizeDelta: {x: 2.8, y: 2.8}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.025713682, y: -0.78955024}
+  m_SizeDelta: {x: 2.7171721, y: 2.5986953}
   m_Pivot: {x: 0.5, y: -0.000000013038516}
 --- !u!222 &504691061179195153
 CanvasRenderer:
@@ -454,7 +455,7 @@ GameObject:
   - component: {fileID: 7841525234462762458}
   - component: {fileID: 7175130653079076083}
   - component: {fileID: 4066085140750206150}
-  - component: {fileID: 178539952656385404}
+  - component: {fileID: 5064772192010460124}
   m_Layer: 5
   m_Name: Mask
   m_TagString: Untagged
@@ -520,7 +521,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &178539952656385404
+--- !u!114 &5064772192010460124
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -529,7 +530,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 7138824658544072036}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
+  m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ShowMaskGraphic: 1
+  m_Padding: {x: 0.4, y: 0.3, z: 0.4, w: 0.3}
+  m_Softness: {x: 1, y: 1}

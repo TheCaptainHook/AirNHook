@@ -306,12 +306,12 @@ MonoBehaviour:
   _CameraGlobalVolumeController: {fileID: 6554374015253966529}
   _CameraImageEffects: {fileID: 5635984663472689653}
   _TriggerDistance: 7
-  _MaxDistance: 16
-  _MinZoom: 6
-  _MaxZoom: 8
+  _MinZoom: 3
+  _MaxZoom: 10
   notFollowCam: 0
   marker: {fileID: 5745908724491517193}
   onChangeModeDefaultFromWide: 0
+  onCancel: 0
   isCameraCenter: 0
 --- !u!1 &7400504435710701042
 GameObject:
@@ -713,7 +713,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 113140694087859592, guid: 7f453d83eee6a419c9251c07691119b0, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -38.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 113140694087859592, guid: 7f453d83eee6a419c9251c07691119b0, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -731,6 +731,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1435239968671072987, guid: 7f453d83eee6a419c9251c07691119b0, type: 3}
+      propertyPath: playerCamerView
+      value: 
+      objectReference: {fileID: 4610640075857874608}
     - target: {fileID: 1619836637891772377, guid: 7f453d83eee6a419c9251c07691119b0, type: 3}
       propertyPath: m_Name
       value: PlayerCameraViewMarker
@@ -738,10 +742,6 @@ PrefabInstance:
     - target: {fileID: 1619836637891772377, guid: 7f453d83eee6a419c9251c07691119b0, type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8100277657064802084, guid: 7f453d83eee6a419c9251c07691119b0, type: 3}
-      propertyPath: m_PresetInfoIsWorld
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
