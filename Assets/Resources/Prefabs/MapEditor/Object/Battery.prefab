@@ -153,6 +153,7 @@ GameObject:
   - component: {fileID: 6497137313016165049}
   - component: {fileID: 6888040462242624602}
   - component: {fileID: 5980586429080748606}
+  - component: {fileID: 1587530798918733818}
   m_Layer: 18
   m_Name: Battery
   m_TagString: Untagged
@@ -168,7 +169,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6213857561148179821}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.001400314, w: 0.9999991}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -178,7 +179,7 @@ Transform:
   - {fileID: 6890918890723629363}
   - {fileID: 115524687572628154}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.16}
 --- !u!50 &764281349387328695
 Rigidbody2D:
   serializedVersion: 4
@@ -221,7 +222,7 @@ BoxCollider2D:
     m_Bits: 672704
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 1294314551
+    m_Bits: 1294281783
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -268,6 +269,9 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   distructionStatus: 1
   chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
@@ -276,6 +280,7 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 5213567269437679512}
+  canRespawn: 0
   powerSupply: {fileID: 0}
 --- !u!114 &8988956062262925408
 MonoBehaviour:
@@ -296,10 +301,10 @@ MonoBehaviour:
   _gravityScale: 0
   _offset: {x: 0, y: 0.5}
   _inhalePower: 600
+  onSync: 0
   batteryCharger: {fileID: 0}
   batteryCapacity: 0
   powerSupply: {fileID: 0}
-  orgPosition: {x: 0, y: 0, z: 0}
 --- !u!95 &6712209501634868520
 Animator:
   serializedVersion: 5
@@ -402,6 +407,22 @@ MonoBehaviour:
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
+--- !u!114 &1587530798918733818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6213857561148179821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5ab0e36dbc862945b9985f94fdf9533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  movingPlatform: {fileID: 0}
 --- !u!1 &6370455686804890750
 GameObject:
   m_ObjectHideFlags: 0

@@ -128,8 +128,9 @@ public class ConsoleSystem : MonoBehaviour
                 if (mapIDList.Contains(strings[1]))
                 {
                     WriteLog($"\n   >{inputField.text}\n");
-                    inputField.text = ""; 
-                    MapEditor.Instance.MoveNextStage(strings[1]);
+                    inputField.text = "";
+                    //MapEditor.Instance.MoveNextStage(strings[1]);
+                    Managers.Command.ChangeStage(strings[1]);
                 }
                 else
                 {

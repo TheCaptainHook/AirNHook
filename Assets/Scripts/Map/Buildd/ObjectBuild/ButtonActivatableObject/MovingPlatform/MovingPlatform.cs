@@ -2,10 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using System;
-using Unity.VisualScripting;
-using Mirror;
-
-
+using Org.BouncyCastle.Crypto.Engines;
 
 public class MovingPlatform :  ActivatableObjectEntity
 {
@@ -33,32 +30,17 @@ public class MovingPlatform :  ActivatableObjectEntity
 
     }
 
-
+    [Range(0,5)]
     public float moveSpeed;
 
-    [Header("Main")]
+    
+    
+    private MovingPlatform_Net MovingPlatform_Net;
 
-    [ReadOnly]
-    public float step;
-    [ReadOnly]
-    public Vector2 dir;
-    // public event Action<Vector2> MoveAction;
-    private AddForcePlatform addForcePlatform;
-    private bool onActive;
-
-    // [SerializeField] GameObject rail_Prefabs;
-    // [SerializeField] LineRenderer rail_Line;
-
-
-    private MovingPlatform_Net MovingPlatform_Net => GetComponent<MovingPlatform_Net>();
     private void Awake()
     {
-        // _rb = GetComponent<Rigidbody2D>();
-        addForcePlatform = GetComponent<AddForcePlatform>();
-        addForcePlatform.Init();
-        
+        MovingPlatform_Net = GetComponent<MovingPlatform_Net>();
     }
-
 
     #region  GET,SET (Will take care this logic)
     public override T GetData<T>()
@@ -75,16 +57,14 @@ public class MovingPlatform :  ActivatableObjectEntity
     {
          try{
             if (typeof(T) == typeof(ButtonActivatableObjectStruct))
-            {
-            //addForcePlatform = GetComponent<AddForcePlatform>();
-            
-            ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
-            ButtonActivatedObjectStruct = objData;
+            {   
+                ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
+                ButtonActivatedObjectStruct = objData;
 
-            //Moving Platform
-            paths = ConvertPaths(objData.paths);     
-            moveSpeed = objData.moveSpeed;
-            
+                //Moving Platform
+                paths = ConvertPaths(objData.paths);     
+                moveSpeed = objData.moveSpeed;
+
             }
         }catch(Exception ex){
                 Debug.Log($"{ex},{typeof(T)}");
@@ -92,108 +72,83 @@ public class MovingPlatform :  ActivatableObjectEntity
 
         if (Application.isPlaying)
         {
-            // CreateRail(paths);
-            MovingPlatform_Net.Server_CreateRail(paths);
+            // CreateRail(paths) Sync;
+            MovingPlatform_Net.Server_CreateRail(paths,moveSpeed);
 
+            //Server FixedUpdata Ready 0407
+            MovingPlatform_Net.Server_FixedUpdateReady(paths.Length>0);
+            //Server FixedUpdata Ready 0407
+            
             Util util = new Util();
-            await util.Delay(() => { CheckActiveRequirAmount(); });
-            if(NetworkServer.active)Prograss();
-            
-        }
-    }
-    #endregion
-
-    public void AddForce()
-    {
-        StartCoroutine(AddForceCo());
-    }
-
-    WaitForFixedUpdate waitSecond = new();
-    IEnumerator AddForceCo()
-    {
-        while(true)
-        {
-            //MoveAction?.Invoke(MovingPlatform_Net.velocity);
-            addForcePlatform.AddForce(MovingPlatform_Net.velocity);
-            yield return waitSecond;
-        }
-    }
-    private void OnDestroy()
-    {
-        StopAllCoroutines();
-    }
-
-    #region Test Code, [latest update: 11/12 ]
-    // private void Start(){
-    //     paths = ConvertPaths(paths);
-    //     Prograss();
-    // }
-    #endregion
-
-    public void Prograss(){
-        if(paths.Length <=0) return;
-        StartCoroutine(Prograss_Co(paths));
-    }
-
-    IEnumerator Prograss_Co(Vector2[] paths){
-        int maxIndex = paths.Length;
-        int index = 0;
-        int increment = 1;
-        Vector2 targetPosition = paths[index];
-        
-        while (true)
-        {
-                while(!onActive){
-                    dir = Vector2.zero;
-                    yield return null;
-                }
-            if (CheckDistance(_rb.position, targetPosition))
+            await util.Delay(() => 
             {
-                // _rb.velocity = Vector2.zero;
-                _rb.position = targetPosition;
-
-                index += increment;
-                if (index >= maxIndex || index < 0)
-                {
-                    if(index >=maxIndex && paths[maxIndex-1] == paths[0]){
-                        index = 0;
-                    }else{
-                        increment *= -1;
-                        index += increment;
-                    }
-                    
-                }
-
-                targetPosition = paths[index];
-
-            }
+//--------------------------------------------------------------------------------------------------------Refectoring 0406                
+                    // MovingPlatform_Prograss_Before_Setting();
+                    CheckActiveRequirAmount(); 
+                });
             
-            MoveTowards(_rb.position, targetPosition);
-            //MoveAction?.Invoke(dir*step);
-            yield return waitSecond; 
         }
     }
+    #endregion
+
+    //--------------------------------------------------------------------------------------------------------Refectoring 0406
+    
+   [ReadOnly]
+    public Vector2 dir;
+    public event Action<Vector2> movingEvent;
+    private void FixedUpdate()
+    {   
+        if(!MovingPlatform_Net.onActive) return;
+        if(onArrivalPoint) return;
+
+        onArrivalPoint = MoveToward();
+    }
+    [ReadOnly]
+    public bool onArrivalPoint;
+
+    private bool MoveToward()
+    {   
+        if(MovingPlatform_Net.targetPosition == null) return true;
+        if(CheckDistance(_rb.position,MovingPlatform_Net.targetPosition))
+        {
+            dir = Vector2.zero;
+            return true;
+        }
+        dir = GetMovePosition();
+        transform.position += (Vector3)dir;
+
+        return false;
+    }
+    private Vector2 GetMovePosition()
+    {
+        return (MovingPlatform_Net.targetPosition - _rb.position).normalized * MovingPlatform_Net.dataPath.moveSpeed * Time.fixedDeltaTime;
+    }
+
+    /**
+        1. MovingPlatform.FixedUpdate -> if(!onActive) return; = return
+        2. MovingPlatform_Net.Server_FixedUpdateReady(paths.Length>0); -> onFixedUpdataReady = true;
+        3. MovingPlatform_Net.FixedUpdate ->
+        4. MovingPlatform.CheckActiveRequirAmount(); -> Server_OnActive
+        5. MovingPlatform.FixedUpdate -> MoveToward.
+    **/
+    //--------------------------------------------------------------------------------------------------------Refectoring 0406
+
+
+
     #region  Activatable
     protected override void Activation()
     {
-        onActive = true;
+        // onActive = true;
+        MovingPlatform_Net.onActive = true;
     }
     protected override void Deactivated()
     {
-        onActive = false;
+        MovingPlatform_Net.onActive = false;
     }
     #endregion
 
     #region  Util
-    private void MoveTowards(Vector2 curP,Vector2 target){
-        dir = (target-curP).normalized;
-        step = moveSpeed * Time.fixedDeltaTime;
 
-        MovingPlatform_Net.Server_SetVelocity(dir * step,step);
-
-        _rb.position = Vector2.MoveTowards(_rb.position,_rb.position +dir,step);
-        
-    }
 
     private bool CheckDistance(Vector2 curPos,Vector2 targetPos){
         if(Vector3.Distance(curPos,targetPos) < 0.1f){
@@ -201,6 +156,7 @@ public class MovingPlatform :  ActivatableObjectEntity
         }
         return false;
     }
+
     /// <summary>
     /// This function adds the first index’s transform position to the paths array.
     /// </summary>

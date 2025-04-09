@@ -239,8 +239,14 @@ public class PlayerCameraView : MonoBehaviour
 
     #endregion
 
+
+    //-----0408 Moving Platform SetParent
+    public bool onCancel;
+    //-----0408 Moving Platform SetParent
     #region Util
     private void CheckOtherPlayerAndMarker(){
+        if (onCancel) return;
+
         if (OtherPlayer == null)
         {
             SetMarkerActive(false);

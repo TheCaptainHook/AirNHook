@@ -24336,6 +24336,7 @@ GameObject:
   - component: {fileID: -2176134299502383376}
   - component: {fileID: -1748015647269424119}
   - component: {fileID: 2884958338721759735}
+  - component: {fileID: 2642046701993852802}
   m_Layer: 18
   m_Name: LightningRod
   m_TagString: Untagged
@@ -24440,7 +24441,7 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   distructionStatus: 1
   chargeRequired: 0
-  isTransformItem: 0
+  isTransportItem: 0
   carrierTransformNetId: 0
   carrierTransform: {fileID: 0}
   onPlaceable: 0
@@ -24451,6 +24452,7 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 7178825718306028271}
+  canRespawn: 0
   hitPoint: {fileID: 7619620760434981820}
   onElectric: 0
   maxDurationRate: 5
@@ -24545,3 +24547,19 @@ SortingGroup:
   m_SortingLayer: 5
   m_SortingOrder: 7
   m_SortAtRoot: 0
+--- !u!114 &2642046701993852802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7773345652000642256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5ab0e36dbc862945b9985f94fdf9533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  movingPlatform: {fileID: 0}

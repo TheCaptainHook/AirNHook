@@ -1,6 +1,7 @@
 
 using Mirror;
 using System.Collections;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -44,18 +45,18 @@ public class UI_Ping : MonoBehaviour
 
     protected void Start()
     {
-        wait = new WaitForSeconds(3);
+        wait = new WaitForSeconds(1.5f);
         curPingCriteria = PingCriteria.Black;
     }
-   
+
     // private void OnDisable()
     // {
     //     StopAllCoroutines();
-        
+
     // }
 
 
-
+    public float ping;
     public void StartPingCheck(bool isServer)
     {
         StopAllCoroutines();
@@ -79,76 +80,112 @@ public class UI_Ping : MonoBehaviour
         serverPingCheckCoroutine = StartCoroutine(CheckNetworkLatency());
     }
 
-    private float lastLatency = -1f;
-    int sampleCount = 1;
+    //private float lastLatency = -1f;
+    //int sampleCount = 2;
     PingCriteria previousPingCriteria;
+    //IEnumerator CheckNetworkLatency()
+    //{
+    //    while (true)
+    //    {
+    //        float totalLatency = 0f;
+    //        int validSampleCount = 0; 
+
+    //        for (int i = 0; i < sampleCount; i++)
+    //        {
+    //            Ping ping = new Ping("8.8.8.8");
+
+    //            //Time Out
+    //            float timeout = 2f;
+    //            float startTime = Time.time;
+    //            //Time Out
+
+    //            while (!ping.isDone && (Time.time - startTime < timeout))
+    //            {
+    //                yield return null;
+    //            }
+
+    //            if (!ping.isDone)
+    //            {
+    //                Debug.LogWarning("Ping Timeout!");
+    //            }
+    //            else
+    //            {
+    //                totalLatency += ping.time;
+    //                validSampleCount++;
+    //            }
+    //        }
+
+    //        // 평균값 계산
+    //        if (validSampleCount > 0)
+    //        {
+    //            float avgLatency = totalLatency / validSampleCount;
+
+    //            if (Mathf.Abs(avgLatency - lastLatency) > 1f)
+    //            {
+    //                //------UI
+    //                previousPingCriteria = GetPingCriteriaSwich(avgLatency);
+    //                if(previousPingCriteria != curPingCriteria)
+    //                {
+    //                    curPingCriteria = previousPingCriteria;
+    //                    ChangeImage(curPingCriteria);
+    //                }
+    //                //if PingCriteria.Orange , Show UI_Warning_Image
+
+    //                //if PingCriteria.Orange , Show UI_Warning_Image
+    //                //------UI
+    //                netPingText.text = $"[S]{Mathf.Floor(avgLatency)} ms";
+    //                lastLatency = avgLatency;
+    //                this.ping = avgLatency;
+    //            }
+    //        }
+    //        else
+    //        {
+    //            curPingCriteria = PingCriteria.Black;
+    //            ChangeImage(curPingCriteria);
+    //            netPingText.text = "No Connection";
+    //            //Debug.LogWarning("All Ping Timeout.");
+    //        }
+
+    //        yield return wait;
+    //    }
+    //}
+
     IEnumerator CheckNetworkLatency()
     {
         while (true)
         {
-            float totalLatency = 0f;
-            int validSampleCount = 0; 
+            Ping ping = new Ping("8.8.8.8");
+            float timeout = 2f;
+            float startTime = Time.time;
 
-            for (int i = 0; i < sampleCount; i++)
+            while (!ping.isDone && (Time.time - startTime < timeout))
             {
-                Ping ping = new Ping("8.8.8.8");
-
-                //Time Out
-                float timeout = 2f;
-                float startTime = Time.time;
-                //Time Out
-
-                while (!ping.isDone && (Time.time - startTime < timeout))
-                {
-                    yield return null;
-                }
-
-                if (!ping.isDone)
-                {
-                    Debug.LogWarning("Ping Timeout!");
-                }
-                else
-                {
-                    totalLatency += ping.time;
-                    validSampleCount++;
-                }
+                yield return null;
             }
 
-            // 평균값 계산
-            if (validSampleCount > 0)
-            {
-                float avgLatency = totalLatency / validSampleCount;
-
-                if (Mathf.Abs(avgLatency - lastLatency) > 1f)
-                {
-                    //------UI
-                    previousPingCriteria = GetPingCriteriaSwich(avgLatency);
-                    if(previousPingCriteria != curPingCriteria)
-                    {
-                        curPingCriteria = previousPingCriteria;
-                        ChangeImage(curPingCriteria);
-                    }
-                    //if PingCriteria.Orange , Show UI_Warning_Image
-
-                    //if PingCriteria.Orange , Show UI_Warning_Image
-                    //------UI
-                    netPingText.text = $"[S]{Mathf.Floor(avgLatency)} ms";
-                    lastLatency = avgLatency;
-                }
-            }
-            else
+            if (!ping.isDone)
             {
                 curPingCriteria = PingCriteria.Black;
                 ChangeImage(curPingCriteria);
-                netPingText.text = "No Connection";
-                //Debug.LogWarning("All Ping Timeout.");
+            }
+            else
+            {
+                float latency = ping.time;
+                // UI 표시 & 처리
+                PingCriteria criteria = GetPingCriteriaSwich(latency);
+                if (criteria != curPingCriteria)
+                {
+                    curPingCriteria = criteria;
+                    ChangeImage(criteria);
+                }
+
+                netPingText.text = $"[S]{Mathf.Floor(latency)} ms";
+                this.ping = latency;
             }
 
-            // 3초마다 측정
             yield return wait;
         }
     }
-
     #endregion
 
     #region Client
@@ -173,6 +210,7 @@ public class UI_Ping : MonoBehaviour
                 curPingCriteria = previousPingCriteria;
                 ChangeImage(curPingCriteria);
                 netPingText.text = $"[C]{Mathf.Floor(ping)} ms";
+                this.ping = ping;
             }
 
             //if PingCriteria.Orange , Show UI_Warning_Image

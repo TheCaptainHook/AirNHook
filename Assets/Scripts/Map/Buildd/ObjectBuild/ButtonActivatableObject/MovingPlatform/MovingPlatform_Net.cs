@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System;
+using Unity.VisualScripting;
 
 
 public class MovingPlatform_Net : NetworkBehaviour
@@ -10,47 +11,48 @@ public class MovingPlatform_Net : NetworkBehaviour
     [SerializeField] GameObject rail_Node_Prefabs;
     [SerializeField] LineRenderer rail_Line_Prefabs;
 
-    private LineRenderer lineRenderer;
-    private LineRenderer LineRenderer 
-    {
-        get
+    #region Components
+    MovingPlatform main;
+    MovingPlatform Main 
+    { get
         {
-            if(!lineRenderer) lineRenderer = GetComponent<LineRenderer>();
-            return lineRenderer;
+            main ??= GetComponent<MovingPlatform>();
+            return main;
+        } 
+    }
+    Rigidbody2D rb;
+    Rigidbody2D RB 
+    {
+        get 
+        {
+            rb ??= GetComponent<Rigidbody2D>();
+            return rb;
         }
     }
 
-    MovingPlatform MovingPlatform => GetComponent<MovingPlatform>();
-    
+    #endregion
+
     [Serializable]
     public struct DataPath
     {
         public Vector2[] paths;
-        public DataPath(Vector2[] paths)
+        public float moveSpeed; 
+        public DataPath(Vector2[] paths,float moveSpeed)
         {
             this.paths = paths;
-        } 
+            this.moveSpeed = moveSpeed;
+        }
+        
     }
-
+    #region  Init Sync
     [SyncVar(hook =nameof(OnDataPathUpdated))]
     public DataPath dataPath;
-
-    [SyncVar] public Vector2 velocity;
-    [SyncVar] public float step;
-
+    [SyncVar]public bool onActive;
+    
     [Server]
-    public void Server_CreateRail(Vector2[] paths)
+    public void Server_CreateRail(Vector2[] paths,float moveSpeed)
     {
-        dataPath = new DataPath(paths);
-
-    }
-
-
-    [Server]
-    public void Server_SetVelocity(Vector2 velocity,float step)
-    {
-        this.velocity = velocity;
-        this.step = step;
+        dataPath = new DataPath(paths,moveSpeed);
     }
 
     public void CreateRail()
@@ -92,6 +94,7 @@ public class MovingPlatform_Net : NetworkBehaviour
             railNode_2.transform.position = endPot;
         }
     }
+
     private void DrawLine(LineRenderer line,Vector2[] path)
     {
         line.positionCount = path.Length;
@@ -106,17 +109,89 @@ public class MovingPlatform_Net : NetworkBehaviour
         if (newPath.paths != null)
         {
             CreateRail();
-            MovingPlatform.AddForce();
+        
         }
     }
+  
+#endregion
 
-    //public override void OnStartClient()
-    //{
-    //    base.OnStartClient();
-    //    //CreateRail();
-    //    //MovingPlatform.AddForce();
-    //    //StartCoroutine(WaitforSync());
 
-    //}
+    #region Move Platform
+    
+ 
+  //--------------------------------------------------------------------------------------------------------Refectoring 0406
+  private bool onFixedUpdataReady;
+  private int maxIndex;
+  private int index;
+  private int increment;
+  [ReadOnly]
+  public Vector2 targetPosition;
+
+
+  [Server]
+  public void Server_FixedUpdateReady(bool onReady)
+  {
+    if(onReady)
+    {
+        maxIndex = dataPath.paths.Length;
+        index = 0;
+        increment =1;
+        targetPosition = dataPath.paths[index];
+
+        Rpc_SetTargetPosition(RB.position,targetPosition);
+        onFixedUpdataReady = true;
+    }
+  }
+
+  private Vector2 previousTargetPosition;
+  private void FixedUpdate()
+  {
+    if(!isServer) return;
+    if(!onFixedUpdataReady) return;
+
+    if(CheckDistance(RB.position,targetPosition))
+        {
+            // RB.position = targetPosition;
+            previousTargetPosition = targetPosition;
+            index += increment;
+
+            if (index >= maxIndex || index < 0)
+            {  
+                if(index >=maxIndex && dataPath.paths[maxIndex-1] == dataPath.paths[0])
+                {
+                       index = 0;
+                }
+                else
+                {
+                       increment *= -1;
+                       index += increment;
+                }
+            }
+
+            targetPosition = dataPath.paths[index];
+            //ClientRpc targetPositon sync
+            Rpc_SetTargetPosition(previousTargetPosition,targetPosition);
+
+        }
+
+  }
+
+   private bool CheckDistance(Vector2 curPos,Vector2 targetPos){
+        if(Vector3.Distance(curPos,targetPos) < 0.1f){
+            return true;
+        }
+        return false;
+    }
+
+    [ClientRpc]
+    private void Rpc_SetTargetPosition(Vector2 curPosition,Vector2 targetPosition)
+    {
+        RB.position = curPosition;
+        this.targetPosition = targetPosition;
+        Main.onArrivalPoint = false;
+    }
+
+    //--------------------------------------------------------------------------------------------------------Refectoring 0406
+    #endregion
 
 }

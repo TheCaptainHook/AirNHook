@@ -14425,7 +14425,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.449990153312683,
+                "y": 1.4499900341033936,
                 "z": 1.0
             },
             "talPot": {
@@ -14479,7 +14479,7 @@
                     "y": 7.0
                 }
             ],
-            "moveSpeed": 1.0,
+            "moveSpeed": 5.0,
             "moveDistance": 0.0,
             "bridgeLength": 0.0,
             "connectionPoint": {

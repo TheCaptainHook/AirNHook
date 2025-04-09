@@ -12,10 +12,8 @@ GameObject:
   - component: {fileID: 5544048623132846919}
   - component: {fileID: 8980493692623290019}
   - component: {fileID: 7857764052154975748}
-  - component: {fileID: 2968318087949111795}
   - component: {fileID: 280356420529785168}
   - component: {fileID: -8727639125033655133}
-  - component: {fileID: 512112756729641441}
   - component: {fileID: 3602550238883226528}
   - component: {fileID: 6630991627251228293}
   m_Layer: 15
@@ -133,41 +131,6 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!114 &2968318087949111795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3690635770919025948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  target: {fileID: 1621393986771204216}
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 0
-  onlySyncOnChange: 1
-  compressRotation: 1
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 1
-  coordinateSpace: 0
-  sendIntervalMultiplier: 1
-  timelineOffset: 0
-  showGizmos: 0
-  showOverlay: 0
-  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  bufferResetMultiplier: 3
-  changedDetection: 1
-  positionSensitivity: 0.01
-  rotationSensitivity: 0.01
-  scaleSensitivity: 0.01
 --- !u!114 &280356420529785168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,8 +164,8 @@ MonoBehaviour:
   curActiveBtn: 0
   paths: []
   moveSpeed: 1
-  step: 0
   dir: {x: 0, y: 0}
+  onArrivalPoint: 0
 --- !u!114 &-8727639125033655133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,25 +185,9 @@ MonoBehaviour:
   rail_Line_Prefabs: {fileID: 6443439262299581446, guid: 275793db7c14f413ebce84c81e704b8d, type: 3}
   dataPath:
     paths: []
-  velocity: {x: 0, y: 0}
-  step: 0
---- !u!114 &512112756729641441
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3690635770919025948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87cdb56b2e4434f778d12275ef931f9a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _LimitVelocity: 2
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 1000448
-  _MovingPlatform: {fileID: 280356420529785168}
+    moveSpeed: 0
+  onActive: 0
+  targetPosition: {x: 0, y: 0}
 --- !u!114 &3602550238883226528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,7 +230,7 @@ MonoBehaviour:
   - {x: 1.4976275, y: -0.0037063956, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 47202
+  m_InstanceId: 59538
   m_LocalBounds:
     m_Center: {x: -0.0039869547, y: 0.24874261, z: 0}
     m_Extent: {x: 1.5016145, y: 0.252449, z: 0}

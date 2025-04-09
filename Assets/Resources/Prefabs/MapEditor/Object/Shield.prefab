@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: -5810413876586093780}
   - component: {fileID: -218796630117030723}
   - component: {fileID: 5995116111848026723}
+  - component: {fileID: 880326606000839966}
   m_Layer: 16
   m_Name: Shield
   m_TagString: Untagged
@@ -223,6 +224,7 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 4684687439439529792}
+  canRespawn: 0
 --- !u!114 &1432138131361962526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,7 +244,7 @@ MonoBehaviour:
   _gravityScale: 0
   _offset: {x: 0, y: 1.35}
   _inhalePower: 20
-  orgPot: {x: 0, y: 0}
+  onSync: 0
   curTime: 0
 --- !u!114 &-5810413876586093780
 MonoBehaviour:
@@ -308,3 +310,19 @@ SortingGroup:
   m_SortingLayer: 5
   m_SortingOrder: 5
   m_SortAtRoot: 0
+--- !u!114 &880326606000839966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8716440483222482088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5ab0e36dbc862945b9985f94fdf9533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  movingPlatform: {fileID: 0}

@@ -16,7 +16,7 @@ public class UI_Option : UI_Base
     [SerializeField] private GameObject _graphicsOption;
     [SerializeField] private GameObject _volumeOption;
     [SerializeField] private GameObject _languageOption;
-    [SerializeField] private UI_Ping _UI_Ping;
+    [SerializeField] public UI_Ping _UI_Ping;
     [SerializeField] private Button _optionExitBtn;
 
     [Header("OptionBar")]
@@ -100,6 +100,11 @@ public class UI_Option : UI_Base
         _roomCodeBox.SetActive(IsInLobby && IsServer);
         if(IsInLobby)
             GetRoomCode();
+
+
+
+        //Managers.UI.ShowUI<UI_PingAlways>(); //TEST
+
     }
 
     protected override void Start()
