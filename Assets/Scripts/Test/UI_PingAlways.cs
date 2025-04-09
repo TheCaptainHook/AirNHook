@@ -17,8 +17,9 @@ public class UI_PingAlways : UI_Base
     private PingCriteria curPingCriteria;
 
     private WaitForSeconds wait;
-    //[SerializeField] Image image;
+    [SerializeField] Image image;
     [SerializeField] TextMeshProUGUI netPingText;
+    [SerializeField] Sprite[] pingLevelSprites;
     public float ping;
     protected override void Start()
     {
@@ -32,12 +33,10 @@ public class UI_PingAlways : UI_Base
         if (isServer)
         {
             ServerPingCheck();
-            Debug.Log("Server Ping Check");
         }
         else
         {
             ClientPingCheck();
-            Debug.Log("Client Ping Check");
         }
     }
 
@@ -64,7 +63,9 @@ public class UI_PingAlways : UI_Base
             if (!ping.isDone)
             {
                 curPingCriteria = PingCriteria.Black;
-                //ChangeImage(curPingCriteria);
+                ChangeImage(curPingCriteria);
+                netPingText.text = $"No Connection";
+                this.ping = 99999;
             }
             else
             {
@@ -74,11 +75,19 @@ public class UI_PingAlways : UI_Base
                 if (criteria != curPingCriteria)
                 {
                     curPingCriteria = criteria;
-                    //ChangeImage(criteria);
+                    ChangeImage(criteria);
                 }
 
-                netPingText.text = $"[S]{Mathf.Floor(latency)} ms";
-                this.ping = latency;
+                if(curPingCriteria == PingCriteria.Black)
+                {
+                    netPingText.text = $"No Connection";
+                    this.ping = 99999;
+                }else{
+                    netPingText.text = $"{Mathf.Floor(latency)} ms";
+                    this.ping = latency;
+                }
+
+                
             }
 
             yield return wait;
@@ -95,21 +104,17 @@ public class UI_PingAlways : UI_Base
     {
         while (true)
         {
-            //PingCriteriaSwich(NetworkTime.rtt);
             //------UI
             var ping = (float)NetworkTime.rtt * 1000;
             previousPingCriteria = GetPingCriteriaSwich(ping);
             if (previousPingCriteria != curPingCriteria)
             {
                 curPingCriteria = previousPingCriteria;
-                //ChangeImage(curPingCriteria);
-                netPingText.text = $"[C]{Mathf.Floor(ping)} ms";
+                ChangeImage(curPingCriteria);
+                netPingText.text = $"{Mathf.Floor(ping)} ms";
                 this.ping = ping;
             }
 
-            //if PingCriteria.Orange , Show UI_Warning_Image
-
-            //if PingCriteria.Orange , Show UI_Warning_Image
             //------UI
             yield return wait;
         }
@@ -125,31 +130,27 @@ public class UI_PingAlways : UI_Base
             <= 250 => PingCriteria.Red,
             _ => PingCriteria.Black
         };
-        //if (pingText.color != pingColor) pingText.color = pingColor;
-        //pingText.text = $"{ping} ms";
     }
-    //private void ChangeImage(PingCriteria pingCriteria)
-    //{
-    //    switch (pingCriteria)
-    //    {
-    //        case PingCriteria.Green:
-    //            image.color = Color.green;
-    //            break;
-    //        case PingCriteria.Yellow:
-    //            image.color = Color.yellow;
-    //            break;
-    //        case PingCriteria.Orange:
-    //            image.color = new Color(1, 100 / 255f, 0, 1);
-    //            break;
-    //        case PingCriteria.Red:
-    //            image.color = Color.red;
-    //            break;
-    //        case PingCriteria.Black:
-    //            image.color = Color.black;
-    //            break;
+    private void ChangeImage(PingCriteria pingCriteria)
+    {
+        switch (pingCriteria)
+        {
+            case PingCriteria.Green:
+                image.sprite = pingLevelSprites[0];
+                break;
+            case PingCriteria.Yellow:
+                image.sprite = pingLevelSprites[1];
+                break;
+            case PingCriteria.Orange:
+                image.sprite = pingLevelSprites[2];
+                break;
+            case PingCriteria.Red:
+                image.sprite = pingLevelSprites[3];
+                break;
+            case PingCriteria.Black:
+                image.sprite = pingLevelSprites[4];
+                break;
+        }
 
-
-    //    }
-
-    //}
+    }
 }
