@@ -14,6 +14,8 @@ public class CameraGlobalVolumeController : MonoBehaviour
     private Coroutine DeathVignetteCoroutine;
     private bool isInFog;
 
+    [SerializeField] private float _vignetteAmount = 0.135f;
+    [SerializeField] private float _deathVignetteAmount = 0.4f;
 
     private Vector3 previousViewport;
     private void Awake()
@@ -29,6 +31,7 @@ public class CameraGlobalVolumeController : MonoBehaviour
         if (_Volume.profile.TryGet(out Vignette vignette))
         {
             _Vignette = vignette;
+            _Vignette.intensity.value = _vignetteAmount;
         }
         if (_Volume.profile.TryGet(out LensDistortion lensDistortion))
         {
@@ -169,7 +172,7 @@ public class CameraGlobalVolumeController : MonoBehaviour
 
         if (inout)
         {
-            DeathVignetteCoroutine = StartCoroutine(DeathVignetteCoroutine_In(0.3f, 0.7f));
+            DeathVignetteCoroutine = StartCoroutine(DeathVignetteCoroutine_In(_deathVignetteAmount, 0.7f));
         }
         else
         {
@@ -192,21 +195,26 @@ public class CameraGlobalVolumeController : MonoBehaviour
         DeathVignetteCoroutine = null;
     }
 
-    IEnumerator DeathVignetteCoroutine_Out(float targetIntensity = 0.0f, float speed = 1.0f)
+    IEnumerator DeathVignetteCoroutine_Out(float? targetIntensity = null, float speed = 1.0f)
     {
+        float target = targetIntensity ?? _vignetteAmount; // 전달 안 됐으면 _vignetteAmount 사용
         float percent = _Vignette.intensity.value;
-        while (percent > targetIntensity)
+
+        while (percent > target)
         {
             percent -= Time.fixedDeltaTime * speed;
-            _Vignette.intensity.value = Mathf.Clamp01(percent); // 값 제한
+            _Vignette.intensity.value = Mathf.Clamp01(percent);
             yield return null;
         }
-        _Vignette.intensity.value = targetIntensity;
-        if (targetIntensity <= 0)
+
+        _Vignette.intensity.value = target;
+
+        if (Mathf.Approximately(target, 0f))
         {
             _Vignette.active = false;
             _Volume.weight = 1;
         }
+
         DeathVignetteCoroutine = null;
     }
 

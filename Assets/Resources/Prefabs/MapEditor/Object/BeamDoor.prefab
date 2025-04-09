@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 7010004146643948836}
   - component: {fileID: 4816522087506460475}
   - component: {fileID: 7747777745030928878}
-  m_Layer: 14
+  m_Layer: 7
   m_Name: BaseCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -611,7 +611,7 @@ GameObject:
   m_Component:
   - component: {fileID: 374805783896710044}
   - component: {fileID: 538212955199074236}
-  m_Layer: 14
+  m_Layer: 7
   m_Name: Blocker_BR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -874,6 +874,7 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
+  canRespawn: 0
   activeRequirAmount: 0
   curActiveBtn: 0
   onOpen: 0
@@ -903,7 +904,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8261483537865123107}
-  m_Layer: 14
+  m_Layer: 7
   m_Name: Blockers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1025,7 +1026,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1764427083025827625}
   - component: {fileID: 2849100224404243726}
-  m_Layer: 14
+  m_Layer: 7
   m_Name: Blocker_TL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1109,7 +1110,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6468687711400446485}
   - component: {fileID: 576020766611899039}
-  m_Layer: 14
+  m_Layer: 7
   m_Name: Blocker_BL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1193,7 +1194,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6849366369874958646}
   - component: {fileID: 7045774041681286744}
-  m_Layer: 14
+  m_Layer: 7
   m_Name: Blocker_TR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
