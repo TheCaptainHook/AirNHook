@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 7857764052154975748}
   - component: {fileID: 280356420529785168}
   - component: {fileID: -8727639125033655133}
-  - component: {fileID: 512112756729641441}
   - component: {fileID: 3602550238883226528}
   - component: {fileID: 6630991627251228293}
   m_Layer: 15
@@ -189,24 +188,6 @@ MonoBehaviour:
     moveSpeed: 0
   onActive: 0
   targetPosition: {x: 0, y: 0}
---- !u!114 &512112756729641441
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3690635770919025948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87cdb56b2e4434f778d12275ef931f9a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _LimitVelocity: 2
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 1000448
-  _MovingPlatform: {fileID: 280356420529785168}
-  onReady: 0
 --- !u!114 &3602550238883226528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,7 +230,7 @@ MonoBehaviour:
   - {x: 1.4976275, y: -0.0037063956, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 72844
+  m_InstanceId: 59538
   m_LocalBounds:
     m_Center: {x: -0.0039869547, y: 0.24874261, z: 0}
     m_Extent: {x: 1.5016145, y: 0.252449, z: 0}

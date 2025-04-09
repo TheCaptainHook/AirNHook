@@ -80,8 +80,8 @@ public class UI_Ping : MonoBehaviour
         serverPingCheckCoroutine = StartCoroutine(CheckNetworkLatency());
     }
 
-    private float lastLatency = -1f;
-    int sampleCount = 2;
+    //private float lastLatency = -1f;
+    //int sampleCount = 2;
     PingCriteria previousPingCriteria;
     //IEnumerator CheckNetworkLatency()
     //{

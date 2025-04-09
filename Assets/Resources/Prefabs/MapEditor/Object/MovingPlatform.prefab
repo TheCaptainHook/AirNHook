@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 7857764052154975748}
   - component: {fileID: 280356420529785168}
   - component: {fileID: 9506379229088526}
-  - component: {fileID: 512112756729641441}
   - component: {fileID: 3602550238883226528}
   - component: {fileID: 7319640122550494961}
   m_Layer: 15
@@ -165,8 +164,8 @@ MonoBehaviour:
   curActiveBtn: 0
   paths: []
   moveSpeed: 1
-  step: 0
   dir: {x: 0, y: 0}
+  onArrivalPoint: 0
 --- !u!114 &9506379229088526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,27 +183,11 @@ MonoBehaviour:
   syncInterval: 0
   rail_Node_Prefabs: {fileID: 7834071034627693989, guid: 4f169f16daaea482da08a58d3a53f699, type: 3}
   rail_Line_Prefabs: {fileID: 6443439262299581446, guid: 275793db7c14f413ebce84c81e704b8d, type: 3}
-  addForce_OnReady: 0
   dataPath:
     paths: []
---- !u!114 &512112756729641441
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3690635770919025948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87cdb56b2e4434f778d12275ef931f9a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _LimitVelocity: 2
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 1000448
-  _MovingPlatform: {fileID: 280356420529785168}
-  onReady: 0
+    moveSpeed: 0
+  onActive: 0
+  targetPosition: {x: 0, y: 0}
 --- !u!114 &3602550238883226528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,7 +230,7 @@ MonoBehaviour:
   - {x: 1, y: -0.0037063956, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 53720
+  m_InstanceId: 59622
   m_LocalBounds:
     m_Center: {x: 0, y: 0.24874261, z: 0}
     m_Extent: {x: 1, y: 0.252449, z: 0}
