@@ -193,7 +193,7 @@ public class Puzzle_1_Net : NetworkBehaviour
         
         Rpc_SetPuzzleSetting(Puzzle.ButtonObjectData.position, partsList, itemsList, this.hint);
 
-        if(dummyItemList.Count > 0)
+        if(dummyItemList?.Count > 0)
         Rpc_SetDummyItem(dummyItemList);
     }
 
