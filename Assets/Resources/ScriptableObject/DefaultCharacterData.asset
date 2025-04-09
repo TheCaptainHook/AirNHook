@@ -25,4 +25,4 @@ MonoBehaviour:
   <obstacleLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 1049024
-  <detectDistance>k__BackingField: 1.5
+  <detectDistance>k__BackingField: 1
