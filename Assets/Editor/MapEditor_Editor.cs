@@ -14,6 +14,8 @@ using System;
 using UnityEngine.Rendering.Universal;
 using static UnityEngine.Rendering.Universal.Light2D;
 
+using TileData = ANH_MapEditor.TileData;
+using MapType = ANH_MapEditor.MapType;
 
 //TODO 0724 Develop code line : 435,506
 
