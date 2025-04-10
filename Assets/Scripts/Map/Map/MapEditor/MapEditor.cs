@@ -394,6 +394,8 @@ public class MapEditor : MonoBehaviour
 
         event_reset = null;
 
+        if(wayPointList != null) wayPointList.Clear();
+
         Init();
         placeMentSystem.ResetTileMap();
         mapEditorType = MapEditorType.Load;
@@ -449,11 +451,11 @@ public class MapEditor : MonoBehaviour
         this.height = height;
     }
 
-    public void Reset()
-    {
-        Init();
-        placeMentSystem.ResetTileMap();
-    }
+    // public void Reset()
+    // {
+    //     Init();
+    //     placeMentSystem.ResetTileMap();
+    // }
 
     #region Create
     public void Create_Tile(){
@@ -552,7 +554,6 @@ public class MapEditor : MonoBehaviour
         
 
     }
-
     public void Create_Object<T>(List<T> list ,Transform transform){
         MapDataStruct mapDataStruct;
         Transform _TR;
@@ -586,11 +587,17 @@ public class MapEditor : MonoBehaviour
    
         }
     }
-
+    public List<WayPoint> wayPointList;
     void Create<T>(Transform transform,MapDataStruct mapDataStruct,T data){
         try{
             GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
             obj.name = mapDataStruct.name;
+
+            if(obj.name == "WayPoint"){
+                if(wayPointList ==null) wayPointList = new();
+                wayPointList.Add(obj.GetComponent<WayPoint>());
+            }
+
             obj.GetComponent<BuildObj>().SetData(data);
             obj.transform.SetParent(transform);
         }catch(Exception ex){

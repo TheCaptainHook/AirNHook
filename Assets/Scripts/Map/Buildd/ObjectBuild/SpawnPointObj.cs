@@ -16,6 +16,7 @@ public class SpawnPointObj : BuildBase
 
     public void EnableNetWorkStartPosition()
     {
+        Debug.Log(Managers.Network.startPos.Count);
         networkStartPosition.enabled = false;
         onSpawn = false;
     }

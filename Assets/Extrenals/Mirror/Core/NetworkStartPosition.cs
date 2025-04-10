@@ -11,7 +11,7 @@ namespace Mirror
     {
         public void Awake()
         {
-            NetworkManager.RegisterStartPosition(transform);
+            // NetworkManager.RegisterStartPosition(transform);
         }
 
         public void OnEnable()
