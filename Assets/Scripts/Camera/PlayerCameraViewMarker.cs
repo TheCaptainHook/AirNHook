@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerCameraViewMarker : MonoBehaviour
 {
     [SerializeField] Camera markingCam;
-
+    [SerializeField] PlayerCameraView playerCamerView;
     [SerializeField] Vector3 offset;
 
 
@@ -18,11 +18,15 @@ public class PlayerCameraViewMarker : MonoBehaviour
 
     private Vector3 GetCameraEdgePosition(Transform player)
     {
+        //Position Settong
         Vector3 viewport = Camera.main.WorldToViewportPoint(player.position);
         Vector3 edgeViewportPosition = ConvertViewport(viewport);
         edgeViewportPosition = Camera.main.ViewportToWorldPoint(edgeViewportPosition);
+        //Rotate Setting
         TargetRotation(player.position);
-
+        //Scale Setting
+        TargetScale();
+        
         return new Vector3(edgeViewportPosition.x, edgeViewportPosition.y, 0);
     }
 
@@ -59,5 +63,13 @@ public class PlayerCameraViewMarker : MonoBehaviour
         transform.rotation = targetRotation;
     }
 
+    float _MaxScale = 1;
+    float _MinScale = 0.5f;
+    private void TargetScale()
+    {
+       float t = playerCamerView.GetZoomRatio(); 
+       float scaleRatio = Mathf.Lerp(_MinScale,_MaxScale,t);
+       transform.localScale = new Vector3(scaleRatio,scaleRatio,scaleRatio);
 
+    }
 }

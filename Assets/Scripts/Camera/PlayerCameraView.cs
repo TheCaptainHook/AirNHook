@@ -60,16 +60,16 @@ public class PlayerCameraView : MonoBehaviour
     [Header("Info")]
     //need two player coord, update()
     [SerializeField] float _TriggerDistance; //7
-    [SerializeField] float _MaxDistance; // 12
+    // [SerializeField] float _MaxDistance; // 12
 
-    [SerializeField] float _MinZoom; //6
-    [SerializeField] float _MaxZoom; //8
+    [SerializeField] float _MinZoom; //3
+    [SerializeField] float _MaxZoom; //10
 
     [Header("Main Logic")]
    
     // private bool onDefaultMode;
-    private bool onTwoPlayer;
-    private bool onFadeZoom;
+    // private bool onTwoPlayer;
+    // private bool onFadeZoom;
 
     // private Coroutine _FadeZoomCoroutine;
     //  private Coroutine _AdjustCameraSizeCoroutine;
@@ -130,8 +130,9 @@ public class PlayerCameraView : MonoBehaviour
             onChangeModeDefaultFromWide = true;
             smoothZoomToDefaultCo = StartCoroutine(SmoothZoomToDefault());
         }
+       
         if(onChangeModeDefaultFromWide && mainCamera.orthographicSize < _MaxZoom){
-            StopCoroutine(smoothZoomToDefaultCo);
+            if(smoothZoomToDefaultCo != null)StopCoroutine(smoothZoomToDefaultCo);
             onChangeModeDefaultFromWide = false;
         }
 
@@ -243,8 +244,9 @@ public class PlayerCameraView : MonoBehaviour
     //-----0408 Moving Platform SetParent
     public bool onCancel;
     //-----0408 Moving Platform SetParent
-    #region Util
-    private void CheckOtherPlayerAndMarker(){
+   
+   #region  Mark
+     private void CheckOtherPlayerAndMarker(){
         if (onCancel) return;
 
         if (OtherPlayer == null)
@@ -263,17 +265,28 @@ public class PlayerCameraView : MonoBehaviour
     }
 
     private void SetMarkerActive(bool isActive) {
-    if (marker.gameObject.activeSelf != isActive) {
-        marker.gameObject.SetActive(isActive);
+        if (marker.gameObject.activeSelf != isActive) {
+            marker.gameObject.SetActive(isActive);
+        }
     }
-}
-    private float zoomInOutSpeed = 20;
+    public float GetZoomRatio()
+    {
+        return Mathf.InverseLerp(_MinZoom,_MaxZoom,mainCamera.orthographicSize);
+    }
+
+    #endregion
+   
+    #region Util
+    
+    private float zoomInOutSpeed = 1;
      private void InGameZoomInAndOut(float scroll)
     {
         _Zoom = Math.Min(mainCamera.orthographicSize, _MaxZoom) + scroll*zoomInOutSpeed;
         _Zoom = Mathf.Clamp(_Zoom, _MinZoom, _MaxZoom);
 
-        mainCamera.orthographicSize = Mathf.SmoothDamp(mainCamera.orthographicSize, _Zoom, ref _floatVelocity, 0.1f, float.MaxValue, Time.deltaTime);
+        // mainCamera.orthographicSize = Mathf.SmoothDamp(mainCamera.orthographicSize, _Zoom, ref _floatVelocity, 0.1f, float.MaxValue, Time.deltaTime);
+        mainCamera.orthographicSize = _Zoom;
+        // mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize,_Zoom,);
 
         if (Mathf.Abs(mainCamera.orthographicSize - _MaxZoom) < tolerance)
         {
@@ -287,7 +300,7 @@ public class PlayerCameraView : MonoBehaviour
 
     #region Follow Camera
     public bool isCameraCenter;
-    private void FollowCamera(Transform target)
+    private void FollowCamera(Transform target) //Use Default Mode
     {
         try
         {
@@ -327,7 +340,7 @@ public class PlayerCameraView : MonoBehaviour
     }
 
 
-    private void FollowCamera(Vector3 target)
+    private void FollowCamera(Vector3 target) //Use Wide Mode
     {
         var _playerPos = new Vector3(target.x, target.y + 1f, -1);
         if(Vector3.Distance(transform.position,target)> 0.01f){

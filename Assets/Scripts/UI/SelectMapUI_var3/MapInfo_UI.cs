@@ -20,42 +20,16 @@ public class MapInfo_UI : MonoBehaviour
     private readonly int Open = Animator.StringToHash("Open");
     private readonly int Close = Animator.StringToHash("Close");
 
-
     [SerializeField] Animator animator;
-
-
-    [SerializeField] Image mapImage;
     [SerializeField] TextMeshProUGUI text;
 
+    // private WaitForSeconds wait;
 
-    private WaitForSeconds wait;
-
-    private void Awake()
-    {
-        wait = new WaitForSeconds(0.2f);
-    }
-    //Stage Diifficulty gauge item
-    [SerializeField] List<GameObject> stageDifficultyGaugeItemList;
-    IEnumerator StageDifficultyGaugeCoroutine(int stageDifficulty)
-    {
-        StageDifficultyGaugeReset();
-        if(stageDifficulty == 0) yield break;
-
-        for(int i = 0; i< stageDifficulty;i++)
-        {
-            var item = stageDifficultyGaugeItemList[i];
-            item.SetActive(true);
-            yield return wait;
-        }
-    }
-    private void StageDifficultyGaugeReset()
-    {
-        foreach(var item in stageDifficultyGaugeItemList)
-        {
-            if(item.activeSelf)
-            item.SetActive(false);
-        }
-    }
+    // private void Awake()
+    // {
+    //     wait = new WaitForSeconds(0.2f);
+    // }
+    
 
     Color localColor = new Color(48f / 255f, 172f / 255f, 52f / 255f);
 
@@ -92,6 +66,7 @@ public class MapInfo_UI : MonoBehaviour
         
         //Stage Image, Stage Difficulty
         StartCoroutine(SetImageAndDifficultyDelay(map.mapID,map.stageDifficulty));
+
         //Stage Image, Stage Difficulty
 
         isOpen = true;
@@ -110,21 +85,27 @@ public class MapInfo_UI : MonoBehaviour
         typingCoroutine = StartCoroutine(TypingEffect.NormalTyping(text,sentence,localColor,1));
 
     }
+    #region  Difficult,Map Image Setting
+    //Stage Diifficulty gauge item
+    [Header("Difficulty")]
+    [SerializeField] Sprite[] stageDifficultyItems;
+    [SerializeField] Image difficultyImage;
+
+    [Space(20)]
+    [Header("Map Image")]
+    [ReadOnly]
+    [SerializeField] Image mapImage;    
+    private void SetDifficultyImage(int stageDifficulty)
+    {
+        int level = Mathf.Clamp(stageDifficulty,0,3);
+        difficultyImage.sprite = stageDifficultyItems[level];
+    }
     IEnumerator SetImageAndDifficultyDelay(string mapId,int stageDifficulty)
     {
-        StartCoroutine(StageDifficultyGaugeCoroutine(stageDifficulty));
-        yield return new WaitForSeconds(0.2f);
+        // StartCoroutine(StageDifficultyGaugeCoroutine(stageDifficulty));
+        SetDifficultyImage(stageDifficulty);
+        yield return new WaitForSeconds(0.5f);
         SetMapImage(mapId);
-
-
-    }
-
-    Coroutine eraser_Co;
-    //Animation trigger
-    private void TypingEffect_Eraser()
-    {
-        if(eraser_Co != null) StopCoroutine(eraser_Co);
-        eraser_Co = StartCoroutine(typingEffect.NormalEraser(text,5));
     }
 
     private Map GetMap(string mapName,int curStageLevel)
@@ -140,12 +121,30 @@ public class MapInfo_UI : MonoBehaviour
         return null;
     }
 
-    
     private MapSaveData GetMapSaveData(string mapId)
     {
         return Managers.Data.saveData.dic[mapId];
     }
+    private void SetMapImage(string mapId)
+    {
+        string path = $"Prefabs/MapScreenShot/{mapId}";
+        Sprite sprit = Resources.Load<Sprite>(path);
+         mapImage.sprite = sprit;
+    }
 
+    #endregion
+   
+
+
+    Coroutine eraser_Co;
+    //Animation trigger
+    private void TypingEffect_Eraser()
+    {
+        if(eraser_Co != null) StopCoroutine(eraser_Co);
+        eraser_Co = StartCoroutine(typingEffect.NormalEraser(text,5));
+    }
+
+   
     private int GetCollectableCount(MapSaveData data)
     {
         var list = data._CollectableObjectStructList;
@@ -156,10 +155,5 @@ public class MapInfo_UI : MonoBehaviour
         }
         return num;
     }
-    private void SetMapImage(string mapId)
-    {
-        string path = $"Prefabs/MapScreenShot/{mapId}";
-        Sprite sprit = Resources.Load<Sprite>(path);
-         mapImage.sprite = sprit;
-    }
+   
 }

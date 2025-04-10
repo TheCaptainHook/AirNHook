@@ -38,6 +38,7 @@ public class UI_Ping : MonoBehaviour
     [SerializeField] Image image;
     [SerializeField] TextMeshProUGUI netPingText;
     #endregion
+    [SerializeField] Sprite[] pingLevelSprites;
 
     private PingCriteria curPingCriteria;
 
@@ -49,13 +50,6 @@ public class UI_Ping : MonoBehaviour
         curPingCriteria = PingCriteria.Black;
     }
 
-    // private void OnDisable()
-    // {
-    //     StopAllCoroutines();
-
-    // }
-
-
     public float ping;
     public void StartPingCheck(bool isServer)
     {
@@ -63,12 +57,10 @@ public class UI_Ping : MonoBehaviour
         if(isServer)
         {
             ServerPingCheck();
-            Debug.Log("Server Ping Check");
         }
         else
         {
             ClientPingCheck();
-            Debug.Log("Client Ping Check");
         }
     }
     #region Server
@@ -79,76 +71,8 @@ public class UI_Ping : MonoBehaviour
         if (serverPingCheckCoroutine != null) StopCoroutine(serverPingCheckCoroutine);
         serverPingCheckCoroutine = StartCoroutine(CheckNetworkLatency());
     }
-
-    //private float lastLatency = -1f;
-    //int sampleCount = 2;
     PingCriteria previousPingCriteria;
-    //IEnumerator CheckNetworkLatency()
-    //{
-    //    while (true)
-    //    {
-    //        float totalLatency = 0f;
-    //        int validSampleCount = 0; 
-
-    //        for (int i = 0; i < sampleCount; i++)
-    //        {
-    //            Ping ping = new Ping("8.8.8.8");
-
-    //            //Time Out
-    //            float timeout = 2f;
-    //            float startTime = Time.time;
-    //            //Time Out
-
-    //            while (!ping.isDone && (Time.time - startTime < timeout))
-    //            {
-    //                yield return null;
-    //            }
-
-    //            if (!ping.isDone)
-    //            {
-    //                Debug.LogWarning("Ping Timeout!");
-    //            }
-    //            else
-    //            {
-    //                totalLatency += ping.time;
-    //                validSampleCount++;
-    //            }
-    //        }
-
-    //        // 평균값 계산
-    //        if (validSampleCount > 0)
-    //        {
-    //            float avgLatency = totalLatency / validSampleCount;
-
-    //            if (Mathf.Abs(avgLatency - lastLatency) > 1f)
-    //            {
-    //                //------UI
-    //                previousPingCriteria = GetPingCriteriaSwich(avgLatency);
-    //                if(previousPingCriteria != curPingCriteria)
-    //                {
-    //                    curPingCriteria = previousPingCriteria;
-    //                    ChangeImage(curPingCriteria);
-    //                }
-    //                //if PingCriteria.Orange , Show UI_Warning_Image
-
-    //                //if PingCriteria.Orange , Show UI_Warning_Image
-    //                //------UI
-    //                netPingText.text = $"[S]{Mathf.Floor(avgLatency)} ms";
-    //                lastLatency = avgLatency;
-    //                this.ping = avgLatency;
-    //            }
-    //        }
-    //        else
-    //        {
-    //            curPingCriteria = PingCriteria.Black;
-    //            ChangeImage(curPingCriteria);
-    //            netPingText.text = "No Connection";
-    //            //Debug.LogWarning("All Ping Timeout.");
-    //        }
-
-    //        yield return wait;
-    //    }
-    //}
+    
 
     IEnumerator CheckNetworkLatency()
     {
@@ -167,6 +91,8 @@ public class UI_Ping : MonoBehaviour
             {
                 curPingCriteria = PingCriteria.Black;
                 ChangeImage(curPingCriteria);
+                netPingText.text = $"No Connection";
+                this.ping = 99999;
             }
             else
             {
@@ -178,9 +104,15 @@ public class UI_Ping : MonoBehaviour
                     curPingCriteria = criteria;
                     ChangeImage(criteria);
                 }
-
-                netPingText.text = $"[S]{Mathf.Floor(latency)} ms";
-                this.ping = latency;
+                if(criteria == PingCriteria.Black)
+                {
+                    netPingText.text = $"No Connection";
+                    this.ping = 99999;
+                }else{
+                    netPingText.text = $"{Mathf.Floor(latency)} ms";
+                    this.ping = latency;
+                }
+                
             }
 
             yield return wait;
@@ -201,7 +133,6 @@ public class UI_Ping : MonoBehaviour
     {
         while(true)
         {
-            //PingCriteriaSwich(NetworkTime.rtt);
             //------UI
             var ping =(float)NetworkTime.rtt*1000;
             previousPingCriteria = GetPingCriteriaSwich(ping);
@@ -209,13 +140,9 @@ public class UI_Ping : MonoBehaviour
             {
                 curPingCriteria = previousPingCriteria;
                 ChangeImage(curPingCriteria);
-                netPingText.text = $"[C]{Mathf.Floor(ping)} ms";
+                netPingText.text = $"{Mathf.Floor(ping)} ms";
                 this.ping = ping;
             }
-
-            //if PingCriteria.Orange , Show UI_Warning_Image
-                     
-            //if PingCriteria.Orange , Show UI_Warning_Image
             //------UI
             yield return wait;
         }
@@ -223,9 +150,6 @@ public class UI_Ping : MonoBehaviour
 
 
     #endregion
-
-
-
 
 
     #region Util
@@ -240,30 +164,26 @@ public class UI_Ping : MonoBehaviour
             <= 250 => PingCriteria.Red,
             _ => PingCriteria.Black
         };
-        //if (pingText.color != pingColor) pingText.color = pingColor;
-        //pingText.text = $"{ping} ms";
     }
     private void ChangeImage(PingCriteria pingCriteria)
     {
         switch (pingCriteria)
         {
             case PingCriteria.Green:
-                image.color = Color.green;
+                image.sprite = pingLevelSprites[0];
                 break;
             case PingCriteria.Yellow:
-                image.color = Color.yellow;
+                image.sprite = pingLevelSprites[1];
                 break;
             case PingCriteria.Orange:
-                image.color = new Color(1, 100/255f, 0, 1);
+                image.sprite = pingLevelSprites[2];
                 break;
             case PingCriteria.Red:
-                image.color = Color.red;
+                image.sprite = pingLevelSprites[3];
                 break;
             case PingCriteria.Black:
-                image.color = Color.black;
+                image.sprite = pingLevelSprites[4];
                 break;
-
-
         }
 
     }
