@@ -26,11 +26,12 @@ public class ProjectileEntity : MonoBehaviour,IPooling
     public virtual void Reset() 
     {
         _collider.enabled = true;
+        rb.isKinematic = false;
         onHit = false;
         spriteRenderer.sortingLayerID = FOREGROUND_LAYERID;
         spriteRenderer.sortingOrder = 10;
     }
-    public virtual void SpawnImpactEffect(Vector2 point) { }
+    public virtual void SpawnImpactEffect(Vector2 hitPoint) { }
 
     #region Defalut
     /**
@@ -59,21 +60,34 @@ public class ProjectileEntity : MonoBehaviour,IPooling
                 onHit = true;
                 rb.velocity = Vector2.zero;
                 rb.gravityScale = 0;
-
+                rb.isKinematic = true;
+                Debug.Log("Fixed Update Hit ");
                 SpawnImpactEffect(hit.point);
                 
                 if (hit.collider.TryGetComponent(out IDamageable damageable))
                 {
+                    if(hit.collider.TryGetComponent(out BuildObj buildObj))
+                    {
+                        if(buildObj.distructionStatus == DistructionStatus.Indestructible)
+                        {
+                            TransformChange(hit.collider.transform);
+                            StartCoroutine(DelayRelease());
+                            return;
+                        }
+                    }
                     damageable.TakeDamage();
                     N_ReleaseToPool();
                     return;
                 }
                 if(hit.collider.TryGetComponent(out Shield shield))
                 {
-                    N_ReleaseToPool();
+                    // N_ReleaseToPool();
+                    TransformChange(hit.transform);
+                    StartCoroutine(DelayRelease());
                     return;
                 }
 
+                TransformChange(hit.transform);
                 StartCoroutine(DelayRelease());
             }
             else
@@ -88,22 +102,44 @@ public class ProjectileEntity : MonoBehaviour,IPooling
         if(collision!= null)
         {
             if (collision.gameObject == main) return;
+            onHit = true;
+            rb.velocity = Vector2.zero;
+            rb.gravityScale = 0;
+            Debug.Log("OnTrigger ");
+            
+            SpawnImpactEffect(collision.ClosestPoint(transform.position));
 
             if (collision.TryGetComponent(out IDamageable damageable))
             {
+                if(collision.TryGetComponent(out BuildObj buildObj))
+                {
+                    if(buildObj.distructionStatus == DistructionStatus.Indestructible)
+                    {
+                         TransformChange(collision.transform);
+                         StartCoroutine(DelayRelease());
+                         return;
+                    }
+                }
                 damageable.TakeDamage();
-                Debug.Log($"Hit Projectile: [{gameObject.name}]\n{collision.name}");
                 N_ReleaseToPool();
                 return;
             }
             if (collision.TryGetComponent(out Shield shield))
             {
-                N_ReleaseToPool();
+                // N_ReleaseToPool();
+                TransformChange(collision.transform);
+                StartCoroutine(DelayRelease());
                 return;
             }
+            TransformChange(collision.transform);
+            StartCoroutine(DelayRelease());
         }
     }
 
+    public virtual void TransformChange(Transform tr)
+    {
+        
+    }
 
     public virtual void Setting(Vector2 point, Vector3 dir,GameObject obj)
     {

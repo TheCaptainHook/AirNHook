@@ -23,7 +23,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     [ReadOnly]
     public Vector2 position;
 
-    [SerializeField] protected DistructionStatus distructionStatus;
+    [SerializeField] public DistructionStatus distructionStatus;
 
     [Space(20)]
     [Header(@"

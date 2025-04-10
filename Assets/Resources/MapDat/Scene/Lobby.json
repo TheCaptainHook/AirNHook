@@ -11060,6 +11060,39 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0
+        },
+        {
+            "id": 315,
+            "dialogueId": 0,
+            "position": {
+                "x": -21.260000228881837,
+                "y": 8.829999923706055
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         }
     ],
     "mapBackgroundObjectList": [
@@ -14491,7 +14524,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.449989914894104,
+                "y": 1.4499897956848145,
                 "z": 1.0
             },
             "talPot": {

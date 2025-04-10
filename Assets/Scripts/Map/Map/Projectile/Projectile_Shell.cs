@@ -13,7 +13,7 @@ public class Projectile_Shell : ProjectileEntity
         spriteRenderer.enabled = true;
         Light.intensity = 1;
     }
-    public override void SpawnImpactEffect(Vector2 point)
+    public override void SpawnImpactEffect(Vector2 hitPoint)
     {
         spriteRenderer.enabled = false;
         _collider.enabled = false;
