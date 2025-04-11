@@ -16,7 +16,7 @@ public class UI_Option : UI_Base
     [SerializeField] private GameObject _graphicsOption;
     [SerializeField] private GameObject _volumeOption;
     [SerializeField] private GameObject _languageOption;
-    [SerializeField] public UI_Ping _UI_Ping;
+    [SerializeField] private UI_Ping _UI_Ping;
     [SerializeField] private Button _optionExitBtn;
 
     [Header("OptionBar")]
@@ -101,10 +101,8 @@ public class UI_Option : UI_Base
         if(IsInLobby)
             GetRoomCode();
 
-
-
-        // Managers.UI.ShowUI<UI_PingAlways>(); //TEST
-
+        //MouseCursorss
+        Managers.CursorManager.SetDefaultCursor();        
     }
 
     protected override void Start()
@@ -285,6 +283,9 @@ public class UI_Option : UI_Base
     
     private void OnDisable()
     {
+        //MouseCursor
+        Managers.CursorManager.ClearCursor();
+
         OnOptionExit();
     }
     private void OnOptionExitBtn()

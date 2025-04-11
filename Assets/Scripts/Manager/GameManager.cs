@@ -74,6 +74,7 @@ public class GameManager
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Managers.UI.ClearUI();
+        Managers.CursorManager.ClearCursor();
         switch (scene.buildIndex)
         {
             // StartScene
