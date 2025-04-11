@@ -19,6 +19,8 @@ public class ProjectileEntity : MonoBehaviour,IPooling
     [Space(20)]
     protected int FOREGROUND_LAYERID;
     protected int MAPTILES_LAYERID;
+
+    [ReadOnly]
     public GameObject main;
     public float speed;
     public LayerMask hitLayerMask;
@@ -61,10 +63,9 @@ public class ProjectileEntity : MonoBehaviour,IPooling
                 rb.velocity = Vector2.zero;
                 rb.gravityScale = 0;
                 rb.isKinematic = true;
-                Debug.Log("Fixed Update Hit ");
                 SpawnImpactEffect(hit.point);
                 
-                if (hit.collider.TryGetComponent(out IDamageable damageable))
+                if (hit.collider.TryGetComponent(out IDamageable damageable) && hit.collider.gameObject != main)
                 {
                     if(hit.collider.TryGetComponent(out BuildObj buildObj))
                     {
@@ -99,13 +100,13 @@ public class ProjectileEntity : MonoBehaviour,IPooling
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision!= null)
+        if(collision!= null && collision.gameObject != main)
         {
-            if (collision.gameObject == main) return;
+            // if (collision.gameObject == main) return;
             onHit = true;
             rb.velocity = Vector2.zero;
             rb.gravityScale = 0;
-            Debug.Log("OnTrigger ");
+            
             
             SpawnImpactEffect(collision.ClosestPoint(transform.position));
 
