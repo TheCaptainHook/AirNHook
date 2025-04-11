@@ -243,8 +243,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4287985408
-  m_fontColor: {r: 0, g: 0.46792433, b: 0.5849056, a: 1}
+    rgba: 4288051200
+  m_fontColor: {r: 0, g: 0.47058824, b: 0.5882353, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -610,6 +610,11 @@ MonoBehaviour:
   orgMat: {fileID: 2100000, guid: b38c1456bb1d4124b9f6c449bb0cc9c6, type: 2}
   correctObj: {fileID: 326893290696158053}
   _falseObj: {fileID: 3576245900003820433}
+  answer: 
+  orgSentence: 
+  correctColor:
+    serializedVersion: 2
+    rgba: 7841845
 --- !u!1 &5938652892923914618
 GameObject:
   m_ObjectHideFlags: 0

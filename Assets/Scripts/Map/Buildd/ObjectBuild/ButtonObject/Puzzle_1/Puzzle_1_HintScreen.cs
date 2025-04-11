@@ -22,6 +22,11 @@ public class Puzzle_1_HintScreen : MonoBehaviour
     [SerializeField] GameObject _falseObj;
     private Coroutine answerCoroutine;
     private WaitForSeconds waitSeconds = new WaitForSeconds(1);
+    [ReadOnly]
+    public string answer;
+    [ReadOnly]
+    public string orgSentence;
+    
 
     public void SetHint(string answer)
     {
@@ -38,14 +43,16 @@ public class Puzzle_1_HintScreen : MonoBehaviour
 
         for (int i = 0; i < sb.Length; i++)
         {
-            if(i%2 == 0)
-            {
-                sb[i] = 'X';
-            }
+            // if(i%2 == 0)
+            // {
+            //     sb[i] = 'X';
+            // }
+            sb[i] = 'X';
         }
 
         text.text = sb.ToString();
-
+        this.answer =answer;
+        orgSentence = sb.ToString();
     }
 
 
@@ -111,19 +118,20 @@ public class Puzzle_1_HintScreen : MonoBehaviour
         }
     }
 
-
+    // public Color orgColr;
+    private Color correctColor = new Color(55/255f,85/255f,235/255f);
     IEnumerator EffectCo(CharInfoField[] charInfos)
     {
         while (true)
         {
-            int num = Random.Range(0, charInfos.Length);
+            // int num = Random.Range(0, charInfos.Length);
 
             yield return CharEffectCo();
 
             yield return new WaitForSeconds(1f);
         }
     }
-    
+    float changeCharDuration = 0.2f;
     IEnumerator CharEffectCo()
     {
         float percent = 0;
@@ -131,65 +139,105 @@ public class Puzzle_1_HintScreen : MonoBehaviour
         char[] cached = text.text.ToCharArray();
         float changeCharPercent = 0;
 
-        int[] c = new int[2];
-        for (int i = 0; i < 2; i++)
+        int[] c = new int[text.text.Length];
+        for (int i = 0; i < c.Length; i++)
         {
             int ran = Random.Range(0, text.text.Length);
             c[i] = ran;
         }
 
-        float baseGlitchIntensity = 7f; // 기본 강도
+        float baseGlitchIntensity = 9f; // 기본 강도
         float glitchIntensity = baseGlitchIntensity * text.fontSize / 100f;
+
+        float[] correctCharTimers = new float[c.Length]; 
 
         while (percent < 1f)
         {
             percent += Time.deltaTime;
             changeCharPercent += Time.deltaTime;
 
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < c.Length; i++)
             {
                 CharInfoField charInfoField = charInfos[c[i]];
-
-                if (changeCharPercent > 0.3f)
+                
+                if (changeCharPercent > changeCharDuration && correctCharTimers[c[i]] <= 0f)
                 {
-                    cached[charInfoField.charIndex] = (char)Random.Range(33, 126);
+                    if(Random.Range(0,100) <= 20)
+                    {
+                        cached[charInfoField.charIndex] = answer[c[i]];
+                        correctCharTimers[c[i]] = changeCharDuration;
+                    }else
+                    {
+                        char randomChar = (char)Random.Range(33, 126);
+                        cached[charInfoField.charIndex] = randomChar; 
+                        correctCharTimers[c[i]] = 0;
+                    }
                     text.SetText(cached);
+                    text.ForceMeshUpdate(); 
                 }
+                Color32[] colors = charInfoField.tmp.meshInfo[charInfoField.materialIndex].colors32;//color
 
-                for (int j = 0; j < 4; j++)
+                for (int j = 0; j < 4; j++) 
                 {
                     Vector3 offset = new Vector3(
                         Random.Range(-glitchIntensity, glitchIntensity),
                         Random.Range(-glitchIntensity, glitchIntensity),
                         0);
-                    charInfoField.vertices[charInfoField.vertexIndex + j] = charInfoField.originalVertices[charInfoField.vertexIndex + j] + offset;
-
+                        charInfoField.vertices[charInfoField.vertexIndex + j] = charInfoField.originalVertices[charInfoField.vertexIndex + j] + offset;
+                        if(correctCharTimers[c[i]] >0f){
+                             colors[charInfoField.vertexIndex + j] = correctColor;
+                        } 
                 }
 
                 var meshInfo = text.textInfo.meshInfo[charInfoField.materialIndex];
                 meshInfo.mesh.vertices = meshInfo.vertices;
+                meshInfo.mesh.colors32 = meshInfo.colors32;
                 text.UpdateGeometry(meshInfo.mesh, charInfoField.materialIndex);
 
             }
+              for (int i = 0; i < correctCharTimers.Length; i++)
+                {
+                    if (correctCharTimers[i] > 0f)
+                    {
+                        correctCharTimers[i] -= Time.deltaTime;
+                    }
+                }
 
-            if (changeCharPercent > 0.3f) changeCharPercent = 0;
+            if (changeCharPercent > 0.5f){
+                changeCharPercent = 0;
+                // correctChars = new bool[c.Length];
+            } 
 
-            yield return null;
+            yield return new WaitForSeconds(0.05f);
         }
+        //Recover Text
+        text.SetText(orgSentence);
+        text.ForceMeshUpdate(); 
+        // for (int i = 0; i < c.Length; i++)
+        // {
+        //     CharInfoField charInfoField = charInfos[c[i]];
+        //     cached[charInfoField.charIndex] = charInfoField.orgChar;
+        //     text.SetText(cached);
 
-        for (int i = 0; i < c.Length; i++)
-        {
-            CharInfoField charInfoField = charInfos[c[i]];
-            cached[charInfoField.charIndex] = charInfoField.orgChar;
-            text.SetText(cached);
-
-            for (int j = 0; j < 4; j++)
-                charInfoField.vertices[charInfoField.vertexIndex + j] = charInfoField.originalVertices[charInfoField.vertexIndex + j];
-        }
+        //     for (int j = 0; j < 4; j++)
+        //     {
+        //         charInfoField.vertices[charInfoField.vertexIndex + j] = charInfoField.originalVertices[charInfoField.vertexIndex + j];
+        //     }
+                
+        // }
 
     }
+
     #endregion
+    private void ChangeCharColor(CharInfoField info,Color32 newColor)
+    {
+        Color32[] colors = info.tmp.meshInfo[info.materialIndex].colors32;
+        for(int i = 0; i<4;i++)colors[info.vertexIndex + i] = newColor;
+        // info.tmp.textComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+    }
 }
+
+
 
 public class CharInfoField
 {
