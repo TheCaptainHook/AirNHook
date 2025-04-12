@@ -10963,7 +10963,7 @@ MonoBehaviour:
   - {x: -0.35144913, y: -0.3826578, z: 0}
   m_ShapePathHash: -1395270259
   m_Mesh: {fileID: 0}
-  m_InstanceId: 54058
+  m_InstanceId: 49012
   m_LocalBounds:
     m_Center: {x: 0.01257205, y: -0.47503752, z: 0}
     m_Extent: {x: 0.74721634, y: 0.24692696, z: 0}
@@ -10982,7 +10982,6 @@ GameObject:
   - component: {fileID: 5416166723410264265}
   - component: {fileID: 8291150450159207187}
   - component: {fileID: 6367716108200078541}
-  - component: {fileID: 8277434931144158128}
   - component: {fileID: 6999745377775078723}
   - component: {fileID: 2553911709665276612}
   m_Layer: 15
@@ -11165,18 +11164,6 @@ MonoBehaviour:
   rotationSensitivity: 0.01
   positionPrecision: 0.01
   scalePrecision: 0.01
---- !u!114 &8277434931144158128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8719674004311504025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bcd88834d3a27e4e8259a100eaf953d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6999745377775078723
 MonoBehaviour:
   m_ObjectHideFlags: 0

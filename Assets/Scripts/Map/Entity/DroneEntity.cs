@@ -1,3 +1,4 @@
+using Mirror;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -10,11 +11,21 @@ public enum DroneState{
     Back
 }
 
-[RequireComponent(typeof(DrawDronePath))]
+/**
+ *  1. Drone_Hook
+ *  2. Drone_Lazer_var2
+ *  3. Drone_Multipurpose
+ *  4. MovingSaw
+ * **/
+
+
+[RequireComponent(typeof(NetworkIdentity),typeof(DroneEntity_Net),typeof(DrawDronePath))]
 public class DroneEntity : BuildObj
 {
     [CustomHeader("Drone")]
     public Vector2[] paths;
+
+#if UNITY_EDITOR
     [ContextMenu("Add Current Position")]
     public void AddCurrentPosition() 
     {
@@ -36,6 +47,7 @@ public class DroneEntity : BuildObj
        
 
     }
+#endif
 
     public float moveSpeed;
     
@@ -63,6 +75,8 @@ public class DroneEntity : BuildObj
     
     [Header("Components")]
     private Animator animator;
+    private DroneEntity_Net net;
+    private DroneEntity_Net Net { get { net ??= GetComponent<DroneEntity_Net>(); return net; } }
 
     [Header("Animator")]
     private readonly int _Moveing = Animator.StringToHash("Moving");
@@ -83,8 +97,8 @@ public class DroneEntity : BuildObj
         if(typeof(T)==typeof(DroneStruct)){
           DroneStruct dronsSt = (DroneStruct)(object)data;
           DroneStruct = dronsSt;
-          Init();
-         
+            //Init();
+          Net.Server_InitSync();
         }
 
     }
@@ -95,11 +109,6 @@ public class DroneEntity : BuildObj
         animator = GetComponent<Animator>();
         
     }
-
-    private void OnDisable(){
-        StopAllCoroutines();
-    }
-
 
 
     #region  Action
@@ -118,58 +127,51 @@ public class DroneEntity : BuildObj
     private bool onReady;
     private void FixedUpdate()
     {
-        if(onReady)
-        {
-            Prograss();
-        }
-    }
+        if (Net.targetPosition == null) return;
+        MoveToward();
 
-    private int maxIndex;
-    private int index;
-    private int increment;
-    private Vector2 targetPosition;
-    private Vector2 dir;
-    private void Prograss()
+    }
+    private void MoveToward()
     {
-        if(CheckDistance(_rb.position,targetPosition))
-        {
-            index += increment;
-            if (index >= maxIndex || index < 0)
-            {
-                if (index >= maxIndex && paths[maxIndex - 1] == paths[0])
-                {
-                    index = 0;
-                }
-                else
-                {
-                    increment *= -1;
-                    index += increment;
-                }
-
-            }
-
-            targetPosition = paths[index];
-            dir = (targetPosition - _rb.position).normalized *Time.fixedDeltaTime;
-            DroneMovingAnimation(GetDroneState(dir));
-        }
-
-        MoveToward(dir);
+        _rb.MovePosition(_rb.position + Net.dir * DroneStruct.moveSpeed * Time.fixedDeltaTime);
     }
+    //private int maxIndex;
+    //private int index;
+    //private int increment;
+    //private Vector2 targetPosition;
+    //private Vector2 dir;
+    //private void Prograss()
+    //{
+    //    if(CheckDistance(_rb.position,targetPosition))
+    //    {
+    //        index += increment;
+    //        if (index >= maxIndex || index < 0)
+    //        {
+    //            if (index >= maxIndex && paths[maxIndex - 1] == paths[0])
+    //            {
+    //                index = 0;
+    //            }
+    //            else
+    //            {
+    //                increment *= -1;
+    //                index += increment;
+    //            }
+
+    //        }
+
+    //        targetPosition = paths[index];
+    //        dir = (targetPosition - _rb.position).normalized *Time.fixedDeltaTime;
+    //        DroneMovingAnimation(GetDroneState(dir));
+    //    }
+
+    //    MoveToward(dir);
+    //}
     private void MoveToward(Vector2 dir)
     {
         _rb.MovePosition(_rb.position + dir*moveSpeed);
     }
 
-    private void Init()
-    {
-        if (paths == null || paths.Length <=0) return;
 
-        maxIndex = paths.Length;
-        index = 0;
-        increment = 1;
-        targetPosition = paths[0];
-        onReady = true;
-    }
     //-------------------------------------------------------------------------------------------------------------------------------------------------------------0412
 
 
@@ -230,26 +232,20 @@ public class DroneEntity : BuildObj
     //    }
     //}
 
-    private bool CheckDistance(Vector2 curPos,Vector2 targetPos){
-        if(Vector3.Distance(curPos,targetPos) < 0.1f){
-            return true;
-        }
-        return false;
-    }
-
-    protected virtual void DroneMovingAnimation(DroneState state){
+    public virtual void DroneMovingAnimation(Vector2 dir){
         if(animator == null) return;
         if(animationMovingCoroutine != null){
             StopCoroutine(animationMovingCoroutine);
         }
 
-        animationMovingCoroutine = StartCoroutine(DroneMovingAnimationCorountine(state));
+        animationMovingCoroutine = StartCoroutine(DroneMovingAnimationCorountine(GetDroneState(dir)));
     }
     IEnumerator DroneMovingAnimationCorountine(DroneState state){
 
         if(!HasParameterOfType(animator,_Moveing,AnimatorControllerParameterType.Float)) yield break;
           
         float _Animator_MovingRate = animator.GetFloat(_Moveing);
+        Debug.Log(_Animator_MovingRate);
         float targetRate = GetAnimatorMovingRate(state);
         while(!Mathf.Approximately(_Animator_MovingRate,targetRate)){  
             _Animator_MovingRate = Mathf.Lerp(_Animator_MovingRate,targetRate,_Animation_Transition_Speed * Time.fixedDeltaTime);
@@ -272,7 +268,7 @@ public class DroneEntity : BuildObj
     #endregion
     public void SetDroneAnim(Vector2 dir)
     {
-        DroneMovingAnimation(GetDroneState(dir));
+        DroneMovingAnimation(dir);
     }
     #region  Util
     private DroneState GetDroneState(Vector2 dir){

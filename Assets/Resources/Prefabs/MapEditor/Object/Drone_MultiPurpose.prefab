@@ -10749,7 +10749,6 @@ GameObject:
   - component: {fileID: 2601364852210658549}
   - component: {fileID: -4017891748306720770}
   - component: {fileID: 7557043212710527452}
-  - component: {fileID: 7058010000968380228}
   - component: {fileID: 9153876743183467830}
   - component: {fileID: 248568403052513572}
   - component: {fileID: -684476690604327209}
@@ -10884,37 +10883,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7058010000968380228
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7348580558311126004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a6ca83269d104437a70dfffe5e89d0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 326
-  transformID: 0
-  position: {x: 0, y: 0}
-  distructionStatus: 0
-  chargeRequired: 0
-  onPlaceable: 0
-  onRotateable: 0
-  onScaleable: 0
-  offset: {x: 0, y: 0}
-  turnOff: 0
-  setPosition: 0
-  orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
-  paths: []
-  moveSpeed: 5
-  IsBroken: 0
-  _Animation_Transition_Speed: 3
-  drone_TransportItemType: 7
-  itemPlacementPosition: {fileID: 2179024764632776039}
 --- !u!114 &9153876743183467830
 MonoBehaviour:
   m_ObjectHideFlags: 0

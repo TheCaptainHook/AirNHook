@@ -463,11 +463,10 @@ GameObject:
   - component: {fileID: 8864067844301257339}
   - component: {fileID: 2349395023922785365}
   - component: {fileID: 4183380097483767015}
-  - component: {fileID: 896915870225831016}
   - component: {fileID: 444707294828945258}
   - component: {fileID: 7684903196300218065}
-  - component: {fileID: -2202390588482861308}
-  - component: {fileID: 2924039672020373473}
+  - component: {fileID: 8101609082039440434}
+  - component: {fileID: 6225163128655435337}
   m_Layer: 15
   m_Name: Drone_Hook
   m_TagString: Untagged
@@ -597,35 +596,6 @@ SortingGroup:
   m_SortingLayer: 5
   m_SortingOrder: 5
   m_SortAtRoot: 0
---- !u!114 &896915870225831016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5485989114999524422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d84364052745d49fbaa79e574a527041, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 325
-  transformID: 0
-  position: {x: 0, y: 0}
-  distructionStatus: 0
-  chargeRequired: 0
-  onPlaceable: 0
-  onRotateable: 0
-  onScaleable: 0
-  offset: {x: 0, y: 0}
-  turnOff: 0
-  setPosition: 0
-  orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
-  paths: []
-  moveSpeed: 4
-  IsBroken: 0
-  _Animation_Transition_Speed: 3
 --- !u!114 &444707294828945258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -660,7 +630,7 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!114 &-2202390588482861308
+--- !u!114 &8101609082039440434
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -669,48 +639,48 @@ MonoBehaviour:
   m_GameObject: {fileID: 5485989114999524422}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 1
-  syncInterval: 0
-  clientAuthority: 0
-  animator: {fileID: 6538494676459900832}
---- !u!114 &2924039672020373473
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5485989114999524422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ec4f7556ca1e4b55a3381fc6a02b1bc, type: 3}
+  m_Script: {fileID: 11500000, guid: bab5c6b793d9dc44290703059e16e022, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  target: {fileID: 3150436631828177710}
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 0
-  onlySyncOnChange: 1
-  compressRotation: 1
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 1
-  coordinateSpace: 0
-  sendIntervalMultiplier: 1
-  timelineOffset: 0
-  showGizmos: 0
-  showOverlay: 0
-  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  onlySyncOnChangeCorrectionMultiplier: 2
-  rotationSensitivity: 0.01
-  positionPrecision: 0.01
-  scalePrecision: 0.01
+  onSync: 0
+  targetPosition: {x: 0, y: 0}
+  dir: {x: 0, y: 0}
+--- !u!114 &6225163128655435337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5485989114999524422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d84364052745d49fbaa79e574a527041, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 325
+  transformID: 0
+  position: {x: 0, y: 0}
+  distructionStatus: 0
+  chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
+  onPlaceable: 0
+  onRotateable: 0
+  onScaleable: 0
+  offset: {x: 0, y: 0}
+  turnOff: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 0}
+  canRespawn: 0
+  paths: []
+  moveSpeed: 0
+  IsBroken: 0
+  _Animation_Transition_Speed: 1
 --- !u!1 &7418276887607424029
 GameObject:
   m_ObjectHideFlags: 0
