@@ -72,6 +72,12 @@ public static class GlobalText
 
     #endregion
 
+    #region ColorPicker
+    public const string HUETEXTURE = "HueTexture";
+    public const string SATVALTEXTURE = "SatValTexture";
+    public const string OUTPUTTEXTURE = "OutputTexture";
+    #endregion
+
     #region MapEditor
     public const string LOBBY = "Lobby";
     public const string SHADOW_PREFAB_PATH = "Prefabs/MapEditor/ShadowCaster";
