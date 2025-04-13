@@ -1,6 +1,7 @@
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -102,8 +103,8 @@ public class DroneEntity_Net : NetworkBehaviour
     private void Rpc_Send_CurAndTargetPosition(Vector2 curPosition,int index)
     {
         RB.position = curPosition;
-        if (targetPosition == null) return;
-
+        if (targetPosition == null || paths == null || paths.Length == 0) return;
+        
         targetPosition = paths[index];
         dir = (targetPosition - curPosition).normalized;
         Main.DroneMovingAnimation(dir);
