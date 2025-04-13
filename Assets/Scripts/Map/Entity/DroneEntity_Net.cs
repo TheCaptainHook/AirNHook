@@ -13,7 +13,7 @@ public class DroneEntity_Net : NetworkBehaviour
     private Rigidbody2D rb;
     private Rigidbody2D RB { get { rb ??= GetComponent<Rigidbody2D>(); return rb; } }
 
-    private Vector2[] paths => Main.paths;
+    public Vector2[] paths;
 
     #region Init Sync
     public bool onSync;
@@ -38,8 +38,14 @@ public class DroneEntity_Net : NetworkBehaviour
         if (onSync) return;
         Main.DroneStruct = data;
         RB.position = curPosition;
-        targetPosition = paths[index];
 
+        if(data.paths != null && data.paths.Length != 0)
+        {
+            paths = data.paths;
+            targetPosition = paths[index];
+            
+        }
+        
         onSync = true;
     }
     public override void OnStartClient()
@@ -52,7 +58,8 @@ public class DroneEntity_Net : NetworkBehaviour
 
     private void Server_Init()
     {
-        if (paths == null || paths.Length == 0) return;
+        if (Main.paths == null || Main.paths.Length == 0) return;
+        paths = Main.paths;
         maxIndex = paths.Length;
         index = 0;
         increment = 1;
