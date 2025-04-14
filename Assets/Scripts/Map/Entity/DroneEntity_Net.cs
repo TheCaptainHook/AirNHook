@@ -65,28 +65,29 @@ public class DroneEntity_Net : NetworkBehaviour
         
     }
     private bool onReady;
-    private int maxIndex;
-    private int index;
+    public int maxIndex;
+    public int index;
+    public int nextIndex;
     private int increment;
     [ReadOnly]
     public Vector2 targetPosition;
     [ReadOnly]
     public Vector2 dir;
-    //TEST
-    [ReadOnly]
-    public float limitDistance;
+
     [ReadOnly]
     public Vector2 startPot;
+
     private void FixedUpdate()
     {
         if (isServer && onSync && onReady)
         {
             if (CheckDistance(RB.position, targetPosition))
             {
-                index += increment;
-                if (index >= maxIndex || index < 0)
+                nextIndex = index + increment;
+                
+                if (nextIndex >= maxIndex || nextIndex < 0)
                 {
-                    if (index >= maxIndex && paths[maxIndex - 1] == paths[0])
+                    if (nextIndex >= maxIndex && paths[maxIndex - 1] == paths[0])
                     {
                         index = 0;
                     }
@@ -97,10 +98,18 @@ public class DroneEntity_Net : NetworkBehaviour
                     }
 
                 }
+                else
+                {
+                    index = nextIndex;
+                }
+
                 startPot = targetPosition;
+                targetPosition = paths[index];
                 //Send
                 Rpc_Send_CurAndTargetPosition(RB.position, index);
             }
+
+
         }
 
 
@@ -131,16 +140,18 @@ public class DroneEntity_Net : NetworkBehaviour
     #region Utile
     private bool CheckDistance(Vector2 curPos, Vector2 targetPos)
     {
-        if (Vector3.Distance(curPos, targetPos) < 0.1f)
+        if (Vector2.Distance(curPos, targetPos) < 0.1f)
         {
             return true;
         }
 
+        if (targetPos == startPot) return true;
+
         Vector2 toTarget = (targetPos - startPot).normalized;
-        Vector2 toCurrent = (curPos - startPot).normalized;
+        Vector2 toCurrent = (curPos - targetPos).normalized;
 
         float dot = Vector2.Dot(toTarget, toCurrent);
-        return dot < 0f;
+        return dot > 0.98f;
 
     }
     #endregion

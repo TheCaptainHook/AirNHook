@@ -124,7 +124,6 @@ public class DroneEntity : BuildObj
 
 
     //-------------------------------------------------------------------------------------------------------------------------------------------------------------0412
-    private bool onReady;
     private void FixedUpdate()
     {
         if (Net.targetPosition == null) return;
@@ -133,9 +132,21 @@ public class DroneEntity : BuildObj
     }
     private void MoveToward()
     {
+        if (CheckDistanceAndDot()) return;
+
         _rb.MovePosition(_rb.position + Net.dir * DroneStruct.moveSpeed * Time.fixedDeltaTime);
     }
    
+    private bool CheckDistanceAndDot()
+    {
+        bool t = Vector2.Distance(_rb.position, Net.targetPosition) < 0.1f;
+        Vector2 curDir = (Net.targetPosition - _rb.position).normalized;
+        bool d = Vector2.Dot(Net.dir, curDir) < 0.98f;
+
+        return t || d;
+        //-->
+    }
+
     private void MoveToward(Vector2 dir)
     {
         _rb.MovePosition(_rb.position + dir*moveSpeed);
