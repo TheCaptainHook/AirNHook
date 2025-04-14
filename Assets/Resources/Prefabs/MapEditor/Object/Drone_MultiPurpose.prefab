@@ -10753,6 +10753,8 @@ GameObject:
   - component: {fileID: 248568403052513572}
   - component: {fileID: -684476690604327209}
   - component: {fileID: 7722549695380961216}
+  - component: {fileID: 8746329077706569547}
+  - component: {fileID: 8779063647059542409}
   m_Layer: 15
   m_Name: Drone_MultiPurpose
   m_TagString: Untagged
@@ -10929,7 +10931,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7348580558311126004}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
   m_Name: 
@@ -10946,7 +10948,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7348580558311126004}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ec4f7556ca1e4b55a3381fc6a02b1bc, type: 3}
   m_Name: 
@@ -10973,6 +10975,60 @@ MonoBehaviour:
   rotationSensitivity: 0.01
   positionPrecision: 0.01
   scalePrecision: 0.01
+--- !u!114 &8746329077706569547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7348580558311126004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bab5c6b793d9dc44290703059e16e022, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  paths: []
+  onSync: 0
+  targetPosition: {x: 0, y: 0}
+  dir: {x: 0, y: 0}
+  limitDistance: 0
+--- !u!114 &8779063647059542409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7348580558311126004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a6ca83269d104437a70dfffe5e89d0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 326
+  transformID: 0
+  position: {x: 0, y: 0}
+  distructionStatus: 0
+  chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
+  onPlaceable: 0
+  onRotateable: 0
+  onScaleable: 0
+  offset: {x: 0, y: 0}
+  turnOff: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 0}
+  canRespawn: 0
+  paths: []
+  moveSpeed: 0
+  IsBroken: 0
+  _Animation_Transition_Speed: 0
+  itemPlacementPosition: {fileID: 0}
 --- !u!1 &8818742273796467428
 GameObject:
   m_ObjectHideFlags: 0

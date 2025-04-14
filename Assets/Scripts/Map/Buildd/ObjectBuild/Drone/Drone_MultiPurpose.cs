@@ -18,9 +18,11 @@ public enum Drone_TransportItemType{
 
 public class Drone_MultiPurpose : DroneEntity
 {
-  
-    public Drone_TransportItemType drone_TransportItemType => DroneStruct.drone_TransportItemType;
+
+    //public Drone_TransportItemType drone_TransportItemType => DroneStruct.drone_TransportItemType;
     [CustomHeader("Drone MultiPurpose")]
+    public Drone_TransportItemType drone_TransportItemType;
+   
     [ReadOnly]
     public Transform itemPlacementPosition;
     private GameObject transportItem;
@@ -37,6 +39,8 @@ public class Drone_MultiPurpose : DroneEntity
     public override void SetData<T>(T data)
     {
         base.SetData(data);
+        drone_TransportItemType = DroneStruct.drone_TransportItemType;
+
         if(Application.isPlaying)
         {
             SetTransformItem();
