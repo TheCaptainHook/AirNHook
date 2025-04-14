@@ -1,4 +1,5 @@
 
+using Mirror;
 using System.Collections;
 using UnityEngine;
 
@@ -44,7 +45,8 @@ public class LaserObject : ActivatableObjectEntity
             UpdateLaser();
         }
         else
-        {
+        { 
+            if(NetworkServer.active)
             _Net.Server_SetOnActive(false);
         }
     }
@@ -52,13 +54,15 @@ public class LaserObject : ActivatableObjectEntity
     {
 
         //onActive = true;
-        _Net.Server_SetOnActive(true);
+        if (NetworkServer.active)
+            _Net.Server_SetOnActive(true);
     }
 
     protected override void Deactivated()
     {
         //onActive = false;
-        _Net.Server_SetOnActive(false);
+        if (NetworkServer.active)
+            _Net.Server_SetOnActive(false);
     }
     
 
