@@ -40,7 +40,7 @@ public class DroneEntity_Net : NetworkBehaviour
         {
             paths = data.paths;
             targetPosition = paths[index];
-            dir = (targetPaths - curPosition).normalized;
+            dir = (targetPosition - curPosition).normalized;
         }
         
         onSync = true;
@@ -73,8 +73,9 @@ public class DroneEntity_Net : NetworkBehaviour
     [ReadOnly]
     public Vector2 dir;
     //TEST
-    [readonly]
+    [ReadOnly]
     public float limitDistance;
+
     private void FixedUpdate()
     {
         if (isServer && onSync && onReady)
