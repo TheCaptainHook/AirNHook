@@ -1,8 +1,5 @@
 using Mirror;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
+// using Unity.VisualScripting;
 using UnityEngine;
 
 public class DroneEntity_Net : NetworkBehaviour
@@ -23,8 +20,8 @@ public class DroneEntity_Net : NetworkBehaviour
     {
         if (!Application.isPlaying) return;
         Server_Init();
-
         onSync = true;
+
         Rpc_InitSync(Main.DroneStruct,RB.position,index);
     }
     [Command(requiresAuthority = false)]
@@ -43,7 +40,7 @@ public class DroneEntity_Net : NetworkBehaviour
         {
             paths = data.paths;
             targetPosition = paths[index];
-            
+            dir = (targetPaths - curPosition).normalized;
         }
         
         onSync = true;
@@ -75,6 +72,9 @@ public class DroneEntity_Net : NetworkBehaviour
     public Vector2 targetPosition;
     [ReadOnly]
     public Vector2 dir;
+    //TEST
+    [readonly]
+    public float limitDistance;
     private void FixedUpdate()
     {
         if (isServer && onSync && onReady)
@@ -95,8 +95,7 @@ public class DroneEntity_Net : NetworkBehaviour
                     }
 
                 }
-                //targetPosition = paths[index];
-                //dir = (targetPosition - RB.position).normalized * Time.fixedDeltaTime;
+                
                 //Send
                 Rpc_Send_CurAndTargetPosition(RB.position, index);
             }
@@ -115,6 +114,11 @@ public class DroneEntity_Net : NetworkBehaviour
         targetPosition = paths[index];
         dir = (targetPosition - curPosition).normalized;
         Main.DroneMovingAnimation(dir);
+
+        //Limit area Setting
+                
+        //Limit area Setting
+                
     }
 
   

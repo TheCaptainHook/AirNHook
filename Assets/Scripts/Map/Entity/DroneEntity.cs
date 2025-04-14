@@ -98,7 +98,7 @@ public class DroneEntity : BuildObj
           DroneStruct dronsSt = (DroneStruct)(object)data;
           DroneStruct = dronsSt;
             //Init();
-          Net.Server_InitSync();
+        //   Net.Server_InitSync();
         }
 
     }
@@ -135,102 +135,13 @@ public class DroneEntity : BuildObj
     {
         _rb.MovePosition(_rb.position + Net.dir * DroneStruct.moveSpeed * Time.fixedDeltaTime);
     }
-    //private int maxIndex;
-    //private int index;
-    //private int increment;
-    //private Vector2 targetPosition;
-    //private Vector2 dir;
-    //private void Prograss()
-    //{
-    //    if(CheckDistance(_rb.position,targetPosition))
-    //    {
-    //        index += increment;
-    //        if (index >= maxIndex || index < 0)
-    //        {
-    //            if (index >= maxIndex && paths[maxIndex - 1] == paths[0])
-    //            {
-    //                index = 0;
-    //            }
-    //            else
-    //            {
-    //                increment *= -1;
-    //                index += increment;
-    //            }
-
-    //        }
-
-    //        targetPosition = paths[index];
-    //        dir = (targetPosition - _rb.position).normalized *Time.fixedDeltaTime;
-    //        DroneMovingAnimation(GetDroneState(dir));
-    //    }
-
-    //    MoveToward(dir);
-    //}
+   
     private void MoveToward(Vector2 dir)
     {
         _rb.MovePosition(_rb.position + dir*moveSpeed);
     }
 
-
-    //-------------------------------------------------------------------------------------------------------------------------------------------------------------0412
-
-
-    //public void Prograss(){
-    //    if(paths.Length <=0) return;
-    //    StartCoroutine(Prograss_Co(paths));
-    //}
-
-    //IEnumerator Prograss_Co(Vector2[] paths){
-    //    int maxIndex = paths.Length;
-    //    int index = 0;
-    //    int increment = 1;
-    //    Vector2 targetPosition = paths[index];
-        
-    //    while (!IsBroken)
-    //    {
-    //        Vector2 dir = Vector2.zero;
-
-    //        while(OnStop)
-    //        {
-    //            if(_rb.velocity.magnitude > 0){
-    //                _rb.velocity = Vector2.zero;
-    //            }
-    //            yield return null;
-    //        }
-            
-    //        if (CheckDistance(_rb.position, targetPosition))
-    //        {
-    //            _rb.velocity = Vector2.zero;
-    //            _rb.position = targetPosition;
-
-    //            index += increment;
-    //            if (index >= maxIndex || index < 0)
-    //            {
-    //                if(index >=maxIndex && paths[maxIndex-1] == paths[0]){
-    //                    index = 0;
-    //                }else{
-    //                    increment *= -1;
-    //                    index += increment;
-    //                }
-                    
-    //            }
-
-    //            targetPosition = paths[index];
-
-    //        }
-    //        //Animation
-    //        dir = (targetPosition - _rb.position).normalized;
-    //        DroneMovingAnimation(GetDroneState(dir));
-            
-    //        //Move, normalized moveSpeed 
-    //        _rb.AddForce(dir,ForceMode2D.Force);
-    //        if (_rb.velocity.magnitude > moveSpeed)
-    //        {
-    //            _rb.velocity = _rb.velocity.normalized * moveSpeed;
-    //        }
-    //        yield return null; 
-    //    }
-    //}
+  
 
     public virtual void DroneMovingAnimation(Vector2 dir){
         if(animator == null) return;
@@ -245,7 +156,7 @@ public class DroneEntity : BuildObj
         if(!HasParameterOfType(animator,_Moveing,AnimatorControllerParameterType.Float)) yield break;
           
         float _Animator_MovingRate = animator.GetFloat(_Moveing);
-        Debug.Log(_Animator_MovingRate);
+        
         float targetRate = GetAnimatorMovingRate(state);
         while(!Mathf.Approximately(_Animator_MovingRate,targetRate)){  
             _Animator_MovingRate = Mathf.Lerp(_Animator_MovingRate,targetRate,_Animation_Transition_Speed * Time.fixedDeltaTime);
