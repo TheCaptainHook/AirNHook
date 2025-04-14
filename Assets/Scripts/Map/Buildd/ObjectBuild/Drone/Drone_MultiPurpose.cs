@@ -22,7 +22,7 @@ public class Drone_MultiPurpose : DroneEntity
     //public Drone_TransportItemType drone_TransportItemType => DroneStruct.drone_TransportItemType;
     [CustomHeader("Drone MultiPurpose")]
     public Drone_TransportItemType drone_TransportItemType;
-   
+
     [ReadOnly]
     public Transform itemPlacementPosition;
     private GameObject transportItem;

@@ -11027,8 +11027,9 @@ MonoBehaviour:
   paths: []
   moveSpeed: 0
   IsBroken: 0
-  _Animation_Transition_Speed: 0
-  itemPlacementPosition: {fileID: 0}
+  _Animation_Transition_Speed: 1
+  drone_TransportItemType: 0
+  itemPlacementPosition: {fileID: 2179024764632776039}
 --- !u!1 &8818742273796467428
 GameObject:
   m_ObjectHideFlags: 0

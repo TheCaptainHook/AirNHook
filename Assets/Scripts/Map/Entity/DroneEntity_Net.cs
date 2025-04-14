@@ -75,7 +75,8 @@ public class DroneEntity_Net : NetworkBehaviour
     //TEST
     [ReadOnly]
     public float limitDistance;
-
+    [ReadOnly]
+    public Vector2 startPot;
     private void FixedUpdate()
     {
         if (isServer && onSync && onReady)
@@ -96,7 +97,7 @@ public class DroneEntity_Net : NetworkBehaviour
                     }
 
                 }
-                
+                startPot = targetPosition;
                 //Send
                 Rpc_Send_CurAndTargetPosition(RB.position, index);
             }
@@ -134,7 +135,13 @@ public class DroneEntity_Net : NetworkBehaviour
         {
             return true;
         }
-        return false;
+
+        Vector2 toTarget = (targetPos - startPot).normalized;
+        Vector2 toCurrent = (curPos - startPot).normalized;
+
+        float dot = Vector2.Dot(toTarget, toCurrent);
+        return dot < 0f;
+
     }
     #endregion
 }
