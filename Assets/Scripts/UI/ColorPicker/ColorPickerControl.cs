@@ -4,7 +4,7 @@ using TMPro;
 
 public class ColorPickerControl : MonoBehaviour
 {
-    public float currenHue, currentSat, currentVal;
+    public float currentHue, currentSat, currentVal;
 
     [SerializeField] private RawImage _hueImage, _satValImage, _outputImage;
     [SerializeField] private Slider _hueSlider;
@@ -45,7 +45,7 @@ public class ColorPickerControl : MonoBehaviour
         }
 
         _hueTexture.Apply();
-        currenHue = 0;
+        currentHue = 0;
 
         _hueImage.texture = _hueTexture;
     }
@@ -70,7 +70,7 @@ public class ColorPickerControl : MonoBehaviour
 
     public void OnHueSliderChanged()
     {
-        currenHue = _hueSlider.value;
+        currentHue = _hueSlider.value;
         UpdateSVImage();
         UpdateOutputImage();
     }
@@ -84,7 +84,7 @@ public class ColorPickerControl : MonoBehaviour
 
     public void SetHSV(float h, float s, float v)
     {
-        currenHue = h;
+        currentHue = h;
         currentSat = s;
         currentVal = v;
 
@@ -107,7 +107,7 @@ public class ColorPickerControl : MonoBehaviour
             for (int x = 0; x < _svTexture.width; x++)
             {
                 _svTexture.SetPixel(x, y, Color.HSVToRGB(
-                    currenHue,
+                    currentHue,
                     (float)x / (_svTexture.width - 1),
                     (float)y / (_svTexture.height - 1)));
             }
@@ -118,7 +118,7 @@ public class ColorPickerControl : MonoBehaviour
 
     private void UpdateOutputImage()
     {
-        Color currentColour = Color.HSVToRGB(currenHue, currentSat, currentVal);
+        Color currentColour = Color.HSVToRGB(currentHue, currentSat, currentVal);
         currentColour.a = 1f;
 
         for (int i = 0; i < _outputTexture.height; i++)
@@ -139,8 +139,8 @@ public class ColorPickerControl : MonoBehaviour
 
         if (ColorUtility.TryParseHtmlString("#" + _hexInputField.text, out var newCol))
         {
-            Color.RGBToHSV(newCol, out currenHue, out currentSat, out currentVal);
-            _hueSlider.value = currenHue;
+            Color.RGBToHSV(newCol, out currentHue, out currentSat, out currentVal);
+            _hueSlider.value = currentHue;
             UpdateSVImage();
             UpdateOutputImage();
         }
@@ -150,7 +150,7 @@ public class ColorPickerControl : MonoBehaviour
 
     public Color GetFinalColor()
     {
-        return Color.HSVToRGB(currenHue, currentSat, currentVal);
+        return Color.HSVToRGB(currentHue, currentSat, currentVal);
     }
 }
 

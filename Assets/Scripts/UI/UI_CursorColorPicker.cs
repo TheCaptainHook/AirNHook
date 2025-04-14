@@ -11,13 +11,18 @@ public class UI_CursorColorPicker : UI_Base
     private Color _lastConfirmedColor;
 
     [Header("Text")]
+    [SerializeField] private TMP_Text _titleText;
     [SerializeField] private TMP_Text _cancelText;
     [SerializeField] private TMP_Text _applyText;
     public override void OnEnable()
     {
         OpenUI();
         AppendAnim(_mainFrame, 1.1f, 0.2f, 1f, 0.1f);
+    }
 
+    protected override void Start()
+    {
+        base.Start();
         _colorPicker.Init();
 
         // 저장된 HSV값 불러오기
@@ -31,22 +36,22 @@ public class UI_CursorColorPicker : UI_Base
 
     public void OnClickApply()
     {
-        float h = _colorPicker.currenHue;
+        OnClick();
+        float h = _colorPicker.currentHue;
         float s = _colorPicker.currentSat;
         float v = _colorPicker.currentVal;
 
         _lastConfirmedColor = Color.HSVToRGB(h, s, v);
         _lastConfirmedColor.a = 1f;
 
-        Managers.CursorManager.UpdateInGameCursorColor(_lastConfirmedColor);
         Managers.CursorManager.SaveColor(h, s, v);
-
+        Managers.CursorManager.UpdateInGameCursorColor(_lastConfirmedColor);
         OnExit();
     }
 
     public void OnClickCancel()
     {
-        Managers.CursorManager.UpdateInGameCursorColor(_lastConfirmedColor);
+        OnClick();
         OnExit();
     }
 
@@ -66,5 +71,6 @@ public class UI_CursorColorPicker : UI_Base
 
         SetSentence(_cancelText, 1021);
         SetSentence(_applyText, 1022);
+        SetSentence(_titleText, 1023);
     }
 }
