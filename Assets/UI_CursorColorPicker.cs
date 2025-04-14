@@ -12,11 +12,9 @@ public class UI_CursorColorPicker : UI_Base
 
     public override void OnEnable()
     {
-        _colorPicker.isLivePreviewEnabled = false; // 실제 커서 업데이트는 Apply 시에만 함
         _isClosing = false;
         OpenUI();
         AppendAnim(_mainFrame, 1.1f, 0.2f, 1f, 0.1f);
-        Managers.CursorManager.SetDefaultCursor();
 
         _lastConfirmedColor = Color.HSVToRGB(_colorPicker.currenHue, _colorPicker.currentSat, _colorPicker.currentVal);
     }
@@ -52,9 +50,6 @@ public class UI_CursorColorPicker : UI_Base
     {
         if (_isClosing) return;
         _isClosing = true;
-        _colorPicker.isLivePreviewEnabled = false;
-        Managers.CursorManager.ClearCursor();
-
         _mainFrame.transform.localScale = Vector3.one * 0.1f;
         CloseUI();
     }

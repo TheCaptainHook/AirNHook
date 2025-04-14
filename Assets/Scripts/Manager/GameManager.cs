@@ -74,7 +74,6 @@ public class GameManager
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Managers.UI.ClearUI();
-        Managers.CursorManager.ClearCursor();
         switch (scene.buildIndex)
         {
             // StartScene
@@ -83,15 +82,18 @@ public class GameManager
                 Managers.Instance.CheckNetworkManager();
                 Managers.Game.CurrentState = GameState.Title;
                 Managers.UI.ShowUI<UI_ScreenSaver>();
+                Managers.CursorManager.ClearCursor();
                 break;
             // MainScene
             case 1:
                 Debug.Log("Scene Loaded 1");
                 Managers.Sound.PlayBGM(GlobalText.LOBBY_SOUND);
+                Managers.CursorManager.ClearCursor();
                 break;
             // EditorScene
             case 2:
                 Debug.Log("Scene Loaded 2");
+                Managers.CursorManager.ClearCursor();
                 break;
         }
     }

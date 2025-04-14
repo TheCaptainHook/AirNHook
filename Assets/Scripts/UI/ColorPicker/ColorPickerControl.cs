@@ -14,8 +14,6 @@ public class ColorPickerControl : MonoBehaviour
     [SerializeField] private SVImageControl svControl;
 
     [SerializeField] private Image _preview;
-    // isLivePreviewEnabled는 프리뷰 UI에만 영향을 주고, 실제 커서는 Apply 시에만 바뀌도록 함.
-    public bool isLivePreviewEnabled = true;
 
     private void Start()
     {
@@ -111,13 +109,6 @@ public class ColorPickerControl : MonoBehaviour
         _outputTexture.Apply();
 
         _hexInputField.text = ColorUtility.ToHtmlStringRGB(currentColour);
-
-        // 커서에 색상 반영: Live Preview가 꺼져있더라도 이건 테스트용으로 강제 출력
-        if (isLivePreviewEnabled)
-        {
-            Managers.CursorManager.UpdateInGameCursorColor(currentColour);
-            Debug.Log("[LivePreview] 커서 색상 업데이트됨: " + currentColour);
-        }
 
         // UI 프리뷰 이미지 업데이트
         _outputImage.color = currentColour;
