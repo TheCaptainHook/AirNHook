@@ -116,7 +116,7 @@ public class UI_StageSelect_var3: UI_Base
 
     public bool onInteractable;
     public bool onPrograss;
-    private bool inputProcessed;
+    // private bool inputProcessed;
     public float inputDelay; // 입력 딜레이 시간 설정 
 
     PrograssLevel _PrograssLevel;
@@ -126,16 +126,23 @@ public class UI_StageSelect_var3: UI_Base
     
     public GameObject _UI_ComputerScreen;
     public GameObject computer;
+    private Computer_Net Net {
+        get{
+            if(computer)
+            return computer.TryGetComponent(out Computer_Net component) ? component : null;
+            else return null;
+        }
+    }
 
     [Header("Animation")]
     [SerializeField] Animator animator;
-    private readonly int open = Animator.StringToHash("Open");
-    private readonly int open_onPower = Animator.StringToHash("Open_onPower");
-    private readonly int close = Animator.StringToHash("Close");
+    private readonly int OPEN = Animator.StringToHash("Open");
+    private readonly int OPEN_ONPOWER = Animator.StringToHash("Open_onPower");
+    private readonly int CLOSE = Animator.StringToHash("Close");
 
     [Header("Coroutine")]
     private Coroutine _PrograssCoroutine;
-    private Coroutine _TransformCoroutine;
+    // private Coroutine _TransformCoroutine;
 
 
     [Header("Map Info UI")]
@@ -159,87 +166,25 @@ public class UI_StageSelect_var3: UI_Base
     }
 
 
-    // public override void OnEnable()
-    // {
-    //     if(computer == null)
-    //     {
-    //         computer = MapEditor.Instance.FindObj(MapEditor.Instance.objectTransform, 1000);
-    //     }
-    //     if(!computer.GetComponent<StageSelectObject>().onPower) animator.SetTrigger(open);
-    //     else animator.SetTrigger(open_onPower);
-
-
-    //     if(computer)
-    //     computer.GetComponent<StageSelectorComputer>().Talking();
-
-    //     // try
-    //     // {
-    //     //     if (_UI_ComputerScreen == null) { _UI_ComputerScreen = Managers.UI.GetUI<UI_ComputerScreen>().gameObject; }
-    //     // }
-    //     // catch(Exception ex)
-    //     // {
-    //     //     Debug.Log($"EX : {ex}");
-    //     // }
-
-
-    // }
-
-    // private void Update()
-    // {
-    //     //Test Code
-    //     if (Input.GetKeyDown(KeyCode.N))
-    //     {
-    //        HideUIOutsideCamera();
-    //     }
-
-    //     if (Input.GetKeyDown(KeyCode.M))
-    //     {
-    //        OpenUIOutsideCamera();
-    //     }
-
-    //     //Interaction
-
-    //     // if (onInteractable && !onPrograss && !inputProcessed)
-    //     // {
-    //     //     GetKeyEvent();
-
-    //     // }
-
-    // }
-
-
-
     //------------------------------------------------------Network 250218
     public void GetHost_MapData(int stageLevel)
     {
         Map[] maps = Managers.Data.mapData.mapMainStageDictionary[stageLevel];
         Host_MapData[] mapDatas = CheckPlayerData(maps);
-        computer.GetComponent<Computer_Net>().Server_SetMapDatas(mapDatas);
+        // computer.GetComponent<Computer_Net>().Server_SetMapDatas(mapDatas);
+        Net.Server_SetMapDatas(mapDatas);
     }
 
     public void Reset()
     {
-        Computer_Net net = computer.GetComponent<Computer_Net>();
-        net.Server_Reset();
+        // Computer_Net net = computer.GetComponent<Computer_Net>();
+        Net.Server_ReadyAllClientReset();
     }
     public override void OnEnable()
     {
-        // if(computer == null)
-        // {
-        //     computer = MapEditor.Instance.FindObj(MapEditor.Instance.objectTransform, 1000);
-        // }
-        // // if(!computer.GetComponent<StageSelectObject>().onPower) animator.SetTrigger(open);
-        // // else animator.SetTrigger(open_onPower);
-
-        //  if(!computer.GetComponent<StageSelectObject>().onPower) animator.SetTrigger(open);
-        // else animator.SetTrigger(open_onPower);
-        
-        
-        // if(computer)
-        // computer.GetComponent<StageSelectorComputer>().Talking();
-
 
     }
+
     bool onReady;
     public void StartUi(uint computerId)
     {
@@ -249,23 +194,25 @@ public class UI_StageSelect_var3: UI_Base
         }
         if(computer == null) return;
 
-        if(!computer.GetComponent<Computer_Net>().onPower)animator.SetTrigger(open);
-        else animator.SetTrigger(open_onPower);
+        // if(!computer.GetComponent<Computer_Net>().onPower)animator.SetTrigger(OPEN);
+        if(!Net.onPower)animator.SetTrigger(OPEN);
+        else animator.SetTrigger(OPEN_ONPOWER);
 
         computer.GetComponent<StageSelectorComputer>().Talking();
+        
     }
 
     
     public void SetInputKey(int num)
     {
-        if(onInteractable && !onPrograss && !inputProcessed && onReady)
+        if(onInteractable && !onPrograss  && onReady)
         {
             StartCoroutine(ProcessInputWithDelay(num));
         }
     }
     public IEnumerator ProcessInputWithDelay(int num)
     {
-        inputProcessed = true;
+        // inputProcessed = true;
 
         switch (num)
         {
@@ -305,41 +252,10 @@ public class UI_StageSelect_var3: UI_Base
         }
 
         yield return new WaitForSeconds(inputDelay);
-        inputProcessed = false;
+        // inputProcessed = false;
     }
     //------------------------------------------------------Network 250218
 
-
-
-
-    // private void GetKeyEvent(){
-    //      if (Input.GetKeyDown(KeyCode.DownArrow))
-    //         {
-    //             StartCoroutine(ProcessInputWithDelay(KeyCode.DownArrow));
-    //         }
-
-    //         if (Input.GetKeyDown(KeyCode.UpArrow))
-    //         {
-    //             StartCoroutine(ProcessInputWithDelay(KeyCode.UpArrow));
-    //         }
-            
-    //         if (Input.GetKeyDown(KeyCode.Return))
-    //         {
-    //             StartCoroutine(ProcessInputWithDelay(KeyCode.Return));
-    //         }
-
-
-    //         if (Input.GetKeyDown(KeyCode.Backspace))
-    //         {
-    //             StartCoroutine(ProcessInputWithDelay(KeyCode.Backspace));
-
-    //         }
-
-    //         if (Input.GetKeyDown(KeyCode.Q))
-    //         {
-    //             StartCoroutine(ProcessInputWithDelay(KeyCode.Q));
-    //         }
-    // }
 
     private void SelectTextLine()
     {
@@ -365,7 +281,7 @@ public class UI_StageSelect_var3: UI_Base
 
             if(_PrograssLevel == PrograssLevel.Three)
             {
-                Debug.Log(curSelectTextLine.text.text);
+                // Debug.Log(curSelectTextLine.text.text);
                 mapInfo_UI.ShowMapInfo(curSelectTextLine.text.text,curStageLevel);
             }
         }
@@ -376,7 +292,7 @@ public class UI_StageSelect_var3: UI_Base
 
             if (_PrograssLevel == PrograssLevel.Three)
             {
-                Debug.Log(curSelectTextLine.text.text);
+                // Debug.Log(curSelectTextLine.text.text);
                 mapInfo_UI.ShowMapInfo(curSelectTextLine.text.text, curStageLevel);
             }
         }
@@ -453,6 +369,8 @@ public class UI_StageSelect_var3: UI_Base
     }
     #endregion
 
+
+#region  Openning
     private void OpenningTitle_() //Animator.event : Open
     {
         _PrograssLevel = PrograssLevel.One;
@@ -490,11 +408,16 @@ public class UI_StageSelect_var3: UI_Base
 
         yield return new WaitForSeconds(1);
         EraserAllClear();
+        //-----------------------------------------Net
+        // computer.GetComponent<Computer_Net>().onPower = true;
+        Net.onPower = true;
+        //-----------------------------------------Net
         yield return _PrograssCoroutine = StartCoroutine(WriteTextLineCo_Title(titleSentence,false));
         
     }
+#endregion
 
-
+#region Title
     IEnumerator WriteTextLineCo_Title(string sentence,bool back = true)
     {
         if(back){
@@ -519,7 +442,8 @@ public class UI_StageSelect_var3: UI_Base
         yield return WriteLine("Main", localColor, true);
 
         //-----------------------------------------Net Ready
-        computer.GetComponent<Computer_Net>().Cmd_ReadyClient();
+        // computer.GetComponent<Computer_Net>().Cmd_ReadyClient();
+        Net.Cmd_ReadyClient();
         //-----------------------------------------Net Ready
         
         // yield return WriteLine("UserMap (준비중)", localColor, true, 25, 0.01f, false);
@@ -532,7 +456,9 @@ public class UI_StageSelect_var3: UI_Base
         onReady = true;
         
     }
+#endregion
 
+#region Prograss 1
     void Select_PrograssLevel_1()
     {
         if (curSelectTextLine == null) return;
@@ -567,19 +493,10 @@ public class UI_StageSelect_var3: UI_Base
         {
             _PrograssLevel = PrograssLevel.Two;
 
-            computer.GetComponent<Computer_Net>().Server_SetIndex(Managers.Data.saveData._SaveFileData._PlayerSaveData.curStageLevel);
-
+            Net.Server_SetIndex(Managers.Data.saveData._SaveFileData._PlayerSaveData.curStageLevel);
             yield return EraserTextLineCo(minSelectTextLineListIndex, maxSelectTextLineListIndex);
 
-            //int index = Managers.Data.saveData._SaveFileData._PlayerSaveData.curStageLevel;
-
-            //computer.GetComponent<Computer_Net>().Server_SetIndex(Managers.Data.saveData._SaveFileData._PlayerSaveData.curStageLevel);
-
-            //for (int i = 0; i <=index; i++)
-            //{
-            //   yield return WriteLine($"{i}", localColor, true);
-            //}
-            for (int i = 0; i <= computer.GetComponent<Computer_Net>().index; i++)
+            for (int i = 0; i <= Net.index; i++)
             {
                 yield return WriteLine($"{i}", localColor, true);
             }
@@ -596,7 +513,8 @@ public class UI_StageSelect_var3: UI_Base
         onPrograss = false;
         onInteractable = true;
     }
-
+#endregion
+#region  Prograss 2
     void Select_PrograssLevel_2()
     {
         int stageLevel = int.Parse(curSelectTextLine.mainSentence);
@@ -620,23 +538,16 @@ public class UI_StageSelect_var3: UI_Base
 
         yield return EraserTextLineCo(minSelectTextLineListIndex, maxSelectTextLineListIndex);
 
-        //Map[] maps = Managers.Data.mapData.mapMainStageDictionary[stageLevel];
-        //MapSaveData[] mapDatas = CheckPlayerData(maps);
-
-        Host_MapData[] mapDatas = computer.GetComponent<Computer_Net>().host_MapDatas;
+        Host_MapData[] mapDatas = Net.host_MapDatas;
 
         for (int i = 0; i < mapDatas.Length; i++)
         {
             if (mapDatas[i].clear)
             {
-                //yield return WriteLine(maps[i].mapID, localColor, true);\
-                //yield return WriteLine(string.IsNullOrWhiteSpace(maps[i].subMapName) ? maps[i].mapID : maps[i].subMapName,localColor,true);
                 yield return WriteLine(string.IsNullOrWhiteSpace(mapDatas[i].subMapName) ? mapDatas[i].mapId : mapDatas[i].subMapName, localColor, true);
             }
             else if (mapDatas[i].onOpenStage)
             {
-                //yield return WriteLine(string.IsNullOrWhiteSpace(maps[i].subMapName) ? maps[i].mapID : maps[i].subMapName, Color.yellow, true);
-                // Debug.Log($"Id : {mapDatas[i].mapId}\nsub : {mapDatas[i].subMapName}");
                 yield return WriteLine(string.IsNullOrWhiteSpace(mapDatas[i].subMapName) ? mapDatas[i].mapId : mapDatas[i].subMapName, Color.yellow, true);
             }
            
@@ -663,6 +574,9 @@ public class UI_StageSelect_var3: UI_Base
         return null;
 
     }
+    #endregion
+
+    #region Prograss 3(End)
 
     IEnumerator Select_PrograssLevel_3Co()
     {
@@ -691,19 +605,18 @@ public class UI_StageSelect_var3: UI_Base
         }
 
         yield return EraserTextLineCo(minSelectTextLineListIndex,maxSelectTextLineListIndex);
-        // StartCoroutine(textLineList[4].ChangeEncryption());
+        
         yield return EraserTextLineCo(0, minSelectTextLineListIndex);
-        // yield return textLineList[4].curTMTC.EraserAll();
-
+        
         //Path Text Eraser Effect.
         textLineList[pathTextLineIndex].Clear();
         //Path Text Eraser Effect.
 
         textLineList[pathTextLineIndex].type = TypingType.Write;
      
-        animator.SetTrigger(close);
+        animator.SetTrigger(CLOSE);
         //-----------------------------Reset
-        computer.GetComponent<Computer_Net>().Server_SetIsOpen(false);
+        Net.Server_SetIsOpen(false);
         Reset();
         //-----------------------------Reset
 
@@ -713,6 +626,7 @@ public class UI_StageSelect_var3: UI_Base
         _UI_KeyGenerator.gameObject.SetActive(false);
 
         computer.GetComponent<StageSelectorComputer>().SpawnKey();
+        
 
     //------------------------------------player Move control
         var player = Managers.Game.Player.GetComponent<PlayerSM>();
@@ -723,19 +637,7 @@ public class UI_StageSelect_var3: UI_Base
         onInteractable = true;
         gameObject.SetActive(false);
     }
-    private void SetScreenDataAndActive(string selectMapId)
-    {
-         try
-        {
-            if (_UI_ComputerScreen == null) { _UI_ComputerScreen = Managers.UI.GetUI<UI_ComputerScreen>().gameObject; }
-        }
-        catch(Exception ex)
-        {
-            Debug.Log($"EX : {ex}");
-        }
-        _UI_ComputerScreen.SetActive(true);
-        _UI_ComputerScreen.GetComponent<UI_ComputerScreen>().SetData(selectMapId);
-    }
+    #endregion
 
     private void BackPrograss()
     {
@@ -777,13 +679,14 @@ public class UI_StageSelect_var3: UI_Base
         Reset();
 
         yield return EraserTextLineCo(0, maxSelectTextLineListIndex);
-        animator.SetTrigger(close);
+        animator.SetTrigger(CLOSE);
         yield return new WaitForSeconds(1f);
     //------------------------------------player Move control
         var player = Managers.Game.Player.GetComponent<PlayerSM>();
         if(!player.canMovable) player.canMovable = true;
     //------------------------------------player Move control
-        computer.GetComponent<Computer_Net>().Server_SetIsOpen(false);
+        
+        Net.Server_SetIsOpen(false);
 
         onPrograss = false;
         gameObject.SetActive(false);
@@ -849,51 +752,6 @@ public class UI_StageSelect_var3: UI_Base
 
     }
 
-
-    // public IEnumerator ProcessInputWithDelay(KeyCode keyCode)
-    // {
-    //     inputProcessed = true;
-
-    //     switch (keyCode)
-    //     {
-    //         case KeyCode.DownArrow:
-    //             curSelectTextLineIndex++;
-    //             SelectTextLine();
-    //             break;
-    //         case KeyCode.UpArrow:
-    //             curSelectTextLineIndex--;
-    //             SelectTextLine();
-    //             break;
-    //         case KeyCode.Return:
-    //             if (curSelectTextLine == null || !curSelectTextLine.onSelectable)
-    //                 break;
-
-    //             switch (_PrograssLevel)
-    //             {
-    //                 case PrograssLevel.One:
-    //                     Select_PrograssLevel_1();
-    //                     break;
-    //                 case PrograssLevel.Two:
-    //                     Select_PrograssLevel_2();
-    //                     break;
-    //                 case PrograssLevel.Three:
-    //                     textLineList[pathTextLineIndex].WriteText($"/{curSelectTextLine.mainSentence}");
-    //                     _PrograssCoroutine = StartCoroutine(Select_PrograssLevel_3Co());
-    //                     break;
-    //             }
-    //             break;
-    //         case KeyCode.Backspace:
-    //             BackPrograss();
-    //             break;
-    //         case KeyCode.Q:
-    //             if(_PrograssLevel == PrograssLevel.Three)mapInfo_UI.Reset();
-    //             Shutdown();
-    //             break;
-    //     }
-
-    //     yield return new WaitForSeconds(inputDelay);
-    //     inputProcessed = false;
-    // }
 
     #endregion
     /// <summary>
