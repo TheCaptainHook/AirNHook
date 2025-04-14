@@ -4,17 +4,13 @@ using UnityEngine.UI;
 public class SVImageControl : MonoBehaviour, IDragHandler, IPointerClickHandler
 {
     [SerializeField] private Image _pickerImage;
-    private RawImage _svimage;
+    [SerializeField] private RawImage _svimage;
     [SerializeField] private ColorPickerControl CC;
 
-    private RectTransform _rectTransform, _pickerTransform;
+    [SerializeField] private RectTransform _rectTransform, _pickerTransform;
 
     private void Awake()
     {
-        _svimage = GetComponent<RawImage>();
-        _rectTransform = GetComponent<RectTransform>();
-        _pickerTransform = _pickerImage.GetComponent<RectTransform>();
-
         _pickerTransform.SetParent(_rectTransform);
         _pickerTransform.localPosition = Vector2.zero;
     }
@@ -59,6 +55,17 @@ public class SVImageControl : MonoBehaviour, IDragHandler, IPointerClickHandler
 
         // SV 업데이트
         CC.SetSV(normalized.x, normalized.y);
+    }
+    public void SetHandlePositionFromSV(float S, float V)
+    {
+        if (_rectTransform == null) _rectTransform = GetComponent<RectTransform>();
+
+        float width = _rectTransform.rect.width;
+        float height = _rectTransform.rect.height;
+
+        Vector2 newPos = new Vector2(width, height);
+
+        _pickerTransform.anchoredPosition = newPos;
     }
 
     public void OnDrag(PointerEventData eventData)

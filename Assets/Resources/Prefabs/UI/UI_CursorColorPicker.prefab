@@ -372,7 +372,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pickerImage: {fileID: 4409874561118575993}
+  _svimage: {fileID: 2070518142512961409}
   CC: {fileID: 8645173683002992655}
+  _rectTransform: {fileID: 1641134531837196000}
+  _pickerTransform: {fileID: 2267654003272519612}
 --- !u!114 &2070518142512961409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1068,7 +1071,6 @@ MonoBehaviour:
   _hexInputField: {fileID: 5346222174351877539}
   svControl: {fileID: 8460466251318921729}
   _preview: {fileID: 1633693353154618951}
-  isLivePreviewEnabled: 1
 --- !u!114 &9152959838119599803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2318,8 +2320,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1641134531837196000}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}

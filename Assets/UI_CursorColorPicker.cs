@@ -16,34 +16,41 @@ public class UI_CursorColorPicker : UI_Base
         OpenUI();
         AppendAnim(_mainFrame, 1.1f, 0.2f, 1f, 0.1f);
 
-        _lastConfirmedColor = Color.HSVToRGB(_colorPicker.currenHue, _colorPicker.currentSat, _colorPicker.currentVal);
-    }
+        _colorPicker.Init();
 
-    protected override void Start()
-    {
-        base.Start();
+        // 저장된 HSV값 불러오기
+        float h = PlayerPrefs.GetFloat("CursorColor_H", 0f);
+        float s = PlayerPrefs.GetFloat("CursorColor_S", 0f);
+        float v = PlayerPrefs.GetFloat("CursorColor_V", 1f);
+
+        _colorPicker.SetHSV(h, s, v); // 복원 및 Picker 위치 설정
+        _lastConfirmedColor = Color.HSVToRGB(h, s, v);
     }
 
     public void OnClickApply()
     {
-        _lastConfirmedColor = Color.HSVToRGB(_colorPicker.currenHue, _colorPicker.currentSat, _colorPicker.currentVal);
+        float h = _colorPicker.currenHue;
+        float s = _colorPicker.currentSat;
+        float v = _colorPicker.currentVal;
+
+        _lastConfirmedColor = Color.HSVToRGB(h, s, v);
         _lastConfirmedColor.a = 1f;
 
-        Debug.Log("[Apply] 적용된 색상: " + _lastConfirmedColor);
-
         Managers.CursorManager.UpdateInGameCursorColor(_lastConfirmedColor);
-
-        // 적용 이후 실제 커서 텍스처 확인 로그
-        Debug.Log("[Apply] 커서가 UpdateInGameCursorColor를 통해 호출됨");
+        Managers.CursorManager.SaveColor(h, s, v);
 
         OnExit();
     }
 
+    public void OnClickCancel()
+    {
+        Managers.CursorManager.UpdateInGameCursorColor(_lastConfirmedColor);
+        OnExit();
+    }
 
     private void OnDisable()
     {
-        if (!_isClosing)
-            OnExit();
+        if (!_isClosing) OnExit();
     }
 
     public void OnExit()
@@ -52,12 +59,5 @@ public class UI_CursorColorPicker : UI_Base
         _isClosing = true;
         _mainFrame.transform.localScale = Vector3.one * 0.1f;
         CloseUI();
-    }
-
-    public void OnClickCancel()
-    {
-        // 마지막 확정된 색상으로 복구
-        Managers.CursorManager.UpdateInGameCursorColor(_lastConfirmedColor);
-        OnExit();
     }
 }

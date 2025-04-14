@@ -195,5 +195,7 @@ public class UIManager
         ShowUI<UI_Dialogue>();
         HideUI<UI_Dialogue>();
 
+        ShowUI<UI_CursorColorPicker>();
+        HideUI<UI_CursorColorPicker>();
     }
 }

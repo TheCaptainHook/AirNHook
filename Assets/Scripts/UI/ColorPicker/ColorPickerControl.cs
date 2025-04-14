@@ -15,7 +15,8 @@ public class ColorPickerControl : MonoBehaviour
 
     [SerializeField] private Image _preview;
 
-    private void Start()
+
+    public void Init()
     {
         CreateHueImage();
         CreateSVImage();
@@ -23,7 +24,10 @@ public class ColorPickerControl : MonoBehaviour
 
         _hueSlider.onValueChanged.AddListener(delegate { OnHueSliderChanged(); });
 
-        svControl.Initialize(this); // SVImageControl과 연결
+        svControl.Initialize(this);
+
+        // 강제 레이아웃 갱신
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)svControl.transform);
 
         UpdateSVImage();
         UpdateOutputImage();
@@ -37,7 +41,6 @@ public class ColorPickerControl : MonoBehaviour
 
         for (int i = 0; i < _hueTexture.height; i++)
         {
-            // 변경: Value를 1로 해서 선명한 색상을 만듦
             _hueTexture.SetPixel(0, i, Color.HSVToRGB((float)i / _hueTexture.height, 1, 1f));
         }
 
@@ -58,7 +61,6 @@ public class ColorPickerControl : MonoBehaviour
 
     private void CreateOutputImage()
     {
-        // TextureFormat RGBA32, mipChain false로 생성하여 커서 조건에 맞게 만듦
         _outputTexture = new Texture2D(1, 16, TextureFormat.RGBA32, mipChain: false);
         _outputTexture.wrapMode = TextureWrapMode.Clamp;
         _outputTexture.name = GlobalText.OUTPUTTEXTURE;
@@ -80,8 +82,26 @@ public class ColorPickerControl : MonoBehaviour
         UpdateOutputImage();
     }
 
+    public void SetHSV(float h, float s, float v)
+    {
+        currenHue = h;
+        currentSat = s;
+        currentVal = v;
+
+        _hueSlider.value = h;
+        svControl.SetHandlePositionFromSV(s, v);
+        UpdateSVImage();
+        UpdateOutputImage();
+    }
+
     public void UpdateSVImage()
     {
+        if (_svTexture == null)
+        {
+            Debug.LogError("UpdateSVImage called before _svTexture was initialized.");
+            return;
+        }
+
         for (int y = 0; y < _svTexture.height; y++)
         {
             for (int x = 0; x < _svTexture.width; x++)
@@ -109,12 +129,9 @@ public class ColorPickerControl : MonoBehaviour
         _outputTexture.Apply();
 
         _hexInputField.text = ColorUtility.ToHtmlStringRGB(currentColour);
-
-        // UI 프리뷰 이미지 업데이트
         _outputImage.color = currentColour;
         _preview.color = currentColour;
     }
-
 
     public void OnTextInput()
     {
@@ -131,7 +148,6 @@ public class ColorPickerControl : MonoBehaviour
         _hexInputField.text = "";
     }
 
-    // 추가: 최종 선택된 색상 반환 함수 (Apply 시 사용)
     public Color GetFinalColor()
     {
         return Color.HSVToRGB(currenHue, currentSat, currentVal);
