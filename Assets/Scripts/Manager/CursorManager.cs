@@ -44,10 +44,8 @@ public class CursorManager
             _editableInGameCursor.Apply();
 
             _centerHotspot = new Vector2(_editableInGameCursor.width / 2, _editableInGameCursor.height / 2);
-
-            // 저장된 색상 불러와 적용
-            LoadSavedColor();
         }
+        LoadSavedColor();
     }
 
     private void LoadCursor(CursorType type, string fileName)

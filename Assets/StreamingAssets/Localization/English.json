@@ -76,6 +76,22 @@
     "text": "Respawn Obejct"
   },
   {
+    "id": 1019,
+    "text": "CursorColor"
+  },
+  {
+    "id": 1020,
+    "text": "ColorPicker"
+  },
+  {
+    "id": 1021,
+    "text": "Cancel"
+  },
+  {
+    "id": 1022,
+    "text": "Apply"
+  },
+  {
     "id": 2001,
     "text": "Join Game"
   },

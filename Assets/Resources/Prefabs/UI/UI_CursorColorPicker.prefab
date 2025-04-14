@@ -1085,6 +1085,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mainFrame: {fileID: 5010662789207545585}
   _colorPicker: {fileID: 8645173683002992655}
+  _cancelText: {fileID: 7847564746549470622}
+  _applyText: {fileID: 8486161968496004566}
 --- !u!225 &8125472444884124691
 CanvasGroup:
   m_ObjectHideFlags: 0

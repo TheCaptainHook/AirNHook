@@ -340,5 +340,7 @@ public class UI_Option : UI_Base
         //SetSentence(_resolutionWarningText, 1016);
         SetSentence(_joinCodeText, 1017);
         SetSentence(_respawnObjectText,1018);
+        SetSentence(_cursorcolorText, 1019);
+        SetSentence(_colorpickertext, 1020);
     }
 }

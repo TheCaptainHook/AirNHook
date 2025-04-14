@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class UI_CursorColorPicker : UI_Base
@@ -8,11 +9,12 @@ public class UI_CursorColorPicker : UI_Base
     [SerializeField] private ColorPickerControl _colorPicker;
 
     private Color _lastConfirmedColor;
-    private bool _isClosing = false;
 
+    [Header("Text")]
+    [SerializeField] private TMP_Text _cancelText;
+    [SerializeField] private TMP_Text _applyText;
     public override void OnEnable()
     {
-        _isClosing = false;
         OpenUI();
         AppendAnim(_mainFrame, 1.1f, 0.2f, 1f, 0.1f);
 
@@ -50,14 +52,19 @@ public class UI_CursorColorPicker : UI_Base
 
     private void OnDisable()
     {
-        if (!_isClosing) OnExit();
+        OnExit();
     }
 
     public void OnExit()
     {
-        if (_isClosing) return;
-        _isClosing = true;
         _mainFrame.transform.localScale = Vector3.one * 0.1f;
         CloseUI();
+    }
+
+    public override void SetLanguage()
+    {
+
+        SetSentence(_cancelText, 1021);
+        SetSentence(_applyText, 1022);
     }
 }
