@@ -106,7 +106,8 @@ public class ProjectileEntity : MonoBehaviour,IPooling
             onHit = true;
             rb.velocity = Vector2.zero;
             rb.gravityScale = 0;
-            
+
+            Debug.Log($"{collision.gameObject.name}");
             
             SpawnImpactEffect(collision.ClosestPoint(transform.position));
 
@@ -125,6 +126,7 @@ public class ProjectileEntity : MonoBehaviour,IPooling
                 N_ReleaseToPool();
                 return;
             }
+
             if (collision.TryGetComponent(out Shield shield))
             {
                 // N_ReleaseToPool();
@@ -132,6 +134,7 @@ public class ProjectileEntity : MonoBehaviour,IPooling
                 StartCoroutine(DelayRelease());
                 return;
             }
+
             TransformChange(collision.transform);
             StartCoroutine(DelayRelease());
         }
