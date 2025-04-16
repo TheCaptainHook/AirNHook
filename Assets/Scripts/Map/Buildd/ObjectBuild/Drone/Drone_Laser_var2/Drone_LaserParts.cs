@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ public class Drone_LaserParts : MonoBehaviour
 {
     [SerializeField] Animator laserAnimator;
     [SerializeField] Transform laserPoint;
+    public Transform LaserPoint => laserPoint;
     [SerializeField] LineRenderer line;
 
     [SerializeField] DroneEntity main;
@@ -24,31 +26,14 @@ public class Drone_LaserParts : MonoBehaviour
     }
 
 
-    #region Attack
-
-    private void Shot(GameObject target)
-    {
-        Projectile_Shell shell = Managers.Pooling.D_GetItem(ammo).GetComponent<Projectile_Shell>();
-        shell.Setting(laserPoint.position, laserPoint.right, main.gameObject);
-        shell.gameObject.SetActive(true);
-
-    }
-    #endregion
-
-
-    public void Recover()
-    {
-
-    }
+    
 
 
     #region Util
     private float ConvertVec_To_Angle(Vector2 target)
     {
-        Vector2 toTarget = (target - (Vector2)transform.position).normalized;
-
-        return Vector2.SignedAngle(Vector2.right, toTarget);
-
+        Vector2 toTarget = (target - (Vector2)main.transform.position).normalized;
+        return Mathf.Floor(Vector2.SignedAngle(Vector2.right, toTarget));
     }
     private void Angle_Adjustment(Vector2 target)
     {

@@ -124,6 +124,7 @@ public class DroneEntity : BuildObj
 
 
     //-------------------------------------------------------------------------------------------------------------------------------------------------------------0412
+   protected bool isStop;
     private void FixedUpdate()
     {
         if (Net.targetPosition == null) return;
@@ -133,7 +134,7 @@ public class DroneEntity : BuildObj
     private void MoveToward()
     {
         if (CheckDistanceAndDot()) return;
-
+        if(isStop) return;
         _rb.MovePosition(_rb.position + Net.dir * DroneStruct.moveSpeed * Time.fixedDeltaTime);
     }
    

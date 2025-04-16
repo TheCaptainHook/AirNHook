@@ -23,6 +23,7 @@ public class Projectile_Arrow : ProjectileEntity
     }
    protected override void ReleaseToPool_Projectile()
     {
+        base.ReleaseToPool_Projectile();
         Managers.Pooling.D_ReleaseToPool(gameObject);
     }
 

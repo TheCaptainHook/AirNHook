@@ -1,4 +1,3 @@
-using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +6,9 @@ public class Drone_Laser_GuardVision : MonoBehaviour
 {
     public float radius = 10f;
     public LayerMask detectionLayer;
+    public LayerMask ignoreLayer;
 
+    [SerializeField] Drone_Laser_var2 main;
     [SerializeField] Drone_LaserParts parts;
     [SerializeField] DroneEntity_Net net;
 
@@ -16,50 +17,45 @@ public class Drone_Laser_GuardVision : MonoBehaviour
 
     private void Update()
     {
-        Collider2D hit_1 = Physics2D.OverlapCircle(transform.position, radius, detectionLayer);
-        DebugDrawCircle(transform.position, radius, Color.cyan);
-
-        if (hit_1)
+        //if(!net.onSync) return;
+        Collider2D hit_1 = Physics2D.OverlapCircle(main.transform.position, radius, detectionLayer);
+        //Debug
+        DebugDrawCircle(main.transform.position, radius, Color.cyan); 
+        //Debug
+        
+        if (hit_1) // - Detected Player
         {
-            var dir = (hit_1.transform.position - transform.position).normalized;
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, detectionLayer);
-
-            if (hit)
+            var dir = (hit_1.transform.position - main.transform.position).normalized;
+            //-------------- Detect All layer, And Analyz/ 0416
+            RaycastHit2D[] hits = Physics2D.RaycastAll(main.transform.position,dir,radius); //Detacting range : 10
+            var result = AnalyzeHit(hits);
+            //-------------- Detect All layer, And Analyz/ 0416
+            if(result.onDetacted)
             {
-                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
-                {
-                    var check = Check_DistanceAndAngle(hit.transform.position);
-                    //1. 거리 체크
-                    if (check.d && check.a)
-                    {
-                        //State_Attack
-                        parts.TrackingTarget(hit.collider.gameObject);
-                    }
-                    else
-                    {
-                        parts.Recover();
-                        Debug.Log("Track");
-                    }
-                }
+                //Lazer Aim Setting
+                parts.TrackingTarget(result.player);
+                //Lazer Aim Setting
+                //Attack
+                main.StateChange(DRONE_LASER_STATE.ATTACK);
+                //Attack
             }
-            else
+            else if(result.player)
             {
-                parts.Recover();
+                //State -> Tracking
+                Debug.Log("Tracking");
+            }
+            else 
+            {
+                //State -> Guard
+                main.StateChange(DRONE_LASER_STATE.GUARD);
+                Debug.Log("Cant Detected");
             }
         }
     }
+    
+ 
 
-    private (bool d,bool a) Check_DistanceAndAngle(Vector2 target)
-    {
-        bool d = Vector2.Distance(transform.position, target) <= 8;
-        Vector2 toTarget = (target - (Vector2)transform.position).normalized;
-        float a = Vector2.SignedAngle(transform.right, toTarget);
-        bool aa = a < 5 && a > -160;
-        return (d, aa);
-    }
-
-
-
+    //-----------------------------------Debug
     void DebugDrawCircle(Vector2 center, float radius, Color color)
     {
         int segments = 32;
@@ -74,4 +70,49 @@ public class Drone_Laser_GuardVision : MonoBehaviour
             lastPoint = nextPoint;
         }
     }
+    //-----------------------------------Debug
+
+    #region  Util
+    
+   private (bool onDetacted,GameObject player) AnalyzeHit(RaycastHit2D[] hits)
+   {
+    GameObject player = null;
+    bool onDetacted = false;
+
+    foreach(var hit in hits)
+    {
+        // Debug.Log($"name : {hit.collider.name}");
+        if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+             player = hit.collider.gameObject;
+             break;
+        }
+        
+        if ((ignoreLayer.value & (1 << hit.collider.gameObject.layer)) != 0)
+        {
+            Debug.Log("Ignore Ray");
+            return (onDetacted,player);
+        }
+
+        
+    }
+
+    if(player == null) return (false,null);
+    //Check Distacne and angle
+    var check = Check_DistanceAndAngle(player.transform.position);
+    return (check.d && check.a,player);
+    //Check Distacne and angle
+
+   }
+
+    private (bool d,bool a) Check_DistanceAndAngle(Vector2 target)
+    {
+        bool d = Vector2.Distance(main.transform.position, target) <= 8;
+        Vector2 toTarget = (target - (Vector2)main.transform.position).normalized;
+        float a = Vector2.SignedAngle(Vector2.right, toTarget);
+        bool aa = a < 5 && a > -160;
+        return (d, aa);
+    }
+
+    #endregion
 }

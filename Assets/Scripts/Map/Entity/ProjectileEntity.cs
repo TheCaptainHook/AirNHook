@@ -32,6 +32,7 @@ public class ProjectileEntity : MonoBehaviour,IPooling
         onHit = false;
         spriteRenderer.sortingLayerID = FOREGROUND_LAYERID;
         spriteRenderer.sortingOrder = 10;
+        curDurationRate = 0;
     }
     public virtual void SpawnImpactEffect(Vector2 hitPoint) { }
 
@@ -42,6 +43,8 @@ public class ProjectileEntity : MonoBehaviour,IPooling
      * 3. Reset Override
      * 4. ReleaseToPool_Projectile Override
      * **/
+     private float maxDurationRate=5;
+     private float curDurationRate=0;
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -50,19 +53,33 @@ public class ProjectileEntity : MonoBehaviour,IPooling
         MAPTILES_LAYERID = SortingLayer.NameToID("Map/Tiles");
     }
 
+    protected virtual void OnHit()
+    {
+        onHit = true;
+        rb.velocity = Vector2.zero;
+        rb.gravityScale = 0;
+        rb.isKinematic = true;
+    }
     protected virtual void FixedUpdate()
     {
         if (!onHit && onFire)
         {
+            curDurationRate += Time.fixedDeltaTime;
+            if(curDurationRate >= maxDurationRate)
+            {
+                ReleaseToPool_Projectile();
+                return;
+            }
             float hitDistance = rb.velocity.magnitude * Time.fixedDeltaTime * 2f;
             hit = Physics2D.Raycast(firePoint.position, firePoint.right, hitDistance, hitLayerMask);
      
             if (hit)
             {
-                onHit = true;
-                rb.velocity = Vector2.zero;
-                rb.gravityScale = 0;
-                rb.isKinematic = true;
+                // onHit = true;
+                // rb.velocity = Vector2.zero;
+                // rb.gravityScale = 0;
+                // rb.isKinematic = true;
+                OnHit();
                 SpawnImpactEffect(hit.point);
                 
                 if (hit.collider.TryGetComponent(out IDamageable damageable) && hit.collider.gameObject != main)
@@ -77,7 +94,8 @@ public class ProjectileEntity : MonoBehaviour,IPooling
                         }
                     }
                     damageable.TakeDamage();
-                    N_ReleaseToPool();
+                    // N_ReleaseToPool();
+                    ReleaseToPool_Projectile();
                     return;
                 }
                 if(hit.collider.TryGetComponent(out Shield shield))
@@ -103,12 +121,11 @@ public class ProjectileEntity : MonoBehaviour,IPooling
         if(collision!= null && collision.gameObject != main)
         {
             // if (collision.gameObject == main) return;
-            onHit = true;
-            rb.velocity = Vector2.zero;
-            rb.gravityScale = 0;
-
-            Debug.Log($"{collision.gameObject.name}");
-            
+            // onHit = true;
+            // rb.velocity = Vector2.zero;
+            // rb.gravityScale = 0;
+            OnHit();
+    
             SpawnImpactEffect(collision.ClosestPoint(transform.position));
 
             if (collision.TryGetComponent(out IDamageable damageable))
@@ -123,7 +140,8 @@ public class ProjectileEntity : MonoBehaviour,IPooling
                     }
                 }
                 damageable.TakeDamage();
-                N_ReleaseToPool();
+                // N_ReleaseToPool();
+                ReleaseToPool_Projectile();
                 return;
             }
 
@@ -156,10 +174,12 @@ public class ProjectileEntity : MonoBehaviour,IPooling
 
 
 
-    protected IEnumerator DelayRelease()
+    protected virtual IEnumerator DelayRelease()
     {
         yield return new WaitForSeconds(5);
-        N_ReleaseToPool();
+        // N_ReleaseToPool();
+        if(gameObject.activeSelf)
+        ReleaseToPool_Projectile();
     }
 
     protected T GetTypeEntity<T>() where T: class
@@ -169,17 +189,21 @@ public class ProjectileEntity : MonoBehaviour,IPooling
 
   
 
-    protected virtual void ReleaseToPool_Projectile(){
-
+    protected virtual void ReleaseToPool_Projectile()
+    {
+        Reset();
     }
 
     
-    public void D_ReleaseToPool(){}
+    public void D_ReleaseToPool()
+    {
+        Managers.Pooling.D_ReleaseToPool(gameObject);
+    }
 
     public void N_ReleaseToPool()
     {
-        Reset();
-        ReleaseToPool_Projectile();
+        // Reset();
+        // ReleaseToPool_Projectile();
     }
 
     #endregion

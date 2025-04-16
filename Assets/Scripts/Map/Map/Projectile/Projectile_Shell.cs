@@ -21,6 +21,8 @@ public class Projectile_Shell : ProjectileEntity
     }
     protected override void ReleaseToPool_Projectile()
     {
+        base.ReleaseToPool_Projectile();
+        
         // Managers.Pooling.N_ReleaseToPool<Projectile_Shell>(gameObject);
         Managers.Pooling.D_ReleaseToPool(gameObject);
     }
