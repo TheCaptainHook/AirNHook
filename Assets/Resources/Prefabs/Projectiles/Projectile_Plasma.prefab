@@ -5096,7 +5096,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 7470298923955238996}
   firePoint: {fileID: 8532966778830209572}
   main: {fileID: 0}
-  speed: 15
+  speed: 20
   hitLayerMask:
     serializedVersion: 2
     m_Bits: 1033664

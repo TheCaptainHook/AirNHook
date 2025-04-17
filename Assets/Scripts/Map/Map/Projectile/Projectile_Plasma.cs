@@ -57,7 +57,7 @@ public class Projectile_Plasma : ProjectileEntity
             }
             else
             {
-                if (Random.Range(0, 100) > 50) return;
+                if (Random.Range(0, 100) > 20) return;
 
                 Vector2 refrection = Vector2.Reflect(transform.right, hit.normal);
 

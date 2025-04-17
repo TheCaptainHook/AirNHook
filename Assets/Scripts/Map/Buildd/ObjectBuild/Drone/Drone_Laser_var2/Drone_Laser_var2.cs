@@ -113,13 +113,7 @@ public class Drone_Laser_var2 : DroneEntity
            
         }else{
             Reloading();
-            //curReloadingCount += Time.deltaTime;
-            //if(curReloadingCount >= maxReloadingCount)
-            //{
-            //    curAmmoCount = 0;
-            //    curReloadingCount = 0;
-            //    onReloading = false;
-            //}
+
         }
     }
     private void Reloading()
