@@ -10933,7 +10933,7 @@ MonoBehaviour:
   - {x: -0.35144913, y: -0.3826578, z: 0}
   m_ShapePathHash: -1395270259
   m_Mesh: {fileID: 0}
-  m_InstanceId: -2896
+  m_InstanceId: -3378
   m_LocalBounds:
     m_Center: {x: 0.01257205, y: -0.47503752, z: 0}
     m_Extent: {x: 0.74721634, y: 0.24692696, z: 0}
@@ -11187,9 +11187,10 @@ MonoBehaviour:
   moveSpeed: 0
   IsBroken: 0
   _Animation_Transition_Speed: 1
+  state: 0
   laserParts: {fileID: 2219830307566943935}
   guardVision: {fileID: 1739583553325526282}
-  ammo: {fileID: 3048323261120989730, guid: b1282530b78a7e845b60c9718171af26, type: 3}
+  ammo: {fileID: 4191495413851686065, guid: 83a75787d36fa4ec3a0b0b2955f8eb47, type: 3}
 --- !u!1001 &2123813256718668020
 PrefabInstance:
   m_ObjectHideFlags: 0

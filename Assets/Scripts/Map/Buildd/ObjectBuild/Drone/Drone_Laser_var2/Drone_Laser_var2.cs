@@ -42,24 +42,37 @@ public class Drone_Laser_var2 : DroneEntity
             state = DRONE_LASER_STATE.GUARD;
             //onStop = false;
         }
+        if(curAmmoCount >0)
+        {
+            Reloading();
+        }
     }
-#endregion
-
-#region  Attack
+    #endregion
+    #region Tracking
+    private void State_Tracking()
+    {
+        if (state != DRONE_LASER_STATE.TRACKING)
+        {
+            state = DRONE_LASER_STATE.TRACKING;
+            //onStop = false;
+        }
+      
+    }
+    #endregion
+    #region  Attack
     [SerializeField] GameObject ammo;
     float maxReloadingCount = 2; 
     float curReloadingCount = 0;
-    int maxAmmoCount = 10;
-    int curAmmoCount = 0;
-    float maxFireRate  = 0.1f;
+    int maxAmmoCount = 50;
+   public int curAmmoCount = 0;
+    float maxFireRate  = 0.05f;
     float curFireRate = 0;
     bool onReloading;
     private void Shot()
     {
-        Projectile_Shell shell = Managers.Pooling.D_GetItem(ammo).GetComponent<Projectile_Shell>();
-        // shell.Setting(LaserPoint.position, LaserPoint.right, gameObject);
-        shell.Setting(LaserPoint.position, RandomDir(LaserPoint.right), gameObject);
-        shell.gameObject.SetActive(true);
+        Projectile_Plasma plasma = Managers.Pooling.D_GetItem(ammo).GetComponent<Projectile_Plasma>();
+        plasma.Setting(LaserPoint.position, RandomDir(LaserPoint.right), gameObject);
+        plasma.gameObject.SetActive(true);
 
         curAmmoCount++;
     }
@@ -67,7 +80,7 @@ public class Drone_Laser_var2 : DroneEntity
     private Vector2 RandomDir(Vector2 dir)
     {
         //-5~5
-        float randomRange = Random.Range(-5,5);
+        float randomRange = Random.Range(-10,20);
         return Quaternion.Euler(0,0,randomRange) * dir;
     }
    
@@ -99,16 +112,26 @@ public class Drone_Laser_var2 : DroneEntity
             }
            
         }else{
-            curReloadingCount += Time.deltaTime;
-            if(curReloadingCount >= maxReloadingCount)
-            {
-                curAmmoCount = 0;
-                curReloadingCount = 0;
-                onReloading = false;
-            }
+            Reloading();
+            //curReloadingCount += Time.deltaTime;
+            //if(curReloadingCount >= maxReloadingCount)
+            //{
+            //    curAmmoCount = 0;
+            //    curReloadingCount = 0;
+            //    onReloading = false;
+            //}
         }
     }
-
+    private void Reloading()
+    {
+        curReloadingCount += Time.deltaTime;
+        if (curReloadingCount >= maxReloadingCount)
+        {
+            curAmmoCount = 0;
+            curReloadingCount = 0;
+            onReloading = false;
+        }
+    }
 #endregion
     
     
@@ -122,6 +145,7 @@ public class Drone_Laser_var2 : DroneEntity
             State_Guard();
             break;
         case DRONE_LASER_STATE.TRACKING:
+            State_Tracking();
             break;
         case DRONE_LASER_STATE.RETURN:
             break;

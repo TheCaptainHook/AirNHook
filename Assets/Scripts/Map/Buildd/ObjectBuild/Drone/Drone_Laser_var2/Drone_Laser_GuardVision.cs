@@ -48,8 +48,13 @@ public class Drone_Laser_GuardVision : MonoBehaviour
             {
                 //State -> Guard
                 main.StateChange(DRONE_LASER_STATE.GUARD);
-                Debug.Log("Cant Detected");
+                Debug.Log("Chnage Guard");
             }
+        }
+        else
+        {
+            main.StateChange(DRONE_LASER_STATE.GUARD);
+            Debug.Log("Chnage Guard");
         }
     }
     

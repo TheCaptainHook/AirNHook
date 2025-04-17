@@ -21,7 +21,7 @@ public class Projectile_Arrow : ProjectileEntity
         _collider.enabled = true;
 
     }
-   protected override void ReleaseToPool_Projectile()
+   protected override void ReleaseToPool_Projectile(bool excution = false)
     {
         base.ReleaseToPool_Projectile();
         Managers.Pooling.D_ReleaseToPool(gameObject);

@@ -44,7 +44,7 @@ public class ProjectileEntity : MonoBehaviour,IPooling
      * 4. ReleaseToPool_Projectile Override
      * **/
      private float maxDurationRate=5;
-     private float curDurationRate=0;
+     protected float curDurationRate=0;
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -53,7 +53,7 @@ public class ProjectileEntity : MonoBehaviour,IPooling
         MAPTILES_LAYERID = SortingLayer.NameToID("Map/Tiles");
     }
 
-    protected virtual void OnHit()
+    protected virtual void OnHit(RaycastHit2D hit)
     {
         onHit = true;
         rb.velocity = Vector2.zero;
@@ -67,9 +67,10 @@ public class ProjectileEntity : MonoBehaviour,IPooling
             curDurationRate += Time.fixedDeltaTime;
             if(curDurationRate >= maxDurationRate)
             {
-                ReleaseToPool_Projectile();
+                ReleaseToPool_Projectile(true);
                 return;
             }
+
             float hitDistance = rb.velocity.magnitude * Time.fixedDeltaTime * 2f;
             hit = Physics2D.Raycast(firePoint.position, firePoint.right, hitDistance, hitLayerMask);
      
@@ -79,7 +80,8 @@ public class ProjectileEntity : MonoBehaviour,IPooling
                 // rb.velocity = Vector2.zero;
                 // rb.gravityScale = 0;
                 // rb.isKinematic = true;
-                OnHit();
+                Debug.Log($"Fixed Hit : {hit.collider.name}");
+                OnHit(hit);
                 SpawnImpactEffect(hit.point);
                 
                 if (hit.collider.TryGetComponent(out IDamageable damageable) && hit.collider.gameObject != main)
@@ -95,7 +97,7 @@ public class ProjectileEntity : MonoBehaviour,IPooling
                     }
                     damageable.TakeDamage();
                     // N_ReleaseToPool();
-                    ReleaseToPool_Projectile();
+                    ReleaseToPool_Projectile(true);
                     return;
                 }
                 if(hit.collider.TryGetComponent(out Shield shield))
@@ -111,7 +113,7 @@ public class ProjectileEntity : MonoBehaviour,IPooling
             }
             else
             {
-                rb.AddForce(transform.right * speed, ForceMode2D.Impulse);
+                rb.AddForce(transform.right * speed, ForceMode2D.Force);
             }
         }
     }
@@ -124,8 +126,8 @@ public class ProjectileEntity : MonoBehaviour,IPooling
             // onHit = true;
             // rb.velocity = Vector2.zero;
             // rb.gravityScale = 0;
-            OnHit();
-    
+            OnHit(hit);
+            Debug.Log($"Trigger  : {collision.gameObject.name}");
             SpawnImpactEffect(collision.ClosestPoint(transform.position));
 
             if (collision.TryGetComponent(out IDamageable damageable))
@@ -176,7 +178,7 @@ public class ProjectileEntity : MonoBehaviour,IPooling
 
     protected virtual IEnumerator DelayRelease()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
         // N_ReleaseToPool();
         if(gameObject.activeSelf)
         ReleaseToPool_Projectile();
@@ -189,7 +191,7 @@ public class ProjectileEntity : MonoBehaviour,IPooling
 
   
 
-    protected virtual void ReleaseToPool_Projectile()
+    protected virtual void ReleaseToPool_Projectile(bool excution = false)
     {
         Reset();
     }
