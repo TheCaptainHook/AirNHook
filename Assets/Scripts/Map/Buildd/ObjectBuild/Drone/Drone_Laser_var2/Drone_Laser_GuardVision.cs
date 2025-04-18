@@ -5,6 +5,7 @@ using UnityEngine;
 public class Drone_Laser_GuardVision : MonoBehaviour
 {
     public float radius = 10f;
+    public float attackRange = 8f;
     public LayerMask detectionLayer;
     public LayerMask ignoreLayer;
 
@@ -13,7 +14,7 @@ public class Drone_Laser_GuardVision : MonoBehaviour
     [SerializeField] DroneEntity_Net net;
 
 
-
+    private GameObject target;
 
     private void Update()
     {
@@ -32,9 +33,8 @@ public class Drone_Laser_GuardVision : MonoBehaviour
             //-------------- Detect All layer, And Analyz/ 0416
             if(result.onDetacted)
             {
-                //Lazer Aim Setting
-                parts.TrackingTarget(result.player);
-                //Lazer Aim Setting
+                // target = result.player;
+                parts.target= result.player;
                 //Attack
                 main.StateChange(DRONE_LASER_STATE.ATTACK);
                 //Attack
@@ -42,6 +42,7 @@ public class Drone_Laser_GuardVision : MonoBehaviour
             else if(result.player)
             {
                 //State -> Tracking
+                main.StateChange(DRONE_LASER_STATE.TRACKING);
                 Debug.Log("Tracking");
             }
             else 
@@ -112,7 +113,7 @@ public class Drone_Laser_GuardVision : MonoBehaviour
 
     private (bool d,bool a) Check_DistanceAndAngle(Vector2 target)
     {
-        bool d = Vector2.Distance(main.transform.position, target) <= 8;
+        bool d = Vector2.Distance(main.transform.position, target) <= attackRange;
         Vector2 toTarget = (target - (Vector2)main.transform.position).normalized;
         float a = Vector2.SignedAngle(Vector2.right, toTarget);
         bool aa = a < 5 && a > -160;

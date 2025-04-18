@@ -71,9 +71,9 @@ public class ProjectileEntity : MonoBehaviour,IPooling
                 return;
             }
 
-            float hitDistance = rb.velocity.magnitude * Time.fixedDeltaTime * 2f;
+            float hitDistance = rb.velocity.magnitude * Time.fixedDeltaTime * _collider.bounds.extents.x*1.2f;
             hit = Physics2D.Raycast(firePoint.position, firePoint.right, hitDistance, hitLayerMask);
-     
+            Debug.DrawRay(firePoint.position,firePoint.right*hitDistance,Color.red);
             if (hit)
             {
                 // onHit = true;

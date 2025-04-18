@@ -128,6 +128,7 @@ public class DroneEntity : BuildObj
     private void FixedUpdate()
     {
         if (Net.targetPosition == null) return;
+        if(isStop) return;
         MoveToward();
 
     }

@@ -15,6 +15,10 @@ public class Drone_Laser_var2 : DroneEntity
  [ReadOnly]
  [SerializeField] DRONE_LASER_STATE state = DRONE_LASER_STATE.GUARD;
 
+//TEST
+    [SerializeField] SpriteRenderer  message;
+//TEST
+
 #region Laser Parts
     [CustomHeader("Drone Laser")]
     [SerializeField] Drone_LaserParts laserParts;
@@ -40,7 +44,10 @@ public class Drone_Laser_var2 : DroneEntity
         if(state != DRONE_LASER_STATE.GUARD)
         {
             state = DRONE_LASER_STATE.GUARD;
-            //onStop = false;
+
+            isStop = false; //Movement-related parameters
+            message.enabled = false;
+            laserParts.LaserReset();
         }
         if(curAmmoCount >0)
         {
@@ -54,17 +61,24 @@ public class Drone_Laser_var2 : DroneEntity
         if (state != DRONE_LASER_STATE.TRACKING)
         {
             state = DRONE_LASER_STATE.TRACKING;
-            //onStop = false;
+
+            isStop = true; //Movement-related parameters
+            message.enabled = true;
+            laserParts.LaserReset();
+            
         }
-      
+        //addforce target direction, and check for obstacles.
+        // If an object is detected, find a new path and update the direction.
+
     }
+
     #endregion
     #region  Attack
     [SerializeField] GameObject ammo;
     float maxReloadingCount = 2; 
     float curReloadingCount = 0;
     int maxAmmoCount = 50;
-   public int curAmmoCount = 0;
+    public int curAmmoCount = 0;
     float maxFireRate  = 0.05f;
     float curFireRate = 0;
     bool onReloading;
@@ -92,9 +106,13 @@ public class Drone_Laser_var2 : DroneEntity
 
             //Warning Animation or Effect
             state = DRONE_LASER_STATE.ATTACK;
-            //onStop = true;
-        } 
 
+            isStop = true; //Movement-related parameters
+            message.enabled = true;
+            // laserParts.TrackingTarget();
+
+        } 
+        if(!laserParts.isShotReady) laserParts.TrackingTarget();
         if(curAmmoCount>=maxAmmoCount)
         {
             onReloading = true;
@@ -103,7 +121,7 @@ public class Drone_Laser_var2 : DroneEntity
         if(!onReloading)
         {
             curFireRate += Time.deltaTime;
-            if(curFireRate >= maxFireRate)
+            if(curFireRate >= maxFireRate && laserParts.isShotReady)
             {
                 //Shot
                 Shot();
@@ -118,6 +136,7 @@ public class Drone_Laser_var2 : DroneEntity
     }
     private void Reloading()
     {
+        laserParts.isShotReady =false;
         curReloadingCount += Time.deltaTime;
         if (curReloadingCount >= maxReloadingCount)
         {
@@ -148,6 +167,8 @@ public class Drone_Laser_var2 : DroneEntity
             break;
     }
    }
+
+
 #endregion
 
 
