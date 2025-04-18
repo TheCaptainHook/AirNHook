@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System;
+using Unity.VisualScripting;
 public class Computer_Net : NetworkBehaviour
 {
     [SerializeField] GameObject screen;
@@ -28,7 +29,7 @@ public class Computer_Net : NetworkBehaviour
         }
     }
 
-    [SyncVar] public bool onPower;
+    [SyncVar] public bool onPower; //Openning Animation cancel, Only Server
     [SyncVar] public bool isOpen;
 
     //UI Control Condition
@@ -62,15 +63,24 @@ public class Computer_Net : NetworkBehaviour
     #endregion
     
 
+//------------------------------------------------------- 0414
+    // private void Update()
+    // {
+    //     if(isServer && onPower && isOpen && onReady)
+    //     {
+    //         GetKeyEvent();
+    //     }
 
-    private void Update()
+    // }
+    private void LateUpdate()
     {
         if(isServer && onPower && isOpen && onReady)
         {
-            GetKeyEvent();
+            if(!Main.onPrograss) GetKeyEvent();
         }
-
     }
+
+//------------------------------------------------------- 0414
     public bool onSync;
     #region Server_Init
     private StageSelectorComputer Computer => GetComponent<StageSelectorComputer>();
@@ -106,7 +116,7 @@ public class Computer_Net : NetworkBehaviour
 
     #region Server_Reset
     [Server]
-    public void Server_Reset()
+    public void Server_ReadyAllClientReset()
     {
         readyAllClient = 0;
         onReady = false;
@@ -126,14 +136,14 @@ public class Computer_Net : NetworkBehaviour
 
         Rpc_ShowUi();
 
-        StartCoroutine(Delay());
+        // StartCoroutine(Delay());
     }
 
-    IEnumerator Delay()
-    {
-        yield return new WaitForSeconds(0.5f);
-        onPower = true;
-    }
+    // IEnumerator Delay()
+    // {
+    //     yield return new WaitForSeconds(0.5f);
+    //     onPower = true;
+    // }
 
     [Server]
     public void Server_SetIsOpen(bool val)
@@ -177,11 +187,9 @@ public class Computer_Net : NetworkBehaviour
             this.main = main.gameObject;
             _main.StartUi(GetComponent<NetworkIdentity>().netId);
             // main.GetComponent<UI_StageSelect_var3>().HideUIOutsideCamera();
-        }else
-        {
-
         }
     }
+
     [Server]
     private void Server_SetReadyClient()
     {
