@@ -1,8 +1,14 @@
 
 using System.Collections;
+using Edgegap;
 using Unity.VisualScripting;
 using UnityEngine;
 
+
+public enum Projectile_ForceMode{
+    Force,
+    Impulse
+}
 public class ProjectileEntity : MonoBehaviour,IPooling
 {
     protected bool onHit;
@@ -20,6 +26,8 @@ public class ProjectileEntity : MonoBehaviour,IPooling
     protected int FOREGROUND_LAYERID;
     protected int MAPTILES_LAYERID;
 
+    
+    public Projectile_ForceMode forceMode;
     [ReadOnly]
     public GameObject main;
     public float speed;
@@ -71,16 +79,16 @@ public class ProjectileEntity : MonoBehaviour,IPooling
                 return;
             }
 
-            float hitDistance = rb.velocity.magnitude * Time.fixedDeltaTime * _collider.bounds.extents.x*1.2f;
+            float hitDistance = rb.velocity.magnitude*Time.fixedDeltaTime *1.5f;
             hit = Physics2D.Raycast(firePoint.position, firePoint.right, hitDistance, hitLayerMask);
-            Debug.DrawRay(firePoint.position,firePoint.right*hitDistance,Color.red);
+            // Debug.DrawRay(firePoint.position,firePoint.right*hitDistance,Color.red);
             if (hit)
             {
                 // onHit = true;
                 // rb.velocity = Vector2.zero;
                 // rb.gravityScale = 0;
                 // rb.isKinematic = true;
-                Debug.Log($"Fixed Hit : {hit.collider.name}");
+                // Debug.Log($"Fixed Hit : {hit.collider.name}");
                 OnHit(hit);
                 SpawnImpactEffect(hit.point);
                 
@@ -112,8 +120,14 @@ public class ProjectileEntity : MonoBehaviour,IPooling
                 StartCoroutine(DelayRelease());
             }
             else
-            {
-                rb.AddForce(transform.right * speed, ForceMode2D.Force);
+            {   
+                if(forceMode == Projectile_ForceMode.Force)
+                {
+                    rb.AddForce(transform.right * speed, ForceMode2D.Force);
+                }else{  
+                    rb.AddForce(transform.right * speed, ForceMode2D.Impulse);
+                }
+                
             }
         }
     }
@@ -127,7 +141,7 @@ public class ProjectileEntity : MonoBehaviour,IPooling
             // rb.velocity = Vector2.zero;
             // rb.gravityScale = 0;
             OnHit(hit);
-            Debug.Log($"Trigger  : {collision.gameObject.name}");
+            // Debug.Log($"Trigger  : {collision.gameObject.name}");
             SpawnImpactEffect(collision.ClosestPoint(transform.position));
 
             if (collision.TryGetComponent(out IDamageable damageable))

@@ -237,8 +237,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 2218455492167577631}
   firePoint: {fileID: 826625837846882391}
+  forceMode: 1
   main: {fileID: 0}
-  speed: 10
+  speed: 15
   hitLayerMask:
     serializedVersion: 2
     m_Bits: 1033664

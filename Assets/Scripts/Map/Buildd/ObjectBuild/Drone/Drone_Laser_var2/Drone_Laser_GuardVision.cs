@@ -18,7 +18,7 @@ public class Drone_Laser_GuardVision : MonoBehaviour
 
     private void Update()
     {
-        //if(!net.onSync) return;
+        if(!net.onSync) return;
         Collider2D hit_1 = Physics2D.OverlapCircle(main.transform.position, radius, detectionLayer);
         //Debug
         DebugDrawCircle(main.transform.position, radius, Color.cyan); 

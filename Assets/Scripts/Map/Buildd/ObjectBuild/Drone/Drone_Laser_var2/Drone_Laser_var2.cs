@@ -94,7 +94,7 @@ public class Drone_Laser_var2 : DroneEntity
     private Vector2 RandomDir(Vector2 dir)
     {
         //-5~5
-        float randomRange = Random.Range(-10,20);
+        float randomRange = Random.Range(-10,10);
         return Quaternion.Euler(0,0,randomRange) * dir;
     }
    
