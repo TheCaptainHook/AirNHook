@@ -34,6 +34,12 @@ public abstract class UI_Base : MonoBehaviour
             target.text = text;
     }
 
+    public void OnClick()
+    {
+        // Managers.Sound.PlaySound(AudioType.UI_Click, AudioMixerGroupType.Effects, false, 0.35f, 0f);
+        Managers.Sound.PlaySound(GlobalText.UI_CLICK_SOUND, 0.35f);
+    }
+
     public virtual void SetCurObject(GameObject obj) { MapEditor.Instance.placeMentSystem.onInteraction = false; }
 
     //<summary> UI 애니메이션 관련 코드들 <summary/>

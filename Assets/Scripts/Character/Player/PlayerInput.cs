@@ -24,6 +24,8 @@ public class PlayerInput : MonoBehaviour
         if (!Managers.UI.IsActive<UI_Option>())
             Managers.UI.ShowUI<UI_Option>();
         else
+        {
             Managers.UI.HideUI<UI_Option>();
+        }
     }
 }

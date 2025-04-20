@@ -16,6 +16,7 @@ public class Managers : MonoBehaviour
     //1107
     //1206
     private AchievementManager _acManager = new();
+    private CursorManager _cursor = new();
     public static GameManager Game => Instance._game;
     public static UIManager UI => Instance._uiManager;
     public static StageManager Stage => Instance._stage;
@@ -31,6 +32,7 @@ public class Managers : MonoBehaviour
     public static PoolingManager Pooling => Instance._pool;
     public static AchievementManager AcManager => Instance._acManager;
     //1107
+    public static CursorManager CursorManager => Instance._cursor;
     
     /// <summary> 게임 시작시 자동으로 호출 - Scene에 넣을 필요 X </summary>
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -62,6 +64,7 @@ public class Managers : MonoBehaviour
         Sound.SetUp();
         Pooling.Setup();
         AcManager.SetUp(); // 1206
+        CursorManager.SetUp();
     }
 
     /// <summary>
