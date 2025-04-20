@@ -18,20 +18,39 @@ public class UI_CursorColorPicker : UI_Base
     {
         OpenUI();
         AppendAnim(_mainFrame, 1.1f, 0.2f, 1f, 0.1f);
+        // 저장된 HSV값 불러오기
+        LoadPlayerprefs();
     }
 
     protected override void Start()
     {
         base.Start();
+    }
+    private void Awake()
+    {
         _colorPicker.Init();
+        StartCoroutine(DelayApplyHSV());
+    }
 
-        // 저장된 HSV값 불러오기
-        float h = PlayerPrefs.GetFloat("CursorColor_H", 0f);
-        float s = PlayerPrefs.GetFloat("CursorColor_S", 0f);
-        float v = PlayerPrefs.GetFloat("CursorColor_V", 1f);
-
-        _colorPicker.SetHSV(h, s, v); // 복원 및 Picker 위치 설정
-        _lastConfirmedColor = Color.HSVToRGB(h, s, v);
+    private IEnumerator DelayApplyHSV()
+    {
+        yield return null; // 한 프레임 대기
+        LoadPlayerprefs();
+    }
+    public void LoadPlayerprefs()
+    {
+        if (PlayerPrefs.HasKey("CursorColor_HSV"))
+        {
+            string[] hsv = PlayerPrefs.GetString("CursorColor_HSV").Split(',');
+            if (hsv.Length == 3 &&
+                float.TryParse(hsv[0], out float h) &&
+                float.TryParse(hsv[1], out float s) &&
+                float.TryParse(hsv[2], out float v))
+            {
+                _lastConfirmedColor = Color.HSVToRGB(h, s, v);
+                _colorPicker.SetHSV(h, s, v); // 복원 및 Picker 위치 설정
+            }
+        }
     }
 
     public void OnClickApply()

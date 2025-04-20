@@ -89,9 +89,9 @@ public class ColorPickerControl : MonoBehaviour
         currentVal = v;
 
         _hueSlider.value = h;
-        svControl.SetHandlePositionFromSV(s, v);
         UpdateSVImage();
         UpdateOutputImage();
+        svControl.SetHandlePositionFromSV(s, v);
     }
 
     public void UpdateSVImage()
