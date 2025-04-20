@@ -32,6 +32,13 @@ public class Drone_Laser_GuardVision : MonoBehaviour
             RaycastHit2D[] hits = Physics2D.RaycastAll(main.transform.position,dir,radius); //Detacting range : 10
             var result = AnalyzeHit(hits);
             //-------------- Detect All layer, And Analyz/ 0416
+
+
+
+
+
+
+
             if(result.onDetacted)
             {
                 // target = result.player;
@@ -44,7 +51,7 @@ public class Drone_Laser_GuardVision : MonoBehaviour
                     net.Server_SetTarget(result.player.GetComponent<NetworkIdentity>().netId);
                     net.Server_DroneLaserState(3);
                 }
-                //main.StateChange(DRONE_LASER_STATE.ATTACK);
+
                 //Attack
             }
             //else if(result.player)
