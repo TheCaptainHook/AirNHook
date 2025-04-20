@@ -5175,7 +5175,7 @@ MonoBehaviour:
     m_Bits: 33216
   main: {fileID: 1162633470642832301}
   parts: {fileID: 2219830307566943935}
-  net: {fileID: 7856590446502763885}
+  net: {fileID: 6173684356948114204}
 --- !u!1 &4708356276143416603
 GameObject:
   m_ObjectHideFlags: 0
@@ -11005,7 +11005,7 @@ MonoBehaviour:
   - {x: -0.35144913, y: -0.3826578, z: 0}
   m_ShapePathHash: -1395270259
   m_Mesh: {fileID: 0}
-  m_InstanceId: 71496
+  m_InstanceId: 89266
   m_LocalBounds:
     m_Center: {x: 0.01257205, y: -0.47503752, z: 0}
     m_Extent: {x: 0.74721634, y: 0.24692696, z: 0}
@@ -11228,8 +11228,8 @@ GameObject:
   - component: {fileID: 6999745377775078723}
   - component: {fileID: 2553911709665276612}
   - component: {fileID: 2077054744203117529}
-  - component: {fileID: 7856590446502763885}
   - component: {fileID: 1162633470642832301}
+  - component: {fileID: 6173684356948114204}
   m_Layer: 15
   m_Name: Drone_Laser_var2
   m_TagString: Untagged
@@ -11406,29 +11406,6 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!114 &7856590446502763885
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8719674004311504025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bab5c6b793d9dc44290703059e16e022, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  paths: []
-  onSync: 0
-  maxIndex: 0
-  index: 0
-  nextIndex: 0
-  targetPosition: {x: 0, y: 0}
-  dir: {x: 0, y: 0}
-  startPot: {x: 0, y: 0}
 --- !u!114 &1162633470642832301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11468,6 +11445,31 @@ MonoBehaviour:
   guardVision: {fileID: 1739583553325526282}
   ammo: {fileID: 4191495413851686065, guid: 83a75787d36fa4ec3a0b0b2955f8eb47, type: 3}
   curAmmoCount: 0
+--- !u!114 &6173684356948114204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8719674004311504025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 291ab1dd580e5e74882c24af1c511fe7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  paths: []
+  onSync: 0
+  maxIndex: 0
+  index: 0
+  nextIndex: 0
+  targetPosition: {x: 0, y: 0}
+  dir: {x: 0, y: 0}
+  startPot: {x: 0, y: 0}
+  droneLaser: {fileID: 1162633470642832301}
+  state: 0
 --- !u!1001 &2123813256718668020
 PrefabInstance:
   m_ObjectHideFlags: 0

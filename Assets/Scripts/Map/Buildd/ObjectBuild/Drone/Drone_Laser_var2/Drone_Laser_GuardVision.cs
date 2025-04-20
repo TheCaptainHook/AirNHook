@@ -1,3 +1,4 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +12,7 @@ public class Drone_Laser_GuardVision : MonoBehaviour
 
     [SerializeField] Drone_Laser_var2 main;
     [SerializeField] Drone_LaserParts parts;
-    [SerializeField] DroneEntity_Net net;
+    [SerializeField] Drone_Laser_var2_Net net;
 
 
     private GameObject target;
@@ -37,26 +38,30 @@ public class Drone_Laser_GuardVision : MonoBehaviour
                 if(!parts.target)
                 parts.target= result.player;
                 //Attack
-                main.StateChange(DRONE_LASER_STATE.ATTACK);
+                if (NetworkServer.active) net.Server_DroneLaserState(3);
+                //main.StateChange(DRONE_LASER_STATE.ATTACK);
                 //Attack
             }
             else if(result.player)
             {
                 parts.target = result.player;
                 //State -> Tracking
-                main.StateChange(DRONE_LASER_STATE.TRACKING);
+                if (NetworkServer.active) net.Server_DroneLaserState(1);
+                //main.StateChange(DRONE_LASER_STATE.TRACKING);
                 Debug.Log("Tracking");
             }else
             {
-                main.StateChange(DRONE_LASER_STATE.GUARD);
+                //main.StateChange(DRONE_LASER_STATE.GUARD);
+                if (NetworkServer.active) net.Server_DroneLaserState(0);
                 parts.target = null;
             }
    
         }
         else
         {
-            main.StateChange(DRONE_LASER_STATE.GUARD);
             parts.target= null;
+            //main.StateChange(DRONE_LASER_STATE.GUARD);
+            if (NetworkServer.active) net.Server_DroneLaserState(0);
             Debug.Log("Chnage Guard");
         }
     }

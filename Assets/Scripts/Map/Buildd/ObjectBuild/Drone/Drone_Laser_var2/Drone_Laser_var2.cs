@@ -4,16 +4,13 @@ using UnityEngine;
 
 public enum DRONE_LASER_STATE
 {
-    GUARD,
-    TRACKING,
-    RETURN,
-    ATTACK
+    GUARD = 0,
+    TRACKING = 1,
+    RETURN = 2,
+    ATTACK = 3
 }
 public class Drone_Laser_var2 : DroneEntity
 {
-    
- [ReadOnly]
- [SerializeField] DRONE_LASER_STATE state = DRONE_LASER_STATE.GUARD;
 
 //TEST
     [SerializeField] SpriteRenderer  message;
@@ -36,19 +33,26 @@ public class Drone_Laser_var2 : DroneEntity
 
 #region  GuardVision
     [SerializeField] Drone_Laser_GuardVision guardVision;
-#endregion
+    #endregion
 
-#region Guard
+    public void PreStateSetUp(bool onOff)
+    {
+        isStop = onOff;
+        message.enabled = onOff;
+        laserParts.LaserReset();
+    }
+
+    #region Guard
     private void State_Guard()
     {
-        if(state != DRONE_LASER_STATE.GUARD)
-        {
-            state = DRONE_LASER_STATE.GUARD;
+        //if(state != DRONE_LASER_STATE.GUARD)
+        //{
+        //    state = DRONE_LASER_STATE.GUARD;
 
-            isStop = false; //Movement-related parameters
-            message.enabled = false;
-            laserParts.LaserReset();
-        }
+        //    isStop = false; //Movement-related parameters
+        //    message.enabled = false;
+        //    laserParts.LaserReset();
+        //}
         if(curAmmoCount >0)
         {
             Reloading();
@@ -59,15 +63,15 @@ public class Drone_Laser_var2 : DroneEntity
 #region Tracking
     private void State_Tracking()
     {
-        if (state != DRONE_LASER_STATE.TRACKING)
-        {
-            state = DRONE_LASER_STATE.TRACKING;
+        //if (state != DRONE_LASER_STATE.TRACKING)
+        //{
+        //    state = DRONE_LASER_STATE.TRACKING;
 
-            isStop = true; //Movement-related parameters
-            message.enabled = true;
-            laserParts.LaserReset();
+        //    isStop = true; //Movement-related parameters
+        //    message.enabled = true;
+        //    laserParts.LaserReset();
             
-        }
+        //}
         //addforce target direction, and check for obstacles.
         // If an object is detected, find a new path and update the direction.
 
@@ -102,18 +106,18 @@ public class Drone_Laser_var2 : DroneEntity
    
     private void State_Attack()
     {
-        if(state != DRONE_LASER_STATE.ATTACK)
-        {
-            //Warning Animation or Effect
+        //if(state != DRONE_LASER_STATE.ATTACK)
+        //{
+        //    //Warning Animation or Effect
 
-            //Warning Animation or Effect
-            state = DRONE_LASER_STATE.ATTACK;
+        //    //Warning Animation or Effect
+        //    state = DRONE_LASER_STATE.ATTACK;
 
-            isStop = true; //Movement-related parameters
-            message.enabled = true;
-            // laserParts.TrackingTarget();
+        //    isStop = true; //Movement-related parameters
+        //    message.enabled = true;
+        //    // laserParts.TrackingTarget();
 
-        } 
+        //} 
         if(!laserParts.isShotReady) laserParts.TrackingTarget();
         if(curAmmoCount>=maxAmmoCount)
         {
@@ -172,6 +176,8 @@ public class Drone_Laser_var2 : DroneEntity
 
 
 #endregion
+
+
 
 
 }
