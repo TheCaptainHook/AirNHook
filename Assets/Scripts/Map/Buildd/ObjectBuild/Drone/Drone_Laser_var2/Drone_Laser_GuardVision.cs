@@ -35,10 +35,15 @@ public class Drone_Laser_GuardVision : MonoBehaviour
             if(result.onDetacted)
             {
                 // target = result.player;
-                if(!parts.target)
-                parts.target= result.player;
+                //if(!parts.target)
+                //parts.target= result.player;
+
                 //Attack
-                if (NetworkServer.active) net.Server_DroneLaserState(3);
+                if (NetworkServer.active) 
+                {
+                    net.Server_SetTarget(result.player.GetComponent<NetworkIdentity>().netId);
+                    net.Server_DroneLaserState(3);
+                }
                 //main.StateChange(DRONE_LASER_STATE.ATTACK);
                 //Attack
             }

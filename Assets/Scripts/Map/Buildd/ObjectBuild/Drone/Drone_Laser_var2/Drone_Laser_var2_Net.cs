@@ -9,6 +9,7 @@ public class Drone_Laser_var2_Net : DroneEntity_Net
     [Header("Drone_Laser Field")]
     [SerializeField] Drone_Laser_var2 droneLaser;
     [SerializeField] PathFinder pathFinder;
+    [SerializeField] Drone_LaserParts parts;
     public DRONE_LASER_STATE droneLaserState;
 
     private void Update()
@@ -30,12 +31,12 @@ public class Drone_Laser_var2_Net : DroneEntity_Net
     {
         if (droneLaserState != (DRONE_LASER_STATE)index)
         {
-            if(trackingBeforePosition != defaultVec)
-            {
-                Rpc_DorneLaserState(2);
-                return;
+            //if(trackingBeforePosition != defaultVec)
+            //{
+            //    Rpc_DorneLaserState(2);
+            //    return;
 
-            }
+            //}
 
             Rpc_DorneLaserState(index);
         }
@@ -51,7 +52,8 @@ public class Drone_Laser_var2_Net : DroneEntity_Net
     private Vector2 defaultVec = new Vector2(9999, 9999);
     public List<Vector2> returnPath;
 
-    
+    public GameObject target;
+
     [ClientRpc]
     private void Rpc_DorneLaserState(int index)
     {
@@ -59,17 +61,17 @@ public class Drone_Laser_var2_Net : DroneEntity_Net
         {
             droneLaser.PreStateSetUp(false,false);
         }
-        else if(index == 1)
-        {
-            trackingBeforePosition = RB.position;
-            droneLaser.PreStateSetUp(true, true);
-        }
-        else if (index == 2)
-        {
-            returnPath = pathFinder.FindPath(RB.position, trackingBeforePosition);
-            droneLaser.returnIndex = 0;
-            droneLaser.PreStateSetUp(true, false);
-        }
+        //else if(index == 1)
+        //{
+        //    trackingBeforePosition = RB.position;
+        //    droneLaser.PreStateSetUp(true, true);
+        //}
+        //else if (index == 2)
+        //{
+        //    returnPath = pathFinder.FindPath(RB.position, trackingBeforePosition);
+        //    droneLaser.returnIndex = 0;
+        //    droneLaser.PreStateSetUp(true, false);
+        //}
         else if(index == 3)
         {
             droneLaser.PreStateSetUp(true,true);
@@ -89,5 +91,17 @@ public class Drone_Laser_var2_Net : DroneEntity_Net
         trackingBeforePosition = defaultVec;
         returnPath.Clear();
         droneLaserState = DRONE_LASER_STATE.GUARD;
+    }
+
+    [Server]
+    public void Server_SetTarget(uint id)
+    {
+        Rpc_SetTarget(id);
+    }
+    [ClientRpc]
+    private void Rpc_SetTarget(uint id)
+    {
+        var target = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity identity);
+        parts.target = identity.gameObject;
     }
 }
