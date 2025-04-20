@@ -55,7 +55,8 @@ public class Drone_Laser_var2 : DroneEntity
         }
     }
     #endregion
-    #region Tracking
+
+#region Tracking
     private void State_Tracking()
     {
         if (state != DRONE_LASER_STATE.TRACKING)
@@ -73,7 +74,8 @@ public class Drone_Laser_var2 : DroneEntity
     }
 
     #endregion
-    #region  Attack
+
+#region  Attack
     [SerializeField] GameObject ammo;
     float maxReloadingCount = 2; 
     float curReloadingCount = 0;

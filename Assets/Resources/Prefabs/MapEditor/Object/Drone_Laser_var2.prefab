@@ -5175,7 +5175,7 @@ MonoBehaviour:
     m_Bits: 33216
   main: {fileID: 1162633470642832301}
   parts: {fileID: 2219830307566943935}
-  net: {fileID: 0}
+  net: {fileID: 7856590446502763885}
 --- !u!1 &4708356276143416603
 GameObject:
   m_ObjectHideFlags: 0
@@ -5452,11 +5452,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   laserAnimator: {fileID: 8309684289899493484}
   laserPoint: {fileID: 1765338701123189833}
-  line: {fileID: 3923622102858261296}
   main: {fileID: 1162633470642832301}
   mark: {fileID: 950678105322277092}
-  ammo: {fileID: 3048323261120989730, guid: b1282530b78a7e845b60c9718171af26, type: 3}
   target: {fileID: 0}
+  isShotReady: 0
 --- !u!1 &5200068651247697918
 GameObject:
   m_ObjectHideFlags: 0
@@ -11006,7 +11005,7 @@ MonoBehaviour:
   - {x: -0.35144913, y: -0.3826578, z: 0}
   m_ShapePathHash: -1395270259
   m_Mesh: {fileID: 0}
-  m_InstanceId: 49902
+  m_InstanceId: 43240
   m_LocalBounds:
     m_Center: {x: 0.01257205, y: -0.47503752, z: 0}
     m_Extent: {x: 0.74721634, y: 0.24692696, z: 0}
@@ -11442,7 +11441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bcd88834d3a27e4e8259a100eaf953d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  id: 361
   transformID: 0
   position: {x: 0, y: 0}
   distructionStatus: 0

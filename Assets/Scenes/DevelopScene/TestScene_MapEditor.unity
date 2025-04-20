@@ -921,7 +921,7 @@ Transform:
   - {fileID: 105881167}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!43 &166844882
+--- !u!43 &168689949
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6381,6 +6381,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1162633470642832301, guid: fa0bd501c513f014eabcbe21cc48902c, type: 3}
+      propertyPath: id
+      value: 361
+      objectReference: {fileID: 0}
     - target: {fileID: 2077054744203117529, guid: fa0bd501c513f014eabcbe21cc48902c, type: 3}
       propertyPath: sceneId
       value: 2911690490
@@ -6428,10 +6432,10 @@ PrefabInstance:
     - target: {fileID: 7353919047858820219, guid: fa0bd501c513f014eabcbe21cc48902c, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 166844882}
+      objectReference: {fileID: 168689949}
     - target: {fileID: 7353919047858820219, guid: fa0bd501c513f014eabcbe21cc48902c, type: 3}
       propertyPath: m_InstanceId
-      value: -1860
+      value: -2506
       objectReference: {fileID: 0}
     - target: {fileID: 8343433443162188708, guid: fa0bd501c513f014eabcbe21cc48902c, type: 3}
       propertyPath: targetObj
@@ -6440,6 +6444,10 @@ PrefabInstance:
     - target: {fileID: 8719674004311504025, guid: fa0bd501c513f014eabcbe21cc48902c, type: 3}
       propertyPath: m_Name
       value: Drone_Laser_var2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8719674004311504025, guid: fa0bd501c513f014eabcbe21cc48902c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7158,7 +7166,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &632977691
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7689,7 +7697,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &740106244
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7819,7 +7827,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &740129187
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -13910,7 +13918,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1020448744
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -14421,7 +14429,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1083109338
 BoxCollider2D:
   m_ObjectHideFlags: 0

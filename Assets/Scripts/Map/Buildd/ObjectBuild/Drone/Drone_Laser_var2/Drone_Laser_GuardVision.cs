@@ -82,34 +82,35 @@ public class Drone_Laser_GuardVision : MonoBehaviour
     
    private (bool onDetacted,GameObject player) AnalyzeHit(RaycastHit2D[] hits)
    {
-    GameObject player = null;
-    bool onDetacted = false;
+        GameObject player = null;
+        bool onDetacted = false;
 
-    foreach(var hit in hits)
-    {
-        // Debug.Log($"name : {hit.collider.name}");
-        if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+        foreach (var hit in hits)
         {
-             player = hit.collider.gameObject;
-             break;
-        }
-        
-        if ((ignoreLayer.value & (1 << hit.collider.gameObject.layer)) != 0)
-        {
-            Debug.Log("Ignore Ray");
-            return (onDetacted,player);
+            // Debug.Log($"name : {hit.collider.name}");
+            if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+            {
+                player = hit.collider.gameObject;
+                break;
+            }
+
+            if ((ignoreLayer.value & (1 << hit.collider.gameObject.layer)) != 0)
+            {
+                Debug.Log("Ignore Ray");
+                return (onDetacted, player);
+            }
+
+
         }
 
-        
+        if (player == null) return (false, null);
+        //Check Distacne and angle
+        var check = Check_DistanceAndAngle(player.transform.position);
+        if (!check.a) player = null;
+        return (check.d && check.a, player);
+        //Check Distacne and angle
+
     }
-
-    if(player == null) return (false,null);
-    //Check Distacne and angle
-    var check = Check_DistanceAndAngle(player.transform.position);
-    return (check.d && check.a,player);
-    //Check Distacne and angle
-
-   }
 
     private (bool d,bool a) Check_DistanceAndAngle(Vector2 target)
     {
