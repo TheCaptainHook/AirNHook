@@ -58,8 +58,12 @@ public class Drone_LaserParts : MonoBehaviour
             yield return null;
         }
         laserAnimator.SetFloat(DIRECTION, angle);
-        Angle_Adjustment(target.transform.position);
-        mark.Targeting(target.transform.position);
+        if (target != null)
+        {
+            Angle_Adjustment(target.transform.position);
+            mark.Targeting(target.transform.position);
+        }
+        
         angleCoroutine = null;
         isShotReady = true;
     }
