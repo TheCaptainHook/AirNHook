@@ -11005,7 +11005,7 @@ MonoBehaviour:
   - {x: -0.35144913, y: -0.3826578, z: 0}
   m_ShapePathHash: -1395270259
   m_Mesh: {fileID: 0}
-  m_InstanceId: 89266
+  m_InstanceId: 97222
   m_LocalBounds:
     m_Center: {x: 0.01257205, y: -0.47503752, z: 0}
     m_Extent: {x: 0.74721634, y: 0.24692696, z: 0}
@@ -11230,6 +11230,7 @@ GameObject:
   - component: {fileID: 2077054744203117529}
   - component: {fileID: 1162633470642832301}
   - component: {fileID: 6173684356948114204}
+  - component: {fileID: 3565135266382623420}
   m_Layer: 15
   m_Name: Drone_Laser_var2
   m_TagString: Untagged
@@ -11439,8 +11440,8 @@ MonoBehaviour:
   moveSpeed: 0
   IsBroken: 0
   _Animation_Transition_Speed: 1
-  state: 0
   message: {fileID: 6385364019286619523}
+  droneLaser_Net: {fileID: 6173684356948114204}
   laserParts: {fileID: 2219830307566943935}
   guardVision: {fileID: 1739583553325526282}
   ammo: {fileID: 4191495413851686065, guid: 83a75787d36fa4ec3a0b0b2955f8eb47, type: 3}
@@ -11469,7 +11470,26 @@ MonoBehaviour:
   dir: {x: 0, y: 0}
   startPot: {x: 0, y: 0}
   droneLaser: {fileID: 1162633470642832301}
-  state: 0
+  pathFinder: {fileID: 3565135266382623420}
+  droneLaserState: 0
+  trackingBeforePosition: {x: 9999, y: 9999}
+  returnPath: []
+--- !u!114 &3565135266382623420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8719674004311504025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cc9d7b45481c4e4ca5b11493c472c69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 33216
+  floorTileMap: {fileID: 0}
 --- !u!1001 &2123813256718668020
 PrefabInstance:
   m_ObjectHideFlags: 0

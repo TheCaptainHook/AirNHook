@@ -1,3 +1,4 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +15,9 @@ public class Drone_Laser_var2 : DroneEntity
 
 //TEST
     [SerializeField] SpriteRenderer  message;
-//TEST
+    //TEST
+
+    [SerializeField] Drone_Laser_var2_Net droneLaser_Net;
 
 #region Laser Parts
     [CustomHeader("Drone Laser")]
@@ -35,24 +38,17 @@ public class Drone_Laser_var2 : DroneEntity
     [SerializeField] Drone_Laser_GuardVision guardVision;
     #endregion
 
-    public void PreStateSetUp(bool onOff)
+    public void PreStateSetUp(bool isStop,bool message)
     {
-        isStop = onOff;
-        message.enabled = onOff;
+        this.isStop = isStop;
+        this.message.enabled = message;
         laserParts.LaserReset();
     }
 
     #region Guard
     private void State_Guard()
     {
-        //if(state != DRONE_LASER_STATE.GUARD)
-        //{
-        //    state = DRONE_LASER_STATE.GUARD;
 
-        //    isStop = false; //Movement-related parameters
-        //    message.enabled = false;
-        //    laserParts.LaserReset();
-        //}
         if(curAmmoCount >0)
         {
             Reloading();
@@ -63,23 +59,56 @@ public class Drone_Laser_var2 : DroneEntity
 #region Tracking
     private void State_Tracking()
     {
-        //if (state != DRONE_LASER_STATE.TRACKING)
-        //{
-        //    state = DRONE_LASER_STATE.TRACKING;
 
-        //    isStop = true; //Movement-related parameters
-        //    message.enabled = true;
-        //    laserParts.LaserReset();
-            
-        //}
-        //addforce target direction, and check for obstacles.
-        // If an object is detected, find a new path and update the direction.
+        float dis = Vector2.Distance(droneLaser_Net.trackingBeforePosition, _rb.position);
+        if(dis > 3)
+        {
+            //return;
+            if (NetworkServer.active) droneLaser_Net.Server_DroneLaserState(2);
+            return;
+        }
 
+        Vector2 dir = (laserParts.transform.position-transform.position).normalized;
+        Vector2 step = dir * moveSpeed * Time.fixedDeltaTime;
+        transform.position += (Vector3)step;
     }
 
     #endregion
+    #region Return
+    public int returnIndex = 0;
+    private void State_Return()
+    {
+        Debug.Log("Return");
+        if (returnIndex >= droneLaser_Net.returnPath.Count)
+        {
+            if(NetworkServer.active)
+            droneLaser_Net.Server_AfterReturn();
+            return;
+        }
 
-#region  Attack
+        ReturnForward();
+
+    }
+    private void ReturnForward()
+    {
+        Vector2 target = droneLaser_Net.returnPath[returnIndex];
+        Vector2 step = (target - (Vector2)transform.position).normalized * Time.fixedDeltaTime * moveSpeed;
+
+        if (Vector2.Distance(target, transform.position) < step.magnitude)
+        {
+            transform.position = target;
+            returnIndex++;
+            //Debug.Log($"Arrived at {target}, Next Index: {returnIndex}");
+        }
+        else
+        {
+            transform.position += (Vector3)step;
+            Debug.Log($"Arrived at {target}, Next Index: {returnIndex}, {step}");
+        }
+    }
+
+    #endregion
+    #region  Attack
     [SerializeField] GameObject ammo;
     float maxReloadingCount = 1; 
     float curReloadingCount = 0;
@@ -103,21 +132,9 @@ public class Drone_Laser_var2 : DroneEntity
         float randomRange = Random.Range(-10,10);
         return Quaternion.Euler(0,0,randomRange) * dir;
     }
-   
+
     private void State_Attack()
     {
-        //if(state != DRONE_LASER_STATE.ATTACK)
-        //{
-        //    //Warning Animation or Effect
-
-        //    //Warning Animation or Effect
-        //    state = DRONE_LASER_STATE.ATTACK;
-
-        //    isStop = true; //Movement-related parameters
-        //    message.enabled = true;
-        //    // laserParts.TrackingTarget();
-
-        //} 
         if(!laserParts.isShotReady) laserParts.TrackingTarget();
         if(curAmmoCount>=maxAmmoCount)
         {
@@ -158,21 +175,22 @@ public class Drone_Laser_var2 : DroneEntity
 #region State Change
    public void StateChange(DRONE_LASER_STATE state,GameObject target = null)
    {
-    switch(state)
-    {
-        case DRONE_LASER_STATE.GUARD:
-            State_Guard();
-            break;
-        case DRONE_LASER_STATE.TRACKING:
-            State_Tracking();
-            break;
-        case DRONE_LASER_STATE.RETURN:
-            break;
-        case DRONE_LASER_STATE.ATTACK:
-            State_Attack();
-            break;
+        switch (state)
+        {
+            case DRONE_LASER_STATE.GUARD:
+                State_Guard();
+                break;
+            case DRONE_LASER_STATE.TRACKING:
+                State_Tracking();
+                break;
+            case DRONE_LASER_STATE.RETURN:
+                //State_Return();
+                break;
+            case DRONE_LASER_STATE.ATTACK:
+                State_Attack();
+                break;
+        }
     }
-   }
 
 
 #endregion

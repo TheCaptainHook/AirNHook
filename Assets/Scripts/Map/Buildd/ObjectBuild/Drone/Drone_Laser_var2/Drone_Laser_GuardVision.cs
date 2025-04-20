@@ -14,12 +14,12 @@ public class Drone_Laser_GuardVision : MonoBehaviour
     [SerializeField] Drone_LaserParts parts;
     [SerializeField] Drone_Laser_var2_Net net;
 
-
-    private GameObject target;
-
     private void Update()
     {
-        //if(!net.onSync) return;
+        if(!net.onSync) return;
+        if (net.droneLaserState == DRONE_LASER_STATE.RETURN) return;
+
+
         Collider2D hit_1 = Physics2D.OverlapCircle(main.transform.position, radius, detectionLayer);
         //Debug
         DebugDrawCircle(main.transform.position, radius, Color.cyan); 
@@ -42,14 +42,15 @@ public class Drone_Laser_GuardVision : MonoBehaviour
                 //main.StateChange(DRONE_LASER_STATE.ATTACK);
                 //Attack
             }
-            else if(result.player)
-            {
-                parts.target = result.player;
-                //State -> Tracking
-                if (NetworkServer.active) net.Server_DroneLaserState(1);
-                //main.StateChange(DRONE_LASER_STATE.TRACKING);
-                Debug.Log("Tracking");
-            }else
+            //else if(result.player)
+            //{
+            //    parts.target = result.player;
+            //    //State -> Tracking
+            //    if (NetworkServer.active) net.Server_DroneLaserState(1);
+            //    //main.StateChange(DRONE_LASER_STATE.TRACKING);
+            //    Debug.Log("Tracking");
+            //}
+            else
             {
                 //main.StateChange(DRONE_LASER_STATE.GUARD);
                 if (NetworkServer.active) net.Server_DroneLaserState(0);

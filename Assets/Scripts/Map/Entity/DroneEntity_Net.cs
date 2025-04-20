@@ -8,7 +8,7 @@ public class DroneEntity_Net : NetworkBehaviour
     private DroneEntity Main { get { main ??= GetComponent<DroneEntity>(); return main; } }
 
     private Rigidbody2D rb;
-    private Rigidbody2D RB { get { rb ??= GetComponent<Rigidbody2D>(); return rb; } }
+    protected Rigidbody2D RB { get { rb ??= GetComponent<Rigidbody2D>(); return rb; } }
 
     public Vector2[] paths;
 

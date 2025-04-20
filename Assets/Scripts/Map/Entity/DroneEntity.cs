@@ -149,11 +149,6 @@ public class DroneEntity : BuildObj
         //-->
     }
 
-    private void MoveToward(Vector2 dir)
-    {
-        _rb.MovePosition(_rb.position + dir*moveSpeed);
-    }
-
   
 
     public virtual void DroneMovingAnimation(Vector2 dir){
