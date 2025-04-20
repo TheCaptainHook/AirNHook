@@ -50,15 +50,16 @@ public class Drone_LaserParts : MonoBehaviour
         float angle = ConvertVec_To_Angle(target.transform.position);
         float curAngle = laserAnimator.GetFloat(DIRECTION);
         float rate = 0;
-        while(percent < 0.5f)
+        while(percent < 0.2f)
         {
             percent += Time.deltaTime;
-            rate = Mathf.Clamp01(percent / 0.5f);
+            rate = Mathf.Clamp01(percent / 0.2f);
             laserAnimator.SetFloat(DIRECTION,  Mathf.Lerp(curAngle,angle,rate));
             yield return null;
         }
         laserAnimator.SetFloat(DIRECTION, angle);
         Angle_Adjustment(target.transform.position);
+        mark.Targeting(target.transform.position);
         angleCoroutine = null;
         isShotReady = true;
     }

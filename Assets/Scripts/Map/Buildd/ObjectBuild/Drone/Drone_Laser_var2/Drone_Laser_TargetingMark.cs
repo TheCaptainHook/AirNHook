@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Drone_Laser_TargetingMark : MonoBehaviour
@@ -9,6 +10,16 @@ public class Drone_Laser_TargetingMark : MonoBehaviour
     void Awake()
     {
         line = GetComponent<LineRenderer>();
+    }
+
+    Coroutine defaultLineCoroutine;
+    IEnumerator LineDefault()
+    {
+        while(true)
+        {
+            line.SetPosition(0, lightTr.position);
+            yield return null;
+        }
     }
 
     [Header("targeting")]
@@ -24,14 +35,16 @@ public class Drone_Laser_TargetingMark : MonoBehaviour
 
         if(targetingCoroutine == null)
         {
+            defaultLineCoroutine = StartCoroutine(LineDefault());
             targetingCoroutine = StartCoroutine(TargetingCo());
+
         }
     }
     private Coroutine targetingCoroutine;
     private Vector2 velocity;
+    float duration = 0.1f; // 이동 시간
     IEnumerator TargetingCo()
     {
-        float duration = 0.2f; // 이동 시간
         float timeElapsed = 0f;
 
         while (timeElapsed < duration)
@@ -41,23 +54,27 @@ public class Drone_Laser_TargetingMark : MonoBehaviour
 
             // transform.position = Vector2.Lerp(transform.position, targetPosition, speedUpT);
             transform.position = Vector2.SmoothDamp(transform.position, targetPosition, ref velocity, t);
-            line.SetPosition(1,targetPosition);
+            line.SetPosition(1, transform.position);
             yield return null;
         }
         targetingCoroutine = null;
+        
         transform.position = targetPosition;
-        line.SetPosition(1,targetPosition);
+        line.SetPosition(0, lightTr.position);
+        line.SetPosition(1,transform.position);
         
     }
 
     public void Reset()
     {
         StopAllCoroutines();
-        if(gameObject.activeSelf)
+        targetingCoroutine = null;
+        defaultLineCoroutine = null;
+
+        if (gameObject.activeSelf)
         {
             gameObject.SetActive(false);
             transform.position = lightTr.position;
-            line.SetPosition(0,lightTr.position);
             line.SetPosition(1,lightTr.position);
         }   
     }

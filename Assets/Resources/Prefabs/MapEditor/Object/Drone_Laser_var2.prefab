@@ -11005,7 +11005,7 @@ MonoBehaviour:
   - {x: -0.35144913, y: -0.3826578, z: 0}
   m_ShapePathHash: -1395270259
   m_Mesh: {fileID: 0}
-  m_InstanceId: 43240
+  m_InstanceId: 71496
   m_LocalBounds:
     m_Center: {x: 0.01257205, y: -0.47503752, z: 0}
     m_Extent: {x: 0.74721634, y: 0.24692696, z: 0}
@@ -11085,7 +11085,7 @@ SpriteRenderer:
   m_SortingLayer: 7
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 4f7728e165734554cb89f843ebc3688d, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 1, b: 0.09511161, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -11129,7 +11129,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 6508537fd56794b5fa84d52d5e7b6411, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -11173,8 +11173,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0, g: 1, b: 0.19517922, a: 1}
+      key1: {r: 0.41304737, g: 0.9622642, b: 0.49864972, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -11198,7 +11198,7 @@ LineRenderer:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_ColorSpace: -1
+      m_ColorSpace: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0

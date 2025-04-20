@@ -77,7 +77,7 @@ public class Drone_Laser_var2 : DroneEntity
 
 #region  Attack
     [SerializeField] GameObject ammo;
-    float maxReloadingCount = 2; 
+    float maxReloadingCount = 1; 
     float curReloadingCount = 0;
     int maxAmmoCount = 50;
     public int curAmmoCount = 0;

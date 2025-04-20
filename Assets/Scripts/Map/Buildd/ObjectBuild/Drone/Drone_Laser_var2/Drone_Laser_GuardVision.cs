@@ -18,7 +18,7 @@ public class Drone_Laser_GuardVision : MonoBehaviour
 
     private void Update()
     {
-        if(!net.onSync) return;
+        //if(!net.onSync) return;
         Collider2D hit_1 = Physics2D.OverlapCircle(main.transform.position, radius, detectionLayer);
         //Debug
         DebugDrawCircle(main.transform.position, radius, Color.cyan); 
@@ -34,6 +34,7 @@ public class Drone_Laser_GuardVision : MonoBehaviour
             if(result.onDetacted)
             {
                 // target = result.player;
+                if(!parts.target)
                 parts.target= result.player;
                 //Attack
                 main.StateChange(DRONE_LASER_STATE.ATTACK);
@@ -41,20 +42,21 @@ public class Drone_Laser_GuardVision : MonoBehaviour
             }
             else if(result.player)
             {
+                parts.target = result.player;
                 //State -> Tracking
                 main.StateChange(DRONE_LASER_STATE.TRACKING);
                 Debug.Log("Tracking");
-            }
-            else 
+            }else
             {
-                //State -> Guard
                 main.StateChange(DRONE_LASER_STATE.GUARD);
-                Debug.Log("Chnage Guard");
+                parts.target = null;
             }
+   
         }
         else
         {
             main.StateChange(DRONE_LASER_STATE.GUARD);
+            parts.target= null;
             Debug.Log("Chnage Guard");
         }
     }
