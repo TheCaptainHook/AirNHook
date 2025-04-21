@@ -56,6 +56,7 @@ public class LaserObject_Net : NetworkBehaviour
     [Server]
     public void Server_SetOnActive(bool active)
     {
+        if(onActive != active)
         onActive = active;
     }
     private void OnChangeOnActive(bool old, bool newVal)

@@ -5042,13 +5042,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1621393986771204216}
   - component: {fileID: 8980493692623290019}
-  - component: {fileID: 1363789094553292125}
   - component: {fileID: 7857764052154975748}
   - component: {fileID: 1912061667540384569}
   - component: {fileID: 6464654479886526947}
   - component: {fileID: 6332937188113323379}
   - component: {fileID: 1975591882027516896}
   - component: {fileID: 7338807210957550940}
+  - component: {fileID: 7542279758671605579}
+  - component: {fileID: 2654625771401597475}
   m_Layer: 14
   m_Name: MovingSaw
   m_TagString: Untagged
@@ -5103,39 +5104,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &1363789094553292125
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3690635770919025948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 939aa6e1f898b4d40b6a511efd56abf3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 340
-  transformID: 0
-  position: {x: 0, y: 0}
-  distructionStatus: 0
-  chargeRequired: 0
-  isTransportItem: 0
-  carrierTransformNetId: 0
-  carrierTransform: {fileID: 0}
-  onPlaceable: 0
-  onRotateable: 0
-  onScaleable: 0
-  offset: {x: 0, y: 0}
-  turnOff: 0
-  setPosition: 0
-  orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
-  paths: []
-  moveSpeed: 5
-  IsBroken: 0
-  _Animation_Transition_Speed: 0
-  _greenLight: {fileID: 7910590487191826475}
 --- !u!114 &7857764052154975748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5277,6 +5245,58 @@ MonoBehaviour:
   syncInterval: 0
   clientAuthority: 0
   animator: {fileID: 6332937188113323379}
+--- !u!114 &7542279758671605579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3690635770919025948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bab5c6b793d9dc44290703059e16e022, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  onSync: 0
+  targetPosition: {x: 0, y: 0}
+  dir: {x: 0, y: 0}
+--- !u!114 &2654625771401597475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3690635770919025948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 939aa6e1f898b4d40b6a511efd56abf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 340
+  transformID: 0
+  position: {x: 0, y: 0}
+  distructionStatus: 0
+  chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
+  onPlaceable: 0
+  onRotateable: 0
+  onScaleable: 0
+  offset: {x: 0, y: 0}
+  turnOff: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 0}
+  canRespawn: 0
+  paths: []
+  moveSpeed: 0
+  IsBroken: 0
+  _Animation_Transition_Speed: 0
+  _greenLight: {fileID: 0}
 --- !u!1 &3962016352224804910
 GameObject:
   m_ObjectHideFlags: 0

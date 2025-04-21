@@ -175,11 +175,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5591292391790057590}
-  - component: {fileID: 5406155334078705384}
   - component: {fileID: 5326196680267859287}
   - component: {fileID: 3712810446770808296}
   - component: {fileID: 7075297078118204645}
   - component: {fileID: 5303856946659025086}
+  - component: {fileID: 4057387099126583824}
   m_Layer: 13
   m_Name: WayPoint
   m_TagString: Untagged
@@ -207,36 +207,6 @@ Transform:
   - {fileID: 7546301125670762441}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5406155334078705384
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 886414899863216249}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 756a1ee2d63d04ccc8c0f2d5c3c4cf21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 310
-  transformID: 0
-  position: {x: 0, y: 0}
-  distructionStatus: 0
-  chargeRequired: 0
-  isTransportItem: 0
-  carrierTransformNetId: 0
-  carrierTransform: {fileID: 0}
-  onPlaceable: 0
-  onRotateable: 0
-  onScaleable: 0
-  offset: {x: 0, y: 0}
-  turnOff: 0
-  setPosition: 0
-  orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
-  canRespawn: 0
-  onWait: 0
 --- !u!114 &5326196680267859287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,6 +297,36 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4057387099126583824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886414899863216249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13162bd1c4d2440bf8064df01e73c40c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 310
+  transformID: 0
+  position: {x: 0, y: 0}
+  distructionStatus: 0
+  chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
+  onPlaceable: 0
+  onRotateable: 0
+  onScaleable: 0
+  offset: {x: 0, y: 0}
+  turnOff: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprite: {fileID: 0}
+  canRespawn: 0
+  onWait: 0
 --- !u!1 &3019842177055634003
 GameObject:
   m_ObjectHideFlags: 0

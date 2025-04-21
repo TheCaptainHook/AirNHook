@@ -48,7 +48,7 @@ public class DroneGuardVision : MonoBehaviour
         // drone_Laser.PrograssAction += GuardVisionPrograss;
         pathFinder = GetComponent<PathFinder>();
         droneTrackState = DroneTrackState.GUARD;
-        drone_Laser.BrokenAction += Broken;
+        //drone_Laser.BrokenAction += Broken;
         moveSpeed = 5;
 
     }
@@ -110,7 +110,7 @@ public class DroneGuardVision : MonoBehaviour
         if(!_OnFind)
         {
             _OnFind = true;
-            drone_Laser.Stop();
+            //drone_Laser.Stop();
         }
         drone_Laser.target = target;  
     }
@@ -118,7 +118,7 @@ public class DroneGuardVision : MonoBehaviour
         if(_OnFind)
         {
             _OnFind = false;
-            drone_Laser.Go();
+            //drone_Laser.Go();
             drone_Laser.target = null;
         }
     }

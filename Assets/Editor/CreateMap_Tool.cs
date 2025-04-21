@@ -532,6 +532,7 @@ public class CreateMap_Tool : EditorWindow
             case 326:            
             case 328:
             case 340:
+            case 361:
                 SelectActiveOBJ(obj,curMapEditor.droneTransform);
             break;
             case 338:

@@ -18,6 +18,8 @@ public enum Drone_TransportItemType{
 
 public class Drone_MultiPurpose : DroneEntity
 {
+
+    //public Drone_TransportItemType drone_TransportItemType => DroneStruct.drone_TransportItemType;
     [CustomHeader("Drone MultiPurpose")]
     public Drone_TransportItemType drone_TransportItemType;
 
@@ -32,35 +34,18 @@ public class Drone_MultiPurpose : DroneEntity
         }
         return default(T);
     }
+
+
     public override void SetData<T>(T data)
     {
-         if(typeof(T)==typeof(DroneStruct)){
-          DroneStruct dronsSt = (DroneStruct)(object)data;
-          DroneStruct = dronsSt;
-          drone_TransportItemType = DroneStruct.drone_TransportItemType;
-        }
-        //Test
-        if(Application.isPlaying){
-            // Prograss();
-            SetTransformItem();
-            CallPrograssAction();
+        base.SetData(data);
+        drone_TransportItemType = DroneStruct.drone_TransportItemType;
 
+        if(Application.isPlaying)
+        {
+            SetTransformItem();
         }
     }
-
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if (collision != null)
-    //    {
-    //        Debug.Log("collision");
-    //        if (collision.gameObject.TryGetComponent(out Rigidbody2D component))
-    //        {
-    //            float vel = component.velocity.magnitude;
-    //            Debug.Log(vel);
-    //            component.velocity = Vector2.zero;
-    //        }
-    //    }
-    //}
 
     private void OnTriggerEnter2D(Collider2D collider)
     {

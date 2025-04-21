@@ -587,7 +587,7 @@ public class MapEditor : MonoBehaviour
    
         }
     }
-    public List<WayPoint> wayPointList;
+    public List<WayPoint_Var2> wayPointList;
     void Create<T>(Transform transform,MapDataStruct mapDataStruct,T data){
         try{
             GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
@@ -595,7 +595,7 @@ public class MapEditor : MonoBehaviour
 
             if(obj.name == "WayPoint"){
                 if(wayPointList ==null) wayPointList = new();
-                wayPointList.Add(obj.GetComponent<WayPoint>());
+                wayPointList.Add(obj.GetComponent<WayPoint_Var2>());
             }
 
             obj.GetComponent<BuildObj>().SetData(data);

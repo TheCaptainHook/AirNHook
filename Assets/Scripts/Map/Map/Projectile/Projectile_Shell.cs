@@ -19,8 +19,10 @@ public class Projectile_Shell : ProjectileEntity
         _collider.enabled = false;
         Light.intensity = 0;
     }
-    protected override void ReleaseToPool_Projectile()
+    protected override void ReleaseToPool_Projectile(bool excution = false)
     {
+        base.ReleaseToPool_Projectile();
+        
         // Managers.Pooling.N_ReleaseToPool<Projectile_Shell>(gameObject);
         Managers.Pooling.D_ReleaseToPool(gameObject);
     }

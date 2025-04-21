@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4242644980726191828}
   - component: {fileID: 1704063569304873684}
-  m_Layer: 14
+  m_Layer: 7
   m_Name: BottomMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -216,7 +216,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2592200482329086331}
   - component: {fileID: 4547622944663435234}
-  m_Layer: 14
+  m_Layer: 7
   m_Name: TopMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -301,7 +301,7 @@ GameObject:
   - component: {fileID: 3587914121569848776}
   - component: {fileID: 8269741696365604063}
   - component: {fileID: 2382286424602724285}
-  m_Layer: 14
+  m_Layer: 7
   m_Name: Beam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -445,7 +445,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3277297087221241212}
   - component: {fileID: 6991517443397263941}
-  m_Layer: 14
+  m_Layer: 7
   m_Name: Light2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -527,7 +527,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1285397665923631357}
   - component: {fileID: 5666361976122058926}
-  m_Layer: 14
+  m_Layer: 7
   m_Name: BeamDoor_Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -701,7 +701,7 @@ GameObject:
   - component: {fileID: 8921135669249768789}
   - component: {fileID: 4835629667014154255}
   - component: {fileID: 7783511971361612682}
-  m_Layer: 14
+  m_Layer: 7
   m_Name: BeamDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -942,7 +942,7 @@ GameObject:
   m_Component:
   - component: {fileID: 969921880931824362}
   - component: {fileID: 7055433006741557653}
-  m_Layer: 14
+  m_Layer: 7
   m_Name: BeamFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
