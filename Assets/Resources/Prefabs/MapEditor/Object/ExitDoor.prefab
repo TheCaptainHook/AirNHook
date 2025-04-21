@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5485891795849254729}
   - component: {fileID: 2452672612516512292}
-  m_Layer: 13
+  m_Layer: 14
   m_Name: DoorL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 7695271462647067305}
   - component: {fileID: 4614319543247492676}
   - component: {fileID: 1045330855647730413}
-  m_Layer: 13
+  m_Layer: 14
   m_Name: ExitDoor
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
@@ -347,7 +347,7 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   distructionStatus: 0
   chargeRequired: 0
-  isTransformItem: 0
+  isTransportItem: 0
   carrierTransformNetId: 0
   carrierTransform: {fileID: 0}
   onPlaceable: 0
@@ -358,6 +358,7 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
+  canRespawn: 0
   stageClear: 0
   nextMapId: 
   curPlayerInDoor: 0
@@ -399,7 +400,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6068891867760027928}
   - component: {fileID: 4333209967083776373}
-  m_Layer: 13
+  m_Layer: 14
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -483,7 +484,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1476665020087130330}
   - component: {fileID: 1354374567504965888}
-  m_Layer: 13
+  m_Layer: 14
   m_Name: Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -567,7 +568,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4505725278979360613}
   - component: {fileID: 8680236747069160102}
-  m_Layer: 13
+  m_Layer: 14
   m_Name: Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -628,7 +629,7 @@ GameObject:
   - component: {fileID: 2248341254147455152}
   - component: {fileID: 7971026482734978906}
   - component: {fileID: 7108600659931993041}
-  m_Layer: 13
+  m_Layer: 14
   m_Name: Lock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -809,7 +810,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7569042690087762526}
   - component: {fileID: 6229230157842056386}
-  m_Layer: 13
+  m_Layer: 14
   m_Name: DoorR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -935,6 +936,14 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 3d072fe30ed87403bad48b5460dee35e, type: 2}
+    - target: {fileID: 902308667508751753, guid: 3db377ad46494e845ac2de0beb9c9c03, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2596570513113859631, guid: 3db377ad46494e845ac2de0beb9c9c03, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 2596570513113859631, guid: 3db377ad46494e845ac2de0beb9c9c03, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -975,6 +984,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: -1676102083
       objectReference: {fileID: 0}
+    - target: {fileID: 7107881292421700623, guid: 3db377ad46494e845ac2de0beb9c9c03, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 7614407847377097951, guid: 3db377ad46494e845ac2de0beb9c9c03, type: 3}
       propertyPath: m_SortingLayer
       value: 12
@@ -982,6 +995,14 @@ PrefabInstance:
     - target: {fileID: 7614407847377097951, guid: 3db377ad46494e845ac2de0beb9c9c03, type: 3}
       propertyPath: m_SortingLayerID
       value: -1676102083
+      objectReference: {fileID: 0}
+    - target: {fileID: 7762103243158416446, guid: 3db377ad46494e845ac2de0beb9c9c03, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 7832451791107458199, guid: 3db377ad46494e845ac2de0beb9c9c03, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 7832451791107458199, guid: 3db377ad46494e845ac2de0beb9c9c03, type: 3}
       propertyPath: m_IsActive
@@ -1004,8 +1025,20 @@ PrefabInstance:
       value: AbsencePanel
       objectReference: {fileID: 0}
     - target: {fileID: 8471124409440551710, guid: 3db377ad46494e845ac2de0beb9c9c03, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 8471124409440551710, guid: 3db377ad46494e845ac2de0beb9c9c03, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8539908228305076298, guid: 3db377ad46494e845ac2de0beb9c9c03, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 8680395447337505503, guid: 3db377ad46494e845ac2de0beb9c9c03, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 9159020260615863926, guid: 3db377ad46494e845ac2de0beb9c9c03, type: 3}
       propertyPath: m_SortingLayer
@@ -1055,6 +1088,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8216439556350585627}
     m_Modifications:
+    - target: {fileID: 480787753701336852, guid: ad8830b430d18b745bd66cd28028e154, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 1423259120827225325, guid: ad8830b430d18b745bd66cd28028e154, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1
@@ -1100,8 +1137,16 @@ PrefabInstance:
       value: KEYBubble
       objectReference: {fileID: 0}
     - target: {fileID: 5412033526833255162, guid: ad8830b430d18b745bd66cd28028e154, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5412033526833255162, guid: ad8830b430d18b745bd66cd28028e154, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6452276030078252142, guid: ad8830b430d18b745bd66cd28028e154, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 6479216864301381055, guid: ad8830b430d18b745bd66cd28028e154, type: 3}
       propertyPath: m_SortingOrder
