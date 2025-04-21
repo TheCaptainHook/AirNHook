@@ -31,6 +31,7 @@ public class Drone_Laser_var2_Net : DroneEntity_Net
     {
         if (droneLaserState != (DRONE_LASER_STATE)index)
         {
+            if(index == 0 && targetId != 9999) targetId = 9999;
             Rpc_DorneLaserState(index);
         }
     }

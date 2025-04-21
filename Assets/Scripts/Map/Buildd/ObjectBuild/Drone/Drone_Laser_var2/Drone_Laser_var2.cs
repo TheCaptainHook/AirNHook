@@ -30,10 +30,6 @@ public class Drone_Laser_var2 : DroneEntity
         }
     }
 
-    #region Drone Laser Field
-    public float laserPartsAngleRate = 0.5f;
-    public float laserTargetingMarkMovingRate = 0.1f;
-    #endregion
 
 #endregion
 
@@ -110,6 +106,15 @@ public class Drone_Laser_var2 : DroneEntity
     // }
 
     #endregion
+    
+    #region Drone Laser Field
+    [Space(10)]
+    [Header("Drone Laser Field")]
+    public float laserPartsAngleRate = 0.5f;
+    public float laserTargetingMarkMovingRate = 0.1f;
+    #endregion
+
+
     #region  Attack
     [SerializeField] GameObject ammo;
     [Tooltip("Reloading Cooltime")]
