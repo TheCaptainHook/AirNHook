@@ -3,8 +3,8 @@
         "x": 20.0,
         "y": 20.0
     },
-    "mapID": "1-1",
-    "subMapName": "Jump",
+    "mapID": "TEST_1",
+    "subMapName": "TEST_1",
     "stageLevel": 1,
     "startPosition": {
         "x": 0.05999999865889549,
@@ -6921,7 +6921,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 303,
@@ -6951,7 +6954,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 303,
@@ -6981,7 +6987,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 303,
@@ -7011,7 +7020,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 303,
@@ -7041,7 +7053,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 303,
@@ -7071,7 +7086,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 303,
@@ -7101,7 +7119,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 300,
@@ -7131,7 +7152,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 318,
@@ -7161,7 +7185,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 318,
@@ -7191,7 +7218,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 318,
@@ -7221,7 +7251,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 303,
@@ -7251,7 +7284,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 303,
@@ -7281,7 +7317,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 303,
@@ -7311,7 +7350,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 300,
@@ -7341,7 +7383,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 337,
@@ -7371,7 +7416,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 300,
@@ -7401,7 +7449,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 309,
@@ -7431,7 +7482,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 323,
@@ -7461,7 +7515,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 323,
@@ -7491,7 +7548,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 313,
@@ -7521,7 +7581,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 310,
@@ -7551,7 +7614,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 319,
@@ -7581,7 +7647,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 307,
@@ -7611,7 +7680,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 317,
@@ -7641,7 +7713,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 337,
@@ -7671,7 +7746,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         }
     ],
     "mapBackgroundObjectList": [
@@ -7703,7 +7781,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 6100,
@@ -7733,7 +7814,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 6001,
@@ -7763,7 +7847,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 6100,
@@ -7793,7 +7880,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 6100,
@@ -7823,7 +7913,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         }
     ],
     "mapOtherObjectList": [
@@ -7855,7 +7948,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 10106,
@@ -7885,7 +7981,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 10103,
@@ -7915,7 +8014,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 10103,
@@ -7945,7 +8047,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 10107,
@@ -7975,7 +8080,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 10106,
@@ -8005,7 +8113,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 10102,
@@ -8035,7 +8146,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 10104,
@@ -8065,7 +8179,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 10105,
@@ -8095,7 +8212,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 10102,
@@ -8125,7 +8245,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 10108,
@@ -8155,7 +8278,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 10108,
@@ -8185,7 +8311,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 10108,
@@ -8215,7 +8344,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 10109,
@@ -8245,7 +8377,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 10109,
@@ -8275,7 +8410,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 10109,
@@ -8305,7 +8443,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 10109,
@@ -8335,7 +8476,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 10109,
@@ -8365,7 +8509,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 10109,
@@ -8395,7 +8542,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 10109,
@@ -8425,7 +8575,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 10109,
@@ -8455,7 +8608,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 10108,
@@ -8485,7 +8641,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 10108,
@@ -8515,7 +8674,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         },
         {
             "id": 10101,
@@ -8545,7 +8707,10 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         }
     ],
     "mapButtonActivatableObjectDataList": [
@@ -8566,7 +8731,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.7000025510787964,
+                "y": 1.700002670288086,
                 "z": 1.0
             },
             "talPot": {
@@ -9201,6 +9366,12 @@
                 "x": 25.860000610351564,
                 "y": 0.9599999785423279
             },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
@@ -9232,6 +9403,12 @@
                 "x": 7.460000038146973,
                 "y": 20.959999084472658
             },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
@@ -9258,6 +9435,12 @@
             "position": {
                 "x": 11.8100004196167,
                 "y": 59.849998474121097
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
             },
             "scale": {
                 "x": 1.0,
@@ -9286,6 +9469,12 @@
                 "x": 23.56999969482422,
                 "y": 64.8499984741211
             },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
@@ -9312,6 +9501,12 @@
             "position": {
                 "x": 17.93000030517578,
                 "y": 46.0099983215332
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
             },
             "scale": {
                 "x": 1.0,
@@ -9340,6 +9535,12 @@
                 "x": 102.08000183105469,
                 "y": 28.760000228881837
             },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
@@ -9366,6 +9567,12 @@
             "position": {
                 "x": 79.86000061035156,
                 "y": 37.970001220703128
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
             },
             "scale": {
                 "x": 1.0,
@@ -9394,6 +9601,12 @@
                 "x": 114.95999908447266,
                 "y": 26.979999542236329
             },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
@@ -9420,6 +9633,12 @@
             "position": {
                 "x": 86.66000366210938,
                 "y": 56.90999984741211
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
             },
             "scale": {
                 "x": 1.0,
@@ -9663,5 +9882,6 @@
     "cellSize": 2.0,
     "bytesImage": [],
     "audioName": "",
-    "nextMapId": ""
+    "nextMapId": "",
+    "stageDifficulty": 0
 }
