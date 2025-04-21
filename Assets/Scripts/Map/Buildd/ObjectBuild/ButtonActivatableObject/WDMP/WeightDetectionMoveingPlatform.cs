@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Mirror;
 using UnityEngine.Scripting.APIUpdating;
 
 
@@ -134,6 +135,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     // }
 
     private void Update(){
+        if(NetworkServer.active)
         ShootRay();
     }
 
