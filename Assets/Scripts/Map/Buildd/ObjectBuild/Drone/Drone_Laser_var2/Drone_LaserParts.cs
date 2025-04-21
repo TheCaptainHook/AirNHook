@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -10,7 +9,7 @@ public class Drone_LaserParts : MonoBehaviour
     [SerializeField] Animator laserAnimator;
     [SerializeField] Transform laserPoint;
     public Transform LaserPoint => laserPoint;
-    [SerializeField] DroneEntity main;
+    [SerializeField] Drone_Laser_var2 main;
     [SerializeField] Drone_Laser_TargetingMark mark;
     private readonly int DIRECTION = Animator.StringToHash("Direction");
 
@@ -43,27 +42,31 @@ public class Drone_LaserParts : MonoBehaviour
         mark.Reset();
     }
     private Coroutine angleCoroutine;
-    public bool isShotReady;
+    public bool isShotReady; // 
     private IEnumerator AngleCo()
     {
         float percent = 0;
         float angle = ConvertVec_To_Angle(target.transform.position);
         float curAngle = laserAnimator.GetFloat(DIRECTION);
         float rate = 0;
-        while(percent < 0.2f)
+        Vector2 targetPosition = target.transform.position;
+
+        while(percent < main.laserPartsAngleRate)
         {
             percent += Time.deltaTime;
-            rate = Mathf.Clamp01(percent / 0.2f);
+            rate = Mathf.Clamp01(percent / main.laserPartsAngleRate);
             laserAnimator.SetFloat(DIRECTION,  Mathf.Lerp(curAngle,angle,rate));
             yield return null;
         }
         laserAnimator.SetFloat(DIRECTION, angle);
-        if (target != null)
-        {
-            Angle_Adjustment(target.transform.position);
-            mark.Targeting(target.transform.position);
-        }
-        
+        // if (target != null)
+        // {
+        //     Angle_Adjustment(target.transform.position);
+        //     mark.Targeting(target.transform.position);
+        // }
+            Angle_Adjustment(targetPosition);
+            mark.Targeting(targetPosition);
+            
         angleCoroutine = null;
         isShotReady = true;
     }

@@ -24,6 +24,7 @@ public class Drone_Laser_TargetingMark : MonoBehaviour
 
     [Header("targeting")]
     [SerializeField] Transform lightTr;
+    [SerializeField] Drone_Laser_var2 main;
     private Vector2 targetPosition;
     public void Targeting(Vector2 targetPosition)
     {
@@ -42,7 +43,7 @@ public class Drone_Laser_TargetingMark : MonoBehaviour
     }
     private Coroutine targetingCoroutine;
     private Vector2 velocity;
-    float duration = 0.1f; // 이동 시간
+    float duration => main.laserTargetingMarkMovingRate; // 이동 시간
     IEnumerator TargetingCo()
     {
         float timeElapsed = 0f;

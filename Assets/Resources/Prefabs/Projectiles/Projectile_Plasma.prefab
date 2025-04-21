@@ -5097,7 +5097,7 @@ MonoBehaviour:
   firePoint: {fileID: 8532966778830209572}
   forceMode: 0
   main: {fileID: 0}
-  speed: 80
+  speed: 100
   hitLayerMask:
     serializedVersion: 2
     m_Bits: 1033664

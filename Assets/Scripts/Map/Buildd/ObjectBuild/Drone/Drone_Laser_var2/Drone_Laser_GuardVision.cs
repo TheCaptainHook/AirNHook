@@ -13,12 +13,14 @@ public class Drone_Laser_GuardVision : MonoBehaviour
     [SerializeField] Drone_Laser_var2 main;
     [SerializeField] Drone_LaserParts parts;
     [SerializeField] Drone_Laser_var2_Net net;
-
+    
     private void Update()
     {
         if(!net.onSync) return;
-        if (net.droneLaserState == DRONE_LASER_STATE.RETURN) return;
 
+        // if (net.droneLaserState == DRONE_LASER_STATE.RETURN) return;
+
+        if(parts.isShotReady) return;
 
         Collider2D hit_1 = Physics2D.OverlapCircle(main.transform.position, radius, detectionLayer);
         //Debug

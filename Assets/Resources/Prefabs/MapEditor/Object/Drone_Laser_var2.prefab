@@ -11005,7 +11005,7 @@ MonoBehaviour:
   - {x: -0.35144913, y: -0.3826578, z: 0}
   m_ShapePathHash: -1395270259
   m_Mesh: {fileID: 0}
-  m_InstanceId: 104408
+  m_InstanceId: 58064
   m_LocalBounds:
     m_Center: {x: 0.01257205, y: -0.47503752, z: 0}
     m_Extent: {x: 0.74721634, y: 0.24692696, z: 0}
@@ -11108,6 +11108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lightTr: {fileID: 5754179957987055843}
+  main: {fileID: 1162633470642832301}
 --- !u!120 &2182420404191058326
 LineRenderer:
   serializedVersion: 2
@@ -11443,10 +11444,13 @@ MonoBehaviour:
   message: {fileID: 6385364019286619523}
   droneLaser_Net: {fileID: 6173684356948114204}
   laserParts: {fileID: 2219830307566943935}
+  laserPartsAngleRate: 0.5
+  laserTargetingMarkMovingRate: 0.1
   guardVision: {fileID: 1739583553325526282}
-  returnIndex: 0
   ammo: {fileID: 4191495413851686065, guid: 83a75787d36fa4ec3a0b0b2955f8eb47, type: 3}
-  curAmmoCount: 0
+  maxReloadingRate: 1
+  maxAmmoCount: 50
+  maxFireRate: 0.01
 --- !u!114 &6173684356948114204
 MonoBehaviour:
   m_ObjectHideFlags: 0

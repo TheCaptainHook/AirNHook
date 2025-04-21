@@ -32,6 +32,11 @@ public class Drone_Laser_var2 : DroneEntity
         }
     }
 
+    #region Drone Laser Field
+    public float laserPartsAngleRate = 0.5f;
+    public float laserTargetingMarkMovingRate = 0.1f;
+    #endregion
+
 #endregion
 
 #region  GuardVision
@@ -75,48 +80,50 @@ public class Drone_Laser_var2 : DroneEntity
 
     #endregion
     #region Return
-    public int returnIndex = 0;
-    private void State_Return()
-    {
-        Debug.Log("Return");
-        if (returnIndex >= droneLaser_Net.returnPath.Count)
-        {
-            if(NetworkServer.active)
-            droneLaser_Net.Server_AfterReturn();
-            return;
-        }
+    // public int returnIndex = 0;
+    // private void State_Return()
+    // {
+    //     Debug.Log("Return");
+    //     if (returnIndex >= droneLaser_Net.returnPath.Count)
+    //     {
+    //         if(NetworkServer.active)
+    //         droneLaser_Net.Server_AfterReturn();
+    //         return;
+    //     }
 
-        ReturnForward();
+    //     ReturnForward();
 
-    }
-    private void ReturnForward()
-    {
-        Vector2 target = droneLaser_Net.returnPath[returnIndex];
-        Vector2 step = (target - (Vector2)transform.position).normalized * Time.fixedDeltaTime * moveSpeed;
+    // }
+    // private void ReturnForward()
+    // {
+    //     Vector2 target = droneLaser_Net.returnPath[returnIndex];
+    //     Vector2 step = (target - (Vector2)transform.position).normalized * Time.fixedDeltaTime * moveSpeed;
 
-        if (Vector2.Distance(target, transform.position) < step.magnitude)
-        {
-            transform.position = target;
-            returnIndex++;
-            //Debug.Log($"Arrived at {target}, Next Index: {returnIndex}");
-        }
-        else
-        {
-            transform.position += (Vector3)step;
-            Debug.Log($"Arrived at {target}, Next Index: {returnIndex}, {step}");
-        }
-    }
+    //     if (Vector2.Distance(target, transform.position) < step.magnitude)
+    //     {
+    //         transform.position = target;
+    //         returnIndex++;
+    //         //Debug.Log($"Arrived at {target}, Next Index: {returnIndex}");
+    //     }
+    //     else
+    //     {
+    //         transform.position += (Vector3)step;
+    //         Debug.Log($"Arrived at {target}, Next Index: {returnIndex}, {step}");
+    //     }
+    // }
 
     #endregion
     #region  Attack
     [SerializeField] GameObject ammo;
-    float maxReloadingCount = 1; 
-    float curReloadingCount = 0;
-    int maxAmmoCount = 50;
-    public int curAmmoCount = 0;
-    float maxFireRate  = 0.05f;
-    float curFireRate = 0;
-    bool onReloading;
+    [Tooltip("Reloading Cooltime")]
+    public float maxReloadingRate = 1; 
+    public int maxAmmoCount = 50;
+    [Tooltip("Shouts per second")]
+    public float maxFireRate  = 0.05f;
+    private float curReloadingCount = 0;
+    private int curAmmoCount = 0;
+    private float curFireRate = 0;
+    private bool onReloading;
     private void Shot()
     {
         Projectile_Plasma plasma = Managers.Pooling.D_GetItem(ammo).GetComponent<Projectile_Plasma>();
@@ -161,7 +168,7 @@ public class Drone_Laser_var2 : DroneEntity
     {
         laserParts.isShotReady =false;
         curReloadingCount += Time.deltaTime;
-        if (curReloadingCount >= maxReloadingCount)
+        if (curReloadingCount >= maxReloadingRate)
         {
             curAmmoCount = 0;
             curReloadingCount = 0;
