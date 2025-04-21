@@ -16,7 +16,7 @@ public class UI_Option : UI_Base
     [SerializeField] private GameObject _graphicsOption;
     [SerializeField] private GameObject _volumeOption;
     [SerializeField] private GameObject _languageOption;
-    [SerializeField] public UI_Ping _UI_Ping;
+    [SerializeField] private UI_Ping _UI_Ping;
     [SerializeField] private Button _optionExitBtn;
 
     [Header("OptionBar")]
@@ -48,6 +48,7 @@ public class UI_Option : UI_Base
     [Header("GraphicsOption")]
     [SerializeField] private Toggle _fullScreenToggle;
     [SerializeField] private Toggle _vsyncToggle;
+    [SerializeField] private Button _colorPickerBtn;
     [SerializeField] private Button _applyBtn;
 
     //[SerializeField] private GameObject _resolutionWarning;
@@ -65,6 +66,8 @@ public class UI_Option : UI_Base
     [SerializeField] private TMP_Text _resolutionText;
     [SerializeField] private TMP_Text _fullscreenText;
     [SerializeField] private TMP_Text _vsyncText;
+    [SerializeField] private TMP_Text _cursorcolorText;
+    [SerializeField] private TMP_Text _colorpickertext;
     [SerializeField] private TMP_Text _applyText;
     [SerializeField] private TMP_Text _respawnObjectText;
     //[SerializeField] private TMP_Text _resolutionWarningText;
@@ -101,10 +104,8 @@ public class UI_Option : UI_Base
         if(IsInLobby)
             GetRoomCode();
 
-
-
-        // Managers.UI.ShowUI<UI_PingAlways>(); //TEST
-
+        //MouseCursorss
+        Managers.CursorManager.SetDefaultCursor();        
     }
 
     protected override void Start()
@@ -132,6 +133,7 @@ public class UI_Option : UI_Base
         //GraphicsOption
         FullScreenToggle();
         VsyncToggle();
+        _colorPickerBtn.onClick.AddListener(OnColorPickerBtn);
         _applyBtn.onClick.AddListener(OnApplyBtn);
  
         _mainFrame.transform.localScale = Vector3.one * 0.1f;
@@ -144,6 +146,7 @@ public class UI_Option : UI_Base
     //==================옵션 바 버튼==================
     private void OnGameOptionBtn()
     {
+        OnClick();
         _gameOption.SetActive(true);
         _graphicsOption.SetActive(false);
         _volumeOption.SetActive(false);
@@ -159,6 +162,7 @@ public class UI_Option : UI_Base
     
     private void OnGraphicsOptionBtn()
     {
+        OnClick();
         _gameOption.SetActive(false);
         _graphicsOption.SetActive(true);
         _volumeOption.SetActive(false);
@@ -168,6 +172,7 @@ public class UI_Option : UI_Base
     
     private void OnVolumeOptionBtn()
     {
+        OnClick();
         _gameOption.SetActive(false);
         _graphicsOption.SetActive(false);
         _volumeOption.SetActive(true);
@@ -177,6 +182,7 @@ public class UI_Option : UI_Base
 
     private void OnLanguageOptionBtn()
     {
+        OnClick();
         _gameOption.SetActive(false);
         _graphicsOption.SetActive(false);
         _volumeOption.SetActive(false);
@@ -190,7 +196,7 @@ public class UI_Option : UI_Base
         // if(!Managers.Game.Player.TryGetComponent<PlayerSM>(out var player)) return;
         
         // if (!player.isServer) return;
-        
+        OnClick();
         OnOptionExit();
         Managers.Command.ChangeStage(GlobalText.LOBBY);
     }
@@ -200,13 +206,14 @@ public class UI_Option : UI_Base
         // if(!Managers.Game.Player.TryGetComponent<PlayerSM>(out var player)) return;
 
         // if (!player.isServer) return;
-        
+        OnClick();
         OnOptionExit();
         Managers.Command.ChangeStage(Managers.Stage.stageName);
     }
     
     private void OnTitleBtn()
     {
+        OnClick();
         OnOptionExit();
         // Managers.UI.ShowLoadingUI("Test_TitleScene");
         if (Managers.Game.Player.GetComponent<PlayerSM>().isServer)
@@ -222,6 +229,7 @@ public class UI_Option : UI_Base
     
     private void OnExitBtn()
     {
+        OnClick();
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
@@ -232,6 +240,7 @@ public class UI_Option : UI_Base
 
     private void OnRespawnObjectBtn()
     {
+        OnClick();
         MapEditor.Instance.ResetInteractableObjectPosition();
     }
 
@@ -242,6 +251,7 @@ public class UI_Option : UI_Base
 
     private void OnCopyBtn()
     {
+        OnClick();
         CopyToClipboard(_roomCodeNumText.text);
     }
     private void CopyToClipboard(string str)
@@ -261,8 +271,17 @@ public class UI_Option : UI_Base
         _vsyncToggle.isOn = QualitySettings.vSyncCount != 0;
     }
 
+    private void OnColorPickerBtn()
+    {
+        OnClick();
+        if (Managers.UI.IsActive<UI_CursorColorPicker>())
+            Managers.UI.HideUI<UI_CursorColorPicker>();
+        else
+            Managers.UI.ShowUI<UI_CursorColorPicker>();
+    }
     private void OnApplyBtn()
     {
+        OnClick();
         Screen.fullScreen = _fullScreenToggle.isOn;
         QualitySettings.vSyncCount = _vsyncToggle.isOn ? 1 : 0;
     }
@@ -278,17 +297,27 @@ public class UI_Option : UI_Base
         _graphicsOption.SetActive(false);
         _volumeOption.SetActive(false);
         _languageOption.SetActive(false);
-        
+
+        //커서 컬리픽커가 켜져있을 경우 체크
+        if (Managers.UI.IsActive<UI_CursorColorPicker>())
+            Managers.UI.HideUI<UI_CursorColorPicker>();
+
+        //MouseCursor
+        Managers.CursorManager.ClearCursor();
         //켜질 때 다시 커지는 애니메이션이 나오도록
         _mainFrame.transform.localScale = Vector3.one * 0.1f;
     }
     
     private void OnDisable()
     {
+        //MouseCursor
+        Managers.CursorManager.ClearCursor();
+
         OnOptionExit();
     }
     private void OnOptionExitBtn()
     {
+        OnClick();
         OnOptionExit();
     }
 
@@ -311,5 +340,7 @@ public class UI_Option : UI_Base
         //SetSentence(_resolutionWarningText, 1016);
         SetSentence(_joinCodeText, 1017);
         SetSentence(_respawnObjectText,1018);
+        SetSentence(_cursorcolorText, 1019);
+        SetSentence(_colorpickertext, 1020);
     }
 }
