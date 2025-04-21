@@ -30,6 +30,8 @@ public class ConsoleSystem : MonoBehaviour
         -> ex) Open all map
     Log Clear (Case insensitive)
         -> ex) Clear
+    Reset SaveData (Case insensitive)
+        -> ex) Reset SaveData
 ";
     private List<string> GetMapIDList(){
         //string[] jsonFiles = Directory.GetFiles(path, "*.json", SearchOption.AllDirectories);
@@ -115,6 +117,19 @@ public class ConsoleSystem : MonoBehaviour
         {
             sb.Clear();
             logText.text = "";
+            inputField.text = "";
+            return;
+        }
+        if(command == "reset savedata")
+        {
+            //Del SaveData, achievmentData
+            Managers.Data.saveData.DeleteSaveFile();
+            //Del SaveData, achievmentData
+
+            //Create new saveData
+            Managers.Data.saveData.SetUp();
+            //Create new saveData
+            WriteLog($"\n   >{inputField.text}\n\n");
             inputField.text = "";
             return;
         }

@@ -31,6 +31,30 @@ public class SaveData
         SearchAcData();
     }
 
+    public void DeleteSaveFile()
+    {
+        if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+            Debug.Log("Save file deleted: " + filePath);
+        }
+        else
+        {
+            Debug.Log("Save file does not exist at: " + filePath);
+        }
+
+        if (File.Exists(achievmentDataPath))
+        {
+            File.Delete(achievmentDataPath);
+            Debug.Log("Save file deleted: " + achievmentDataPath);
+        }
+        else
+        {
+            Debug.Log("Save file does not exist at: " + achievmentDataPath);
+        }
+
+    }
+
     private void SearchSaveFile()
     {
          UI_SaveAndLoad uI_SaveAndLoad =  GetUI_SaveAndLoad();
