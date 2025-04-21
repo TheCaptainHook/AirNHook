@@ -1,6 +1,4 @@
-using Mirror;
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public enum DRONE_LASER_STATE
@@ -53,7 +51,6 @@ public class Drone_Laser_var2 : DroneEntity
     #region Guard
     private void State_Guard()
     {
-
         if(curAmmoCount >0)
         {
             Reloading();
@@ -62,21 +59,21 @@ public class Drone_Laser_var2 : DroneEntity
     #endregion
 
 #region Tracking
-    private void State_Tracking()
-    {
+    // private void State_Tracking()
+    // {
 
-        float dis = Vector2.Distance(droneLaser_Net.trackingBeforePosition, _rb.position);
-        if(dis > 3)
-        {
-            //return;
-            if (NetworkServer.active) droneLaser_Net.Server_DroneLaserState(2);
-            return;
-        }
+    //     float dis = Vector2.Distance(droneLaser_Net.trackingBeforePosition, _rb.position);
+    //     if(dis > 3)
+    //     {
+    //         //return;
+    //         if (NetworkServer.active) droneLaser_Net.Server_DroneLaserState(2);
+    //         return;
+    //     }
 
-        Vector2 dir = (laserParts.transform.position-transform.position).normalized;
-        Vector2 step = dir * moveSpeed * Time.fixedDeltaTime;
-        transform.position += (Vector3)step;
-    }
+    //     Vector2 dir = (laserParts.transform.position-transform.position).normalized;
+    //     Vector2 step = dir * moveSpeed * Time.fixedDeltaTime;
+    //     transform.position += (Vector3)step;
+    // }
 
     #endregion
     #region Return
@@ -188,7 +185,7 @@ public class Drone_Laser_var2 : DroneEntity
                 State_Guard();
                 break;
             case DRONE_LASER_STATE.TRACKING:
-                State_Tracking();
+                // State_Tracking();
                 break;
             case DRONE_LASER_STATE.RETURN:
                 //State_Return();
