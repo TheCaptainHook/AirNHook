@@ -31,13 +31,6 @@ public class Drone_Laser_var2_Net : DroneEntity_Net
     {
         if (droneLaserState != (DRONE_LASER_STATE)index)
         {
-            //if(trackingBeforePosition != defaultVec)
-            //{
-            //    Rpc_DorneLaserState(2);
-            //    return;
-
-            //}
-
             Rpc_DorneLaserState(index);
         }
     }
@@ -48,10 +41,13 @@ public class Drone_Laser_var2_Net : DroneEntity_Net
    2 RETURN,
    3 ATTACK
     * */
-    public Vector2 trackingBeforePosition;
-    private Vector2 defaultVec = new Vector2(9999, 9999);
-    public List<Vector2> returnPath;
 
+    //----------------------TRACKING
+    // [ReadOnly]
+    // public Vector2 trackingBeforePosition;
+    // private Vector2 defaultVec = new Vector2(9999, 9999);
+    // public List<Vector2> returnPath; //TRACKING
+    //----------------------TRACKING
     public GameObject target;
 
     [ClientRpc]
@@ -59,14 +55,16 @@ public class Drone_Laser_var2_Net : DroneEntity_Net
     {
         if(index == 0)
         {
+            parts.target = null;
             droneLaser.PreStateSetUp(false,false);
+
         }
-        //else if(index == 1)
+        //else if(index == 1) //TRACKING
         //{
         //    trackingBeforePosition = RB.position;
         //    droneLaser.PreStateSetUp(true, true);
         //}
-        //else if (index == 2)
+        //else if (index == 2) //RETURN
         //{
         //    returnPath = pathFinder.FindPath(RB.position, trackingBeforePosition);
         //    droneLaser.returnIndex = 0;
@@ -80,28 +78,39 @@ public class Drone_Laser_var2_Net : DroneEntity_Net
         droneLaserState = (DRONE_LASER_STATE)index;
     }
 
-    [Server]
-    public void Server_AfterReturn()
-    {
-        Rpc_AfterReturn();
-    }
-    private void Rpc_AfterReturn()
-    {
-        RB.position = trackingBeforePosition;
-        trackingBeforePosition = defaultVec;
-        returnPath.Clear();
-        droneLaserState = DRONE_LASER_STATE.GUARD;
-    }
+    // [Server]
+    // public void Server_AfterReturn()
+    // {
+    //     Rpc_AfterReturn();
+    // }
+    // private void Rpc_AfterReturn()
+    // {
+    //     RB.position = trackingBeforePosition;
+    //     trackingBeforePosition = defaultVec;
+    //     returnPath.Clear();
+    //     droneLaserState = DRONE_LASER_STATE.GUARD;
+    // }
 
+
+    private uint targetId;  //Server
     [Server]
     public void Server_SetTarget(uint id)
     {
-        Rpc_SetTarget(id);
+        if(targetId != id){
+            Rpc_SetTarget(id);
+            targetId = id;
+        }
+        
     }
     [ClientRpc]
     private void Rpc_SetTarget(uint id)
     {
-        var target = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity identity);
+        var target = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity identity) ? identity : null;
+        if(target == null) 
+        {
+            parts.target = null;
+            return;
+        }
         parts.target = identity.gameObject;
     }
 }

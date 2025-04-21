@@ -1,7 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Drone_LaserParts : MonoBehaviour
@@ -19,18 +17,7 @@ public class Drone_LaserParts : MonoBehaviour
     public void TrackingTarget()
     {
         if(target == null) return;
-
-        // float angle = ConvertVec_To_Angle(target.transform.position);
-        // float curAngle = laserAnimator.GetFloat(DIRECTION);
-
-        // curAngle = Mathf.Lerp(curAngle,angle,0.2f);        
-        // laserAnimator.SetFloat(DIRECTION, angle);
-        // laserAnimator.SetFloat(DIRECTION, curAngle);
-
         if(angleCoroutine == null) angleCoroutine = StartCoroutine(AngleCo());
-        
-        // Angle_Adjustment(target.transform.position);
-        // mark.Targeting(target.transform.position);
     }
 
    
@@ -59,13 +46,9 @@ public class Drone_LaserParts : MonoBehaviour
             yield return null;
         }
         laserAnimator.SetFloat(DIRECTION, angle);
-        // if (target != null)
-        // {
-        //     Angle_Adjustment(target.transform.position);
-        //     mark.Targeting(target.transform.position);
-        // }
-            Angle_Adjustment(targetPosition);
-            mark.Targeting(targetPosition);
+        Angle_Adjustment(targetPosition);
+        
+        mark.Targeting(targetPosition);  
             
         angleCoroutine = null;
         isShotReady = true;

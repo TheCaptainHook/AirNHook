@@ -18,7 +18,7 @@ public class Drone_Laser_GuardVision : MonoBehaviour
     {
         if(!net.onSync) return;
 
-        // if (net.droneLaserState == DRONE_LASER_STATE.RETURN) return;
+        // if (net.droneLaserState == DRONE_LASER_STATE.RETURN) return; //RETURN
 
         if(parts.isShotReady) return;
 
@@ -35,28 +35,16 @@ public class Drone_Laser_GuardVision : MonoBehaviour
             var result = AnalyzeHit(hits);
             //-------------- Detect All layer, And Analyz/ 0416
 
-
-
-
-
-
-
-            if(result.onDetacted)
+            if(result.onDetacted) //ATTACK
             {
-                // target = result.player;
-                //if(!parts.target)
-                //parts.target= result.player;
-
-                //Attack
                 if (NetworkServer.active) 
                 {
                     net.Server_SetTarget(result.player.GetComponent<NetworkIdentity>().netId);
                     net.Server_DroneLaserState(3);
                 }
 
-                //Attack
             }
-            //else if(result.player)
+            //else if(result.player) // TRACKING
             //{
             //    parts.target = result.player;
             //    //State -> Tracking
@@ -66,17 +54,17 @@ public class Drone_Laser_GuardVision : MonoBehaviour
             //}
             else
             {
-                //main.StateChange(DRONE_LASER_STATE.GUARD);
                 if (NetworkServer.active) net.Server_DroneLaserState(0);
-                parts.target = null;
+                // parts.target = null;
+                // net.Server_SetTarget(9999);
             }
    
         }
         else
         {
-            parts.target= null;
-            //main.StateChange(DRONE_LASER_STATE.GUARD);
+            // parts.target= null;
             if (NetworkServer.active) net.Server_DroneLaserState(0);
+            // net.Server_SetTarget(9999);
             Debug.Log("Chnage Guard");
         }
     }
