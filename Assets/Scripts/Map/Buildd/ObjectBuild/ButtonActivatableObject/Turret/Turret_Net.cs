@@ -57,6 +57,7 @@ public class Turret_Net : NetworkBehaviour
         onLeft = data.onLeft;                                                                   
 
         gameObject.transform.position = data.position;
+        gameObject.transform.rotation = data.quaternion;
         //Turret.TurnOnAnimation();
         animator.SetBool(Activated, true);
         onSync = true;
