@@ -99,7 +99,8 @@ public class ProjectileEntity : MonoBehaviour,IPooling
                         if(buildObj.distructionStatus == DistructionStatus.Indestructible)
                         {
                             TransformChange(hit.collider.transform);
-                            StartCoroutine(DelayRelease());
+                            if (gameObject.activeSelf)
+                                StartCoroutine(DelayRelease());
                             return;
                         }
                     }
@@ -112,12 +113,14 @@ public class ProjectileEntity : MonoBehaviour,IPooling
                 {
                     // N_ReleaseToPool();
                     TransformChange(hit.transform);
-                    StartCoroutine(DelayRelease());
+                    if (gameObject.activeSelf)
+                        StartCoroutine(DelayRelease());
                     return;
                 }
 
                 TransformChange(hit.transform);
-                StartCoroutine(DelayRelease());
+                if (gameObject.activeSelf)
+                    StartCoroutine(DelayRelease());
             }
             else
             {   
@@ -151,7 +154,8 @@ public class ProjectileEntity : MonoBehaviour,IPooling
                     if(buildObj.distructionStatus == DistructionStatus.Indestructible)
                     {
                          TransformChange(collision.transform);
-                         StartCoroutine(DelayRelease());
+                        if (gameObject.activeSelf)
+                            StartCoroutine(DelayRelease());
                          return;
                     }
                 }
@@ -165,12 +169,14 @@ public class ProjectileEntity : MonoBehaviour,IPooling
             {
                 // N_ReleaseToPool();
                 TransformChange(collision.transform);
-                StartCoroutine(DelayRelease());
+                if(gameObject.activeSelf)
+                    StartCoroutine(DelayRelease());
                 return;
             }
 
             TransformChange(collision.transform);
-            StartCoroutine(DelayRelease());
+            if (gameObject.activeSelf)
+                StartCoroutine(DelayRelease());
         }
     }
 
@@ -193,9 +199,10 @@ public class ProjectileEntity : MonoBehaviour,IPooling
     protected virtual IEnumerator DelayRelease()
     {
         yield return new WaitForSeconds(3);
+
         // N_ReleaseToPool();
-        if(gameObject.activeSelf)
-        ReleaseToPool_Projectile();
+        if (gameObject.activeSelf)
+            ReleaseToPool_Projectile();
     }
 
     protected T GetTypeEntity<T>() where T: class

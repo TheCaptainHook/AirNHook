@@ -50,7 +50,7 @@ public class Drone_Laser_var2_Net : DroneEntity_Net
     // public List<Vector2> returnPath; //TRACKING
     //----------------------TRACKING
     public GameObject target;
-
+    public bool onAtack;
     [ClientRpc]
     private void Rpc_DorneLaserState(int index)
     {
@@ -73,6 +73,7 @@ public class Drone_Laser_var2_Net : DroneEntity_Net
         //}
         else if(index == 3)
         {
+            onAtack = true;
             droneLaser.PreStateSetUp(true,true);
         }
 

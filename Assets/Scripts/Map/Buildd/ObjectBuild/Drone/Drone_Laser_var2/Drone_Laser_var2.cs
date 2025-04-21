@@ -148,6 +148,7 @@ public class Drone_Laser_var2 : DroneEntity
         if(curAmmoCount>=maxAmmoCount)
         {
             onReloading = true;
+            droneLaser_Net.onAtack = false;
         }
 
         if(!onReloading)

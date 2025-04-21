@@ -13,6 +13,7 @@ public class Projectile_Plasma : ProjectileEntity
     private float defaultSpeed;
     public override void SpawnImpactEffect(Vector2 hitPoint)
     {
+        //transform.position = hitPoint;
         particle.Play();
     }
     public override void Reset()
@@ -73,7 +74,7 @@ public class Projectile_Plasma : ProjectileEntity
                 transform.localScale = new Vector3(transform.localScale.x / 2, transform.localScale.y / 2, transform.localScale.z / 2);
                 
                 transform.position += transform.right;
-                rb.AddForce(transform.right * speed*1.5f, ForceMode2D.Impulse);
+                rb.AddForce(transform.right * speed, ForceMode2D.Impulse);
                 rb.gravityScale = 1;
             }
         }
