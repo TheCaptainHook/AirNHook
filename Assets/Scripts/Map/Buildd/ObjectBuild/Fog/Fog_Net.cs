@@ -33,7 +33,7 @@ public class Fog_Net : NetworkBehaviour
         SetParticleSetting();
         onSync = true;
     }
-    [Command]
+    [Command(requiresAuthority = false)]
     private void Cmd_InitSync()
     {
         Server_InitSync();

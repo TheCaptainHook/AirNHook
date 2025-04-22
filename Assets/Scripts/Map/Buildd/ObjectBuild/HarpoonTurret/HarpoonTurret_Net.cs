@@ -19,7 +19,7 @@ private HarpoonTurret Main => GetComponent<HarpoonTurret>();
     transform.rotation = data.quaternion;
     onSync = true;
   }
-  [Command]
+  [Command(requiresAuthority = false)]
   public void Cmd_InitSync()
   {
     Server_InitSync();

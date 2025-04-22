@@ -62,7 +62,7 @@ public class Turret_Net : NetworkBehaviour
         animator.SetBool(Activated, true);
         onSync = true;
     }
-    [Command]
+    [Command(requiresAuthority = false)]
     private void Cmd_InitSync()
     {
         Server_InitSync();

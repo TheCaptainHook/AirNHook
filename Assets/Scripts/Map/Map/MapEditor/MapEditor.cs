@@ -527,6 +527,7 @@ public class MapEditor : MonoBehaviour
     {
         MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
         //Create(exitDoorObjectTransform,mapDataStruct,data);
+        if(NetworkServer.active)
         Managers.Stage.CmdBatchObject(mapDataStruct.name, data, exitDoorObjectTransform);
     }
 
