@@ -10598,6 +10598,39 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0
+        },
+        {
+            "id": 313,
+            "dialogueId": 0,
+            "position": {
+                "x": -30.93000030517578,
+                "y": 21.600000381469728
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         }
     ],
     "mapBackgroundObjectList": [
@@ -14029,7 +14062,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.4499889612197877,
+                "y": 1.449988842010498,
                 "z": 1.0
             },
             "talPot": {
@@ -14569,6 +14602,34 @@
                     "y": 20.940000534057618
                 }
             ],
+            "lightPositions": [],
+            "onHint": false,
+            "partsPositions": [],
+            "itemPositions": [],
+            "hintPosition": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "chargeRequired": false
+        },
+        {
+            "id": 312,
+            "position": {
+                "x": -21.40999984741211,
+                "y": 21.010000228881837
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "targetPositions": [],
             "lightPositions": [],
             "onHint": false,
             "partsPositions": [],
