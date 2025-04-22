@@ -94,15 +94,8 @@ public class LaserObject : ActivatableObjectEntity
     {
         Vector2 start;
         Vector2 dir;
-        try
-        {
-            start = _firePoint.position;
-            dir = transform.right;
-        }
-        catch
-        {
-            return;
-        }
+        start = _firePoint.position;
+        dir = transform.right;
 
         int hitCount = 0;
 
@@ -211,15 +204,6 @@ public class LaserObject : ActivatableObjectEntity
             _lineRenderer.SetPosition(num+1, endPos);
         }
 
-
-#if UNITY_EDITOR
-
-        //private void OnDrawGizmos()
-        //{
-        //    Gizmos.color = Color.red;
-        //    Gizmos.DrawRay(_firePoint.position, _firePoint.right * 50);
-        //}
-#endif
 
         public override void TurnOff()
         {
