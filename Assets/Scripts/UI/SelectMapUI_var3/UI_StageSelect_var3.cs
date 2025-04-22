@@ -241,6 +241,7 @@ public class UI_StageSelect_var3: UI_Base
                         Select_PrograssLevel_2();
                         break;
                     case PrograssLevel.Three:
+                        if (GetMap(curSelectTextLine.mainSentence) == null) yield break;
                         textLineList[pathTextLineIndex].WriteText($"/{curSelectTextLine.mainSentence}");
                         _PrograssCoroutine = StartCoroutine(Select_PrograssLevel_3Co());
                         break;
@@ -567,6 +568,7 @@ public class UI_StageSelect_var3: UI_Base
 
     private Map GetMap(string mapName)
     {
+        if (!Managers.Data.mapData.mapMainStageDictionary.ContainsKey(curStageLevel)) return null;
         Map[] maps = Managers.Data.mapData.mapMainStageDictionary[curStageLevel];
 
         foreach(var map in maps)

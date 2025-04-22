@@ -205,7 +205,8 @@ public class SaveData
         foreach (var key in Managers.Data.mapData.mapAllDictionary.Keys)
         {
             Map map = Managers.Data.mapData.mapAllDictionary[key];
-            _SSMDD.Add(map.mapID, new MapSaveData(map.mapID,map.subMapName,map.nextMapId,false,false,map.stageDifficulty,map.dialogueDataList,map.collectableObjectStructList));
+            _SSMDD.Add(map.mapID, new MapSaveData(map.mapID,map.subMapName,map.nextMapId,false,true,map.stageDifficulty,map.dialogueDataList,map.collectableObjectStructList));
+
         }
 
         _SaveFileData = new SaveFileData(_SSMDD, new PlayerSaveData());
