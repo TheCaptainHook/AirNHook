@@ -36,6 +36,7 @@ public class Drone_MultiPurpose : DroneEntity
     }
 
 
+
     public override void SetData<T>(T data)
     {
         base.SetData(data);
@@ -54,11 +55,17 @@ public class Drone_MultiPurpose : DroneEntity
             if (collider.TryGetComponent(out Rigidbody2D component))
             {
                 float vel = component.velocity.magnitude;
-                if(vel >= 10)
+                if (vel >= 10)
                 {
-                    DroneDropTransportItem();
+                    //DroneDropTransportItem();
+                    if(collider.TryGetComponent(out NetworkIdentity identity))
+                    {
+                        Net.Cmd_OnTriggerEnter(identity.netId);
+                    }
+                 
+                    
                 }
-                component.velocity = Vector2.zero;
+                //component.velocity = Vector2.zero;
             }
         }
 
@@ -94,7 +101,7 @@ public class Drone_MultiPurpose : DroneEntity
         // obj.SettingTransportItem(GetComponent<NetworkIdentity>().netId);
     }
 
-    private void DroneDropTransportItem()
+    public void DroneDropTransportItem()
     {
         if(transportItem == null) return;
 

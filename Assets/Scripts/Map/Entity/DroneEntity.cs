@@ -76,7 +76,7 @@ public class DroneEntity : BuildObj
     [Header("Components")]
     private Animator animator;
     private DroneEntity_Net net;
-    private DroneEntity_Net Net { get { net ??= GetComponent<DroneEntity_Net>(); return net; } }
+    protected DroneEntity_Net Net { get { net ??= GetComponent<DroneEntity_Net>(); return net; } }
 
     [Header("Animator")]
     private readonly int _Moveing = Animator.StringToHash("Moving");
