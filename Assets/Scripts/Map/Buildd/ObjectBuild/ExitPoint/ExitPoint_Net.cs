@@ -61,7 +61,7 @@ public class ExitPoint_Net : NetworkBehaviour
         transform.position = mainPosition;
         onSync = true;
     }
-    [Command]
+    [Command(requiresAuthority = false)]
     public void Cmd_InitSync()
     {
         Server_InitSync();
@@ -106,7 +106,7 @@ public class ExitPoint_Net : NetworkBehaviour
     //}
     IEnumerator Delay()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
         Rpc_StageClear();
     }
     [ClientRpc]
