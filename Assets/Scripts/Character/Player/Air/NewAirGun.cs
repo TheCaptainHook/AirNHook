@@ -335,7 +335,7 @@ public class NewAirGun
 
     private void Inhaling()
     {
-        if (!_inhaling) return;
+        if (!_inhaling || _isAttached) return;
 
         if (Managers.Game.OtherPlayer is not null && ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject))
         {

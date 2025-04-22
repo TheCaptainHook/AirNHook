@@ -350,10 +350,8 @@ public class HookSM : PlayerSM, IInhalable
     {
         while (true)
         {
-            Debug.Log("a");
             if (!_isFixed)
             {
-                Debug.Log("b");
                 yield return _waitForFixedUpdate;
 
                 if (_fixedPoint is null) break;
@@ -377,7 +375,6 @@ public class HookSM : PlayerSM, IInhalable
             }
             else
             {
-                Debug.Log("c");
                 yield return null;
                 rigidbody2D.drag = 0f;
                 rigidbody2D.velocity = Vector2.zero;

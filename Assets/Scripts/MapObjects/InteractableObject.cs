@@ -72,7 +72,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     {
         if (!isOwned || isServer || _isFixed) return;
 
-        if (_rigidbody.velocity.magnitude <= 0.5f)
+        if (_rigidbody.velocity.magnitude <= 0.5f && _rigidbody.angularVelocity <= 0.5f)
         {
             _stoppedTime += Time.deltaTime;
 
@@ -86,13 +86,12 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         {
             _stoppedTime = 0f;
         }
-    }
+    }   
 
     private void AuthorityToServer()
     {
         if (isServer) return;
 
-        Debug.Log($"Authority to server {netId}");
         Managers.Command.AuthorityToServer(netId);
     }
 
@@ -131,7 +130,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _isGrab = false;
         _canInteract = true;
         ChangeState(false);
-        //ShowEButton();
+        ShowEButton();
 
         _rigidbody.bodyType = _originType;
         _rigidbody.gravityScale = _gravityScale;
@@ -211,12 +210,13 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         Fixed(false);
         _rigidbody.drag = 0f;
         _rigidbody.gravityScale = _gravityScale;
+        _rigidbody.freezeRotation = false;
     }
 
     public void Fixed(bool value)
     {
         _isFixed = value;
-        _isGrab = false;
+        _isGrab = value;
         _canInteract = !value;
 
         if (_isFixed)
@@ -230,6 +230,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     {
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.angularVelocity = 0f;
+        _rigidbody.freezeRotation = true;
         _rigidbody.Sleep();
     }
 
@@ -240,6 +241,9 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void Shooting(Vector2 force)
     {
+        _rigidbody.velocity = Vector2.zero;
+        _rigidbody.angularVelocity = 0f;
+        _rigidbody.Sleep();
         _stoppedTime = 0f;
     }
 
