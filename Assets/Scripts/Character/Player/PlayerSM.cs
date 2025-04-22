@@ -335,7 +335,9 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     private void HideEmoteWheel()
     {
         if (!Managers.UI.IsActive<UI_EmoteWheel>()) return;
-        
+
+        UI_EmoteWheel emoteWheel = Managers.UI.GetUI<UI_EmoteWheel>().GetComponent<UI_EmoteWheel>();
+        emoteWheel.TryShowHoveredEmote();
         Managers.UI.HideUI<UI_EmoteWheel>();
     }
     

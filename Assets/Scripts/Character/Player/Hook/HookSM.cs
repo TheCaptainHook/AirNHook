@@ -374,15 +374,23 @@ public class HookSM : PlayerSM, IInhalable
                 
                 _isFixed = true;
 
-                if (characterConstraint is null)
-                    characterConstraint = gameObject.AddComponent<ParentConstraint>();
+                try
+                {
+                    if (characterConstraint is null)
+                        characterConstraint = gameObject.AddComponent<ParentConstraint>();
 
-                characterConstraint.weight = 1f;
-                characterConstraint.AddSource(characterConstraintSource);
-                characterConstraint.translationAxis = Axis.X | Axis.Y | Axis.Z;
-                characterConstraint.rotationAxis = Axis.None;
-                characterConstraint.locked = true;
-                characterConstraint.constraintActive = true;
+                    characterConstraint.weight = 1f;
+                    characterConstraint.AddSource(characterConstraintSource);
+                    characterConstraint.translationAxis = Axis.X | Axis.Y | Axis.Z;
+                    characterConstraint.rotationAxis = Axis.None;
+                    characterConstraint.locked = true;
+                    characterConstraint.constraintActive = true;
+                }
+                catch (Exception) 
+                { 
+                    _isFixed = false;
+                    continue;
+                }
 
                 CmdHookAttachedToAir();
                 stateMachine.ChangeState(((HookStateMachine)(stateMachine)).InhaledState);
@@ -413,13 +421,17 @@ public class HookSM : PlayerSM, IInhalable
         if (_isFixed && !_isShot)
             stateMachine.ChangeState(isGround ? stateMachine.IdleState : stateMachine.FallingState);
 
-        if (characterConstraint is not null && characterConstraint.sourceCount != 0)
+        try
         {
-            characterConstraint.weight = 0f;
-            characterConstraint.constraintActive = false;
-            characterConstraint.locked = false;
-            characterConstraint.RemoveSource(0);
+            if (characterConstraint is not null && characterConstraint.sourceCount != 0)
+            {
+                characterConstraint.weight = 0f;
+                characterConstraint.constraintActive = false;
+                characterConstraint.locked = false;
+                characterConstraint.RemoveSource(0);
+            }
         }
+        catch (Exception) { }
 
         Fixed(false);
         _isShot = false;
