@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -7463184381176112592}
   - component: {fileID: 389640917045990011}
   - component: {fileID: 542241235346014792}
+  - component: {fileID: -3500079679828256159}
   m_Layer: 18
   m_Name: Key
   m_TagString: Untagged
@@ -258,6 +259,29 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   movingPlatform: {fileID: 0}
+--- !u!1773428102 &-3500079679828256159
+ParentConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6099480600797554674}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Weight: 1
+  m_TranslationAtRest: {x: 0, y: 0, z: 0}
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_TranslationOffsets: []
+  m_RotationOffsets: []
+  m_AffectTranslationX: 1
+  m_AffectTranslationY: 1
+  m_AffectTranslationZ: 1
+  m_AffectRotationX: 1
+  m_AffectRotationY: 1
+  m_AffectRotationZ: 1
+  m_Active: 0
+  m_IsLocked: 0
+  m_Sources: []
 --- !u!1 &8919751423055340418
 GameObject:
   m_ObjectHideFlags: 0

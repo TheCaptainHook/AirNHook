@@ -213,7 +213,7 @@ public class BatteryInteractable : TransportItemEntity
         _canInteract = true;
         ChangeState(false);
 
-        _fixedPoint = null;
+        //_fixedPoint = null;
         _rigidbody.bodyType = _originType;
         _rigidbody.constraints = _originRot;
         _sortingGroup.sortingLayerID = _originSortingLayerID;

@@ -10,6 +10,8 @@ public class IdleState : BaseState
     public override void EnterState()
     {
         stateMachine.moveSpeedMultiplier = 5f;
+        stateMachine.player.animator.SetBool(stateMachine.player.animationData.FallingParameterHash, false);
+        stateMachine.player.animator.SetBool(stateMachine.player.animationData.JumpParameterHash, false);
     }
 
     #region Movement

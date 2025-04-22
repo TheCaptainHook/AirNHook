@@ -90,12 +90,6 @@ public class NetworkCommand : NetworkBehaviour
             return;
         }
         
-        if (_assignAuthorityCoroutine.TryGetValue(itemNetId, out var coroutine))
-        {
-            StopCoroutine(coroutine);
-            _assignAuthorityCoroutine.Remove(itemNetId);
-        }
-        
         interactable.Interacting(true);
         if (!ReferenceEquals(Managers.Game.Player, target) || !item.isOwned)
         {
@@ -140,11 +134,6 @@ public class NetworkCommand : NetworkBehaviour
     #endregion
 
     #region InhaleItem
-    private Dictionary<uint, Coroutine> _assignAuthorityCoroutine = new();
-    private readonly WaitForSeconds _waitForSeconds = new(3f);
-    public Action<NetworkIdentity, bool> itemInhaleCallback;
-    public Action<bool, bool> fixItemCallback;
-    
     [Command(requiresAuthority = false)]
     public void TryInhaleItem(GameObject target, uint itemNetId)
     {
@@ -158,11 +147,11 @@ public class NetworkCommand : NetworkBehaviour
             return;
         }
         
-        if (_assignAuthorityCoroutine.TryGetValue(itemNetId, out var coroutine))
-        {
-            StopCoroutine(coroutine);
-            _assignAuthorityCoroutine.Remove(itemNetId);
-        }
+        //if (_assignAuthorityCoroutine.TryGetValue(itemNetId, out var coroutine))
+        //{
+        //    StopCoroutine(coroutine);
+        //    _assignAuthorityCoroutine.Remove(itemNetId);
+        //}
         
         if (!ReferenceEquals(Managers.Game.Player, item.gameObject) && !ReferenceEquals(Managers.Game.OtherPlayer, item.gameObject)
             && (!ReferenceEquals(Managers.Game.Player, target) || !item.isOwned))
@@ -176,70 +165,63 @@ public class NetworkCommand : NetworkBehaviour
     {
         if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
         
-        itemInhaleCallback?.Invoke(item, value);
+        //itemInhaleCallback?.Invoke(item, value);
     }
 
-    [Command(requiresAuthority = false)]
-    public void StopInhaleItem(uint itemNetId)
-    {
-        if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
+    //[Command(requiresAuthority = false)]
+    //public void StopInhaleItem(uint itemNetId)
+    //{
+    //    if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
+    //
+    //    //if (_assignAuthorityCoroutine.TryGetValue(itemNetId, out var coroutine))
+    //    //{
+    //    //    StopCoroutine(coroutine);
+    //    //    _assignAuthorityCoroutine.Remove(itemNetId);
+    //    //}
+    //
+    //    if (!ReferenceEquals(Managers.Game.Player, item.gameObject) && !ReferenceEquals(Managers.Game.OtherPlayer, item.gameObject) && !item.isOwned)
+    //    {
+    //        var delayAssignAuthorityCoroutine = StartCoroutine(DelayAssignAuthority(item));
+    //        //_assignAuthorityCoroutine.TryAdd(itemNetId, delayAssignAuthorityCoroutine);
+    //    }
+    //    
+    //    if (!item.TryGetComponent<IInhalable>(out var inhalable)) return;
+    //    
+    //    inhalable.Inhaling(false);
+    //    inhalable.Fixed(false);
+    //}
 
-        if (_assignAuthorityCoroutine.TryGetValue(itemNetId, out var coroutine))
-        {
-            StopCoroutine(coroutine);
-            _assignAuthorityCoroutine.Remove(itemNetId);
-        }
+    //[Command(requiresAuthority = false)]
+    //public void TryFixInhaleItem(GameObject target, uint itemNetId)
+    //{
+    //    var conn = target.GetComponent<NetworkIdentity>().connectionToClient;
+    //
+    //    if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item))
+    //    {
+    //        FixInhaleItem(conn, itemNetId, false);
+    //        return;
+    //    }
+    //
+    //    if (!item.TryGetComponent<IInhalable>(out var inhalable) || (inhalable is not null && !inhalable.CanInhale()))
+    //    {
+    //        FixInhaleItem(conn, itemNetId, false);
+    //        return;
+    //    }
+    //    
+    //    inhalable.Fixed(true);
+    //    FixInhaleItem(conn, itemNetId, true);
+    //}
 
-        if (!ReferenceEquals(Managers.Game.Player, item.gameObject) && !ReferenceEquals(Managers.Game.OtherPlayer, item.gameObject) && !item.isOwned)
-        {
-            var delayAssignAuthorityCoroutine = StartCoroutine(DelayAssignAuthority(item));
-            _assignAuthorityCoroutine.TryAdd(itemNetId, delayAssignAuthorityCoroutine);
-        }
-        
-        if (!item.TryGetComponent<IInhalable>(out var inhalable)) return;
-        
-        inhalable.Inhaling(false);
-        inhalable.Fixed(false);
-    }
-
-    [Command(requiresAuthority = false)]
-    public void TryFixInhaleItem(GameObject target, uint itemNetId)
-    {
-        var conn = target.GetComponent<NetworkIdentity>().connectionToClient;
-
-        if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item))
-        {
-            FixInhaleItem(conn, itemNetId, false);
-            return;
-        }
-
-        if (!item.TryGetComponent<IInhalable>(out var inhalable) || (inhalable is not null && !inhalable.CanInhale()))
-        {
-            FixInhaleItem(conn, itemNetId, false);
-            return;
-        }
-        
-        inhalable.Fixed(true);
-        FixInhaleItem(conn, itemNetId, true);
-    }
-
-    [TargetRpc]
-    private void FixInhaleItem(NetworkConnectionToClient conn, uint itemNetId, bool value)
-    {
-        if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
-        
-        if(ReferenceEquals(Managers.Game.Player, item.gameObject) || ReferenceEquals(Managers.Game.OtherPlayer, item.gameObject))
-            fixItemCallback?.Invoke(value, true);
-        else
-            fixItemCallback?.Invoke(value, false);
-    }
-
-    private IEnumerator DelayAssignAuthority(NetworkIdentity item)
-    {
-        yield return _waitForSeconds;
-        AssignAuthority(item);
-        _assignAuthorityCoroutine.Remove(item.netId);
-    }
+    //[TargetRpc]
+    //private void FixInhaleItem(NetworkConnectionToClient conn, uint itemNetId, bool value)
+    //{
+    //    if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
+    //    
+    //    if(ReferenceEquals(Managers.Game.Player, item.gameObject) || ReferenceEquals(Managers.Game.OtherPlayer, item.gameObject))
+    //        fixItemCallback?.Invoke(value, true);
+    //    else
+    //        fixItemCallback?.Invoke(value, false);
+    //}
     #endregion
 
     #region Object
@@ -277,17 +259,11 @@ public class NetworkCommand : NetworkBehaviour
     }
     #endregion
     
-    #region AuthorityToServer
+    #region AuthorityAssign
     [Command(requiresAuthority = false)]
     public void AuthorityToServer(uint itemNetId, bool isRelease, Vector2 velocity)
     {
         if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
-
-        if (_assignAuthorityCoroutine.TryGetValue(itemNetId, out var coroutine))
-        {
-            StopCoroutine(coroutine);
-            _assignAuthorityCoroutine.Remove(itemNetId);
-        }
         
         if (item.isOwned) return;
 
@@ -307,16 +283,22 @@ public class NetworkCommand : NetworkBehaviour
     public void AuthorityToServer(uint itemNetId)
     {
         if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
-
-        if (_assignAuthorityCoroutine.TryGetValue(itemNetId, out var coroutine))
-        {
-            StopCoroutine(coroutine);
-            _assignAuthorityCoroutine.Remove(itemNetId);
-        }
         
         if (item.isOwned) return;
 
         AssignAuthority(item);
+    }
+
+    [Command(requiresAuthority = false)]
+    public void AuthorityToClient(uint itemNetId)
+    {
+        if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
+
+        if (!item.isOwned) return;
+
+        if (Managers.Game.OtherPlayer is null || !Managers.Game.OtherPlayer.TryGetComponent<NetworkIdentity>(out var client)) return;
+
+        AssignAuthority(item, client.connectionToClient);
     }
 
     private void AssignAuthority(NetworkIdentity item, NetworkConnectionToClient conn = null)

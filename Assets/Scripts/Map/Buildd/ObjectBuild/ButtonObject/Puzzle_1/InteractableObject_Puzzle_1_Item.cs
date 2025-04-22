@@ -106,7 +106,7 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
             _canInteract = true;
             ChangeState(false);
 
-            _fixedPoint = null;
+            //_fixedPoint = null;
             _rigidbody.constraints = _originRot;
             _sortingGroup.sortingLayerID = _originSortingLayerID;
 

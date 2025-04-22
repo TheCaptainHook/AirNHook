@@ -3,9 +3,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class NewGrappling
+public class NewGrappling : MonoBehaviour
 {
-    private HookSM _hook;
+    [field: SerializeField] private HookSM _hook;
     private DistanceJoint2D _distanceJoint2D;
     private Vector2 _targetPos;
     private bool _canControl => _hook.canControl;
@@ -48,11 +48,11 @@ public class NewGrappling
     public Vector2 hookAnchorPos;
     
 
-    public NewGrappling(HookSM hook)
-    {
-        _hook = hook;
-        Start();
-    }
+    //public NewGrappling(HookSM hook)
+    //{
+    //    _hook = hook;
+    //    Start();
+    //}
 
     private void Start()
     {
@@ -83,7 +83,7 @@ public class NewGrappling
     }
     
     #region UpdateMethod
-    public void Update()
+    private void Update()
     {
         if (_hook.isLocalPlayer && _hook.canControl)
             HandleRopeLength();
@@ -91,7 +91,7 @@ public class NewGrappling
         UpdateRopePosition();
     }
 
-    public void PhysicsUpdate()
+    private void FixedUpdate()
     {
         if (!_hook.isLocalPlayer || !_hook.canControl) return;
         
@@ -207,7 +207,7 @@ public class NewGrappling
         }
         
         var playerDistance = Vector2.Distance(_hook.transform.position, hookAnchor.transform.position);
-        if (Mathf.Abs(playerDistance - _distanceJoint2D.distance) >= 0.1f)
+        if (Mathf.Abs(playerDistance - _distanceJoint2D.distance) >= 0.15f)
         {
             _distanceJoint2D.distance = playerDistance;
         }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface IInhalable
 {
-    public void Inhalation(Transform accessor);
+    public void Inhalation(Transform accesor);
     public void StopInhale();
     public void Fixed(bool value);
     public void Inhaling(bool value);

@@ -94,12 +94,12 @@ GameObject:
   m_Component:
   - component: {fileID: 994488778957814542}
   - component: {fileID: -8846839930603035143}
-  - component: {fileID: -270225028426460243}
   - component: {fileID: -5810413876586093780}
   - component: {fileID: 7452312321517642354}
   - component: {fileID: 5995116111848026723}
   - component: {fileID: 3375519340777205343}
   - component: {fileID: 3979146331489486347}
+  - component: {fileID: 1792971921130787740}
   m_Layer: 19
   m_Name: SpikeBall
   m_TagString: Untagged
@@ -150,25 +150,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-270225028426460243
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8716440483222482088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3369714a36eeff3448142e8610242ff9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  _objectType: 1
-  _gravityScale: 0
-  _offset: {x: 0, y: 1}
-  _inhalePower: 4000
 --- !u!114 &-5810413876586093780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,6 +284,9 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   distructionStatus: 0
   chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
@@ -311,3 +295,22 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
+--- !u!114 &1792971921130787740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8716440483222482088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 480da5ee0ced20b4c882edd1335f1b27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  _objectType: 1
+  _gravityScale: 0
+  _offset: {x: 0, y: 1}
+  _inhalePower: 4000

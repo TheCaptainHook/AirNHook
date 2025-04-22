@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.ComponentModel;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -9,6 +8,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 {
     // grab release
     [Header("Grab n Release")]
+    private Transform _accessor;
     protected Rigidbody2D _rigidbody;
     protected Collider2D _collider;
     protected Transform _fixedPoint;
@@ -19,6 +19,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     [SyncVar] protected bool _isFixed;
     [SyncVar] protected bool _canInteract = true;
     protected bool _isGrab;
+    private float _stoppedTime;
 
     // e button ui
     [Header("E Button UI")]
@@ -47,18 +48,13 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _originType = _rigidbody.bodyType;
         _originRot = _rigidbody.constraints;
         _gravityScale = _rigidbody.gravityScale;
-        //_gravityScale = 1;
 
         _originSortingLayerID = _sortingGroup.sortingLayerID;
     }
 
     protected void Update()
     {
-        if (isOwned && _isFixed && _fixedPoint is not null)
-        {
-            _rigidbody.velocity = Vector2.zero;
-            transform.position = _fixedPoint.position;
-        }
+        ClientAuthorityPass();
 
         if (!_isFixed && _eButtonUI is not null)
         {
@@ -68,27 +64,52 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     private void FixedUpdate()
     {
-        if (!isOwned || _fixedPoint is null || _isGrab) return;
+        if (_isFixed)
+            Fixing();
+    }
 
-        Inhale();
+    private void ClientAuthorityPass()
+    {
+        if (!isOwned || isServer || _isFixed) return;
+
+        if (_rigidbody.velocity.magnitude <= 0.5f)
+        {
+            _stoppedTime += Time.deltaTime;
+
+            if (_stoppedTime >= 3f)
+            {
+                AuthorityToServer();
+                _stoppedTime = 0f;
+            }
+        }
+        else
+        {
+            _stoppedTime = 0f;
+        }
+    }
+
+    private void AuthorityToServer()
+    {
+        if (isServer) return;
+
+        Debug.Log($"Authority to server {netId}");
+        Managers.Command.AuthorityToServer(netId);
     }
 
     #region IInteractable
     public void Interaction(Transform accessor)
     {
+        _accessor = accessor;
+
         if (_isFixed)
-        {
             Release();
-        }
         else
-        {
-            _fixedPoint = accessor;
             Grab();
-        }
     }
 
     protected virtual void Grab()
     {
+        _stoppedTime = 0f;
         _isFixed = true;
         _isGrab = true;
         _canInteract = false;
@@ -105,6 +126,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public virtual void Release()
     {
+        _stoppedTime = 0f;
         _isFixed = false;
         _isGrab = false;
         _canInteract = true;
@@ -112,9 +134,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         //ShowEButton();
 
         _rigidbody.bodyType = _originType;
-        //_rigidbody.velocity = Vector2.zero;
         _rigidbody.gravityScale = _gravityScale;
-        _fixedPoint = null;
         _rigidbody.constraints = _originRot;
         _sortingGroup.sortingLayerID = _originSortingLayerID;
         CmdChangeSortingLayer(false);
@@ -122,8 +142,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void Destroyed()
     {
-        _isFixed = false;
-        _isGrab = false;
+        _stoppedTime = 0f;
         _canInteract = false;
         CmdChangeFixedState(false);
         CmdChangeInteractState(false);
@@ -133,10 +152,14 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
         _rigidbody.bodyType = _originType;
 
-        if (_fixedPoint is not null && _fixedPoint.root.TryGetComponent<HookSM>(out var hook))
-            hook.ReleaseItem();
+        if (_isGrab)
+        {
+            _isGrab = false;
+            _isFixed = false;
+            if (_accessor.TryGetComponent<HookSM>(out var hook))
+                hook.ReleaseItem();
+        }
 
-        _fixedPoint = null;
         _rigidbody.constraints = _originRot;
         Managers.Command.AuthorityToServer(netId);
     }
@@ -178,25 +201,36 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     #endregion
 
     #region IInhalation
-    public void Inhalation(Transform accessor)
+    public void Inhalation(Transform accesor)
     {
-        _fixedPoint = accessor;
-        transform.rotation = Quaternion.identity;
+
     }
 
     public void StopInhale()
     {
-        _fixedPoint = null;
+        Fixed(false);
         _rigidbody.drag = 0f;
         _rigidbody.gravityScale = _gravityScale;
     }
 
     public void Fixed(bool value)
     {
-        _rigidbody.drag = 0f;
         _isFixed = value;
         _isGrab = false;
         _canInteract = !value;
+
+        if (_isFixed)
+        {
+            _rigidbody.velocity = Vector2.zero;
+            _rigidbody.angularVelocity = 0f;
+        }
+    }
+
+    public void Fixing()
+    {
+        _rigidbody.velocity = Vector2.zero;
+        _rigidbody.angularVelocity = 0f;
+        _rigidbody.Sleep();
     }
 
     public void Inhaling(bool value)
@@ -206,25 +240,12 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void Shooting(Vector2 force)
     {
-        _fixedPoint = null;
-        _rigidbody.drag = 0f;
-        _rigidbody.velocity = Vector2.zero;
-        _rigidbody.gravityScale = _gravityScale;
-        _rigidbody.AddForce(force, ForceMode2D.Impulse);
+        _stoppedTime = 0f;
     }
 
     public bool CanInhale()
     {
         return !_isFixed;
-    }
-
-    private void Inhale()
-    {
-        var direction = (_fixedPoint.position - transform.position).normalized;
-        var power = _inhalePower * Time.fixedDeltaTime;
-        _rigidbody.drag = 10f;
-        _rigidbody.gravityScale = 0f;
-        _rigidbody.AddForce(direction * power);
     }
     #endregion
 
@@ -268,10 +289,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             _sortingGroup.sortingLayerID = _originSortingLayerID;
     }
     #endregion
-
-
-
-
 
     #region Dissolve
     private static readonly int DissolveAmount = Shader.PropertyToID("_DissolveAmount");
