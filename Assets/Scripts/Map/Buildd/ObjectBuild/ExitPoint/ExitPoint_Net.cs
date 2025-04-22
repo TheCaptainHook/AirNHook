@@ -93,17 +93,17 @@ public class ExitPoint_Net : NetworkBehaviour
     }
 
 
-    [Server]
-    public void Server_SetCurrent_KeyAmount(int amount)
-    {
-        current_KeyAmount -= amount;
-        if(current_KeyAmount <= 0 && !StageClear)
-        {
-            doorOpeningAnim.CallOnUnlockAnimation();
-            // Rpc_StageClear();
-            StartCoroutine(Delay());
-        }
-    }
+    //[Server]
+    //public void Server_SetCurrent_KeyAmount(int amount)
+    //{
+    //    current_KeyAmount -= amount;
+    //    if(current_KeyAmount <= 0 && !StageClear)
+    //    {
+    //        doorOpeningAnim.CallOnUnlockAnimation();
+    //        // Rpc_StageClear();
+    //        StartCoroutine(Delay());
+    //    }
+    //}
     IEnumerator Delay()
     {
         yield return new WaitForSeconds(2f);
@@ -118,18 +118,41 @@ public class ExitPoint_Net : NetworkBehaviour
         Col.enabled = true;
     }
 
-    [Command(requiresAuthority = false)]
-    public void Cmd_SetCurrent_KeyAmount(int amount)
-    {
-        Server_SetCurrent_KeyAmount(amount);
-    }
+    //[Command(requiresAuthority = false)]
+    //public void Cmd_SetCurrent_KeyAmount(int amount)
+    //{
+    //    Server_SetCurrent_KeyAmount(amount);
+    //}
 
     private void OnChangeCurrent_KeyAmount(int old,int newVal)
     {
         keyBubble.MinusConditionKeyAmount(newVal);
     }
 
+    //------------REfec 0423
+    [Command(requiresAuthority = false)]
+    public void Cmd_GetKey(uint id)
+    {
+        if (isServer)
+        {
+            var item = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity identity) ? identity : null;
+            if (item == null) return;
 
+            Managers.Command.DestroyKey(identity.gameObject);
+
+            current_KeyAmount -= 1;
+            if (current_KeyAmount <= 0 && !StageClear)
+            {
+                doorOpeningAnim.CallOnUnlockAnimation();
+                // Rpc_StageClear();
+                StartCoroutine(Delay());
+            }
+
+        }
+
+    }
+  
+    //------------REfec
 
     #region Key
     [Server]
@@ -153,6 +176,26 @@ public class ExitPoint_Net : NetworkBehaviour
     #endregion
 
     #region Next Map
+    [Command(requiresAuthority = false)]
+    public void Cmd_SetInDoor(int num)
+    {
+        if (isServer)
+        {
+            curPlayerInDoor += num;
+            if (curPlayerInDoor < 0) curPlayerInDoor = 0;
+
+            if (StageClear && curPlayerInDoor >= 2)
+            {
+                //exit.MoveNextStage();
+                OnMoveNextStage = true;
+
+                //StartCoroutine(_Delay(1,()=>{MoveNextStage();}));
+                MoveNextStage();
+                //MapEditor.Instance.MoveNextStage(nextMapId);
+
+            }
+        }
+    }
     [Server]
     public void Server_SetInDoor(int num)
     {
@@ -164,8 +207,8 @@ public class ExitPoint_Net : NetworkBehaviour
             //exit.MoveNextStage();
             OnMoveNextStage = true;
 
-            StartCoroutine(_Delay(1,()=>{MoveNextStage();}));
-            
+            //StartCoroutine(_Delay(1,()=>{MoveNextStage();}));
+            MoveNextStage();
             //MapEditor.Instance.MoveNextStage(nextMapId);
 
         }
@@ -227,17 +270,17 @@ public class ExitPoint_Net : NetworkBehaviour
     //    RpcOnAbsencePanel();
     //}
 
-    private IEnumerator WaitUntilAllClientsReady(Action action)
-    {
-        while (!AllClientsReady()) // 모든 클라이언트가 준비될 때까지 대기
-        {
-            Debug.Log("클라이언트가 아직 준비되지 않음. 기다리는 중...");
-            yield return null;
-        }
+    //private IEnumerator WaitUntilAllClientsReady(Action action)
+    //{
+    //    while (!AllClientsReady()) // 모든 클라이언트가 준비될 때까지 대기
+    //    {
+    //        Debug.Log("클라이언트가 아직 준비되지 않음. 기다리는 중...");
+    //        yield return null;
+    //    }
 
-        Debug.Log("모든 클라이언트가 준비됨! ClientRpc 호출");
-        action?.Invoke();
-    }
+    //    Debug.Log("모든 클라이언트가 준비됨! ClientRpc 호출");
+    //    action?.Invoke();
+    //}
 
     private bool AllClientsReady()
     {
@@ -259,38 +302,49 @@ public class ExitPoint_Net : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void Enter(GameObject obj)
     {
-        try
-        {
-            RpcEnter(obj);
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e);
-        }
+        if (obj == null) return;
+        RpcEnter(obj.GetComponent<NetworkIdentity>().netId);
 
     }
+    //[ClientRpc]
+    //public void RpcEnter(GameObject obj)
+    //{
+    //    exit.Enter(obj);
+    //}
     [ClientRpc]
-    public void RpcEnter(GameObject obj)
+    public void RpcEnter(uint id)
     {
-        exit.Enter(obj);
+        var item = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity identity) ? identity : null;
+        if (item != null) { exit.Enter(identity.gameObject); }
+
+
+        
     }
     [Command(requiresAuthority = false)]
     public void Exit(GameObject obj)
     {
         if (obj == null) return;
-        try
-        {
-            RpcExit(obj);
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e);
-        }
+        RpcExit(obj.GetComponent<NetworkIdentity>().netId);
+        //try
+        //{
+        //    RpcExit(obj);
+        //}
+        //catch (Exception e)
+        //{
+        //    Debug.Log(e);
+        //}
     }
+    //[ClientRpc]
+    //public void RpcExit(GameObject obj)
+    //{
+    //    exit.Exit(obj);
+    //}
     [ClientRpc]
-    public void RpcExit(GameObject obj)
+    public void RpcExit(uint id)
     {
-        exit.Exit(obj);
+        var item = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity identity) ? identity : null;
+        if (item != null) { exit.Exit(identity.gameObject); }
+      
     }
     #endregion
 

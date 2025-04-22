@@ -1,3 +1,4 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -136,16 +137,16 @@ public class ExitPointObj : BuildObj
         ExitPoint_Net.onSync = true;
     }
 
-    private void ClientGetKey(GameObject obj) //TOdo 0729
-    {
-        if (Managers.Game.CurrentState != GameState.Editor)
-        {
-            Managers.Command.DestroyKey(obj);
-        }
-        //Current_KeyAmount = 1;
-        // SetKey();
-        ExitPoint_Net.Cmd_SetCurrent_KeyAmount(1);
-    }
+    //private void ClientGetKey(GameObject obj) //TOdo 0729
+    //{
+    //    if (Managers.Game.CurrentState != GameState.Editor)
+    //    {
+    //        Managers.Command.DestroyKey(obj);
+    //    }
+    //    //Current_KeyAmount = 1;
+    //    // SetKey();
+    //    ExitPoint_Net.Cmd_SetCurrent_KeyAmount(1);
+    //}
 
     //void GetKey(GameObject obj)
     //{
@@ -170,7 +171,8 @@ public class ExitPointObj : BuildObj
         //     ClientGetKey(collision.gameObject);
 
         if(collision.TryGetComponent(out Key component) && !turnOff){
-            ClientGetKey(collision.gameObject);
+            //ClientGetKey(collision.gameObject);
+            ExitPoint_Net.Cmd_GetKey(component.GetComponent<NetworkIdentity>().netId);
         }
         
         if (Managers.Game.CurrentState == GameState.Editor || !Managers.Game.Player.GetComponent<PlayerSM>().isServer) return;
@@ -188,7 +190,8 @@ public class ExitPointObj : BuildObj
             if (air || hook)
             {
                 ExitPoint_Net.Enter(collision.gameObject);
-                ExitPoint_Net.Server_SetInDoor(1);
+                //ExitPoint_Net.Server_SetInDoor(1);
+                ExitPoint_Net.Cmd_SetInDoor(1);
             }
            
             
@@ -218,7 +221,8 @@ public class ExitPointObj : BuildObj
             if (air || hook)
             {
                 ExitPoint_Net.Exit(collision.gameObject);
-                ExitPoint_Net.Server_SetInDoor(-1);
+                //ExitPoint_Net.Server_SetInDoor(-1);
+                ExitPoint_Net.Cmd_SetInDoor(-1);
             }
             //absencePanel.Exit(collision.gameObject);//TODO 0802 Need Networking
             //doorOpeningAnim.Exit(collision.gameObject);
