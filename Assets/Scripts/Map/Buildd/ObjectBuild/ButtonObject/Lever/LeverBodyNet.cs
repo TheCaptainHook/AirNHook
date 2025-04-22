@@ -58,6 +58,20 @@ public class LeverBodyNet : NetworkBehaviour
         Rpc_SetLeverHead();
         
     }
+
+
+    [Command(requiresAuthority = false)]
+    public void Cmd_SetLeverHead(uint id)
+    {
+        if(isServer)
+        {
+            var item = NetworkClient.spawned.TryGetValue(id, out var body) ? body : null;
+            if (item == null) return;
+
+            Server_SetLeverHead(item.GetComponent<LeverHead>());
+        }
+    }
+
     IEnumerator Destroy_Head(LeverHead head)
     {
         //head.transform.GetChild(0).gameObject.SetActive(false);
