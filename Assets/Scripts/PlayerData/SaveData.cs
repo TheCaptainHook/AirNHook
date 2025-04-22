@@ -18,7 +18,7 @@ public class SaveData
     public AchievementData _AchievementData; // TODO 1206
     public Dictionary<string, MapSaveData> dic = new();
 
-
+    public string savePath => filePath;
     public void SetUp()
     {
         filePath = Path.Combine(Application.persistentDataPath, "savefile.json");

@@ -645,9 +645,14 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  paths: []
   onSync: 0
+  maxIndex: 0
+  index: 0
+  nextIndex: 0
   targetPosition: {x: 0, y: 0}
   dir: {x: 0, y: 0}
+  startPot: {x: 0, y: 0}
 --- !u!114 &6225163128655435337
 MonoBehaviour:
   m_ObjectHideFlags: 0

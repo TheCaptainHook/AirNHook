@@ -129,7 +129,7 @@ public class ConsoleSystem : MonoBehaviour
             //Create new saveData
             Managers.Data.saveData.SetUp();
             //Create new saveData
-            WriteLog($"\n   >{inputField.text}\n\n");
+            WriteLog($"\n   >{inputField.text}\npath : {Managers.Data.saveData.savePath}\n");
             inputField.text = "";
             return;
         }
