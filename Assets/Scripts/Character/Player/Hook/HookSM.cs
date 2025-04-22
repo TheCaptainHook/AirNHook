@@ -264,7 +264,9 @@ public class HookSM : PlayerSM, IInhalable
         if (interactable.GetObjectType() == ObjectTypeEnum.Grab)
         {
             grabbedItem = item.transform;
-            var constraint = grabbedItem.GetComponent<ParentConstraint>();
+
+            if (!grabbedItem.TryGetComponent<ParentConstraint>(out var constraint))
+                constraint = grabbedItem.gameObject.AddComponent<ParentConstraint>();
 
             constraint.weight = 1f;
             constraint.AddSource(grabSource);

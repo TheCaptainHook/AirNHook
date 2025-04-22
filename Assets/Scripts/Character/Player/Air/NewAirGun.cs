@@ -404,7 +404,9 @@ public class NewAirGun
     {
         _isAttached = true;
 
-        _targetConstraint = _inhaleTarget.GetComponent<ParentConstraint>();
+        if (!_inhaleTarget.TryGetComponent(out _targetConstraint))
+            _targetConstraint = _inhaleTarget.gameObject.AddComponent<ParentConstraint>();
+
         _targetConstraint.AddSource(_targetConstraintSource);
         _targetConstraint.translationAxis = Axis.X | Axis.Y | Axis.Z;
         _targetConstraint.rotationAxis = Axis.None;
