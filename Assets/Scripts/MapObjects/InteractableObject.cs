@@ -201,7 +201,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     #region IInhalation
     public void Inhalation(Transform accesor)
     {
-
+        _canInteract = false;
     }
 
     public void StopInhale()
@@ -227,6 +227,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void Fixing()
     {
+        _canInteract = false;
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.angularVelocity = 0f;
         _rigidbody.freezeRotation = true;
@@ -244,6 +245,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _rigidbody.angularVelocity = 0f;
         _rigidbody.Sleep();
         _stoppedTime = 0f;
+        _canInteract = true;
     }
 
     public bool CanInhale()
