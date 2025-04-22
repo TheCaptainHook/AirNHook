@@ -350,7 +350,6 @@ public class HookSM : PlayerSM, IInhalable
         canControl = false;
         _fixedPoint = accesor;
 
-        Debug.Log(_inhaleCoroutine);
         if (_inhaleCoroutine is not null) return;
 
         _inhaleCoroutine = StartCoroutine(Co_Inhale());
@@ -374,9 +373,14 @@ public class HookSM : PlayerSM, IInhalable
                 if (Vector2.Distance(_fixedPoint.position, transform.position) > 0.3f) continue;
                 
                 _isFixed = true;
+
+                if (characterConstraint is null)
+                    characterConstraint = gameObject.AddComponent<ParentConstraint>();
+
                 characterConstraint.weight = 1f;
-                characterConstraint.AddSource(grabSource);
+                characterConstraint.AddSource(characterConstraintSource);
                 characterConstraint.translationAxis = Axis.X | Axis.Y | Axis.Z;
+                characterConstraint.rotationAxis = Axis.None;
                 characterConstraint.locked = true;
                 characterConstraint.constraintActive = true;
 
@@ -409,7 +413,7 @@ public class HookSM : PlayerSM, IInhalable
         if (_isFixed && !_isShot)
             stateMachine.ChangeState(isGround ? stateMachine.IdleState : stateMachine.FallingState);
 
-        if (characterConstraint.sourceCount != 0)
+        if (characterConstraint is not null && characterConstraint.sourceCount != 0)
         {
             characterConstraint.weight = 0f;
             characterConstraint.constraintActive = false;
