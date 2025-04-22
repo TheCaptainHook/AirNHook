@@ -193,7 +193,7 @@ public class HookSM : PlayerSM, IInhalable
                     if (latestTarget is not null && latestTarget.TryGetComponent<IInteractable>(out var other))
                         other.HideEButton();
                 }
-                catch (MissingReferenceException)
+                catch (Exception)
                 {
                     latestTarget = null;
                     Managers.UI.HideUI<UI_ShowEButton>();
@@ -216,7 +216,7 @@ public class HookSM : PlayerSM, IInhalable
                     if (latestTarget.TryGetComponent<IInteractable>(out var other))
                         other.HideEButton();
                 }
-                catch (MissingReferenceException)
+                catch (Exception)
                 {
                     latestTarget = null;
                     Managers.UI.HideUI<UI_ShowEButton>();
@@ -229,7 +229,7 @@ public class HookSM : PlayerSM, IInhalable
                 if (latestTarget.TryGetComponent<IInteractable>(out var newTarget))
                     newTarget.ShowEButton();
             }
-            catch (MissingReferenceException)
+            catch (Exception)
             {
                 latestTarget = null;
                 Managers.UI.HideUI<UI_ShowEButton>();
@@ -269,7 +269,6 @@ public class HookSM : PlayerSM, IInhalable
             constraint.weight = 1f;
             constraint.AddSource(grabSource);
             constraint.translationAxis = Axis.X | Axis.Y | Axis.Z;
-            constraint.rotationAxis = Axis.X | Axis.Y | Axis.Z;
             constraint.locked = true;
             constraint.constraintActive = true;
 
@@ -282,17 +281,21 @@ public class HookSM : PlayerSM, IInhalable
 
     public void ReleaseItem()
     {
-        var constraint = grabbedItem.GetComponent<ParentConstraint>();
+        try
+        {
+            var constraint = grabbedItem.GetComponent<ParentConstraint>();
 
-        constraint.locked = false;
-        constraint.constraintActive = false;
-        constraint.weight = 0f;
-        constraint.RemoveSource(0);
+            constraint.locked = false;
+            constraint.constraintActive = false;
+            constraint.weight = 0f;
+            constraint.RemoveSource(0);
 
-        grabbedItem.GetComponent<IInteractable>().Interaction(transform);
-        var itemRigidbody = grabbedItem.GetComponent<Rigidbody2D>();
-        itemRigidbody.velocity = rigidbody2D.velocity;
-        itemRigidbody.angularVelocity = 0f;
+            grabbedItem.GetComponent<IInteractable>().Interaction(transform);
+            var itemRigidbody = grabbedItem.GetComponent<Rigidbody2D>();
+            itemRigidbody.velocity = rigidbody2D.velocity;
+            itemRigidbody.angularVelocity = 0f;
+        }
+        catch (Exception) { }
         grabbedItem = null;
         animator.SetBool(GlobalText.GRABBING_ANIMATION_STRING, false);
     }
