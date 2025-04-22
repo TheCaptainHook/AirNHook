@@ -58,14 +58,11 @@ public class Drone_MultiPurpose : DroneEntity
                 if (vel >= 10)
                 {
                     //DroneDropTransportItem();
-                    if(collider.TryGetComponent(out NetworkIdentity identity))
-                    {
-                        Net.Cmd_OnTriggerEnter(identity.netId);
-                    }
-                 
-                    
+                    Net.Cmd_CallDropTransportItem();
+
+
                 }
-                //component.velocity = Vector2.zero;
+                component.velocity = Vector2.zero;
             }
         }
 

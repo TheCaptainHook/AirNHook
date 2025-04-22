@@ -134,23 +134,31 @@ public class DroneEntity_Net : NetworkBehaviour
 
 
 
+    //[Command(requiresAuthority = false)]
+    //public void Cmd_OnTriggerEnter(uint id)
+    //{
+    //    if (NetworkServer.spawned.TryGetValue(id, out var netObj))
+    //    {
+    //        var targetRb = netObj.GetComponent<Rigidbody2D>();
+    //        float vel = targetRb.velocity.magnitude;
+    //        if (vel >= 10)
+    //        {
+    //            gameObject.GetComponent<Drone_MultiPurpose>().DroneDropTransportItem();
+    //            //DroneDropTransportItem();  // 서버에서 충돌 처리
+    //        }
+    //        targetRb.velocity = Vector2.zero;
+    //    }
+    //}
+
     [Command(requiresAuthority = false)]
-    public void Cmd_OnTriggerEnter(uint id)
+    public void Cmd_CallDropTransportItem()
     {
-        if (NetworkServer.spawned.TryGetValue(id, out var netObj))
+        if(isServer)
         {
-            var targetRb = netObj.GetComponent<Rigidbody2D>();
-            float vel = targetRb.velocity.magnitude;
-            if (vel >= 10)
-            {
-                gameObject.GetComponent<Drone_MultiPurpose>().DroneDropTransportItem();
-                //DroneDropTransportItem();  // 서버에서 충돌 처리
-            }
-            targetRb.velocity = Vector2.zero;
+            gameObject.GetComponent<Drone_MultiPurpose>().DroneDropTransportItem();
         }
     }
-
-
+    
 
     #region Utile
     private bool CheckDistance(Vector2 curPos, Vector2 targetPos)

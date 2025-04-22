@@ -70,9 +70,10 @@ public class JumpingPad : ActivatableObjectEntity
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        if(collision.TryGetComponent(out Rigidbody2D component)){
+        if(collision != null && collision.TryGetComponent(out Rigidbody2D component)){
 
-            Net.Cmd_Jumping(component.gameObject);
+            //Net.Cmd_Jumping(component.gameObject);
+            Net.Cmd_Jumping(collision.gameObject);
         }
     }
 
