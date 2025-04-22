@@ -274,6 +274,7 @@ GameObject:
   - component: {fileID: 2937603552494309783}
   - component: {fileID: 5908284460361452664}
   - component: {fileID: 310662959535419816}
+  - component: {fileID: 315749101116579101}
   m_Layer: 10
   m_Name: PlayerAir
   m_TagString: Untagged
@@ -733,12 +734,30 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  layer:
-    serializedVersion: 2
-    m_Bits: 32768
-  rayStartOffset: {x: 0, y: 0.1, z: 0}
-  rayDistance: 0.3
   movingPlatform: {fileID: 0}
+--- !u!1773428102 &315749101116579101
+ParentConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1771380657003557902}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Weight: 1
+  m_TranslationAtRest: {x: -3.28, y: -1.99, z: 0}
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_TranslationOffsets: []
+  m_RotationOffsets: []
+  m_AffectTranslationX: 1
+  m_AffectTranslationY: 1
+  m_AffectTranslationZ: 1
+  m_AffectRotationX: 0
+  m_AffectRotationY: 0
+  m_AffectRotationZ: 0
+  m_Active: 0
+  m_IsLocked: 0
+  m_Sources: []
 --- !u!1 &3049429453135474500
 GameObject:
   m_ObjectHideFlags: 0

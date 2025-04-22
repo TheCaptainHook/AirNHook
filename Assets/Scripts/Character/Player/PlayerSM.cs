@@ -61,7 +61,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
 
     protected virtual void Start()
     {
-        characterConstraint = gameObject.AddComponent<ParentConstraint>();
+        characterConstraint = gameObject.GetComponent<ParentConstraint>();
 
         if (!isLocalPlayer)
         {

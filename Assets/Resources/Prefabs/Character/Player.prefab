@@ -5102,6 +5102,7 @@ GameObject:
   - component: {fileID: 6283197758547860492}
   - component: {fileID: 3704341649995382589}
   - component: {fileID: 5136920346327043914}
+  - component: {fileID: 7914692006675148312}
   m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
@@ -5366,12 +5367,30 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  layer:
-    serializedVersion: 2
-    m_Bits: 557056
-  rayStartOffset: {x: 0, y: 0.1, z: 0}
-  rayDistance: 0.3
   movingPlatform: {fileID: 0}
+--- !u!1773428102 &7914692006675148312
+ParentConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2743958777749711243}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Weight: 1
+  m_TranslationAtRest: {x: 0, y: 0, z: 0}
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_TranslationOffsets: []
+  m_RotationOffsets: []
+  m_AffectTranslationX: 1
+  m_AffectTranslationY: 1
+  m_AffectTranslationZ: 1
+  m_AffectRotationX: 0
+  m_AffectRotationY: 0
+  m_AffectRotationZ: 0
+  m_Active: 0
+  m_IsLocked: 0
+  m_Sources: []
 --- !u!1 &2817200425992069755
 GameObject:
   m_ObjectHideFlags: 0

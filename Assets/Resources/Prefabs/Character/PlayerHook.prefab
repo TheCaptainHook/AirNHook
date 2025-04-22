@@ -20667,6 +20667,7 @@ GameObject:
   - component: {fileID: 5294241001237805509}
   - component: {fileID: 2988414423162408082}
   - component: {fileID: 120368170868177649}
+  - component: {fileID: -179602218080930353}
   m_Layer: 10
   m_Name: PlayerHook
   m_TagString: Untagged
@@ -21065,12 +21066,30 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  layer:
-    serializedVersion: 2
-    m_Bits: 557056
-  rayStartOffset: {x: 0, y: 0.1, z: 0}
-  rayDistance: 0.3
   movingPlatform: {fileID: 0}
+--- !u!1773428102 &-179602218080930353
+ParentConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8428015766500747352}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Weight: 1
+  m_TranslationAtRest: {x: 0, y: 0, z: 0}
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_TranslationOffsets: []
+  m_RotationOffsets: []
+  m_AffectTranslationX: 1
+  m_AffectTranslationY: 1
+  m_AffectTranslationZ: 1
+  m_AffectRotationX: 0
+  m_AffectRotationY: 0
+  m_AffectRotationZ: 0
+  m_Active: 0
+  m_IsLocked: 0
+  m_Sources: []
 --- !u!1 &8977629696714436571
 GameObject:
   m_ObjectHideFlags: 0
