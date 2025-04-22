@@ -65,7 +65,7 @@ public class LaserTriggerButton : ButtonEntity
 
     public void Charging()
     {
-        if(!Application.isPlaying && !NetworkServer.active) return;
+        if(!Application.isPlaying || !NetworkServer.active) return;
 
         Net.Server_SetChargingCount();
         //Net.Cmd_SetChargingCount();
