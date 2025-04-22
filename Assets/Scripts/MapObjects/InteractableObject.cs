@@ -48,7 +48,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _originType = _rigidbody.bodyType;
         _originRot = _rigidbody.constraints;
         _gravityScale = _rigidbody.gravityScale;
-
         _originSortingLayerID = _sortingGroup.sortingLayerID;
     }
 

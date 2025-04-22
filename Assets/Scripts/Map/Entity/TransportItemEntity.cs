@@ -25,7 +25,8 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     [ClientRpc]
     private void Rpc_Transport_Drop()
     {
-        Rb.gravityScale = 1;
+        _gravityScale = defaultGravity;
+        Rb.gravityScale = defaultGravity;
         Col.enabled = true;
 
     }
@@ -48,14 +49,15 @@ public class TransportItemEntity : InteractableObject, ITransportItem
                 break;
         }
     }
-
+    [ReadOnly]
+    public float defaultGravity;
     [ClientRpc]
     private void Rpc_Transport_Init(uint netId)
     {
         if (NetworkClient.spawned.TryGetValue(netId, out NetworkIdentity identity))
         {
             var drone = identity.GetComponent<Drone_MultiPurpose>();
-
+            defaultGravity = Rb.gravityScale;
             Rb.gravityScale = 0;
             Col.enabled = false;
             transform.position = drone.itemPlacementPosition.position;
