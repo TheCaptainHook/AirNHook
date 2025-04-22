@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface IInteractable
 {
-    public void Interaction(Transform accessor = null);
+    public void Interaction(Transform accessor);
 
     public bool CanInteract();
 

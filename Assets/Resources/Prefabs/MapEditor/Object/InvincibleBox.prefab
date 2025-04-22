@@ -172,7 +172,7 @@ PlatformEffector2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6340568146112348316}
   m_Enabled: 1
-  m_UseColliderMask: 1
+  m_UseColliderMask: 0
   m_ColliderMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -242,6 +242,7 @@ GameObject:
   - component: {fileID: 4664830097871362257}
   - component: {fileID: 7248189904295600147}
   - component: {fileID: 4573540932453405735}
+  - component: {fileID: -2400072832166800358}
   m_Layer: 19
   m_Name: InvincibleBox
   m_TagString: Untagged
@@ -467,3 +468,26 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   movingPlatform: {fileID: 0}
+--- !u!1773428102 &-2400072832166800358
+ParentConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8716440483222482088}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Weight: 1
+  m_TranslationAtRest: {x: 0, y: 0, z: 0}
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_TranslationOffsets: []
+  m_RotationOffsets: []
+  m_AffectTranslationX: 1
+  m_AffectTranslationY: 1
+  m_AffectTranslationZ: 1
+  m_AffectRotationX: 0
+  m_AffectRotationY: 0
+  m_AffectRotationZ: 0
+  m_Active: 0
+  m_IsLocked: 0
+  m_Sources: []

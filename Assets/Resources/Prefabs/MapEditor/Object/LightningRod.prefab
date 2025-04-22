@@ -24337,6 +24337,7 @@ GameObject:
   - component: {fileID: -1748015647269424119}
   - component: {fileID: 2884958338721759735}
   - component: {fileID: 2642046701993852802}
+  - component: {fileID: 4618334201603645540}
   m_Layer: 18
   m_Name: LightningRod
   m_TagString: Untagged
@@ -24563,3 +24564,26 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   movingPlatform: {fileID: 0}
+--- !u!1773428102 &4618334201603645540
+ParentConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7773345652000642256}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Weight: 1
+  m_TranslationAtRest: {x: 0, y: 0, z: 0}
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_TranslationOffsets: []
+  m_RotationOffsets: []
+  m_AffectTranslationX: 1
+  m_AffectTranslationY: 1
+  m_AffectTranslationZ: 1
+  m_AffectRotationX: 0
+  m_AffectRotationY: 0
+  m_AffectRotationZ: 0
+  m_Active: 0
+  m_IsLocked: 0
+  m_Sources: []

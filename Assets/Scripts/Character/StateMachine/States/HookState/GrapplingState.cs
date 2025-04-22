@@ -40,7 +40,7 @@ public class GrapplingState : BaseState
 
     protected override void OnMove()
     {
-        rigidbd.drag = stateMachine.horizontal == 0 ? 0.3f : 0.2f;
+        rigidbd.drag = stateMachine.horizontal == 0 ? 0.4f : 0.2f;
 
         if (stateMachine.canMovable)
         {
@@ -60,8 +60,9 @@ public class GrapplingState : BaseState
     {
         if (!stateMachine.canMovable) return;
 
-        var playerToHookDirection = (ropeHook - (Vector2)_hookStateMachine.player.transform.position).normalized;
+        if (stateMachine.horizontal == 0) return;
 
+        var playerToHookDirection = (ropeHook - (Vector2)_hookStateMachine.player.transform.position).normalized;
         var perpendicularDirection = _hookStateMachine.horizontal < 0 ? new Vector2(-playerToHookDirection.y, playerToHookDirection.x) : new Vector2(playerToHookDirection.y, playerToHookDirection.x);
 
         var force = perpendicularDirection * _hookStateMachine.swingForce;

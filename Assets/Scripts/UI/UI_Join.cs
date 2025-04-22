@@ -47,7 +47,6 @@ public class UI_Join : UI_Base
         _roomCode = _inputField.text;
         if(string.IsNullOrWhiteSpace(_roomCode)) return;
 
-        Debug.Log("a");
         Managers.Network.steamLobby.joinLobbyCallback += Joining;
         Managers.Network.steamLobby.GetLobbyList();
     }
@@ -56,10 +55,8 @@ public class UI_Join : UI_Base
     {
         Managers.Network.steamLobby.joinLobbyCallback -= Joining;
 
-        Debug.Log("b");
         if (!Managers.Network.steamLobby.JoinLobby(_roomCode)) return;
 
-        Debug.Log("c");
         _mainFrame.transform.localScale = Vector3.one * 0.1f;
         CloseUI();
     }

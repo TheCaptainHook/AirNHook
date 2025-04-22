@@ -1,5 +1,7 @@
 using Mirror;
 using UnityEngine;
+using UnityEngine.Animations;
+using UnityEngine.InputSystem;
 
 public class AirSM : PlayerSM
 {
@@ -42,6 +44,12 @@ public class AirSM : PlayerSM
         base.Update();
         airGun.Update();
     }
+
+    protected override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        airGun.FixedUpdate();
+    }
     #endregion
 
     #region Interaction
@@ -74,12 +82,26 @@ public class AirSM : PlayerSM
         base.TakeDamage(damageType);
         StopGun();
     }
+
+    protected override void TrySuicide(InputAction.CallbackContext context)
+    {
+        if (!canControl) return;
+
+        canMovable = false;
+        armPivot.localRotation = Quaternion.Euler(0f, 0f, 0f);
+        stateMachine.ChangeState(stateMachine.SuicideState);
+    }
     #endregion
 
     #region AirGun
     private void StopGun()
     {
         airGun.Reset();
+    }
+
+    public void HookAttached()
+    {
+        airGun.HookAttached();
     }
     #endregion
 
@@ -95,7 +117,7 @@ public class AirSM : PlayerSM
     {
         Managers.Game.Player.GetComponent<IInhalable>().Inhalation(weaponPoint);
     }
-    
+
     [Command(requiresAuthority = false)]
     public void CmdStopInhalePlayer()
     {
@@ -109,21 +131,15 @@ public class AirSM : PlayerSM
     }
     
     [Command(requiresAuthority = false)]
-    public void CmdShootObject(GameObject obj, Vector2 power)
+    public void CmdShootPlayer(GameObject obj, Vector2 power)
     {
         if (!obj.TryGetComponent<IInhalable>(out var inhalable)) return;
-
-        var item = obj.GetComponent<NetworkIdentity>();
-
+    
         if (ReferenceEquals(Managers.Game.Player, obj) || ReferenceEquals(Managers.Game.OtherPlayer, obj))
         {
             RpcShootPlayer(obj, power);
             return;
         }
-        
-        Managers.Command.AuthorityToServer(item.netId);
-        
-        inhalable.Shooting(power);
     }
     
     [ClientRpc(includeOwner = false)]

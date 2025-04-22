@@ -18,6 +18,7 @@ public class SuicideState : BaseState
 
     public override void ExitState()
     {
+        player.canMovable = true;
         Managers.Game.playerInput.playerActions.Suicide.canceled -= SuicideCancel;
         player.animator.SetBool(stateMachine.player.animationData.JumpParameterHash, false);
         player.animator.SetBool(stateMachine.player.animationData.FallingParameterHash, false);
@@ -39,6 +40,7 @@ public class SuicideState : BaseState
 
     private void SuicideCancel(InputAction.CallbackContext context)
     {
+        player.canMovable = true;
         Managers.Game.playerInput.playerActions.Suicide.canceled -= SuicideCancel;
         player.animator.SetTrigger(player.animationData.CancelSuicideParameterHash);
         stateMachine.ChangeState(isGround ? stateMachine.IdleState : stateMachine.FallingState);

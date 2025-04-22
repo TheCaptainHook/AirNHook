@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using Mirror;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class HookSM : PlayerSM, IInhalable
 {
@@ -44,15 +46,20 @@ public class HookSM : PlayerSM, IInhalable
     protected override void Start()
     {
         base.Start();
-        grappling = new NewGrappling(this);
+        //grappling = new NewGrappling(this);
         
         _inhalePower = _hookData.inhalePower;
         _gravityScale = rigidbody2D.gravityScale;
         
         if (!isLocalPlayer) return;
-        
+
+        characterConstraintSource = new ConstraintSource
+        {
+            sourceTransform = transform,
+            weight = 1f
+        };
         Managers.Command.itemGrabCallback += GrabItemNet;
-        Managers.Command.itemReleaseCallback += ReleaseItemNet;
+        //Managers.Command.itemReleaseCallback += ReleaseItemNet;
     }
 
     protected override void OnDisable()
@@ -61,20 +68,20 @@ public class HookSM : PlayerSM, IInhalable
         grappling.OnDisable();
         
         Managers.Command.itemGrabCallback -= GrabItemNet;
-        Managers.Command.itemReleaseCallback -= ReleaseItemNet;
+        //Managers.Command.itemReleaseCallback -= ReleaseItemNet;
     }
 
     #region UpdateMethod
     protected override void Update()
     {
         base.Update();
-        grappling.Update();
+        //grappling.Update();
     }
 
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
-        grappling.PhysicsUpdate();
+        //grappling.PhysicsUpdate();
     }
     #endregion
 
@@ -235,7 +242,7 @@ public class HookSM : PlayerSM, IInhalable
     {
         if (grabbedItem is not null)
         {
-            Managers.Command.TryReleaseItem(gameObject, grabbedItem.GetComponent<NetworkIdentity>().netId);
+            ReleaseItem();
         }
         else if (latestTarget is not null)
         {
@@ -244,7 +251,7 @@ public class HookSM : PlayerSM, IInhalable
             if (interactable.GetObjectType() == ObjectTypeEnum.Grab)
                 Managers.Command.TryGrabItem(gameObject, latestTarget.GetComponent<NetworkIdentity>().netId);
             else
-                interactable.Interaction(grabPoint);
+                interactable.Interaction(transform);
         }
     }
     
@@ -257,34 +264,35 @@ public class HookSM : PlayerSM, IInhalable
         if (interactable.GetObjectType() == ObjectTypeEnum.Grab)
         {
             grabbedItem = item.transform;
+            var constraint = grabbedItem.GetComponent<ParentConstraint>();
+
+            constraint.weight = 1f;
+            constraint.AddSource(grabSource);
+            constraint.translationAxis = Axis.X | Axis.Y | Axis.Z;
+            constraint.rotationAxis = Axis.X | Axis.Y | Axis.Z;
+            constraint.locked = true;
+            constraint.constraintActive = true;
+
             animator.SetBool(GlobalText.GRABBING_ANIMATION_STRING, true);
         }
-        
-        interactable.Interaction(grabPoint);
+
+        interactable.Interaction(transform);
         interactable.HideEButton();
     }
 
-    private void ReleaseItemNet(uint itemNetId)
-    {
-        if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
-
-        if (!item.TryGetComponent<IInteractable>(out var interactable))
-        {
-            ReleaseItem();
-            return;
-        }
-        
-        interactable.Interaction(grabPoint);
-        item.GetComponent<Rigidbody2D>().velocity = rigidbody2D.velocity;
-        
-        Managers.Command.AuthorityToServer(grabbedItem.GetComponent<NetworkIdentity>().netId, true, rigidbody2D.velocity);
-        ReleaseItem();
-    }
-    
     public void ReleaseItem()
     {
-        if (!isLocalPlayer) return;
-        
+        var constraint = grabbedItem.GetComponent<ParentConstraint>();
+
+        constraint.locked = false;
+        constraint.constraintActive = false;
+        constraint.weight = 0f;
+        constraint.RemoveSource(0);
+
+        grabbedItem.GetComponent<IInteractable>().Interaction(transform);
+        var itemRigidbody = grabbedItem.GetComponent<Rigidbody2D>();
+        itemRigidbody.velocity = rigidbody2D.velocity;
+        itemRigidbody.angularVelocity = 0f;
         grabbedItem = null;
         animator.SetBool(GlobalText.GRABBING_ANIMATION_STRING, false);
     }
@@ -325,10 +333,16 @@ public class HookSM : PlayerSM, IInhalable
     #endregion
 
     #region Inhalable
-    public void Inhalation(Transform accessor)
+    public void Inhalation(Transform accesor)
     {
+        if (!isLocalPlayer) return;
+
         canControl = false;
-        _fixedPoint = accessor;
+        _fixedPoint = accesor;
+
+        Debug.Log(_inhaleCoroutine);
+        if (_inhaleCoroutine is not null) return;
+
         _inhaleCoroutine = StartCoroutine(Co_Inhale());
     }
 
@@ -350,6 +364,13 @@ public class HookSM : PlayerSM, IInhalable
                 if (Vector2.Distance(_fixedPoint.position, transform.position) > 0.3f) continue;
                 
                 _isFixed = true;
+                characterConstraint.weight = 1f;
+                characterConstraint.AddSource(grabSource);
+                characterConstraint.translationAxis = Axis.X | Axis.Y | Axis.Z;
+                characterConstraint.locked = true;
+                characterConstraint.constraintActive = true;
+
+                CmdHookAttachedToAir();
                 stateMachine.ChangeState(((HookStateMachine)(stateMachine)).InhaledState);
             }
             else
@@ -363,18 +384,30 @@ public class HookSM : PlayerSM, IInhalable
             }
         }
 
+        Debug.Log("Inhale Coroutine End");
         _inhaleCoroutine = null;
     }
     
     public void StopInhale()
     {
         if (_inhaleCoroutine is not null)
+        {
             StopCoroutine(_inhaleCoroutine);
+            _inhaleCoroutine = null;
+        }
 
         if (_isFixed && !_isShot)
             stateMachine.ChangeState(isGround ? stateMachine.IdleState : stateMachine.FallingState);
-            
-        _isFixed = false;
+
+        if (characterConstraint.sourceCount != 0)
+        {
+            characterConstraint.weight = 0f;
+            characterConstraint.constraintActive = false;
+            characterConstraint.locked = false;
+            characterConstraint.RemoveSource(0);
+        }
+
+        Fixed(false);
         _isShot = false;
         canControl = true;
         _fixedPoint = null;
@@ -422,8 +455,20 @@ public class HookSM : PlayerSM, IInhalable
         
         animator.SetBool(GlobalText.SWINGING_WITH_AIR_ANIMATION_STRING, isAirAttached);
     }
+
+    [Command(requiresAuthority = false)]
+    public void CmdHookAttachedToAir()
+    {
+        RpcHookAttachedToAir();
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcHookAttachedToAir()
+    {
+        Managers.Game.Player.GetComponent<AirSM>().HookAttached();
+    }
     #endregion
-    
+
     #region Particles
     public void PlayHookParticle()
     {

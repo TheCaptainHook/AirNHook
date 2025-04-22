@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 
@@ -34,6 +35,9 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     [field: Header("Interaction")]
     protected PlayerInput input => Managers.Game.playerInput;
     [field: SerializeField] protected Transform grabPoint { get; private set; }
+    public ConstraintSource grabSource;
+    protected ConstraintSource characterConstraintSource;
+    protected ParentConstraint characterConstraint;
     protected LayerMask interactableLayerMask => playerData.interactableLayerMask;
     protected LayerMask obstacleMask => playerData.obstacleLayerMask;
     protected float detectDistance => playerData.detectDistance;
@@ -57,6 +61,8 @@ public class PlayerSM : NetworkBehaviour, IDamageable
 
     protected virtual void Start()
     {
+        characterConstraint = gameObject.AddComponent<ParentConstraint>();
+
         if (!isLocalPlayer)
         {
             Managers.Game.OtherPlayer = gameObject;
@@ -66,10 +72,16 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         canControl = true;
         canMovable = true;
         _defaultForceReceiveLayer = collider2D.forceReceiveLayers;
-        collider2D.forceReceiveLayers = ~ _halfPlatformLayer;
+        collider2D.forceReceiveLayers =~ _halfPlatformLayer;
         stateMachine.SubscribeInput();
         SubscribeInput();
         StartCoroutine(DetectInteraction());
+
+        grabSource = new ConstraintSource
+        {
+            sourceTransform = grabPoint,
+            weight = 1f
+        };
     }
 
     protected virtual void OnDisable()
@@ -109,21 +121,26 @@ public class PlayerSM : NetworkBehaviour, IDamageable
             isHalfPlatform = _halfPlatformLayer == (_halfPlatformLayer | (1 << _hit.transform.gameObject.layer));
             //isHalfPlatform = (1 << _hit.transform.gameObject.layer) == _halfPlatformLayer;
             if (isHalfPlatform && !isDownThroughPlatform)
-                collider2D.forceReceiveLayers = _defaultForceReceiveLayer;
+                StopDownThroughHalfPlatform();
             else
-                collider2D.forceReceiveLayers = ~_halfPlatformLayer;
-            
+                DownThroughHalfPlatform();
+
             if (isGround) return;
-            
+
             CmdLandParticlePlay();
             isGround = true;
             coyoteTimeCount = _coyoteTime;
             return;
         }
         isHalfPlatform = false;
-        collider2D.forceReceiveLayers = ~_halfPlatformLayer;
+        DownThroughHalfPlatform();
         isGround = false;
         coyoteTimeCount -= Time.deltaTime;
+    }
+
+    public void StopDownThroughHalfPlatform()
+    {
+        collider2D.forceReceiveLayers = _defaultForceReceiveLayer;
     }
 
     public void DownThroughHalfPlatform()
@@ -232,6 +249,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     {
         if (!isLocalPlayer || !canControl) return;
 
+        Debug.Log($"TakeDamage {damageType}");
         canControl = false;
         rigidbody2D.constraints = RigidbodyConstraints2D.FreezeAll;
         collider2D.enabled = false;
@@ -400,10 +418,11 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         Interaction();
     }
     
-    private void TrySuicide(InputAction.CallbackContext context)
+    protected virtual void TrySuicide(InputAction.CallbackContext context)
     {
         if (!canControl) return;
-        
+
+        canMovable = false;
         stateMachine.ChangeState(stateMachine.SuicideState);
     }
 
