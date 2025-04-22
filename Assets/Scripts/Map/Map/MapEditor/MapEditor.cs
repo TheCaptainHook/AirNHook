@@ -7,6 +7,7 @@ using TMPro;
 using System;
 using System.Reflection;
 using UnityEngine.Rendering.Universal;
+using Mirror;
 
 using TileData = ANH_MapEditor.TileData;
 using MapType = ANH_MapEditor.MapType;
@@ -545,6 +546,7 @@ public class MapEditor : MonoBehaviour
 
         if(mapDataStruct.objectType == ObjectType.N_Object && Application.isPlaying)
         {
+            if(NetworkServer.active)
             Managers.Stage.CmdBatchObject(mapDataStruct.name, data, curTr);
         }
         else
