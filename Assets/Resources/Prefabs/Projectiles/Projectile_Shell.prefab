@@ -116,11 +116,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 964872376989142404}
   firePoint: {fileID: 7628645397672075880}
+  forceMode: 1
   main: {fileID: 0}
   speed: 0.1
   hitLayerMask:
     serializedVersion: 2
-    m_Bits: 1034177
+    m_Bits: 968641
 --- !u!58 &7571375789815804827
 CircleCollider2D:
   m_ObjectHideFlags: 0

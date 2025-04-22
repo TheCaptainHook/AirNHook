@@ -120,21 +120,6 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     }
 
 
-    // public void SetTileData(Vector2 position)
-    // {
-    //     ObjectData = new ObjectData(id, position,transform.localScale);
-    // }
-
-    // public  void SetTileData(Vector2 position,Quaternion quaternion)
-    // {
-    //     ObjectData = new ObjectData(id, position, quaternion,transform.localScale);
-    // }
-
-    // public virtual void SetTileData()
-    // {
-    //     ObjectData = new ObjectData(id, transform.position, transform.rotation, transform.localScale);
-    // }
-
     public virtual void SetData(ObjectData data)
     {
         ObjectData = data;
@@ -290,28 +275,6 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
 
     //todo 0427
 
-    //public void SelectObjAndApplyOutline_EditorMode()
-    //{
-    //    //if(outlineBox != null) Destroy(outlineBox);
-    //    outlineBox = new GameObject("OutileBox");
-    //    outlineBox.transform.SetParent(transform);
-
-    //    SpriteRenderer[] spriteRenderers = transform.GetComponentsInChildren<SpriteRenderer>();
-
-    //    for (int i = 0; i < spriteRenderers.Length; i++)
-    //    {
-    //        GameObject obj = new GameObject("MeshObj");
-    //        obj.transform.SetParent(outlineBox.transform);
-    //        obj.transform.SetPositionAndRotation(transform.position, transform.rotation);
-
-    //        MeshRenderer mr = obj.AddComponent<MeshRenderer>();
-    //        MeshFilter mf = obj.AddComponent<MeshFilter>();
-
-    //        Mesh mesh = new Mesh();
-    //        spriteRenderers[i].Bake
-    //    }
-    //} 
-
 
 
 
@@ -330,87 +293,18 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         MapEditor.Instance.event_reset += Respawn;
     }
 
-    //public void Dissolve(Vector2 pot)
-    //{
-    //    Debug.Log($"Name : {gameObject.name}\n[BuildObject] code line - 366");
-    //    //StartCoroutine(Co_Dissolve(pot));
-    //    //if(MapEditor.Instance.mapEditorState != MapEditorState.NoEditor)
-    //    //{
-    //    //    //EditorMode_Destroy();
 
-
-    //    //}
-    //    //else
-    //    //{
-    //    //    StartCoroutine(Co_Dissolve(pot));
-    //    //}
-
-    //}
     public void Respawn()
     {
         if (!canRespawn) return;
-
+        if (this == null) return;
         if (TryGetComponent(out InteractableObject component))
         {
             component.Cmd_Dissolve();
         }
 
-        
-        //Dissolve(position);
-      
     }
-    // IEnumerator Co_Dissolve(Vector2 pot)
-    //{
-    //    canRespawn = false;
-
-    //    float percent = 1;
-    //    _collider.enabled = false;
-    //    _rb.simulated = false;
-    //    _rb.gravityScale = 0;
-    //    _rb.velocity = Vector2.zero;
-    //    while (percent> 0)
-    //    {
-    //        percent -= dissolveRate;
-    //        _dissolveMaterial.SetFloat(DissolveAmount, percent);
-    //        yield return null;
-    //    }
-
-    //   if(isTransportItem)
-    //   {    
-    //        if(carrierTransform != null) 
-    //        // SettingTransportItem(carrierTransform);
-    //        Connection_TransportItem();
-    //        // SettingTransportItem(carrierTransform);
-    //   }else{
-    //        transform.position = pot;
-    //   }
-        
-
-    //    while(percent < 1)
-    //    {
-    //        percent += dissolveRate;
-    //        _dissolveMaterial.SetFloat(DissolveAmount, percent);
-    //        yield return null;
-    //    }
-
-    //    if (!isTransportItem)
-    //    {
-    //        _collider.enabled = true;
-    //        _rb.gravityScale = 1; 
-    //    }
-    //    _rb.simulated = true;
-
-    //    GetComponent<InteractableObject>().Respawned();
-
-    //    //CustomEditor
-    //    // if (MapEditor.Instance.mapEditorState == MapEditorState.Object)
-    //    // {
-    //    //     TurnOff();
-    //    // }
-
-    //    canRespawn = true;
-       
-    //}
+   
 
     public bool GetDissolveObject(){
         if(_IsDissolveObject){

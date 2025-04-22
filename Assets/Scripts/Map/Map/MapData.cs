@@ -81,21 +81,7 @@ public class MapData
         }
     }
 
-    // private void UserMapDataLoad()
-    // {
-    //     string path = Path.Combine(Application.dataPath, "UserMapData");
 
-    //     string[] filePaths = Directory.GetFiles(path, "*.json");
-
-    //     foreach (string file in filePaths)
-    //     {
-    //         string jsonString = File.ReadAllText(file);
-    //         UserMapData data = JsonUtility.FromJson<UserMapData>(jsonString);
-    //         mapUserDictionary.Add(data.hashValue, data);
-    //         //mapAllDictionary.Add(data.hashValue.ToString(), data.LoadMap()); 1101
-
-    //     }
-    // }
     private void MainMapDataLoad()
     {
         // int index = GetMainStageLevelIndex();

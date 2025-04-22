@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 public class FadeInOutPanel : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class FadeInOutPanel : MonoBehaviour
 
 
     private PlayerCameraView playerCameraView;
-
+    [SerializeField] TextMeshProUGUI text;
     private void Awake()
     {
         image = GetComponent<Image>();
@@ -36,7 +37,11 @@ public class FadeInOutPanel : MonoBehaviour
         
     }
 
-
+    private string GetMapSubName()
+    {
+        var name = MapEditor.Instance.CurMap.subMapName;
+        return name != null ? name : MapEditor.Instance.CurMap.mapID;
+    }
     IEnumerator FadeInOut(string mapId)
     {
         preMapLoadEvent?.Invoke(); //Event to be executed before map transition
@@ -56,10 +61,13 @@ public class FadeInOutPanel : MonoBehaviour
         image.color = fadeOutcolor;
         percent = 1;
 
-  
         Managers.Network.startPos.Clear();
         MapEditor.Instance.LoadMap(mapId);
 
+        //Map Name  UI
+        text.enabled = true;
+        text.text = GetMapSubName();
+        //Map Name UI
         yield return new WaitForSeconds(1f);
 
         var player = Managers.Game.Player;
@@ -82,6 +90,9 @@ public class FadeInOutPanel : MonoBehaviour
 
         yield return new WaitUntil(()=>playerCameraView.isCameraCenter);
 
+        //Map Name  UI
+        text.enabled = false;
+        //Map Name UI
         while (percent > 0)
         {
             percent -= Time.deltaTime;

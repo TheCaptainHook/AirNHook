@@ -169,10 +169,14 @@ public class UI_StageSelect_var3: UI_Base
     //------------------------------------------------------Network 250218
     public void GetHost_MapData(int stageLevel)
     {
-        Map[] maps = Managers.Data.mapData.mapMainStageDictionary[stageLevel];
-        Host_MapData[] mapDatas = CheckPlayerData(maps);
-        // computer.GetComponent<Computer_Net>().Server_SetMapDatas(mapDatas);
-        Net.Server_SetMapDatas(mapDatas);
+        if (Managers.Data.mapData.mapMainStageDictionary.ContainsKey(stageLevel))
+        {
+            Map[] maps = Managers.Data.mapData.mapMainStageDictionary[stageLevel];
+            Host_MapData[] mapDatas = CheckPlayerData(maps);
+            // computer.GetComponent<Computer_Net>().Server_SetMapDatas(mapDatas);
+            Net.Server_SetMapDatas(mapDatas);
+        }
+      
     }
 
     public void Reset()

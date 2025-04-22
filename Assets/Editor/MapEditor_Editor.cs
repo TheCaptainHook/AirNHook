@@ -78,7 +78,7 @@ public class MapEditor_Editor : Editor
         if (!Application.isPlaying) {
             Draw_DevContents();
         } else {
-            Draw_InGameContents();
+            //Draw_InGameContents();
         }
         GUILayout.Space(10);
         Draw_ResetContent();
@@ -514,37 +514,38 @@ public class MapEditor_Editor : Editor
         return false;
 
     }
-    private void Draw_InGameContents() {
-        mapEditor.onLoad = false;
-        GUILayout.Space(10);
+    //private void Draw_InGameContents() {
+    //    mapEditor.onLoad = false;
+    //    GUILayout.Space(10);
 
-        GUILayout.BeginHorizontal();
-        GUILayout.FlexibleSpace();
-        GUILayout.Label("인게임 전용", GetGUIStyle_Label((Color.white), 14, FontStyle.Bold));
-        GUILayout.FlexibleSpace();
-        GUILayout.EndHorizontal();
+    //    GUILayout.BeginHorizontal();
+    //    GUILayout.FlexibleSpace();
+    //    GUILayout.Label("인게임 전용", GetGUIStyle_Label((Color.white), 14, FontStyle.Bold));
+    //    GUILayout.FlexibleSpace();
+    //    GUILayout.EndHorizontal();
 
-        GUILayout.BeginHorizontal();
-        GUILayout.FlexibleSpace();
-        if (GUILayout.Button("Load Data(인게임용)", GUILayout.Width(300), GUILayout.Height(30)))
-        {
-            //mapEditor.LoadMap(mapEditor.mapID);
-            mapEditor.MoveNextStage(mapEditor.mapID);
+    //    GUILayout.BeginHorizontal();
+    //    GUILayout.FlexibleSpace();
+    //    if (GUILayout.Button("Load Data(인게임용)", GUILayout.Width(300), GUILayout.Height(30)))
+    //    {
+    //        //mapEditor.LoadMap(mapEditor.mapID);
+    //        mapEditor.MoveNextStage(mapEditor.mapID);
 
-        }
-        GUILayout.FlexibleSpace();
-        GUILayout.EndHorizontal();
+    //    }
+    //    GUILayout.FlexibleSpace();
+    //    GUILayout.EndHorizontal();
 
-        GUILayout.BeginHorizontal();
-        GUILayout.FlexibleSpace();
-        if (GUILayout.Button("Reset Interactable Object Position(인게임용)", GUILayout.Width(300), GUILayout.Height(30)))
-        {
-            mapEditor.ResetInteractableObjectPosition();
-        }
-        GUILayout.FlexibleSpace();
-        GUILayout.EndHorizontal();
-        GUILayout.Space(10);
-    }
+    //    GUILayout.BeginHorizontal();
+    //    GUILayout.FlexibleSpace();
+    //    if (GUILayout.Button("Reset Interactable Object Position(인게임용)", GUILayout.Width(300), GUILayout.Height(30)))
+    //    {
+    //        mapEditor.ResetInteractableObjectPosition();
+    //    }
+    //    GUILayout.FlexibleSpace();
+    //    GUILayout.EndHorizontal();
+    //    GUILayout.Space(10);
+    //}
+
     private void Draw_ResetContent() {
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
