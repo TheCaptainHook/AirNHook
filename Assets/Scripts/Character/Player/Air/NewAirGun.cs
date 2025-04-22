@@ -358,11 +358,11 @@ public class NewAirGun
 
         var targetRigdbody = _inhaleTarget.GetComponent<Rigidbody2D>();
         var direction = (_weaponPoint.position - _inhaleTarget.transform.position).normalized;
-        var power = 50 * _inhalePower * Time.fixedDeltaTime;
+        var power = 50 * _inhalePower * targetRigdbody.mass;
 
         targetRigdbody.drag = 10f;
         targetRigdbody.gravityScale = 0f;
-        targetRigdbody.AddForce(direction * power);
+        targetRigdbody.AddForce(direction * power * Time.fixedDeltaTime);
     }
 
     private void StopInhaleTarget()
@@ -661,7 +661,7 @@ public class NewAirGun
         _lineRenderer.enabled = false;
         _crossHair.gameObject.SetActive(false);
 
-        var force = _weaponPoint.right * _shootPower;
+        var force = _weaponPoint.right * _shootPower * _inhaleTarget.GetComponent<Rigidbody2D>().mass;
 
         if (ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject))
         {
