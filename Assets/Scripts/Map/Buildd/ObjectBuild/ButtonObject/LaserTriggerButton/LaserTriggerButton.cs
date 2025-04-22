@@ -40,27 +40,22 @@ public class LaserTriggerButton : ButtonEntity
     protected override void Activation()
     {
         if(!Application.isPlaying){
-            Debug.Log("Activate");
             return;
         }
 
             PrograssButtonActivatedObject(true);
-            Debug.Log("Activation");
         
     }
 
     protected override void Deactivated()
     {
         if(!Application.isPlaying){
-            Debug.Log("Deactivate");
             return;
         }
 
 
             PrograssButtonActivatedObject(false);
-            Debug.Log("Deactivation");
-        
-        
+            
     }
     #region Network
     private LaserTriggerButton_Net net;

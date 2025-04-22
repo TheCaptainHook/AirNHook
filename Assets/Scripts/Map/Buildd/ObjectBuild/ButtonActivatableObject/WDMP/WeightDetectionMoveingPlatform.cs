@@ -98,7 +98,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
           
             }
         }catch(Exception ex){
-                Debug.Log($"ERROR,{typeof(T)},{ex}");
+
         }
         
         if(Application.isPlaying){
@@ -225,7 +225,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     }
     private void MoveTowards(RaycastHit2D[] hits){
             foreach(RaycastHit2D hit in hits){
-                if(hit.collider.TryGetComponent(out Rigidbody2D component)){
+                if(hit.collider != null && hit.collider.TryGetComponent(out Rigidbody2D component)){
                 //component.position = Vector2.MoveTowards(component.position,component.position + dir,step);
                 component.position = Vector2.MoveTowards(component.position, component.position + WDMP_Net.dir, WDMP_Net.step);
             }
@@ -274,7 +274,6 @@ private float Weight(RaycastHit2D hit){
         }
         if (hit.collider.TryGetComponent(out Rigidbody2D component))
         {
-            Debug.Log($"{component.gameObject.name}");
             float dis = Mathf.Floor(Vector3.Distance(transform.position, hit.point) * 100) / 100;
             float mass = component.mass;
             return dis * mass;

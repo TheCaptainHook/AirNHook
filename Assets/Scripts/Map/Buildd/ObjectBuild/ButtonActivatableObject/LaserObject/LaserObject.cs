@@ -39,7 +39,6 @@ public class LaserObject : ActivatableObjectEntity
 
     private void FixedUpdate()
     {
-        //if (!shouldRunFixedUpdate) return;
         if (!MapEditor.Instance.stageClear && !turnOff && _Net.onActive)
         {
             UpdateLaser();
@@ -102,7 +101,6 @@ public class LaserObject : ActivatableObjectEntity
         }
         catch
         {
-            Debug.Log($"Application.isPlaying : {Application.isPlaying}, can't find transform");
             return;
         }
 
@@ -115,7 +113,6 @@ public class LaserObject : ActivatableObjectEntity
             if (rh.collider != null)
             {
                 Vector2 colDir = rh.normal;
-                // Debug.DrawLine(start, rh.point, Color.green);
                 DrawLaser(i, start, rh.point);
                 hitCount++;
 
@@ -125,7 +122,7 @@ public class LaserObject : ActivatableObjectEntity
                     SetHitParticleRotate(start, rh.point); // todo 0914
                     component.TakeDamage(DamageType.Fire);
                     break;
-                    //}else if(rh.collider.gameObject.name == "Mirror"){
+
                 }
                 else if (rh.collider.gameObject.layer == LayerMask.NameToLayer("Mirror"))
                 {
@@ -136,14 +133,12 @@ public class LaserObject : ActivatableObjectEntity
                 {
                     if (Application.isPlaying)
                     {
-                        //Debug.Log("Is playing,Detected Laser Object");
                         SetHitParticleRotate(start, rh.point); // todo 0914
                         //component2.SendMessage("Charging", SendMessageOptions.DontRequireReceiver);
                         component2.Charging();
                     }
                     else
                     {
-                        //Debug.Log("Detected Laser Trigger Object");
                     }
                     break;
                 }
