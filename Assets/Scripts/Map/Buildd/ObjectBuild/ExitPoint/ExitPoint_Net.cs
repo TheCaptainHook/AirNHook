@@ -207,8 +207,8 @@ public class ExitPoint_Net : NetworkBehaviour
             //exit.MoveNextStage();
             OnMoveNextStage = true;
 
-            //StartCoroutine(_Delay(1,()=>{MoveNextStage();}));
-            MoveNextStage();
+            StartCoroutine(_Delay(2,()=>{MoveNextStage();}));
+            //MoveNextStage();
             //MapEditor.Instance.MoveNextStage(nextMapId);
 
         }

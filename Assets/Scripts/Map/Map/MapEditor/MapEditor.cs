@@ -576,6 +576,7 @@ public class MapEditor : MonoBehaviour
                         {
                             _TR = transform;
                         }
+                        if(NetworkServer.active)
                         Managers.Stage.CmdBatchObject(mapDataStruct.name, data, _TR);
                     }
                     else
