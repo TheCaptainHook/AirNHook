@@ -290,7 +290,11 @@ public class HookSM : PlayerSM, IInhalable
             constraint.weight = 0f;
             constraint.RemoveSource(0);
 
+            if (Physics2D.OverlapBox(grabbedItem.transform.position, Vector2.one, 0f, obstacleMask))
+                grabbedItem.position = transform.position + (Vector3.up / 2);
+
             grabbedItem.GetComponent<IInteractable>().Interaction(transform);
+
             var itemRigidbody = grabbedItem.GetComponent<Rigidbody2D>();
             itemRigidbody.velocity = rigidbody2D.velocity;
             itemRigidbody.angularVelocity = 0f;
@@ -432,6 +436,10 @@ public class HookSM : PlayerSM, IInhalable
     {
         _isShot = true;
         StopInhale();
+
+        if (Physics2D.OverlapBox(transform.position, Vector2.one, 0f, obstacleMask))
+            transform.position = Managers.Game.OtherPlayer.transform.position + (Vector3.up / 2);
+
         stateMachine.ChangeState(((HookStateMachine)(stateMachine)).InhaledShotState);
         rigidbody2D.velocity = Vector2.zero;
         rigidbody2D.AddForce(force, ForceMode2D.Impulse);

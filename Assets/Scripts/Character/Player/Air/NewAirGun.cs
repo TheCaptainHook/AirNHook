@@ -669,6 +669,9 @@ public class NewAirGun
         }
         else
         {
+            if (Physics2D.OverlapBox(_inhaleTarget.transform.position, Vector2.one, 0f, _obstacleMask))
+                _inhaleTarget.transform.position = _air.transform.position + (Vector3.up / 2);
+
             _inhaleTarget.GetComponent<IInhalable>().Shooting(force);
             _inhaleTarget.GetComponent<Rigidbody2D>().AddForce(force, ForceMode2D.Impulse);
         }
