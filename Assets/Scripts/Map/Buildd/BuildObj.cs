@@ -162,7 +162,6 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     }
     public void Connection_TransportItem()//Only Server
     {
-
         ParentConstraint constraint = gameObject.TryGetComponent(out ParentConstraint component) ? component : gameObject.AddComponent<ParentConstraint>();
         SetParentConstraint(constraint,carrierTransform);
 
@@ -174,7 +173,8 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
 
         if(TryGetComponent(out ParentConstraint constraint))
         {
-            Destroy(constraint);
+            //Destroy(constraint);
+            constraint.RemoveSource(0);
         }
 
         GetComponent<ITransportItem>().TransportItem_DropItem();
