@@ -36,12 +36,14 @@ public class ButtonActivated : ButtonEntity
     private void Press()
     {
         if (B_Net.rate >= 1) return;
-       B_Net.Cmd_SetRate(Time.fixedDeltaTime);
+        if(NetworkClient.isConnected && NetworkClient.ready)
+        B_Net.Cmd_SetRate(Time.fixedDeltaTime);
     }
     private void Release()
     {
         if (B_Net.rate <= 0) return;
-        B_Net.Cmd_SetRate(-Time.fixedDeltaTime);
+        if (NetworkClient.isConnected && NetworkClient.ready)
+            B_Net.Cmd_SetRate(-Time.fixedDeltaTime);
     }
 
     private void FixedUpdate()

@@ -23,13 +23,16 @@ public class Portal : ActivatableObjectEntity
     [Header("Animation")]
     [SerializeField] private Animator _animator;
     [SerializeField] GameObject _TpEffect;
-    
-    private Portal_Net Portal_Net => GetComponent<Portal_Net>();
+
+    //private Portal_Net Portal_Net => GetComponent<Portal_Net>();
+    private Portal_Net Portal_Net;
+
   
     #region Get,Set
 
     private void Awake(){
         util = new Util();
+        Portal_Net = GetComponent<Portal_Net>();
     }
     public override T GetData<T>()
     {
@@ -42,24 +45,28 @@ public class Portal : ActivatableObjectEntity
 
     public override async void SetData<T>(T data)
     {
-         try{
-            if (typeof(T) == typeof(ButtonActivatableObjectStruct))
+        try
         {
-         ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
-         ButtonActivatedObjectStruct = objData;
-         targetPosition = objData.talPot;
-            
-         Portal_Net.SetTargetPortal(targetPosition);
+            if (typeof(T) == typeof(ButtonActivatableObjectStruct))
+            {
+                ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
+                ButtonActivatedObjectStruct = objData;
+                targetPosition = objData.talPot;
+
+                Portal_Net.SetTargetPortal(targetPosition);
+            }
         }
-        }catch{
-                Debug.Log($"ERROR,{typeof(T)}");
+        catch
+        {
+            Debug.Log($"ERROR,{typeof(T)}");
         }
-        
-        if(Application.isPlaying){
-              await util.Delay(()=>{CheckActiveRequirAmount();});
+
+        if (Application.isPlaying)
+        {
+            await util.Delay(() => { CheckActiveRequirAmount(); });
         }
-       
-        
+
+
     }
 
     public override void CheckActiveRequirAmount()

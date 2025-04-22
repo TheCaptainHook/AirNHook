@@ -11,16 +11,19 @@ public class LaserObject_Net : NetworkBehaviour
 
     public bool shouldRunFixedUpdate;
 
-    LaserObject laser;
-    LaserObject Laser
+    //LaserObject laser;
+    LaserObject Laser;
+    //{
+    //    get
+    //    {
+    //        if (laser == null) laser = GetComponent<LaserObject>();
+    //        return laser;
+    //    }
+    //}
+    private void Awake()
     {
-        get
-        {
-            if (laser == null) laser = GetComponent<LaserObject>();
-            return laser;
-        }
+        Laser = GetComponent<LaserObject>();
     }
-
 
     #region Init
     public bool onSync;
