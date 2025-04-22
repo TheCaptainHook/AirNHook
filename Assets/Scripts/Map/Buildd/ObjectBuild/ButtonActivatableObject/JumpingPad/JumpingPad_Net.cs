@@ -91,9 +91,10 @@ public class JumpingPad_Net : NetworkBehaviour
     }
 
 
-    [Command]
+    [Command(requiresAuthority = false)]
     public void Cmd_Jumping(GameObject obj)
     {
+        if (obj == null) return;
         if (obj.TryGetComponent(out NetworkIdentity component))
         {
             TRpc_Jumping(component.connectionToClient, obj);
