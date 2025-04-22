@@ -136,13 +136,14 @@ public class LaserObject : ActivatableObjectEntity
                 {
                     if (Application.isPlaying)
                     {
-                        Debug.Log("Is playing,Detected Laser Object");
+                        //Debug.Log("Is playing,Detected Laser Object");
                         SetHitParticleRotate(start, rh.point); // todo 0914
-                        component2.SendMessage("Charging", SendMessageOptions.DontRequireReceiver);
+                        //component2.SendMessage("Charging", SendMessageOptions.DontRequireReceiver);
+                        component2.Charging();
                     }
                     else
                     {
-                        Debug.Log("Detected Laser Trigger Object");
+                        //Debug.Log("Detected Laser Trigger Object");
                     }
                     break;
                 }
