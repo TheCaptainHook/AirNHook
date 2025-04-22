@@ -98,10 +98,11 @@ public class MapData
         if (jsons.Length != 0)
         {
             Map[] maps = new Map[jsons.Length];
-
+            
             for (int i = 0; i < maps.Length; i++)
             {
                 Map map = JsonUtility.FromJson<Map>(jsons[i].text);
+                //Debug.Log(maps[i].subMapName);
                 maps[i] = map;
                 mapMainDictionary.Add(map.mapID, map);
                 mapAllDictionary.Add(map.mapID, map);

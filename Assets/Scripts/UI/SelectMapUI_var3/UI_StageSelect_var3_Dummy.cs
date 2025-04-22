@@ -173,49 +173,50 @@ public class UI_StageSelect_var3_Dummy: UI_Base
         computer.GetComponent<StageSelectorComputer>().Talking();
     }
     
-    public IEnumerator ProcessInputWithDelay(int num)
-    {
-        // inputProcessed = true;
-        switch (num)
-        {
-            case 1:
-                curSelectTextLineIndex++;
-                SelectTextLine();
-                break;
-            case 2:
-                curSelectTextLineIndex--;
-                SelectTextLine();
-                break;
-            case 3:
-                if (curSelectTextLine == null || !curSelectTextLine.onSelectable)
-                    break;
+    //public IEnumerator ProcessInputWithDelay(int num)
+    //{
+    //    // inputProcessed = true;
+    //    switch (num)
+    //    {
+    //        case 1:
+    //            curSelectTextLineIndex++;
+    //            SelectTextLine();
+    //            break;
+    //        case 2:
+    //            curSelectTextLineIndex--;
+    //            SelectTextLine();
+    //            break;
+    //        case 3:
+    //            if (curSelectTextLine == null || !curSelectTextLine.onSelectable)
+    //                break;
 
-                switch (_PrograssLevel)
-                {
-                    case PrograssLevel.One:
-                        Select_PrograssLevel_1();
-                        break;
-                    case PrograssLevel.Two:
-                        Select_PrograssLevel_2();
-                        break;
-                    case PrograssLevel.Three:
-                        textLineList[pathTextLineIndex].WriteText($"/{curSelectTextLine.mainSentence}");
-                        _PrograssCoroutine = StartCoroutine(Select_PrograssLevel_3Co());
-                        break;
-                }
-                break;
-            case 4:
-                BackPrograss();
-                break;
-            case 5:
-                if(_PrograssLevel == PrograssLevel.Three)mapInfo_UI.Reset();
-                Shutdown();
-                break;
-        }
+    //            switch (_PrograssLevel)
+    //            {
+    //                case PrograssLevel.One:
+    //                    Select_PrograssLevel_1();
+    //                    break;
+    //                case PrograssLevel.Two:
+    //                    Select_PrograssLevel_2();
+    //                    break;
+    //                case PrograssLevel.Three:
+    //                    if (curSelectTextLine.mainSentence == null) yield break;
+    //                    textLineList[pathTextLineIndex].WriteText($"/{curSelectTextLine.mainSentence}");
+    //                    _PrograssCoroutine = StartCoroutine(Select_PrograssLevel_3Co());
+    //                    break;
+    //            }
+    //            break;
+    //        case 4:
+    //            BackPrograss();
+    //            break;
+    //        case 5:
+    //            if(_PrograssLevel == PrograssLevel.Three)mapInfo_UI.Reset();
+    //            Shutdown();
+    //            break;
+    //    }
 
-        yield return new WaitForSeconds(inputDelay);
-        // inputProcessed = false;
-    }
+    //    yield return new WaitForSeconds(inputDelay);
+    //    // inputProcessed = false;
+    //}
   //---------------------------------------------------------------------------Refectoring 0414
     private Coroutine queue_Input_Coroutine;
     private Queue<int> inputQueue;
@@ -258,6 +259,7 @@ public class UI_StageSelect_var3_Dummy: UI_Base
                             Select_PrograssLevel_2();
                             break;
                         case PrograssLevel.Three:
+                            if (GetMap(curSelectTextLine.mainSentence)==null) yield break;
                             textLineList[pathTextLineIndex].WriteText($"/{curSelectTextLine.mainSentence}");
                             _PrograssCoroutine = StartCoroutine(Select_PrograssLevel_3Co());
                             break;
@@ -571,6 +573,7 @@ public class UI_StageSelect_var3_Dummy: UI_Base
 
     private Map GetMap(string mapName)
     {
+        if (!Managers.Data.mapData.mapMainStageDictionary.ContainsKey(curStageLevel)) return null;
         Map[] maps = Managers.Data.mapData.mapMainStageDictionary[curStageLevel];
 
         foreach(var map in maps)

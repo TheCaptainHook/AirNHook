@@ -110,6 +110,8 @@ public class MapInfo_UI : MonoBehaviour
 
     private Map GetMap(string mapName,int curStageLevel)
     {
+        if (!Managers.Data.mapData.mapMainStageDictionary.ContainsKey(curStageLevel)) return null ;
+
         Map[] maps = Managers.Data.mapData.mapMainStageDictionary[curStageLevel];
         //Map map;
         foreach (var map in maps)
