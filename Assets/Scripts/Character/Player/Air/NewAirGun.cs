@@ -406,6 +406,8 @@ public class NewAirGun
 
         _targetConstraint = _inhaleTarget.GetComponent<ParentConstraint>();
         _targetConstraint.AddSource(_targetConstraintSource);
+        _targetConstraint.translationAxis = Axis.X | Axis.Y | Axis.Z;
+        _targetConstraint.rotationAxis = Axis.None;
         _targetConstraint.weight = 1f;
         _targetConstraint.locked = true;
         _targetConstraint.constraintActive = true;

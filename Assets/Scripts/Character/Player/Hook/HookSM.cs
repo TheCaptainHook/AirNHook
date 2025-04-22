@@ -269,6 +269,7 @@ public class HookSM : PlayerSM, IInhalable
             constraint.weight = 1f;
             constraint.AddSource(grabSource);
             constraint.translationAxis = Axis.X | Axis.Y | Axis.Z;
+            constraint.rotationAxis = Axis.None;
             constraint.locked = true;
             constraint.constraintActive = true;
 
