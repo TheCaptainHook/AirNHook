@@ -120,6 +120,7 @@ public class ExitPoint_Net : NetworkBehaviour
             doorUnlockAnimationCoroutin = StartCoroutine(StageClearDelayCoroutine());
        }
     }
+
     private Coroutine doorUnlockAnimationCoroutin;
     IEnumerator StageClearDelayCoroutine()
     {
@@ -261,11 +262,13 @@ public class ExitPoint_Net : NetworkBehaviour
     #endregion
 
     #region Absence Panel
+    [ClientRpc]
     private void Rpc_HookPanelOpenAndClose(bool openAndClose)
     {
         if(openAndClose) panel.HookPanelOpen();
         else panel.HookPanelClose();
     }
+    [ClientRpc]
     private  void Rpc_AirPanelOpenAndClose(bool openAndClose)
     {
         if(openAndClose) panel.AirPanelOpen();
