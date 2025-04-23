@@ -231,6 +231,7 @@ public class ExitPoint_Net : NetworkBehaviour
     
     private IEnumerator MoveNextStageCoroutine()
     {
+        panel.StopAllCoroutines();
         yield return new WaitForSeconds(1);
         MoveNextStage();
         moveNextStageCoroutine = null;
