@@ -662,11 +662,6 @@ public class MapEditor : MonoBehaviour
     public void MoveNextStage(string mapId)
     {
         fadeInOutPanel.MoveNextStage(mapId);
-
-        // if(mapId == "Lobby")
-        // {
-        //     OnScreen?.Invoke();
-        // }
     }
 
     public GameObject FindObj(Transform transform, int id)

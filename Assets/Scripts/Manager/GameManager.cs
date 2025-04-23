@@ -19,13 +19,10 @@ public class GameManager
     public PlayerInput playerInput;
     public NewCameraShake cameraShake;
 
-    public string mapID;
-    private string _stageID;
+    // private string _stageID;
     private float _startTime;
-    private float _clearTime;
     private int _clearDeath;
-    private int _totalDeath;
-    private bool _skip;
+    // private bool _skip;
 
     public int stageLevel = 0;
 
@@ -101,11 +98,11 @@ public class GameManager
     public void StageStart(string mapID)
     {
         if (mapID is null or "Lobby") return;
-        _stageID = mapID;
+        // _stageID = mapID;
         _startTime = Time.time;
         _clearDeath = 0;
         //_totalDeath = Managers.Data.loadData.playData[_stageID].totalDeath; //TODO0726
-        _skip = false;
+        // _skip = false;
     }
 
     //캐릭터 사망시 데스카운트추가
@@ -115,19 +112,19 @@ public class GameManager
     //    if(isLocalPlayer)
     //        _clearDeath++;
     //}
-    public  void IncreaseDeathCount()
-    {
-            _clearDeath++;
-        //Managers.Data.saveData._AchievementData.Update_Player_Death();
-        //await Managers.Data.saveData.Ac_Save();
+    // public  void IncreaseDeathCount()
+    // {
+    //         _clearDeath++;
+    //     //Managers.Data.saveData._AchievementData.Update_Player_Death();
+    //     //await Managers.Data.saveData.Ac_Save();
 
-    }
+    // }
 
-    //스킵버튼클릭시 활성화
-    public void Skip()
-    {
-        _skip = true;
-    }
+    // //스킵버튼클릭시 활성화
+    // public void Skip()
+    // {
+    //     _skip = true;
+    // }
 
     public void StageClear(string stageID,bool stageLevelUp = false)
     {

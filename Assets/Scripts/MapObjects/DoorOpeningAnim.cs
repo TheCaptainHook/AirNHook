@@ -18,7 +18,6 @@ public class DoorOpeningAnim : NetworkBehaviour
 
     public event Action OnUnlockAnimation;
     //public event Action OnLockAnimation;//TODO 0729
-    [SerializeField] AbsencePanel panel;
     [SerializeField] ExitPointObj exit;
     #region StringCache
     private static readonly int IsUnlocking = Animator.StringToHash("IsUnlocking");
@@ -75,16 +74,12 @@ public class DoorOpeningAnim : NetworkBehaviour
 
     public void UnlockingAnim() //triggered in the animation
     {
-        Debug.Log("UnlockingLock");
         _lockRigidbody2D.constraints = RigidbodyConstraints2D.None;
         _lockCollider2D.enabled = true;
         // 랜덤한 방향으로 힘을 가함
         Vector2 forceDirection = Random.insideUnitCircle.normalized;
         float forceMagnitude = Random.Range(10f, 20f); // 힘의 크기를 랜덤으로 지정
         _lockRigidbody2D.AddForce(forceDirection * forceMagnitude, ForceMode2D.Impulse);
-
-        exit.OnAbsence();
-
     }
 
     #region Network

@@ -8,10 +8,6 @@ public class AbsencePanel : MonoBehaviour
     [SerializeField] GameObject _Hook;
 
     private Vector3 targetScaleUp = new Vector3(1.5f, 1.5f);
-    //private float scaleSpeed;
-
-    private bool _OnAir, _OnHook;
-
 
     Coroutine _CharacterFadeEffectCoroutineAir;
     Coroutine _CharacterFadeEffectCoroutineHook;
@@ -22,11 +18,8 @@ public class AbsencePanel : MonoBehaviour
         StartCoroutine(ScaleCoroutine(transform,targetScaleUp,Vector3.one));
     }
 
-    public void Enter(GameObject obj)
+    public void HookPanelOpen()
     {
-        if (!gameObject.activeSelf) return;
-        if (obj.TryGetComponent(out HookSM hook))
-        {
             if (_CharacterFadeEffectCoroutineHook != null)
             {
                 StopCoroutine(_CharacterFadeEffectCoroutineHook);
@@ -34,11 +27,11 @@ public class AbsencePanel : MonoBehaviour
             }
             _CharacterFadeEffectCoroutineHook = StartCoroutine(ScaleCoroutine(_Hook.transform, new Vector3(.8f, .8f), new Vector3(.4f, .4f)));
 
-            _OnHook = true;
-            _Hook.SetActive(_OnHook);
-        }
-        else if (obj.TryGetComponent(out AirSM air))
-        {
+            _Hook.SetActive(true);
+    }
+
+    public void AirPanelOpen()
+    {
             if (_CharacterFadeEffectCoroutineAir != null)
             {
                 StopCoroutine(_CharacterFadeEffectCoroutineAir);
@@ -46,24 +39,33 @@ public class AbsencePanel : MonoBehaviour
             }
             _CharacterFadeEffectCoroutineAir = StartCoroutine(ScaleCoroutine(_Air.transform, new Vector3(.8f, .8f), new Vector3(.4f, .4f)));
 
-            _OnAir = true;
-            _Air.SetActive(_OnAir);
-        }
+            _Air.SetActive(true);
     }
 
-    public void Exit(GameObject obj)
+
+    public void HookPanelClose()
     {
-        if (obj.TryGetComponent(out HookSM hook))
-        {
-            _OnHook = false;
-            _Hook.SetActive(false);
-        }
-        else if (obj.TryGetComponent(out AirSM air))
-        {
-            _OnAir = false;
-            _Air.SetActive(false);
-        }
+        _Hook.SetActive(false);
     }
+    public void AirPanelClose()
+    {
+        _Air.SetActive(false);
+    }
+
+
+    // public void Exit(GameObject obj)
+    // {
+    //     if (obj.TryGetComponent(out HookSM hook))
+    //     {
+    //         _OnHook = false;
+    //         _Hook.SetActive(false);
+    //     }
+    //     else if (obj.TryGetComponent(out AirSM air))
+    //     {
+    //         _OnAir = false;
+    //         _Air.SetActive(false);
+    //     }
+    // }
 
 
 

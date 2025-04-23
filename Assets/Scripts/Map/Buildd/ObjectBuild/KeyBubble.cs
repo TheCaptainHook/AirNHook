@@ -44,14 +44,5 @@ public class KeyBubble : MonoBehaviour
         _text.text = amount.ToString();
     }
 
-    // public void AddKeyAmount()
-    // {
-    //     if(!gameObject.activeSelf)
-    //     {
-    //         gameObject.SetActive(true);
-    //     }
-    //     keyAmount++;
-    //     _text.text = keyAmount.ToString();
-    // }
    
 }

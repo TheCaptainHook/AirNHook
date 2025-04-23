@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using TMPro;
+using System.Net.Mail;
 
 public class FadeInOutPanel : MonoBehaviour
 {
@@ -23,18 +24,11 @@ public class FadeInOutPanel : MonoBehaviour
         playerCameraView = Camera.main.GetComponent<PlayerCameraView>();
         orgColor = new Color(0, 0, 0, 0);
     }
-
+    private Coroutine moveNextStageCoroutine;
     public void MoveNextStage(string mapId)
     {
-        try
-        {
-            StartCoroutine(FadeInOut(mapId));
-        }
-        catch (Exception e)
-        {
-            Debug.LogError(e.Message);
-        }
-        
+        if(moveNextStageCoroutine == null)
+        moveNextStageCoroutine = StartCoroutine(FadeInOut(mapId));
     }
 
     private string GetMapSubName()
@@ -44,9 +38,17 @@ public class FadeInOutPanel : MonoBehaviour
     }
     IEnumerator FadeInOut(string mapId)
     {
-        preMapLoadEvent?.Invoke(); //Event to be executed before map transition
+        //Event to be executed before map transition
+        preMapLoadEvent?.Invoke(); 
+        Managers.Sound.CollectAmbientSoundSource();
+        Camera.main.GetComponent<ParallaxCamera>().enabled = false;
+        //Event to be executed before map transition
+
+        //------------------------Next Stage
         Managers.Stage.stageName = mapId;
-        
+        //------------------------Next Stage
+
+        //------------------------Fade Out
         image.enabled = true;
         float percent = 0;
         Color fadeOutcolor = new Color(orgColor.r, orgColor.g, orgColor.b, 1);
@@ -60,16 +62,19 @@ public class FadeInOutPanel : MonoBehaviour
         }
         image.color = fadeOutcolor;
         percent = 1;
-
+        //------------------------Fade Out
+        
+        //------------------------Create Next Stage
         Managers.Network.startPos.Clear();
         MapEditor.Instance.LoadMap(mapId);
-
-        //Map Name  UI
+        //------------------------Create Next Stage
+        
+        //------------------------Map Name  UI
         text.enabled = true;
         text.text = GetMapSubName();
-        //Map Name UI
+        //------------------------Map Name UI
         yield return new WaitForSeconds(1f);
-
+        //------------------------Player, Camera Setting
         var player = Managers.Game.Player;
         var sm = player ? player.TryGetComponent(out PlayerSM playerSm) ? playerSm : null : null;
 
@@ -81,7 +86,8 @@ public class FadeInOutPanel : MonoBehaviour
                 player = Managers.Game.Player;
                 yield return null;
             }
-            sm = player ? player.TryGetComponent(out PlayerSM playerSm1) ? playerSm1 : null : null;
+            // sm = player ? player.TryGetComponent(out PlayerSM playerSm1) ? playerSm1 : null : null;
+            sm = player.GetComponent<PlayerSM>();
         }
            sm.Respawning();
        
@@ -89,10 +95,13 @@ public class FadeInOutPanel : MonoBehaviour
         Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.Volume_1();
 
         yield return new WaitUntil(()=>playerCameraView.isCameraCenter);
+        //------------------------Player, Camera Setting
 
         //Map Name  UI
         text.enabled = false;
         //Map Name UI
+
+        //------------------------Fade Out
         while (percent > 0)
         {
             percent -= Time.deltaTime;
@@ -100,102 +109,101 @@ public class FadeInOutPanel : MonoBehaviour
             yield return null;
         }
         image.color = orgColor;
-
-            Managers.Game.StageStart(mapId);
-        
-        
+        //------------------------Fade Out
         
         image.enabled = false;
-   
+        moveNextStageCoroutine = null;
+
+        Managers.Game.StageStart(mapId);
     }
 
-    public IEnumerator Fadein(string mapId)
-    {
-        MapEditor.Instance.stageText.text = mapId;
-        Color tempColor = MapEditor.Instance.stageText.color;
-        tempColor.a = 0f;
-        while (tempColor.a < 1f)
-        {
-            tempColor.a += Time.deltaTime / fadeTime;
-            MapEditor.Instance.stageText.color = tempColor;
+    // public IEnumerator Fadein(string mapId)
+    // {
+    //     MapEditor.Instance.stageText.text = mapId;
+    //     Color tempColor = MapEditor.Instance.stageText.color;
+    //     tempColor.a = 0f;
+    //     while (tempColor.a < 1f)
+    //     {
+    //         tempColor.a += Time.deltaTime / fadeTime;
+    //         MapEditor.Instance.stageText.color = tempColor;
 
-            if (tempColor.a >= 1f)
-            {
-                tempColor.a = 1f;
-            }
-            yield return null;
-        }
+    //         if (tempColor.a >= 1f)
+    //         {
+    //             tempColor.a = 1f;
+    //         }
+    //         yield return null;
+    //     }
 
-        yield return new WaitForSeconds(1f);
+    //     yield return new WaitForSeconds(1f);
 
-        while (tempColor.a > 0f)
-        {
-            tempColor.a -= Time.deltaTime / fadeTime;
-            MapEditor.Instance.stageText.color = tempColor;
+    //     while (tempColor.a > 0f)
+    //     {
+    //         tempColor.a -= Time.deltaTime / fadeTime;
+    //         MapEditor.Instance.stageText.color = tempColor;
 
-            if (tempColor.a <= 0f)
-            {
-                tempColor.a = 0f;
-            }
-            yield return null;
-        }
-    }
+    //         if (tempColor.a <= 0f)
+    //         {
+    //             tempColor.a = 0f;
+    //         }
+    //         yield return null;
+    //     }
+    // }
 
-    private bool CheckNetworkStartPos()
-    {
-        try
-        {
-                if (MapEditor.Instance.startPosition == (Vector2)Managers.Network.startPos[0].position)
-                {
-                    return true;
-                }
+    // private bool CheckNetworkStartPos()
+    // {
+    //     try
+    //     {
+    //             if (MapEditor.Instance.startPosition == (Vector2)Managers.Network.startPos[0].position)
+    //             {
+    //                 return true;
+    //             }
            
-        }
-        catch(Exception ex)
-        {
-            Debug.Log(ex);
-            return false;
-        }
+    //     }
+    //     catch(Exception ex)
+    //     {
+    //         Debug.Log(ex);
+    //         return false;
+    //     }
 
-        return false;
+    //     return false;
 
 
-    }
+    // }
 
 
 
     #region Default Fade In, Out
 
 
-   public IEnumerator FadeOut()
-    {
-        float percent = 0;
-        Color fadeOutcolor = new Color(orgColor.r, orgColor.g, orgColor.b, 0);
-        while (percent < 1)
-        {
-            percent += Time.deltaTime;
-            image.color = Color.Lerp(fadeOutcolor, orgColor, percent);
-            yield return null;
-        }
+//    public IEnumerator FadeOut()
+//     {
+//         float percent = 0;
+//         Color fadeOutcolor = new Color(orgColor.r, orgColor.g, orgColor.b, 0);
+//         while (percent < 1)
+//         {
+//             percent += Time.deltaTime;
+//             image.color = Color.Lerp(fadeOutcolor, orgColor, percent);
+//             yield return null;
+//         }
 
-        image.color = new Color(orgColor.r, orgColor.g, orgColor.b, 0);
-        image.enabled = false;
+//         image.color = new Color(orgColor.r, orgColor.g, orgColor.b, 0);
+//         image.enabled = false;
 
-    }
-   public IEnumerator FadeIn()
-    {
-        image.enabled = true;
-        float percent = 0;
-        Color fadeIncolor = new Color(orgColor.r, orgColor.g, orgColor.b, 1);
+//     }
+//    public IEnumerator FadeIn()
+//     {
+//         image.enabled = true;
+//         float percent = 0;
+//         Color fadeIncolor = new Color(orgColor.r, orgColor.g, orgColor.b, 1);
 
-        while (percent < 1)
-        {
-            percent += Time.deltaTime;
-            image.color = Color.Lerp(orgColor, fadeIncolor, percent);
-            yield return null;
-        }
+//         while (percent < 1)
+//         {
+//             percent += Time.deltaTime;
+//             image.color = Color.Lerp(orgColor, fadeIncolor, percent);
+//             yield return null;
+//         }
 
-    }
+//     }
     #endregion
 
 }

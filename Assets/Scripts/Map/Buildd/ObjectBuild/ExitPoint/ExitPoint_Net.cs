@@ -6,9 +6,10 @@ using UnityEngine;
 
 public class ExitPoint_Net : NetworkBehaviour
 {
-    [SerializeField] ExitPointObj exit;
+    [SerializeField] ExitPointObj main;
 
     [SerializeField] KeyBubble keyBubble;
+    [SerializeField] AbsencePanel panel;
     [SerializeField] DoorOpeningAnim doorOpeningAnim;
 
     #region Data sync
@@ -18,12 +19,11 @@ public class ExitPoint_Net : NetworkBehaviour
     public string curMapId;
     [ReadOnly]
     public string nextMapId;
-    // [SyncVar] public bool stageClear;
-    private bool StageClear => MapEditor.Instance.stageClear;
-    [SyncVar] public int condition_KeyAmount;
-    [SyncVar(hook =nameof(OnChangeCurrent_KeyAmount))] public int current_KeyAmount;
-    [SyncVar] public int curPlayerInDoor;
-    [SyncVar] public bool OnMoveNextStage; // 다음 맵 이동 조건 충족 
+    // private bool StageClear => MapEditor.Instance.stageClear;
+    // [SyncVar] public int condition_KeyAmount;
+    [SyncVar(hook =nameof(Hook_OnChangeCurrent_KeyAmount))] public int current_KeyAmount;
+    // public int curPlayerInDoor;
+    // [SyncVar] public bool OnMoveNextStage; // 다음 맵 이동 조건 충족 
     #endregion
 
     private Collider2D col;
@@ -33,34 +33,32 @@ public class ExitPoint_Net : NetworkBehaviour
     public bool onSync;
 
     [Server]
-    public void Server_SetInit(int condition)
-    {
-        condition_KeyAmount = condition;
-        current_KeyAmount = condition;
-    }
-    [Server]
-    public void Server_InitSync(Vector2 mainPosition,string curMapId,string nextMapId)
-    {
-        this.mainPosition = mainPosition;
-        this.curMapId = curMapId;
-        this.nextMapId = nextMapId;
-        transform.position = mainPosition;
-    }
-    [Server]
     public void Server_InitSync()
     {
-        Rpc_InitSync(mainPosition,curMapId,nextMapId);
+         var data = main.data;
+
+        mainPosition = data.position;
+        curMapId = MapEditor.Instance.mapID;
+        nextMapId = data.nextMapId;
+        transform.position = data.position;
+        current_KeyAmount = data.condition_KeyAmount;
+
+        onSync = true;
+
+        Rpc_InitSync(data);
     }
-    [ClientRpc]
-    private void Rpc_InitSync(Vector2 mainPosition,string curMapId,string nextMapId)
+     [ClientRpc]
+    private void Rpc_InitSync(ExitObjStruct data)
     {
         if(onSync) return;
-        this.mainPosition = mainPosition;
-        this.curMapId = curMapId;
-        this.nextMapId = nextMapId;
-        transform.position = mainPosition;
+        mainPosition = data.position;
+        curMapId = MapEditor.Instance.mapID;
+        nextMapId = data.nextMapId;
+        transform.position = data.position;
+
         onSync = true;
     }
+
     [Command(requiresAuthority = false)]
     public void Cmd_InitSync()
     {
@@ -74,13 +72,7 @@ public class ExitPoint_Net : NetworkBehaviour
 
     #endregion
 
-    #region Server_Data Sync
-    // [Server]
-    // public void Server_SetNextMapId(string nextMapId)
-    // {
-    //     this.nextMapId = nextMapId;
-    // }
-
+    #region Use Stage Select_var3
     [Server] //Use Stage Select UI
     public void Server_SetNextMapId(string nextMapId) 
     {
@@ -92,44 +84,14 @@ public class ExitPoint_Net : NetworkBehaviour
         this.nextMapId = nextMapId;
     }
 
+    #endregion
 
-    //[Server]
-    //public void Server_SetCurrent_KeyAmount(int amount)
-    //{
-    //    current_KeyAmount -= amount;
-    //    if(current_KeyAmount <= 0 && !StageClear)
-    //    {
-    //        doorOpeningAnim.CallOnUnlockAnimation();
-    //        // Rpc_StageClear();
-    //        StartCoroutine(Delay());
-    //    }
-    //}
-    IEnumerator Delay()
-    {
-        yield return new WaitForSeconds(2f);
-        Rpc_StageClear();
-    }
-    [ClientRpc]
-    private void Rpc_StageClear()
-    {
-        Col.enabled = false;    
-        MapEditor.Instance.stageClear = true;
-        
-        Col.enabled = true;
-    }
-
-    //[Command(requiresAuthority = false)]
-    //public void Cmd_SetCurrent_KeyAmount(int amount)
-    //{
-    //    Server_SetCurrent_KeyAmount(amount);
-    //}
-
-    private void OnChangeCurrent_KeyAmount(int old,int newVal)
+   
+    private void Hook_OnChangeCurrent_KeyAmount(int old,int newVal)
     {
         keyBubble.MinusConditionKeyAmount(newVal);
     }
 
-    //------------REfec 0423
     [Command(requiresAuthority = false)]
     public void Cmd_GetKey(uint id)
     {
@@ -141,214 +103,188 @@ public class ExitPoint_Net : NetworkBehaviour
             Managers.Command.DestroyKey(identity.gameObject);
 
             current_KeyAmount -= 1;
-            if (current_KeyAmount <= 0 && !StageClear)
+            if (current_KeyAmount <= 0 && !MapEditor.Instance.stageClear)
             {
-                doorOpeningAnim.CallOnUnlockAnimation();
-                // Rpc_StageClear();
-                StartCoroutine(Delay());
+                Rpc_StageClear();
             }
 
         }
 
     }
-  
-    //------------REfec
+
+   [ClientRpc]
+    private void Rpc_StageClear()
+    {
+       if(doorUnlockAnimationCoroutin == null)
+       {
+            doorUnlockAnimationCoroutin = StartCoroutine(StageClearDelayCoroutine());
+       }
+    }
+    private Coroutine doorUnlockAnimationCoroutin;
+    IEnumerator StageClearDelayCoroutine()
+    {
+        doorOpeningAnim.CallOnUnlockAnimation();
+        Col.enabled = false;    
+
+        yield return new WaitForSeconds(2);
+        panel.OnAbsencePanel();
+        MapEditor.Instance.stageClear = true;
+        Col.enabled = true;
+    }
+
 
     #region Key
     [Server]
     public void Server_AddKeyAmount()
     {
-        condition_KeyAmount++;
+        // condition_KeyAmount++;
         current_KeyAmount++;
-
-        // Rpc_KeyBubble_Add();
     }
 
-    // [ClientRpc]
-    // private void Rpc_KeyBubble_Add()
-    // {
-    //     keyBubble.AddKeyAmount();
-
-    // }
-
     #endregion
 
-    #endregion
 
-    #region Next Map
+    #region In Out Player
+    private AirSM innerDoor_Air;
+    private HookSM innerDoor_Hook;
+    [ReadOnly]
+    public bool onReadyToMoveNextMap;
+
     [Command(requiresAuthority = false)]
-    public void Cmd_SetInDoor(int num)
+    public void Cmd_InPlayer(uint id)
     {
-        if (isServer)
+        if(isServer)
         {
-            curPlayerInDoor += num;
-            if (curPlayerInDoor < 0) curPlayerInDoor = 0;
+            var item = NetworkClient.spawned.TryGetValue(id,out NetworkIdentity identity) ? identity : null;
+            if( item == null) return;
 
-            if (StageClear && curPlayerInDoor >= 2)
+            var air = item.GetComponent<AirSM>();
+            if(air && !innerDoor_Air)
             {
-                //exit.MoveNextStage();
-                OnMoveNextStage = true;
+                innerDoor_Air = air;
+                //Air panel Open
+                Rpc_AirPanelOpenAndClose(true);
+                //Air panel Open
+            }
 
-                //StartCoroutine(_Delay(1,()=>{MoveNextStage();}));
-                MoveNextStage();
-                //MapEditor.Instance.MoveNextStage(nextMapId);
+            var hook = item.GetComponent<HookSM>();
+            if(hook && !innerDoor_Hook)
+            {
+                innerDoor_Hook = hook;
+                //Hook panel Open
+                Rpc_HookPanelOpenAndClose(true);
+                //Hook panel Open
+            }
+
+
+            if(innerDoor_Air && innerDoor_Hook)
+            {
+                // move Next map
+                Rpc_OnReadyToMoveMap();
+                // move Next map
 
             }
         }
     }
-    [Server]
-    public void Server_SetInDoor(int num)
+    [ClientRpc]
+    private void Rpc_OnReadyToMoveMap()
     {
-        curPlayerInDoor += num;
-        if (curPlayerInDoor < 0) curPlayerInDoor = 0;
+        onReadyToMoveNextMap = true;
+        // MoveNextStageCo();
+        Debug.Log("Move Next Stage");
+    }
 
-        if (StageClear && curPlayerInDoor >= 2)
+   
+
+
+    [Command(requiresAuthority = false)]
+    public void Cmd_OutPlayer(uint id)
+    {
+        if(isServer)
         {
-            //exit.MoveNextStage();
-            OnMoveNextStage = true;
+            var item = NetworkClient.spawned.TryGetValue(id,out NetworkIdentity identity) ? identity : null;
+            if( item == null) return;
 
-            StartCoroutine(_Delay(2,()=>{MoveNextStage();}));
-            //MoveNextStage();
-            //MapEditor.Instance.MoveNextStage(nextMapId);
+            var air = item.GetComponent<AirSM>();
+            if(air == innerDoor_Air)
+            {
+                innerDoor_Air = null;
+                //Air panel Close
+                Rpc_AirPanelOpenAndClose(false);
+                //Air panel Close
+            }
 
+            var hook = item.GetComponent<HookSM>();
+            if(hook == innerDoor_Hook)
+            {
+                innerDoor_Hook = null;
+                //Hook panel Close
+                Rpc_HookPanelOpenAndClose(false);
+                //Hook panel Close
+            }
         }
     }
 
-    IEnumerator _Delay(float delayTime,Action action)
-    {
-        yield return new WaitForSeconds(delayTime);
-        action?.Invoke();
-    }    
+    #endregion
 
-    [ClientRpc]
+    #region Move Next Stage
+    private void MoveNextStageCo()
+    {
+        StartCoroutine(MoveNextStageCoroutine());
+    }
+    
+    private IEnumerator MoveNextStageCoroutine()
+    {
+        yield return new WaitForSeconds(1);
+        MoveNextStage();
+        
+    }
+    
     private void MoveNextStage()
     {
-        try
-        {
-            Managers.Sound.CollectAmbientSoundSource();
-            Managers.Stage.stageName = nextMapId;
-            Camera.main.GetComponent<ParallaxCamera>().enabled = false;
-
-            string nextMap = nextMapId;
-
-            //NextMapId 가 null 이면 스테이지 클리어. -> 로비로 이동
-            if(string.Empty == nextMap && curMapId != "Lobby")
+        //NextMapId 가 null 이면 스테이지 클리어. -> 로비로 이동
+            if(string.Empty == nextMapId && curMapId != "Lobby")
             {
                 Managers.Game.CurrentState = GameState.Lobby;
                 Managers.Game.StageClear(curMapId,true);
-                nextMap = "Lobby";
+                MapEditor.Instance.MoveNextStage("Lobby");
+                return;
                 
             }else //단순 맵 클리어
             {
                 Managers.Game.CurrentState = GameState.Game;
                 Managers.Game.StageClear(curMapId);
+                MapEditor.Instance.MoveNextStage(nextMapId);
+                return;
             }
-
-            //특정 스테이지 클리어시 나오는 다이어그램
-            // -> 실행 후 네트워크에 다음맵으로 이동할 준비가 됐다는 신호 보내기.
-
-            //페이드 아웃, -> 클라이언트 준비 중 UI 
-
-            //모든 클라이언트의 준비 확인. -> 맵 이동
-
-            MapEditor.Instance.MoveNextStage(nextMap);
-
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e);
-        }
-
     }
-
-
-
     #endregion
-    //[Command(requiresAuthority = false)]
-    //public void OnAbsencePanel()
-    //{
-    //    RpcOnAbsencePanel();
-    //}
 
-    //private IEnumerator WaitUntilAllClientsReady(Action action)
-    //{
-    //    while (!AllClientsReady()) // 모든 클라이언트가 준비될 때까지 대기
-    //    {
-    //        Debug.Log("클라이언트가 아직 준비되지 않음. 기다리는 중...");
-    //        yield return null;
-    //    }
-
-    //    Debug.Log("모든 클라이언트가 준비됨! ClientRpc 호출");
-    //    action?.Invoke();
-    //}
-
-    private bool AllClientsReady()
-    {
-        foreach (var conn in NetworkServer.connections.Values)
-        {
-            if (!conn.isReady)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
     #region Absence Panel
-    [ClientRpc]
-    public void RpcOnAbsencePanel()
+    private void Rpc_HookPanelOpenAndClose(bool openAndClose)
     {
-        exit.OnAbsence();
+        if(openAndClose) panel.HookPanelOpen();
+        else panel.HookPanelClose();
     }
-    [Command(requiresAuthority = false)]
-    public void Enter(GameObject obj)
+    private  void Rpc_AirPanelOpenAndClose(bool openAndClose)
     {
-        if (obj == null) return;
-        RpcEnter(obj.GetComponent<NetworkIdentity>().netId);
-
-    }
-    //[ClientRpc]
-    //public void RpcEnter(GameObject obj)
-    //{
-    //    exit.Enter(obj);
-    //}
-    [ClientRpc]
-    public void RpcEnter(uint id)
-    {
-        var item = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity identity) ? identity : null;
-        if (item != null) { exit.Enter(identity.gameObject); }
-
-
-        
-    }
-    [Command(requiresAuthority = false)]
-    public void Exit(GameObject obj)
-    {
-        if (obj == null) return;
-        RpcExit(obj.GetComponent<NetworkIdentity>().netId);
-        //try
-        //{
-        //    RpcExit(obj);
-        //}
-        //catch (Exception e)
-        //{
-        //    Debug.Log(e);
-        //}
-    }
-    //[ClientRpc]
-    //public void RpcExit(GameObject obj)
-    //{
-    //    exit.Exit(obj);
-    //}
-    [ClientRpc]
-    public void RpcExit(uint id)
-    {
-        var item = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity identity) ? identity : null;
-        if (item != null) { exit.Exit(identity.gameObject); }
-      
+        if(openAndClose) panel.AirPanelOpen();
+        else panel.AirPanelClose();
     }
     #endregion
 
 
 
-
+    // private bool AllClientsReady()
+    // {
+    //     foreach (var conn in NetworkServer.connections.Values)
+    //     {
+    //         if (!conn.isReady)
+    //         {
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+    // }
+    
 }
