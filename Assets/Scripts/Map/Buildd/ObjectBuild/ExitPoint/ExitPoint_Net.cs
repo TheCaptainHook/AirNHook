@@ -190,12 +190,8 @@ public class ExitPoint_Net : NetworkBehaviour
     private void Rpc_OnReadyToMoveMap()
     {
         onReadyToMoveNextMap = true;
-        // MoveNextStageCo();
-        Debug.Log("Move Next Stage");
+        MoveNextStageCo();
     }
-
-   
-
 
     [Server]
     public void Server_OutPlayer(uint id)
@@ -225,15 +221,20 @@ public class ExitPoint_Net : NetworkBehaviour
     #endregion
 
     #region Move Next Stage
+    Coroutine moveNextStageCoroutine;
+
     private void MoveNextStageCo()
     {
-        StartCoroutine(MoveNextStageCoroutine());
+        if (moveNextStageCoroutine == null) moveNextStageCoroutine = StartCoroutine(MoveNextStageCoroutine());
+
     }
     
     private IEnumerator MoveNextStageCoroutine()
     {
         yield return new WaitForSeconds(1);
         MoveNextStage();
+        moveNextStageCoroutine = null;
+
         
     }
     
