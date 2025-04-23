@@ -265,13 +265,12 @@ public class NewAirGun
         
         if (ReferenceEquals(_latestTarget, _closestTarget))
         {
-            if (Managers.Game.OtherPlayer is not null && ReferenceEquals(Managers.Game.OtherPlayer, _latestTarget))
+            if (ReferenceEquals(Managers.Game.OtherPlayer, _latestTarget.gameObject))
             {
                 _shortestDistance = float.MaxValue;
                 return;
             }
-
-            if ( _inhaleTarget is not null && ReferenceEquals(_inhaleTarget, _latestTarget) && _shortestDistance < 0.3f)
+            else if (_inhaleTarget is not null && ReferenceEquals(_inhaleTarget, _latestTarget) && _shortestDistance < 0.3f)
             {
                 if(_inhaleTarget.TryGetComponent<IInhalable>(out var inhalable))
                     FixInhaleTarget();
@@ -386,13 +385,17 @@ public class NewAirGun
 
         if (_inhaleTarget is null) return;
 
-        if (_targetConstraint is not null && _targetConstraint.sourceCount != 0)
+        try
         {
-            _targetConstraint.weight = 0f;
-            _targetConstraint.constraintActive = false;
-            _targetConstraint.locked = false;
-            _targetConstraint.RemoveSource(0);
+            if (_targetConstraint is not null && _targetConstraint.sourceCount != 0)
+            {
+                _targetConstraint.weight = 0f;
+                _targetConstraint.constraintActive = false;
+                _targetConstraint.locked = false;
+                _targetConstraint.RemoveSource(0);
+            }
         }
+        catch (Exception) { }
 
         if (ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject))
             _air.CmdStopInhalePlayer();

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UI_EmoteWheel : UI_Base
@@ -31,7 +32,11 @@ public class UI_EmoteWheel : UI_Base
 
     #endregion
     //TODO: 인게임에서만 사용 가능하도록 게임 스테이트 체크
-    
+
+    private bool _isPointerOverPanel4 = false;
+    private float _hoverTime = 0f;
+    private float _requiredHoverTime = 1f;
+
     public override void OnEnable()
     {
         OpenUI();
@@ -53,8 +58,24 @@ public class UI_EmoteWheel : UI_Base
         _arrowPanel2.onClick.AddListener(OnArrow2);
         _arrowPanel3.onClick.AddListener(OnArrow3);
         _arrowPanel4.onClick.AddListener(OnArrow4);
-    }                                           
-    
+
+        AddEventForArrowEmote();
+    }
+
+    private void Update()
+    {
+        if (_isPointerOverPanel4)
+        {
+            _hoverTime += Time.deltaTime;
+
+            if (_hoverTime >= _requiredHoverTime)
+            {
+                OnPanel4();
+                _isPointerOverPanel4 = false;
+            }
+        }
+    }
+
     private void ShowEmote(string emoteName)
     {
         //Managers.Resource.NetworkInstantiate($"UI/Emotes/{emoteName}", Managers.Game.Player.transform);
@@ -63,7 +84,39 @@ public class UI_EmoteWheel : UI_Base
         Managers.Game.Player.GetComponent<PlayerSM>().UsingEmote();
         OnExit();
     }
-    
+
+    private void AddEventForArrowEmote()
+    {
+        EventTrigger eventTrigger = _emotePanel4.GetComponent<EventTrigger>();
+        if (eventTrigger == null)
+        {
+            eventTrigger = _emotePanel4.gameObject.AddComponent<EventTrigger>();
+        }
+
+        EventTrigger.Entry pointerEnterEntry = new EventTrigger.Entry();
+        pointerEnterEntry.eventID = EventTriggerType.PointerEnter;
+        pointerEnterEntry.callback.AddListener((eventData) => OnPointerEnterPanel4());
+
+        EventTrigger.Entry pointerExitEntry = new EventTrigger.Entry();
+        pointerExitEntry.eventID = EventTriggerType.PointerExit;
+        pointerExitEntry.callback.AddListener((eventData) => OnPointerExitPanel4());
+
+        eventTrigger.triggers.Add(pointerEnterEntry);
+        eventTrigger.triggers.Add(pointerExitEntry);
+    }
+
+    private void OnPointerEnterPanel4()
+    {
+        _isPointerOverPanel4 = true;
+        _hoverTime = 0f;
+    }
+
+    private void OnPointerExitPanel4()
+    {
+        _isPointerOverPanel4 = false;
+        _hoverTime = 0f;
+    }
+
     #region ListenerEvents
 
     //========이모트==========
@@ -124,5 +177,27 @@ public class UI_EmoteWheel : UI_Base
         CloseUI();
         _mainEmoteWheel.SetActive(true);
         _arrowEmoteWheel.SetActive(false);
+    }
+    
+    public void TryShowHoveredEmote()
+    {
+        PointerEventData pointerData = new PointerEventData(EventSystem.current)
+        {
+            position = Input.mousePosition
+        };
+
+        List<RaycastResult> raycastResults = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerData, raycastResults);
+
+        foreach (RaycastResult result in raycastResults)
+        {
+            Button hoveredButton = result.gameObject.GetComponent<Button>();
+            Debug.Log("Hovered Button: " + hoveredButton);
+            if (hoveredButton != null)
+            {
+                hoveredButton.onClick.Invoke();
+                break;
+            }
+        }
     }
 }
