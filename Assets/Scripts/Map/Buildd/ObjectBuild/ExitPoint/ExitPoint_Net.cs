@@ -265,6 +265,7 @@ public class ExitPoint_Net : NetworkBehaviour
     [ClientRpc]
     private void Rpc_HookPanelOpenAndClose(bool openAndClose)
     {
+        Debug.Log("Hook");
         if(openAndClose) panel.HookPanelOpen();
         else panel.HookPanelClose();
     }

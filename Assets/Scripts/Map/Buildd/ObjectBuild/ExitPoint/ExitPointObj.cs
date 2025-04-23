@@ -91,7 +91,7 @@ public class ExitPointObj : BuildObj
             ExitPoint_Net.Cmd_GetKey(component.GetComponent<NetworkIdentity>().netId);
         }
         
-        if(collision.gameObject.TryGetComponent(out PlayerSM _) && MapEditor.Instance.stageClear)
+        if(collision.gameObject.TryGetComponent(out PlayerSM _) && MapEditor.Instance.stageClear && NetworkServer.active)
         {   
            ExitPoint_Net.Cmd_InPlayer(collision.GetComponent<NetworkIdentity>().netId);
         }
