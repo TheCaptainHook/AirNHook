@@ -151,41 +151,40 @@ public class ExitPoint_Net : NetworkBehaviour
     [ReadOnly]
     public bool onReadyToMoveNextMap;
 
-    [Command(requiresAuthority = false)]
-    public void Cmd_InPlayer(uint id)
+    [Server]
+    public void Server_InPlayer(uint id)
     {
-        if(isServer)
+        var item = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity identity) ? identity : null;
+        if (item == null) return;
+
+        var air = item.GetComponent<AirSM>();
+        if (air && !innerDoor_Air)
         {
-            var item = NetworkClient.spawned.TryGetValue(id,out NetworkIdentity identity) ? identity : null;
-            if( item == null) return;
-
-            var air = item.GetComponent<AirSM>();
-            if(air && !innerDoor_Air)
-            {
-                innerDoor_Air = air;
-                //Air panel Open
-                Rpc_AirPanelOpenAndClose(true);
-                //Air panel Open
-            }
-
-            var hook = item.GetComponent<HookSM>();
-            if(hook && !innerDoor_Hook)
-            {
-                innerDoor_Hook = hook;
-                //Hook panel Open
-                Rpc_HookPanelOpenAndClose(true);
-                //Hook panel Open
-            }
-
-
-            if(innerDoor_Air && innerDoor_Hook)
-            {
-                // move Next map
-                Rpc_OnReadyToMoveMap();
-                // move Next map
-
-            }
+            innerDoor_Air = air;
+            //Air panel Open
+            Rpc_AirPanelOpenAndClose(true);
+            //Air panel Open
         }
+
+        var hook = item.GetComponent<HookSM>();
+        if (hook && !innerDoor_Hook)
+        {
+            innerDoor_Hook = hook;
+            //Hook panel Open
+            Rpc_HookPanelOpenAndClose(true);
+            //Hook panel Open
+        }
+
+
+        if (innerDoor_Air && innerDoor_Hook)
+        {
+            // move Next map
+            Rpc_OnReadyToMoveMap();
+            // move Next map
+
+        }
+
+
     }
     [ClientRpc]
     private void Rpc_OnReadyToMoveMap()
@@ -198,31 +197,28 @@ public class ExitPoint_Net : NetworkBehaviour
    
 
 
-    [Command(requiresAuthority = false)]
-    public void Cmd_OutPlayer(uint id)
+    [Server]
+    public void Server_OutPlayer(uint id)
     {
-        if(isServer)
+        var item = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity identity) ? identity : null;
+        if (item == null) return;
+
+        var air = item.GetComponent<AirSM>();
+        if (air == innerDoor_Air)
         {
-            var item = NetworkClient.spawned.TryGetValue(id,out NetworkIdentity identity) ? identity : null;
-            if( item == null) return;
+            innerDoor_Air = null;
+            //Air panel Close
+            Rpc_AirPanelOpenAndClose(false);
+            //Air panel Close
+        }
 
-            var air = item.GetComponent<AirSM>();
-            if(air == innerDoor_Air)
-            {
-                innerDoor_Air = null;
-                //Air panel Close
-                Rpc_AirPanelOpenAndClose(false);
-                //Air panel Close
-            }
-
-            var hook = item.GetComponent<HookSM>();
-            if(hook == innerDoor_Hook)
-            {
-                innerDoor_Hook = null;
-                //Hook panel Close
-                Rpc_HookPanelOpenAndClose(false);
-                //Hook panel Close
-            }
+        var hook = item.GetComponent<HookSM>();
+        if (hook == innerDoor_Hook)
+        {
+            innerDoor_Hook = null;
+            //Hook panel Close
+            Rpc_HookPanelOpenAndClose(false);
+            //Hook panel Close
         }
     }
 

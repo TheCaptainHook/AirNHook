@@ -93,7 +93,7 @@ public class ExitPointObj : BuildObj
         
         if(collision.gameObject.TryGetComponent(out PlayerSM _) && MapEditor.Instance.stageClear && NetworkServer.active)
         {   
-           ExitPoint_Net.Cmd_InPlayer(collision.GetComponent<NetworkIdentity>().netId);
+           ExitPoint_Net.Server_InPlayer(collision.GetComponent<NetworkIdentity>().netId);
         }
     }
   
@@ -101,9 +101,9 @@ public class ExitPointObj : BuildObj
     {
         if(collision == null || ExitPoint_Net.onReadyToMoveNextMap) return;
         
-        if(collision.gameObject.TryGetComponent(out PlayerSM _) && MapEditor.Instance.stageClear)
+        if(collision.gameObject.TryGetComponent(out PlayerSM _) && MapEditor.Instance.stageClear && NetworkServer.active)
         {
-            ExitPoint_Net.Cmd_OutPlayer(collision.GetComponent<NetworkIdentity>().netId);
+            ExitPoint_Net.Server_OutPlayer(collision.GetComponent<NetworkIdentity>().netId);
         }
     }
 
