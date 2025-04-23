@@ -523,7 +523,9 @@ public class UI_StageSelect_var3: UI_Base
     void Select_PrograssLevel_2()
     {
         int stageLevel = int.Parse(curSelectTextLine.mainSentence);
+        GetHost_MapData(stageLevel);
         textLineList[pathTextLineIndex].WriteText($"/{curSelectTextLine.mainSentence}");
+
         curSelectTextLine.Reset();
         curSelectTextLine = null;
 
@@ -538,8 +540,6 @@ public class UI_StageSelect_var3: UI_Base
         curStageLevel = stageLevel;
 
         _PrograssLevel = PrograssLevel.Three;
-
-        GetHost_MapData(stageLevel);
 
         yield return EraserTextLineCo(minSelectTextLineListIndex, maxSelectTextLineListIndex);
 

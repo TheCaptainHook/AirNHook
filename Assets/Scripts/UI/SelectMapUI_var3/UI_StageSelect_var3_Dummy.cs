@@ -548,7 +548,8 @@ public class UI_StageSelect_var3_Dummy: UI_Base
         _PrograssLevel = PrograssLevel.Three;
 
         yield return EraserTextLineCo(minSelectTextLineListIndex, maxSelectTextLineListIndex);
-      
+        yield return null;
+
         Host_MapData[] mapDatas = computer.GetComponent<Computer_Net>().host_MapDatas;
         for (int i = 0; i < mapDatas.Length; i++)
         {
