@@ -328,7 +328,6 @@ MonoBehaviour:
   _lockGameObject: {fileID: 3827269398014669780}
   _lockRigidbody2D: {fileID: 2248341254147455152}
   _lockCollider2D: {fileID: 7971026482734978906}
-  panel: {fileID: 8529724692252107974}
   exit: {fileID: 4614319543247492676}
 --- !u!114 &4614319543247492676
 MonoBehaviour:
@@ -361,10 +360,14 @@ MonoBehaviour:
   canRespawn: 0
   stageClear: 0
   nextMapId: 
-  curPlayerInDoor: 0
   condition_KeyAmount: 0
   keyBubble: {fileID: 8688439935732841946}
   absencePanel: {fileID: 8529724692252107974}
+  data:
+    id: 0
+    position: {x: 0, y: 0}
+    condition_KeyAmount: 0
+    nextMapId: 
 --- !u!114 &1045330855647730413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380,16 +383,15 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  exit: {fileID: 4614319543247492676}
+  main: {fileID: 4614319543247492676}
   keyBubble: {fileID: 8688439935732841946}
+  panel: {fileID: 8529724692252107974}
   doorOpeningAnim: {fileID: 7695271462647067305}
   curMapId: 
   nextMapId: 
-  condition_KeyAmount: 0
   current_KeyAmount: 0
-  curPlayerInDoor: 0
-  OnMoveNextStage: 0
   onSync: 0
+  onReadyToMoveNextMap: 0
 --- !u!1 &2184687535908895107
 GameObject:
   m_ObjectHideFlags: 0
