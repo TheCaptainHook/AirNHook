@@ -200,6 +200,12 @@ public class UI_Option : UI_Base
         OnOptionExit();
         Managers.Command.ChangeStage(GlobalText.LOBBY);
     }
+    public void HoldAndReleaseLobby_StageRestartBtn(bool onOff)
+    {
+        _toLobbyBtn.interactable = !onOff;
+        _stageRestartBtn.interactable = !onOff;
+    }
+
     
     private void OnStageRestartBtn()
     {

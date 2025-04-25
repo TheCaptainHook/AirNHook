@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
 public class NetworkCommand : NetworkBehaviour
@@ -10,17 +11,58 @@ public class NetworkCommand : NetworkBehaviour
     private void Awake()
     {
         Managers.Command = this;
+        waitSecond = new WaitForSeconds(5);
     }
     #endregion
 
     #region StageChange
+    //--------------Server
+    private WaitForSeconds waitSecond;
+    private Queue<Action> changeStageQueue = new();
+    
+    //--------------Server
+    private Coroutine waitChangeStageCoroutine; //Use only Server
+    private IEnumerator Wait_ChangeStage()
+    {
+        var uiOption = Managers.UI.GetUI<UI_Option>().GetComponent<UI_Option>();
+        while(true)
+        {
+            uiOption.HoldAndReleaseLobby_StageRestartBtn(true);
+            while(changeStageQueue.Count>0)
+            {
+                var action = changeStageQueue.Dequeue();
+                action?.Invoke();
+                yield return waitSecond;
+            }
+            yield return null;
+
+            if(changeStageQueue.Count == 0)
+            break;
+        }
+        uiOption.HoldAndReleaseLobby_StageRestartBtn(false);
+        waitChangeStageCoroutine = null;
+
+    }
+    [Server]
+    private void Server_ChangeStage(string value)
+    {
+        changeStageQueue.Enqueue(()=>RpcChangeStage(value));
+
+        if(waitChangeStageCoroutine == null)
+        {
+            waitChangeStageCoroutine = StartCoroutine(Wait_ChangeStage());
+        }
+    }
+
     [Command(requiresAuthority = false)]
     public void ChangeStage(string value)
     {
-
-        RpcChangeStage(value);
+        Server_ChangeStage(value);
+        // RpcChangeStage(value);
        
     }
+
+
 
     [ClientRpc]
     private void RpcChangeStage(string value)
