@@ -91,26 +91,36 @@ public class JumpingPad_Net : NetworkBehaviour
     }
 
 
-    [Command(requiresAuthority = false)]
-    public void Cmd_Jumping(GameObject obj)
-    {
-        if (obj == null) return;
+    //[Command(requiresAuthority = false)]
+    //public void Cmd_Jumping(GameObject obj)
+    //{
+    //    if (!obj) return;
+    //    if (obj.TryGetComponent(out NetworkIdentity component))
+    //    {
+    //        TRpc_Jumping(component.connectionToClient, obj);
+    //        return;
+    //    }
+    //    else
+    //    {
+    //        Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();
+    //        if (rb == null)
+    //        {
+    //            return;
+    //        }
+    //        Jumping(rb);
+    //    }
 
-        if (obj.TryGetComponent(out NetworkIdentity component))
-        {
-            TRpc_Jumping(component.connectionToClient, obj);
-            return;
-        }
-        else
-        {
-            Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();
-            if (rb == null)
-            {
-                Debug.LogWarning($"Cmd_Jumping: {obj.name} has no Rigidbody2D!");
-                return;
-            }
-            Jumping(rb);
-        }
+
+    //}
+    [Command(requiresAuthority = false)]
+    public void Cmd_Jumping(uint id)
+    {
+        var item = NetworkClient.spawned.TryGetValue(id,out NetworkIdentity identity) ? identity : null;
+        if (!item ) return;
+
+        TRpc_Jumping(identity.connectionToClient, identity.gameObject);
+
+  
 
 
     }

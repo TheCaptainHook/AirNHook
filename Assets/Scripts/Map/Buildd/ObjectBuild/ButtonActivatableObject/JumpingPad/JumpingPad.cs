@@ -1,5 +1,6 @@
 
 using JetBrains.Annotations;
+using Mirror;
 using UnityEngine;
 
 public class JumpingPad : ActivatableObjectEntity
@@ -71,10 +72,9 @@ public class JumpingPad : ActivatableObjectEntity
     {
         if (!Net.onSync) return;
 
-        if(collision != null && collision.TryGetComponent(out Rigidbody2D component)){
+        if(collision != null && collision.TryGetComponent(out NetworkIdentity component)){
 
-            //Net.Cmd_Jumping(component.gameObject);
-            Net.Cmd_Jumping(collision.gameObject);
+            Net.Cmd_Jumping(component.netId);
         }
     }
 
