@@ -70,11 +70,13 @@ public class JumpingPad : ActivatableObjectEntity
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!Net.onSync) return;
-
-        if(collision != null && collision.TryGetComponent(out NetworkIdentity component)){
+ 
+        if (collision != null && collision.TryGetComponent(out NetworkIdentity component))
+        {
+            if (collision.TryGetComponent(out JumpingPad _)) return;
 
             Net.Cmd_Jumping(component.netId);
+            //Debug.Log(collision.name);
         }
     }
 
