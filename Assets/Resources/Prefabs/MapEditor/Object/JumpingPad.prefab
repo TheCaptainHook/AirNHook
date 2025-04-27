@@ -5269,7 +5269,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 32768
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -5343,7 +5343,7 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   distructionStatus: 0
   chargeRequired: 0
-  isTransformItem: 0
+  isTransportItem: 0
   carrierTransformNetId: 0
   carrierTransform: {fileID: 0}
   onPlaceable: 0
@@ -5354,6 +5354,7 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
+  canRespawn: 0
   activeRequirAmount: 0
   curActiveBtn: 0
   jumpingPower: 0
@@ -5372,8 +5373,8 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  onSync: 0
   jumpingPower: 0
+  onSync: 0
   onActive: 0
 --- !u!95 &440923098132029017
 Animator:

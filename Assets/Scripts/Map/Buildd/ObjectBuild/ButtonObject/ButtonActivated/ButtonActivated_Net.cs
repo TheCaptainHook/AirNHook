@@ -42,7 +42,7 @@ public class ButtonActivated_Net : NetworkBehaviour
         transform.localScale = data.scale;
         onSync = true;
     }
-    [Command]
+    [Command(requiresAuthority = false)]
     public void Cmd_SetPosition()
     {
         Server_SetPosition();
