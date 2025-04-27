@@ -110,6 +110,8 @@ public class Portal_Net : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void Cmd_UsePortal(GameObject obj)
     {
+        if (obj == null) return;
+
         var netIdentity = obj.GetComponent<NetworkIdentity>();
         var playerConn = netIdentity.connectionToClient;
         TRpc_Portal(playerConn, obj);
