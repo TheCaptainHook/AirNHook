@@ -119,7 +119,7 @@ public class ButtonEntity : BuildObj
 
         foreach(GameObject obj in targetObjects){
             if (obj == null) continue;
-            if(obj.TryGetComponent(out IPowerConsumer _))
+            if(obj.TryGetComponent(out ActivatableObjectEntity _))
             {
                 list.Add(ConvertPosition(obj.transform.position));
             }

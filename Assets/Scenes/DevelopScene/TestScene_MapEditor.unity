@@ -15017,6 +15017,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TeslaTower
       objectReference: {fileID: 0}
+    - target: {fileID: 6470496943976416857, guid: 7d6bb5a290dc5407fb26538e4713d911, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6541905961117040222, guid: 7d6bb5a290dc5407fb26538e4713d911, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
