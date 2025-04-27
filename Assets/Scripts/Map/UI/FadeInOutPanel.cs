@@ -115,7 +115,15 @@ public class FadeInOutPanel : MonoBehaviour
         image.enabled = false;
         moveNextStageCoroutine = null;
 
-        Managers.Command.Cmd_IsCompleteMoveStage();
+        try
+        {
+            Managers.Command.Cmd_IsCompleteMoveStage();
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e);
+        }
+       
 
         //Managers.Command.Cmd_IsCompleteMoveStage();
         Managers.Game.StageStart(mapId);
