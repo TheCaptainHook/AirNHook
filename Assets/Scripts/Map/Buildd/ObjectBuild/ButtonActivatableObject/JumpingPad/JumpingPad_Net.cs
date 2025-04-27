@@ -95,6 +95,7 @@ public class JumpingPad_Net : NetworkBehaviour
     public void Cmd_Jumping(GameObject obj)
     {
         if (obj == null) return;
+
         if (obj.TryGetComponent(out NetworkIdentity component))
         {
             TRpc_Jumping(component.connectionToClient, obj);
@@ -102,7 +103,13 @@ public class JumpingPad_Net : NetworkBehaviour
         }
         else
         {
-            Jumping(obj.GetComponent<Rigidbody2D>());
+            Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();
+            if (rb == null)
+            {
+                Debug.LogWarning($"Cmd_Jumping: {obj.name} has no Rigidbody2D!");
+                return;
+            }
+            Jumping(rb);
         }
 
 
