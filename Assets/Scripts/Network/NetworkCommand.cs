@@ -22,23 +22,41 @@ public class NetworkCommand : NetworkBehaviour
     
     //--------------Server
     private Coroutine waitChangeStageCoroutine; //Use only Server
+    //---------------------------------
+    public bool isCompleteMoveStage_1; //Server
+    public bool isCompleteMoveStage_2; //Client
+    [Command(requiresAuthority = false)]
+    public void Cmd_IsCompleteMoveStage()
+    {
+        var conn = connectionToClient;
+        if(conn == NetworkServer.localConnection)
+            isCompleteMoveStage_1 = true;
+        else
+            isCompleteMoveStage_2 = true;
+        
+    }
+    private int ClientCount => NetworkServer.connections.Count;
+    //---------------------------------
     private IEnumerator Wait_ChangeStage()
     {
         var uiOption = Managers.UI.GetUI<UI_Option>().GetComponent<UI_Option>();
-        while(true)
+        
+        uiOption.HoldAndReleaseLobby_StageRestartBtn(true);
+        
+        while(changeStageQueue.Count>0)
         {
-            uiOption.HoldAndReleaseLobby_StageRestartBtn(true);
-            while(changeStageQueue.Count>0)
-            {
-                var action = changeStageQueue.Dequeue();
-                action?.Invoke();
-                yield return waitSecond;
-            }
-            yield return null;
+            isCompleteMoveStage_1 = false;
+            isCompleteMoveStage_2 = false;
 
-            if(changeStageQueue.Count == 0)
-            break;
-        }
+            var action = changeStageQueue.Dequeue();
+            action?.Invoke();
+            // yield return waitSecond; //<-
+            if(ClientCount > 1)
+            yield return new WaitUntil(()=> isCompleteMoveStage_1 && isCompleteMoveStage_2);
+            else
+            yield return waitSecond;
+        }   
+        
         uiOption.HoldAndReleaseLobby_StageRestartBtn(false);
         waitChangeStageCoroutine = null;
 

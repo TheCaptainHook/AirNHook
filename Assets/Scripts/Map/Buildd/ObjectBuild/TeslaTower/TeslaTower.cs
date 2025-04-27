@@ -59,7 +59,7 @@ public class TeslaTower : BuildObj
     private System.Type[] _DetectObjComponentTypes = { typeof(PlayerSM), typeof(BuildObj) };
 
 
-    private float maxLightningRate = 1f;
+    private float maxLightningRate = 2f;
     [ReadOnly]
     public float curLightningRate = 0;
     //TODO 0723
@@ -200,7 +200,7 @@ public class TeslaTower : BuildObj
             {
                 if(obj.TryGetComponent(out LightningRod lightningRod))
                 {
-                    DrawLineRenderer(obj.transform, lightningRod.hitPoint);
+                    DrawLineRenderer(lightningBox, lightningRod.hitPoint);
                     lightningRod.Electric();
                     return;
                 }
@@ -213,7 +213,7 @@ public class TeslaTower : BuildObj
                 {
                     if (CheckInsulator(buildObj.id))
                     {
-                        DrawLineRenderer(obj.transform, obj.transform);
+                        DrawLineRenderer(lightningBox, obj.transform);
                         buildObj.TakeDamage(DamageType.Electric);
 
                         return;
@@ -226,7 +226,7 @@ public class TeslaTower : BuildObj
             {
                 if(obj.layer == LayerMask.NameToLayer("Player"))
                 {
-                    DrawLineRenderer(obj.transform, obj.transform);
+                    DrawLineRenderer(lightningBox, obj.transform);
                     obj.GetComponent<PlayerSM>().TakeDamage(DamageType.Electric);
                 }
             }
@@ -297,59 +297,89 @@ public class TeslaTower : BuildObj
     #endregion
 
 
-    public void Lightning(GameObject target)
-    {
-        ///
-        /// If the Lightning Rod is within the attack range
-        /// Unconditionally, a Lightning Rod attack.
-        ///
-        if (target.TryGetComponent(out LightningRod lightningRod1))
-        {
-            DrawLineRenderer(target.transform, lightningRod1.hitPoint);
-            lightningRod1.Electric();
-            return;
-        }
+    // public void Lightning(GameObject target)
+    // {
+    //     ///
+    //     /// If the Lightning Rod is within the attack range
+    //     /// Unconditionally, a Lightning Rod attack.
+    //     ///
+    //     if (target.TryGetComponent(out LightningRod lightningRod1))
+    //     {
+    //         DrawLineRenderer(target.transform, lightningRod1.hitPoint);
+    //         lightningRod1.Electric();
+    //         return;
+    //     }
 
-        if (target.gameObject.TryGetComponent(out BuildObj buildObj))
-        {
-            DrawLineRenderer(target.transform, target.transform);
-            buildObj.TakeDamage();
-            return;
-        }
+    //     if (target.gameObject.TryGetComponent(out BuildObj buildObj))
+    //     {
+    //         DrawLineRenderer(target.transform, target.transform);
+    //         buildObj.TakeDamage();
+    //         return;
+    //     }
 
 
-        if (target.TryGetComponent(out HookSM hook))
-        {
-            Transform item = hook.GetGrabbedItem();
-            LightningRod lightningRod = item.GetComponent<LightningRod>();
-            if (lightningRod != null)
-            {
-                DrawLineRenderer(target.transform, lightningRod.hitPoint);
-                return;
-            }
+    //     if (target.TryGetComponent(out HookSM hook))
+    //     {
+    //         Transform item = hook.GetGrabbedItem();
+    //         LightningRod lightningRod = item.GetComponent<LightningRod>();
+    //         if (lightningRod != null)
+    //         {
+    //             DrawLineRenderer(target.transform, lightningRod.hitPoint);
+    //             return;
+    //         }
             
-        }
+    //     }
 
-        if(target.TryGetComponent(out IDamageable damageable))
-        {
-            damageable.TakeDamage(DamageType.Electric);
-        }
+    //     if(target.TryGetComponent(out IDamageable damageable))
+    //     {
+    //         damageable.TakeDamage(DamageType.Electric);
+    //     }
 
-        return;
-
-
-    }
+    //     return;
 
 
+    // }
 
-    private void DrawLineRenderer(Transform target,Transform hitPoint)
+
+
+    private void DrawLineRenderer(Transform start,Transform hitPoint)
     {
-       Vector3 dir = (target.position - transform.position).normalized;
+    //    Vector3 dir = (target.position - transform.position).normalized;
         GameObject newObj = lineRendererQueue.Dequeue();
         newObj.SetActive(true);
         StartLightningEffect();
-        bezierCurve.Generator(newObj.GetComponent<LineRenderer>(), lightningBox.position, lightningBox.position + dir * 3, hitPoint.position);
+        StartCoroutine(DrawLineRendererCoroutine(start.position,(Vector2)hitPoint.position));
+        // bezierCurve.Generator(newObj.GetComponent<LineRenderer>(), lightningBox.position, lightningBox.position + dir * 3, hitPoint.position);
         lineRendererQueue.Enqueue(newObj);
+    }
+    private float electricSpeed =5;
+    private IEnumerator DrawLineRendererCoroutine(Vector2 start,Vector2 end)
+    {
+        float percent = 0;
+        var line = lineRendererQueue.Dequeue().GetComponent<LineRenderer>();
+        line.gameObject.SetActive(true);
+        
+        line.positionCount =2;
+        line.SetPosition(0,start);
+        
+        while(percent <1)
+        {
+            percent += Time.deltaTime * electricSpeed;
+            var pot = Vector2.Lerp(start,end,percent);
+            line.SetPosition(1,pot);
+            yield return null;
+        }
+
+        while(percent>0)
+        {
+            percent -= Time.deltaTime * 3;
+            var pot = Vector2.Lerp(end,start,percent);
+            line.SetPosition(0,pot);
+            yield return null;
+        }
+        line.positionCount = 0;
+        line.gameObject.SetActive(false);
+        lineRendererQueue.Enqueue(line.gameObject);
     }
 
 }

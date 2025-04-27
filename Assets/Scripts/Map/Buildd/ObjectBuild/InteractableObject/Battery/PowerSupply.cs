@@ -279,51 +279,6 @@ public class PowerSupply : ButtonEntity,IInteractable
         }
     }
     
-    private void UseBattery()
-    {
-       //StartCoroutine(UseBatteryCo());
-    }
-   
-    // private IEnumerator UseBatteryCo()
-    // {
-    //    int consumption = targetObjects.Count;
-
-    //    //Use Battery Effect
-
-    //    //Use Battery Effect
-
-    //    while(battery.BatteryCapacity >0)
-    //    {
-    //        battery.BatteryCapacity = -consumption;
-    //        yield return waitForSeconds;
-    //    }
-    //    RemoveSocket();
-       
-    //}
-
-    // public void InsertSocket(Battery battery){
-    //     if(this.battery != null){
-    //         RemoveSocket();
-    //     }
-
-    //     this.battery = battery;
-    //     Activation();
-    //     UseBattery();
-    // }
-
-    // private void RemoveSocket(){
-    //     if(battery){
-    //         //Effect Stop
-
-    //         //Stop Use to Battery
-    //         StopAllCoroutines();
-    //         Deactivated();
-    //         //Remove Socket
-    //         battery.RemoveSocket();
-    //         battery = null;
-    //     }
-    // }
-
     public void LineOn(bool onoff){
         foreach(Transform tr in lineContainer){
             tr.gameObject.SetActive(onoff);

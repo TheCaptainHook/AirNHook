@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System;
 using TMPro;
 using System.Net.Mail;
+using Mirror;
 
 public class FadeInOutPanel : MonoBehaviour
 {
@@ -114,96 +115,14 @@ public class FadeInOutPanel : MonoBehaviour
         image.enabled = false;
         moveNextStageCoroutine = null;
 
+        
+        if(NetworkServer.active) Managers.Command.isCompleteMoveStage_1 = true;
+        else Managers.Command.isCompleteMoveStage_2 = true;
+
+        Managers.Command.Cmd_IsCompleteMoveStage();
         Managers.Game.StageStart(mapId);
     }
 
-    // public IEnumerator Fadein(string mapId)
-    // {
-    //     MapEditor.Instance.stageText.text = mapId;
-    //     Color tempColor = MapEditor.Instance.stageText.color;
-    //     tempColor.a = 0f;
-    //     while (tempColor.a < 1f)
-    //     {
-    //         tempColor.a += Time.deltaTime / fadeTime;
-    //         MapEditor.Instance.stageText.color = tempColor;
 
-    //         if (tempColor.a >= 1f)
-    //         {
-    //             tempColor.a = 1f;
-    //         }
-    //         yield return null;
-    //     }
-
-    //     yield return new WaitForSeconds(1f);
-
-    //     while (tempColor.a > 0f)
-    //     {
-    //         tempColor.a -= Time.deltaTime / fadeTime;
-    //         MapEditor.Instance.stageText.color = tempColor;
-
-    //         if (tempColor.a <= 0f)
-    //         {
-    //             tempColor.a = 0f;
-    //         }
-    //         yield return null;
-    //     }
-    // }
-
-    // private bool CheckNetworkStartPos()
-    // {
-    //     try
-    //     {
-    //             if (MapEditor.Instance.startPosition == (Vector2)Managers.Network.startPos[0].position)
-    //             {
-    //                 return true;
-    //             }
-           
-    //     }
-    //     catch(Exception ex)
-    //     {
-    //         Debug.Log(ex);
-    //         return false;
-    //     }
-
-    //     return false;
-
-
-    // }
-
-
-
-    #region Default Fade In, Out
-
-
-//    public IEnumerator FadeOut()
-//     {
-//         float percent = 0;
-//         Color fadeOutcolor = new Color(orgColor.r, orgColor.g, orgColor.b, 0);
-//         while (percent < 1)
-//         {
-//             percent += Time.deltaTime;
-//             image.color = Color.Lerp(fadeOutcolor, orgColor, percent);
-//             yield return null;
-//         }
-
-//         image.color = new Color(orgColor.r, orgColor.g, orgColor.b, 0);
-//         image.enabled = false;
-
-//     }
-//    public IEnumerator FadeIn()
-//     {
-//         image.enabled = true;
-//         float percent = 0;
-//         Color fadeIncolor = new Color(orgColor.r, orgColor.g, orgColor.b, 1);
-
-//         while (percent < 1)
-//         {
-//             percent += Time.deltaTime;
-//             image.color = Color.Lerp(orgColor, fadeIncolor, percent);
-//             yield return null;
-//         }
-
-//     }
-    #endregion
 
 }
