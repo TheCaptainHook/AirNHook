@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
+using Mirror.RemoteCalls;
 
 namespace Mirror
 {
@@ -184,6 +185,16 @@ namespace Mirror
                     if (exceptionsDisconnect)
                     {
                         Debug.LogError($"Disconnecting connection: {conn} because handling a message of type {typeof(T)} caused an Exception. This can happen if the other side accidentally (or an attacker intentionally) sent invalid data. Reason: {exception}");
+                        
+                        if(message is CommandMessage msg)
+                        {
+                            Debug.Log($"{msg.netId},{msg.functionHash}");
+                             if (RemoteProcedureCalls.GetFunctionMethodName(msg.functionHash, out string methodName))
+                            {
+                                Debug.LogError($"Command method: {methodName}");
+                            }
+                        }
+
                         conn.Disconnect();
                     }
                     // otherwise log it but allow the connection to keep playing
