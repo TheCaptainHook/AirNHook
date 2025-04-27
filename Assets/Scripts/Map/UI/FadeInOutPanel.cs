@@ -115,11 +115,9 @@ public class FadeInOutPanel : MonoBehaviour
         image.enabled = false;
         moveNextStageCoroutine = null;
 
-        
-        if(NetworkServer.active) Managers.Command.isCompleteMoveStage_1 = true;
-        else Managers.Command.isCompleteMoveStage_2 = true;
-
         Managers.Command.Cmd_IsCompleteMoveStage();
+
+        //Managers.Command.Cmd_IsCompleteMoveStage();
         Managers.Game.StageStart(mapId);
     }
 

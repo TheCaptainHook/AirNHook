@@ -23,8 +23,7 @@ public class NetworkCommand : NetworkBehaviour
     //--------------Server
     private Coroutine waitChangeStageCoroutine; //Use only Server
     //---------------------------------
-    //public bool isCompleteMoveStage_1; //Server
-    //public bool isCompleteMoveStage_2; //Client
+
     public int isCompleteMoveStageCount;
 
     [Command(requiresAuthority = false)]
@@ -46,7 +45,6 @@ public class NetworkCommand : NetworkBehaviour
             isCompleteMoveStageCount = 0;
             var action = changeStageQueue.Dequeue();
             action?.Invoke();
-            // yield return waitSecond; //<-
 
             if(ClientCount > 1)
             yield return new WaitUntil(()=> isCompleteMoveStageCount == 2);
