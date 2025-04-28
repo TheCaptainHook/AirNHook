@@ -42,7 +42,7 @@ Material:
     m_Ints: []
     m_Floats: []
     m_Colors:
-    - _Speed: {r: 3, g: 0, b: 0, a: 0}
+    - _Speed: {r: 5, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &3745711657477397385
 MonoBehaviour:

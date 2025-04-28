@@ -20,10 +20,9 @@ public class TeslaTower_var2 : BuildObj
     {
         DetectArea();
     }
-
+    
     #region  Detect
     // private Vector2 detectAreaOffset;
-
     private Collider2D[] targets = new Collider2D[5];
     public Collider2D curDetectTarget;
     public float detectRadius;
