@@ -5,12 +5,7 @@ using UnityEngine;
 
 //TODO 0723 Develop code Line : 51,101
 
-enum Insulator
-{
-    LightningRod,
-    LeverHead,
-    Battery
-}
+
 public class TeslaTower : BuildObj
 {
     [CustomHeader("TeslaTower")]
@@ -370,13 +365,7 @@ public class TeslaTower : BuildObj
             yield return null;
         }
 
-        while(percent>0)
-        {
-            percent -= Time.deltaTime * 3;
-            var pot = Vector2.Lerp(end,start,percent);
-            line.SetPosition(0,pot);
-            yield return null;
-        }
+    
         line.positionCount = 0;
         line.gameObject.SetActive(false);
         lineRendererQueue.Enqueue(line.gameObject);
