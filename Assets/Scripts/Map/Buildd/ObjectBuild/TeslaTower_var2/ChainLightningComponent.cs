@@ -5,22 +5,38 @@ using UnityEngine;
 
 public class ChainLightningComponent : MonoBehaviour
 {
-
-    private List<Lightning> lightnings = new();
+    [SerializeField] TeslaTower_var2 main;
+    [SerializeField] Transform attackPoint;
     [SerializeField] Transform lightningContainer;
 
-    public void ChainLightning(Vector2 start,Collider2D target) // First Lightning
+    private Lightning[] lightnings;
+
+    public List<Collider2D> targets;
+
+    private void Awake()
     {
-        if(lightnings.Count == 0)
+        lightnings = new Lightning[main.maxChainLightningCount];
+
+        for (int i = 0; i < 4; i++)
         {
-            var lightning = GetLightning();
-            lightnings.Add(lightning);
+            lightnings[i] = GetLightning();
         }
-         
-            lightnings[0].SetTarget(start,target.gameObject);
-            
     }
 
+
+    public void ChainLightning(List<Collider2D> targets) 
+    {
+        this.targets = targets;
+        lightnings[0].SetTarget(attackPoint.position, targets[0].gameObject);
+
+        for (int i = 1; i < targets.Count; i++)
+        {
+            if (!lightnings[i]) return;
+
+            lightnings[i].SetTarget(lightnings[i - 1].target.transform.position, targets[i].gameObject);
+        }
+      
+    }
 
     #region Line
   
@@ -32,10 +48,10 @@ public class ChainLightningComponent : MonoBehaviour
         Lightning lightning = obj.AddComponent<Lightning>();
         LineRenderer lineRenderer = obj.AddComponent<LineRenderer>();
         // lineRenderer.widthCurve = lightningLineCurve;
-        lineRenderer.startWidth = 0.1f;
+        lineRenderer.startWidth = 0.5f;
         lineRenderer.sortingLayerName = "ForeGround";
         lineRenderer.sortingOrder = 100;
-        // lineRenderer.material = lightningShaderMat;
+         lineRenderer.material = lightningShaderMat;
         lineRenderer.positionCount  = 2;
         obj.transform.SetParent(lightningContainer);
         lightning.Init(lineRenderer);
