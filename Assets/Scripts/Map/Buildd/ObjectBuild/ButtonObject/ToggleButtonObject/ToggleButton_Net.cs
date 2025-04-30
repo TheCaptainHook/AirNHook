@@ -65,8 +65,8 @@ public class ToggleButton_Net : NetworkBehaviour
     [Server]
     private void Server_SetHasPower(bool hasPower)
     {
-        this.hasPower = hasPower;
-        //Rpc_SetIcon(!hasPower);
+        this.hasPower = hasPower;  //this.hasPower++;
+        
         Server_SetChargeRequired(!hasPower);
     }
 
@@ -130,33 +130,8 @@ public class ToggleButton_Net : NetworkBehaviour
     public void Server_SetChargeRequired(bool chargeRequired)
     {
         this.chargeRequired = chargeRequired;
-        //if (chargeRequired) StartCoroutine(Delay());
-
-        //Rpc_SetIcon(chargeRequired);
-        //StartCoroutine(Delay(chargeRequired));
+  
     }
-    //IEnumerator Delay()
-    //{
-    //    while (!NetworkClient.ready) yield return null;
-    //    Rpc_SetIcon(true);
-    //}
-    //IEnumerator Delay(bool chargeRequired)
-    //{
-    //    while (!NetworkClient.ready) yield return null;
-    //    Rpc_SetIcon(chargeRequired);
-    //}
-    //[ClientRpc]
-    //private void Rpc_SetIcon(bool onOff)
-    //{
-    //    if (onOff) 
-    //    {
-    //        energyIcon.SetActive(true);
-    //    }
-    //    else
-    //    {
-    //        energyIcon.SetActive(false);
-    //    }
-    //}
 
 
     private void onChangeChargeRequired(bool old,bool newVal)

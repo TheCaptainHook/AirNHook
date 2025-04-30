@@ -181,7 +181,7 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
     public void Interaction(Transform accessor = null){
         if (ToggleButton_Net.chargeRequired)
         {
-            if (!ToggleButton_Net.hasPower)
+            if (!ToggleButton_Net.hasPower) //if (ToggleButton_Net.hasPower == 0)
             {
                 return;
             }

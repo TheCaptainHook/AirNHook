@@ -126,7 +126,9 @@ public class PowerSupply : ButtonEntity,IInteractable
             if(item.TryGetComponent(out LightObjectEntity component))
             {
                 Debug.Log(item.name);
-                component.hasPower = toggle;
+                // component.hasPower = toggle;
+                if(toggle) component.PowerOn();
+                else component.PowerOff();
             }
         }
     }

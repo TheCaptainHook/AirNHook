@@ -60,11 +60,12 @@ public class LightObject_Net : NetworkBehaviour
     {
         if(newVal)
         {
-            Entity.PowerOn();
+            // Entity.PowerOn();
+            Entity.gameObject.SetActive(true);
         }
         else
         {
-            Entity.PowerOff();
+            Entity.gameObject.SetActive(false);
         }
     }
 

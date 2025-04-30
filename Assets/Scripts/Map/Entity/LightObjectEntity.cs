@@ -37,13 +37,14 @@ public class LightObjectEntity : BuildObj,IPowerConsumer
     public virtual void PowerOn()
     {
         Debug.Log("PowerOn");
-        //test
-        _Light_Object.SetActive(true);
+        hasPower = true;
+        // _Light_Object.SetActive(true);
     }
     public virtual void PowerOff()
     {
         Debug.Log("PowerOff");
-        _Light_Object.SetActive(false);
+        hasPower = false;
+        // _Light_Object.SetActive(false);
     }
     public Vector2 GetPowerLineConnectionPoint(){
         return transform.position;
