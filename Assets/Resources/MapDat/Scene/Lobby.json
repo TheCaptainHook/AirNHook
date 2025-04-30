@@ -10686,6 +10686,72 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 1.0
+        },
+        {
+            "id": 317,
+            "dialogueId": 0,
+            "position": {
+                "x": -15.529999732971192,
+                "y": 6.119999885559082
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
+        },
+        {
+            "id": 319,
+            "dialogueId": 0,
+            "position": {
+                "x": 7.449999809265137,
+                "y": -6.019999980926514
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         }
     ],
     "mapBackgroundObjectList": [
@@ -14344,7 +14410,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.4499884843826295,
+                "y": 1.4499878883361817,
                 "z": 1.0
             },
             "talPot": {
