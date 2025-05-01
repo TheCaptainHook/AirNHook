@@ -143,7 +143,7 @@ public class ButtonEntity : BuildObj
         return list;
     }
 
-    private Vector3 ConvertPosition(Vector3 vec)
+    protected Vector3 ConvertPosition(Vector3 vec)
     {
         return new Vector3(
             Mathf.Round(vec.x * 100) / 100, 

@@ -9,7 +9,7 @@ using UnityEngine;
 public class LightObjectEntity : BuildObj,IPowerConsumer
 {
     [Header("Default Light Object")]
-    [SerializeField] GameObject _Light_Object;
+    public GameObject _Light_Object;
 
     private LightObject_Net lightObject_Net;
     private LightObject_Net L_Net

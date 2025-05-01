@@ -1335,6 +1335,17 @@
             "TileId": 2,
             "Start": {
                 "x": -28,
+                "y": 25
+            },
+            "End": {
+                "x": -28,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -28,
                 "y": 29
             },
             "End": {
@@ -1390,6 +1401,17 @@
             "TileId": 2,
             "Start": {
                 "x": -27,
+                "y": 25
+            },
+            "End": {
+                "x": -27,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -27,
                 "y": 29
             },
             "End": {
@@ -1445,6 +1467,17 @@
             "TileId": 2,
             "Start": {
                 "x": -26,
+                "y": 25
+            },
+            "End": {
+                "x": -26,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -26,
                 "y": 29
             },
             "End": {
@@ -1489,6 +1522,17 @@
             "TileId": 2,
             "Start": {
                 "x": -25,
+                "y": 25
+            },
+            "End": {
+                "x": -25,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -25,
                 "y": 29
             },
             "End": {
@@ -1533,6 +1577,17 @@
             "TileId": 2,
             "Start": {
                 "x": -24,
+                "y": 25
+            },
+            "End": {
+                "x": -24,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -24,
                 "y": 29
             },
             "End": {
@@ -1588,6 +1643,17 @@
             "TileId": 2,
             "Start": {
                 "x": -23,
+                "y": 25
+            },
+            "End": {
+                "x": -23,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -23,
                 "y": 29
             },
             "End": {
@@ -1643,6 +1709,17 @@
             "TileId": 2,
             "Start": {
                 "x": -22,
+                "y": 25
+            },
+            "End": {
+                "x": -22,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -22,
                 "y": 29
             },
             "End": {
@@ -1698,6 +1775,17 @@
             "TileId": 2,
             "Start": {
                 "x": -21,
+                "y": 25
+            },
+            "End": {
+                "x": -21,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -21,
                 "y": 29
             },
             "End": {
@@ -1742,6 +1830,17 @@
             "TileId": 2,
             "Start": {
                 "x": -20,
+                "y": 25
+            },
+            "End": {
+                "x": -20,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -20,
                 "y": 29
             },
             "End": {
@@ -1775,6 +1874,17 @@
             "TileId": 2,
             "Start": {
                 "x": -19,
+                "y": 25
+            },
+            "End": {
+                "x": -19,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -19,
                 "y": 29
             },
             "End": {
@@ -1819,6 +1929,17 @@
             "TileId": 2,
             "Start": {
                 "x": -18,
+                "y": 25
+            },
+            "End": {
+                "x": -18,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -18,
                 "y": 29
             },
             "End": {
@@ -1863,6 +1984,17 @@
             "TileId": 2,
             "Start": {
                 "x": -17,
+                "y": 25
+            },
+            "End": {
+                "x": -17,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -17,
                 "y": 29
             },
             "End": {
@@ -1907,6 +2039,17 @@
             "TileId": 2,
             "Start": {
                 "x": -16,
+                "y": 25
+            },
+            "End": {
+                "x": -16,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -16,
                 "y": 29
             },
             "End": {
@@ -1951,6 +2094,17 @@
             "TileId": 2,
             "Start": {
                 "x": -15,
+                "y": 25
+            },
+            "End": {
+                "x": -15,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -15,
                 "y": 29
             },
             "End": {
@@ -2006,6 +2160,17 @@
             "TileId": 2,
             "Start": {
                 "x": -14,
+                "y": 25
+            },
+            "End": {
+                "x": -14,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -14,
                 "y": 29
             },
             "End": {
@@ -2061,6 +2226,17 @@
             "TileId": 2,
             "Start": {
                 "x": -13,
+                "y": 25
+            },
+            "End": {
+                "x": -13,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -13,
                 "y": 29
             },
             "End": {
@@ -2110,6 +2286,17 @@
             "End": {
                 "x": -12,
                 "y": 20
+            }
+        },
+        {
+            "TileId": 2,
+            "Start": {
+                "x": -12,
+                "y": 25
+            },
+            "End": {
+                "x": -12,
+                "y": 25
             }
         },
         {
@@ -5170,6 +5357,61 @@
             "End": {
                 "x": -40,
                 "y": -7
+            }
+        },
+        {
+            "TileId": 50,
+            "Start": {
+                "x": -32,
+                "y": 22
+            },
+            "End": {
+                "x": -32,
+                "y": 22
+            }
+        },
+        {
+            "TileId": 50,
+            "Start": {
+                "x": -31,
+                "y": 23
+            },
+            "End": {
+                "x": -31,
+                "y": 23
+            }
+        },
+        {
+            "TileId": 50,
+            "Start": {
+                "x": -30,
+                "y": 24
+            },
+            "End": {
+                "x": -30,
+                "y": 24
+            }
+        },
+        {
+            "TileId": 50,
+            "Start": {
+                "x": -29,
+                "y": 25
+            },
+            "End": {
+                "x": -29,
+                "y": 25
+            }
+        },
+        {
+            "TileId": 50,
+            "Start": {
+                "x": -28,
+                "y": 26
+            },
+            "End": {
+                "x": -28,
+                "y": 26
             }
         },
         {
@@ -10752,6 +10994,72 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0
+        },
+        {
+            "id": 344,
+            "dialogueId": 0,
+            "position": {
+                "x": -18.81999969482422,
+                "y": 27.260000228881837
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 0.699999988079071,
+                "y": 0.699999988079071,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
+        },
+        {
+            "id": 343,
+            "dialogueId": 0,
+            "position": {
+                "x": -20.989999771118165,
+                "y": 27.309999465942384
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.001400314038619399,
+                "w": 0.9999991059303284
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         }
     ],
     "mapBackgroundObjectList": [
@@ -13425,7 +13733,7 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": false,
+            "chargeRequired": true,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0
@@ -14410,7 +14718,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.4499878883361817,
+                "y": 1.449987530708313,
                 "z": 1.0
             },
             "talPot": {
@@ -14914,6 +15222,52 @@
                 }
             ],
             "lightPositions": [],
+            "onHint": false,
+            "partsPositions": [],
+            "itemPositions": [],
+            "hintPosition": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "chargeRequired": true
+        },
+        {
+            "id": 345,
+            "position": {
+                "x": -25.0,
+                "y": 27.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "targetPositions": [
+                {
+                    "x": -33.0,
+                    "y": 22.0
+                }
+            ],
+            "lightPositions": [
+                {
+                    "x": -30.0,
+                    "y": 29.0
+                },
+                {
+                    "x": -22.0,
+                    "y": 29.0
+                },
+                {
+                    "x": -14.0,
+                    "y": 29.0
+                }
+            ],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],

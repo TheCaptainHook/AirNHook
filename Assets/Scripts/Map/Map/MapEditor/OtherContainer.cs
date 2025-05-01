@@ -58,7 +58,7 @@ public class OtherContainer : MonoBehaviour
     private bool CompareVec(Vector3 p1,Vector3 p2){
         bool x = Mathf.Approximately(p1.x,p2.x);
         bool y = Mathf.Approximately(p1.y,p2.y);
-
+        
         return x&&y;
     }
 }

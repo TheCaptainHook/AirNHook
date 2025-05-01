@@ -33,7 +33,7 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
 #region IPowerConsumer
     public bool hasPower
     {
-        get { return ToggleButton_Net.hasPower; }
+        get { return ToggleButton_Net.hasPower > 0 ? true : false; }
         set { ToggleButton_Net.Cmd_SetHasPower(value); }
     }
     public void PowerOn()
@@ -102,7 +102,7 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
                     ToggleButton_Net.Server_SetInit();
 
 
-                    ToggleButton_Net.Server_SetChargeRequired(buttonData.chargeRequired);
+                    ToggleButton_Net.Server_SetChargeRequired(chargeRequired);
                 }   
                    
                 //ToggleButton_Net.Server_SetInit();
@@ -181,7 +181,7 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
     public void Interaction(Transform accessor = null){
         if (ToggleButton_Net.chargeRequired)
         {
-            if (!ToggleButton_Net.hasPower) //if (ToggleButton_Net.hasPower == 0)
+            if (!hasPower) //if (ToggleButton_Net.hasPower == 0)
             {
                 return;
             }
@@ -214,7 +214,7 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
     public void ShowEButton(){
         if (ToggleButton_Net.chargeRequired)
         {
-            if (!ToggleButton_Net.hasPower) return;
+            if (!hasPower) return;
         }
         _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
         _E_Btn.transform.position =  transform.position + (transform.up * _BtnOffset);

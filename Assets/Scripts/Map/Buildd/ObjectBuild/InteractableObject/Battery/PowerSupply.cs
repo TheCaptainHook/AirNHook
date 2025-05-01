@@ -55,6 +55,23 @@ public class PowerSupply : ButtonEntity,IInteractable
         return default(T);
     }
 
+    protected override List<Vector2> GetTargetPositions()
+    {
+        List<Vector2> list = new();
+
+        foreach (GameObject obj in targetObjects)
+        {
+            if (obj == null) continue;
+            if (obj.TryGetComponent(out ActivatableObjectEntity _) || obj.TryGetComponent(out ButtonEntity _))
+            {
+                list.Add(ConvertPosition(obj.transform.position));
+            }
+
+        }
+
+        return list;
+    }
+
     public async override void SetData<T>(T data)
     {
          if (typeof(T) == typeof(ButtonObjectStruct))
@@ -82,10 +99,12 @@ public class PowerSupply : ButtonEntity,IInteractable
     public Vector2 GetSocketPosition(){
         return socketPosition.position;
     }
- 
+
     #endregion
 
-
+    #region Editor
+    
+    #endregion
     #region Active,Deactive
     protected override void Activation()
     {
@@ -139,7 +158,6 @@ public class PowerSupply : ButtonEntity,IInteractable
     public override void FindTargetObject()
     {
         // if(!Application.isPlaying) return;
-        if(targetPosition.Count == 0) return;
 
         List<GameObject> objList = new();
         foreach(Vector2 vec in targetPosition){
@@ -176,10 +194,9 @@ public class PowerSupply : ButtonEntity,IInteractable
         P_Net.Server_SetTargets(objList,targetPosition);
     }
 
-    #if UNITY_EDITOR
     public async override void Editor_Setting(MapEditor mapEditor)
     {
-        if(targetPosition.Count == 0) return;
+        //if(targetPosition.Count == 0) return;
 
             await util.Delay(()=>{
                 List<GameObject> objList = new();
@@ -221,6 +238,7 @@ public class PowerSupply : ButtonEntity,IInteractable
 
                 foreach(Vector2 vec in ButtonObjectData.lightPositions)
                 {
+                    Debug.Log(vec);
                     otherContainer.GetCompareVec(vec,ref list);
                     //otherObject vec 전달 -> group transform 순회 같은거 있는지 확인 -> 있으면 해당 IPowerConsumer 반환
                 }
@@ -229,7 +247,7 @@ public class PowerSupply : ButtonEntity,IInteractable
 
             });
     }
-    #endif
+  
 
 
     #endregion

@@ -11847,6 +11847,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TeslaTower_var2
       objectReference: {fileID: 0}
+    - target: {fileID: 632278226165862012, guid: b9cd150e884d2431e90afbca97f0b09b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7895132335952286201, guid: b9cd150e884d2431e90afbca97f0b09b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -19418,7 +19422,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1979383854
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -19639,7 +19643,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &2039561260
 BoxCollider2D:
   m_ObjectHideFlags: 0

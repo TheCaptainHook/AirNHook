@@ -23,7 +23,8 @@ public class ToggleButton_Net : NetworkBehaviour
     [SyncVar(hook = nameof(onChangeChargeRequired))] 
     public bool chargeRequired;
 
-    [SyncVar] public bool hasPower;
+
+    [SyncVar] public int hasPower;
 
     [Server]
     private void SetState(bool state)
@@ -62,12 +63,15 @@ public class ToggleButton_Net : NetworkBehaviour
 
     }
 
+    #region Has Power
     [Server]
     private void Server_SetHasPower(bool hasPower)
     {
-        this.hasPower = hasPower;  //this.hasPower++;
-        
-        Server_SetChargeRequired(!hasPower);
+        if (hasPower) this.hasPower++;
+        else this.hasPower--;
+        //this.hasPower = hasPower;  //this.hasPower++;
+
+        Server_SetChargeRequired(this.hasPower > 0 ? false : true);
     }
 
     [Command(requiresAuthority = false)]
@@ -75,11 +79,8 @@ public class ToggleButton_Net : NetworkBehaviour
     {
         Server_SetHasPower(hasPower);
     }
-    //[ClientRpc]
-    //public void Rpc_SertHasPower(bool hasPower)
-    //{
-    //    Toggle.hasPower = hasPower;
-    //}
+    #endregion
+
     [Command]
     public void Cmd_CallDeactivated()
     {
@@ -91,11 +92,6 @@ public class ToggleButton_Net : NetworkBehaviour
         Toggle.Net_Deactivated();
     }    
 
-    //public override void OnStartClient()
-    //{
-    //    base.OnStartClient();
-    //    CmdSetState(isActive);
-    //}
 
 
 
@@ -127,10 +123,11 @@ public class ToggleButton_Net : NetworkBehaviour
 
 
     [Server] //Set sync chargeRequired
-    public void Server_SetChargeRequired(bool chargeRequired)
+    public void Server_SetChargeRequired(bool onOff)
     {
-        this.chargeRequired = chargeRequired;
-  
+        if(onOff) this.chargeRequired = true;
+        else this.chargeRequired = false;
+
     }
 
 
