@@ -67,7 +67,7 @@ public class Lightning : MonoBehaviour
         //Hook Grap Item Check
 
         line.SetPosition(1, target.transform.position);
-        if (target.TryGetComponent(out IDamageable component)) component.TakeDamage();
+        if (target.TryGetComponent(out IDamageable component)) component.TakeDamage(DamageType.Electric);
         //Target TakeDamage
     }
 

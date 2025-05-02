@@ -42,12 +42,14 @@ public class TeslaTower_var2 : BuildObj
     private int curChainLightningCount = 0;
 
     public List<Collider2D> detectTargetList = new();
+    float radius;
+    Collider2D curTarget;
 
     private void DetectArea()
     {
         Vector2 targetPoint = attackPoint.position; //first start point
-        float radius = detectRadius;
-        Collider2D curTarget = null;
+        radius = detectRadius;
+        curTarget = null;
 
         detectTargetList.Clear();
 

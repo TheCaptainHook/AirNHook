@@ -89,21 +89,6 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     #region ---------------------------------------------Init Sync
     public bool onSync;
 
-    //protected override void Grab()
-    //{
-    //    base.Grab();
-    //    //BuildObj.canRespawn = false;
-    //    //Cmd_OnChangeCanRespawn();
-    //}
-    //public override void Release()
-    //{
-    //    base.Release();
-    //    //BuildObj.canRespawn = true;
-    //    //Cmd_OnChangeCanRespawn();
-    //}
-
-
-
     [Command(requiresAuthority = false)]
     private void Cmd_OnChangeCanRespawn()
     {
@@ -127,11 +112,8 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     {
         if (onSync) return;
         BuildObj.ObjectData = data;
-        //BuildObj.position = data.position;
-        //BuildObj.isTransportItem = isTransportItem;
         transform.position = position;
         transform.rotation = data.quaternion;
-        //BuildObj.position = data.position;
         if(isTransportItem)
         {
             Col.enabled = false;
