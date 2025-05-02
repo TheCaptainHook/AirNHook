@@ -15,8 +15,42 @@ public class LightObject_Net : NetworkBehaviour
             return entity;
         }
     }
-    
-    
+
+
+    #region Init
+    public bool onSync;
+    [Server]
+    public void Server_Init()
+    {
+        onSync = true;
+
+    }
+    [ClientRpc]
+    private void Rpc_Init()
+    {
+
+    }
+    [Command(requiresAuthority = false)]
+    private void Cmd_Init()
+    {
+
+    }
+    public override void OnStartClient()
+    {
+        // if(isServer) return;
+        base.OnStartClient();
+
+        if (chargeRequired)
+        {
+            if (hasPower) Entity.PowerOn();
+            else Entity.PowerOff();
+        }
+
+    }
+    #endregion
+
+
+
     [SyncVar(hook = nameof(OnChangeHasPower))] 
     public bool hasPower;
 
@@ -41,11 +75,7 @@ public class LightObject_Net : NetworkBehaviour
         if(chargeRequired) Entity.PowerOff();
        
     }
-    // [ClientRpc]
-    // private void Power(bool hasPower)
-    // {
-    //     if(hasPower) Entity.PowerOn();
-    //     else Entity.PowerOff();
+   
     // }
     [Command]
     public void Cmd_SetChargeRequired(bool chargeRequired)
@@ -69,32 +99,8 @@ public class LightObject_Net : NetworkBehaviour
         }
     }
 
-    public override void OnStartClient()
-    {
-        // if(isServer) return;
-        base.OnStartClient();
+ 
 
-        if(chargeRequired)
-        {
-            if(hasPower)Entity.PowerOn();
-            else Entity.PowerOff();
-        }
-        // Delay(()=>
-        // {
-        //     if(chargeRequired)
-        //     {
-        //         if(hasPower)Entity.PowerOn();
-        //         else Entity.PowerOff();
-        //     }
-        // });
-       
-    }
-
-    IEnumerator Delay(Action action)
-    {
-        yield return null;
-        action?.Invoke();
-    }
 
 
 }

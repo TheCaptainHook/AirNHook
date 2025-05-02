@@ -71,8 +71,8 @@ public class LightObjectEntity : BuildObj,IPowerConsumer
             ObjectData objData = (ObjectData)(object)data;
             SetData(objData);
 
-            if(Application.isPlaying)
-            StartCoroutine(NetworkReady_SetChargeRequired());
+            //if(Application.isPlaying)
+            //StartCoroutine(NetworkReady_SetChargeRequired());
         }
         
         
@@ -80,14 +80,14 @@ public class LightObjectEntity : BuildObj,IPowerConsumer
     }
 
 
-    IEnumerator NetworkReady_SetChargeRequired()
-    {
-        while(!NetworkClient.ready)
-        {
-            yield return null;
-        }
-        L_Net.Cmd_SetChargeRequired(chargeRequired);
-    }
+    //IEnumerator NetworkReady_SetChargeRequired()
+    //{
+    //    while(!NetworkClient.ready)
+    //    {
+    //        yield return null;
+    //    }
+    //    L_Net.Cmd_SetChargeRequired(chargeRequired);
+    //}
 
     public override void SetData(ObjectData data)
     {
