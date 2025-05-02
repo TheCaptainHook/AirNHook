@@ -18,7 +18,8 @@ public class PowerSupply_LineToTarget : MonoBehaviour
     private Transform debugTr;
 
 
-    private List<LineRenderer> lineList;
+    private List<LineRenderer> targetLineList;
+    private List<LineRenderer> lightLineList;
     Vector3Int previousePosition;
 
    #if UNITY_EDITOR
@@ -30,40 +31,39 @@ public class PowerSupply_LineToTarget : MonoBehaviour
         previousePosition = ConvertPosition(transform.position);
 
         transform.position = previousePosition;
+        
 
         CreateDebugTransform();
 
-        lineList = new();
+        //Target Object
+        targetLineList = new();
         for(int i = 0; i<powerSupply.targetObjects.Count;i++){
-            LineRenderer line = GeneratorLineRenderer();
+            LineRenderer line = GeneratorLineRenderer(targetLineList,Color.red);
             SetLine(line,ConvertPosition(powerSupply.targetObjects[i].transform.position));
+        }
+        //Light Object
+        lightLineList = new();
+        for(int i = 0; i< lightLineList.Count;i++)
+        {
+            LineRenderer line = GeneratorLineRenderer(lightLineList,Color.blue);
+            SetLine(line,powerSupply.lightObjects[i].transform.position);
         }
 
     }
 
-    EditorCoroutine editorCoroutine;
     Coroutine coroutine;
 
     public void StartRefrash()
     {
-        // StartCoroutine(RefrashCo());
         coroutine = StartCoroutine(RefrashCo());
-
-        // editorCoroutine = EditorCoroutineUtility.StartCoroutine(RefrashCo(),this);
     }
     public void StopRefrash()
     {
-        // if(editorCoroutine != null)
-        // {
-        //     EditorCoroutineUtility.StopCoroutine(editorCoroutine);
-        //     Destroy();
-        // }
         if(coroutine != null)
         {
             StopCoroutine(coroutine);
             Destroy();
-        }
-       
+        }  
     }
 
     IEnumerator RefrashCo()
@@ -88,11 +88,17 @@ public class PowerSupply_LineToTarget : MonoBehaviour
         CheckIPowerConsumers();
         
         CompareTargetListToLineList();
+        CompareLightListToLineList();
 
         for(int i = 0;i<powerSupply.targetObjects.Count;i++){
             Vector3Int pot = ConvertPosition(powerSupply.targetObjects[i].transform.position);
             powerSupply.targetObjects[i].transform.position = pot;
-            SetLine(lineList[i],pot);
+            SetLine(targetLineList[i],pot);
+        }
+        for(int i = 0;i<powerSupply.lightObjects.Count;i++){
+            Vector3 pot = powerSupply.lightObjects[i].transform.position;
+            powerSupply.lightObjects[i].transform.position = pot;
+            SetLine(lightLineList[i],pot);
         }
     }
 
@@ -105,34 +111,58 @@ public class PowerSupply_LineToTarget : MonoBehaviour
     }
 
     private void CompareTargetListToLineList(){
-        if(powerSupply.targetObjects.Count > lineList.Count){
-            for(int i =lineList.Count;i<powerSupply.targetObjects.Count;i++){
-                GeneratorLineRenderer();
+        if(powerSupply.targetObjects.Count > targetLineList.Count){
+            for(int i =targetLineList.Count;i<powerSupply.targetObjects.Count;i++){
+                GeneratorLineRenderer(targetLineList,Color.red);
             }
-        }else if(powerSupply.targetObjects.Count < lineList.Count){
-            for (int i = lineList.Count - 1; i >= powerSupply.targetObjects.Count; i--)
+        }else if(powerSupply.targetObjects.Count < targetLineList.Count){
+            for (int i = targetLineList.Count - 1; i >= powerSupply.targetObjects.Count; i--)
             {
-                GameObject lineObj = lineList[i].gameObject;
-                lineList.RemoveAt(i);
+                GameObject lineObj = targetLineList[i].gameObject;
+                targetLineList.RemoveAt(i);
+                Undo.DestroyObjectImmediate(lineObj);
+            }
+        }
+    }
+    private void CompareLightListToLineList()
+    {
+        if(powerSupply.lightObjects.Count > lightLineList.Count){
+            for(int i =lightLineList.Count;i<powerSupply.lightObjects.Count;i++){
+                GeneratorLineRenderer(lightLineList,Color.blue);
+            }
+        }else if(powerSupply.lightObjects.Count < lightLineList.Count){
+            for (int i = lightLineList.Count - 1; i >= powerSupply.lightObjects.Count; i--)
+            {
+                GameObject lineObj = lightLineList[i].gameObject;
+                lightLineList.RemoveAt(i);
                 Undo.DestroyObjectImmediate(lineObj);
             }
         }
     }
     private void CheckIPowerConsumers(){
+        //Target Object
         if(powerSupply.targetObjects.Count == 0) return;
 
         for(int i=0;i<powerSupply.targetObjects.Count;i++){
-            if(powerSupply.targetObjects[i] == null){
+            if(powerSupply.targetObjects[i] == null || !powerSupply.targetObjects[i].TryGetComponent(out IPowerConsumer _))
+            {
                 powerSupply.targetObjects.RemoveAt(i);
                 continue;
             }
 
-            IPowerConsumer component = powerSupply.targetObjects[i].GetComponent<IPowerConsumer>();
-            if(component == null){
-                Debug.Log($"[{powerSupply.targetObjects[i].name}]\nThis object doesn’t have IPowerConsumer");
-                powerSupply.targetObjects.RemoveAt(i);
+        }
+
+        //Light Object
+        if(powerSupply.lightObjects.Count == 0) return;
+        for(int i = 0; i<powerSupply.lightObjects.Count;i++)
+        {
+            if(powerSupply.lightObjects[i] == null ||!powerSupply.lightObjects[i].TryGetComponent(out IPowerConsumer _))
+            {
+                powerSupply.lightObjects.RemoveAt(i);
+                continue;
             }
         }
+
     }
     public void Destroy(){
         if(debugTr == null) return;
@@ -169,11 +199,16 @@ public class PowerSupply_LineToTarget : MonoBehaviour
     #endregion
 
     #region Draw Line
-     private LineRenderer GeneratorLineRenderer(){
+     private LineRenderer GeneratorLineRenderer(List<LineRenderer> list,Color color){
 
         GameObject obj = new GameObject("LineRenderer");
         LineRenderer lineRenderer = obj.AddComponent<LineRenderer>();
-        lineList.Add(lineRenderer);
+        list.Add(lineRenderer);
+
+        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        lineRenderer.startColor = color;
+        lineRenderer.endColor = color;
+        
         lineRenderer.startWidth = 0.1f;
         lineRenderer.endWidth = 0.1f;
         lineRenderer.positionCount = 0;
@@ -184,6 +219,11 @@ public class PowerSupply_LineToTarget : MonoBehaviour
         return lineRenderer;
     }
      private void SetLine(LineRenderer lineRenderer,Vector3Int end){
+        lineRenderer.positionCount = 2;
+        lineRenderer.SetPosition(0,transform.position);
+        lineRenderer.SetPosition(1,end);
+    }
+     private void SetLine(LineRenderer lineRenderer,Vector3 end){
         lineRenderer.positionCount = 2;
         lineRenderer.SetPosition(0,transform.position);
         lineRenderer.SetPosition(1,end);
