@@ -158,12 +158,24 @@ public class AirSM : PlayerSM
     }
 
     [Command(requiresAuthority = false)]
+    public void CmdPlayInhaleParticle()
+    {
+        RpcPlayInhaleParticle();
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcPlayInhaleParticle()
+    {
+        inhaleParticle.Play();
+    }
+
+    [Command(requiresAuthority = false)]
     public void CmdStopInhaleParticle()
     {
         RpcStopInhaleParticle();
     }
 
-    [ClientRpc]
+    [ClientRpc(includeOwner = false)]
     private void RpcStopInhaleParticle()
     {
         inhaleParticle.Stop();

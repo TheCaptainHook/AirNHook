@@ -111,6 +111,7 @@ public class HookSM : PlayerSM, IInhalable
 
                 if (isGround) return;
 
+                landParticle.Play();
                 CmdLandParticlePlay();
                 isGround = true;
                 coyoteTimeCount = _coyoteTime;

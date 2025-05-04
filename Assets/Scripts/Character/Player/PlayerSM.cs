@@ -127,6 +127,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
 
             if (isGround) return;
 
+            landParticle.Play();
             CmdLandParticlePlay();
             isGround = true;
             coyoteTimeCount = _coyoteTime;
@@ -376,7 +377,6 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     [Command(requiresAuthority = false)]
     public void CmdLandParticlePlay()
     {
-        landParticle.Play();
         RpcLandParticlePlay();
     }
 
@@ -389,7 +389,6 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     [Command(requiresAuthority = false)]
     public void CmdJumpParticlePlay()
     {
-        jumpParticle.Play();
         RpcJumpParticlePlay();
     }
 

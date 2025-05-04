@@ -210,6 +210,7 @@ public class NewAirGun
         }
 
         _animator.SetBool(GlobalText.INHAILING_ANIMATION_STRING, true);
+        PlayInhaleParticle();
         _shakingEffectOnAirGun.StartShaking();
 
         var collisions = Physics2D.OverlapCircleAll(_weaponPoint.position, _airGunDistance, _objectMask);
@@ -389,6 +390,7 @@ public class NewAirGun
     {
         _inhaling = false;
         _shakingEffectOnAirGun.StopShaking();
+        //StopInhaleParticle();
         if (_chargingCoroutine is not null)
         {
             _air.StopCoroutine(_chargingCoroutine);
@@ -397,6 +399,8 @@ public class NewAirGun
         
         _isAttached = false;
         _isInhaledHook = false;
+        _lineRenderer.enabled = false;
+        _crossHair.gameObject.SetActive(false);
 
         if (_inhaleTarget is null) return;
 
@@ -825,6 +829,14 @@ public class NewAirGun
     #endregion
 
     #region Particles
+    private void PlayInhaleParticle()
+    {
+        if (_inhaleParticles.isPlaying) return;
+
+        _inhaleParticles.Play();
+        _air.CmdPlayInhaleParticle();
+    }
+
     private void StopInhaleParticle()
     {
         if (!_inhaleParticles.isPlaying) return;
