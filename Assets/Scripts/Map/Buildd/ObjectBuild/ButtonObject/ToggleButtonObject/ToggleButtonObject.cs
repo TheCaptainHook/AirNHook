@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 
 public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
@@ -81,6 +82,7 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
 
         return default(T);
     }
+
     public override void SetData<T>(T data)
     {
         try
@@ -224,5 +226,6 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
         _E_Btn = null;
         Managers.UI.HideUI<UI_ShowEButton>();
     }
-#endregion
+    #endregion
+
 }

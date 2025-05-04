@@ -1,15 +1,19 @@
+using Mirror;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class TeslaNodeRod : ButtonEntity
+public class TeslaNodeRod : ButtonEntity,IPowerConsumer
 {
     [CustomHeader("Tesla Node Rod")]
     public bool isPowerSupplied;
-    private TeslaNodeRod_Net Net => GetComponent<TeslaNodeRod_Net>();
-    void Awake()
+    private TeslaNodeRod_Net net;
+
+    private void Awake()
     {
-        DissolveInitSetting();
+        net = GetComponent<TeslaNodeRod_Net>();
     }
 
     #region Get,Set
@@ -18,7 +22,7 @@ public class TeslaNodeRod : ButtonEntity
         if (typeof(T) == typeof(ButtonObjectStruct))
         {
             return (T)(object)new ButtonObjectStruct(
-                id, 
+            id, 
             GetTargetPositions(), 
             GetLightPositions(),
             transform.position, 
@@ -31,64 +35,262 @@ public class TeslaNodeRod : ButtonEntity
     }
     public override void SetData<T>(T data)
     {
-        base.SetData(data);
-        Net.onSync = true;
-        Net.Server_InitSync();
+        try
+        {
+            if (typeof(T) == typeof(ButtonObjectStruct))
+            {
+                ButtonObjectStruct buttonData = (ButtonObjectStruct)(object)data;
+                ButtonObjectData = buttonData;
+                FindTargetObject();
+                if (buttonData.lightPositions.Count > 0) FindLightObject();
+
+                if (Application.isPlaying)
+                {
+                    net.Server_InitSync();
+
+                }
+
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.Log($"name : {gameObject.name},{ex}");
+        }
+    }
+    public override void FindTargetObject()
+    {
+
+        List<GameObject> objList = new();
+        foreach (Vector2 vec in targetPosition)
+        {
+            GameObject matchedObj = null;
+            foreach (Transform tr in MapEditor.Instance.buttonActivatableObjectTransform)
+            {
+                if (tr.TryGetComponent(out ActivatableObjectEntity component))
+                {
+                    if (CompareVec(component.ButtonActivatedObjectStruct.position, vec))
+                    {
+                        matchedObj = tr.gameObject;
+                        objList.Add(matchedObj);
+                        break;
+                    }
+                }
+            }
+
+            if (matchedObj != null) continue;
+
+            foreach (Transform tr in MapEditor.Instance.buttonObjectTransform)
+            {
+                if (tr.TryGetComponent(out ButtonEntity component))
+                {
+                    if (CompareVec(component.ButtonObjectData.position, vec))
+                    {
+                        objList.Add(tr.gameObject);
+                        break;
+                    }
+                }
+            }
+
+        }
+
+        targetObjects = objList;
+    }
+
+    protected override List<Vector2> GetTargetPositions()
+    {
+        List<Vector2> list = new();
+
+        foreach (GameObject obj in targetObjects)
+        {
+            if (obj == null) continue;
+            Debug.Log(obj.name);
+            if (obj.TryGetComponent(out ActivatableObjectEntity _) || obj.TryGetComponent(out ButtonEntity _))
+            {
+                list.Add(ConvertPosition(obj.transform.position));
+            }
+
+        }
+
+        return list;
     }
     #endregion
 
-    public float maxShutDownRate;
-    private float curShutDownRate;
-    void Update()
+    #region IPowerConsumer
+    public bool hasPower
     {
-        if(isPowerSupplied)
-        {
-            curShutDownRate+=Time.deltaTime;
-            if(curShutDownRate> maxShutDownRate)
-            {
-                isPowerSupplied = false;
-                curShutDownRate = 0;
+        get { return net.hasPower > 0 ? true : false; }
+        //set { net.Cmd_SetHasPower(value); }
+        set { net.Server_SetHasPower(value); }
+    }
+    public void PowerOn()
+    {
+        if(NetworkServer.active)
+            hasPower = true;
 
-                PowerSupply(false);
+
+    }
+    public void PowerOff()
+    {
+        if (NetworkServer.active)
+            hasPower = false;
+
+    }
+    public Vector2 GetPowerLineConnectionPoint()
+    {
+        return transform.position;
+    }
+    public Vector2 GetTransformPosition()
+    {
+        return transform.position;
+    }
+    #endregion
+
+
+    public void Net_Active()
+    {
+        Activation();
+    }
+    public void Net_DeActive()
+    {
+        Deactivated();
+    }
+    protected override void Activation()
+    {
+        //Effect Rpc
+        //Effect Rpc
+        //Main Logic -Server
+        PrograssButtonActivatedObject(true);
+        //Main Logic -Server
+        
+    }
+    protected override void Deactivated()
+    { 
+        //Effect Rpc
+        //Effect Rpc
+        //Main Logic -Server
+        PrograssButtonActivatedObject(false);
+        //Main Logic -Server
+       
+    }
+    protected override void PrograssButtonActivatedObject(bool onActivate)
+    {
+        if (targetObjects == null) return;
+        foreach (GameObject obj in targetObjects)
+        {
+            if (obj.TryGetComponent(out IPowerConsumer consumer))
+            {
+                if(onActivate)
+                consumer.PowerOn();
+                else consumer.PowerOff();
             }
+
+            if (obj.TryGetComponent(out ActivatableObjectEntity component))
+            {
+                component.ApplyActive(onActivate ? 1 : -1);
+            }
+          
+        }
+
+        foreach (GameObject obj in lightObjects)
+        {
+            if (obj.TryGetComponent(out IPowerConsumer component))
+            {
+                if (onActivate) component.hasPower = true;
+                else component.hasPower = false;
+            }
+
         }
     }
-
+    private bool isActive;
     public override void TakeDamage(DamageType damageType = DamageType.Default)
     {
         if(damageType == DamageType.Electric)
         {
-
+            if(NetworkServer.active)
+            {
+                if(!isActive)
+                {
+                    isActive = true;
+                    //hasPower = true;
+                    PowerOn();
+                }
+                curResetRate = 0;
+            }
         }
-        else base.TakeDamage(damageType);
     }
-
-
-    private void PowerSupply(bool onOff)
+    public float maxResetRate = 2;
+    public float curResetRate = 0;
+    private void Update()
     {
-        if(isPowerSupplied) return;
-        isPowerSupplied = true;
-
-        for(int i = 0; i<targetObjects.Count;i++)
+        if(isActive)
         {
-            if(targetObjects[i].TryGetComponent(out IPowerConsumer component))
+            curResetRate += Time.deltaTime;
+            if(curResetRate > maxResetRate)
             {
-                if(onOff)component.PowerOn();
-                else component.PowerOff();
-                //Effect Rpc
-
+                isActive = false;
+                curResetRate = 0;
+                PowerOff();
             }
         }
-        for(int i =0;i<lightObjects.Count;i++)
-        {
-            if(lightObjects[i].TryGetComponent(out IPowerConsumer component))
-            {
-                if(onOff)component.PowerOn();
-                else component.PowerOff();
-                //Effect Rpc
-
-            }
-        }
-
     }
+
+
+#if UNITY_EDITOR
+    #region Editor
+    private Util util = new();
+    public async override void Editor_Setting(MapEditor mapEditor)
+    {
+        //if(targetPosition.Count == 0) return;
+
+        await util.Delay(() => {
+            List<GameObject> objList = new();
+            foreach (Vector2 vec in targetPosition)
+            {
+                GameObject matchedObj = null;
+                foreach (Transform tr in mapEditor.buttonActivatableObjectTransform)
+                {
+                    if (tr.TryGetComponent(out ActivatableObjectEntity component))
+                    {
+                        if (CompareVec(component.ButtonActivatedObjectStruct.position, vec))
+                        {
+                            matchedObj = tr.gameObject;
+                            objList.Add(matchedObj);
+                            break;
+                        }
+                    }
+                }
+
+                if (matchedObj != null) continue;
+
+                foreach (Transform tr in mapEditor.buttonObjectTransform)
+                {
+                    if (tr.TryGetComponent(out ButtonEntity component))
+                    {
+                        if (CompareVec(component.ButtonObjectData.position, vec))
+                        {
+                            objList.Add(tr.gameObject);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            targetObjects = objList;
+
+            List<GameObject> list = new();
+            OtherContainer otherContainer = mapEditor.otherContainer.GetComponent<OtherContainer>();
+
+            foreach (Vector2 vec in ButtonObjectData.lightPositions)
+            {
+                otherContainer.GetCompareVec(vec, ref list);
+                //otherObject vec 전달 -> group transform 순회 같은거 있는지 확인 -> 있으면 해당 IPowerConsumer 반환
+            }
+            lightObjects = list;
+            //Debug.Log($"Light Object Count : {lightObjects.Count}");
+
+        });
+    }
+    #endregion
+#endif
+
 }
