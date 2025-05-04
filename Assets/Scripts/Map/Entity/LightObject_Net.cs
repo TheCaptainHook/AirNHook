@@ -42,7 +42,7 @@ public class LightObject_Net : NetworkBehaviour
 
         if (chargeRequired)
         {
-            if (hasPower) Entity.PowerOn();
+            if (hasPower>0) Entity.PowerOn();
             else Entity.PowerOff();
         }
 
@@ -52,14 +52,16 @@ public class LightObject_Net : NetworkBehaviour
 
 
     [SyncVar(hook = nameof(OnChangeHasPower))] 
-    public bool hasPower;
+    public int hasPower;
 
     [SyncVar] public bool chargeRequired;
     
     [Server]
     private void Server_SetHasPower(bool hasPower)
     {
-        this.hasPower = hasPower;
+        if(hasPower) this.hasPower++;
+        else this.hasPower--;
+        // this.hasPower = hasPower;
     }
     [Command(requiresAuthority = false)]
     public void Cmd_SetHasPower(bool hasPower)

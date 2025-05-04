@@ -26,7 +26,7 @@ public class LightObjectEntity : BuildObj,IPowerConsumer
     {
         get
         {
-            return L_Net.hasPower;
+            return L_Net.hasPower >0 ? true : false;
         }
         set
         {
@@ -36,6 +36,7 @@ public class LightObjectEntity : BuildObj,IPowerConsumer
     
     public virtual void PowerOn()
     {
+        if(hasPower) return;
         Debug.Log("PowerOn");
         hasPower = true;
         // _Light_Object.SetActive(true);
