@@ -457,6 +457,8 @@ public class HookSM : PlayerSM, IInhalable
         _isShot = true;
         StopInhale();
 
+        Managers.Game.cameraShake.RequestShake(gameObject, 5f, 0.2f);
+
         if (Physics2D.OverlapBox(transform.position, Vector2.one, 0f, obstacleMask))
             transform.position = Managers.Game.OtherPlayer.transform.position + (Vector3.up / 2);
 

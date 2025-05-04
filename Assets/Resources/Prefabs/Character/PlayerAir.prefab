@@ -146,6 +146,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1621305863906642240}
+  - component: {fileID: 1590244714338377572}
   m_Layer: 10
   m_Name: WeaponPoint
   m_TagString: Untagged
@@ -168,6 +169,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4462666554605769596}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1590244714338377572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 806410440354612684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5931b5530e9711a40bbef0415ec454bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  shakeInterval: 0.1
+  radius: 2
+  intensity: 1
+  minDistance: 0.5
+  duration: 0.5
+  isShaking: 0
 --- !u!1 &884256189146908508
 GameObject:
   m_ObjectHideFlags: 0
@@ -336,12 +361,14 @@ MonoBehaviour:
   <jumpParticle>k__BackingField: {fileID: 6352433328000077562}
   <landParticle>k__BackingField: {fileID: 8303112938069692247}
   <animator>k__BackingField: {fileID: 5995454702025683127}
+  shakingEffectOnAirGun: {fileID: 1590244714338377572}
   armPivot: {fileID: 4462666554605769596}
   weaponPoint: {fileID: 1621305863906642240}
   crossHair: {fileID: 2931944683857057375}
   lineRenderer: {fileID: 7937956941434319031}
   <inhaleParticle>k__BackingField: {fileID: 5132154906828901315}
   <exhaleParticle>k__BackingField: {fileID: 3801523937959093438}
+  isInhaleParticleOn: 0
 --- !u!50 &3123692007149661597
 Rigidbody2D:
   serializedVersion: 4

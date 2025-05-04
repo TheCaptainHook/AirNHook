@@ -10,6 +10,7 @@ public class AirSM : PlayerSM
 
     [field: Header("AirGun")]
     public NewAirGun airGun;
+    public ShakingEffectOnAirGun shakingEffectOnAirGun;
 
     public Transform armPivot;
     public Transform weaponPoint;
@@ -19,6 +20,7 @@ public class AirSM : PlayerSM
     [field: Header("AirGun Particles")]
     [field: SerializeField] public ParticleSystem inhaleParticle { get; private set; }
     [field: SerializeField] public ParticleSystem exhaleParticle { get; private set; }
+    [SyncVar] public bool isInhaleParticleOn;
 
     protected override void Awake()
     {

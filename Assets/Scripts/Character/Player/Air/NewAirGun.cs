@@ -34,6 +34,7 @@ public class NewAirGun
     private Coroutine _keepGrapplingCheckCoroutine;
     
     // InhaleAction
+    private ShakingEffectOnAirGun _shakingEffectOnAirGun => _air.shakingEffectOnAirGun;
     private Rigidbody2D _rigidbody2D => _air.rigidbody2D;
     private Collider2D _inhaleTarget;
     private bool _isAttached;
@@ -195,7 +196,7 @@ public class NewAirGun
         {
             if (_delayTimer < 0.2f)
             {
-                StopInhaleTarget();
+                StopInhale();
                 _isIhaleTargetOwned = false;
                 _inhaling = false;
                 _isAttached = false;
@@ -209,14 +210,15 @@ public class NewAirGun
         }
 
         _animator.SetBool(GlobalText.INHAILING_ANIMATION_STRING, true);
-        
+        _shakingEffectOnAirGun.StartShaking();
+
         var collisions = Physics2D.OverlapCircleAll(_weaponPoint.position, _airGunDistance, _objectMask);
 
         if (collisions.Length <= 1)
         {
             if (_latestTarget is null) return;
 
-            StopInhaleTarget();
+            StopInhale();
             _isIhaleTargetOwned = false;
             _inhaling = false;
             _isAttached = false;
@@ -266,7 +268,7 @@ public class NewAirGun
         {
             if (_latestTarget is null) return;
 
-            StopInhaleTarget();
+            StopInhale();
             _isIhaleTargetOwned = false;
             _inhaling = false;
             _isAttached = false;
@@ -292,7 +294,7 @@ public class NewAirGun
             return;
         }
         
-        StopInhaleTarget();
+        StopInhale();
         _isIhaleTargetOwned = false;
         _inhaling = false;
         _isAttached = false;
@@ -376,16 +378,17 @@ public class NewAirGun
         targetRigdbody.AddForce(direction * power * Time.fixedDeltaTime);
     }
 
-    private void StopInhaleTarget()
-    {
-        if (_inhaleTarget is null || !_inhaling || _canStick) return;
-
-        StopInhale();
-    }
+    //private void StopInhaleTarget()
+    //{
+    //    if (_inhaleTarget is null || !_inhaling || _canStick) return;
+    //
+    //    StopInhale();
+    //}
 
     private void StopInhale()
     {
         _inhaling = false;
+        _shakingEffectOnAirGun.StopShaking();
         if (_chargingCoroutine is not null)
         {
             _air.StopCoroutine(_chargingCoroutine);
@@ -675,11 +678,12 @@ public class NewAirGun
             _chargingCoroutine = null;
         }
         _air.StartCoroutine(Co_CoolDown());
-        StopInhaleTarget();
+        StopInhale();
 
         _lineRenderer.enabled = false;
         _crossHair.gameObject.SetActive(false);
 
+        Managers.Game.cameraShake.RequestShake(_air.gameObject, 5f, 0.2f);
         var force = _weaponPoint.right * _shootPower * _inhaleTarget.GetComponent<Rigidbody2D>().mass;
 
         if (ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject))
@@ -877,7 +881,7 @@ public class NewAirGun
         _rightClick = false;
 
         StopInhaleParticle();
-        StopInhaleTarget();
+        StopInhale();
         StopSticking();
         _hook = null;
     }
