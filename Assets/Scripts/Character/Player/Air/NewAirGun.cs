@@ -134,15 +134,27 @@ public class NewAirGun
 
     public void Reset()
     {
-        StopInhaleTarget();
+        StopInhale();
         StopSticking();
         _inhaling = false;
+        _isIhaleTargetOwned = false;
         _isAttached = false;
         _canStick = false;
         _isInhaledHook = false;
         _latestTarget = null;
         _lineRenderer.enabled = false;
         _shortestDistance = float.MaxValue;
+        try
+        {
+            if (_targetConstraint is not null && _targetConstraint.sourceCount != 0)
+            {
+                _targetConstraint.weight = 0f;
+                _targetConstraint.constraintActive = false;
+                _targetConstraint.locked = false;
+                _targetConstraint.RemoveSource(0);
+            }
+        }
+        catch (Exception) { }
         StopInhaleParticle();
     }
 

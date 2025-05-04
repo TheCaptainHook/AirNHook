@@ -19,7 +19,7 @@ public class AirSM : PlayerSM
     [field: Header("AirGun Particles")]
     [field: SerializeField] public ParticleSystem inhaleParticle { get; private set; }
     [field: SerializeField] public ParticleSystem exhaleParticle { get; private set; }
-    
+
     protected override void Awake()
     {
         stateMachine = new AirStateMachine(this);
@@ -94,7 +94,7 @@ public class AirSM : PlayerSM
     #endregion
 
     #region AirGun
-    private void StopGun()
+    public void StopGun()
     {
         airGun.Reset();
     }

@@ -155,8 +155,10 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         {
             _isGrab = false;
             _isFixed = false;
-            if (_accessor.TryGetComponent<HookSM>(out var hook))
+            if (Managers.Game.Player.TryGetComponent<HookSM>(out var hook))
                 hook.ReleaseItem();
+            else if (Managers.Game.Player.TryGetComponent<AirSM>(out var air))
+                air.StopGun();
         }
 
         _rigidbody.constraints = _originRot;
