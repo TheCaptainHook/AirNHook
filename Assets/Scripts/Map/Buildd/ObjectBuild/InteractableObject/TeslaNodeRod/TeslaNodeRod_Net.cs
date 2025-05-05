@@ -2,18 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UnityEngine.UIElements;
+using UnityEditor.Experimental.GraphView;
 
 public class TeslaNodeRod_Net : NetworkBehaviour
 {
     private TeslaNodeRod main;
-
     private ButtonObjectStruct data;
 
- 
-
+    private PathFinder pathFinder;
+    [SerializeField] Transform lineContainer;
+    [SerializeField] Material lineMat;
     private void Awake()
     {
         main = GetComponent<TeslaNodeRod>();
+        pathFinder = GetComponent<PathFinder>();
     }
 
     #region Init Sync
@@ -21,7 +24,6 @@ public class TeslaNodeRod_Net : NetworkBehaviour
     [Server]
     public void Server_InitSync()
     {
-        onSync = true;
         Rpc_InitSync(main.ButtonObjectData);
     }
     [ClientRpc]
@@ -31,6 +33,8 @@ public class TeslaNodeRod_Net : NetworkBehaviour
         this.data = data;
         transform.position = data.position;
         transform.rotation = data.quaternion;
+        CreateLine();
+        onSync = true;
 
     }
     [Command(requiresAuthority = false)]
@@ -83,6 +87,67 @@ public class TeslaNodeRod_Net : NetworkBehaviour
         }
     }
 
+    #endregion
+
+    #region Line
+    private LineRenderer[] lineArr;
+    private void CreateLine()
+    {
+        lineArr = new LineRenderer[data.targetPositions.Count];
+        Vector2 startPot = lineContainer.position;
+
+        for(int i = 0; i< lineArr.Length; i++)
+        {
+            Vector2 endPot = data.targetPositions[i];
+            LineRenderer line = GeneratorLineRenderer();
+            lineArr[i] = line;
+            SetLine(line, pathFinder.FindPath(startPot, endPot, true, Direction_Type.Four));
+        }
+
+    }
+    private void SetLine(LineRenderer lineRenderer, List<Vector2> path)
+    {
+        lineRenderer.positionCount = path.Count;
+        for (int i = 0; i < path.Count; i++)
+        {
+            Vector3 worldPosition = path[i];
+            lineRenderer.SetPosition(i, worldPosition);
+        }
+    }
+
+    private LineRenderer GeneratorLineRenderer()
+    {
+        GameObject obj = new GameObject("LineRenderer");
+        LineRenderer lineRenderer = obj.AddComponent<LineRenderer>();
+        lineRenderer.useWorldSpace = false;
+        lineRenderer.startWidth = 0.1f;
+        lineRenderer.endWidth = 0.1f;
+        lineRenderer.material = lineMat;
+        lineRenderer.positionCount = 0;
+        lineRenderer.sortingLayerName = "BackGround";
+        lineRenderer.sortingOrder = 1;
+        obj.transform.SetParent(lineContainer);
+
+        return lineRenderer;
+    }
+    public void LineActive()
+    {
+        for (int i = 0; i < lineArr.Length; i++)
+        {
+            var line = lineArr[i];
+            line.startColor = Color.blue;
+            line.endColor = Color.blue;
+        }
+    }
+    public void LineDeActive()
+    {
+        for (int i = 0; i < lineArr.Length; i++)
+        {
+            var line = lineArr[i];
+            line.startColor = Color.white;
+            line.endColor = Color.white;
+        }
+    }
     #endregion
 
 }

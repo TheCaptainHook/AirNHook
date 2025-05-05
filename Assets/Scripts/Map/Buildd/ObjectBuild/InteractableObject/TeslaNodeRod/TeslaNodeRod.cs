@@ -153,16 +153,19 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
 
     public void Net_Active()
     {
+        if(net.onSync)
         Activation();
     }
     public void Net_DeActive()
     {
-        Deactivated();
+        if (net.onSync)
+            Deactivated();
     }
     protected override void Activation()
     {
         //Effect Rpc
         head.color = Color.blue;
+        net.LineActive();
         //Effect Rpc
         //Main Logic -Server
         PrograssButtonActivatedObject(true);
@@ -173,6 +176,7 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
     {
         //Effect Rpc
         head.color = Color.red;
+        net.LineDeActive();
         //Effect Rpc
         //Main Logic -Server
         PrograssButtonActivatedObject(false);
