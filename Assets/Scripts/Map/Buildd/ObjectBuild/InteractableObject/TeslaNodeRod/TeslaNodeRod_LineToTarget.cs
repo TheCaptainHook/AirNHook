@@ -150,11 +150,20 @@ public class TeslaNodeRod_LineToTarget : MonoBehaviour
 
         for (int i = 0; i < main.targetObjects.Count; i++)
         {
-            if (main.targetObjects[i] == null || !main.targetObjects[i].TryGetComponent(out IPowerConsumer _))
+            //if (main.targetObjects[i] == null || !main.targetObjects[i].TryGetComponent(out IPowerConsumer _))
+            //{
+            //    main.targetObjects.RemoveAt(i);
+            //    continue;
+            //}
+
+            if(main.targetObjects[i] != null || 
+                main.targetObjects[i].TryGetComponent(out IPowerConsumer _) || 
+                main.targetObjects[i].TryGetComponent(out ActivatableObjectEntity _))
             {
-                main.targetObjects.RemoveAt(i);
-                continue;
+                continue;       
             }
+
+            main.targetObjects.RemoveAt(i);
 
         }
 

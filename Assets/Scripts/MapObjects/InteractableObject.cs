@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.Rendering;
 
 public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
@@ -309,7 +310,16 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         var root = GetFixedPointRootTransform();
         if (root != null) if (root.TryGetComponent(out HookSM hook)) hook.ReleaseItem();
         if (!CanInteract()) Release();
+        if (TryGetComponent(out ParentConstraint component))
+        {
+            component.constraintActive = false;
+            component.weight = 0;
 
+            for (int i = component.sourceCount - 1; i >= 0; i--)
+            {
+                component.RemoveSource(i);
+            }
+        } 
         var buildObj = GetComponent<BuildObj>();
         StartCoroutine(Co_Dissolve(buildObj.position));
     }

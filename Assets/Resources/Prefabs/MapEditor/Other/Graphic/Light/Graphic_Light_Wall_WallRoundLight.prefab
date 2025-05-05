@@ -232,7 +232,6 @@ GameObject:
   - component: {fileID: -2308855130912353424}
   - component: {fileID: 8023974445601903306}
   - component: {fileID: -2996536424987059528}
-  - component: {fileID: 2969748303218165893}
   m_Layer: 0
   m_Name: Graphic_Light_Wall_WallRoundLight
   m_TagString: Untagged
@@ -301,6 +300,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  onSync: 0
   hasPower: 0
   chargeRequired: 0
 --- !u!114 &-2996536424987059528
@@ -320,6 +320,9 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   distructionStatus: 0
   chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
@@ -328,38 +331,5 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
+  canRespawn: 0
   _Light_Object: {fileID: 437340400507859508}
---- !u!114 &2969748303218165893
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4668241406895122808}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  target: {fileID: 2823562070420348652}
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 0
-  onlySyncOnChange: 1
-  compressRotation: 1
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 1
-  coordinateSpace: 0
-  sendIntervalMultiplier: 1
-  timelineOffset: 0
-  showGizmos: 0
-  showOverlay: 0
-  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  onlySyncOnChangeCorrectionMultiplier: 2
-  rotationSensitivity: 0.01
-  positionPrecision: 0.01
-  scalePrecision: 0.01

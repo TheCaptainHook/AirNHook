@@ -14718,7 +14718,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.449986457824707,
+                "y": 1.4499861001968384,
                 "z": 1.0
             },
             "talPot": {
@@ -14824,7 +14824,7 @@
             "jumpingPower": 0,
             "position": {
                 "x": 6.0,
-                "y": -6.079999923706055
+                "y": -6.0
             },
             "quaternion": {
                 "x": 0.0,
@@ -15020,7 +15020,7 @@
             "targetPositions": [
                 {
                     "x": 6.0,
-                    "y": -6.079999923706055
+                    "y": -6.0
                 }
             ],
             "lightPositions": [],
@@ -15053,7 +15053,7 @@
             "targetPositions": [
                 {
                     "x": 6.0,
-                    "y": -6.079999923706055
+                    "y": -6.0
                 }
             ],
             "lightPositions": [],
@@ -15280,8 +15280,8 @@
         {
             "id": 362,
             "position": {
-                "x": 2.0,
-                "y": -5.0
+                "x": 21.8700008392334,
+                "y": -4.0
             },
             "quaternion": {
                 "x": 0.0,
@@ -15298,6 +15298,10 @@
                 {
                     "x": 8.0,
                     "y": -5.0
+                },
+                {
+                    "x": 6.0,
+                    "y": -6.0
                 }
             ],
             "lightPositions": [
@@ -15306,6 +15310,62 @@
                     "y": 4.0
                 }
             ],
+            "onHint": false,
+            "partsPositions": [],
+            "itemPositions": [],
+            "hintPosition": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "chargeRequired": false
+        },
+        {
+            "id": 362,
+            "position": {
+                "x": 18.48000144958496,
+                "y": -4.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "targetPositions": [],
+            "lightPositions": [],
+            "onHint": false,
+            "partsPositions": [],
+            "itemPositions": [],
+            "hintPosition": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "chargeRequired": false
+        },
+        {
+            "id": 362,
+            "position": {
+                "x": 20.200000762939454,
+                "y": -4.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "targetPositions": [],
+            "lightPositions": [],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],

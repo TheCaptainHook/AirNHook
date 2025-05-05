@@ -4,7 +4,6 @@ using Mirror;
 using UnityEngine;
 
 [RequireComponent(typeof(NetworkIdentity))]
-[RequireComponent(typeof(NetworkTransformReliable))]
 [RequireComponent(typeof(LightObject_Net))]
 public class LightObjectEntity : BuildObj,IPowerConsumer
 {
@@ -71,12 +70,11 @@ public class LightObjectEntity : BuildObj,IPowerConsumer
             ObjectData objData = (ObjectData)(object)data;
             SetData(objData);
 
-            //if(Application.isPlaying)
-            //StartCoroutine(NetworkReady_SetChargeRequired());
+            if (Application.isPlaying) L_Net.Server_Init();
+        
+
         }
-        
-        
-        //check chargeRequired, init : L_Net.hasPower = false
+
     }
 
 

@@ -9,6 +9,8 @@ public class TeslaNodeRod_Net : NetworkBehaviour
 
     private ButtonObjectStruct data;
 
+ 
+
     private void Awake()
     {
         main = GetComponent<TeslaNodeRod>();
@@ -48,7 +50,7 @@ public class TeslaNodeRod_Net : NetworkBehaviour
     #region IPowerConsumer
     [SyncVar(hook = nameof(Hook_OnChangeHasPower))]
     public int hasPower;
-
+    public bool isActive;
     private void Hook_OnChangeHasPower(int old,int newVal)
     {
         if (newVal == 1)
@@ -66,7 +68,7 @@ public class TeslaNodeRod_Net : NetworkBehaviour
             //Deactive
         }
     }
-    public bool isActive;
+   
     [Server]
     public void Server_SetHasPower(bool value)
     {
@@ -82,15 +84,5 @@ public class TeslaNodeRod_Net : NetworkBehaviour
     }
 
     #endregion
-    [Server]
-   public void Server_Effect()
-   {
-
-   }
-   [ClientRpc]
-   private void Rpc_Effect()
-   {
-    
-   }
 
 }
