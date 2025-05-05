@@ -147,9 +147,7 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
 
     #region Main
 
-    //TEST
-    public SpriteRenderer head;
-    //TEST
+  
 
     public void Net_Active()
     {
@@ -161,12 +159,20 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
         if (net.onSync)
             Deactivated();
     }
+
+    //TEST
+    public SpriteRenderer head;
+    //TEST
+
     protected override void Activation()
     {
         //Effect Rpc
+            //TEST
         head.color = Color.blue;
+            //TEST
         net.LineActive();
         //Effect Rpc
+
         //Main Logic -Server
         PrograssButtonActivatedObject(true);
         //Main Logic -Server
@@ -175,9 +181,12 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
     protected override void Deactivated()
     {
         //Effect Rpc
+            //TEST
         head.color = Color.red;
+            //TEST
         net.LineDeActive();
         //Effect Rpc
+
         //Main Logic -Server
         PrograssButtonActivatedObject(false);
         //Main Logic -Server

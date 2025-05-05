@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using UnityEngine.UIElements;
-using UnityEditor.Experimental.GraphView;
 
 public class TeslaNodeRod_Net : NetworkBehaviour
 {
@@ -122,7 +120,9 @@ public class TeslaNodeRod_Net : NetworkBehaviour
         lineRenderer.useWorldSpace = false;
         lineRenderer.startWidth = 0.1f;
         lineRenderer.endWidth = 0.1f;
+            //TEST
         lineRenderer.material = lineMat;
+            //TEST
         lineRenderer.positionCount = 0;
         lineRenderer.sortingLayerName = "BackGround";
         lineRenderer.sortingOrder = 1;
@@ -135,8 +135,10 @@ public class TeslaNodeRod_Net : NetworkBehaviour
         for (int i = 0; i < lineArr.Length; i++)
         {
             var line = lineArr[i];
+                //TEST
             line.startColor = Color.blue;
             line.endColor = Color.blue;
+                //TEST
         }
     }
     public void LineDeActive()
@@ -144,8 +146,10 @@ public class TeslaNodeRod_Net : NetworkBehaviour
         for (int i = 0; i < lineArr.Length; i++)
         {
             var line = lineArr[i];
+                //TEST
             line.startColor = Color.white;
             line.endColor = Color.white;
+                //TEST
         }
     }
     #endregion
