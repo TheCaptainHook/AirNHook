@@ -23,6 +23,8 @@ public class ChainLightningComponent : MonoBehaviour
         }
     }
 
+    private Vector2 start;
+    private Vector2 end;
 
     public void ChainLightning(List<Collider2D> targets) 
     {
@@ -32,7 +34,14 @@ public class ChainLightningComponent : MonoBehaviour
         for (int i = 1; i < targets.Count; i++)
         {
             if (!lightnings[i]) return;
-
+            var beforeObj = targets[i-1];
+            if(beforeObj.TryGetComponent(out LightningRod rod))
+            {
+                lightnings[i].SetTarget(rod.hitPoint.position, targets[i].gameObject);
+            }else if(beforeObj.TryGetComponent(out TeslaRelayObject teslaRelayObject))
+            {
+                lightnings[i].SetTarget(teslaRelayObject.headPoint.position, targets[i].gameObject);
+            }else
             lightnings[i].SetTarget(lightnings[i - 1].target.transform.position, targets[i].gameObject);
         }
       

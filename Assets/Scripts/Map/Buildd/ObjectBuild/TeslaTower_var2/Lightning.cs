@@ -52,25 +52,35 @@ public class Lightning : MonoBehaviour
             return;
         }
         //LightningRod
+        if(target.TryGetComponent(out TeslaRelayObject teslaRelayObject1))
+        {
+            line.SetPosition(1,teslaRelayObject1.headPoint.position);
+            teslaRelayObject1.TakeDamage(DamageType.Electric);
+            return;
+        }
 
         //Hook Grap Item Check
         if(target.TryGetComponent(out HookSM hook))
         {
             var item = hook.GetGrabbedItem();
-            if(item && item.TryGetComponent(out LightningRod rod2))
+            if(!item) return;
+
+            if(item.TryGetComponent(out LightningRod rod2))
             {
                 line.SetPosition(1,rod2.hitPoint.position);
                 rod2.Electric();
                 return;
             }
+
+            if(item.TryGetComponent(out TeslaRelayObject teslaRelayObject2))
+            {
+                line.SetPosition(1,teslaRelayObject2.headPoint.position);
+                teslaRelayObject2.TakeDamage(DamageType.Electric);
+                return;
+            }
         }
         //Hook Grap Item Check
 
-        //if(target.TryGetComponent(out TeslaNodeRod node))
-        //{
-        //    line.SetPosition(1, node.head.transform.position);
-        //}
-        //else
         
         line.SetPosition(1, target.transform.position);
         if (target.TryGetComponent(out IDamageable component)) component.TakeDamage(DamageType.Electric);

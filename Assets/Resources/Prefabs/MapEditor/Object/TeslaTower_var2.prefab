@@ -116,7 +116,7 @@ MonoBehaviour:
   chainLightningComponent: {fileID: 6422059986700826294}
   detectLayerMask:
     serializedVersion: 2
-    m_Bits: 787456
+    m_Bits: 803840
   obstacleLayerMask:
     serializedVersion: 2
     m_Bits: 32960

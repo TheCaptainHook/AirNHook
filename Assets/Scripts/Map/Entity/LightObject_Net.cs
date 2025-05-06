@@ -35,7 +35,7 @@ public class LightObject_Net : NetworkBehaviour
         chargeRequired = data.chargeRequired;
         if (chargeRequired)
         {
-            if (!hasPower) Entity._Light_Object.SetActive(false);
+            if (hasPower == 0) Entity._Light_Object.SetActive(false);
         }
 
         onSync = true;
@@ -57,14 +57,17 @@ public class LightObject_Net : NetworkBehaviour
 
 
     [SyncVar(hook = nameof(OnChangeHasPower))] 
-    public bool hasPower;
+    public int hasPower;
 
     [SyncVar] public bool chargeRequired;
     
     [Server]
     private void Server_SetHasPower(bool hasPower)
     {
-        this.hasPower = hasPower;
+        if(hasPower) this.hasPower++;
+        else this.hasPower--;
+        
+        // this.hasPower = hasPower;
     }
     [Command(requiresAuthority = false)]
     public void Cmd_SetHasPower(bool hasPower)
@@ -91,9 +94,9 @@ public class LightObject_Net : NetworkBehaviour
 
 
 
-    private void OnChangeHasPower(bool old,bool newVal)
+    private void OnChangeHasPower(int old,int newVal)
     {
-        if(newVal)
+        if(newVal>0)
         {
             // Entity.PowerOn();
             Entity._Light_Object.SetActive(true);

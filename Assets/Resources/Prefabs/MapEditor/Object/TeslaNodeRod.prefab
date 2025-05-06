@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7184865642859947536}
-  m_Layer: 10
+  m_Layer: 14
   m_Name: LineContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1501003478510296403}
   - component: {fileID: 1759880019558631817}
-  m_Layer: 10
+  m_Layer: 14
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8601192375909843668}
-  m_Layer: 10
+  m_Layer: 14
   m_Name: MainSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -164,7 +164,7 @@ GameObject:
   - component: {fileID: 741109121873811739}
   - component: {fileID: 582566487231785577}
   - component: {fileID: 8188579676825112887}
-  m_Layer: 10
+  m_Layer: 14
   m_Name: TeslaNodeRod
   m_TagString: Untagged
   m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}
@@ -220,7 +220,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 2}
+  m_Offset: {x: 0, y: -0.8}
   m_SpriteTilingProperty:
     border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
     pivot: {x: 0.5, y: 0.5}
@@ -231,7 +231,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.4, y: 0.4}
+  m_Size: {x: 0.4, y: 2}
   m_EdgeRadius: 0
 --- !u!50 &3111163014259225917
 Rigidbody2D:
@@ -370,7 +370,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1117531437348481456}
   - component: {fileID: 3361389377510293151}
-  m_Layer: 10
+  m_Layer: 14
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}

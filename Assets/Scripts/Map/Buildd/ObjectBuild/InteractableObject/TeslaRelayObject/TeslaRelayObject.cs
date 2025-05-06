@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 public class TeslaRelayObject : BuildObj
@@ -10,7 +11,7 @@ public class TeslaRelayObject : BuildObj
     public LayerMask detectLayerMask;
     public bool isPowerSupplied;
     public float maxResetRate = 2f;
-    private float curResetRate = 0;
+    public float curResetRate = 0;
     public float supplyEnergyRadius;
     private TeslaRelayObject_Net Net => GetComponent<TeslaRelayObject_Net>();
     void Awake()
@@ -46,12 +47,22 @@ public class TeslaRelayObject : BuildObj
     {
         if(damageType == DamageType.Electric)
         {
-            PowerSupply();
+            //Server
+            if(NetworkServer.active)
+            {
+                if(!isPowerSupplied) isPowerSupplied = true;
+                PowerSupply();
+                curResetRate = 0;
+            }
+            //Server
+            
+            //Cmd(Effect)
+            //Cmd(Effect)
         }
         else base.TakeDamage(damageType);
     }
 #region  Power
-    private Collider2D[] targets;
+    private Collider2D[] targets = new Collider2D[5];
     private CustomHashSet_TeslaNode<Collider2D> previousHashSet = new();
     private CustomHashSet_TeslaNode<Collider2D> curDetectTargetHashSet = new();
     private CustomHashSet_TeslaNode<Collider2D> removeBufferHashSet= new();
@@ -92,8 +103,7 @@ public class TeslaRelayObject : BuildObj
             previousHashSet.Remove(item);
         }
     //Update the previous detection record
-
-        curResetRate = 0;
+ 
     }
     
 
@@ -124,15 +134,17 @@ public class TeslaRelayObject : BuildObj
 
 public class CustomHashSet_TeslaNode<T>
 {
-    private readonly List<T> list;
-    private readonly HashSet<T> hashSet;
+    private  List<T> list;
+    private  HashSet<T> hashSet;
 
     public int Count => list.Count;
     public T this[int index] => list[index];
     public bool Add(T item)
     {
+        if(hashSet == null) hashSet= new();
         if(hashSet.Add(item))
         {
+            if(list == null) list = new();
             list.Add(item);
             return true;
         }
@@ -140,6 +152,7 @@ public class CustomHashSet_TeslaNode<T>
     }
     public bool Remove(T item)
     {
+        if(hashSet == null) return false;
         if(hashSet.Remove(item))
         {
             list.Remove(item);
@@ -149,7 +162,9 @@ public class CustomHashSet_TeslaNode<T>
     }
     public void Clear()
     {
+        if(list != null)
         list.Clear();
+        if(hashSet != null)
         hashSet.Clear();
     }
 
