@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-public class TeslaNodeRod : BuildObj
+public class TeslaRelayObject : BuildObj
 {
-    [CustomHeader("Tesla Node Rod")]
+     [CustomHeader("Tesla Relay Object")]
 
     public Transform headPoint;
     public LayerMask detectLayerMask;
@@ -13,7 +12,7 @@ public class TeslaNodeRod : BuildObj
     public float maxResetRate = 2f;
     private float curResetRate = 0;
     public float supplyEnergyRadius;
-    private TeslaNodeRod_Net Net => GetComponent<TeslaNodeRod_Net>();
+    private TeslaRelayObject_Net Net => GetComponent<TeslaRelayObject_Net>();
     void Awake()
     {
         DissolveInitSetting();

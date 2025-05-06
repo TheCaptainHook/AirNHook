@@ -88,9 +88,9 @@ public class LightObject_Net : NetworkBehaviour
 
 
 
-    private void OnChangeHasPower(bool old,bool newVal)
+    private void OnChangeHasPower(int old,int newVal)
     {
-        if(newVal)
+        if(newVal>0)
         {
             // Entity.PowerOn();
             Entity._Light_Object.SetActive(true);

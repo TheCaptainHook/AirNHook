@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class TeslaNodeRod_Net : TransportItemEntity
+public class TeslaRelayObject_Net : TransportItemEntity
 {
-   [Server]
+    [Server]
    public void Server_Effect()
    {
 
@@ -15,5 +15,4 @@ public class TeslaNodeRod_Net : TransportItemEntity
    {
     
    }
-
 }
