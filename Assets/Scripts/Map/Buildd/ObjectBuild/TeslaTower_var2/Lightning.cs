@@ -66,6 +66,12 @@ public class Lightning : MonoBehaviour
         }
         //Hook Grap Item Check
 
+        //if(target.TryGetComponent(out TeslaNodeRod node))
+        //{
+        //    line.SetPosition(1, node.head.transform.position);
+        //}
+        //else
+        
         line.SetPosition(1, target.transform.position);
         if (target.TryGetComponent(out IDamageable component)) component.TakeDamage(DamageType.Electric);
         //Target TakeDamage

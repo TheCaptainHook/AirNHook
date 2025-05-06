@@ -22,29 +22,34 @@ public class LightObject_Net : NetworkBehaviour
     [Server]
     public void Server_Init()
     {
-        onSync = true;
+        Rpc_Init(Entity.ObjectData);
 
     }
     [ClientRpc]
-    private void Rpc_Init()
+    private void Rpc_Init(ObjectData data)
     {
+        if (onSync) return;
+        transform.position = data.position;
+        transform.rotation = data.quaternion;
+        transform.localScale = data.scale;
+        chargeRequired = data.chargeRequired;
+        if (chargeRequired)
+        {
+            if (!hasPower) Entity._Light_Object.SetActive(false);
+        }
 
+        onSync = true;
     }
     [Command(requiresAuthority = false)]
     private void Cmd_Init()
     {
-
+        Server_Init();
     }
     public override void OnStartClient()
     {
         // if(isServer) return;
         base.OnStartClient();
-
-        if (chargeRequired)
-        {
-            if (hasPower>0) Entity.PowerOn();
-            else Entity.PowerOff();
-        }
+        if (!onSync) Cmd_Init();
 
     }
     #endregion
@@ -52,16 +57,14 @@ public class LightObject_Net : NetworkBehaviour
 
 
     [SyncVar(hook = nameof(OnChangeHasPower))] 
-    public int hasPower;
+    public bool hasPower;
 
     [SyncVar] public bool chargeRequired;
     
     [Server]
     private void Server_SetHasPower(bool hasPower)
     {
-        if(hasPower) this.hasPower++;
-        else this.hasPower--;
-        // this.hasPower = hasPower;
+        this.hasPower = hasPower;
     }
     [Command(requiresAuthority = false)]
     public void Cmd_SetHasPower(bool hasPower)
@@ -70,27 +73,27 @@ public class LightObject_Net : NetworkBehaviour
     }
 
 
-    [Server]
-    private void Server_SetChargeRequired(bool chargeRequired)
-    {
-        this.chargeRequired = chargeRequired;
-        if(chargeRequired) Entity.PowerOff();
+    //[Server]
+    //private void Server_SetChargeRequired(bool chargeRequired)
+    //{
+    //    this.chargeRequired = chargeRequired;
+    //    if(chargeRequired) Entity.PowerOff();
        
-    }
+    //}
    
     // }
-    [Command]
-    public void Cmd_SetChargeRequired(bool chargeRequired)
+    //[Command]
+    //public void Cmd_SetChargeRequired(bool chargeRequired)
+    //{
+    //    Server_SetChargeRequired(chargeRequired);
+    //}
+
+
+
+
+    private void OnChangeHasPower(bool old,bool newVal)
     {
-        Server_SetChargeRequired(chargeRequired);
-    }
-
-
-
-
-    private void OnChangeHasPower(int old,int newVal)
-    {
-        if(newVal>0)
+        if(newVal)
         {
             // Entity.PowerOn();
             Entity._Light_Object.SetActive(true);

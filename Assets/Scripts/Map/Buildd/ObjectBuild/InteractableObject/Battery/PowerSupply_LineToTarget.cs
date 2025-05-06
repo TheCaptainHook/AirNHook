@@ -66,7 +66,7 @@ public class PowerSupply_LineToTarget : MonoBehaviour
         }  
     }
 
-    IEnumerator RefrashCo()
+    private IEnumerator RefrashCo()
     {
 
         while(true)
@@ -77,7 +77,7 @@ public class PowerSupply_LineToTarget : MonoBehaviour
 
     }
 
-    public void Refrash(){
+    private void Refrash(){
         if(powerSupply == null) return;
 
         if(previousePosition != transform.position){
@@ -102,13 +102,7 @@ public class PowerSupply_LineToTarget : MonoBehaviour
         }
     }
 
-    private Vector3Int ConvertPosition(Vector3 pot){
-        return new Vector3Int(
-            Mathf.RoundToInt(pot.x),
-            Mathf.RoundToInt(pot.y),
-            Mathf.RoundToInt(pot.z)
-        );
-    }
+
 
     private void CompareTargetListToLineList(){
         if(powerSupply.targetObjects.Count > targetLineList.Count){
@@ -170,14 +164,16 @@ public class PowerSupply_LineToTarget : MonoBehaviour
         
     }
 
-    #region  Get
-    
-    #endregion
-
-    
-   
 
     #region  Util
+    private Vector3Int ConvertPosition(Vector3 pot)
+    {
+        return new Vector3Int(
+            Mathf.RoundToInt(pot.x),
+            Mathf.RoundToInt(pot.y),
+            Mathf.RoundToInt(pot.z)
+        );
+    }
     private void CreateDebugTransform(){
         foreach(Transform tr in transform){
             if(tr.name == "DebugTransform"){

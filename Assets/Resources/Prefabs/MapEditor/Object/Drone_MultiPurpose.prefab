@@ -10753,8 +10753,8 @@ GameObject:
   - component: {fileID: 248568403052513572}
   - component: {fileID: -684476690604327209}
   - component: {fileID: 7722549695380961216}
-  - component: {fileID: 8746329077706569547}
   - component: {fileID: 8779063647059542409}
+  - component: {fileID: 8746329077706569547}
   m_Layer: 15
   m_Name: Drone_MultiPurpose
   m_TagString: Untagged
@@ -10975,26 +10975,6 @@ MonoBehaviour:
   rotationSensitivity: 0.01
   positionPrecision: 0.01
   scalePrecision: 0.01
---- !u!114 &8746329077706569547
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7348580558311126004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bab5c6b793d9dc44290703059e16e022, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  paths: []
-  onSync: 0
-  targetPosition: {x: 0, y: 0}
-  dir: {x: 0, y: 0}
-  limitDistance: 0
 --- !u!114 &8779063647059542409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11030,6 +11010,29 @@ MonoBehaviour:
   _Animation_Transition_Speed: 1
   drone_TransportItemType: 0
   itemPlacementPosition: {fileID: 2179024764632776039}
+--- !u!114 &8746329077706569547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7348580558311126004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bab5c6b793d9dc44290703059e16e022, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  paths: []
+  onSync: 0
+  maxIndex: 0
+  index: 0
+  nextIndex: 0
+  targetPosition: {x: 0, y: 0}
+  dir: {x: 0, y: 0}
+  startPot: {x: 0, y: 0}
 --- !u!1 &8818742273796467428
 GameObject:
   m_ObjectHideFlags: 0

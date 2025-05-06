@@ -3,7 +3,7 @@
         "x": 20.0,
         "y": 20.0
     },
-    "mapID": "Lobby",
+    "mapID": "",
     "subMapName": "Lobby",
     "stageLevel": 0,
     "startPosition": {
@@ -10966,7 +10966,7 @@
             "id": 319,
             "dialogueId": 0,
             "position": {
-                "x": 13.979999542236329,
+                "x": 7.449999809265137,
                 "y": -6.019999980926514
             },
             "quaternion": {
@@ -14129,7 +14129,7 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": true,
+            "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0
@@ -14718,7 +14718,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.4499859809875489,
+                "y": 1.4499871730804444,
                 "z": 1.0
             },
             "talPot": {
@@ -14824,7 +14824,7 @@
             "jumpingPower": 0,
             "position": {
                 "x": 6.0,
-                "y": -6.0
+                "y": -6.079999923706055
             },
             "quaternion": {
                 "x": 0.0,
@@ -15020,7 +15020,7 @@
             "targetPositions": [
                 {
                     "x": 6.0,
-                    "y": -6.0
+                    "y": -6.079999923706055
                 }
             ],
             "lightPositions": [],
@@ -15036,8 +15036,8 @@
         {
             "id": 329,
             "position": {
-                "x": 2.200000047683716,
-                "y": -3.3399999141693117
+                "x": 8.0,
+                "y": -5.0
             },
             "quaternion": {
                 "x": 0.0,
@@ -15053,7 +15053,7 @@
             "targetPositions": [
                 {
                     "x": 6.0,
-                    "y": -6.0
+                    "y": -6.079999923706055
                 }
             ],
             "lightPositions": [],
@@ -15064,7 +15064,7 @@
                 "x": 0.0,
                 "y": 0.0
             },
-            "chargeRequired": true
+            "chargeRequired": false
         },
         {
             "id": 306,
@@ -15280,78 +15280,8 @@
         {
             "id": 362,
             "position": {
-                "x": 21.8700008392334,
-                "y": -4.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "targetPositions": [
-                {
-                    "x": 2.200000047683716,
-                    "y": -3.3399999141693117
-                },
-                {
-                    "x": 6.0,
-                    "y": -6.0
-                }
-            ],
-            "lightPositions": [
-                {
-                    "x": -6.0,
-                    "y": 4.0
-                }
-            ],
-            "onHint": false,
-            "partsPositions": [],
-            "itemPositions": [],
-            "hintPosition": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "chargeRequired": false
-        },
-        {
-            "id": 362,
-            "position": {
-                "x": 18.48000144958496,
-                "y": -4.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "targetPositions": [],
-            "lightPositions": [],
-            "onHint": false,
-            "partsPositions": [],
-            "itemPositions": [],
-            "hintPosition": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "chargeRequired": false
-        },
-        {
-            "id": 362,
-            "position": {
-                "x": 20.200000762939454,
-                "y": -4.0
+                "x": -17.899999618530275,
+                "y": 6.25
             },
             "quaternion": {
                 "x": 0.0,
