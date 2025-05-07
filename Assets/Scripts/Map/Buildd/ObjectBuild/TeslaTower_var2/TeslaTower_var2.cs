@@ -99,6 +99,7 @@ public class TeslaTower_var2 : BuildObj
         for (int i = 0; i < count; i++)
         {
             if (detectTargetList.Contains(targets[i])) continue;
+            if (targets[i].TryGetComponent(out TeslaTower_var2 _)) continue;
 
             detectDir = (Vector2)targets[i].transform.position - start;
             distSq = detectDir.sqrMagnitude;
