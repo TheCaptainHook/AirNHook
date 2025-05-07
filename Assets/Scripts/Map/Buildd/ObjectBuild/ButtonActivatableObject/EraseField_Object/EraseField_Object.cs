@@ -40,8 +40,8 @@ public class EraseField_Object : ActivatableObjectEntity
     {
         if (collision.gameObject.TryGetComponent(out BuildObj component))
         {
-            var root = collision.GetComponent<InteractableObject>().GetFixedPointRootTransform();
-            if (root != null) if (root.TryGetComponent(out HookSM hook)) hook.ReleaseItem();
+            // var root = collision.GetComponent<InteractableObject>().GetFixedPointRootTransform();
+            // if (root != null) if (root.TryGetComponent(out HookSM hook)) hook.ReleaseItem();
             component.Respawn();
         }
     }

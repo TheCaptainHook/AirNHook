@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.Cache;
-using UnityEditor;
-using UnityEditorInternal;
+using Mono.CecilX.Cil;
+using Unity.VisualScripting;
 using UnityEngine;
 enum Insulator
 {
@@ -55,14 +54,14 @@ public class TeslaTower_var2 : BuildObj
 
         while (curChainLightningCount <maxChainLightningCount)
         {
-            radius = curChainLightningCount > 0 ? detectRadius/2 : detectRadius;
+            // radius = curChainLightningCount > 0 ? detectRadius/2 : detectRadius;
             // radius = detectRadius/curChainLightningCount; //5
 
             int count = Physics2D.OverlapCircleNonAlloc(targetPoint, detectRadius, targets, detectLayerMask);
       
             if (count == 0) break;
 
-            curTarget = AnalyzeDetectTargets(targetPoint,count,radius);
+            curTarget = AnalyzeDetectTargets(targetPoint,count);
             if (!curTarget) break;
             if(curTarget.TryGetComponent(out LightningRod _)){
                 detectTargetList.Add(curTarget);
@@ -71,8 +70,17 @@ public class TeslaTower_var2 : BuildObj
             }
 
             detectTargetList.Add(curTarget);
-
+            //----------------- Set Start Point-----------------
+            if(curTarget.TryGetComponent(out LightningRod rod))
+            {
+                targetPoint = rod.hitPoint.position;
+            }else if(curTarget.TryGetComponent(out TeslaRelayObject tro))
+            {
+                targetPoint = tro.headPoint.position;
+            }else
             targetPoint = curTarget.transform.position;
+            //----------------- Set Start Point-----------------
+
             curChainLightningCount++;
 
         }
@@ -88,8 +96,24 @@ public class TeslaTower_var2 : BuildObj
     }
     Vector2 detectDir;
     float distSq;
+    private bool Contains(Collider2D col)
+    {
+        if(detectTargetList.Contains(col)) return true;
+        
+        //----------------- HOOK Item Check-----------------
+        if (col.TryGetComponent(out HookSM hook))
+        {
+            var item = hook.GetGrabbedItem();
+            if (item && item.TryGetComponent(out Collider2D itemCol))
+            {
+                return detectTargetList.Contains(itemCol);
+            }
+        }
+        //----------------- HOOK Item Check-----------------
 
-    private Collider2D AnalyzeDetectTargets(Vector2 start,int count,float radius)
+        return false;
+    }
+    private Collider2D AnalyzeDetectTargets(Vector2 start,int count)
     {
         if (count == 0) return null;
         Collider2D nearestTarget = null;
@@ -98,13 +122,22 @@ public class TeslaTower_var2 : BuildObj
 
         for (int i = 0; i < count; i++)
         {
-            if (detectTargetList.Contains(targets[i])) continue;
+            // if (detectTargetList.Contains(targets[i])) continue;
+            if(Contains(targets[i])) continue;
             if (targets[i].TryGetComponent(out TeslaTower_var2 _)) continue;
 
-            detectDir = (Vector2)targets[i].transform.position - start;
+            //----------------- Set Dir -----------------
+            if(targets[i].TryGetComponent(out LightningRod rod))
+            {
+                detectDir = (Vector2)rod.hitPoint.position - start;
+            }else if(targets[i].TryGetComponent(out TeslaRelayObject tro))
+            {
+                detectDir = (Vector2)tro.headPoint.position - start;
+            }else detectDir = (Vector2)targets[i].transform.position - start;
+            //----------------- Set Dir -----------------
+
             distSq = detectDir.sqrMagnitude;
 
-            // if (distSq > radius*radius) continue;
             if (IsBlocked(start,detectDir)) continue;
 
             if (targets[i].TryGetComponent(out LightningRod _))
@@ -117,7 +150,18 @@ public class TeslaTower_var2 : BuildObj
                 nearestDistSq = distSq;
                 nearestTarget = targets[i];
             }
+
         }
+        //----------------- HOOK Item Check-----------------
+        if(nearestTarget && nearestTarget.TryGetComponent(out HookSM hook))
+        {
+            var item = hook.GetGrabbedItem();
+            if(item && item.TryGetComponent(out TeslaRelayObject tro))
+            {
+                return tro.GetComponent<Collider2D>();
+            }
+        }
+        //----------------- HOOK Item Check-----------------
 
         return nearestTarget;
 
@@ -125,11 +169,11 @@ public class TeslaTower_var2 : BuildObj
     public RaycastHit2D hit;
     private bool IsBlocked(Vector2 start,Vector2 dir)
     {
-        Debug.DrawRay(start,dir,Color.green);
+        // Debug.DrawRay(start,dir,Color.green);
         hit =  Physics2D.Raycast(start, dir.normalized,dir.magnitude, obstacleLayerMask);
-        if(hit){
-            Debug.Log($"hit : {hit.collider.name}");
-        }
+        // if(hit){
+        //     Debug.Log($"hit : {hit.collider.name}");
+        // }
         return hit;
     }
     #endregion`

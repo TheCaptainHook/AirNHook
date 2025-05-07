@@ -304,12 +304,16 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
             foreach (Vector2 vec in ButtonObjectData.lightPositions)
             {
                 otherContainer.GetCompareVec(vec, ref list);
-                //otherObject vec 전달 -> group transform 순회 같은거 있는지 확인 -> 있으면 해당 IPowerConsumer 반환
             }
             lightObjects = list;
-            //Debug.Log($"Light Object Count : {lightObjects.Count}");
 
         });
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color  = Color.red;
+        Gizmos.DrawWireSphere(transform.position,5);
     }
     #endregion
 #endif

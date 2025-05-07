@@ -255,11 +255,11 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     }
     #endregion
 
-    public Transform GetFixedPointRootTransform()
-    {
-        if (_fixedPoint == null) return null;
-        return _fixedPoint.root;
-    }
+    // public Transform GetFixedPointRootTransform()
+    // {
+    //     if (_fixedPoint == null) return null;
+    //     return _fixedPoint.root;
+    // }
 
     #region Command
     protected void ChangeState(bool value)
@@ -307,8 +307,14 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     [ClientRpc]
     private void Rpc_Dissolve()
     {
-        var root = GetFixedPointRootTransform();
-        if (root != null) if (root.TryGetComponent(out HookSM hook)) hook.ReleaseItem();
+        // var root = GetFixedPointRootTransform();
+        // var parentConstraint = GetComponent<ParentConstraint>();
+        // if(parentConstraint && parentConstraint.sourceCount >0)
+        // {
+        //     parentConstraint.isActiveAndEnabled
+        //     parentConstraint.RemoveSource(0);
+        // }
+        // if (root != null) if (root.TryGetComponent(out HookSM hook)) hook.ReleaseItem();
         if (!CanInteract()) Release();
         if (TryGetComponent(out ParentConstraint component))
         {

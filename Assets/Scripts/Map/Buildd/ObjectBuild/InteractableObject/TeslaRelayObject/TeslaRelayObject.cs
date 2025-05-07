@@ -50,9 +50,9 @@ public class TeslaRelayObject : BuildObj
             //Server
             if(NetworkServer.active)
             {
-                if(!isPowerSupplied) isPowerSupplied = true;
-                PowerSupply();
-                curResetRate = 0;
+                // if(!isPowerSupplied) isPowerSupplied = true;
+                // PowerSupply();
+                // curResetRate = 0;
             }
             //Server
             

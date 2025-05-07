@@ -182,7 +182,7 @@ MonoBehaviour:
   isPowerSupplied: 0
   maxResetRate: 2
   curResetRate: 0
-  supplyEnergyRadius: 2
+  supplyEnergyRadius: 5
 --- !u!114 &5893760140877171682
 MonoBehaviour:
   m_ObjectHideFlags: 0

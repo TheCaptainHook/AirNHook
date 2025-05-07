@@ -122,7 +122,7 @@ MonoBehaviour:
     m_Bits: 32960
   curDetectTarget: {fileID: 0}
   detectRadius: 5
-  maxChainLightningCount: 4
+  maxChainLightningCount: 5
   detectTargetList: []
 --- !u!114 &6422059986700826294
 MonoBehaviour:

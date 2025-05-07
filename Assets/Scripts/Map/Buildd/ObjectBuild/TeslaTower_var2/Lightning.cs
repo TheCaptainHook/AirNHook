@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Lightning : MonoBehaviour
@@ -63,21 +64,24 @@ public class Lightning : MonoBehaviour
         if(target.TryGetComponent(out HookSM hook))
         {
             var item = hook.GetGrabbedItem();
-            if(!item) return;
-
-            if(item.TryGetComponent(out LightningRod rod2))
+            if(item)
             {
-                line.SetPosition(1,rod2.hitPoint.position);
-                rod2.Electric();
-                return;
-            }
+                 if(item.TryGetComponent(out LightningRod rod2))
+                {
+                    line.SetPosition(1,rod2.hitPoint.position);
+                    rod2.Electric();
+                    return;
+                }
 
-            if(item.TryGetComponent(out TeslaRelayObject teslaRelayObject2))
-            {
-                line.SetPosition(1,teslaRelayObject2.headPoint.position);
-                teslaRelayObject2.TakeDamage(DamageType.Electric);
-                return;
-            }
+                if(item.TryGetComponent(out TeslaRelayObject teslaRelayObject2))
+                {
+                    line.SetPosition(1,teslaRelayObject2.headPoint.position);
+                    teslaRelayObject2.TakeDamage(DamageType.Electric);
+                    return;
+                }
+            } 
+
+           
         }
         //Hook Grap Item Check
 
