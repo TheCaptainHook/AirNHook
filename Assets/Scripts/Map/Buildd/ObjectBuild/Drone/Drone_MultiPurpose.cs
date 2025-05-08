@@ -11,6 +11,7 @@ public enum Drone_TransportItemType{
     Key,
     LeverHead,
     LightningRod,
+    TeslaRelayObject,
     None
 
 }
