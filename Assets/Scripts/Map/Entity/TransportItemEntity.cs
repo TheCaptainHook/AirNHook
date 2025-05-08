@@ -11,11 +11,13 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     protected BuildObj BuildObj => GetComponent<BuildObj>();
     public void TransportItem_Constraint(uint netId)
     {
-        StartCoroutine(AllClientReadyChecker_Co(() => 
-        {
-            Rpc_Transport_Init(netId);
-            Rpc_ChangeSyncDirection(SyncDirection.ServerToClient);
-        }));
+        //StartCoroutine(AllClientReadyChecker_Co(() => 
+        //{
+        //    Rpc_Transport_Init(netId);
+        //    Rpc_ChangeSyncDirection(SyncDirection.ServerToClient);
+        //}));
+        Rpc_Transport_Init(netId);
+        Rpc_ChangeSyncDirection(SyncDirection.ServerToClient);
     }
     public void TransportItem_DropItem()
     {
@@ -25,8 +27,9 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     [ClientRpc]
     private void Rpc_Transport_Drop()
     {
-        _gravityScale = defaultGravity;
-        Rb.gravityScale = defaultGravity;
+        //_gravityScale = defaultGravity;
+        Rb.gravityScale = _gravityScale;
+        //Rb.simulated = true;
         Col.enabled = true;
 
     }
@@ -57,8 +60,10 @@ public class TransportItemEntity : InteractableObject, ITransportItem
         if (NetworkClient.spawned.TryGetValue(netId, out NetworkIdentity identity))
         {
             var drone = identity.GetComponent<Drone_MultiPurpose>();
-            defaultGravity = Rb.gravityScale;
-            Rb.gravityScale = 0;
+            //Rb.gravityScale = _gravityScale;
+            //defaultGravity = Rb.gravityScale;
+            //Rb.gravityScale = 0;
+            //Rb.simulated = false;
             Col.enabled = false;
             transform.position = drone.itemPlacementPosition.position;
             BuildObj.isTransportItem = true;
@@ -116,6 +121,7 @@ public class TransportItemEntity : InteractableObject, ITransportItem
         transform.rotation = data.quaternion;
         if(isTransportItem)
         {
+            defaultGravity = Rb.gravityScale;
             Col.enabled = false;
         }
         onSync = true;

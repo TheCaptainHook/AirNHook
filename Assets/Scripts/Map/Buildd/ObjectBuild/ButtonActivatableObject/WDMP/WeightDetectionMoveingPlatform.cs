@@ -129,13 +129,9 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
 
     }
 
-    // private void Start(){//TEST CODE
-    //     Init(); 
-    //     onActive = true;
-    // }
 
     private void Update(){
-        if(NetworkServer.active)
+        if(NetworkServer.active && onActive)
         ShootRay();
     }
 
@@ -147,8 +143,8 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
         float lw = 0;
         float rw = 0;
 
-        Debug.DrawRay(leftPoint.position,-transform.right*WDMP_Net.rayLength,Color.red);
-        Debug.DrawRay(rightPoint.position,transform.right* WDMP_Net.rayLength, Color.blue);
+        //Debug.DrawRay(leftPoint.position,-transform.right*WDMP_Net.rayLength,Color.red);
+        //Debug.DrawRay(rightPoint.position,transform.right* WDMP_Net.rayLength, Color.blue);
         leftHit = Physics2D.RaycastAll(leftPoint.position,-transform.right, WDMP_Net.rayLength, layerMask);
         rightHit = Physics2D.RaycastAll(rightPoint.position,transform.right, WDMP_Net.rayLength, layerMask);
 

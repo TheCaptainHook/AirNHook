@@ -73,10 +73,13 @@ public class Drone_MultiPurpose : DroneEntity
     private void SetTransformItem() //Only Server
     {
         if(DroneStruct.drone_TransportItemType == Drone_TransportItemType.None) return;
+
         GameObject item = Managers.Stage.CmdBatchObject(drone_TransportItemType.ToString());
-        item.transform.SetParent(MapEditor.Instance.networkingObjectTransform);
+        item.transform.SetParent(MapEditor.Instance.networkingObjectTransform); 
+
         transportItem = item;
         if(item == null) return;
+
         switch(DroneStruct.drone_TransportItemType){
             case Drone_TransportItemType.Key:
                 MapEditor.Instance.exitDoorObjectTransform.GetChild(0).GetComponent<ExitPointObj>().AddKeyAmount();

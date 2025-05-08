@@ -41,7 +41,7 @@ public class EraseField_Character : ActivatableObjectEntity
     {
         if(collision.gameObject.TryGetComponent(out PlayerSM component))
         {
-            component.TakeDamage();
+            component.TakeDamage(DamageType.Fire);
         }
     }
 

@@ -174,6 +174,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         if(TryGetComponent(out ParentConstraint constraint))
         {
             //Destroy(constraint);
+            if(constraint.sourceCount >0)
             constraint.RemoveSource(0);
         }
 
@@ -181,6 +182,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     }
     private void SetParentConstraint(ParentConstraint constraint,Transform parent)//Only Server
     {
+        transform.position = parent.position;
         ConstraintSource source = new ConstraintSource
         {
             sourceTransform = parent,

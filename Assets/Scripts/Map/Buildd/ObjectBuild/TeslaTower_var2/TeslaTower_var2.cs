@@ -156,10 +156,19 @@ public class TeslaTower_var2 : BuildObj
         if(nearestTarget && nearestTarget.TryGetComponent(out HookSM hook))
         {
             var item = hook.GetGrabbedItem();
-            if(item && item.TryGetComponent(out TeslaRelayObject tro))
+            if(item)
             {
-                return tro.GetComponent<Collider2D>();
+                if (item.TryGetComponent(out  LightningRod rod))
+                {
+                    return rod.GetComponent<Collider2D>();
+                }
+                if(item.TryGetComponent(out TeslaRelayObject tro))
+                {
+                    return tro.GetComponent<Collider2D>();
+                }
+               
             }
+            
         }
         //----------------- HOOK Item Check-----------------
 

@@ -307,14 +307,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     [ClientRpc]
     private void Rpc_Dissolve()
     {
-        // var root = GetFixedPointRootTransform();
-        // var parentConstraint = GetComponent<ParentConstraint>();
-        // if(parentConstraint && parentConstraint.sourceCount >0)
-        // {
-        //     parentConstraint.isActiveAndEnabled
-        //     parentConstraint.RemoveSource(0);
-        // }
-        // if (root != null) if (root.TryGetComponent(out HookSM hook)) hook.ReleaseItem();
+
         if (!CanInteract()) Release();
         if (TryGetComponent(out ParentConstraint component))
         {
@@ -326,6 +319,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
                 component.RemoveSource(i);
             }
         } 
+
         var buildObj = GetComponent<BuildObj>();
         StartCoroutine(Co_Dissolve(buildObj.position));
     }
@@ -353,11 +347,16 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             if (buildObj.isTransportItem)
             {
                 if (buildObj.carrierTransform != null)
+                {
                     buildObj.Connection_TransportItem();
+                    Debug.Log($"InteractableObject, Co_Dissolve, name :{gameObject.name}");
+                }
+                   
             }
             else
             {
                 _rigidbody.position = pot;
+
             }
         }
 
@@ -372,7 +371,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         if (!buildObj.isTransportItem)
         {
             _collider.enabled = true;
-            _rigidbody.gravityScale = 1;  
+            _rigidbody.gravityScale = _gravityScale;  
         }
 
         GetComponent<InteractableObject>().Respawned();
