@@ -1335,17 +1335,6 @@
             "TileId": 2,
             "Start": {
                 "x": -28,
-                "y": 25
-            },
-            "End": {
-                "x": -28,
-                "y": 25
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -28,
                 "y": 29
             },
             "End": {
@@ -1395,17 +1384,6 @@
             "End": {
                 "x": -27,
                 "y": 20
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -27,
-                "y": 25
-            },
-            "End": {
-                "x": -27,
-                "y": 25
             }
         },
         {
@@ -1467,17 +1445,6 @@
             "TileId": 2,
             "Start": {
                 "x": -26,
-                "y": 25
-            },
-            "End": {
-                "x": -26,
-                "y": 25
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -26,
                 "y": 29
             },
             "End": {
@@ -1516,17 +1483,6 @@
             "End": {
                 "x": -25,
                 "y": 20
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -25,
-                "y": 25
-            },
-            "End": {
-                "x": -25,
-                "y": 25
             }
         },
         {
@@ -1577,17 +1533,6 @@
             "TileId": 2,
             "Start": {
                 "x": -24,
-                "y": 25
-            },
-            "End": {
-                "x": -24,
-                "y": 25
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -24,
                 "y": 29
             },
             "End": {
@@ -1643,17 +1588,6 @@
             "TileId": 2,
             "Start": {
                 "x": -23,
-                "y": 25
-            },
-            "End": {
-                "x": -23,
-                "y": 25
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -23,
                 "y": 29
             },
             "End": {
@@ -1709,17 +1643,6 @@
             "TileId": 2,
             "Start": {
                 "x": -22,
-                "y": 25
-            },
-            "End": {
-                "x": -22,
-                "y": 25
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -22,
                 "y": 29
             },
             "End": {
@@ -1775,17 +1698,6 @@
             "TileId": 2,
             "Start": {
                 "x": -21,
-                "y": 25
-            },
-            "End": {
-                "x": -21,
-                "y": 25
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -21,
                 "y": 29
             },
             "End": {
@@ -1830,17 +1742,6 @@
             "TileId": 2,
             "Start": {
                 "x": -20,
-                "y": 25
-            },
-            "End": {
-                "x": -20,
-                "y": 25
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -20,
                 "y": 29
             },
             "End": {
@@ -1868,17 +1769,6 @@
             "End": {
                 "x": -19,
                 "y": 5
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -19,
-                "y": 25
-            },
-            "End": {
-                "x": -19,
-                "y": 25
             }
         },
         {
@@ -1923,17 +1813,6 @@
             "End": {
                 "x": -18,
                 "y": 5
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -18,
-                "y": 25
-            },
-            "End": {
-                "x": -18,
-                "y": 25
             }
         },
         {
@@ -1978,17 +1857,6 @@
             "End": {
                 "x": -17,
                 "y": 5
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -17,
-                "y": 25
-            },
-            "End": {
-                "x": -17,
-                "y": 25
             }
         },
         {
@@ -2039,17 +1907,6 @@
             "TileId": 2,
             "Start": {
                 "x": -16,
-                "y": 25
-            },
-            "End": {
-                "x": -16,
-                "y": 25
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -16,
                 "y": 29
             },
             "End": {
@@ -2088,17 +1945,6 @@
             "End": {
                 "x": -15,
                 "y": 5
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -15,
-                "y": 25
-            },
-            "End": {
-                "x": -15,
-                "y": 25
             }
         },
         {
@@ -2160,17 +2006,6 @@
             "TileId": 2,
             "Start": {
                 "x": -14,
-                "y": 25
-            },
-            "End": {
-                "x": -14,
-                "y": 25
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -14,
                 "y": 29
             },
             "End": {
@@ -2226,17 +2061,6 @@
             "TileId": 2,
             "Start": {
                 "x": -13,
-                "y": 25
-            },
-            "End": {
-                "x": -13,
-                "y": 25
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -13,
                 "y": 29
             },
             "End": {
@@ -2286,17 +2110,6 @@
             "End": {
                 "x": -12,
                 "y": 20
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -12,
-                "y": 25
-            },
-            "End": {
-                "x": -12,
-                "y": 25
             }
         },
         {
@@ -5357,61 +5170,6 @@
             "End": {
                 "x": -40,
                 "y": -7
-            }
-        },
-        {
-            "TileId": 50,
-            "Start": {
-                "x": -32,
-                "y": 22
-            },
-            "End": {
-                "x": -32,
-                "y": 22
-            }
-        },
-        {
-            "TileId": 50,
-            "Start": {
-                "x": -31,
-                "y": 23
-            },
-            "End": {
-                "x": -31,
-                "y": 23
-            }
-        },
-        {
-            "TileId": 50,
-            "Start": {
-                "x": -30,
-                "y": 24
-            },
-            "End": {
-                "x": -30,
-                "y": 24
-            }
-        },
-        {
-            "TileId": 50,
-            "Start": {
-                "x": -29,
-                "y": 25
-            },
-            "End": {
-                "x": -29,
-                "y": 25
-            }
-        },
-        {
-            "TileId": 50,
-            "Start": {
-                "x": -28,
-                "y": 26
-            },
-            "End": {
-                "x": -28,
-                "y": 26
             }
         },
         {
@@ -10928,171 +10686,6 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 1.0
-        },
-        {
-            "id": 317,
-            "dialogueId": 0,
-            "position": {
-                "x": -15.529999732971192,
-                "y": 6.119999885559082
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0
-        },
-        {
-            "id": 319,
-            "dialogueId": 0,
-            "position": {
-                "x": 13.979999542236329,
-                "y": -6.019999980926514
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0
-        },
-        {
-            "id": 344,
-            "dialogueId": 0,
-            "position": {
-                "x": -18.81999969482422,
-                "y": 27.260000228881837
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 0.699999988079071,
-                "y": 0.699999988079071,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0
-        },
-        {
-            "id": 343,
-            "dialogueId": 0,
-            "position": {
-                "x": -20.989999771118165,
-                "y": 27.309999465942384
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.001400314038619399,
-                "w": 0.9999991059303284
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0
-        },
-        {
-            "id": 363,
-            "dialogueId": 0,
-            "position": {
-                "x": -5.659999847412109,
-                "y": 6.639999866485596
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0
         }
     ],
     "mapBackgroundObjectList": [
@@ -13766,7 +13359,7 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": true,
+            "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0
@@ -13799,7 +13392,7 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": true,
+            "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0
@@ -13832,7 +13425,7 @@
             },
             "text": "",
             "fontSize": 0.0,
-            "chargeRequired": true,
+            "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0
@@ -14751,7 +14344,7 @@
             },
             "scale": {
                 "x": 1.0,
-                "y": 1.4499855041503907,
+                "y": 1.449985384941101,
                 "z": 1.0
             },
             "talPot": {
@@ -14923,80 +14516,6 @@
                 "x": 0.0,
                 "y": 0.0
             }
-        },
-        {
-            "id": 330,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "jumpingPower": 20,
-            "position": {
-                "x": -21.299999237060548,
-                "y": 21.31999969482422
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 330,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "jumpingPower": 10,
-            "position": {
-                "x": -13.260000228881836,
-                "y": 21.31999969482422
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
         }
     ],
     "buttonObjectList": [
@@ -15069,8 +14588,8 @@
         {
             "id": 329,
             "position": {
-                "x": 3.630000114440918,
-                "y": -3.059999942779541
+                "x": 8.119999885559082,
+                "y": -4.989999771118164
             },
             "quaternion": {
                 "x": 0.0,
@@ -15097,7 +14616,7 @@
                 "x": 0.0,
                 "y": 0.0
             },
-            "chargeRequired": true
+            "chargeRequired": false
         },
         {
             "id": 306,
@@ -15263,150 +14782,6 @@
                 "y": 0.0
             },
             "chargeRequired": true
-        },
-        {
-            "id": 345,
-            "position": {
-                "x": -25.0,
-                "y": 27.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "targetPositions": [
-                {
-                    "x": -33.0,
-                    "y": 22.0
-                }
-            ],
-            "lightPositions": [
-                {
-                    "x": -30.0,
-                    "y": 29.0
-                },
-                {
-                    "x": -22.0,
-                    "y": 29.0
-                },
-                {
-                    "x": -14.0,
-                    "y": 29.0
-                }
-            ],
-            "onHint": false,
-            "partsPositions": [],
-            "itemPositions": [],
-            "hintPosition": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "chargeRequired": false
-        },
-        {
-            "id": 362,
-            "position": {
-                "x": 30.780000686645509,
-                "y": -3.069999933242798
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "targetPositions": [
-                {
-                    "x": 3.630000114440918,
-                    "y": -3.059999942779541
-                },
-                {
-                    "x": 6.0,
-                    "y": -6.0
-                }
-            ],
-            "lightPositions": [
-                {
-                    "x": -6.0,
-                    "y": 4.0
-                }
-            ],
-            "onHint": false,
-            "partsPositions": [],
-            "itemPositions": [],
-            "hintPosition": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "chargeRequired": false
-        },
-        {
-            "id": 362,
-            "position": {
-                "x": 26.139999389648439,
-                "y": -4.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "targetPositions": [],
-            "lightPositions": [],
-            "onHint": false,
-            "partsPositions": [],
-            "itemPositions": [],
-            "hintPosition": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "chargeRequired": false
-        },
-        {
-            "id": 362,
-            "position": {
-                "x": 21.549999237060548,
-                "y": -4.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "targetPositions": [],
-            "lightPositions": [],
-            "onHint": false,
-            "partsPositions": [],
-            "itemPositions": [],
-            "hintPosition": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "chargeRequired": false
         }
     ],
     "mapExitObjectStruct": {
@@ -15448,7 +14823,7 @@
                 }
             ],
             "moveSpeed": 2.0,
-            "drone_TransportItemType": 7
+            "drone_TransportItemType": 8
         },
         {
             "id": 340,
@@ -15474,7 +14849,7 @@
                 }
             ],
             "moveSpeed": 5.0,
-            "drone_TransportItemType": 7
+            "drone_TransportItemType": 8
         },
         {
             "id": 340,
@@ -15500,7 +14875,7 @@
                 }
             ],
             "moveSpeed": 5.0,
-            "drone_TransportItemType": 7
+            "drone_TransportItemType": 8
         },
         {
             "id": 340,
@@ -15526,7 +14901,7 @@
                 }
             ],
             "moveSpeed": 5.0,
-            "drone_TransportItemType": 7
+            "drone_TransportItemType": 8
         },
         {
             "id": 340,
@@ -15552,7 +14927,7 @@
                 }
             ],
             "moveSpeed": 5.0,
-            "drone_TransportItemType": 7
+            "drone_TransportItemType": 8
         },
         {
             "id": 340,
@@ -15578,7 +14953,7 @@
                 }
             ],
             "moveSpeed": 5.0,
-            "drone_TransportItemType": 7
+            "drone_TransportItemType": 8
         },
         {
             "id": 340,
@@ -15604,7 +14979,7 @@
                 }
             ],
             "moveSpeed": 5.0,
-            "drone_TransportItemType": 7
+            "drone_TransportItemType": 8
         }
     ],
     "collectableObjectStructList": [],
