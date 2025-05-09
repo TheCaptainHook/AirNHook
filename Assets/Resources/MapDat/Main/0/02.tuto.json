@@ -1,0 +1,391 @@
+{
+    "mapSize": {
+        "x": 20.0,
+        "y": 20.0
+    },
+    "mapID": "02.tuto",
+    "subMapName": "Tutorial_3",
+    "stageLevel": 0,
+    "startPosition": {
+        "x": 2.1700000762939455,
+        "y": 1.2899999618530274
+    },
+    "mapTileDataList": [
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 0,
+                "y": 0
+            },
+            "End": {
+                "x": 0,
+                "y": 7
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 1,
+                "y": 0
+            },
+            "End": {
+                "x": 1,
+                "y": 0
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 1,
+                "y": 7
+            },
+            "End": {
+                "x": 1,
+                "y": 7
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 2,
+                "y": 0
+            },
+            "End": {
+                "x": 2,
+                "y": 0
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 2,
+                "y": 7
+            },
+            "End": {
+                "x": 2,
+                "y": 7
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 3,
+                "y": 0
+            },
+            "End": {
+                "x": 3,
+                "y": 0
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 3,
+                "y": 7
+            },
+            "End": {
+                "x": 3,
+                "y": 7
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 4,
+                "y": 0
+            },
+            "End": {
+                "x": 4,
+                "y": 0
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 4,
+                "y": 7
+            },
+            "End": {
+                "x": 4,
+                "y": 7
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 5,
+                "y": 0
+            },
+            "End": {
+                "x": 5,
+                "y": 0
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 5,
+                "y": 7
+            },
+            "End": {
+                "x": 5,
+                "y": 7
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 6,
+                "y": 0
+            },
+            "End": {
+                "x": 6,
+                "y": 0
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 6,
+                "y": 7
+            },
+            "End": {
+                "x": 6,
+                "y": 7
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 7,
+                "y": 0
+            },
+            "End": {
+                "x": 7,
+                "y": 0
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 7,
+                "y": 7
+            },
+            "End": {
+                "x": 7,
+                "y": 7
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 8,
+                "y": 0
+            },
+            "End": {
+                "x": 8,
+                "y": 0
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 8,
+                "y": 7
+            },
+            "End": {
+                "x": 8,
+                "y": 7
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 9,
+                "y": 0
+            },
+            "End": {
+                "x": 9,
+                "y": 0
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 9,
+                "y": 7
+            },
+            "End": {
+                "x": 9,
+                "y": 7
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 10,
+                "y": 0
+            },
+            "End": {
+                "x": 10,
+                "y": 0
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 10,
+                "y": 7
+            },
+            "End": {
+                "x": 10,
+                "y": 7
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 11,
+                "y": 0
+            },
+            "End": {
+                "x": 11,
+                "y": 0
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 11,
+                "y": 7
+            },
+            "End": {
+                "x": 11,
+                "y": 7
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 12,
+                "y": 0
+            },
+            "End": {
+                "x": 12,
+                "y": 0
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 12,
+                "y": 7
+            },
+            "End": {
+                "x": 12,
+                "y": 7
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 13,
+                "y": 0
+            },
+            "End": {
+                "x": 13,
+                "y": 7
+            }
+        }
+    ],
+    "mapHalfTileDataList": [],
+    "mapBackgroundTileDataList": [],
+    "mapRopeTileDataList": [],
+    "mapAccessoryTIleDataList": [],
+    "mapShadowCasterDataList": [],
+    "globalLightStruct": {
+        "type": 4,
+        "color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "intensity": 1.0,
+        "targetSorting": [
+            0,
+            -587858055,
+            -1138266859,
+            927897491,
+            -696190403,
+            -688237417,
+            -1639132293,
+            909207883,
+            1084912593,
+            -1960662225,
+            1411368969,
+            -971297725,
+            -1676102083
+        ],
+        "blendStyleIndex": 0,
+        "lightOrder": 0,
+        "overlapOeration": 0
+    },
+    "mapObjectDataList": [
+        {
+            "id": 307,
+            "dialogueId": 0,
+            "position": {
+                "x": 6.449999809265137,
+                "y": 2.240000009536743
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
+        }
+    ],
+    "mapBackgroundObjectList": [],
+    "mapOtherObjectList": [],
+    "mapButtonActivatableObjectDataList": [],
+    "buttonObjectList": [],
+    "mapExitObjectStruct": {
+        "id": 301,
+        "position": {
+            "x": 11.390000343322754,
+            "y": 1.0199999809265137
+        },
+        "condition_KeyAmount": 1,
+        "nextMapId": ""
+    },
+    "dialogueDataList": [],
+    "droneStructList": [],
+    "collectableObjectStructList": [],
+    "dataType": 0,
+    "cellSize": 2.0,
+    "bytesImage": [],
+    "audioName": "",
+    "nextMapId": "",
+    "stageDifficulty": 0
+}

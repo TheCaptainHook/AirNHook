@@ -146,10 +146,10 @@ public class ExitPoint_Net : NetworkBehaviour
 
 
     #region In Out Player
-    private AirSM innerDoor_Air;
-    private HookSM innerDoor_Hook;
-    [ReadOnly]
-    public bool onReadyToMoveNextMap;
+    [ReadOnly] public AirSM innerDoor_Air;
+    [ReadOnly] public HookSM innerDoor_Hook;
+    
+    [ReadOnly] public bool onReadyToMoveNextMap;
 
     [Server]
     public void Server_InPlayer(uint id)

@@ -182,6 +182,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     }
     private void SetParentConstraint(ParentConstraint constraint,Transform parent)//Only Server
     {
+        constraint.weight = 1;
         transform.position = parent.position;
         ConstraintSource source = new ConstraintSource
         {

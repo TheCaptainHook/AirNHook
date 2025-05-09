@@ -11,31 +11,40 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     protected BuildObj BuildObj => GetComponent<BuildObj>();
     public void TransportItem_Constraint(uint netId)
     {
-        //StartCoroutine(AllClientReadyChecker_Co(() => 
-        //{
-        //    Rpc_Transport_Init(netId);
-        //    Rpc_ChangeSyncDirection(SyncDirection.ServerToClient);
-        //}));
-        Rpc_Transport_Init(netId);
-        Rpc_ChangeSyncDirection(SyncDirection.ServerToClient);
+        StartCoroutine(AllClientReadyChecker_Co(() => 
+        {
+          Rpc_Constraint(netId,SyncDirection.ServerToClient);
+        }));
+        
     }
     public void TransportItem_DropItem()
     {
-        Rpc_ChangeSyncDirection(SyncDirection.ClientToServer);
-        Rpc_Transport_Drop();
+        Rpc_DropItem();
     }
-    [ClientRpc]
-    private void Rpc_Transport_Drop()
+    
+    private void Transport_Drop()
     {
-        //_gravityScale = defaultGravity;
         Rb.gravityScale = _gravityScale;
-        //Rb.simulated = true;
         Col.enabled = true;
 
     }
 
     [ClientRpc]
-    public void Rpc_ChangeSyncDirection(SyncDirection direction)
+    public void Rpc_Constraint(uint netId,SyncDirection direction)
+    {
+        Transport_Init(netId);
+        ChangeSyncDirection(direction);
+
+    }
+    [ClientRpc]
+    public void Rpc_DropItem()
+    {
+        ChangeSyncDirection(SyncDirection.ClientToServer);
+        Transport_Drop();
+    }
+
+    // [ClientRpc]
+    public void ChangeSyncDirection(SyncDirection direction)
     {
         var net_rb = GetComponent<NetworkRigidbodyUnreliable2D>();
         switch (direction)
@@ -54,16 +63,12 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     }
     [ReadOnly]
     public float defaultGravity;
-    [ClientRpc]
-    private void Rpc_Transport_Init(uint netId)
+    
+    private void Transport_Init(uint netId)
     {
         if (NetworkClient.spawned.TryGetValue(netId, out NetworkIdentity identity))
         {
             var drone = identity.GetComponent<Drone_MultiPurpose>();
-            //Rb.gravityScale = _gravityScale;
-            //defaultGravity = Rb.gravityScale;
-            //Rb.gravityScale = 0;
-            //Rb.simulated = false;
             Col.enabled = false;
             transform.position = drone.itemPlacementPosition.position;
             BuildObj.isTransportItem = true;

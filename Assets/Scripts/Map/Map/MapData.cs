@@ -22,7 +22,7 @@ public class MapData
     public Dictionary<int, UserMapData> mapUserDictionary = new Dictionary<int, UserMapData>(); // todo 0423
 
     #region SO
-    private MapFolderDataSO mapFolderDataSO;
+    public MapFolderDataSO mapFolderDataSO;
     #endregion
     public void SetUp()
     {
@@ -65,7 +65,7 @@ public class MapData
 
     void MapJsonLoad()
     {
-        mapFolderDataSO = Resources.Load<MapFolderDataSO>("MapDat/MapFolderDataSO");
+        mapFolderDataSO = Resources.Load<MapFolderDataSO>("MapDat/MapFolderData");
 
 
 
@@ -91,59 +91,42 @@ public class MapData
 
     private void MainMapDataLoad()
     {
-        // foreach(var name in mapFolderDataSO.mainMapfolderNames)
-        // {
-
-        // }
-
+     foreach(var index in mapFolderDataSO.mainMapfolderNames)
+     {
+        GetMainStageMapData(index);
+     }
+    //----Before
         // int index = GetMainStageLevelIndex();
-        for (int i = 0; i <= 1; i++)
-        {
-            GetMainStageMapData(i);
-        }
+        // for (int i = 0; i <= 1; i++)
+        // {
+        //     GetMainStageMapData(i);
+        // }
     }
 
     #region Main Map Load
     public void GetMainStageMapData(int level)
     {
         TextAsset[] jsons = Resources.LoadAll<TextAsset>($"MapDat/Main/{level}");
+
         if (jsons.Length != 0)
         {
+            var sortedJson = jsons.OrderBy(j => j.name).ToArray();
             Map[] maps = new Map[jsons.Length];
             
             for (int i = 0; i < maps.Length; i++)
             {
-                Map map = JsonUtility.FromJson<Map>(jsons[i].text);
-                //Debug.Log(maps[i].subMapName);
+                Map map = JsonUtility.FromJson<Map>(sortedJson[i].text);
                 maps[i] = map;
                 mapMainDictionary.Add(map.mapID, map);
                 mapAllDictionary.Add(map.mapID, map);
+                Debug.Log($"{maps[i].mapID}");
             }
             mapMainStageDictionary.Add(level, maps);
         }
 
 
     }
-    //  public void GetMainStageMapData(string name)
-    // {
-    //     TextAsset[] jsons = Resources.LoadAll<TextAsset>($"MapDat/Main/{name}");
-    //     if (jsons.Length != 0)
-    //     {
-    //         Map[] maps = new Map[jsons.Length];
-            
-    //         for (int i = 0; i < maps.Length; i++)
-    //         {
-    //             Map map = JsonUtility.FromJson<Map>(jsons[i].text);
-    //             //Debug.Log(maps[i].subMapName);
-    //             maps[i] = map;
-    //             mapMainDictionary.Add(map.mapID, map);
-    //             mapAllDictionary.Add(map.mapID, map);
-    //         }
-    //         mapMainStageDictionary.Add(level, maps);
-    //     }
-
-
-    // }
+   
 
 
     #endregion
@@ -170,17 +153,17 @@ public class MapData
     #endregion
 
 
-    public Dictionary<string,Map> GetDictionary(MapType mapType)
-    {
-        switch (mapType)
-        {
-            case MapType.Scene:
-                return mapSceneDictionary;
-            case MapType.Main:
-                return mapMainDictionary;
-        }
-        return null;
-    }
+    // public Dictionary<string,Map> GetDictionary(MapType mapType)
+    // {
+    //     switch (mapType)
+    //     {
+    //         case MapType.Scene:
+    //             return mapSceneDictionary;
+    //         case MapType.Main:
+    //             return mapMainDictionary;
+    //     }
+    //     return null;
+    // }
 
     public Map[] GetMainMapStageArray(int level){
         return mapMainStageDictionary[level];

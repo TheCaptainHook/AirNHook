@@ -428,9 +428,7 @@ public class UI_StageSelect_var3: UI_Base
         if(back){
             yield return EraserTextLineCo(minSelectTextLineListIndex,maxSelectTextLineListIndex);
         }
-        // TODO 1022
-        //Eraser before TEXT
-        //
+
         onPrograss = true;
         onInteractable = false;
         nextWriteTextLineIndex = 0;
@@ -752,6 +750,7 @@ public class UI_StageSelect_var3: UI_Base
         if (map[0].stageLevel == 0)
         {
             array[0] = new Host_MapData(array[0].mapId, array[0].subMapName, array[0].clear, true);
+            // Managers.Data.saveData._SaveFileData
         }
   
         return array;

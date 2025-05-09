@@ -1,26 +1,26 @@
 using Mirror;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq.Expressions;
 using UnityEngine;
 
 
 
 public class ExitPointObj : BuildObj
 {
+    [CustomHeader("Exit Door")]
     [Header("State")]
+    [ReadOnly]
     [SerializeField] bool stageClear;
     public string nextMapId;
 
     // [Header("Info")]
     // [ReadOnly]
+    [ReadOnly]
     public int condition_KeyAmount;
     // private int current_KeyAmount;
 
     [Header("Componenets")]
-    DoorOpeningAnim doorOpeningAnim;
-    Collider2D _col;
-    UI_Dialogue dialogue; //TODO 0805
+    // DoorOpeningAnim doorOpeningAnim;
+    // Collider2D _col;
+    // UI_Dialogue dialogue; //TODO 0805
 
     [SerializeField] KeyBubble keyBubble;//TOdo 0802 Need Network
     [SerializeField] AbsencePanel absencePanel;//TOdo 0802 Need Network
@@ -37,14 +37,14 @@ public class ExitPointObj : BuildObj
 
     private void Awake()
     {
-        doorOpeningAnim = GetComponent<DoorOpeningAnim>();
-        _col = GetComponent<Collider2D>();
+        // doorOpeningAnim = GetComponent<DoorOpeningAnim>();
+        // _col = GetComponent<Collider2D>();
        
     }
 
     private void Start()
     {
-        dialogue = Managers.UI.GetUI<UI_Dialogue>().gameObject.GetComponent<UI_Dialogue>();//TODO 0805
+        // dialogue = Managers.UI.GetUI<UI_Dialogue>().gameObject.GetComponent<UI_Dialogue>();//TODO 0805
     }
 
 
