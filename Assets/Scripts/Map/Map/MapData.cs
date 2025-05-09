@@ -21,6 +21,9 @@ public class MapData
     //Get.Keys, check other user have map
     public Dictionary<int, UserMapData> mapUserDictionary = new Dictionary<int, UserMapData>(); // todo 0423
 
+    #region SO
+    private MapFolderDataSO mapFolderDataSO;
+    #endregion
     public void SetUp()
     {
         UGS_MapDataLoad();
@@ -62,6 +65,10 @@ public class MapData
 
     void MapJsonLoad()
     {
+        mapFolderDataSO = Resources.Load<MapFolderDataSO>("MapDat/MapFolderDataSO");
+
+
+
         SceneMapDataLoad();
 
         MainMapDataLoad();
@@ -84,6 +91,11 @@ public class MapData
 
     private void MainMapDataLoad()
     {
+        // foreach(var name in mapFolderDataSO.mainMapfolderNames)
+        // {
+
+        // }
+
         // int index = GetMainStageLevelIndex();
         for (int i = 0; i <= 1; i++)
         {
@@ -112,23 +124,27 @@ public class MapData
 
 
     }
+    //  public void GetMainStageMapData(string name)
+    // {
+    //     TextAsset[] jsons = Resources.LoadAll<TextAsset>($"MapDat/Main/{name}");
+    //     if (jsons.Length != 0)
+    //     {
+    //         Map[] maps = new Map[jsons.Length];
+            
+    //         for (int i = 0; i < maps.Length; i++)
+    //         {
+    //             Map map = JsonUtility.FromJson<Map>(jsons[i].text);
+    //             //Debug.Log(maps[i].subMapName);
+    //             maps[i] = map;
+    //             mapMainDictionary.Add(map.mapID, map);
+    //             mapAllDictionary.Add(map.mapID, map);
+    //         }
+    //         mapMainStageDictionary.Add(level, maps);
+    //     }
 
-    int GetMainStageLevelIndex()
-    {
-        string path = Path.Combine(Application.dataPath, "Resources/MapDat/Main");
-        int index = 0;
-        while (true)
-        {
-            if (Directory.Exists(Path.Combine(path, index.ToString())))
-            {
-                index++;
 
-            }
-            else { break; }
+    // }
 
-        }
-        return index - 1;
-    }
 
     #endregion
 
