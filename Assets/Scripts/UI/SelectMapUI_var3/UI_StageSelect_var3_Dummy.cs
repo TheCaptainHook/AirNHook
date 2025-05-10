@@ -622,14 +622,13 @@ public class UI_StageSelect_var3_Dummy: UI_Base
         animator.SetTrigger(CLOSE);
         yield return new WaitForSeconds(1f);
     
-        computer.GetComponent<Computer_Net>().Server_SetIsOpen(false);
-        
-        
+        //computer.GetComponent<Computer_Net>().Server_SetIsOpen(false);
+
         onPrograss = false;
         StopAllCoroutines();
 
         inputQueue.Clear();
-        
+       
         gameObject.SetActive(false);
 
     }
