@@ -235,7 +235,7 @@ namespace Mirror
                 CmdOnAnimationParametersServerMessage(parameters);
             }
         }
-
+    
         void HandleAnimMsg(int stateHash, float normalizedTime, int layerId, float weight, NetworkReader reader)
         {
             if (isOwned && clientAuthority)
@@ -246,6 +246,7 @@ namespace Mirror
             // NOTE: there is no API to play a transition(?)
             if (stateHash != 0 && animator.enabled)
             {
+
                 animator.Play(stateHash, layerId, normalizedTime);
             }
 

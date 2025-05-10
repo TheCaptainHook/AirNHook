@@ -19,8 +19,11 @@ public class DroneEntity_Net : NetworkBehaviour
     public void Server_InitSync()
     {
         if (!Application.isPlaying) return;
-        Server_Init();
-        onSync = true;
+        if(!onSync)
+        {
+            Server_Init();
+            onSync = true;
+        }
 
         Rpc_InitSync(Main.DroneStruct,RB.position,index);
     }
@@ -119,6 +122,7 @@ public class DroneEntity_Net : NetworkBehaviour
     [ClientRpc]
     private void Rpc_Send_CurAndTargetPosition(Vector2 curPosition,int index)
     {
+        if (!onSync) return;
         RB.position = curPosition;
         if (targetPosition == null || paths == null || paths.Length == 0) return;
         
