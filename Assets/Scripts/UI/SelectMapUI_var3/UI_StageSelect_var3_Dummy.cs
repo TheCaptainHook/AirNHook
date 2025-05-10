@@ -224,7 +224,6 @@ public class UI_StageSelect_var3_Dummy: UI_Base
     {
         inputQueue ??= new Queue<int>();
         inputQueue.Enqueue(num);
-        Debug.Log($"En Queue : {num}");
         if(queue_Input_Coroutine == null)
         queue_Input_Coroutine = StartCoroutine(Queue_Input_Co());
 
@@ -233,7 +232,7 @@ public class UI_StageSelect_var3_Dummy: UI_Base
     {
         while(inputQueue.Count >0)
         {
-            // yield return new WaitUntil(()=> !onPrograss);
+             yield return new WaitUntil(()=> !onPrograss);
             // StartCoroutine(ProcessInputWithDelay(inputQueue.Dequeue()));
             switch (inputQueue.Dequeue())
             {
@@ -665,9 +664,12 @@ public class UI_StageSelect_var3_Dummy: UI_Base
         animator.SetTrigger(CLOSE);
         yield return new WaitForSeconds(1f);
     
-        computer.GetComponent<Computer_Net>().Server_SetIsOpen(false); 
-
+        computer.GetComponent<Computer_Net>().Server_SetIsOpen(false);
+        
+        
         onPrograss = false;
+        StopAllCoroutines();
+        inputQueue.Clear();
         gameObject.SetActive(false);
 
     }

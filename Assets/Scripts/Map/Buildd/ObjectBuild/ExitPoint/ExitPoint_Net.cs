@@ -184,11 +184,6 @@ public class ExitPoint_Net : NetworkBehaviour
 
         }
 
-        IEnumerator Delay()
-        {
-            if (!MapEditor.Instance.stageClear) yield break;
-            yield return new WaitUntil(() => panel.gameObject.activeSelf);
-        }
     }
     [ClientRpc]
     private void Rpc_OnReadyToMoveMap()
@@ -267,7 +262,6 @@ public class ExitPoint_Net : NetworkBehaviour
     [ClientRpc]
     private void Rpc_HookPanelOpenAndClose(bool openAndClose)
     {
-        Debug.Log("Hook");
         if(openAndClose) panel.HookPanelOpen();
         else panel.HookPanelClose();
     }
