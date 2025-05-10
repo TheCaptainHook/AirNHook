@@ -20,26 +20,28 @@ public class AbsencePanel : MonoBehaviour
 
     public void HookPanelOpen()
     {
-            if (_CharacterFadeEffectCoroutineHook != null)
-            {
-                StopCoroutine(_CharacterFadeEffectCoroutineHook);
-                _CharacterFadeEffectCoroutineHook = null;
-            }
-            _CharacterFadeEffectCoroutineHook = StartCoroutine(ScaleCoroutine(_Hook.transform, new Vector3(.8f, .8f), new Vector3(.4f, .4f)));
+        if (_CharacterFadeEffectCoroutineHook != null)
+        {
+            StopCoroutine(_CharacterFadeEffectCoroutineHook);
+            _CharacterFadeEffectCoroutineHook = null;
+        }
+        _Hook.SetActive(true);
+        _CharacterFadeEffectCoroutineHook = StartCoroutine(ScaleCoroutine(_Hook.transform, new Vector3(.8f, .8f), new Vector3(.4f, .4f)));
 
-            _Hook.SetActive(true);
+
     }
 
     public void AirPanelOpen()
     {
-            if (_CharacterFadeEffectCoroutineAir != null)
-            {
-                StopCoroutine(_CharacterFadeEffectCoroutineAir);
-                _CharacterFadeEffectCoroutineAir = null;
-            }
-            _CharacterFadeEffectCoroutineAir = StartCoroutine(ScaleCoroutine(_Air.transform, new Vector3(.8f, .8f), new Vector3(.4f, .4f)));
+        if (_CharacterFadeEffectCoroutineAir != null)
+        {
+            StopCoroutine(_CharacterFadeEffectCoroutineAir);
+            _CharacterFadeEffectCoroutineAir = null;
+        }
+        _Air.SetActive(true);
+        _CharacterFadeEffectCoroutineAir = StartCoroutine(ScaleCoroutine(_Air.transform, new Vector3(.8f, .8f), new Vector3(.4f, .4f)));
 
-            _Air.SetActive(true);
+
     }
 
 
