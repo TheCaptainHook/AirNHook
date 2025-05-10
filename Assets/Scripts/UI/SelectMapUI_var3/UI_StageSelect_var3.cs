@@ -444,16 +444,19 @@ public class UI_StageSelect_var3: UI_Base
         minSelectTextLineListIndex = nextWriteTextLineIndex;
         yield return WriteLine("Main", localColor, true);
 
-        //-----------------------------------------Net Ready
-        // computer.GetComponent<Computer_Net>().Cmd_ReadyClient();
-        Net.Cmd_ReadyClient();
-        //-----------------------------------------Net Ready
+       
         
         // yield return WriteLine("UserMap (준비중)", localColor, true, 25, 0.01f, false);
 
         maxSelectTextLineListIndex = nextWriteTextLineIndex-1;
         curSelectTextLineIndex = maxSelectTextLineListIndex;
-        
+
+        //-----------------------------------------Net Ready
+        // computer.GetComponent<Computer_Net>().Cmd_ReadyClient();
+        Net.Cmd_ReadyClient();
+        //-----------------------------------------Net Ready
+
+        yield return new WaitForSeconds(0.5f);
         onInteractable = true;
         onPrograss = false;
         onReady = true;
@@ -512,7 +515,7 @@ public class UI_StageSelect_var3: UI_Base
         }
 
         curSelectTextLineIndex = nextWriteTextLineIndex;
-
+        yield return new WaitForSeconds(0.5f);
         onPrograss = false;
         onInteractable = true;
     }
@@ -558,6 +561,7 @@ public class UI_StageSelect_var3: UI_Base
 
         maxSelectTextLineListIndex = nextWriteTextLineIndex-1;
         curSelectTextLineIndex = nextWriteTextLineIndex;
+        yield return new WaitForSeconds(0.5f);
 
         onPrograss = false;
         onInteractable = true;
@@ -688,8 +692,10 @@ public class UI_StageSelect_var3: UI_Base
     //------------------------------------player Move control
         var player = Managers.Game.Player.GetComponent<PlayerSM>();
         if(!player.canMovable) player.canMovable = true;
-    //------------------------------------player Move control
-        
+        //------------------------------------player Move control
+
+        yield return new WaitForSeconds(1f);
+
         Net.Server_SetIsOpen(false);
 
         onPrograss = false;

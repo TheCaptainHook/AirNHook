@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using System;
-using Unity.VisualScripting;
+
 public class Computer_Net : NetworkBehaviour
 {
     [SerializeField] GameObject screen;
@@ -64,14 +63,7 @@ public class Computer_Net : NetworkBehaviour
     
 
 //------------------------------------------------------- 0414
-    // private void Update()
-    // {
-    //     if(isServer && onPower && isOpen && onReady)
-    //     {
-    //         GetKeyEvent();
-    //     }
 
-    // }
     private void LateUpdate()
     {
         if(isServer && onPower && isOpen && onReady)
@@ -136,14 +128,7 @@ public class Computer_Net : NetworkBehaviour
 
         Rpc_ShowUi();
 
-        // StartCoroutine(Delay());
     }
-
-    // IEnumerator Delay()
-    // {
-    //     yield return new WaitForSeconds(0.5f);
-    //     onPower = true;
-    // }
 
     [Server]
     public void Server_SetIsOpen(bool val)
@@ -186,7 +171,6 @@ public class Computer_Net : NetworkBehaviour
             UI_StageSelect_var3 _main = main.GetComponent<UI_StageSelect_var3>();
             this.main = main.gameObject;
             _main.StartUi(GetComponent<NetworkIdentity>().netId);
-            // main.GetComponent<UI_StageSelect_var3>().HideUIOutsideCamera();
         }
     }
 

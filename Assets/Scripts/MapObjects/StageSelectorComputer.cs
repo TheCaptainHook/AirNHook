@@ -95,11 +95,12 @@ public ObjectTypeEnum objectType = ObjectTypeEnum.Interaction;
 
     public void Interaction(Transform accessor = null)
     {
-        if (!NetworkServer.active || !NetworkClient.isConnected)
-            return;
-            
-        if(Net.isOpen) return;
-        Net.Server_SetOnPower();
+        if(NetworkServer.active)
+        {
+            if (Net.isOpen) return;
+            Net.Server_SetOnPower();
+        }
+        
 
     }
 
