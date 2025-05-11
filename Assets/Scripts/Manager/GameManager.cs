@@ -133,7 +133,7 @@ public class GameManager
         //if (stageLevelUp && stageLevel <=1) stageLevel++; //The currently created stage is only up to 1.
         if(stageLevelUp)
         {
-            stageLevel = ++MapEditor.Instance.CurMap.stageLevel;
+            stageLevel = MapEditor.Instance.CurMap.stageLevel+1;
             Debug.Log($"Clear 2, {stageLevel}, curMap StageLevel : {MapEditor.Instance.CurMap.stageLevel}");
         }
 
