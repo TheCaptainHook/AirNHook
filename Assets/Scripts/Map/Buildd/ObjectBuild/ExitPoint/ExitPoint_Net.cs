@@ -242,7 +242,7 @@ public class ExitPoint_Net : NetworkBehaviour
     private void MoveNextStage()
     {
         //NextMapId 가 null 이면 스테이지 클리어. -> 로비로 이동
-            if(string.Empty == nextMapId && curMapId != "Lobby")
+            if(string.IsNullOrEmpty(nextMapId) && curMapId != "Lobby")
             {
                 Managers.Game.CurrentState = GameState.Lobby;
             Debug.Log("Clear 1");
@@ -255,7 +255,8 @@ public class ExitPoint_Net : NetworkBehaviour
                 Managers.Game.CurrentState = GameState.Game;
                 Managers.Game.StageClear(curMapId);
                 MapEditor.Instance.MoveNextStage(nextMapId);
-                return;
+            Debug.Log($"NONONONONO, {curMapId}, [{nextMapId}]");
+            return;
             }
     }
     #endregion
