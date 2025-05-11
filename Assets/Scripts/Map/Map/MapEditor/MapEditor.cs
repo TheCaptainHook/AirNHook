@@ -242,6 +242,7 @@ public class MapEditor : MonoBehaviour
         placeMentSystem.backgroundTileMap = GridPalette.transform.Find("BackgroundTiles").GetComponent<Tilemap>();
         placeMentSystem.ropeTileMap = GridPalette.transform.Find("RopeTiles").GetComponent<Tilemap>();
         placeMentSystem.accessoryTileMap = GridPalette.transform.Find("AccessoryTiles").GetComponent<Tilemap>();
+        placeMentSystem.hiddentTIleMap = GridPalette.transform.Find("HiddenTiles").GetComponent<Tilemap>();
     }
     void CreatePreviewPalet()
     {
@@ -465,7 +466,7 @@ public class MapEditor : MonoBehaviour
         DrawTile_C(placeMentSystem.backgroundTileMap, curMap.mapBackgroundTileDataList);
         DrawTile_C(placeMentSystem.ropeTileMap, curMap.mapRopeTileDataList);
         DrawTile_C(placeMentSystem.accessoryTileMap, curMap.mapAccessoryTIleDataList);
-
+        DrawTile_C(placeMentSystem.hiddentTIleMap, curMap.mapHiddenTileDataList);
         //DrawTile(placeMentSystem.floorTileMap, curMap.mapTileDataList); //rect
         //DrawTile(placeMentSystem.halfTileMap, curMap.mapHalfTileDataList);
         //DrawTile(placeMentSystem.backgroundTileMap, curMap.mapBackgroundTileDataList);

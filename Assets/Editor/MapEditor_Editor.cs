@@ -703,7 +703,7 @@ public class MapEditor_Editor : Editor
         DrawTile_C(mapEditor.placeMentSystem.backgroundTileMap, mapEditor.CurMap.mapBackgroundTileDataList);
         DrawTile_C(mapEditor.placeMentSystem.ropeTileMap, mapEditor.CurMap.mapRopeTileDataList);
         DrawTile_C(mapEditor.placeMentSystem.accessoryTileMap, mapEditor.CurMap.mapAccessoryTIleDataList);
-
+        DrawTile_C(mapEditor.placeMentSystem.hiddentTIleMap, mapEditor.CurMap.mapHiddenTileDataList);
         //DrawTile(mapEditor.placeMentSystem.floorTileMap, mapEditor.CurMap.mapTileDataList); //rect
         //DrawTile(mapEditor.placeMentSystem.halfTileMap, mapEditor.CurMap.mapHalfTileDataList);
         //DrawTile(mapEditor.placeMentSystem.backgroundTileMap, mapEditor.CurMap.mapBackgroundTileDataList);
@@ -1010,7 +1010,7 @@ private Map CreateMap(MapEditor mapEditor){
             GetCompressedTileData(mapEditor.placeMentSystem.backgroundTileMap),
             GetCompressedTileData(mapEditor.placeMentSystem.ropeTileMap),
             GetCompressedTileData(mapEditor.placeMentSystem.accessoryTileMap),
-
+            GetCompressedTileData(mapEditor.placeMentSystem.hiddentTIleMap),
             //GetTileData(mapEditor.placeMentSystem.floorTileMap),//rect
             //GetTileData(mapEditor.placeMentSystem.halfTileMap),
             //GetTileData(mapEditor.placeMentSystem.backgroundTileMap),

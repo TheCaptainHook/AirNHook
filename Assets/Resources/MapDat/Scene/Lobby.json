@@ -6520,6 +6520,7 @@
         }
     ],
     "mapAccessoryTIleDataList": [],
+    "mapHiddenTileDataList": [],
     "mapShadowCasterDataList": [
         {
             "position": {
@@ -12308,7 +12309,7 @@
                 }
             ],
             "moveSpeed": 2.0,
-            "drone_TransportItemType": 7
+            "drone_TransportItemType": 8
         }
     ],
     "collectableObjectStructList": [],

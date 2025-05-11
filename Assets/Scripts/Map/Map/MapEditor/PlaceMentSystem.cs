@@ -25,15 +25,15 @@ public class PlaceMentSystem : MonoBehaviour
 
     [Header("Tile")]
     public Dictionary<Vector3Int, int> tileDic = new();
-     public Tilemap preViewTileMap;//only use,Editor mode
-     public Tilemap floorTileMap;
+    public Tilemap preViewTileMap;//only use,Editor mode
+    public Tilemap floorTileMap;
     public Tilemap halfTileMap;
     public Tilemap backgroundTileMap;
     // 1022
     public Tilemap ropeTileMap;
     public Tilemap accessoryTileMap;
     // 1022
-    
+    public Tilemap hiddentTIleMap;
 
 
     [HideInInspector] public TileBase tileBase;
@@ -135,35 +135,35 @@ public class PlaceMentSystem : MonoBehaviour
         invoker = new Invoker();
     }
 
-    private void Update()
-    {
+    //private void Update()
+    //{
 
-        //if (MapEditor.Instance.mapEditorState != MapEditorState.NoEditor)
-        //{
-
-
-        //}
+    //    //if (MapEditor.Instance.mapEditorState != MapEditorState.NoEditor)
+    //    //{
 
 
-        //tile
-        if (!onEnterMapEditorUi)
-        {
-            if (MapEditor.Instance.mapEditorState == MapEditorState.Tile)
-            {
-                GetMousePosition();
-                TileMode();
-            }
-            else if (MapEditor.Instance.mapEditorState == MapEditorState.Object)
-            {
-                mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                mousePosition = new Vector3(mousePosition.x, mousePosition.y, 0);
-                ObjectMode();
-            }
-            //else if(MapEditor.Instance.mapEditorState == MapEditorState.Background){ BackgroundMode();} // todo 0427
-        }
+    //    //}
 
 
-    }
+    //    //tile
+    //    if (!onEnterMapEditorUi)
+    //    {
+    //        if (MapEditor.Instance.mapEditorState == MapEditorState.Tile)
+    //        {
+    //            GetMousePosition();
+    //            TileMode();
+    //        }
+    //        else if (MapEditor.Instance.mapEditorState == MapEditorState.Object)
+    //        {
+    //            mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    //            mousePosition = new Vector3(mousePosition.x, mousePosition.y, 0);
+    //            ObjectMode();
+    //        }
+    //        //else if(MapEditor.Instance.mapEditorState == MapEditorState.Background){ BackgroundMode();} // todo 0427
+    //    }
+
+
+    //}
 
     #region INIT
     public void EditorMode_Init()
