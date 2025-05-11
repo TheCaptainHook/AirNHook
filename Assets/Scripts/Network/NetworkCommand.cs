@@ -67,6 +67,14 @@ public class NetworkCommand : NetworkBehaviour
             waitChangeStageCoroutine = StartCoroutine(Wait_ChangeStage());
         }
     }
+    [Server]
+    public void Server_ChangeStage_Use_ExitDoor()
+    {
+        if (waitChangeStageCoroutine == null)
+        {
+            waitChangeStageCoroutine = StartCoroutine(Wait_ChangeStage());
+        }
+    }
 
     [Command(requiresAuthority = false)]
     public void ChangeStage(string value)
