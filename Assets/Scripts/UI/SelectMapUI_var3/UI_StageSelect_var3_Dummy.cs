@@ -569,10 +569,10 @@ public class UI_StageSelect_var3_Dummy: UI_Base
         textLineList[pathTextLineIndex].type = TypingType.Write;
         //250103
         animator.SetTrigger(CLOSE);
-        computer.GetComponent<Computer_Net>().Server_SetIsOpen(false);
+        //computer.GetComponent<Computer_Net>().Server_SetIsOpen(false);
         //250103
     
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         CameraHolder.Instance.ShutDownStageSelectCamera();
     
         onPrograss = false;

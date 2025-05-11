@@ -623,10 +623,7 @@ public class UI_StageSelect_var3: UI_Base
         textLineList[pathTextLineIndex].type = TypingType.Write;
      
         animator.SetTrigger(CLOSE);
-        //-----------------------------Reset
-        Net.Server_SetIsOpen(false);
-        Reset();
-        //-----------------------------Reset
+       
 
         _UI_KeyGenerator.gameObject.SetActive(true);
         _UI_KeyGenerator.KeyPrintingAni();
@@ -639,7 +636,11 @@ public class UI_StageSelect_var3: UI_Base
     //------------------------------------player Move control
         var player = Managers.Game.Player.GetComponent<PlayerSM>();
         if(!player.canMovable) player.canMovable = true;
-    //------------------------------------player Move control
+        //------------------------------------player Move control
+        //-----------------------------Reset
+        Net.Server_SetIsOpen(false);
+        Reset();
+        //-----------------------------Reset
 
         onPrograss = false;
         onInteractable = true;
