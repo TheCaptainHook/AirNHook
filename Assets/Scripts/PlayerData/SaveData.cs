@@ -184,6 +184,7 @@ public class SaveData
 
             if (stageLevelUp && Managers.Game.stageLevel > _SaveFileData._PlayerSaveData.curStageLevel)
             {
+                Debug.Log($"Clear 3, stageLevel : {Managers.Game.stageLevel}");
                 _SaveFileData.StageLevelUp();
             }
 

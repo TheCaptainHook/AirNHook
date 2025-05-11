@@ -245,6 +245,7 @@ public class ExitPoint_Net : NetworkBehaviour
             if(string.Empty == nextMapId && curMapId != "Lobby")
             {
                 Managers.Game.CurrentState = GameState.Lobby;
+            Debug.Log("Clear 1");
                 Managers.Game.StageClear(curMapId,true);
                 MapEditor.Instance.MoveNextStage("Lobby");
                 return;
