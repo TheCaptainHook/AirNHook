@@ -39,6 +39,7 @@ public class NewAirGun
     private Collider2D _inhaleTarget;
     private bool _isAttached;
     public bool _inhaling;
+    private bool _inhalingPlayer;
     private bool _delay;
     private float _delayTimer;
     private float _inhalePower = 100f;
@@ -242,7 +243,7 @@ public class NewAirGun
             
             if (!inhalable.CanInhale()) continue;
             
-            if (targetDistance <= 0.6f)
+            if (targetDistance <= 0.8f)
             {
                 _closestTarget = collision;
                 _shortestDistance = targetDistance;
@@ -342,7 +343,9 @@ public class NewAirGun
         _inhaleTarget = _latestTarget;
         _inhaling = true;
 
-        if (_air.isServer || ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject)) return;
+        if (ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject)) return;
+
+        if (_inhaleTarget.GetComponent<NetworkIdentity>().isOwned) return;
 
         Managers.Command.AuthorityToClient(_inhaleTarget.GetComponent<NetworkIdentity>().netId);
     }
@@ -353,7 +356,10 @@ public class NewAirGun
 
         if (Managers.Game.OtherPlayer is not null && ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject))
         {
+            if (_inhalingPlayer) return;
+
             _air.CmdInhalePlayer();
+            _inhalingPlayer = true;
             return;
         }
 
@@ -398,6 +404,8 @@ public class NewAirGun
         }
         
         _isAttached = false;
+        _isAttachedToHook = false;
+        _inhalingPlayer = false;
         _isInhaledHook = false;
         _lineRenderer.enabled = false;
         _crossHair.gameObject.SetActive(false);
@@ -440,9 +448,10 @@ public class NewAirGun
 
     public void HookAttached()
     {
+        if (_inhaleTarget is null || !ReferenceEquals(_inhaleTarget.gameObject, Managers.Game.OtherPlayer)) return;
+
         _isAttached = true;
         _isInhaledHook = true;
-        Debug.Log("HookAttached");
     }
     #endregion
 

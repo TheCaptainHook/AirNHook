@@ -408,7 +408,6 @@ public class HookSM : PlayerSM, IInhalable
             }
         }
 
-        Debug.Log("Inhale Coroutine End");
         _inhaleCoroutine = null;
     }
     
