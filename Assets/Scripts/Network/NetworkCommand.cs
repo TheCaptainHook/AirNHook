@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using Mirror;
-using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
 public class NetworkCommand : NetworkBehaviour
@@ -31,7 +29,6 @@ public class NetworkCommand : NetworkBehaviour
     public void Cmd_IsCompleteMoveStage()
     {
         isCompleteMoveStageCount++;
-        Debug.Log(isCompleteMoveStageCount);   
     }
     private int ClientCount => NetworkServer.connections.Count;
     //---------------------------------
@@ -74,10 +71,8 @@ public class NetworkCommand : NetworkBehaviour
     [Server]
     public void Server_ChangeStage_Use_ExitDoor()
     {
-        Debug.Log("Server ChangeStage_Use _Exit");
         if (server_waitChangeStageCoroutine == null)
         {
-            Debug.Log("Server ChangeStage_Use _Exit_22");
             server_waitChangeStageCoroutine = StartCoroutine(Server_WaitChangeStageCoroutine());
         }
     }

@@ -6,7 +6,6 @@ using UnityEngine;
 using System.Text;
 using System.Linq;
 using System.Threading;
-using UnityEngine.Rendering;
 
 
 public class SaveData
@@ -184,7 +183,6 @@ public class SaveData
 
             if (stageLevelUp && Managers.Game.stageLevel > _SaveFileData._PlayerSaveData.curStageLevel)
             {
-                Debug.Log($"Clear 3, stageLevel : {Managers.Game.stageLevel}");
                 _SaveFileData.StageLevelUp();
             }
 

@@ -245,14 +245,12 @@ public class ExitPoint_Net : NetworkBehaviour
             if(string.IsNullOrEmpty(nextMapId) && curMapId != "Lobby")
             {
                 Managers.Game.CurrentState = GameState.Lobby;
-            Debug.Log("Clear 1");
                 Managers.Game.StageClear(curMapId,true);
                 MapEditor.Instance.MoveNextStage("Lobby");
                 return;
                 
             }else //단순 맵 클리어
             {
-                Debug.Log($"NONONONONO, {curMapId}, [{nextMapId}]");
                 Managers.Game.CurrentState = GameState.Game;
                 Managers.Game.StageClear(curMapId);
                 MapEditor.Instance.MoveNextStage(nextMapId);

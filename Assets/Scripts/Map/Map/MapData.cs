@@ -119,7 +119,6 @@ public class MapData
                 maps[i] = map;
                 mapMainDictionary.Add(map.mapID, map);
                 mapAllDictionary.Add(map.mapID, map);
-                Debug.Log($"{maps[i].mapID}");
             }
             mapMainStageDictionary.Add(level, maps);
         }

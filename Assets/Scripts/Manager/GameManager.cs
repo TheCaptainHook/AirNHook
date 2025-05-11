@@ -100,7 +100,6 @@ public class GameManager
         if (mapID is null or "Lobby") return;
 
         _startTime = Time.time;
-        Debug.Log(_startTime);
         _clearDeath = 0;
 
     }
@@ -112,7 +111,6 @@ public class GameManager
         if(stageLevelUp)
         {
             stageLevel = MapEditor.Instance.CurMap.stageLevel+1;
-            Debug.Log($"Clear 2, {stageLevel}, curMap StageLevel : {MapEditor.Instance.CurMap.stageLevel}");
         }
 
         Managers.Data.saveData.ClearMap(stageID,stageLevelUp);
