@@ -70,8 +70,10 @@ public class NetworkCommand : NetworkBehaviour
     [Server]
     public void Server_ChangeStage_Use_ExitDoor()
     {
+        Debug.Log("Server ChangeStage_Use _Exit");
         if (waitChangeStageCoroutine == null)
         {
+            Debug.Log("Server ChangeStage_Use _Exit_22");
             waitChangeStageCoroutine = StartCoroutine(Wait_ChangeStage());
         }
     }

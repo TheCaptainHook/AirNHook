@@ -174,7 +174,7 @@ public class ExitPoint_Net : NetworkBehaviour
             Rpc_HookPanelOpenAndClose(true);
             //Hook panel Open
         }
-
+        
 
         if (innerDoor_Air && innerDoor_Hook)
         {

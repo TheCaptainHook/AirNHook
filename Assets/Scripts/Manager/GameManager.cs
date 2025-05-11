@@ -130,11 +130,14 @@ public class GameManager
     {
         if (stageID.Equals("Lobby")) return;
 
-        if (stageLevelUp && stageLevel <=1) stageLevel++; //The currently created stage is only up to 1.
+        //if (stageLevelUp && stageLevel <=1) stageLevel++; //The currently created stage is only up to 1.
+        if(stageLevelUp)
+        {
+            stageLevel = MapEditor.Instance.CurMap.stageLevel++;
+        }
+
         Managers.Data.saveData.ClearMap(stageID,stageLevelUp);
     }
-
-
 
     public (float clearTime, int deathCount) GetClearData()
     {

@@ -207,7 +207,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     }
 #endregion
 
-    public virtual void TakeDamage(DamageType damageType = DamageType.Default)
+   public virtual void TakeDamage(DamageType damageType = DamageType.Default)
    {
         if(distructionStatus == DistructionStatus.Destructible)
         {
