@@ -48,8 +48,11 @@ public class NetworkCommand : NetworkBehaviour
 
             if(ClientCount > 1)
             yield return new WaitUntil(()=> isCompleteMoveStageCount == 2);
-            else
+           
+
             yield return waitSecond;
+
+            //yield return new WaitForSeconds(1);
         }
 
         isCompleteMoveStageCount = 0;
