@@ -201,7 +201,7 @@ public class Computer_Net : NetworkBehaviour
             case 1:
                 if (!isServer)
                 {
-                    if(!Dummy)
+                    //if(!Dummy)
                     Dummy.SetInputKey(1);
                 }
                 else
@@ -214,7 +214,7 @@ public class Computer_Net : NetworkBehaviour
             case 2:
                 if (!isServer)
                 {
-                    if (!Dummy)
+                    //if (!Dummy)
                         Dummy.SetInputKey(2);
                 }
                 else
@@ -226,7 +226,7 @@ public class Computer_Net : NetworkBehaviour
             case 3:
                 if (!isServer)
                 {
-                    if (!Dummy)
+                    //if (!Dummy)
                         Dummy.SetInputKey(3);
                 }
                 else
@@ -238,7 +238,7 @@ public class Computer_Net : NetworkBehaviour
             case 4:
                 if (!isServer)
                 {
-                    if (!Dummy)
+                    //if (!Dummy)
                         Dummy.SetInputKey(4);
                 }
                 else
@@ -250,7 +250,7 @@ public class Computer_Net : NetworkBehaviour
             case 5:
                 if (!isServer)
                 {
-                    if (!Dummy)
+                    //if (!Dummy)
                         Dummy.SetInputKey(5);
                 }
                 else

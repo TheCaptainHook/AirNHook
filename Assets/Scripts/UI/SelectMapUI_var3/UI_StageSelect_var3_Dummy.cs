@@ -577,6 +577,7 @@ public class UI_StageSelect_var3_Dummy: UI_Base
     
         onPrograss = false;
         onInteractable = true;
+        Debug.Log("ShutDown Dummy");
         gameObject.SetActive(false);
     }
 #endregion 
