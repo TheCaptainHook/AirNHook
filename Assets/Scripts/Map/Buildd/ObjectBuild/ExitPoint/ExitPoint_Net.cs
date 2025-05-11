@@ -252,11 +252,11 @@ public class ExitPoint_Net : NetworkBehaviour
                 
             }else //단순 맵 클리어
             {
+                Debug.Log($"NONONONONO, {curMapId}, [{nextMapId}]");
                 Managers.Game.CurrentState = GameState.Game;
                 Managers.Game.StageClear(curMapId);
                 MapEditor.Instance.MoveNextStage(nextMapId);
-            Debug.Log($"NONONONONO, {curMapId}, [{nextMapId}]");
-            return;
+             return;
             }
     }
     #endregion
