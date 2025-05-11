@@ -118,7 +118,6 @@ public class GameManager
 
     public (float clearTime, int deathCount) GetClearData()
     {
-        Debug.Log(Time.time);
         return (Time.time - _startTime,_clearDeath);
     }
     //TODO 0726 
