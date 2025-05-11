@@ -50,8 +50,9 @@ public class NetworkCommand : NetworkBehaviour
             yield return new WaitUntil(()=> isCompleteMoveStageCount == 2);
             else
             yield return waitSecond;
-        }   
-        
+        }
+
+        isCompleteMoveStageCount = 0;
         uiOption.HoldAndReleaseLobby_StageRestartBtn(false);
         waitChangeStageCoroutine = null;
 

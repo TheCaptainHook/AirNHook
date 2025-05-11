@@ -9,8 +9,8 @@ public class AbsencePanel : MonoBehaviour
 
     private Vector3 targetScaleUp = new Vector3(1.5f, 1.5f);
 
-    Coroutine _CharacterFadeEffectCoroutineAir;
-    Coroutine _CharacterFadeEffectCoroutineHook;
+    public Coroutine _CharacterFadeEffectCoroutineAir;
+    public Coroutine _CharacterFadeEffectCoroutineHook;
 
     public void OnAbsencePanel()
     {
@@ -26,7 +26,8 @@ public class AbsencePanel : MonoBehaviour
             _CharacterFadeEffectCoroutineHook = null;
         }
         _Hook.SetActive(true);
-        _CharacterFadeEffectCoroutineHook = StartCoroutine(ScaleCoroutine(_Hook.transform, new Vector3(.8f, .8f), new Vector3(.4f, .4f)));
+        if (gameObject.activeSelf)
+            _CharacterFadeEffectCoroutineHook = StartCoroutine(ScaleCoroutine(_Hook.transform, new Vector3(.8f, .8f), new Vector3(.4f, .4f)));
 
 
     }
@@ -39,7 +40,8 @@ public class AbsencePanel : MonoBehaviour
             _CharacterFadeEffectCoroutineAir = null;
         }
         _Air.SetActive(true);
-        _CharacterFadeEffectCoroutineAir = StartCoroutine(ScaleCoroutine(_Air.transform, new Vector3(.8f, .8f), new Vector3(.4f, .4f)));
+        if(gameObject.activeSelf)
+            _CharacterFadeEffectCoroutineAir = StartCoroutine(ScaleCoroutine(_Air.transform, new Vector3(.8f, .8f), new Vector3(.4f, .4f)));
 
 
     }
