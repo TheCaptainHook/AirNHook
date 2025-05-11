@@ -475,9 +475,8 @@ public class PlayerSaveData
     }
 
     public void UpdateClearData(string clearMapId){
-        //var data = Managers.Game.GetClearData();
-        //totalDeath += data.deathCount;
-        if(!clearMapId.Contains(clearMapId))
+
+        if(!this.clearMapId.Contains(clearMapId))
         this.clearMapId.Add(clearMapId);
     }
 

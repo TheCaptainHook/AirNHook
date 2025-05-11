@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Mirror;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
@@ -55,7 +56,6 @@ public class NetworkCommand : NetworkBehaviour
             //yield return new WaitForSeconds(1);
         }
 
-        isCompleteMoveStageCount = 0;
         uiOption.HoldAndReleaseLobby_StageRestartBtn(false);
         waitChangeStageCoroutine = null;
 
@@ -70,15 +70,25 @@ public class NetworkCommand : NetworkBehaviour
             waitChangeStageCoroutine = StartCoroutine(Wait_ChangeStage());
         }
     }
+    private Coroutine server_waitChangeStageCoroutine;
     [Server]
     public void Server_ChangeStage_Use_ExitDoor()
     {
         Debug.Log("Server ChangeStage_Use _Exit");
-        if (waitChangeStageCoroutine == null)
+        if (server_waitChangeStageCoroutine == null)
         {
             Debug.Log("Server ChangeStage_Use _Exit_22");
-            waitChangeStageCoroutine = StartCoroutine(Wait_ChangeStage());
+            server_waitChangeStageCoroutine = StartCoroutine(Server_WaitChangeStageCoroutine());
         }
+    }
+    IEnumerator Server_WaitChangeStageCoroutine()
+    {
+        var uiOption = Managers.UI.GetUI<UI_Option>().GetComponent<UI_Option>();
+        uiOption.HoldAndReleaseLobby_StageRestartBtn(true);
+        yield return waitSecond;
+        isCompleteMoveStageCount = 0;
+        server_waitChangeStageCoroutine = null;
+        uiOption.HoldAndReleaseLobby_StageRestartBtn(false);
     }
 
     [Command(requiresAuthority = false)]

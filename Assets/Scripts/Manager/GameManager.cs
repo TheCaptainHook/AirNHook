@@ -98,11 +98,11 @@ public class GameManager
     public void StageStart(string mapID)
     {
         if (mapID is null or "Lobby") return;
-        // _stageID = mapID;
+
         _startTime = Time.time;
+        Debug.Log(_startTime);
         _clearDeath = 0;
-        //_totalDeath = Managers.Data.loadData.playData[_stageID].totalDeath; //TODO0726
-        // _skip = false;
+
     }
 
     //캐릭터 사망시 데스카운트추가
@@ -142,6 +142,7 @@ public class GameManager
 
     public (float clearTime, int deathCount) GetClearData()
     {
+        Debug.Log(Time.time);
         return (Time.time - _startTime,_clearDeath);
     }
     //TODO 0726 
