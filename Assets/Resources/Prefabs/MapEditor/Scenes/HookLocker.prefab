@@ -70,9 +70,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -696190403
-  m_SortingLayer: 4
-  m_SortingOrder: 3
+  m_SortingLayerID: -1639132293
+  m_SortingLayer: 6
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: dbff00d93710d6d4fae0cbb3a19c9825, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -373,6 +373,7 @@ MonoBehaviour:
   syncInterval: 0
   _disappearingObj: {fileID: 5743058873831809566}
   _characterType: 1
+  _doorSpriteRenderer: {fileID: 2060381555213652123}
   offset: {x: 0, y: 3.4}
   IsChanging: 0
 --- !u!114 &-9054670197775837714
@@ -392,6 +393,9 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   distructionStatus: 0
   chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
@@ -400,6 +404,7 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
+  canRespawn: 0
 --- !u!114 &3020815491793248874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -460,7 +465,7 @@ MonoBehaviour:
   - {x: 0.80442655, y: 0.006743918, z: 0}
   m_ShapePathHash: -1368322720
   m_Mesh: {fileID: 0}
-  m_InstanceId: 45964
+  m_InstanceId: 56356
   m_LocalBounds:
     m_Center: {x: -0.010115862, y: 1.5033718, z: 0}
     m_Extent: {x: 0.8145424, y: 1.5033718, z: 0}
