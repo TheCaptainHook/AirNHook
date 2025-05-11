@@ -10,9 +10,7 @@ id,index,name,emotion,spritePosition,textBoxPosition,sentence
 100,3,Robot,Laugh,Right,Bottom,10004
 100,4,Air&Hook,Laugh,Left,Bottom,10005
 100,5,"Air&Hook,Robot","Laugh,Sigh",Both,Bottom,10006
-101,0,Speaker,Normal,Right,Top,1
-101,1,Speaker,Normal,Right,Top,2
-101,2,Speaker,Normal,Right,Top,3
+101,2,Speaker,Normal,Right,Top,10007
 102,0,Speaker,Normal,Right,Bottom,10008
 102,1,Speaker,Normal,Right,Bottom,10009
 103,0,Speaker,Normal,Right,Bottom,10010
