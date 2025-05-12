@@ -51,7 +51,6 @@ public class SaveData
         {
             Debug.Log("Save file does not exist at: " + achievmentDataPath);
         }
-
     }
 
     private void SearchSaveFile()
@@ -212,8 +211,16 @@ public class SaveData
                 false, //clear
                 false, //open stage
                 map.stageDifficulty,
-                map.dialogueDataList,
-                map.collectableObjectStructList));
+                // map.dialogueDataList,
+                new List<DialogueData>(map.dialogueDataList),
+                // map.collectableObjectStructList));
+                new List<CollectableObjectStruct>(map.collectableObjectStructList)
+                ));
+
+                foreach(var item in map.dialogueDataList)
+                {
+                    Debug.Log($"mapId:{map.mapID} ,dialogue iD: {item.dialogueId},excute :{item.excuted}");
+                }
 
         }
 

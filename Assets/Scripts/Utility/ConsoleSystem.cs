@@ -122,13 +122,12 @@ public class ConsoleSystem : MonoBehaviour
         }
         if(command == "reset savedata")
         {
-            //Del SaveData, achievmentData
+            //Del SaveData, achievmentData Reset
             Managers.Data.saveData.DeleteSaveFile();
-            //Del SaveData, achievmentData
-
-            //Create new saveData
             Managers.Data.saveData.SetUp();
-            //Create new saveData
+
+            //Del SaveData, achievmentData Reset
+
             WriteLog($"\n   >{inputField.text}\npath : {Managers.Data.saveData.savePath}\n");
             inputField.text = "";
             return;

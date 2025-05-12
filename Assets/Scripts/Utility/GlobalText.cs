@@ -51,6 +51,7 @@ public static class GlobalText
     public const string KET_PRINTING_SOUND = "PrintClang";
     public const string COMPUTER_ON_SOUND = "ComTurnOn";
     public const string COMPUTER_OFF_SOUND = "ComTurnOff";
+    public const string ROBOT_SPEAK = "Beep";
     #endregion
 
     #region BGM
@@ -60,7 +61,9 @@ public static class GlobalText
         public const string STAGE_1_NORMAL_SOUND = "WBA Free Track - Legend";
         public const string STAGE_1_FINAL_SOUND = "WBA Free Track - Hackers";
     #endregion
+
     #endregion
+
     #endregion
 
     #region Achievement Id

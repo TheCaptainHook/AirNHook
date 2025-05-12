@@ -10,7 +10,7 @@ public class TypingEffect : MonoBehaviour
     private TMP_TextInfo textInfo;
 
     public float letterDelay = 0.1f; // 한 글자 출력 간격
-    public float animationDuration = 0.5f; // 대각선 애니메이션 시간
+    public float animationDuration = 0.1f; // 대각선 애니메이션 시간
     public Vector2 startOffset = new Vector2(0, 0); // 출발 위치 오프셋
     public float startRotationAngle = 45f; // 초기 기울기 각도
 
@@ -22,14 +22,14 @@ public class TypingEffect : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && onPrograss)
+        if (Input.GetKeyDown(KeyCode.Space) && onPrograss && !isSkip)
         {
             isSkip = true;
         }
     }
 
 
-    public IEnumerator Typing(TextMeshProUGUI textMesh,string sentence,Color color,float fontSize = 42,bool audioActive = false)
+    public IEnumerator Typing(TextMeshProUGUI textMesh,string sentence,Color color,float fontSize = 42,bool audioActive = false,string audioName = GlobalText.DIALOGUE_CLICK_SOUND)
     {
 
         if (textMesh == null || string.Empty == sentence) yield break;
@@ -47,7 +47,8 @@ public class TypingEffect : MonoBehaviour
 
         //250103
         StringBuilder sb = new();
-        
+        int lastLine = 0;
+        bool lineChange = false;
         for (int i = 0; i < totalCharacters; i++)
         {
             if (isSkip)
@@ -58,11 +59,37 @@ public class TypingEffect : MonoBehaviour
             // 현재 글자 활성화
             sb.Append(sentence[i]);
             textMesh.text = sb.ToString();
-            // 애니메이션 코루틴 시작
-            if (audioActive)
-                Managers.Sound.PlaySound(GlobalText.DIALOGUE_CLICK_SOUND);
+            textMesh.ForceMeshUpdate();// Add 0512
+
+            textInfo = textMesh.textInfo;// Add 0512
+            TMP_CharacterInfo charInfo = textInfo.characterInfo[i];
+
+            
+            if (charInfo.lineNumber != lastLine)
+            {
+                Debug.Log($"🔁 자동 줄바꿈 발생 at index={i}, 문자='{sentence[i]}'");
+                lastLine = charInfo.lineNumber;
+                lineChange = true;
+                textMesh.enableWordWrapping = false;
+            
+            }
+
+            if (audioActive && !string.IsNullOrEmpty(audioName))
+                Managers.Sound.PlaySound(audioName);
+
+            if(lineChange)
+            {
+                yield return new WaitForSeconds(0.1f);
+                textMesh.enableWordWrapping = true;
+                yield return new WaitForSeconds(0.1f);
+                lineChange = false;
+            }
+
             StartCoroutine(AnimationLatter(i));
             yield return new WaitForSeconds(0.05f);
+            //  StartCoroutine(AnimationLatter(i));
+            // yield return StartCoroutine(AnimationLatter(i));
+            
         }
 
         textMesh.text = sentence;
@@ -75,12 +102,16 @@ public class TypingEffect : MonoBehaviour
     private IEnumerator AnimationLatter(int index)
     {
         textComponent.ForceMeshUpdate();
-        TMP_CharacterInfo charInfo = textInfo.characterInfo[index];
 
+        textInfo = textComponent.textInfo; // ADD 0512
+        if(index >= textInfo.characterCount) yield break;// ADD 0512
+
+        TMP_CharacterInfo charInfo = textInfo.characterInfo[index];
         if (!charInfo.isVisible) yield break; // 문자가 보이지 않으면 스킵
 
-        Vector3[] vertices = textInfo.meshInfo[charInfo.materialReferenceIndex].vertices;
         int vertexIndex = charInfo.vertexIndex;
+        Vector3[] vertices = textInfo.meshInfo[charInfo.materialReferenceIndex].vertices;
+        if(vertexIndex + 3 >= vertices.Length) yield break;// ADD 0512
 
         // 네 개의 버텍스를 시작 위치로 이동
         Vector3[] originalPositions = new Vector3[4];

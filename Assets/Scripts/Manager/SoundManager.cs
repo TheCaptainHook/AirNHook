@@ -160,6 +160,30 @@ public class SoundManager
         else
             Managers.Instance.StartCoroutine(CollectSoundSource(audioSource, audioClip.length));
     }
+    //------------TEST 0512
+    //  public AudioSource PlayAudioClip_(string audioName, float volume, bool loop)
+    // {
+    //     if (!GetAudioSource(out var audioSource)) return null;
+
+    //     var audioClip = _audioClipDict[audioName];
+    //     audioSource.outputAudioMixerGroup = _audioMixerGroups[GlobalText.EFFECTS_STRING];
+    //     SetAudioSource(audioSource, audioClip, volume, 0, loop);
+        
+    //     if (loop)
+    //         _ambientAudioSources.Add(audioSource);
+    //     else
+    //         Managers.Instance.StartCoroutine(CollectSoundSource(audioSource, audioClip.length));
+
+    //     return audioSource;
+    // }
+    // public void ShutDownAudioSource(AudioSource audioSource)
+    // {
+    //     audioSource.Stop();
+    //     audioSource.gameObject.SetActive(false);
+    //     _deactivatedAudioSources.Enqueue(audioSource);
+    // }
+    //------------TEST 0512
+    
 
     // 3D effect sound용
     private void PlayAudioClip(string audioName, Vector3 position, float volume, bool loop)

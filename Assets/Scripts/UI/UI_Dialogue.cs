@@ -209,9 +209,19 @@ public class UI_Dialogue : UI_Base
         Managers.UI.HideUI<UI_Dialogue>();
     }
 
+    private string GetAudioName(Dialogue dialogue)
+    {
+        switch(dialogue.name)
+        {
+            case "Robot":
+            return GlobalText.ROBOT_SPEAK;
+            default :
+            return "";
+        }
+    }
     IEnumerator Dialogue(Dialogue dialogue)
     {
-        //Sprite image, Pivot Setting and FadeIn
+        //Sprite image,Name, Pivot Setting and FadeIn
         DialogueSpriteSetting(dialogue);
         //TextBox and Pivot Setting
         DialoguePositionSetting(dialogue);
@@ -220,30 +230,33 @@ public class UI_Dialogue : UI_Base
         yield return ScaleOverTime(new Vector3(0.7f, 0.7f), new Vector3(1.2f, 1.2f),0.2f);
         yield return ScaleOverTime(new Vector3(1.2f, 1.2f), new Vector3(1f, 1f), 0.3f);
         //Typing Effect
-        //1228
-        //_cancellationTokenSource = new CancellationTokenSource();
-        //Task task = Util.TypingEffectTask(_TextBoxText, Managers.Data.language.dict[dialogue.sentenceID], Color.black, 42, .05f, _cancellationTokenSource,true);
+        
+        //Charactor Sound On
+        string audioName = GetAudioName(dialogue);
+        //Charactor Sound On
 
-        ////TypingEffectTask Cancel
-        //while (!task.IsCompleted)
-        //{
-        //    if (Input.anyKeyDown)
-        //    {
-        //        _cancellationTokenSource.Cancel();
-        //    }
-        //    yield return null;
-        //}
-        //1228
-        yield return typingEffect.Typing(_TextBoxText, Managers.Data.language.dict[dialogue.sentenceID], Color.black);
-       
+        yield return typingEffect.Typing(_TextBoxText, Managers.Data.language.dict[dialogue.sentenceID], Color.black,42,true,audioName);
+        
+        //Charactor Sound Off
+        //Charactor Sound Off
 
         bool onAnyKey = false;
+        bool waitForKeyRelease = true;
+
         while (!onAnyKey)
         {
-            if (Input.anyKeyDown)
+            if(waitForKeyRelease)
+            {
+                if(!Input.anyKey)
+                {
+                    waitForKeyRelease = false;
+                }
+            }
+            else if (Input.anyKeyDown)
             {
                 onAnyKey = true;
             }
+
             yield return null;
         }
 
@@ -264,7 +277,8 @@ public class UI_Dialogue : UI_Base
             }
         }
     }
-
+    private float textName_Default_FontSize = 40;
+    private float textName_both_FontSize = 35;
     private void DialogueSpriteSetting(Dialogue dialogue)
     {
         string path = $"{this.path}/{dialogue.name}/{dialogue.emotion}";
@@ -278,7 +292,9 @@ public class UI_Dialogue : UI_Base
                 {
                     StartCoroutine(SpriteFadeIn(_LeftImage));
                 }
+                _TextNameText.fontSize = textName_Default_FontSize;
                 _TextNameText.text = dialogue.name;
+                
                 break;
             case SpritePosition.Right:
                 _LeftImage.enabled = false;
@@ -289,11 +305,14 @@ public class UI_Dialogue : UI_Base
                     //Fade in
                     StartCoroutine(SpriteFadeIn(_RightImage));
                 }
+                _TextNameText.fontSize = textName_Default_FontSize;
                 _TextNameText.text = dialogue.name;
+
                 break;
             case SpritePosition.Both:
                 Sprite_SettingBoth(dialogue);
-                _TextNameText.text = "";
+                _TextNameText.fontSize = textName_both_FontSize;
+                _TextNameText.text = dialogue.name;
                 break;
             case SpritePosition.None:
                 break;
