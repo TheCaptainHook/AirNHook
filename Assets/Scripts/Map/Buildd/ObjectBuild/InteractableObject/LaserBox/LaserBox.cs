@@ -1,7 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+
+using Mirror;
 using UnityEngine;
+using UnityEngine.Animations;
+using UnityEngine.UIElements;
 
 public class LaserBox : BuildObj
 {
@@ -18,41 +19,70 @@ public class LaserBox : BuildObj
         Net.Server_InitSync();
     }
 
+    private void Awake()
+    {
+        parentConstraint = GetComponent<ParentConstraint>();
+        DissolveInitSetting();
+    }
 
-    //private void Update()
-    //{
-    //    if(onLaser)
-    //    {
-    //        curRecvoerRate += Time.deltaTime;
-    //        if(curRecvoerRate > maxRecoverRate)
-    //        {
-    //            LaserReset();
-    //        }
-    //    }
-    //}
+   
+    private void Update()
+    {
+        if (onLaser)
+        {
+            curRecvoerRate += Time.deltaTime;
+            if (curRecvoerRate > maxRecoverRate)
+            {
+                LaserReset();
+            }
+        }
+    }
 
-    //bool onLaser;
-    //float maxRecoverRate = 0.1f;
-    //float curRecvoerRate = 0;
-    
+    bool onLaser;
+    float maxRecoverRate = 0.1f;
+    float curRecvoerRate = 0;
+    public bool onBoom;
     public override void TakeDamage(DamageType damageType = DamageType.Default)
     {
-        //onLaser = true;
-        //curRecvoerRate = 0;
+        if(onBoom) return;
+
+        onLaser = true;
+        curRecvoerRate = 0;
+        GetLaserDir();
         //Laser();
+        Laser(curLaserDir);
+
+        //Only Server
+        if (NetworkServer.active)
+            Net.Server_DamageCount();
+    }
+
+    private ParentConstraint parentConstraint;
+    private void GetLaserDir()
+    {
+        if(parentConstraint.sourceCount >0)
+        {
+            Transform source = parentConstraint.GetSource(0).sourceTransform;
+            Transform parent = source.parent.parent;
+            float y = parent.rotation.y;
+            if (y == 0) curLaserDir = Vector2.right;
+            else  curLaserDir = Vector2.left;
+        }
+
+      
     }
 
     #region Laser
-
+    public Vector2 curLaserDir;
     RaycastHit2D rh;
     Ray ray;
 
-    public void Laser()
+    public void Laser(Vector2 laserDir)
     {
         Vector2 start;
         Vector2 dir;
-        start = (Vector2)transform.position + (Vector2.right * 0.5f);
-        dir = Vector2.right;
+        dir = laserDir == Vector2.zero ? Vector2.right : laserDir;
+        start = (Vector2)transform.position + (dir * 0.5f);
         ray = new Ray(start, dir);
 
         int hitCount = 0;
@@ -120,13 +150,13 @@ public class LaserBox : BuildObj
 
         }
 
-    }   
-    //private void LaserReset()
-    //{
-    //    _lineRenderer.positionCount = 0;
-    //    onLaser = false;
-    //    curRecvoerRate = 0;
-    //}
+    }
+    private void LaserReset()
+    {
+        _lineRenderer.positionCount = 0;
+        onLaser = false;
+        curRecvoerRate = 0;
+    }
 
     private void DrawLaser(int num, Vector2 start, Vector2 endPos)
     {
@@ -134,13 +164,18 @@ public class LaserBox : BuildObj
         _lineRenderer.SetPosition(num, start);
         _lineRenderer.SetPosition(num + 1, endPos);
     }
+
+
+    #endregion
+
+    public void Reset()
+    {
+        LaserReset();
+        onBoom = false;
+    }
+    
+
 }
-
-#endregion
-
-
-
-
 
 /**
  * 1. LaserDrain 

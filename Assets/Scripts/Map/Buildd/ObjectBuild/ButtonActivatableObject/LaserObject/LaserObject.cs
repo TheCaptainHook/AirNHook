@@ -109,12 +109,6 @@ public class LaserObject : ActivatableObjectEntity
                 DrawLaser(i, start, rh.point);
                 hitCount++;
 
-                //Check collider
-                //if(rh.collider.TryGetComponent())
-                //{
-
-                //}
-                //else
                 if (rh.collider.TryGetComponent(out PlayerSM component) && Application.isPlaying)
                 {
                     SetHitParticleRotate(start, rh.point); // todo 0914
