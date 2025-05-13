@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2771323103432618973}
   - component: {fileID: 2385932891363147402}
   - component: {fileID: 1828498870392197829}
-  m_Layer: 7
+  m_Layer: 14
   m_Name: Plate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,7 +141,7 @@ GameObject:
   - component: {fileID: 6291767547938426381}
   - component: {fileID: 2748387839294212139}
   - component: {fileID: 8709003681621574131}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: TP_Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -248,7 +248,7 @@ GameObject:
   - component: {fileID: 5319502388965969003}
   - component: {fileID: 6653961124948163877}
   - component: {fileID: 5592599246147121518}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5094,7 +5094,7 @@ GameObject:
   - component: {fileID: 3633906889052293247}
   - component: {fileID: 8293930955715539535}
   - component: {fileID: 5139481205612999755}
-  m_Layer: 17
+  m_Layer: 14
   m_Name: Portal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5363,7 +5363,7 @@ GameObject:
   m_Component:
   - component: {fileID: 11490995408081342}
   - component: {fileID: 1735034770076449896}
-  m_Layer: 7
+  m_Layer: 14
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}

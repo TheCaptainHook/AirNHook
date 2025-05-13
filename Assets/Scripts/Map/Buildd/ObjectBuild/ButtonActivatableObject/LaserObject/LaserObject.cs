@@ -110,6 +110,11 @@ public class LaserObject : ActivatableObjectEntity
                 hitCount++;
 
                 //Check collider
+                //if(rh.collider.TryGetComponent())
+                //{
+
+                //}
+                //else
                 if (rh.collider.TryGetComponent(out PlayerSM component) && Application.isPlaying)
                 {
                     SetHitParticleRotate(start, rh.point); // todo 0914
@@ -135,16 +140,20 @@ public class LaserObject : ActivatableObjectEntity
                     }
                     break;
                 }
-                else
+                else if(rh.collider.TryGetComponent(out BuildObj obj))
                 {
                     SetHitParticleRotate(start, rh.point);
-                    if (rh.collider.TryGetComponent(out IDamageable damageable))
+                    if (Application.isPlaying)
                     {
-                        if (Application.isPlaying) damageable.TakeDamage(DamageType.Fire);
-
+                        obj.TakeDamage(DamageType.Fire);
                     }
+
                     break;
+
                 }
+
+                SetHitParticleRotate(start, rh.point);
+
             }
             else
             {
