@@ -121,7 +121,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 32960
   curDetectTarget: {fileID: 0}
-  detectRadius: 5
+  detectRadius: 6
   maxChainLightningCount: 5
   detectTargetList: []
 --- !u!114 &6422059986700826294
