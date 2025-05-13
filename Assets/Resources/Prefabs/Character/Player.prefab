@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 158291813751165047}
   - component: {fileID: 6874655862707453926}
+  - component: {fileID: 5611642693630976118}
   m_Layer: 10
   m_Name: CharPivot
   m_TagString: Untagged
@@ -71,6 +72,18 @@ MonoBehaviour:
   rotationSensitivity: 0.01
   positionPrecision: 0.01
   scalePrecision: 0.01
+--- !u!210 &5611642693630976118
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5014232523893929}
+  m_Enabled: 1
+  m_SortingLayerID: -1639132293
+  m_SortingLayer: 6
+  m_SortingOrder: 5
+  m_SortAtRoot: 0
 --- !u!1 &50613631763215190
 GameObject:
   m_ObjectHideFlags: 0
@@ -5099,7 +5112,6 @@ GameObject:
   - component: {fileID: -2276443106797034261}
   - component: {fileID: 3253327978095477872}
   - component: {fileID: 2550386921602639545}
-  - component: {fileID: 6283197758547860492}
   - component: {fileID: 3704341649995382589}
   - component: {fileID: 5136920346327043914}
   - component: {fileID: 7914692006675148312}
@@ -5307,18 +5319,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   velocity: {x: 0, y: 0}
---- !u!210 &6283197758547860492
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2743958777749711243}
-  m_Enabled: 1
-  m_SortingLayerID: -1639132293
-  m_SortingLayer: 6
-  m_SortingOrder: 1
-  m_SortAtRoot: 0
 --- !u!114 &3704341649995382589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5501,7 +5501,7 @@ RectTransform:
   m_GameObject: {fileID: 4964516660747417082}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 5}
-  m_LocalScale: {x: 2.5, y: 2.5, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2828483438259332541}
@@ -15517,6 +15517,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2732611208281718332}
+  - component: {fileID: 7613806795491224593}
   m_Layer: 10
   m_Name: Particles
   m_TagString: Untagged
@@ -15541,6 +15542,18 @@ Transform:
   - {fileID: 542387458489118144}
   m_Father: {fileID: 2828483438259332541}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!210 &7613806795491224593
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6135558272707934075}
+  m_Enabled: 1
+  m_SortingLayerID: -1639132293
+  m_SortingLayer: 6
+  m_SortingOrder: 1
+  m_SortAtRoot: 0
 --- !u!1 &6376842624508897152
 GameObject:
   m_ObjectHideFlags: 0

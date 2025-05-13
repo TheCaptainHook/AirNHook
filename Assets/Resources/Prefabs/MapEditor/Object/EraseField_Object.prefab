@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5755418978538226951}
   - component: {fileID: 8697465564652305147}
   - component: {fileID: 2772031886615473573}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: EraseField_Base2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2657361173392932500}
   - component: {fileID: 5283605976814529832}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: EraseField_Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -193,7 +193,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3403952503701191724}
   - component: {fileID: 592353136326165496}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -275,7 +275,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8850633112548270579}
   - component: {fileID: 3910401765213147502}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: EnergyField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -360,7 +360,7 @@ GameObject:
   - component: {fileID: 6612260965530703823}
   - component: {fileID: 6105727701833496879}
   - component: {fileID: 814546689687829167}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: EraseField_Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -489,7 +489,7 @@ GameObject:
   m_Component:
   - component: {fileID: 163939853220798206}
   - component: {fileID: 2225471305717717276}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: EraseField_Field
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -576,7 +576,7 @@ GameObject:
   - component: {fileID: 7067578502096090259}
   - component: {fileID: 1774822881563696914}
   - component: {fileID: 600912761600305681}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: EraseField_Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -675,6 +675,7 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
+  canRespawn: 0
   activeRequirAmount: 0
   curActiveBtn: 0
 --- !u!114 &1774822881563696914

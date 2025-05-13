@@ -271,7 +271,6 @@ GameObject:
   - component: {fileID: 7163539299143040987}
   - component: {fileID: -379765799759230663}
   - component: {fileID: -7113277246732209337}
-  - component: {fileID: 2937603552494309783}
   - component: {fileID: 5908284460361452664}
   - component: {fileID: 310662959535419816}
   - component: {fileID: 315749101116579101}
@@ -657,18 +656,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   velocity: {x: 0, y: 0}
---- !u!210 &2937603552494309783
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1771380657003557902}
-  m_Enabled: 1
-  m_SortingLayerID: -1639132293
-  m_SortingLayer: 6
-  m_SortingOrder: 1
-  m_SortAtRoot: 0
 --- !u!114 &5908284460361452664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10561,7 +10548,7 @@ RectTransform:
   m_GameObject: {fileID: 3326053703817164961}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 5}
-  m_LocalScale: {x: 2.5, y: 2.5, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9095037024881079552}
@@ -21172,6 +21159,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4462666554605769596}
   - component: {fileID: 7679528649754549630}
+  - component: {fileID: 4394628521899192235}
   m_Layer: 10
   m_Name: WeaponPivot
   m_TagString: Untagged
@@ -21233,6 +21221,18 @@ MonoBehaviour:
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
+--- !u!210 &4394628521899192235
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6952171860007884292}
+  m_Enabled: 1
+  m_SortingLayerID: -1639132293
+  m_SortingLayer: 6
+  m_SortingOrder: 10
+  m_SortAtRoot: 0
 --- !u!1 &7652444261600365944
 GameObject:
   m_ObjectHideFlags: 0
@@ -21243,6 +21243,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9177120215743396866}
   - component: {fileID: 5022556399982518508}
+  - component: {fileID: 7293673060795672014}
   m_Layer: 10
   m_Name: CharPivot
   m_TagString: Untagged
@@ -21302,6 +21303,18 @@ MonoBehaviour:
   rotationSensitivity: 0.01
   positionPrecision: 0.01
   scalePrecision: 0.01
+--- !u!210 &7293673060795672014
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7652444261600365944}
+  m_Enabled: 1
+  m_SortingLayerID: -1639132293
+  m_SortingLayer: 6
+  m_SortingOrder: 5
+  m_SortAtRoot: 0
 --- !u!1 &8310077587134902129
 GameObject:
   m_ObjectHideFlags: 0
@@ -31048,6 +31061,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4715537775762500794}
+  - component: {fileID: 4270135706533182578}
   m_Layer: 0
   m_Name: Particles
   m_TagString: Untagged
@@ -31072,3 +31086,15 @@ Transform:
   - {fileID: 6477058053142286001}
   m_Father: {fileID: 9095037024881079552}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!210 &4270135706533182578
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8701498066117350412}
+  m_Enabled: 1
+  m_SortingLayerID: -1639132293
+  m_SortingLayer: 6
+  m_SortingOrder: 1
+  m_SortAtRoot: 0
