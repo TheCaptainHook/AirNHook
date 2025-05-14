@@ -25,6 +25,7 @@ public class DetectionFieldDestroyer : MonoBehaviour
     private float previousDistanceToFloor;
     private Color color = new Color(222/255f,111/255f/31/255f,0.5f);
 
+#if UNITY_EDITOR
    private void OnDrawGizmosSelected(){
     Gizmos.color = color;
     switch(drawType){
@@ -37,8 +38,9 @@ public class DetectionFieldDestroyer : MonoBehaviour
     }
 
    }
+#endif
 
-   private void Start(){
+    private void Start(){
     previousPosition = transform.position;
     previousDistanceToFloor = float.MaxValue;
    }
