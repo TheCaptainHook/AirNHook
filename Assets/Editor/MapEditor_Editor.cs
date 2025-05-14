@@ -1094,8 +1094,8 @@ List<TileData> GetTileData(Tilemap tileMap)
     List<CompressedTileData> GetCompressedTileData(Tilemap tileMap)
     {
         List<TileData> list = GetTileData(tileMap);
-        //return CompressTileData_Second(CompressTileData(list));
-        return CompressTileData(list);
+        return CompressTileData_Second(CompressTileData(list));
+        //return CompressTileData(list);
     }
 
      public List<CompressedTileData> CompressTileData(List<TileData> tileDataList) //first compress
@@ -1164,7 +1164,7 @@ List<TileData> GetTileData(Tilemap tileMap)
     {
         return (cur.Start.y == pre.Start.y) &&
                 (cur.End.y == pre.End.y) &&
-                (Mathf.Abs(cur.Start.x - pre.End.x) ==1);
+                (Mathf.Abs(cur.End.x - pre.End.x) ==1);
     }
     public void DrawTile_C(Tilemap tileMap,List<CompressedTileData> list)
     {
