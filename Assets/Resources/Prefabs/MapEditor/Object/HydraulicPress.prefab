@@ -607,6 +607,9 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   distructionStatus: 0
   chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
@@ -615,15 +618,15 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
+  canRespawn: 0
   activeRequirAmount: 0
   curActiveBtn: 0
   rayPoint: {fileID: 3113046694334532598}
-  rayDistance: 0.095
+  rayDistance: 0.2
   onActive: 0
-  onPrograss: 0
   layerMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 960
   _UPStem: {fileID: 6523186124190423156}
   _DownStem: {fileID: 7242306415295674344}
 --- !u!114 &6751884477493006046
@@ -638,6 +641,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e32af1973af2642cd85b93e9c5e6cfde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  onSync: 0
 --- !u!1 &8122281178979117997
 GameObject:
   m_ObjectHideFlags: 0
@@ -896,6 +903,10 @@ PrefabInstance:
       value: 0.78
       objectReference: {fileID: 0}
     - target: {fileID: 1173770633074201914, guid: 6175ca852c71e402f95c7e53dfbcc3c6, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1173770633074201914, guid: 6175ca852c71e402f95c7e53dfbcc3c6, type: 3}
       propertyPath: _CubeSize.x
       value: 0.7
       objectReference: {fileID: 0}
@@ -950,6 +961,10 @@ PrefabInstance:
     - target: {fileID: 9151871927070970668, guid: 6175ca852c71e402f95c7e53dfbcc3c6, type: 3}
       propertyPath: m_Name
       value: DetectionFieldDestroyer
+      objectReference: {fileID: 0}
+    - target: {fileID: 9151871927070970668, guid: 6175ca852c71e402f95c7e53dfbcc3c6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
