@@ -1094,7 +1094,8 @@ List<TileData> GetTileData(Tilemap tileMap)
     List<CompressedTileData> GetCompressedTileData(Tilemap tileMap)
     {
         List<TileData> list = GetTileData(tileMap);
-        return CompressTileData_Second(CompressTileData(list));
+        //return CompressTileData_Second(CompressTileData(list));
+        return CompressTileData(list);
     }
 
      public List<CompressedTileData> CompressTileData(List<TileData> tileDataList) //first compress
@@ -1155,8 +1156,9 @@ List<TileData> GetTileData(Tilemap tileMap)
     }
      private bool IsAdjacent(Vector2Int current, Vector2Int previous)
     {
-        return (current.x == previous.x && Mathf.Abs(current.y - previous.y) == 1) ||
-               (current.y == previous.y && Mathf.Abs(current.x - previous.x) == 1);
+        //return (current.x == previous.x && Mathf.Abs(current.y - previous.y) == 1) ||
+        //       (current.y == previous.y && Mathf.Abs(current.x - previous.x) == 1);
+        return (current.x == previous.x && Mathf.Abs(current.y - previous.y) == 1);
     }
     private bool IsAdjacent_2(CompressedTileData cur,CompressedTileData pre)
     {

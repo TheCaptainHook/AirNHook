@@ -53,8 +53,8 @@ public class LaserBox : BuildObj
         Laser(curLaserDir);
 
         //Only Server
-        if (NetworkServer.active)
-            Net.Server_DamageCount();
+        //if (NetworkServer.active)
+        //    Net.Server_DamageCount();
     }
 
     private ParentConstraint parentConstraint;
