@@ -249,7 +249,7 @@ RectTransform:
   m_GameObject: {fileID: 2140423893236224344}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 5}
-  m_LocalScale: {x: 2.5, y: 2.5, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2458403146348124987}
@@ -440,6 +440,7 @@ GameObject:
   m_Component:
   - component: {fileID: 759945192256969836}
   - component: {fileID: 1458454596040148635}
+  - component: {fileID: 5691203817953321301}
   m_Layer: 10
   m_Name: CharPivot
   m_TagString: Untagged
@@ -501,6 +502,18 @@ MonoBehaviour:
   rotationSensitivity: 0.01
   positionPrecision: 0.01
   scalePrecision: 0.01
+--- !u!210 &5691203817953321301
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2976855291536587078}
+  m_Enabled: 1
+  m_SortingLayerID: -1639132293
+  m_SortingLayer: 6
+  m_SortingOrder: 5
+  m_SortAtRoot: 0
 --- !u!1 &3761128154449171557
 GameObject:
   m_ObjectHideFlags: 0
@@ -10654,6 +10667,7 @@ GameObject:
   - component: {fileID: 7720316559390274372}
   - component: {fileID: 2582984860932735808}
   - component: {fileID: 3124310662382738061}
+  - component: {fileID: 5236058534005166102}
   m_Layer: 10
   m_Name: HookSprite
   m_TagString: Untagged
@@ -10763,6 +10777,18 @@ MonoBehaviour:
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
+--- !u!210 &5236058534005166102
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6244572329809016036}
+  m_Enabled: 1
+  m_SortingLayerID: -1639132293
+  m_SortingLayer: 6
+  m_SortingOrder: 3
+  m_SortAtRoot: 0
 --- !u!1 &6268434231699285335
 GameObject:
   m_ObjectHideFlags: 0
@@ -20664,7 +20690,6 @@ GameObject:
   - component: {fileID: 8605789714778563182}
   - component: {fileID: 3701858071583928758}
   - component: {fileID: 6689382284729753449}
-  - component: {fileID: 5294241001237805509}
   - component: {fileID: 2988414423162408082}
   - component: {fileID: 120368170868177649}
   - component: {fileID: -179602218080930353}
@@ -20730,6 +20755,7 @@ MonoBehaviour:
   <landParticle>k__BackingField: {fileID: 2649949143537624615}
   <animator>k__BackingField: {fileID: 2193380815047965984}
   grappling: {fileID: 428554380294952048}
+  <grabbedItem>k__BackingField: {fileID: 0}
   isSwinging: 0
   grappleAttached: 0
   isAirAttached: 0
@@ -20989,18 +21015,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   velocity: {x: 0, y: 0}
---- !u!210 &5294241001237805509
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8428015766500747352}
-  m_Enabled: 1
-  m_SortingLayerID: -1639132293
-  m_SortingLayer: 6
-  m_SortingOrder: 1
-  m_SortAtRoot: 0
 --- !u!114 &2988414423162408082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21184,6 +21198,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4655947000326902001}
+  - component: {fileID: 6976088066254996713}
   m_Layer: 0
   m_Name: Particles
   m_TagString: Untagged
@@ -21208,3 +21223,15 @@ Transform:
   - {fileID: 3752013092322495092}
   m_Father: {fileID: 2458403146348124987}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!210 &6976088066254996713
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9101024959689647529}
+  m_Enabled: 1
+  m_SortingLayerID: -1639132293
+  m_SortingLayer: 6
+  m_SortingOrder: 1
+  m_SortAtRoot: 0

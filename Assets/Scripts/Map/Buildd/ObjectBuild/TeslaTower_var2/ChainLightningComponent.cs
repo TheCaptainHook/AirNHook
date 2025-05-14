@@ -68,7 +68,7 @@ public class ChainLightningComponent : MonoBehaviour
         LineRenderer lineRenderer = obj.AddComponent<LineRenderer>();
         // lineRenderer.widthCurve = lightningLineCurve;
         lineRenderer.startWidth = 0.5f;
-        lineRenderer.sortingLayerName = "ForeGround";
+        lineRenderer.sortingLayerName = "Environment_Fore";
         lineRenderer.sortingOrder = 100;
          lineRenderer.material = lightningShaderMat;
         lineRenderer.positionCount  = 2;
