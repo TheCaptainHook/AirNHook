@@ -32,9 +32,10 @@ public class MapEditor_Editor : Editor
     {
         GlobalText.TITLE_SOUND,
         GlobalText.LOBBY_SOUND,
-        GlobalText.TUTORIAL_SOUND,
-        GlobalText.STAGE_1_FINAL_SOUND,
-        GlobalText.STAGE_1_NORMAL_SOUND
+        GlobalText.TRACK_RACE_SOUND,
+        GlobalText.TRACK_HACKERS_SOUND,
+        GlobalText.TRACK_LEGEND_SOUND,
+        GlobalText.TRACK_LASTSTOP_SOUND
     };
     private List<string> filteredOptions = new List<string>();
     private bool showDropdown = false;
