@@ -1,31 +1,21 @@
 
+using System.Collections;
 using UnityEngine;
 
 public class HydraulicPress : ActivatableObjectEntity
 {
     [CustomHeader("HydraulicPress")]
-    [SerializeField] Transform rayPoint;
-    [SerializeField] float rayDistance;
-    
-    public bool onActive;
-    //public bool onPrograss;
-
-    private RaycastHit2D hit;
-    private float curPressLength;
-    [SerializeField] LayerMask layerMask;
-
-    #region Animation
-    readonly int Val = Animator.StringToHash("Val");
-    #endregion
 
     #region Components
     private Animator animator;
     #endregion
 
     #region Steam Ani
+    [Header("Steam Ani")]
     [SerializeField] Animator _UPStem;
     [SerializeField] Animator _DownStem;
     #endregion  
+
 
     private void Awake()
     {
@@ -41,109 +31,19 @@ public class HydraulicPress : ActivatableObjectEntity
 
     }
 
-    private void Update()
-    {
-        Debug.DrawRay(rayPoint.position, transform.right * rayDistance, Color.red);
-
-        //if (onActive)
-        //{
-        //    if (curPressLength < 1)
-        //    {
-        //        CheckRay();
-        //    }else{
-        //        if(onPrograss){
-        //            onPrograss = false;
-        //        }
-        //    }
-        //}
-        //else
-        //{
-        //    if(curPressLength > 0)
-        //    {
-        //        if(!onPrograss) onPrograss = true;
-        //        curPressLength -= Time.fixedDeltaTime;
-        //        curPressLength = Mathf.Clamp(curPressLength, 0, 1);
-        //        animator.SetFloat(Val, curPressLength);
-        //    }else{
-        //        if(onPrograss) onPrograss = false;
-        //    }
-        //}
-
-        if (onActive)
-        {
-            //Press On
-            PressOn();
-            //Press On
-        }
-        else
-        {
-            //Release
-            PressRelease();
-            //Release
-        }
-    }
-
-    private void PressOn()
-    {
-        if (curPressLength < 1f)
-        {
-            hit = Physics2D.Raycast(rayPoint.position, transform.right, rayDistance, layerMask);
-            if (hit.collider == null)
-            {
-                curPressLength += Time.deltaTime;
-                curPressLength = Mathf.Clamp01(curPressLength);
-                animator.SetFloat(Val, curPressLength);
-            }
-            else
-            {
-                //Stop Press
-                return;
-                //Stop Press
-            }
-        }
-
-    }
-    private void PressRelease()
-    {
     
-        if(curPressLength >0)
-        {
-            curPressLength -= Time.deltaTime;
-            curPressLength = Mathf.Clamp(curPressLength, 0, 1);
-            animator.SetFloat(Val, curPressLength);
-        }
-       
-     
-    }
-    //private void CheckRay()
-    //{
-    //    if(!onPrograss) onPrograss = true;
-
-    //    hit = Physics2D.Raycast(rayPoint.position, transform.right, rayDistance,layerMask);
-    //    if (!hit)
-    //    {
-    //        curPressLength += Time.fixedDeltaTime;
-    //        curPressLength = Mathf.Clamp(curPressLength, 0, 1);
-    //        animator.SetFloat(Val, curPressLength);
-    //    }else{
-    //        if(onPrograss){
-    //                onPrograss = false;
-    //            }
-    //    }
-    //}
-
     protected override void Activation()
     {   
-        SteamOn(); 
-        onActive = true;
-    }
-    protected override void Deactivated()
-    {
-        SteamOn();
-        onActive = false;
+        Net.Server_Press(true);
     }
 
-    private  void SteamOn(){
+    
+    protected override void Deactivated()
+    {
+        Net.Server_Press(false);
+    }
+
+    public  void SteamOn(){
         IsAnimationPlaying("Steam");
     }
 

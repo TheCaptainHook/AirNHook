@@ -2,9 +2,6 @@
 using UnityEngine;
 
 
-
-
-
 public class Trigger_Dialogue : BuildObj
 {
     [CustomHeader("Trigger Dialogue")]

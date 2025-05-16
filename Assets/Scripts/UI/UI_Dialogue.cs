@@ -205,6 +205,7 @@ public class UI_Dialogue : UI_Base
         //------------------------------------player Move control
         var player = Managers.Game.Player.GetComponent<PlayerSM>();
         if(!player.canMovable) player.canMovable = true;
+
         //------------------------------------player Move control
         Managers.UI.HideUI<UI_Dialogue>();
     }
