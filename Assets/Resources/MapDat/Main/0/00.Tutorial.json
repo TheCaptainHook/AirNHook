@@ -4,7 +4,7 @@
         "y": 20.0
     },
     "mapID": "00.Tutorial",
-    "subMapName": "TutorialStage",
+    "subMapName": "FirstTraining",
     "stageLevel": 0,
     "startPosition": {
         "x": -25.0,
@@ -7454,6 +7454,7 @@
     ],
     "mapRopeTileDataList": [],
     "mapAccessoryTIleDataList": [],
+    "mapHiddenTileDataList": [],
     "mapShadowCasterDataList": [
         {
             "position": {
@@ -12531,8 +12532,8 @@
                 "w": 0.7071068286895752
             },
             "scale": {
-                "x": 0.8000001907348633,
-                "y": 0.8000001907348633,
+                "x": 0.8000002503395081,
+                "y": 0.8000002503395081,
                 "z": 1.0
             },
             "talPot": {
@@ -12929,7 +12930,7 @@
             "y": 3.0
         },
         "condition_KeyAmount": 1,
-        "nextMapId": "Lobby"
+        "nextMapId": "01.Tutorial"
     },
     "dialogueDataList": [
         {
@@ -13152,7 +13153,7 @@
                 }
             ],
             "moveSpeed": 0.0,
-            "drone_TransportItemType": 7
+            "drone_TransportItemType": 8
         },
         {
             "id": 325,
@@ -13178,7 +13179,7 @@
                 }
             ],
             "moveSpeed": 0.0,
-            "drone_TransportItemType": 7
+            "drone_TransportItemType": 8
         }
     ],
     "collectableObjectStructList": [],
@@ -13186,6 +13187,6 @@
     "cellSize": 2.0,
     "bytesImage": [],
     "audioName": "WBA Free Track - Legend",
-    "nextMapId": "Lobby",
+    "nextMapId": "01.Tutorial",
     "stageDifficulty": 0
 }

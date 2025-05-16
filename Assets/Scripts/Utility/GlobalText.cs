@@ -57,9 +57,10 @@ public static class GlobalText
     #region BGM
         public const string TITLE_SOUND = "Danya Vodovoz - High NRG (mp3cut.net)";
         public const string LOBBY_SOUND = "LobbyMusic_Onion";
-        public const string TUTORIAL_SOUND = "WBA Free Track - Race Against Sunset";
-        public const string STAGE_1_NORMAL_SOUND = "WBA Free Track - Legend";
-        public const string STAGE_1_FINAL_SOUND = "WBA Free Track - Hackers";
+        public const string TRACK_RACE_SOUND = "WBA Free Track - Race Against Sunset";
+        public const string TRACK_LEGEND_SOUND = "WBA Free Track - Legend";
+        public const string TRACK_HACKERS_SOUND = "WBA Free Track - Hackers";
+        public const string TRACK_LASTSTOP_SOUND = "WBA Free Track - Last Stop";
     #endregion
 
     #endregion
