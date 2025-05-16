@@ -126,21 +126,21 @@ public class UI_Dialogue : UI_Base
     }
 
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            StartDialogue(100);
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            StartDialogue(101);
-        }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            StartDialogue(102);
-        }
-    }
+    // private void Update()
+    // {
+    //     if (Input.GetKeyDown(KeyCode.P))
+    //     {
+    //         StartDialogue(100);
+    //     }
+    //     if (Input.GetKeyDown(KeyCode.O))
+    //     {
+    //         StartDialogue(101);
+    //     }
+    //     if (Input.GetKeyDown(KeyCode.I))
+    //     {
+    //         StartDialogue(102);
+    //     }
+    // }
     // 1129// 1129// 1129// 1129// 1129// 1129// 1129// 1129// 1129// 1129// 1129
     public void StartDialogue(int id)
     {
@@ -215,6 +215,12 @@ public class UI_Dialogue : UI_Base
         switch(dialogue.name)
         {
             case "Robot":
+            return GlobalText.ROBOT_SPEAK;
+            case "Air":
+            return GlobalText.ROBOT_SPEAK;
+            case "Hook":
+            return GlobalText.ROBOT_SPEAK;
+            case "Air&Hook":
             return GlobalText.ROBOT_SPEAK;
             default :
             return "";

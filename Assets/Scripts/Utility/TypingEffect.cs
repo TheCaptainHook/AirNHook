@@ -60,22 +60,23 @@ public class TypingEffect : MonoBehaviour
             sb.Append(sentence[i]);
             textMesh.text = sb.ToString();
             textMesh.ForceMeshUpdate();// Add 0512
-
             textInfo = textMesh.textInfo;// Add 0512
             TMP_CharacterInfo charInfo = textInfo.characterInfo[i];
 
             
             if (charInfo.lineNumber != lastLine)
             {
-                Debug.Log($"🔁 자동 줄바꿈 발생 at index={i}, 문자='{sentence[i]}'");
                 lastLine = charInfo.lineNumber;
                 lineChange = true;
                 textMesh.enableWordWrapping = false;
             
             }
 
-            if (audioActive && !string.IsNullOrEmpty(audioName))
+            if (audioActive && !string.IsNullOrEmpty(audioName) && !char.IsWhiteSpace(sentence[i]))
+            {
                 Managers.Sound.PlaySound(audioName);
+            }
+                
 
             if(lineChange)
             {
@@ -87,8 +88,6 @@ public class TypingEffect : MonoBehaviour
 
             StartCoroutine(AnimationLatter(i));
             yield return new WaitForSeconds(0.05f);
-            //  StartCoroutine(AnimationLatter(i));
-            // yield return StartCoroutine(AnimationLatter(i));
             
         }
 

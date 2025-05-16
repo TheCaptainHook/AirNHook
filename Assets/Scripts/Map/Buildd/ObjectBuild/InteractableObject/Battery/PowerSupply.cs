@@ -139,6 +139,12 @@ public class PowerSupply : ButtonEntity,IInteractable
                 if(toggle) component.PowerOn();
                 else component.PowerOff();
             }
+            // if(item.TryGetComponent(out ActivatableObjectEntity activatableObjectEntity))
+            // {
+            //     if(toggle) activatableObjectEntity.ApplyActive(1);
+            //     else activatableObjectEntity.ApplyActive(-1);
+                
+            // }
         }
         foreach(var item in lightObjects)
         {

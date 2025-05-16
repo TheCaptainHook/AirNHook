@@ -141,7 +141,7 @@ public class BatteryInteractable : TransportItemEntity
     [Server]
     private void Server_Release(Vector3 releasePosition)
     {
-        Rpc_Release();
+        Rpc_Release(releasePosition);
         // transform.position = batteryCharger.transform.position;
         //transform.position = releasePosition;
     }
@@ -149,12 +149,12 @@ public class BatteryInteractable : TransportItemEntity
     [Command(requiresAuthority = false)]
     private void Cmd_Release(Vector3 releasePosition)
     {
-        Rb.position = releasePosition;
+        // Rb.position = releasePosition;
         Server_Release(releasePosition);
     }
 
     [ClientRpc]
-    private void Rpc_Release()
+    private void Rpc_Release(Vector3 releasePosition)
     {
         _isFixed = false;
         _isGrab = false;
@@ -162,6 +162,7 @@ public class BatteryInteractable : TransportItemEntity
         ChangeState(false);
 
         //_fixedPoint = null;
+        _rigidbody.position = releasePosition;
         _rigidbody.bodyType = _originType;
         _rigidbody.constraints = _originRot;
         _sortingGroup.sortingLayerID = _originSortingLayerID;
