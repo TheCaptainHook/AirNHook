@@ -215,15 +215,21 @@ public class UI_Dialogue : UI_Base
         switch(dialogue.name)
         {
             case "Robot":
-            return GlobalText.ROBOT_SPEAK;
+                return GlobalText.ROBOT_SPEAK;
             case "Air":
-            return GlobalText.ROBOT_SPEAK;
+                return GlobalText.PLAYER_SPEAK;
             case "Hook":
-            return GlobalText.ROBOT_SPEAK;
+                return GlobalText.PLAYER_SPEAK;
             case "Air&Hook":
-            return GlobalText.ROBOT_SPEAK;
-            default :
-            return "";
+                return GlobalText.PLAYER_SPEAK;
+            case "Robot,Robot":
+                return GlobalText.ROBOT_SPEAK;
+            case "Air&Hook,Robot":
+                return GlobalText.PLAYER_SPEAK;
+            case "Speaker":
+                return GlobalText.ROBOT_SPEAK;
+            default:
+                return "";
         }
     }
     IEnumerator Dialogue(Dialogue dialogue)

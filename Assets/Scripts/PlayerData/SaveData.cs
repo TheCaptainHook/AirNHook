@@ -209,7 +209,7 @@ public class SaveData
                 map.subMapName, //map SubName
                 map.nextMapId, //next Map
                 false, //clear
-                false, //open stage
+                true, //open stage
                 map.stageDifficulty,
                 // map.dialogueDataList,
                 new List<DialogueData>(map.dialogueDataList),

@@ -52,10 +52,11 @@ public static class GlobalText
     public const string COMPUTER_ON_SOUND = "ComTurnOn";
     public const string COMPUTER_OFF_SOUND = "ComTurnOff";
     public const string ROBOT_SPEAK = "Beep";
+    public const string PLAYER_SPEAK = "Meh";
     #endregion
 
     #region BGM
-        public const string TITLE_SOUND = "Danya Vodovoz - High NRG (mp3cut.net)";
+    public const string TITLE_SOUND = "Danya Vodovoz - High NRG (mp3cut.net)";
         public const string LOBBY_SOUND = "LobbyMusic_Onion";
         public const string TRACK_RACE_SOUND = "WBA Free Track - Race Against Sunset";
         public const string TRACK_LEGEND_SOUND = "WBA Free Track - Legend";
