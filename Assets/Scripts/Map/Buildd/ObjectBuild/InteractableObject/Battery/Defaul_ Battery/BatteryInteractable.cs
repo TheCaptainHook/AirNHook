@@ -176,7 +176,7 @@ public class BatteryInteractable : TransportItemEntity
 
         Col.enabled = false;
         BuildObj.canRespawn = false;
-        Debug.Log($"Can Respawn : {BuildObj.canRespawn}");
+
     }
 
     [Command(requiresAuthority = false)]
@@ -195,7 +195,7 @@ public class BatteryInteractable : TransportItemEntity
         Col.enabled = true;
         _rigidbody.gravityScale = 1;
         BuildObj.canRespawn = true;
-        Debug.Log($"Can Respawn : {BuildObj.canRespawn}");
+
 
     }
     //-----------------------------------------------------------------------Interact

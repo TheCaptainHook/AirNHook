@@ -188,7 +188,6 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
                 return;
             }
         }
-        Debug.Log($"Prograss : {onPrograss}");
         if (onPrograss) return;
 
         if(onActive){

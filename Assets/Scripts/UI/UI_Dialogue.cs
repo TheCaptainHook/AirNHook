@@ -420,11 +420,20 @@ public class UI_Dialogue : UI_Base
     {
         if (string.Empty == nextName) { Debug.Log("false"); return false; }
 
-        if (_PreviousDialogueName.Contains(nextName)) { Debug.Log("next dialogue name contains previouse dialogue name,true"); return true; }
-        if (nextName.Contains(_PreviousDialogueName)) { Debug.Log("previouse Dialogue name contain next dialogue name,true"); return true; }
-        if (string.Compare(_PreviousDialogueName, nextName) == 0) { Debug.Log("Compare =0,ture"); return true; }
+        if (_PreviousDialogueName.Contains(nextName))
+        { 
+            //Debug.Log("next dialogue name contains previouse dialogue name,true"); 
+            return true; }
+        if (nextName.Contains(_PreviousDialogueName)) 
+        {
+            //Debug.Log("previouse Dialogue name contain next dialogue name,true"); 
+            return true; }
+        if (string.Compare(_PreviousDialogueName, nextName) == 0) 
+        {
+            //Debug.Log("Compare =0,ture"); 
+            return true; }
 
-        Debug.Log("else, false");
+        //Debug.Log("else, false");
         return false;
 
     }

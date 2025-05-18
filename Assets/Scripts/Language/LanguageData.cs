@@ -98,8 +98,7 @@ public class LanguageData
             string textBoxPosition = entry["textBoxPosition"].ToString();
             int sentenceID = (int)entry["sentence"];
             string voice = entry["voice"].ToString();
-            Debug.Log(voice);
-
+      
             Dialogue dialogue = new Dialogue(index, name, emotion, textBoxPosition, spritePosition, sentenceID,voice);
 
             if (!map.ContainsKey(id))
