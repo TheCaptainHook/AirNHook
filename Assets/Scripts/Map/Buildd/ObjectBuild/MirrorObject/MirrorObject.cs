@@ -126,10 +126,10 @@ public class MirrorObject : BuildObj,IInteractable
 
     public void Interaction(Transform accessor = null)
     {
-        if(_ConnectPlayer != null)
+        if (_ConnectPlayer != null)
         {
-            HideE() ;
-            if(IsActive)
+            HideE();
+            if (IsActive)
             {
                 if (_ConnectPlayer) _ConnectPlayer = null; //test
                 M_Net.Cmd_SetInnerPlayer(null);
@@ -138,7 +138,14 @@ public class MirrorObject : BuildObj,IInteractable
             {
                 M_Net.Cmd_SetInnerPlayer(_ConnectPlayer);
             }
-            
+
+        }
+        else
+        {
+            if (IsActive)
+            {
+                M_Net.Cmd_SetInnerPlayer(null);
+            }
         }
     }
     public bool CanInteract(){
