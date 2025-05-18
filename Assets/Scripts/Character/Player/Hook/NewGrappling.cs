@@ -9,6 +9,7 @@ public class NewGrappling : MonoBehaviour
     private DistanceJoint2D _distanceJoint2D;
     private Vector2 _targetPos;
     private bool _canControl => _hook.canControl;
+    private bool _canAction => _hook.canAction;
     private bool grappleAttached
     {
         get => _hook.grappleAttached;
@@ -268,14 +269,14 @@ public class NewGrappling : MonoBehaviour
 
     private void OnMainActionStarted(InputAction.CallbackContext context)
     {
-        if (!_canControl) return;
+        if (!_canControl || !_canAction) return;
         
         ThrowHook();
     }
     
     private void OnSubActionStarted(InputAction.CallbackContext context)
     {
-        if (!_canControl) return;
+        if (!_canControl || !_canAction) return;
         
         if (!grappleAttached) return;
         
@@ -289,7 +290,11 @@ public class NewGrappling : MonoBehaviour
 
     private void OnVerticalMove(InputAction.CallbackContext context)
     {
-        if (!_canControl || !grappleAttached) return;
+        if (!_canControl || !grappleAttached)
+        {
+            _vertical = 0f;
+            return;
+        }
         
         _vertical = context.ReadValue<Vector2>().y;
     }

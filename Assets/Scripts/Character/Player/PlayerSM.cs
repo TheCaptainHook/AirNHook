@@ -11,6 +11,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     [field: Header("PlayerData")]
     [field: SerializeField] public PlayerDataSO playerData { get; protected set; }
     public bool canControl;
+    public bool canAction;
     public bool canMovable;
     public bool invincible;
     [field: SerializeField] public Transform charPivot { get; private set; }
@@ -70,6 +71,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         }
 
         canControl = true;
+        canAction = true;
         canMovable = true;
         _defaultForceReceiveLayer = collider2D.forceReceiveLayers;
         collider2D.forceReceiveLayers =~ _halfPlatformLayer;
@@ -345,6 +347,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     public void UsingEmote()
     {
         _emoteOnCoolDown = true;
+        DoVoice();
         StartCoroutine(EmoteCoolDown());
     }
     
@@ -370,6 +373,24 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         var sort = go.GetComponent<SortingGroup>();
         sort.sortingOrder = isLocalPlayer ? 8 : 7;
         go.transform.parent = gameObject.transform;
+    }
+
+    private void DoVoice()
+    {
+        Managers.Sound.PlaySound("Meh");
+        CmdVoice();
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdVoice()
+    {
+        RpcVoice();
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcVoice()
+    {
+        Managers.Sound.PlaySound3D("Meh", transform);
     }
     #endregion
 
@@ -433,6 +454,13 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         
         TakeDamage(DamageType.Suicide);
     }
+
+    private void Voice(InputAction.CallbackContext context)
+    {
+        if (!canControl) return;
+
+        DoVoice();
+    }
     
     private void SubscribeInput()
     {
@@ -440,6 +468,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         input.playerActions.Emote.canceled += HideEmote;
         input.playerActions.Interaction.started += DoInteraction;
         input.playerActions.Suicide.started += TrySuicide;
+        input.playerActions.Voice.started += Voice;
     }
     
     private void UnsubscribeInput()
@@ -448,8 +477,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         input.playerActions.Emote.canceled -= HideEmote;
         input.playerActions.Interaction.started -= DoInteraction;
         input.playerActions.Suicide.started -= TrySuicide;
+        input.playerActions.Voice.started -= Voice;
     }
     #endregion
-
-
 }

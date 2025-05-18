@@ -12,8 +12,7 @@ public class HookSM : PlayerSM, IInhalable
 
     [field: Header("Grapple")]
     public NewGrappling grappling;
-
-    [field: SerializeField] public Transform grabbedItem { get; private set; }
+    [SyncVar] public Transform grabbedItem;
     [SyncVar] public bool isSwinging;
     [SyncVar] public bool grappleAttached;
     [SyncVar] public bool isAirAttached;

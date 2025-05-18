@@ -10,7 +10,8 @@ public class LockerAnim : NetworkBehaviour, IInteractable
     [SerializeField] private SpriteRenderer _doorSpriteRenderer;
     private GameObject _player;
     private ObjectTypeEnum _objectType = ObjectTypeEnum.Interaction;
-    private Animator _animator;
+    private NetworkAnimator _animator;
+    [SyncVar] private bool _isRestock = true;
     public Vector2 offset;
 
     #region StringCache
@@ -23,7 +24,7 @@ public class LockerAnim : NetworkBehaviour, IInteractable
     
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
+        _animator = GetComponent<NetworkAnimator>();
         OnChangingAnimation += SetTriggerChanging;
     }
     private void SetTriggerChanging()
@@ -43,27 +44,12 @@ public class LockerAnim : NetworkBehaviour, IInteractable
 
     public void Interaction(Transform accessor)
     {
-        _player = accessor.root.gameObject;
-
-        var playerSM = _player.GetComponent<PlayerSM>();
-        playerSM.canControl = false;
-
-        var playerRigidbody = _player.GetComponent<Rigidbody2D>();
-        playerRigidbody.gravityScale = 0f;
-        playerRigidbody.velocity = Vector3.zero;
-
-        playerSM.transform.position = transform.position + new Vector3(0, 1f);
-
-        var playerSortingGroup = _player.GetComponent<SortingGroup>();
-        playerSortingGroup.sortingOrder = 0;
-        CmdChangeSortingOrder(_player);
-
-        _animator.SetTrigger(Changing);
+        CmdTryChangeCharacter(Managers.Game.Player);
     }
 
     public bool CanInteract()
     {
-        return true;
+        return _isRestock;
     }
 
     public void Interacting(bool value)
@@ -71,23 +57,32 @@ public class LockerAnim : NetworkBehaviour, IInteractable
         return;
     }
 
-    public void ChangeCharacter()
+    [Command(requiresAuthority = false)]
+    public void CmdTryChangeCharacter(GameObject target)
     {
-        if (_player is not null && _player.GetComponent<NetworkIdentity>().isLocalPlayer)
-        {
-            CmdChangeCharacter(_player);
-            _animator.SetTrigger("Restock");
-        }
+        if (!_isRestock) return;
 
-        _player = null;
+        _isRestock = false;
+        _player = target;
+
+        RpcPlayerStuckToLocker(_player.GetComponent<NetworkIdentity>().connectionToClient, target);
+
+        CmdChangeSortingOrder(_player);
+
+        _animator.SetTrigger(Changing);
     }
 
-    [Command(requiresAuthority = false)]
-    private void CmdChangeCharacter(GameObject player)
+    [TargetRpc]
+    private void RpcPlayerStuckToLocker(NetworkConnectionToClient conn, GameObject player)
     {
-        Managers.Network.ReplacePlayer(player.GetComponent<NetworkIdentity>().connectionToClient,
-            _characterType,
-            transform.position + new Vector3(0, 0.2f));
+        var playerSM = player.GetComponent<PlayerSM>();
+        playerSM.canControl = false;
+
+        var playerRigidbody = player.GetComponent<Rigidbody2D>();
+        playerRigidbody.gravityScale = 0f;
+        playerRigidbody.velocity = Vector3.zero;
+
+        playerSM.transform.position = transform.position + new Vector3(0, 1f);
     }
 
     [Command(requiresAuthority = false)]
@@ -96,11 +91,25 @@ public class LockerAnim : NetworkBehaviour, IInteractable
         RpcChangeSortingOrder(player);
     }
 
-    [ClientRpc(includeOwner = false)]
+    [ClientRpc]
     private void RpcChangeSortingOrder(GameObject player)
     {
         var playerSortingGroup = player.GetComponent<SortingGroup>();
         playerSortingGroup.sortingOrder = 0;
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CmdChangeCharacter()
+    {
+        Managers.Network.ReplacePlayer(_player.GetComponent<NetworkIdentity>().connectionToClient,
+            _characterType,
+            transform.position + new Vector3(0, 0.2f));
+        _animator.SetTrigger("Restock");
+    }
+
+    public void Restocked()
+    {
+        _isRestock = true;
     }
 
     public ObjectTypeEnum GetObjectType()

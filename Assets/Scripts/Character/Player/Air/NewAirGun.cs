@@ -1,4 +1,5 @@
 using System;
+using System.Buffers;
 using System.Collections;
 using Mirror;
 using Unity.VisualScripting;
@@ -16,6 +17,7 @@ public class NewAirGun
     private Collider2D _collider;
     private Vector3 _airOffset = new(0, 0.5f);
     private bool _canControl => _air.canControl;
+    private bool _canAction => _air.canAction;
     private PlayerInput _playerInput => Managers.Game.playerInput;
     private Camera _mainCamera;
     private Vector2 _mousePosition;
@@ -372,6 +374,7 @@ public class NewAirGun
             }
 
             _isIhaleTargetOwned = true;
+            _inhaleTarget.GetComponent<IInhalable>().Inhalation(_weaponPoint);
         }
 
         if (!_inhaleTarget.TryGetComponent<IInhalable>(out var inhalable)) return;
@@ -876,14 +879,14 @@ public class NewAirGun
 
     private void OnMainActionStarted(InputAction.CallbackContext context)
     {
-        if (!_canControl) return;
+        if (!_canControl || !_canAction) return;
         
         Charging();
     }
 
     private void OnMainActionCanceled(InputAction.CallbackContext context)
     {
-        if (!_canControl) return;
+        if (!_canControl || !_canAction) return;
         
         _animator.SetTrigger(GlobalText.EXHAILING_ANIMATION_STRING);
         if (_isStick) FlyAway();
