@@ -1,6 +1,7 @@
 
 using Mirror;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class LaserObject : ActivatableObjectEntity
@@ -90,6 +91,7 @@ public class LaserObject : ActivatableObjectEntity
     }
     #endregion
 
+
     private void UpdateLaser()
     {
         Vector2 start;
@@ -118,8 +120,25 @@ public class LaserObject : ActivatableObjectEntity
                 }
                 else if (rh.collider.gameObject.layer == LayerMask.NameToLayer("Mirror"))
                 {
-                    start = rh.point;
-                    dir = Vector2.Reflect(ray.direction, colDir);
+                    //start = rh.point+dir*0.05f;
+                    //dir = Vector2.Reflect(ray.direction, colDir).normalized;
+
+                    if (rh.distance < 0.001f)
+                    {
+                        Debug.LogWarning("Raycast hit too close (same collider, likely stuck). Breaking.");
+                        break;
+                    }
+
+                    start = rh.point + rh.normal * 0.01f; // ← 방향 벡터 대신 실제 normal 기반 밀어내기
+                    Vector2 reflected = Vector2.Reflect(ray.direction, rh.normal).normalized;
+
+                    if (reflected == Vector2.zero || float.IsNaN(reflected.x) || float.IsNaN(reflected.y))
+                    {
+                        Debug.LogWarning("Invalid reflection vector. Breaking.");
+                        break;
+                    }
+
+                    dir = reflected;
                 }
                 else if (rh.collider.TryGetComponent(out LaserTriggerButton component2))
                 {

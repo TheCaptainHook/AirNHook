@@ -87,7 +87,7 @@ public class LaserBox : BuildObj
 
         int hitCount = 0;
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 5; i++)
         {
             ray = new Ray(start, dir);
             rh = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity, targetLayerMask);
@@ -96,6 +96,8 @@ public class LaserBox : BuildObj
                 Vector2 colDir = rh.normal;
                 DrawLaser(i, start, rh.point);
                 hitCount++;
+
+                if (rh.collider.gameObject == gameObject) break;
 
                 //Check collider
                 if (rh.collider.TryGetComponent(out PlayerSM component) && Application.isPlaying)
@@ -106,8 +108,24 @@ public class LaserBox : BuildObj
                 }
                 else if (rh.collider.gameObject.layer == LayerMask.NameToLayer("Mirror"))
                 {
-                    start = rh.point;
-                    dir = Vector2.Reflect(ray.direction, colDir);
+                    //start = rh.point;
+                    //dir = Vector2.Reflect(ray.direction, colDir);
+                    if (rh.distance < 0.001f)
+                    {
+                        Debug.LogWarning("Raycast hit too close (same collider, likely stuck). Breaking.");
+                        break;
+                    }
+
+                    start = rh.point + rh.normal * 0.01f; // ← 방향 벡터 대신 실제 normal 기반 밀어내기
+                    Vector2 reflected = Vector2.Reflect(ray.direction, rh.normal).normalized;
+
+                    if (reflected == Vector2.zero || float.IsNaN(reflected.x) || float.IsNaN(reflected.y))
+                    {
+                        Debug.LogWarning("Invalid reflection vector. Breaking.");
+                        break;
+                    }
+
+                    dir = reflected;
                 }
                 else if (rh.collider.TryGetComponent(out LaserTriggerButton component2))
                 {
