@@ -14,6 +14,8 @@ public class LockerAnim : NetworkBehaviour, IInteractable
     [SyncVar] private bool _isRestock = true;
     public Vector2 offset;
 
+    private readonly object _lock = new object(); // 동시 접근 방지용
+
     #region StringCache
     private static readonly int Changing = Animator.StringToHash("Changing");
     #endregion
@@ -60,10 +62,13 @@ public class LockerAnim : NetworkBehaviour, IInteractable
     [Command(requiresAuthority = false)]
     public void CmdTryChangeCharacter(GameObject target)
     {
-        if (!_isRestock) return;
+        lock (_lock)
+        {
+            if (!_isRestock) return;
 
-        _isRestock = false;
-        _player = target;
+            _isRestock = false;
+            _player = target;
+        }
 
         RpcPlayerStuckToLocker(_player.GetComponent<NetworkIdentity>().connectionToClient, target);
 
