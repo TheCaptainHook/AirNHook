@@ -54,6 +54,10 @@ id,index,name,emotion,spritePosition,textBoxPosition,sentence,voice
 120,0,Robot,Sigh,Right,Bottom,10132,Robot
 120,1,Robot,Dumbfounded,Right,Bottom,10133,Robot
 120,2,Robot,Sigh,Right,Bottom,10134,Robot
+121,0,Robot,Sigh,Right,Bottom,10135,
+122,0,Robot,Sigh,Right,Bottom,10136,
+123,0,Robot,Sigh,Right,Bottom,10137,
+124,0,Robot,Sigh,Right,Bottom,10138,
 1000,0,Robot,Sigh,Right,Bottom,50000,Robot
 1000,1,Robot,Dumbfounded,Right,Bottom,50001,Robot
 1001,0,Robot,Sigh,Right,Bottom,50002,Robot
