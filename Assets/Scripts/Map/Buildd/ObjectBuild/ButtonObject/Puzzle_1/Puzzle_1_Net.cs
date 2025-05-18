@@ -473,8 +473,8 @@ public class Puzzle_1_Net : NetworkBehaviour
         var air = player.TryGetComponent(out AirSM airSm);
         if(!air) return;
 
-        var charPivot = airSm.transform.GetChild(1);
-        var weaponPivot = airSm.transform.GetChild(2);
+        var charPivot = airSm.transform.GetChild(2);
+        var weaponPivot = airSm.transform.GetChild(3);
         
         if(leftOrRight)
         {
