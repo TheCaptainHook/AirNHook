@@ -123,7 +123,8 @@ public class NewAirGun
         _stickToHookSpeed = airData.stickToHookSpeed;
         _floorLayerMask = airData.floorLayerMask;
         _predictLineLayerMask = airData.predictLineLayerMask;
-        
+        _inhaleTarget = null;
+
         _positions = new Vector3[_numberOfPoints];
         
         if (!_air.isLocalPlayer) return;
