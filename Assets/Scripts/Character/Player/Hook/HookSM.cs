@@ -53,6 +53,7 @@ public class HookSM : PlayerSM, IInhalable
         
         if (!isLocalPlayer) return;
 
+        grabbedItem = null;
         characterConstraintSource = new ConstraintSource
         {
             sourceTransform = transform,
@@ -346,7 +347,7 @@ public class HookSM : PlayerSM, IInhalable
     #region Inhalable
     public void Inhalation(Transform accesor)
     {
-        if (!isLocalPlayer) return;
+        if (!isLocalPlayer || !grappleAttached) return;
 
         canControl = false;
         _fixedPoint = accesor;

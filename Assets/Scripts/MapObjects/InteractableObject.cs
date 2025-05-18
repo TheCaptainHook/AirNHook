@@ -171,8 +171,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _canInteract = true;
         _isFixed = false;
         CmdChangeInteractState(true);
-        Release();
-        StopInhale();
+        //Release();
+        //StopInhale();
     }
 
     public bool CanInteract()
@@ -318,6 +318,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     public void Cmd_Dissolve()
     {
         _isDestroyed = true;
+        Managers.Command.AuthorityToServer(netId);
         Rpc_Dissolve();
     }
     [ClientRpc]
@@ -341,8 +342,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             else if (root.TryGetComponent(out AirSM air)) air.StopGun();
         }
 
-        Release();
-        StopInhale();
+        //Release();
+        //StopInhale();
 
         var buildObj = GetComponent<BuildObj>();
         StartCoroutine(Co_Dissolve(buildObj.position));
