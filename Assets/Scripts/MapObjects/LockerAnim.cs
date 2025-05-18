@@ -109,6 +109,8 @@ public class LockerAnim : NetworkBehaviour, IInteractable
     [Command(requiresAuthority = false)]
     public void CmdChangeCharacter()
     {
+        if (!isServer) return;
+
         Managers.Network.ReplacePlayer(_player.GetComponent<NetworkIdentity>().connectionToClient,
             _characterType,
             transform.position + new Vector3(0, 0.2f));
