@@ -158,6 +158,7 @@ public class MirrorObject_Net : NetworkBehaviour
 
     private void Holding(GameObject player)
     {
+        Managers.UI.HideUI<UI_ShowEButton>();
         onActive = true;
         var pm = player.GetComponent<PlayerSM>();
 

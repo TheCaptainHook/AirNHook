@@ -52,48 +52,44 @@ public class MovingPlatform :  ActivatableObjectEntity
         return default(T);
 
     }
-    
+
     public override async void SetData<T>(T data)
     {
-         try{
-            if (typeof(T) == typeof(ButtonActivatableObjectStruct))
-            {   
-                ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
-                ButtonActivatedObjectStruct = objData;
 
-                //Moving Platform
-                paths = ConvertPaths(objData.paths);     
-                moveSpeed = objData.moveSpeed;
+        if (typeof(T) == typeof(ButtonActivatableObjectStruct))
+        {
+            ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
+            ButtonActivatedObjectStruct = objData;
+
+            //Moving Platform
+            paths = ConvertPaths(objData.paths);
+            moveSpeed = objData.moveSpeed;
+
+            if (Application.isPlaying)
+            {
+                MovingPlatform_Net.Server_InitSync();
+                MovingPlatform_Net.Server_CreateRail(paths, moveSpeed);
+
+                //Server FixedUpdata Ready 0407
+                MovingPlatform_Net.Server_FixedUpdateReady(paths.Length > 0);
+                //Server FixedUpdata Ready 0407
+
+                Util util = new Util();
+                await util.Delay(() =>
+                {
+                    //--------------------------------------------------------------------------------------------------------Refectoring 0406                
+                    // MovingPlatform_Prograss_Before_Setting();
+                    CheckActiveRequirAmount();
+                });
 
             }
-        }catch(Exception ex){
-                Debug.Log($"{ex},{typeof(T)}");
-        }
-
-        if (Application.isPlaying)
-        {
-            // CreateRail(paths) Sync;
-            MovingPlatform_Net.Server_CreateRail(paths,moveSpeed);
-
-            //Server FixedUpdata Ready 0407
-            MovingPlatform_Net.Server_FixedUpdateReady(paths.Length>0);
-            //Server FixedUpdata Ready 0407
-            
-            Util util = new Util();
-            await util.Delay(() => 
-            {
-//--------------------------------------------------------------------------------------------------------Refectoring 0406                
-                    // MovingPlatform_Prograss_Before_Setting();
-                    CheckActiveRequirAmount(); 
-                });
-            
         }
     }
     #endregion
 
     //--------------------------------------------------------------------------------------------------------Refectoring 0406
-    
-   [ReadOnly]
+
+    [ReadOnly]
     public Vector2 dir;
     public event Action<Vector2> movingEvent;
     private void FixedUpdate()

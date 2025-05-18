@@ -45,10 +45,35 @@ public class MovingPlatform_Net : NetworkBehaviour
         
     }
     #region  Init Sync
+    
     [SyncVar(hook =nameof(OnDataPathUpdated))]
     public DataPath dataPath;
     [SyncVar]public bool onActive;
-    
+
+    public bool onSync;
+    [Server]
+    public void Server_InitSync()
+    {
+        Rpc_InitSync(Main.ButtonActivatedObjectStruct);
+    }
+    [Command(requiresAuthority = false)]
+    private void Cmd_InitSync()
+    {
+        Server_InitSync();
+    }
+    [ClientRpc]
+    private void Rpc_InitSync(ButtonActivatableObjectStruct data)
+    {
+        if (onSync) return;
+        onSync = true;
+        transform.position = data.position;
+    }
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        if (!onSync) Cmd_InitSync();
+    }
+
     [Server]
     public void Server_CreateRail(Vector2[] paths,float moveSpeed)
     {
