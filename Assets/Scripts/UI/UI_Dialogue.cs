@@ -212,7 +212,7 @@ public class UI_Dialogue : UI_Base
 
     private string GetAudioName(Dialogue dialogue)
     {
-        switch(dialogue.name)
+        switch(dialogue.voice)
         {
             case "Robot":
                 return GlobalText.ROBOT_SPEAK;
@@ -222,12 +222,6 @@ public class UI_Dialogue : UI_Base
                 return GlobalText.PLAYER_SPEAK;
             case "Air&Hook":
                 return GlobalText.PLAYER_SPEAK;
-            case "Robot,Robot":
-                return GlobalText.ROBOT_SPEAK;
-            case "Air&Hook,Robot":
-                return GlobalText.PLAYER_SPEAK;
-            case "Speaker":
-                return GlobalText.ROBOT_SPEAK;
             default:
                 return "";
         }

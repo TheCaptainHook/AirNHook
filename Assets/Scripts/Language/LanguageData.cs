@@ -97,8 +97,10 @@ public class LanguageData
             string spritePosition = entry["spritePosition"].ToString();
             string textBoxPosition = entry["textBoxPosition"].ToString();
             int sentenceID = (int)entry["sentence"];
-            
-            Dialogue dialogue = new Dialogue(index, name, emotion, textBoxPosition, spritePosition, sentenceID);
+            string voice = entry["voice"].ToString();
+            Debug.Log(voice);
+
+            Dialogue dialogue = new Dialogue(index, name, emotion, textBoxPosition, spritePosition, sentenceID,voice);
 
             if (!map.ContainsKey(id))
             {
@@ -123,14 +125,15 @@ public class Dialogue
     public TextBoxPivot textBoxPivot;
     public SpritePosition spritePosition;
     public int sentenceID;
+    public string voice;
 
-    public Dialogue(int index, string name, string emotion,string textBoxPivotStr,string spritePositionStr, int sentenceID)
+    public Dialogue(int index, string name, string emotion,string textBoxPivotStr,string spritePositionStr, int sentenceID,string voice)
     {
         this.index = index;
         this.name = name;
         this.emotion = emotion;
         this.sentenceID = sentenceID;
-
+        this.voice = voice;
 
         if (Enum.TryParse(textBoxPivotStr, true, out TextBoxPivot textBoxPivot))
         {
