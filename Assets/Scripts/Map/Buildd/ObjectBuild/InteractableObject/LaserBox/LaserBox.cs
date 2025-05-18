@@ -48,7 +48,7 @@ public class LaserBox : BuildObj
 
         onLaser = true;
         curRecvoerRate = 0;
-        GetLaserDir();
+        GetLaserDir(); //
         //Laser();
         Laser(curLaserDir);
 
@@ -60,16 +60,15 @@ public class LaserBox : BuildObj
     private ParentConstraint parentConstraint;
     private void GetLaserDir()
     {
-        if(parentConstraint.sourceCount >0)
+        if (parentConstraint.sourceCount > 0)
         {
             Transform source = parentConstraint.GetSource(0).sourceTransform;
             Transform parent = source.parent.parent;
             float y = parent.rotation.y;
-            if (y == 0) curLaserDir = Vector2.right;
-            else  curLaserDir = Vector2.left;
-        }
 
-      
+            if (y == 0) Net.Cmd_SetLaserDir(Vector2.right);
+            else Net.Cmd_SetLaserDir(Vector2.left);
+        }
     }
 
     #region Laser
@@ -81,7 +80,8 @@ public class LaserBox : BuildObj
     {
         Vector2 start;
         Vector2 dir;
-        dir = laserDir == Vector2.zero ? Vector2.right : laserDir;
+
+        dir = Net.curLaserDir == Vector2.zero ? Vector2.right : Net.curLaserDir;
         start = (Vector2)transform.position + (dir * 0.5f);
         ray = new Ray(start, dir);
 

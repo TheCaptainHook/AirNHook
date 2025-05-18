@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class LaserBox_Net : TransportItemEntity
 {
@@ -48,6 +49,31 @@ public class LaserBox_Net : TransportItemEntity
             Rpc_ChangeFillSprite(scale);
         }
     }
+    public Vector2 curLaserDir;
+    private ParentConstraint parentConstraint;
+    private ParentConstraint ParentConstraint { get { parentConstraint ??= GetComponent<ParentConstraint>(); return ParentConstraint; } }
+    [Command(requiresAuthority = false)]
+    public void Cmd_SetLaserDir(Vector2 dir)
+    {
+        Rpc_SetLaserDir(dir);
+    }
+
+    [ClientRpc]
+    public void Rpc_SetLaserDir(Vector2 dir)
+    {
+        curLaserDir = dir;
+    }
+
+
+
+
+
+
+
+
+
+
+
     Coroutine boomCoroutine;
     [Server]
     private void Server_Boom()

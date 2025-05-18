@@ -706,7 +706,7 @@ MonoBehaviour:
   _lineRenderer: {fileID: 4041935729944902989}
   targetLayerMask:
     serializedVersion: 2
-    m_Bits: 5178816
+    m_Bits: 5195200
   onBoom: 0
   curLaserDir: {x: 0, y: 0}
 --- !u!114 &7149953233837071725
