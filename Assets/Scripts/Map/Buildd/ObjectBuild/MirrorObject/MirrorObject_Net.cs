@@ -20,6 +20,9 @@ public class MirrorObject_Net : NetworkBehaviour
     
     public bool onActive;
 
+    private Collider2D col;
+    private Collider2D Col { get { col ??= GetComponent<Collider2D>();return col; } }
+
     private MirrorObject MirrorObject => GetComponent<MirrorObject>();
 
     [SerializeField] Transform hold_Pivot;
@@ -192,17 +195,32 @@ public class MirrorObject_Net : NetworkBehaviour
     #region  Util
     private void Connection(GameObject player)
     {
-        if (player.GetComponent<ParentConstraint>()) return;
+        player.TryGetComponent(out Animator animator);
+        animator.SetBool(GlobalText.MOVE_ANIMATION_STRING, false);
 
-        ParentConstraint constraint = player.AddComponent<ParentConstraint>();
-        SetParentConstraint(constraint, hold_Pivot);
+        if(player.TryGetComponent(out ParentConstraint parentConstraint))
+        {
+           if(parentConstraint.sourceCount >0)
+            {
+                parentConstraint.RemoveSource(0);
+            }
+            SetParentConstraint(parentConstraint, hold_Pivot);
+        }
+        //if (player.GetComponent<ParentConstraint>()) return;
+
+        //ParentConstraint constraint = player.AddComponent<ParentConstraint>();
+        //SetParentConstraint(constraint, hold_Pivot);
     }
     private void Disconnection(GameObject player)
     {
         if (player.TryGetComponent(out ParentConstraint component))
         {
-            Destroy(component);
+           component.RemoveSource(0);
+            Col.enabled = false;
+            Col.enabled = true;
         }
+
+
     }
     private void SetParentConstraint(ParentConstraint constraint, Transform parent)
     {
