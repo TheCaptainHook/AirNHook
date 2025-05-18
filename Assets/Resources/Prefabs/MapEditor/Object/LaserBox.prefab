@@ -706,7 +706,8 @@ MonoBehaviour:
   _lineRenderer: {fileID: 4041935729944902989}
   targetLayerMask:
     serializedVersion: 2
-    m_Bits: 985024
+    m_Bits: 5179328
+  onBoom: 0
   curLaserDir: {x: 0, y: 0}
 --- !u!114 &7149953233837071725
 MonoBehaviour:
@@ -730,6 +731,7 @@ MonoBehaviour:
   defaultGravity: 0
   onSync: 0
   chargeTransform: {fileID: 1349317560482257625}
+  curShutDownDelayCount: 0
 --- !u!114 &-5810413876586093780
 MonoBehaviour:
   m_ObjectHideFlags: 0
