@@ -10,7 +10,7 @@ public class LockerAnim : NetworkBehaviour, IInteractable
     [SerializeField] private SpriteRenderer _doorSpriteRenderer;
     private GameObject _player;
     private ObjectTypeEnum _objectType = ObjectTypeEnum.Interaction;
-    private NetworkAnimator _animator;
+    private Animator _animator;
     [SyncVar] private bool _isRestock = true;
     public Vector2 offset;
 
@@ -26,7 +26,7 @@ public class LockerAnim : NetworkBehaviour, IInteractable
     
     private void Awake()
     {
-        _animator = GetComponent<NetworkAnimator>();
+        _animator = GetComponent<Animator>();
         OnChangingAnimation += SetTriggerChanging;
     }
     private void SetTriggerChanging()
