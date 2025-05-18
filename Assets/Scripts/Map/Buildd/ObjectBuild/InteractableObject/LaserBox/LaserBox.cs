@@ -112,7 +112,6 @@ public class LaserBox : BuildObj
                     //dir = Vector2.Reflect(ray.direction, colDir);
                     if (rh.distance < 0.001f)
                     {
-                        Debug.LogWarning("Raycast hit too close (same collider, likely stuck). Breaking.");
                         break;
                     }
 
@@ -121,7 +120,6 @@ public class LaserBox : BuildObj
 
                     if (reflected == Vector2.zero || float.IsNaN(reflected.x) || float.IsNaN(reflected.y))
                     {
-                        Debug.LogWarning("Invalid reflection vector. Breaking.");
                         break;
                     }
 
