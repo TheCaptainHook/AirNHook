@@ -16090,7 +16090,88 @@
         "condition_KeyAmount": 1,
         "nextMapId": ""
     },
-    "dialogueDataList": [],
+    "dialogueDataList": [
+        {
+            "id": 1003,
+            "dialogueId": 121,
+            "excuted": false,
+            "position": {
+                "x": -18.0,
+                "y": -3.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            }
+        },
+        {
+            "id": 1003,
+            "dialogueId": 123,
+            "excuted": false,
+            "position": {
+                "x": 41.0,
+                "y": 5.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            }
+        },
+        {
+            "id": 1003,
+            "dialogueId": 124,
+            "excuted": false,
+            "position": {
+                "x": 14.0,
+                "y": -5.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            }
+        },
+        {
+            "id": 1003,
+            "dialogueId": 122,
+            "excuted": false,
+            "position": {
+                "x": -8.0,
+                "y": -20.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            }
+        }
+    ],
     "droneStructList": [
         {
             "id": 326,
