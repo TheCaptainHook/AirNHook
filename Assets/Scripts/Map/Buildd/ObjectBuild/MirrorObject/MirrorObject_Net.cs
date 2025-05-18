@@ -215,7 +215,10 @@ public class MirrorObject_Net : NetworkBehaviour
     {
         if (player.TryGetComponent(out ParentConstraint component))
         {
-           component.RemoveSource(0);
+            if (component.sourceCount > 0)
+            {
+                component.RemoveSource(0);
+            }
             Col.enabled = false;
             Col.enabled = true;
         }
