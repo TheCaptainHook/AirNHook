@@ -20750,6 +20750,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Reset_SaveData_Button
       objectReference: {fileID: 0}
+    - target: {fileID: 2572507443157887941, guid: 76aaaebf5446941cb80932526b7bb040, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

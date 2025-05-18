@@ -2,7 +2,6 @@
 using Mirror;
 
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class InteractableObject_Puzzle_1_Item : InteractableObject
 {
@@ -27,28 +26,7 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
             base.Release();
         }
     }
-    //protected override void Grab()
-    //{
-    //    base.Grab();
-    //    //Main.canRespawn = false;
-    //    Cmd_OnChangeCanRespawn();
-    //}
 
-    //private void Puzzle_Item_Release(){
-    //    _isFixed = false;
-    //    _isGrab = false;
-    //    _canInteract = true;
-    //    ChangeState(false);
-    //    // ShowEButton();
-
-    //    _fixedPoint = null;
-    //    _rigidbody.constraints = _originRot;
-    //    _sortingGroup.sortingLayerID = _originSortingLayerID;
-    //    CmdChangeSortingLayer(false);
-    //    CmdResetVelocity();
-    //    CmdSetTransform(item.GetPartsPosition());
-
-    //}
     //-------------------------------------------------------------------------Sync 1/30
     //[SyncVar(hook = nameof(OnPartsChange))]
     [SyncVar]
@@ -64,6 +42,7 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
     {
         Rpc_OnChangeCanRespawn();
     }
+
     [ClientRpc]
     private void Rpc_OnChangeCanRespawn()
     {
@@ -85,16 +64,7 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
         onInsert = val;
     }
 
-    //public void OnPartsChange(GameObject old,GameObject newVal)
-    //{
-    //    if(newVal == null)
-    //    {
-    //        item.UnPossibleInsertSocket();
-    //    }else{
-    //        Puzzle_1_Parts parts = newVal.GetComponent<Puzzle_1_Parts>();
-    //        item.PossibleInsertSocket(parts);
-    //    }
-    //}
+
 
     public void OnChangeOnSocket(bool old,bool newVal)
     {
@@ -169,26 +139,5 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
         Main.position = positon;
     }
 
-    //[Command(requiresAuthority = false)]
-    //public void CmdResetVelocity()
-    //{
-    //    RpcResetVelocity();
-    //}
-    //[ClientRpc]
-    //private void RpcResetVelocity()
-    //{
-    //    _rigidbody.gravityScale = 0;
-    //    _rigidbody.velocity = Vector2.zero;
-    //    _rigidbody.angularVelocity = 0;
-    //}
-    //[Command(requiresAuthority =false)]
-    //public void CmdSetTransform(Vector2 position)
-    //{
-    //    RpcSetTransfrom(position);
-    //}
-    //[ClientRpc]
-    //private void RpcSetTransfrom(Vector2 position)
-    //{
-    //    transform.position = position;
-    //}
+
 }
