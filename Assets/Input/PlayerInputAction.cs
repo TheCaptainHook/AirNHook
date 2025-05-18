@@ -107,6 +107,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Voice"",
+                    ""type"": ""Button"",
+                    ""id"": ""6dd4b569-de37-4263-bb6e-8140aa0b46d7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -252,6 +261,17 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""Suicide"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c64698c0-645a-4502-a1ef-9c3247be5cfc"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Voice"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -314,6 +334,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_Emote = m_Player.FindAction("Emote", throwIfNotFound: true);
         m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
         m_Player_Suicide = m_Player.FindAction("Suicide", throwIfNotFound: true);
+        m_Player_Voice = m_Player.FindAction("Voice", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Option = m_UI.FindAction("Option", throwIfNotFound: true);
@@ -387,6 +408,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Emote;
     private readonly InputAction m_Player_Interaction;
     private readonly InputAction m_Player_Suicide;
+    private readonly InputAction m_Player_Voice;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -400,6 +422,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @Emote => m_Wrapper.m_Player_Emote;
         public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
         public InputAction @Suicide => m_Wrapper.m_Player_Suicide;
+        public InputAction @Voice => m_Wrapper.m_Player_Voice;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -436,6 +459,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Suicide.started += instance.OnSuicide;
             @Suicide.performed += instance.OnSuicide;
             @Suicide.canceled += instance.OnSuicide;
+            @Voice.started += instance.OnVoice;
+            @Voice.performed += instance.OnVoice;
+            @Voice.canceled += instance.OnVoice;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -467,6 +493,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Suicide.started -= instance.OnSuicide;
             @Suicide.performed -= instance.OnSuicide;
             @Suicide.canceled -= instance.OnSuicide;
+            @Voice.started -= instance.OnVoice;
+            @Voice.performed -= instance.OnVoice;
+            @Voice.canceled -= instance.OnVoice;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -550,6 +579,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnEmote(InputAction.CallbackContext context);
         void OnInteraction(InputAction.CallbackContext context);
         void OnSuicide(InputAction.CallbackContext context);
+        void OnVoice(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

@@ -10,6 +10,7 @@ public class AirSM : PlayerSM
 
     [field: Header("AirGun")]
     public NewAirGun airGun;
+    public ShakingEffectOnAirGun shakingEffectOnAirGun;
 
     public Transform armPivot;
     public Transform weaponPoint;
@@ -19,7 +20,8 @@ public class AirSM : PlayerSM
     [field: Header("AirGun Particles")]
     [field: SerializeField] public ParticleSystem inhaleParticle { get; private set; }
     [field: SerializeField] public ParticleSystem exhaleParticle { get; private set; }
-    
+    [SyncVar] public bool isInhaleParticleOn;
+
     protected override void Awake()
     {
         stateMachine = new AirStateMachine(this);
@@ -94,7 +96,7 @@ public class AirSM : PlayerSM
     #endregion
 
     #region AirGun
-    private void StopGun()
+    public void StopGun()
     {
         airGun.Reset();
     }
@@ -156,12 +158,24 @@ public class AirSM : PlayerSM
     }
 
     [Command(requiresAuthority = false)]
+    public void CmdPlayInhaleParticle()
+    {
+        RpcPlayInhaleParticle();
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcPlayInhaleParticle()
+    {
+        inhaleParticle.Play();
+    }
+
+    [Command(requiresAuthority = false)]
     public void CmdStopInhaleParticle()
     {
         RpcStopInhaleParticle();
     }
 
-    [ClientRpc]
+    [ClientRpc(includeOwner = false)]
     private void RpcStopInhaleParticle()
     {
         inhaleParticle.Stop();

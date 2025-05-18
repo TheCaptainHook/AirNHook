@@ -12,8 +12,7 @@ public class HookSM : PlayerSM, IInhalable
 
     [field: Header("Grapple")]
     public NewGrappling grappling;
-
-    [field: SerializeField] public Transform grabbedItem { get; private set; }
+    [SyncVar] public Transform grabbedItem;
     [SyncVar] public bool isSwinging;
     [SyncVar] public bool grappleAttached;
     [SyncVar] public bool isAirAttached;
@@ -111,6 +110,7 @@ public class HookSM : PlayerSM, IInhalable
 
                 if (isGround) return;
 
+                landParticle.Play();
                 CmdLandParticlePlay();
                 isGround = true;
                 coyoteTimeCount = _coyoteTime;
@@ -407,7 +407,6 @@ public class HookSM : PlayerSM, IInhalable
             }
         }
 
-        Debug.Log("Inhale Coroutine End");
         _inhaleCoroutine = null;
     }
     
@@ -456,6 +455,8 @@ public class HookSM : PlayerSM, IInhalable
     {
         _isShot = true;
         StopInhale();
+
+        Managers.Game.cameraShake.RequestShake(gameObject, 5f, 0.2f);
 
         if (Physics2D.OverlapBox(transform.position, Vector2.one, 0f, obstacleMask))
             transform.position = Managers.Game.OtherPlayer.transform.position + (Vector3.up / 2);

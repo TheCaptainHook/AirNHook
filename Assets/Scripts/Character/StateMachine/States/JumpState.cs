@@ -59,6 +59,7 @@ public class JumpState : BaseState
         coyoteTimeCount = 0f;
         stateMachine.rigidbody2D.velocity = new Vector2(stateMachine.rigidbody2D.velocity.x, stateMachine.jumpPower);
         _isJumped = true;
+        jumpParticle.Play();
         stateMachine.player.CmdJumpParticlePlay();
     }
     #endregion

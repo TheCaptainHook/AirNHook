@@ -1,13 +1,17 @@
 using System;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class LockerAnim : NetworkBehaviour, IInteractable
 {
     [SerializeField] private GameObject _disappearingObj;
     [SerializeField] private CharacterType _characterType;
+    [SerializeField] private SpriteRenderer _doorSpriteRenderer;
+    private GameObject _player;
     private ObjectTypeEnum _objectType = ObjectTypeEnum.Interaction;
-    private Animator _animator;
+    private NetworkAnimator _animator;
+    [SyncVar] private bool _isRestock = true;
     public Vector2 offset;
 
     #region StringCache
@@ -20,7 +24,7 @@ public class LockerAnim : NetworkBehaviour, IInteractable
     
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
+        _animator = GetComponent<NetworkAnimator>();
         OnChangingAnimation += SetTriggerChanging;
     }
     private void SetTriggerChanging()
@@ -32,16 +36,6 @@ public class LockerAnim : NetworkBehaviour, IInteractable
     {
         OnChangingAnimation?.Invoke();
     }
-    
-    //이하 애니메이션 테스트용 코드
-    
-    private void Update()
-    {
-        if (IsChanging)
-        {
-            _animator.SetTrigger(Changing);
-        }
-    }
 
     public void DestroyGO()
     {
@@ -50,12 +44,12 @@ public class LockerAnim : NetworkBehaviour, IInteractable
 
     public void Interaction(Transform accessor)
     {
-        CmdChangeCharacter(accessor.root.gameObject);
+        CmdTryChangeCharacter(Managers.Game.Player);
     }
 
     public bool CanInteract()
     {
-        return true;
+        return _isRestock;
     }
 
     public void Interacting(bool value)
@@ -64,11 +58,61 @@ public class LockerAnim : NetworkBehaviour, IInteractable
     }
 
     [Command(requiresAuthority = false)]
-    private void CmdChangeCharacter(GameObject player)
+    public void CmdTryChangeCharacter(GameObject target)
     {
-        Managers.Network.ReplacePlayer(player.GetComponent<NetworkIdentity>().connectionToClient,
+        if (!_isRestock) return;
+
+        _isRestock = false;
+        _player = target;
+
+        RpcPlayerStuckToLocker(_player.GetComponent<NetworkIdentity>().connectionToClient, target);
+
+        CmdChangeSortingOrder(_player);
+
+        _animator.SetTrigger(Changing);
+    }
+
+    [TargetRpc]
+    private void RpcPlayerStuckToLocker(NetworkConnectionToClient conn, GameObject player)
+    {
+        var playerSM = player.GetComponent<PlayerSM>();
+        playerSM.canControl = false;
+
+        var playerRigidbody = player.GetComponent<Rigidbody2D>();
+        playerRigidbody.gravityScale = 0f;
+        playerRigidbody.velocity = Vector3.zero;
+
+        playerSM.transform.position = transform.position + new Vector3(0, 1f);
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdChangeSortingOrder(GameObject player)
+    {
+        RpcChangeSortingOrder(player);
+    }
+
+    [ClientRpc]
+    private void RpcChangeSortingOrder(GameObject player)
+    {
+        var playerSortingGroup = player.GetComponent<PlayerSM>().sortingGroup;
+        foreach (var sortingGroup in playerSortingGroup)
+        {
+            sortingGroup.sortingOrder = 0;
+        }
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CmdChangeCharacter()
+    {
+        Managers.Network.ReplacePlayer(_player.GetComponent<NetworkIdentity>().connectionToClient,
             _characterType,
             transform.position + new Vector3(0, 0.2f));
+        _animator.SetTrigger("Restock");
+    }
+
+    public void Restocked()
+    {
+        _isRestock = true;
     }
 
     public ObjectTypeEnum GetObjectType()
