@@ -233,6 +233,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3432730537090137681}
   - component: {fileID: 3449923375577247543}
+  - component: {fileID: 6284451352749631600}
   m_Layer: 10
   m_Name: Talking_Sprite
   m_TagString: Untagged
@@ -307,6 +308,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6284451352749631600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797188730908556246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee4d0fc91ac157148a7bffb6ea83ce94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: 0
 --- !u!1 &2140423893236224344
 GameObject:
   m_ObjectHideFlags: 0
@@ -20823,9 +20837,14 @@ MonoBehaviour:
   syncInterval: 0
   <playerData>k__BackingField: {fileID: 11400000, guid: e7a5e2da6aadae444b0a97d18ddecac4, type: 2}
   canControl: 0
+  canAction: 0
   canMovable: 0
   invincible: 0
   <charPivot>k__BackingField: {fileID: 759945192256969836}
+  <sortingGroup>k__BackingField:
+  - {fileID: 5691203817953321301}
+  - {fileID: 5236058534005166102}
+  <talkingSprite>k__BackingField: {fileID: 6284451352749631600}
   coyoteTimeCount: 0
   _halfPlatformLayer:
     serializedVersion: 2
@@ -20840,7 +20859,7 @@ MonoBehaviour:
   <landParticle>k__BackingField: {fileID: 2649949143537624615}
   <animator>k__BackingField: {fileID: 2193380815047965984}
   grappling: {fileID: 428554380294952048}
-  <grabbedItem>k__BackingField: {fileID: 0}
+  grabbedItem: {fileID: 0}
   isSwinging: 0
   grappleAttached: 0
   isAirAttached: 0

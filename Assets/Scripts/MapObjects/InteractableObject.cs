@@ -19,6 +19,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     [SerializeField] protected float _gravityScale;
     [SyncVar] protected bool _isFixed;
     [SyncVar] protected bool _canInteract = true;
+    [SyncVar] protected bool _isDestroyed;
     protected bool _isGrab;
     private float _stoppedTime;
 
@@ -155,8 +156,10 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         {
             _isGrab = false;
             _isFixed = false;
-            if (_accessor.TryGetComponent<HookSM>(out var hook))
+            if (Managers.Game.Player.TryGetComponent<HookSM>(out var hook))
                 hook.ReleaseItem();
+            else if (Managers.Game.Player.TryGetComponent<AirSM>(out var air))
+                air.StopGun();
         }
 
         _rigidbody.constraints = _originRot;
@@ -166,12 +169,15 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     public void Respawned()
     {
         _canInteract = true;
+        _isFixed = false;
         CmdChangeInteractState(true);
+        Release();
+        StopInhale();
     }
 
     public bool CanInteract()
     {
-        return _canInteract;
+        return _canInteract || !_isDestroyed;
     }
 
     public void Interacting(bool value)
@@ -202,11 +208,14 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     #region IInhalation
     public void Inhalation(Transform accesor)
     {
+        _accessor = accesor;
         _canInteract = false;
     }
 
     public void StopInhale()
     {
+        if (_isDestroyed) return;
+
         Fixed(false);
         _rigidbody.drag = 0f;
         _rigidbody.gravityScale = _gravityScale;
@@ -215,6 +224,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void Fixed(bool value)
     {
+        if (_isDestroyed) return;
+
         _isFixed = value;
         _isGrab = value;
         _canInteract = !value;
@@ -228,6 +239,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void Fixing()
     {
+        if (_isDestroyed) return;
+
         _canInteract = false;
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.angularVelocity = 0f;
@@ -242,6 +255,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void Shooting(Vector2 force)
     {
+        if (_isDestroyed) return;
+
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.angularVelocity = 0f;
         _rigidbody.Sleep();
@@ -251,15 +266,15 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public bool CanInhale()
     {
-        return !_isFixed;
+        return !_isFixed || !_isDestroyed;
     }
     #endregion
 
-    // public Transform GetFixedPointRootTransform()
-    // {
-    //     if (_fixedPoint == null) return null;
-    //     return _fixedPoint.root;
-    // }
+    public Transform GetFixedPointRootTransform()
+    {
+        if (_accessor == null) return null;
+        return _accessor.root;
+    }
 
     #region Command
     protected void ChangeState(bool value)
@@ -302,23 +317,32 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     [Command(requiresAuthority = false)]
     public void Cmd_Dissolve()
     {
+        _isDestroyed = true;
         Rpc_Dissolve();
     }
     [ClientRpc]
     private void Rpc_Dissolve()
     {
-
-        if (!CanInteract()) Release();
-        if (TryGetComponent(out ParentConstraint component))
+        //if (!CanInteract()) Release();
+        //if (TryGetComponent(out ParentConstraint component))
+        //{
+        //    component.constraintActive = false;
+        //    component.weight = 0;
+        //
+        //    for (int i = component.sourceCount - 1; i >= 0; i--)
+        //    {
+        //        component.RemoveSource(i);
+        //    }
+        //} 
+        var root = GetFixedPointRootTransform();
+        if (root != null)
         {
-            component.constraintActive = false;
-            component.weight = 0;
+            if (root.TryGetComponent(out HookSM hook)) hook.ReleaseItem();
+            else if (root.TryGetComponent(out AirSM air)) air.StopGun();
+        }
 
-            for (int i = component.sourceCount - 1; i >= 0; i--)
-            {
-                component.RemoveSource(i);
-            }
-        } 
+        Release();
+        StopInhale();
 
         var buildObj = GetComponent<BuildObj>();
         StartCoroutine(Co_Dissolve(buildObj.position));
@@ -360,7 +384,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             }
         }
 
-
         while (percent < 1)
         {
             percent += dissolveRate;
@@ -376,10 +399,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
         GetComponent<InteractableObject>().Respawned();
         buildObj.canRespawn = true;
-
+        _isDestroyed = false;
     }
-
-
     #endregion
 
 }

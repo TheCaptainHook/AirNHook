@@ -193,7 +193,7 @@ public class SoundManager
         var audioClip = _audioClipDict[audioName];
         audioSource.outputAudioMixerGroup = _audioMixerGroups[GlobalText.EFFECTS_STRING];
         audioSource.transform.position = position;
-        SetAudioSource(audioSource, audioClip, volume, 1, loop);
+        SetAudioSource(audioSource, audioClip, volume, 0.8f, loop);
         
         if (loop)
             _ambientAudioSources.Add(audioSource);
@@ -209,7 +209,7 @@ public class SoundManager
         var audioClip = _audioClipDict[audioName];
         audioSource.outputAudioMixerGroup = _audioMixerGroups[GlobalText.EFFECTS_STRING];
         audioSource.transform.position = obj.position;
-        SetAudioSource(audioSource, audioClip, volume, 1, loop);
+        SetAudioSource(audioSource, audioClip, volume, 0.8f, loop);
 
         Managers.Instance.StartCoroutine(CollectSoundSource(audioSource, audioClip.length, obj, destroyWhenParentDestroyed));
     }
