@@ -94,8 +94,11 @@ public class LockerAnim : NetworkBehaviour, IInteractable
     [ClientRpc]
     private void RpcChangeSortingOrder(GameObject player)
     {
-        var playerSortingGroup = player.GetComponent<SortingGroup>();
-        playerSortingGroup.sortingOrder = 0;
+        var playerSortingGroup = player.GetComponent<PlayerSM>().sortingGroup;
+        foreach (var sortingGroup in playerSortingGroup)
+        {
+            sortingGroup.sortingOrder = 0;
+        }
     }
 
     [Command(requiresAuthority = false)]

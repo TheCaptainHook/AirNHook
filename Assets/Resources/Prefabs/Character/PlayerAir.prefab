@@ -345,9 +345,14 @@ MonoBehaviour:
   syncInterval: 0
   <playerData>k__BackingField: {fileID: 11400000, guid: 0db80b8c5bc27d649a7b3385c6a1833d, type: 2}
   canControl: 0
+  canAction: 0
   canMovable: 0
   invincible: 0
   <charPivot>k__BackingField: {fileID: 9177120215743396866}
+  <sortingGroup>k__BackingField:
+  - {fileID: 7293673060795672014}
+  - {fileID: 4394628521899192235}
+  <talkingSprite>k__BackingField: {fileID: 4732016621356316702}
   coyoteTimeCount: 0
   _halfPlatformLayer:
     serializedVersion: 2
@@ -21103,6 +21108,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4261559886549119786}
   - component: {fileID: 5302813862789712454}
+  - component: {fileID: 4732016621356316702}
   m_Layer: 10
   m_Name: Talking_Sprite
   m_TagString: Untagged
@@ -21177,6 +21183,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4732016621356316702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6771660813808585732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee4d0fc91ac157148a7bffb6ea83ce94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: 0
 --- !u!1 &6816289908505837861
 GameObject:
   m_ObjectHideFlags: 0

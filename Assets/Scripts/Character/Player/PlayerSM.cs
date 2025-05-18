@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -15,6 +16,8 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     public bool canMovable;
     public bool invincible;
     [field: SerializeField] public Transform charPivot { get; private set; }
+    [field: SerializeField] public List<SortingGroup> sortingGroup{ get; private set; }
+    [field: SerializeField] public PlayerTalkingSprite talkingSprite { get; private set; }
     protected float _coyoteTime => playerData.coyoteTime;
     public float coyoteTimeCount;
     private bool _emoteOnCoolDown;
@@ -379,6 +382,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     {
         Managers.Sound.PlaySound("Meh");
         CmdVoice();
+        TurnOnTalkingSprite();
     }
 
     [Command(requiresAuthority = false)]
@@ -391,6 +395,13 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     private void RpcVoice()
     {
         Managers.Sound.PlaySound3D("Meh", transform);
+        TurnOnTalkingSprite();
+    }
+
+    private void TurnOnTalkingSprite()
+    {
+        if (talkingSprite.gameObject.activeSelf) talkingSprite.StartVoice();
+        else talkingSprite.gameObject.SetActive(true);
     }
     #endregion
 
