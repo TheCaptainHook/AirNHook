@@ -12016,43 +12016,6 @@
                 "x": 0.0,
                 "y": 0.0
             }
-        },
-        {
-            "id": 339,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "jumpingPower": 0,
-            "position": {
-                "x": -0.8999999761581421,
-                "y": 29.639999389648439
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 6.75,
-            "connectionPoint": {
-                "x": 5.849999904632568,
-                "y": 29.639999389648439
-            }
         }
     ],
     "buttonObjectList": [

@@ -87,7 +87,7 @@ public class LaserBox : BuildObj
 
         int hitCount = 0;
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 10; i++)
         {
             ray = new Ray(start, dir);
             rh = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity, targetLayerMask);
@@ -122,7 +122,7 @@ public class LaserBox : BuildObj
                 }
                 else if (rh.collider.TryGetComponent(out BuildObj obj))
                 {
-                    if (obj.distructionStatus == DistructionStatus.Indestructible)
+                    if (obj.distructionStatus == DistructionStatus.Indestructible && !obj.TryGetComponent(out LaserBox laserBox))
                     {
                         continue;
                     }
