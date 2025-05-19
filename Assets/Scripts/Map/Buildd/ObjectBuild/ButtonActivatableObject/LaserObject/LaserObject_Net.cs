@@ -13,13 +13,7 @@ public class LaserObject_Net : NetworkBehaviour
 
     //LaserObject laser;
     LaserObject Laser;
-    //{
-    //    get
-    //    {
-    //        if (laser == null) laser = GetComponent<LaserObject>();
-    //        return laser;
-    //    }
-    //}
+
     private void Awake()
     {
         Laser = GetComponent<LaserObject>();
@@ -39,14 +33,9 @@ public class LaserObject_Net : NetworkBehaviour
         if (onSync) return;
         transform.position = data.position;
         transform.rotation = data.quaternion;
-
-        if(data.activeRequirAmount >0)
-        {
-            Laser.Net_Deactive();
-        }
-
         onSync = true;
     }
+
     [Command(requiresAuthority = false)]
     private void Cmd_InitSync()
     {
