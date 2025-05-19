@@ -611,7 +611,7 @@ MonoBehaviour:
   pressSpeed: 2
   layerMask:
     serializedVersion: 2
-    m_Bits: 960
+    m_Bits: 448
 --- !u!1 &8122281178979117997
 GameObject:
   m_ObjectHideFlags: 0

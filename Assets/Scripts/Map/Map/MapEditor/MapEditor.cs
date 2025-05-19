@@ -598,7 +598,7 @@ public class MapEditor : MonoBehaviour
             GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
             obj.name = mapDataStruct.name;
 
-            if(obj.name == "WayPoint"){
+            if(obj.name == "WayPoint" || obj.name == "WayPoint_Rusted"){
                 if(wayPointList ==null) wayPointList = new();
                 wayPointList.Add(obj.GetComponent<WayPoint_Var2>());
             }
