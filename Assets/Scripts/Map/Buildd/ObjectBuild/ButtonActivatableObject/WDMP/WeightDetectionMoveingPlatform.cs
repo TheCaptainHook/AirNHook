@@ -165,7 +165,13 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
                 onMove = false;
                 //transform.rotation = Quaternion.Lerp(transform.rotation,Quaternion.identity,Time.fixedDeltaTime);
                 rb.rotation = Mathf.Lerp(rb.rotation, 0, Time.fixedDeltaTime);
-                if (Mathf.Abs(rb.rotation) < 1f) rb.rotation = 0;
+                if (Mathf.Abs(rb.rotation) < 1f) 
+                {
+                    rb.rotation = 0;
+                    rb.angularVelocity = 0.01f; 
+                }
+
+               
             }
         }else{
             curReleaseCount = 0;
