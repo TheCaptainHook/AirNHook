@@ -61,44 +61,7 @@ public class BatteryCharger : BuildObj
         }
     }
 
-    public void RemoveSocket()
-    {
-        if (chargeCorotine != null)
-        {
-            StopCoroutine(chargeCorotine);
-            chargeCorotine = null;
-        }
-
-        if (battery == null) return;
-
-        battery.RemoveSocket();
-        battery = null;
   
-    }
-  
-
-    //public void Charge(Battery battery)
-    //{
-    //    if(this.battery != null)
-    //    {
-    //        RemoveSocket();
-    //    }
-
-    //    this.battery = battery;
-    //    chargeCorotine = StartCoroutine(ChargeCo());
-    //}
-
-    //IEnumerator ChargeCo()
-    //{
-    //    while (battery.BatteryCapacity < 100)
-    //    {
-    //        battery.BatteryCapacity =1;
-    //        yield return new WaitForSeconds(0.1f);
-    //    }
-    //    chargeCorotine = null;
-    //    RemoveSocket();
-    //}
-
     #region --------------------------------------------------------------------------------Network
     private BatteryCharger_Net B_Net => GetComponent<BatteryCharger_Net>();
 

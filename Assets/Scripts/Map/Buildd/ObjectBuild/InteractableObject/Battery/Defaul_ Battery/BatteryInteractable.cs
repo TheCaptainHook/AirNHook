@@ -191,25 +191,38 @@ public class BatteryInteractable : TransportItemEntity
 
     }
 
+
     [Command(requiresAuthority = false)]
     public void Cmd_Recover()
     {
-        Server_SetBatteryCharger(9999);
-        Server_SetPowerSupply(9999);
-
-        RemoveEffect();
+        //if(val == 0)
+        //Server_SetBatteryCharger(9999);
+        //if(val == 1)
+        //Server_SetPowerSupply(9999);
 
         Rpc_Recover();
+        RemoveEffect();
+
     }
     [ClientRpc]
     private void Rpc_Recover()
     {
+        if (batteryCharger != null)
+        {
+            batteryCharger = null;
+        }
+        if (powerSupply != null)
+        {
+            powerSupply = null;
+        }
+
         Col.enabled = true;
         _rigidbody.gravityScale = 1;
         BuildObj.canRespawn = true;
 
 
     }
+
     //-----------------------------------------------------------------------Interact
 
     //-----------------------------------------------------------------------Insert Charger Socket
@@ -228,15 +241,12 @@ public class BatteryInteractable : TransportItemEntity
     {
         if (batteryCharger)
         {
-
             if (batteryCharger.TryGetComponent(out BatteryCharger component))
             {
                 component.SetBattery(gameObject);
                 BuildObj.canRespawn = false;
                 Col.enabled = false;
             }
-
-           
 
         }
     }

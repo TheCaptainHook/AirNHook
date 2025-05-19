@@ -96,21 +96,21 @@ public class Battery : BuildObj
 
    
 
-    public void InsertPowerSocket()
-    {
-        if(powerSupply){
-            col.enabled = false;
-            // powerSupply.InsertSocket(this);
+    //public void InsertPowerSocket()
+    //{
+    //    if(powerSupply){
+    //        col.enabled = false;
+    //        // powerSupply.InsertSocket(this);
 
-        }
-    }
-    public void RemoveSocket()
-    {
-        //col.enabled = true;
-        //rb.gravityScale = 1;
-        //RemoveEffect();
-        Battery_Net.Cmd_Recover();
-    }
+    //    }
+    //}
+    //public void RemoveSocket()
+    //{
+    //    //col.enabled = true;
+    //    //rb.gravityScale = 1;
+    //    //RemoveEffect();
+    //    Battery_Net.Cmd_Recover();
+    //}
 
 
 
