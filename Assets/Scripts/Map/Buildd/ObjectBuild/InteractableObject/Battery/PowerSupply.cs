@@ -277,11 +277,11 @@ public class PowerSupply : ButtonEntity,IInteractable
                     battery.Net_SetPowerSupply(gameObject);
                 }
             }
-            //else
-            //{
-            //    if(P_Net.battery) P_Net.Cmd_ShowE(component.gameObject,true);
-            //}
-          
+            else
+            {
+                if (P_Net.battery) P_Net.Cmd_ShowE(component.gameObject, true);
+            }
+
         }
     }
 

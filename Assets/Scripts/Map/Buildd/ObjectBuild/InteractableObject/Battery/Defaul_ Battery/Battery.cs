@@ -141,7 +141,7 @@ public class Battery : BuildObj
         //Battery_Net.Cmd_SetBatteryCharger(obj);
         if (obj == null)
         {
-            Battery_Net.Cmd_SetPowerSupply(9999);
+            Battery_Net.Cmd_SetBatteryCharger(9999);
         }
         else
         {
