@@ -19525,7 +19525,7 @@
                     "y": -13.0
                 }
             ],
-            "moveSpeed": 2.0,
+            "moveSpeed": 3.0,
             "moveDistance": 0.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
@@ -19567,7 +19567,7 @@
                     "y": -12.0
                 }
             ],
-            "moveSpeed": 2.0,
+            "moveSpeed": 3.0,
             "moveDistance": 0.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
@@ -19613,7 +19613,7 @@
                     "y": 0.0
                 }
             ],
-            "moveSpeed": 2.0,
+            "moveSpeed": 3.0,
             "moveDistance": 0.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
@@ -19655,7 +19655,7 @@
                     "y": -2.0
                 }
             ],
-            "moveSpeed": 1.0,
+            "moveSpeed": 2.0,
             "moveDistance": 0.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
@@ -19697,7 +19697,7 @@
                     "y": -1.5
                 }
             ],
-            "moveSpeed": 2.0,
+            "moveSpeed": 3.0,
             "moveDistance": 0.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
@@ -19887,7 +19887,7 @@
                     "y": 7.0
                 }
             ],
-            "moveSpeed": 0.5,
+            "moveSpeed": 1.0,
             "moveDistance": 0.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
@@ -19998,7 +19998,7 @@
             "onHoldRotation": false,
             "onLeft": false,
             "paths": [],
-            "moveSpeed": 1.75,
+            "moveSpeed": 2.75,
             "moveDistance": 28.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
