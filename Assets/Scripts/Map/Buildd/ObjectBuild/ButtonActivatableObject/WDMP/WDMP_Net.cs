@@ -212,5 +212,11 @@ public class WDMP_Net : NetworkBehaviour
                 yield return wait;
         }
     }
+
+    [ClientRpc]
+    public void Rpc_RotZero()
+    {
+        rb.rotation = 0;
+    }
     #endregion
 }

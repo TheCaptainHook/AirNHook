@@ -51,7 +51,8 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
    private Rigidbody2D rb;
    private Collider2D bodyCol;
    private Animator animator;
-   private WDMP_Net WDMP_Net => GetComponent<WDMP_Net>();
+    private WDMP_Net wdmp_net;
+   private WDMP_Net WDMP_Net { get { wdmp_net ??= GetComponent<WDMP_Net>();return wdmp_net; } }
    #endregion
     
     #region Animation
@@ -165,10 +166,10 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
                 onMove = false;
                 //transform.rotation = Quaternion.Lerp(transform.rotation,Quaternion.identity,Time.fixedDeltaTime);
                 rb.rotation = Mathf.Lerp(rb.rotation, 0, Time.fixedDeltaTime);
-                if (Mathf.Abs(rb.rotation) < 1f) 
+                if (Mathf.Abs(rb.rotation) < 0.95f && Mathf.Abs(rb.rotation) > 0) 
                 {
-                    rb.rotation = 0;
-                    rb.angularVelocity = 0.01f; 
+                    //rb.rotation = 0;
+                    WDMP_Net.Rpc_RotZero();
                 }
 
                
