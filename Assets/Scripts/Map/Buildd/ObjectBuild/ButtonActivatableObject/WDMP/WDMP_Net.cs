@@ -192,7 +192,7 @@ public class WDMP_Net : NetworkBehaviour
                     Animator.SetBool(rightDown, rightAni);
                 }
             }
-            else if (z < 0)
+            else if (z < -0.1)
             {
                 if (leftAni)
                 {
