@@ -432,10 +432,14 @@ public class NewAirGun
         }
         catch (Exception) { }
 
-        if (ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject))
-            _air.CmdStopInhalePlayer();
-        else
-            _inhaleTarget.GetComponent<IInhalable>().StopInhale();
+        try
+        {
+            if (ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject))
+                _air.CmdStopInhalePlayer();
+            else
+                _inhaleTarget.GetComponent<IInhalable>().StopInhale();
+        }
+        catch (Exception) { }
     }
 
     private void FixInhaleTarget()
