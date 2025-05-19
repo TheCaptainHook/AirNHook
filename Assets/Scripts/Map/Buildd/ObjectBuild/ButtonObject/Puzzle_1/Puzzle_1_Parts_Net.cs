@@ -5,13 +5,8 @@ using UnityEngine;
 
 public class Puzzle_1_Parts_Net : NetworkBehaviour
 {
-    Puzzle_1_Parts Parts
-    {
-        get
-        {
-            return GetComponent<Puzzle_1_Parts>();
-        }
-    }
+    Puzzle_1_Parts parts;
+    Puzzle_1_Parts Main { get { parts ??= GetComponent<Puzzle_1_Parts>(); return parts; } }
 
     private Collider2D Collider => GetComponent<Collider2D>();
     public Puzzle_1_Item GetItem => item ? item.GetComponent<Puzzle_1_Item>() : null;
@@ -27,11 +22,11 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
     {
         this.item = item;
     }
-    [Server]
-    private void SetCorrect(bool isCorrectAnswer)
-    {
-        this.isCorrectAnswer = isCorrectAnswer;
-    }
+    //[Server]
+    //private void SetCorrect(bool isCorrectAnswer)
+    //{
+    //    this.isCorrectAnswer = isCorrectAnswer;
+    //}
 
 
     [Command(requiresAuthority = false)]
@@ -60,7 +55,7 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
         if (newVal)
         {
             Collider.enabled = false;
-            Parts.Net_SetCorrectEffect();
+            Main.Net_SetCorrectEffect();
         }
     }
 
@@ -70,7 +65,7 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
         if (item.TryGetComponent(out Puzzle_1_Item component))
         {
             component.RemoveSocket();
-            Parts.InsertAnimation(false);
+            Main.InsertAnimation(false);
         }
 
     }
@@ -78,7 +73,7 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
     {
         Collider.enabled = false;
         Collider.enabled = true;
-        Parts.InsertAnimation(true);
+        Main.InsertAnimation(true);
     }
 
 
@@ -91,8 +86,26 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
     [ClientRpc]
     public void Rpc_RemoveEffect()
     {
-        Parts.Net_RemovEffect();
+        Main.Net_RemovEffect();
     }
+
+
+    #region UI
+    [Command(requiresAuthority = false)]
+    public void Cmd_ShowE(GameObject player, bool onOff)
+    {
+        if (player.TryGetComponent(out NetworkIdentity component))
+        {
+            TRpc_ShowE(component.connectionToClient, onOff);
+        }
+    }
+    [TargetRpc]
+    private void TRpc_ShowE(NetworkConnection conn, bool onOff)
+    {
+        if (onOff) Main.ShowE();
+        else Main.HideE();
+    }
+    #endregion
 }
 
 
