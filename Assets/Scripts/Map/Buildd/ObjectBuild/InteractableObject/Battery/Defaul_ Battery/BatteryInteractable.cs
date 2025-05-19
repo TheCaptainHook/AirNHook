@@ -31,29 +31,7 @@ public class BatteryInteractable : TransportItemEntity
     public float batteryCapacity;
 
     [ReadOnly]
-    [SyncVar] public GameObject powerSupply;
-    //public Vector3 orgPosition;
-
-    //#region ---------------------------------------------Init Sync
-    //public bool onSync;
-    //[Server]
-    //public void Server_InitSync()
-    //{
-    //    Rpc_InitSync(battery.ObjectData); 
-    //}
-
-    //[ClientRpc]
-    //private void Rpc_InitSync(ObjectData data)
-    //{
-    //    Debug.Log("Server, Rpc, battery");
-    //    if(onSync) return;
-    //    transform.position = data.position;
-    //    transform.rotation = data.quaternion;
-    //    orgPosition = data.position;
-    //    onSync = true;
-    //}
-
-    //#endregion
+    public GameObject powerSupply;
 
     [Server]    //  Set battery charger
     private void Server_SetBatteryCharger(GameObject batteryCharger)
@@ -83,23 +61,38 @@ public class BatteryInteractable : TransportItemEntity
         Server_SetBatteryCapacity(val);
     }
 
-    [Server]    //  Set PowerSupply
-    public void Server_SetPowerSupply(GameObject powerSupply)
+    //[Server]    //  Set PowerSupply
+    //public void Server_SetPowerSupply(GameObject powerSupply)
+    //{
+    //    this.powerSupply = powerSupply;
+    //}
+    //[Command(requiresAuthority = false)]
+    //public void Cmd_SetPowerSupply(GameObject powerSupply)
+    //{
+    //    Server_SetPowerSupply(powerSupply);
+    //}
+
+
+    [Server] //  Set PowerSupply
+    private void Server_SetPowerSupply(uint id)
     {
-        this.powerSupply = powerSupply;
-    }
-    [Command(requiresAuthority = false)]
-    public void Cmd_SetPowerSupply(GameObject powerSupply)
-    {
-        Server_SetPowerSupply(powerSupply);
+        Rpc_SetPowerSupply(id);
     }
 
-    // [Server]
-    // public void Server_SetOrgPot(Vector3 pot)
-    // {
-    //     orgPosition = pot;
-    // }
-    
+    [Command(requiresAuthority = false)]
+    public void Cmd_SetPowerSupply(uint netId)
+    {
+        Debug.Log("Cmd _ SetPowrSUpply");
+        Rpc_SetPowerSupply(netId);
+    }
+    [ClientRpc]
+    private void Rpc_SetPowerSupply(uint id)
+    {
+        if(id == 9999) this.powerSupply = null;
+        else
+            this.powerSupply = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity identity) ? identity.gameObject : null;
+    }
+
     #endregion
 
     //-----------------------------------------------------------------------Interact
@@ -183,7 +176,7 @@ public class BatteryInteractable : TransportItemEntity
     public void Cmd_Recover()
     {
         Server_SetBatteryCharger(null);
-        Server_SetPowerSupply(null);
+        Server_SetPowerSupply(9999);
 
         RemoveEffect();
 
@@ -202,7 +195,7 @@ public class BatteryInteractable : TransportItemEntity
 
     //-----------------------------------------------------------------------Insert Charger Socket
 
-
+ 
     [Command(requiresAuthority = false)]
     public void Cmd_InsertChargerSocket(GameObject battery)
     {
@@ -229,8 +222,9 @@ public class BatteryInteractable : TransportItemEntity
     }
 
     //-----------------------------------------------------------------------Insert Charger Socket
-    //-----------------------------------------------------------------------Insert PowerSupply Socket
 
+    //-----------------------------------------------------------------------Insert PowerSupply Socket
+  
 
     [Command(requiresAuthority = false)]
     public void Cmd_InsertPowerSupplySocket(GameObject battery)

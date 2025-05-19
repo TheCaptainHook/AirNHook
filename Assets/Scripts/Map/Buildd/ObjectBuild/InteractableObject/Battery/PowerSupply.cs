@@ -9,8 +9,8 @@ public class PowerSupply : ButtonEntity,IInteractable
     [Header("Effect")]
     [SerializeField] Material mat;
     [SerializeField] Transform lineContainer;
-    [ReadOnly]
-    public Battery battery;
+    //[ReadOnly]
+    //public Battery battery;
     private WaitForSeconds waitForSeconds = new WaitForSeconds(1);
     [Space(20)]
     [Header("Interacte")]
