@@ -49,9 +49,12 @@ public class LaserBox_Net : TransportItemEntity
             Rpc_ChangeFillSprite(scale);
         }
     }
+
+
     public Vector2 curLaserDir;
     private ParentConstraint parentConstraint;
-    private ParentConstraint ParentConstraint { get { parentConstraint ??= GetComponent<ParentConstraint>(); return ParentConstraint; } }
+    private ParentConstraint ParentConstraint { get { parentConstraint ??= GetComponent<ParentConstraint>(); return parentConstraint; } }
+   
     [Command(requiresAuthority = false)]
     public void Cmd_SetLaserDir(Vector2 dir)
     {
@@ -66,13 +69,53 @@ public class LaserBox_Net : TransportItemEntity
 
 
 
+    protected override void Grab()
+    {
+        base.Grab();
+        Debug.Log("Grab");
+        getDirCoroutine = StartCoroutine(GetDirCo());
+    }
+
+    public override void Release()
+    {
+        base.Release();
+        StopCoroutine(getDirCoroutine);
+        Debug.Log("Release");
+    }
 
 
+    Coroutine getDirCoroutine;
+
+    IEnumerator GetDirCo()
+    {
+        while (true)
+        {
+            var dir = GetDir();
+            if(curLaserDir != dir)
+            {
+                Cmd_SetLaserDir(dir);
+            }
+            yield return null;
+        }
+    }
+
+    private Vector2 GetDir()
+    {
+        if (ParentConstraint.sourceCount > 0)
+        {
+            Transform source = parentConstraint.GetSource(0).sourceTransform;
+            Transform parent = source.parent.parent;
+            float y = parent.rotation.y;
+
+            if (y == 0) return Vector2.right;
+            else return Vector2.left;
+        }
+
+        return Vector2.right;
+    }
 
 
-
-
-
+    #region BOOM
 
     Coroutine boomCoroutine;
     [Server]
@@ -141,6 +184,7 @@ public class LaserBox_Net : TransportItemEntity
     {
         Main.onBoom = true;
     }
+
     [ClientRpc]
     private void Rpc_Reset()
     {
@@ -150,6 +194,6 @@ public class LaserBox_Net : TransportItemEntity
         curShutDownDelayCount = 0;
         chargeTransform.localScale = new Vector3(minCharge, minCharge);
     }
-
+    #endregion
 
 }

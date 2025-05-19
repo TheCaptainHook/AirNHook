@@ -21,7 +21,7 @@ public class LaserBox : BuildObj
 
     private void Awake()
     {
-        parentConstraint = GetComponent<ParentConstraint>();
+        //parentConstraint = GetComponent<ParentConstraint>();
         DissolveInitSetting();
     }
 
@@ -39,7 +39,7 @@ public class LaserBox : BuildObj
     }
 
     bool onLaser;
-    float maxRecoverRate = 0.1f;
+    float maxRecoverRate = 0.05f;
     float curRecvoerRate = 0;
     public bool onBoom;
     public override void TakeDamage(DamageType damageType = DamageType.Default)
@@ -48,31 +48,31 @@ public class LaserBox : BuildObj
 
         onLaser = true;
         curRecvoerRate = 0;
-        GetLaserDir(); //
+        //GetLaserDir(); //
         //Laser();
-        Laser(curLaserDir);
+        Laser(Net.curLaserDir);
 
         //Only Server
         //if (NetworkServer.active)
         //    Net.Server_DamageCount();
     }
 
-    private ParentConstraint parentConstraint;
-    private void GetLaserDir()
-    {
-        if (parentConstraint.sourceCount > 0)
-        {
-            Transform source = parentConstraint.GetSource(0).sourceTransform;
-            Transform parent = source.parent.parent;
-            float y = parent.rotation.y;
+    //private ParentConstraint parentConstraint;
+    //public void GetLaserDir()
+    //{
+    //    if (parentConstraint.sourceCount > 0)
+    //    {
+    //        Transform source = parentConstraint.GetSource(0).sourceTransform;
+    //        Transform parent = source.parent.parent;
+    //        float y = parent.rotation.y;
 
-            if (y == 0) Net.Cmd_SetLaserDir(Vector2.right);
-            else Net.Cmd_SetLaserDir(Vector2.left);
-        }
-    }
+    //        if (y == 0) Net.Cmd_SetLaserDir(Vector2.right);
+    //        else Net.Cmd_SetLaserDir(Vector2.left);
+    //    }
+    //}
 
     #region Laser
-    public Vector2 curLaserDir;
+    //public Vector2 curLaserDir;
     RaycastHit2D rh;
     Ray ray;
 

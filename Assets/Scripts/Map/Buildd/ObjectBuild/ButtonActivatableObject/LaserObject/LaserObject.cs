@@ -49,6 +49,13 @@ public class LaserObject : ActivatableObjectEntity
         {
             UpdateLaser();
         }
+        else if (MapEditor.Instance.stageClear && _Net.onActive)
+        {
+            if(NetworkServer.active)
+            {
+                _Net.Server_SetOnActive(false);
+            }
+        }
 
     }
     protected override void Activation()
