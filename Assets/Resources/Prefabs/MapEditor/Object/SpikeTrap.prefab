@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4382974993728918039}
   - component: {fileID: 4598140116332238749}
   - component: {fileID: 4802113253204548518}
-  - component: {fileID: 7276814563863403383}
+  - component: {fileID: 5595271213037873630}
   - component: {fileID: 8128196571352845512}
   m_Layer: 7
   m_Name: SpikeTrap_Spike
@@ -114,8 +114,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!61 &7276814563863403383
-BoxCollider2D:
+--- !u!60 &5595271213037873630
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -146,7 +146,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.5, y: 0.22315109}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -156,9 +156,31 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 0.35369784}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.15234375, y: 0.390625}
+      - {x: 0.09765625, y: 0.3125}
+      - {x: 0.00390625, y: 0.109375}
+      - {x: 0.00390625, y: 0.0625}
+      - {x: 0.3125, y: 0.0625}
+      - {x: 0.31640625, y: 0.0703125}
+      - {x: 0.31640625, y: 0.1015625}
+      - {x: 0.16796875, y: 0.390625}
+    - - {x: 0.48046875, y: 0.390625}
+      - {x: 0.443043, y: 0.30846852}
+      - {x: 0.34375, y: 0.1171875}
+      - {x: 0.34375, y: 0.0625}
+      - {x: 0.65625, y: 0.0625}
+      - {x: 0.65625, y: 0.1171875}
+      - {x: 0.51171875, y: 0.390625}
+    - - {x: 0.8515625, y: 0.390625}
+      - {x: 0.828125, y: 0.390625}
+      - {x: 0.6875, y: 0.109375}
+      - {x: 0.6875, y: 0.0625}
+      - {x: 0.9921875, y: 0.0625}
+      - {x: 1, y: 0.0703125}
+      - {x: 1, y: 0.109375}
+  m_UseDelaunayMesh: 0
 --- !u!114 &8128196571352845512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -512,6 +534,7 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
+  canRespawn: 0
   attackStartTime: 0
   attackCooldown: 0
 --- !u!114 &6181801941172725646
