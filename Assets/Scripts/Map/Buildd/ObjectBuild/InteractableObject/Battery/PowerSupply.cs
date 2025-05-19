@@ -1,3 +1,4 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -273,7 +274,9 @@ public class PowerSupply : ButtonEntity,IInteractable
                     P_Net.Cmd_ShowE(component.gameObject,true);
 
                     // battery.powerSupply = this;
-                    // P_Net.Cmd_SetBattery(battery.gameObject);
+                    // P_Net.Cmd_SetBattery(battery.gameObject);\
+
+                    if(NetworkServer.active)
                     battery.Net_SetPowerSupply(gameObject);
                 }
             }
@@ -298,7 +301,8 @@ public class PowerSupply : ButtonEntity,IInteractable
                     P_Net.Cmd_ShowE(component.gameObject,false);
 
                     // P_Net.Cmd_SetBattery(null);
-                    battery.Net_SetPowerSupply(null);
+                    if (NetworkServer.active)
+                        battery.Net_SetPowerSupply(null);
                 }
 
             }
