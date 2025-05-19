@@ -346,7 +346,7 @@ public class HookSM : PlayerSM, IInhalable
     #region Inhalable
     public void Inhalation(Transform accesor)
     {
-        if (!isLocalPlayer || !grappleAttached) return;
+        if (!isLocalPlayer || grappleAttached) return;
 
         canControl = false;
         _fixedPoint = accesor;

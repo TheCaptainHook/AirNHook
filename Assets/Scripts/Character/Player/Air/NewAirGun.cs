@@ -147,6 +147,7 @@ public class NewAirGun
         _canStick = false;
         _isInhaledHook = false;
         _latestTarget = null;
+        _inhaleTarget = null;
         _lineRenderer.enabled = false;
         _shortestDistance = float.MaxValue;
         try
@@ -206,6 +207,7 @@ public class NewAirGun
                 _isAttached = false;
                 _isInhaledHook = false;
                 _latestTarget = null;
+                _inhaleTarget = null;
                 _delayTimer += Time.deltaTime;
                 return;
             }
@@ -229,6 +231,7 @@ public class NewAirGun
             _isAttached = false;
             _isInhaledHook = false;
             _latestTarget = null;
+            _inhaleTarget = null;
             return;
         }
         
@@ -279,6 +282,7 @@ public class NewAirGun
             _isAttached = false;
             _isInhaledHook = false;
             _latestTarget = null;
+            _inhaleTarget = null;
             return;
         }
         
