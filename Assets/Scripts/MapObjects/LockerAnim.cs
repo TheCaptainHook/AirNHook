@@ -106,11 +106,16 @@ public class LockerAnim : NetworkBehaviour, IInteractable
         }
     }
 
-    [Command(requiresAuthority = false)]
-    public void CmdChangeCharacter()
+    public void CharacterChange()
     {
         if (!isServer) return;
 
+        CmdChangeCharacter();
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CmdChangeCharacter()
+    {
         Managers.Network.ReplacePlayer(_player.GetComponent<NetworkIdentity>().connectionToClient,
             _characterType,
             transform.position + new Vector3(0, 0.2f));
