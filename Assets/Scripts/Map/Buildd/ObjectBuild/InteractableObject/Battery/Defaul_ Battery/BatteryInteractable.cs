@@ -145,10 +145,27 @@ public class BatteryInteractable : TransportItemEntity
         else
         {
             base.Release();
+            Cmd_Reset();
         }
     }
 
-
+    [Command(requiresAuthority = false)]
+    private void Cmd_Reset()
+    {
+        Rpc_Reset();
+    }
+    [ClientRpc]
+    private void Rpc_Reset()
+    {
+        if (batteryCharger != null)
+        {
+            batteryCharger = null;
+        }
+        if (powerSupply != null)
+        {
+            powerSupply = null;
+        }
+    }
 
     [Server]
     private void Server_Release(Vector3 releasePosition)
