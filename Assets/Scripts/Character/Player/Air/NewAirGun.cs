@@ -418,7 +418,7 @@ public class NewAirGun
         _lineRenderer.enabled = false;
         _crossHair.gameObject.SetActive(false);
 
-        if (_inhaleTarget is null) return;
+        if (_inhaleTarget == null) return;
 
         try
         {
@@ -439,7 +439,10 @@ public class NewAirGun
             else
                 _inhaleTarget.GetComponent<IInhalable>().StopInhale();
         }
-        catch (Exception) { }
+        catch (Exception)
+        {
+            _inhaleTarget = null;
+        }
     }
 
     private void FixInhaleTarget()
