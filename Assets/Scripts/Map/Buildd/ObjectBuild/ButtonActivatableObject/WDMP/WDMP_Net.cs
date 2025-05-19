@@ -14,9 +14,9 @@ public class WDMP_Net : NetworkBehaviour
     // private Collider2D Collider => GetComponent<Collider2D>();
 
     [SyncVar] public float moveDistance;
-    [SyncVar(hook =nameof(OnDataPathUpdated))] 
+    [SyncVar(hook = nameof(OnDataPathUpdated))]
     public Vector2 position;
-    
+
     [SyncVar] public float rayLength;
     [SyncVar] public float moveSpeed;
     [SyncVar] public Vector2 dir;
@@ -33,14 +33,18 @@ public class WDMP_Net : NetworkBehaviour
     Coroutine recoveryCoroutine;
 
     private bool onRecover;
+    private void Awake()
+    {
+        AnimationTilt();
+    }
     private void Update()
     {
-        if(!isServer) return;
+        if (!isServer) return;
 
-        if(moveDistance != 0 &&!Compare(transform.position,position)&& !onRecover)
+        if (moveDistance != 0 && !Compare(transform.position, position) && !onRecover)
         {
             curRecoveryRate += Time.fixedDeltaTime;
-            if(curRecoveryRate >= recoveryRate)
+            if (curRecoveryRate >= recoveryRate)
             {
                 onRecover = true;
                 //Recover
@@ -53,9 +57,9 @@ public class WDMP_Net : NetworkBehaviour
     {
         var rb = GetComponent<Rigidbody2D>();
 
-        while(!Compare(rb.position,position))
+        while (!Compare(rb.position, position))
         {
-            rb.position = Vector2.MoveTowards(rb.position,position,moveSpeed*Time.fixedDeltaTime);
+            rb.position = Vector2.MoveTowards(rb.position, position, moveSpeed * Time.fixedDeltaTime);
             yield return null;
         }
         recoveryCoroutine = null;
@@ -64,11 +68,11 @@ public class WDMP_Net : NetworkBehaviour
     }
 
     [Server]
-    public void Server_SetMoveDistance(float moveDistance,Vector2 position,float moveSpeed)
+    public void Server_SetMoveDistance(float moveDistance, Vector2 position, float moveSpeed)
     {
-       this.moveDistance = moveDistance;   
-       this.position = position;
-       this.moveSpeed = moveSpeed;
+        this.moveDistance = moveDistance;
+        this.position = position;
+        this.moveSpeed = moveSpeed;
     }
 
     [Server]
@@ -79,13 +83,13 @@ public class WDMP_Net : NetworkBehaviour
     [Server]
     public void Server_SetStep(float step)
     {
-        if(step != 0)
+        if (step != 0)
         {
             //Stop Recover
-            if(recoveryCoroutine != null) 
+            if (recoveryCoroutine != null)
             {
                 StopCoroutine(recoveryCoroutine);
-                onRecover= false;
+                onRecover = false;
             }
             curRecoveryRate = 0;
         }
@@ -93,7 +97,7 @@ public class WDMP_Net : NetworkBehaviour
         this.step = step;
     }
     [Server]
-    public void Server_SetClamp(float min,float max)
+    public void Server_SetClamp(float min, float max)
     {
         this.minDis_Clamp = min;
         this.maxDis_Clamp = max;
@@ -110,27 +114,27 @@ public class WDMP_Net : NetworkBehaviour
     LineRenderer line;
 
     private void CreateRail() //rail node, rail lineRenderer
-    { 
+    {
         Transform parents = MapEditor.Instance.dontSaveObjectTransform;
         container = new GameObject("Rail_Container").transform;
         container.SetParent(parents);
 
-        line = Instantiate(rail_Line_Prefabs,container);
+        line = Instantiate(rail_Line_Prefabs, container);
         //Draw Line
         DrawLine(line);
 
-        railNode_1 = Instantiate(rail_Node_Prefabs,container);
+        railNode_1 = Instantiate(rail_Node_Prefabs, container);
         railNode_1.transform.position = line.GetPosition(0);
 
-        railNode_2 = Instantiate(rail_Node_Prefabs,container);
+        railNode_2 = Instantiate(rail_Node_Prefabs, container);
         railNode_2.transform.position = line.GetPosition(1);
     }
     private void DrawLine(LineRenderer line)
     {
         line.positionCount = 2;
-        line.SetPosition(0,position);
+        line.SetPosition(0, position);
         Vector2 target = new Vector2(position.x + moveDistance, position.y);
-        line.SetPosition(1,target);
+        line.SetPosition(1, target);
     }
 
 
@@ -149,9 +153,63 @@ public class WDMP_Net : NetworkBehaviour
         }
     }
 
-    private bool Compare(Vector2 a,Vector2 b,float threshold = 0.01f)
+    private bool Compare(Vector2 a, Vector2 b, float threshold = 0.01f)
     {
         return Vector2.Distance(a, b) < threshold;
     }
-    
+
+
+
+    #region Animation
+    private readonly int leftDown = Animator.StringToHash("LeftDown");
+    private readonly int rightDown = Animator.StringToHash("RightDown");
+  
+    public void AnimationTilt()
+    {
+        StartCoroutine(AnimaionTiltCoroutine());
+    }
+    Animator animator;
+    Animator Animator { get { animator ??= GetComponent<Animator>(); return animator; } }
+    bool leftAni;
+    bool rightAni;
+    WaitForSeconds wait = new WaitForSeconds(0.1f);
+    private IEnumerator AnimaionTiltCoroutine()
+    {
+        while(true)
+        {
+            var z = transform.rotation.z;
+            if (z > 0)
+            {
+                if (!leftAni)
+                {
+                    leftAni = true;
+                    Animator.SetBool(leftDown, leftAni);
+                }
+                if (rightAni)
+                {
+                    rightAni = false;
+                    Animator.SetBool(rightDown, rightAni);
+                }
+            }
+            else if (z < 0)
+            {
+                if (leftAni)
+                {
+                    leftAni = false;
+                    Animator.SetBool(leftDown, leftAni);
+                }
+                if (!rightAni)
+                {
+                    rightAni = true;
+                    Animator.SetBool(rightDown, rightAni);
+                }
+            }else
+            {
+                if(leftAni) { leftAni = false; Animator.SetBool(leftDown, leftAni); }
+                if (rightAni) {  rightAni = false; Animator.SetBool(rightDown, rightAni); }
+            }
+                yield return wait;
+        }
+    }
+    #endregion
 }

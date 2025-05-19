@@ -164,9 +164,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
             if(curReleaseCount >= releaseCount){
                 onMove = false;
                 transform.rotation = Quaternion.Lerp(transform.rotation,Quaternion.identity,Time.fixedDeltaTime);
-                if (leftAni) { leftAni = false; animator.SetBool(leftDown, leftAni); }
-                if (rightAni) { rightAni = false; animator.SetBool(rightDown, rightAni); }
-
+                if(Mathf.Abs(transform.rotation.z) < 0.01f) transform.rotation = Quaternion.identity;
             }
         }else{
             curReleaseCount = 0;
@@ -179,7 +177,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
         //tilt platform
         Rotate(weight);
         //tilt animation
-        TiltAnimationSet(lw,rw);
+        //TiltAnimationSet(lw,rw);
         
         //move platform
         if(WDMP_Net.moveDistance == 0) return;
