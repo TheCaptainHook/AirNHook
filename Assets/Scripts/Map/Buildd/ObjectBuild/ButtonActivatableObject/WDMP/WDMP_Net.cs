@@ -204,7 +204,7 @@ public class WDMP_Net : NetworkBehaviour
                     rightAni = true;
                     Animator.SetBool(rightDown, rightAni);
                 }
-            }else
+            }else if(Mathf.Abs(z) < 0.1)
             {
                 if(leftAni) { leftAni = false; Animator.SetBool(leftDown, leftAni); }
                 if (rightAni) {  rightAni = false; Animator.SetBool(rightDown, rightAni); }
@@ -213,10 +213,5 @@ public class WDMP_Net : NetworkBehaviour
         }
     }
 
-    [ClientRpc]
-    public void Rpc_RotZero()
-    {
-        rb.rotation = 0;
-    }
     #endregion
 }

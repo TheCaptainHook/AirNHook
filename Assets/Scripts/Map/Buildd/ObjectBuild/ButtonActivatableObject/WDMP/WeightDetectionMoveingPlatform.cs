@@ -168,8 +168,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
                 rb.rotation = Mathf.Lerp(rb.rotation, 0, Time.fixedDeltaTime);
                 if (Mathf.Abs(rb.rotation) < 0.95f && Mathf.Abs(rb.rotation) > 0) 
                 {
-                    //rb.rotation = 0;
-                    WDMP_Net.Rpc_RotZero();
+                    rb.rotation = 0;
                 }
 
                
