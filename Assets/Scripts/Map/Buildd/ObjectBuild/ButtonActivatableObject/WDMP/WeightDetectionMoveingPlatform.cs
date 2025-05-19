@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Scripting.APIUpdating;
+using Edgegap;
+using Org.BouncyCastle.Bcpg;
 
 
 [RequireComponent(typeof(WDMP_Path))]
@@ -162,6 +164,10 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
             if(curReleaseCount >= releaseCount){
                 onMove = false;
                 transform.rotation = Quaternion.Lerp(transform.rotation,Quaternion.identity,Time.fixedDeltaTime);
+                leftAni = false;
+                rightAni = false;
+                animator.SetBool(leftDown, leftAni);
+                animator.SetBool(rightDown, rightAni);
             }
         }else{
             curReleaseCount = 0;
@@ -170,10 +176,12 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
         if(!onMove) return;
             
         weight = (lw-rw);
-        //tilt animation
-        TiltAnimationSet(lw,rw);
+
         //tilt platform
         Rotate(weight);
+        //tilt animation
+        TiltAnimationSet(lw,rw);
+        
         //move platform
         if(WDMP_Net.moveDistance == 0) return;
 
@@ -227,24 +235,44 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
             }
         }
     }
-    
-
-   
 
 
-#region  Util
+
+
+
+    #region  Util
+    bool leftAni;
+    bool rightAni;
 private void TiltAnimationSet(float l,float r){
-     if(l > r){//left
-            animator.SetBool(leftDown,true);
-            animator.SetBool(rightDown,false);
-        }else if(l < r){//right
-            animator.SetBool(leftDown,false);
-            animator.SetBool(rightDown,true);
-        }else{
-            animator.SetBool(leftDown,false);
-            animator.SetBool(rightDown,false);
+        var z = transform.rotation.z;
+        if(z>0)
+        {
+            if (!leftAni)
+            {
+                leftAni = true;
+                animator.SetBool(leftDown, leftAni);
+            }
+            if (rightAni)
+            {
+                rightAni = false;
+                animator.SetBool(rightDown, rightAni);
+            }
         }
-}
+        else if(z<0)
+        {
+            if (leftAni)
+            {
+                leftAni = false;
+                animator.SetBool(leftDown, leftAni);
+            }
+            if (!rightAni)
+            {
+                rightAni = true;
+                animator.SetBool(rightDown, rightAni);
+            }
+        }
+
+    }
 
 private Vector2 GetPath(){
     if(WDMP_Net.moveDistance == 0) return orgPot;
