@@ -12957,7 +12957,7 @@
             "dialogueId": 0,
             "position": {
                 "x": 7.0,
-                "y": -10.5
+                "y": -10.75
             },
             "quaternion": {
                 "x": 0.0,
@@ -18965,7 +18965,7 @@
                     "y": -30.5
                 }
             ],
-            "moveSpeed": 2.0,
+            "moveSpeed": 3.0,
             "moveDistance": 0.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
@@ -19582,7 +19582,7 @@
             "jumpingPower": 0,
             "position": {
                 "x": 55.0,
-                "y": -8.0
+                "y": -9.5
             },
             "quaternion": {
                 "x": 0.0,
@@ -19606,7 +19606,7 @@
             "paths": [
                 {
                     "x": 63.5,
-                    "y": -8.0
+                    "y": -9.5
                 },
                 {
                     "x": 63.5,
@@ -19627,7 +19627,7 @@
             "chargeRequired": false,
             "jumpingPower": 0,
             "position": {
-                "x": 54.0,
+                "x": 53.599998474121097,
                 "y": -2.0
             },
             "quaternion": {
@@ -19651,11 +19651,11 @@
             "onLeft": false,
             "paths": [
                 {
-                    "x": 63.0,
+                    "x": 62.0,
                     "y": -2.0
                 }
             ],
-            "moveSpeed": 2.0,
+            "moveSpeed": 1.399999976158142,
             "moveDistance": 0.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
@@ -19887,7 +19887,7 @@
                     "y": 7.0
                 }
             ],
-            "moveSpeed": 1.0,
+            "moveSpeed": 2.0,
             "moveDistance": 0.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
@@ -19998,7 +19998,7 @@
             "onHoldRotation": false,
             "onLeft": false,
             "paths": [],
-            "moveSpeed": 2.75,
+            "moveSpeed": 4.25,
             "moveDistance": 28.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
@@ -20740,8 +20740,8 @@
                 "w": 1.0
             },
             "scale": {
-                "x": 0.4000000059604645,
-                "y": 0.4000000059604645,
+                "x": 0.3499999940395355,
+                "y": 0.3499999940395355,
                 "z": 1.0
             },
             "paths": [
