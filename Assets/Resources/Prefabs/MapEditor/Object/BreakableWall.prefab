@@ -5089,7 +5089,7 @@ GameObject:
   - component: {fileID: 7948877857417331827}
   - component: {fileID: 73593625003803500}
   - component: {fileID: 5082202818742013935}
-  m_Layer: 14
+  m_Layer: 9
   m_Name: BottomCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5194,7 +5194,7 @@ GameObject:
   - component: {fileID: 4575017794262323877}
   - component: {fileID: 6049842729428125282}
   - component: {fileID: 8585752045654715979}
-  m_Layer: 14
+  m_Layer: 9
   m_Name: TopCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
