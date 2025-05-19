@@ -19345,7 +19345,7 @@
         },
         {
             "id": 305,
-            "activeRequirAmount": 0,
+            "activeRequirAmount": 1,
             "chargeRequired": false,
             "jumpingPower": 0,
             "position": {
