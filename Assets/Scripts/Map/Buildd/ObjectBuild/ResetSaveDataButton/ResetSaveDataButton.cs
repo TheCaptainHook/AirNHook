@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
-public class ResetSaveDataButton : BuildObj
+
+public class ResetSaveDataButton : BuildObj,IInteractable
 {
     private bool onReset;
     private float maxResetCount = 5;
@@ -56,12 +55,19 @@ public class ResetSaveDataButton : BuildObj
     }
     void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision && collision.gameObject == localPlayer.gameObject)
+        if(collision)
         {
-            //ShutDown
-            localPlayer = null;
-            HideE();
-            //ShutDown
+            if(localPlayer)
+            {
+                if (localPlayer.gameObject == collision.gameObject)
+                {
+                    //ShutDown
+                    localPlayer = null;
+                    HideE();
+                    //ShutDown
+                }
+            }
+            
         }
     }
 
@@ -76,16 +82,69 @@ public class ResetSaveDataButton : BuildObj
     #endregion
 
     
-    #region  UI
-    private void ShowE()
+    //#region  UI
+    //private void ShowE()
+    //{
+    //    Managers.UI.ShowUI<UI_ShowEButton>();
+    //}
+    //private void HideE()
+    //{
+    //    Managers.UI.HideUI<UI_ShowEButton>();
+    //}
+    //#endregion
+
+
+    #region  Interacable
+    private UI_Base _E_Btn;
+    public ObjectTypeEnum _objectType = ObjectTypeEnum.Interaction;
+    [SerializeField] float _BtnOffset;
+
+    public void Interaction(Transform accessor = null)
     {
-        Managers.UI.ShowUI<UI_ShowEButton>();
+     
+
     }
-    private void HideE()
+
+    public bool CanInteract()
     {
+        return true;
+    }
+
+    public void Interacting(bool value)
+    {
+        return;
+    }
+
+    public ObjectTypeEnum GetObjectType()
+    {
+        return _objectType;
+    }
+
+    public void ShowEButton()
+    {
+        return;
+    }
+    public void HideEButton()
+    {
+        return;
+    }
+
+    public void ShowE()
+    {
+        _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
+        _E_Btn.transform.position = transform.position + (transform.up * _BtnOffset);
+    }
+    public void HideE()
+    {
+        _E_Btn = null;
         Managers.UI.HideUI<UI_ShowEButton>();
     }
+
+
+
     #endregion
+
+
 }
 
 
