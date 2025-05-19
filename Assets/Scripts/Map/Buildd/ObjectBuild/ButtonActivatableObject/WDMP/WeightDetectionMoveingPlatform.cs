@@ -164,10 +164,9 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
             if(curReleaseCount >= releaseCount){
                 onMove = false;
                 transform.rotation = Quaternion.Lerp(transform.rotation,Quaternion.identity,Time.fixedDeltaTime);
-                leftAni = false;
-                rightAni = false;
-                animator.SetBool(leftDown, leftAni);
-                animator.SetBool(rightDown, rightAni);
+                if (leftAni) { leftAni = false; animator.SetBool(leftDown, leftAni); }
+                if (rightAni) { rightAni = false; animator.SetBool(rightDown, rightAni); }
+
             }
         }else{
             curReleaseCount = 0;
