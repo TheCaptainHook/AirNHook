@@ -12531,7 +12531,12 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "targetPositions": [],
+            "targetPositions": [
+                {
+                    "x": 0.14000000059604646,
+                    "y": 22.760000228881837
+                }
+            ],
             "lightPositions": [],
             "onHint": false,
             "partsPositions": [],
@@ -12595,6 +12600,34 @@
                 "y": 29.579999923706056
             },
             "chargeRequired": false
+        },
+        {
+            "id": 329,
+            "position": {
+                "x": 0.14000000059604646,
+                "y": 22.760000228881837
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "targetPositions": [],
+            "lightPositions": [],
+            "onHint": false,
+            "partsPositions": [],
+            "itemPositions": [],
+            "hintPosition": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "chargeRequired": true
         }
     ],
     "mapExitObjectStruct": {
