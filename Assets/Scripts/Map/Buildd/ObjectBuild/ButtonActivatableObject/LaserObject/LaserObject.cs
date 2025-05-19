@@ -118,7 +118,7 @@ public class LaserObject : ActivatableObjectEntity
                 Vector2 colDir = rh.normal;
                 DrawLaser(i, start, rh.point);
                 hitCount++;
-
+                
                 if (rh.collider.TryGetComponent(out PlayerSM component) && Application.isPlaying)
                 {
                     SetHitParticleRotate(start, rh.point); // todo 0914
