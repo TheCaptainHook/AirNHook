@@ -163,8 +163,9 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
             curReleaseCount+=Time.deltaTime;
             if(curReleaseCount >= releaseCount){
                 onMove = false;
-                transform.rotation = Quaternion.Lerp(transform.rotation,Quaternion.identity,Time.fixedDeltaTime);
-                if(Mathf.Abs(transform.rotation.z) < 0.01f) transform.rotation = Quaternion.identity;
+                //transform.rotation = Quaternion.Lerp(transform.rotation,Quaternion.identity,Time.fixedDeltaTime);
+                rb.rotation = Mathf.Lerp(rb.rotation, 0, Time.fixedDeltaTime);
+                if (Mathf.Abs(rb.rotation) < 1f) rb.rotation = 0;
             }
         }else{
             curReleaseCount = 0;
@@ -213,7 +214,8 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
         euler.z = Mathf.Clamp(euler.z , -maxRotate,maxRotate);
         rate = Mathf.Abs(euler.z) / maxRotate;
 
-        transform.rotation = Quaternion.Euler(euler);
+        //transform.rotation = Quaternion.Euler(euler);
+        rb.rotation = euler.z;
     }
     private void MoveTowards(){
 

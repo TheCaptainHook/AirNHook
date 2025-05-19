@@ -31,10 +31,11 @@ public class WDMP_Net : NetworkBehaviour
     public float curRecoveryRate;
 
     Coroutine recoveryCoroutine;
-
+    private Rigidbody2D rb;
     private bool onRecover;
     private void Awake()
     {
+        rb = GetComponent<Rigidbody2D>();
         AnimationTilt();
     }
     private void Update()
@@ -177,7 +178,7 @@ public class WDMP_Net : NetworkBehaviour
     {
         while(true)
         {
-            var z = transform.rotation.z;
+            var z = rb.rotation;
             if (z > 0)
             {
                 if (!leftAni)
