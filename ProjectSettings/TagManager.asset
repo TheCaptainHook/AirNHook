@@ -29,7 +29,7 @@ TagManager:
   - Ground/HalfPlatform
   - Projectile
   - Mirror
-  - 
+  - 'Object/ForeGround/IgnoreAttack '
   - BridgeBox
   - 
   - Indicator
