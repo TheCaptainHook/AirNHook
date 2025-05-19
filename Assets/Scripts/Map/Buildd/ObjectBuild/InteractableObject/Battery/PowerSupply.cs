@@ -273,17 +273,14 @@ public class PowerSupply : ButtonEntity,IInteractable
                     // ShowEButton(); 
                     P_Net.Cmd_ShowE(component.gameObject,true);
 
-                    // battery.powerSupply = this;
-                    // P_Net.Cmd_SetBattery(battery.gameObject);\
-
                     if(NetworkServer.active)
                     battery.Net_SetPowerSupply(gameObject);
                 }
             }
-            else
-            {
-                if(P_Net.battery) P_Net.Cmd_ShowE(component.gameObject,true);
-            }
+            //else
+            //{
+            //    if(P_Net.battery) P_Net.Cmd_ShowE(component.gameObject,true);
+            //}
           
         }
     }

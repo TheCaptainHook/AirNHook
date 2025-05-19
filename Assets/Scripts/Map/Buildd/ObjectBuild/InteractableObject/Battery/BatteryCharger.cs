@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-
+using Mirror;
 public class BatteryCharger : BuildObj
 {
     private UI_Base _E_Btn;
@@ -33,6 +33,7 @@ public class BatteryCharger : BuildObj
                     B_Net.Cmd_ShowE(component.gameObject,true); //Show Button
 
                     //battery.batteryCharger = this;
+                    if(NetworkServer.active)
                     battery.Net_SetBatteryCharger(gameObject); //Set BatteryCharger
                 }
             }
@@ -51,9 +52,9 @@ public class BatteryCharger : BuildObj
                 if (grabItem.TryGetComponent(out Battery battery))
                 {
                     B_Net.Cmd_ShowE(component.gameObject, false);//Hide
-                                                                 //Button
-                    //battery.batteryCharger = null;
-                     battery.Net_SetBatteryCharger(null); // remove batterycharger
+
+                    if (NetworkServer.active)
+                        battery.Net_SetBatteryCharger(null); // remove batterycharger
                 }
 
             }

@@ -138,7 +138,18 @@ public class Battery : BuildObj
     #region Network Sync
     public void Net_SetBatteryCharger(GameObject obj)
     {
-        Battery_Net.Cmd_SetBatteryCharger(obj);
+        //Battery_Net.Cmd_SetBatteryCharger(obj);
+        if (obj == null)
+        {
+            Battery_Net.Cmd_SetPowerSupply(9999);
+        }
+        else
+        {
+            uint id = obj.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 9999;
+            Battery_Net.Cmd_SetBatteryCharger(id);
+
+
+        }
     }
     public void Net_SetPowerSupply(GameObject obj)
     {
