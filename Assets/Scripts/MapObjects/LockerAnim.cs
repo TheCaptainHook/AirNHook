@@ -108,8 +108,9 @@ public class LockerAnim : NetworkBehaviour, IInteractable
 
     public void CharacterChange()
     {
-        if (!isServer) return;
+        if (!Managers.Game.Player.GetComponent<NetworkIdentity>().isServer) return;
 
+        Debug.Log(_player);
         CmdChangeCharacter();
     }
 
