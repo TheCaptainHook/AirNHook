@@ -33,17 +33,6 @@ public class BatteryInteractable : TransportItemEntity
     [ReadOnly]
     public GameObject powerSupply;
 
-    //[Server]    //  Set battery charger
-    //private void Server_SetBatteryCharger(GameObject batteryCharger)
-    //{
-    //    this.batteryCharger = batteryCharger;
-
-    //}
-    // [Command(requiresAuthority = false)]
-    //public void Cmd_SetBatteryCharger(GameObject batteryCharger)
-    //{
-    //    Server_SetBatteryCharger(batteryCharger);
-    //}
 
 
     [Server]    // use Battery capacity
@@ -61,16 +50,7 @@ public class BatteryInteractable : TransportItemEntity
         Server_SetBatteryCapacity(val);
     }
 
-    //[Server]    //  Set PowerSupply
-    //public void Server_SetPowerSupply(GameObject powerSupply)
-    //{
-    //    this.powerSupply = powerSupply;
-    //}
-    //[Command(requiresAuthority = false)]
-    //public void Cmd_SetPowerSupply(GameObject powerSupply)
-    //{
-    //    Server_SetPowerSupply(powerSupply);
-    //}
+
     #region ---------------------------------------------------------------------Battery Charger
     [Server]    //  Set battery charger
     private void Server_SetBatteryCharger(uint netId)
@@ -101,7 +81,7 @@ public class BatteryInteractable : TransportItemEntity
     [Command(requiresAuthority = false)]
     public void Cmd_SetPowerSupply(uint netId)
     {
-        Rpc_SetPowerSupply(netId);
+        Server_SetPowerSupply(netId);
     }
     [ClientRpc]
     private void Rpc_SetPowerSupply(uint id)
@@ -167,31 +147,33 @@ public class BatteryInteractable : TransportItemEntity
         }
     }
 
-    [Server]
-    private void Server_Release(Vector3 releasePosition)
-    {
-        Rpc_Release(releasePosition);
-        // transform.position = batteryCharger.transform.position;
-        //transform.position = releasePosition;
-    }
+    //[Server]
+    //private void Server_Release(Vector3 releasePosition)
+    //{
+    //    Rpc_Release(releasePosition);
+    //    // transform.position = batteryCharger.transform.position;
+    //    //transform.position = releasePosition;
+    //}
 
     [Command(requiresAuthority = false)]
     private void Cmd_Release(Vector3 releasePosition)
     {
         // Rb.position = releasePosition;
-        Server_Release(releasePosition);
+        //Server_Release(releasePosition);
+        Rpc_Release(releasePosition);
     }
 
     [ClientRpc]
     private void Rpc_Release(Vector3 releasePosition)
     {
+        Debug.Log(releasePosition);
         _isFixed = false;
         _isGrab = false;
         _canInteract = true;
         ChangeState(false);
 
         //_fixedPoint = null;
-        _rigidbody.position = releasePosition;
+        transform.position = releasePosition;
         _rigidbody.bodyType = _originType;
         _rigidbody.constraints = _originRot;
         _sortingGroup.sortingLayerID = _originSortingLayerID;
