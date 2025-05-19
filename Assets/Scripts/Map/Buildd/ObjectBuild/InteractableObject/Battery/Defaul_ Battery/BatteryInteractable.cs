@@ -201,7 +201,7 @@ public class BatteryInteractable : TransportItemEntity
         //Server_SetPowerSupply(9999);
 
         Rpc_Recover();
-        RemoveEffect();
+        
 
     }
     [ClientRpc]
@@ -215,6 +215,7 @@ public class BatteryInteractable : TransportItemEntity
         {
             powerSupply = null;
         }
+        RemoveEffect();
 
         Col.enabled = true;
         _rigidbody.gravityScale = 1;
@@ -286,6 +287,6 @@ public class BatteryInteractable : TransportItemEntity
     private void RemoveEffect()
     {
         float xForce = Random.Range(-horizontalVariation, horizontalVariation);
-        _rigidbody.AddForce(new Vector2(xForce, 6f), ForceMode2D.Impulse);
+        _rigidbody.AddForce(new Vector2(xForce, 4f), ForceMode2D.Impulse);
     }
 }
