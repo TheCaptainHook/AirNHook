@@ -39,7 +39,7 @@ public class LaserBox : BuildObj
     }
 
     bool onLaser;
-    float maxRecoverRate = 0.05f;
+    float maxRecoverRate = 0.08f;
     float curRecvoerRate = 0;
     public bool onBoom;
     public override void TakeDamage(DamageType damageType = DamageType.Default)

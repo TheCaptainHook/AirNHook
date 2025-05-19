@@ -72,7 +72,6 @@ public class LaserBox_Net : TransportItemEntity
     protected override void Grab()
     {
         base.Grab();
-        Debug.Log("Grab");
         getDirCoroutine = StartCoroutine(GetDirCo());
     }
 
@@ -80,7 +79,6 @@ public class LaserBox_Net : TransportItemEntity
     {
         base.Release();
         StopCoroutine(getDirCoroutine);
-        Debug.Log("Release");
     }
 
 
