@@ -40,6 +40,11 @@ public class LaserObject_Net : NetworkBehaviour
         transform.position = data.position;
         transform.rotation = data.quaternion;
 
+        if(data.activeRequirAmount >0)
+        {
+            Laser.Net_Deactive();
+        }
+
         onSync = true;
     }
     [Command(requiresAuthority = false)]

@@ -44,11 +44,7 @@ public class LaserObject : ActivatableObjectEntity
         {
             UpdateLaser();
         }
-        else
-        { 
-            if(NetworkServer.active)
-            _Net.Server_SetOnActive(false);
-        }
+
     }
     protected override void Activation()
     {
