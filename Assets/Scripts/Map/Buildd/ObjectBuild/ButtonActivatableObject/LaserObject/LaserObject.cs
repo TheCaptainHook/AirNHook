@@ -34,6 +34,11 @@ public class LaserObject : ActivatableObjectEntity
         {
             _Net.onSync = true;
             _Net.Server_InitSync();
+
+            if(ButtonActivatedObjectStruct.activeRequirAmount>0)
+            {
+                _Net.Server_SetOnActive(false);
+            }
         }
        
     }
