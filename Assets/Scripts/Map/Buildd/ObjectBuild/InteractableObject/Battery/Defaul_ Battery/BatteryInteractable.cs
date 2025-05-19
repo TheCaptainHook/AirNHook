@@ -72,7 +72,7 @@ public class BatteryInteractable : TransportItemEntity
     //    Server_SetPowerSupply(powerSupply);
     //}
 
-
+    #region Power Supply
     [Server] //  Set PowerSupply
     private void Server_SetPowerSupply(uint id)
     {
@@ -92,6 +92,7 @@ public class BatteryInteractable : TransportItemEntity
         else
             this.powerSupply = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity identity) ? identity.gameObject : null;
     }
+    #endregion
 
     #endregion
 
@@ -229,10 +230,11 @@ public class BatteryInteractable : TransportItemEntity
     [Command(requiresAuthority = false)]
     public void Cmd_InsertPowerSupplySocket(GameObject battery)
     {
-        if (powerSupply.TryGetComponent(out PowerSupply component))
-        {
-            component.SetBattery(battery);
-        }
+        Debug.Log("Cmd_InserPowerSWUpply");
+        //if (powerSupply.TryGetComponent(out PowerSupply component))
+        //{
+        //    component.SetBattery(battery);
+        //}
 
         Rpc_InsertPowerSupplySocket();
 
@@ -243,8 +245,14 @@ public class BatteryInteractable : TransportItemEntity
     {
         if (powerSupply)
         {
-            BuildObj.canRespawn = false;
-            Col.enabled = false;
+            if (powerSupply.TryGetComponent(out PowerSupply component))
+            {
+                component.SetBattery(gameObject);
+                BuildObj.canRespawn = false;
+                Col.enabled = false;
+            }
+
+           
 
         }
     }
