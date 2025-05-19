@@ -72,7 +72,7 @@ TagManager:
   - name: Indicator
     uniqueID: 1411368969
     locked: 0
-  - name: Evironment_Fore
+  - name: Environment_Fore
     uniqueID: 3323669571
     locked: 0
   - name: UI

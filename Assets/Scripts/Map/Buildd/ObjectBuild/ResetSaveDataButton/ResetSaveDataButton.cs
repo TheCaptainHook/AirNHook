@@ -35,7 +35,7 @@ public class ResetSaveDataButton : BuildObj,IInteractable
         onReset = false;
     }
 
-    private PlayerSM localPlayer;
+    public PlayerSM localPlayer;
 
     void OnTriggerEnter2D(Collider2D collision)
     {

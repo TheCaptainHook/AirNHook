@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2265946679045684801}
   - component: {fileID: 3611192003414523547}
   - component: {fileID: 8932707330758746102}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Reset_SaveData_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,6 +108,7 @@ MonoBehaviour:
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
   canRespawn: 0
+  localPlayer: {fileID: 0}
   _objectType: 0
   _BtnOffset: 0
 --- !u!1 &5758620004120835145
@@ -120,7 +121,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2638944261692610142}
   - component: {fileID: 6622810650338734892}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -39,10 +39,16 @@ public class EraseField_Character : ActivatableObjectEntity
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        
+        if(collision)
+        {
+            Debug.Log(collision.name);
+        }
         if(collision.gameObject.TryGetComponent(out PlayerSM component))
         {
             component.TakeDamage(DamageType.Fire);
         }
+
     }
 
     protected override void Activation()
