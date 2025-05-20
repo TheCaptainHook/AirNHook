@@ -8,6 +8,9 @@ public class Shield_Net : TransportItemEntity
 
     // [SyncVar] public Vector2 orgPot;
 
+    Shield shield;
+    Shield Main { get { shield ??= GetComponent<Shield>(); return shield; } }
+
     //todo0423
     private float targetTime = 5;
     public float curTime;
@@ -50,7 +53,8 @@ public class Shield_Net : TransportItemEntity
             yield return null;
         }
         curTime = 0;
-        transform.position = BuildObj.ObjectData.position;
+        //transform.position = BuildObj.ObjectData.position;
+        Main.Respawn();
     }
 
     public override void Release()

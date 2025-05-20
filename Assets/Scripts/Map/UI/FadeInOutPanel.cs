@@ -64,7 +64,29 @@ public class FadeInOutPanel : MonoBehaviour
         image.color = fadeOutcolor;
         percent = 1;
         //------------------------Fade Out
-        
+
+        //------------------------Player Ignore Damage
+        var player = Managers.Game.Player;
+        var sm = player ? player.TryGetComponent(out PlayerSM playerSm) ? playerSm : null : null;
+        if (!player)
+        {
+            while (!player)
+            {
+                Debug.Log("Lost Player");
+                player = Managers.Game.Player;
+                yield return null;
+            }
+            sm = player.GetComponent<PlayerSM>();
+
+        }
+        var playerCol = sm.GetComponent<Collider2D>();
+        var playerRb = sm.GetComponent<Rigidbody2D>();
+        playerRb.gravityScale = 0;
+        playerCol.enabled = false;
+
+        //------------------------Player Ignore Damage
+
+
         //------------------------Create Next Stage
         Managers.Network.startPos.Clear();
         MapEditor.Instance.LoadMap(mapId);
@@ -76,27 +98,35 @@ public class FadeInOutPanel : MonoBehaviour
         //------------------------Map Name UI
         yield return new WaitForSeconds(1f);
         //------------------------Player, Camera Setting
-        var player = Managers.Game.Player;
-        var sm = player ? player.TryGetComponent(out PlayerSM playerSm) ? playerSm : null : null;
+        //var player = Managers.Game.Player;
+        //var sm = player ? player.TryGetComponent(out PlayerSM playerSm) ? playerSm : null : null;
 
-        if (!player)
-        {
-            while (!player)
-            {
-                Debug.Log("Lost Player");
-                player = Managers.Game.Player;
-                yield return null;
-            }
-            // sm = player ? player.TryGetComponent(out PlayerSM playerSm1) ? playerSm1 : null : null;
-            sm = player.GetComponent<PlayerSM>();
-        }
-           sm.Respawning();
+        //if (!player)
+        //{
+        //    while (!player)
+        //    {
+        //        Debug.Log("Lost Player");
+        //        player = Managers.Game.Player;
+        //        yield return null;
+        //    }
+        //    // sm = player ? player.TryGetComponent(out PlayerSM playerSm1) ? playerSm1 : null : null;
+        //    sm = player.GetComponent<PlayerSM>();
+         
+        //}
+      
+
+        sm.Respawning();
        
         Camera.main.GetComponent<ParallaxCamera>().enabled = true;
         Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.Volume_1();
 
         yield return new WaitUntil(()=>playerCameraView.isCameraCenter);
         //------------------------Player, Camera Setting
+
+        //--------------------------------Player recover
+        playerCol.enabled = true;
+        playerRb.gravityScale = 3;
+        //--------------------------------Player recover
 
         //Map Name  UI
         text.enabled = false;
