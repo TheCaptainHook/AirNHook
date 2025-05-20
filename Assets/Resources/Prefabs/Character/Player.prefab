@@ -5344,6 +5344,7 @@ MonoBehaviour:
   <sortingGroup>k__BackingField:
   - {fileID: 5611642693630976118}
   <talkingSprite>k__BackingField: {fileID: 7526133202902235955}
+  <spriteMask>k__BackingField: {fileID: 4964516660747417082}
   coyoteTimeCount: 1.5
   _halfPlatformLayer:
     serializedVersion: 2
@@ -5496,7 +5497,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7897474904609446162
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15740,6 +15741,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: 0
+  timeToDisable: 0.7
 --- !u!95 &2623502791416977126
 Animator:
   serializedVersion: 5

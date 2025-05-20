@@ -18,6 +18,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     [field: SerializeField] public Transform charPivot { get; private set; }
     [field: SerializeField] public List<SortingGroup> sortingGroup{ get; private set; }
     [field: SerializeField] public PlayerTalkingSprite talkingSprite { get; private set; }
+    [field: SerializeField] public GameObject spriteMask { get; private set; }
     protected float _coyoteTime => playerData.coyoteTime;
     public float coyoteTimeCount;
     private bool _emoteOnCoolDown;
