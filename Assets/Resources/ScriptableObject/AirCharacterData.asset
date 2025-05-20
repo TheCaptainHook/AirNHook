@@ -21,7 +21,7 @@ MonoBehaviour:
   <coyoteTime>k__BackingField: 0.1
   <interactableLayerMask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 196608
+    m_Bits: 33751040
   <obstacleLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 1049024

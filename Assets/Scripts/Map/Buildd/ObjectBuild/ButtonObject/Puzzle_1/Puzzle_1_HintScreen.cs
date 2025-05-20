@@ -213,18 +213,7 @@ public class Puzzle_1_HintScreen : MonoBehaviour
         //Recover Text
         text.SetText(orgSentence);
         text.ForceMeshUpdate(); 
-        // for (int i = 0; i < c.Length; i++)
-        // {
-        //     CharInfoField charInfoField = charInfos[c[i]];
-        //     cached[charInfoField.charIndex] = charInfoField.orgChar;
-        //     text.SetText(cached);
 
-        //     for (int j = 0; j < 4; j++)
-        //     {
-        //         charInfoField.vertices[charInfoField.vertexIndex + j] = charInfoField.originalVertices[charInfoField.vertexIndex + j];
-        //     }
-                
-        // }
 
     }
 
