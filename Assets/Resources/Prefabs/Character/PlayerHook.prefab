@@ -322,6 +322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: 0
+  timeToDisable: 0.7
 --- !u!95 &7781108985700746219
 Animator:
   serializedVersion: 5
@@ -359,7 +360,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9147100661072102258
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20867,6 +20868,7 @@ MonoBehaviour:
   - {fileID: 5691203817953321301}
   - {fileID: 5236058534005166102}
   <talkingSprite>k__BackingField: {fileID: 6284451352749631600}
+  <spriteMask>k__BackingField: {fileID: 2140423893236224344}
   coyoteTimeCount: 0
   _halfPlatformLayer:
     serializedVersion: 2
