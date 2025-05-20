@@ -95,8 +95,8 @@ public class PowerSupply_Net : NetworkBehaviour
                 StopCoroutine(supplyCoroutine);
                 supplyCoroutine = null;
             }
-            
-            PowerSupply.Net_Deactivated();
+            if(this.battery.GetComponent<BatteryInteractable>().batteryCapacity > consumption) PowerSupply.Net_Deactivated();
+
             OnSupplyEffect(false);
             
             this.battery.GetComponent<BatteryInteractable>().Cmd_Recover();
@@ -128,7 +128,7 @@ public class PowerSupply_Net : NetworkBehaviour
     private bool Check_BatteryCapacity()
     {
         float capacity = battery.GetComponent<BatteryInteractable>().batteryCapacity;
-        return capacity >= consumption;
+        return capacity > consumption;
     }
 
     [Command(requiresAuthority = false)]
