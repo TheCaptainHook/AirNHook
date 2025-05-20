@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerTalkingSprite : MonoBehaviour
 {
     public float timer = 0f;
+    public float timeToDisable = 0.7f;
 
 
     private void Start()
@@ -14,7 +15,7 @@ public class PlayerTalkingSprite : MonoBehaviour
 
     private void Update()
     {
-        if (timer < 2f)
+        if (timer < timeToDisable)
         {
             timer += Time.deltaTime;
         }
