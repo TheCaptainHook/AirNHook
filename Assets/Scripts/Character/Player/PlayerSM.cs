@@ -171,7 +171,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
 
             if (collisions.Length == 0)
             {
-                if (latestTarget is null) continue;
+                if (latestTarget == null) continue;
 
                 latestTarget = null;
                 Managers.UI.HideUI<UI_ShowEButton>();
@@ -184,7 +184,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
             {
                 if (collision.TryGetComponent<IInteractable>(out var interactable) && !interactable.CanInteract()) continue;
 
-                if (interactable is not null && interactable.GetObjectType() == ObjectTypeEnum.Grab) continue;
+                if (interactable != null && interactable.GetObjectType() == ObjectTypeEnum.Grab) continue;
 
                 var pos = transform.position + offset;
                 var objectVector = (collision.transform.position - pos).normalized;
@@ -200,9 +200,9 @@ public class PlayerSM : NetworkBehaviour, IDamageable
                 }
             }
 
-            if (closestTarget is null)
+            if (closestTarget == null)
             {
-                if(latestTarget is not null)
+                if(latestTarget != null)
                     Managers.UI.HideUI<UI_ShowEButton>();
 
                 latestTarget = null;
@@ -210,7 +210,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
                 continue;
             }
 
-            if (latestTarget is not null)
+            if (latestTarget != null)
             {
                 if (ReferenceEquals(latestTarget, closestTarget))
                 {
@@ -239,7 +239,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
 
     protected virtual void Interaction()
     {
-        if (latestTarget is null) return;
+        if (latestTarget == null) return;
         if (!latestTarget.TryGetComponent<IInteractable>(out var interactable)) return;
         if (interactable.GetObjectType() == ObjectTypeEnum.Grab) return;
         interactable.Interaction(transform);
