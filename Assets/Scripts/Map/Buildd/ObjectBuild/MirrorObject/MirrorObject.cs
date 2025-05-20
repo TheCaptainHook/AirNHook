@@ -132,16 +132,17 @@ public class MirrorObject : BuildObj,IInteractable
 
     public void Interaction(Transform accessor = null)
     {
-        //if (!M_Net.InnerPlayer || M_Net.InnerPlayer != accessor.gameObject) return;
+        if (!M_Net.InnerPlayer || M_Net.InnerPlayer != accessor.gameObject) return;
 
-        //if(isActive)
+        Debug.Log("Local Interaction");
+        //if (isActive)
         //{
         //    //Dis Connect
         //}
         //else
         //{
         //    var id = accessor.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 9999;
-        //    if(id != 9999)
+        //    if (id != 9999)
         //    {
         //        M_Net.Cmd_InnerPlayer(id);
         //    }
