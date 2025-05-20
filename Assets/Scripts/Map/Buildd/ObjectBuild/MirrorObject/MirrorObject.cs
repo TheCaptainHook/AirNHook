@@ -110,20 +110,7 @@ public class MirrorObject : BuildObj,IInteractable
             // _Mirror.transform.rotation = curRot;
         }
     }
-    //private void OnActiveMirrorRotate(){
-    //    if(_ConnectPlayer == null) return;
-    //    //_ConnectPlayer.GetComponent<PlayerSM>().canControl = false;
-    //    //Managers.Game.Player.GetComponent<Rigidbody2D>().simulated = false;
-    //    //Managers.Game.Player.GetComponent<Rigidbody2D>().velocity  = Vector2.zero;
-    //    onActive = true;
-        
-    //}
-    //private void OnDeactiveMirrorRotate(){
-    //    //_ConnectPlayer.GetComponent<PlayerSM>().canControl = true;
-    //    //Managers.Game.Player.GetComponent<Rigidbody2D>().simulated = true;
-    //    onActive  = false;
-    //}
-    
+ 
 
 #endregion
 
@@ -147,31 +134,6 @@ public class MirrorObject : BuildObj,IInteractable
             isActive = true;
         }
 
-
-
-
-
-        //if (_ConnectPlayer != null)
-        //{
-        //    HideE();
-        //    if (IsActive)
-        //    {
-        //        if (_ConnectPlayer) _ConnectPlayer = null; //test
-        //        M_Net.Cmd_SetInnerPlayer(null);
-        //    }
-        //    else
-        //    {
-        //        M_Net.Cmd_SetInnerPlayer(_ConnectPlayer);
-        //    }
-
-        //}
-        //else
-        //{
-        //    if (IsActive)
-        //    {
-        //        M_Net.Cmd_SetInnerPlayer(null);
-        //    }
-        //}
 
     }
     public bool CanInteract(){

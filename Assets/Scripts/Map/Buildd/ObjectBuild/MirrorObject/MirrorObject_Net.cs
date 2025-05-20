@@ -87,41 +87,7 @@ public class MirrorObject_Net : NetworkBehaviour
 
 
     #region  Server
-    //[Server]
-    //private void Server_SetInnerPlayer(GameObject player)
-    //{
-    //    InnerPlayer = player;
-    //}
-
-    //private void OnChange_ThisObjectAuthority(GameObject old,GameObject newVal)
-    //{
-    //    if(newVal == null)
-    //    {
-    //        //old Revoke Authority
-    //        GrantOrRevokeAuthority(old,false);
-    //    }else
-    //    {
-    //        //newVal Grant Authority
-    //        GrantOrRevokeAuthority(newVal,true);
-    //    }
-    //}
-
-    //[Command(requiresAuthority = false)]
-    //private void GrantOrRevokeAuthority(GameObject obj,bool isAuthorized)
-    //{
-    //    if(obj.TryGetComponent(out NetworkIdentity identity))
-    //    {
-    //       TRpc_CheckIdentity(identity.connectionToClient,isAuthorized,obj);
-    //    }
-    //}
-
-    //[TargetRpc]
-    //private void TRpc_CheckIdentity(NetworkConnection conn,bool isAuthorized,GameObject player)
-    //{
-    //    if(isAuthorized)Holding(player);
-    //    else Recover(player);
-
-    //}
+  
 
     [Server]
     public void Server_SetRot_z(float z)
@@ -171,15 +137,6 @@ public class MirrorObject_Net : NetworkBehaviour
         // _Mirror.transform.rotation =
     }
 #endregion
-
-   
-    //[Command(requiresAuthority = false)]
-    //public void Cmd_SetInnerPlayer(GameObject player)
-    //{
-    //    //Server_SetInnerPlayer(player);
-    //}
-
-    //Hook
 
 
 
