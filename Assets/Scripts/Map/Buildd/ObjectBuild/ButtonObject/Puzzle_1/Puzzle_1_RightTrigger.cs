@@ -5,8 +5,6 @@ using Mirror;
 
 public class Puzzle_1_RightTrigger : MonoBehaviour,IInteractable
 {
-    // [SerializeField] Puzzle_1 puzzle_1;
-    // [SerializeField] Puzzle_1_Button button;
 
     //Refectoring 0324
     public Vector3 offset;
@@ -49,14 +47,25 @@ public class Puzzle_1_RightTrigger : MonoBehaviour,IInteractable
     {
         if(air != null)
         {
-            var id = accessor.root.gameObject.GetComponent<NetworkIdentity>().netId;
-            if(!net.onActive){
-                
-                net.Cmd_ShowE(air,false,false); //Right
-                net.Cmd_Interact(id,false,true);//Right
+            //var id = accessor.root.gameObject.GetComponent<NetworkIdentity>().netId;
+            //if(!net.onActive){
+
+            //    net.Cmd_ShowE(air,false,false); //Right
+            //    net.Cmd_Interact(id,false,true);//Right
+            //}
+            //else{
+            //     net.Cmd_Interact(id,false,false);//Right
+            //}
+            if (!net.onActive)
+            {
+                net.Cmd_ShowE(air, false, false); //Right
+                net.HoldAndRecover(air, false, true);
             }
-            else{
-                 net.Cmd_Interact(id,false,false);//Right
+            else
+            {
+                net.HoldAndRecover(air, false, false);
+                Col.enabled = false;
+                Col.enabled = true;
             }
         }
     }

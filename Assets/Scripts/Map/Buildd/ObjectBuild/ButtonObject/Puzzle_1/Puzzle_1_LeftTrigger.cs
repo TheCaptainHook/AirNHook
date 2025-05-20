@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Puzzle_1_LeftTrigger : MonoBehaviour, IInteractable
 {
-    // [SerializeField] Puzzle_1 puzzle_1;
-    // [SerializeField] Puzzle_1_Button button;
 
     //Refectoring 0324
     public Vector3 offset;
@@ -48,14 +46,25 @@ public class Puzzle_1_LeftTrigger : MonoBehaviour, IInteractable
     {
         if(air != null)
         {
-            var id = accessor.root.gameObject.GetComponent<NetworkIdentity>().netId;
-            if(!net.onActive){
+            //var id = accessor.root.gameObject.GetComponent<NetworkIdentity>().netId;
+            //if(!net.onActive){
                 
-                net.Cmd_ShowE(air,true,false); //LEFT
-                net.Cmd_Interact(id,true,true);//LEFT
+            //    net.Cmd_ShowE(air,true,false); //LEFT
+            //    net.Cmd_Interact(id,true,true);//LEFT
+            //}
+            //else{
+            //     net.Cmd_Interact(id,true,false);//LEFT
+            //}
+            if(!net.onActive)
+            {
+                net.Cmd_ShowE(air, true, false); //LEFT
+                net.HoldAndRecover(air, true, true);
             }
-            else{
-                 net.Cmd_Interact(id,true,false);//LEFT
+            else
+            {
+                net.HoldAndRecover(air, true, false);
+                Col.enabled = false;
+                Col.enabled = true;
             }
         }
     }

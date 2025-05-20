@@ -409,29 +409,31 @@ public class Puzzle_1_Net : NetworkBehaviour
     [ReadOnly]
     public GameObject airObject;
 
-    [Command(requiresAuthority = false)] //Left : true, Right : false
-    public void Cmd_Interact(uint playerNetworkId,bool leftOrRight,bool onOff)
-    {
-            if(NetworkClient.spawned.TryGetValue(playerNetworkId,out NetworkIdentity identity))
-            {
-                TRpc_Interact(identity.connectionToClient,identity.gameObject,leftOrRight,onOff);
-            }
-    }
-    [TargetRpc]
-    private void TRpc_Interact(NetworkConnection _,GameObject player,bool leftOrRight,bool onOff)
-    {
-       HoldAndRecover(player,leftOrRight,onOff);
-    }
+    //[Command(requiresAuthority = false)] //Left : true, Right : false
+    //public void Cmd_Interact(uint playerNetworkId,bool leftOrRight,bool onOff)
+    //{
+    //        if(NetworkClient.spawned.TryGetValue(playerNetworkId,out NetworkIdentity identity))
+    //        {
+    //            TRpc_Interact(identity.connectionToClient,identity.gameObject,leftOrRight,onOff);
+    //        }
+    //}
+    //[TargetRpc]
+    //private void TRpc_Interact(NetworkConnection _,GameObject player,bool leftOrRight,bool onOff)
+    //{
+    //   HoldAndRecover(player,leftOrRight,onOff);
+    //}
 
-    private void HoldAndRecover(GameObject player,bool leftOrRight,bool onOff)
+    public void HoldAndRecover(GameObject player,bool leftOrRight,bool onOff)
     {
         if(onOff)
         {
             Hold(player,leftOrRight);
+            onActive = true;
 
         }else
         {
            Recover(player);
+            onActive = false;
         }
         
     }
@@ -442,6 +444,7 @@ public class Puzzle_1_Net : NetworkBehaviour
         
         var sm = player.GetComponent<PlayerSM>();
         sm.canMovable = false;
+
 
         Fix_AirGun_Direct(player,leftOrRight);
         
@@ -580,16 +583,24 @@ public class Puzzle_1_Net : NetworkBehaviour
    
     private void Connection(GameObject player,Transform hold_Pivot)
     {
-        if(player.GetComponent<ParentConstraint>()) return;
+        if (player.TryGetComponent(out ParentConstraint parentConstraint))
+        {
+            if (parentConstraint.sourceCount > 0)
+            {
+                parentConstraint.RemoveSource(0);
+            }
+            SetParentConstraint(parentConstraint, hold_Pivot);
+        }
 
-        ParentConstraint constraint = player.AddComponent<ParentConstraint>();
-        SetParentConstraint(constraint,hold_Pivot);
     }
     private void Disconnection(GameObject player)
     {
         if(player.TryGetComponent(out ParentConstraint component))
         {
-            Destroy(component);
+            if (component.sourceCount > 0)
+            {
+                component.RemoveSource(0);
+            }
         }
     }
     private void SetParentConstraint(ParentConstraint constraint,Transform parent)

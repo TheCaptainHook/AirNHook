@@ -8491,72 +8491,6 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0
-        },
-        {
-            "id": 344,
-            "dialogueId": 0,
-            "position": {
-                "x": -1.2200000286102296,
-                "y": 21.770000457763673
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 0.699999988079071,
-                "y": 0.699999988079071,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0
-        },
-        {
-            "id": 343,
-            "dialogueId": 0,
-            "position": {
-                "x": -3.3499999046325685,
-                "y": 22.510000228881837
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.001400314038619399,
-                "w": 0.9999991059303284
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0
         }
     ],
     "mapBackgroundObjectList": [
@@ -12295,10 +12229,10 @@
             "chargeRequired": false
         },
         {
-            "id": 345,
+            "id": 341,
             "position": {
-                "x": -7.260000228881836,
-                "y": 23.649999618530275
+                "x": -2.0,
+                "y": 21.0
             },
             "quaternion": {
                 "x": 0.0,
@@ -12311,16 +12245,21 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "targetPositions": [
-                {
-                    "x": -9.5,
-                    "y": 22.5
-                }
-            ],
+            "targetPositions": [],
             "lightPositions": [],
             "onHint": false,
-            "partsPositions": [],
-            "itemPositions": [],
+            "partsPositions": [
+                {
+                    "x": -7.0,
+                    "y": 24.0
+                }
+            ],
+            "itemPositions": [
+                {
+                    "x": -0.009999990463256836,
+                    "y": 21.940000534057618
+                }
+            ],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0

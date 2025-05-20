@@ -222,7 +222,6 @@ public class MirrorObject_Net : NetworkBehaviour
 
         }
 
-
     }
     private void SetParentConstraint(ParentConstraint constraint, Transform parent)
     {
