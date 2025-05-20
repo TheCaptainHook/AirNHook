@@ -21116,7 +21116,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4261559886549119786
 Transform:
   m_ObjectHideFlags: 0
@@ -21197,6 +21197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: 0
+  timeToDisable: 0.7
 --- !u!95 &1866207693306008889
 Animator:
   serializedVersion: 5
