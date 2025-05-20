@@ -11,20 +11,20 @@ public class HiddenTile : MonoBehaviour
     private void Awake()
     {
         _tilemapRenderer = GetComponent<TilemapRenderer>();
-        _tilemapRenderer.maskInteraction = SpriteMaskInteraction.None;
+        _tilemapRenderer.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.gameObject.layer != LayerMask.NameToLayer("Player"))
-            return;
-        _tilemapRenderer.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
+        if (other.gameObject.layer != LayerMask.NameToLayer("Player")) return;
+
+        other.gameObject.GetComponent<PlayerSM>().spriteMask.SetActive(true);
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if(other.gameObject.layer != LayerMask.NameToLayer("Player"))
-            return;
-        _tilemapRenderer.maskInteraction = SpriteMaskInteraction.None;
+        if (other.gameObject.layer != LayerMask.NameToLayer("Player")) return;
+
+        other.gameObject.GetComponent<PlayerSM>().spriteMask.SetActive(false);
     }
 }
