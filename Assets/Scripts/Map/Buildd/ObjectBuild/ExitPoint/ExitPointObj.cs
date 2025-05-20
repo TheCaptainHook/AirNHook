@@ -88,7 +88,8 @@ public class ExitPointObj : BuildObj
         if(collision == null) return;
 
         if(collision.TryGetComponent(out Key component)){
-            ExitPoint_Net.Cmd_GetKey(component.GetComponent<NetworkIdentity>().netId);
+            if(NetworkServer.active)
+            ExitPoint_Net.Server_GetKey(component.GetComponent<NetworkIdentity>().netId);
         }
         
         if(collision.gameObject.TryGetComponent(out PlayerSM _) && MapEditor.Instance.stageClear && NetworkServer.active)

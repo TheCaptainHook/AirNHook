@@ -92,24 +92,39 @@ public class ExitPoint_Net : NetworkBehaviour
         keyBubble.MinusConditionKeyAmount(newVal);
     }
 
-    [Command(requiresAuthority = false)]
-    public void Cmd_GetKey(uint id)
+    //[Command(requiresAuthority = false)]
+    //public void Cmd_GetKey(uint id)
+    //{
+    //    if (isServer)
+    //    {
+    //        var item = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity identity) ? identity : null;
+    //        if (item == null) return;
+
+    //        Managers.Command.DestroyKey(identity.gameObject);
+    //        Debug.Log("Get Key");
+    //        current_KeyAmount -= 1;
+    //        if (current_KeyAmount <= 0 && !MapEditor.Instance.stageClear)
+    //        {
+    //            Rpc_StageClear();
+    //        }
+
+    //    }
+
+    //}
+
+    [Server]
+    public void Server_GetKey(uint id)
     {
-        if (isServer)
+        var item = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity identity) ? identity : null;
+        if (item == null) return;
+
+        Managers.Command.DestroyKey(identity.gameObject);
+        Debug.Log("Get Key");
+        current_KeyAmount -= 1;
+        if (current_KeyAmount <= 0 && !MapEditor.Instance.stageClear)
         {
-            var item = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity identity) ? identity : null;
-            if (item == null) return;
-
-            Managers.Command.DestroyKey(identity.gameObject);
-
-            current_KeyAmount -= 1;
-            if (current_KeyAmount <= 0 && !MapEditor.Instance.stageClear)
-            {
-                Rpc_StageClear();
-            }
-
+            Rpc_StageClear();
         }
-
     }
 
    [ClientRpc]
