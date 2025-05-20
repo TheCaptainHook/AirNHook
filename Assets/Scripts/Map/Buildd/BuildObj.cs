@@ -289,7 +289,13 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         // _collider = GetComponent<Collider2D>();
         _IsDissolveObject = true;
         OnDissolveAction += Respawn;
-        OnInteractableObjectRelease += GetComponent<InteractableObject>().Destroyed;
+
+        if(TryGetComponent(out InteractableObject component))
+        {
+            //OnInteractableObjectRelease += GetComponent<InteractableObject>().Destroyed;
+            OnInteractableObjectRelease += component.Destroyed;
+        }
+        
         canRespawn = true;
 
         if(NetworkServer.active)

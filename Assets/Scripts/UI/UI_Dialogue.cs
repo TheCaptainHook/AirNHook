@@ -179,9 +179,10 @@ public class UI_Dialogue : UI_Base
         var player = Managers.Game.Player.GetComponent<PlayerSM>();
         player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
          Managers.Game.Player.GetComponent<PlayerSM>().canMovable = false;
+        Managers.Game.Player.GetComponent<PlayerSM>().canAction = false;
 
         //------------------------------------player Move control
-       
+
 
         //TextBox SetActive
         if (!_TextBoxRT.gameObject.activeSelf)
@@ -205,7 +206,7 @@ public class UI_Dialogue : UI_Base
         //------------------------------------player Move control
         var player = Managers.Game.Player.GetComponent<PlayerSM>();
         if(!player.canMovable) player.canMovable = true;
-
+        if (!player.canAction) player.canAction = true;
         //------------------------------------player Move control
         Managers.UI.HideUI<UI_Dialogue>();
     }
