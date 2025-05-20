@@ -1,8 +1,6 @@
 using System;
-using System.Buffers;
 using System.Collections;
 using Mirror;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.InputSystem;
@@ -223,7 +221,7 @@ public class NewAirGun
 
         if (collisions.Length <= 1)
         {
-            if (_latestTarget is null) return;
+            if (_latestTarget == null) return;
 
             StopInhale();
             _isIhaleTargetOwned = false;
@@ -272,9 +270,9 @@ public class NewAirGun
             }
         }
         
-        if (_closestTarget is null)
+        if (_closestTarget == null)
         {
-            if (_latestTarget is null) return;
+            if (_latestTarget == null) return;
 
             StopInhale();
             _isIhaleTargetOwned = false;
@@ -293,7 +291,7 @@ public class NewAirGun
                 _shortestDistance = float.MaxValue;
                 return;
             }
-            else if (_inhaleTarget is not null && ReferenceEquals(_inhaleTarget, _latestTarget) && _shortestDistance < 0.3f)
+            else if (_inhaleTarget != null && ReferenceEquals(_inhaleTarget, _latestTarget) && _shortestDistance < 0.3f)
             {
                 if(_inhaleTarget.TryGetComponent<IInhalable>(out var inhalable))
                     FixInhaleTarget();
@@ -317,9 +315,9 @@ public class NewAirGun
     
     private void ObjectCheck()
     {
-        if (!_rightClick || _latestTarget is null || _isAttached || sticking || !_canInhale) return;
+        if (!_rightClick || _latestTarget == null || _isAttached || sticking || !_canInhale) return;
         
-        if (_hook is null && ReferenceEquals(_latestTarget.gameObject, Managers.Game.OtherPlayer))
+        if (_hook == null && ReferenceEquals(_latestTarget.gameObject, Managers.Game.OtherPlayer))
         {
             if (_latestTarget.TryGetComponent(out _hook) && _hook.isSwinging)
             {
@@ -327,7 +325,7 @@ public class NewAirGun
                 _keepGrapplingCheckCoroutine = _air.StartCoroutine(KeepGrapplingCheck());
             }
         }
-        else if (_hook is not null && _hook.isSwinging)
+        else if (_hook != null && _hook.isSwinging)
         {
             if (!_canStick) return;
             
@@ -361,7 +359,7 @@ public class NewAirGun
     {
         if (!_inhaling || _isAttached) return;
 
-        if (Managers.Game.OtherPlayer is not null && ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject))
+        if (Managers.Game.OtherPlayer != null && ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject))
         {
             if (_inhalingPlayer) return;
 
@@ -405,7 +403,7 @@ public class NewAirGun
         _inhaling = false;
         _shakingEffectOnAirGun.StopShaking();
         //StopInhaleParticle();
-        if (_chargingCoroutine is not null)
+        if (_chargingCoroutine != null)
         {
             _air.StopCoroutine(_chargingCoroutine);
             _lineRenderer.enabled = false;
@@ -422,7 +420,7 @@ public class NewAirGun
 
         try
         {
-            if (_targetConstraint is not null && _targetConstraint.sourceCount != 0)
+            if (_targetConstraint != null && _targetConstraint.sourceCount != 0)
             {
                 _targetConstraint.weight = 0f;
                 _targetConstraint.constraintActive = false;
@@ -463,7 +461,7 @@ public class NewAirGun
 
     public void HookAttached()
     {
-        if (_inhaleTarget is null || !ReferenceEquals(_inhaleTarget.gameObject, Managers.Game.OtherPlayer)) return;
+        if (_inhaleTarget == null || !ReferenceEquals(_inhaleTarget.gameObject, Managers.Game.OtherPlayer)) return;
 
         _isAttached = true;
         _isInhaledHook = true;
@@ -566,7 +564,7 @@ public class NewAirGun
         Vector2 mousePos = _mainCamera.ScreenToWorldPoint(_mousePosition);
         Vector2 dir = (mousePos - (Vector2)_transform.position).normalized;
 
-        if (_chargingCoroutine is not null)
+        if (_chargingCoroutine != null)
         {
             _air.StopCoroutine(_chargingCoroutine);
             _chargingCoroutine = null;
@@ -585,7 +583,7 @@ public class NewAirGun
 
     private void StopSticking()
     {
-        if (_keepGrapplingCheckCoroutine is not null)
+        if (_keepGrapplingCheckCoroutine != null)
         {
             _air.StopCoroutine(_keepGrapplingCheckCoroutine);
             _keepGrapplingCheckCoroutine = null;
@@ -593,14 +591,14 @@ public class NewAirGun
         _isAttachedToHook = false;
         _rigidbody2D.drag = 0f;
         
-        if (_stickToHookCoroutine is null) return;
+        if (_stickToHookCoroutine == null) return;
         _air.StopCoroutine(_stickToHookCoroutine);
         _stickToHookCoroutine = null;
         _isStick = false;
         _canStick = false;
         sticking = false;
 
-        if (_chargingCoroutine is not null)
+        if (_chargingCoroutine != null)
         {
             _air.StopCoroutine(_chargingCoroutine);
             _chargingCoroutine = null;
@@ -608,7 +606,7 @@ public class NewAirGun
         _lineRenderer.enabled = false;
         _crossHair.gameObject.SetActive(false);
 
-        if (_hook is not null)
+        if (_hook != null)
             _hook.CmdAirAttached(false);
         else
             if (Managers.Game.OtherPlayer.TryGetComponent(out HookSM hook))
@@ -694,7 +692,7 @@ public class NewAirGun
     {
         if ((!_isAttached && !_isInhaledHook) || _shootPower <= 0f) return;
         
-        if (_inhaleTarget is null)
+        if (_inhaleTarget == null)
         {
             StopInhale();
             return;

@@ -72,9 +72,11 @@ public class LockerAnim : NetworkBehaviour, IInteractable
 
         RpcPlayerStuckToLocker(_player.GetComponent<NetworkIdentity>().connectionToClient, target);
 
-        CmdChangeSortingOrder(_player);
+        //CmdChangeSortingOrder(_player);
+        RpcChangeSortingOrder(_player);
 
         _animator.SetTrigger(Changing);
+        Invoke("CharacterChange", 1.2f);
     }
 
     [TargetRpc]
@@ -90,12 +92,6 @@ public class LockerAnim : NetworkBehaviour, IInteractable
         playerSM.transform.position = transform.position + new Vector3(0, 1f);
     }
 
-    [Command(requiresAuthority = false)]
-    private void CmdChangeSortingOrder(GameObject player)
-    {
-        RpcChangeSortingOrder(player);
-    }
-
     [ClientRpc]
     private void RpcChangeSortingOrder(GameObject player)
     {
@@ -108,20 +104,20 @@ public class LockerAnim : NetworkBehaviour, IInteractable
 
     public void CharacterChange()
     {
-        if (!Managers.Game.Player.GetComponent<NetworkIdentity>().isServer) return;
-
-        Debug.Log(_player);
-        CmdChangeCharacter();
-    }
-
-    [Command(requiresAuthority = false)]
-    public void CmdChangeCharacter()
-    {
         Managers.Network.ReplacePlayer(_player.GetComponent<NetworkIdentity>().connectionToClient,
             _characterType,
             transform.position + new Vector3(0, 0.2f));
         _animator.SetTrigger("Restock");
     }
+
+    //[Command(requiresAuthority = false)]
+    //public void CmdChangeCharacter()
+    //{
+    //    Managers.Network.ReplacePlayer(_player.GetComponent<NetworkIdentity>().connectionToClient,
+    //        _characterType,
+    //        transform.position + new Vector3(0, 0.2f));
+    //    _animator.SetTrigger("Restock");
+    //}
 
     public void Restocked()
     {

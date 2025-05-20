@@ -136,14 +136,14 @@ public class HookSM : PlayerSM, IInhalable
         while (true)
         {
             yield return null;
-            if (grabbedItem is not null)
+            if (grabbedItem != null)
                 continue;
             
             var collisions = Physics2D.OverlapCircleAll(transform.position + offset, detectDistance, interactableLayerMask);
 
             if (collisions.Length == 0)
             {
-                if (latestTarget is null)
+                if (latestTarget == null)
                 {
                     Managers.UI.HideUI<UI_ShowEButton>();
                     continue;
@@ -187,11 +187,11 @@ public class HookSM : PlayerSM, IInhalable
                 }
             }
 
-            if (closestTarget is null)
+            if (closestTarget == null)
             { 
                 try
                 {
-                    if (latestTarget is not null && latestTarget.TryGetComponent<IInteractable>(out var other))
+                    if (latestTarget != null && latestTarget.TryGetComponent<IInteractable>(out var other))
                         other.HideEButton();
                 }
                 catch (Exception)
@@ -204,7 +204,7 @@ public class HookSM : PlayerSM, IInhalable
                 continue;
             }
             
-            if (latestTarget is not null)
+            if (latestTarget != null)
             {
                 if (ReferenceEquals(latestTarget, closestTarget))
                 {
@@ -241,11 +241,11 @@ public class HookSM : PlayerSM, IInhalable
     
     protected override void Interaction()
     {
-        if (grabbedItem is not null)
+        if (grabbedItem != null)
         {
             ReleaseItem();
         }
-        else if (latestTarget is not null)
+        else if (latestTarget != null)
         {
             if (!latestTarget.TryGetComponent<IInteractable>(out var interactable)) return;
 
@@ -323,7 +323,7 @@ public class HookSM : PlayerSM, IInhalable
 
         grappling.Reset();
 
-        if (grabbedItem is not null)
+        if (grabbedItem != null)
             Interaction();
     }
     #endregion
@@ -351,7 +351,7 @@ public class HookSM : PlayerSM, IInhalable
         canControl = false;
         _fixedPoint = accesor;
 
-        if (_inhaleCoroutine is not null) return;
+        if (_inhaleCoroutine != null) return;
 
         _inhaleCoroutine = StartCoroutine(Co_Inhale());
     }
@@ -364,7 +364,7 @@ public class HookSM : PlayerSM, IInhalable
             {
                 yield return _waitForFixedUpdate;
 
-                if (_fixedPoint is null) break;
+                if (_fixedPoint == null) break;
                 
                 var direction = (_fixedPoint.position - transform.position).normalized;
                 var power = _inhalePower * Time.fixedDeltaTime;
@@ -377,7 +377,7 @@ public class HookSM : PlayerSM, IInhalable
 
                 try
                 {
-                    if (characterConstraint is null)
+                    if (characterConstraint == null)
                         characterConstraint = gameObject.AddComponent<ParentConstraint>();
 
                     characterConstraint.weight = 1f;
@@ -402,7 +402,7 @@ public class HookSM : PlayerSM, IInhalable
                 rigidbody2D.drag = 0f;
                 rigidbody2D.velocity = Vector2.zero;
                 
-                if (_fixedPoint is null) break;
+                if (_fixedPoint == null) break;
                 transform.position = _fixedPoint.position;
             }
         }
@@ -412,7 +412,7 @@ public class HookSM : PlayerSM, IInhalable
     
     public void StopInhale()
     {
-        if (_inhaleCoroutine is not null)
+        if (_inhaleCoroutine != null)
         {
             StopCoroutine(_inhaleCoroutine);
             _inhaleCoroutine = null;
@@ -423,7 +423,7 @@ public class HookSM : PlayerSM, IInhalable
 
         try
         {
-            if (characterConstraint is not null && characterConstraint.sourceCount != 0)
+            if (characterConstraint != null && characterConstraint.sourceCount != 0)
             {
                 characterConstraint.weight = 0f;
                 characterConstraint.constraintActive = false;
