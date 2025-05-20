@@ -6,7 +6,7 @@ public class MirrorObject : BuildObj,IInteractable
     [CustomHeader("Mirror Object")]
     [SerializeField] GameObject _Mirror;
     [ReadOnly]
-    [SerializeField] GameObject _ConnectPlayer;
+    //[SerializeField] GameObject _ConnectPlayer;
     public bool onActive;
 
     [Header("Interacte")]
@@ -27,8 +27,9 @@ public class MirrorObject : BuildObj,IInteractable
         }
     }
 
-    private bool IsInnerPlayer => M_Net.InnerPlayer;
-    private bool IsActive => M_Net.onActive;
+   
+    //private bool IsActive => M_Net.onActive;
+    private bool isActive;
     #endregion
 
 
@@ -44,7 +45,8 @@ public class MirrorObject : BuildObj,IInteractable
     }
 
     private void Update(){
-        if(IsActive){
+        if(isActive)
+        {
             if(Input.GetKey(KeyCode.A)){
                 MirrorRotate(true);
             }
@@ -55,42 +57,46 @@ public class MirrorObject : BuildObj,IInteractable
         }
     }
 
-    
 
+    private bool IsInnerPlayer => M_Net.InnerPlayer;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(IsInnerPlayer) return;
+        if (IsInnerPlayer) return;
 
-        if(other)
+        if (other)
         {
-            if(other.TryGetComponent(out PlayerSM PS))
+            if (other.TryGetComponent(out PlayerSM player))
             {
-                // M_Net.Cmd_SetInnerPlayer(hook.gameObject);
-             
-                _ConnectPlayer = PS.gameObject;
-                M_Net.Cmd_ShowE(PS.gameObject, true);
+                var playerIdentity = player.gameObject.TryGetComponent(out NetworkIdentity identity) ? identity : null;
+                if(playerIdentity)
+                {
+                    if (playerIdentity.isLocalPlayer) ShowE();
+                    M_Net.Cmd_InnerPlayer(playerIdentity.netId);
+                }
+
             }
         }
-     
+
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-       if(IsInnerPlayer) return;
-        if(other)
+        if (other)
         {
-            if(other.TryGetComponent(out PlayerSM PS))
+            if (other.TryGetComponent(out PlayerSM PS))
             {
-                // M_Net.Cmd_SetInnerPlayer(hook.gameObject);
-                M_Net.Cmd_ShowE(PS.gameObject, false);
-                _ConnectPlayer = null;
+                if(PS.gameObject == M_Net.InnerPlayer)
+                {
+                    HideE();
+                    M_Net.Cmd_InnerPlayer(9999);
+                }
             }
         }
     }
 
 
-#region  main
+    #region  main
     private void MirrorRotate(bool pm){
         if(pm){
             Quaternion curRot = _Mirror.transform.rotation;
@@ -104,19 +110,19 @@ public class MirrorObject : BuildObj,IInteractable
             // _Mirror.transform.rotation = curRot;
         }
     }
-    private void OnActiveMirrorRotate(){
-        if(_ConnectPlayer == null) return;
-        //_ConnectPlayer.GetComponent<PlayerSM>().canControl = false;
-        //Managers.Game.Player.GetComponent<Rigidbody2D>().simulated = false;
-        //Managers.Game.Player.GetComponent<Rigidbody2D>().velocity  = Vector2.zero;
-        onActive = true;
+    //private void OnActiveMirrorRotate(){
+    //    if(_ConnectPlayer == null) return;
+    //    //_ConnectPlayer.GetComponent<PlayerSM>().canControl = false;
+    //    //Managers.Game.Player.GetComponent<Rigidbody2D>().simulated = false;
+    //    //Managers.Game.Player.GetComponent<Rigidbody2D>().velocity  = Vector2.zero;
+    //    onActive = true;
         
-    }
-    private void OnDeactiveMirrorRotate(){
-        //_ConnectPlayer.GetComponent<PlayerSM>().canControl = true;
-        //Managers.Game.Player.GetComponent<Rigidbody2D>().simulated = true;
-        onActive  = false;
-    }
+    //}
+    //private void OnDeactiveMirrorRotate(){
+    //    //_ConnectPlayer.GetComponent<PlayerSM>().canControl = true;
+    //    //Managers.Game.Player.GetComponent<Rigidbody2D>().simulated = true;
+    //    onActive  = false;
+    //}
     
 
 #endregion
@@ -126,27 +132,49 @@ public class MirrorObject : BuildObj,IInteractable
 
     public void Interaction(Transform accessor = null)
     {
-        if (_ConnectPlayer != null)
-        {
-            HideE();
-            if (IsActive)
-            {
-                if (_ConnectPlayer) _ConnectPlayer = null; //test
-                M_Net.Cmd_SetInnerPlayer(null);
-            }
-            else
-            {
-                M_Net.Cmd_SetInnerPlayer(_ConnectPlayer);
-            }
+        //if (!M_Net.InnerPlayer || M_Net.InnerPlayer != accessor.gameObject) return;
 
-        }
-        else
-        {
-            if (IsActive)
-            {
-                M_Net.Cmd_SetInnerPlayer(null);
-            }
-        }
+        //if(isActive)
+        //{
+        //    //Dis Connect
+        //}
+        //else
+        //{
+        //    var id = accessor.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 9999;
+        //    if(id != 9999)
+        //    {
+        //        M_Net.Cmd_InnerPlayer(id);
+        //    }
+
+        //    //Connect
+        //}
+
+
+
+
+
+        //if (_ConnectPlayer != null)
+        //{
+        //    HideE();
+        //    if (IsActive)
+        //    {
+        //        if (_ConnectPlayer) _ConnectPlayer = null; //test
+        //        M_Net.Cmd_SetInnerPlayer(null);
+        //    }
+        //    else
+        //    {
+        //        M_Net.Cmd_SetInnerPlayer(_ConnectPlayer);
+        //    }
+
+        //}
+        //else
+        //{
+        //    if (IsActive)
+        //    {
+        //        M_Net.Cmd_SetInnerPlayer(null);
+        //    }
+        //}
+
     }
     public bool CanInteract(){
         return true;

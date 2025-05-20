@@ -11,8 +11,8 @@ public class MirrorObject_Net : NetworkBehaviour
 
     [Space(20)]
     [Header("Sync Data")]
-    [SyncVar(hook =nameof(OnChange_ThisObjectAuthority))]
-    public GameObject InnerPlayer;
+    //[SyncVar(hook =nameof(OnChange_ThisObjectAuthority))]
+  
 
     [SyncVar(hook =nameof(OnChageRotate_Z))] 
     public float rotate_Z;
@@ -23,7 +23,8 @@ public class MirrorObject_Net : NetworkBehaviour
     private Collider2D col;
     private Collider2D Col { get { col ??= GetComponent<Collider2D>();return col; } }
 
-    private MirrorObject MirrorObject => GetComponent<MirrorObject>();
+    private MirrorObject mirrorObject;
+    private MirrorObject Main { get { mirrorObject ??= GetComponent<MirrorObject>();return mirrorObject; } }
 
     [SerializeField] Transform hold_Pivot;
     #region  Init Sync
@@ -32,7 +33,7 @@ public class MirrorObject_Net : NetworkBehaviour
     [Server]
     public void Server_InitSync()
     {
-        Rpc_InitSync(MirrorObject.ObjectData);
+        Rpc_InitSync(Main.ObjectData);
     }
     [ClientRpc]
     private void Rpc_InitSync(ObjectData data)
@@ -56,43 +57,71 @@ public class MirrorObject_Net : NetworkBehaviour
     }
     #endregion
 
-
-#region  Server
-    [Server]
-    private void Server_SetInnerPlayer(GameObject player)
-    {
-        InnerPlayer = player;
-    }
-
-    private void OnChange_ThisObjectAuthority(GameObject old,GameObject newVal)
-    {
-        if(newVal == null)
-        {
-            //old Revoke Authority
-            GrantOrRevokeAuthority(old,false);
-        }else
-        {
-            //newVal Grant Authority
-            GrantOrRevokeAuthority(newVal,true);
-        }
-    }
+    #region InnerPlayer Sync
+    public GameObject InnerPlayer;
 
     [Command(requiresAuthority = false)]
-    private void GrantOrRevokeAuthority(GameObject obj,bool isAuthorized)
+    public void Cmd_InnerPlayer(uint netID)
     {
-        if(obj.TryGetComponent(out NetworkIdentity identity))
+        Rpc_InnerPlayer(netID);
+    }
+    [ClientRpc]
+    private void Rpc_InnerPlayer(uint netID)
+    {
+        if(netID == 9999)
         {
-           TRpc_CheckIdentity(identity.connectionToClient,isAuthorized,obj);
+            InnerPlayer = null;
+            return;
         }
-    }
-
-    [TargetRpc]
-    private void TRpc_CheckIdentity(NetworkConnection conn,bool isAuthorized,GameObject player)
-    {
-        if(isAuthorized)Holding(player);
-        else Recover(player);
+        InnerPlayer = NetworkClient.spawned.TryGetValue(netID, out NetworkIdentity identity) ? identity.gameObject : null;
 
     }
+    #endregion
+
+    /**
+     * 1. Enter Trigger -> InnerPlayer sync -> 서버
+     * 2. innerplayer가 null 이 아니면 걍 개무시,
+     * 3. innerplayer가 로컬인경우에만 e 작동하게 ,
+     * **/
+
+
+
+    #region  Server
+    //[Server]
+    //private void Server_SetInnerPlayer(GameObject player)
+    //{
+    //    InnerPlayer = player;
+    //}
+
+    //private void OnChange_ThisObjectAuthority(GameObject old,GameObject newVal)
+    //{
+    //    if(newVal == null)
+    //    {
+    //        //old Revoke Authority
+    //        GrantOrRevokeAuthority(old,false);
+    //    }else
+    //    {
+    //        //newVal Grant Authority
+    //        GrantOrRevokeAuthority(newVal,true);
+    //    }
+    //}
+
+    //[Command(requiresAuthority = false)]
+    //private void GrantOrRevokeAuthority(GameObject obj,bool isAuthorized)
+    //{
+    //    if(obj.TryGetComponent(out NetworkIdentity identity))
+    //    {
+    //       TRpc_CheckIdentity(identity.connectionToClient,isAuthorized,obj);
+    //    }
+    //}
+
+    //[TargetRpc]
+    //private void TRpc_CheckIdentity(NetworkConnection conn,bool isAuthorized,GameObject player)
+    //{
+    //    if(isAuthorized)Holding(player);
+    //    else Recover(player);
+
+    //}
 
     [Server]
     public void Server_SetRot_z(float z)
@@ -120,8 +149,8 @@ public class MirrorObject_Net : NetworkBehaviour
     [TargetRpc]
     private void TRpc_ShowE(NetworkConnection conn,bool onOff)
     {
-        if(onOff) MirrorObject.ShowE();
-        else MirrorObject.HideE();
+        if(onOff) Main.ShowE();
+        else Main.HideE();
 
     }
     #endregion
@@ -144,11 +173,11 @@ public class MirrorObject_Net : NetworkBehaviour
 #endregion
 
    
-    [Command(requiresAuthority = false)]
-    public void Cmd_SetInnerPlayer(GameObject player)
-    {
-        Server_SetInnerPlayer(player);
-    }
+    //[Command(requiresAuthority = false)]
+    //public void Cmd_SetInnerPlayer(GameObject player)
+    //{
+    //    //Server_SetInnerPlayer(player);
+    //}
 
     //Hook
 
@@ -190,7 +219,7 @@ public class MirrorObject_Net : NetworkBehaviour
 
     private void Event_Recover()
     {
-        Cmd_SetInnerPlayer(null);
+        Cmd_InnerPlayer(9999);
     }
 
     #region  Util
