@@ -174,10 +174,21 @@ public class MirrorObject_Net : NetworkBehaviour
 
         Cmd_InnerPlayer(9999);
 
+        Cmd_ColReset();
+       
+    }
+
+    [Command(requiresAuthority = false)]
+    private void Cmd_ColReset()
+    {
+        Rpc_ColReset();
+    }
+    [ClientRpc]
+    private void Rpc_ColReset()
+    {
         Col.enabled = false;
         Col.enabled = true;
     }
-
 
     private void Event_Recover()
     {
