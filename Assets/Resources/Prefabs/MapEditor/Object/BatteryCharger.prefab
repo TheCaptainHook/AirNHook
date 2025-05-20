@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4646809654821872669}
   - component: {fileID: 4236754155945697656}
-  m_Layer: 0
+  m_Layer: 25
   m_Name: BatteryCharger_BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7930948974684876929}
   - component: {fileID: 658434911251116232}
-  m_Layer: 0
+  m_Layer: 25
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 505741568007627474}
   - component: {fileID: 5136604843513246743}
-  m_Layer: 0
+  m_Layer: 25
   m_Name: SpotLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -261,7 +261,7 @@ GameObject:
   - component: {fileID: 4685105685900461288}
   - component: {fileID: 1295922237114127075}
   - component: {fileID: 9135987359306318912}
-  m_Layer: 0
+  m_Layer: 25
   m_Name: BatteryCharger_Dot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -402,7 +402,7 @@ GameObject:
   - component: {fileID: 960347795230365921}
   - component: {fileID: 2355852920310489251}
   - component: {fileID: 2914353070141354660}
-  m_Layer: 16
+  m_Layer: 25
   m_Name: BatteryCharger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -625,7 +625,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7741337796845948121}
   - component: {fileID: 1278530550752169641}
-  m_Layer: 0
+  m_Layer: 25
   m_Name: BatteryCharger_Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -709,7 +709,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2124091438373486505}
   - component: {fileID: 4290001776222878364}
-  m_Layer: 16
+  m_Layer: 25
   m_Name: Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

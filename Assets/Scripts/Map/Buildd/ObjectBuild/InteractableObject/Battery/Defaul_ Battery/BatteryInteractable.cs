@@ -174,6 +174,8 @@ public class BatteryInteractable : TransportItemEntity
 
         //_fixedPoint = null;
         transform.position = releasePosition;
+        transform.rotation = Quaternion.identity;
+        
         _rigidbody.bodyType = _originType;
         _rigidbody.constraints = _originRot;
         _sortingGroup.sortingLayerID = _originSortingLayerID;

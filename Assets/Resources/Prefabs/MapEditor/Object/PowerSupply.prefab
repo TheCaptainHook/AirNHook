@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6079914367842599812}
   - component: {fileID: 5198512376496749887}
-  m_Layer: 16
+  m_Layer: 25
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 5727804534340495387}
   - component: {fileID: 933479275158034588}
   - component: {fileID: 7341219020428810237}
-  m_Layer: 16
+  m_Layer: 25
   m_Name: PowerSupply
   m_TagString: Untagged
   m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
@@ -237,6 +237,9 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   distructionStatus: 0
   chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
@@ -245,12 +248,12 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
+  canRespawn: 0
   targetObjects: []
   lightObjects: []
   socketPosition: {fileID: 6272910094011134713}
   mat: {fileID: -876546973899608171, guid: 96643b3e092764ff1b7e3f9d5be7f1ad, type: 3}
   lineContainer: {fileID: 5627789599820802426}
-  battery: {fileID: 0}
   _objectType: 0
   _BtnOffset: 1
 --- !u!114 &7773638936160805107
@@ -268,6 +271,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  onSync: 0
   targets:
     targets: []
     targetPositions: []
@@ -340,7 +344,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5627789599820802426}
   - component: {fileID: 2701382110493943818}
-  m_Layer: 16
+  m_Layer: 25
   m_Name: LineContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -384,7 +388,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6817221653275138025}
   - component: {fileID: 2760407321707080613}
-  m_Layer: 16
+  m_Layer: 25
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -468,7 +472,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6272910094011134713}
-  m_Layer: 16
+  m_Layer: 25
   m_Name: Socket
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -31,7 +31,7 @@ TagManager:
   - Mirror
   - 'Object/ForeGround/IgnoreAttack '
   - BridgeBox
-  - 
+  - Interactable/IgnoreAttack
   - Indicator
   - Dialogue
   - 

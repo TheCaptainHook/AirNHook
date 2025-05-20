@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9205221063032661519}
   - component: {fileID: 719086938807151866}
-  m_Layer: 16
+  m_Layer: 25
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 8499923676822758438}
   - component: {fileID: 2675762856716472400}
   - component: {fileID: 589034012429756506}
-  m_Layer: 16
+  m_Layer: 25
   m_Name: ToggleButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -380,7 +380,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5116023069368581198}
-  m_Layer: 16
+  m_Layer: 25
   m_Name: Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
