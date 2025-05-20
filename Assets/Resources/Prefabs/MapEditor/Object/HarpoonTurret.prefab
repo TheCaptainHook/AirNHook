@@ -5211,6 +5211,9 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   distructionStatus: 0
   chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
@@ -5219,6 +5222,7 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
+  canRespawn: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1088
@@ -5227,7 +5231,7 @@ MonoBehaviour:
   _shellParticle: {fileID: 645326699124061494}
   _topSteam: {fileID: 2868477511076414545}
   _bottomSteam: {fileID: 8270035442196099591}
-  radius: 10
+  radius: 6
   arrowPrefab: {fileID: 6577318668199586757, guid: d06948e9a634942f4828d3e3316cad40, type: 3}
 --- !u!114 &5203370921611121155
 MonoBehaviour:
