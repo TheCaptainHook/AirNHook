@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 3181580861299466548}
   - component: {fileID: 7009711972506207765}
   - component: {fileID: 432890324054037823}
+  - component: {fileID: 8992026793331297179}
   m_Layer: 18
   m_Name: Puzzle_1_Item (3)
   m_TagString: Untagged
@@ -110,10 +111,10 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 672704
+    m_Bits: 705472
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 1294314551
+    m_Bits: 1294281783
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -288,6 +289,22 @@ MonoBehaviour:
   parts: {fileID: 0}
   onInsert: 0
   possibleInsertSocket: 0
+--- !u!114 &8992026793331297179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160749570545789211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5ab0e36dbc862945b9985f94fdf9533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  movingPlatform: {fileID: 0}
 --- !u!1 &3714301369269417152
 GameObject:
   m_ObjectHideFlags: 0
