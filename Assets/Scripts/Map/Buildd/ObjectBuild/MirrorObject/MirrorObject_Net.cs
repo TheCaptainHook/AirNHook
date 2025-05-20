@@ -171,6 +171,11 @@ public class MirrorObject_Net : NetworkBehaviour
         pm.canMovable = true;
 
         player.GetComponent<PlayerSM>().deathEvent -= Event_Recover;
+
+        Cmd_InnerPlayer(9999);
+
+        Col.enabled = false;
+        Col.enabled = true;
     }
 
 
@@ -193,10 +198,7 @@ public class MirrorObject_Net : NetworkBehaviour
             }
             SetParentConstraint(parentConstraint, hold_Pivot);
         }
-        //if (player.GetComponent<ParentConstraint>()) return;
 
-        //ParentConstraint constraint = player.AddComponent<ParentConstraint>();
-        //SetParentConstraint(constraint, hold_Pivot);
     }
     private void Disconnection(GameObject player)
     {
@@ -206,8 +208,7 @@ public class MirrorObject_Net : NetworkBehaviour
             {
                 component.RemoveSource(0);
             }
-            Col.enabled = false;
-            Col.enabled = true;
+
         }
 
 
