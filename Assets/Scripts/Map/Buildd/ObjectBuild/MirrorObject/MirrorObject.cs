@@ -134,21 +134,18 @@ public class MirrorObject : BuildObj,IInteractable
     {
         if (!M_Net.InnerPlayer || M_Net.InnerPlayer != accessor.gameObject) return;
 
-        Debug.Log("Local Interaction");
-        //if (isActive)
-        //{
-        //    //Dis Connect
-        //}
-        //else
-        //{
-        //    var id = accessor.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 9999;
-        //    if (id != 9999)
-        //    {
-        //        M_Net.Cmd_InnerPlayer(id);
-        //    }
-
-        //    //Connect
-        //}
+        if (isActive)
+        {
+            //Dis Connect
+            M_Net.Recover(accessor.gameObject); 
+            isActive = false;
+        }
+        else
+        {
+            //Connect
+            M_Net.Holding(accessor.gameObject);
+            isActive = true;
+        }
 
 
 

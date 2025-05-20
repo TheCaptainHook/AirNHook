@@ -185,7 +185,7 @@ public class MirrorObject_Net : NetworkBehaviour
 
 
 
-    private void Holding(GameObject player)
+    public void Holding(GameObject player)
     {
         Managers.UI.HideUI<UI_ShowEButton>();
         onActive = true;
@@ -201,7 +201,7 @@ public class MirrorObject_Net : NetworkBehaviour
         player.GetComponent<PlayerSM>().deathEvent += Event_Recover;
 
     }
-    private void Recover(GameObject player)
+    public void Recover(GameObject player)
     {
         onActive = false;
         var pm = player.GetComponent<PlayerSM>();
