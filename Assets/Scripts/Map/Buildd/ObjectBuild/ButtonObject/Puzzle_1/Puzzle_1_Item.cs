@@ -10,6 +10,7 @@ public class Puzzle_1_Item : BuildObj,IDamageable
 
     [Header("Puzzle")]
     public int socketNumber; //1,2,3
+
     public bool possibleInsertSocket;
 
     #region Components
@@ -29,31 +30,34 @@ public class Puzzle_1_Item : BuildObj,IDamageable
         DissolveInitSetting();
     }
 
-   #region Socket
-   public void InsertSocket(){
-    if(Parts){
-         if(Net_Item.parts.TryGetComponent(out Puzzle_1_Parts component))
-            {
-                component.InsertSocket(gameObject);
-            }
+    #region Socket
+    //public void InsertSocket(){
+    // if(Parts){
+    //      if(Net_Item.parts.TryGetComponent(out Puzzle_1_Parts component))
+    //         {
+    //             component.InsertSocket(gameObject);
+    //         }
 
-    }
-   }
-    public void RemoveSocket(bool onEffect = false)
+    // }
+    //}
+    //public void RemoveSocket(bool onEffect = false)
+    //{
+
+    //    Net_Item.Cmd_SetOnInsert(false);
+
+    //}
+
+    //public void Net_HandleSetParts(Puzzle_1_Parts parts){
+    //    if(parts == null){
+    //        Net_Item.HandleSetParts(null);
+    //    }else
+    //    Net_Item.HandleSetParts(parts.gameObject);
+    //}
+    public Puzzle_1_Parts parts;
+    public void ContectParts(Puzzle_1_Parts parts)
     {
-
-        Net_Item.Cmd_SetOnInsert(false);
-
+        this.parts = parts;
     }
-
-    public void Net_HandleSetParts(Puzzle_1_Parts parts){
-        if(parts == null){
-            Net_Item.HandleSetParts(null);
-        }else
-        Net_Item.HandleSetParts(parts.gameObject);
-    }
-
-
 
 
     #endregion
@@ -65,7 +69,6 @@ public class Puzzle_1_Item : BuildObj,IDamageable
     public void RemoveSocketEffect(bool Power = false)
     {
         float xForce = Random.Range(-horizontalVariation, horizontalVariation);
-
         if (Power)
         {
             rb.AddForce(new Vector2(xForce, forceStrength), ForceMode2D.Impulse);
@@ -78,6 +81,8 @@ public class Puzzle_1_Item : BuildObj,IDamageable
        
     }
     #endregion
+
+
 
 
     #region Util

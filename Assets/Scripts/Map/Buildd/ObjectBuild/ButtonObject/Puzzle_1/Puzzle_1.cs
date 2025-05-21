@@ -256,7 +256,7 @@ public class Puzzle_1 : ButtonEntity
 
     #region Answer
   
-    public bool CheckAnswer()
+    public bool CheckAnswer() //Server
     {
         int num = 0;
         foreach (Puzzle_1_Parts parts in puzzle_1_Parts)
