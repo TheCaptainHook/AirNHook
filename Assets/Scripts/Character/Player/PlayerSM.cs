@@ -319,7 +319,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     
     public virtual void Respawning()
     {
-        //rigidbody2D.velocity = Vector2.zero; //TEst 0521
+        rigidbody2D.velocity = Vector2.zero; 
         transform.position = Managers.Network.startPos[0].position;
         animator.SetTrigger(animationData.RespawningParameterHash);
         Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.DeathVignette(false);
