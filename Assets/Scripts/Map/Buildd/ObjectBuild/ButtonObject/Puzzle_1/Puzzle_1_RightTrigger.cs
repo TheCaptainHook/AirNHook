@@ -37,7 +37,6 @@ public class Puzzle_1_RightTrigger : MonoBehaviour,IInteractable
                 {
                     this.air = null;
 
-                        net.Cmd_ShowE(collision.gameObject, false, false); //LEFT
                 }
 
             }
@@ -52,15 +51,7 @@ public class Puzzle_1_RightTrigger : MonoBehaviour,IInteractable
     {
         if(air != null)
         {
-            //var id = accessor.root.gameObject.GetComponent<NetworkIdentity>().netId;
-            //if(!net.onActive){
 
-            //    net.Cmd_ShowE(air,false,false); //Right
-            //    net.Cmd_Interact(id,false,true);//Right
-            //}
-            //else{
-            //     net.Cmd_Interact(id,false,false);//Right
-            //}
             if (!net.onActive)
             {
                 net.Cmd_ShowE(air, false, false); //Right
