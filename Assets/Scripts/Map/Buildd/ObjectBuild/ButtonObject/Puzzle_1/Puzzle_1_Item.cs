@@ -22,7 +22,7 @@ public class Puzzle_1_Item : BuildObj,IDamageable
     #endregion
 
     #region Network Field
-    private bool Parts => Net_Item.parts ? true : false;
+    //private bool Parts => Net_Item.parts ? true : false;
     #endregion
 
     private void Awake(){
@@ -84,15 +84,11 @@ public class Puzzle_1_Item : BuildObj,IDamageable
 
 
 
-
-    #region Util
-
-    #endregion
-
-    public override void TakeDamage(DamageType damageType = DamageType.Default)
-    {
-        StartCoroutine(DestroyCo());
-    }
+    //public override void TakeDamage(DamageType damageType = DamageType.Default)
+    //{
+    //    //StartCoroutine(DestroyCo());
+    //    Respawn();
+    //}
 
 
     IEnumerator DestroyCo()
@@ -104,9 +100,11 @@ public class Puzzle_1_Item : BuildObj,IDamageable
         Net_Item.Respawned();
     }
 
-    public void Server_SetOrgPosition(Vector3 pos)
+    public void Server_SetOrgPosition(Vector3 pos) //Server
     {
-        Net_Item.Server_SetOrgPositon(pos);
+
+        position = pos;
+        //Net_Item.Server_SetOrgPositon(pos);
     }
 
 }

@@ -357,8 +357,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         buildObj.canRespawn = false;
 
         float percent = 1;
-        _collider.enabled = false;
         _rigidbody.gravityScale = 0;
+        _collider.enabled = false;
         _rigidbody.velocity = Vector2.zero;
         while (percent > 0)
         {

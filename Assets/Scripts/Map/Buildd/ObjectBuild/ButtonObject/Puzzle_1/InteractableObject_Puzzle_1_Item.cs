@@ -11,7 +11,7 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
     Puzzle_1_Item Main { get { main ??= GetComponent<Puzzle_1_Item>(); return main; } }
 
 
-    Collider2D Col => GetComponent<Collider2D>();
+    //Collider2D Col => GetComponent<Collider2D>();
 
     protected override void Awake()
     {
@@ -71,7 +71,7 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
     //[SyncVar(hook = nameof(OnPartsChange))]
     [SyncVar]
     public GameObject parts;
-    private Vector2 PartsTransform => (parts)? parts.transform.position : Vector2.zero;
+    //private Vector2 PartsTransform => (parts)? parts.transform.position : Vector2.zero;
 
     //[SyncVar(hook = nameof(OnChangeOnSocket))] 
     //public bool onInsert;
@@ -168,17 +168,18 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
     //}
 
 
-    [Server]
-    public void Server_SetOrgPositon(Vector3 positon)
-    {
-        orgPosition = positon;
-        Rpc_SetOrgPosition(positon);
-    }
-    [ClientRpc]
-    private void Rpc_SetOrgPosition(Vector3 positon)
-    {
-        Main.position = positon;
-    }
+    //[Server]
+    //public void Server_SetOrgPositon(Vector3 positon)
+    //{
+    //    orgPosition = positon;
+    //    Rpc_SetOrgPosition(positon);
+    //}
+    //[ClientRpc]
+    //private void Rpc_SetOrgPosition(Vector3 positon)
+    //{
+    //    Main.position = positon;
+    //    Debug.Log(positon);
+    //}
 
 
 }
