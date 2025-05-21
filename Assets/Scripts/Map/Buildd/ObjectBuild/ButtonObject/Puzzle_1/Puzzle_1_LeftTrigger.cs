@@ -7,8 +7,8 @@ public class Puzzle_1_LeftTrigger : MonoBehaviour, IInteractable
 
     //Refectoring 0324
     public Vector3 offset;
-    Puzzle_1_Net net;
-    Puzzle_1_Net Net { get { net ??= GetComponent<Puzzle_1_Net>(); return net; } }
+    [SerializeField] Puzzle_1_Net net;
+
     [ReadOnly]
     public GameObject air;
 
@@ -20,8 +20,8 @@ public class Puzzle_1_LeftTrigger : MonoBehaviour, IInteractable
             if (collision.TryGetComponent(out AirSM air))
             {
                 this.air = collision.gameObject;
-                if(!Net.onActive)
-                    Net.Cmd_ShowE(collision.gameObject, true, true); //LEFT
+                if(!net.onActive)
+                    net.Cmd_ShowE(collision.gameObject, true, true); //LEFT
             }
         }
     }
@@ -35,8 +35,8 @@ public class Puzzle_1_LeftTrigger : MonoBehaviour, IInteractable
                 if(this.air == collision.gameObject)
                 {
                     this.air = null;
-                    if(collision)
-                        Net.Cmd_ShowE(collision.gameObject, true, false); //LEFT
+                    if(net)
+                        net.Cmd_ShowE(collision.gameObject, true, false); //LEFT
                 }
                
             }
@@ -60,14 +60,14 @@ public class Puzzle_1_LeftTrigger : MonoBehaviour, IInteractable
             //else{
             //     net.Cmd_Interact(id,true,false);//LEFT
             //}
-            if(!Net.onActive)
+            if(!net.onActive)
             {
-                Net.Cmd_ShowE(air, true, false); //LEFT
-                Net.HoldAndRecover(air, true, true);
+                net.Cmd_ShowE(air, true, false); //LEFT
+                net.HoldAndRecover(air, true, true);
             }
             else
             {
-                Net.HoldAndRecover(air, true, false);
+                net.HoldAndRecover(air, true, false);
                 Col.enabled = false;
                 Col.enabled = true;
             }
