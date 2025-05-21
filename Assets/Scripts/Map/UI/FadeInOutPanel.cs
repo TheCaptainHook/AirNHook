@@ -99,22 +99,6 @@ public class FadeInOutPanel : MonoBehaviour
         //------------------------Map Name UI
         yield return new WaitForSeconds(1f);
         //------------------------Player, Camera Setting
-        //var player = Managers.Game.Player;
-        //var sm = player ? player.TryGetComponent(out PlayerSM playerSm) ? playerSm : null : null;
-
-        //if (!player)
-        //{
-        //    while (!player)
-        //    {
-        //        Debug.Log("Lost Player");
-        //        player = Managers.Game.Player;
-        //        yield return null;
-        //    }
-        //    // sm = player ? player.TryGetComponent(out PlayerSM playerSm1) ? playerSm1 : null : null;
-        //    sm = player.GetComponent<PlayerSM>();
-         
-        //}
-      
 
         sm.Respawning();
        

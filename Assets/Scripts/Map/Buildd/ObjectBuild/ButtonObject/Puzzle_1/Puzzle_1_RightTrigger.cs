@@ -36,7 +36,7 @@ public class Puzzle_1_RightTrigger : MonoBehaviour,IInteractable
                 if (this.air == collision.gameObject)
                 {
                     this.air = null;
-                    if (collision)
+
                         net.Cmd_ShowE(collision.gameObject, false, false); //LEFT
                 }
 
