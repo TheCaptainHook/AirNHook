@@ -31,7 +31,7 @@ public class ButtonActivaateDoor_Net : NetworkBehaviour
         transform.rotation = data.quaternion;
         transform.localScale = data.scale;
 
-        if (isOpen) door.Open();
+        if (isOpen) Door.Open();
         onSync = true;
     }
     [Command(requiresAuthority =false)]
