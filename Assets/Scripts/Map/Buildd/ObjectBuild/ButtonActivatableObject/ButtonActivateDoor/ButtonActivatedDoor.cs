@@ -8,26 +8,39 @@ public class ButtonActivatedDoor : ActivatableObjectEntity
 
     public bool onOpen;
 
-    public bool onPrograss;
+    //public bool onPrograss;
 
     #region Get,Set
-    public override void SetData<T>(T data)
+    public override async void SetData<T>(T data)
     {
-        base.SetData(data);
+        if (typeof(T) == typeof(ButtonActivatableObjectStruct))
+        {
+            ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
+            ButtonActivatedObjectStruct = objData;
+
+            if(Application.isPlaying)
+            {
+                door_Net.onSync = true;
+                door_Net.Server_InitSync();
+
+                await new Util().Delay(() => { CheckActiveRequirAmount(); });
+            }
         
-        door_Net.onSync = true;
-        door_Net.Server_InitSync();
+
+        }
+
+     
     }
     #endregion
 
     protected override void Activation()
     {
-        if (onPrograss) return;
-        if (onOpen) return;
+        //if (onPrograss) return;
+        //if (onOpen) return;
         onOpen = true;
-        _collider.enabled = false;
-        
-        door_Net.HandleSetState(true);
+        //_collider.enabled = false;
+        door_Net.Server_ChangeDoorState(true);
+        //door_Net.HandleSetState(true);
 
     }
 
@@ -35,12 +48,12 @@ public class ButtonActivatedDoor : ActivatableObjectEntity
 
     protected override void Deactivated()
     {
-          if (onPrograss) return;
-        if (!onOpen) return;
+          //if (onPrograss) return;
+        //if (!onOpen) return;
 
         onOpen = false;
-
-        door_Net.HandleSetState(false);
+        door_Net.Server_ChangeDoorState(false);
+        //door_Net.HandleSetState(false);
 
     }
 

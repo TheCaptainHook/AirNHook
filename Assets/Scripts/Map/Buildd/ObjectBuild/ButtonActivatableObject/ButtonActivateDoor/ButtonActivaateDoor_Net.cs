@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using Mirror;
 using UnityEngine;
 
@@ -14,8 +13,8 @@ public class ButtonActivaateDoor_Net : NetworkBehaviour
         }
     }
 
-    [SyncVar(hook = nameof(OnDoorStateChanged))]
-    private bool isOpen;
+    //[SyncVar(hook = nameof(OnDoorStateChanged))]
+    [SyncVar]public bool isOpen;
 
     #region  Init
     public bool onSync;
@@ -31,6 +30,8 @@ public class ButtonActivaateDoor_Net : NetworkBehaviour
         transform.position = data.position;
         transform.rotation = data.quaternion;
         transform.localScale = data.scale;
+
+        if (isOpen) door.Open();
         onSync = true;
     }
     [Command(requiresAuthority =false)]
@@ -46,38 +47,52 @@ public class ButtonActivaateDoor_Net : NetworkBehaviour
     #endregion
 
     [Server]
-    private void SetState(bool open)
+    public void Server_ChangeDoorState(bool isOpen)
     {
-        isOpen = open; 
+      this.isOpen = isOpen; 
+      Rpc_ChangeDoorState(isOpen);
     }
 
-    [Command(requiresAuthority = false)]
-    private void CmdSetState(bool newState)
+    [ClientRpc]
+    private void Rpc_ChangeDoorState(bool isOpen)
     {
-        SetState(newState);
-    }
-
-
-    public void HandleSetState(bool newState)
-    {
-        if(isServer)
+        if(isOpen)
         {
-            SetState(newState);
-        }else
+            Door.Open();
+        }
+        else
         {
-            CmdSetState(newState);
+            Door.Close();
         }
     }
 
-    private void OnDoorStateChanged(bool oldValue, bool newValue)
-    {
-       if(newValue){
-        Door.Open();
-       }else{
-        Door.Close();
-       }
+    //[Command(requiresAuthority = false)]
+    //private void CmdSetState(bool newState)
+    //{
+    //    SetState(newState);
+    //}
 
-    }
+
+    //public void HandleSetState(bool newState)
+    //{
+    //    if(isServer)
+    //    {
+    //        SetState(newState);
+    //    }else
+    //    {
+    //        CmdSetState(newState);
+    //    }
+    //}
+
+    //private void OnDoorStateChanged(bool oldValue, bool newValue)
+    //{
+    //   if(newValue){
+    //    Door.Open();
+    //   }else{
+    //    Door.Close();
+    //   }
+
+    //}
 
 
 
