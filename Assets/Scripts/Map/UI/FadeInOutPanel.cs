@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using TMPro;
-using System.Net.Mail;
-using Mirror;
 
 public class FadeInOutPanel : MonoBehaviour
 {
@@ -77,8 +75,11 @@ public class FadeInOutPanel : MonoBehaviour
                 yield return null;
             }
             sm = player.GetComponent<PlayerSM>();
-
+   
         }
+        sm.CallPlayerDeathEvent();
+        yield return new WaitForSeconds(1f);
+
         var playerCol = sm.GetComponent<Collider2D>();
         var playerRb = sm.GetComponent<Rigidbody2D>();
         playerRb.gravityScale = 0;

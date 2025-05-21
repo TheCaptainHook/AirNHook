@@ -292,8 +292,8 @@ public class Puzzle_1_Net : NetworkBehaviour
             //Check Answer
             if(Puzzle.CheckAnswer())
             {
-                //if (onCheckAnswerTrue) return;
-                //onCheckAnswerTrue = true;
+                if (onCheckAnswerTrue) return;
+                onCheckAnswerTrue = true;
                 //Activation (Only Server)
                 Debug.Log("CheckAnser true");
                 Puzzle.Net_Activation();
@@ -506,7 +506,7 @@ public class Puzzle_1_Net : NetworkBehaviour
         var sm = player.GetComponent<PlayerSM>();
         sm.canMovable = true;
 
-        //Input
+        //Input 
         var input = Managers.Game.playerInput;
         input.playerActions.SubAction.Enable();
         input.playerActions.Action.started -= OnHoldAirGun;

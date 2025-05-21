@@ -262,7 +262,9 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         collider2D.enabled = false;
         Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.DeathVignette(true);
         stateMachine.ChangeState(stateMachine.IdleState);
-        
+
+        deathEvent?.Invoke();
+
         // 애니메이션 처리
         PlayDeathAnimation(damageType);
 
@@ -271,6 +273,11 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         // 플레이어 죽었을 때 처리
         Managers.AcManager.CallPlayerDeath();
         
+       
+    }
+
+    public void CallPlayerDeathEvent()
+    {
         deathEvent?.Invoke();
     }
 
