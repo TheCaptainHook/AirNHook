@@ -270,6 +270,7 @@ public class Puzzle_1_Net : NetworkBehaviour
         }
        
     }
+    
     [Server]
     private void Server_Puzzle_ChargingControl()
     {
@@ -290,7 +291,9 @@ public class Puzzle_1_Net : NetworkBehaviour
             //Check Answer
             if(Puzzle.CheckAnswer())
             {
+
                 //Activation (Only Server)
+                Debug.Log("CheckAnser true");
                 Puzzle.Net_Activation();
                 //Correct
                 Rpc_Correct();
