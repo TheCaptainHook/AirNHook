@@ -270,7 +270,8 @@ public class Puzzle_1_Net : NetworkBehaviour
         }
        
     }
-    
+    bool onCheckAnswerTrue;
+
     [Server]
     private void Server_Puzzle_ChargingControl()
     {
@@ -291,7 +292,8 @@ public class Puzzle_1_Net : NetworkBehaviour
             //Check Answer
             if(Puzzle.CheckAnswer())
             {
-
+                //if (onCheckAnswerTrue) return;
+                //onCheckAnswerTrue = true;
                 //Activation (Only Server)
                 Debug.Log("CheckAnser true");
                 Puzzle.Net_Activation();
