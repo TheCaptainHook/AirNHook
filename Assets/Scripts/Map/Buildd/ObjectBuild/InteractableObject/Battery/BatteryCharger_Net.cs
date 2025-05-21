@@ -93,7 +93,7 @@ public class BatteryCharger_Net : NetworkBehaviour
         while (battery.batteryCapacity < 100)
         {
             //battery.BatteryCapacity = 1;
-            battery.Server_SetBatteryCapacity(1);
+            battery.Server_SetBatteryCapacity(3);
             yield return new WaitForSeconds(0.1f);
         }
         charge = null;
