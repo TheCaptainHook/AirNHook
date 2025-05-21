@@ -124,8 +124,9 @@ public class FadeInOutPanel : MonoBehaviour
         //------------------------Player, Camera Setting
 
         //--------------------------------Player recover
-        playerCol.enabled = true;
-        playerRb.gravityScale = 3;
+        if(playerCol) playerCol.enabled = true;
+        if(playerRb) playerRb.gravityScale = 3;
+
         //--------------------------------Player recover
 
         //Map Name  UI
