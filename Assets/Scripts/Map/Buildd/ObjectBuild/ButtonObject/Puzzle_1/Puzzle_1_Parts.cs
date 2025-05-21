@@ -1,10 +1,8 @@
 
 using Mirror;
 using System.Collections.Generic;
-using System.Net.Sockets;
 using UnityEngine;
 using UnityEngine.Animations;
-using static UnityEditor.Progress;
 
 public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 {
