@@ -30,11 +30,16 @@ public class Puzzle_1_RightTrigger : MonoBehaviour,IInteractable
     {
         if (collision != null)
         {
+
             if (collision.TryGetComponent(out AirSM air))
             {
-                this.air = null;
-                if (NetworkClient.active)
-                    net.Cmd_ShowE(collision.gameObject, false, false); //Right
+                if (this.air == collision.gameObject)
+                {
+                    this.air = null;
+                    if (collision)
+                        net.Cmd_ShowE(collision.gameObject, false, false); //LEFT
+                }
+
             }
         }
 
