@@ -365,15 +365,11 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.40415522, y: 0.35408035}
-      - {x: 0.25721043, y: 0.44402656}
-      - {x: -0.006313145, y: 0.5075716}
-      - {x: -0.23222616, y: 0.4614882}
-      - {x: -0.41784403, y: 0.34589696}
-      - {x: -0.5058289, y: 0.20915283}
-      - {x: -0.5015521, y: -0.0035958178}
-      - {x: 0.50221884, y: -0.0037878752}
-      - {x: 0.5013427, y: 0.21067068}
+    - - {x: 0.75, y: 0}
+      - {x: 0.5, y: 0.5}
+      - {x: 0, y: 0.6}
+      - {x: -0.5, y: 0.5}
+      - {x: -0.75, y: 0}
   m_UseDelaunayMesh: 0
 --- !u!114 &7569540280555261352
 MonoBehaviour:
@@ -403,6 +399,7 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
+  canRespawn: 0
   targetObjects: []
   lightObjects: []
 --- !u!114 &-5722112349519866952
@@ -424,6 +421,7 @@ MonoBehaviour:
   onCompletionParts: 0
   onActive: 0
   onOperation: 0
+  onSync: 0
 --- !u!114 &7435758235303093614
 MonoBehaviour:
   m_ObjectHideFlags: 0
