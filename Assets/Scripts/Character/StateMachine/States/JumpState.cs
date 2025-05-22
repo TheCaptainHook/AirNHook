@@ -41,6 +41,8 @@ public class JumpState : BaseState
 
     public override void PhysicsUpdate()
     {
+        base.PhysicsUpdate();
+
         if (rigidbd.velocity.y >= 5f)
         {
             HandleCeilingSlide();

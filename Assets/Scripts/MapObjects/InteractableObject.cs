@@ -17,9 +17,9 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     protected RigidbodyConstraints2D _originRot;
     [field: SerializeField] protected ObjectTypeEnum _objectType = ObjectTypeEnum.Grab;
     [SerializeField] protected float _gravityScale;
-    [SyncVar] protected bool _isFixed;
-    [SyncVar] protected bool _canInteract = true;
-    [SyncVar] protected bool _isDestroyed;
+    [SerializeField][SyncVar] protected bool _isFixed;
+    [SerializeField][SyncVar] protected bool _canInteract = true;
+    [SerializeField][SyncVar] protected bool _isDestroyed;
     protected bool isDestroyed {
         get => _isDestroyed;
         set { CmdChnageDestroyState(value); }
@@ -117,7 +117,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _isFixed = true;
         _isGrab = true;
         _canInteract = false;
-        ChangeState(true);
+        CmdChangeFixedState(true);
+        CmdChangeInteractState(false);
         HideEButton();
 
         _rigidbody.bodyType = RigidbodyType2D.Kinematic;
@@ -134,7 +135,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _isFixed = false;
         _isGrab = false;
         _canInteract = true;
-        ChangeState(false);
+        CmdChangeFixedState(false);
+        CmdChangeInteractState(true);
         ShowEButton();
 
         _rigidbody.bodyType = _originType;
@@ -215,6 +217,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     {
         _accessor = accesor;
         _canInteract = false;
+        CmdChangeInteractState(false);
     }
 
     public void StopInhale()
@@ -222,7 +225,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         if (isDestroyed) return;
 
         Fixed(false);
-        ChangeState(false);
         _rigidbody.drag = 0f;
         _rigidbody.gravityScale = _gravityScale;
         _rigidbody.freezeRotation = false;
@@ -235,6 +237,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _isFixed = value;
         _isGrab = value;
         _canInteract = !value;
+        CmdChangeFixedState(value);
+        CmdChangeInteractState(!value);
 
         if (_isFixed)
         {
@@ -247,8 +251,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     {
         if (isDestroyed) return;
 
-        _canInteract = false;
-        CmdChangeInteractState(false);
+        //_canInteract = false;
+        //CmdChangeInteractState(false);
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.angularVelocity = 0f;
         _rigidbody.freezeRotation = true;
@@ -302,8 +306,15 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         isDestroyed = value;
     }
 
-    [Command(requiresAuthority = false)]
+    //[Command(requiresAuthority = false)]
     private void CmdChangeInteractState(bool value)
+    {
+        Debug.Log("Interaction : "+ value);
+        test(value);
+    }
+
+    [Command(requiresAuthority = false)]
+    private void test(bool value)
     {
         _canInteract = value;
     }
