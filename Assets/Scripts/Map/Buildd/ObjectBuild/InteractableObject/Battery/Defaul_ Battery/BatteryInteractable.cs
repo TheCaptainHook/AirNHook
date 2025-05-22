@@ -125,6 +125,7 @@ public class BatteryInteractable : TransportItemEntity
         else
         {
             base.Release();
+            Rb.AddForce(Vector2.up, ForceMode2D.Force);
             Cmd_Reset();
         }
     }
