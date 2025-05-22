@@ -20,6 +20,10 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     [SyncVar] protected bool _isFixed;
     [SyncVar] protected bool _canInteract = true;
     [SyncVar] protected bool _isDestroyed;
+    protected bool isDestroyed {
+        get => _isDestroyed;
+        set { CmdChnageDestroyState(value); }
+    }
     protected bool _isGrab;
     private float _stoppedTime;
 
@@ -170,6 +174,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     {
         _canInteract = true;
         _isFixed = false;
+        CmdChangeFixedState(false);
         CmdChangeInteractState(true);
         //Release();
         //StopInhale();
@@ -177,7 +182,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public bool CanInteract()
     {
-        return _canInteract && !_isDestroyed;
+        return _canInteract && !isDestroyed;
     }
 
     public void Interacting(bool value)
@@ -214,9 +219,10 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void StopInhale()
     {
-        if (_isDestroyed) return;
+        if (isDestroyed) return;
 
         Fixed(false);
+        ChangeState(false);
         _rigidbody.drag = 0f;
         _rigidbody.gravityScale = _gravityScale;
         _rigidbody.freezeRotation = false;
@@ -224,7 +230,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void Fixed(bool value)
     {
-        if (_isDestroyed) return;
+        if (isDestroyed) return;
 
         _isFixed = value;
         _isGrab = value;
@@ -239,9 +245,10 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void Fixing()
     {
-        if (_isDestroyed) return;
+        if (isDestroyed) return;
 
         _canInteract = false;
+        CmdChangeInteractState(false);
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.angularVelocity = 0f;
         _rigidbody.freezeRotation = true;
@@ -255,7 +262,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void Shooting(Vector2 force)
     {
-        if (_isDestroyed) return;
+        if (isDestroyed) return;
 
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.angularVelocity = 0f;
@@ -266,7 +273,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public bool CanInhale()
     {
-        return !_isFixed && !_isDestroyed;
+        return !_isFixed && !isDestroyed;
     }
     #endregion
 
@@ -287,6 +294,12 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     private void CmdChangeFixedState(bool value)
     {
         _isFixed = value;
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdChnageDestroyState(bool value)
+    {
+        isDestroyed = value;
     }
 
     [Command(requiresAuthority = false)]
@@ -317,7 +330,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     [Command(requiresAuthority = false)]
     public void Cmd_Dissolve()
     {
-        _isDestroyed = true;
+        isDestroyed = true;
         Managers.Command.AuthorityToServer(netId);
         Rpc_Dissolve();
     }
@@ -400,7 +413,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
         GetComponent<InteractableObject>().Respawned();
         buildObj.canRespawn = true;
-        _isDestroyed = false;
+        isDestroyed = false;
     }
     #endregion
 
