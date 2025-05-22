@@ -97,15 +97,21 @@ public class MirrorObject : BuildObj,IInteractable
 
 
     #region  main
+    float serverRotRate = 0.005f;
+    float clientRotRate = 0.01f;
     private void MirrorRotate(bool pm){
+
+
         if(pm){
             Quaternion curRot = _Mirror.transform.rotation;
-            curRot.z +=.005f;
+            //curRot.z +=.005f;
+            curRot.z += (NetworkServer.active) ? serverRotRate : clientRotRate;
             // _Mirror.transform.rotation = curRot;
             M_Net.Cmd_SetRot_z(curRot.z);
         }else{
             Quaternion curRot = _Mirror.transform.rotation;
-            curRot.z -=.005f;
+            //curRot.z -=.005f;
+            curRot.z -= (NetworkServer.active) ? serverRotRate : clientRotRate;
             M_Net.Cmd_SetRot_z(curRot.z);
             // _Mirror.transform.rotation = curRot;
         }
@@ -124,7 +130,7 @@ public class MirrorObject : BuildObj,IInteractable
         if (isActive)
         {
             //Dis Connect
-            M_Net.Recover(accessor.gameObject); 
+            M_Net.Recover(); 
             isActive = false;
         }
         else

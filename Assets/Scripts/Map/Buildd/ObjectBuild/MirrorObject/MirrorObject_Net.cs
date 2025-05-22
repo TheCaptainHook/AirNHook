@@ -136,14 +136,16 @@ public class MirrorObject_Net : NetworkBehaviour
         _Mirror.transform.rotation= curRot;
         // _Mirror.transform.rotation =
     }
-#endregion
+    #endregion
 
 
 
 
-
+    private GameObject innerPlayer;
     public void Holding(GameObject player)
     {
+        innerPlayer = player;
+
         Managers.UI.HideUI<UI_ShowEButton>();
         onActive = true;
         var pm = player.GetComponent<PlayerSM>();
@@ -158,24 +160,48 @@ public class MirrorObject_Net : NetworkBehaviour
         player.GetComponent<PlayerSM>().deathEvent += Event_Recover;
 
     }
-    public void Recover(GameObject player)
+    //public void Recover(GameObject player)
+    //{
+    //    onActive = false;
+    //    var pm = player.GetComponent<PlayerSM>();
+
+    //    //Hide A,D button
+
+    //    //Hide A,D button
+
+    //    Disconnection(player);
+    //    pm.canMovable = true;
+
+    //    player.GetComponent<PlayerSM>().deathEvent -= Event_Recover;
+
+    //    if (innerPlayer != null) innerPlayer = null;
+
+    //    Cmd_InnerPlayer(9999);
+
+    //    Cmd_ColReset();
+
+    //}
+
+    public void Recover( )
     {
         onActive = false;
-        var pm = player.GetComponent<PlayerSM>();
-       
-        //Hide A,D button
+        if (innerPlayer == null) return;
+
+        var pm = innerPlayer.GetComponent<PlayerSM>();
 
         //Hide A,D button
 
-        Disconnection(player);
+        //Hide A,D button
+
+        Disconnection(innerPlayer);
         pm.canMovable = true;
 
-        player.GetComponent<PlayerSM>().deathEvent -= Event_Recover;
+        innerPlayer.GetComponent<PlayerSM>().deathEvent -= Event_Recover;
 
         Cmd_InnerPlayer(9999);
 
         Cmd_ColReset();
-       
+
     }
 
     [Command(requiresAuthority = false)]
@@ -192,8 +218,13 @@ public class MirrorObject_Net : NetworkBehaviour
 
     private void Event_Recover()
     {
-        Cmd_InnerPlayer(9999);
+        //Disconnection(innerPlayer);
+        //Cmd_InnerPlayer(9999);
+        Recover();
     }
+
+
+
 
     #region  Util
     private void Connection(GameObject player)
