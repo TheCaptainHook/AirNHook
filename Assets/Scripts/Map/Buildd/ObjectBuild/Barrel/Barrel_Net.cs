@@ -1,18 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Mirror;
 
-public class Barrel_Net : MonoBehaviour
+
+public class Barrel_Net : NetworkBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private Barrel barrel;
+    private Barrel Main { get { barrel ??= GetComponent<Barrel>(); return barrel; } }
 
-    // Update is called once per frame
-    void Update()
+
+    public bool onSync;
+    [Server]
+    public void Server_InitSync()
     {
-        
+        Rpc_InitSync(Main.ObjectData);
+    }
+    [Command(requiresAuthority = false)]
+    private void Cmd_InitSync()
+    {
+        Server_InitSync();
+    }
+    [ClientRpc]
+    private void Rpc_InitSync(ObjectData data)
+    {
+        if (onSync) return;
+        transform.position = data.position;
+        transform.localScale = data.scale;
+        transform.rotation = data.quaternion;
+
+        onSync = true;
+    }
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+        if (!onSync) Cmd_InitSync();
     }
 }

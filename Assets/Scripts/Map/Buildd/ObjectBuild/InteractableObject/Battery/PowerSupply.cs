@@ -390,7 +390,7 @@ public class PowerSupply : ButtonEntity,IInteractable
         lineRenderer.endWidth = 0.1f;
         lineRenderer.material = mat;
         lineRenderer.positionCount = 0;
-        lineRenderer.sortingLayerName ="Map/Tiles";
+        //lineRenderer.sortingLayerName ="Map/Tiles";
         lineRenderer.sortingOrder = 3;
         obj.transform.SetParent(lineContainer);
 
