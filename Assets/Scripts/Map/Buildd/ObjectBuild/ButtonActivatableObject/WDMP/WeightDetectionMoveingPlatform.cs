@@ -1,9 +1,6 @@
 using System;
 using UnityEngine;
 using Mirror;
-using UnityEngine.Scripting.APIUpdating;
-using Edgegap;
-using Org.BouncyCastle.Bcpg;
 
 
 [RequireComponent(typeof(WDMP_Path))]
@@ -61,7 +58,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     #endregion
     
     private void Init(){
-        WDMP_Net.Server_SetMoveDistance(ButtonActivatedObjectStruct.moveDistance,ButtonActivatedObjectStruct.position,ButtonActivatedObjectStruct.moveSpeed);
+        WDMP_Net.Server_SetMoveDistance(ButtonActivatedObjectStruct);
 
         orgPot = transform.position;
         path  = GetPath();

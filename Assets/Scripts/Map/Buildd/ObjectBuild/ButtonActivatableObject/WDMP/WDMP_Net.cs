@@ -1,7 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using Mirror;
 using UnityEngine;
 
@@ -68,13 +66,33 @@ public class WDMP_Net : NetworkBehaviour
         onRecover = false;
     }
 
+    //[Server]
+    //public void Server_SetMoveDistance(float moveDistance, Vector2 position, float moveSpeed)
+    //{
+    //    this.moveDistance = moveDistance;
+    //    this.position = position;
+    //    this.moveSpeed = moveSpeed;
+    //}
+
+
     [Server]
-    public void Server_SetMoveDistance(float moveDistance, Vector2 position, float moveSpeed)
+    public void Server_SetMoveDistance(ButtonActivatableObjectStruct data)
     {
-        this.moveDistance = moveDistance;
-        this.position = position;
-        this.moveSpeed = moveSpeed;
+        this.moveDistance = data.moveDistance;
+        this.position = data.position;
+        this.moveSpeed = data.moveSpeed;
+
+        Rpc_InitSync(data);
     }
+
+
+    [ClientRpc]
+    private void Rpc_InitSync(ButtonActivatableObjectStruct data)
+    {
+        if(!isServer)
+        transform.localScale = data.scale;
+    }
+
 
     [Server]
     public void Server_SetDir(Vector2 dir)
