@@ -146,7 +146,9 @@ public class MirrorObject_Net : NetworkBehaviour
     {
         innerPlayer = player;
 
-        Managers.UI.HideUI<UI_ShowEButton>();
+        //Managers.UI.HideUI<UI_ShowEButton>();
+        Main.HideE();
+
         onActive = true;
         var pm = player.GetComponent<PlayerSM>();
 
@@ -159,6 +161,7 @@ public class MirrorObject_Net : NetworkBehaviour
 
         player.GetComponent<PlayerSM>().deathEvent += Event_Recover;
 
+        Main.isActive = true;
     }
     //public void Recover(GameObject player)
     //{
@@ -185,6 +188,8 @@ public class MirrorObject_Net : NetworkBehaviour
     public void Recover( )
     {
         onActive = false;
+        Main.isActive = false;
+
         if (innerPlayer == null) return;
 
         var pm = innerPlayer.GetComponent<PlayerSM>();
@@ -202,6 +207,7 @@ public class MirrorObject_Net : NetworkBehaviour
 
         Cmd_ColReset();
 
+       
     }
 
     [Command(requiresAuthority = false)]

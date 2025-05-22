@@ -29,7 +29,7 @@ public class MirrorObject : BuildObj,IInteractable
 
    
     //private bool IsActive => M_Net.onActive;
-    private bool isActive;
+    public bool isActive;
     #endregion
 
 
@@ -130,14 +130,13 @@ public class MirrorObject : BuildObj,IInteractable
         if (isActive)
         {
             //Dis Connect
-            M_Net.Recover(); 
-            isActive = false;
+            M_Net.Recover();
+
         }
         else
         {
             //Connect
             M_Net.Holding(accessor.gameObject);
-            isActive = true;
         }
 
 
