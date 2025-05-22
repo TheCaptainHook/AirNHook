@@ -177,7 +177,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public bool CanInteract()
     {
-        return _canInteract || !_isDestroyed;
+        return _canInteract && !_isDestroyed;
     }
 
     public void Interacting(bool value)
@@ -266,7 +266,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public bool CanInhale()
     {
-        return !_isFixed || !_isDestroyed;
+        return !_isFixed && !_isDestroyed;
     }
     #endregion
 

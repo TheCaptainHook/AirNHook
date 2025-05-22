@@ -123,8 +123,10 @@ public class Computer_Net : NetworkBehaviour
 //------------------------------------player Move control
         var player = Managers.Game.Player.GetComponent<PlayerSM>();
         player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        Managers.Game.Player.GetComponent<PlayerSM>().canMovable = false;
-//------------------------------------player Move control
+        player.canMovable = false;
+        player.canAction = false;
+        player.doNotTouch = true;
+        //------------------------------------player Move control
 
         Rpc_ShowUi();
 

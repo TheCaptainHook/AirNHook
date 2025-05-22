@@ -62,6 +62,8 @@ public class NewAirGun
     private float _spaceBetweenPoints;
     private float _latestTargetGravityScale;
     private Coroutine _chargingCoroutine;
+    private Coroutine _waitForStopCoroutine;
+    private WaitForSeconds _waitFor1Seconds = new(0.1f);
     private bool _canInhale = true;
     
     // FlyAction
@@ -839,6 +841,29 @@ public class NewAirGun
         return position;
     }
     #endregion
+
+    private void WaitForStop()
+    {
+        if (_waitForStopCoroutine != null) return;
+
+        _waitForStopCoroutine = _air.StartCoroutine(Co_WaitForStop());
+    }
+
+    private IEnumerator Co_WaitForStop()
+    {
+        yield return _waitFor1Seconds;
+
+        DontWaitForStop();
+        _waitForStopCoroutine = null;
+    }
+
+    private void DontWaitForStop()
+    {
+        StopInhaleParticle();
+        StopInhale();
+        StopSticking();
+        _hook = null;
+    }
     #endregion
 
     #region Animations
@@ -914,10 +939,10 @@ public class NewAirGun
     {
         _rightClick = false;
 
-        StopInhaleParticle();
-        StopInhale();
-        StopSticking();
-        _hook = null;
+        if (_chargingCoroutine != null)
+            WaitForStop();
+        else
+            DontWaitForStop();
     }
 
     private void OnLook(InputAction.CallbackContext context)
