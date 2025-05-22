@@ -635,7 +635,9 @@ public class UI_StageSelect_var3: UI_Base
 
     //------------------------------------player Move control
         var player = Managers.Game.Player.GetComponent<PlayerSM>();
-        if(!player.canMovable) player.canMovable = true;
+        player.canMovable = true;
+        player.canAction = true;
+        player.doNotTouch = false;
         //------------------------------------player Move control
         //-----------------------------Reset
         Net.Server_SetIsOpen(false);
@@ -692,7 +694,9 @@ public class UI_StageSelect_var3: UI_Base
         yield return new WaitForSeconds(1f);
     //------------------------------------player Move control
         var player = Managers.Game.Player.GetComponent<PlayerSM>();
-        if(!player.canMovable) player.canMovable = true;
+        player.canMovable = true;
+        player.canAction = true;
+        player.doNotTouch = false;
         //------------------------------------player Move control
 
         yield return new WaitForSeconds(1f);

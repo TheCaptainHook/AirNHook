@@ -348,6 +348,8 @@ MonoBehaviour:
   canAction: 0
   canMovable: 0
   invincible: 0
+  isDead: 0
+  doNotTouch: 0
   <charPivot>k__BackingField: {fileID: 9177120215743396866}
   <sortingGroup>k__BackingField:
   - {fileID: 7293673060795672014}
@@ -355,7 +357,7 @@ MonoBehaviour:
   <talkingSprite>k__BackingField: {fileID: 4732016621356316702}
   <spriteMask>k__BackingField: {fileID: 3326053703817164961}
   coyoteTimeCount: 0
-  _halfPlatformLayer:
+  halfPlatformLayer:
     serializedVersion: 2
     m_Bits: 1049088
   isHalfPlatform: 0
