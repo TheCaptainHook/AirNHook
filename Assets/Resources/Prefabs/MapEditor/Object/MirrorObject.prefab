@@ -251,13 +251,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4204660432047720022}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.10204859, w: 0.99477947}
-  m_LocalPosition: {x: 0, y: 1.3682, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1030760113723832143}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -11.714}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7273758700880528702
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -423,10 +423,10 @@ MonoBehaviour:
   _Dissolve_MainSprite: {fileID: 0}
   canRespawn: 0
   _Mirror: {fileID: 4204660432047720022}
-  _ConnectPlayer: {fileID: 0}
   onActive: 0
   _BtnOffset: 2
   _objectType: 0
+  isActive: 0
 --- !u!114 &8428942988980601487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -443,11 +443,11 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _Mirror: {fileID: 4204660432047720022}
-  InnerPlayer: {fileID: 0}
   rotate_Z: 0
   onActive: 0
   hold_Pivot: {fileID: 4246084813036576056}
   onSync: 0
+  InnerPlayer: {fileID: 0}
 --- !u!61 &5154744132076820605
 BoxCollider2D:
   m_ObjectHideFlags: 0

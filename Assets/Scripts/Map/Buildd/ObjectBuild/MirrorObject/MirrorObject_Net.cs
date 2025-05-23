@@ -2,6 +2,8 @@
 using UnityEngine;
 using Mirror;
 using UnityEngine.Animations;
+using System.Collections;
+using System;
 
 
 
@@ -14,8 +16,8 @@ public class MirrorObject_Net : NetworkBehaviour
     //[SyncVar(hook =nameof(OnChange_ThisObjectAuthority))]
   
 
-    [SyncVar(hook =nameof(OnChageRotate_Z))] 
-    public float rotate_Z;
+    // [SyncVar(hook =nameof(OnChageRotate_Z))] 
+    // public float rotate_Z;
 
     
     public bool onActive;
@@ -87,20 +89,73 @@ public class MirrorObject_Net : NetworkBehaviour
 
 
     #region  Server
-  
 
-    [Server]
-    public void Server_SetRot_z(float z)
-    {
-        rotate_Z = z;
-    }
+
+    // [Server]
+    // public void Server_SetRot_z(float z)
+    // {
+    //     rotate_Z = z;
+    // }
     [Command(requiresAuthority = false)]
-    public void Cmd_SetRot_z(float z)
+    public void Cmd_SetRot_z(float z,bool lr)
     {
-        Server_SetRot_z(z);
+        // Server_SetRot_z(z);
+        Rpc_SetRot_z(z,lr);
+        
     }
 
+    float targetZ;
+    [ClientRpc]
+    private void Rpc_SetRot_z(float z,bool lr)
+    {
+        targetZ = _Mirror.transform.eulerAngles.z + z;
+        this.lr = lr;
+        // Debug.Log(targetZ);
 
+        if (setRotCoroutine == null)
+        {
+            setRotCoroutine = StartCoroutine(SetRotCo());
+        }
+        
+    }
+    private bool Check(float a, float b)
+    {
+        // Debug.Log($"a :{a},b : {b},delta : {Mathf.DeltaAngle(a, b)}");
+        return Mathf.Abs(Mathf.DeltaAngle(a, b)) < 0.5f;
+    }
+
+    private Coroutine setRotCoroutine;
+    private bool lr;
+    IEnumerator SetRotCo() //true :left, false: right
+    {
+        float curZ = _Mirror.transform.eulerAngles.z;
+        float a = lr ? 1 : -1;
+        
+        while (!Check(curZ, targetZ))
+        {
+            // termRotZ = curZ;
+            curZ += 0.5f * a;
+            _Mirror.transform.rotation = Quaternion.Euler(0, 0, curZ);
+            yield return null;
+        }
+
+        _Mirror.transform.rotation = Quaternion.Euler(0, 0, targetZ);
+        setRotCoroutine = null;
+    }
+
+    // private void OnChageRotate_Z(float old,float newVal)
+    // {
+
+    //     MirrorRotate(newVal);
+
+    // }
+    // private void MirrorRotate(float val)
+    // {
+    //     Quaternion curRot = _Mirror.transform.rotation;
+    //     curRot.z = val;
+    //     _Mirror.transform.rotation = curRot;
+    //     // _Mirror.transform.rotation =
+    // }
 
     #region UI
     [Command(requiresAuthority = false)]
@@ -123,19 +178,7 @@ public class MirrorObject_Net : NetworkBehaviour
 
 
     //hook
-    private void OnChageRotate_Z(float old,float newVal)
-    {
-
-        MirrorRotate(newVal);
-
-    }
-    private void MirrorRotate(float val)
-    {
-        Quaternion curRot = _Mirror.transform.rotation;
-        curRot.z = val;
-        _Mirror.transform.rotation= curRot;
-        // _Mirror.transform.rotation =
-    }
+ 
     #endregion
 
 
@@ -185,7 +228,7 @@ public class MirrorObject_Net : NetworkBehaviour
 
     //}
 
-    public void Recover( )
+    public void Recover()
     {
         onActive = false;
         Main.isActive = false;
@@ -207,6 +250,11 @@ public class MirrorObject_Net : NetworkBehaviour
 
         Cmd_ColReset();
 
+        if (setRotCoroutine != null)
+        {
+            StopCoroutine(setRotCoroutine);
+            setRotCoroutine = null;
+        }
        
     }
 
