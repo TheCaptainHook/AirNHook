@@ -5301,8 +5301,7 @@ MonoBehaviour:
   moveSpeed: 0
   IsBroken: 0
   _Animation_Transition_Speed: 0
-  _greenLight: {fileID: 0}
-  addForcePower: 20
+  addForcePower: 10
 --- !u!1 &3962016352224804910
 GameObject:
   m_ObjectHideFlags: 0
