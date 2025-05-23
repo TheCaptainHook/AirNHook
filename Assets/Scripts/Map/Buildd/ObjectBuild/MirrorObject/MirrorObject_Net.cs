@@ -121,21 +121,20 @@ public class MirrorObject_Net : NetworkBehaviour
     }
     private bool Check(float a, float b)
     {
-        // Debug.Log($"a :{a},b : {b},delta : {Mathf.DeltaAngle(a, b)}");
         return Mathf.Abs(Mathf.DeltaAngle(a, b)) < 0.5f;
     }
 
     private Coroutine setRotCoroutine;
     private bool lr;
-    IEnumerator SetRotCo() //true :left, false: right
+    IEnumerator SetRotCo() 
     {
         float curZ = _Mirror.transform.eulerAngles.z;
         float a = lr ? 1 : -1;
         
         while (!Check(curZ, targetZ))
         {
-            // termRotZ = curZ;
             curZ += 0.5f * a;
+            curZ = NormalizeAngle(curZ);
             _Mirror.transform.rotation = Quaternion.Euler(0, 0, curZ);
             yield return new WaitForFixedUpdate();
         }
@@ -143,7 +142,12 @@ public class MirrorObject_Net : NetworkBehaviour
         _Mirror.transform.rotation = Quaternion.Euler(0, 0, targetZ);
         setRotCoroutine = null;
     }
-
+    private float NormalizeAngle(float angle)
+    {
+        angle %= 360f;
+        if (angle < 0) angle += 360f;
+        return angle;
+    }
     // private void OnChageRotate_Z(float old,float newVal)
     // {
 
