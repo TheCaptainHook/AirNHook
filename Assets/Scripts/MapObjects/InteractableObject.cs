@@ -273,7 +273,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public bool CanInhale()
     {
-        return !_isFixed && !_isDestroyed;
+        return !_isFixed && !_isDestroyed && !_canInteract;
     }
     #endregion
 

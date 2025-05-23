@@ -328,6 +328,8 @@ public class NewAirGun
         {
             if (_latestTarget.TryGetComponent(out _hook) && _hook.isSwinging)
             {
+                if (_keepGrapplingCheckCoroutine != null) return;
+
                 _canStick = false;
                 _keepGrapplingCheckCoroutine = _air.StartCoroutine(KeepGrapplingCheck());
             }
@@ -341,6 +343,9 @@ public class NewAirGun
         else
         {
             _hook = null;
+            _air.StopCoroutine(_keepGrapplingCheckCoroutine);
+            _keepGrapplingCheckCoroutine = null;
+            _canStick = false;
             StartInhale();
         }
     }
@@ -644,8 +649,9 @@ public class NewAirGun
     
     private IEnumerator KeepGrapplingCheck()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.7f);
         _canStick = true;
+        _keepGrapplingCheckCoroutine = null;
     }
     #endregion
     
