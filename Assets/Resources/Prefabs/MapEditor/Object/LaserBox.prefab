@@ -184,13 +184,14 @@ GameObject:
   m_Component:
   - component: {fileID: 7691394461270117251}
   - component: {fileID: 1364456640810527643}
+  - component: {fileID: 7813619440313009061}
   m_Layer: 0
   m_Name: RightArrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7691394461270117251
 Transform:
   m_ObjectHideFlags: 0
@@ -200,8 +201,8 @@ Transform:
   m_GameObject: {fileID: 1261028655308498708}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.419, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.05, y: 0, z: 0}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 994488778957814542}
@@ -258,6 +259,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7813619440313009061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1261028655308498708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3083727cea844416bb7938a70400473, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 994488778957814542}
 --- !u!1 &1496316796775544750
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,6 +282,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2508963781156351731}
   - component: {fileID: 1840955102494083761}
+  - component: {fileID: 1728239096767812311}
   m_Layer: 0
   m_Name: LeftArrow
   m_TagString: Untagged
@@ -284,8 +299,8 @@ Transform:
   m_GameObject: {fileID: 1496316796775544750}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
-  m_LocalPosition: {x: -0.419, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.05, y: 0, z: 0}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 994488778957814542}
@@ -342,6 +357,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1728239096767812311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1496316796775544750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3083727cea844416bb7938a70400473, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 994488778957814542}
 --- !u!1 &4234048587239540544
 GameObject:
   m_ObjectHideFlags: 0
@@ -895,11 +923,16 @@ MonoBehaviour:
   syncInterval: 0
   _objectType: 1
   _gravityScale: 0
+  _isFixed: 0
+  _canInteract: 1
+  _isDestroyed: 0
   _offset: {x: 0, y: 1}
   _inhalePower: 4000
   defaultGravity: 0
   onSync: 0
   chargeTransform: {fileID: 1349317560482257625}
+  left: {fileID: 1496316796775544750}
+  right: {fileID: 1261028655308498708}
   curLaserDir: {x: 0, y: 0}
   curShutDownDelayCount: 0
 --- !u!114 &-5810413876586093780

@@ -13,6 +13,9 @@ public class LaserBox_Net : TransportItemEntity
 
     [SerializeField] Transform chargeTransform;
 
+    [SerializeField] GameObject left;
+    [SerializeField] GameObject right;
+
     private float maxCharge = 0.2f;
     private float minCharge = 0.1f;
     private float maxCount = 500;
@@ -65,9 +68,20 @@ public class LaserBox_Net : TransportItemEntity
     public void Rpc_SetLaserDir(Vector2 dir)
     {
         curLaserDir = dir;
+        if (dir == Vector2.right)
+        {
+            if (left.activeSelf) left.SetActive(false);
+            right.SetActive(true);
+            
+        }
+        else
+        {
+            if (right.activeSelf) right.SetActive(false);
+            left.SetActive(true);
+        }
     }
 
-
+    float offset = 0.4f;
 
     protected override void Grab()
     {

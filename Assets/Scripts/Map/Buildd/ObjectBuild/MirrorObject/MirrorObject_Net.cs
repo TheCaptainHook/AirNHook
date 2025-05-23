@@ -193,7 +193,7 @@ public class MirrorObject_Net : NetworkBehaviour
 
         onActive = true;
         var pm = player.GetComponent<PlayerSM>();
-
+        pm.canAction = false;
         //Show A,D button
 
         //Show A,D button
@@ -235,7 +235,7 @@ public class MirrorObject_Net : NetworkBehaviour
         if (innerPlayer == null) return;
 
         var pm = innerPlayer.GetComponent<PlayerSM>();
-
+        pm.canAction = true;
         //Hide A,D button
 
         //Hide A,D button
