@@ -40,6 +40,7 @@ public class NewAirGun
     private Collider2D _inhaleTarget;
     private bool _isAttached;
     public bool _inhaling;
+    private bool _inhalePermission;
     private bool _inhalingPlayer;
     private bool _delay;
     private float _delayTimer;
@@ -130,11 +131,13 @@ public class NewAirGun
         
         if (!_air.isLocalPlayer) return;
 
+        Managers.Command.itemInhaleCallback += GetPermissionForInhaling;
         SubscribeInput();
     }
 
     public void OnDisable()
     {
+        Managers.Command.itemInhaleCallback -= GetPermissionForInhaling;
         UnSubscribeInput();
     }
 
@@ -204,6 +207,7 @@ public class NewAirGun
             {
                 StopInhale();
                 _isIhaleTargetOwned = false;
+                _inhalePermission = false;
                 _sendAuthority = false;
                 _inhaling = false;
                 _isAttached = false;
@@ -229,6 +233,7 @@ public class NewAirGun
 
             StopInhale();
             _isIhaleTargetOwned = false;
+            _inhalePermission = false;
             _sendAuthority = false;
             _inhaling = false;
             _isAttached = false;
@@ -281,6 +286,7 @@ public class NewAirGun
 
             StopInhale();
             _isIhaleTargetOwned = false;
+            _inhalePermission = false;
             _sendAuthority = false;
             _inhaling = false;
             _isAttached = false;
@@ -309,6 +315,7 @@ public class NewAirGun
         
         StopInhale();
         _isIhaleTargetOwned = false;
+        _inhalePermission = false;
         _sendAuthority = false;
         _inhaling = false;
         _isAttached = false;
@@ -343,14 +350,17 @@ public class NewAirGun
         else
         {
             _hook = null;
-            _air.StopCoroutine(_keepGrapplingCheckCoroutine);
-            _keepGrapplingCheckCoroutine = null;
+            if (_keepGrapplingCheckCoroutine != null)
+            {
+                _air.StopCoroutine(_keepGrapplingCheckCoroutine);
+                _keepGrapplingCheckCoroutine = null;
+            }
             _canStick = false;
             StartInhale();
         }
     }
     #endregion
-    
+
     #region AirGun
     #region Inhaling
     private void StartInhale()
@@ -364,21 +374,42 @@ public class NewAirGun
 
         if (ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject)) return;
 
-        if (_inhaleTarget.GetComponent<NetworkIdentity>().isOwned)
+        Managers.Command.TryInhaleItem(_air.gameObject, _inhaleTarget.GetComponent<NetworkIdentity>().netId);
+
+        //if (_inhaleTarget.GetComponent<NetworkIdentity>().isOwned)
+        //{
+        //    _sendAuthority = false;
+        //    return;
+        //}
+        //
+        //if (_air.isServer && !_sendAuthority)
+        //{
+        //    _sendAuthority = true;
+        //    Managers.Command.AuthorityToServer(_inhaleTarget.GetComponent<NetworkIdentity>().netId);
+        //}
+        //else
+        //{
+        //    _sendAuthority = true;
+        //    Managers.Command.AuthorityToClient(_inhaleTarget.GetComponent<NetworkIdentity>().netId);
+        //}
+    }
+
+    private void GetPermissionForInhaling(bool value)
+    {
+        if (!_inhaling)
         {
-            _sendAuthority = false;
+            _inhalePermission = false;
             return;
         }
 
-        if (_air.isServer && !_sendAuthority)
+        if (value)
         {
-            _sendAuthority = true;
-            Managers.Command.AuthorityToServer(_inhaleTarget.GetComponent<NetworkIdentity>().netId);
+            _inhalePermission = true;
         }
         else
         {
-            _sendAuthority = true;
-            Managers.Command.AuthorityToClient(_inhaleTarget.GetComponent<NetworkIdentity>().netId);
+            _inhaling = false;
+            StopInhale();
         }
     }
 
@@ -394,6 +425,8 @@ public class NewAirGun
             _inhalingPlayer = true;
             return;
         }
+
+        if (!_inhalePermission) return;
 
         if (!_isIhaleTargetOwned)
         {
@@ -428,6 +461,7 @@ public class NewAirGun
     private void StopInhale()
     {
         _inhaling = false;
+        _inhalePermission = false;
         _shakingEffectOnAirGun.StopShaking();
         //StopInhaleParticle();
         if (_chargingCoroutine != null)
@@ -575,7 +609,7 @@ public class NewAirGun
                     _isStick = true;
                     _isAttachedToHook = true;
                 }
-                catch (NullReferenceException) { Debug.Log("stick"); StopSticking(); }
+                catch (NullReferenceException) { StopSticking(); }
             }
         }
     }
@@ -820,7 +854,8 @@ public class NewAirGun
             Vector3 point = PointPosition(i * _spaceBetweenPoints, true);
             var hit = Physics2D.OverlapBox(point, _checkBoxSize, 0, _predictLineLayerMask);
 
-            if (hit)
+            var grabbedItem = Managers.Game.OtherPlayer.GetComponent<HookSM>().grabbedItem;
+            if (hit && (grabbedItem != null && ReferenceEquals(hit.gameObject, grabbedItem.gameObject)))
             {
                 var isHalfTile = (_halfTileLayerMask & (1 << hit.gameObject.layer)) > 0;
                 var isUpVector = i <= 0 || (point - _positions[i - 1]).y <= 0;

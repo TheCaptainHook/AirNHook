@@ -26,7 +26,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1049024
   <detectDistance>k__BackingField: 1
-  <AirGunDistance>k__BackingField: 3
+  <AirGunDistance>k__BackingField: 3.5
   <objectLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 787456
