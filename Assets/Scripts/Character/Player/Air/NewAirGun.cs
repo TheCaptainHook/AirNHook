@@ -849,13 +849,13 @@ public class NewAirGun
     private void FlyPredict()
     {
         int i;
+        var grabbedItem = Managers.Game.OtherPlayer.GetComponent<HookSM>().grabbedItem;
         for (i = 0; i < _numberOfPoints; i++)
         {
             Vector3 point = PointPosition(i * _spaceBetweenPoints, true);
             var hit = Physics2D.OverlapBox(point, _checkBoxSize, 0, _predictLineLayerMask);
 
-            var grabbedItem = Managers.Game.OtherPlayer.GetComponent<HookSM>().grabbedItem;
-            if (hit && (grabbedItem != null && ReferenceEquals(hit.gameObject, grabbedItem.gameObject)))
+            if (hit && (grabbedItem != null && !ReferenceEquals(hit.gameObject, grabbedItem.gameObject)))
             {
                 var isHalfTile = (_halfTileLayerMask & (1 << hit.gameObject.layer)) > 0;
                 var isUpVector = i <= 0 || (point - _positions[i - 1]).y <= 0;
