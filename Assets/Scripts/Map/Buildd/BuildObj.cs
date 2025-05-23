@@ -307,6 +307,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     {
         if (!canRespawn) return;
         if (this == null) return;
+
         if (TryGetComponent(out InteractableObject component))
         {
             component.Cmd_Dissolve();

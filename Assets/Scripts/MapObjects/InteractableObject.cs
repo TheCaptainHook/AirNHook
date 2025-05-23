@@ -20,10 +20,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     [SerializeField][SyncVar] protected bool _isFixed;
     [SerializeField][SyncVar] protected bool _canInteract = true;
     [SerializeField][SyncVar] protected bool _isDestroyed;
-    protected bool isDestroyed {
-        get => _isDestroyed;
-        set { CmdChnageDestroyState(value); }
-    }
     protected bool _isGrab;
     private float _stoppedTime;
 
@@ -184,7 +180,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public bool CanInteract()
     {
-        return _canInteract && !isDestroyed;
+        return _canInteract && !_isDestroyed;
     }
 
     public void Interacting(bool value)
@@ -222,7 +218,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void StopInhale()
     {
-        if (isDestroyed) return;
+        if (_isDestroyed) return;
 
         Fixed(false);
         _rigidbody.drag = 0f;
@@ -232,7 +228,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void Fixed(bool value)
     {
-        if (isDestroyed) return;
+        if (_isDestroyed) return;
 
         _isFixed = value;
         _isGrab = value;
@@ -249,7 +245,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void Fixing()
     {
-        if (isDestroyed) return;
+        if (_isDestroyed) return;
 
         //_canInteract = false;
         //CmdChangeInteractState(false);
@@ -266,7 +262,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void Shooting(Vector2 force)
     {
-        if (isDestroyed) return;
+        if (_isDestroyed) return;
 
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.angularVelocity = 0f;
@@ -277,7 +273,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public bool CanInhale()
     {
-        return !_isFixed && !isDestroyed;
+        return !_isFixed && !_isDestroyed;
     }
     #endregion
 
@@ -303,7 +299,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     [Command(requiresAuthority = false)]
     private void CmdChnageDestroyState(bool value)
     {
-        isDestroyed = value;
+        _isDestroyed = value;
     }
 
     //[Command(requiresAuthority = false)]
@@ -341,34 +337,23 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     [Command(requiresAuthority = false)]
     public void Cmd_Dissolve()
     {
-        isDestroyed = true;
+        CmdChnageDestroyState(true);
         Managers.Command.AuthorityToServer(netId);
         Rpc_Dissolve();
     }
     [ClientRpc]
     private void Rpc_Dissolve()
     {
-        //if (!CanInteract()) Release();
-        //if (TryGetComponent(out ParentConstraint component))
-        //{
-        //    component.constraintActive = false;
-        //    component.weight = 0;
-        //
-        //    for (int i = component.sourceCount - 1; i >= 0; i--)
-        //    {
-        //        component.RemoveSource(i);
-        //    }
-        //} 
+       
         var root = GetFixedPointRootTransform();
+
         if (root != null)
         {
             if (root.TryGetComponent(out HookSM hook)) hook.ReleaseItem();
             else if (root.TryGetComponent(out AirSM air)) air.StopGun();
         }
 
-        //Release();
-        //StopInhale();
-
+    
         var buildObj = GetComponent<BuildObj>();
         StartCoroutine(Co_Dissolve(buildObj.position));
     }
@@ -424,7 +409,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
         GetComponent<InteractableObject>().Respawned();
         buildObj.canRespawn = true;
-        isDestroyed = false;
+        CmdChnageDestroyState(false);
     }
     #endregion
 
