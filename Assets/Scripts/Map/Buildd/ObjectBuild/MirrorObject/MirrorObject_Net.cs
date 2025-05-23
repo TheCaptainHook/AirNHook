@@ -100,15 +100,16 @@ public class MirrorObject_Net : NetworkBehaviour
     public void Cmd_SetRot_z(float z,bool lr)
     {
         // Server_SetRot_z(z);
-        Rpc_SetRot_z(z,lr);
+        targetZ = _Mirror.transform.eulerAngles.z + z;
+        Rpc_SetRot_z(targetZ,lr);
         
     }
 
     float targetZ;
     [ClientRpc]
-    private void Rpc_SetRot_z(float z,bool lr)
+    private void Rpc_SetRot_z(float targetZ,bool lr)
     {
-        targetZ = _Mirror.transform.eulerAngles.z + z;
+        this.targetZ = targetZ;
         this.lr = lr;
         // Debug.Log(targetZ);
 
@@ -248,26 +249,27 @@ public class MirrorObject_Net : NetworkBehaviour
 
         Cmd_InnerPlayer(9999);
 
-        Cmd_ColReset();
+        Cmd_Reset();
+       
+    }
+   
 
-        if (setRotCoroutine != null)
+    [Command(requiresAuthority = false)]
+    private void Cmd_Reset()
+    {
+        Rpc_Reset();
+    }
+    [ClientRpc]
+    private void Rpc_Reset()
+    {
+        Col.enabled = false;
+        Col.enabled = true;
+
+         if (setRotCoroutine != null)
         {
             StopCoroutine(setRotCoroutine);
             setRotCoroutine = null;
         }
-       
-    }
-
-    [Command(requiresAuthority = false)]
-    private void Cmd_ColReset()
-    {
-        Rpc_ColReset();
-    }
-    [ClientRpc]
-    private void Rpc_ColReset()
-    {
-        Col.enabled = false;
-        Col.enabled = true;
     }
 
     private void Event_Recover()
