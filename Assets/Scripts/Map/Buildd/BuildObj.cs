@@ -283,7 +283,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
 
     #region Destructible Obj Dissolve Effect Logic
     public bool canRespawn;
-    protected void DissolveInitSetting(){
+    protected void DissolveInitSetting(){ //all Client
         _dissolveMaterial = _Dissolve_MainSprite.material;
         // _rb = GetComponent<Rigidbody2D>();
         // _collider = GetComponent<Collider2D>();
@@ -298,7 +298,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         
         canRespawn = true;
 
-        if(NetworkServer.active)
+        if(NetworkServer.active) //Server
         MapEditor.Instance.event_reset += Respawn;
     }
 

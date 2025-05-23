@@ -120,11 +120,13 @@ public class DroneEntity : BuildObj
     }
     #endregion
 
+
+
     #region  Main
 
 
     //-------------------------------------------------------------------------------------------------------------------------------------------------------------0412
-   protected bool isStop;
+    protected bool isStop;
     private void FixedUpdate()
     {
         if (Net.targetPosition == null) return;
@@ -185,6 +187,7 @@ public class DroneEntity : BuildObj
     }
 
     #endregion
+
     public void SetDroneAnim(Vector2 dir)
     {
         DroneMovingAnimation(dir);

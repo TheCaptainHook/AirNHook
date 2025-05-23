@@ -18,6 +18,8 @@ public class MovingSaw : DroneEntity
             var rb = other.TryGetComponent(out Rigidbody2D _rb) ? _rb : null;
             if (rb != null)
             {
+                rb.velocity = Vector2.zero;
+                
                 rb.AddForce(GetTargetDir(other) * addForcePower, ForceMode2D.Impulse);
             }
             // If successful, apply damage

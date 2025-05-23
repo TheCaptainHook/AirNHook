@@ -162,7 +162,6 @@ public class DroneEntity_Net : NetworkBehaviour
             gameObject.GetComponent<Drone_MultiPurpose>().DroneDropTransportItem();
         }
     }
-    
 
     #region Utile
     private bool CheckDistance(Vector2 curPos, Vector2 targetPos)
