@@ -8458,6 +8458,39 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0
+        },
+        {
+            "id": 311,
+            "dialogueId": 0,
+            "position": {
+                "x": -7.300000190734863,
+                "y": 23.190000534057618
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
         }
     ],
     "mapBackgroundObjectList": [
@@ -12342,6 +12375,32 @@
                 }
             ],
             "moveSpeed": 2.0,
+            "drone_TransportItemType": 8
+        },
+        {
+            "id": 340,
+            "position": {
+                "x": -5.050000190734863,
+                "y": 23.610000610351564
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 0.4000000059604645,
+                "y": 0.4000000059604645,
+                "z": 1.0
+            },
+            "paths": [
+                {
+                    "x": -5.050000190734863,
+                    "y": 23.610000610351564
+                }
+            ],
+            "moveSpeed": 0.0,
             "drone_TransportItemType": 8
         }
     ],

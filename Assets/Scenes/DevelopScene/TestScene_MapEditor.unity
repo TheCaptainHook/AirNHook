@@ -13650,12 +13650,14 @@ MonoBehaviour:
   canAction: 0
   canMovable: 0
   invincible: 0
+  isDead: 0
+  doNotTouch: 0
   <charPivot>k__BackingField: {fileID: 0}
   <sortingGroup>k__BackingField: []
   <talkingSprite>k__BackingField: {fileID: 0}
   <spriteMask>k__BackingField: {fileID: 0}
   coyoteTimeCount: 0
-  _halfPlatformLayer:
+  halfPlatformLayer:
     serializedVersion: 2
     m_Bits: 0
   isHalfPlatform: 0
