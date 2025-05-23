@@ -55,6 +55,9 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   distructionStatus: 0
   chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
   onPlaceable: 0
   onRotateable: 1
   onScaleable: 1
@@ -63,7 +66,9 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
+  canRespawn: 0
   sawPivot: {fileID: 7108496691391073394}
+  addForcePower: 5
 --- !u!58 &2783271239105424309
 CircleCollider2D:
   m_ObjectHideFlags: 0
