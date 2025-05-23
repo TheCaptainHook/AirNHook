@@ -121,7 +121,7 @@ public class MirrorObject_Net : NetworkBehaviour
     }
     private bool Check(float a, float b)
     {
-        return Mathf.Abs(Mathf.DeltaAngle(a, b)) < 0.5f;
+        return Mathf.Abs(Mathf.DeltaAngle(a, b)) > 0.5f;
     }
 
     private Coroutine setRotCoroutine;
@@ -134,7 +134,6 @@ public class MirrorObject_Net : NetworkBehaviour
         while (!Check(curZ, targetZ))
         {
             curZ += 0.5f * a;
-            curZ = NormalizeAngle(curZ);
             _Mirror.transform.rotation = Quaternion.Euler(0, 0, curZ);
             yield return new WaitForFixedUpdate();
         }
@@ -142,12 +141,7 @@ public class MirrorObject_Net : NetworkBehaviour
         _Mirror.transform.rotation = Quaternion.Euler(0, 0, targetZ);
         setRotCoroutine = null;
     }
-    private float NormalizeAngle(float angle)
-    {
-        angle %= 360f;
-        if (angle < 0) angle += 360f;
-        return angle;
-    }
+
     // private void OnChageRotate_Z(float old,float newVal)
     // {
 
