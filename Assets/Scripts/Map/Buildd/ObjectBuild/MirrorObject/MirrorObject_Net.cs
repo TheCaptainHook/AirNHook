@@ -133,9 +133,9 @@ public class MirrorObject_Net : NetworkBehaviour
         
         while (!Check(curZ, targetZ))
         {
-            curZ += 0.5f * a;
+            curZ += 0.1f * a;
             _Mirror.transform.rotation = Quaternion.Euler(0, 0, curZ);
-            yield return new WaitForFixedUpdate();
+            yield return null;
         }
 
         _Mirror.transform.rotation = Quaternion.Euler(0, 0, targetZ);
