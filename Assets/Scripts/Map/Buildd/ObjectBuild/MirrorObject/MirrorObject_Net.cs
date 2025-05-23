@@ -136,7 +136,7 @@ public class MirrorObject_Net : NetworkBehaviour
             // termRotZ = curZ;
             curZ += 0.5f * a;
             _Mirror.transform.rotation = Quaternion.Euler(0, 0, curZ);
-            yield return null;
+            yield return new WaitForFixedUpdate();
         }
 
         _Mirror.transform.rotation = Quaternion.Euler(0, 0, targetZ);
