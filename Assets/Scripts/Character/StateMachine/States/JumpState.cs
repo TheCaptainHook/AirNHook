@@ -3,8 +3,18 @@ using UnityEngine;
 public class JumpState : BaseState
 {
     private bool _isJumped = false;
-    
-    public JumpState(StateMachine stateMachine) : base(stateMachine) { }
+    private LayerMask ceilingLayer;
+    private Transform playerTransform;
+    private float rayLength = 0.25f;
+    private float baseNudgeAmount = 0.133f;
+    private float nudgeAmount = 0.1f;
+    private float headWidth = 0.8f;
+
+    public JumpState(StateMachine stateMachine) : base(stateMachine)
+    {
+        ceilingLayer = stateMachine.player.playerData.floorLayerMask & ~(1 << stateMachine.player.halfPlatformLayer);
+        playerTransform = stateMachine.player.transform;
+    }
     
     public override void EnterState()
     {
@@ -27,6 +37,16 @@ public class JumpState : BaseState
         
         if(stateMachine.rigidbody2D.velocity.y <= 0f)
             stateMachine.ChangeState(stateMachine.FallingState);
+    }
+
+    public override void PhysicsUpdate()
+    {
+        base.PhysicsUpdate();
+
+        if (rigidbd.velocity.y >= 5f)
+        {
+            HandleCeilingSlide();
+        }
     }
     #endregion
 
@@ -61,6 +81,51 @@ public class JumpState : BaseState
         _isJumped = true;
         jumpParticle.Play();
         stateMachine.player.CmdJumpParticlePlay();
+    }
+
+    private void HandleCeilingSlide()
+    {
+        Vector2 origin = playerTransform.position;
+        float halfWidth = headWidth / 2f;
+
+        int rayCount = 7;
+        bool[] rayHit = new bool[rayCount];
+
+        for (int i = 0; i < rayCount; i++)
+        {
+            float t = i / 6f;
+            float offsetX = Mathf.Lerp(-halfWidth, halfWidth, t);
+            Vector2 rayOrigin = origin + new Vector2(offsetX, 0.9f);
+
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up, rayLength, ceilingLayer);
+            rayHit[i] = hit.collider != null;
+        }
+
+        if (rayHit[3]) return;
+
+        if (rayHit[2]) return;
+
+        if (rayHit[4]) return;
+
+        //int leftHits = (rayHit[0] ? 1 : 0) + (rayHit[1] ? 1 : 0) + (rayHit[2] ? 1 : 0);
+        int leftHits = (rayHit[0] ? 1 : 0) + (rayHit[1] ? 1 : 0);
+        //int rightHits = (rayHit[4] ? 1 : 0) + (rayHit[5] ? 1 : 0) + (rayHit[6] ? 1 : 0);
+        int rightHits = (rayHit[5] ? 1 : 0) + (rayHit[6] ? 1 : 0);
+
+        if (leftHits > 0 && rightHits == 0)
+        {
+            if (rigidbd.velocity.x < -0.05f || rigidbd.velocity.x >= 0.4f) return;
+
+            float nudge = baseNudgeAmount * leftHits + nudgeAmount;
+            playerTransform.position += new Vector3(nudge, 0f, 0f);
+        }
+        else if (rightHits > 0 && leftHits == 0)
+        {
+            if (rigidbd.velocity.x > 0.05f || rigidbd.velocity.x <= -0.4f) return;
+
+            float nudge = baseNudgeAmount * rightHits + nudgeAmount;
+            playerTransform.position += new Vector3(-nudge, 0f, 0f);
+        }
     }
     #endregion
 }

@@ -32,7 +32,8 @@ public class NewAirGun
     private float _airGunDistance;
     private float _shortestDistance = float.MaxValue;
     private Coroutine _keepGrapplingCheckCoroutine;
-    
+    private bool _sendAuthority;
+
     // InhaleAction
     private ShakingEffectOnAirGun _shakingEffectOnAirGun => _air.shakingEffectOnAirGun;
     private Rigidbody2D _rigidbody2D => _air.rigidbody2D;
@@ -62,6 +63,8 @@ public class NewAirGun
     private float _spaceBetweenPoints;
     private float _latestTargetGravityScale;
     private Coroutine _chargingCoroutine;
+    private Coroutine _waitForStopCoroutine;
+    private WaitForSeconds _waitFor1Seconds = new(0.1f);
     private bool _canInhale = true;
     
     // FlyAction
@@ -201,6 +204,7 @@ public class NewAirGun
             {
                 StopInhale();
                 _isIhaleTargetOwned = false;
+                _sendAuthority = false;
                 _inhaling = false;
                 _isAttached = false;
                 _isInhaledHook = false;
@@ -225,6 +229,7 @@ public class NewAirGun
 
             StopInhale();
             _isIhaleTargetOwned = false;
+            _sendAuthority = false;
             _inhaling = false;
             _isAttached = false;
             _isInhaledHook = false;
@@ -276,6 +281,7 @@ public class NewAirGun
 
             StopInhale();
             _isIhaleTargetOwned = false;
+            _sendAuthority = false;
             _inhaling = false;
             _isAttached = false;
             _isInhaledHook = false;
@@ -303,6 +309,7 @@ public class NewAirGun
         
         StopInhale();
         _isIhaleTargetOwned = false;
+        _sendAuthority = false;
         _inhaling = false;
         _isAttached = false;
         _isInhaledHook = false;
@@ -345,14 +352,29 @@ public class NewAirGun
     {
         if (!_canInhale || (_inhaling && ReferenceEquals(_latestTarget, _inhaleTarget))) return;
 
+        if (!_latestTarget.TryGetComponent<IInhalable>(out var inhalable) && !inhalable.CanInhale()) return;
+
         _inhaleTarget = _latestTarget;
         _inhaling = true;
 
         if (ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject)) return;
 
-        if (_inhaleTarget.GetComponent<NetworkIdentity>().isOwned) return;
+        if (_inhaleTarget.GetComponent<NetworkIdentity>().isOwned)
+        {
+            _sendAuthority = false;
+            return;
+        }
 
-        Managers.Command.AuthorityToClient(_inhaleTarget.GetComponent<NetworkIdentity>().netId);
+        if (_air.isServer && !_sendAuthority)
+        {
+            _sendAuthority = true;
+            Managers.Command.AuthorityToServer(_inhaleTarget.GetComponent<NetworkIdentity>().netId);
+        }
+        else
+        {
+            _sendAuthority = true;
+            Managers.Command.AuthorityToClient(_inhaleTarget.GetComponent<NetworkIdentity>().netId);
+        }
     }
 
     private void Inhaling()
@@ -445,6 +467,10 @@ public class NewAirGun
 
     private void FixInhaleTarget()
     {
+        if (!_inhaleTarget.GetComponent<NetworkIdentity>().isOwned) return;
+
+        if (_isAttached) return;
+
         _isAttached = true;
 
         if (!_inhaleTarget.TryGetComponent(out _targetConstraint))
@@ -839,6 +865,29 @@ public class NewAirGun
         return position;
     }
     #endregion
+
+    private void WaitForStop()
+    {
+        if (_waitForStopCoroutine != null) return;
+
+        _waitForStopCoroutine = _air.StartCoroutine(Co_WaitForStop());
+    }
+
+    private IEnumerator Co_WaitForStop()
+    {
+        yield return _waitFor1Seconds;
+
+        DontWaitForStop();
+        _waitForStopCoroutine = null;
+    }
+
+    private void DontWaitForStop()
+    {
+        StopInhaleParticle();
+        StopInhale();
+        StopSticking();
+        _hook = null;
+    }
     #endregion
 
     #region Animations
@@ -914,10 +963,10 @@ public class NewAirGun
     {
         _rightClick = false;
 
-        StopInhaleParticle();
-        StopInhale();
-        StopSticking();
-        _hook = null;
+        if (_chargingCoroutine != null)
+            WaitForStop();
+        else
+            DontWaitForStop();
     }
 
     private void OnLook(InputAction.CallbackContext context)

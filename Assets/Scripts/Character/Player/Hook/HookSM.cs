@@ -95,7 +95,7 @@ public class HookSM : PlayerSM, IInhalable
                 _hit = Physics2D.Raycast(transform.position + (Vector3.right * (0.4f * i)) + (Vector3.up * 0.2f), Vector2.down, 0.4f, playerData.floorLayerMask);
                 if (!_hit) continue;
 
-                isHalfPlatform = _halfPlatformLayer == (_halfPlatformLayer | (1 << _hit.transform.gameObject.layer));
+                isHalfPlatform = halfPlatformLayer == (halfPlatformLayer | (1 << _hit.transform.gameObject.layer));
                 //isHalfPlatform = (1 << _hit.transform.gameObject.layer) == _halfPlatformLayer;
                 if (isHalfPlatform && !isDownThroughPlatform)
                 {
@@ -104,8 +104,8 @@ public class HookSM : PlayerSM, IInhalable
                 }
                 else
                 {
-                    rigidbody2D.excludeLayers = _halfPlatformLayer;
-                    collider2D.forceReceiveLayers = ~_halfPlatformLayer;
+                    rigidbody2D.excludeLayers = halfPlatformLayer;
+                    collider2D.forceReceiveLayers = ~halfPlatformLayer;
                 }
 
                 if (isGround) return;
@@ -119,8 +119,8 @@ public class HookSM : PlayerSM, IInhalable
             }
         }
         isHalfPlatform = false;
-        rigidbody2D.excludeLayers = _halfPlatformLayer;
-        collider2D.forceReceiveLayers = ~_halfPlatformLayer;
+        rigidbody2D.excludeLayers = halfPlatformLayer;
+        collider2D.forceReceiveLayers = ~halfPlatformLayer;
         isGround = false;
         coyoteTimeCount -= Time.deltaTime;
     }
@@ -468,7 +468,7 @@ public class HookSM : PlayerSM, IInhalable
 
     public bool CanInhale()
     {
-        return true;
+        return !isDead || !doNotTouch;
     }
     #endregion
 

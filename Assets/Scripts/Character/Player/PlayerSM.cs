@@ -15,6 +15,8 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     public bool canAction;
     public bool canMovable;
     public bool invincible;
+    [SyncVar] public bool isDead;
+    [SyncVar] public bool doNotTouch;
     [field: SerializeField] public Transform charPivot { get; private set; }
     [field: SerializeField] public List<SortingGroup> sortingGroup{ get; private set; }
     [field: SerializeField] public PlayerTalkingSprite talkingSprite { get; private set; }
@@ -25,7 +27,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     protected RaycastHit2D _hit;
     public bool isGround { get; protected set; }
     protected LayerMask _defaultForceReceiveLayer;
-    [field: SerializeField] protected LayerMask _halfPlatformLayer;
+    [field: SerializeField] public LayerMask halfPlatformLayer;
     public bool isHalfPlatform;
     public bool isDownThroughPlatform;
     
@@ -77,8 +79,10 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         canControl = true;
         canAction = true;
         canMovable = true;
+        isDead = false;
+        doNotTouch = false;
         _defaultForceReceiveLayer = collider2D.forceReceiveLayers;
-        collider2D.forceReceiveLayers =~ _halfPlatformLayer;
+        collider2D.forceReceiveLayers =~ halfPlatformLayer;
         stateMachine.SubscribeInput();
         SubscribeInput();
         StartCoroutine(DetectInteraction());
@@ -124,7 +128,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
             _hit = Physics2D.Raycast(transform.position + (Vector3.right * (0.4f * i)) + (Vector3.up * 0.2f), Vector2.down, 0.4f, playerData.floorLayerMask);
             if (!_hit) continue;
 
-            isHalfPlatform = _halfPlatformLayer == (_halfPlatformLayer | (1 << _hit.transform.gameObject.layer));
+            isHalfPlatform = halfPlatformLayer == (halfPlatformLayer | (1 << _hit.transform.gameObject.layer));
             //isHalfPlatform = (1 << _hit.transform.gameObject.layer) == _halfPlatformLayer;
             if (isHalfPlatform && !isDownThroughPlatform)
                 StopDownThroughHalfPlatform();
@@ -152,7 +156,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
 
     public void DownThroughHalfPlatform()
     {
-        collider2D.forceReceiveLayers =~ _halfPlatformLayer;
+        collider2D.forceReceiveLayers =~ halfPlatformLayer;
     }
     #endregion
     
@@ -258,6 +262,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
 
         Debug.Log($"TakeDamage {damageType}");
         canControl = false;
+        isDead = true;
         rigidbody2D.constraints = RigidbodyConstraints2D.FreezeAll;
         collider2D.enabled = false;
         Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.DeathVignette(true);
@@ -329,6 +334,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     {
         animator.SetTrigger(animationData.RespawnEndParameterHash);
         canControl = true;
+        isDead = false;
         collider2D.enabled = true;
         rigidbody2D.constraints = RigidbodyConstraints2D.None;
         rigidbody2D.freezeRotation = true;
