@@ -5,10 +5,11 @@ public class JumpState : BaseState
     private bool _isJumped = false;
     private LayerMask ceilingLayer;
     private Transform playerTransform;
-    private float rayLength = 0.25f;
-    private float baseNudgeAmount = 0.133f;
-    private float nudgeAmount = 0.1f;
-    private float headWidth = 0.8f;
+    private bool _oneCheck;
+    private float _rayLength = 0.25f;
+    private float _baseNudgeAmount = 0.133f;
+    private float _nudgeAmount = 0.05f;
+    private float _headWidth = 0.8f;
 
     public JumpState(StateMachine stateMachine) : base(stateMachine)
     {
@@ -20,6 +21,7 @@ public class JumpState : BaseState
     {
         stateMachine.moveSpeedMultiplier = 2f;
         stateMachine.player.animator.SetBool(stateMachine.player.animationData.WalkParameterHash, false);
+        _oneCheck = false;
         Jump();
     }
 
@@ -43,7 +45,7 @@ public class JumpState : BaseState
     {
         base.PhysicsUpdate();
 
-        if (rigidbd.velocity.y >= 5f)
+        if (rigidbd.velocity.y >= 5f && !_oneCheck)
         {
             HandleCeilingSlide();
         }
@@ -86,7 +88,7 @@ public class JumpState : BaseState
     private void HandleCeilingSlide()
     {
         Vector2 origin = playerTransform.position;
-        float halfWidth = headWidth / 2f;
+        float halfWidth = _headWidth / 2f;
 
         int rayCount = 7;
         bool[] rayHit = new bool[rayCount];
@@ -97,7 +99,7 @@ public class JumpState : BaseState
             float offsetX = Mathf.Lerp(-halfWidth, halfWidth, t);
             Vector2 rayOrigin = origin + new Vector2(offsetX, 0.9f);
 
-            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up, rayLength, ceilingLayer);
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up, _rayLength, ceilingLayer);
             rayHit[i] = hit.collider != null;
         }
 
@@ -116,15 +118,17 @@ public class JumpState : BaseState
         {
             if (rigidbd.velocity.x < -0.05f || rigidbd.velocity.x >= 0.4f) return;
 
-            float nudge = baseNudgeAmount * leftHits + nudgeAmount;
+            float nudge = _baseNudgeAmount * leftHits + _nudgeAmount;
             playerTransform.position += new Vector3(nudge, 0f, 0f);
+            _oneCheck = true;
         }
         else if (rightHits > 0 && leftHits == 0)
         {
             if (rigidbd.velocity.x > 0.05f || rigidbd.velocity.x <= -0.4f) return;
 
-            float nudge = baseNudgeAmount * rightHits + nudgeAmount;
+            float nudge = _baseNudgeAmount * rightHits + _nudgeAmount;
             playerTransform.position += new Vector3(-nudge, 0f, 0f);
+            _oneCheck = true;
         }
     }
     #endregion

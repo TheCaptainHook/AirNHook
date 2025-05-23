@@ -19,6 +19,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     [SerializeField] protected float _gravityScale;
     [SerializeField][SyncVar] protected bool _isFixed;
     [SerializeField][SyncVar] protected bool _canInteract = true;
+    [SerializeField][SyncVar] protected bool _canGrab = true;
     [SerializeField][SyncVar] protected bool _isDestroyed;
     protected bool _isGrab;
     private float _stoppedTime;
@@ -113,8 +114,10 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _isFixed = true;
         _isGrab = true;
         _canInteract = false;
+        _canGrab = false;
         CmdChangeFixedState(true);
         CmdChangeInteractState(false);
+        CmdChangeGrabState(false);
         HideEButton();
 
         _rigidbody.bodyType = RigidbodyType2D.Kinematic;
@@ -131,8 +134,10 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _isFixed = false;
         _isGrab = false;
         _canInteract = true;
+        _canGrab = true;
         CmdChangeFixedState(false);
         CmdChangeInteractState(true);
+        CmdChangeGrabState(true);
         ShowEButton();
 
         _rigidbody.bodyType = _originType;
@@ -146,8 +151,10 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     {
         _stoppedTime = 0f;
         _canInteract = false;
+        _canGrab = false;
         CmdChangeFixedState(false);
         CmdChangeInteractState(false);
+        CmdChangeGrabState(false);
 
         if (_eButtonUI is not null)
             HideEButton();
@@ -171,16 +178,18 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     public void Respawned()
     {
         _canInteract = true;
+        _canGrab = true;
         _isFixed = false;
         CmdChangeFixedState(false);
         CmdChangeInteractState(true);
+        CmdChangeGrabState(true);
         //Release();
         //StopInhale();
     }
 
     public bool CanInteract()
     {
-        return _canInteract && !_isDestroyed;
+        return _canInteract && _canGrab && !_isDestroyed;
     }
 
     public void Interacting(bool value)
@@ -212,8 +221,10 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     public void Inhalation(Transform accesor)
     {
         _accessor = accesor;
-        _canInteract = false;
-        CmdChangeInteractState(false);
+        //_canInteract = false;
+        //_canGrab = false;
+        //CmdChangeInteractState(false);
+        //CmdChangeGrabState(false);
     }
 
     public void StopInhale()
@@ -233,8 +244,10 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _isFixed = value;
         _isGrab = value;
         _canInteract = !value;
+        _canGrab = !value;
         CmdChangeFixedState(value);
         CmdChangeInteractState(!value);
+        CmdChangeGrabState(!value);
 
         if (_isFixed)
         {
@@ -257,7 +270,10 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void Inhaling(bool value)
     {
-        _canInteract = !value;
+        //_canInteract = !value;
+        _canGrab = !value;
+        CmdChangeGrabState(!value);
+        //CmdChangeInteractState(!value);
     }
 
     public void Shooting(Vector2 force)
@@ -268,12 +284,15 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _rigidbody.angularVelocity = 0f;
         _rigidbody.Sleep();
         _stoppedTime = 0f;
-        _canInteract = true;
+        //_canInteract = true;
+        //_canGrab = true;
+        //CmdChangeInteractState(true);
+        //CmdChangeGrabState(true);
     }
 
     public bool CanInhale()
     {
-        return !_isFixed && !_isDestroyed;
+        return !_isFixed && !_isDestroyed && _canInteract;
     }
     #endregion
 
@@ -302,17 +321,16 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _isDestroyed = value;
     }
 
-    //[Command(requiresAuthority = false)]
+    [Command(requiresAuthority = false)]
     private void CmdChangeInteractState(bool value)
     {
-        Debug.Log("Interaction : "+ value);
-        test(value);
+        _canInteract = value;
     }
 
     [Command(requiresAuthority = false)]
-    private void test(bool value)
+    private void CmdChangeGrabState(bool value)
     {
-        _canInteract = value;
+        _canGrab = value;
     }
 
     [Command(requiresAuthority = false)]

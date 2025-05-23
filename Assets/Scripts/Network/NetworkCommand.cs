@@ -163,6 +163,7 @@ public class NetworkCommand : NetworkBehaviour
             AssignAuthority(item, conn);
         }
         
+        item.GetComponent<IInteractable>().Interacting(true);
         GrabItem(conn, itemNetId, true);
     }
     
@@ -201,6 +202,8 @@ public class NetworkCommand : NetworkBehaviour
     #endregion
 
     #region InhaleItem
+    public Action<bool> itemInhaleCallback;
+
     [Command(requiresAuthority = false)]
     public void TryInhaleItem(GameObject target, uint itemNetId)
     {
@@ -214,16 +217,11 @@ public class NetworkCommand : NetworkBehaviour
             return;
         }
         
-        //if (_assignAuthorityCoroutine.TryGetValue(itemNetId, out var coroutine))
-        //{
-        //    StopCoroutine(coroutine);
-        //    _assignAuthorityCoroutine.Remove(itemNetId);
-        //}
-        
         if (!ReferenceEquals(Managers.Game.Player, item.gameObject) && !ReferenceEquals(Managers.Game.OtherPlayer, item.gameObject)
             && (!ReferenceEquals(Managers.Game.Player, target) || !item.isOwned))
             AssignAuthority(item, conn);
         
+        inhalable.Inhaling(true);
         InhaleItem(conn, itemNetId, true);
     }
 
@@ -232,7 +230,7 @@ public class NetworkCommand : NetworkBehaviour
     {
         if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
         
-        //itemInhaleCallback?.Invoke(item, value);
+        itemInhaleCallback?.Invoke(value);
     }
 
     //[Command(requiresAuthority = false)]
