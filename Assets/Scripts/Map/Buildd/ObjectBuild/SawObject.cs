@@ -39,8 +39,6 @@ public class SawObject : BuildObj
         // 충돌한 객체가 IDamageable 인터페이스를 가지고 있는지 확인
         if (other.TryGetComponent(out IDamageable damageable) && !turnOff)
         {
-            if (NetworkServer.active)
-            {
                 var rb = other.TryGetComponent(out Rigidbody2D _rb) ? _rb : null;
                 if (rb != null)
                 {
@@ -48,8 +46,6 @@ public class SawObject : BuildObj
                     
                     rb.AddForce(GetTargetDir(other) * addForcePower, ForceMode2D.Impulse);
                 }
-            }
-            
             // If successful, apply damage
             damageable.TakeDamage();
         }
