@@ -180,7 +180,7 @@ public class BatteryInteractable : TransportItemEntity
         CmdChangeFixedState(false);
         CmdChangeInteractState(true);
         CmdChangeGrabState(true);
-        if(isShowE) ShowEButton();
+        // if(isShowE) ShowEButton();
         
         
         _rigidbody.bodyType = _originType;
