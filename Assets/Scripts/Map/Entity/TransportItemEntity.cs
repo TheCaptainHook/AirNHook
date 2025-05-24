@@ -9,7 +9,7 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     protected Collider2D Col => GetComponent<Collider2D>();
     protected Rigidbody2D Rb => GetComponent<Rigidbody2D>();
     protected BuildObj BuildObj => GetComponent<BuildObj>();
-    public void TransportItem_Constraint(uint netId)
+    public void TransportItem_Constraint(uint netId) //Server
     {
         StartCoroutine(AllClientReadyChecker_Co(() => 
         {

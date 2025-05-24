@@ -175,7 +175,7 @@ public class BatteryInteractable : TransportItemEntity
         CmdChangeFixedState(false);
         CmdChangeInteractState(true);
         CmdChangeGrabState(true);
-        ShowEButton();
+        // ShowEButton();
 
         _rigidbody.bodyType = _originType;
 
@@ -199,10 +199,6 @@ public class BatteryInteractable : TransportItemEntity
     [Command(requiresAuthority = false)]
     public void Cmd_Recover()
     {
-        //if(val == 0)
-        //Server_SetBatteryCharger(9999);
-        //if(val == 1)
-        //Server_SetPowerSupply(9999);
 
         Rpc_Recover();
         
