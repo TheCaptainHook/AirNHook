@@ -163,7 +163,7 @@ public class MirrorObject : BuildObj,IInteractable
             if (other.TryGetComponent(out PlayerSM player))
             {
                 var playerIdentity = player.gameObject.TryGetComponent(out NetworkIdentity identity) ? identity : null;
-                if(playerIdentity)
+                if(playerIdentity != null)
                 {
                     if (playerIdentity.isLocalPlayer) ShowE();
                     M_Net.Cmd_InnerPlayer(playerIdentity.netId);
