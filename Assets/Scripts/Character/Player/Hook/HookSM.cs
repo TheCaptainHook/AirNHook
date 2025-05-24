@@ -59,7 +59,7 @@ public class HookSM : PlayerSM, IInhalable
             weight = 1f
         };
         Managers.Command.itemGrabCallback += GrabItemNet;
-        //Managers.Command.itemReleaseCallback += ReleaseItemNet;
+        Managers.Command.itemReleaseCallback += ReleaseItemNet;
     }
 
     protected override void OnDisable()
@@ -68,7 +68,7 @@ public class HookSM : PlayerSM, IInhalable
         grappling.OnDisable();
         
         Managers.Command.itemGrabCallback -= GrabItemNet;
-        //Managers.Command.itemReleaseCallback -= ReleaseItemNet;
+        Managers.Command.itemReleaseCallback -= ReleaseItemNet;
     }
 
     #region UpdateMethod
@@ -243,7 +243,7 @@ public class HookSM : PlayerSM, IInhalable
     {
         if (grabbedItem != null)
         {
-            ReleaseItem();
+            TryReleaseItem();
         }
         else if (latestTarget != null)
         {
@@ -283,8 +283,15 @@ public class HookSM : PlayerSM, IInhalable
         interactable.HideEButton();
     }
 
-    public void ReleaseItem()
+    public void TryReleaseItem()
     {
+        Managers.Command.TryReleaseItem(gameObject, grabbedItem.GetComponent<NetworkIdentity>().netId);
+    }
+
+    public void ReleaseItemNet(bool value)
+    {
+        if (!value) return;
+
         try
         {
             var constraint = grabbedItem.GetComponent<ParentConstraint>();

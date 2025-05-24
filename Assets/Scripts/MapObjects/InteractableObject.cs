@@ -171,7 +171,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         {
             _isGrab = false;
             _isFixed = false;
-            if (root.TryGetComponent(out HookSM hook)) hook.ReleaseItem();
+            if (root.TryGetComponent(out HookSM hook)) hook.TryReleaseItem();
             else if (root.TryGetComponent(out AirSM air)) air.StopGun();
         }
 
@@ -370,11 +370,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         }
     }
 
-    private void CheckPermissionPlayer()
-    {
-
-    }
-
     #region Command
     protected void ChangeState(bool value)
     {
@@ -441,7 +436,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
         if (root != null)
         {
-            if (root.TryGetComponent(out HookSM hook)) hook.ReleaseItem();
+            if (root.TryGetComponent(out HookSM hook)) hook.TryReleaseItem();
             else if (root.TryGetComponent(out AirSM air)) air.StopGun();
         }
 
