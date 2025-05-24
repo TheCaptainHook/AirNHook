@@ -10,6 +10,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     // grab release
     [Header("Grab n Release")]
     private Transform _accessor;
+    [field: SerializeField][SyncVar] private GameObject _permissionPlayer;
+    private object _lock = new object();
     protected Rigidbody2D _rigidbody;
     protected Collider2D _collider;
     protected Transform _fixedPoint;
@@ -88,7 +90,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         {
             _stoppedTime = 0f;
         }
-    }   
+    }
 
     private void AuthorityToServer()
     {
@@ -126,6 +128,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         transform.rotation = Quaternion.identity;
         _sortingGroup.sortingLayerName = GrabObj;
         CmdChangeSortingLayer(true);
+        CmdSyncPosition(transform.position);
     }
 
     public virtual void Release()
@@ -145,11 +148,13 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _rigidbody.constraints = _originRot;
         _sortingGroup.sortingLayerID = _originSortingLayerID;
         CmdChangeSortingLayer(false);
+        CmdRemovePermissionPlayer();
     }
 
     public void Destroyed()
     {
         _stoppedTime = 0f;
+        _isFixed = false;
         _canInteract = false;
         _canGrab = false;
         CmdChangeFixedState(false);
@@ -161,18 +166,19 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
         _rigidbody.bodyType = _originType;
 
-        if (_isGrab)
+        var root = GetFixedPointRootTransform();
+
+        if (root != null)
         {
             _isGrab = false;
             _isFixed = false;
-            if (Managers.Game.Player.TryGetComponent<HookSM>(out var hook))
-                hook.ReleaseItem();
-            else if (Managers.Game.Player.TryGetComponent<AirSM>(out var air))
-                air.StopGun();
+            if (root.TryGetComponent(out HookSM hook)) hook.ReleaseItem();
+            else if (root.TryGetComponent(out AirSM air)) air.StopGun();
         }
 
         _rigidbody.constraints = _originRot;
         Managers.Command.AuthorityToServer(netId);
+        CmdRemovePermissionPlayer();
     }
 
     public void Respawned()
@@ -183,8 +189,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         CmdChangeFixedState(false);
         CmdChangeInteractState(true);
         CmdChangeGrabState(true);
-        //Release();
-        //StopInhale();
     }
 
     public bool CanInteract()
@@ -192,9 +196,26 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         return _canInteract && _canGrab && !_isDestroyed;
     }
 
-    public void Interacting(bool value)
+    [Server]
+    public bool Interacting(bool value, GameObject player)
     {
-        _canInteract = !value;
+        if (value == false)
+        {
+            _canInteract = true;
+            RemovePermissionPlayer();
+            return true;
+        }
+
+        if (AddPermissionPlayer(player))
+        {
+            _canInteract = false;
+            return true;
+        }
+        else
+        {
+            _canInteract = true;
+            return false;
+        }
     }
 
     public ObjectTypeEnum GetObjectType()
@@ -221,10 +242,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     public void Inhalation(Transform accesor)
     {
         _accessor = accesor;
-        //_canInteract = false;
-        //_canGrab = false;
-        //CmdChangeInteractState(false);
-        //CmdChangeGrabState(false);
     }
 
     public void StopInhale()
@@ -232,6 +249,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         if (_isDestroyed) return;
 
         Fixed(false);
+        CmdRemovePermissionPlayer();
         _rigidbody.drag = 0f;
         _rigidbody.gravityScale = _gravityScale;
         _rigidbody.freezeRotation = false;
@@ -260,20 +278,32 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     {
         if (_isDestroyed) return;
 
-        //_canInteract = false;
-        //CmdChangeInteractState(false);
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.angularVelocity = 0f;
         _rigidbody.freezeRotation = true;
         _rigidbody.Sleep();
     }
 
-    public void Inhaling(bool value)
+    [Server]
+    public bool Inhaling(bool value, GameObject player)
     {
-        //_canInteract = !value;
-        _canGrab = !value;
-        CmdChangeGrabState(!value);
-        //CmdChangeInteractState(!value);
+        if (value == false)
+        {
+            _canGrab = true;
+            RemovePermissionPlayer();
+            return true;
+        }
+
+        if (AddPermissionPlayer(player))
+        {
+            _canGrab = false;
+            return true;
+        }
+        else
+        {
+            _canGrab = true;
+            return false;
+        }
     }
 
     public void Shooting(Vector2 force)
@@ -284,10 +314,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _rigidbody.angularVelocity = 0f;
         _rigidbody.Sleep();
         _stoppedTime = 0f;
-        //_canInteract = true;
-        //_canGrab = true;
-        //CmdChangeInteractState(true);
-        //CmdChangeGrabState(true);
     }
 
     public bool CanInhale()
@@ -300,6 +326,39 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     {
         if (_accessor == null) return null;
         return _accessor.root;
+    }
+
+    private bool AddPermissionPlayer(GameObject player)
+    {
+        lock (_lock)
+        {
+            if (_permissionPlayer == null)
+            {
+                _permissionPlayer = player;
+                return true;
+            }
+            else if (ReferenceEquals(_permissionPlayer, player))
+            {
+                return true;
+            }
+            {
+                return false;
+            }
+        }
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdRemovePermissionPlayer()
+    {
+        RemovePermissionPlayer();
+    }
+
+    private void RemovePermissionPlayer()
+    {
+        lock (_lock)
+        {
+            _permissionPlayer = null;
+        }
     }
 
     #region Command
@@ -347,6 +406,18 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         else
             _sortingGroup.sortingLayerID = _originSortingLayerID;
     }
+
+    [Command(requiresAuthority = false)]
+    private void CmdSyncPosition(Vector3 position)
+    {
+        RpcSyncPosition(position);
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcSyncPosition(Vector3 position)
+    {
+        transform.position = position;
+    }
     #endregion
 
     #region Dissolve
@@ -357,6 +428,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     {
         CmdChnageDestroyState(true);
         Managers.Command.AuthorityToServer(netId);
+        RemovePermissionPlayer();
         Rpc_Dissolve();
     }
     [ClientRpc]

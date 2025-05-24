@@ -75,7 +75,10 @@ public class InhalableObject : NetworkBehaviour, IInhalable
         _fixedPoint = accessor;
     }
 
-    public void Inhaling(bool value) { }
+    public bool Inhaling(bool value, GameObject player)
+    {
+        return true;
+    }
 
     public virtual void Shooting(Vector2 force)
     {

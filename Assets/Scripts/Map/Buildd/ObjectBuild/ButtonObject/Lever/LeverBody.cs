@@ -145,9 +145,9 @@ public class LeverBody : ButtonEntity, IInteractable
         return Net.onCompletionParts;
     }
 
-    public void Interacting(bool value)
+    public bool Interacting(bool value, GameObject player)
     {
-        return;
+        return true;
     }
 
     public ObjectTypeEnum GetObjectType()

@@ -5,7 +5,7 @@ public interface IInhalable
     public void Inhalation(Transform accesor);
     public void StopInhale();
     public void Fixed(bool value);
-    public void Inhaling(bool value);
+    public bool Inhaling(bool value, GameObject player);
     public void Shooting(Vector2 force);
     public bool CanInhale();
 }

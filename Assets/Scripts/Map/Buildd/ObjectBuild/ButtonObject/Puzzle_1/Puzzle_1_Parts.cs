@@ -363,7 +363,10 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         return true;
     }
 
-    public void Interacting(bool value) { }
+    public bool Interacting(bool value, GameObject player)
+    {
+        return true;
+    }
 
     public ObjectTypeEnum GetObjectType()
     {

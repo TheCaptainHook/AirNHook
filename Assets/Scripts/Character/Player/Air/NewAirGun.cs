@@ -40,7 +40,7 @@ public class NewAirGun
     private Collider2D _inhaleTarget;
     private bool _isAttached;
     public bool _inhaling;
-    private bool _inhalePermission;
+    private GameObject _inhalePermissionObject;
     private bool _inhalingPlayer;
     private bool _delay;
     private float _delayTimer;
@@ -207,7 +207,7 @@ public class NewAirGun
             {
                 StopInhale();
                 _isIhaleTargetOwned = false;
-                _inhalePermission = false;
+                _inhalePermissionObject = null;
                 _sendAuthority = false;
                 _inhaling = false;
                 _isAttached = false;
@@ -233,7 +233,7 @@ public class NewAirGun
 
             StopInhale();
             _isIhaleTargetOwned = false;
-            _inhalePermission = false;
+            _inhalePermissionObject = null;
             _sendAuthority = false;
             _inhaling = false;
             _isAttached = false;
@@ -286,7 +286,7 @@ public class NewAirGun
 
             StopInhale();
             _isIhaleTargetOwned = false;
-            _inhalePermission = false;
+            _inhalePermissionObject =  null;
             _sendAuthority = false;
             _inhaling = false;
             _isAttached = false;
@@ -315,7 +315,7 @@ public class NewAirGun
         
         StopInhale();
         _isIhaleTargetOwned = false;
-        _inhalePermission = false;
+        _inhalePermissionObject = null;
         _sendAuthority = false;
         _inhaling = false;
         _isAttached = false;
@@ -394,17 +394,17 @@ public class NewAirGun
         //}
     }
 
-    private void GetPermissionForInhaling(bool value)
+    private void GetPermissionForInhaling(GameObject permissionObject, bool value)
     {
         if (!_inhaling)
         {
-            _inhalePermission = false;
+            _inhalePermissionObject = null;
             return;
         }
 
         if (value)
         {
-            _inhalePermission = true;
+            _inhalePermissionObject = permissionObject;
         }
         else
         {
@@ -426,7 +426,7 @@ public class NewAirGun
             return;
         }
 
-        if (!_inhalePermission) return;
+        if (_inhalePermissionObject != null && !ReferenceEquals(_inhalePermissionObject, _inhaleTarget.gameObject)) return;
 
         if (!_isIhaleTargetOwned)
         {
@@ -461,7 +461,7 @@ public class NewAirGun
     private void StopInhale()
     {
         _inhaling = false;
-        _inhalePermission = false;
+        _inhalePermissionObject = null;
         _shakingEffectOnAirGun.StopShaking();
         //StopInhaleParticle();
         if (_chargingCoroutine != null)
@@ -855,7 +855,7 @@ public class NewAirGun
             Vector3 point = PointPosition(i * _spaceBetweenPoints, true);
             var hit = Physics2D.OverlapBox(point, _checkBoxSize, 0, _predictLineLayerMask);
 
-            if (hit && (grabbedItem != null && !ReferenceEquals(hit.gameObject, grabbedItem.gameObject)))
+            if (hit && (grabbedItem == null || !hit.gameObject.Equals(grabbedItem.gameObject)))
             {
                 var isHalfTile = (_halfTileLayerMask & (1 << hit.gameObject.layer)) > 0;
                 var isUpVector = i <= 0 || (point - _positions[i - 1]).y <= 0;

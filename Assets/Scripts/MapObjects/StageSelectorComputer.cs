@@ -112,9 +112,9 @@ public ObjectTypeEnum objectType = ObjectTypeEnum.Interaction;
         return true;
     }
 
-    public void Interacting(bool value)
+    public bool Interacting(bool value, GameObject player)
     {
-        return;
+        return true;
     }
 
     public ObjectTypeEnum GetObjectType()
