@@ -5269,6 +5269,9 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   distructionStatus: 0
   chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
@@ -5277,6 +5280,7 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
+  canRespawn: 0
   animationType: 0
 --- !u!114 &818852795545140580
 MonoBehaviour:

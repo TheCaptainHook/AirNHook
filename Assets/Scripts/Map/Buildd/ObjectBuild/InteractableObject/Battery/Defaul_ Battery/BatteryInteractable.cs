@@ -166,26 +166,29 @@ public class BatteryInteractable : TransportItemEntity
     [ClientRpc]
     private void Rpc_Release(Vector3 releasePosition)
     {
-        Debug.Log(releasePosition);
+        //--------------base Release(remove ShowEButton)
+        _stoppedTime = 0f;
         _isFixed = false;
         _isGrab = false;
         _canInteract = true;
-        ChangeState(false);
+        _canGrab = true;
+        CmdChangeFixedState(false);
+        CmdChangeInteractState(true);
+        CmdChangeGrabState(true);
+        ShowEButton();
 
-        //_fixedPoint = null;
-        transform.position = releasePosition;
-        transform.rotation = Quaternion.identity;
-        
         _rigidbody.bodyType = _originType;
-        _rigidbody.constraints = _originRot;
-        _sortingGroup.sortingLayerID = _originSortingLayerID;
 
-        CmdChangeSortingLayer(false);
-
-
+        _rigidbody.gravityScale = 0;
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.angularVelocity = 0;
-        _rigidbody.gravityScale = 0;
+
+        _rigidbody.constraints = _originRot;
+        _sortingGroup.sortingLayerID = _originSortingLayerID;
+        CmdChangeSortingLayer(false);
+        //--------------base Release(remove ShowEButton)
+
+        transform.position = releasePosition;
 
         Col.enabled = false;
         BuildObj.canRespawn = false;
@@ -219,7 +222,7 @@ public class BatteryInteractable : TransportItemEntity
         RemoveEffect();
 
         Col.enabled = true;
-        _rigidbody.gravityScale = 1;
+        _rigidbody.gravityScale = _gravityScale;
         BuildObj.canRespawn = true;
 
 

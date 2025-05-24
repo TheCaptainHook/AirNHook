@@ -22,7 +22,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     [SerializeField][SyncVar] protected bool _canGrab = true;
     [SerializeField][SyncVar] protected bool _isDestroyed;
     protected bool _isGrab;
-    private float _stoppedTime;
+    protected float _stoppedTime;
 
     // e button ui
     [Header("E Button UI")]
@@ -310,7 +310,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     }
 
     [Command(requiresAuthority = false)]
-    private void CmdChangeFixedState(bool value)
+    protected void CmdChangeFixedState(bool value)
     {
         _isFixed = value;
     }
@@ -322,13 +322,13 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     }
 
     [Command(requiresAuthority = false)]
-    private void CmdChangeInteractState(bool value)
+    protected void CmdChangeInteractState(bool value)
     {
         _canInteract = value;
     }
 
     [Command(requiresAuthority = false)]
-    private void CmdChangeGrabState(bool value)
+    protected void CmdChangeGrabState(bool value)
     {
         _canGrab = value;
     }
