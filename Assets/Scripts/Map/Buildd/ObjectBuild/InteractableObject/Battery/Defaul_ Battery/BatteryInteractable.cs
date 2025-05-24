@@ -182,7 +182,7 @@ public class BatteryInteractable : TransportItemEntity
         CmdChangeGrabState(true);
         if(isShowE) ShowEButton();
         
-
+        
         _rigidbody.bodyType = _originType;
 
         _rigidbody.gravityScale = 0;

@@ -290,7 +290,7 @@ public class NetworkCommand : NetworkBehaviour
     #endregion
 
     #region Object
-    private WaitForSeconds _waitForDestroy = new(1f);
+    private WaitForSeconds _waitForDestroy = new(0.5f);
     
     [Command(requiresAuthority = false)]
     public void DestroyKey(GameObject target)
@@ -311,16 +311,19 @@ public class NetworkCommand : NetworkBehaviour
         //    spriteRenderer.enabled = false;
         //}
         target.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
-        target.GetComponent<IInteractable>().Interacting(true);
-        target.GetComponent<Key>().CallOnInterableObjectRelease();
-        
-        StartCoroutine(WaitForDestroy(target));
+        // target.GetComponent<IInteractable>().Interacting(true);
+        if (NetworkServer.active)
+        {
+            target.GetComponent<Key>().CallOnInterableObjectRelease();
+            StartCoroutine(WaitForDestroy(target));
+        }
+       
     }
 
     private IEnumerator WaitForDestroy(GameObject target)
     {
         yield return _waitForDestroy;
-        Destroy(target);
+        NetworkServer.Destroy(target);
     }
     #endregion
     
