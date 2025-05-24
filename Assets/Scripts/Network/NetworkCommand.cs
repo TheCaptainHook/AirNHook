@@ -142,7 +142,7 @@ public class NetworkCommand : NetworkBehaviour
 
     #region GrabReleaseItem
     public Action<NetworkIdentity, bool> itemGrabCallback;
-    public Action<bool> itemReleaseCallback;
+    public Action<uint> itemReleaseCallback;
     
     [Command(requiresAuthority = false)]
     public void TryGrabItem(GameObject target, uint itemNetId)
@@ -179,31 +179,23 @@ public class NetworkCommand : NetworkBehaviour
         itemGrabCallback?.Invoke(item, value);
     }
 
-    [Command(requiresAuthority = false)]
-    public void TryReleaseItem(GameObject target, uint itemNetId)
-    {
-        if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
+    //[Command(requiresAuthority = false)]
+    //public void TryReleaseItem(GameObject target, uint itemNetId)
+    //{
+    //    if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
+    //    
+    //    if (!item.TryGetComponent<IInteractable>(out var interactable)) return;
+    //    
+    //    //item.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+    //    interactable.Interacting(false);
+    //    ReleaseItem(target.GetComponent<NetworkIdentity>().connectionToClient, itemNetId);
+    //}
 
-        var conn = target.GetComponent<NetworkIdentity>().connectionToClient;
-
-        if (!item.TryGetComponent<IInteractable>(out var interactable)) return;
-
-        if (!interactable.Interacting(true, target))
-        {
-            ReleaseItem(conn, itemNetId, false);
-        }
-        
-        ReleaseItem(conn, itemNetId, true);
-        //item.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        //interactable.Interacting(false);
-        //ReleaseItem(target.GetComponent<NetworkIdentity>().connectionToClient, itemNetId);
-    }
-
-    [TargetRpc]
-    private void ReleaseItem(NetworkConnectionToClient conn, uint itemNetId, bool value)
-    {
-        itemReleaseCallback?.Invoke(value);
-    }
+    //[TargetRpc]
+    //private void ReleaseItem(NetworkConnectionToClient conn, uint itemNetId)
+    //{
+    //    itemReleaseCallback?.Invoke(itemNetId);
+    //}
 
     [Command(requiresAuthority = false)]
     public void SyncVelocity(GameObject target, Vector2 velocity)
