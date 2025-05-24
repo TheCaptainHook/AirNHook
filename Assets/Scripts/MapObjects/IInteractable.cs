@@ -6,7 +6,7 @@ public interface IInteractable
 
     public bool CanInteract();
 
-    public void Interacting(bool value);
+    public bool Interacting(bool value, GameObject player);
     
     public ObjectTypeEnum GetObjectType();
 

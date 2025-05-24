@@ -54,9 +54,9 @@ public class LockerAnim : NetworkBehaviour, IInteractable
         return _isRestock;
     }
 
-    public void Interacting(bool value)
+    public bool Interacting(bool value, GameObject player)
     {
-        return;
+        return true;
     }
 
     [Command(requiresAuthority = false)]

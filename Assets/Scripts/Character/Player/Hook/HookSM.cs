@@ -446,9 +446,10 @@ public class HookSM : PlayerSM, IInhalable
         _canInteract = !value;
     }
 
-    public void Inhaling(bool value)
+    public bool Inhaling(bool value, GameObject player)
     {
         _canInteract = !value;
+        return true;
     }
 
     public void Shooting(Vector2 force)

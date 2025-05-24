@@ -157,13 +157,17 @@ public class NetworkCommand : NetworkBehaviour
             return;
         }
         
-        interactable.Interacting(true);
+        if (!interactable.Interacting(true, target))
+        {
+            GrabItem(conn, itemNetId, false);
+            return;
+        }
+
         if (!ReferenceEquals(Managers.Game.Player, target) || !item.isOwned)
         {
             AssignAuthority(item, conn);
         }
         
-        item.GetComponent<IInteractable>().Interacting(true);
         GrabItem(conn, itemNetId, true);
     }
     
@@ -175,23 +179,23 @@ public class NetworkCommand : NetworkBehaviour
         itemGrabCallback?.Invoke(item, value);
     }
 
-    [Command(requiresAuthority = false)]
-    public void TryReleaseItem(GameObject target, uint itemNetId)
-    {
-        if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
-        
-        if (!item.TryGetComponent<IInteractable>(out var interactable)) return;
-        
-        //item.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        interactable.Interacting(false);
-        ReleaseItem(target.GetComponent<NetworkIdentity>().connectionToClient, itemNetId);
-    }
+    //[Command(requiresAuthority = false)]
+    //public void TryReleaseItem(GameObject target, uint itemNetId)
+    //{
+    //    if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
+    //    
+    //    if (!item.TryGetComponent<IInteractable>(out var interactable)) return;
+    //    
+    //    //item.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+    //    interactable.Interacting(false);
+    //    ReleaseItem(target.GetComponent<NetworkIdentity>().connectionToClient, itemNetId);
+    //}
 
-    [TargetRpc]
-    private void ReleaseItem(NetworkConnectionToClient conn, uint itemNetId)
-    {
-        itemReleaseCallback?.Invoke(itemNetId);
-    }
+    //[TargetRpc]
+    //private void ReleaseItem(NetworkConnectionToClient conn, uint itemNetId)
+    //{
+    //    itemReleaseCallback?.Invoke(itemNetId);
+    //}
 
     [Command(requiresAuthority = false)]
     public void SyncVelocity(GameObject target, Vector2 velocity)
@@ -202,7 +206,7 @@ public class NetworkCommand : NetworkBehaviour
     #endregion
 
     #region InhaleItem
-    public Action<bool> itemInhaleCallback;
+    public Action<GameObject, bool> itemInhaleCallback;
 
     [Command(requiresAuthority = false)]
     public void TryInhaleItem(GameObject target, uint itemNetId)
@@ -216,12 +220,17 @@ public class NetworkCommand : NetworkBehaviour
             InhaleItem(conn, itemNetId, false);
             return;
         }
-        
+
+        if (!inhalable.Inhaling(true, target))
+        {
+            InhaleItem(conn, itemNetId, false);
+            return;
+        }
+
         if (!ReferenceEquals(Managers.Game.Player, item.gameObject) && !ReferenceEquals(Managers.Game.OtherPlayer, item.gameObject)
             && (!ReferenceEquals(Managers.Game.Player, target) || !item.isOwned))
             AssignAuthority(item, conn);
         
-        inhalable.Inhaling(true);
         InhaleItem(conn, itemNetId, true);
     }
 
@@ -230,7 +239,7 @@ public class NetworkCommand : NetworkBehaviour
     {
         if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
         
-        itemInhaleCallback?.Invoke(value);
+        itemInhaleCallback?.Invoke(item.gameObject, value);
     }
 
     //[Command(requiresAuthority = false)]
@@ -311,7 +320,7 @@ public class NetworkCommand : NetworkBehaviour
         //    spriteRenderer.enabled = false;
         //}
         target.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
-        target.GetComponent<IInteractable>().Interacting(true);
+        //target.GetComponent<IInteractable>().Interacting(true);
         target.GetComponent<Key>().CallOnInterableObjectRelease();
         
         StartCoroutine(WaitForDestroy(target));
@@ -325,24 +334,24 @@ public class NetworkCommand : NetworkBehaviour
     #endregion
     
     #region AuthorityAssign
-    [Command(requiresAuthority = false)]
-    public void AuthorityToServer(uint itemNetId, bool isRelease, Vector2 velocity)
-    {
-        if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
-        
-        if (item.isOwned) return;
-
-        AssignAuthority(item);
-        
-        if (isRelease)
-        {
-            if (item.TryGetComponent<InteractableObject>(out var interactableObject))
-            {
-                interactableObject.Release();
-                interactableObject.GetComponent<Rigidbody2D>().velocity = velocity;
-            }
-        }
-    }
+    //[Command(requiresAuthority = false)]
+    //public void AuthorityToServer(uint itemNetId, bool isRelease, Vector2 velocity)
+    //{
+    //    if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
+    //    
+    //    if (item.isOwned) return;
+    //
+    //    AssignAuthority(item);
+    //    
+    //    if (isRelease)
+    //    {
+    //        if (item.TryGetComponent<InteractableObject>(out var interactableObject))
+    //        {
+    //            interactableObject.Release();
+    //            interactableObject.GetComponent<Rigidbody2D>().velocity = velocity;
+    //        }
+    //    }
+    //}
     
     [Command(requiresAuthority = false)]
     public void AuthorityToServer(uint itemNetId)

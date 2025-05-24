@@ -56,7 +56,10 @@ public class Lever : MonoBehaviour,IInteractable
 
     public bool CanInteract() { return true; }
 
-    public void Interacting(bool value) { return; }
+    public bool Interacting(bool value, GameObject player)
+    {
+        return true;
+    }
 
     public ObjectTypeEnum GetObjectType()
     {
