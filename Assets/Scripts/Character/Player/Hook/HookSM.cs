@@ -280,21 +280,7 @@ public class HookSM : PlayerSM, IInhalable
         }
 
         interactable.Interaction(transform);
-        CmdSyncGrabItemPosition(grabbedItem.gameObject, grabPoint.position);
         interactable.HideEButton();
-    }
-
-
-    [Command(requiresAuthority = false)]
-    private void CmdSyncGrabItemPosition(GameObject target, Vector3 position)
-    {
-        RpcSyncGrabItemPosition(target, position);
-    }
-
-    [ClientRpc(includeOwner = false)]
-    private void RpcSyncGrabItemPosition(GameObject target, Vector3 position)
-    {
-        transform.position = position;
     }
 
     public void ReleaseItem()
