@@ -47,7 +47,8 @@ public class Puzzle_1_HintScreen : MonoBehaviour
             // {
             //     sb[i] = 'X';
             // }
-            sb[i] = 'X';
+            // sb[i] = 'X';
+            sb[i] = '#';
         }
 
         text.text = sb.ToString();
@@ -119,7 +120,9 @@ public class Puzzle_1_HintScreen : MonoBehaviour
     }
 
     // public Color orgColr;
-    private Color correctColor = new Color(55/255f,85/255f,235/255f);
+    // 
+    private Color correctColor = new Color(30 / 255f, 220 / 255f, 90 / 255f);
+    // private Color correctColor = new Color(55/255f,85/255f,235/255f);
     IEnumerator EffectCo(CharInfoField[] charInfos)
     {
         while (true)

@@ -1,13 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+
 using UnityEngine;
 
 public class StrongBox : BuildObj
 {
     [SerializeField] SpriteRenderer mainSprite;
 
-    private float health = 50f;
+    private float health = 7f;
     private float curHealth = 0;
     private StrongBox_Net Net => GetComponent<StrongBox_Net>();
 

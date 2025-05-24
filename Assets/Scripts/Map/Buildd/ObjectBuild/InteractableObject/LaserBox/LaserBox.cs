@@ -109,7 +109,7 @@ public class LaserBox : BuildObj
                 {
                     //start = rh.point;
                     //dir = Vector2.Reflect(ray.direction, colDir);
-                    if (rh.distance < 0.001f)
+                    if (rh.distance < 0.001f|| Vector2.Distance(start, rh.point) < 0.01f)
                     {
                         break;
                     }

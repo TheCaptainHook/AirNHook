@@ -234,7 +234,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: X2X2
+  m_text: "\u25A12\u25A12"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5b4e32fbc2471a34b861dc089c637721, type: 2}
   m_sharedMaterial: {fileID: 5359831757883840851, guid: 5b4e32fbc2471a34b861dc089c637721, type: 2}
@@ -612,9 +612,6 @@ MonoBehaviour:
   _falseObj: {fileID: 3576245900003820433}
   answer: 
   orgSentence: 
-  correctColor:
-    serializedVersion: 2
-    rgba: 7841845
 --- !u!1 &5938652892923914618
 GameObject:
   m_ObjectHideFlags: 0

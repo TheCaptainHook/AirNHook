@@ -80,9 +80,9 @@ public class ProjectileEntity : MonoBehaviour,IPooling
             }
 
             float hitDistance = rb.velocity.magnitude*Time.fixedDeltaTime *1.5f;
-            hit = Physics2D.Raycast(firePoint.position, firePoint.right, hitDistance, hitLayerMask);
-            // Debug.DrawRay(firePoint.position,firePoint.right*hitDistance,Color.red);
-            if (hit)
+            hit = Physics2D.Raycast(firePoint.position, transform.right, hitDistance, hitLayerMask);
+            Debug.DrawRay(firePoint.position,firePoint.right*hitDistance,Color.red);
+            if (hit.collider != null)
             {
                 // onHit = true;
                 // rb.velocity = Vector2.zero;
@@ -92,11 +92,21 @@ public class ProjectileEntity : MonoBehaviour,IPooling
                 OnHit(hit);
                 SpawnImpactEffect(hit.point);
                 
+                if(hit.collider.TryGetComponent(out Shield shield))
+                {
+                    // N_ReleaseToPool();
+                    TransformChange(hit.transform);
+                    if (gameObject.activeSelf)
+                        StartCoroutine(DelayRelease());
+                    return;
+                }
+
+                
                 if (hit.collider.TryGetComponent(out IDamageable damageable) && hit.collider.gameObject != main)
                 {
-                    if(hit.collider.TryGetComponent(out BuildObj buildObj))
+                    if (hit.collider.TryGetComponent(out BuildObj buildObj))
                     {
-                        if(buildObj.distructionStatus == DistructionStatus.Indestructible)
+                        if (buildObj.distructionStatus == DistructionStatus.Indestructible)
                         {
                             TransformChange(hit.collider.transform);
                             if (gameObject.activeSelf)
@@ -109,15 +119,7 @@ public class ProjectileEntity : MonoBehaviour,IPooling
                     ReleaseToPool_Projectile(true);
                     return;
                 }
-                if(hit.collider.TryGetComponent(out Shield shield))
-                {
-                    // N_ReleaseToPool();
-                    TransformChange(hit.transform);
-                    if (gameObject.activeSelf)
-                        StartCoroutine(DelayRelease());
-                    return;
-                }
-
+             
                 TransformChange(hit.transform);
                 if (gameObject.activeSelf)
                     StartCoroutine(DelayRelease());
@@ -137,7 +139,9 @@ public class ProjectileEntity : MonoBehaviour,IPooling
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision!= null && collision.gameObject != main)
+        if (onHit) return;
+
+        if (collision != null && collision.gameObject != main)
         {
             // if (collision.gameObject == main) return;
             // onHit = true;
@@ -149,14 +153,14 @@ public class ProjectileEntity : MonoBehaviour,IPooling
 
             if (collision.TryGetComponent(out IDamageable damageable))
             {
-                if(collision.TryGetComponent(out BuildObj buildObj))
+                if (collision.TryGetComponent(out BuildObj buildObj))
                 {
-                    if(buildObj.distructionStatus == DistructionStatus.Indestructible)
+                    if (buildObj.distructionStatus == DistructionStatus.Indestructible)
                     {
-                         TransformChange(collision.transform);
+                        TransformChange(collision.transform);
                         if (gameObject.activeSelf)
                             StartCoroutine(DelayRelease());
-                         return;
+                        return;
                     }
                 }
                 damageable.TakeDamage();
@@ -169,7 +173,7 @@ public class ProjectileEntity : MonoBehaviour,IPooling
             {
                 // N_ReleaseToPool();
                 TransformChange(collision.transform);
-                if(gameObject.activeSelf)
+                if (gameObject.activeSelf)
                     StartCoroutine(DelayRelease());
                 return;
             }

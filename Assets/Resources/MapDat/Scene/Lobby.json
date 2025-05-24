@@ -8491,39 +8491,6 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0
-        },
-        {
-            "id": 323,
-            "dialogueId": 0,
-            "position": {
-                "x": -1.5399999618530274,
-                "y": 21.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0
         }
     ],
     "mapBackgroundObjectList": [
@@ -12075,43 +12042,6 @@
             "scale": {
                 "x": 0.800000011920929,
                 "y": 0.800000011920929,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 335,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "jumpingPower": 0,
-            "position": {
-                "x": -1.8899999856948853,
-                "y": 27.75
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": -0.7074069380760193,
-                "w": 0.7068065404891968
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
                 "z": 1.0
             },
             "talPot": {
