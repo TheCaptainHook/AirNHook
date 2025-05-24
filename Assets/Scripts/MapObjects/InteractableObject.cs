@@ -128,7 +128,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         transform.rotation = Quaternion.identity;
         _sortingGroup.sortingLayerName = GrabObj;
         CmdChangeSortingLayer(true);
-        CmdSyncPosition(transform.position);
     }
 
     public virtual void Release()
@@ -341,6 +340,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             {
                 return true;
             }
+            else
             {
                 return false;
             }
@@ -405,18 +405,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             _sortingGroup.sortingLayerName = GrabObj;
         else
             _sortingGroup.sortingLayerID = _originSortingLayerID;
-    }
-
-    [Command(requiresAuthority = false)]
-    private void CmdSyncPosition(Vector3 position)
-    {
-        RpcSyncPosition(position);
-    }
-
-    [ClientRpc(includeOwner = false)]
-    private void RpcSyncPosition(Vector3 position)
-    {
-        transform.position = position;
     }
     #endregion
 
