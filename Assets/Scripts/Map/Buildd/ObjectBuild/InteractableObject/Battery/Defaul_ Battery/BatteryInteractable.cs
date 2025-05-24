@@ -49,7 +49,12 @@ public class BatteryInteractable : TransportItemEntity
     {
         Server_SetBatteryCapacity(val);
     }
-
+    [Server]
+    public void Server_ResetBattery()
+    {
+        batteryCapacity = 0;
+        Animator.SetFloat(CAPACITY, 0);
+    }
 
     #region ---------------------------------------------------------------------Battery Charger
     [Server]    //  Set battery charger
@@ -109,7 +114,7 @@ public class BatteryInteractable : TransportItemEntity
         if (batteryCharger != null)
         {
             //BatteryRelease();
-            Cmd_Release(batteryCharger.transform.position);
+            Cmd_Release(batteryCharger.transform.position,false);
 
             //battery.InsertChargerSocket();
             Cmd_InsertChargerSocket(gameObject);
@@ -117,7 +122,7 @@ public class BatteryInteractable : TransportItemEntity
         else if (powerSupply != null)
         {
         //    BatteryRelease(battery.powerSupply.GetSocketPosition());
-            Cmd_Release(powerSupply.transform.position);
+            Cmd_Release(powerSupply.transform.position,true);
 
             // battery.InsertPowerSocket();
             Cmd_InsertPowerSupplySocket(gameObject);
@@ -156,15 +161,15 @@ public class BatteryInteractable : TransportItemEntity
     //}
 
     [Command(requiresAuthority = false)]
-    private void Cmd_Release(Vector3 releasePosition)
+    private void Cmd_Release(Vector3 releasePosition,bool isShowE)
     {
         // Rb.position = releasePosition;
         //Server_Release(releasePosition);
-        Rpc_Release(releasePosition);
+        Rpc_Release(releasePosition,isShowE);
     }
 
     [ClientRpc]
-    private void Rpc_Release(Vector3 releasePosition)
+    private void Rpc_Release(Vector3 releasePosition,bool isShowE)
     {
         //--------------base Release(remove ShowEButton)
         _stoppedTime = 0f;
@@ -175,7 +180,8 @@ public class BatteryInteractable : TransportItemEntity
         CmdChangeFixedState(false);
         CmdChangeInteractState(true);
         CmdChangeGrabState(true);
-        // ShowEButton();
+        if(isShowE) ShowEButton();
+        
 
         _rigidbody.bodyType = _originType;
 

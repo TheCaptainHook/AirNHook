@@ -302,11 +302,13 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         MapEditor.Instance.event_reset += Respawn;
     }
 
-
+    public event Action respawnEvent;
     public void Respawn()
     {
         if (!canRespawn) return;
         if (this == null) return;
+
+        respawnEvent?.Invoke();
 
         if (TryGetComponent(out InteractableObject component))
         {
