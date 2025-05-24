@@ -348,7 +348,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     }
 
     [Command(requiresAuthority = false)]
-    private void CmdRemovePermissionPlayer()
+    protected void CmdRemovePermissionPlayer()
     {
         RemovePermissionPlayer();
     }
