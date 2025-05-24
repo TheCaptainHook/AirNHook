@@ -425,7 +425,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             _rigidbody.gravityScale = _gravityScale;  
         }
 
-        GetComponent<InteractableObject>().Respawned();
+        if(NetworkServer.active) GetComponent<InteractableObject>().Respawned();
         buildObj.canRespawn = true;
         CmdChnageDestroyState(false);
     }
