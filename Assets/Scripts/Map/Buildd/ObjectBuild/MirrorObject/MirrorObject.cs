@@ -97,7 +97,7 @@ public class MirrorObject : BuildObj,IInteractable
                 
                 if (curCendMessageRate >= cendMessageRate)
                 {
-                    MirrorRotate(curRot, true);
+                    MirrorRotate(curRot, true); //1
                     curRot = 0;
                     curCendMessageRate = 0;
                 }

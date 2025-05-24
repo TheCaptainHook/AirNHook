@@ -4,6 +4,8 @@ using Mirror;
 using UnityEngine.Animations;
 using System.Collections;
 using System;
+using Unity.Mathematics;
+
 
 
 
@@ -97,50 +99,87 @@ public class MirrorObject_Net : NetworkBehaviour
     //     rotate_Z = z;
     // }
     [Command(requiresAuthority = false)]
-    public void Cmd_SetRot_z(float z,bool lr)
-    {
+    public void Cmd_SetRot_z(float z,bool lr) //2
+    { 
         // Server_SetRot_z(z);
         targetZ = _Mirror.transform.eulerAngles.z + z;
         Rpc_SetRot_z(targetZ,lr);
         
     }
 
+    bool isRotation;
     float targetZ;
     [ClientRpc]
-    private void Rpc_SetRot_z(float targetZ,bool lr)
+    private void Rpc_SetRot_z(float targetZ,bool lr) //3
     {
+        isRotation = true;
         this.targetZ = targetZ;
         this.lr = lr;
-        // Debug.Log(targetZ);
-
-        if (setRotCoroutine == null)
-        {
-            setRotCoroutine = StartCoroutine(SetRotCo());
-        }
         
     }
-    private bool Check(float a, float b)
+    void Update()
     {
-        return Mathf.Abs(Mathf.DeltaAngle(a, b)) > 0.5f;
+        if (isRotation)
+        {
+            // var a = lr ? 1 : -1;
+            // var curRotZ = _Mirror.transform.eulerAngles.z;
+            // if (!HasReachedTarget(curRotZ, targetZ))
+            // {
+            //     curRotZ += 0.01f * a;
+            //     _Mirror.transform.rotation = Quaternion.Euler(0, 0, curRotZ);
+            //     Debug.Log($"target : {targetZ}, curRotZ : {curRotZ}");
+            // }
+            // else
+            // {
+            //     isRotation = false;
+            //     _Mirror.transform.rotation = Quaternion.Euler(0, 0, targetZ);
+            // }
+            
+            Quaternion current = _Mirror.transform.rotation;
+            Quaternion target = Quaternion.Euler(0, 0, targetZ);
+            float deltaZ = Mathf.Abs(Mathf.DeltaAngle(_Mirror.transform.eulerAngles.z, targetZ));
+            float step = deltaZ / 0.1f * Time.deltaTime;
+
+            _Mirror.transform.rotation = Quaternion.RotateTowards(current, target, step);
+            // float angleDifference = Mathf.Abs(Mathf.DeltaAngle(_Mirror.transform.eulerAngles.z, targetZ));
+           
+            if (deltaZ < 0.05f)
+            {
+                isRotation = false;
+                _Mirror.transform.rotation = target;
+            }
+        }
     }
 
-    private Coroutine setRotCoroutine;
+    //1. Cmd(server) 에서 타겟 로테이션값 계산
+    //2. Rpc 로 각 클라이언트에 타겟 로테이션전달
+    //  - isRotation = true;
+    //  - maxStopRotCount, curStopRotCount
+    //3. 전달받은 클라이언트 Update 문에서 해당 위치로 +Time.DeltaTime;
+
+
+    // private Coroutine setRotCoroutine;
     private bool lr;
-    IEnumerator SetRotCo() 
-    {
-        float curZ = _Mirror.transform.eulerAngles.z;
-        float a = lr ? 1 : -1;
+    // IEnumerator SetRotCo()  //4
+    // {
+    //     float curZ = _Mirror.transform.eulerAngles.z;
+    //     float a = lr ? 1 : -1;
         
-        while (!Check(curZ, targetZ))
-        {
-            curZ += 0.1f * a;
-            _Mirror.transform.rotation = Quaternion.Euler(0, 0, curZ);
-            yield return new WaitForFixedUpdate();
-        }
+    //     while (!Check(curZ, targetZ))
+    //     {
+    //         curZ += 0.1f * a;
+    //         _Mirror.transform.rotation = Quaternion.Euler(0, 0, curZ);
+    //         yield return new WaitForFixedUpdate();
+    //     }
 
-        _Mirror.transform.rotation = Quaternion.Euler(0, 0, targetZ);
-        setRotCoroutine = null;
+    //     _Mirror.transform.rotation = Quaternion.Euler(0, 0, targetZ);
+    //     setRotCoroutine = null;
+    // }
+    private bool HasReachedTarget(float a, float b)
+    {
+        return Mathf.Abs(Mathf.DeltaAngle(a, b)) < 0.5f;
     }
+
 
     // private void OnChageRotate_Z(float old,float newVal)
     // {
@@ -263,11 +302,13 @@ public class MirrorObject_Net : NetworkBehaviour
         Col.enabled = false;
         Col.enabled = true;
 
-         if (setRotCoroutine != null)
-        {
-            StopCoroutine(setRotCoroutine);
-            setRotCoroutine = null;
-        }
+        //  if (setRotCoroutine != null)
+        // {
+        //     StopCoroutine(setRotCoroutine);
+        //     setRotCoroutine = null;
+        // }
+        isRotation = false;
+        targetZ = 0;
     }
 
     private void Event_Recover()
