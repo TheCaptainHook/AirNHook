@@ -147,7 +147,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _rigidbody.constraints = _originRot;
         _sortingGroup.sortingLayerID = _originSortingLayerID;
         CmdChangeSortingLayer(false);
-        CmdRemovePermissionPlayer();
+        RemovePermissionPlayer();
     }
 
     public void Destroyed()
@@ -177,7 +177,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
         _rigidbody.constraints = _originRot;
         Managers.Command.AuthorityToServer(netId);
-        CmdRemovePermissionPlayer();
+        RemovePermissionPlayer();
     }
 
     public void Respawned()
@@ -248,7 +248,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         if (_isDestroyed) return;
 
         Fixed(false);
-        CmdRemovePermissionPlayer();
+        RemovePermissionPlayer();
         _rigidbody.drag = 0f;
         _rigidbody.gravityScale = _gravityScale;
         _rigidbody.freezeRotation = false;
@@ -347,18 +347,32 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         }
     }
 
-    [Command(requiresAuthority = false)]
-    protected void CmdRemovePermissionPlayer()
+    public void RemovePermissionPlayer()
     {
-        RemovePermissionPlayer();
+        if (TryGetComponent<NetworkIdentity>(out var identity))
+            CmdRemovePermissionPlayer(identity.connectionToClient);
     }
 
-    private void RemovePermissionPlayer()
+    [Command(requiresAuthority = false)]
+    private void CmdRemovePermissionPlayer(NetworkConnectionToClient sender = null)
     {
         lock (_lock)
         {
-            _permissionPlayer = null;
+            if (sender == null || _permissionPlayer == null) return;
+
+            if (_permissionPlayer.TryGetComponent<NetworkIdentity>(out var identity))
+            {
+                if (identity.connectionToClient == sender)
+                {
+                    _permissionPlayer = null;
+                }
+            }
         }
+    }
+
+    private void CheckPermissionPlayer()
+    {
+
     }
 
     #region Command

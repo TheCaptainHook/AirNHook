@@ -192,7 +192,7 @@ public class BatteryInteractable : TransportItemEntity
         _rigidbody.constraints = _originRot;
         _sortingGroup.sortingLayerID = _originSortingLayerID;
         CmdChangeSortingLayer(false);
-        CmdRemovePermissionPlayer();
+        RemovePermissionPlayer();
         //--------------base Release(remove ShowEButton)
 
         transform.position = releasePosition;
