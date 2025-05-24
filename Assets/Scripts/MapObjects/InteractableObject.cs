@@ -147,7 +147,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _rigidbody.constraints = _originRot;
         _sortingGroup.sortingLayerID = _originSortingLayerID;
         CmdChangeSortingLayer(false);
-        RemovePermissionPlayer();
+        CmdRemovePermissionPlayer();
     }
 
     public void Destroyed()
@@ -177,7 +177,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
         _rigidbody.constraints = _originRot;
         Managers.Command.AuthorityToServer(netId);
-        RemovePermissionPlayer();
+        CmdRemovePermissionPlayer();
     }
 
     public void Respawned()
@@ -201,7 +201,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         if (value == false)
         {
             _canInteract = true;
-            RemovePermissionPlayer();
+            CmdRemovePermissionPlayer();
             return true;
         }
 
@@ -248,7 +248,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         if (_isDestroyed) return;
 
         Fixed(false);
-        RemovePermissionPlayer();
+        CmdRemovePermissionPlayer();
         _rigidbody.drag = 0f;
         _rigidbody.gravityScale = _gravityScale;
         _rigidbody.freezeRotation = false;
@@ -289,7 +289,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         if (value == false)
         {
             _canGrab = true;
-            RemovePermissionPlayer();
+            CmdRemovePermissionPlayer();
             return true;
         }
 
@@ -327,7 +327,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         return _accessor.root;
     }
 
-    private bool AddPermissionPlayer(GameObject player)
+    private bool AddPermissionPlayer(GameObject player, bool isGrab = false)
     {
         lock (_lock)
         {
@@ -347,32 +347,29 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         }
     }
 
-    public void RemovePermissionPlayer()
-    {
-        if (TryGetComponent<NetworkIdentity>(out var identity))
-            CmdRemovePermissionPlayer(identity.connectionToClient);
-    }
-
     [Command(requiresAuthority = false)]
-    private void CmdRemovePermissionPlayer(NetworkConnectionToClient sender = null)
+    protected void CmdRemovePermissionPlayer()
     {
         lock (_lock)
         {
-            if (sender == null || _permissionPlayer == null) return;
-
-            if (_permissionPlayer.TryGetComponent<NetworkIdentity>(out var identity))
-            {
-                if (identity.connectionToClient == sender)
-                {
-                    _permissionPlayer = null;
-                }
-            }
+            _permissionPlayer = null;
         }
+
+        if (_permissionPlayer == null)
+            Invoke(nameof(CheckPermissionPlayer), 0.1f);
     }
 
     private void CheckPermissionPlayer()
     {
-
+        if (_isFixed && _permissionPlayer == null)
+        {
+            _isFixed = false;
+            _canInteract = true;
+            _canGrab = true;
+            CmdChangeFixedState(false);
+            CmdChangeInteractState(true);
+            CmdChangeGrabState(true);
+        }
     }
 
     #region Command
@@ -430,7 +427,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     {
         CmdChnageDestroyState(true);
         Managers.Command.AuthorityToServer(netId);
-        RemovePermissionPlayer();
+        CmdRemovePermissionPlayer();
         Rpc_Dissolve();
     }
     [ClientRpc]
