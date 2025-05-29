@@ -871,7 +871,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1173770633074201914, guid: 6175ca852c71e402f95c7e53dfbcc3c6, type: 3}
       propertyPath: offset.x
-      value: 0.78
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1173770633074201914, guid: 6175ca852c71e402f95c7e53dfbcc3c6, type: 3}
       propertyPath: m_Enabled
@@ -879,15 +879,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1173770633074201914, guid: 6175ca852c71e402f95c7e53dfbcc3c6, type: 3}
       propertyPath: _CubeSize.x
-      value: 0.7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1173770633074201914, guid: 6175ca852c71e402f95c7e53dfbcc3c6, type: 3}
       propertyPath: _CubeSize.y
-      value: -0.63
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1173770633074201914, guid: 6175ca852c71e402f95c7e53dfbcc3c6, type: 3}
       propertyPath: _SphereRadius
-      value: 0.31
+      value: 0.52
+      objectReference: {fileID: 0}
+    - target: {fileID: 1173770633074201914, guid: 6175ca852c71e402f95c7e53dfbcc3c6, type: 3}
+      propertyPath: layerMask.m_Bits
+      value: 1088
       objectReference: {fileID: 0}
     - target: {fileID: 3870215783177196772, guid: 6175ca852c71e402f95c7e53dfbcc3c6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -939,7 +943,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9151871927070970668, guid: 6175ca852c71e402f95c7e53dfbcc3c6, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -170,7 +170,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6213857561148179821}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.001400314, w: 0.9999991}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -180,7 +180,7 @@ Transform:
   - {fileID: 6890918890723629363}
   - {fileID: 115524687572628154}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.16}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &764281349387328695
 Rigidbody2D:
   serializedVersion: 4
@@ -298,8 +298,13 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  _permissionPlayer: {fileID: 0}
   _objectType: 1
   _gravityScale: 2
+  _isFixed: 0
+  _canInteract: 1
+  _canGrab: 1
+  _isDestroyed: 0
   _offset: {x: 0, y: 0.5}
   _inhalePower: 600
   defaultGravity: 0
@@ -425,6 +430,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   movingPlatform: {fileID: 0}
+  movingPlatformLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  col: {fileID: 8306824983420551655}
 --- !u!1773428102 &-7162171074850114388
 ParentConstraint:
   m_ObjectHideFlags: 0
