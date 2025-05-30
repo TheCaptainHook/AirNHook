@@ -131,7 +131,7 @@ public class LaserObject : ActivatableObjectEntity
                     //start = rh.point+dir*0.05f;
                     //dir = Vector2.Reflect(ray.direction, colDir).normalized;
 
-                    if (rh.distance < 0.001f)
+                    if (rh.distance < 0.001f || Vector2.Distance(start, rh.point) < 0.01f)
                     {
                         break;
                     }
@@ -154,9 +154,7 @@ public class LaserObject : ActivatableObjectEntity
                         //component2.SendMessage("Charging", SendMessageOptions.DontRequireReceiver);
                         component2.Charging();
                     }
-                    else
-                    {
-                    }
+                
                     break;
                 }
                 else if(rh.collider.TryGetComponent(out BuildObj obj))

@@ -52,7 +52,7 @@ public class TeslaTower_var2 : BuildObj
 
         while (curChainLightningCount <maxChainLightningCount)
         {
-            // radius = curChainLightningCount > 0 ? detectRadius/2 : detectRadius;
+            radius = curChainLightningCount > 0 ? detectRadius/2 : detectRadius;
             // radius = detectRadius/curChainLightningCount; //5
 
             int count = Physics2D.OverlapCircleNonAlloc(targetPoint, detectRadius, targets, detectLayerMask);

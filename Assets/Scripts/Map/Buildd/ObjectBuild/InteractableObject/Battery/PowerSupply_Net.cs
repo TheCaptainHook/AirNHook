@@ -97,7 +97,7 @@ public class PowerSupply_Net : NetworkBehaviour
             }
             if(this.battery.GetComponent<BatteryInteractable>().batteryCapacity > consumption) PowerSupply.Net_Deactivated();
 
-            OnSupplyEffect(false);
+            Rpc_OnSupplyEffect(false);
             
             this.battery.GetComponent<BatteryInteractable>().Cmd_Recover();
             this.battery = null;
@@ -141,13 +141,13 @@ public class PowerSupply_Net : NetworkBehaviour
 
     private void Supply()
     {
-        OnSupplyEffect(true);
+        Rpc_OnSupplyEffect(true);
         PowerSupply.Net_Activation();
         supplyCoroutine = StartCoroutine(SupplyCo());
     }
 
     [ClientRpc]
-    private void OnSupplyEffect(bool onOff)
+    private void Rpc_OnSupplyEffect(bool onOff)
     {
         PowerSupply.LineOn(onOff);
     }
@@ -164,7 +164,7 @@ public class PowerSupply_Net : NetworkBehaviour
         supplyCoroutine = null;
 
         PowerSupply.Net_Deactivated();
-        OnSupplyEffect(false);
+        Rpc_OnSupplyEffect(false);
 
     }
 

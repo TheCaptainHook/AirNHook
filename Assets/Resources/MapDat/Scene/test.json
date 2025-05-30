@@ -3,7 +3,7 @@
         "x": 20.0,
         "y": 20.0
     },
-    "mapID": "ttestScene",
+    "mapID": "test",
     "subMapName": "",
     "stageLevel": 0,
     "startPosition": {
@@ -2624,6 +2624,7 @@
     "mapBackgroundTileDataList": [],
     "mapRopeTileDataList": [],
     "mapAccessoryTIleDataList": [],
+    "mapHiddenTileDataList": [],
     "mapShadowCasterDataList": [],
     "globalLightStruct": {
         "type": 4,
@@ -2759,6 +2760,72 @@
             "position": {
                 "x": -51.40999984741211,
                 "y": 4.190000057220459
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
+        },
+        {
+            "id": 323,
+            "dialogueId": 0,
+            "position": {
+                "x": -30.799999237060548,
+                "y": -33.900001525878909
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0
+        },
+        {
+            "id": 323,
+            "dialogueId": 0,
+            "position": {
+                "x": -22.5,
+                "y": -33.79999923706055
             },
             "quaternion": {
                 "x": 0.0,
@@ -3478,6 +3545,43 @@
             "talPot": {
                 "x": -48.02000045776367,
                 "y": -40.09000015258789
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 335,
+            "activeRequirAmount": 0,
+            "chargeRequired": false,
+            "jumpingPower": 0,
+            "position": {
+                "x": -30.600000381469728,
+                "y": -28.18000030517578
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.7084824442863464,
+                "w": 0.7057285308837891
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
             },
             "rotateRate": 0.0,
             "fireRate": 0.0,

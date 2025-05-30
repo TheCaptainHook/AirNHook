@@ -2,9 +2,7 @@
 using UnityEngine;
 using Mirror;
 using UnityEngine.Animations;
-using System.Collections;
-using System;
-using Unity.Mathematics;
+
 
 
 
@@ -93,56 +91,46 @@ public class MirrorObject_Net : NetworkBehaviour
     #region  Server
 
 
-    // [Server]
-    // public void Server_SetRot_z(float z)
-    // {
-    //     rotate_Z = z;
-    // }
+ 
     [Command(requiresAuthority = false)]
-    public void Cmd_SetRot_z(float z,bool lr) //2
+    public void Cmd_SetRot_z(float z,bool lr)
     { 
-        // Server_SetRot_z(z);
         targetZ = _Mirror.transform.eulerAngles.z + z;
         Rpc_SetRot_z(targetZ,lr);
-        
     }
 
     bool isRotation;
     float targetZ;
+    
     [ClientRpc]
-    private void Rpc_SetRot_z(float targetZ,bool lr) //3
+    private void Rpc_SetRot_z(float targetZ,bool lr) 
     {
         isRotation = true;
         this.targetZ = targetZ;
         this.lr = lr;
-        
+    }
+
+    [Command(requiresAuthority = false)]
+    public void Cmd_KeyUp()
+    {
+        Rpc_KeyUp();
+    }
+    [ClientRpc]
+    private void Rpc_KeyUp()
+    {
+        isRotation = false;
     }
     void Update()
     {
         if (isRotation)
         {
-            // var a = lr ? 1 : -1;
-            // var curRotZ = _Mirror.transform.eulerAngles.z;
-            // if (!HasReachedTarget(curRotZ, targetZ))
-            // {
-            //     curRotZ += 0.01f * a;
-            //     _Mirror.transform.rotation = Quaternion.Euler(0, 0, curRotZ);
-            //     Debug.Log($"target : {targetZ}, curRotZ : {curRotZ}");
-            // }
-            // else
-            // {
-            //     isRotation = false;
-            //     _Mirror.transform.rotation = Quaternion.Euler(0, 0, targetZ);
-            // }
-            
             Quaternion current = _Mirror.transform.rotation;
             Quaternion target = Quaternion.Euler(0, 0, targetZ);
             float deltaZ = Mathf.Abs(Mathf.DeltaAngle(_Mirror.transform.eulerAngles.z, targetZ));
             float step = deltaZ / 0.1f * Time.deltaTime;
 
             _Mirror.transform.rotation = Quaternion.RotateTowards(current, target, step);
-            // float angleDifference = Mathf.Abs(Mathf.DeltaAngle(_Mirror.transform.eulerAngles.z, targetZ));
-           
+
             if (deltaZ < 0.05f)
             {
                 isRotation = false;

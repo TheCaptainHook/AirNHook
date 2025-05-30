@@ -35,26 +35,16 @@ public class ButtonActivatedDoor : ActivatableObjectEntity
 
     protected override void Activation()
     {
-        //if (onPrograss) return;
-        //if (onOpen) return;
         onOpen = true;
-        //_collider.enabled = false;
         door_Net.Server_ChangeDoorState(true);
-        //door_Net.HandleSetState(true);
-
     }
 
 
 
     protected override void Deactivated()
     {
-          //if (onPrograss) return;
-        //if (!onOpen) return;
-
         onOpen = false;
         door_Net.Server_ChangeDoorState(false);
-        //door_Net.HandleSetState(false);
-
     }
 
     

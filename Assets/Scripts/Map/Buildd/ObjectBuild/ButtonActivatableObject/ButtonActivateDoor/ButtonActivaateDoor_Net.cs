@@ -66,35 +66,5 @@ public class ButtonActivaateDoor_Net : NetworkBehaviour
         }
     }
 
-    //[Command(requiresAuthority = false)]
-    //private void CmdSetState(bool newState)
-    //{
-    //    SetState(newState);
-    //}
-
-
-    //public void HandleSetState(bool newState)
-    //{
-    //    if(isServer)
-    //    {
-    //        SetState(newState);
-    //    }else
-    //    {
-    //        CmdSetState(newState);
-    //    }
-    //}
-
-    //private void OnDoorStateChanged(bool oldValue, bool newValue)
-    //{
-    //   if(newValue){
-    //    Door.Open();
-    //   }else{
-    //    Door.Close();
-    //   }
-
-    //}
-
-
-
 
 }

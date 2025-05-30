@@ -24422,8 +24422,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.000000059604645, y: 0.49956644}
-  m_Size: {x: 0.25886154, y: 1.02474}
+  m_Offset: {x: -0.000000044703484, y: 0.45437765}
+  m_Size: {x: 0.28296223, y: 1.1151175}
   m_Direction: 0
 --- !u!114 &2838522749310776917
 MonoBehaviour:
@@ -24479,8 +24479,13 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  _permissionPlayer: {fileID: 0}
   _objectType: 1
   _gravityScale: 0
+  _isFixed: 0
+  _canInteract: 1
+  _canGrab: 1
+  _isDestroyed: 0
   _offset: {x: 0, y: 1}
   _inhalePower: 600
   defaultGravity: 0
@@ -24565,6 +24570,11 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   movingPlatform: {fileID: 0}
+  movingPlatformLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  layOffset: {x: 0, y: 0, z: 0}
+  col: {fileID: 0}
 --- !u!1773428102 &4618334201603645540
 ParentConstraint:
   m_ObjectHideFlags: 0

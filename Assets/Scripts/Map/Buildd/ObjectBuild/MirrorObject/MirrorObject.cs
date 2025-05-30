@@ -1,3 +1,4 @@
+using System.Collections;
 using Mirror;
 using UnityEngine;
 
@@ -43,58 +44,22 @@ public class MirrorObject : BuildObj,IInteractable
             // SetData(objData);
         }
     }
-    //----------------------------------before 0523
-    // private void Update(){
-    //     if(isActive)
-    //     {
-    //         if(Input.GetKey(KeyCode.A)){
-    //             MirrorRotate(true);
-    //         }
-    //         if(Input.GetKey(KeyCode.D)){
-    //             MirrorRotate(false);
-    //         }
-
-    //     }
-    // }
-
-    // #region  main
-    // float serverRotRate = 0.005f;
-    // float clientRotRate = 0.01f;
-    // private void MirrorRotate(bool pm){
-
-
-    //     if(pm){
-    //         Quaternion curRot = _Mirror.transform.rotation;
-    //         //curRot.z +=.005f;
-    //         curRot.z += (NetworkServer.active) ? serverRotRate : clientRotRate;
-    //         // _Mirror.transform.rotation = curRot;
-    //         M_Net.Cmd_SetRot_z(curRot.z);
-    //     }else{
-    //         Quaternion curRot = _Mirror.transform.rotation;
-    //         //curRot.z -=.005f;
-    //         curRot.z -= (NetworkServer.active) ? serverRotRate : clientRotRate;
-    //         M_Net.Cmd_SetRot_z(curRot.z);
-    //         // _Mirror.transform.rotation = curRot;
-    //     }
-    // }
-    // #endregion
-    //----------------------------------before 0523
 
     //--------------------------- Refectoring 0523
     private float cendMessageRate = 0.1f;
     private float curCendMessageRate = 0;
     private float curRot = 0;
     float rotRate = 0.5f;
+
     private void Update()
     {
-
         if (isActive)
         {
             if (Input.GetKey(KeyCode.A))
             {
                 curCendMessageRate += Time.deltaTime;
                 curRot += rotRate;
-                
+
                 if (curCendMessageRate >= cendMessageRate)
                 {
                     MirrorRotate(curRot, true); //1
@@ -109,41 +74,32 @@ public class MirrorObject : BuildObj,IInteractable
                 curRot -= rotRate;
                 if (curCendMessageRate >= cendMessageRate)
                 {
-                    MirrorRotate(curRot,false);
+                    MirrorRotate(curRot, false);
                     curRot = 0;
                     curCendMessageRate = 0;
                 }
             }
 
+            if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
+            {
+                GetKeyUp();
+                curRot = 0;
+                curCendMessageRate = 0;
+            }
         }
     }
+
+
+
     #region  main
-    
 
-    // float clientRotRate = 0.01f;
-    // private void MirrorRotate(float z)
-    // {
-
-    //     if (pm)
-    //     {
-    //         Quaternion curRot = _Mirror.transform.rotation;
-    //         //curRot.z +=.005f;
-    //         // curRot.z += (NetworkServer.active) ? serverRotRate : clientRotRate;
-    //         // _Mirror.transform.rotation = curRot;
-    //         M_Net.Cmd_SetRot_z(curRot.z);
-    //     }
-    //     else
-    //     {
-    //         Quaternion curRot = _Mirror.transform.rotation;
-    //         //curRot.z -=.005f;
-    //         // curRot.z -= (NetworkServer.active) ? serverRotRate : clientRotRate;
-    //         M_Net.Cmd_SetRot_z(curRot.z);
-    //         // _Mirror.transform.rotation = curRot;
-    //     }
-    // }
-     private void MirrorRotate(float z,bool lr)
-    {     
-        M_Net.Cmd_SetRot_z(z,lr);
+    private void MirrorRotate(float z, bool lr)
+    {
+        M_Net.Cmd_SetRot_z(z, lr);
+    }
+    private void GetKeyUp()
+    {
+        M_Net.Cmd_KeyUp();
     }
  
 

@@ -101,6 +101,9 @@ public class LaserBox : BuildObj
                 //Check collider
                 if (rh.collider.TryGetComponent(out PlayerSM component) && Application.isPlaying)
                 {
+                    //Impact Effect
+
+                    //Impact Effect
                     component.TakeDamage(DamageType.Fire);
                     break;
 
@@ -128,11 +131,12 @@ public class LaserBox : BuildObj
                 {
                     if (Application.isPlaying)
                     {
+                        //Impact Effect
+
+                        //Impact Effect
                         component2.Charging();
                     }
-                    else
-                    {
-                    }
+               
                     break;
                 }
                 else if (rh.collider.TryGetComponent(out BuildObj obj))
@@ -143,6 +147,9 @@ public class LaserBox : BuildObj
                     }
                     else
                     {
+                        //Impact Effect
+                        
+                        //Impact Effect
                         if (Application.isPlaying)
                         {
                             obj.TakeDamage(DamageType.Fire);
