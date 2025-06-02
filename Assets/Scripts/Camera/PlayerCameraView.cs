@@ -120,55 +120,62 @@ public class PlayerCameraView : MonoBehaviour
     private float scroll;
     public bool onChangeModeDefaultFromWide;
     private Coroutine smoothZoomToDefaultCo;
-    private void LateUpdate(){
-         if(Player == null) return;
+    private void LateUpdate()
+    {
+        if (Player == null) return;
         scroll = Input.GetAxis("Mouse ScrollWheel");
         ViewMode previousMode = _ViewMode;
         _ViewMode = Ch_ViewMode(scroll);
 
-        if(previousMode == ViewMode.Wide && _ViewMode == ViewMode.Default && !onChangeModeDefaultFromWide){
+        if (previousMode == ViewMode.Wide && _ViewMode == ViewMode.Default && !onChangeModeDefaultFromWide)
+        {
             onChangeModeDefaultFromWide = true;
             smoothZoomToDefaultCo = StartCoroutine(SmoothZoomToDefault());
         }
-       
-        if(onChangeModeDefaultFromWide && mainCamera.orthographicSize < _MaxZoom){
-            if(smoothZoomToDefaultCo != null)StopCoroutine(smoothZoomToDefaultCo);
+
+        if (onChangeModeDefaultFromWide && mainCamera.orthographicSize < _MaxZoom)
+        {
+            if (smoothZoomToDefaultCo != null) StopCoroutine(smoothZoomToDefaultCo);
             onChangeModeDefaultFromWide = false;
         }
 
-        switch(_ViewMode){
+        switch (_ViewMode)
+        {
             case ViewMode.Wide:
                 WideViewMode();
-            break;
+                break;
             case ViewMode.Default:
                 DefaultViewMode();
-            break;
+                break;
         }
-             
-        if(_ViewMode == ViewMode.Default){
-            //MouseZoomInOut;
+
+        if (_ViewMode == ViewMode.Default)
+        {
             InGameZoomInAndOut(scroll);
         }
     }
 
     #region REFACTORING
-    
-    private ViewMode Ch_ViewMode(float scroll){
-        if(OtherPlayer == null) return ViewMode.Default;
 
-        if(IsDistanceWithinThreshold(_TriggerDistance) 
-            && IsDistanceWithinThreshold() <= 20 
-            && scroll >= 0 
+    private ViewMode Ch_ViewMode(float scroll)
+    {
+        if (OtherPlayer == null) return ViewMode.Default;
+
+        if (IsDistanceWithinThreshold(_TriggerDistance)
+            && IsDistanceWithinThreshold() <= 20
+            && scroll >= 0
             && mainCamera.orthographicSize >= _MaxZoom)
         {
             return ViewMode.Wide;
-        }else{
+        }
+        else
+        {
             return ViewMode.Default;
         }
     }
 
 
-   private IEnumerator SmoothZoomToDefault() {
+    private IEnumerator SmoothZoomToDefault() {
     float targetZoom = _MaxZoom - 0.1f;
     while (mainCamera.orthographicSize > targetZoom) {
         mainCamera.orthographicSize = Mathf.SmoothDamp(
@@ -382,12 +389,13 @@ public class PlayerCameraView : MonoBehaviour
         return adjustedMagnitude >= thresholdDistance;  
 
     }
-    float IsDistanceWithinThreshold(){
-         if(OtherPlayer == null) return 0;
+    float IsDistanceWithinThreshold()
+    {
+        if (OtherPlayer == null) return 0;
 
         Vector3 worldDistance = Player.position - OtherPlayer.position;
         Vector3 adjustedDistance = new Vector3(worldDistance.x / mainCamera.aspect, worldDistance.y, worldDistance.z);
-        float adjustedMagnitude = Mathf.Floor(adjustedDistance.magnitude * 100) /100f;
+        float adjustedMagnitude = Mathf.Floor(adjustedDistance.magnitude * 100) / 100f;
         return adjustedMagnitude;
     }
 

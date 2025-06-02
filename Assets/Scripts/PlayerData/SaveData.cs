@@ -21,6 +21,8 @@ public class SaveData
     public void SetUp()
     {
         filePath = Path.Combine(Application.persistentDataPath, "savefile.json");
+
+
         achievmentDataPath = Path.Combine(Application.persistentDataPath,"acData.json");
 
         Debug.Log(filePath);
@@ -93,29 +95,37 @@ public class SaveData
         string json = await File.ReadAllTextAsync(achievmentDataPath);
         _AchievementData = JsonUtility.FromJson<AchievementData>(json);
     }
-    public async Task Ac_Save(){
-       lock (_lock){ //already call this function,
-        if(_saveScheduled){
-            _cts.Cancel();
-            _cts = new CancellationTokenSource();
+    public async Task Ac_Save()
+    {
+        lock (_lock)
+        { 
+            if (_saveScheduled)
+            {
+                _cts.Cancel();
+                _cts = new CancellationTokenSource();
+            }
+            _saveScheduled = true;
         }
-        _saveScheduled = true;
-       }
 
-       try{
-        await Task.Delay(1000,_cts.Token);
-       }catch(TaskCanceledException){
-        return;
-       }
+        try
+        {
+            await Task.Delay(1000, _cts.Token);
+        }
+        catch (TaskCanceledException)
+        {
+            return;
+        }
 
-       lock(_lock){
-        _saveScheduled = false;
-        _lastAcSaveTask = PerformAc_Save();
-       }
+        lock (_lock)
+        {
+            _saveScheduled = false;
+            _lastAcSaveTask = PerformAc_Save();
+        }
 
-       await _lastAcSaveTask;
+        await _lastAcSaveTask;
 
     }
+
     private async Task PerformAc_Save(){
         string json = JsonUtility.ToJson(_AchievementData);
         await WriteTextAsync(achievmentDataPath,json);
@@ -262,6 +272,7 @@ public class SaveData
  
         await IntergrityCheck();
     }
+
     #endregion
     //intergrity Check
 

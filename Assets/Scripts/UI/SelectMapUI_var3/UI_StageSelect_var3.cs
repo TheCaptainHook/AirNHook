@@ -1,9 +1,10 @@
+using Mirror;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using System;
 using System.IO;
-using Mirror;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
 
 enum PrograssLevel
@@ -20,7 +21,7 @@ enum PrograssLevel
 //  : 
 
 
-public class UI_StageSelect_var3: UI_Base
+public class UI_StageSelect_var3: UI_Base,IPointerEnterHandler,IPointerExitHandler
 {
 
     [Header("Info")]
@@ -102,7 +103,46 @@ public class UI_StageSelect_var3: UI_Base
 [Back - Backspace]   [Q - Exit]
 -------------------------------------------------------------------------";
     #endregion
-    
+
+    #region Mouse Pointer
+
+    [Header("Mouse Pointer")]
+    public Texture2D customCursorTexture;
+    private UnityEngine.CursorMode cursorMode = UnityEngine.CursorMode.Auto;
+    public Vector2 hotspot = new Vector2(-0.5f, 0.5f); // 클릭 기준점
+    public bool isPointerInside = false;
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        isPointerInside = true;
+        Cursor.SetCursor(customCursorTexture, hotspot, cursorMode);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        isPointerInside = false;
+        Cursor.SetCursor(null, Vector2.zero, cursorMode); // 기본 커서로 복귀
+    }
+    //void Update()
+    //{
+    //    if (Input.GetMouseButtonDown(0)) // 또는 항상 체크
+    //    {
+    //        PointerEventData pointerData = new PointerEventData(EventSystem.current)
+    //        {
+    //            position = Input.mousePosition
+    //        };
+
+    //        List<RaycastResult> results = new List<RaycastResult>();
+    //        EventSystem.current.RaycastAll(pointerData, results);
+
+    //        foreach (var result in results)
+    //        {
+    //            Debug.Log("Hit UI: " + result.gameObject.name);
+    //        }
+    //    }
+    //}
+
+    #endregion
+
     Color localColor = new Color(48f / 255f, 172f / 255f, 52f / 255f); 
 
     [Header("Stats")]
@@ -126,10 +166,12 @@ public class UI_StageSelect_var3: UI_Base
     
     public GameObject _UI_ComputerScreen;
     public GameObject computer;
-    private Computer_Net Net {
-        get{
-            if(computer)
-            return computer.TryGetComponent(out Computer_Net component) ? component : null;
+    public Computer_Net Net
+    {
+        get
+        {
+            if (computer)
+                return computer.TryGetComponent(out Computer_Net component) ? component : null;
             else return null;
         }
     }
@@ -160,6 +202,7 @@ public class UI_StageSelect_var3: UI_Base
         {
             TextLine newTextLine= Instantiate(textLine, content).GetComponent<TextLine>();
             newTextLine.index = i;
+            newTextLine._UI_StageSelect_var3 = this;
             textLineList.Add(newTextLine);
 
         }
@@ -214,6 +257,15 @@ public class UI_StageSelect_var3: UI_Base
             StartCoroutine(ProcessInputWithDelay(num));
         }
     }
+    /// <summary>
+    /// 1 : Up, 
+    /// 2 : Down, 
+    /// 3 : Enter, 
+    /// 4 : Backspace, 
+    /// 5 : Q 
+    /// </summary>
+    /// <param name="num"></param>
+    /// <returns></returns>
     public IEnumerator ProcessInputWithDelay(int num)
     {
         // inputProcessed = true;
@@ -261,8 +313,12 @@ public class UI_StageSelect_var3: UI_Base
     }
     //------------------------------------------------------Network 250218
 
-
-    private void SelectTextLine()
+    public void UnSelectLine()
+    {
+        curSelectTextLine.UnSelectSentence();
+        curSelectTextLineIndex = maxSelectTextLineListIndex;
+    }
+    public void SelectTextLine()
     {
         if(curSelectTextLineIndex < minSelectTextLineListIndex) //마지막 요소로
         {
@@ -436,13 +492,13 @@ public class UI_StageSelect_var3: UI_Base
         List<string> sentenceList = util.SplitText(sentence, maxHorizontaText, new char[] { '\n' });
         for (int i = 0; i < sentenceList.Count; i++)
         {
-            yield return WriteLine(sentenceList[i], localColor, true);
+            yield return WriteLine(sentenceList[i], localColor, true,25,0.01f,false);
         }
         
         nextWriteTextLineIndex+=2;
         
         minSelectTextLineListIndex = nextWriteTextLineIndex;
-        yield return WriteLine("Main", localColor, true);
+        yield return WriteLine("Main", localColor, true,25,0.01f,true);
 
        
         
@@ -495,6 +551,8 @@ public class UI_StageSelect_var3: UI_Base
         onPrograss = true;
         onInteractable = false;
 
+        Net.onReady = false;
+
         if (GetSplitSentenceAndLaststring(textLineList[pathTextLineIndex].mainSentence) == "Main")
         {
             _PrograssLevel = PrograssLevel.Two;
@@ -508,6 +566,7 @@ public class UI_StageSelect_var3: UI_Base
             }
 
             maxSelectTextLineListIndex = nextWriteTextLineIndex-1;
+            Net.onReady = true;
         }
         else
         {
@@ -542,6 +601,8 @@ public class UI_StageSelect_var3: UI_Base
 
         _PrograssLevel = PrograssLevel.Three;
 
+        Net.onReady = false;
+
         yield return EraserTextLineCo(minSelectTextLineListIndex, maxSelectTextLineListIndex);
 
         Host_MapData[] mapDatas = Net.host_MapDatas;
@@ -562,6 +623,8 @@ public class UI_StageSelect_var3: UI_Base
         maxSelectTextLineListIndex = nextWriteTextLineIndex-1;
         curSelectTextLineIndex = nextWriteTextLineIndex;
         yield return new WaitForSeconds(0.5f);
+
+        Net.onReady = true;
 
         onPrograss = false;
         onInteractable = true;
@@ -596,6 +659,8 @@ public class UI_StageSelect_var3: UI_Base
         textLineList[pathTextLineIndex].text.color = Color.yellow;
 
         mapInfo_UI.Reset();
+
+        Net.onReady = false;
 
         try
         {
@@ -645,6 +710,7 @@ public class UI_StageSelect_var3: UI_Base
         //-----------------------------Reset
 
         onPrograss = false;
+
         onInteractable = true;
         gameObject.SetActive(false);
     }

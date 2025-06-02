@@ -1,8 +1,10 @@
 using System.Collections;
-using UnityEngine;
-using TMPro;
-using Random = UnityEngine.Random;
 using System.Text;
+using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public enum TypingType
 {
@@ -10,7 +12,7 @@ public enum TypingType
     Read,
 }
 
-public class TextLine : MonoBehaviour
+public class TextLine : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("Info")]
     public int index;
@@ -19,18 +21,51 @@ public class TextLine : MonoBehaviour
     UnityEngine.Color selectColor = new UnityEngine.Color(51f / 255f, 118f / 255f, 182f / 255f);
     [ReadOnly]
     public TypingType type;
-    [HideInInspector] public bool onSelectable;
+    public bool onSelectable;
 
     [Header("Component")]
     public TextMeshProUGUI text;
+    public Image image;
 
+    public UI_StageSelect_var3 _UI_StageSelect_var3;
+    
     //todo 250103
     [SerializeField] TypingEffect typingEffect;
 
     string[] ranString = new string[]{"#","!","@","$","%","^","&","*","(",")","-","_","+","=","1","2","3","4","5","6","7","8","9"};
 
-#region Write
-   
+    public float maxWidth = 870;
+
+    #region Mouse Pointer
+    public bool isPointerInside = false;
+    
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (mainSentence == string.Empty || !onSelectable) return;
+        isPointerInside = true;
+
+        _UI_StageSelect_var3.Net.Server_GetMousePointer(index);
+
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (mainSentence == string.Empty || !onSelectable) return;
+        isPointerInside = false;
+    }
+    #endregion
+
+    #region Write
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sentence"></param>
+    /// <param name="color"></param>
+    /// <param name="writeAndRead">true : Write, false : Read </param>
+    /// <param name="fontSize"></param>
+    /// <param name="delayTime"></param>
+    /// <param name="onSelectable"></param>
+    /// <returns></returns>
     public IEnumerator Task_WriteTyping(string sentence, UnityEngine.Color color, bool writeAndRead, float fontSize, float delayTime, bool onSelectable)
     {
         this.onSelectable = onSelectable;
@@ -45,10 +80,15 @@ public class TextLine : MonoBehaviour
         orgColor = color;
         mainSentence = sentence;
 
-        yield return typingEffect.NormalTyping(text,sentence,color,4,fontSize);
+        // 💡 미리 최종 텍스트에 대해 넓이를 계산
+        PreferredSizeWidth(sentence);
+
+
+        yield return typingEffect.NormalTyping(text, sentence, color, 4, fontSize);
     }
 
-#region Typing
+
+    #region Typing
 
     // public IEnumerator WriteTyping(string sentece,UnityEngine.Color color, float fontSize, float delayTime,int batchSize = 3){
     //    text.color = color;
@@ -61,13 +101,14 @@ public class TextLine : MonoBehaviour
     //         yield return new WaitForSecondsRealtime(delayTime);
     //     }
     // }
-#endregion
+    #endregion
 
-    public void WriteText(string sentence, UnityEngine.Color color)
+    public void WriteText(string sentence, UnityEngine.Color color,bool onSelectable = false)
     {
         text.color = color;
         text.text = sentence;
         mainSentence = text.text;
+        this.onSelectable = onSelectable;
     }
 
     public void WriteText(string sentence)
@@ -77,11 +118,12 @@ public class TextLine : MonoBehaviour
     }
 
  #endregion
-
+    
 #region Eraser
 
     public IEnumerator Task_EraserText() {
         mainSentence = "";
+        onSelectable = false;
         yield return typingEffect.NormalEraser(text,5);
     }
    
@@ -93,6 +135,7 @@ public class TextLine : MonoBehaviour
         text.color = selectColor;
         text.fontStyle = FontStyles.Bold;
         string term = $" > {text.text}";
+        PreferredSizeWidth(term);
         text.text = term;
     }
 
@@ -100,6 +143,7 @@ public class TextLine : MonoBehaviour
     {
         text.color = orgColor;
         text.fontStyle = FontStyles.Normal;
+        PreferredSizeWidth(mainSentence);
         text.text = mainSentence;
     }
 
@@ -128,7 +172,28 @@ public class TextLine : MonoBehaviour
     {
         text.text = "";
         mainSentence = "";
+        onSelectable = false;
     }
+
+    private void PreferredSizeWidth(string sentence)
+    {
+        Vector2 preferredSize = text.GetPreferredValues(sentence);
+        float paddedWidth = preferredSize.x;
+
+        RectTransform rect = transform as RectTransform;
+        RectTransform textRect = text.rectTransform;
+
+        rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, paddedWidth);
+        textRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, paddedWidth);
+
+        rect.anchorMin = rect.anchorMax = new Vector2(0f, 0.5f);
+        rect.pivot = new Vector2(0f, 0.5f);
+        rect.anchoredPosition = Vector2.zero;
+
+        textRect.anchorMin = textRect.anchorMax = new Vector2(0f, 0.5f);
+        textRect.pivot = new Vector2(0f, 0.5f);
+        textRect.anchoredPosition = Vector2.zero;
+    }   
 
 #endregion
 

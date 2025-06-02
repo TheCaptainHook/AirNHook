@@ -362,6 +362,7 @@ public class CreateMap_Tool : EditorWindow
         GUILayout.EndScrollView();
         GUILayout.EndArea();
     }
+
     #region  Searching
     private List<GUIContent> SearchingContents(List<GUIContent> main)
     {

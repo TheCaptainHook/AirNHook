@@ -86,7 +86,8 @@ public class MapEditor_Editor : Editor
     }
     #region  Draw
     private bool isLight;
-    private void Draw_MainContents() {
+    private void Draw_MainContents()
+    {
         EditorGUILayout.LabelField("Map Editor", GetGUIStyle_Label(Color.black, 14, FontStyle.Bold));
         EditorGUILayout.HelpBox($"프로젝트 실행할때 꼭 개발자용 데이터 세이브 후 Reset 버튼 누른다음 실행하기.", MessageType.Info);
         GUILayout.BeginVertical(mapEditor.onLoad ? "Save" : "Load", new GUIStyle(GUI.skin.window));
@@ -100,9 +101,11 @@ public class MapEditor_Editor : Editor
             {
                 mapEditor.audioName = EditorGUILayout.TextField(new GUIContent("BGM", "BGM"), mapEditor.audioName);
             }
-        } else {
+        }
+        else
+        {
             Draw_ShadwAndLight();
-            
+
             mapEditor.stageLevel = EditorGUILayout.IntField("Stage Level", mapEditor.stageLevel);
             mapEditor.subMapName = EditorGUILayout.TextField(
                 new GUIContent("Map Sub Name", "This is the sub-name for the map, but it’s okay to leave it empty."),
@@ -111,13 +114,14 @@ public class MapEditor_Editor : Editor
 
             //Game difficulty
             // mapEditor.stageDifficulty = EditorGUILayout.IntField("Stage Difficulty",mapEditor.stageDifficulty);
-            mapEditor.stageDifficulty = EditorGUILayout.IntSlider("Stage Difficulty",mapEditor.stageDifficulty,0,3);
+            mapEditor.stageDifficulty = EditorGUILayout.IntSlider("Stage Difficulty", mapEditor.stageDifficulty, 0, 3);
             //Game difficulty
 
             DrawBGMContents();
         }
         GUILayout.EndVertical();
     }
+
     private void Draw_ShadwAndLight()
     {
         GUILayout.Space(20);
@@ -375,18 +379,24 @@ public class MapEditor_Editor : Editor
         GUI.backgroundColor = orgCol;
     }
 
-    private void DrawBGMContents() {
+    private void DrawBGMContents()
+    {
         GUI.SetNextControlName("BGM");
         mapEditor.audioName = EditorGUILayout.TextField(new GUIContent("BGM", ""), mapEditor.audioName);
 
-        if (!string.IsNullOrEmpty(mapEditor.audioName)) {
+        if (!string.IsNullOrEmpty(mapEditor.audioName))
+        {
             filteredOptions = autoCompleteOptions
                    .FindAll(option => option.ToLower().Contains(mapEditor.audioName.ToLower()));
             showDropdown = filteredOptions.Count > 0;
-        } else if (GUI.GetNameOfFocusedControl() == "BGM" && string.IsNullOrEmpty(mapEditor.audioName)) {
+        }
+        else if (GUI.GetNameOfFocusedControl() == "BGM" && string.IsNullOrEmpty(mapEditor.audioName))
+        {
             filteredOptions = new(autoCompleteOptions);
             showDropdown = filteredOptions.Count > 0;
-        } else {
+        }
+        else
+        {
             showDropdown = false;
         }
         if (showDropdown) DrawAudioDropDown();
@@ -432,6 +442,7 @@ public class MapEditor_Editor : Editor
 
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
+
         if (GUILayout.Button("Load Data(개발자전용)", GUILayout.Width(150), GUILayout.Height(30)))
         {
             if (!Check_DuplicateMapId(mapEditor.mapID)) {
@@ -654,8 +665,10 @@ public class MapEditor_Editor : Editor
 
             Create_StartPoint(map);
             Create_Tile();
+
             //Shadow Setting
             Create_Shadow();
+
             //Light Setting
             SetGlobalLight(map.globalLightStruct);
 
@@ -775,14 +788,18 @@ public class MapEditor_Editor : Editor
         Create(curTr, mapDataStruct, data);
 
     }
-    public void Create_Object<T>(List<T> list, Transform transform) {
+    public void Create_Object<T>(List<T> list, Transform transform)
+    {
         MapDataStruct mapDataStruct;
-        foreach (T data in list) {
+        foreach (T data in list)
+        {
             var isField = typeof(T).GetField("id", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
-            if (isField != null) {
+            if (isField != null)
+            {
                 var value = isField.GetValue(data);
-                if (value is int intValue) {
+                if (value is int intValue)
+                {
                     mapDataStruct = mapObjectDataDictionary[intValue];
                     Create(transform, mapDataStruct, data);
                 }
@@ -990,56 +1007,53 @@ public class MapEditor_Editor : Editor
             return filePath;
 
     }
-        //TestCode TOdo 0807
-        //map.mapSize = new Vector2(
-        //    map.mapTileDataList[0].position.x,
-        //     map.mapTileDataList[map.mapTileDataList.Count - 1].position.x);
-        // var poss = map.GetStartEndPosition();
+    //TestCode TOdo 0807
+    //map.mapSize = new Vector2(
+    //    map.mapTileDataList[0].position.x,
+    //     map.mapTileDataList[map.mapTileDataList.Count - 1].position.x);
+    // var poss = map.GetStartEndPosition();
 
 
-        //else
-        //{
-        //    filePath = Path.Combine(folderPath, $"{mapEditor.mapType}/{map.mapID}.json");
-        //}
+    //else
+    //{
+    //    filePath = Path.Combine(folderPath, $"{mapEditor.mapType}/{map.mapID}.json");
+    //}
 
-private Map CreateMap(MapEditor mapEditor){
-    Map map =  new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, mapEditor.subMapName,GetNextMapId(),mapEditor.stageLevel, mapEditor.startPosition,mapEditor.stageDifficulty,
-            GetExitObjStructsList(mapEditor.exitDoorObjectTransform, mapEditor),
-            //tile
-            GetCompressedTileData(mapEditor.placeMentSystem.floorTileMap),
-            GetCompressedTileData(mapEditor.placeMentSystem.halfTileMap),
-            GetCompressedTileData(mapEditor.placeMentSystem.backgroundTileMap),
-            GetCompressedTileData(mapEditor.placeMentSystem.ropeTileMap),
-            GetCompressedTileData(mapEditor.placeMentSystem.accessoryTileMap),
-            GetCompressedTileData(mapEditor.placeMentSystem.hiddentTIleMap),
-            //GetTileData(mapEditor.placeMentSystem.floorTileMap),//rect
-            //GetTileData(mapEditor.placeMentSystem.halfTileMap),
-            //GetTileData(mapEditor.placeMentSystem.backgroundTileMap),
-            //GetTileData(mapEditor.placeMentSystem.ropeTileMap),
-            //GetTileData(mapEditor.placeMentSystem.accessoryTileMap),
+    private Map CreateMap(MapEditor mapEditor)
+    {
+        Map map = new Map(new Vector2(mapEditor.width, mapEditor.height), mapEditor.mapID, mapEditor.subMapName,
+                GetNextMapId(), mapEditor.stageLevel, mapEditor.startPosition, mapEditor.stageDifficulty,
+                GetExitObjStructsList(mapEditor.exitDoorObjectTransform, mapEditor),
+                //tile
+                GetCompressedTileData(mapEditor.placeMentSystem.floorTileMap),
+                GetCompressedTileData(mapEditor.placeMentSystem.halfTileMap),
+                GetCompressedTileData(mapEditor.placeMentSystem.backgroundTileMap),
+                GetCompressedTileData(mapEditor.placeMentSystem.ropeTileMap),
+                GetCompressedTileData(mapEditor.placeMentSystem.accessoryTileMap),
+                GetCompressedTileData(mapEditor.placeMentSystem.hiddentTIleMap),
 
-            //Shadow
-            GetShadowData(),
-            //Light
-            GetGlobalLightStruct(),
-            //object
-            GetList<ObjectData>(mapEditor.objectTransform),
-            GetList<ObjectData>(mapEditor.backgroundObjectContainer),
-            GetList_Depth<ObjectData>(mapEditor.otherContainer.GetComponent<OtherContainer>()),
-            GetList<ButtonActivatableObjectStruct>(mapEditor.buttonActivatableObjectTransform),
-            GetList<ButtonObjectStruct>(mapEditor.buttonObjectTransform),
-            GetList<DialogueData>(mapEditor.triggerDialogueTransform),
-            GetList<DroneStruct>(mapEditor.droneTransform),
-            GetList<CollectableObjectStruct>(mapEditor.collectableContainer),
-            mapEditor.cellSize, 
-            0,
-            null,
-            mapEditor.audioName);
-    return  map;
-}
+                //Shadow
+                GetShadowData(),
+                //Light
+                GetGlobalLightStruct(),
+                //object
+                GetList<ObjectData>(mapEditor.objectTransform),
+                GetList<ObjectData>(mapEditor.backgroundObjectContainer),
+                GetList_Depth<ObjectData>(mapEditor.otherContainer.GetComponent<OtherContainer>()),
+                GetList<ButtonActivatableObjectStruct>(mapEditor.buttonActivatableObjectTransform),
+                GetList<ButtonObjectStruct>(mapEditor.buttonObjectTransform),
+                GetList<DialogueData>(mapEditor.triggerDialogueTransform),
+                GetList<DroneStruct>(mapEditor.droneTransform),
+                GetList<CollectableObjectStruct>(mapEditor.collectableContainer),
+                mapEditor.cellSize,
+                0,
+                null,
+                mapEditor.audioName);
+        return map;
+    }
 
-//------------------------------------------------------------------------------------------------------250107 Shadow
-private List<ShadowCasterStruct> GetShadowData()
+    //------------------------------------------------------------------------------------------------------250107 Shadow
+    private List<ShadowCasterStruct> GetShadowData()
 {
 
     List<ShadowCasterStruct> list = new();

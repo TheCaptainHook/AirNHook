@@ -144,6 +144,7 @@ public class UI_StageSelect_var3_Dummy: UI_Base
         {
             TextLine newTextLine= Instantiate(textLine, content).GetComponent<TextLine>();
             newTextLine.index = i;
+            newTextLine.image.raycastTarget = false;
             textLineList.Add(newTextLine);
 
         }
@@ -182,7 +183,18 @@ public class UI_StageSelect_var3_Dummy: UI_Base
         inputQueue ??= new Queue<int>();
         inputQueue.Enqueue(num);
         if(queue_Input_Coroutine == null)
-        queue_Input_Coroutine = StartCoroutine(Queue_Input_Co());
+        {
+            try
+            {
+                queue_Input_Coroutine = StartCoroutine(Queue_Input_Co());
+            }
+            catch
+            {
+                inputQueue.Enqueue(5);
+                queue_Input_Coroutine = StartCoroutine(Queue_Input_Co());
+            }
+        }
+      
 
     }
     IEnumerator Queue_Input_Co()
@@ -231,10 +243,11 @@ public class UI_StageSelect_var3_Dummy: UI_Base
                     break;
             }
         }
+        queue_Input_Coroutine = null;
     }
   //---------------------------------------------------------------------------Refectoring 0414
 
-    private void SelectTextLine()
+    public void SelectTextLine()
     {
         if(curSelectTextLineIndex < minSelectTextLineListIndex) //마지막 요소로
         {

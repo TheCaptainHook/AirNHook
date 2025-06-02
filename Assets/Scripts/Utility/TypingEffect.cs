@@ -147,35 +147,35 @@ public class TypingEffect : MonoBehaviour
 
 
 
-#region  Default
-public IEnumerator NormalTyping(
-    TextMeshProUGUI textMesh,
-    string sentence,
-    Color color,
-    int batchSize,
-    float fontSize = 25,
-    float delay = 0.01f,
-    bool audioActive = false
-    )
-{
-    //Dealy : 0.1f
-    textMesh.color = color;
-    textMesh.fontSize = fontSize;
-
-    StringBuilder sb = new();
-    for(int i = 0;i<sentence.Length;i+=batchSize)
+    #region  Default
+    public IEnumerator NormalTyping(
+        TextMeshProUGUI textMesh,
+        string sentence,
+        Color color,
+        int batchSize,
+        float fontSize = 25,
+        float delay = 0.01f,
+        bool audioActive = false
+        )
     {
-        int len = Mathf.Min(batchSize, sentence.Length - i);
-        for (int j = 0; j < len; j++)
-        {
-            sb.Append(sentence[i + j]);
-            textMesh.text = sb.ToString();
-        }
-        yield return new WaitForSeconds(delay);
-    }
+        //Dealy : 0.1f
+        textMesh.color = color;
+        textMesh.fontSize = fontSize;
 
-}
-public IEnumerator NormalEraser(
+        StringBuilder sb = new();
+        for (int i = 0; i < sentence.Length; i += batchSize)
+        {
+            int len = Mathf.Min(batchSize, sentence.Length - i);
+            for (int j = 0; j < len; j++)
+            {
+                sb.Append(sentence[i + j]);
+                textMesh.text = sb.ToString();
+            }
+            yield return new WaitForSeconds(delay);
+        }
+
+    }
+    public IEnumerator NormalEraser(
     TextMeshProUGUI textMesh,
     int batchSize,
     float delay= 0.01f
