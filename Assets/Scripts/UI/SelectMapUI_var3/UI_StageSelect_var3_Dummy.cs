@@ -218,6 +218,15 @@ public class UI_StageSelect_var3_Dummy: UI_Base
                     if (curSelectTextLine == null || !curSelectTextLine.onSelectable)
                         break;
                     while(onPrograss) {Debug.Log("Wait onPrograss"); yield return null;}
+
+                    var mainSentence = textLineList[curSelectTextLineIndex].mainSentence;
+                    Debug.Log(mainSentence);
+                    if (mainSentence == "BACK" || mainSentence == "EXIT")
+                    {
+                        BackPrograss();
+                        break;
+                    }
+
                     switch (_PrograssLevel)
                     {
                         
@@ -271,7 +280,11 @@ public class UI_StageSelect_var3_Dummy: UI_Base
 
             if(_PrograssLevel == PrograssLevel.Three)
             {
-                
+                if (textLineList[curSelectTextLineIndex].mainSentence == "BACK")
+                {
+                    mapInfo_UI.Reset();
+                    return;
+                }
                 mapInfo_UI.ShowMapInfo(curSelectTextLine.text.text,curStageLevel);
             }
         }
@@ -282,7 +295,11 @@ public class UI_StageSelect_var3_Dummy: UI_Base
 
             if (_PrograssLevel == PrograssLevel.Three)
             {
-                
+                if (textLineList[curSelectTextLineIndex].mainSentence == "BACK")
+                {
+                    mapInfo_UI.Reset();
+                    return;
+                }
                 mapInfo_UI.ShowMapInfo(curSelectTextLine.text.text, curStageLevel);
             }
         }
@@ -424,6 +441,7 @@ public class UI_StageSelect_var3_Dummy: UI_Base
         
         minSelectTextLineListIndex = nextWriteTextLineIndex;
         yield return WriteLine("Main", localColor, true);
+        yield return WriteLine("EXIT", Color.red, true, 25, 0.01f, true);
 
         // yield return WriteLine("UserMap (준비중)", localColor, true, 25, 0.01f, false);
 
@@ -483,13 +501,15 @@ public class UI_StageSelect_var3_Dummy: UI_Base
                yield return WriteLine($"{i}", localColor, true);
             }
 
-            maxSelectTextLineListIndex = nextWriteTextLineIndex-1;
+           
         }
         else
         {
             //usermap Prograss
         }
+        yield return WriteLine("BACK", Color.red, true, 25, 0.01f, true);
 
+        maxSelectTextLineListIndex = nextWriteTextLineIndex - 1;
         curSelectTextLineIndex = nextWriteTextLineIndex;
 
         onPrograss = false;
@@ -533,6 +553,8 @@ public class UI_StageSelect_var3_Dummy: UI_Base
             }
 
         }
+
+        yield return WriteLine("BACK", Color.red, true, 25, 0.01f, true);
 
         maxSelectTextLineListIndex = nextWriteTextLineIndex-1;
         curSelectTextLineIndex = nextWriteTextLineIndex;

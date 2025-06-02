@@ -41,6 +41,7 @@ public class TextLine : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (_UI_StageSelect_var3.onPrograss) return;
         if (mainSentence == string.Empty || !onSelectable) return;
         isPointerInside = true;
 
