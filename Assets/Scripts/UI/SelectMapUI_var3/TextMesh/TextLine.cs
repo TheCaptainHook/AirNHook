@@ -12,7 +12,7 @@ public enum TypingType
     Read,
 }
 
-public class TextLine : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class TextLine : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [Header("Info")]
     public int index;
@@ -52,6 +52,14 @@ public class TextLine : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         if (mainSentence == string.Empty || !onSelectable) return;
         isPointerInside = false;
+    }
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Left && isPointerInside)
+        {
+            _UI_StageSelect_var3.Net.Server_MouseClick();
+            Debug.Log("왼쪽 클릭됨!");
+        }
     }
     #endregion
 

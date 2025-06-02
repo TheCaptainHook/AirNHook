@@ -167,7 +167,7 @@ public class UI_StageSelect_var3_Dummy: UI_Base
         }
         if(computer == null) return;
         Computer_Net net = computer.GetComponent<Computer_Net>();
-        Debug.Log($"Net.onPower : {net.onPower}");
+
         if(!net.onPower)animator.SetTrigger(OPEN);
         else animator.SetTrigger(OPEN_ONPOWER);
 

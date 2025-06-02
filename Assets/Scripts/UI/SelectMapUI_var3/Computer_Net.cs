@@ -331,7 +331,11 @@ public class Computer_Net : NetworkBehaviour
         }
 
     }
-   
+    [Server]
+    public void Server_MouseClick()
+    {
+        Rpc_SetKey(3);
+    }   
    
     #endregion
 
