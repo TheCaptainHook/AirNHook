@@ -425,15 +425,17 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     [Command(requiresAuthority = false)]
     public void Cmd_Dissolve()
     {
-        CmdChnageDestroyState(true);
-        Managers.Command.AuthorityToServer(netId);
-        CmdRemovePermissionPlayer();
-        Rpc_Dissolve();
+        if (isServer)
+        {
+            CmdChnageDestroyState(true);
+            Managers.Command.AuthorityToServer(netId);
+            CmdRemovePermissionPlayer();
+            Rpc_Dissolve();
+        }
     }
     [ClientRpc]
     private void Rpc_Dissolve()
     {
-       
         var root = GetFixedPointRootTransform();
 
         if (root != null)
@@ -476,6 +478,9 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
                 }
                    
             }
+            //0603 EnCapsulate
+            //else if(buildObj.onEnCapsulateItem) Capsuling()
+            //0603 EnCapsulate
             else
             {
                 _rigidbody.position = pot;

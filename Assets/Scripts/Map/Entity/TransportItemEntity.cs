@@ -129,6 +129,9 @@ public class TransportItemEntity : InteractableObject, ITransportItem
             defaultGravity = Rb.gravityScale;
             Col.enabled = false;
         }
+        //0603 EnCapsulationField
+        
+        //0603 EnCapsulationField
         onSync = true;
     }
     [Command(requiresAuthority = false)]
