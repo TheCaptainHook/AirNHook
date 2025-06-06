@@ -120,6 +120,7 @@ public class SaveData
         {
             _saveScheduled = false;
             _lastAcSaveTask = PerformAc_Save();
+            Debug.Log("Jumping Sav3e3");
         }
 
         await _lastAcSaveTask;

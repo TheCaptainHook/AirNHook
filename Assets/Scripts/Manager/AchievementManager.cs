@@ -47,6 +47,7 @@ public class AchievementManager
     //player
     public void CallPlayerJumping()
     {
+        Debug.Log("Jumping2");
         playerJumpingEvent?.Invoke();
     }
     public void CallPlayerDeath()
