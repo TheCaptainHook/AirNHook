@@ -1,6 +1,6 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EncapsulationField : MonoBehaviour
@@ -27,7 +27,7 @@ public class EncapsulationField : MonoBehaviour
         mainCol = GetComponent<Collider2D>();
         mainRb = GetComponent<Rigidbody2D>();
 
-        obstacleLayerMask = ~0;
+        obstacleLayerMask = 1<<6;
     }
 
     //TEST
@@ -42,69 +42,82 @@ public class EncapsulationField : MonoBehaviour
             Capsuling();
         }  
     }
-//TEST
+    //TEST
+
+
+   
+
     private Transform orgParent;
+    Bounds mainColliderBounds;
     public void Capsuling()
     {
-        // float moveValue = CheckUPAndDownDistance();
-        // Debug.Log($"33333 {moveValue}");
-
         isCapsuling = true;
+
         //Main Object Setting
+        // transform.position = Main.ObjectData.position;
+        mainColliderBounds = mainCol.bounds;
+        var distance = CheckUPAndDownDistance();
+        Debug.Log(distance);
+
         mainRb.simulated = false;
         mainCol.enabled = false;
         //Main Object Setting
 
-        // Capsule Object Setting
+        if (distance > 0)
+        {
+            StartCoroutine(MoveCapsuleCo(distance));
+        }
+        else
+        {
+            SettingCapsule();
+        }
+       
+
+     
+    }
+
+    private void SettingCapsule()
+    {
+         // Capsule Object Setting
         if (capsuleObject == null)
         {
-            capsuleObject = Instantiate(Resources.Load<GameObject>(GlobalText.CAPSULE_OBJECT));
+            capsuleObject = Instantiate(Resources.Load<GameObject>(GlobalText.CAPSULE_OBJECT)); //default : false
         }
-        
-       
-        //capsuleObject Appearance Animation 
+
         capsuleObject.transform.position = transform.position;
-        //TEST
-        if(!capsuleObject.activeSelf)
-        capsuleObject.SetActive(true);
-        //TEST
+        // Capsule Object Setting
+        orgParent = parent; //---Main cashing org parent
 
-        //capsuleObject Appearance Animation 
-
-        //---Main cashing org parent
-        orgParent = parent;
         TransformParentNull();
-
         capsuleObject.transform.SetParent(orgParent);
         Main.transform.SetParent(capsuleObject.transform);
-        //---Main cashing org parent
 
-        
-        // if (moveValue != 0)
-        // {
-        //     Debug.Log($"Moveing Capsule : {moveValue}");
-        //     StartCoroutine(MoveCapsuleCo(moveValue));
-        //     // capsuleObject.transform.position += new Vector3(0, moveValue, 0);
-        // }
-        // Capsule Object Setting
+
+        //capsuleObject Appearance Animation 
+        //TEST
+        if (!capsuleObject.activeSelf) //Animation
+            capsuleObject.SetActive(true);
+        //TEST
     }
-    
 
     private IEnumerator MoveCapsuleCo(float moveValue)
     {
-        var start = capsuleObject.transform.position;
-        var end = capsuleObject.transform.position += new Vector3(0, moveValue, 0);
+        var start = transform.position;
+        var end = transform.position + new Vector3(0, moveValue, 0);
         float t = 0f;
 
         while (t < 1)
         {
             t += Time.deltaTime * 1.5f;
             float smoothedT = 1 - Mathf.Pow(1 - t, 3);
-            capsuleObject.transform.position = Vector3.Lerp(start, end, smoothedT);
+            transform.position = Vector3.Lerp(start, end, smoothedT);
             yield return null;
         }
-        capsuleObject.transform.position = end;
+
+        transform.position = end;
+        SettingCapsule();
     }
+
     private void TransformParentNull()
     {
         capsuleObject.transform.SetParent(null);
@@ -135,51 +148,83 @@ public class EncapsulationField : MonoBehaviour
     }
 
     #region  Util
-    private float maxSpace = 1;
+    private float maxSpace = 2;
     private float maxRayLenght = 2;
     public LayerMask obstacleLayerMask;
-    private float skin = 0.01f;
 
 
-    
+
+    private Collider2D[] colResult = new Collider2D[3];
+    Vector2 boxCenter;
+    Vector2 boxSize;
+
+    // void OnDrawGizmos()
+    // {
+    //     Gizmos.color = Color.red;
+    //     var bounds = Main._collider.bounds;
+
+    //     var boxCenter = new Vector2(bounds.center.x, bounds.min.y - (maxRayLenght / 2f));
+    //     var boxsize = new Vector2(0.5f, maxRayLenght);
+    //     Gizmos.DrawCube(boxCenter, boxsize);
+    // }
     private float CheckUPAndDownDistance()
     {
-        var startBottom = new Vector2(Main._collider.bounds.center.x, Main._collider.bounds.min.y - skin);
-        var startTop = new Vector2(Main._collider.bounds.center.x, Main._collider.bounds.max.y + skin);
-
-        var downRay = Physics2D.Raycast(startBottom, Vector2.down, maxRayLenght, obstacleLayerMask);
-        var upRay = Physics2D.Raycast(startTop, Vector2.up, maxRayLenght, obstacleLayerMask);
-
-        if (downRay.collider == null)
+        boxCenter = new Vector2(mainColliderBounds.center.x, mainColliderBounds.min.y - (maxRayLenght/2f)) ;
+        boxSize = new Vector2(0.5f, maxRayLenght);
+        int downHitCount = Physics2D.OverlapBoxNonAlloc(boxCenter, boxSize, 0, colResult, obstacleLayerMask);
+        if (downHitCount > 0)
         {
-            return 0;
+            float moveValue = 0;
+            float result = GetNearestCollider(downHitCount);
+            
+            if (result < maxSpace)
+            {
+                moveValue = maxSpace - result;
+            }
+            else return 0;
+
+            boxCenter = new Vector2(mainColliderBounds.center.x, mainColliderBounds.max.y + (maxRayLenght /2f));
+            boxSize = new Vector2(0.5f, maxRayLenght);
+            Array.Clear(colResult, 0, downHitCount);
+
+            int upHitCount = Physics2D.OverlapBoxNonAlloc(boxCenter, boxSize, 0, colResult, obstacleLayerMask);
+
+            if (upHitCount > 0)
+            {
+                float result2 = GetNearestCollider(upHitCount);
+                Debug.Log("UP Hit Count");
+                if (result2 < moveValue)
+                {
+                    return moveValue - result2;
+                }
+                else return moveValue;
+
+            }
+            else
+            {
+                return moveValue;
+            }
         }
         else
         {
-            float moveValue = 0;
-
-            var downPoint = downRay.point;
-            var distanceD = GetDistance(downPoint, transform.position);
-            Debug.Log($"11 Down : {distanceD}");
-            if (distanceD < maxSpace)
-                moveValue += maxSpace - distanceD;
-
-            if (upRay.collider != null)
-            {
-                var point = upRay.point;
-                var distanceU = GetDistance(point, transform.position);
-                Debug.Log($"222 up : {distanceU}");
-                if (distanceU >= moveValue)
-                {
-                    return moveValue;
-                }
-                else
-                {
-                    return distanceU;
-                }
-            }
-            return moveValue;
+            return 0;
         }
+    }
+    private float GetNearestCollider(int hitCount)
+    {
+        float minDistance = Mathf.Infinity;
+        for (int i = 0; i < hitCount; i++)
+        {
+            var dis = Mathf.Abs(colResult[i].ClosestPoint(transform.position).y - transform.position.y);
+            if (minDistance > dis)
+            {
+                minDistance = dis;
+                Debug.Log($"{colResult[i].name}, {minDistance}");
+            }
+            
+        }
+
+        return minDistance;
     }
     private float GetDistance(Vector2 target, Vector2 start)
     {

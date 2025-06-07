@@ -50,18 +50,22 @@ public class InteractableObjectEntity : BuildObj
 
         if (Application.isPlaying)
         {
-            //TEST 0606
-            if (ObjectData.onEncapsulationItem)
-            {
-                EncapsulationField.Capsuling();
-            }
-            //TEST 0606
-
             TransportItemEntity.onSync = true;
             TransportItemEntity.Server_InitSync();
+                //TEST 0606
+            if (ObjectData.onEncapsulationItem)
+            {
+                StartCoroutine(DelayedCapsuling());
+            }
+            //TEST 0606
         }
        
     }
+    private IEnumerator DelayedCapsuling()
+{
+    yield return new WaitForSeconds(0.1f); // 한 프레임 대기
+    EncapsulationField.Capsuling();
+}
     public override void SetData(ObjectData data)
     {
         base.SetData(data);
