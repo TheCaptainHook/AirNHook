@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.Rendering.Universal.Light2D;
 
@@ -337,13 +338,15 @@ public struct ObjectData
     public Vector2 size;
     public string text;
     public float fontSize;
-
+    //Light Object
     public bool chargeRequired;
     //NPC
     public AnimationTriggerType animationTriggerType;
     //SpkieTrap
     public float attackStartTime;
     public float attackCooldown;
+
+    public bool onEncapsulationItem;
     public ObjectData(int id, Vector2 position, Vector3 scale, int dialogueId = 0, Vector2 talPot = default)
     {
         this.id = id;
@@ -361,8 +364,10 @@ public struct ObjectData
 
         attackStartTime = 0;
         attackCooldown = 0;
+
+        onEncapsulationItem = false;
     }
-     public ObjectData(int id, Vector2 position,Quaternion quaternion ,Vector3 scale, bool chargeRequired)
+    public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, bool chargeRequired,bool onEncapsulationItem)
     {
         this.id = id;
         dialogueId = 0;
@@ -382,8 +387,10 @@ public struct ObjectData
 
         attackStartTime = 0;
         attackCooldown = 0;
+
+        this.onEncapsulationItem = onEncapsulationItem;
     }
-    public ObjectData(int id, Vector2 position,Vector2 size)
+    public ObjectData(int id, Vector2 position, Vector2 size)
     {
         this.id = id;
         this.dialogueId = 0;
@@ -400,6 +407,8 @@ public struct ObjectData
 
         attackStartTime = 0;
         attackCooldown = 0;
+
+        onEncapsulationItem = false;
     }
     public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, int dialogueId = 0)
     {
@@ -415,12 +424,13 @@ public struct ObjectData
         chargeRequired = false;
         animationTriggerType = AnimationTriggerType.Idle;
 
-
         attackStartTime = 0;
         attackCooldown = 0;
+        
+        onEncapsulationItem = false;
     }
     //WorldTextObject
-    public ObjectData(int id,Vector2 position,Vector2 size,string text,float fontSize)
+    public ObjectData(int id, Vector2 position, Vector2 size, string text, float fontSize)
     {
         this.id = id;
         this.dialogueId = 0;
@@ -437,9 +447,11 @@ public struct ObjectData
 
         attackStartTime = 0;
         attackCooldown = 0;
+
+        onEncapsulationItem = false;
     }
     //NPC Object
-     public ObjectData(int id,Vector2 position,Quaternion quaternion,Vector3 scale,AnimationTriggerType type)
+    public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, AnimationTriggerType type)
     {
         this.id = id;
         this.dialogueId = 0;
@@ -457,9 +469,11 @@ public struct ObjectData
 
         attackStartTime = 0;
         attackCooldown = 0;
+
+        onEncapsulationItem = false;
     }
     //SpikeTrap
-    public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale,float attackStartTime,float attackCooldown )
+    public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, float attackStartTime, float attackCooldown)
     {
         this.id = id;
         this.dialogueId = 0;
@@ -477,6 +491,8 @@ public struct ObjectData
 
         this.attackStartTime = attackStartTime;
         this.attackCooldown = attackCooldown;
+
+        onEncapsulationItem = false;
     }
 
 

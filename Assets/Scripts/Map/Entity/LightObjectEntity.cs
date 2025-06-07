@@ -59,7 +59,7 @@ public class LightObjectEntity : BuildObj,IPowerConsumer
     public override T GetData<T>()
     {
          if(typeof(T)==typeof(ObjectData)){
-            return (T)(object)new ObjectData(id,ConvertPosition(transform.position),transform.rotation,transform.localScale,chargeRequired);
+            return (T)(object)new ObjectData(id,ConvertPosition(transform.position),transform.rotation,transform.localScale,chargeRequired,false);
         }
 
        return default(T);

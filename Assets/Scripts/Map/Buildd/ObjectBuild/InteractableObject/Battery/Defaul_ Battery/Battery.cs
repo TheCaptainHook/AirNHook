@@ -2,22 +2,13 @@
 using Mirror;
 using UnityEngine;
 
-public class Battery : BuildObj
+public class Battery : InteractableObjectEntity
 {
     
     [CustomHeader("Battery")]
 
     [ReadOnly]
     public PowerSupply powerSupply;
-
-
-    public override void SetData<T>(T data)
-    {
-        base.SetData(data);
-        // Battery_Net.Server_SetOrgPot(position);
-        Battery_Net.onSync = true;
-        Battery_Net.Server_InitSync();
-    }
 
     #region Network
     private BatteryInteractable Battery_Net => GetComponent<BatteryInteractable>();
@@ -42,19 +33,6 @@ public class Battery : BuildObj
 
     }
 
-    #region Components
-    Animator animator;
-    Collider2D col;
-    Rigidbody2D rb;
-    #endregion
-
-    private void Awake()
-    {
-        //col = GetComponent<Collider2D>();
-        rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-        DissolveInitSetting();
-    }
 
     void Start()
     {

@@ -91,7 +91,7 @@ public class MovingPlatform :  ActivatableObjectEntity
 
     [ReadOnly]
     public Vector2 dir;
-    public event Action<Vector2> movingEvent;
+    // public event Action<Vector2> movingEvent;
     private void FixedUpdate()
     {   
         if(!MovingPlatform_Net.onActive) return;

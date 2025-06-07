@@ -11,17 +11,17 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     protected BuildObj BuildObj => GetComponent<BuildObj>();
     public void TransportItem_Constraint(uint netId) //Server
     {
-        StartCoroutine(AllClientReadyChecker_Co(() => 
+        StartCoroutine(AllClientReadyChecker_Co(() =>
         {
-          Rpc_Constraint(netId,SyncDirection.ServerToClient);
+            Rpc_Constraint(netId, SyncDirection.ServerToClient);
         }));
-        
+
     }
     public void TransportItem_DropItem()
     {
         Rpc_DropItem();
     }
-    
+
     private void Transport_Drop()
     {
         Rb.gravityScale = _gravityScale;
@@ -30,7 +30,7 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     }
 
     [ClientRpc]
-    public void Rpc_Constraint(uint netId,SyncDirection direction)
+    public void Rpc_Constraint(uint netId, SyncDirection direction)
     {
         Transport_Init(netId);
         ChangeSyncDirection(direction);
@@ -63,7 +63,7 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     }
     [ReadOnly]
     public float defaultGravity;
-    
+
     private void Transport_Init(uint netId)
     {
         if (NetworkClient.spawned.TryGetValue(netId, out NetworkIdentity identity))
@@ -113,24 +113,24 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     [Server]
     public void Server_InitSync()
     {
-        Rpc_InitSync(BuildObj.ObjectData,transform.position,BuildObj.isTransportItem);
+        Rpc_InitSync(BuildObj.ObjectData, transform.position, BuildObj.isTransportItem);
         Rb.AddForce(Vector2.up, ForceMode2D.Force);
     }
 
     [ClientRpc]
-    private void Rpc_InitSync(ObjectData data, Vector2 position,bool isTransportItem)
+    private void Rpc_InitSync(ObjectData data, Vector2 position, bool isTransportItem)
     {
         if (onSync) return;
         BuildObj.ObjectData = data;
         transform.position = position;
         transform.rotation = data.quaternion;
-        if(isTransportItem)
+        if (isTransportItem)
         {
             defaultGravity = Rb.gravityScale;
             Col.enabled = false;
         }
         //0603 EnCapsulationField
-        
+
         //0603 EnCapsulationField
         onSync = true;
     }
@@ -146,4 +146,5 @@ public class TransportItemEntity : InteractableObject, ITransportItem
         if (!onSync) Cmd_InitSync();
     }
     #endregion
+
 }

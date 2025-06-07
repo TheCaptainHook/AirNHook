@@ -3,28 +3,14 @@ using Mirror;
 using UnityEngine;
 
 
-public class LaserBox : BuildObj
+public class LaserBox : InteractableObjectEntity
 {
     [SerializeField] LineRenderer _lineRenderer;
     [SerializeField] LayerMask targetLayerMask;
 
 
-    private LaserBox_Net Net =>GetComponent<LaserBox_Net>();
+    private LaserBox_Net Net => GetComponent<LaserBox_Net>();
 
-    public override void SetData<T>(T data)
-    {
-        base.SetData(data);
-        Net.onSync = true;
-        Net.Server_InitSync();
-    }
-
-    private void Awake()
-    {
-        //parentConstraint = GetComponent<ParentConstraint>();
-        DissolveInitSetting();
-    }
-
-   
     private void Update()
     {
         if (onLaser)
@@ -43,7 +29,7 @@ public class LaserBox : BuildObj
     public bool onBoom;
     public override void TakeDamage(DamageType damageType = DamageType.Default)
     {
-        if(onBoom) return;
+        if (onBoom) return;
 
         onLaser = true;
         curRecvoerRate = 0;
@@ -112,7 +98,7 @@ public class LaserBox : BuildObj
                 {
                     //start = rh.point;
                     //dir = Vector2.Reflect(ray.direction, colDir);
-                    if (rh.distance < 0.001f|| Vector2.Distance(start, rh.point) < 0.01f)
+                    if (rh.distance < 0.001f || Vector2.Distance(start, rh.point) < 0.01f)
                     {
                         break;
                     }
@@ -136,7 +122,7 @@ public class LaserBox : BuildObj
                         //Impact Effect
                         component2.Charging();
                     }
-               
+
                     break;
                 }
                 else if (rh.collider.TryGetComponent(out BuildObj obj))
@@ -148,7 +134,7 @@ public class LaserBox : BuildObj
                     else
                     {
                         //Impact Effect
-                        
+
                         //Impact Effect
                         if (Application.isPlaying)
                         {
@@ -190,9 +176,9 @@ public class LaserBox : BuildObj
 
     #endregion
 
-    public void Reset()
+    public override void Reset()
     {
-        LaserReset();
+         LaserReset();
         onBoom = false;
     }
 

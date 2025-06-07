@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
-public class TeslaRelayObject : BuildObj
+public class TeslaRelayObject : InteractableObjectEntity
 {
      [CustomHeader("Tesla Relay Object")]
 
@@ -13,20 +13,9 @@ public class TeslaRelayObject : BuildObj
     public float maxResetRate = 2f;
     public float curResetRate = 0;
     public float supplyEnergyRadius;
-    private TeslaRelayObject_Net Net => GetComponent<TeslaRelayObject_Net>();
-    void Awake()
-    {
-        DissolveInitSetting();
-    }
-
+   
     #region Get,Set
   
-    public override void SetData<T>(T data)
-    {
-        base.SetData(data);
-        Net.onSync = true;
-        Net.Server_InitSync();
-    }
     #endregion
 
     void Update()

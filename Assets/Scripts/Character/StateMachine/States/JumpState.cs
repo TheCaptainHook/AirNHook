@@ -84,7 +84,6 @@ public class JumpState : BaseState
         jumpParticle.Play();
         stateMachine.player.CmdJumpParticlePlay();
         //Achievement 0605
-        Debug.Log("Juimp1");
         Managers.AcManager.CallPlayerJumping();
         //Achievement 0605
     }

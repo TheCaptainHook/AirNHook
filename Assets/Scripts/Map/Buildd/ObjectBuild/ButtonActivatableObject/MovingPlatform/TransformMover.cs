@@ -18,7 +18,7 @@ public class TransformMover : NetworkBehaviour
 
 
 
-    uint nullNetID = 99999;
+    // uint nullNetID = 99999;
 
 
     [SerializeField] LayerMask movingPlatformLayer;

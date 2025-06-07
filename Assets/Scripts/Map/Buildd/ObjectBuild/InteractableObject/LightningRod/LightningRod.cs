@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightningRod : BuildObj
+public class LightningRod : InteractableObjectEntity
 {
 
     // float dissolveRate = 0.05f;
@@ -15,22 +15,10 @@ public class LightningRod : BuildObj
     [SerializeField] ParticleSystem[] particles;
 
 
-
-    private LightningRod_Net Net => GetComponent<LightningRod_Net>();
-
-    private void Awake()
+    protected override void Awake()
     {
-
-        DissolveInitSetting();
+        base.Awake();
         curDurationRate = maxDurationRate;
-    }
-
-
-    public override void SetData<T>(T data)
-    {
-        base.SetData(data);
-        Net.onSync = true;
-        Net.Server_InitSync();
     }
 
 

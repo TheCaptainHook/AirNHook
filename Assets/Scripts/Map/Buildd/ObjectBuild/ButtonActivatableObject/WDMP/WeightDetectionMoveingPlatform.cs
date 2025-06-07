@@ -85,8 +85,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     }
     public override async void  SetData<T>(T data)
     {
-        try{
-            if (typeof(T) == typeof(ButtonActivatableObjectStruct))
+         if (typeof(T) == typeof(ButtonActivatableObjectStruct))
             {
                 ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
                 ButtonActivatedObjectStruct = objData;
@@ -97,9 +96,6 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
                 moveDistance = objData.moveDistance;
           
             }
-        }catch(Exception ex){
-
-        }
         
         if(Application.isPlaying){
             Init();

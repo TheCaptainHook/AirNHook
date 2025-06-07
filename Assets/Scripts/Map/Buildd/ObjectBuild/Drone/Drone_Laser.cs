@@ -146,7 +146,7 @@ public void TurnOffLazer(){
     }
     
 
-    float deg;
+    // float deg;
     _LazerBody.eulerAngles = Vector3.zero;
     
 
