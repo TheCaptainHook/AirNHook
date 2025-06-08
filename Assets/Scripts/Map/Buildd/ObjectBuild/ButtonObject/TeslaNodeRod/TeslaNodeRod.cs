@@ -17,22 +17,23 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
     }
 
     #region Get,Set
-    public override T GetData<T>()
-    {
-        if (typeof(T) == typeof(ButtonObjectStruct))
-        {
-            return (T)(object)new ButtonObjectStruct(
-            id, 
-            GetTargetPositions(), 
-            GetLightPositions(),
-            transform.position, 
-            transform.rotation,
-            transform.localScale, 
-            false);
-        }
+    // public override T GetData<T>()
+    // {
+    //     if (typeof(T) == typeof(ButtonObjectStruct))
+    //     {
+    //         return (T)(object)new ButtonObjectStruct(
+    //         id, 
+    //         GetTargetPositions(), 
+    //         GetLightPositions(),
+    //         GetEncapsulationTiems(),
+    //         transform.position, 
+    //         transform.rotation,
+    //         transform.localScale, 
+    //         false);
+    //     }
 
-        return default(T);
-    }
+    //     return default(T);
+    // }
     public override void SetData<T>(T data)
     {
         try
@@ -43,6 +44,7 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
                 ButtonObjectData = buttonData;
                 FindTargetObject();
                 if (buttonData.lightPositions.Count > 0) FindLightObject();
+                if (buttonData.encapsulationItems.Count > 0) FindEncapsulationItem();
 
                 if (Application.isPlaying)
                 {

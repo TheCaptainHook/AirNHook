@@ -41,7 +41,9 @@ public class Puzzle_1 : ButtonEntity
                 GetPartsPosition(),
                 GetItemPosition(),
                 onHint,
-                onHint ? hintScreen.transform.position : default
+                onHint ? hintScreen.transform.position : default,
+                GetLightPositions(),
+                GetEncapsulationTiems()
                 );
         }
 
@@ -57,33 +59,55 @@ public class Puzzle_1 : ButtonEntity
 
     public override void SetData<T>(T data)
     {
-        try {
-            if (typeof(T) == typeof(ButtonObjectStruct))
-            {
-                ButtonObjectStruct buttonData = (ButtonObjectStruct)(object)data;
-                ButtonObjectData = buttonData;
-                FindTargetObject();
-
-                partsPosition = buttonData.partsPositions;
-                itemsPosition = buttonData.itemPositions;
-                if (buttonData.onHint)
-                {
-                    onHint = true;
-                    hintPosition = buttonData.hintPosition;
-                }
-                else
-                {
-                    onHint = false;
-                    hintPosition = default;
-                }
-
-                Setting();
-                //Setting parts and Item;
-            }
-
-        } catch (Exception ex) {
-            Debug.Log($"name : {gameObject.name},{ex}");
+        base.SetData(data);
+          
+        partsPosition = ButtonObjectData.partsPositions;
+        itemsPosition = ButtonObjectData.itemPositions;
+        if (ButtonObjectData.onHint)
+        {
+            onHint = true;
+            hintPosition = ButtonObjectData.hintPosition;
         }
+        else
+        {
+            onHint = false;
+            hintPosition = default; 
+        }
+
+        Setting();
+        //Setting parts and Item;
+
+
+        // try
+        // {
+        //     if (typeof(T) == typeof(ButtonObjectStruct))
+        //     {
+        //         ButtonObjectStruct buttonData = (ButtonObjectStruct)(object)data;
+        //         ButtonObjectData = buttonData;
+        //         FindTargetObject();
+
+        //         partsPosition = buttonData.partsPositions;
+        //         itemsPosition = buttonData.itemPositions;
+        //         if (buttonData.onHint)
+        //         {
+        //             onHint = true;
+        //             hintPosition = buttonData.hintPosition;
+        //         }
+        //         else
+        //         {
+        //             onHint = false;
+        //             hintPosition = default;
+        //         }
+
+        //         Setting();
+        //         //Setting parts and Item;
+        //     }
+
+        // }
+        // catch (Exception ex)
+        // {
+        //     Debug.Log($"name : {gameObject.name},{ex}");
+        // }
     }
     #endregion
 

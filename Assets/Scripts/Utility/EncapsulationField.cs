@@ -9,11 +9,22 @@ public class EncapsulationField : MonoBehaviour
     private BuildObj Main { get { obj ??= GetComponent<BuildObj>(); return obj; } }
 
     private Transform parent => transform.parent;
-
+    private TransportItemEntity entity;
+    private TransportItemEntity Net
+    {
+        get
+        {
+            entity ??= GetComponent<TransportItemEntity>();
+            return entity;
+        }
+    }
 
     #region  Main
     [Header("Save Data Field")]
     public bool onEncapsulationItem;
+    public int activeRequirAmount;
+    [ReadOnly]
+    public int curActiveRequirAmount;
     private GameObject capsuleObject;
     [ReadOnly]
     public bool isCapsuling;
@@ -27,7 +38,7 @@ public class EncapsulationField : MonoBehaviour
         mainCol = GetComponent<Collider2D>();
         mainRb = GetComponent<Rigidbody2D>();
 
-        obstacleLayerMask = 1<<6;
+        obstacleLayerMask = 1 << 6;
     }
 
     //TEST
@@ -36,28 +47,33 @@ public class EncapsulationField : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P) && onEncapsulationItem)
         {
             UnCapsuling();
-        }  
-         if (Input.GetKeyDown(KeyCode.O) && onEncapsulationItem)
+        }
+        if (Input.GetKeyDown(KeyCode.O) && onEncapsulationItem)
         {
-            Capsuling();
-        }  
+            Capsuling(Main.position);
+        }
     }
     //TEST
 
 
-   
 
+    #region  Capsuling
     private Transform orgParent;
     Bounds mainColliderBounds;
-    public void Capsuling()
+    public void Capsuling(Vector2 startPot) //Rpc
     {
+        //Require Amount Check
+        // 1. 오브젝트가 파괴되었을때,
+        // 2. 리셋 했을때(호스트가)
+        //Require Amount Check
+
+
         isCapsuling = true;
 
         //Main Object Setting
-        // transform.position = Main.ObjectData.position;
+        transform.position = startPot;
         mainColliderBounds = mainCol.bounds;
         var distance = CheckUPAndDownDistance();
-        Debug.Log(distance);
 
         mainRb.simulated = false;
         mainCol.enabled = false;
@@ -71,14 +87,11 @@ public class EncapsulationField : MonoBehaviour
         {
             SettingCapsule();
         }
-       
-
-     
     }
 
     private void SettingCapsule()
     {
-         // Capsule Object Setting
+        // Capsule Object Setting
         if (capsuleObject == null)
         {
             capsuleObject = Instantiate(Resources.Load<GameObject>(GlobalText.CAPSULE_OBJECT)); //default : false
@@ -118,15 +131,13 @@ public class EncapsulationField : MonoBehaviour
         SettingCapsule();
     }
 
-    private void TransformParentNull()
-    {
-        capsuleObject.transform.SetParent(null);
-        Main.transform.SetParent(null);
-    }
+    #endregion
+
+
     public void UnCapsuling()
     {
         //capsuleObject Disappearance Animation 
-  
+
         //capsuleObject Disappearance Animation 
 
         //Return parent
@@ -142,48 +153,51 @@ public class EncapsulationField : MonoBehaviour
         mainCol.enabled = true;
         mainRb.simulated = true;
 
-        
-
         isCapsuling = false;
     }
+
+
+    #region Requir 
+    public void ApplyActive(int amount) //only Server
+    {
+        if (!isCapsuling) return;
+
+        curActiveRequirAmount += amount;
+        if (curActiveRequirAmount == activeRequirAmount)
+        {
+            // UnCapsuling();
+            Net.Rpc_UnCapsuling();
+        }
+
+    }
+
+    #endregion
 
     #region  Util
     private float maxSpace = 2;
     private float maxRayLenght = 2;
     public LayerMask obstacleLayerMask;
-
-
-
     private Collider2D[] colResult = new Collider2D[3];
     Vector2 boxCenter;
     Vector2 boxSize;
 
-    // void OnDrawGizmos()
-    // {
-    //     Gizmos.color = Color.red;
-    //     var bounds = Main._collider.bounds;
-
-    //     var boxCenter = new Vector2(bounds.center.x, bounds.min.y - (maxRayLenght / 2f));
-    //     var boxsize = new Vector2(0.5f, maxRayLenght);
-    //     Gizmos.DrawCube(boxCenter, boxsize);
-    // }
     private float CheckUPAndDownDistance()
     {
-        boxCenter = new Vector2(mainColliderBounds.center.x, mainColliderBounds.min.y - (maxRayLenght/2f)) ;
+        boxCenter = new Vector2(mainColliderBounds.center.x, mainColliderBounds.min.y - (maxRayLenght / 2f));
         boxSize = new Vector2(0.5f, maxRayLenght);
         int downHitCount = Physics2D.OverlapBoxNonAlloc(boxCenter, boxSize, 0, colResult, obstacleLayerMask);
         if (downHitCount > 0)
         {
             float moveValue = 0;
             float result = GetNearestCollider(downHitCount);
-            
+
             if (result < maxSpace)
             {
                 moveValue = maxSpace - result;
             }
             else return 0;
 
-            boxCenter = new Vector2(mainColliderBounds.center.x, mainColliderBounds.max.y + (maxRayLenght /2f));
+            boxCenter = new Vector2(mainColliderBounds.center.x, mainColliderBounds.max.y + (maxRayLenght / 2f));
             boxSize = new Vector2(0.5f, maxRayLenght);
             Array.Clear(colResult, 0, downHitCount);
 
@@ -221,27 +235,19 @@ public class EncapsulationField : MonoBehaviour
                 minDistance = dis;
                 Debug.Log($"{colResult[i].name}, {minDistance}");
             }
-            
+
         }
 
         return minDistance;
     }
-    private float GetDistance(Vector2 target, Vector2 start)
-    {
-        return Mathf.Abs((target - start).y);
-    }
-    #endregion
-    ///Capsuling
-    /// 1. CapsulateField capsulateField = Instantiate(CapsulateField)
-    /// 2. capsulateField.Setting()
-    /// 3. ConstraintParent, Main : capsulateField, parts : Main.gameObject
+    
 
-    ///
-    /// 
-    /// 
-    /// 1. Create Capsule Object,  string path, Find Capsule Object Logic, 
-    /// 2. BuildObj col,rb setting,Check Vector2.Up,Down Ray
-    /// 3. 
-    /// 3. CapsuleObject SetParent( BuildObj.trasform.root)
-    ///  
+    private void TransformParentNull()
+    {
+        capsuleObject.transform.SetParent(null);
+        Main.transform.SetParent(null);
+    }
+    
+    #endregion
+
 }

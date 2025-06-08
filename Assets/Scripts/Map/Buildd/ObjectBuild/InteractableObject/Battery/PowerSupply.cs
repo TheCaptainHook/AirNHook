@@ -38,22 +38,23 @@ public class PowerSupply : ButtonEntity,IInteractable
     #region  Get,Set
 
 
-    public override T GetData<T>()
-    {
-        if (typeof(T) == typeof(ButtonObjectStruct))
-        {
-            return (T)(object)new ButtonObjectStruct(
-                id, 
-            GetTargetPositions(), 
-            GetLightPositions(),
-            transform.position, 
-            transform.rotation,
-            transform.localScale, 
-            false);
-        }
+    // public override T GetData<T>()
+    // {
+    //     if (typeof(T) == typeof(ButtonObjectStruct))
+    //     {
+    //         return (T)(object)new ButtonObjectStruct(
+    //             id, 
+    //         GetTargetPositions(), 
+    //         GetLightPositions(),
+    //         GetEncapsulationTiems(),
+    //         transform.position, 
+    //         transform.rotation,
+    //         transform.localScale, 
+    //         false);
+    //     }
 
-        return default(T);
-    }
+    //     return default(T);
+    // }
 
     protected override List<Vector2> GetTargetPositions()
     {

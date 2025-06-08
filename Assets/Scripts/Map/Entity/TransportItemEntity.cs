@@ -3,6 +3,7 @@ using System.Collections;
 using Mirror;
 using UnityEngine;
 
+[RequireComponent(typeof(EncapsulationField))]
 public class TransportItemEntity : InteractableObject, ITransportItem
 {
     #region Transport Item
@@ -95,7 +96,26 @@ public class TransportItemEntity : InteractableObject, ITransportItem
 
     }
     #endregion
+    #region Encapsulate ITem
+    private EncapsulationField field;
+    private EncapsulationField EncapsulationField
+    {
+        get
+        {
+            field ??= GetComponent<EncapsulationField>();
+            return field;
+        }
+    }
 
+    [ClientRpc]
+    public void Rpc_UnCapsuling()
+    {
+        if (EncapsulationField.isCapsuling)
+            EncapsulationField.UnCapsuling();
+    }
+
+
+    #endregion
     #region ---------------------------------------------Init Sync
     public bool onSync;
 
@@ -114,9 +134,35 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     public void Server_InitSync()
     {
         Rpc_InitSync(BuildObj.ObjectData, transform.position, BuildObj.isTransportItem);
+
+
+        if (EncapsulationField.onEncapsulationItem)
+        {
+            if (!EncapsulationField.isCapsuling)
+            {
+
+                // Rpc_Capsuling(BuildObj.position);
+
+                //TEST
+                StartCoroutine(DelayCapsuling(BuildObj.position));
+                //TEST
+            }
+
+            return;
+        }
+
         Rb.AddForce(Vector2.up, ForceMode2D.Force);
     }
-
+    [ClientRpc]
+    private void Rpc_Capsuling(Vector2 startPot)
+    {
+        StartCoroutine(DelayCapsuling(startPot));
+    }
+    private IEnumerator DelayCapsuling(Vector2 startPot)
+    {
+        yield return new WaitForFixedUpdate();
+        EncapsulationField.Capsuling(startPot);
+    }
     [ClientRpc]
     private void Rpc_InitSync(ObjectData data, Vector2 position, bool isTransportItem)
     {

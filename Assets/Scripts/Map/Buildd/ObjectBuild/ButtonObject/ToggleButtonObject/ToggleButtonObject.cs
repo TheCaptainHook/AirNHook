@@ -66,22 +66,23 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
     }
 
  #region Get,Set
-    public override T GetData<T>()
-    {
-        if (typeof(T) == typeof(ButtonObjectStruct))
-        {
-            return (T)(object)new ButtonObjectStruct(
-                id, 
-            GetTargetPositions(), 
-            GetLightPositions(),
-            transform.position, 
-            transform.rotation,
-            transform.localScale, 
-            chargeRequired);
-        }
+    // public override T GetData<T>()
+    // {
+    //     if (typeof(T) == typeof(ButtonObjectStruct))
+    //     {
+    //         return (T)(object)new ButtonObjectStruct(
+    //             id, 
+    //         GetTargetPositions(), 
+    //         GetLightPositions(),
+    //         GetEncapsulationTiems(),
+    //         transform.position, 
+    //         transform.rotation,
+    //         transform.localScale, 
+    //         chargeRequired);
+    //     }
 
-        return default(T);
-    }
+    //     return default(T);
+    // }
 
     public override void SetData<T>(T data)
     {
@@ -94,6 +95,7 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
                 FindTargetObject();
 
                 if(buttonData.lightPositions.Count >0) FindLightObject();
+                if (buttonData.encapsulationItems.Count > 0) FindEncapsulationItem();
                 
                 //---------------------------------------------------------------------Use ChargeRequired
                 chargeRequired = buttonData.chargeRequired;

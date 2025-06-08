@@ -7105,6 +7105,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -7139,6 +7140,7 @@
             "animationTriggerType": 2,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -7173,6 +7175,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -7207,6 +7210,7 @@
             "animationTriggerType": 1,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -7241,6 +7245,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -7275,6 +7280,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -7309,6 +7315,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -7343,6 +7350,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 1,
             "onEncapsulationItem": true
         },
         {
@@ -7377,6 +7385,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -7411,6 +7420,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -7445,6 +7455,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -7479,6 +7490,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -7513,6 +7525,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -7547,6 +7560,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -7581,6 +7595,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -7615,6 +7630,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -7649,6 +7665,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -7683,6 +7700,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -7717,6 +7735,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -7751,6 +7770,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -7785,6 +7805,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -7819,6 +7840,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 1.0,
             "attackCooldown": 6.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -7853,6 +7875,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 2.0,
             "attackCooldown": 6.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -7887,6 +7910,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 3.0,
             "attackCooldown": 6.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -7921,6 +7945,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 4.0,
             "attackCooldown": 6.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -7955,6 +7980,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 5.0,
             "attackCooldown": 6.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -7989,6 +8015,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 6.0,
             "attackCooldown": 6.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8023,6 +8050,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 5.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8057,6 +8085,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 5.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8091,6 +8120,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 5.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8125,6 +8155,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 5.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8159,6 +8190,7 @@
             "animationTriggerType": 1,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8193,6 +8225,7 @@
             "animationTriggerType": 1,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8227,6 +8260,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8261,6 +8295,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8295,6 +8330,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8329,6 +8365,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8363,6 +8400,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8397,6 +8435,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8431,6 +8470,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8465,6 +8505,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8499,6 +8540,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         }
     ],
@@ -8535,6 +8577,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8569,6 +8612,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8603,6 +8647,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8637,6 +8682,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8671,6 +8717,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8705,6 +8752,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8739,6 +8787,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8773,6 +8822,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8807,6 +8857,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8841,6 +8892,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8875,6 +8927,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8909,6 +8962,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8943,6 +8997,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -8977,6 +9032,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9011,6 +9067,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9045,6 +9102,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9079,6 +9137,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9113,6 +9172,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9147,6 +9207,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9181,6 +9242,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9215,6 +9277,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9249,6 +9312,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9283,6 +9347,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9317,6 +9382,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9351,6 +9417,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9385,6 +9452,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9419,6 +9487,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9453,6 +9522,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9487,6 +9557,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9521,6 +9592,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9555,6 +9627,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9589,6 +9662,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9623,6 +9697,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9657,6 +9732,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9691,6 +9767,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9725,6 +9802,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9759,6 +9837,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9793,6 +9872,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9827,6 +9907,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9861,6 +9942,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9895,6 +9977,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9929,6 +10012,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9963,6 +10047,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -9997,6 +10082,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10031,6 +10117,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10065,6 +10152,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10099,6 +10187,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10133,6 +10222,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10167,6 +10257,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10201,6 +10292,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10235,6 +10327,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10269,6 +10362,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10303,6 +10397,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10337,6 +10432,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10371,6 +10467,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10405,6 +10502,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10439,6 +10537,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10473,6 +10572,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10507,6 +10607,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10541,6 +10642,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10575,6 +10677,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10609,6 +10712,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10643,6 +10747,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10677,6 +10782,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10711,6 +10817,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10745,6 +10852,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         }
     ],
@@ -10781,6 +10889,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10815,6 +10924,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10849,6 +10959,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10883,6 +10994,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10917,6 +11029,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10951,6 +11064,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -10985,6 +11099,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -11019,6 +11134,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -11053,6 +11169,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -11087,6 +11204,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -11121,6 +11239,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -11155,6 +11274,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -11189,6 +11309,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -11223,6 +11344,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -11257,6 +11379,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -11291,6 +11414,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -11325,6 +11449,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -11359,6 +11484,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -11393,6 +11519,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -11427,6 +11554,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -11461,6 +11589,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -11495,6 +11624,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -11529,6 +11659,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -11563,6 +11694,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -11597,6 +11729,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -11631,6 +11764,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -11665,6 +11799,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -11699,6 +11834,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -11733,6 +11869,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -11767,6 +11904,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -11801,6 +11939,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -11835,6 +11974,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         },
         {
@@ -11869,6 +12009,7 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
             "onEncapsulationItem": false
         }
     ],
@@ -12195,6 +12336,7 @@
                 }
             ],
             "lightPositions": [],
+            "encapsulationItems": [],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
@@ -12228,6 +12370,7 @@
                 }
             ],
             "lightPositions": [],
+            "encapsulationItems": [],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
@@ -12261,6 +12404,12 @@
                 }
             ],
             "lightPositions": [],
+            "encapsulationItems": [
+                {
+                    "x": -17.360000610351564,
+                    "y": 21.93000030517578
+                }
+            ],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
@@ -12294,6 +12443,7 @@
                 }
             ],
             "lightPositions": [],
+            "encapsulationItems": [],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
@@ -12327,6 +12477,7 @@
                 }
             ],
             "lightPositions": [],
+            "encapsulationItems": [],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
@@ -12360,6 +12511,7 @@
                 }
             ],
             "lightPositions": [],
+            "encapsulationItems": [],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],

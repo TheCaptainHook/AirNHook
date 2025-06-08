@@ -133,7 +133,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     {
         if(typeof(T)==typeof(ObjectData))
         {
-            return (T)(object)new ObjectData(id, transform.position, transform.rotation, transform.localScale,chargeRequired,false);
+            return (T)(object)new ObjectData(id, transform.position, transform.rotation, transform.localScale,chargeRequired);
         }
 
        return default(T);

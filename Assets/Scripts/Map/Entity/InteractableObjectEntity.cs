@@ -34,9 +34,9 @@ public class InteractableObjectEntity : BuildObj
         if (typeof(T) == typeof(ObjectData))
         {
             if (TryGetComponent(out EncapsulationField field))
-                return (T)(object)new ObjectData(id, transform.position, transform.rotation, transform.localScale, false, field.onEncapsulationItem);
+                return (T)(object)new ObjectData(id, transform.position, transform.rotation, transform.localScale, field.onEncapsulationItem,field.activeRequirAmount);
             else
-                return (T)(object)new ObjectData(id, transform.position, transform.rotation, transform.localScale, false, false);
+                return (T)(object)new ObjectData(id, transform.position, transform.rotation, transform.localScale, false);
         }
 
         return default(T);
@@ -52,23 +52,17 @@ public class InteractableObjectEntity : BuildObj
         {
             TransportItemEntity.onSync = true;
             TransportItemEntity.Server_InitSync();
-                //TEST 0606
-            if (ObjectData.onEncapsulationItem)
-            {
-                StartCoroutine(DelayedCapsuling());
-            }
-            //TEST 0606
         }
        
     }
-    private IEnumerator DelayedCapsuling()
-{
-    yield return new WaitForSeconds(0.1f); // 한 프레임 대기
-    EncapsulationField.Capsuling();
-}
-    public override void SetData(ObjectData data)
+      public override void SetData(ObjectData data)
     {
         base.SetData(data);
-        if (data.onEncapsulationItem) EncapsulationField.onEncapsulationItem = true;
+        if (data.onEncapsulationItem)
+        {
+            EncapsulationField.onEncapsulationItem = true;
+            EncapsulationField.activeRequirAmount = data.activeRequireAmount;
+        }
+            
     }
 }
