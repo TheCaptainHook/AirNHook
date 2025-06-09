@@ -28,7 +28,7 @@ public class ActivatableObjectEntity : BuildObj
     [ReadOnly]
     public int curActiveBtn;
     //----------------------------------------------------------------Refactoring 250124
-    public void ApplyActive(int num)
+    public void ApplyActive(int num) //Maybe only Server
     {
         curActiveBtn += num;
         if(curActiveBtn == activeRequirAmount)
