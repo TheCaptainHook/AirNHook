@@ -34,7 +34,7 @@ public class InteractableObjectEntity : BuildObj
         if (typeof(T) == typeof(ObjectData))
         {
             if (TryGetComponent(out EncapsulationField field))
-                return (T)(object)new ObjectData(id, transform.position, transform.rotation, transform.localScale, field.onEncapsulationItem,field.activeRequirAmount);
+                return (T)(object)new ObjectData(id, transform.position, transform.rotation, transform.localScale, field.onEncapsulationItem, field.activeRequirAmount);
             else
                 return (T)(object)new ObjectData(id, transform.position, transform.rotation, transform.localScale, false);
         }
@@ -43,7 +43,8 @@ public class InteractableObjectEntity : BuildObj
     }
     public override void SetData<T>(T data)
     {
-        if(typeof(T) == typeof(ObjectData)){
+        if (typeof(T) == typeof(ObjectData))
+        {
             ObjectData objData = (ObjectData)(object)data;
             SetData(objData);
         }
@@ -53,9 +54,9 @@ public class InteractableObjectEntity : BuildObj
             TransportItemEntity.onSync = true;
             TransportItemEntity.Server_InitSync();
         }
-       
+
     }
-      public override void SetData(ObjectData data)
+    public override void SetData(ObjectData data)
     {
         base.SetData(data);
         if (data.onEncapsulationItem)
@@ -63,6 +64,10 @@ public class InteractableObjectEntity : BuildObj
             EncapsulationField.onEncapsulationItem = true;
             EncapsulationField.activeRequirAmount = data.activeRequireAmount;
         }
-            
+
     }
+
+
+
+
 }

@@ -309,11 +309,11 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         if (!canRespawn) return;
         if (this == null) return;
 
-        respawnEvent?.Invoke();
+        respawnEvent?.Invoke(); //Only Server
 
-        if (TryGetComponent(out InteractableObject component))
+        if (TryGetComponent(out TransportItemEntity component))
         {
-            component.Cmd_Dissolve();
+            component.Cmd_Dissolve(); //Only Server
         }
 
     }

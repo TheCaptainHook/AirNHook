@@ -98,7 +98,7 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     #endregion
     #region Encapsulate ITem
     private EncapsulationField field;
-    private EncapsulationField EncapsulationField
+    public EncapsulationField EncapsulationField
     {
         get
         {
@@ -108,13 +108,17 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     }
 
     [ClientRpc]
-    public void Rpc_UnCapsuling()
+    public void Rpc_UnCapsuling() // Call only Server
     {
         if (EncapsulationField.isCapsuling)
             EncapsulationField.UnCapsuling();
     }
 
-
+    [ClientRpc]
+    public void Rpc_Capsuling() //only use Reset
+    {
+        EncapsulationField.Capsuling(BuildObj.ObjectData.position);
+    }
     #endregion
     #region ---------------------------------------------Init Sync
     public bool onSync;
@@ -129,29 +133,51 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     {
         BuildObj.canRespawn = !BuildObj.canRespawn;
     }
-
     [Server]
     public void Server_InitSync()
     {
-        Rpc_InitSync(BuildObj.ObjectData, transform.position, BuildObj.isTransportItem);
-
-
-        if (EncapsulationField.onEncapsulationItem)
+        StartCoroutine(AllClientCheckCo(() =>
         {
-            if (!EncapsulationField.isCapsuling)
+            Rpc_InitSync(BuildObj.ObjectData, transform.position, BuildObj.isTransportItem);
+
+            if (EncapsulationField.onEncapsulationItem)
             {
+                if (!EncapsulationField.isCapsuling)
+                {
 
-                // Rpc_Capsuling(BuildObj.position);
+                    Rpc_Capsuling(BuildObj.position);
 
-                //TEST
-                StartCoroutine(DelayCapsuling(BuildObj.position));
-                //TEST
+                    //TEST
+                    // StartCoroutine(DelayCapsuling(BuildObj.position));
+                    //TEST
+                }
+
+                return;
             }
 
-            return;
+            Rb.AddForce(Vector2.up, ForceMode2D.Force);
+        }));
+
+    }
+
+    private IEnumerator AllClientCheckCo(Action action)
+    {
+        int connectClients = NetworkServer.connections.Count;
+        bool onReady = false;
+        while (!onReady)
+        {
+            int num = 0;
+            foreach (var conn in NetworkServer.connections.Values)
+            {
+                if (conn.isReady) num++;
+            }
+
+            if (connectClients == num) onReady = true;
+            yield return null;
         }
 
-        Rb.AddForce(Vector2.up, ForceMode2D.Force);
+        action?.Invoke();
+
     }
     [ClientRpc]
     private void Rpc_Capsuling(Vector2 startPot)
@@ -193,4 +219,13 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     }
     #endregion
 
+
+
+
+
+
+
+    #region  Interactable Object Component
+    
+    #endregion
 }

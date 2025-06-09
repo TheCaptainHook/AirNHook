@@ -62,12 +62,7 @@ public class EncapsulationField : MonoBehaviour
     Bounds mainColliderBounds;
     public void Capsuling(Vector2 startPot) //Rpc
     {
-        //Require Amount Check
-        // 1. 오브젝트가 파괴되었을때,
-        // 2. 리셋 했을때(호스트가)
-        //Require Amount Check
-
-
+        Main.canRespawn = false;
         isCapsuling = true;
 
         //Main Object Setting
@@ -94,7 +89,7 @@ public class EncapsulationField : MonoBehaviour
         // Capsule Object Setting
         if (capsuleObject == null)
         {
-            capsuleObject = Instantiate(Resources.Load<GameObject>(GlobalText.CAPSULE_OBJECT)); //default : false
+            capsuleObject = Instantiate(Resources.Load<GameObject>(GlobalText.CAPSULE_OBJECT)); //default : false, Polling
         }
 
         capsuleObject.transform.position = transform.position;
@@ -107,10 +102,13 @@ public class EncapsulationField : MonoBehaviour
 
 
         //capsuleObject Appearance Animation 
+            // Size Change Effect
+            // Size Change Effect
         //TEST
         if (!capsuleObject.activeSelf) //Animation
             capsuleObject.SetActive(true);
         //TEST
+        //capsuleObject Appearance Animation 
     }
 
     private IEnumerator MoveCapsuleCo(float moveValue)
@@ -134,7 +132,7 @@ public class EncapsulationField : MonoBehaviour
     #endregion
 
 
-    public void UnCapsuling()
+    public void UnCapsuling() //Call Only Server
     {
         //capsuleObject Disappearance Animation 
 
@@ -154,20 +152,30 @@ public class EncapsulationField : MonoBehaviour
         mainRb.simulated = true;
 
         isCapsuling = false;
+        Main.canRespawn = true;
     }
 
 
     #region Requir 
     public void ApplyActive(int amount) //only Server
     {
-        if (!isCapsuling) return;
-
         curActiveRequirAmount += amount;
         if (curActiveRequirAmount == activeRequirAmount)
         {
             // UnCapsuling();
+            if (!isCapsuling) return;
             Net.Rpc_UnCapsuling();
         }
+
+    }
+
+
+    public void CapsulReset() //only server
+    {
+        if (!onEncapsulationItem) return;
+        if (curActiveRequirAmount == activeRequirAmount) return;
+
+        Net.Rpc_Capsuling();
 
     }
 

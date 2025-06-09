@@ -124,7 +124,7 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
         //set { net.Cmd_SetHasPower(value); }
         set { net.Server_SetHasPower(value); }
     }
-    public void PowerOn()
+    public void PowerOn() //only server
     {
         if(NetworkServer.active)
             hasPower = true;

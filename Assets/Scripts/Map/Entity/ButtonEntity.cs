@@ -69,10 +69,7 @@ public class ButtonEntity : BuildObj
         }
         foreach (EncapsulationField field in interactableObjects)
         {
-            if (field.isCapsuling)
-            {
-                field.ApplyActive(onActivate ? 1 : -1);
-            }
+          field.ApplyActive(onActivate ? 1 : -1);
         }
 
 

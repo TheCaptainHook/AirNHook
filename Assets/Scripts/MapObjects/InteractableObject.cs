@@ -423,13 +423,14 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     private static readonly int DissolveAmount = Shader.PropertyToID("_DissolveAmount");
     float dissolveRate = 0.015f;
     [Command(requiresAuthority = false)]
-    public void Cmd_Dissolve()
+    public void Cmd_Dissolve() //Only Server
     {
         if (isServer)
         {
             CmdChnageDestroyState(true);
             Managers.Command.AuthorityToServer(netId);
             CmdRemovePermissionPlayer();
+
             Rpc_Dissolve();
         }
     }
@@ -478,9 +479,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
                 }
                    
             }
-            //0603 EnCapsulate
-            //else if(buildObj.onEnCapsulateItem) Capsuling()
-            //0603 EnCapsulate
             else
             {
                 _rigidbody.position = pot;
@@ -501,7 +499,19 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             _rigidbody.gravityScale = _gravityScale;  
         }
 
-        if(NetworkServer.active) GetComponent<InteractableObject>().Respawned();
+        if (NetworkServer.active)
+        {
+            if (buildObj.ObjectData.onEncapsulationItem)
+            {
+                if (TryGetComponent(out EncapsulationField field))
+                {
+                    field.CapsulReset();
+                }
+            }else Respawned();
+        }
+
+
+        if (NetworkServer.active) 
         buildObj.canRespawn = true;
         CmdChnageDestroyState(false);
     }
