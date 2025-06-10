@@ -41,21 +41,6 @@ public class EncapsulationField : MonoBehaviour
         obstacleLayerMask = 1 << 6;
     }
 
-    //TEST
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P) && onEncapsulationItem)
-        {
-            UnCapsuling();
-        }
-        if (Input.GetKeyDown(KeyCode.O) && onEncapsulationItem)
-        {
-            Capsuling(Main.position);
-        }
-    }
-    //TEST
-
-
 
     #region  Capsuling
     private Transform orgParent;
@@ -103,6 +88,7 @@ public class EncapsulationField : MonoBehaviour
 
         //capsuleObject Appearance Animation 
             // Size Change Effect
+                
             // Size Change Effect
         //TEST
         if (!capsuleObject.activeSelf) //Animation
