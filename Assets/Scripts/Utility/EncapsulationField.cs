@@ -59,6 +59,14 @@ public class EncapsulationField : MonoBehaviour
 
         //Main Object Setting
         transform.position = startPot;
+        transform.rotation = Quaternion.identity;
+
+        StartCoroutine(CapsullingCoroutine(startPot));
+    }
+    private IEnumerator CapsullingCoroutine(Vector2 startPot)
+    {
+        yield return new WaitForFixedUpdate();
+
         mainColliderBounds = mainCol.bounds;
         var distance = CheckUPAndDownDistance();
 
@@ -68,7 +76,7 @@ public class EncapsulationField : MonoBehaviour
 
         if (distance > 0)
         {
-            StartCoroutine(MoveCapsuleCo(distance));
+           yield return StartCoroutine(MoveCapsuleCo(distance));
         }
         else
         {
@@ -88,23 +96,26 @@ public class EncapsulationField : MonoBehaviour
         // Capsule Object Setting
         orgParent = parent; //---Main cashing org parent
 
+
+        //capsuleObject Appearance Animation 
+        //TEST
+        if (!capsuleObject.activeSelf) //Animation
+            capsuleObject.SetActive(true);
+
         TransformParentNull();
         capsuleObject.transform.SetParent(orgParent);
         Main.transform.SetParent(capsuleObject.transform);
 
+        // Size Change Effect(Coroutine)
+        Vector2 d = new Vector2(transform.position.x, transform.position.y - mainCol.offset.y);
+        transform.position = d;
+        // Size Change Effect
 
-        //capsuleObject Appearance Animation 
-            // Size Change Effect
-                
-            // Size Change Effect
-        //TEST
-        if (!capsuleObject.activeSelf) //Animation
-            capsuleObject.SetActive(true);
         //TEST
         //capsuleObject Appearance Animation 
     }
 
-  
+
     private IEnumerator MoveCapsuleCo(float moveValue)
     {
         var start = transform.position;
@@ -126,10 +137,11 @@ public class EncapsulationField : MonoBehaviour
     #endregion
 
 
-    public void UnCapsuling() //Call Only Server
+    public void UnCapsuling() //Call Only Server,RPC
     {
         //capsuleObject Disappearance Animation 
-
+        //Return Size
+        //Return Size
         //capsuleObject Disappearance Animation 
 
         //Return parent

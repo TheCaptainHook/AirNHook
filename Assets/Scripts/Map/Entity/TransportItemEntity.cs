@@ -117,6 +117,7 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     [ClientRpc]
     public void Rpc_Capsuling() //only use Reset
     {
+        _isDestroyed = true;
         EncapsulationField.Capsuling(BuildObj.ObjectData.position);
     }
     #endregion
@@ -195,6 +196,7 @@ public class TransportItemEntity : InteractableObject, ITransportItem
         BuildObj.ObjectData = data;
         transform.position = position;
         transform.rotation = data.quaternion;
+
         if (isTransportItem)
         {
             defaultGravity = Rb.gravityScale;
@@ -205,7 +207,9 @@ public class TransportItemEntity : InteractableObject, ITransportItem
         {
             if(!EncapsulationField.isCapsuling)
             {
-                StartCoroutine(DelayCapsuling(data.position));
+                _isDestroyed = true;
+                //StartCoroutine(DelayCapsuling(data.position));
+                EncapsulationField.Capsuling(data.position);
             }
         }
         //0603 EnCapsulationField
@@ -225,11 +229,6 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     #endregion
 
 
-
-
-
-
-
     #region  RESET
     public void Reset_Interacable()
     {
@@ -238,6 +237,10 @@ public class TransportItemEntity : InteractableObject, ITransportItem
 
         BuildObj.canRespawn = true;
         if (NetworkServer.active) ;
+        CmdChnageDestroyState(false);
+    }
+    public void CmdChangeDestroyState_False()
+    {
         CmdChnageDestroyState(false);
     }
     #endregion
