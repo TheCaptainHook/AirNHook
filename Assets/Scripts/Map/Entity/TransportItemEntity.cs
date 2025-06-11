@@ -138,8 +138,6 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     {
         StartCoroutine(AllClientCheckCo(() =>
         {
-            Rpc_InitSync(BuildObj.ObjectData, transform.position, BuildObj.isTransportItem);
-
             if (EncapsulationField.onEncapsulationItem)
             {
                 if (!EncapsulationField.isCapsuling)
@@ -154,6 +152,8 @@ public class TransportItemEntity : InteractableObject, ITransportItem
 
                 return;
             }
+            else Rpc_InitSync(BuildObj.ObjectData, transform.position, BuildObj.isTransportItem);
+
 
             Rb.AddForce(Vector2.up, ForceMode2D.Force);
         }));
