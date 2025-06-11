@@ -142,14 +142,14 @@ public class TransportItemEntity : InteractableObject, ITransportItem
 
             if (EncapsulationField.onEncapsulationItem)
             {
-                if (!EncapsulationField.isCapsuling)
-                {
-                    Rpc_Capsuling(BuildObj.position);
+                //if (!EncapsulationField.isCapsuling)
+                //{
+                //    Rpc_Capsuling(BuildObj.position);
 
-                    //TEST
-                    // StartCoroutine(DelayCapsuling(BuildObj.position));
-                    //TEST
-                }
+                //    //TEST
+                //    // StartCoroutine(DelayCapsuling(BuildObj.position));
+                //    //TEST
+                //}
 
                 return;
             }
@@ -201,7 +201,13 @@ public class TransportItemEntity : InteractableObject, ITransportItem
             Col.enabled = false;
         }
         //0603 EnCapsulationField
-
+        if(data.onEncapsulationItem)
+        {
+            if(!EncapsulationField.isCapsuling)
+            {
+                EncapsulationField.Capsuling(data.position);
+            }
+        }
         //0603 EnCapsulationField
         onSync = true;
     }

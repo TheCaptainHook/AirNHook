@@ -51,7 +51,7 @@ public class InteractableObjectEntity : BuildObj
 
         if (Application.isPlaying)
         {
-            TransportItemEntity.onSync = true;
+            //TransportItemEntity.onSync = true;
             TransportItemEntity.Server_InitSync();
         }
 
