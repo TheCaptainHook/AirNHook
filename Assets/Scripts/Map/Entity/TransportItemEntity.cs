@@ -205,7 +205,7 @@ public class TransportItemEntity : InteractableObject, ITransportItem
         {
             if(!EncapsulationField.isCapsuling)
             {
-                EncapsulationField.Capsuling(data.position);
+                StartCoroutine(DelayCapsuling(data.position));
             }
         }
         //0603 EnCapsulationField
