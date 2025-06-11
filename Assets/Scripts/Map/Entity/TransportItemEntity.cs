@@ -225,7 +225,15 @@ public class TransportItemEntity : InteractableObject, ITransportItem
 
 
 
-    #region  Interactable Object Component
-    
+    #region  RESET
+    public void Reset_Interacable()
+    {
+        Col.enabled = true;
+        Rb.gravityScale = _gravityScale;
+
+        BuildObj.canRespawn = true;
+        if (NetworkServer.active) ;
+        CmdChnageDestroyState(false);
+    }
     #endregion
 }

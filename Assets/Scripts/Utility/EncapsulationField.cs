@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class EncapsulationField : MonoBehaviour
 {
@@ -17,6 +18,12 @@ public class EncapsulationField : MonoBehaviour
             entity ??= GetComponent<TransportItemEntity>();
             return entity;
         }
+    }
+
+    private ParentConstraint pc;
+    private ParentConstraint ParentConstraint
+    {
+        get { pc ??= GetComponent<ParentConstraint>(); return pc; }
     }
 
     #region  Main
@@ -97,6 +104,7 @@ public class EncapsulationField : MonoBehaviour
         //capsuleObject Appearance Animation 
     }
 
+  
     private IEnumerator MoveCapsuleCo(float moveValue)
     {
         var start = transform.position;
@@ -137,10 +145,11 @@ public class EncapsulationField : MonoBehaviour
         mainCol.enabled = true;
         mainRb.simulated = true;
 
+        Net.Reset_Interacable();
+
         isCapsuling = false;
         Main.canRespawn = true;
     }
-
 
     #region Requir 
     public void ApplyActive(int amount) //only Server
@@ -158,8 +167,11 @@ public class EncapsulationField : MonoBehaviour
 
     public void CapsulReset() //only server
     {
-        if (!onEncapsulationItem) return;
-        if (curActiveRequirAmount == activeRequirAmount) return;
+        if (curActiveRequirAmount == activeRequirAmount)
+        {
+            Net.Reset_Interacable();
+            return;
+        }
 
         Net.Rpc_Capsuling();
 

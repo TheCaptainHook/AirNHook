@@ -386,7 +386,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     }
 
     [Command(requiresAuthority = false)]
-    private void CmdChnageDestroyState(bool value)
+    protected void CmdChnageDestroyState(bool value)
     {
         _isDestroyed = value;
     }
@@ -493,11 +493,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             yield return null;
         }
 
-        if (!buildObj.isTransportItem)
-        {
-            _collider.enabled = true;
-            _rigidbody.gravityScale = _gravityScale;  
-        }
 
         if (NetworkServer.active)
         {
@@ -506,14 +501,24 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
                 if (TryGetComponent(out EncapsulationField field))
                 {
                     field.CapsulReset();
+                    yield break;
                 }
             }else Respawned();
         }
 
+        if (!buildObj.isTransportItem)
+        {
+            _collider.enabled = true;
+            _rigidbody.gravityScale = _gravityScale;
+        }
 
-        if (NetworkServer.active) 
-        buildObj.canRespawn = true;
-        CmdChnageDestroyState(false);
+
+        if (NetworkServer.active)
+        {
+            buildObj.canRespawn = true;
+            CmdChnageDestroyState(false);
+        }
+       
     }
     #endregion
 
