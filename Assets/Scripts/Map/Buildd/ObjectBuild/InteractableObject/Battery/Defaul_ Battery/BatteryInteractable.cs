@@ -214,6 +214,7 @@ public class BatteryInteractable : TransportItemEntity
         {
             powerSupply = null;
         }
+
         _rigidbody.gravityScale = _gravityScale;
         RemoveEffect();
 

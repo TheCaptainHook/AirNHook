@@ -110,7 +110,6 @@ public class PowerSupply_Net : NetworkBehaviour
     [Server]    // insert battery and Use.
     public void Server_SetBatter(GameObject battery)
     {
-        Debug.Log("555555555");
         if (this.battery !=null && !Compare(this.battery,battery))
         {
             //Deactivated,
@@ -163,7 +162,7 @@ public class PowerSupply_Net : NetworkBehaviour
 
 
 
-    private void Supply()
+    private void Supply()//only server
     {
         Rpc_OnSupplyEffect(true);
         PowerSupply.Net_Activation();
@@ -176,7 +175,7 @@ public class PowerSupply_Net : NetworkBehaviour
         PowerSupply.LineOn(onOff);
     }
 
-    IEnumerator SupplyCo()
+    IEnumerator SupplyCo() //only server
     {
         BatteryInteractable battery = this.battery.GetComponent<BatteryInteractable>();
 
