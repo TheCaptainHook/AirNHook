@@ -23,7 +23,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     [SerializeField][SyncVar] protected bool _canInteract = true;
     [SerializeField][SyncVar] protected bool _canGrab = true;
     [SerializeField][SyncVar] protected bool _isDestroyed;
-    protected bool _isGrab;
+    //protected bool _isGrab;
+    public bool _isGrab; //0612 test
     protected float _stoppedTime;
 
     // e button ui

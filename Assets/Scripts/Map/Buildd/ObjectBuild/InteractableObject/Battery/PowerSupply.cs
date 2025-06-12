@@ -255,55 +255,61 @@ public class PowerSupply : ButtonEntity,IInteractable
 
             });
     }
-  
+
 
 
     #endregion
 
-
+    private Battery innerBattery;
  #region  Main
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.TryGetComponent(out HookSM component))
+        if (collision.TryGetComponent(out HookSM hook))
         {
-            Transform grabItem = component.GetGrabbedItem();
-            if (grabItem != null)
+            Transform grabItem = hook.GetGrabbedItem();
+            if (grabItem == null)
             {
-                if (grabItem.TryGetComponent(out Battery battery))
-                {
-                    // ShowEButton(); 
-                    P_Net.Cmd_ShowE(component.gameObject,true);
-
-                    if(NetworkServer.active)
-                    battery.Net_SetPowerSupply(gameObject);
-                }
+                if (P_Net.battery) P_Net.Cmd_ShowE(collision.gameObject, true);
             }
-            else
+    
+        }
+        
+
+        if (collision.TryGetComponent(out Battery battery))
+        {
+            var interactable = battery.TryGetComponent(out InteractableObject component) ? component : null;
+            if(interactable != null && interactable._isGrab)
             {
-                if (P_Net.battery) P_Net.Cmd_ShowE(component.gameObject, true);
+                P_Net.Cmd_ShowE(collision.gameObject, true);
+                battery.Net_SetPowerSupply(gameObject);
+                innerBattery = battery;
             }
-
         }
     }
 
     private void OnTriggerExit2D(Collider2D collider)
     {
-        if (collider.TryGetComponent(out HookSM component))
+        //if (collider.TryGetComponent(out HookSM component))
+        //{
+
+        //    Transform grabItem = component.GetGrabbedItem();
+        //    if (grabItem != null)
+        //    {
+        //        if (grabItem.TryGetComponent(out Battery battery))
+        //        {
+        //            P_Net.Cmd_ShowE(component.gameObject,false);
+
+        //            // P_Net.Cmd_SetBattery(null);
+        //            if (NetworkServer.active)
+        //                battery.Net_SetPowerSupply(null);
+        //        }
+
+        //    }
+        //}
+        if(collider.TryGetComponent(out Battery battery))
         {
-
-            Transform grabItem = component.GetGrabbedItem();
-            if (grabItem != null)
-            {
-                if (grabItem.TryGetComponent(out Battery battery))
-                {
-                    P_Net.Cmd_ShowE(component.gameObject,false);
-
-                    // P_Net.Cmd_SetBattery(null);
-                    if (NetworkServer.active)
-                        battery.Net_SetPowerSupply(null);
-                }
-
-            }
+                P_Net.Cmd_ShowE(collider.gameObject, false);
+                battery.Net_SetPowerSupply(null);
         }
     }
     
@@ -320,7 +326,8 @@ public class PowerSupply : ButtonEntity,IInteractable
 #region  Network
     public void SetBattery(GameObject battery)
     {
-        P_Net.Cmd_SetBattery(battery);
+        //P_Net.Cmd_SetBattery(battery);
+        P_Net.Server_SetBatter(battery);
     }
 #endregion
 
@@ -362,8 +369,10 @@ public class PowerSupply : ButtonEntity,IInteractable
     }
     public void HideE()
     {
+        if(_E_Btn != null) Managers.UI.HideUI<UI_ShowEButton>();
+
         _E_Btn = null;
-        Managers.UI.HideUI<UI_ShowEButton>();
+        
     }
     
     

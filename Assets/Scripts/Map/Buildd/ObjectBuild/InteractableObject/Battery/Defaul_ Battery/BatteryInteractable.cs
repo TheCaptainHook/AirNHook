@@ -77,24 +77,25 @@ public class BatteryInteractable : TransportItemEntity
     }
     #endregion
     #region ---------------------------------------------------------------------Power Supply
-    [Server] //  Set PowerSupply
-    private void Server_SetPowerSupply(uint id)
-    {
-        Rpc_SetPowerSupply(id);
-    }
+    //[Server] //  Set PowerSupply
+    //private void Server_SetPowerSupply(uint id)
+    //{
+    //    if(NetworkServer.active)
+    //    Rpc_SetPowerSupply(id);
+    //}
 
-    [Command(requiresAuthority = false)]
-    public void Cmd_SetPowerSupply(uint netId)
-    {
-        Server_SetPowerSupply(netId);
-    }
-    [ClientRpc]
-    private void Rpc_SetPowerSupply(uint id)
-    {
-        if(id == 9999) this.powerSupply = null;
-        else
-            this.powerSupply = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity identity) ? identity.gameObject : null;
-    }
+    //[Command(requiresAuthority = false)]
+    //public void Cmd_SetPowerSupply(uint netId)
+    //{
+    //    Server_SetPowerSupply(netId);
+    //}
+    //[ClientRpc]
+    //private void Rpc_SetPowerSupply(uint id)
+    //{
+    //    if(id == 9999) this.powerSupply = null;
+    //    else
+    //        this.powerSupply = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity identity) ? identity.gameObject : null;
+    //}
     #endregion
 
     #endregion
@@ -113,18 +114,16 @@ public class BatteryInteractable : TransportItemEntity
     {
         if (batteryCharger != null)
         {
-            //BatteryRelease();
-            Cmd_Release(batteryCharger.transform.position,false);
 
-            //battery.InsertChargerSocket();
+            Cmd_Release(batteryCharger.transform.position,false);
+            //StartCoroutine(DelayInsert_BateryCharger());
             Cmd_InsertChargerSocket(gameObject);
         }
         else if (powerSupply != null)
         {
-        //    BatteryRelease(battery.powerSupply.GetSocketPosition());
-            Cmd_Release(powerSupply.transform.position,true);
 
-            // battery.InsertPowerSocket();
+            Cmd_Release(powerSupply.transform.position,true);
+            //StartCoroutine(DelayInsert_PowerSupply());
             Cmd_InsertPowerSupplySocket(gameObject);
         }
         else
@@ -133,8 +132,9 @@ public class BatteryInteractable : TransportItemEntity
             Cmd_Reset();
         }
     }
+  
 
-    [Command(requiresAuthority = false)]
+[Command(requiresAuthority = false)]
     private void Cmd_Reset()
     {
         Rpc_Reset();
@@ -163,8 +163,11 @@ public class BatteryInteractable : TransportItemEntity
     [Command(requiresAuthority = false)]
     private void Cmd_Release(Vector3 releasePosition,bool isShowE)
     {
-        // Rb.position = releasePosition;
-        //Server_Release(releasePosition);
+        _isFixed = false;
+        _isGrab = false;
+        _canInteract = true;
+        _canGrab = true;
+
         Rpc_Release(releasePosition,isShowE);
     }
 
@@ -173,16 +176,7 @@ public class BatteryInteractable : TransportItemEntity
     {
         //--------------base Release(remove ShowEButton)
         _stoppedTime = 0f;
-        _isFixed = false;
-        _isGrab = false;
-        _canInteract = true;
-        _canGrab = true;
-        CmdChangeFixedState(false);
-        CmdChangeInteractState(true);
-        CmdChangeGrabState(true);
-        // if(isShowE) ShowEButton();
-        
-        
+
         _rigidbody.bodyType = _originType;
 
         _rigidbody.gravityScale = 0;
@@ -191,9 +185,6 @@ public class BatteryInteractable : TransportItemEntity
 
         _rigidbody.constraints = _originRot;
         _sortingGroup.sortingLayerID = _originSortingLayerID;
-        CmdChangeSortingLayer(false);
-        CmdRemovePermissionPlayer();
-        //--------------base Release(remove ShowEButton)
 
         transform.position = releasePosition;
 
@@ -206,7 +197,6 @@ public class BatteryInteractable : TransportItemEntity
     [Command(requiresAuthority = false)]
     public void Cmd_Recover()
     {
-
         Rpc_Recover();
         
 
@@ -239,9 +229,7 @@ public class BatteryInteractable : TransportItemEntity
     [Command(requiresAuthority = false)]
     public void Cmd_InsertChargerSocket(GameObject battery)
     {
-
         Rpc_InsertChargerSocket();
-
     }
 
     [ClientRpc]
@@ -267,26 +255,27 @@ public class BatteryInteractable : TransportItemEntity
     [Command(requiresAuthority = false)]
     public void Cmd_InsertPowerSupplySocket(GameObject battery)
     {
+        if (powerSupply)
+        {
+            Rpc_InsertPowerSupplySocket();
 
-        Rpc_InsertPowerSupplySocket();
+            if (powerSupply.TryGetComponent(out PowerSupply component))
+            {
+                component.SetBattery(gameObject); //Server
+            }   
+        }
+
+     
 
     }
 
     [ClientRpc]
     private void Rpc_InsertPowerSupplySocket()
     {
-        if (powerSupply)
-        {
-            if (powerSupply.TryGetComponent(out PowerSupply component))
-            {
-                component.SetBattery(gameObject);
-                BuildObj.canRespawn = false;
-                Col.enabled = false;
-            }
+    
+        BuildObj.canRespawn = false;
+        Col.enabled = false;
 
-           
-
-        }
     }
     //-----------------------------------------------------------------------Insert PowerSupply Socket
 
