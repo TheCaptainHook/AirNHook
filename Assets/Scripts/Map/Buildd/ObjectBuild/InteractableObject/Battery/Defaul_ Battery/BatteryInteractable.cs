@@ -120,10 +120,11 @@ public class BatteryInteractable : TransportItemEntity
         }
         else if (powerSupply != null)
         {
+            var powerSupplyNetId = powerSupply.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 9999;
 
             Cmd_Release(powerSupply.transform.position,true);
             //StartCoroutine(DelayInsert_PowerSupply());
-            Cmd_InsertPowerSupplySocket();
+            Cmd_InsertPowerSupplySocket(powerSupplyNetId);
         }
         else
         {
@@ -252,32 +253,19 @@ public class BatteryInteractable : TransportItemEntity
   
 
     [Command(requiresAuthority = false)]
-    public void Cmd_InsertPowerSupplySocket()
+    public void Cmd_InsertPowerSupplySocket(uint netId)
     {
-        Debug.Log("11111111111111");
-        if (powerSupply)
+        Debug.Log("2222222222222");
+        var powerSupply = NetworkClient.spawned.TryGetValue(netId,out NetworkIdentity identity) ? identity.gameObject : null;
+        
+        if (powerSupply != null && powerSupply.TryGetComponent(out PowerSupply component))
         {
-            Rpc_InsertPowerSupplySocket();
-            Debug.Log("2222222222222");
-            if (powerSupply.TryGetComponent(out PowerSupply component))
-            {
-                Debug.Log("333333333333");
-                component.SetBattery(gameObject); //Server
-            }   
+            Debug.Log("333333333333");
+            component.SetBattery(gameObject); //Server
         }
 
-     
-
     }
 
-    [ClientRpc]
-    private void Rpc_InsertPowerSupplySocket()
-    {
-    
-        BuildObj.canRespawn = false;
-        Col.enabled = false;
-
-    }
     //-----------------------------------------------------------------------Insert PowerSupply Socket
 
     private float horizontalVariation = 1f;
