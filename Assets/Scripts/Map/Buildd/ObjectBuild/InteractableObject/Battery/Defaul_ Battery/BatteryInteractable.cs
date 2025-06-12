@@ -182,10 +182,9 @@ public class BatteryInteractable : TransportItemEntity
         _rigidbody.gravityScale = 0;
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.angularVelocity = 0;
+        transform.rotation = Quaternion.identity;
 
-        _rigidbody.constraints = _originRot;
         _sortingGroup.sortingLayerID = _originSortingLayerID;
-
         transform.position = releasePosition;
 
         Col.enabled = false;
@@ -197,6 +196,7 @@ public class BatteryInteractable : TransportItemEntity
     [Command(requiresAuthority = false)]
     public void Cmd_Recover()
     {
+        CmdRemovePermissionPlayer();
         Rpc_Recover();
         
 
@@ -212,13 +212,17 @@ public class BatteryInteractable : TransportItemEntity
         {
             powerSupply = null;
         }
+        _rigidbody.gravityScale = _gravityScale;
         RemoveEffect();
 
+        _stoppedTime = 0f;
+        _isFixed = false;
+        _isGrab = false;
+        _canInteract = true;
+        _canGrab = true;
+        
         Col.enabled = true;
-        _rigidbody.gravityScale = _gravityScale;
         BuildObj.canRespawn = true;
-
-
     }
 
     //-----------------------------------------------------------------------Interact
@@ -255,12 +259,10 @@ public class BatteryInteractable : TransportItemEntity
     [Command(requiresAuthority = false)]
     public void Cmd_InsertPowerSupplySocket(uint netId)
     {
-        Debug.Log("2222222222222");
         var powerSupply = NetworkClient.spawned.TryGetValue(netId,out NetworkIdentity identity) ? identity.gameObject : null;
         
         if (powerSupply != null && powerSupply.TryGetComponent(out PowerSupply component))
         {
-            Debug.Log("333333333333");
             component.SetBattery(gameObject); //Server
         }
 
