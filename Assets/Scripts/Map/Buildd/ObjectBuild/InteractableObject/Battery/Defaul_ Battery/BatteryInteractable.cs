@@ -255,12 +255,14 @@ public class BatteryInteractable : TransportItemEntity
     [Command(requiresAuthority = false)]
     public void Cmd_InsertPowerSupplySocket(GameObject battery)
     {
+        Debug.Log("11111111111111");
         if (powerSupply)
         {
             Rpc_InsertPowerSupplySocket();
-
+            Debug.Log("2222222222222");
             if (powerSupply.TryGetComponent(out PowerSupply component))
             {
+                Debug.Log("333333333333");
                 component.SetBattery(gameObject); //Server
             }   
         }

@@ -110,7 +110,8 @@ public class PowerSupply_Net : NetworkBehaviour
     [Server]    // insert battery and Use.
     public void Server_SetBatter(GameObject battery)
     {
-        if(this.battery !=null && !Compare(this.battery,battery))
+        Debug.Log("555555555");
+        if (this.battery !=null && !Compare(this.battery,battery))
         {
             //Deactivated,
             if(supplyCoroutine != null)

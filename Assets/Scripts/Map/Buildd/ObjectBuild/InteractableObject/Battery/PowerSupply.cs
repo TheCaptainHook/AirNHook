@@ -327,6 +327,7 @@ public class PowerSupply : ButtonEntity,IInteractable
     public void SetBattery(GameObject battery)
     {
         //P_Net.Cmd_SetBattery(battery);
+        Debug.Log("4444444444444");
         P_Net.Server_SetBatter(battery);
     }
 #endregion
