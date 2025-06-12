@@ -114,7 +114,6 @@ public class BatteryInteractable : TransportItemEntity
     {
         if (batteryCharger != null)
         {
-
             Cmd_Release(batteryCharger.transform.position,false);
             //StartCoroutine(DelayInsert_BateryCharger());
             Cmd_InsertChargerSocket(gameObject);
@@ -124,7 +123,7 @@ public class BatteryInteractable : TransportItemEntity
 
             Cmd_Release(powerSupply.transform.position,true);
             //StartCoroutine(DelayInsert_PowerSupply());
-            Cmd_InsertPowerSupplySocket(gameObject);
+            Cmd_InsertPowerSupplySocket();
         }
         else
         {
@@ -253,7 +252,7 @@ public class BatteryInteractable : TransportItemEntity
   
 
     [Command(requiresAuthority = false)]
-    public void Cmd_InsertPowerSupplySocket(GameObject battery)
+    public void Cmd_InsertPowerSupplySocket()
     {
         Debug.Log("11111111111111");
         if (powerSupply)
