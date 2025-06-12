@@ -40,7 +40,30 @@ public class PowerSupply_Net : NetworkBehaviour
     [Server]
     public void Server_SetInit()
     {
-        Rpc_SetInit(PowerSupply.ButtonObjectData,targets);
+        StartCoroutine(AllClientCheckCo(() =>
+        {
+            Rpc_SetInit(PowerSupply.ButtonObjectData, targets);
+        }));
+        
+    }
+    private IEnumerator AllClientCheckCo(Action action)
+    {
+        int connectClients = NetworkServer.connections.Count;
+        bool onReady = false;
+        while (!onReady)
+        {
+            int num = 0;
+            foreach (var conn in NetworkServer.connections.Values)
+            {
+                if (conn.isReady) num++;
+            }
+
+            if (connectClients == num) onReady = true;
+            yield return null;
+        }
+
+        action?.Invoke();
+
     }
     [ClientRpc]
     private void Rpc_SetInit(ButtonObjectStruct data, SupplyTargetStruct targets)

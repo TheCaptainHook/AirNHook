@@ -86,8 +86,9 @@ public class PowerSupply : ButtonEntity,IInteractable
                 {
                     FindTargetObject();
                     if(buttonData.lightPositions.Count > 0) FindLightObject();
-                    CreateLine(P_Net.targets.targetPositions);
-                    P_Net.onSync = true;
+
+                    //CreateLine(P_Net.targets.targetPositions);
+                    //P_Net.onSync = true;
 
                     P_Net.Server_SetInit();
 
