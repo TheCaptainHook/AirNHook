@@ -260,7 +260,6 @@ public class PowerSupply : ButtonEntity,IInteractable
 
     #endregion
 
-    private Battery innerBattery;
  #region  Main
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -282,7 +281,6 @@ public class PowerSupply : ButtonEntity,IInteractable
             {
                 P_Net.Cmd_ShowE(collision.gameObject, true);
                 battery.Net_SetPowerSupply(gameObject);
-                innerBattery = battery;
             }
         }
     }

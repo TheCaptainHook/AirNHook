@@ -8612,6 +8612,111 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false
+        },
+        {
+            "id": 344,
+            "dialogueId": 0,
+            "position": {
+                "x": -20.959999084472658,
+                "y": 21.969999313354493
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 0.699999988079071,
+                "y": 0.699999988079071,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false
+        },
+        {
+            "id": 343,
+            "dialogueId": 0,
+            "position": {
+                "x": -18.40999984741211,
+                "y": 24.200000762939454
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false
+        },
+        {
+            "id": 343,
+            "dialogueId": 0,
+            "position": {
+                "x": -22.600000381469728,
+                "y": 24.56999969482422
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false
         }
     ],
     "mapBackgroundObjectList": [

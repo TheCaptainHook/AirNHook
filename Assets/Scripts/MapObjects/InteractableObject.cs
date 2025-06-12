@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using Mirror;
 using UnityEngine;
-using UnityEngine.Animations;
 using UnityEngine.Rendering;
 
 public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable

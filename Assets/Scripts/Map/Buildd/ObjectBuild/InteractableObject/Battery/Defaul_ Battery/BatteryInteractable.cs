@@ -114,9 +114,11 @@ public class BatteryInteractable : TransportItemEntity
     {
         if (batteryCharger != null)
         {
+            var batteryChargerNetId = batteryCharger.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 9999;
+
             Cmd_Release(batteryCharger.transform.position,false);
             //StartCoroutine(DelayInsert_BateryCharger());
-            Cmd_InsertChargerSocket(gameObject);
+            Cmd_InsertChargerSocket(batteryChargerNetId);
         }
         else if (powerSupply != null)
         {
@@ -231,25 +233,28 @@ public class BatteryInteractable : TransportItemEntity
 
  
     [Command(requiresAuthority = false)]
-    public void Cmd_InsertChargerSocket(GameObject battery)
+    public void Cmd_InsertChargerSocket(uint netId)
     {
-        Rpc_InsertChargerSocket();
-    }
+        var batteryCharger = NetworkClient.spawned.TryGetValue(netId, out NetworkIdentity identity) ? identity.gameObject : null;
 
-    [ClientRpc]
-    private void Rpc_InsertChargerSocket()
-    {
-        if (batteryCharger)
+        if (batteryCharger != null && batteryCharger.TryGetComponent(out BatteryCharger component))
         {
-            if (batteryCharger.TryGetComponent(out BatteryCharger component))
-            {
-                component.SetBattery(gameObject);
-                BuildObj.canRespawn = false;
-                Col.enabled = false;
-            }
-
+            component.SetBattery(gameObject); //Server
         }
     }
+
+    //[ClientRpc]
+    //private void Rpc_InsertChargerSocket()
+    //{
+    //    if (batteryCharger)
+    //    {
+    //        if (batteryCharger.TryGetComponent(out BatteryCharger component))
+    //        {
+    //            component.SetBattery(gameObject); //server
+    //        }
+
+    //    }
+    //}
 
     //-----------------------------------------------------------------------Insert Charger Socket
 
