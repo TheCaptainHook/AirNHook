@@ -22,7 +22,7 @@ public class DetectionFieldDestroyer : MonoBehaviour
     public float _SphereRadius;
 
     private Vector3 previousPosition;
-    private float previousDistanceToFloor;
+    // private float previousDistanceToFloor;
     private Color color = new Color(222/255f,111/255f/31/255f,0.5f);
 
     int groundLayerIndex;
@@ -63,7 +63,7 @@ public class DetectionFieldDestroyer : MonoBehaviour
     private void Start()
     {
         previousPosition = transform.position;
-        previousDistanceToFloor = float.MaxValue;
+        // previousDistanceToFloor = float.MaxValue;
     }
 
     private void Update()

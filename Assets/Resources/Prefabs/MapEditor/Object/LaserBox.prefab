@@ -170,8 +170,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8093123165606433392}
   - {fileID: 1349317560482257625}
+  - {fileID: 8093123165606433392}
   m_Father: {fileID: 994488778957814542}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1261028655308498708
@@ -471,13 +471,14 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &1349317560482257625
-RectTransform:
+--- !u!4 &1349317560482257625
+Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5268868690408243030}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
@@ -485,11 +486,6 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1715028610185933560}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2.56, y: 2.56}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &562019047105794051
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -542,83 +538,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &6097756754775474323
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7240028189098995804}
-  - component: {fileID: 5471441496645627635}
-  m_Layer: 19
-  m_Name: Mirror
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7240028189098995804
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6097756754775474323}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 994488778957814542}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
---- !u!61 &5471441496645627635
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6097756754775474323}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.0018149018, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.05, y: 0.4}
-  m_EdgeRadius: 0
 --- !u!1 &6308807013234246188
 GameObject:
   m_ObjectHideFlags: 0
@@ -772,6 +691,7 @@ GameObject:
   - component: {fileID: 2817792782057913889}
   - component: {fileID: 5995116111848026723}
   - component: {fileID: 6941579286555415650}
+  - component: {fileID: 8274046331149935557}
   m_Layer: 19
   m_Name: LaserBox
   m_TagString: Untagged
@@ -796,7 +716,6 @@ Transform:
   - {fileID: 2508963781156351731}
   - {fileID: 7691394461270117251}
   - {fileID: 4956344676863628315}
-  - {fileID: 7240028189098995804}
   - {fileID: 1715028610185933560}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -921,16 +840,18 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  _permissionPlayer: {fileID: 0}
   _objectType: 1
   _gravityScale: 0
   _isFixed: 0
   _canInteract: 1
+  _canGrab: 1
   _isDestroyed: 0
   _offset: {x: 0, y: 1}
   _inhalePower: 4000
   defaultGravity: 0
   onSync: 0
-  chargeTransform: {fileID: 1349317560482257625}
+  chargeTransform: {fileID: 0}
   left: {fileID: 1496316796775544750}
   right: {fileID: 1261028655308498708}
   curLaserDir: {x: 0, y: 0}
@@ -1022,3 +943,24 @@ ParentConstraint:
   m_Active: 0
   m_IsLocked: 0
   m_Sources: []
+--- !u!114 &8274046331149935557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8716440483222482088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0182098a7f6444a5b903ec4387ae1b41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEncapsulationItem: 0
+  activeRequirAmount: 0
+  curActiveRequirAmount: 0
+  isCapsuling: 0
+  mainCol: {fileID: 0}
+  mainRb: {fileID: 0}
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 0

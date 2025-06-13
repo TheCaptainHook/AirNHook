@@ -52,7 +52,7 @@ public class ButtonActivated : ButtonEntity
         if(!NetworkServer.active) return;
 
         RaycastHit2D hit = Physics2D.Raycast(buttonTransform.position,transform.up, 0.8f, mask);
-        Debug.DrawRay(buttonTransform.position,transform.up*0.8f,Color.red);
+        // Debug.DrawRay(buttonTransform.position,transform.up*0.8f,Color.red);
         if (hit.collider is not null)
         {
             //isPressed = true;

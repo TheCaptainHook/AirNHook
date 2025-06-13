@@ -129,7 +129,7 @@ public class SaveData
     private async Task PerformAc_Save(){
         string json = JsonUtility.ToJson(_AchievementData);
         await WriteTextAsync(achievmentDataPath,json);
-        Debug.Log("Ac data Save");
+        // Debug.Log("Ac data Save");
     }
     public async void Ac_CreateNewData(){
         _AchievementData = new AchievementData();

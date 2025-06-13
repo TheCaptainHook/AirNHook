@@ -7,7 +7,7 @@ public class ButtonEntity : BuildObj
 {
 
     [CustomHeader("ButtonEntity, Target Object")]
-     [Header(@"
+    [Header(@"
     -------------ButtonEntity Field
      * ↓ can added this field.
         - ActivatableObjectEntity was inherited 
@@ -17,49 +17,61 @@ public class ButtonEntity : BuildObj
     private ButtonObjectStruct buttonObjectData;
     public ButtonObjectStruct ButtonObjectData {
         get { return buttonObjectData; }
-        set { buttonObjectData = value;
+        set
+        {
+            buttonObjectData = value;
             ObjectData = new ObjectData(value.id, value.position, value.scale);
             transform.position = value.position;
             transform.rotation = value.quaternion;
             transform.localScale = value.scale;
             targetPosition = value.targetPositions;
             lightPosition = value.lightPositions;
+            encapsulationItemPosition = value.encapsulationItems;
         } }
 
     protected List<Vector2> targetPosition; //TODO 0829
     protected List<Vector2> lightPosition;
+    protected List<Vector2> encapsulationItemPosition;
+
+
 
     #region  Debug
     private Transform debugModeTransform;
     private List<LineRenderer> lineRendererList;
     #endregion
-    
+
 
     #region Main Logic
     protected bool onPrograss;
     protected bool onActive;
-    protected virtual IEnumerator Co_Activation() {yield break; }
-    protected virtual IEnumerator Co_Deactivated() {yield break; }
-    protected virtual void Activation() {}
-    protected virtual void Deactivated(){ }
+    protected virtual IEnumerator Co_Activation() { yield break; }
+    protected virtual IEnumerator Co_Deactivated() { yield break; }
+    protected virtual void Activation() { }
+    protected virtual void Deactivated() { }
     protected virtual void PrograssButtonActivatedObject(bool onActivate)
     {
 
-        if(targetObjects == null) return;
-        foreach(GameObject obj in targetObjects){
-           if(obj.TryGetComponent(out ActivatableObjectEntity component)){
-            component.ApplyActive(onActivate ? 1 :-1);
-           }
-        }
-        foreach(GameObject obj in lightObjects)
+        foreach (GameObject obj in targetObjects)
         {
-            if(obj.TryGetComponent(out IPowerConsumer component))
+            if (obj.TryGetComponent(out ActivatableObjectEntity component))
             {
-                if(onActivate) component.hasPower = true;
+                component.ApplyActive(onActivate ? 1 : -1);
+            }
+        }
+        foreach (GameObject obj in lightObjects)
+        {
+            if (obj.TryGetComponent(out IPowerConsumer component))
+            {
+                if (onActivate) component.hasPower = true;
                 else component.hasPower = false;
             }
-            
+
         }
+        foreach (EncapsulationField field in interactableObjects)
+        {
+          field.ApplyActive(onActivate ? 1 : -1);
+        }
+
 
     }
 
@@ -71,7 +83,12 @@ public class ButtonEntity : BuildObj
        - only Light Object
     ")]
     public List<GameObject> lightObjects;
-    
+
+    #endregion
+
+    #region  Encapuslation Item
+    [Header(@"only Interactable Object, need EncapsulationField")]
+    public List<EncapsulationField> interactableObjects;
     #endregion
 
 
@@ -79,28 +96,29 @@ public class ButtonEntity : BuildObj
 
     public override void SetData<T>(T data)
     {
-        try{
+        try {
             if (typeof(T) == typeof(ButtonObjectStruct))
             {
-                 ButtonObjectStruct buttonData = (ButtonObjectStruct)(object)data;
-                 ButtonObjectData = buttonData;
-                 FindTargetObject();
-                 if(buttonData.lightPositions.Count >0) FindLightObject();
-
+                ButtonObjectStruct buttonData = (ButtonObjectStruct)(object)data;
+                ButtonObjectData = buttonData;
+                FindTargetObject();
+                if (buttonData.lightPositions.Count > 0) FindLightObject();
+                if (buttonData.encapsulationItems.Count > 0) FindEncapsulationItem();
             }
-                
-        }catch(Exception ex){
-                Debug.Log($"name : {gameObject.name},{ex}");
+
+        } catch (Exception ex) {
+            Debug.Log($"name : {gameObject.name},{ex}");
         }
-        
+
     }
     public override T GetData<T>()
     {
-        if(typeof(T) == typeof(ButtonObjectStruct)){
+        if (typeof(T) == typeof(ButtonObjectStruct)) {
             return (T)(object)new ButtonObjectStruct(
                 id,
                 GetTargetPositions(),
                 GetLightPositions(),
+                GetEncapsulationTiems(),
                 transform.position,
                 transform.rotation,
                 transform.localScale,
@@ -110,20 +128,20 @@ public class ButtonEntity : BuildObj
 
         return default(T);
     }
-#endregion
+    #endregion
 
     #region Util
 
-    protected virtual List<Vector2> GetTargetPositions(){
+    protected virtual List<Vector2> GetTargetPositions() {
         List<Vector2> list = new();
 
-        foreach(GameObject obj in targetObjects){
+        foreach (GameObject obj in targetObjects) {
             if (obj == null) continue;
-            if(obj.TryGetComponent(out ActivatableObjectEntity _))
+            if (obj.TryGetComponent(out ActivatableObjectEntity _))
             {
                 list.Add(ConvertPosition(obj.transform.position));
             }
-            
+
         }
 
         return list;
@@ -131,14 +149,29 @@ public class ButtonEntity : BuildObj
     protected virtual List<Vector2> GetLightPositions()
     {
         List<Vector2> list = new();
-        foreach(GameObject obj in lightObjects)
+        foreach (GameObject obj in lightObjects)
         {
             if (obj == null) continue;
-            if(obj.TryGetComponent(out IPowerConsumer component))
+            if (obj.TryGetComponent(out IPowerConsumer component))
             {
                 list.Add(component.GetTransformPosition());
             }
-            
+
+        }
+        return list;
+    }
+    protected virtual List<Vector2> GetEncapsulationTiems()
+    {
+        List<Vector2> list = new();
+        foreach (EncapsulationField field in interactableObjects)
+        {
+            if (field == null) continue;
+            var position = ConvertPosition(field.gameObject.transform.position);
+            if (!list.Contains(position))
+            {
+                list.Add(position);
+            }
+
         }
         return list;
     }
@@ -146,50 +179,76 @@ public class ButtonEntity : BuildObj
     protected Vector3 ConvertPosition(Vector3 vec)
     {
         return new Vector3(
-            Mathf.Round(vec.x * 100) / 100, 
-            Mathf.Round(vec.y * 100) / 100, 
+            Mathf.Round(vec.x * 100) / 100,
+            Mathf.Round(vec.y * 100) / 100,
             Mathf.Round(vec.z * 100) / 100
         );
 
     }
 
-    public virtual void FindTargetObject(){
+    public virtual void FindTargetObject() {
 
-        if(!Application.isPlaying) return;
+        if (!Application.isPlaying) return;
         List<GameObject> objList = new();
 
-        foreach(Vector2 vec in targetPosition)
+        foreach (Vector2 vec in targetPosition)
         {
-           foreach(Transform obj in MapEditor.Instance.buttonActivatableObjectTransform){
-                if(obj.TryGetComponent(out ActivatableObjectEntity component))
+            foreach (Transform obj in MapEditor.Instance.buttonActivatableObjectTransform) {
+                if (obj.TryGetComponent(out ActivatableObjectEntity component))
                 {
-                            if(CompareVec(component.ButtonActivatedObjectStruct.position,vec)){
-                                objList.Add(obj.gameObject);
-                            }
+                    if (CompareVec(component.ButtonActivatedObjectStruct.position, vec)) {
+                        objList.Add(obj.gameObject);
+                    }
                 }
-            }    
+            }
         }
         targetObjects = objList;
     }
     public virtual void FindLightObject()
     {
-        if(!Application.isPlaying) return;
+        if (!Application.isPlaying) return;
         List<GameObject> list = new();
 
         OtherContainer otherContainer = MapEditor.Instance.otherContainer.GetComponent<OtherContainer>();
 
-        foreach(Vector2 vec in ButtonObjectData.lightPositions)
+        foreach (Vector2 vec in ButtonObjectData.lightPositions)
         {
-            otherContainer.GetCompareVec(vec,ref list);
+            otherContainer.GetCompareVec(vec, ref list);
             //otherObject vec 전달 -> group transform 순회 같은거 있는지 확인 -> 있으면 해당 IPowerConsumer 반환
         }
         lightObjects = list;
     }
-    protected bool CompareVec(Vector3 p1,Vector3 p2){
-        bool x = Mathf.Approximately(p1.x,p2.x);
-        bool y = Mathf.Approximately(p1.y,p2.y);
+    protected bool CompareVec(Vector3 p1, Vector3 p2) {
+        bool x = Mathf.Approximately(p1.x, p2.x);
+        bool y = Mathf.Approximately(p1.y, p2.y);
 
-        return x&&y;
+        return x && y;
+    }
+
+    public virtual void FindEncapsulationItem()
+    {
+        if (!Application.isPlaying) return;
+        List<EncapsulationField> list = new();
+
+        foreach (Vector2 vec in encapsulationItemPosition)
+        {
+            foreach (Transform obj in MapEditor.Instance.networkingObjectTransform)
+            {
+                if (obj.TryGetComponent(out BuildObj buildObj))
+                {
+                    if (CompareVec(buildObj.ObjectData.position, vec))
+                    {
+                        if (obj.TryGetComponent(out EncapsulationField field))
+                            list.Add(field);
+                    }
+                }
+            }
+        }
+        interactableObjects = list;
+
+
+
+
     }
     // public override void Editor_Setting(Transform transform)
     // {
@@ -206,36 +265,57 @@ public class ButtonEntity : BuildObj
     //     }
     //     targetObjects = objList;
     // }
-
+#if UNITY_EDITOR
     public override void Editor_Setting(MapEditor mapEditor)
     {
-         List<GameObject> objList = new();
+        List<GameObject> objList = new();
 
-        foreach(Vector2 vec in targetPosition){
-           foreach(Transform obj in mapEditor.buttonActivatableObjectTransform){
-            if(obj.TryGetComponent(out ActivatableObjectEntity component)){
-                // if(component.ButtonActivatedObjectStruct.position == vec){
-                //     objList.Add(obj.gameObject);
-                // }
-                if(CompareVec(component.ButtonActivatedObjectStruct.position,vec)){
-                    objList.Add(obj.gameObject);
+        foreach (Vector2 vec in targetPosition)
+        {
+            foreach (Transform obj in mapEditor.buttonActivatableObjectTransform)
+            {
+                if (obj.TryGetComponent(out ActivatableObjectEntity component))
+                {
+                    // if(component.ButtonActivatedObjectStruct.position == vec){
+                    //     objList.Add(obj.gameObject);
+                    // }
+                    if (CompareVec(component.ButtonActivatedObjectStruct.position, vec))
+                    {
+                        objList.Add(obj.gameObject);
+                    }
                 }
             }
-           }   
         }
         targetObjects = objList;
 
-         List<GameObject> list = new();
+        List<GameObject> list = new();
 
         OtherContainer otherContainer = mapEditor.otherContainer.GetComponent<OtherContainer>();
 
-        foreach(Vector2 vec in ButtonObjectData.lightPositions)
+        foreach (Vector2 vec in ButtonObjectData.lightPositions)
         {
-            otherContainer.GetCompareVec(vec,ref list);
+            otherContainer.GetCompareVec(vec, ref list);
             //otherObject vec 전달 -> group transform 순회 같은거 있는지 확인 -> 있으면 해당 IPowerConsumer 반환
         }
         lightObjects = list;
+
+        List<EncapsulationField> enList = new();
+        foreach (Vector2 vec in encapsulationItemPosition)
+        {
+            foreach (Transform obj in mapEditor.objectTransform)
+            {
+                if (obj.TryGetComponent(out BuildObj buildObj))
+                {
+                    if (CompareVec(buildObj.position, vec))
+                    {
+                        enList.Add(obj.GetComponent<EncapsulationField>());
+                    }
+                }
+            }
+        }
+        interactableObjects = enList;
     }
+#endif
 
     #endregion
 

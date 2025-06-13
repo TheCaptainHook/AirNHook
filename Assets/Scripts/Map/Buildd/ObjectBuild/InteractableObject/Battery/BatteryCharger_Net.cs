@@ -41,7 +41,7 @@ public class BatteryCharger_Net : NetworkBehaviour
 
     Coroutine charge;
     [Server]
-    private void Server_SetBattery(GameObject newBattery)
+    public void Server_SetBattery(GameObject newBattery)
     {
 
         if(battery != null && !Compare(battery,newBattery))
@@ -74,11 +74,11 @@ public class BatteryCharger_Net : NetworkBehaviour
         return aN.netId == bN.netId;
     }
 
-    [Command(requiresAuthority = false)]
-    public void Cmd_SetBattery(GameObject battery)
-    {
-        Server_SetBattery(battery);
-    }
+    //[Command(requiresAuthority = false)]
+    //public void Cmd_SetBattery(GameObject battery)
+    //{
+    //    Server_SetBattery(battery);
+    //}
 
 
     public void Charge()

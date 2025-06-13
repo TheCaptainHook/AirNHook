@@ -24338,6 +24338,7 @@ GameObject:
   - component: {fileID: 2884958338721759735}
   - component: {fileID: 2642046701993852802}
   - component: {fileID: 4618334201603645540}
+  - component: {fileID: 2296382989763478540}
   m_Layer: 18
   m_Name: LightningRod
   m_TagString: Untagged
@@ -24422,8 +24423,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.000000044703484, y: 0.45437765}
-  m_Size: {x: 0.28296223, y: 1.1151175}
+  m_Offset: {x: 0, y: 0.5}
+  m_Size: {x: 0.3, y: 1.2}
   m_Direction: 0
 --- !u!114 &2838522749310776917
 MonoBehaviour:
@@ -24598,3 +24599,24 @@ ParentConstraint:
   m_Active: 0
   m_IsLocked: 0
   m_Sources: []
+--- !u!114 &2296382989763478540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7773345652000642256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0182098a7f6444a5b903ec4387ae1b41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEncapsulationItem: 0
+  activeRequirAmount: 0
+  curActiveRequirAmount: 0
+  isCapsuling: 0
+  mainCol: {fileID: 0}
+  mainRb: {fileID: 0}
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 0

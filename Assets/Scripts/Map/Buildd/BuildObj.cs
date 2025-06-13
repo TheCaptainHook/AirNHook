@@ -86,15 +86,15 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     protected Material _dissolveMaterial;
     public Material DissolveMaterial => _dissolveMaterial;
     private Rigidbody2D Rb;
-    protected Rigidbody2D _rb
+    public Rigidbody2D _rb
     {
         get{
             if(Rb == null) Rb = GetComponent<Rigidbody2D>();
             return Rb;
         }
     }
-    protected Collider2D Collider;
-    protected Collider2D _collider{
+    private Collider2D Collider;
+    public Collider2D _collider{
         get{
             if(Collider == null) Collider = GetComponent<Collider2D>();
             return Collider;
@@ -131,8 +131,9 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
   
     public virtual T GetData<T>()  
     {
-        if(typeof(T)==typeof(ObjectData)){
-            return (T)(object)new ObjectData(id,transform.position,transform.rotation,transform.localScale);
+        if(typeof(T)==typeof(ObjectData))
+        {
+            return (T)(object)new ObjectData(id, transform.position, transform.rotation, transform.localScale,chargeRequired);
         }
 
        return default(T);
@@ -308,11 +309,11 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         if (!canRespawn) return;
         if (this == null) return;
 
-        respawnEvent?.Invoke();
+        respawnEvent?.Invoke(); //Only Server
 
-        if (TryGetComponent(out InteractableObject component))
+        if (TryGetComponent(out TransportItemEntity component))
         {
-            component.Cmd_Dissolve();
+            component.Cmd_Dissolve(); //Only Server
         }
 
     }

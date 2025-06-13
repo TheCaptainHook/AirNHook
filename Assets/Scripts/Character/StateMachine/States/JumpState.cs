@@ -83,6 +83,9 @@ public class JumpState : BaseState
         _isJumped = true;
         jumpParticle.Play();
         stateMachine.player.CmdJumpParticlePlay();
+        //Achievement 0605
+        Managers.AcManager.CallPlayerJumping();
+        //Achievement 0605
     }
 
     private void HandleCeilingSlide()

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.Rendering.Universal.Light2D;
 
@@ -30,14 +31,17 @@ public struct ButtonObjectStruct
     public Vector3 scale;
     public List<Vector2> targetPositions;
     public List<Vector2> lightPositions;
+    public List<Vector2> encapsulationItems;
     //puzzle_1
     public bool onHint;
     public Vector2[] partsPositions;
     public Vector2[] itemPositions;
     public Vector2 hintPosition;
+    //CapsulationItem
+    
     
     public bool chargeRequired;
-    public ButtonObjectStruct(int id,List<Vector2> targetPositions,Vector2 position,Quaternion quaternion,Vector3 scale,bool chargeRequired = false)
+    public ButtonObjectStruct(int id, List<Vector2> targetPositions, Vector2 position, Quaternion quaternion, Vector3 scale, bool chargeRequired = false)
     {
         this.id = id;
         this.targetPositions = targetPositions;
@@ -50,13 +54,17 @@ public struct ButtonObjectStruct
         hintPosition = Vector2.zero;
         this.chargeRequired = chargeRequired;
         lightPositions = null;
+        encapsulationItems = null;
     }
-
+    //Puzzle_1
     public ButtonObjectStruct(int id, List<Vector2> targetPositions, Vector2 position, Vector3 scale,
     Vector2[] partsPositions,
     Vector2[] itemPositions,
     bool onHint,
-    Vector2 hintPosition = default)
+    Vector2 hintPosition = default,
+    List<Vector2> lightPositions = null,
+    List<Vector2> encapsulationItems = null
+    )
     {
         this.id = id;
         this.targetPositions = targetPositions;
@@ -68,12 +76,14 @@ public struct ButtonObjectStruct
         this.onHint = onHint;
         this.hintPosition = hintPosition;
         chargeRequired = false;
-        lightPositions = null;
+        this.lightPositions = lightPositions;
+        this.encapsulationItems = encapsulationItems;
     }
 
     public ButtonObjectStruct(int id,
     List<Vector2> targetPositions,
     List<Vector2> lightPositions,
+    List<Vector2> encapsulationItems,
     Vector2 position,
     Quaternion quaternion,
     Vector3 scale,
@@ -92,6 +102,8 @@ public struct ButtonObjectStruct
 
         this.chargeRequired = chargeRequired;
         this.lightPositions = lightPositions;
+
+        this.encapsulationItems = encapsulationItems;
     }
 
     
@@ -337,13 +349,16 @@ public struct ObjectData
     public Vector2 size;
     public string text;
     public float fontSize;
-
+    //Light Object
     public bool chargeRequired;
     //NPC
     public AnimationTriggerType animationTriggerType;
     //SpkieTrap
     public float attackStartTime;
     public float attackCooldown;
+    //Interactable Object
+    public int activeRequireAmount;
+    public bool onEncapsulationItem;
     public ObjectData(int id, Vector2 position, Vector3 scale, int dialogueId = 0, Vector2 talPot = default)
     {
         this.id = id;
@@ -361,8 +376,11 @@ public struct ObjectData
 
         attackStartTime = 0;
         attackCooldown = 0;
+
+        onEncapsulationItem = false;
+        activeRequireAmount = 0;
     }
-     public ObjectData(int id, Vector2 position,Quaternion quaternion ,Vector3 scale, bool chargeRequired)
+    public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, bool chargeRequired)
     {
         this.id = id;
         dialogueId = 0;
@@ -382,8 +400,11 @@ public struct ObjectData
 
         attackStartTime = 0;
         attackCooldown = 0;
+
+        onEncapsulationItem = false;
+        activeRequireAmount = 0;
     }
-    public ObjectData(int id, Vector2 position,Vector2 size)
+    public ObjectData(int id, Vector2 position, Vector2 size)
     {
         this.id = id;
         this.dialogueId = 0;
@@ -400,6 +421,9 @@ public struct ObjectData
 
         attackStartTime = 0;
         attackCooldown = 0;
+
+        onEncapsulationItem = false;
+        activeRequireAmount = 0;
     }
     public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, int dialogueId = 0)
     {
@@ -415,12 +439,14 @@ public struct ObjectData
         chargeRequired = false;
         animationTriggerType = AnimationTriggerType.Idle;
 
-
         attackStartTime = 0;
         attackCooldown = 0;
+
+        onEncapsulationItem = false;
+        activeRequireAmount = 0;
     }
     //WorldTextObject
-    public ObjectData(int id,Vector2 position,Vector2 size,string text,float fontSize)
+    public ObjectData(int id, Vector2 position, Vector2 size, string text, float fontSize)
     {
         this.id = id;
         this.dialogueId = 0;
@@ -437,9 +463,12 @@ public struct ObjectData
 
         attackStartTime = 0;
         attackCooldown = 0;
+
+        onEncapsulationItem = false;
+        activeRequireAmount = 0;
     }
     //NPC Object
-     public ObjectData(int id,Vector2 position,Quaternion quaternion,Vector3 scale,AnimationTriggerType type)
+    public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, AnimationTriggerType type)
     {
         this.id = id;
         this.dialogueId = 0;
@@ -457,9 +486,12 @@ public struct ObjectData
 
         attackStartTime = 0;
         attackCooldown = 0;
+
+        onEncapsulationItem = false;
+        activeRequireAmount = 0;
     }
     //SpikeTrap
-    public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale,float attackStartTime,float attackCooldown )
+    public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, float attackStartTime, float attackCooldown)
     {
         this.id = id;
         this.dialogueId = 0;
@@ -477,6 +509,33 @@ public struct ObjectData
 
         this.attackStartTime = attackStartTime;
         this.attackCooldown = attackCooldown;
+
+        onEncapsulationItem = false;
+        activeRequireAmount = 0;
+    }
+    //Interactable Object
+    public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, bool onEncapsulationItem, int activeRequireAmount)
+    {
+        this.id = id;
+        dialogueId = 0;
+        this.position = position;
+        this.quaternion = quaternion;
+        this.scale = scale;
+
+        talPot = default;
+
+        size = Vector2.zero;
+        text = string.Empty;
+        fontSize = 0;
+
+        chargeRequired = false;
+        animationTriggerType = AnimationTriggerType.Idle;
+
+        attackStartTime = 0;
+        attackCooldown = 0;
+
+        this.onEncapsulationItem = onEncapsulationItem;
+        this.activeRequireAmount = activeRequireAmount;
     }
 
 

@@ -25,14 +25,23 @@ public class Portal : ActivatableObjectEntity
     [SerializeField] GameObject _TpEffect;
 
     //private Portal_Net Portal_Net => GetComponent<Portal_Net>();
-    private Portal_Net Portal_Net;
+
+    private Portal_Net net;
+    private Portal_Net Portal_Net
+    {
+        get
+        {
+            net ??= GetComponent<Portal_Net>();
+            return net;
+        }
+    }
 
   
     #region Get,Set
 
-    private void Awake(){
+    private void Awake()
+    {
         util = new Util();
-        Portal_Net = GetComponent<Portal_Net>();
     }
     public override T GetData<T>()
     {
@@ -53,7 +62,7 @@ public class Portal : ActivatableObjectEntity
                 ButtonActivatedObjectStruct = objData;
                 targetPosition = objData.talPot;
 
-                Portal_Net.SetTargetPortal(targetPosition);
+                
             }
         }
         catch
@@ -63,6 +72,7 @@ public class Portal : ActivatableObjectEntity
 
         if (Application.isPlaying)
         {
+            Portal_Net.SetTargetPortal(targetPosition);
             await util.Delay(() => { CheckActiveRequirAmount(); });
         }
 
