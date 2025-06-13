@@ -171,6 +171,7 @@ public class TypingEffect : MonoBehaviour
 
         }
         // 실제 데이터 업데이트
+        // textmesh.text = "";
         textComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
 }
 
