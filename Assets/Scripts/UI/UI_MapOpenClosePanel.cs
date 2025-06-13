@@ -152,8 +152,10 @@ public class UI_MapOpenClosePanel : UI_Base
     #region 3
     public IEnumerator Prograss_3()
     {
-        // StartCoroutine(typingEffect.TextDissolveFromLeft(mapNameText));
-        // StartCoroutine(typingEffect.TextDissolveFromLeft(mapAudioNameText));
+        //제대로 작동안함 
+        StartCoroutine(typingEffect.TextDissolveFromLeft(mapNameText));
+        StartCoroutine(typingEffect.TextDissolveFromLeft(mapAudioNameText));
+        //제대로 작동안함
 
         yield return new WaitForSeconds(.5f);
 
