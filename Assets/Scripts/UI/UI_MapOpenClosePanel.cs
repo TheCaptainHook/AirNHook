@@ -21,6 +21,8 @@ public class UI_MapOpenClosePanel : UI_Base
 
     #region Loading Anim
     [SerializeField] GameObject loadingObj;
+    [SerializeField] Image loadingImage;
+    private Coroutine loadingCoroutine;
     #endregion
 
 
@@ -35,31 +37,21 @@ public class UI_MapOpenClosePanel : UI_Base
     /// </summary>
     /// <param name="onOff"></param>
     /// <returns></returns>
-    public IEnumerator TopLayer_FadeInOut(bool onOff)
+    public IEnumerator TopLayer_FadeInOut(bool onOff, float duration = 0.5f)
     {
-        Color targetColr;
-        Color curColr;
-        if (onOff)
-        {
-            targetColr = orgTopLayerColor;
-            curColr = transparentTopLayerColor;
-        }
-        else
-        {
-            targetColr = transparentTopLayerColor;
-            curColr = orgTopLayerColor;
-        }
+        Color startColor = onOff ? transparentTopLayerColor : orgTopLayerColor;
+        Color endColor = onOff ? orgTopLayerColor : transparentTopLayerColor;
 
-        float percent = 0;
-        while (percent < 2)
+        float t = 0f;
+        while (t < 1f)
         {
-            percent += Time.deltaTime;
-            float smoothedT = 1 - Mathf.Pow(1 - percent, 3);
-            topLayerPanelImg.color = Color.Lerp(curColr, targetColr, smoothedT);
+            t += Time.deltaTime / duration;
+            float easedT = Mathf.SmoothStep(0f, 1f, t);
+            topLayerPanelImg.color = Color.Lerp(startColor, endColor, easedT);
             yield return null;
         }
 
-        topLayerPanelImg.color = targetColr;
+        topLayerPanelImg.color = endColor;
     }
     #endregion
 
@@ -77,12 +69,14 @@ public class UI_MapOpenClosePanel : UI_Base
     [Header("Map Info")]
     [SerializeField] TextMeshProUGUI mapNameText;
     [SerializeField] TextMeshProUGUI mapAudioNameText;
+    [SerializeField] RectTransform noteImg;
     #endregion
 
     #region  UI_Base
     public override void OnEnable()
     {
-
+        mapNameText.text = "";
+        mapAudioNameText.text = "";
     }
 
     #endregion
@@ -95,9 +89,13 @@ public class UI_MapOpenClosePanel : UI_Base
         {
             StartCoroutine(Prograss_1());
         }
-         if (Input.GetKeyDown(KeyCode.O))
+        if (Input.GetKeyDown(KeyCode.O))
         {
             StartCoroutine(Prograss_2());
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            StartCoroutine(Prograss_3());
         }
     }
 
@@ -108,24 +106,31 @@ public class UI_MapOpenClosePanel : UI_Base
         animator.SetTrigger(PROGRASS_1);
         //Close Top Layer Animation
         yield return new WaitForSeconds(1f);
+
+        //Loading Animation Start
+        loadingObj.SetActive(true);
+        loadingCoroutine = StartCoroutine(LoadingCo());
+        //Loading Animation Start
+
         //Top layer Fade In
         yield return StartCoroutine(TopLayer_FadeInOut(true));
         //Top layer Fade In
 
-        //Loading Animation Start
-        loadingObj.SetActive(true);
-        //Loading Animation Start
+       
     }
     #endregion
 
     #region 2
     public IEnumerator Prograss_2()
     {
+
         Map curMap = CurMap;
         string mapName = curMap.subMapName != string.Empty ? curMap.subMapName : curMap.mapID;
         string mapAudioName = curMap.audioName != string.Empty ? curMap.audioName : "";
 
         //Loading Animation End
+        StopCoroutine(loadingCoroutine);
+        loadingCoroutine = null;
         loadingObj.SetActive(false);
         //Loading Animation End
 
@@ -133,6 +138,7 @@ public class UI_MapOpenClosePanel : UI_Base
         //Change door Image
 
         //Top layer Fade Out
+
         yield return StartCoroutine(TopLayer_FadeInOut(false));
         //Top layer Fade Out
 
@@ -140,32 +146,69 @@ public class UI_MapOpenClosePanel : UI_Base
         animator.SetTrigger(PROGRASS_2);
         //Open Top Layer Animation
 
+        yield return new WaitForSeconds(1f);
 
-        //Map Name Typing
-        yield return StartCoroutine(typingEffect.NormalTyping(mapNameText, mapName, typingDefaultColor, 2, 40));
+        ////Map Name Typing
+        yield return StartCoroutine(typingEffect.NormalTyping(mapNameText, mapName, typingDefaultColor, 1, 60));
+        //yield return StartCoroutine(typingEffect.NormalTyping(mapNameText, "ABCDEFGAAAAAAAAAAAAAA", typingDefaultColor, 1, 40));
         //Map Audio Typing
-        // if (mapAudioName != string.Empty)
-        yield return StartCoroutine(typingEffect.NormalTyping(mapAudioNameText, mapAudioName, typingDefaultColor, 2, 30));
+        if (mapAudioName != string.Empty)
+        {
+            yield return StartCoroutine(typingEffect.NormalTyping(mapAudioNameText, $"{mapAudioName}", typingDefaultColor, 1, 50));
+
+            //yield return StartCoroutine(typingEffect.NormalTyping(mapAudioNameText, "mapAudioNamemapAudioName", typingDefaultColor, 1, 30));
+        }
+
+
+
 
     }
     #endregion
+
     #region 3
     public IEnumerator Prograss_3()
     {
-        //제대로 작동안함 
+
         StartCoroutine(typingEffect.TextDissolveFromLeft(mapNameText));
+
         StartCoroutine(typingEffect.TextDissolveFromLeft(mapAudioNameText));
-        //제대로 작동안함
 
         yield return new WaitForSeconds(.5f);
 
         //InnerPanel Open
         animator.SetTrigger(PROGRASS_3);
         //InnerPanel Open
-
+        yield return new WaitForSeconds(1.5f);
     }
     #endregion
 
+
+
+
+
+
+    #region Loading
+    float loadingSpeed = 2.5f;
+    private IEnumerator LoadingCo()
+    {
+        int increase = 1;
+        float t = 0;
+        while(true)
+        {
+            t += Time.deltaTime * increase * loadingSpeed;
+            loadingImage.fillAmount = t;
+
+            if(t>=1 || t<=0)
+            {
+                increase *= -1;
+                loadingImage.fillClockwise = !loadingImage.fillClockwise;
+            }
+
+
+            yield return null;
+        }
+    }
+    #endregion
 }
 
 

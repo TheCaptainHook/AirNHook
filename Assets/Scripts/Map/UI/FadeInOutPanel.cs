@@ -106,6 +106,7 @@ public class FadeInOutPanel : MonoBehaviour
         sm.canMovable = true;
         //------------------------UI_MapOpenClosePanel Prograss 3
         yield return StartCoroutine(UI_MapOpenClosePanel.Prograss_3());
+        Managers.UI.HideUI<UI_MapOpenClosePanel>();
         //------------------------UI_MapOpenClosePanel Prograss 3
 
         moveNextStageCoroutine = null;

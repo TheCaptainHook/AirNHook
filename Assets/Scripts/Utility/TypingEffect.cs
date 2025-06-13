@@ -145,9 +145,9 @@ public class TypingEffect : MonoBehaviour
 
     }
 
-    public IEnumerator TextDissolveFromLeft(TextMeshProUGUI textmesh, float delay = 0.05f)
+    public IEnumerator TextDissolveFromLeft(TextMeshProUGUI textmesh, float charFadeDuration = 0.15f, float charDelay = 0.05f)
     {
-        textComponent = textmesh;
+        var textComponent = textmesh;
         textComponent.ForceMeshUpdate();
 
         TMP_TextInfo textInfo = textComponent.textInfo;
@@ -157,23 +157,39 @@ public class TypingEffect : MonoBehaviour
         {
             if (!textInfo.characterInfo[i].isVisible) continue;
 
-            int materialIndex = textInfo.characterInfo[i].materialReferenceIndex;
-            int vertexIndex = textInfo.characterInfo[i].vertexIndex;
+            int matIndex = textInfo.characterInfo[i].materialReferenceIndex;
+            int vIndex = textInfo.characterInfo[i].vertexIndex;
+            Color32[] vertexColors = textInfo.meshInfo[matIndex].colors32;
 
-            Color32[] vertexColors = textInfo.meshInfo[materialIndex].colors32;
-
-            // 알파값을 0으로 설정 (투명)
-            for (int j = 0; j < 4; j++)
-            {
-                vertexColors[vertexIndex + j].a = 0;
-                yield return new WaitForSeconds(delay);
-            }
-
+            StartCoroutine(FadeOutChar(textComponent,vertexColors, vIndex, charFadeDuration));
+            yield return new WaitForSeconds(charDelay);
         }
-        // 실제 데이터 업데이트
-        // textmesh.text = "";
+    }
+
+    private IEnumerator FadeOutChar(TextMeshProUGUI textComponent, Color32[] vertexColors, int vIndex, float duration)
+    {
+        float elapsed = 0f;
+        byte startAlpha = vertexColors[vIndex].a;
+
+        while (elapsed < duration)
+        {
+            float t = elapsed / duration;
+            byte alpha = (byte)Mathf.Lerp(startAlpha, 0, t);
+
+            for (int j = 0; j < 4; j++)
+                vertexColors[vIndex + j].a = alpha;
+
+            textComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // 마지막 정리
+        for (int j = 0; j < 4; j++)
+            vertexColors[vIndex + j].a = 0;
+
         textComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
-}
+    }
 
     #region  Default
     public IEnumerator NormalTyping(
