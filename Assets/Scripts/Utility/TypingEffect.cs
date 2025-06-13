@@ -145,7 +145,34 @@ public class TypingEffect : MonoBehaviour
 
     }
 
+    public IEnumerator TextDissolveFromLeft(TextMeshProUGUI textmesh, float delay = 0.05f)
+    {
+        textComponent = textmesh;
+        textComponent.ForceMeshUpdate();
 
+        TMP_TextInfo textInfo = textComponent.textInfo;
+        int totalCharacters = textInfo.characterCount;
+
+        for (int i = 0; i < totalCharacters; i++)
+        {
+            if (!textInfo.characterInfo[i].isVisible) continue;
+
+            int materialIndex = textInfo.characterInfo[i].materialReferenceIndex;
+            int vertexIndex = textInfo.characterInfo[i].vertexIndex;
+
+            Color32[] vertexColors = textInfo.meshInfo[materialIndex].colors32;
+
+            // 알파값을 0으로 설정 (투명)
+            for (int j = 0; j < 4; j++)
+            {
+                vertexColors[vertexIndex + j].a = 0;
+                yield return new WaitForSeconds(delay);
+            }
+
+        }
+        // 실제 데이터 업데이트
+        textComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+}
 
     #region  Default
     public IEnumerator NormalTyping(

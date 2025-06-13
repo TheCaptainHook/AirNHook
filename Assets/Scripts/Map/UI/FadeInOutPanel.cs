@@ -11,17 +11,21 @@ public class FadeInOutPanel : MonoBehaviour
     Color orgColor;
     float fadeTime = 1f;
 
-
     public event Action preMapLoadEvent;
 
+    #region Animation
+
+    #endregion
 
     private PlayerCameraView playerCameraView;
+    private UI_MapOpenClosePanel uI_MapOpenClosePanel;
     [SerializeField] TextMeshProUGUI text;
     private void Awake()
     {
         image = GetComponent<Image>();
         playerCameraView = Camera.main.GetComponent<PlayerCameraView>();
         orgColor = new Color(0, 0, 0, 0);
+        uI_MapOpenClosePanel = Managers.UI.GetUI<UI_MapOpenClosePanel>().GetComponent<UI_MapOpenClosePanel>();
     }
     private Coroutine moveNextStageCoroutine;
     public void MoveNextStage(string mapId)
@@ -47,8 +51,11 @@ public class FadeInOutPanel : MonoBehaviour
         Managers.Stage.stageName = mapId;
         //------------------------Next Stage
 
+        //------------------------Animation Close door
+
+        //------------------------Animation Close door
         //------------------------Fade Out
-        image.enabled = true;
+        // image.enabled = true;
         float percent = 0;
         Color fadeOutcolor = new Color(orgColor.r, orgColor.g, orgColor.b, 1);
         
@@ -62,7 +69,9 @@ public class FadeInOutPanel : MonoBehaviour
         image.color = fadeOutcolor;
         percent = 1;
         //------------------------Fade Out
-
+        //------------------------Animation Loading IMG
+        
+        //------------------------Animation Loading IMG
         //------------------------Player Ignore Damage
         var player = Managers.Game.Player;
         var sm = player ? player.TryGetComponent(out PlayerSM playerSm) ? playerSm : null : null;
@@ -78,21 +87,24 @@ public class FadeInOutPanel : MonoBehaviour
    
         }
         sm.CallPlayerDeathEvent();
+        sm.canMovable = false;
+
         yield return new WaitForSeconds(1f);
 
         var playerCol = sm.GetComponent<Collider2D>();
         var playerRb = sm.GetComponent<Rigidbody2D>();
         playerRb.gravityScale = 0;
+        playerRb.velocity = Vector2.zero;   
         playerCol.enabled = false;
 
         //------------------------Player Ignore Damage
-
 
         //------------------------Create Next Stage
         Managers.Network.startPos.Clear();
         MapEditor.Instance.LoadMap(mapId);
         //------------------------Create Next Stage
-        
+
+
         //------------------------Map Name  UI
         text.enabled = true;
         text.text = GetMapSubName();
@@ -108,8 +120,25 @@ public class FadeInOutPanel : MonoBehaviour
         yield return new WaitUntil(()=>playerCameraView.isCameraCenter);
         //------------------------Player, Camera Setting
 
+        //------------------------Change Door Img, And Start Open Door Anim
+
+        //------------------------Change Door Img, And Start Open Door Anim
+        //------------------------Show Coroutine_ Typing
+        //------------------------Show Coroutine_ Typing
+
+        //------------------------Fade Out
+        while (percent > 0)
+        {
+            percent -= Time.deltaTime;
+            image.color = Color.Lerp(orgColor, fadeOutcolor, percent);
+            yield return null;
+        }
+        image.color = orgColor;
+        //------------------------Fade Out
+
+
         //--------------------------------Player recover
-        if(playerCol) playerCol.enabled = true;
+        if (playerCol) playerCol.enabled = true;
         if(playerRb) playerRb.gravityScale = 3;
 
         //--------------------------------Player recover
@@ -118,17 +147,8 @@ public class FadeInOutPanel : MonoBehaviour
         text.enabled = false;
         //Map Name UI
 
-        //------------------------Fade Out
-        while (percent > 0)
-        {
-            percent -= Time.deltaTime;
-            image.color = Color.Lerp(orgColor,fadeOutcolor, percent);
-            yield return null;
-        }
-        image.color = orgColor;
-        //------------------------Fade Out
         
-        image.enabled = false;
+        // image.enabled = false;
         moveNextStageCoroutine = null;
 
         try
@@ -140,7 +160,7 @@ public class FadeInOutPanel : MonoBehaviour
             Debug.Log(e);
         }
        
-
+        sm.canMovable = true;
         //Managers.Command.Cmd_IsCompleteMoveStage();
         Managers.Game.StageStart(mapId);
     }
