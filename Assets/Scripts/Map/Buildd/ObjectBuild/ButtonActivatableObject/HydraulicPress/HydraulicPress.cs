@@ -23,11 +23,18 @@ public class HydraulicPress : ActivatableObjectEntity
     }
 
     private HydraulicPress_Net Net => GetComponent<HydraulicPress_Net>();
-    public override void SetData<T>(T data)
+    public override async void SetData<T>(T data)
     {
         base.SetData(data);
-        Net.onSync = true;
-        Net.Server_InitSync();
+
+        if (Application.isPlaying)
+        {
+            Net.onSync = true;
+            Net.Server_InitSync();  
+
+            await util.Delay(() => { CheckActiveRequirAmount(); });
+        }
+        
 
     }
 

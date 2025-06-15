@@ -56,34 +56,24 @@ public class MovingPlatform :  ActivatableObjectEntity
     public override async void SetData<T>(T data)
     {
 
-        if (typeof(T) == typeof(ButtonActivatableObjectStruct))
+        base.SetData(data);
+
+        //Moving Platform
+        paths = ConvertPaths(ButtonActivatedObjectStruct.paths);
+        moveSpeed = ButtonActivatedObjectStruct.moveSpeed;
+
+        if (Application.isPlaying)
         {
-            ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
-            ButtonActivatedObjectStruct = objData;
+            MovingPlatform_Net.Server_InitSync();
+            MovingPlatform_Net.Server_CreateRail(paths, moveSpeed);
 
-            //Moving Platform
-            paths = ConvertPaths(objData.paths);
-            moveSpeed = objData.moveSpeed;
-
-            if (Application.isPlaying)
-            {
-                MovingPlatform_Net.Server_InitSync();
-                MovingPlatform_Net.Server_CreateRail(paths, moveSpeed);
-
-                //Server FixedUpdata Ready 0407
-                MovingPlatform_Net.Server_FixedUpdateReady(paths.Length > 0);
-                //Server FixedUpdata Ready 0407
-
-                Util util = new Util();
-                await util.Delay(() =>
-                {
-                    //--------------------------------------------------------------------------------------------------------Refectoring 0406                
-                    // MovingPlatform_Prograss_Before_Setting();
-                    CheckActiveRequirAmount();
-                });
-
-            }
+            //Server FixedUpdata Ready 0407
+            MovingPlatform_Net.Server_FixedUpdateReady(paths.Length > 0);
+            //Server FixedUpdata Ready 0407
+            
+            await util.Delay(() => { CheckActiveRequirAmount(); });
         }
+        
     }
     #endregion
 

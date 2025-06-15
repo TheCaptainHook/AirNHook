@@ -32,31 +32,16 @@ using UnityEngine;
         }
     public override async void SetData<T>(T data)
     {
-        try
+        base.SetData(data);
+        bridgeLength = ButtonActivatedObjectStruct.bridgeLength;
+        connectionPoint = ButtonActivatedObjectStruct.connectionPoint;
+
+        if (Application.isPlaying)
         {
-            if (typeof(T) == typeof(ButtonActivatableObjectStruct))
-            {
-                ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
-                ButtonActivatedObjectStruct = objData;
-
-                bridgeLength = objData.bridgeLength;
-                connectionPoint = objData.connectionPoint;
-
-                if (Application.isPlaying)
-                {
-                    //BridgeBox_Net.SetData(ButtonActivatedObjectStruct);
-                    BridgeBox_Net.Server_InitSync();
-
-                    await new Util().Delay(() => { CheckActiveRequirAmount(); });
-                }
-            }
+            BridgeBox_Net.Server_InitSync();
+            await util.Delay(() => { CheckActiveRequirAmount(); });
         }
-        catch
-        {
-            Debug.Log($"ERROR,{typeof(T)}");
-        }
-
-
+          
     }
     #endregion
 

@@ -12,24 +12,10 @@ public class EraseField_Object : ActivatableObjectEntity
 
     public override async void SetData<T>(T data)
     {
-        try
-        {
-            if (typeof(T) == typeof(ButtonActivatableObjectStruct))
-            {
-                ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
-                ButtonActivatedObjectStruct = objData;
-
-            }
-        }
-        catch
-        {
-            Debug.Log($"ERROR,{typeof(T)}");
-        }
+        base.SetData(data);
 
         if (Application.isPlaying)
         {
-
-            Util util = new Util();
             await util.Delay(() => { CheckActiveRequirAmount(); });
         }
 

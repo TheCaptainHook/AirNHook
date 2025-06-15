@@ -27,18 +27,16 @@ public class LaserObject : ActivatableObjectEntity
         public Coroutine editor_showLaserCoroutine;
     #endregion
 
-    public override void SetData<T>(T data)
+    public override async void SetData<T>(T data)
     {
         base.SetData(data);
-        if(Application.isPlaying)
+        
+        if (Application.isPlaying)
         {
             _Net.onSync = true;
             _Net.Server_InitSync();
 
-            if(ButtonActivatedObjectStruct.activeRequirAmount>0)
-            {
-                _Net.Server_SetOnActive(false);
-            }
+            await util.Delay(() => { CheckActiveRequirAmount(); });
         }
        
     }

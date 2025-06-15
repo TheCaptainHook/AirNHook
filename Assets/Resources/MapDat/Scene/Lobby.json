@@ -12018,6 +12018,7 @@
             "id": 305,
             "activeRequirAmount": 1,
             "chargeRequired": false,
+            "indicator": 0,
             "jumpingPower": 0,
             "position": {
                 "x": -34.5,
@@ -12055,6 +12056,7 @@
             "id": 359,
             "activeRequirAmount": 1,
             "chargeRequired": false,
+            "indicator": 0,
             "jumpingPower": 0,
             "position": {
                 "x": -11.5,
@@ -12092,6 +12094,7 @@
             "id": 354,
             "activeRequirAmount": 0,
             "chargeRequired": false,
+            "indicator": 0,
             "jumpingPower": 0,
             "position": {
                 "x": 8.0,
@@ -12129,6 +12132,7 @@
             "id": 305,
             "activeRequirAmount": 1,
             "chargeRequired": false,
+            "indicator": 0,
             "jumpingPower": 0,
             "position": {
                 "x": -54.5,
@@ -12166,6 +12170,7 @@
             "id": 322,
             "activeRequirAmount": 0,
             "chargeRequired": false,
+            "indicator": 0,
             "jumpingPower": 0,
             "position": {
                 "x": -58.0,
@@ -12203,6 +12208,7 @@
             "id": 322,
             "activeRequirAmount": 0,
             "chargeRequired": false,
+            "indicator": 0,
             "jumpingPower": 0,
             "position": {
                 "x": -17.0,
@@ -12240,6 +12246,7 @@
             "id": 335,
             "activeRequirAmount": 0,
             "chargeRequired": false,
+            "indicator": 0,
             "jumpingPower": 0,
             "position": {
                 "x": -17.0,
@@ -12277,6 +12284,7 @@
             "id": 330,
             "activeRequirAmount": 0,
             "chargeRequired": false,
+            "indicator": 0,
             "jumpingPower": 20,
             "position": {
                 "x": 5.0,
@@ -12292,6 +12300,44 @@
                 "x": 0.800000011920929,
                 "y": 0.800000011920929,
                 "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 305,
+            "activeRequirAmount": 2,
+            "chargeRequired": false,
+            "indicator": 0,
+            "jumpingPower": 0,
+            "position": {
+                "x": -45.83000183105469,
+                "y": 24.440000534057618
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.2133772224187851,
+                "w": 0.9769698977470398
+            },
+            "scale": {
+                "x": 0.5757399797439575,
+                "y": 0.5757399797439575,
+                "z": 0.5757399797439575
             },
             "talPot": {
                 "x": 0.0,
@@ -12503,6 +12549,108 @@
                 {
                     "x": -54.5,
                     "y": 21.0
+                }
+            ],
+            "lightPositions": [],
+            "encapsulationItems": [],
+            "onHint": false,
+            "partsPositions": [],
+            "itemPositions": [],
+            "hintPosition": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "chargeRequired": false
+        },
+        {
+            "id": 329,
+            "position": {
+                "x": -46.529998779296878,
+                "y": 22.280000686645509
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "targetPositions": [
+                {
+                    "x": -45.83000183105469,
+                    "y": 24.440000534057618
+                }
+            ],
+            "lightPositions": [],
+            "encapsulationItems": [],
+            "onHint": false,
+            "partsPositions": [],
+            "itemPositions": [],
+            "hintPosition": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "chargeRequired": false
+        },
+        {
+            "id": 329,
+            "position": {
+                "x": -47.77000045776367,
+                "y": 22.3700008392334
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "targetPositions": [
+                {
+                    "x": -45.83000183105469,
+                    "y": 24.440000534057618
+                }
+            ],
+            "lightPositions": [],
+            "encapsulationItems": [],
+            "onHint": false,
+            "partsPositions": [],
+            "itemPositions": [],
+            "hintPosition": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "chargeRequired": false
+        },
+        {
+            "id": 329,
+            "position": {
+                "x": -45.06999969482422,
+                "y": 22.280000686645509
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "targetPositions": [
+                {
+                    "x": -45.83000183105469,
+                    "y": 24.440000534057618
                 }
             ],
             "lightPositions": [],

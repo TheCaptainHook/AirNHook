@@ -132,17 +132,13 @@ public class Turret_Net : NetworkBehaviour
 
 
     [Server]
-    private void Server_Activation()
+    public void Server_Activation()
     {
         curFireTime = 0;
         curRotateTime = 0;
         onLeft = !onLeft; 
     }
-    [Command]
-    public void Cmd_Activation()
-    {
-        Server_Activation();
-    }
+  
 
     [ClientRpc]
     private void Rpc_Fire()

@@ -18,7 +18,6 @@ public class Portal : ActivatableObjectEntity
     [ReadOnly]
     public bool onActivable;
     //private Coroutine portalCoroutine;
-    private Util util;
 
     [Header("Animation")]
     [SerializeField] private Animator _animator;
@@ -54,22 +53,9 @@ public class Portal : ActivatableObjectEntity
 
     public override async void SetData<T>(T data)
     {
-        try
-        {
-            if (typeof(T) == typeof(ButtonActivatableObjectStruct))
-            {
-                ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
-                ButtonActivatedObjectStruct = objData;
-                targetPosition = objData.talPot;
+       base.SetData(data);
 
-                
-            }
-        }
-        catch
-        {
-            Debug.Log($"ERROR,{typeof(T)}");
-        }
-
+        targetPosition = ButtonActivatedObjectStruct.talPot;
         if (Application.isPlaying)
         {
             Portal_Net.SetTargetPortal(targetPosition);

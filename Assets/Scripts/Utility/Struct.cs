@@ -118,6 +118,7 @@ public struct ButtonActivatableObjectStruct
     public int id;
     public int activeRequirAmount;
     public bool chargeRequired;
+    public INDICATOR indicator;
     public int jumpingPower; //JumpingPad
     public Vector2 position;
     public Quaternion quaternion;
@@ -142,13 +143,14 @@ public struct ButtonActivatableObjectStruct
         Quaternion quaternion,
         Vector3 scale,
         Vector2 talPot = default,
-        bool chargeRequired = false
+        bool chargeRequired = false,
+        INDICATOR indicator = INDICATOR.NONE
         )
     {
-        this.id= id;
+        this.id = id;
         this.activeRequirAmount = activeRequirAmount;
         this.position = position;
-        this .quaternion = quaternion;
+        this.quaternion = quaternion;
         this.scale = scale;
         this.talPot = talPot;
         jumpingPower = 0;
@@ -163,6 +165,8 @@ public struct ButtonActivatableObjectStruct
         connectionPoint = Vector2.zero;
         this.chargeRequired = chargeRequired;
 
+        this.indicator = indicator;
+
     }
     #endregion
     #region JumpingPad
@@ -170,7 +174,8 @@ public struct ButtonActivatableObjectStruct
        Quaternion quaternion,
        Vector3 scale,
        int jumpingPower,
-       bool chargeRequired = false
+       bool chargeRequired = false,
+       INDICATOR indicator = INDICATOR.NONE
 
        )
     {
@@ -191,6 +196,9 @@ public struct ButtonActivatableObjectStruct
         bridgeLength = 0;
         connectionPoint = Vector2.zero;
         this.chargeRequired = chargeRequired;
+
+        this.indicator = indicator;
+
     }
 
     #endregion
@@ -202,7 +210,8 @@ public struct ButtonActivatableObjectStruct
       float fireRate,
       bool onHoldRotation,
       bool onLeft = false,
-      bool chargeRequired = false
+      bool chargeRequired = false,
+      INDICATOR indicator = INDICATOR.NONE
       )
     {
         this.id = id;
@@ -223,21 +232,23 @@ public struct ButtonActivatableObjectStruct
         connectionPoint = Vector2.zero;
         this.chargeRequired = chargeRequired;
         
+        this.indicator = indicator;
     }
     #endregion
     #region MovingPlatform
-     public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
-        Quaternion quaternion,
-        Vector3 scale,
-        Vector2[] paths,
-        float moveSpeed,
-        bool chargeRequired = false
-        )
+    public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
+       Quaternion quaternion,
+       Vector3 scale,
+       Vector2[] paths,
+       float moveSpeed,
+       bool chargeRequired = false,
+       INDICATOR indicator = INDICATOR.NONE
+       )
     {
-        this.id= id;
+        this.id = id;
         this.activeRequirAmount = activeRequirAmount;
         this.position = position;
-        this .quaternion = quaternion;
+        this.quaternion = quaternion;
         this.scale = scale;
         talPot = Vector2.zero;
         jumpingPower = 0;
@@ -251,23 +262,26 @@ public struct ButtonActivatableObjectStruct
         bridgeLength = 0;
         connectionPoint = Vector2.zero;
         this.chargeRequired = chargeRequired;
+        
+        this.indicator = indicator;
 
     }
     #endregion
     #region  Weight Detection Moving Platform
-     public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
-        Quaternion quaternion,
-        Vector3 scale,
-        float moveDistance,
-        float moveSpeed,
-        bool chargeRequired = false
-        
-        )
+    public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
+       Quaternion quaternion,
+       Vector3 scale,
+       float moveDistance,
+       float moveSpeed,
+       bool chargeRequired = false,
+       INDICATOR indicator = INDICATOR.NONE
+
+       )
     {
-        this.id= id;
+        this.id = id;
         this.activeRequirAmount = activeRequirAmount;
         this.position = position;
-        this .quaternion = quaternion;
+        this.quaternion = quaternion;
         this.scale = scale;
         talPot = Vector2.zero;
         jumpingPower = 0;
@@ -281,21 +295,24 @@ public struct ButtonActivatableObjectStruct
         bridgeLength = 0;
         connectionPoint = Vector2.zero;
         this.chargeRequired = chargeRequired;
+        
+        this.indicator = indicator;
     }
     #endregion
     #region  BridgeBox
-      public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
-        Quaternion quaternion,
-        Vector3 scale,
-        float bridgeLength,
-        Vector2 connectionPoint,
-        bool chargeRequired = false
-        )
+    public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
+      Quaternion quaternion,
+      Vector3 scale,
+      float bridgeLength,
+      Vector2 connectionPoint,
+      bool chargeRequired = false,
+      INDICATOR indicator = INDICATOR.NONE
+      )
     {
-        this.id= id;
+        this.id = id;
         this.activeRequirAmount = activeRequirAmount;
         this.position = position;
-        this .quaternion = quaternion;
+        this.quaternion = quaternion;
         this.scale = scale;
         talPot = Vector2.zero;
         jumpingPower = 0;
@@ -307,8 +324,10 @@ public struct ButtonActivatableObjectStruct
         moveDistance = 0;
         moveSpeed = 0;
         this.bridgeLength = bridgeLength;
-        this.connectionPoint= connectionPoint;
+        this.connectionPoint = connectionPoint;
         this.chargeRequired = chargeRequired;
+        
+        this.indicator = indicator;
     }
     #endregion
 

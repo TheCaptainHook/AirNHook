@@ -17,7 +17,6 @@ public class JumpingPad : ActivatableObjectEntity
     
     private JumpingPad_Net Net;
 
-    private Util util;
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -37,31 +36,22 @@ public class JumpingPad : ActivatableObjectEntity
     }
     public override async void SetData<T>(T data)
     {
-        try
-        {
-            if (typeof(T) == typeof(ButtonActivatableObjectStruct))
-            {
-                ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
-                ButtonActivatedObjectStruct = objData;
-                jumpingPower = objData.jumpingPower;
-            }
+
+        base.SetData(data);
+
+            jumpingPower = ButtonActivatedObjectStruct.jumpingPower;
 
             if (Application.isPlaying)
             {
                 Net.jumpingPower = ButtonActivatedObjectStruct.jumpingPower;
                 Net.onSync = true;
                 Net.Server_InitSync();
-                // Net.Server_SetJumpingPower(jumpingPower);
 
-                util = new Util();
                 await util.Delay(() => { CheckActiveRequirAmount(); });
             }
 
-        }
-        catch
-        {
-            Debug.Log($"ERROR,{typeof(T)}");
-        }
+        
+      
 
         
     }

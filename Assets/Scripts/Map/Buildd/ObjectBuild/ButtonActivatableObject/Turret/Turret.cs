@@ -48,37 +48,22 @@ public class Turret : ActivatableObjectEntity
 
         return default(T);
     }
-    public override  void SetData<T>(T data)
+    public override void SetData<T>(T data)
     {
-        try
+        base.SetData(data);
+        
+        animator = GetComponent<Animator>();
+        rotateRate = ButtonActivatedObjectStruct.rotateRate;
+        onLeft = ButtonActivatedObjectStruct.onLeft;
+        onHoldRotation = ButtonActivatedObjectStruct.onHoldRotation;
+        fireRate = ButtonActivatedObjectStruct.fireRate;
+        
+        if (Application.isPlaying)
         {
-            if (typeof(T) == typeof(ButtonActivatableObjectStruct))
-            {
-                animator = GetComponent<Animator>();
-
-                ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
-                ButtonActivatedObjectStruct = objData;
-                rotateRate = objData.rotateRate;
-                onLeft = objData.onLeft;
-                onHoldRotation = objData.onHoldRotation;
-                fireRate = objData.fireRate;
-
-
-                if (Application.isPlaying)
-                {
-                    animator = GetComponent<Animator>();
-                    Turret_Net.Server_InitSync();
-                }
-
-                //if (onLeft) animator.SetBool(Left, onLeft);
-
-                //animator.SetBool(Activated, true);
-            }
+            animator = GetComponent<Animator>();
+            Turret_Net.Server_InitSync();
         }
-        catch(Exception ex)
-        {
-            Debug.Log($"ERROR,{ex}");
-        }
+        
     }
     #endregion
 
@@ -117,12 +102,11 @@ public class Turret : ActivatableObjectEntity
         //curTime = 0;
         //curFireTime = 0;
         //animator.SetBool(Left, onLeft);
-        Turret_Net.Cmd_Activation();
+        Turret_Net.Server_Activation();
     }
     protected override void Deactivated()
     {
-        //Activation();;
-        Turret_Net.Cmd_Activation();
+        Turret_Net.Server_Activation();
     }
 
     public override void CheckActiveRequirAmount()

@@ -13,21 +13,18 @@ public class ButtonActivatedDoor : ActivatableObjectEntity
     #region Get,Set
     public override async void SetData<T>(T data)
     {
-        if (typeof(T) == typeof(ButtonActivatableObjectStruct))
+        base.SetData(data);
+
+        if(Application.isPlaying)
         {
-            ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
-            ButtonActivatedObjectStruct = objData;
+            door_Net.onSync = true;
+            door_Net.Server_InitSync();
 
-            if(Application.isPlaying)
-            {
-                door_Net.onSync = true;
-                door_Net.Server_InitSync();
-
-                await new Util().Delay(() => { CheckActiveRequirAmount(); });
-            }
+            await util.Delay(() => { CheckActiveRequirAmount(); });
+        }
         
 
-        }
+        
 
      
     }

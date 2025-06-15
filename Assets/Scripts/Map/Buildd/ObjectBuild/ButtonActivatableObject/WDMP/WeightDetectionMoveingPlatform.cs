@@ -85,24 +85,13 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     }
     public override async void  SetData<T>(T data)
     {
-         if (typeof(T) == typeof(ButtonActivatableObjectStruct))
-            {
-                ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
-                ButtonActivatedObjectStruct = objData;
-
-                //moveDistance = objData.moveDistance;
-                //WDMP_Net.Server_SetMoveDistance(objData.moveDistance);
-                moveSpeed = objData.moveSpeed;
-                moveDistance = objData.moveDistance;
-          
-            }
+        base.SetData(data);
+        moveSpeed = ButtonActivatedObjectStruct.moveSpeed;
+        moveDistance = ButtonActivatedObjectStruct.moveDistance;
         
-        if(Application.isPlaying){
+        if(Application.isPlaying)
+        {
             Init();
-            // CreateRail();
-            
-            
-            Util util  = new Util();
             await util.Delay(()=>{CheckActiveRequirAmount();});
         }
     }
