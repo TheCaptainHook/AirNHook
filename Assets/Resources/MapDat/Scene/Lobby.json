@@ -7322,8 +7322,8 @@
             "id": 300,
             "dialogueId": 0,
             "position": {
-                "x": -17.360000610351564,
-                "y": 21.93000030517578
+                "x": -19.010000228881837,
+                "y": 23.3700008392334
             },
             "quaternion": {
                 "x": 0.0,
@@ -7350,8 +7350,8 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
-            "activeRequireAmount": 1,
-            "onEncapsulationItem": true
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false
         },
         {
             "id": 352,
@@ -12404,12 +12404,7 @@
                 }
             ],
             "lightPositions": [],
-            "encapsulationItems": [
-                {
-                    "x": -17.360000610351564,
-                    "y": 21.93000030517578
-                }
-            ],
+            "encapsulationItems": [],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],

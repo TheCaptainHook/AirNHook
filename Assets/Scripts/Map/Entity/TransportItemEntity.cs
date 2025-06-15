@@ -117,6 +117,7 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     [ClientRpc]
     public void Rpc_Capsuling() //only use Reset
     {
+        _isDestroyed = true;
         EncapsulationField.Capsuling(BuildObj.ObjectData.position);
     }
     #endregion
@@ -142,15 +143,14 @@ public class TransportItemEntity : InteractableObject, ITransportItem
 
             if (EncapsulationField.onEncapsulationItem)
             {
-                if (!EncapsulationField.isCapsuling)
-                {
+                //if (!EncapsulationField.isCapsuling)
+                //{
+                //    Rpc_Capsuling(BuildObj.position);
 
-                    Rpc_Capsuling(BuildObj.position);
-
-                    //TEST
-                    // StartCoroutine(DelayCapsuling(BuildObj.position));
-                    //TEST
-                }
+                //    //TEST
+                //    // StartCoroutine(DelayCapsuling(BuildObj.position));
+                //    //TEST
+                //}
 
                 return;
             }
@@ -196,13 +196,22 @@ public class TransportItemEntity : InteractableObject, ITransportItem
         BuildObj.ObjectData = data;
         transform.position = position;
         transform.rotation = data.quaternion;
+
         if (isTransportItem)
         {
             defaultGravity = Rb.gravityScale;
             Col.enabled = false;
         }
         //0603 EnCapsulationField
-
+        if(data.onEncapsulationItem)
+        {
+            if(!EncapsulationField.isCapsuling)
+            {
+                _isDestroyed = true;
+                //StartCoroutine(DelayCapsuling(data.position));
+                EncapsulationField.Capsuling(data.position);
+            }
+        }
         //0603 EnCapsulationField
         onSync = true;
     }
@@ -220,12 +229,19 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     #endregion
 
 
+    #region  RESET
+    public void Reset_Interacable()
+    {
+        Col.enabled = true;
+        Rb.gravityScale = _gravityScale;
 
-
-
-
-
-    #region  Interactable Object Component
-    
+        BuildObj.canRespawn = true;
+        if (NetworkServer.active) ;
+        CmdChnageDestroyState(false);
+    }
+    public void CmdChangeDestroyState_False()
+    {
+        CmdChnageDestroyState(false);
+    }
     #endregion
 }

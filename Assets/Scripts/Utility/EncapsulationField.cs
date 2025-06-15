@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class EncapsulationField : MonoBehaviour
 {
@@ -17,6 +18,12 @@ public class EncapsulationField : MonoBehaviour
             entity ??= GetComponent<TransportItemEntity>();
             return entity;
         }
+    }
+
+    private ParentConstraint pc;
+    private ParentConstraint ParentConstraint
+    {
+        get { pc ??= GetComponent<ParentConstraint>(); return pc; }
     }
 
     #region  Main
@@ -41,21 +48,6 @@ public class EncapsulationField : MonoBehaviour
         obstacleLayerMask = 1 << 6;
     }
 
-    //TEST
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P) && onEncapsulationItem)
-        {
-            UnCapsuling();
-        }
-        if (Input.GetKeyDown(KeyCode.O) && onEncapsulationItem)
-        {
-            Capsuling(Main.position);
-        }
-    }
-    //TEST
-
-
 
     #region  Capsuling
     private Transform orgParent;
@@ -67,6 +59,14 @@ public class EncapsulationField : MonoBehaviour
 
         //Main Object Setting
         transform.position = startPot;
+        transform.rotation = Quaternion.identity;
+
+        StartCoroutine(CapsullingCoroutine(startPot));
+    }
+    private IEnumerator CapsullingCoroutine(Vector2 startPot)
+    {
+        yield return new WaitForFixedUpdate();
+
         mainColliderBounds = mainCol.bounds;
         var distance = CheckUPAndDownDistance();
 
@@ -76,7 +76,7 @@ public class EncapsulationField : MonoBehaviour
 
         if (distance > 0)
         {
-            StartCoroutine(MoveCapsuleCo(distance));
+           yield return StartCoroutine(MoveCapsuleCo(distance));
         }
         else
         {
@@ -96,20 +96,25 @@ public class EncapsulationField : MonoBehaviour
         // Capsule Object Setting
         orgParent = parent; //---Main cashing org parent
 
+
+        //capsuleObject Appearance Animation 
+        //TEST
+        if (!capsuleObject.activeSelf) //Animation
+            capsuleObject.SetActive(true);
+
         TransformParentNull();
         capsuleObject.transform.SetParent(orgParent);
         Main.transform.SetParent(capsuleObject.transform);
 
+        // Size Change Effect(Coroutine)
+        Vector2 d = new Vector2(transform.position.x, transform.position.y - mainCol.offset.y);
+        transform.position = d;
+        // Size Change Effect
 
-        //capsuleObject Appearance Animation 
-            // Size Change Effect
-            // Size Change Effect
-        //TEST
-        if (!capsuleObject.activeSelf) //Animation
-            capsuleObject.SetActive(true);
         //TEST
         //capsuleObject Appearance Animation 
     }
+
 
     private IEnumerator MoveCapsuleCo(float moveValue)
     {
@@ -132,10 +137,11 @@ public class EncapsulationField : MonoBehaviour
     #endregion
 
 
-    public void UnCapsuling() //Call Only Server
+    public void UnCapsuling() //Call Only Server,RPC
     {
         //capsuleObject Disappearance Animation 
-
+        //Return Size
+        //Return Size
         //capsuleObject Disappearance Animation 
 
         //Return parent
@@ -151,10 +157,11 @@ public class EncapsulationField : MonoBehaviour
         mainCol.enabled = true;
         mainRb.simulated = true;
 
+        Net.Reset_Interacable();
+
         isCapsuling = false;
         Main.canRespawn = true;
     }
-
 
     #region Requir 
     public void ApplyActive(int amount) //only Server
@@ -172,8 +179,11 @@ public class EncapsulationField : MonoBehaviour
 
     public void CapsulReset() //only server
     {
-        if (!onEncapsulationItem) return;
-        if (curActiveRequirAmount == activeRequirAmount) return;
+        if (curActiveRequirAmount == activeRequirAmount)
+        {
+            Net.Reset_Interacable();
+            return;
+        }
 
         Net.Rpc_Capsuling();
 

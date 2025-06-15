@@ -316,7 +316,8 @@ public class PlayerCameraView : MonoBehaviour
             var _playerPos = new Vector3(target.position.x, target.position.y + 1f, -1);
             var dis = Vector2.Distance(transform.position,target.position);
 
-            if(dis>0.01f){
+            if(dis>0.01f)
+            {
                 transform.position = Vector3.SmoothDamp(transform.position, _playerPos, ref _vecVelocity, _smoothSpeed,
                 float.MaxValue, Time.fixedDeltaTime);
 
