@@ -37,15 +37,10 @@ public class Portal : ActivatableObjectEntity
 
   
     #region Get,Set
-
-    private void Awake()
-    {
-        util = new Util();
-    }
     public override T GetData<T>()
     {
          if(typeof(T) == typeof(ButtonActivatableObjectStruct)){
-            return (T)(object)new ButtonActivatableObjectStruct(id,activeRequirAmount,transform.position,transform.rotation,transform.localScale,targetPortal.transform.position);
+            return (T)(object)new ButtonActivatableObjectStruct(id,activeRequirAmount,transform.position,transform.rotation,transform.localScale,indicator,targetPortal.transform.position);
         }
 
         return default(T);

@@ -142,9 +142,9 @@ public struct ButtonActivatableObjectStruct
     public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
         Quaternion quaternion,
         Vector3 scale,
+         INDICATOR indicator = INDICATOR.NONE,
         Vector2 talPot = default,
-        bool chargeRequired = false,
-        INDICATOR indicator = INDICATOR.NONE
+        bool chargeRequired = false
         )
     {
         this.id = id;
@@ -168,14 +168,15 @@ public struct ButtonActivatableObjectStruct
         this.indicator = indicator;
 
     }
+
     #endregion
     #region JumpingPad
     public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
        Quaternion quaternion,
        Vector3 scale,
        int jumpingPower,
-       bool chargeRequired = false,
-       INDICATOR indicator = INDICATOR.NONE
+       INDICATOR indicator = INDICATOR.NONE,
+       bool chargeRequired = false
 
        )
     {
@@ -210,8 +211,8 @@ public struct ButtonActivatableObjectStruct
       float fireRate,
       bool onHoldRotation,
       bool onLeft = false,
-      bool chargeRequired = false,
-      INDICATOR indicator = INDICATOR.NONE
+      INDICATOR indicator = INDICATOR.NONE,
+      bool chargeRequired = false
       )
     {
         this.id = id;
@@ -241,8 +242,8 @@ public struct ButtonActivatableObjectStruct
        Vector3 scale,
        Vector2[] paths,
        float moveSpeed,
-       bool chargeRequired = false,
-       INDICATOR indicator = INDICATOR.NONE
+       INDICATOR indicator = INDICATOR.NONE,
+       bool chargeRequired = false
        )
     {
         this.id = id;
@@ -273,8 +274,8 @@ public struct ButtonActivatableObjectStruct
        Vector3 scale,
        float moveDistance,
        float moveSpeed,
-       bool chargeRequired = false,
-       INDICATOR indicator = INDICATOR.NONE
+       INDICATOR indicator = INDICATOR.NONE,
+       bool chargeRequired = false
 
        )
     {
@@ -305,8 +306,8 @@ public struct ButtonActivatableObjectStruct
       Vector3 scale,
       float bridgeLength,
       Vector2 connectionPoint,
-      bool chargeRequired = false,
-      INDICATOR indicator = INDICATOR.NONE
+      INDICATOR indicator = INDICATOR.NONE,
+      bool chargeRequired = false
       )
     {
         this.id = id;

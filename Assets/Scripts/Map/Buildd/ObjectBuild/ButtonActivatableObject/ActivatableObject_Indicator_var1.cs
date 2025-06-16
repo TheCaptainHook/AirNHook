@@ -39,24 +39,24 @@ public class ActivatableObject_Indicator_var1 : MonoBehaviour
   
     public void SetApplyActive(int curActiveAmount)
     {
-        var num = activeRequirAmount - curActiveAmount;
 
-        if (num == 0) //satisfy condition
+
+        if (curActiveAmount == activeRequirAmount) //satisfy condition
         {
             //Disappear  Coroutine
             gameObject.SetActive(false);
             //Disappear  Coroutine
             return;
         }
-
-        if (num == activeRequirAmount) //reset
+        
+        if(curActiveAmount == 0)
         {
             gameObject.SetActive(false);
             return;
         }
 
         if (!gameObject.activeSelf) gameObject.SetActive(true);
-        text.text = num.ToString();
+        text.text = $"{curActiveAmount}/{activeRequirAmount}";
 
 
     }

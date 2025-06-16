@@ -580,8 +580,9 @@ MonoBehaviour:
   _Dissolve_MainSprite: {fileID: 0}
   canRespawn: 0
   activeRequirAmount: 0
+  indicator: 0
   indicatorOffset_val_1: {x: 0, y: 3.5}
-  indicatorOffset_val_2: {x: 0, y: 0}
+  indicatorOffset_val_2: {x: 0.7, y: 2.3}
   curActiveBtn: 0
   onOpen: 0
   door_Net: {fileID: 2127257292914860975}

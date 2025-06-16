@@ -1,3 +1,4 @@
+using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -55,7 +56,15 @@ public class ButtonEntity : BuildObj
         {
             if (obj.TryGetComponent(out ActivatableObjectEntity component))
             {
-                component.ApplyActive(onActivate ? 1 : -1);
+                if(TryGetComponent(out NetworkIdentity identity))
+                {
+                    component.ApplyActive(onActivate ? 1 : -1,identity.netId);
+                }
+                else
+                {
+                    component.ApplyActive(onActivate ? 1 : -1);
+                }
+                   
             }
         }
         foreach (GameObject obj in lightObjects)
@@ -102,6 +111,7 @@ public class ButtonEntity : BuildObj
                 ButtonObjectStruct buttonData = (ButtonObjectStruct)(object)data;
                 ButtonObjectData = buttonData;
                 FindTargetObject();
+
                 if (buttonData.lightPositions.Count > 0) FindLightObject();
                 if (buttonData.encapsulationItems.Count > 0) FindEncapsulationItem();
             }

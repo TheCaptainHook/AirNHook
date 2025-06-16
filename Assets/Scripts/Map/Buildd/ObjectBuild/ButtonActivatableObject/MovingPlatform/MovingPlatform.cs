@@ -46,7 +46,7 @@ public class MovingPlatform :  ActivatableObjectEntity
     public override T GetData<T>()
     {
         if(typeof(T)==typeof(ButtonActivatableObjectStruct)){
-            return (T)(object)new ButtonActivatableObjectStruct(id,activeRequirAmount,transform.position,transform.rotation,transform.localScale,paths,moveSpeed);
+            return (T)(object)new ButtonActivatableObjectStruct(id,activeRequirAmount,transform.position,transform.rotation,transform.localScale,paths,moveSpeed,indicator);
         }
         
         return default(T);

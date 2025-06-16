@@ -16,6 +16,7 @@ public class ButtonActivated : ButtonEntity
    public override void SetData<T>(T data)
    {
        base.SetData(data);
+
        B_Net.onSync = true;
        B_Net.Server_SetPosition();
    }

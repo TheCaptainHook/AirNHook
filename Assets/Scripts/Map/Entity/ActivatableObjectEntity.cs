@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public enum INDICATOR
 {
     NONE = 0,
@@ -14,6 +14,7 @@ public class ActivatableObjectEntity : BuildObj
     [Header("Important condition")]
     public int activeRequirAmount;//문 활성화 조건
     [Header("Indicator Offset")]
+    public INDICATOR indicator = 0;
     public Vector2 indicatorOffset_val_1;
     public Vector2 indicatorOffset_val_2;
     [Space(10)]
@@ -30,6 +31,7 @@ public class ActivatableObjectEntity : BuildObj
                 transform.position = value.position;
                 transform.rotation = value.quaternion;
                 transform.localScale = value.scale;
+                indicator = value.indicator;
             }
         }
     }
@@ -44,10 +46,15 @@ public class ActivatableObjectEntity : BuildObj
     [ReadOnly]
     public int curActiveBtn;
     //----------------------------------------------------------------Refactoring 250124
-    public void ApplyActive(int num) //Maybe only Server
+    public void ApplyActive(int num,uint id=9999) //Maybe only Server
     {
         curActiveBtn += num;
-        ApplyActive_Sync(curActiveBtn);
+        if(id != 9999 && ButtonActivatedObjectStruct.indicator == INDICATOR.MARK)
+        {
+            ApplyActive_Sync_var2(id,curActiveBtn,num);
+        }
+        else if (ButtonActivatedObjectStruct.indicator == INDICATOR.TEXT) ApplyActive_Sync_var1(curActiveBtn);
+
 
         if (curActiveBtn == activeRequirAmount)
         {
@@ -72,7 +79,7 @@ public class ActivatableObjectEntity : BuildObj
     {
         if (typeof(T) == typeof(ButtonActivatableObjectStruct))
         {
-            return (T)(object)new ButtonActivatableObjectStruct(id, activeRequirAmount, transform.position, transform.rotation, transform.localScale);
+            return (T)(object)new ButtonActivatableObjectStruct(id, activeRequirAmount, transform.position, transform.rotation, transform.localScale,indicator);
         }
 
         return default(T);
@@ -89,13 +96,16 @@ public class ActivatableObjectEntity : BuildObj
                 ButtonActivatedObjectStruct = objData;
 
                 //Create Indicator
-                Create_Indicator_var_1();
+                //if(ButtonActivatedObjectStruct.indicator == INDICATOR.TEXT) Create_Indicator_var_1();
+                //else if(ButtonActivatedObjectStruct.indicator == INDICATOR.MARK)Create_Indicator_var_2();
+
+                Create_Indicator_var_2();
                 //Create Indicator
             }
         }
-        catch
+        catch(Exception e)
         {
-            Debug.Log($"ERROR,{typeof(T)}");
+            Debug.Log($"{e},{typeof(T)}");
         }
 
         // if (Application.isPlaying)
@@ -121,20 +131,45 @@ public class ActivatableObjectEntity : BuildObj
     }
 
     #region Indicator
-    protected virtual void ApplyActive_Sync(int curActiveAmount)
+    protected virtual void ApplyActive_Sync_var1(int curActiveAmount)
     {
+        /// [TEXT]
+        /// 1. 각 오브젝트 오버라이딩
+        /// 2. server에서 버튼 누름 -> rpc로 적용(curActiveAmount 그대로 걍 전달)
+        ///[MARK]
+        ///
         //TEST
         indicator_var1.SetApplyActive(curActiveAmount);
     }
-    
+    protected virtual void ApplyActive_Sync_var2(uint id,int curActiveAmount,int inc)
+    {
+
+        ///[MARK]
+        /// 1. 각 오브젝트 오버라이딩
+        /// 2. server에서 버튼 누르면 해당 오브젝트의 id와 현재 활성화된 갯수 전달
+        /// 3. item 경로가 이미 생성되있으면 걍 LineOn, 아니면 경로 생성 후 Line On
+        indicator_var2.SetApplyActive(id,curActiveAmount,inc);
+    }
+
     private ActivatableObject_Indicator_var1 indicator_var1;
     public void Create_Indicator_var_1()
     {
-        var indicator = Resources.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_1_Path);
+        //var indicator = Resources.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_1_Path);
+        var indicator = ResourceManager.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_1_Path);
         indicator_var1 = Instantiate(indicator).GetComponent<ActivatableObject_Indicator_var1>();
         indicator_var1.Setting(this);
 
     }
+    private ActivatableObject_Indicator_var2 indicator_var2;
+    public void Create_Indicator_var_2()
+    {
+        var indicator = ResourceManager.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_2_Path);
+        //var indicator = Resources.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_2_Path);
+        indicator_var2 = Instantiate(indicator).GetComponent<ActivatableObject_Indicator_var2>();
+        indicator_var2.Setting(this);
+
+    }
+
     #endregion
-   
+
 }
