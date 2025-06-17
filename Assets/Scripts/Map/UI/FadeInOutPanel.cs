@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using TMPro;
+using Mirror;
 
 public class FadeInOutPanel : MonoBehaviour
 {
@@ -33,6 +34,7 @@ public class FadeInOutPanel : MonoBehaviour
     }
     IEnumerator FadeInOut(string mapId)
     {
+        if (NetworkServer.active) Managers.Command.Server_UpdateCurClientConnectionCount();
         //Event to be executed before map transition
         preMapLoadEvent?.Invoke(); 
         Managers.Sound.CollectAmbientSoundSource();
@@ -65,6 +67,7 @@ public class FadeInOutPanel : MonoBehaviour
    
         }
         sm.CallPlayerDeathEvent();
+        sm.canControl = false;
         sm.canMovable = false;
 
         yield return new WaitForSeconds(1f);
@@ -82,16 +85,18 @@ public class FadeInOutPanel : MonoBehaviour
         MapEditor.Instance.LoadMap(mapId);
         //------------------------Create Next Stage
 
-        yield return new WaitForSeconds(1f);
         //------------------------Player, Camera Setting
-
         sm.Respawning();
-       
         Camera.main.GetComponent<ParallaxCamera>().enabled = true;
         Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.Volume_1();
-
-        yield return new WaitUntil(()=>playerCameraView.isCameraCenter);
+        yield return new WaitForSeconds(.5f);
+        
+        yield return new WaitUntil(() => playerCameraView.isCameraCenter);
         //------------------------Player, Camera Setting
+
+        Managers.Command.Cmd_IsCompleteMoveStage();
+        var num = Managers.Command.currentClientConnectionCount;
+        yield return new WaitUntil(() => Managers.Command.isCompleteMoveStageCount == num);
 
         //------------------------UI_MapOpenClosePanel Prograss 2
         yield return StartCoroutine(UI_MapOpenClosePanel.Prograss_2());
@@ -104,27 +109,16 @@ public class FadeInOutPanel : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         sm.canMovable = true;
+        sm.canControl = true;
         //------------------------UI_MapOpenClosePanel Prograss 3
         yield return StartCoroutine(UI_MapOpenClosePanel.Prograss_3());
         Managers.UI.HideUI<UI_MapOpenClosePanel>();
         //------------------------UI_MapOpenClosePanel Prograss 3
 
         moveNextStageCoroutine = null;
-
-        try
-        {
-            Managers.Command.Cmd_IsCompleteMoveStage();
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e);
-        }
-       
         
         //Managers.Command.Cmd_IsCompleteMoveStage();
         Managers.Game.StageStart(mapId);
     }
-
-
 
 }

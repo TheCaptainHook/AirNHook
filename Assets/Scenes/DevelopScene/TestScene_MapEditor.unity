@@ -12099,14 +12099,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1011249132299904719, guid: 5ff162792dcb746738dfbf848e2840a1, type: 3}
-      propertyPath: m_text
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1943242670858472591, guid: 5ff162792dcb746738dfbf848e2840a1, type: 3}
-      propertyPath: m_text
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 8472145651577010420, guid: 5ff162792dcb746738dfbf848e2840a1, type: 3}
       propertyPath: m_Name
       value: UI_MapOpenClosePanel

@@ -191,14 +191,14 @@ public class UI_Option : UI_Base
     }
 
     //==================게임 옵션===========================
-    private void OnLobbyBtn()
+    private void OnLobbyBtn() // server
     {
         // if(!Managers.Game.Player.TryGetComponent<PlayerSM>(out var player)) return;
         
         // if (!player.isServer) return;
         OnClick();
         OnOptionExit();
-        Managers.Command.ChangeStage(GlobalText.LOBBY);
+        Managers.Command._Server_ChangeStage(GlobalText.LOBBY);
     }
     public void HoldAndReleaseLobby_StageRestartBtn(bool onOff)
     {
@@ -207,14 +207,14 @@ public class UI_Option : UI_Base
     }
 
     
-    private void OnStageRestartBtn()
+    private void OnStageRestartBtn() //server
     {
         // if(!Managers.Game.Player.TryGetComponent<PlayerSM>(out var player)) return;
 
         // if (!player.isServer) return;
         OnClick();
         OnOptionExit();
-        Managers.Command.ChangeStage(Managers.Stage.stageName);
+        Managers.Command._Server_ChangeStage(Managers.Stage.stageName); 
     }
     
     private void OnTitleBtn()

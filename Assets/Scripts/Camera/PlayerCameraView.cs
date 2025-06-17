@@ -311,19 +311,20 @@ public class PlayerCameraView : MonoBehaviour
     {
         try
         {
-            if (target == null) {isCameraCenter = false; return;}
-            if (notFollowCam){isCameraCenter = false; return;}
+            if (target == null || notFollowCam)
+            {
+                isCameraCenter = false;
+                return;
+            }
+
             var _playerPos = new Vector3(target.position.x, target.position.y + 1f, -1);
-            var dis = Vector2.Distance(transform.position,target.position);
+            var dis = Vector2.Distance(transform.position,_playerPos);
 
             if(dis>0.01f)
             {
                 transform.position = Vector3.SmoothDamp(transform.position, _playerPos, ref _vecVelocity, _smoothSpeed,
                 float.MaxValue, Time.fixedDeltaTime);
-
-                if(dis < 1.5f)isCameraCenter = true;
-                else isCameraCenter = false;
-
+                isCameraCenter = dis < 1.5f;
             }
 
         }
