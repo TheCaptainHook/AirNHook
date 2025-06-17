@@ -131,7 +131,7 @@ public class ActivatableObjectEntity : BuildObj
     }
 
     #region Indicator
-    protected virtual void ApplyActive_Sync_var1(int curActiveAmount)
+    protected virtual void ApplyActive_Sync_var1(int curActiveAmount) //server
     {
         /// [TEXT]
         /// 1. 각 오브젝트 오버라이딩
@@ -141,14 +141,16 @@ public class ActivatableObjectEntity : BuildObj
         //TEST
         indicator_var1.SetApplyActive(curActiveAmount);
     }
-    protected virtual void ApplyActive_Sync_var2(uint id,int curActiveAmount,int inc)
+    /// </summary>
+    /// <param name="id">Network ID</param>
+    /// <param name="inc">[-1] : deactive, [1] : active </param>
+    protected virtual void ApplyActive_Sync_var2(uint id, int curActiveBtn,int inc) //server
     {
-
         ///[MARK]
         /// 1. 각 오브젝트 오버라이딩
         /// 2. server에서 버튼 누르면 해당 오브젝트의 id와 현재 활성화된 갯수 전달
         /// 3. item 경로가 이미 생성되있으면 걍 LineOn, 아니면 경로 생성 후 Line On
-        indicator_var2.SetApplyActive(id,curActiveAmount,inc);
+        indicator_var2.SetApplyActive(id, curActiveBtn ,inc);
     }
 
     private ActivatableObject_Indicator_var1 indicator_var1;

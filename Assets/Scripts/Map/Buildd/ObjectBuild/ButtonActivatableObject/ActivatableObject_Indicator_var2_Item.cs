@@ -12,27 +12,35 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
 
     [SerializeField] LineRenderer lineRenderer;
 
-    public bool Setting(uint id)
+    [ReadOnly]
+    public uint targetId;
+
+    [ReadOnly]
+    public bool onActive = false;
+    [ReadOnly]
+    public bool onDraw = false;
+    public bool Setting(uint id,int inc)
     {
         Transform target = NetworkClient.spawned.TryGetValue(id, out var targetObject) ? targetObject.transform : null;
         if (target == null) return false;
 
+        targetId = id;
         targetTr = target;
-        StartCoroutine(SetPathCoroutine());
+        StartCoroutine(SetPathCoroutine(inc));
 
         return true;
     }
 
     #region PathFinder
     public List<Vector2> pathList;
-    private IEnumerator SetPathCoroutine()
+    private IEnumerator SetPathCoroutine(int inc)
     {
         yield return StartCoroutine(pathFinder.FindPathCoroutine(transform.position, targetTr.position, path =>
         {
             if (path != null)
             {
                 pathList = path;
-                Draw();
+                SetActive(inc);
             }
             else
             {
@@ -43,19 +51,36 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
     #endregion
 
 
-
+    /// <summary>
+    /// </summary>
+    /// <param name="inc">[-1] Erase(Deactive), [1] Draw(active), [2] Erase(only), [3] Draw(only)</param>
     public void SetActive(int inc)
     {
-        if (inc > 0)
+        switch (inc)
         {
-            Draw();
+            case -1:
+                if(onActive && onDraw)Erase();
+                onActive = false;
+                onDraw = false;
+                break;
+            case 1:
+                if(!onDraw)Draw();
+                onActive = true;
+                onDraw = true;
+                break;
+            case 2:
+                if(onDraw)Erase(); //조건 충족, 단순 라인 제거용
+                onActive = true;
+                onDraw = false;
+                break;
+            case 3:
+                if(!onDraw)Draw(); //조건 충족,
+                onDraw = true;
+                break;
         }
-        else
-        {
-            Erase();
-        }
-
+        //onActiv == true, onDraw == false -> Draw()
     }
+
 
     private Coroutine drawCoroutine;
     private Coroutine eraseCoroutine;
