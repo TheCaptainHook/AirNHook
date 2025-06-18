@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
 public enum INDICATOR
 {
     NONE = 0,
@@ -35,23 +36,29 @@ public class ActivatableObjectEntity : BuildObj
             }
         }
     }
-    //    [ReadOnly]
-    //     public int curActiveBtn;//현재 활성화된 버튼 //todo 0426 
-    //     public int CurActiveBtn
-    //     {
-    //         set { curActiveBtn += value;
-    //             if (curActiveBtn == activeRequirAmount) { Activation(); }
-    //             else { Deactivated(); }
-    //         } }
+
+    protected ActivatableObject_Net_Entity Net;
+    private bool Net_Entity(out ActivatableObject_Net_Entity net)
+    {
+        net = Net ??= GetComponent<ActivatableObject_Net_Entity>();
+        return net != null;
+    }
+
+    protected virtual void Awake()
+    {
+        Net = TryGetComponent(out ActivatableObject_Net_Entity entity) ? entity : null;
+    }
+
     [ReadOnly]
     public int curActiveBtn;
     //----------------------------------------------------------------Refactoring 250124
-    public void ApplyActive(int num,uint id=9999) //Maybe only Server
+    public void ApplyActive(int num,uint id=9999) //only Server
     {
         curActiveBtn += num;
-        if(id != 9999 && ButtonActivatedObjectStruct.indicator == INDICATOR.MARK)
+        
+        if (id != 9999 && ButtonActivatedObjectStruct.indicator == INDICATOR.MARK)
         {
-            ApplyActive_Sync_var2(id,curActiveBtn,num);
+            ApplyActive_Sync_var2(id, curActiveBtn, num);
         }
         else if (ButtonActivatedObjectStruct.indicator == INDICATOR.TEXT) ApplyActive_Sync_var1(curActiveBtn);
 
@@ -67,12 +74,8 @@ public class ActivatableObjectEntity : BuildObj
     }
     //----------------------------------------------------------------Refactoring 250124
 
-    protected virtual void Activation() { }
-    protected virtual void Deactivated() { }
-    //    public virtual void ApplyActive(int num)
-    //    {
-    //     CurActiveBtn = num;
-    //    }
+    public virtual void Activation() { }
+    public virtual void Deactivated() { }
 
     #region GET,SET
     public override T GetData<T>()
@@ -84,35 +87,40 @@ public class ActivatableObjectEntity : BuildObj
 
         return default(T);
     }
-    protected Util util; 
-    public override void SetData<T>(T data)
+    protected Util util;
+    public override async void SetData<T>(T data)
     {
-        try
+        if (typeof(T) == typeof(ButtonActivatableObjectStruct))
         {
-            if (typeof(T) == typeof(ButtonActivatableObjectStruct))
+            util = new Util();
+            ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
+            ButtonActivatedObjectStruct = objData;
+
+            AdditionalInspectorConfig();
+
+           
+
+
+            if (Application.isPlaying)
             {
-                util = new Util();
-                ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
-                ButtonActivatedObjectStruct = objData;
-
-                //Create Indicator
-                //if(ButtonActivatedObjectStruct.indicator == INDICATOR.TEXT) Create_Indicator_var_1();
-                //else if(ButtonActivatedObjectStruct.indicator == INDICATOR.MARK)Create_Indicator_var_2();
-                if(ButtonActivatedObjectStruct.indicator == INDICATOR.TEXT) Create_Indicator_var_1();
-                else if(ButtonActivatedObjectStruct.indicator == INDICATOR.MARK) Create_Indicator_var_2();
-
-                //Create Indicator
+                if (Net_Entity(out ActivatableObject_Net_Entity net))
+                {
+                    //Create Indicato
+                    // if (ButtonActivatedObjectStruct.indicator == INDICATOR.TEXT) Create_Indicator_var_1();
+                    // else if (ButtonActivatedObjectStruct.indicator == INDICATOR.MARK) Create_Indicator_var_2();
+                    //Create Indicator
+                    net.Server_InitSync();
+                }
+                await util.Delay(() => { CheckActiveRequirAmount(); });
             }
         }
-        catch(Exception e)
-        {
-            Debug.Log($"{e},{typeof(T)}");
-        }
+    }
 
-        // if (Application.isPlaying)
-        // {
-        //     await util.Delay(() => { CheckActiveRequirAmount(); });
-        // }
+
+
+    
+    protected virtual void AdditionalInspectorConfig()
+    {
 
     }
 

@@ -1,9 +1,8 @@
 using Mirror;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class EraseField_Character_Net : NetworkBehaviour
+public class EraseField_Character_Net : ActivatableObject_Net_Entity
 {
     [SerializeField] GameObject base_2_Field;
     [SerializeField] GameObject main_Field;
@@ -14,49 +13,11 @@ public class EraseField_Character_Net : NetworkBehaviour
     private Color color = Color.red;
     private Color nonCol = new Color(1, 0, 0, 0);
 
-    private EraseField_Character Main => GetComponent<EraseField_Character>();
-    private Collider2D Col => GetComponent<Collider2D>();
-
-
-    public bool onActive;
-    #region Init Sync
-    public bool onSync;
-    [Server]
-    public void Server_InitSync()
+    protected override void Active()
     {
-        Rpc_InitSync(Main.ButtonActivatedObjectStruct,Main.Check_Condition_RequirAmount());
-    }
-    [ClientRpc]
-    private void Rpc_InitSync(ButtonActivatableObjectStruct data,bool onActive)
-    {
-        if (onSync) return;
-        transform.position = data.position;
-        transform.rotation = data.quaternion;
-        transform.localScale = data.scale;
-        onSync = true;
-        if (!onActive) Active(false);
-    }
-    [Command(requiresAuthority = false)]
-    private void Cmd_InitSync()
-    {
-        Server_InitSync();
-    }
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        if(!onSync) Cmd_InitSync();
-    }
-    #endregion
-
-
-    [ClientRpc]
-    public void Rpc_Active()
-    {
-        //Main.Net_Active();
         Active(true);
     }
-    [ClientRpc]
-    public void Rpc_Deactive()
+    protected override void Deactive()
     {
         Active(false);
     }
@@ -70,8 +31,6 @@ public class EraseField_Character_Net : NetworkBehaviour
 
         Col.enabled = onOff;
     }
-
-
 
     Coroutine effectCoroutine;
     float percent = 0;

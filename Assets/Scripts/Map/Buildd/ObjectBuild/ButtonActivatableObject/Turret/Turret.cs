@@ -96,7 +96,7 @@ public class Turret : ActivatableObjectEntity
     //    animator.SetBool(Left, onLeft);
     //}
 
-    protected override void Activation()
+    public override void Activation()
     {
         //onLeft = !onLeft;
         //curTime = 0;
@@ -104,7 +104,7 @@ public class Turret : ActivatableObjectEntity
         //animator.SetBool(Left, onLeft);
         Turret_Net.Server_Activation();
     }
-    protected override void Deactivated()
+    public override void Deactivated()
     {
         Turret_Net.Server_Activation();
     }

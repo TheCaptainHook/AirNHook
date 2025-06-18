@@ -98,11 +98,11 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     #endregion
 
     #region  Activatable Object Entity
-    protected override void Activation()
+    public override void Activation()
     {
         onActive = true;
     }
-    protected override void Deactivated()
+    public override void Deactivated()
     {
         onActive = false;
     }

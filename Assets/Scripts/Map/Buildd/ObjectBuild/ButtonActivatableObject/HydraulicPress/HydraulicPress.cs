@@ -39,13 +39,13 @@ public class HydraulicPress : ActivatableObjectEntity
     }
 
     
-    protected override void Activation()
+    public override void Activation()
     {   
         Net.Server_Press(true);
     }
 
     
-    protected override void Deactivated()
+    public override void Deactivated()
     {
         Net.Server_Press(false);
     }

@@ -1,10 +1,7 @@
 using Mirror;
-using System;
-using System.Collections;
-
 using UnityEngine;
 
-public class JumpingPad_Net : NetworkBehaviour
+public class JumpingPad_Net : ActivatableObject_Net_Entity
 {
     public int jumpingPower;
 
@@ -13,133 +10,61 @@ public class JumpingPad_Net : NetworkBehaviour
     readonly int Activated = Animator.StringToHash("Activated");
     #endregion
 
-    private JumpingPad Main => GetComponent<JumpingPad>();
-
     #region  Init Sync
-    public bool onSync;
-    [Server]
-    public void Server_InitSync()
+   
+    protected override void SetData(ButtonActivatableObjectStruct data)
     {
-        StartCoroutine(AllClientReadyChecker_Co(()=>{Rpc_InitSync(Main.ButtonActivatedObjectStruct);}));
-    }
-
-    [ClientRpc]
-    private void Rpc_InitSync(ButtonActivatableObjectStruct data)
-    {
-        if(onSync) return;
-
-        transform.position = data.position;
-        transform.rotation = data.quaternion;
-        transform.localScale = data.scale;
-
+        base.SetData(data);
         jumpingPower = data.jumpingPower;
-
-        onSync = true;
     }
 
-    [Command(requiresAuthority = false)]
-    private void Cmd_InitSync()
-    {
-        Server_InitSync();
-    }
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        if(!onSync) Cmd_InitSync();
-    }
-
-    IEnumerator AllClientReadyChecker_Co(Action action)
-    {
-        while(true)
-        {
-            int connectionClinetAmount = NetworkServer.connections.Count;
-            int num = 0;
-            foreach(var conn in NetworkServer.connections.Values)
-            {
-                if(conn.isReady) num++;
-            }
-
-            if(connectionClinetAmount == num) break;
-
-            yield return null;
-        }
-        action?.Invoke();
-
-    }
     #endregion
 
 
-
-    [SyncVar(hook = nameof(OnChangeOnActive))] public bool onActive;
-    private void OnChangeOnActive(bool old,bool newVal)
+    protected override void Active()
     {
-        Animator.SetBool(Activated, newVal);
+        Animator.SetBool(Activated, true);
     }
-
-
-
-    // [Server]
-    // public void Server_SetJumpingPower(int jumpingPower)
-    // {
-    //     this.jumpingPower = jumpingPower;
-    // }
+    protected override void Deactive()
+    {
+        Animator.SetBool(Activated, false);
+    }
 
     [Server]
-    public void Server_SetOnActive(bool onActive)
+    public override void Server_ChangeOnActive(bool onOff)
     {
-        this.onActive = onActive;
+        onActive = onOff;
+        Rpc_ChangeOnActive(onActive);
     }
 
+    [ClientRpc]
+    protected override void Rpc_ChangeOnActive(bool onOff)
+    {
+        Animator.SetBool(Activated, onOff);
+    }
 
-    //[Command(requiresAuthority = false)]
-    //public void Cmd_Jumping(GameObject obj)
-    //{
-    //    if (!obj) return;
-    //    if (obj.TryGetComponent(out NetworkIdentity component))
-    //    {
-    //        TRpc_Jumping(component.connectionToClient, obj);
-    //        return;
-    //    }
-    //    else
-    //    {
-    //        Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();
-    //        if (rb == null)
-    //        {
-    //            return;
-    //        }
-    //        Jumping(rb);
-    //    }
-
-
-    //}
-    [Command(requiresAuthority = false)]
-    public void Cmd_Jumping(uint id)
+    [Server]
+    public override void Server_PlayUniqueEffect(uint id)
     {
         var item = NetworkClient.spawned.TryGetValue(id,out NetworkIdentity identity) ? identity : null;
         if (!item ) return;
 
-        TRpc_Jumping(identity.connectionToClient, identity.gameObject);
-
-  
-
+        TRpc_PlayUniqueEffect(identity.connectionToClient, identity.gameObject);
 
     }
 
     [TargetRpc]
-    private void TRpc_Jumping(NetworkConnection con, GameObject obj)
+    private void TRpc_PlayUniqueEffect(NetworkConnection con, GameObject obj)
     {
       if(obj.TryGetComponent(out Rigidbody2D component))
         {
             Jumping(component);
         }
            
-
     }
-
 
     public void Jumping(Rigidbody2D rb)
     {
-        if (!onActive) return;
         rb.velocity = Vector2.zero;
         //rb.AddForce(Vector2.up * jumpingPower, ForceMode2D.Impulse);
         rb.AddForce(transform.up * jumpingPower, ForceMode2D.Impulse);

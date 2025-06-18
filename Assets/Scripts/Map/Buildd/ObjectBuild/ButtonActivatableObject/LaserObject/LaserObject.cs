@@ -56,7 +56,7 @@ public class LaserObject : ActivatableObjectEntity
         }
 
     }
-    protected override void Activation()
+    public override void Activation()
     {
 
         //onActive = true;
@@ -64,7 +64,7 @@ public class LaserObject : ActivatableObjectEntity
             _Net.Server_SetOnActive(true);
     }
 
-    protected override void Deactivated()
+    public override void Deactivated()
     {
         //onActive = false;
         if (NetworkServer.active)

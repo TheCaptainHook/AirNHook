@@ -1,49 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
+using Mirror;
 public class EraseField_Character : ActivatableObjectEntity
 {
-
-    EraseField_Character_Net Net;
-    private void Awake()
-    {
-      Net = GetComponent<EraseField_Character_Net>();
-    }
-
-    public override async void SetData<T>(T data)
-    {
-        base.SetData(data);
-
-        if (Application.isPlaying)
-        {
-            await util.Delay(() => { CheckActiveRequirAmount(); });
-        }
-
-    }
-
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!NetworkServer.active) return;
         
-        if(collision)
-        {
-            Debug.Log(collision.name);
-        }
-        if(collision.gameObject.TryGetComponent(out PlayerSM component))
+        if (collision.gameObject.TryGetComponent(out PlayerSM component))
         {
             component.TakeDamage(DamageType.Fire);
         }
 
     }
 
-    protected override void Activation()
+    public override void Activation()
     {
-        Net.Rpc_Active();
+        Net.Server_ChangeOnActive(true);
     }
-    protected override void Deactivated()
+    public override void Deactivated()
     {
-        Net.Rpc_Deactive();
+        Net.Server_ChangeOnActive(false);
     }
 
 }

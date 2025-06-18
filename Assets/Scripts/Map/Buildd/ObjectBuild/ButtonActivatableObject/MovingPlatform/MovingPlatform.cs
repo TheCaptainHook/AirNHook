@@ -122,12 +122,12 @@ public class MovingPlatform :  ActivatableObjectEntity
 
 
     #region  Activatable
-    protected override void Activation()
+    public override void Activation()
     {
         // onActive = true;
         MovingPlatform_Net.onActive = true;
     }
-    protected override void Deactivated()
+    public override void Deactivated()
     {
         MovingPlatform_Net.onActive = false;
     }

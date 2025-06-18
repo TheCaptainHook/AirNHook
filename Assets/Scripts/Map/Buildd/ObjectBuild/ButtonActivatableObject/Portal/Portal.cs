@@ -142,12 +142,12 @@ public class Portal : ActivatableObjectEntity
         }
     }
 
-    protected override void Activation()
+    public override void Activation()
     {
         Portal_Net.Cmd_CallSetOnActive(true);
     }
 
-    protected override void Deactivated()
+    public override void Deactivated()
     {
         Portal_Net.Cmd_CallSetOnActive(false);
     }

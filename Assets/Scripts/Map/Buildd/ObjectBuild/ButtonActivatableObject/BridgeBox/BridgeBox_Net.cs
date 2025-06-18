@@ -4,7 +4,7 @@ using UnityEngine;
 using Mirror;
 
 
-public class BridgeBox_Net : NetworkBehaviour
+public class BridgeBox_Net : ActivatableObject_Net_Entity
 {
     [SerializeField] BoxCollider2D bridgeCollider;
     [SerializeField] LineRenderer lineRenderer;
@@ -17,103 +17,46 @@ public class BridgeBox_Net : NetworkBehaviour
     public Vector2 connectionPoint;
     public Vector2 position;
 
-    [SyncVar]public bool onActive;
+    // [SyncVar]public bool onActive;
 
 
 
-    private BridgeBox Main => GetComponent<BridgeBox>();
+    // private BridgeBox Main => GetComponent<BridgeBox>();
     private BoxCollider2D Collider => GetComponent<BoxCollider2D>();
 
 
     #region Init
 
-    public bool onSync;
 
-    [Server]
-    public void Server_InitSync()
-    {
-        Rpc_InitSync(Main.ButtonActivatedObjectStruct);
-    }
-    [ClientRpc]
-    private void Rpc_InitSync(ButtonActivatableObjectStruct data)
-    {
-        if (onSync) return;
-        SetData(data);
-    }
 
-    [Command(requiresAuthority = false)]
-    private void Cmd_InitSync()
+    protected override void SetData(ButtonActivatableObjectStruct data)
     {
-        Server_InitSync();
-    }
-    public void SetData(ButtonActivatableObjectStruct data)
-    {
+        base.SetData(data);
+
         bridgeLength = data.bridgeLength;
         connectionPoint = data.connectionPoint;
         position = data.position;
 
-        transform.position = data.position;
-        transform.rotation = data.quaternion;
-
         CreateBridge();
 
-        if (onActive) Active();
-        else Deactive();
-
-        onSync = true;
     }
 
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        if (!onSync) Cmd_InitSync();
 
-    }
-
-    //#region Client Only
-    //[Server]
-    //public void Server_RequirCheck()
-    //{
-    //    if(Main.activeRequirAmount == Main.curActiveBtn)
-    //    {
-    //        Rpc_RequirCheck(true);
-    //    }
-    //    else
-    //    {
-    //        Rpc_RequirCheck(false);
-    //    }
-    //}
-    //[ClientRpc]
-    //public void Rpc_RequirCheck(bool onOff)
-    //{
-    //    if(!isServer && isClient)
-    //    {
-    //        if(onOff)
-    //        {
-    //            Active();
-    //        }
-    //        else
-    //        {
-    //            Deactive();
-    //        }
-    //    }
-    //}
-    //#endregion
-
+   
 
     #endregion
 
 
 
     [Server]
-    public void Server_ChangeOnActive(bool onOff)
+    public override void Server_ChangeOnActive(bool onOff)
     {
         onActive = onOff;
        Rpc_ChangeOnActive(onOff);
     }
 
     [ClientRpc]
-    private void Rpc_ChangeOnActive(bool onOff)
+    protected override void Rpc_ChangeOnActive(bool onOff)
     {
         if(onOff)
         {
@@ -188,16 +131,14 @@ public class BridgeBox_Net : NetworkBehaviour
 
 
 
-    private void Active()
+    protected override void Active()
     {
-
         lineRenderer.enabled = true;
         bridgeCollider.enabled = true;
         //DrawLine();
     }
-    private void Deactive()
+    protected override void Deactive()
     {
-
         lineRenderer.enabled = false;
         bridgeCollider.enabled = false;
     }
