@@ -1,55 +1,43 @@
 using System.Collections;
-using Mirror;
 using UnityEngine;
 
-public class HydraulicPress_Net : NetworkBehaviour
+public class HydraulicPress_Net : ActivatableObject_Net_Entity
 {
-    public bool onSync;
-    private HydraulicPress Main => GetComponent<HydraulicPress>();
 
-    [Server]
-    public void Server_Press(bool onOff)
+    protected override void Active()
     {
-        Rpc_Press(onOff);
+        PressOn();
     }
-    [ClientRpc]
-    private void Rpc_Press(bool onOff)
+    protected override void Deactive()
     {
-        if(onOff) PressOn();
-        else PressRelease();
-        
+        PressRelease();
     }
 
 
+    #region  Press
 
-    #region  Init Sync
-    [Server]
-    public void Server_InitSync()
+    #region Steam Ani
+    
+    [Header("Steam Ani")]
+    [SerializeField] Animator _UPStem;
+    [SerializeField] Animator _DownStem;
+    public void IsAnimationPlaying(string animationName)
     {
-        Rpc_InitSync(Main.ObjectData);
-    }
-    [ClientRpc]
-    public void Rpc_InitSync(ObjectData data)
-    {
-        if (onSync) return;
-        transform.position = data.position;
-        transform.rotation = data.quaternion;
-        onSync = true;
+        AnimatorStateInfo stateInfo1 = _UPStem.GetCurrentAnimatorStateInfo(0);
+        AnimatorStateInfo stateInfo2 = _DownStem.GetCurrentAnimatorStateInfo(0);
 
-    }
-    [Command(requiresAuthority = false)]
-    private void Cmd_InitSync()
-    {
-        Server_InitSync();
-    }
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        if (!onSync) Cmd_InitSync();
+        if(!stateInfo1.IsName(animationName))
+        {
+            _UPStem.Play(animationName);
+        }
+         if(!stateInfo2.IsName(animationName))
+        {
+            _DownStem.Play(animationName);
+        }
+
     }
     #endregion
 
-    #region  Press
     [Header("Light")]
     [SerializeField] SpriteRenderer lightSpriteRenderer;
     [SerializeField] Sprite greenSprite;
@@ -148,7 +136,7 @@ public class HydraulicPress_Net : NetworkBehaviour
 
     private void PressOn()
     {
-        Main.SteamOn(); 
+        IsAnimationPlaying("Steam");
 
         if(pressReleaseCoroutine != null)
         {
@@ -160,7 +148,7 @@ public class HydraulicPress_Net : NetworkBehaviour
     private void PressRelease()
     {
 
-        Main.SteamOn();
+        IsAnimationPlaying("Steam");
         if(pressOnCoroutine != null)
         {
             StopCoroutine(pressOnCoroutine);

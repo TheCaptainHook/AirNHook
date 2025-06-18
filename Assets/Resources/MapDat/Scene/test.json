@@ -3677,6 +3677,44 @@
                 "x": 0.0,
                 "y": 0.0
             }
+        },
+        {
+            "id": 332,
+            "activeRequirAmount": 1,
+            "chargeRequired": false,
+            "indicator": 0,
+            "jumpingPower": 0,
+            "position": {
+                "x": -46.91999816894531,
+                "y": -28.229999542236329
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
         }
     ],
     "buttonObjectList": [
@@ -4035,6 +4073,10 @@
                 {
                     "x": -39.54999923706055,
                     "y": -34.08000183105469
+                },
+                {
+                    "x": -46.91999816894531,
+                    "y": -28.229999542236329
                 }
             ],
             "lightPositions": [],

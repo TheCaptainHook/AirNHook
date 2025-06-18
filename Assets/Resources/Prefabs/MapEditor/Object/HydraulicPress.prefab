@@ -580,9 +580,10 @@ MonoBehaviour:
   _Dissolve_MainSprite: {fileID: 0}
   canRespawn: 0
   activeRequirAmount: 0
+  indicator: 0
+  indicatorOffset_val_1: {x: 0, y: 0}
+  indicatorOffset_val_2: {x: 0, y: 0}
   curActiveBtn: 0
-  _UPStem: {fileID: 6523186124190423156}
-  _DownStem: {fileID: 7242306415295674344}
 --- !u!114 &6751884477493006046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -599,6 +600,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   onSync: 0
+  onActive: 0
+  _UPStem: {fileID: 6523186124190423156}
+  _DownStem: {fileID: 7242306415295674344}
   lightSpriteRenderer: {fileID: 1226818510410384007}
   greenSprite: {fileID: 21300000, guid: 38164a288622b084bbd5447a0222dec4, type: 3}
   redSprite: {fileID: 21300000, guid: 16eca0def3740194dbf967c83a2cd7e3, type: 3}
