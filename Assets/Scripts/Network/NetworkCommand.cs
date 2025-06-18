@@ -10,20 +10,31 @@ public class NetworkCommand : NetworkBehaviour
     private void Awake()
     {
         Managers.Command = this;
-        waitSecond = new WaitForSeconds(5);
+        // waitSecond = new WaitForSeconds(5);
     }
     #endregion
 
     #region StageChange
+    [Space(20)]
+    [Header("Stage Change Field")]
     //--------------Server
-    private WaitForSeconds waitSecond;
+    // private WaitForSeconds waitSecond;
     private Queue<Action> changeStageQueue = new();
     
     //--------------Server
     private Coroutine waitChangeStageCoroutine; //Use only Server
     //---------------------------------
+    [ReadOnly]
+    [SyncVar] public int isCompleteMoveStageCount;
+    [ReadOnly]
+    [SyncVar] public int currentClientConnectionCount = 0;
 
-    public int isCompleteMoveStageCount;
+    [Server]
+    public void Server_UpdateCurClientConnectionCount()
+    {
+        currentClientConnectionCount = NetworkServer.connections.Count;
+        isCompleteMoveStageCount = 0;
+    }
 
     [Command(requiresAuthority = false)]
     public void Cmd_IsCompleteMoveStage()
@@ -32,7 +43,7 @@ public class NetworkCommand : NetworkBehaviour
     }
     private int ClientCount => NetworkServer.connections.Count;
     //---------------------------------
-    private IEnumerator Wait_ChangeStage()
+    private IEnumerator Wait_ChangeStage() //Server
     {
         var uiOption = Managers.UI.GetUI<UI_Option>().GetComponent<UI_Option>();
         
@@ -45,12 +56,8 @@ public class NetworkCommand : NetworkBehaviour
             action?.Invoke();
 
             if(ClientCount > 1)
-            yield return new WaitUntil(()=> isCompleteMoveStageCount == 2);
+            yield return new WaitUntil(()=> isCompleteMoveStageCount == currentClientConnectionCount);
            
-
-            yield return waitSecond;
-
-            //yield return new WaitForSeconds(1);
         }
 
         uiOption.HoldAndReleaseLobby_StageRestartBtn(false);
@@ -80,18 +87,21 @@ public class NetworkCommand : NetworkBehaviour
     {
         var uiOption = Managers.UI.GetUI<UI_Option>().GetComponent<UI_Option>();
         uiOption.HoldAndReleaseLobby_StageRestartBtn(true);
-        yield return waitSecond;
+        
+        yield return new WaitUntil(() => isCompleteMoveStageCount == 2);
+        
         isCompleteMoveStageCount = 0;
         server_waitChangeStageCoroutine = null;
         uiOption.HoldAndReleaseLobby_StageRestartBtn(false);
     }
 
-    [Command(requiresAuthority = false)]
-    public void ChangeStage(string value)
+    // [Command(requiresAuthority = false)]
+    [Server]
+    public void _Server_ChangeStage(string value) //chit Option, [UI,Console,Serve Dissconnection]
     {
         Server_ChangeStage(value);
         // RpcChangeStage(value);
-       
+
     }
 
 

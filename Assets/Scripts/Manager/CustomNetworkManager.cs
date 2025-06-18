@@ -226,9 +226,9 @@ public class CustomNetworkManager : NetworkManager
 
 
     #region Disconnect
-    public override void OnServerDisconnect(NetworkConnectionToClient conn)
+    public override void OnServerDisconnect(NetworkConnectionToClient conn) //server
     {
-        if(Managers.Stage.stageName != GlobalText.LOBBY) Managers.Command.ChangeStage(GlobalText.LOBBY);
+        if(Managers.Stage.stageName != GlobalText.LOBBY) Managers.Command._Server_ChangeStage(GlobalText.LOBBY);
         
         base.OnServerDisconnect(conn);
     }
