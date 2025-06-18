@@ -98,8 +98,9 @@ public class ActivatableObjectEntity : BuildObj
                 //Create Indicator
                 //if(ButtonActivatedObjectStruct.indicator == INDICATOR.TEXT) Create_Indicator_var_1();
                 //else if(ButtonActivatedObjectStruct.indicator == INDICATOR.MARK)Create_Indicator_var_2();
+                if(ButtonActivatedObjectStruct.indicator == INDICATOR.TEXT) Create_Indicator_var_1();
+                else if(ButtonActivatedObjectStruct.indicator == INDICATOR.MARK) Create_Indicator_var_2();
 
-                Create_Indicator_var_2();
                 //Create Indicator
             }
         }

@@ -11,14 +11,11 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
     [SerializeField] PathFinder pathFinder;
 
     [SerializeField] LineRenderer lineRenderer;
+    [SerializeField] SpriteRenderer mainSprite;
 
     [ReadOnly]
     public uint targetId;
 
-    [ReadOnly]
-    public bool onActive = false;
-    [ReadOnly]
-    public bool onDraw = false;
     public bool Setting(uint id,int inc)
     {
         Transform target = NetworkClient.spawned.TryGetValue(id, out var targetObject) ? targetObject.transform : null;
@@ -53,32 +50,20 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
 
     /// <summary>
     /// </summary>
-    /// <param name="inc">[-1] Erase(Deactive), [1] Draw(active), [2] Erase(only), [3] Draw(only)</param>
+    /// <param name="inc">[-1] Erase(Deactive), [1] Draw(active)</param>
     public void SetActive(int inc)
     {
         switch (inc)
         {
             case -1:
-                if(onActive && onDraw)Erase();
-                onActive = false;
-                onDraw = false;
+                Erase();
+     
                 break;
             case 1:
-                if(!onDraw)Draw();
-                onActive = true;
-                onDraw = true;
-                break;
-            case 2:
-                if(onDraw)Erase(); //조건 충족, 단순 라인 제거용
-                onActive = true;
-                onDraw = false;
-                break;
-            case 3:
-                if(!onDraw)Draw(); //조건 충족,
-                onDraw = true;
+                Draw();
+       
                 break;
         }
-        //onActiv == true, onDraw == false -> Draw()
     }
 
 
@@ -172,7 +157,7 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
         }
         lineRenderer.positionCount = 0;
         eraseCoroutine = null;
-        gameObject.SetActive(false);
+        
     }
     #endregion
 
