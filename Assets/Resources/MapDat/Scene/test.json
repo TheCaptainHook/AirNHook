@@ -3018,8 +3018,8 @@
             "moveDistance": 0.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
+                "x": -11.3100004196167,
+                "y": 11.760000228881836
             }
         },
         {
@@ -3634,10 +3634,10 @@
             "paths": [],
             "moveSpeed": 0.0,
             "moveDistance": 0.0,
-            "bridgeLength": 0.0,
+            "bridgeLength": 5.0,
             "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
+                "x": -39.529998779296878,
+                "y": -29.790000915527345
             }
         },
         {

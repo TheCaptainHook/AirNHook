@@ -1,9 +1,18 @@
-
+using UnityEngine;
 public class BridgeBox : ActivatableObjectEntity
 {
     [CustomHeader("Bridge Box")]
     public float bridgeLength;
 
+    public override T GetData<T>()
+    {
+            if (typeof(T) == typeof(ButtonActivatableObjectStruct))
+        {
+            return (T)(object)new ButtonActivatableObjectStruct(id, activeRequirAmount, transform.position, transform.rotation, transform.localScale,bridgeLength,GetConnectionPoint(),indicator);
+        }
+
+        return default(T);
+    }
 
     protected override void AdditionalInspectorConfig()
     {
@@ -21,8 +30,12 @@ public class BridgeBox : ActivatableObjectEntity
         Net.Server_ChangeOnActive(false);
 
     }
-
-
+    private Vector2 GetConnectionPoint()
+    {
+        Vector2 dir = transform.right;
+        return (Vector2)transform.position + dir*bridgeLength;
+            
+    }
     #endregion
 }
 

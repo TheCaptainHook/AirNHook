@@ -15,11 +15,11 @@ public class EraseField_Object_Net : ActivatableObject_Net_Entity
 
     protected override void Active()
     {
-        Active(true);
+        Active(false);
     }
     protected override void Deactive()
     {
-        Active(false);
+        Active(true);
     }
 
     [ClientRpc]
