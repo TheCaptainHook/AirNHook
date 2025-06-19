@@ -8,7 +8,11 @@ public class EraseField_Character : ActivatableObjectEntity
         
         if (collision.gameObject.TryGetComponent(out PlayerSM component))
         {
-            component.TakeDamage(DamageType.Fire);
+            if(collision.TryGetComponent(out NetworkIdentity identity))
+            {
+                Net.Server_PlayUniqueEffect(identity.netId);
+            }
+           
         }
 
     }

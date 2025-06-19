@@ -21,6 +21,20 @@ public class EraseField_Character_Net : ActivatableObject_Net_Entity
     {
         Active(true);
     }
+    [Server]
+    public override void Server_PlayUniqueEffect(uint id)
+    {
+        var item = NetworkClient.spawned.TryGetValue(id, out var identity) ? identity : null;
+        if (item != null)
+        {
+            TRpc_PlayUniqueEffect(identity.connectionToClient, item.gameObject);
+        }
+    }
+    [TargetRpc]
+    private void TRpc_PlayUniqueEffect(NetworkConnection con,GameObject obj)
+    {
+        if (obj.TryGetComponent(out IDamageable component)) component.TakeDamage(DamageType.Fire);
+    }
 
     private void Active(bool onOff)
     {
