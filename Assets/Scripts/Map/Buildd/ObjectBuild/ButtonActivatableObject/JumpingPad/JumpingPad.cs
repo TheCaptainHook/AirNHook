@@ -20,27 +20,7 @@ public class JumpingPad : ActivatableObjectEntity
 
         return default(T);
     }
-    // public override async void SetData<T>(T data)
-    // {
-
-    //     base.SetData(data);
-
-            
-
-    //         if (Application.isPlaying)
-    //         {
-
-    //             Net.onSync = true;
-    //             Net.Server_InitSync();
-
-    //             await util.Delay(() => { CheckActiveRequirAmount(); });
-    //         }
-
-        
-      
-
-        
-    // }
+  
     protected override void AdditionalInspectorConfig()
     {
         jumpingPower = ButtonActivatedObjectStruct.jumpingPower;

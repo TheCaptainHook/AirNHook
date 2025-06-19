@@ -5,98 +5,55 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LaserObject : ActivatableObjectEntity
-    {
-        [CustomHeader("LaserObject")]
-        //[SerializeField] private float _defDistanceRay = 50f;
-        public float _curDistanceRay;
-        [SerializeField] private LineRenderer _lineRenderer;
-        [SerializeField] private Transform _firePoint;
-        [SerializeField] private GameObject _endVFX;
-        [SerializeField] LayerMask _layerMask;
-        [SerializeField] private bool _isEnabled;
-        //private bool onActive;
+{
+    [CustomHeader("LaserObject")]
+    //[SerializeField] private float _defDistanceRay = 50f;
+    public float _curDistanceRay;
 
-        [Header("Effect")]
-        [SerializeField] ParticleSystem hitEffectParticle;
+    [SerializeField] private Transform _firePoint;
 
-        private Ray ray;
-        // bool onHit;
-        // bool onRecoveryRay;
+    [SerializeField] private LineRenderer _lineRenderer;
+    [SerializeField] private GameObject _endVFX;
 
-        #region Editor Property
-        public Coroutine editor_showLaserCoroutine;
+    [SerializeField] LayerMask _layerMask;
+
+    //[SerializeField] private bool _isEnabled;
+    //private bool onActive;
+
+    [Header("Effect")]
+    [SerializeField] ParticleSystem hitEffectParticle;
+
+    private Ray ray;
+
+    #region Editor Property
+    public Coroutine editor_showLaserCoroutine;
     #endregion
 
-    public override async void SetData<T>(T data)
-    {
-        base.SetData(data);
-        
-        if (Application.isPlaying)
-        {
-            _Net.onSync = true;
-            _Net.Server_InitSync();
-
-            await util.Delay(() => { CheckActiveRequirAmount(); });
-        }
-       
-    }
 
     private void FixedUpdate()
     {
-        if (!MapEditor.Instance.stageClear && !turnOff && _Net.onActive)
+        if (!MapEditor.Instance.stageClear && !turnOff && Net.onActive)
         {
             UpdateLaser();
         }
-        else if (MapEditor.Instance.stageClear && _Net.onActive)
+        else if (MapEditor.Instance.stageClear && Net.onActive)
         {
             if(NetworkServer.active)
             {
-                _Net.Server_SetOnActive(false);
+                Net.Server_ChangeOnActive(false);
             }
         }
 
     }
     public override void Activation()
     {
-
-        //onActive = true;
-        if (NetworkServer.active)
-            _Net.Server_SetOnActive(true);
+        Net.Server_ChangeOnActive(true);
     }
 
     public override void Deactivated()
     {
-        //onActive = false;
-        if (NetworkServer.active)
-            _Net.Server_SetOnActive(false);
+        Net.Server_ChangeOnActive(false);
     }
-    
-
-    private void Awake()
-    {
-        _Net = GetComponent<LaserObject_Net>();
-
-    }
-    #region Network
-    private LaserObject_Net _Net;
-
-    public void Net_Active()
-    {
-        _isEnabled = true;
-        _endVFX.SetActive(_isEnabled);
-        _lineRenderer.enabled = _isEnabled;
-
-        //onActive = true;
-    }
-    public void Net_Deactive()
-    {
-        //onActive = false;
-        _isEnabled = false;
-        _endVFX.SetActive(_isEnabled);
-        _lineRenderer.enabled = false;
-    }
-    #endregion
-
 
     private void UpdateLaser()
     {
@@ -182,63 +139,60 @@ public class LaserObject : ActivatableObjectEntity
         }
 
     }
-    private void SetHitParticleRotate(Vector3 start,Vector3 hitPoint){
-            if(hitEffectParticle.transform.position != hitPoint){
-                hitEffectParticle.transform.position = hitPoint;
-                _endVFX.transform.position = hitPoint;
-            }
-
-            Vector2 direction = hitPoint - start;
-            float angle = Mathf.Atan2(direction.y,direction.x)*Mathf.Rad2Deg;
-            Quaternion rotation = Quaternion.Euler(angle,-90,0);
-
-            if(hitEffectParticle.transform.rotation != rotation){
-                hitEffectParticle.transform.rotation = Quaternion.Euler(angle,-90,0);
-                _endVFX.transform.rotation = Quaternion.Euler(angle, -90, 0);
-            }
-
-
-            hitEffectParticle.Play();
-
-        }
-
-        #region  Editor
-        public void Editor_Awake(){
-            _isEnabled = true;
-
-            _endVFX.SetActive(_isEnabled);
-            _lineRenderer.enabled = _isEnabled;
-        }
-        public void Editor_UpdateLaser(){
-            if(_isEnabled) UpdateLaser();
-        }
-       public void ResetLaser(){
-        if(_lineRenderer == null) return; 
-        _lineRenderer.positionCount = 0;
-        _isEnabled = false;
-        _endVFX.SetActive(_isEnabled);
-        _lineRenderer.enabled = _isEnabled;
-       }
-
-        #endregion
-        private void DrawLaser(int num,Vector2 start, Vector2 endPos)
+    private void SetHitParticleRotate(Vector3 start, Vector3 hitPoint)
+    {
+        if (hitEffectParticle.transform.position != hitPoint)
         {
-            _lineRenderer.positionCount = num + 2;
-            _lineRenderer.SetPosition(num, start);
-            _lineRenderer.SetPosition(num+1, endPos);
+            hitEffectParticle.transform.position = hitPoint;
+            _endVFX.transform.position = hitPoint;
+        }
+
+        Vector2 direction = hitPoint - start;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Quaternion rotation = Quaternion.Euler(angle, -90, 0);
+
+        if (hitEffectParticle.transform.rotation != rotation)
+        {
+            hitEffectParticle.transform.rotation = Quaternion.Euler(angle, -90, 0);
+            _endVFX.transform.rotation = Quaternion.Euler(angle, -90, 0);
         }
 
 
-        public override void TurnOff()
-        {
-            base.TurnOff();
-            turnOff = true;
-        }
-        public override void TurnOn()
-        {
-            base.TurnOn();
-            turnOff = false;
-            _isEnabled = true;
-        }
+        hitEffectParticle.Play();
+
     }
+
+    #region  Editor
+#if UNITY_EDITOR
+    private bool isEnabled;
+    public void Editor_Awake()
+    {
+        isEnabled = true;
+        _endVFX.SetActive(isEnabled);
+        _lineRenderer.enabled = isEnabled;
+    }
+
+    public void Editor_UpdateLaser()
+    {
+        if (isEnabled) UpdateLaser();
+    }
+    public void ResetLaser()
+    {
+        if (_lineRenderer == null) return;
+        _lineRenderer.positionCount = 0;
+        isEnabled = false;
+        _endVFX.SetActive(isEnabled);
+        _lineRenderer.enabled = isEnabled;
+    }
+#endif
+
+    #endregion
+    private void DrawLaser(int num, Vector2 start, Vector2 endPos)
+    {
+        _lineRenderer.positionCount = num + 2;
+        _lineRenderer.SetPosition(num, start);
+        _lineRenderer.SetPosition(num + 1, endPos);
+    }
+
+}
 

@@ -98,9 +98,6 @@ public class ActivatableObjectEntity : BuildObj
 
             AdditionalInspectorConfig();
 
-           
-
-
             if (Application.isPlaying)
             {
                 if (Net_Entity(out ActivatableObject_Net_Entity net))

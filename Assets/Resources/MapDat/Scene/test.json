@@ -3715,6 +3715,82 @@
                 "x": 0.0,
                 "y": 0.0
             }
+        },
+        {
+            "id": 330,
+            "activeRequirAmount": 1,
+            "chargeRequired": false,
+            "indicator": 0,
+            "jumpingPower": 30,
+            "position": {
+                "x": -36.459999084472659,
+                "y": -33.77000045776367
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 335,
+            "activeRequirAmount": 1,
+            "chargeRequired": false,
+            "indicator": 0,
+            "jumpingPower": 0,
+            "position": {
+                "x": -33.66999816894531,
+                "y": -29.709999084472658
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.696779727935791,
+                "w": 0.7172852754592896
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
         }
     ],
     "buttonObjectList": [
@@ -4077,6 +4153,14 @@
                 {
                     "x": -46.91999816894531,
                     "y": -28.229999542236329
+                },
+                {
+                    "x": -36.459999084472659,
+                    "y": -33.77000045776367
+                },
+                {
+                    "x": -33.66999816894531,
+                    "y": -29.709999084472658
                 }
             ],
             "lightPositions": [],

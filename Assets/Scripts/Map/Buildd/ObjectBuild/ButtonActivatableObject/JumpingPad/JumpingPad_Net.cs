@@ -30,18 +30,7 @@ public class JumpingPad_Net : ActivatableObject_Net_Entity
         Animator.SetBool(Activated, false);
     }
 
-    [Server]
-    public override void Server_ChangeOnActive(bool onOff)
-    {
-        onActive = onOff;
-        Rpc_ChangeOnActive(onActive);
-    }
 
-    [ClientRpc]
-    protected override void Rpc_ChangeOnActive(bool onOff)
-    {
-        Animator.SetBool(Activated, onOff);
-    }
 
     [Server]
     public override void Server_PlayUniqueEffect(uint id)
@@ -66,7 +55,6 @@ public class JumpingPad_Net : ActivatableObject_Net_Entity
     public void Jumping(Rigidbody2D rb)
     {
         rb.velocity = Vector2.zero;
-        //rb.AddForce(Vector2.up * jumpingPower, ForceMode2D.Impulse);
         rb.AddForce(transform.up * jumpingPower, ForceMode2D.Impulse);
     }
 }
