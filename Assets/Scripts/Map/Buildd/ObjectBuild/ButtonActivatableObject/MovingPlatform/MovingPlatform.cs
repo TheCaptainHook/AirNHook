@@ -2,12 +2,12 @@
 using System.Collections;
 using UnityEngine;
 using System;
-using Org.BouncyCastle.Crypto.Engines;
 
 public class MovingPlatform :  ActivatableObjectEntity
 {
     [CustomHeader("Moving Platform")]
     public Vector2[] paths;
+
     [ContextMenu("Add Current Position")]
     public void AddCurrentPosition() 
     {
@@ -37,7 +37,7 @@ public class MovingPlatform :  ActivatableObjectEntity
     
     private MovingPlatform_Net MovingPlatform_Net;
 
-    private void Awake()
+    protected override void Awake()
     {
         MovingPlatform_Net = GetComponent<MovingPlatform_Net>();
     }
@@ -45,10 +45,11 @@ public class MovingPlatform :  ActivatableObjectEntity
     #region  GET,SET (Will take care this logic)
     public override T GetData<T>()
     {
-        if(typeof(T)==typeof(ButtonActivatableObjectStruct)){
-            return (T)(object)new ButtonActivatableObjectStruct(id,activeRequirAmount,transform.position,transform.rotation,transform.localScale,paths,moveSpeed,indicator);
+        if (typeof(T) == typeof(ButtonActivatableObjectStruct))
+        {
+            return (T)(object)new ButtonActivatableObjectStruct(id, activeRequirAmount, transform.position, transform.rotation, transform.localScale, paths, moveSpeed, indicator);
         }
-        
+
         return default(T);
 
     }
@@ -56,7 +57,12 @@ public class MovingPlatform :  ActivatableObjectEntity
     public override async void SetData<T>(T data)
     {
 
-        base.SetData(data);
+        if (typeof(T) == typeof(ButtonActivatableObjectStruct))
+        {
+            util = new Util();
+            ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
+            ButtonActivatedObjectStruct = objData;
+        }
 
         //Moving Platform
         paths = ConvertPaths(ButtonActivatedObjectStruct.paths);
@@ -65,11 +71,6 @@ public class MovingPlatform :  ActivatableObjectEntity
         if (Application.isPlaying)
         {
             MovingPlatform_Net.Server_InitSync();
-            MovingPlatform_Net.Server_CreateRail(paths, moveSpeed);
-
-            //Server FixedUpdata Ready 0407
-            MovingPlatform_Net.Server_FixedUpdateReady(paths.Length > 0);
-            //Server FixedUpdata Ready 0407
             
             await util.Delay(() => { CheckActiveRequirAmount(); });
         }

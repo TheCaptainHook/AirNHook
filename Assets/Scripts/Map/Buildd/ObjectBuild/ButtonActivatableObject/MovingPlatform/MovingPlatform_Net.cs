@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System;
-using Unity.VisualScripting;
 
 
 public class MovingPlatform_Net : NetworkBehaviour
@@ -56,8 +55,31 @@ public class MovingPlatform_Net : NetworkBehaviour
     [Server]
     public void Server_InitSync()
     {
+        if (Main.paths.Length > 0)
+        {
+            dataPath = new DataPath(Main.paths, Main.moveSpeed);
+            maxIndex = dataPath.paths.Length;
+            index = 0;
+            increment = 1;
+            targetPosition = dataPath.paths[index];
+
+            Rpc_SetTargetPosition(RB.position, targetPosition);
+            onFixedUpdataReady = true;
+        }
+        
+
         Rpc_InitSync(Main.ButtonActivatedObjectStruct);
+
     }
+
+    [ClientRpc]
+    private void Rpc_SetTargetPosition(Vector2 curPosition, Vector2 targetPosition)
+    {
+        RB.position = curPosition;
+        this.targetPosition = targetPosition;
+        Main.onArrivalPoint = false;
+    }
+
     [Command(requiresAuthority = false)]
     private void Cmd_InitSync()
     {
@@ -76,11 +98,11 @@ public class MovingPlatform_Net : NetworkBehaviour
         if (!onSync) Cmd_InitSync();
     }
 
-    [Server]
-    public void Server_CreateRail(Vector2[] paths, float moveSpeed)
-    {
-        dataPath = new DataPath(paths, moveSpeed);
-    }
+    // [Server]
+    // public void Server_CreateRail(Vector2[] paths, float moveSpeed)
+    // {
+    //     dataPath = new DataPath(paths, moveSpeed);
+    // }
 
     public void CreateRail()
     {
@@ -156,21 +178,7 @@ public class MovingPlatform_Net : NetworkBehaviour
     public Vector2 targetPosition;
 
 
-    [Server]
-    public void Server_FixedUpdateReady(bool onReady)
-    {
-        if (onReady)
-        {
-            maxIndex = dataPath.paths.Length;
-            index = 0;
-            increment = 1;
-            targetPosition = dataPath.paths[index];
-
-            Rpc_SetTargetPosition(RB.position, targetPosition);
-            onFixedUpdataReady = true;
-        }
-    }
-
+  
     private Vector2 previousTargetPosition;
     private void FixedUpdate()
     {
@@ -213,14 +221,7 @@ public class MovingPlatform_Net : NetworkBehaviour
         return false;
     }
 
-    [ClientRpc]
-    private void Rpc_SetTargetPosition(Vector2 curPosition, Vector2 targetPosition)
-    {
-        RB.position = curPosition;
-        this.targetPosition = targetPosition;
-        Main.onArrivalPoint = false;
-    }
-
+  
 
     //--------------------------------------------------------------------------------------------------------Refectoring 0406
     #endregion

@@ -38,7 +38,7 @@ public class ActivatableObjectEntity : BuildObj
     }
 
     protected ActivatableObject_Net_Entity Net;
-    private bool Net_Entity(out ActivatableObject_Net_Entity net)
+    protected bool Net_Entity(out ActivatableObject_Net_Entity net)
     {
         net = Net ??= GetComponent<ActivatableObject_Net_Entity>();
         return net != null;
@@ -130,10 +130,6 @@ public class ActivatableObjectEntity : BuildObj
             Activation();
         }
         else Deactivated();
-    }
-    public bool Check_Condition_RequirAmount()
-    {
-        return activeRequirAmount == curActiveBtn;
     }
 
     #region Indicator

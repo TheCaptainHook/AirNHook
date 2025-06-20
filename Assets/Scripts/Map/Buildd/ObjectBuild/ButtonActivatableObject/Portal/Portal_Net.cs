@@ -2,100 +2,90 @@ using System.Collections;
 using UnityEngine;
 using Mirror;
 using System;
-
-public class Portal_Net : NetworkBehaviour
+public class Portal_Net : ActivatableObject_Net_Entity
 {
     [SerializeField] GameObject _TpEffect;
-    [Space(20)]
-    [Header("------------------------------------")]
-
-    //------------------------------------------------------------------Effect sync
-    [SyncVar(hook = nameof(ChangeOnActive))] public bool onActive;
-    private void ChangeOnActive(bool old, bool newVal)
+    [SyncVar] public uint targetId;
+    protected override void Active()
     {
-        Animator.SetBool(IsActive, newVal);
-        _TpEffect.SetActive(newVal);
-
+        Animator.SetBool(IsActive, true);
+        _TpEffect.SetActive(true);
     }
-    [Server] //sync
-    public void Server_SetOnActive(bool val)
+    protected override void Deactive()
     {
-        onActive = val;
+         Animator.SetBool(IsActive, false);
+        _TpEffect.SetActive(false);
     }
-
-
-    [Command]
-    public void Cmd_CallSetOnActive(bool val)
-    {
-        Server_SetOnActive(val);
-    }
-    //------------------------------------------------------------------Effect sync
+    
 
     //------------------------------------------------------------------Refactoring0303
     public Vector2 orgPosition => Portal.ButtonActivatedObjectStruct.position;
     public GameObject targetPortal;
-    public bool onSync;
-    public Vector2 targetPortalPosition;
+    // public bool onSync;
+    [SyncVar] public Vector2 targetPortalPosition;
+
     public bool onPrograss;
 
-    [Server]
-    public void Server_SetTargetPortal(GameObject obj)
+    protected override void SetData(ButtonActivatableObjectStruct data)
     {
-        targetPortal = obj;
-        Rpc_SetTargetPortal(obj.GetComponent<NetworkIdentity>().netId);
-        onSync = true;
+        base.SetData(data);
+        if(isServer)
+        StartCoroutine(FindTarget(data.talPot));
     }
 
-    [ClientRpc]
-    private void Rpc_SetTargetPortal(uint id)
+    IEnumerator  FindTarget(Vector2 target)
     {
-        if(NetworkClient.spawned.TryGetValue(id,out NetworkIdentity networkIdentity))
+        yield return new WaitForSeconds(0.1f);
+        foreach (Transform tr in MapEditor.Instance.buttonActivatableObjectTransform)
         {
-            targetPortal = networkIdentity.gameObject;
-        }       
+            if (tr.TryGetComponent(out Portal component))
+            {
+                if (target == (Vector2)component.transform.position)
+                {
+                    targetId = component.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 9999;
+                    targetPortalPosition = component.transform.position;
+                    yield break;
+                }
+            }
+        }
     }
 
     [Server]
-    public void SetTargetPortal(Vector2 targetPortalPosition)
+    public override void Server_PlayUniqueEffect(uint id)
     {
-        this.targetPortalPosition = targetPortalPosition;  
+        var item = NetworkClient.spawned.TryGetValue(id, out var identity) ? identity : null;
+        if (item != null)
+        {
+            TRpc_PlayUniqueEffect(item.connectionToClient, identity.gameObject);
+        }
     }
 
+    [TargetRpc]
+    private void TRpc_PlayUniqueEffect(NetworkConnection conn, GameObject obj)
+    {
+        if (targetPortal == null)
+        {
+            var targetItem = NetworkClient.spawned.TryGetValue(targetId, out var identity) ? identity.gameObject : null;
+            if (targetItem != null)
+            {
+                targetPortal = targetItem;
+                UsePortal(obj);
+            }
+        }
+        else
+        {
+            UsePortal(targetPortal);
+        }
 
+       
+    }
 
-#region  Sync Init
+    private void UsePortal(GameObject obj)
+    {
+        if(!onPrograss) StartCoroutine(UsePortal_Co(obj));
+    }
   
-    [Command(requiresAuthority = false)]
-    private void Cmd_SyncData()
-    {
-        SyncData();
-    }
 
-    [Server]
-    public void SyncData()
-    {
-        Rpc_SyncData(targetPortalPosition, orgPosition,targetPortal);
-    }
-    [ClientRpc]
-    private void Rpc_SyncData(Vector2 targetPosition,Vector2 orgPosition,GameObject targetPortal)
-    {
-        transform.position = orgPosition;
-        this.targetPortalPosition = targetPosition;
-
-        if (targetPortal != null) this.targetPortal = targetPortal;
-
-        onSync = true;
-    }
-
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        Cmd_SyncData();
-
-    }
-
-
-    #endregion
 
     //------------------------------------------------------------------Refactoring
     #region StringCache
@@ -107,31 +97,8 @@ public class Portal_Net : NetworkBehaviour
 
     
 
-    [Command(requiresAuthority = false)]
-    public void Cmd_UsePortal(GameObject obj)
-    {
-        if (obj == null) return;
-
-        var netIdentity = obj.GetComponent<NetworkIdentity>();
-        var playerConn = netIdentity.connectionToClient;
-        TRpc_Portal(playerConn, obj);
-    }
-
-    [TargetRpc]
-    public void TRpc_Portal(NetworkConnection conn, GameObject player)
-    {
-        if (!onPrograss)
-        {
-            StartCoroutine(UsePortal_Co(player));
-        }
-
-    }
-
     IEnumerator UsePortal_Co(GameObject obj)
     {
-        var netIdentity = obj.GetComponent<NetworkIdentity>();
-        var playerConn = netIdentity.connectionToClient;
-
         OnPrograss(true);
 
         //Player Hold
@@ -178,11 +145,11 @@ public class Portal_Net : NetworkBehaviour
     {
         onPrograss = onOff;
 
-        var net = targetPortal.GetComponent<Portal_Net>();
-        net.onPrograss = onOff;
+        var target = targetPortal.GetComponent<Portal_Net>();
+        target.onPrograss = onOff;
 
         Animation_Active(!onOff);
-        net.Animation_Active(!onOff);
+        target.Animation_Active(!onOff);
     }
     
 

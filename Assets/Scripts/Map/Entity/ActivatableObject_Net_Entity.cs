@@ -25,7 +25,7 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
             return entity;
         }
     }
-    private ButtonActivatableObjectStruct data;
+    protected ButtonActivatableObjectStruct data;
 
     #region Init Sync
     [ReadOnly]
@@ -33,12 +33,12 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
     [ReadOnly]
     [SyncVar] public bool onActive;
     [Server]
-    public void Server_InitSync()
+    public virtual void Server_InitSync()
     {
         StartCoroutine(AllClientReadyChecker_Co(() => { Rpc_InitSync(Main.ButtonActivatedObjectStruct); }));
     }
     [ClientRpc]
-    private void Rpc_InitSync(ButtonActivatableObjectStruct data)
+    protected virtual void Rpc_InitSync(ButtonActivatableObjectStruct data)
     {
         if (onSync) return;
 
