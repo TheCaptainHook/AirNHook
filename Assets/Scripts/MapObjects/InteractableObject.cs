@@ -105,7 +105,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _accessor = accessor;
 
         if (_isFixed)
-            Release();
+            Release(accessor.gameObject);
         else
             Grab();
     }
@@ -130,8 +130,10 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         CmdChangeSortingLayer(true);
     }
 
-    public virtual void Release()
+    public virtual void Release(GameObject accssor)
     {
+        if (!ReferenceEquals(_permissionPlayer, accssor)) return;
+
         _stoppedTime = 0f;
         _isFixed = false;
         _isGrab = false;
@@ -243,8 +245,10 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _accessor = accesor;
     }
 
-    public void StopInhale()
+    public void StopInhale(GameObject accssor)
     {
+        if (!ReferenceEquals(_permissionPlayer, accssor)) return;
+
         if (_isDestroyed) return;
 
         Fixed(false);

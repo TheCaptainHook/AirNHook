@@ -410,7 +410,7 @@ public class HookSM : PlayerSM, IInhalable
         _inhaleCoroutine = null;
     }
     
-    public void StopInhale()
+    public void StopInhale(GameObject accssor = null)
     {
         if (_inhaleCoroutine != null)
         {
