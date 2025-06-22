@@ -7,74 +7,43 @@ using Mirror;
 public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
 {
     [CustomHeader("Weight Detection Moving Platform")]
-    [ReadOnly]
-    public Vector2 path;
-    
-    #region  TEST
-    private Vector2 orgPot;
-    #endregion
-    //private float rayLength;
 
     #region Main
-    private RaycastHit2D[] leftHit;
-    private RaycastHit2D[] rightHit;
 
-    [ReadOnly]
-    [SerializeField] Transform leftPoint;
-    [ReadOnly]
-    [SerializeField] Transform rightPoint;
-
+    #region  Main Field
+    [Space(10)]
+    [Header("Save Field")]
     public float moveDistance;
     public float moveSpeed;
-    private float maxRotate = 70;
-    private bool onActive; 
-
-    [SerializeField] LayerMask layerMask;
-    [SerializeField] GameObject rail_Prefabs;
-    [SerializeField] LineRenderer rail_Line;
-    
-    private float weight;
-    //private Vector2 dir;
-    //private float step;
-
-    
-    //private float minDis_Clamp; //Compare orgPot, path.
-    //private float maxDis_Clamp; //Compare orgPot, path.
-    private Vector2 curTargetPot; //next move point.
-    private float releaseCount =1;
-    private float curReleaseCount;
+    // private float maxRotate = 70; //only use server
+    // [ReadOnly]
+    // public float shotRayLength; //only use server
+    // [Space(10)]
+   
     #endregion
 
-    
-   #region  Components
-   private Rigidbody2D rb;
-   private Collider2D bodyCol;
-   private Animator animator;
-    private WDMP_Net wdmp_net;
-   private WDMP_Net WDMP_Net { get { wdmp_net ??= GetComponent<WDMP_Net>();return wdmp_net; } }
-   #endregion
-    
-    // #region Animation
-    // private readonly int leftDown = Animator.StringToHash("LeftDown");
-    // private readonly int rightDown = Animator.StringToHash("RightDown");
-    // #endregion
-    
-    private void Init()
-    {
-        WDMP_Net.Server_SetMoveDistance(ButtonActivatedObjectStruct);
 
-        orgPot = transform.position;
-        path  = GetPath();
-        curTargetPot = orgPot;
-        
+    // private RaycastHit2D[] leftHit;
+    // private RaycastHit2D[] rightHit;
 
-        bodyCol = GetComponent<Collider2D>();
-        float rayLength = bodyCol.bounds.size.x/2f;
-        WDMP_Net.Server_SetRayLength(rayLength);
+    // [ReadOnly]
+    // [SerializeField] Transform leftPoint;
+    // [ReadOnly]
+    // [SerializeField] Transform rightPoint;
 
-        // CreateRail();
-    }
  
+    // private bool onActive; 
+
+    // [SerializeField] LayerMask layerMask;
+    // [SerializeField] GameObject rail_Prefabs;
+    // [SerializeField] LineRenderer rail_Line;
+    
+    // private float weight;
+    // private float releaseCount =1;
+    // private float curReleaseCount;
+    #endregion
+
+
 
     #region  Get,Set
     public override T GetData<T>()
@@ -86,242 +55,179 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
         return default(T);
 
     }
-    public override async void  SetData<T>(T data)
-    {
-        base.SetData(data);
-        
-        
-        if(Application.isPlaying)
-        {
-            Init();
-            await util.Delay(()=>{CheckActiveRequirAmount();});
-        }
-    }
+
     protected override void AdditionalInspectorConfig()
     {
         moveSpeed = ButtonActivatedObjectStruct.moveSpeed;
         moveDistance = ButtonActivatedObjectStruct.moveDistance;
     }
+
     #endregion
 
     #region  Activatable Object Entity
     public override void Activation()
     {
-        onActive = true;
+        Net.Server_ChangeOnActive(true);
     }
     public override void Deactivated()
     {
-        onActive = false;
+        Net.Server_ChangeOnActive(false);
     }
     #endregion
 
-    protected override void Awake()
-    {
-        rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-
-    }
 
 
     private void Update()
     {
-        if(NetworkServer.active && onActive)
-        ShootRay();
+        // if(Net.onActive) ShootRay();
+        
     }
 
     // - : right
     // + : left
 
     bool onMove;
-    private void ShootRay()
-    {
-        float lw = 0;
-        float rw = 0;
+    // private void ShootRay()
+    // {
+    //     float lw = 0;
+    //     float rw = 0;
 
-        leftHit = Physics2D.RaycastAll(leftPoint.position,-transform.right, WDMP_Net.rayLength, layerMask);
-        rightHit = Physics2D.RaycastAll(rightPoint.position,transform.right, WDMP_Net.rayLength, layerMask);
-
-        foreach(RaycastHit2D hit in leftHit)
-        {
-            lw += Weight(hit);
-        }
-
-        foreach(RaycastHit2D hit in rightHit)
-        {
-            rw += Weight(hit);
-        }
-
-        //recover tilt
-        if(leftHit.Length == 0 && rightHit.Length == 0)
-        {
-            curReleaseCount+=Time.deltaTime;
-            if(curReleaseCount >= releaseCount)
-            {
-                onMove = false;
-                //transform.rotation = Quaternion.Lerp(transform.rotation,Quaternion.identity,Time.fixedDeltaTime);
-                rb.rotation = Mathf.Lerp(rb.rotation, 0, Time.fixedDeltaTime);
-                if (Mathf.Abs(rb.rotation) < 0.95f && Mathf.Abs(rb.rotation) > 0) 
-                {
-                    rb.rotation = 0;
-                }
-            }
-        }else{
-            curReleaseCount = 0;
-            onMove = true;
-        }
+    //     #if UNITY_EDITOR
+    //     Debug.DrawRay(leftPoint.position, -transform.right * shotRayLength, Color.red);
+    //     Debug.DrawRay(rightPoint.position, transform.right * shotRayLength, Color.red);
+    //     #endif
         
-        if (!onMove) return;
-            
-        weight = lw-rw;
+    //     leftHit = Physics2D.RaycastAll(leftPoint.position,-transform.right, shotRayLength, layerMask);
+    //     rightHit = Physics2D.RaycastAll(rightPoint.position,transform.right, shotRayLength, layerMask);
 
-        //tilt platform
-        Rotate(weight);
-        //tilt animation
-        //TiltAnimationSet(lw,rw);
+
+    //     foreach (RaycastHit2D hit in leftHit)
+    //     {
+    //         lw += Weight(hit);
+    //     }
+
+    //     foreach(RaycastHit2D hit in rightHit)
+    //     {
+    //         rw += Weight(hit);
+    //     }
+
+    //     //recover tilt
+    //     if(leftHit.Length == 0 && rightHit.Length == 0)
+    //     {
+    //         if (_rb.rotation == 0) return;
+
+    //         curReleaseCount +=Time.deltaTime;
+    //         if(curReleaseCount >= releaseCount)
+    //         {
+    //             onMove = false;
+    //             //transform.rotation = Quaternion.Lerp(transform.rotation,Quaternion.identity,Time.fixedDeltaTime);
+    //             _rb.rotation = Mathf.Lerp(_rb.rotation, 0, Time.fixedDeltaTime);
+    //             if (Mathf.Abs(_rb.rotation) < 0.95f) 
+    //             {
+    //                 _rb.rotation = 0;
+    //             }
+    //         }
+    //     }else{
+    //         curReleaseCount = 0;
+    //         onMove = true;
+    //     }
         
-        //move platform
-        if(WDMP_Net.moveDistance == 0) return;
+    //     if (!onMove) return;
 
-        //dir = transform.rotation.z == 0 ? Vector2.zero : transform.rotation.z>0 ? -Vector2.right : Vector2.right;
-        Vector2 dir = transform.rotation.z == 0 ? Vector2.zero : transform.rotation.z > 0 ? -Vector2.right : Vector2.right;
-        WDMP_Net.Server_SetDir(dir);
-
-        if (CheckMaxAndMinClamp()){
-            //step = moveSpeed * rate * Time.fixedDeltaTime;
-            WDMP_Net.Server_SetStep(moveSpeed * rate * Time.fixedDeltaTime);
-        }else{
-            //step = 0;
-            WDMP_Net.Server_SetStep(0);
-        }
-
-        MoveTowards();   
-        MoveTowards(leftHit);
-        MoveTowards(rightHit);
             
+    //     weight = lw-rw;
 
-    }
-    float rate = 0;
-    // z>0 : left , z<0 :right
-    private void Rotate(float weight)
-    {
-        Vector3 euler = transform.rotation.eulerAngles;
-        euler.z += weight;
+    //     //tilt platform
+    //     Rotate(weight);
+    //     //tilt animation
 
-        if(euler.z > 180){
-            euler.z -= 360;
-        }
+        
+    //     //move platform
+    //     if(moveDistance == 0) return;
 
-        euler.z = Mathf.Clamp(euler.z , -maxRotate,maxRotate);
-        rate = Mathf.Abs(euler.z) / maxRotate;
 
-        //transform.rotation = Quaternion.Euler(euler);
-        rb.rotation = euler.z;
-    }
-    private void MoveTowards(){
+    //     //------------- on hold ,,move
+    //         // Vector2 dir = transform.rotation.z == 0 ? Vector2.zero : transform.rotation.z > 0 ? -Vector2.right : Vector2.right;
+    //         // WDMP_Net.Server_SetDir(dir);
 
-        //curTargetPot = rb.position + dir;
-        curTargetPot = rb.position + WDMP_Net.dir;
-        //curTargetPot.x = Mathf.Clamp(curTargetPot.x,minDis_Clamp,maxDis_Clamp);
-        curTargetPot.x = Mathf.Clamp(curTargetPot.x, WDMP_Net.minDis_Clamp, WDMP_Net.maxDis_Clamp);
-        //rb.position = Vector2.MoveTowards(rb.position,curTargetPot,step);
-        rb.position = Vector2.MoveTowards(rb.position, curTargetPot, WDMP_Net.step);
-    }
-    private void MoveTowards(RaycastHit2D[] hits){
-            foreach(RaycastHit2D hit in hits){
-                if(hit.collider != null && hit.collider.TryGetComponent(out Rigidbody2D component)){
-                //component.position = Vector2.MoveTowards(component.position,component.position + dir,step);
-                component.position = Vector2.MoveTowards(component.position, component.position + WDMP_Net.dir, WDMP_Net.step);
-            }
-        }
-    }
+    //         // if (CheckMaxAndMinClamp(dir)){
+    //         //     WDMP_Net.Server_SetStep(moveSpeed * rate * Time.fixedDeltaTime);
+    //         // }else{
+    //         //     //step = 0;
+    //         //     WDMP_Net.Server_SetStep(0);
+    //         // }
+
+    //         // MoveTowards();   
+    //         // MoveTowards(leftHit);
+    //         // MoveTowards(rightHit);
+    //     //------------- on hold
+
+    // }
+    
+    // float rate = 0;
+    // // z>0 : left , z<0 :right
+    // private void Rotate(float weight)
+    // {
+    //     Vector3 euler = transform.rotation.eulerAngles;
+    //     euler.z += weight;
+
+    //     if(euler.z > 180){
+    //         euler.z -= 360;
+    //     }
+
+    //     euler.z = Mathf.Clamp(euler.z , -maxRotate,maxRotate);
+    //     rate = Mathf.Abs(euler.z) / maxRotate;
+
+    //     _rb.rotation = euler.z;
+    // }
+    
+    // private void MoveTowards(Vector2 dir)
+    // {
+    //     curTargetPot = _rb.position + dir;
+    //     curTargetPot.x = Mathf.Clamp(curTargetPot.x, minDis_Clamp, maxDis_Clamp);
+    //     _rb.position = Vector2.MoveTowards(_rb.position, curTargetPot, WDMP_Net.step);
+    // }
+    
+    // private void MoveTowards(RaycastHit2D[] hits)
+    // {
+    //     foreach (RaycastHit2D hit in hits)
+    //     {
+    //         if (hit.collider != null && hit.collider.TryGetComponent(out Rigidbody2D component))
+    //         {
+    //             component.position = Vector2.MoveTowards(component.position, component.position + WDMP_Net.dir, WDMP_Net.step);
+    //         }
+    //     }
+    // }
 
 
 
 
 
     #region  Util
-    // bool leftAni;
-    // bool rightAni;
-// private void TiltAnimationSet(float l,float r){
-//         var z = transform.rotation.z;
-//         if(z>0)
-//         {
-//             if (!leftAni)
-//             {
-//                 leftAni = true;
-//                 animator.SetBool(leftDown, leftAni);
-//             }
-//             if (rightAni)
-//             {
-//                 rightAni = false;
-//                 animator.SetBool(rightDown, rightAni);
-//             }
-//         }
-//         else if(z<0)
-//         {
-//             if (leftAni)
-//             {
-//                 leftAni = false;
-//                 animator.SetBool(leftDown, leftAni);
-//             }
-//             if (!rightAni)
-//             {
-//                 rightAni = true;
-//                 animator.SetBool(rightDown, rightAni);
-//             }
-//         }
 
-//     }
+ 
 
-private Vector2 GetPath()
-{
-    if(WDMP_Net.moveDistance == 0) return orgPot;
-    Vector2 target = new Vector2(orgPot.x + WDMP_Net.moveDistance, orgPot.y);
+        // private float Weight(RaycastHit2D hit)
+        // {
+        //     if (hit.collider.TryGetComponent(out HookSM hook))
+        //     {
+        //         if (hook.isSwinging)
+        //         {
+        //             return 0;
+        //         }
+            
+        //     }
+        //     if (hit.collider.TryGetComponent(out Rigidbody2D component))
+        //     {
+        //         float dis = Mathf.Floor(Vector3.Distance(transform.position, hit.point) * 100) / 100;
+        //         float mass = component.mass;
+        //         return dis * mass;
+        //     }
 
-    float minDis_Clamp = orgPot.x > target.x ? target.x : orgPot.x;
-    float maxDis_Clamp = orgPot.x < target.x ? target.x : orgPot.x;
-
-    WDMP_Net.Server_SetClamp(minDis_Clamp,maxDis_Clamp);
-
-    return target;
-
-}
-
-private float Weight(RaycastHit2D hit){
-        if (hit.collider.TryGetComponent(out HookSM hook))
-        {
-            if (hook.isSwinging)
-            {
-                return 0;
-            }
-           
-        }
-        if (hit.collider.TryGetComponent(out Rigidbody2D component))
-        {
-            float dis = Mathf.Floor(Vector3.Distance(transform.position, hit.point) * 100) / 100;
-            float mass = component.mass;
-            return dis * mass;
-        }
-
-        return 0;
+        //     return 0;
    
-}
-private bool CheckMaxAndMinClamp(){
-        if(WDMP_Net.dir == Vector2.right){
-            if(curTargetPot.x > WDMP_Net.maxDis_Clamp)
-            {
-                return false;
-            }
-        }else if(WDMP_Net.dir == -Vector2.right){
-            if(curTargetPot.x < WDMP_Net.minDis_Clamp)
-            {
-                return false;
-            }
-        }else if(WDMP_Net.dir == Vector2.zero ){
-            return false;
-        }
-
-        return true;
-}
+        // }
+        
+    
 #endregion
 }

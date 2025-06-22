@@ -16,6 +16,16 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
             return col;
         }
     }
+    private Rigidbody2D rb;
+    protected Rigidbody2D Rb
+    {
+        get
+        {
+            rb ??= GetComponent<Rigidbody2D>();
+            return rb;
+        }
+    }
+    
     private ActivatableObjectEntity entity;
     protected ActivatableObjectEntity Main
     {
