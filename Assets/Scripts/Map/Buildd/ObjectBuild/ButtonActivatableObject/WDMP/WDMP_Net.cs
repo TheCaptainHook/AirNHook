@@ -157,13 +157,6 @@ public class WDMP_Net : NetworkBehaviour
     }
 
 
-    //private void CreateNode()
-    //{
-    //    DrawLine(line);
-    //    railNode_1.transform.position = line.GetPosition(0);
-    //    railNode_2.transform.position = line.GetPosition(1);
-    //}
-
     private void OnDataPathUpdated(Vector2 old, Vector2 newVal)
     {
         if (newVal != Vector2.zero)

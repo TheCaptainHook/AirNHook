@@ -18,10 +18,12 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     #region Main
     private RaycastHit2D[] leftHit;
     private RaycastHit2D[] rightHit;
+
     [ReadOnly]
     [SerializeField] Transform leftPoint;
     [ReadOnly]
     [SerializeField] Transform rightPoint;
+
     public float moveDistance;
     public float moveSpeed;
     private float maxRotate = 70;
@@ -52,12 +54,13 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
    private WDMP_Net WDMP_Net { get { wdmp_net ??= GetComponent<WDMP_Net>();return wdmp_net; } }
    #endregion
     
-    #region Animation
-    private readonly int leftDown = Animator.StringToHash("LeftDown");
-    private readonly int rightDown = Animator.StringToHash("RightDown");
-    #endregion
+    // #region Animation
+    // private readonly int leftDown = Animator.StringToHash("LeftDown");
+    // private readonly int rightDown = Animator.StringToHash("RightDown");
+    // #endregion
     
-    private void Init(){
+    private void Init()
+    {
         WDMP_Net.Server_SetMoveDistance(ButtonActivatedObjectStruct);
 
         orgPot = transform.position;
@@ -86,14 +89,18 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     public override async void  SetData<T>(T data)
     {
         base.SetData(data);
-        moveSpeed = ButtonActivatedObjectStruct.moveSpeed;
-        moveDistance = ButtonActivatedObjectStruct.moveDistance;
+        
         
         if(Application.isPlaying)
         {
             Init();
             await util.Delay(()=>{CheckActiveRequirAmount();});
         }
+    }
+    protected override void AdditionalInspectorConfig()
+    {
+        moveSpeed = ButtonActivatedObjectStruct.moveSpeed;
+        moveDistance = ButtonActivatedObjectStruct.moveDistance;
     }
     #endregion
 
@@ -108,14 +115,16 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     }
     #endregion
 
-    private void Awake(){
+    protected override void Awake()
+    {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
     }
 
 
-    private void Update(){
+    private void Update()
+    {
         if(NetworkServer.active && onActive)
         ShootRay();
     }
@@ -124,27 +133,30 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     // + : left
 
     bool onMove;
-    private void ShootRay(){
+    private void ShootRay()
+    {
         float lw = 0;
         float rw = 0;
 
-        //Debug.DrawRay(leftPoint.position,-transform.right*WDMP_Net.rayLength,Color.red);
-        //Debug.DrawRay(rightPoint.position,transform.right* WDMP_Net.rayLength, Color.blue);
         leftHit = Physics2D.RaycastAll(leftPoint.position,-transform.right, WDMP_Net.rayLength, layerMask);
         rightHit = Physics2D.RaycastAll(rightPoint.position,transform.right, WDMP_Net.rayLength, layerMask);
 
-        foreach(RaycastHit2D hit in leftHit){
+        foreach(RaycastHit2D hit in leftHit)
+        {
             lw += Weight(hit);
         }
 
-        foreach(RaycastHit2D hit in rightHit){
+        foreach(RaycastHit2D hit in rightHit)
+        {
             rw += Weight(hit);
         }
 
         //recover tilt
-        if(leftHit.Length == 0 && rightHit.Length == 0){
+        if(leftHit.Length == 0 && rightHit.Length == 0)
+        {
             curReleaseCount+=Time.deltaTime;
-            if(curReleaseCount >= releaseCount){
+            if(curReleaseCount >= releaseCount)
+            {
                 onMove = false;
                 //transform.rotation = Quaternion.Lerp(transform.rotation,Quaternion.identity,Time.fixedDeltaTime);
                 rb.rotation = Mathf.Lerp(rb.rotation, 0, Time.fixedDeltaTime);
@@ -152,16 +164,15 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
                 {
                     rb.rotation = 0;
                 }
-
-               
             }
         }else{
             curReleaseCount = 0;
             onMove = true;
         }
-        if(!onMove) return;
+        
+        if (!onMove) return;
             
-        weight = (lw-rw);
+        weight = lw-rw;
 
         //tilt platform
         Rotate(weight);
@@ -191,7 +202,8 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     }
     float rate = 0;
     // z>0 : left , z<0 :right
-    private void Rotate(float weight){
+    private void Rotate(float weight)
+    {
         Vector3 euler = transform.rotation.eulerAngles;
         euler.z += weight;
 
@@ -228,40 +240,41 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
 
 
     #region  Util
-    bool leftAni;
-    bool rightAni;
-private void TiltAnimationSet(float l,float r){
-        var z = transform.rotation.z;
-        if(z>0)
-        {
-            if (!leftAni)
-            {
-                leftAni = true;
-                animator.SetBool(leftDown, leftAni);
-            }
-            if (rightAni)
-            {
-                rightAni = false;
-                animator.SetBool(rightDown, rightAni);
-            }
-        }
-        else if(z<0)
-        {
-            if (leftAni)
-            {
-                leftAni = false;
-                animator.SetBool(leftDown, leftAni);
-            }
-            if (!rightAni)
-            {
-                rightAni = true;
-                animator.SetBool(rightDown, rightAni);
-            }
-        }
+    // bool leftAni;
+    // bool rightAni;
+// private void TiltAnimationSet(float l,float r){
+//         var z = transform.rotation.z;
+//         if(z>0)
+//         {
+//             if (!leftAni)
+//             {
+//                 leftAni = true;
+//                 animator.SetBool(leftDown, leftAni);
+//             }
+//             if (rightAni)
+//             {
+//                 rightAni = false;
+//                 animator.SetBool(rightDown, rightAni);
+//             }
+//         }
+//         else if(z<0)
+//         {
+//             if (leftAni)
+//             {
+//                 leftAni = false;
+//                 animator.SetBool(leftDown, leftAni);
+//             }
+//             if (!rightAni)
+//             {
+//                 rightAni = true;
+//                 animator.SetBool(rightDown, rightAni);
+//             }
+//         }
 
-    }
+//     }
 
-private Vector2 GetPath(){
+private Vector2 GetPath()
+{
     if(WDMP_Net.moveDistance == 0) return orgPot;
     Vector2 target = new Vector2(orgPot.x + WDMP_Net.moveDistance, orgPot.y);
 
@@ -310,28 +323,5 @@ private bool CheckMaxAndMinClamp(){
 
         return true;
 }
-//private void CreateRail(){ //rail node, rail lineRenderer
-//        Transform parents = MapEditor.Instance.dontSaveObjectTransform;
-//        Transform container = new GameObject("Rail_Container").transform;
-//        container.SetParent(parents);
-
-//        LineRenderer line = Instantiate(rail_Line,container);
-//        //Draw Line
-//        DrawLine(line);
-
-//        GameObject railNode_1 = Instantiate(rail_Prefabs,container);
-//        railNode_1.transform.position = line.GetPosition(0);
-//        GameObject railNode_2 = Instantiate(rail_Prefabs,container);
-//        railNode_2.transform.position = line.GetPosition(1);
-//    }
-    //private void DrawLine(LineRenderer line){
-    //    line.positionCount = 2;
-    //    line.SetPosition(0,transform.position);
-    //    Vector2 target = new Vector2(transform.position.x + WDMP_Net.moveDistance,transform.position.y);
-    //    line.SetPosition(1,target);
-           
-    //}
-   
-
 #endregion
 }

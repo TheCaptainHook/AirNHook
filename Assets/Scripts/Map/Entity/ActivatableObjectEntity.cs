@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
-using System;
-using Unity.VisualScripting;
 public enum INDICATOR
 {
     NONE = 0,
