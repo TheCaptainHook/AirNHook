@@ -86,7 +86,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     // - : right
     // + : left
 
-    bool onMove;
+    // bool onMove;
     // private void ShootRay()
     // {
     //     float lw = 0;

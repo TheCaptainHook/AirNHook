@@ -9,159 +9,229 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     [SerializeField] GameObject rail_Node_Prefabs;
     [SerializeField] LineRenderer rail_Line_Prefabs;
 
-    [SyncVar] public Vector2 dir;
-    [SyncVar] public float step;
-
-
-    private float recoveryRate = 5;
+    //Recovery Position
+    private float recoveryPositionRate = 5;
     [ReadOnly]
-    public float curRecoveryRate;
-    Coroutine recoveryCoroutine;
-    private bool onRecover;
-    // private void Awake()
-    // {
-    //     // rb = GetComponent<Rigidbody2D>();
-    //     // AnimationTilt();
-    // }
+    public float curRecoveryPositionRate;
+    Coroutine recoveryPositionCoroutine;
+    private bool onRecoverPosition;
+    //Recovery Tilt
+    private float recoveryTiltRate = 2;
+    [ReadOnly]
+    public float curRecoveryTiltRate;
+    Coroutine recoveryTiltCoroutine;
+    private bool onRecoverTilt;
+
+
+    private (int leftCount, int rightCount) leftAndRightCounts;
+    [ReadOnly]
+    public float weightResult = 0;
+    private float sendMsgRate = 0.1f;
+    private float curSendMsgRate = 0;
     private void Update()
     {
-        //------------------Recover Position
-        RecoverPosition(); //Server
+        //------------------Recover Position,[Server]
+        RecoverPosition(); //onPositionRecover
+        RecoverTilt();
         //------------------Recover Position
 
-        if (onActive) ShootRay();
+
+        if (onActive)
+        {
+            //------------------[All Client]
+            leftAndRightCounts = GetHitLeftAndRightCount();
+            //------------------[All Client]
+
+            
+            if (leftAndRightCounts.leftCount > 0 || leftAndRightCounts.rightCount > 0)
+            {
+                //------------------[Server]
+
+                curRecoveryPositionRate = 0;
+                curRecoveryTiltRate = 0;
+
+                curSendMsgRate += Time.deltaTime;
+                weightResult += GetWeight(leftAndRightCounts);
+                if (curSendMsgRate > sendMsgRate)
+                {
+                    Rpc_SendWeight(weightResult);
+                    curSendMsgRate = 0;
+                    weightResult = 0;
+                }
+                //------------------[Server]
+            }
+            else
+            {
+                // CancelTilt(); //All Client
+            }
+            
+        }
 
 
     }
-    private void RecoverPosition()
+
+    float targetTilt;
+    Coroutine tiltCoroutine;
+    Coroutine tiltMoveCoroutine;
+    [ReadOnly]
+    public Vector2 moveDir = Vector2.zero;
+
+    [ReadOnly]
+    public float step;
+
+    [ClientRpc]
+    private void Rpc_SendWeight(float weight)
+    {
+        CancelRecover();
+
+        targetTilt = GetTargetTilt(weight);
+        // moveDir = weight > 0 ? -Vector2.right : Vector2.right;
+
+        if (tiltCoroutine == null)
+        {
+            tiltCoroutine = StartCoroutine(TiltCo());
+        }
+        
+        if (data.moveDistance == 0) return;
+        
+        if (tiltMoveCoroutine == null)
+        {
+            tiltMoveCoroutine = StartCoroutine(TiltMoveCo());
+        }
+    }
+    [ReadOnly]
+    public float tiltRate;
+    IEnumerator TiltCo()
+    {
+        while (Mathf.Abs(Rb.rotation - targetTilt) > 0.5f)
+        {
+            Rb.rotation = Mathf.Lerp(Rb.rotation, targetTilt, Time.fixedDeltaTime);
+            tiltRate = Mathf.Abs(Rb.rotation) / maxRotate;
+            step = data.moveSpeed * tiltRate;
+
+            moveDir = Rb.rotation > 0 ? -Vector2.right : Vector2.right;
+            yield return null;
+        }
+        Rb.rotation = targetTilt;
+        tiltCoroutine = null;
+    }
+    IEnumerator TiltMoveCo()
+    {
+        while (Mathf.Abs(Rb.rotation) >0)
+        {
+            // var targetPot =transform.position + (Vector3)moveDir;
+            // targetPot.x = Mathf.Clamp(targetPot.x, minDis_Clamp, maxDis_Clamp);
+            // step = tiltRate * data.moveSpeed;
+            var target = transform.position +  (Vector3)moveDir * (step * Time.fixedDeltaTime);
+            target.x = Mathf.Clamp(target.x, minDis_Clamp, maxDis_Clamp);
+
+            transform.position = target;
+
+            yield return null;
+        }
+        
+        tiltMoveCoroutine = null; 
+    }
+
+    private void CancelTilt()
+    {
+        moveDir = Vector2.zero;
+        step = 0;
+
+        if (tiltCoroutine != null)
+        {
+            StopCoroutine(tiltCoroutine);
+            tiltCoroutine = null;
+        }
+        if (tiltMoveCoroutine != null)
+        {
+            StopCoroutine(tiltMoveCoroutine);
+            tiltMoveCoroutine = null;
+        }
+
+    }
+
+  
+
+
+    #region  Get Hit Left And Right Count (All Client)
+    private RaycastHit2D[] leftHitBuffer = new RaycastHit2D[10];
+    private RaycastHit2D[] rightHitBuffer = new RaycastHit2D[10];
+
+    [SerializeField] Transform leftPoint;
+    [SerializeField] Transform rightPoint;
+
+    
+    
+    // private float weight;
+    private float maxRotate = 70; //only use server
+
+    [SerializeField] LayerMask layerMask;
+    [ReadOnly]
+    public float shotRayLength;
+    private (int leftHitCount, int rightHitCount) GetHitLeftAndRightCount()
+    {
+
+#if UNITY_EDITOR
+        Debug.DrawRay(leftPoint.position, -transform.right * shotRayLength, Color.red);
+        Debug.DrawRay(rightPoint.position, transform.right * shotRayLength, Color.red);
+#endif
+                
+        int hitLeftCount = Physics2D.RaycastNonAlloc(leftPoint.position, -transform.right, leftHitBuffer, shotRayLength, layerMask);
+        int hitRightCount = Physics2D.RaycastNonAlloc(rightPoint.position, transform.right, rightHitBuffer, shotRayLength, layerMask);
+
+        return (hitLeftCount, hitRightCount);
+
+    }
+    
+    // private void ShootRay()
+    // {
+    //     //------------- on hold ,,move
+    //     // Vector2 dir = transform.rotation.z == 0 ? Vector2.zero : transform.rotation.z > 0 ? -Vector2.right : Vector2.right;
+    //     // WDMP_Net.Server_SetDir(dir);
+
+    //     // if (CheckMaxAndMinClamp(dir)){
+    //     //     WDMP_Net.Server_SetStep(moveSpeed * rate * Time.fixedDeltaTime);
+    //     // }else{
+    //     //     //step = 0;
+    //     //     WDMP_Net.Server_SetStep(0);
+    //     // }
+
+    //     // MoveTowards();   
+    //     // MoveTowards(leftHit);
+    //     // MoveTowards(rightHit);
+    //     //------------- on hold
+
+    // }
+    #endregion
+
+    #region Recover
+       
+    #region  Position
+    private void RecoverPosition() //Server
     {
         if (!isServer) return;
-        if (data.moveDistance != 0 && !Compare(transform.position, data.position) && !onRecover)
+        if (data.moveDistance != 0 && !Compare(transform.position, data.position) && !onRecoverPosition)
         {
-            curRecoveryRate += Time.fixedDeltaTime;
-            if (curRecoveryRate >= recoveryRate)
+            curRecoveryPositionRate += Time.deltaTime;
+            if (curRecoveryPositionRate >= recoveryPositionRate)
             {
-                onRecover = true;
+                onRecoverPosition = true;
                 //Recover
                 Rpc_RecoverPosition(transform.position);
             }
         }
     }
 
-    #region  Shot Ray
-    private RaycastHit2D[] leftHit;
-    private RaycastHit2D[] rightHit;
-    [SerializeField] Transform leftPoint;
-    [SerializeField] Transform rightPoint;
-    private float shotRayLength;
-
-    private bool onMove;
-    private float weight;
-    private float releaseCount =1;
-    private float curReleaseCount;
-    private float maxRotate = 70; //only use server
-    [SerializeField] LayerMask layerMask;
-
-    private void ShootRay()
-    {
-        float lw = 0;
-        float rw = 0;
-
-#if UNITY_EDITOR
-        Debug.DrawRay(leftPoint.position, -transform.right * shotRayLength, Color.red);
-        Debug.DrawRay(rightPoint.position, transform.right * shotRayLength, Color.red);
-#endif
-
-        leftHit = Physics2D.RaycastAll(leftPoint.position, -transform.right, shotRayLength, layerMask);
-        rightHit = Physics2D.RaycastAll(rightPoint.position, transform.right, shotRayLength, layerMask);
-
-
-        foreach (RaycastHit2D hit in leftHit)
-        {
-            lw += Weight(hit);
-        }
-
-        foreach (RaycastHit2D hit in rightHit)
-        {
-            rw += Weight(hit);
-        }
-
-        //recover tilt
-        if (leftHit.Length == 0 && rightHit.Length == 0)
-        {
-            if (Rb.rotation == 0) return;
-
-            curReleaseCount += Time.deltaTime;
-            if (curReleaseCount >= releaseCount)
-            {
-                onMove = false;
-                //transform.rotation = Quaternion.Lerp(transform.rotation,Quaternion.identity,Time.fixedDeltaTime);
-                Rb.rotation = Mathf.Lerp(Rb.rotation, 0, Time.fixedDeltaTime);
-                if (Mathf.Abs(Rb.rotation) < 0.95f)
-                {
-                    Rb.rotation = 0;
-                }
-            }
-        }
-        else
-        {
-            curReleaseCount = 0;
-            onMove = true;
-        }
-
-        if (!onMove) return;
-
-
-        weight = lw - rw;
-
-        //tilt platform
-        Rotate(weight);
-        //tilt animation
-
-
-        //move platform
-        if (data.moveDistance == 0) return;
-
-
-        //------------- on hold ,,move
-        // Vector2 dir = transform.rotation.z == 0 ? Vector2.zero : transform.rotation.z > 0 ? -Vector2.right : Vector2.right;
-        // WDMP_Net.Server_SetDir(dir);
-
-        // if (CheckMaxAndMinClamp(dir)){
-        //     WDMP_Net.Server_SetStep(moveSpeed * rate * Time.fixedDeltaTime);
-        // }else{
-        //     //step = 0;
-        //     WDMP_Net.Server_SetStep(0);
-        // }
-
-        // MoveTowards();   
-        // MoveTowards(leftHit);
-        // MoveTowards(rightHit);
-        //------------- on hold
-
-    }
-    #endregion
-
-    #region Recover Position
-    [ClientRpc]
-    private void Rpc_CancelRecoverPosition(Vector2 startPosition)
-    {
-        if (recoveryCoroutine != null)
-        {
-            transform.position = startPosition;
-            StopCoroutine(recoveryCoroutine);
-            recoveryCoroutine = null;
-            onRecover = false;
-        }
-    }
     [ClientRpc]
     private void Rpc_RecoverPosition(Vector2 startPosition)
     {
+        CancelTilt();
         transform.position = startPosition;
-        recoveryCoroutine = StartCoroutine(Recover_Co());
+        recoveryPositionCoroutine = StartCoroutine(RecoverPosition_Co());
     }
    
-    IEnumerator Recover_Co()
+    IEnumerator RecoverPosition_Co()
     {
         Vector2 dir = ((Vector3)data.position - transform.position).normalized;
 
@@ -170,15 +240,70 @@ public class WDMP_Net : ActivatableObject_Net_Entity
             transform.position += (Vector3)(dir * data.moveSpeed * Time.fixedDeltaTime);
             yield return null;
         }
-        recoveryCoroutine = null;
 
+        curRecoveryPositionRate = 0;
+        recoveryPositionCoroutine = null;
         transform.position = data.position;
-        onRecover = false;
+        onRecoverPosition = false;
     }
 
     #endregion
+    #region  Tilt
+    private void RecoverTilt() //Server
+    {
+        if (!isServer || Rb.rotation == 0 || onRecoverTilt) return;
+        
+        curRecoveryTiltRate += Time.deltaTime;
+        if (curRecoveryTiltRate >= recoveryTiltRate)
+        {
+            onRecoverTilt = true;
+            Rpc_RecoverTilt(Rb.rotation);
+        }
+
+    }
+    [ClientRpc]
+    private void Rpc_RecoverTilt(float curRot)
+    {
+        CancelTilt();
+        Rb.rotation = curRot;
+        recoveryTiltCoroutine = StartCoroutine(RecoverTilt_Co());
+    }
+    IEnumerator RecoverTilt_Co()
+    {
+        while (Mathf.Abs(Rb.rotation) > 0)
+        {
+            Rb.rotation = Mathf.Lerp(Rb.rotation, 0, Time.fixedDeltaTime);
+            if (Mathf.Abs(Rb.rotation) < 0.9f) Rb.rotation = 0;
+            yield return null;
+        }
+
+        recoveryTiltCoroutine = null;
+        curRecoveryTiltRate = 0;
+        onRecoverTilt = false;
+    }
+    #endregion
+
+    private void CancelRecover()
+    {
+        if (recoveryPositionCoroutine != null)
+        {
+            curRecoveryPositionRate = 0;
+            StopCoroutine(recoveryPositionCoroutine);
+            recoveryPositionCoroutine = null;
+            onRecoverPosition = false;
+        }
+        if (recoveryTiltCoroutine != null)
+        {
+            curRecoveryTiltRate = 0;
+            StopCoroutine(recoveryTiltCoroutine);
+            recoveryTiltCoroutine = null;
+            onRecoverTilt = false;
+        }
+    }
+   
+    #endregion
     
-    #region Refectoring 0622
+    #region Init Sync 0623
     private WeightDetectionMoveingPlatform wdmp;
     private WeightDetectionMoveingPlatform WDMP
     {
@@ -221,29 +346,6 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     #endregion
     
     #region Refactoring 0622 Util
-    private bool CheckMaxAndMinClamp(Vector2 dir)
-    {
-        if (dir == Vector2.right)
-        {
-            if (transform.position.x > maxDis_Clamp)
-            {
-                return false;
-            }
-        }
-        else if (dir == -Vector2.right)
-        {
-            if (transform.position.x < minDis_Clamp)
-            {
-                return false;
-            }
-        }
-        else if (dir == Vector2.zero)
-        {
-            return false;
-        }
-
-        return true;
-    }
     
     public (Vector2 target, float min, float max) GetPath(ButtonActivatableObjectStruct data)
     {
@@ -258,9 +360,25 @@ public class WDMP_Net : ActivatableObject_Net_Entity
 
     }
 
+     private float GetWeight((int left, int right) counts)
+    {
+        float lw = 0;
+        float rw = 0;
 
+        for (int i = 0; i < counts.left; i++)
+        {
+            lw += Weight(leftHitBuffer[i]);
+        }
+
+        for (int i = 0; i < counts.right; i++)
+        {
+            rw += Weight(rightHitBuffer[i]);
+        }
+        return lw - rw;
+    }
+    
     private float Weight(RaycastHit2D hit)
-    {    
+    {
         if (hit.collider.TryGetComponent(out HookSM hook))
         {
             if (hook.isSwinging)
@@ -277,60 +395,69 @@ public class WDMP_Net : ActivatableObject_Net_Entity
         }
 
         return 0;
-   
+
     }
 
-    float rate = 0;
-    // z>0 : left , z<0 :right
-    private void Rotate(float weight)
+
+    private float GetTargetTilt(float weight)
     {
-        Vector3 euler = transform.rotation.eulerAngles;
-        euler.z += weight;
-
-        if(euler.z > 180){
-            euler.z -= 360;
-        }
-
-        euler.z = Mathf.Clamp(euler.z , -maxRotate,maxRotate);
-        rate = Mathf.Abs(euler.z) / maxRotate;
-
-        Rb.rotation = euler.z;
+        var result = Rb.rotation + weight;
+        return Mathf.Clamp(result, -maxRotate, maxRotate);
+       
     }
+
+    // float rate = 0;
+    // z>0 : left , z<0 :right
+    // private void Rotate(float weight)
+    // {
+    //     Vector3 euler = transform.rotation.eulerAngles;
+    //     euler.z += weight;
+
+    //     if(euler.z > 180){
+    //         euler.z -= 360;
+    //     }
+
+    //     euler.z = Mathf.Clamp(euler.z , -maxRotate,maxRotate);
+    //     rate = Mathf.Abs(euler.z) / maxRotate;
+
+    //     Rb.rotation = euler.z;
+    // }
+
 
     #endregion
 
 
 
 
-    [Server]
-    public void Server_SetDir(Vector2 dir)
-    {
-        this.dir = dir;
-    }
-    [Server]
-    public void Server_SetStep(float step)
-    {
-        if (step != 0)
-        {
-            //Stop Recover
-            if (recoveryCoroutine != null)
-            {
-                StopCoroutine(recoveryCoroutine);
-                onRecover = false;
-            }
-            curRecoveryRate = 0;
-        }
+    // [Server]
+    // public void Server_SetDir(Vector2 dir)
+    // {
+    //     this.dir = dir;
+    // }
+    // [Server]
+    // public void Server_SetStep(float step)
+    // {
+    //     if (step != 0)
+    //     {
+    //         //Stop Recover
+    //         if (recoveryPositionCoroutine != null)
+    //         {
+    //             StopCoroutine(recoveryPositionCoroutine);
+    //             onPositionRecover = false;
+    //         }
+    //         curRecoveryPositionRate = 0;
+    //     }
 
-        this.step = step;
-    }
-    [Server]
-    public void Server_SetClamp(float min, float max)
-    {
-        this.minDis_Clamp = min;
-        this.maxDis_Clamp = max;
-    }
+    //     this.step = step;
+    // }
+    // [Server]
+    // public void Server_SetClamp(float min, float max)
+    // {
+    //     this.minDis_Clamp = min;
+    //     this.maxDis_Clamp = max;
+    // }
 
-#region  Create Node
+    #region  Create Node
     Transform container;
     GameObject railNode_1;
     GameObject railNode_2;
@@ -371,10 +498,10 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     // private readonly int leftDown = Animator.StringToHash("LeftDown");
     // private readonly int rightDown = Animator.StringToHash("RightDown");
   
-    public void AnimationTilt()
-    {
-        // StartCoroutine(AnimaionTiltCoroutine());
-    }
+    // public void AnimationTilt()
+    // {
+    //     // StartCoroutine(AnimaionTiltCoroutine());
+    // }
     // Animator animator;
     // Animator Animator { get { animator ??= GetComponent<Animator>(); return animator; } }
     // bool leftAni;
