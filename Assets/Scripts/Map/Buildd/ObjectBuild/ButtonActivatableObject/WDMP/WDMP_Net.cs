@@ -59,7 +59,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
             weightResult += GetWeight(leftAndRightCounts);
             if (curSendMsgRate > sendMsgRate)
             {
-                Rpc_SendWeight(weightResult);
+                Rpc_SendWeight(weightResult,Rb.rotation,transform.position);
                 curSendMsgRate = 0;
                 weightResult = 0;
             }
@@ -75,12 +75,14 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     public float step;
 
     [ClientRpc]
-    private void Rpc_SendWeight(float weight)
+    private void Rpc_SendWeight(float weight,float curRot,Vector2 position)
     {
         CancelRecover();
 
+        Rb.rotation = curRot;
+        transform.position = position;
+
         targetTilt = GetTargetTilt(weight);
-        // moveDir = weight > 0 ? -Vector2.right : Vector2.right;
 
         if (tiltCoroutine == null)
         {
