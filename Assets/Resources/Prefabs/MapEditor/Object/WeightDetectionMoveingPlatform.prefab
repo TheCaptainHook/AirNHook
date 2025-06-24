@@ -519,8 +519,8 @@ MonoBehaviour:
   canRespawn: 0
   activeRequirAmount: 0
   indicator: 0
-  indicatorOffset_val_1: {x: 0, y: 0}
-  indicatorOffset_val_2: {x: 0, y: 0}
+  indicatorOffset_val_1: {x: 0, y: -1}
+  indicatorOffset_val_2: {x: 0, y: -1}
   curActiveBtn: 0
   moveDistance: 0
   moveSpeed: 1
@@ -543,14 +543,18 @@ MonoBehaviour:
   onActive: 0
   rail_Node_Prefabs: {fileID: 7834071034627693989, guid: 4f169f16daaea482da08a58d3a53f699, type: 3}
   rail_Line_Prefabs: {fileID: 6443439262299581446, guid: 275793db7c14f413ebce84c81e704b8d, type: 3}
-  dir: {x: 0, y: 0}
+  curRecoveryPositionRate: 0
+  curRecoveryTiltRate: 0
+  weightResult: 0
+  moveDir: {x: 0, y: 0}
   step: 0
-  curRecoveryRate: 0
+  tiltRate: 0
   leftPoint: {fileID: 870347649813542423}
   rightPoint: {fileID: 6264870558566126995}
   layerMask:
     serializedVersion: 2
     m_Bits: 656384
+  shotRayLength: 0
   maxDis_Clamp: 0
   minDis_Clamp: 0
   targetPosition: {x: 0, y: 0}
@@ -593,7 +597,7 @@ MonoBehaviour:
   - {x: 3, y: -0.24609375, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 59178
+  m_InstanceId: 68568
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 3, y: 0.24609375, z: 0}

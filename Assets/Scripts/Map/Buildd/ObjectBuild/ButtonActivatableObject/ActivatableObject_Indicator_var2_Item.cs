@@ -37,6 +37,7 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
             if (path != null)
             {
                 pathList = path;
+                pathList.Reverse();
                 SetActive(inc);
             }
             else
@@ -79,7 +80,7 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
             StopCoroutine(eraseCoroutine);
             eraseCoroutine = null;
         }
-
+      
         drawCoroutine = StartCoroutine(DrawOn(pathList));
      
 

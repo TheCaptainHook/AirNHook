@@ -14,23 +14,28 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
     [SerializeField] Transform container;
     [ReadOnly]
     public int activeRequirAmount;
+
+
     public void Setting(ActivatableObjectEntity entity)
     {
         parent = entity.gameObject.transform;
         var offset = parent.rotation * (parent.localScale * entity.indicatorOffset_val_2);
+       
         transform.position = parent.position + offset;
         transform.rotation = parent.rotation;
 
         container.localScale = parent.localScale;
 
-        transform.SetParent(parent);
+        var termTr = MapEditor.Instance.dontSaveObjectTransform;
+
+        transform.SetParent(termTr);
         gameObject.SetActive(false);
 
         activeRequirAmount = entity.ButtonActivatedObjectStruct.activeRequirAmount;
 
         itemDic = new();
-
     }
+
 
     private bool isConditionSatisfied = false;
     public void SetApplyActive(uint id, int curActiveBtn, int inc)
