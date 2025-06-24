@@ -362,6 +362,7 @@ MonoBehaviour:
   _canInteract: 1
   _canGrab: 1
   _isDestroyed: 0
+  _isGrab: 0
   _offset: {x: 0, y: 1}
   _inhalePower: 4000
   defaultGravity: 0
@@ -478,8 +479,10 @@ MonoBehaviour:
   movingPlatformLayer:
     serializedVersion: 2
     m_Bits: 0
-  layOffset: {x: 0, y: 0, z: 0}
+  layOffset: {x: 0, y: 0.2, z: 0}
   col: {fileID: 0}
+  rb: {fileID: 0}
+  netRb: {fileID: 0}
 --- !u!1773428102 &8098802773846804893
 ParentConstraint:
   m_ObjectHideFlags: 0
@@ -516,7 +519,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onEncapsulationItem: 0
+  activeRequirAmount: 0
+  curActiveRequirAmount: 0
   isCapsuling: 0
+  mainCol: {fileID: 0}
+  mainRb: {fileID: 0}
   obstacleLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295

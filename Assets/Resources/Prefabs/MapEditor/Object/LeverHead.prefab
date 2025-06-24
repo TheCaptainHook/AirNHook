@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 2884958338721759735}
   - component: {fileID: 5696056522921733853}
   - component: {fileID: 6100329086906530539}
+  - component: {fileID: 2296382989763478540}
   m_Layer: 18
   m_Name: LeverHead
   m_TagString: Untagged
@@ -231,10 +232,17 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  _permissionPlayer: {fileID: 0}
   _objectType: 1
   _gravityScale: 0
+  _isFixed: 0
+  _canInteract: 1
+  _canGrab: 1
+  _isDestroyed: 0
+  _isGrab: 0
   _offset: {x: 0, y: 1}
   _inhalePower: 600
+  defaultGravity: 0
   onSync: 0
 --- !u!114 &-2176134299502383376
 MonoBehaviour:
@@ -316,6 +324,13 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   movingPlatform: {fileID: 0}
+  movingPlatformLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  layOffset: {x: 0, y: 0.2, z: 0}
+  col: {fileID: 0}
+  rb: {fileID: 0}
+  netRb: {fileID: 0}
 --- !u!1773428102 &6100329086906530539
 ParentConstraint:
   m_ObjectHideFlags: 0
@@ -339,3 +354,24 @@ ParentConstraint:
   m_Active: 0
   m_IsLocked: 0
   m_Sources: []
+--- !u!114 &2296382989763478540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7773345652000642256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0182098a7f6444a5b903ec4387ae1b41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEncapsulationItem: 0
+  activeRequirAmount: 0
+  curActiveRequirAmount: 0
+  isCapsuling: 0
+  mainCol: {fileID: 0}
+  mainRb: {fileID: 0}
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
