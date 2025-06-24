@@ -17,13 +17,8 @@ public class TransformMover : NetworkBehaviour
     NetworkIdentity Identity { get { identity ??= GetComponent<NetworkIdentity>(); return identity; } }
 
 
-
-    // uint nullNetID = 99999;
-
-
     [SerializeField] LayerMask movingPlatformLayer;
     [SerializeField] Vector3 layOffset;
-
 
     public Collider2D col;
 
@@ -39,30 +34,16 @@ public class TransformMover : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        //if (movingPlatform && identity.isOwned)
-        //{     
-        //    transform.position += (Vector3)movingPlatform.dir;
-        //}
-        //Bounds bounds = GetComponent<Collider2D>().bounds;
 
         Vector3 offset = new Vector3(0, col.bounds.extents.y, 0);
 
         hit = Physics2D.Raycast(transform.position - offset + layOffset, -Vector2.up, 0.1f, movingPlatformLayer);
         Debug.DrawRay(transform.position -offset + layOffset,-Vector2.up * 0.1f, Color.green);
-        //Debug.DrawRay(hit);
-
+ 
         if (hit.collider != null && hit.collider.TryGetComponent(out MovingPlatform component) && Identity.isOwned)
         {
             transform.position += (Vector3)component.dir;
         }
-
-
-
-
-        //if (movingPlatform != null && Identity.isOwned)
-        //{
-        //    transform.position += (Vector3)movingPlatform.dir;
-        //}
 
     }
 

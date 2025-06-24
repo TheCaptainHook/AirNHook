@@ -27,7 +27,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     [ReadOnly]
     public float weightResult = 0;
     private float sendMsgRate = 0.1f;
-    private float curSendMsgRate = 0;
+    private float curSendMsgRate = 1;
     private void Update()
     {
         //------------------Recover Position,[Server]
