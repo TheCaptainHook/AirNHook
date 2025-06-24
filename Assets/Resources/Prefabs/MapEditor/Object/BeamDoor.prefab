@@ -876,11 +876,10 @@ MonoBehaviour:
   _Dissolve_MainSprite: {fileID: 0}
   canRespawn: 0
   activeRequirAmount: 0
+  indicator: 0
   indicatorOffset_val_1: {x: 0, y: 3.5}
-  indicatorOffset_val_2: {x: 0, y: 0}
+  indicatorOffset_val_2: {x: 0.6, y: 2}
   curActiveBtn: 0
-  onOpen: 0
-  onPrograss: 0
 --- !u!114 &7783511971361612682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -897,6 +896,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   onSync: 0
+  onActive: 0
 --- !u!1 &3983856959776153528
 GameObject:
   m_ObjectHideFlags: 0

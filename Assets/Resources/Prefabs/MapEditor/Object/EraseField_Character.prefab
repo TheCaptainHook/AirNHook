@@ -677,6 +677,9 @@ MonoBehaviour:
   _Dissolve_MainSprite: {fileID: 0}
   canRespawn: 0
   activeRequirAmount: 0
+  indicator: 0
+  indicatorOffset_val_1: {x: 0, y: 3.5}
+  indicatorOffset_val_2: {x: 0.6, y: 2}
   curActiveBtn: 0
 --- !u!114 &2491636373525230243
 MonoBehaviour:
@@ -693,12 +696,12 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  onSync: 0
+  onActive: 0
   base_2_Field: {fileID: 234717741430986448}
   main_Field: {fileID: 5139990301046049554}
   main_Light: {fileID: 1495019376651709230}
   main_Field_Sprite: {fileID: 3910401765213147502}
-  onActive: 0
-  onSync: 0
 --- !u!114 &1882674969398780930
 MonoBehaviour:
   m_ObjectHideFlags: 0

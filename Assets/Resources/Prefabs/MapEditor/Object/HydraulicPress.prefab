@@ -581,8 +581,8 @@ MonoBehaviour:
   canRespawn: 0
   activeRequirAmount: 0
   indicator: 0
-  indicatorOffset_val_1: {x: 0, y: 0}
-  indicatorOffset_val_2: {x: 0, y: 0}
+  indicatorOffset_val_1: {x: -0.5, y: 1}
+  indicatorOffset_val_2: {x: -0.5, y: -1}
   curActiveBtn: 0
 --- !u!114 &6751884477493006046
 MonoBehaviour:

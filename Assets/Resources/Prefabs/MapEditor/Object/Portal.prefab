@@ -5323,13 +5323,15 @@ MonoBehaviour:
   _Dissolve_MainSprite: {fileID: 0}
   canRespawn: 0
   activeRequirAmount: 0
+  indicator: 0
+  indicatorOffset_val_1: {x: 0, y: 1}
+  indicatorOffset_val_2: {x: 0, y: 1}
   curActiveBtn: 0
   targetPortal: {fileID: 0}
   layer:
     serializedVersion: 2
     m_Bits: 1024
   targetPosition: {x: 0, y: 0}
-  onActivable: 0
   _animator: {fileID: -2000141949827509853}
   _TpEffect: {fileID: 2840986932733129456}
 --- !u!114 &5139481205612999755
@@ -5347,10 +5349,11 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  _TpEffect: {fileID: 2840986932733129456}
-  onActive: 0
-  targetPortal: {fileID: 0}
   onSync: 0
+  onActive: 0
+  _TpEffect: {fileID: 2840986932733129456}
+  targetId: 0
+  targetPortal: {fileID: 0}
   targetPortalPosition: {x: 0, y: 0}
   onPrograss: 0
 --- !u!1 &5269584977423057727

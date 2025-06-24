@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -38,19 +39,74 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
 
 
     private bool isConditionSatisfied = false;
+
+    //inc 1 -> active, inc -1 -> deactive
     public void SetApplyActive(uint id, int curActiveBtn, int inc)
     {
         if (!gameObject.activeSelf) gameObject.SetActive(true);
 
-        ////Condition Satisfied
-        //if (curActiveBtn == activeRequirAmount) //ex 1
-        //{ 
-           
-            
-        //    return;
-        //}
-        ////Condition Satisfied
+        if (curActiveBtn == activeRequirAmount) //ex 1
+        {
+            isConditionSatisfied = true;
 
+            if (!itemDic.ContainsKey(id))
+            {
+                CreateNewItem(id, 2);
+                foreach (var item in itemDic.Values)
+                {
+                    if (item.targetId == id) continue;
+                    if (item.onActive) item.SetActive(2);
+                }
+            }
+            else
+            {
+                var curItem = itemDic[id];
+                if (inc == 1)
+                {
+                    curItem.onActive = true;
+                }
+                if (inc == -1)
+                {
+                    curItem.SetActive(inc);
+                }
+
+                foreach (var item in itemDic.Values)
+                {
+                    if (item.targetId == id) continue;
+                    if (item.onActive) item.SetActive(2);
+                }
+            }
+  
+            return;
+        }
+        //After the condition is satisfied, when it is deactivated or reactivated
+        if (isConditionSatisfied)
+        {
+            if (itemDic.ContainsKey(id))
+            {
+                var curItem = itemDic[id];
+                curItem.SetActive(inc);
+
+                foreach (var item in itemDic.Values)
+                {
+                    if (item == curItem) continue;
+                    if (item.onActive) item.SetActive(3);
+                }
+            }
+            else
+            {
+                var curItem = CreateNewItem(id);
+
+                foreach (var item in itemDic.Values)
+                {
+                    if (item == curItem) continue;
+                    if (item.onActive && !item.onDraw) item.SetActive(3);
+                }
+
+            }
+            isConditionSatisfied = false;
+            return;
+        }
 
         if (itemDic.ContainsKey(id))
         {
@@ -59,16 +115,8 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
         }
         else
         {
-            //딕셔너리 추가, 경로 생성 저장
-            // var item = CreateItem();
-            // itemDic[id] = item;
-            // item.Setting(id);
             CreateNewItem(id);
         }
-
-
-
-
     }
 
     private ActivatableObject_Indicator_var2_Item CreateNewItem(uint id,int inc = 1)

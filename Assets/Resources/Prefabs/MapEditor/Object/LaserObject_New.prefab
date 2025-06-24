@@ -4900,8 +4900,8 @@ MonoBehaviour:
   canRespawn: 0
   activeRequirAmount: 0
   indicator: 0
-  indicatorOffset_val_1: {x: 0, y: 0}
-  indicatorOffset_val_2: {x: 0, y: 0}
+  indicatorOffset_val_1: {x: 0, y: 1}
+  indicatorOffset_val_2: {x: 0, y: -1}
   curActiveBtn: 0
   _curDistanceRay: 0
   _firePoint: {fileID: 2979357953502741260}

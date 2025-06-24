@@ -16,6 +16,12 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
     [ReadOnly]
     public uint targetId;
 
+
+    [ReadOnly]
+    public bool onActive = false;
+    [ReadOnly]
+    public bool onDraw = false;
+
     public bool Setting(uint id,int inc)
     {
         Transform target = NetworkClient.spawned.TryGetValue(id, out var targetObject) ? targetObject.transform : null;
@@ -37,7 +43,6 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
             if (path != null)
             {
                 pathList = path;
-                pathList.Reverse();
                 SetActive(inc);
             }
             else
@@ -57,12 +62,25 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
         switch (inc)
         {
             case -1:
-                Erase();
-     
+                if (onActive && onDraw) Erase();
+                onActive = false;
+                onDraw = false;
+
                 break;
             case 1:
-                Draw();
-       
+                if (!onDraw) Draw();
+                onActive = true;
+                onDraw = true;
+                break;
+            case 2:
+                if (onDraw) Erase(); //조건 충족, 단순 라인 제거용
+                onActive = true;
+                onDraw = false;
+                break;
+            case 3:
+                if (!onDraw) Draw(); //조건 충족,
+                onDraw = true;
+
                 break;
         }
     }
@@ -71,7 +89,7 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
     private Coroutine drawCoroutine;
     private Coroutine eraseCoroutine;
 
-    private void Draw()
+    public void Draw()
     {
         if(!gameObject.activeSelf) gameObject.SetActive(true);
 
@@ -82,12 +100,12 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
         }
       
         drawCoroutine = StartCoroutine(DrawOn(pathList));
-     
-
     }
-    private void Erase()
+    public void Erase()
     {
-        if(drawCoroutine != null)
+        if (lineRenderer.positionCount == 0) return;
+
+        if (drawCoroutine != null)
         {
             StopCoroutine(drawCoroutine);
             drawCoroutine = null;
@@ -131,11 +149,19 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
             start = end;
 
         }
-        drawCoroutine = null;
+
+            drawCoroutine = null;
     }
     private IEnumerator EraseCo()
     {
         var index = lineRenderer.positionCount;
+
+        if (index == 0)
+        {
+            eraseCoroutine = null;
+            yield break;
+        }
+
         Vector3 end = lineRenderer.GetPosition(index-1);
 
         for (int i = index - 2; i >= 0; i--)
@@ -144,6 +170,9 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
             float distance = Vector3.Distance(start, end);
             float duration = distance / drawSpeed;
             float elapsed = 0f;
+
+            lineRenderer.positionCount = i + 2;
+
             while (elapsed < duration)
             {
                 elapsed += Time.deltaTime;
@@ -152,8 +181,7 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
                 lineRenderer.SetPosition(i + 1, pos);
                 yield return null;
             }
-            //lineRenderer.SetPosition(i, start);
-            lineRenderer.positionCount = i + 1;
+
             end = start;
         }
         lineRenderer.positionCount = 0;

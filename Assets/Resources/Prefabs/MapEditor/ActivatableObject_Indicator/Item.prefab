@@ -204,6 +204,9 @@ MonoBehaviour:
   targetTr: {fileID: 0}
   pathFinder: {fileID: 5350227452123499416}
   lineRenderer: {fileID: 1610662140401064709}
+  mainSprite: {fileID: 7992888306733550346}
+  targetId: 0
+  onCorecct: 0
   pathList: []
 --- !u!114 &5350227452123499416
 MonoBehaviour:
