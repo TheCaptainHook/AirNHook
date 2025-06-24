@@ -21,11 +21,13 @@ public class TransformMover : NetworkBehaviour
     [SerializeField] Vector3 layOffset;
 
     public Collider2D col;
+    public Rigidbody2D rb;
 
     private void Awake()
     {
         movingPlatformLayer = 1 << 15;
         col =GetComponent<Collider2D>();    
+        rb= GetComponent<Rigidbody2D>();
 
     }
 
@@ -37,12 +39,21 @@ public class TransformMover : NetworkBehaviour
 
         Vector3 offset = new Vector3(0, col.bounds.extents.y, 0);
 
-        hit = Physics2D.Raycast(transform.position - offset + layOffset, -Vector2.up, 0.1f, movingPlatformLayer);
-        Debug.DrawRay(transform.position -offset + layOffset,-Vector2.up * 0.1f, Color.green);
- 
-        if (hit.collider != null && hit.collider.TryGetComponent(out MovingPlatform component) && Identity.isOwned)
+        hit = Physics2D.Raycast(transform.position - offset + layOffset, -Vector2.up, 0.5f, movingPlatformLayer);
+#if UNITY_EDITOR
+        Debug.DrawRay(transform.position -offset + layOffset,-Vector2.up * 0.5f, Color.green);
+#endif
+        if(hit.collider != null)
         {
-            transform.position += (Vector3)component.dir;
+            if(hit.collider.TryGetComponent(out MovingPlatform component) && Identity.isOwned)
+            {
+                transform.position += (Vector3)component.dir;
+            }
+
+            if(hit.collider.TryGetComponent(out WDMP_Net component2) && Identity.isOwned)
+            {
+                transform.position += (Vector3)component2.moveDir * component2.step;
+            }
         }
 
     }

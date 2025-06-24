@@ -28,6 +28,8 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     public float weightResult = 0;
     private float sendMsgRate = 0.1f;
     private float curSendMsgRate = 1;
+
+    public float CurRotation => Rb.rotation;
     private void Update()
     {
         //------------------Recover Position,[Server]
@@ -256,7 +258,6 @@ public class WDMP_Net : ActivatableObject_Net_Entity
         curRecoveryTiltRate += Time.deltaTime;
         if (curRecoveryTiltRate >= recoveryTiltRate)
         {
-            Ani_ShutDown();
             onRecoverTilt = true;
             Rpc_RecoverTilt(Rb.rotation);
         }
@@ -266,6 +267,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     private void Rpc_RecoverTilt(float curRot)
     {
         CancelTilt();
+        Ani_ShutDown();
         Rb.rotation = curRot;
         recoveryTiltCoroutine = StartCoroutine(RecoverTilt_Co());
     }
@@ -531,6 +533,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
             Animator.SetBool(leftDown, leftAni);
         }
     }
+
     public void Ani_ShutDown()
     {
         leftAni = false; 
