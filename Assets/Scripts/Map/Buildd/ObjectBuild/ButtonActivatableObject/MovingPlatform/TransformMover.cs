@@ -22,13 +22,14 @@ public class TransformMover : NetworkBehaviour
 
     public Collider2D col;
     public Rigidbody2D rb;
+    public NetworkRigidbodyUnreliable2D netRb;
 
     private void Awake()
     {
         movingPlatformLayer = 1 << 15;
         col =GetComponent<Collider2D>();    
         rb= GetComponent<Rigidbody2D>();
-
+        netRb = GetComponent<NetworkRigidbodyUnreliable2D>();
     }
 
     RaycastHit2D hit;
@@ -43,21 +44,44 @@ public class TransformMover : NetworkBehaviour
 #if UNITY_EDITOR
         Debug.DrawRay(transform.position -offset + layOffset,-Vector2.up * 0.5f, Color.green);
 #endif
-        if(hit.collider != null)
+        if (hit.collider != null)
         {
-            if(hit.collider.TryGetComponent(out MovingPlatform component) && Identity.isOwned)
+            if (ClientToServer())
             {
-                transform.position += (Vector3)component.dir;
+                if (hit.collider.TryGetComponent(out MovingPlatform component) && Identity.isOwned)
+                {
+                    rb.position += component.dir;
+                }
+
+                if (hit.collider.TryGetComponent(out WDMP_Net component2) && Identity.isOwned)
+                {
+                    rb.position += component2.moveDir * component2.step;
+                }
+            }
+            else
+            {
+                if (hit.collider.TryGetComponent(out MovingPlatform component) && Identity.isServer)
+                {
+                    rb.position += component.dir;
+                }
+
+                if (hit.collider.TryGetComponent(out WDMP_Net component2) && Identity.isServer)
+                {
+                    rb.position += component2.moveDir * component2.step;
+                }
             }
 
-            if(hit.collider.TryGetComponent(out WDMP_Net component2) && Identity.isOwned)
-            {
-                transform.position += (Vector3)component2.moveDir * component2.step;
-            }
+         
         }
 
     }
 
+
+    private bool ClientToServer()
+    {
+        if (netRb.syncDirection == SyncDirection.ServerToClient) return false;
+        else return true;
+    }
 //#if UNITY_EDITOR
 //    private void OnDrawGizmos()
 //    {
