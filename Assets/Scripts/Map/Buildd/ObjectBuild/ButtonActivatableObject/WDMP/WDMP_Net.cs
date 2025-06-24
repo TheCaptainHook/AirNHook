@@ -68,6 +68,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     float targetTilt;
     Coroutine tiltCoroutine;
     Coroutine tiltMoveCoroutine;
+
     [ReadOnly]
     public Vector2 moveDir = Vector2.zero;
 
@@ -83,6 +84,10 @@ public class WDMP_Net : ActivatableObject_Net_Entity
         transform.position = position;
 
         targetTilt = GetTargetTilt(weight);
+
+        if (weight > 0) Ani_Left();
+        else if (weight < 0) Ani_Right();
+        
 
         if (tiltCoroutine == null)
         {
@@ -105,7 +110,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
         {
             Rb.rotation = Mathf.Lerp(Rb.rotation, targetTilt, Time.fixedDeltaTime*tiltSpeed);
             tiltRate = Mathf.Abs(Rb.rotation) / maxRotate;
-            step = data.moveSpeed * tiltRate;
+            step = data.moveSpeed * tiltRate * Time.fixedDeltaTime;
 
             moveDir = Rb.rotation > 0 ? -Vector2.right : Vector2.right;
             yield return null;
@@ -117,7 +122,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     {
         while (Mathf.Abs(Rb.rotation) >0)
         {
-            var target = transform.position +  (Vector3)moveDir * (step * Time.fixedDeltaTime);
+            var target = transform.position + (Vector3)moveDir * step;
             target.x = Mathf.Clamp(target.x, minDis_Clamp, maxDis_Clamp);
 
             transform.position = target;
@@ -173,7 +178,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
 #endif
                 
         int hitLeftCount = Physics2D.RaycastNonAlloc(leftPoint.position, -transform.right, leftHitBuffer, shotRayLength, layerMask);
-        int hitRightCount = Physics2D.RaycastNonAlloc(rightPoint.position, transform.right, rightHitBuffer, shotRayLength, layerMask);
+        int hitRightCount = Physics2D.RaycastNonAlloc(rightPoint.position, transform.right, rightHitBuffer, shotRayLength, layerMask);      
 
         return (hitLeftCount, hitRightCount);
 
@@ -251,6 +256,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
         curRecoveryTiltRate += Time.deltaTime;
         if (curRecoveryTiltRate >= recoveryTiltRate)
         {
+            Ani_ShutDown();
             onRecoverTilt = true;
             Rpc_RecoverTilt(Rb.rotation);
         }
@@ -486,21 +492,58 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     {
         return (a - b).sqrMagnitude < threshold;
     }
-#endregion
+    #endregion
 
 
     #region Animation
-    // private readonly int leftDown = Animator.StringToHash("LeftDown");
-    // private readonly int rightDown = Animator.StringToHash("RightDown");
-  
+    Animator animator;
+    Animator Animator { get { animator ??= GetComponent<Animator>(); return animator; } }
+
+    private readonly int leftDown = Animator.StringToHash("LeftDown");
+    private readonly int rightDown = Animator.StringToHash("RightDown");
+    bool leftAni;
+    bool rightAni;
+
+    public void Ani_Right()
+    {
+        if (leftAni)
+        {
+            leftAni = false;
+            Animator.SetBool(leftDown, leftAni);
+        }
+        if(!rightAni)
+        {
+            rightAni = true;
+            Animator.SetBool(rightDown, rightAni);
+        }
+    }
+    public void Ani_Left()
+    {
+        if (rightAni)
+        {
+            rightAni = false;
+            Animator.SetBool(rightDown, rightAni);
+        }
+
+        if (!leftAni)
+        {
+            leftAni = true;
+            Animator.SetBool(leftDown, leftAni);
+        }
+    }
+    public void Ani_ShutDown()
+    {
+        leftAni = false; 
+        Animator.SetBool(leftDown, leftAni);
+        rightAni = false; 
+        Animator.SetBool(rightDown, rightAni);
+    }
+
     // public void AnimationTilt()
     // {
     //     // StartCoroutine(AnimaionTiltCoroutine());
     // }
-    // Animator animator;
-    // Animator Animator { get { animator ??= GetComponent<Animator>(); return animator; } }
-    // bool leftAni;
-    // bool rightAni;
+
     // WaitForSeconds wait = new WaitForSeconds(0.1f);
     // private IEnumerator AnimaionTiltCoroutine()
     // {
