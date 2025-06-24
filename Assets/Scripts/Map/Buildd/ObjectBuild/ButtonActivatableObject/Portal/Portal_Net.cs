@@ -74,7 +74,7 @@ public class Portal_Net : ActivatableObject_Net_Entity
         }
         else
         {
-            UsePortal(targetPortal);
+            UsePortal(obj);
         }
 
        

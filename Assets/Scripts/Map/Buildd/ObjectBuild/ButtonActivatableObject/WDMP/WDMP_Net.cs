@@ -35,41 +35,36 @@ public class WDMP_Net : ActivatableObject_Net_Entity
         RecoverTilt();
         //------------------Recover Position
 
-
         if (onActive)
         {
             //------------------[All Client]
             leftAndRightCounts = GetHitLeftAndRightCount();
             //------------------[All Client]
 
-            
-            if (leftAndRightCounts.leftCount > 0 || leftAndRightCounts.rightCount > 0)
-            {
-                //------------------[Server]
+            if (isServer) Server_MainLogic(leftAndRightCounts);
+  
 
-                curRecoveryPositionRate = 0;
-                curRecoveryTiltRate = 0;
-
-                curSendMsgRate += Time.deltaTime;
-                weightResult += GetWeight(leftAndRightCounts);
-                if (curSendMsgRate > sendMsgRate)
-                {
-                    Rpc_SendWeight(weightResult);
-                    curSendMsgRate = 0;
-                    weightResult = 0;
-                }
-                //------------------[Server]
-            }
-            else
-            {
-                // CancelTilt(); //All Client
-            }
-            
         }
-
 
     }
 
+    public void Server_MainLogic((int leftCount,int rightCount) leftAndRightCounts)     //------------------[Server]
+    {
+        if (leftAndRightCounts.leftCount > 0 || leftAndRightCounts.rightCount > 0)
+        {  
+            curRecoveryPositionRate = 0;
+            curRecoveryTiltRate = 0;
+
+            curSendMsgRate += Time.deltaTime;
+            weightResult += GetWeight(leftAndRightCounts);
+            if (curSendMsgRate > sendMsgRate)
+            {
+                Rpc_SendWeight(weightResult);
+                curSendMsgRate = 0;
+                weightResult = 0;
+            }
+        }
+    }
     float targetTilt;
     Coroutine tiltCoroutine;
     Coroutine tiltMoveCoroutine;
@@ -101,11 +96,12 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     }
     [ReadOnly]
     public float tiltRate;
+    private float tiltSpeed = 2;
     IEnumerator TiltCo()
     {
         while (Mathf.Abs(Rb.rotation - targetTilt) > 0.5f)
         {
-            Rb.rotation = Mathf.Lerp(Rb.rotation, targetTilt, Time.fixedDeltaTime);
+            Rb.rotation = Mathf.Lerp(Rb.rotation, targetTilt, Time.fixedDeltaTime*tiltSpeed);
             tiltRate = Mathf.Abs(Rb.rotation) / maxRotate;
             step = data.moveSpeed * tiltRate;
 
@@ -119,9 +115,6 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     {
         while (Mathf.Abs(Rb.rotation) >0)
         {
-            // var targetPot =transform.position + (Vector3)moveDir;
-            // targetPot.x = Mathf.Clamp(targetPot.x, minDis_Clamp, maxDis_Clamp);
-            // step = tiltRate * data.moveSpeed;
             var target = transform.position +  (Vector3)moveDir * (step * Time.fixedDeltaTime);
             target.x = Mathf.Clamp(target.x, minDis_Clamp, maxDis_Clamp);
 
