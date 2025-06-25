@@ -25,7 +25,7 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
             return rb;
         }
     }
-    
+
     private ActivatableObjectEntity entity;
     protected ActivatableObjectEntity Main
     {
@@ -67,9 +67,9 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
         this.data = data;
 
         if (data.indicator == INDICATOR.TEXT)
-            Main.Create_Indicator_var_1();
+            Create_Indicator_var_1();
         else if (data.indicator == INDICATOR.MARK)
-            Main.Create_Indicator_var_2();
+            Create_Indicator_var_2();
 
     }
 
@@ -148,6 +148,42 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
 
     }
 
+    #endregion
+
+
+    #region  Indicator
+    [ClientRpc]
+    public virtual void ApplyActive_Sync_var1(int curActiveAmount) //server
+    {
+        indicator_var1.SetApplyActive(curActiveAmount);
+    }
+    /// </summary>
+    /// <param name="id">Network ID</param>
+    /// <param name="inc">[-1] : deactive, [1] : active </param>
+    [ClientRpc]
+    public virtual void ApplyActive_Sync_var2(uint id, int curActiveBtn,int inc) //server
+    {
+        indicator_var2.SetApplyActive(id, curActiveBtn ,inc);
+    }
+
+    private ActivatableObject_Indicator_var1 indicator_var1;
+    private void Create_Indicator_var_1()
+    {
+        //var indicator = Resources.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_1_Path);
+        var indicator = ResourceManager.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_1_Path);
+        indicator_var1 = Instantiate(indicator).GetComponent<ActivatableObject_Indicator_var1>();
+        indicator_var1.Setting(Main);
+
+    }
+    private ActivatableObject_Indicator_var2 indicator_var2;
+    private void Create_Indicator_var_2()
+    {
+        var indicator = ResourceManager.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_2_Path);
+        //var indicator = Resources.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_2_Path);
+        indicator_var2 = Instantiate(indicator).GetComponent<ActivatableObject_Indicator_var2>();
+        indicator_var2.Setting(Main);
+
+    }
     #endregion
 }
 

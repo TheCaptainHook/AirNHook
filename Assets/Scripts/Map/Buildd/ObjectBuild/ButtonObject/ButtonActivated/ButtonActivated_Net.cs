@@ -5,8 +5,8 @@ using Mirror;
 
 public class ButtonActivated_Net : NetworkBehaviour
 {
-    private float max = -0.1f;
-    private float min = -0.3f;
+    private float max = -0.2f;
+    private float min = -0.4f;
     [SerializeField] Transform plate;
     [SerializeField] GameObject _light;
 
@@ -80,11 +80,11 @@ public class ButtonActivated_Net : NetworkBehaviour
         }
 
     }
-    [Command(requiresAuthority = false)]
-    public void Cmd_SetRate(float rate)
-    {
-        Server_SetRate(rate);
-    }
+    // [Command(requiresAuthority = false)]
+    // public void Cmd_SetRate(float rate)
+    // {
+    //     Server_SetRate(rate);
+    // }
 
 
     private void OnChageRate(float old,float newVal)

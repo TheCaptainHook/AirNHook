@@ -34,17 +34,17 @@ public class ButtonActivated : ButtonEntity
         }
     }
 
-    private void Press()
+    private void Press()//server
     {
         if (B_Net.rate >= 1) return;
         if(NetworkClient.isConnected && NetworkClient.ready)
-        B_Net.Cmd_SetRate(Time.fixedDeltaTime);
+        B_Net.Server_SetRate(Time.fixedDeltaTime);
     }
-    private void Release()
+    private void Release() //server
     {
         if (B_Net.rate <= 0) return;
         if (NetworkClient.isConnected && NetworkClient.ready)
-            B_Net.Cmd_SetRate(-Time.fixedDeltaTime);
+            B_Net.Server_SetRate(-Time.fixedDeltaTime);
     }
 
     private void FixedUpdate()
@@ -93,22 +93,22 @@ public class ButtonActivated : ButtonEntity
         PrograssButtonActivatedObject(false);
     }
 
-    public override void TurnOff()
-    {
-        base.TurnOff();
-        turnOff = true;
+    // public override void TurnOff()
+    // {
+    //     base.TurnOff();
+    //     turnOff = true;
 
-        if (isPressed && onActive)
-        {
-            Deactivated();
-        }
+    //     if (isPressed && onActive)
+    //     {
+    //         Deactivated();
+    //     }
 
-    }
+    // }
 
-    public override void TurnOn()
-    {
-        base.TurnOn();
-        turnOff = false;
-    }
+    // public override void TurnOn()
+    // {
+    //     base.TurnOn();
+    //     turnOff = false;
+    // }
 
 }

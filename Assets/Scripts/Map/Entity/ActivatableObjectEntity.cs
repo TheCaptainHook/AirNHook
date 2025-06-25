@@ -52,13 +52,22 @@ public class ActivatableObjectEntity : BuildObj
     public void ApplyActive(int num,uint id=9999) //only Server
     {
         curActiveBtn += num;
-        
-        if (id != 9999 && ButtonActivatedObjectStruct.indicator == INDICATOR.MARK)
-        {
-            ApplyActive_Sync_var2(id, curActiveBtn, num);
-        }
-        else if (ButtonActivatedObjectStruct.indicator == INDICATOR.TEXT) ApplyActive_Sync_var1(curActiveBtn);
 
+        if (Net_Entity(out ActivatableObject_Net_Entity net))
+        {
+            //------------------------------------NET
+            if (id != 9999 && ButtonActivatedObjectStruct.indicator == INDICATOR.MARK)
+            {
+                net.ApplyActive_Sync_var2(id, curActiveBtn, num);
+            }
+            else if (ButtonActivatedObjectStruct.indicator == INDICATOR.TEXT) net.ApplyActive_Sync_var1(curActiveBtn);
+
+            //------------------------------------NET
+
+
+            return;
+        }
+        
 
         if (curActiveBtn == activeRequirAmount)
         {
@@ -130,46 +139,46 @@ public class ActivatableObjectEntity : BuildObj
     }
 
     #region Indicator
-    protected virtual void ApplyActive_Sync_var1(int curActiveAmount) //server
-    {
-        /// [TEXT]
-        /// 1. 각 오브젝트 오버라이딩
-        /// 2. server에서 버튼 누름 -> rpc로 적용(curActiveAmount 그대로 걍 전달)
-        ///[MARK]
-        ///
-        //TEST
-        indicator_var1.SetApplyActive(curActiveAmount);
-    }
-    /// </summary>
-    /// <param name="id">Network ID</param>
-    /// <param name="inc">[-1] : deactive, [1] : active </param>
-    protected virtual void ApplyActive_Sync_var2(uint id, int curActiveBtn,int inc) //server
-    {
-        ///[MARK]
-        /// 1. 각 오브젝트 오버라이딩
-        /// 2. server에서 버튼 누르면 해당 오브젝트의 id와 현재 활성화된 갯수 전달
-        /// 3. item 경로가 이미 생성되있으면 걍 LineOn, 아니면 경로 생성 후 Line On
-        indicator_var2.SetApplyActive(id, curActiveBtn ,inc);
-    }
+    // protected virtual void ApplyActive_Sync_var1(int curActiveAmount) //server
+    // {
+    //     /// [TEXT]
+    //     /// 1. 각 오브젝트 오버라이딩
+    //     /// 2. server에서 버튼 누름 -> rpc로 적용(curActiveAmount 그대로 걍 전달)
+    //     ///[MARK]
+    //     ///
+    //     //TEST
+    //     indicator_var1.SetApplyActive(curActiveAmount);
+    // }
+    // /// </summary>
+    // /// <param name="id">Network ID</param>
+    // /// <param name="inc">[-1] : deactive, [1] : active </param>
+    // protected virtual void ApplyActive_Sync_var2(uint id, int curActiveBtn,int inc) //server
+    // {
+    //     ///[MARK]
+    //     /// 1. 각 오브젝트 오버라이딩
+    //     /// 2. server에서 버튼 누르면 해당 오브젝트의 id와 현재 활성화된 갯수 전달
+    //     /// 3. item 경로가 이미 생성되있으면 걍 LineOn, 아니면 경로 생성 후 Line On
+    //     indicator_var2.SetApplyActive(id, curActiveBtn ,inc);
+    // }
 
-    private ActivatableObject_Indicator_var1 indicator_var1;
-    public void Create_Indicator_var_1()
-    {
-        //var indicator = Resources.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_1_Path);
-        var indicator = ResourceManager.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_1_Path);
-        indicator_var1 = Instantiate(indicator).GetComponent<ActivatableObject_Indicator_var1>();
-        indicator_var1.Setting(this);
+    // private ActivatableObject_Indicator_var1 indicator_var1;
+    // public void Create_Indicator_var_1()
+    // {
+    //     //var indicator = Resources.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_1_Path);
+    //     var indicator = ResourceManager.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_1_Path);
+    //     indicator_var1 = Instantiate(indicator).GetComponent<ActivatableObject_Indicator_var1>();
+    //     indicator_var1.Setting(this);
 
-    }
-    private ActivatableObject_Indicator_var2 indicator_var2;
-    public void Create_Indicator_var_2()
-    {
-        var indicator = ResourceManager.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_2_Path);
-        //var indicator = Resources.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_2_Path);
-        indicator_var2 = Instantiate(indicator).GetComponent<ActivatableObject_Indicator_var2>();
-        indicator_var2.Setting(this);
+    // }
+    // private ActivatableObject_Indicator_var2 indicator_var2;
+    // public void Create_Indicator_var_2()
+    // {
+    //     var indicator = ResourceManager.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_2_Path);
+    //     //var indicator = Resources.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_2_Path);
+    //     indicator_var2 = Instantiate(indicator).GetComponent<ActivatableObject_Indicator_var2>();
+    //     indicator_var2.Setting(this);
 
-    }
+    // }
 
     #endregion
 
