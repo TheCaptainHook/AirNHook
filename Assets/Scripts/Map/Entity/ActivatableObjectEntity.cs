@@ -53,7 +53,7 @@ public class ActivatableObjectEntity : BuildObj
     {
         curActiveBtn += num;
 
-        if (Net_Entity(out ActivatableObject_Net_Entity net))
+        if (Net_Entity(out ActivatableObject_Net_Entity net) && ButtonActivatedObjectStruct.indicator != INDICATOR.NONE)
         {
             //------------------------------------NET
             if (id != 9999 && ButtonActivatedObjectStruct.indicator == INDICATOR.MARK)
@@ -63,8 +63,6 @@ public class ActivatableObjectEntity : BuildObj
             else if (ButtonActivatedObjectStruct.indicator == INDICATOR.TEXT) net.ApplyActive_Sync_var1(curActiveBtn);
 
             //------------------------------------NET
-
-
             return;
         }
         

@@ -158,11 +158,11 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
     private float satisfiedEffectWaitDelaySec = 3;
     private Coroutine satisfiedCoroutine;
 
-    [ClientRpc]
-    private void Rpc_SatisfyEffect()
-    {
+    // [ClientRpc]
+    // private void Rpc_SatisfyEffect()
+    // {
         
-    }
+    // }
 
     private IEnumerator SatisfyEffectCo()
     {
