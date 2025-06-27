@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ActivatableObject_Indicator_var2 : MonoBehaviour
@@ -116,7 +115,6 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
         if (itemDic.ContainsKey(id))
         {
             itemDic[id].SetActive(inc);
-
         }
         else
         {
@@ -126,22 +124,58 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
         if (NetworkServer.active)
             StartCoroutine(ConditionCheckCo(id, inc));
     }
+
     // private Coroutine conditionCheckCoroutine;
-    IEnumerator ConditionCheckCo(uint id, int inc)
+
+    IEnumerator ConditionCheckCo(uint id, int inc) //Server
     {
         if (inc != 1)
         {
             curActiveRequirAmount += inc;
+
             if (curActiveRequirAmount != activeRequirAmount) entity.Deactivated();
+            else entity.Activation();
+
             yield break;
         }
+
         var item = itemDic[id];
         yield return new WaitUntil(() => !item.onPrograss);
         curActiveRequirAmount += inc;
 
-        if (curActiveRequirAmount == activeRequirAmount) entity.Activation();
+        //---------------------------------------------RPC, Satisfy Effect Rpc
+        if (curActiveRequirAmount == activeRequirAmount)
+        {
+            entity.Activation();
+        }
         else entity.Deactivated();
+        //---------------------------------------------RPC, Satisfy Effect Rpc
+
     }
+
+
+    #region Satisfy Condition [Server]
+    private float satisfiedEffectWaitDelaySec = 3;
+    private Coroutine satisfiedCoroutine;
+
+    [ClientRpc]
+    private void Rpc_SatisfyEffect()
+    {
+        
+    }
+
+    private IEnumerator SatisfyEffectCo()
+    {
+        float percent = 0;
+        while (percent < satisfiedEffectWaitDelaySec)
+        {
+            percent += Time.deltaTime;
+            yield return null;
+        }
+
+    }
+
+    #endregion
 
     private ActivatableObject_Indicator_var2_Item CreateNewItem(uint id, int inc = 1)
     {
@@ -150,6 +184,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
         item.Setting(id, inc);
         return item;
     }
+
 
     private float curItem_Space = 0;
     private float item_Space = 0.3f;

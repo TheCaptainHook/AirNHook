@@ -2,7 +2,6 @@ using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
@@ -70,20 +69,20 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
 
                 break;
             case 1:
-                if (!onDraw) Draw();
+                if (!onDraw) Draw(() => Mark_Green());
                 onActive = true;
                 onDraw = true;
                 break;
-            // case 2:
-            //     if (onDraw) Erase(); //조건 충족, 단순 라인 제거용
-            //     onActive = true;
-            //     onDraw = false;
-            //     break;
-            // case 3:
-            //     if (!onDraw) Draw(); //조건 충족,
-            //     onDraw = true;
+                // case 2:
+                //     if (onDraw) Erase(); //조건 충족, 단순 라인 제거용
+                //     onActive = true;
+                //     onDraw = false;
+                //     break;
+                // case 3:
+                //     if (!onDraw) Draw(); //조건 충족,
+                //     onDraw = true;
 
-            //     break;
+                //     break;
         }
     }
 
@@ -91,7 +90,7 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
     private Coroutine drawCoroutine;
     private Coroutine eraseCoroutine;
 
-    public void Draw()
+    public void Draw(Action markAction = null)
     {
         if (!gameObject.activeSelf) gameObject.SetActive(true);
 
@@ -102,7 +101,7 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
         }
 
         // drawCoroutine = StartCoroutine(DrawOn_MainToTarget(pathList));
-        drawCoroutine = StartCoroutine(DrawOn_TargetToMain(pathList));
+        drawCoroutine = StartCoroutine(DrawOn_TargetToMain(pathList, markAction));
     }
     public void Erase()
     {
@@ -180,7 +179,7 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
         drawCoroutine = null;
 
     }
-    private IEnumerator DrawOn_TargetToMain(List<Vector2> path) //<-> MainToTarget
+    private IEnumerator DrawOn_TargetToMain(List<Vector2> path, Action markEnableAction) //<-> MainToTarget
     {
         line_direction = LINE_DIRECTION.TargetToMain;
         if (path == null || path.Count < 2) yield break;
@@ -224,6 +223,9 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
             index--;
             start = end;
         }
+        //---------------------------TEST 0627 (Mark Change)
+        markEnableAction?.Invoke();
+        //---------------------------TEST 0627 (Mark Change)
         onPrograss = false;
 
         drawCoroutine = null;
@@ -276,8 +278,12 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
 
     private IEnumerator EraseCo_MainToTarget() //<-> Draw_TargetToMain
     {
-        if(line_direction == LINE_DIRECTION.MainToTarget) ReverseLineRendererPosition(true);
+        if (line_direction == LINE_DIRECTION.MainToTarget) ReverseLineRendererPosition(true);
         line_direction = LINE_DIRECTION.MainToTarget;
+
+        //---------------------------TEST 0627 (Mark Change)
+        Mark_ShutDown();
+        //---------------------------TEST 0627 (Mark Change)
 
         if (lineRenderer.positionCount == 0)
         {
@@ -323,13 +329,13 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
         {
             for (int i = 0; i < lineRenderer.positionCount; i++)
             {
-                var pot = pathList[pathList.Count - 1 -i];
+                var pot = pathList[pathList.Count - 1 - i];
                 lineRenderer.SetPosition(i, pot);
             }
         }
         else
         {
-             for (int i = 0; i < lineRenderer.positionCount; i++)
+            for (int i = 0; i < lineRenderer.positionCount; i++)
             {
                 var pot = pathList[i];
                 lineRenderer.SetPosition(i, pot);
@@ -340,4 +346,25 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
     }
     #endregion
 
+    #region  Mark. (TEST/0627)
+    public void Mark_Red()
+    {
+        mainSprite.enabled = true;
+        mainSprite.color = Color.red;
+    }
+    public void Mark_Green()
+    {
+        mainSprite.enabled = true;
+        mainSprite.color = Color.green;
+    }
+    public void Mark_ShutDown()
+    {
+        mainSprite.enabled = false;
+    }
+    #endregion
+
+    // public IEnumerator SatisfyConditionCo()
+    // {
+
+    // }
 }
