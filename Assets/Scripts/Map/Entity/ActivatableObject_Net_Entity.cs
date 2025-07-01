@@ -35,7 +35,8 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
             return entity;
         }
     }
-    protected ButtonActivatableObjectStruct data;
+
+    public ButtonActivatableObjectStruct data;
 
     #region Init Sync
     [ReadOnly]

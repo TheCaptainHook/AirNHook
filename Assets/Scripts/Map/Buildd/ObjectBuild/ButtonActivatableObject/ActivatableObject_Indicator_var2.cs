@@ -39,7 +39,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
         transform.SetParent(termTr);
         gameObject.SetActive(false);
 
-        activeRequirAmount = entity.ButtonActivatedObjectStruct.activeRequirAmount;
+        activeRequirAmount = net.data.activeRequirAmount;
 
         itemDic = new();
     }
@@ -82,14 +82,12 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
                
         }
 
-        if (NetworkServer.active)
-        {
-            curActiveRequirAmount += inc;
+        curActiveRequirAmount += inc;
 
-            if (conditionCheckCo != null) StopCoroutine(conditionCheckCo);
-            conditionCheckCo = StartCoroutine(ConditionCheckCo(id, inc));
-        }
-       
+        if (conditionCheckCo != null) StopCoroutine(conditionCheckCo);
+        conditionCheckCo = StartCoroutine(ConditionCheckCo(id, inc));
+
+
     }
      
     // private Coroutine conditionCheckCoroutine;
@@ -105,7 +103,8 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
                 SatisfyEffectRecover();
                 //---------Stop SatisfyEffectCo Recover
 
-                entity.Deactivated();
+                if (NetworkServer.active)
+                    entity.Deactivated();
             }
             else
             {
@@ -113,7 +112,8 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
                 if (satisfiedCoroutine != null) StopCoroutine(satisfiedCoroutine);
                 satisfiedCoroutine = StartCoroutine(SatisfyEffectCo());
                 //---------Start SatisfyEffectCo
-                entity.Activation();
+                if (NetworkServer.active)
+                    entity.Activation();
             }
 
             yield break;
@@ -129,15 +129,16 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
             if (satisfiedCoroutine != null) StopCoroutine(satisfiedCoroutine);
             satisfiedCoroutine = StartCoroutine(SatisfyEffectCo());
             //---------Start SatisfyEffectCo
-            entity.Activation();
+            if (NetworkServer.active)
+                entity.Activation();
         }
         else
         {
             //---------Stop SatisfyEffectCo Recover RPC
             SatisfyEffectRecover();
             //---------Stop SatisfyEffectCo Recover
-
-            entity.Deactivated();
+            if (NetworkServer.active)
+                entity.Deactivated();
         }
 
     }
