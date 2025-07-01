@@ -2,6 +2,7 @@ using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
@@ -34,6 +35,10 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
 
         return true;
     }
+    #region Fade
+    private Color lineStartColor;
+    private Color lineEndColor;
+    #endregion
 
     #region PathFinder
     public List<Vector2> pathList;
@@ -54,6 +59,11 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
     }
     #endregion
 
+    private void Awake()
+    {
+        lineStartColor = lineRenderer.startColor;
+        lineEndColor = lineRenderer.endColor;
+    }
 
     /// <summary>
     /// </summary>
@@ -63,7 +73,7 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
         switch (inc)
         {
             case -1:
-                if (onActive && onDraw) Erase();
+                if (onDraw) Erase();
                 onActive = false;
                 onDraw = false;
 
@@ -73,16 +83,16 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
                 onActive = true;
                 onDraw = true;
                 break;
-                // case 2:
-                //     if (onDraw) Erase(); //조건 충족, 단순 라인 제거용
-                //     onActive = true;
-                //     onDraw = false;
-                //     break;
-                // case 3:
-                //     if (!onDraw) Draw(); //조건 충족,
-                //     onDraw = true;
+            // case 2:
+            //     if (onDraw) Erase(); //조건 충족, 단순 라인 제거용
+            //     onActive = true;
+            //     onDraw = false;
+            //     break;
+            case 3:
+                if (!onDraw) Draw(()=>Mark_Red()); //조건 충족,
+                onDraw = true;
 
-                //     break;
+                break;
         }
     }
 
@@ -359,12 +369,56 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
     }
     public void Mark_ShutDown()
     {
+        mainSprite.color = Color.red;
         mainSprite.enabled = false;
     }
     #endregion
 
-    // public IEnumerator SatisfyConditionCo()
-    // {
 
-    // }
+    #region Fade
+    public bool isFading;
+    float maxAlpha = 1;
+    float minAlpha = 0.05f;
+    float duration = 1;
+    public Coroutine satisfyConditionCoroutine;
+    public void SatisfyCondition_FadeOutLine()
+    {
+        if (satisfyConditionCoroutine != null) StopCoroutine(satisfyConditionCoroutine);
+        satisfyConditionCoroutine = StartCoroutine(SatisfyCondition_FadeOutLineCo());
+    }
+
+    private IEnumerator SatisfyCondition_FadeOutLineCo()
+    {
+        isFading = true;
+        float elapsed = 0;
+        Color curStartCol = lineRenderer.startColor;
+        Color fade_Start = new Color(curStartCol.r, curStartCol.g, curStartCol.b, minAlpha);
+
+        Color curEndColr = lineRenderer.endColor;
+        Color fade_End = new Color(curEndColr.r, curEndColr.g, curEndColr.b, minAlpha);
+
+        while(elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            lineRenderer.startColor = Color.Lerp(curStartCol, fade_Start, elapsed);
+            lineRenderer.endColor = Color.Lerp(curEndColr, fade_End, elapsed);
+            yield return null;
+        }
+
+        lineRenderer.startColor = fade_Start;
+        lineRenderer.endColor = fade_End;
+        isFading = false;
+    }
+    public void FadeRecover()
+    {
+        if (satisfyConditionCoroutine != null)
+        {
+            StopCoroutine(satisfyConditionCoroutine);
+            satisfyConditionCoroutine = null;
+        }
+
+        lineRenderer.startColor = new Color(lineStartColor.r, lineStartColor.g, lineStartColor.b, maxAlpha);
+        lineRenderer.endColor = new Color(lineEndColor.r, lineEndColor.g, lineEndColor.b, maxAlpha);
+    }
+    #endregion
 }

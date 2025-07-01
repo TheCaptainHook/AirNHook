@@ -19,10 +19,13 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
 
     [ReadOnly]
     public ActivatableObjectEntity entity;
+    public ActivatableObject_Net_Entity net;
 
-    public void Setting(ActivatableObjectEntity entity)
+    public void Setting(ActivatableObjectEntity entity,ActivatableObject_Net_Entity net)
     {
         this.entity = entity;
+        this.net = net;
+
         parent = entity.gameObject.transform;
         var offset = parent.rotation * (parent.localScale * entity.indicatorOffset_val_2);
 
@@ -41,127 +44,111 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
         itemDic = new();
     }
 
-
-    private bool isConditionSatisfied = false;
-
     //inc 1 -> active, inc -1 -> deactive
+    Coroutine conditionCheckCo;
     public void SetApplyActive(uint id, int curActiveBtn, int inc)
     {
         if (!gameObject.activeSelf) gameObject.SetActive(true);
 
-        // if (curActiveBtn == activeRequirAmount) //조건 충족
-        // {
-        //     isConditionSatisfied = true;
-
-        //     if (!itemDic.ContainsKey(id)) //아이디 없을때
-        //     {
-        //         CreateNewItem(id, 2); //조건 충족용 라인 제거
-        //         foreach (var item in itemDic.Values)
-        //         {
-        //             if (item.targetId == id) continue;
-        //             if (item.onActive) item.SetActive(2);
-        //         }
-        //     }
-        //     else //아이디 존재
-        //     {
-        //         var curItem = itemDic[id];
-        //         if (inc == 1)
-        //         {
-        //             curItem.onActive = true;
-        //         }
-        //         if (inc == -1)
-        //         {
-        //             curItem.SetActive(inc);
-        //         }
-
-        //         foreach (var item in itemDic.Values)
-        //         {
-        //             if (item.targetId == id) continue;
-        //             if (item.onActive) item.SetActive(2);
-        //         }
-        //     }
-
-        //     return;
-        // }
-        // //After the condition is satisfied, when it is deactivated or reactivated
-        // if (isConditionSatisfied)
-        // {
-        //     if (itemDic.ContainsKey(id))
-        //     {
-        //         var curItem = itemDic[id];
-        //         curItem.SetActive(inc);
-
-        //         foreach (var item in itemDic.Values)
-        //         {
-        //             if (item == curItem) continue;
-        //             if (item.onActive) item.SetActive(3);
-        //         }
-        //     }
-        //     else
-        //     {
-        //         var curItem = CreateNewItem(id);
-
-        //         foreach (var item in itemDic.Values)
-        //         {
-        //             if (item == curItem) continue;
-        //             if (item.onActive && !item.onDraw) item.SetActive(3);
-        //         }
-
-        //     }
-        //     isConditionSatisfied = false;
-        //     return;
-        // }
-
         if (itemDic.ContainsKey(id))
         {
-            itemDic[id].SetActive(inc);
+            if(inc ==1)
+            {
+                if(curActiveBtn > activeRequirAmount)
+                {
+                    itemDic[id].SetActive(3);
+                }else
+                {
+                    itemDic[id].SetActive(inc);
+                }
+                  
+            } else
+            {
+
+                itemDic[id].SetActive(inc);
+            }
+               
         }
         else
         {
-            CreateNewItem(id);
+            if (curActiveBtn > activeRequirAmount)
+            {
+                CreateNewItem(id, 3);
+            }
+            else
+            {
+                CreateNewItem(id);
+            }
+               
         }
 
         if (NetworkServer.active)
-            StartCoroutine(ConditionCheckCo(id, inc));
-    }
+        {
+            curActiveRequirAmount += inc;
 
+            if (conditionCheckCo != null) StopCoroutine(conditionCheckCo);
+            conditionCheckCo = StartCoroutine(ConditionCheckCo(id, inc));
+        }
+       
+    }
+     
     // private Coroutine conditionCheckCoroutine;
 
     IEnumerator ConditionCheckCo(uint id, int inc) //Server
     {
         if (inc != 1)
-        {
-            curActiveRequirAmount += inc;
+        {  
+            if (curActiveRequirAmount != activeRequirAmount)
+            {
+                //---------Stop SatisfyEffectCo Recover RPC
+                if (satisfiedCoroutine != null) StopCoroutine(satisfiedCoroutine);
+                SatisfyEffectRecover();
+                //---------Stop SatisfyEffectCo Recover
 
-            if (curActiveRequirAmount != activeRequirAmount) entity.Deactivated();
-            else entity.Activation();
+                entity.Deactivated();
+            }
+            else
+            {
+                //---------Start SatisfyEffectCo RPC
+                if (satisfiedCoroutine != null) StopCoroutine(satisfiedCoroutine);
+                satisfiedCoroutine = StartCoroutine(SatisfyEffectCo());
+                //---------Start SatisfyEffectCo
+                entity.Activation();
+            }
 
             yield break;
         }
 
         var item = itemDic[id];
         yield return new WaitUntil(() => !item.onPrograss);
-        curActiveRequirAmount += inc;
 
-        //---------------------------------------------RPC, Satisfy Effect Rpc
+
         if (curActiveRequirAmount == activeRequirAmount)
         {
+            //---------Start SatisfyEffectCo RPC
+            if (satisfiedCoroutine != null) StopCoroutine(satisfiedCoroutine);
+            satisfiedCoroutine = StartCoroutine(SatisfyEffectCo());
+            //---------Start SatisfyEffectCo
             entity.Activation();
         }
-        else entity.Deactivated();
-        //---------------------------------------------RPC, Satisfy Effect Rpc
+        else
+        {
+            //---------Stop SatisfyEffectCo Recover RPC
+            SatisfyEffectRecover();
+            //---------Stop SatisfyEffectCo Recover
+
+            entity.Deactivated();
+        }
 
     }
 
-
     #region Satisfy Condition [Server]
-    private float satisfiedEffectWaitDelaySec = 3;
+    private float satisfiedEffectWaitDelaySec = 1;
     private Coroutine satisfiedCoroutine;
 
-    // [ClientRpc]
     // private void Rpc_SatisfyEffect()
     // {
-        
+
     // }
 
     private IEnumerator SatisfyEffectCo()
@@ -173,8 +160,27 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
             yield return null;
         }
 
+        //Rpc Fade Out Line
+        foreach(var item in itemDic.Values)
+        {
+            if(item.onDraw)
+            {
+                item.SatisfyCondition_FadeOutLine();
+            }
+        }
+        //Rpc Fade Out Line
+
+        satisfiedCoroutine = null;
     }
 
+    public void SatisfyEffectRecover()
+    {
+        foreach (var item in itemDic.Values)
+        {
+            item.FadeRecover();
+        }
+
+    }
     #endregion
 
     private ActivatableObject_Indicator_var2_Item CreateNewItem(uint id, int inc = 1)

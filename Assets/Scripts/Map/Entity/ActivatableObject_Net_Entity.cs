@@ -181,9 +181,11 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
         var indicator = ResourceManager.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_2_Path);
         //var indicator = Resources.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_2_Path);
         indicator_var2 = Instantiate(indicator).GetComponent<ActivatableObject_Indicator_var2>();
-        indicator_var2.Setting(Main);
+        indicator_var2.Setting(Main,this);
 
     }
+
+
     #endregion
 }
 
