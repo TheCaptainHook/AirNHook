@@ -99,7 +99,11 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
             if (curActiveRequirAmount != activeRequirAmount)
             {
                 //---------Stop SatisfyEffectCo Recover RPC
-                if (satisfiedCoroutine != null) StopCoroutine(satisfiedCoroutine);
+                if (satisfiedCoroutine != null)
+                {
+                    StopCoroutine(satisfiedCoroutine);
+                    satisfiedCoroutine = null;
+                }
                 SatisfyEffectRecover();
                 //---------Stop SatisfyEffectCo Recover
 
@@ -135,6 +139,12 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
         else
         {
             //---------Stop SatisfyEffectCo Recover RPC
+            if (satisfiedCoroutine != null)
+            {
+                StopCoroutine(satisfiedCoroutine);
+                satisfiedCoroutine = null;
+            }
+
             SatisfyEffectRecover();
             //---------Stop SatisfyEffectCo Recover
             if (NetworkServer.active)
