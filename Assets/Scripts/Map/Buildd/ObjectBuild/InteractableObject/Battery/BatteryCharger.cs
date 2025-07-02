@@ -1,7 +1,7 @@
 using Mirror;
 using System.Collections;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
+
 public class BatteryCharger : BuildObj
 {
     private UI_Base _E_Btn;

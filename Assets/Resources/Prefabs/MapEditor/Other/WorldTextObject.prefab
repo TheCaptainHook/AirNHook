@@ -357,19 +357,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6e82aa39653ac54580a4cac39cf2675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 5203
+  id: 10003
   transformID: 0
   position: {x: 0, y: 0}
-  offset: {x: 0, y: 0}
-  turnOff: 0
   distructionStatus: 0
+  chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
   onPlaceable: 0
   onRotateable: 0
   onScaleable: 0
+  offset: {x: 0, y: 0}
+  turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
+  canRespawn: 0
   size: {x: 10, y: 10}
   mainText: 1
+  fontSize: 0
   _CanvasRT: {fileID: 2251250782667528082}
   textMesh: {fileID: 9147591184613488264}

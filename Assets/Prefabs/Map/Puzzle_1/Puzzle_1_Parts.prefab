@@ -589,6 +589,8 @@ MonoBehaviour:
   index: 0
   lineRenderer: {fileID: 5731081128865216846}
   _objectType: 0
+  onSocket: 0
+  insert_Item: {fileID: 0}
 --- !u!120 &5731081128865216846
 LineRenderer:
   serializedVersion: 2
@@ -628,9 +630,9 @@ LineRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -688237417
-  m_SortingLayer: 5
-  m_SortingOrder: 0
+  m_SortingLayerID: -1138266859
+  m_SortingLayer: 2
+  m_SortingOrder: 3
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
@@ -722,7 +724,6 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  item: {fileID: 0}
   isCorrectAnswer: 0
 --- !u!1 &1989592938180581310
 GameObject:

@@ -52,7 +52,7 @@ public class Puzzle_1_Helper : MonoBehaviour
   
     public void RoundPosition()
     {
-        RoundPosition(puzzle_1.transform);
+        // RoundPosition(puzzle_1.transform);
 
         foreach(Transform t in partsContainer)
         {

@@ -128,7 +128,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1138266859
   m_SortingLayer: 2
-  m_SortingOrder: 4
+  m_SortingOrder: 3
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
@@ -206,8 +206,11 @@ MonoBehaviour:
   lineRenderer: {fileID: 1610662140401064709}
   mainSprite: {fileID: 7992888306733550346}
   targetId: 0
-  onCorecct: 0
+  onActive: 0
+  onDraw: 0
   pathList: []
+  onPrograss: 0
+  isFading: 0
 --- !u!114 &5350227452123499416
 MonoBehaviour:
   m_ObjectHideFlags: 0

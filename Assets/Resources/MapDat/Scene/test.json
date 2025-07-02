@@ -2603,6 +2603,1216 @@
                 "y": -41
             },
             "End": {
+                "x": 20,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 21,
+                "y": -41
+            },
+            "End": {
+                "x": 21,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 21,
+                "y": 30
+            },
+            "End": {
+                "x": 21,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 22,
+                "y": -41
+            },
+            "End": {
+                "x": 22,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 22,
+                "y": 30
+            },
+            "End": {
+                "x": 22,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 23,
+                "y": -41
+            },
+            "End": {
+                "x": 23,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 23,
+                "y": 30
+            },
+            "End": {
+                "x": 23,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 24,
+                "y": -41
+            },
+            "End": {
+                "x": 24,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 24,
+                "y": 30
+            },
+            "End": {
+                "x": 24,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 25,
+                "y": -41
+            },
+            "End": {
+                "x": 25,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 25,
+                "y": 30
+            },
+            "End": {
+                "x": 25,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 26,
+                "y": -41
+            },
+            "End": {
+                "x": 26,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 26,
+                "y": 30
+            },
+            "End": {
+                "x": 26,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 27,
+                "y": -41
+            },
+            "End": {
+                "x": 27,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 27,
+                "y": 30
+            },
+            "End": {
+                "x": 27,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 28,
+                "y": -41
+            },
+            "End": {
+                "x": 28,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 28,
+                "y": 30
+            },
+            "End": {
+                "x": 28,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 29,
+                "y": -41
+            },
+            "End": {
+                "x": 29,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 29,
+                "y": 30
+            },
+            "End": {
+                "x": 29,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 30,
+                "y": -41
+            },
+            "End": {
+                "x": 30,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 30,
+                "y": 30
+            },
+            "End": {
+                "x": 30,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 31,
+                "y": -41
+            },
+            "End": {
+                "x": 31,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 31,
+                "y": 30
+            },
+            "End": {
+                "x": 31,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 32,
+                "y": -41
+            },
+            "End": {
+                "x": 32,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 32,
+                "y": 30
+            },
+            "End": {
+                "x": 32,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 33,
+                "y": -41
+            },
+            "End": {
+                "x": 33,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 33,
+                "y": 30
+            },
+            "End": {
+                "x": 33,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 34,
+                "y": -41
+            },
+            "End": {
+                "x": 34,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 34,
+                "y": 30
+            },
+            "End": {
+                "x": 34,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 35,
+                "y": -41
+            },
+            "End": {
+                "x": 35,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 35,
+                "y": 30
+            },
+            "End": {
+                "x": 35,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 36,
+                "y": -41
+            },
+            "End": {
+                "x": 36,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 36,
+                "y": 30
+            },
+            "End": {
+                "x": 36,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 37,
+                "y": -41
+            },
+            "End": {
+                "x": 37,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 37,
+                "y": 30
+            },
+            "End": {
+                "x": 37,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 38,
+                "y": -41
+            },
+            "End": {
+                "x": 38,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 38,
+                "y": 30
+            },
+            "End": {
+                "x": 38,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 39,
+                "y": -41
+            },
+            "End": {
+                "x": 39,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 39,
+                "y": -4
+            },
+            "End": {
+                "x": 39,
+                "y": -4
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 39,
+                "y": 30
+            },
+            "End": {
+                "x": 39,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 40,
+                "y": -41
+            },
+            "End": {
+                "x": 40,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 40,
+                "y": -4
+            },
+            "End": {
+                "x": 40,
+                "y": -4
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 40,
+                "y": 30
+            },
+            "End": {
+                "x": 40,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 41,
+                "y": -41
+            },
+            "End": {
+                "x": 41,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 41,
+                "y": -4
+            },
+            "End": {
+                "x": 41,
+                "y": -4
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 41,
+                "y": 30
+            },
+            "End": {
+                "x": 41,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 42,
+                "y": -41
+            },
+            "End": {
+                "x": 42,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 42,
+                "y": -4
+            },
+            "End": {
+                "x": 42,
+                "y": -4
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 42,
+                "y": 30
+            },
+            "End": {
+                "x": 42,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 43,
+                "y": -41
+            },
+            "End": {
+                "x": 43,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 43,
+                "y": -4
+            },
+            "End": {
+                "x": 43,
+                "y": -4
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 43,
+                "y": 30
+            },
+            "End": {
+                "x": 43,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 44,
+                "y": -41
+            },
+            "End": {
+                "x": 44,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 44,
+                "y": -4
+            },
+            "End": {
+                "x": 44,
+                "y": -4
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 44,
+                "y": 30
+            },
+            "End": {
+                "x": 44,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 45,
+                "y": -41
+            },
+            "End": {
+                "x": 45,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 45,
+                "y": -4
+            },
+            "End": {
+                "x": 45,
+                "y": -4
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 45,
+                "y": 30
+            },
+            "End": {
+                "x": 45,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 46,
+                "y": -41
+            },
+            "End": {
+                "x": 46,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 46,
+                "y": -4
+            },
+            "End": {
+                "x": 46,
+                "y": -4
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 46,
+                "y": 31
+            },
+            "End": {
+                "x": 46,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 47,
+                "y": -41
+            },
+            "End": {
+                "x": 47,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 47,
+                "y": -4
+            },
+            "End": {
+                "x": 47,
+                "y": -4
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 47,
+                "y": 31
+            },
+            "End": {
+                "x": 47,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 48,
+                "y": -41
+            },
+            "End": {
+                "x": 48,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 48,
+                "y": 31
+            },
+            "End": {
+                "x": 48,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 49,
+                "y": -41
+            },
+            "End": {
+                "x": 49,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 49,
+                "y": 31
+            },
+            "End": {
+                "x": 49,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 50,
+                "y": -41
+            },
+            "End": {
+                "x": 50,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 50,
+                "y": 31
+            },
+            "End": {
+                "x": 50,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 51,
+                "y": -41
+            },
+            "End": {
+                "x": 51,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 51,
+                "y": 31
+            },
+            "End": {
+                "x": 51,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 52,
+                "y": -41
+            },
+            "End": {
+                "x": 52,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 52,
+                "y": 31
+            },
+            "End": {
+                "x": 52,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 53,
+                "y": -41
+            },
+            "End": {
+                "x": 53,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 53,
+                "y": 31
+            },
+            "End": {
+                "x": 53,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 54,
+                "y": -41
+            },
+            "End": {
+                "x": 54,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 54,
+                "y": 31
+            },
+            "End": {
+                "x": 54,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 55,
+                "y": -41
+            },
+            "End": {
+                "x": 55,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 55,
+                "y": 31
+            },
+            "End": {
+                "x": 55,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 56,
+                "y": -41
+            },
+            "End": {
+                "x": 56,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 56,
+                "y": 31
+            },
+            "End": {
+                "x": 56,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 57,
+                "y": -41
+            },
+            "End": {
+                "x": 57,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 57,
+                "y": 31
+            },
+            "End": {
+                "x": 57,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 58,
+                "y": -41
+            },
+            "End": {
+                "x": 58,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 58,
+                "y": 31
+            },
+            "End": {
+                "x": 58,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 59,
+                "y": -41
+            },
+            "End": {
+                "x": 59,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 59,
+                "y": 31
+            },
+            "End": {
+                "x": 59,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 60,
+                "y": -41
+            },
+            "End": {
+                "x": 60,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 60,
+                "y": 31
+            },
+            "End": {
+                "x": 60,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 61,
+                "y": -41
+            },
+            "End": {
+                "x": 61,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 61,
+                "y": 31
+            },
+            "End": {
+                "x": 61,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 62,
+                "y": -41
+            },
+            "End": {
+                "x": 62,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 62,
+                "y": 31
+            },
+            "End": {
+                "x": 62,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 63,
+                "y": -41
+            },
+            "End": {
+                "x": 63,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 63,
+                "y": 31
+            },
+            "End": {
+                "x": 63,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 64,
+                "y": -41
+            },
+            "End": {
+                "x": 64,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 64,
+                "y": 31
+            },
+            "End": {
+                "x": 64,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 65,
+                "y": -41
+            },
+            "End": {
+                "x": 65,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 65,
+                "y": 31
+            },
+            "End": {
+                "x": 65,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 66,
+                "y": -41
+            },
+            "End": {
+                "x": 66,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 66,
+                "y": 31
+            },
+            "End": {
+                "x": 66,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 67,
+                "y": -41
+            },
+            "End": {
+                "x": 67,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 67,
+                "y": 31
+            },
+            "End": {
+                "x": 67,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 68,
+                "y": -41
+            },
+            "End": {
+                "x": 68,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 68,
+                "y": 31
+            },
+            "End": {
+                "x": 68,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 69,
+                "y": -41
+            },
+            "End": {
+                "x": 69,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 69,
+                "y": 31
+            },
+            "End": {
+                "x": 69,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 70,
+                "y": -41
+            },
+            "End": {
+                "x": 70,
+                "y": -10
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 70,
+                "y": 25
+            },
+            "End": {
+                "x": 70,
+                "y": 37
+            }
+        },
+        {
+            "TileId": 7,
+            "Start": {
+                "x": 71,
+                "y": -41
+            },
+            "End": {
                 "x": 79,
                 "y": 37
             }
@@ -2629,6 +3839,28 @@
             "End": {
                 "x": -50,
                 "y": 10
+            }
+        },
+        {
+            "TileId": 50,
+            "Start": {
+                "x": 21,
+                "y": -5
+            },
+            "End": {
+                "x": 33,
+                "y": -5
+            }
+        },
+        {
+            "TileId": 50,
+            "Start": {
+                "x": 34,
+                "y": -9
+            },
+            "End": {
+                "x": 34,
+                "y": -5
             }
         }
     ],
@@ -2840,6 +4072,216 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false
+        },
+        {
+            "id": 344,
+            "dialogueId": 0,
+            "position": {
+                "x": 40.459999084472659,
+                "y": -8.180000305175782
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 0.699999988079071,
+                "y": 0.699999988079071,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false
+        },
+        {
+            "id": 343,
+            "dialogueId": 0,
+            "position": {
+                "x": 42.93000030517578,
+                "y": -6.989999771118164
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false
+        },
+        {
+            "id": 343,
+            "dialogueId": 0,
+            "position": {
+                "x": 45.20000076293945,
+                "y": -7.050000190734863
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false
+        },
+        {
+            "id": 343,
+            "dialogueId": 0,
+            "position": {
+                "x": 46.66999816894531,
+                "y": -7.110000133514404
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false
+        },
+        {
+            "id": 1001,
+            "dialogueId": 0,
+            "position": {
+                "x": 41.310001373291019,
+                "y": -3.0299999713897707
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 0.8999999761581421,
+                "y": 0.8999999761581421,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false
+        },
+        {
+            "id": 1002,
+            "dialogueId": 0,
+            "position": {
+                "x": 44.709999084472659,
+                "y": -3.0299999713897707
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 0.8999999761581421,
+                "y": 0.8999999761581421,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false
         }
     ],
     "mapBackgroundObjectList": [],
@@ -2908,6 +4350,76 @@
             "text": "Object Test",
             "fontSize": 3.0,
             "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false
+        },
+        {
+            "id": 10003,
+            "dialogueId": 0,
+            "position": {
+                "x": -44.36000061035156,
+                "y": -38.31999969482422
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 20.0,
+                "y": 10.0
+            },
+            "text": "Puzzle,Battery Test",
+            "fontSize": 2.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false
+        },
+        {
+            "id": 10103,
+            "dialogueId": 0,
+            "position": {
+                "x": 44.029998779296878,
+                "y": -3.9200000762939455
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": true,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
@@ -3875,6 +5387,120 @@
                 "x": 0.0,
                 "y": 0.0
             }
+        },
+        {
+            "id": 322,
+            "activeRequirAmount": 0,
+            "chargeRequired": false,
+            "indicator": 0,
+            "jumpingPower": 0,
+            "position": {
+                "x": 22.579999923706056,
+                "y": -9.039999961853028
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": -44.599998474121097,
+                "y": -40.08000183105469
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 322,
+            "activeRequirAmount": 0,
+            "chargeRequired": false,
+            "indicator": 0,
+            "jumpingPower": 0,
+            "position": {
+                "x": -44.599998474121097,
+                "y": -40.08000183105469
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 22.579999923706056,
+                "y": -9.039999961853028
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 305,
+            "activeRequirAmount": 1,
+            "chargeRequired": false,
+            "indicator": 3,
+            "jumpingPower": 0,
+            "position": {
+                "x": 36.470001220703128,
+                "y": -9.010000228881836
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
         }
     ],
     "buttonObjectList": [
@@ -4431,6 +6057,139 @@
                 "y": 0.0
             },
             "chargeRequired": false
+        },
+        {
+            "id": 341,
+            "position": {
+                "x": 32.0,
+                "y": -9.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "targetPositions": [
+                {
+                    "x": 36.470001220703128,
+                    "y": -9.010000228881836
+                }
+            ],
+            "lightPositions": [],
+            "encapsulationItems": [],
+            "onHint": true,
+            "partsPositions": [
+                {
+                    "x": 22.0,
+                    "y": -3.0
+                },
+                {
+                    "x": 25.0,
+                    "y": -3.0
+                },
+                {
+                    "x": 28.0,
+                    "y": -3.0
+                }
+            ],
+            "itemPositions": [
+                {
+                    "x": 30.43000030517578,
+                    "y": -3.0199999809265138
+                },
+                {
+                    "x": 32.2599983215332,
+                    "y": -2.8899998664855959
+                },
+                {
+                    "x": 34.22999954223633,
+                    "y": -2.8899998664855959
+                }
+            ],
+            "hintPosition": {
+                "x": 26.959999084472658,
+                "y": -6.779999732971191
+            },
+            "chargeRequired": false
+        },
+        {
+            "id": 345,
+            "position": {
+                "x": 44.31999969482422,
+                "y": -8.140000343322754
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "targetPositions": [
+                {
+                    "x": 38.29999923706055,
+                    "y": -7.789999961853027
+                }
+            ],
+            "lightPositions": [
+                {
+                    "x": 44.029998779296878,
+                    "y": -3.9200000762939455
+                }
+            ],
+            "encapsulationItems": [],
+            "onHint": false,
+            "partsPositions": [],
+            "itemPositions": [],
+            "hintPosition": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "chargeRequired": false
+        },
+        {
+            "id": 329,
+            "position": {
+                "x": 38.29999923706055,
+                "y": -7.789999961853027
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "targetPositions": [
+                {
+                    "x": 36.470001220703128,
+                    "y": -9.010000228881836
+                }
+            ],
+            "lightPositions": [],
+            "encapsulationItems": [],
+            "onHint": false,
+            "partsPositions": [],
+            "itemPositions": [],
+            "hintPosition": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "chargeRequired": true
         }
     ],
     "mapExitObjectStruct": {
