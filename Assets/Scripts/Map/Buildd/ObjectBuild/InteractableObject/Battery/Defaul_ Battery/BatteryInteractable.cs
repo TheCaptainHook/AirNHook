@@ -110,7 +110,7 @@ public class BatteryInteractable : TransportItemEntity
     }
 
 
-    public override void Release()
+    public override void Release(GameObject accessor)
     {
         if (batteryCharger != null)
         {
@@ -130,7 +130,7 @@ public class BatteryInteractable : TransportItemEntity
         }
         else
         {
-            base.Release(); 
+            base.Release(accessor); 
             Cmd_Reset();
         }
     }

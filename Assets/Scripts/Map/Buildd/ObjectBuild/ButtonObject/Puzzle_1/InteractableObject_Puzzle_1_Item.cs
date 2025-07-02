@@ -22,12 +22,12 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
 
     //Refectoring
 
-    public override void Release()
+    public override void Release(GameObject accessor)
     {
         if (Main.parts != null)
         {
             //Connect Parts Cmd
-            base.Release();
+            base.Release(accessor);
 
             var id = Main.parts.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 9999;
             if(id != 9999)
@@ -38,7 +38,7 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
         }
         else
         {
-            base.Release();
+            base.Release(accessor);
         }
     }
 

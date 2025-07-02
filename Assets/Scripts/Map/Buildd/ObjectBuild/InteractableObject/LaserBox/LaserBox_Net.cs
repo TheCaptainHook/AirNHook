@@ -89,9 +89,9 @@ public class LaserBox_Net : TransportItemEntity
         getDirCoroutine = StartCoroutine(GetDirCo());
     }
 
-    public override void Release()
+    public override void Release(GameObject accssor = null)
     {
-        base.Release();
+        base.Release(accssor);
         StopCoroutine(getDirCoroutine);
     }
 

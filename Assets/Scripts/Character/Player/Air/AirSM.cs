@@ -129,7 +129,7 @@ public class AirSM : PlayerSM
     [ClientRpc(includeOwner = false)]
     private void RpcStopInhalePlayer()
     {
-        Managers.Game.Player.GetComponent<IInhalable>().StopInhale();
+        Managers.Game.Player.GetComponent<IInhalable>().StopInhale(gameObject);
     }
     
     [Command(requiresAuthority = false)]

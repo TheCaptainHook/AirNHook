@@ -57,9 +57,9 @@ public class Shield_Net : TransportItemEntity
         Main.Respawn();
     }
 
-    public override void Release()
+    public override void Release(GameObject accssor)
     {
-        base.Release();
+        base.Release(accssor);
         OnHads = false;
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 
