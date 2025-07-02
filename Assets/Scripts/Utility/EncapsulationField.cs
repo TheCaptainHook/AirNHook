@@ -30,6 +30,9 @@ public class EncapsulationField : MonoBehaviour
     [Header("Save Data Field")]
     public bool onEncapsulationItem;
     public int activeRequirAmount;
+    public INDICATOR indicator;
+
+
     [ReadOnly]
     public int curActiveRequirAmount;
     private GameObject capsuleObject;
@@ -38,8 +41,8 @@ public class EncapsulationField : MonoBehaviour
     #endregion
 
 
-    public Collider2D mainCol;
-    public Rigidbody2D mainRb;
+    private Collider2D mainCol;
+    private Rigidbody2D mainRb;
     void Awake()
     {
         mainCol = GetComponent<Collider2D>();
@@ -48,7 +51,27 @@ public class EncapsulationField : MonoBehaviour
         obstacleLayerMask = 1 << 6;
     }
 
+    #region Indicator
+    public ActivatableObject_Indicator_var1 indicator_var1;
+    public ActivatableObject_Indicator_var2 indicator_var2;
 
+    private void Create_Indicator_var_1()
+    {
+        if (indicator_var1 == null)
+        {
+            var indicator = ResourceManager.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_1_Path);
+            indicator_var1 = Instantiate(indicator).GetComponent<ActivatableObject_Indicator_var1>();
+            indicator_var1.Setting(Net);
+        }
+       
+    }
+
+    private void Create_Indicator_var_2()
+    {
+        var indicator = ResourceManager.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_2_Path);
+    }
+
+    #endregion
     #region  Capsuling
     private Transform orgParent;
     Bounds mainColliderBounds;
@@ -74,9 +97,24 @@ public class EncapsulationField : MonoBehaviour
         mainCol.enabled = false;
         //Main Object Setting
 
+            //INDICATOR SETTING 0702
+            if (Net.data.indicator == INDICATOR.TEXT)
+            {
+                Create_Indicator_var_1();
+            }
+            else if (Net.data.indicator == INDICATOR.MARK)
+            {
+            }
+            else if (Net.data.indicator == INDICATOR.BOTH)
+            {
+                
+            }
+            //INDICATOR SETTING 0702
+
+
         if (distance > 0)
         {
-           yield return StartCoroutine(MoveCapsuleCo(distance));
+            yield return StartCoroutine(MoveCapsuleCo(distance));
         }
         else
         {
@@ -98,7 +136,6 @@ public class EncapsulationField : MonoBehaviour
 
 
         //capsuleObject Appearance Animation 
-        //TEST
         if (!capsuleObject.activeSelf) //Animation
             capsuleObject.SetActive(true);
 
@@ -111,7 +148,6 @@ public class EncapsulationField : MonoBehaviour
         transform.position = d;
         // Size Change Effect
 
-        //TEST
         //capsuleObject Appearance Animation 
     }
 
@@ -167,12 +203,33 @@ public class EncapsulationField : MonoBehaviour
     public void ApplyActive(int amount) //only Server
     {
         curActiveRequirAmount += amount;
-        if (curActiveRequirAmount == activeRequirAmount)
+        if (isCapsuling)
         {
-            // UnCapsuling();
-            if (!isCapsuling) return;
-            Net.Rpc_UnCapsuling();
+            if (Net.data.indicator == INDICATOR.TEXT)
+            {
+                Net.ApplyActive_Sync_var1(curActiveRequirAmount);
+            }
+            else if (Net.data.indicator == INDICATOR.MARK)
+            {
+                
+            }else if (Net.data.indicator == INDICATOR.BOTH)
+            {
+
+            }
         }
+
+       
+
+        if (curActiveRequirAmount == activeRequirAmount)
+            {
+                // UnCapsuling();
+                if (!isCapsuling)
+                {
+                    return;
+                }
+
+                Net.Rpc_UnCapsuling();
+            }
 
     }
 
@@ -194,6 +251,7 @@ public class EncapsulationField : MonoBehaviour
     #region  Util
     private float maxSpace = 2;
     private float maxRayLenght = 2;
+    [ReadOnly]
     public LayerMask obstacleLayerMask;
     private Collider2D[] colResult = new Collider2D[3];
     Vector2 boxCenter;

@@ -34,7 +34,7 @@ public class InteractableObjectEntity : BuildObj
         if (typeof(T) == typeof(ObjectData))
         {
             if (TryGetComponent(out EncapsulationField field))
-                return (T)(object)new ObjectData(id, transform.position, transform.rotation, transform.localScale, field.onEncapsulationItem, field.activeRequirAmount);
+                return (T)(object)new ObjectData(id, transform.position, transform.rotation, transform.localScale, field.onEncapsulationItem, field.activeRequirAmount,field.indicator);
             else
                 return (T)(object)new ObjectData(id, transform.position, transform.rotation, transform.localScale, false);
         }
@@ -63,6 +63,7 @@ public class InteractableObjectEntity : BuildObj
         {
             EncapsulationField.onEncapsulationItem = true;
             EncapsulationField.activeRequirAmount = data.activeRequireAmount;
+            EncapsulationField.indicator = data.indicator;
         }
 
     }

@@ -4239,7 +4239,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 319,
@@ -4274,7 +4275,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 317,
@@ -4309,7 +4311,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 363,
@@ -4344,7 +4347,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 300,
@@ -4379,7 +4383,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 344,
@@ -4414,7 +4419,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 343,
@@ -4449,7 +4455,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 343,
@@ -4484,7 +4491,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 343,
@@ -4519,7 +4527,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 1001,
@@ -4554,7 +4563,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 1002,
@@ -4589,7 +4599,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 357,
@@ -4624,7 +4635,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 323,
@@ -4659,7 +4671,44 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
+        },
+        {
+            "id": 343,
+            "dialogueId": 0,
+            "position": {
+                "x": 54.380001068115237,
+                "y": -5.650000095367432
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 4,
+            "onEncapsulationItem": true,
+            "indicator": 1
         }
     ],
     "mapBackgroundObjectList": [],
@@ -4697,7 +4746,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10003,
@@ -4732,7 +4782,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10003,
@@ -4767,7 +4818,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10103,
@@ -4802,7 +4854,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         }
     ],
     "mapButtonActivatableObjectDataList": [
@@ -6606,6 +6659,142 @@
                 "y": 0.0
             },
             "chargeRequired": true
+        },
+        {
+            "id": 329,
+            "position": {
+                "x": 57.72999954223633,
+                "y": -7.5
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "targetPositions": [],
+            "lightPositions": [],
+            "encapsulationItems": [
+                {
+                    "x": 54.380001068115237,
+                    "y": -5.650000095367432
+                }
+            ],
+            "onHint": false,
+            "partsPositions": [],
+            "itemPositions": [],
+            "hintPosition": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "chargeRequired": false
+        },
+        {
+            "id": 329,
+            "position": {
+                "x": 59.45000076293945,
+                "y": -7.5
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "targetPositions": [],
+            "lightPositions": [],
+            "encapsulationItems": [
+                {
+                    "x": 54.380001068115237,
+                    "y": -5.650000095367432
+                }
+            ],
+            "onHint": false,
+            "partsPositions": [],
+            "itemPositions": [],
+            "hintPosition": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "chargeRequired": false
+        },
+        {
+            "id": 329,
+            "position": {
+                "x": 61.2599983215332,
+                "y": -7.5
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "targetPositions": [],
+            "lightPositions": [],
+            "encapsulationItems": [
+                {
+                    "x": 54.380001068115237,
+                    "y": -5.650000095367432
+                }
+            ],
+            "onHint": false,
+            "partsPositions": [],
+            "itemPositions": [],
+            "hintPosition": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "chargeRequired": false
+        },
+        {
+            "id": 306,
+            "position": {
+                "x": 62.900001525878909,
+                "y": -8.729999542236329
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "targetPositions": [],
+            "lightPositions": [],
+            "encapsulationItems": [
+                {
+                    "x": 54.380001068115237,
+                    "y": -5.650000095367432
+                }
+            ],
+            "onHint": false,
+            "partsPositions": [],
+            "itemPositions": [],
+            "hintPosition": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "chargeRequired": false
         }
     ],
     "mapExitObjectStruct": {

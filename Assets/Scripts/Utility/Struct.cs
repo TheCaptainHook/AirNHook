@@ -379,6 +379,7 @@ public struct ObjectData
     //Interactable Object
     public int activeRequireAmount;
     public bool onEncapsulationItem;
+    public INDICATOR indicator;
     public ObjectData(int id, Vector2 position, Vector3 scale, int dialogueId = 0, Vector2 talPot = default)
     {
         this.id = id;
@@ -399,6 +400,8 @@ public struct ObjectData
 
         onEncapsulationItem = false;
         activeRequireAmount = 0;
+
+        indicator = INDICATOR.NONE;
     }
     public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, bool chargeRequired)
     {
@@ -423,6 +426,7 @@ public struct ObjectData
 
         onEncapsulationItem = false;
         activeRequireAmount = 0;
+        indicator = INDICATOR.NONE;
     }
     public ObjectData(int id, Vector2 position, Vector2 size)
     {
@@ -444,6 +448,7 @@ public struct ObjectData
 
         onEncapsulationItem = false;
         activeRequireAmount = 0;
+        indicator = INDICATOR.NONE;
     }
     public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, int dialogueId = 0)
     {
@@ -464,6 +469,7 @@ public struct ObjectData
 
         onEncapsulationItem = false;
         activeRequireAmount = 0;
+        indicator = INDICATOR.NONE;
     }
     //WorldTextObject
     public ObjectData(int id, Vector2 position, Vector2 size, string text, float fontSize)
@@ -486,6 +492,7 @@ public struct ObjectData
 
         onEncapsulationItem = false;
         activeRequireAmount = 0;
+        indicator = INDICATOR.NONE;
     }
     //NPC Object
     public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, AnimationTriggerType type)
@@ -509,6 +516,7 @@ public struct ObjectData
 
         onEncapsulationItem = false;
         activeRequireAmount = 0;
+        indicator = INDICATOR.NONE;
     }
     //SpikeTrap
     public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, float attackStartTime, float attackCooldown)
@@ -532,9 +540,10 @@ public struct ObjectData
 
         onEncapsulationItem = false;
         activeRequireAmount = 0;
+        indicator = INDICATOR.NONE;
     }
     //Interactable Object
-    public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, bool onEncapsulationItem, int activeRequireAmount)
+    public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, bool onEncapsulationItem, int activeRequireAmount, INDICATOR indicator = INDICATOR.NONE)
     {
         this.id = id;
         dialogueId = 0;
@@ -556,6 +565,8 @@ public struct ObjectData
 
         this.onEncapsulationItem = onEncapsulationItem;
         this.activeRequireAmount = activeRequireAmount;
+
+        this.indicator = indicator;
     }
 
 

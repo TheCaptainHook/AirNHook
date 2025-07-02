@@ -21,15 +21,15 @@ public class ActivatableObject_Indicator_var1 : MonoBehaviour
     }
 
 
-    private ActivatableObjectEntity entity;
-    private ActivatableObject_Net_Entity net;
+    // private ActivatableObjectEntity entity;
+    // private ActivatableObject_Net_Entity net;
 
     [ReadOnly]
     public int activeRequirAmount;
     public void Setting(ActivatableObjectEntity entity,ActivatableObject_Net_Entity net)
     {
-        this.entity = entity;
-        this.net = net;
+        // this.entity = entity;
+        // this.net = net;
 
         parent = entity.transform;
 
@@ -43,10 +43,25 @@ public class ActivatableObject_Indicator_var1 : MonoBehaviour
 
         activeRequirAmount = net.data.activeRequirAmount;
     }
+     public void Setting(TransportItemEntity entity)
+    {
+        // this.entity = entity;
+        // this.net = net;
+
+        parent = entity.transform;
+
+        transform.position = parent.position + new Vector3(0, 1.5f);
+
+        bgImg.transform.localScale = parent.localScale;
+
+        transform.SetParent(parent);
+        gameObject.SetActive(false);
+
+        activeRequirAmount = entity.data.activeRequireAmount;
+    }
   
     public void SetApplyActive(int curActiveAmount)
     {
-
         if (curActiveAmount == activeRequirAmount) //satisfy condition
         {
             //Disappear  Coroutine
@@ -54,8 +69,8 @@ public class ActivatableObject_Indicator_var1 : MonoBehaviour
             //Disappear  Coroutine
             return;
         }
-        
-        if(curActiveAmount == 0)
+
+        if (curActiveAmount == 0)
         {
             gameObject.SetActive(false);
             return;

@@ -96,7 +96,7 @@ public class TransportItemEntity : InteractableObject, ITransportItem
 
     }
     #endregion
-    #region Encapsulate ITem
+    #region Encapsulate Item
     private EncapsulationField field;
     public EncapsulationField EncapsulationField
     {
@@ -141,20 +141,6 @@ public class TransportItemEntity : InteractableObject, ITransportItem
         {
             Rpc_InitSync(BuildObj.ObjectData, transform.position, BuildObj.isTransportItem);
 
-            if (EncapsulationField.onEncapsulationItem)
-            {
-                //if (!EncapsulationField.isCapsuling)
-                //{
-                //    Rpc_Capsuling(BuildObj.position);
-
-                //    //TEST
-                //    // StartCoroutine(DelayCapsuling(BuildObj.position));
-                //    //TEST
-                //}
-
-                return;
-            }
-
             Rb.AddForce(Vector2.up, ForceMode2D.Force);
         }));
 
@@ -179,16 +165,18 @@ public class TransportItemEntity : InteractableObject, ITransportItem
         action?.Invoke();
 
     }
-    [ClientRpc]
-    private void Rpc_Capsuling(Vector2 startPot)
-    {
-        StartCoroutine(DelayCapsuling(startPot));
-    }
-    private IEnumerator DelayCapsuling(Vector2 startPot)
-    {
-        yield return new WaitForFixedUpdate();
-        EncapsulationField.Capsuling(startPot);
-    }
+    // [ClientRpc]
+    // private void Rpc_Capsuling(Vector2 startPot)
+    // {
+    //     StartCoroutine(DelayCapsuling(startPot));
+    // }
+    // private IEnumerator DelayCapsuling(Vector2 startPot)
+    // {
+    //     yield return new WaitForFixedUpdate();
+    //     EncapsulationField.Capsuling(startPot);
+    // }
+    public ObjectData data;
+
     [ClientRpc]
     private void Rpc_InitSync(ObjectData data, Vector2 position, bool isTransportItem)
     {
@@ -196,6 +184,8 @@ public class TransportItemEntity : InteractableObject, ITransportItem
         BuildObj.ObjectData = data;
         transform.position = position;
         transform.rotation = data.quaternion;
+        this.data = data;
+
 
         if (isTransportItem)
         {
@@ -203,13 +193,14 @@ public class TransportItemEntity : InteractableObject, ITransportItem
             Col.enabled = false;
         }
         //0603 EnCapsulationField
-        if(data.onEncapsulationItem)
+        if (data.onEncapsulationItem)
         {
-            if(!EncapsulationField.isCapsuling)
+            if (!EncapsulationField.isCapsuling)
             {
                 _isDestroyed = true;
                 //StartCoroutine(DelayCapsuling(data.position));
                 EncapsulationField.Capsuling(data.position);
+
             }
         }
         //0603 EnCapsulationField
@@ -236,12 +227,24 @@ public class TransportItemEntity : InteractableObject, ITransportItem
         Rb.gravityScale = _gravityScale;
 
         BuildObj.canRespawn = true;
-        if (NetworkServer.active) ;
-        CmdChnageDestroyState(false);
+        if (NetworkServer.active)
+            CmdChnageDestroyState(false);
     }
     public void CmdChangeDestroyState_False()
     {
         CmdChnageDestroyState(false);
     }
     #endregion
+
+    #region  Indicator
+    
+    
+    [ClientRpc]
+    public virtual void ApplyActive_Sync_var1(int curActiveAmount) //server
+    {
+        EncapsulationField.indicator_var1.SetApplyActive(curActiveAmount);
+    }
+    #endregion
+
 }
+
