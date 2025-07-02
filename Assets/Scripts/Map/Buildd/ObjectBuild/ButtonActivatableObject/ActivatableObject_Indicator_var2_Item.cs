@@ -89,7 +89,7 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
             //     onDraw = false;
             //     break;
             case 3:
-                if (!onDraw) Draw(()=>Mark_Red()); //조건 충족,
+                if (!onDraw) Draw(()=>Mark_Red());
                 onDraw = true;
 
                 break;

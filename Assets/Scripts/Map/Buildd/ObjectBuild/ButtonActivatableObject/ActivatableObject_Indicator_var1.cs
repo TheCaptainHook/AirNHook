@@ -20,10 +20,17 @@ public class ActivatableObject_Indicator_var1 : MonoBehaviour
         transform.rotation = initialWorldRotation;
     }
 
+
+    private ActivatableObjectEntity entity;
+    private ActivatableObject_Net_Entity net;
+
     [ReadOnly]
     public int activeRequirAmount;
-    public void Setting(ActivatableObjectEntity entity)
+    public void Setting(ActivatableObjectEntity entity,ActivatableObject_Net_Entity net)
     {
+        this.entity = entity;
+        this.net = net;
+
         parent = entity.transform;
 
         var offset = parent.rotation  * (parent.localScale * entity.indicatorOffset_val_1);
@@ -34,12 +41,11 @@ public class ActivatableObject_Indicator_var1 : MonoBehaviour
         transform.SetParent(parent);
         gameObject.SetActive(false);
 
-        activeRequirAmount = entity.ButtonActivatedObjectStruct.activeRequirAmount;
+        activeRequirAmount = net.data.activeRequirAmount;
     }
   
     public void SetApplyActive(int curActiveAmount)
     {
-
 
         if (curActiveAmount == activeRequirAmount) //satisfy condition
         {

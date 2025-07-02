@@ -71,6 +71,11 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
             Create_Indicator_var_1();
         else if (data.indicator == INDICATOR.MARK)
             Create_Indicator_var_2();
+        else if (data.indicator == INDICATOR.BOTH)
+        {
+            Create_Indicator_var_1();
+            Create_Indicator_var_2();
+        }
 
     }
 
@@ -143,8 +148,12 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
 
 
     #region  Play Unique Effect
+    /// <summary>
+    /// ref) Portal, JumpingPad
+    /// </summary>
+    /// <param name="id"></param>
     [Server]
-    public virtual void Server_PlayUniqueEffect(uint id)
+    public virtual void Server_PlayUniqueEffect(uint id) 
     {
 
     }
@@ -173,7 +182,7 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
         //var indicator = Resources.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_1_Path);
         var indicator = ResourceManager.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_1_Path);
         indicator_var1 = Instantiate(indicator).GetComponent<ActivatableObject_Indicator_var1>();
-        indicator_var1.Setting(Main);
+        indicator_var1.Setting(Main,this);
 
     }
     private ActivatableObject_Indicator_var2 indicator_var2;

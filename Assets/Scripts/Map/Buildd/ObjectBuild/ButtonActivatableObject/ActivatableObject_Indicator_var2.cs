@@ -84,7 +84,12 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
 
         curActiveRequirAmount += inc;
 
-        if (conditionCheckCo != null) StopCoroutine(conditionCheckCo);
+        if (conditionCheckCo != null)
+        {
+            StopCoroutine(conditionCheckCo);
+            conditionCheckCo = null;
+        }
+
         conditionCheckCo = StartCoroutine(ConditionCheckCo(id, inc));
 
 
@@ -98,7 +103,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
         {  
             if (curActiveRequirAmount != activeRequirAmount)
             {
-                //---------Stop SatisfyEffectCo Recover RPC
+                //---------Stop SatisfyEffectCo Recover
                 if (satisfiedCoroutine != null)
                 {
                     StopCoroutine(satisfiedCoroutine);
@@ -112,14 +117,15 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
             }
             else
             {
-                //---------Start SatisfyEffectCo RPC
+                //---------Start SatisfyEffectCo
                 if (satisfiedCoroutine != null) StopCoroutine(satisfiedCoroutine);
                 satisfiedCoroutine = StartCoroutine(SatisfyEffectCo());
                 //---------Start SatisfyEffectCo
                 if (NetworkServer.active)
                     entity.Activation();
             }
-
+            
+            conditionCheckCo = null;
             yield break;
         }
 

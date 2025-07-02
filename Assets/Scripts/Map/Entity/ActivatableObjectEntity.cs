@@ -4,7 +4,8 @@ public enum INDICATOR
 {
     NONE = 0,
     TEXT = 1,
-    MARK = 2
+    MARK = 2,
+    BOTH = 3
 }
 public class ActivatableObjectEntity : BuildObj
 {
@@ -61,9 +62,13 @@ public class ActivatableObjectEntity : BuildObj
                 net.ApplyActive_Sync_var2(id, curActiveBtn, num);
             }
             else if (ButtonActivatedObjectStruct.indicator == INDICATOR.TEXT) net.ApplyActive_Sync_var1(curActiveBtn);
-
+            else if (ButtonActivatedObjectStruct.indicator == INDICATOR.BOTH)
+            {
+                net.ApplyActive_Sync_var2(id, curActiveBtn, num);
+                net.ApplyActive_Sync_var1(curActiveBtn);
+            }
             //------------------------------------NET
-            return;
+                return;
         }
         
 

@@ -3538,7 +3538,7 @@
             "id": 305,
             "activeRequirAmount": 4,
             "chargeRequired": false,
-            "indicator": 2,
+            "indicator": 3,
             "jumpingPower": 0,
             "position": {
                 "x": -61.529998779296878,
