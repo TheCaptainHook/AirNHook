@@ -2619,6 +2619,28 @@
             }
         },
         {
+            "TileId": 4,
+            "Start": {
+                "x": 21,
+                "y": 1
+            },
+            "End": {
+                "x": 21,
+                "y": 1
+            }
+        },
+        {
+            "TileId": 4,
+            "Start": {
+                "x": 21,
+                "y": 8
+            },
+            "End": {
+                "x": 21,
+                "y": 8
+            }
+        },
+        {
             "TileId": 7,
             "Start": {
                 "x": 21,
@@ -2641,6 +2663,28 @@
             }
         },
         {
+            "TileId": 4,
+            "Start": {
+                "x": 22,
+                "y": 1
+            },
+            "End": {
+                "x": 22,
+                "y": 1
+            }
+        },
+        {
+            "TileId": 4,
+            "Start": {
+                "x": 22,
+                "y": 8
+            },
+            "End": {
+                "x": 22,
+                "y": 8
+            }
+        },
+        {
             "TileId": 7,
             "Start": {
                 "x": 22,
@@ -2663,6 +2707,28 @@
             }
         },
         {
+            "TileId": 4,
+            "Start": {
+                "x": 23,
+                "y": 1
+            },
+            "End": {
+                "x": 23,
+                "y": 1
+            }
+        },
+        {
+            "TileId": 4,
+            "Start": {
+                "x": 23,
+                "y": 8
+            },
+            "End": {
+                "x": 23,
+                "y": 8
+            }
+        },
+        {
             "TileId": 7,
             "Start": {
                 "x": 23,
@@ -2685,6 +2751,28 @@
             }
         },
         {
+            "TileId": 4,
+            "Start": {
+                "x": 24,
+                "y": 1
+            },
+            "End": {
+                "x": 24,
+                "y": 1
+            }
+        },
+        {
+            "TileId": 4,
+            "Start": {
+                "x": 24,
+                "y": 8
+            },
+            "End": {
+                "x": 24,
+                "y": 8
+            }
+        },
+        {
             "TileId": 7,
             "Start": {
                 "x": 24,
@@ -2707,6 +2795,28 @@
             }
         },
         {
+            "TileId": 4,
+            "Start": {
+                "x": 25,
+                "y": 1
+            },
+            "End": {
+                "x": 25,
+                "y": 1
+            }
+        },
+        {
+            "TileId": 4,
+            "Start": {
+                "x": 25,
+                "y": 8
+            },
+            "End": {
+                "x": 25,
+                "y": 8
+            }
+        },
+        {
             "TileId": 7,
             "Start": {
                 "x": 25,
@@ -2729,6 +2839,28 @@
             }
         },
         {
+            "TileId": 4,
+            "Start": {
+                "x": 26,
+                "y": 1
+            },
+            "End": {
+                "x": 26,
+                "y": 1
+            }
+        },
+        {
+            "TileId": 4,
+            "Start": {
+                "x": 26,
+                "y": 8
+            },
+            "End": {
+                "x": 26,
+                "y": 8
+            }
+        },
+        {
             "TileId": 7,
             "Start": {
                 "x": 26,
@@ -2751,6 +2883,28 @@
             }
         },
         {
+            "TileId": 4,
+            "Start": {
+                "x": 27,
+                "y": 1
+            },
+            "End": {
+                "x": 27,
+                "y": 1
+            }
+        },
+        {
+            "TileId": 4,
+            "Start": {
+                "x": 27,
+                "y": 8
+            },
+            "End": {
+                "x": 27,
+                "y": 8
+            }
+        },
+        {
             "TileId": 7,
             "Start": {
                 "x": 27,
@@ -2773,6 +2927,28 @@
             }
         },
         {
+            "TileId": 4,
+            "Start": {
+                "x": 28,
+                "y": 1
+            },
+            "End": {
+                "x": 28,
+                "y": 1
+            }
+        },
+        {
+            "TileId": 4,
+            "Start": {
+                "x": 28,
+                "y": 8
+            },
+            "End": {
+                "x": 28,
+                "y": 8
+            }
+        },
+        {
             "TileId": 7,
             "Start": {
                 "x": 28,
@@ -2795,6 +2971,28 @@
             }
         },
         {
+            "TileId": 4,
+            "Start": {
+                "x": 29,
+                "y": 1
+            },
+            "End": {
+                "x": 29,
+                "y": 1
+            }
+        },
+        {
+            "TileId": 4,
+            "Start": {
+                "x": 29,
+                "y": 8
+            },
+            "End": {
+                "x": 29,
+                "y": 8
+            }
+        },
+        {
             "TileId": 7,
             "Start": {
                 "x": 29,
@@ -2817,6 +3015,28 @@
             }
         },
         {
+            "TileId": 4,
+            "Start": {
+                "x": 30,
+                "y": 1
+            },
+            "End": {
+                "x": 30,
+                "y": 1
+            }
+        },
+        {
+            "TileId": 4,
+            "Start": {
+                "x": 30,
+                "y": 8
+            },
+            "End": {
+                "x": 30,
+                "y": 8
+            }
+        },
+        {
             "TileId": 7,
             "Start": {
                 "x": 30,
@@ -2839,6 +3059,28 @@
             }
         },
         {
+            "TileId": 4,
+            "Start": {
+                "x": 31,
+                "y": 1
+            },
+            "End": {
+                "x": 31,
+                "y": 1
+            }
+        },
+        {
+            "TileId": 4,
+            "Start": {
+                "x": 31,
+                "y": 8
+            },
+            "End": {
+                "x": 31,
+                "y": 8
+            }
+        },
+        {
             "TileId": 7,
             "Start": {
                 "x": 31,
@@ -2861,6 +3103,28 @@
             }
         },
         {
+            "TileId": 4,
+            "Start": {
+                "x": 32,
+                "y": 1
+            },
+            "End": {
+                "x": 32,
+                "y": 1
+            }
+        },
+        {
+            "TileId": 4,
+            "Start": {
+                "x": 32,
+                "y": 8
+            },
+            "End": {
+                "x": 32,
+                "y": 8
+            }
+        },
+        {
             "TileId": 7,
             "Start": {
                 "x": 32,
@@ -2883,6 +3147,28 @@
             }
         },
         {
+            "TileId": 4,
+            "Start": {
+                "x": 33,
+                "y": 1
+            },
+            "End": {
+                "x": 33,
+                "y": 1
+            }
+        },
+        {
+            "TileId": 4,
+            "Start": {
+                "x": 33,
+                "y": 8
+            },
+            "End": {
+                "x": 33,
+                "y": 8
+            }
+        },
+        {
             "TileId": 7,
             "Start": {
                 "x": 33,
@@ -2902,6 +3188,17 @@
             "End": {
                 "x": 34,
                 "y": -10
+            }
+        },
+        {
+            "TileId": 4,
+            "Start": {
+                "x": 34,
+                "y": 8
+            },
+            "End": {
+                "x": 34,
+                "y": 8
             }
         },
         {
@@ -3862,6 +4159,17 @@
                 "x": 34,
                 "y": -5
             }
+        },
+        {
+            "TileId": 218,
+            "Start": {
+                "x": 34,
+                "y": -4
+            },
+            "End": {
+                "x": 34,
+                "y": 1
+            }
         }
     ],
     "mapBackgroundTileDataList": [],
@@ -4264,6 +4572,76 @@
             "scale": {
                 "x": 0.8999999761581421,
                 "y": 0.8999999761581421,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false
+        },
+        {
+            "id": 357,
+            "dialogueId": 0,
+            "position": {
+                "x": 28.93000030517578,
+                "y": 7.320000171661377
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.6436123847961426,
+                "w": 0.7653516530990601
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false
+        },
+        {
+            "id": 323,
+            "dialogueId": 0,
+            "position": {
+                "x": 22.950000762939454,
+                "y": 1.9299999475479127
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
                 "z": 1.0
             },
             "talPot": {
@@ -5479,6 +5857,44 @@
                 "y": 0.0,
                 "z": 0.0,
                 "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 335,
+            "activeRequirAmount": 0,
+            "chargeRequired": false,
+            "indicator": 0,
+            "jumpingPower": 0,
+            "position": {
+                "x": 22.93000030517578,
+                "y": 7.650000095367432
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.720956563949585,
+                "w": 0.6929803490638733
             },
             "scale": {
                 "x": 1.0,
