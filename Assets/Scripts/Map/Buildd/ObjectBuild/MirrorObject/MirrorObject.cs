@@ -62,7 +62,7 @@ public class MirrorObject : BuildObj,IInteractable
 
                 if (curCendMessageRate >= cendMessageRate)
                 {
-                    MirrorRotate(curRot, true); //1
+                    MirrorRotate(curRot); //1
                     curRot = 0;
                     curCendMessageRate = 0;
                 }
@@ -74,7 +74,7 @@ public class MirrorObject : BuildObj,IInteractable
                 curRot -= rotRate;
                 if (curCendMessageRate >= cendMessageRate)
                 {
-                    MirrorRotate(curRot, false);
+                    MirrorRotate(curRot);
                     curRot = 0;
                     curCendMessageRate = 0;
                 }
@@ -82,7 +82,7 @@ public class MirrorObject : BuildObj,IInteractable
 
             if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
             {
-                GetKeyUp();
+                MirrorRotate(curRot);
                 curRot = 0;
                 curCendMessageRate = 0;
             }
@@ -93,15 +93,11 @@ public class MirrorObject : BuildObj,IInteractable
 
     #region  main
 
-    private void MirrorRotate(float z, bool lr)
+    private void MirrorRotate(float z)
     {
-        M_Net.Cmd_SetRot_z(z, lr);
+        M_Net.Cmd_SetRot_z(z);
     }
-    private void GetKeyUp()
-    {
-        M_Net.Cmd_KeyUp();
-    }
- 
+
 
 #endregion
     //--------------------------- Refectoring 0523

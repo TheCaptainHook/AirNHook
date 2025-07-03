@@ -39,9 +39,9 @@ public class ActivatableObject_Indicator_var1 : MonoBehaviour
         bgImg.transform.localScale = parent.localScale;
 
         transform.SetParent(parent);
-        gameObject.SetActive(false);
 
         activeRequirAmount = net.data.activeRequirAmount;
+        text.text = $"{0}/{activeRequirAmount}";
     }
      public void Setting(TransportItemEntity entity)
     {
@@ -55,28 +55,25 @@ public class ActivatableObject_Indicator_var1 : MonoBehaviour
         bgImg.transform.localScale = parent.localScale;
 
         transform.SetParent(parent);
-        gameObject.SetActive(false);
 
         activeRequirAmount = entity.data.activeRequireAmount;
+        text.text = $"{0}/{activeRequirAmount}";
     }
   
     public void SetApplyActive(int curActiveAmount)
     {
         if (curActiveAmount == activeRequirAmount) //satisfy condition
         {
-            //Disappear  Coroutine
-            gameObject.SetActive(false);
-            //Disappear  Coroutine
-            return;
+
         }
 
-        if (curActiveAmount == 0)
-        {
-            gameObject.SetActive(false);
-            return;
-        }
+        //if (curActiveAmount == 0)
+        //{
+        //    gameObject.SetActive(false);
+        //    return;
+        //}
 
-        if (!gameObject.activeSelf) gameObject.SetActive(true);
+        //if (!gameObject.activeSelf) gameObject.SetActive(true);
         text.text = $"{curActiveAmount}/{activeRequirAmount}";
 
 

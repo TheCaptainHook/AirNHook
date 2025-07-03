@@ -61,7 +61,13 @@ public class ActivatableObjectEntity : BuildObj
             {
                 net.ApplyActive_Sync_var2(id, curActiveBtn, num);
             }
-            else if (ButtonActivatedObjectStruct.indicator == INDICATOR.TEXT) net.ApplyActive_Sync_var1(curActiveBtn);
+            else if (ButtonActivatedObjectStruct.indicator == INDICATOR.TEXT) 
+            {
+                net.ApplyActive_Sync_var1(curActiveBtn);
+
+                if (curActiveBtn == activeRequirAmount) Activation();
+                else Deactivated();
+            }
             else if (ButtonActivatedObjectStruct.indicator == INDICATOR.BOTH)
             {
                 net.ApplyActive_Sync_var2(id, curActiveBtn, num);
@@ -72,14 +78,9 @@ public class ActivatableObjectEntity : BuildObj
         }
         
 
-        if (curActiveBtn == activeRequirAmount)
-        {
-            Activation();
-        }
-        else
-        {
-            Deactivated();
-        }
+        if (curActiveBtn == activeRequirAmount) Activation();
+        else Deactivated();
+
     }
     //----------------------------------------------------------------Refactoring 250124
 

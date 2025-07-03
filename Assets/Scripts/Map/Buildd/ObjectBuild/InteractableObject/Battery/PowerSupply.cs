@@ -272,6 +272,10 @@ public class PowerSupply : ButtonEntity,IInteractable
             }
     
         }
+        if(collision.TryGetComponent(out AirSM air))
+        {
+            if(P_Net.battery) P_Net.Cmd_ShowE(collision.gameObject, true);
+        }
         
 
         if (collision.TryGetComponent(out Battery battery))

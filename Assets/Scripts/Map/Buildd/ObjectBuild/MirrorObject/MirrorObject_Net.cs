@@ -91,22 +91,18 @@ public class MirrorObject_Net : NetworkBehaviour
 
     #region  Server
 
-
- 
     [Command(requiresAuthority = false)]
-    public void Cmd_SetRot_z(float z,bool lr)
+    public void Cmd_SetRot_z(float z)
     { 
         targetZ = _Mirror.transform.eulerAngles.z + z;
-        Rpc_SetRot_z(targetZ,lr);
+        Rpc_SetRot_z(targetZ);
     }
 
-    bool isRotation;
     float targetZ;
     
     [ClientRpc]
-    private void Rpc_SetRot_z(float targetZ,bool lr) 
+    private void Rpc_SetRot_z(float targetZ) 
     {
-        isRotation = true;
         this.targetZ = targetZ;
         //this.lr = lr;
         if(rotationCoroutine == null)
@@ -135,16 +131,7 @@ public class MirrorObject_Net : NetworkBehaviour
         _Mirror.transform.rotation = Quaternion.Euler(0, 0, targetZ);
         rotationCoroutine = null;
     }
-    [Command(requiresAuthority = false)]
-    public void Cmd_KeyUp()
-    {
-        Rpc_KeyUp();
-    }
-    [ClientRpc]
-    private void Rpc_KeyUp()
-    {
-        isRotation = false;
-    }
+
     //void Update()
     //{
     //    if (isRotation)
@@ -320,7 +307,6 @@ public class MirrorObject_Net : NetworkBehaviour
         //     StopCoroutine(setRotCoroutine);
         //     setRotCoroutine = null;
         // }
-        isRotation = false;
         targetZ = 0;
     }
 
