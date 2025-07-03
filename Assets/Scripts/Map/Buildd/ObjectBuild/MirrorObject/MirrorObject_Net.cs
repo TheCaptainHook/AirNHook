@@ -2,6 +2,7 @@
 using UnityEngine;
 using Mirror;
 using UnityEngine.Animations;
+using System.Collections;
 
 
 
@@ -107,9 +108,33 @@ public class MirrorObject_Net : NetworkBehaviour
     {
         isRotation = true;
         this.targetZ = targetZ;
-        this.lr = lr;
-    }
+        //this.lr = lr;
+        if(rotationCoroutine == null)
+        {
+            rotationCoroutine = StartCoroutine(RotationCo());
+        }
 
+    }
+    Coroutine rotationCoroutine;
+    private IEnumerator RotationCo()
+    {
+        while (true)
+        {
+            float currentZ = _Mirror.transform.eulerAngles.z;
+            float deltaZ = Mathf.DeltaAngle(currentZ, targetZ);
+
+            // 도착 판정
+            if (Mathf.Abs(deltaZ) < 0.1f)
+                break;
+
+            float nextZ = Mathf.LerpAngle(currentZ, targetZ, Time.deltaTime * 10f); // 10f는 회전 속도 조절
+            _Mirror.transform.rotation = Quaternion.Euler(0, 0, nextZ);
+            yield return null;
+        }
+
+        _Mirror.transform.rotation = Quaternion.Euler(0, 0, targetZ);
+        rotationCoroutine = null;
+    }
     [Command(requiresAuthority = false)]
     public void Cmd_KeyUp()
     {
@@ -120,24 +145,24 @@ public class MirrorObject_Net : NetworkBehaviour
     {
         isRotation = false;
     }
-    void Update()
-    {
-        if (isRotation)
-        {
-            Quaternion current = _Mirror.transform.rotation;
-            Quaternion target = Quaternion.Euler(0, 0, targetZ);
-            float deltaZ = Mathf.Abs(Mathf.DeltaAngle(_Mirror.transform.eulerAngles.z, targetZ));
-            float step = deltaZ / 0.1f * Time.deltaTime;
+    //void Update()
+    //{
+    //    if (isRotation)
+    //    {
+    //        Quaternion current = _Mirror.transform.rotation;
+    //        Quaternion target = Quaternion.Euler(0, 0, targetZ);
+    //        float deltaZ = Mathf.Abs(Mathf.DeltaAngle(_Mirror.transform.eulerAngles.z, targetZ));
+    //        float step = deltaZ / 0.1f * Time.deltaTime;
 
-            _Mirror.transform.rotation = Quaternion.RotateTowards(current, target, step);
+    //        _Mirror.transform.rotation = Quaternion.RotateTowards(current, target, step);
 
-            if (deltaZ < 0.05f)
-            {
-                isRotation = false;
-                _Mirror.transform.rotation = target;
-            }
-        }
-    }
+    //        if (deltaZ < 0.05f)
+    //        {
+    //            isRotation = false;
+    //            _Mirror.transform.rotation = target;
+    //        }
+    //    }
+    //}
 
     //1. Cmd(server) 에서 타겟 로테이션값 계산
     //2. Rpc 로 각 클라이언트에 타겟 로테이션전달
@@ -147,7 +172,7 @@ public class MirrorObject_Net : NetworkBehaviour
 
 
     // private Coroutine setRotCoroutine;
-    private bool lr;
+    //private bool lr;
     // IEnumerator SetRotCo()  //4
     // {
     //     float curZ = _Mirror.transform.eulerAngles.z;
