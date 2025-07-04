@@ -21,16 +21,10 @@ public class ActivatableObject_Indicator_var1 : MonoBehaviour
     }
 
 
-    // private ActivatableObjectEntity entity;
-    // private ActivatableObject_Net_Entity net;
-
     [ReadOnly]
     public int activeRequirAmount;
     public void Setting(ActivatableObjectEntity entity,ActivatableObject_Net_Entity net)
     {
-        // this.entity = entity;
-        // this.net = net;
-
         parent = entity.transform;
 
         var offset = parent.rotation  * (parent.localScale * entity.indicatorOffset_val_1);
@@ -43,11 +37,10 @@ public class ActivatableObject_Indicator_var1 : MonoBehaviour
         activeRequirAmount = net.data.activeRequirAmount;
         text.text = $"{0}/{activeRequirAmount}";
     }
-     public void Setting(TransportItemEntity entity)
+    
+    #region  Specific Encapsulation Field 
+    public void Setting(TransportItemEntity entity)
     {
-        // this.entity = entity;
-        // this.net = net;
-
         parent = entity.transform;
 
         transform.position = parent.position + new Vector3(0, 1.5f);
@@ -59,7 +52,9 @@ public class ActivatableObject_Indicator_var1 : MonoBehaviour
         activeRequirAmount = entity.data.activeRequireAmount;
         text.text = $"{0}/{activeRequirAmount}";
     }
-  
+
+    #endregion
+
     public void SetApplyActive(int curActiveAmount)
     {
         if (curActiveAmount == activeRequirAmount) //satisfy condition
@@ -67,13 +62,6 @@ public class ActivatableObject_Indicator_var1 : MonoBehaviour
 
         }
 
-        //if (curActiveAmount == 0)
-        //{
-        //    gameObject.SetActive(false);
-        //    return;
-        //}
-
-        //if (!gameObject.activeSelf) gameObject.SetActive(true);
         text.text = $"{curActiveAmount}/{activeRequirAmount}";
 
 

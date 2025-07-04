@@ -6,7 +6,7 @@ using UnityEngine;
 public class ActivatableObject_Indicator_var2 : MonoBehaviour
 {
     private Dictionary<uint, ActivatableObject_Indicator_var2_Item> itemDic;
-    private Transform parent;
+    private Transform mainTr;
 
     [Header("Prefab")]
     [SerializeField] GameObject activatableObject_Indicator_var2_Item_Prefab;
@@ -25,14 +25,14 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
     {
         this.entity = entity;
         this.net = net;
+        mainTr = entity.gameObject.transform;
+        
+        var offset = mainTr.rotation * (mainTr.localScale * entity.indicatorOffset_val_2);
 
-        parent = entity.gameObject.transform;
-        var offset = parent.rotation * (parent.localScale * entity.indicatorOffset_val_2);
+        transform.position = mainTr.position + offset;
+        transform.rotation = mainTr.rotation;
 
-        transform.position = parent.position + offset;
-        transform.rotation = parent.rotation;
-
-        container.localScale = parent.localScale;
+        container.localScale = mainTr.localScale;
 
         var termTr = MapEditor.Instance.dontSaveObjectTransform;
 
