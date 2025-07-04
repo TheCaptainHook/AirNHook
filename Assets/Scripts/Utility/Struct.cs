@@ -768,14 +768,14 @@ namespace ANH_MapEditor
 
 
 
-    public struct Indicator_2_DrawLineStruct
-    {
-        public Transform target;
-        public LineRenderer line;
-        public Indicator_2_DrawLineStruct(Transform target, LineRenderer line)
-        {
-            this.target = target;
-            this.line = line;
-        }
-    }
+    //public struct Indicator_2_DrawLineStruct
+    //{
+    //    public Transform target;
+    //    public LineRenderer line;
+    //    public Indicator_2_DrawLineStruct(Transform target, LineRenderer line)
+    //    {
+    //        this.target = target;
+    //        this.line = line;
+    //    }
+    //}
 }

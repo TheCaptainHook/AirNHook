@@ -91,5 +91,6 @@ public static class GlobalText
     public const string CAPSULE_OBJECT = "Prefabs/MapEditor/CapsulObject";
     public const string ACTIVATABLE_OBJECT_INDICATOR_VAR_1_Path = "Prefabs/MapEditor/ActivatableObject_Indicator/ActivatableObject_Indicator_var1";
     public const string ACTIVATABLE_OBJECT_INDICATOR_VAR_2_Path = "Prefabs/MapEditor/ActivatableObject_Indicator/ActivatableObject_Indicator_var2";
+    public const string ACTIVATABLE_OBJECT_INDICATOR_VAR_2_Item = "Prefabs/MapEditor/ActivatableObject_Indicator/Item";
     #endregion
 }

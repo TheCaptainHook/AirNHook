@@ -14,7 +14,9 @@ public class ActivatableObjectEntity : BuildObj
     public int activeRequirAmount;//문 활성화 조건
     [Header("Indicator Offset")]
     public INDICATOR indicator = 0;
+    [ReadOnly]
     public Vector2 indicatorOffset_val_1;
+    [ReadOnly]
     public Vector2 indicatorOffset_val_2;
     [Space(10)]
     private ButtonActivatableObjectStruct _buttonActivatedObjectStruct;
