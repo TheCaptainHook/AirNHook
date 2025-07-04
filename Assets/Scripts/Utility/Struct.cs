@@ -764,4 +764,18 @@ namespace ANH_MapEditor
             this.position = position;
         }
     }
+
+
+
+
+    public struct Indicator_2_DrawLineStruct
+    {
+        public Transform target;
+        public LineRenderer line;
+        public Indicator_2_DrawLineStruct(Transform target, LineRenderer line)
+        {
+            this.target = target;
+            this.line = line;
+        }
+    }
 }

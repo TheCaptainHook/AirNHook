@@ -1,8 +1,8 @@
+using ANH_MapEditor;
 using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
@@ -12,7 +12,8 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
 
     [SerializeField] PathFinder pathFinder;
 
-    [SerializeField] LineRenderer lineRenderer;
+    // [ReadOnly]
+    // public LineRenderer lineRenderer;
     [SerializeField] SpriteRenderer mainSprite;
 
     [ReadOnly]
@@ -24,32 +25,39 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
     [ReadOnly]
     public bool onDraw = false;
 
-    public bool Setting(uint id, int inc)
+    // public bool Setting(uint id, int inc)
+    // {
+    //     Transform target = NetworkClient.spawned.TryGetValue(id, out var targetObject) ? targetObject.transform : null;
+    //     if (target == null) return false;
+
+    //     targetId = id;
+    //     targetTr = target;
+    //     StartCoroutine(SetPathCoroutine(inc));
+
+    //     return true;
+    // }
+
+    //--------------------------------------------------------------------------------Renewal 0704
+    // private Queue<(Indicator_2_DrawLineStruct data,List<Vector2> path)> drawQueue;
+    
+    public ActivatableObject_Indicator_var2 indicator_Var2;
+    public void SettingAndDraw(Indicator_2_DrawLineStruct data)
     {
-        Transform target = NetworkClient.spawned.TryGetValue(id, out var targetObject) ? targetObject.transform : null;
-        if (target == null) return false;
+        StartCoroutine(SetPathCoroutine(data));      
 
-        targetId = id;
-        targetTr = target;
-        StartCoroutine(SetPathCoroutine(inc));
-
-        return true;
     }
-    #region Fade
-    private Color lineStartColor;
-    private Color lineEndColor;
-    #endregion
-
-    #region PathFinder
-    public List<Vector2> pathList;
-    private IEnumerator SetPathCoroutine(int inc)
+    public void Erase((uint id, ActivatableObject_Indicator_var2_Item item, Indicator_2_DrawLineStruct data) data)
     {
-        yield return StartCoroutine(pathFinder.FindPathCoroutine(transform.position, targetTr.position, path =>
+        StartCoroutine(EraseCo_MainToTarget(data));
+    }
+
+    private IEnumerator SetPathCoroutine(Indicator_2_DrawLineStruct data)
+    {
+        yield return StartCoroutine(pathFinder.FindPathCoroutine(transform.position, data.target.position, path =>
         {
             if (path != null)
             {
-                pathList = path;
-                SetActive(inc);
+                StartCoroutine(DrawOn_TargetToMain(data, path, () => Mark_Green()));
             }
             else
             {
@@ -57,142 +65,21 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
             }
         }, false, Direction_Type.Four));
     }
-    #endregion
-
-    private void Awake()
-    {
-        lineStartColor = lineRenderer.startColor;
-        lineEndColor = lineRenderer.endColor;
-    }
-
-    /// <summary>
-    /// </summary>
-    /// <param name="inc">[-1] Erase(Deactive), [1] Draw(active)</param>
-    public void SetActive(int inc)
-    {
-        switch (inc)
-        {
-            case -1:
-                if (onDraw) Erase();
-                onActive = false;
-                onDraw = false;
-
-                break;
-            case 1:
-                if (!onDraw) Draw(() => Mark_Green());
-                onActive = true;
-                onDraw = true;
-                break;
-            // case 2:
-            //     if (onDraw) Erase(); //조건 충족, 단순 라인 제거용
-            //     onActive = true;
-            //     onDraw = false;
-            //     break;
-            case 3:
-                if (!onDraw) Draw(()=>Mark_Red());
-                onDraw = true;
-
-                break;
-        }
-    }
-
-
-    private Coroutine drawCoroutine;
-    private Coroutine eraseCoroutine;
-
-    public void Draw(Action markAction = null)
-    {
-        if (!gameObject.activeSelf) gameObject.SetActive(true);
-
-        if (eraseCoroutine != null)
-        {
-            StopCoroutine(eraseCoroutine);
-            eraseCoroutine = null;
-        }
-
-        // drawCoroutine = StartCoroutine(DrawOn_MainToTarget(pathList));
-        drawCoroutine = StartCoroutine(DrawOn_TargetToMain(pathList, markAction));
-    }
-    public void Erase()
-    {
-        if (lineRenderer.positionCount == 0) return;
-
-        if (drawCoroutine != null)
-        {
-            StopCoroutine(drawCoroutine);
-            drawCoroutine = null;
-        }
-
-        eraseCoroutine = StartCoroutine(EraseCo_MainToTarget());
-        // eraseCoroutine = StartCoroutine(EraseCo_MainToTarget());
-    }
-
+    //--------------------------------------------------------------------------------Renewal 0704
 
     #region Draw,Erase Coroutine
     public bool onPrograss;
-    enum LINE_DIRECTION
-    {
-        MainToTarget,
-        TargetToMain
-    }
-    LINE_DIRECTION line_direction;
+
 
     private float drawSpeed = 30f;
     #region Draw
-    private IEnumerator DrawOn_MainToTarget(List<Vector2> path) //<-> [Eraser] TargetToMain 
+
+    private IEnumerator DrawOn_TargetToMain(Indicator_2_DrawLineStruct data,List<Vector2> path, Action markEnableAction) //<-> MainToTarget
     {
-        line_direction = LINE_DIRECTION.MainToTarget;
+        // line_direction = LINE_DIRECTION.TargetToMain;
+        // if (path == null || path.Count < 2) yield break;
 
-        if (path == null || path.Count < 2) yield break;
-
-        onPrograss = true;
-
-        Vector3 start;
-        int index;
-
-        if (lineRenderer.positionCount > 0)
-        {
-            index = lineRenderer.positionCount - 1;
-            start = lineRenderer.GetPosition(index);
-        }
-        else
-        {
-            lineRenderer.positionCount = 1;
-            start = path[0];
-            lineRenderer.SetPosition(0, start);
-            index = 1;
-
-        }
-
-        for (int i = index; i < path.Count; i++)
-        {
-            lineRenderer.positionCount = i + 1;
-            Vector3 end = path[i];
-
-            float distance = Vector3.Distance(start, end);
-            float duration = distance / drawSpeed;
-            float elapsed = 0f;
-            while (elapsed < duration)
-            {
-                elapsed += Time.deltaTime;
-                float t = Mathf.Clamp01(elapsed / duration);
-                Vector3 pos = Vector3.Lerp(start, end, t);
-                lineRenderer.SetPosition(i, pos);
-                yield return null;
-            }
-            lineRenderer.SetPosition(i, end);
-            // 다음 구간을 위해 현재 end를 start로 고정
-            start = end;
-
-        }
-        onPrograss = false;
-        drawCoroutine = null;
-
-    }
-    private IEnumerator DrawOn_TargetToMain(List<Vector2> path, Action markEnableAction) //<-> MainToTarget
-    {
-        line_direction = LINE_DIRECTION.TargetToMain;
-        if (path == null || path.Count < 2) yield break;
+        LineRenderer lineRenderer = data.line;
 
         onPrograss = true;
         int index;
@@ -236,68 +123,32 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
         //---------------------------TEST 0627 (Mark Change)
         markEnableAction?.Invoke();
         //---------------------------TEST 0627 (Mark Change)
-        onPrograss = false;
+        indicator_Var2.SetApplyActive(1);
 
-        drawCoroutine = null;
+        onPrograss = false;
+        // drawCoroutine = null;
 
 
     }
     #endregion
 
     #region Erase
-    private IEnumerator EraseCo_TargetToMain()
+    private IEnumerator EraseCo_MainToTarget((uint id, ActivatableObject_Indicator_var2_Item item,Indicator_2_DrawLineStruct data) data) //<-> Draw_TargetToMain
     {
-        if (line_direction == LINE_DIRECTION.TargetToMain) ReverseLineRendererPosition(false);
-        line_direction = LINE_DIRECTION.TargetToMain;
-
-        var index = lineRenderer.positionCount;
-        if (index == 0)
-        {
-            eraseCoroutine = null;
-            yield break;
-        }
-
-        onPrograss = true;
-
-        Vector3 end = lineRenderer.GetPosition(index - 1);
-
-        for (int i = index - 2; i >= 0; i--)
-        {
-            Vector3 start = pathList[i];
-            float distance = Vector3.Distance(start, end);
-            float duration = distance / drawSpeed;
-            float elapsed = 0f;
-
-            while (elapsed < duration)
-            {
-                elapsed += Time.deltaTime;
-                float t = Mathf.Clamp01(elapsed / duration);
-                Vector3 pos = Vector3.Lerp(end, start, t);
-                lineRenderer.SetPosition(i + 1, pos);
-                yield return null;
-            }
-            lineRenderer.positionCount = i + 1;
-            end = start;
-        }
-
-        lineRenderer.positionCount = 0;
-        eraseCoroutine = null;
-        onPrograss = false;
-
-    }
-
-    private IEnumerator EraseCo_MainToTarget() //<-> Draw_TargetToMain
-    {
-        if (line_direction == LINE_DIRECTION.MainToTarget) ReverseLineRendererPosition(true);
-        line_direction = LINE_DIRECTION.MainToTarget;
+        // if (line_direction == LINE_DIRECTION.MainToTarget) ReverseLineRendererPosition(true);
+        // line_direction = LINE_DIRECTION.MainToTarget;
 
         //---------------------------TEST 0627 (Mark Change)
         Mark_ShutDown();
+        indicator_Var2.itemWaitStack.Push(data.item);
+        indicator_Var2.SetApplyActive(-1);
+
         //---------------------------TEST 0627 (Mark Change)
+        LineRenderer lineRenderer = data.data.line;
 
         if (lineRenderer.positionCount == 0)
         {
-            eraseCoroutine = null;
+            // eraseCoroutine = null;
             yield break;
         }
 
@@ -327,33 +178,13 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
         }
 
         lineRenderer.positionCount = 0;
-        eraseCoroutine = null;
+        indicator_Var2.lineQueue.Enqueue(data.data.line);
+        // eraseCoroutine = null;
         onPrograss = false;
 
     }
     #endregion
 
-    private void ReverseLineRendererPosition(bool onReverse)
-    {
-        if (onReverse)
-        {
-            for (int i = 0; i < lineRenderer.positionCount; i++)
-            {
-                var pot = pathList[pathList.Count - 1 - i];
-                lineRenderer.SetPosition(i, pot);
-            }
-        }
-        else
-        {
-            for (int i = 0; i < lineRenderer.positionCount; i++)
-            {
-                var pot = pathList[i];
-                lineRenderer.SetPosition(i, pot);
-            }
-        }
-        //MainToTarget : 0 -> end
-        //TargetToMain : end -> 0
-    }
     #endregion
 
     #region  Mark. (TEST/0627)
@@ -381,44 +212,44 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
     float minAlpha = 0.05f;
     float duration = 1;
     public Coroutine satisfyConditionCoroutine;
-    public void SatisfyCondition_FadeOutLine()
-    {
-        if (satisfyConditionCoroutine != null) StopCoroutine(satisfyConditionCoroutine);
-        satisfyConditionCoroutine = StartCoroutine(SatisfyCondition_FadeOutLineCo());
-    }
+    // public void SatisfyCondition_FadeOutLine()
+    // {
+    //     if (satisfyConditionCoroutine != null) StopCoroutine(satisfyConditionCoroutine);
+    //     satisfyConditionCoroutine = StartCoroutine(SatisfyCondition_FadeOutLineCo());
+    // }
 
-    private IEnumerator SatisfyCondition_FadeOutLineCo()
-    {
-        isFading = true;
-        float elapsed = 0;
-        Color curStartCol = lineRenderer.startColor;
-        Color fade_Start = new Color(curStartCol.r, curStartCol.g, curStartCol.b, minAlpha);
+    // private IEnumerator SatisfyCondition_FadeOutLineCo()
+    // {
+    //     isFading = true;
+    //     float elapsed = 0;
+    //     Color curStartCol = lineRenderer.startColor;
+    //     Color fade_Start = new Color(curStartCol.r, curStartCol.g, curStartCol.b, minAlpha);
 
-        Color curEndColr = lineRenderer.endColor;
-        Color fade_End = new Color(curEndColr.r, curEndColr.g, curEndColr.b, minAlpha);
+    //     Color curEndColr = lineRenderer.endColor;
+    //     Color fade_End = new Color(curEndColr.r, curEndColr.g, curEndColr.b, minAlpha);
 
-        while(elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            lineRenderer.startColor = Color.Lerp(curStartCol, fade_Start, elapsed);
-            lineRenderer.endColor = Color.Lerp(curEndColr, fade_End, elapsed);
-            yield return null;
-        }
+    //     while(elapsed < duration)
+    //     {
+    //         elapsed += Time.deltaTime;
+    //         lineRenderer.startColor = Color.Lerp(curStartCol, fade_Start, elapsed);
+    //         lineRenderer.endColor = Color.Lerp(curEndColr, fade_End, elapsed);
+    //         yield return null;
+    //     }
 
-        lineRenderer.startColor = fade_Start;
-        lineRenderer.endColor = fade_End;
-        isFading = false;
-    }
-    public void FadeRecover()
-    {
-        if (satisfyConditionCoroutine != null)
-        {
-            StopCoroutine(satisfyConditionCoroutine);
-            satisfyConditionCoroutine = null;
-        }
+    //     lineRenderer.startColor = fade_Start;
+    //     lineRenderer.endColor = fade_End;
+    //     isFading = false;
+    // }
+    // public void FadeRecover()
+    // {
+    //     if (satisfyConditionCoroutine != null)
+    //     {
+    //         StopCoroutine(satisfyConditionCoroutine);
+    //         satisfyConditionCoroutine = null;
+    //     }
 
-        lineRenderer.startColor = new Color(lineStartColor.r, lineStartColor.g, lineStartColor.b, maxAlpha);
-        lineRenderer.endColor = new Color(lineEndColor.r, lineEndColor.g, lineEndColor.b, maxAlpha);
-    }
+    //     lineRenderer.startColor = new Color(lineStartColor.r, lineStartColor.g, lineStartColor.b, maxAlpha);
+    //     lineRenderer.endColor = new Color(lineEndColor.r, lineEndColor.g, lineEndColor.b, maxAlpha);
+    // }
     #endregion
 }
