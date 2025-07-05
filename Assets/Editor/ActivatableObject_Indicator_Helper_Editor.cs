@@ -149,6 +149,23 @@ public class ActivatableObject_Indicator_Helper_Editor : Editor
         debugTrnasform = go.transform;
     }
 
+   
+
+    private void CheckIndicatorPosition()
+    {
+        if(indicator_1 != null)
+        {
+            entity.indicatorOffset_val_1 = indicator_1.transform.position;
+        }
+        
+        if(indicator_2 != null)
+        {
+            entity.indicatorOffset_val_2 = indicator_2.transform.position;
+        }
+    }
+
+    #region  Create Indicator 1,2
+    
     private void CreateIndicator(INDICATOR indicator)
     {
         switch (indicator)
@@ -166,19 +183,6 @@ public class ActivatableObject_Indicator_Helper_Editor : Editor
 
         }
 
-    }
-
-    private void CheckIndicatorPosition()
-    {
-        if (indicator_1 != null && indicator_1.transform.position != pre_indicator_1_pot)
-        {
-            pre_indicator_1_pot = indicator_1.transform.position;
-        }
-
-        if(indicator_2 != null && indicator_2.transform.position != pre_indicator_2_pot)
-        {
-            pre_indicator_2_pot = indicator_2.transform.position;
-        }
     }
     private ActivatableObject_Indicator_var1 CreateIndicator_1()
     {
@@ -208,6 +212,7 @@ public class ActivatableObject_Indicator_Helper_Editor : Editor
 
         return item;
     }
+    #endregion
 
     #region Indicator_2
     private float item_Space = 0.3f;
