@@ -106,12 +106,19 @@ public struct ButtonObjectStruct
         this.encapsulationItems = encapsulationItems;
     }
 
-    
+
 
 }
 #endregion
 
 #region  Button Activatable Object Struct
+public struct IndicatorStruct
+{
+    public INDICATOR indicator;
+    public Vector2 position;
+    public bool isHorizontal;
+}
+
 [System.Serializable]
 public struct ButtonActivatableObjectStruct
 {

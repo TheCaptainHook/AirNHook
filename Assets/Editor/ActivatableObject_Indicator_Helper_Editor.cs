@@ -1,12 +1,9 @@
 
 
 #if UNITY_EDITOR
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using Mono.CecilX.Cil;
-
 [CustomEditor(typeof(ActivatableObjectEntity),true)]
 public class ActivatableObject_Indicator_Helper_Editor : Editor
 {
@@ -19,8 +16,12 @@ public class ActivatableObject_Indicator_Helper_Editor : Editor
 
         itemList = new();
 
-        if(entity !=null && entity.gameObject.scene.IsValid())
-        EditorApplication.update += EditorUpdate;
+        if (entity != null && entity.gameObject.scene.IsValid())
+        {
+            if (debugTrnasform == null) CreateDebugTransform();
+            EditorApplication.update += EditorUpdate;
+        }
+       
     }
 
     private void OnDisable()
@@ -46,13 +47,19 @@ public class ActivatableObject_Indicator_Helper_Editor : Editor
         if(onIndicator)
         {
             indicator_1 = (ActivatableObject_Indicator_var1)EditorGUILayout.ObjectField("indicator_1", indicator_1, typeof(ActivatableObject_Indicator_var1), true);
+            if (indicator_1 != null)
+            {
+                entity.indicatorOffset_val_1 = EditorGUILayout.Vector2Field("   Indicator_1_Offset", entity.indicatorOffset_val_1);
+            }
+
             indicator_2 = (ActivatableObject_Indicator_var2)EditorGUILayout.ObjectField("indicator_2", indicator_2, typeof(ActivatableObject_Indicator_var2), true);
             if (indicator_2 != null)
             {
                 isHorizontal = EditorGUILayout.Toggle("is HorizonTal", isHorizontal);
+                entity.indicatorOffset_val_2 = EditorGUILayout.Vector2Field("   Indicator_2_Offset", entity.indicatorOffset_val_2);
             }
-            entity.indicatorOffset_val_1 = pre_indicator_1_pot;
-            entity.indicatorOffset_val_2 = pre_indicator_2_pot;
+           
+            
         }
        
     }
@@ -64,6 +71,7 @@ public class ActivatableObject_Indicator_Helper_Editor : Editor
     private void EditorUpdate()
     {
         if (entity == null) return;
+        if (debugTrnasform == null) CreateDebugTransform();
 
         if (entity.indicator != indicator)
         {
@@ -71,13 +79,8 @@ public class ActivatableObject_Indicator_Helper_Editor : Editor
             ClearIndicator(indicator);
         }
 
-
         if(onIndicator)
         {
-            if (debugTrnasform == null) CreateDebugTransform();
-
-            CreateIndicator(indicator);
-
             if (curActiveRequirAmount != entity.activeRequirAmount)
             {
                 if (indicator_1 != null)
@@ -87,19 +90,33 @@ public class ActivatableObject_Indicator_Helper_Editor : Editor
 
                 if(indicator_2 != null)
                 {
-                    for (int i = 0; i < entity.activeRequirAmount; i++)
+
+                    int num = entity.activeRequirAmount - curActiveRequirAmount;
+                    if (num > 0)
                     {
-                        var item = CreateItem();
+                        for (int i = 0; i < entity.activeRequirAmount - curActiveRequirAmount; i++)
+                        {
+                            var item = CreateItem();
+                        }
                     }
-                    Indicator_2_Item_Sort();
-                       
-                }
+                    else
+                    {
+                        for (int i = itemList.Count - 1; i >= entity.activeRequirAmount; i--) 
+                        {
+                            Editor.DestroyImmediate(itemList[i].gameObject);
+                            itemList.RemoveAt(i);
+                        }
 
+                    }
 
+                }      
                 curActiveRequirAmount = entity.activeRequirAmount;
             }
 
             CheckIndicatorPosition();
+
+            Indicator_2_Item_Sort();
+
         }
     }
 
@@ -109,21 +126,27 @@ public class ActivatableObject_Indicator_Helper_Editor : Editor
         {
             case INDICATOR.NONE:
                 if (debugTrnasform != null) Editor.DestroyImmediate(debugTrnasform.gameObject);
+                indicator = INDICATOR.NONE;
                 curActiveRequirAmount = 0;
                 itemList.Clear();
                 onIndicator = false;
                 break;
             case INDICATOR.TEXT:
                 if (indicator_2 != null) Editor.DestroyImmediate(indicator_2.gameObject);
+                if (indicator_1 == null) indicator_1 = CreateIndicator_1();
                 itemList.Clear();
                 onIndicator = true;
                 break;
             case INDICATOR.MARK:
                 if (indicator_1 != null) Editor.DestroyImmediate(indicator_1.gameObject);
+                if(indicator_2 == null) indicator_2 = CreateIndicator_2();
                 isHorizontal = true;
                 onIndicator = true;
                 break;
-            default:
+            case INDICATOR.BOTH:
+                if (indicator_1 == null) indicator_1 = CreateIndicator_1();
+                if (indicator_2 == null) indicator_2 = CreateIndicator_2();
+                isHorizontal = true;
                 onIndicator = true;
                 break;
         }
@@ -145,7 +168,6 @@ public class ActivatableObject_Indicator_Helper_Editor : Editor
     private void CreateDebugTransform()
     {
         GameObject go = new GameObject("DebugTransform");
-        go.transform.SetParent(entity.gameObject.transform);
         debugTrnasform = go.transform;
     }
 
@@ -161,35 +183,24 @@ public class ActivatableObject_Indicator_Helper_Editor : Editor
         if(indicator_2 != null)
         {
             entity.indicatorOffset_val_2 = indicator_2.transform.position;
+            indicator_2.transform.rotation = entity.transform.rotation;
+
         }
     }
 
     #region  Create Indicator 1,2
     
-    private void CreateIndicator(INDICATOR indicator)
-    {
-        switch (indicator)
-        {
-            case INDICATOR.TEXT:
-                if (indicator_1 == null) indicator_1 = CreateIndicator_1();
-                break;
-            case INDICATOR.MARK:
-                if (indicator_2 == null) indicator_2 = CreateIndicator_2();
-                break;
-            case INDICATOR.BOTH:
-                if (indicator_1 == null) indicator_1 = CreateIndicator_1();
-                if (indicator_2 == null) indicator_2 = CreateIndicator_2();
-                break;
-
-        }
-
-    }
     private ActivatableObject_Indicator_var1 CreateIndicator_1()
     {
         var indicator = ResourceManager.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_1_Path);
         var item = Instantiate(indicator).GetComponent<ActivatableObject_Indicator_var1>();
         item.transform.SetParent(debugTrnasform);
+
+        item.transform.localPosition = Vector2.zero;
+
         pre_indicator_1_pot = item.transform.position;
+
+      
         return item;
     }
     private ActivatableObject_Indicator_var2 CreateIndicator_2()
@@ -197,18 +208,14 @@ public class ActivatableObject_Indicator_Helper_Editor : Editor
         var indicator = ResourceManager.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_2_Path);
         var item = Instantiate(indicator).GetComponent<ActivatableObject_Indicator_var2>();
         item.transform.SetParent(debugTrnasform);
+
+        item.transform.position = entity.transform.position;
+
         pre_indicator_2_pot = item.transform.position;
 
+        
         if (itemList == null) itemList = new();
-        if (entity.activeRequirAmount != itemList.Count)
-        {
-            for(int i = 0; i<entity.activeRequirAmount;i++)
-            {
-                var newItem = CreateItem();
-            }
 
-            Indicator_2_Item_Sort();
-        }
 
         return item;
     }
@@ -225,30 +232,45 @@ public class ActivatableObject_Indicator_Helper_Editor : Editor
         itemList.Add(item);
         return item;
     }
+
+
+
+
     private void Indicator_2_Item_Sort()
     {
         if (itemList == null || itemList.Count == 0 || indicator_2 == null)
             return;
 
         float totalLength = item_Space * (itemList.Count - 1); // 총 길이
-        Vector3 startPos = indicator_2.transform.position - new Vector3(totalLength / 2f, 0, 0); // 시작점
+        Vector3 startPos = isHorizontal ? 
+            indicator_2.transform.position - new Vector3(totalLength / 2f, 0, 0) : 
+            indicator_2.transform.position - new Vector3(0, totalLength / 2f, 0);
 
         if (isHorizontal)
         {
             for (int i = 0; i < itemList.Count; i++)
             {
                 var item = itemList[i];
-                item.transform.position = startPos + new Vector3(item_Space * i, 0, 0);
+                item.transform.position = startPos + indicator_2.transform.rotation * new Vector3(item_Space * i, 0, 0) ;
+
             }
         }
         else
         {
             for (int i = 0; i < itemList.Count; i++)
             {
-
+                var item = itemList[i];
+                item.transform.position = startPos + indicator_2.transform.rotation * new Vector3(0, item_Space * i, 0);
             }
         }
+
     }
     #endregion
 }
+
+
+#region Util
+
+
+#endregion
 #endif
