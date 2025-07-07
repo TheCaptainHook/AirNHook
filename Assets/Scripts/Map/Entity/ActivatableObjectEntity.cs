@@ -14,10 +14,15 @@ public class ActivatableObjectEntity : BuildObj
     public int activeRequirAmount;//문 활성화 조건
     [Header("Indicator Offset")]
     public INDICATOR indicator = 0;
-    [ReadOnly]
+    [HideInInspector]
     public Vector2 indicatorOffset_val_1;
-    [ReadOnly]
+    [HideInInspector]
     public Vector2 indicatorOffset_val_2;
+    [HideInInspector]
+    public bool isHorizontal;
+    [HideInInspector]
+    public IndicatorStruct indicatorStruct;
+
     [Space(10)]
     private ButtonActivatableObjectStruct _buttonActivatedObjectStruct;
     public ButtonActivatableObjectStruct ButtonActivatedObjectStruct
@@ -32,7 +37,11 @@ public class ActivatableObjectEntity : BuildObj
                 transform.position = value.position;
                 transform.rotation = value.quaternion;
                 transform.localScale = value.scale;
-                indicator = value.indicator;
+                indicator = value.indicatorStruct.indicator;
+                indicatorOffset_val_1 = value.indicatorStruct.indicator_1_position;
+                indicatorOffset_val_2 = value.indicatorStruct.indicator_2_position;
+                isHorizontal = value.indicatorStruct.isHorizontal;
+                indicatorStruct = value.indicatorStruct;
             }
         }
     }
@@ -56,21 +65,21 @@ public class ActivatableObjectEntity : BuildObj
     {
         curActiveBtn += num;
 
-        if (Net_Entity(out ActivatableObject_Net_Entity net) && ButtonActivatedObjectStruct.indicator != INDICATOR.NONE)
+        if (Net_Entity(out ActivatableObject_Net_Entity net) && ButtonActivatedObjectStruct.indicatorStruct.indicator != INDICATOR.NONE)
         {
             //------------------------------------NET
-            if (id != 9999 && ButtonActivatedObjectStruct.indicator == INDICATOR.MARK)
+            if (id != 9999 && ButtonActivatedObjectStruct.indicatorStruct.indicator == INDICATOR.MARK)
             {
                 net.ApplyActive_Sync_var2(id, curActiveBtn, num);
             }
-            else if (ButtonActivatedObjectStruct.indicator == INDICATOR.TEXT) 
+            else if (ButtonActivatedObjectStruct.indicatorStruct.indicator == INDICATOR.TEXT) 
             {
                 net.ApplyActive_Sync_var1(curActiveBtn);
 
                 if (curActiveBtn == activeRequirAmount) Activation();
                 else Deactivated();
             }
-            else if (ButtonActivatedObjectStruct.indicator == INDICATOR.BOTH)
+            else if (ButtonActivatedObjectStruct.indicatorStruct.indicator == INDICATOR.BOTH)
             {
                 net.ApplyActive_Sync_var2(id, curActiveBtn, num);
                 net.ApplyActive_Sync_var1(curActiveBtn);
@@ -94,10 +103,14 @@ public class ActivatableObjectEntity : BuildObj
     {
         if (typeof(T) == typeof(ButtonActivatableObjectStruct))
         {
-            return (T)(object)new ButtonActivatableObjectStruct(id, activeRequirAmount, transform.position, transform.rotation, transform.localScale,indicator);
+            return (T)(object)new ButtonActivatableObjectStruct(id, activeRequirAmount, transform.position, transform.rotation, transform.localScale,indicatorStruct);
         }
 
         return default(T);
+    }
+    public void GetIndicatorStruct()
+    {
+        indicatorStruct = new IndicatorStruct(indicator, indicatorOffset_val_1, indicatorOffset_val_2, isHorizontal);
     }
     protected Util util;
     public override async void SetData<T>(T data)

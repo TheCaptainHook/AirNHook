@@ -15,7 +15,7 @@ public class JumpingPad : ActivatableObjectEntity
     {
         if (typeof(T) == typeof(ButtonActivatableObjectStruct))
         {
-            return (T)(object)new ButtonActivatableObjectStruct(id, activeRequirAmount, transform.position, transform.rotation, transform.localScale,jumpingPower,indicator);
+            return (T)(object)new ButtonActivatableObjectStruct(id, activeRequirAmount, transform.position, transform.rotation, transform.localScale,jumpingPower,indicatorStruct);
         }
 
         return default(T);

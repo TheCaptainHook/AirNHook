@@ -67,11 +67,11 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
         transform.localScale = data.scale;
         this.data = data;
 
-        if (data.indicator == INDICATOR.TEXT)
+        if (data.indicatorStruct.indicator == INDICATOR.TEXT)
             Create_Indicator_var_1();
-        else if (data.indicator == INDICATOR.MARK)
+        else if (data.indicatorStruct.indicator == INDICATOR.MARK)
             Create_Indicator_var_2();
-        else if (data.indicator == INDICATOR.BOTH)
+        else if (data.indicatorStruct.indicator == INDICATOR.BOTH)
         {
             Create_Indicator_var_1();
             Create_Indicator_var_2();

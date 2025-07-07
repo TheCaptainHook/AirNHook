@@ -49,7 +49,7 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
     public override T GetData<T>()
     {
         if(typeof(T)==typeof(ButtonActivatableObjectStruct)){
-            return (T)(object)new ButtonActivatableObjectStruct(id,activeRequirAmount,transform.position,transform.rotation,transform.localScale,moveDistance,moveSpeed, indicator);
+            return (T)(object)new ButtonActivatableObjectStruct(id,activeRequirAmount,transform.position,transform.rotation,transform.localScale,moveDistance,moveSpeed, indicatorStruct);
         }
         
         return default(T);

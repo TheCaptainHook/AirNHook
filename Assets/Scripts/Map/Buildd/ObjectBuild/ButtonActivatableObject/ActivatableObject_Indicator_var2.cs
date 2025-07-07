@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using ANH_MapEditor;
 using Mirror;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -37,9 +36,8 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
         this.net = net;
         mainTr = entity.gameObject.transform;
 
-        var offset = mainTr.rotation * (mainTr.localScale * entity.indicatorOffset_val_2);
-
-        transform.position = mainTr.position + offset;
+        // var offset = mainTr.rotation * (mainTr.localScale * entity.indicatorOffset_val_2);
+        transform.position = net.data.indicatorStruct.indicator_2_position;
         transform.rotation = mainTr.rotation;
 
         container.localScale = mainTr.localScale;
@@ -55,14 +53,32 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
         itemWaitStack = new();
         itemCurActiveList = new();
         //--------------------------------------------------------------------------------Renewal 0704
-        for (int i = activeRequirAmount - 1; i >= 0; i--)
-        {
-            itemWaitStack.Push(CreateItem());
-        }
+        // for (int i = activeRequirAmount - 1; i >= 0; i--)
+        // {
+        //     itemWaitStack.Push(CreateItem());
+        // }
+        CreateItemAndSorting(net.data);
         //--------------------------------------------------------------------------------Renewal 0704
 
     }
+    private float item_Space = 0.3f;
+    private void CreateItemAndSorting(ButtonActivatableObjectStruct data)
+    {
+        float totalLength = item_Space * (data.activeRequirAmount - 1); // 총 길이
+        Vector3 startPos = data.indicatorStruct.isHorizontal ?
+            transform.position - new Vector3(totalLength / 2f, 0, 0) :
+            transform.position - new Vector3(0, totalLength / 2f, 0);
 
+            for (int i = activeRequirAmount - 1; i >= 0; i--)
+            {
+                var item = CreateItem();
+                itemWaitStack.Push(item);
+                Vector3 offset = data.indicatorStruct.isHorizontal ? new Vector3(item_Space * i, 0, 0) : new Vector3(0, item_Space * i, 0);
+                item.transform.position = startPos + transform.rotation * offset ;
+            }
+    
+    }
+  
     //--------------------------------------------------------------------------------Renewal 0704
 
 
@@ -83,8 +99,8 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
             var item = itemWaitStack.Pop();
             //itemCurActiveList.Add((id, item, data));
             itemCurActiveList.Add(lineUtility);
-            lineUtility.SettingAndDrawLine(id, item, target, ()=> SetApplyActive(1));
-            
+            lineUtility.SettingAndDrawLine(id, item, target, () => SetApplyActive(1));
+
         }
         else
         {
@@ -95,14 +111,14 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
                     var curActiveData = itemCurActiveList[i];
                     itemCurActiveList.RemoveAt(i);
 
-                    curActiveData.Erase(this,()=>SetApplyActive(-1));
+                    curActiveData.Erase(this, () => SetApplyActive(-1));
                     return;
                 }
             }
         }
 
 
-        
+
     }
 
     public void SetApplyActive(int inc)
@@ -138,14 +154,14 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
     //--------------------------------------------------------------------------------Renewal 0704
 
 
-    private Vector2 curItem_Space;
-    private float item_Space = 0.3f;
+    // private Vector2 curItem_Space;
+    // private float item_Space = 0.3f;
 
     private ActivatableObject_Indicator_var2_Item CreateItem()
     {
         var item = Instantiate(activatableObject_Indicator_var2_Item_Prefab, container).GetComponent<ActivatableObject_Indicator_var2_Item>();;
-        item.transform.localPosition = curItem_Space;
-        curItem_Space += -(Vector2)container.up * item_Space;
+        // item.transform.localPosition = curItem_Space;
+        // curItem_Space += -(Vector2)container.up * item_Space;
 
         //item.indicator_Var2 = this;
         return item;

@@ -4907,7 +4907,18 @@
             "id": 322,
             "activeRequirAmount": 0,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -51.18000030517578,
@@ -4945,7 +4956,18 @@
             "id": 322,
             "activeRequirAmount": 0,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -56.529998779296878,
@@ -4983,7 +5005,18 @@
             "id": 359,
             "activeRequirAmount": 2,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -8.0,
@@ -5021,7 +5054,18 @@
             "id": 339,
             "activeRequirAmount": 1,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -11.3100004196167,
@@ -5059,7 +5103,18 @@
             "id": 353,
             "activeRequirAmount": 1,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -19.0,
@@ -5097,7 +5152,18 @@
             "id": 354,
             "activeRequirAmount": 1,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -16.0,
@@ -5135,7 +5201,18 @@
             "id": 332,
             "activeRequirAmount": 1,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -11.0,
@@ -5173,7 +5250,18 @@
             "id": 335,
             "activeRequirAmount": 1,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -14.0,
@@ -5211,7 +5299,18 @@
             "id": 330,
             "activeRequirAmount": 1,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -5.0,
@@ -5249,7 +5348,18 @@
             "id": 327,
             "activeRequirAmount": 1,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -2.0,
@@ -5292,7 +5402,18 @@
             "id": 333,
             "activeRequirAmount": 1,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": 2.0,
@@ -5335,7 +5456,18 @@
             "id": 334,
             "activeRequirAmount": 0,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -53.0,
@@ -5373,7 +5505,18 @@
             "id": 354,
             "activeRequirAmount": 1,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -19.360002517700197,
@@ -5411,7 +5554,18 @@
             "id": 353,
             "activeRequirAmount": 1,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -17.1200008392334,
@@ -5449,7 +5603,18 @@
             "id": 322,
             "activeRequirAmount": 0,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -48.02000045776367,
@@ -5487,7 +5652,18 @@
             "id": 322,
             "activeRequirAmount": 0,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -65.04000091552735,
@@ -5525,7 +5701,18 @@
             "id": 305,
             "activeRequirAmount": 4,
             "chargeRequired": false,
-            "indicator": 3,
+            "indicatorStruct": {
+                "indicator": 3,
+                "indicator_1_position": {
+                    "x": -60.0,
+                    "y": -53.5
+                },
+                "indicator_2_position": {
+                    "x": -60.470001220703128,
+                    "y": -54.5
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -61.529998779296878,
@@ -5563,7 +5750,18 @@
             "id": 305,
             "activeRequirAmount": 4,
             "chargeRequired": false,
-            "indicator": 1,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -50.95000076293945,
@@ -5601,7 +5799,18 @@
             "id": 305,
             "activeRequirAmount": 1,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -21.32000160217285,
@@ -5639,7 +5848,18 @@
             "id": 339,
             "activeRequirAmount": 1,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -22.100000381469728,
@@ -5677,7 +5897,18 @@
             "id": 359,
             "activeRequirAmount": 1,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -23.200002670288087,
@@ -5715,7 +5946,18 @@
             "id": 332,
             "activeRequirAmount": 1,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -24.489999771118165,
@@ -5753,7 +5995,18 @@
             "id": 330,
             "activeRequirAmount": 1,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 30,
             "position": {
                 "x": -14.030000686645508,
@@ -5791,7 +6044,18 @@
             "id": 335,
             "activeRequirAmount": 1,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -11.239999771118164,
@@ -5829,7 +6093,18 @@
             "id": 334,
             "activeRequirAmount": 3,
             "chargeRequired": false,
-            "indicator": 2,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -46.68000030517578,
@@ -5867,7 +6142,18 @@
             "id": 322,
             "activeRequirAmount": 0,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": 22.579999923706056,
@@ -5905,7 +6191,18 @@
             "id": 322,
             "activeRequirAmount": 0,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -44.599998474121097,
@@ -5943,7 +6240,18 @@
             "id": 305,
             "activeRequirAmount": 1,
             "chargeRequired": false,
-            "indicator": 3,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": 36.470001220703128,
@@ -5981,7 +6289,18 @@
             "id": 335,
             "activeRequirAmount": 0,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": 22.93000030517578,

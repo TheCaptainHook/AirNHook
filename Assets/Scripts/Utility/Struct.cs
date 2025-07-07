@@ -112,11 +112,25 @@ public struct ButtonObjectStruct
 #endregion
 
 #region  Button Activatable Object Struct
+[System.Serializable]
 public struct IndicatorStruct
 {
     public INDICATOR indicator;
-    public Vector2 position;
+    public Vector2 indicator_1_position;
+    public Vector2 indicator_2_position;
     public bool isHorizontal;
+    public IndicatorStruct(
+        INDICATOR indicator,
+        Vector2 indicator_1_position,
+        Vector2 indicator_2_position,
+        bool isHorizontal
+        )
+    {
+        this.indicator = indicator;
+        this.indicator_1_position = indicator_1_position;
+        this.indicator_2_position = indicator_2_position;
+        this.isHorizontal = isHorizontal;
+    }
 }
 
 [System.Serializable]
@@ -125,7 +139,7 @@ public struct ButtonActivatableObjectStruct
     public int id;
     public int activeRequirAmount;
     public bool chargeRequired;
-    public INDICATOR indicator;
+    public IndicatorStruct indicatorStruct;
     public int jumpingPower; //JumpingPad
     public Vector2 position;
     public Quaternion quaternion;
@@ -149,7 +163,7 @@ public struct ButtonActivatableObjectStruct
     public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
         Quaternion quaternion,
         Vector3 scale,
-         INDICATOR indicator = INDICATOR.NONE,
+        IndicatorStruct indicatorStruct,
         Vector2 talPot = default,
         bool chargeRequired = false
         )
@@ -172,7 +186,7 @@ public struct ButtonActivatableObjectStruct
         connectionPoint = Vector2.zero;
         this.chargeRequired = chargeRequired;
 
-        this.indicator = indicator;
+        this.indicatorStruct = indicatorStruct;
 
     }
 
@@ -182,7 +196,7 @@ public struct ButtonActivatableObjectStruct
        Quaternion quaternion,
        Vector3 scale,
        int jumpingPower,
-       INDICATOR indicator = INDICATOR.NONE,
+       IndicatorStruct indicatorStruct,
        bool chargeRequired = false
 
        )
@@ -205,7 +219,7 @@ public struct ButtonActivatableObjectStruct
         connectionPoint = Vector2.zero;
         this.chargeRequired = chargeRequired;
 
-        this.indicator = indicator;
+        this.indicatorStruct = indicatorStruct;
 
     }
 
@@ -217,8 +231,8 @@ public struct ButtonActivatableObjectStruct
       float rotateRate,
       float fireRate,
       bool onHoldRotation,
+      IndicatorStruct indicatorStruct,
       bool onLeft = false,
-      INDICATOR indicator = INDICATOR.NONE,
       bool chargeRequired = false
       )
     {
@@ -240,7 +254,7 @@ public struct ButtonActivatableObjectStruct
         connectionPoint = Vector2.zero;
         this.chargeRequired = chargeRequired;
         
-        this.indicator = indicator;
+        this.indicatorStruct = indicatorStruct;
     }
     #endregion
     #region MovingPlatform
@@ -249,7 +263,7 @@ public struct ButtonActivatableObjectStruct
        Vector3 scale,
        Vector2[] paths,
        float moveSpeed,
-       INDICATOR indicator = INDICATOR.NONE,
+       IndicatorStruct indicatorStruct,
        bool chargeRequired = false
        )
     {
@@ -271,7 +285,7 @@ public struct ButtonActivatableObjectStruct
         connectionPoint = Vector2.zero;
         this.chargeRequired = chargeRequired;
         
-        this.indicator = indicator;
+        this.indicatorStruct = indicatorStruct;
 
     }
     #endregion
@@ -281,7 +295,7 @@ public struct ButtonActivatableObjectStruct
        Vector3 scale,
        float moveDistance,
        float moveSpeed,
-       INDICATOR indicator = INDICATOR.NONE,
+       IndicatorStruct indicatorStruct,
        bool chargeRequired = false
 
        )
@@ -304,7 +318,7 @@ public struct ButtonActivatableObjectStruct
         connectionPoint = Vector2.zero;
         this.chargeRequired = chargeRequired;
         
-        this.indicator = indicator;
+        this.indicatorStruct = indicatorStruct;
     }
     #endregion
     #region  BridgeBox
@@ -313,7 +327,7 @@ public struct ButtonActivatableObjectStruct
       Vector3 scale,
       float bridgeLength,
       Vector2 connectionPoint,
-      INDICATOR indicator = INDICATOR.NONE,
+      IndicatorStruct indicatorStruct,
       bool chargeRequired = false
       )
     {
@@ -335,7 +349,7 @@ public struct ButtonActivatableObjectStruct
         this.connectionPoint = connectionPoint;
         this.chargeRequired = chargeRequired;
         
-        this.indicator = indicator;
+        this.indicatorStruct = indicatorStruct;
     }
     #endregion
 

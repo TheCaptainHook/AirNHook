@@ -26,13 +26,13 @@ public class ActivatableObject_Indicator_var1 : MonoBehaviour
     public void Setting(ActivatableObjectEntity entity,ActivatableObject_Net_Entity net)
     {
         parent = entity.transform;
-
-        var offset = parent.rotation  * (parent.localScale * entity.indicatorOffset_val_1);
-        transform.position = parent.position + offset;
+        transform.position = parent.localScale * net.data.indicatorStruct.indicator_1_position;
 
         bgImg.transform.localScale = parent.localScale;
 
-        transform.SetParent(parent);
+        var termTr = MapEditor.Instance.dontSaveObjectTransform;
+
+        transform.SetParent(termTr);
 
         activeRequirAmount = net.data.activeRequirAmount;
         text.text = $"{0}/{activeRequirAmount}";

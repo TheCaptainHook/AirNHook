@@ -47,7 +47,7 @@ public class MovingPlatform :  ActivatableObjectEntity
     {
         if (typeof(T) == typeof(ButtonActivatableObjectStruct))
         {
-            return (T)(object)new ButtonActivatableObjectStruct(id, activeRequirAmount, transform.position, transform.rotation, transform.localScale, paths, moveSpeed, indicator);
+            return (T)(object)new ButtonActivatableObjectStruct(id, activeRequirAmount, transform.position, transform.rotation, transform.localScale, paths, moveSpeed, indicatorStruct);
         }
 
         return default(T);
