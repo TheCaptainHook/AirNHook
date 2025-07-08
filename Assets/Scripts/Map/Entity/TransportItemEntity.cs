@@ -195,6 +195,10 @@ public class TransportItemEntity : InteractableObject, ITransportItem
         //0603 EnCapsulationField
         if (data.onEncapsulationItem)
         {
+            EncapsulationField.onEncapsulationItem = true;
+            EncapsulationField.activeRequirAmount = data.activeRequireAmount;
+            EncapsulationField.indicator = data.indicator;
+
             if (!EncapsulationField.isCapsuling)
             {
                 _isDestroyed = true;

@@ -72,6 +72,7 @@ public class EncapsulationField : MonoBehaviour
     }
 
     #endregion
+
     #region  Capsuling
     private Transform orgParent;
     Bounds mainColliderBounds;
@@ -97,21 +98,6 @@ public class EncapsulationField : MonoBehaviour
         mainCol.enabled = false;
         //Main Object Setting
 
-            //INDICATOR SETTING 0702
-            if (Net.data.indicator == INDICATOR.TEXT)
-            {
-                Create_Indicator_var_1();
-            }
-            else if (Net.data.indicator == INDICATOR.MARK)
-            {
-            }
-            else if (Net.data.indicator == INDICATOR.BOTH)
-            {
-                
-            }
-            //INDICATOR SETTING 0702
-
-
         if (distance > 0)
         {
             yield return StartCoroutine(MoveCapsuleCo(distance));
@@ -120,6 +106,20 @@ public class EncapsulationField : MonoBehaviour
         {
             SettingCapsule();
         }
+
+        //INDICATOR SETTING 0702
+        if (Net.data.indicator == INDICATOR.TEXT)
+        {
+            Create_Indicator_var_1();
+        }
+        else if (Net.data.indicator == INDICATOR.MARK)
+        {
+        }
+        else if (Net.data.indicator == INDICATOR.BOTH)
+        {
+
+        }
+        //INDICATOR SETTING 0702
     }
 
     private void SettingCapsule()

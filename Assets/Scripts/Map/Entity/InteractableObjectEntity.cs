@@ -56,17 +56,17 @@ public class InteractableObjectEntity : BuildObj
         }
 
     }
-    public override void SetData(ObjectData data)
-    {
-        base.SetData(data);
-        if (data.onEncapsulationItem)
-        {
-            EncapsulationField.onEncapsulationItem = true;
-            EncapsulationField.activeRequirAmount = data.activeRequireAmount;
-            EncapsulationField.indicator = data.indicator;
-        }
+    //public override void SetData(ObjectData data)
+    //{
+    //    base.SetData(data);
+    //    if (data.onEncapsulationItem)
+    //    {
+    //        EncapsulationField.onEncapsulationItem = true;
+    //        EncapsulationField.activeRequirAmount = data.activeRequireAmount;
+    //        EncapsulationField.indicator = data.indicator;
+    //    }
 
-    }
+    //}
 
 
 
