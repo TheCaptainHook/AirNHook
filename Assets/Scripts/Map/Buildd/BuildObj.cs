@@ -133,7 +133,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     {
         if(typeof(T)==typeof(ObjectData))
         {
-            return (T)(object)new ObjectData(id, transform.position, transform.rotation, transform.localScale,chargeRequired);
+            return (T)(object)new ObjectData(id, ConvertPosition(), transform.rotation, transform.localScale,chargeRequired);
         }
 
        return default(T);
@@ -146,18 +146,29 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         }
 
     }
+    private Vector3 ConvertPosition()
+    {
+        Vector3 original = transform.position;
+
+        Vector3 rounded = new Vector3(
+            Mathf.Round(original.x * 100f) / 100f,
+            Mathf.Round(original.y * 100f) / 100f,
+            Mathf.Round(original.z * 100f) / 100f
+        );
+        return rounded;
+    }
 #region Transport Item 
     public void SettingTransportItem(GameObject carrierObj) //Only Server
     {
-      if(_rb == null)
-      {
-        Debug.Log("Can't find Rigidbody2D");
-        return;
-      }
+        if (_rb == null)
+        {
+            Debug.Log("Can't find Rigidbody2D");
+            return;
+        }
 
         carrierTransformNetId = carrierObj.GetComponent<NetworkIdentity>().netId;
         carrierTransform = carrierObj.GetComponent<Drone_MultiPurpose>().itemPlacementPosition;
-        
+
         Connection_TransportItem();
 
     }

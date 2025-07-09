@@ -78,7 +78,15 @@ public class ButtonEntity : BuildObj
         }
         foreach (EncapsulationField field in interactableObjects)
         {
-          field.ApplyActive(onActivate ? 1 : -1);
+            //   field.ApplyActive(onActivate ? 1 : -1);
+                if(TryGetComponent(out NetworkIdentity identity))
+                {
+                    field.ApplyActive(onActivate ? 1 : -1,identity.netId);
+                }
+                else
+                {
+                    field.ApplyActive(onActivate ? 1 : -1);
+                }
         }
 
 
@@ -319,9 +327,11 @@ public class ButtonEntity : BuildObj
                     if (CompareVec(buildObj.position, vec))
                     {
                         enList.Add(obj.GetComponent<EncapsulationField>());
+                        continue;
                     }
                 }
             }
+            
         }
         interactableObjects = enList;
     }

@@ -4719,11 +4719,11 @@
             "indicator": 0
         },
         {
-            "id": 343,
+            "id": 311,
             "dialogueId": 0,
             "position": {
-                "x": 54.380001068115237,
-                "y": -5.650000095367432
+                "x": 36.900001525878909,
+                "y": 5.800000190734863
             },
             "quaternion": {
                 "x": 0.0,
@@ -4750,9 +4750,333 @@
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
-            "activeRequireAmount": 4,
+            "activeRequireAmount": 3,
             "onEncapsulationItem": true,
-            "indicator": 1
+            "indicator": 2
+        },
+        {
+            "id": 363,
+            "dialogueId": 0,
+            "position": {
+                "x": 40.22999954223633,
+                "y": 5.800000190734863
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 3,
+            "onEncapsulationItem": true,
+            "indicator": 2
+        },
+        {
+            "id": 315,
+            "dialogueId": 0,
+            "position": {
+                "x": 43.0,
+                "y": 5.800000190734863
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 3,
+            "onEncapsulationItem": true,
+            "indicator": 2
+        },
+        {
+            "id": 358,
+            "dialogueId": 0,
+            "position": {
+                "x": 46.900001525878909,
+                "y": 5.800000190734863
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 3,
+            "onEncapsulationItem": true,
+            "indicator": 2
+        },
+        {
+            "id": 317,
+            "dialogueId": 0,
+            "position": {
+                "x": 50.0,
+                "y": 5.800000190734863
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 3,
+            "onEncapsulationItem": true,
+            "indicator": 2
+        },
+        {
+            "id": 307,
+            "dialogueId": 0,
+            "position": {
+                "x": 53.0,
+                "y": 5.800000190734863
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 3,
+            "onEncapsulationItem": true,
+            "indicator": 2
+        },
+        {
+            "id": 316,
+            "dialogueId": 0,
+            "position": {
+                "x": 56.900001525878909,
+                "y": 5.800000190734863
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 3,
+            "onEncapsulationItem": true,
+            "indicator": 2
+        },
+        {
+            "id": 365,
+            "dialogueId": 0,
+            "position": {
+                "x": 60.0,
+                "y": 5.800000190734863
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 3,
+            "onEncapsulationItem": true,
+            "indicator": 2
+        },
+        {
+            "id": 300,
+            "dialogueId": 0,
+            "position": {
+                "x": 63.0,
+                "y": 5.800000190734863
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 3,
+            "onEncapsulationItem": true,
+            "indicator": 2
+        },
+        {
+            "id": 343,
+            "dialogueId": 0,
+            "position": {
+                "x": 66.9000015258789,
+                "y": 5.800000190734863
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 3,
+            "onEncapsulationItem": true,
+            "indicator": 2
         }
     ],
     "mapBackgroundObjectList": [],
@@ -5493,7 +5817,7 @@
             "onHoldRotation": false,
             "onLeft": false,
             "paths": [],
-            "moveSpeed": 1.0,
+            "moveSpeed": 0.0,
             "moveDistance": 0.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
@@ -7026,7 +7350,7 @@
         {
             "id": 329,
             "position": {
-                "x": 57.72999954223633,
+                "x": 55.599998474121097,
                 "y": -7.5
             },
             "quaternion": {
@@ -7044,8 +7368,44 @@
             "lightPositions": [],
             "encapsulationItems": [
                 {
-                    "x": 54.380001068115237,
-                    "y": -5.650000095367432
+                    "x": 36.900001525878909,
+                    "y": 5.800000190734863
+                },
+                {
+                    "x": 40.22999954223633,
+                    "y": 5.800000190734863
+                },
+                {
+                    "x": 43.0,
+                    "y": 5.800000190734863
+                },
+                {
+                    "x": 46.900001525878909,
+                    "y": 5.800000190734863
+                },
+                {
+                    "x": 50.0,
+                    "y": 5.800000190734863
+                },
+                {
+                    "x": 53.0,
+                    "y": 5.800000190734863
+                },
+                {
+                    "x": 56.900001525878909,
+                    "y": 5.800000190734863
+                },
+                {
+                    "x": 60.0,
+                    "y": 5.800000190734863
+                },
+                {
+                    "x": 63.0,
+                    "y": 5.800000190734863
+                },
+                {
+                    "x": 66.9000015258789,
+                    "y": 5.800000190734863
                 }
             ],
             "onHint": false,
@@ -7060,7 +7420,7 @@
         {
             "id": 329,
             "position": {
-                "x": 59.45000076293945,
+                "x": 57.599998474121097,
                 "y": -7.5
             },
             "quaternion": {
@@ -7078,8 +7438,44 @@
             "lightPositions": [],
             "encapsulationItems": [
                 {
-                    "x": 54.380001068115237,
-                    "y": -5.650000095367432
+                    "x": 36.900001525878909,
+                    "y": 5.800000190734863
+                },
+                {
+                    "x": 40.22999954223633,
+                    "y": 5.800000190734863
+                },
+                {
+                    "x": 43.0,
+                    "y": 5.800000190734863
+                },
+                {
+                    "x": 46.900001525878909,
+                    "y": 5.800000190734863
+                },
+                {
+                    "x": 50.0,
+                    "y": 5.800000190734863
+                },
+                {
+                    "x": 53.0,
+                    "y": 5.800000190734863
+                },
+                {
+                    "x": 56.900001525878909,
+                    "y": 5.800000190734863
+                },
+                {
+                    "x": 60.0,
+                    "y": 5.800000190734863
+                },
+                {
+                    "x": 63.0,
+                    "y": 5.800000190734863
+                },
+                {
+                    "x": 66.9000015258789,
+                    "y": 5.800000190734863
                 }
             ],
             "onHint": false,
@@ -7094,7 +7490,7 @@
         {
             "id": 329,
             "position": {
-                "x": 61.2599983215332,
+                "x": 59.599998474121097,
                 "y": -7.5
             },
             "quaternion": {
@@ -7112,42 +7508,44 @@
             "lightPositions": [],
             "encapsulationItems": [
                 {
-                    "x": 54.380001068115237,
-                    "y": -5.650000095367432
-                }
-            ],
-            "onHint": false,
-            "partsPositions": [],
-            "itemPositions": [],
-            "hintPosition": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "chargeRequired": false
-        },
-        {
-            "id": 306,
-            "position": {
-                "x": 62.900001525878909,
-                "y": -8.729999542236329
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "targetPositions": [],
-            "lightPositions": [],
-            "encapsulationItems": [
+                    "x": 36.900001525878909,
+                    "y": 5.800000190734863
+                },
                 {
-                    "x": 54.380001068115237,
-                    "y": -5.650000095367432
+                    "x": 40.22999954223633,
+                    "y": 5.800000190734863
+                },
+                {
+                    "x": 43.0,
+                    "y": 5.800000190734863
+                },
+                {
+                    "x": 46.900001525878909,
+                    "y": 5.800000190734863
+                },
+                {
+                    "x": 50.0,
+                    "y": 5.800000190734863
+                },
+                {
+                    "x": 53.0,
+                    "y": 5.800000190734863
+                },
+                {
+                    "x": 56.900001525878909,
+                    "y": 5.800000190734863
+                },
+                {
+                    "x": 60.0,
+                    "y": 5.800000190734863
+                },
+                {
+                    "x": 63.0,
+                    "y": 5.800000190734863
+                },
+                {
+                    "x": 66.9000015258789,
+                    "y": 5.800000190734863
                 }
             ],
             "onHint": false,
@@ -7166,7 +7564,7 @@
             "x": 1.7000000476837159,
             "y": -33.900001525878909
         },
-        "condition_KeyAmount": 0,
+        "condition_KeyAmount": 1,
         "nextMapId": ""
     },
     "dialogueDataList": [],

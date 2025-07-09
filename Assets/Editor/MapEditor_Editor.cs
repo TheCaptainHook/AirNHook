@@ -807,15 +807,19 @@ public class MapEditor_Editor : Editor
             }
         }
     }
-
-    void Create<T>(Transform transform, MapDataStruct mapDataStruct, T data) {
+   
+    async void Create<T>(Transform transform, MapDataStruct mapDataStruct, T data) {
         try {
             GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
             BuildObj buildObj = obj.GetComponent<BuildObj>();
             buildObj.SetData<T>(data);
+            obj.transform.SetParent(transform);
+
+            
+            await Task.Delay(500);
             buildObj.Editor_Setting(mapEditor);
 
-            obj.transform.SetParent(transform);
+            
         } catch (Exception ex) {
             Debug.Log($"{ex},{mapDataStruct.id}");
         }

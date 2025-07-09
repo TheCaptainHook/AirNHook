@@ -23,7 +23,7 @@ public class ActivatableObject_Indicator_var1 : MonoBehaviour
 
     [ReadOnly]
     public int activeRequirAmount;
-    public void Setting(ActivatableObjectEntity entity,ActivatableObject_Net_Entity net)
+    public void Setting(ActivatableObjectEntity entity, ActivatableObject_Net_Entity net)
     {
         parent = entity.transform;
         transform.position = parent.localScale * net.data.indicatorStruct.indicator_1_position;
@@ -37,8 +37,9 @@ public class ActivatableObject_Indicator_var1 : MonoBehaviour
         activeRequirAmount = net.data.activeRequirAmount;
         text.text = $"{0}/{activeRequirAmount}";
     }
-    
+
     #region  Specific Encapsulation Field 
+    private TransportItemEntity transportItemEntity;
     public void Setting(TransportItemEntity entity)
     {
         parent = entity.transform;
@@ -51,6 +52,20 @@ public class ActivatableObject_Indicator_var1 : MonoBehaviour
 
         activeRequirAmount = entity.data.activeRequireAmount;
         text.text = $"{0}/{activeRequirAmount}";
+    }
+    public void SetApplyActive_EncapsulationField(int curActiveAmount)
+    {
+        if (!transportItemEntity.EncapsulationField.isCapsuling) return;
+        
+        if (curActiveAmount == activeRequirAmount) //satisfy condition
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+
+        if (!gameObject.activeSelf) gameObject.SetActive(true);
+        text.text = $"{curActiveAmount}/{activeRequirAmount}";
+
     }
 
     #endregion
@@ -66,6 +81,7 @@ public class ActivatableObject_Indicator_var1 : MonoBehaviour
 
 
     }
+
 
 
 

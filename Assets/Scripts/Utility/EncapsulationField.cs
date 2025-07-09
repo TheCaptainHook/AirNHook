@@ -11,7 +11,7 @@ public class EncapsulationField : MonoBehaviour
 
     private Transform parent => transform.parent;
     private TransportItemEntity entity;
-    private TransportItemEntity Net
+    public TransportItemEntity Net
     {
         get
         {
@@ -52,23 +52,24 @@ public class EncapsulationField : MonoBehaviour
     }
 
     #region Indicator
-    public ActivatableObject_Indicator_var1 indicator_var1;
-    public ActivatableObject_Indicator_var2 indicator_var2;
+    public ActivatableObject_Indicator_var1 indicator_1;
+    public ActivatableObject_Indicator_var2 indicator_2;
 
-    private void Create_Indicator_var_1()
+    private ActivatableObject_Indicator_var1 Create_Indicator_var_1()
     {
-        if (indicator_var1 == null)
-        {
-            var indicator = ResourceManager.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_1_Path);
-            indicator_var1 = Instantiate(indicator).GetComponent<ActivatableObject_Indicator_var1>();
-            indicator_var1.Setting(Net);
-        }
-       
+        var source = ResourceManager.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_1_Path);
+        var item = Instantiate(source).GetComponent<ActivatableObject_Indicator_var1>();
+        item.Setting(Net);
+
+        return item;
     }
 
-    private void Create_Indicator_var_2()
+    private ActivatableObject_Indicator_var2 Create_Indicator_var_2()
     {
-        var indicator = ResourceManager.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_2_Path);
+        var source = ResourceManager.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_2_Path);
+        var item = Instantiate(source).GetComponent<ActivatableObject_Indicator_var2>();
+        item.Setting(this, Net);
+        return item;
     }
 
     #endregion
@@ -107,19 +108,38 @@ public class EncapsulationField : MonoBehaviour
             SettingCapsule();
         }
 
-        //INDICATOR SETTING 0702
-        if (Net.data.indicator == INDICATOR.TEXT)
-        {
-            Create_Indicator_var_1();
-        }
-        else if (Net.data.indicator == INDICATOR.MARK)
-        {
-        }
-        else if (Net.data.indicator == INDICATOR.BOTH)
-        {
+        //----------------------------INDICATOR SETTING 0709 
+        CheckIndicator(Net.data.indicator);
+        // if (Net.data.indicator == INDICATOR.TEXT)
+        // {
+        //     indicator_1 ??= Create_Indicator_var_1();
+        // }
+        // else if (Net.data.indicator == INDICATOR.MARK)
+        // {
 
+        // }
+        // else if (Net.data.indicator == INDICATOR.BOTH)
+        // {
+
+        // }
+
+        //----------------------------INDICATOR SETTING 0709 
+    }
+    private void CheckIndicator(INDICATOR indicator)
+    {
+        switch (indicator)
+        {
+            case INDICATOR.TEXT:
+                indicator_1 ??= Create_Indicator_var_1();
+                break;
+            case INDICATOR.MARK:
+                indicator_2 ??= Create_Indicator_var_2();
+                break;
+            case INDICATOR.BOTH:
+                break;
+            default:
+                break;
         }
-        //INDICATOR SETTING 0702
     }
 
     private void SettingCapsule()
@@ -199,28 +219,28 @@ public class EncapsulationField : MonoBehaviour
         Main.canRespawn = true;
     }
 
-    #region Requir 
-    public void ApplyActive(int amount) //only Server
+    #region Main
+    public void ApplyActive(int inc,uint id = 9999) //only Server
     {
-        curActiveRequirAmount += amount;
-        if (isCapsuling)
-        {
+        curActiveRequirAmount += inc;
+       
             if (Net.data.indicator == INDICATOR.TEXT)
             {
-                Net.ApplyActive_Sync_var1(curActiveRequirAmount);
+                Net.Rpc_ApplyActive_Sync_var1(curActiveRequirAmount);
             }
             else if (Net.data.indicator == INDICATOR.MARK)
             {
-                
-            }else if (Net.data.indicator == INDICATOR.BOTH)
-            {
+                Net.Rpc_ApplyActive_Sync_var2(inc, id);
 
+                return;
             }
-        }
+            else if (Net.data.indicator == INDICATOR.BOTH)
+            {
+                return;
+            }
+            
 
-       
-
-        if (curActiveRequirAmount == activeRequirAmount)
+            if (curActiveRequirAmount == activeRequirAmount)
             {
                 // UnCapsuling();
                 if (!isCapsuling)
@@ -230,6 +250,8 @@ public class EncapsulationField : MonoBehaviour
 
                 Net.Rpc_UnCapsuling();
             }
+        
+
 
     }
 

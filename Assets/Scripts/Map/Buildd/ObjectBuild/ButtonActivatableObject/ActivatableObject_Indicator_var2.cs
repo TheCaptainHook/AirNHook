@@ -30,6 +30,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
     [ReadOnly]
     public ActivatableObject_Net_Entity net;
 
+#region Default
     public void Setting(ActivatableObjectEntity entity, ActivatableObject_Net_Entity net)
     {
         this.entity = entity;
@@ -48,19 +49,110 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
         transform.SetParent(termTr);
         // gameObject.SetActive(false);
 
-        activeRequirAmount = net.data.activeRequirAmount;
-
         itemWaitStack = new();
         itemCurActiveList = new();
-        //--------------------------------------------------------------------------------Renewal 0704
-        // for (int i = activeRequirAmount - 1; i >= 0; i--)
-        // {
-        //     itemWaitStack.Push(CreateItem());
-        // }
+
+        activeRequirAmount = net.data.activeRequirAmount;
+
+
         CreateItemAndSorting(net.data);
-        //--------------------------------------------------------------------------------Renewal 0704
 
     }
+    #endregion
+
+    #region  Encapsulation Field
+    public EncapsulationField encapsulationField;
+    public TransportItemEntity transportItemEntity;
+    private Vector2 encapsulationOffset = new Vector2(0, -1.5f);
+    public void Setting(EncapsulationField encapsulationField, TransportItemEntity transportItemEntity)
+    {
+        this.encapsulationField = encapsulationField;
+        this.transportItemEntity = transportItemEntity;
+        mainTr = transportItemEntity.gameObject.transform;
+
+        transform.position = mainTr.position + (Vector3)encapsulationOffset;
+
+        var termTr = MapEditor.Instance.dontSaveObjectTransform;
+        transform.SetParent(termTr);
+ 
+        itemWaitStack = new();
+        itemCurActiveList = new();
+
+        activeRequirAmount = transportItemEntity.data.activeRequireAmount;
+
+        CreateItemAndSorting(transportItemEntity.data);
+    }
+    private void CreateItemAndSorting(ObjectData data)
+    {
+        float totalLength = item_Space * (data.activeRequireAmount - 1); // 총 길이
+        Vector3 startPot = transform.position - new Vector3(totalLength / 2f, 0, 0);
+          for (int i = activeRequirAmount - 1; i >= 0; i--)
+            {
+                var item = CreateItem();
+                itemWaitStack.Push(item);
+                item.transform.position = startPot + new Vector3(item_Space * i, 0, 0) ;
+            }
+    }
+    public void SetApplyActive_EncapsulationField(int inc, uint id)
+    {
+        Transform target = NetworkClient.spawned.TryGetValue(id, out var targetObject) ? targetObject.transform : null;
+        if (target == null) return;
+
+        if (inc == 1)
+        {
+            if (itemWaitStack.Count == 0)
+            {
+
+                return;
+            }
+
+            var lineUtility = GetLine();
+            var item = itemWaitStack.Pop();
+            //itemCurActiveList.Add((id, item, data));
+            itemCurActiveList.Add(lineUtility);
+            lineUtility.SettingAndDrawLine(id, item, target, () => SetApplyActive_EncapsultationField(1));
+
+        }
+        else
+        {
+            for (int i = 0; i < itemCurActiveList.Count; i++)
+            {
+                if (itemCurActiveList[i].id == id)
+                {
+                    var curActiveData = itemCurActiveList[i];
+                    itemCurActiveList.RemoveAt(i);
+
+                    curActiveData.Erase(this, () => SetApplyActive_EncapsultationField(-1));
+                    return;
+                }
+            }
+        }
+    }
+    private void SetApplyActive_EncapsultationField(int inc)
+    {
+        if (inc == 1) curActiveRequirAmount++;
+        else curActiveRequirAmount--;
+
+        if (curActiveRequirAmount < 0) curActiveRequirAmount = 0;
+
+        if (curActiveRequirAmount == activeRequirAmount)
+        {
+            if (!encapsulationField.isCapsuling) return;
+            
+            foreach (var item in itemCurActiveList)
+            {
+                item.Fade(true);
+            }
+
+
+            if (NetworkServer.active)
+                transportItemEntity.Rpc_UnCapsuling();
+          
+        }
+
+    }
+    #endregion
+
     private float item_Space = 0.3f;
     private void CreateItemAndSorting(ButtonActivatableObjectStruct data)
     {
@@ -78,7 +170,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
             }
     
     }
-  
+   
     //--------------------------------------------------------------------------------Renewal 0704
 
 
@@ -121,7 +213,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
 
     }
 
-    public void SetApplyActive(int inc)
+    public void SetApplyActive(int inc) //Check curActiveRequirAmount
     {
         if (inc == 1) curActiveRequirAmount++;
         else curActiveRequirAmount--;

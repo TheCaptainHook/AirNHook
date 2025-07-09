@@ -61,7 +61,6 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
     }
     public override void FindTargetObject()
     {
-
         List<GameObject> objList = new();
         foreach (Vector2 vec in targetPosition)
         {

@@ -241,12 +241,18 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     #endregion
 
     #region  Indicator
-    
-    
+
+
     [ClientRpc]
-    public virtual void ApplyActive_Sync_var1(int curActiveAmount) //server
+    public virtual void Rpc_ApplyActive_Sync_var1(int curActiveAmount) //server
     {
-        EncapsulationField.indicator_var1.SetApplyActive(curActiveAmount);
+        EncapsulationField.indicator_1.SetApplyActive_EncapsulationField(curActiveAmount);
+    }
+
+    [ClientRpc]
+    public virtual void Rpc_ApplyActive_Sync_var2(int inc,uint id)
+    {
+        EncapsulationField.indicator_2.SetApplyActive_EncapsulationField(inc, id);
     }
     #endregion
 

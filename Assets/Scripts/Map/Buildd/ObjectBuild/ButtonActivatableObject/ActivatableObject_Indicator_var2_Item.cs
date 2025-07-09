@@ -1,29 +1,25 @@
-using ANH_MapEditor;
-using Mirror;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
 {
-    [ReadOnly]
-    public Transform targetTr;
+    // [ReadOnly]
+    // public Transform targetTr;
 
-    [SerializeField] PathFinder pathFinder;
+    // [SerializeField] PathFinder pathFinder;
 
     // [ReadOnly]
     // public LineRenderer lineRenderer;
     [SerializeField] SpriteRenderer mainSprite;
 
-    [ReadOnly]
-    public uint targetId;
+    // [ReadOnly]
+    // public uint targetId;
 
 
-    [ReadOnly]
-    public bool onActive = false;
-    [ReadOnly]
-    public bool onDraw = false;
+    // [ReadOnly]
+    // public bool onActive = false;
+    // [ReadOnly]
+    // public bool onDraw = false;
 
     // public bool Setting(uint id, int inc)
     // {
@@ -68,8 +64,7 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
     //--------------------------------------------------------------------------------Renewal 0704
 
     #region Draw,Erase Coroutine
-    public bool onPrograss;
-    private float drawSpeed = 30f;
+    // public bool onPrograss;
 
 
     #region Draw
@@ -188,11 +183,11 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
     #endregion
 
     #region  Mark. (TEST/0627)
-    public void Mark_Red()
-    {
-        mainSprite.enabled = true;
-        mainSprite.color = Color.red;
-    }
+    // public void Mark_Red()
+    // {
+    //     mainSprite.enabled = true;
+    //     mainSprite.color = Color.red;
+    // }
     public void Mark_Green()
     {
         mainSprite.enabled = true;
@@ -207,11 +202,11 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
 
 
     #region Fade
-    public bool isFading;
-    float maxAlpha = 1;
-    float minAlpha = 0.05f;
-    float duration = 1;
-    public Coroutine satisfyConditionCoroutine;
+    // public bool isFading;
+    // float maxAlpha = 1;
+    // float minAlpha = 0.05f;
+    // float duration = 1;
+    // public Coroutine satisfyConditionCoroutine;
     // public void SatisfyCondition_FadeOutLine()
     // {
     //     if (satisfyConditionCoroutine != null) StopCoroutine(satisfyConditionCoroutine);
