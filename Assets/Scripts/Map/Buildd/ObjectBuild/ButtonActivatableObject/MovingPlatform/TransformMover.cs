@@ -35,9 +35,10 @@ public class TransformMover : NetworkBehaviour
     RaycastHit2D hit;
     Vector3 offset;
 
+
+    public bool startSync;
     private void FixedUpdate()
     {
-
         Vector3 offset = new Vector3(0, col.bounds.extents.y, 0);
 
         hit = Physics2D.Raycast(transform.position - offset + layOffset, -Vector2.up, 0.5f, movingPlatformLayer);
@@ -46,32 +47,42 @@ public class TransformMover : NetworkBehaviour
 #endif
         if (hit.collider != null)
         {
-            if (ClientToServer())
+            //if (ClientToServer())
+            //{
+            //    if (hit.collider.TryGetComponent(out MovingPlatform component) && Identity.isOwned)
+            //    {
+            //        if(!startSync)
+            //        {
+            //            startSync = true;
+
+            //        }
+            //        rb.position += component.dir;
+            //    }
+
+            //    if (hit.collider.TryGetComponent(out WDMP_Net component2) && Identity.isOwned)
+            //    {
+            //        rb.position += component2.moveDir * component2.step;
+            //    }
+            //}
+            //else
+            //{
+            //    if (hit.collider.TryGetComponent(out MovingPlatform component) && Identity.isServer)
+            //    {
+            //        rb.position += component.dir;
+            //    }
+
+            //    if (hit.collider.TryGetComponent(out WDMP_Net component2) && Identity.isServer)
+            //    {
+            //        rb.position += component2.moveDir * component2.step;
+            //    }
+            //}
+            if (hit.collider.TryGetComponent(out MovingPlatform component))
             {
-                if (hit.collider.TryGetComponent(out MovingPlatform component) && Identity.isOwned)
-                {
-                    rb.position += component.dir;
-                }
-
-                if (hit.collider.TryGetComponent(out WDMP_Net component2) && Identity.isOwned)
-                {
-                    rb.position += component2.moveDir * component2.step;
-                }
-            }
-            else
-            {
-                if (hit.collider.TryGetComponent(out MovingPlatform component) && Identity.isServer)
-                {
-                    rb.position += component.dir;
-                }
-
-                if (hit.collider.TryGetComponent(out WDMP_Net component2) && Identity.isServer)
-                {
-                    rb.position += component2.moveDir * component2.step;
-                }
+                rb.position += component.dir;
             }
 
-         
+
+
         }
 
     }
