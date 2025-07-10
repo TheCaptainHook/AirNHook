@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class UI_Bug_Report : MonoBehaviour
 {
     [SerializeField] TMP_InputField inputField;
+    [SerializeField] TMP_Dropdown dropdown;
     [SerializeField] Button sendButton;
 
     #region Wait Popup
@@ -23,7 +24,7 @@ public class UI_Bug_Report : MonoBehaviour
         
     }
 
-    private string url = "https://script.google.com/macros/s/AKfycbytEO_r0M_tUjki68bZzwdKpabmoI9yytIbAguka7_qLOaAd9Xb3c0qc32L6PPy_g/exec";
+    private string url = "https://script.google.com/macros/s/AKfycbyO1ZHhpfdUWEJmC5tz9VKEyOJPY4QlFQCckIqvp7UKQn4jIuPR41jy9t0kM-j9iDJY/exec";
 
 
     public void SendReport()
@@ -36,6 +37,7 @@ public class UI_Bug_Report : MonoBehaviour
         ReportData report = new ReportData
         {
             id = id.m_SteamID.ToString(),
+            tag = dropdown.options[dropdown.value].text,
             nickName = SteamFriends.GetPersonaName(),
             content = inputField.text
         };
@@ -86,6 +88,7 @@ public class UI_Bug_Report : MonoBehaviour
 public class ReportData
 {
     public string id;
+    public string tag;
     public string nickName;
     public string content;
 }
