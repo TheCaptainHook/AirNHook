@@ -20251,7 +20251,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2005102887669488765, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2062232433427649179, guid: 4551ccf33507af145b570abe87ec6c00, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -20730,6 +20730,10 @@ PrefabInstance:
     - target: {fileID: 934569682531941695, guid: 5d2c197fbd5c9a84b9c87699ac0f03eb, type: 3}
       propertyPath: m_Name
       value: UI_Bug_Report
+      objectReference: {fileID: 0}
+    - target: {fileID: 934569682531941695, guid: 5d2c197fbd5c9a84b9c87699ac0f03eb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1040486587225434969, guid: 5d2c197fbd5c9a84b9c87699ac0f03eb, type: 3}
       propertyPath: dropdown
