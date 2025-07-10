@@ -1,6 +1,7 @@
 
 using DG.Tweening.Core.Easing;
 using Mirror;
+using System.ComponentModel;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -39,14 +40,15 @@ public class TransformMover : NetworkBehaviour
     public bool startSync;
 
 
-    private MovingPlatform preMp;
+    private uint preMpId;
+
     private void FixedUpdate()
     {
         Vector3 offset = new Vector3(0, col.bounds.extents.y, 0);
 
-        hit = Physics2D.Raycast(transform.position - offset + layOffset, -Vector2.up, 0.5f, movingPlatformLayer);
+        hit = Physics2D.Raycast(transform.position - offset + layOffset, -Vector2.up, 0.6f, movingPlatformLayer);
 #if UNITY_EDITOR
-        Debug.DrawRay(transform.position -offset + layOffset,-Vector2.up * 0.5f, Color.green);
+        Debug.DrawRay(transform.position -offset + layOffset,-Vector2.up * 0.6f, Color.green);
 #endif
         if (hit.collider != null)
         {
@@ -54,10 +56,12 @@ public class TransformMover : NetworkBehaviour
             {
                 if(!startSync)
                 {
-                    startSync = true;
-                    preMp = component;
-                    preMp.netRb.enabled = true;
+                   if(isServer)
+                    {
+                        Rpc_MovingPlatformNetRbEnable(GetNetId(component.GetComponent<NetworkIdentity>()),true);
+                    }
                 }
+
                 rb.position += component.dir;
             }
 
@@ -66,14 +70,31 @@ public class TransformMover : NetworkBehaviour
         {
             if (startSync)
             {
-                startSync = false;
-                preMp.netRb.enabled = false;
-                preMp = null;
+              if(isServer)
+               {
+                    Rpc_MovingPlatformNetRbEnable(preMpId, false);
+                }
             }
         }
 
     }
-
+    private uint GetNetId(NetworkIdentity identity)
+    {
+        return identity.netId;
+    }
+    [ClientRpc]
+    private void Rpc_MovingPlatformNetRbEnable(uint id,bool onoff)
+    {
+        var item = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity identity) ? identity : null;
+        if (item != null)
+        {
+            var mp = item.GetComponent<MovingPlatform>();
+            preMpId = onoff ? id : 9999;
+            startSync = onoff;
+            mp.netRb.enabled = onoff;
+        }
+       
+    }
 
     private bool ClientToServer()
     {

@@ -21214,8 +21214,11 @@ MonoBehaviour:
   movingPlatformLayer:
     serializedVersion: 2
     m_Bits: 0
-  layOffset: {x: 0, y: 0.5, z: 0}
+  layOffset: {x: 0, y: 0.7, z: 0}
   col: {fileID: 0}
+  rb: {fileID: 0}
+  netRb: {fileID: 0}
+  startSync: 0
 --- !u!1773428102 &-179602218080930353
 ParentConstraint:
   m_ObjectHideFlags: 0
