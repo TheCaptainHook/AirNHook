@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using System;
+using Mirror;
 
 public class MovingPlatform :  ActivatableObjectEntity
 {
@@ -36,10 +37,11 @@ public class MovingPlatform :  ActivatableObjectEntity
     
     
     private MovingPlatform_Net MovingPlatform_Net;
-
+    public NetworkRigidbodyUnreliable2D netRb;
     protected override void Awake()
     {
         MovingPlatform_Net = GetComponent<MovingPlatform_Net>();
+        netRb = GetComponent<NetworkRigidbodyUnreliable2D>();
     }
 
     #region  GET,SET (Will take care this logic)

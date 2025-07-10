@@ -37,6 +37,9 @@ public class TransformMover : NetworkBehaviour
 
 
     public bool startSync;
+
+
+    private MovingPlatform preMp;
     private void FixedUpdate()
     {
         Vector3 offset = new Vector3(0, col.bounds.extents.y, 0);
@@ -47,42 +50,26 @@ public class TransformMover : NetworkBehaviour
 #endif
         if (hit.collider != null)
         {
-            //if (ClientToServer())
-            //{
-            //    if (hit.collider.TryGetComponent(out MovingPlatform component) && Identity.isOwned)
-            //    {
-            //        if(!startSync)
-            //        {
-            //            startSync = true;
-
-            //        }
-            //        rb.position += component.dir;
-            //    }
-
-            //    if (hit.collider.TryGetComponent(out WDMP_Net component2) && Identity.isOwned)
-            //    {
-            //        rb.position += component2.moveDir * component2.step;
-            //    }
-            //}
-            //else
-            //{
-            //    if (hit.collider.TryGetComponent(out MovingPlatform component) && Identity.isServer)
-            //    {
-            //        rb.position += component.dir;
-            //    }
-
-            //    if (hit.collider.TryGetComponent(out WDMP_Net component2) && Identity.isServer)
-            //    {
-            //        rb.position += component2.moveDir * component2.step;
-            //    }
-            //}
             if (hit.collider.TryGetComponent(out MovingPlatform component))
             {
+                if(!startSync)
+                {
+                    startSync = true;
+                    preMp = component;
+                    preMp.netRb.enabled = true;
+                }
                 rb.position += component.dir;
             }
 
 
-
+        }else
+        {
+            if (startSync)
+            {
+                startSync = false;
+                preMp.netRb.enabled = false;
+                preMp = null;
+            }
         }
 
     }
