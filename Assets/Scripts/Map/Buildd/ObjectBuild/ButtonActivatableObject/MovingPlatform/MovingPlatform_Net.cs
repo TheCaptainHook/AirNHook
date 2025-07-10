@@ -180,7 +180,8 @@ public class MovingPlatform_Net : NetworkBehaviour
 
   
     private Vector2 previousTargetPosition;
-    private void FixedUpdate()
+
+    private void Update()
     {
         if (!isServer) return;
         if (!onFixedUpdataReady) return;
@@ -209,8 +210,38 @@ public class MovingPlatform_Net : NetworkBehaviour
             Rpc_SetTargetPosition(previousTargetPosition, targetPosition);
 
         }
-
     }
+    //private void FixedUpdate()
+    //{
+    //    if (!isServer) return;
+    //    if (!onFixedUpdataReady) return;
+
+    //    if (CheckDistance(RB.position, targetPosition))
+    //    {
+    //        // RB.position = targetPosition;
+    //        previousTargetPosition = targetPosition;
+    //        index += increment;
+
+    //        if (index >= maxIndex || index < 0)
+    //        {
+    //            if (index >= maxIndex && dataPath.paths[maxIndex - 1] == dataPath.paths[0])
+    //            {
+    //                index = 0;
+    //            }
+    //            else
+    //            {
+    //                increment *= -1;
+    //                index += increment;
+    //            }
+    //        }
+
+    //        targetPosition = dataPath.paths[index];
+    //        //ClientRpc targetPositon sync
+    //        Rpc_SetTargetPosition(previousTargetPosition, targetPosition);
+
+    //    }
+
+    //}
 
     private bool CheckDistance(Vector2 curPos, Vector2 targetPos)
     {

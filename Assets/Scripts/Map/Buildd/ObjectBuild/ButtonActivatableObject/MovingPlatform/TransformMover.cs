@@ -82,39 +82,6 @@ public class TransformMover : NetworkBehaviour
         if (netRb.syncDirection == SyncDirection.ServerToClient) return false;
         else return true;
     }
-//#if UNITY_EDITOR
-//    private void OnDrawGizmos()
-//    {
-
-//        Bounds bounds = GetComponent<Collider2D>().bounds;
-
-//        Vector3 offset = new Vector3(0, transform.position.y + bounds.extents.y, 0);
-
-//        Gizmos.color = Color.red;
-//        Gizmos.DrawRay(transform.position - offset, -Vector3.up * 0.1f);
-
-//    }
-//#endif
-
-
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.TryGetComponent(out MovingPlatform movingPlatform) && identity.isOwned)
-    //    {
-    //        var platformID = movingPlatform.TryGetComponent(out NetworkIdentity identity) ? identity.netId : nullNetID;
-    //        Cmd_SetTransform(platformID,transform.position);
-    //    }
-
-    //}
-    //private void OnCollisionExit2D(Collision2D collision)
-    //{
-    //    if (movingPlatform)
-    //    {
-    //        Cmd_SetTransform(nullNetID, transform.position);
-    //    }
-
-    //}
-
 
 
 
