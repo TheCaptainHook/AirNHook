@@ -5,7 +5,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using Unity.EditorCoroutines.Editor;
 using UnityEngine.SceneManagement;
 
 [ExecuteInEditMode]
@@ -235,11 +234,11 @@ public class TeslaNodeRod_LineToTarget : MonoBehaviour
         lineRenderer.startColor = color;
         lineRenderer.endColor = color;
 
-        lineRenderer.startWidth = 0.1f;
-        lineRenderer.endWidth = 0.1f;
+        lineRenderer.startWidth = 0.05f;
+        lineRenderer.endWidth = 0.05f;
         lineRenderer.positionCount = 0;
-        lineRenderer.sortingLayerName = "ForeGround";
-        lineRenderer.sortingOrder = 10000;
+        lineRenderer.sortingLayerName = "Map/Tiles";
+        lineRenderer.sortingOrder = 3;
         obj.transform.SetParent(debugTr);
 
         return lineRenderer;

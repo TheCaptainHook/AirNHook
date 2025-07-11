@@ -65,7 +65,7 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
         animator = GetComponent<Animator>();
     }
 
- #region Get,Set
+    #region Get,Set
     // public override T GetData<T>()
     // {
     //     if (typeof(T) == typeof(ButtonObjectStruct))
@@ -86,39 +86,15 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
 
     public override void SetData<T>(T data)
     {
-        try
+        base.SetData(data);
+        chargeRequired = ButtonObjectData.chargeRequired;
+
+        if (Application.isPlaying)
         {
-            if (typeof(T) == typeof(ButtonObjectStruct))
-            {
-                ButtonObjectStruct buttonData = (ButtonObjectStruct)(object)data;
-                ButtonObjectData = buttonData;
-                FindTargetObject();
-
-                if(buttonData.lightPositions.Count >0) FindLightObject();
-                if (buttonData.encapsulationItems.Count > 0) FindEncapsulationItem();
-                
-                //---------------------------------------------------------------------Use ChargeRequired
-                chargeRequired = buttonData.chargeRequired;
-                if (Application.isPlaying)
-                {
-                    //energyIcon.SetActive(ButtonObjectData.chargeRequired);
-                    ToggleButton_Net.onSync = true;
-                    ToggleButton_Net.Server_SetInit();
-
-
-                    ToggleButton_Net.Server_SetChargeRequired(chargeRequired);
-                }   
-                   
-                //ToggleButton_Net.Server_SetInit();
-
-                //---------------------------------------------------------------------Use ChargeRequired
-            }
-
-        }
-        catch (Exception ex)
-        {
-            Debug.Log($"name : {gameObject.name},{ex}");
-        }
+            ToggleButton_Net.onSync = true;
+            ToggleButton_Net.Server_SetInit();
+            ToggleButton_Net.Server_SetChargeRequired(chargeRequired);
+        }   
     }
 #endregion
 

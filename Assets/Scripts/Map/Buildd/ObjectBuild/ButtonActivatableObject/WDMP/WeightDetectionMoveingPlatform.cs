@@ -77,11 +77,11 @@ public class WeightDetectionMoveingPlatform : ActivatableObjectEntity
 
 
 
-    private void Update()
-    {
-        // if(Net.onActive) ShootRay();
+    // private void Update()
+    // {
+    //     // if(Net.onActive) ShootRay();
         
-    }
+    // }
 
     // - : right
     // + : left

@@ -34,7 +34,7 @@ public class TransformMover : NetworkBehaviour
     }
 
     RaycastHit2D hit;
-    Vector3 offset;
+    // Vector3 offset;
 
 
     public bool startSync;
@@ -44,38 +44,40 @@ public class TransformMover : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        Vector3 offset = new Vector3(0, col.bounds.extents.y, 0);
+        // Vector3 offset = new Vector3(0, col.bounds.extents.y, 0);
+        float offset = col.bounds.extents.y + 0.2f;
 
-        hit = Physics2D.Raycast(transform.position - offset + layOffset, -Vector2.up, 0.6f, movingPlatformLayer);
+        // hit = Physics2D.Raycast(transform.position - offset + layOffset, -Vector2.up, 0.6f, movingPlatformLayer);
+        hit = Physics2D.Raycast(col.bounds.center, Vector2.down,offset, movingPlatformLayer);
 #if UNITY_EDITOR
-        Debug.DrawRay(transform.position -offset + layOffset,-Vector2.up * 0.6f, Color.green);
+        Debug.DrawRay(col.bounds.center,-Vector2.up * offset, Color.green);
 #endif
-        //if (hit.collider != null)
-        //{
-        //    if (hit.collider.TryGetComponent(out MovingPlatform component))
-        //    {
-        //        if(!startSync)
-        //        {
-        //           if(isServer)
-        //            {
-        //                Rpc_MovingPlatformNetRbEnable(GetNetId(component.GetComponent<NetworkIdentity>()),true);
-        //            }
-        //        }
+        if (hit.collider != null)
+        {
+           if (hit.collider.TryGetComponent(out MovingPlatform component))
+           {
+               if(!startSync)
+               {
+                  if(isServer)
+                   {
+                       Rpc_MovingPlatformNetRbEnable(GetNetId(component.GetComponent<NetworkIdentity>()),true);
+                   }
+               }
 
-        //        rb.position += component.dir;
-        //    }
+               rb.position += component.dir;
+           }
 
 
-        //}else
-        //{
-        //    if (startSync)
-        //    {
-        //      if(isServer)
-        //       {
-        //            Rpc_MovingPlatformNetRbEnable(preMpId, false);
-        //        }
-        //    }
-        //}
+        }else
+        {
+           if (startSync)
+           {
+             if(isServer)
+              {
+                   Rpc_MovingPlatformNetRbEnable(preMpId, false);
+               }
+           }
+        }
 
     }
     private uint GetNetId(NetworkIdentity identity)

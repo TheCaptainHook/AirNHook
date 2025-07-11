@@ -38,24 +38,6 @@ public class PowerSupply : ButtonEntity,IInteractable
     #region  Get,Set
 
 
-    // public override T GetData<T>()
-    // {
-    //     if (typeof(T) == typeof(ButtonObjectStruct))
-    //     {
-    //         return (T)(object)new ButtonObjectStruct(
-    //             id, 
-    //         GetTargetPositions(), 
-    //         GetLightPositions(),
-    //         GetEncapsulationTiems(),
-    //         transform.position, 
-    //         transform.rotation,
-    //         transform.localScale, 
-    //         false);
-    //     }
-
-    //     return default(T);
-    // }
-
     protected override List<Vector2> GetTargetPositions()
     {
         List<Vector2> list = new();
@@ -141,12 +123,7 @@ public class PowerSupply : ButtonEntity,IInteractable
                 if(toggle) component.PowerOn();
                 else component.PowerOff();
             }
-            // if(item.TryGetComponent(out ActivatableObjectEntity activatableObjectEntity))
-            // {
-            //     if(toggle) activatableObjectEntity.ApplyActive(1);
-            //     else activatableObjectEntity.ApplyActive(-1);
-                
-            // }
+
         }
         foreach(var item in lightObjects)
         {

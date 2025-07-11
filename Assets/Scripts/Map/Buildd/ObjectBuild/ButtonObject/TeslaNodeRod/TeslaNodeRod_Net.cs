@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System;
+using UnityEngine.Assertions.Must;
 
 public class TeslaNodeRod_Net : NetworkBehaviour
 {
@@ -100,7 +102,17 @@ public class TeslaNodeRod_Net : NetworkBehaviour
             Vector2 endPot = data.targetPositions[i];
             LineRenderer line = GeneratorLineRenderer();
             lineArr[i] = line;
-            SetLine(line, pathFinder.FindPath(startPot, endPot, false, Direction_Type.Four));
+
+            StartCoroutine(pathFinder.FindPathCoroutine(startPot, endPot, path =>
+            {
+                if (path != null)
+                {
+                    SetLine(line,path);
+                }   
+                
+            }));
+
+            // SetLine(line, pathFinder.FindPath(startPot, endPot, false, Direction_Type.Four));
         }
 
     }
@@ -131,15 +143,20 @@ public class TeslaNodeRod_Net : NetworkBehaviour
 
         return lineRenderer;
     }
+    [SerializeField] Material activeMat;
+    [SerializeField] Material deactiveMat;
     public void LineActive()
     {
         for (int i = 0; i < lineArr.Length; i++)
         {
             var line = lineArr[i];
-                //TEST
-            line.startColor = Color.blue;
-            line.endColor = Color.blue;
-                //TEST
+            //TEST
+            line.material = activeMat;
+            line.startWidth = 0.5f;
+            line.endWidth = 0.5f;
+            // line.startColor = Color.blue;
+            // line.endColor = Color.blue;
+            //TEST
         }
     }
     public void LineDeActive()
@@ -147,10 +164,13 @@ public class TeslaNodeRod_Net : NetworkBehaviour
         for (int i = 0; i < lineArr.Length; i++)
         {
             var line = lineArr[i];
-                //TEST
-            line.startColor = Color.white;
-            line.endColor = Color.white;
-                //TEST
+            //TEST
+            line.material = deactiveMat;
+            line.startWidth = 0.05f;
+            line.endWidth = 0.05f;
+            // line.startColor = Color.white;
+            // line.endColor = Color.white;
+            //TEST
         }
     }
     #endregion

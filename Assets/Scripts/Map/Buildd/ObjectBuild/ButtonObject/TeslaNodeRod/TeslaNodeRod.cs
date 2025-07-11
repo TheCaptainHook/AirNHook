@@ -16,7 +16,7 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
     }
 
     #region Get,Set
-    public override void SetData<T>(T data)
+    public override async void SetData<T>(T data)
     {
         try
         {
@@ -24,15 +24,20 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
             {
                 ButtonObjectStruct buttonData = (ButtonObjectStruct)(object)data;
                 ButtonObjectData = buttonData;
-                FindTargetObject();
-                if (buttonData.lightPositions.Count > 0) FindLightObject();
-                if (buttonData.encapsulationItems.Count > 0) FindEncapsulationItem();
 
-                if (Application.isPlaying)
+                await util.Delay(() =>
                 {
-                    net.Server_InitSync();
+                    FindTargetObject();
+                    if (buttonData.lightPositions.Count > 0) FindLightObject();
+                    if (buttonData.encapsulationItems.Count > 0) FindEncapsulationItem();
 
-                }
+                    if (Application.isPlaying)
+                    {
+                        net.Server_InitSync();
+                    }
+                });
+               
+               
 
             }
         }
@@ -151,7 +156,7 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
     {
         //Effect Rpc
             //TEST
-        head.color = Color.blue;
+        // head.color = Color.blue;
             //TEST
         net.LineActive();
         //Effect Rpc
@@ -165,7 +170,7 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
     {
         //Effect Rpc
             //TEST
-        head.color = Color.red;
+        // head.color = Color.red;
             //TEST
         net.LineDeActive();
         //Effect Rpc
@@ -182,8 +187,7 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
         {
             if (obj.TryGetComponent(out IPowerConsumer consumer))
             {
-                if(onActivate)
-                consumer.PowerOn();
+                if(onActivate)consumer.PowerOn();
                 else consumer.PowerOff();
             }
 
@@ -241,7 +245,6 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
 
 #if UNITY_EDITOR
     #region Editor
-    private Util util = new();
     public async override void Editor_Setting(MapEditor mapEditor)
     {
         //if(targetPosition.Count == 0) return;
@@ -263,8 +266,6 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
                         }
                     }
                 }
-
-                if (matchedObj != null) continue;
 
                 foreach (Transform tr in mapEditor.buttonObjectTransform)
                 {

@@ -62,18 +62,18 @@ public class LightObject_Net : NetworkBehaviour
     [SyncVar] public bool chargeRequired;
     
     [Server]
-    private void Server_SetHasPower(bool hasPower)
+    public void Server_SetHasPower(bool hasPower)
     {
         if(hasPower) this.hasPower++;
         else this.hasPower--;
         
         // this.hasPower = hasPower;
     }
-    [Command(requiresAuthority = false)]
-    public void Cmd_SetHasPower(bool hasPower)
-    {
-        Server_SetHasPower(hasPower);
-    }
+    // [Command(requiresAuthority = false)]
+    // public void Cmd_SetHasPower(bool hasPower)
+    // {
+    //     Server_SetHasPower(hasPower);
+    // }
 
 
     //[Server]

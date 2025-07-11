@@ -26,7 +26,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     private (int leftCount, int rightCount) leftAndRightCounts;
     [ReadOnly]
     public float weightResult = 0;
-    private float sendMsgRate = 0.1f;
+    private float sendMsgRate = 0.05f;
     private float curSendMsgRate = 1;
 
     public float CurRotation => Rb.rotation;
@@ -339,7 +339,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
         var items = GetPath(data);
         maxDis_Clamp = items.max;
         minDis_Clamp = items.min;
-        targetPosition = items.target;
+        targetPosition = items.target == Vector2.zero ? data.position : items.target;
 
         CreateRail(data.position, targetPosition);
 

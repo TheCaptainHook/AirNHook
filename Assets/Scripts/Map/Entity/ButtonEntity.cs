@@ -110,21 +110,31 @@ public class ButtonEntity : BuildObj
 
 
     #region  GET,SET
-
-    public override void SetData<T>(T data)
+    protected Util util = new();
+    
+    public override async void SetData<T>(T data)
     {
-        try {
+        try
+        {
             if (typeof(T) == typeof(ButtonObjectStruct))
             {
                 ButtonObjectStruct buttonData = (ButtonObjectStruct)(object)data;
                 ButtonObjectData = buttonData;
-                FindTargetObject();
 
-                if (buttonData.lightPositions.Count > 0) FindLightObject();
-                if (buttonData.encapsulationItems.Count > 0) FindEncapsulationItem();
+                await util.Delay(() =>
+                {
+                    FindTargetObject();
+
+                    if (buttonData.lightPositions.Count > 0) FindLightObject();
+                    if (buttonData.encapsulationItems.Count > 0) FindEncapsulationItem();
+                
+                });
+                
             }
 
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             Debug.Log($"name : {gameObject.name},{ex}");
         }
 

@@ -71,7 +71,6 @@ public class LeverBody : ButtonEntity, IInteractable
 
     protected override void Activation()
     {
-
         PrograssButtonActivatedObject(true);
     }
     protected override void Deactivated()
