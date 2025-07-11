@@ -2,7 +2,6 @@ using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class TeslaNodeRod : ButtonEntity,IPowerConsumer
@@ -17,23 +16,6 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
     }
 
     #region Get,Set
-    // public override T GetData<T>()
-    // {
-    //     if (typeof(T) == typeof(ButtonObjectStruct))
-    //     {
-    //         return (T)(object)new ButtonObjectStruct(
-    //         id, 
-    //         GetTargetPositions(), 
-    //         GetLightPositions(),
-    //         GetEncapsulationTiems(),
-    //         transform.position, 
-    //         transform.rotation,
-    //         transform.localScale, 
-    //         false);
-    //     }
-
-    //     return default(T);
-    // }
     public override void SetData<T>(T data)
     {
         try

@@ -214,8 +214,10 @@ public class ButtonEntity : BuildObj
             foreach (Transform obj in MapEditor.Instance.buttonActivatableObjectTransform) {
                 if (obj.TryGetComponent(out ActivatableObjectEntity component))
                 {
-                    if (CompareVec(component.ButtonActivatedObjectStruct.position, vec)) {
+                    if (CompareVec(component.ButtonActivatedObjectStruct.position, vec))
+                    {
                         objList.Add(obj.gameObject);
+                        break;
                     }
                 }
             }
@@ -257,7 +259,11 @@ public class ButtonEntity : BuildObj
                     if (CompareVec(buildObj.ObjectData.position, vec))
                     {
                         if (obj.TryGetComponent(out EncapsulationField field))
+                        {
                             list.Add(field);
+                            break;
+                        }
+                            
                     }
                 }
             }

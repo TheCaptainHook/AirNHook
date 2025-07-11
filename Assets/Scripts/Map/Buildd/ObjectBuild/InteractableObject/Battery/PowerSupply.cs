@@ -163,44 +163,44 @@ public class PowerSupply : ButtonEntity,IInteractable
 
     #region Find Target
 
-    public override void FindTargetObject()
-    {
-        // if(!Application.isPlaying) return;
+    // public override void FindTargetObject()
+    // {
+    //     // if(!Application.isPlaying) return;
 
-        List<GameObject> objList = new();
-        foreach(Vector2 vec in targetPosition){
-            GameObject matchedObj = null;
-            foreach(Transform tr in MapEditor.Instance.buttonActivatableObjectTransform){
-                if(tr.TryGetComponent(out ActivatableObjectEntity component))
-                {
-                  if(CompareVec(component.ButtonActivatedObjectStruct.position,vec))
-                  {
-                    matchedObj = tr.gameObject;
-                        objList.Add(matchedObj);
-                        break;
-                  }          
-                }
-            }
+    //     List<GameObject> objList = new();
+    //     foreach(Vector2 vec in targetPosition){
+    //         GameObject matchedObj = null;
+    //         foreach(Transform tr in MapEditor.Instance.buttonActivatableObjectTransform){
+    //             if(tr.TryGetComponent(out ActivatableObjectEntity component))
+    //             {
+    //               if(CompareVec(component.ButtonActivatedObjectStruct.position,vec))
+    //               {
+    //                 matchedObj = tr.gameObject;
+    //                     objList.Add(matchedObj);
+    //                     break;
+    //               }          
+    //             }
+    //         }
 
-            if(matchedObj != null) continue;
+    //         if(matchedObj != null) continue;
 
-            foreach(Transform tr in MapEditor.Instance.buttonObjectTransform){
-                if(tr.TryGetComponent(out ButtonEntity component))
-                {
-                  if(CompareVec(component.ButtonObjectData.position,vec))
-                  {
-                        objList.Add(tr.gameObject);
-                        break;
-                  }          
-                }
-            }
+    //         foreach(Transform tr in MapEditor.Instance.buttonObjectTransform){
+    //             if(tr.TryGetComponent(out ButtonEntity component))
+    //             {
+    //               if(CompareVec(component.ButtonObjectData.position,vec))
+    //               {
+    //                     objList.Add(tr.gameObject);
+    //                     break;
+    //               }          
+    //             }
+    //         }
             
-        }
+    //     }
 
-         targetObjects = objList;
-        //Network Sync
-        P_Net.Server_SetTargets(objList,targetPosition);
-    }
+    //      targetObjects = objList;
+    //     //Network Sync
+    //     P_Net.Server_SetTargets(objList,targetPosition);
+    // }
 
     public async override void Editor_Setting(MapEditor mapEditor)
     {
