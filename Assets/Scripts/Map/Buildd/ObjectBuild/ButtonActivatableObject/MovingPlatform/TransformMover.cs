@@ -50,32 +50,32 @@ public class TransformMover : NetworkBehaviour
 #if UNITY_EDITOR
         Debug.DrawRay(transform.position -offset + layOffset,-Vector2.up * 0.6f, Color.green);
 #endif
-        if (hit.collider != null)
-        {
-            if (hit.collider.TryGetComponent(out MovingPlatform component))
-            {
-                if(!startSync)
-                {
-                   if(isServer)
-                    {
-                        Rpc_MovingPlatformNetRbEnable(GetNetId(component.GetComponent<NetworkIdentity>()),true);
-                    }
-                }
+        //if (hit.collider != null)
+        //{
+        //    if (hit.collider.TryGetComponent(out MovingPlatform component))
+        //    {
+        //        if(!startSync)
+        //        {
+        //           if(isServer)
+        //            {
+        //                Rpc_MovingPlatformNetRbEnable(GetNetId(component.GetComponent<NetworkIdentity>()),true);
+        //            }
+        //        }
 
-                rb.position += component.dir;
-            }
+        //        rb.position += component.dir;
+        //    }
 
 
-        }else
-        {
-            if (startSync)
-            {
-              if(isServer)
-               {
-                    Rpc_MovingPlatformNetRbEnable(preMpId, false);
-                }
-            }
-        }
+        //}else
+        //{
+        //    if (startSync)
+        //    {
+        //      if(isServer)
+        //       {
+        //            Rpc_MovingPlatformNetRbEnable(preMpId, false);
+        //        }
+        //    }
+        //}
 
     }
     private uint GetNetId(NetworkIdentity identity)
