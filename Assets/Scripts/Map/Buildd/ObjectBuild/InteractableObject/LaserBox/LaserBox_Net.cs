@@ -24,34 +24,34 @@ public class LaserBox_Net : TransportItemEntity
 
     float percent;
 
-    [Server]
-    public void Server_DamageCount()
-    {
-        if(shutDownCoroutine == null)
-        {
-            curShutDownDelayCount = maxShutDownDelayCount;
-            shutDownCoroutine = StartCoroutine(ShutDownDelay());
-        }
-        else{
-            curShutDownDelayCount = maxShutDownDelayCount;
-        }
+    // [Server]
+    // public void Server_DamageCount()
+    // {
+    //     if(shutDownCoroutine == null)
+    //     {
+    //         curShutDownDelayCount = maxShutDownDelayCount;
+    //         shutDownCoroutine = StartCoroutine(ShutDownDelay());
+    //     }
+    //     else{
+    //         curShutDownDelayCount = maxShutDownDelayCount;
+    //     }
 
-        curCount++;
-        percent = curCount / maxCount;
-        float scale = Mathf.Lerp(minCharge, maxCharge, percent);
+    //     curCount++;
+    //     percent = curCount / maxCount;
+    //     float scale = Mathf.Lerp(minCharge, maxCharge, percent);
 
-        if(curCount>= maxCount)
-        {
-            StopCoroutine(ShutDownDelay());
-            //BOOM,Rpc
-            Server_Boom();
-            //BOOM
-        }
-        else
-        {
-            Rpc_ChangeFillSprite(scale);
-        }
-    }
+    //     if(curCount>= maxCount)
+    //     {
+    //         StopCoroutine(ShutDownDelay());
+    //         //BOOM,Rpc
+    //         Server_Boom();
+    //         //BOOM
+    //     }
+    //     else
+    //     {
+    //         Rpc_ChangeFillSprite(scale);
+    //     }
+    // }
 
 
     public Vector2 curLaserDir;
@@ -94,7 +94,7 @@ public class LaserBox_Net : TransportItemEntity
         base.Release(accssor);
         StopCoroutine(getDirCoroutine);
     }
-
+    #region Hook Grab
 
     Coroutine getDirCoroutine;
 
@@ -126,6 +126,18 @@ public class LaserBox_Net : TransportItemEntity
         return Vector2.right;
     }
 
+    #endregion
+
+    #region Air Inhaling
+    /**
+    Air.Inhaling -> item.Inhalation -> 
+    Air.FixInhaleTarget
+    
+        1. Air 에서 inhailing 호출
+        2. inhailing 호출하면 실행하는 코루틴 실행
+        3. 이이탬이 완전히 airgun에 붙었는지 까지 대기 후 airgun 위치에 따라 방향 전환
+    **/
+    #endregion
 
     #region BOOM
 
@@ -142,9 +154,9 @@ public class LaserBox_Net : TransportItemEntity
     {
         //Boom
         //OverlapCircle.
-
-        Rpc_Boom();
+        // Rpc_Boom();
         //Boom
+
         yield return new WaitForSeconds(1f);
         Rpc_Reset();
         Main.Respawn();
@@ -191,11 +203,11 @@ public class LaserBox_Net : TransportItemEntity
 
     }
 
-    [ClientRpc]
-    private void Rpc_Boom()
-    {
-        Main.onBoom = true;
-    }
+    // [ClientRpc]
+    // private void Rpc_Boom()
+    // {
+    //     Main.onBoom = true;
+    // }
 
     [ClientRpc]
     private void Rpc_Reset()
