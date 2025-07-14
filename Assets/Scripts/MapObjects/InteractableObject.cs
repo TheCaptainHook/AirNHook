@@ -240,7 +240,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     #endregion
 
     #region IInhalation
-    public void Inhalation(Transform accessor)
+    public virtual void Inhalation(Transform accessor)
     {
         _accessor = accessor;
     }
@@ -258,7 +258,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _rigidbody.freezeRotation = false;
     }
 
-    public void Fixed(bool value)
+    public virtual void Fixed(bool value)
     {
         if (_isDestroyed) return;
 

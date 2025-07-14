@@ -7106,7 +7106,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 349,
@@ -7141,7 +7142,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 351,
@@ -7176,7 +7178,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 349,
@@ -7211,7 +7214,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 351,
@@ -7246,7 +7250,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 351,
@@ -7281,7 +7286,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 347,
@@ -7316,7 +7322,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 300,
@@ -7351,7 +7358,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 352,
@@ -7386,7 +7394,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 318,
@@ -7421,7 +7430,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 318,
@@ -7456,7 +7466,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 303,
@@ -7491,7 +7502,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 303,
@@ -7526,7 +7538,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 303,
@@ -7561,13 +7574,14 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 303,
             "dialogueId": 0,
             "position": {
-                "x": 7.749000072479248,
+                "x": 7.75,
                 "y": -24.360000610351564
             },
             "quaternion": {
@@ -7596,13 +7610,14 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 303,
             "dialogueId": 0,
             "position": {
-                "x": 9.947999954223633,
+                "x": 9.949999809265137,
                 "y": -24.360000610351564
             },
             "quaternion": {
@@ -7631,7 +7646,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 356,
@@ -7666,7 +7682,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 356,
@@ -7701,7 +7718,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 356,
@@ -7736,7 +7754,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 356,
@@ -7771,7 +7790,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 303,
@@ -7806,7 +7826,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 355,
@@ -7841,7 +7862,8 @@
             "attackStartTime": 1.0,
             "attackCooldown": 6.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 355,
@@ -7876,7 +7898,8 @@
             "attackStartTime": 2.0,
             "attackCooldown": 6.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 355,
@@ -7911,7 +7934,8 @@
             "attackStartTime": 3.0,
             "attackCooldown": 6.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 355,
@@ -7946,7 +7970,8 @@
             "attackStartTime": 4.0,
             "attackCooldown": 6.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 355,
@@ -7981,7 +8006,8 @@
             "attackStartTime": 5.0,
             "attackCooldown": 6.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 355,
@@ -8016,7 +8042,8 @@
             "attackStartTime": 6.0,
             "attackCooldown": 6.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 355,
@@ -8051,7 +8078,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 5.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 355,
@@ -8086,7 +8114,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 5.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 355,
@@ -8121,7 +8150,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 5.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 355,
@@ -8156,7 +8186,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 5.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 348,
@@ -8191,7 +8222,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 349,
@@ -8226,7 +8258,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 351,
@@ -8261,7 +8294,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 351,
@@ -8296,7 +8330,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 351,
@@ -8331,7 +8366,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 351,
@@ -8366,7 +8402,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 346,
@@ -8401,7 +8438,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 346,
@@ -8436,7 +8474,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 300,
@@ -8471,7 +8510,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 1004,
@@ -8506,7 +8546,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 311,
@@ -8541,7 +8582,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         }
     ],
     "mapBackgroundObjectList": [
@@ -8578,7 +8620,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 1002,
@@ -8613,7 +8656,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 6000,
@@ -8648,7 +8692,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5201,
@@ -8683,7 +8728,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5202,
@@ -8718,7 +8764,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5300,
@@ -8753,7 +8800,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5302,
@@ -8788,7 +8836,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5301,
@@ -8823,7 +8872,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5305,
@@ -8858,7 +8908,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5304,
@@ -8893,7 +8944,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5306,
@@ -8928,7 +8980,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5307,
@@ -8963,7 +9016,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5300,
@@ -8998,7 +9052,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5307,
@@ -9033,7 +9088,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5307,
@@ -9068,7 +9124,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5307,
@@ -9103,13 +9160,14 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5307,
             "dialogueId": 0,
             "position": {
-                "x": 0.7350000143051148,
+                "x": 0.7400000095367432,
                 "y": 21.0
             },
             "quaternion": {
@@ -9138,13 +9196,14 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5307,
             "dialogueId": 0,
             "position": {
-                "x": -3.6050000190734865,
+                "x": -3.5999999046325685,
                 "y": 21.0
             },
             "quaternion": {
@@ -9173,7 +9232,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5307,
@@ -9208,7 +9268,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5307,
@@ -9243,7 +9304,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5303,
@@ -9278,7 +9340,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5303,
@@ -9313,7 +9376,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5311,
@@ -9348,7 +9412,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5355,
@@ -9383,7 +9448,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5354,
@@ -9418,7 +9484,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5340,
@@ -9453,7 +9520,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5385,
@@ -9488,7 +9556,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5381,
@@ -9523,7 +9592,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5381,
@@ -9558,7 +9628,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5387,
@@ -9593,14 +9664,15 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5383,
             "dialogueId": 0,
             "position": {
-                "x": -49.63100051879883,
-                "y": 21.777000427246095
+                "x": -49.630001068115237,
+                "y": 21.780000686645509
             },
             "quaternion": {
                 "x": 0.0,
@@ -9628,7 +9700,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5330,
@@ -9663,7 +9736,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5330,
@@ -9698,7 +9772,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5358,
@@ -9733,7 +9808,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5357,
@@ -9768,7 +9844,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5303,
@@ -9803,7 +9880,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5312,
@@ -9838,7 +9916,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5314,
@@ -9873,7 +9952,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5310,
@@ -9908,7 +9988,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5313,
@@ -9943,7 +10024,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5320,
@@ -9978,7 +10060,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5321,
@@ -10013,7 +10096,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5200,
@@ -10048,7 +10132,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5358,
@@ -10083,7 +10168,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5353,
@@ -10118,7 +10204,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5500,
@@ -10153,7 +10240,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5500,
@@ -10188,7 +10276,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5500,
@@ -10223,7 +10312,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5500,
@@ -10258,7 +10348,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5500,
@@ -10293,7 +10384,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5310,
@@ -10328,7 +10420,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5321,
@@ -10363,7 +10456,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5320,
@@ -10398,7 +10492,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5330,
@@ -10433,7 +10528,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5330,
@@ -10468,7 +10564,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 6102,
@@ -10503,7 +10600,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5330,
@@ -10538,7 +10636,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5330,
@@ -10573,7 +10672,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5330,
@@ -10608,7 +10708,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5386,
@@ -10643,7 +10744,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5384,
@@ -10678,7 +10780,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5350,
@@ -10713,7 +10816,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5352,
@@ -10748,7 +10852,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5356,
@@ -10783,7 +10888,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5108,
@@ -10818,7 +10924,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5200,
@@ -10853,7 +10960,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         }
     ],
     "mapOtherObjectList": [
@@ -10890,7 +10998,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10104,
@@ -10925,7 +11034,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10104,
@@ -10960,7 +11070,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10103,
@@ -10995,7 +11106,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10106,
@@ -11030,7 +11142,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10107,
@@ -11065,7 +11178,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10107,
@@ -11100,7 +11214,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10107,
@@ -11135,7 +11250,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10103,
@@ -11170,7 +11286,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10103,
@@ -11205,7 +11322,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10103,
@@ -11240,7 +11358,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10103,
@@ -11275,7 +11394,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10107,
@@ -11310,7 +11430,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10107,
@@ -11345,7 +11466,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10107,
@@ -11380,7 +11502,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10106,
@@ -11415,7 +11538,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10106,
@@ -11450,7 +11574,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10100,
@@ -11485,7 +11610,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10100,
@@ -11520,7 +11646,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10100,
@@ -11555,7 +11682,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10100,
@@ -11590,7 +11718,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10100,
@@ -11625,7 +11754,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10101,
@@ -11660,7 +11790,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10101,
@@ -11695,7 +11826,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10100,
@@ -11730,7 +11862,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10108,
@@ -11765,7 +11898,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10109,
@@ -11800,7 +11934,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10109,
@@ -11835,7 +11970,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10109,
@@ -11870,7 +12006,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10108,
@@ -11905,7 +12042,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10108,
@@ -11940,7 +12078,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10108,
@@ -11975,7 +12114,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10108,
@@ -12010,7 +12150,8 @@
             "attackStartTime": 0.0,
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
-            "onEncapsulationItem": false
+            "onEncapsulationItem": false,
+            "indicator": 0
         }
     ],
     "mapButtonActivatableObjectDataList": [
@@ -12018,7 +12159,18 @@
             "id": 305,
             "activeRequirAmount": 1,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -34.5,
@@ -12056,7 +12208,18 @@
             "id": 359,
             "activeRequirAmount": 1,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -11.5,
@@ -12094,7 +12257,18 @@
             "id": 354,
             "activeRequirAmount": 0,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": 8.0,
@@ -12132,7 +12306,18 @@
             "id": 305,
             "activeRequirAmount": 1,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -54.5,
@@ -12170,7 +12355,18 @@
             "id": 322,
             "activeRequirAmount": 0,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -58.0,
@@ -12208,7 +12404,18 @@
             "id": 322,
             "activeRequirAmount": 0,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -17.0,
@@ -12246,7 +12453,18 @@
             "id": 335,
             "activeRequirAmount": 0,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -17.0,
@@ -12284,7 +12502,18 @@
             "id": 330,
             "activeRequirAmount": 0,
             "chargeRequired": false,
-            "indicator": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 20,
             "position": {
                 "x": 5.0,
@@ -12312,120 +12541,6 @@
             "paths": [],
             "moveSpeed": 0.0,
             "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 322,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "indicator": 0,
-            "jumpingPower": 0,
-            "position": {
-                "x": -31.020000457763673,
-                "y": 20.979999542236329
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": -37.459999084472659,
-                "y": 20.93000030517578
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 322,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "indicator": 0,
-            "jumpingPower": 0,
-            "position": {
-                "x": -37.459999084472659,
-                "y": 20.93000030517578
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": -31.020000457763673,
-                "y": 20.979999542236329
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 334,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "indicator": 0,
-            "jumpingPower": 0,
-            "position": {
-                "x": -47.720001220703128,
-                "y": 25.920000076293947
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 5.0,
-            "moveDistance": 8.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
                 "x": 0.0,
