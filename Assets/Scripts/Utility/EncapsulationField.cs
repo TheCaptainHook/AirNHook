@@ -110,18 +110,7 @@ public class EncapsulationField : MonoBehaviour
 
         //----------------------------INDICATOR SETTING 0709 
         CheckIndicator(Net.data.indicator);
-        // if (Net.data.indicator == INDICATOR.TEXT)
-        // {
-        //     indicator_1 ??= Create_Indicator_var_1();
-        // }
-        // else if (Net.data.indicator == INDICATOR.MARK)
-        // {
-
-        // }
-        // else if (Net.data.indicator == INDICATOR.BOTH)
-        // {
-
-        // }
+  
 
         //----------------------------INDICATOR SETTING 0709 
     }

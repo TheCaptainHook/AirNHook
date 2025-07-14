@@ -4,19 +4,6 @@ using UnityEngine;
 using Mirror;
 using System;
 
-
-[Serializable]
-public struct SupplyTargetStruct
-{
-    public List<GameObject> targets;
-    public List<Vector2> targetPositions;
-    public SupplyTargetStruct(List<GameObject> targets, List<Vector2> targetPositions)
-    {
-        this.targets = targets;
-        this.targetPositions = targetPositions;
-    }
-}
-
 public class PowerSupply_Net : NetworkBehaviour
 {
     private PowerSupply powerSupply;
@@ -42,7 +29,8 @@ public class PowerSupply_Net : NetworkBehaviour
     {
         StartCoroutine(AllClientCheckCo(() =>
         {
-            Rpc_SetInit(PowerSupply.ButtonObjectData, targets);
+            Rpc_SetInit(PowerSupply.ButtonObjectData);
+
         }));
         
     }
@@ -65,17 +53,31 @@ public class PowerSupply_Net : NetworkBehaviour
         action?.Invoke();
 
     }
+    private ButtonObjectStruct data;
+    private List<uint> targetNetIdList;
+    [Server]
+    public void Server_SetTargetNetId(List<uint> list)
+    {
+        Rpc_SetTargetNetId(list);
+    }
     [ClientRpc]
-    private void Rpc_SetInit(ButtonObjectStruct data, SupplyTargetStruct targets)
+    private void Rpc_SetTargetNetId(List<uint> list)
+    {
+        targetNetIdList = list;
+        //PathFind,
+    }
+
+    [ClientRpc]
+    private void Rpc_SetInit(ButtonObjectStruct data)
     {
         if (onSync) return;
+        this.data = data;
         transform.position = data.position;
         transform.rotation = data.quaternion;
-
-        PowerSupply.CreateLine(targets.targetPositions);
-
         onSync = true;
     }
+
+
     [Command(requiresAuthority = false)]
     private void Cmd_SetInit()
     {
@@ -92,20 +94,11 @@ public class PowerSupply_Net : NetworkBehaviour
 
     #endregion
 
-    [SyncVar] public SupplyTargetStruct targets;
+    #region Insert Battery
 
     [SyncVar] public float consumption;
     [SyncVar] public GameObject battery;
   
-
-    [Server]    // Power Supply Candidates
-    public void Server_SetTargets(List<GameObject> targets,List<Vector2> positions)
-    {
-        this.targets = new SupplyTargetStruct(targets,positions);
-        consumption = targets.Count;
-    }
-
-    
     Coroutine supplyCoroutine;
     [Server]    // insert battery and Use.
     public void Server_SetBatter(GameObject battery)
@@ -161,7 +154,15 @@ public class PowerSupply_Net : NetworkBehaviour
     }
 
 
-
+    //----------------------------------------Refectoring 0714
+    /**
+    먼저 드로우 코루틴, 이레이져 코루틴 먼저 만들기.
+    1. Supply
+        -> Rpc_OnSupply(bool onOff)
+            ->if onOff -> DrawLineCoroutine ->다그려지면 -> if(isServer) Net_Activation,supplyCoroutine = StartCoroutine(SupplyCo());
+            
+        
+    **/
     private void Supply()//only server
     {
         Rpc_OnSupplyEffect(true);
@@ -169,11 +170,7 @@ public class PowerSupply_Net : NetworkBehaviour
         supplyCoroutine = StartCoroutine(SupplyCo());
     }
 
-    [ClientRpc]
-    private void Rpc_OnSupplyEffect(bool onOff)
-    {
-        PowerSupply.LineOn(onOff);
-    }
+    
 
     IEnumerator SupplyCo() //only server
     {
@@ -190,6 +187,26 @@ public class PowerSupply_Net : NetworkBehaviour
         Rpc_OnSupplyEffect(false);
 
     }
+
+
+    //----------------------------------------Refectoring 0714
+    #endregion
+
+
+
+
+
+    #region  Effect
+    [ClientRpc]
+    private void Rpc_OnSupplyEffect(bool onOff)
+    {
+        // PowerSupply.LineOn(onOff);
+    }
+
+    #endregion
+
+
+
 
     #region  UI
     [Command(requiresAuthority = false)]
@@ -208,18 +225,7 @@ public class PowerSupply_Net : NetworkBehaviour
     }
     #endregion
 
-    //public override void OnStartClient()
-    //{
-    //    base.OnStartClient();
-
-    //    //Cmd_CallInitValue();
-    //    StartCoroutine(Delay(() =>
-    //    {
-    //        PowerSupply.CreateLine(targets.targetPositions);
-    //    }));
-       
-
-    //}
+   
 
     IEnumerator Delay(Action action)
     {

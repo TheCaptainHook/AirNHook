@@ -439,6 +439,7 @@ public class MapEditor : MonoBehaviour
 
         Create_Object(curMap.mapButtonActivatableObjectDataList,buttonActivatableObjectTransform);
         Create_Object(curMap.buttonObjectList,buttonObjectTransform);
+        
         Create_Object(Managers.Data.saveData.dic[curMap.mapID]._DialogueDataList,triggerDialogueTransform);
         Create_Object(curMap.droneStructList,droneTransform);
         Create_Object(curMap.collectableObjectStructList,collectableContainer);

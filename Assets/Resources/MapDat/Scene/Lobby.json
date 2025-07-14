@@ -12552,40 +12552,6 @@
         {
             "id": 329,
             "position": {
-                "x": -36.0,
-                "y": 22.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "targetPositions": [
-                {
-                    "x": -34.5,
-                    "y": 21.0
-                }
-            ],
-            "lightPositions": [],
-            "encapsulationItems": [],
-            "onHint": false,
-            "partsPositions": [],
-            "itemPositions": [],
-            "hintPosition": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "chargeRequired": false
-        },
-        {
-            "id": 329,
-            "position": {
                 "x": -33.0,
                 "y": 22.0
             },
@@ -12739,6 +12705,40 @@
             "targetPositions": [
                 {
                     "x": -54.5,
+                    "y": 21.0
+                }
+            ],
+            "lightPositions": [],
+            "encapsulationItems": [],
+            "onHint": false,
+            "partsPositions": [],
+            "itemPositions": [],
+            "hintPosition": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "chargeRequired": false
+        },
+        {
+            "id": 372,
+            "position": {
+                "x": -36.13999938964844,
+                "y": 22.09000015258789
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.2000000476837159,
+                "y": 1.2000000476837159,
+                "z": 1.0
+            },
+            "targetPositions": [
+                {
+                    "x": -34.5,
                     "y": 21.0
                 }
             ],

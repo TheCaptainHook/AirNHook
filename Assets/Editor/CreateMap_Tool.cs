@@ -527,6 +527,7 @@ public class CreateMap_Tool : EditorWindow
             case 345:
             case 336:
             case 362:
+            case 372:
                 SelectActiveOBJ(obj,curMapEditor.buttonObjectTransform);
                 break;
             case 1003:

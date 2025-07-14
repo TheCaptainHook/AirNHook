@@ -70,7 +70,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
         this.transportItemEntity = transportItemEntity;
         mainTr = transportItemEntity.gameObject.transform;
 
-        transform.position = mainTr.position + (Vector3)encapsulationOffset;
+        transform.position = transportItemEntity.data.position + encapsulationOffset;
 
         var termTr = MapEditor.Instance.dontSaveObjectTransform;
         transform.SetParent(termTr);
@@ -85,13 +85,18 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
     private void CreateItemAndSorting(ObjectData data)
     {
         float totalLength = item_Space * (data.activeRequireAmount - 1); // 총 길이
-        Vector3 startPot = transform.position - new Vector3(totalLength / 2f, 0, 0);
-          for (int i = activeRequirAmount - 1; i >= 0; i--)
-            {
-                var item = CreateItem();
-                itemWaitStack.Push(item);
-                item.transform.position = startPot + new Vector3(item_Space * i, 0, 0) ;
-            }
+        Vector3 startPot = transform.position - new Vector3(FloorTo2DecimalPlaces(totalLength / 2f), 0, 0);
+        for (int i = activeRequirAmount - 1; i >= 0; i--)
+        {
+            var item = CreateItem();
+            itemWaitStack.Push(item);
+            item.transform.position = startPot + new Vector3(item_Space * i, 0, 0);
+        }
+            
+    }
+    private float FloorTo2DecimalPlaces(float num)
+    {
+        return Mathf.Floor(num * 100) / 100f;
     }
     public void SetApplyActive_EncapsulationField(int inc, uint id)
     {
@@ -137,23 +142,31 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
 
         if (curActiveRequirAmount == activeRequirAmount)
         {
-            if (!encapsulationField.isCapsuling) return;
-            
             foreach (var item in itemCurActiveList)
             {
                 item.Fade(true);
             }
 
+            if (!encapsulationField.isCapsuling) return;
+
 
             if (NetworkServer.active)
                 transportItemEntity.Rpc_UnCapsuling();
-          
+
+        }
+        else
+        {
+            foreach (var item in itemCurActiveList)
+            {
+                item.Fade(false);
+            }
+            
         }
 
     }
     #endregion
 
-    private float item_Space = 0.3f;
+    private float item_Space = .5f;
     private void CreateItemAndSorting(ButtonActivatableObjectStruct data)
     {
         float totalLength = item_Space * (data.activeRequirAmount - 1); // 총 길이

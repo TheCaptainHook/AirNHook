@@ -112,7 +112,7 @@ public class ButtonEntity : BuildObj
     #region  GET,SET
     protected Util util = new();
     
-    public override async void SetData<T>(T data)
+    public override void SetData<T>(T data)
     {
         try
         {
@@ -121,15 +121,12 @@ public class ButtonEntity : BuildObj
                 ButtonObjectStruct buttonData = (ButtonObjectStruct)(object)data;
                 ButtonObjectData = buttonData;
 
-                await util.Delay(() =>
-                {
-                    FindTargetObject();
+                // FindTargetObject();
 
-                    if (buttonData.lightPositions.Count > 0) FindLightObject();
-                    if (buttonData.encapsulationItems.Count > 0) FindEncapsulationItem();
-                
-                });
-                
+                // if (buttonData.lightPositions.Count > 0) FindLightObject();
+                // if (buttonData.encapsulationItems.Count > 0) FindEncapsulationItem();
+
+                StartCoroutine(DelayFindCoroutine());
             }
 
         }
@@ -139,9 +136,22 @@ public class ButtonEntity : BuildObj
         }
 
     }
+    IEnumerator DelayFindCoroutine()
+    {
+        if (!Application.isPlaying) yield break;
+
+        yield return new WaitForSeconds(0.5f);
+        FindTargetObject();
+
+        if (ButtonObjectData.lightPositions.Count > 0) FindLightObject();
+        if (ButtonObjectData.encapsulationItems.Count > 0) FindEncapsulationItem();
+                
+    }
+
     public override T GetData<T>()
     {
-        if (typeof(T) == typeof(ButtonObjectStruct)) {
+        if (typeof(T) == typeof(ButtonObjectStruct))
+        {
             return (T)(object)new ButtonObjectStruct(
                 id,
                 GetTargetPositions(),

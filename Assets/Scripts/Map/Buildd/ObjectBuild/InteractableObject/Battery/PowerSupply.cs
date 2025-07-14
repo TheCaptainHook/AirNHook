@@ -18,7 +18,7 @@ public class PowerSupply : ButtonEntity,IInteractable
     [SerializeField] float _BtnOffset;
     private UI_Base _E_Btn;
 
-    private Util util = new();
+    // private Util util = new();
     //SetData -> FindTargetObject -> Add List Target Object
     //Activation -> PrograssButtonActivatedObject
 
@@ -55,32 +55,41 @@ public class PowerSupply : ButtonEntity,IInteractable
         return list;
     }
 
-    public async override void SetData<T>(T data)
+    public override void SetData<T>(T data)
     {
-         if (typeof(T) == typeof(ButtonObjectStruct))
-            {
-                 ButtonObjectStruct buttonData = (ButtonObjectStruct)(object)data;
-                 ButtonObjectData = buttonData;
+        // if (typeof(T) == typeof(ButtonObjectStruct))
+        // {
+        //     base
 
-                if(Application.isPlaying)
+        //     // if (Application.isPlaying)
 
-                await util.Delay(()=>
-                {
-                    FindTargetObject();
-                    if(buttonData.lightPositions.Count > 0) FindLightObject();
+        //     //     await util.Delay(()=>
+        //     //     {
+        //     //         FindTargetObject();
+        //     //         if(buttonData.lightPositions.Count > 0) FindLightObject();
 
-                    //CreateLine(P_Net.targets.targetPositions);
-                    //P_Net.onSync = true;
+        //     //         //CreateLine(P_Net.targets.targetPositions);
+        //     //         //P_Net.onSync = true;
 
-                    P_Net.Server_SetInit();
+        //     //         P_Net.Server_SetInit();
 
-                });
-            }
+        //     //     });
+        //     // }
+        // }
+        base.SetData(data);
 
-        
+        if (Application.isPlaying)
+        {
+             P_Net.Server_SetInit();
+        }
         
     }
-    public Vector2 GetSocketPosition(){
+    #region Sync TargetObejct
+    
+    #endregion
+
+    public Vector2 GetSocketPosition()
+    {
         return socketPosition.position;
     }
 
@@ -117,21 +126,25 @@ public class PowerSupply : ButtonEntity,IInteractable
     private void TogglePowerSupply(bool toggle)
     {
         if(targetObjects.Count == 0) return; // This field is for server settings only
-        // foreach(var item in targetObjects){
-        foreach(var item in P_Net.targets.targets){
-            if(item.TryGetComponent(out IPowerConsumer component)){
-                if(toggle) component.PowerOn();
+        
+        foreach (var item in targetObjects)
+        {
+            if (item.TryGetComponent(out IPowerConsumer component))
+            {
+                if (toggle) component.PowerOn();
                 else component.PowerOff();
             }
+            
 
         }
-        foreach(var item in lightObjects)
+        
+        foreach (var item in lightObjects)
         {
-            if(item.TryGetComponent(out LightObjectEntity component))
+            if (item.TryGetComponent(out LightObjectEntity component))
             {
                 Debug.Log(item.name);
                 // component.hasPower = toggle;
-                if(toggle) component.PowerOn();
+                if (toggle) component.PowerOn();
                 else component.PowerOff();
             }
         }
@@ -139,45 +152,6 @@ public class PowerSupply : ButtonEntity,IInteractable
     #endregion
 
     #region Find Target
-
-    // public override void FindTargetObject()
-    // {
-    //     // if(!Application.isPlaying) return;
-
-    //     List<GameObject> objList = new();
-    //     foreach(Vector2 vec in targetPosition){
-    //         GameObject matchedObj = null;
-    //         foreach(Transform tr in MapEditor.Instance.buttonActivatableObjectTransform){
-    //             if(tr.TryGetComponent(out ActivatableObjectEntity component))
-    //             {
-    //               if(CompareVec(component.ButtonActivatedObjectStruct.position,vec))
-    //               {
-    //                 matchedObj = tr.gameObject;
-    //                     objList.Add(matchedObj);
-    //                     break;
-    //               }          
-    //             }
-    //         }
-
-    //         if(matchedObj != null) continue;
-
-    //         foreach(Transform tr in MapEditor.Instance.buttonObjectTransform){
-    //             if(tr.TryGetComponent(out ButtonEntity component))
-    //             {
-    //               if(CompareVec(component.ButtonObjectData.position,vec))
-    //               {
-    //                     objList.Add(tr.gameObject);
-    //                     break;
-    //               }          
-    //             }
-    //         }
-            
-    //     }
-
-    //      targetObjects = objList;
-    //     //Network Sync
-    //     P_Net.Server_SetTargets(objList,targetPosition);
-    // }
 
     public async override void Editor_Setting(MapEditor mapEditor)
     {
@@ -268,33 +242,10 @@ public class PowerSupply : ButtonEntity,IInteractable
 
     private void OnTriggerExit2D(Collider2D collider)
     {
-        //if (collider.TryGetComponent(out HookSM component))
-        //{
-
-        //    Transform grabItem = component.GetGrabbedItem();
-        //    if (grabItem != null)
-        //    {
-        //        if (grabItem.TryGetComponent(out Battery battery))
-        //        {
-        //            P_Net.Cmd_ShowE(component.gameObject,false);
-
-        //            // P_Net.Cmd_SetBattery(null);
-        //            if (NetworkServer.active)
-        //                battery.Net_SetPowerSupply(null);
-        //        }
-
-        //    }
-        //}
         if(collider.TryGetComponent(out Battery battery))
         {
                 P_Net.Cmd_ShowE(collider.gameObject, false);
                 battery.Net_SetPowerSupply(null);
-        }
-    }
-    
-    public void LineOn(bool onoff){
-        foreach(Transform tr in lineContainer){
-            tr.gameObject.SetActive(onoff);
         }
     }
     
@@ -303,22 +254,23 @@ public class PowerSupply : ButtonEntity,IInteractable
 
 
 #region  Network
-    public void SetBattery(GameObject battery)
+    public void SetBattery(GameObject battery) //only Server
     {
-        //P_Net.Cmd_SetBattery(battery);
-        Debug.Log("4444444444444");
         P_Net.Server_SetBatter(battery);
     }
-#endregion
+    #endregion
 
 
 
-#region  Interacable
-     public void Interaction(Transform accessor = null){
-            if(P_Net.battery){
-                if(_E_Btn != null) HideE();
-                P_Net.Cmd_SetBattery(null);
-            }
+    #region  Interacable
+    public void Interaction(Transform accessor = null)
+    {
+        if (P_Net.battery)
+        {
+            if (_E_Btn != null) HideE();
+            P_Net.Cmd_SetBattery(null);
+        }
+            
        
     }
 
@@ -359,49 +311,49 @@ public class PowerSupply : ButtonEntity,IInteractable
 
 #endregion
 
-#region  Draw Line
-    public void CreateLine(List<Vector2> list){
+// #region  Draw Line
+//     public void CreateLine(List<Vector2> list){
 
-        Vector2 startPot = lineContainer.position;
+//         Vector2 startPot = lineContainer.position;
         
-        foreach(var position in list)
-        {
-            Vector2 endPot = position;
-            LineRenderer line = GeneratorLineRenderer();
-            SetLine(line,pathFinder.FindPath(startPot,endPot,true,Direction_Type.Four));
-            line.gameObject.SetActive(false);
-        }
-    }
-     private LineRenderer GeneratorLineRenderer(){
+//         foreach(var position in list)
+//         {
+//             Vector2 endPot = position;
+//             LineRenderer line = GeneratorLineRenderer();
+//             SetLine(line,pathFinder.FindPath(startPot,endPot,true,Direction_Type.Four));
+//             line.gameObject.SetActive(false);
+//         }
+//     }
+//      private LineRenderer GeneratorLineRenderer(){
 
-        GameObject obj = new GameObject("LineRenderer");
-        LineRenderer lineRenderer = obj.AddComponent<LineRenderer>();
-        lineRenderer.useWorldSpace = false;
-        lineRenderer.startWidth = 0.1f;
-        lineRenderer.endWidth = 0.1f;
-        lineRenderer.material = mat;
-        lineRenderer.positionCount = 0;
-        //lineRenderer.sortingLayerName ="Map/Tiles";
-        lineRenderer.sortingOrder = 3;
-        obj.transform.SetParent(lineContainer);
+//         GameObject obj = new GameObject("LineRenderer");
+//         LineRenderer lineRenderer = obj.AddComponent<LineRenderer>();
+//         lineRenderer.useWorldSpace = false;
+//         lineRenderer.startWidth = 0.1f;
+//         lineRenderer.endWidth = 0.1f;
+//         lineRenderer.material = mat;
+//         lineRenderer.positionCount = 0;
+//         //lineRenderer.sortingLayerName ="Map/Tiles";
+//         lineRenderer.sortingOrder = 3;
+//         obj.transform.SetParent(lineContainer);
 
-        return lineRenderer;
-    }
-    //  private void SetLine(LineRenderer lineRenderer,List<Vector2Int> path){
-    //    lineRenderer.positionCount = path.Count;
-    //    for(int i = 0;i<path.Count;i++)
-    //    {
-    //         Vector3 worldPosition = pathFinder.GridToWorld(path[i]);
-    //         lineRenderer.SetPosition(i, worldPosition);
-    //    }
-    // }
-     private void SetLine(LineRenderer lineRenderer,List<Vector2> path){
-       lineRenderer.positionCount = path.Count;
-       for(int i = 0;i<path.Count;i++)
-       {
-            Vector3 worldPosition = path[i];
-            lineRenderer.SetPosition(i, worldPosition);
-       }
-    }
-#endregion
+//         return lineRenderer;
+//     }
+//     //  private void SetLine(LineRenderer lineRenderer,List<Vector2Int> path){
+//     //    lineRenderer.positionCount = path.Count;
+//     //    for(int i = 0;i<path.Count;i++)
+//     //    {
+//     //         Vector3 worldPosition = pathFinder.GridToWorld(path[i]);
+//     //         lineRenderer.SetPosition(i, worldPosition);
+//     //    }
+//     // }
+//      private void SetLine(LineRenderer lineRenderer,List<Vector2> path){
+//        lineRenderer.positionCount = path.Count;
+//        for(int i = 0;i<path.Count;i++)
+//        {
+//             Vector3 worldPosition = path[i];
+//             lineRenderer.SetPosition(i, worldPosition);
+//        }
+//     }
+// #endregion
 }

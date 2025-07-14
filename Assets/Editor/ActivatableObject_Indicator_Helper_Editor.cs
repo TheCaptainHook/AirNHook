@@ -276,7 +276,7 @@ public class ActivatableObject_Indicator_Helper_Editor : Editor
     #endregion
 
     #region Indicator_2
-    private float item_Space = 0.3f;
+    private float item_Space = 0.5f;
     private List<ActivatableObject_Indicator_var2_Item> itemList;
 
     private ActivatableObject_Indicator_var2_Item CreateItem()
