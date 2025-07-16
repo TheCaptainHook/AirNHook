@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System;
+using Unity.VisualScripting;
 
 public class PowerSupply_Net : NetworkBehaviour
 {
@@ -15,12 +16,6 @@ public class PowerSupply_Net : NetworkBehaviour
             return powerSupply;
         }
     }
-
-    //[ReadOnly]
-    //public List<GameObject> targets;
-    //[ReadOnly]
-    //public List<Vector2> targetPositions;
-
 
     #region Init
     public bool onSync;
@@ -103,34 +98,36 @@ public class PowerSupply_Net : NetworkBehaviour
     [Server]    // insert battery and Use.
     public void Server_SetBatter(GameObject battery)
     {
-        if (this.battery !=null && !Compare(this.battery,battery))
+         // 새 배터리가 없거나, 기존 배터리와 같다면 return
+        if (this.battery != null && !Compare(this.battery, battery))
         {
-            //Deactivated,
-            if(supplyCoroutine != null)
+            if (supplyCoroutine != null)
             {
                 StopCoroutine(supplyCoroutine);
                 supplyCoroutine = null;
             }
-            if(this.battery.GetComponent<BatteryInteractable>().batteryCapacity > consumption) PowerSupply.Net_Deactivated();
 
+            PowerSupply.Net_Deactivated();
             Rpc_OnSupplyEffect(false);
-            
+
             this.battery.GetComponent<BatteryInteractable>().Cmd_Recover();
             this.battery = null;
         }
 
-        if(battery == null || Compare(this.battery,battery)) return;
+        if (battery == null) return;
+
 
         this.battery = battery;
 
         // 1. Check battery capacity and Compare consumption    
-        if(Check_BatteryCapacity())
+        if (Check_BatteryCapacity())
         {
             //Use Battery
             Supply();
-
-
-        }else
+            Rpc_OnSupplyEffect(true);
+            PowerSupply.Net_Activation();
+        }
+        else
         {
             //Cant use battery.
             Debug.Log("The battery doesn’t have much energy left");
@@ -155,32 +152,73 @@ public class PowerSupply_Net : NetworkBehaviour
 
 
     //----------------------------------------Refectoring 0714
-    /**
-    먼저 드로우 코루틴, 이레이져 코루틴 먼저 만들기.
-    1. Supply
-        -> Rpc_OnSupply(bool onOff)
-            ->if onOff -> DrawLineCoroutine ->다그려지면 -> if(isServer) Net_Activation,supplyCoroutine = StartCoroutine(SupplyCo());
-            
-        
-    **/
+
+    #region Draw,Eraser
+    private List<PowerSupply_DrawLineUtility> pdu_List;
+    [ReadOnly]
+    public List<uint> targetObjectNetIdList;
+    private Transform lineContainer;
+    [SerializeField] Material lineMat;
+
+    [ClientRpc]
+    public void Rpc_SetTargetObject(List<uint> list)
+    {
+        targetObjectNetIdList = list;
+        lineContainer = new GameObject("Line_Container").transform;
+        lineContainer.SetParent(transform);
+        pdu_List = new();
+
+        for (int i = 0; i < list.Count; i++)
+        {
+            var item = new GameObject("Line").transform;
+            item.SetParent(lineContainer);
+            var line = item.AddComponent<PowerSupply_DrawLineUtility>();
+            item.AddComponent<PathFinder>();
+
+            pdu_List.Add(line);
+            line.Setting(data.position, list[i],lineMat);
+        }
+    }
+    
+    private void DrawLine()
+    {
+        for (int i = 0; i < pdu_List.Count; i++)
+        {
+            var item = pdu_List[i];
+            item.DrawOn();
+        }
+    }
+    private void EraseLine()
+    {
+        for (int i = 0; i < pdu_List.Count; i++)
+        {
+            pdu_List[i].EraseOn_TargetToMain();
+        }
+    }
+  
+    #endregion
     private void Supply()//only server
     {
-        Rpc_OnSupplyEffect(true);
-        PowerSupply.Net_Activation();
-        supplyCoroutine = StartCoroutine(SupplyCo());
+        if (supplyCoroutine != null)
+        {
+            StopCoroutine(supplyCoroutine);
+        } 
+       supplyCoroutine = StartCoroutine(SupplyCo());
     }
-
     
 
     IEnumerator SupplyCo() //only server
     {
+        Debug.Log("Supply co");
         BatteryInteractable battery = this.battery.GetComponent<BatteryInteractable>();
 
         while(battery.batteryCapacity >0)
         {
             battery.Server_SetBatteryCapacity(-consumption);
+            Debug.Log($"{battery.batteryCapacity}");
             yield return new WaitForSeconds(1);
         }
+
         supplyCoroutine = null;
 
         PowerSupply.Net_Deactivated();
@@ -201,6 +239,9 @@ public class PowerSupply_Net : NetworkBehaviour
     private void Rpc_OnSupplyEffect(bool onOff)
     {
         // PowerSupply.LineOn(onOff);
+        if (onOff) DrawLine();
+        else EraseLine();
+        
     }
 
     #endregion
@@ -230,8 +271,7 @@ public class PowerSupply_Net : NetworkBehaviour
     IEnumerator Delay(Action action)
     {
         yield return new WaitForSeconds(1);
-        //yield return new WaitForSeconds(1f);
-        //yield return null;
+
         action?.Invoke();
     }
 

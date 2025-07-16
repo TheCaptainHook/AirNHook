@@ -8927,6 +8927,10 @@
                 {
                     "x": 38.29999923706055,
                     "y": -7.789999961853027
+                },
+                {
+                    "x": 49.65999984741211,
+                    "y": -5.449999809265137
                 }
             ],
             "lightPositions": [
@@ -9597,6 +9601,35 @@
                 "y": 0.0
             },
             "chargeRequired": false
+        },
+        {
+            "id": 372,
+            "position": {
+                "x": 49.65999984741211,
+                "y": -5.449999809265137
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.2000000476837159,
+                "y": 1.2000000476837159,
+                "z": 1.0
+            },
+            "targetPositions": [],
+            "lightPositions": [],
+            "encapsulationItems": [],
+            "onHint": false,
+            "partsPositions": [],
+            "itemPositions": [],
+            "hintPosition": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "chargeRequired": true
         }
     ],
     "mapExitObjectStruct": {

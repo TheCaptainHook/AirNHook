@@ -123,7 +123,6 @@ Transform:
   m_Children:
   - {fileID: 6817221653275138025}
   - {fileID: 6272910094011134713}
-  - {fileID: 5627789599820802426}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &5934018743372894221
@@ -250,9 +249,8 @@ MonoBehaviour:
   canRespawn: 0
   targetObjects: []
   lightObjects: []
+  interactableObjects: []
   socketPosition: {fileID: 6272910094011134713}
-  mat: {fileID: -876546973899608171, guid: 96643b3e092764ff1b7e3f9d5be7f1ad, type: 3}
-  lineContainer: {fileID: 5627789599820802426}
   _objectType: 0
   _BtnOffset: 1
 --- !u!114 &7773638936160805107
@@ -271,11 +269,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   onSync: 0
-  targets:
-    targets: []
-    targetPositions: []
   consumption: 0
   battery: {fileID: 0}
+  targetObjectNetIdList: 
+  lineMat: {fileID: 2100000, guid: 6508537fd56794b5fa84d52d5e7b6411, type: 2}
 --- !u!114 &-589906102270439406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,50 +318,6 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!1 &3178438423283059722
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5627789599820802426}
-  - component: {fileID: 2701382110493943818}
-  m_Layer: 25
-  m_Name: LineContainer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5627789599820802426
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3178438423283059722}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3029914701443505803}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!210 &2701382110493943818
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3178438423283059722}
-  m_Enabled: 1
-  m_SortingLayerID: -1138266859
-  m_SortingLayer: 2
-  m_SortingOrder: 3
-  m_SortAtRoot: 1
 --- !u!1 &3516194574943478040
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using UnityEngine.VFX;
 
 
 public class Indicator_var2_DrawLineUtility : MonoBehaviour

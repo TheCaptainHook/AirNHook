@@ -121,12 +121,12 @@ public class ButtonEntity : BuildObj
                 ButtonObjectStruct buttonData = (ButtonObjectStruct)(object)data;
                 ButtonObjectData = buttonData;
 
-                // FindTargetObject();
+                FindTargetObject();
 
-                // if (buttonData.lightPositions.Count > 0) FindLightObject();
-                // if (buttonData.encapsulationItems.Count > 0) FindEncapsulationItem();
+                if (buttonData.lightPositions.Count > 0) FindLightObject();
+                if (buttonData.encapsulationItems.Count > 0) FindEncapsulationItem();
 
-                StartCoroutine(DelayFindCoroutine());
+                // StartCoroutine(DelayFindCoroutine());
             }
 
         }
@@ -140,7 +140,7 @@ public class ButtonEntity : BuildObj
     {
         if (!Application.isPlaying) yield break;
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         FindTargetObject();
 
         if (ButtonObjectData.lightPositions.Count > 0) FindLightObject();

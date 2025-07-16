@@ -4,6 +4,7 @@ using System;
 using UnityEngine.EventSystems;
 using UnityEngine.Animations;
 using Mirror;
+using System.Net.Sockets;
 public enum DistructionStatus
 {
     Indestructible,
@@ -357,10 +358,20 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     #endregion
 
 
+    public uint GetNetworkId()
+    {
+        if (TryGetComponent(out NetworkIdentity identity))
+        {
+            return identity.netId;
+        }
+
+        return 9999;
+    }
+
     public void D_ReleaseToPool()
-     {
+    {
         Managers.Pooling.D_ReleaseToPool(gameObject);
-     }
+    }
     public void N_ReleaseToPool()
     {
         Managers.Pooling.N_ReleaseToPool(gameObject);
