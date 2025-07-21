@@ -4898,6 +4898,12 @@ MonoBehaviour:
   indicator: 0
   indicatorOffset_val_1: {x: 0, y: 0}
   indicatorOffset_val_2: {x: 0, y: 0}
+  isHorizontal: 0
+  indicatorStruct:
+    indicator: 0
+    indicator_1_position: {x: 0, y: 0}
+    indicator_2_position: {x: 0, y: 0}
+    isHorizontal: 0
   curActiveBtn: 0
   _curDistanceRay: 0
   _firePoint: {fileID: 2979357953502741260}

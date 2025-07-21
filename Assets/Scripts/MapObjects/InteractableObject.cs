@@ -479,7 +479,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
                 if (buildObj.carrierTransform != null)
                 {
                     buildObj.Connection_TransportItem();
-                    Debug.Log($"InteractableObject, Co_Dissolve, name :{gameObject.name}");
                 }
                    
             }
@@ -504,6 +503,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             {
                 if (TryGetComponent(out EncapsulationField field))
                 {
+                    _collider.enabled = true;
                     field.CapsulReset();
                     yield break;
                 }
