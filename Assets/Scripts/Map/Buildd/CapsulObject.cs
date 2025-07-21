@@ -1,6 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -17,9 +16,6 @@ public class CapsulObject : MonoBehaviour
     public bool isActive;
     public void Active(bool onOff)
     {
-        if (onOff) group.sortingOrder = 50;
-        else group.sortingOrder = 5;
-
         isActive = onOff;
 
         Animator.SetBool(ACTIVE, onOff);
@@ -65,22 +61,29 @@ public class CapsulObject : MonoBehaviour
         }
 
         item.localScale = targetScale;
+        
+        group.sortingOrder = 50;
+    
         Active(true);
         resizeCoroutine = null;
     }
 
     Coroutine recoverCoroutine;
-    public void Recover(Transform item)
+    public void Recover(Transform item,Action action)
     {
         if (resizeCoroutine != null)
         {
             StopCoroutine(resizeCoroutine);
             resizeCoroutine = null;
         }
-        recoverCoroutine = StartCoroutine(RecoverCo(item));
+        recoverCoroutine = StartCoroutine(RecoverCo(item,action));
     }
-    private IEnumerator RecoverCo(Transform item)
+    private IEnumerator RecoverCo(Transform item,Action action)
     {
+        Active(false);
+        yield return new WaitForSeconds(0.3f);
+        group.sortingOrder = 0;
+
         float percent = 0;
         while (percent < t)
         {
@@ -89,6 +92,9 @@ public class CapsulObject : MonoBehaviour
 
             yield return null;
         }
+
+        action?.Invoke();
+
         item.localScale = itemOrgScale;
         recoverCoroutine = null;
 

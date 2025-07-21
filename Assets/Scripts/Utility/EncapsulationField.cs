@@ -195,10 +195,10 @@ public class EncapsulationField : MonoBehaviour
         //Return parent
         Disconnection();
         //Return parent
-        capsuleObject.Recover(transform);
-
-        mainCol.enabled = true;
-        mainRb.simulated = true;
+        capsuleObject.Recover(transform,()=> {
+            mainCol.enabled = true;
+            mainRb.simulated = true;
+        });
 
         Net.Reset_Interacable();
 
