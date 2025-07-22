@@ -5,6 +5,7 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 using UnityEngine.Rendering;
 
 public class PlayerSM : NetworkBehaviour, IDamageable
@@ -24,6 +25,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     protected float _coyoteTime => playerData.coyoteTime;
     public float coyoteTimeCount;
     private bool _emoteOnCoolDown;
+    private bool _pingOnCoolDown;
     protected RaycastHit2D _hit;
     public bool isGround { get; protected set; }
     protected LayerMask _defaultForceReceiveLayer;
@@ -419,6 +421,55 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     }
     #endregion
 
+    #region PingSystem
+    private void ShowBasicPing()
+    {
+        if (_pingOnCoolDown) return;
+
+        CmdPing("Ping1", Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        UsingPing();
+    }
+
+    private void ShowPingWheel()
+    {
+        if (_pingOnCoolDown) return;
+
+        if (Managers.UI.IsActive<UI_PingWheel>()) return;
+
+        Managers.UI.ShowUI<UI_PingWheel>();
+    }
+
+    private void HidePingWheel()
+    {
+        if (!Managers.UI.IsActive<UI_PingWheel>()) return;
+
+        UI_PingWheel pingWheel = Managers.UI.GetUI<UI_PingWheel>().GetComponent<UI_PingWheel>();
+        pingWheel.TryShowHoveredPing();
+        Managers.UI.HideUI<UI_PingWheel>();
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CmdPing(string pingName, Vector2 pos)
+    {
+        var prefab = Managers.Network.spawnPrefabDict[pingName];
+        var go = Instantiate(prefab, pos, Quaternion.identity);
+        NetworkServer.Spawn(go);
+        go.name = prefab.name;
+    }
+
+    public void UsingPing()
+    {
+        _pingOnCoolDown = true;
+        StartCoroutine(PingCoolDown());
+    }
+
+    private IEnumerator PingCoolDown()
+    {
+        yield return new WaitForSeconds(3.5f);
+        _pingOnCoolDown = false;
+    }
+    #endregion
+
     #region Particles
     [Command(requiresAuthority = false)]
     public void CmdLandParticlePlay()
@@ -486,6 +537,19 @@ public class PlayerSM : NetworkBehaviour, IDamageable
 
         DoVoice();
     }
+
+    private void ShowPing(InputAction.CallbackContext context)
+    {
+        if (context.interaction is TapInteraction)
+            ShowBasicPing();
+        else if (context.interaction is HoldInteraction)
+            ShowPingWheel();
+    }
+
+    private void HidePing(InputAction.CallbackContext context)
+    {
+        HidePingWheel();
+    }
     
     private void SubscribeInput()
     {
@@ -494,6 +558,8 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         input.playerActions.Interaction.started += DoInteraction;
         input.playerActions.Suicide.started += TrySuicide;
         input.playerActions.Voice.started += Voice;
+        input.playerActions.Ping.performed += ShowPing;
+        input.playerActions.Ping.canceled += HidePing;
     }
     
     private void UnsubscribeInput()
@@ -503,6 +569,8 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         input.playerActions.Interaction.started -= DoInteraction;
         input.playerActions.Suicide.started -= TrySuicide;
         input.playerActions.Voice.started -= Voice;
+        input.playerActions.Ping.performed -= ShowPing;
+        input.playerActions.Ping.canceled -= HidePing;
     }
     #endregion
 }

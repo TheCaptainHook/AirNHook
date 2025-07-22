@@ -116,6 +116,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Ping"",
+                    ""type"": ""Button"",
+                    ""id"": ""5b2b2514-edaa-41ef-bf01-52c37bb99142"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -272,6 +281,28 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""Voice"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e1ac7604-5563-415d-b30c-c8fceeeb5dec"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": ""Tap,Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ping"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4c7c5863-522f-4de9-bc22-da9b7f7e21d3"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": ""Tap,Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ping"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -335,6 +366,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
         m_Player_Suicide = m_Player.FindAction("Suicide", throwIfNotFound: true);
         m_Player_Voice = m_Player.FindAction("Voice", throwIfNotFound: true);
+        m_Player_Ping = m_Player.FindAction("Ping", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Option = m_UI.FindAction("Option", throwIfNotFound: true);
@@ -409,6 +441,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Interaction;
     private readonly InputAction m_Player_Suicide;
     private readonly InputAction m_Player_Voice;
+    private readonly InputAction m_Player_Ping;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -423,6 +456,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
         public InputAction @Suicide => m_Wrapper.m_Player_Suicide;
         public InputAction @Voice => m_Wrapper.m_Player_Voice;
+        public InputAction @Ping => m_Wrapper.m_Player_Ping;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -462,6 +496,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Voice.started += instance.OnVoice;
             @Voice.performed += instance.OnVoice;
             @Voice.canceled += instance.OnVoice;
+            @Ping.started += instance.OnPing;
+            @Ping.performed += instance.OnPing;
+            @Ping.canceled += instance.OnPing;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -496,6 +533,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Voice.started -= instance.OnVoice;
             @Voice.performed -= instance.OnVoice;
             @Voice.canceled -= instance.OnVoice;
+            @Ping.started -= instance.OnPing;
+            @Ping.performed -= instance.OnPing;
+            @Ping.canceled -= instance.OnPing;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -580,6 +620,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnInteraction(InputAction.CallbackContext context);
         void OnSuicide(InputAction.CallbackContext context);
         void OnVoice(InputAction.CallbackContext context);
+        void OnPing(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
