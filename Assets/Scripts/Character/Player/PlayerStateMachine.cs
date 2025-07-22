@@ -9,6 +9,7 @@ public class PlayerStateMachine : StateMachine
     public IState JumpState { get; protected set; }
     public IState FallingState { get; protected set; }
     public IState SuicideState { get; protected set; }
+    public IState StepUpState { get; protected set; }
     #endregion
 
     #region InputValue
@@ -21,6 +22,7 @@ public class PlayerStateMachine : StateMachine
     public bool isJumping = false;
     public bool isJumpPerformed { get; protected set; }
     public float jumpPower => player.playerData.jumpPower;
+    public float stepPower;
     public Rigidbody2D rigidbody2D { get; protected set; }
     #endregion
     
@@ -38,6 +40,7 @@ public class PlayerStateMachine : StateMachine
         JumpState = new JumpState(this);
         FallingState = new FallingState(this);
         SuicideState = new SuicideState(this);
+        StepUpState = new StepUpState(this);
 
         Initialize();
     }

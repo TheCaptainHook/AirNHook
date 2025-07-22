@@ -9,12 +9,18 @@ public class WalkState : BaseState
         stateMachine.moveSpeedMultiplier = 2f;
     }
 
+    public override void PhysicsUpdate()
+    {
+        Move();
+        TryStepOver();
+    }
+
     #region Movement
     protected override void OnMove()
     {
         if (!stateMachine.canMovable) return;
 
-        if(stateMachine.horizontal == 0)
+        if (stateMachine.horizontal == 0)
             stateMachine.ChangeState(stateMachine.IdleState);
         else
         {
@@ -34,6 +40,32 @@ public class WalkState : BaseState
         
         stateMachine.rigidbody2D.AddForce(new Vector2((stateMachine.horizontal * groundForce - rigidbd.velocity.x) * groundForce, 0f));
         rigidbd.velocity = new Vector2(rigidbd.velocity.x, rigidbd.velocity.y);
+    }
+
+    private void TryStepOver()
+    {
+        float maxStepHeight = 0.4f;
+        float checkDistance = 0.6f;
+
+        Vector2 origin = stateMachine.rigidbody2D.position;
+        Vector2 dir = new Vector2(stateMachine.horizontal, 0).normalized;
+
+        RaycastHit2D lowerHit = Physics2D.Raycast(origin + Vector2.up * 0.001f, dir, checkDistance, stateMachine.player.playerData.floorLayerMask);
+
+        if (lowerHit.collider == null) return; // 계단이 없으면 종료
+
+        Vector2 verticalCheckOrigin = lowerHit.point + Vector2.up * maxStepHeight + new Vector2(0.01f, 0f) * dir;
+        RaycastHit2D upperHit = Physics2D.Raycast(verticalCheckOrigin, Vector2.down, maxStepHeight, stateMachine.player.playerData.floorLayerMask);
+
+        if (upperHit.collider == null) return; // 계단이 너무 높으면 종료
+
+        float stepHeight = upperHit.point.y - origin.y;
+
+        if (stepHeight <= maxStepHeight)
+        {
+            stateMachine.stepPower = stepHeight + 0.1f;
+            stateMachine.ChangeState(stateMachine.StepUpState);
+        }
     }
     #endregion
 }
