@@ -243,6 +243,7 @@ GameObject:
   - component: {fileID: 7248189904295600147}
   - component: {fileID: 4573540932453405735}
   - component: {fileID: -2400072832166800358}
+  - component: {fileID: 8274046331149935557}
   m_Layer: 19
   m_Name: InvincibleBox
   m_TagString: Untagged
@@ -383,11 +384,36 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  _permissionPlayer: {fileID: 0}
   _objectType: 1
   _gravityScale: 0
-  _offset: {x: 0, y: 1}
+  _isFixed: 0
+  _canInteract: 1
+  _canGrab: 1
+  _isDestroyed: 0
+  _isGrab: 0
+  _offset: 0
+  _spriteRenderer: {fileID: 4733320072026686442}
   _inhalePower: 800
+  defaultGravity: 0
   onSync: 0
+  data:
+    id: 0
+    dialogueId: 0
+    position: {x: 0, y: 0}
+    quaternion: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 0, y: 0, z: 0}
+    talPot: {x: 0, y: 0}
+    size: {x: 0, y: 0}
+    text: 
+    fontSize: 0
+    chargeRequired: 0
+    animationTriggerType: 0
+    attackStartTime: 0
+    attackCooldown: 0
+    activeRequireAmount: 0
+    onEncapsulationItem: 0
+    indicator: 0
 --- !u!114 &-5810413876586093780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -468,6 +494,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   movingPlatform: {fileID: 0}
+  movingPlatformLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  layOffset: {x: 0, y: 0, z: 0}
+  col: {fileID: 0}
+  rb: {fileID: 0}
+  netRb: {fileID: 0}
+  startSync: 0
 --- !u!1773428102 &-2400072832166800358
 ParentConstraint:
   m_ObjectHideFlags: 0
@@ -491,3 +525,25 @@ ParentConstraint:
   m_Active: 0
   m_IsLocked: 0
   m_Sources: []
+--- !u!114 &8274046331149935557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8716440483222482088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0182098a7f6444a5b903ec4387ae1b41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEncapsulationItem: 0
+  activeRequirAmount: 0
+  indicator: 0
+  curActiveRequirAmount: 0
+  isCapsuling: 0
+  indicator_1: {fileID: 0}
+  indicator_2: {fileID: 0}
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
