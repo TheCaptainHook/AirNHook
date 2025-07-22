@@ -63,7 +63,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
     #region  Encapsulation Field
     public EncapsulationField encapsulationField;
     public TransportItemEntity transportItemEntity;
-    private Vector2 encapsulationOffset = new Vector2(0, -1.5f);
+    private Vector2 encapsulationOffset = new Vector2(0, -1f);
     public void Setting(EncapsulationField encapsulationField, TransportItemEntity transportItemEntity)
     {
         this.encapsulationField = encapsulationField;
