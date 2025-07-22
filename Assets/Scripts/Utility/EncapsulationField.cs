@@ -79,8 +79,7 @@ public class EncapsulationField : MonoBehaviour
     {
         Main.canRespawn = false;
         isCapsuling = true;
-        NetRb.syncDirection = SyncDirection.ServerToClient;
-
+  
         //Main Object Setting
         transform.position = startPot;
         transform.rotation = Quaternion.identity;
@@ -145,8 +144,8 @@ public class EncapsulationField : MonoBehaviour
 
 
         // Size Change Effect(Coroutine)
-        Vector2 d = new Vector2( Main.ObjectData.position.x,  Main.ObjectData.position.y - mainCol.offset.y);
-        transform.position = d;
+        //Vector2 d = new Vector2(Main.ObjectData.position.x, Main.ObjectData.position.y - mainCol.offset.y);
+        //transform.position = d;
 
         Connection();
 
@@ -163,7 +162,8 @@ public class EncapsulationField : MonoBehaviour
         // capsuleObject.transform.SetParent(Main.transform);
         capsuleObject.transform.SetParent(orgParent);
         Main.transform.SetParent(capsuleObject.insertTr);
-        
+        Main.transform.localPosition = new Vector2(0,-(mainCol.offset.y/2));
+
     }
     private void Disconnection()
     {
@@ -200,7 +200,6 @@ public class EncapsulationField : MonoBehaviour
         //Return parent
         Disconnection();
         //Return parent
-        NetRb.syncDirection = SyncDirection.ClientToServer;
 
         capsuleObject.Recover(transform,()=> {
             mainCol.enabled = true;
