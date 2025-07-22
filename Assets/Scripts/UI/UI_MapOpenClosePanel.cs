@@ -84,21 +84,21 @@ public class UI_MapOpenClosePanel : UI_Base
 
 
     //Test
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            StartCoroutine(Prograss_1());
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            StartCoroutine(Prograss_2());
-        }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            StartCoroutine(Prograss_3());
-        }
-    }
+    //void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.I))
+    //    {
+    //        StartCoroutine(Prograss_1());
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.O))
+    //    {
+    //        StartCoroutine(Prograss_2());
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.P))
+    //    {
+    //        StartCoroutine(Prograss_3());
+    //    }
+    //}
 
     #region  1
     public IEnumerator Prograss_1()
@@ -147,7 +147,7 @@ public class UI_MapOpenClosePanel : UI_Base
         animator.SetTrigger(PROGRASS_2);
         //Open Top Layer Animation
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
 
         ////Map Name Typing
         yield return StartCoroutine(typingEffect.NormalTyping(mapNameText, mapName, typingDefaultColor, 1, 60));
@@ -169,6 +169,7 @@ public class UI_MapOpenClosePanel : UI_Base
     #region 3
     public IEnumerator Prograss_3()
     {
+        yield return new WaitForSeconds(0.5f);
 
         StartCoroutine(typingEffect.TextDissolveFromLeft(mapNameText));
 
