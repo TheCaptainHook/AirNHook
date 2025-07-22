@@ -1,3 +1,4 @@
+using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,6 +20,9 @@ public class EncapsulationField : MonoBehaviour
             return entity;
         }
     }
+
+    private NetworkRigidbodyUnreliable2D netRb;
+    private NetworkRigidbodyUnreliable2D NetRb { get { netRb ??= GetComponent<NetworkRigidbodyUnreliable2D>(); return netRb; } }
 
     #region  Main
     [Header("Save Data Field")]
@@ -75,6 +79,7 @@ public class EncapsulationField : MonoBehaviour
     {
         Main.canRespawn = false;
         isCapsuling = true;
+        NetRb.syncDirection = SyncDirection.ServerToClient;
 
         //Main Object Setting
         transform.position = startPot;
@@ -195,6 +200,8 @@ public class EncapsulationField : MonoBehaviour
         //Return parent
         Disconnection();
         //Return parent
+        NetRb.syncDirection = SyncDirection.ClientToServer;
+
         capsuleObject.Recover(transform,()=> {
             mainCol.enabled = true;
             mainRb.simulated = true;
