@@ -68,10 +68,11 @@ public class UI_Bug_Report : UI_Base
 
         if (rawText.Contains("<u>") && rawText.Contains("</u>"))
         {
+            string term = inputField.text;
             string cleaned = Regex.Replace(rawText, "<.*?>", "");
-            inputField.text = cleaned;
+            inputField.text = term + cleaned;
             inputField.ForceLabelUpdate();
-            Debug.Log("[macOS] 조합 문자열 강제 확정 후 복구됨");
+            Debug.Log($"[macOS] 조합 문자열 강제 확정 후 복구됨]\n {term} + {cleaned}");
         }
 #endif
     }
@@ -86,7 +87,7 @@ public class UI_Bug_Report : UI_Base
             return true;
         }
     }
-    #endregion
+#endregion
 
     private void UI_Reset()
     {
