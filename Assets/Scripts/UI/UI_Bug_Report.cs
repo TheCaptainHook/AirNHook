@@ -69,17 +69,10 @@ public class UI_Bug_Report : UI_Base
         if (!SteamManager.Initialized) return;
         if (string.IsNullOrWhiteSpace(inputField.text)) return;
 
-        // var id = SteamUser.GetSteamID();
 
-        // ReportData report = new ReportData
-        // {
-        //     id = id.m_SteamID.ToString(),
-        //     tag = dropdown.options[dropdown.value].text,
-        //     nickName = SteamFriends.GetPersonaName(),
-        //     content = inputField.text
-        // };
 
         StartCoroutine(PostToGoogleSheet());
+        //Debug.Log(inputField.textComponent.text);
     }
     private string CleanText(string text)
     {
@@ -92,22 +85,14 @@ public class UI_Bug_Report : UI_Base
     }
     IEnumerator PostToGoogleSheet()
     {
-        // int timeout = 30;
-        // while (!string.IsNullOrEmpty(Input.compositionString) && timeout-- > 0)
-        //     yield return null;
-
-        // yield return null;
-        // EventSystem.current.SetSelectedGameObject(null);
-
         var id = SteamUser.GetSteamID();
 
-        // Debug.Log(inputField.text);
         ReportData report = new ReportData
         {
             id = id.m_SteamID.ToString(),
             tag = dropdown.options[dropdown.value].text,
             nickName = SteamFriends.GetPersonaName(),
-            content = inputField.text
+            content = inputField.textComponent.text
         };
 
         All_IsInteractable(false);
