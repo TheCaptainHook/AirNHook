@@ -1,10 +1,12 @@
 using Steamworks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
@@ -29,18 +31,67 @@ public class UI_Bug_Report : UI_Base
     private void Awake()
     {
         sendButton.onClick.AddListener(()=> StartCoroutine(DelaySendCo()));
-        exitBtn.onClick.AddListener(CloseUI);
-        
+        exitBtn.onClick.AddListener(CloseUI);       
     }
     protected override void CloseUI()
     {
-        UI_Reset();
-
-        base.CloseUI();
+        SafeClear();
     }
+    public void SafeClear()
+    {
+        StartCoroutine(SafeClearCo(() => base.CloseUI()));
+    }
+    IEnumerator SafeClearCo(Action action)
+    {
+#if UNITY_STANDALONE_OSX
+        while (IsComposingText(inputField.textComponent.text))
+            yield return null;
+        inputField.DeactivateInputField();
+        yield return null;
+        inputField.text = "";
+        inputField.ForceLabelUpdate();
+        yield return null;
+        inputField.ActivateInputField();
+#else
+        yield return null;
+        inputField.text = "";
+        inputField.ForceLabelUpdate();
+#endif
+        action?.Invoke();
+    }
+
+    #region Mac
+    public void OnDeselect()
+    {
+#if UNITY_STANDALONE_OSX
+        string rawText = inputField.textComponent.text;
+
+        if (rawText.Contains("<u>") && rawText.Contains("</u>"))
+        {
+            string cleaned = Regex.Replace(rawText, "<.*?>", "");
+            inputField.text = cleaned;
+            inputField.ForceLabelUpdate();
+            Debug.Log("[macOS] 조합 문자열 강제 확정 후 복구됨");
+        }
+#endif
+    }
+    private bool IsComposingText(string text)
+    {
+        try
+        {
+            return text != null && text.Contains("<u>") && text.Contains("</u>");
+        }
+        catch
+        {
+            return true;
+        }
+    }
+    #endregion
 
     private void UI_Reset()
     {
+      
+
         inputField.DeactivateInputField();
         //inputField.text = CleanText(inputField.text);
         inputField.text = "";
@@ -74,30 +125,12 @@ public class UI_Bug_Report : UI_Base
         //Debug.Log(inputField.textComponent.text);
     }
     #region Util
-    private string CleanText(string text)
-    {
-        var sb = new StringBuilder();
-        foreach (char c in text)
-        {
-            if (!char.IsControl(c)) sb.Append(c);
-        }
-        return sb.ToString();
-    }
-    private string RemoveAllTmpTags(string text)
-    {
-        return Regex.Replace(text, "<.*?> ", "");
-    }
 
     #endregion
     IEnumerator PostToGoogleSheet()
     {
         var id = SteamUser.GetSteamID();
-#if UNITY_STANDALONE_OSX
-     while (inputField.textComponent.text.Contains("<u>"))
-        yield return null;
 
-    Debug.Log("Mac");
-#endif
         ReportData report = new ReportData
         {
             id = id.m_SteamID.ToString(),
