@@ -82,18 +82,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
 
         CreateItemAndSorting(transportItemEntity.data);
     }
-    private void CreateItemAndSorting(ObjectData data)
-    {
-        float totalLength = item_Space * (data.activeRequireAmount - 1); // 총 길이
-        Vector3 startPot = transform.position - new Vector3(FloorTo2DecimalPlaces(totalLength / 2f), 0, 0);
-        for (int i = activeRequirAmount - 1; i >= 0; i--)
-        {
-            var item = CreateItem();
-            itemWaitStack.Push(item);
-            item.transform.position = startPot + new Vector3(item_Space * i, 0, 0);
-        }
-            
-    }
+   
     private float FloorTo2DecimalPlaces(float num)
     {
         return Mathf.Floor(num * 100) / 100f;
@@ -165,7 +154,21 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
 
     }
     #endregion
+    //Encapsulation Field
+    private void CreateItemAndSorting(ObjectData data)
+    {
+        float totalLength = item_Space * (data.activeRequireAmount - 1); // 총 길이
+        Vector3 startPot = transform.position - new Vector3(FloorTo2DecimalPlaces(totalLength / 2f), 0, 0);
+        for (int i = activeRequirAmount - 1; i >= 0; i--)
+        {
+            var item = CreateItem();
+            itemWaitStack.Push(item);
+            item.transform.position = startPot + new Vector3(item_Space * i, 0, 0);
+        }
 
+    }
+
+    //Default
     private float item_Space = .5f;
     private void CreateItemAndSorting(ButtonActivatableObjectStruct data)
     {
@@ -297,10 +300,14 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
         path.obstacleLayer = 1 << 6;
         line.positionCount = 0;
         line.transform.SetParent(linePoolingContainer);
-        line.startWidth = 0.1f;
+
+        //Line Visual
+        line.startWidth = 0.7f;
         line.material = new Material(Shader.Find("Sprites/Default"));
-        line.startColor = Color.red;
-        line.endColor = Color.red;
+        line.startColor = Color.green;
+        line.endColor = Color.green;
+        //Line Visual
+
         line.sortingLayerName = "Map/Tiles";
         line.sortingOrder = 3;
 

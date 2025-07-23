@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Steamworks;
 using TMPro;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Mirror;
 
@@ -44,6 +43,7 @@ public class UI_Option : UI_Base
 
     [SerializeField] private GameObject _roomCodeBox;
     [SerializeField] private Button _copyCodeBtn;
+    [SerializeField] private Button _bugReportBtn;
 
     [Header("GraphicsOption")]
     [SerializeField] private Toggle _fullScreenToggle;
@@ -128,8 +128,9 @@ public class UI_Option : UI_Base
         _exitGameBtn.onClick.AddListener(OnExitBtn);
         _copyCodeBtn.onClick.AddListener(OnCopyBtn);
         _respawnObjectBtn.onClick.AddListener(OnRespawnObjectBtn);
+        _bugReportBtn.onClick.AddListener(OnBugReportBtn);
         // _infoTxt.text = menuGameOptionInfo;
-        
+
         //GraphicsOption
         FullScreenToggle();
         VsyncToggle();
@@ -147,11 +148,12 @@ public class UI_Option : UI_Base
     private void OnGameOptionBtn()
     {
         OnClick();
-        _gameOption.SetActive(true);
         _graphicsOption.SetActive(false);
         _volumeOption.SetActive(false);
         _languageOption.SetActive(false);
 
+        _gameOption.SetActive(true);
+        _bugReportBtn.gameObject.SetActive(true);
         _inGameBtnGroups.SetActive(IsServer);
         _toTitleBtn.gameObject.SetActive(!IsInTitle);
         _exitGameBtn.gameObject.SetActive(true);
@@ -164,9 +166,12 @@ public class UI_Option : UI_Base
     {
         OnClick();
         _gameOption.SetActive(false);
-        _graphicsOption.SetActive(true);
         _volumeOption.SetActive(false);
         _languageOption.SetActive(false);
+        _bugReportBtn.gameObject.SetActive(false);
+
+
+        _graphicsOption.SetActive(true);
         //_resolutionWarning.SetActive(!IsInTitle);
     }
     
@@ -175,8 +180,10 @@ public class UI_Option : UI_Base
         OnClick();
         _gameOption.SetActive(false);
         _graphicsOption.SetActive(false);
-        _volumeOption.SetActive(true);
         _languageOption.SetActive(false);
+        _bugReportBtn.gameObject.SetActive(false);
+
+        _volumeOption.SetActive(true);
         //_resolutionWarning.SetActive(false);
     }
 
@@ -186,6 +193,8 @@ public class UI_Option : UI_Base
         _gameOption.SetActive(false);
         _graphicsOption.SetActive(false);
         _volumeOption.SetActive(false);
+        _bugReportBtn.gameObject.SetActive(false);
+
         _languageOption.SetActive(true);
         //_resolutionWarning.SetActive(false);
     }
@@ -232,7 +241,12 @@ public class UI_Option : UI_Base
             Managers.Network.StopClient();
         }
     }
-    
+
+    private void OnBugReportBtn()
+    {
+        var ui = Managers.UI.ShowUI<UI_Bug_Report>();
+
+    }
     private void OnExitBtn()
     {
         OnClick();

@@ -1,12 +1,13 @@
 using Steamworks;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class UI_Bug_Report : MonoBehaviour
+public class UI_Bug_Report : UI_Base
 {
     [SerializeField] TMP_InputField inputField;
     [SerializeField] TMP_Dropdown dropdown;
@@ -15,25 +16,92 @@ public class UI_Bug_Report : MonoBehaviour
     #region Wait Popup
     [SerializeField] GameObject waitPopup;
     [SerializeField] TextMeshProUGUI waitPopupText;
+    [SerializeField] Button exitBtn;
     #endregion
+
+    public override void OnEnable()
+    {
+
+    }
 
 
     private void Awake()
     {
-        sendButton.onClick.AddListener(() => SendReport());
+        sendButton.onClick.AddListener(()=> StartCoroutine(DelaySendCo()));
+        exitBtn.onClick.AddListener(CloseUI);
         
     }
+    protected override void CloseUI()
+    {
+        UI_Reset();
 
+        base.CloseUI();
+    }
+
+    private void UI_Reset()
+    {
+        inputField.DeactivateInputField();
+        inputField.text = CleanText(inputField.text);
+        inputField.text = "";
+        inputField.ForceLabelUpdate();
+
+        inputField.ActivateInputField();
+
+        dropdown.value = 0;
+    }
     private string url = "https://script.google.com/macros/s/AKfycbyO1ZHhpfdUWEJmC5tz9VKEyOJPY4QlFQCckIqvp7UKQn4jIuPR41jy9t0kM-j9iDJY/exec";
 
 
-    public void SendReport()
+    private void All_IsInteractable(bool value)
+    {
+        inputField.interactable = value;
+        dropdown.interactable = value;
+        sendButton.interactable = value;
+        exitBtn.interactable = value;
+    }
+    private IEnumerator DelaySendCo()
+    {
+        yield return null;
+        SendReport();
+    }
+    private void SendReport()
     {
         if (!SteamManager.Initialized) return;
         if (string.IsNullOrWhiteSpace(inputField.text)) return;
 
+        // var id = SteamUser.GetSteamID();
+
+        // ReportData report = new ReportData
+        // {
+        //     id = id.m_SteamID.ToString(),
+        //     tag = dropdown.options[dropdown.value].text,
+        //     nickName = SteamFriends.GetPersonaName(),
+        //     content = inputField.text
+        // };
+
+        StartCoroutine(PostToGoogleSheet());
+    }
+    private string CleanText(string text)
+    {
+        var sb = new StringBuilder();
+        foreach (char c in text)
+        {
+            if (!char.IsControl(c)) sb.Append(c);
+        }
+        return sb.ToString();
+    }
+    IEnumerator PostToGoogleSheet()
+    {
+        // int timeout = 30;
+        // while (!string.IsNullOrEmpty(Input.compositionString) && timeout-- > 0)
+        //     yield return null;
+
+        // yield return null;
+        // EventSystem.current.SetSelectedGameObject(null);
+
         var id = SteamUser.GetSteamID();
- 
+
+        // Debug.Log(inputField.text);
         ReportData report = new ReportData
         {
             id = id.m_SteamID.ToString(),
@@ -42,14 +110,11 @@ public class UI_Bug_Report : MonoBehaviour
             content = inputField.text
         };
 
-        StartCoroutine(PostToGoogleSheet(report));
-    }
-    IEnumerator PostToGoogleSheet(ReportData report)
-    {
-        sendButton.interactable = false;
+        All_IsInteractable(false);
+
         waitPopup.SetActive(true);
         waitPopupText.text = "전송 중";
-       
+
         string json = JsonUtility.ToJson(report);
         byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
 
@@ -74,9 +139,8 @@ public class UI_Bug_Report : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
         waitPopup.SetActive(false);
-    
 
-        sendButton.interactable = true;
+        All_IsInteractable(true);
     }
 
 
