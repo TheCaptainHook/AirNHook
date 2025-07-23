@@ -6468,7 +6468,15 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7170908152819534654, guid: 5d2c197fbd5c9a84b9c87699ac0f03eb, type: 3}
+      propertyPath: m_OnSelect.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7170908152819534654, guid: 5d2c197fbd5c9a84b9c87699ac0f03eb, type: 3}
       propertyPath: m_OnDeselect.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7170908152819534654, guid: 5d2c197fbd5c9a84b9c87699ac0f03eb, type: 3}
+      propertyPath: m_OnSelect.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7170908152819534654, guid: 5d2c197fbd5c9a84b9c87699ac0f03eb, type: 3}
@@ -6476,9 +6484,21 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7170908152819534654, guid: 5d2c197fbd5c9a84b9c87699ac0f03eb, type: 3}
+      propertyPath: m_OnSelect.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 948857395}
+    - target: {fileID: 7170908152819534654, guid: 5d2c197fbd5c9a84b9c87699ac0f03eb, type: 3}
       propertyPath: m_OnDeselect.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 948857395}
+    - target: {fileID: 7170908152819534654, guid: 5d2c197fbd5c9a84b9c87699ac0f03eb, type: 3}
+      propertyPath: m_OnSelect.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7170908152819534654, guid: 5d2c197fbd5c9a84b9c87699ac0f03eb, type: 3}
+      propertyPath: m_OnSelect.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnSelect
+      objectReference: {fileID: 0}
     - target: {fileID: 7170908152819534654, guid: 5d2c197fbd5c9a84b9c87699ac0f03eb, type: 3}
       propertyPath: m_OnDeselect.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -6488,8 +6508,16 @@ PrefabInstance:
       value: OnDeselect
       objectReference: {fileID: 0}
     - target: {fileID: 7170908152819534654, guid: 5d2c197fbd5c9a84b9c87699ac0f03eb, type: 3}
+      propertyPath: m_OnSelect.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UI_Bug_Report, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7170908152819534654, guid: 5d2c197fbd5c9a84b9c87699ac0f03eb, type: 3}
       propertyPath: m_OnDeselect.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: UI_Bug_Report, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7170908152819534654, guid: 5d2c197fbd5c9a84b9c87699ac0f03eb, type: 3}
+      propertyPath: m_OnSelect.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7170908152819534654, guid: 5d2c197fbd5c9a84b9c87699ac0f03eb, type: 3}
       propertyPath: m_OnDeselect.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName

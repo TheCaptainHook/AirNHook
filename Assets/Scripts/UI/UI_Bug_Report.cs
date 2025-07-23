@@ -44,8 +44,7 @@ public class UI_Bug_Report : UI_Base
     IEnumerator SafeClearCo(Action action)
     {
 #if UNITY_STANDALONE_OSX
-        while (IsComposingText(inputField.textComponent.text))
-            yield return null;
+        Debug.Log("Mac_2);
         inputField.DeactivateInputField();
         yield return null;
         inputField.text = "";
@@ -61,25 +60,34 @@ public class UI_Bug_Report : UI_Base
     }
 
     #region Mac
+    private string beforeString;
     public void OnDeselect()
     {
-#if UNITY_STANDALONE_OSX
+//#if UNITY_STANDALONE_OSX
         string rawText = inputField.textComponent.text;
-
+        Debug.Log("Mac_1");
         if (rawText.Contains("<u>") && rawText.Contains("</u>"))
         {
-            string term = inputField.text;
             string cleaned = Regex.Replace(rawText, "<.*?>", "");
-            inputField.text = term + cleaned;
-            inputField.ForceLabelUpdate();
-            Debug.Log($"[macOS] 조합 문자열 강제 확정 후 복구됨]\n {term} + {cleaned}");
+            beforeString= cleaned;
+            
+            Debug.Log($"[macOS] 조합 문자열 강제 확정 후 복구됨]\n {cleaned}");
         }
+//#endif
+    }
+    public void OnSelect()
+    {
+#if UNITY_STANDALONE_OSX
+Debug.Log("Mac_Select");
+        if(!string.IsNullOrEmpty(beforeString))
+        inputField.text = beforeString;
 #endif
     }
     private bool IsComposingText(string text)
     {
         try
         {
+            Debug.Log("Mac_isComposingText");
             return text != null && text.Contains("<u>") && text.Contains("</u>");
         }
         catch
@@ -89,19 +97,6 @@ public class UI_Bug_Report : UI_Base
     }
 #endregion
 
-    private void UI_Reset()
-    {
-      
-
-        inputField.DeactivateInputField();
-        //inputField.text = CleanText(inputField.text);
-        inputField.text = "";
-        inputField.ForceLabelUpdate();
-
-        inputField.ActivateInputField();
-
-        dropdown.value = 0;
-    }
     private string url = "https://script.google.com/macros/s/AKfycbyO1ZHhpfdUWEJmC5tz9VKEyOJPY4QlFQCckIqvp7UKQn4jIuPR41jy9t0kM-j9iDJY/exec";
 
 
