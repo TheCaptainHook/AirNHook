@@ -2,6 +2,7 @@ using Steamworks;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -41,7 +42,7 @@ public class UI_Bug_Report : UI_Base
     private void UI_Reset()
     {
         inputField.DeactivateInputField();
-        inputField.text = CleanText(inputField.text);
+        //inputField.text = CleanText(inputField.text);
         inputField.text = "";
         inputField.ForceLabelUpdate();
 
@@ -69,11 +70,10 @@ public class UI_Bug_Report : UI_Base
         if (!SteamManager.Initialized) return;
         if (string.IsNullOrWhiteSpace(inputField.text)) return;
 
-
-
         StartCoroutine(PostToGoogleSheet());
         //Debug.Log(inputField.textComponent.text);
     }
+    #region Util
     private string CleanText(string text)
     {
         var sb = new StringBuilder();
@@ -83,10 +83,21 @@ public class UI_Bug_Report : UI_Base
         }
         return sb.ToString();
     }
+    private string RemoveAllTmpTags(string text)
+    {
+        return Regex.Replace(text, "<.*?> ", "");
+    }
+
+    #endregion
     IEnumerator PostToGoogleSheet()
     {
         var id = SteamUser.GetSteamID();
+#if UNITY_STANDALONE_OSX
+     while (inputField.textComponent.text.Contains("<u>"))
+        yield return null;
 
+    Debug.Log("Mac");
+#endif
         ReportData report = new ReportData
         {
             id = id.m_SteamID.ToString(),
