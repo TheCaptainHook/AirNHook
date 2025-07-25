@@ -42,12 +42,14 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
     private Puzzle_1_Parts_Net Net;
 
-    private void Awake(){
+    private void Awake()
+    {
         Net = GetComponent<Puzzle_1_Parts_Net>();
         col = GetComponent<Collider2D>();
 
         pathFinder = GetComponent<PathFinder>();
         lineRenderer.colorGradient = wrongGradient;
+        
     }
 
     #region ------------------------------------------------------Network Field
@@ -175,7 +177,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
                         {
                             ShowE();
                             item.ContectParts(this);
-                            //In Part
+                            //In Parts
                         }
                     }
 

@@ -1,7 +1,7 @@
-using Mirror;
 using System.Collections;
-using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
+
 
 public class LeverHead_Net : TransportItemEntity
 {
@@ -12,22 +12,31 @@ public class LeverHead_Net : TransportItemEntity
     {
         Destroyed();
         Rpc_Attach();
+        // Rpc_Att();
+        StartCoroutine(DelayDestroy());
     }
 
+    IEnumerator DelayDestroy()
+    {
+        yield return new WaitForSeconds(1);
+        NetworkServer.Destroy(gameObject);
+    }
     [ClientRpc]
     private void Rpc_Attach()
     {
         Col.enabled = false;
         Rb.simulated = false;
-    }
-    [Server]
-    public void Server_Att()
-    {
-        Rpc_Att();
-    }
-    [ClientRpc]
-    private void Rpc_Att()
-    {
         transform.GetChild(0).gameObject.SetActive(false);
     }
+    
+    // [Server]
+    // public void Server_Att()
+    // {
+    //     Rpc_Att();
+    // }
+    // [ClientRpc]
+    // private void Rpc_Att()
+    // {
+
+    // }
 }

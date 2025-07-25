@@ -40,6 +40,7 @@ public class BatteryCharger_Net : NetworkBehaviour
     #endregion
 
     Coroutine charge;
+    
     [Server]
     public void Server_SetBattery(GameObject newBattery)
     {

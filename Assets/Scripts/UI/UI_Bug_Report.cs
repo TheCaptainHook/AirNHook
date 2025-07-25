@@ -113,6 +113,8 @@ public class UI_Bug_Report : UI_Base
         waitPopup.SetActive(false);
 
         All_IsInteractable(true);
+
+        CloseUI();
     }
 
 

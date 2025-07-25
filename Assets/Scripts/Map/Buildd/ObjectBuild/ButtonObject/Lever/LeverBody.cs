@@ -53,9 +53,10 @@ public class LeverBody : ButtonEntity, IInteractable
 
 
                 //}
-                LeverHead leverHead = collision.gameObject.GetComponent<LeverHead>();
+                // LeverHead leverHead = collision.gameObject.GetComponent<LeverHead>();
                 //Net.Server_SetLeverHead(leverHead);
-                Net.Cmd_SetLeverHead(leverHead.GetComponent<NetworkIdentity>().netId);
+
+                Net.Cmd_SetLeverHead(collision.gameObject.GetComponent<NetworkIdentity>().netId);
             }
            
         }

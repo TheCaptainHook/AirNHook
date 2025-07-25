@@ -33,8 +33,17 @@ public class BatteryCharger : BuildObj
                 B_Net.Cmd_ShowE(collision.gameObject, true);
                 battery.Net_SetBatteryCharger(gameObject);
             }
+
+            GetVelocity(battery);
         }
     }
+
+    //--------TEST
+    private void GetVelocity(Battery battery)
+    {
+        Debug.Log(battery._rb.velocity);
+    }
+    //--------TEST
 
     private void OnTriggerExit2D(Collider2D collider)
     {

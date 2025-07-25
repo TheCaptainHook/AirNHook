@@ -8584,6 +8584,42 @@
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
             "indicator": 0
+        },
+        {
+            "id": 313,
+            "dialogueId": 0,
+            "position": {
+                "x": -32.380001068115237,
+                "y": 22.75
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         }
     ],
     "mapBackgroundObjectList": [
@@ -12734,6 +12770,40 @@
             "scale": {
                 "x": 1.2000000476837159,
                 "y": 1.2000000476837159,
+                "z": 1.0
+            },
+            "targetPositions": [
+                {
+                    "x": -34.5,
+                    "y": 21.0
+                }
+            ],
+            "lightPositions": [],
+            "encapsulationItems": [],
+            "onHint": false,
+            "partsPositions": [],
+            "itemPositions": [],
+            "hintPosition": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "chargeRequired": false
+        },
+        {
+            "id": 312,
+            "position": {
+                "x": -30.829999923706056,
+                "y": 21.09000015258789
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
                 "z": 1.0
             },
             "targetPositions": [
