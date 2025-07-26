@@ -70,9 +70,9 @@ public class Map
         List<CompressedTileData> accessoryTileDataList,
         List<CompressedTileData> mapHiddenTileDataList,
         //Shadow 250109
-        List<ShadowCasterStruct> shadowCasterStructs,
+        //List<ShadowCasterStruct> shadowCasterStructs,
         //Light 250112
-        LightStruct globalLightStruct,
+        //LightStruct globalLightStruct,
         //object
         List<ObjectData> objectList,
         List<ObjectData> backgroundObjectList,
@@ -98,9 +98,9 @@ public class Map
         mapAccessoryTIleDataList = accessoryTileDataList;
         this.mapHiddenTileDataList = mapHiddenTileDataList;
         //shadow
-        this.mapShadowCasterDataList = shadowCasterStructs;
+        //this.mapShadowCasterDataList = shadowCasterStructs;
         //Light
-        this.globalLightStruct = globalLightStruct;
+        //this.globalLightStruct = globalLightStruct;
         //object
         mapObjectDataList = objectList;
         mapBackgroundObjectList = backgroundObjectList;

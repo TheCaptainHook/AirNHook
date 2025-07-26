@@ -68,7 +68,7 @@ public class MapEditor_Editor : Editor
     public override void OnInspectorGUI()
     {
         mapEditor = target as MapEditor;
-        LightFieldSetting();
+        //LightFieldSetting();
 
         GUILayout.Space(10);
         Draw_MainContents();
@@ -147,7 +147,7 @@ public class MapEditor_Editor : Editor
                                 
                                 if(isLight)
                                 {
-                                    DrawLight();
+                                    //DrawLight();
                                 }
 
                         GUILayout.EndVertical();
@@ -478,7 +478,7 @@ public class MapEditor_Editor : Editor
         GUILayout.FlexibleSpace();
         if (GUILayout.Button("개발자용, 맵 새로만들 때 먼저 누르기,Init!", GUILayout.Width(300), GUILayout.Height(30)))
         {
-            GlobalLightReset();
+            //GlobalLightReset();
             _Reset(mapEditor);
             mapEditor.Init();
             EditorApplication.ExecuteMenuItem("Window/2D/Tile Palette");
@@ -655,9 +655,9 @@ public class MapEditor_Editor : Editor
             Create_StartPoint(map);
             Create_Tile();
             //Shadow Setting
-            Create_Shadow();
+            //Create_Shadow();
             //Light Setting
-            SetGlobalLight(map.globalLightStruct);
+            //SetGlobalLight(map.globalLightStruct);
 
             Create_Object();
 
@@ -1019,9 +1019,10 @@ private Map CreateMap(MapEditor mapEditor){
             //GetTileData(mapEditor.placeMentSystem.accessoryTileMap),
 
             //Shadow
-            GetShadowData(),
+            //GetShadowData(),
             //Light
-            GetGlobalLightStruct(),
+            //GetGlobalLightStruct(),
+
             //object
             GetList<ObjectData>(mapEditor.objectTransform),
             GetList<ObjectData>(mapEditor.backgroundObjectContainer),
@@ -1039,18 +1040,18 @@ private Map CreateMap(MapEditor mapEditor){
 }
 
 //------------------------------------------------------------------------------------------------------250107 Shadow
-private List<ShadowCasterStruct> GetShadowData()
-{
+//private List<ShadowCasterStruct> GetShadowData()
+//{
 
-    List<ShadowCasterStruct> list = new();
-    foreach(Transform tr in mapEditor.shadowContainer)
-    {
-        Debug.Log($"{tr.name}");
-        ShadowCasterSetting setting = tr.GetComponent<ShadowCasterSetting>();
-        list.Add(setting.GetShadowCasterStruct());
-    }
-    return list;
-}
+//    List<ShadowCasterStruct> list = new();
+//    foreach(Transform tr in mapEditor.shadowContainer)
+//    {
+//        Debug.Log($"{tr.name}");
+//        ShadowCasterSetting setting = tr.GetComponent<ShadowCasterSetting>();
+//        list.Add(setting.GetShadowCasterStruct());
+//    }
+//    return list;
+//}
 //------------------------------------------------------------------------------------------------------250107 Shadow
 //------------------------------------------------------------------------------------------------------250112 Light
 private LightStruct GetGlobalLightStruct()
