@@ -14,6 +14,7 @@ public class UI_PingWheel : UI_Base
     [SerializeField] private GameObject _mainEmoteWheel;
 
     [Header("EmoteWheel")]
+    [SerializeField] private Button _emotePanel0;
     [SerializeField] private Button _emotePanel1;
     [SerializeField] private Button _emotePanel2;
     [SerializeField] private Button _emotePanel3;
@@ -37,10 +38,12 @@ public class UI_PingWheel : UI_Base
 
     protected override void Start()
     {
+        _emotePanel0.onClick.AddListener(OnPanel0);
         _emotePanel1.onClick.AddListener(OnPanel1);
         _emotePanel2.onClick.AddListener(OnPanel2);
         _emotePanel3.onClick.AddListener(OnPanel3);
         _emotePanel4.onClick.AddListener(OnPanel4);
+        
     }
 
     private void OnExit()
@@ -56,7 +59,10 @@ public class UI_PingWheel : UI_Base
         Managers.Game.Player.GetComponent<PlayerSM>().UsingPing();
         OnExit();
     }
-
+    private void OnPanel0()
+    {
+        ShowPing("Ping1");
+    }
     private void OnPanel1()
     {
         ShowPing("Ping2");
