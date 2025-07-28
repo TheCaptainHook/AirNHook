@@ -426,6 +426,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     {
         if (_pingOnCoolDown) return;
 
+        // CmdPing("Ping1", Camera.main.ScreenToWorldPoint(Input.mousePosition));
         CmdPing("Ping1", Camera.main.ScreenToWorldPoint(Input.mousePosition));
         UsingPing();
     }
@@ -454,6 +455,8 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         var prefab = Managers.Network.spawnPrefabDict[pingName];
         var go = Instantiate(prefab, pos, Quaternion.identity);
         NetworkServer.Spawn(go);
+
+        go.GetComponent<PingWheel_Item_Marker>().Setting_PingPosition(pos);//-------------Ping mark 0728
         go.name = prefab.name;
     }
 

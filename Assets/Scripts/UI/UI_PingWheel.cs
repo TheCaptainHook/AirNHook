@@ -56,6 +56,7 @@ public class UI_PingWheel : UI_Base
     private void ShowPing(string pingName)
     {
         Managers.Game.Player.GetComponent<PlayerSM>().CmdPing($"{pingName}", _mousePosition);
+        // Managers.Game.Player.GetComponent<PlayerSM>().Rpc_Ping($"{pingName}", _mousePosition);
         Managers.Game.Player.GetComponent<PlayerSM>().UsingPing();
         OnExit();
     }

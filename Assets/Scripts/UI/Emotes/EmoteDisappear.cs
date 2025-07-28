@@ -6,16 +6,18 @@ using UnityEngine;
 public class EmoteDisappear : MonoBehaviour
 {
     [SerializeField] private GameObject _mainFrame;
-    
+    [SerializeField] private PingWheel_Item_Marker pingWheel_Item;
     private void OnEnable()
     {
         Show();
         StartCoroutine(C0_OnTimeClear());
+        //Update Ping Position 0728
+        //Update Ping Position 0728
     }
 
     private IEnumerator C0_OnTimeClear()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(5f);
         Disapper();
         yield return new WaitForSeconds(0.2f);
         Destroy(gameObject);
