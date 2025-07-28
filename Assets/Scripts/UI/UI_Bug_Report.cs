@@ -39,12 +39,9 @@ public class UI_Bug_Report : UI_Base
         base.CloseUI();
     }
 
-    #region Mac
-
-    #endregion
 
 
-    private string url = "https://script.google.com/macros/s/AKfycbyO1ZHhpfdUWEJmC5tz9VKEyOJPY4QlFQCckIqvp7UKQn4jIuPR41jy9t0kM-j9iDJY/exec";
+    private string url = "https://script.google.com/macros/s/AKfycbzFZ5D1hyd40IU9UFEEPk08oo1-lHIUbcF3EmpR9cl4cvZLsZyoeVxk1Sw5sPpRVB-_/exec";
 
 
     private void All_IsInteractable(bool value)
@@ -76,9 +73,9 @@ public class UI_Bug_Report : UI_Base
 
         ReportData report = new ReportData
         {
-            id = id.m_SteamID.ToString(),
+            // id = id.m_SteamID.ToString(),
             tag = dropdown.options[dropdown.value].text,
-            nickName = SteamFriends.GetPersonaName(),
+            // nickName = SteamFriends.GetPersonaName(),
             content = inputField.textComponent.text
         };
 
@@ -125,8 +122,8 @@ public class UI_Bug_Report : UI_Base
 [System.Serializable]
 public class ReportData
 {
-    public string id;
+    // public string id;
     public string tag;
-    public string nickName;
+    // public string nickName;
     public string content;
 }
