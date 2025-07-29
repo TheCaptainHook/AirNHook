@@ -17,7 +17,7 @@ public class EmoteDisappear : MonoBehaviour
 
     private IEnumerator C0_OnTimeClear()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2f);
         Disapper();
         yield return new WaitForSeconds(0.2f);
         Destroy(gameObject);
