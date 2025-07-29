@@ -452,13 +452,26 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     [Command(requiresAuthority = false)]
     public void CmdPing(string pingName, Vector2 pos)
     {
+        //var prefab = Managers.Network.spawnPrefabDict[pingName];
+        //var go = Instantiate(prefab, pos, Quaternion.identity);
+        //NetworkServer.Spawn(go);
+        //-------------Ping mark 0728
+        Rpc_Ping(pingName, pos);
+        //-------------Ping mark 0728
+
+       
+    }
+    //-------------Ping mark 0728
+    [ClientRpc]
+    private void Rpc_Ping(string pingName, Vector2 pos)
+    {
         var prefab = Managers.Network.spawnPrefabDict[pingName];
         var go = Instantiate(prefab, pos, Quaternion.identity);
-        NetworkServer.Spawn(go);
-
-        go.GetComponent<PingWheel_Item_Marker>().Setting_PingPosition(pos);//-------------Ping mark 0728
+        go.GetComponent<PingWheel_Item_Marker>().Setting_PingPosition(pos);
         go.name = prefab.name;
     }
+    //-------------Ping mark 0728
+
 
     public void UsingPing()
     {
