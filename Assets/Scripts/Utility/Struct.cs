@@ -582,43 +582,39 @@ public struct ShadowCasterStruct{
 #region Light
 [System.Serializable]
 public struct LightStruct{
-    public UnityEngine.Rendering.Universal.Light2D.LightType type;
+    // public UnityEngine.Rendering.Universal.Light2D.LightType type;
     public Color color;
-    public float intensity;
-    public int[] targetSorting;
-    public int blendStyleIndex;
-    public int lightOrder;
-    public OverlapOperation overlapOeration;
+    // public float intensity;
+    // public int[] targetSorting;
+    // public int blendStyleIndex;
+    // public int lightOrder;
+    // public OverlapOperation overlapOeration;
 
     public LightStruct(
-        UnityEngine.Rendering.Universal.Light2D.LightType type,
-        Color color,
-        float intensity, 
-        int[] targetSorting,
-        int blendStyleIndex,
-        int lightOrder,
-         OverlapOperation overlapOeration
+        // UnityEngine.Rendering.Universal.Light2D.LightType type,
+        Color color
+        // float intensity, 
+        // int[] targetSorting,
+        // int blendStyleIndex,
+        // int lightOrder,
+        //  OverlapOperation overlapOeration
         )
     {
-        this.type = type;
+        // this.type = type;
         this.color = color;
-        this.intensity = intensity;
-        this.targetSorting = targetSorting;
-        this.blendStyleIndex = blendStyleIndex;
-        this.lightOrder = lightOrder;
-        this.overlapOeration = overlapOeration;
+        // this.intensity = intensity;
+        // this.targetSorting = targetSorting;
+        // this.blendStyleIndex = blendStyleIndex;
+        // this.lightOrder = lightOrder;
+        // this.overlapOeration = overlapOeration;
     }
 
     public LightStruct Default()
     {
         return new LightStruct(
-            UnityEngine.Rendering.Universal.Light2D.LightType.Global, 
-            Color.white,                                             
-            1f,
-            new int[] {0},
-            0,
-            0,
-            OverlapOperation.Additive
+            
+            Color.black                                           
+           
         );
     }
 }

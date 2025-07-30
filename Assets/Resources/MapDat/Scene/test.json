@@ -459,18 +459,12 @@
     "mapHiddenTileDataList": [],
     "mapShadowCasterDataList": [],
     "globalLightStruct": {
-        "type": 0,
         "color": {
-            "r": 0.0,
-            "g": 0.0,
-            "b": 0.0,
-            "a": 0.0
-        },
-        "intensity": 0.0,
-        "targetSorting": [],
-        "blendStyleIndex": 0,
-        "lightOrder": 0,
-        "overlapOeration": 0
+            "r": 0.009433984756469727,
+            "g": 0.009433984756469727,
+            "b": 0.009433984756469727,
+            "a": 0.772549033164978
+        }
     },
     "mapObjectDataList": [],
     "mapBackgroundObjectList": [],

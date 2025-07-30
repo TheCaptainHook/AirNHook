@@ -11,6 +11,7 @@ using Mirror;
 
 using TileData = ANH_MapEditor.TileData;
 using MapType = ANH_MapEditor.MapType;
+using FunkyCode;
 
 // public enum MapType
 // {
@@ -106,21 +107,23 @@ public class MapEditor : MonoBehaviour
     [HideInInspector] public Transform collectableContainer;
 
     //0107 Shadow
-    [HideInInspector] public Transform shadowContainer;
+    // [HideInInspector] public Transform shadowContainer;
     public bool stageClear;
 
-    private Light2D globalLight;
-    public Light2D GlobalLight
-    {
-        get
-        {
-            if(globalLight == null){
-                globalLight = GetGlobalLight();
-            }
-            return globalLight;
-        }
-    } //-----------------------------------------------------------------------Light
-
+#region Light
+    // private Light2D globalLight;
+    // public Light2D GlobalLight
+    // {
+    //     get
+    //     {
+    //         if(globalLight == null){
+    //             globalLight = GetGlobalLight();
+    //         }
+    //         return globalLight;
+    //     }
+    // }
+    //-----------------------------------------------------------------------Light
+#endregion
 
     [Space(10)]
     [Header("Save Data")]
@@ -179,7 +182,7 @@ public class MapEditor : MonoBehaviour
 
         folderPath = Path.Combine(Application.dataPath, "Resources/MapDat"); //todo
         
-        fadeInOutPanel.preMapLoadEvent+=ReleasePooling;
+        // fadeInOutPanel.preMapLoadEvent+=ReleasePooling;
     }
 
     //todo
@@ -219,7 +222,7 @@ public class MapEditor : MonoBehaviour
         collectableContainer = Util.CreateChildTransform(mapObjBoxTransform, "collectableContainer");
     
         //0107 Shadow
-        shadowContainer = Util.CreateChildTransform(mapObjBoxTransform, "shadowContainer");
+        // shadowContainer = Util.CreateChildTransform(mapObjBoxTransform, "shadowContainer");
     }
 
     public void EditorMode_Init()
@@ -409,10 +412,8 @@ public class MapEditor : MonoBehaviour
         ParallaxCameraReset();
 
         Create_Tile();
-        //Shadow Setting
-        Create_Shadow();
         //Light Setting
-        SetGlobalLight();
+        SetLightProfile();
 
         Create_Object();
         
@@ -619,43 +620,32 @@ public class MapEditor : MonoBehaviour
         startPositionObject.transform.SetParent(dontSaveObjectTransform);
     }
 
-    private void Create_Shadow()
+    // private void Create_Shadow()
+    // {
+    //     GameObject shadowPrefab =Resources.Load<GameObject>(GlobalText.SHADOW_PREFAB_PATH);
+    //     foreach(ShadowCasterStruct data in curMap.mapShadowCasterDataList)
+    //     {
+    //         ShadowCasterSetting shadowSetting = Managers.Pooling.D_GetItem(shadowPrefab).GetComponent<ShadowCasterSetting>();
+    //         shadowSetting.gameObject.SetActive(true);
+    //         shadowSetting.gameObject.transform.SetParent(shadowContainer);    
+    //         shadowSetting.transform.position = data.position;
+    //         shadowSetting.SetShadowCasterData(data);
+    //     }
+    // }
+    private void SetLightProfile()
     {
-        GameObject shadowPrefab =Resources.Load<GameObject>(GlobalText.SHADOW_PREFAB_PATH);
-        foreach(ShadowCasterStruct data in curMap.mapShadowCasterDataList)
-        {
-            ShadowCasterSetting shadowSetting = Managers.Pooling.D_GetItem(shadowPrefab).GetComponent<ShadowCasterSetting>();
-            shadowSetting.gameObject.SetActive(true);
-            shadowSetting.gameObject.transform.SetParent(shadowContainer);    
-            shadowSetting.transform.position = data.position;
-            shadowSetting.SetShadowCasterData(data);
-        }
-    }
-    private void SetGlobalLight()
-    {
-        FieldInfo sortingLayerField = typeof(Light2D).GetField("m_ApplyToSortingLayers", BindingFlags.NonPublic | BindingFlags.Instance);
+        // FieldInfo sortingLayerField = typeof(Light2D).GetField("m_ApplyToSortingLayers", BindingFlags.NonPublic | BindingFlags.Instance);
 
         var lightData = curMap.globalLightStruct;
-
-        if(lightData.type == default)
-        {
-            GlobalLight.lightType = Light2D.LightType.Global;
-            GlobalLight.color = Color.white;
-            GlobalLight.intensity = 1;
-            sortingLayerField.SetValue(GlobalLight, new int[] { 0 });
-            GlobalLight.blendStyleIndex = 0;
-            GlobalLight.lightOrder = 0;
-            GlobalLight.overlapOperation = 0;
-            return;
-        }
-
-        GlobalLight.lightType = lightData.type;
-        GlobalLight.color = lightData.color;
-        GlobalLight.intensity = lightData.intensity;
-        sortingLayerField.SetValue(GlobalLight, lightData.targetSorting);
-        GlobalLight.blendStyleIndex = lightData.blendStyleIndex;
-        GlobalLight.lightOrder = lightData.lightOrder;
-        GlobalLight.overlapOperation = lightData.overlapOeration;
+        var profile = LightingManager2D.Get().profile;
+        profile.DarknessColor = lightData.color;
+        // GlobalLight.lightType = lightData.type;
+        // GlobalLight.color = lightData.color;
+        // GlobalLight.intensity = lightData.intensity;
+        // sortingLayerField.SetValue(GlobalLight, lightData.targetSorting);
+        // GlobalLight.blendStyleIndex = lightData.blendStyleIndex;
+        // GlobalLight.lightOrder = lightData.lightOrder;
+        // GlobalLight.overlapOperation = lightData.overlapOeration;
     }
     #endregion
 
@@ -738,22 +728,25 @@ public class MapEditor : MonoBehaviour
     }
 
 
-    private Light2D GetGlobalLight(){
-        foreach(Transform tr in transform){
-            if(tr.name == "Global Light"){
-                return tr.GetComponent<Light2D>();
-            }
-        }
-        return null;
-    }
-    private void ReleasePooling()
-    {
-       for(int i = shadowContainer.childCount-1;i>=0;i--)
-       {
-            Transform tr = shadowContainer.GetChild(i);
-            tr.GetComponent<IPooling>().D_ReleaseToPool();
-       }
-    }
+    // private Light2D GetLightManager(){
+    //     LightingManager2D
+    //     foreach (Transform tr in transform)
+    //     {
+    //         if (tr.name == "Lighting Manager 2D")
+    //         {
+    //             return tr.GetComponent<Light2D>();
+    //         }
+    //     }
+    //     return null;
+    // }
+    // private void ReleasePooling()
+    // {
+    //    for(int i = shadowContainer.childCount-1;i>=0;i--)
+    //    {
+    //         Transform tr = shadowContainer.GetChild(i);
+    //         tr.GetComponent<IPooling>().D_ReleaseToPool();
+    //    }
+    // }
 
     #endregion
 

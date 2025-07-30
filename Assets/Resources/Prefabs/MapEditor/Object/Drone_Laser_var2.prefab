@@ -10307,7 +10307,6 @@ GameObject:
   - component: {fileID: 1582582022790968323}
   - component: {fileID: 5463815855749844752}
   - component: {fileID: 2801884561299102746}
-  - component: {fileID: 584526200086957095}
   m_Layer: 15
   m_Name: Fire
   m_TagString: Untagged
@@ -10403,56 +10402,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &584526200086957095
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5557684893571791972}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ComponentVersion: 1
-  m_LightType: 3
-  m_BlendStyleIndex: 0
-  m_FalloffIntensity: 1
-  m_Color: {r: 0, g: 0.58431387, b: 1, a: 1}
-  m_Intensity: 1
-  m_LightVolumeIntensity: 1
-  m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 93974e373dfa80d67bd34c9e4b693136d173aa409754fad679fff5dc156d27bc2fab228b
-  m_LightCookieSprite: {fileID: 21300000, guid: 58550d83dcf969241885920553d42a51, type: 3}
-  m_DeprecatedPointLightCookieSprite: {fileID: 0}
-  m_LightOrder: 0
-  m_AlphaBlendOnOverlap: 0
-  m_OverlapOperation: 0
-  m_NormalMapDistance: 3
-  m_NormalMapQuality: 2
-  m_UseNormalMap: 0
-  m_ShadowIntensityEnabled: 0
-  m_ShadowIntensity: 0.75
-  m_ShadowVolumeIntensityEnabled: 0
-  m_ShadowVolumeIntensity: 0.75
-  m_LocalBounds:
-    m_Center: {x: 0, y: -0.00000011920929, z: 0}
-    m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
-  m_PointLightInnerAngle: 360
-  m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 0.13078049
-  m_PointLightOuterRadius: 1.4823549
-  m_ShapeLightParametricSides: 5
-  m_ShapeLightParametricAngleOffset: 0
-  m_ShapeLightParametricRadius: 1
-  m_ShapeLightFalloffSize: 0.5
-  m_ShapeLightFalloffOffset: {x: 0, y: 0}
-  m_ShapePath:
-  - {x: -0.5, y: -0.5, z: 0}
-  - {x: 0.5, y: -0.5, z: 0}
-  - {x: 0.5, y: 0.5, z: 0}
-  - {x: -0.5, y: 0.5, z: 0}
 --- !u!1 &5895396571232492056
 GameObject:
   m_ObjectHideFlags: 0
@@ -10464,7 +10413,6 @@ GameObject:
   - component: {fileID: 8072565047242152419}
   - component: {fileID: 3972629268195413795}
   - component: {fileID: 5713127259023185843}
-  - component: {fileID: 4998422288146635657}
   m_Layer: 15
   m_Name: Fire
   m_TagString: Untagged
@@ -10560,56 +10508,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &4998422288146635657
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5895396571232492056}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ComponentVersion: 1
-  m_LightType: 3
-  m_BlendStyleIndex: 0
-  m_FalloffIntensity: 1
-  m_Color: {r: 0, g: 0.58431387, b: 1, a: 1}
-  m_Intensity: 1
-  m_LightVolumeIntensity: 1
-  m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 93974e373dfa80d67bd34c9e4b693136d173aa409754fad679fff5dc156d27bc2fab228b
-  m_LightCookieSprite: {fileID: 21300000, guid: 58550d83dcf969241885920553d42a51, type: 3}
-  m_DeprecatedPointLightCookieSprite: {fileID: 0}
-  m_LightOrder: 0
-  m_AlphaBlendOnOverlap: 0
-  m_OverlapOperation: 0
-  m_NormalMapDistance: 3
-  m_NormalMapQuality: 2
-  m_UseNormalMap: 0
-  m_ShadowIntensityEnabled: 0
-  m_ShadowIntensity: 0.75
-  m_ShadowVolumeIntensityEnabled: 0
-  m_ShadowVolumeIntensity: 0.75
-  m_LocalBounds:
-    m_Center: {x: 0, y: -0.00000011920929, z: 0}
-    m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
-  m_PointLightInnerAngle: 360
-  m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 0.13078049
-  m_PointLightOuterRadius: 1.4823549
-  m_ShapeLightParametricSides: 5
-  m_ShapeLightParametricAngleOffset: 0
-  m_ShapeLightParametricRadius: 1
-  m_ShapeLightFalloffSize: 0.5
-  m_ShapeLightFalloffOffset: {x: 0, y: 0}
-  m_ShapePath:
-  - {x: -0.5, y: -0.5, z: 0}
-  - {x: 0.5, y: -0.5, z: 0}
-  - {x: 0.5, y: 0.5, z: 0}
-  - {x: -0.5, y: 0.5, z: 0}
 --- !u!1 &5951569371851766794
 GameObject:
   m_ObjectHideFlags: 0
@@ -10895,7 +10793,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7013016837651502765}
   - component: {fileID: 3115373772262641269}
-  - component: {fileID: 7353919047858820219}
   m_Layer: 15
   m_Name: Base
   m_TagString: Untagged
@@ -10972,43 +10869,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7353919047858820219
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6856201685495719231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
-  m_ComponentVersion: 1
-  m_HasRenderer: 1
-  m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
-  m_SelfShadows: 0
-  m_ApplyToSortingLayers: 0000000079fff5dc156d27bc93974e373dfa80d69754fad67bd34c9e4b693136d173aa4009c81f543db6189c
-  m_ShapePath:
-  - {x: -0.7346443, y: -0.22811054, z: 0}
-  - {x: -0.20060283, y: -0.2590345, z: 0}
-  - {x: 0.2608523, y: -0.4034597, z: 0}
-  - {x: 0.75978833, y: -0.54552084, z: 0}
-  - {x: 0.71045554, y: -0.66541344, z: 0}
-  - {x: 0.19521168, y: -0.66541344, z: 0}
-  - {x: 0.019274905, y: -0.57744503, z: 0}
-  - {x: 0.019274905, y: -0.69683075, z: 0}
-  - {x: -0.16922984, y: -0.7219645, z: 0}
-  - {x: -0.38286608, y: -0.67169666, z: 0}
-  - {x: -0.35144913, y: -0.3826578, z: 0}
-  m_ShapePathHash: -1395270259
-  m_Mesh: {fileID: 0}
-  m_InstanceId: 106852
-  m_LocalBounds:
-    m_Center: {x: 0.01257205, y: -0.47503752, z: 0}
-    m_Extent: {x: 0.74721634, y: 0.24692696, z: 0}
 --- !u!1 &7380918249393525095
 GameObject:
   m_ObjectHideFlags: 0

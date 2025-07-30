@@ -238,7 +238,6 @@ GameObject:
   - component: {fileID: 5176273818889611295}
   - component: {fileID: 5995116111848026723}
   - component: {fileID: 5641744025921653641}
-  - component: {fileID: 2405643705114834443}
   m_Layer: 17
   m_Name: BoxTable
   m_TagString: Untagged
@@ -364,6 +363,9 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   distructionStatus: 0
   chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
   onPlaceable: 1
   onRotateable: 0
   onScaleable: 0
@@ -372,33 +374,4 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
---- !u!114 &2405643705114834443
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8716440483222482088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
-  m_ComponentVersion: 1
-  m_HasRenderer: 0
-  m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
-  m_SelfShadows: 0
-  m_ApplyToSortingLayers: 0000000079fff5dc156d27bc93974e373dfa80d69754fad67bd34c9e4b693136d173aa4009c81f543db6189c
-  m_ShapePath:
-  - {x: -0.5, y: -0.005894065, z: 0}
-  - {x: -0.5, y: 0.9940745, z: 0}
-  - {x: 0.5, y: 0.9940745, z: 0}
-  - {x: 0.5, y: -0.005894065, z: 0}
-  m_ShapePathHash: 0
-  m_Mesh: {fileID: 0}
-  m_InstanceId: 64608
-  m_LocalBounds:
-    m_Center: {x: 0, y: 0.49409023, z: 0}
-    m_Extent: {x: 0.5, y: 0.4999843, z: 0}
+  canRespawn: 0
