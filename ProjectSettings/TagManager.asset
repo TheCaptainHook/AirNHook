@@ -75,6 +75,9 @@ TagManager:
   - name: Environment_Fore
     uniqueID: 3323669571
     locked: 0
+  - name: LightLayer
+    uniqueID: 246718729
+    locked: 0
   - name: UI
     uniqueID: 2618865213
     locked: 0

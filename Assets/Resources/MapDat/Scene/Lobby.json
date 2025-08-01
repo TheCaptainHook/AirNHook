@@ -6523,18 +6523,12 @@
     "mapHiddenTileDataList": [],
     "mapShadowCasterDataList": [],
     "globalLightStruct": {
-        "type": 0,
         "color": {
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
-            "a": 0.0
-        },
-        "intensity": 0.0,
-        "targetSorting": [],
-        "blendStyleIndex": 0,
-        "lightOrder": 0,
-        "overlapOeration": 0
+            "a": 0.7176470756530762
+        }
     },
     "mapObjectDataList": [
         {

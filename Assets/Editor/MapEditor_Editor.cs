@@ -177,7 +177,7 @@ public class MapEditor_Editor : Editor
                 EditorGUILayout.LabelField("DarknessColor", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
                 var profile = LightingManager2D.Get().profile;
                 Color newColor = EditorGUILayout.ColorField(profile.DarknessColor);
-
+                
                 if (newColor != profile.DarknessColor)
                 {
                     Undo.RecordObject(mapEditor, "Change Light Color");

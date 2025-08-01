@@ -94,7 +94,8 @@ namespace FunkyCode
 		public void Reset()
 		{
 			owner = null;
-
+			if (meshRenderer == null) return;
+			
 			meshRenderer.enabled = false;
 
 			if (meshRenderer.sharedMaterial)
