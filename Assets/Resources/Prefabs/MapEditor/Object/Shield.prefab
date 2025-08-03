@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 5995116111848026723}
   - component: {fileID: 880326606000839966}
   - component: {fileID: -3467684536008323469}
+  - component: {fileID: 8274046331149935557}
   m_Layer: 16
   m_Name: Shield
   m_TagString: Untagged
@@ -224,7 +225,9 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 4684687439439529792}
+  _Dissolve_MainSprites:
+  - {fileID: 4684687439439529792}
+  _dissolveMaterial: []
   canRespawn: 0
 --- !u!114 &1432138131361962526
 MonoBehaviour:
@@ -248,10 +251,28 @@ MonoBehaviour:
   _canInteract: 1
   _canGrab: 1
   _isDestroyed: 0
+  _isGrab: 0
   _offset: {x: 0, y: 1.35}
   _inhalePower: 20
   defaultGravity: 0
   onSync: 0
+  data:
+    id: 0
+    dialogueId: 0
+    position: {x: 0, y: 0}
+    quaternion: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 0, y: 0, z: 0}
+    talPot: {x: 0, y: 0}
+    size: {x: 0, y: 0}
+    text: 
+    fontSize: 0
+    chargeRequired: 0
+    animationTriggerType: 0
+    attackStartTime: 0
+    attackCooldown: 0
+    activeRequireAmount: 0
+    onEncapsulationItem: 0
+    indicator: 0
   curTime: 0
 --- !u!114 &-5810413876586093780
 MonoBehaviour:
@@ -333,6 +354,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   movingPlatform: {fileID: 0}
+  movingPlatformLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  layOffset: {x: 0, y: 0, z: 0}
+  col: {fileID: 0}
+  rb: {fileID: 0}
+  netRb: {fileID: 0}
+  startSync: 0
 --- !u!1773428102 &-3467684536008323469
 ParentConstraint:
   m_ObjectHideFlags: 0
@@ -356,3 +385,25 @@ ParentConstraint:
   m_Active: 0
   m_IsLocked: 0
   m_Sources: []
+--- !u!114 &8274046331149935557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8716440483222482088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0182098a7f6444a5b903ec4387ae1b41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEncapsulationItem: 0
+  activeRequirAmount: 0
+  indicator: 0
+  curActiveRequirAmount: 0
+  isCapsuling: 0
+  indicator_1: {fileID: 0}
+  indicator_2: {fileID: 0}
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 0

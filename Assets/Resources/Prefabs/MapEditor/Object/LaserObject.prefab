@@ -4892,7 +4892,8 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
+  _Dissolve_MainSprites: []
+  _dissolveMaterial: []
   canRespawn: 0
   activeRequirAmount: 0
   indicator: 0

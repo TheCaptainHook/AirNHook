@@ -53,7 +53,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: fa68e89795bf44c189f660203b6e7f45, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -143,6 +143,7 @@ GameObject:
   - component: {fileID: 5980586429080748606}
   - component: {fileID: 1587530798918733818}
   - component: {fileID: -7162171074850114388}
+  - component: {fileID: 6458602962214706931}
   m_Layer: 18
   m_Name: Battery
   m_TagString: Untagged
@@ -163,9 +164,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3669796454936144792}
   - {fileID: 5004019029250497545}
   - {fileID: 6890918890723629363}
+  - {fileID: 3669796454936144792}
   - {fileID: 115524687572628154}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.16}
@@ -268,7 +269,10 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 5213567269437679512}
+  _Dissolve_MainSprites:
+  - {fileID: 8362036273793277380}
+  - {fileID: 5213567269437679512}
+  _dissolveMaterial: []
   canRespawn: 0
   powerSupply: {fileID: 0}
 --- !u!114 &8988956062262925408
@@ -293,10 +297,28 @@ MonoBehaviour:
   _canInteract: 1
   _canGrab: 1
   _isDestroyed: 0
+  _isGrab: 0
   _offset: {x: 0, y: 0.5}
   _inhalePower: 600
   defaultGravity: 0
   onSync: 0
+  data:
+    id: 0
+    dialogueId: 0
+    position: {x: 0, y: 0}
+    quaternion: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 0, y: 0, z: 0}
+    talPot: {x: 0, y: 0}
+    size: {x: 0, y: 0}
+    text: 
+    fontSize: 0
+    chargeRequired: 0
+    animationTriggerType: 0
+    attackStartTime: 0
+    attackCooldown: 0
+    activeRequireAmount: 0
+    onEncapsulationItem: 0
+    indicator: 0
   batteryCharger: {fileID: 0}
   batteryCapacity: 0
   powerSupply: {fileID: 0}
@@ -418,6 +440,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   movingPlatform: {fileID: 0}
+  movingPlatformLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  layOffset: {x: 0, y: 0, z: 0}
+  col: {fileID: 0}
+  rb: {fileID: 0}
+  netRb: {fileID: 0}
+  startSync: 0
 --- !u!1773428102 &-7162171074850114388
 ParentConstraint:
   m_ObjectHideFlags: 0
@@ -441,6 +471,28 @@ ParentConstraint:
   m_Active: 0
   m_IsLocked: 0
   m_Sources: []
+--- !u!114 &6458602962214706931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6213857561148179821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0182098a7f6444a5b903ec4387ae1b41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEncapsulationItem: 0
+  activeRequirAmount: 0
+  indicator: 0
+  curActiveRequirAmount: 0
+  isCapsuling: 0
+  indicator_1: {fileID: 0}
+  indicator_2: {fileID: 0}
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &6370455686804890750
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,7 +545,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: fa68e89795bf44c189f660203b6e7f45, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

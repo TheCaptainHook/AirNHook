@@ -158,7 +158,9 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 6616581546084375191}
+  _Dissolve_MainSprites:
+  - {fileID: 6616581546084375191}
+  _dissolveMaterial: []
   canRespawn: 0
 --- !u!114 &586539371799923238
 MonoBehaviour:

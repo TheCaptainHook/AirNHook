@@ -24453,7 +24453,9 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 7178825718306028271}
+  _Dissolve_MainSprites:
+  - {fileID: 7178825718306028271}
+  _dissolveMaterial: []
   canRespawn: 0
   hitPoint: {fileID: 7619620760434981820}
   onElectric: 0

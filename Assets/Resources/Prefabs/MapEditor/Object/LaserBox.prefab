@@ -818,13 +818,14 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 4684687439439529792}
+  _Dissolve_MainSprites:
+  - {fileID: 4684687439439529792}
+  _dissolveMaterial: []
   canRespawn: 0
   _lineRenderer: {fileID: 4041935729944902989}
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 5195200
-  onBoom: 0
 --- !u!114 &7149953233837071725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -847,10 +848,28 @@ MonoBehaviour:
   _canInteract: 1
   _canGrab: 1
   _isDestroyed: 0
+  _isGrab: 0
   _offset: {x: 0, y: 1}
   _inhalePower: 4000
   defaultGravity: 0
   onSync: 0
+  data:
+    id: 0
+    dialogueId: 0
+    position: {x: 0, y: 0}
+    quaternion: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 0, y: 0, z: 0}
+    talPot: {x: 0, y: 0}
+    size: {x: 0, y: 0}
+    text: 
+    fontSize: 0
+    chargeRequired: 0
+    animationTriggerType: 0
+    attackStartTime: 0
+    attackCooldown: 0
+    activeRequireAmount: 0
+    onEncapsulationItem: 0
+    indicator: 0
   chargeTransform: {fileID: 0}
   left: {fileID: 1496316796775544750}
   right: {fileID: 1261028655308498708}
@@ -957,10 +976,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEncapsulationItem: 0
   activeRequirAmount: 0
+  indicator: 0
   curActiveRequirAmount: 0
   isCapsuling: 0
-  mainCol: {fileID: 0}
-  mainRb: {fileID: 0}
+  indicator_1: {fileID: 0}
+  indicator_2: {fileID: 0}
   obstacleLayerMask:
     serializedVersion: 2
     m_Bits: 0

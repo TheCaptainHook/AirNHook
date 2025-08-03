@@ -81,11 +81,11 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
 
     #region  Dissolve Effect
     [Header("Dissolve Effect")]
-    [SerializeField] SpriteRenderer _Dissolve_MainSprite;
+    [SerializeField] SpriteRenderer[] _Dissolve_MainSprites;
     //private static readonly int DissolveAmount = Shader.PropertyToID("_DissolveAmount");
-
-    protected Material _dissolveMaterial;
-    public Material DissolveMaterial => _dissolveMaterial;
+    [HideInInspector]
+    public Material[] _dissolveMaterial;
+    // public Material DissolveMaterial => _dissolveMaterial;
     private Rigidbody2D Rb;
     public Rigidbody2D _rb
     {
@@ -296,23 +296,30 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
 
     #region Destructible Obj Dissolve Effect Logic
     public bool canRespawn;
-    protected void DissolveInitSetting(){ //all Client
-        _dissolveMaterial = _Dissolve_MainSprite.material;
+    protected void DissolveInitSetting()
+    { //all Client
+      // _dissolveMaterial = _Dissolve_MainSprite.material;
+        _dissolveMaterial = new Material[_Dissolve_MainSprites.Length];
+        for (int i = 0; i < _Dissolve_MainSprites.Length; i++)
+        {
+            _dissolveMaterial[i] = _Dissolve_MainSprites[i].material;
+        }
         // _rb = GetComponent<Rigidbody2D>();
-        // _collider = GetComponent<Collider2D>();
-        _IsDissolveObject = true;
+            // _collider = GetComponent<Collider2D>();
+            _IsDissolveObject = true;
         OnDissolveAction += Respawn;
 
-        if(TryGetComponent(out InteractableObject component))
+        if (TryGetComponent(out InteractableObject component))
         {
             //OnInteractableObjectRelease += GetComponent<InteractableObject>().Destroyed;
             OnInteractableObjectRelease += component.Destroyed;
         }
-        
+
         canRespawn = true;
 
-        if(NetworkServer.active) //Server
-        MapEditor.Instance.event_reset += Respawn;
+        if (NetworkServer.active) //Server
+            MapEditor.Instance.event_reset += Respawn;
+        
     }
 
     public event Action respawnEvent;
