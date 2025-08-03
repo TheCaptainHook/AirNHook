@@ -414,4 +414,6 @@ MonoBehaviour:
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
   canRespawn: 0
-  _Light_Object: {fileID: 437340400507859508}
+  _Light_Objects:
+  - {fileID: 437340400507859508}
+  - {fileID: 2625061015764960971}

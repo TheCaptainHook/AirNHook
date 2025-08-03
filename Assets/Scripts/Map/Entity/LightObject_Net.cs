@@ -35,7 +35,10 @@ public class LightObject_Net : NetworkBehaviour
         chargeRequired = data.chargeRequired;
         if (chargeRequired)
         {
-            if (hasPower == 0) Entity._Light_Object.SetActive(false);
+            if (hasPower == 0)
+            {
+                Entity.LightOnOff(false);
+             } 
         }
 
         onSync = true;
@@ -99,11 +102,11 @@ public class LightObject_Net : NetworkBehaviour
         if(newVal>0)
         {
             // Entity.PowerOn();
-            Entity._Light_Object.SetActive(true);
+            Entity.LightOnOff(true);
         }
         else
         {
-            Entity._Light_Object.SetActive(false);
+            Entity.LightOnOff(false);
         }
     }
 

@@ -499,7 +499,11 @@ public class MapEditor : MonoBehaviour
                 }
             }
 
-
+        }
+        if (tileMap.TryGetComponent(out LightTilemapCollider2D component))
+        {
+            Debug.Log("TileMap Collider Enable");
+            component.enabled = true;
         }
     }
 
