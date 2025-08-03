@@ -199,7 +199,9 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 5903818644388520337}
+  _Dissolve_MainSprites:
+  - {fileID: 5903818644388520337}
+  _dissolveMaterial: []
   canRespawn: 0
   socketNumber: 3
   possibleInsertSocket: 0
@@ -283,14 +285,19 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  _permissionPlayer: {fileID: 0}
   _objectType: 1
   _gravityScale: 1
+  _isFixed: 0
+  _canInteract: 1
+  _canGrab: 1
+  _isDestroyed: 0
+  _isGrab: 0
   _offset: {x: 0, y: 0}
   _inhalePower: 600
   orgPosition: {x: 0, y: 0, z: 0}
+  onConnect: 0
   parts: {fileID: 0}
-  onInsert: 0
-  possibleInsertSocket: 0
 --- !u!114 &8992026793331297179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,6 +314,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   movingPlatform: {fileID: 0}
+  movingPlatformLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  layOffset: {x: 0, y: 0, z: 0}
+  col: {fileID: 0}
+  rb: {fileID: 0}
+  netRb: {fileID: 0}
+  startSync: 0
 --- !u!1773428102 &-3962343662766714285
 ParentConstraint:
   m_ObjectHideFlags: 0

@@ -4,7 +4,7 @@ using System;
 using UnityEngine.EventSystems;
 using UnityEngine.Animations;
 using Mirror;
-using System.Net.Sockets;
+
 public enum DistructionStatus
 {
     Indestructible,
@@ -304,9 +304,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         {
             _dissolveMaterial[i] = _Dissolve_MainSprites[i].material;
         }
-        // _rb = GetComponent<Rigidbody2D>();
-            // _collider = GetComponent<Collider2D>();
-            _IsDissolveObject = true;
+        _IsDissolveObject = true;
         OnDissolveAction += Respawn;
 
         if (TryGetComponent(out InteractableObject component))
@@ -319,7 +317,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
 
         if (NetworkServer.active) //Server
             MapEditor.Instance.event_reset += Respawn;
-        
+
     }
 
     public event Action respawnEvent;
