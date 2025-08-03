@@ -82,9 +82,13 @@ public class InhalableObject : NetworkBehaviour, IInhalable
 
     public virtual void Shooting(Vector2 force)
     {
-        StopInhale();
+        _rigidbody.velocity = Vector2.zero;
+        _rigidbody.angularVelocity = 0f;
+        _rigidbody.Sleep();
+        _stoppedTime = 0f;
     }
-    public void StopInhale()
+
+    public void StopInhale(GameObject accssor)
     {
         _stoppedTime = 0f;
         _fixedPoint = null;

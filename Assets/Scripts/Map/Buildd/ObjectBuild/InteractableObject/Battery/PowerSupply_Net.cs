@@ -3,19 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System;
-
-
-[Serializable]
-public struct SupplyTargetStruct
-{
-    public List<GameObject> targets;
-    public List<Vector2> targetPositions;
-    public SupplyTargetStruct(List<GameObject> targets, List<Vector2> targetPositions)
-    {
-        this.targets = targets;
-        this.targetPositions = targetPositions;
-    }
-}
+using Unity.VisualScripting;
 
 public class PowerSupply_Net : NetworkBehaviour
 {
@@ -29,30 +17,62 @@ public class PowerSupply_Net : NetworkBehaviour
         }
     }
 
-    //[ReadOnly]
-    //public List<GameObject> targets;
-    //[ReadOnly]
-    //public List<Vector2> targetPositions;
-
-
     #region Init
     public bool onSync;
     [Server]
     public void Server_SetInit()
     {
-        Rpc_SetInit(PowerSupply.ButtonObjectData,targets);
+        StartCoroutine(AllClientCheckCo(() =>
+        {
+            Rpc_SetInit(PowerSupply.ButtonObjectData);
+
+        }));
+        
+    }
+    private IEnumerator AllClientCheckCo(Action action)
+    {
+        int connectClients = NetworkServer.connections.Count;
+        bool onReady = false;
+        while (!onReady)
+        {
+            int num = 0;
+            foreach (var conn in NetworkServer.connections.Values)
+            {
+                if (conn.isReady) num++;
+            }
+
+            if (connectClients == num) onReady = true;
+            yield return null;
+        }
+
+        action?.Invoke();
+
+    }
+    private ButtonObjectStruct data;
+    private List<uint> targetNetIdList;
+    [Server]
+    public void Server_SetTargetNetId(List<uint> list)
+    {
+        Rpc_SetTargetNetId(list);
     }
     [ClientRpc]
-    private void Rpc_SetInit(ButtonObjectStruct data, SupplyTargetStruct targets)
+    private void Rpc_SetTargetNetId(List<uint> list)
+    {
+        targetNetIdList = list;
+        //PathFind,
+    }
+
+    [ClientRpc]
+    private void Rpc_SetInit(ButtonObjectStruct data)
     {
         if (onSync) return;
+        this.data = data;
         transform.position = data.position;
         transform.rotation = data.quaternion;
-
-        PowerSupply.CreateLine(targets.targetPositions);
-
         onSync = true;
     }
+
+
     [Command(requiresAuthority = false)]
     private void Cmd_SetInit()
     {
@@ -69,52 +89,45 @@ public class PowerSupply_Net : NetworkBehaviour
 
     #endregion
 
-    [SyncVar] public SupplyTargetStruct targets;
+    #region Insert Battery
 
     [SyncVar] public float consumption;
     [SyncVar] public GameObject battery;
   
-
-    [Server]    // Power Supply Candidates
-    public void Server_SetTargets(List<GameObject> targets,List<Vector2> positions)
-    {
-        this.targets = new SupplyTargetStruct(targets,positions);
-        consumption = targets.Count;
-    }
-
-    
     Coroutine supplyCoroutine;
     [Server]    // insert battery and Use.
     public void Server_SetBatter(GameObject battery)
     {
-        if(this.battery !=null && !Compare(this.battery,battery))
+         // 새 배터리가 없거나, 기존 배터리와 같다면 return
+        if (this.battery != null && !Compare(this.battery, battery))
         {
-            //Deactivated,
-            if(supplyCoroutine != null)
+            if (supplyCoroutine != null)
             {
                 StopCoroutine(supplyCoroutine);
                 supplyCoroutine = null;
             }
-            if(this.battery.GetComponent<BatteryInteractable>().batteryCapacity > consumption) PowerSupply.Net_Deactivated();
 
-            OnSupplyEffect(false);
-            
+            PowerSupply.Net_Deactivated();
+            Rpc_OnSupplyEffect(false);
+
             this.battery.GetComponent<BatteryInteractable>().Cmd_Recover();
             this.battery = null;
         }
 
-        if(battery == null || Compare(this.battery,battery)) return;
+        if (battery == null) return;
+
 
         this.battery = battery;
 
         // 1. Check battery capacity and Compare consumption    
-        if(Check_BatteryCapacity())
+        if (Check_BatteryCapacity())
         {
             //Use Battery
             Supply();
-
-
-        }else
+            Rpc_OnSupplyEffect(true);
+            PowerSupply.Net_Activation();
+        }
+        else
         {
             //Cant use battery.
             Debug.Log("The battery doesn’t have much energy left");
@@ -138,35 +151,103 @@ public class PowerSupply_Net : NetworkBehaviour
     }
 
 
+    //----------------------------------------Refectoring 0714
 
-    private void Supply()
-    {
-        OnSupplyEffect(true);
-        PowerSupply.Net_Activation();
-        supplyCoroutine = StartCoroutine(SupplyCo());
-    }
+    #region Draw,Eraser
+    private List<PowerSupply_DrawLineUtility> pdu_List;
+    [ReadOnly]
+    public List<uint> targetObjectNetIdList;
+    private Transform lineContainer;
+    [SerializeField] Material lineMat;
 
     [ClientRpc]
-    private void OnSupplyEffect(bool onOff)
+    public void Rpc_SetTargetObject(List<uint> list)
     {
-        PowerSupply.LineOn(onOff);
-    }
+        targetObjectNetIdList = list;
+        lineContainer = new GameObject("Line_Container").transform;
+        lineContainer.SetParent(transform);
+        pdu_List = new();
 
-    IEnumerator SupplyCo()
+        for (int i = 0; i < list.Count; i++)
+        {
+            var item = new GameObject("Line").transform;
+            item.SetParent(lineContainer);
+            var line = item.AddComponent<PowerSupply_DrawLineUtility>();
+            item.AddComponent<PathFinder>();
+
+            pdu_List.Add(line);
+            line.Setting(data.position, list[i],lineMat);
+        }
+    }
+    
+    private void DrawLine()
     {
+        for (int i = 0; i < pdu_List.Count; i++)
+        {
+            var item = pdu_List[i];
+            item.DrawOn();
+        }
+    }
+    private void EraseLine()
+    {
+        for (int i = 0; i < pdu_List.Count; i++)
+        {
+            pdu_List[i].EraseOn_TargetToMain();
+        }
+    }
+  
+    #endregion
+    private void Supply()//only server
+    {
+        if (supplyCoroutine != null)
+        {
+            StopCoroutine(supplyCoroutine);
+        } 
+       supplyCoroutine = StartCoroutine(SupplyCo());
+    }
+    
+
+    IEnumerator SupplyCo() //only server
+    {
+        Debug.Log("Supply co");
         BatteryInteractable battery = this.battery.GetComponent<BatteryInteractable>();
 
         while(battery.batteryCapacity >0)
         {
             battery.Server_SetBatteryCapacity(-consumption);
+            Debug.Log($"{battery.batteryCapacity}");
             yield return new WaitForSeconds(1);
         }
+
         supplyCoroutine = null;
 
         PowerSupply.Net_Deactivated();
-        OnSupplyEffect(false);
+        Rpc_OnSupplyEffect(false);
 
     }
+
+
+    //----------------------------------------Refectoring 0714
+    #endregion
+
+
+
+
+
+    #region  Effect
+    [ClientRpc]
+    private void Rpc_OnSupplyEffect(bool onOff)
+    {
+        // PowerSupply.LineOn(onOff);
+        if (onOff) DrawLine();
+        else EraseLine();
+        
+    }
+
+    #endregion
+
+
+
 
     #region  UI
     [Command(requiresAuthority = false)]
@@ -185,24 +266,12 @@ public class PowerSupply_Net : NetworkBehaviour
     }
     #endregion
 
-    //public override void OnStartClient()
-    //{
-    //    base.OnStartClient();
-
-    //    //Cmd_CallInitValue();
-    //    StartCoroutine(Delay(() =>
-    //    {
-    //        PowerSupply.CreateLine(targets.targetPositions);
-    //    }));
-       
-
-    //}
+   
 
     IEnumerator Delay(Action action)
     {
         yield return new WaitForSeconds(1);
-        //yield return new WaitForSeconds(1f);
-        //yield return null;
+
         action?.Invoke();
     }
 

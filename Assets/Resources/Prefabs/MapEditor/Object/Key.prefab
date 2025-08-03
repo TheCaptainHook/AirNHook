@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 389640917045990011}
   - component: {fileID: 542241235346014792}
   - component: {fileID: -3500079679828256159}
+  - component: {fileID: 1918293846676475864}
   m_Layer: 18
   m_Name: Key
   m_TagString: Untagged
@@ -67,7 +68,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!60 &5918699373301105857
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -174,11 +175,35 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  _permissionPlayer: {fileID: 0}
   _objectType: 1
   _gravityScale: 0
+  _isFixed: 0
+  _canInteract: 1
+  _canGrab: 1
+  _isDestroyed: 0
+  _isGrab: 0
   _offset: {x: 0, y: 1.4}
   _inhalePower: 4000
+  defaultGravity: 0
   onSync: 0
+  data:
+    id: 0
+    dialogueId: 0
+    position: {x: 0, y: 0}
+    quaternion: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 0, y: 0, z: 0}
+    talPot: {x: 0, y: 0}
+    size: {x: 0, y: 0}
+    text: 
+    fontSize: 0
+    chargeRequired: 0
+    animationTriggerType: 0
+    attackStartTime: 0
+    attackCooldown: 0
+    activeRequireAmount: 0
+    onEncapsulationItem: 0
+    indicator: 0
 --- !u!114 &-3325528363225173584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,6 +284,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   movingPlatform: {fileID: 0}
+  movingPlatformLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  layOffset: {x: 0, y: 0.2, z: 0}
+  col: {fileID: 0}
+  rb: {fileID: 0}
+  netRb: {fileID: 0}
+  startSync: 0
 --- !u!1773428102 &-3500079679828256159
 ParentConstraint:
   m_ObjectHideFlags: 0
@@ -282,6 +315,28 @@ ParentConstraint:
   m_Active: 0
   m_IsLocked: 0
   m_Sources: []
+--- !u!114 &1918293846676475864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6099480600797554674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0182098a7f6444a5b903ec4387ae1b41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEncapsulationItem: 0
+  activeRequirAmount: 0
+  indicator: 0
+  curActiveRequirAmount: 0
+  isCapsuling: 0
+  indicator_1: {fileID: 0}
+  indicator_2: {fileID: 0}
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &8919751423055340418
 GameObject:
   m_ObjectHideFlags: 0

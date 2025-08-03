@@ -144,6 +144,7 @@ public class UI_StageSelect_var3_Dummy: UI_Base
         {
             TextLine newTextLine= Instantiate(textLine, content).GetComponent<TextLine>();
             newTextLine.index = i;
+            newTextLine.image.raycastTarget = false;
             textLineList.Add(newTextLine);
 
         }
@@ -166,7 +167,7 @@ public class UI_StageSelect_var3_Dummy: UI_Base
         }
         if(computer == null) return;
         Computer_Net net = computer.GetComponent<Computer_Net>();
-        Debug.Log($"Net.onPower : {net.onPower}");
+
         if(!net.onPower)animator.SetTrigger(OPEN);
         else animator.SetTrigger(OPEN_ONPOWER);
 
@@ -182,7 +183,18 @@ public class UI_StageSelect_var3_Dummy: UI_Base
         inputQueue ??= new Queue<int>();
         inputQueue.Enqueue(num);
         if(queue_Input_Coroutine == null)
-        queue_Input_Coroutine = StartCoroutine(Queue_Input_Co());
+        {
+            try
+            {
+                queue_Input_Coroutine = StartCoroutine(Queue_Input_Co());
+            }
+            catch
+            {
+                inputQueue.Enqueue(5);
+                queue_Input_Coroutine = StartCoroutine(Queue_Input_Co());
+            }
+        }
+      
 
     }
     IEnumerator Queue_Input_Co()
@@ -206,6 +218,15 @@ public class UI_StageSelect_var3_Dummy: UI_Base
                     if (curSelectTextLine == null || !curSelectTextLine.onSelectable)
                         break;
                     while(onPrograss) {Debug.Log("Wait onPrograss"); yield return null;}
+
+                    var mainSentence = textLineList[curSelectTextLineIndex].mainSentence;
+                    Debug.Log(mainSentence);
+                    if (mainSentence == "BACK" || mainSentence == "EXIT")
+                    {
+                        BackPrograss();
+                        break;
+                    }
+
                     switch (_PrograssLevel)
                     {
                         
@@ -231,10 +252,11 @@ public class UI_StageSelect_var3_Dummy: UI_Base
                     break;
             }
         }
+        queue_Input_Coroutine = null;
     }
   //---------------------------------------------------------------------------Refectoring 0414
 
-    private void SelectTextLine()
+    public void SelectTextLine()
     {
         if(curSelectTextLineIndex < minSelectTextLineListIndex) //마지막 요소로
         {
@@ -258,7 +280,11 @@ public class UI_StageSelect_var3_Dummy: UI_Base
 
             if(_PrograssLevel == PrograssLevel.Three)
             {
-                
+                if (textLineList[curSelectTextLineIndex].mainSentence == "BACK")
+                {
+                    mapInfo_UI.Reset();
+                    return;
+                }
                 mapInfo_UI.ShowMapInfo(curSelectTextLine.text.text,curStageLevel);
             }
         }
@@ -269,7 +295,11 @@ public class UI_StageSelect_var3_Dummy: UI_Base
 
             if (_PrograssLevel == PrograssLevel.Three)
             {
-                
+                if (textLineList[curSelectTextLineIndex].mainSentence == "BACK")
+                {
+                    mapInfo_UI.Reset();
+                    return;
+                }
                 mapInfo_UI.ShowMapInfo(curSelectTextLine.text.text, curStageLevel);
             }
         }
@@ -411,6 +441,7 @@ public class UI_StageSelect_var3_Dummy: UI_Base
         
         minSelectTextLineListIndex = nextWriteTextLineIndex;
         yield return WriteLine("Main", localColor, true);
+        yield return WriteLine("EXIT", Color.red, true, 25, 0.01f, true);
 
         // yield return WriteLine("UserMap (준비중)", localColor, true, 25, 0.01f, false);
 
@@ -470,13 +501,15 @@ public class UI_StageSelect_var3_Dummy: UI_Base
                yield return WriteLine($"{i}", localColor, true);
             }
 
-            maxSelectTextLineListIndex = nextWriteTextLineIndex-1;
+           
         }
         else
         {
             //usermap Prograss
         }
+        yield return WriteLine("BACK", Color.red, true, 25, 0.01f, true);
 
+        maxSelectTextLineListIndex = nextWriteTextLineIndex - 1;
         curSelectTextLineIndex = nextWriteTextLineIndex;
 
         onPrograss = false;
@@ -520,6 +553,8 @@ public class UI_StageSelect_var3_Dummy: UI_Base
             }
 
         }
+
+        yield return WriteLine("BACK", Color.red, true, 25, 0.01f, true);
 
         maxSelectTextLineListIndex = nextWriteTextLineIndex-1;
         curSelectTextLineIndex = nextWriteTextLineIndex;

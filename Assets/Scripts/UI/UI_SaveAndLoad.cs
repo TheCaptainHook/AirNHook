@@ -36,19 +36,21 @@ public class UI_SaveAndLoad : UI_Base
         }
     }
 
-    IEnumerator SaveAndLoadCo(){
+    IEnumerator SaveAndLoadCo()
+    {
         onPrograss = true;
-        while(queue.Count > 0){
+        while (queue.Count > 0)
+        {
             SaveAndLoadTask task = queue.Dequeue();
             text.text = task.text;
-            yield return new WaitUntil(()=>task.task.IsCompleted);
+            yield return new WaitUntil(() => task.task.IsCompleted);
             Complete(task);
             yield return new WaitForSeconds(2f);
         }
         onPrograss = false;
         CloseUI();
     }
-    
+
 
 
     public void Complete(SaveAndLoadTask task){

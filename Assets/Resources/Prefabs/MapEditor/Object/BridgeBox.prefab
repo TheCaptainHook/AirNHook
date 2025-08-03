@@ -137,7 +137,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b38c1456bb1d4124b9f6c449bb0cc9c6, type: 2}
+  - {fileID: 2100000, guid: 16ef4dd4a17bfb4429e2aa5cbc545f28, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -491,6 +491,9 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   distructionStatus: 0
   chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
   onPlaceable: 0
   onRotateable: 1
   onScaleable: 0
@@ -499,11 +502,13 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
+  canRespawn: 0
   activeRequirAmount: 0
+  indicator: 0
+  indicatorOffset_val_1: {x: -1, y: 0}
+  indicatorOffset_val_2: {x: -1, y: 0}
   curActiveBtn: 0
   bridgeLength: 0
-  lineRenderer: {fileID: 103981424466455261}
-  spriteObj: {fileID: 2564782956103689011}
 --- !u!114 &1718351203705897030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -519,14 +524,14 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  onSync: 0
+  onActive: 0
   bridgeCollider: {fileID: 7353865711223179182}
   lineRenderer: {fileID: 103981424466455261}
   spriteObj: {fileID: 2564782956103689011}
   bridgeLength: 0
   connectionPoint: {x: 0, y: 0}
   position: {x: 0, y: 0}
-  onActive: 0
-  onSync: 0
 --- !u!114 &4752608457244889415
 MonoBehaviour:
   m_ObjectHideFlags: 0

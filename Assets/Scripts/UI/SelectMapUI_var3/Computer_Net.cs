@@ -195,6 +195,14 @@ public class Computer_Net : NetworkBehaviour
 
     #region Input
 
+    /// <summary>
+    /// 1 : Up, 
+    /// 2 : Down, 
+    /// 3 : Enter, 
+    /// 4 : Backspace, 
+    /// 5 : Q 
+    /// </summary>
+    /// <param name="num"></param>
     [ClientRpc]
     private void Rpc_SetKey(int num)
     {
@@ -229,7 +237,7 @@ public class Computer_Net : NetworkBehaviour
                 if (!isServer)
                 {
                     //if (!Dummy)
-                        Dummy.SetInputKey(3);
+                    Dummy.SetInputKey(3);
                 }
                 else
                 {
@@ -264,8 +272,11 @@ public class Computer_Net : NetworkBehaviour
 
         }
     }
+
+    [Server]
     private void GetKeyEvent()
     {
+        server_CurSelectTextLineIndex = Main.curSelectTextLineIndex;
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             Rpc_SetKey(1);
@@ -292,6 +303,40 @@ public class Computer_Net : NetworkBehaviour
             Rpc_SetKey(5);
         }
     }
+
+    [SyncVar]
+    public int server_CurSelectTextLineIndex;
+
+    [Server]
+    public void Server_GetMousePointer(int index)
+    {
+        server_CurSelectTextLineIndex = index;
+        Rpc_GetMousePointer(server_CurSelectTextLineIndex);
+    }
+    [ClientRpc]
+    public void Rpc_GetMousePointer(int index)
+    {
+        if(!isServer)
+        {
+            Dummy.curSelectTextLineIndex = index;
+            Dummy.SelectTextLine();
+        }
+        else
+        {
+            Main.curSelectTextLineIndex = index;
+            Dummy.curSelectTextLineIndex = index;
+
+            Main.SelectTextLine();
+            Dummy.SelectTextLine();
+        }
+
+    }
+    [Server]
+    public void Server_MouseClick()
+    {
+        Rpc_SetKey(3);
+    }   
+   
     #endregion
 
 }

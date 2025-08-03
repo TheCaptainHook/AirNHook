@@ -32,10 +32,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 4604593097408085165}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 537.5, y: 0}
+  m_SizeDelta: {x: 1075, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3972695306033894597
 CanvasRenderer:
@@ -229,10 +229,10 @@ MonoBehaviour:
   type: 0
   onSelectable: 0
   text: {fileID: 4103929263616066472}
-  _TextMeshTextController: {fileID: 4578200515547489799, guid: f041f242c468049c1a4e3013b4b75d22, type: 3}
-  curTMTC: {fileID: 0}
-  isEncryption: 0
+  image: {fileID: 4834397332766386713}
   typingEffect: {fileID: 2542641677337396611}
+  maxWidth: 870
+  isPointerInside: 0
 --- !u!114 &2542641677337396611
 MonoBehaviour:
   m_ObjectHideFlags: 0

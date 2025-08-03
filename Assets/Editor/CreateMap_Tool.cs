@@ -362,6 +362,7 @@ public class CreateMap_Tool : EditorWindow
         GUILayout.EndScrollView();
         GUILayout.EndArea();
     }
+
     #region  Searching
     private List<GUIContent> SearchingContents(List<GUIContent> main)
     {
@@ -526,6 +527,7 @@ public class CreateMap_Tool : EditorWindow
             case 345:
             case 336:
             case 362:
+            case 372:
                 SelectActiveOBJ(obj,curMapEditor.buttonObjectTransform);
                 break;
             case 1003:

@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -88,6 +89,8 @@ public class PathFinder : MonoBehaviour
 
         openSet.Enqueue(new Node(start, 0, null), Heuristic(start, end));
 
+        Vector2Int[] direction = type == Direction_Type.Eight ? directions_8 : directions_4;
+            
         while (openSet.Count > 0)
         {
             var current = openSet.Dequeue();
@@ -101,7 +104,7 @@ public class PathFinder : MonoBehaviour
             }
 
             closedSet.Add(curPosition);
-            Vector2Int[] direction = type == Direction_Type.Eight ? directions_8 : directions_4;
+           
             foreach (var dir in direction)
             {
                 Vector2 nextPosition = curPosition + dir;
@@ -130,7 +133,75 @@ public class PathFinder : MonoBehaviour
         // 경로를 찾지 못함
         return null;
     }
-    
+
+    #region Coroutine Path Find
+    public IEnumerator FindPathCoroutine(
+    Vector2 start,
+    Vector2 end,
+    Action<List<Vector2>> onPathFound,
+    bool notObstacle = false,
+    Direction_Type type = Direction_Type.Eight,
+    int iterationPerFrame = 10)
+    {
+        PriorityQueue<Node> openSet = new();
+        HashSet<Vector2> closedSet = new HashSet<Vector2>();
+
+        openSet.Enqueue(new Node(start, 0, null), Heuristic(start, end));
+
+        Vector2Int[] directions = type == Direction_Type.Eight ? directions_8 : directions_4;
+        int iteration = 0;
+
+        while (openSet.Count > 0)
+        {
+            var current = openSet.Dequeue();
+            Vector2 curPosition = current.Position;
+
+            if (CheckDistance(curPosition, end))
+            {
+                Node endNode = new Node(end, current.GCost + 1, current);
+                onPathFound?.Invoke(ReconstructPath(endNode));
+                yield break;
+            }
+
+            closedSet.Add(curPosition);
+
+            foreach (var dir in directions)
+            {
+                Vector2 nextPosition = curPosition + dir;
+
+                if (closedSet.Contains(nextPosition) || IsObstacle(nextPosition, notObstacle))
+                    continue;
+
+                float nextGCost = current.GCost + 1;
+
+                if (openSet.Contains(nextPosition, out var existingNode))
+                {
+                    if (nextGCost < existingNode.GCost)
+                    {
+                        existingNode.Update(nextGCost, current);
+                        openSet.UpdatePriority(existingNode, nextGCost + Heuristic(nextPosition, end));
+                    }
+                }
+                else
+                {
+                    var nextNode = new Node(nextPosition, nextGCost, current);
+                    openSet.Enqueue(nextNode, nextGCost + Heuristic(nextPosition, end));
+                }
+
+                // 반복 횟수마다 한 프레임 쉬어가기
+                if (++iteration >= iterationPerFrame)
+                {
+                    iteration = 0;
+                    yield return null;
+                }
+            }
+        }
+
+        // 경로를 찾지 못한 경우
+        onPathFound?.Invoke(null);
+    }
+    #endregion
+
     private List<Vector2> ReconstructPath(Node node)
     {
         List<Vector2> path = new List<Vector2>();

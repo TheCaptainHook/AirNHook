@@ -2,7 +2,7 @@ using System.Collections;
 
 using UnityEngine;
 
-public class StrongBox : BuildObj
+public class StrongBox : InteractableObjectEntity
 {
     [SerializeField] SpriteRenderer mainSprite;
 
@@ -10,19 +10,12 @@ public class StrongBox : BuildObj
     private float curHealth = 0;
     private StrongBox_Net Net => GetComponent<StrongBox_Net>();
 
-    private void Awake()
+    protected override void Awake()
     {
         curHealth = health;
-        DissolveInitSetting();
+        base.Awake();
     }
 
-
-    public override void SetData<T>(T data)
-    {
-        base.SetData(data);
-        Net.onSync = true;
-        Net.Server_InitSync();
-    }
 
 
     private Coroutine hitEffectCoroutine;
@@ -53,15 +46,4 @@ public class StrongBox : BuildObj
 
     }
 
-    public override void TurnOff()
-    {
-        base.TurnOff();
-        _rb.gravityScale = 0;
-        _rb.velocity = Vector2.zero;
-    }
-    public override void TurnOn()
-    {
-        base.TurnOn();
-        _rb.gravityScale = 1;
-    }
 }

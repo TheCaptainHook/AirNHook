@@ -4895,15 +4895,23 @@ MonoBehaviour:
   _Dissolve_MainSprite: {fileID: 0}
   canRespawn: 0
   activeRequirAmount: 0
+  indicator: 0
+  indicatorOffset_val_1: {x: 0, y: 0}
+  indicatorOffset_val_2: {x: 0, y: 0}
+  isHorizontal: 0
+  indicatorStruct:
+    indicator: 0
+    indicator_1_position: {x: 0, y: 0}
+    indicator_2_position: {x: 0, y: 0}
+    isHorizontal: 0
   curActiveBtn: 0
   _curDistanceRay: 0
-  _lineRenderer: {fileID: 2717453816571275917}
   _firePoint: {fileID: 2979357953502741260}
+  _lineRenderer: {fileID: 2717453816571275917}
   _endVFX: {fileID: 5345449485699939287}
   _layerMask:
     serializedVersion: 2
     m_Bits: 19875776
-  _isEnabled: 0
   hitEffectParticle: {fileID: 7676629228877518604}
 --- !u!61 &5690823865466912599
 BoxCollider2D:

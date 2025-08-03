@@ -18,8 +18,8 @@ public class InteractableObject_LadderObject : InteractableObject
         ladderObject = GetComponent<LadderObject>();
     }
 
-    public override void Release()
+    public override void Release(GameObject accssor = null)
     {
-        base.Release();
+        base.Release(accssor);
     }
 }

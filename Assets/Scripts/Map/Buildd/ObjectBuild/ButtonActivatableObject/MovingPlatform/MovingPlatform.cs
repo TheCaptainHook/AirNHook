@@ -2,12 +2,13 @@
 using System.Collections;
 using UnityEngine;
 using System;
-using Org.BouncyCastle.Crypto.Engines;
+using Mirror;
 
 public class MovingPlatform :  ActivatableObjectEntity
 {
     [CustomHeader("Moving Platform")]
     public Vector2[] paths;
+
     [ContextMenu("Add Current Position")]
     public void AddCurrentPosition() 
     {
@@ -36,19 +37,21 @@ public class MovingPlatform :  ActivatableObjectEntity
     
     
     private MovingPlatform_Net MovingPlatform_Net;
-
-    private void Awake()
+    public NetworkRigidbodyUnreliable2D netRb;
+    protected override void Awake()
     {
         MovingPlatform_Net = GetComponent<MovingPlatform_Net>();
+        netRb = GetComponent<NetworkRigidbodyUnreliable2D>();
     }
 
     #region  GET,SET (Will take care this logic)
     public override T GetData<T>()
     {
-        if(typeof(T)==typeof(ButtonActivatableObjectStruct)){
-            return (T)(object)new ButtonActivatableObjectStruct(id,activeRequirAmount,transform.position,transform.rotation,transform.localScale,paths,moveSpeed);
+        if (typeof(T) == typeof(ButtonActivatableObjectStruct))
+        {
+            return (T)(object)new ButtonActivatableObjectStruct(id, activeRequirAmount, transform.position, transform.rotation, transform.localScale, paths, moveSpeed, indicatorStruct);
         }
-        
+
         return default(T);
 
     }
@@ -58,32 +61,22 @@ public class MovingPlatform :  ActivatableObjectEntity
 
         if (typeof(T) == typeof(ButtonActivatableObjectStruct))
         {
+            util = new Util();
             ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
             ButtonActivatedObjectStruct = objData;
-
-            //Moving Platform
-            paths = ConvertPaths(objData.paths);
-            moveSpeed = objData.moveSpeed;
-
-            if (Application.isPlaying)
-            {
-                MovingPlatform_Net.Server_InitSync();
-                MovingPlatform_Net.Server_CreateRail(paths, moveSpeed);
-
-                //Server FixedUpdata Ready 0407
-                MovingPlatform_Net.Server_FixedUpdateReady(paths.Length > 0);
-                //Server FixedUpdata Ready 0407
-
-                Util util = new Util();
-                await util.Delay(() =>
-                {
-                    //--------------------------------------------------------------------------------------------------------Refectoring 0406                
-                    // MovingPlatform_Prograss_Before_Setting();
-                    CheckActiveRequirAmount();
-                });
-
-            }
         }
+
+        //Moving Platform
+        paths = ConvertPaths(ButtonActivatedObjectStruct.paths);
+        moveSpeed = ButtonActivatedObjectStruct.moveSpeed;
+
+        if (Application.isPlaying)
+        {
+            MovingPlatform_Net.Server_InitSync();
+            
+            await util.Delay(() => { CheckActiveRequirAmount(); });
+        }
+        
     }
     #endregion
 
@@ -91,7 +84,7 @@ public class MovingPlatform :  ActivatableObjectEntity
 
     [ReadOnly]
     public Vector2 dir;
-    public event Action<Vector2> movingEvent;
+    // public event Action<Vector2> movingEvent;
     private void FixedUpdate()
     {   
         if(!MovingPlatform_Net.onActive) return;
@@ -132,12 +125,12 @@ public class MovingPlatform :  ActivatableObjectEntity
 
 
     #region  Activatable
-    protected override void Activation()
+    public override void Activation()
     {
         // onActive = true;
         MovingPlatform_Net.onActive = true;
     }
-    protected override void Deactivated()
+    public override void Deactivated()
     {
         MovingPlatform_Net.onActive = false;
     }

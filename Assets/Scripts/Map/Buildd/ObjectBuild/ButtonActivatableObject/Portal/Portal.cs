@@ -1,6 +1,4 @@
 using Mirror;
-using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Portal : ActivatableObjectEntity
@@ -14,151 +12,92 @@ public class Portal : ActivatableObjectEntity
     [ReadOnly]
     public Vector2 targetPosition;
 
-    //bool onPrograss;
-    [ReadOnly]
-    public bool onActivable;
-    //private Coroutine portalCoroutine;
-    private Util util;
+
+
 
     [Header("Animation")]
     [SerializeField] private Animator _animator;
     [SerializeField] GameObject _TpEffect;
 
-    //private Portal_Net Portal_Net => GetComponent<Portal_Net>();
-    private Portal_Net Portal_Net;
 
-  
     #region Get,Set
-
-    private void Awake(){
-        util = new Util();
-        Portal_Net = GetComponent<Portal_Net>();
-    }
     public override T GetData<T>()
     {
-         if(typeof(T) == typeof(ButtonActivatableObjectStruct)){
-            return (T)(object)new ButtonActivatableObjectStruct(id,activeRequirAmount,transform.position,transform.rotation,transform.localScale,targetPortal.transform.position);
+        if (typeof(T) == typeof(ButtonActivatableObjectStruct)) {
+            return (T)(object)new ButtonActivatableObjectStruct(id, activeRequirAmount, transform.position, transform.rotation, transform.localScale, indicatorStruct, targetPortal.transform.position);
         }
 
         return default(T);
     }
 
-    public override async void SetData<T>(T data)
+    protected override void AdditionalInspectorConfig()
     {
-        try
-        {
-            if (typeof(T) == typeof(ButtonActivatableObjectStruct))
-            {
-                ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
-                ButtonActivatedObjectStruct = objData;
-                targetPosition = objData.talPot;
-
-                Portal_Net.SetTargetPortal(targetPosition);
-            }
-        }
-        catch
-        {
-            Debug.Log($"ERROR,{typeof(T)}");
-        }
-
-        if (Application.isPlaying)
-        {
-            await util.Delay(() => { CheckActiveRequirAmount(); });
-        }
-
-
+        targetPosition = ButtonActivatedObjectStruct.talPot;
     }
 
-    public override void CheckActiveRequirAmount()
-    {
-        base.CheckActiveRequirAmount();
-
-        foreach(Transform tr in MapEditor.Instance.buttonActivatableObjectTransform){
-            if(tr.TryGetComponent(out Portal component)){
-                if(targetPosition == (Vector2)component.transform.position){
-                    //targetPortal = component;
-                    Portal_Net.Server_SetTargetPortal(component.gameObject);
-                    return;
-                }
-            }
-        }
-    }
 
 
     #region Editor
-    // public async override void Editor_Setting(Transform transform)
-    // {
-    //      Util util = new Util();
-    //         await util.Delay(()=>{
-    //             try{
-    //                 foreach(Transform tr in transform){
-    //                     if(tr.TryGetComponent(out Portal component)){
-    //                         if(targetPosition == (Vector2)component.transform.position){
-    //                             targetPortal = component;
-    //                             return;
-    //                         }
-    //                     }       
-    //                 }
-    //             }catch{
-    //                 Debug.Log("Can't find Transform");
-    //                 return;
-    //             }
 
 
-    //     });
-    // }
-    
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     public async override void Editor_Setting(MapEditor mapEditor)
     {
         Util util = new Util();
-            await util.Delay(()=>{
-                try{
-                    foreach(Transform tr in mapEditor.buttonActivatableObjectTransform){
-                        if(tr.TryGetComponent(out Portal component)){
-                            if(targetPosition == (Vector2)component.transform.position){
-                                targetPortal = component;
-                                return;
-                            }
-                        }       
+        await util.Delay(() =>
+        {
+            try
+            {
+                foreach (Transform tr in mapEditor.buttonActivatableObjectTransform)
+                {
+                    if (tr.TryGetComponent(out Portal component))
+                    {
+                        if (targetPosition == (Vector2)component.transform.position)
+                        {
+                            targetPortal = component;
+                            return;
+                        }
                     }
-                }catch{
-                    Debug.Log("Can't find Transform");
-                    return;
                 }
+            }
+            catch
+            {
+                Debug.Log("Can't find Transform");
+                return;
+            }
 
 
         });
     }
-    #endif
-    #endregion
-
+#endif
 
     #endregion
 
-    #region Network
-    public void Net_ChangeOnPrograss(bool val)
-    {
-        Portal_Net.onPrograss = val;
-        _animator.SetBool("IsActive", !val);
-        _TpEffect.SetActive(!val);
-    }
+
     #endregion
+
+
     #region Portal Logic
-    private void FixedUpdate(){
-        if(Portal_Net.onActive){
-            ActiveOnRay();
+    private void FixedUpdate()
+    {
+        if (NetworkServer.active)
+        {
+            if (Net.onActive)
+            {
+                ActiveOnRay();
+            }
         }
+        
     }
 
-    protected override void Activation()
+    public override void Activation()
     {
-        Portal_Net.Cmd_CallSetOnActive(true);
+        Net.Server_ChangeOnActive(true);
     }
 
-    protected override void Deactivated()
+    public override void Deactivated()
     {
-        Portal_Net.Cmd_CallSetOnActive(false);
+        Net.Server_ChangeOnActive(false);
     }
 
 
@@ -172,16 +111,24 @@ public class Portal : ActivatableObjectEntity
         RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, .5f, layer);
         if (hit.collider != null)
         {
-
-            Portal_Net.Cmd_UsePortal(hit.collider.gameObject);
+            // Portal_Net.Cmd_UsePortal(hit.collider.gameObject);
+            var item = hit.collider.TryGetComponent(out NetworkIdentity identity) ? identity : null;
+            if (item != null)
+            {
+                Net.Server_PlayUniqueEffect(item.netId);
+            }
+            
 
         }
 
     }
-    private void OnDrawGizmos(){
-    Gizmos.color = Color.red;
-    Gizmos.DrawRay(transform.position,transform.up*.5f);
-   }
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, transform.up * .5f);
+    }
+    #endif
 
     #endregion
 

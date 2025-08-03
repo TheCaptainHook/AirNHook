@@ -1,21 +1,9 @@
 using System.Collections;
-
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class BeamDoor : ActivatableObjectEntity
 {
-   [CustomHeader("Beam Door")]
-
-
-
-    [Space(20)]
-    [ReadOnly]
-    public bool onOpen;
-    [ReadOnly]
-    public bool onPrograss;
-
-    BeamDoor_Net Net => GetComponent<BeamDoor_Net>();
-
 
     #region Animation
     Animator Animator => GetComponent<Animator>();
@@ -23,58 +11,18 @@ public class BeamDoor : ActivatableObjectEntity
     #endregion
 
     #region Get,Set
-    public override async void SetData<T>(T data)
-    {
-        try{
-            if (typeof(T) == typeof(ButtonActivatableObjectStruct))
-            {
-            ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
-            ButtonActivatedObjectStruct = objData;
-            }
 
-        }
-        catch
-        {
-             Debug.Log($"ERROR,{typeof(T)}");
-        }
-            
-        if(Application.isPlaying)
-        {
-            //Network Sync
-            Net.Server_InitSync();
-            //Network Sync
-
-
-            Util util  = new Util();
-            await util.Delay(()=>{CheckActiveRequirAmount();});
-        }
-    }
     #endregion
 
-    protected override void Activation()
+    public override void Activation()
     {
-        OpenDoor();
-    }
-    protected override void Deactivated()
-    {
-        CloseDoor();
-    }
-
-
-    private void OpenDoor()
-    {
-
         Animator.SetBool(Open, true);
-      
     }
-
-    private void CloseDoor()
+    public override void Deactivated()
     {
         Animator.SetBool(Open, false);
-     
     }
    
-
 }
 
 

@@ -16,6 +16,7 @@ public class ButtonActivated : ButtonEntity
    public override void SetData<T>(T data)
    {
        base.SetData(data);
+
        B_Net.onSync = true;
        B_Net.Server_SetPosition();
    }
@@ -33,17 +34,17 @@ public class ButtonActivated : ButtonEntity
         }
     }
 
-    private void Press()
+    private void Press()//server
     {
         if (B_Net.rate >= 1) return;
         if(NetworkClient.isConnected && NetworkClient.ready)
-        B_Net.Cmd_SetRate(Time.fixedDeltaTime);
+        B_Net.Server_SetRate(Time.fixedDeltaTime);
     }
-    private void Release()
+    private void Release() //server
     {
         if (B_Net.rate <= 0) return;
         if (NetworkClient.isConnected && NetworkClient.ready)
-            B_Net.Cmd_SetRate(-Time.fixedDeltaTime);
+            B_Net.Server_SetRate(-Time.fixedDeltaTime);
     }
 
     private void FixedUpdate()
@@ -52,7 +53,7 @@ public class ButtonActivated : ButtonEntity
         if(!NetworkServer.active) return;
 
         RaycastHit2D hit = Physics2D.Raycast(buttonTransform.position,transform.up, 0.8f, mask);
-        Debug.DrawRay(buttonTransform.position,transform.up*0.8f,Color.red);
+        // Debug.DrawRay(buttonTransform.position,transform.up*0.8f,Color.red);
         if (hit.collider is not null)
         {
             //isPressed = true;
@@ -92,22 +93,22 @@ public class ButtonActivated : ButtonEntity
         PrograssButtonActivatedObject(false);
     }
 
-    public override void TurnOff()
-    {
-        base.TurnOff();
-        turnOff = true;
+    // public override void TurnOff()
+    // {
+    //     base.TurnOff();
+    //     turnOff = true;
 
-        if (isPressed && onActive)
-        {
-            Deactivated();
-        }
+    //     if (isPressed && onActive)
+    //     {
+    //         Deactivated();
+    //     }
 
-    }
+    // }
 
-    public override void TurnOn()
-    {
-        base.TurnOn();
-        turnOff = false;
-    }
+    // public override void TurnOn()
+    // {
+    //     base.TurnOn();
+    //     turnOff = false;
+    // }
 
 }

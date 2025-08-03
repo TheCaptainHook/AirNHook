@@ -47,11 +47,9 @@ public class LeverBodyNet : NetworkBehaviour
 
 
     [Server]
-    public void Server_SetLeverHead(LeverHead head)
+    public void Server_SetLeverHead(LeverHead head) // Server
     {
-        head.AttachToLevelBody();
-
-        StartCoroutine(Destroy_Head(head));
+        head.AttachToLevelBody(); //head 스프라이트 제거 후 오브젝트 제거.
 
         onCompletionParts = true;
 
@@ -72,13 +70,13 @@ public class LeverBodyNet : NetworkBehaviour
         }
     }
 
-    IEnumerator Destroy_Head(LeverHead head)
-    {
-        //head.transform.GetChild(0).gameObject.SetActive(false);
-        head.Net_Att();
-        yield return new WaitForSeconds(1f);
-        NetworkServer.Destroy(head.gameObject);
-    }
+    // IEnumerator Destroy_Head(LeverHead head)
+    // {
+    //     //head.transform.GetChild(0).gameObject.SetActive(false);
+    //     // head.Net_Att();
+    //     yield return new WaitForSeconds(1f);
+    //     NetworkServer.Destroy(head.gameObject);
+    // }
 
     [ClientRpc]
     private void Rpc_SetLeverHead()

@@ -68,7 +68,11 @@ public class ToggleButton_Net : NetworkBehaviour
     private void Server_SetHasPower(bool hasPower)
     {
         if (hasPower) this.hasPower++;
-        else this.hasPower--;
+        else
+        {
+            this.hasPower--;
+            if (this.hasPower < 0) this.hasPower = 0;
+        } 
         //this.hasPower = hasPower;  //this.hasPower++;
 
         Server_SetChargeRequired(this.hasPower > 0 ? false : true);

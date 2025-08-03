@@ -152,19 +152,20 @@ public class UI_Dialogue : UI_Base
         }
 
     }
-    IEnumerator StartDialougeCo(){
+    IEnumerator StartDialougeCo()
+    {
         onProgress = true;
-        while(queue.Count>0)
+        while (queue.Count > 0)
         {
             int id = queue.Dequeue();
             nextDialogueIndex = 1;
             list = Managers.Data.language.dialogueMap[id];
-            
+
             for (int i = 0; i < list.Count; i++)
-             {
+            {
                 yield return Dialogue(list[i]);
                 nextDialogueIndex++;
-             }
+            }
         }
 
         onProgress = false;

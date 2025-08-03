@@ -21,7 +21,7 @@ public class LightObjectEntity : BuildObj,IPowerConsumer
     }
 
     #region IPowerConsumer
-    public bool hasPower
+    public bool hasPower //Server
     {
         get
         {
@@ -29,7 +29,8 @@ public class LightObjectEntity : BuildObj,IPowerConsumer
         }
         set
         {
-            L_Net.Cmd_SetHasPower(value);
+            // L_Net.Cmd_SetHasPower(value);
+            L_Net.Server_SetHasPower(value);
         }
     }
     public void LightOnOff(bool onOff)

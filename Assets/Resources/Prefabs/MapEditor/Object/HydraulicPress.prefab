@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 6244364148549648903}
   - component: {fileID: 5732584017567032563}
   - component: {fileID: 6832988797849042269}
-  m_Layer: 14
+  m_Layer: 15
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -491,7 +491,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3150436631828177710}
   - component: {fileID: 7684903196300218065}
-  - component: {fileID: 3563850275506238468}
   - component: {fileID: 4904863165224743492}
   - component: {fileID: 6751884477493006046}
   m_Layer: 14
@@ -538,18 +537,6 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!210 &3563850275506238468
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5485989114999524422}
-  m_Enabled: 1
-  m_SortingLayerID: -688237417
-  m_SortingLayer: 5
-  m_SortingOrder: 5
-  m_SortAtRoot: 0
 --- !u!114 &4904863165224743492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -580,9 +567,16 @@ MonoBehaviour:
   _Dissolve_MainSprite: {fileID: 0}
   canRespawn: 0
   activeRequirAmount: 0
+  indicator: 0
+  indicatorOffset_val_1: {x: -0.5, y: 1}
+  indicatorOffset_val_2: {x: -0.5, y: -1}
+  isHorizontal: 0
+  indicatorStruct:
+    indicator: 0
+    indicator_1_position: {x: 0, y: 0}
+    indicator_2_position: {x: 0, y: 0}
+    isHorizontal: 0
   curActiveBtn: 0
-  _UPStem: {fileID: 6523186124190423156}
-  _DownStem: {fileID: 7242306415295674344}
 --- !u!114 &6751884477493006046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -598,7 +592,33 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  data:
+    id: 0
+    activeRequirAmount: 0
+    chargeRequired: 0
+    indicatorStruct:
+      indicator: 0
+      indicator_1_position: {x: 0, y: 0}
+      indicator_2_position: {x: 0, y: 0}
+      isHorizontal: 0
+    jumpingPower: 0
+    position: {x: 0, y: 0}
+    quaternion: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 0, y: 0, z: 0}
+    talPot: {x: 0, y: 0}
+    rotateRate: 0
+    fireRate: 0
+    onHoldRotation: 0
+    onLeft: 0
+    paths: []
+    moveSpeed: 0
+    moveDistance: 0
+    bridgeLength: 0
+    connectionPoint: {x: 0, y: 0}
   onSync: 0
+  onActive: 0
+  _UPStem: {fileID: 6523186124190423156}
+  _DownStem: {fileID: 7242306415295674344}
   lightSpriteRenderer: {fileID: 1226818510410384007}
   greenSprite: {fileID: 21300000, guid: 38164a288622b084bbd5447a0222dec4, type: 3}
   redSprite: {fileID: 21300000, guid: 16eca0def3740194dbf967c83a2cd7e3, type: 3}
@@ -622,7 +642,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7310640767254791281}
   - component: {fileID: 327502286259732481}
-  m_Layer: 14
+  m_Layer: 15
   m_Name: Col2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -699,7 +719,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7688476963014772675}
   - component: {fileID: 4694049742967805740}
-  m_Layer: 14
+  m_Layer: 15
   m_Name: Col
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -871,7 +891,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1173770633074201914, guid: 6175ca852c71e402f95c7e53dfbcc3c6, type: 3}
       propertyPath: offset.x
-      value: 0.78
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1173770633074201914, guid: 6175ca852c71e402f95c7e53dfbcc3c6, type: 3}
       propertyPath: m_Enabled
@@ -879,15 +899,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1173770633074201914, guid: 6175ca852c71e402f95c7e53dfbcc3c6, type: 3}
       propertyPath: _CubeSize.x
-      value: 0.7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1173770633074201914, guid: 6175ca852c71e402f95c7e53dfbcc3c6, type: 3}
       propertyPath: _CubeSize.y
-      value: -0.63
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1173770633074201914, guid: 6175ca852c71e402f95c7e53dfbcc3c6, type: 3}
       propertyPath: _SphereRadius
-      value: 0.31
+      value: 0.52
+      objectReference: {fileID: 0}
+    - target: {fileID: 1173770633074201914, guid: 6175ca852c71e402f95c7e53dfbcc3c6, type: 3}
+      propertyPath: layerMask.m_Bits
+      value: 1088
       objectReference: {fileID: 0}
     - target: {fileID: 3870215783177196772, guid: 6175ca852c71e402f95c7e53dfbcc3c6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -939,7 +963,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9151871927070970668, guid: 6175ca852c71e402f95c7e53dfbcc3c6, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

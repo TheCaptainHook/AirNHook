@@ -8,21 +8,6 @@ public class JumpingPad : ActivatableObjectEntity
     [CustomHeader("Jumping Pad")]
     public int jumpingPower;
 
-    private Animator animator;
-
-
-    private bool onActive;
-
-
-    
-    private JumpingPad_Net Net;
-
-    private Util util;
-    private void Awake()
-    {
-        animator = GetComponent<Animator>();
-        Net = GetComponent<JumpingPad_Net>();
-    }
 
     #region Get,Set
 
@@ -30,75 +15,44 @@ public class JumpingPad : ActivatableObjectEntity
     {
         if (typeof(T) == typeof(ButtonActivatableObjectStruct))
         {
-            return (T)(object)new ButtonActivatableObjectStruct(id, activeRequirAmount, transform.position, transform.rotation, transform.localScale,jumpingPower);
+            return (T)(object)new ButtonActivatableObjectStruct(id, activeRequirAmount, transform.position, transform.rotation, transform.localScale,jumpingPower,indicatorStruct);
         }
 
         return default(T);
     }
-    public override async void SetData<T>(T data)
+  
+    protected override void AdditionalInspectorConfig()
     {
-        try
-        {
-            if (typeof(T) == typeof(ButtonActivatableObjectStruct))
-            {
-                ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
-                ButtonActivatedObjectStruct = objData;
-                jumpingPower = objData.jumpingPower;
-            }
-
-            if (Application.isPlaying)
-            {
-                Net.jumpingPower = ButtonActivatedObjectStruct.jumpingPower;
-                Net.onSync = true;
-                Net.Server_InitSync();
-                // Net.Server_SetJumpingPower(jumpingPower);
-
-                util = new Util();
-                await util.Delay(() => { CheckActiveRequirAmount(); });
-            }
-
-        }
-        catch
-        {
-            Debug.Log($"ERROR,{typeof(T)}");
-        }
-
-        
+        jumpingPower = ButtonActivatedObjectStruct.jumpingPower;
     }
-
     #endregion
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
- 
+        if (!NetworkServer.active) return;
+
+        if (!Net.onActive) return;
         if (collision != null && collision.TryGetComponent(out NetworkIdentity component))
         {
             if (collision.TryGetComponent(out JumpingPad _)) return;
 
-            Net.Cmd_Jumping(component.netId);
+            Net.Server_PlayUniqueEffect(component.netId);
             //Debug.Log(collision.name);
         }
     }
 
-    #region Main
-    //public void Jumping(Rigidbody2D rb)
-    //{
-    //    if (!onActive) return;
-    //    rb.velocity = Vector2.zero;
-    //    rb.AddForce(Vector2.up * Net.jumpingPower, ForceMode2D.Impulse);
-    //}
-    #endregion
 
-    protected override void Activation()
+
+    public override void Activation()
     {
         //onActive = true;
-        Net.Server_SetOnActive(true);
+        Net.Server_ChangeOnActive(true);
         // animator.SetBool(Activated,Net.onActive);
     }
-    protected override void Deactivated()
+    public override void Deactivated()
     {
         //onActive = false;
-        Net.Server_SetOnActive(false);
+        Net.Server_ChangeOnActive(false);
         // animator.SetBool(Activated, Net.onActive);
     }
 }

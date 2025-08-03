@@ -3,8 +3,7 @@ using UnityEngine;
 using Mirror;
 using UnityEngine.Animations;
 using System.Collections;
-using System;
-using Unity.Mathematics;
+
 
 
 
@@ -92,64 +91,65 @@ public class MirrorObject_Net : NetworkBehaviour
 
     #region  Server
 
-
-    // [Server]
-    // public void Server_SetRot_z(float z)
-    // {
-    //     rotate_Z = z;
-    // }
     [Command(requiresAuthority = false)]
-    public void Cmd_SetRot_z(float z,bool lr) //2
+    public void Cmd_SetRot_z(float z)
     { 
-        // Server_SetRot_z(z);
         targetZ = _Mirror.transform.eulerAngles.z + z;
-        Rpc_SetRot_z(targetZ,lr);
-        
+        Rpc_SetRot_z(targetZ);
     }
 
-    bool isRotation;
     float targetZ;
+    
     [ClientRpc]
-    private void Rpc_SetRot_z(float targetZ,bool lr) //3
+    private void Rpc_SetRot_z(float targetZ) 
     {
-        isRotation = true;
         this.targetZ = targetZ;
-        this.lr = lr;
-        
-    }
-    void Update()
-    {
-        if (isRotation)
+        //this.lr = lr;
+        if(rotationCoroutine == null)
         {
-            // var a = lr ? 1 : -1;
-            // var curRotZ = _Mirror.transform.eulerAngles.z;
-            // if (!HasReachedTarget(curRotZ, targetZ))
-            // {
-            //     curRotZ += 0.01f * a;
-            //     _Mirror.transform.rotation = Quaternion.Euler(0, 0, curRotZ);
-            //     Debug.Log($"target : {targetZ}, curRotZ : {curRotZ}");
-            // }
-            // else
-            // {
-            //     isRotation = false;
-            //     _Mirror.transform.rotation = Quaternion.Euler(0, 0, targetZ);
-            // }
-            
-            Quaternion current = _Mirror.transform.rotation;
-            Quaternion target = Quaternion.Euler(0, 0, targetZ);
-            float deltaZ = Mathf.Abs(Mathf.DeltaAngle(_Mirror.transform.eulerAngles.z, targetZ));
-            float step = deltaZ / 0.1f * Time.deltaTime;
-
-            _Mirror.transform.rotation = Quaternion.RotateTowards(current, target, step);
-            // float angleDifference = Mathf.Abs(Mathf.DeltaAngle(_Mirror.transform.eulerAngles.z, targetZ));
-           
-            if (deltaZ < 0.05f)
-            {
-                isRotation = false;
-                _Mirror.transform.rotation = target;
-            }
+            rotationCoroutine = StartCoroutine(RotationCo());
         }
+
     }
+    Coroutine rotationCoroutine;
+    private IEnumerator RotationCo()
+    {
+        while (true)
+        {
+            float currentZ = _Mirror.transform.eulerAngles.z;
+            float deltaZ = Mathf.DeltaAngle(currentZ, targetZ);
+
+            // 도착 판정
+            if (Mathf.Abs(deltaZ) < 0.1f)
+                break;
+
+            float nextZ = Mathf.LerpAngle(currentZ, targetZ, Time.deltaTime * 10f); // 10f는 회전 속도 조절
+            _Mirror.transform.rotation = Quaternion.Euler(0, 0, nextZ);
+            yield return null;
+        }
+
+        _Mirror.transform.rotation = Quaternion.Euler(0, 0, targetZ);
+        rotationCoroutine = null;
+    }
+
+    //void Update()
+    //{
+    //    if (isRotation)
+    //    {
+    //        Quaternion current = _Mirror.transform.rotation;
+    //        Quaternion target = Quaternion.Euler(0, 0, targetZ);
+    //        float deltaZ = Mathf.Abs(Mathf.DeltaAngle(_Mirror.transform.eulerAngles.z, targetZ));
+    //        float step = deltaZ / 0.1f * Time.deltaTime;
+
+    //        _Mirror.transform.rotation = Quaternion.RotateTowards(current, target, step);
+
+    //        if (deltaZ < 0.05f)
+    //        {
+    //            isRotation = false;
+    //            _Mirror.transform.rotation = target;
+    //        }
+    //    }
+    //}
 
     //1. Cmd(server) 에서 타겟 로테이션값 계산
     //2. Rpc 로 각 클라이언트에 타겟 로테이션전달
@@ -159,7 +159,7 @@ public class MirrorObject_Net : NetworkBehaviour
 
 
     // private Coroutine setRotCoroutine;
-    private bool lr;
+    //private bool lr;
     // IEnumerator SetRotCo()  //4
     // {
     //     float curZ = _Mirror.transform.eulerAngles.z;
@@ -307,7 +307,6 @@ public class MirrorObject_Net : NetworkBehaviour
         //     StopCoroutine(setRotCoroutine);
         //     setRotCoroutine = null;
         // }
-        isRotation = false;
         targetZ = 0;
     }
 

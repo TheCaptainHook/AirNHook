@@ -20,13 +20,12 @@ public class LeverHead : BuildObj
         Net.Server_InitSync();
     }
 
-    public void Net_Att()
+    // public void Net_Att()
+    // {
+    //     Net.Server_Att();
+    // }
+    public void AttachToLevelBody() //Server
     {
-        Net.Server_Att();
-    }
-    public void AttachToLevelBody()
-    {
-        if(NetworkServer.active)
         Net.Server_Attach();
     }
 

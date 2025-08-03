@@ -1,6 +1,7 @@
+using Mirror;
 using System.Collections;
 using UnityEngine;
-using Mirror;
+
 public class BatteryCharger : BuildObj
 {
     private UI_Base _E_Btn;
@@ -23,41 +24,34 @@ public class BatteryCharger : BuildObj
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.TryGetComponent(out HookSM component))
-        {
-            Transform grabItem = component.GetGrabbedItem();
-            if (grabItem != null)
-            {
-                if (grabItem.TryGetComponent(out Battery battery))
-                {
-                    B_Net.Cmd_ShowE(component.gameObject,true); //Show Button
 
-                    //battery.batteryCharger = this;
-                    if(NetworkServer.active)
-                    battery.Net_SetBatteryCharger(gameObject); //Set BatteryCharger
-                }
+        if (collision.TryGetComponent(out Battery battery))
+        {
+            var interactable = battery.TryGetComponent(out InteractableObject component) ? component : null;
+            if (interactable != null && interactable._isGrab)
+            {
+                B_Net.Cmd_ShowE(collision.gameObject, true);
+                battery.Net_SetBatteryCharger(gameObject);
             }
-          
+
+            GetVelocity(battery);
         }
     }
 
+    //--------TEST
+    private void GetVelocity(Battery battery)
+    {
+        Debug.Log(battery._rb.velocity);
+    }
+    //--------TEST
+
     private void OnTriggerExit2D(Collider2D collider)
     {
-        if (collider.TryGetComponent(out HookSM component))
+
+        if (collider.TryGetComponent(out Battery battery))
         {
-
-            Transform grabItem = component.GetGrabbedItem();
-            if (grabItem != null)
-            {
-                if (grabItem.TryGetComponent(out Battery battery))
-                {
-                    B_Net.Cmd_ShowE(component.gameObject, false);//Hide
-
-                    if (NetworkServer.active)
-                        battery.Net_SetBatteryCharger(null); // remove batterycharger
-                }
-
-            }
+            B_Net.Cmd_ShowE(collider.gameObject, false);
+            battery.Net_SetBatteryCharger(null);
         }
     }
 
@@ -67,7 +61,9 @@ public class BatteryCharger : BuildObj
 
     public void SetBattery(GameObject battery)
     {
-        B_Net.Cmd_SetBattery(battery);
+        //B_Net.Cmd_SetBattery(battery);
+        B_Net.Server_SetBattery(battery);
+       
     }
     #endregion
 
@@ -81,8 +77,9 @@ public class BatteryCharger : BuildObj
 
     public void HideE()
     {
+        if(_E_Btn != null) Managers.UI.HideUI<UI_ShowEButton>();
         _E_Btn = null;
-        Managers.UI.HideUI<UI_ShowEButton>();
+       
     }
     #endregion
 

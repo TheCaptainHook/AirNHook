@@ -1,100 +1,64 @@
 
-using Mirror;
+using System.Collections;
 using UnityEngine;
 
-public class ButtonActivaateDoor_Net : NetworkBehaviour
+public class ButtonActivaateDoor_Net : ActivatableObject_Net_Entity
 {
+    protected override void Active()
+    {
+        Open();
+    }
+    protected override void Deactive()
+    {
+        Close();
+    }
 
-    ButtonActivatedDoor door;
-    ButtonActivatedDoor Door{
-        get{
-            if(door == null) door = GetComponent<ButtonActivatedDoor>();
-            return door;
+
+    #region  Main Logic
+    [SerializeField] Transform topDoor;
+    [SerializeField] Transform bottomDoor;
+
+    private float operateDoorRate =1;
+    private Vector3 closeSet = new Vector3(1,1,0);
+    private Vector3 openSet = new Vector3(1,0,0);
+    private Coroutine operateDoorCoroutine;
+
+    public void Open()
+    {
+        if(operateDoorCoroutine != null) StopCoroutine(operateDoorCoroutine);
+        Col.enabled = false;
+        operateDoorCoroutine = StartCoroutine(Operation(true));
+    }
+    public void Close()
+    {
+        if(operateDoorCoroutine != null) StopCoroutine(operateDoorCoroutine);
+        Col.enabled = true;
+        operateDoorCoroutine = StartCoroutine(Operation(false));
+    }
+
+    IEnumerator Operation(bool openOrClose)//true: open, false : close
+    {
+        Vector3 set = openOrClose ? openSet : closeSet;
+        float percent = openOrClose ? 1 - topDoor.localScale.y : GetCurrentLocalScalePercent() ;
+         
+        while(percent < operateDoorRate)
+        {
+            percent += Time.deltaTime;
+            topDoor.localScale = Vector3.Lerp(topDoor.localScale,set,percent);
+            bottomDoor.localScale = Vector3.Lerp(topDoor.localScale,set,percent);
+            yield return null;
         }
-    }
 
-    //[SyncVar(hook = nameof(OnDoorStateChanged))]
-    [SyncVar]public bool isOpen;
+        topDoor.localScale = set;
+        bottomDoor.localScale = set;
 
-    #region  Init
-    public bool onSync;
-    [Server]
-    public void Server_InitSync()
-    {
-        Rpc_InitSync(Door.ButtonActivatedObjectStruct);
-    }
-    [ClientRpc]
-    private void Rpc_InitSync(ButtonActivatableObjectStruct data)
-    {
-        if(onSync) return;
-        transform.position = data.position;
-        transform.rotation = data.quaternion;
-        transform.localScale = data.scale;
+    } 
 
-        if (isOpen) Door.Open();
-        onSync = true;
-    }
-    [Command(requiresAuthority =false)]
-    public void Cmd_InitSync()
+
+    private float GetCurrentLocalScalePercent()
     {
-        Server_InitSync();
-    }
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        if(!onSync)Cmd_InitSync();
+        float y = topDoor.localScale.y;
+        return y/1;
     }
     #endregion
-
-    [Server]
-    public void Server_ChangeDoorState(bool isOpen)
-    {
-      this.isOpen = isOpen; 
-      Rpc_ChangeDoorState(isOpen);
-    }
-
-    [ClientRpc]
-    private void Rpc_ChangeDoorState(bool isOpen)
-    {
-        if(isOpen)
-        {
-            Door.Open();
-        }
-        else
-        {
-            Door.Close();
-        }
-    }
-
-    //[Command(requiresAuthority = false)]
-    //private void CmdSetState(bool newState)
-    //{
-    //    SetState(newState);
-    //}
-
-
-    //public void HandleSetState(bool newState)
-    //{
-    //    if(isServer)
-    //    {
-    //        SetState(newState);
-    //    }else
-    //    {
-    //        CmdSetState(newState);
-    //    }
-    //}
-
-    //private void OnDoorStateChanged(bool oldValue, bool newValue)
-    //{
-    //   if(newValue){
-    //    Door.Open();
-    //   }else{
-    //    Door.Close();
-    //   }
-
-    //}
-
-
-
-
 }

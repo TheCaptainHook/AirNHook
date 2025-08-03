@@ -567,6 +567,9 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   distructionStatus: 0
   chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
   onPlaceable: 0
   onRotateable: 1
   onScaleable: 1
@@ -575,13 +578,12 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprite: {fileID: 0}
+  canRespawn: 0
   activeRequirAmount: 0
+  indicator: 0
+  indicatorOffset_val_1: {x: 0, y: 3.5}
+  indicatorOffset_val_2: {x: 0.7, y: 2.3}
   curActiveBtn: 0
-  onOpen: 0
-  onPrograss: 0
-  door_Net: {fileID: 2127257292914860975}
-  topDoor: {fileID: 6876650001963253034}
-  bottomDoor: {fileID: 8020788218279620096}
 --- !u!114 &2127257292914860975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -597,6 +599,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  onSync: 0
+  onActive: 0
+  topDoor: {fileID: 6876650001963253034}
+  bottomDoor: {fileID: 8020788218279620096}
 --- !u!1 &8169169655005324946
 GameObject:
   m_ObjectHideFlags: 0

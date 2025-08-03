@@ -243,6 +243,7 @@ GameObject:
   - component: {fileID: 5995116111848026723}
   - component: {fileID: 5143413499476842947}
   - component: {fileID: 8098802773846804893}
+  - component: {fileID: 6850651723428778742}
   m_Layer: 19
   m_Name: Box
   m_TagString: Untagged
@@ -354,8 +355,14 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  _permissionPlayer: {fileID: 0}
   _objectType: 1
   _gravityScale: 0
+  _isFixed: 0
+  _canInteract: 1
+  _canGrab: 1
+  _isDestroyed: 0
+  _isGrab: 0
   _offset: {x: 0, y: 1}
   _inhalePower: 4000
   defaultGravity: 0
@@ -469,6 +476,13 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   movingPlatform: {fileID: 0}
+  movingPlatformLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  layOffset: {x: 0, y: 0.2, z: 0}
+  col: {fileID: 0}
+  rb: {fileID: 0}
+  netRb: {fileID: 0}
 --- !u!1773428102 &8098802773846804893
 ParentConstraint:
   m_ObjectHideFlags: 0
@@ -492,3 +506,24 @@ ParentConstraint:
   m_Active: 0
   m_IsLocked: 0
   m_Sources: []
+--- !u!114 &6850651723428778742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8716440483222482088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0182098a7f6444a5b903ec4387ae1b41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEncapsulationItem: 0
+  activeRequirAmount: 0
+  curActiveRequirAmount: 0
+  isCapsuling: 0
+  mainCol: {fileID: 0}
+  mainRb: {fileID: 0}
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295

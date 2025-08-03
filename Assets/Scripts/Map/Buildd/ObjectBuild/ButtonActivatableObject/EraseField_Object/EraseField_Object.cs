@@ -1,56 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 public class EraseField_Object : ActivatableObjectEntity
 {
-    EraseField_Object_Net Net;
-    private void Awake()
-    {
-        Net = GetComponent<EraseField_Object_Net>();
-    }
-
-    public override async void SetData<T>(T data)
-    {
-        try
-        {
-            if (typeof(T) == typeof(ButtonActivatableObjectStruct))
-            {
-                ButtonActivatableObjectStruct objData = (ButtonActivatableObjectStruct)(object)data;
-                ButtonActivatedObjectStruct = objData;
-
-            }
-        }
-        catch
-        {
-            Debug.Log($"ERROR,{typeof(T)}");
-        }
-
-        if (Application.isPlaying)
-        {
-
-            Util util = new Util();
-            await util.Delay(() => { CheckActiveRequirAmount(); });
-        }
-
-    }
-
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!NetworkServer.active) return;
         if (collision.gameObject.TryGetComponent(out BuildObj component))
         {
-           
             component.Respawn();
         }
     }
 
-    protected override void Activation()
+    public override void Activation()
     {
-        Net.Rpc_Active();
+        Net.Server_ChangeOnActive(true);
     }
-    protected override void Deactivated()
+    public override void Deactivated()
     {
-        Net.Rpc_Deactive();
+        Net.Server_ChangeOnActive(false);
     }
 }

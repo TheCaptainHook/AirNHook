@@ -144,7 +144,7 @@ public class ConsoleSystem : MonoBehaviour
                     WriteLog($"\n   >{inputField.text}\n");
                     inputField.text = "";
                     //MapEditor.Instance.MoveNextStage(strings[1]);
-                    Managers.Command.ChangeStage(strings[1]);
+                    Managers.Command._Server_ChangeStage(strings[1]); //sever
                 }
                 else
                 {

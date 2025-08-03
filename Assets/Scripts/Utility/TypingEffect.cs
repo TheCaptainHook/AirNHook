@@ -145,37 +145,81 @@ public class TypingEffect : MonoBehaviour
 
     }
 
-
-
-#region  Default
-public IEnumerator NormalTyping(
-    TextMeshProUGUI textMesh,
-    string sentence,
-    Color color,
-    int batchSize,
-    float fontSize = 25,
-    float delay = 0.01f,
-    bool audioActive = false
-    )
-{
-    //Dealy : 0.1f
-    textMesh.color = color;
-    textMesh.fontSize = fontSize;
-
-    StringBuilder sb = new();
-    for(int i = 0;i<sentence.Length;i+=batchSize)
+    public IEnumerator TextDissolveFromLeft(TextMeshProUGUI textmesh, float charFadeDuration = 0.15f, float charDelay = 0.05f)
     {
-        int len = Mathf.Min(batchSize, sentence.Length - i);
-        for (int j = 0; j < len; j++)
+        var textComponent = textmesh;
+        textComponent.ForceMeshUpdate();
+
+        TMP_TextInfo textInfo = textComponent.textInfo;
+        int totalCharacters = textInfo.characterCount;
+
+        for (int i = 0; i < totalCharacters; i++)
         {
-            sb.Append(sentence[i + j]);
-            textMesh.text = sb.ToString();
+            if (!textInfo.characterInfo[i].isVisible) continue;
+
+            int matIndex = textInfo.characterInfo[i].materialReferenceIndex;
+            int vIndex = textInfo.characterInfo[i].vertexIndex;
+            Color32[] vertexColors = textInfo.meshInfo[matIndex].colors32;
+
+            StartCoroutine(FadeOutChar(textComponent,vertexColors, vIndex, charFadeDuration));
+            yield return new WaitForSeconds(charDelay);
         }
-        yield return new WaitForSeconds(delay);
     }
 
-}
-public IEnumerator NormalEraser(
+    private IEnumerator FadeOutChar(TextMeshProUGUI textComponent, Color32[] vertexColors, int vIndex, float duration)
+    {
+        float elapsed = 0f;
+        byte startAlpha = vertexColors[vIndex].a;
+
+        while (elapsed < duration)
+        {
+            float t = elapsed / duration;
+            byte alpha = (byte)Mathf.Lerp(startAlpha, 0, t);
+
+            for (int j = 0; j < 4; j++)
+                vertexColors[vIndex + j].a = alpha;
+
+            textComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // 마지막 정리
+        for (int j = 0; j < 4; j++)
+            vertexColors[vIndex + j].a = 0;
+
+        textComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+    }
+
+    #region  Default
+    public IEnumerator NormalTyping(
+        TextMeshProUGUI textMesh,
+        string sentence,
+        Color color,
+        int batchSize,
+        float fontSize = 25,
+        float delay = 0.01f,
+        bool audioActive = false
+        )
+    {
+        //Dealy : 0.1f
+        textMesh.color = color;
+        textMesh.fontSize = fontSize;
+
+        StringBuilder sb = new();
+        for (int i = 0; i < sentence.Length; i += batchSize)
+        {
+            int len = Mathf.Min(batchSize, sentence.Length - i);
+            for (int j = 0; j < len; j++)
+            {
+                sb.Append(sentence[i + j]);
+                textMesh.text = sb.ToString();
+            }
+            yield return new WaitForSeconds(delay);
+        }
+
+    }
+    public IEnumerator NormalEraser(
     TextMeshProUGUI textMesh,
     int batchSize,
     float delay= 0.01f

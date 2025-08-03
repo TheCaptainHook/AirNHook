@@ -295,7 +295,6 @@ public class Puzzle_1_Net : NetworkBehaviour
                 if (onCheckAnswerTrue) return;
                 onCheckAnswerTrue = true;
                 //Activation (Only Server)
-                Debug.Log("CheckAnser true");
                 Puzzle.Net_Activation();
                 //Correct
                 Rpc_Correct();

@@ -3,28 +3,14 @@ using Mirror;
 using UnityEngine;
 
 
-public class LaserBox : BuildObj
+public class LaserBox : InteractableObjectEntity
 {
     [SerializeField] LineRenderer _lineRenderer;
     [SerializeField] LayerMask targetLayerMask;
 
 
-    private LaserBox_Net Net =>GetComponent<LaserBox_Net>();
+    private LaserBox_Net Net => GetComponent<LaserBox_Net>();
 
-    public override void SetData<T>(T data)
-    {
-        base.SetData(data);
-        Net.onSync = true;
-        Net.Server_InitSync();
-    }
-
-    private void Awake()
-    {
-        //parentConstraint = GetComponent<ParentConstraint>();
-        DissolveInitSetting();
-    }
-
-   
     private void Update()
     {
         if (onLaser)
@@ -40,35 +26,18 @@ public class LaserBox : BuildObj
     bool onLaser;
     float maxRecoverRate = 0.08f;
     float curRecvoerRate = 0;
-    public bool onBoom;
+    // public bool onBoom;
     public override void TakeDamage(DamageType damageType = DamageType.Default)
     {
-        if(onBoom) return;
+        // if (onBoom) return;
 
         onLaser = true;
         curRecvoerRate = 0;
-        //GetLaserDir(); //
-        //Laser();
+        
         Laser(Net.curLaserDir);
 
-        //Only Server
-        //if (NetworkServer.active)
-        //    Net.Server_DamageCount();
     }
 
-    //private ParentConstraint parentConstraint;
-    //public void GetLaserDir()
-    //{
-    //    if (parentConstraint.sourceCount > 0)
-    //    {
-    //        Transform source = parentConstraint.GetSource(0).sourceTransform;
-    //        Transform parent = source.parent.parent;
-    //        float y = parent.rotation.y;
-
-    //        if (y == 0) Net.Cmd_SetLaserDir(Vector2.right);
-    //        else Net.Cmd_SetLaserDir(Vector2.left);
-    //    }
-    //}
 
     #region Laser
     //public Vector2 curLaserDir;
@@ -101,6 +70,9 @@ public class LaserBox : BuildObj
                 //Check collider
                 if (rh.collider.TryGetComponent(out PlayerSM component) && Application.isPlaying)
                 {
+                    //Impact Effect
+
+                    //Impact Effect
                     component.TakeDamage(DamageType.Fire);
                     break;
 
@@ -109,7 +81,7 @@ public class LaserBox : BuildObj
                 {
                     //start = rh.point;
                     //dir = Vector2.Reflect(ray.direction, colDir);
-                    if (rh.distance < 0.001f|| Vector2.Distance(start, rh.point) < 0.01f)
+                    if (rh.distance < 0.001f || Vector2.Distance(start, rh.point) < 0.01f)
                     {
                         break;
                     }
@@ -128,11 +100,12 @@ public class LaserBox : BuildObj
                 {
                     if (Application.isPlaying)
                     {
+                        //Impact Effect
+
+                        //Impact Effect
                         component2.Charging();
                     }
-                    else
-                    {
-                    }
+
                     break;
                 }
                 else if (rh.collider.TryGetComponent(out BuildObj obj))
@@ -143,6 +116,9 @@ public class LaserBox : BuildObj
                     }
                     else
                     {
+                        //Impact Effect
+
+                        //Impact Effect
                         if (Application.isPlaying)
                         {
                             obj.TakeDamage(DamageType.Fire);
@@ -183,18 +159,12 @@ public class LaserBox : BuildObj
 
     #endregion
 
-    public void Reset()
+    public override void Reset()
     {
-        LaserReset();
-        onBoom = false;
+         LaserReset();
+        // onBoom = false;
     }
 
 
 
 }
-
-/**
- * 1. LaserDrain 
- *  -> Charging Laser Energy
- *      -> OverCharged -> Explode
- * **/

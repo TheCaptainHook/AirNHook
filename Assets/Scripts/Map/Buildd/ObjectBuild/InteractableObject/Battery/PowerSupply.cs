@@ -1,4 +1,5 @@
 using Mirror;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,54 +7,20 @@ public class PowerSupply : ButtonEntity,IInteractable
 {
     [CustomHeader("Power Supply")]
     [SerializeField] Transform socketPosition;
-    [Header("Effect")]
-    [SerializeField] Material mat;
-    [SerializeField] Transform lineContainer;
-    //[ReadOnly]
-    //public Battery battery;
-    private WaitForSeconds waitForSeconds = new WaitForSeconds(1);
+  
     [Space(20)]
     [Header("Interacte")]
     public ObjectTypeEnum _objectType = ObjectTypeEnum.Interaction;
     [SerializeField] float _BtnOffset;
     private UI_Base _E_Btn;
 
-    private Util util = new();
-    //SetData -> FindTargetObject -> Add List Target Object
-    //Activation -> PrograssButtonActivatedObject
-
-    private PathFinder pathFinder;
-
-
     #region  Network
     private PowerSupply_Net P_Net => GetComponent<PowerSupply_Net>();
 
     #endregion
 
-    private void Awake()
-    {
-        pathFinder = GetComponent<PathFinder>();
-    }
-
     #region  Get,Set
 
-
-    public override T GetData<T>()
-    {
-        if (typeof(T) == typeof(ButtonObjectStruct))
-        {
-            return (T)(object)new ButtonObjectStruct(
-                id, 
-            GetTargetPositions(), 
-            GetLightPositions(),
-            transform.position, 
-            transform.rotation,
-            transform.localScale, 
-            false);
-        }
-
-        return default(T);
-    }
 
     protected override List<Vector2> GetTargetPositions()
     {
@@ -72,31 +39,90 @@ public class PowerSupply : ButtonEntity,IInteractable
         return list;
     }
 
-    public async override void SetData<T>(T data)
+    public override void SetData<T>(T data)
     {
-         if (typeof(T) == typeof(ButtonObjectStruct))
-            {
-                 ButtonObjectStruct buttonData = (ButtonObjectStruct)(object)data;
-                 ButtonObjectData = buttonData;
+        base.SetData(data);
 
-                if(Application.isPlaying)
-
-                await util.Delay(()=>
-                {
-                    FindTargetObject();
-                    if(buttonData.lightPositions.Count > 0) FindLightObject();
-                    CreateLine(P_Net.targets.targetPositions);
-                    P_Net.onSync = true;
-
-                    P_Net.Server_SetInit();
-
-                });
-            }
-
-        
+        if (Application.isPlaying)
+        {
+            P_Net.Server_SetInit();
+            StartCoroutine(SyncTargetObjectNetIdCo()); 
+        }
         
     }
-    public Vector2 GetSocketPosition(){
+    #region Sync TargetObejct
+
+    private IEnumerator SyncTargetObjectNetIdCo() //Server
+    {
+        yield return new WaitForSeconds(1.5f);
+        if (targetObjects.Count == 0) yield break;
+
+        List<uint> uints = new();
+
+        for (int i = 0; i < targetObjects.Count; i++)
+        {
+            var item = targetObjects[i].TryGetComponent(out BuildObj obj) ? obj : null;
+            if (item == null) continue;
+            uint id = obj.GetNetworkId();
+            if (id == 9999) continue;
+
+            uints.Add(id);
+        }
+        int consum = targetObjects.Count + lightObjects.Count;
+        P_Net.consumption = consum;
+
+
+        P_Net.Rpc_SetTargetObject(uints);
+
+    }
+
+    IEnumerator DelayFindTargetCo()
+    {
+        yield return new WaitForSeconds(1);
+
+        List<GameObject> objList = new();
+
+        foreach (Vector2 vec in targetPosition)
+        {
+            foreach (Transform tr in MapEditor.Instance.buttonActivatableObjectTransform)
+            {
+                if (tr.TryGetComponent(out ActivatableObjectEntity component))
+                {
+                    if (CompareVec(component.ButtonActivatedObjectStruct.position, vec))
+                    {
+
+                        objList.Add(tr.gameObject);
+                        break;
+                    }
+                }
+            }
+
+            foreach (Transform tr in MapEditor.Instance.buttonObjectTransform)
+            {
+                if (tr.TryGetComponent(out ButtonEntity component))
+                {
+                    if (CompareVec(component.ButtonObjectData.position, vec))
+                    {
+                        objList.Add(tr.gameObject);
+                        break;
+                    }
+                }
+            }
+
+        }
+
+        targetObjects = objList;
+    }
+    public override void FindTargetObject()
+    {
+        if (!Application.isPlaying) return;
+        StartCoroutine(DelayFindTargetCo());
+       
+    }
+    #endregion
+
+    public Vector2 GetSocketPosition()
+    {
         return socketPosition.position;
     }
 
@@ -133,26 +159,25 @@ public class PowerSupply : ButtonEntity,IInteractable
     private void TogglePowerSupply(bool toggle)
     {
         if(targetObjects.Count == 0) return; // This field is for server settings only
-        // foreach(var item in targetObjects){
-        foreach(var item in P_Net.targets.targets){
-            if(item.TryGetComponent(out IPowerConsumer component)){
-                if(toggle) component.PowerOn();
+        
+        foreach (var item in targetObjects)
+        {
+            if (item.TryGetComponent(out IPowerConsumer component))
+            {
+                if (toggle) component.PowerOn();
                 else component.PowerOff();
             }
-            // if(item.TryGetComponent(out ActivatableObjectEntity activatableObjectEntity))
-            // {
-            //     if(toggle) activatableObjectEntity.ApplyActive(1);
-            //     else activatableObjectEntity.ApplyActive(-1);
-                
-            // }
+            
+
         }
-        foreach(var item in lightObjects)
+        
+        foreach (var item in lightObjects)
         {
-            if(item.TryGetComponent(out LightObjectEntity component))
+            if (item.TryGetComponent(out LightObjectEntity component))
             {
                 Debug.Log(item.name);
                 // component.hasPower = toggle;
-                if(toggle) component.PowerOn();
+                if (toggle) component.PowerOn();
                 else component.PowerOff();
             }
         }
@@ -160,45 +185,6 @@ public class PowerSupply : ButtonEntity,IInteractable
     #endregion
 
     #region Find Target
-
-    public override void FindTargetObject()
-    {
-        // if(!Application.isPlaying) return;
-
-        List<GameObject> objList = new();
-        foreach(Vector2 vec in targetPosition){
-            GameObject matchedObj = null;
-            foreach(Transform tr in MapEditor.Instance.buttonActivatableObjectTransform){
-                if(tr.TryGetComponent(out ActivatableObjectEntity component))
-                {
-                  if(CompareVec(component.ButtonActivatedObjectStruct.position,vec))
-                  {
-                    matchedObj = tr.gameObject;
-                        objList.Add(matchedObj);
-                        break;
-                  }          
-                }
-            }
-
-            if(matchedObj != null) continue;
-
-            foreach(Transform tr in MapEditor.Instance.buttonObjectTransform){
-                if(tr.TryGetComponent(out ButtonEntity component))
-                {
-                  if(CompareVec(component.ButtonObjectData.position,vec))
-                  {
-                        objList.Add(tr.gameObject);
-                        break;
-                  }          
-                }
-            }
-            
-        }
-
-         targetObjects = objList;
-        //Network Sync
-        P_Net.Server_SetTargets(objList,targetPosition);
-    }
 
     public async override void Editor_Setting(MapEditor mapEditor)
     {
@@ -253,61 +239,46 @@ public class PowerSupply : ButtonEntity,IInteractable
 
             });
     }
-  
+
 
 
     #endregion
 
-
  #region  Main
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.TryGetComponent(out HookSM component))
+        if (collision.TryGetComponent(out HookSM hook))
         {
-            Transform grabItem = component.GetGrabbedItem();
-            if (grabItem != null)
+            Transform grabItem = hook.GetGrabbedItem();
+            if (grabItem == null)
             {
-                if (grabItem.TryGetComponent(out Battery battery))
-                {
-                    // ShowEButton(); 
-                    P_Net.Cmd_ShowE(component.gameObject,true);
-
-                    if(NetworkServer.active)
-                    battery.Net_SetPowerSupply(gameObject);
-                }
+                if (P_Net.battery) P_Net.Cmd_ShowE(collision.gameObject, true);
             }
-            else
+    
+        }
+        if(collision.TryGetComponent(out AirSM air))
+        {
+            if(P_Net.battery) P_Net.Cmd_ShowE(collision.gameObject, true);
+        }
+        
+
+        if (collision.TryGetComponent(out Battery battery))
+        {
+            var interactable = battery.TryGetComponent(out InteractableObject component) ? component : null;
+            if(interactable != null && interactable._isGrab)
             {
-                if (P_Net.battery) P_Net.Cmd_ShowE(component.gameObject, true);
+                P_Net.Cmd_ShowE(collision.gameObject, true);
+                battery.Net_SetPowerSupply(gameObject);
             }
-
         }
     }
 
     private void OnTriggerExit2D(Collider2D collider)
     {
-        if (collider.TryGetComponent(out HookSM component))
+        if(collider.TryGetComponent(out Battery battery))
         {
-
-            Transform grabItem = component.GetGrabbedItem();
-            if (grabItem != null)
-            {
-                if (grabItem.TryGetComponent(out Battery battery))
-                {
-                    P_Net.Cmd_ShowE(component.gameObject,false);
-
-                    // P_Net.Cmd_SetBattery(null);
-                    if (NetworkServer.active)
-                        battery.Net_SetPowerSupply(null);
-                }
-
-            }
-        }
-    }
-    
-    public void LineOn(bool onoff){
-        foreach(Transform tr in lineContainer){
-            tr.gameObject.SetActive(onoff);
+                P_Net.Cmd_ShowE(collider.gameObject, false);
+                battery.Net_SetPowerSupply(null);
         }
     }
     
@@ -316,20 +287,23 @@ public class PowerSupply : ButtonEntity,IInteractable
 
 
 #region  Network
-    public void SetBattery(GameObject battery)
+    public void SetBattery(GameObject battery) //only Server
     {
-        P_Net.Cmd_SetBattery(battery);
+        P_Net.Server_SetBatter(battery);
     }
-#endregion
+    #endregion
 
 
 
-#region  Interacable
-     public void Interaction(Transform accessor = null){
-            if(P_Net.battery){
-                if(_E_Btn != null) HideE();
-                P_Net.Cmd_SetBattery(null);
-            }
+    #region  Interacable
+    public void Interaction(Transform accessor = null)
+    {
+        if (P_Net.battery)
+        {
+            if (_E_Btn != null) HideE();
+            P_Net.Cmd_SetBattery(null);
+        }
+            
        
     }
 
@@ -360,57 +334,15 @@ public class PowerSupply : ButtonEntity,IInteractable
     }
     public void HideE()
     {
+        if(_E_Btn != null) Managers.UI.HideUI<UI_ShowEButton>();
+
         _E_Btn = null;
-        Managers.UI.HideUI<UI_ShowEButton>();
-    }
-    
-    
-
-#endregion
-
-#region  Draw Line
-    public void CreateLine(List<Vector2> list){
-
-        Vector2 startPot = lineContainer.position;
         
-        foreach(var position in list)
-        {
-            Vector2 endPot = position;
-            LineRenderer line = GeneratorLineRenderer();
-            SetLine(line,pathFinder.FindPath(startPot,endPot,true,Direction_Type.Four));
-            line.gameObject.SetActive(false);
-        }
     }
-     private LineRenderer GeneratorLineRenderer(){
+    
+    
 
-        GameObject obj = new GameObject("LineRenderer");
-        LineRenderer lineRenderer = obj.AddComponent<LineRenderer>();
-        lineRenderer.useWorldSpace = false;
-        lineRenderer.startWidth = 0.1f;
-        lineRenderer.endWidth = 0.1f;
-        lineRenderer.material = mat;
-        lineRenderer.positionCount = 0;
-        //lineRenderer.sortingLayerName ="Map/Tiles";
-        lineRenderer.sortingOrder = 3;
-        obj.transform.SetParent(lineContainer);
-
-        return lineRenderer;
-    }
-    //  private void SetLine(LineRenderer lineRenderer,List<Vector2Int> path){
-    //    lineRenderer.positionCount = path.Count;
-    //    for(int i = 0;i<path.Count;i++)
-    //    {
-    //         Vector3 worldPosition = pathFinder.GridToWorld(path[i]);
-    //         lineRenderer.SetPosition(i, worldPosition);
-    //    }
-    // }
-     private void SetLine(LineRenderer lineRenderer,List<Vector2> path){
-       lineRenderer.positionCount = path.Count;
-       for(int i = 0;i<path.Count;i++)
-       {
-            Vector3 worldPosition = path[i];
-            lineRenderer.SetPosition(i, worldPosition);
-       }
-    }
 #endregion
+
+
 }

@@ -1,5 +1,7 @@
 
+using DG.Tweening.Core.Easing;
 using Mirror;
+using System.ComponentModel;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -13,49 +15,96 @@ public class TransformMover : NetworkBehaviour
     public MovingPlatform movingPlatform;
 
     NetworkIdentity identity;
+    NetworkIdentity Identity { get { identity ??= GetComponent<NetworkIdentity>(); return identity; } }
 
-    uint nullNetID = 99999;
 
-    #region Recover
+    [SerializeField] LayerMask movingPlatformLayer;
+    [SerializeField] Vector3 layOffset;
 
-    #endregion
+    public Collider2D col;
+    public Rigidbody2D rb;
+    public NetworkRigidbodyUnreliable2D netRb;
+
     private void Awake()
     {
-        identity = GetComponent<NetworkIdentity>();
+        movingPlatformLayer = 1 << 15;
+        col =GetComponent<Collider2D>();    
+        rb= GetComponent<Rigidbody2D>();
+        netRb = GetComponent<NetworkRigidbodyUnreliable2D>();
     }
+
+    RaycastHit2D hit;
+    // Vector3 offset;
+
+
+    public bool startSync;
+
+
+    private uint preMpId;
 
     private void FixedUpdate()
     {
-        if (movingPlatform && identity.isOwned)
-        {     
-            transform.position += (Vector3)movingPlatform.dir;
-        }
-    }
+        // Vector3 offset = new Vector3(0, col.bounds.extents.y, 0);
+        float offset = col.bounds.extents.y + 0.2f;
 
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.TryGetComponent(out MovingPlatform movingPlatform) && identity.isOwned)
+        // hit = Physics2D.Raycast(transform.position - offset + layOffset, -Vector2.up, 0.6f, movingPlatformLayer);
+        hit = Physics2D.Raycast(col.bounds.center, Vector2.down,offset, movingPlatformLayer);
+#if UNITY_EDITOR
+        Debug.DrawRay(col.bounds.center,-Vector2.up * offset, Color.green);
+#endif
+        if (hit.collider != null)
         {
-            var platformID = movingPlatform.TryGetComponent(out NetworkIdentity identity) ? identity.netId : nullNetID;
-            Cmd_SetTransform(platformID,transform.position);
-        }
-     
-    }
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (movingPlatform)
+           if (hit.collider.TryGetComponent(out MovingPlatform component))
+           {
+               if(!startSync)
+               {
+                  if(isServer)
+                   {
+                       Rpc_MovingPlatformNetRbEnable(GetNetId(component.GetComponent<NetworkIdentity>()),true);
+                   }
+               }
+
+               rb.position += component.dir;
+           }
+
+
+        }else
         {
-            Cmd_SetTransform(nullNetID, transform.position);
+           if (startSync)
+           {
+             if(isServer)
+              {
+                   Rpc_MovingPlatformNetRbEnable(preMpId, false);
+               }
+           }
         }
 
     }
-    #region Recover
+    private uint GetNetId(NetworkIdentity identity)
+    {
+        return identity.netId;
+    }
+    [ClientRpc]
+    private void Rpc_MovingPlatformNetRbEnable(uint id,bool onoff)
+    {
+        var item = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity identity) ? identity : null;
+        if (item != null)
+        {
+            var mp = item.GetComponent<MovingPlatform>();
+            preMpId = onoff ? id : 9999;
+            startSync = onoff;
+            mp.netRb.enabled = onoff;
+        }
+       
+    }
 
-    #endregion
+    private bool ClientToServer()
+    {
+        if (netRb.syncDirection == SyncDirection.ServerToClient) return false;
+        else return true;
+    }
 
 
- 
 
     #region Set Transform Network
     [Command(requiresAuthority = false)]

@@ -21,8 +21,8 @@ public static class GlobalText
     public const string FLYING_ANIMATION_STRING = "IsFlying";
     public const string HOOK_INHALED_ANIMATION_STRING = "IsHookInhaled";
     public const string AIR_ATTACHED_ANIMATION_STRING = "IsAttached";
-    public const string AIR_BALLON_USINGBTN_STRING ="IsUsingBallonButton";
-    public const string AIR_BALLON_EXHAILING_STRING="BallonButton_Exhailing";
+    public const string AIR_BALLON_USINGBTN_STRING = "IsUsingBallonButton";
+    public const string AIR_BALLON_EXHAILING_STRING = "BallonButton_Exhailing";
     //DeathParameter
     public const string FIRE_DEATH_ANIMATION_STRING = "DeathByFire";
     public const string ELECTRIC_DEATH_ANIMATION_STRING = "DeathByElectric";
@@ -44,7 +44,7 @@ public static class GlobalText
     public const string EFFECT_VOLUME_STRING = "EffectsVolume";
 
     #region Sound Name String
-    
+
     #region FX
     public const string UI_CLICK_SOUND = "Click1";
     public const string DIALOGUE_CLICK_SOUND = "Click2";
@@ -57,11 +57,11 @@ public static class GlobalText
 
     #region BGM
     public const string TITLE_SOUND = "Danya Vodovoz - High NRG (mp3cut.net)";
-        public const string LOBBY_SOUND = "LobbyMusic_Onion";
-        public const string TRACK_RACE_SOUND = "WBA Free Track - Race Against Sunset";
-        public const string TRACK_LEGEND_SOUND = "WBA Free Track - Legend";
-        public const string TRACK_HACKERS_SOUND = "WBA Free Track - Hackers";
-        public const string TRACK_LASTSTOP_SOUND = "WBA Free Track - Last Stop";
+    public const string LOBBY_SOUND = "LobbyMusic_Onion";
+    public const string TRACK_RACE_SOUND = "WBA Free Track - Race Against Sunset";
+    public const string TRACK_LEGEND_SOUND = "WBA Free Track - Legend";
+    public const string TRACK_HACKERS_SOUND = "WBA Free Track - Hackers";
+    public const string TRACK_LASTSTOP_SOUND = "WBA Free Track - Last Stop";
     #endregion
 
     #endregion
@@ -88,5 +88,9 @@ public static class GlobalText
     public const string SHADOW_PREFAB_PATH = "Prefabs/MapEditor/ShadowCaster";
     public const string TILEBASE_CABLE = "Prefabs/MapEditor/Tile/100";
     public const string TILEBASE_CHAIN = "Prefabs/MapEditor/Tile/101";
+    public const string CAPSULE_OBJECT = "Prefabs/MapEditor/CapsulObject";
+    public const string ACTIVATABLE_OBJECT_INDICATOR_VAR_1_Path = "Prefabs/MapEditor/ActivatableObject_Indicator/ActivatableObject_Indicator_var1";
+    public const string ACTIVATABLE_OBJECT_INDICATOR_VAR_2_Path = "Prefabs/MapEditor/ActivatableObject_Indicator/ActivatableObject_Indicator_var2";
+    public const string ACTIVATABLE_OBJECT_INDICATOR_VAR_2_Item = "Prefabs/MapEditor/ActivatableObject_Indicator/Item";
     #endregion
 }

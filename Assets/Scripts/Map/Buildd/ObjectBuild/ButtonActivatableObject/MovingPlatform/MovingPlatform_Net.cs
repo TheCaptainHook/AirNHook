@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System;
-using Unity.VisualScripting;
 
 
 public class MovingPlatform_Net : NetworkBehaviour
@@ -13,17 +12,18 @@ public class MovingPlatform_Net : NetworkBehaviour
 
     #region Components
     MovingPlatform main;
-    MovingPlatform Main 
-    { get
+    MovingPlatform Main
+    {
+        get
         {
             main ??= GetComponent<MovingPlatform>();
             return main;
-        } 
+        }
     }
     Rigidbody2D rb;
-    Rigidbody2D RB 
+    Rigidbody2D RB
     {
-        get 
+        get
         {
             rb ??= GetComponent<Rigidbody2D>();
             return rb;
@@ -36,26 +36,50 @@ public class MovingPlatform_Net : NetworkBehaviour
     public struct DataPath
     {
         public Vector2[] paths;
-        public float moveSpeed; 
-        public DataPath(Vector2[] paths,float moveSpeed)
+        public float moveSpeed;
+        public DataPath(Vector2[] paths, float moveSpeed)
         {
             this.paths = paths;
             this.moveSpeed = moveSpeed;
         }
-        
+
     }
     #region  Init Sync
-    
-    [SyncVar(hook =nameof(OnDataPathUpdated))]
+
+    [SyncVar(hook = nameof(OnDataPathUpdated))]
     public DataPath dataPath;
-    [SyncVar]public bool onActive;
+
+    [SyncVar] public bool onActive;
 
     public bool onSync;
     [Server]
     public void Server_InitSync()
     {
+        if (Main.paths.Length > 0)
+        {
+            dataPath = new DataPath(Main.paths, Main.moveSpeed);
+            maxIndex = dataPath.paths.Length;
+            index = 0;
+            increment = 1;
+            targetPosition = dataPath.paths[index];
+
+            Rpc_SetTargetPosition(RB.position, targetPosition);
+            onFixedUpdataReady = true;
+        }
+        
+
         Rpc_InitSync(Main.ButtonActivatedObjectStruct);
+
     }
+
+    [ClientRpc]
+    private void Rpc_SetTargetPosition(Vector2 curPosition, Vector2 targetPosition)
+    {
+        RB.position = curPosition;
+        this.targetPosition = targetPosition;
+        Main.onArrivalPoint = false;
+    }
+
     [Command(requiresAuthority = false)]
     private void Cmd_InitSync()
     {
@@ -74,14 +98,14 @@ public class MovingPlatform_Net : NetworkBehaviour
         if (!onSync) Cmd_InitSync();
     }
 
-    [Server]
-    public void Server_CreateRail(Vector2[] paths,float moveSpeed)
-    {
-        dataPath = new DataPath(paths,moveSpeed);
-    }
+    // [Server]
+    // public void Server_CreateRail(Vector2[] paths, float moveSpeed)
+    // {
+    //     dataPath = new DataPath(paths, moveSpeed);
+    // }
 
     public void CreateRail()
-    { 
+    {
         Vector2[] paths = dataPath.paths;
 
         Transform parents = MapEditor.Instance.dontSaveObjectTransform;
@@ -120,13 +144,14 @@ public class MovingPlatform_Net : NetworkBehaviour
         }
     }
 
-    private void DrawLine(LineRenderer line,Vector2[] path)
+    private void DrawLine(LineRenderer line, Vector2[] path)
     {
         line.positionCount = path.Length;
-        for(int i = 0; i<path.Length;i++){
-            line.SetPosition(i,path[i]+new Vector2(0,0.25f));
+        for (int i = 0; i < path.Length; i++)
+        {
+            line.SetPosition(i, path[i] + new Vector2(0, 0.25f));
         }
-        
+
     }
 
     private void OnDataPathUpdated(DataPath oldPath, DataPath newPath)
@@ -134,87 +159,100 @@ public class MovingPlatform_Net : NetworkBehaviour
         if (newPath.paths != null)
         {
             CreateRail();
-        
+
         }
     }
-  
-#endregion
+
+    #endregion
 
 
     #region Move Platform
-    
- 
-  //--------------------------------------------------------------------------------------------------------Refectoring 0406
-  private bool onFixedUpdataReady;
-  private int maxIndex;
-  private int index;
-  private int increment;
-  [ReadOnly]
-  public Vector2 targetPosition;
 
 
-  [Server]
-  public void Server_FixedUpdateReady(bool onReady)
-  {
-    if(onReady)
+    //--------------------------------------------------------------------------------------------------------Refectoring 0406
+    private bool onFixedUpdataReady;
+    private int maxIndex;
+    private int index;
+    private int increment;
+    [ReadOnly]
+    public Vector2 targetPosition;
+
+
+  
+    private Vector2 previousTargetPosition;
+
+    private void Update()
     {
-        maxIndex = dataPath.paths.Length;
-        index = 0;
-        increment =1;
-        targetPosition = dataPath.paths[index];
+        if (!isServer) return;
+        if (!onFixedUpdataReady) return;
 
-        Rpc_SetTargetPosition(RB.position,targetPosition);
-        onFixedUpdataReady = true;
-    }
-  }
-
-  private Vector2 previousTargetPosition;
-  private void FixedUpdate()
-  {
-    if(!isServer) return;
-    if(!onFixedUpdataReady) return;
-
-    if(CheckDistance(RB.position,targetPosition))
+        if (CheckDistance(RB.position, targetPosition))
         {
             // RB.position = targetPosition;
             previousTargetPosition = targetPosition;
             index += increment;
 
             if (index >= maxIndex || index < 0)
-            {  
-                if(index >=maxIndex && dataPath.paths[maxIndex-1] == dataPath.paths[0])
+            {
+                if (index >= maxIndex && dataPath.paths[maxIndex - 1] == dataPath.paths[0])
                 {
-                       index = 0;
+                    index = 0;
                 }
                 else
                 {
-                       increment *= -1;
-                       index += increment;
+                    increment *= -1;
+                    index += increment;
                 }
             }
 
             targetPosition = dataPath.paths[index];
             //ClientRpc targetPositon sync
-            Rpc_SetTargetPosition(previousTargetPosition,targetPosition);
+            Rpc_SetTargetPosition(previousTargetPosition, targetPosition);
 
         }
+    }
+    //private void FixedUpdate()
+    //{
+    //    if (!isServer) return;
+    //    if (!onFixedUpdataReady) return;
 
-  }
+    //    if (CheckDistance(RB.position, targetPosition))
+    //    {
+    //        // RB.position = targetPosition;
+    //        previousTargetPosition = targetPosition;
+    //        index += increment;
 
-   private bool CheckDistance(Vector2 curPos,Vector2 targetPos){
-        if(Vector3.Distance(curPos,targetPos) < 0.1f){
+    //        if (index >= maxIndex || index < 0)
+    //        {
+    //            if (index >= maxIndex && dataPath.paths[maxIndex - 1] == dataPath.paths[0])
+    //            {
+    //                index = 0;
+    //            }
+    //            else
+    //            {
+    //                increment *= -1;
+    //                index += increment;
+    //            }
+    //        }
+
+    //        targetPosition = dataPath.paths[index];
+    //        //ClientRpc targetPositon sync
+    //        Rpc_SetTargetPosition(previousTargetPosition, targetPosition);
+
+    //    }
+
+    //}
+
+    private bool CheckDistance(Vector2 curPos, Vector2 targetPos)
+    {
+        if (Vector3.Distance(curPos, targetPos) < 0.1f)
+        {
             return true;
         }
         return false;
     }
 
-    [ClientRpc]
-    private void Rpc_SetTargetPosition(Vector2 curPosition,Vector2 targetPosition)
-    {
-        RB.position = curPosition;
-        this.targetPosition = targetPosition;
-        Main.onArrivalPoint = false;
-    }
+  
 
     //--------------------------------------------------------------------------------------------------------Refectoring 0406
     #endregion

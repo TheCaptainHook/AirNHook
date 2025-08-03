@@ -4,6 +4,7 @@ using System;
 using UnityEngine.EventSystems;
 using UnityEngine.Animations;
 using Mirror;
+using System.Net.Sockets;
 public enum DistructionStatus
 {
     Indestructible,
@@ -86,15 +87,15 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     protected Material _dissolveMaterial;
     public Material DissolveMaterial => _dissolveMaterial;
     private Rigidbody2D Rb;
-    protected Rigidbody2D _rb
+    public Rigidbody2D _rb
     {
         get{
             if(Rb == null) Rb = GetComponent<Rigidbody2D>();
             return Rb;
         }
     }
-    protected Collider2D Collider;
-    protected Collider2D _collider{
+    private Collider2D Collider;
+    public Collider2D _collider{
         get{
             if(Collider == null) Collider = GetComponent<Collider2D>();
             return Collider;
@@ -131,8 +132,9 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
   
     public virtual T GetData<T>()  
     {
-        if(typeof(T)==typeof(ObjectData)){
-            return (T)(object)new ObjectData(id,transform.position,transform.rotation,transform.localScale);
+        if(typeof(T)==typeof(ObjectData))
+        {
+            return (T)(object)new ObjectData(id, ConvertPosition(), transform.rotation, transform.localScale,chargeRequired);
         }
 
        return default(T);
@@ -145,18 +147,29 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         }
 
     }
+    private Vector3 ConvertPosition()
+    {
+        Vector3 original = transform.position;
+
+        Vector3 rounded = new Vector3(
+            Mathf.Round(original.x * 100f) / 100f,
+            Mathf.Round(original.y * 100f) / 100f,
+            Mathf.Round(original.z * 100f) / 100f
+        );
+        return rounded;
+    }
 #region Transport Item 
     public void SettingTransportItem(GameObject carrierObj) //Only Server
     {
-      if(_rb == null)
-      {
-        Debug.Log("Can't find Rigidbody2D");
-        return;
-      }
+        if (_rb == null)
+        {
+            Debug.Log("Can't find Rigidbody2D");
+            return;
+        }
 
         carrierTransformNetId = carrierObj.GetComponent<NetworkIdentity>().netId;
         carrierTransform = carrierObj.GetComponent<Drone_MultiPurpose>().itemPlacementPosition;
-        
+
         Connection_TransportItem();
 
     }
@@ -308,11 +321,11 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         if (!canRespawn) return;
         if (this == null) return;
 
-        respawnEvent?.Invoke();
+        respawnEvent?.Invoke(); //Only Server
 
-        if (TryGetComponent(out InteractableObject component))
+        if (TryGetComponent(out TransportItemEntity component))
         {
-            component.Cmd_Dissolve();
+            component.Cmd_Dissolve(); //Only Server
         }
 
     }
@@ -345,10 +358,20 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     #endregion
 
 
+    public uint GetNetworkId()
+    {
+        if (TryGetComponent(out NetworkIdentity identity))
+        {
+            return identity.netId;
+        }
+
+        return 9999;
+    }
+
     public void D_ReleaseToPool()
-     {
+    {
         Managers.Pooling.D_ReleaseToPool(gameObject);
-     }
+    }
     public void N_ReleaseToPool()
     {
         Managers.Pooling.N_ReleaseToPool(gameObject);

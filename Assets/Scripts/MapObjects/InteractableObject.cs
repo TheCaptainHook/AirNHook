@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using Mirror;
 using UnityEngine;
-using UnityEngine.Animations;
 using UnityEngine.Rendering;
 
 public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
@@ -23,7 +22,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     [SerializeField][SyncVar] protected bool _canInteract = true;
     [SerializeField][SyncVar] protected bool _canGrab = true;
     [SerializeField][SyncVar] protected bool _isDestroyed;
-    protected bool _isGrab;
+    //protected bool _isGrab;
+    public bool _isGrab; //0612 test
     protected float _stoppedTime;
 
     // e button ui
@@ -105,7 +105,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _accessor = accessor;
 
         if (_isFixed)
-            Release();
+            Release(accessor.gameObject);
         else
             Grab();
     }
@@ -130,8 +130,10 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         CmdChangeSortingLayer(true);
     }
 
-    public virtual void Release()
+    public virtual void Release(GameObject accessor)
     {
+        if (!ReferenceEquals(_permissionPlayer, accessor)) return;
+
         _stoppedTime = 0f;
         _isFixed = false;
         _isGrab = false;
@@ -238,13 +240,15 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     #endregion
 
     #region IInhalation
-    public void Inhalation(Transform accesor)
+    public virtual void Inhalation(Transform accessor)
     {
-        _accessor = accesor;
+        _accessor = accessor;
     }
 
-    public void StopInhale()
+    public void StopInhale(GameObject accessor)
     {
+        if (!ReferenceEquals(_permissionPlayer, accessor)) return;
+
         if (_isDestroyed) return;
 
         Fixed(false);
@@ -254,7 +258,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _rigidbody.freezeRotation = false;
     }
 
-    public void Fixed(bool value)
+    public virtual void Fixed(bool value)
     {
         if (_isDestroyed) return;
 
@@ -386,7 +390,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     }
 
     [Command(requiresAuthority = false)]
-    private void CmdChnageDestroyState(bool value)
+    protected void CmdChnageDestroyState(bool value)
     {
         _isDestroyed = value;
     }
@@ -423,17 +427,20 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     private static readonly int DissolveAmount = Shader.PropertyToID("_DissolveAmount");
     float dissolveRate = 0.015f;
     [Command(requiresAuthority = false)]
-    public void Cmd_Dissolve()
+    public void Cmd_Dissolve() //Only Server
     {
-        CmdChnageDestroyState(true);
-        Managers.Command.AuthorityToServer(netId);
-        CmdRemovePermissionPlayer();
-        Rpc_Dissolve();
+        if (isServer)
+        {
+            CmdChnageDestroyState(true);
+            Managers.Command.AuthorityToServer(netId);
+            CmdRemovePermissionPlayer();
+
+            Rpc_Dissolve();
+        }
     }
     [ClientRpc]
     private void Rpc_Dissolve()
     {
-       
         var root = GetFixedPointRootTransform();
 
         if (root != null)
@@ -472,7 +479,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
                 if (buildObj.carrierTransform != null)
                 {
                     buildObj.Connection_TransportItem();
-                    Debug.Log($"InteractableObject, Co_Dissolve, name :{gameObject.name}");
                 }
                    
             }
@@ -490,15 +496,33 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             yield return null;
         }
 
+
+        if (NetworkServer.active)
+        {
+            if (buildObj.ObjectData.onEncapsulationItem)
+            {
+                if (TryGetComponent(out EncapsulationField field))
+                {
+                    _collider.enabled = true;
+                    field.CapsulReset();
+                    yield break;
+                }
+            }else Respawned();
+        }
+
         if (!buildObj.isTransportItem)
         {
             _collider.enabled = true;
-            _rigidbody.gravityScale = _gravityScale;  
+            _rigidbody.gravityScale = _gravityScale;
         }
 
-        if(NetworkServer.active) GetComponent<InteractableObject>().Respawned();
-        buildObj.canRespawn = true;
-        CmdChnageDestroyState(false);
+
+        if (NetworkServer.active)
+        {
+            buildObj.canRespawn = true;
+            CmdChnageDestroyState(false);
+        }
+       
     }
     #endregion
 

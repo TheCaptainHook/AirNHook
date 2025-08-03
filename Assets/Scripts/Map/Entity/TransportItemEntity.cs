@@ -3,6 +3,7 @@ using System.Collections;
 using Mirror;
 using UnityEngine;
 
+[RequireComponent(typeof(EncapsulationField))]
 public class TransportItemEntity : InteractableObject, ITransportItem
 {
     #region Transport Item
@@ -11,17 +12,17 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     protected BuildObj BuildObj => GetComponent<BuildObj>();
     public void TransportItem_Constraint(uint netId) //Server
     {
-        StartCoroutine(AllClientReadyChecker_Co(() => 
+        StartCoroutine(AllClientReadyChecker_Co(() =>
         {
-          Rpc_Constraint(netId,SyncDirection.ServerToClient);
+            Rpc_Constraint(netId, SyncDirection.ServerToClient);
         }));
-        
+
     }
     public void TransportItem_DropItem()
     {
         Rpc_DropItem();
     }
-    
+
     private void Transport_Drop()
     {
         Rb.gravityScale = _gravityScale;
@@ -30,7 +31,7 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     }
 
     [ClientRpc]
-    public void Rpc_Constraint(uint netId,SyncDirection direction)
+    public void Rpc_Constraint(uint netId, SyncDirection direction)
     {
         Transport_Init(netId);
         ChangeSyncDirection(direction);
@@ -63,7 +64,7 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     }
     [ReadOnly]
     public float defaultGravity;
-    
+
     private void Transport_Init(uint netId)
     {
         if (NetworkClient.spawned.TryGetValue(netId, out NetworkIdentity identity))
@@ -95,7 +96,31 @@ public class TransportItemEntity : InteractableObject, ITransportItem
 
     }
     #endregion
+    #region Encapsulate Item
+    private EncapsulationField field;
+    public EncapsulationField EncapsulationField
+    {
+        get
+        {
+            field ??= GetComponent<EncapsulationField>();
+            return field;
+        }
+    }
 
+    [ClientRpc]
+    public void Rpc_UnCapsuling() // Call only Server
+    {
+        if (EncapsulationField.isCapsuling)
+            EncapsulationField.UnCapsuling();
+    }
+
+    [ClientRpc]
+    public void Rpc_Capsuling() //only use Reset
+    {
+        _isDestroyed = true;
+        EncapsulationField.Capsuling(BuildObj.ObjectData.position);
+    }
+    #endregion
     #region ---------------------------------------------Init Sync
     public bool onSync;
 
@@ -109,26 +134,80 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     {
         BuildObj.canRespawn = !BuildObj.canRespawn;
     }
-
     [Server]
     public void Server_InitSync()
     {
-        Rpc_InitSync(BuildObj.ObjectData,transform.position,BuildObj.isTransportItem);
-        Rb.AddForce(Vector2.up, ForceMode2D.Force);
+        StartCoroutine(AllClientCheckCo(() =>
+        {
+            Rpc_InitSync(BuildObj.ObjectData, transform.position, BuildObj.isTransportItem);
+
+            Rb.AddForce(Vector2.up, ForceMode2D.Force);
+        }));
+
     }
 
+    private IEnumerator AllClientCheckCo(Action action)
+    {
+        int connectClients = NetworkServer.connections.Count;
+        bool onReady = false;
+        while (!onReady)
+        {
+            int num = 0;
+            foreach (var conn in NetworkServer.connections.Values)
+            {
+                if (conn.isReady) num++;
+            }
+
+            if (connectClients == num) onReady = true;
+            yield return null;
+        }
+
+        action?.Invoke();
+
+    }
+    // [ClientRpc]
+    // private void Rpc_Capsuling(Vector2 startPot)
+    // {
+    //     StartCoroutine(DelayCapsuling(startPot));
+    // }
+    // private IEnumerator DelayCapsuling(Vector2 startPot)
+    // {
+    //     yield return new WaitForFixedUpdate();
+    //     EncapsulationField.Capsuling(startPot);
+    // }
+    public ObjectData data;
+
     [ClientRpc]
-    private void Rpc_InitSync(ObjectData data, Vector2 position,bool isTransportItem)
+    private void Rpc_InitSync(ObjectData data, Vector2 position, bool isTransportItem)
     {
         if (onSync) return;
         BuildObj.ObjectData = data;
         transform.position = position;
         transform.rotation = data.quaternion;
-        if(isTransportItem)
+        this.data = data;
+
+
+        if (isTransportItem)
         {
             defaultGravity = Rb.gravityScale;
             Col.enabled = false;
         }
+        //0603 EnCapsulationField
+        if (data.onEncapsulationItem)
+        {
+            EncapsulationField.onEncapsulationItem = true;
+            EncapsulationField.activeRequirAmount = data.activeRequireAmount;
+            EncapsulationField.indicator = data.indicator;
+
+            if (!EncapsulationField.isCapsuling)
+            {
+                _isDestroyed = true;
+                //StartCoroutine(DelayCapsuling(data.position));
+                EncapsulationField.Capsuling(data.position);
+
+            }
+        }
+        //0603 EnCapsulationField
         onSync = true;
     }
     [Command(requiresAuthority = false)]
@@ -143,4 +222,39 @@ public class TransportItemEntity : InteractableObject, ITransportItem
         if (!onSync) Cmd_InitSync();
     }
     #endregion
+
+
+    #region  RESET
+    public void Reset_Interacable()
+    {
+        Col.enabled = true;
+        Rb.gravityScale = _gravityScale;
+
+        BuildObj.canRespawn = true;
+        if (NetworkServer.active)
+            CmdChnageDestroyState(false);
+    }
+    public void CmdChangeDestroyState_False()
+    {
+        CmdChnageDestroyState(false);
+    }
+    #endregion
+
+    #region  Indicator
+
+
+    [ClientRpc]
+    public virtual void Rpc_ApplyActive_Sync_var1(int curActiveAmount) //server
+    {
+        EncapsulationField.indicator_1.SetApplyActive_EncapsulationField(curActiveAmount);
+    }
+
+    [ClientRpc]
+    public virtual void Rpc_ApplyActive_Sync_var2(int inc,uint id)
+    {
+        EncapsulationField.indicator_2.SetApplyActive_EncapsulationField(inc, id);
+    }
+    #endregion
+
 }
+
