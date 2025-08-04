@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6890918890723629363}
   - component: {fileID: 1019806417930786010}
-  - component: {fileID: 907955206986091798}
   m_Layer: 18
   m_Name: ChargeBar
   m_TagString: Untagged
@@ -85,44 +84,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!114 &907955206986091798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5529971019132927347}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d62ac029b1017974ead8b6ad01623c82, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lightLayer: 0
-  type: 1
-  spriteMode: 1
-  sprite: {fileID: 21300000, guid: 747ba1a57907ff742ae1e06de5710105, type: 3}
-  color: {r: 0.8705505, g: 0.8705505, b: 0.8705505, a: 1}
-  flipX: 0
-  flipY: 0
-  lightSpriteTransform:
-    applyRotation: 1
-    scale: {x: 1, y: 1}
-    rotation: 0
-    position: {x: 0, y: 0}
-  lightSpriteShape:
-    update: 0
-  meshMode:
-    enable: 1
-    alpha: 0.5
-    shader: 0
-    materials:
-    - {fileID: 0}
-    sortingLayer:
-      name: Default
-      Order: 0
-  glowMode:
-    enable: 0
-    glowRadius: 1
 --- !u!1 &6213857561148179821
 GameObject:
   m_ObjectHideFlags: 0
