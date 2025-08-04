@@ -11,39 +11,37 @@ public class AchievementManager
         private event Action playerJumpingEvent;
         private event Action playerDeathEvent;
         //Object
-        private event Action usePortalEvent;
+        //private event Action usePortalEvent;
     #endregion
 
     public bool onRequestSteamUserState;
-    // List<string> achievementList = new List<string>()
-    // {
-    //     GlobalText.PLAYER_JUMPING,
-    //     GlobalText.USE_PORTAL_1,
-    //     GlobalText.USE_PORTAL_50
-    // };
-
+    private Callback<UserStatsReceived_t> userStatsReceivedCallback;
 
     public void SetUp()
     {
-        if (SteamUserStats.RequestCurrentStats())
-        {
-            onRequestSteamUserState = true;
-        }
-
+    
         //Object
-        usePortalEvent += UsePortal;
+        //usePortalEvent += UsePortal;
         //Player
         playerJumpingEvent += PlayerJumping;
         playerDeathEvent += PlayerDeath;
-        
+
+
+        if (!SteamManager.Initialized)
+        {
+            return;
+        }
+
+        userStatsReceivedCallback = Callback<UserStatsReceived_t>.Create(OnUserStatsReceived);
+        SteamUserStats.RequestCurrentStats();
     }
 
     #region Call Event
     #region  Obejct
-    public void CallUsePortal()
-    {
-        usePortalEvent?.Invoke();
-    }
+    //public void CallUsePortal()
+    //{
+    //    usePortalEvent?.Invoke();
+    //}
     //
     //
     #endregion
@@ -62,6 +60,8 @@ public class AchievementManager
     //Clear_Toturial
 
     #endregion
+
+  
 
     #endregion
 
@@ -82,7 +82,31 @@ public class AchievementManager
         SteamUserStats.SetAchievement(achievementID);
         SteamUserStats.StoreStats();
     }
-        
+    private void OnUserStatsReceived(UserStatsReceived_t pCallback)
+    {
+        if ((ulong)pCallback.m_nGameID != SteamUtils.GetAppID().m_AppId)
+        {
+            Debug.LogWarning("Received stats for wrong game ID.");
+            return;
+        }
+
+        if (pCallback.m_eResult == EResult.k_EResultOK)
+        {
+            onRequestSteamUserState = true;
+            //TEST
+            uint count = SteamUserStats.GetNumAchievements();
+            for (uint i = 0; i < count; i++)
+            {
+                string apiName = SteamUserStats.GetAchievementName(i);
+                Debug.Log(apiName);
+            }
+            //TEST
+        }
+        else
+        {
+            Debug.LogError("Failed to load user stats: " + pCallback.m_eResult);
+        }
+    }
     #endregion
 
 
