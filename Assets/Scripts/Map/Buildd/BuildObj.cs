@@ -62,17 +62,40 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     
     
     private ObjectData _objectData;
-    public ObjectData ObjectData{
-         get{ 
-                return _objectData;
-            } 
-         set{
-                _objectData = value; 
-                id = _objectData.id; 
-                position = value.position;
-            } 
+    public ObjectData ObjectData
+    {
+        get
+        {
+            return _objectData;
+        }
+        set
+        {
+            _objectData = value;
+            id = _objectData.id;
+            position = value.position;
+        } 
+            
     }
+    private Rigidbody2D Rb;
+    public Rigidbody2D _rb
+    {
+        get
+        {
+            if (Rb == null) Rb = GetComponent<Rigidbody2D>();
+            return Rb;
+        }
+    }
+    private Collider2D Collider;
+    public Collider2D _collider
+    {
+        get
+        {
+            if (Collider == null) Collider = GetComponent<Collider2D>();
+            return Collider;
 
+        }
+        
+    }
 
     [Header("Only use Editor mode")]
     [HideInInspector] public bool setPosition; // When created and placed set this parameter
@@ -81,27 +104,15 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
 
     #region  Dissolve Effect
     [Header("Dissolve Effect")]
-    [SerializeField] SpriteRenderer _Dissolve_MainSprite;
+    // [SerializeField] SpriteRenderer _Dissolve_MainSprite;
+    [SerializeField] SpriteRenderer[] _Dissolve_MainSprites;
     //private static readonly int DissolveAmount = Shader.PropertyToID("_DissolveAmount");
 
-    protected Material _dissolveMaterial;
-    public Material DissolveMaterial => _dissolveMaterial;
-    private Rigidbody2D Rb;
-    public Rigidbody2D _rb
-    {
-        get{
-            if(Rb == null) Rb = GetComponent<Rigidbody2D>();
-            return Rb;
-        }
-    }
-    private Collider2D Collider;
-    public Collider2D _collider{
-        get{
-            if(Collider == null) Collider = GetComponent<Collider2D>();
-            return Collider;
-        }
-    }
-    //float dissolveRate = 0.015f;
+    //------------Dissolve Modify 0804
+    // protected Material _dissolveMaterial;
+    public Material[] _dissolveMaterials;
+    // public Material DissolveMaterial => _dissolveMaterial;
+    //------------Dissolve Modify 0804
 
     //public event Action<Vector2> OnDissolveAction;
     public event Action OnDissolveAction;
@@ -296,23 +307,31 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
 
     #region Destructible Obj Dissolve Effect Logic
     public bool canRespawn;
-    protected void DissolveInitSetting(){ //all Client
-        _dissolveMaterial = _Dissolve_MainSprite.material;
-        // _rb = GetComponent<Rigidbody2D>();
-        // _collider = GetComponent<Collider2D>();
+    protected void DissolveInitSetting()
+    { //all Client
+      //------------Dissolve Modify 0804
+      // _dissolveMaterial = _Dissolve_MainSprite.material;
+        _dissolveMaterials = new Material[_Dissolve_MainSprites.Length];
+        for (int i = 0; i < _Dissolve_MainSprites.Length; i++)
+        {
+            _dissolveMaterials[i] = _Dissolve_MainSprites[i].material;
+        }
+        //------------Dissolve Modify 0804
+
         _IsDissolveObject = true;
         OnDissolveAction += Respawn;
 
-        if(TryGetComponent(out InteractableObject component))
+
+        if (TryGetComponent(out InteractableObject component))
         {
             //OnInteractableObjectRelease += GetComponent<InteractableObject>().Destroyed;
             OnInteractableObjectRelease += component.Destroyed;
         }
-        
+
         canRespawn = true;
 
-        if(NetworkServer.active) //Server
-        MapEditor.Instance.event_reset += Respawn;
+        if (NetworkServer.active) //Server
+            MapEditor.Instance.event_reset += Respawn;
     }
 
     public event Action respawnEvent;

@@ -71,6 +71,7 @@ public static class GlobalText
     #region Achievement Id
     //Player
     public const string PLAYER_JUMPING_100 = "Player_Jumping_100";
+    public const string PLAYER_DEATH_1 = "Player_Death_First";
     //Object
     public const string USE_PORTAL_1 = "Use_Portal_1";
     public const string USE_PORTAL_50 = "Use_Portal_50";

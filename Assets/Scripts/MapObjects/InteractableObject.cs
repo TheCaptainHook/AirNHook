@@ -468,8 +468,15 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         while (percent > 0)
         {
             percent -= dissolveRate;
-            buildObj.DissolveMaterial.SetFloat(DissolveAmount, percent);
-            yield return null;
+            //------------Dissolve Modify 0804
+            // buildObj.DissolveMaterial.SetFloat(DissolveAmount, percent);
+
+            for (int i = 0; i < buildObj._dissolveMaterials.Length; i++)
+            {
+                buildObj._dissolveMaterials[i].SetFloat(DissolveAmount, percent);
+            }
+            //------------Dissolve Modify 0804
+                yield return null;
         }
 
         if (NetworkServer.active)
@@ -492,7 +499,11 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         while (percent < 1)
         {
             percent += dissolveRate;
-            buildObj.DissolveMaterial.SetFloat(DissolveAmount, percent);
+            // buildObj.DissolveMaterial.SetFloat(DissolveAmount, percent);
+            for (int i = 0; i < buildObj._dissolveMaterials.Length; i++)
+            {
+                buildObj._dissolveMaterials[i].SetFloat(DissolveAmount, percent);
+            }
             yield return null;
         }
 

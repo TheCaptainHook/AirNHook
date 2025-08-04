@@ -1,5 +1,6 @@
 using System;
 using Steamworks;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -22,16 +23,19 @@ public class AchievementManager
     // };
 
 
-    public void SetUp(){
-        // if(SteamUserStats.RequestCurrentStats()){
-        //     onRequestSteamUserState = true;
-        // }
+    public void SetUp()
+    {
+        if (SteamUserStats.RequestCurrentStats())
+        {
+            onRequestSteamUserState = true;
+        }
 
         //Object
         usePortalEvent += UsePortal;
         //Player
         playerJumpingEvent += PlayerJumping;
         playerDeathEvent += PlayerDeath;
+        
     }
 
     #region Call Event
@@ -64,50 +68,57 @@ public class AchievementManager
     UI_EventEchoDialogue UI_EED => Managers.UI.ShowUI<UI_EventEchoDialogue>().gameObject.GetComponent<UI_EventEchoDialogue>();
     #region SteamWorks
     public bool IsAchievementUnlocked(string achievementID)
+    {
+        bool achieved = false;
+        if (SteamManager.Initialized)
         {
-                bool achieved = false;
-                if (SteamManager.Initialized)
-                {
-                    SteamUserStats.GetAchievement(achievementID, out achieved);
-                }
-                return achieved;
+            SteamUserStats.GetAchievement(achievementID, out achieved);
         }
-        private void AchievementUnlock(string achievementID){
-            SteamUserStats.SetAchievement(achievementID);
-            SteamUserStats.StoreStats();
-        }
+        return achieved;              
+    }
+
+    private void AchievementUnlock(string achievementID)
+    {
+        SteamUserStats.SetAchievement(achievementID);
+        SteamUserStats.StoreStats();
+    }
+        
     #endregion
 
 
 
 
     #region Event
-        #region Object
-            private async void UsePortal(){ 
-            int usePortal = ++Managers.Data.saveData._AchievementData.use_Portal;
+    #region Object
+    private async void UsePortal()
+    {
+        int usePortal = ++Managers.Data.saveData._AchievementData.use_Portal;
 
-            //test 1212
-            //UI_EventEchoDialogue ui_EED = Managers.UI.ShowUI<UI_EventEchoDialogue>().gameObject.GetComponent<UI_EventEchoDialogue>();
+        //test 1212
+        //UI_EventEchoDialogue ui_EED = Managers.UI.ShowUI<UI_EventEchoDialogue>().gameObject.GetComponent<UI_EventEchoDialogue>();
         UI_EED.SetDialogue("use portal [/2] count");
-            //test 1212
+        //test 1212
 
-            if(onRequestSteamUserState)
-            switch(usePortal){
-                    case 1:
-                        if(IsAchievementUnlocked(GlobalText.USE_PORTAL_1)){
-                            AchievementUnlock(GlobalText.USE_PORTAL_1);
-                            Debug.Log("Achievement Data Update");
-                        }
+        if (onRequestSteamUserState)
+            switch (usePortal)
+            {
+                case 1:
+                    if (IsAchievementUnlocked(GlobalText.USE_PORTAL_1))
+                    {
+                        AchievementUnlock(GlobalText.USE_PORTAL_1);
+                        Debug.Log("Achievement Data Update");
+                    }
                     break;
-                    case 50:
-                        if(IsAchievementUnlocked(GlobalText.USE_PORTAL_50)){
-                            AchievementUnlock(GlobalText.USE_PORTAL_50);
-                            Debug.Log("Achievement Data Update");
-                        }
+                case 50:
+                    if (IsAchievementUnlocked(GlobalText.USE_PORTAL_50))
+                    {
+                        AchievementUnlock(GlobalText.USE_PORTAL_50);
+                        Debug.Log("Achievement Data Update");
+                    }
                     break;
             }
-                await Managers.Data.saveData.Ac_Save();
-            }
+        await Managers.Data.saveData.Ac_Save();
+    }
     #endregion
     #region Player
     private async void PlayerJumping()
@@ -135,14 +146,16 @@ public class AchievementManager
     {
         int playerDeath = ++Managers.Data.saveData._AchievementData.player_Death;
 
-        switch(playerDeath)
+        switch (playerDeath)
         {
             case 1:
-                UI_EED.SetDialogue(Managers.Data.language.GetSentence(70001));
+                if (IsAchievementUnlocked(GlobalText.PLAYER_DEATH_1))
+                {
+                    AchievementUnlock(GlobalText.PLAYER_DEATH_1);
+                    UI_EED.SetDialogue(Managers.Data.language.GetSentence(70001));
+                }
                 break;
-            //case int n when n % 5 == 0:
-            //    UI_EED.SetDialogue("Player [/1] Death.");
-            //    break;
+                
         }
 
         if(GetDeathPercent())
