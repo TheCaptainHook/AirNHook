@@ -24,7 +24,6 @@ public class BatteryCharger : BuildObj
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
         if (collision.TryGetComponent(out Battery battery))
         {
             var interactable = battery.TryGetComponent(out InteractableObject component) ? component : null;
@@ -32,18 +31,29 @@ public class BatteryCharger : BuildObj
             {
                 B_Net.Cmd_ShowE(collision.gameObject, true);
                 battery.Net_SetBatteryCharger(gameObject);
+                return;
             }
-
-            GetVelocity(battery);
+            //Air Inhale object insert 0804
+            if (ChackBatteryVelocity(battery) && NetworkServer.active)
+            {
+                //Insert Battery
+                SetBattery(battery.gameObject);
+                //Insert Battery
+                return;
+            }
+            //Air Inhale object insert 0804
+            
         }
     }
-
-    //--------TEST
-    private void GetVelocity(Battery battery)
+    private float condition_InsertBatteryChargerValue = 5;
+    //--------Air Insert Object Logic 0804
+    private bool ChackBatteryVelocity(Battery battery)
     {
-        Debug.Log(battery._rb.velocity);
+        Debug.Log(battery._rb.velocity.magnitude);
+        return battery._rb.velocity.magnitude >= condition_InsertBatteryChargerValue;
     }
-    //--------TEST
+
+    //--------Air Insert Object Logic 0804
 
     private void OnTriggerExit2D(Collider2D collider)
     {
@@ -59,7 +69,7 @@ public class BatteryCharger : BuildObj
     #region --------------------------------------------------------------------------------Network
     private BatteryCharger_Net B_Net => GetComponent<BatteryCharger_Net>();
 
-    public void SetBattery(GameObject battery)
+    public void SetBattery(GameObject battery) //Server
     {
         //B_Net.Cmd_SetBattery(battery);
         B_Net.Server_SetBattery(battery);

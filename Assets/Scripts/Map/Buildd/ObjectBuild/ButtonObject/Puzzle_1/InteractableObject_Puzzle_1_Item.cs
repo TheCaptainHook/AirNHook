@@ -46,7 +46,7 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
     public bool onConnect;
 
     [Command(requiresAuthority = false)]
-    private void Cmd_ConnectParts(uint netId)
+    public void Cmd_ConnectParts(uint netId)
     {
         Rpc_ConnectAndDisConnectParts(netId);    
     }
@@ -65,8 +65,8 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
 
     //-------------------------------------------------------------------------Sync 1/30
    
-    [SyncVar]
-    public GameObject parts;
+    // [SyncVar]
+    // public GameObject parts;
    
 
 

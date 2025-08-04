@@ -160,50 +160,82 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
     //private bool OnSocket => (Net.item) ? true : false;
 
-    private void OnTriggerEnter2D(Collider2D collider){
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
         if (Net.isCorrectAnswer) return;
+
+        // if (collider.TryGetComponent(out HookSM component))
+        // {
+        //     Transform grabItem = component.GetGrabbedItem();
+        //     if (grabItem != null)
+        //     {
+        //         if (grabItem.TryGetComponent(out Puzzle_1_Item item))
+        //         {
+
+        //             if (component.TryGetComponent(out NetworkIdentity identity))
+        //             {
+        //                 if (identity.isLocalPlayer)
+        //                 {
+        //                     ShowE();
+        //                     item.ContectParts(this);
+        //                     //In Parts
+        //                 }
+        //             }
+
+        //         }
+        //     }
+        //     else
+        //     {
+        //         if(onSocket)
+        //         {
+        //             if (component.TryGetComponent(out NetworkIdentity identity))
+        //             {
+        //                 if(identity.isLocalPlayer)
+        //                 ShowE();
+        //             }
+        //         }
+        //     }
+        // }
+        if (collider.TryGetComponent(out Puzzle_1_Item item))
+        {
+            var interactable = item.TryGetComponent(out InteractableObject_Puzzle_1_Item interac) ? interac : null;
+            if (interactable != null && interactable._isGrab)
+            {
+                //Hook 
+                item.ContectParts(this);
+
+                return;
+            }
+
+            //Air inHal object
+            if (interactable != null && ChackVelocity(item) && NetworkServer.active)
+            {
+                var id = item.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 9999;
+                if (id == 9999) return;
+                
+                interactable.Cmd_ConnectParts(id);
+            }
+            
+            
+        }
+    }
+    private float condition_InsertBatteryChargerValue = 5;
+    private bool ChackVelocity(Puzzle_1_Item item)
+    {
+        Debug.Log(item._rb.velocity.magnitude);
+        return item._rb.velocity.magnitude >= condition_InsertBatteryChargerValue;
+    }
+
+    
+    private void OnTriggerExit2D(Collider2D collider)
+    {
+        if (onSocket || Net.isCorrectAnswer) return;
 
         if (collider.TryGetComponent(out HookSM component))
         {
             Transform grabItem = component.GetGrabbedItem();
             if (grabItem != null)
             {
-                if (grabItem.TryGetComponent(out Puzzle_1_Item item))
-                {
-
-                    if (component.TryGetComponent(out NetworkIdentity identity))
-                    {
-                        if (identity.isLocalPlayer)
-                        {
-                            ShowE();
-                            item.ContectParts(this);
-                            //In Parts
-                        }
-                    }
-
-                }
-            }
-            else
-            {
-                if(onSocket)
-                {
-                    if (component.TryGetComponent(out NetworkIdentity identity))
-                    {
-                        if(identity.isLocalPlayer)
-                        ShowE();
-                    }
-                }
-            }
-        }
-    }
-
-    
-    private void OnTriggerExit2D(Collider2D collider){
-        if (onSocket || Net.isCorrectAnswer) return;
-
-        if (collider.TryGetComponent(out HookSM component)){
-            Transform grabItem = component.GetGrabbedItem();
-            if(grabItem != null){
                 if (grabItem.TryGetComponent(out Puzzle_1_Item item))
                 {
                     if (component.TryGetComponent(out NetworkIdentity identity))
@@ -220,7 +252,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
             //Net.Cmd_ShowE(component.gameObject, false);
         }
-        
+
     }
 
     public Puzzle_1_Item insert_Item;

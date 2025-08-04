@@ -260,25 +260,41 @@ public class PowerSupply : ButtonEntity,IInteractable
         {
             if(P_Net.battery) P_Net.Cmd_ShowE(collision.gameObject, true);
         }
-        
+
 
         if (collision.TryGetComponent(out Battery battery))
         {
             var interactable = battery.TryGetComponent(out InteractableObject component) ? component : null;
-            if(interactable != null && interactable._isGrab)
+            if (interactable != null && interactable._isGrab)
             {
                 P_Net.Cmd_ShowE(collision.gameObject, true);
                 battery.Net_SetPowerSupply(gameObject);
+                return;
             }
+            //Air Inhale object insert 0804
+            if (ChackBatteryVelocity(battery) && NetworkServer.active)
+            {
+                //Insert Battery
+                SetBattery(battery.gameObject);
+                //Insert Battery
+                return;
+            }
+            //Air Inhale object insert 0804
         }
+    }
+    private float condition_InsertBatteryChargerValue = 5;
+    private bool ChackBatteryVelocity(Battery battery)
+    {
+        Debug.Log(battery._rb.velocity.magnitude);
+        return battery._rb.velocity.magnitude >= condition_InsertBatteryChargerValue;
     }
 
     private void OnTriggerExit2D(Collider2D collider)
     {
-        if(collider.TryGetComponent(out Battery battery))
+        if (collider.TryGetComponent(out Battery battery))
         {
-                P_Net.Cmd_ShowE(collider.gameObject, false);
-                battery.Net_SetPowerSupply(null);
+            P_Net.Cmd_ShowE(collider.gameObject, false);
+            battery.Net_SetPowerSupply(null);
         }
     }
     
