@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: -8727639125033655133}
   - component: {fileID: 3602550238883226528}
   - component: {fileID: 6630991627251228293}
-  - component: {fileID: 7972185848127350020}
   m_Layer: 15
   m_Name: MovingPlatform_Long
   m_TagString: Untagged
@@ -159,7 +158,8 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
+  _Dissolve_MainSprites: []
+  _dissolveMaterials: []
   canRespawn: 0
   activeRequirAmount: 0
   indicator: 0
@@ -246,41 +246,6 @@ MonoBehaviour:
   m_LocalBounds:
     m_Center: {x: -0.0039869547, y: 0.24874261, z: 0}
     m_Extent: {x: 1.5016145, y: 0.252449, z: 0}
---- !u!114 &7972185848127350020
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3690635770919025948}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c7e12ad9b9ae443c9fdf37e9f5ecd36, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  target: {fileID: 1621393986771204216}
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 0
-  onlySyncOnChange: 1
-  compressRotation: 1
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 1
-  coordinateSpace: 0
-  sendIntervalMultiplier: 1
-  timelineOffset: 0
-  showGizmos: 0
-  showOverlay: 0
-  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  bufferResetMultiplier: 3
-  changedDetection: 1
-  positionSensitivity: 0.01
-  rotationSensitivity: 0.01
-  scaleSensitivity: 0.01
 --- !u!1 &3962016352224804910
 GameObject:
   m_ObjectHideFlags: 0

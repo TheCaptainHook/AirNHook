@@ -81,9 +81,11 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     Coroutine tiltMoveCoroutine;
 
     [ReadOnly]
+    [SyncVar]
     public Vector2 moveDir = Vector2.zero;
 
     [ReadOnly]
+    [SyncVar]
     public float step;
 
     // [ClientRpc]
@@ -156,6 +158,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
         Rb.rotation = targetTilt;
         tiltCoroutine = null;
     }
+ 
     IEnumerator TiltMoveCo()
     {
         while (Mathf.Abs(Rb.rotation) >0)
