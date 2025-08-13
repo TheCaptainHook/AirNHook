@@ -12601,8 +12601,8 @@
             },
             "jumpingPower": 0,
             "position": {
-                "x": -2.9600000381469728,
-                "y": 24.010000228881837
+                "x": -5.929999828338623,
+                "y": 25.1299991607666
             },
             "quaternion": {
                 "x": 0.0,
@@ -12624,8 +12624,8 @@
             "onHoldRotation": false,
             "onLeft": false,
             "paths": [],
-            "moveSpeed": 1.0,
-            "moveDistance": 5.0,
+            "moveSpeed": 8.0,
+            "moveDistance": 10.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
                 "x": 0.0,
