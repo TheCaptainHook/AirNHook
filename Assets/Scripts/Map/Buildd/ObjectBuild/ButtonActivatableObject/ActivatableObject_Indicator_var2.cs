@@ -190,7 +190,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
     //--------------------------------------------------------------------------------Renewal 0704
 
 
-    public void SetApplyActive(uint id, int curActiveBtn, int inc)
+    public void SetApplyActive(uint id, int curActiveBtn, int inc) //all client
     {
         Transform target = NetworkClient.spawned.TryGetValue(id, out var targetObject) ? targetObject.transform : null;
         if (target == null) return;

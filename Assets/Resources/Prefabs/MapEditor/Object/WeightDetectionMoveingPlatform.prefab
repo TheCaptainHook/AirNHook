@@ -301,6 +301,7 @@ GameObject:
   - component: {fileID: 851463365788888728}
   - component: {fileID: 6678477908738241609}
   - component: {fileID: 9022313030282605620}
+  - component: {fileID: 7487748850028458458}
   m_Layer: 15
   m_Name: WeightDetectionMoveingPlatform
   m_TagString: Untagged
@@ -515,12 +516,19 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
+  _Dissolve_MainSprites: []
+  _dissolveMaterials: []
   canRespawn: 0
   activeRequirAmount: 0
   indicator: 0
   indicatorOffset_val_1: {x: 0, y: -1}
   indicatorOffset_val_2: {x: 0, y: -1}
+  isHorizontal: 0
+  indicatorStruct:
+    indicator: 0
+    indicator_1_position: {x: 0, y: 0}
+    indicator_2_position: {x: 0, y: 0}
+    isHorizontal: 0
   curActiveBtn: 0
   moveDistance: 0
   moveSpeed: 1
@@ -539,6 +547,29 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  data:
+    id: 0
+    activeRequirAmount: 0
+    chargeRequired: 0
+    indicatorStruct:
+      indicator: 0
+      indicator_1_position: {x: 0, y: 0}
+      indicator_2_position: {x: 0, y: 0}
+      isHorizontal: 0
+    jumpingPower: 0
+    position: {x: 0, y: 0}
+    quaternion: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 0, y: 0, z: 0}
+    talPot: {x: 0, y: 0}
+    rotateRate: 0
+    fireRate: 0
+    onHoldRotation: 0
+    onLeft: 0
+    paths: []
+    moveSpeed: 0
+    moveDistance: 0
+    bridgeLength: 0
+    connectionPoint: {x: 0, y: 0}
   onSync: 0
   onActive: 0
   rail_Node_Prefabs: {fileID: 7834071034627693989, guid: 4f169f16daaea482da08a58d3a53f699, type: 3}
@@ -597,10 +628,45 @@ MonoBehaviour:
   - {x: 3, y: -0.24609375, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 68568
+  m_InstanceId: 51264
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 3, y: 0.24609375, z: 0}
+--- !u!114 &7487748850028458458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3164631011725507869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c7e12ad9b9ae443c9fdf37e9f5ecd36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 2472559704464556279}
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  onlySyncOnChange: 1
+  compressRotation: 1
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  sendIntervalMultiplier: 1
+  timelineOffset: 0
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  bufferResetMultiplier: 3
+  changedDetection: 1
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
 --- !u!1 &3684428908794630225
 GameObject:
   m_ObjectHideFlags: 0

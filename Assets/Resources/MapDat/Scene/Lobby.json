@@ -12582,6 +12582,55 @@
                 "x": 0.0,
                 "y": 0.0
             }
+        },
+        {
+            "id": 334,
+            "activeRequirAmount": 0,
+            "chargeRequired": false,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
+            "position": {
+                "x": -2.9600000381469728,
+                "y": 24.010000228881837
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 1.0,
+            "moveDistance": 5.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
         }
     ],
     "buttonObjectList": [
