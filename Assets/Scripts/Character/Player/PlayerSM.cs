@@ -18,6 +18,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     public bool invincible;
     [SyncVar] public bool isDead;
     [SyncVar] public bool doNotTouch;
+    protected bool isControlObj;
     [field: SerializeField] public Transform charPivot { get; private set; }
     [field: SerializeField] public List<SortingGroup> sortingGroup{ get; private set; }
     [field: SerializeField] public PlayerTalkingSprite talkingSprite { get; private set; }
@@ -173,6 +174,9 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         {
             yield return null;
 
+            if (isControlObj)
+                continue;
+
             var collisions =
                 Physics2D.OverlapCircleAll(transform.position + offset, detectDistance, interactableLayerMask);
 
@@ -191,7 +195,14 @@ public class PlayerSM : NetworkBehaviour, IDamageable
             {
                 if (collision.TryGetComponent<IInteractable>(out var interactable) && !interactable.CanInteract()) continue;
 
-                if (interactable != null && interactable.GetObjectType() == ObjectTypeEnum.Grab) continue;
+                if (interactable != null)
+                {
+                    if (interactable.GetObjectType() == ObjectTypeEnum.Grab) continue;
+
+                    if (interactable.GetObjectType() == ObjectTypeEnum.Mount) continue;
+
+                    if (interactable.GetObjectType() == ObjectTypeEnum.AirGun) continue;
+                }
 
                 var pos = transform.position + offset;
                 var objectVector = (collision.transform.position - pos).normalized;
@@ -247,8 +258,12 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     protected virtual void Interaction()
     {
         if (latestTarget == null) return;
+
         if (!latestTarget.TryGetComponent<IInteractable>(out var interactable)) return;
-        if (interactable.GetObjectType() == ObjectTypeEnum.Grab) return;
+
+        if (interactable.GetObjectType() == ObjectTypeEnum.Control)
+            isControlObj = !isControlObj;
+
         interactable.Interaction(transform);
     }
     #endregion

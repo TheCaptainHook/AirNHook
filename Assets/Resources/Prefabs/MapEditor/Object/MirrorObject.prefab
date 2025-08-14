@@ -425,7 +425,7 @@ MonoBehaviour:
   _Mirror: {fileID: 4204660432047720022}
   onActive: 0
   _BtnOffset: 2
-  _objectType: 0
+  _objectType: 4
   isActive: 0
 --- !u!114 &8428942988980601487
 MonoBehaviour:
@@ -443,7 +443,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _Mirror: {fileID: 4204660432047720022}
-  rotate_Z: 0
   onActive: 0
   hold_Pivot: {fileID: 4246084813036576056}
   onSync: 0

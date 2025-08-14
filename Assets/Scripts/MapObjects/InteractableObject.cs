@@ -29,7 +29,9 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     // e button ui
     [Header("E Button UI")]
     private UI_Base _eButtonUI;
-    [field: SerializeField] private Vector2 _offset;
+    private float _offset = 0.5f;
+    [field: SerializeField] private SpriteRenderer _spriteRenderer;
+    private Vector2 _topOfObj;
     private Vector3 _previous;
 
     // inhale
@@ -54,6 +56,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _originRot = _rigidbody.constraints;
         _gravityScale = _rigidbody.gravityScale;
         _originSortingLayerID = _sortingGroup.sortingLayerID;
+
+        _topOfObj = new Vector2(0, _spriteRenderer.bounds.max.y - transform.position.y + _offset);
     }
 
     protected void Update()
@@ -62,7 +66,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
         if (!_isFixed && _eButtonUI is not null)
         {
-            _eButtonUI.transform.position = transform.position + (Vector3)_offset;
+            _eButtonUI.transform.position = transform.position + (Vector3)_topOfObj;
         }
     }
 
@@ -192,7 +196,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         CmdChangeGrabState(true);
     }
 
-    public bool CanInteract()
+    public virtual bool CanInteract()
     {
         return _canInteract && _canGrab && !_isDestroyed;
     }
@@ -229,7 +233,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         if (!_canInteract) return;
 
         _eButtonUI = Managers.UI.ShowUI<UI_ShowEButton>();
-        _eButtonUI.transform.position = transform.position + (Vector3)_offset;
+        _eButtonUI.transform.position = transform.position + (Vector3)_topOfObj;
     }
 
     public void HideEButton()
