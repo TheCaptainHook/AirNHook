@@ -192,7 +192,7 @@ public class UI_EmoteWheel : UI_Base
         foreach (RaycastResult result in raycastResults)
         {
             Button hoveredButton = result.gameObject.GetComponent<Button>();
-            Debug.Log("Hovered Button: " + hoveredButton);
+            
             if (hoveredButton != null)
             {
                 hoveredButton.onClick.Invoke();

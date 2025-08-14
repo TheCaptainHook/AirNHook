@@ -28,6 +28,8 @@ public class StepUpState : BaseState
 
         if (stateMachine.rigidbody2D.velocity.y <= 0f)
             stateMachine.ChangeState(stateMachine.FallingState);
+
+        OnJump();
     }
     #endregion
 
@@ -66,6 +68,15 @@ public class StepUpState : BaseState
         _isJumped = true;
         jumpParticle.Play();
         stateMachine.player.CmdJumpParticlePlay();
+    }
+
+    protected override void OnJump()
+    {
+        if (!stateMachine.canMovable) return;
+
+        if (!stateMachine.isJumping && !stateMachine.isJumpPerformed) return;
+
+        stateMachine.ChangeState(stateMachine.JumpState);
     }
     #endregion
 }

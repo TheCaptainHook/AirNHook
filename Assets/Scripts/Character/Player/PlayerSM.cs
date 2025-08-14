@@ -27,6 +27,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     public float coyoteTimeCount;
     private bool _emoteOnCoolDown;
     private bool _pingOnCoolDown;
+    private int _pingCount;
     protected RaycastHit2D _hit;
     public bool isGround { get; protected set; }
     protected LayerMask _defaultForceReceiveLayer;
@@ -474,14 +475,30 @@ public class PlayerSM : NetworkBehaviour, IDamageable
 
     public void UsingPing()
     {
-        _pingOnCoolDown = true;
-        StartCoroutine(PingCoolDown());
+        if (_pingCount > 4)
+        {
+            Debug.Log(_pingCount);
+            _pingOnCoolDown = true;
+            StartCoroutine(PingCoolDown());
+            return;
+        }
+
+        _pingCount++;
+        Debug.Log(_pingCount);
     }
 
     private IEnumerator PingCoolDown()
     {
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(2f);
         _pingOnCoolDown = false;
+    }
+
+    public void PingRemoved()
+    {
+        _pingCount--;
+        
+        if (_pingCount < 0)
+            _pingCount = 0;
     }
     #endregion
 
