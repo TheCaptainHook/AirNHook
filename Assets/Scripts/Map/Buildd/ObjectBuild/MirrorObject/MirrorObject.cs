@@ -1,6 +1,8 @@
-using System.Collections;
 using Mirror;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class MirrorObject : BuildObj,IInteractable
 {
@@ -12,10 +14,10 @@ public class MirrorObject : BuildObj,IInteractable
 
     [Header("Interacte")]
     [SerializeField] float _BtnOffset;
-    public ObjectTypeEnum _objectType = ObjectTypeEnum.Interaction;
+    public ObjectTypeEnum _objectType = ObjectTypeEnum.Control;
+    private Vector3 _offset = new Vector2(0, 2f);
     private UI_Base _E_Btn;
-    private UI_Base _AorD_Btn;
-    
+    private UI_ControlADE _AorD_Btn;
 
     #region Network
     private MirrorObject_Net m_Net;
@@ -57,6 +59,7 @@ public class MirrorObject : BuildObj,IInteractable
         {
             if (Input.GetKey(KeyCode.A))
             {
+                _AorD_Btn.AButtonPress(true);
                 curCendMessageRate += Time.deltaTime;
                 curRot += rotRate;
 
@@ -70,6 +73,7 @@ public class MirrorObject : BuildObj,IInteractable
             }
             if (Input.GetKey(KeyCode.D))
             {
+                _AorD_Btn.DButtonPress(true);
                 curCendMessageRate += Time.deltaTime;
                 curRot -= rotRate;
                 if (curCendMessageRate >= cendMessageRate)
@@ -80,8 +84,16 @@ public class MirrorObject : BuildObj,IInteractable
                 }
             }
 
-            if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
+            if (Input.GetKeyUp(KeyCode.A))
             {
+                _AorD_Btn.AButtonPress(false);
+                MirrorRotate(curRot);
+                curRot = 0;
+                curCendMessageRate = 0;
+            }
+            if (Input.GetKeyUp(KeyCode.D))
+            {
+                _AorD_Btn.DButtonPress(false);
                 MirrorRotate(curRot);
                 curRot = 0;
                 curCendMessageRate = 0;
@@ -106,66 +118,67 @@ public class MirrorObject : BuildObj,IInteractable
 
     private bool IsInnerPlayer => M_Net.InnerPlayer;
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (IsInnerPlayer) return;
-
-        if (other)
-        {
-            if (other.TryGetComponent(out PlayerSM player))
-            {
-                var playerIdentity = player.gameObject.TryGetComponent(out NetworkIdentity identity) ? identity : null;
-                if(playerIdentity != null)
-                {
-                    if (playerIdentity.isLocalPlayer) ShowE();
-                    M_Net.Cmd_InnerPlayer(playerIdentity.netId);
-                }
-
-            }
-        }
-
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other)
-        {
-            if (other.TryGetComponent(out PlayerSM PS))
-            {
-                if(PS.gameObject == M_Net.InnerPlayer)
-                {
-                    HideE();
-                    M_Net.Cmd_InnerPlayer(9999);
-                }
-            }
-        }
-    }
+    //private void OnTriggerEnter2D(Collider2D other)
+    //{
+    //    if (IsInnerPlayer) return;
+    //
+    //    if (other)
+    //    {
+    //        if (other.TryGetComponent(out PlayerSM player))
+    //        {
+    //            var playerIdentity = player.gameObject.TryGetComponent(out NetworkIdentity identity) ? identity : null;
+    //            if(playerIdentity != null)
+    //            {
+    //                if (playerIdentity.isLocalPlayer) ShowE();
+    //                M_Net.Cmd_InnerPlayer(playerIdentity.netId);
+    //            }
+    //
+    //        }
+    //    }
+    //
+    //}
+    //
+    //private void OnTriggerExit2D(Collider2D other)
+    //{
+    //    if (other)
+    //    {
+    //        if (other.TryGetComponent(out PlayerSM PS))
+    //        {
+    //            if(PS.gameObject == M_Net.InnerPlayer)
+    //            {
+    //                HideE();
+    //                M_Net.Cmd_InnerPlayer(9999);
+    //            }
+    //        }
+    //    }
+    //}
 
 
   
 
 #region  Interacte
-
-
     public void Interaction(Transform accessor = null)
     {
-        if (!M_Net.InnerPlayer || M_Net.InnerPlayer != accessor.gameObject) return;
+        //if (!M_Net.InnerPlayer || M_Net.InnerPlayer != accessor.gameObject) return;
 
-        if (isActive)
+        if (isActive && M_Net.InnerPlayer != null && M_Net.InnerPlayer == accessor.gameObject)
         {
             //Dis Connect
+            ChangeEbutton(false);
+            M_Net.Cmd_InnerPlayer(9999);
             M_Net.Recover();
-
         }
         else
         {
             //Connect
+            ChangeEbutton(true);
+            M_Net.Cmd_InnerPlayer(accessor.GetComponent<NetworkIdentity>().netId);
             M_Net.Holding(accessor.gameObject);
         }
-
-
     }
-    public bool CanInteract(){
+
+    public bool CanInteract()
+    {
         return true;
     }
 
@@ -174,37 +187,62 @@ public class MirrorObject : BuildObj,IInteractable
         return true;
     }
 
-    public ObjectTypeEnum GetObjectType(){
+    public ObjectTypeEnum GetObjectType()
+    {
         return _objectType;
     }
 
-    public void ShowEButton(){
-        return;
-        
-    }
- 
-    public void HideEButton(){
-        return;
+    public void ShowEButton()
+    {
+        _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
+        _E_Btn.transform.position = transform.position + _offset;
     }
 
-    public void ShowE()
+    public void HideEButton()
     {
-        if (!IsInnerPlayer)
-        {
-            _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
-            _E_Btn.transform.position = transform.position + (transform.up * _BtnOffset);
-        }
-    }
-    public void HideE()
-    {
-        if (_E_Btn == null) return;
         _E_Btn = null;
         Managers.UI.HideUI<UI_ShowEButton>();
     }
+
+    public void ShowADEButton()
+    {
+        _AorD_Btn = (UI_ControlADE)Managers.UI.ShowUI<UI_ControlADE>();
+        _AorD_Btn.transform.position = transform.position + _offset;
+    }
+
+    public void HideADEButton()
+    {
+        _AorD_Btn = null;
+        Managers.UI.HideUI<UI_ControlADE>();
+    }
+
+    private void ChangeEbutton(bool isInteracting)
+    {
+        if (isInteracting)
+        {
+            HideEButton();
+            ShowADEButton();
+        }
+        else
+        {
+            ShowEButton();
+            HideADEButton();
+        }
+    }
+
+    //public void ShowE()
+    //{
+    //    if (!IsInnerPlayer)
+    //    {
+    //        _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
+    //        _E_Btn.transform.position = transform.position + (transform.up * _BtnOffset);
+    //    }
+    //}
+    //public void HideE()
+    //{
+    //    if (_E_Btn == null) return;
+    //    _E_Btn = null;
+    //    Managers.UI.HideUI<UI_ShowEButton>();
+    //}\
     #endregion
-
-
-
-
-
 }

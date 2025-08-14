@@ -196,7 +196,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         CmdChangeGrabState(true);
     }
 
-    public bool CanInteract()
+    public virtual bool CanInteract()
     {
         return _canInteract && _canGrab && !_isDestroyed;
     }

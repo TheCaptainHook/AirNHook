@@ -9,6 +9,9 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
     private UI_Base _E_Btn;
     private bool is_E_BtnEnabled;
+    private bool _isMounted;
+    private InteractableObject_Puzzle_1_Item _puzzleItem;
+    private Vector2 _topOfObj = new Vector2(0, 1f);
     [SerializeField] float _BtnOffset;
 
     [Header("Answer")]
@@ -37,7 +40,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     private Collider2D col;
     #endregion
     [Header("Interactable")]
-    [field: SerializeField] protected ObjectTypeEnum _objectType = ObjectTypeEnum.Grab;
+    [field: SerializeField] protected ObjectTypeEnum _objectType = ObjectTypeEnum.Mount;
 
 
     private Puzzle_1_Parts_Net Net;
@@ -158,68 +161,68 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
     //private bool OnSocket => (Net.item) ? true : false;
 
-    private void OnTriggerEnter2D(Collider2D collider){
-        if (Net.isCorrectAnswer) return;
-
-        if (collider.TryGetComponent(out HookSM component))
-        {
-            Transform grabItem = component.GetGrabbedItem();
-            if (grabItem != null)
-            {
-                if (grabItem.TryGetComponent(out Puzzle_1_Item item))
-                {
-
-                    if (component.TryGetComponent(out NetworkIdentity identity))
-                    {
-                        if (identity.isLocalPlayer)
-                        {
-                            ShowE();
-                            item.ContectParts(this);
-                            //In Part
-                        }
-                    }
-
-                }
-            }
-            else
-            {
-                if(onSocket)
-                {
-                    if (component.TryGetComponent(out NetworkIdentity identity))
-                    {
-                        if(identity.isLocalPlayer)
-                        ShowE();
-                    }
-                }
-            }
-        }
-    }
-
-    
-    private void OnTriggerExit2D(Collider2D collider){
-        if (onSocket || Net.isCorrectAnswer) return;
-
-        if (collider.TryGetComponent(out HookSM component)){
-            Transform grabItem = component.GetGrabbedItem();
-            if(grabItem != null){
-                if (grabItem.TryGetComponent(out Puzzle_1_Item item))
-                {
-                    if (component.TryGetComponent(out NetworkIdentity identity))
-                    {
-                        if (identity.isLocalPlayer)
-                        {
-                            HideE();
-                            item.ContectParts(null);
-                        }
-
-                    }
-                }
-            }
-
-            //Net.Cmd_ShowE(component.gameObject, false);
-        }
-        
-    }
+    //private void OnTriggerEnter2D(Collider2D collider){
+    //    if (Net.isCorrectAnswer) return;
+    //
+    //    if (collider.TryGetComponent(out HookSM component))
+    //    {
+    //        Transform grabItem = component.GetGrabbedItem();
+    //        if (grabItem != null)
+    //        {
+    //            if (grabItem.TryGetComponent(out Puzzle_1_Item item))
+    //            {
+    //
+    //                if (component.TryGetComponent(out NetworkIdentity identity))
+    //                {
+    //                    if (identity.isLocalPlayer)
+    //                    {
+    //                        ShowE();
+    //                        item.ContectParts(this);
+    //                        //In Part
+    //                    }
+    //                }
+    //
+    //            }
+    //        }
+    //        else
+    //        {
+    //            if(onSocket)
+    //            {
+    //                if (component.TryGetComponent(out NetworkIdentity identity))
+    //                {
+    //                    if(identity.isLocalPlayer)
+    //                    ShowE();
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
+    //
+    //
+    //private void OnTriggerExit2D(Collider2D collider){
+    //    if (onSocket || Net.isCorrectAnswer) return;
+    //
+    //    if (collider.TryGetComponent(out HookSM component)){
+    //        Transform grabItem = component.GetGrabbedItem();
+    //        if(grabItem != null){
+    //            if (grabItem.TryGetComponent(out Puzzle_1_Item item))
+    //            {
+    //                if (component.TryGetComponent(out NetworkIdentity identity))
+    //                {
+    //                    if (identity.isLocalPlayer)
+    //                    {
+    //                        HideE();
+    //                        item.ContectParts(null);
+    //                    }
+    //
+    //                }
+    //            }
+    //        }
+    //
+    //        //Net.Cmd_ShowE(component.gameObject, false);
+    //    }
+    //    
+    //}
 
     public Puzzle_1_Item insert_Item;
     public void Connect(Puzzle_1_Item item)
@@ -230,7 +233,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         }
 
         Debug.Log("Connect Item[Parts]");
-        HideE();
+        //HideE();
 
         var col = item.TryGetComponent(out Collider2D collider) ? collider : null; 
         if(col != null) col.enabled = false;
@@ -315,11 +318,14 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
     public void ShowEButton()
     {
-        return;
+        _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
+        _E_Btn.transform.position = transform.position + (Vector3)_topOfObj;
     }
+
     public void HideEButton()
     {
-        return;
+        _E_Btn = null;
+        Managers.UI.HideUI<UI_ShowEButton>();
     }
 
 
@@ -353,14 +359,36 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
     public void Interaction(Transform accessor = null)
     {
-        if (onSocket && !Net.isCorrectAnswer)
+        //if (onSocket && !Net.isCorrectAnswer)
+        //{
+        //    Net.Cmd_DisConnect();
+        //}
+
+        if (_isMounted)
         {
+            _isMounted = false;
             Net.Cmd_DisConnect();
+            _puzzleItem = null;
+        }
+        else
+        {
+            if (!accessor.TryGetComponent<InteractableObject_Puzzle_1_Item>(out var puzzleItem)) return;
+
+            _isMounted = true;
+            _puzzleItem = puzzleItem;
+            _puzzleItem.Cmd_ConnectParts(GetComponent<NetworkIdentity>().netId);
         }
     }
+
     public bool CanInteract()
     {
-        return true;
+        if (_isMounted)
+            return true;
+
+        if (Managers.Game.Player.TryGetComponent<HookSM>(out var hook) && hook.GetGrabbedItem() != null && hook.GetGrabbedItem().TryGetComponent<InteractableObject_Puzzle_1_Item>(out var puzzle))
+            return true;
+
+        return false;
     }
 
     public bool Interacting(bool value, GameObject player)

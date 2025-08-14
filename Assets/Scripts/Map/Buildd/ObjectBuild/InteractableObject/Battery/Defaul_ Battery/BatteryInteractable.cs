@@ -102,6 +102,8 @@ public class BatteryInteractable : TransportItemEntity
 
     //-----------------------------------------------------------------------Interact
     Battery battery;
+    public bool isMounted;
+
     //BuildObj BuildObj => GetComponent<BuildObj>();
     protected override void Awake()
     {
@@ -112,29 +114,36 @@ public class BatteryInteractable : TransportItemEntity
 
     public override void Release(GameObject accessor)
     {
-        if (batteryCharger != null)
-        {
-            var batteryChargerNetId = batteryCharger.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 9999;
-
-            Cmd_Release(batteryCharger.transform.position,false);
-            //StartCoroutine(DelayInsert_BateryCharger());
-            Cmd_InsertChargerSocket(batteryChargerNetId);
-        }
-        else if (powerSupply != null)
-        {
-            var powerSupplyNetId = powerSupply.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 9999;
-
-            Cmd_Release(powerSupply.transform.position,true);
-            //StartCoroutine(DelayInsert_PowerSupply());
-            Cmd_InsertPowerSupplySocket(powerSupplyNetId);
-        }
-        else
-        {
-            base.Release(accessor); 
-            Cmd_Reset();
-        }
+        //if (batteryCharger != null)
+        //{
+        //    var batteryChargerNetId = batteryCharger.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 9999;
+        //
+        //    Cmd_Release(batteryCharger.transform.position,false);
+        //    //StartCoroutine(DelayInsert_BateryCharger());
+        //    Cmd_InsertChargerSocket(batteryChargerNetId);
+        //}
+        //else if (powerSupply != null)
+        //{
+        //    var powerSupplyNetId = powerSupply.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 9999;
+        //
+        //    Cmd_Release(powerSupply.transform.position,true);
+        //    //StartCoroutine(DelayInsert_PowerSupply());
+        //    Cmd_InsertPowerSupplySocket(powerSupplyNetId);
+        //}
+        //else
+        //{
+        isMounted = false;
+        base.Release(accessor);
+        Cmd_Reset();
+        //}
     }
-  
+
+    public override bool CanInteract()
+    {
+        if (isMounted) return false;
+
+        return base.CanInteract();
+    }
 
 [Command(requiresAuthority = false)]
     private void Cmd_Reset()
@@ -163,7 +172,7 @@ public class BatteryInteractable : TransportItemEntity
     //}
 
     [Command(requiresAuthority = false)]
-    private void Cmd_Release(Vector3 releasePosition,bool isShowE)
+    public void Cmd_Release(Vector3 releasePosition,bool isShowE)
     {
         _isFixed = false;
         _isGrab = false;

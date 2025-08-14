@@ -199,17 +199,17 @@ public class MirrorObject_Net : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void Cmd_ShowE(GameObject player,bool onOff)
     {
-        if(player.TryGetComponent(out NetworkIdentity identity))
-        {
-            TRpc_ShowE(identity.connectionToClient, onOff);
-        }
+        //if(player.TryGetComponent(out NetworkIdentity identity))
+        //{
+        //    TRpc_ShowE(identity.connectionToClient, onOff);
+        //}
        
     }
     [TargetRpc]
     private void TRpc_ShowE(NetworkConnection conn,bool onOff)
     {
-        if(onOff) Main.ShowE();
-        else Main.HideE();
+        //if(onOff) Main.ShowE();
+        //else Main.HideE();
 
     }
     #endregion
@@ -228,7 +228,7 @@ public class MirrorObject_Net : NetworkBehaviour
         innerPlayer = player;
 
         //Managers.UI.HideUI<UI_ShowEButton>();
-        Main.HideE();
+        //Main.HideE();
 
         onActive = true;
         var pm = player.GetComponent<PlayerSM>();
