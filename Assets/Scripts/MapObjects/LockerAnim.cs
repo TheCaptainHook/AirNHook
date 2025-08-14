@@ -1,5 +1,7 @@
 using System;
 using Mirror;
+using Mirror.FizzySteam;
+using Steamworks;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -74,7 +76,6 @@ public class LockerAnim : NetworkBehaviour, IInteractable
 
         //CmdChangeSortingOrder(_player);
         RpcChangeSortingOrder(_player);
-
         _animator.SetTrigger(Changing);
         Invoke("CharacterChange", 1.2f);
     }
@@ -98,7 +99,8 @@ public class LockerAnim : NetworkBehaviour, IInteractable
         var playerSortingGroup = player.GetComponent<PlayerSM>().sortingGroup;
         foreach (var sortingGroup in playerSortingGroup)
         {
-            sortingGroup.sortingOrder = 0;
+            sortingGroup.sortingLayerName = "BackGround";
+            sortingGroup.sortingOrder = 3;
         }
     }
 

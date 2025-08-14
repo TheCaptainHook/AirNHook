@@ -15,6 +15,7 @@ public class AirSM : PlayerSM
 
     public Transform armPivot;
     public Transform weaponPoint;
+    public Transform InhalingPoint;
     public Transform crossHair;
     public LineRenderer lineRenderer;
     

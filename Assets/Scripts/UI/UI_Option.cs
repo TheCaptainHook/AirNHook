@@ -44,6 +44,7 @@ public class UI_Option : UI_Base
 
     [SerializeField] private GameObject _roomCodeBox;
     [SerializeField] private Button _copyCodeBtn;
+    [SerializeField] private Button _inviteFriendBtn;
 
     [Header("GraphicsOption")]
     [SerializeField] private Toggle _fullScreenToggle;
@@ -127,6 +128,7 @@ public class UI_Option : UI_Base
         _toLobbyBtn.onClick.AddListener(OnLobbyBtn);
         _exitGameBtn.onClick.AddListener(OnExitBtn);
         _copyCodeBtn.onClick.AddListener(OnCopyBtn);
+        _inviteFriendBtn.onClick.AddListener(OnInviteBtn);
         _respawnObjectBtn.onClick.AddListener(OnRespawnObjectBtn);
         // _infoTxt.text = menuGameOptionInfo;
         
@@ -260,6 +262,13 @@ public class UI_Option : UI_Base
         OnClick();
         CopyToClipboard(_roomCodeNumText.text);
     }
+
+    private void OnInviteBtn()
+    {
+        OnClick();
+        SteamFriends.ActivateGameOverlayInviteDialog(Managers.Network.steamLobby.currentLobbyID);
+    }
+
     private void CopyToClipboard(string str)
     {
         GUIUtility.systemCopyBuffer = str;
