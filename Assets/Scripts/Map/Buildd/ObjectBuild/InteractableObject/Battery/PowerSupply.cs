@@ -317,8 +317,8 @@ public class PowerSupply : ButtonEntity,IInteractable
     #region  Interacable
     public void Interaction(Transform accessor = null)
     {
-        Debug.Log($"PowerSupply Interaction, accessor Name : {accessor}");
-        if (accessor != null)
+        Debug.Log($"PowerSupply Interaction, \naccessor Name : {accessor}");
+        if (accessor != null && !accessor.TryGetComponent(out AirSM air))
         {
             if (accessor.TryGetComponent<BatteryInteractable>(out var newbattery))
             {

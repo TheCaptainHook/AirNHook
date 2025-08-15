@@ -92,7 +92,7 @@ public class AirSM : PlayerSM
                 if (interactable != null)
                 {
                     if (interactable.GetObjectType() == ObjectTypeEnum.Grab) continue;
-                    if (interactable.GetObjectType() == ObjectTypeEnum.Mount) continue;
+                    //if (interactable.GetObjectType() == ObjectTypeEnum.Mount) continue;
                 }
 
                 var pos = transform.position + offset;
