@@ -24,6 +24,7 @@ public class UI_Title : UI_Base
     [SerializeField] private Button _mapEditorBtn;
     [SerializeField] private Button _optionBtn;
     [SerializeField] private Button _exitGameBtn;
+    [SerializeField] private Button _endingCradit;
     
     [Header("Texts")]
     [SerializeField] private TMP_Text _joinText;
@@ -53,6 +54,7 @@ public class UI_Title : UI_Base
         // _mapEditorBtn.onClick.AddListener(OnMapEditorBtn);
         _optionBtn.onClick.AddListener(OnOptionBtn);
         _exitGameBtn.onClick.AddListener(OnExitBtn);
+        _endingCradit.onClick.AddListener(OnEndingCreditsBtn);
     }
 
     private void OnJoinBtn()
@@ -107,6 +109,11 @@ public class UI_Title : UI_Base
 
     }
     
+    private void OnEndingCreditsBtn()
+    {
+               OnClick();
+       Managers.UI.ShowUI<UI_EndingCredits>();  
+    }
     public override void SetLanguage()
     {
         SetSentence(_joinText, 2001);

@@ -12291,7 +12291,7 @@
         },
         {
             "id": 354,
-            "activeRequirAmount": 0,
+            "activeRequirAmount": 1,
             "chargeRequired": false,
             "indicatorStruct": {
                 "indicator": 0,

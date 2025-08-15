@@ -15,7 +15,7 @@ public class PlayerInput : MonoBehaviour
         uiActions = _playerInputAction.UI;
         _playerInputAction.Enable();
         uiActions.Option.started += ToggleOption;
-        
+
         Managers.Game.playerInput = this;
     }
     
