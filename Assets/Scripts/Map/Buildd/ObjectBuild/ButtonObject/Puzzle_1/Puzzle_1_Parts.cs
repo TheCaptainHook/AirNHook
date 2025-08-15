@@ -298,7 +298,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     public void DisConnect() //Rpc
     {
         Debug.Log("DisConnect Item[Parts]");
-        onSocket = false;
+      
         if (insert_Item.TryGetComponent(out ParentConstraint component))
         {
             if (component.sourceCount > 0)
@@ -322,7 +322,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
         insert_Item.parts = null;
         insert_Item = null;
-   
+        onSocket = false;
     }
 
 
@@ -393,20 +393,26 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
     public void Interaction(Transform accessor = null)
     {
-        //if (onSocket && !Net.isCorrectAnswer)
-        //{
-        //    Net.Cmd_DisConnect();
-        //}
-
-        if (onSocket)
+        if(accessor != null)
         {
-            Net.Cmd_DisConnect();
+            if (onSocket)
+            {
+                Net.Cmd_DisConnect();
+            }
+            else
+            {
+                if (accessor.TryGetComponent(out NetworkIdentity identity))
+                    Net.Cmd_Connection(identity.netId);
+            }
         }
         else
         {
-            if(accessor.TryGetComponent(out NetworkIdentity identity))
-                Net.Cmd_Connection(identity.netId);
+            if (onSocket)
+            {
+                Net.Cmd_DisConnect();
+            }
         }
+      
     }
 
     public bool CanInteract()
@@ -421,7 +427,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         var hook = Managers.Game.Player.TryGetComponent(out HookSM component) ? component : null;
         if (hook == null) return false;
 
-        if (hook.GetGrabbedItem() == null)
+        if (hook.GetGrabbedItem() == null) 
         {
             if (onSocket) return true;
             else return false;
