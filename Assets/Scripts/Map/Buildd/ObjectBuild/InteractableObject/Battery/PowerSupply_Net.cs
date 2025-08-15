@@ -98,8 +98,9 @@ public class PowerSupply_Net : NetworkBehaviour
     [Server]    // insert battery and Use.
     public void Server_SetBatter(GameObject battery)
     {
-         // 새 배터리가 없거나, 기존 배터리와 같다면 return
-        if (this.battery != null && !Compare(this.battery, battery))
+        // 새 배터리가 없거나, 기존 배터리와 같다면 return
+        // if (this.battery != null && !Compare(this.battery, battery))
+        if (!Compare(this.battery, battery))
         {
             if (supplyCoroutine != null)
             {
@@ -107,15 +108,17 @@ public class PowerSupply_Net : NetworkBehaviour
                 supplyCoroutine = null;
             }
 
-            PowerSupply.Net_Deactivated();
-            Rpc_OnSupplyEffect(false);
-
-            this.battery.GetComponent<BatteryInteractable>().Cmd_Recover();
-            this.battery = null;
+            if (this.battery != null)
+            {
+                PowerSupply.Net_Deactivated();
+                Rpc_OnSupplyEffect(false);
+                this.battery.GetComponent<BatteryInteractable>().Cmd_Recover();
+            }
+            this.battery = battery;
+            
         }
 
         if (battery == null) return;
-
 
         this.battery = battery;
 
@@ -144,12 +147,18 @@ public class PowerSupply_Net : NetworkBehaviour
         return capacity > consumption;
     }
 
+    // [Command(requiresAuthority = false)]
+    // public void Cmd_SetBattery(GameObject battery)
+    // {
+    //     Server_SetBatter(battery);
+    // }
     [Command(requiresAuthority = false)]
-    public void Cmd_SetBattery(GameObject battery)
+    public void Cmd_SetBattery(uint battery_id)
     {
-        Server_SetBatter(battery);
-    }
+        var item = NetworkServer.spawned.TryGetValue(battery_id, out NetworkIdentity identity) ? identity.gameObject : null;
 
+        Server_SetBatter(item);
+    }
 
     //----------------------------------------Refectoring 0714
 
@@ -250,20 +259,20 @@ public class PowerSupply_Net : NetworkBehaviour
 
 
     #region  UI
-    [Command(requiresAuthority = false)]
-    public void Cmd_ShowE(GameObject player, bool onOff)
-    {
-        if(player.TryGetComponent(out NetworkIdentity component))
-        {
-            TRpc_ShowE(component.connectionToClient,onOff);
-        }
-    }
-    [TargetRpc]
-    private void TRpc_ShowE(NetworkConnection conn,bool onOff)
-    {
-        if(onOff) PowerSupply.ShowE();
-        else PowerSupply.HideE();
-    }
+    // [Command(requiresAuthority = false)]
+    // public void Cmd_ShowE(GameObject player, bool onOff)
+    // {
+    //     if(player.TryGetComponent(out NetworkIdentity component))
+    //     {
+    //         TRpc_ShowE(component.connectionToClient,onOff);
+    //     }
+    // }
+    // [TargetRpc]
+    // private void TRpc_ShowE(NetworkConnection conn,bool onOff)
+    // {
+    //     if(onOff) PowerSupply.ShowE();
+    //     else PowerSupply.HideE();
+    // }
     #endregion
 
    

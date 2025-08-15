@@ -12,8 +12,8 @@ public class PowerSupply : ButtonEntity,IInteractable
     [Header("Interacte")]
     public ObjectTypeEnum _objectType = ObjectTypeEnum.Mount;
     [SerializeField] float _BtnOffset;
-    private BatteryInteractable battery;
-    private bool _isMounted;
+    // private BatteryInteractable battery;
+    // private bool _isMounted; 
     private Vector2 _topOfObj = new Vector2(0, 1.2f);
     private UI_Base _E_Btn;
 
@@ -248,43 +248,43 @@ public class PowerSupply : ButtonEntity,IInteractable
     #endregion
 
  #region  Main
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.TryGetComponent(out HookSM hook))
-        {
-            Transform grabItem = hook.GetGrabbedItem();
-            if (grabItem == null)
-            {
-                if (P_Net.battery) P_Net.Cmd_ShowE(collision.gameObject, true);
-            }
+    // private void OnTriggerEnter2D(Collider2D collision)
+    // {
+    //     // if (collision.TryGetComponent(out HookSM hook))
+    //     // {
+    //     //     Transform grabItem = hook.GetGrabbedItem();
+    //     //     if (grabItem == null)
+    //     //     {
+    //     //         if (P_Net.battery) P_Net.Cmd_ShowE(collision.gameObject, true);
+    //     //     }
     
-        }
-        if(collision.TryGetComponent(out AirSM air))
-        {
-            if(P_Net.battery) P_Net.Cmd_ShowE(collision.gameObject, true);
-        }
+    //     // }
+    //     // if(collision.TryGetComponent(out AirSM air))
+    //     // {
+    //     //     if(P_Net.battery) P_Net.Cmd_ShowE(collision.gameObject, true);
+    //     // }
 
 
-        if (collision.TryGetComponent(out Battery battery))
-        {
-            var interactable = battery.TryGetComponent(out InteractableObject component) ? component : null;
-            if (interactable != null && interactable._isGrab)
-            {
-                P_Net.Cmd_ShowE(collision.gameObject, true);
-                battery.Net_SetPowerSupply(gameObject);
-                return;
-            }
-            //Air Inhale object insert 0804
-            if (ChackBatteryVelocity(battery) && NetworkServer.active)
-            {
-                //Insert Battery
-                SetBattery(battery.gameObject);
-                //Insert Battery
-                return;
-            }
-            //Air Inhale object insert 0804
-        }
-    }
+    //     if (collision.TryGetComponent(out Battery battery))
+    //     {
+    //         var interactable = battery.TryGetComponent(out InteractableObject component) ? component : null;
+    //         if (interactable != null && interactable._isGrab)
+    //         {
+    //             // P_Net.Cmd_ShowE(collision.gameObject, true);
+    //             battery.Net_SetPowerSupply(gameObject);
+    //             return;
+    //         }
+    //         //Air Inhale object insert 0804
+    //         if (ChackBatteryVelocity(battery) && NetworkServer.active)
+    //         {
+    //             //Insert Battery
+    //             SetBattery(battery.gameObject);
+    //             //Insert Battery
+    //             return;
+    //         }
+    //         //Air Inhale object insert 0804
+    //     }
+    // }
     private float condition_InsertBatteryChargerValue = 5;
     private bool ChackBatteryVelocity(Battery battery)
     {
@@ -292,14 +292,14 @@ public class PowerSupply : ButtonEntity,IInteractable
         return battery._rb.velocity.magnitude >= condition_InsertBatteryChargerValue;
     }
 
-    private void OnTriggerExit2D(Collider2D collider)
-    {
-        if (collider.TryGetComponent(out Battery battery))
-        {
-            P_Net.Cmd_ShowE(collider.gameObject, false);
-            battery.Net_SetPowerSupply(null);
-        }
-    }
+    // private void OnTriggerExit2D(Collider2D collider)
+    // {
+    //     if (collider.TryGetComponent(out Battery battery))
+    //     {
+    //         P_Net.Cmd_ShowE(collider.gameObject, false);
+    //         battery.Net_SetPowerSupply(null);
+    //     }
+    // }
     
     
 #endregion
@@ -317,31 +317,76 @@ public class PowerSupply : ButtonEntity,IInteractable
     #region  Interacable
     public void Interaction(Transform accessor = null)
     {
-        //if (P_Net.battery)
-        //{
-        //    if (_E_Btn != null) HideE();
-        //    P_Net.Cmd_SetBattery(null);
-        //}
-        if (!accessor.TryGetComponent<BatteryInteractable>(out var newbattery)) return;
-
-        battery = newbattery;
-        battery.Cmd_Release(transform.position,true);
-        battery.isMounted = true;
-        battery.Cmd_InsertPowerSupplySocket(GetComponent<NetworkIdentity>().netId);
-        HideEButton();
+        Debug.Log($"PowerSupply Interaction, accessor Name : {accessor}");
+        if (accessor != null)
+        {
+            if (accessor.TryGetComponent<BatteryInteractable>(out var newbattery))
+            {
+                // battery = newbattery;
+                newbattery.Cmd_Release(transform.position, true);
+                // battery.isMounted = true;
+                // battery.Cmd_InsertPowerSupplySocket(GetComponent<NetworkIdentity>().netId);
+                P_Net.Cmd_SetBattery(newbattery.TryGetComponent<NetworkIdentity>(out var identity) ? identity.netId : 9999);
+                Debug.Log("Set Battery");
+                HideEButton();
+                return;
+            }
+        }
+        else //P_Net.battery != null
+        {
+            if (P_Net.battery != null)
+            {
+                Debug.Log("Remove Socket battery");
+                P_Net.Cmd_SetBattery(9999);
+                // battery = null;
+                return;
+            }
+            
+        }
+      
     }
 
     public bool CanInteract()
     {
-        if (_isMounted)
-            return false;
-
-        if (Managers.Game.Player.TryGetComponent<HookSM>(out var hook) && hook.GetGrabbedItem() != null && hook.GetGrabbedItem().TryGetComponent<Battery>(out var battery))
-            return true;
+        if (Hook_IsInteractionValid()) return true;
+        if (Air_IsInteractionValid()) return true;
 
         return false;
+        // return true;
     }
+    private bool Hook_IsInteractionValid() //
+    {
+        var hook = Managers.Game.Player.TryGetComponent(out HookSM component) ? component : null;
+        if (hook == null) return false;
 
+        if (hook.GetGrabbedItem() == null)
+        {
+            Debug.Log("Hook grabbed item is null");
+            if (P_Net.battery == null) return false;
+            else return true;
+        }
+        else
+        {
+            if (hook.GetGrabbedItem().TryGetComponent<BatteryInteractable>(out var batteryInteractable))
+            {
+                return true;
+            }
+            else
+            {
+                Debug.Log($"Hook grabbed item is not BatteryInteractable, {hook.GetGrabbedItem().name}");
+                return false;
+            }
+        }
+    }
+    private bool Air_IsInteractionValid() //
+    {
+        var air = Managers.Game.Player.TryGetComponent(out AirSM component) ? component : null;
+        if (air == null || P_Net.battery == null) return false;
+
+        Debug.Log("AirSM is valid for interaction");
+        return true;
+
+    }
     public bool Interacting(bool value, GameObject player)
     {
         return true;
@@ -364,19 +409,19 @@ public class PowerSupply : ButtonEntity,IInteractable
         Managers.UI.HideUI<UI_ShowEButton>();
     }
 
-    public void ShowE()
-    {
-        _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
-        _E_Btn.transform.position = transform.position + (transform.up * _BtnOffset);
-    }
+    // public void ShowE()
+    // {
+    //     _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
+    //     _E_Btn.transform.position = transform.position + (transform.up * _BtnOffset);
+    // }
 
-    public void HideE()
-    {
-        if(_E_Btn != null) Managers.UI.HideUI<UI_ShowEButton>();
+    // public void HideE()
+    // {
+    //     if(_E_Btn != null) Managers.UI.HideUI<UI_ShowEButton>();
 
-        _E_Btn = null;
+    //     _E_Btn = null;
         
-    }
+    // }
     
     
 

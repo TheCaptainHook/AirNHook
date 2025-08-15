@@ -89,11 +89,9 @@ public class AirSM : PlayerSM
             foreach (var collision in collisions)
             {
                 if (collision.TryGetComponent<IInteractable>(out var interactable) && !interactable.CanInteract()) continue;
-
                 if (interactable != null)
                 {
                     if (interactable.GetObjectType() == ObjectTypeEnum.Grab) continue;
-
                     if (interactable.GetObjectType() == ObjectTypeEnum.Mount) continue;
                 }
 
@@ -110,7 +108,6 @@ public class AirSM : PlayerSM
                     closestTarget = collision;
                 }
             }
-
             if (closestTarget == null)
             {
                 if (latestTarget != null)
@@ -133,11 +130,11 @@ public class AirSM : PlayerSM
             }
 
             latestTarget = closestTarget;
-
             try
             {
                 if (latestTarget.TryGetComponent<IInteractable>(out var newTarget))
                     newTarget.ShowEButton();
+
             }
             catch (MissingReferenceException)
             {

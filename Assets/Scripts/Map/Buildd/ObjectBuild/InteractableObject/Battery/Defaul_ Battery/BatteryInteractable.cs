@@ -271,17 +271,17 @@ public class BatteryInteractable : TransportItemEntity
     //-----------------------------------------------------------------------Insert PowerSupply Socket
   
 
-    [Command(requiresAuthority = false)]
-    public void Cmd_InsertPowerSupplySocket(uint netId)
-    {
-        var powerSupply = NetworkClient.spawned.TryGetValue(netId,out NetworkIdentity identity) ? identity.gameObject : null;
+    // [Command(requiresAuthority = false)]
+    // public void Cmd_InsertPowerSupplySocket(uint netId)
+    // {
+    //     var powerSupply = NetworkClient.spawned.TryGetValue(netId,out NetworkIdentity identity) ? identity.gameObject : null;
         
-        if (powerSupply != null && powerSupply.TryGetComponent(out PowerSupply component))
-        {
-            component.SetBattery(gameObject); //Server
-        }
+    //     if (powerSupply != null && powerSupply.TryGetComponent(out PowerSupply component))
+    //     {
+    //         component.SetBattery(gameObject); //Server
+    //     }
 
-    }
+    // }
 
     //-----------------------------------------------------------------------Insert PowerSupply Socket
 

@@ -25,28 +25,28 @@ public class BatteryCharger : BuildObj, IInteractable
     }
 
     #region Interaction
-   private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.TryGetComponent(out Battery battery))
-        {
-            var interactable = battery.TryGetComponent(out InteractableObject component) ? component : null;
-            if (interactable != null && interactable._isGrab)
-            {
-                B_Net.Cmd_ShowE(collision.gameObject, true);
-                battery.Net_SetBatteryCharger(gameObject);
-                return;
-            }
-            //Air Inhale object insert 0804
-            if (ChackBatteryVelocity(battery) && NetworkServer.active)
-            {
-                //Insert Battery
-                SetBattery(battery.gameObject);
-                //Insert Battery
-                return;
-            }
-            //Air Inhale object insert 0804
-        }
-    }
+//    private void OnTriggerEnter2D(Collider2D collision)
+//     {
+//         if (collision.TryGetComponent(out Battery battery))
+//         {
+//             var interactable = battery.TryGetComponent(out InteractableObject component) ? component : null;
+//             if (interactable != null && interactable._isGrab)
+//             {
+//                 // B_Net.Cmd_ShowE(collision.gameObject, true);
+//                 battery.Net_SetBatteryCharger(gameObject);
+//                 return;
+//             }
+//             //Air Inhale object insert 0804
+//             if (ChackBatteryVelocity(battery) && NetworkServer.active)
+//             {
+//                 //Insert Battery
+//                 SetBattery(battery.gameObject);
+//                 //Insert Battery
+//                 return;
+//             }
+//             //Air Inhale object insert 0804
+//         }
+//     }
     
     //private void OnTriggerExit2D(Collider2D collider)
     //{
