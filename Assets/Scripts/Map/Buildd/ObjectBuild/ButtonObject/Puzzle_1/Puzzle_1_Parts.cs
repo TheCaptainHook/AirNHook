@@ -9,8 +9,8 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
     private UI_Base _E_Btn;
     private bool is_E_BtnEnabled;
-    private bool _isMounted;
-    private InteractableObject_Puzzle_1_Item _puzzleItem;
+    //private bool _isMounted;
+    //private InteractableObject_Puzzle_1_Item _puzzleItem;
     private Vector2 _topOfObj = new Vector2(0, 1f);
     [SerializeField] float _BtnOffset;
 
@@ -147,7 +147,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         Net.Cmd_SetCorrect(true);
     }
 
-    public void Net_SetCorrectEffect()
+    public void Net_SetCorrectEffect() //Rpc
     {
         lineRenderer.colorGradient = correctGradient;
     }
@@ -163,65 +163,65 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
     //private bool OnSocket => (Net.item) ? true : false;
 
-    private void OnTriggerEnter2D(Collider2D collider)
-    {
-        if (Net.isCorrectAnswer) return;
+    //private void OnTriggerEnter2D(Collider2D collider)
+    //{
+    //    if (Net.isCorrectAnswer) return;
 
-        // if (collider.TryGetComponent(out HookSM component))
-        // {
-        //     Transform grabItem = component.GetGrabbedItem();
-        //     if (grabItem != null)
-        //     {
-        //         if (grabItem.TryGetComponent(out Puzzle_1_Item item))
-        //         {
+    //    // if (collider.TryGetComponent(out HookSM component))
+    //    // {
+    //    //     Transform grabItem = component.GetGrabbedItem();
+    //    //     if (grabItem != null)
+    //    //     {
+    //    //         if (grabItem.TryGetComponent(out Puzzle_1_Item item))
+    //    //         {
 
-        //             if (component.TryGetComponent(out NetworkIdentity identity))
-        //             {
-        //                 if (identity.isLocalPlayer)
-        //                 {
-        //                     ShowE();
-        //                     item.ContectParts(this);
-        //                     //In Parts
-        //                 }
-        //             }
+    //    //             if (component.TryGetComponent(out NetworkIdentity identity))
+    //    //             {
+    //    //                 if (identity.isLocalPlayer)
+    //    //                 {
+    //    //                     ShowE();
+    //    //                     item.ContectParts(this);
+    //    //                     //In Parts
+    //    //                 }
+    //    //             }
 
-        //         }
-        //     }
-        //     else
-        //     {
-        //         if(onSocket)
-        //         {
-        //             if (component.TryGetComponent(out NetworkIdentity identity))
-        //             {
-        //                 if(identity.isLocalPlayer)
-        //                 ShowE();
-        //             }
-        //         }
-        //     }
-        // }
-        if (collider.TryGetComponent(out Puzzle_1_Item item))
-        {
-            var interactable = item.TryGetComponent(out InteractableObject_Puzzle_1_Item interac) ? interac : null;
-            if (interactable != null && interactable._isGrab)
-            {
-                //Hook 
-                item.ContectParts(this);
+    //    //         }
+    //    //     }
+    //    //     else
+    //    //     {
+    //    //         if(onSocket)
+    //    //         {
+    //    //             if (component.TryGetComponent(out NetworkIdentity identity))
+    //    //             {
+    //    //                 if(identity.isLocalPlayer)
+    //    //                 ShowE();
+    //    //             }
+    //    //         }
+    //    //     }
+    //    // }
+    //    if (collider.TryGetComponent(out Puzzle_1_Item item))
+    //    {
+    //        var interactable = item.TryGetComponent(out InteractableObject_Puzzle_1_Item interac) ? interac : null;
+    //        if (interactable != null && interactable._isGrab)
+    //        {
+    //            //Hook 
+    //            item.ContectParts(this);
 
-                return;
-            }
+    //            return;
+    //        }
 
-            //Air inHal object
-            if (interactable != null && ChackVelocity(item) && NetworkServer.active)
-            {
-                var id = item.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 9999;
-                if (id == 9999) return;
+    //        //Air inHal object
+    //        if (interactable != null && ChackVelocity(item) && NetworkServer.active)
+    //        {
+    //            var id = item.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 9999;
+    //            if (id == 9999) return;
                 
-                interactable.Cmd_ConnectParts(id);
-            }
+    //            interactable.Cmd_ConnectParts(id);
+    //        }
             
             
-        }
-    }
+    //    }
+    //}
     private float condition_InsertBatteryChargerValue = 5;
     private bool ChackVelocity(Puzzle_1_Item item)
     {
@@ -230,36 +230,36 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     }
 
     
-    private void OnTriggerExit2D(Collider2D collider)
-    {
-        if (onSocket || Net.isCorrectAnswer) return;
+    //private void OnTriggerExit2D(Collider2D collider)
+    //{
+    //    if (onSocket || Net.isCorrectAnswer) return;
 
-        if (collider.TryGetComponent(out HookSM component))
-        {
-            Transform grabItem = component.GetGrabbedItem();
-            if (grabItem != null)
-            {
-                if (grabItem.TryGetComponent(out Puzzle_1_Item item))
-                {
-                    if (component.TryGetComponent(out NetworkIdentity identity))
-                    {
-                        if (identity.isLocalPlayer)
-                        {
-                            HideE();
-                            item.ContectParts(null);
-                        }
+    //    if (collider.TryGetComponent(out HookSM component))
+    //    {
+    //        Transform grabItem = component.GetGrabbedItem();
+    //        if (grabItem != null)
+    //        {
+    //            if (grabItem.TryGetComponent(out Puzzle_1_Item item))
+    //            {
+    //                if (component.TryGetComponent(out NetworkIdentity identity))
+    //                {
+    //                    if (identity.isLocalPlayer)
+    //                    {
+    //                        HideE();
+    //                        item.ContectParts(null);
+    //                    }
 
-                    }
-                }
-            }
+    //                }
+    //            }
+    //        }
 
-            //Net.Cmd_ShowE(component.gameObject, false);
-        }
+    //        //Net.Cmd_ShowE(component.gameObject, false);
+    //    }
 
-    }
+    //}
 
     public Puzzle_1_Item insert_Item;
-    public void Connect(Puzzle_1_Item item)
+    public void Connect(Puzzle_1_Item item) //Rpc
     {
         if(onSocket)
         {
@@ -290,12 +290,12 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         InsertAnimation(true);
         onSocket = true;
 
-        col.enabled = false;
-        col.enabled = true;
+        //col.enabled = false;
+        //col.enabled = true;
     }
 
 
-    public void DisConnect()
+    public void DisConnect() //Rpc
     {
         Debug.Log("DisConnect Item[Parts]");
         onSocket = false;
@@ -398,32 +398,45 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         //    Net.Cmd_DisConnect();
         //}
 
-        if (_isMounted)
+        if (onSocket)
         {
-            _isMounted = false;
             Net.Cmd_DisConnect();
-            _puzzleItem = null;
         }
         else
         {
-            if (!accessor.TryGetComponent<InteractableObject_Puzzle_1_Item>(out var puzzleItem)) return;
-
-            _isMounted = true;
-            _puzzleItem = puzzleItem;
-            _puzzleItem.Cmd_ConnectParts(GetComponent<NetworkIdentity>().netId);
+            if(accessor.TryGetComponent(out NetworkIdentity identity))
+                Net.Cmd_Connection(identity.netId);
         }
     }
 
     public bool CanInteract()
     {
-        if (_isMounted)
-            return true;
+        if (Hook_IsInteractionValid()) return true;
 
-        if (Managers.Game.Player.TryGetComponent<HookSM>(out var hook) && hook.GetGrabbedItem() != null && hook.GetGrabbedItem().TryGetComponent<InteractableObject_Puzzle_1_Item>(out var puzzle))
-            return true;
 
         return false;
     }
+    private bool Hook_IsInteractionValid()
+    {
+        var hook = Managers.Game.Player.TryGetComponent(out HookSM component) ? component : null;
+        if (hook == null) return false;
+
+        if (hook.GetGrabbedItem() == null)
+        {
+            if (onSocket) return true;
+            else return false;
+        }
+      
+        if (hook.GetGrabbedItem().TryGetComponent<InteractableObject_Puzzle_1_Item>(out var puzzleItem))
+            return true;
+        else
+            return false;
+
+    }
+    //private bool Air_IsInteractionValid()
+    //{
+
+    //}
 
     public bool Interacting(bool value, GameObject player)
     {

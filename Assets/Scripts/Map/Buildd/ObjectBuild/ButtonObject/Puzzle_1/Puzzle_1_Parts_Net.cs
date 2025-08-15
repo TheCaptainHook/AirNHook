@@ -18,12 +18,23 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
     public bool isCorrectAnswer;
 
 
+    [SyncVar] public GameObject _insertItem;
 
 
+    [Command(requiresAuthority =false)]
+    public void Cmd_Connection(uint netId)
+    {
+        Rpc_Connection(netId);
+    }
 
+    [ClientRpc]
+    public void Rpc_Connection(uint netId)
+    {
+        var item = NetworkClient.spawned.TryGetValue(netId, out NetworkIdentity identity) ? identity.gameObject : null;
+        if (item == null) return;
 
-
-
+        Main.Connect(item.GetComponent<Puzzle_1_Item>());
+    }
 
 
     [Command(requiresAuthority = false)]
@@ -37,16 +48,6 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
         if (Main.insert_Item == null) return;
         Main.DisConnect();
     }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -125,20 +126,20 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
 
 
     #region UI
-    [Command(requiresAuthority = false)]
-    public void Cmd_ShowE(GameObject player, bool onOff)
-    {
-        if (player.TryGetComponent(out NetworkIdentity component))
-        {
-            TRpc_ShowE(component.connectionToClient, onOff);
-        }
-    }
-    [TargetRpc]
-    private void TRpc_ShowE(NetworkConnection conn, bool onOff)
-    {
-        if (onOff) Main.ShowE();
-        else Main.HideE();
-    }
+    //[Command(requiresAuthority = false)]
+    //public void Cmd_ShowE(GameObject player, bool onOff)
+    //{
+    //    if (player.TryGetComponent(out NetworkIdentity component))
+    //    {
+    //        TRpc_ShowE(component.connectionToClient, onOff);
+    //    }
+    //}
+    //[TargetRpc]
+    //private void TRpc_ShowE(NetworkConnection conn, bool onOff)
+    //{
+    //    if (onOff) Main.ShowE();
+    //    else Main.HideE();
+    //}
     #endregion
 }
 

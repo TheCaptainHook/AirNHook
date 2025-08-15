@@ -46,24 +46,24 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
 
     public bool onConnect;
 
-    [Command(requiresAuthority = false)]
-    public void Cmd_ConnectParts(uint netId)
-    {
-        Rpc_ConnectAndDisConnectParts(netId);    
-    }
+    //[Command(requiresAuthority = false)]
+    //public void Cmd_ConnectParts(uint netId)
+    //{
+    //    Rpc_ConnectAndDisConnectParts(netId);    
+    //}
 
-    [ClientRpc]
-    private void Rpc_ConnectAndDisConnectParts(uint netId)
-    {
-        var item = NetworkClient.spawned.TryGetValue(netId, out NetworkIdentity identity) ? identity.gameObject : null;
-        if (item == null) return;
+    //[ClientRpc]
+    //private void Rpc_ConnectAndDisConnectParts(uint netId)
+    //{
+    //    var item = NetworkClient.spawned.TryGetValue(netId, out NetworkIdentity identity) ? identity.gameObject : null;
+    //    if (item == null) return;
 
-        var parts = item.TryGetComponent(out Puzzle_1_Parts value);
-        if (!parts) return;
+    //    var parts = item.TryGetComponent(out Puzzle_1_Parts value);
+    //    if (!parts) return;
 
-        value.Connect(Main);
+    //    value.Connect(Main);
 
-    }
+    //}
 
     //-------------------------------------------------------------------------Sync 1/30
    
