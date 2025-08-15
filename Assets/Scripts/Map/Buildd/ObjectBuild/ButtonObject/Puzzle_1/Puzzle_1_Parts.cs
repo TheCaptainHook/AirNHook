@@ -9,6 +9,9 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
     private UI_Base _E_Btn;
     private bool is_E_BtnEnabled;
+    private bool _isMounted;
+    private InteractableObject_Puzzle_1_Item _puzzleItem;
+    private Vector2 _topOfObj = new Vector2(0, 1f);
     [SerializeField] float _BtnOffset;
 
     [Header("Answer")]
@@ -37,7 +40,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     private Collider2D col;
     #endregion
     [Header("Interactable")]
-    [field: SerializeField] protected ObjectTypeEnum _objectType = ObjectTypeEnum.Grab;
+    [field: SerializeField] protected ObjectTypeEnum _objectType = ObjectTypeEnum.Mount;
 
 
     private Puzzle_1_Parts_Net Net;
@@ -264,7 +267,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         }
 
         Debug.Log("Connect Item[Parts]");
-        HideE();
+        //HideE();
 
         var col = item.TryGetComponent(out Collider2D collider) ? collider : null; 
         if(col != null) col.enabled = false;
@@ -349,11 +352,14 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
     public void ShowEButton()
     {
-        return;
+        _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
+        _E_Btn.transform.position = transform.position + (Vector3)_topOfObj;
     }
+
     public void HideEButton()
     {
-        return;
+        _E_Btn = null;
+        Managers.UI.HideUI<UI_ShowEButton>();
     }
 
 
@@ -387,14 +393,36 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
     public void Interaction(Transform accessor = null)
     {
-        if (onSocket && !Net.isCorrectAnswer)
+        //if (onSocket && !Net.isCorrectAnswer)
+        //{
+        //    Net.Cmd_DisConnect();
+        //}
+
+        if (_isMounted)
         {
+            _isMounted = false;
             Net.Cmd_DisConnect();
+            _puzzleItem = null;
+        }
+        else
+        {
+            if (!accessor.TryGetComponent<InteractableObject_Puzzle_1_Item>(out var puzzleItem)) return;
+
+            _isMounted = true;
+            _puzzleItem = puzzleItem;
+            _puzzleItem.Cmd_ConnectParts(GetComponent<NetworkIdentity>().netId);
         }
     }
+
     public bool CanInteract()
     {
-        return true;
+        if (_isMounted)
+            return true;
+
+        if (Managers.Game.Player.TryGetComponent<HookSM>(out var hook) && hook.GetGrabbedItem() != null && hook.GetGrabbedItem().TryGetComponent<InteractableObject_Puzzle_1_Item>(out var puzzle))
+            return true;
+
+        return false;
     }
 
     public bool Interacting(bool value, GameObject player)

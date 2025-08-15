@@ -43,7 +43,6 @@ public class UI_PingWheel : UI_Base
         _emotePanel2.onClick.AddListener(OnPanel2);
         _emotePanel3.onClick.AddListener(OnPanel3);
         _emotePanel4.onClick.AddListener(OnPanel4);
-        
     }
 
     private void OnExit()
@@ -60,22 +59,27 @@ public class UI_PingWheel : UI_Base
         Managers.Game.Player.GetComponent<PlayerSM>().UsingPing();
         OnExit();
     }
+
     private void OnPanel0()
     {
         ShowPing("Ping1");
     }
+
     private void OnPanel1()
     {
         ShowPing("Ping2");
     }
+
     private void OnPanel2()
     {
         ShowPing("Ping3");
     }
+
     private void OnPanel3()
     {
         ShowPing("Ping4");
     }
+
     private void OnPanel4()
     {
         ShowPing("Ping5");
@@ -84,10 +88,32 @@ public class UI_PingWheel : UI_Base
     public void TryShowHoveredPing()
     {
         Vector2 endPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
         Vector2 direction = endPos - _mousePosition;
-        
-        if (direction.magnitude < 1.5f)
+
+        // 마우스가 버튼 위에 있을시 실행
+        PointerEventData pointerData = new PointerEventData(EventSystem.current)
+        {
+            position = Input.mousePosition
+        };
+
+        List<RaycastResult> raycastResults = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerData, raycastResults);
+
+        foreach (RaycastResult result in raycastResults)
+        {
+            Button hoveredButton = result.gameObject.GetComponent<Button>();
+
+            if (hoveredButton != null)
+            {
+                hoveredButton.onClick.Invoke();
+                return;
+            }
+        }
+
+        // 마우스가 버튼 밖에 있을시 실행
+        // 화면 축소및 확대시 버그 존재. UI적으로 만드는게 편할지도
+        // 논의 필요.
+        if (direction.magnitude > 6f)
             return;
 
         direction.Normalize();

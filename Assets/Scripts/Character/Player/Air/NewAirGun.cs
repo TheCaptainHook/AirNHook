@@ -23,6 +23,7 @@ public class NewAirGun
     
     // TargetDetections
     private Transform _weaponPoint;
+    private Transform _inhalingPoint;
     private ParentConstraint _targetConstraint;
     private ConstraintSource _targetConstraintSource;
     private Collider2D _closestTarget = null;
@@ -102,6 +103,7 @@ public class NewAirGun
         _collider = _air.collider2D;
         _mainCamera = Camera.main;
         _weaponPoint = _air.weaponPoint;
+        _inhalingPoint = _air.InhalingPoint;
         _targetConstraintSource = new ConstraintSource
         {
             sourceTransform = _weaponPoint,
@@ -203,7 +205,7 @@ public class NewAirGun
 
         if (_delay)
         {
-            if (_delayTimer < 0.2f)
+            if (_delayTimer < 0.1f)
             {
                 StopInhale();
                 _isIhaleTargetOwned = false;
@@ -225,7 +227,7 @@ public class NewAirGun
         PlayInhaleParticle();
         _shakingEffectOnAirGun.StartShaking();
 
-        var collisions = Physics2D.OverlapCircleAll(_weaponPoint.position, _airGunDistance, _objectMask);
+        var collisions = Physics2D.OverlapCircleAll(_inhalingPoint.position, _airGunDistance, _objectMask);
 
         if (collisions.Length <= 1)
         {
@@ -249,7 +251,7 @@ public class NewAirGun
         {
             if (collision.Equals(_collider)) continue;
             
-            var targetDistance = Vector2.Distance(_weaponPoint.position, collision.transform.position);
+            var targetDistance = Vector2.Distance(_inhalingPoint.position, collision.transform.position);
             
             if (targetDistance > _shortestDistance) continue;
             
@@ -264,16 +266,16 @@ public class NewAirGun
             }
             else
             {
-                var objectVector = (collision.transform.position - _weaponPoint.position).normalized;
-                var weaponVector = _weaponPoint.transform.right;
+                var objectVector = (collision.transform.position - _inhalingPoint.position).normalized;
+                var weaponVector = _inhalingPoint.transform.right;
                 
                 var angle = Vector2.Angle(weaponVector, objectVector);
                 
-                if (angle > 45) continue;
+                if (angle > 47.5) continue;
                 
-                var hit = Physics2D.Raycast(_weaponPoint.position, objectVector, targetDistance, _obstacleMask);
+                var hit = Physics2D.Raycast(_inhalingPoint.position, objectVector, targetDistance, _obstacleMask);
                 
-                if (Vector2.Distance(_weaponPoint.position, hit.point) < targetDistance) continue;
+                if (Vector2.Distance(_inhalingPoint.position, hit.point) < targetDistance) continue;
                 
                 _closestTarget = collision;
                 _shortestDistance = targetDistance;
@@ -375,23 +377,6 @@ public class NewAirGun
         if (ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject)) return;
 
         Managers.Command.TryInhaleItem(_air.gameObject, _inhaleTarget.GetComponent<NetworkIdentity>().netId);
-
-        //if (_inhaleTarget.GetComponent<NetworkIdentity>().isOwned)
-        //{
-        //    _sendAuthority = false;
-        //    return;
-        //}
-        //
-        //if (_air.isServer && !_sendAuthority)
-        //{
-        //    _sendAuthority = true;
-        //    Managers.Command.AuthorityToServer(_inhaleTarget.GetComponent<NetworkIdentity>().netId);
-        //}
-        //else
-        //{
-        //    _sendAuthority = true;
-        //    Managers.Command.AuthorityToClient(_inhaleTarget.GetComponent<NetworkIdentity>().netId);
-        //}
     }
 
     private void GetPermissionForInhaling(GameObject permissionObject, bool value)
@@ -451,19 +436,12 @@ public class NewAirGun
         targetRigdbody.AddForce(direction * power * Time.fixedDeltaTime);
     }
 
-    //private void StopInhaleTarget()
-    //{
-    //    if (_inhaleTarget is null || !_inhaling || _canStick) return;
-    //
-    //    StopInhale();
-    //}
-
     private void StopInhale()
     {
         _inhaling = false;
         _inhalePermissionObject = null;
         _shakingEffectOnAirGun.StopShaking();
-        //StopInhaleParticle();
+
         if (_chargingCoroutine != null)
         {
             _air.StopCoroutine(_chargingCoroutine);
@@ -989,8 +967,10 @@ public class NewAirGun
         if (!_canControl || !_canAction) return;
         
         _animator.SetTrigger(GlobalText.EXHAILING_ANIMATION_STRING);
-        if (_isStick) FlyAway();
-        else ShootObject();
+        if (_isStick)
+            FlyAway();
+        else
+            ShootObject();
     }
 
     private void OnSubActionStarted(InputAction.CallbackContext context)

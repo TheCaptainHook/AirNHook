@@ -25,13 +25,13 @@ public class FallingState : BaseState
     public override void Update()
     {
         OnMove();
-
         if (!isGround && coyoteTimeCount < 0f) return;
 
         if (!stateMachine.canMovable || (!stateMachine.isJumping && !stateMachine.isJumpPerformed))
         {
             stateMachine.player.isDownThroughPlatform = false;
             stateMachine.ChangeState(stateMachine.horizontal != 0 ? stateMachine.WalkState : stateMachine.IdleState);
+            return;
         }
 
         if (stateMachine.isJumping || stateMachine.isJumpPerformed)

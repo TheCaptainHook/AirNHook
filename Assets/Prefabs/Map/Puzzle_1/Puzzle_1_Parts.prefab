@@ -588,7 +588,7 @@ MonoBehaviour:
   puzzleAnswer: 0
   index: 0
   lineRenderer: {fileID: 5731081128865216846}
-  _objectType: 0
+  _objectType: 2
   onSocket: 0
   insert_Item: {fileID: 0}
 --- !u!120 &5731081128865216846

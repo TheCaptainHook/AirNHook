@@ -10,8 +10,11 @@ public class PowerSupply : ButtonEntity,IInteractable
   
     [Space(20)]
     [Header("Interacte")]
-    public ObjectTypeEnum _objectType = ObjectTypeEnum.Interaction;
+    public ObjectTypeEnum _objectType = ObjectTypeEnum.Mount;
     [SerializeField] float _BtnOffset;
+    private BatteryInteractable battery;
+    private bool _isMounted;
+    private Vector2 _topOfObj = new Vector2(0, 1.2f);
     private UI_Base _E_Btn;
 
     #region  Network
@@ -314,17 +317,29 @@ public class PowerSupply : ButtonEntity,IInteractable
     #region  Interacable
     public void Interaction(Transform accessor = null)
     {
-        if (P_Net.battery)
-        {
-            if (_E_Btn != null) HideE();
-            P_Net.Cmd_SetBattery(null);
-        }
-            
-       
+        //if (P_Net.battery)
+        //{
+        //    if (_E_Btn != null) HideE();
+        //    P_Net.Cmd_SetBattery(null);
+        //}
+        if (!accessor.TryGetComponent<BatteryInteractable>(out var newbattery)) return;
+
+        battery = newbattery;
+        battery.Cmd_Release(transform.position,true);
+        battery.isMounted = true;
+        battery.Cmd_InsertPowerSupplySocket(GetComponent<NetworkIdentity>().netId);
+        HideEButton();
     }
 
-    public bool CanInteract(){
-        return true;
+    public bool CanInteract()
+    {
+        if (_isMounted)
+            return false;
+
+        if (Managers.Game.Player.TryGetComponent<HookSM>(out var hook) && hook.GetGrabbedItem() != null && hook.GetGrabbedItem().TryGetComponent<Battery>(out var battery))
+            return true;
+
+        return false;
     }
 
     public bool Interacting(bool value, GameObject player)
@@ -332,15 +347,21 @@ public class PowerSupply : ButtonEntity,IInteractable
         return true;
     }
 
-    public ObjectTypeEnum GetObjectType(){
+    public ObjectTypeEnum GetObjectType()
+    {
         return _objectType;
     }
 
-    public void ShowEButton(){
-        return;
+    public void ShowEButton()
+    {
+        _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
+        _E_Btn.transform.position = transform.position + (Vector3)_topOfObj;
     }
-    public void HideEButton(){
-       return;
+
+    public void HideEButton()
+    {
+        _E_Btn = null;
+        Managers.UI.HideUI<UI_ShowEButton>();
     }
 
     public void ShowE()
@@ -348,6 +369,7 @@ public class PowerSupply : ButtonEntity,IInteractable
         _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
         _E_Btn.transform.position = transform.position + (transform.up * _BtnOffset);
     }
+
     public void HideE()
     {
         if(_E_Btn != null) Managers.UI.HideUI<UI_ShowEButton>();

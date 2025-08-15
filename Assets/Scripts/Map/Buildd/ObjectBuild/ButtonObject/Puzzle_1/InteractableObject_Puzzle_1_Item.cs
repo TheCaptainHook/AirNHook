@@ -24,22 +24,23 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
 
     public override void Release(GameObject accessor)
     {
-        if (Main.parts != null)
-        {
-            //Connect Parts Cmd
-            base.Release(accessor);
-
-            var id = Main.parts.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 9999;
-            if(id != 9999)
-            {
-                Cmd_ConnectParts(id);
-            }
-        
-        }
-        else
-        {
-            base.Release(accessor);
-        }
+        //if (Main.parts != null)
+        //{
+        //    //Connect Parts Cmd
+        //    base.Release(accessor);
+        //
+        //    var id = Main.parts.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 9999;
+        //    if (id != 9999)
+        //    {
+        //        Cmd_ConnectParts(id);
+        //    }
+        //
+        //}
+        //else
+        //{
+        //    base.Release(accessor);
+        //}
+        base.Release(accessor);
     }
 
 
@@ -50,6 +51,7 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
     {
         Rpc_ConnectAndDisConnectParts(netId);    
     }
+
     [ClientRpc]
     private void Rpc_ConnectAndDisConnectParts(uint netId)
     {

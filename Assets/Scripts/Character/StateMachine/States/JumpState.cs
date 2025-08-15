@@ -4,6 +4,7 @@ public class JumpState : BaseState
 {
     private bool _isJumped = false;
     private LayerMask ceilingLayer;
+    private LayerMask halfPlatformLayer;
     private Transform playerTransform;
     private bool _oneCheck;
     private float _rayLength = 0.25f;
@@ -13,7 +14,8 @@ public class JumpState : BaseState
 
     public JumpState(StateMachine stateMachine) : base(stateMachine)
     {
-        ceilingLayer = stateMachine.player.playerData.floorLayerMask & ~(1 << stateMachine.player.halfPlatformLayer);
+        halfPlatformLayer = stateMachine.player.halfPlatformLayer;
+        ceilingLayer = stateMachine.player.playerData.floorLayerMask & ~(1 << halfPlatformLayer);
         playerTransform = stateMachine.player.transform;
     }
     
@@ -36,9 +38,12 @@ public class JumpState : BaseState
         OnMove();
         
         if(!_isJumped) return;
-        
-        if(stateMachine.rigidbody2D.velocity.y <= 0f)
+
+        if (stateMachine.rigidbody2D.velocity.y <= 0f)
+        {
             stateMachine.ChangeState(stateMachine.FallingState);
+            return;
+        }
     }
 
     public override void PhysicsUpdate()
@@ -103,7 +108,8 @@ public class JumpState : BaseState
             Vector2 rayOrigin = origin + new Vector2(offsetX, 0.9f);
 
             RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up, _rayLength, ceilingLayer);
-            rayHit[i] = hit.collider != null;
+            //rayHit[i] = hit.collider != null;
+            rayHit[i] = hit.collider != null && ((1 << hit.collider.gameObject.layer) & halfPlatformLayer.value) == 0;
         }
 
         if (rayHit[3]) return;
@@ -119,7 +125,7 @@ public class JumpState : BaseState
 
         if (leftHits > 0 && rightHits == 0)
         {
-            if (rigidbd.velocity.x < -0.05f || rigidbd.velocity.x >= 0.4f) return;
+            if (rigidbd.velocity.x <= -0.02f) return;
 
             float nudge = _baseNudgeAmount * leftHits + _nudgeAmount;
             playerTransform.position += new Vector3(nudge, 0f, 0f);
@@ -127,7 +133,7 @@ public class JumpState : BaseState
         }
         else if (rightHits > 0 && leftHits == 0)
         {
-            if (rigidbd.velocity.x > 0.05f || rigidbd.velocity.x <= -0.4f) return;
+            if (rigidbd.velocity.x >= 0.02f) return;
 
             float nudge = _baseNudgeAmount * rightHits + _nudgeAmount;
             playerTransform.position += new Vector3(-nudge, 0f, 0f);

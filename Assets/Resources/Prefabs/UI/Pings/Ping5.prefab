@@ -345,10 +345,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9118692346818604246}
-  - component: {fileID: 8282969065856261882}
   - component: {fileID: -9135071477508821325}
   - component: {fileID: -6912636919366129654}
-  - component: {fileID: -5758118829250671286}
+  - component: {fileID: 6469549598787679829}
   m_Layer: 0
   m_Name: Ping5
   m_TagString: Untagged
@@ -375,20 +374,6 @@ Transform:
   - {fileID: 9178394871312624895}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8282969065856261882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8902978029819753349}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f60f78c82e865b246ac016e134631f84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _mainFrame: {fileID: 8902978029819753349}
-  pingWheel_Item: {fileID: 0}
 --- !u!114 &-9135071477508821325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -418,7 +403,7 @@ SortingGroup:
   m_SortingLayer: 10
   m_SortingOrder: 7
   m_SortAtRoot: 1
---- !u!114 &-5758118829250671286
+--- !u!114 &6469549598787679829
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -427,8 +412,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8902978029819753349}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86a2b39d286fa43a189e173ca578116b, type: 3}
+  m_Script: {fileID: 11500000, guid: ae7f2577ffd2d6a4caf8ad98b07eb879, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainSprite: {fileID: 1087952804339419864}
-  pingPosition: {x: 0, y: 0}
+  _mainFrame: {fileID: 8902978029819753349}

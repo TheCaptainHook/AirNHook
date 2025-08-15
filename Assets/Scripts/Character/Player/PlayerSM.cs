@@ -18,6 +18,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     public bool invincible;
     [SyncVar] public bool isDead;
     [SyncVar] public bool doNotTouch;
+    protected bool isControlObj;
     [field: SerializeField] public Transform charPivot { get; private set; }
     [field: SerializeField] public List<SortingGroup> sortingGroup{ get; private set; }
     [field: SerializeField] public PlayerTalkingSprite talkingSprite { get; private set; }
@@ -26,6 +27,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     public float coyoteTimeCount;
     private bool _emoteOnCoolDown;
     private bool _pingOnCoolDown;
+    private int _pingCount;
     protected RaycastHit2D _hit;
     public bool isGround { get; protected set; }
     protected LayerMask _defaultForceReceiveLayer;
@@ -173,6 +175,9 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         {
             yield return null;
 
+            if (isControlObj)
+                continue;
+
             var collisions =
                 Physics2D.OverlapCircleAll(transform.position + offset, detectDistance, interactableLayerMask);
 
@@ -191,7 +196,14 @@ public class PlayerSM : NetworkBehaviour, IDamageable
             {
                 if (collision.TryGetComponent<IInteractable>(out var interactable) && !interactable.CanInteract()) continue;
 
-                if (interactable != null && interactable.GetObjectType() == ObjectTypeEnum.Grab) continue;
+                if (interactable != null)
+                {
+                    if (interactable.GetObjectType() == ObjectTypeEnum.Grab) continue;
+
+                    if (interactable.GetObjectType() == ObjectTypeEnum.Mount) continue;
+
+                    if (interactable.GetObjectType() == ObjectTypeEnum.AirGun) continue;
+                }
 
                 var pos = transform.position + offset;
                 var objectVector = (collision.transform.position - pos).normalized;
@@ -247,8 +259,12 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     protected virtual void Interaction()
     {
         if (latestTarget == null) return;
+
         if (!latestTarget.TryGetComponent<IInteractable>(out var interactable)) return;
-        if (interactable.GetObjectType() == ObjectTypeEnum.Grab) return;
+
+        if (interactable.GetObjectType() == ObjectTypeEnum.Control)
+            isControlObj = !isControlObj;
+
         interactable.Interaction(transform);
     }
     #endregion
@@ -475,14 +491,30 @@ public class PlayerSM : NetworkBehaviour, IDamageable
 
     public void UsingPing()
     {
-        _pingOnCoolDown = true;
-        StartCoroutine(PingCoolDown());
+        if (_pingCount > 4)
+        {
+            Debug.Log(_pingCount);
+            _pingOnCoolDown = true;
+            StartCoroutine(PingCoolDown());
+            return;
+        }
+
+        _pingCount++;
+        Debug.Log(_pingCount);
     }
 
     private IEnumerator PingCoolDown()
     {
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(2f);
         _pingOnCoolDown = false;
+    }
+
+    public void PingRemoved()
+    {
+        _pingCount--;
+        
+        if (_pingCount < 0)
+            _pingCount = 0;
     }
     #endregion
 

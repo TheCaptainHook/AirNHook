@@ -363,10 +363,28 @@ MonoBehaviour:
   _canGrab: 1
   _isDestroyed: 0
   _isGrab: 0
-  _offset: {x: 0, y: 1}
+  _offset: 0
+  _spriteRenderer: {fileID: 4684687439439529792}
   _inhalePower: 4000
   defaultGravity: 0
   onSync: 0
+  data:
+    id: 0
+    dialogueId: 0
+    position: {x: 0, y: 0}
+    quaternion: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 0, y: 0, z: 0}
+    talPot: {x: 0, y: 0}
+    size: {x: 0, y: 0}
+    text: 
+    fontSize: 0
+    chargeRequired: 0
+    animationTriggerType: 0
+    attackStartTime: 0
+    attackCooldown: 0
+    activeRequireAmount: 0
+    onEncapsulationItem: 0
+    indicator: 0
 --- !u!114 &5841928186188957514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -483,6 +501,7 @@ MonoBehaviour:
   col: {fileID: 0}
   rb: {fileID: 0}
   netRb: {fileID: 0}
+  startSync: 0
 --- !u!1773428102 &8098802773846804893
 ParentConstraint:
   m_ObjectHideFlags: 0
@@ -520,10 +539,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEncapsulationItem: 0
   activeRequirAmount: 0
+  indicator: 0
   curActiveRequirAmount: 0
   isCapsuling: 0
-  mainCol: {fileID: 0}
-  mainRb: {fileID: 0}
+  indicator_1: {fileID: 0}
+  indicator_2: {fileID: 0}
   obstacleLayerMask:
     serializedVersion: 2
     m_Bits: 0
