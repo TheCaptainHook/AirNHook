@@ -53,6 +53,7 @@ public static class GlobalText
     public const string COMPUTER_OFF_SOUND = "ComTurnOff";
     public const string ROBOT_SPEAK = "Beep";
     public const string PLAYER_SPEAK = "Meh";
+    public const string BUTTON_PRESS_SOUND_1 = "Button1";
     #endregion
 
     #region BGM

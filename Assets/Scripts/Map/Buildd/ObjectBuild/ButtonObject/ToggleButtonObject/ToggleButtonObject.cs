@@ -205,4 +205,10 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
     }
     #endregion
 
+    #region
+    public void OnSoundEvent()
+    {
+        Managers.Sound.PlaySound3D(GlobalText.BUTTON_PRESS_SOUND_1,transform.position,0.35f);
+    }
+    #endregion
 }
