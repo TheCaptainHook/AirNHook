@@ -399,11 +399,9 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
             {
                 Net.Cmd_DisConnect();
             }
-            else
-            {
-                if (accessor.TryGetComponent(out NetworkIdentity identity))
-                    Net.Cmd_Connection(identity.netId);
-            }
+
+            if (accessor.TryGetComponent(out NetworkIdentity identity))
+                Net.Cmd_Connection(identity.netId);
         }
         else
         {
