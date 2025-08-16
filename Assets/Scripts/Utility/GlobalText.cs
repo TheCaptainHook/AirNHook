@@ -54,6 +54,24 @@ public static class GlobalText
     public const string ROBOT_SPEAK = "Beep";
     public const string PLAYER_SPEAK = "Meh";
     public const string BUTTON_PRESS_SOUND_1 = "Button1";
+    public const string BUTTON_LEVER_SOUND_1 = "Lever1";
+    public const string DOOR_SOUND_1 = "Door1";
+    public const string DOOR_SOUND_2 = "Door2";
+    public const string DOOR_SOUND_3 = "Door3";
+    public const string DOOR_SOUND_4 = "Door4";
+    public const string SAW_SOUND_LOOP = "Saw_Loop";
+    public const string BUTTON_PRESS_SOUND_2 = "Press_Down";
+    public const string BUTTON_RELEASE_SOUND_1 = "Press_Up";
+    public const string DRONE_LASER_SOUND = "Drone_Laser";
+    public const string ALERT_SOUND = "Alert";
+    public const string ENERGY_UP_SOUND = "Energy_Up";
+    public const string ENERGY_HUMMING_SOUND = "Energy_Humming";
+    public const string ROCK_DESTROY_SOUND = "Rock_Destroy";
+    public const string ELECTRIC_SHOCK_SOUND = "Electric_Shock";
+    public const string HIT_SOUND = "Hit";
+    public const string CANNON_FIRE_SOUND = "Cannon_Fire";
+    public const string LOCKER_OPEN_SOUND = "Locker_Open";
+    public const string LOCKER_CLOSE_SOUND = "Locker_Close";
     #endregion
 
     #region BGM

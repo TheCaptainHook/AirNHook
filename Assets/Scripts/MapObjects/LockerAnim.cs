@@ -141,4 +141,14 @@ public class LockerAnim : NetworkBehaviour, IInteractable
     {
         Managers.UI.HideUI<UI_ShowEButton>();
     }
+
+    public void OnOpenEvent()
+    {
+        Managers.Sound.PlaySound3D(GlobalText.LOCKER_OPEN_SOUND, transform.position, 0.35f);
+    }
+
+    public void OnCloseEvent() 
+    {
+        Managers.Sound.PlaySound3D(GlobalText.LOCKER_CLOSE_SOUND, transform.position, 0.35f);
+    }
 }

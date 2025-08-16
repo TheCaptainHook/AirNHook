@@ -30,7 +30,7 @@ public class SawObject : BuildObj
         base.TurnOn();
         turnOff = false;
         animator.enabled = true;
-
+        Managers.Sound.PlaySound3D(GlobalText.SAW_SOUND_LOOP, transform.position, 0.35f, true);
     }
 
     public float addForcePower;

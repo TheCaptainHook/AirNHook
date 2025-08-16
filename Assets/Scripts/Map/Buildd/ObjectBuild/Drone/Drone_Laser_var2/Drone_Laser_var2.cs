@@ -131,7 +131,6 @@ public class Drone_Laser_var2 : DroneEntity
         Projectile_Plasma plasma = Managers.Pooling.D_GetItem(ammo).GetComponent<Projectile_Plasma>();
         plasma.Setting(LaserPoint.position, RandomDir(LaserPoint.right), gameObject);
         plasma.gameObject.SetActive(true);
-
         curAmmoCount++;
     }
 
@@ -144,7 +143,7 @@ public class Drone_Laser_var2 : DroneEntity
 
     private void State_Attack()
     {
-        if(!laserParts.isShotReady) laserParts.TrackingTarget();
+        if (!laserParts.isShotReady) laserParts.TrackingTarget();
         if(curAmmoCount>=maxAmmoCount)
         {
             onReloading = true;
@@ -166,6 +165,7 @@ public class Drone_Laser_var2 : DroneEntity
             Reloading();
 
         }
+        Managers.Sound.PlaySound3D(GlobalText.ALERT_SOUND, transform, 0.3f);
     }
     private void Reloading()
     {
