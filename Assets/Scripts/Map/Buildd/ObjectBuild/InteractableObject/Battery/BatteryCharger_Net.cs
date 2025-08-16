@@ -55,7 +55,6 @@ public class BatteryCharger_Net : NetworkBehaviour
 
         if (newBattery != null && !Compare(battery, newBattery))
         {
-            battery = newBattery;
             Rpc_Connect(newBattery);
             Charge(newBattery); //Only Server
         }
@@ -111,7 +110,9 @@ public class BatteryCharger_Net : NetworkBehaviour
             }
             SetParentConstraint(parentConstraint, transform);
         }
-        
+
+        battery = newBattery;
+
     }
 
     [ClientRpc]
