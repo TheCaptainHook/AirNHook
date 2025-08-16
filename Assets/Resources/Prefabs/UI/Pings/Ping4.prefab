@@ -348,6 +348,7 @@ GameObject:
   - component: {fileID: 379437631398547457}
   - component: {fileID: 9099023881108402638}
   - component: {fileID: 1133629556193137264}
+  - component: {fileID: -4919028644786426130}
   m_Layer: 0
   m_Name: Ping4
   m_TagString: Untagged
@@ -416,3 +417,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mainFrame: {fileID: 8902978029819753349}
+--- !u!114 &-4919028644786426130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8902978029819753349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86a2b39d286fa43a189e173ca578116b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pingPosition: {x: 0, y: 0}

@@ -8,9 +8,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 {
 
     private UI_Base _E_Btn;
-    private bool is_E_BtnEnabled;
-    //private bool _isMounted;
-    //private InteractableObject_Puzzle_1_Item _puzzleItem;
+
     private Vector2 _topOfObj = new Vector2(0, 1f);
     [SerializeField] float _BtnOffset;
 
@@ -61,11 +59,6 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     #endregion
 
     #region Insert,Remove Effect
-    //public void InsertSocket(GameObject item)
-    //{
-    //    Net.Cmd_SetSocketItem(item);
-    //}
-
 
     public void InsertAnimation(bool val)
     {
@@ -104,7 +97,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     }
     public bool CheckAnswer() //Server
     {
-        if (!onSocket)
+        if (!Net.onSocket)
         {
             WrongAnswer();
             return false;
@@ -154,14 +147,9 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     private void WrongAnswer()
     {
         Net.Cmd_RemoveEffect();
-        Net.Cmd_DisConnect();
+        Net.Cmd_DisConnect(true);
     }
     #endregion
-
-
-    public bool onSocket;
-
-    //private bool OnSocket => (Net.item) ? true : false;
 
     //private void OnTriggerEnter2D(Collider2D collider)
     //{
@@ -229,124 +217,10 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         return item._rb.velocity.magnitude >= condition_InsertBatteryChargerValue;
     }
 
-    
-    //private void OnTriggerExit2D(Collider2D collider)
-    //{
-    //    if (onSocket || Net.isCorrectAnswer) return;
 
-    //    if (collider.TryGetComponent(out HookSM component))
-    //    {
-    //        Transform grabItem = component.GetGrabbedItem();
-    //        if (grabItem != null)
-    //        {
-    //            if (grabItem.TryGetComponent(out Puzzle_1_Item item))
-    //            {
-    //                if (component.TryGetComponent(out NetworkIdentity identity))
-    //                {
-    //                    if (identity.isLocalPlayer)
-    //                    {
-    //                        HideE();
-    //                        item.ContectParts(null);
-    //                    }
-
-    //                }
-    //            }
-    //        }
-
-    //        //Net.Cmd_ShowE(component.gameObject, false);
-    //    }
-
-    //}
 
     public Puzzle_1_Item insert_Item;
-    public void Connect(Puzzle_1_Item item) //Rpc
-    {
-        if(onSocket)
-        {
-            DisConnect();
-        }
-
-        Debug.Log("Connect Item[Parts]");
-        //HideE();
-
-        var col = item.TryGetComponent(out Collider2D collider) ? collider : null; 
-        if(col != null) col.enabled = false;
-        var rb = item.TryGetComponent(out Rigidbody2D rigidbody) ? rigidbody : null;
-        if(rb != null)
-        {
-            rb.simulated = false;
-            rb.velocity = Vector3.zero;
-        }
-      
-        insert_Item = item;
-        if (item.TryGetComponent(out ParentConstraint parentConstraint))
-        {
-            if (parentConstraint.sourceCount > 0)
-            {
-                parentConstraint.RemoveSource(0);
-            }
-            SetParentConstraint(parentConstraint, transform);
-        }
-        InsertAnimation(true);
-        onSocket = true;
-
-        //col.enabled = false;
-        //col.enabled = true;
-    }
-
-
-    public void DisConnect() //Rpc
-    {
-        Debug.Log("DisConnect Item[Parts]");
-      
-        if (insert_Item.TryGetComponent(out ParentConstraint component))
-        {
-            if (component.sourceCount > 0)
-            {
-                component.RemoveSource(0);
-            }
-
-        }
-        InsertAnimation(false);
-
-        var col = insert_Item.TryGetComponent(out Collider2D collider) ? collider : null;
-        if (col != null) col.enabled = true;
-        var rb = insert_Item.TryGetComponent(out Rigidbody2D rigidbody) ? rigidbody : null;
-        if (rb != null)
-        {
-            rb.simulated = true;
-            rb.velocity = Vector3.zero;
-        }
-
-        insert_Item.RemoveSocketEffect();
-
-        insert_Item.parts = null;
-        insert_Item = null;
-        onSocket = false;
-    }
-
-
-
-
-    private void SetParentConstraint(ParentConstraint constraint, Transform parent)
-    {
-        ConstraintSource source = new ConstraintSource
-        {
-            sourceTransform = parent,
-            weight = 1
-        };
-        constraint.AddSource(source);
-
-        constraint.translationAtRest = transform.localPosition;
-        constraint.translationOffsets = new Vector3[constraint.sourceCount];
-        constraint.constraintActive = true;
-
-        constraint.locked = true;
-    }
-
-
-
-
+  
 
     #region UI
 
@@ -364,40 +238,18 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
 
 
-    public void ShowE()
-    {
-        _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
-        _E_Btn.transform.position = transform.position + (transform.up * _BtnOffset);
-    }
-    public void HideE()
-    {
-        if(_E_Btn != null) Managers.UI.HideUI<UI_ShowEButton>();
-        _E_Btn = null;
-        //Managers.UI.HideUI<UI_ShowEButton>();
-    }
-
 
     #endregion
 
     #region Interaction
 
-    //private bool IsCorrectAnswer => Net.isCorrectAnswer;
-    //public void Interaction(Transform accessor = null)
-    //{
-    //    if ( OnSocket && !IsCorrectAnswer)
-    //    {
-
-    //        Net.Cmd_SetSocketItem(null);
-    //    }
-    //}
-
     public void Interaction(Transform accessor = null)
     {
-        if(accessor != null)
+        if(accessor != null && !accessor.TryGetComponent(out AirSM air))
         {
-            if (onSocket)
+            if (Net.onSocket)
             {
-                Net.Cmd_DisConnect();
+                Net.Cmd_DisConnect(false);
             }
 
             if (accessor.TryGetComponent(out NetworkIdentity identity))
@@ -405,9 +257,9 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         }
         else
         {
-            if (onSocket)
+            if (Net.onSocket)
             {
-                Net.Cmd_DisConnect();
+                Net.Cmd_DisConnect(false);
             }
         }
       
@@ -416,7 +268,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     public bool CanInteract()
     {
         if (Hook_IsInteractionValid()) return true;
-
+        if(Air_IsInteractionValid()) return true;
 
         return false;
     }
@@ -427,7 +279,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
         if (hook.GetGrabbedItem() == null) 
         {
-            if (onSocket) return true;
+            if (Net.onSocket) return true;
             else return false;
         }
       
@@ -437,10 +289,14 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
             return false;
 
     }
-    //private bool Air_IsInteractionValid()
-    //{
+    private bool Air_IsInteractionValid()
+    {
+        var air = Managers.Game.Player.TryGetComponent(out AirSM component) ? component : null;
+        if (air == null) return false;
 
-    //}
+        if (Net.onSocket) return true;
+        else return false;
+    }
 
     public bool Interacting(bool value, GameObject player)
     {

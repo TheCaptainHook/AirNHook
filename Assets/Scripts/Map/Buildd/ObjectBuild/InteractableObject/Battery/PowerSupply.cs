@@ -12,8 +12,7 @@ public class PowerSupply : ButtonEntity,IInteractable
     [Header("Interacte")]
     public ObjectTypeEnum _objectType = ObjectTypeEnum.Mount;
     [SerializeField] float _BtnOffset;
-    // private BatteryInteractable battery;
-    // private bool _isMounted; 
+
     private Vector2 _topOfObj = new Vector2(0, 1.2f);
     private UI_Base _E_Btn;
 
@@ -304,16 +303,6 @@ public class PowerSupply : ButtonEntity,IInteractable
     
 #endregion
 
-
-#region  Network
-    public void SetBattery(GameObject battery) //only Server
-    {
-        P_Net.Server_SetBatter(battery);
-    }
-    #endregion
-
-
-
     #region  Interacable
     public void Interaction(Transform accessor = null)
     {
@@ -322,10 +311,7 @@ public class PowerSupply : ButtonEntity,IInteractable
         {
             if (accessor.TryGetComponent<BatteryInteractable>(out var newbattery))
             {
-                // battery = newbattery;
-                newbattery.Cmd_Release(transform.position, true);
-                // battery.isMounted = true;
-                // battery.Cmd_InsertPowerSupplySocket(GetComponent<NetworkIdentity>().netId);
+                // newbattery.Cmd_Release(transform.position, true);
                 P_Net.Cmd_SetBattery(newbattery.TryGetComponent<NetworkIdentity>(out var identity) ? identity.netId : 9999);
                 Debug.Log("Set Battery");
                 HideEButton();
@@ -334,7 +320,7 @@ public class PowerSupply : ButtonEntity,IInteractable
         }
         else //P_Net.battery != null
         {
-            if (P_Net.battery != null)
+            if (P_Net._onSocket)
             {
                 Debug.Log("Remove Socket battery");
                 P_Net.Cmd_SetBattery(9999);
@@ -362,7 +348,7 @@ public class PowerSupply : ButtonEntity,IInteractable
         if (hook.GetGrabbedItem() == null)
         {
             Debug.Log("Hook grabbed item is null");
-            if (P_Net.battery == null) return false;
+            if (!P_Net._onSocket) return false;
             else return true;
         }
         else
@@ -381,7 +367,7 @@ public class PowerSupply : ButtonEntity,IInteractable
     private bool Air_IsInteractionValid() //
     {
         var air = Managers.Game.Player.TryGetComponent(out AirSM component) ? component : null;
-        if (air == null || P_Net.battery == null) return false;
+        if (air == null || !P_Net._onSocket) return false;
 
         Debug.Log("AirSM is valid for interaction");
         return true;
@@ -409,21 +395,6 @@ public class PowerSupply : ButtonEntity,IInteractable
         Managers.UI.HideUI<UI_ShowEButton>();
     }
 
-    // public void ShowE()
-    // {
-    //     _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
-    //     _E_Btn.transform.position = transform.position + (transform.up * _BtnOffset);
-    // }
-
-    // public void HideE()
-    // {
-    //     if(_E_Btn != null) Managers.UI.HideUI<UI_ShowEButton>();
-
-    //     _E_Btn = null;
-        
-    // }
-    
-    
 
 #endregion
 

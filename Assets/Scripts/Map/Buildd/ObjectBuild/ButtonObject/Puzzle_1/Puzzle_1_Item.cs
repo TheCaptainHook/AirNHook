@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(InteractableObject_Puzzle_1_Item))]
-public class Puzzle_1_Item : BuildObj,IDamageable
+public class Puzzle_1_Item : BuildObj,IDamageable,IRemoveSocketEffect
 {
 
     [Header("Puzzle")]
@@ -66,10 +66,25 @@ public class Puzzle_1_Item : BuildObj,IDamageable
     private float forceStrength = 7f;
     private float forceDefault = 3f;
     private float horizontalVariation = 1f;
-    public void RemoveSocketEffect(bool Power = false)
+    // public void RemoveSocketEffect(bool Power = false)
+    // {
+    //     float xForce = Random.Range(-horizontalVariation, horizontalVariation);
+    //     if (Power)
+    //     {
+    //         rb.AddForce(new Vector2(xForce, forceStrength), ForceMode2D.Impulse);
+    //     }
+    //     else
+    //     {
+    //         rb.AddForce(new Vector2(xForce, forceDefault), ForceMode2D.Impulse);
+    //     }
+
+       
+    // }
+
+    public void RemoveSocketEffect(bool power = false)
     {
         float xForce = Random.Range(-horizontalVariation, horizontalVariation);
-        if (Power)
+        if (power)
         {
             rb.AddForce(new Vector2(xForce, forceStrength), ForceMode2D.Impulse);
         }
@@ -78,7 +93,6 @@ public class Puzzle_1_Item : BuildObj,IDamageable
             rb.AddForce(new Vector2(xForce, forceDefault), ForceMode2D.Impulse);
         }
 
-       
     }
     #endregion
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using System;
 using Unity.VisualScripting;
+using UnityEngine.Animations;
 
 public class PowerSupply_Net : NetworkBehaviour
 {
@@ -92,75 +93,160 @@ public class PowerSupply_Net : NetworkBehaviour
     #region Insert Battery
 
     [SyncVar] public float consumption;
-    [SyncVar] public GameObject battery;
-  
+    private GameObject battery;
+    public bool _onSocket = false;
+
     Coroutine supplyCoroutine;
-    [Server]    // insert battery and Use.
-    public void Server_SetBatter(GameObject battery)
+
+    [Command(requiresAuthority = false)]
+    public void Cmd_SetBattery(uint battery_id)
     {
-        // 새 배터리가 없거나, 기존 배터리와 같다면 return
-        // if (this.battery != null && !Compare(this.battery, battery))
-        if (!Compare(this.battery, battery))
+        var item = NetworkServer.spawned.TryGetValue(battery_id, out NetworkIdentity identity) ? identity.gameObject : null;
+        Server_SetBatter(item);
+    }
+
+    [Server]    // insert battery and Use.
+    public void Server_SetBatter(GameObject newBattery)
+    {
+        if (!Compare(battery, newBattery))
         {
-            if (supplyCoroutine != null)
-            {
-                StopCoroutine(supplyCoroutine);
-                supplyCoroutine = null;
-            }
-
-            if (this.battery != null)
-            {
-                PowerSupply.Net_Deactivated();
-                Rpc_OnSupplyEffect(false);
-                this.battery.GetComponent<BatteryInteractable>().Cmd_Recover();
-            }
-            this.battery = battery;
-            
+            Server_Connect(newBattery);
         }
-
-        if (battery == null) return;
-
-        this.battery = battery;
-
-        // 1. Check battery capacity and Compare consumption    
-        if (Check_BatteryCapacity())
-        {
-            //Use Battery
-            Supply();
-            Rpc_OnSupplyEffect(true);
-            PowerSupply.Net_Activation();
-        }
-        else
-        {
-            //Cant use battery.
-            Debug.Log("The battery doesn’t have much energy left");
-        }
-        
-
-
     }
 
 
-    private bool Check_BatteryCapacity()
+    private bool Check_BatteryCapacity(GameObject battery)
     {
         float capacity = battery.GetComponent<BatteryInteractable>().batteryCapacity;
         return capacity > consumption;
     }
 
-    // [Command(requiresAuthority = false)]
-    // public void Cmd_SetBattery(GameObject battery)
-    // {
-    //     Server_SetBatter(battery);
-    // }
-    [Command(requiresAuthority = false)]
-    public void Cmd_SetBattery(uint battery_id)
-    {
-        var item = NetworkServer.spawned.TryGetValue(battery_id, out NetworkIdentity identity) ? identity.gameObject : null;
+    //----------------------------------------Refectoring 0714
 
-        Server_SetBatter(item);
+    #region  Connect
+    [Server]
+    private void Server_Connect(GameObject newBattery)
+    {
+        if (battery != null)
+        {
+            Server_DisConnect();
+        }
+        
+        if (newBattery == null)
+        {
+            Debug.Log("Null Battery");
+        }
+        else
+        {
+            Rpc_Connect(newBattery);
+            if (Check_BatteryCapacity(newBattery))
+            {
+                //Use Battery
+                Rpc_OnSupplyEffect(true);
+                Supply(newBattery);
+                PowerSupply.Net_Activation();
+            }
+            else
+            {
+                //Cant use battery.
+                Debug.Log("The battery doesn’t have much energy left");
+            }
+
+        }
+    }
+    [ClientRpc]
+    private void Rpc_Connect(GameObject item)
+    {
+        if (item == null) return;
+
+        var col = item.TryGetComponent(out Collider2D collider) ? collider : null;
+        if (col != null) col.enabled = false;
+        var rb = item.TryGetComponent(out Rigidbody2D rigidbody) ? rigidbody : null;
+        if (rb != null)
+        {
+            rb.simulated = false;
+            rb.velocity = Vector3.zero;
+        }
+
+        if (item.TryGetComponent(out ParentConstraint parentConstraint))
+        {
+            if (parentConstraint.sourceCount > 0)
+            {
+                parentConstraint.RemoveSource(0);
+            }
+            SetParentConstraint(parentConstraint, transform);
+        }
+        _onSocket = true;
+        battery = item;
     }
 
-    //----------------------------------------Refectoring 0714
+    private void SetParentConstraint(ParentConstraint constraint, Transform parent)
+    {
+        ConstraintSource source = new ConstraintSource
+        {
+            sourceTransform = parent,
+            weight = 1
+        };
+        constraint.AddSource(source);
+
+        constraint.translationAtRest = transform.localPosition;
+        constraint.translationOffsets = new Vector3[constraint.sourceCount];
+        constraint.constraintActive = true;
+
+        constraint.locked = true;
+        
+    }
+
+    #endregion
+    #region  Disconnect
+    [Server]
+    private void Server_DisConnect()
+    {
+        if (supplyCoroutine != null)
+        {
+            StopCoroutine(supplyCoroutine);
+            supplyCoroutine = null;
+        }
+        PowerSupply.Net_Deactivated();
+        Rpc_OnSupplyEffect(false);
+        Rpc_DisConnect();
+    }
+
+    [ClientRpc]
+    private void Rpc_DisConnect()
+    {
+        if (battery == null) return;
+
+        if (battery.TryGetComponent(out ParentConstraint component))
+        {
+            if (component.sourceCount > 0)
+            {
+                component.RemoveSource(0);
+            }
+        }
+
+        var col = battery.TryGetComponent(out Collider2D collider) ? collider : null;
+        if (col != null) col.enabled = true;
+        var rb = battery.TryGetComponent(out Rigidbody2D rigidbody) ? rigidbody : null;
+        if (rb != null)
+        {
+            rb.simulated = true;
+            rb.velocity = Vector3.zero;
+        }
+
+        if (battery.TryGetComponent(out BatteryInteractable net))
+        {
+            net.Recover();
+            net.RemoveSocketEffect();
+
+            _onSocket = false;
+            battery = null;
+        }
+       
+    }
+    #endregion
+
+
 
     #region Draw,Eraser
     private List<PowerSupply_DrawLineUtility> pdu_List;
@@ -206,20 +292,19 @@ public class PowerSupply_Net : NetworkBehaviour
     }
   
     #endregion
-    private void Supply()//only server
+    private void Supply(GameObject item)//only server
     {
         if (supplyCoroutine != null)
         {
             StopCoroutine(supplyCoroutine);
         } 
-       supplyCoroutine = StartCoroutine(SupplyCo());
+       supplyCoroutine = StartCoroutine(SupplyCo(item));
     }
     
 
-    IEnumerator SupplyCo() //only server
+    IEnumerator SupplyCo(GameObject item) //only server
     {
-        Debug.Log("Supply co");
-        BatteryInteractable battery = this.battery.GetComponent<BatteryInteractable>();
+        BatteryInteractable battery = item.GetComponent<BatteryInteractable>();
 
         while(battery.batteryCapacity >0)
         {
@@ -229,7 +314,6 @@ public class PowerSupply_Net : NetworkBehaviour
         }
 
         supplyCoroutine = null;
-
         PowerSupply.Net_Deactivated();
         Rpc_OnSupplyEffect(false);
 
@@ -250,32 +334,12 @@ public class PowerSupply_Net : NetworkBehaviour
         // PowerSupply.LineOn(onOff);
         if (onOff) DrawLine();
         else EraseLine();
-        
+
     }
 
     #endregion
 
 
-
-
-    #region  UI
-    // [Command(requiresAuthority = false)]
-    // public void Cmd_ShowE(GameObject player, bool onOff)
-    // {
-    //     if(player.TryGetComponent(out NetworkIdentity component))
-    //     {
-    //         TRpc_ShowE(component.connectionToClient,onOff);
-    //     }
-    // }
-    // [TargetRpc]
-    // private void TRpc_ShowE(NetworkConnection conn,bool onOff)
-    // {
-    //     if(onOff) PowerSupply.ShowE();
-    //     else PowerSupply.HideE();
-    // }
-    #endregion
-
-   
 
     IEnumerator Delay(Action action)
     {

@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class PingWheel_Item_Marker : MonoBehaviour
 {
-
     private PlayerCameraView playerCameraView;
     private PlayerCameraView PCV
     {
@@ -39,14 +38,10 @@ public class PingWheel_Item_Marker : MonoBehaviour
         if (Check_ViewPort(pingPosition))
         {
             transform.position = pingPosition;
-            if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
-            fadeCoroutine = StartCoroutine(FadeScale(true));
         }
         else
         {
             SetPingItem();
-            if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
-            fadeCoroutine = StartCoroutine(FadeScale(false));
         }
     }
 
