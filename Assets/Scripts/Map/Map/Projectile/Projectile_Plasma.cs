@@ -15,6 +15,7 @@ public class Projectile_Plasma : ProjectileEntity
     {
         //transform.position = hitPoint;
         particle.Play();
+        Managers.Sound.PlaySound3D(GlobalText.DRONE_LASER_SOUND, transform.position, 0.5f);
     }
     public override void Reset()
     {

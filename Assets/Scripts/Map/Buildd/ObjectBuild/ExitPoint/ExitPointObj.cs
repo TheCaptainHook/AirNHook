@@ -90,6 +90,7 @@ public class ExitPointObj : BuildObj
         if(collision.TryGetComponent(out Key component)){
             if(NetworkServer.active)
             ExitPoint_Net.Server_GetKey(component.GetComponent<NetworkIdentity>().netId);
+            Managers.Sound.PlaySound3D(GlobalText.KEY_SOUND, transform.position, 0.45f);
         }
         
         if(collision.gameObject.TryGetComponent(out PlayerSM _) && MapEditor.Instance.stageClear && NetworkServer.active)
