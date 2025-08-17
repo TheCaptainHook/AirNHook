@@ -104,7 +104,8 @@ public class MovingPlatform :  ActivatableObjectEntity
             return true;
         }
         dir = GetMovePosition();
-        transform.position += (Vector3)dir;
+        _rb.position += dir;
+        //_rb.MovePosition(_rb.position + dir);
 
         return false;
     }

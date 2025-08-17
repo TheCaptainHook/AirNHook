@@ -19,14 +19,14 @@ public class PoolingManager
 
 
     #region  Default Pooling
-    public GameObject D_GetItem(GameObject obj) 
+    public GameObject D_GetItem(GameObject prefab) 
     {
-        if(!D_Dic.ContainsKey(obj.name))
+        if(!D_Dic.ContainsKey(prefab.name))
         {
-            D_Dic[obj.name] = new D_Pooling(obj,CreateTransform(obj)); 
+            D_Dic[prefab.name] = new D_Pooling(prefab, CreateParentTransform(prefab)); 
         }
 
-        D_Pooling pooling = D_Dic[obj.name] as D_Pooling;
+        D_Pooling pooling = D_Dic[prefab.name] as D_Pooling;
         return pooling.GetItem();
     }
     public void D_ReleaseToPool(GameObject obj)
@@ -101,10 +101,12 @@ public class PoolingManager
     #endregion
 
 
-    private Transform CreateTransform(GameObject obj){
+    private Transform CreateParentTransform(GameObject obj)
+    {
         GameObject Ob = new GameObject(obj.name);
         Ob.transform.SetParent(Managers.Instance.gameObject.transform);
         return Ob.transform;
+
     }
     private Transform CreateTransform<T>()
     {
@@ -123,37 +125,42 @@ public class PoolingManager
 #region Default
 public class D_Pooling
 {
-    GameObject obj;
+    GameObject prefab;
     Transform parents;
     Queue<GameObject> queue;
-    public D_Pooling(GameObject obj,Transform parents){
-        this.obj = obj;
+    public D_Pooling(GameObject prefab, Transform parents)
+    {
+        this.prefab = prefab;
         this.parents = parents;
         queue = new();
     }
 
-    public GameObject GetItem(){
-        if(IsEmpty()){
+    public GameObject GetItem()
+    {
+        if (IsEmpty())
+        {
             Create();
         }
         return queue.Dequeue();
     }
-    private void Create(int amount = 5){
-        for(int i =0;i<amount;i++){
-            GameObject obj = Object.Instantiate(this.obj);
-            obj.name = this.obj.name;
-            obj.SetActive(false);
-            obj.transform.SetParent(parents);
-            queue.Enqueue(obj);
-        }
+    private void Create()
+    {
+        GameObject obj = Object.Instantiate(this.prefab);
+        obj.name = this.prefab.name;
+        obj.SetActive(false);
+        obj.transform.SetParent(parents);
+        queue.Enqueue(obj);
     }
-    public void Enqueue(GameObject obj){
+
+    public void Enqueue(GameObject obj)
+    {
         obj.transform.SetParent(parents);
         obj.SetActive(false);
         queue.Enqueue(obj);
     }
-    public bool IsEmpty(){
-         return queue.Count == 0;
+    public bool IsEmpty()
+    {
+        return queue.Count == 0;
     }
 
 }

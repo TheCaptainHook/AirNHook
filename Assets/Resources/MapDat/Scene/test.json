@@ -6104,6 +6104,42 @@
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
             "indicator": 0
+        },
+        {
+            "id": 364,
+            "dialogueId": 0,
+            "position": {
+                "x": -36.7599983215332,
+                "y": -26.889999389648439
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         }
     ],
     "mapBackgroundObjectList": [],
@@ -7673,60 +7709,6 @@
             }
         },
         {
-            "id": 333,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
-            "position": {
-                "x": -46.95000076293945,
-                "y": -33.5099983215332
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0065391818061470989,
-                "w": 0.9999786615371704
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [
-                {
-                    "x": -46.95000076293945,
-                    "y": -25.790000915527345
-                }
-            ],
-            "moveSpeed": 5.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
             "id": 322,
             "activeRequirAmount": 0,
             "chargeRequired": false,
@@ -8412,6 +8394,109 @@
                 {
                     "x": -35.29999923706055,
                     "y": -50.0
+                }
+            ],
+            "moveSpeed": 1.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 334,
+            "activeRequirAmount": 0,
+            "chargeRequired": false,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
+            "position": {
+                "x": -48.0099983215332,
+                "y": -30.639999389648439
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 10.0,
+            "moveDistance": 18.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 333,
+            "activeRequirAmount": 0,
+            "chargeRequired": false,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
+            "position": {
+                "x": -49.83000183105469,
+                "y": -29.1200008392334
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [
+                {
+                    "x": -42.529998779296878,
+                    "y": -29.1200008392334
                 }
             ],
             "moveSpeed": 1.0,

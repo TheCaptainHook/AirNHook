@@ -12,25 +12,37 @@ public class TransformMover : NetworkBehaviour
 
     [Space(20)]
     [ReadOnly]
-    public MovingPlatform movingPlatform;
-
-    NetworkIdentity identity;
-    NetworkIdentity Identity { get { identity ??= GetComponent<NetworkIdentity>(); return identity; } }
+    public WDMP_Net _wdmp_Net;
 
 
     [SerializeField] LayerMask movingPlatformLayer;
-    [SerializeField] Vector3 layOffset;
+    //[SerializeField] Vector3 layOffset;
 
-    public Collider2D col;
-    public Rigidbody2D rb;
-    public NetworkRigidbodyUnreliable2D netRb;
+    //Refs
+    private Collider2D col;
+    private Rigidbody2D rb;
+    private NetworkRigidbodyUnreliable2D netRb;
+    //Platform Detect
+    [SerializeField] LayerMask movingPlatformMask = 1 << 15;
+    [SerializeField] float skin = 0.2f;
+    private RaycastHit2D[] _hits = new RaycastHit2D[2];
+    private ContactFilter2D _filter;
 
+    [SyncVar] public uint _platformId; // 입/퇴장 시점 공유용(옵션)
+    private MovingPlatform _platform;
+ 
     private void Awake()
     {
-        movingPlatformLayer = 1 << 15;
         col =GetComponent<Collider2D>();    
         rb= GetComponent<Rigidbody2D>();
         netRb = GetComponent<NetworkRigidbodyUnreliable2D>();
+
+        _filter = new ContactFilter2D
+        {
+            useLayerMask = true,
+            layerMask = movingPlatformMask,
+            useTriggers = true
+        };
     }
 
     RaycastHit2D hit;
@@ -42,61 +54,104 @@ public class TransformMover : NetworkBehaviour
 
     private uint preMpId;
 
-    private void FixedUpdate()
+    //-----0813
+    void FixedUpdate()
     {
-        // Vector3 offset = new Vector3(0, col.bounds.extents.y, 0);
-        float offset = col.bounds.extents.y + 0.2f;
+        // 권한 없는 쪽은 직접 위치 보정하지 않음 (클라 권한식 가정)
+        if (!isOwned) return;
 
-        // hit = Physics2D.Raycast(transform.position - offset + layOffset, -Vector2.up, 0.6f, movingPlatformLayer);
-        hit = Physics2D.Raycast(col.bounds.center, Vector2.down,offset, movingPlatformLayer);
-#if UNITY_EDITOR
-        Debug.DrawRay(col.bounds.center,-Vector2.up * offset, Color.green);
-#endif
-        if (hit.collider != null)
+        float dist = col.bounds.extents.y + skin;
+        int count = Physics2D.Raycast(col.bounds.center, Vector2.down, _filter, _hits, dist);
+
+        if (count > 0 && _hits[0].collider && _hits[0].collider.TryGetComponent(out MovingPlatform mp))
         {
-           if (hit.collider.TryGetComponent(out MovingPlatform component))
-           {
-               if(!startSync)
-               {
-                  if(isServer)
-                   {
-                       Rpc_MovingPlatformNetRbEnable(GetNetId(component.GetComponent<NetworkIdentity>()),true);
-                   }
-               }
+            if (_platform != mp)
+            {
+                _platform = mp;
+      
+                if (mp.TryGetComponent(out NetworkIdentity identity))
+                {
+                    Cmd_SetPlatform(identity.netId);
+                }
+             
+            }
 
-               rb.position += component.dir;
-           }
-
-
-        }else
-        {
-           if (startSync)
-           {
-             if(isServer)
-              {
-                   Rpc_MovingPlatformNetRbEnable(preMpId, false);
-               }
-           }
+            rb.position += mp.dir;
         }
-
+        else
+        {
+            if (_platform != null)
+            {
+                // 플랫폼에서 내려옴
+                _platform = null;
+                Cmd_SetPlatform(9999);
+            }
+        }
     }
+
+    [Command(requiresAuthority = true)]
+    void Cmd_SetPlatform(uint platformId)
+    {
+        _platformId = platformId;
+    }
+
+    //-----0813
+
+    //    private void FixedUpdate()
+    //    {
+    //        // Vector3 offset = new Vector3(0, col.bounds.extents.y, 0);
+    //        float offset = col.bounds.extents.y + 0.2f;
+
+    //        // hit = Physics2D.Raycast(transform.position - offset + layOffset, -Vector2.up, 0.6f, movingPlatformLayer);
+    //        hit = Physics2D.Raycast(col.bounds.center, Vector2.down,offset, movingPlatformLayer);
+    //#if UNITY_EDITOR
+    //        Debug.DrawRay(col.bounds.center,-Vector2.up * offset, Color.green);
+    //#endif
+    //        if (hit.collider != null)
+    //        {
+    //           if (hit.collider.TryGetComponent(out MovingPlatform component))
+    //           {
+    //               if(!startSync)
+    //               {
+    //                  if(isServer)
+    //                   {
+    //                       Rpc_MovingPlatformNetRbEnable(GetNetId(component.GetComponent<NetworkIdentity>()),true);
+    //                   }
+    //               }
+
+    //               rb.position += component.dir;
+    //           }
+
+
+    //        }else
+    //        {
+    //           if (startSync)
+    //           {
+    //             if(isServer)
+    //              {
+    //                   Rpc_MovingPlatformNetRbEnable(preMpId, false);
+    //               }
+    //           }
+    //        }
+
+    //    }
     private uint GetNetId(NetworkIdentity identity)
     {
         return identity.netId;
     }
-    [ClientRpc]
-    private void Rpc_MovingPlatformNetRbEnable(uint id,bool onoff)
-    {
-        var item = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity identity) ? identity : null;
-        if (item != null)
-        {
-            var mp = item.GetComponent<MovingPlatform>();
-            preMpId = onoff ? id : 9999;
-            startSync = onoff;
-            mp.netRb.enabled = onoff;
-        }
+    //[ClientRpc]
+    //private void Rpc_MovingPlatformNetRbEnable(uint id,bool onoff)
+    //{
+    //    var item = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity identity) ? identity : null;
+    //    if (item != null)
+    //    {
+    //        var mp = item.GetComponent<MovingPlatform>();
+    //        preMpId = onoff ? id : 9999;
+    //        startSync = onoff;
+    //        mp.netRb.enabled = onoff;
+    //    }
        
-    }
+    //}
 
     private bool ClientToServer()
     {
@@ -106,41 +161,41 @@ public class TransformMover : NetworkBehaviour
 
 
 
-    #region Set Transform Network
-    [Command(requiresAuthority = false)]
-    private void Cmd_SetTransform(uint platformID,Vector2 position)
-    {
-        Rpc_SetTransform(platformID,position);
-    }
+    //#region Set Transform Network
+    //[Command(requiresAuthority = false)]
+    //private void Cmd_SetTransform(uint platformID,Vector2 position)
+    //{
+    //    Rpc_SetTransform(platformID,position);
+    //}
 
     
 
-    [ClientRpc]
-    private void Rpc_SetTransform( uint platformID,Vector2 position)
-    {
-        var platform = NetworkClient.spawned.TryGetValue(platformID, out NetworkIdentity platform_identity) ? platform_identity : null;
+    //[ClientRpc]
+    //private void Rpc_SetTransform( uint platformID,Vector2 position)
+    //{
+    //    var platform = NetworkClient.spawned.TryGetValue(platformID, out NetworkIdentity platform_identity) ? platform_identity : null;
 
-        if (platform == null)
-        {
-            movingPlatform = null;
-        }
-        else
-        {
-            movingPlatform = platform.gameObject.TryGetComponent(out MovingPlatform component) ? component : null;
+    //    if (platform == null)
+    //    {
+    //        movingPlatform = null;
+    //    }
+    //    else
+    //    {
+    //        movingPlatform = platform.gameObject.TryGetComponent(out MovingPlatform component) ? component : null;
 
-            //--------Sync using ping
-                //if(!identity.isOwned)
-                //{
-                //    float ping = Managers.UI.GetUI<UI_PingAlways>().GetComponent<UI_PingAlways>().ping;
-                //    transform.position +=  (Vector3)movingPlatform.dir* (ping / 20);
-                //    Debug.Log(ping / 20);
-                //}
-            //--------Sync using ping
-        }
+    //        //--------Sync using ping
+    //            //if(!identity.isOwned)
+    //            //{
+    //            //    float ping = Managers.UI.GetUI<UI_PingAlways>().GetComponent<UI_PingAlways>().ping;
+    //            //    transform.position +=  (Vector3)movingPlatform.dir* (ping / 20);
+    //            //    Debug.Log(ping / 20);
+    //            //}
+    //        //--------Sync using ping
+    //    }
 
-    }
+    //}
  
-    #endregion
+    //#endregion
 
 
 

@@ -26,64 +26,101 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     private (int leftCount, int rightCount) leftAndRightCounts;
     [ReadOnly]
     public float weightResult = 0;
-    private float sendMsgRate = 0.05f;
+    private float sendMsgRate = 0.1f;
     private float curSendMsgRate = 1;
 
     public float CurRotation => Rb.rotation;
     private void Update()
     {
-        //------------------Recover Position,[Server]
-        RecoverPosition(); //onPositionRecover
-        RecoverTilt();
-        //------------------Recover Position
-
         if (onActive)
         {
             //------------------[All Client]
-            leftAndRightCounts = GetHitLeftAndRightCount();
+
             //------------------[All Client]
 
-            if (isServer) Server_MainLogic(leftAndRightCounts);
+            if (isServer)
+            {
+                //------------------Recover Position,[Server]
+                RecoverPosition(); //onPositionRecover
+                RecoverTilt();
+
+                //------------------Recover Position
+
+                leftAndRightCounts = GetHitLeftAndRightCount();
+
+                if (leftAndRightCounts.leftCount > 0 || leftAndRightCounts.rightCount > 0)
+                {
+                    Server_MainLogic(leftAndRightCounts);
+                }
+                
+            }
+            
   
 
         }
 
     }
 
-    public void Server_MainLogic((int leftCount,int rightCount) leftAndRightCounts)     //------------------[Server]
+    public void Server_MainLogic((int leftCount, int rightCount) leftAndRightCounts)     //------------------[Server]
     {
-        if (leftAndRightCounts.leftCount > 0 || leftAndRightCounts.rightCount > 0)
-        {  
-            curRecoveryPositionRate = 0;
-            curRecoveryTiltRate = 0;
+        curRecoveryPositionRate = 0;
+        curRecoveryTiltRate = 0;
 
-            curSendMsgRate += Time.deltaTime;
-            weightResult += GetWeight(leftAndRightCounts);
-            if (curSendMsgRate > sendMsgRate)
-            {
-                Rpc_SendWeight(weightResult,Rb.rotation,transform.position);
-                curSendMsgRate = 0;
-                weightResult = 0;
-            }
+        curSendMsgRate += Time.deltaTime;
+        weightResult += GetWeight(leftAndRightCounts);
+        if (curSendMsgRate > sendMsgRate)
+        {
+            SendWeight(weightResult, Rb.rotation, transform.position);
+            curSendMsgRate = 0;
+            weightResult = 0;
         }
+        
     }
     float targetTilt;
     Coroutine tiltCoroutine;
     Coroutine tiltMoveCoroutine;
 
     [ReadOnly]
+    [SyncVar]
     public Vector2 moveDir = Vector2.zero;
 
     [ReadOnly]
+    [SyncVar]
     public float step;
 
-    [ClientRpc]
-    private void Rpc_SendWeight(float weight,float curRot,Vector2 position)
+    // [ClientRpc]
+    // private void Rpc_SendWeight(float weight,float curRot,Vector2 position)
+    // {
+    //     CancelRecover();
+
+    //     Rb.rotation = curRot;
+    //     transform.position = position;
+
+    //     targetTilt = GetTargetTilt(weight);
+
+    //     if (weight > 0) Ani_Left();
+    //     else if (weight < 0) Ani_Right();
+
+
+    //     if (tiltCoroutine == null)
+    //     {
+    //         tiltCoroutine = StartCoroutine(TiltCo());
+    //     }
+
+    //     if (data.moveDistance == 0) return;
+
+    //     if (tiltMoveCoroutine == null)
+    //     {
+    //         tiltMoveCoroutine = StartCoroutine(TiltMoveCo());
+    //     }
+    // }
+
+    private void SendWeight(float weight,float curRot,Vector2 position)
     {
         CancelRecover();
 
         Rb.rotation = curRot;
-        transform.position = position;
+        Rb.position = position;
 
         targetTilt = GetTargetTilt(weight);
 
@@ -103,6 +140,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
             tiltMoveCoroutine = StartCoroutine(TiltMoveCo());
         }
     }
+
     [ReadOnly]
     public float tiltRate;
     private float tiltSpeed = 2;
@@ -120,14 +158,15 @@ public class WDMP_Net : ActivatableObject_Net_Entity
         Rb.rotation = targetTilt;
         tiltCoroutine = null;
     }
+ 
     IEnumerator TiltMoveCo()
     {
         while (Mathf.Abs(Rb.rotation) >0)
         {
-            var target = transform.position + (Vector3)moveDir * step;
+            var target = Rb.position + moveDir * step;
             target.x = Mathf.Clamp(target.x, minDis_Clamp, maxDis_Clamp);
 
-            transform.position = target;
+            Rb.position = target;
 
             yield return null;
         }
@@ -220,19 +259,24 @@ public class WDMP_Net : ActivatableObject_Net_Entity
             {
                 onRecoverPosition = true;
                 //Recover
-                Rpc_RecoverPosition(transform.position);
+                RecoverPosition(transform.position);
             }
         }
     }
 
-    [ClientRpc]
-    private void Rpc_RecoverPosition(Vector2 startPosition)
+    // [ClientRpc]
+    // private void Rpc_RecoverPosition(Vector2 startPosition)
+    // {
+    //     CancelTilt();
+    //     transform.position = startPosition;
+    //     recoveryPositionCoroutine = StartCoroutine(RecoverPosition_Co());
+    // }
+    private void RecoverPosition(Vector2 startPosition)
     {
         CancelTilt();
         transform.position = startPosition;
         recoveryPositionCoroutine = StartCoroutine(RecoverPosition_Co());
     }
-   
     IEnumerator RecoverPosition_Co()
     {
         Vector2 dir = ((Vector3)data.position - transform.position).normalized;
@@ -259,12 +303,20 @@ public class WDMP_Net : ActivatableObject_Net_Entity
         if (curRecoveryTiltRate >= recoveryTiltRate)
         {
             onRecoverTilt = true;
-            Rpc_RecoverTilt(Rb.rotation);
+            RecoverTilt(Rb.rotation);
         }
 
     }
-    [ClientRpc]
-    private void Rpc_RecoverTilt(float curRot)
+    // [ClientRpc]
+    // private void Rpc_RecoverTilt(float curRot)
+    // {
+    //     CancelTilt();
+    //     Ani_ShutDown();
+    //     Rb.rotation = curRot;
+    //     recoveryTiltCoroutine = StartCoroutine(RecoverTilt_Co());
+    // }
+    
+    private void RecoverTilt(float curRot)
     {
         CancelTilt();
         Ani_ShutDown();
@@ -318,11 +370,11 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     }
     protected override void Active()
     {
-
+        Debug.Log("WDMP_Net Active");
     }
     protected override void Deactive()
     {
-        
+        Debug.Log("WDMP_Net Deactive");
     }
 
     [ReadOnly]
@@ -332,7 +384,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     [ReadOnly]
     public Vector2 targetPosition;
    
-    protected override void SetData(ButtonActivatableObjectStruct data)
+    protected override void SetData(ButtonActivatableObjectStruct data) //all client
     {
         base.SetData(data);
 
@@ -342,7 +394,6 @@ public class WDMP_Net : ActivatableObject_Net_Entity
         targetPosition = items.target == Vector2.zero ? data.position : items.target;
 
         CreateRail(data.position, targetPosition);
-
         shotRayLength = Col.bounds.extents.x;
     }
 

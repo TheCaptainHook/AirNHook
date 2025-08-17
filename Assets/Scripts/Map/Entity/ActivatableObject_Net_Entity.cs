@@ -163,7 +163,7 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
 
     #region  Indicator
     [ClientRpc]
-    public virtual void ApplyActive_Sync_var1(int curActiveAmount) //server
+    public virtual void ApplyActive_Sync_var1(int curActiveAmount)
     {
         indicator_var1.SetApplyActive(curActiveAmount);
     }
@@ -171,7 +171,7 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
     /// <param name="id">Network ID</param>
     /// <param name="inc">[-1] : deactive, [1] : active </param>
     [ClientRpc]
-    public virtual void ApplyActive_Sync_var2(uint id, int curActiveBtn,int inc) //server
+    public virtual void ApplyActive_Sync_var2(uint id, int curActiveBtn,int inc) 
     {
         indicator_var2.SetApplyActive(id, curActiveBtn ,inc);
     }
