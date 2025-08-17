@@ -302,7 +302,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
         line.transform.SetParent(linePoolingContainer);
 
         //Line Visual
-        line.startWidth = 0.7f;
+        line.startWidth = 0.1f;
         line.material = new Material(Shader.Find("Sprites/Default"));
         line.startColor = Color.green;
         line.endColor = Color.green;
