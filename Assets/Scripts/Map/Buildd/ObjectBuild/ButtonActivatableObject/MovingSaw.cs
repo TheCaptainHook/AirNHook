@@ -27,6 +27,11 @@ public class MovingSaw : DroneEntity
         }
     }
 
+    private void Awake()
+    {
+        Managers.Sound.PlaySound3D(GlobalText.SAW_SOUND_LOOP, transform, 0.35f, true, true);
+    }
+
     private Vector2 GetTargetDir(Collider2D target)
     {
         return (target.transform.position - transform.position).normalized;
