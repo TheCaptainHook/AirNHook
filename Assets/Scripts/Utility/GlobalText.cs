@@ -59,6 +59,7 @@ public static class GlobalText
     public const string DOOR_SOUND_2 = "Door2";
     public const string DOOR_SOUND_3 = "Door3";
     public const string DOOR_SOUND_4 = "Door4";
+    public const string DOOR_SOUND_5 = "Door5";
     public const string SAW_SOUND_LOOP = "Saw_Loop";
     public const string BUTTON_PRESS_SOUND_2 = "Press_Down";
     public const string BUTTON_RELEASE_SOUND_1 = "Press_Up";
@@ -72,6 +73,7 @@ public static class GlobalText
     public const string CANNON_FIRE_SOUND = "Cannon_Fire";
     public const string LOCKER_OPEN_SOUND = "Locker_Open";
     public const string LOCKER_CLOSE_SOUND = "Locker_Close";
+    public const string KEY_SOUND = "KeyPing";
     #endregion
 
     #region BGM

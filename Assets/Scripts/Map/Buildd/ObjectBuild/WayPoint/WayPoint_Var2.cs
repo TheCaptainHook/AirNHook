@@ -91,7 +91,7 @@ public class WayPoint_Var2 : BuildObj
 
     private void Active()
     {
-        Managers.Sound.PlaySound3D(GlobalText.DOOR_SOUND_1, transform.position, 0.25f);
+        Managers.Sound.PlaySound3D(GlobalText.DOOR_SOUND_5, transform.position, 0.45f);
         if (StartPoint.onSpawn) StartPoint.EnableNetWorkStartPosition();
         //other StartWayPoint Deactive
         foreach(var point in OtherWayPointList){

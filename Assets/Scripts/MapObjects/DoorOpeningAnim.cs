@@ -84,7 +84,7 @@ public class DoorOpeningAnim : NetworkBehaviour
 
     public void UnlockingSoundEvent()
     {
-        Managers.Sound.PlaySound3D(GlobalText.DOOR_SOUND_1, transform.position, 0.2f);
+        Managers.Sound.PlaySound3D(GlobalText.DOOR_SOUND_1, transform.position, 0.45f);
     }
 
     #region Network
