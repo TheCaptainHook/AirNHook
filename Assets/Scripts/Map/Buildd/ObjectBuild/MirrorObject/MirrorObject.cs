@@ -90,6 +90,7 @@ public class MirrorObject : BuildObj,IInteractable
                 curRot = 0;
                 curCendMessageRate = 0;
             }
+
             if (Input.GetKeyUp(KeyCode.D))
             {
                 _AorD_Btn.DButtonPress(false);

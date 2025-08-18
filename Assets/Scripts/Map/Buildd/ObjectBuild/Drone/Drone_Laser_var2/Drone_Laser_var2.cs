@@ -130,7 +130,7 @@ public class Drone_Laser_var2 : DroneEntity
     {
         Projectile_Plasma plasma = Managers.Pooling.D_GetItem(ammo).GetComponent<Projectile_Plasma>();
         plasma.Setting(LaserPoint.position, RandomDir(LaserPoint.right), gameObject);
-        plasma.gameObject.SetActive(true);
+        // plasma.gameObject.SetActive(true);
         curAmmoCount++;
     }
 
@@ -140,7 +140,7 @@ public class Drone_Laser_var2 : DroneEntity
         float randomRange = Random.Range(-10,10);
         return Quaternion.Euler(0,0,randomRange) * dir;
     }
-
+// Managers.Sound.PlaySound3D(GlobalText.ALERT_SOUND, transform, 0.3f);
     private void State_Attack()
     {
         if (!laserParts.isShotReady) laserParts.TrackingTarget();
@@ -165,7 +165,6 @@ public class Drone_Laser_var2 : DroneEntity
             Reloading();
 
         }
-        Managers.Sound.PlaySound3D(GlobalText.ALERT_SOUND, transform, 0.3f);
     }
     private void Reloading()
     {

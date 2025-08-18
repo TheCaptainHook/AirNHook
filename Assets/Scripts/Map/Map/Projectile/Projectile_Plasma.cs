@@ -15,7 +15,15 @@ public class Projectile_Plasma : ProjectileEntity
     {
         //transform.position = hitPoint;
         particle.Play();
+    }
+    
+    protected override void ShootSound()
+    {
         Managers.Sound.PlaySound3D(GlobalText.DRONE_LASER_SOUND, transform.position, 0.5f);
+    }
+    protected override void HitSound()
+    {
+        
     }
     public override void Reset()
     {
@@ -40,6 +48,7 @@ public class Projectile_Plasma : ProjectileEntity
         _collider.enabled = false;
         rb.isKinematic = true;
         rb.velocity = Vector2.zero;
+        HitSound();
     }
 
    
@@ -62,6 +71,7 @@ public class Projectile_Plasma : ProjectileEntity
             {
                 if (Random.Range(0, 100) > 20) return;
 
+                ShootSound();
                 Vector2 refrection = Vector2.Reflect(transform.right, hit.normal);
 
                 float randomAngle = Random.Range(-10f, 10f);

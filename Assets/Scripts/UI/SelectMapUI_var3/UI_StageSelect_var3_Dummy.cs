@@ -392,7 +392,7 @@ public class UI_StageSelect_var3_Dummy: UI_Base
         onInteractable = false;
         nextWriteTextLineIndex = 0;
         
-        Managers.Sound.PlaySound(GlobalText.COMPUTER_ON_SOUND, 0.5f);
+        // Managers.Sound.PlaySound(GlobalText.COMPUTER_ON_SOUND, 0.5f);
         List<string> sentenceList = util.SplitText(openningSentence, maxHorizontaText, new char[] { ',' });
         
         for (int i = 0; i < sentenceList.Count; i++)

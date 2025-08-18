@@ -171,16 +171,21 @@ public class UI_Dialogue : UI_Base
         onProgress = false;
         DialogueShutDown();
     }
+    public PlayerInputAction.PlayerActions playerActions => Managers.Game.playerInput.playerActions;
+    public PlayerInputAction.UIActions uiActions => Managers.Game.playerInput.uiActions;
 
     private void StartInit()
     {
-          _Panel.color = _Alpha_translucent;
-    
+        _Panel.color = _Alpha_translucent;
+
         //------------------------------------player Move control
         var player = Managers.Game.Player.GetComponent<PlayerSM>();
         player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-         Managers.Game.Player.GetComponent<PlayerSM>().canMovable = false;
+        Managers.Game.Player.GetComponent<PlayerSM>().canMovable = false;
         Managers.Game.Player.GetComponent<PlayerSM>().canAction = false;
+
+        playerActions.Disable();
+        uiActions.Disable();
 
         //------------------------------------player Move control
 
@@ -208,6 +213,9 @@ public class UI_Dialogue : UI_Base
         var player = Managers.Game.Player.GetComponent<PlayerSM>();
         if(!player.canMovable) player.canMovable = true;
         if (!player.canAction) player.canAction = true;
+
+        playerActions.Enable();
+        uiActions.Enable();
         //------------------------------------player Move control
         Managers.UI.HideUI<UI_Dialogue>();
     }

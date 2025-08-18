@@ -7,6 +7,15 @@ public class Projectile_Shell : ProjectileEntity
     private Light2D Light=> GetComponent<Light2D>();
 
 
+    protected override void ShootSound()
+    {
+        Managers.Sound.PlaySound3D(GlobalText.CANNON_FIRE_SOUND, transform.position, 0.25f);
+    }
+    protected override void HitSound()
+    {
+        
+    }
+    
     public override void Reset()
     {
         base.Reset();

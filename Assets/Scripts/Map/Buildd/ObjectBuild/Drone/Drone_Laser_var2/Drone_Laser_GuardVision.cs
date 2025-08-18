@@ -129,7 +129,7 @@ public class Drone_Laser_GuardVision : MonoBehaviour
         bool d = Vector2.Distance(main.transform.position, target) <= attackRange;
         Vector2 toTarget = (target - (Vector2)main.transform.position).normalized;
         float a = Vector2.SignedAngle(Vector2.right, toTarget);
-        bool aa = a < 5 && a > -160;
+        bool aa = a < 10 && a > -170;
         return (d, aa);
     }
 

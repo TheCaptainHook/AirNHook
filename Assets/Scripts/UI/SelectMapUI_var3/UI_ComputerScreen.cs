@@ -43,13 +43,13 @@ public class UI_ComputerScreen : UI_Base
 
 
     //TestCode 0807
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            SetData("Tutorial_1");
-        }
-    }
+    // private void Update()
+    // {
+    //     if (Input.GetKeyDown(KeyCode.P))
+    //     {
+    //         SetData("Tutorial_1");
+    //     }
+    // }
 
     public void TurnOff()
     {

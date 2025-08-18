@@ -115,16 +115,20 @@ public class Computer_Net : NetworkBehaviour
     }
     #endregion
 
+    public PlayerInputAction.PlayerActions playerActions => Managers.Game.playerInput.playerActions;
+    public PlayerInputAction.UIActions uiActions => Managers.Game.playerInput.uiActions;
+
     [Server]
     public void Server_SetOnPower()
     {
         if (isOpen) return;
         isOpen = true;
-//------------------------------------player Move control
+        //------------------------------------player Move control
         var player = Managers.Game.Player.GetComponent<PlayerSM>();
         player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         player.canMovable = false;
         player.canAction = false;
+        player.canControl = false;
         player.doNotTouch = true;
         //------------------------------------player Move control
 
@@ -135,6 +139,13 @@ public class Computer_Net : NetworkBehaviour
     [Server]
     public void Server_SetIsOpen(bool val)
     {
+        if (!val)
+        {
+            playerActions.Enable();
+            uiActions.Enable();    
+        } 
+
+
         isOpen = val;
     }
    
@@ -142,14 +153,17 @@ public class Computer_Net : NetworkBehaviour
     [ClientRpc]
     private void Rpc_ShowUi()
     {
-        if (!isServer )
+        if (!isServer)
         {
             ShowDummy();
         }
         else
         {
+            playerActions.Disable();
+            uiActions.Disable();
+
             ShowMain(true);
-            ShowDummy();
+            ShowDummy();            
         }
 
     }

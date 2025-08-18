@@ -63,8 +63,6 @@ public static class GlobalText
     public const string SAW_SOUND_LOOP = "Saw_Loop";
     public const string BUTTON_PRESS_SOUND_2 = "Press_Down";
     public const string BUTTON_RELEASE_SOUND_1 = "Press_Up";
-    public const string DRONE_LASER_SOUND = "Drone_Laser";
-    public const string ALERT_SOUND = "Alert";
     public const string ENERGY_UP_SOUND = "Energy_Up";
     public const string ENERGY_HUMMING_SOUND = "Energy_Humming";
     public const string ROCK_DESTROY_SOUND = "Rock_Destroy";
@@ -74,6 +72,13 @@ public static class GlobalText
     public const string LOCKER_OPEN_SOUND = "Locker_Open";
     public const string LOCKER_CLOSE_SOUND = "Locker_Close";
     public const string KEY_SOUND = "KeyPing";
+
+    //Drone
+    public const string DRONE_LASER_SOUND = "Drone_Laser";
+    public const string ALERT_SOUND = "Alert";
+    //Computer
+    public const string COMPUTER_SELECTMENU_SOUND_1 = "KeyClick";
+    public const string COMPUTER_SELECTMENU_SOUND_2 = "ComputerButton";
     #endregion
 
     #region BGM

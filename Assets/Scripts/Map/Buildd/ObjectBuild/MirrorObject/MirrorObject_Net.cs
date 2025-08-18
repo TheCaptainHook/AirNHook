@@ -232,13 +232,11 @@ public class MirrorObject_Net : NetworkBehaviour
 
         onActive = true;
         var pm = player.GetComponent<PlayerSM>();
-        pm.canAction = false;
-        //Show A,D button
 
-        //Show A,D button
+        pm.canAction = false;
+        pm.canMovable = false;
 
         Connection(player);
-        pm.canMovable = false;
 
         player.GetComponent<PlayerSM>().deathEvent += Event_Recover;
 
@@ -275,9 +273,6 @@ public class MirrorObject_Net : NetworkBehaviour
 
         var pm = innerPlayer.GetComponent<PlayerSM>();
         pm.canAction = true;
-        //Hide A,D button
-
-        //Hide A,D button
 
         Disconnection(innerPlayer);
         pm.canMovable = true;
@@ -285,7 +280,6 @@ public class MirrorObject_Net : NetworkBehaviour
         innerPlayer.GetComponent<PlayerSM>().deathEvent -= Event_Recover;
 
         Cmd_InnerPlayer(9999);
-
         Cmd_Reset();
        
     }
@@ -301,19 +295,11 @@ public class MirrorObject_Net : NetworkBehaviour
     {
         Col.enabled = false;
         Col.enabled = true;
-
-        //  if (setRotCoroutine != null)
-        // {
-        //     StopCoroutine(setRotCoroutine);
-        //     setRotCoroutine = null;
-        // }
         targetZ = 0;
     }
 
     private void Event_Recover()
     {
-        //Disconnection(innerPlayer);
-        //Cmd_InnerPlayer(9999);
         Recover();
     }
 

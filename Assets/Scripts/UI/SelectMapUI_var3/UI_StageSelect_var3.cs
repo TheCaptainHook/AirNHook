@@ -1,10 +1,12 @@
 using Mirror;
+using Mono.CecilX.Cil;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 
 enum PrograssLevel
@@ -224,7 +226,6 @@ public class UI_StageSelect_var3: UI_Base,IPointerEnterHandler,IPointerExitHandl
 
     public void Reset()
     {
-        // Computer_Net net = computer.GetComponent<Computer_Net>();
         Net.Server_ReadyAllClientReset();
     }
     public override void OnEnable()
@@ -233,7 +234,7 @@ public class UI_StageSelect_var3: UI_Base,IPointerEnterHandler,IPointerExitHandl
     }
 
     bool onReady;
-    public void StartUi(uint computerId)
+    public void StartUi(uint computerId) //Serve
     {
         if (NetworkClient.spawned.TryGetValue(computerId, out NetworkIdentity foundObject))
         {
@@ -290,7 +291,10 @@ public class UI_StageSelect_var3: UI_Base,IPointerEnterHandler,IPointerExitHandl
                     BackPrograss();
                     break;
                 }
-               
+                //Select Sound
+                Managers.Sound.PlaySound(GlobalText.COMPUTER_SELECTMENU_SOUND_1);
+                //Select Sound
+
                 switch (_PrograssLevel)
                 {
                     case PrograssLevel.One:
@@ -746,10 +750,16 @@ public class UI_StageSelect_var3: UI_Base,IPointerEnterHandler,IPointerExitHandl
                 Shutdown();
                 break;
             case PrograssLevel.Two:
+               
+                Managers.Sound.PlaySound(GlobalText.COMPUTER_SELECTMENU_SOUND_1);
+                
                 textLineList[pathTextLineIndex].WriteText("", localColor);
                 StartCoroutine(WriteTextLineCo_Title(titleSentence));
                 break;
             case PrograssLevel.Three:
+                
+                Managers.Sound.PlaySound(GlobalText.COMPUTER_SELECTMENU_SOUND_1);
+
                 mapInfo_UI.Reset();
                 string[] sentences = GetSplitSentenceAndLaststring();
                 string newPath = $"/{sentences[1]}";
@@ -785,6 +795,7 @@ public class UI_StageSelect_var3: UI_Base,IPointerEnterHandler,IPointerExitHandl
         player.canMovable = true;
         player.canAction = true;
         player.doNotTouch = false;
+        player.canControl = true;
         //------------------------------------player Move control
 
         yield return new WaitForSeconds(1f);

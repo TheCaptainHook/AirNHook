@@ -275,7 +275,7 @@ public class SoundManager
             time += Time.deltaTime;
 
 
-            if (obj is not null)
+            if (obj != null)
             {
                 audioSource.transform.position = obj.position;
                 continue;

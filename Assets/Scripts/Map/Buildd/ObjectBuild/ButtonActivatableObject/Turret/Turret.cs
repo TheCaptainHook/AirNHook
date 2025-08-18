@@ -72,7 +72,6 @@ public class Turret : ActivatableObjectEntity
     public void Fire_Effect()
     {
         fireEffect.Play();
-        Managers.Sound.PlaySound3D(GlobalText.CANNON_FIRE_SOUND, transform.position, 0.25f);
     }
 
 
