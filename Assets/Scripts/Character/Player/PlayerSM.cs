@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Character.StateMachine.States;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -295,8 +296,9 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         HandleDeathCameraEffects(damageType);
         // 플레이어 죽었을 때 처리
         Managers.AcManager.CallPlayerDeath();
-        
-       
+
+        PlayDeathSound(damageType);
+        CmdPlayDeathSound(damageType);
     }
 
     public void CallPlayerDeathEvent()
@@ -342,10 +344,12 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     
     public virtual void Respawning()
     {
-        rigidbody2D.velocity = Vector2.zero; 
+        rigidbody2D.velocity = Vector2.zero;
         transform.position = Managers.Network.startPos[0].position;
         animator.SetTrigger(animationData.RespawningParameterHash);
         Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.DeathVignette(false);
+        PlayRespawnSound();
+        CmdPlayRespawnSound();
     }
     
     public void RespawnEnd()
@@ -358,8 +362,44 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         rigidbody2D.freezeRotation = true;
         stateMachine.Initialize();
     }
+
+    private void PlayDeathSound(DamageType damageType)
+    {
+        if (!GlobalText.DeathSoundDictionary.TryGetValue(damageType, out var sound)) return;
+
+        Managers.Sound.PlaySound3D(sound, transform.position);
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdPlayDeathSound(DamageType damageType)
+    {
+        RpcPlayDeathSound(damageType);
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcPlayDeathSound(DamageType damageType)
+    {
+        PlayDeathSound(damageType);
+    }
+
+    private void PlayRespawnSound()
+    {
+        Managers.Sound.PlaySound3D(GlobalText.PLAYER_RESURRECT, transform.position);
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdPlayRespawnSound()
+    {
+        RpcPlayRespawnSound();
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcPlayRespawnSound()
+    {
+        PlayRespawnSound();
+    }
     #endregion
-    
+
     #region Emote
     private void ShowEmoteWheel()
     {
