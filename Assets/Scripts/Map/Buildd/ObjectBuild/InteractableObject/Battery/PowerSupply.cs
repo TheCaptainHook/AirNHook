@@ -70,9 +70,10 @@ public class PowerSupply : ButtonEntity,IInteractable
 
             uints.Add(id);
         }
+        //Consum
         int consum = targetObjects.Count + lightObjects.Count;
         P_Net.consumption = consum;
-
+        //Consum
 
         P_Net.Rpc_SetTargetObject(uints);
 

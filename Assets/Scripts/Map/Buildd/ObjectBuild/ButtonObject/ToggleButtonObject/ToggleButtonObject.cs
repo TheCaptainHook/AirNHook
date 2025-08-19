@@ -37,6 +37,10 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
         get { return ToggleButton_Net.hasPower > 0 ? true : false; }
         set { ToggleButton_Net.Cmd_SetHasPower(value); }
     }
+    public int GetConsumption()
+    {
+        return 1;
+    }
     public void PowerOn()
     {
         Debug.Log("Power");

@@ -13,6 +13,7 @@ public interface IPowerConsumer
         4.	Define IPowerConsumer, Refer to 'ToggleButtonObject' as an example.
         5.  network sync 'chargeRequired', 'hasPower' field 
     **/
+    public int GetConsumption();
     public bool hasPower{get; set;}
    public void PowerOn();
    public void PowerOff();

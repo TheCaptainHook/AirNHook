@@ -33,7 +33,10 @@ public class LightObjectEntity : BuildObj,IPowerConsumer
             L_Net.Server_SetHasPower(value);
         }
     }
-    
+    public int GetConsumption()
+    {
+        return 1;
+    }
     public virtual void PowerOn()
     {
         if(hasPower) return;
@@ -55,7 +58,7 @@ public class LightObjectEntity : BuildObj,IPowerConsumer
     }
     #endregion
 
-
+ 
     #region  Get,Set
     public override T GetData<T>()
     {

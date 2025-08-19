@@ -15,6 +15,8 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
         net = GetComponent<TeslaNodeRod_Net>();
     }
 
+  
+
     #region Get,Set
     public override async void SetData<T>(T data)
     {
@@ -109,6 +111,10 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
         get { return net.hasPower > 0 ? true : false; }
         //set { net.Cmd_SetHasPower(value); }
         set { net.Server_SetHasPower(value); }
+    }
+    public int GetConsumption()
+    {
+        return 1;
     }
     public void PowerOn() //only server
     {
