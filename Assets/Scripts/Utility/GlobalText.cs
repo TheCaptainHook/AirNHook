@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public static class GlobalText
 {
     #region Animation String
@@ -72,6 +74,8 @@ public static class GlobalText
     public const string LOCKER_OPEN_SOUND = "Locker_Open";
     public const string LOCKER_CLOSE_SOUND = "Locker_Close";
     public const string KEY_SOUND = "KeyPing";
+    public const string PLAYER_RESURRECT = "Resurrect";
+    public const string UI_PING = "Ping";
 
     //Drone
     public const string DRONE_LASER_SOUND = "Drone_Laser";
@@ -79,6 +83,22 @@ public static class GlobalText
     //Computer
     public const string COMPUTER_SELECTMENU_SOUND_1 = "KeyClick";
     public const string COMPUTER_SELECTMENU_SOUND_2 = "ComputerButton";
+
+    #endregion
+
+    #region Death Sound
+    public const string PLAYER_DEATH = "Splat";
+    public const string PLAYER_SUICIDE_EXPLOSION = "Explosion";
+
+    public static readonly IReadOnlyDictionary<DamageType, string> DeathSoundDictionary =
+        new Dictionary<DamageType, string>
+        {
+            { DamageType.Default, PLAYER_DEATH },
+            { DamageType.Fire, PLAYER_DEATH },
+            { DamageType.Boom, PLAYER_SUICIDE_EXPLOSION },
+            { DamageType.Electric, PLAYER_DEATH },
+            { DamageType.Suicide, PLAYER_SUICIDE_EXPLOSION }
+        };
     #endregion
 
     #region BGM
