@@ -27,35 +27,37 @@ public class UI_EndingCredits : UI_Base
     #endregion
     string testText =
     @"
-/bGAME TITLE
-My Awesome Game
+/bAir&Hook
 
 /bDIRECTOR
-John Doe
+Junha Kim
 
 /bPROGRAMMING
 Jane Smith
 Mike Johnson
 
-/bART & DESIGN
-Emily Davis
-Alex Kim
+/bART&DESIGN
+Junha Kim
 
-/bMUSIC
-Kevin Brown
+/bSOUND
+Junha Kim
 
-/bAssets & Tools Used
-“Fantasy GUI Pack” by XYZ Studio (Unity Asset Store)
-“Pixel Adventure Sprite Pack” by ABC Artist (Itch.io)
-Background Music: “Epic Journey” by MusicMan (Licensed)
-Sound Effects from freesound.org (CC-BY 3.0)
-Font: “Nanum Gothic” by Naver Corporation (OFL License)
+/bMUSIC By
+Danya Vodovoz 
+(www.youtube.com/@DanyaVodovoz)
+- High NRG
 
-/bSPECIAL THANKS
-All Our Players!
+Karl Casey @ White Bat Audio
+- Last Stop
+- Hackers
+- Legend
+- Race Against Sunset
+
+Lukrembo 
+- Onion
 
 /bCOPYRIGHT
-© 2025 Your Studio. All rights reserved.
+© 2025 Team CaptainHook. All rights reserved.
 ";
 
     public override void OnEnable()
@@ -88,7 +90,7 @@ All Our Players!
             TextMeshProUGUI textMesh = new GameObject("CreditLine", typeof(TextMeshProUGUI)).GetComponent<TextMeshProUGUI>();
             textMesh.transform.SetParent(content, false);
             textMesh.font = _font;
-            textMesh.color = Color.black;
+            textMesh.color = Color.white;
             if (line.StartsWith("/b"))
             {
                 textMesh.fontStyle = FontStyles.Bold;
