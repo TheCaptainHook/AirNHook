@@ -1,12 +1,8 @@
 using Steamworks;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
+
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
@@ -22,9 +18,13 @@ public class UI_Bug_Report : UI_Base
     [SerializeField] Button exitBtn;
     #endregion
 
+    PlayerInputAction.PlayerActions playerInputAction => Managers.Game.playerInput.playerActions;
+    PlayerInputAction.UIActions uIActions => Managers.Game.playerInput.uiActions;
+
     public override void OnEnable()
     {
-       
+        playerInputAction.Disable();
+        uIActions.Disable();
     }
 
 
@@ -37,6 +37,9 @@ public class UI_Bug_Report : UI_Base
     {
         inputField.text = "";
         base.CloseUI();
+
+        playerInputAction.Enable();
+        uIActions.Enable();
     }
 
 

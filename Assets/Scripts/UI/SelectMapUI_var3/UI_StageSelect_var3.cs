@@ -1,12 +1,10 @@
 using Mirror;
-using Mono.CecilX.Cil;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 
 
 enum PrograssLevel
