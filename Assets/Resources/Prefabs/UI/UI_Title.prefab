@@ -876,7 +876,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 4209582791185028553}
+        - m_Target: {fileID: 8560787507665840098}
           m_TargetAssemblyTypeName: EmoteImageControl, Assembly-CSharp
           m_MethodName: OnMouseEnter
           m_Mode: 1
@@ -892,7 +892,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 4209582791185028553}
+        - m_Target: {fileID: 8560787507665840098}
           m_TargetAssemblyTypeName: EmoteImageControl, Assembly-CSharp
           m_MethodName: OnMouseExit
           m_Mode: 1
