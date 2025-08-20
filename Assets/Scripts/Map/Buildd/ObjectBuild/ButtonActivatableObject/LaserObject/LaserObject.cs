@@ -83,9 +83,6 @@ public class LaserObject : ActivatableObjectEntity
                 }
                 else if (rh.collider.gameObject.layer == LayerMask.NameToLayer("Mirror"))
                 {
-                    //start = rh.point+dir*0.05f;
-                    //dir = Vector2.Reflect(ray.direction, colDir).normalized;
-
                     if (rh.distance < 0.001f || Vector2.Distance(start, rh.point) < 0.01f)
                     {
                         break;
@@ -106,7 +103,6 @@ public class LaserObject : ActivatableObjectEntity
                     if (Application.isPlaying)
                     {
                         SetHitParticleRotate(start, rh.point); // todo 0914
-                        //component2.SendMessage("Charging", SendMessageOptions.DontRequireReceiver);
                         component2.Charging();
                     }
                 

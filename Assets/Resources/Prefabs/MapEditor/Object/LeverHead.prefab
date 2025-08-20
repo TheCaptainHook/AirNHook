@@ -215,7 +215,9 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 7178825718306028271}
+  _Dissolve_MainSprites:
+  - {fileID: 7178825718306028271}
+  _dissolveMaterials: []
   canRespawn: 0
 --- !u!114 &311459333019530403
 MonoBehaviour:
@@ -240,7 +242,6 @@ MonoBehaviour:
   _canGrab: 1
   _isDestroyed: 0
   _isGrab: 0
-  _offset: 0
   _spriteRenderer: {fileID: 7178825718306028271}
   _inhalePower: 600
   defaultGravity: 0
@@ -341,14 +342,15 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  movingPlatform: {fileID: 0}
+  _wdmp_Net: {fileID: 0}
   movingPlatformLayer:
     serializedVersion: 2
     m_Bits: 0
-  layOffset: {x: 0, y: 0.2, z: 0}
-  col: {fileID: 0}
-  rb: {fileID: 0}
-  netRb: {fileID: 0}
+  movingPlatformMask:
+    serializedVersion: 2
+    m_Bits: 32768
+  skin: 0.2
+  _platformId: 0
   startSync: 0
 --- !u!1773428102 &6100329086906530539
 ParentConstraint:
