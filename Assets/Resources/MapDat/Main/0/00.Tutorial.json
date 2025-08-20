@@ -8250,7 +8250,10 @@
             "chargeRequired": false,
             "animationTriggerType": 2,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 300,
@@ -8283,7 +8286,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 310,
@@ -8316,7 +8322,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 303,
@@ -8349,7 +8358,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 303,
@@ -8382,7 +8394,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 303,
@@ -8415,13 +8430,16 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 303,
             "dialogueId": 0,
             "position": {
-                "x": 35.17000198364258,
+                "x": 35.16999816894531,
                 "y": 3.8499999046325685
             },
             "quaternion": {
@@ -8448,7 +8466,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 303,
@@ -8481,7 +8502,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 310,
@@ -8514,7 +8538,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 311,
@@ -8547,7 +8574,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 356,
@@ -8580,7 +8610,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 356,
@@ -8613,7 +8646,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 356,
@@ -8646,7 +8682,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 356,
@@ -8679,7 +8718,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 310,
@@ -8712,7 +8754,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 357,
@@ -8745,7 +8790,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 357,
@@ -8778,7 +8826,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 310,
@@ -8811,7 +8862,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 349,
@@ -8844,7 +8898,10 @@
             "chargeRequired": false,
             "animationTriggerType": 1,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 349,
@@ -8877,7 +8934,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 352,
@@ -8910,7 +8970,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 307,
@@ -8943,7 +9006,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         }
     ],
     "mapBackgroundObjectList": [
@@ -8978,7 +9044,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5303,
@@ -9011,7 +9080,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5340,
@@ -9044,7 +9116,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5311,
@@ -9077,7 +9152,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5307,
@@ -9110,7 +9188,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5300,
@@ -9143,7 +9224,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5387,
@@ -9176,7 +9260,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5387,
@@ -9209,7 +9296,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5381,
@@ -9242,7 +9332,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5001,
@@ -9275,7 +9368,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5002,
@@ -9308,7 +9404,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 6000,
@@ -9341,7 +9440,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5330,
@@ -9374,7 +9476,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5330,
@@ -9407,7 +9512,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5380,
@@ -9440,7 +9548,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5384,
@@ -9473,7 +9584,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5200,
@@ -9506,7 +9620,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5200,
@@ -9539,7 +9656,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5200,
@@ -9572,7 +9692,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5109,
@@ -9605,7 +9728,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5314,
@@ -9638,7 +9764,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5101,
@@ -9671,7 +9800,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5100,
@@ -9704,7 +9836,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5105,
@@ -9737,7 +9872,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5104,
@@ -9770,7 +9908,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5106,
@@ -9803,7 +9944,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5307,
@@ -9836,7 +9980,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5330,
@@ -9869,7 +10016,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5352,
@@ -9902,7 +10052,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5352,
@@ -9935,7 +10088,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5352,
@@ -9968,7 +10124,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5330,
@@ -10001,7 +10160,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5355,
@@ -10034,7 +10196,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5354,
@@ -10067,7 +10232,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5350,
@@ -10100,7 +10268,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5200,
@@ -10133,7 +10304,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5200,
@@ -10166,7 +10340,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5330,
@@ -10199,7 +10376,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5330,
@@ -10232,7 +10412,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5006,
@@ -10265,7 +10448,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5500,
@@ -10298,7 +10484,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5330,
@@ -10331,7 +10520,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5356,
@@ -10364,7 +10556,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5358,
@@ -10397,7 +10592,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5307,
@@ -10430,7 +10628,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5330,
@@ -10463,7 +10664,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5200,
@@ -10496,7 +10700,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5200,
@@ -10529,7 +10736,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5303,
@@ -10562,7 +10772,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5330,
@@ -10595,7 +10808,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5330,
@@ -10628,7 +10844,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5108,
@@ -10661,7 +10880,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5358,
@@ -10694,7 +10916,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5312,
@@ -10727,7 +10952,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5313,
@@ -10760,7 +10988,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5320,
@@ -10793,7 +11024,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5321,
@@ -10826,7 +11060,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5309,
@@ -10859,7 +11096,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5309,
@@ -10892,7 +11132,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5307,
@@ -10925,7 +11168,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5340,
@@ -10958,7 +11204,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5003,
@@ -10991,7 +11240,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 5500,
@@ -11024,7 +11276,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         }
     ],
     "mapOtherObjectList": [
@@ -11059,7 +11314,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10103,
@@ -11092,7 +11350,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10103,
@@ -11125,7 +11386,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10105,
@@ -11158,7 +11422,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10105,
@@ -11191,7 +11458,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10105,
@@ -11224,7 +11494,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10103,
@@ -11257,7 +11530,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10103,
@@ -11290,7 +11566,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10107,
@@ -11323,7 +11602,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10107,
@@ -11356,7 +11638,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10106,
@@ -11389,7 +11674,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10105,
@@ -11422,7 +11710,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10105,
@@ -11455,7 +11746,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10106,
@@ -11488,7 +11782,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10106,
@@ -11521,7 +11818,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10105,
@@ -11554,7 +11854,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10104,
@@ -11587,7 +11890,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10105,
@@ -11620,7 +11926,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10105,
@@ -11653,7 +11962,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10105,
@@ -11686,7 +11998,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10104,
@@ -11719,7 +12034,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10106,
@@ -11752,7 +12070,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10105,
@@ -11785,7 +12106,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10105,
@@ -11818,7 +12142,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10104,
@@ -11851,7 +12178,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10105,
@@ -11884,7 +12214,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10104,
@@ -11917,7 +12250,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10104,
@@ -11950,7 +12286,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10103,
@@ -11983,7 +12322,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10103,
@@ -12016,7 +12358,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10105,
@@ -12049,7 +12394,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10105,
@@ -12082,7 +12430,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10105,
@@ -12115,7 +12466,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10109,
@@ -12148,7 +12502,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10109,
@@ -12181,7 +12538,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10109,
@@ -12214,7 +12574,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10109,
@@ -12247,7 +12610,10 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         },
         {
             "id": 10109,
@@ -12280,14 +12646,29 @@
             "chargeRequired": false,
             "animationTriggerType": 0,
             "attackStartTime": 0.0,
-            "attackCooldown": 0.0
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0
         }
     ],
     "mapButtonActivatableObjectDataList": [
         {
             "id": 354,
-            "activeRequirAmount": 0,
+            "activeRequirAmount": 1,
             "chargeRequired": false,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": -11.0,
@@ -12323,8 +12704,20 @@
         },
         {
             "id": 354,
-            "activeRequirAmount": 0,
+            "activeRequirAmount": 1,
             "chargeRequired": false,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": 7.0,
@@ -12360,8 +12753,20 @@
         },
         {
             "id": 354,
-            "activeRequirAmount": 0,
+            "activeRequirAmount": 1,
             "chargeRequired": false,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": 81.0,
@@ -12399,6 +12804,18 @@
             "id": 305,
             "activeRequirAmount": 1,
             "chargeRequired": false,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": 50.5,
@@ -12434,8 +12851,20 @@
         },
         {
             "id": 354,
-            "activeRequirAmount": 0,
+            "activeRequirAmount": 1,
             "chargeRequired": false,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": 53.0,
@@ -12473,6 +12902,18 @@
             "id": 305,
             "activeRequirAmount": 1,
             "chargeRequired": false,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": 68.0,
@@ -12508,8 +12949,20 @@
         },
         {
             "id": 354,
-            "activeRequirAmount": 0,
+            "activeRequirAmount": 1,
             "chargeRequired": false,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": 71.0,
@@ -12547,6 +13000,18 @@
             "id": 335,
             "activeRequirAmount": 0,
             "chargeRequired": false,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": 104.0,
@@ -12584,6 +13049,18 @@
             "id": 305,
             "activeRequirAmount": 0,
             "chargeRequired": false,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": 93.0,
@@ -12621,6 +13098,18 @@
             "id": 305,
             "activeRequirAmount": 0,
             "chargeRequired": false,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": 98.0,
@@ -12658,6 +13147,18 @@
             "id": 305,
             "activeRequirAmount": 0,
             "chargeRequired": false,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": 102.0,
@@ -12695,6 +13196,18 @@
             "id": 305,
             "activeRequirAmount": 1,
             "chargeRequired": false,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": 96.19999694824219,
@@ -12707,8 +13220,8 @@
                 "w": 0.7071068286895752
             },
             "scale": {
-                "x": 0.8000005483627319,
-                "y": 0.8000005483627319,
+                "x": 0.8000006079673767,
+                "y": 0.8000006079673767,
                 "z": 1.0
             },
             "talPot": {
@@ -12732,6 +13245,18 @@
             "id": 305,
             "activeRequirAmount": 1,
             "chargeRequired": false,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
             "jumpingPower": 0,
             "position": {
                 "x": 116.0,
@@ -12791,6 +13316,7 @@
                 }
             ],
             "lightPositions": [],
+            "encapsulationItems": [],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
@@ -12824,6 +13350,7 @@
                 }
             ],
             "lightPositions": [],
+            "encapsulationItems": [],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
@@ -12857,6 +13384,7 @@
                 }
             ],
             "lightPositions": [],
+            "encapsulationItems": [],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
@@ -12890,6 +13418,7 @@
                 }
             ],
             "lightPositions": [],
+            "encapsulationItems": [],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
@@ -12923,6 +13452,7 @@
                 }
             ],
             "lightPositions": [],
+            "encapsulationItems": [],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
@@ -12956,6 +13486,7 @@
                 }
             ],
             "lightPositions": [],
+            "encapsulationItems": [],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
@@ -12989,6 +13520,7 @@
                 }
             ],
             "lightPositions": [],
+            "encapsulationItems": [],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
@@ -13022,6 +13554,7 @@
                 }
             ],
             "lightPositions": [],
+            "encapsulationItems": [],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
@@ -13055,6 +13588,7 @@
                 }
             ],
             "lightPositions": [],
+            "encapsulationItems": [],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
