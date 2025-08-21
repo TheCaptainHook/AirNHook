@@ -22,7 +22,6 @@ public class SaveData
     {
         filePath = Path.Combine(Application.persistentDataPath, "savefile.json");
 
-
         achievmentDataPath = Path.Combine(Application.persistentDataPath,"acData.json");
 
         Debug.Log(filePath);
@@ -77,6 +76,7 @@ public class SaveData
     {
         GetUI_SaveAndLoad().LoadData(Load_SaveFile());
     }
+   
     #region Achievement
     private CancellationTokenSource _cts = new CancellationTokenSource();
     private Task _lastAcSaveTask = Task.CompletedTask;
@@ -219,12 +219,10 @@ public class SaveData
                 map.subMapName, //map SubName
                 map.nextMapId, //next Map
                 false, //clear
-                true, //open stage
+                false, //open stage
                 map.stageDifficulty,
-                // map.dialogueDataList,
-                new List<DialogueData>(map.dialogueDataList),
-                // map.collectableObjectStructList));
-                new List<CollectableObjectStruct>(map.collectableObjectStructList)
+                new List<DialogueData>(map.dialogueDataList), // map.dialogueDataList,                                                     
+                new List<CollectableObjectStruct>(map.collectableObjectStructList)  // map.collectableObjectStructList));
                 ));
 
                 foreach(var item in map.dialogueDataList)

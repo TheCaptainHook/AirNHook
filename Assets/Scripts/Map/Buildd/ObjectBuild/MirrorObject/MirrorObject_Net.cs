@@ -247,10 +247,6 @@ public class MirrorObject_Net : NetworkBehaviour
     //    onActive = false;
     //    var pm = player.GetComponent<PlayerSM>();
 
-    //    //Hide A,D button
-
-    //    //Hide A,D button
-
     //    Disconnection(player);
     //    pm.canMovable = true;
 
@@ -295,7 +291,7 @@ public class MirrorObject_Net : NetworkBehaviour
     {
         Col.enabled = false;
         Col.enabled = true;
-        targetZ = 0;
+        //targetZ = 0;
     }
 
     private void Event_Recover()

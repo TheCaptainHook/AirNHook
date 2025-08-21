@@ -50,7 +50,7 @@ public class MirrorObject : BuildObj,IInteractable
     private float cendMessageRate = 0.1f;
     private float curCendMessageRate = 0;
     private float curRot = 0;
-    float rotRate = 0.5f;
+    float rotRate = 1f;
 
     private void Update()
     {
@@ -113,10 +113,6 @@ public class MirrorObject : BuildObj,IInteractable
 
 #endregion
     //--------------------------- Refectoring 0523
-
-
-
-    private bool IsInnerPlayer => M_Net.InnerPlayer;
 
     //private void OnTriggerEnter2D(Collider2D other)
     //{

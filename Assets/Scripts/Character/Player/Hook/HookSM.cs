@@ -265,7 +265,7 @@ public class HookSM : PlayerSM, IInhalable
                     break;
 
                 case ObjectTypeEnum.Control:
-                    if (grabbedItem != null)
+                    if (grabbedItem == null)
                     {
                         isControlObj = !isControlObj;
                         interactable.Interaction(transform);
