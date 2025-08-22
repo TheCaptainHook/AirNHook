@@ -288,7 +288,8 @@ public class ButtonEntity : BuildObj
                         {
                             if (buildObj.ObjectData.indicator == INDICATOR.MARK)
                             {
-                                Debug.Log("Encapsulation Field Indicator Path Chack");
+                                Debug.Log("[1] Encapsulation Field Indicator Path Chack");
+                                field.Indicator_2PathChaking(gameObject);
                             }
                             list.Add(field);
                             break;

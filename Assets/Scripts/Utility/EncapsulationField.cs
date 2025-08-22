@@ -49,6 +49,13 @@ public class EncapsulationField : MonoBehaviour
         obstacleLayerMask = 1 << 6;
     }
 
+    #region Indicator_2 Path Chaking
+    public void Indicator_2PathChaking(GameObject targetObj)
+    {
+        Debug.Log("[2] Encapsulation Indicator 2 Path Chack");
+    }
+    #endregion
+
     #region Indicator
     public ActivatableObject_Indicator_var1 indicator_1;
     public ActivatableObject_Indicator_var2 indicator_2;
