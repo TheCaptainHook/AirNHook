@@ -30,7 +30,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
     [ReadOnly]
     public ActivatableObject_Net_Entity net;
 
-#region Default
+    #region Default
     public void Setting(ActivatableObjectEntity entity, ActivatableObject_Net_Entity net)
     {
         this.entity = entity;
@@ -54,11 +54,23 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
 
         activeRequirAmount = net.data.activeRequirAmount;
 
-
         CreateItemAndSorting(net.data);
 
     }
     #endregion
+
+    #region  Path Chacking
+    public bool notObstacle = false;
+    public void PathChacking(uint targetID) //Rpc
+    {
+        Debug.Log("[4] PathChacking -> DrawLineUtilliy");
+        var item = itemWaitStack.Pop();
+        var lineUtility = GetLine();
+        lineUtility.PathChacking(this, targetID, item);
+        
+    }
+    #endregion
+
 
     #region  Encapsulation Field
     public EncapsulationField encapsulationField;
@@ -74,14 +86,16 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
 
         var termTr = MapEditor.Instance.dontSaveObjectTransform;
         transform.SetParent(termTr);
- 
+
         itemWaitStack = new();
         itemCurActiveList = new();
 
         activeRequirAmount = transportItemEntity.data.activeRequireAmount;
 
         CreateItemAndSorting(transportItemEntity.data);
+       
     }
+   
    
     private float FloorTo2DecimalPlaces(float num)
     {
@@ -104,7 +118,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
             var item = itemWaitStack.Pop();
             //itemCurActiveList.Add((id, item, data));
             itemCurActiveList.Add(lineUtility);
-            lineUtility.SettingAndDrawLine(id, item, target, () => SetApplyActive_EncapsultationField(1));
+            lineUtility.SettingAndDrawLine(id, item, target, () => SetApplyActive_EncapsultationField(1),notObstacle);
 
         }
         else
@@ -207,7 +221,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
             var item = itemWaitStack.Pop();
             //itemCurActiveList.Add((id, item, data));
             itemCurActiveList.Add(lineUtility);
-            lineUtility.SettingAndDrawLine(id, item, target, () => SetApplyActive(1));
+            lineUtility.SettingAndDrawLine(id, item, target, () => SetApplyActive(1),notObstacle);
 
         }
         else

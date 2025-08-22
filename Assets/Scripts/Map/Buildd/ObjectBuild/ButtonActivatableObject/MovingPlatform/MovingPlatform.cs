@@ -44,6 +44,7 @@ public class MovingPlatform :  ActivatableObjectEntity
         netRb = GetComponent<NetworkRigidbodyUnreliable2D>();
     }
 
+
     #region  GET,SET (Will take care this logic)
     public override T GetData<T>()
     {

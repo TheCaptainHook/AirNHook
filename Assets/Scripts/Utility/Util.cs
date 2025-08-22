@@ -191,9 +191,8 @@ public class Util
 
     #endregion
 
-    public async Task Delay(Action action, int delayTime = 1000)
+    public async Task Delay(Action action, int delayTime = 1500)
     {
-
         await Task.Delay(delayTime);
         action?.Invoke();
 

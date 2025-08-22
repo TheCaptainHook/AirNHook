@@ -2,6 +2,7 @@ using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class ButtonEntity : BuildObj
@@ -236,6 +237,11 @@ public class ButtonEntity : BuildObj
                 {
                     if (CompareVec(component.ButtonActivatedObjectStruct.position, vec))
                     {
+                        if (component.ButtonActivatedObjectStruct.indicatorStruct.indicator == INDICATOR.MARK)
+                        {
+                            Debug.Log("[1] Indicator_2, need path check");
+                            component.PathChacking(gameObject);
+                        }
                         objList.Add(obj.gameObject);
                         break;
                     }
@@ -280,6 +286,10 @@ public class ButtonEntity : BuildObj
                     {
                         if (obj.TryGetComponent(out EncapsulationField field))
                         {
+                            if (buildObj.ObjectData.indicator == INDICATOR.MARK)
+                            {
+                                Debug.Log("Encapsulation Field Indicator Path Chack");
+                            }
                             list.Add(field);
                             break;
                         }

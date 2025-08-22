@@ -48,25 +48,25 @@ public class BridgeBox_Net : ActivatableObject_Net_Entity
 
 
 
-    [Server]
-    public override void Server_ChangeOnActive(bool onOff)
-    {
-        onActive = onOff;
-       Rpc_ChangeOnActive(onOff);
-    }
+    // [Server]
+    // public override void Server_ChangeOnActive(bool onOff)
+    // {
+    //     onActive = onOff;
+    //    Rpc_ChangeOnActive(onOff);
+    // }
 
-    [ClientRpc]
-    protected override void Rpc_ChangeOnActive(bool onOff)
-    {
-        if(onOff)
-        {
-            Active();
-        }
-        else
-        {
-            Deactive();
-        }
-    }
+    // [ClientRpc]
+    // protected override void Rpc_ChangeOnActive(bool onOff)
+    // {
+    //     if(onOff)
+    //     {
+    //         Active();
+    //     }
+    //     else
+    //     {
+    //         Deactive();
+    //     }
+    // }
 
 
 
@@ -80,7 +80,6 @@ public class BridgeBox_Net : ActivatableObject_Net_Entity
 
     private void CreateConnectionObject()
     {
-
         GameObject spO = Instantiate(spriteObj);
         spO.name = "Connect Object";
         spO.transform.SetParent(transform);

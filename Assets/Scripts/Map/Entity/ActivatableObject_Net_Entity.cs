@@ -132,6 +132,8 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
             Deactive();
         }
     }
+
+
     #endregion
 
     #region  Active,Deactive
@@ -153,7 +155,7 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
     /// </summary>
     /// <param name="id"></param>
     [Server]
-    public virtual void Server_PlayUniqueEffect(uint id) 
+    public virtual void Server_PlayUniqueEffect(uint id)
     {
 
     }
@@ -171,9 +173,9 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
     /// <param name="id">Network ID</param>
     /// <param name="inc">[-1] : deactive, [1] : active </param>
     [ClientRpc]
-    public virtual void ApplyActive_Sync_var2(uint id, int curActiveBtn,int inc) 
+    public virtual void ApplyActive_Sync_var2(uint id, int curActiveBtn, int inc)
     {
-        indicator_var2.SetApplyActive(id, curActiveBtn ,inc);
+        indicator_var2.SetApplyActive(id, curActiveBtn, inc);
     }
 
     private ActivatableObject_Indicator_var1 indicator_var1;
@@ -182,7 +184,7 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
         //var indicator = Resources.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_1_Path);
         var indicator = ResourceManager.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_1_Path);
         indicator_var1 = Instantiate(indicator).GetComponent<ActivatableObject_Indicator_var1>();
-        indicator_var1.Setting(Main,this);
+        indicator_var1.Setting(Main, this);
 
     }
     private ActivatableObject_Indicator_var2 indicator_var2;
@@ -191,10 +193,24 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
         var indicator = ResourceManager.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_2_Path);
         //var indicator = Resources.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_2_Path);
         indicator_var2 = Instantiate(indicator).GetComponent<ActivatableObject_Indicator_var2>();
-        indicator_var2.Setting(Main,this);
+        indicator_var2.Setting(Main, this);
 
     }
 
+    [Server]
+    public void Server_Indicator_var_2_PathChacking(uint targetID)
+    {
+        StartCoroutine(AllClientReadyChecker_Co(()=>Rpc_Indicator_var_2_PathChacking(targetID)));
+
+    }
+    [ClientRpc]
+    private void Rpc_Indicator_var_2_PathChacking(uint targetID)
+    {
+        Debug.Log($"[3] RPC INdicator_var_2 PathChaking, netid : {targetID}");
+        indicator_var2.PathChacking(targetID);
+    }
+
+    
 
     #endregion
 }
