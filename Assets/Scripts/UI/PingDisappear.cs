@@ -10,7 +10,7 @@ public class PingDisappear : MonoBehaviour
     private void OnEnable()
     {
         Show();
-        Managers.Sound.PlaySound3D(GlobalText.UI_PING, transform.position, 1f);
+        Managers.Sound.PlaySound(GlobalText.UI_PING, 1f);
         StartCoroutine(C0_OnTimeClear());
     }
 
