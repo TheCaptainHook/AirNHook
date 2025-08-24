@@ -8580,150 +8580,6 @@
             "indicator": 0
         },
         {
-            "id": 356,
-            "dialogueId": 0,
-            "position": {
-                "x": 62.0,
-                "y": 14.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.7071068286895752,
-                "w": 0.7071068286895752
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0,
-            "activeRequireAmount": 0,
-            "onEncapsulationItem": false,
-            "indicator": 0
-        },
-        {
-            "id": 356,
-            "dialogueId": 0,
-            "position": {
-                "x": 62.0,
-                "y": 13.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.7071068286895752,
-                "w": 0.7071068286895752
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0,
-            "activeRequireAmount": 0,
-            "onEncapsulationItem": false,
-            "indicator": 0
-        },
-        {
-            "id": 356,
-            "dialogueId": 0,
-            "position": {
-                "x": 62.0,
-                "y": 12.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.7071068286895752,
-                "w": 0.7071068286895752
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0,
-            "activeRequireAmount": 0,
-            "onEncapsulationItem": false,
-            "indicator": 0
-        },
-        {
-            "id": 356,
-            "dialogueId": 0,
-            "position": {
-                "x": 62.0,
-                "y": 11.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.7071068286895752,
-                "w": 0.7071068286895752
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0,
-            "activeRequireAmount": 0,
-            "onEncapsulationItem": false,
-            "indicator": 0
-        },
-        {
             "id": 310,
             "dialogueId": 0,
             "position": {
@@ -13050,14 +12906,14 @@
             "activeRequirAmount": 0,
             "chargeRequired": false,
             "indicatorStruct": {
-                "indicator": 0,
+                "indicator": 1,
                 "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
+                    "x": 93.0,
+                    "y": 6.75
                 },
                 "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
+                    "x": 93.0,
+                    "y": 6.75
                 },
                 "isHorizontal": false
             },
@@ -13099,10 +12955,10 @@
             "activeRequirAmount": 0,
             "chargeRequired": false,
             "indicatorStruct": {
-                "indicator": 0,
+                "indicator": 1,
                 "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
+                    "x": 98.0,
+                    "y": 6.75
                 },
                 "indicator_2_position": {
                     "x": 0.0,
@@ -13148,10 +13004,10 @@
             "activeRequirAmount": 0,
             "chargeRequired": false,
             "indicatorStruct": {
-                "indicator": 0,
+                "indicator": 1,
                 "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
+                    "x": 102.0,
+                    "y": 9.50100040435791
                 },
                 "indicator_2_position": {
                     "x": 0.0,
@@ -13197,14 +13053,14 @@
             "activeRequirAmount": 1,
             "chargeRequired": false,
             "indicatorStruct": {
-                "indicator": 0,
+                "indicator": 2,
                 "indicator_1_position": {
                     "x": 0.0,
                     "y": 0.0
                 },
                 "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
+                    "x": 95.0,
+                    "y": 5.5
                 },
                 "isHorizontal": false
             },
@@ -13220,8 +13076,8 @@
                 "w": 0.7071068286895752
             },
             "scale": {
-                "x": 0.8000006079673767,
-                "y": 0.8000006079673767,
+                "x": 0.8000006675720215,
+                "y": 0.8000006675720215,
                 "z": 1.0
             },
             "talPot": {
