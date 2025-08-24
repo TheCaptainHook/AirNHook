@@ -288,7 +288,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.angularVelocity = 0f;
         _rigidbody.freezeRotation = true;
-        _rigidbody.Sleep();
     }
 
     [Server]
