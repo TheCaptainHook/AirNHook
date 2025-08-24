@@ -2105,17 +2105,6 @@
             "TileId": 2,
             "Start": {
                 "x": -4,
-                "y": 25
-            },
-            "End": {
-                "x": -4,
-                "y": 28
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -4,
                 "y": 38
             },
             "End": {
@@ -2154,28 +2143,6 @@
             "End": {
                 "x": -3,
                 "y": 20
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -3,
-                "y": 25
-            },
-            "End": {
-                "x": -3,
-                "y": 25
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -3,
-                "y": 28
-            },
-            "End": {
-                "x": -3,
-                "y": 28
             }
         },
         {
@@ -2226,28 +2193,6 @@
             "TileId": 2,
             "Start": {
                 "x": -2,
-                "y": 25
-            },
-            "End": {
-                "x": -2,
-                "y": 25
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -2,
-                "y": 28
-            },
-            "End": {
-                "x": -2,
-                "y": 28
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -2,
                 "y": 38
             },
             "End": {
@@ -2286,28 +2231,6 @@
             "End": {
                 "x": -1,
                 "y": 20
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -1,
-                "y": 25
-            },
-            "End": {
-                "x": -1,
-                "y": 25
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -1,
-                "y": 28
-            },
-            "End": {
-                "x": -1,
-                "y": 28
             }
         },
         {
@@ -2352,17 +2275,6 @@
             "End": {
                 "x": 0,
                 "y": 20
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": 0,
-                "y": 25
-            },
-            "End": {
-                "x": 0,
-                "y": 28
             }
         },
         {
@@ -8636,42 +8548,6 @@
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
             "indicator": 0
-        },
-        {
-            "id": 365,
-            "dialogueId": 0,
-            "position": {
-                "x": -1.6799999475479127,
-                "y": 27.079999923706056
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0,
-            "activeRequireAmount": 1,
-            "onEncapsulationItem": true,
-            "indicator": 2
         }
     ],
     "mapBackgroundObjectList": [
@@ -12832,40 +12708,6 @@
             ],
             "lightPositions": [],
             "encapsulationItems": [],
-            "onHint": false,
-            "partsPositions": [],
-            "itemPositions": [],
-            "hintPosition": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "chargeRequired": false
-        },
-        {
-            "id": 372,
-            "position": {
-                "x": -7.239999771118164,
-                "y": 24.3799991607666
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.2000000476837159,
-                "y": 1.2000000476837159,
-                "z": 1.0
-            },
-            "targetPositions": [],
-            "lightPositions": [],
-            "encapsulationItems": [
-                {
-                    "x": -1.6799999475479127,
-                    "y": 27.079999923706056
-                }
-            ],
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
