@@ -33,8 +33,8 @@ public class UI_EndingCredits : UI_Base
 Junha Kim
 
 /bPROGRAMMING
-Jane Smith
-Mike Johnson
+Jeonghyeon Moon
+Jaesung Choi
 
 /bART&DESIGN
 Junha Kim
