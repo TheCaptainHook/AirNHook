@@ -52,7 +52,11 @@ public class EncapsulationField : MonoBehaviour
     #region Indicator_2 Path Chaking
     public void Indicator_2PathChaking(GameObject targetObj)
     {
-        Debug.Log("[2] Encapsulation Indicator 2 Path Chack");
+        var netId = targetObj.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 9999;
+        if (netId == 9999) return;
+
+        Debug.Log("[2] Encapsulation Indicator 2 Path Chack->Net");
+        Net.Server_Indicator_2_Path_Chacking(netId);
     }
     #endregion
 
