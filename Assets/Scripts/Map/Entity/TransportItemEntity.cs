@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Mirror;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(EncapsulationField))]
@@ -250,11 +251,33 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     }
 
     [ClientRpc]
-    public virtual void Rpc_ApplyActive_Sync_var2(int inc,uint id)
+    public virtual void Rpc_ApplyActive_Sync_var2(int inc, uint id)
     {
         EncapsulationField.indicator_2.SetApplyActive_EncapsulationField(inc, id);
     }
     #endregion
 
+    #region  Indicator_2 Path Chacking
+    [Server]
+    public void Server_Indicator_2_Path_Chacking(uint targetID)
+    {
+        StartCoroutine(AllClientCheckCo(() => Rpc_Indicator_2_Path_Chacking(targetID)));
+    }
+    [ClientRpc]
+    public void Rpc_Indicator_2_Path_Chacking(uint targetID)
+    {
+        // Debug.Log("[3] Encapsulation Indicator 2 Path Chack->Net");
+        // EncapsulationField.indicator_2.PathChacking(targetID);
+        StartCoroutine(Wait_Path_Chacking(targetID));
+    }
+
+
+    private IEnumerator Wait_Path_Chacking(uint targetID)
+    {
+        yield return new WaitUntil(() => EncapsulationField.indicator_2 != null);
+        Debug.Log("[3] Encapsulation Indicator 2 Path Chack->Net");
+        EncapsulationField.indicator_2.PathChacking(targetID);
+    }
+    #endregion
 }
 

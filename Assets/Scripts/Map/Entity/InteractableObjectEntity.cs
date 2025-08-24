@@ -41,6 +41,7 @@ public class InteractableObjectEntity : BuildObj
 
         return default(T);
     }
+    
     public override void SetData<T>(T data)
     {
         if (typeof(T) == typeof(ObjectData))

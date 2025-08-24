@@ -63,12 +63,21 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
     public bool notObstacle = false;
     public void PathChacking(uint targetID) //Rpc
     {
+        // Debug.Log("[4] PathChacking -> DrawLineUtilliy");
+        // var item = itemWaitStack.Pop();
+        // var lineUtility = GetLine();
+        // lineUtility.PathChacking(this, targetID, item);
+        StartCoroutine(Encapsulation_WaitItemReadyCo(targetID));
+    }
+    private IEnumerator Encapsulation_WaitItemReadyCo(uint targetID)
+    {
+        yield return new WaitUntil(() => _isEncapsulation_ItemReady);
         Debug.Log("[4] PathChacking -> DrawLineUtilliy");
         var item = itemWaitStack.Pop();
         var lineUtility = GetLine();
         lineUtility.PathChacking(this, targetID, item);
-        
     }
+   
     #endregion
 
 
@@ -169,6 +178,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
     }
     #endregion
     //Encapsulation Field
+    private bool _isEncapsulation_ItemReady;
     private void CreateItemAndSorting(ObjectData data)
     {
         float totalLength = item_Space * (data.activeRequireAmount - 1); // 총 길이
@@ -180,6 +190,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
             item.transform.position = startPot + new Vector3(item_Space * i, 0, 0);
         }
 
+        _isEncapsulation_ItemReady = true;
     }
 
     //Default
