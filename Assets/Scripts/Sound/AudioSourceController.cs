@@ -27,7 +27,6 @@ public class AudioSourceController : MonoBehaviour
         _playerTransform = null;
         _elapsedTime = 0f;
         _init = false;
-        _isBGM = false;
         _isRecycled = false;
         _destroyWhenTargetDestroyed = false;
         _audioSource.gameObject.SetActive(false);
@@ -54,6 +53,8 @@ public class AudioSourceController : MonoBehaviour
         _is3DSound = is3DSound;
         _activeDistnace = distance + 10f;
         _clipLength = _audioSource.clip.length;
+
+        _audioSource.priority = 0;
     }
 
     /// <summary>
@@ -124,7 +125,7 @@ public class AudioSourceController : MonoBehaviour
 
         if (!_is3DSound)
         {
-            if (!_audioSource.isPlaying)
+            if (!_isBGM && !_audioSource.isPlaying)
                 Recylce();
 
             return;
@@ -141,7 +142,13 @@ public class AudioSourceController : MonoBehaviour
 
             if (inRange)
             {
-                _audioSource.time = _elapsedTime;
+                if (_elapsedTime >= _clipLength && !_isLoop)
+                {
+                    Recylce();
+                    return;
+                }
+
+                _audioSource.time = (_elapsedTime >= _clipLength) ? 0 : _elapsedTime;
                 _audioSource.Play();
             }
         }

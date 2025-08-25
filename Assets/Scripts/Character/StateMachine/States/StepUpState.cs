@@ -9,7 +9,6 @@ public class StepUpState : BaseState
     {
         stateMachine.moveSpeedMultiplier = 2f;
         stateMachine.player.animator.SetBool(stateMachine.player.animationData.WalkParameterHash, false);
-        Debug.Log("StepUpState Entered");
         Jump();
     }
 
