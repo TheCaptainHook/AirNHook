@@ -131,8 +131,6 @@ public class AudioSourceController : MonoBehaviour
             return;
         }
 
-        _elapsedTime += Time.deltaTime;
-
         float sqrDistance = (_playerTransform.position - transform.position).sqrMagnitude;
         bool inRange = sqrDistance <= _activeDistnace * _activeDistnace;
 
@@ -173,6 +171,8 @@ public class AudioSourceController : MonoBehaviour
         {
             Recylce();
         }
+
+        _elapsedTime += Time.deltaTime;
     }
 
     private void Recylce()
