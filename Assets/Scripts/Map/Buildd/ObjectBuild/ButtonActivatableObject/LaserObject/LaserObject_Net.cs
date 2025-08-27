@@ -88,7 +88,7 @@ public class LaserObject_Net : ActivatableObject_Net_Entity
             }
 
             var rh = _raycastHitBuffer[0];
-            Debug.Log(rh.collider.gameObject.name);
+            // Debug.Log(rh.collider.gameObject.name);
             Vector2 hitPoint = rh.point;
             DrawLaser(i, start, hitPoint);
 
