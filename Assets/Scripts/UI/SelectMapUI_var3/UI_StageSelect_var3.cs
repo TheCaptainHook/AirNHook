@@ -720,13 +720,14 @@ public class UI_StageSelect_var3: UI_Base,IPointerEnterHandler,IPointerExitHandl
         _UI_KeyGenerator.gameObject.SetActive(false);
 
         computer.GetComponent<StageSelectorComputer>().SpawnKey();
-        
 
-    //------------------------------------player Move control
-        var player = Managers.Game.Player.GetComponent<PlayerSM>();
-        player.canMovable = true;
-        player.canAction = true;
-        player.doNotTouch = false;
+
+        //------------------------------------player Move control
+        // var player = Managers.Game.Player.GetComponent<PlayerSM>();
+        // player.canMovable = true;
+        // player.canAction = true;
+        // player.doNotTouch = false;
+        FreezePlayerState(false);
         //------------------------------------player Move control
         //-----------------------------Reset
         Net.Server_SetIsOpen(false);
@@ -788,12 +789,8 @@ public class UI_StageSelect_var3: UI_Base,IPointerEnterHandler,IPointerExitHandl
         yield return EraserTextLineCo(0, maxSelectTextLineListIndex);
         animator.SetTrigger(CLOSE);
         yield return new WaitForSeconds(1f);
-    //------------------------------------player Move control
-        var player = Managers.Game.Player.GetComponent<PlayerSM>();
-        player.canMovable = true;
-        player.canAction = true;
-        player.doNotTouch = false;
-        player.canControl = true;
+        //------------------------------------player Move control
+        FreezePlayerState(false);
         //------------------------------------player Move control
 
         yield return new WaitForSeconds(1f);
@@ -805,7 +802,13 @@ public class UI_StageSelect_var3: UI_Base,IPointerEnterHandler,IPointerExitHandl
 
     }
 
+    private void FreezePlayerState(bool onOff)
+    {
+        var player = Managers.Game.Player.TryGetComponent(out PlayerSM sm) ? sm : null;
+        if (player == null) return;
 
+        sm.FreezePlayerState(onOff);
+    }
     #endregion
 
     #region Util

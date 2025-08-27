@@ -124,17 +124,20 @@ public class Computer_Net : NetworkBehaviour
         if (isOpen) return;
         isOpen = true;
         //------------------------------------player Move control
-        var player = Managers.Game.Player.GetComponent<PlayerSM>();
-        player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        player.canMovable = false;
-        player.canAction = false;
-        player.canControl = false;
-        player.doNotTouch = true;
+        FreezePlayerState(true);
         //------------------------------------player Move control
 
         Rpc_ShowUi();
 
     }
+    private void FreezePlayerState(bool onOff)
+    {
+        var player = Managers.Game.Player.TryGetComponent(out PlayerSM sm) ? sm : null;
+        if (player == null) return;
+
+        sm.FreezePlayerState(onOff);
+    }
+    
 
     [Server]
     public void Server_SetIsOpen(bool val)

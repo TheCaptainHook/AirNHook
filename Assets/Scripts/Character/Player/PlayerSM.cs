@@ -669,6 +669,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         canMovable = !onOff;
         doNotTouch = onOff;
 
-        rigidbody2D.velocity = Vector2.zero;
+        if (onOff)
+            rigidbody2D.velocity = Vector2.zero;
     }
 }
