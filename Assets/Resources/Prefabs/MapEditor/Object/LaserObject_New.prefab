@@ -4911,13 +4911,13 @@ MonoBehaviour:
     isHorizontal: 0
   curActiveBtn: 0
   _curDistanceRay: 0
-  _firePoint: {fileID: 2979357953502741260}
-  _lineRenderer: {fileID: 2717453816571275917}
   _endVFX: {fileID: 5345449485699939287}
-  _layerMask:
-    serializedVersion: 2
-    m_Bits: 22005184
+  _lineRenderer: {fileID: 2717453816571275917}
   hitEffectParticle: {fileID: 7676629228877518604}
+  _firePoint: {fileID: 2979357953502741260}
+  _mask:
+    serializedVersion: 2
+    m_Bits: 5227712
 --- !u!114 &2911012097398964247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4960,6 +4960,18 @@ MonoBehaviour:
   onActive: 0
   _lineRenderer: {fileID: 2717453816571275917}
   _endVFX: {fileID: 5345449485699939287}
+  hitEffectParticle: {fileID: 7676629228877518604}
+  _firePoint: {fileID: 2979357953502741260}
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 5227712
+  _linePoints:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
 --- !u!61 &5690823865466912599
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -14879,7 +14891,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5260708701647465726}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -14988,7 +15000,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7732277339000004859
 Transform:
   m_ObjectHideFlags: 0
