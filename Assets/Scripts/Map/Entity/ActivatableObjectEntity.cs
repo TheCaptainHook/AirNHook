@@ -105,7 +105,7 @@ public class ActivatableObjectEntity : BuildObj
     {
         if (typeof(T) == typeof(ButtonActivatableObjectStruct))
         {
-            return (T)(object)new ButtonActivatableObjectStruct(id, activeRequirAmount, transform.position, transform.rotation, transform.localScale, indicatorStruct);
+            return (T)(object)new ButtonActivatableObjectStruct(id,transform.position, transform.rotation, transform.localScale,activeRequirAmount,indicatorStruct);
         }
 
         return default(T);

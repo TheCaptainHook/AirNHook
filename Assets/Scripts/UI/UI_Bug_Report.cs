@@ -23,6 +23,7 @@ public class UI_Bug_Report : UI_Base
 
     public override void OnEnable()
     {
+        FreezePlayerState(true);
         playerInputAction.Disable();
         uIActions.Disable();
     }
@@ -36,13 +37,20 @@ public class UI_Bug_Report : UI_Base
     protected override void CloseUI()
     {
         inputField.text = "";
+        FreezePlayerState(false);
         base.CloseUI();
-
+        
         playerInputAction.Enable();
         uIActions.Enable();
     }
 
+    private void FreezePlayerState(bool onOff)
+    {
+        var player = Managers.Game.Player.TryGetComponent(out PlayerSM sm) ? sm : null;
+        if (player == null) return;
 
+        sm.FreezePlayerState(onOff);
+    }
 
     private string url = "https://script.google.com/macros/s/AKfycbzFZ5D1hyd40IU9UFEEPk08oo1-lHIUbcF3EmpR9cl4cvZLsZyoeVxk1Sw5sPpRVB-_/exec";
 

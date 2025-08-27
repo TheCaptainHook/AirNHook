@@ -94,8 +94,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2265946679045684801}
   - component: {fileID: 3611192003414523547}
-  - component: {fileID: 1311203060631068499}
   - component: {fileID: 8419779373458438798}
+  - component: {fileID: 863755718499696505}
   m_Layer: 16
   m_Name: Tutorial_Drone
   m_TagString: Untagged
@@ -168,7 +168,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1311203060631068499
+--- !u!210 &8419779373458438798
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2572507443157887941}
+  m_Enabled: 1
+  m_SortingLayerID: -688237417
+  m_SortingLayer: 5
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+--- !u!114 &863755718499696505
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,10 +189,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2572507443157887941}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c6e2af99986243c2b26109f6f598062, type: 3}
+  m_Script: {fileID: 11500000, guid: 14ec025d5d7224a1ba5067a6d2a4d66f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  id: 1005
   transformID: 0
   position: {x: 0, y: 0}
   distructionStatus: 0
@@ -195,26 +207,11 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
+  _Dissolve_MainSprites: []
+  _dissolveMaterials: []
   canRespawn: 0
-  slider: {fileID: 0}
-  col: {fileID: 3611192003414523547}
-  localPlayer: {fileID: 0}
-  _objectType: 0
-  _BtnOffset: 1
-  text: {fileID: 0}
---- !u!210 &8419779373458438798
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2572507443157887941}
-  m_Enabled: 1
-  m_SortingLayerID: -688237417
-  m_SortingLayer: 5
-  m_SortingOrder: 0
-  m_SortAtRoot: 0
+  tutorialCode: 1
+  btnOffset: {x: 0, y: 2, z: 0}
 --- !u!1 &4496615245417961296
 GameObject:
   m_ObjectHideFlags: 0

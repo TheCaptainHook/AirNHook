@@ -81,7 +81,7 @@ public class LaserBox_Net : TransportItemEntity
         }
     }
 
-    float offset = 0.4f;
+    // float offset = 0.4f;
 
     protected override void Grab()
     {
@@ -231,46 +231,46 @@ public class LaserBox_Net : TransportItemEntity
         Main.Respawn();
         boomCoroutine = null;
     }
-    float maxShutDownDelayCount = 5;
+    // float maxShutDownDelayCount = 5;
     public float curShutDownDelayCount = 0;
-    Coroutine shutDownCoroutine;
-    Coroutine recoverCoroutine;
+    // Coroutine shutDownCoroutine;
+    // Coroutine recoverCoroutine;
 
-    IEnumerator ShutDownDelay()
-    {
-        if(recoverCoroutine != null) StopCoroutine(recoverCoroutine);
+    // IEnumerator ShutDownDelay()
+    // {
+    //     if(recoverCoroutine != null) StopCoroutine(recoverCoroutine);
 
-        while(0 < curShutDownDelayCount)
-        {
-            curShutDownDelayCount -= Time.deltaTime;
-            yield return null;
-        }
-        shutDownCoroutine = null;
+    //     while(0 < curShutDownDelayCount)
+    //     {
+    //         curShutDownDelayCount -= Time.deltaTime;
+    //         yield return null;
+    //     }
+    //     shutDownCoroutine = null;
 
-        recoverCoroutine = StartCoroutine(Recover());
+    //     recoverCoroutine = StartCoroutine(Recover());
        
-    }
-    IEnumerator Recover()
-    {
-        while(0 < curCount)
-        {
-            curCount--;
-            percent = curCount / maxCount;
-            float scale = Mathf.Lerp(minCharge, maxCharge, percent);
-            Rpc_ChangeFillSprite(scale);
-            yield return null;
-        }
+    // }
+    // IEnumerator Recover()
+    // {
+    //     while(0 < curCount)
+    //     {
+    //         curCount--;
+    //         percent = curCount / maxCount;
+    //         float scale = Mathf.Lerp(minCharge, maxCharge, percent);
+    //         Rpc_ChangeFillSprite(scale);
+    //         yield return null;
+    //     }
 
-    }    
+    // }    
 
    
-    [ClientRpc]
-    public void Rpc_ChangeFillSprite(float scale)
-    {
+    // [ClientRpc]
+    // public void Rpc_ChangeFillSprite(float scale)
+    // {
 
-        chargeTransform.localScale = new Vector2(scale, scale);
+    //     chargeTransform.localScale = new Vector2(scale, scale);
 
-    }
+    // }
 
     // [ClientRpc]
     // private void Rpc_Boom()

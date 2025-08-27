@@ -4,7 +4,8 @@ using System;
 using UnityEngine.EventSystems;
 using UnityEngine.Animations;
 using Mirror;
-using System.Net.Sockets;
+
+
 public enum DistructionStatus
 {
     Indestructible,
@@ -145,7 +146,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     {
         if(typeof(T)==typeof(ObjectData))
         {
-            return (T)(object)new ObjectData(id, ConvertPosition(), transform.rotation, transform.localScale,chargeRequired);
+            return (T)(object)new ObjectData(id, ConvertPosition(), transform.rotation, transform.localScale);
         }
 
        return default(T);
@@ -306,6 +307,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
 
 
     #region Destructible Obj Dissolve Effect Logic
+    [ReadOnly]
     public bool canRespawn;
     protected void DissolveInitSetting()
     { //all Client

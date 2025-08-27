@@ -46,7 +46,7 @@ public class WorldTextObject : BuildObj
     {
         if (typeof(T) == typeof(ObjectData))
         {
-            return (T)(object)new ObjectData(id, transform.position, size, mainText,fontSize);
+            return (T)(object)new ObjectData(id, transform.position,transform.rotation,transform.localScale ,size, mainText,fontSize);
         }
         
         return default(T);

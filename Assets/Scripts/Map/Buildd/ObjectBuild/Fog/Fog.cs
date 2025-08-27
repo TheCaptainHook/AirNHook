@@ -62,7 +62,7 @@ public class Fog : BuildObj
     public override T GetData<T>()
     {
         if(typeof(T)==typeof(ObjectData)){
-            return (T)(object)new ObjectData(id,transform.position,size);
+            return (T)(object)new ObjectData(id,transform.position,transform.rotation,transform.localScale,size);
         }
 
        return default(T);

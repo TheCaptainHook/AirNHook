@@ -24,7 +24,7 @@ public class Portal : ActivatableObjectEntity
     public override T GetData<T>()
     {
         if (typeof(T) == typeof(ButtonActivatableObjectStruct)) {
-            return (T)(object)new ButtonActivatableObjectStruct(id, activeRequirAmount, transform.position, transform.rotation, transform.localScale, indicatorStruct, targetPortal.transform.position);
+            return (T)(object)new ButtonActivatableObjectStruct(id, transform.position, transform.rotation, transform.localScale,activeRequirAmount ,indicatorStruct, targetPortal.transform.position);
         }
 
         return default(T);

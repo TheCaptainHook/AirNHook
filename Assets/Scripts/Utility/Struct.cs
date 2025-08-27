@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.Rendering.Universal.Light2D;
 
@@ -38,9 +37,46 @@ public struct ButtonObjectStruct
     public Vector2[] itemPositions;
     public Vector2 hintPosition;
     //CapsulationItem
-    
-    
+
     public bool chargeRequired;
+
+    #region Primary Constructor
+    private ButtonObjectStruct(
+        int id, Vector2 position, Quaternion quaternion, Vector3 scale,
+        List<Vector2> targetPositions,
+        List<Vector2> lightPositions,
+        List<Vector2> encapsulationItems,
+        bool onHint,
+        Vector2[] partsPositions,
+        Vector2[] itemPositions,
+        Vector2 hintPosition,
+        bool chargeRequired
+    )
+    {
+        this.id = id;
+        this.position = position;
+        this.quaternion = quaternion;
+        this.scale = scale;
+
+        this.targetPositions = targetPositions;
+        this.lightPositions = lightPositions;
+        this.encapsulationItems = encapsulationItems;
+
+        this.onHint = onHint;
+        this.partsPositions = partsPositions;
+        this.itemPositions = itemPositions;
+        this.hintPosition = hintPosition;
+        this.chargeRequired = chargeRequired;
+    }
+    private ButtonObjectStruct(ButtonObjectStruct other) : this(
+        other.id,other.position,other.quaternion,other.scale,
+        other.targetPositions, other.lightPositions,other.encapsulationItems,
+        other.onHint,other.partsPositions,other.itemPositions,other.hintPosition,
+        other.chargeRequired
+    ){}
+    // private static ButtonObjectStruct Base(int id,Vector2 position,Quaternion quaternion,Vector3 scale)
+    #endregion
+
     public ButtonObjectStruct(int id, List<Vector2> targetPositions, Vector2 position, Quaternion quaternion, Vector3 scale, bool chargeRequired = false)
     {
         this.id = id;
@@ -137,14 +173,15 @@ public struct IndicatorStruct
 public struct ButtonActivatableObjectStruct
 {
     public int id;
-    public int activeRequirAmount;
-    public bool chargeRequired;
-    public IndicatorStruct indicatorStruct;
-    public int jumpingPower; //JumpingPad
     public Vector2 position;
     public Quaternion quaternion;
     public Vector3 scale;
-    public Vector2 talPot;//Potal
+    public int activeRequirAmount;
+    public IndicatorStruct indicatorStruct;
+    //JumpingPad
+    public int jumpingPower; 
+    //Potal
+    public Vector2 talPot;
     //Turret
     public float rotateRate;
     public float fireRate;
@@ -159,200 +196,139 @@ public struct ButtonActivatableObjectStruct
     public float bridgeLength;
     public Vector2 connectionPoint;
 
-    #region Default
-    public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
+    #region Primary Constructor
+    private  ButtonActivatableObjectStruct
+    (
+        int id,
+        Vector2 position,
         Quaternion quaternion,
         Vector3 scale,
+        int activeRequirAmount,
         IndicatorStruct indicatorStruct,
-        Vector2 talPot = default,
-        bool chargeRequired = false
-        )
+        int jumpingPower,
+        Vector2 talPot,
+        float rotateRate,
+        float fireRate,
+        bool onHoldRotation,
+        bool onLeft,
+        Vector2[] paths,
+        float moveSpeed,
+        float moveDistance,
+        float bridgeLength,
+        Vector2 connectionPoint
+    )
     {
+        //Default
         this.id = id;
-        this.activeRequirAmount = activeRequirAmount;
         this.position = position;
         this.quaternion = quaternion;
         this.scale = scale;
-        this.talPot = talPot;
-        jumpingPower = 0;
-        rotateRate = 0;
-        fireRate = 0;
-        onLeft = false;
-        onHoldRotation = false;
-        paths = null;
-        moveSpeed = 0;
-        moveDistance = 0;
-        bridgeLength = 0;
-        connectionPoint = Vector2.zero;
-        this.chargeRequired = chargeRequired;
-
+        this.activeRequirAmount = activeRequirAmount;
         this.indicatorStruct = indicatorStruct;
-
-    }
-
-    #endregion
-    #region JumpingPad
-    public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
-       Quaternion quaternion,
-       Vector3 scale,
-       int jumpingPower,
-       IndicatorStruct indicatorStruct,
-       bool chargeRequired = false
-
-       )
-    {
-        this.id = id;
-        this.activeRequirAmount = activeRequirAmount;
-        this.position = position;
-        this.quaternion = quaternion;
-        this.scale = scale;
-        talPot = Vector2.zero;
+        //JumpingPad
         this.jumpingPower = jumpingPower;
-        rotateRate = 0;
-        fireRate = 0;
-        onLeft = false;
-        onHoldRotation = false;
-        paths = null;
-        moveSpeed = 0;
-        moveDistance = 0;
-        bridgeLength = 0;
-        connectionPoint = Vector2.zero;
-        this.chargeRequired = chargeRequired;
-
-        this.indicatorStruct = indicatorStruct;
-
+        //Portal
+        this.talPot = talPot;
+        //Turret
+        this.rotateRate = rotateRate;
+        this.fireRate = fireRate;
+        this.onHoldRotation = onHoldRotation;
+        this.onLeft = onLeft;   
+        //Moving Platform
+        this.paths = paths;
+        this.moveSpeed = moveSpeed;
+        this.moveDistance = moveDistance;
+        //Bridge
+        this.bridgeLength = bridgeLength;
+        this.connectionPoint = connectionPoint;
     }
-
+    private ButtonActivatableObjectStruct(ButtonActivatableObjectStruct other) : this(
+        other.id, other.position, other.quaternion, other.scale,other.activeRequirAmount, other.indicatorStruct,
+        other.jumpingPower,
+        other.talPot,
+        other.rotateRate, other.fireRate, other.onHoldRotation, other.onLeft,
+        other.paths, other.moveSpeed, other.moveDistance,
+        other.bridgeLength, other.connectionPoint
+    )
+    {}
     #endregion
-    #region Turret
-    public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
-      Quaternion quaternion,
-      Vector3 scale,
-      float rotateRate,
-      float fireRate,
-      bool onHoldRotation,
-      IndicatorStruct indicatorStruct,
-      bool onLeft = false,
-      bool chargeRequired = false
-      )
+
+    private static ButtonActivatableObjectStruct Base(int id, Vector2 position, Quaternion quaternion, Vector3 scale, int activeRequirAmount, IndicatorStruct indicatorStruct) => new ButtonActivatableObjectStruct(
+        id, position, quaternion, scale, activeRequirAmount, indicatorStruct,
+        jumpingPower: 0,
+        talPot: Vector2.zero,
+        rotateRate: 0,
+        fireRate: 0,
+        onHoldRotation: false,
+        onLeft: false,
+        paths: null,
+        moveSpeed: 0,
+        moveDistance: 0,
+        bridgeLength: 0,
+        connectionPoint: Vector2.zero
+    );
+    //indicatorStruct [X]
+     private static ButtonActivatableObjectStruct Base(int id, Vector2 position, Quaternion quaternion, Vector3 scale, int activeRequirAmount) => new ButtonActivatableObjectStruct(
+       id, position, quaternion, scale, activeRequirAmount, default,
+       jumpingPower: 0,
+       talPot: Vector2.zero,
+       rotateRate: 0,
+       fireRate: 0,
+       onHoldRotation: false,
+       onLeft: false,
+       paths: null,
+       moveSpeed: 0,
+       moveDistance: 0,
+       bridgeLength: 0,
+       connectionPoint: Vector2.zero
+   );
+
+    public ButtonActivatableObjectStruct(int id, Vector2 position, Quaternion quaternion, Vector3 scale, int activeRequirAmount, IndicatorStruct indicatorStruct)
+    : this(Base(id, position, quaternion, scale, activeRequirAmount, indicatorStruct))
+    { }
+    
+    //Portal
+    public ButtonActivatableObjectStruct(int id, Vector2 position, Quaternion quaternion, Vector3 scale, int activeRequirAmount, IndicatorStruct indicatorStruct, Vector2 talPot)
+    : this(Base(id, position, quaternion, scale, activeRequirAmount, indicatorStruct))
     {
-        this.id = id;
-        this.activeRequirAmount = activeRequirAmount;
-        this.position = position;
-        this.quaternion = quaternion;
-        this.scale = scale;
-        talPot = Vector2.zero;
-        jumpingPower = 0;
+        this.talPot = talPot;
+    }
+    //Jumping Pad
+    public ButtonActivatableObjectStruct(int id, Vector2 position, Quaternion quaternion, Vector3 scale, int activeRequirAmount, IndicatorStruct indicatorStruct,int jumpingPower)
+    : this(Base(id, position, quaternion, scale, activeRequirAmount, indicatorStruct))
+    {
+        this.jumpingPower = jumpingPower;
+    }
+    //Turret
+    public ButtonActivatableObjectStruct(int id, Vector2 position, Quaternion quaternion, Vector3 scale, int activeRequirAmount, float rotateRate, float fireRate, bool onHoldRotation, bool onLeft)
+    : this(Base(id, position, quaternion, scale, activeRequirAmount))
+    {
         this.rotateRate = rotateRate;
         this.fireRate = fireRate;
         this.onHoldRotation = onHoldRotation;
         this.onLeft = onLeft;
-        paths = null;
-        moveSpeed = 0;
-        moveDistance = 0;
-        bridgeLength = 0;
-        connectionPoint = Vector2.zero;
-        this.chargeRequired = chargeRequired;
-        
-        this.indicatorStruct = indicatorStruct;
     }
-    #endregion
-    #region MovingPlatform
-    public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
-       Quaternion quaternion,
-       Vector3 scale,
-       Vector2[] paths,
-       float moveSpeed,
-       IndicatorStruct indicatorStruct,
-       bool chargeRequired = false
-       )
+    //Moving Platform
+    public ButtonActivatableObjectStruct(int id, Vector2 position, Quaternion quaternion, Vector3 scale, int activeRequirAmount, IndicatorStruct indicatorStruct,Vector2[] paths,float moveSpeed)
+    : this(Base(id, position, quaternion, scale, activeRequirAmount, indicatorStruct))
     {
-        this.id = id;
-        this.activeRequirAmount = activeRequirAmount;
-        this.position = position;
-        this.quaternion = quaternion;
-        this.scale = scale;
-        talPot = Vector2.zero;
-        jumpingPower = 0;
-        rotateRate = 0;
-        fireRate = 0;
-        onLeft = false;
-        onHoldRotation = false;
         this.paths = paths;
         this.moveSpeed = moveSpeed;
-        moveDistance = 0;
-        bridgeLength = 0;
-        connectionPoint = Vector2.zero;
-        this.chargeRequired = chargeRequired;
-        
-        this.indicatorStruct = indicatorStruct;
-
     }
-    #endregion
-    #region  Weight Detection Moving Platform
-    public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
-       Quaternion quaternion,
-       Vector3 scale,
-       float moveDistance,
-       float moveSpeed,
-       IndicatorStruct indicatorStruct,
-       bool chargeRequired = false
-
-       )
+    //WDMP
+    public ButtonActivatableObjectStruct(int id, Vector2 position, Quaternion quaternion, Vector3 scale, int activeRequirAmount, IndicatorStruct indicatorStruct, float moveDistance, float moveSpeed)
+    : this(Base(id, position, quaternion, scale, activeRequirAmount, indicatorStruct))
     {
-        this.id = id;
-        this.activeRequirAmount = activeRequirAmount;
-        this.position = position;
-        this.quaternion = quaternion;
-        this.scale = scale;
-        talPot = Vector2.zero;
-        jumpingPower = 0;
-        rotateRate = 0;
-        fireRate = 0;
-        onLeft = false;
-        onHoldRotation = false;
-        paths = null;
         this.moveDistance = moveDistance;
         this.moveSpeed = moveSpeed;
-        bridgeLength = 0;
-        connectionPoint = Vector2.zero;
-        this.chargeRequired = chargeRequired;
-        
-        this.indicatorStruct = indicatorStruct;
     }
-    #endregion
-    #region  BridgeBox
-    public ButtonActivatableObjectStruct(int id, int activeRequirAmount, Vector2 position,
-      Quaternion quaternion,
-      Vector3 scale,
-      float bridgeLength,
-      Vector2 connectionPoint,
-      IndicatorStruct indicatorStruct,
-      bool chargeRequired = false
-      )
+    //Bridge Box
+    public ButtonActivatableObjectStruct(int id, Vector2 position, Quaternion quaternion, Vector3 scale, int activeRequirAmount, IndicatorStruct indicatorStruct, float bridgeLength, Vector2 connectionPoint)
+    : this(Base(id, position, quaternion, scale, activeRequirAmount, indicatorStruct))
     {
-        this.id = id;
-        this.activeRequirAmount = activeRequirAmount;
-        this.position = position;
-        this.quaternion = quaternion;
-        this.scale = scale;
-        talPot = Vector2.zero;
-        jumpingPower = 0;
-        rotateRate = 0;
-        fireRate = 0;
-        onLeft = false;
-        onHoldRotation = false;
-        paths = null;
-        moveDistance = 0;
-        moveSpeed = 0;
         this.bridgeLength = bridgeLength;
         this.connectionPoint = connectionPoint;
-        this.chargeRequired = chargeRequired;
-        
-        this.indicatorStruct = indicatorStruct;
     }
-    #endregion
-
 }
 #endregion
 
@@ -384,8 +360,6 @@ public struct ObjectData
     public Vector2 position;
     public Quaternion quaternion;
     public Vector3 scale;
-    //potal
-    public Vector2 talPot;
     //WorldTextObject
     public Vector2 size;
     public string text;
@@ -401,195 +375,163 @@ public struct ObjectData
     public int activeRequireAmount;
     public bool onEncapsulationItem;
     public INDICATOR indicator;
-    public ObjectData(int id, Vector2 position, Vector3 scale, int dialogueId = 0, Vector2 talPot = default)
+    //Tutorial_Drone
+    public int tutorialCode;
+
+    #region Primary Constructor
+    private ObjectData(
+        int id,
+        Vector2 position,
+        Quaternion quaternion,
+        Vector3 scale,
+
+        int dialogueId,
+        Vector2 size,
+        string text,
+        float fontSize,
+        bool chargeRequired,
+        AnimationTriggerType animationTriggerType,
+        float attackStartTime,
+        float attackCooldown,
+        bool onEncapsulationItem,
+        int activeRequireAmount,
+        INDICATOR indicator,
+        int tutorialCode
+        )
     {
+        //Base
         this.id = id;
-        this.dialogueId = dialogueId;
-        this.position = position;
-        quaternion = Quaternion.identity;
-        this.scale = scale;
-        this.talPot = talPot;
-        this.size = Vector2.zero;
-        this.text = string.Empty;
-        this.fontSize = 0;
-        this.chargeRequired = false;
-
-        animationTriggerType = AnimationTriggerType.Idle;
-
-        attackStartTime = 0;
-        attackCooldown = 0;
-
-        onEncapsulationItem = false;
-        activeRequireAmount = 0;
-
-        indicator = INDICATOR.NONE;
-    }
-    public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, bool chargeRequired)
-    {
-        this.id = id;
-        dialogueId = 0;
-        this.position = position;
-        this.quaternion = quaternion;
-        this.scale = scale;
-
-        talPot = default;
-
-        size = Vector2.zero;
-        text = string.Empty;
-        fontSize = 0;
-
-        this.chargeRequired = chargeRequired;
-        animationTriggerType = AnimationTriggerType.Idle;
-
-
-        attackStartTime = 0;
-        attackCooldown = 0;
-
-        onEncapsulationItem = false;
-        activeRequireAmount = 0;
-        indicator = INDICATOR.NONE;
-    }
-    public ObjectData(int id, Vector2 position, Vector2 size)
-    {
-        this.id = id;
-        this.dialogueId = 0;
-        this.position = position;
-        quaternion = Quaternion.identity;
-        this.scale = Vector3.one;
-        this.talPot = Vector2.zero;
-        this.size = size;
-        this.text = string.Empty;
-        this.fontSize = 0;
-        chargeRequired = false;
-        animationTriggerType = AnimationTriggerType.Idle;
-
-
-        attackStartTime = 0;
-        attackCooldown = 0;
-
-        onEncapsulationItem = false;
-        activeRequireAmount = 0;
-        indicator = INDICATOR.NONE;
-    }
-    public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, int dialogueId = 0)
-    {
-        this.id = id;
-        this.dialogueId = dialogueId;
         this.position = position;
         this.quaternion = quaternion;
         this.scale = scale;
-        this.talPot = Vector2.zero;
-        this.size = Vector2.zero;
-        this.text = string.Empty;
-        this.fontSize = 0;
-        chargeRequired = false;
-        animationTriggerType = AnimationTriggerType.Idle;
-
-        attackStartTime = 0;
-        attackCooldown = 0;
-
-        onEncapsulationItem = false;
-        activeRequireAmount = 0;
-        indicator = INDICATOR.NONE;
-    }
-    //WorldTextObject
-    public ObjectData(int id, Vector2 position, Vector2 size, string text, float fontSize)
-    {
-        this.id = id;
-        this.dialogueId = 0;
-        this.position = position;
-        this.quaternion = Quaternion.identity;
-        this.scale = Vector3.one;
-        this.talPot = Vector2.zero;
+        //Dialogue
+        this.dialogueId = dialogueId;
+        //Fog
         this.size = size;
-        this.text = text;
+        //WorldTextObject
+        this.text = text ?? string.Empty;
         this.fontSize = fontSize;
-        chargeRequired = false;
-        animationTriggerType = AnimationTriggerType.Idle;
-
-
-        attackStartTime = 0;
-        attackCooldown = 0;
-
-        onEncapsulationItem = false;
-        activeRequireAmount = 0;
-        indicator = INDICATOR.NONE;
-    }
-    //NPC Object
-    public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, AnimationTriggerType type)
-    {
-        this.id = id;
-        this.dialogueId = 0;
-        this.position = position;
-        this.quaternion = quaternion;
-        this.scale = scale;
-        this.talPot = Vector2.zero;
-        this.size = default;
-        this.text = string.Empty;
-        this.fontSize = 0;
-        chargeRequired = false;
-
-        animationTriggerType = type;
-
-
-        attackStartTime = 0;
-        attackCooldown = 0;
-
-        onEncapsulationItem = false;
-        activeRequireAmount = 0;
-        indicator = INDICATOR.NONE;
-    }
-    //SpikeTrap
-    public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, float attackStartTime, float attackCooldown)
-    {
-        this.id = id;
-        this.dialogueId = 0;
-        this.position = position;
-        this.quaternion = quaternion;
-        this.scale = scale;
-        this.talPot = Vector2.zero;
-        this.size = default;
-        this.text = string.Empty;
-        this.fontSize = 0;
-        chargeRequired = false;
-
-        animationTriggerType = default;
-
-
+        //IPowerConsumer
+        this.chargeRequired = chargeRequired;
+        //NPC Object
+        this.animationTriggerType = animationTriggerType;
+        //SpikeTrap
         this.attackStartTime = attackStartTime;
         this.attackCooldown = attackCooldown;
-
-        onEncapsulationItem = false;
-        activeRequireAmount = 0;
-        indicator = INDICATOR.NONE;
-    }
-    //Interactable Object
-    public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, bool onEncapsulationItem, int activeRequireAmount, INDICATOR indicator = INDICATOR.NONE)
-    {
-        this.id = id;
-        dialogueId = 0;
-        this.position = position;
-        this.quaternion = quaternion;
-        this.scale = scale;
-
-        talPot = default;
-
-        size = Vector2.zero;
-        text = string.Empty;
-        fontSize = 0;
-
-        chargeRequired = false;
-        animationTriggerType = AnimationTriggerType.Idle;
-
-        attackStartTime = 0;
-        attackCooldown = 0;
-
+        //Interactable Object
         this.onEncapsulationItem = onEncapsulationItem;
         this.activeRequireAmount = activeRequireAmount;
+        this.indicator = indicator;
+        //Tutorial_Drone
+        this.tutorialCode = tutorialCode;
+    }
+    private ObjectData(ObjectData other) : this(
+       other.id, other.position, other.quaternion, other.scale,
+       other.dialogueId,
+       other.size,
+       other.text, other.fontSize,
+       other.chargeRequired,
+       other.animationTriggerType,
+       other.attackStartTime, other.attackCooldown,
+       other.onEncapsulationItem, other.activeRequireAmount,
+       other.indicator,
+       other.tutorialCode)
+    { }
 
+    #endregion
+
+    private static ObjectData Base(int id, Vector2 position, Quaternion quaternion, Vector3 scale) => new ObjectData
+    (
+        id, position, quaternion, scale,
+        dialogueId: 0,
+        size: Vector2.zero,
+        text: string.Empty,
+        fontSize: 0f,
+        chargeRequired: false,
+        animationTriggerType: AnimationTriggerType.Idle,
+        attackStartTime: 0f,
+        attackCooldown: 0f,
+        onEncapsulationItem: false,
+        activeRequireAmount: 0,
+        indicator: INDICATOR.NONE,
+        tutorialCode: 0
+    );
+    private static ObjectData Base(int id, Vector2 position, Vector3 scale) => new ObjectData
+    (
+        id, position, Quaternion.identity, scale,
+        dialogueId: 0,
+        size: Vector2.zero,
+        text: string.Empty,
+        fontSize: 0f,
+        chargeRequired: false,
+        animationTriggerType: AnimationTriggerType.Idle,
+        attackStartTime: 0f,
+        attackCooldown: 0f,
+        onEncapsulationItem: false,
+        activeRequireAmount: 0,
+        indicator: INDICATOR.NONE,
+        tutorialCode: 0
+    );
+
+    public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale)
+    : this(Base(id, position, quaternion, scale))
+    { }
+    public ObjectData(int id, Vector2 position, Vector3 scale)
+    : this(Base(id, position, scale))
+    { }
+
+    //IPowerConsumer
+    public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, bool chargeRequired)
+    : this(Base(id, position, quaternion, scale))
+    {
+        this.chargeRequired = chargeRequired;
+    }
+
+    //Fog
+    public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector2 scale, Vector2 size)
+    : this(Base(id, position, quaternion, scale))
+    {
+        this.size = size;
+    }
+
+    //WorldTextObject
+    public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector2 scale, Vector2 size, string text, float fontSize)
+    : this(Base(id, position, quaternion, scale))
+    {
+        this.size = size;
+        this.fontSize = fontSize;
+    }
+
+    //NPC Object
+    public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector2 scale, AnimationTriggerType type)
+    : this(Base(id, position, quaternion, scale))
+    {
+        animationTriggerType = type;
+    }
+
+    //SpikeTrap
+    public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector2 scale, float attackStartTime, float attackCooldown)
+    : this(Base(id, position, quaternion, scale))
+    {
+        this.attackStartTime = attackStartTime;
+        this.attackCooldown = attackCooldown;
+    }
+
+    //Interactable Object
+    public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector2 scale, bool onEncapsulationItem, int activeRequireAmount, INDICATOR indicator = INDICATOR.NONE)
+    : this(Base(id, position, quaternion, scale))
+    {
+        this.onEncapsulationItem = onEncapsulationItem;
+        this.activeRequireAmount = activeRequireAmount;
         this.indicator = indicator;
     }
 
+    //Tutorial Drone
+    public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector2 scale, int tutorialCode)
+    : this(Base(id, position, quaternion, scale))
+    {
+        this.tutorialCode = tutorialCode;
+    }
 
 }
 #endregion
@@ -787,16 +729,4 @@ namespace ANH_MapEditor
     }
 
 
-
-
-    //public struct Indicator_2_DrawLineStruct
-    //{
-    //    public Transform target;
-    //    public LineRenderer line;
-    //    public Indicator_2_DrawLineStruct(Transform target, LineRenderer line)
-    //    {
-    //        this.target = target;
-    //        this.line = line;
-    //    }
-    //}
 }
