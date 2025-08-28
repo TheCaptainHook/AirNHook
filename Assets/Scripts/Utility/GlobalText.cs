@@ -48,6 +48,7 @@ public static class GlobalText
     #region Sound Name String
 
     #region FX
+    //General
     public const string UI_CLICK_SOUND = "Click1";
     public const string DIALOGUE_CLICK_SOUND = "Click2";
     public const string KET_PRINTING_SOUND = "PrintClang";
@@ -75,6 +76,7 @@ public static class GlobalText
     public const string LOCKER_CLOSE_SOUND = "Locker_Close";
     public const string KEY_SOUND = "KeyPing";
     public const string PLAYER_RESURRECT = "Resurrect";
+    public const string PLAYER_JUMP = "Jump1";
     public const string UI_PING = "Ping";
 
     //Drone
@@ -83,7 +85,6 @@ public static class GlobalText
     //Computer
     public const string COMPUTER_SELECTMENU_SOUND_1 = "KeyClick";
     public const string COMPUTER_SELECTMENU_SOUND_2 = "ComputerButton";
-
     #endregion
 
     #region Death Sound

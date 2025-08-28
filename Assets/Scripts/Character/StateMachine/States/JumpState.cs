@@ -91,6 +91,7 @@ public class JumpState : BaseState
         //Achievement 0605
         Managers.AcManager.CallPlayerJumping();
         //Achievement 0605
+        stateMachine.player.JumpSoundPlay();
     }
 
     private void HandleCeilingSlide()

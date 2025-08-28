@@ -449,32 +449,6 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         sort.sortingOrder = isLocalPlayer ? 8 : 7;
         go.transform.parent = gameObject.transform;
     }
-
-    private void DoVoice()
-    {
-        Managers.Sound.PlaySound("Meh");
-        CmdVoice();
-        TurnOnTalkingSprite();
-    }
-
-    [Command(requiresAuthority = false)]
-    private void CmdVoice()
-    {
-        RpcVoice();
-    }
-
-    [ClientRpc(includeOwner = false)]
-    private void RpcVoice()
-    {
-        Managers.Sound.PlaySound3D("Meh", transform);
-        TurnOnTalkingSprite();
-    }
-
-    private void TurnOnTalkingSprite()
-    {
-        if (talkingSprite.gameObject.activeSelf) talkingSprite.StartVoice();
-        else talkingSprite.gameObject.SetActive(true);
-    }
     #endregion
 
     #region PingSystem
@@ -555,6 +529,52 @@ public class PlayerSM : NetworkBehaviour, IDamageable
 
         if (_pingCount < 0)
             _pingCount = 0;
+    }
+    #endregion
+
+    #region Sound
+    private void DoVoice()
+    {
+        Managers.Sound.PlaySound(GlobalText.PLAYER_SPEAK);
+        CmdVoice();
+        TurnOnTalkingSprite();
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdVoice()
+    {
+        RpcVoice();
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcVoice()
+    {
+        Managers.Sound.PlaySound3D(GlobalText.PLAYER_SPEAK, transform);
+        TurnOnTalkingSprite();
+    }
+
+    private void TurnOnTalkingSprite()
+    {
+        if (talkingSprite.gameObject.activeSelf) talkingSprite.StartVoice();
+        else talkingSprite.gameObject.SetActive(true);
+    }
+
+    public void JumpSoundPlay()
+    {
+        Managers.Sound.PlaySound(GlobalText.PLAYER_JUMP);
+        CmdJumpSoundPlay();
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdJumpSoundPlay()
+    {
+        RpcJumpSoundPlay();
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcJumpSoundPlay()
+    {
+        Managers.Sound.PlaySound3D(GlobalText.PLAYER_JUMP, transform.position);
     }
     #endregion
 
@@ -651,6 +671,16 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         HidePingWheel();
     }
 
+    public void FreezePlayerState(bool onOff)
+    {
+        canAction = !onOff;
+        canMovable = !onOff;
+        doNotTouch = onOff;
+
+        if (onOff)
+            rigidbody2D.velocity = Vector2.zero;
+    }
+
     private void SubscribeInput()
     {
         input.playerActions.Emote.started += ShowEmote;
@@ -673,14 +703,4 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         input.playerActions.Ping.canceled -= HidePing;
     }
     #endregion
-
-    public void FreezePlayerState(bool onOff)
-    {
-        canAction = !onOff;
-        canMovable = !onOff;
-        doNotTouch = onOff;
-        
-        if (onOff)
-            rigidbody2D.velocity = Vector2.zero;
-    }
 }
