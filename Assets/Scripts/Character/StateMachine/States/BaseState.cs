@@ -45,9 +45,8 @@ public class BaseState : IState
 
     protected virtual void OnMove()
     {
-        if (!stateMachine.canMovable) return;
+        stateMachine.player.animator.SetBool(stateMachine.player.animationData.WalkParameterHash, (stateMachine.horizontal != 0 || !stateMachine.canMovable) && isGround);
 
-        stateMachine.player.animator.SetBool(stateMachine.player.animationData.WalkParameterHash, stateMachine.horizontal != 0 && isGround);
         if (stateMachine.horizontal < 0)
         {
             stateMachine.player.charPivot.rotation = Quaternion.Euler(0f, 180f, 0f);

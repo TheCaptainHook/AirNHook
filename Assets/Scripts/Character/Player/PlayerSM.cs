@@ -589,6 +589,8 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     {
         if (!canControl) return;
 
+        if (!canAction) return;
+
         ShowEmoteWheel();
     }
 
@@ -601,12 +603,16 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     {
         if (!canControl) return;
 
+        if (!canAction) return;
+
         Interaction();
     }
 
     protected virtual void TrySuicide(InputAction.CallbackContext context)
     {
         if (!canControl) return;
+
+        if (!canAction) return;
 
         canMovable = false;
         stateMachine.ChangeState(stateMachine.SuicideState);
@@ -623,11 +629,17 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     {
         if (!canControl) return;
 
+        if (!canAction) return;
+
         DoVoice();
     }
 
     private void ShowPing(InputAction.CallbackContext context)
     {
+        if (!canControl) return;
+
+        if (!canAction) return;
+
         if (context.interaction is TapInteraction)
             ShowBasicPing();
         else if (context.interaction is HoldInteraction)
@@ -665,10 +677,9 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     public void FreezePlayerState(bool onOff)
     {
         canAction = !onOff;
-        canControl = !onOff;
         canMovable = !onOff;
         doNotTouch = onOff;
-
+        
         if (onOff)
             rigidbody2D.velocity = Vector2.zero;
     }

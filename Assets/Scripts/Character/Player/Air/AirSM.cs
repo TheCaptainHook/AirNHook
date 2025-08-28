@@ -183,7 +183,7 @@ public class AirSM : PlayerSM
 
     public void StopSticking()
     {
-        
+        airGun.Reset();
     }
 
     public void StickJump()

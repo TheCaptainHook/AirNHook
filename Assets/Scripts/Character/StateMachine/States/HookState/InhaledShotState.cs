@@ -32,9 +32,9 @@ public class InhaledShotState : BaseState
     
     protected override void Move()
     {
-        if (!stateMachine.canMovable) return;
+        var horizontal = stateMachine.canMovable ? stateMachine.horizontal : 0f;
 
-        rigidbd.AddForce(new Vector2(stateMachine.horizontal * stateMachine.moveSpeed, 0f));
+        rigidbd.AddForce(new Vector2(horizontal * stateMachine.moveSpeed, 0f));
         rigidbd.velocity = new Vector2(rigidbd.velocity.x, rigidbd.velocity.y);
     }
 }

@@ -18,8 +18,6 @@ public class WalkState : BaseState
     #region Movement
     protected override void OnMove()
     {
-        if (!stateMachine.canMovable) return;
-
         if (stateMachine.horizontal == 0)
             stateMachine.ChangeState(stateMachine.IdleState);
         else
@@ -34,8 +32,12 @@ public class WalkState : BaseState
     
     protected override void Move()
     {
-        if (!stateMachine.canMovable) return;
-        
+        if (!stateMachine.canMovable)
+        {
+            stateMachine.ChangeState(stateMachine.IdleState);
+            return;
+        }
+
         var groundForce = stateMachine.moveSpeed * stateMachine.moveSpeedMultiplier;
         
         stateMachine.rigidbody2D.AddForce(new Vector2((stateMachine.horizontal * groundForce - rigidbd.velocity.x) * groundForce, 0f));
@@ -44,6 +46,9 @@ public class WalkState : BaseState
 
     private void TryStepOver()
     {
+        if (!stateMachine.canMovable)
+            return;
+
         float maxStepHeight = 0.4f;
         float checkDistance = 1f;
         float groundCheckDistance = 0.1f;
