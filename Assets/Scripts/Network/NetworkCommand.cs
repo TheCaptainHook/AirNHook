@@ -49,10 +49,7 @@ public class NetworkCommand : NetworkBehaviour
     //---------------------------------
     private IEnumerator Wait_ChangeStage() //Server
     {
-        var uiOption = Managers.UI.GetUI<UI_Option>().GetComponent<UI_Option>();
-        
-        uiOption.HoldAndReleaseLobby_StageRestartBtn(true);
-        
+
         while(changeStageQueue.Count>0)
         {
             isCompleteMoveStageCount = 0;
@@ -64,7 +61,6 @@ public class NetworkCommand : NetworkBehaviour
            
         }
 
-        uiOption.HoldAndReleaseLobby_StageRestartBtn(false);
         waitChangeStageCoroutine = null;
 
     }
