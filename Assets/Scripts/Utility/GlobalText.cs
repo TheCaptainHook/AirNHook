@@ -83,7 +83,8 @@ public static class GlobalText
     //Computer
     public const string COMPUTER_SELECTMENU_SOUND_1 = "KeyClick";
     public const string COMPUTER_SELECTMENU_SOUND_2 = "ComputerButton";
-
+    //LaserObject
+    public const string LASER_HIT_SOUND = "";
     #endregion
 
     #region Death Sound

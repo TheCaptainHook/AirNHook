@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System;
 
 
 public class LaserObject_Net : ActivatableObject_Net_Entity
@@ -50,13 +51,12 @@ public class LaserObject_Net : ActivatableObject_Net_Entity
 
     [SerializeField] private Transform _firePoint;
 
-    private int _maxBounces = 5;
+    private int _maxBounces = 7;
     private float _maxDistance = 200f;
     private int _mirrorLayer;
     [SerializeField] LayerMask _layerMask;
     private ContactFilter2D _defaultFilter;
     private RaycastHit2D[] _raycastHitBuffer = new RaycastHit2D[1];
-    // public Vector3[] _linePoints = new Vector3[6];
 
     public void Init()
     {
@@ -70,17 +70,56 @@ public class LaserObject_Net : ActivatableObject_Net_Entity
         };
     }
 
+    #region Audio
 
+    public List<LaserEffectAudio> _laserEffectAudios;
+    private void LaserAudio(int hits,Vector2 hitPoint)
+    {
+        if (_laserEffectAudios == null) _laserEffectAudios = new();
+        //없는경우 사운드 할당
+        if (_laserEffectAudios.Count < hits)
+        {
+            _laserEffectAudios.Add(new LaserEffectAudio(Managers.Sound.PlaySound3D(
+                GlobalText.DRONE_LASER_SOUND,hitPoint,1,true),hitPoint));
+            return;
+        }
+
+        var source = _laserEffectAudios[hits-1];
+        if (!EqualsVector2(source.hitPoint,hitPoint))
+        {
+            source.source?.transform?.SetPositionAndRotation(new Vector3(hitPoint.x, hitPoint.y, 0f), Quaternion.identity);
+            _laserEffectAudios[hits-1] = new LaserEffectAudio(source.source, hitPoint);
+        }
+
+    }
+    private bool EqualsVector2(Vector2 a, Vector2 b,float epsilon = 0.01f)
+    {
+        return Vector2.SqrMagnitude(a - b) < (epsilon * epsilon);
+    }
+    private void LaserAudioClean(int segmentCount)
+    {
+        if (_laserEffectAudios.Count > segmentCount)
+        {
+            for(int i = _laserEffectAudios.Count-1;i>=segmentCount;i--)
+            {
+                var source = _laserEffectAudios[i].source;
+                source.GetAudioSource().Stop();
+                Managers.Sound.Recycle(source);
+                _laserEffectAudios.RemoveAt(i);
+            }
+        }
+    }
+    #endregion
     public void UpdateLaser_()
     {
         Vector2 start = _firePoint.position;
         Vector2 dir = transform.right;
         int segmentCount = 0;
+        Collider2D lastCol = null;
 
         for (int i = 0; i < _maxBounces; i++)
         {
             int hits = Physics2D.Raycast(start, dir, _defaultFilter, _raycastHitBuffer, _maxDistance);
-            //Cant find Target
             if (hits == 0)
             {
                 _lineRenderer.positionCount = 0;
@@ -88,9 +127,18 @@ public class LaserObject_Net : ActivatableObject_Net_Entity
             }
 
             var rh = _raycastHitBuffer[0];
-            // Debug.Log(rh.collider.gameObject.name);
+            if (lastCol == rh.collider) return;
+
+            lastCol = rh.collider;
             Vector2 hitPoint = rh.point;
+
+            float segSqr = (hitPoint - start).sqrMagnitude;
+            if (segSqr < 0.0001f) break;
+
             DrawLaser(i, start, hitPoint);
+           
+            segmentCount++;
+            LaserAudio(segmentCount, hitPoint);
 
             if (rh.collider.TryGetComponent(out PlayerSM player) && Application.isPlaying)
             {
@@ -103,14 +151,13 @@ public class LaserObject_Net : ActivatableObject_Net_Entity
                 float sqrDist = (hitPoint - start).sqrMagnitude;
                 if (rh.distance < 0.01f || sqrDist < 0.0001f) break;
 
-                start = rh.point + rh.normal * 0.01f; 
+                start = rh.point + rh.normal * 0.03f;
                 Vector2 reflected = Vector2.Reflect(dir, rh.normal).normalized;
 
                 if (reflected == Vector2.zero || float.IsNaN(reflected.x) || float.IsNaN(reflected.y))
                 {
                     break;
                 }
-                segmentCount++;
 
                 dir = reflected;
             }
@@ -118,6 +165,17 @@ public class LaserObject_Net : ActivatableObject_Net_Entity
             {
                 SetHitParticleRotate(start, hitPoint);
                 lt.Charging();
+                break;
+            }
+            else if (rh.collider.TryGetComponent(out LaserBox laserBox) && Application.isPlaying)
+            {
+                SetHitParticleRotate(start, hitPoint);
+                
+                if(!laserBox.onLaser)
+                {
+                    int remain = _maxBounces - segmentCount;
+                    laserBox.Laser(remain);
+                }
                 break;
             }
             else if (rh.collider.TryGetComponent(out BuildObj obj) && Application.isPlaying)
@@ -130,6 +188,8 @@ public class LaserObject_Net : ActivatableObject_Net_Entity
             SetHitParticleRotate(start, hitPoint);
 
         }
+
+        LaserAudioClean(segmentCount);
 
     }
 

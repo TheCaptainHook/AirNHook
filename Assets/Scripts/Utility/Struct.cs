@@ -31,6 +31,7 @@ public struct ButtonObjectStruct
     public List<Vector2> targetPositions;
     public List<Vector2> lightPositions;
     public List<Vector2> encapsulationItems;
+    public bool chargeRequired;
     //puzzle_1
     public bool onHint;
     public Vector2[] partsPositions;
@@ -38,7 +39,7 @@ public struct ButtonObjectStruct
     public Vector2 hintPosition;
     //CapsulationItem
 
-    public bool chargeRequired;
+   
 
     #region Primary Constructor
     private ButtonObjectStruct(
@@ -46,11 +47,11 @@ public struct ButtonObjectStruct
         List<Vector2> targetPositions,
         List<Vector2> lightPositions,
         List<Vector2> encapsulationItems,
+        bool chargeRequired,
         bool onHint,
         Vector2[] partsPositions,
         Vector2[] itemPositions,
-        Vector2 hintPosition,
-        bool chargeRequired
+        Vector2 hintPosition
     )
     {
         this.id = id;
@@ -62,87 +63,56 @@ public struct ButtonObjectStruct
         this.lightPositions = lightPositions;
         this.encapsulationItems = encapsulationItems;
 
+        this.chargeRequired = chargeRequired;
+
         this.onHint = onHint;
         this.partsPositions = partsPositions;
         this.itemPositions = itemPositions;
         this.hintPosition = hintPosition;
-        this.chargeRequired = chargeRequired;
+        
     }
     private ButtonObjectStruct(ButtonObjectStruct other) : this(
-        other.id,other.position,other.quaternion,other.scale,
-        other.targetPositions, other.lightPositions,other.encapsulationItems,
-        other.onHint,other.partsPositions,other.itemPositions,other.hintPosition,
-        other.chargeRequired
-    ){}
-    // private static ButtonObjectStruct Base(int id,Vector2 position,Quaternion quaternion,Vector3 scale)
+        other.id, other.position, other.quaternion, other.scale,
+        other.targetPositions, other.lightPositions, other.encapsulationItems,
+        other.chargeRequired,
+        other.onHint, other.partsPositions, other.itemPositions, other.hintPosition
+      
+    ) { }
+ 
     #endregion
+    private static ButtonObjectStruct Base(int id, Vector2 position, Quaternion quaternion, Vector3 scale,
+        List<Vector2> targetPositions,
+        List<Vector2> lightPositions,
+        List<Vector2> encapsulationItems,
+        bool chargeRequired) => new ButtonObjectStruct(
+            id, position, quaternion, scale,
+            targetPositions, lightPositions, encapsulationItems,
+            chargeRequired,
+            onHint: false,
+            partsPositions: null,
+            itemPositions: null,
+            hintPosition: Vector2.zero
+            );
 
-    public ButtonObjectStruct(int id, List<Vector2> targetPositions, Vector2 position, Quaternion quaternion, Vector3 scale, bool chargeRequired = false)
-    {
-        this.id = id;
-        this.targetPositions = targetPositions;
-        this.position = position;
-        this.quaternion = quaternion;
-        this.scale = scale;
-        partsPositions = null;
-        itemPositions = null;
-        onHint = false;
-        hintPosition = Vector2.zero;
-        this.chargeRequired = chargeRequired;
-        lightPositions = null;
-        encapsulationItems = null;
-    }
+
+    public ButtonObjectStruct(int id, Vector2 position, Quaternion quaternion, Vector3 scale,
+        List<Vector2> targetPositions,
+        List<Vector2> lightPositions,
+        List<Vector2> encapsulationItems,
+        bool chargeRequired) 
+        : this(Base(id, position, quaternion, scale, targetPositions, lightPositions, encapsulationItems, chargeRequired)) { }
+
     //Puzzle_1
-    public ButtonObjectStruct(int id, List<Vector2> targetPositions, Vector2 position, Vector3 scale,
-    Vector2[] partsPositions,
-    Vector2[] itemPositions,
-    bool onHint,
-    Vector2 hintPosition = default,
-    List<Vector2> lightPositions = null,
-    List<Vector2> encapsulationItems = null
-    )
+    public ButtonObjectStruct(int id, Vector2 position, Quaternion quaternion, Vector3 scale,
+       List<Vector2> targetPositions,List<Vector2> lightPositions,List<Vector2> encapsulationItems,
+       bool onHint,Vector2[] partsPositions,Vector2[] itemPositions,Vector2 hintPosition)
+       : this(Base(id, position, quaternion, scale, targetPositions, lightPositions, encapsulationItems, false)) 
     {
-        this.id = id;
-        this.targetPositions = targetPositions;
-        this.position = position;
-        quaternion = Quaternion.identity;
-        this.scale = scale;
+        this.onHint = onHint;
         this.partsPositions = partsPositions;
         this.itemPositions = itemPositions;
-        this.onHint = onHint;
         this.hintPosition = hintPosition;
-        chargeRequired = false;
-        this.lightPositions = lightPositions;
-        this.encapsulationItems = encapsulationItems;
     }
-
-    public ButtonObjectStruct(int id,
-    List<Vector2> targetPositions,
-    List<Vector2> lightPositions,
-    List<Vector2> encapsulationItems,
-    Vector2 position,
-    Quaternion quaternion,
-    Vector3 scale,
-    bool chargeRequired = false)
-    {
-        this.id = id;
-        this.targetPositions = targetPositions;
-        this.position = position;
-        this.quaternion = quaternion;
-        this.scale = scale;
-        //puzzle
-        partsPositions = null;
-        itemPositions = null;
-        onHint = false;
-        hintPosition = Vector2.zero;
-
-        this.chargeRequired = chargeRequired;
-        this.lightPositions = lightPositions;
-
-        this.encapsulationItems = encapsulationItems;
-    }
-
-
 
 }
 #endregion
@@ -632,6 +602,7 @@ public struct ShadowCasterStruct{
     }
 }
 #endregion
+
 #region Light
 [System.Serializable]
 public struct LightStruct{
@@ -676,6 +647,7 @@ public struct LightStruct{
     }
 }
 #endregion
+
 #region Network
 [Serializable]
 public struct Host_MapData
@@ -703,7 +675,17 @@ public struct Host_MapData
 //}
 #endregion
 
-
+[System.Serializable]
+public struct LaserEffectAudio
+{
+    public AudioSourceController source;
+    public Vector2 hitPoint;
+    public LaserEffectAudio(AudioSourceController source, Vector2 hitPoint)
+    {
+        this.source = source;
+        this.hitPoint = hitPoint;
+    }
+}
 
 namespace ANH_MapEditor
 {

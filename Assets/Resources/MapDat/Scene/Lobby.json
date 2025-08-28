@@ -8458,6 +8458,72 @@
             "onEncapsulationItem": false,
             "indicator": 0,
             "tutorialCode": 3
+        },
+        {
+            "id": 323,
+            "dialogueId": 0,
+            "position": {
+                "x": -1.659999966621399,
+                "y": 20.93000030517578
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0,
+            "tutorialCode": 0
+        },
+        {
+            "id": 358,
+            "dialogueId": 0,
+            "position": {
+                "x": -6.849999904632568,
+                "y": 23.5
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0,
+            "tutorialCode": 0
         }
     ],
     "mapBackgroundObjectList": [
@@ -12115,6 +12181,54 @@
                 "x": 0.0,
                 "y": 0.0
             }
+        },
+        {
+            "id": 335,
+            "position": {
+                "x": -1.6699999570846558,
+                "y": 25.6299991607666
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.7167147397994995,
+                "w": 0.69736647605896
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "activeRequirAmount": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
         }
     ],
     "buttonObjectList": [
@@ -12143,14 +12257,14 @@
             ],
             "lightPositions": [],
             "encapsulationItems": [],
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": false
+            }
         },
         {
             "id": 329,
@@ -12177,14 +12291,14 @@
             ],
             "lightPositions": [],
             "encapsulationItems": [],
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": false
+            }
         },
         {
             "id": 329,
@@ -12211,14 +12325,14 @@
             ],
             "lightPositions": [],
             "encapsulationItems": [],
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": false
+            }
         },
         {
             "id": 372,
@@ -12245,14 +12359,14 @@
             ],
             "lightPositions": [],
             "encapsulationItems": [],
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": false
+            }
         },
         {
             "id": 372,
@@ -12279,14 +12393,14 @@
             ],
             "lightPositions": [],
             "encapsulationItems": [],
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": false
+            }
         },
         {
             "id": 372,
@@ -12313,14 +12427,14 @@
             ],
             "lightPositions": [],
             "encapsulationItems": [],
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": false
+            }
         }
     ],
     "mapExitObjectStruct": {

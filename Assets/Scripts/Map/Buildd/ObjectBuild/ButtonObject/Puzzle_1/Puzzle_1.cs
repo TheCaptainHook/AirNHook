@@ -4,6 +4,7 @@ using System;
 using Random = UnityEngine.Random;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Cci;
 
 
 public class Puzzle_1 : ButtonEntity
@@ -35,15 +36,17 @@ public class Puzzle_1 : ButtonEntity
         if (typeof(T) == typeof(ButtonObjectStruct)) {
             return (T)(object)new ButtonObjectStruct(
                 id,
-                GetTargetPositions(),
                 GetPosition(),
+                transform.rotation,
                 transform.localScale,
+                GetTargetPositions(),
+                GetLightPositions(),
+                GetEncapsulationTiems(),
+                
+                onHint,
                 GetPartsPosition(),
                 GetItemPosition(),
-                onHint,
-                onHint ? hintScreen.transform.position : default,
-                GetLightPositions(),
-                GetEncapsulationTiems()
+                onHint ? hintScreen.transform.position : default 
                 );
         }
 

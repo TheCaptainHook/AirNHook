@@ -70,23 +70,6 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
     }
 
     #region Get,Set
-    // public override T GetData<T>()
-    // {
-    //     if (typeof(T) == typeof(ButtonObjectStruct))
-    //     {
-    //         return (T)(object)new ButtonObjectStruct(
-    //             id, 
-    //         GetTargetPositions(), 
-    //         GetLightPositions(),
-    //         GetEncapsulationTiems(),
-    //         transform.position, 
-    //         transform.rotation,
-    //         transform.localScale, 
-    //         chargeRequired);
-    //     }
-
-    //     return default(T);
-    // }
 
     public override void SetData<T>(T data)
     {

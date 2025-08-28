@@ -35,7 +35,7 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
             return entity;
         }
     }
-
+    [HideInInspector]
     public ButtonActivatableObjectStruct data;
 
     #region Init Sync

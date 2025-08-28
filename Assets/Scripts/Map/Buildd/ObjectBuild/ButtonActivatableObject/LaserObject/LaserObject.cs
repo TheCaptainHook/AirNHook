@@ -4,19 +4,7 @@ using UnityEngine;
 public class LaserObject : ActivatableObjectEntity
 {
     [CustomHeader("LaserObject")]
-    //[SerializeField] private float _defDistanceRay = 50f;
     public float _curDistanceRay;
-
-
-
-
-
-
-
-    //[SerializeField] private bool _isEnabled;
-    //private bool onActive;
-
-    // [Header("Effect")]
 
 
     private Ray ray;
@@ -26,22 +14,7 @@ public class LaserObject : ActivatableObjectEntity
     #endregion
 
 
-    // private void FixedUpdate()
-    // {
-    //     if (!MapEditor.Instance.stageClear && !turnOff && Net.onActive)
-    //     {
-    //         // UpdateLaser();
-    //         UpdateLaser_();
-    //     }
-    //     else if (MapEditor.Instance.stageClear && Net.onActive)
-    //     {
-    //         if (NetworkServer.active)
-    //         {
-    //             Net.Server_ChangeOnActive(false);
-    //         }
-    //     }
 
-    // }
 
     public override void Activation()
     {
@@ -52,113 +25,7 @@ public class LaserObject : ActivatableObjectEntity
     {
         Net.Server_ChangeOnActive(false);
     }
-    //---------------------------------------------------------------------------Refactoring 0825
-    // private int _maxBounces = 5;
-    // private float _maxDistance = 200f;
-    // private int _mirrorLayer;
-    // [SerializeField] LayerMask _layerMask;
-    // private ContactFilter2D _mirrorFilter;
-    // private ContactFilter2D _defaultFilter;
-    // private RaycastHit2D[] _raycastHitBuffer = new RaycastHit2D[1];
-    // public Vector3[] _linePoints = new Vector3[6];
-
-    // public void Init()
-    // {
-    //     _mirrorLayer = LayerMask.NameToLayer("Mirror");
-    //     _mirrorFilter = new ContactFilter2D
-    //     {
-    //         useLayerMask = true,
-    //         layerMask = _layerMask,
-    //         useTriggers = true
-    //     };
-    //     _defaultFilter = new ContactFilter2D
-    //     {
-    //         useLayerMask = true,
-    //         layerMask = _layerMask,
-    //         useTriggers = true
-    //     };
-
-    //     int needed = _maxBounces + 2;
-    //     if (_linePoints == null || _linePoints.Length < needed)
-    //         _linePoints = new Vector3[needed];
-    // }
-
-    // private void UpdateLaser_()
-    // {
-    //     Vector2 start = _firePoint.position;
-    //     Vector2 dir = transform.right;
-    //     int segmentCount = 0;
-    //     _linePoints[segmentCount] = start;
-
-    //     for (int i = 0; i < _maxBounces; i++)
-    //     {
-    //         int hits = Physics2D.Raycast(start, dir, _defaultFilter, _raycastHitBuffer, _maxDistance);
-    //         //Cant find Target
-    //         if (hits == 0)
-    //         {
-    //             _lineRenderer.positionCount = 0;
-    //             break;
-    //         }
-
-    //         var rh = _raycastHitBuffer[0];
-    //         Vector2 hitPoint = rh.point;
-    //         // _linePoints[segmentCount] = start;
-    //         // _linePoints[segmentCount + 1] = hitPoint;
-    //         // segmentCount++;
-
-
-    //         if (rh.collider.TryGetComponent(out PlayerSM player) && Application.isPlaying)
-    //         {
-    //             _linePoints[segmentCount + 1] = hitPoint;
-    //             SetHitParticleRotate(start, hitPoint);
-    //             player.TakeDamage(DamageType.Fire);
-    //             break;
-    //         }
-    //         else if (rh.collider.gameObject.layer == _mirrorLayer)
-    //         {
-    //             float sqrDist = (hitPoint - start).sqrMagnitude;
-    //             if (rh.distance < 0.01f || sqrDist < 0.0001f) break;
-
-    //             start = rh.point + rh.normal * 0.01f; // ← 방향 벡터 대신 실제 normal 기반 밀어내기
-    //             Vector2 reflected = Vector2.Reflect(ray.direction, rh.normal).normalized;
-
-    //             if (reflected == Vector2.zero || float.IsNaN(reflected.x) || float.IsNaN(reflected.y))
-    //             {
-    //                 break;
-    //             }
-    //             _linePoints[segmentCount + 1] = hitPoint;
-    //             segmentCount++;
-
-    //             dir = reflected;
-    //         }
-    //         else if (rh.collider.TryGetComponent(out LaserTriggerButton lt) && Application.isPlaying)
-    //         {
-    //             SetHitParticleRotate(start, hitPoint);
-    //             _linePoints[segmentCount + 1] = hitPoint;
-    //             lt.Charging();
-    //             break;
-    //         }
-    //         else if (rh.collider.TryGetComponent(out BuildObj obj) && Application.isPlaying)
-    //         {
-    //             SetHitParticleRotate(start, hitPoint);
-    //             _linePoints[segmentCount + 1] = hitPoint;
-    //             obj.TakeDamage(DamageType.Fire);
-    //             break;
-    //         }
-    //         else SetHitParticleRotate(start, hitPoint);
-
-    //     }
-
-    //     if (segmentCount > 0)
-    //     {
-    //         _lineRenderer.positionCount = segmentCount;
-    //         _lineRenderer.SetPositions(_linePoints);
-    //     }
-
-
-    // }
-    //---------------------------------------------------------------------------Refactoring 0825
-
+  
 
 
     #region  Editor
@@ -205,8 +72,6 @@ public class LaserObject : ActivatableObjectEntity
         {
             ray = new Ray(start, dir);
             RaycastHit2D rh = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity, _mask);
-            // int hits = Physics2D.Raycast(start, dir, _defaultFilter, _raycastHitBuffer, _maxDistance);
-            // int hit = Physics2D.Raycast(start, dir, Mathf.Infinity, _layerMask);
             if (rh.collider != null)
             {
                 Vector2 colDir = rh.normal;

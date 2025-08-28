@@ -155,12 +155,13 @@ public class ButtonEntity : BuildObj
         {
             return (T)(object)new ButtonObjectStruct(
                 id,
-                GetTargetPositions(),
-                GetLightPositions(),
-                GetEncapsulationTiems(),
                 transform.position,
                 transform.rotation,
                 transform.localScale,
+
+                GetTargetPositions(),
+                GetLightPositions(),
+                GetEncapsulationTiems(),
                 chargeRequired
                 );
         }
