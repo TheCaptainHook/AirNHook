@@ -449,32 +449,6 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         sort.sortingOrder = isLocalPlayer ? 8 : 7;
         go.transform.parent = gameObject.transform;
     }
-
-    private void DoVoice()
-    {
-        Managers.Sound.PlaySound("Meh");
-        CmdVoice();
-        TurnOnTalkingSprite();
-    }
-
-    [Command(requiresAuthority = false)]
-    private void CmdVoice()
-    {
-        RpcVoice();
-    }
-
-    [ClientRpc(includeOwner = false)]
-    private void RpcVoice()
-    {
-        Managers.Sound.PlaySound3D("Meh", transform);
-        TurnOnTalkingSprite();
-    }
-
-    private void TurnOnTalkingSprite()
-    {
-        if (talkingSprite.gameObject.activeSelf) talkingSprite.StartVoice();
-        else talkingSprite.gameObject.SetActive(true);
-    }
     #endregion
 
     #region PingSystem
@@ -558,6 +532,52 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     }
     #endregion
 
+    #region Sound
+    private void DoVoice()
+    {
+        Managers.Sound.PlaySound(GlobalText.PLAYER_SPEAK);
+        CmdVoice();
+        TurnOnTalkingSprite();
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdVoice()
+    {
+        RpcVoice();
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcVoice()
+    {
+        Managers.Sound.PlaySound3D(GlobalText.PLAYER_SPEAK, transform);
+        TurnOnTalkingSprite();
+    }
+
+    private void TurnOnTalkingSprite()
+    {
+        if (talkingSprite.gameObject.activeSelf) talkingSprite.StartVoice();
+        else talkingSprite.gameObject.SetActive(true);
+    }
+
+    public void JumpSoundPlay()
+    {
+        Managers.Sound.PlaySound(GlobalText.PLAYER_JUMP);
+        CmdJumpSoundPlay();
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdJumpSoundPlay()
+    {
+        RpcJumpSoundPlay();
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcJumpSoundPlay()
+    {
+        Managers.Sound.PlaySound3D(GlobalText.PLAYER_JUMP, transform.position);
+    }
+    #endregion
+
     #region Particles
     [Command(requiresAuthority = false)]
     public void CmdLandParticlePlay()
@@ -589,6 +609,8 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     {
         if (!canControl) return;
 
+        if (!canAction) return;
+
         ShowEmoteWheel();
     }
 
@@ -601,12 +623,16 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     {
         if (!canControl) return;
 
+        if (!canAction) return;
+
         Interaction();
     }
 
     protected virtual void TrySuicide(InputAction.CallbackContext context)
     {
         if (!canControl) return;
+
+        if (!canAction) return;
 
         canMovable = false;
         stateMachine.ChangeState(stateMachine.SuicideState);
@@ -623,11 +649,17 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     {
         if (!canControl) return;
 
+        if (!canAction) return;
+
         DoVoice();
     }
 
     private void ShowPing(InputAction.CallbackContext context)
     {
+        if (!canControl) return;
+
+        if (!canAction) return;
+
         if (context.interaction is TapInteraction)
             ShowBasicPing();
         else if (context.interaction is HoldInteraction)
@@ -637,6 +669,16 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     private void HidePing(InputAction.CallbackContext context)
     {
         HidePingWheel();
+    }
+
+    public void FreezePlayerState(bool onOff)
+    {
+        canAction = !onOff;
+        canMovable = !onOff;
+        doNotTouch = onOff;
+
+        if (onOff)
+            rigidbody2D.velocity = Vector2.zero;
     }
 
     private void SubscribeInput()
@@ -661,15 +703,4 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         input.playerActions.Ping.canceled -= HidePing;
     }
     #endregion
-
-    public void FreezePlayerState(bool onOff)
-    {
-        canAction = !onOff;
-        canControl = !onOff;
-        canMovable = !onOff;
-        doNotTouch = onOff;
-
-        if (onOff)
-            rigidbody2D.velocity = Vector2.zero;
-    }
 }

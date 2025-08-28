@@ -31,10 +31,12 @@ public class GrapplingJumpState : BaseState
 
     protected override void OnMove()
     {
-        if (!stateMachine.canMovable) return;
-
         stateMachine.player.animator.SetBool(stateMachine.player.animationData.WalkParameterHash, true);
         stateMachine.player.animator.SetBool(stateMachine.player.animationData.JumpParameterHash, true);
+
+        if (!stateMachine.canMovable)
+            return;
+
         if (stateMachine.horizontal < 0)
             stateMachine.player.charPivot.rotation = Quaternion.Euler(0f, 180f, 0f);
         else if (stateMachine.horizontal > 0)
@@ -43,9 +45,9 @@ public class GrapplingJumpState : BaseState
 
     protected override void Move()
     {
-        if (!stateMachine.canMovable) return;
-        
-        rigidbd.AddForce(new Vector2(stateMachine.horizontal * stateMachine.moveSpeed, 0f));
+        var horizontal = stateMachine.canMovable ? stateMachine.horizontal : 0;
+
+        rigidbd.AddForce(new Vector2(horizontal * stateMachine.moveSpeed, 0f));
         rigidbd.velocity = new Vector2(rigidbd.velocity.x, rigidbd.velocity.y);
     }
 }
