@@ -76,7 +76,7 @@ public static class GlobalText
     public const string KEY_SOUND = "KeyPing";
     public const string PLAYER_RESURRECT = "Resurrect";
     public const string UI_PING = "Ping";
-
+    public const string PLAYER_JUMP = "Jump1";
     //Drone
     public const string DRONE_LASER_SOUND = "Drone_Laser";
     public const string ALERT_SOUND = "Alert";

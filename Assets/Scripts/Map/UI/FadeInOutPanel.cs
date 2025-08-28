@@ -34,7 +34,12 @@ public class FadeInOutPanel : MonoBehaviour
     }
     IEnumerator FadeInOut(string mapId)
     {
-        if (NetworkServer.active) Managers.Command.Server_UpdateCurClientConnectionCount();
+        var uiOption = Managers.UI.GetUI<UI_Option>().GetComponent<UI_Option>();
+        if (NetworkServer.active) 
+        {
+            Managers.Command.Server_UpdateCurClientConnectionCount();
+            uiOption.HoldAndReleaseLobby_StageRestartBtn(true);
+        } 
         //Event to be executed before map transition
         preMapLoadEvent?.Invoke(); 
         Managers.Sound.CollectAmbientSoundSource();
@@ -118,7 +123,7 @@ public class FadeInOutPanel : MonoBehaviour
         //------------------------UI_MapOpenClosePanel Prograss 3
 
         moveNextStageCoroutine = null;
-        
+        if(NetworkServer.active) uiOption.HoldAndReleaseLobby_StageRestartBtn(false);
         //Managers.Command.Cmd_IsCompleteMoveStage();
         Managers.Game.StageStart(mapId);
     }

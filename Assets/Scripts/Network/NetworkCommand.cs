@@ -78,33 +78,31 @@ public class NetworkCommand : NetworkBehaviour
             waitChangeStageCoroutine = StartCoroutine(Wait_ChangeStage());
         }
     }
-    private Coroutine server_waitChangeStageCoroutine;
-    [Server]
-    public void Server_ChangeStage_Use_ExitDoor()
-    {
-        if (server_waitChangeStageCoroutine == null)
-        {
-            server_waitChangeStageCoroutine = StartCoroutine(Server_WaitChangeStageCoroutine());
-        }
-    }
-    IEnumerator Server_WaitChangeStageCoroutine()
-    {
-        var uiOption = Managers.UI.GetUI<UI_Option>().GetComponent<UI_Option>();
-        uiOption.HoldAndReleaseLobby_StageRestartBtn(true);
-        yield return new WaitForSeconds(20);
-        yield return new WaitUntil(() => isCompleteMoveStageCount == 2);
-        isCompleteMoveStageCount = 0;
-        server_waitChangeStageCoroutine = null;
-        uiOption.HoldAndReleaseLobby_StageRestartBtn(false);
-    }
+    //private Coroutine server_waitChangeStageCoroutine;
+    //[Server]
+    //public void Server_ChangeStage_Use_ExitDoor()
+    //{
+    //    if (server_waitChangeStageCoroutine == null)
+    //    {
+    //        server_waitChangeStageCoroutine = StartCoroutine(Server_WaitChangeStageCoroutine());
+    //    }
+    //}
+    //IEnumerator Server_WaitChangeStageCoroutine()
+    //{
+    //    var uiOption = Managers.UI.GetUI<UI_Option>().GetComponent<UI_Option>();
+    //    uiOption.HoldAndReleaseLobby_StageRestartBtn(true);
+    //    yield return new WaitForSeconds(20);
+    //    yield return new WaitUntil(() => isCompleteMoveStageCount == 2);
+    //    isCompleteMoveStageCount = 0;
+    //    server_waitChangeStageCoroutine = null;
+    //    uiOption.HoldAndReleaseLobby_StageRestartBtn(false);
+    //}
 
     // [Command(requiresAuthority = false)]
     [Server]
     public void _Server_ChangeStage(string value) //chit Option, [UI,Console,Serve Dissconnection]
     {
         Server_ChangeStage(value);
-        // RpcChangeStage(value);
-
     }
 
 

@@ -194,7 +194,7 @@ public class ExitPoint_Net : NetworkBehaviour
         if (innerDoor_Air && innerDoor_Hook)
         {
             // move Next map
-            Managers.Command.Server_ChangeStage_Use_ExitDoor(); //UI_Option Lock
+            //Managers.Command.Server_ChangeStage_Use_ExitDoor(); //UI_Option Lock
             Rpc_OnReadyToMoveMap();
             // move Next map
 
