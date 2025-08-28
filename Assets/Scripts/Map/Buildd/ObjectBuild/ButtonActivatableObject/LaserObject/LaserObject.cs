@@ -29,7 +29,7 @@ public class LaserObject : ActivatableObjectEntity
 
 
     #region  Editor
-#if UNITY_EDITOR
+
     [Space(20)]
     [Header("Editor")]
     [SerializeField] GameObject _endVFX;
@@ -37,8 +37,9 @@ public class LaserObject : ActivatableObjectEntity
     [SerializeField] ParticleSystem hitEffectParticle;
     [SerializeField] private Transform _firePoint;
     [SerializeField] LayerMask _mask;
-
     private bool isEnabled;
+
+#if UNITY_EDITOR
     public void Editor_Awake()
     {
         isEnabled = true;

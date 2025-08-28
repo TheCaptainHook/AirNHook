@@ -1,11 +1,7 @@
 
 using UnityEngine;
-using System;
-using Random = UnityEngine.Random;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.Cci;
-
 
 public class Puzzle_1 : ButtonEntity
 {
