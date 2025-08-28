@@ -46,7 +46,7 @@ public class UI_MapOpenClosePanel : UI_Base
         float t = 0f;
         while (t < 1f)
         {
-            t += Time.deltaTime / duration;
+            t += Time.unscaledDeltaTime / duration;
             float easedT = Mathf.SmoothStep(0f, 1f, t);
             topLayerPanelImg.color = Color.Lerp(startColor, endColor, easedT);
             yield return null;
@@ -82,31 +82,13 @@ public class UI_MapOpenClosePanel : UI_Base
 
     #endregion
 
-
-    //Test
-    //void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.I))
-    //    {
-    //        StartCoroutine(Prograss_1());
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.O))
-    //    {
-    //        StartCoroutine(Prograss_2());
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.P))
-    //    {
-    //        StartCoroutine(Prograss_3());
-    //    }
-    //}
-
     #region  1
     public IEnumerator Prograss_1()
     {
         //Close Top Layer Animation
         animator.SetTrigger(PROGRASS_1);
         //Close Top Layer Animation
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSecondsRealtime(1f);
 
         //Loading Animation Start
         StartCoroutine(LoadingCo());
@@ -129,9 +111,6 @@ public class UI_MapOpenClosePanel : UI_Base
         string mapAudioName = curMap.audioName != string.Empty ? curMap.audioName : "";
 
         //Loading Animation End
-        // StopCoroutine(loadingCoroutine);
-        // loadingCoroutine = null;
-        // loadingObj.SetActive(false);
         onCompleteLoading = true;
         //Loading Animation End
 
@@ -151,13 +130,10 @@ public class UI_MapOpenClosePanel : UI_Base
 
         ////Map Name Typing
         yield return StartCoroutine(typingEffect.NormalTyping(mapNameText, mapName, typingDefaultColor, 1, 60));
-        //yield return StartCoroutine(typingEffect.NormalTyping(mapNameText, "ABCDEFGAAAAAAAAAAAAAA", typingDefaultColor, 1, 40));
         //Map Audio Typing
         if (mapAudioName != string.Empty)
         {
             yield return StartCoroutine(typingEffect.NormalTyping(mapAudioNameText, $"{mapAudioName}", typingDefaultColor, 1, 50));
-
-            //yield return StartCoroutine(typingEffect.NormalTyping(mapAudioNameText, "mapAudioNamemapAudioName", typingDefaultColor, 1, 30));
         }
 
 
@@ -200,13 +176,13 @@ public class UI_MapOpenClosePanel : UI_Base
         float t = 0;
         while (true)
         {
-            t += Time.deltaTime * increase * loadingSpeed;
+            if (onCompleteLoading) break;
+
+            t += Time.unscaledDeltaTime * increase * loadingSpeed;
             loadingImage.fillAmount = t;
 
             if (t >= 1 || t <= 0)
-            {
-                if (onCompleteLoading) break;
-
+            {            
                 increase *= -1;
                 t = Mathf.Clamp01(t);
                 loadingImage.fillClockwise = !loadingImage.fillClockwise;
@@ -236,7 +212,7 @@ public class UI_MapOpenClosePanel : UI_Base
 
         while (percent < 1)
         {
-            percent += Time.deltaTime;
+            percent += Time.unscaledDeltaTime;
             loadingImage.color = Color.Lerp(cur, target, percent);
             yield return null;
         }

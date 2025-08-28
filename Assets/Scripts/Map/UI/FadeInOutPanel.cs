@@ -90,13 +90,15 @@ public class FadeInOutPanel : MonoBehaviour
         Camera.main.GetComponent<ParallaxCamera>().enabled = true;
         Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.Volume_1();
         yield return new WaitForSeconds(.5f);
-        
-        yield return new WaitUntil(() => playerCameraView.isCameraCenter);
+
+        //yield return new WaitUntil(() => playerCameraView.isCameraCenter);
+        yield return WaitUntilOrTimeout(() => playerCameraView.isCameraCenter, 10, () => { Debug.Log("[1] TimeOut Camera"); });
         //------------------------Player, Camera Setting
 
         Managers.Command.Cmd_IsCompleteMoveStage();
         var num = Managers.Command.currentClientConnectionCount;
-        yield return new WaitUntil(() => Managers.Command.isCompleteMoveStageCount == num);
+        //yield return new WaitUntil(() => Managers.Command.isCompleteMoveStageCount == num);
+        yield return WaitUntilOrTimeout(() => Managers.Command.isCompleteMoveStageCount == num, 10, () => { Debug.Log("[2] TimeOut"); });
 
         //------------------------UI_MapOpenClosePanel Prograss 2
         yield return StartCoroutine(UI_MapOpenClosePanel.Prograss_2());
@@ -121,4 +123,18 @@ public class FadeInOutPanel : MonoBehaviour
         Managers.Game.StageStart(mapId);
     }
 
+
+    private IEnumerator WaitUntilOrTimeout(Func<bool> cond, float timeoutSec, Action onTimeout = null)
+    {
+        float end = Time.unscaledTime + timeoutSec;
+        while (!cond())
+        {
+            if (Time.unscaledTime >= end)
+            {
+                onTimeout?.Invoke();
+                yield break;
+            }
+            yield return null;
+        }
+    }
 }
