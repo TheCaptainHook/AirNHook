@@ -96,7 +96,7 @@ public class FadeInOutPanel : MonoBehaviour
         //------------------------Player, Camera Setting
 
         Managers.Command.Cmd_IsCompleteMoveStage();
-        var num = Managers.Command.currentClientConnectionCount;
+        //var num = Managers.Command.currentClientConnectionCount;
         //yield return new WaitUntil(() => Managers.Command.isCompleteMoveStageCount == num);
         yield return WaitUntilOrTimeout(() => Managers.Command.AllReadyClient(), 10, () => { Debug.Log("[2] TimeOut"); });
 

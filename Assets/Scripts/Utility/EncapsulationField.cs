@@ -148,16 +148,6 @@ public class EncapsulationField : MonoBehaviour
             capsuleObject = Instantiate(Resources.Load<GameObject>(GlobalText.CAPSULE_OBJECT)).GetComponent<CapsulObject>(); //default : false, Polling
             capsuleObject.transform.position = Main.ObjectData.position;
         }
-
-        
-        // Capsule Object Setting
-        orgParent = parent; //---Main cashing org parent
-
-
-        // Size Change Effect(Coroutine)
-        //Vector2 d = new Vector2(Main.ObjectData.position.x, Main.ObjectData.position.y - mainCol.offset.y);
-        //transform.position = d;
-
         Connection();
 
         capsuleObject.Resize(transform, mainColliderBounds);
@@ -171,7 +161,7 @@ public class EncapsulationField : MonoBehaviour
         TransformParentNull();
         // Main.transform.SetParent(capsuleObject.insertTr);
         // capsuleObject.transform.SetParent(Main.transform);
-        capsuleObject.transform.SetParent(orgParent);
+        capsuleObject.transform.SetParent(MapEditor.Instance.networkingObjectTransform);
         Main.transform.SetParent(capsuleObject.insertTr);
         Main.transform.localPosition = new Vector2(0,-(mainCol.offset.y/2));
 
