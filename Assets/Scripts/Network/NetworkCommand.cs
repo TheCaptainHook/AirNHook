@@ -91,9 +91,9 @@ public class NetworkCommand : NetworkBehaviour
     {
         var uiOption = Managers.UI.GetUI<UI_Option>().GetComponent<UI_Option>();
         uiOption.HoldAndReleaseLobby_StageRestartBtn(true);
-        
+        yield return new WaitForSeconds(10);
         yield return new WaitUntil(() => isCompleteMoveStageCount == 2);
-        
+        isCompleteMoveStageCount = 0;
         server_waitChangeStageCoroutine = null;
         uiOption.HoldAndReleaseLobby_StageRestartBtn(false);
     }
