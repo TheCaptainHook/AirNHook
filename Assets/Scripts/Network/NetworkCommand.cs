@@ -35,6 +35,10 @@ public class NetworkCommand : NetworkBehaviour
         currentClientConnectionCount = NetworkServer.connections.Count;
         isCompleteMoveStageCount = 0;
     }
+    public bool AllReadyClient()
+    {
+        return isCompleteMoveStageCount == currentClientConnectionCount;
+    }
 
     [Command(requiresAuthority = false)]
     public void Cmd_IsCompleteMoveStage()
