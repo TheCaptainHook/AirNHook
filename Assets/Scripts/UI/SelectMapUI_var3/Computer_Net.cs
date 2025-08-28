@@ -223,6 +223,8 @@ public class Computer_Net : NetworkBehaviour
     [ClientRpc]
     private void Rpc_SetKey(int num)
     {
+        if (Dummy == null) return;
+
         switch (num)
         {
             case 1:

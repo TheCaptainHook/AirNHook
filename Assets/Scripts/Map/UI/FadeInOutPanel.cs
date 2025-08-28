@@ -123,7 +123,11 @@ public class FadeInOutPanel : MonoBehaviour
         //------------------------UI_MapOpenClosePanel Prograss 3
 
         moveNextStageCoroutine = null;
-        if(NetworkServer.active) uiOption.HoldAndReleaseLobby_StageRestartBtn(false);
+        if (NetworkServer.active) 
+        {
+            uiOption.HoldAndReleaseLobby_StageRestartBtn(false);
+
+        } 
         //Managers.Command.Cmd_IsCompleteMoveStage();
         Managers.Game.StageStart(mapId);
     }
