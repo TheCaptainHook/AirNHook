@@ -162,7 +162,7 @@ public class Computer_Net : NetworkBehaviour
         }
         else
         {
-            playerActions.Disable();
+            //playerActions.Disable();
             uiActions.Disable();
 
             ShowMain(true);

@@ -80,7 +80,7 @@ public class PlayerStateMachine : StateMachine
     {
         vertical = context.ReadValue<Vector2>().y;
     }
-    
+
     protected void JumpStarted(InputAction.CallbackContext context)
     {
         isJumping = true;

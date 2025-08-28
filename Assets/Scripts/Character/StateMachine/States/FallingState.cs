@@ -63,10 +63,12 @@ public class FallingState : BaseState
     #region Movement
     protected override void OnMove()
     {
-        if (!stateMachine.canMovable) return;
+        stateMachine.player.animator.SetBool(stateMachine.player.animationData.JumpParameterHash, stateMachine.horizontal != 0 && stateMachine.canMovable);
+        stateMachine.player.animator.SetBool(stateMachine.player.animationData.FallingParameterHash, stateMachine.horizontal == 0 || !stateMachine.canMovable);
 
-        stateMachine.player.animator.SetBool(stateMachine.player.animationData.JumpParameterHash, stateMachine.horizontal != 0);
-        stateMachine.player.animator.SetBool(stateMachine.player.animationData.FallingParameterHash, stateMachine.horizontal == 0);
+        if (!stateMachine.canMovable)
+            return;
+
         if (stateMachine.horizontal < 0)
             stateMachine.player.charPivot.rotation = Quaternion.Euler(0f, 180f, 0f);
         else if (stateMachine.horizontal > 0)
@@ -75,11 +77,10 @@ public class FallingState : BaseState
 
     protected override void Move()
     {   
-        if (!stateMachine.canMovable) return;
-
+        var horizontal = stateMachine.canMovable ? stateMachine.horizontal : 0f;
         var groundForce = stateMachine.moveSpeed * stateMachine.moveSpeedMultiplier;
         
-        stateMachine.rigidbody2D.AddForce(new Vector2((stateMachine.horizontal * groundForce - rigidbd.velocity.x) * groundForce, 0f));
+        stateMachine.rigidbody2D.AddForce(new Vector2((horizontal * groundForce - rigidbd.velocity.x) * groundForce, 0f));
         rigidbd.velocity = new Vector2(rigidbd.velocity.x, rigidbd.velocity.y);
     }
     #endregion
