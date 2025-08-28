@@ -14,7 +14,7 @@ public class MirrorObject : BuildObj,IInteractable
     [Header("Interacte")]
     [SerializeField] float _BtnOffset;
     public ObjectTypeEnum _objectType = ObjectTypeEnum.Control;
-    private Vector3 _offset = new Vector2(0, 2f);
+    private Vector3 _offset = new Vector2(0, 2.8f);
     private UI_Base _E_Btn;
     private UI_ControlADE _AorD_Btn;
 
@@ -203,7 +203,7 @@ public class MirrorObject : BuildObj,IInteractable
     public void ShowADEButton()
     {
         _AorD_Btn = (UI_ControlADE)Managers.UI.ShowUI<UI_ControlADE>();
-        _AorD_Btn.transform.position = transform.position + _offset;
+        _AorD_Btn.transform.position = transform.position;
     }
 
     public void HideADEButton()
