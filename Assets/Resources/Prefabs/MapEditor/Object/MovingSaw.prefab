@@ -5043,13 +5043,12 @@ GameObject:
   - component: {fileID: 1621393986771204216}
   - component: {fileID: 8980493692623290019}
   - component: {fileID: 7857764052154975748}
-  - component: {fileID: 1912061667540384569}
   - component: {fileID: 6464654479886526947}
   - component: {fileID: 6332937188113323379}
-  - component: {fileID: 1975591882027516896}
   - component: {fileID: 7338807210957550940}
   - component: {fileID: 7542279758671605579}
   - component: {fileID: 2654625771401597475}
+  - component: {fileID: 1975591882027516896}
   m_Layer: 14
   m_Name: MovingSaw
   m_TagString: Untagged
@@ -5121,40 +5120,6 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!114 &1912061667540384569
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3690635770919025948}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  target: {fileID: 1621393986771204216}
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 1
-  onlySyncOnChange: 1
-  compressRotation: 1
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 1
-  coordinateSpace: 0
-  sendIntervalMultiplier: 1
-  timelineOffset: 0
-  showGizmos: 0
-  showOverlay: 0
-  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  onlySyncOnChangeCorrectionMultiplier: 2
-  rotationSensitivity: 0.01
-  positionPrecision: 0.01
-  scalePrecision: 0.01
 --- !u!58 &6464654479886526947
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -5211,23 +5176,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1975591882027516896
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3690635770919025948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f94c8f0b6f1c40b58d12bba8601b7f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parents: {fileID: 0}
-  onHierarchy: 0
-  debugmodeTransform: {fileID: 0}
-  curPath: []
-  line: {fileID: 0}
 --- !u!114 &7338807210957550940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5295,13 +5243,31 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
+  _Dissolve_MainSprites: []
+  _dissolveMaterials: []
   canRespawn: 0
   paths: []
   moveSpeed: 0
   IsBroken: 0
   _Animation_Transition_Speed: 0
   addForcePower: 10
+--- !u!114 &1975591882027516896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3690635770919025948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f94c8f0b6f1c40b58d12bba8601b7f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parents: {fileID: 0}
+  onHierarchy: 0
+  debugmodeTransform: {fileID: 0}
+  curPath: []
+  line: {fileID: 0}
 --- !u!1 &3962016352224804910
 GameObject:
   m_ObjectHideFlags: 0

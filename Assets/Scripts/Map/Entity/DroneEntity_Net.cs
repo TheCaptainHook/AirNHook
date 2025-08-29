@@ -136,24 +136,6 @@ public class DroneEntity_Net : NetworkBehaviour
                 
     }
 
-
-
-    //[Command(requiresAuthority = false)]
-    //public void Cmd_OnTriggerEnter(uint id)
-    //{
-    //    if (NetworkServer.spawned.TryGetValue(id, out var netObj))
-    //    {
-    //        var targetRb = netObj.GetComponent<Rigidbody2D>();
-    //        float vel = targetRb.velocity.magnitude;
-    //        if (vel >= 10)
-    //        {
-    //            gameObject.GetComponent<Drone_MultiPurpose>().DroneDropTransportItem();
-    //            //DroneDropTransportItem();  // 서버에서 충돌 처리
-    //        }
-    //        targetRb.velocity = Vector2.zero;
-    //    }
-    //}
-
     [Command(requiresAuthority = false)]
     public void Cmd_CallDropTransportItem()
     {

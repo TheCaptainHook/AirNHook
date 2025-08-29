@@ -501,6 +501,7 @@ public class CreateMap_Tool : EditorWindow
                 FindObj(curMapEditor.exitDoorObjectTransform, obj);
                 SelectActiveOBJ(obj, curMapEditor.exitDoorObjectTransform);
                 break;
+            case 303:
             case 305:
             case 304:
             case 322:

@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 public class AudioSourceController : MonoBehaviour
@@ -56,7 +57,6 @@ public class AudioSourceController : MonoBehaviour
 
         _audioSource.priority = 0;
     }
-
     /// <summary>
     /// Transform을 따라가는 사운드
     /// </summary>
@@ -185,5 +185,18 @@ public class AudioSourceController : MonoBehaviour
     public AudioSource GetAudioSource()
     {
         return _audioSource;
+    }
+
+
+    public void ClipChange(AudioClip audioClip,bool isLoop)
+    {
+        _audioSource.clip = audioClip;
+        _clipLength = audioClip.length;
+        _elapsedTime = 0;
+        _isLoop = isLoop;
+        _audioSource.loop = _isLoop;
+        
+        _audioSource.priority = 0;
+        _audioSource.Play();
     }
 }

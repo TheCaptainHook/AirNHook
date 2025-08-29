@@ -113,10 +113,12 @@ public class DroneEntity : BuildObj
 
     #region  Action
 
-     private void Broken(){
+    private void Broken()
+    {
         StopAllCoroutines();
         IsBroken = true;
         _rb.velocity = Vector2.zero;
+        
     }
     #endregion
 

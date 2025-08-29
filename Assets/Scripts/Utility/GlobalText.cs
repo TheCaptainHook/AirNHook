@@ -62,7 +62,6 @@ public static class GlobalText
     public const string DOOR_SOUND_3 = "Door3";
     public const string DOOR_SOUND_4 = "Door4";
     public const string DOOR_SOUND_5 = "Door5";
-    public const string SAW_SOUND_LOOP = "Saw_Loop";
     public const string BUTTON_PRESS_SOUND_2 = "Press_Down";
     public const string BUTTON_RELEASE_SOUND_1 = "Press_Up";
     public const string ENERGY_UP_SOUND = "Energy_Up";
@@ -77,6 +76,8 @@ public static class GlobalText
     public const string PLAYER_RESURRECT = "Resurrect";
     public const string UI_PING = "Ping";
     public const string PLAYER_JUMP = "Jump1";
+    //Saw Object
+    public const string SAW_SOUND_LOOP = "Saw_Loop";
     //Drone
     public const string DRONE_LASER_SOUND = "Drone_Laser";
     public const string ALERT_SOUND = "Alert";
@@ -85,6 +86,11 @@ public static class GlobalText
     public const string COMPUTER_SELECTMENU_SOUND_2 = "ComputerButton";
     //LaserObject
     public const string LASER_HIT_SOUND = "";
+    //HydraulicPress
+    public const string HYDRAULICPRESS_START = "Hydraulic_Start";
+    public const string HYDRAULICPRESS_LOOP = "Hydraulic_Loop";
+    public const string HYDRAULICPRESS_END = "Hydraulic_End";
+    public const string HYDRAULICPRESS_STEAM = "Steam";
     #endregion
 
     #region Death Sound

@@ -9,9 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4596783747364002581}
-  - component: {fileID: 8924082460812235221}
   - component: {fileID: 2783271239105424309}
   - component: {fileID: 8301057560502506077}
+  - component: {fileID: 4175802033071923983}
+  - component: {fileID: 8924082460812235221}
+  - component: {fileID: 6015705058144677080}
   m_Layer: 14
   m_Name: SawObject
   m_TagString: Untagged
@@ -38,37 +40,6 @@ Transform:
   - {fileID: 8554737672306132583}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8924082460812235221
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2430859862792595060}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 610a7f7be762e42f795c92cd0cfee4af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 303
-  transformID: 1
-  position: {x: 0, y: 0}
-  distructionStatus: 0
-  chargeRequired: 0
-  isTransportItem: 0
-  carrierTransformNetId: 0
-  carrierTransform: {fileID: 0}
-  onPlaceable: 0
-  onRotateable: 1
-  onScaleable: 1
-  offset: {x: 0, y: 3}
-  turnOff: 0
-  setPosition: 0
-  orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
-  canRespawn: 0
-  sawPivot: {fileID: 7108496691391073394}
-  addForcePower: 5
 --- !u!58 &2783271239105424309
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -116,6 +87,106 @@ SortingGroup:
   m_SortingLayer: 5
   m_SortingOrder: 1
   m_SortAtRoot: 0
+--- !u!114 &4175802033071923983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2430859862792595060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 1017895496
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
+--- !u!114 &8924082460812235221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2430859862792595060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 610a7f7be762e42f795c92cd0cfee4af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 303
+  transformID: 1
+  position: {x: 0, y: 0}
+  distructionStatus: 0
+  chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
+  onPlaceable: 0
+  onRotateable: 1
+  onScaleable: 1
+  offset: {x: 0, y: 3}
+  turnOff: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprites: []
+  _dissolveMaterials: []
+  canRespawn: 0
+  activeRequirAmount: 0
+  indicator: 0
+  indicatorOffset_val_1: {x: 0, y: 0}
+  indicatorOffset_val_2: {x: 0, y: 0}
+  isHorizontal: 0
+  indicatorStruct:
+    indicator: 0
+    indicator_1_position: {x: 0, y: 0}
+    indicator_2_position: {x: 0, y: 0}
+    isHorizontal: 0
+  curActiveBtn: 0
+  addForcePower: 5
+--- !u!114 &6015705058144677080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2430859862792595060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33e4954faca1d4e52950674b7a5ad7b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  data:
+    id: 0
+    position: {x: 0, y: 0}
+    quaternion: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 0, y: 0, z: 0}
+    activeRequirAmount: 0
+    indicatorStruct:
+      indicator: 0
+      indicator_1_position: {x: 0, y: 0}
+      indicator_2_position: {x: 0, y: 0}
+      isHorizontal: 0
+    jumpingPower: 0
+    talPot: {x: 0, y: 0}
+    rotateRate: 0
+    fireRate: 0
+    onHoldRotation: 0
+    onLeft: 0
+    paths: []
+    moveSpeed: 0
+    moveDistance: 0
+    bridgeLength: 0
+    connectionPoint: {x: 0, y: 0}
+  onSync: 0
+  onActive: 0
+  animator: {fileID: 5063625757682003165}
+  particle: {fileID: 7049792302717558537}
 --- !u!1 &3018364189525743036
 GameObject:
   m_ObjectHideFlags: 0
