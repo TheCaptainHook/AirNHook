@@ -10,7 +10,6 @@ public class BeamDamage : MonoBehaviour
     {
         if(collision != null)
         {
-
             if (collision.gameObject.TryGetComponent(out PlayerSM sm))
             {
                 sm.TakeDamage(DamageType.Electric);
@@ -18,14 +17,13 @@ public class BeamDamage : MonoBehaviour
 
             if (collision.gameObject.TryGetComponent(out BuildObj obj))
             {
-
+                //Sound
+                
+                //Sound
                 AddForce(collision);
             }
 
-        }
-
-      
-            
+        }   
     }
 
 

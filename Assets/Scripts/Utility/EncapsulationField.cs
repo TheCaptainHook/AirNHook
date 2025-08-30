@@ -197,6 +197,9 @@ public class EncapsulationField : MonoBehaviour
 
     public void UnCapsuling() //Call Only Server,RPC
     {
+        //Sound
+        Managers.Sound.PlaySound3D(GlobalText.CAPSULE_UNCAPSULING, transform.position);
+        //Sound
 
         //Return parent
         Disconnection();

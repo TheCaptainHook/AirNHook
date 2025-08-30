@@ -76,6 +76,8 @@ public static class GlobalText
     public const string PLAYER_RESURRECT = "Resurrect";
     public const string UI_PING = "Ping";
     public const string PLAYER_JUMP = "Jump1";
+    //Capsule
+    public const string CAPSULE_UNCAPSULING = "CapsulePowerDown";
     //Saw Object
     public const string SAW_SOUND_LOOP = "Saw_Loop";
     //Drone

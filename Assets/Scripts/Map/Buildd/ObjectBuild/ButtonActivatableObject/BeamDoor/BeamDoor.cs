@@ -22,7 +22,28 @@ public class BeamDoor : ActivatableObjectEntity
     {
         Animator.SetBool(Open, false);
     }
-   
+
+
+    #region Animation Trigger
+    private Coroutine soundCoroutine;
+    private AudioSourceController audioSourceController;
+    public void OpenSound()
+    {
+        if (audioSourceController == null)
+        {
+
+        }
+    }
+    // private IEnumerator OpenSoundCo(AudioSourceController audioSourceController)
+    // {
+
+    // }
+    public void CloseSound()
+    {
+
+    }
+    
+   #endregion
 }
 
 
