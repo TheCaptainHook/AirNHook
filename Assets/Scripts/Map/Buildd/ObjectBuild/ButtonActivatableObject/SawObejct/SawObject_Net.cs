@@ -15,7 +15,7 @@ public class SawObject_Net : ActivatableObject_Net_Entity
         if (!cameraShakeObject.activeSelf) cameraShakeObject.SetActive(true);
 
         Col.enabled = true;
-        animator.SetBool(_ONACTIVE, onActive);
+        animator.SetBool(_ONACTIVE, true);
         particle.Play();
         if (audioSourceController == null)
         {
@@ -37,7 +37,7 @@ public class SawObject_Net : ActivatableObject_Net_Entity
         if (cameraShakeObject.activeSelf) cameraShakeObject.SetActive(false);
         
         Col.enabled = false;
-        animator.SetBool(_ONACTIVE, onActive);
+        animator.SetBool(_ONACTIVE, false);
         particle.Stop();
 
         if (audioSourceController == null) return;
