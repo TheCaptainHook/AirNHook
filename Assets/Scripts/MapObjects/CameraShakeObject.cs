@@ -14,11 +14,26 @@ public class CameraShakeObject : MonoBehaviour
     public float minDistance = 0.2f;
     public float duration = 1f;
 
-    private void Start()
+    private Coroutine shackeCoroutine;
+
+    void Awake()
     {
         _waitForSeconds = new WaitForSeconds(shakeInterval);
         _waitForSleep = new WaitForSeconds(_sleepInterval);
-        StartCoroutine(CameraShake());
+    }
+
+    void OnEnable()
+    {
+        if (shackeCoroutine == null)
+        {
+            shackeCoroutine = StartCoroutine(CameraShake());
+        }
+    }
+    
+    void OnDisable()
+    {
+        StopAllCoroutines();
+        shackeCoroutine = null;
     }
 
     private IEnumerator CameraShake()

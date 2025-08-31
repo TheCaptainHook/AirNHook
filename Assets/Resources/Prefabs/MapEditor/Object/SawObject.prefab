@@ -187,6 +187,7 @@ MonoBehaviour:
   onActive: 0
   animator: {fileID: 5063625757682003165}
   particle: {fileID: 7049792302717558537}
+  cameraShakeObject: {fileID: 5492488308115663466}
 --- !u!1 &3018364189525743036
 GameObject:
   m_ObjectHideFlags: 0
@@ -5617,6 +5618,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9aeeed4f2b30d74b96f763194e1618f, type: 3}
+--- !u!1 &5492488308115663466 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4243447674835193412, guid: a9aeeed4f2b30d74b96f763194e1618f, type: 3}
+  m_PrefabInstance: {fileID: 8564434896498074670}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7425361944950329285 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1285447223710968811, guid: a9aeeed4f2b30d74b96f763194e1618f, type: 3}

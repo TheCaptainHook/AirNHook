@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using Mirror;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(EncapsulationField))]
@@ -166,16 +165,7 @@ public class TransportItemEntity : InteractableObject, ITransportItem
         action?.Invoke();
 
     }
-    // [ClientRpc]
-    // private void Rpc_Capsuling(Vector2 startPot)
-    // {
-    //     StartCoroutine(DelayCapsuling(startPot));
-    // }
-    // private IEnumerator DelayCapsuling(Vector2 startPot)
-    // {
-    //     yield return new WaitForFixedUpdate();
-    //     EncapsulationField.Capsuling(startPot);
-    // }
+
     public ObjectData data;
 
     [ClientRpc]

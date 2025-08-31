@@ -771,17 +771,6 @@
             }
         },
         {
-            "TileId": 2,
-            "Start": {
-                "x": -48,
-                "y": -30
-            },
-            "End": {
-                "x": -48,
-                "y": -27
-            }
-        },
-        {
             "TileId": 7,
             "Start": {
                 "x": -48,
@@ -834,28 +823,6 @@
             "End": {
                 "x": -47,
                 "y": -35
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -47,
-                "y": -30
-            },
-            "End": {
-                "x": -47,
-                "y": -30
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -47,
-                "y": -27
-            },
-            "End": {
-                "x": -47,
-                "y": -27
             }
         },
         {
@@ -914,28 +881,6 @@
             }
         },
         {
-            "TileId": 2,
-            "Start": {
-                "x": -46,
-                "y": -30
-            },
-            "End": {
-                "x": -46,
-                "y": -30
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -46,
-                "y": -27
-            },
-            "End": {
-                "x": -46,
-                "y": -27
-            }
-        },
-        {
             "TileId": 7,
             "Start": {
                 "x": -46,
@@ -988,17 +933,6 @@
             "End": {
                 "x": -45,
                 "y": -35
-            }
-        },
-        {
-            "TileId": 2,
-            "Start": {
-                "x": -45,
-                "y": -30
-            },
-            "End": {
-                "x": -45,
-                "y": -27
             }
         },
         {
@@ -5164,42 +5098,6 @@
     },
     "mapObjectDataList": [
         {
-            "id": 300,
-            "dialogueId": 0,
-            "position": {
-                "x": -28.130002975463868,
-                "y": -32.59000015258789
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0,
-            "activeRequireAmount": 0,
-            "onEncapsulationItem": false,
-            "indicator": 0
-        },
-        {
             "id": 319,
             "dialogueId": 0,
             "position": {
@@ -5217,10 +5115,6 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -5233,7 +5127,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 317,
@@ -5251,11 +5146,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -5269,7 +5160,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 363,
@@ -5287,11 +5179,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -5305,43 +5193,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
-        },
-        {
-            "id": 300,
-            "dialogueId": 0,
-            "position": {
-                "x": -15.510000228881836,
-                "y": -30.8799991607666
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0,
-            "activeRequireAmount": 0,
-            "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 344,
@@ -5361,10 +5214,6 @@
                 "y": 0.699999988079071,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -5377,7 +5226,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 343,
@@ -5395,11 +5245,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -5413,7 +5259,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 343,
@@ -5431,11 +5278,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -5449,7 +5292,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 343,
@@ -5467,11 +5311,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -5485,7 +5325,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 1001,
@@ -5505,10 +5346,6 @@
                 "y": 0.8999999761581421,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -5521,7 +5358,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 1002,
@@ -5541,10 +5379,6 @@
                 "y": 0.8999999761581421,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -5557,7 +5391,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 357,
@@ -5577,10 +5412,6 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -5593,7 +5424,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 323,
@@ -5613,10 +5445,6 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -5629,7 +5457,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 311,
@@ -5647,11 +5476,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -5665,7 +5490,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 3,
             "onEncapsulationItem": true,
-            "indicator": 2
+            "indicator": 2,
+            "tutorialCode": 0
         },
         {
             "id": 363,
@@ -5683,11 +5509,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -5701,7 +5523,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 3,
             "onEncapsulationItem": true,
-            "indicator": 2
+            "indicator": 2,
+            "tutorialCode": 0
         },
         {
             "id": 315,
@@ -5719,11 +5542,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -5737,7 +5556,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 3,
             "onEncapsulationItem": true,
-            "indicator": 2
+            "indicator": 2,
+            "tutorialCode": 0
         },
         {
             "id": 358,
@@ -5755,11 +5575,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -5773,7 +5589,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 3,
             "onEncapsulationItem": true,
-            "indicator": 2
+            "indicator": 2,
+            "tutorialCode": 0
         },
         {
             "id": 317,
@@ -5791,11 +5608,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -5809,7 +5622,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 3,
             "onEncapsulationItem": true,
-            "indicator": 2
+            "indicator": 2,
+            "tutorialCode": 0
         },
         {
             "id": 307,
@@ -5827,11 +5641,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -5845,7 +5655,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 3,
             "onEncapsulationItem": true,
-            "indicator": 2
+            "indicator": 2,
+            "tutorialCode": 0
         },
         {
             "id": 316,
@@ -5863,11 +5674,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -5881,7 +5688,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 3,
             "onEncapsulationItem": true,
-            "indicator": 2
+            "indicator": 2,
+            "tutorialCode": 0
         },
         {
             "id": 365,
@@ -5899,11 +5707,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -5917,7 +5721,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 3,
             "onEncapsulationItem": true,
-            "indicator": 2
+            "indicator": 2,
+            "tutorialCode": 0
         },
         {
             "id": 300,
@@ -5935,11 +5740,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -5953,7 +5754,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 3,
             "onEncapsulationItem": true,
-            "indicator": 2
+            "indicator": 2,
+            "tutorialCode": 0
         },
         {
             "id": 343,
@@ -5971,11 +5773,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -5989,7 +5787,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 3,
             "onEncapsulationItem": true,
-            "indicator": 2
+            "indicator": 2,
+            "tutorialCode": 0
         },
         {
             "id": 343,
@@ -6007,11 +5806,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -6025,7 +5820,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 344,
@@ -6045,10 +5841,6 @@
                 "y": 0.699999988079071,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -6061,7 +5853,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 323,
@@ -6081,10 +5874,6 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -6097,7 +5886,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 313,
@@ -6117,10 +5907,6 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -6133,14 +5919,15 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 358,
             "dialogueId": 0,
             "position": {
-                "x": -45.9900016784668,
-                "y": -27.989999771118165
+                "x": -50.09000015258789,
+                "y": -32.279998779296878
             },
             "quaternion": {
                 "x": 0.0,
@@ -6151,11 +5938,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -6169,43 +5952,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 1,
             "onEncapsulationItem": true,
-            "indicator": 2
-        },
-        {
-            "id": 364,
-            "dialogueId": 0,
-            "position": {
-                "x": -36.7599983215332,
-                "y": -26.889999389648439
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0,
-            "activeRequireAmount": 0,
-            "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 2,
+            "tutorialCode": 0
         }
     ],
     "mapBackgroundObjectList": [],
@@ -6226,17 +5974,13 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 20.0,
                 "y": 10.0
             },
-            "text": "Tesla Test",
+            "text": "",
             "fontSize": 3.0,
             "chargeRequired": false,
             "animationTriggerType": 0,
@@ -6244,7 +5988,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 10003,
@@ -6262,17 +6007,13 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 20.0,
                 "y": 10.0
             },
-            "text": "Object Test",
+            "text": "",
             "fontSize": 3.0,
             "chargeRequired": false,
             "animationTriggerType": 0,
@@ -6280,7 +6021,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 10003,
@@ -6298,17 +6040,13 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 20.0,
                 "y": 10.0
             },
-            "text": "Puzzle,Battery Test",
+            "text": "",
             "fontSize": 2.0,
             "chargeRequired": false,
             "animationTriggerType": 0,
@@ -6316,7 +6054,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 10003,
@@ -6334,17 +6073,13 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 22.0,
                 "y": 10.0
             },
-            "text": "Button Entity Test ",
+            "text": "",
             "fontSize": 3.0,
             "chargeRequired": false,
             "animationTriggerType": 0,
@@ -6352,7 +6087,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 10103,
@@ -6372,10 +6108,6 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -6388,27 +6120,13 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         }
     ],
     "mapButtonActivatableObjectDataList": [
         {
             "id": 322,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -51.18000030517578,
                 "y": -40.029998779296878
@@ -6424,6 +6142,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": -56.529998779296878,
                 "y": 3.9200000762939455
@@ -6443,21 +6175,6 @@
         },
         {
             "id": 322,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -56.529998779296878,
                 "y": 3.9200000762939455
@@ -6473,6 +6190,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": -51.18000030517578,
                 "y": -40.029998779296878
@@ -6492,21 +6223,6 @@
         },
         {
             "id": 359,
-            "activeRequirAmount": 2,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -8.0,
                 "y": 4.0
@@ -6522,6 +6238,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 2,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": 0.0,
                 "y": 0.0
@@ -6541,21 +6271,6 @@
         },
         {
             "id": 339,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -11.3100004196167,
                 "y": 11.760000228881836
@@ -6571,6 +6286,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 1,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": 0.0,
                 "y": 0.0
@@ -6590,21 +6319,6 @@
         },
         {
             "id": 353,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -19.0,
                 "y": 12.0
@@ -6620,6 +6334,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 1,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": 0.0,
                 "y": 0.0
@@ -6639,21 +6367,6 @@
         },
         {
             "id": 354,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -16.0,
                 "y": 12.0
@@ -6669,6 +6382,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 1,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": 0.0,
                 "y": 0.0
@@ -6688,21 +6415,6 @@
         },
         {
             "id": 332,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -11.0,
                 "y": 10.0
@@ -6718,6 +6430,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 1,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": 0.0,
                 "y": 0.0
@@ -6737,21 +6463,6 @@
         },
         {
             "id": 335,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -14.0,
                 "y": 12.0
@@ -6767,6 +6478,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 1,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": 0.0,
                 "y": 0.0
@@ -6786,21 +6511,6 @@
         },
         {
             "id": 330,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -5.0,
                 "y": 4.320000171661377
@@ -6816,6 +6526,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 1,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": 0.0,
                 "y": 0.0
@@ -6835,21 +6559,6 @@
         },
         {
             "id": 327,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -2.0,
                 "y": 5.0
@@ -6865,6 +6574,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 1,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": 0.0,
                 "y": 0.0
@@ -6889,21 +6612,6 @@
         },
         {
             "id": 333,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": 2.0,
                 "y": 5.0
@@ -6919,6 +6627,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 1,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": 0.0,
                 "y": 0.0
@@ -6943,21 +6665,6 @@
         },
         {
             "id": 334,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -53.0,
                 "y": 11.0
@@ -6973,27 +6680,7 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 354,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
+            "activeRequirAmount": 0,
             "indicatorStruct": {
                 "indicator": 0,
                 "indicator_1_position": {
@@ -7007,70 +6694,6 @@
                 "isHorizontal": false
             },
             "jumpingPower": 0,
-            "position": {
-                "x": -19.360002517700197,
-                "y": -34.130001068115237
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 353,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
-            "position": {
-                "x": -17.1200008392334,
-                "y": -34.08000183105469
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
             "talPot": {
                 "x": 0.0,
                 "y": 0.0
@@ -7090,21 +6713,6 @@
         },
         {
             "id": 322,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -48.02000045776367,
                 "y": -40.09000015258789
@@ -7120,6 +6728,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": -65.04000091552735,
                 "y": -60.02000045776367
@@ -7139,21 +6761,6 @@
         },
         {
             "id": 322,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -65.04000091552735,
                 "y": -60.02000045776367
@@ -7169,6 +6776,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": -48.02000045776367,
                 "y": -40.09000015258789
@@ -7188,21 +6809,6 @@
         },
         {
             "id": 305,
-            "activeRequirAmount": 4,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 3,
-                "indicator_1_position": {
-                    "x": -60.0,
-                    "y": -53.5
-                },
-                "indicator_2_position": {
-                    "x": -60.72999954223633,
-                    "y": -54.400001525878909
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -61.529998779296878,
                 "y": -54.400001525878909
@@ -7218,6 +6824,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 4,
+            "indicatorStruct": {
+                "indicator": 3,
+                "indicator_1_position": {
+                    "x": -60.0,
+                    "y": -53.5
+                },
+                "indicator_2_position": {
+                    "x": -60.72999954223633,
+                    "y": -54.400001525878909
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": 0.0,
                 "y": 0.0
@@ -7237,21 +6857,6 @@
         },
         {
             "id": 305,
-            "activeRequirAmount": 4,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -50.95000076293945,
                 "y": -59.97999954223633
@@ -7267,27 +6872,7 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 305,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
+            "activeRequirAmount": 4,
             "indicatorStruct": {
                 "indicator": 0,
                 "indicator_1_position": {
@@ -7301,266 +6886,6 @@
                 "isHorizontal": false
             },
             "jumpingPower": 0,
-            "position": {
-                "x": -21.32000160217285,
-                "y": -34.06999969482422
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 339,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
-            "position": {
-                "x": -22.100000381469728,
-                "y": -29.790000915527345
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 5.0,
-            "connectionPoint": {
-                "x": -17.100000381469728,
-                "y": -29.790000915527345
-            }
-        },
-        {
-            "id": 359,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
-            "position": {
-                "x": -23.200002670288087,
-                "y": -34.06999969482422
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 332,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
-            "position": {
-                "x": -24.489999771118165,
-                "y": -28.229999542236329
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 330,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 30,
-            "position": {
-                "x": -14.030000686645508,
-                "y": -33.77000045776367
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 335,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
-            "position": {
-                "x": -11.239999771118164,
-                "y": -29.709999084472658
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": -0.696779727935791,
-                "w": 0.7172852754592896
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
             "talPot": {
                 "x": 0.0,
                 "y": 0.0
@@ -7580,21 +6905,6 @@
         },
         {
             "id": 322,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": 22.579999923706056,
                 "y": -9.039999961853028
@@ -7610,6 +6920,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": -44.599998474121097,
                 "y": -40.08000183105469
@@ -7629,21 +6953,6 @@
         },
         {
             "id": 322,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -44.599998474121097,
                 "y": -40.08000183105469
@@ -7659,6 +6968,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": 22.579999923706056,
                 "y": -9.039999961853028
@@ -7678,21 +7001,6 @@
         },
         {
             "id": 305,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": 37.0099983215332,
                 "y": -5.949999809265137
@@ -7708,6 +7016,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 1,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": 0.0,
                 "y": 0.0
@@ -7727,21 +7049,6 @@
         },
         {
             "id": 335,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": 22.93000030517578,
                 "y": 7.650000095367432
@@ -7757,6 +7064,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": 0.0,
                 "y": 0.0
@@ -7776,21 +7097,6 @@
         },
         {
             "id": 322,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -40.720001220703128,
                 "y": -40.08000183105469
@@ -7806,6 +7112,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": -38.939998626708987,
                 "y": -70.08000183105469
@@ -7825,21 +7145,6 @@
         },
         {
             "id": 322,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -38.939998626708987,
                 "y": -70.08000183105469
@@ -7855,6 +7160,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": -40.720001220703128,
                 "y": -40.08000183105469
@@ -7874,21 +7193,6 @@
         },
         {
             "id": 335,
-            "activeRequirAmount": 0,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -24.579999923706056,
                 "y": -68.5199966430664
@@ -7904,6 +7208,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": 0.0,
                 "y": 0.0
@@ -7923,21 +7241,6 @@
         },
         {
             "id": 359,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -32.099998474121097,
                 "y": -57.5
@@ -7953,6 +7256,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 1,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": 0.0,
                 "y": 0.0
@@ -7972,21 +7289,6 @@
         },
         {
             "id": 339,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 2,
-                "indicator_1_position": {
-                    "x": -1.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": -29.299999237060548,
-                    "y": -57.18000030517578
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -29.299999237060548,
                 "y": -56.20000076293945
@@ -8002,6 +7304,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 1,
+            "indicatorStruct": {
+                "indicator": 2,
+                "indicator_1_position": {
+                    "x": -1.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": -29.299999237060548,
+                    "y": -57.18000030517578
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": 0.0,
                 "y": 0.0
@@ -8021,21 +7337,6 @@
         },
         {
             "id": 305,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -23.899999618530275,
                 "y": -57.5
@@ -8051,6 +7352,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 1,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": 0.0,
                 "y": 0.0
@@ -8070,21 +7385,6 @@
         },
         {
             "id": 367,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -20.899999618530275,
                 "y": -57.599998474121097
@@ -8100,6 +7400,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 1,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": 0.0,
                 "y": 0.0
@@ -8119,21 +7433,6 @@
         },
         {
             "id": 353,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -17.700000762939454,
                 "y": -57.79999923706055
@@ -8149,6 +7448,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 1,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": 0.0,
                 "y": 0.0
@@ -8168,21 +7481,6 @@
         },
         {
             "id": 354,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -14.600000381469727,
                 "y": -57.900001525878909
@@ -8198,6 +7496,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 1,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": 0.0,
                 "y": 0.0
@@ -8217,21 +7529,6 @@
         },
         {
             "id": 332,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -23.399999618530275,
                 "y": -60.900001525878909
@@ -8247,6 +7544,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 1,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": 0.0,
                 "y": 0.0
@@ -8266,21 +7577,6 @@
         },
         {
             "id": 330,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -11.5,
                 "y": -58.0
@@ -8296,6 +7592,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 1,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": 0.0,
                 "y": 0.0
@@ -8315,21 +7625,6 @@
         },
         {
             "id": 322,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -8.399999618530274,
                 "y": -58.400001525878909
@@ -8345,6 +7640,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 1,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": -38.939998626708987,
                 "y": -70.08000183105469
@@ -8364,21 +7673,6 @@
         },
         {
             "id": 327,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -38.400001525878909,
                 "y": -58.400001525878909
@@ -8394,6 +7688,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 1,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": 0.0,
                 "y": 0.0
@@ -8418,21 +7726,6 @@
         },
         {
             "id": 333,
-            "activeRequirAmount": 1,
-            "chargeRequired": false,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
             "position": {
                 "x": -35.29999923706055,
                 "y": -58.599998474121097
@@ -8448,6 +7741,20 @@
                 "y": 1.0,
                 "z": 1.0
             },
+            "activeRequirAmount": 1,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
             "talPot": {
                 "x": 0.0,
                 "y": 0.0
@@ -8463,6 +7770,102 @@
                 }
             ],
             "moveSpeed": 1.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 332,
+            "position": {
+                "x": -43.130001068115237,
+                "y": -31.1200008392334
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.704437255859375,
+                "w": 0.7097663283348084
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "activeRequirAmount": 1,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 303,
+            "position": {
+                "x": -35.540000915527347,
+                "y": -31.530000686645509
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 0.3901199996471405,
+                "y": 0.3901199996471405,
+                "z": 0.3901199996471405
+            },
+            "activeRequirAmount": 1,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
             "moveDistance": 0.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
@@ -8492,14 +7895,14 @@
             "targetPositions": [],
             "lightPositions": [],
             "encapsulationItems": [],
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": false
+            }
         },
         {
             "id": 362,
@@ -8521,14 +7924,14 @@
             "targetPositions": [],
             "lightPositions": [],
             "encapsulationItems": [],
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": false
+            }
         },
         {
             "id": 362,
@@ -8599,14 +8002,14 @@
             ],
             "lightPositions": [],
             "encapsulationItems": [],
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": false
+            }
         },
         {
             "id": 329,
@@ -8633,14 +8036,14 @@
             ],
             "lightPositions": [],
             "encapsulationItems": [],
+            "chargeRequired": true,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": true
+            }
         },
         {
             "id": 329,
@@ -8671,14 +8074,14 @@
             ],
             "lightPositions": [],
             "encapsulationItems": [],
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": false
+            }
         },
         {
             "id": 329,
@@ -8709,14 +8112,14 @@
             ],
             "lightPositions": [],
             "encapsulationItems": [],
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": false
+            }
         },
         {
             "id": 329,
@@ -8747,14 +8150,14 @@
             ],
             "lightPositions": [],
             "encapsulationItems": [],
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": false
+            }
         },
         {
             "id": 329,
@@ -8785,76 +8188,14 @@
             ],
             "lightPositions": [],
             "encapsulationItems": [],
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": false
-        },
-        {
-            "id": 306,
-            "position": {
-                "x": -26.05000114440918,
-                "y": -34.099998474121097
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "targetPositions": [
-                {
-                    "x": -21.31999969482422,
-                    "y": -34.06999969482422
-                },
-                {
-                    "x": -22.100000381469728,
-                    "y": -29.790000915527345
-                },
-                {
-                    "x": -23.200000762939454,
-                    "y": -34.06999969482422
-                },
-                {
-                    "x": -19.360000610351564,
-                    "y": -34.130001068115237
-                },
-                {
-                    "x": -17.1200008392334,
-                    "y": -34.08000183105469
-                },
-                {
-                    "x": -24.489999771118165,
-                    "y": -28.229999542236329
-                },
-                {
-                    "x": -14.029999732971192,
-                    "y": -33.77000045776367
-                },
-                {
-                    "x": -11.239999771118164,
-                    "y": -29.709999084472658
-                }
-            ],
-            "lightPositions": [],
-            "encapsulationItems": [],
-            "onHint": false,
-            "partsPositions": [],
-            "itemPositions": [],
-            "hintPosition": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "chargeRequired": false
+            }
         },
         {
             "id": 306,
@@ -8885,14 +8226,14 @@
             ],
             "lightPositions": [],
             "encapsulationItems": [],
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": false
+            }
         },
         {
             "id": 341,
@@ -8919,6 +8260,7 @@
             ],
             "lightPositions": [],
             "encapsulationItems": [],
+            "chargeRequired": false,
             "onHint": true,
             "partsPositions": [
                 {
@@ -8951,8 +8293,7 @@
             "hintPosition": {
                 "x": 26.959999084472658,
                 "y": -6.779999732971191
-            },
-            "chargeRequired": false
+            }
         },
         {
             "id": 345,
@@ -8988,14 +8329,14 @@
                 }
             ],
             "encapsulationItems": [],
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": false
+            }
         },
         {
             "id": 329,
@@ -9022,14 +8363,14 @@
             ],
             "lightPositions": [],
             "encapsulationItems": [],
+            "chargeRequired": true,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": true
+            }
         },
         {
             "id": 329,
@@ -9092,14 +8433,14 @@
                     "y": 5.5
                 }
             ],
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": false
+            }
         },
         {
             "id": 329,
@@ -9162,14 +8503,14 @@
                     "y": 5.5
                 }
             ],
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": false
+            }
         },
         {
             "id": 329,
@@ -9232,14 +8573,14 @@
                     "y": 5.5
                 }
             ],
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": false
+            }
         },
         {
             "id": 345,
@@ -9261,14 +8602,14 @@
             "targetPositions": [],
             "lightPositions": [],
             "encapsulationItems": [],
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": false
+            }
         },
         {
             "id": 329,
@@ -9335,14 +8676,14 @@
             ],
             "lightPositions": [],
             "encapsulationItems": [],
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": false
+            }
         },
         {
             "id": 324,
@@ -9409,14 +8750,14 @@
             ],
             "lightPositions": [],
             "encapsulationItems": [],
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": false
+            }
         },
         {
             "id": 306,
@@ -9483,14 +8824,14 @@
             ],
             "lightPositions": [],
             "encapsulationItems": [],
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": false
+            }
         },
         {
             "id": 312,
@@ -9557,14 +8898,14 @@
             ],
             "lightPositions": [],
             "encapsulationItems": [],
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": false
+            }
         },
         {
             "id": 341,
@@ -9631,6 +8972,7 @@
             ],
             "lightPositions": [],
             "encapsulationItems": [],
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [
                 {
@@ -9647,8 +8989,7 @@
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": false
+            }
         },
         {
             "id": 372,
@@ -9670,20 +9011,20 @@
             "targetPositions": [],
             "lightPositions": [],
             "encapsulationItems": [],
+            "chargeRequired": true,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            },
-            "chargeRequired": true
+            }
         },
         {
             "id": 372,
             "position": {
                 "x": -48.529998779296878,
-                "y": -32.36000061035156
+                "y": -32.5
             },
             "quaternion": {
                 "x": 0.0,
@@ -9700,18 +9041,86 @@
             "lightPositions": [],
             "encapsulationItems": [
                 {
-                    "x": -45.9900016784668,
-                    "y": -27.989999771118165
+                    "x": -50.09000015258789,
+                    "y": -32.279998779296878
                 }
             ],
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
+            }
+        },
+        {
+            "id": 372,
+            "position": {
+                "x": -41.63999938964844,
+                "y": -32.5
             },
-            "chargeRequired": false
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.2000000476837159,
+                "y": 1.2000000476837159,
+                "z": 1.0
+            },
+            "targetPositions": [
+                {
+                    "x": -43.130001068115237,
+                    "y": -31.1200008392334
+                }
+            ],
+            "lightPositions": [],
+            "encapsulationItems": [],
+            "chargeRequired": false,
+            "onHint": false,
+            "partsPositions": [],
+            "itemPositions": [],
+            "hintPosition": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 372,
+            "position": {
+                "x": -37.25,
+                "y": -32.5
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.2000000476837159,
+                "y": 1.2000000476837159,
+                "z": 1.0
+            },
+            "targetPositions": [
+                {
+                    "x": -35.540000915527347,
+                    "y": -31.530000686645509
+                }
+            ],
+            "lightPositions": [],
+            "encapsulationItems": [],
+            "chargeRequired": false,
+            "onHint": false,
+            "partsPositions": [],
+            "itemPositions": [],
+            "hintPosition": {
+                "x": 0.0,
+                "y": 0.0
+            }
         }
     ],
     "mapExitObjectStruct": {
