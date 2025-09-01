@@ -125,7 +125,12 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
 
 
 
+    #region Audio
+    protected virtual void StartSound()
+    {
 
+    }
+    #endregion
 
     public void CallOnInterableObjectRelease()
     {
@@ -140,6 +145,8 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         transform.position = data.position;
         transform.rotation = data.quaternion;
         transform.localScale = data.scale;
+
+        StartSound();
     }
   
     public virtual T GetData<T>()  

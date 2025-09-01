@@ -247,11 +247,13 @@ public class PlayerSM : NetworkBehaviour, IDamageable
             {
                 if (latestTarget.TryGetComponent<IInteractable>(out var newTarget))
                     newTarget.ShowEButton();
+                Debug.Log("SHOW E");
             }
             catch (MissingReferenceException)
             {
                 latestTarget = null;
                 Managers.UI.HideUI<UI_ShowEButton>();
+                Debug.Log("SHOW E ERROR");
             }
             shortestDistance = float.MaxValue;
         }
@@ -260,12 +262,9 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     protected virtual void Interaction()
     {
         if (latestTarget == null) return;
-
         if (!latestTarget.TryGetComponent<IInteractable>(out var interactable)) return;
-
         if (interactable.GetObjectType() == ObjectTypeEnum.Control)
             isControlObj = !isControlObj;
-
         interactable.Interaction(transform);
     }
     #endregion
@@ -622,9 +621,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     private void DoInteraction(InputAction.CallbackContext context)
     {
         if (!canControl) return;
-
         if (!canAction) return;
-
         Interaction();
     }
 

@@ -10,6 +10,11 @@ public class SawObject_Net : ActivatableObject_Net_Entity
 
     private AudioSourceController audioSourceController;
     private Coroutine soundCoroutine;
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+        if(audioSourceController != null) Managers.Sound.StopSound(audioSourceController);
+    }
     protected override void Active()
     {
         if (!cameraShakeObject.activeSelf) cameraShakeObject.SetActive(true);

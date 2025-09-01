@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System;
+using UnityEditor;
+using Unity.VisualScripting;
 
 
 public class LaserObject_Net : ActivatableObject_Net_Entity
@@ -14,11 +16,13 @@ public class LaserObject_Net : ActivatableObject_Net_Entity
     {
         _endVFX.SetActive(true);
         _lineRenderer.enabled = true;
+        ActiveSound();
     }
     protected override void Deactive()
     {
         _endVFX.SetActive(false);
         _lineRenderer.enabled = false;
+        DeactiveSound();
     }
 
     protected override void SetData(ButtonActivatableObjectStruct data)
@@ -70,7 +74,63 @@ public class LaserObject_Net : ActivatableObject_Net_Entity
         };
     }
 
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+        if(audioSourceController != null) Managers.Sound.StopSound(audioSourceController);
+        if(_laserEffectAudios.Count > 0)
+        {
+            LaserAudioClean(0);
+        }
+    }
+
     #region Audio
+    private AudioSourceController audioSourceController;
+    private Coroutine activeSoundCo;
+    private Coroutine deactiveSoundCo;
+    private void ActiveSound()
+    {
+        if (deactiveSoundCo != null) StopCoroutine(deactiveSoundCo);
+        activeSoundCo = StartCoroutine(ActiveSoundCo());
+    }
+    IEnumerator ActiveSoundCo()
+    {
+        var startClip = Managers.Sound.GetAudioClip(GlobalText.LASER_BEAM_START);
+        Managers.Sound.PlaySound3D(GlobalText.LASER_BEAM_START, transform.position);
+  
+        if (audioSourceController == null) audioSourceController = Managers.Sound.PlaySound3D(GlobalText.LASER_BEAM_LOOP, transform.position, 1, true);
+       
+        var source = audioSourceController.GetAudioSource();
+        while(source.volume < 1)
+        {
+            source.volume = Mathf.MoveTowards(0, source.volume, Time.deltaTime);
+            yield return null;
+        }
+        activeSoundCo = null;
+    }
+    private void DeactiveSound()
+    {
+        if (audioSourceController != null)
+        {
+            if (activeSoundCo != null) StopCoroutine(activeSoundCo);
+            deactiveSoundCo = StartCoroutine(DeactiveSoundCo());
+        }
+        
+        LaserAudioClean(0);
+    }
+
+    private IEnumerator DeactiveSoundCo()
+    {
+        var source = audioSourceController.GetAudioSource();
+        while (source.volume > 0)
+        {
+            source.volume = Mathf.MoveTowards(source.volume, 0, Time.deltaTime);
+            yield return null;
+        }
+        Managers.Sound.StopSound(audioSourceController);
+        audioSourceController = null;
+        deactiveSoundCo = null;
+    }
 
     public List<LaserEffectAudio> _laserEffectAudios;
     private void LaserAudio(int hits,Vector2 hitPoint)
@@ -80,7 +140,7 @@ public class LaserObject_Net : ActivatableObject_Net_Entity
         if (_laserEffectAudios.Count < hits)
         {
             _laserEffectAudios.Add(new LaserEffectAudio(Managers.Sound.PlaySound3D(
-                GlobalText.DRONE_LASER_SOUND,hitPoint,1,true),hitPoint));
+                GlobalText.LASER_BEAM_LOOP,hitPoint,0.7f,true),hitPoint));
             return;
         }
 

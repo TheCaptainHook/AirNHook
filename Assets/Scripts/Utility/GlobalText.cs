@@ -76,6 +76,12 @@ public static class GlobalText
     public const string PLAYER_RESURRECT = "Resurrect";
     public const string UI_PING = "Ping";
     public const string PLAYER_JUMP = "Jump1";
+    //Laser
+    public const string LASER_BEAM_START = "Laser_Beam_Start";
+    public const string LASER_BEAM_LOOP = "Laser_Beam_Loop";
+    public const string LASER_BEAM_END = "Laser_Beam_End";
+    //Tesla Tower
+    public const string TESLATOWER_ON = "TeslaTower_On";
     //BeamDoor
     public const string BEAMDOOR_HUMMING = "Energy_Humming";
     //Capsule

@@ -44,8 +44,13 @@ public class BeamDoor : ActivatableObjectEntity
             source.pitch = pitch;
             yield return null;
         }
-
     }
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+        if(audioSourceController != null) Managers.Sound.StopSound(audioSourceController);
+    }
+
     public void OpenSound()
     {
         if (audioSourceController == null) return;

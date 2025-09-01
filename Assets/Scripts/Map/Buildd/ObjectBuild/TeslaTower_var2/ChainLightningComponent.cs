@@ -24,37 +24,33 @@ public class ChainLightningComponent : MonoBehaviour
     }
 
     private Vector2 start;
-    // private Vector2 end;
 
-    public void ChainLightning(List<Collider2D> targets) 
+    public void ChainLightning(List<Collider2D> targets)
     {
         this.targets = targets;
-        if(targets.Count == 0 || !lightnings[0]) return;
-        // start = attackPoint.position;
+        if (targets.Count == 0 || !lightnings[0]) return;
         lightnings[0].SetTarget(attackPoint.position, targets[0].gameObject);
 
         for (int i = 1; i < targets.Count; i++)
         {
             if (!lightnings[i] || !targets[i]) continue;
-            
-            var beforeObj = targets[i-1];
+
+            var beforeObj = targets[i - 1];
             if (beforeObj == null) continue;
 
-            if(beforeObj.TryGetComponent(out LightningRod rod))
+            if (beforeObj.TryGetComponent(out LightningRod rod))
             {
                 start = rod.hitPoint.position;
-                // lightnings[i].SetTarget(rod.hitPoint.position, targets[i].gameObject);
-            }else if(beforeObj.TryGetComponent(out TeslaRelayObject teslaRelayObject))
+
+            } else if (beforeObj.TryGetComponent(out TeslaRelayObject teslaRelayObject))
             {
                 start = teslaRelayObject.headPoint.position;
-                // lightnings[i].SetTarget(teslaRelayObject.headPoint.position, targets[i].gameObject);
+
             }
             else start = beforeObj.transform.position;
 
-            // lightnings[i].SetTarget(lightnings[i - 1].target.transform.position, targets[i].gameObject);
             lightnings[i].SetTarget(start, targets[i].gameObject);
         }
-      
     }
 
     #region Line

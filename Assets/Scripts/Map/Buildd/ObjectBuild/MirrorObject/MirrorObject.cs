@@ -155,12 +155,8 @@ public class MirrorObject : BuildObj,IInteractable
 #region  Interacte
     public void Interaction(Transform accessor = null)
     {
-        //if (!M_Net.InnerPlayer || M_Net.InnerPlayer != accessor.gameObject) return;
-
         if (isActive && M_Net.InnerPlayer != null && M_Net.InnerPlayer == accessor.gameObject)
         {
-            //Dis Connect
-            ChangeEbutton(false);
             M_Net.Cmd_InnerPlayer(9999);
             M_Net.Recover();
         }
@@ -212,7 +208,7 @@ public class MirrorObject : BuildObj,IInteractable
         Managers.UI.HideUI<UI_ControlADE>();
     }
 
-    private void ChangeEbutton(bool isInteracting)
+    public void ChangeEbutton(bool isInteracting)
     {
         if (isInteracting)
         {

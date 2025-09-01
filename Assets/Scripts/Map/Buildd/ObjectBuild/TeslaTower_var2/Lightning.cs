@@ -87,11 +87,19 @@ public class Lightning : MonoBehaviour
 
         
         line.SetPosition(1, target.transform.position);
-        if (target.TryGetComponent(out IDamageable component)) component.TakeDamage(DamageType.Electric);
+        if (target.TryGetComponent(out IDamageable component))
+        {
+            component.TakeDamage(DamageType.Electric);
+            AttackSound(target.transform.position);
+        }
+       
         //Target TakeDamage
     }
 
-
+    private void AttackSound(Vector2 target)
+    {
+        Managers.Sound.PlaySound3D(GlobalText.ELECTRIC_SHOCK_SOUND, target,0.5f);
+    }
 
     private void LineReset()
     {
