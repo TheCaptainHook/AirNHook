@@ -251,7 +251,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void StopInhale(GameObject accessor)
     {
-        if (!ReferenceEquals(_permissionPlayer, accessor)) return;
+        if (_permissionPlayer != null && !ReferenceEquals(_permissionPlayer, accessor)) return;
 
         if (_isDestroyed) return;
 

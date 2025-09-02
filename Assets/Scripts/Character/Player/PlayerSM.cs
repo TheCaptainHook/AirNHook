@@ -17,6 +17,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     public bool canAction;
     public bool canMovable;
     public bool invincible;
+    public bool canInteract;
     [SyncVar] public bool isDead;
     [SyncVar] public bool doNotTouch;
     protected bool isControlObj;
@@ -84,6 +85,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         canControl = true;
         canAction = true;
         canMovable = true;
+        canInteract = true;
         isDead = false;
         doNotTouch = false;
         _defaultForceReceiveLayer = collider2D.forceReceiveLayers;
@@ -621,7 +623,9 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     private void DoInteraction(InputAction.CallbackContext context)
     {
         if (!canControl) return;
-        if (!canAction) return;
+
+        if (!canInteract) return;
+
         Interaction();
     }
 
@@ -668,10 +672,11 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         HidePingWheel();
     }
 
-    public void FreezePlayerState(bool onOff)
+    public virtual void FreezePlayerState(bool onOff)
     {
         canAction = !onOff;
         canMovable = !onOff;
+        canInteract = !onOff;
         doNotTouch = onOff;
 
         if (onOff)

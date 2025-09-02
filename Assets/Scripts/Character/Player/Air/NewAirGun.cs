@@ -196,10 +196,11 @@ public class NewAirGun
     #region ObjectCheckForAirGun
     private void DetectObject()
     {
-        if (!_rightClick || _isAttached || sticking || !_canInhale || _isInhaledHook)
+        if (!_rightClick || _isAttached || sticking || !_canInhale || _isInhaledHook || !_canControl || !_canAction)
         {
             _animator.SetBool(GlobalText.INHAILING_ANIMATION_STRING, false);
             StopInhaleParticle();
+            _shakingEffectOnAirGun.StopShaking();
             return;
         }
 
@@ -367,6 +368,8 @@ public class NewAirGun
     #region Inhaling
     private void StartInhale()
     {
+        if (!_canControl || !_canAction) return;
+
         if (!_canInhale || (_inhaling && ReferenceEquals(_latestTarget, _inhaleTarget))) return;
 
         if (!_latestTarget.TryGetComponent<IInhalable>(out var inhalable) && !inhalable.CanInhale()) return;
@@ -400,6 +403,8 @@ public class NewAirGun
 
     private void Inhaling()
     {
+        if (!_canControl || !_canAction) return;
+
         if (!_inhaling || _isAttached) return;
 
         if (Managers.Game.OtherPlayer != null && ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject))
@@ -484,6 +489,8 @@ public class NewAirGun
 
     private void FixInhaleTarget()
     {
+        if (!_inhaling) return;
+
         if (!_inhaleTarget.GetComponent<NetworkIdentity>().isOwned) return;
 
         if (_isAttached) return;
@@ -670,6 +677,8 @@ public class NewAirGun
     #region ShootingAction
     private void RotateGun()
     {
+        if (!_canControl || !_canAction) return;
+
         if (!_rightClick || sticking) return;
         
         var mousePos = _mainCamera.ScreenToWorldPoint(_mousePosition);

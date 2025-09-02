@@ -300,4 +300,12 @@ public class AirSM : PlayerSM
         exhaleParticle.Play();
     }
     #endregion
+
+    #region Input
+    public override void FreezePlayerState(bool onOff)
+    {
+        base.FreezePlayerState(onOff);
+        StopGun();
+    }
+    #endregion
 }
