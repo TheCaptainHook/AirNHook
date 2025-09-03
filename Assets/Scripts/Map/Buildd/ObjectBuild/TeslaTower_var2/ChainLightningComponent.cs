@@ -45,7 +45,10 @@ public class ChainLightningComponent : MonoBehaviour
             } else if (beforeObj.TryGetComponent(out TeslaRelayObject teslaRelayObject))
             {
                 start = teslaRelayObject.headPoint.position;
-
+            }
+            else if(beforeObj.TryGetComponent(out TeslaNodeRod nodeRode))
+            {
+                start = nodeRode.head.position;
             }
             else start = beforeObj.transform.position;
 

@@ -154,9 +154,9 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
             Deactivated();
     }
 
-    //TEST
-    public SpriteRenderer head;
-    //TEST
+
+    public Transform head;
+
 
     protected override void Activation()
     {

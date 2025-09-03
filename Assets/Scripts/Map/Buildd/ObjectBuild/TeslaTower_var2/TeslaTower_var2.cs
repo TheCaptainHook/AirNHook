@@ -91,8 +91,11 @@ public class TeslaTower_var2 : BuildObj
             }else if(curTarget.TryGetComponent(out TeslaRelayObject tro))
             {
                 targetPoint = tro.headPoint.position;
+            }else if(curTarget.TryGetComponent(out TeslaNodeRod noderode))
+            {
+                targetPoint = noderode.head.position;
             }else
-            targetPoint = curTarget.transform.position;
+                targetPoint = curTarget.transform.position;
             //----------------- Set Start Point-----------------
 
             curChainLightningCount++;
