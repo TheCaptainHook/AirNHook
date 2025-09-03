@@ -12,13 +12,6 @@ using Mirror;
 using TileData = ANH_MapEditor.TileData;
 using MapType = ANH_MapEditor.MapType;
 
-// public enum MapType
-// {
-//     Scene,
-//     Main,
-//     User,
-//     Fork
-// }
 
 public enum MapEditorType
 {
@@ -46,7 +39,6 @@ public enum ObjectType
 
 }
 
-//TODO FIXED CODE LINE 0829 : 
 public class MapEditor : MonoBehaviour
 {
     public static MapEditor Instance;
@@ -90,19 +82,15 @@ public class MapEditor : MonoBehaviour
     [HideInInspector] public Transform networkingObjectTransform;
     [HideInInspector] public Transform garbageTransform;
 
-    //TOdo 0723
     [HideInInspector] public Transform triggerDialogueTransform;
-    //TOdo 0723
+
     [HideInInspector] public Transform droneTransform;
 
-   
     [HideInInspector] public Transform poolingContainer;
 
-    //TODO 1024
     [HideInInspector] public Transform otherContainer; 
     [HideInInspector] public Transform backgroundObjectContainer;
-    //TODO 1024
-    //TODO 1202
+ 
     [HideInInspector] public Transform collectableContainer;
 
     //0107 Shadow
@@ -131,15 +119,15 @@ public class MapEditor : MonoBehaviour
     public int stageLevel;
     public string mapID; // Map main id
     [Tooltip("A simple explanation of the sub-name for a map.")]
-    public string subMapName; // 1116
-    public int stageDifficulty; //250314
+    public string subMapName; 
+    public int stageDifficulty; 
     [ReadOnly]
     public string nextMapId;
     [ReadOnly]
     public Vector2 startPosition;
     [ReadOnly]
     public GameObject startPositionObject;
-    //1122//1122//1122//1122//1122//1122//1122//1122
+
     public string audioName;
 
 
@@ -205,20 +193,18 @@ public class MapEditor : MonoBehaviour
         dontSaveObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "dontSaveObjectTransform");
         // garbageTransform = Util.CreateChildTransform(mapObjBoxTransform, "garbageTransform");
         networkingObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "networkingObjectTransform");
-        //TODO 0723
+
         triggerDialogueTransform = Util.CreateChildTransform(mapObjBoxTransform, "triggerDialogueTransform");
-        //TODO 0723
+
         droneTransform = Util.CreateChildTransform(mapObjBoxTransform, "droneTransform");
         poolingContainer = Util.CreateChildTransform(mapObjBoxTransform, "poolingContainer");
-        //TODO 1024
+
         otherContainer = Util.CreateChildTransform(mapObjBoxTransform, "otherContainer");
         otherContainer.gameObject.AddComponent<OtherContainer>();
         backgroundObjectContainer = Util.CreateChildTransform(mapObjBoxTransform, "backgroundObjectContainer");
-        //TODO 1024
-        //TODO 1202
+  
         collectableContainer = Util.CreateChildTransform(mapObjBoxTransform, "collectableContainer");
-    
-        //0107 Shadow
+
         shadowContainer = Util.CreateChildTransform(mapObjBoxTransform, "shadowContainer");
     }
 
@@ -253,37 +239,6 @@ public class MapEditor : MonoBehaviour
 
 
     #region Save 
-
-    //Json 파일로 저장
-    
-    /// <summary>
-    /// This function is only used when in game Editor.
-    /// </summary>
-    // public void SaveMapData() 
-    // {
-    //     if(mapEditorType == MapEditorType.New ){
-    //         string path = Path.Combine(folderPath, $"{mapID}.json");
-    //         bool fileExists = File.Exists(path);
-    //         while (fileExists)
-    //         {
-    //             int num = 1;
-    //             path = Path.Combine(folderPath, $"{mapID}{num}.json");
-    //             if (!File.Exists(path))
-    //             {
-    //                 mapID = $"{mapID}{num}";
-    //                 fileExists = false;
-    //             }
-
-    //             num++;
-    //         }
-    //         CreateJsonFile();
-    //     }
-    //     else
-    //     {
-    //         CreateJsonFile();
-    //     }
-
-    // }
 
     #region GetList
 
@@ -324,44 +279,7 @@ public class MapEditor : MonoBehaviour
 
     #endregion
 
-    // async void CreateJsonFile()
-    // {
-    //     mapTileDataList = GetTileData(placeMentSystem.floorTileMap);
-
-    //     mapObjectDataList = GetList(objectTransform);
-    //     startPosition = FindObj(dontSaveObjectTransform, 302).transform.position;
-
-    //     byte[] bytesImage = await CurrentMapScreenShot();
-
-    //     Map map = new Map(new Vector2(width, height), mapID, stageLevel, startPosition,
-    //         GetExitObjStructsList(exitDoorObjectTransform),
-    //         //tile
-    //         mapTileDataList,
-    //         GetTileData(placeMentSystem.halfTileMap),
-    //         GetTileData(placeMentSystem.backgroundTileMap),
-    //         //object
-    //         mapObjectDataList,
-    //         GetButtonActivateObjectStructList(),
-    //         GetButtonObjectList(),
-    //         GetDialogueList(),
-    //         cellSize,1,bytesImage,audioType);
-
-    //     string mapDatajson = JsonUtility.ToJson(map, true);
-    //     string dateTimedate = JsonUtility.ToJson(new DateTimeData(System.DateTime.Now), true);
-        
-
-    //     //string filePath = Path.Combine(folderPath, $"User/{map.mapID}.json");
-    //     string filePath = Path.Combine(Application.dataPath, $"UserMapData/{mapID}.json");
-
-    //     string json = JsonUtility.ToJson(new UserMapData(mapDatajson,bytesImage , dateTimedate,GetHashValue(map.mapID)),true);
-
-    //     Debug.Log(filePath);
-    //     File.WriteAllText(filePath, json);
-
-    //     Managers.Data.mapData.RefreshUserMapData();
-    // }
-
-
+ 
     #endregion
 
     #region Load
@@ -416,36 +334,35 @@ public class MapEditor : MonoBehaviour
 
         Create_Object();
         
-        // Managers.Sound.PlayBGM(CurMap.audioType, AudioMixerGroupType.BGM, true,.1f);
         if(!string.IsNullOrEmpty(curMap.audioName))
             Managers.Sound.PlayBGM(curMap.audioName, 0.1f);
     }
 
-// SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);
-
-    private void ParallaxCameraReset(){
-        if (Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate != null) 
-        { 
+    private void ParallaxCameraReset()
+    {
+        if (Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate != null)
+        {
             Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate = null;
         }
         Camera.main.GetComponent<ParallaxCamera>().oldPosition = startPosition.x;
     }
-    private void Create_Object(){
+    private void Create_Object()
+    {
         CreateExitObject(curMap.mapExitObjectStruct);
-        Create_Object(curMap.mapObjectDataList,objectTransform);
-        Create_Object(curMap.mapBackgroundObjectList,backgroundObjectContainer);
+        Create_Object(curMap.mapObjectDataList, objectTransform);
+        Create_Object(curMap.mapBackgroundObjectList, backgroundObjectContainer);
 
-        Create_OtherObject(curMap.mapOtherObjectList,otherContainer);
+        Create_OtherObject(curMap.mapOtherObjectList, otherContainer);
 
-        Create_Object(curMap.mapButtonActivatableObjectDataList,buttonActivatableObjectTransform);
-        Create_Object(curMap.buttonObjectList,buttonObjectTransform);
-        
-        Create_Object(Managers.Data.saveData.dic[curMap.mapID]._DialogueDataList,triggerDialogueTransform);
-        Create_Object(curMap.droneStructList,droneTransform);
-        Create_Object(curMap.collectableObjectStructList,collectableContainer);
+        Create_Object(curMap.mapButtonActivatableObjectDataList, buttonActivatableObjectTransform);
+        Create_Object(curMap.buttonObjectList, buttonObjectTransform);
+
+        Create_Object(Managers.Data.saveData.dic[curMap.mapID]._DialogueDataList, triggerDialogueTransform);
+        Create_Object(curMap.droneStructList, droneTransform);
+        Create_Object(curMap.collectableObjectStructList, collectableContainer);
     }
     #endregion
-    
+
     #region Util 
 
     public void SetMapSize(int width, int height)
@@ -454,14 +371,9 @@ public class MapEditor : MonoBehaviour
         this.height = height;
     }
 
-    // public void Reset()
-    // {
-    //     Init();
-    //     placeMentSystem.ResetTileMap();
-    // }
-
     #region Create
-    public void Create_Tile(){
+    public void Create_Tile()
+    {
         DrawTile_C(placeMentSystem.floorTileMap, curMap.mapTileDataList); //rect
         DrawTile_C(placeMentSystem.halfTileMap, curMap.mapHalfTileDataList);
         DrawTile_C(placeMentSystem.backgroundTileMap, curMap.mapBackgroundTileDataList);
@@ -474,13 +386,14 @@ public class MapEditor : MonoBehaviour
         //DrawTile(placeMentSystem.ropeTileMap, curMap.mapRopeTileDataList);
         //DrawTile(placeMentSystem.accessoryTileMap, curMap.mapAccessoryTIleDataList);
     }
-    private void DrawTile(Tilemap tileMap,List<TileData> list){
-         foreach (TileData data in list)
-         {
+    private void DrawTile(Tilemap tileMap, List<TileData> list)
+    {
+        foreach (TileData data in list)
+        {
             MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
             tileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
-            placeMentSystem.tileDic[data.position] = data.id;        
-         }
+            placeMentSystem.tileDic[data.position] = data.id;
+        }
     }
     public void DrawTile_C(Tilemap tileMap, List<CompressedTileData> list)
     {
@@ -518,12 +431,15 @@ public class MapEditor : MonoBehaviour
 
     }
 
-    public void Create_OtherObject(List<ObjectData> list,Transform transform){
-       MapDataStruct mapDataStruct;
-        foreach(ObjectData data in list){
+    public void Create_OtherObject(List<ObjectData> list, Transform transform)
+    {
+        MapDataStruct mapDataStruct;
+        foreach (ObjectData data in list)
+        {
             mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
-            Create_OtherObject(mapDataStruct,data,transform);
-        };
+            Create_OtherObject(mapDataStruct, data, transform);
+        }
+        ;
     }
     private void CreateExitObject(ExitObjStruct data)
     {
@@ -533,13 +449,16 @@ public class MapEditor : MonoBehaviour
         Managers.Stage.CmdBatchObject(mapDataStruct.name, data, exitDoorObjectTransform);
     }
 
-    private void Create_OtherObject(MapDataStruct mapDataStruct,ObjectData data,Transform transform){
+    private void Create_OtherObject(MapDataStruct mapDataStruct, ObjectData data, Transform transform)
+    {
         string[] tags = mapDataStruct.name.Split("_");
         Transform curTr = transform;
         OtherContainer otherContainer = curTr.GetComponent<OtherContainer>();
-        for(int i =0;i<tags.Length-1;i++){
-            Transform findTr =curTr.Find(tags[i]);
-            if(findTr == null){
+        for (int i = 0; i < tags.Length - 1; i++)
+        {
+            Transform findTr = curTr.Find(tags[i]);
+            if (findTr == null)
+            {
                 findTr = new GameObject(tags[i]).transform;
                 findTr.SetParent(curTr);
             }
@@ -547,27 +466,31 @@ public class MapEditor : MonoBehaviour
         }
         otherContainer.SetGroup(curTr);
 
-        if(mapDataStruct.objectType == ObjectType.N_Object && Application.isPlaying)
+        if (mapDataStruct.objectType == ObjectType.N_Object && Application.isPlaying)
         {
-            if(NetworkServer.active)
-            Managers.Stage.CmdBatchObject(mapDataStruct.name, data, curTr);
+            if (NetworkServer.active)
+                Managers.Stage.CmdBatchObject(mapDataStruct.name, data, curTr);
         }
         else
         {
-            Create(curTr,mapDataStruct,data);
+            Create(curTr, mapDataStruct, data);
         }
-        
+
 
     }
-    public void Create_Object<T>(List<T> list ,Transform transform){
+    public void Create_Object<T>(List<T> list, Transform transform)
+    {
         MapDataStruct mapDataStruct;
         Transform _TR;
-        foreach(T data in list){
-            var isField = typeof(T).GetField("id",BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+        foreach (T data in list)
+        {
+            var isField = typeof(T).GetField("id", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
-            if(isField != null){
+            if (isField != null)
+            {
                 var value = isField.GetValue(data);
-                if(value is int intValue){
+                if (value is int intValue)
+                {
                     mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[intValue];
                     if (mapDataStruct.objectType == ObjectType.N_Object && Application.isPlaying)
                     {
@@ -579,37 +502,42 @@ public class MapEditor : MonoBehaviour
                         {
                             _TR = transform;
                         }
-                        if(NetworkServer.active)
-                        Managers.Stage.CmdBatchObject(mapDataStruct.name, data, _TR);
+                        if (NetworkServer.active)
+                            Managers.Stage.CmdBatchObject(mapDataStruct.name, data, _TR);
                     }
                     else
                     {
                         Create(transform, mapDataStruct, data);
                     }
-                  
+
                 }
-               
+
             }
-   
+
         }
     }
     public List<WayPoint_Var2> wayPointList;
-    void Create<T>(Transform transform,MapDataStruct mapDataStruct,T data){
-        try{
+    void Create<T>(Transform transform, MapDataStruct mapDataStruct, T data)
+    {
+        try
+        {
             GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
             obj.name = mapDataStruct.name;
 
-            if(obj.name == "WayPoint" || obj.name == "WayPoint_Rusted"){
-                if(wayPointList ==null) wayPointList = new();
+            if (obj.name == "WayPoint" || obj.name == "WayPoint_Rusted")
+            {
+                if (wayPointList == null) wayPointList = new();
                 wayPointList.Add(obj.GetComponent<WayPoint_Var2>());
             }
 
             obj.GetComponent<BuildObj>().SetData(data);
             obj.transform.SetParent(transform);
-        }catch(Exception ex){
+        }
+        catch (Exception ex)
+        {
             Debug.Log($"{ex},{mapDataStruct.id}");
         }
-       
+
     }
 
     void CreateStartPosition()
@@ -703,49 +631,24 @@ public class MapEditor : MonoBehaviour
 
     }
 
-    //private Task<byte[]> CurrentMapScreenShot()
-    //{
-    //    if (screenShotCamera == null)
-    //    {
-    //        screenShotCamera = Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/ScreenShotCamera"));
-    //    }
-
-    //    GameObject camera = screenShotCamera;
-
-    //    Vector2 startPot = FindObj(dontSaveObjectTransform, 302).transform.position;
-    //    Vector2 endPot = FindObj(exitDoorObjectTransform, 301).transform.position;
-
-    //    var distance = (startPot + endPot) / 2;
-
-    //    camera.gameObject.transform.position = distance;
-    //    camera.gameObject.transform.position += new Vector3(0, 2, -1);
-
-    //    //Task<byte[]> encodingTask = camera.GetComponent<ScreenShotCamera>().ScreenShot();
-
-    //    return encodingTask;
-
-    //}
     public event Action event_reset;
-    public void ResetInteractableObjectPosition(){
-        //foreach(Transform tr in networkingObjectTransform){
-        //    BuildObj obj = tr.GetComponent<BuildObj>();
-        //    if(obj != null && obj.GetDissolveObject()){
-        //        //obj.Dissolve(obj.position);
-        //        if(obj.canRespawn) obj.Respawn();
-
-        //    }
-        //}
+    public void ResetInteractableObjectPosition()
+    {
         event_reset?.Invoke();
     }
 
 
-    private Light2D GetGlobalLight(){
-        foreach(Transform tr in transform){
-            if(tr.name == "Global Light"){
+    private Light2D GetGlobalLight()
+    {
+        foreach (Transform tr in transform)
+        {
+            if (tr.name == "Global Light")
+            {
                 return tr.GetComponent<Light2D>();
             }
         }
         return null;
+
     }
     private void ReleasePooling()
     {
