@@ -233,7 +233,7 @@ public class MirrorObject_Net : NetworkBehaviour
         onActive = true;
         var pm = player.GetComponent<PlayerSM>();
 
-        //pm.canAction = false;
+        pm.canAction = false;
         pm.canMovable = false;
 
         Connection(player);
