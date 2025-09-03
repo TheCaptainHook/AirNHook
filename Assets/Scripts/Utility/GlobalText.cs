@@ -76,6 +76,11 @@ public static class GlobalText
     public const string PLAYER_RESURRECT = "Resurrect";
     public const string UI_PING = "Ping";
     public const string PLAYER_JUMP = "Jump1";
+    //Puzzle
+    public const string PUZZLE_PARTS_INSTER = "Clang";
+    public const string PUZZLE_HINT_WRONG = "Wrong";
+    public const string PUZZLE_BALLON_EXPLODE = "Balloon_Burst";
+    public const string PUZZLE_BALLON_INFLATE = "Balloon_Inflate";
     //Laser
     public const string LASER_BEAM_START = "Laser_Beam_Start";
     public const string LASER_BEAM_LOOP = "Laser_Beam_Loop";

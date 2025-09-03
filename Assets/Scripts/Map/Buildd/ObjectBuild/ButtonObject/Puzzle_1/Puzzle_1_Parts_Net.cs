@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations;
 
@@ -59,7 +60,10 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
         }
 
         Debug.Log("Connect Item[Parts]");
-        //HideE();
+        
+        //Sound
+        Managers.Sound.PlaySound3D(GlobalText.PUZZLE_PARTS_INSTER, transform.position);
+        //Sound
 
         var col = item.TryGetComponent(out Collider2D collider) ? collider : null;
         if (col != null) col.enabled = false;
@@ -106,8 +110,10 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
     #region  DisConnect
     public void DisConnect(bool wrongAnswer = false) //Rpc
     {
-        Debug.Log("DisConnect Item[Parts]");
-
+        //Sound
+        Managers.Sound.PlaySound3D(GlobalText.PUZZLE_PARTS_INSTER, transform.position);
+        //Sound
+        
         if (insert_Item.TryGetComponent(out ParentConstraint component))
         {
             if (component.sourceCount > 0)

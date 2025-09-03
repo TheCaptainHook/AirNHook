@@ -716,7 +716,8 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
+  _Dissolve_MainSprites: []
+  _dissolveMaterials: []
   canRespawn: 0
   targetObjects: []
   lightObjects: []
@@ -1138,6 +1139,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6986589601374795962, guid: c5679d6423392ef46b8491e3a03c7e68, type: 3}
       propertyPath: puzzle_Net
+      value: 
+      objectReference: {fileID: 2267976049350943410}
+    - target: {fileID: 6986589601374795962, guid: c5679d6423392ef46b8491e3a03c7e68, type: 3}
+      propertyPath: puzzle_1_Net
       value: 
       objectReference: {fileID: 2267976049350943410}
     m_RemovedComponents: []

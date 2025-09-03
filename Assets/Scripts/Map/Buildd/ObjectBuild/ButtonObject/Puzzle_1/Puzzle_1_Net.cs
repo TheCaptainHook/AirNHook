@@ -58,7 +58,17 @@ public class Puzzle_1_Net : NetworkBehaviour
 
     private void Awake()
     {
-        waitForSeconds = new WaitForSeconds(2);
+        waitForSeconds = new WaitForSeconds(1);
+    }
+    void OnDisable()
+    {
+        StopAllCoroutines();
+
+        if (audioSourceController != null)
+        {
+            Managers.Sound.StopSound(audioSourceController);
+        }
+
     }
 
     #region -------------------------------------------Init Sync
@@ -312,17 +322,63 @@ public class Puzzle_1_Net : NetworkBehaviour
     {
         Server_Puzzle_ChargingControl();
     }
-
+    #region  Sound
+    private AudioSourceController audioSourceController;
+    private AudioSource audioSource
+    {
+        get
+        {
+            if (audioSourceController == null) return null;
+            else return audioSourceController.GetAudioSource();
+        }
+    }
+    [Command(requiresAuthority = false)]
+    public void Cmd_SoundStop()
+    {
+        Server_SoundStop();
+    }
+    [Server]
+    private void Server_SoundStop()
+    {
+        Rpc_SoundStop();
+    }
+    [ClientRpc]
+    private void Rpc_SoundStop()
+    {
+        if (audioSource != null) audioSource.volume = 0;
+    }
+    #endregion
 
     [ClientRpc]
     private void Rpc_Ballon_Animation_Charging(float rate)
     {
+        //Sound
+        if (audioSourceController == null)
+        {
+            audioSourceController = Managers.Sound.PlaySound3D(GlobalText.PUZZLE_BALLON_INFLATE, transform.position, 1, true);
+        }
+
+        audioSource.volume = rate;
+
+        //Sound
+
         button.SetAnimation(rate);
+            
     }
+
     [ClientRpc]
     private void Rpc_Ballon_Animation_Explode()
     {
         button.SetAnimation_Explode();
+    }
+    public void ExplodeSound()
+    {
+        if (audioSourceController != null)
+        {
+            var clip = Managers.Sound.GetAudioClip(GlobalText.PUZZLE_BALLON_EXPLODE);
+            audioSourceController.ClipChange(clip, false);
+            audioSourceController = null;
+        }
     }
    
     #region Correct 

@@ -129,10 +129,21 @@ public class Puzzle_1 : ButtonEntity
 
     private void Update()
     {
-        if(Puzzle_Net.onActive && input.playerActions.Action.ReadValue<float>()>0f)
+        
+            
+        if (Puzzle_Net.onActive && input.playerActions.Action.ReadValue<float>() > 0f)
         {
-            // Net_Charging();
-            Puzzle_Net.CmdCharging();
+            if (!Managers.Game.Player.TryGetComponent(out AirSM air)) return;
+            
+            if (input.playerActions.Action.ReadValue<float>() > 0f)
+            {
+                Puzzle_Net.CmdCharging();
+            }
+            else
+            {
+                Puzzle_Net.Cmd_SoundStop();
+            }
+
         }
 
     }

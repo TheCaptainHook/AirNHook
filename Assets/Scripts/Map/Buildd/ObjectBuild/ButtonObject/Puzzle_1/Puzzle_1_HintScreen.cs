@@ -43,11 +43,6 @@ public class Puzzle_1_HintScreen : MonoBehaviour
 
         for (int i = 0; i < sb.Length; i++)
         {
-            // if(i%2 == 0)
-            // {
-            //     sb[i] = 'X';
-            // }
-            // sb[i] = 'X';
             sb[i] = '#';
         }
 
@@ -72,33 +67,39 @@ public class Puzzle_1_HintScreen : MonoBehaviour
 
     #region Answer
 
-    public void Correct(){
+    public void Correct()
+    {
         StopAllCoroutines();
         text.text = "";
-        if(_falseObj.activeSelf) _falseObj.SetActive(false);
+        if (_falseObj.activeSelf) _falseObj.SetActive(false);
 
         glowImage.material = greenMat;
         correctObj.SetActive(true);
 
     }
-    public void False(){
-        if(answerCoroutine != null)
+    public void False()
+    {
+        if (answerCoroutine != null)
         {
-             StopCoroutine(answerCoroutine);
+            StopCoroutine(answerCoroutine);
             _falseObj.SetActive(false);
         }
         answerCoroutine = StartCoroutine(FalseCo());
     }
-   
 
-//    bool isAnswerFalse;
-    IEnumerator FalseCo(){
+
+    //    bool isAnswerFalse;
+    IEnumerator FalseCo()
+    {
+        //Sound
+        Managers.Sound.PlaySound3D(GlobalText.PUZZLE_HINT_WRONG, transform.position);
+        //Sound
         // isAnswerFalse = true;
         _falseObj.SetActive(true);
-        glowImage.material= redMat;
+        glowImage.material = redMat;
         yield return waitSeconds;
 
-        glowImage.material= orgMat;
+        glowImage.material = orgMat;
         _falseObj.SetActive(false);
         answerCoroutine = null;
         // isAnswerFalse = false;
