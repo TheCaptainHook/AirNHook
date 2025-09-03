@@ -20,7 +20,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     public bool canInteract;
     [SyncVar] public bool isDead;
     [SyncVar] public bool doNotTouch;
-    protected bool isControlObj;
+    public bool isControlObj;
     [field: SerializeField] public Transform charPivot { get; private set; }
     [field: SerializeField] public List<SortingGroup> sortingGroup { get; private set; }
     [field: SerializeField] public PlayerTalkingSprite talkingSprite { get; private set; }
@@ -249,13 +249,11 @@ public class PlayerSM : NetworkBehaviour, IDamageable
             {
                 if (latestTarget.TryGetComponent<IInteractable>(out var newTarget))
                     newTarget.ShowEButton();
-                Debug.Log("SHOW E");
             }
             catch (MissingReferenceException)
             {
                 latestTarget = null;
                 Managers.UI.HideUI<UI_ShowEButton>();
-                Debug.Log("SHOW E ERROR");
             }
             shortestDistance = float.MaxValue;
         }

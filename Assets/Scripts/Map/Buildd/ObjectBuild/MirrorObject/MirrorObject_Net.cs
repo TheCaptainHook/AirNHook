@@ -3,6 +3,7 @@ using UnityEngine;
 using Mirror;
 using UnityEngine.Animations;
 using System.Collections;
+using Unity.VisualScripting;
 
 
 
@@ -14,12 +15,6 @@ public class MirrorObject_Net : NetworkBehaviour
 
     [Space(20)]
     [Header("Sync Data")]
-    //[SyncVar(hook =nameof(OnChange_ThisObjectAuthority))]
-  
-
-    // [SyncVar(hook =nameof(OnChageRotate_Z))] 
-    // public float rotate_Z;
-
     
     public bool onActive;
 
@@ -132,90 +127,11 @@ public class MirrorObject_Net : NetworkBehaviour
         rotationCoroutine = null;
     }
 
-    //void Update()
-    //{
-    //    if (isRotation)
-    //    {
-    //        Quaternion current = _Mirror.transform.rotation;
-    //        Quaternion target = Quaternion.Euler(0, 0, targetZ);
-    //        float deltaZ = Mathf.Abs(Mathf.DeltaAngle(_Mirror.transform.eulerAngles.z, targetZ));
-    //        float step = deltaZ / 0.1f * Time.deltaTime;
-
-    //        _Mirror.transform.rotation = Quaternion.RotateTowards(current, target, step);
-
-    //        if (deltaZ < 0.05f)
-    //        {
-    //            isRotation = false;
-    //            _Mirror.transform.rotation = target;
-    //        }
-    //    }
-    //}
-
-    //1. Cmd(server) 에서 타겟 로테이션값 계산
-    //2. Rpc 로 각 클라이언트에 타겟 로테이션전달
-    //  - isRotation = true;
-    //  - maxStopRotCount, curStopRotCount
-    //3. 전달받은 클라이언트 Update 문에서 해당 위치로 +Time.DeltaTime;
-
-
-    // private Coroutine setRotCoroutine;
-    //private bool lr;
-    // IEnumerator SetRotCo()  //4
-    // {
-    //     float curZ = _Mirror.transform.eulerAngles.z;
-    //     float a = lr ? 1 : -1;
-        
-    //     while (!Check(curZ, targetZ))
-    //     {
-    //         curZ += 0.1f * a;
-    //         _Mirror.transform.rotation = Quaternion.Euler(0, 0, curZ);
-    //         yield return new WaitForFixedUpdate();
-    //     }
-
-    //     _Mirror.transform.rotation = Quaternion.Euler(0, 0, targetZ);
-    //     setRotCoroutine = null;
-    // }
     private bool HasReachedTarget(float a, float b)
     {
         return Mathf.Abs(Mathf.DeltaAngle(a, b)) < 0.5f;
     }
 
-
-    // private void OnChageRotate_Z(float old,float newVal)
-    // {
-
-    //     MirrorRotate(newVal);
-
-    // }
-    // private void MirrorRotate(float val)
-    // {
-    //     Quaternion curRot = _Mirror.transform.rotation;
-    //     curRot.z = val;
-    //     _Mirror.transform.rotation = curRot;
-    //     // _Mirror.transform.rotation =
-    // }
-
-    #region UI
-    [Command(requiresAuthority = false)]
-    public void Cmd_ShowE(GameObject player,bool onOff)
-    {
-        //if(player.TryGetComponent(out NetworkIdentity identity))
-        //{
-        //    TRpc_ShowE(identity.connectionToClient, onOff);
-        //}
-       
-    }
-    [TargetRpc]
-    private void TRpc_ShowE(NetworkConnection conn,bool onOff)
-    {
-        //if(onOff) Main.ShowE();
-        //else Main.HideE();
-
-    }
-    #endregion
-
-
-    //hook
  
     #endregion
 
@@ -227,38 +143,17 @@ public class MirrorObject_Net : NetworkBehaviour
     {
         innerPlayer = player;
 
-        //Managers.UI.HideUI<UI_ShowEButton>();
-        //Main.HideE();
-
         onActive = true;
         var pm = player.GetComponent<PlayerSM>();
-
-        pm.canAction = false;
+        
         pm.canMovable = false;
-
+        pm.canAction = false;
         Connection(player);
 
-        player.GetComponent<PlayerSM>().deathEvent += Event_Recover;
+        pm.deathEvent += Event_Recover;
 
         Main.isActive = true;
     }
-    //public void Recover(GameObject player)
-    //{
-    //    onActive = false;
-    //    var pm = player.GetComponent<PlayerSM>();
-
-    //    Disconnection(player);
-    //    pm.canMovable = true;
-
-    //    player.GetComponent<PlayerSM>().deathEvent -= Event_Recover;
-
-    //    if (innerPlayer != null) innerPlayer = null;
-
-    //    Cmd_InnerPlayer(9999);
-
-    //    Cmd_ColReset();
-
-    //}
 
     public void Recover()
     {
@@ -270,12 +165,16 @@ public class MirrorObject_Net : NetworkBehaviour
         if (innerPlayer == null) return;
 
         var pm = innerPlayer.GetComponent<PlayerSM>();
+        
         pm.canAction = true;
-
-        Disconnection(innerPlayer);
         pm.canMovable = true;
 
-        innerPlayer.GetComponent<PlayerSM>().deathEvent -= Event_Recover;
+        pm.isControlObj = false;
+        pm.canInteract = true;
+
+        Disconnection(innerPlayer);
+        
+        pm.deathEvent -= Event_Recover;
 
         Cmd_InnerPlayer(9999);
         Cmd_Reset();
