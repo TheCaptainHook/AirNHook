@@ -54,12 +54,13 @@ public class Portal_Net : ActivatableObject_Net_Entity
     public override void Server_PlayUniqueEffect(uint id)
     {
         var item = NetworkClient.spawned.TryGetValue(id, out var identity) ? identity : null;
+        
         if (item != null)
         {
             TRpc_PlayUniqueEffect(item.connectionToClient, identity.gameObject);
         }
     }
-
+  
     [TargetRpc]
     private void TRpc_PlayUniqueEffect(NetworkConnection conn, GameObject obj)
     {
@@ -95,7 +96,6 @@ public class Portal_Net : ActivatableObject_Net_Entity
     private Portal Portal => GetComponent<Portal>();
     private Animator Animator => GetComponent<Animator>();
 
-    
 
     IEnumerator UsePortal_Co(GameObject obj)
     {
@@ -107,7 +107,7 @@ public class Portal_Net : ActivatableObject_Net_Entity
             component.simulated = false;
         }
         //Player Hold
-
+        Sound(true);
         //Camera Effect
         if (Camera.main != null)
         {
@@ -115,25 +115,26 @@ public class Portal_Net : ActivatableObject_Net_Entity
                 .PortalSpace_TimeTransitionEffect();
         }
         //Camera Effect
-
         //Player Position
         obj.transform.position = targetPortalPosition + Vector2.up;
         //Player Position
-    
 
         yield return new WaitForSeconds(1);
-
+        Sound(false);
         //Player Recover
         component.simulated = true;
         //Player Recover
 
         yield return new WaitForSeconds(2);
-
+ 
         OnPrograss(false);
 
     }
-
-       
+    private void Sound(bool inOut)
+    {
+        if (inOut) Managers.Sound.PlaySound(GlobalText.PORTAL_IN);
+        else Managers.Sound.PlaySound(GlobalText.PORTAL_OUT);
+    }
     public void Animation_Active(bool active)
     {
         Animator.SetBool(IsActive, active);

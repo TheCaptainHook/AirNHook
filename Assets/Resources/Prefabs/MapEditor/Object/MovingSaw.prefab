@@ -5250,6 +5250,7 @@ MonoBehaviour:
   moveSpeed: 0
   IsBroken: 0
   _Animation_Transition_Speed: 0
+  _animator: {fileID: 6332937188113323379}
   addForcePower: 10
 --- !u!114 &1975591882027516896
 MonoBehaviour:

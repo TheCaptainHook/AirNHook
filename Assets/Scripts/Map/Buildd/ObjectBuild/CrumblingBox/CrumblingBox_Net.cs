@@ -21,17 +21,6 @@ public class CrumblingBox_Net : NetworkBehaviour
         Main.Crumbling(newVal);  
     }
 
-    //WaitForFixedUpdate waitFixedUpdate;
-    //IEnumerator Recover()
-    //{
-    //    while (curRecoverRate < recoverRate)
-    //    {
-    //        curRecoverRate += Time.fixedDeltaTime;
-    //        yield return waitFixedUpdate;
-    //    }
-
-    //}
-  
 
 
     #region Init Sync

@@ -104,7 +104,6 @@ public class Portal : ActivatableObjectEntity
     #endregion
 
     #region Interactable
-
     //todo 0913 RayCast
     private void ActiveOnRay()
     {
@@ -117,10 +116,7 @@ public class Portal : ActivatableObjectEntity
             {
                 Net.Server_PlayUniqueEffect(item.netId);
             }
-            
-
         }
-
     }
 #if UNITY_EDITOR
     private void OnDrawGizmos()

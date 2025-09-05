@@ -72,16 +72,16 @@ public class CrumblingBox : BuildObj
         Reset();
     }
 
-    public override void TurnOff()
-    {
-        base.TurnOff();
-        hitBox.SetActive(false);
-    }
-    public override void TurnOn()
-    {
-        base.TurnOn();
-        hitBox.SetActive(true);
-    }
+    //public override void TurnOff()
+    //{
+    //    base.TurnOff();
+    //    hitBox.SetActive(false);
+    //}
+    //public override void TurnOn()
+    //{
+    //    base.TurnOn();
+    //    hitBox.SetActive(true);
+    //}
     public override void Reset()
     {
         curCrumblingAmount = maxCrumblingAmount;
