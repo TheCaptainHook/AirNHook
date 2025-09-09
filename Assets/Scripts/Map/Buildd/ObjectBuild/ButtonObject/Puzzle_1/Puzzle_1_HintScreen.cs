@@ -70,6 +70,9 @@ public class Puzzle_1_HintScreen : MonoBehaviour
     public void Correct()
     {
         StopAllCoroutines();
+        //Sound
+        Managers.Sound.PlaySound3D(GlobalText.PUZZLE_HINT_CORRECT, transform.position);
+        //Sound
         text.text = "";
         if (_falseObj.activeSelf) _falseObj.SetActive(false);
 

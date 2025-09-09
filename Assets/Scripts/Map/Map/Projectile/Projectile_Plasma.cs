@@ -17,10 +17,10 @@ public class Projectile_Plasma : ProjectileEntity
         particle.Play();
     }
     
-    protected override void ShootSound()
-    {
-        Managers.Sound.PlaySound3D(GlobalText.DRONE_LASER_SOUND, transform.position, 0.5f);
-    }
+    // protected override void ShootSound()
+    // {
+    //     Managers.Sound.PlaySound3D(GlobalText.DRONE_LASER_SOUND, transform.position, 0.5f);
+    // }
     protected override void HitSound()
     {
         
@@ -70,8 +70,10 @@ public class Projectile_Plasma : ProjectileEntity
             else
             {
                 if (Random.Range(0, 100) > 20) return;
+                //Reflect Sound
 
-                ShootSound();
+                //Reflect Sound
+
                 Vector2 refrection = Vector2.Reflect(transform.right, hit.normal);
 
                 float randomAngle = Random.Range(-10f, 10f);

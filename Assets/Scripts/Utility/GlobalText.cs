@@ -83,8 +83,9 @@ public static class GlobalText
     //Puzzle
     public const string PUZZLE_PARTS_INSTER = "Clang";
     public const string PUZZLE_HINT_WRONG = "Wrong";
+    public const string PUZZLE_HINT_CORRECT = "Correct";
     public const string PUZZLE_BALLON_EXPLODE = "Balloon_Burst";
-    public const string PUZZLE_BALLON_INFLATE = "Balloon_Inflate";
+    public const string PUZZLE_BALLON_INFLATE = "Balloon_Inflate";    
     //Laser
     public const string LASER_BEAM_START = "Laser_Beam_Start";
     public const string LASER_BEAM_LOOP = "Laser_Beam_Loop";
@@ -92,6 +93,7 @@ public static class GlobalText
     //Tesla Tower
     public const string TESLATOWER_ON = "TeslaTower_On";
     //BeamDoor
+    public const string BEAMDOOR_ZAP = "Zap";
     public const string BEAMDOOR_HUMMING = "Energy_Humming";
     //Capsule
     public const string CAPSULE_UNCAPSULING = "CapsulePowerDown";
@@ -99,6 +101,7 @@ public static class GlobalText
     public const string SAW_SOUND_LOOP = "Saw_Loop";
     //Drone
     public const string DRONE_LASER_SOUND = "Drone_Laser";
+    public const string DRONE_LASER_RAPID_FIRE_SOUND = "Drone_Laser_Rapid_Fire";
     public const string ALERT_SOUND = "Alert";
     //Computer
     public const string COMPUTER_SELECTMENU_SOUND_1 = "KeyClick";

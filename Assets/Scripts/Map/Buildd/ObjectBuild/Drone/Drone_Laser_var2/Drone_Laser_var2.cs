@@ -1,4 +1,5 @@
 
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum DRONE_LASER_STATE
@@ -31,9 +32,14 @@ public class Drone_Laser_var2 : DroneEntity
     }
 
 
-#endregion
+    #endregion
 
-#region  GuardVision
+    void OnDisable()
+    {
+        Laser_Rapid_Fire_Sound(false);
+    }
+
+    #region  GuardVision
     [SerializeField] Drone_Laser_GuardVision guardVision;
     #endregion
 
@@ -140,35 +146,65 @@ public class Drone_Laser_var2 : DroneEntity
         float randomRange = Random.Range(-10,10);
         return Quaternion.Euler(0,0,randomRange) * dir;
     }
-// Managers.Sound.PlaySound3D(GlobalText.ALERT_SOUND, transform, 0.3f);
+    //------------------------------------------------------Sound
+    private AudioSourceController _audioSourceController;
+    private AudioSource AudioSource => _audioSourceController == null ? null : _audioSourceController.GetAudioSource();
+    //------------------------------------------------------Sound
     private void State_Attack()
     {
         if (!laserParts.isShotReady) laserParts.TrackingTarget();
-        if(curAmmoCount>=maxAmmoCount)
+        if (curAmmoCount >= maxAmmoCount)
         {
             onReloading = true;
             droneLaser_Net.onAtack = false;
         }
 
-        if(!onReloading)
+        if (!onReloading)
         {
             curFireRate += Time.deltaTime;
-            if(curFireRate >= maxFireRate && laserParts.isShotReady)
+
+            if (curFireRate >= maxFireRate && laserParts.isShotReady)
             {
                 //Shot
+                //------------------------Sound
+                Laser_Rapid_Fire_Sound(true);
+                //------------------------Sound
                 Shot();
                 curFireRate = 0;
                 //Shot
+
             }
-           
-        }else{
-            Reloading();
 
         }
+        else
+        {
+            Reloading();
+        }
     }
+
+    private void Laser_Rapid_Fire_Sound(bool onOff)
+    {
+        if (!onOff)
+        {
+            if (_audioSourceController != null)
+            {
+                Managers.Sound.StopSound(_audioSourceController);
+                _audioSourceController = null;
+            }
+            return;
+        }
+
+        if (_audioSourceController != null) return;
+        _audioSourceController = Managers.Sound.PlaySound3D(GlobalText.DRONE_LASER_RAPID_FIRE_SOUND, LaserPoint.position, 1f, true);
+
+    }
+
     private void Reloading()
     {
-        laserParts.isShotReady =false;
+        //------------------------Sound Off
+        Laser_Rapid_Fire_Sound(false);
+        //------------------------Sound Off
+        laserParts.isShotReady = false;
         curReloadingCount += Time.deltaTime;
         if (curReloadingCount >= maxReloadingRate)
         {
@@ -177,22 +213,25 @@ public class Drone_Laser_var2 : DroneEntity
             onReloading = false;
         }
     }
-#endregion
-    
-    
+    #endregion
 
-#region State Change
-   public void StateChange(DRONE_LASER_STATE state,GameObject target = null)
-   {
+
+
+    #region State Change
+    public void StateChange(DRONE_LASER_STATE state, GameObject target = null)
+    {
         switch (state)
         {
             case DRONE_LASER_STATE.GUARD:
+                Laser_Rapid_Fire_Sound(false);
                 State_Guard();
                 break;
             case DRONE_LASER_STATE.TRACKING:
+                Laser_Rapid_Fire_Sound(false);
                 // State_Tracking();
                 break;
             case DRONE_LASER_STATE.RETURN:
+                Laser_Rapid_Fire_Sound(false);
                 //State_Return();
                 break;
             case DRONE_LASER_STATE.ATTACK:

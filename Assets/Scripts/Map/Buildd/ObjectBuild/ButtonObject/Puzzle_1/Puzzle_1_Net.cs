@@ -385,6 +385,11 @@ public class Puzzle_1_Net : NetworkBehaviour
     [ClientRpc]
     private void Rpc_Correct()
     {
+        if (audioSourceController != null)
+        {
+            Managers.Sound.StopSound(audioSourceController);
+            audioSourceController = null;
+        }
         onCorrect = true;
         HintScreen_Correct();
     }

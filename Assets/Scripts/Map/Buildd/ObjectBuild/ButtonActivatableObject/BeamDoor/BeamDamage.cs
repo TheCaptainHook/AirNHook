@@ -20,7 +20,7 @@ public class BeamDamage : MonoBehaviour
             {
                 IsGrapCheck(obj);
                 //Sound
-                Managers.Sound.PlaySound3D(GlobalText.ELECTRIC_SHOCK_SOUND, transform.position);
+                Managers.Sound.PlaySound3D(GlobalText.BEAMDOOR_ZAP, transform.position);
                 //Sound
                 AddForce(collision);
             }
