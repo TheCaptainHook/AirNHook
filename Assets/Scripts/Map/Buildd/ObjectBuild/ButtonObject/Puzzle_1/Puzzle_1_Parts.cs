@@ -151,18 +151,40 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     }
     #endregion
 
-    private float condition_InsertBatteryChargerValue = 5;
+    private float condition_InsertVelocityValue = 15;
     private bool ChackVelocity(Puzzle_1_Item item)
     {
         Debug.Log(item._rb.velocity.magnitude);
-        return item._rb.velocity.magnitude >= condition_InsertBatteryChargerValue;
+        return item._rb.velocity.magnitude >= condition_InsertVelocityValue;
     }
 
-
-
     public Puzzle_1_Item insert_Item;
-  
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!NetworkServer.active) return;
+        if (collision != null)
+        {
+            if (collision.TryGetComponent(out Puzzle_1_Item item))
+            {
+                var velocity = item._rb.velocity.magnitude;
+                if (velocity >= condition_InsertVelocityValue)
+                {
+                    if (insert_Item == null)
+                    {
+                        insert_Item = item;
+                        Interaction(item.transform);
+                    }
+                }
+            }
+        }
+    }
+    #region InHale Insert Item
+    private void InsertProjectileIntoSocket()
+    { 
+
+    }
+    #endregion
     #region UI
 
     public void ShowEButton()

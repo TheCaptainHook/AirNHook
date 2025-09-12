@@ -486,7 +486,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0024605393, y: -0.027065545}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -497,7 +497,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.8395494, y: 0.79823893}
+  m_Size: {x: 0.8, y: 0.8}
   m_EdgeRadius: 0
 --- !u!114 &6528749553039152547
 MonoBehaviour:
@@ -589,7 +589,6 @@ MonoBehaviour:
   index: 0
   lineRenderer: {fileID: 5731081128865216846}
   _objectType: 2
-  onSocket: 0
   insert_Item: {fileID: 0}
 --- !u!120 &5731081128865216846
 LineRenderer:
@@ -725,6 +724,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   isCorrectAnswer: 0
+  insert_Item: {fileID: 0}
+  onSocket: 0
 --- !u!1 &1989592938180581310
 GameObject:
   m_ObjectHideFlags: 0

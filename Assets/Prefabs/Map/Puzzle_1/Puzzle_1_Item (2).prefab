@@ -199,7 +199,7 @@ BoxCollider2D:
     m_Bits: 705472
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 1294281783
+    m_Bits: 1294216247
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -283,7 +283,8 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 5903818644388520337}
+  _Dissolve_MainSprites: []
+  _dissolveMaterials: []
   canRespawn: 0
   socketNumber: 2
   possibleInsertSocket: 0
@@ -379,7 +380,6 @@ MonoBehaviour:
   _inhalePower: 600
   orgPosition: {x: 0, y: 0, z: 0}
   onConnect: 0
-  parts: {fileID: 0}
 --- !u!114 &1242032622039461219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,14 +395,15 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  movingPlatform: {fileID: 0}
+  _wdmp_Net: {fileID: 0}
   movingPlatformLayer:
     serializedVersion: 2
     m_Bits: 0
-  layOffset: {x: 0, y: 0, z: 0}
-  col: {fileID: 0}
-  rb: {fileID: 0}
-  netRb: {fileID: 0}
+  movingPlatformMask:
+    serializedVersion: 2
+    m_Bits: 32768
+  skin: 0.2
+  _platformId: 0
   startSync: 0
 --- !u!1773428102 &-4804834293128058311
 ParentConstraint:
