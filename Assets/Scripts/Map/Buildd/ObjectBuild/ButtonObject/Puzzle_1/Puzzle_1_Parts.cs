@@ -162,7 +162,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!NetworkServer.active) return;
+        // if (!NetworkServer.active) return;
         if (collision != null)
         {
             if (collision.TryGetComponent(out Puzzle_1_Item item))
