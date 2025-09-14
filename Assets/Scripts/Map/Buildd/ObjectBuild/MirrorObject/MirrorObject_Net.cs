@@ -195,7 +195,7 @@ public class MirrorObject_Net : NetworkBehaviour
         //targetZ = 0;
     }
 
-    private void Event_Recover()
+    private void Event_Recover(DamageType damageType = DamageType.Default)
     {
         Main.HideADEButton();
         Main.HideEButton();

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Character.StateMachine.States;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -272,7 +271,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     #region Dead
     // ReSharper disable Unity.PerformanceAnalysis
     //0323
-    public event Action deathEvent;
+    public event Action<DamageType> deathEvent;
     //0323
     public virtual void TakeDamage(DamageType damageType = DamageType.Default)
     {
@@ -286,7 +285,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.DeathVignette(true);
         stateMachine.ChangeState(stateMachine.IdleState);
 
-        deathEvent?.Invoke();
+        deathEvent?.Invoke(damageType);
 
         // 애니메이션 처리
         PlayDeathAnimation(damageType);
@@ -294,7 +293,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         // 카메라 효과 처리
         HandleDeathCameraEffects(damageType);
         // 플레이어 죽었을 때 처리
-        Managers.AcManager.CallPlayerDeath();
+        Managers.AcManager.CallPlayerDeath(damageType);
 
         PlayDeathSound(damageType);
         CmdPlayDeathSound(damageType);
@@ -302,7 +301,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
 
     public void CallPlayerDeathEvent()
     {
-        deathEvent?.Invoke();
+        deathEvent?.Invoke(DamageType.Default);
     }
 
     //private void TakeSuicideDamage()
