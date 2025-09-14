@@ -101,11 +101,13 @@ public class SoundManager
     /// <param name="position">재생 위치</param>
     /// <param name="volume">volume 0~1, default : 1</param>
     /// <param name="isLoop">반복(default : false)</param>
-    public AudioSourceController PlaySound3D(string audioName, Vector3 position, float volume = 1f, bool isLoop = false, int distance = 10)
+    /// <param name="distance">사운드가 들리는 최대 거리(default : 10)</param>
+    /// <param name="isRandomPitch">사운드 마다 랜덤 pitch 조정(default : false)</param>
+    public AudioSourceController PlaySound3D(string audioName, Vector3 position, float volume = 1f, bool isLoop = false, int distance = 10, bool isRandomPitch = false)
     {
-        return PlayAudioClip(audioName, position, volume, isLoop, distance);
+        return PlayAudioClip(audioName, position, volume, isLoop, distance, isRandomPitch);
     }
-    
+
     /// <summary>
     /// 오브젝트를 따라가는(자식 느낌) 3d effect sound 재생.
     /// </summary>
@@ -114,9 +116,11 @@ public class SoundManager
     /// <param name="volume">volume 0~1, default : 1</param> 
     /// <param name="isLoop">반복(default : false)</param>
     /// <param name="destroyWhenParentsDestroyed">따라갈 오브젝트가 Destroy될 시, 사운드도 사라지게하기</param>
-    public AudioSourceController PlaySound3D(string audioName, Transform obj, float volume = 1f, bool isLoop = false, bool destroyWhenParentsDestroyed = false, int distance = 10)
+    /// <param name="distance">사운드가 들리는 최대 거리(default : 10)</param>
+    /// <param name="isRandomPitch">사운드 마다 랜덤 pitch 조정(default : false)</param>
+    public AudioSourceController PlaySound3D(string audioName, Transform obj, float volume = 1f, bool isLoop = false, bool destroyWhenParentsDestroyed = false, int distance = 10, bool isRandomPitch = false)
     {
-        return PlayAudioClip(audioName, obj, volume, destroyWhenParentsDestroyed, isLoop, distance);
+        return PlayAudioClip(audioName, obj, volume, destroyWhenParentsDestroyed, isLoop, distance, isRandomPitch);
     }
 
     /// <summary>
@@ -166,7 +170,7 @@ public class SoundManager
     }
 
     // 3D effect sound용
-    private AudioSourceController PlayAudioClip(string audioName, Vector3 position, float volume, bool loop, int distance)
+    private AudioSourceController PlayAudioClip(string audioName, Vector3 position, float volume, bool loop, int distance, bool isRandomPitch)
     {
         if (!GetAudioSource(out var audioSourceController)) return null;
 
@@ -174,7 +178,7 @@ public class SoundManager
         var audioSource = audioSourceController.GetAudioSource();
 
         audioSource.outputAudioMixerGroup = _audioMixerGroups[GlobalText.EFFECTS_STRING];
-        SetAudioSource(audioSourceController, audioClip, volume, 1f, loop, distance);
+        SetAudioSource(audioSourceController, audioClip, volume, 1f, loop, distance, null, isRandomPitch);
         audioSourceController.Initialize(loop, position, true, distance);
 
         if (loop)
@@ -184,7 +188,7 @@ public class SoundManager
     }
 
     // 3D effect sound용
-    private AudioSourceController PlayAudioClip(string audioName, Transform obj, float volume, bool destroyWhenParentDestroyed, bool loop, int distance)
+    private AudioSourceController PlayAudioClip(string audioName, Transform obj, float volume, bool destroyWhenParentDestroyed, bool loop, int distance, bool isRandomPitch)
     {
         if (!GetAudioSource(out var audioSourceController)) return null;
 
@@ -192,7 +196,7 @@ public class SoundManager
         var audioSource = audioSourceController.GetAudioSource();
 
         audioSource.outputAudioMixerGroup = _audioMixerGroups[GlobalText.EFFECTS_STRING];
-        SetAudioSource(audioSourceController, audioClip, volume, 1f, loop, distance, obj);
+        SetAudioSource(audioSourceController, audioClip, volume, 1f, loop, distance, obj, isRandomPitch);
         audioSourceController.Initialize(loop, obj, destroyWhenParentDestroyed, true, distance);
 
         return audioSourceController;
@@ -241,7 +245,7 @@ public class SoundManager
         return audioSourceController;
     }
 
-    private void SetAudioSource(AudioSourceController audioSourceController, AudioClip clip, float volume, float spatialBlend, bool loop, int distance = 10, Transform targetTransform = null)
+    private void SetAudioSource(AudioSourceController audioSourceController, AudioClip clip, float volume, float spatialBlend, bool loop, int distance = 10, Transform targetTransform = null, bool isRandomPitch = false)
     {
         var audioSource = audioSourceController.GetAudioSource();
 
@@ -250,6 +254,7 @@ public class SoundManager
         audioSource.spatialBlend = spatialBlend;
         audioSource.loop = loop;
         audioSource.maxDistance = distance;
+        audioSource.pitch = isRandomPitch ? Random.Range(0.9f, 1.1f) : 1f;
 
         audioSourceController.gameObject.SetActive(true);
     }
