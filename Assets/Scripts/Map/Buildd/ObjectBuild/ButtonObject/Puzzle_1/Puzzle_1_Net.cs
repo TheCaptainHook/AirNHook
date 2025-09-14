@@ -527,7 +527,7 @@ public class Puzzle_1_Net : NetworkBehaviour
         airObject = null;
 
     }
-    private void Event_Recover()
+    private void Event_Recover(DamageType damageType = DamageType.Default)
     {
         if(airObject)
         {
