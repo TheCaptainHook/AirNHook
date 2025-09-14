@@ -168,6 +168,8 @@ public class PowerSupply_Net : NetworkBehaviour
             rb.velocity = Vector3.zero;
         }
 
+        item.transform.rotation = Quaternion.identity;
+
         if (item.TryGetComponent(out ParentConstraint parentConstraint))
         {
             if (parentConstraint.sourceCount > 0)
@@ -310,7 +312,7 @@ public class PowerSupply_Net : NetworkBehaviour
         while(battery.batteryCapacity >0)
         {
             battery.Server_SetBatteryCapacity(-consumption);
-            Debug.Log($"{battery.batteryCapacity}");
+            
             yield return new WaitForSeconds(1);
         }
 

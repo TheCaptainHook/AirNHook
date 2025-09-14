@@ -8,7 +8,16 @@ public class TransportItemEntity : InteractableObject, ITransportItem
 {
     #region Transport Item
     protected Collider2D Col => GetComponent<Collider2D>();
-    protected Rigidbody2D Rb => GetComponent<Rigidbody2D>();
+    protected Rigidbody2D rb;
+    public Rigidbody2D Rb     
+    {
+        get
+        {
+            if (rb == null) rb = GetComponent<Rigidbody2D>();
+            return rb;
+        }
+    }
+
     protected BuildObj BuildObj => GetComponent<BuildObj>();
     public void TransportItem_Constraint(uint netId) //Server
     {

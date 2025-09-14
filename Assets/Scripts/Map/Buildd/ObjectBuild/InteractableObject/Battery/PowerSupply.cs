@@ -247,6 +247,7 @@ public class PowerSupply : ButtonEntity,IInteractable
 
     #endregion
 
+
  #region  Main
     // private void OnTriggerEnter2D(Collider2D collision)
     // {
@@ -300,32 +301,45 @@ public class PowerSupply : ButtonEntity,IInteractable
     //         battery.Net_SetPowerSupply(null);
     //     }
     // }
-    
-    
-#endregion
 
+
+    #endregion
+    private float condition_InsertVelocityValue = 15;
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // if (!NetworkServer.active) return;
+        if (collision != null)
+        {
+            if (collision.TryGetComponent(out BatteryInteractable item))
+            {
+                var velocity = item.Rb.velocity.magnitude;
+                if (velocity >= condition_InsertVelocityValue)
+                {
+                    if (!P_Net._onSocket)
+                    {
+                        Interaction(item.transform);
+                    }
+                }
+            }
+        }
+    }
     #region  Interacable
     public void Interaction(Transform accessor = null)
     {
-        Debug.Log($"PowerSupply Interaction, \naccessor Name : {accessor}");
         if (accessor != null && !accessor.TryGetComponent(out AirSM air))
         {
             if (accessor.TryGetComponent<BatteryInteractable>(out var newbattery))
             {
-                // newbattery.Cmd_Release(transform.position, true);
                 P_Net.Cmd_SetBattery(newbattery.TryGetComponent<NetworkIdentity>(out var identity) ? identity.netId : 9999);
-                Debug.Log("Set Battery");
                 HideEButton();
                 return;
             }
         }
-        else //P_Net.battery != null
+        else 
         {
             if (P_Net._onSocket)
             {
-                Debug.Log("Remove Socket battery");
                 P_Net.Cmd_SetBattery(9999);
-                // battery = null;
                 return;
             }
             

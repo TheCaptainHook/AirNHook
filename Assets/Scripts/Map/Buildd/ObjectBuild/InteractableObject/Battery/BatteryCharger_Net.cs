@@ -101,6 +101,7 @@ public class BatteryCharger_Net : NetworkBehaviour
             rb.simulated = false;
             rb.velocity = Vector3.zero;
         }
+       newBattery.transform.rotation = Quaternion.identity;
 
         if (newBattery.TryGetComponent(out ParentConstraint parentConstraint))
         {

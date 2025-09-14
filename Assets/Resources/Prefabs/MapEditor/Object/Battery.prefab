@@ -221,7 +221,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 672704
+    m_Bits: 9061312
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 1294281783
@@ -320,7 +320,6 @@ MonoBehaviour:
     position: {x: 0, y: 0}
     quaternion: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 0, y: 0, z: 0}
-    talPot: {x: 0, y: 0}
     size: {x: 0, y: 0}
     text: 
     fontSize: 0
@@ -331,6 +330,7 @@ MonoBehaviour:
     activeRequireAmount: 0
     onEncapsulationItem: 0
     indicator: 0
+    tutorialCode: 0
   batteryCharger: {fileID: 0}
   batteryCapacity: 0
   powerSupply: {fileID: 0}

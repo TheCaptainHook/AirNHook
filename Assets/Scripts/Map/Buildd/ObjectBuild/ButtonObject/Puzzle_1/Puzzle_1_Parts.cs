@@ -180,10 +180,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         }
     }
     #region InHale Insert Item
-    private void InsertProjectileIntoSocket()
-    { 
 
-    }
     #endregion
     #region UI
 
