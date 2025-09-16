@@ -8,7 +8,7 @@ public class PairAuthDoor_Eye : MonoBehaviour
 {
     [SerializeField] private Transform _eyeTransform;
     [SerializeField] private Material _scanMat;
-    [SerializeField] private PairAuthDoor _parentDoor;
+    [SerializeField] private PairAuthDoor _pairAuthDoor;
     private MeshFilter _mf;
     private MeshRenderer _mr;
     private Mesh _mesh;
@@ -30,20 +30,17 @@ public class PairAuthDoor_Eye : MonoBehaviour
         _mf.sharedMesh = _mesh;
         _mr.sharedMaterial = _scanMat;
     }
-
-    public AirSM _air;
-    public HookSM _hook;
+    public float scanSpeed = 3f;
     public IEnumerator DetectCoroutine()
     {
         float percent = 0f;
         while (percent < 1f)
         {
-            percent += Time.deltaTime;
+            percent += Time.deltaTime * scanSpeed;
             float offsetAngle = Mathf.SmoothStep(_offsetAngle_Min, _offsetAngle_Max, percent);
             UpdateTriangleMesh(offsetAngle);
             yield return null;
         }
-        _parentDoor.AuthPlayer(_air, _hook);
     }
     /**
     Right : -70~-50
@@ -77,31 +74,13 @@ public class PairAuthDoor_Eye : MonoBehaviour
             {
                 endPoint = hit.point;
             }
-
-            if (hit.collider.TryGetComponent(out AirSM air))
+            
+            //----------Player Check, And Player Hold
+            if (hit.collider.TryGetComponent(out PlayerSM player))
             {
-                _air = air;
-                //LineRenderer
-                //Panel on
+                _pairAuthDoor.DetectPlayer(hit.collider);
             }
-            else
-            {
-                //LineRenderer off
-                //Panel Off
-                _air = null;
-            }
-            if (hit.collider.TryGetComponent(out HookSM hook))
-            {
-                //LineRenderer
-                //Panel on
-                _hook = hook;
-            }
-            else
-            {
-                //LineRenderer off
-                //Panel off
-                _hook = null;
-            }
+            //----------Player Check
 
             // 로컬 변환
             vertices.Add(transform.InverseTransformPoint(endPoint));
@@ -120,12 +99,12 @@ public class PairAuthDoor_Eye : MonoBehaviour
         _mesh.triangles = triangles.ToArray();
         _mesh.RecalculateBounds();
         _mesh.RecalculateNormals();
+        
     }
+
     public void MeshClear()
     {
         _mesh.Clear();
-        _air = null;
-        _hook = null;
         _mesh.vertices = Array.Empty<Vector3>();
         _mesh.triangles = Array.Empty<int>();
         _mesh.uv = Array.Empty<Vector2>();
