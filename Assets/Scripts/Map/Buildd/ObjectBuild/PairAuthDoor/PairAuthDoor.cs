@@ -34,15 +34,6 @@ public class PairAuthDoor : BuildObj, IInteractable
         _lrPool.Enqueue(CreateLine());
     }
    
-
-    //void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Q) && !_onProgress)
-    //    {
-    //        StartCoroutine(AuthCoroutine());
-    //    }
-    //}
-
     public IEnumerator AuthCoroutine()
     {
         _onProgress = true;
