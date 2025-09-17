@@ -13,14 +13,16 @@ public class PairAuthDoor_Eye : MonoBehaviour
     private MeshRenderer _mr;
     private Mesh _mesh;
 
-    public Vector3 p0;
-    public Vector3 p1;
-    public Vector3 p2;
+    //public Vector3 p0;
+    //public Vector3 p1;
+    //public Vector3 p2;
 
     public LayerMask _hitMask;
-
     public float _maxDistance = 50f;
     public int _rayCount = 20;
+
+
+    public bool _leftOrRight; // true : Left , false : Right
 
     void Awake()
     {
@@ -31,7 +33,7 @@ public class PairAuthDoor_Eye : MonoBehaviour
         _mr.sharedMaterial = _scanMat;
     }
     public float scanSpeed = 3f;
-    public IEnumerator DetectCoroutine()
+    public IEnumerator ScaningCoroutine()
     {
         float percent = 0f;
         while (percent < 1f)
@@ -41,6 +43,8 @@ public class PairAuthDoor_Eye : MonoBehaviour
             UpdateTriangleMesh(offsetAngle);
             yield return null;
         }
+
+        StartCoroutine(CloseScan());
     }
     /**
     Right : -70~-50
@@ -70,11 +74,13 @@ public class PairAuthDoor_Eye : MonoBehaviour
             Vector3 endPoint = origin + dir * _maxDistance;
             var hit = Physics2D.Raycast(origin, dir, _maxDistance, _hitMask);
 
+
             if (hit.collider != null)
             {
                 endPoint = hit.point;
             }
-            
+            else continue;
+
             //----------Player Check, And Player Hold
             if (hit.collider.TryGetComponent(out PlayerSM player))
             {
@@ -101,7 +107,45 @@ public class PairAuthDoor_Eye : MonoBehaviour
         _mesh.RecalculateNormals();
         
     }
+    private IEnumerator CloseScan()
+    {
+        if (_mesh == null || _mesh.vertexCount == 0)
+            yield break;
 
+        List<Vector3> verts = new List<Vector3>(_mesh.vertices);
+
+        while (verts.Count > 1)
+        {
+            if(_leftOrRight) // left
+            {
+                verts.RemoveAt(verts.Count - 1);
+            }
+            else //right
+            {
+                verts.RemoveAt(1);
+            }
+
+            List<int> tris = new List<int>();
+            for (int i = 1; i < verts.Count - 1; i++)
+            {
+                tris.Add(0);
+                tris.Add(i);
+                tris.Add(i + 1);
+            }
+
+            // 메쉬 갱신
+            _mesh.Clear();
+            _mesh.vertices = verts.ToArray();
+            _mesh.triangles = tris.ToArray();
+            _mesh.RecalculateBounds();
+            _mesh.RecalculateNormals();
+
+            yield return null; // 일정 시간마다 하나씩 제거
+        }
+
+        // 다 닫히면 메쉬 제거
+        MeshClear();
+    }
     public void MeshClear()
     {
         _mesh.Clear();

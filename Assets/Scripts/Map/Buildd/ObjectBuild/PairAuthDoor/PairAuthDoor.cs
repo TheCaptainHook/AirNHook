@@ -4,55 +4,61 @@ using Mirror;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PairAuthDoor : MonoBehaviour
+public class PairAuthDoor : BuildObj, IInteractable
 {
-    // public AirSM _air;
-    // public HookSM _hook;
-
+    [CustomHeader("PairAuthDoor")]
     [SerializeField] Transform _authTr;
     public PairAuthDoor_Eye _leftEye;
     public PairAuthDoor_Eye _rightEye;
+
+    private PairAuthDoor_Net _net;
+    private PairAuthDoor_Net Net { get { _net ??= GetComponent<PairAuthDoor_Net>(); return _net; } }
+
     [ReadOnly]
     public bool _onProgress;
-    /**
-    1. Start Detection(Server) -> Rpc_StartDetection(Eye Detect Effect)
-    2.   1). AuthComplete 
-         2). AuthFail
-         3). AuthCancel
-    
-    **/
 
     [Header("Line")]
     [SerializeField] Transform _lineContainerTr;
 
     [Header("Panel")]
     [SerializeField] PairAuthDoor_Panel _panel;
+    [Header("Auth Scan Shader")]
+    [SerializeField] Material _scanMat;
+    [SerializeField] Sprite _hook_Sprite;
+    [SerializeField] Sprite _air_Sprite;
+
+    private WaitForSeconds _zeroDotOne = new WaitForSeconds(0.1f);
     void Awake()
     {
         _lrPool.Enqueue(CreateLine());
         _lrPool.Enqueue(CreateLine());
     }
+   
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Q) && !_onProgress)
-        {
-            StartCoroutine(AuthCoroutine());
-        }
-    }
+    //void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Q) && !_onProgress)
+    //    {
+    //        StartCoroutine(AuthCoroutine());
+    //    }
+    //}
 
-    private IEnumerator AuthCoroutine()
+    public IEnumerator AuthCoroutine()
     {
         _onProgress = true;
-        StartCoroutine(_leftEye.DetectCoroutine());
-        StartCoroutine(_rightEye.DetectCoroutine());
-        yield return new WaitForSeconds(2f);
-       
-        //------------ Clear
-        _leftEye.MeshClear();
-        _rightEye.MeshClear();
+        StartCoroutine(_leftEye.ScaningCoroutine());
+        StartCoroutine(_rightEye.ScaningCoroutine());
+        yield return new WaitForSeconds(1f);
+        //Check Effect
+        yield return Auth_DrawLineCo();
+        //Check Effect
+        yield return new WaitForSeconds(1f);
+        Destory_Dummy_ScanShader();
         ClearAllLine();
-        //------------ Clear
+        //Panel
+        Auth_Panel();
+        //Panel
+        yield return new WaitForSeconds(1f);
 
         //------------ Auth Check(Server)
         if (NetworkServer.active)
@@ -60,15 +66,20 @@ public class PairAuthDoor : MonoBehaviour
             if (_panel.AuthCheck())
             {
                 Debug.Log("Auth Complete");
+                Net._authSuccess = true;
             }
             else
             {
-                Debug.Log("Auth Fail");
+                Debug.Log("Auth Fail");       
             }
         }
-        //------------ Auth Check
+        //------------ Auth Check(Server)
+
+        _panel.PanelReset();
         PlayerDic_Clear();
         _onProgress = false;
+
+        if(NetworkServer.active) Net._onProgress = false;
     }
 
     
@@ -81,7 +92,6 @@ public class PairAuthDoor : MonoBehaviour
         if (_lrPool.Count > 0)
         {
             var lr = _lrPool.Dequeue();
-            // lr.gameObject.SetActive(true);
             return lr;
         }
         else return null;
@@ -93,10 +103,12 @@ public class PairAuthDoor : MonoBehaviour
         lr.positionCount = 0;
         lr.startWidth = 0.01f;
         lr.endWidth = 0.01f;
+        lr.startColor = Color.red;
+        lr.endColor = Color.red;
+
         go.transform.SetParent(_lineContainerTr);
         lr.sortingLayerName = "ForeGround";
         lr.sortingOrder = 6;
-        // lr.material = Resources.Load<Material>("Material/Line_Mat");
         return lr;
     }
     
@@ -105,6 +117,56 @@ public class PairAuthDoor : MonoBehaviour
         lr.positionCount = 2;
         lr.SetPosition(0, _authTr.position);
         lr.SetPosition(1, endPos);
+    }
+    private IEnumerator Auth_DrawLineCo()
+    {
+        foreach (var key in _playerLinesDic.Keys)
+        {
+            if (NetworkClient.spawned.TryGetValue(key, out var netIdentity))
+            {
+                if (netIdentity.TryGetComponent(out PlayerSM player))
+                {
+                    SetLine(_playerLinesDic[key], player.transform.position);
+                    yield return _zeroDotOne;
+                    Create_Dummy_ScanShader(player);
+                }
+            }
+            yield return _zeroDotOne;
+        }
+    }
+
+    private List<GameObject> _dummyScanShaderList = new List<GameObject>();
+    private void Create_Dummy_ScanShader(PlayerSM player)
+    {
+        var go = new GameObject("PairAuthDoor_ScanShader");
+        var sr = go.AddComponent<SpriteRenderer>();
+        go.transform.SetParent(player.transform);
+        go.transform.localPosition = Vector2.zero;
+
+        if (player.characterType == CharacterType.Air)
+        {
+            go.transform.localScale = Vector2.one * 0.5f;
+            sr.sprite = _air_Sprite;
+        }
+        else if (player.characterType == CharacterType.Hook)
+        {
+            go.transform.localScale = Vector2.one * 0.2f;
+            sr.sprite = _hook_Sprite;
+        }
+
+        sr.material = _scanMat;
+        sr.sortingLayerName = "PlayerBack";
+        sr.sortingOrder = 8;
+
+        _dummyScanShaderList.Add(go);
+    }
+    private void Destory_Dummy_ScanShader()
+    {
+        foreach(var item in _dummyScanShaderList)
+        {
+            Destroy(item);
+        }
+        _dummyScanShaderList.Clear();
     }
     #endregion
 
@@ -121,8 +183,6 @@ public class PairAuthDoor : MonoBehaviour
         lr.positionCount = 0;
         _lrPool.Enqueue(lr);
     }
-
-    #endregion
     private void PlayerDic_Clear()
     {
         foreach (var id in _playerLinesDic.Keys)
@@ -132,12 +192,14 @@ public class PairAuthDoor : MonoBehaviour
                 if (netIdentity.TryGetComponent(out PlayerSM player))
                 {
                     player.FreezePlayerState(false);
-                    _panel.SetPanel(player, false);
                 }
             }
         }
         _playerLinesDic.Clear();
     }
+    #endregion
+
+
     public void DetectPlayer(Collider2D col)
     {
         var id = col.TryGetComponent(out NetworkIdentity netId) ? netId.netId : 9999;
@@ -153,23 +215,65 @@ public class PairAuthDoor : MonoBehaviour
 
                 if (col.TryGetComponent(out PlayerSM player))
                 {
-                    Debug.Log("asdasd 11");
                     player.FreezePlayerState(true);
-                    //Set Panel 
-                    _panel.SetPanel(player);
-                    //Set Panel 
-
                 }
             }
-
-            SetLine(_playerLinesDic[id], col.transform.position);
         }
     }
 
-}
-    
+    private void Auth_Panel()
+    {
+        foreach(var key in _playerLinesDic.Keys)
+        {
+            if (NetworkClient.spawned.TryGetValue(key, out var netIdentity))
+            {
+                if (netIdentity.TryGetComponent(out PlayerSM player))
+                {
+                    _panel.SetPanel(player);
+                }
+            }
+        }
+    }
 
 
-    // (netId,LineRenderer)
+    #region Interactable
+    public ObjectTypeEnum _objectType = ObjectTypeEnum.Interaction;
+    private UI_Base _E_Btn;
+    [SerializeField] float _BtnOffset;
 
+    public void Interaction(Transform accessor = null)
+    {
+        if(!Net._authSuccess && !_onProgress)
+        {
+            HideEButton();
+            Net.Cmd_Auth();
+        }
+    }
+    public bool CanInteract()
+    {
+        return true;
+    }
+    public bool Interacting(bool value, GameObject player)
+    {
+        return true;
+    }
+    public ObjectTypeEnum GetObjectType()
+    {
+        return _objectType;
+    }
+    public void ShowEButton()
+    {
+        if (!Net._authSuccess && !_onProgress)
+        {
+            _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
+            _E_Btn.transform.position = transform.position + (transform.up * _BtnOffset);
+        }
+    }
+    public void HideEButton()
+    {
+        _E_Btn = null;
+        Managers.UI.HideUI<UI_ShowEButton>();
+    }
+        #endregion
+    }
 

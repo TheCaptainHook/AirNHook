@@ -27,6 +27,13 @@ public class PairAuthDoor_Panel : MonoBehaviour
         }
     }
 
+    public void PanelReset()
+    {
+        airSM = null;
+        hookSM = null;
+        _airIcon.SetActive(false);
+        _hookIcon.SetActive(false);
+    }
     public bool AuthCheck()
     {
         return airSM && hookSM;
