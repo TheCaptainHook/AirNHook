@@ -110,6 +110,7 @@ public class UI_EventEchoDialogue : UI_Base
     #region Main
     public void SetDialogue(string text)
     {
+        if (Managers.AcManager._isInterrupted) return;
         //Start UI Animation
         StartUI();
         //Start UI Animation
@@ -179,12 +180,14 @@ public class UI_EventEchoDialogue : UI_Base
 
 
 
-    IEnumerator ShutDownCo(){
+    IEnumerator ShutDownCo()
+    {
         yield return new WaitForSeconds(5);
         mainAnimator.SetTrigger(Close);
         yield return new WaitForSeconds(0.3f);
         Reset();
         CloseUI();
+        
     }
     #endregion
 

@@ -399,6 +399,7 @@ public class Puzzle_1_Net : NetworkBehaviour
     [ClientRpc]
     private void Rpc_Wrong()
     {
+        Managers.AcManager.CallPlayer_Puzzle_Wrong();
         Puzzle.Boom();
         HintScreen_False();
     }

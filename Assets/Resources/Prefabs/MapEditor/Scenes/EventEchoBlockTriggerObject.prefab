@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6516039523270145911
+--- !u!1 &7031862295462198380
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,24 +8,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2667944768571930504}
-  - component: {fileID: 411807209442754615}
-  - component: {fileID: 3808399003330657427}
-  - component: {fileID: 3037825631947539904}
-  m_Layer: 27
-  m_Name: Trigger_DialogueObj
+  - component: {fileID: 6007096530746399422}
+  - component: {fileID: 7950233078498633894}
+  - component: {fileID: 7309020829351523969}
+  m_Layer: 0
+  m_Name: EventEchoBlockTriggerObject
   m_TagString: Untagged
-  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2667944768571930504
+--- !u!4 &6007096530746399422
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6516039523270145911}
+  m_GameObject: {fileID: 7031862295462198380}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -34,22 +33,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &411807209442754615
+--- !u!61 &7950233078498633894
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6516039523270145911}
+  m_GameObject: {fileID: 7031862295462198380}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 1161782263
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -77,22 +76,22 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 6, y: 6}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &3808399003330657427
+--- !u!114 &7309020829351523969
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6516039523270145911}
+  m_GameObject: {fileID: 7031862295462198380}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcdc3662ab2ab4b999087b6dbfeb9354, type: 3}
+  m_Script: {fileID: 11500000, guid: 577e6c9395b124554be8c3b3f74039da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 1003
-  transformID: 1
+  id: 1006
+  transformID: 0
   position: {x: 0, y: 0}
   distructionStatus: 0
   chargeRequired: 0
@@ -101,7 +100,7 @@ MonoBehaviour:
   carrierTransform: {fileID: 0}
   onPlaceable: 0
   onRotateable: 0
-  onScaleable: 1
+  onScaleable: 0
   offset: {x: 0, y: 0}
   turnOff: 0
   setPosition: 0
@@ -109,22 +108,3 @@ MonoBehaviour:
   _Dissolve_MainSprites: []
   _dissolveMaterials: []
   canRespawn: 0
-  _DialogueId: 0
-  OnExcuted: 0
---- !u!114 &3037825631947539904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6516039523270145911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  _assetId: 3700386526
-  serverOnly: 0
-  visibility: 0
-  hasSpawned: 0

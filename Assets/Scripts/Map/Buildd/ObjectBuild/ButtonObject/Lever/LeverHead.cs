@@ -31,7 +31,7 @@ public class LeverHead : BuildObj
 
     public void DetachToLevelBody()
     {
-        _collider.enabled = true;
+        Col.enabled = true;
         _rb.simulated = true;
         _rb.velocity = Vector2.zero;
         _rb.angularVelocity = 0f;

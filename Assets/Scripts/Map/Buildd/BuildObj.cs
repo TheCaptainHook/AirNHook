@@ -86,13 +86,13 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
             return Rb;
         }
     }
-    private Collider2D Collider;
-    public Collider2D _collider
+    private Collider2D _collider;
+    public Collider2D Col
     {
         get
         {
-            if (Collider == null) Collider = GetComponent<Collider2D>();
-            return Collider;
+            if (_collider == null) _collider = GetComponent<Collider2D>();
+            return _collider;
 
         }
         

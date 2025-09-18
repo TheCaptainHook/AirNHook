@@ -7,12 +7,15 @@ using Random = UnityEngine.Random;
 
 public class AchievementManager
 {
+    public bool _isInterrupted;
+
     #region Event
-        //Player
-        private event Action playerJumpingEvent;
-        private event Action<DamageType> playerDeathEvent;
-        //Object
-        //private event Action usePortalEvent;
+    //Player
+    private event Action playerJumpingEvent;
+    private event Action<DamageType> playerDeathEvent;
+    private event Action _player_Puzzle_Wrong_Event;
+    //Object
+    //private event Action usePortalEvent;
     #endregion
 
     public bool onRequestSteamUserState;
@@ -23,15 +26,19 @@ public class AchievementManager
     private List<int> _electricDeathId = new List<int>() { 70300, 70301, 70302 };
     private Dictionary<DamageType, List<int>> _deathIdDict;
 
+    #region  Puzzle
+    private int[] _puzzle_taunt_Ids = new int[] { 50100, 50101, 50102 };
+    #endregion
+
     public void SetUp()
     {
-    
+
         //Object
         //usePortalEvent += UsePortal;
         //Player
         playerJumpingEvent += PlayerJumping;
         playerDeathEvent += PlayerDeath;
-
+        _player_Puzzle_Wrong_Event += Player_Puzzle_Wrong;
 
         if (!SteamManager.Initialized)
         {
@@ -48,7 +55,7 @@ public class AchievementManager
             { DamageType.Fire, _fireDeathId },
             { DamageType.Electric, _electricDeathId }
         };
-}
+    }
 
     #region Call Event
     #region  Obejct
@@ -69,13 +76,17 @@ public class AchievementManager
     {
         playerDeathEvent?.Invoke(damageType);
     }
+    public void CallPlayer_Puzzle_Wrong()
+    {
+        _player_Puzzle_Wrong_Event?.Invoke();
+    }
     //PlayerDeath
     //PlayerDeath_Sucide
     //Clear_Toturial
 
     #endregion
 
-  
+
 
     #endregion
 
@@ -88,7 +99,7 @@ public class AchievementManager
         {
             SteamUserStats.GetAchievement(achievementID, out achieved);
         }
-        return achieved;              
+        return achieved;
     }
 
     private void AchievementUnlock(string achievementID)
@@ -157,6 +168,11 @@ public class AchievementManager
             }
         await Managers.Data.saveData.Ac_Save();
     }
+    private void Player_Puzzle_Wrong()
+    {
+        int id = Random.Range(0, _puzzle_taunt_Ids.Length);
+        UI_EED.SetDialogue(Managers.Data.language.GetSentence(_puzzle_taunt_Ids[id]));
+    }
     #endregion
     #region Player
     private async void PlayerJumping()
@@ -192,10 +208,10 @@ public class AchievementManager
                     UI_EED.SetDialogue(Managers.Data.language.GetSentence(70001));
                 }
                 break;
-                
+
         }
 
-        if(GetDeathPercent())
+        if (GetDeathPercent())
         {
             //print dialogue
             _deathIdDict.TryGetValue(damageType, out var idList);
@@ -216,7 +232,7 @@ public class AchievementManager
     private bool GetDeathPercent()
     {
         int num = Random.Range(1, 101);
-        if(num <= curDeathScriptPercent)
+        if (num <= curDeathScriptPercent)
         {
             return true;
         }
@@ -226,9 +242,14 @@ public class AchievementManager
 
 
     #endregion
-    #region  Map
 
     #endregion
+
+    #region  Interrupted
+    public void SetInterrupted()
+    {
+        _isInterrupted = !_isInterrupted;
+    }
     #endregion
 
 }

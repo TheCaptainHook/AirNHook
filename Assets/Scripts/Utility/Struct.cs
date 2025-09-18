@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using static UnityEngine.Rendering.Universal.Light2D;
 
@@ -449,7 +450,12 @@ public struct ObjectData
     public ObjectData(int id, Vector2 position, Vector3 scale)
     : this(Base(id, position, scale))
     { }
-
+    //EventEchoBlockTriggerObject
+    public ObjectData(int id, Vector2 position, Vector3 offset, Vector3 size)
+    : this(Base(id, position, offset))
+    {
+        this.size = size;
+    }
     //IPowerConsumer
     public ObjectData(int id, Vector2 position, Quaternion quaternion, Vector3 scale, bool chargeRequired)
     : this(Base(id, position, quaternion, scale))

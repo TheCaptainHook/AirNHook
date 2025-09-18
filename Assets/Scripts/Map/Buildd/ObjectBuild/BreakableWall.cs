@@ -44,7 +44,7 @@ public class BreakableWall : BuildObj
     {
         Managers.Sound.PlaySound3D(GlobalText.ROCK_DESTROY_SOUND, transform.position, 0.4f);
         _animator.SetTrigger(DestroyTrigger);
-        _collider.enabled = false;
+        Col.enabled = false;
     }
 
     public void CrumbleParticles()
@@ -78,7 +78,7 @@ public class BreakableWall : BuildObj
     public override void Reset()
     {
         health = 5f;
-        _collider.enabled = true;
+        Col.enabled = true;
         _animator.SetTrigger(Recovery);
     }
 
