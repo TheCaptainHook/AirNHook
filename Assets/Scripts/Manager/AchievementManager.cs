@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Steamworks;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -9,13 +10,18 @@ public class AchievementManager
     #region Event
         //Player
         private event Action playerJumpingEvent;
-        private event Action playerDeathEvent;
+        private event Action<DamageType> playerDeathEvent;
         //Object
         //private event Action usePortalEvent;
     #endregion
 
     public bool onRequestSteamUserState;
     private Callback<UserStatsReceived_t> userStatsReceivedCallback;
+    private List<int> _defaultDeathId = new List<int>() { 70010, 70011, 70012 };
+    private List<int> _suicideDeathId = new List<int>() { 70100, 70101, 70102 };
+    private List<int> _fireDeathId = new List<int>() { 70200, 70201, 70202 };
+    private List<int> _electricDeathId = new List<int>() { 70300, 70301, 70302 };
+    private Dictionary<DamageType, List<int>> _deathIdDict;
 
     public void SetUp()
     {
@@ -34,7 +40,15 @@ public class AchievementManager
 
         userStatsReceivedCallback = Callback<UserStatsReceived_t>.Create(OnUserStatsReceived);
         SteamUserStats.RequestCurrentStats();
-    }
+
+        _deathIdDict = new Dictionary<DamageType, List<int>>
+        {
+            { DamageType.Default, _defaultDeathId },
+            { DamageType.Suicide, _suicideDeathId },
+            { DamageType.Fire, _fireDeathId },
+            { DamageType.Electric, _electricDeathId }
+        };
+}
 
     #region Call Event
     #region  Obejct
@@ -51,9 +65,9 @@ public class AchievementManager
     {
         playerJumpingEvent?.Invoke();
     }
-    public void CallPlayerDeath()
+    public void CallPlayerDeath(DamageType damageType)
     {
-        playerDeathEvent?.Invoke();
+        playerDeathEvent?.Invoke(damageType);
     }
     //PlayerDeath
     //PlayerDeath_Sucide
@@ -163,10 +177,9 @@ public class AchievementManager
         await Managers.Data.saveData.Ac_Save();
     }
 
-    //ID 70010~70012
-    private int[] idList = new int[] {70010,70011,70012 };
     private int curDeathScriptPercent = 0;
-    private async void PlayerDeath()
+
+    private async void PlayerDeath(DamageType damageType)
     {
         int playerDeath = ++Managers.Data.saveData._AchievementData.player_Death;
 
@@ -185,7 +198,8 @@ public class AchievementManager
         if(GetDeathPercent())
         {
             //print dialogue
-            int num = Random.Range(0, idList.Length);
+            _deathIdDict.TryGetValue(damageType, out var idList);
+            int num = Random.Range(0, idList.Count);
             UI_EED.SetDialogue(Managers.Data.language.GetSentence(idList[num]));
             curDeathScriptPercent = 0;
         }

@@ -354,7 +354,14 @@ public class MapEditor : MonoBehaviour
 
         Create_OtherObject(curMap.mapOtherObjectList, otherContainer);
 
-        Create_Object(curMap.mapButtonActivatableObjectDataList, buttonActivatableObjectTransform);
+        try
+        {
+            Create_Object(curMap.mapButtonActivatableObjectDataList, buttonActivatableObjectTransform);
+        }
+        catch (Exception)
+        {
+            
+        }
         Create_Object(curMap.buttonObjectList, buttonObjectTransform);
 
         Create_Object(Managers.Data.saveData.dic[curMap.mapID]._DialogueDataList, triggerDialogueTransform);

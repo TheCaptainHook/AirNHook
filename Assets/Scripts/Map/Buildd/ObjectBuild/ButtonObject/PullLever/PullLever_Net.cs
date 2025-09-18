@@ -139,7 +139,7 @@ public class PullLever_Net : NetworkBehaviour
     }
     #endregion
     
-    private void Event_Recover()
+    private void Event_Recover(DamageType damageType = DamageType.Default)
     {
         Recover(player);
         Cmd_SeActive(false);
