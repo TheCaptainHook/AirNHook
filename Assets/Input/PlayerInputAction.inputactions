@@ -311,6 +311,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "CutScene",
+            "id": "9d142dbd-dd3a-4176-b35f-3b0ab4121740",
+            "actions": [
+                {
+                    "name": "Next",
+                    "type": "Button",
+                    "id": "039e0e5d-63c0-4a0e-96cf-f26ec192d7b4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Skip",
+                    "type": "Button",
+                    "id": "abef442a-0ea6-49b1-9d69-6b3b6afeef6b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "9dffb7bf-1203-466a-9cf4-7ef2ec049768",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Next",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9c898453-6d35-4f40-a87c-5d387af9917a",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Skip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

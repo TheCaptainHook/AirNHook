@@ -2,21 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class UI_CutSceneController : UI_Base
 {
-
-
     private Animator _animator;
     private Animator Animator { get { _animator ??= GetComponent<Animator>(); return _animator; } }
 
 
     private PlayerInput PlayerInput => Managers.Game.playerInput;
 
+    #region  Skip Loding Bar
+    [SerializeField] Image _skipLodingBarImg;
+#endregion
+
 
     public override void OnEnable()
     {
-        // Player_Pause();
+        Player_Pause();
     }
 
 
@@ -24,65 +27,150 @@ public class UI_CutSceneController : UI_Base
     //esc : 
     private float _maxEscKeyDownRate = 2f;
     private float _curEscKeyDownRate = 0;
+
+
+    private bool _getKeyEscape;
     void Update()
     {
+        //TEST
         if (Input.GetKeyDown(KeyCode.Q))
         {
             Animator.SetTrigger("page_1");
         }
+        //TEST
 
-        if (Input.GetKey(KeyCode.Escape))
+        if (_getKeyEscape)
         {
             _curEscKeyDownRate += Time.deltaTime;
+            _skipLodingBarImg.fillAmount = _curEscKeyDownRate / _maxEscKeyDownRate;
+
             if (_curEscKeyDownRate >= _maxEscKeyDownRate)
             {
                 _curEscKeyDownRate = 0;
+                _skipLodingBarImg.fillAmount = 0;
                 Debug.Log("Skip Cut Scene");
+                CurAnimation_Skip();
+                _getKeyEscape = false;
             }
         }
+
+        if (!_getKeyEscape && _curEscKeyDownRate > 0)
+        {
+            _curEscKeyDownRate -= Time.deltaTime;
+            _curEscKeyDownRate = Mathf.Clamp(_curEscKeyDownRate, 0, _maxEscKeyDownRate);
+            _skipLodingBarImg.fillAmount = _curEscKeyDownRate / _maxEscKeyDownRate;
+        }
     }
-    /**
-    1. ESC InputSystem 에 키 바인드 추가
-    2. Skip Ui 추가
-    3. 애니메이션이 모두 종료됬을때 실행할 애니메이션 트리거
-        - 다음 애니메이션을 실행할지,(애니메이션 종료하면 걍 바로 다음 애니메이션 진행)
-        - 컷신 종료할지
-    **/
+    
 
     //test//test
+    #region Input
+    private void OnSkipStarted(InputAction.CallbackContext context)
+    {
+        _getKeyEscape = true;
+    }
+    private void OnSkipCanceled(InputAction.CallbackContext context)
+    {
+        _getKeyEscape = false;
+    }
+    private void OnSpacebarPerformed(InputAction.CallbackContext context)
+    {
 
+    }
+#endregion
 
     #region Control
+    private void CurAnimation_Skip()
+    {
+        AnimatorStateInfo stateInfo = Animator.GetCurrentAnimatorStateInfo(0);
+        int currentHash = stateInfo.fullPathHash;
+
+        RuntimeAnimatorController ac = Animator.runtimeAnimatorController;
+        AnimationClip currentClip = null;
+
+        foreach (var clip in ac.animationClips)
+        {
+            if (stateInfo.IsName(clip.name))
+            {
+                currentClip = clip;
+                break;
+            }
+        }
+
+        if (currentClip != null)
+        {
+            Animator.Play(currentHash, 0, 0.99f);
+        }
+
+    }
+
+
+    
     private void Player_Resume()
     {
         PlayerInput.playerActions.Enable();
         PlayerInput.uiActions.Enable();
+
+        PlayerInput.cutSceneActions.Disable();
+        PlayerInput.cutSceneActions.Skip.started -= OnSkipStarted;
+        PlayerInput.cutSceneActions.Skip.canceled -= OnSkipCanceled;
+
         Managers.Game.Player.GetComponent<PlayerSM>().FreezePlayerState(false);
     }
     private void Player_Pause()
     {
         PlayerInput.playerActions.Disable();
         PlayerInput.uiActions.Disable();
+
+        PlayerInput.cutSceneActions.Enable();
+        PlayerInput.cutSceneActions.Skip.started += OnSkipStarted;
+        PlayerInput.cutSceneActions.Skip.canceled += OnSkipCanceled;
+
         Managers.Game.Player.GetComponent<PlayerSM>().FreezePlayerState(true);
 
     }
-    private void Animator_Pause()
-    {
-        Animator.speed = 0;
-        StartCoroutine(Animator_PauseCo());
-    }
 
-    private IEnumerator Animator_PauseCo()
+    #region Animation Event Trigger
+    private void Animation_Pause_PageEnd()
     {
-        while (!Input.anyKeyDown)
+         Animator.speed = 0;
+        StartCoroutine(Animation_Pause_PageEndCo());
+    }
+    private IEnumerator Animation_Pause_PageEndCo()
+    {
+        while (!PlayerInput.cutSceneActions.Next.triggered)
         {
             yield return null;
         }
         Animator.speed = 1;
     }
+    private void Animation_Pause()
+    {
+        Animator.speed = 0;
+        StartCoroutine(Animation_PauseCo());
+    }
+    private float _maxDelay=2;
+    private float _curDealy = 0;
+    private IEnumerator Animation_PauseCo()
+    {
+        while (!PlayerInput.cutSceneActions.Next.triggered)
+        {
+            _curDealy += Time.deltaTime;
+            if (_curDealy >= _maxDelay)
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        _curDealy = 0;
+        Animator.speed = 1;
+    }
+    #endregion
+
     private void Animator_CutSceneEnd()
     {
-        
+
     }
    #endregion
 }
