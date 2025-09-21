@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,14 +10,25 @@ public class UI_CutSceneController : UI_Base
     private Animator _animator;
     private Animator Animator { get { _animator ??= GetComponent<Animator>(); return _animator; } }
 
-
     private PlayerInput PlayerInput => Managers.Game.playerInput;
 
     #region  Skip Loding Bar
     [SerializeField] Image _skipLodingBarImg;
-#endregion
+    #endregion
 
+    #region  Event
+    public bool _isWriteTmp;
+    public event Action _skipEvent;
 
+    #region Popup
+    [SerializeField] GameObject _arrow;
+    #endregion
+
+    private void CallSkipEvent()
+    {
+        _skipEvent?.Invoke();
+    }
+    #endregion
     public override void OnEnable()
     {
         Player_Pause();
@@ -25,7 +37,7 @@ public class UI_CutSceneController : UI_Base
 
     //test//test
     //esc : 
-    private float _maxEscKeyDownRate = 2f;
+    private float _maxEscKeyDownRate = 1.5f;
     private float _curEscKeyDownRate = 0;
 
 
@@ -67,7 +79,7 @@ public class UI_CutSceneController : UI_Base
     #region Input
     private void OnSkipStarted(InputAction.CallbackContext context)
     {
-        _getKeyEscape = true;
+        if(_skipLodingBarImg.gameObject.activeSelf) _getKeyEscape = true;
     }
     private void OnSkipCanceled(InputAction.CallbackContext context)
     {
@@ -77,11 +89,13 @@ public class UI_CutSceneController : UI_Base
     {
 
     }
-#endregion
+    #endregion
 
     #region Control
     private void CurAnimation_Skip()
     {
+        if (_arrow.activeSelf) _arrow.SetActive(false);
+
         AnimatorStateInfo stateInfo = Animator.GetCurrentAnimatorStateInfo(0);
         int currentHash = stateInfo.fullPathHash;
 
@@ -102,6 +116,9 @@ public class UI_CutSceneController : UI_Base
             Animator.Play(currentHash, 0, 0.99f);
         }
 
+        CallSkipEvent();
+        // _skipEvent = null;
+        if (_isWriteTmp) _isWriteTmp = false;
     }
 
 
@@ -138,10 +155,15 @@ public class UI_CutSceneController : UI_Base
     }
     private IEnumerator Animation_Pause_PageEndCo()
     {
+        yield return new WaitUntil(() => !_isWriteTmp);
+        if (!_arrow.activeSelf) _arrow.SetActive(true);
+
         while (!PlayerInput.cutSceneActions.Next.triggered)
         {
             yield return null;
         }
+
+        _arrow.SetActive(false);
         Animator.speed = 1;
     }
     private void Animation_Pause()
@@ -149,10 +171,13 @@ public class UI_CutSceneController : UI_Base
         Animator.speed = 0;
         StartCoroutine(Animation_PauseCo());
     }
-    private float _maxDelay=2;
+    private float _maxDelay=5;
     private float _curDealy = 0;
     private IEnumerator Animation_PauseCo()
     {
+        yield return new WaitUntil(() => !_isWriteTmp);
+        if (!_arrow.activeSelf) _arrow.SetActive(true);
+
         while (!PlayerInput.cutSceneActions.Next.triggered)
         {
             _curDealy += Time.deltaTime;
@@ -162,6 +187,8 @@ public class UI_CutSceneController : UI_Base
             }
             yield return null;
         }
+
+        _arrow.SetActive(false);
 
         _curDealy = 0;
         Animator.speed = 1;
