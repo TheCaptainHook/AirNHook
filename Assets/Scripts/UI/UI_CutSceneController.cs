@@ -13,6 +13,7 @@ public class UI_CutSceneController : UI_Base
     private PlayerInput PlayerInput => Managers.Game.playerInput;
 
     #region  Skip Loding Bar
+    public bool _onSkip;
     [SerializeField] Image _skipLodingBarImg;
     #endregion
 
@@ -26,12 +27,24 @@ public class UI_CutSceneController : UI_Base
 
     private void CallSkipEvent()
     {
+        if (_skipEvent == null) return;
         _skipEvent?.Invoke();
+
+        Debug.Log($"{name} subscribed. Current count: {_skipEvent.GetInvocationList().Length}");
+
     }
     #endregion
+
     public override void OnEnable()
     {
         Player_Pause();
+    }
+    protected override void CloseUI()
+    {
+        _onSkip = false;
+        _isWriteTmp = false;
+
+        base.CloseUI();
     }
 
 
@@ -60,7 +73,8 @@ public class UI_CutSceneController : UI_Base
             {
                 _curEscKeyDownRate = 0;
                 _skipLodingBarImg.fillAmount = 0;
-                Debug.Log("Skip Cut Scene");
+                
+                _onSkip = true ;
                 CurAnimation_Skip();
                 _getKeyEscape = false;
             }
@@ -75,7 +89,6 @@ public class UI_CutSceneController : UI_Base
     }
     
 
-    //test//test
     #region Input
     private void OnSkipStarted(InputAction.CallbackContext context)
     {
@@ -102,6 +115,8 @@ public class UI_CutSceneController : UI_Base
         RuntimeAnimatorController ac = Animator.runtimeAnimatorController;
         AnimationClip currentClip = null;
 
+        CallSkipEvent();
+
         foreach (var clip in ac.animationClips)
         {
             if (stateInfo.IsName(clip.name))
@@ -113,11 +128,10 @@ public class UI_CutSceneController : UI_Base
 
         if (currentClip != null)
         {
-            Animator.Play(currentHash, 0, 0.99f);
+            Animator.Play(currentHash, 0, 0.95f);
         }
+        
 
-        CallSkipEvent();
-        // _skipEvent = null;
         if (_isWriteTmp) _isWriteTmp = false;
     }
 
@@ -163,6 +177,7 @@ public class UI_CutSceneController : UI_Base
             yield return null;
         }
 
+        _onSkip = false;
         _arrow.SetActive(false);
         Animator.speed = 1;
     }

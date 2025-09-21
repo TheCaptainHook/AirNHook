@@ -15,20 +15,19 @@ public class CutSceneTmpEntity : MonoBehaviour
     private WaitForSeconds _waitZeroDot;
 
 
-    private bool onSkip;
+    public bool onSkip;
     void Awake()
     {
         _root = transform.root.GetComponent<UI_CutSceneController>();
         _tmp = GetComponent<TextMeshProUGUI>();
         _waitZeroDot = new WaitForSeconds(0.01f);
-        _root._skipEvent += Skip;
 
         _text = GetDialogue(_dialogue_ID);
     }
 
+
     void OnEnable()
     {
-        if (onSkip) return;
         Write();
     }
     void OnDisable()
@@ -45,11 +44,12 @@ public class CutSceneTmpEntity : MonoBehaviour
     #region Write
     private void Write()
     {
-        StartCoroutine(WriteCo());
+        if (_root._onSkip) _tmp.text = _text;
+        else StartCoroutine(WriteCo());
     }
     private IEnumerator WriteCo()
     {
-        if (string.IsNullOrWhiteSpace(_text)) yield break;
+        if (string.IsNullOrWhiteSpace(_text) || onSkip) yield break;
 
         _root._isWriteTmp = true;
         StringBuilder sb = new();
@@ -59,19 +59,14 @@ public class CutSceneTmpEntity : MonoBehaviour
             _tmp.text = sb.ToString();
             yield return _waitZeroDot;
         }
-
-        _root._skipEvent -= Skip;
         _root._isWriteTmp = false;
-        
+        _root._skipEvent -= this.Skip;
     }
     #endregion
     private void Skip()
     {
-        StopAllCoroutines();
-        onSkip = true;
-
+        StopAllCoroutines();      
         _tmp.text = _text;
-        _root._skipEvent -= this.Skip;
-        if (_root._isWriteTmp) _root._isWriteTmp = false;
+        
     }
 }
