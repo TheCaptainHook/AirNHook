@@ -63,7 +63,7 @@ public class PairAuthDoor_Eye : MonoBehaviour
         List<int> triangles = new List<int>();
 
 
-        vertices.Add(Vector3.zero); // 원점 (로컬 좌표 기준)
+        vertices.Add(transform.InverseTransformPoint(origin)); 
 
         int vertexIndex = 1;
         for (int i = 0; i <= _rayCount; i++)

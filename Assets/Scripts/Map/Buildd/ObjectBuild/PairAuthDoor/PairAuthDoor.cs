@@ -14,11 +14,20 @@ public class PairAuthDoor : BuildObj, IInteractable
     private PairAuthDoor_Net _net;
     private PairAuthDoor_Net Net { get { _net ??= GetComponent<PairAuthDoor_Net>(); return _net; } }
 
+    #region Animation
+    [SerializeField] Animator _animator;
+    private int ON = Animator.StringToHash("On");
+    private int OFF = Animator.StringToHash("Off");
+    private int END = Animator.StringToHash("End");
+    [SerializeField] GameObject _face;
+
+    #endregion
     [ReadOnly]
     public bool _onProgress;
 
     [Header("Line")]
     [SerializeField] Transform _lineContainerTr;
+    [SerializeField] Material _lineMat;
 
     [Header("Panel")]
     [SerializeField] PairAuthDoor_Panel _panel;
@@ -37,16 +46,23 @@ public class PairAuthDoor : BuildObj, IInteractable
     public IEnumerator AuthCoroutine()
     {
         _onProgress = true;
+        _animator.SetTrigger(ON);
+        yield return new WaitForSeconds(1f);
+        _face.SetActive(true);
+
         StartCoroutine(_leftEye.ScaningCoroutine());
         StartCoroutine(_rightEye.ScaningCoroutine());
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
+       
         //Check Effect
         yield return Auth_DrawLineCo();
         //Check Effect
         yield return new WaitForSeconds(1f);
+         _animator.SetTrigger(OFF);
         Destory_Dummy_ScanShader();
         ClearAllLine();
         //Panel
+        _face.SetActive(false);
         Auth_Panel();
         //Panel
         yield return new WaitForSeconds(1f);
@@ -65,7 +81,7 @@ public class PairAuthDoor : BuildObj, IInteractable
             }
         }
         //------------ Auth Check(Server)
-
+        _animator.SetTrigger(END);
         _panel.PanelReset();
         PlayerDic_Clear();
         _onProgress = false;
@@ -94,9 +110,9 @@ public class PairAuthDoor : BuildObj, IInteractable
         lr.positionCount = 0;
         lr.startWidth = 0.01f;
         lr.endWidth = 0.01f;
-        lr.startColor = Color.red;
-        lr.endColor = Color.red;
-
+        lr.startColor = new Color(0,0,0,0);
+        lr.endColor = new Color(0,0,0,0);
+        lr.material = _lineMat;
         go.transform.SetParent(_lineContainerTr);
         lr.sortingLayerName = "ForeGround";
         lr.sortingOrder = 6;
