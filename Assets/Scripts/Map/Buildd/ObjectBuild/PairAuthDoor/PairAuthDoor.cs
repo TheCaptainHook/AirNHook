@@ -73,8 +73,7 @@ public class PairAuthDoor : BuildObj, IInteractable
         {
             if (_panel.AuthCheck())
             {
-                Debug.Log("Auth Complete");
-                Net._authSuccess = true;
+                Open();
             }
             else
             {
@@ -92,7 +91,7 @@ public class PairAuthDoor : BuildObj, IInteractable
     //close: top : 2.1, bottom : 0.9
     public void Open()
     {
-
+        Net.Server_Open();
     }
     private Dictionary<uint, LineRenderer> _playerLinesDic = new Dictionary<uint, LineRenderer>(2);
 
