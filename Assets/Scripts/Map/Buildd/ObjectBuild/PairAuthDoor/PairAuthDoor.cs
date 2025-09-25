@@ -73,7 +73,7 @@ public class PairAuthDoor : BuildObj, IInteractable
         {
             if (_panel.AuthCheck())
             {
-                Open();
+                Net.Server_Open();
             }
             else
             {
@@ -91,7 +91,7 @@ public class PairAuthDoor : BuildObj, IInteractable
     //close: top : 2.1, bottom : 0.9
     public void Open()
     {
-        Net.Server_Open();
+        _animator.SetTrigger(OPEN);
     }
     private Dictionary<uint, LineRenderer> _playerLinesDic = new Dictionary<uint, LineRenderer>(2);
 
