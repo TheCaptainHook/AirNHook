@@ -19,6 +19,7 @@ public class PairAuthDoor : BuildObj, IInteractable
     private int ON = Animator.StringToHash("On");
     private int OFF = Animator.StringToHash("Off");
     private int END = Animator.StringToHash("End");
+    private int OPEN = Animator.StringToHash("Open");
     [SerializeField] GameObject _face;
 
     #endregion
@@ -88,8 +89,11 @@ public class PairAuthDoor : BuildObj, IInteractable
 
         if(NetworkServer.active) Net._onProgress = false;
     }
+    //close: top : 2.1, bottom : 0.9
+    public void Open()
+    {
 
-    
+    }
     private Dictionary<uint, LineRenderer> _playerLinesDic = new Dictionary<uint, LineRenderer>(2);
 
     #region Line

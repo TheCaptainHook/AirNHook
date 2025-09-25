@@ -10,7 +10,7 @@ public class PairAuthDoor_Net : NetworkBehaviour
     public bool _authSuccess;
     public bool _onProgress; // Only Change Server
 
-    
+
     [Command(requiresAuthority = false)]
     public void Cmd_Auth()
     {
@@ -24,4 +24,16 @@ public class PairAuthDoor_Net : NetworkBehaviour
         StartCoroutine(Main.AuthCoroutine());
     }
 
+
+    [Server]
+    public void Server_Open()
+    {
+        _authSuccess = true;
+        Rpc_Open();
+    }
+    [ClientRpc]
+    private void Rpc_Open()
+    {
+        Main.Open();
+    }
 }
