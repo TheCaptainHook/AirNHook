@@ -1343,6 +1343,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PairAuthDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 2360003958363405936, guid: 400baed2a04e845edb7f54ed252fd659, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3867855573415793953, guid: 400baed2a04e845edb7f54ed252fd659, type: 3}
       propertyPath: sceneId
       value: 939345565

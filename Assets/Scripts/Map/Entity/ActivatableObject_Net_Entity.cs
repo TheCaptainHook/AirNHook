@@ -123,6 +123,7 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
     [ClientRpc]
     protected virtual void Rpc_ChangeOnActive(bool onOff)
     {
+        Debug.Log("Debug Active change");
         if (onOff)
         {
             Active();

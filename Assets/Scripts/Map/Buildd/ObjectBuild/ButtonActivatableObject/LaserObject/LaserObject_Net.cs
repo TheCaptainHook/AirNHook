@@ -55,7 +55,7 @@ public class LaserObject_Net : ActivatableObject_Net_Entity
 
     [SerializeField] private Transform _firePoint;
 
-    private int _maxBounces = 7;
+    private int _maxBounces = 10;
     private float _maxDistance = 200f;
     private int _mirrorLayer;
     [SerializeField] LayerMask _layerMask;

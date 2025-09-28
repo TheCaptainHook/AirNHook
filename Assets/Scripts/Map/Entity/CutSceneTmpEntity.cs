@@ -9,31 +9,26 @@ public class CutSceneTmpEntity : MonoBehaviour
 {
     private UI_CutSceneController _root;
     private TextMeshProUGUI _tmp;
-    private string _text;
+    private TextMeshProUGUI TMP { get { _tmp ??= GetComponent<TextMeshProUGUI>();  return _tmp; } }
+    // private string _text;
     public int _dialogue_ID;
 
     private WaitForSeconds _waitZeroDot;
-
-
-    public bool onSkip;
+    private bool _onSkip;
     void Awake()
     {
         _root = transform.root.GetComponent<UI_CutSceneController>();
-        _tmp = GetComponent<TextMeshProUGUI>();
         _waitZeroDot = new WaitForSeconds(0.01f);
-
-        _text = GetDialogue(_dialogue_ID);
     }
 
 
     void OnEnable()
     {
-        
         Write();
     }
     void OnDisable()
     {
-        _root._skipEvent -= this.Skip;
+        Clean();
     }
 
 
@@ -45,29 +40,37 @@ public class CutSceneTmpEntity : MonoBehaviour
     #region Write
     private void Write()
     {
-        if (_root._onSkip) _tmp.text = _text;
-        else StartCoroutine(WriteCo());
+        if (_onSkip) return;
+        StartCoroutine(WriteCo(GetDialogue(_dialogue_ID)));
     }
-    private IEnumerator WriteCo()
+    private IEnumerator WriteCo(string text)
     {
-        if (string.IsNullOrWhiteSpace(_text) || onSkip) yield break;
+        if (string.IsNullOrWhiteSpace(text)) yield break;
 
         _root._isWriteTmp = true;
         StringBuilder sb = new();
-        for (int i = 0; i < _text.Length; i++)
+        for (int i = 0; i < text.Length; i++)
         {
-            sb.Append(_text[i]);
-            _tmp.text = sb.ToString();
+            sb.Append(text[i]);
+            TMP.text = sb.ToString();
             yield return _waitZeroDot;
         }
         _root._isWriteTmp = false;
-        _root._skipEvent -= this.Skip;
+    }
+
+    public void Skip()
+    {
+        StopAllCoroutines();
+        _onSkip = true;
+        TMP.text = GetDialogue(_dialogue_ID);
+    }
+
+    private void Clean()
+    {
+        StopAllCoroutines();
+        _onSkip = false;
+        TMP.text = "";
     }
     #endregion
-    private void Skip()
-    {
-        StopAllCoroutines();      
-        _tmp.text = _text;
-        
-    }
+
 }

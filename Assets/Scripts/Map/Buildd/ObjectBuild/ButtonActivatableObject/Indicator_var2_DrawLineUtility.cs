@@ -47,7 +47,7 @@ public class Indicator_var2_DrawLineUtility : MonoBehaviour
 
     private bool InnerFloorTileChack(Vector2 itemPot,Vector2 targetPot)
     {
-        Vector2 probeSize = new Vector2(0.1f, 0.1f);
+        Vector2 probeSize = new Vector2(0.5f, 0.5f);
         var hit = Physics2D.OverlapBox(itemPot, probeSize, 0f, PathFinder.obstacleLayer);
         var hit2 = Physics2D.OverlapBox(targetPot, probeSize, 0f, PathFinder.obstacleLayer);
 

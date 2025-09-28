@@ -21,6 +21,7 @@ public class EraseField_Character_Net : ActivatableObject_Net_Entity
     {
         Active(true);
     }
+    
     [Server]
     public override void Server_PlayUniqueEffect(uint id)
     {

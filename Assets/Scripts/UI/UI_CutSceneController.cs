@@ -1,10 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+public enum CutScenePageName
+{
+    Page_1,
+
+}
 public class UI_CutSceneController : UI_Base
 {
     private Animator _animator;
@@ -12,53 +20,77 @@ public class UI_CutSceneController : UI_Base
 
     private PlayerInput PlayerInput => Managers.Game.playerInput;
 
+    [SerializeField] Transform _cutSceneContainerTr;
+    #region Page
+
+    #endregion
+
+
     #region  Skip Loding Bar
     public bool _onSkip;
     [SerializeField] Image _skipLodingBarImg;
+    private float _maxEscKeyDownRate = 1.5f;
+    private float _curEscKeyDownRate = 0;
+    private bool _getKeyEscape;
     #endregion
 
-    #region  Event
     public bool _isWriteTmp;
-    public event Action _skipEvent;
-
+    public bool _isCutSceneComplete;
     #region Popup
     [SerializeField] GameObject _arrow;
     #endregion
 
-    private void CallSkipEvent()
-    {
-        if (_skipEvent == null) return;
-        _skipEvent?.Invoke();
 
-    }
-    #endregion
 
     public override void OnEnable()
     {
         Player_Pause();
     }
+
+
     protected override void CloseUI()
     {
         _onSkip = false;
         _isWriteTmp = false;
+        Player_Resume();
 
         base.CloseUI();
     }
 
 
-    //test//test
-    //esc : 
-    private float _maxEscKeyDownRate = 1.5f;
-    private float _curEscKeyDownRate = 0;
+    private CutScenePageName _curCutScenePageName;
+    Dictionary<CutScenePageName, (bool onInit, List<CutSceneTmpEntity> list)> _cutScenePageTmpDic;
+    public void StartCutScene(CutScenePageName name)
+    {
+        _isCutSceneComplete = false;
+
+        if (_cutScenePageTmpDic == null) _cutScenePageTmpDic = new();
+        if (!_cutScenePageTmpDic.ContainsKey(name))
+        {
+            var value = (onInit: true, list: new List<CutSceneTmpEntity>());
+            SearchTmp(name, value.list);
+            _cutScenePageTmpDic[name] = value;
+        }
+        _curCutScenePageName = name;
+        Animator.SetTrigger(Animator.StringToHash(name.ToString()));
+    }
+
+    private void Skip()
+    {
+        var value = _cutScenePageTmpDic[_curCutScenePageName];
+        foreach (var tmp in value.list)
+        {
+            tmp.Skip();
+        }
+    }
 
 
-    private bool _getKeyEscape;
     void Update()
     {
         //TEST
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            Animator.SetTrigger("page_1");
+            StartCutScene(CutScenePageName.Page_1);
         }
         //TEST
 
@@ -86,12 +118,12 @@ public class UI_CutSceneController : UI_Base
         }
         //Skip loading bar
     }
-    
+
 
     #region Input
     private void OnSkipStarted(InputAction.CallbackContext context)
     {
-        if(_skipLodingBarImg.gameObject.activeSelf) _getKeyEscape = true;
+        if (_skipLodingBarImg.gameObject.activeSelf) _getKeyEscape = true;
     }
     private void OnSkipCanceled(InputAction.CallbackContext context)
     {
@@ -114,7 +146,10 @@ public class UI_CutSceneController : UI_Base
         RuntimeAnimatorController ac = Animator.runtimeAnimatorController;
         AnimationClip currentClip = null;
 
-        CallSkipEvent();
+        //Skip Tmp
+        Skip();
+        if (_isWriteTmp) _isWriteTmp = false;
+        //Skip Tmp
 
         foreach (var clip in ac.animationClips)
         {
@@ -127,15 +162,15 @@ public class UI_CutSceneController : UI_Base
 
         if (currentClip != null)
         {
-            Animator.Play(currentHash, 0, 0.95f);
+            Animator.Play(currentHash, 0, 0.99f);
         }
-        
+
 
         if (_isWriteTmp) _isWriteTmp = false;
     }
 
 
-    
+
     private void Player_Resume()
     {
         PlayerInput.playerActions.Enable();
@@ -178,14 +213,17 @@ public class UI_CutSceneController : UI_Base
 
         _onSkip = false;
         _arrow.SetActive(false);
+        _isCutSceneComplete = true;
         Animator.speed = 1;
+        CloseUI();
+        
     }
     private void Animation_Pause()
     {
         Animator.speed = 0;
         StartCoroutine(Animation_PauseCo());
     }
-    private float _maxDelay=5;
+    private float _maxDelay = 5;
     private float _curDealy = 0;
     private IEnumerator Animation_PauseCo()
     {
@@ -209,9 +247,48 @@ public class UI_CutSceneController : UI_Base
     }
     #endregion
 
-    private void Animator_CutSceneEnd()
+    #endregion
+
+
+
+    #region  Util
+    private void SearchTmp(CutScenePageName name, List<CutSceneTmpEntity> list)
     {
+        Transform targetTr = null;
+        foreach (Transform tr in _cutSceneContainerTr)
+        {
+            Debug.Log($"{tr.name} 11111");
+            if (tr.name == name.ToString())
+            {
+                targetTr = tr;
+                break;
+            }
+        }
+        if (targetTr == null) return;
+
+        Debug.Log($"{targetTr.name} 2222");
+        DepSearchTmp(targetTr, list);
 
     }
-   #endregion
+    private void DepSearchTmp(Transform tr, List<CutSceneTmpEntity> list)
+    {
+        Queue<Transform> q = new Queue<Transform>();
+        q.Enqueue(tr);
+
+        while (q.Count > 0)
+        {
+            Transform current = q.Dequeue();
+            foreach (Transform child in current)
+            {
+                if (child.TryGetComponent(out CutSceneTmpEntity entity))
+                {
+                    Debug.Log($"33333 Add");
+                    list.Add(entity);
+                }
+                q.Enqueue(child);
+            }
+        }
+    }
+
+    #endregion
 }

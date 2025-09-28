@@ -63,10 +63,6 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
     public bool notObstacle = false;
     public void PathChacking(uint targetID) //Rpc
     {
-        // Debug.Log("[4] PathChacking -> DrawLineUtilliy");
-        // var item = itemWaitStack.Pop();
-        // var lineUtility = GetLine();
-        // lineUtility.PathChacking(this, targetID, item);
         StartCoroutine(Encapsulation_WaitItemReadyCo(targetID));
     }
     private IEnumerator Encapsulation_WaitItemReadyCo(uint targetID)
@@ -202,13 +198,15 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
             transform.position - new Vector3(totalLength / 2f, 0, 0) :
             transform.position - new Vector3(0, totalLength / 2f, 0);
 
-            for (int i = activeRequirAmount - 1; i >= 0; i--)
-            {
-                var item = CreateItem();
-                itemWaitStack.Push(item);
-                Vector3 offset = data.indicatorStruct.isHorizontal ? new Vector3(item_Space * i, 0, 0) : new Vector3(0, item_Space * i, 0);
-                item.transform.position = startPos + transform.rotation * offset ;
-            }
+        for (int i = activeRequirAmount - 1; i >= 0; i--)
+        {
+            var item = CreateItem();
+            itemWaitStack.Push(item);
+            Vector3 offset = data.indicatorStruct.isHorizontal ? new Vector3(item_Space * i, 0, 0) : new Vector3(0, item_Space * i, 0);
+            item.transform.position = startPos + transform.rotation * offset;
+        }
+            
+        _isEncapsulation_ItemReady = true;
     
     }
    
@@ -293,10 +291,6 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
     private ActivatableObject_Indicator_var2_Item CreateItem()
     {
         var item = Instantiate(activatableObject_Indicator_var2_Item_Prefab, container).GetComponent<ActivatableObject_Indicator_var2_Item>();;
-        // item.transform.localPosition = curItem_Space;
-        // curItem_Space += -(Vector2)container.up * item_Space;
-
-        //item.indicator_Var2 = this;
         return item;
     }
 
