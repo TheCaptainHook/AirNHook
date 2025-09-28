@@ -28,6 +28,7 @@ public class CutSceneTmpEntity : MonoBehaviour
 
     void OnEnable()
     {
+        
         Write();
     }
     void OnDisable()

@@ -30,8 +30,6 @@ public class UI_CutSceneController : UI_Base
         if (_skipEvent == null) return;
         _skipEvent?.Invoke();
 
-        Debug.Log($"{name} subscribed. Current count: {_skipEvent.GetInvocationList().Length}");
-
     }
     #endregion
 
@@ -64,6 +62,7 @@ public class UI_CutSceneController : UI_Base
         }
         //TEST
 
+        //Skip loading bar
         if (_getKeyEscape)
         {
             _curEscKeyDownRate += Time.deltaTime;
@@ -73,19 +72,19 @@ public class UI_CutSceneController : UI_Base
             {
                 _curEscKeyDownRate = 0;
                 _skipLodingBarImg.fillAmount = 0;
-                
-                _onSkip = true ;
+
+                _onSkip = true;
                 CurAnimation_Skip();
                 _getKeyEscape = false;
             }
         }
-
         if (!_getKeyEscape && _curEscKeyDownRate > 0)
         {
             _curEscKeyDownRate -= Time.deltaTime;
             _curEscKeyDownRate = Mathf.Clamp(_curEscKeyDownRate, 0, _maxEscKeyDownRate);
             _skipLodingBarImg.fillAmount = _curEscKeyDownRate / _maxEscKeyDownRate;
         }
+        //Skip loading bar
     }
     
 
@@ -164,7 +163,7 @@ public class UI_CutSceneController : UI_Base
     #region Animation Event Trigger
     private void Animation_Pause_PageEnd()
     {
-         Animator.speed = 0;
+        Animator.speed = 0;
         StartCoroutine(Animation_Pause_PageEndCo());
     }
     private IEnumerator Animation_Pause_PageEndCo()
