@@ -123,6 +123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StageSelectViewCamera: {fileID: 8087968508663163024}
+  _ui_Camera: {fileID: 0}
 --- !u!1 &5446948693027908410
 GameObject:
   m_ObjectHideFlags: 0

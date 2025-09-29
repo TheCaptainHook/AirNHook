@@ -1,9 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -15,6 +12,8 @@ public enum CutScenePageName
 }
 public class UI_CutSceneController : UI_Base
 {
+    private Canvas _canvas;
+    private Canvas Canvas { get { _canvas ??= GetComponent<Canvas>(); return _canvas; } }
     private Animator _animator;
     private Animator Animator { get { _animator ??= GetComponent<Animator>(); return _animator; } }
 
@@ -44,6 +43,7 @@ public class UI_CutSceneController : UI_Base
 
     public override void OnEnable()
     {
+
         Player_Pause();
     }
 
