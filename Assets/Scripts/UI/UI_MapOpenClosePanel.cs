@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class UI_MapOpenClosePanel : UI_Base
 {
@@ -22,8 +23,8 @@ public class UI_MapOpenClosePanel : UI_Base
     #region Loading Anim
     [SerializeField] GameObject loadingObj;
     [SerializeField] Image loadingImage;
-    private Color loadingOrgColor = new Color(255,255,255,1);
-    private Color loadingFadeOutColor = new Color(255,255,255,0);
+    private Color loadingOrgColor = new Color(255, 255, 255, 1);
+    private Color loadingFadeOutColor = new Color(255, 255, 255, 0);
     #endregion
 
 
@@ -105,7 +106,6 @@ public class UI_MapOpenClosePanel : UI_Base
     #region 2
     public IEnumerator Prograss_2()
     {
-
         Map curMap = CurMap;
         string mapName = curMap.subMapName != string.Empty ? curMap.subMapName : curMap.mapID;
         string mapAudioName = curMap.audioName != string.Empty ? curMap.audioName : "";
@@ -148,7 +148,6 @@ public class UI_MapOpenClosePanel : UI_Base
         yield return new WaitForSeconds(0.5f);
 
         StartCoroutine(typingEffect.TextDissolveFromLeft(mapNameText));
-
         StartCoroutine(typingEffect.TextDissolveFromLeft(mapAudioNameText));
 
         yield return new WaitForSeconds(.5f);
@@ -182,7 +181,7 @@ public class UI_MapOpenClosePanel : UI_Base
             loadingImage.fillAmount = t;
 
             if (t >= 1 || t <= 0)
-            {            
+            {
                 increase *= -1;
                 t = Mathf.Clamp01(t);
                 loadingImage.fillClockwise = !loadingImage.fillClockwise;
@@ -217,8 +216,68 @@ public class UI_MapOpenClosePanel : UI_Base
             yield return null;
         }
         loadingImage.color = target;
-        
+
     }
     #endregion
+
+
+    public void Default_CloseOpen()
+    {
+        StartCoroutine(Default_CloseOpenCo());
+    }
+    IEnumerator Default_CloseOpenCo()
+    {
+        // loadingImage.color = orgTopLayerColor;
+        yield return StartCoroutine(TopLayer_FadeInOut(true));
+        
+        //CutScene Page_1 Check
+        if (!Managers.Data.saveData._SaveFileData._PlayerSaveData._cutScene_Page_1)
+        {
+            Managers.Data.saveData._SaveFileData._PlayerSaveData._cutScene_Page_1 = true;
+            // Managers.Data.saveData.Save();
+
+            var cutScene = Managers.UI.ShowUI<UI_CutSceneController>().GetComponent<UI_CutSceneController>();
+            cutScene.StartCutScene(CutScenePageName.Page_1);
+            yield return new WaitUntil(()=>cutScene._isCutSceneComplete);
+        }
+        //CutScene Page_1 Check
+
+
+
+        //Close Top Layer Animation
+        animator.SetTrigger(PROGRASS_1);
+        //Close Top Layer Animation
+        yield return new WaitForSecondsRealtime(1f);
+        yield return StartCoroutine(TopLayer_FadeInOut(false));
+
+        var camera = Camera.main.GetComponent<PlayerCameraView>();
+        yield return WaitUntilOrTimeout(() => camera.isCameraCenter, 10, () => { Debug.Log("[1] TimeOut Camera"); });
+
+        //Top layer Fade Out
+        //Open Top Layer Animation, InnerPanel Half Open ANimation
+        animator.SetTrigger(PROGRASS_2);
+        // yield return StartCoroutine(Prograss_3());
+        yield return new WaitForSeconds(1.5f);
+        
+        //InnerPanel Open
+        animator.SetTrigger(PROGRASS_3);
+        //InnerPanel Open
+        yield return new WaitForSeconds(1.5f);
+        gameObject.SetActive(false);
+    }
+
+       private IEnumerator WaitUntilOrTimeout(Func<bool> cond, float timeoutSec, Action onTimeout = null)
+    {
+        float end = Time.unscaledTime + timeoutSec;
+        while (!cond())
+        {
+            if (Time.unscaledTime >= end)
+            {
+                onTimeout?.Invoke();
+                yield break;
+            }
+            yield return null;
+        }
+    }
 }
 

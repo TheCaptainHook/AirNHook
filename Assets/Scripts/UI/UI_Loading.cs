@@ -24,15 +24,20 @@ public class UI_Loading : UI_Base
     private Sprite[] _loadingSprites; // 랜덤한 로딩 스프라이트 배열
     private string _loadSceneName; // 로드할 씬의 이름
 
+    public bool _isLoading;
+
     public override void OnEnable()
     {
         OpenUI();
-        StartCoroutine(BounceRoutine(_titleImg,Vector3.one * 0.25f, Vector3.one * 0.22f, _curve));
-        StartCoroutine(BounceRoutine(_loadingImgFrame,Vector3.one * 0.95f, Vector3.one * 0.90f, _curve));
+        StartCoroutine(BounceRoutine(_titleImg, Vector3.one * 0.25f, Vector3.one * 0.22f, _curve));
+        StartCoroutine(BounceRoutine(_loadingImgFrame, Vector3.one * 0.95f, Vector3.one * 0.90f, _curve));
         _loadSceneName = Managers.UI.sceneName;
         LoadSpritesFromResources();
         SetRandomBackground();
+
+        _isLoading = true;
         LoadScene();
+
     }
 
     protected override void Start()
@@ -43,7 +48,6 @@ public class UI_Loading : UI_Base
     public void LoadScene()
     {
         SceneManager.sceneLoaded += OnSceneLoaded; // 씬 로드 완료 시 이벤트 처리
-
         StartCoroutine(Co_LoadSceneProcess());
     }
 
@@ -57,11 +61,11 @@ public class UI_Loading : UI_Base
         op.allowSceneActivation = false;
 
         float timer = 0f;
-        while(!op.isDone)
+        while (!op.isDone)
         {
             yield return null;
 
-            if(op.progress < 0.9f)
+            if (op.progress < 0.9f)
             {
                 // 씬 로드 진행률에 따라 프로그레스 바 갱신
                 _slider.value = op.progress;
@@ -71,13 +75,15 @@ public class UI_Loading : UI_Base
                 timer += Time.unscaledDeltaTime * 0.5f;
                 // 로드가 거의 완료된 경우 프로그레스 바를 가득 채움
                 _slider.value = Mathf.Lerp(0.9f, 1f, timer);
-                if(_slider.value >= 1f)
+                if (_slider.value >= 1f)
                 {
                     op.allowSceneActivation = true;
                     yield break;
                 }
             }
         }
+        
+        _isLoading = false;
     }
 
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)

@@ -43,7 +43,6 @@ public class UI_CutSceneController : UI_Base
 
     public override void OnEnable()
     {
-
         Player_Pause();
     }
 
@@ -87,12 +86,12 @@ public class UI_CutSceneController : UI_Base
 
     void Update()
     {
-        //TEST
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            StartCutScene(CutScenePageName.Page_1);
-        }
-        //TEST
+        // //TEST
+        // if (Input.GetKeyDown(KeyCode.Q))
+        // {
+        //     StartCutScene(CutScenePageName.Page_1);
+        // }
+        // //TEST
 
         //Skip loading bar
         if (_getKeyEscape)
@@ -257,7 +256,6 @@ public class UI_CutSceneController : UI_Base
         Transform targetTr = null;
         foreach (Transform tr in _cutSceneContainerTr)
         {
-            Debug.Log($"{tr.name} 11111");
             if (tr.name == name.ToString())
             {
                 targetTr = tr;
@@ -266,7 +264,6 @@ public class UI_CutSceneController : UI_Base
         }
         if (targetTr == null) return;
 
-        Debug.Log($"{targetTr.name} 2222");
         DepSearchTmp(targetTr, list);
 
     }
@@ -282,7 +279,6 @@ public class UI_CutSceneController : UI_Base
             {
                 if (child.TryGetComponent(out CutSceneTmpEntity entity))
                 {
-                    Debug.Log($"33333 Add");
                     list.Add(entity);
                 }
                 q.Enqueue(child);

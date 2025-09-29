@@ -93,7 +93,8 @@ public class FadeInOutPanel : MonoBehaviour
         //------------------------Player, Camera Setting
         sm.Respawning();
         Camera.main.GetComponent<ParallaxCamera>().enabled = true;
-        Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.Volume_1();
+        // Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.Volume_1();
+        playerCameraView._CameraGlobalVolumeController.Volume_1();
         yield return new WaitForSeconds(.5f);
 
         //yield return new WaitUntil(() => playerCameraView.isCameraCenter);
