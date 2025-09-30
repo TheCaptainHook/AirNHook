@@ -234,7 +234,7 @@ public class UI_MapOpenClosePanel : UI_Base
         if (!Managers.Data.saveData._SaveFileData._PlayerSaveData._cutScene_Page_1)
         {
             Managers.Data.saveData._SaveFileData._PlayerSaveData._cutScene_Page_1 = true;
-            // Managers.Data.saveData.Save();
+            Managers.Data.saveData.Save();
 
             var cutScene = Managers.UI.ShowUI<UI_CutSceneController>().GetComponent<UI_CutSceneController>();
             cutScene.StartCutScene(CutScenePageName.Page_1);
