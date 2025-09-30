@@ -11,6 +11,7 @@ using Mirror;
 
 using TileData = ANH_MapEditor.TileData;
 using MapType = ANH_MapEditor.MapType;
+using Org.BouncyCastle.Crypto.Modes;
 
 
 public enum MapEditorType
@@ -181,7 +182,7 @@ public class MapEditor : MonoBehaviour
         CreateGridPalet();
         CreatePreviewPalet();
 
-        if(mapObjBoxTransform != null) { Destroy(mapObjBoxTransform.gameObject); }
+        if (mapObjBoxTransform != null) { Destroy(mapObjBoxTransform.gameObject); }
 
         mapObjBoxTransform = Util.CreateChildTransform("MapObjBox");
 
@@ -202,10 +203,12 @@ public class MapEditor : MonoBehaviour
         otherContainer = Util.CreateChildTransform(mapObjBoxTransform, "otherContainer");
         otherContainer.gameObject.AddComponent<OtherContainer>();
         backgroundObjectContainer = Util.CreateChildTransform(mapObjBoxTransform, "backgroundObjectContainer");
-  
+
         collectableContainer = Util.CreateChildTransform(mapObjBoxTransform, "collectableContainer");
 
         shadowContainer = Util.CreateChildTransform(mapObjBoxTransform, "shadowContainer");
+
+        if (_d_activePoolingObject == null) _d_activePoolingObject = new();
     }
 
     public void EditorMode_Init()
@@ -379,6 +382,7 @@ public class MapEditor : MonoBehaviour
     }
 
     #region Create
+    public Queue<BuildObj> _d_activePoolingObject;
     public void Create_Tile()
     {
         DrawTile_C(placeMentSystem.floorTileMap, curMap.mapTileDataList); //rect
@@ -524,11 +528,13 @@ public class MapEditor : MonoBehaviour
         }
     }
     public List<WayPoint_Var2> wayPointList;
+   
     void Create<T>(Transform transform, MapDataStruct mapDataStruct, T data)
     {
         try
         {
-            GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
+            // GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
+            GameObject obj = Managers.Pooling.D_GetItem(ResourceManager.Load<GameObject>(mapDataStruct.path));
             obj.name = mapDataStruct.name;
 
             if (obj.name == "WayPoint" || obj.name == "WayPoint_Rusted")
@@ -537,8 +543,18 @@ public class MapEditor : MonoBehaviour
                 wayPointList.Add(obj.GetComponent<WayPoint_Var2>());
             }
 
-            obj.GetComponent<BuildObj>().SetData(data);
-            obj.transform.SetParent(transform);
+            if (obj.TryGetComponent(out BuildObj build))
+            {
+                build.SetData(data);
+                build.transform.SetParent(transform);
+                build.gameObject.SetActive(true);
+                _d_activePoolingObject.Enqueue(build);
+            }
+            //  obj.GetComponent<BuildObj>().SetData(data);
+            // obj.transform.SetParent(transform);
+
+            // obj.SetActive(true);
+           
         }
         catch (Exception ex)
         {

@@ -57,6 +57,15 @@ public class FadeInOutPanel : MonoBehaviour
         yield return StartCoroutine(UI_MapOpenClosePanel.Prograss_1());
         //------------------------UI_MapOpenClosePanel Prograss 1
 
+        //------------------------Pooling
+        while (MapEditor.Instance._d_activePoolingObject.Count > 0)
+        {
+            var obj = MapEditor.Instance._d_activePoolingObject.Dequeue();
+            obj.Clean();
+            Managers.Pooling.D_ReleaseToPool(obj.gameObject);
+        }
+        //------------------------Pooling
+
         //------------------------Player Ignore Damage
         var player = Managers.Game.Player;
         var sm = player ? player.TryGetComponent(out PlayerSM playerSm) ? playerSm : null : null;

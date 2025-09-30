@@ -15,7 +15,7 @@ public enum DistructionStatus
 
 
 [System.Serializable]
-public class BuildObj : MousePointerEntity, IDamageable,IPooling
+public class BuildObj : MousePointerEntity, IDamageable, IPooling
 {
     [CustomHeader("BuildObj")]
     public int id;
@@ -60,8 +60,8 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     [ReadOnly]
     public bool turnOff;
     #endregion
-    
-    
+
+
     private ObjectData _objectData;
     public ObjectData ObjectData
     {
@@ -74,8 +74,8 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
             _objectData = value;
             id = _objectData.id;
             position = value.position;
-        } 
-            
+        }
+
     }
     private Rigidbody2D Rb;
     public Rigidbody2D _rb
@@ -95,7 +95,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
             return _collider;
 
         }
-        
+
     }
 
     [Header("Only use Editor mode")]
@@ -148,19 +148,19 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
 
         StartSound();
     }
-  
-    public virtual T GetData<T>()  
+
+    public virtual T GetData<T>()
     {
-        if(typeof(T)==typeof(ObjectData))
+        if (typeof(T) == typeof(ObjectData))
         {
             return (T)(object)new ObjectData(id, ConvertPosition(), transform.rotation, transform.localScale);
         }
 
-       return default(T);
+        return default(T);
     }
-    public virtual void SetData<T>(T data)  
+    public virtual void SetData<T>(T data)
     {
-        if(typeof(T) == typeof(ObjectData)){
+        if (typeof(T) == typeof(ObjectData)) {
             ObjectData objData = (ObjectData)(object)data;
             SetData(objData);
         }
@@ -177,7 +177,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         );
         return rounded;
     }
-#region Transport Item 
+    #region Transport Item 
     public void SettingTransportItem(GameObject carrierObj) //Only Server
     {
         if (_rb == null)
@@ -195,31 +195,31 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     public void Connection_TransportItem()//Only Server
     {
         ParentConstraint constraint = gameObject.TryGetComponent(out ParentConstraint component) ? component : gameObject.AddComponent<ParentConstraint>();
-        SetParentConstraint(constraint,carrierTransform);
+        SetParentConstraint(constraint, carrierTransform);
 
         GetComponent<ITransportItem>().TransportItem_Constraint(carrierTransformNetId);
     }
     public void DropTransportItem()//Only Server
     {
-        if(!NetworkServer.active) return;
+        if (!NetworkServer.active) return;
 
-        if(TryGetComponent(out ParentConstraint constraint))
+        if (TryGetComponent(out ParentConstraint constraint))
         {
             //Destroy(constraint);
-            if(constraint.sourceCount >0)
-            constraint.RemoveSource(0);
+            if (constraint.sourceCount > 0)
+                constraint.RemoveSource(0);
         }
 
         GetComponent<ITransportItem>().TransportItem_DropItem();
     }
-    private void SetParentConstraint(ParentConstraint constraint,Transform parent)//Only Server
+    private void SetParentConstraint(ParentConstraint constraint, Transform parent)//Only Server
     {
         constraint.weight = 1;
         transform.position = parent.position;
         ConstraintSource source = new ConstraintSource
         {
             sourceTransform = parent,
-            weight = 1.0f 
+            weight = 1.0f
         };
 
         constraint.AddSource(source);
@@ -237,13 +237,13 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         constraint.locked = true; // 소스가 변경되지 않도록 잠금
 
     }
-#endregion
+    #endregion
 
-   public virtual void TakeDamage(DamageType damageType = DamageType.Default)
-   {
-        if(distructionStatus == DistructionStatus.Destructible)
+    public virtual void TakeDamage(DamageType damageType = DamageType.Default)
+    {
+        if (distructionStatus == DistructionStatus.Destructible)
         {
-            if(Managers.Game.CurrentState != GameState.Editor)
+            if (Managers.Game.CurrentState != GameState.Editor)
             {
                 OnInteractableObjectRelease?.Invoke();
             }
@@ -252,11 +252,11 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
             OnDisableAction?.Invoke();
         }
 
-        if(distructionStatus == DistructionStatus.PermanentDestruction)
+        if (distructionStatus == DistructionStatus.PermanentDestruction)
         {
             Destroy(gameObject);
         }
-   }
+    }
 
 
     public virtual void TurnOff()
@@ -264,7 +264,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         if (setPosition)
         {
             transform.position = orgPosition;
-            
+
         }
 
     }
@@ -293,16 +293,16 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     public override void OnPointerClick(PointerEventData data)
     {
         if (!MapEditor.Instance) return;
-        if(MapEditor.Instance.mapEditorState == MapEditorState.Object)
+        if (MapEditor.Instance.mapEditorState == MapEditorState.Object)
         {
-            if(MapEditor.Instance.placeMentSystem.CurbuildObject != data.pointerCurrentRaycast.gameObject)
+            if (MapEditor.Instance.placeMentSystem.CurbuildObject != data.pointerCurrentRaycast.gameObject)
             {
                 if (data.pointerCurrentRaycast.gameObject.GetComponent<BuildObj>())
                 {
                     Debug.Log("BUildObj");
                     MapEditor.Instance.placeMentSystem.CurbuildObject = data.pointerCurrentRaycast.gameObject;
                 }
-                
+
             }
         }
     }
@@ -357,20 +357,20 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         }
 
     }
-   
 
-    public bool GetDissolveObject(){
-        if(_IsDissolveObject){
+
+    public bool GetDissolveObject() {
+        if (_IsDissolveObject) {
             return true;
         }
-         return false;
+        return false;
     }
-    
+
     #endregion
 
     #region  Editor
-        // public virtual void Editor_Setting(Transform transform){}
-        public virtual void Editor_Setting(MapEditor mapEditor){}
+    // public virtual void Editor_Setting(Transform transform){}
+    public virtual void Editor_Setting(MapEditor mapEditor) { }
 
 
 
@@ -406,5 +406,5 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     }
 
 
-
+    public virtual void Clean(){}
 }   

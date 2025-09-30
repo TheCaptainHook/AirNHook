@@ -68,7 +68,9 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
     private IEnumerator Encapsulation_WaitItemReadyCo(uint targetID)
     {
         yield return new WaitUntil(() => _isEncapsulation_ItemReady);
-        Debug.Log("[4] PathChacking -> DrawLineUtilliy");
+
+        if (itemWaitStack.Count == 0) yield break;
+
         var item = itemWaitStack.Pop();
         var lineUtility = GetLine();
         lineUtility.PathChacking(this, targetID, item);
