@@ -88,10 +88,13 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     private float _lastSentTilt;
 
      // ====== 클라이언트 전용 상태 ======
-    struct Sample { public int tick; public float tilt; }
+    struct Sample { public float tilt;public float time; }
     private readonly Queue<Sample> _buffer = new(); // RPC 수신 버퍼(지연 흡수)
     private float _targetTilt;     // 현재 목표 각도(버퍼에서 뽑은 최신값)
     private float _angVel;         // SmoothDampAngle 내부 속도
+    private float _playbackDelay = 0.10f;  // 100ms 뒤 재생(지터 흡수)
+   
+    float _displayed; // 화면에 보여주는 각도(=rb.rotation)
 
     // float _curTilt;
     //오른쪽 -, 왼쪽 +
@@ -108,7 +111,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
                 curSendInterval = 0;
                 _serverTick++;
                 _lastSentTilt = _serverTilt; 
-                Rpc_SetTilt(_serverTilt, _serverTick);
+                Rpc_SetTilt(_serverTilt);
             }
         
         }
@@ -119,18 +122,18 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     }
 
     [ClientRpc(channel = Channels.Unreliable)]
-    private void Rpc_SetTilt(float tilt, int tick)
+    private void Rpc_SetTilt(float tilt)
     {
         // 틸트 안전범위 보정
         tilt = Mathf.Clamp(tilt, -maxRotate, maxRotate);
 
         // 최신 순서만 쓰고 싶다면, 이전보다 작은 tick은 버리기(옵션)
-        if (_buffer.Count > 0 && tick < _buffer.Peek().tick)
-            return;
+        // if (_buffer.Count > 0 && tick < _buffer.Peek().tick)
+        //     return;
 
-       _buffer.Enqueue(new Sample { tilt = tilt, tick = tick });
+       _buffer.Enqueue(new Sample { tilt = tilt, time = Time.time });
         // 버퍼 과도 누적 방지
-        while (_buffer.Count > 8) _buffer.Dequeue();
+        while (_buffer.Count > 6) _buffer.Dequeue();
     }
     void Update()
     {
@@ -138,26 +141,55 @@ public class WDMP_Net : ActivatableObject_Net_Entity
 
         // 1) 최신 샘플을 목표값으로 반영
         //    (지연이 있더라도 최신 틱을 따라가며 보간)
-        while (_buffer.Count > 0)
+        float targetPlaybackTime = Time.time - _playbackDelay;
+        while (_buffer.Count >= 2 && _buffer.Peek().time <= targetPlaybackTime)
         {
-            var s = _buffer.Dequeue();
-            _targetTilt = s.tilt;
+            var first = _buffer.Dequeue();               // [first]는 과거
+            var second = _buffer.Peek();                 // [second]는 미래
+                                                         // 두 샘플 사이에서 t를 계산
+            float span = Mathf.Max(0.0001f, second.time - first.time);
+            float t = Mathf.Clamp01((targetPlaybackTime - first.time) / span);
+
+            float target = Mathf.LerpAngle(first.tilt, second.tilt, t);
+
+            // 화면 회전(부드럽게 추종: SmoothDampAngle or MoveTowardsAngle)
+            _displayed = Mathf.SmoothDampAngle(_displayed, target, ref _angVel, 0.10f, 720f, Time.deltaTime);
+
+            // 물리와 부딪히지 않는 순수 연출이면 Transform 회전, 물리 반영 필요하면 rb.rotation
+            // 여기선 렌더링 보간만 예시
+            Rb.rotation = _displayed;
+            return;
         }
+        if (_buffer.Count == 1)
+        {
+            float target = _buffer.Peek().tilt;
+            _displayed = Mathf.SmoothDampAngle(_displayed, target, ref _angVel, 0.10f, 720f, Time.deltaTime);
+            Rb.rotation = _displayed;
+        }
+    
+    
 
-        float cur = Rb.rotation;
-        float next = Mathf.SmoothDampAngle(
-            cur,
-            _targetTilt,
-            ref _angVel,
-            smoothTime,
-            maxDegPerSec,
-            Time.deltaTime // 렌더 보간이므로 deltaTime 사용
-        );
 
-        if (Mathf.Abs(Mathf.DeltaAngle(next, _targetTilt)) <= snapEps)
-            next = _targetTilt;
-        Rb.rotation = Mathf.Clamp(next, -maxRotate, maxRotate);
-            
+        // while (_buffer.Count > 0)
+        // {
+        //     var s = _buffer.Dequeue();
+        //     _targetTilt = s.tilt;
+        // }
+
+        // float cur = Rb.rotation;
+        // float next = Mathf.SmoothDampAngle(
+        //     cur,
+        //     _targetTilt,
+        //     ref _angVel,
+        //     smoothTime,
+        //     maxDegPerSec,
+        //     Time.deltaTime // 렌더 보간이므로 deltaTime 사용
+        // );
+
+        // if (Mathf.Abs(Mathf.DeltaAngle(next, _targetTilt)) <= snapEps)
+        //     next = _targetTilt;
+        // Rb.rotation = Mathf.Clamp(next, -maxRotate, maxRotate);
+
 
     }
     //--------------------------------------------------------------------------------------------------------------Refactoring 1003

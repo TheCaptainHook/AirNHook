@@ -301,7 +301,6 @@ GameObject:
   - component: {fileID: 851463365788888728}
   - component: {fileID: 6678477908738241609}
   - component: {fileID: 9022313030282605620}
-  - component: {fileID: 7487748850028458458}
   - component: {fileID: 7704571820018492017}
   m_Layer: 15
   m_Name: WeightDetectionMoveingPlatform
@@ -576,11 +575,9 @@ MonoBehaviour:
   rail_Line_Prefabs: {fileID: 6443439262299581446, guid: 275793db7c14f413ebce84c81e704b8d, type: 3}
   curRecoveryPositionRate: 0
   curRecoveryTiltRate: 0
-  weightResult: 0
-  _tilt: 0
-  tiltRate: 0
   leftPoint: {fileID: 870347649813542423}
   rightPoint: {fileID: 6264870558566126995}
+  tiltRate: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 656384
@@ -627,45 +624,10 @@ MonoBehaviour:
   - {x: 3, y: -0.24609375, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 59398
+  m_InstanceId: 62654
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 3, y: 0.24609375, z: 0}
---- !u!114 &7487748850028458458
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3164631011725507869}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c7e12ad9b9ae443c9fdf37e9f5ecd36, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  target: {fileID: 2472559704464556279}
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 0
-  onlySyncOnChange: 1
-  compressRotation: 1
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 0
-  coordinateSpace: 0
-  sendIntervalMultiplier: 1
-  timelineOffset: 0
-  showGizmos: 0
-  showOverlay: 0
-  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  bufferResetMultiplier: 3
-  changedDetection: 1
-  positionSensitivity: 0.01
-  rotationSensitivity: 0.01
-  scaleSensitivity: 0.01
 --- !u!114 &7704571820018492017
 MonoBehaviour:
   m_ObjectHideFlags: 0
