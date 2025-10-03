@@ -72,7 +72,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     private float curSendInterval = 0.05f;
     [Header("Tilt Limits")]
     private float maxRotate = 70;
-    private float sendInterval = 0.01f;      // 20Hz
+    private float sendInterval = 0.05f;      // 20Hz
     private float sendThreshold = 0.5f;      // 최소 전송 변화량(도)
 
     // public float weightResult = 0; //로컬
@@ -185,8 +185,8 @@ public class WDMP_Net : ActivatableObject_Net_Entity
             Time.deltaTime
         );
 
-        if (Mathf.Abs(Mathf.DeltaAngle(next, target)) <= _snapEps)
-            next = target;
+        // if (Mathf.Abs(Mathf.DeltaAngle(next, target)) <= _snapEps)
+        //     next = target;
 
         _displayed = Mathf.Clamp(next, -maxRotate, maxRotate);
         Rb.rotation = _displayed; // 원격 클라: 렌더 전용, 물리는 서버 전담
