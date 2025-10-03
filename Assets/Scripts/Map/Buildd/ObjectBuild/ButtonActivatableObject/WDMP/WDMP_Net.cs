@@ -26,7 +26,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
 
 
     private (int leftCount, int rightCount) leftAndRightCounts;
- 
+
     private float sendMsgRate = 0.1f;
     private float curSendMsgRate = 1;
 
@@ -68,7 +68,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     [SerializeField] Transform leftPoint;
     [SerializeField] Transform rightPoint;
 
-  
+
     private float curSendInterval = 0.05f;
     [Header("Tilt Limits")]
     private float maxRotate = 70;
@@ -76,122 +76,180 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     private float sendThreshold = 0.5f;      // 최소 전송 변화량(도)
 
     // public float weightResult = 0; //로컬
-    [Header("Client Smoothing")]
-    private float smoothTime = 0.12f;   // 감쇠 시간(작을수록 빠르게 수렴)
-    private float maxDegPerSec = 540f;  // 최대 각속도 제한(도/초)
-    private float snapEps = 0.25f;      // 거의 도달 시 스냅
+    [Header("Client")]
 
-    Coroutine tiltCoroutine;
-  // ====== 서버 전용 상태 ======
-    private int   _serverTick;
+    Coroutine _tiltCoroutine;
+    // ====== 서버 전용 상태 ======
     private float _serverTilt;    // 서버 권위 각도
+    private int _serverTick;
+    private float _serverAbsoluteTilt;
     private float _lastSentTilt;
 
-     // ====== 클라이언트 전용 상태 ======
-    struct Sample { public float tilt;public float time; }
-    private readonly Queue<Sample> _buffer = new(); // RPC 수신 버퍼(지연 흡수)
-    private float _targetTilt;     // 현재 목표 각도(버퍼에서 뽑은 최신값)
-    private float _angVel;         // SmoothDampAngle 내부 속도
-    private float _playbackDelay = 0.10f;  // 100ms 뒤 재생(지터 흡수)
-   
-    float _displayed; // 화면에 보여주는 각도(=rb.rotation)
+    // ====== 클라이언트 전용 상태 ======
 
-    // float _curTilt;
-    //오른쪽 -, 왼쪽 +
+    private float _targetTilt;     // 현재 목표 각도(버퍼에서 뽑은 최신값)
+
+    struct Sample { public float tilt; public float tRecv; public int tick; }
+    List<Sample> _buf = new();
+    float _displayed;            // 화면에 표시 중인 각도
+    float _angVel;               // SmoothDampAngle 내부속도
+    int lastTick;
+
+
+    private float _playbackDelay = 0.10f; // 100ms 지연 재생(지터 흡수)
+    private float _smoothTime = 0.10f;
+    private float _maxDegPerSec = 720f;
+    private float _snapEps = 0.25f;
+
+    private float tiltSpeed = 10;
     [ServerCallback]
     void FixedUpdate()
     {
         var counts = GetHitLeftAndRightCount();
+
         if (counts.leftHitCount > 0 || counts.rightHitCount > 0)
         {
+            float delta = GetWeight(counts) * Time.fixedDeltaTime * tiltSpeed;
+            _serverAbsoluteTilt = Mathf.Clamp(_serverAbsoluteTilt + delta, -maxRotate, maxRotate);
+
             curSendInterval += Time.fixedDeltaTime;
-            _serverTilt += GetWeight(counts);
+
             if (curSendInterval >= sendInterval)
             {
                 curSendInterval = 0;
-                _serverTick++;
-                _lastSentTilt = _serverTilt; 
-                Rpc_SetTilt(_serverTilt);
+                _lastSentTilt = _serverAbsoluteTilt;
+                Rpc_SetTilt(_serverAbsoluteTilt, ++_serverTick);
+
             }
-        
+
         }
         else
         {
             //recover
         }
+
+
+
     }
 
     [ClientRpc(channel = Channels.Unreliable)]
-    private void Rpc_SetTilt(float tilt)
+    private void Rpc_SetTilt(float tilt, int tick)
     {
-        // 틸트 안전범위 보정
-        tilt = Mathf.Clamp(tilt, -maxRotate, maxRotate);
+        // _targetTilt = Mathf.Clamp(Rb.rotation + tilt, -maxRotate, maxRotate);
+        // // 버퍼에 적재 (수신 시각 함께 기록)
+        // _buf.Add(new Sample { tilt = tilt, tRecv = Time.time });
+        // if (_buf.Count > 6) _buf.RemoveAt(0);
+        if (tick <= lastTick) return;
+        lastTick = tick;
 
-        // 최신 순서만 쓰고 싶다면, 이전보다 작은 tick은 버리기(옵션)
-        // if (_buffer.Count > 0 && tick < _buffer.Peek().tick)
-        //     return;
-
-       _buffer.Enqueue(new Sample { tilt = tilt, time = Time.time });
-        // 버퍼 과도 누적 방지
-        while (_buffer.Count > 6) _buffer.Dequeue();
+        _buf.Add(new Sample { tilt = tilt, tRecv = Time.time, tick = tick });
+        if (_buf.Count > 8) _buf.RemoveAt(0);
+        if (_buf.Count == 1) _displayed = Rb.rotation; // 첫 샘플 시 초기화
     }
+
+
     void Update()
     {
         if (!isClient) return;
+        // if (isServer) return; // 호스트의 클라 루프는 비활성(서버가 이미 회전 세팅한다면)
 
-        // 1) 최신 샘플을 목표값으로 반영
-        //    (지연이 있더라도 최신 틱을 따라가며 보간)
-        float targetPlaybackTime = Time.time - _playbackDelay;
-        while (_buffer.Count >= 2 && _buffer.Peek().time <= targetPlaybackTime)
+        float targetTime = Time.time - _playbackDelay;
+
+        // 과거 샘플 정리
+        while (_buf.Count >= 2 && _buf[1].tRecv <= targetTime)
+            _buf.RemoveAt(0);
+
+        if (_buf.Count >= 2)
         {
-            var first = _buffer.Dequeue();               // [first]는 과거
-            var second = _buffer.Peek();                 // [second]는 미래
-                                                         // 두 샘플 사이에서 t를 계산
-            float span = Mathf.Max(0.0001f, second.time - first.time);
-            float t = Mathf.Clamp01((targetPlaybackTime - first.time) / span);
-
-            float target = Mathf.LerpAngle(first.tilt, second.tilt, t);
-
-            // 화면 회전(부드럽게 추종: SmoothDampAngle or MoveTowardsAngle)
-            _displayed = Mathf.SmoothDampAngle(_displayed, target, ref _angVel, 0.10f, 720f, Time.deltaTime);
-
-            // 물리와 부딪히지 않는 순수 연출이면 Transform 회전, 물리 반영 필요하면 rb.rotation
-            // 여기선 렌더링 보간만 예시
-            Rb.rotation = _displayed;
-            return;
+            var a = _buf[0];
+            var b = _buf[1];
+            float span = Mathf.Max(0.0001f, b.tRecv - a.tRecv);
+            float t = Mathf.Clamp01((targetTime - a.tRecv) / span);
+            float target = Mathf.LerpAngle(a.tilt, b.tilt, t);
+            ApplyRenderSmoothing(target);
         }
-        if (_buffer.Count == 1)
+        else if (_buf.Count == 1)
         {
-            float target = _buffer.Peek().tilt;
-            _displayed = Mathf.SmoothDampAngle(_displayed, target, ref _angVel, 0.10f, 720f, Time.deltaTime);
-            Rb.rotation = _displayed;
+            ApplyRenderSmoothing(_buf[0].tilt);
         }
     
-    
-
-
-        // while (_buffer.Count > 0)
-        // {
-        //     var s = _buffer.Dequeue();
-        //     _targetTilt = s.tilt;
-        // }
-
-        // float cur = Rb.rotation;
-        // float next = Mathf.SmoothDampAngle(
-        //     cur,
-        //     _targetTilt,
-        //     ref _angVel,
-        //     smoothTime,
-        //     maxDegPerSec,
-        //     Time.deltaTime // 렌더 보간이므로 deltaTime 사용
-        // );
-
-        // if (Mathf.Abs(Mathf.DeltaAngle(next, _targetTilt)) <= snapEps)
-        //     next = _targetTilt;
-        // Rb.rotation = Mathf.Clamp(next, -maxRotate, maxRotate);
-
-
+             
     }
+    void ApplyRenderSmoothing(float target)
+    {
+        float next = Mathf.SmoothDampAngle(
+            _displayed, target,
+            ref _angVel,
+            _smoothTime,
+            _maxDegPerSec,
+            Time.deltaTime
+        );
+
+        if (Mathf.Abs(Mathf.DeltaAngle(next, target)) <= _snapEps)
+            next = target;
+
+        _displayed = Mathf.Clamp(next, -maxRotate, maxRotate);
+        Rb.rotation = _displayed; // 원격 클라: 렌더 전용, 물리는 서버 전담
+    }
+
+
+    // void Update()
+    // {
+    //     if (!isClient) return;
+
+    //     // 1) 최신 샘플을 목표값으로 반영
+    //     //    (지연이 있더라도 최신 틱을 따라가며 보간)
+    //     float targetPlaybackTime = Time.time - _playbackDelay;
+    //     while (_buffer.Count >= 2 && _buffer.Peek().time <= targetPlaybackTime)
+    //     {
+    //         var first = _buffer.Dequeue();               // [first]는 과거
+    //         var second = _buffer.Peek();                 // [second]는 미래
+    //                                                      // 두 샘플 사이에서 t를 계산
+    //         float span = Mathf.Max(0.0001f, second.time - first.time);
+    //         float t = Mathf.Clamp01((targetPlaybackTime - first.time) / span);
+
+    //         float target = Mathf.LerpAngle(first.tilt, second.tilt, t);
+
+    //         // 화면 회전(부드럽게 추종: SmoothDampAngle or MoveTowardsAngle)
+    //         _displayed = Mathf.SmoothDampAngle(_displayed, target, ref _angVel, 0.10f, 720f, Time.deltaTime);
+
+    //         // 물리와 부딪히지 않는 순수 연출이면 Transform 회전, 물리 반영 필요하면 rb.rotation
+    //         // 여기선 렌더링 보간만 예시
+    //         Rb.rotation = _displayed;
+    //         return;
+    //     }
+    //     if (_buffer.Count == 1)
+    //     {
+    //         float target = _buffer.Peek().tilt;
+    //         _displayed = Mathf.SmoothDampAngle(_displayed, target, ref _angVel, 0.10f, 720f, Time.deltaTime);
+    //         Rb.rotation = _displayed;
+    //     }
+
+
+
+
+    //     // while (_buffer.Count > 0)
+    //     // {
+    //     //     var s = _buffer.Dequeue();
+    //     //     _targetTilt = s.tilt;
+    //     // }
+
+    //     // float cur = Rb.rotation;
+    //     // float next = Mathf.SmoothDampAngle(
+    //     //     cur,
+    //     //     _targetTilt,
+    //     //     ref _angVel,
+    //     //     smoothTime,
+    //     //     maxDegPerSec,
+    //     //     Time.deltaTime // 렌더 보간이므로 deltaTime 사용
+    //     // );
+
+    //     // if (Mathf.Abs(Mathf.DeltaAngle(next, _targetTilt)) <= snapEps)
+    //     //     next = _targetTilt;
+    //     // Rb.rotation = Mathf.Clamp(next, -maxRotate, maxRotate);
+
+
+    // }
     //--------------------------------------------------------------------------------------------------------------Refactoring 1003
 
 
@@ -246,7 +304,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
 
     [ReadOnly]
     public float tiltRate;
-    private float tiltSpeed = 2;
+
     // IEnumerator TiltCo()
     // {
     //     while (Mathf.DeltaAngle(Rb.rotation,targetTilt) > 0.5f)
