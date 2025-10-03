@@ -5428,6 +5428,138 @@
             "tutorialCode": 0
         },
         {
+            "id": 357,
+            "dialogueId": 0,
+            "position": {
+                "x": 30.139999389648439,
+                "y": 6.440000057220459
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.6436123847961426,
+                "w": 0.7653516530990601
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0,
+            "tutorialCode": 0
+        },
+        {
+            "id": 357,
+            "dialogueId": 0,
+            "position": {
+                "x": 28.450000762939454,
+                "y": 2.809999942779541
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.6436123847961426,
+                "w": 0.7653516530990601
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0,
+            "tutorialCode": 0
+        },
+        {
+            "id": 357,
+            "dialogueId": 0,
+            "position": {
+                "x": 29.729999542236329,
+                "y": 1.9299999475479127
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.6436123847961426,
+                "w": 0.7653516530990601
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0,
+            "tutorialCode": 0
+        },
+        {
+            "id": 357,
+            "dialogueId": 0,
+            "position": {
+                "x": 33.54999923706055,
+                "y": 7.400000095367432
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.6436123847961426,
+                "w": 0.7653516530990601
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0,
+            "tutorialCode": 0
+        },
+        {
             "id": 323,
             "dialogueId": 0,
             "position": {
@@ -7017,14 +7149,14 @@
         {
             "id": 335,
             "position": {
-                "x": 22.93000030517578,
+                "x": 22.780000686645509,
                 "y": 7.650000095367432
             },
             "quaternion": {
                 "x": 0.0,
                 "y": 0.0,
-                "z": -0.720956563949585,
-                "w": 0.6929803490638733
+                "z": -0.7071068286895752,
+                "w": 0.7071068286895752
             },
             "scale": {
                 "x": 1.0,
@@ -7737,6 +7869,102 @@
                 }
             ],
             "moveSpeed": 1.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 335,
+            "position": {
+                "x": 23.479999542236329,
+                "y": 7.630000114440918
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.7071068286895752,
+                "w": 0.7071068286895752
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "activeRequirAmount": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 335,
+            "position": {
+                "x": 22.1299991607666,
+                "y": 7.630000114440918
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.7071068286895752,
+                "w": 0.7071068286895752
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "activeRequirAmount": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
             "moveDistance": 0.0,
             "bridgeLength": 0.0,
             "connectionPoint": {

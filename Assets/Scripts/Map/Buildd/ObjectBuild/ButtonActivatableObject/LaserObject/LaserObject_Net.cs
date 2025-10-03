@@ -163,6 +163,8 @@ public class LaserObject_Net : ActivatableObject_Net_Entity
             for(int i = _laserEffectAudios.Count-1;i>=segmentCount;i--)
             {
                 var source = _laserEffectAudios[i].source;
+                if (source == null) continue;
+
                 source.GetAudioSource().Stop();
                 Managers.Sound.Recycle(source);
                 _laserEffectAudios.RemoveAt(i);

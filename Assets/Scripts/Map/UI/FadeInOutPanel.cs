@@ -88,6 +88,8 @@ public class FadeInOutPanel : MonoBehaviour
 
         var playerCol = sm.GetComponent<Collider2D>();
         var playerRb = sm.GetComponent<Rigidbody2D>();
+        var playerGravity = playerRb.gravityScale;
+
         playerRb.gravityScale = 0;
         playerRb.velocity = Vector2.zero;   
         playerCol.enabled = false;
@@ -96,7 +98,8 @@ public class FadeInOutPanel : MonoBehaviour
 
         //------------------------Create Next Stage
         Managers.Network.startPos.Clear();
-        MapEditor.Instance.LoadMap(mapId);
+        // MapEditor.Instance.LoadMap(mapId);
+        yield return StartCoroutine(MapEditor.Instance.LoadMapCo(mapId));
         //------------------------Create Next Stage
 
         //------------------------Player, Camera Setting
@@ -120,7 +123,7 @@ public class FadeInOutPanel : MonoBehaviour
 
         //--------------------------------Player recover
         if (playerCol) playerCol.enabled = true;
-        if(playerRb) playerRb.gravityScale = 3;
+        if (playerRb) playerRb.gravityScale = playerGravity;
         //--------------------------------Player recover
 
         yield return new WaitForSeconds(1f);

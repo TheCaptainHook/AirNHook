@@ -11,7 +11,9 @@ using Mirror;
 
 using TileData = ANH_MapEditor.TileData;
 using MapType = ANH_MapEditor.MapType;
-using Org.BouncyCastle.Crypto.Modes;
+using System.Collections;
+using System.Buffers;
+
 
 
 public enum MapEditorType
@@ -314,7 +316,6 @@ public class MapEditor : MonoBehaviour
     public void LoadMap(string name)
     {
         stageClear = false;
-
         event_reset = null;
 
         if(wayPointList != null) wayPointList.Clear();
@@ -340,6 +341,39 @@ public class MapEditor : MonoBehaviour
         if(!string.IsNullOrEmpty(curMap.audioName))
             Managers.Sound.PlayBGM(curMap.audioName, 0.1f);
     }
+    //----------------------------------------1003 refactoring
+    public IEnumerator LoadMapCo(string name)
+    {
+        stageClear = false;
+        event_reset = null;
+
+        if (wayPointList != null) wayPointList.Clear();
+
+        Init();
+        placeMentSystem.ResetTileMap();
+        mapEditorType = MapEditorType.Load;
+        mapID = name;
+        CurMap = Managers.Data.mapData.mapAllDictionary[name];
+        //start Point
+        CreateStartPosition();
+        ParallaxCameraReset();
+        //start Point
+        yield return StartCoroutine(Create_Tile_Co());
+
+        //Light, Shadow
+        Create_Shadow();
+        SetGlobalLight();
+        //Light, Shadow
+
+        yield return StartCoroutine(Create_Obejct_Co());
+        // Create_Object();
+
+        if (!string.IsNullOrEmpty(curMap.audioName))
+            Managers.Sound.PlayBGM(curMap.audioName, 0.1f);
+            
+    }
+
+    //----------------------------------------1003 refactoring
 
     private void ParallaxCameraReset()
     {
@@ -352,24 +386,33 @@ public class MapEditor : MonoBehaviour
     private void Create_Object()
     {
         CreateExitObject(curMap.mapExitObjectStruct);
+
         Create_Object(curMap.mapObjectDataList, objectTransform);
         Create_Object(curMap.mapBackgroundObjectList, backgroundObjectContainer);
 
         Create_OtherObject(curMap.mapOtherObjectList, otherContainer);
-
-        try
-        {
-            Create_Object(curMap.mapButtonActivatableObjectDataList, buttonActivatableObjectTransform);
-        }
-        catch (Exception)
-        {
-            
-        }
+        Create_Object(curMap.mapButtonActivatableObjectDataList, buttonActivatableObjectTransform);
+       
         Create_Object(curMap.buttonObjectList, buttonObjectTransform);
 
         Create_Object(Managers.Data.saveData.dic[curMap.mapID]._DialogueDataList, triggerDialogueTransform);
         Create_Object(curMap.droneStructList, droneTransform);
         Create_Object(curMap.collectableObjectStructList, collectableContainer);
+    }
+    private IEnumerator Create_Obejct_Co()
+    {
+        CreateExitObject(curMap.mapExitObjectStruct);
+        yield return StartCoroutine(Create_Obejct_Co(curMap.mapObjectDataList, objectTransform));
+        yield return StartCoroutine(Create_Obejct_Co(curMap.mapBackgroundObjectList, backgroundObjectContainer));
+        Create_OtherObject(curMap.mapOtherObjectList, otherContainer);
+
+        yield return StartCoroutine(Create_Obejct_Co(curMap.mapButtonActivatableObjectDataList, buttonActivatableObjectTransform));
+        yield return StartCoroutine(Create_Obejct_Co(curMap.buttonObjectList, buttonObjectTransform));
+
+        yield return StartCoroutine(Create_Obejct_Co(Managers.Data.saveData.dic[curMap.mapID]._DialogueDataList, triggerDialogueTransform));
+        yield return StartCoroutine(Create_Obejct_Co(curMap.droneStructList, droneTransform));
+        yield return StartCoroutine(Create_Obejct_Co(curMap.collectableObjectStructList, collectableContainer));
+
     }
     #endregion
 
@@ -397,6 +440,16 @@ public class MapEditor : MonoBehaviour
         //DrawTile(placeMentSystem.ropeTileMap, curMap.mapRopeTileDataList);
         //DrawTile(placeMentSystem.accessoryTileMap, curMap.mapAccessoryTIleDataList);
     }
+    private IEnumerator Create_Tile_Co()
+    {
+        yield return StartCoroutine(DrawTile_C_Co(placeMentSystem.floorTileMap, curMap.mapTileDataList));
+        yield return StartCoroutine(DrawTile_C_Co(placeMentSystem.halfTileMap, curMap.mapHalfTileDataList));
+        yield return StartCoroutine(DrawTile_C_Co(placeMentSystem.backgroundTileMap, curMap.mapBackgroundTileDataList));
+        yield return StartCoroutine(DrawTile_C_Co(placeMentSystem.ropeTileMap, curMap.mapRopeTileDataList));
+        yield return StartCoroutine(DrawTile_C_Co(placeMentSystem.accessoryTileMap, curMap.mapAccessoryTIleDataList));
+        yield return StartCoroutine(DrawTile_C_Co(placeMentSystem.hiddentTIleMap,curMap.mapHiddenTileDataList));
+    }
+
     private void DrawTile(Tilemap tileMap, List<TileData> list)
     {
         foreach (TileData data in list)
@@ -406,26 +459,75 @@ public class MapEditor : MonoBehaviour
             placeMentSystem.tileDic[data.position] = data.id;
         }
     }
+    private Dictionary<int, TileBase> _tileCache = new();
     public void DrawTile_C(Tilemap tileMap, List<CompressedTileData> list)
     {
         foreach (var data in list)
         {
-            MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.TileId];
-            TileBase tileBase = Resources.Load<TileBase>(mapDataStruct.path);
-
+            TileBase tileBase = GetTileBase(data.TileId);
             var values = GetMaxMin(data);
 
-            for (int i = values.minX; i <= values.maxX; i++)
-            {
-                for (int j = values.minY; j <= values.maxY; j++)
-                {
-                    tileMap.SetTile(new Vector3Int(i, j, 0), tileBase);
-                }
-            }
-
+            int width = values.maxX - values.minX + 1;
+            int height = values.maxY - values.minY + 1;
+            
+            BoundsInt bounds = new BoundsInt(values.minX, values.minY, 0, width, height, 1);
+            TileBase[] tiles = new TileBase[width * height];
+            
+            Array.Fill(tiles, tileBase);
+            tileMap.SetTilesBlock(bounds, tiles);
 
         }
     }
+    private int _tile_batchSize = 50;
+    private int _object_batchSize = 10;
+    private IEnumerator DrawTile_C_Co(Tilemap tileMap, List<CompressedTileData> list)
+    {
+        int counter = 0;
+        foreach (var data in list)
+        {
+            TileBase tileBase = GetTileBase(data.TileId);
+            var values = GetMaxMin(data);
+
+            int width = values.maxX - values.minX + 1;
+            int height = values.maxY - values.minY + 1;
+
+            BoundsInt bounds = new BoundsInt(values.minX, values.minY, 0, width, height, 1);
+            // TileBase[] tiles = new TileBase[width * height];
+            var tiles = ArrayPool<TileBase>.Shared.Rent(width * height);
+
+            try
+            {
+                for (int i = 0; i < width * height; i++)
+                {
+                    tiles[i] = tileBase;
+                }
+                tileMap.SetTilesBlock(bounds, tiles);
+            }
+            finally
+            {
+                ArrayPool<TileBase>.Shared.Return(tiles, clearArray: true);
+            }
+
+            counter++;
+            if (counter >= _tile_batchSize)
+            {
+                counter = 0;
+                yield return null;
+            }
+        }
+
+    }
+    private TileBase GetTileBase(int id)
+    {
+        if (!_tileCache.TryGetValue(id, out var tileBase))
+        {
+            var mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[id];
+            tileBase = Resources.Load<TileBase>(mapDataStruct.path);
+            _tileCache[id] = tileBase;
+        }
+        return tileBase;
+    }
+
 
     private (int maxX, int minX, int maxY, int minY) GetMaxMin(CompressedTileData data)
     {
@@ -491,41 +593,66 @@ public class MapEditor : MonoBehaviour
     }
     public void Create_Object<T>(List<T> list, Transform transform)
     {
-        MapDataStruct mapDataStruct;
+        var dic = Managers.Data.mapData.mapObjectDataDictionary;
+
         Transform _TR;
+        var isField = typeof(T).GetField("id", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+        if (isField == null) return;
+
         foreach (T data in list)
         {
-            var isField = typeof(T).GetField("id", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            if (isField.GetValue(data) is not int intValue) continue;
+            if (!dic.TryGetValue(intValue, out var mapDataStruct)) continue;
 
-            if (isField != null)
+            if (mapDataStruct.objectType == ObjectType.N_Object && Application.isPlaying)
             {
-                var value = isField.GetValue(data);
-                if (value is int intValue)
-                {
-                    mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[intValue];
-                    if (mapDataStruct.objectType == ObjectType.N_Object && Application.isPlaying)
-                    {
-                        if (transform == objectTransform)
-                        {
-                            _TR = networkingObjectTransform;
-                        }
-                        else
-                        {
-                            _TR = transform;
-                        }
-                        if (NetworkServer.active)
-                            Managers.Stage.CmdBatchObject(mapDataStruct.name, data, _TR);
-                    }
-                    else
-                    {
-                        Create(transform, mapDataStruct, data);
-                    }
+                _TR = (transform == objectTransform) ? networkingObjectTransform : transform;
 
-                }
+                if (NetworkServer.active)
+                    Managers.Stage.CmdBatchObject(mapDataStruct.name, data, _TR);
+            }
+            else
+            {
+                Create(transform, mapDataStruct, data);
+            }
+        }
+    }
 
+    private IEnumerator Create_Obejct_Co<T>(List<T> list, Transform transform)
+    {
+        var dic = Managers.Data.mapData.mapObjectDataDictionary;
+        int counter = 0;
+
+        Transform _TR;
+        var isField = typeof(T).GetField("id", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+        if (isField == null) yield break;
+
+        foreach (T data in list)
+        {
+            if (isField.GetValue(data) is not int intValue) continue;
+            if (!dic.TryGetValue(intValue, out var mapDataStruct)) continue;
+
+            if (mapDataStruct.objectType == ObjectType.N_Object && Application.isPlaying)
+            {
+                _TR = (transform == objectTransform) ? networkingObjectTransform : transform;
+
+                if (NetworkServer.active)
+                    Managers.Stage.CmdBatchObject(mapDataStruct.name, data, _TR);
+            }
+            else
+            {
+                Create(transform, mapDataStruct, data);
+            }
+
+            counter++;
+            if (counter >= _object_batchSize)
+            {
+                counter = 0;
+                yield return null;
             }
 
         }
+
     }
     public List<WayPoint_Var2> wayPointList;
    
@@ -533,7 +660,6 @@ public class MapEditor : MonoBehaviour
     {
         try
         {
-            // GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
             GameObject obj = Managers.Pooling.D_GetItem(ResourceManager.Load<GameObject>(mapDataStruct.path));
             obj.name = mapDataStruct.name;
 
@@ -550,10 +676,6 @@ public class MapEditor : MonoBehaviour
                 build.gameObject.SetActive(true);
                 _d_activePoolingObject.Enqueue(build);
             }
-            //  obj.GetComponent<BuildObj>().SetData(data);
-            // obj.transform.SetParent(transform);
-
-            // obj.SetActive(true);
            
         }
         catch (Exception ex)
