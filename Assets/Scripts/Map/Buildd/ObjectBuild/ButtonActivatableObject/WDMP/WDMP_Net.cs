@@ -97,11 +97,11 @@ public class WDMP_Net : ActivatableObject_Net_Entity
 
 
     private float _playbackDelay = 0.10f; // 100ms 지연 재생(지터 흡수)
-    private float _smoothTime = 0.10f;
+    private float _smoothTime = 0.06f;
     private float _maxDegPerSec = 720f;
     private float _snapEps = 0.25f;
 
-    private float tiltSpeed = 10;
+    private float tiltSpeed = 20;
     [ServerCallback]
     void FixedUpdate()
     {
