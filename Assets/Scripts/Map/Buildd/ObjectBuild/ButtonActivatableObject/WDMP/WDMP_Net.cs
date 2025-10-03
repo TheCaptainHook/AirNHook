@@ -101,7 +101,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     private float _maxDegPerSec = 720f;
     private float _snapEps = 0.25f;
 
-    private float tiltSpeed = 20;
+    private float tiltSpeed = 10;
     [ServerCallback]
     void FixedUpdate()
     {
@@ -110,17 +110,19 @@ public class WDMP_Net : ActivatableObject_Net_Entity
         if (counts.leftHitCount > 0 || counts.rightHitCount > 0)
         {
             float delta = GetWeight(counts) * Time.fixedDeltaTime * tiltSpeed;
-            _serverAbsoluteTilt = Mathf.Clamp(_serverAbsoluteTilt + delta, -maxRotate, maxRotate);
+            // _serverAbsoluteTilt = Mathf.Clamp(_serverAbsoluteTilt + delta, -maxRotate, maxRotate);
+            Rb.rotation += delta;
+            Rb.rotation = Mathf.Clamp(Rb.rotation, -maxRotate, maxRotate);
+            // curSendInterval += Time.fixedDeltaTime;
 
-            curSendInterval += Time.fixedDeltaTime;
+            // if (curSendInterval >= sendInterval)
+            // {
+            //     curSendInterval = 0;
+            //     _lastSentTilt = _serverAbsoluteTilt;
+            //     // Rpc_SetTilt(_serverAbsoluteTilt, ++_serverTick);
+            //     ApplyRenderSmoothing(Rb.rotation + _serverAbsoluteTilt);
 
-            if (curSendInterval >= sendInterval)
-            {
-                curSendInterval = 0;
-                _lastSentTilt = _serverAbsoluteTilt;
-                Rpc_SetTilt(_serverAbsoluteTilt, ++_serverTick);
-
-            }
+            // }
 
         }
         else
