@@ -72,7 +72,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     private float curSendInterval = 0.05f;
     [Header("Tilt Limits")]
     private float maxRotate = 70;
-    private float sendInterval = 0.05f;      // 20Hz
+    private float sendInterval = 0.01f;      // 20Hz
     private float sendThreshold = 0.5f;      // 최소 전송 변화량(도)
 
     // public float weightResult = 0; //로컬
