@@ -111,11 +111,11 @@ public class WDMP_Net : ActivatableObject_Net_Entity
 
             UpdateDisplayedTilt(_c_localsoluteTilt);
 
-            if (_c_curSendInterval >= sendInterval)
-            {
-                _c_curSendInterval = 0;
-                Cmd_SendMessage(_c_localsoluteTilt, Time.time);
-            }
+            // if (_c_curSendInterval >= sendInterval)
+            // {
+            //     _c_curSendInterval = 0;
+            //     Cmd_SendMessage(_c_localsoluteTilt, Time.time);
+            // }
 
         }
         else      //Recover
@@ -221,21 +221,21 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     //==================Client
 
 
-    [ServerCallback]
-    void Update()
-    {
-        if (_buf.Count == 0) return;
+    // [ServerCallback]
+    // void Update()
+    // {
+    //     if (_buf.Count == 0) return;
 
-        var sample = _buf.Dequeue();
+    //     var sample = _buf.Dequeue();
 
-        while (_buf.Count > 0)
-        {
-            var term = _buf.Dequeue();
-            if (term.tRec > sample.tRec) sample = term;
-        }
+    //     while (_buf.Count > 0)
+    //     {
+    //         var term = _buf.Dequeue();
+    //         if (term.tRec > sample.tRec) sample = term;
+    //     }
 
-        Rpc_SetTilt(sample.tilt,sample.tRec);
-    }
+    //     Rpc_SetTilt(sample.tilt,sample.tRec);
+    // }
 
 
     // void Update()
