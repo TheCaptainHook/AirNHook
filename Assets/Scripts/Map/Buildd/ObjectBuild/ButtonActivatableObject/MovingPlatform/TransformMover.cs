@@ -35,7 +35,7 @@ public class TransformMover : NetworkBehaviour
     //-----0813
     void FixedUpdate()
     {
-        if (!isLocalPlayer) return;
+        if (!isOwned) return;
 
         float dist = col.bounds.extents.y + skin;
         int count = Physics2D.Raycast(col.bounds.center, Vector2.down, _filter, _hits, dist);
