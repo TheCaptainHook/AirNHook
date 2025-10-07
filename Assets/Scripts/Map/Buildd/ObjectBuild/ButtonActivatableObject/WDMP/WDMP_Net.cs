@@ -124,11 +124,10 @@ public class WDMP_Net : ActivatableObject_Net_Entity
         }
 
         //Move Platform
-        if (!_c_didInterpThisFrame && Mathf.Abs(_c_curStep) > 0)
+        if ( Mathf.Abs(_c_curStep) > 0)
         {
             var target = Rb.position + _c_dir * _c_curStep;
             target.x = Mathf.Clamp(target.x, minDis_Clamp, maxDis_Clamp);
-
             Rb.position = target;
         }
         //Move Platform
