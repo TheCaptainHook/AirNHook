@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -82,15 +81,15 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     // ====== 서버 전용 상태 ======
     private float _serverTilt;    // 서버 권위 각도
     private int _serverTick;
-    private float _serverAbsoluteTilt;
+
     private float _lastSentTilt;
 
     // ====== 클라이언트 전용 상태 ======
-
+    private float _localsoluteTilt;
     private float _targetTilt;     // 현재 목표 각도(버퍼에서 뽑은 최신값)
 
     struct Sample { public float tilt; public float tRecv; public int tick; }
-    List<Sample> _buf = new();
+    Queue<Sample> _buf = new();
     float _displayed;            // 화면에 표시 중인 각도
     float _angVel;               // SmoothDampAngle 내부속도
     int lastTick;
@@ -102,7 +101,8 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     private float _snapEps = 0.25f;
 
     private float tiltSpeed = 10;
-    [ServerCallback]
+
+
     void FixedUpdate()
     {
         var counts = GetHitLeftAndRightCount();
@@ -110,88 +110,77 @@ public class WDMP_Net : ActivatableObject_Net_Entity
         if (counts.leftHitCount > 0 || counts.rightHitCount > 0)
         {
             float delta = GetWeight(counts) * Time.fixedDeltaTime * tiltSpeed;
-            // _serverAbsoluteTilt = Mathf.Clamp(_serverAbsoluteTilt + delta, -maxRotate, maxRotate);
-            Rb.rotation += delta;
-            Rb.rotation = Mathf.Clamp(Rb.rotation, -maxRotate, maxRotate);
-            // curSendInterval += Time.fixedDeltaTime;
+            _localsoluteTilt = Mathf.Clamp(_localsoluteTilt + delta, -maxRotate, maxRotate);
+            curSendInterval += Time.fixedDeltaTime;
 
-            // if (curSendInterval >= sendInterval)
-            // {
-            //     curSendInterval = 0;
-            //     _lastSentTilt = _serverAbsoluteTilt;
-            //     // Rpc_SetTilt(_serverAbsoluteTilt, ++_serverTick);
-            //     ApplyRenderSmoothing(Rb.rotation + _serverAbsoluteTilt);
+            // Rb.rotation = _localsoluteTilt;
+            ApplyRenderTilt(_localsoluteTilt);
 
-            // }
+            if (curSendInterval >= sendInterval)
+            {
+                curSendInterval = 0;
+                _lastSentTilt = _localsoluteTilt;
+                Cmd_SendMessage(_localsoluteTilt, Time.time);
+            }
+
+        }
+
+    }
+
+    [Command]
+    private void Cmd_SendMessage(float tilt, float tRec)
+    {
+        if (_buf.Count > 0)
+        {
+            var a = _buf.Dequeue();
+            if (a.tRecv < tRec)
+            {
+                _buf.Enqueue(new Sample { tilt = tilt, tRecv = tRec, tick = ++_serverTick });
+
+            }
+            else
+            {
+                _buf.Enqueue(new Sample { tilt = a.tilt, tRecv = tRec, tick = ++_serverTick });
+
+            }
 
         }
         else
         {
-            //recover
+              _buf.Enqueue(new Sample { tilt = tilt, tRecv = tRec, tick = ++_serverTick });
         }
-
-
-
+        
     }
+    //각 클라이언트 먼저 움직이고 cmd->서버에서 움직인값 rpc->서버의 값을 사용해 보정
+    //각 클라에서 cmd 보내면, 연결된 클라수 만큼 cmd 를 보내는데, 각 클라에서 받은 cmd 값을 서버에서 최신값으로 rpc 해서 각 클라는 해당 값으로 보정하게끔
 
     [ClientRpc(channel = Channels.Unreliable)]
-    private void Rpc_SetTilt(float tilt, int tick)
+    private void Rpc_SetTilt(float tilt)
     {
-        // _targetTilt = Mathf.Clamp(Rb.rotation + tilt, -maxRotate, maxRotate);
-        // // 버퍼에 적재 (수신 시각 함께 기록)
-        // _buf.Add(new Sample { tilt = tilt, tRecv = Time.time });
-        // if (_buf.Count > 6) _buf.RemoveAt(0);
-        if (tick <= lastTick) return;
-        lastTick = tick;
-
-        _buf.Add(new Sample { tilt = tilt, tRecv = Time.time, tick = tick });
-        if (_buf.Count > 8) _buf.RemoveAt(0);
-        if (_buf.Count == 1) _displayed = Rb.rotation; // 첫 샘플 시 초기화
+        
     }
 
 
-    void Update()
+    void ApplyRenderTilt(float target)
     {
-        if (!isClient) return;
-        // if (isServer) return; // 호스트의 클라 루프는 비활성(서버가 이미 회전 세팅한다면)
-
-        float targetTime = Time.time - _playbackDelay;
-
-        // 과거 샘플 정리
-        while (_buf.Count >= 2 && _buf[1].tRecv <= targetTime)
-            _buf.RemoveAt(0);
-
-        if (_buf.Count >= 2)
-        {
-            var a = _buf[0];
-            var b = _buf[1];
-            float span = Mathf.Max(0.0001f, b.tRecv - a.tRecv);
-            float t = Mathf.Clamp01((targetTime - a.tRecv) / span);
-            float target = Mathf.LerpAngle(a.tilt, b.tilt, t);
-            ApplyRenderSmoothing(target);
-        }
-        else if (_buf.Count == 1)
-        {
-            ApplyRenderSmoothing(_buf[0].tilt);
-        }
-    
-             
-    }
-    void ApplyRenderSmoothing(float target)
-    {
-        float next = Mathf.SmoothDampAngle(
-            _displayed, target,
-            ref _angVel,
-            _smoothTime,
-            _maxDegPerSec,
-            Time.deltaTime
-        );
-
-        // if (Mathf.Abs(Mathf.DeltaAngle(next, target)) <= _snapEps)
-        //     next = target;
-
+        float next = Mathf.MoveTowardsAngle(Rb.rotation, target, Time.deltaTime * tiltSpeed);
         _displayed = Mathf.Clamp(next, -maxRotate, maxRotate);
         Rb.rotation = _displayed; // 원격 클라: 렌더 전용, 물리는 서버 전담
+    }
+
+    [ServerCallback]
+    void Update()
+    {
+        if (_buf.Count == 0) return;
+
+        var sample = _buf.Dequeue();
+
+        while (_buf.Count > 0)
+        {
+            var term = _buf.Dequeue();
+            if (term.tRecv > sample.tRecv) sample = term;
+        }
+        Rpc_SetTilt(sample.tilt);
     }
 
 
