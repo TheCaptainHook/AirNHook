@@ -15,9 +15,6 @@ public class TransformMover : NetworkBehaviour
     public WDMP_Net _wdmp_Net;
 
 
-    [SerializeField] LayerMask movingPlatformLayer;
-    //[SerializeField] Vector3 layOffset;
-
     //Refs
     private Collider2D col;
     private Rigidbody2D rb;
@@ -63,30 +60,21 @@ public class TransformMover : NetworkBehaviour
         float dist = col.bounds.extents.y + skin;
         int count = Physics2D.Raycast(col.bounds.center, Vector2.down, _filter, _hits, dist);
 
-        if (count > 0 && _hits[0].collider && _hits[0].collider.TryGetComponent(out MovingPlatform mp))
+        if (count > 0)
         {
-            if (_platform != mp)
+            if (_hits[0].collider.TryGetComponent(out MovingPlatform mp))
             {
-                _platform = mp;
-      
-                if (mp.TryGetComponent(out NetworkIdentity identity))
-                {
-                    Cmd_SetPlatform(identity.netId);
-                }
-             
+                rb.position += mp.dir;
+                return;
+            }
+            if(_hits[0].collider.TryGetComponent(out WDMP_Net wdmp))
+            {
+                rb.position +=  wdmp._c_dir * wdmp._c_curStep;
+                return;
             }
 
-            rb.position += mp.dir;
         }
-        else
-        {
-            if (_platform != null)
-            {
-                // 플랫폼에서 내려옴
-                _platform = null;
-                Cmd_SetPlatform(9999);
-            }
-        }
+
     }
 
     [Command(requiresAuthority = true)]

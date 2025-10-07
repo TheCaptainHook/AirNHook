@@ -81,9 +81,9 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     // ====== 클라이언트 전용 상태 ======
     private float _c_localsoluteTilt;
     private float _c_curMoveSpeed;
-    private float _c_curStep;
+    public float _c_curStep;
     private bool _c_didInterpThisFrame;
-    private Vector2 _c_dir;
+    public Vector2 _c_dir;
 
     struct Sample { public float tilt; public float tRec; public int tick; }
     Queue<Sample> _buf = new();
@@ -95,7 +95,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     private float _angVel;               // SmoothDampAngle 내부속도
 
 
-    private float tiltSpeed = 10;
+    private float tiltSpeed = 20;
 
 
     void FixedUpdate()
@@ -165,7 +165,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
         }
 
     }
-    //Right : -tilt, Left : +tilt
+    //Right : +tilt, Left : -tilt
     //==================Client
       private void UpdateDisplayedTilt(float target)
     {
@@ -178,11 +178,10 @@ public class WDMP_Net : ActivatableObject_Net_Entity
        Time.fixedUnscaledDeltaTime
    );
         _displayed = Mathf.Clamp(next, -maxRotate, maxRotate);
-
         // Move from displayed
         _c_curMoveSpeed = Mathf.Abs(_displayed) / maxRotate * data.moveSpeed;
         _c_dir = _displayed > 0 ? -Vector2.right : Vector2.right;
-        _c_curStep = _c_curMoveSpeed * _c_dir.x * Time.fixedUnscaledDeltaTime;
+        _c_curStep = _c_curMoveSpeed * Time.fixedUnscaledDeltaTime;
 
         Rb.rotation = _displayed;
     
@@ -205,7 +204,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
         //현재 프레임 스텝 
         _c_curMoveSpeed = Mathf.Abs(_displayed) / maxRotate * data.moveSpeed;
         _c_dir = _displayed > 0 ? -Vector2.right : Vector2.right;
-        _c_curStep = _c_curMoveSpeed * _c_dir.x * Time.fixedUnscaledDeltaTime;
+        _c_curStep = _c_curMoveSpeed * Time.fixedUnscaledDeltaTime;
         //예측 오프셋
         float speedPrev = Mathf.Abs(prevDisplayed) / maxRotate * data.moveSpeed;
         float avgSpeedDiff = (_c_curMoveSpeed - speedPrev) * 0.5f; // 속도 변화만 반영

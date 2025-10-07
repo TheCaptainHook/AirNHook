@@ -373,7 +373,6 @@ MonoBehaviour:
     position: {x: 0, y: 0}
     quaternion: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 0, y: 0, z: 0}
-    talPot: {x: 0, y: 0}
     size: {x: 0, y: 0}
     text: 
     fontSize: 0
@@ -384,6 +383,7 @@ MonoBehaviour:
     activeRequireAmount: 0
     onEncapsulationItem: 0
     indicator: 0
+    tutorialCode: 0
 --- !u!114 &5841928186188957514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -491,7 +491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5ab0e36dbc862945b9985f94fdf9533, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 0
+  syncDirection: 1
   syncMode: 0
   syncInterval: 0
   _wdmp_Net: {fileID: 0}
