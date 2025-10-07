@@ -68,105 +68,159 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     [SerializeField] Transform rightPoint;
 
 
-    private float curSendInterval = 0.05f;
+    
     [Header("Tilt Limits")]
     private float maxRotate = 70;
     private float sendInterval = 0.05f;      // 20Hz
-    private float sendThreshold = 0.5f;      // 최소 전송 변화량(도)
-
-    // public float weightResult = 0; //로컬
-    [Header("Client")]
-
-    Coroutine _tiltCoroutine;
+    private float _c_curSendInterval = 0.05f;
     // ====== 서버 전용 상태 ======
-    private float _serverTilt;    // 서버 권위 각도
-    private int _serverTick;
 
-    private float _lastSentTilt;
+    private int _s_serverTick;
+    private float _s_lastestRec;
 
     // ====== 클라이언트 전용 상태 ======
-    private float _localsoluteTilt;
-    private float _targetTilt;     // 현재 목표 각도(버퍼에서 뽑은 최신값)
+    private float _c_localsoluteTilt;
+    private float _c_curMoveSpeed;
+    private float _c_curStep;
+    private bool _c_didInterpThisFrame;
+    private Vector2 _c_dir;
 
-    struct Sample { public float tilt; public float tRecv; public int tick; }
+    struct Sample { public float tilt; public float tRec; public int tick; }
     Queue<Sample> _buf = new();
-    float _displayed;            // 화면에 표시 중인 각도
-    float _angVel;               // SmoothDampAngle 내부속도
-    int lastTick;
 
-
-    private float _playbackDelay = 0.10f; // 100ms 지연 재생(지터 흡수)
+    private float _displayed;            // 화면에 표시 중인 각도
     private float _smoothTime = 0.06f;
     private float _maxDegPerSec = 720f;
     private float _snapEps = 0.25f;
+    private float _angVel;               // SmoothDampAngle 내부속도
+
 
     private float tiltSpeed = 10;
 
 
     void FixedUpdate()
     {
+        _c_didInterpThisFrame = false;
         var counts = GetHitLeftAndRightCount();
 
         if (counts.leftHitCount > 0 || counts.rightHitCount > 0)
         {
             float delta = GetWeight(counts) * Time.fixedDeltaTime * tiltSpeed;
-            _localsoluteTilt = Mathf.Clamp(_localsoluteTilt + delta, -maxRotate, maxRotate);
-            curSendInterval += Time.fixedDeltaTime;
+            _c_localsoluteTilt = Mathf.Clamp(_c_localsoluteTilt + delta, -maxRotate, maxRotate);
+            _c_curSendInterval += Time.fixedDeltaTime;
 
-            // Rb.rotation = _localsoluteTilt;
-            ApplyRenderTilt(_localsoluteTilt);
+            UpdateDisplayedTilt(_c_localsoluteTilt);
 
-            if (curSendInterval >= sendInterval)
+            if (_c_curSendInterval >= sendInterval)
             {
-                curSendInterval = 0;
-                _lastSentTilt = _localsoluteTilt;
-                Cmd_SendMessage(_localsoluteTilt, Time.time);
+                _c_curSendInterval = 0;
+                Cmd_SendMessage(_c_localsoluteTilt, Time.time);
             }
 
         }
+        else      //Recover
+        {
+          
+        }
+
+        //Move Platform
+        if (!_c_didInterpThisFrame && Mathf.Abs(_c_curStep) > 0)
+        {
+            var target = Rb.position + _c_dir * _c_curStep;
+            target.x = Mathf.Clamp(target.x, minDis_Clamp, maxDis_Clamp);
+
+            Rb.position = target;
+        }
+        //Move Platform
 
     }
 
-    [Command]
+    [Command(channel = Channels.Unreliable)]
     private void Cmd_SendMessage(float tilt, float tRec)
     {
-        if (_buf.Count > 0)
+        if (_s_lastestRec < tRec)
         {
-            var a = _buf.Dequeue();
-            if (a.tRecv < tRec)
-            {
-                _buf.Enqueue(new Sample { tilt = tilt, tRecv = tRec, tick = ++_serverTick });
+            _s_lastestRec = tRec;
+            _buf.Enqueue(new Sample { tilt = tilt, tRec = tRec, tick = ++_s_serverTick });
+        }       
+        
+        if (_buf.Count >= 8) _buf.Dequeue();
+    }
 
-            }
-            else
-            {
-                _buf.Enqueue(new Sample { tilt = a.tilt, tRecv = tRec, tick = ++_serverTick });
-
-            }
-
+    [ClientRpc(channel = Channels.Unreliable)]
+    private void Rpc_SetTilt(float tilt, float tRec)
+    {
+        //1. _c_localsoluteTilt 랑 tilt 비교
+        if (Mathf.Abs(Mathf.DeltaAngle(_c_localsoluteTilt, tilt)) > _snapEps)
+        {
+            _c_didInterpThisFrame = true;
+            ApplyInterpolation(tilt, tRec);
+            return;
         }
         else
         {
-              _buf.Enqueue(new Sample { tilt = tilt, tRecv = tRec, tick = ++_serverTick });
+            _c_didInterpThisFrame = true;
+            _c_localsoluteTilt = tilt;
+            Rb.rotation = tilt;
         }
-        
+
     }
-    //각 클라이언트 먼저 움직이고 cmd->서버에서 움직인값 rpc->서버의 값을 사용해 보정
-    //각 클라에서 cmd 보내면, 연결된 클라수 만큼 cmd 를 보내는데, 각 클라에서 받은 cmd 값을 서버에서 최신값으로 rpc 해서 각 클라는 해당 값으로 보정하게끔
-
-    [ClientRpc(channel = Channels.Unreliable)]
-    private void Rpc_SetTilt(float tilt)
+    //Right : -tilt, Left : +tilt
+    //==================Client
+      private void UpdateDisplayedTilt(float target)
     {
-        
-    }
-
-
-    void ApplyRenderTilt(float target)
-    {
-        float next = Mathf.MoveTowardsAngle(Rb.rotation, target, Time.deltaTime * tiltSpeed);
+        float next = Mathf.SmoothDampAngle(
+       _displayed,               // 현재 표시각을 기준으로
+       target,                   // 목표(로컬/네트워크 모두 여기로 수렴)
+       ref _angVel,
+       _smoothTime,
+       _maxDegPerSec,
+       Time.fixedUnscaledDeltaTime
+   );
         _displayed = Mathf.Clamp(next, -maxRotate, maxRotate);
-        Rb.rotation = _displayed; // 원격 클라: 렌더 전용, 물리는 서버 전담
+
+        // Move from displayed
+        _c_curMoveSpeed = Mathf.Abs(_displayed) / maxRotate * data.moveSpeed;
+        _c_dir = _displayed > 0 ? -Vector2.right : Vector2.right;
+        _c_curStep = _c_curMoveSpeed * _c_dir.x * Time.fixedUnscaledDeltaTime;
+
+        Rb.rotation = _displayed;
+    
     }
+    private float kPredPos = 0.6f; // 0.5~0.8 사이로 튜닝
+
+    private void ApplyInterpolation(float target, float tRect)
+    {
+        //Tilt interpolation
+        float delay = Mathf.Min(Time.unscaledTime - tRect, 0.18f);
+        float predicatedTarget = target + _angVel * delay * 0.7f;
+
+        float prevDisplayed = _displayed;
+
+        float next = Mathf.SmoothDampAngle(_displayed, predicatedTarget, ref _angVel, _smoothTime, _maxDegPerSec, Time.fixedUnscaledDeltaTime);
+        _displayed = Mathf.Clamp(next, -maxRotate, maxRotate);
+        Rb.rotation = _displayed;
+        //Tilt interpolation
+        //Move interpolation
+        //현재 프레임 스텝 
+        _c_curMoveSpeed = Mathf.Abs(_displayed) / maxRotate * data.moveSpeed;
+        _c_dir = _displayed > 0 ? -Vector2.right : Vector2.right;
+        _c_curStep = _c_curMoveSpeed * _c_dir.x * Time.fixedUnscaledDeltaTime;
+        //예측 오프셋
+        float speedPrev = Mathf.Abs(prevDisplayed) / maxRotate * data.moveSpeed;
+        float avgSpeedDiff = (_c_curMoveSpeed - speedPrev) * 0.5f; // 속도 변화만 반영
+        float predictedMoveOffset = avgSpeedDiff * delay * _c_dir.x * kPredPos;
+
+        var pos = Rb.position;
+        pos.x = Mathf.Clamp(pos.x + predictedMoveOffset, minDis_Clamp, maxDis_Clamp);
+
+        Rb.position = pos;
+
+        //Move interpolation
+
+    }
+    //==================Client
+
 
     [ServerCallback]
     void Update()
@@ -178,9 +232,10 @@ public class WDMP_Net : ActivatableObject_Net_Entity
         while (_buf.Count > 0)
         {
             var term = _buf.Dequeue();
-            if (term.tRecv > sample.tRecv) sample = term;
+            if (term.tRec > sample.tRec) sample = term;
         }
-        Rpc_SetTilt(sample.tilt);
+
+        Rpc_SetTilt(sample.tilt,sample.tRec);
     }
 
 
