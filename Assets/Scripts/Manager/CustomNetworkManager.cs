@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
@@ -167,7 +168,6 @@ public class CustomNetworkManager : NetworkManager
         //UI_Option,Enable -> PingCheck, disable Stop Check.
         //TEST 250310 Ping Check
     }
-
     // 로딩 UI 구현을 위한 override
     public override void ClientChangeScene(string newSceneName, SceneOperation sceneOperation = SceneOperation.Normal, bool customHandling = false)
     {
@@ -177,7 +177,7 @@ public class CustomNetworkManager : NetworkManager
             Debug.LogError("ClientChangeScene empty scene name");
             return;
         }
-        
+
         OnClientChangeScene(newSceneName, sceneOperation, customHandling);
 
         if (NetworkServer.active)
@@ -189,10 +189,10 @@ public class CustomNetworkManager : NetworkManager
 
         if (customHandling)
             return;
-        
+
         // 로딩 UI표기. LoadSceneAsync는 로딩 UI에서 progress bar와 동기화를 위해 로딩 UI의 LoadScene에서 구현.
         Managers.UI.ShowLoadingUI(newSceneName);
-        
+
         networkSceneName = newSceneName;
     }
     

@@ -29,12 +29,6 @@ public class PlayerCameraView : MonoBehaviour
     private Transform Player
     {
         get {
-            //try{
-            //    return Managers.Game.Player?.transform; 
-            //}catch(MissingReferenceException ex){
-            //    Debug.Log(ex);
-            //    return null;
-            //}
             if (Managers.Game.Player == null)
             {
                 return null;
@@ -105,18 +99,6 @@ public class PlayerCameraView : MonoBehaviour
         mainCamera.orthographicSize = _MinZoom;
     }
 
-    // private bool CheckTwoPlayer(){
-    //     if(Player != null && OtherPlayer != null){
-    //       return true;      
-    //     } 
-    //     return false;
-    // }
-
-
-    // private void Update(){
-       
-	
-    // }
     private float scroll;
     public bool onChangeModeDefaultFromWide;
     private Coroutine smoothZoomToDefaultCo;
@@ -286,21 +268,23 @@ public class PlayerCameraView : MonoBehaviour
     #region Util
     
     private float zoomInOutSpeed = 1;
-     private void InGameZoomInAndOut(float scroll)
+    private void InGameZoomInAndOut(float scroll)
     {
+        var sm = Player.TryGetComponent(out PlayerSM psm) ? psm : null;
+
+        if (sm == null) return;
+        if (!sm.canAction) return;
+
         _Zoom = Math.Min(mainCamera.orthographicSize, _MaxZoom) + scroll*zoomInOutSpeed;
         _Zoom = Mathf.Clamp(_Zoom, _MinZoom, _MaxZoom);
 
-        // mainCamera.orthographicSize = Mathf.SmoothDamp(mainCamera.orthographicSize, _Zoom, ref _floatVelocity, 0.1f, float.MaxValue, Time.deltaTime);
         mainCamera.orthographicSize = _Zoom;
-        // mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize,_Zoom,);
 
         if (Mathf.Abs(mainCamera.orthographicSize - _MaxZoom) < tolerance)
         {
             mainCamera.orthographicSize = _MaxZoom;
         }
 
-        // Debug.Log($"os : {mainCamera.orthographicSize}, _floatVel : {_floatVelocity}");
         
     }
 

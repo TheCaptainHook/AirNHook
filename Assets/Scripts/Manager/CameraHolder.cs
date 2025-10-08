@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraHolder : MonoBehaviour
 {
-    public static CameraHolder Instance { get; private set;}
+    public static CameraHolder Instance { get; private set; }
 
     private void Awake()
     {
@@ -13,15 +13,14 @@ public class CameraHolder : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-            
+
         Instance = this;
     }
 
 
 
-    
-    [SerializeField] Camera StageSelectViewCamera;
 
+    [SerializeField] Camera StageSelectViewCamera;
     public Camera StageSelectCamera()
     {
         StageSelectViewCamera.gameObject.SetActive(true);
@@ -31,4 +30,5 @@ public class CameraHolder : MonoBehaviour
     {
         StageSelectViewCamera.gameObject.SetActive(false);
     }
+
 }

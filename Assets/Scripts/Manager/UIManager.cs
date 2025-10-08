@@ -198,8 +198,7 @@ public class UIManager
         ShowUI<UI_CursorColorPicker>();
         HideUI<UI_CursorColorPicker>();
 
-        ShowUI<UI_MapOpenClosePanel>();
-        HideUI<UI_MapOpenClosePanel>();
-
+        // ShowUI<UI_MapOpenClosePanel>();
+        // HideUI<UI_MapOpenClosePanel>();
     }
 }

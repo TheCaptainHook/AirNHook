@@ -466,16 +466,16 @@ public class MapSaveData
 [Serializable]
 public class PlayerSaveData
 {
-    //public int totalDeath;
-    //public int TotalDeath { get { return totalDeath; } }
     public List<string> clearMapId;
     public int curStageLevel;
     //클리어한 맵들
 
     //State
     public bool _IstutorialClear;
-
     public int collectableAmount;
+
+    //CutScene
+    public bool _cutScene_Page_1;
 
     public PlayerSaveData()
     {
@@ -486,17 +486,20 @@ public class PlayerSaveData
         _IstutorialClear = false;
 
         collectableAmount = 0;
+        _cutScene_Page_1 = false;
     }
 
-    public void UpdateClearData(string clearMapId){
-
-        if(!this.clearMapId.Contains(clearMapId))
-        this.clearMapId.Add(clearMapId);
+    public void UpdateClearData(string clearMapId)
+    {
+        if (!this.clearMapId.Contains(clearMapId))
+            this.clearMapId.Add(clearMapId);
     }
 
-        public void AddCollectable(){
-            collectableAmount++;
-        }
+    public void AddCollectable()
+    {
+        collectableAmount++;
+    }
+        
 }
 
 
