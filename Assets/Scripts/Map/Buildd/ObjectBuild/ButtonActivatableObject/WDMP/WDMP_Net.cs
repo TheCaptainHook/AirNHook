@@ -17,19 +17,19 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     Coroutine recoveryPositionCoroutine;
     private bool onRecoverPosition;
     //Recovery Tilt
-    private float recoveryTiltRate = 2;
+    // private float recoveryTiltRate = 2;
     [ReadOnly]
     public float curRecoveryTiltRate;
     Coroutine recoveryTiltCoroutine;
-    private bool onRecoverTilt;
+    // private bool onRecoverTilt;
 
 
     private (int leftCount, int rightCount) leftAndRightCounts;
 
-    private float sendMsgRate = 0.1f;
-    private float curSendMsgRate = 1;
+    // private float sendMsgRate = 0.1f;
+    // private float curSendMsgRate = 1;
 
-    public float CurRotation => Rb.rotation;
+    // public float CurRotation => Rb.rotation;
     // private void Update()
     // {
     //     if (onActive)
@@ -71,102 +71,224 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     
     [Header("Tilt Limits")]
     private float maxRotate = 70;
-    private float sendInterval = 0.05f;      // 20Hz
-    private float _c_curSendInterval = 0.05f;
+    // private float sendInterval = 0.05f;      // 20Hz
+    // private float _c_curSendInterval = 0.05f;
     // ====== 서버 전용 상태 ======
 
-    private int _s_serverTick;
-    private float _s_lastestRec;
+    // private int _s_serverTick;
+    // private float _s_lastestRec;
 
     // ====== 클라이언트 전용 상태 ======
     private float _c_localsoluteTilt;
     private float _c_curMoveSpeed;
     public float _c_curStep;
-    private bool _c_didInterpThisFrame;
+    // private bool _c_didInterpThisFrame;
     public Vector2 _c_dir;
-
-    struct Sample { public float tilt; public float tRec; public int tick; }
-    Queue<Sample> _buf = new();
 
     private float _displayed;            // 화면에 표시 중인 각도
     private float _smoothTime = 0.06f;
     private float _maxDegPerSec = 720f;
-    private float _snapEps = 0.25f;
+    // private float _snapEps = 0.25f;
     private float _angVel;               // SmoothDampAngle 내부속도
-
 
     private float tiltSpeed = 20;
 
 
+    //Recover
+    private float _recover_tilt_rate = 0.1f;
+    private float _cur_recover_tilt_rate = 0;
+
+    private enum TiltState
+    {
+        Tilting,         // 기울이는 중
+        RecoveringTilt,  // 기울기 복귀 중
+        RecoveringPos,    // 위치 복귀 중
+        Idle
+    }
+    private TiltState _state = TiltState.RecoveringPos;
+
     void FixedUpdate()
     {
-        _c_didInterpThisFrame = false;
         var counts = GetHitLeftAndRightCount();
+        bool hasHit = counts.leftHitCount > 0 || counts.rightHitCount > 0;
 
-        if (counts.leftHitCount > 0 || counts.rightHitCount > 0)
+        switch (_state)
         {
-            float delta = GetWeight(counts) * Time.fixedDeltaTime * tiltSpeed;
-            _c_localsoluteTilt = Mathf.Clamp(_c_localsoluteTilt + delta, -maxRotate, maxRotate);
-            _c_curSendInterval += Time.fixedDeltaTime;
+            // ---------------------------
+            // 기울이는 중
+            // ---------------------------
+            case TiltState.Tilting:
+                if (hasHit)
+                {
+                    _cur_recover_tilt_rate = 0f;
+                    float delta = GetWeight(counts) * Time.fixedDeltaTime * tiltSpeed;
+                    _c_localsoluteTilt = Mathf.Clamp(_c_localsoluteTilt + delta, -maxRotate, maxRotate);
+                    UpdateDisplayedTilt(_c_localsoluteTilt);
+                }
+                else
+                {
+                    _cur_recover_tilt_rate = 0f;
+                    _state = TiltState.RecoveringTilt;
+                    Ani_ShutDown();
+                }
+                break;
 
-            UpdateDisplayedTilt(_c_localsoluteTilt);
+            // ---------------------------
+            // 기울기 복귀 중
+            // ---------------------------
+            case TiltState.RecoveringTilt:
+                if (hasHit)
+                {
+                    _angVel = 0f;
+                    _cur_recover_tilt_rate = 0f;
+                    _state = TiltState.Tilting;
+                    break;
+                }
 
-            // if (_c_curSendInterval >= sendInterval)
-            // {
-            //     _c_curSendInterval = 0;
-            //     Cmd_SendMessage(_c_localsoluteTilt, Time.time);
-            // }
+                _cur_recover_tilt_rate += Time.fixedDeltaTime;
+                if (_cur_recover_tilt_rate >= _recover_tilt_rate)
+                {
 
+                    float next = Mathf.Abs(_c_localsoluteTilt) != 0 ? Mathf.MoveTowardsAngle(_c_localsoluteTilt, 0f, Time.fixedDeltaTime * 50f) : 0f;
+                    _c_localsoluteTilt = next;
+                     UpdateDisplayedTilt(_c_localsoluteTilt);
+ 
+                    if (Mathf.Abs(_c_localsoluteTilt) < 0.01f)
+                    {
+                        _angVel = 0f;
+                        _c_localsoluteTilt = 0f;
+                        _displayed = 0f;
+                        Rb.rotation = 0f;
+                        _state = TiltState.RecoveringPos;
+                    }
+                }
+                break;
+
+            // ---------------------------
+            // 위치 복귀 중
+            // ---------------------------
+            case TiltState.RecoveringPos:
+                if (hasHit)
+                {
+                    _angVel = 0f;
+                    _cur_recover_tilt_rate = 0f;
+                    _state = TiltState.Tilting;
+                    break;
+                }
+
+                Vector2 curPos = Rb.position;
+                Vector2 nextPos = Vector2.MoveTowards(curPos, data.position, Time.fixedDeltaTime * data.moveSpeed);
+
+                if ((nextPos - data.position).sqrMagnitude < 0.00001f)
+                {
+                    nextPos = data.position;
+                    _state = TiltState.Idle;
+                }
+
+                Rb.position = nextPos;
+
+                break;
+            case TiltState.Idle:
+                if (hasHit)
+                {
+                    _angVel = 0f;
+                    _cur_recover_tilt_rate = 0f;
+                    _state = TiltState.Tilting;
+                    break;
+                }
+
+                break;
         }
-        else      //Recover
-        {
-          
-        }
 
-        //Move Platform
-        if ( Mathf.Abs(_c_curStep) > 0)
+        if (_state == TiltState.Tilting && Mathf.Abs(_c_curStep) > 0f)
         {
-            var target = Rb.position + _c_dir * _c_curStep;
+            Vector2 target = Rb.position + _c_dir * _c_curStep;
             target.x = Mathf.Clamp(target.x, minDis_Clamp, maxDis_Clamp);
             Rb.position = target;
         }
-        //Move Platform
-
     }
 
-    [Command(channel = Channels.Unreliable)]
-    private void Cmd_SendMessage(float tilt, float tRec)
-    {
-        if (_s_lastestRec < tRec)
-        {
-            _s_lastestRec = tRec;
-            _buf.Enqueue(new Sample { tilt = tilt, tRec = tRec, tick = ++_s_serverTick });
-        }       
-        
-        if (_buf.Count >= 8) _buf.Dequeue();
-    }
+    //Recover
 
-    [ClientRpc(channel = Channels.Unreliable)]
-    private void Rpc_SetTilt(float tilt, float tRec)
-    {
-        //1. _c_localsoluteTilt 랑 tilt 비교
-        if (Mathf.Abs(Mathf.DeltaAngle(_c_localsoluteTilt, tilt)) > _snapEps)
-        {
-            _c_didInterpThisFrame = true;
-            ApplyInterpolation(tilt, tRec);
-            return;
-        }
-        else
-        {
-            _c_didInterpThisFrame = true;
-            _c_localsoluteTilt = tilt;
-            Rb.rotation = tilt;
-        }
+    // void FixedUpdate()
+    // {
+    //     // _c_didInterpThisFrame = false;
+    //     var counts = GetHitLeftAndRightCount();
+    //     if (counts.leftHitCount > 0 || counts.rightHitCount > 0)
+    //     {
+    //         _onRecover_position = false;
+    //         _onRecover_complete = false;
+    //         _cur_recover_tilt_rate = 0;
+    //         _angVel = 0f;
 
-    }
+    //         float delta = GetWeight(counts) * Time.fixedDeltaTime * tiltSpeed;
+    //         _c_localsoluteTilt = Mathf.Clamp(_c_localsoluteTilt + delta, -maxRotate, maxRotate);
+    //         // _c_curSendInterval += Time.fixedDeltaTime;
+
+    //         UpdateDisplayedTilt(_c_localsoluteTilt);
+    //     }
+    //     else      //Recover
+    //     {
+    //         if (_onRecover_complete) return;
+
+    //         // ===== 복구 상태 =====
+    //         _cur_recover_tilt_rate += Time.fixedDeltaTime;
+    //         if (!_onRecover_position)
+    //         {
+    //             if (_cur_recover_tilt_rate >= _recover_tilt_rate)
+    //             {
+    //                 Ani_ShutDown();
+
+    //                 // // --- 회전 복귀 ---
+    //                 float next = Mathf.MoveTowardsAngle(Rb.rotation, 0f, Time.fixedDeltaTime * 50f);
+    //                 _displayed = next;
+    //                 Rb.rotation = next;
+    //                 // Rb.rotation = _c_localsoluteTilt;
+    //                 // UpdateDisplayedTilt(0);
+
+    //                 if (Mathf.Abs(next) < 0.01f)
+    //                 {
+    //                     _onRecover_position = true;
+    //                     _angVel = 0f;
+    //                     _displayed = 0f;
+    //                     _c_localsoluteTilt = 0f;
+    //                     Rb.rotation = 0f;
+    //                 }
+    //             }
+    //         }
+
+    //         // --- 위치 복귀 ---
+    //         if (_onRecover_position)
+    //         {
+    //             Vector2 curPos = Rb.position;
+    //             Vector2 nextPos = Vector2.MoveTowards(curPos, data.position, Time.fixedDeltaTime * data.moveSpeed);
+
+    //             if ((nextPos - data.position).sqrMagnitude < 0.00001f)
+    //             {
+    //                 nextPos = data.position;
+    //                 _onRecover_complete = true;
+    //             }
+
+    //             Rb.position = nextPos;
+    //         }
+
+    //     }
+
+    //     //Move Platform
+    //     if (Mathf.Abs(_c_curStep) > 0 && !_onRecover_position)
+    //     {
+    //         var target = Rb.position + _c_dir * _c_curStep;
+    //         target.x = Mathf.Clamp(target.x, minDis_Clamp, maxDis_Clamp);
+    //         Rb.position = target;
+    //     }
+    //     //Move Platform
+
+    // }
+
+
     //Right : +tilt, Left : -tilt
     //==================Client
-      private void UpdateDisplayedTilt(float target)
+    private void UpdateDisplayedTilt(float target)
     {
         float next = Mathf.SmoothDampAngle(
        _displayed,               // 현재 표시각을 기준으로
@@ -175,48 +297,49 @@ public class WDMP_Net : ActivatableObject_Net_Entity
        _smoothTime,
        _maxDegPerSec,
        Time.fixedUnscaledDeltaTime
-   );
+     );
         _displayed = Mathf.Clamp(next, -maxRotate, maxRotate);
         // Move from displayed
         _c_curMoveSpeed = Mathf.Abs(_displayed) / maxRotate * data.moveSpeed;
         _c_dir = _displayed > 0 ? -Vector2.right : Vector2.right;
-        _c_curStep = _c_curMoveSpeed * Time.fixedUnscaledDeltaTime;
 
+        _c_curStep = _c_curMoveSpeed * Time.fixedUnscaledDeltaTime;
         Rb.rotation = _displayed;
+
+    }
     
-    }
-    private float kPredPos = 0.6f; // 0.5~0.8 사이로 튜닝
+    // private float kPredPos = 0.6f; // 0.5~0.8 사이로 튜닝
 
-    private void ApplyInterpolation(float target, float tRect)
-    {
-        //Tilt interpolation
-        float delay = Mathf.Min(Time.unscaledTime - tRect, 0.18f);
-        float predicatedTarget = target + _angVel * delay * 0.7f;
+    // private void ApplyInterpolation(float target, float tRect)
+    // {
+    //     //Tilt interpolation
+    //     float delay = Mathf.Min(Time.unscaledTime - tRect, 0.18f);
+    //     float predicatedTarget = target + _angVel * delay * 0.7f;
 
-        float prevDisplayed = _displayed;
+    //     float prevDisplayed = _displayed;
 
-        float next = Mathf.SmoothDampAngle(_displayed, predicatedTarget, ref _angVel, _smoothTime, _maxDegPerSec, Time.fixedUnscaledDeltaTime);
-        _displayed = Mathf.Clamp(next, -maxRotate, maxRotate);
-        Rb.rotation = _displayed;
-        //Tilt interpolation
-        //Move interpolation
-        //현재 프레임 스텝 
-        _c_curMoveSpeed = Mathf.Abs(_displayed) / maxRotate * data.moveSpeed;
-        _c_dir = _displayed > 0 ? -Vector2.right : Vector2.right;
-        _c_curStep = _c_curMoveSpeed * Time.fixedUnscaledDeltaTime;
-        //예측 오프셋
-        float speedPrev = Mathf.Abs(prevDisplayed) / maxRotate * data.moveSpeed;
-        float avgSpeedDiff = (_c_curMoveSpeed - speedPrev) * 0.5f; // 속도 변화만 반영
-        float predictedMoveOffset = avgSpeedDiff * delay * _c_dir.x * kPredPos;
+    //     float next = Mathf.SmoothDampAngle(_displayed, predicatedTarget, ref _angVel, _smoothTime, _maxDegPerSec, Time.fixedUnscaledDeltaTime);
+    //     _displayed = Mathf.Clamp(next, -maxRotate, maxRotate);
+    //     Rb.rotation = _displayed;
+    //     //Tilt interpolation
+    //     //Move interpolation
+    //     //현재 프레임 스텝 
+    //     _c_curMoveSpeed = Mathf.Abs(_displayed) / maxRotate * data.moveSpeed;
+    //     _c_dir = _displayed > 0 ? -Vector2.right : Vector2.right;
+    //     _c_curStep = _c_curMoveSpeed * Time.fixedUnscaledDeltaTime;
+    //     //예측 오프셋
+    //     float speedPrev = Mathf.Abs(prevDisplayed) / maxRotate * data.moveSpeed;
+    //     float avgSpeedDiff = (_c_curMoveSpeed - speedPrev) * 0.5f; // 속도 변화만 반영
+    //     float predictedMoveOffset = avgSpeedDiff * delay * _c_dir.x * kPredPos;
 
-        var pos = Rb.position;
-        pos.x = Mathf.Clamp(pos.x + predictedMoveOffset, minDis_Clamp, maxDis_Clamp);
+    //     var pos = Rb.position;
+    //     pos.x = Mathf.Clamp(pos.x + predictedMoveOffset, minDis_Clamp, maxDis_Clamp);
 
-        Rb.position = pos;
+    //     Rb.position = pos;
 
-        //Move interpolation
+    //     //Move interpolation
 
-    }
+    // }
     //==================Client
 
 
@@ -297,27 +420,27 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     //--------------------------------------------------------------------------------------------------------------Refactoring 1003
 
 
-    public void Server_MainLogic((int leftCount, int rightCount) leftAndRightCounts)     //------------------[Server]
-    {
-        // curRecoveryPositionRate = 0;
-        // curRecoveryTiltRate = 0;
+    // public void Server_MainLogic((int leftCount, int rightCount) leftAndRightCounts)     //------------------[Server]
+    // {
+    //     // curRecoveryPositionRate = 0;
+    //     // curRecoveryTiltRate = 0;
 
-        // curSendMsgRate += Time.deltaTime;
-        // weightResult += GetWeight(leftAndRightCounts);
-        // weightResult = Mathf.Clamp(weightResult, -maxRotate, maxRotate);
+    //     // curSendMsgRate += Time.deltaTime;
+    //     // weightResult += GetWeight(leftAndRightCounts);
+    //     // weightResult = Mathf.Clamp(weightResult, -maxRotate, maxRotate);
 
-        // SendWeight(weightResult, Rb.rotation, transform.position);
+    //     // SendWeight(weightResult, Rb.rotation, transform.position);
 
 
-        // if (curSendMsgRate > sendMsgRate)
-        // {
-        //     SendWeight(weightResult, Rb.rotation, transform.position);
-        //     curSendMsgRate = 0;
-        //     weightResult = 0;
-        // }
-    }
+    //     // if (curSendMsgRate > sendMsgRate)
+    //     // {
+    //     //     SendWeight(weightResult, Rb.rotation, transform.position);
+    //     //     curSendMsgRate = 0;
+    //     //     weightResult = 0;
+    //     // }
+    // }
 
- 
+
     // Coroutine tiltMoveCoroutine;
 
     // [ReadOnly]
@@ -337,7 +460,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     // private void SendWeight(float weight, float curRot, Vector2 position)
     // {
     //     _tilt = GetTargetTilt(weight);
- 
+
     // }
     // private void Hook_Tilt(float oldValue,float newValue)
     // {
@@ -346,8 +469,8 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     // }
 
 
-    [ReadOnly]
-    public float tiltRate;
+    // [ReadOnly]
+    // public float tiltRate;
 
     // IEnumerator TiltCo()
     // {
@@ -363,7 +486,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     //     Rb.rotation = targetTilt;
     //     tiltCoroutine = null;
     // }
- 
+
     // IEnumerator TiltMoveCo()
     // {
     //     while (Mathf.Abs(Rb.rotation) >0)
@@ -375,7 +498,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
 
     //         yield return null;
     //     }
-        
+
     //     tiltMoveCoroutine = null; 
     // }
 
@@ -397,13 +520,13 @@ public class WDMP_Net : ActivatableObject_Net_Entity
 
     // }
 
-  
+
 
 
     #region  Get Hit Left And Right Count (All Client)
 
-    
-    
+
+
     // private float weight;
 
 
@@ -452,21 +575,21 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     //     transform.position = startPosition;
     //     recoveryPositionCoroutine = StartCoroutine(RecoverPosition_Co());
     // }
-    IEnumerator RecoverPosition_Co()
-    {
-        Vector2 dir = ((Vector3)data.position - transform.position).normalized;
+    // IEnumerator RecoverPosition_Co()
+    // {
+    //     Vector2 dir = ((Vector3)data.position - transform.position).normalized;
 
-        while (!Compare(transform.position, data.position))
-        {
-            transform.position += (Vector3)(dir * data.moveSpeed * Time.fixedDeltaTime);
-            yield return null;
-        }
+    //     while (!Compare(transform.position, data.position))
+    //     {
+    //         transform.position += (Vector3)(dir * data.moveSpeed * Time.fixedDeltaTime);
+    //         yield return null;
+    //     }
 
-        curRecoveryPositionRate = 0;
-        recoveryPositionCoroutine = null;
-        transform.position = data.position;
-        onRecoverPosition = false;
-    }
+    //     curRecoveryPositionRate = 0;
+    //     recoveryPositionCoroutine = null;
+    //     transform.position = data.position;
+    //     onRecoverPosition = false;
+    // }
 
     #endregion
     #region  Tilt
@@ -489,20 +612,20 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     //     Ani_ShutDown();
     //     Rb.rotation = curRot;
     //     recoveryTiltCoroutine = StartCoroutine(RecoverTilt_Co());
-    // }
-    IEnumerator RecoverTilt_Co()
-    {
-        while (Mathf.Abs(Rb.rotation) > 0)
-        {
-            Rb.rotation = Mathf.Lerp(Rb.rotation, 0, Time.fixedDeltaTime);
-            if (Mathf.Abs(Rb.rotation) < 0.9f) Rb.rotation = 0;
-            yield return null;
-        }
+    // // }
+    // IEnumerator RecoverTilt_Co()
+    // {
+    //     while (Mathf.Abs(Rb.rotation) > 0)
+    //     {
+    //         Rb.rotation = Mathf.Lerp(Rb.rotation, 0, Time.fixedDeltaTime);
+    //         if (Mathf.Abs(Rb.rotation) < 0.9f) Rb.rotation = 0;
+    //         yield return null;
+    //     }
 
-        recoveryTiltCoroutine = null;
-        curRecoveryTiltRate = 0;
-        onRecoverTilt = false;
-    }
+    //     recoveryTiltCoroutine = null;
+    //     curRecoveryTiltRate = 0;
+    //     onRecoverTilt = false;
+    // }
     #endregion
 
     private void CancelRecover()
@@ -519,7 +642,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
             curRecoveryTiltRate = 0;
             StopCoroutine(recoveryTiltCoroutine);
             recoveryTiltCoroutine = null;
-            onRecoverTilt = false;
+            // onRecoverTilt = false;
         }
     }
    
@@ -595,6 +718,20 @@ public class WDMP_Net : ActivatableObject_Net_Entity
         {
             rw += Weight(rightHitBuffer[i]);
         }
+        
+        if (lw > rw)
+        {
+            Ani_Left();
+        }
+        else if (rw > lw)
+        {
+            Ani_Right();
+        }
+        else
+        {
+            Ani_ShutDown();
+        }
+
         return lw - rw;
     }
     
