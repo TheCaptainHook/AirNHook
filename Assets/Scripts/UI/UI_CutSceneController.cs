@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public enum CutScenePageName
 {
     Page_1,
+    Page_2
 
 }
 public class UI_CutSceneController : UI_Base
@@ -86,12 +87,12 @@ public class UI_CutSceneController : UI_Base
 
     void Update()
     {
-        // //TEST
-        // if (Input.GetKeyDown(KeyCode.Q))
-        // {
-        //     StartCutScene(CutScenePageName.Page_1);
-        // }
-        // //TEST
+        //TEST
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            StartCutScene(CutScenePageName.Page_2);
+        }
+        //TEST
 
         //Skip loading bar
         if (_getKeyEscape)
