@@ -40,7 +40,7 @@ public class UI_CutSceneController : UI_Base
     [SerializeField] GameObject _arrow;
     #endregion
 
-
+    private readonly int Open = Animator.StringToHash("Open");
 
     public override void OnEnable()
     {
@@ -50,13 +50,18 @@ public class UI_CutSceneController : UI_Base
 
     protected override void CloseUI()
     {
+        StartCoroutine(CloseCo());
+    }
+    private IEnumerator CloseCo()
+    {
+        yield return new WaitForSeconds(0.5f);
         _onSkip = false;
         _isWriteTmp = false;
         Player_Resume();
 
         base.CloseUI();
+        
     }
-
 
     private CutScenePageName _curCutScenePageName;
     Dictionary<CutScenePageName, (bool onInit, List<CutSceneTmpEntity> list)> _cutScenePageTmpDic;
@@ -72,6 +77,7 @@ public class UI_CutSceneController : UI_Base
             _cutScenePageTmpDic[name] = value;
         }
         _curCutScenePageName = name;
+        Animator.SetTrigger(Open);
         Animator.SetTrigger(Animator.StringToHash(name.ToString()));
     }
 
@@ -90,7 +96,7 @@ public class UI_CutSceneController : UI_Base
         //TEST
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            StartCutScene(CutScenePageName.Page_2);
+            StartCutScene(CutScenePageName.Page_1);
         }
         //TEST
 
@@ -244,6 +250,32 @@ public class UI_CutSceneController : UI_Base
 
         _curDealy = 0;
         Animator.speed = 1;
+    }
+    private void Animation_NextPage()
+    {
+        Animator.speed = 0;
+        StartCoroutine(Animation_NextPageCo());
+    }
+    private IEnumerator Animation_NextPageCo()
+    {
+        yield return new WaitUntil(() => !_isWriteTmp);
+        if (!_arrow.activeSelf) _arrow.SetActive(true);
+
+        while (!PlayerInput.cutSceneActions.Next.triggered)
+        {
+            _curDealy += Time.deltaTime;
+            if (_curDealy >= _maxDelay)
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        _arrow.SetActive(false);
+
+        _curDealy = 0;
+        Animator.speed = 1;
+        Animator.SetTrigger("NextPage");
     }
     #endregion
 

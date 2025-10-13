@@ -3353,7 +3353,7 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 4.0833335
-    functionName: Animation_Pause_PageEnd
+    functionName: Animation_NextPage
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
