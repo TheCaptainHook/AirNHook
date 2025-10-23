@@ -231,7 +231,7 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     {
         Col.enabled = true;
         Rb.gravityScale = _gravityScale;
-
+        
         BuildObj.canRespawn = true;
         if (NetworkServer.active)
             CmdChnageDestroyState(false);
