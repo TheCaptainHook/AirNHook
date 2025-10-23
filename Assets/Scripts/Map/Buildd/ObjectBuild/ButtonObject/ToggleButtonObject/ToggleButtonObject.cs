@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using Mirror;
 
 
 public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
@@ -62,14 +63,26 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
     public Vector2 GetTransformPosition(){
         return transform.position;
     }
-#endregion
-    
-    
-    private void Awake(){
+    #endregion
+
+
+    private void Awake()
+    {
         animator = GetComponent<Animator>();
     }
 
     #region Get,Set
+    #region  Clean
+    public override void Clean()
+    {
+        ToggleButton_Net.onSync = false;
+        onActive = false;
+        if(NetworkServer.active)
+        {
+            ToggleButton_Net.Server_Clean();
+        }
+    }
+    #endregion
 
     public override void SetData<T>(T data)
     {

@@ -1,4 +1,5 @@
 using Mirror;
+using Org.BouncyCastle.Crypto.Engines;
 using System.Collections;
 using UnityEngine;
 
@@ -11,16 +12,15 @@ public class ToggleButton_Net : NetworkBehaviour
     {
         get
         {
-            if(toggle == null)toggle = GetComponent<ToggleButtonObject>();
+            if (toggle == null) toggle = GetComponent<ToggleButtonObject>();
             return toggle;
         }
     }
 
-    [SyncVar(hook = nameof(OnStateChanged))]
+    // [SyncVar(hook = nameof(OnStateChanged))]
     public bool isActive;
 
-
-    [SyncVar(hook = nameof(onChangeChargeRequired))] 
+    [SyncVar(hook = nameof(onChangeChargeRequired))]
     public bool chargeRequired;
 
 
@@ -29,7 +29,22 @@ public class ToggleButton_Net : NetworkBehaviour
     [Server]
     private void SetState(bool state)
     {
+        // isActive = state;
+        Rpc_SetState(state);
+    }
+
+    [ClientRpc]
+    private void Rpc_SetState(bool state)
+    {
         isActive = state;
+        if (state)
+        {
+            Toggle.Net_Activation();
+        }
+        else
+        {
+            Toggle.Net_Deactivated();
+        }
     }
 
     [Command(requiresAuthority = false)]
@@ -40,7 +55,7 @@ public class ToggleButton_Net : NetworkBehaviour
 
     public void HandleSetState(bool state)
     {
-        if(isServer)
+        if (isServer)
         {
             SetState(state);
         }
@@ -50,18 +65,18 @@ public class ToggleButton_Net : NetworkBehaviour
         }
     }
 
-    public void OnStateChanged(bool oldVal,bool newVal)
-    {
-        // Toggle.SetActive(newVal);
-        if(newVal)
-        {
-            Toggle.Net_Activation();
-        }else
-        {   
-            Toggle.Net_Deactivated();
-        }
+    // public void OnStateChanged(bool oldVal, bool newVal)
+    // {
+    //     // Toggle.SetActive(newVal);
+    //     if (newVal)
+    //     {
+    //         Toggle.Net_Activation();
+    //     } else
+    //     {
+    //         Toggle.Net_Deactivated();
+    //     }
 
-    }
+    // }
 
     #region Has Power
     [Server]
@@ -72,7 +87,7 @@ public class ToggleButton_Net : NetworkBehaviour
         {
             this.hasPower--;
             if (this.hasPower < 0) this.hasPower = 0;
-        } 
+        }
         //this.hasPower = hasPower;  //this.hasPower++;
 
         Server_SetChargeRequired(this.hasPower > 0 ? false : true);
@@ -94,7 +109,7 @@ public class ToggleButton_Net : NetworkBehaviour
     private void Rpc_CallDeactivated()
     {
         Toggle.Net_Deactivated();
-    }    
+    }
 
 
 
@@ -129,13 +144,13 @@ public class ToggleButton_Net : NetworkBehaviour
     [Server] //Set sync chargeRequired
     public void Server_SetChargeRequired(bool onOff)
     {
-        if(onOff) this.chargeRequired = true;
+        if (onOff) this.chargeRequired = true;
         else this.chargeRequired = false;
 
     }
 
 
-    private void onChangeChargeRequired(bool old,bool newVal)
+    private void onChangeChargeRequired(bool old, bool newVal)
     {
         if (newVal)
         {
@@ -146,4 +161,20 @@ public class ToggleButton_Net : NetworkBehaviour
             energyIcon.SetActive(false);
         }
     }
+
+    #region  Server_Clean
+    [Server]
+    public void Server_Clean()
+    {
+        Rpc_Clean();
+        chargeRequired = false;
+        hasPower = 0;
+    }
+    [ClientRpc]
+    private void Rpc_Clean()
+    {
+        isActive = false;
+    }
+    #endregion
+
 }

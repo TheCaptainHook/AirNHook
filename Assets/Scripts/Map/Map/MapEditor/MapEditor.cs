@@ -30,6 +30,22 @@ public enum MapEditorState
     Object,
     Background
 }
+public enum TransformType
+{
+    objectTransform,
+    exitDoorObjectTransform,
+    buttonActivatableObjectTransform,
+    buttonObjectTransform,
+    dontSaveObjectTransform,
+    networkingObjectTransform,
+    triggerDialogueTransform,
+    droneTransform,
+    poolingContainer,
+    otherContainer,
+    backgroundObjectContainer,
+    collectableContainer,
+    shadowContainer
+}
 
 [UGS(typeof(ObjectType))]
 public enum ObjectType
@@ -162,6 +178,10 @@ public class MapEditor : MonoBehaviour
     // public event Action OnScreen;
     #endregion
 
+    #region Map Transition Value
+    public bool _onMapTransition_Complete;
+    #endregion
+
     private void Awake()
     {
         if (Instance != null)
@@ -169,8 +189,8 @@ public class MapEditor : MonoBehaviour
         else Instance = this;
 
         folderPath = Path.Combine(Application.dataPath, "Resources/MapDat"); //todo
-        
-        fadeInOutPanel.preMapLoadEvent+=ReleasePooling;
+
+        fadeInOutPanel.preMapLoadEvent += ReleasePooling;
     }
 
     //todo
@@ -189,28 +209,69 @@ public class MapEditor : MonoBehaviour
         mapObjBoxTransform = Util.CreateChildTransform("MapObjBox");
 
         // floorTransform = Util.CreateChildTransform(mapObjBoxTransform, "FloorTransform");
-        objectTransform = Util.CreateChildTransform(mapObjBoxTransform, "objectTransform");
-        exitDoorObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "exitDoorObjectTransform");
-        buttonActivatableObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "buttonActivatableObjectTransform");
-        buttonObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "buttonObjectTransform");
-        dontSaveObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "dontSaveObjectTransform");
+        objectTransform = Util.CreateChildTransform(mapObjBoxTransform, TransformType.objectTransform.ToString());
+        exitDoorObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, TransformType.exitDoorObjectTransform.ToString());
+        buttonActivatableObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, TransformType.buttonActivatableObjectTransform.ToString());
+        buttonObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, TransformType.buttonObjectTransform.ToString());
+        dontSaveObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, TransformType.dontSaveObjectTransform.ToString());
         // garbageTransform = Util.CreateChildTransform(mapObjBoxTransform, "garbageTransform");
-        networkingObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "networkingObjectTransform");
+        networkingObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, TransformType.networkingObjectTransform.ToString());
 
-        triggerDialogueTransform = Util.CreateChildTransform(mapObjBoxTransform, "triggerDialogueTransform");
+        triggerDialogueTransform = Util.CreateChildTransform(mapObjBoxTransform, TransformType.triggerDialogueTransform.ToString());
 
-        droneTransform = Util.CreateChildTransform(mapObjBoxTransform, "droneTransform");
-        poolingContainer = Util.CreateChildTransform(mapObjBoxTransform, "poolingContainer");
+        droneTransform = Util.CreateChildTransform(mapObjBoxTransform, TransformType.droneTransform.ToString());
+        poolingContainer = Util.CreateChildTransform(mapObjBoxTransform, TransformType.poolingContainer.ToString());
 
-        otherContainer = Util.CreateChildTransform(mapObjBoxTransform, "otherContainer");
+        otherContainer = Util.CreateChildTransform(mapObjBoxTransform, TransformType.otherContainer.ToString());
         otherContainer.gameObject.AddComponent<OtherContainer>();
-        backgroundObjectContainer = Util.CreateChildTransform(mapObjBoxTransform, "backgroundObjectContainer");
+        backgroundObjectContainer = Util.CreateChildTransform(mapObjBoxTransform, TransformType.backgroundObjectContainer.ToString());
 
-        collectableContainer = Util.CreateChildTransform(mapObjBoxTransform, "collectableContainer");
+        collectableContainer = Util.CreateChildTransform(mapObjBoxTransform, TransformType.collectableContainer.ToString());
 
-        shadowContainer = Util.CreateChildTransform(mapObjBoxTransform, "shadowContainer");
+        shadowContainer = Util.CreateChildTransform(mapObjBoxTransform, TransformType.shadowContainer.ToString());
 
         if (_d_activePoolingObject == null) _d_activePoolingObject = new();
+        if (_n_activePoolingObject == null) _n_activePoolingObject = new();
+    }
+    public bool GetTransformByType(TransformType type, out Transform tr)
+    {
+        tr = type switch
+        {
+            TransformType.objectTransform => objectTransform,
+            TransformType.exitDoorObjectTransform => exitDoorObjectTransform,
+            TransformType.buttonActivatableObjectTransform => buttonActivatableObjectTransform,
+            TransformType.buttonObjectTransform => buttonObjectTransform,
+            TransformType.dontSaveObjectTransform => dontSaveObjectTransform,
+            TransformType.networkingObjectTransform => networkingObjectTransform,
+            TransformType.triggerDialogueTransform => triggerDialogueTransform,
+            TransformType.droneTransform => droneTransform,
+            TransformType.poolingContainer => poolingContainer,
+            TransformType.otherContainer => otherContainer,
+            TransformType.backgroundObjectContainer => backgroundObjectContainer,
+            TransformType.collectableContainer => collectableContainer,
+            TransformType.shadowContainer => shadowContainer,
+            _ => null,
+        };
+
+        return tr != null;
+    }
+    public TransformType GetTypeFromTransform(Transform tr)
+    {
+        if (tr == objectTransform) return TransformType.objectTransform;
+        if (tr == exitDoorObjectTransform) return TransformType.exitDoorObjectTransform;
+        if (tr == buttonActivatableObjectTransform) return TransformType.buttonActivatableObjectTransform;
+        if (tr == buttonObjectTransform) return TransformType.buttonObjectTransform;
+        if (tr == dontSaveObjectTransform) return TransformType.dontSaveObjectTransform;
+        if (tr == networkingObjectTransform) return TransformType.networkingObjectTransform;
+        if (tr == triggerDialogueTransform) return TransformType.triggerDialogueTransform;
+        if (tr == droneTransform) return TransformType.droneTransform;
+        if (tr == poolingContainer) return TransformType.poolingContainer;
+        if (tr == otherContainer) return TransformType.otherContainer;
+        if (tr == backgroundObjectContainer) return TransformType.backgroundObjectContainer;
+        if (tr == collectableContainer) return TransformType.collectableContainer;
+        if (tr == shadowContainer) return TransformType.shadowContainer;
+
+        return default;
     }
 
     public void EditorMode_Init()
@@ -316,7 +377,7 @@ public class MapEditor : MonoBehaviour
     public void LoadMap(string name)
     {
         stageClear = false;
-        event_reset = null;
+        // event_reset = null;
 
         if(wayPointList != null) wayPointList.Clear();
 
@@ -345,7 +406,7 @@ public class MapEditor : MonoBehaviour
     public IEnumerator LoadMapCo(string name)
     {
         stageClear = false;
-        event_reset = null;
+        // event_reset = null;
 
         if (wayPointList != null) wayPointList.Clear();
 
@@ -392,26 +453,30 @@ public class MapEditor : MonoBehaviour
 
         Create_OtherObject(curMap.mapOtherObjectList, otherContainer);
         Create_Object(curMap.mapButtonActivatableObjectDataList, buttonActivatableObjectTransform);
-       
-        Create_Object(curMap.buttonObjectList, buttonObjectTransform);
+
 
         Create_Object(Managers.Data.saveData.dic[curMap.mapID]._DialogueDataList, triggerDialogueTransform);
         Create_Object(curMap.droneStructList, droneTransform);
         Create_Object(curMap.collectableObjectStructList, collectableContainer);
+
+        Create_Object(curMap.buttonObjectList, buttonObjectTransform);
+
     }
     private IEnumerator Create_Obejct_Co()
     {
         CreateExitObject(curMap.mapExitObjectStruct);
         yield return StartCoroutine(Create_Obejct_Co(curMap.mapObjectDataList, objectTransform));
-        yield return StartCoroutine(Create_Obejct_Co(curMap.mapBackgroundObjectList, backgroundObjectContainer));
+        StartCoroutine(Create_Obejct_Co(curMap.mapBackgroundObjectList, backgroundObjectContainer));
         Create_OtherObject(curMap.mapOtherObjectList, otherContainer);
 
         yield return StartCoroutine(Create_Obejct_Co(curMap.mapButtonActivatableObjectDataList, buttonActivatableObjectTransform));
-        yield return StartCoroutine(Create_Obejct_Co(curMap.buttonObjectList, buttonObjectTransform));
+        
 
         yield return StartCoroutine(Create_Obejct_Co(Managers.Data.saveData.dic[curMap.mapID]._DialogueDataList, triggerDialogueTransform));
         yield return StartCoroutine(Create_Obejct_Co(curMap.droneStructList, droneTransform));
-        yield return StartCoroutine(Create_Obejct_Co(curMap.collectableObjectStructList, collectableContainer));
+        StartCoroutine(Create_Obejct_Co(curMap.collectableObjectStructList, collectableContainer));
+        
+        yield return StartCoroutine(Create_Obejct_Co(curMap.buttonObjectList, buttonObjectTransform));
 
     }
     #endregion
@@ -425,7 +490,8 @@ public class MapEditor : MonoBehaviour
     }
 
     #region Create
-    public Queue<BuildObj> _d_activePoolingObject;
+    public Queue<BuildObj> _d_activePoolingObject; 
+    public Queue<BuildObj> _n_activePoolingObject; 
     public void Create_Tile()
     {
         DrawTile_C(placeMentSystem.floorTileMap, curMap.mapTileDataList); //rect
@@ -559,7 +625,8 @@ public class MapEditor : MonoBehaviour
         MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
         //Create(exitDoorObjectTransform,mapDataStruct,data);
         if(NetworkServer.active)
-        Managers.Stage.CmdBatchObject(mapDataStruct.name, data, exitDoorObjectTransform);
+        // Managers.Stage.ServerBatchObject(mapDataStruct.name, data, exitDoorObjectTransform);
+        Managers.Stage.ServerBatchObject(mapDataStruct.name, data, TransformType.exitDoorObjectTransform);
     }
 
     private void Create_OtherObject(MapDataStruct mapDataStruct, ObjectData data, Transform transform)
@@ -582,7 +649,7 @@ public class MapEditor : MonoBehaviour
         if (mapDataStruct.objectType == ObjectType.N_Object && Application.isPlaying)
         {
             if (NetworkServer.active)
-                Managers.Stage.CmdBatchObject(mapDataStruct.name, data, curTr);
+                Managers.Stage.ServerBatchObject(mapDataStruct.name, data, GetTypeFromTransform(curTr));
         }
         else
         {
@@ -609,7 +676,7 @@ public class MapEditor : MonoBehaviour
                 _TR = (transform == objectTransform) ? networkingObjectTransform : transform;
 
                 if (NetworkServer.active)
-                    Managers.Stage.CmdBatchObject(mapDataStruct.name, data, _TR);
+                    Managers.Stage.ServerBatchObject(mapDataStruct.name, data, GetTypeFromTransform(_TR));
             }
             else
             {
@@ -637,7 +704,7 @@ public class MapEditor : MonoBehaviour
                 _TR = (transform == objectTransform) ? networkingObjectTransform : transform;
 
                 if (NetworkServer.active)
-                    Managers.Stage.CmdBatchObject(mapDataStruct.name, data, _TR);
+                    Managers.Stage.ServerBatchObject(mapDataStruct.name, data, GetTypeFromTransform(_TR));
             }
             else
             {
@@ -675,8 +742,7 @@ public class MapEditor : MonoBehaviour
                 build.transform.SetParent(transform);
                 build.gameObject.SetActive(true);
                 _d_activePoolingObject.Enqueue(build);
-            }
-           
+            }          
         }
         catch (Exception ex)
         {

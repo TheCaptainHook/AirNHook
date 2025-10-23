@@ -2,7 +2,6 @@ using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class ButtonEntity : BuildObj
@@ -112,7 +111,7 @@ public class ButtonEntity : BuildObj
 
     #region  GET,SET
     protected Util util = new();
-    
+
     public override void SetData<T>(T data)
     {
         try
@@ -137,6 +136,7 @@ public class ButtonEntity : BuildObj
         }
 
     }
+   
     IEnumerator DelayFindCoroutine()
     {
         if (!Application.isPlaying) yield break;
@@ -277,33 +277,52 @@ public class ButtonEntity : BuildObj
         if (!Application.isPlaying) return;
         List<EncapsulationField> list = new();
 
+        // foreach (Vector2 vec in encapsulationItemPosition)
+        // {
+        //     foreach (Transform obj in MapEditor.Instance.networkingObjectTransform)
+        //     {
+        //         if (obj.TryGetComponent(out BuildObj buildObj))
+        //         {
+        //             if (CompareVec(buildObj.ObjectData.position, vec))
+        //             {
+        //                 if (obj.TryGetComponent(out EncapsulationField field))
+        //                 {
+        //                     if (buildObj.ObjectData.indicator == INDICATOR.MARK)
+        //                     {
+        //                         Debug.Log("[1] Encapsulation Field Indicator Path Chack");
+        //                         field.Indicator_2PathChaking(gameObject);
+        //                     }
+        //                     list.Add(field);
+        //                     break;
+        //                 }
+
+        //             }
+        //         }
+        //     }
+        // }
         foreach (Vector2 vec in encapsulationItemPosition)
         {
-            foreach (Transform obj in MapEditor.Instance.networkingObjectTransform)
+            foreach (BuildObj obj in MapEditor.Instance._n_activePoolingObject)
             {
-                if (obj.TryGetComponent(out BuildObj buildObj))
+                if (CompareVec(obj.ObjectData.position, vec))
                 {
-                    if (CompareVec(buildObj.ObjectData.position, vec))
+                    if (obj.TryGetComponent(out EncapsulationField field))
                     {
-                        if (obj.TryGetComponent(out EncapsulationField field))
+                        if (obj.ObjectData.indicator == INDICATOR.MARK)
                         {
-                            if (buildObj.ObjectData.indicator == INDICATOR.MARK)
-                            {
-                                Debug.Log("[1] Encapsulation Field Indicator Path Chack");
-                                field.Indicator_2PathChaking(gameObject);
-                            }
-                            list.Add(field);
-                            break;
+                            Debug.Log("[1] Encapsulation Field Indicator Path Chack");
+                            field.Indicator_2PathChaking(gameObject);
                         }
-                            
+                        list.Add(field);
+                        break;
                     }
+
                 }
+
             }
         }
+        
         interactableObjects = list;
-
-
-
 
     }
     // public override void Editor_Setting(Transform transform)

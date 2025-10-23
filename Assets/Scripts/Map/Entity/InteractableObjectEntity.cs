@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class InteractableObjectEntity : BuildObj
@@ -24,10 +23,10 @@ public class InteractableObjectEntity : BuildObj
         }
     }
 
-    protected virtual void Awake()
-    {
-        DissolveInitSetting();
-    }
+    // protected virtual void Awake()
+    // {
+    //     DissolveInitSetting();
+    // }
 
     public override T GetData<T>()
     {
@@ -70,6 +69,11 @@ public class InteractableObjectEntity : BuildObj
     }
 
 
-
+    public override void Clean()
+    {
+        DissolveClean();
+        EncapsulationField.Clean(); //indicator Clean
+        TransportItemEntity.onSync = false;
+    }
 
 }

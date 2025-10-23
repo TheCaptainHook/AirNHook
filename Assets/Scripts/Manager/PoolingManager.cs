@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Object = UnityEngine.Object;
+using Mirror;
 
 
 public class PoolingManager
@@ -36,7 +37,7 @@ public class PoolingManager
     }
     #endregion 
 
-    #region  NetWork Pooling
+    #region  NetWork Pooling [Server]
     
     // public GameObject N_GetItme<T>() where T : class
     // {
@@ -217,7 +218,8 @@ public class D_Pooling
 // }
 public class N_Pool
 {
-    string name;
+    // string name;
+    public string name;
     public Queue<GameObject> queue;
     public Transform parents;
 
@@ -239,17 +241,18 @@ public class N_Pool
         return obj;
     }
 
-    private void Create(int amount = 5)
+    private void Create()
     {
-        for(int i =0; i< amount; i++)
-        {
-            GameObject obj = Managers.Stage.CmdBatchObject(name);
-            obj.name= name;
-            obj.SetActive(false);
-            obj.transform.SetParent(parents);
-            queue.Enqueue(obj);
-        }
+        GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[name]);
+        NetworkServer.Spawn(obj, NetworkServer.localConnection);
+        // var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[name]);
+        // // GameObject obj = Object.Instantiate(this.prefab);
+        obj.name = name;
+        obj.SetActive(false);
+        obj.transform.SetParent(parents);
+        queue.Enqueue(obj);
     }
+    
 
     public void Enqueue(GameObject obj)
     {

@@ -35,7 +35,7 @@ public class Portal_Net : ActivatableObject_Net_Entity
 
     IEnumerator  FindTarget(Vector2 target)
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(1f);
         foreach (Transform tr in MapEditor.Instance.buttonActivatableObjectTransform)
         {
             if (tr.TryGetComponent(out Portal component))

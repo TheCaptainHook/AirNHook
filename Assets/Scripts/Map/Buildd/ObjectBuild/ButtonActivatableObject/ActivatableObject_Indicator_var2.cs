@@ -10,7 +10,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
     public Stack<ActivatableObject_Indicator_var2_Item> itemWaitStack;
     private List<Indicator_var2_DrawLineUtility> itemCurActiveList;
     [ReadOnly]
-    public int curItemListIndex;
+    // public int curItemListIndex;
 
     [SerializeField] Transform linePoolingContainer;
     //--------------------------------------------------------------------------------Renewal 0704
@@ -58,11 +58,32 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
 
     }
     #endregion
+     #region  Clean
+    public void Clean()
+    {
+        while (itemWaitStack.Count > 0)
+        {
+            var item = itemWaitStack.Pop();
+            Destroy(item);
+        }
+        for (int i = 0; i < itemCurActiveList.Count; i++)
+        {
+            var item = itemCurActiveList[i];
+            item.Clean();
+            Destroy(item);
+        }
+
+        _isEncapsulation_ItemReady = false;
+    }
+    #endregion
+
 
     #region  Path Chacking
     public bool notObstacle = false;
     public void PathChacking(uint targetID) //Rpc
     {
+        if (this == null || gameObject == null) return;
+
         StartCoroutine(Encapsulation_WaitItemReadyCo(targetID));
     }
     private IEnumerator Encapsulation_WaitItemReadyCo(uint targetID)
@@ -75,7 +96,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
         var lineUtility = GetLine();
         lineUtility.PathChacking(this, targetID, item);
     }
-   
+
     #endregion
 
 
@@ -100,10 +121,10 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
         activeRequirAmount = transportItemEntity.data.activeRequireAmount;
 
         CreateItemAndSorting(transportItemEntity.data);
-       
+
     }
-   
-   
+
+
     private float FloorTo2DecimalPlaces(float num)
     {
         return Mathf.Floor(num * 100) / 100f;
@@ -125,7 +146,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
             var item = itemWaitStack.Pop();
             //itemCurActiveList.Add((id, item, data));
             itemCurActiveList.Add(lineUtility);
-            lineUtility.SettingAndDrawLine(id, item, target, () => SetApplyActive_EncapsultationField(1),notObstacle);
+            lineUtility.SettingAndDrawLine(id, item, target, () => SetApplyActive_EncapsultationField(1), notObstacle);
 
         }
         else
@@ -170,7 +191,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
             {
                 item.Fade(false);
             }
-            
+
         }
 
     }
@@ -207,11 +228,11 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
             Vector3 offset = data.indicatorStruct.isHorizontal ? new Vector3(item_Space * i, 0, 0) : new Vector3(0, item_Space * i, 0);
             item.transform.position = startPos + transform.rotation * offset;
         }
-            
+
         _isEncapsulation_ItemReady = true;
-    
+
     }
-   
+
     //--------------------------------------------------------------------------------Renewal 0704
 
 
@@ -232,7 +253,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
             var item = itemWaitStack.Pop();
             //itemCurActiveList.Add((id, item, data));
             itemCurActiveList.Add(lineUtility);
-            lineUtility.SettingAndDrawLine(id, item, target, () => SetApplyActive(1),notObstacle);
+            lineUtility.SettingAndDrawLine(id, item, target, () => SetApplyActive(1), notObstacle);
 
         }
         else
@@ -263,7 +284,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
 
         if (curActiveRequirAmount == activeRequirAmount)
         {
-            foreach(var item in itemCurActiveList)
+            foreach (var item in itemCurActiveList)
             {
                 item.Fade(true);
             }
@@ -271,10 +292,10 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
 
             if (NetworkServer.active)
                 entity.Activation();
-          
+
         }
         else
-        {       
+        {
             foreach (var item in itemCurActiveList)
             {
                 item.Fade(false);
@@ -292,7 +313,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
 
     private ActivatableObject_Indicator_var2_Item CreateItem()
     {
-        var item = Instantiate(activatableObject_Indicator_var2_Item_Prefab, container).GetComponent<ActivatableObject_Indicator_var2_Item>();;
+        var item = Instantiate(activatableObject_Indicator_var2_Item_Prefab, container).GetComponent<ActivatableObject_Indicator_var2_Item>(); ;
         return item;
     }
 
@@ -337,4 +358,6 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
     }
     #endregion
 
+
+   
 }

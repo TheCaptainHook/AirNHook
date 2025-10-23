@@ -262,7 +262,7 @@ public class Indicator_var2_DrawLineUtility : MonoBehaviour
 
         float elapsed = 0;
         Color curStartCol = Line.startColor;
-        Color fade_Start = new Color(curStartCol.r, curStartCol.g, curStartCol.b, onOff ? minAlpha : maxAlpha );
+        Color fade_Start = new Color(curStartCol.r, curStartCol.g, curStartCol.b, onOff ? minAlpha : maxAlpha);
 
         Color curEndColr = Line.endColor;
         Color fade_End = new Color(curEndColr.r, curEndColr.g, curEndColr.b, onOff ? minAlpha : maxAlpha);
@@ -281,5 +281,11 @@ public class Indicator_var2_DrawLineUtility : MonoBehaviour
         fadeCoroutine = null;
     }
 
+    #endregion
+    #region  Clean
+    public void Clean()
+    {
+        StopAllCoroutines();
+    }
     #endregion
 }

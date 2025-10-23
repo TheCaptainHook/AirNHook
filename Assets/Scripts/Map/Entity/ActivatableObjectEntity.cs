@@ -153,7 +153,7 @@ public class ActivatableObjectEntity : BuildObj
     }
 
     #region Indicator
-    public void PathChacking(GameObject target) //Server
+    public void PathChacking(GameObject target) //Server, call ButtonEntity
     {
         var netId = target.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 9999;
         if (netId == 9999) return;

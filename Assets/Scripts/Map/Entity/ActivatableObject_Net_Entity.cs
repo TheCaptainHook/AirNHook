@@ -48,6 +48,7 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
     {
         StartCoroutine(AllClientReadyChecker_Co(() => { Rpc_InitSync(Main.ButtonActivatedObjectStruct); }));
     }
+
     [ClientRpc]
     protected virtual void Rpc_InitSync(ButtonActivatableObjectStruct data)
     {
@@ -56,10 +57,9 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
         SetData(data);
 
         if (onActive) Active();
-
         onSync = true;
-
     }
+
     protected virtual void SetData(ButtonActivatableObjectStruct data)
     {
         transform.position = data.position;
@@ -108,6 +108,28 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
 
             yield return null;
         }
+
+        action?.Invoke();
+    }
+    IEnumerator AllClientReadyChecker_Co(Action action,bool waitOnSync)
+    {
+        while (true)
+        {
+            int connectionClinetAmount = NetworkServer.connections.Count;
+            int num = 0;
+            foreach (var conn in NetworkServer.connections.Values)
+            {
+                if (conn.isReady) num++;
+            }
+
+            if (connectionClinetAmount == num) break;
+
+            yield return null;
+        }
+
+        yield return new WaitUntil(() => onSync);
+        yield return new WaitUntil(() => indicator_var2 != null);
+
         action?.Invoke();
 
     }
@@ -201,9 +223,10 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
     [Server]
     public void Server_Indicator_var_2_PathChacking(uint targetID)
     {
-        StartCoroutine(AllClientReadyChecker_Co(()=>Rpc_Indicator_var_2_PathChacking(targetID)));
+        StartCoroutine(AllClientReadyChecker_Co(() => Rpc_Indicator_var_2_PathChacking(targetID),true));
 
     }
+    
     [ClientRpc]
     private void Rpc_Indicator_var_2_PathChacking(uint targetID)
     {
@@ -212,7 +235,6 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
     }
 
     
-
     #endregion
 }
 

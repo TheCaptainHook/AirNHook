@@ -145,15 +145,16 @@ public class EncapsulationField : MonoBehaviour
         // Capsule Object Setting
         if (capsuleObject == null)
         {
-            capsuleObject = Instantiate(Resources.Load<GameObject>(GlobalText.CAPSULE_OBJECT)).GetComponent<CapsulObject>(); //default : false, Polling
+            var prefab = ResourceManager.Load<GameObject>(GlobalText.CAPSULE_OBJECT);
+            capsuleObject = Managers.Pooling.D_GetItem(prefab).GetComponent<CapsulObject>();
+            // capsuleObject = Instantiate(Resources.Load<GameObject>(GlobalText.CAPSULE_OBJECT)).GetComponent<CapsulObject>(); //default : false, Polling
             capsuleObject.transform.position = Main.ObjectData.position;
+            capsuleObject.gameObject.SetActive(true);
         }
         Connection();
 
         capsuleObject.Resize(transform, mainColliderBounds);
         // Size Change Effect
-
-
     }
 
     private void Connection()
@@ -335,14 +336,47 @@ public class EncapsulationField : MonoBehaviour
 
         return minDistance;
     }
-    
+
 
     private void TransformParentNull()
     {
         capsuleObject.transform.SetParent(null);
         Main.transform.SetParent(null);
     }
-    
+
+    #region  Clean
+    public void Clean()
+    {
+        if (indicator_1 != null)
+        {
+            indicator_1.Clean();
+            Destroy(indicator_1.gameObject);
+
+            indicator_1 = null;
+        }
+        if (indicator_2 != null)
+        {
+            indicator_2.Clean();
+            Destroy(indicator_2.gameObject);
+            indicator_2 = null;
+        }
+
+        ReleaseCapsuleObject();
+        curActiveRequirAmount = 0;
+
+    }
+    #endregion
+
+    public void ReleaseCapsuleObject()
+    {
+        if (capsuleObject != null)
+        {
+            Managers.Pooling.D_ReleaseToPool(capsuleObject.gameObject);
+            capsuleObject = null;
+        }
+
+        isCapsuling = false;
+    }
     #endregion
 
 }

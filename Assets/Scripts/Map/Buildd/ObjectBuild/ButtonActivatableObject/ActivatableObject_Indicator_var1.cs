@@ -82,7 +82,12 @@ public class ActivatableObject_Indicator_var1 : MonoBehaviour
 
     }
 
-
+    #region  Clean
+    public void Clean()
+    {
+        
+    }
+#endregion
 
 
 }

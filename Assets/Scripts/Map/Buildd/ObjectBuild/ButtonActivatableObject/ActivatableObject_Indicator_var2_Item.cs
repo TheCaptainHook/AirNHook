@@ -25,7 +25,5 @@ public class ActivatableObject_Indicator_var2_Item : MonoBehaviour
         off_Go.SetActive(true);
     }
     #endregion
-
-
     
 }

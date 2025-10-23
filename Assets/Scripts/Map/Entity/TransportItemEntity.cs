@@ -17,8 +17,9 @@ public class TransportItemEntity : InteractableObject, ITransportItem
             return rb;
         }
     }
-
-    protected BuildObj BuildObj => GetComponent<BuildObj>();
+    private BuildObj _buildObj;
+    // protected BuildObj BuildObj => GetComponent<BuildObj>();
+    protected BuildObj BuildObj { get { _buildObj ??= GetComponent<BuildObj>(); return _buildObj; } }
     public void TransportItem_Constraint(uint netId) //Server
     {
         StartCoroutine(AllClientReadyChecker_Co(() =>
@@ -149,7 +150,6 @@ public class TransportItemEntity : InteractableObject, ITransportItem
         StartCoroutine(AllClientCheckCo(() =>
         {
             Rpc_InitSync(BuildObj.ObjectData, transform.position, BuildObj.isTransportItem);
-
             Rb.AddForce(Vector2.up, ForceMode2D.Force);
         }));
 
@@ -181,12 +181,14 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     private void Rpc_InitSync(ObjectData data, Vector2 position, bool isTransportItem)
     {
         if (onSync) return;
+
         BuildObj.ObjectData = data;
         transform.position = position;
         transform.rotation = data.quaternion;
         this.data = data;
 
-
+        BuildObj.DissolveInitSetting();
+        
         if (isTransportItem)
         {
             defaultGravity = Rb.gravityScale;
@@ -234,10 +236,10 @@ public class TransportItemEntity : InteractableObject, ITransportItem
         if (NetworkServer.active)
             CmdChnageDestroyState(false);
     }
-    public void CmdChangeDestroyState_False()
-    {
-        CmdChnageDestroyState(false);
-    }
+    // public void CmdChangeDestroyState_False()
+    // {
+    //     CmdChnageDestroyState(false);
+    // }
     #endregion
 
     #region  Indicator

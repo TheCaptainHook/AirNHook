@@ -36,7 +36,10 @@ public class Portal : ActivatableObjectEntity
     }
 
 
-
+    public override void Clean()
+    {
+        Net.onSync = false;
+    }
     #region Editor
 
 

@@ -34,6 +34,7 @@ public class FadeInOutPanel : MonoBehaviour
     }
     IEnumerator FadeInOut(string mapId)
     {
+        MapEditor.Instance._onMapTransition_Complete = false;
         var uiOption = Managers.UI.GetUI<UI_Option>().GetComponent<UI_Option>();
         if (NetworkServer.active) 
         {
@@ -58,15 +59,28 @@ public class FadeInOutPanel : MonoBehaviour
         //------------------------UI_MapOpenClosePanel Prograss 1
 
         //------------------------Pooling
+        while (MapEditor.Instance._n_activePoolingObject.Count > 0)
+        {
+            var obj = MapEditor.Instance._n_activePoolingObject.Dequeue();
+
+            if (NetworkServer.active)
+                Managers.Pooling.N_ReleaseToPool(obj.gameObject);
+
+            obj.Clean();
+
+        }
+        
+        
         while (MapEditor.Instance._d_activePoolingObject.Count > 0)
         {
             var obj = MapEditor.Instance._d_activePoolingObject.Dequeue();
             obj.Clean();
             Managers.Pooling.D_ReleaseToPool(obj.gameObject);
         }
+
         //------------------------Pooling
 
-        //------------------------Player Ignore Damage
+        //------------------------Player Ignore Damage 
         var player = Managers.Game.Player;
         var sm = player ? player.TryGetComponent(out PlayerSM playerSm) ? playerSm : null : null;
         if (!player)
@@ -130,6 +144,10 @@ public class FadeInOutPanel : MonoBehaviour
         yield return new WaitForSeconds(1f);
         sm.canMovable = true;
         sm.canControl = true;
+        //==========Map Transition Complete
+        MapEditor.Instance._onMapTransition_Complete = true;
+        //==========Map Transition Complete
+
         //------------------------UI_MapOpenClosePanel Prograss 3
         yield return StartCoroutine(UI_MapOpenClosePanel.Prograss_3());
         Managers.UI.HideUI<UI_MapOpenClosePanel>();

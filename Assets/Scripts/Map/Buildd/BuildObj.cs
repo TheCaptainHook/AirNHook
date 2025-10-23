@@ -316,7 +316,7 @@ public class BuildObj : MousePointerEntity, IDamageable, IPooling
     #region Destructible Obj Dissolve Effect Logic
     [ReadOnly]
     public bool canRespawn;
-    protected void DissolveInitSetting()
+    public void DissolveInitSetting()
     { //all Client
       //------------Dissolve Modify 0804
       // _dissolveMaterial = _Dissolve_MainSprite.material;
@@ -343,6 +343,20 @@ public class BuildObj : MousePointerEntity, IDamageable, IPooling
             MapEditor.Instance.event_reset += Respawn;
     }
 
+    public void DissolveClean()
+    {
+        _IsDissolveObject = false;
+        OnDissolveAction -= Respawn;
+
+        if (TryGetComponent(out InteractableObject component))
+        {
+            OnInteractableObjectRelease -= component.Destroyed;
+        }
+
+        if (NetworkServer.active) //Server
+            MapEditor.Instance.event_reset -= Respawn;
+    }
+
     public event Action respawnEvent;
     public void Respawn()
     {
@@ -353,18 +367,18 @@ public class BuildObj : MousePointerEntity, IDamageable, IPooling
 
         if (TryGetComponent(out TransportItemEntity component))
         {
-            component.Cmd_Dissolve(); //Only Server
+            component.Server_Dissolve(); //Only Server
         }
 
     }
 
 
-    public bool GetDissolveObject() {
-        if (_IsDissolveObject) {
-            return true;
-        }
-        return false;
-    }
+    // public bool GetDissolveObject() {
+    //     if (_IsDissolveObject) {
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
     #endregion
 
@@ -406,5 +420,8 @@ public class BuildObj : MousePointerEntity, IDamageable, IPooling
     }
 
 
-    public virtual void Clean(){}
+    public virtual void Clean()
+    {
+        
+    }
 }   

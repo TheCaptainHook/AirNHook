@@ -92,7 +92,12 @@ public class CrumblingBox : BuildObj
         hitBox.SetActive(true);
         spriteRenderer.enabled = true;
         shadowCaster2D.enabled = true;
-        
+
         animator.SetTrigger(animationId[curCrumblingAmount]);
+    }
+    public override void Clean()
+    {
+        Net.onSync = false;
+        Reset();
     }
 }

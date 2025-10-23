@@ -429,8 +429,9 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     #region Dissolve
     private static readonly int DissolveAmount = Shader.PropertyToID("_DissolveAmount");
     float dissolveRate = 0.015f;
-    [Command(requiresAuthority = false)]
-    public void Cmd_Dissolve() //Only Server
+    // [Command(requiresAuthority = false)]
+    [Server]
+    public void Server_Dissolve() //Only Server
     {
         if (isServer)
         {

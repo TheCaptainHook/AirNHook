@@ -160,7 +160,8 @@ public class DroneEntity : BuildObj
         if(animationMovingCoroutine != null){
             StopCoroutine(animationMovingCoroutine);
         }
-
+        if (!gameObject.activeSelf) return;
+        
         animationMovingCoroutine = StartCoroutine(DroneMovingAnimationCorountine(GetDroneState(dir)));
     }
     IEnumerator DroneMovingAnimationCorountine(DroneState state){
