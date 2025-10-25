@@ -36,7 +36,7 @@ public class LaserTriggerButton : ButtonEntity
     {
         Deactivated();
     }
-    protected override void Activation()
+    public override void Activation()
     {
         if(!Application.isPlaying){
             return;
@@ -46,7 +46,7 @@ public class LaserTriggerButton : ButtonEntity
         
     }
 
-    protected override void Deactivated()
+    public override void Deactivated()
     {
         if(!Application.isPlaying){
             return;

@@ -70,12 +70,12 @@ public class LeverBody : ButtonEntity, IInteractable
 
     #endregion
 
-    protected override void Activation()
+    public override void Activation()
     {
         PrograssButtonActivatedObject(true);
         Managers.Sound.PlaySound3D(GlobalText.BUTTON_LEVER_SOUND_1, transform.position, 0.5f);
     }
-    protected override void Deactivated()
+    public override void Deactivated()
     {
         PrograssButtonActivatedObject(false);
         Managers.Sound.PlaySound3D(GlobalText.BUTTON_LEVER_SOUND_1, transform.position, 0.5f);

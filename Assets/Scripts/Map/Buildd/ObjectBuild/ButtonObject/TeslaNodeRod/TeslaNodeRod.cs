@@ -158,7 +158,7 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
     public Transform head;
 
 
-    protected override void Activation()
+    public override void Activation()
     {
         //Effect Rpc
             //TEST
@@ -172,7 +172,7 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
         //Main Logic -Server
         
     }
-    protected override void Deactivated()
+    public override void Deactivated()
     {
         //Effect Rpc
             //TEST

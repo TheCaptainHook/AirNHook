@@ -23,46 +23,46 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
     private UI_Base _E_Btn;
     [SerializeField] private GameObject energyIcon;
 
-    private ToggleButton_Net toggleButton_Net;
-    private ToggleButton_Net ToggleButton_Net
-    {
-        get
-        {
-            if(toggleButton_Net == null) toggleButton_Net = GetComponent<ToggleButton_Net>();
-            return toggleButton_Net;
-        }
-    }
+    // private ToggleButton_Net toggleButton_Net;
+    // private ToggleButton_Net ToggleButton_Net
+    // {
+    //     get
+    //     {
+    //         if(toggleButton_Net == null) toggleButton_Net = GetComponent<ToggleButton_Net>();
+    //         return toggleButton_Net;
+    //     }
+    // }
 #region IPowerConsumer
-    public bool hasPower
-    {
-        get { return ToggleButton_Net.hasPower > 0 ? true : false; }
-        set { ToggleButton_Net.Cmd_SetHasPower(value); }
-    }
-    public int GetConsumption()
-    {
-        return 1;
-    }
-    public void PowerOn()
-    {
-        Debug.Log("Power");
-        //hasPower = true;
-        ToggleButton_Net.Cmd_SetHasPower(true);
-    }
-    public void PowerOff()
-    {
-        //hasPower = false;
-        ToggleButton_Net.Cmd_SetHasPower(false);
-        Debug.Log("Power Off");
-        //Deactivated();
-        //ToggleButton_Net.Cmd_CallDeactivated();
-        ToggleButton_Net.HandleSetState(false);
-    }
-    public Vector2 GetPowerLineConnectionPoint(){
-        return transform.position;
-    }
-    public Vector2 GetTransformPosition(){
-        return transform.position;
-    }
+    // public bool hasPower
+    // {
+    //     get { return ToggleButton_Net.hasPower > 0 ? true : false; }
+    //     set { ToggleButton_Net.Cmd_SetHasPower(value); }
+    // }
+    // public int GetConsumption()
+    // {
+    //     return 1;
+    // }
+    // public void PowerOn()
+    // {
+    //     Debug.Log("Power");
+    //     //hasPower = true;
+    //     ToggleButton_Net.Cmd_SetHasPower(true);
+    // }
+    // public void PowerOff()
+    // {
+    //     //hasPower = false;
+    //     ToggleButton_Net.Cmd_SetHasPower(false);
+    //     Debug.Log("Power Off");
+    //     //Deactivated();
+    //     //ToggleButton_Net.Cmd_CallDeactivated();
+    //     ToggleButton_Net.HandleSetState(false);
+    // }
+    // public Vector2 GetPowerLineConnectionPoint(){
+    //     return transform.position;
+    // }
+    // public Vector2 GetTransformPosition(){
+    //     return transform.position;
+    // }
     #endregion
 
 
@@ -75,37 +75,37 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
     #region  Clean
     public override void Clean()
     {
-        ToggleButton_Net.onSync = false;
-        onActive = false;
+        // ToggleButton_Net.onSync = false;
+        // onActive = false;
         if(NetworkServer.active)
         {
-            ToggleButton_Net.Server_Clean();
+            Net.Server_Clean();
         }
     }
     #endregion
 
-    public override void SetData<T>(T data)
-    {
-        base.SetData(data);
-        chargeRequired = ButtonObjectData.chargeRequired;
+    // public override void SetData<T>(T data)
+    // {
+    //     base.SetData(data);
+    //     chargeRequired = ButtonObjectData.chargeRequired;
 
-        if (Application.isPlaying)
-        {
-            ToggleButton_Net.onSync = true;
-            ToggleButton_Net.Server_SetInit();
-            ToggleButton_Net.Server_SetChargeRequired(chargeRequired);
-        }   
-    }
+    //     if (Application.isPlaying)
+    //     {
+    //         ToggleButton_Net.onSync = true;
+    //         ToggleButton_Net.Server_SetInit();
+    //         ToggleButton_Net.Server_SetChargeRequired(chargeRequired);
+    //     }   
+    // }
 #endregion
 
 
  
-    protected override void Activation()
+    public override void Activation()
     {
         if (onPrograss || onActive) return;
         StartCoroutine(Co_Activation());
     }
-    protected override void Deactivated()
+    public override void Deactivated()
     {
         if (onPrograss || !onActive) return;
         StartCoroutine(Co_Deactivated());
@@ -140,26 +140,26 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
 
 #region  NetWork
        
-    public void Net_Activation( )
-    {
-        Activation();
-    }
-    public void Net_Deactivated()
-    { 
-        Deactivated();
-    }
+    // public void Net_Activation( )
+    // {
+    //     Activation();
+    // }
+    // public void Net_Deactivated()
+    // { 
+    //     Deactivated();
+    // }
 
 #endregion
 #region Client
-    public void SetActive(bool val)
-    {
-        animator.SetBool(OnPressed,val);
-    }
+    // public void SetActive(bool val)
+    // {
+    //     animator.SetBool(OnPressed,val);
+    // }
 #endregion
 
 #region  Interacte
     public void Interaction(Transform accessor = null){
-        if (ToggleButton_Net.chargeRequired)
+        if (Net._chargeRequired)
         {
             if (!hasPower) //if (ToggleButton_Net.hasPower == 0)
             {
@@ -170,10 +170,12 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
 
         if(onActive){
             //Deactivated();
-            ToggleButton_Net.HandleSetState(false);
+            // ToggleButton_Net.HandleSetState(false);
+            Net.Cmd_SetState(false);
         }else{
             //Activation();
-            ToggleButton_Net.HandleSetState(true);
+            // ToggleButton_Net.HandleSetState(true);
+            Net.Cmd_SetState(true);
         }
     }
 
@@ -191,7 +193,7 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
     }
 
     public void ShowEButton(){
-        if (ToggleButton_Net.chargeRequired)
+        if (Net._chargeRequired)
         {
             if (!hasPower) return;
         }

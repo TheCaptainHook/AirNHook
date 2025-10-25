@@ -83,13 +83,13 @@ public class ButtonActivated : ButtonEntity
     {
         Deactivated();
     }
-    protected override void Activation()
+    public override void Activation()
     {
         PrograssButtonActivatedObject(true);
         Managers.Sound.PlaySound3D(GlobalText.BUTTON_PRESS_SOUND_2, transform.position, 0.35f);
     }
 
-    protected override void Deactivated()
+    public override void Deactivated()
     {
         PrograssButtonActivatedObject(false);
         Managers.Sound.PlaySound3D(GlobalText.BUTTON_RELEASE_SOUND_1, transform.position, 0.35f);

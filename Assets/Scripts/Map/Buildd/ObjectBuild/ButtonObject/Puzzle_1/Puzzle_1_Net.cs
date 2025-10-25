@@ -622,29 +622,29 @@ public class Puzzle_1_Net : NetworkBehaviour
     }
 
     #region UI
-    [Command(requiresAuthority = false)]
-    public void Cmd_ShowE(GameObject player, bool leftOrRight,bool onOff) //left : true, right : false
-    {
-        if (player == null) return;
-        if (player.TryGetComponent(out NetworkIdentity identity))
-        {
-            TRpc_ShowE(identity.connectionToClient, leftOrRight,onOff);
-        }
-    }
-    [TargetRpc]
-    private void TRpc_ShowE(NetworkConnection conn,bool leftOrRight, bool onOff)
-    {
-        if (leftOrRight)
-        {
-            //left
-            leftTrigger.ShowE(onOff);
-        }
-        else
-        {
-            //right
-            rightTrigger.ShowE(onOff);
-        }
-    }
+    // [Command(requiresAuthority = false)]
+    // public void Cmd_ShowE(GameObject player, bool leftOrRight,bool onOff) //left : true, right : false
+    // {
+    //     if (player == null) return;
+    //     if (player.TryGetComponent(out NetworkIdentity identity))
+    //     {
+    //         TRpc_ShowE(identity.connectionToClient, leftOrRight,onOff);
+    //     }
+    // }
+    // [TargetRpc]
+    // private void TRpc_ShowE(NetworkConnection conn,bool leftOrRight, bool onOff)
+    // {
+    //     if (leftOrRight)
+    //     {
+    //         //left
+    //         leftTrigger.ShowE(onOff);
+    //     }
+    //     else
+    //     {
+    //         //right
+    //         rightTrigger.ShowE(onOff);
+    //     }
+    // }
     #endregion
    
     private void Connection(GameObject player,Transform hold_Pivot)

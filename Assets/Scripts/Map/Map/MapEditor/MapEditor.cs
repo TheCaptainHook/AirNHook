@@ -332,23 +332,36 @@ public class MapEditor : MonoBehaviour
 
 
     //todo 0918
-    private List<T> GetList<T>(Transform transform){
+    private List<T> GetList<T>(Transform transform)
+    {
         List<T> list = new();
-        foreach(Transform tr in transform){
-          T data =(T)(object)tr.GetComponent<BuildObj>().GetData<ObjectData>();
-          list.Add(data);
+        foreach (Transform tr in transform)
+        {
+            T data = (T)(object)tr.GetComponent<BuildObj>().GetData<ObjectData>();
+            list.Add(data);
         }
         return list;
     }
     //todo 0918
-  
+
 
     #endregion
 
- 
+
     #endregion
 
     #region Load
+    // def_obj,back_obj,other_obj,buttonActivatable_obj,dialogue_obj,drone_obj,collect_obj,button_obj
+    public bool _l_complete_def_obj, _l_complete_buttonActivatable_obj, _l_complete_dialouge_obj, _l_complete_drone_obj, _l_complete_button_obj;
+    private void Load_Clean()
+    {
+        _l_complete_def_obj = false;
+        _l_complete_buttonActivatable_obj = false;
+        _l_complete_dialouge_obj = false;
+        _l_complete_drone_obj = false;
+        _l_complete_button_obj = false;
+    }
+    
 
     public void LoadMap(Map map) // in game Editor, load user map data
     {
@@ -406,6 +419,8 @@ public class MapEditor : MonoBehaviour
     public IEnumerator LoadMapCo(string name)
     {
         stageClear = false;
+
+        Load_Clean();
         // event_reset = null;
 
         if (wayPointList != null) wayPointList.Clear();
@@ -444,7 +459,7 @@ public class MapEditor : MonoBehaviour
         }
         Camera.main.GetComponent<ParallaxCamera>().oldPosition = startPosition.x;
     }
-    private void Create_Object()
+    private void Create_Object() //
     {
         CreateExitObject(curMap.mapExitObjectStruct);
 
@@ -466,17 +481,25 @@ public class MapEditor : MonoBehaviour
     {
         CreateExitObject(curMap.mapExitObjectStruct);
         yield return StartCoroutine(Create_Obejct_Co(curMap.mapObjectDataList, objectTransform));
+        _l_complete_def_obj = true;
+
         StartCoroutine(Create_Obejct_Co(curMap.mapBackgroundObjectList, backgroundObjectContainer));
         Create_OtherObject(curMap.mapOtherObjectList, otherContainer);
 
         yield return StartCoroutine(Create_Obejct_Co(curMap.mapButtonActivatableObjectDataList, buttonActivatableObjectTransform));
-        
+        _l_complete_buttonActivatable_obj = true;
+
+         yield return StartCoroutine(Create_Obejct_Co(curMap.buttonObjectList, buttonObjectTransform));
+        _l_complete_button_obj = true;
 
         yield return StartCoroutine(Create_Obejct_Co(Managers.Data.saveData.dic[curMap.mapID]._DialogueDataList, triggerDialogueTransform));
+        _l_complete_dialouge_obj = true;
+
         yield return StartCoroutine(Create_Obejct_Co(curMap.droneStructList, droneTransform));
+        _l_complete_drone_obj = true;
         StartCoroutine(Create_Obejct_Co(curMap.collectableObjectStructList, collectableContainer));
-        
-        yield return StartCoroutine(Create_Obejct_Co(curMap.buttonObjectList, buttonObjectTransform));
+
+       
 
     }
     #endregion

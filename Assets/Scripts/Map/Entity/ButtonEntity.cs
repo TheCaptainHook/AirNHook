@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ButtonEntity : BuildObj
+public class ButtonEntity : BuildObj,IPowerConsumer
 {
 
     [CustomHeader("ButtonEntity, Target Object")]
@@ -16,7 +16,8 @@ public class ButtonEntity : BuildObj
     public List<GameObject> targetObjects;
 
     private ButtonObjectStruct buttonObjectData;
-    public ButtonObjectStruct ButtonObjectData {
+    public ButtonObjectStruct ButtonObjectData
+    {
         get { return buttonObjectData; }
         set
         {
@@ -28,27 +29,68 @@ public class ButtonEntity : BuildObj
             targetPosition = value.targetPositions;
             lightPosition = value.lightPositions;
             encapsulationItemPosition = value.encapsulationItems;
-        } }
+        }
+    }
 
     protected List<Vector2> targetPosition; //TODO 0829
     protected List<Vector2> lightPosition;
     protected List<Vector2> encapsulationItemPosition;
 
 
-
+    private ButtonEntity_Net _net;
+    protected ButtonEntity_Net Net { get { _net ??= GetComponent<ButtonEntity_Net>();return _net; } }
     #region  Debug
     private Transform debugModeTransform;
     private List<LineRenderer> lineRendererList;
     #endregion
 
+    #region IPowerConsumer
+    // public bool hasPower
+    // {
+    //     get { return ToggleButton_Net.hasPower > 0 ? true : false; }
+    //     set { ToggleButton_Net.Cmd_SetHasPower(value); }
+    // }
+     public bool hasPower
+    {
+        get { return Net._hasPower > 0 ? true : false; }
+        set { Net.Cmd_SetHasPower(value); }
+    }
+    public int GetConsumption()
+    {
+        return 1;
+    }
+    public void PowerOn()
+    {
+        Debug.Log("Power");
+        //hasPower = true;
+        Net.Cmd_SetHasPower(true);
+    }
+    public void PowerOff()
+    {
+        //hasPower = false;
+        Net.Cmd_SetHasPower(false);
+        Debug.Log("Power Off");
+        //Deactivated();
+        //ToggleButton_Net.Cmd_CallDeactivated();
+        Net.Cmd_SetState(false);
+    }
+    public Vector2 GetPowerLineConnectionPoint(){
+        return transform.position;
+    }
+    public Vector2 GetTransformPosition()
+    {
+        return transform.position;
+    }
+    #endregion
+    
 
     #region Main Logic
     protected bool onPrograss;
     protected bool onActive;
     protected virtual IEnumerator Co_Activation() { yield break; }
     protected virtual IEnumerator Co_Deactivated() { yield break; }
-    protected virtual void Activation() { }
-    protected virtual void Deactivated() { }
+    public virtual void Activation() { }
+    public virtual void Deactivated() { }
     protected virtual void PrograssButtonActivatedObject(bool onActivate)
     {
 
@@ -56,15 +98,15 @@ public class ButtonEntity : BuildObj
         {
             if (obj.TryGetComponent(out ActivatableObjectEntity component))
             {
-                if(TryGetComponent(out NetworkIdentity identity))
+                if (TryGetComponent(out NetworkIdentity identity))
                 {
-                    component.ApplyActive(onActivate ? 1 : -1,identity.netId);
+                    component.ApplyActive(onActivate ? 1 : -1, identity.netId);
                 }
                 else
                 {
                     component.ApplyActive(onActivate ? 1 : -1);
                 }
-                   
+
             }
         }
         foreach (GameObject obj in lightObjects)
@@ -79,14 +121,14 @@ public class ButtonEntity : BuildObj
         foreach (EncapsulationField field in interactableObjects)
         {
             //   field.ApplyActive(onActivate ? 1 : -1);
-                if(TryGetComponent(out NetworkIdentity identity))
-                {
-                    field.ApplyActive(onActivate ? 1 : -1,identity.netId);
-                }
-                else
-                {
-                    field.ApplyActive(onActivate ? 1 : -1);
-                }
+            if (TryGetComponent(out NetworkIdentity identity))
+            {
+                field.ApplyActive(onActivate ? 1 : -1, identity.netId);
+            }
+            else
+            {
+                field.ApplyActive(onActivate ? 1 : -1);
+            }
         }
 
 
@@ -111,7 +153,7 @@ public class ButtonEntity : BuildObj
 
     #region  GET,SET
     protected Util util = new();
-
+    public bool _complete_FindAllObj;
     public override void SetData<T>(T data)
     {
         try
@@ -122,13 +164,12 @@ public class ButtonEntity : BuildObj
                 ButtonObjectData = buttonData;
 
                 FindTargetObject();
-
                 if (buttonData.lightPositions.Count > 0) FindLightObject();
                 if (buttonData.encapsulationItems.Count > 0) FindEncapsulationItem();
 
-                // StartCoroutine(DelayFindCoroutine());
+                if (Application.isPlaying) Net.Server_SetInit();
             }
-
+            
         }
         catch (Exception ex)
         {
@@ -136,18 +177,18 @@ public class ButtonEntity : BuildObj
         }
 
     }
-   
-    IEnumerator DelayFindCoroutine()
-    {
-        if (!Application.isPlaying) yield break;
 
-        yield return new WaitForSeconds(1f);
-        FindTargetObject();
+    // IEnumerator DelayFindCoroutine()
+    // {
+    //     if (!Application.isPlaying) yield break;
 
-        if (ButtonObjectData.lightPositions.Count > 0) FindLightObject();
-        if (ButtonObjectData.encapsulationItems.Count > 0) FindEncapsulationItem();
-                
-    }
+    //     yield return new WaitForSeconds(1f);
+    //     FindTargetObject();
+
+    //     if (ButtonObjectData.lightPositions.Count > 0) FindLightObject();
+    //     if (ButtonObjectData.encapsulationItems.Count > 0) FindEncapsulationItem();
+
+    // }
 
     public override T GetData<T>()
     {
@@ -172,10 +213,12 @@ public class ButtonEntity : BuildObj
 
     #region Util
 
-    protected virtual List<Vector2> GetTargetPositions() {
+    protected virtual List<Vector2> GetTargetPositions()
+    {
         List<Vector2> list = new();
 
-        foreach (GameObject obj in targetObjects) {
+        foreach (GameObject obj in targetObjects)
+        {
             if (obj == null) continue;
             if (obj.TryGetComponent(out ActivatableObjectEntity _))
             {
@@ -226,14 +269,16 @@ public class ButtonEntity : BuildObj
 
     }
 
-    public virtual void FindTargetObject() {
+    public virtual void FindTargetObject()
+    {
 
         if (!Application.isPlaying) return;
         List<GameObject> objList = new();
 
         foreach (Vector2 vec in targetPosition)
         {
-            foreach (Transform obj in MapEditor.Instance.buttonActivatableObjectTransform) {
+            foreach (Transform obj in MapEditor.Instance.buttonActivatableObjectTransform)
+            {
                 if (obj.TryGetComponent(out ActivatableObjectEntity component))
                 {
                     if (CompareVec(component.ButtonActivatedObjectStruct.position, vec))
@@ -265,7 +310,8 @@ public class ButtonEntity : BuildObj
         }
         lightObjects = list;
     }
-    protected bool CompareVec(Vector3 p1, Vector3 p2) {
+    protected bool CompareVec(Vector3 p1, Vector3 p2)
+    {
         bool x = Mathf.Approximately(p1.x, p2.x);
         bool y = Mathf.Approximately(p1.y, p2.y);
 
@@ -277,29 +323,6 @@ public class ButtonEntity : BuildObj
         if (!Application.isPlaying) return;
         List<EncapsulationField> list = new();
 
-        // foreach (Vector2 vec in encapsulationItemPosition)
-        // {
-        //     foreach (Transform obj in MapEditor.Instance.networkingObjectTransform)
-        //     {
-        //         if (obj.TryGetComponent(out BuildObj buildObj))
-        //         {
-        //             if (CompareVec(buildObj.ObjectData.position, vec))
-        //             {
-        //                 if (obj.TryGetComponent(out EncapsulationField field))
-        //                 {
-        //                     if (buildObj.ObjectData.indicator == INDICATOR.MARK)
-        //                     {
-        //                         Debug.Log("[1] Encapsulation Field Indicator Path Chack");
-        //                         field.Indicator_2PathChaking(gameObject);
-        //                     }
-        //                     list.Add(field);
-        //                     break;
-        //                 }
-
-        //             }
-        //         }
-        //     }
-        // }
         foreach (Vector2 vec in encapsulationItemPosition)
         {
             foreach (BuildObj obj in MapEditor.Instance._n_activePoolingObject)
@@ -321,25 +344,11 @@ public class ButtonEntity : BuildObj
 
             }
         }
-        
+
         interactableObjects = list;
 
     }
-    // public override void Editor_Setting(Transform transform)
-    // {
-    //      List<GameObject> objList = new();
 
-    //     foreach(Vector2 vec in targetPosition){
-    //        foreach(Transform obj in transform){
-    //         if(obj.TryGetComponent(out ActivatableObjectEntity component)){
-    //             if(component.ButtonActivatedObjectStruct.position == vec){
-    //                 objList.Add(obj.gameObject);
-    //             }
-    //         }
-    //        }   
-    //     }
-    //     targetObjects = objList;
-    // }
 #if UNITY_EDITOR
     public override void Editor_Setting(MapEditor mapEditor)
     {
@@ -351,9 +360,6 @@ public class ButtonEntity : BuildObj
             {
                 if (obj.TryGetComponent(out ActivatableObjectEntity component))
                 {
-                    // if(component.ButtonActivatedObjectStruct.position == vec){
-                    //     objList.Add(obj.gameObject);
-                    // }
                     if (CompareVec(component.ButtonActivatedObjectStruct.position, vec))
                     {
                         objList.Add(obj.gameObject);
@@ -388,7 +394,7 @@ public class ButtonEntity : BuildObj
                     }
                 }
             }
-            
+
         }
         interactableObjects = enList;
     }
@@ -396,6 +402,13 @@ public class ButtonEntity : BuildObj
 
     #endregion
 
+
+    #region Clean
+    public virtual void Animation_Clean()
+    {
+        
+    }
+    #endregion
 }
 
 

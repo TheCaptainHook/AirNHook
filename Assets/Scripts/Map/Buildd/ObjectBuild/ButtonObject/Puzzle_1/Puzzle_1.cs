@@ -130,7 +130,6 @@ public class Puzzle_1 : ButtonEntity
     private void Update()
     {
         
-            
         if (Puzzle_Net.onActive && input.playerActions.Action.ReadValue<float>() > 0f)
         {
             if (!Managers.Game.Player.TryGetComponent(out AirSM air)) return;
@@ -176,64 +175,65 @@ public class Puzzle_1 : ButtonEntity
     }
 #endif
     //-------------------------------------------------------------------------------250307 Refactoring
-    private void Setting() 
- {
-    #if UNITY_EDITOR
+    private void Setting()
+    {
+#if UNITY_EDITOR
         Helper.Init();
-    #endif
+#endif
 
-        for (int i = 0; i < partsPosition.Length; i++) 
+        for (int i = 0; i < partsPosition.Length; i++)
         {
-            if(Application.isPlaying)
+            if (Application.isPlaying)
             {
-                 Puzzle_Net.Server_CreatePuzzle_Item(
-                    i,itemsPosition[i],partsPosition[i]
-                );
+                Puzzle_Net.Server_CreatePuzzle_Item(
+                   i, itemsPosition[i], partsPosition[i]
+               );
 
             }
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
             else
             {
                 Editor_Setting(i);
 
             }
-    #endif
+#endif
         }
 
 
 
-    if (Application.isPlaying)
-    {
+        if (Application.isPlaying)
+        {
             //Create Dummy Item 
-            if(itemsPosition.Length > partsPosition.Length)
+            if (itemsPosition.Length > partsPosition.Length)
             {
-                for(int i = partsPosition.Length;i<itemsPosition.Length;i++)
+                for (int i = partsPosition.Length; i < itemsPosition.Length; i++)
                 {
                     Puzzle_Net.Server_Create_DummyItem(itemsPosition[i]);
                 }
             }
             //Create Dummy Item 
             Puzzle_Net.Server_SetHintSetting();
-    }
-    else
-    {
-       SetHint();
+        }
+        else
+        {
+            SetHint();
             //Create Dummy Item 
 
-            #if UNITY_EDITOR
-            int index = itemsPosition.Length - partsPosition.Length; 
-            if(index <=0) return;
+#if UNITY_EDITOR
+            int index = itemsPosition.Length - partsPosition.Length;
+            if (index <= 0) return;
 
-            for(int i = partsPosition.Length; i<itemsPosition.Length;i++) 
+            for (int i = partsPosition.Length; i < itemsPosition.Length; i++)
             {
                 Editor_Create_DummyItem(i);
             }
-            
-            #endif
+
+#endif
             //Create Dummy Item 
+        }
+
     }
  
- }
 
 
     public void SetHint(string answer = "ANSWER")
@@ -272,7 +272,7 @@ public class Puzzle_1 : ButtonEntity
 
 
 
-    protected override void Activation()
+    public override void Activation()
     {
         PrograssButtonActivatedObject(true);
     }

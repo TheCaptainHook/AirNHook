@@ -3,21 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerSupply : ButtonEntity,IInteractable
+public class PowerSupply : ButtonEntity
 {
     [CustomHeader("Power Supply")]
     [SerializeField] Transform socketPosition;
   
-    [Space(20)]
-    [Header("Interacte")]
-    public ObjectTypeEnum _objectType = ObjectTypeEnum.Mount;
-    [SerializeField] float _BtnOffset;
+    // [Space(20)]
+    // [Header("Interacte")]
+    // public ObjectTypeEnum _objectType = ObjectTypeEnum.Mount;
+    // [SerializeField] float _BtnOffset;
 
-    private Vector2 _topOfObj = new Vector2(0, 1.2f);
-    private UI_Base _E_Btn;
+    // private Vector2 _topOfObj = new Vector2(0, 1.2f);
+    // private UI_Base _E_Btn;
 
     #region  Network
-    private PowerSupply_Net P_Net => GetComponent<PowerSupply_Net>();
+    // private PowerSupply_Net P_Net => GetComponent<PowerSupply_Net>();
 
     #endregion
 
@@ -47,42 +47,105 @@ public class PowerSupply : ButtonEntity,IInteractable
 
         if (Application.isPlaying)
         {
-            P_Net.Server_SetInit();
-            StartCoroutine(SyncTargetObjectNetIdCo()); 
+            Net.Server_SetInit();
+            Debug.Log($"target Count: {targetObjects.Count}");
+            // StartCoroutine(SyncTargetObjectNetIdCo()); 
+            // var value = Get_TargetObject_uint();
+
         }
-        
+
     }
     #region Sync TargetObejct
+    // private (List<uint>,int consums) Get_TargetObject_uint()
+    // {
+    //     List<uint> uints = new();
+    //     for (int i = 0; i < targetObjects.Count; i++)
+    //     {
+    //         var item = targetObjects[i].TryGetComponent(out BuildObj obj) ? obj : null;
+    //         if (item == null) continue;
+    //         uint id = obj.GetNetworkId();
+    //         if (id == 9999) continue;
 
-    private IEnumerator SyncTargetObjectNetIdCo() //Server
+    //         uints.Add(id);
+    //     }
+
+    //     return (uints,targetObjects.Count+lightObjects.Count);
+    // }
+    // private IEnumerator SyncTargetObjectNetIdCo() //Server
+    // {
+    //     yield return new WaitForSeconds(1.5f);
+    //     if (targetObjects.Count == 0) yield break;
+
+    //     List<uint> uints = new();
+
+    //     for (int i = 0; i < targetObjects.Count; i++)
+    //     {
+    //         var item = targetObjects[i].TryGetComponent(out BuildObj obj) ? obj : null;
+    //         if (item == null) continue;
+    //         uint id = obj.GetNetworkId();
+    //         if (id == 9999) continue;
+
+    //         uints.Add(id);
+    //     }
+    //     //Consum
+    //     int consum = targetObjects.Count + lightObjects.Count;
+    //     P_Net.consumption = consum;
+    //     //Consum
+
+    //     P_Net.Rpc_SetTargetObject(uints);
+
+    // }
+    
+    
+
+    // IEnumerator DelayFindTargetCo()
+    // {
+    //     yield return new WaitForSeconds(1);
+
+    //     List<GameObject> objList = new();
+
+    //     foreach (Vector2 vec in targetPosition)
+    //     {
+    //         foreach (Transform tr in MapEditor.Instance.buttonActivatableObjectTransform)
+    //         {
+    //             if (tr.TryGetComponent(out ActivatableObjectEntity component))
+    //             {
+    //                 if (CompareVec(component.ButtonActivatedObjectStruct.position, vec))
+    //                 {
+
+    //                     objList.Add(tr.gameObject);
+    //                     break;
+    //                 }
+    //             }
+    //         }
+
+    //         foreach (Transform tr in MapEditor.Instance.buttonObjectTransform)
+    //         {
+    //             if (tr.TryGetComponent(out ButtonEntity component))
+    //             {
+    //                 if (CompareVec(component.ButtonObjectData.position, vec))
+    //                 {
+    //                     objList.Add(tr.gameObject);
+    //                     break;
+    //                 }
+    //             }
+    //         }
+
+    //     }
+
+    //     targetObjects = objList;
+    // }
+    public override void FindTargetObject()
     {
-        yield return new WaitForSeconds(1.5f);
-        if (targetObjects.Count == 0) yield break;
-
-        List<uint> uints = new();
-
-        for (int i = 0; i < targetObjects.Count; i++)
-        {
-            var item = targetObjects[i].TryGetComponent(out BuildObj obj) ? obj : null;
-            if (item == null) continue;
-            uint id = obj.GetNetworkId();
-            if (id == 9999) continue;
-
-            uints.Add(id);
-        }
-        //Consum
-        int consum = targetObjects.Count + lightObjects.Count;
-        P_Net.consumption = consum;
-        //Consum
-
-        P_Net.Rpc_SetTargetObject(uints);
-
+        if (!Application.isPlaying) return;
+        StartCoroutine(Delay_FindTargetCo());
+        
     }
-
-    IEnumerator DelayFindTargetCo()
+    private IEnumerator Delay_FindTargetCo()
     {
-        yield return new WaitForSeconds(1);
+        _complete_FindAllObj = false;
 
+        yield return new WaitUntil(() => MapEditor.Instance._l_complete_button_obj);
         List<GameObject> objList = new();
 
         foreach (Vector2 vec in targetPosition)
@@ -113,14 +176,8 @@ public class PowerSupply : ButtonEntity,IInteractable
             }
 
         }
-
         targetObjects = objList;
-    }
-    public override void FindTargetObject()
-    {
-        if (!Application.isPlaying) return;
-        StartCoroutine(DelayFindTargetCo());
-       
+        _complete_FindAllObj = true;
     }
     #endregion
 
@@ -135,12 +192,12 @@ public class PowerSupply : ButtonEntity,IInteractable
     
     #endregion
     #region Active,Deactive
-    protected override void Activation()
+    public override void Activation()
     {
         PrograssButtonActivatedObject(true);
         // LineOn(true);
     }
-    protected override void Deactivated()
+    public override void Deactivated()
     {
         PrograssButtonActivatedObject(false);
         // LineOn(false);
@@ -304,111 +361,111 @@ public class PowerSupply : ButtonEntity,IInteractable
 
 
     #endregion
-    private float condition_InsertVelocityValue = 15;
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        // if (!NetworkServer.active) return;
-        if (collision != null)
-        {
-            if (collision.TryGetComponent(out BatteryInteractable item))
-            {
-                var velocity = item.Rb.velocity.magnitude;
-                if (velocity >= condition_InsertVelocityValue)
-                {
-                    if (!P_Net._onSocket)
-                    {
-                        Interaction(item.transform);
-                    }
-                }
-            }
-        }
-    }
+    // private float condition_InsertVelocityValue = 15;
+    // private void OnTriggerEnter2D(Collider2D collision)
+    // {
+    //     // if (!NetworkServer.active) return;
+    //     if (collision != null)
+    //     {
+    //         if (collision.TryGetComponent(out BatteryInteractable item))
+    //         {
+    //             var velocity = item.Rb.velocity.magnitude;
+    //             if (velocity >= condition_InsertVelocityValue)
+    //             {
+    //                 if (!P_Net._onSocket)
+    //                 {
+    //                     Interaction(item.transform);
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
     #region  Interacable
-    public void Interaction(Transform accessor = null)
-    {
-        if (accessor != null && !accessor.TryGetComponent(out AirSM air))
-        {
-            if (accessor.TryGetComponent<BatteryInteractable>(out var newbattery))
-            {
-                P_Net.Cmd_SetBattery(newbattery.TryGetComponent<NetworkIdentity>(out var identity) ? identity.netId : 9999);
-                HideEButton();
-                return;
-            }
-        }
-        else 
-        {
-            if (P_Net._onSocket)
-            {
-                P_Net.Cmd_SetBattery(9999);
-                return;
-            }
+    // public void Interaction(Transform accessor = null)
+    // {
+    //     if (accessor != null && !accessor.TryGetComponent(out AirSM air))
+    //     {
+    //         if (accessor.TryGetComponent<BatteryInteractable>(out var newbattery))
+    //         {
+    //             P_Net.Cmd_SetBattery(newbattery.TryGetComponent<NetworkIdentity>(out var identity) ? identity.netId : 9999);
+    //             HideEButton();
+    //             return;
+    //         }
+    //     }
+    //     else 
+    //     {
+    //         if (P_Net._onSocket)
+    //         {
+    //             P_Net.Cmd_SetBattery(9999);
+    //             return;
+    //         }
             
-        }
+    //     }
       
-    }
+    // }
 
-    public bool CanInteract()
-    {
-        if (Hook_IsInteractionValid()) return true;
-        if (Air_IsInteractionValid()) return true;
+    // public bool CanInteract()
+    // {
+    //     if (Hook_IsInteractionValid()) return true;
+    //     if (Air_IsInteractionValid()) return true;
 
-        return false;
-        // return true;
-    }
-    private bool Hook_IsInteractionValid() //
-    {
-        var hook = Managers.Game.Player.TryGetComponent(out HookSM component) ? component : null;
-        if (hook == null) return false;
+    //     return false;
+    //     // return true;
+    // }
+    // private bool Hook_IsInteractionValid() //
+    // {
+    //     var hook = Managers.Game.Player.TryGetComponent(out HookSM component) ? component : null;
+    //     if (hook == null) return false;
 
-        if (hook.GetGrabbedItem() == null)
-        {
-            Debug.Log("Hook grabbed item is null");
-            if (!P_Net._onSocket) return false;
-            else return true;
-        }
-        else
-        {
-            if (hook.GetGrabbedItem().TryGetComponent<BatteryInteractable>(out var batteryInteractable))
-            {
-                return true;
-            }
-            else
-            {
-                Debug.Log($"Hook grabbed item is not BatteryInteractable, {hook.GetGrabbedItem().name}");
-                return false;
-            }
-        }
-    }
-    private bool Air_IsInteractionValid() //
-    {
-        var air = Managers.Game.Player.TryGetComponent(out AirSM component) ? component : null;
-        if (air == null || !P_Net._onSocket) return false;
+    //     if (hook.GetGrabbedItem() == null)
+    //     {
+    //         Debug.Log("Hook grabbed item is null");
+    //         if (!P_Net._onSocket) return false;
+    //         else return true;
+    //     }
+    //     else
+    //     {
+    //         if (hook.GetGrabbedItem().TryGetComponent<BatteryInteractable>(out var batteryInteractable))
+    //         {
+    //             return true;
+    //         }
+    //         else
+    //         {
+    //             Debug.Log($"Hook grabbed item is not BatteryInteractable, {hook.GetGrabbedItem().name}");
+    //             return false;
+    //         }
+    //     }
+    // }
+    // private bool Air_IsInteractionValid() //
+    // {
+    //     var air = Managers.Game.Player.TryGetComponent(out AirSM component) ? component : null;
+    //     if (air == null || !P_Net._onSocket) return false;
 
-        Debug.Log("AirSM is valid for interaction");
-        return true;
+    //     Debug.Log("AirSM is valid for interaction");
+    //     return true;
 
-    }
-    public bool Interacting(bool value, GameObject player)
-    {
-        return true;
-    }
+    // }
+    // public bool Interacting(bool value, GameObject player)
+    // {
+    //     return true;
+    // }
 
-    public ObjectTypeEnum GetObjectType()
-    {
-        return _objectType;
-    }
+    // public ObjectTypeEnum GetObjectType()
+    // {
+    //     return _objectType;
+    // }
 
-    public void ShowEButton()
-    {
-        _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
-        _E_Btn.transform.position = transform.position + (Vector3)_topOfObj;
-    }
+    // public void ShowEButton()
+    // {
+    //     _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
+    //     _E_Btn.transform.position = transform.position + (Vector3)_topOfObj;
+    // }
 
-    public void HideEButton()
-    {
-        _E_Btn = null;
-        Managers.UI.HideUI<UI_ShowEButton>();
-    }
+    // public void HideEButton()
+    // {
+    //     _E_Btn = null;
+    //     Managers.UI.HideUI<UI_ShowEButton>();
+    // }
 
 
 #endregion
