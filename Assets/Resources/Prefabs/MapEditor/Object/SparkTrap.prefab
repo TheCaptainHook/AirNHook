@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8842246165096441855}
   - component: {fileID: 1237858822196248522}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Spark_Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7890568419026564671}
   - component: {fileID: 8528115733816064266}
-  m_Layer: 14
+  m_Layer: 7
   m_Name: Spark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2173729986419365825}
   - component: {fileID: 3335013287602896588}
-  m_Layer: 14
+  m_Layer: 7
   m_Name: Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7231909717863015955}
   - component: {fileID: 3908544252765210089}
-  m_Layer: 14
+  m_Layer: 7
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -347,7 +347,7 @@ GameObject:
   - component: {fileID: 1470045758785124976}
   - component: {fileID: 2376465778932841687}
   - component: {fileID: 8543723518092866904}
-  m_Layer: 14
+  m_Layer: 7
   m_Name: SparkTrap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -478,5 +478,6 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
+  _Dissolve_MainSprites: []
+  _dissolveMaterials: []
   canRespawn: 0

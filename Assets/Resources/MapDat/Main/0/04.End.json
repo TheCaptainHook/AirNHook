@@ -3,7 +3,7 @@
         "x": 20.0,
         "y": 20.0
     },
-    "mapID": "03.End",
+    "mapID": "04.End",
     "subMapName": "DemoEnding",
     "stageLevel": 0,
     "startPosition": {
@@ -2389,11 +2389,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -2407,7 +2403,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 307,
@@ -2425,11 +2422,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -2443,7 +2436,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 307,
@@ -2461,11 +2455,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -2479,7 +2469,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 307,
@@ -2497,11 +2488,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -2515,7 +2502,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 307,
@@ -2533,11 +2521,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -2551,7 +2535,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 349,
@@ -2569,11 +2554,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -2587,7 +2568,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 347,
@@ -2605,11 +2587,7 @@
             "scale": {
                 "x": 1.100000023841858,
                 "y": 1.100000023841858,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -2623,7 +2601,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 348,
@@ -2641,11 +2620,7 @@
             "scale": {
                 "x": 1.100000023841858,
                 "y": 1.100000023841858,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -2659,7 +2634,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 350,
@@ -2679,10 +2655,6 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -2695,7 +2667,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 307,
@@ -2713,11 +2686,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -2731,7 +2700,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 307,
@@ -2749,11 +2719,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -2767,7 +2733,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 307,
@@ -2785,11 +2752,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -2803,7 +2766,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 307,
@@ -2821,11 +2785,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 1.0
-            },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
+                "z": 0.0
             },
             "size": {
                 "x": 0.0,
@@ -2839,7 +2799,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 351,
@@ -2859,10 +2820,6 @@
                 "y": 1.25,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -2875,7 +2832,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 346,
@@ -2895,10 +2853,6 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -2911,7 +2865,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         }
     ],
     "mapBackgroundObjectList": [
@@ -2933,10 +2888,6 @@
                 "y": 2.0,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -2949,7 +2900,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 5330,
@@ -2969,10 +2921,6 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -2985,7 +2933,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 5307,
@@ -3005,10 +2954,6 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -3021,7 +2966,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 5307,
@@ -3041,10 +2987,6 @@
                 "y": 0.699999988079071,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -3057,7 +2999,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 5300,
@@ -3077,10 +3020,6 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -3093,7 +3032,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 5301,
@@ -3113,10 +3053,6 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -3129,7 +3065,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 5340,
@@ -3149,10 +3086,6 @@
                 "y": 2.4000000953674318,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -3165,7 +3098,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 5314,
@@ -3185,10 +3119,6 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -3201,7 +3131,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 5312,
@@ -3221,10 +3152,6 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -3237,7 +3164,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 5311,
@@ -3257,10 +3185,6 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -3273,7 +3197,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 5305,
@@ -3293,10 +3218,6 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -3309,7 +3230,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 5303,
@@ -3329,10 +3251,6 @@
                 "y": 1.600000023841858,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -3345,7 +3263,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 6003,
@@ -3365,10 +3284,6 @@
                 "y": 0.5,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -3381,7 +3296,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         }
     ],
     "mapOtherObjectList": [
@@ -3403,10 +3319,6 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -3419,7 +3331,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 10106,
@@ -3439,10 +3352,6 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -3455,7 +3364,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 10106,
@@ -3475,10 +3385,6 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -3491,7 +3397,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         },
         {
             "id": 10104,
@@ -3511,10 +3418,6 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
             "size": {
                 "x": 0.0,
                 "y": 0.0
@@ -3527,7 +3430,8 @@
             "attackCooldown": 0.0,
             "activeRequireAmount": 0,
             "onEncapsulationItem": false,
-            "indicator": 0
+            "indicator": 0,
+            "tutorialCode": 0
         }
     ],
     "mapButtonActivatableObjectDataList": [],
