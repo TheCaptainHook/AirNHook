@@ -8229,11 +8229,11 @@
             "tutorialCode": 0
         },
         {
-            "id": 1006,
+            "id": 374,
             "dialogueId": 0,
             "position": {
-                "x": -7.659999847412109,
-                "y": 23.229999542236329
+                "x": -1.3600000143051148,
+                "y": 20.979999542236329
             },
             "quaternion": {
                 "x": 0.0,
@@ -8242,13 +8242,13 @@
                 "w": 1.0
             },
             "scale": {
-                "x": 1.2240753173828126,
-                "y": 1.1579084396362305,
-                "z": 0.0
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
             },
             "size": {
-                "x": 3.448150634765625,
-                "y": 3.315816879272461
+                "x": 0.0,
+                "y": 0.0
             },
             "text": "",
             "fontSize": 0.0,
@@ -12200,54 +12200,6 @@
             "paths": [],
             "moveSpeed": 0.0,
             "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 334,
-            "position": {
-                "x": -3.1500000953674318,
-                "y": 24.18000030517578
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "activeRequirAmount": 0,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 1.0,
-            "moveDistance": 6.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
                 "x": 0.0,

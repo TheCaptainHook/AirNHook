@@ -20,6 +20,7 @@ public class PairAuthDoor : BuildObj, IInteractable
     private int OFF = Animator.StringToHash("Off");
     private int END = Animator.StringToHash("End");
     private int OPEN = Animator.StringToHash("Open");
+    private int CLEAN = Animator.StringToHash("Clean");
     [SerializeField] GameObject _face;
 
     #endregion
@@ -43,7 +44,7 @@ public class PairAuthDoor : BuildObj, IInteractable
         _lrPool.Enqueue(CreateLine());
         _lrPool.Enqueue(CreateLine());
     }
-   
+
     public IEnumerator AuthCoroutine()
     {
         _onProgress = true;
@@ -54,12 +55,12 @@ public class PairAuthDoor : BuildObj, IInteractable
         StartCoroutine(_leftEye.ScaningCoroutine());
         StartCoroutine(_rightEye.ScaningCoroutine());
         yield return new WaitForSeconds(1.5f);
-       
+
         //Check Effect
         yield return Auth_DrawLineCo();
         //Check Effect
         yield return new WaitForSeconds(1f);
-         _animator.SetTrigger(OFF);
+        _animator.SetTrigger(OFF);
         Destory_Dummy_ScanShader();
         ClearAllLine();
         //Panel
@@ -77,7 +78,7 @@ public class PairAuthDoor : BuildObj, IInteractable
             }
             else
             {
-                Debug.Log("Auth Fail");       
+                Net.Server_Fail();
             }
         }
         //------------ Auth Check(Server)
@@ -86,13 +87,21 @@ public class PairAuthDoor : BuildObj, IInteractable
         PlayerDic_Clear();
         _onProgress = false;
 
-        if(NetworkServer.active) Net._onProgress = false;
+        if (NetworkServer.active) Net._onProgress = false;
     }
+    #region  Open , Fail
     //close: top : 2.1, bottom : 0.9
-    public void Open()
+    public void Open() //Rpc
     {
+        //스크린 "O" 띄우기
+        _panel.Correct();
         _animator.SetTrigger(OPEN);
     }
+    public void Fail()
+    {
+        _panel.Fail();
+    }
+    #endregion
     private Dictionary<uint, LineRenderer> _playerLinesDic = new Dictionary<uint, LineRenderer>(2);
 
     #region Line
@@ -209,6 +218,28 @@ public class PairAuthDoor : BuildObj, IInteractable
     }
     #endregion
 
+    #region  Clean
+    public override void Clean()
+    {
+        StopAllCoroutines();
+
+        _animator.SetTrigger(CLEAN);
+
+        _leftEye.Clean();
+        _rightEye.Clean();
+        ClearAllLine();
+
+        PlayerDic_Clear();
+        _panel.Clean();
+        Destory_Dummy_ScanShader();
+        _face.SetActive(false);
+
+        Net._authSuccess = false;
+        Net._onProgress = false;
+
+        _onProgress = false;
+    }
+    #endregion
 
     public void DetectPlayer(Collider2D col)
     {

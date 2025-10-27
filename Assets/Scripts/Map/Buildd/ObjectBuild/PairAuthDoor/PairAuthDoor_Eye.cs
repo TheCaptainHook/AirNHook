@@ -155,4 +155,17 @@ public class PairAuthDoor_Eye : MonoBehaviour
         _mesh.RecalculateBounds();
         _mesh.RecalculateNormals();
     }
+
+
+    #region Init,Clean
+    public void Init()
+    {
+
+    }
+    public void Clean()
+    {
+        StopAllCoroutines();
+        MeshClear();
+    }
+    #endregion
 }

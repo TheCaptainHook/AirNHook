@@ -164,4 +164,11 @@ public class ActivatableObjectEntity : BuildObj
 
     #endregion
 
+    #region  Clean
+    public override void Clean()
+    {
+        Net.Clean();
+    }
+    #endregion
+
 }

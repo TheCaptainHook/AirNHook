@@ -12,6 +12,8 @@ public class ActivatableObject_Indicator_Helper_Editor : Editor
 
     private void OnEnable()
     {
+        if (Application.isPlaying) return;
+
         entity = target as ActivatableObjectEntity;
 
         itemList = new();
@@ -59,6 +61,8 @@ public class ActivatableObject_Indicator_Helper_Editor : Editor
 
     private void OnDisable()
     {
+        if (Application.isPlaying) return;
+
         EditorApplication.update -= EditorUpdate;
 
         if (entity != null)
@@ -86,6 +90,8 @@ public class ActivatableObject_Indicator_Helper_Editor : Editor
     // public bool isHorizontal;
     public override void OnInspectorGUI()
     {
+        if (Application.isPlaying) return;
+        
         base.OnInspectorGUI();
 
         EditorGUILayout.Space(20);

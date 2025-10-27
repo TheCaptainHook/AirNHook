@@ -6919,16 +6919,16 @@
                 "w": 0.7031315565109253
             },
             "scale": {
-                "x": 1.0,
-                "y": 1.0,
+                "x": 0.5,
+                "y": 0.5,
                 "z": 1.0
             },
             "activeRequirAmount": 4,
             "indicatorStruct": {
                 "indicator": 3,
                 "indicator_1_position": {
-                    "x": -60.0,
-                    "y": -53.5
+                    "x": -62.36000061035156,
+                    "y": -54.38999938964844
                 },
                 "indicator_2_position": {
                     "x": -60.72999954223633,
@@ -8135,7 +8135,7 @@
             ],
             "lightPositions": [],
             "encapsulationItems": [],
-            "chargeRequired": true,
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
@@ -8462,7 +8462,7 @@
             ],
             "lightPositions": [],
             "encapsulationItems": [],
-            "chargeRequired": true,
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],
@@ -9110,7 +9110,7 @@
             "targetPositions": [],
             "lightPositions": [],
             "encapsulationItems": [],
-            "chargeRequired": true,
+            "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
             "itemPositions": [],

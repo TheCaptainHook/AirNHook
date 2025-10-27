@@ -31,6 +31,17 @@ public class PairAuthDoor_Net : NetworkBehaviour
         _authSuccess = true;
         Rpc_Open();
     }
+    [Server]
+    public void Server_Fail()
+    {
+        Rpc_Fail();
+    }
+    [ClientRpc]
+    private void Rpc_Fail()
+    {
+        //"X" 띄우고 초기화
+        Main.Fail();
+    }
     [ClientRpc]
     private void Rpc_Open()
     {

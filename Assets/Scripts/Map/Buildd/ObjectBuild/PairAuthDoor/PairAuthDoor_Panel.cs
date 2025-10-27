@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PairAuthDoor_Panel : MonoBehaviour
 {
@@ -16,10 +17,14 @@ public class PairAuthDoor_Panel : MonoBehaviour
     #region  Hook
     [SerializeField] TextMeshPro _hook_Text;
     #endregion
+
+
+    [SerializeField] GameObject _correctImg;
+    [SerializeField] GameObject _failImg;
     #region  uni
 
 
-    WaitForSeconds _wait = new WaitForSeconds(0.1f);
+    WaitForSeconds _wait = new WaitForSeconds(0.05f);
 
     #endregion
     public void SetPanel(PlayerSM playerSm, bool onOff = true)
@@ -45,7 +50,37 @@ public class PairAuthDoor_Panel : MonoBehaviour
         hookSM = null;
         _air_Text.text = "";
         _hook_Text.text = "";
+
+        // _correctImg.SetActive(false);
+        // _failImg.SetActive(false);
     }
+    public void Clean()
+    {
+        StopAllCoroutines();
+        PanelReset();
+        _failCo = null;
+        _correctImg.SetActive(false);
+        _failImg.SetActive(false);
+
+    }
+    public void Correct()
+    {
+        _correctImg.SetActive(true);
+    }
+    Coroutine _failCo;
+    public void Fail()
+    {
+        if (_failCo != null) StopCoroutine(_failCo);
+        _failCo = StartCoroutine(FailCo());
+    }
+    private IEnumerator FailCo()
+    {
+        _failImg.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        _failImg.SetActive(false);
+        _failCo = null;
+    }
+
     public bool AuthCheck()
     {
         return airSM && hookSM;
