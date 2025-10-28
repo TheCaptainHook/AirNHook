@@ -74,6 +74,13 @@ public class InteractableObjectEntity : BuildObj
         DissolveClean();
         EncapsulationField.Clean(); //indicator Clean
         TransportItemEntity.onSync = false;
+        
+        Clean_OtherValue();
+    }
+
+    protected virtual void Clean_OtherValue()
+    {
+        
     }
 
 }

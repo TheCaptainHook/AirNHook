@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
-using System;
 using UnityEngine;
 
 public class PowerSupply_DrawLineUtility : MonoBehaviour
@@ -15,7 +14,7 @@ public class PowerSupply_DrawLineUtility : MonoBehaviour
     public uint targetId;
 
     List<Vector2> pathList;
-    public void Setting(Vector2 start, uint targetId,Material mat)
+    public void Setting(Vector2 start, uint targetId, Material mat)
     {
         var target = NetworkClient.spawned.TryGetValue(targetId, out NetworkIdentity identity) ? identity : null;
         if (target == null) return;
@@ -28,7 +27,12 @@ public class PowerSupply_DrawLineUtility : MonoBehaviour
             },
             false, Direction_Type.Four));
     }
-
+    #region  Clean
+    public void Clean()
+    {
+        StopAllCoroutines();
+    }
+    #endregion
     #region  Draw,Erase
     private bool isDrawing;
     private bool isErasing;

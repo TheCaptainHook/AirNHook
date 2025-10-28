@@ -76,6 +76,10 @@ public class Battery : InteractableObjectEntity
         Battery_Net.powerSupply = obj;
     }
 
-           
+
+    protected override void Clean_OtherValue()
+    {
+        if (NetworkServer.active) Battery_Net.batteryCapacity = 0;
+    }
     #endregion
 }

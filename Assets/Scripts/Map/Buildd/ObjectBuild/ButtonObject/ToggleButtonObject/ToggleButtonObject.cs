@@ -21,7 +21,7 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
     [SerializeField] float _BtnOffset;
     public ObjectTypeEnum _objectType = ObjectTypeEnum.Interaction;
     private UI_Base _E_Btn;
-    [SerializeField] private GameObject energyIcon;
+    // [SerializeField] private GameObject energyIcon;
 
     // private ToggleButton_Net toggleButton_Net;
     // private ToggleButton_Net ToggleButton_Net
@@ -75,12 +75,20 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
     #region  Clean
     public override void Clean()
     {
+        StopAllCoroutines();
         // ToggleButton_Net.onSync = false;
+        onPrograss = false;
+        onActive = false;
+
         // onActive = false;
-        if(NetworkServer.active)
+        if (NetworkServer.active)
         {
             Net.Server_Clean();
         }
+    }
+    public override void Animation_Clean()
+    {
+        animator.SetBool(OnPressed, false);
     }
     #endregion
 
@@ -130,7 +138,7 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
         onPrograss = true;
         onActive = false;
         ////network
-        animator.SetBool(OnPressed,onActive);
+        animator.SetBool(OnPressed, onActive);
         //
         PrograssButtonActivatedObject(onActive);
 
@@ -155,6 +163,7 @@ public class ToggleButtonObject : ButtonEntity,IInteractable,IPowerConsumer
     // {
     //     animator.SetBool(OnPressed,val);
     // }
+    
 #endregion
 
 #region  Interacte

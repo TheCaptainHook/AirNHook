@@ -276,9 +276,66 @@ public class PowerSupply_Net : ButtonEntity_Net, IInteractable
         }
 
     }
+    
     #endregion
 
+    #region  Clean
+    public void ConnectClean()
+    {
+        if (battery == null) return;
 
+        if (battery.TryGetComponent(out ParentConstraint component))
+        {
+            if (component.sourceCount > 0)
+            {
+                component.RemoveSource(0);
+            }
+        }
+
+        var col = battery.TryGetComponent(out Collider2D collider) ? collider : null;
+        if (col != null) col.enabled = true;
+        var rb = battery.TryGetComponent(out Rigidbody2D rigidbody) ? rigidbody : null;
+        if (rb != null)
+        {
+            rb.simulated = true;
+            rb.velocity = Vector3.zero;
+        }
+
+        if (battery.TryGetComponent(out BatteryInteractable net))
+        {
+            net.Recover();
+            // net.RemoveSocketEffect();
+
+            _onSocket = false;
+            battery = null;
+        }
+    }
+    // public override void Server_Clean()
+    // {
+
+    //     base.Server_Clean();
+    //     _consumption = 0;
+    //     Clean();
+    // }
+    public override void Clean()
+    {
+        if (isServer) _consumption = 0;
+        ConnectClean();
+             
+        for (int i = 0; i < pdu_List.Count; i++)
+        {
+            var item = pdu_List[i];
+            item.Clean();
+            Destroy(item.gameObject);
+        }
+        if (lineContainer != null)
+        {
+            Destroy(lineContainer.gameObject);
+            lineContainer = null;
+        }
+        _onSync = false;
+    }
+    #endregion
 
     #region Draw,Eraser
     private List<PowerSupply_DrawLineUtility> pdu_List;

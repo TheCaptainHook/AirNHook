@@ -4,15 +4,15 @@ using UnityEngine;
 using System;
 using Mirror;
 
-public class MovingPlatform :  ActivatableObjectEntity
+public class MovingPlatform : ActivatableObjectEntity
 {
     [CustomHeader("Moving Platform")]
     public Vector2[] paths;
 
     [ContextMenu("Add Current Position")]
-    public void AddCurrentPosition() 
+    public void AddCurrentPosition()
     {
-        if(paths.Length > 0) 
+        if (paths.Length > 0)
         {
             Vector2[] newPaths = new Vector2[paths.Length + 1];
             for (int i = 0; i < paths.Length; i++)
@@ -27,15 +27,15 @@ public class MovingPlatform :  ActivatableObjectEntity
             paths = new Vector2[1];
             paths[0] = transform.position;
         }
-       
+
 
     }
 
-    [Range(0,5)]
+    [Range(0, 5)]
     public float moveSpeed;
 
-    
-    
+
+
     private MovingPlatform_Net MovingPlatform_Net;
     public NetworkRigidbodyUnreliable2D netRb;
     protected override void Awake()
@@ -50,7 +50,7 @@ public class MovingPlatform :  ActivatableObjectEntity
     {
         if (typeof(T) == typeof(ButtonActivatableObjectStruct))
         {
-            return (T)(object)new ButtonActivatableObjectStruct(id, transform.position, transform.rotation, transform.localScale,activeRequirAmount,indicatorStruct,paths, moveSpeed);
+            return (T)(object)new ButtonActivatableObjectStruct(id, transform.position, transform.rotation, transform.localScale, activeRequirAmount, indicatorStruct, paths, moveSpeed);
         }
 
         return default(T);
@@ -74,10 +74,10 @@ public class MovingPlatform :  ActivatableObjectEntity
         if (Application.isPlaying)
         {
             MovingPlatform_Net.Server_InitSync();
-            
+
             await util.Delay(() => { CheckActiveRequirAmount(); });
         }
-        
+
     }
     #endregion
 
@@ -87,9 +87,9 @@ public class MovingPlatform :  ActivatableObjectEntity
     public Vector2 dir;
     // public event Action<Vector2> movingEvent;
     private void FixedUpdate()
-    {   
-        if(!MovingPlatform_Net.onActive) return;
-        if(onArrivalPoint) return;
+    {
+        if (!MovingPlatform_Net.onActive) return;
+        if (onArrivalPoint) return;
 
         onArrivalPoint = MoveToward();
     }
@@ -97,9 +97,9 @@ public class MovingPlatform :  ActivatableObjectEntity
     public bool onArrivalPoint;
 
     private bool MoveToward()
-    {   
-        if(MovingPlatform_Net.targetPosition == null) return true;
-        if(CheckDistance(_rb.position,MovingPlatform_Net.targetPosition))
+    {
+        if (MovingPlatform_Net.targetPosition == null) return true;
+        if (CheckDistance(_rb.position, MovingPlatform_Net.targetPosition))
         {
             dir = Vector2.zero;
             return true;
@@ -141,8 +141,10 @@ public class MovingPlatform :  ActivatableObjectEntity
     #region  Util
 
 
-    private bool CheckDistance(Vector2 curPos,Vector2 targetPos){
-        if(Vector3.Distance(curPos,targetPos) < 0.1f){
+    private bool CheckDistance(Vector2 curPos, Vector2 targetPos)
+    {
+        if (Vector3.Distance(curPos, targetPos) < 0.1f)
+        {
             return true;
         }
         return false;
@@ -153,7 +155,8 @@ public class MovingPlatform :  ActivatableObjectEntity
     /// </summary>
     /// <param name="paths"></param>
     /// <returns></returns>
-     private Vector2[] ConvertPaths(Vector2[] paths){
+    private Vector2[] ConvertPaths(Vector2[] paths)
+    {
         if (Application.isPlaying)
         {
             Vector2[] targetPaths = new Vector2[paths.Length + 1];
@@ -168,6 +171,13 @@ public class MovingPlatform :  ActivatableObjectEntity
         return paths;
     }
 
+    #endregion
+
+    #region Clean
+    public override void Clean()
+    {
+        
+    }
 #endregion
 
 

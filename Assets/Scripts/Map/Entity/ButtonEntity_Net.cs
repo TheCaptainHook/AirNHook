@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Mirror;
+using UnityEngine;
 
 public abstract class ButtonEntity_Net : NetworkBehaviour
 {
@@ -12,6 +13,7 @@ public abstract class ButtonEntity_Net : NetworkBehaviour
     #region  Power
     [SyncVar(hook = nameof(Hook_ChargeRequired))]
     public bool _chargeRequired;
+    
     [SyncVar] public int _hasPower;
     
     [Command(requiresAuthority = false)]
@@ -59,8 +61,7 @@ public abstract class ButtonEntity_Net : NetworkBehaviour
         transform.position = data.position;
         transform.rotation = data.quaternion;
 
-        _chargeRequired = data.chargeRequired;
-
+        // _chargeRequired = data.chargeRequired;
 
         _onSync = true;
     }
@@ -99,19 +100,23 @@ public abstract class ButtonEntity_Net : NetworkBehaviour
 
     #region  Clean
     [Server]
-    public void Server_Clean()
+    public virtual void Server_Clean()
     {
         _chargeRequired = false;
         _hasPower = 0;
         Rpc_Clean();
     }
     [ClientRpc]
-    private void Rpc_Clean()
+    protected virtual void Rpc_Clean()
     {
+        _onSync = false;
         _isActive = false;
         Main.Animation_Clean();
     }
-
+    public virtual void Clean()
+    {
+        if (isServer) Server_Clean();
+    }
     #endregion
 
     #region Util

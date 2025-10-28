@@ -55,6 +55,13 @@ public class PowerSupply : ButtonEntity
         }
 
     }
+    #region  Clean
+    public override void Clean()
+    {
+        // if (NetworkServer.active) Net.Server_Clean();
+        GetComponent<PowerSupply_Net>().Clean();
+    }
+    #endregion
     #region Sync TargetObejct
     // private (List<uint>,int consums) Get_TargetObject_uint()
     // {

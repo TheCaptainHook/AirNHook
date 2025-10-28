@@ -404,6 +404,7 @@ public class ButtonEntity : BuildObj,IPowerConsumer
 
 
     #region Clean
+   
     public virtual void Animation_Clean()
     {
         

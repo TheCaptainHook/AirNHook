@@ -66,11 +66,14 @@ public class MovingPlatform_Net : NetworkBehaviour
             Rpc_SetTargetPosition(RB.position, targetPosition);
             onFixedUpdataReady = true;
         }
-        
+
 
         Rpc_InitSync(Main.ButtonActivatedObjectStruct);
 
     }
+    //========
+    
+    //========
 
     [ClientRpc]
     private void Rpc_SetTargetPosition(Vector2 curPosition, Vector2 targetPosition)
@@ -165,6 +168,7 @@ public class MovingPlatform_Net : NetworkBehaviour
 
     #endregion
 
+    
 
     #region Move Platform
 
@@ -223,6 +227,9 @@ public class MovingPlatform_Net : NetworkBehaviour
   
 
     //--------------------------------------------------------------------------------------------------------Refectoring 0406
+    #region Clean
+    #endregion
+    
     #endregion
 
 }

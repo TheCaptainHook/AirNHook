@@ -1,4 +1,5 @@
 
+using System;
 using Mirror;
 using UnityEngine;
 public enum INDICATOR
@@ -167,8 +168,16 @@ public class ActivatableObjectEntity : BuildObj
     #region  Clean
     public override void Clean()
     {
-        Net.Clean();
-    }
+        try
+        {
+            Net.Clean();
+        }catch(Exception ex)
+        {
+            Debug.Log($"Error, {gameObject.name}\n{ex}");      
+            
+        }
+        
+        }
     #endregion
 
 }
