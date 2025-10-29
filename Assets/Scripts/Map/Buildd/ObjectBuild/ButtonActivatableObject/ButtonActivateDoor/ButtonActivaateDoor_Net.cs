@@ -52,13 +52,26 @@ public class ButtonActivaateDoor_Net : ActivatableObject_Net_Entity
         topDoor.localScale = set;
         bottomDoor.localScale = set;
 
-    } 
+    }
 
 
     private float GetCurrentLocalScalePercent()
     {
         float y = topDoor.localScale.y;
-        return y/1;
+        return y / 1;
+    }
+    #endregion
+
+    #region  Clean
+    public override void Clean_Value()
+    {
+        StopAllCoroutines();
+        onActive = false;
+        operateDoorCoroutine = null;
+        Col.enabled = true;
+
+        topDoor.localScale = closeSet;
+        bottomDoor.localScale = closeSet;
     }
     #endregion
 }

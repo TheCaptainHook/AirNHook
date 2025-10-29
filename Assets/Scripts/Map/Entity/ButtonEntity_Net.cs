@@ -55,15 +55,20 @@ public abstract class ButtonEntity_Net : NetworkBehaviour
         Server_SetInit();
     }
     [ClientRpc]
-    private void Rpc_SetInit(ButtonObjectStruct data)
+    protected virtual void Rpc_SetInit(ButtonObjectStruct data)
     {
         if (_onSync) return;
-        transform.position = data.position;
-        transform.rotation = data.quaternion;
-
+        // transform.position = data.position;
+        // transform.rotation = data.quaternion;
+        Set_Value(data);
         // _chargeRequired = data.chargeRequired;
 
         _onSync = true;
+    }
+    protected virtual void Set_Value(ButtonObjectStruct data)
+    {
+        transform.position = data.position;
+        transform.rotation = data.quaternion;
     }
     public override void OnStartClient()
     {

@@ -170,14 +170,24 @@ public class ActivatableObjectEntity : BuildObj
     {
         try
         {
-            Net.Clean();
-        }catch(Exception ex)
-        {
-            Debug.Log($"Error, {gameObject.name}\n{ex}");      
+            curActiveBtn = 0;
+            activeRequirAmount = 0;
             
+            Clean_Value();
+            Net.Clean();
         }
+        catch (Exception ex)
+        {
+            Debug.Log($"Error, {gameObject.name}\n{ex}");
+
+        }
+
+    }
         
-        }
+    protected virtual void Clean_Value()
+    {
+        
+    }
     #endregion
 
 }

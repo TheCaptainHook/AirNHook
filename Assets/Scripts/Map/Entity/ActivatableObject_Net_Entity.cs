@@ -235,26 +235,32 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
         indicator_var2.PathChacking(targetID);
     }
 
-    
+
     #endregion
-    
+
     #region Clean
     public void Clean()
     {
+        Clean_Value();
+        
         if (indicator_var1 != null)
         {
             indicator_var1.Clean();
             Destroy(indicator_var1.gameObject);
             indicator_var1 = null;
-        } 
-        if(indicator_var2 != null)
+        }
+        if (indicator_var2 != null)
         {
             indicator_var2.Clean();
             Destroy(indicator_var2.gameObject);
             indicator_var2 = null;
         }
-        
+
         onSync = false;
+    }
+    public virtual void Clean_Value()
+    {
+        
     }
     #endregion
 }

@@ -73,6 +73,7 @@ public class MapEditor : MonoBehaviour
     [Header("UI")]
     public MapEditorControllerUI editorUIController;
     public FadeInOutPanel fadeInOutPanel;
+    public bool _onMapTransition_Complete;
     [Space(5)]
 
     [Header("Map Info")]
@@ -179,7 +180,7 @@ public class MapEditor : MonoBehaviour
     #endregion
 
     #region Map Transition Value
-    public bool _onMapTransition_Complete;
+    // public bool _onMapTransition_Complete;
     #endregion
 
     private void Awake()

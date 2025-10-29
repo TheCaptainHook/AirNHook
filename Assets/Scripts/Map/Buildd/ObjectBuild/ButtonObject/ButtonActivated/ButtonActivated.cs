@@ -13,15 +13,22 @@ public class ButtonActivated : ButtonEntity
     //-------------------------------------------------------------------------------------------------------Refeac 250213
     #region Get,Set
 
-   public override void SetData<T>(T data)
-   {
-       base.SetData(data);
+    public override void SetData<T>(T data)
+    {
+        base.SetData(data);
 
-       B_Net.onSync = true;
-       B_Net.Server_SetPosition();
-   }
-   
-    
+        //    B_Net.onSync = true;
+        //    B_Net.Server_SetPosition();
+        if (Application.isPlaying) Net.Server_SetInit();
+    }
+
+
+    #endregion
+    #region  Clean
+    public override void Clean()
+    {
+        Net.Clean();
+    }
     #endregion
 
     ButtonActivated_Net b_Net;
@@ -42,9 +49,13 @@ public class ButtonActivated : ButtonEntity
     }
     private void Release() //server
     {
+        if (!MapEditor.Instance._onMapTransition_Complete) return;
+
         if (B_Net.rate <= 0) return;
         if (NetworkClient.isConnected && NetworkClient.ready)
             B_Net.Server_SetRate(-Time.fixedDeltaTime);
+
+            // Debug.Log("TTTTTTTTTTTT");
     }
 
     private void FixedUpdate()
@@ -54,7 +65,7 @@ public class ButtonActivated : ButtonEntity
 
         RaycastHit2D hit = Physics2D.Raycast(buttonTransform.position,transform.up, 0.8f, mask);
         // Debug.DrawRay(buttonTransform.position,transform.up*0.8f,Color.red);
-        if (hit.collider is not null)
+        if (hit.collider != null)
         {
             //isPressed = true;
             Press();
@@ -75,14 +86,14 @@ public class ButtonActivated : ButtonEntity
     }
 
 
-    public void Net_Actvie()
-    {
-        Activation();
-    }
-    public void Net_Deactivated()
-    {
-        Deactivated();
-    }
+    // public void Net_Actvie()
+    // {
+    //     Activation();
+    // }
+    // public void Net_Deactivated()
+    // {
+    //     Deactivated();
+    // }
     public override void Activation()
     {
         PrograssButtonActivatedObject(true);
