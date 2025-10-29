@@ -412,9 +412,11 @@ public class MapEditor : MonoBehaviour
         SetGlobalLight();
 
         Create_Object();
-        
-        if(!string.IsNullOrEmpty(curMap.audioName))
+
+        if (!string.IsNullOrEmpty(curMap.audioName))
             Managers.Sound.PlayBGM(curMap.audioName, 0.1f);
+
+        _onMapTransition_Complete = true;
     }
     //----------------------------------------1003 refactoring
     public IEnumerator LoadMapCo(string name)
