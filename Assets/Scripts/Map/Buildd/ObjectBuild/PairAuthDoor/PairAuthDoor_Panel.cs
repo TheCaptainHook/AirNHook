@@ -65,11 +65,18 @@ public class PairAuthDoor_Panel : MonoBehaviour
     }
     public void Correct()
     {
+        //Sound
+        Managers.Sound.PlaySound(GlobalText.PUZZLE_HINT_CORRECT);
+        //Sound
         _correctImg.SetActive(true);
     }
     Coroutine _failCo;
     public void Fail()
     {
+        //Sound
+        Managers.Sound.PlaySound(GlobalText.PUZZLE_HINT_WRONG);
+        //Sound
+
         if (_failCo != null) StopCoroutine(_failCo);
         _failCo = StartCoroutine(FailCo());
     }

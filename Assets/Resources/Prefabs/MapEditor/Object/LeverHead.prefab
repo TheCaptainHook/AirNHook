@@ -252,7 +252,6 @@ MonoBehaviour:
     position: {x: 0, y: 0}
     quaternion: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 0, y: 0, z: 0}
-    talPot: {x: 0, y: 0}
     size: {x: 0, y: 0}
     text: 
     fontSize: 0
@@ -263,6 +262,7 @@ MonoBehaviour:
     activeRequireAmount: 0
     onEncapsulationItem: 0
     indicator: 0
+    tutorialCode: 0
 --- !u!114 &-2176134299502383376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,16 +342,11 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  _wdmp_Net: {fileID: 0}
-  movingPlatformLayer:
-    serializedVersion: 2
-    m_Bits: 0
   movingPlatformMask:
     serializedVersion: 2
     m_Bits: 32768
   skin: 0.2
   _platformId: 0
-  startSync: 0
 --- !u!1773428102 &6100329086906530539
 ParentConstraint:
   m_ObjectHideFlags: 0

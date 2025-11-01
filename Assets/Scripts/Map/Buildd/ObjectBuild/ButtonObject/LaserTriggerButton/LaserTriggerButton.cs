@@ -18,24 +18,30 @@ public class LaserTriggerButton : ButtonEntity
     //private bool onCharging;
     #endregion
 
-    public override void SetData<T>(T data)
-    {
-        base.SetData(data);
-        if (Application.isPlaying)
-        {
-            Net.onSync = true;
-            Net.Server_InitSync();
-        }
-    }
+    // public override void SetData<T>(T data)
+    // {
+    //     base.SetData(data);
+    //     if (Application.isPlaying)
+    //     {
+    //         Net.onSync = true;
+    //         Net.Server_InitSync();
+    //     }
+    // }
 
-    public void Net_Act()
+    // public void Net_Act()
+    // {
+    //     Activation();
+    // }
+    // public void Net_Deact()
+    // {
+    //     Deactivated();
+    // }
+    #region  Clean
+    public override void Clean()
     {
-        Activation();
+        Net.Clean();
     }
-    public void Net_Deact()
-    {
-        Deactivated();
-    }
+    #endregion
     public override void Activation()
     {
         if(!Application.isPlaying){

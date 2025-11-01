@@ -289,24 +289,35 @@ public class UI_StageSelect_var3: UI_Base,IPointerEnterHandler,IPointerExitHandl
                     BackPrograss();
                     break;
                 }
-                //Select Sound
-                Managers.Sound.PlaySound(GlobalText.COMPUTER_SELECTMENU_SOUND_1);
-                //Select Sound
+
 
                 switch (_PrograssLevel)
                 {
                     case PrograssLevel.One:
+                        //Select Sound
+                        Managers.Sound.PlaySound(GlobalText.COMPUTER_SELECTMENU_SOUND_2);
+                        //Select Sound
+
                         Select_PrograssLevel_1();
                         break;
                     case PrograssLevel.Two:
+                        //Select Sound
+                        Managers.Sound.PlaySound(GlobalText.COMPUTER_SELECTMENU_SOUND_2);
+                        //Select Sound
+
                         Select_PrograssLevel_2();
                         break;
                     case PrograssLevel.Three:
+                        //Select Sound
+                        Managers.Sound.PlaySound(GlobalText.COMPUTER_SELECTMENU_EndSelect_Sound);
+                        //Select Sound
                         if (GetMap(curSelectTextLine.mainSentence) == null) yield break;
                         textLineList[pathTextLineIndex].WriteText($"/{curSelectTextLine.mainSentence}");
                         _PrograssCoroutine = StartCoroutine(Select_PrograssLevel_3Co());
                         break;
                 }
+                
+                
                 break;
             case 4:
                 BackPrograss();

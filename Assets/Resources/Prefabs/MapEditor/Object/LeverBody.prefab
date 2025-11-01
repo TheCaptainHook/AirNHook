@@ -398,10 +398,13 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
+  _Dissolve_MainSprites: []
+  _dissolveMaterials: []
   canRespawn: 0
   targetObjects: []
   lightObjects: []
+  interactableObjects: []
+  _complete_FindAllObj: 0
 --- !u!114 &-5722112349519866952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -417,11 +420,13 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  _isActive: 0
+  _chargeRequired: 0
+  _hasPower: 0
+  _onSync: 0
   attachedLeverHead: {fileID: 3197964739542362488}
   onCompletionParts: 0
-  onActive: 0
   onOperation: 0
-  onSync: 0
 --- !u!114 &7435758235303093614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,7 +451,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5854981168511148043}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
   m_Name: 

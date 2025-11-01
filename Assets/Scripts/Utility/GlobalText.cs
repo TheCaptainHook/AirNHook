@@ -105,7 +105,8 @@ public static class GlobalText
     public const string ALERT_SOUND = "Alert";
     //Computer
     public const string COMPUTER_SELECTMENU_SOUND_1 = "KeyClick";
-    public const string COMPUTER_SELECTMENU_SOUND_2 = "ComputerButton";
+    public const string COMPUTER_SELECTMENU_SOUND_2 = "KeyClick2";
+    public const string COMPUTER_SELECTMENU_EndSelect_Sound = "ComputerButton";
     //LaserObject
     public const string LASER_HIT_SOUND = "";
     //HydraulicPress
