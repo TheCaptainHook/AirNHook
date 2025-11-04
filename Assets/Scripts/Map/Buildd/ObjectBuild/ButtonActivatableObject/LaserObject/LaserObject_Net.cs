@@ -2,9 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using System;
-using UnityEditor;
-using Unity.VisualScripting;
 
 
 public class LaserObject_Net : ActivatableObject_Net_Entity
@@ -33,8 +30,11 @@ public class LaserObject_Net : ActivatableObject_Net_Entity
     }
 
 
+   
     private void FixedUpdate()
     {
+        if (!MapEditor.Instance._onMapTransition_Complete) return;
+
         if (!MapEditor.Instance.stageClear && onActive)
         {
             // UpdateLaser();
@@ -65,7 +65,7 @@ public class LaserObject_Net : ActivatableObject_Net_Entity
     public void Init()
     {
         _mirrorLayer = LayerMask.NameToLayer("Mirror");
-
+        
         _defaultFilter = new ContactFilter2D
         {
             useLayerMask = true,
@@ -74,16 +74,18 @@ public class LaserObject_Net : ActivatableObject_Net_Entity
         };
     }
 
-    private void OnDisable()
+    public override void Clean_Value()
     {
         StopAllCoroutines();
-        if(audioSourceController != null) Managers.Sound.StopSound(audioSourceController);
-        if(_laserEffectAudios.Count > 0)
+        if (audioSourceController != null) Managers.Sound.StopSound(audioSourceController);
+        if (_laserEffectAudios.Count > 0)
         {
             LaserAudioClean(0);
         }
-    }
 
+        base.Clean_Value();
+    }
+    
     #region Audio
     private AudioSourceController audioSourceController;
     private Coroutine activeSoundCo;

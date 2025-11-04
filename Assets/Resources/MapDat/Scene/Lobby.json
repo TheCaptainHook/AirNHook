@@ -8229,11 +8229,11 @@
             "tutorialCode": 0
         },
         {
-            "id": 313,
+            "id": 323,
             "dialogueId": 0,
             "position": {
-                "x": -40.41999816894531,
-                "y": 22.950000762939454
+                "x": -1.940000057220459,
+                "y": 20.950000762939454
             },
             "quaternion": {
                 "x": 0.0,
@@ -8244,7 +8244,7 @@
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
-                "z": 0.0
+                "z": 1.0
             },
             "size": {
                 "x": 0.0,
@@ -12205,6 +12205,102 @@
                 "x": 0.0,
                 "y": 0.0
             }
+        },
+        {
+            "id": 335,
+            "position": {
+                "x": 2.549999952316284,
+                "y": 22.350000381469728
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 1.0,
+                "w": 0.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "activeRequirAmount": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 305,
+            "position": {
+                "x": -2.140000104904175,
+                "y": 28.559999465942384
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "activeRequirAmount": 1,
+            "indicatorStruct": {
+                "indicator": 2,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 3.5
+                },
+                "indicator_2_position": {
+                    "x": -2.140000104904175,
+                    "y": 28.06999969482422
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
         }
     ],
     "buttonObjectList": [
@@ -12413,16 +12509,16 @@
             }
         },
         {
-            "id": 312,
+            "id": 324,
             "position": {
-                "x": -37.540000915527347,
-                "y": 20.979999542236329
+                "x": 6.989999771118164,
+                "y": 28.040000915527345
             },
             "quaternion": {
                 "x": 0.0,
                 "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
+                "z": 0.7071068286895752,
+                "w": 0.7071068286895752
             },
             "scale": {
                 "x": 1.0,
@@ -12431,8 +12527,8 @@
             },
             "targetPositions": [
                 {
-                    "x": -34.5,
-                    "y": 21.0
+                    "x": -2.140000104904175,
+                    "y": 28.559999465942384
                 }
             ],
             "lightPositions": [],

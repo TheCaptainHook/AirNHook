@@ -29,11 +29,18 @@ public class MirrorObject : BuildObj,IInteractable
         }
     }
 
-   
+
     //private bool IsActive => M_Net.onActive;
     public bool isActive;
     #endregion
 
+    #region  Clean
+    public override void Clean()
+    {
+        _Mirror.transform.rotation = Quaternion.Euler(0, 0, 0);
+    }
+    #endregion
+    
 
     public override void SetData<T>(T data)
     {

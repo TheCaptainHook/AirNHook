@@ -11,7 +11,7 @@ public class LaserTriggerButton : ButtonEntity
 
 
     #region StringCache
-    private static readonly int IsActive = Animator.StringToHash("IsActive");
+    // private static readonly int IsActive = Animator.StringToHash("IsActive");
     #endregion
 
     #region State
@@ -63,16 +63,17 @@ public class LaserTriggerButton : ButtonEntity
             
     }
     #region Network
-    private LaserTriggerButton_Net net;
-    private LaserTriggerButton_Net Net { get { if (net == null) net = GetComponent<LaserTriggerButton_Net>(); return net; } }
+    private LaserTriggerButton_Net l_net;
+    private LaserTriggerButton_Net L_Net { get { if (l_net == null) l_net = GetComponent<LaserTriggerButton_Net>(); return l_net; } }
 
     #endregion
 
     public void Charging()
     {
         if(!Application.isPlaying || !NetworkServer.active) return;
-
-        Net.Server_SetChargingCount();
+        if (!MapEditor.Instance._onMapTransition_Complete) return;
+        
+        L_Net.Server_SetChargingCount();
         //Net.Cmd_SetChargingCount();
 
 

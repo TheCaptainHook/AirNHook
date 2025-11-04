@@ -28,8 +28,7 @@ public class LaserTriggerButton_Net : ButtonEntity_Net
     #region  Clean
     public override void Server_Clean()
     {
-        StopAllCoroutines();
-
+    
         chargingCount = 0;
         curChargingRate = 0;
         onCharging = false;
@@ -41,6 +40,10 @@ public class LaserTriggerButton_Net : ButtonEntity_Net
     {
         base.Rpc_Clean();
         chargingSprite.transform.localScale = Vector2.zero;
+
+        StopAllCoroutines();
+        chargingCoroutine = null;
+        
     }
     #endregion
 
