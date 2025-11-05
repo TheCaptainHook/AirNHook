@@ -81,12 +81,53 @@ public class Puzzle_1_Net : NetworkBehaviour
     private List<Item> itemsList;
     private List<Item> dummyItemList;
     public Hint hint;
-    
+
     public bool onSync; //-------------------------------------------------250307
 
+
+    #region  Clean
+    
+    public void Clean()
+    {
+        answer = "";
+
+        hintScreen.gameObject.SetActive(false);    
+            
+        foreach (var item in itemsList)
+        {
+            var go = Client_GetNetworkIdentity(item.netId).gameObject;
+            Managers.Pooling.N_ReleaseToPool(go);
+        }
+        foreach (var part in partsList)
+        {
+            var go = Client_GetNetworkIdentity(part.netId).gameObject;
+            Managers.Pooling.N_ReleaseToPool(go);
+            go.GetComponent<Puzzle_1_Parts>().Clean();
+        }
+        if (dummyItemList?.Count > 0)
+        {
+            foreach (var item in dummyItemList)
+            {
+                var go = Client_GetNetworkIdentity(item.netId).gameObject;
+                Managers.Pooling.N_ReleaseToPool(go);
+            }
+
+        }
+
+    }
+    
+    #endregion
+    
     #region Server
 
+    //==========Refactoring 1105
+    /**
+    1. asnwer Clean
+    2. itemList,partList,dummy item list Clean
+    3. hint Clean
+    **/
 
+    //==========Refactoring 1105
     [Server]
     public void Server_CreatePuzzle_Item(
        int index,
@@ -101,25 +142,32 @@ public class Puzzle_1_Net : NetworkBehaviour
         previousNumber = num;
         answer += previousNumber.ToString();
 
-        //item
-        GameObject obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[previousNumber - 1]);//Poozing
-
+        //====Item
+        // GameObject obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[previousNumber - 1]);//Poozing
+        GameObject obj = Managers.Stage.ServerBatchObejct(puzzle_1_Items[previousNumber - 1]);
+        obj.SetActive(true);
+        
         obj.transform.SetParent(Puzzle.transform.GetChild(1));
         obj.transform.position = itemPot;
         obj.GetComponent<Puzzle_1_Item>().Server_SetOrgPosition(itemPot);
 
         Server_SetItems(GetNetId(obj), itemPot); //Server Data Save
+        //====Item
 
-        //parts
-        Puzzle_1_Parts parts = Managers.Stage.CmdBatchObject("Puzzle_1_Parts").GetComponent<Puzzle_1_Parts>();//Pooling
+        //====Parts
+        // Puzzle_1_Parts parts = Managers.Stage.CmdBatchObject("Puzzle_1_Parts").GetComponent<Puzzle_1_Parts>();//Pooling
+        Puzzle_1_Parts parts = Managers.Stage.ServerBatchObejct("Puzzle_1_Parts").GetComponent<Puzzle_1_Parts>();//Pooling
+        parts.gameObject.SetActive(true);
+
         parts.transform.SetParent(Puzzle.transform.GetChild(0));
-         parts.transform.position = partPot;
-         parts.Settting(Puzzle, previousNumber, index);
+        parts.transform.position = partPot;
+        parts.Settting(Puzzle, previousNumber, index);
         Puzzle.SetPart(parts);
 
-        Server_SetParts(GetNetId(parts.gameObject), previousNumber, index,partPot);  //Server Data Save
-        
+        Server_SetParts(GetNetId(parts.gameObject), previousNumber, index, partPot);  //Server Data Save
+        //====Parts
     }
+    
 
     private void Server_SetParts(uint partNetId,int answer,int index,Vector2 position)
     {
@@ -162,8 +210,9 @@ public class Puzzle_1_Net : NetworkBehaviour
     [Server]
     public void Server_Create_DummyItem(Vector2 dummyItemPot)
     {
-        int randomNum  =Random.Range(1,7);
-        GameObject obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[randomNum-1]);//Poozing
+        int randomNum = Random.Range(1, 7);
+        // GameObject obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[randomNum-1]);//Poozing
+        GameObject obj = Managers.Stage.ServerBatchObejct(puzzle_1_Items[randomNum-1]);//Poozing
 
         obj.transform.SetParent(Puzzle.transform.GetChild(1));
         obj.transform.position = dummyItemPot;
@@ -199,6 +248,7 @@ public class Puzzle_1_Net : NetworkBehaviour
         foreach (var part in parts)
         {
             NetworkIdentity netPart = Client_GetNetworkIdentity(part.netId);
+            netPart.gameObject.SetActive(true);
 
             Transform partTr = netPart.gameObject.transform;
 
@@ -206,13 +256,13 @@ public class Puzzle_1_Net : NetworkBehaviour
             partTr.position = part.position;
 
             netPart.GetComponent<Puzzle_1_Parts>().Settting(puzzle.GetComponent<Puzzle_1>(), part.answer, part.index);
-
             puzzle_1.SetPart(partTr.GetComponent<Puzzle_1_Parts>());
         }
 
         foreach (var item in items)
         {
             NetworkIdentity netitem = Client_GetNetworkIdentity(item.netId);
+            netitem.gameObject.SetActive(true);
 
             Transform itemTr = netitem.gameObject.transform;
 
@@ -251,6 +301,8 @@ public class Puzzle_1_Net : NetworkBehaviour
         foreach(var item in list)
         {
             NetworkIdentity netitem = Client_GetNetworkIdentity(item.netId);
+            netitem.gameObject.SetActive(true);
+
             Transform itemTr = netitem.gameObject.transform;
 
             itemTr.SetParent(puzzle_net.itemContainer);
@@ -260,7 +312,7 @@ public class Puzzle_1_Net : NetworkBehaviour
 
     #endregion
 
-    //-------------------------------------------------------250404 Refectoring
+
     public bool onCorrect;
     public bool onWrongPrograss;
     private float defaultChargingRate = 0.01f;
@@ -434,23 +486,7 @@ public class Puzzle_1_Net : NetworkBehaviour
 
 
     #region  Util
-    private NetworkIdentity GetNetworkIdentity(GameObject obj,Func<uint,NetworkIdentity> action)
-    {
-        if(obj.TryGetComponent(out NetworkIdentity component))
-        {
-            return action(component.netId);
-        }
-
-        return null;
-    }
-    private NetworkIdentity Server_GetNetworkIdentity(uint netId)
-    {
-          if(NetworkServer.spawned.TryGetValue(netId, out NetworkIdentity identity))
-          {
-            return identity;
-          }
-        return null;
-    }
+ 
     private NetworkIdentity Client_GetNetworkIdentity(uint netId)
     {
         if (NetworkClient.spawned.TryGetValue(netId, out NetworkIdentity identity))
@@ -474,20 +510,6 @@ public class Puzzle_1_Net : NetworkBehaviour
     public bool onActive;
     [ReadOnly]
     public GameObject airObject;
-
-    //[Command(requiresAuthority = false)] //Left : true, Right : false
-    //public void Cmd_Interact(uint playerNetworkId,bool leftOrRight,bool onOff)
-    //{
-    //        if(NetworkClient.spawned.TryGetValue(playerNetworkId,out NetworkIdentity identity))
-    //        {
-    //            TRpc_Interact(identity.connectionToClient,identity.gameObject,leftOrRight,onOff);
-    //        }
-    //}
-    //[TargetRpc]
-    //private void TRpc_Interact(NetworkConnection _,GameObject player,bool leftOrRight,bool onOff)
-    //{
-    //   HoldAndRecover(player,leftOrRight,onOff);
-    //}
 
     public void HoldAndRecover(GameObject player,bool leftOrRight,bool onOff)
     {
@@ -621,31 +643,6 @@ public class Puzzle_1_Net : NetworkBehaviour
         }
     }
 
-    #region UI
-    // [Command(requiresAuthority = false)]
-    // public void Cmd_ShowE(GameObject player, bool leftOrRight,bool onOff) //left : true, right : false
-    // {
-    //     if (player == null) return;
-    //     if (player.TryGetComponent(out NetworkIdentity identity))
-    //     {
-    //         TRpc_ShowE(identity.connectionToClient, leftOrRight,onOff);
-    //     }
-    // }
-    // [TargetRpc]
-    // private void TRpc_ShowE(NetworkConnection conn,bool leftOrRight, bool onOff)
-    // {
-    //     if (leftOrRight)
-    //     {
-    //         //left
-    //         leftTrigger.ShowE(onOff);
-    //     }
-    //     else
-    //     {
-    //         //right
-    //         rightTrigger.ShowE(onOff);
-    //     }
-    // }
-    #endregion
    
     private void Connection(GameObject player,Transform hold_Pivot)
     {

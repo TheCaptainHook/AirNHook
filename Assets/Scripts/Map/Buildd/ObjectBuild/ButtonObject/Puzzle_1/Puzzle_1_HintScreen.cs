@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Text;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,21 +23,41 @@ public class Puzzle_1_HintScreen : MonoBehaviour
     [SerializeField] GameObject _falseObj;
     private Coroutine answerCoroutine;
     private WaitForSeconds waitSeconds = new WaitForSeconds(1);
-    [ReadOnly]
-    public string answer;
-    [ReadOnly]
-    public string orgSentence;
     
+    public string answer;
+    public string orgSentence;
+
 
     public void SetHint(string answer)
     {
+        Clean();
+
         ConvertAnswer(answer);
         //Effect Coroutine
         Init();
         StartCoroutine(EffectCo(charInfos));
     }
 
+    #region  Clean
+    public void Clean()
+    {
+        StopAllCoroutines();
+        answerCoroutine = null;
 
+        _falseObj.SetActive(false);
+        correctObj.SetActive(false);
+        glowImage.material = orgMat;
+
+        text.text = "";
+        text.ForceMeshUpdate(); // Mesh 업데이트 강제
+
+        this.answer = "";
+        orgSentence = "";
+
+        Debug.Log("Hint Clean");
+
+    }
+    #endregion
     private void ConvertAnswer(string answer)
     {
         StringBuilder sb = new StringBuilder(answer);

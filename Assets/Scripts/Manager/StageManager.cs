@@ -19,26 +19,6 @@ public class StageManager
     #region Editor
 
 
-    // [Server]
-    // public void CmdBatchObject<T>(string objName, T data, Transform parent)
-    // {
-    //     if (!NetworkServer.active) return;
-
-    //     GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
-
-    //     obj.name = objName;
-    //     obj.transform.SetParent(parent);
-    //     NetworkServer.Spawn(obj, NetworkServer.localConnection);
-
-    //     obj.GetComponent<BuildObj>().SetData(data);
-
-
-    //     //
-    //     if (obj.TryGetComponent(out NetworkIdentity identity))
-    //     {
-    //         Rpc_PoolingSetting(identity.netId);
-    //     }
-    // }
     //======================================= Refectoring 1018
     [Server]
     public void ServerBatchObject<T>(string objName, T data, TransformType trType)
@@ -56,30 +36,22 @@ public class StageManager
         {
             obj.transform.SetParent(parent);
         }
-        
-        // MapEditor.Instance._n_activePoolingObject.Enqueue(identity.GetComponent<BuildObj>());
-        // if(GetNetworkIdentity())
+
 
         if (GetNetworkIdentity(obj, out NetworkIdentity identity))
         {
             MapEditor.Instance._n_activePoolingObject.Enqueue(buildObj);
             Rpc_PoolingSetting(identity.netId, trType);
         }
-        // GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
-        // GameObject obj = ResourceManager.Load<GameObject>();
-        // obj.name = objName;
-        // //====Get Pooling
 
-        // NetworkServer.Spawn(obj, NetworkServer.localConnection);
-        // obj.GetComponent<BuildObj>().SetData(data);
+    }
+    [Server]
+    public GameObject ServerBatchObejct(string objName)
+    {
+        if (!NetworkServer.active) return null;
 
-
-        //====Set Transform, Rpc Set n_activePoolingObject
-        // if (obj.TryGetComponent(out NetworkIdentity identity))
-        // {
-        //     Rpc_PoolingSetting(identity.netId, trType);
-        // }
-        //====Set Transform
+        GameObject obj = Managers.Pooling.N_GetItme(objName);
+        return obj;
     }
     /**
     1. 서버에서 N_Dic 확인 후 없으면 생성. 서버만 풀링함
@@ -108,18 +80,6 @@ public class StageManager
         
     }
 
-
-    private Transform GetMapEditorTransform(string trName)
-    {
-        foreach (Transform tr in MapEditor.Instance.mapObjBoxTransform)
-        {
-            if (tr.name == trName)
-            {
-                return tr;
-            }
-        }
-        return null;
-    }
     private bool GetNetworkIdentity(uint id,out NetworkIdentity identity)
     {
         identity =  NetworkClient.spawned.TryGetValue(id,out NetworkIdentity iden) ? iden : null;
@@ -142,12 +102,6 @@ public class StageManager
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
 
         return obj;
-    }
-
-    [Command(requiresAuthority = false)]
-    public void CmdDestroyObject(GameObject gameObject)
-    {
-        NetworkServer.Destroy(gameObject);
     }
 
     #endregion

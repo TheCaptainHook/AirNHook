@@ -31,28 +31,6 @@ public class Puzzle_1_Item : BuildObj,IDamageable,IRemoveSocketEffect
     }
 
     #region Socket
-    //public void InsertSocket(){
-    // if(Parts){
-    //      if(Net_Item.parts.TryGetComponent(out Puzzle_1_Parts component))
-    //         {
-    //             component.InsertSocket(gameObject);
-    //         }
-
-    // }
-    //}
-    //public void RemoveSocket(bool onEffect = false)
-    //{
-
-    //    Net_Item.Cmd_SetOnInsert(false);
-
-    //}
-
-    //public void Net_HandleSetParts(Puzzle_1_Parts parts){
-    //    if(parts == null){
-    //        Net_Item.HandleSetParts(null);
-    //    }else
-    //    Net_Item.HandleSetParts(parts.gameObject);
-    //}
     public Puzzle_1_Parts parts;
     public void ContectParts(Puzzle_1_Parts parts)
     {
@@ -66,20 +44,7 @@ public class Puzzle_1_Item : BuildObj,IDamageable,IRemoveSocketEffect
     private float forceStrength = 7f;
     private float forceDefault = 3f;
     private float horizontalVariation = 1f;
-    // public void RemoveSocketEffect(bool Power = false)
-    // {
-    //     float xForce = Random.Range(-horizontalVariation, horizontalVariation);
-    //     if (Power)
-    //     {
-    //         rb.AddForce(new Vector2(xForce, forceStrength), ForceMode2D.Impulse);
-    //     }
-    //     else
-    //     {
-    //         rb.AddForce(new Vector2(xForce, forceDefault), ForceMode2D.Impulse);
-    //     }
 
-       
-    // }
 
     public void RemoveSocketEffect(bool power = false)
     {
@@ -96,29 +61,10 @@ public class Puzzle_1_Item : BuildObj,IDamageable,IRemoveSocketEffect
     }
     #endregion
 
-
-
-    //public override void TakeDamage(DamageType damageType = DamageType.Default)
-    //{
-    //    //StartCoroutine(DestroyCo());
-    //    Respawn();
-    //}
-
-
-    IEnumerator DestroyCo()
-    {
-        Net_Item.Destroyed();
-
-        yield return new WaitForSeconds(0.5f);
-        transform.position = Net_Item.orgPosition;
-        Net_Item.Respawned();
-    }
-
     public void Server_SetOrgPosition(Vector3 pos) //Server
     {
 
         position = pos;
-        //Net_Item.Server_SetOrgPositon(pos);
     }
 
 }

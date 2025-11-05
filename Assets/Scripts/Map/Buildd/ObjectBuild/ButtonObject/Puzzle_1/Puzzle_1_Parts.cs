@@ -2,7 +2,6 @@
 using Mirror;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Animations;
 
 public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 {
@@ -83,16 +82,28 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
 
     #region Answer
 
-    public void Settting(Puzzle_1 puzzle_1,int answer,int index)
+    public void Settting(Puzzle_1 puzzle_1, int answer, int index)
     {
         puzzleAnswer = answer;
         this.index = index;
         this.puzzle_1 = puzzle_1;
-        if(Application.isPlaying)
-        DrawPath(transform, puzzle_1.transform);
+        if (Application.isPlaying)
+            DrawPath(transform, puzzle_1.transform);
         numbering[index].SetActive(true);
         //
-        lineRenderer.colorGradient=wrongGradient;
+        lineRenderer.colorGradient = wrongGradient;
+
+    }
+    public void Clean()
+    {
+        
+        numbering[index].SetActive(false);
+        lineRenderer.positionCount = 0;
+
+        puzzleAnswer = 0;
+        this.index = 0;
+        this.puzzle_1 = null;
+        InsertAnimation(false);
 
     }
     public bool CheckAnswer() //Server

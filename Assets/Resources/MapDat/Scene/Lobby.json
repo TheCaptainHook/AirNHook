@@ -8227,39 +8227,6 @@
             "onEncapsulationItem": false,
             "indicator": 0,
             "tutorialCode": 0
-        },
-        {
-            "id": 323,
-            "dialogueId": 0,
-            "position": {
-                "x": -1.940000057220459,
-                "y": 20.950000762939454
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0,
-            "activeRequireAmount": 0,
-            "onEncapsulationItem": false,
-            "indicator": 0,
-            "tutorialCode": 0
         }
     ],
     "mapBackgroundObjectList": [
@@ -12253,54 +12220,6 @@
                 "x": 0.0,
                 "y": 0.0
             }
-        },
-        {
-            "id": 305,
-            "position": {
-                "x": -2.140000104904175,
-                "y": 28.559999465942384
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "activeRequirAmount": 1,
-            "indicatorStruct": {
-                "indicator": 2,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 3.5
-                },
-                "indicator_2_position": {
-                    "x": -2.140000104904175,
-                    "y": 28.06999969482422
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
         }
     ],
     "buttonObjectList": [
@@ -12509,37 +12428,58 @@
             }
         },
         {
-            "id": 324,
+            "id": 341,
             "position": {
-                "x": 6.989999771118164,
-                "y": 28.040000915527345
+                "x": -1.0,
+                "y": 21.0
             },
             "quaternion": {
                 "x": 0.0,
                 "y": 0.0,
-                "z": 0.7071068286895752,
-                "w": 0.7071068286895752
+                "z": 0.0,
+                "w": 1.0
             },
             "scale": {
                 "x": 1.0,
                 "y": 1.0,
                 "z": 1.0
             },
-            "targetPositions": [
-                {
-                    "x": -2.140000104904175,
-                    "y": 28.559999465942384
-                }
-            ],
+            "targetPositions": [],
             "lightPositions": [],
             "encapsulationItems": [],
             "chargeRequired": false,
-            "onHint": false,
-            "partsPositions": [],
-            "itemPositions": [],
+            "onHint": true,
+            "partsPositions": [
+                {
+                    "x": -4.0,
+                    "y": 24.0
+                },
+                {
+                    "x": -7.0,
+                    "y": 26.0
+                },
+                {
+                    "x": -4.0,
+                    "y": 27.0
+                }
+            ],
+            "itemPositions": [
+                {
+                    "x": -7.099999904632568,
+                    "y": 25.469999313354493
+                },
+                {
+                    "x": 5.400000095367432,
+                    "y": 25.850000381469728
+                },
+                {
+                    "x": 0.08999991416931153,
+                    "y": 29.260000228881837
+                }
+            ],
             "hintPosition": {
-                "x": 0.0,
-                "y": 0.0
+                "x": 0.7199999094009399,
+                "y": 26.219999313354493
             }
         }
     ],

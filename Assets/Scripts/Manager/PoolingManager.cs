@@ -168,54 +168,7 @@ public class D_Pooling
 #endregion
 
 #region  NetWork
-// public class N_Pool<T> where T : class
-// {
-//     public Queue<GameObject> queue;
-//     public Transform parents;
 
-//     public N_Pool(Transform parents)
-//     {
-//         queue = new();
-//         this.parents = parents;
-//     }
-
-//     public GameObject GetItem()
-//     {
-//         if (IsEmpty())
-//         {
-//             Create();
-//         }
-
-//         GameObject obj = queue.Dequeue();
-//         return obj;
-//     }
-
-//     private void Create(int amount = 5)
-//     {
-//         for(int i =0; i< amount; i++)
-//         {
-//             GameObject obj = Managers.Stage.CmdBatchObject(typeof(T).Name);
-//             obj.SetActive(false);
-//             obj.transform.SetParent(parents);
-//             queue.Enqueue(obj);
-//         }
-//     }
-
-//     public void Enqueue(GameObject obj)
-//     {
-//         obj.transform.SetParent(parents);
-//         obj.SetActive(false);
-//         queue.Enqueue(obj);
-//     }
-
-    
-
-//     private bool IsEmpty()
-//     {
-//         return queue.Count == 0;
-//     }
-
-// }
 public class N_Pool
 {
     // string name;
