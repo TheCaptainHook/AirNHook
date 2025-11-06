@@ -205,7 +205,7 @@ public class Puzzle_1 : ButtonEntity
     }
 
     #region  Clean
-    public override void Clean()
+    public override void Clean() //RPC
     {
         Puzzle_Net.Clean();
     }

@@ -24,7 +24,10 @@ public class AirSM : PlayerSM
     [field: SerializeField] public ParticleSystem exhaleParticle { get; private set; }
     [SyncVar] public bool isInhaleParticleOn;
 
-    private IInteractable _airGunMountObj = null;
+    // 
+    // private IInteractable _airGunMountObj = null;
+    public IInteractable _airGunMountObj = null;
+    
 
     protected override void Awake()
     {
@@ -68,9 +71,12 @@ public class AirSM : PlayerSM
         while (true)
         {
             yield return null;
+            
+            Debug.Log("Player Detect Coroutine");
 
             if (_airGunMountObj != null || isControlObj)
                 continue;
+            Debug.Log("Player Detect Coroutine2222");
 
             var collisions =
                 Physics2D.OverlapCircleAll(transform.position + offset, detectDistance, interactableLayerMask);

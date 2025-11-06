@@ -72,16 +72,32 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
             _holderClosed.SetActive(false);
         }
     }
- 
 
-    public void Net_RemovEffect(){
+
+    public void Net_RemovEffect()
+    {
         foreach (var p in particles) p.Play();
     }
 
     #endregion
 
-    #region Answer
+    #region  Clean    
+    public void Clean()
+    {
+        if (Net.onSocket) Net.DisConnect(false);
+        
+        numbering[index].SetActive(false);
+        lineRenderer.positionCount = 0;
 
+        puzzleAnswer = 0;
+        this.index = 0;
+        this.puzzle_1 = null;
+
+
+    }
+    #endregion
+
+    #region Answer
     public void Settting(Puzzle_1 puzzle_1, int answer, int index)
     {
         puzzleAnswer = answer;
@@ -94,18 +110,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         lineRenderer.colorGradient = wrongGradient;
 
     }
-    public void Clean()
-    {
-        
-        numbering[index].SetActive(false);
-        lineRenderer.positionCount = 0;
-
-        puzzleAnswer = 0;
-        this.index = 0;
-        this.puzzle_1 = null;
-        InsertAnimation(false);
-
-    }
+   
     public bool CheckAnswer() //Server
     {
         if (!Net.onSocket)

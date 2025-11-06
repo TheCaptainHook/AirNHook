@@ -53,7 +53,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     protected LayerMask interactableLayerMask => playerData.interactableLayerMask;
     protected LayerMask obstacleMask => playerData.obstacleLayerMask;
     protected float detectDistance => playerData.detectDistance;
-    protected Collider2D latestTarget;
+    [SerializeField] protected Collider2D latestTarget;
 
     [field: Header("Particles")]
     [field: SerializeField] public ParticleSystem jumpParticle { get; private set; }
@@ -176,6 +176,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         while (true)
         {
             yield return null;
+        
 
             if (isControlObj)
                 continue;

@@ -8227,6 +8227,39 @@
             "onEncapsulationItem": false,
             "indicator": 0,
             "tutorialCode": 0
+        },
+        {
+            "id": 323,
+            "dialogueId": 0,
+            "position": {
+                "x": -21.510000228881837,
+                "y": 21.079999923706056
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0,
+            "tutorialCode": 0
         }
     ],
     "mapBackgroundObjectList": [
@@ -12176,8 +12209,8 @@
         {
             "id": 335,
             "position": {
-                "x": 2.549999952316284,
-                "y": 22.350000381469728
+                "x": -0.4099999964237213,
+                "y": 29.959999084472658
             },
             "quaternion": {
                 "x": 0.0,
@@ -12459,8 +12492,8 @@
                     "y": 26.0
                 },
                 {
-                    "x": -4.0,
-                    "y": 27.0
+                    "x": -9.0,
+                    "y": 24.0
                 }
             ],
             "itemPositions": [

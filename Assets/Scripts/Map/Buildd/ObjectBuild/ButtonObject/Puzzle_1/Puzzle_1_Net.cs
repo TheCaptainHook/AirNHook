@@ -90,20 +90,23 @@ public class Puzzle_1_Net : NetworkBehaviour
     public void Clean()
     {
         answer = "";
+        // hintScreen.Clean();
+        hintScreen.gameObject.SetActive(false);
 
-        hintScreen.gameObject.SetActive(false);    
-            
-        foreach (var item in itemsList)
-        {
-            var go = Client_GetNetworkIdentity(item.netId).gameObject;
-            Managers.Pooling.N_ReleaseToPool(go);
-        }
+
         foreach (var part in partsList)
         {
             var go = Client_GetNetworkIdentity(part.netId).gameObject;
             Managers.Pooling.N_ReleaseToPool(go);
             go.GetComponent<Puzzle_1_Parts>().Clean();
         }
+        
+        foreach (var item in itemsList)
+        {
+            var go = Client_GetNetworkIdentity(item.netId).gameObject;
+            Managers.Pooling.N_ReleaseToPool(go);
+        }
+      
         if (dummyItemList?.Count > 0)
         {
             foreach (var item in dummyItemList)
@@ -572,13 +575,11 @@ public class Puzzle_1_Net : NetworkBehaviour
             //Left
             charPivot.rotation = Quaternion.Euler(0,0,0);
             weaponPivot.rotation = Quaternion.Euler(0,0,0);
-            Debug.Log("Set Direction to Air [Left]");
         }else
         {
             //Right
             charPivot.rotation = Quaternion.Euler(0,-180,0);
             weaponPivot.rotation = Quaternion.Euler(0,180,0);
-            Debug.Log("Set Direction to Air [Right]");
         }
         
     }
@@ -607,6 +608,9 @@ public class Puzzle_1_Net : NetworkBehaviour
 
         Disconnection(player);
         sm.deathEvent -= Event_Recover;
+
+
+        airObject.GetComponent<AirSM>()._airGunMountObj = null;
         
         airObject = null;
 
@@ -615,7 +619,11 @@ public class Puzzle_1_Net : NetworkBehaviour
     {
         if(airObject)
         {
-            HoldAndRecover(airObject,false,false);
+            leftTrigger.Clean();
+            rightTrigger.Clean();
+
+            HoldAndRecover(airObject, false, false);
+            
         }
     }
     private void OnRecoverAirGun(InputAction.CallbackContext context)

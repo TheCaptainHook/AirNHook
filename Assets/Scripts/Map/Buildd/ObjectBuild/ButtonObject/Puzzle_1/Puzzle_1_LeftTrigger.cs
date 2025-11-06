@@ -9,38 +9,6 @@ public class Puzzle_1_LeftTrigger : MonoBehaviour, IInteractable
     private Vector3 _offset = new Vector2(0.55f, 1.5f);
     [SerializeField] Puzzle_1_Net net;
 
-    //public Collider2D Col => GetComponent<Collider2D>();
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision != null)
-    //    {
-    //        if (collision.TryGetComponent(out AirSM air))
-    //        {
-    //            this.air = collision.gameObject;
-    //            if(!net.onActive)
-    //                net.Cmd_ShowE(collision.gameObject, true, true); //LEFT
-    //        }
-    //    }
-    //}
-    //
-    //private void OnTriggerExit2D(Collider2D collision)
-    //{
-    //    if (collision != null)
-    //    {
-    //
-    //        if (collision.TryGetComponent(out AirSM air))
-    //        {
-    //            if(this.air == collision.gameObject)
-    //            {
-    //                this.air = null;
-    //
-    //            }
-    //           
-    //        }
-    //    }
-    //
-    //
-    //}
 
     #region Interactable
     public ObjectTypeEnum _objectType = ObjectTypeEnum.AirGun;
@@ -60,6 +28,14 @@ public class Puzzle_1_LeftTrigger : MonoBehaviour, IInteractable
             ChangeEbutton(false);
         }
     }
+
+    #region  Clean
+    public void Clean()
+    {
+        if(_eButtonUI) ChangeEbutton(false);
+        HideEButton();
+    }
+    #endregion
 
     public bool CanInteract() { return true; }
 
@@ -107,63 +83,5 @@ public class Puzzle_1_LeftTrigger : MonoBehaviour, IInteractable
     }
     #endregion
 
-    //Refectoring 0324
 
-
-    #region before
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision != null)
-    //    {
-    //        if (collision.TryGetComponent(out AirSM component))
-    //        {
-    //            air = component;
-    //            //dir
-    //        }
-    //    }
-    //}
-
-    //private void OnTriggerExit2D(Collider2D collision)
-    //{
-    //    if (collision != null)
-    //    {
-    //        if (collision.TryGetComponent(out AirSM component))
-    //        {
-    //            air = null;
-    //        }
-    //    }
-    //}
-
-    //private Vector3 GetAirDir()
-    //{
-    //    if (air == null) return Vector3.zero;
-
-    //    if(airWeaponPivot == null)
-    //    {
-    //        foreach (Transform tr in air.transform)
-    //        {
-    //            if (tr.name == "WeaponPivot")
-    //            {
-    //                airWeaponPivot = tr;
-    //            }
-    //        }
-    //    }
-
-    //    return airWeaponPivot.rotation.eulerAngles;
-
-    //}
-
-    //private bool GetReadyToCharge(Vector3 rot)
-    //{
-    //    float z = rot.z - 360;
-    //    if(rot.y ==0 && (z >=-10 && z <= 0))
-    //    {
-    //        return true;
-    //    }
-    //    else
-    //    {
-    //        return false;
-    //    }
-    //}
-    #endregion
 }

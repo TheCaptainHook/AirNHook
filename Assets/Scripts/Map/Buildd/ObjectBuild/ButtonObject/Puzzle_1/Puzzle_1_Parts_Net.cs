@@ -14,11 +14,8 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
     [SyncVar(hook = nameof(OnChangeCorrect))]
     public bool isCorrectAnswer;
 
-
-    // [SyncVar] public GameObject _insertItem;
-
-    
-    [Command(requiresAuthority =false)]
+   
+    [Command(requiresAuthority = false)]
     public void Cmd_Connection(uint netId)
     {
         Rpc_Connection(netId);

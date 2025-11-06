@@ -29,6 +29,14 @@ public class Puzzle_1_RightTrigger : MonoBehaviour, IInteractable
         }
     }
 
+    #region  Clean
+    public void Clean()
+    {
+        if(_eButtonUI) ChangeEbutton(false);
+        HideEButton();
+    }
+    #endregion
+
     public bool CanInteract() { return true; }
 
     public bool Interacting(bool value, GameObject player) { return true; }
