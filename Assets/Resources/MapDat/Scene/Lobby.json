@@ -12477,7 +12477,12 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "targetPositions": [],
+            "targetPositions": [
+                {
+                    "x": -11.5,
+                    "y": 20.850000381469728
+                }
+            ],
             "lightPositions": [],
             "encapsulationItems": [],
             "chargeRequired": false,

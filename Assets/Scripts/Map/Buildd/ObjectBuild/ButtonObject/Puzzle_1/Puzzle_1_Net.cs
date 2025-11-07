@@ -106,7 +106,7 @@ public class Puzzle_1_Net : NetworkBehaviour
             var go = Client_GetNetworkIdentity(item.netId).gameObject;
             Managers.Pooling.N_ReleaseToPool(go);
         }
-      
+
         if (dummyItemList?.Count > 0)
         {
             foreach (var item in dummyItemList)
@@ -116,7 +116,10 @@ public class Puzzle_1_Net : NetworkBehaviour
             }
 
         }
-
+        chargingRate = 0;
+        onCheckAnswerTrue = false;
+        onWrongPrograss = false;
+        onCorrect = false;
     }
     
     #endregion

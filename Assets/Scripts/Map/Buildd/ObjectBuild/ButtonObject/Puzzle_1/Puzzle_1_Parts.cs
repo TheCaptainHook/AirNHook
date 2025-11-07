@@ -93,6 +93,7 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         this.index = 0;
         this.puzzle_1 = null;
 
+        col.enabled = true;
 
     }
     #endregion

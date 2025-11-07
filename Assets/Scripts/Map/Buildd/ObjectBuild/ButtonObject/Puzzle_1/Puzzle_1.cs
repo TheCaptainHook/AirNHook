@@ -275,8 +275,6 @@ public class Puzzle_1 : ButtonEntity
             if (parts.CheckAnswer()) num++;
         }
 
-
-        Debug.Log($"{num}, count :{puzzle_1_Parts.Count}");
         return num == puzzle_1_Parts.Count;
     }
 
