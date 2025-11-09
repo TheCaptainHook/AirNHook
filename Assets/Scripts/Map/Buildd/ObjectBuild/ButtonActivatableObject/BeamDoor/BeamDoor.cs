@@ -1,4 +1,5 @@
 using System.Collections;
+using Mirror;
 using UnityEngine;
 
 public class BeamDoor : ActivatableObjectEntity
@@ -7,6 +8,7 @@ public class BeamDoor : ActivatableObjectEntity
     #region Animation
     Animator Animator => GetComponent<Animator>();
     readonly int Open = Animator.StringToHash("OnOpen");
+    readonly int CLEAN = Animator.StringToHash("OnClean");
     #endregion
 
     #region Get,Set
@@ -21,6 +23,15 @@ public class BeamDoor : ActivatableObjectEntity
     {
         Animator.SetBool(Open, false);
     }
+
+    // public override void Clean()
+    // {
+    //     if(NetworkServer.active)
+    //     {
+    //         Animator.SetTrigger(CLEAN);
+    //     }
+    //     base.Clean();
+    // }
 
 
     #region Animation Trigger

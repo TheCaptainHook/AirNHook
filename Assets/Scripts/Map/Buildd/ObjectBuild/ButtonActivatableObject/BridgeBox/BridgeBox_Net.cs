@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
-
 
 public class BridgeBox_Net : ActivatableObject_Net_Entity
 {
@@ -17,11 +13,7 @@ public class BridgeBox_Net : ActivatableObject_Net_Entity
     public Vector2 connectionPoint;
     public Vector2 position;
 
-    // [SyncVar]public bool onActive;
 
-
-
-    // private BridgeBox Main => GetComponent<BridgeBox>();
     private BoxCollider2D Collider => GetComponent<BoxCollider2D>();
 
 
@@ -41,32 +33,11 @@ public class BridgeBox_Net : ActivatableObject_Net_Entity
 
     }
 
-
-   
-
+    public override void Clean_Value()
+    {
+        if(_connectObject != null) Destroy(_connectObject);
+    }
     #endregion
-
-
-
-    // [Server]
-    // public override void Server_ChangeOnActive(bool onOff)
-    // {
-    //     onActive = onOff;
-    //    Rpc_ChangeOnActive(onOff);
-    // }
-
-    // [ClientRpc]
-    // protected override void Rpc_ChangeOnActive(bool onOff)
-    // {
-    //     if(onOff)
-    //     {
-    //         Active();
-    //     }
-    //     else
-    //     {
-    //         Deactive();
-    //     }
-    // }
 
 
 
@@ -77,24 +48,22 @@ public class BridgeBox_Net : ActivatableObject_Net_Entity
         CreateConnectionObject();
         SetBridgeCollider();
     }
-
+    private GameObject _connectObject;
     private void CreateConnectionObject()
     {
-        GameObject spO = Instantiate(spriteObj);
-        spO.name = "Connect Object";
-        spO.transform.SetParent(transform);
-        spO.transform.position = transform.right * bridgeLength + transform.position;
+        _connectObject = Instantiate(spriteObj);
+        _connectObject.name = "Connect Object";
+        _connectObject.transform.SetParent(transform);
+        _connectObject.transform.position = transform.right * bridgeLength + transform.position;
 
-        spO.transform.localRotation = Quaternion.Euler(0, 0, 0);
-        spO.transform.localScale = new Vector3(-1, 1, 1);
+        _connectObject.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        _connectObject.transform.localScale = new Vector3(-1, 1, 1);
 
-        BoxCollider2D bcol = spO.AddComponent<BoxCollider2D>();
+        BoxCollider2D bcol = _connectObject.AddComponent<BoxCollider2D>();
         bcol.offset = Collider.offset;
         bcol.size = Collider.size;
 
-
-
-        spO.layer = transform.gameObject.layer;
+        _connectObject.layer = transform.gameObject.layer;
 
     }
 

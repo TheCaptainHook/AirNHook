@@ -104,6 +104,8 @@ public class Puzzle_1_Net : NetworkBehaviour
         foreach (var item in itemsList)
         {
             var go = Client_GetNetworkIdentity(item.netId).gameObject;
+            go.GetComponent<Puzzle_1_Item>().Clean();
+            
             Managers.Pooling.N_ReleaseToPool(go);
         }
 
@@ -155,7 +157,11 @@ public class Puzzle_1_Net : NetworkBehaviour
         
         obj.transform.SetParent(Puzzle.transform.GetChild(1));
         obj.transform.position = itemPot;
-        obj.GetComponent<Puzzle_1_Item>().Server_SetOrgPosition(itemPot);
+
+        var item = obj.GetComponent<Puzzle_1_Item>();
+        item.Set_Item();
+
+        item.Server_SetOrgPosition(itemPot);
 
         Server_SetItems(GetNetId(obj), itemPot); //Server Data Save
         //====Item
@@ -222,7 +228,12 @@ public class Puzzle_1_Net : NetworkBehaviour
 
         obj.transform.SetParent(Puzzle.transform.GetChild(1));
         obj.transform.position = dummyItemPot;
-        obj.GetComponent<Puzzle_1_Item>().Server_SetOrgPosition(dummyItemPot);
+        obj.SetActive(true);
+
+        var item = obj.GetComponent<Puzzle_1_Item>();
+
+        item.Server_SetOrgPosition(dummyItemPot);
+        item.GetComponent<Puzzle_1_Item>().Set_Item();
 
         Server_SetDummyItem(GetNetId(obj),dummyItemPot);
     }
@@ -269,6 +280,7 @@ public class Puzzle_1_Net : NetworkBehaviour
         {
             NetworkIdentity netitem = Client_GetNetworkIdentity(item.netId);
             netitem.gameObject.SetActive(true);
+            netitem.GetComponent<Puzzle_1_Item>().Set_Item();
 
             Transform itemTr = netitem.gameObject.transform;
 
@@ -300,7 +312,7 @@ public class Puzzle_1_Net : NetworkBehaviour
     private void Rpc_SetDummyItem(List<Item> list)
     {
         NetworkIdentity puzzle = Client_GetNetworkIdentity(Puzzle_netId);
-        Puzzle_1 puzzle_1 = puzzle.gameObject.GetComponent<Puzzle_1>();
+        // Puzzle_1 puzzle_1 = puzzle.gameObject.GetComponent<Puzzle_1>();
         Puzzle_1_Net puzzle_net = puzzle.gameObject.GetComponent<Puzzle_1_Net>();
 
         dummyItemList = list;
@@ -308,6 +320,8 @@ public class Puzzle_1_Net : NetworkBehaviour
         {
             NetworkIdentity netitem = Client_GetNetworkIdentity(item.netId);
             netitem.gameObject.SetActive(true);
+            
+            netitem.GetComponent<Puzzle_1_Item>().Set_Item();
 
             Transform itemTr = netitem.gameObject.transform;
 

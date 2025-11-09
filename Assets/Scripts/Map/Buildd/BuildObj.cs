@@ -370,6 +370,11 @@ public class BuildObj : MousePointerEntity, IDamageable, IPooling
             component.Server_Dissolve(); //Only Server
         }
 
+        if(TryGetComponent(out Puzzle_1_Item item))
+        {
+            item.Server_Dissolve();
+        }
+
     }
 
 

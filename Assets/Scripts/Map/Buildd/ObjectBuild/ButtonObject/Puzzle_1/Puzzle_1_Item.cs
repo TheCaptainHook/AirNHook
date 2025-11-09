@@ -9,8 +9,7 @@ public class Puzzle_1_Item : BuildObj,IDamageable,IRemoveSocketEffect
 {
 
     [Header("Puzzle")]
-    public int socketNumber; //1,2,3
-
+    public int socketNumber; 
     public bool possibleInsertSocket;
 
     #region Components
@@ -25,9 +24,10 @@ public class Puzzle_1_Item : BuildObj,IDamageable,IRemoveSocketEffect
     //private bool Parts => Net_Item.parts ? true : false;
     #endregion
 
-    private void Awake(){
+    private void Awake()
+    {
         rb = GetComponent<Rigidbody2D>();
-        DissolveInitSetting();
+        // DissolveInitSetting();
     }
 
     #region Socket
@@ -37,7 +37,20 @@ public class Puzzle_1_Item : BuildObj,IDamageable,IRemoveSocketEffect
         this.parts = parts;
     }
 
-
+    public override void Clean()
+    {
+        DissolveClean();
+    }
+    public void Set_Item()
+    {
+        Debug.Log("DIss Puzzle_1_Item");
+        canRespawn = true;
+        DissolveInitSetting();
+    }
+    public void Server_Dissolve()
+    {
+        Net_Item.Server_Dissolve();
+    }
     #endregion
 
     #region Effect
