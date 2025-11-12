@@ -26,10 +26,9 @@ public class BeamDoor : ActivatableObjectEntity
 
     public override void Clean()
     {
-        if(NetworkServer.active)
-        {
-            Animator.SetTrigger(CLEAN);
-        }
+        Animator.Rebind();
+        Animator.Update(0f);
+        
         base.Clean();
     }
 

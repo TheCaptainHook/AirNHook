@@ -62,11 +62,10 @@ public class FadeInOutPanel : MonoBehaviour
         while (MapEditor.Instance._n_activePoolingObject.Count > 0)
         {
             var obj = MapEditor.Instance._n_activePoolingObject.Dequeue();
+            obj.Clean();
 
             if (NetworkServer.active)
                 Managers.Pooling.N_ReleaseToPool(obj.gameObject);
-
-            obj.Clean();
 
         }
         
