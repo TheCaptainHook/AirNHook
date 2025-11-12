@@ -24,14 +24,14 @@ public class BeamDoor : ActivatableObjectEntity
         Animator.SetBool(Open, false);
     }
 
-    // public override void Clean()
-    // {
-    //     if(NetworkServer.active)
-    //     {
-    //         Animator.SetTrigger(CLEAN);
-    //     }
-    //     base.Clean();
-    // }
+    public override void Clean()
+    {
+        if(NetworkServer.active)
+        {
+            Animator.SetTrigger(CLEAN);
+        }
+        base.Clean();
+    }
 
 
     #region Animation Trigger
