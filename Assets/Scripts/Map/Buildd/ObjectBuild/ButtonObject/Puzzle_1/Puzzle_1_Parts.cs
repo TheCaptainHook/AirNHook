@@ -3,7 +3,7 @@ using Mirror;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Puzzle_1_Parts : MonoBehaviour,IInteractable
+public class Puzzle_1_Parts : BuildObj,IInteractable
 {
 
     private UI_Base _E_Btn;
@@ -82,10 +82,25 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
     #endregion
 
     #region  Clean    
-    public void Clean()
+    // public void Clean()
+    // {
+    //     if (Net.onSocket) Net.DisConnect(false);
+
+    //     numbering[index].SetActive(false);
+    //     lineRenderer.positionCount = 0;
+
+    //     puzzleAnswer = 0;
+    //     this.index = 0;
+    //     this.puzzle_1 = null;
+
+    //     col.enabled = true;
+
+    // }
+
+    public override void Clean()
     {
-        if (Net.onSocket) Net.DisConnect(false);
-        
+         if (Net.onSocket) Net.DisConnect(false);
+
         numbering[index].SetActive(false);
         lineRenderer.positionCount = 0;
 
@@ -94,7 +109,6 @@ public class Puzzle_1_Parts : MonoBehaviour,IInteractable
         this.puzzle_1 = null;
 
         col.enabled = true;
-
     }
     #endregion
 

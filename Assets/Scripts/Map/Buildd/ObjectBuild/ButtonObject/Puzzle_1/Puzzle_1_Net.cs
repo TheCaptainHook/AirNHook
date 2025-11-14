@@ -97,27 +97,45 @@ public class Puzzle_1_Net : NetworkBehaviour
         foreach (var part in partsList)
         {
             var go = Client_GetNetworkIdentity(part.netId).gameObject;
-            Managers.Pooling.N_ReleaseToPool(go);
             go.GetComponent<Puzzle_1_Parts>().Clean();
+
+            // Managers.Pooling.N_ReleaseToPool(go);
+            if (NetworkServer.active)
+            {
+                NetworkServer.Destroy(go);
+            }
+
         }
-        
+        partsList.Clear();
+
         foreach (var item in itemsList)
         {
             var go = Client_GetNetworkIdentity(item.netId).gameObject;
             go.GetComponent<Puzzle_1_Item>().Clean();
-            
-            Managers.Pooling.N_ReleaseToPool(go);
+
+            // Managers.Pooling.N_ReleaseToPool(go);
+            if (NetworkServer.active)
+            {
+                NetworkServer.Destroy(go);
+            }
         }
+        itemsList.Clear();
 
         if (dummyItemList?.Count > 0)
         {
             foreach (var item in dummyItemList)
             {
                 var go = Client_GetNetworkIdentity(item.netId).gameObject;
-                Managers.Pooling.N_ReleaseToPool(go);
+                // Managers.Pooling.N_ReleaseToPool(go);
+                if (NetworkServer.active)
+                {
+                    NetworkServer.Destroy(go);
+                }
             }
+            dummyItemList.Clear();
 
         }
+        
         chargingRate = 0;
         onCheckAnswerTrue = false;
         onWrongPrograss = false;
@@ -153,12 +171,14 @@ public class Puzzle_1_Net : NetworkBehaviour
         //====Item
         // GameObject obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[previousNumber - 1]);//Poozing
         GameObject obj = Managers.Stage.ServerBatchObejct(puzzle_1_Items[previousNumber - 1]);
-        obj.SetActive(true);
+        // obj.SetActive(true);
         
         obj.transform.SetParent(Puzzle.transform.GetChild(1));
         obj.transform.position = itemPot;
 
         var item = obj.GetComponent<Puzzle_1_Item>();
+        // item.Server_Dissolve();
+
         item.Set_Item();
 
         item.Server_SetOrgPosition(itemPot);
@@ -168,7 +188,7 @@ public class Puzzle_1_Net : NetworkBehaviour
 
         //====Parts
         // Puzzle_1_Parts parts = Managers.Stage.CmdBatchObject("Puzzle_1_Parts").GetComponent<Puzzle_1_Parts>();//Pooling
-        Puzzle_1_Parts parts = Managers.Stage.ServerBatchObejct("Puzzle_1_Parts").GetComponent<Puzzle_1_Parts>();//Pooling
+        Puzzle_1_Parts parts = Managers.Stage.ServerBatchObejct("Puzzle_1_Parts").GetComponent<Puzzle_1_Parts>();
         parts.gameObject.SetActive(true);
 
         parts.transform.SetParent(Puzzle.transform.GetChild(0));
@@ -224,7 +244,7 @@ public class Puzzle_1_Net : NetworkBehaviour
     {
         int randomNum = Random.Range(1, 7);
         // GameObject obj = Managers.Stage.CmdBatchObject(puzzle_1_Items[randomNum-1]);//Poozing
-        GameObject obj = Managers.Stage.ServerBatchObejct(puzzle_1_Items[randomNum-1]);//Poozing
+        GameObject obj = Managers.Stage.ServerBatchObejct(puzzle_1_Items[randomNum-1]);
 
         obj.transform.SetParent(Puzzle.transform.GetChild(1));
         obj.transform.position = dummyItemPot;
@@ -280,7 +300,12 @@ public class Puzzle_1_Net : NetworkBehaviour
         {
             NetworkIdentity netitem = Client_GetNetworkIdentity(item.netId);
             netitem.gameObject.SetActive(true);
-            netitem.GetComponent<Puzzle_1_Item>().Set_Item();
+            var p_item = netitem.GetComponent<Puzzle_1_Item>();
+            
+            // p_item.Server_Dissolve();
+
+            p_item.Set_Item();
+
 
             Transform itemTr = netitem.gameObject.transform;
 
@@ -320,8 +345,10 @@ public class Puzzle_1_Net : NetworkBehaviour
         {
             NetworkIdentity netitem = Client_GetNetworkIdentity(item.netId);
             netitem.gameObject.SetActive(true);
+            var p_item = netitem.GetComponent<Puzzle_1_Item>();
             
-            netitem.GetComponent<Puzzle_1_Item>().Set_Item();
+            // p_item.Server_Dissolve();
+            p_item.Set_Item();
 
             Transform itemTr = netitem.gameObject.transform;
 

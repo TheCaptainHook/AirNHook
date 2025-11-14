@@ -50,7 +50,7 @@ BoxCollider2D:
     m_Bits: 1024
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 1145005047
+    m_Bits: 1144742903
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -24898,5 +24898,6 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 4684687439439529792}
+  _Dissolve_MainSprites: []
+  _dissolveMaterials: []
   canRespawn: 0

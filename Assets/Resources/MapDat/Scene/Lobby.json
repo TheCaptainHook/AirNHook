@@ -12400,7 +12400,7 @@
             "lightPositions": [],
             "encapsulationItems": [],
             "chargeRequired": false,
-            "onHint": false,
+            "onHint": true,
             "partsPositions": [
                 {
                     "x": 0.0,
@@ -12434,8 +12434,8 @@
                 }
             ],
             "hintPosition": {
-                "x": 0.0,
-                "y": 0.0
+                "x": -0.9800000190734863,
+                "y": 24.399999618530275
             }
         }
     ],

@@ -45,12 +45,33 @@ public class StageManager
         }
 
     }
-    [Server]
+
+
+    [Server] //Puzzle_Item
     public GameObject ServerBatchObejct(string objName)
     {
         if (!NetworkServer.active) return null;
 
-        GameObject obj = Managers.Pooling.N_GetItme(objName);
+        // GameObject obj = Managers.Pooling.N_GetItme(objName);
+        GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+        NetworkServer.Spawn(obj, NetworkServer.localConnection);
+
+        obj.name = objName;
+
+        // obj.SetActive(true);
+
+        // if (GetNetworkIdentity(obj, out NetworkIdentity identity))
+        // {
+        //     // MapEditor.Instance._n_activePoolingObject.Enqueue(identity.GetComponent<BuildObj>());
+
+        //     if (identity.TryGetComponent(out Puzzle_1_Item item))
+        //     {
+        //         item.Server_Dissolve();
+        //     }
+
+        //     // Rpc_PoolingSetting(identity.netId);
+        // }
+        
         return obj;
     }
     /**
@@ -60,25 +81,45 @@ public class StageManager
     2. 서버전용 releaseToPool 함수 필요.
     **/
 
-    
+
     //======================================= Refectoring 1018
     [ClientRpc]
     private void Rpc_PoolingSetting(uint id, TransformType trType)
     {
         if (NetworkServer.active) return;
-        
+
         if (GetNetworkIdentity(id, out NetworkIdentity identity))
         {
             if (MapEditor.Instance.GetTransformByType(trType, out Transform parent))
             {
                 identity.transform.SetParent(parent);
-            } 
-            
+            }
+
             identity.gameObject.SetActive(true);
             MapEditor.Instance._n_activePoolingObject.Enqueue(identity.GetComponent<BuildObj>());
         }
-        
+
     }
+    //  [ClientRpc]
+    // private void Rpc_PoolingSetting(uint id)
+    // {
+    //     if (NetworkServer.active) return;
+        
+    //     if (GetNetworkIdentity(id, out NetworkIdentity identity))
+    //     {
+
+    //         identity.gameObject.SetActive(true);
+
+    //         if (identity.TryGetComponent(out Puzzle_1_Item item))
+    //         {
+    //             item.Server_Dissolve();
+    //         }
+            
+            
+    //         MapEditor.Instance._n_activePoolingObject.Enqueue(identity.GetComponent<BuildObj>());
+    //     }
+        
+    // }
 
     private bool GetNetworkIdentity(uint id,out NetworkIdentity identity)
     {

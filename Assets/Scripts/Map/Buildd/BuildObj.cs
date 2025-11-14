@@ -365,15 +365,21 @@ public class BuildObj : MousePointerEntity, IDamageable, IPooling
 
         respawnEvent?.Invoke(); //Only Server
 
-        if (TryGetComponent(out TransportItemEntity component))
+        if(TryGetComponent(out InteractableObject obj))
         {
-            component.Server_Dissolve(); //Only Server
+            obj.Server_Dissolve();   
         }
 
-        if(TryGetComponent(out Puzzle_1_Item item))
-        {
-            item.Server_Dissolve();
-        }
+        // if (TryGetComponent(out TransportItemEntity component))
+        // {
+        //     component.Server_Dissolve(); //Only Server
+        // }
+
+        // if(TryGetComponent(out Puzzle_1_Item item))
+        // {
+        //     // item.Server_Dissolve();
+            
+        // }
 
     }
 

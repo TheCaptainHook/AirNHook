@@ -60,8 +60,9 @@ public class PoolingManager
     {
         if (!N_Dic.ContainsKey(name))
         {
-            N_Dic[name] = new N_Pool(name,CreateTransform(name));
+            N_Dic[name] = new N_Pool(name, CreateTransform(name));
         }
+        
         try
         {
            N_Pool pool = N_Dic[name] as N_Pool;
