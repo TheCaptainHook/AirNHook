@@ -34,22 +34,19 @@ public class Puzzle_1_Parts : BuildObj,IInteractable
     [SerializeField] LineRenderer lineRenderer;
     private PathFinder pathFinder;
     #region Components
-    private Collider2D col;
+    // private Collider2D col;
     #endregion
     [Header("Interactable")]
     [field: SerializeField] protected ObjectTypeEnum _objectType = ObjectTypeEnum.Mount;
 
 
-    private Puzzle_1_Parts_Net Net;
-
+    private Puzzle_1_Parts_Net net;
+    private Puzzle_1_Parts_Net Net { get { net ??= GetComponent<Puzzle_1_Parts_Net>();  return net; } }
     private void Awake()
     {
-        Net = GetComponent<Puzzle_1_Parts_Net>();
-        col = GetComponent<Collider2D>();
-
+        // col = GetComponent<Collider2D>();
         pathFinder = GetComponent<PathFinder>();
         lineRenderer.colorGradient = wrongGradient;
-        
     }
 
     #region ------------------------------------------------------Network Field
@@ -99,6 +96,8 @@ public class Puzzle_1_Parts : BuildObj,IInteractable
 
     public override void Clean()
     {
+        StopAllCoroutines();
+
          if (Net.onSocket) Net.DisConnect(false);
 
         numbering[index].SetActive(false);
@@ -108,7 +107,7 @@ public class Puzzle_1_Parts : BuildObj,IInteractable
         this.index = 0;
         this.puzzle_1 = null;
 
-        col.enabled = true;
+        Col.enabled = true;
     }
     #endregion
 
@@ -146,19 +145,19 @@ public class Puzzle_1_Parts : BuildObj,IInteractable
         }
     }
 
-    public void Boom(ref HashSet<Collider2D> col)
-    {
-        if (OnCorrect) return;
-        int playerLayerMask = 1 << LayerMask.NameToLayer("Player");
+    // public void Boom(ref HashSet<Collider2D> col)
+    // {
+    //     if (OnCorrect) return;
+    //     int playerLayerMask = 1 << LayerMask.NameToLayer("Player");
 
-        //effect
+    //     //effect
 
-        Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, boomArea,playerLayerMask);
-        foreach (Collider2D c in cols)
-        {
-            col.Add(c);
-        }
-    }
+    //     Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, boomArea,playerLayerMask);
+    //     foreach (Collider2D c in cols)
+    //     {
+    //         col.Add(c);
+    //     }
+    // }
 
     private void OnDrawGizmos()
     {
@@ -177,7 +176,7 @@ public class Puzzle_1_Parts : BuildObj,IInteractable
     }
     private void WrongAnswer()
     {
-        Net.Cmd_RemoveEffect();
+        // Net.Cmd_RemoveEffect();
         Net.Cmd_DisConnect(true);
     }
     #endregion

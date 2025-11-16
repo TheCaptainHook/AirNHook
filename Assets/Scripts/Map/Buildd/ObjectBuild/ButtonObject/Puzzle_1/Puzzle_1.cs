@@ -207,6 +207,8 @@ public class Puzzle_1 : ButtonEntity
     #region  Clean
     public override void Clean() //RPC
     {
+        puzzle_1_Parts.Clear();
+
         Puzzle_Net.Clean();
     }
  #endregion
@@ -271,32 +273,31 @@ public class Puzzle_1 : ButtonEntity
         int num = 0;
         foreach (Puzzle_1_Parts parts in puzzle_1_Parts)
         {
-
             if (parts.CheckAnswer()) num++;
         }
 
         return num == puzzle_1_Parts.Count;
     }
 
-    public void Boom()
-    {
-        HashSet<Collider2D> col = new();
-        foreach (Puzzle_1_Parts parts in puzzle_1_Parts)
-        {
-            parts.Boom(ref col);
-        }
+    // public void Boom()
+    // {
+    //     HashSet<Collider2D> col = new();
+    //     foreach (Puzzle_1_Parts parts in puzzle_1_Parts)
+    //     {
+    //         parts.Boom(ref col);
+    //     }
 
-        if(col.Count> 0)
-        {
-            foreach(var c in col)
-            {
-               if(c.TryGetComponent(out PlayerSM component))
-                {
-                    component.TakeDamage(DamageType.Boom);
-                }
-            }
-        }
-    }
+    //     if(col.Count> 0)
+    //     {
+    //         foreach(var c in col)
+    //         {
+    //            if(c.TryGetComponent(out PlayerSM component))
+    //             {
+    //                 component.TakeDamage(DamageType.Boom);
+    //             }
+    //         }
+    //     }
+    // }
     #endregion
 
   

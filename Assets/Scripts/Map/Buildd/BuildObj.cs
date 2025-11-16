@@ -319,7 +319,6 @@ public class BuildObj : MousePointerEntity, IDamageable, IPooling
     public void DissolveInitSetting()
     { //all Client
       //------------Dissolve Modify 0804
-      // _dissolveMaterial = _Dissolve_MainSprite.material;
         _dissolveMaterials = new Material[_Dissolve_MainSprites.Length];
         for (int i = 0; i < _Dissolve_MainSprites.Length; i++)
         {

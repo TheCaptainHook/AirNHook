@@ -8,8 +8,6 @@ using UnityEngine.InputSystem;
 using System.Collections;
 
 
-
-
 public class Puzzle_1_Net : NetworkBehaviour
 {
     [SerializeField] Transform partsContainer;
@@ -89,20 +87,24 @@ public class Puzzle_1_Net : NetworkBehaviour
     
     public void Clean()
     {
+        StopAllCoroutines();
+
         answer = "";
         // hintScreen.Clean();
         hintScreen.gameObject.SetActive(false);
 
-
         foreach (var part in partsList)
         {
-            var go = Client_GetNetworkIdentity(part.netId).gameObject;
-            go.GetComponent<Puzzle_1_Parts>().Clean();
+            var go = Client_GetNetworkIdentity(part.netId);
+            if (go == null) continue;
+
+            // go.GetComponent<Puzzle_1_Parts>().Clean();
+            if (go.TryGetComponent(out Puzzle_1_Parts partComp)) partComp.Clean();
 
             // Managers.Pooling.N_ReleaseToPool(go);
             if (NetworkServer.active)
             {
-                NetworkServer.Destroy(go);
+                NetworkServer.Destroy(go.gameObject);
             }
 
         }
@@ -110,13 +112,15 @@ public class Puzzle_1_Net : NetworkBehaviour
 
         foreach (var item in itemsList)
         {
-            var go = Client_GetNetworkIdentity(item.netId).gameObject;
-            go.GetComponent<Puzzle_1_Item>().Clean();
+            var go = Client_GetNetworkIdentity(item.netId);
+            if (go == null) continue;
+
+            if (go.TryGetComponent(out Puzzle_1_Item itemComp)) itemComp.Clean();
 
             // Managers.Pooling.N_ReleaseToPool(go);
             if (NetworkServer.active)
             {
-                NetworkServer.Destroy(go);
+                NetworkServer.Destroy(go.gameObject);
             }
         }
         itemsList.Clear();
@@ -125,17 +129,18 @@ public class Puzzle_1_Net : NetworkBehaviour
         {
             foreach (var item in dummyItemList)
             {
-                var go = Client_GetNetworkIdentity(item.netId).gameObject;
+                var go = Client_GetNetworkIdentity(item.netId);
+                if (go == null) continue;
                 // Managers.Pooling.N_ReleaseToPool(go);
                 if (NetworkServer.active)
                 {
-                    NetworkServer.Destroy(go);
+                    NetworkServer.Destroy(go.gameObject);
                 }
             }
             dummyItemList.Clear();
 
         }
-        
+        onSync = false;
         chargingRate = 0;
         onCheckAnswerTrue = false;
         onWrongPrograss = false;
@@ -146,14 +151,6 @@ public class Puzzle_1_Net : NetworkBehaviour
     
     #region Server
 
-    //==========Refactoring 1105
-    /**
-    1. asnwer Clean
-    2. itemList,partList,dummy item list Clean
-    3. hint Clean
-    **/
-
-    //==========Refactoring 1105
     [Server]
     public void Server_CreatePuzzle_Item(
        int index,
@@ -180,7 +177,6 @@ public class Puzzle_1_Net : NetworkBehaviour
         // item.Server_Dissolve();
 
         item.Set_Item();
-
         item.Server_SetOrgPosition(itemPot);
 
         Server_SetItems(GetNetId(obj), itemPot); //Server Data Save
@@ -499,7 +495,7 @@ public class Puzzle_1_Net : NetworkBehaviour
     private void Rpc_Wrong()
     {
         Managers.AcManager.CallPlayer_Puzzle_Wrong();
-        Puzzle.Boom();
+        // Puzzle.Boom();
         HintScreen_False();
     }
     

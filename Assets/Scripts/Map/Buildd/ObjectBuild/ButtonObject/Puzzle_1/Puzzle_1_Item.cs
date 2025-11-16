@@ -25,12 +25,6 @@ public class Puzzle_1_Item : BuildObj,IDamageable,IRemoveSocketEffect
     //private bool Parts => Net_Item.parts ? true : false;
     #endregion
 
-    // private void Awake()
-    // {
-    //     rb = GetComponent<Rigidbody2D>();
-    //     // DissolveInitSetting();
-    // }
-
     #region Socket
     public Puzzle_1_Parts parts;
     public void ContectParts(Puzzle_1_Parts parts)
@@ -47,23 +41,6 @@ public class Puzzle_1_Item : BuildObj,IDamageable,IRemoveSocketEffect
         canRespawn = true;
         DissolveInitSetting();
     }
-    // public void Server_Dissolve()
-    // {
-    //     if(!NetworkServer.active)
-    //     {
-    //         StartCoroutine(WaitUntilReadyThenExecute());
-    //     }
-    //     else
-    //     {
-    //         Net_Item.Server_Dissolve();
-    //     }
-    // }
-
-    // IEnumerator WaitUntilReadyThenExecute()
-    // {
-    //     yield return new WaitUntil(() => NetworkClient.ready);
-    //     Net_Item.Server_Dissolve();
-    // }
 
     #endregion
 
@@ -90,7 +67,6 @@ public class Puzzle_1_Item : BuildObj,IDamageable,IRemoveSocketEffect
 
     public void Server_SetOrgPosition(Vector3 pos) //Server
     {
-
         position = pos;
     }
 

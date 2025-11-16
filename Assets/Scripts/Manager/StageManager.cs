@@ -57,30 +57,8 @@ public class StageManager
         NetworkServer.Spawn(obj, NetworkServer.localConnection);
 
         obj.name = objName;
-
-        // obj.SetActive(true);
-
-        // if (GetNetworkIdentity(obj, out NetworkIdentity identity))
-        // {
-        //     // MapEditor.Instance._n_activePoolingObject.Enqueue(identity.GetComponent<BuildObj>());
-
-        //     if (identity.TryGetComponent(out Puzzle_1_Item item))
-        //     {
-        //         item.Server_Dissolve();
-        //     }
-
-        //     // Rpc_PoolingSetting(identity.netId);
-        // }
-        
         return obj;
     }
-    /**
-    1. 서버에서 N_Dic 확인 후 없으면 생성. 서버만 풀링함
-        -> Rpc로 net id 전달, 위치만 세팅.
-
-    2. 서버전용 releaseToPool 함수 필요.
-    **/
-
 
     //======================================= Refectoring 1018
     [ClientRpc]
