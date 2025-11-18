@@ -50,11 +50,10 @@ public class ActivatableObjectEntity : BuildObj
 
     protected ActivatableObject_Net_Entity net;
     protected ActivatableObject_Net_Entity Net { get{ net ??= GetComponent<ActivatableObject_Net_Entity>();  return net; }}
-    // protected bool Net_Entity(out ActivatableObject_Net_Entity net)
-    // {
-    //     // net = Net ??= GetComponent<ActivatableObject_Net_Entity>();
-    //     return net != null;
-    // }
+    
+    protected Animator _animator;
+    protected Animator Animator {get{_animator ??= GetComponent<Animator>(); return _animator;}}
+    
 
     protected virtual void Awake()
     {
@@ -64,7 +63,7 @@ public class ActivatableObjectEntity : BuildObj
     [ReadOnly]
     public int curActiveBtn;
     //----------------------------------------------------------------Refactoring 250124
-    public void ApplyActive(int num, uint id = 9999) //only Server
+    public void ApplyActive(int num, uint id = 9999) //server
     {
         curActiveBtn += num;
 
@@ -168,21 +167,20 @@ public class ActivatableObjectEntity : BuildObj
     #region  Clean
     public override void Clean()
     {
-        try
+        if(Animator != null)
         {
-            curActiveBtn = 0;
-            activeRequirAmount = 0;
-            
-            Clean_Value();
-            Net.Clean();
+            Animator.Rebind();
+            Animator.Update(0);
         }
-        catch (Exception ex)
-        {
-            Debug.Log($"Error, {gameObject.name}\n{ex}");
-
-        }
-
+        
+        curActiveBtn = 0;
+        activeRequirAmount = 0;
+        
+        Clean_Value();
+        Net.Clean();
     }
+
+
         
     protected virtual void Clean_Value()
     {

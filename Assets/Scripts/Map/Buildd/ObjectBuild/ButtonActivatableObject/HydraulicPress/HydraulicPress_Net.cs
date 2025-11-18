@@ -157,7 +157,21 @@ public class HydraulicPress_Net : ActivatableObject_Net_Entity
         
 
     }
+    #region  Clean
+    public override void Clean_Value()
+    {
+        StopAllCoroutines();
+        lightSpriteRenderer.sprite = redSprite;
+        lightSpriteRenderer.material = _RedLightMat;
+        
+        pressTr.localPosition = new Vector3(minPressLength, 0, 0);
+        pressCol.offset = minColOffset;
+        pressCol.size = minColSize;
+        isSoundPlaying = false;
+        pressReleaseCoroutine = null;
+    }
 
+    #endregion
     private void PressOn()
     {
         IsAnimationPlaying("Steam");

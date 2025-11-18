@@ -6,7 +6,7 @@ public class BeamDoor : ActivatableObjectEntity
 {
 
     #region Animation
-    Animator Animator => GetComponent<Animator>();
+    // Animator Animator => GetComponent<Animator>();
     readonly int Open = Animator.StringToHash("OnOpen");
     readonly int CLEAN = Animator.StringToHash("OnClean");
     #endregion

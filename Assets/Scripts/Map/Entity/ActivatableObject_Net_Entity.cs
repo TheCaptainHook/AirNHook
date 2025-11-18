@@ -57,6 +57,8 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
         SetData(data);
 
         if (onActive) Active();
+        else Deactive();
+        
         onSync = true;
     }
 
