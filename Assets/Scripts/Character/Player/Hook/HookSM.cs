@@ -71,6 +71,12 @@ public class HookSM : PlayerSM, IInhalable
         //Managers.Command.itemReleaseCallback -= ReleaseItemNet;
     }
 
+    public override void Reset()
+    {
+        base.Reset();
+        grappling.Reset();
+    }
+
     #region UpdateMethod
     protected override void Update()
     {
