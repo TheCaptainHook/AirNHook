@@ -167,6 +167,9 @@ public class ActivatableObjectEntity : BuildObj
     #region  Clean
     public override void Clean()
     {
+        StopAllCoroutines();
+        Net.StopAllCoroutines();
+        
         if(Animator != null)
         {
             Animator.Rebind();

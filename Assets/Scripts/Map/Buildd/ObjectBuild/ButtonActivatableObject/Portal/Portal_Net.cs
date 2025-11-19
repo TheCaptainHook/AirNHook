@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using Mirror;
-using System;
+
 public class Portal_Net : ActivatableObject_Net_Entity
 {
     [SerializeField] GameObject _TpEffect;
@@ -16,8 +16,12 @@ public class Portal_Net : ActivatableObject_Net_Entity
          Animator.SetBool(IsActive, false);
         _TpEffect.SetActive(false);
     }
-    
-
+#region  Clean
+    public override void Clean_Value()
+    {
+        onPrograss = false;
+    }
+#endregion
     //------------------------------------------------------------------Refactoring0303
     public Vector2 orgPosition => Portal.ButtonActivatedObjectStruct.position;
     public GameObject targetPortal;
@@ -48,6 +52,7 @@ public class Portal_Net : ActivatableObject_Net_Entity
                 }
             }
         }
+        
     }
 
     [Server]
@@ -62,23 +67,23 @@ public class Portal_Net : ActivatableObject_Net_Entity
         }
     }
   
-    [TargetRpc]
-    private void TRpc_PlayUniqueEffect(NetworkConnection conn, GameObject obj)
-    {
-        if (targetPortal == null)
-        {
-            var targetItem = NetworkClient.spawned.TryGetValue(targetId, out var identity) ? identity.gameObject : null;
-            if (targetItem != null)
-            {
-                targetPortal = targetItem;
-                UsePortal(obj);
-            }
-        }
-        else
-        {
-            UsePortal(obj);
-        }
-    }
+    // [TargetRpc]
+    // private void TRpc_PlayUniqueEffect(NetworkConnection conn, GameObject obj)
+    // {
+    //     if (targetPortal == null)
+    //     {
+    //         var targetItem = NetworkClient.spawned.TryGetValue(targetId, out var identity) ? identity.gameObject : null;
+    //         if (targetItem != null)
+    //         {
+    //             targetPortal = targetItem;
+    //             UsePortal(obj);
+    //         }
+    //     }
+    //     else
+    //     {
+    //         UsePortal(obj);
+    //     }
+    // }
 
     //----------------
     [ClientRpc]
@@ -117,10 +122,14 @@ public class Portal_Net : ActivatableObject_Net_Entity
     IEnumerator UsePortal_Co(GameObject obj)
     {
         var identity = obj.TryGetComponent(out NetworkIdentity netIdentity) ? netIdentity : null;
+        var sm =obj.TryGetComponent(out PlayerSM playerSm)  ? playerSm : null;
 
         if (identity.isLocalPlayer)
         {
             //Player Hold
+            
+            if(sm != null) sm.FreezePlayerState(true);
+            
             if (obj.TryGetComponent(out Rigidbody2D component))
             {
                 component.simulated = false;
@@ -150,6 +159,7 @@ public class Portal_Net : ActivatableObject_Net_Entity
         if (identity.isLocalPlayer)
         {
             Sound(false);
+            if(sm != null) sm.FreezePlayerState(false);
             //Player Recover
             if (obj.TryGetComponent(out Rigidbody2D component))
             {

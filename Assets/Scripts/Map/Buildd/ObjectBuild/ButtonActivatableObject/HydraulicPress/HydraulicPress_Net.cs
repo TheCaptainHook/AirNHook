@@ -161,6 +161,7 @@ public class HydraulicPress_Net : ActivatableObject_Net_Entity
     public override void Clean_Value()
     {
         StopAllCoroutines();
+       
         lightSpriteRenderer.sprite = redSprite;
         lightSpriteRenderer.material = _RedLightMat;
         

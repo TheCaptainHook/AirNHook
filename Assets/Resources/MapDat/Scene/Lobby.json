@@ -12174,10 +12174,10 @@
             }
         },
         {
-            "id": 354,
+            "id": 332,
             "position": {
-                "x": -6.650000095367432,
-                "y": 26.729999542236329
+                "x": -10.140000343322754,
+                "y": 27.59000015258789
             },
             "quaternion": {
                 "x": 0.0,
@@ -12190,66 +12190,18 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "activeRequirAmount": 0,
+            "activeRequirAmount": 2,
             "indicatorStruct": {
-                "indicator": 0,
+                "indicator": 2,
                 "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
+                    "x": -0.5,
+                    "y": 1.0
                 },
                 "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
+                    "x": -10.5,
+                    "y": 26.6299991607666
                 },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
-            "moveDistance": 0.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 353,
-            "position": {
-                "x": -3.380000114440918,
-                "y": 26.729999542236329
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "activeRequirAmount": 0,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
+                "isHorizontal": true
             },
             "jumpingPower": 0,
             "talPot": {
@@ -12360,6 +12312,10 @@
                 {
                     "x": -11.5,
                     "y": 20.850000381469728
+                },
+                {
+                    "x": -10.140000343322754,
+                    "y": 27.59000015258789
                 }
             ],
             "lightPositions": [],
@@ -12464,12 +12420,8 @@
                     "y": 20.850000381469728
                 },
                 {
-                    "x": -6.650000095367432,
-                    "y": 26.729999542236329
-                },
-                {
-                    "x": -3.380000114440918,
-                    "y": 26.729999542236329
+                    "x": -10.140000343322754,
+                    "y": 27.59000015258789
                 }
             ],
             "lightPositions": [],
@@ -12481,65 +12433,6 @@
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            }
-        },
-        {
-            "id": 341,
-            "position": {
-                "x": -1.0,
-                "y": 21.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "targetPositions": [],
-            "lightPositions": [],
-            "encapsulationItems": [],
-            "chargeRequired": false,
-            "onHint": true,
-            "partsPositions": [
-                {
-                    "x": 0.0,
-                    "y": 22.0
-                },
-                {
-                    "x": 1.0,
-                    "y": 22.0
-                },
-                {
-                    "x": 2.0,
-                    "y": 22.0
-                }
-            ],
-            "itemPositions": [
-                {
-                    "x": -8.677566528320313,
-                    "y": 23.59909439086914
-                },
-                {
-                    "x": -6.470000267028809,
-                    "y": 23.59909439086914
-                },
-                {
-                    "x": -4.670000076293945,
-                    "y": 23.549999237060548
-                },
-                {
-                    "x": 4.880000114440918,
-                    "y": 23.639999389648439
-                }
-            ],
-            "hintPosition": {
-                "x": -0.9800000190734863,
-                "y": 24.399999618530275
             }
         }
     ],

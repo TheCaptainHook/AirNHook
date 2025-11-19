@@ -16,7 +16,7 @@ public class Portal : ActivatableObjectEntity
 
 
     [Header("Animation")]
-    [SerializeField] private Animator _animator;
+    // [SerializeField] private Animator _animator;
     [SerializeField] GameObject _TpEffect;
 
 
@@ -36,10 +36,6 @@ public class Portal : ActivatableObjectEntity
     }
 
 
-    public override void Clean()
-    {
-        Net.onSync = false;
-    }
     #region Editor
 
 
