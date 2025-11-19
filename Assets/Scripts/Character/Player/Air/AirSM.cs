@@ -47,6 +47,13 @@ public class AirSM : PlayerSM
         airGun.OnDisable();
     }
 
+    public override void Reset()
+    {
+        base.Reset();
+        _airGunMountObj = null;
+        airGun.Reset();
+    }
+
     #region UpdateMethod
     protected override void Update()
     {

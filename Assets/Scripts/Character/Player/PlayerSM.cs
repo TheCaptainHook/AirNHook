@@ -106,6 +106,11 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         StopAllCoroutines();
         UnsubscribeInput();
     }
+
+    public virtual void Reset()
+    {
+
+    }
     #endregion
 
     #region Update
