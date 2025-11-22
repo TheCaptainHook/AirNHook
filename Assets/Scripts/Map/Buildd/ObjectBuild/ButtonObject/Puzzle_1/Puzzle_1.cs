@@ -270,6 +270,11 @@ public class Puzzle_1 : ButtonEntity
   
     public bool CheckAnswer() //Server
     {
+        if(puzzle_1_Parts == null || puzzle_1_Parts.Count  == 0)
+        {
+            return false;
+        }
+        
         int num = 0;
         foreach (Puzzle_1_Parts parts in puzzle_1_Parts)
         {

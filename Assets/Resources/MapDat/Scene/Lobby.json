@@ -12434,6 +12434,35 @@
                 "x": 0.0,
                 "y": 0.0
             }
+        },
+        {
+            "id": 341,
+            "position": {
+                "x": -1.0,
+                "y": 21.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "targetPositions": [],
+            "lightPositions": [],
+            "encapsulationItems": [],
+            "chargeRequired": false,
+            "onHint": false,
+            "partsPositions": [],
+            "itemPositions": [],
+            "hintPosition": {
+                "x": 0.0,
+                "y": 0.0
+            }
         }
     ],
     "mapExitObjectStruct": {

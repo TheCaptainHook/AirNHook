@@ -89,6 +89,12 @@ public class Puzzle_1_Net : NetworkBehaviour
     {
         StopAllCoroutines();
 
+        onSync = false;
+        chargingRate = 0;
+        onCheckAnswerTrue = false;
+        onWrongPrograss = false;
+        onCorrect = false;
+
         answer = "";
         // hintScreen.Clean();
         hintScreen.gameObject.SetActive(false);
@@ -140,11 +146,7 @@ public class Puzzle_1_Net : NetworkBehaviour
             dummyItemList.Clear();
 
         }
-        onSync = false;
-        chargingRate = 0;
-        onCheckAnswerTrue = false;
-        onWrongPrograss = false;
-        onCorrect = false;
+       
     }
     
     #endregion
@@ -234,6 +236,8 @@ public class Puzzle_1_Net : NetworkBehaviour
         if(dummyItemList?.Count > 0)
         Rpc_SetDummyItem(dummyItemList);
     }
+    
+
 
     [Server]
     public void Server_Create_DummyItem(Vector2 dummyItemPot)
@@ -273,7 +277,7 @@ public class Puzzle_1_Net : NetworkBehaviour
         itemsList = items;
         this.hint = hint;
         //data sync
-
+        
         NetworkIdentity puzzle = Client_GetNetworkIdentity(Puzzle_netId);
         Puzzle_1 puzzle_1 = puzzle.gameObject.GetComponent<Puzzle_1>();
         Puzzle_1_Net puzzle_net = puzzle.gameObject.GetComponent<Puzzle_1_Net>();
@@ -650,7 +654,8 @@ public class Puzzle_1_Net : NetworkBehaviour
         sm.deathEvent -= Event_Recover;
 
 
-        airObject.GetComponent<AirSM>()._airGunMountObj = null;
+        // airObject.GetComponent<AirSM>()._airGunMountObj = null;
+        airSm.Reset();
         
         airObject = null;
 
