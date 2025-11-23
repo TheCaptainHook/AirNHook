@@ -32,10 +32,14 @@ public class DroneEntity_Net : NetworkBehaviour
     {
         Server_InitSync();
     }
+
     [ClientRpc]
     private void Rpc_InitSync(DroneStruct data,Vector2 curPosition,int index)
     {
         if (onSync) return;
+        
+        
+        
         Main.DroneStruct = data;
         RB.position = curPosition;
 
@@ -45,9 +49,10 @@ public class DroneEntity_Net : NetworkBehaviour
             targetPosition = paths[index];
             dir = (targetPosition - curPosition).normalized;
         }
-        
+
         onSync = true;
     }
+
     public override void OnStartClient()
     {
         base.OnStartClient();

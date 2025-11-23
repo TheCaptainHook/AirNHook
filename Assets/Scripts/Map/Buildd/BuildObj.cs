@@ -429,9 +429,12 @@ public class BuildObj : MousePointerEntity, IDamageable, IPooling
         Managers.Pooling.N_ReleaseToPool(gameObject);
     }
 
-
+#region  Clean
     public virtual void Clean()
     {
         
     }
+    
+#endregion
 }   
+

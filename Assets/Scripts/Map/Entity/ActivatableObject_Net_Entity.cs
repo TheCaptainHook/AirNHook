@@ -94,7 +94,7 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
 
 
 
-    IEnumerator AllClientReadyChecker_Co(Action action)
+    protected IEnumerator AllClientReadyChecker_Co(Action action)
     {
         while (true)
         {

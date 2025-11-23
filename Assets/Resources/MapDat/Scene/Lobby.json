@@ -12174,10 +12174,10 @@
             }
         },
         {
-            "id": 332,
+            "id": 327,
             "position": {
-                "x": -10.140000343322754,
-                "y": 27.59000015258789
+                "x": -9.029999732971192,
+                "y": 27.06999969482422
             },
             "quaternion": {
                 "x": 0.0,
@@ -12190,18 +12190,18 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "activeRequirAmount": 2,
+            "activeRequirAmount": 0,
             "indicatorStruct": {
-                "indicator": 2,
+                "indicator": 0,
                 "indicator_1_position": {
-                    "x": -0.5,
-                    "y": 1.0
+                    "x": 0.0,
+                    "y": 0.0
                 },
                 "indicator_2_position": {
-                    "x": -10.5,
-                    "y": 26.6299991607666
+                    "x": 0.0,
+                    "y": 0.0
                 },
-                "isHorizontal": true
+                "isHorizontal": false
             },
             "jumpingPower": 0,
             "talPot": {
@@ -12212,8 +12212,17 @@
             "fireRate": 0.0,
             "onHoldRotation": false,
             "onLeft": false,
-            "paths": [],
-            "moveSpeed": 0.0,
+            "paths": [
+                {
+                    "x": -3.549999952316284,
+                    "y": 27.549999237060548
+                },
+                {
+                    "x": -0.800000011920929,
+                    "y": 30.510000228881837
+                }
+            ],
+            "moveSpeed": 2.0,
             "moveDistance": 0.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
@@ -12312,10 +12321,6 @@
                 {
                     "x": -11.5,
                     "y": 20.850000381469728
-                },
-                {
-                    "x": -10.140000343322754,
-                    "y": 27.59000015258789
                 }
             ],
             "lightPositions": [],
@@ -12418,41 +12423,8 @@
                 {
                     "x": -11.5,
                     "y": 20.850000381469728
-                },
-                {
-                    "x": -10.140000343322754,
-                    "y": 27.59000015258789
                 }
             ],
-            "lightPositions": [],
-            "encapsulationItems": [],
-            "chargeRequired": false,
-            "onHint": false,
-            "partsPositions": [],
-            "itemPositions": [],
-            "hintPosition": {
-                "x": 0.0,
-                "y": 0.0
-            }
-        },
-        {
-            "id": 341,
-            "position": {
-                "x": -1.0,
-                "y": 21.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "targetPositions": [],
             "lightPositions": [],
             "encapsulationItems": [],
             "chargeRequired": false,

@@ -26,7 +26,8 @@ public class MovingSaw : DroneEntity
         }
     }
 
-    private void Awake()
+
+    public override void Init()
     {
         Managers.Sound.PlaySound3D(GlobalText.SAW_SOUND_LOOP, transform, 0.35f, true, true);
         _animator.SetBool("onActive", true);

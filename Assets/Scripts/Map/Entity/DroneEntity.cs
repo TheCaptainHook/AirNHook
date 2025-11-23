@@ -74,7 +74,8 @@ public class DroneEntity : BuildObj
 
     
     [Header("Components")]
-    private Animator animator;
+    protected Animator animator;
+    protected Animator Animator {get{animator ??= GetComponent<Animator>(); return animator;}}
     private DroneEntity_Net net;
     protected DroneEntity_Net Net { get { net ??= GetComponent<DroneEntity_Net>(); return net; } }
 
@@ -97,19 +98,20 @@ public class DroneEntity : BuildObj
         if(typeof(T)==typeof(DroneStruct)){
           DroneStruct dronsSt = (DroneStruct)(object)data;
           DroneStruct = dronsSt;
-            //Init();
-        //   Net.Server_InitSync();
+        }
+        if(Application.isPlaying)
+        {
+            Init();
+            Net.Server_InitSync();
         }
 
     }
 
    #endregion
-
-    private void Awake(){
-        animator = GetComponent<Animator>();
+    public virtual void Init()
+    {
         
     }
-
 
     #region  Action
 
@@ -155,8 +157,9 @@ public class DroneEntity : BuildObj
 
   
 
-    public virtual void DroneMovingAnimation(Vector2 dir){
-        if(animator == null) return;
+    public virtual void DroneMovingAnimation(Vector2 dir)
+    {
+        if(Animator == null) return;
         if(animationMovingCoroutine != null){
             StopCoroutine(animationMovingCoroutine);
         }
@@ -164,26 +167,26 @@ public class DroneEntity : BuildObj
         
         animationMovingCoroutine = StartCoroutine(DroneMovingAnimationCorountine(GetDroneState(dir)));
     }
+    
     IEnumerator DroneMovingAnimationCorountine(DroneState state){
 
-        if(!HasParameterOfType(animator,_Moveing,AnimatorControllerParameterType.Float)) yield break;
+        if(!HasParameterOfType(Animator,_Moveing,AnimatorControllerParameterType.Float)) yield break;
           
-        float _Animator_MovingRate = animator.GetFloat(_Moveing);
+        float _Animator_MovingRate = Animator.GetFloat(_Moveing);
         
         float targetRate = GetAnimatorMovingRate(state);
         while(!Mathf.Approximately(_Animator_MovingRate,targetRate)){  
             _Animator_MovingRate = Mathf.Lerp(_Animator_MovingRate,targetRate,_Animation_Transition_Speed * Time.fixedDeltaTime);
-            animator.SetFloat(_Moveing,_Animator_MovingRate);
+            Animator.SetFloat(_Moveing,_Animator_MovingRate);
             yield return null;
         }
     }
 
     private bool HasParameterOfType(Animator animator,int stringToHash, AnimatorControllerParameterType type){
         foreach(AnimatorControllerParameter param in animator.parameters){
-            if(param.nameHash == stringToHash){
+            if(param.nameHash == stringToHash)
+            {
                 return true;
-            }else{
-                return false;
             }
         }
         return false;
@@ -191,7 +194,7 @@ public class DroneEntity : BuildObj
 
     #endregion
 
-    public void SetDroneAnim(Vector2 dir)
+    public void SetDroneAnim(Vector2 dir) //DroneGuardVision
     {
         DroneMovingAnimation(dir);
     }
