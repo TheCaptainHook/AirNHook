@@ -12174,10 +12174,10 @@
             }
         },
         {
-            "id": 327,
+            "id": 334,
             "position": {
-                "x": -9.029999732971192,
-                "y": 27.06999969482422
+                "x": -3.869999885559082,
+                "y": 24.670000076293947
             },
             "quaternion": {
                 "x": 0.0,
@@ -12190,7 +12190,7 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "activeRequirAmount": 0,
+            "activeRequirAmount": 1,
             "indicatorStruct": {
                 "indicator": 0,
                 "indicator_1_position": {
@@ -12212,18 +12212,9 @@
             "fireRate": 0.0,
             "onHoldRotation": false,
             "onLeft": false,
-            "paths": [
-                {
-                    "x": -3.549999952316284,
-                    "y": 27.549999237060548
-                },
-                {
-                    "x": -0.800000011920929,
-                    "y": 30.510000228881837
-                }
-            ],
-            "moveSpeed": 2.0,
-            "moveDistance": 0.0,
+            "paths": [],
+            "moveSpeed": 3.0,
+            "moveDistance": 10.0,
             "bridgeLength": 0.0,
             "connectionPoint": {
                 "x": 0.0,
@@ -12321,6 +12312,10 @@
                 {
                     "x": -11.5,
                     "y": 20.850000381469728
+                },
+                {
+                    "x": -3.869999885559082,
+                    "y": 24.670000076293947
                 }
             ],
             "lightPositions": [],

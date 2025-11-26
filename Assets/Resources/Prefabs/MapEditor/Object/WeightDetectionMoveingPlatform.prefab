@@ -574,13 +574,10 @@ MonoBehaviour:
   onActive: 0
   rail_Node_Prefabs: {fileID: 7834071034627693989, guid: 4f169f16daaea482da08a58d3a53f699, type: 3}
   rail_Line_Prefabs: {fileID: 6443439262299581446, guid: 275793db7c14f413ebce84c81e704b8d, type: 3}
-  curRecoveryPositionRate: 0
-  curRecoveryTiltRate: 0
   leftPoint: {fileID: 870347649813542423}
   rightPoint: {fileID: 6264870558566126995}
   _c_curStep: 0
   _c_dir: {x: 0, y: 0}
-  tiltRate: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 656384
@@ -627,7 +624,7 @@ MonoBehaviour:
   - {x: 3, y: -0.24609375, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 57598
+  m_InstanceId: 56030
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 3, y: 0.24609375, z: 0}
@@ -638,7 +635,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3164631011725507869}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
   m_Name: 
@@ -660,7 +657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c7e12ad9b9ae443c9fdf37e9f5ecd36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 1
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0
   target: {fileID: 2472559704464556279}
