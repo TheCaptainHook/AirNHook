@@ -71,9 +71,10 @@ public class InteractableObjectEntity : BuildObj
 
     public override void Clean()
     {
+
         DissolveClean();
         EncapsulationField.Clean(); //indicator Clean
-        TransportItemEntity.onSync = false;
+        TransportItemEntity.Clean();
         
         Clean_OtherValue();
     }

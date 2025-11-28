@@ -310,13 +310,7 @@ public class PowerSupply_Net : ButtonEntity_Net, IInteractable
             battery = null;
         }
     }
-    // public override void Server_Clean()
-    // {
 
-    //     base.Server_Clean();
-    //     _consumption = 0;
-    //     Clean();
-    // }
     public override void Clean()
     {
         if (isServer) _consumption = 0;

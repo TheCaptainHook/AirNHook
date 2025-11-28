@@ -17,6 +17,7 @@ public class TransportItemEntity : InteractableObject, ITransportItem
             return rb;
         }
     }
+    
     private BuildObj _buildObj;
     // protected BuildObj BuildObj => GetComponent<BuildObj>();
     protected BuildObj BuildObj { get { _buildObj ??= GetComponent<BuildObj>(); return _buildObj; } }
@@ -32,7 +33,17 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     {
         Rpc_DropItem();
     }
-
+    public override void ShowEButton()
+    {
+        if(!MapEditor.Instance._onMapTransition_Complete)
+        {
+            HideEButton();
+        }
+        else
+        {
+            base.ShowEButton();    
+        }
+    }
     private void Transport_Drop()
     {
         Rb.gravityScale = _gravityScale;
@@ -278,6 +289,19 @@ public class TransportItemEntity : InteractableObject, ITransportItem
         yield return new WaitUntil(() => EncapsulationField.indicator_2 != null);
         Debug.Log("[3] Encapsulation Indicator 2 Path Chack->Net");
         EncapsulationField.indicator_2.PathChacking(targetID);
+    }
+    #endregion
+
+
+    #region  Clean
+    public void Clean()
+    {
+        if(Accessor != null && Accessor.TryGetComponent(out PlayerSM sm))
+        {
+            sm.Reset();
+        }
+
+        onSync = false;
     }
     #endregion
 }

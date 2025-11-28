@@ -9,6 +9,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     // grab release
     [Header("Grab n Release")]
     private Transform _accessor;
+    public Transform Accessor => _accessor;
     [field: SerializeField][SyncVar] private GameObject _permissionPlayer;
     private object _lock = new object();
     protected Rigidbody2D _rigidbody;
@@ -228,7 +229,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         return _objectType;
     }
 
-    public void ShowEButton()
+    public virtual void ShowEButton()
     {
         if (!_canInteract) return;
 

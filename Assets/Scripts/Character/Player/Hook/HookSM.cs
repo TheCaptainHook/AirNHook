@@ -75,6 +75,9 @@ public class HookSM : PlayerSM, IInhalable
     {
         base.Reset();
         grappling.Reset();
+        //==========1128
+        ReleaseItem();
+        //==========1128
     }
 
     #region UpdateMethod

@@ -8227,6 +8227,72 @@
             "onEncapsulationItem": false,
             "indicator": 0,
             "tutorialCode": 0
+        },
+        {
+            "id": 344,
+            "dialogueId": 0,
+            "position": {
+                "x": -1.809999942779541,
+                "y": 21.68000030517578
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 0.699999988079071,
+                "y": 0.699999988079071,
+                "z": 1.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0,
+            "tutorialCode": 0
+        },
+        {
+            "id": 343,
+            "dialogueId": 0,
+            "position": {
+                "x": -7.179999828338623,
+                "y": 24.700000762939454
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0,
+            "tutorialCode": 0
         }
     ],
     "mapBackgroundObjectList": [
@@ -12172,54 +12238,6 @@
                 "x": 0.0,
                 "y": 0.0
             }
-        },
-        {
-            "id": 334,
-            "position": {
-                "x": -3.869999885559082,
-                "y": 24.670000076293947
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "activeRequirAmount": 1,
-            "indicatorStruct": {
-                "indicator": 0,
-                "indicator_1_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "indicator_2_position": {
-                    "x": 0.0,
-                    "y": 0.0
-                },
-                "isHorizontal": false
-            },
-            "jumpingPower": 0,
-            "talPot": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "rotateRate": 0.0,
-            "fireRate": 0.0,
-            "onHoldRotation": false,
-            "onLeft": false,
-            "paths": [],
-            "moveSpeed": 3.0,
-            "moveDistance": 10.0,
-            "bridgeLength": 0.0,
-            "connectionPoint": {
-                "x": 0.0,
-                "y": 0.0
-            }
         }
     ],
     "buttonObjectList": [
@@ -12312,10 +12330,6 @@
                 {
                     "x": -11.5,
                     "y": 20.850000381469728
-                },
-                {
-                    "x": -3.869999885559082,
-                    "y": 24.670000076293947
                 }
             ],
             "lightPositions": [],

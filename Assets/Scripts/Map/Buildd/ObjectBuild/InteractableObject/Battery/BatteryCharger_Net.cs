@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Animations;
@@ -55,8 +54,8 @@ public class BatteryCharger_Net : NetworkBehaviour
 
         if (newBattery != null && !Compare(battery, newBattery))
         {
-            Rpc_Connect(newBattery);
-            Charge(newBattery); //Only Server
+            Rpc_Connect(newBattery); //Connect
+            Charge(newBattery); //Only Server 251127 (1) Charging
         }
 
     }
@@ -70,7 +69,7 @@ public class BatteryCharger_Net : NetworkBehaviour
         return aN.netId == bN.netId;
     }
 
-    public void Charge(GameObject item)
+    public void Charge(GameObject item) //Server
     {
         charge = StartCoroutine(ChargeCo(item));
     }
@@ -164,6 +163,58 @@ public class BatteryCharger_Net : NetworkBehaviour
         constraint.locked = true;
         
     }
+
+
+
+    #region  Clean
+    public void Clean()
+    {
+        if(isServer)
+        {
+            if(charge != null)
+            {
+                StopCoroutine(charge);
+                charge = null;
+            }
+
+        }
+
+        //써버 클린
+        ConnectClean();
+        //클라 클린
+    
+
+    }
+    private void ConnectClean()
+    {
+         if (battery == null) return;
+
+        if (battery.TryGetComponent(out ParentConstraint component))
+        {
+            if (component.sourceCount > 0)
+            {
+                component.RemoveSource(0);
+            }
+        }
+
+        var col = battery.TryGetComponent(out Collider2D collider) ? collider : null;
+        if (col != null) col.enabled = true;
+        var rb = battery.TryGetComponent(out Rigidbody2D rigidbody) ? rigidbody : null;
+        if (rb != null)
+        {
+            rb.simulated = true;
+            rb.velocity = Vector3.zero;
+        }
+
+        // if (battery.TryGetComponent(out BatteryInteractable net))
+        // {
+        //     net.Recover();
+        // }
+
+        battery = null;
+    }
+
+    #endregion
 }
 
 

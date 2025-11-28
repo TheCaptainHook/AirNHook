@@ -27,6 +27,10 @@ public class BatteryCharger : BuildObj, IInteractable
             B_Net.Server_SetInit();
         }
     }
+    public override void Clean()
+    {
+        net.Clean();
+    }
 
     #region Interaction
     private float condition_InsertVelocityValue = 15;
