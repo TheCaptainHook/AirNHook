@@ -12,9 +12,9 @@ public enum DRONE_LASER_STATE
 public class Drone_Laser_var2 : DroneEntity
 {
 
-//TEST
+
     [SerializeField] SpriteRenderer  message;
-    //TEST
+
 
     [SerializeField] Drone_Laser_var2_Net droneLaser_Net;
 
@@ -45,7 +45,7 @@ public class Drone_Laser_var2 : DroneEntity
 
     public void PreStateSetUp(bool isStop,bool message)
     {
-        this.isStop = isStop;
+        IsBroken = isStop;
         this.message.enabled = message;
         laserParts.LaserReset();
     }
@@ -241,9 +241,22 @@ public class Drone_Laser_var2 : DroneEntity
     }
 
 
-#endregion
+    #endregion
+
+    public override void Clean()
+    {
+        IsBroken = false;
+        message.enabled = false;
+
+        curAmmoCount = 0;
+        curReloadingCount = 0;
+        onReloading = false;
 
 
+        laserParts.LaserReset();
+
+        base.Clean();
+    }
 
 
 }

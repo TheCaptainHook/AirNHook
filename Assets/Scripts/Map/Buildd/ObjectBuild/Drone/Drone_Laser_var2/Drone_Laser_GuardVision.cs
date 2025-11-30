@@ -57,17 +57,12 @@ public class Drone_Laser_GuardVision : MonoBehaviour
             else
             {
                 if (NetworkServer.active) net.Server_DroneLaserState(0);
-                // parts.target = null;
-                // net.Server_SetTarget(9999);
             }
    
         }
         else
         {
-            // parts.target= null;
             if (NetworkServer.active) net.Server_DroneLaserState(0);
-            // net.Server_SetTarget(9999);
-            // Debug.Log("Chnage Guard");
         }
     }
     

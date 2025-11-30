@@ -1,4 +1,6 @@
 using Mirror;
+using Unity.VisualScripting;
+
 // using Unity.VisualScripting;
 using UnityEngine;
 
@@ -38,8 +40,6 @@ public class DroneEntity_Net : NetworkBehaviour
     {
         if (onSync) return;
         
-        
-        
         Main.DroneStruct = data;
         RB.position = curPosition;
 
@@ -72,7 +72,7 @@ public class DroneEntity_Net : NetworkBehaviour
         onReady = true;
         
     }
-    private bool onReady;
+    [SerializeField] bool onReady;
     public int maxIndex;
     public int index;
     public int nextIndex;
@@ -87,6 +87,8 @@ public class DroneEntity_Net : NetworkBehaviour
 
     private void FixedUpdate()
     {
+        if(!MapEditor.Instance._onMapTransition_Complete) return;
+        
         if (isServer && onSync && onReady)
         {
             if (CheckDistance(RB.position, targetPosition))
@@ -166,6 +168,15 @@ public class DroneEntity_Net : NetworkBehaviour
         float dot = Vector2.Dot(toTarget, toCurrent);
         return dot > 0.98f;
 
+    }
+    #endregion
+
+
+    #region  Clean
+    public virtual void Clean()
+    {
+        onReady = false;
+        onSync = false;
     }
     #endregion
 

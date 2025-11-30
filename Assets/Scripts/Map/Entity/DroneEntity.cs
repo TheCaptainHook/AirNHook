@@ -130,18 +130,18 @@ public class DroneEntity : BuildObj
 
 
     //-------------------------------------------------------------------------------------------------------------------------------------------------------------0412
-    protected bool isStop;
+    // protected bool isStop;
     private void FixedUpdate()
     {
         if (Net.targetPosition == null) return;
-        if(isStop) return;
+        if(IsBroken) return;
         MoveToward();
 
     }
     private void MoveToward()
     {
         if (CheckDistanceAndDot()) return;
-        if(isStop) return;
+        if(IsBroken) return;
         _rb.MovePosition(_rb.position + Net.dir * DroneStruct.moveSpeed * Time.fixedDeltaTime);
     }
    
@@ -152,7 +152,6 @@ public class DroneEntity : BuildObj
         bool d = Vector2.Dot(Net.dir, curDir) < 0.98f;
 
         return t || d;
-        //-->
     }
 
   
@@ -231,6 +230,20 @@ public class DroneEntity : BuildObj
         }
     }
     #endregion
+
+
+    #region Clean
+    public override void Clean()
+    {
+        StopAllCoroutines();
+
+        Animator?.Rebind();
+        Animator?.Update(0);
+
+        Net.Clean();
+    }
+    #endregion
+
 
     #region  Editor
 

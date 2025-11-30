@@ -8227,72 +8227,6 @@
             "onEncapsulationItem": false,
             "indicator": 0,
             "tutorialCode": 0
-        },
-        {
-            "id": 344,
-            "dialogueId": 0,
-            "position": {
-                "x": -1.809999942779541,
-                "y": 21.68000030517578
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 0.699999988079071,
-                "y": 0.699999988079071,
-                "z": 1.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0,
-            "activeRequireAmount": 0,
-            "onEncapsulationItem": false,
-            "indicator": 0,
-            "tutorialCode": 0
-        },
-        {
-            "id": 343,
-            "dialogueId": 0,
-            "position": {
-                "x": -7.179999828338623,
-                "y": 24.700000762939454
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 0.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0,
-            "activeRequireAmount": 0,
-            "onEncapsulationItem": false,
-            "indicator": 0,
-            "tutorialCode": 0
         }
     ],
     "mapBackgroundObjectList": [
@@ -12517,7 +12451,7 @@
                 }
             ],
             "moveSpeed": 1.5,
-            "drone_TransportItemType": 0
+            "drone_TransportItemType": 8
         },
         {
             "id": 340,
@@ -12559,6 +12493,44 @@
                 }
             ],
             "moveSpeed": 2.0,
+            "drone_TransportItemType": 8
+        },
+        {
+            "id": 361,
+            "position": {
+                "x": -6.440000057220459,
+                "y": 27.459999084472658
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 0.6499999761581421,
+                "y": 0.6499999761581421,
+                "z": 1.0
+            },
+            "paths": [
+                {
+                    "x": -6.440000057220459,
+                    "y": 27.459999084472658
+                },
+                {
+                    "x": -3.880000114440918,
+                    "y": 27.600000381469728
+                },
+                {
+                    "x": -1.0299999713897706,
+                    "y": 26.5
+                },
+                {
+                    "x": -4.619999885559082,
+                    "y": 26.5
+                }
+            ],
+            "moveSpeed": 5.0,
             "drone_TransportItemType": 8
         }
     ],

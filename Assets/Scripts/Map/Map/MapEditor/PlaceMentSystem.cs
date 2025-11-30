@@ -34,7 +34,8 @@ public class PlaceMentSystem : MonoBehaviour
     public Tilemap accessoryTileMap;
     // 1022
     public Tilemap hiddentTIleMap;
-
+    //1130
+    public Tilemap specialTileMap;
 
     [HideInInspector] public TileBase tileBase;
     public TileBase previewTileBase;
