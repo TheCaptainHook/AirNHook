@@ -163,8 +163,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayerID: -696190403
+  m_SortingLayer: 4
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: bb9e0936c9504f24cadab4bdd6b61fc8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -331,10 +331,12 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
+  _Dissolve_MainSprites: []
+  _dissolveMaterials: []
   canRespawn: 0
   targetObjects: []
   lightObjects: []
+  interactableObjects: []
   _BtnOffset: 1
   _objectType: 0
   energyIcon: {fileID: 359566649937700367}
