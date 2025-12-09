@@ -13,6 +13,7 @@ using TileData = ANH_MapEditor.TileData;
 using MapType = ANH_MapEditor.MapType;
 using System.Collections;
 using System.Buffers;
+using System.Linq;
 
 
 
@@ -32,6 +33,7 @@ public enum MapEditorState
 }
 public enum TransformType
 {
+    None,
     objectTransform,
     exitDoorObjectTransform,
     buttonActivatableObjectTransform,
@@ -875,7 +877,20 @@ public class MapEditor : MonoBehaviour
     {
         event_reset?.Invoke();
     }
-
+    public void AddEvent_Reset(Action action)
+    {
+        if(event_reset == null || !event_reset.GetInvocationList().Contains(action))
+        {
+            event_reset += action;
+        }
+    }
+    public void Remove_Event_Reset(Action action)
+    {
+        if(event_reset != null && event_reset.GetInvocationList().Contains(action))
+        {
+            event_reset -= action;
+        }
+    }
 
     private Light2D GetGlobalLight()
     {

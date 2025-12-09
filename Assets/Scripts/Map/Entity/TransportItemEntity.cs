@@ -29,6 +29,13 @@ public class TransportItemEntity : InteractableObject, ITransportItem
         }));
 
     }
+
+    [ClientRpc]
+    public void Rpc_TransportItemDissolve() //Transport
+    {
+        BuildObj.DissolveInitSetting();
+    }
+
     public void TransportItem_DropItem()
     {
         Rpc_DropItem();
@@ -61,6 +68,7 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     [ClientRpc]
     public void Rpc_DropItem()
     {
+        BuildObj.canRespawn = true;
         ChangeSyncDirection(SyncDirection.ClientToServer);
         Transport_Drop();
     }
@@ -145,13 +153,13 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     #region ---------------------------------------------Init Sync
     public bool onSync;
 
-    [Command(requiresAuthority = false)]
-    private void Cmd_OnChangeCanRespawn()
-    {
-        Rpc_OnChangeCanRespawn();
-    }
+    // [Command(requiresAuthority = false)]
+    // private void Cmd_OnChangeCanRespawn()
+    // {
+    //     Rpc_OnChangeCanRespawn();
+    // }
     [ClientRpc]
-    private void Rpc_OnChangeCanRespawn()
+    public void Rpc_OnChangeCanRespawn()
     {
         BuildObj.canRespawn = !BuildObj.canRespawn;
     }
@@ -204,6 +212,7 @@ public class TransportItemEntity : InteractableObject, ITransportItem
         {
             defaultGravity = Rb.gravityScale;
             Col.enabled = false;
+            BuildObj.canRespawn = false;
         }
         //0603 EnCapsulationField
         if (data.onEncapsulationItem)

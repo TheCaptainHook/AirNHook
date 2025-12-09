@@ -23,11 +23,6 @@ public class InteractableObjectEntity : BuildObj
         }
     }
 
-    // protected virtual void Awake()
-    // {
-    //     DissolveInitSetting();
-    // }
-
     public override T GetData<T>()
     {
         if (typeof(T) == typeof(ObjectData))
@@ -37,7 +32,6 @@ public class InteractableObjectEntity : BuildObj
             else
                 return (T)(object)new ObjectData(id, transform.position, transform.rotation, transform.localScale, false);
         }
-
         return default(T);
     }
     
@@ -56,6 +50,7 @@ public class InteractableObjectEntity : BuildObj
         }
 
     }
+
     public override void SetData(ObjectData data)
     {
        base.SetData(data);
@@ -71,8 +66,8 @@ public class InteractableObjectEntity : BuildObj
 
     public override void Clean()
     {
-
         DissolveClean();
+        canRespawn = false;
         EncapsulationField.Clean(); //indicator Clean
         TransportItemEntity.Clean();
         

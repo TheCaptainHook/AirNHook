@@ -4,6 +4,7 @@ using System;
 using UnityEngine.EventSystems;
 using UnityEngine.Animations;
 using Mirror;
+using System.Linq;
 
 
 public enum DistructionStatus
@@ -198,7 +199,9 @@ public class BuildObj : MousePointerEntity, IDamageable, IPooling
         SetParentConstraint(constraint, carrierTransform);
 
         GetComponent<ITransportItem>().TransportItem_Constraint(carrierTransformNetId);
+        
     }
+    
     public void DropTransportItem()//Only Server
     {
         if (!NetworkServer.active) return;
@@ -206,11 +209,19 @@ public class BuildObj : MousePointerEntity, IDamageable, IPooling
         if (TryGetComponent(out ParentConstraint constraint))
         {
             //Destroy(constraint);
-            if (constraint.sourceCount > 0)
-                constraint.RemoveSource(0);
+            // if (constraint.sourceCount > 0)
+            //     constraint.RemoveSource(0); 
+            ParentConstranintClean(constraint);
         }
 
         GetComponent<ITransportItem>().TransportItem_DropItem();
+    }
+    private void ParentConstranintClean(ParentConstraint constraint)
+    {
+        for(int i = constraint.sourceCount -1; i >=0; i--)
+        {
+            constraint.RemoveSource(i);
+        }
     }
     private void SetParentConstraint(ParentConstraint constraint, Transform parent)//Only Server
     {
@@ -327,7 +338,9 @@ public class BuildObj : MousePointerEntity, IDamageable, IPooling
         //------------Dissolve Modify 0804
 
         _IsDissolveObject = true;
-        OnDissolveAction += Respawn;
+        AddDissolveAction(Respawn);
+
+        // OnDissolveAction += Respawn;
 
 
         if (TryGetComponent(out InteractableObject component))
@@ -339,13 +352,28 @@ public class BuildObj : MousePointerEntity, IDamageable, IPooling
         canRespawn = true;
 
         if (NetworkServer.active) //Server
-            MapEditor.Instance.event_reset += Respawn;
+            // MapEditor.Instance.event_reset += Respawn;
+            MapEditor.Instance.AddEvent_Reset(Respawn);
     }
-
+    public void AddDissolveAction(Action action)
+    {
+        if(OnDissolveAction == null || !OnDissolveAction.GetInvocationList().Contains(action))
+        {
+            OnDissolveAction += action;
+        }
+    }
+    public void RemoveDissolveAction(Action action)
+    {
+        if(OnDissolveAction != null && OnDissolveAction.GetInvocationList().Contains(action))
+        {
+            OnDissolveAction -= action;
+        }
+    }
     public void DissolveClean()
     {
         _IsDissolveObject = false;
-        OnDissolveAction -= Respawn;
+        // OnDissolveAction -= Respawn;
+        RemoveDissolveAction(Respawn);
 
         if (TryGetComponent(out InteractableObject component))
         {
@@ -353,7 +381,8 @@ public class BuildObj : MousePointerEntity, IDamageable, IPooling
         }
 
         if (NetworkServer.active) //Server
-            MapEditor.Instance.event_reset -= Respawn;
+            // MapEditor.Instance.event_reset -= Respawn;
+            MapEditor.Instance.Remove_Event_Reset(Respawn);
     }
 
     public event Action respawnEvent;
@@ -371,7 +400,8 @@ public class BuildObj : MousePointerEntity, IDamageable, IPooling
 
         // if (TryGetComponent(out TransportItemEntity component))
         // {
-        //     component.Server_Dissolve(); //Only Server
+        //     // component.Server_Dissolve(); //Only Server
+        //     canRespawn = false;
         // }
 
         // if(TryGetComponent(out Puzzle_1_Item item))
@@ -383,23 +413,11 @@ public class BuildObj : MousePointerEntity, IDamageable, IPooling
     }
 
 
-    // public bool GetDissolveObject() {
-    //     if (_IsDissolveObject) {
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
     #endregion
 
     #region  Editor
     // public virtual void Editor_Setting(Transform transform){}
     public virtual void Editor_Setting(MapEditor mapEditor) { }
-
-
-
-
-
 
     public void SetOrgPosition()
     {

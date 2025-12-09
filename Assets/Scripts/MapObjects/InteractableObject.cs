@@ -491,6 +491,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
                 if (buildObj.carrierTransform != null)
                 {
                     buildObj.Connection_TransportItem();
+                    buildObj.canRespawn = false;
                 }
                    
             }

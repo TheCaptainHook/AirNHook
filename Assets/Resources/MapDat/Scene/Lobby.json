@@ -6521,6 +6521,7 @@
     ],
     "mapAccessoryTIleDataList": [],
     "mapHiddenTileDataList": [],
+    "mapSpecialTileDataList": [],
     "mapShadowCasterDataList": [
         {
             "position": {
@@ -12451,7 +12452,7 @@
                 }
             ],
             "moveSpeed": 1.5,
-            "drone_TransportItemType": 8
+            "drone_TransportItemType": 0
         },
         {
             "id": 340,
@@ -12493,44 +12494,6 @@
                 }
             ],
             "moveSpeed": 2.0,
-            "drone_TransportItemType": 8
-        },
-        {
-            "id": 361,
-            "position": {
-                "x": -6.440000057220459,
-                "y": 27.459999084472658
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 0.6499999761581421,
-                "y": 0.6499999761581421,
-                "z": 1.0
-            },
-            "paths": [
-                {
-                    "x": -6.440000057220459,
-                    "y": 27.459999084472658
-                },
-                {
-                    "x": -3.880000114440918,
-                    "y": 27.600000381469728
-                },
-                {
-                    "x": -1.0299999713897706,
-                    "y": 26.5
-                },
-                {
-                    "x": -4.619999885559082,
-                    "y": 26.5
-                }
-            ],
-            "moveSpeed": 5.0,
             "drone_TransportItemType": 8
         }
     ],

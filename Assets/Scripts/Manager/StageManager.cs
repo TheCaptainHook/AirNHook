@@ -62,13 +62,13 @@ public class StageManager
 
     //======================================= Refectoring 1018
     [ClientRpc]
-    private void Rpc_PoolingSetting(uint id, TransformType trType)
+    private void Rpc_PoolingSetting(uint id, TransformType trType = TransformType.None)
     {
         if (NetworkServer.active) return;
 
         if (GetNetworkIdentity(id, out NetworkIdentity identity))
         {
-            if (MapEditor.Instance.GetTransformByType(trType, out Transform parent))
+            if (trType != default && MapEditor.Instance.GetTransformByType(trType, out Transform parent))
             {
                 identity.transform.SetParent(parent);
             }
@@ -78,26 +78,6 @@ public class StageManager
         }
 
     }
-    //  [ClientRpc]
-    // private void Rpc_PoolingSetting(uint id)
-    // {
-    //     if (NetworkServer.active) return;
-        
-    //     if (GetNetworkIdentity(id, out NetworkIdentity identity))
-    //     {
-
-    //         identity.gameObject.SetActive(true);
-
-    //         if (identity.TryGetComponent(out Puzzle_1_Item item))
-    //         {
-    //             item.Server_Dissolve();
-    //         }
-            
-            
-    //         MapEditor.Instance._n_activePoolingObject.Enqueue(identity.GetComponent<BuildObj>());
-    //     }
-        
-    // }
 
     private bool GetNetworkIdentity(uint id,out NetworkIdentity identity)
     {
@@ -117,11 +97,34 @@ public class StageManager
     {
         if (!NetworkServer.active || !NetworkClient.isConnected) return null;
 
-        var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
-        NetworkServer.Spawn(obj, NetworkServer.localConnection);
+        GameObject obj = Managers.Pooling.N_GetItme(objName);
+        // var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+        // NetworkServer.Spawn(obj, NetworkServer.localConnection);
+
+        if (obj.TryGetComponent(out BuildObj buildObj))
+        {
+            obj.SetActive(true);
+        }
+
+         if (GetNetworkIdentity(obj, out NetworkIdentity identity))
+        {
+            MapEditor.Instance._n_activePoolingObject.Enqueue(buildObj);
+            Rpc_PoolingSetting(identity.netId);
+        }
 
         return obj;
     }
+
+    //  [Server]
+    // public GameObject CmdBatchObject(string objName)
+    // {
+    //     if (!NetworkServer.active || !NetworkClient.isConnected) return null;
+
+    //     var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+    //     NetworkServer.Spawn(obj, NetworkServer.localConnection);
+
+    //     return obj;
+    // }
 
     #endregion
 
