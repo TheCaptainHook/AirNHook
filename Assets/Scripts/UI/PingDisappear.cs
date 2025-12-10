@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,7 +21,15 @@ public class PingDisappear : MonoBehaviour
         Disapper();
         Managers.Game.Player.GetComponent<PlayerSM>().PingRemoved();
         yield return new WaitForSeconds(0.2f);
-        Destroy(gameObject);
+        // Destroy(gameObject);
+        if (NetworkServer.active)
+        {
+            Managers.Pooling.N_ReleaseToPool(gameObject);
+        }else
+        {
+            gameObject.SetActive(false);
+        }
+        
     }
 
     private void Show()

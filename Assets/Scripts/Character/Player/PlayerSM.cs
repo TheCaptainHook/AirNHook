@@ -482,27 +482,50 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         pingWheel.TryShowHoveredPing();
         Managers.UI.HideUI<UI_PingWheel>();
     }
-
+    //========================================1210
+    [Server]
+    public void Server_Ping(string pingName, Vector2 pos)
+    {
+        //Pooling
+        var obj = Managers.Pooling.N_GetItme(pingName);
+        //Pooling
+        //RPC
+        if(obj.TryGetComponent(out NetworkIdentity identity))
+        Rpc_Ping(identity.netId, pos);
+        //RPC
+    }
+    //========================================1210
     [Command(requiresAuthority = false)]
     public void CmdPing(string pingName, Vector2 pos)
     {
-        //var prefab = Managers.Network.spawnPrefabDict[pingName];
-        //var go = Instantiate(prefab, pos, Quaternion.identity);
-        //NetworkServer.Spawn(go);
+        Server_Ping(pingName, pos);
         //-------------Ping mark 0728
-        Rpc_Ping(pingName, pos);
+        // Rpc_Ping(pingName, pos);
         //-------------Ping mark 0728
 
 
     }
     //-------------Ping mark 0728
+    // [ClientRpc]
+    // private void Rpc_Ping(string pingName, Vector2 pos)
+    // {
+    //     var prefab = Managers.Network.spawnPrefabDict[pingName];
+    //     var go = Instantiate(prefab, pos, Quaternion.identity);
+    //     go.GetComponent<PingWheel_Item_Marker>().Setting_PingPosition(pos);
+    //     go.name = prefab.name;
+    // }
     [ClientRpc]
-    private void Rpc_Ping(string pingName, Vector2 pos)
+    private void Rpc_Ping(uint id, Vector2 pos)
     {
-        var prefab = Managers.Network.spawnPrefabDict[pingName];
-        var go = Instantiate(prefab, pos, Quaternion.identity);
-        go.GetComponent<PingWheel_Item_Marker>().Setting_PingPosition(pos);
-        go.name = prefab.name;
+       var obj = NetworkClient.spawned.TryGetValue(id, out var netIdentity) ? netIdentity.gameObject : null;
+       if (obj == null) return;
+
+       if(obj.TryGetComponent(out PingWheel_Item_Marker pingMarker))
+        {
+            pingMarker.Setting_PingPosition(pos);
+            obj.gameObject.SetActive(true);
+        }
+
     }
     //-------------Ping mark 0728
 

@@ -79,7 +79,7 @@ public class UI_Ping : MonoBehaviour
         while (true)
         {
             Ping ping = new Ping("8.8.8.8");
-            float timeout = 2f;
+            float timeout = 1f;
             float startTime = Time.time;
 
             while (!ping.isDone && (Time.time - startTime < timeout))

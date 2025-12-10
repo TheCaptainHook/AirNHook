@@ -74,7 +74,7 @@ public class FadeInOutPanel : MonoBehaviour
            
             if (NetworkServer.active)
                 Managers.Pooling.N_ReleaseToPool(obj.gameObject);
- 
+            else obj.gameObject.SetActive(false);
         }
         
         
