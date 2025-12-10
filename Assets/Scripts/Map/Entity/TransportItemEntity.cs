@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Mirror;
+using Steamworks;
 using UnityEngine;
 
 [RequireComponent(typeof(EncapsulationField))]
@@ -23,18 +24,12 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     protected BuildObj BuildObj { get { _buildObj ??= GetComponent<BuildObj>(); return _buildObj; } }
     public void TransportItem_Constraint(uint netId) //Server
     {
-        StartCoroutine(AllClientReadyChecker_Co(() =>
-        {
-            Rpc_Constraint(netId, SyncDirection.ServerToClient);
-        }));
-
+        StartCoroutine(AllClientReadyChecker_Co(
+            () => Rpc_InitSync(default,Vector2.zero,true),
+            () => Rpc_Constraint(netId, SyncDirection.ServerToClient)
+        ));
     }
 
-    [ClientRpc]
-    public void Rpc_TransportItemDissolve() //Transport
-    {
-        BuildObj.DissolveInitSetting();
-    }
 
     public void TransportItem_DropItem()
     {
@@ -106,7 +101,7 @@ public class TransportItemEntity : InteractableObject, ITransportItem
 
     }
 
-    IEnumerator AllClientReadyChecker_Co(Action action)
+    IEnumerator AllClientReadyChecker_Co(params Action[] actions)
     {
         while (true)
         {
@@ -121,7 +116,15 @@ public class TransportItemEntity : InteractableObject, ITransportItem
 
             yield return null;
         }
-        action?.Invoke();
+
+        if(actions != null)
+        {
+            foreach (var action in actions)
+            {
+                action?.Invoke();
+            }
+        }
+        // action?.Invoke();
 
     }
     #endregion
