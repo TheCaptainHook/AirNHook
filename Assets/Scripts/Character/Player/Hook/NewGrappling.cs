@@ -1,5 +1,7 @@
+using Mirror;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.InputSystem;
 
 public class NewGrappling : MonoBehaviour
@@ -46,6 +48,12 @@ public class NewGrappling : MonoBehaviour
     public LayerMask hookLayerMask => _hook.hookLayerMask;
     private Rigidbody2D _hookAnchorRb;
     public Vector2 hookAnchorPos;
+    public LayerMask hookableObjectMask;
+    private LayerMask _obstacleMask;
+    public ParentConstraint _hookAnchorConstraint;
+    private ConstraintSource _hookAnchorSource;
+    private float _latestDistance;
+    private bool _distanceChange;
     
 
     //public NewGrappling(HookSM hook)
@@ -70,8 +78,15 @@ public class NewGrappling : MonoBehaviour
         swingJumpPower = hookDataSo.swingJumpForce;
         _ropeMaxDistance = hookDataSo.ropeMaxDistance;
         _coolDown = hookDataSo.coolDown;
+        _obstacleMask = hookDataSo.obstacleLayerMask;
         _grappleCoolTime = new WaitForSeconds(_coolDown);
-        
+        _hookAnchorSource = new ConstraintSource
+        {
+            sourceTransform = null,
+            weight = 1.0f
+        };
+        _latestDistance = -1f;
+
         if (!_hook.isLocalPlayer) return;
         
         SubscribeInput();
@@ -108,6 +123,9 @@ public class NewGrappling : MonoBehaviour
     #region Grappling
     public void Reset()
     {
+        HookAnchorConstraintFree();
+        _hook.CmdHookAnchorConstraintFree();
+
         if (_grappleCoolDown != null)
             _hook.StopCoroutine(_grappleCoolDown);
         _grappleCoolDown = _hook.StartCoroutine(GrappleCoolDown());
@@ -119,6 +137,7 @@ public class NewGrappling : MonoBehaviour
         _hook.isSwinging = false;
         _ropePosition = Vector2.negativeInfinity;
         _hookAnchorRb.bodyType = RigidbodyType2D.Kinematic;
+        _latestDistance = -1f;
     }
     
     public void StopRope()
@@ -147,7 +166,7 @@ public class NewGrappling : MonoBehaviour
             if (ropeRenderer.enabled)
             {
                 if (_hook.isLocalPlayer)
-                    hookSprite.position = _targetPos;
+                    hookSprite.position = _hookAnchorConstraint.sourceCount == 0 ? _targetPos : _hookAnchorSource.sourceTransform.position;
                 ropeRenderer.SetPosition(0, ropeStartPos.position);
                 _targetPos = Vector2.MoveTowards(_targetPos, ropeStartPos.position, _ropeSpeed * Time.deltaTime);
                 ropeRenderer.SetPosition(1, hookSprite.position);
@@ -185,7 +204,7 @@ public class NewGrappling : MonoBehaviour
                 _targetPos = hookAnchorPos;
 
             if (_hook.isLocalPlayer)
-                hookSprite.position = _targetPos;
+                hookSprite.position = _hookAnchorConstraint.sourceCount == 0 ? _targetPos : _hookAnchorSource.sourceTransform.position;
             ropeRenderer.SetPosition(1, hookSprite.position);
         }
     }
@@ -193,21 +212,32 @@ public class NewGrappling : MonoBehaviour
     private void HandleRopeLength()
     {
         if (!grappleAttached) return;
-        
-        hookAnchor.transform.position = hookAnchorPos;
+
+        if (_hookAnchorConstraint.sourceCount == 0)
+            hookAnchor.transform.position = hookAnchorPos;
         
         if (_vertical > 0f)
         {
+            _distanceChange = true;
             _distanceJoint2D.distance -= Time.deltaTime * _climbSpeed;
         }
         else if (_vertical < 0f && _distanceJoint2D.distance < _ropeMaxDistance)
         {
+            _distanceChange = true;
             var distance = _distanceJoint2D.distance + Time.deltaTime * _climbSpeed;
             _distanceJoint2D.distance = Mathf.Min(distance, _ropeMaxDistance);
         }
-        
+        else if (_latestDistance > 0)
+        {
+            _distanceChange = false;
+            _distanceJoint2D.distance = _latestDistance;
+        }
+
+        if (_distanceChange)
+            _latestDistance = _distanceJoint2D.distance;
+
         var playerDistance = Vector2.Distance(_hook.transform.position, hookAnchor.transform.position);
-        if (Mathf.Abs(playerDistance - _distanceJoint2D.distance) >= 0.15f)
+        if (Mathf.Abs(playerDistance - _distanceJoint2D.distance) >= 0.15f && _distanceChange)
         {
             _distanceJoint2D.distance = playerDistance;
         }
@@ -220,7 +250,11 @@ public class NewGrappling : MonoBehaviour
         var hit = Physics2D.Raycast(_hook.transform.position, _aimDirection, _ropeMaxDistance, hookLayerMask);
 
         if (hit.collider == null) return;
+
+        if (((1 << hit.collider.gameObject.layer) & _obstacleMask) != 0) return;
+
         grappleAttached = true;
+        _latestDistance = -1f;
         _hook.ThrowHook();
 
         if (_ropePosition == hit.point) return;
@@ -231,13 +265,40 @@ public class NewGrappling : MonoBehaviour
         hookAnchorPos = _ropePosition - targetVec;
         
         _distanceJoint2D.distance = Vector2.Distance(_hook.transform.position, hookAnchorPos);
+        _latestDistance = _distanceJoint2D.distance;
         _distanceJoint2D.enabled = true;
-        
-        hookAnchor.transform.position = hookAnchorPos;
+
+        if (((1 << hit.collider.gameObject.layer) & hookableObjectMask) != 0)
+        {
+            _hookAnchorSource.sourceTransform = hit.collider.transform;
+            _hookAnchorConstraint.AddSource(_hookAnchorSource);
+            hookAnchor.transform.position = _hookAnchorConstraint.transform.position;
+            _hook.CmdHookAnchorConstraintSync(hit.transform.gameObject);
+        }
+        else
+        {
+            hookAnchor.transform.position = hookAnchorPos;
+        }
         _hookAnchorRb.bodyType = RigidbodyType2D.Static;
         
         var targetVector = (hookAnchorPos - (Vector2)hookSprite.position).normalized;
         hookSprite.Rotate(0, 0, -Vector2.SignedAngle(targetVector, hookSprite.up));
+    }
+
+    public void HookAnchorConstraintSync(GameObject gameObject)
+    {
+        _hookAnchorSource.sourceTransform = gameObject.transform;
+        _hookAnchorConstraint.AddSource(_hookAnchorSource);
+        hookAnchor.transform.position = _hookAnchorConstraint.transform.position;
+    }
+
+    public void HookAnchorConstraintFree()
+    {
+        if (_hookAnchorConstraint.sourceCount > 0)
+        {
+            _hookAnchorConstraint.RemoveSource(0);
+        }
+        _hookAnchorSource.sourceTransform = null;
     }
 
     private void WithdrawHook()
