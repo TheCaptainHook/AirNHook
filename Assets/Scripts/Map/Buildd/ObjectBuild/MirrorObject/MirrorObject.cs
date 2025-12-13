@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 
 
-public class MirrorObject : BuildObj,IInteractable
+public class MirrorObject : BuildObj, IInteractable
 {
     [CustomHeader("Mirror Object")]
     [SerializeField] GameObject _Mirror;
@@ -17,6 +17,12 @@ public class MirrorObject : BuildObj,IInteractable
     private Vector3 _offset = new Vector2(0, 2.8f);
     private UI_Base _E_Btn;
     private UI_ControlADE _AorD_Btn;
+    private float _minRotationSpeed = 2f;
+    private float _maxRotationSpeed = 45f;
+    public float accelerateDuration = 0.05f;
+    private bool isKeyHeld = false;
+    private float holdTime = 0f;
+    private KeyCode heldKey;
 
     #region Network
     private MirrorObject_Net m_Net;
@@ -28,7 +34,6 @@ public class MirrorObject : BuildObj,IInteractable
             return m_Net;
         }
     }
-
 
     //private bool IsActive => M_Net.onActive;
     public bool isActive;
@@ -53,111 +58,46 @@ public class MirrorObject : BuildObj,IInteractable
         }
     }
 
-    //--------------------------- Refectoring 0523
-    private float cendMessageRate = 0.1f;
-    private float curCendMessageRate = 0;
-    private float curRot = 0;
-    float rotRate = 1f;
-
     private void Update()
     {
-        if (isActive)
+        if (!isActive) return;
+
+        bool aHeld = Input.GetKey(KeyCode.A);
+        bool dHeld = Input.GetKey(KeyCode.D);
+
+        if (aHeld && dHeld) return;
+
+        if (aHeld || dHeld)
         {
-            if (Input.GetKey(KeyCode.A))
-            {
-                _AorD_Btn.AButtonPress(true);
-                curCendMessageRate += Time.deltaTime;
-                curRot += rotRate;
+            KeyCode key = aHeld ? KeyCode.A : KeyCode.D;
+            float dir = (key == KeyCode.A) ? 1f : -1f;
 
-                if (curCendMessageRate >= cendMessageRate)
-                {
-                    MirrorRotate(curRot); //1
-                    curRot = 0;
-                    curCendMessageRate = 0;
-                }
-
-            }
-            if (Input.GetKey(KeyCode.D))
+            if (!isKeyHeld || key != heldKey)
             {
-                _AorD_Btn.DButtonPress(true);
-                curCendMessageRate += Time.deltaTime;
-                curRot -= rotRate;
-                if (curCendMessageRate >= cendMessageRate)
-                {
-                    MirrorRotate(curRot);
-                    curRot = 0;
-                    curCendMessageRate = 0;
-                }
+                isKeyHeld = true;
+                heldKey = key;
+                holdTime = 0f;
             }
 
-            if (Input.GetKeyUp(KeyCode.A))
-            {
-                _AorD_Btn.AButtonPress(false);
-                MirrorRotate(curRot);
-                curRot = 0;
-                curCendMessageRate = 0;
-            }
+            float currentSpeed = _minRotationSpeed;
 
-            if (Input.GetKeyUp(KeyCode.D))
+            if (holdTime > accelerateDuration)
             {
-                _AorD_Btn.DButtonPress(false);
-                MirrorRotate(curRot);
-                curRot = 0;
-                curCendMessageRate = 0;
+                float t = Mathf.Clamp01((holdTime - accelerateDuration) / accelerateDuration);
+                currentSpeed = Mathf.Lerp(_minRotationSpeed, _maxRotationSpeed, t);
             }
+            holdTime += Time.deltaTime;
+            Debug.Log(holdTime);
+
+            _Mirror.transform.Rotate(0f, 0f, currentSpeed * Time.deltaTime * dir);
+        }
+        else
+        {
+            // 키를 떼면 즉시 멈춤
+            isKeyHeld = false;
+            holdTime = 0f;
         }
     }
-
-
-
-    #region  main
-
-    private void MirrorRotate(float z)
-    {
-        M_Net.Cmd_SetRot_z(z);
-    }
-
-
-#endregion
-    //--------------------------- Refectoring 0523
-
-    //private void OnTriggerEnter2D(Collider2D other)
-    //{
-    //    if (IsInnerPlayer) return;
-    //
-    //    if (other)
-    //    {
-    //        if (other.TryGetComponent(out PlayerSM player))
-    //        {
-    //            var playerIdentity = player.gameObject.TryGetComponent(out NetworkIdentity identity) ? identity : null;
-    //            if(playerIdentity != null)
-    //            {
-    //                if (playerIdentity.isLocalPlayer) ShowE();
-    //                M_Net.Cmd_InnerPlayer(playerIdentity.netId);
-    //            }
-    //
-    //        }
-    //    }
-    //
-    //}
-    //
-    //private void OnTriggerExit2D(Collider2D other)
-    //{
-    //    if (other)
-    //    {
-    //        if (other.TryGetComponent(out PlayerSM PS))
-    //        {
-    //            if(PS.gameObject == M_Net.InnerPlayer)
-    //            {
-    //                HideE();
-    //                M_Net.Cmd_InnerPlayer(9999);
-    //            }
-    //        }
-    //    }
-    //}
-
-
-  
 
 #region  Interacte
     public void Interaction(Transform accessor = null)
@@ -228,20 +168,5 @@ public class MirrorObject : BuildObj,IInteractable
             HideADEButton();
         }
     }
-
-    //public void ShowE()
-    //{
-    //    if (!IsInnerPlayer)
-    //    {
-    //        _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
-    //        _E_Btn.transform.position = transform.position + (transform.up * _BtnOffset);
-    //    }
-    //}
-    //public void HideE()
-    //{
-    //    if (_E_Btn == null) return;
-    //    _E_Btn = null;
-    //    Managers.UI.HideUI<UI_ShowEButton>();
-    //}\
     #endregion
 }
