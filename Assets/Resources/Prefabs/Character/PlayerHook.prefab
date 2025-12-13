@@ -10921,6 +10921,7 @@ GameObject:
   - component: {fileID: 1371195024743693775}
   - component: {fileID: 5579786840006992374}
   - component: {fileID: 7172811443752531663}
+  - component: {fileID: 5302765673048105316}
   m_Layer: 10
   m_Name: Hook
   m_TagString: Untagged
@@ -11006,6 +11007,29 @@ MonoBehaviour:
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
+--- !u!1773428102 &5302765673048105316
+ParentConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6268434231699285335}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Weight: 1
+  m_TranslationAtRest: {x: 0, y: 0, z: 0}
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_TranslationOffsets: []
+  m_RotationOffsets: []
+  m_AffectTranslationX: 1
+  m_AffectTranslationY: 1
+  m_AffectTranslationZ: 1
+  m_AffectRotationX: 0
+  m_AffectRotationY: 0
+  m_AffectRotationZ: 0
+  m_Active: 1
+  m_IsLocked: 0
+  m_Sources: []
 --- !u!1 &7877776250860332895
 GameObject:
   m_ObjectHideFlags: 0
@@ -20863,8 +20887,10 @@ MonoBehaviour:
   canAction: 0
   canMovable: 0
   invincible: 0
+  canInteract: 0
   isDead: 0
   doNotTouch: 0
+  isControlObj: 0
   <charPivot>k__BackingField: {fileID: 759945192256969836}
   <sortingGroup>k__BackingField:
   - {fileID: 5691203817953321301}
@@ -20896,7 +20922,7 @@ MonoBehaviour:
   <ropeRenderer>k__BackingField: {fileID: 8853369850858447523}
   <hookLayerMask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 320
+    m_Bits: 268468672
   <hookParticle>k__BackingField: {fileID: 6702404013592630729}
 --- !u!114 &428554380294952048
 MonoBehaviour:
@@ -20912,6 +20938,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hook: {fileID: -1128286184812858002}
   hookAnchorPos: {x: 0, y: 0}
+  hookableObjectMask:
+    serializedVersion: 2
+    m_Bits: 268435456
+  _hookAnchorConstraint: {fileID: 5302765673048105316}
 --- !u!50 &3090883480896541386
 Rigidbody2D:
   serializedVersion: 4
@@ -21210,14 +21240,15 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  movingPlatform: {fileID: 0}
+  _wdmp_Net: {fileID: 0}
   movingPlatformLayer:
     serializedVersion: 2
     m_Bits: 0
-  layOffset: {x: 0, y: 0.7, z: 0}
-  col: {fileID: 0}
-  rb: {fileID: 0}
-  netRb: {fileID: 0}
+  movingPlatformMask:
+    serializedVersion: 2
+    m_Bits: 32768
+  skin: 0.2
+  _platformId: 0
   startSync: 0
 --- !u!1773428102 &-179602218080930353
 ParentConstraint:
