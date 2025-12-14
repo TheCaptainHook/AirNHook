@@ -536,6 +536,30 @@ public class HookSM : PlayerSM, IInhalable
     {
         Managers.Game.Player.GetComponent<AirSM>().HookAttached();
     }
+
+    [Command(requiresAuthority = false)]
+    public void CmdHookAnchorConstraintSync(GameObject gameObject)
+    {
+        RpcHookAnchorConstraintSync(gameObject);
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcHookAnchorConstraintSync(GameObject gameObject)
+    {
+        grappling.HookAnchorConstraintSync(gameObject);
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CmdHookAnchorConstraintFree()
+    {
+        RpcHookAnchorConstraintFree();
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcHookAnchorConstraintFree()
+    {
+        grappling.HookAnchorConstraintFree();
+    }
     #endregion
 
     #region Particles

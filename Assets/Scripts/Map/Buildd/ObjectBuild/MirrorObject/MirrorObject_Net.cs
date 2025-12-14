@@ -1,31 +1,24 @@
-
 using UnityEngine;
 using Mirror;
 using UnityEngine.Animations;
-using System.Collections;
-using Unity.VisualScripting;
-
-
-
-
 
 public class MirrorObject_Net : NetworkBehaviour
 {
-   [SerializeField] GameObject _Mirror;
+    [SerializeField] GameObject _Mirror;
 
     [Space(20)]
     [Header("Sync Data")]
-    
+
     public bool onActive;
 
     private Collider2D col;
-    private Collider2D Col { get { col ??= GetComponent<Collider2D>();return col; } }
+    private Collider2D Col { get { col ??= GetComponent<Collider2D>(); return col; } }
 
     private MirrorObject mirrorObject;
-    private MirrorObject Main { get { mirrorObject ??= GetComponent<MirrorObject>();return mirrorObject; } }
+    private MirrorObject Main { get { mirrorObject ??= GetComponent<MirrorObject>(); return mirrorObject; } }
 
     [SerializeField] Transform hold_Pivot;
-    #region  Init Sync
+    //#region  Init Sync
     public bool onSync;
 
     [Server]
@@ -33,6 +26,7 @@ public class MirrorObject_Net : NetworkBehaviour
     {
         Rpc_InitSync(Main.ObjectData);
     }
+
     [ClientRpc]
     private void Rpc_InitSync(ObjectData data)
     {
@@ -53,7 +47,7 @@ public class MirrorObject_Net : NetworkBehaviour
         base.OnStartClient();
         if(!onSync)Cmd_InitSync();
     }
-    #endregion
+
 
     #region InnerPlayer Sync
     public GameObject InnerPlayer;
@@ -75,68 +69,6 @@ public class MirrorObject_Net : NetworkBehaviour
 
     }
     #endregion
-
-    /**
-     * 1. Enter Trigger -> InnerPlayer sync -> 서버
-     * 2. innerplayer가 null 이 아니면 걍 개무시,
-     * 3. innerplayer가 로컬인경우에만 e 작동하게 ,
-     * **/
-
-
-
-    #region  Server
-
-    [Command(requiresAuthority = false)]
-    public void Cmd_SetRot_z(float z)
-    { 
-        targetZ = _Mirror.transform.eulerAngles.z + z;
-        Rpc_SetRot_z(targetZ);
-    }
-
-    float targetZ;
-    
-    [ClientRpc]
-    private void Rpc_SetRot_z(float targetZ) 
-    {
-        this.targetZ = targetZ;
-        //this.lr = lr;
-        if(rotationCoroutine == null)
-        {
-            rotationCoroutine = StartCoroutine(RotationCo());
-        }
-
-    }
-    Coroutine rotationCoroutine;
-    private IEnumerator RotationCo()
-    {
-        while (true)
-        {
-            float currentZ = _Mirror.transform.eulerAngles.z;
-            float deltaZ = Mathf.DeltaAngle(currentZ, targetZ);
-
-            // 도착 판정
-            if (Mathf.Abs(deltaZ) < 0.1f)
-                break;
-
-            float nextZ = Mathf.LerpAngle(currentZ, targetZ, Time.deltaTime * 10f); // 10f는 회전 속도 조절
-            _Mirror.transform.rotation = Quaternion.Euler(0, 0, nextZ);
-            yield return null;
-        }
-
-        _Mirror.transform.rotation = Quaternion.Euler(0, 0, targetZ);
-        rotationCoroutine = null;
-    }
-
-    private bool HasReachedTarget(float a, float b)
-    {
-        return Mathf.Abs(Mathf.DeltaAngle(a, b)) < 0.5f;
-    }
-
- 
-    #endregion
-
-
-
 
     private GameObject innerPlayer;
     public void Holding(GameObject player)

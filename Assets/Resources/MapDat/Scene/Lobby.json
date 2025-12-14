@@ -6521,7 +6521,6 @@
     ],
     "mapAccessoryTIleDataList": [],
     "mapHiddenTileDataList": [],
-    "mapSpecialTileDataList": [],
     "mapShadowCasterDataList": [
         {
             "position": {
@@ -8233,8 +8232,8 @@
             "id": 350,
             "dialogueId": 0,
             "position": {
-                "x": -16.889999389648439,
-                "y": 25.18000030517578
+                "x": -17.540000915527345,
+                "y": 24.700000762939454
             },
             "quaternion": {
                 "x": 0.0,

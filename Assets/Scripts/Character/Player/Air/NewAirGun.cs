@@ -570,7 +570,7 @@ public class NewAirGun
                         _charPivot.rotation = Quaternion.identity;
                     }
                 
-                    if (Vector2.Distance(_hook.transform.position, _transform.position + new Vector3(0, 1.0f)) <= 0.2f)
+                    if (Vector2.Distance(_hook.transform.position, _transform.position + new Vector3(0, 1.0f)) <= 0.25f)
                         stick = true;
                 }
                 catch (NullReferenceException) { StopSticking(); }
