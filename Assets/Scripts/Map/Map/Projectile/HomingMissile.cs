@@ -43,8 +43,11 @@ public class HomingMissile : MonoBehaviour
     private void Homing(Transform target)
     {
         Vector2 dir = ((Vector2)target.position - RB.position).normalized;
+        float noise = Mathf.PerlinNoise(Time.time * 2f,0f) - 0.5f;
         float cross = Vector3.Cross(transform.right,dir).z;
-        RB.angularVelocity = -cross * _rotateSpeed;
+
+        if(cross != 0) RB.angularVelocity =(cross * _rotateSpeed) + noise * 50f;
+        else RB.angularVelocity = 0f;
         RB.velocity = transform.right * _moveSpeed;
     }
 
@@ -64,7 +67,6 @@ public class HomingMissile : MonoBehaviour
         if(target == null) return false;
 
         float sqrDist = (target.transform.position - transform.position).sqrMagnitude;
-        Debug.Log(sqrDist);
 
         if(sqrDist < _maxHomingDistance * _maxHomingDistance)
         {
@@ -74,4 +76,12 @@ public class HomingMissile : MonoBehaviour
     }
 
     #endregion
+
+
+
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("Triggered");
+    }
 }
