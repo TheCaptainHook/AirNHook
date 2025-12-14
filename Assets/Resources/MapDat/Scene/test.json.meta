@@ -1,12 +1,6 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Resources/MapDat/Scene/test.json.meta
 guid: 793f9233db0294a0fa1aedf2f7d8baf3
 TextScriptImporter:
-========
-guid: f92341cc742d5734aa26fb2530087bc4
-folderAsset: yes
-DefaultImporter:
->>>>>>>> Develop:Assets/Resources/Arts/Sprites/Objects/ElectricHandle.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

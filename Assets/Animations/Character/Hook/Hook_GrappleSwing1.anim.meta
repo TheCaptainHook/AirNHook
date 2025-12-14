@@ -1,13 +1,8 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Prefabs/MapEditor/UI/ConsoleSystem.prefab.meta
 guid: 70dab66b3e39c4f6e899830aab7bdc82
-PrefabImporter:
-========
-guid: 484f34af79f7d9e43bb66167986fd253
 NativeFormatImporter:
->>>>>>>> Develop:Assets/Animations/Character/Hook/Hook_GrappleSwing1.anim.meta
   externalObjects: {}
-  mainObjectFileID: 7400000
+  mainObjectFileID: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
