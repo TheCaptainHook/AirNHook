@@ -106,37 +106,37 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
     #endregion
 
     #region IPowerConsumer
-    public bool hasPower
-    {
-        get { return net.hasPower > 0 ? true : false; }
-        //set { net.Cmd_SetHasPower(value); }
-        set { net.Server_SetHasPower(value); }
-    }
-    public int GetConsumption()
-    {
-        return 1;
-    }
-    public void PowerOn() //only server
-    {
-        if(NetworkServer.active)
-            hasPower = true;
+    // public bool hasPower
+    // {
+    //     get { return net.hasPower > 0 ? true : false; }
+    //     //set { net.Cmd_SetHasPower(value); }
+    //     set { net.Server_SetHasPower(value); }
+    // }
+    // public int GetConsumption()
+    // {
+    //     return 1;
+    // }
+    // public void PowerOn() //only server
+    // {
+    //     if(NetworkServer.active)
+    //         hasPower = true;
 
 
-    }
-    public void PowerOff()
-    {
-        if (NetworkServer.active)
-            hasPower = false;
+    // }
+    // public void PowerOff()
+    // {
+    //     if (NetworkServer.active)
+    //         hasPower = false;
 
-    }
-    public Vector2 GetPowerLineConnectionPoint()
-    {
-        return transform.position;
-    }
-    public Vector2 GetTransformPosition()
-    {
-        return transform.position;
-    }
+    // }
+    // public Vector2 GetPowerLineConnectionPoint()
+    // {
+    //     return transform.position;
+    // }
+    // public Vector2 GetTransformPosition()
+    // {
+    //     return transform.position;
+    // }
     #endregion
 
     #region Main

@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Resources/Prefabs/MapEditor/Object/Fog.prefab.meta
 guid: 3bed9a91959ae294c9918b209937ebdf
-========
-guid: 73df6d3dc59c646419b26519ef44e77e
->>>>>>>> Develop:Assets/Prefabs/MapEditor/UI/ConsoleSystem.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 

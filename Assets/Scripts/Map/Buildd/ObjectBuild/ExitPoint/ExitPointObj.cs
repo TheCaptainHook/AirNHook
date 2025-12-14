@@ -8,7 +8,7 @@ public class ExitPointObj : BuildObj
     [CustomHeader("Exit Door")]
     [Header("State")]
     [ReadOnly]
-    [SerializeField] bool stageClear;
+    // [SerializeField] bool stageClear;
     public string nextMapId;
 
     // [Header("Info")]
@@ -133,7 +133,7 @@ public class ExitPointObj : BuildObj
     {
         keyBubble.gameObject.SetActive(false);
         absencePanel.gameObject.SetActive(false);
-        stageClear = false;
+        // stageClear = false;
         //Door Lock
     }
 

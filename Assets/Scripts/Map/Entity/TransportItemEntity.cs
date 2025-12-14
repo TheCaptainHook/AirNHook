@@ -306,7 +306,7 @@ public class TransportItemEntity : InteractableObject, ITransportItem
 
 
     #region  Clean
-    public void Clean()
+    public virtual void Clean()
     {
         if(Accessor != null && Accessor.TryGetComponent(out PlayerSM sm))
         {

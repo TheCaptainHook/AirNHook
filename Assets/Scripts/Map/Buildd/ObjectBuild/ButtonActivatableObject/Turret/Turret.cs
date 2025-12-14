@@ -17,15 +17,15 @@ public class Turret : ActivatableObjectEntity
     [ReadOnly]
     [SerializeField] ParticleSystem fireEffect;
 
-    private Animator animator;
-    private Animator Animator
-    {
-        get
-        {
-            animator ??= GetComponent<Animator>();
-            return animator;
-        }
-    }
+    // private Animator animator;
+    // private Animator Animator
+    // {
+    //     get
+    //     {
+    //         animator ??= GetComponent<Animator>();
+    //         return animator;
+    //     }
+    // }
 
     #region Network
     private Turret_Net Turret_Net => GetComponent<Turret_Net>();

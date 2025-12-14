@@ -20,7 +20,7 @@ public class CameraMove : MonoBehaviour
 
     private float _velocity = 0f;
     private float _smoothTime = 0.25f;
-    private float _smoothSpeed = 0.25f;
+    // private float _smoothSpeed = 0.25f;
     private Vector3 _vecVelocity = Vector3.zero;
     
     private void Start()

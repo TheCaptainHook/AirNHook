@@ -23,11 +23,22 @@ public class LeverHead_Net : TransportItemEntity
         gameObject.SetActive(false);
         transform.GetChild(0).gameObject.SetActive(false);
     }
-    
-   public void Clean()
-     {
+
+
+    //    public void Clean()
+    //      {
+    //         Col.enabled = true;
+    //         Rb.simulated = true;
+    //         transform.GetChild(0).gameObject.SetActive(true);
+    //     }
+
+    public override void Clean()
+    {
+        base.Clean();
         Col.enabled = true;
         Rb.simulated = true;
         transform.GetChild(0).gameObject.SetActive(true);
+
     }
+
 }
