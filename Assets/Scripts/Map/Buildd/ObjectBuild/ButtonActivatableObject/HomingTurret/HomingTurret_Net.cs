@@ -1,0 +1,140 @@
+using System.Collections;
+using System.Collections.Generic;
+using Mirror;
+using UnityEngine;
+
+public class HomingTurret_Net : ActivatableObject_Net_Entity
+{
+    [SerializeField] private bool _onReady;
+    [SerializeField] GameObject _target;
+
+    [Header("Layer")]
+    [SerializeField] LayerMask _detactLayer;
+    [SerializeField] LayerMask _obstacleLayer;
+    [Header("Parts")]
+    [SerializeField] Transform _turretTopTR;
+    [Header("Fire Point")]
+    [SerializeField] Transform _firePoint_1;
+    [SerializeField] Transform _firePoint_2;
+    [SerializeField] Transform _firePoint_3;
+
+    [SerializeField] float _maxFireDelay;
+    private float _curFireDelay;
+    private int _maxLaunchCount = 3;
+    private int _curLaunchCount = 3;
+    void Awake()
+    {
+        _curFireDelay = _maxFireDelay;
+    }
+
+    protected override void Active() //RPC
+    {
+        _onReady = true;
+    }
+    protected override void Deactive() //RPC
+    {
+        _onReady = false;
+    }
+
+
+    [ServerCallback]
+    void FixedUpdate()
+    {
+        if(!_onReady) return;
+
+        
+    }
+
+
+    #region  Detect
+    [Server]
+    private void UpdateTargetDetection()
+    {
+        _target = DetectTargetInRange();
+        if(_target != null)
+        {
+            if(ObstacleCheck(_target))
+            {
+                _target = null;
+                return;
+            }
+            //================Rotate
+            //================Rotate
+            //================Launch Missile
+            //================Launch Missile
+        }
+       
+    }
+    [SerializeField] float _detectRadius = 10f;
+    private Collider2D[] _detectBuffer = new Collider2D[16];
+    private GameObject DetectTargetInRange()
+    {
+        int hitCount = Physics2D.OverlapCircleNonAlloc(transform.position, _detectRadius, _detectBuffer,_detactLayer);
+        if(hitCount == 0) return null;
+
+        float closestSqrDist = float.MaxValue;
+        GameObject closest = null;
+
+        for(int i=0; i<hitCount; i++)
+        {
+            Collider2D col = _detectBuffer[i];
+            if(col == null) continue;
+            if(col.gameObject == gameObject) continue;
+            if(!col.TryGetComponent(out NetworkIdentity _)) continue;
+
+            
+            float sqrDist = ((Vector2)col.transform.position - (Vector2)transform.position).sqrMagnitude;
+            if (sqrDist < closestSqrDist)
+            {
+                closestSqrDist = sqrDist;
+                closest = col.gameObject;
+            }
+       
+        }
+
+        return closest;
+    }
+
+    private bool ObstacleCheck(GameObject target)
+    {
+        Vector2 dir = ((Vector2)target.transform.position - (Vector2)transform.position).normalized;
+        float dist = Vector2.Distance(target.transform.position, transform.position);
+
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, dist, _obstacleLayer);
+        if(hit.collider != null)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+
+#endregion
+
+#region Rotate
+[Server]
+private void Server_RotateTurret(GameObject obj)
+{
+     if(obj.TryGetComponent(out NetworkIdentity identity)) Rpc_RotateTurret(identity.netId);
+        
+}
+[ClientRpc]
+private void Rpc_RotateTurret(uint netId)
+{
+    GameObject obj = NetworkClient.spawned.TryGetValue(netId, out NetworkIdentity identity) ? identity.gameObject : null;
+    if(obj == null) return;
+
+    Vector2 dir = ((Vector2)obj.transform.position - (Vector2)transform.position).normalized;
+    float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+    _turretTopTR.rotation = Quaternion.Euler(0f, 0f, angle);
+}
+
+#endregion
+
+#region Launch Missile
+#endregion
+
+
+
+}

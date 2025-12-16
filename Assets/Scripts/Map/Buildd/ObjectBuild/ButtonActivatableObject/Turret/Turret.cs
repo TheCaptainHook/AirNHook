@@ -28,7 +28,7 @@ public class Turret : ActivatableObjectEntity
     // }
 
     #region Network
-    private Turret_Net Turret_Net => GetComponent<Turret_Net>();
+    // private Turret_Net Turret_Net => GetComponent<Turret_Net>();
     #endregion
 
     #region Get,Set
