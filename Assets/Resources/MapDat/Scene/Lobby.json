@@ -6521,6 +6521,7 @@
     ],
     "mapAccessoryTIleDataList": [],
     "mapHiddenTileDataList": [],
+    "mapSpecialTileDataList": [],
     "mapShadowCasterDataList": [
         {
             "position": {
@@ -10440,6 +10441,39 @@
             "onEncapsulationItem": false,
             "indicator": 0,
             "tutorialCode": 0
+        },
+        {
+            "id": 6102,
+            "dialogueId": 0,
+            "position": {
+                "x": -2.140000104904175,
+                "y": 29.1299991607666
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.812764286994934,
+                "y": 1.7395999431610108,
+                "z": 1.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0,
+            "tutorialCode": 0
         }
     ],
     "mapOtherObjectList": [
@@ -12173,6 +12207,54 @@
             "scale": {
                 "x": 0.5799999833106995,
                 "y": 0.5799999833106995,
+                "z": 1.0
+            },
+            "activeRequirAmount": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 375,
+            "position": {
+                "x": -1.4900000095367432,
+                "y": 20.920000076293947
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
                 "z": 1.0
             },
             "activeRequirAmount": 0,

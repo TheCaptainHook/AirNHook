@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
@@ -14,22 +13,25 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
     [Header("Parts")]
     [SerializeField] Transform _turretTopTR;
     [Header("Fire Point")]
-    [SerializeField] Transform _firePoint_1;
-    [SerializeField] Transform _firePoint_2;
-    [SerializeField] Transform _firePoint_3;
+    [SerializeField] Transform[] _firePoints;
 
-    [SerializeField] float _maxFireDelay;
-    private float _curFireDelay;
+    //TESDT
+    [SerializeField] private GameObject _missilePrefab;
+
+    [Header("Launch")]
+    private bool _onLunch = false;
     private int _maxLaunchCount = 3;
-    private int _curLaunchCount = 3;
-    void Awake()
-    {
-        _curFireDelay = _maxFireDelay;
-    }
+    [SerializeField] float _maxLaunchDelay = 3;
+    private WaitForSeconds _maxLaunchDelayWFS;
+
+
+    Animator _animator;
+    Animator Animator { get { return _animator ??= GetComponent<Animator>(); } }
 
     protected override void Active() //RPC
     {
         _onReady = true;
+        
     }
     protected override void Deactive() //RPC
     {
@@ -41,8 +43,9 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
     void FixedUpdate()
     {
         if(!_onReady) return;
+        if(_onLunch) return;
 
-        
+        UpdateTargetDetection();
     }
 
 
@@ -58,12 +61,19 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
                 _target = null;
                 return;
             }
+
             //================Rotate
             //================Rotate
             //================Launch Missile
+            Server_LaunchMissile(_target);
             //================Launch Missile
         }
        
+    }
+    private IEnumerator TimerCo()
+    {
+        yield return _maxLaunchDelayWFS ??= new WaitForSeconds(_maxLaunchDelay);
+
     }
     [SerializeField] float _detectRadius = 10f;
     private Collider2D[] _detectBuffer = new Collider2D[16];
@@ -127,12 +137,57 @@ private void Rpc_RotateTurret(uint netId)
 
     Vector2 dir = ((Vector2)obj.transform.position - (Vector2)transform.position).normalized;
     float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-    _turretTopTR.rotation = Quaternion.Euler(0f, 0f, angle);
+    // _turretTopTR.rotation = Quaternion.Euler(0f, 0f, angle);
 }
 
 #endregion
 
 #region Launch Missile
+[SerializeField] private float _launchDelay = 0.5f;
+private WaitForSeconds _launchDelayWFS;
+[Server]
+private void Server_LaunchMissile(GameObject obj)
+{
+    _onLunch = true;
+    if(obj.TryGetComponent(out NetworkIdentity identity)) Rpc_LaunchMissile(identity.netId);        
+}
+[ClientRpc]
+private void Rpc_LaunchMissile(uint netId)
+{
+
+    GameObject obj = NetworkClient.spawned.TryGetValue(netId, out NetworkIdentity identity) ? identity.gameObject : null;
+    if(obj == null) return;
+    
+    StartCoroutine(LaunchMissileCoroutine());
+}
+
+private IEnumerator LaunchMissileCoroutine()
+{
+    for(int i = 0; i< _maxLaunchCount; i++)
+    {
+        LaunchMissile(_firePoints[i].position, _target);
+        yield return _launchDelayWFS ??= new WaitForSeconds(_launchDelay);        
+    }
+    //========Reload
+    //========Reload
+    _onLunch = false;
+}
+private void LaunchMissile(Vector2 position, GameObject target)
+{
+    // var obj = Instantiate(_missilePrefab, position, Quaternion.identity);
+    var obj = Managers.Pooling.D_GetItem(_missilePrefab);
+    obj.transform.position = position;
+    obj.transform.rotation = _turretTopTR.rotation;
+
+    obj.SetActive(true);
+    Animator.SetTrigger("Fire");
+
+    if(obj.TryGetComponent(out HomingMissile missile))
+    {
+        missile.SetTarget(target.transform);
+    }
+}
+
 #endregion
 
 

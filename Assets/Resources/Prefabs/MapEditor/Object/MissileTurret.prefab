@@ -10154,6 +10154,8 @@ GameObject:
   - component: {fileID: -2000141949827509853}
   - component: {fileID: 8611386600391597754}
   - component: {fileID: 763823665871053021}
+  - component: {fileID: 1015910245842493652}
+  - component: {fileID: 8923303024234489906}
   m_Layer: 14
   m_Name: MissileTurret
   m_TagString: Untagged
@@ -10317,6 +10319,103 @@ SortingGroup:
   m_SortingLayer: 5
   m_SortingOrder: 5
   m_SortAtRoot: 0
+--- !u!114 &1015910245842493652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3227932219690051067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96bf7a47fa73e4070b9c6c1bb9648414, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 375
+  transformID: 0
+  position: {x: 0, y: 0}
+  distructionStatus: 0
+  chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
+  onPlaceable: 0
+  onRotateable: 0
+  onScaleable: 0
+  offset: {x: 0, y: 0}
+  turnOff: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprites: []
+  _dissolveMaterials: []
+  canRespawn: 0
+  activeRequirAmount: 0
+  indicator: 0
+  indicatorOffset_val_1: {x: 0, y: 0}
+  indicatorOffset_val_2: {x: 0, y: 0}
+  isHorizontal: 0
+  indicatorStruct:
+    indicator: 0
+    indicator_1_position: {x: 0, y: 0}
+    indicator_2_position: {x: 0, y: 0}
+    isHorizontal: 0
+  curActiveBtn: 0
+--- !u!114 &8923303024234489906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3227932219690051067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96c9d73b23c6648a3b39310c5df104a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  data:
+    id: 0
+    position: {x: 0, y: 0}
+    quaternion: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 0, y: 0, z: 0}
+    activeRequirAmount: 0
+    indicatorStruct:
+      indicator: 0
+      indicator_1_position: {x: 0, y: 0}
+      indicator_2_position: {x: 0, y: 0}
+      isHorizontal: 0
+    jumpingPower: 0
+    talPot: {x: 0, y: 0}
+    rotateRate: 0
+    fireRate: 0
+    onHoldRotation: 0
+    onLeft: 0
+    paths: []
+    moveSpeed: 0
+    moveDistance: 0
+    bridgeLength: 0
+    connectionPoint: {x: 0, y: 0}
+  onSync: 0
+  onActive: 0
+  _onReady: 0
+  _target: {fileID: 0}
+  _detactLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  _obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 448
+  _turretTopTR: {fileID: 4485853627197103065}
+  _firePoints:
+  - {fileID: 8547298488332605700}
+  - {fileID: 1495025235625874870}
+  - {fileID: 4104876957242767949}
+  _missilePrefab: {fileID: 3193858208009277608, guid: e2c8db1b0d237490085b372f54692f2c, type: 3}
+  _maxLaunchDelay: 5
+  _detectRadius: 10
+  _launchDelay: 0.5
 --- !u!1 &3459807859925903704
 GameObject:
   m_ObjectHideFlags: 0
@@ -15881,7 +15980,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   platformEffector2D: {fileID: 1646753020278544480}
-  _rb: {fileID: 0}
+  _rb: {fileID: 1416254538327619251}
   _boxCollider2D: {fileID: 1917278001690565075}
 --- !u!50 &7635526743295168600
 Rigidbody2D:
@@ -15934,7 +16033,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7111012060349640985}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.90267056, w: 0.43033236}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -15948,7 +16047,7 @@ RectTransform:
   - {fileID: 5507092575089815582}
   - {fileID: 5943542623190257224}
   m_Father: {fileID: 7527202856157951427}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 129.023}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0.75}

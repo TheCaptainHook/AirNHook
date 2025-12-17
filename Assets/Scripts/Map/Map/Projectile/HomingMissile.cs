@@ -13,13 +13,22 @@ public class HomingMissile : MonoBehaviour
   [SerializeField] private float _maxHomingDistance = 200f;
 
   private bool _onTarget = false;
-  [SerializeField] private Transform _target;
-  private bool _onReady = false;
+  private Transform _target = null;
 
+    [SerializeField] private float _maxTimer;
+    [SerializeField] private float _curTimer;
 
     private void FixedUpdate()
     {
-        // if(!_onReady) return;
+        if(_curTimer >= _maxTimer)
+        {
+            //=============Boom
+            Destroy(gameObject);
+            //=============Boom
+            return;
+        }
+        _curTimer += Time.fixedDeltaTime;
+        
         Launch();
     }
 
@@ -37,7 +46,8 @@ public class HomingMissile : MonoBehaviour
         else
         {
             //=======일직선으로
-            RB.velocity = Vector2.zero;
+            RB.velocity = transform.right * _moveSpeed;
+            // RB.velocity = Vector2.zero;
         }
     }
     private void Homing(Transform target)
@@ -54,11 +64,19 @@ public class HomingMissile : MonoBehaviour
     public void SetTarget(Transform target)
     {
         _target = target;
+        RB.AddForce(transform.right * 20f, ForceMode2D.Impulse);
+
         _onTarget = true;
     }
 
 
-  
+  private void Clean()
+    {
+        _curTimer = 0;
+        _onTarget = false;
+        _target = null;
+        Managers.Pooling.D_ReleaseToPool(gameObject);
+    }
 
 
     #region  Util
