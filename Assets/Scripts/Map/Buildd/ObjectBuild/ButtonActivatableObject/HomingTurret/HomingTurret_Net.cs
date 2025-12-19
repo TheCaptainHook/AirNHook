@@ -48,24 +48,24 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
         UpdateTargetDetection();
     }
 
-
+    private GameObject _s_target;
     #region  Detect
     [Server]
     private void UpdateTargetDetection()
     {
-        _target = DetectTargetInRange();
-        if(_target != null)
+        _s_target = DetectTargetInRange();
+        if(_s_target != null)
         {
             if(ObstacleCheck(_target))
             {
-                _target = null;
+                _s_target = null;
                 return;
             }
 
             //================Rotate
             //================Rotate
             //================Launch Missile
-            Server_LaunchMissile(_target);
+            Server_LaunchMissile(_s_target);
             //================Launch Missile
         }
        
@@ -154,10 +154,10 @@ private void Server_LaunchMissile(GameObject obj)
 [ClientRpc]
 private void Rpc_LaunchMissile(uint netId)
 {
-
     GameObject obj = NetworkClient.spawned.TryGetValue(netId, out NetworkIdentity identity) ? identity.gameObject : null;
     if(obj == null) return;
     
+    _target = obj;
     StartCoroutine(LaunchMissileCoroutine());
 }
 
