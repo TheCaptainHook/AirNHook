@@ -56,16 +56,17 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
         _s_target = DetectTargetInRange();
         if(_s_target != null)
         {
-            if(ObstacleCheck(_target))
+            if(ObstacleCheck(_s_target))
             {
                 _s_target = null;
+                _onLunch = false;
                 return;
             }
 
             //================Rotate
             //================Rotate
             //================Launch Missile
-            Server_LaunchMissile(_s_target);
+            if(!_onLunch) Server_LaunchMissile(_s_target);
             //================Launch Missile
         }
        
