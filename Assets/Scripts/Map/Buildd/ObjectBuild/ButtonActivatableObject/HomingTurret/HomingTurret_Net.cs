@@ -71,9 +71,11 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
         }
        
     }
-    private IEnumerator TimerCo()
+    private IEnumerator Reloading()
     {
+        Animator.SetBool("IsReady",false);
         yield return _maxLaunchDelayWFS ??= new WaitForSeconds(_maxLaunchDelay);
+        Animator.SetBool("IsReady",true);
 
     }
     [SerializeField] float _detectRadius = 10f;
@@ -124,12 +126,7 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
 #endregion
 
 #region Rotate
-[Server]
-private void Server_RotateTurret(GameObject obj)
-{
-     if(obj.TryGetComponent(out NetworkIdentity identity)) Rpc_RotateTurret(identity.netId);
-        
-}
+
 [ClientRpc]
 private void Rpc_RotateTurret(uint netId)
 {
@@ -146,6 +143,7 @@ private void Rpc_RotateTurret(uint netId)
 #region Launch Missile
 [SerializeField] private float _launchDelay = 0.5f;
 private WaitForSeconds _launchDelayWFS;
+private WaitForSeconds _0_5WFS = new WaitForSeconds(0.5f);
 [Server]
 private void Server_LaunchMissile(GameObject obj)
 {
@@ -170,7 +168,9 @@ private IEnumerator LaunchMissileCoroutine()
         yield return _launchDelayWFS ??= new WaitForSeconds(_launchDelay);        
     }
     //========Reload
+    yield return Reloading();
     //========Reload
+    yield return _0_5WFS;
     _onLunch = false;
 }
 private void LaunchMissile(Vector2 position, GameObject target)

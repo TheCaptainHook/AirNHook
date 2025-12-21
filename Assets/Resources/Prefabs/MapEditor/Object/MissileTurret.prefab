@@ -10413,7 +10413,7 @@ MonoBehaviour:
   - {fileID: 1495025235625874870}
   - {fileID: 4104876957242767949}
   _missilePrefab: {fileID: 3193858208009277608, guid: e2c8db1b0d237490085b372f54692f2c, type: 3}
-  _maxLaunchDelay: 5
+  _maxLaunchDelay: 3
   _detectRadius: 10
   _launchDelay: 0.5
 --- !u!1 &3459807859925903704
