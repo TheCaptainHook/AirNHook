@@ -101,7 +101,6 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
             //================Targetting
             //================Targetting
 
-
             if(_cur_FireDelay <= 0)
             {
                 _cur_FireDelay = _max_fireDelay;
@@ -251,28 +250,6 @@ private void Rpc_LaunchMissile(uint netId,int count)
     _isLaunched[count] = true;
 }
 
-// private IEnumerator LaunchMissileCoroutine()
-// {
-//     for(int i = 0; i< _maxLaunchCount; i++)
-//     {
-//         if(!_isFindTarget)
-//         {
-//             //Reloading
-//             StartCoroutine(Reloading());
-//             //Reloading
-//             yield break;
-//         }
-
-//         LaunchMissile(_firePoints[i], _target);
-//         _isLaunched[i] = true;
-//         yield return new WaitForSeconds(1f);
-//     }
-
-//     //========Reload
-//     yield return Reloading();
-//     //========Reload
-//     // _onLunch = false;
-// }
 
 private void LaunchMissile(Transform tr, GameObject target)
 {
@@ -288,6 +265,8 @@ private void LaunchMissile(Transform tr, GameObject target)
     {
         missile.SetTarget(target.transform);
     }
+
+    Managers.Sound.PlaySound3D(GlobalText.MISSILE_TURRET_FIRE,transform);
 }
  
    private IEnumerator Reloading()
