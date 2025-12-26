@@ -1,6 +1,7 @@
 using System.Collections;
 using Mirror;
 using Telepathy;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class HomingTurret_Net : ActivatableObject_Net_Entity
@@ -13,7 +14,7 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
     [SerializeField] LayerMask _obstacleLayer;
     [Header("Parts")]
     [SerializeField] Transform _turretTopTR;
-    private Vector2 TopRight => _turretTopTR.right;
+    // private Vector2 TopRight => _turretTopTR.right;
    
     [Header("Fire Point")]
     [SerializeField] Transform[] _firePoints;
@@ -26,9 +27,8 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
 
     [Header("Launch")]
     private bool _onReload = false; //server
-    // private int _maxLaunchCount = 3;
-    // [SerializeField] float _maxLaunchDelay = 3;
-    private WaitForSeconds _maxLaunchDelayWFS;
+    
+    // private WaitForSeconds _maxLaunchDelayWFS;
 
     [Header("Effect")]
     [SerializeField] private GameObject _greenLightEffect;
@@ -65,7 +65,6 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
     private GameObject _s_target;
     #region  Detect
     [SyncVar] public bool _isFindTarget;
-
   
     //======= 1223
     [Tooltip("missile Firing Interval")]
@@ -93,12 +92,21 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
             if(ObstacleCheck(_s_target)) //타겟이 장애물에 가려지면 미싱 타겟
             {
                 _s_target = null;
-                _isFindTarget = false;
+                // _isFindTarget = false;
                 Server_MissiongTarget();
                 return;
             }
 
             //================Targetting
+            /**
+                1. Marking Coroutine   
+                    - Marking Animation
+                        - RPC_Marking
+                    - Top Parts Rotation
+                        - RPC_Rotation
+                3. onTargetting Comp
+
+            **/
             //================Targetting
 
             if(_cur_FireDelay <= 0)
@@ -162,8 +170,20 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
     [ClientRpc]
     private void Rpc_MissiongTarget()
     {
-        //======Target mark 제거
-        //======Target mark 제거
+        /**
+        1. Tartting Stop Coroutine
+        2. Rotate Stop Coroutine
+
+        **/
+
+        //========================= Rotate
+        if(_rotate_coroutine != null)
+        {
+            StopCoroutine(_rotate_coroutine);
+            _rotate_coroutine = null;
+
+        }
+        //========================= Rotate
     }
 
  
@@ -215,7 +235,9 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
 #endregion
 
 #region Rotate
-
+private Coroutine _rotate_coroutine;
+private float _max_rotate_z = 180;
+private float _min_rotate_z = 0;
 [ClientRpc]
 private void Rpc_RotateTurret(uint netId)
 {
@@ -224,6 +246,35 @@ private void Rpc_RotateTurret(uint netId)
 
     Vector2 dir = ((Vector2)obj.transform.position - (Vector2)transform.position).normalized;
     float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+    if (angle < 0f) angle += 360f;
+    angle = Mathf.Clamp(angle, _min_rotate_z, _max_rotate_z);
+
+    if(_rotate_coroutine != null)
+    {
+        StopCoroutine(_rotate_coroutine);
+       _rotate_coroutine = null;
+    }
+
+    _rotate_coroutine = StartCoroutine(Rotate_Co(angle));    
+        
+}
+[SerializeField] private float _top_parts_rotate_speed=5;
+private IEnumerator Rotate_Co(float targetZ)
+{
+    Quaternion startRot = transform.rotation;
+    Quaternion targetRot = Quaternion.Euler(0, 0, targetZ);
+
+    float t = 0f;
+
+    while (Quaternion.Angle(transform.rotation, targetRot) > 0.1f)
+    {
+        t += Time.deltaTime * _top_parts_rotate_speed;
+        transform.rotation = Quaternion.Slerp(startRot, targetRot, t);
+        yield return null;
+    }
+
+    transform.rotation = targetRot;
 
 }
 
@@ -285,7 +336,7 @@ private void LaunchMissile(Transform tr, GameObject target)
                 StartCoroutine(Reload(_firePoints[i], i));
             }
         }
-        yield return _maxLaunchDelayWFS = new WaitForSeconds(count);
+        yield return new WaitForSeconds(count);
 
         _cur_fireCount = 0;
         _cur_FireDelay = 0;

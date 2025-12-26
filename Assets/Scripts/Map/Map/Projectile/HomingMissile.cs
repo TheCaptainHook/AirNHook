@@ -60,11 +60,11 @@ public class HomingMissile : MonoBehaviour
         else RB.angularVelocity = 0f;
         RB.velocity = transform.right * _moveSpeed;
     }
-
+    [SerializeField] private float _boostPower = 50f;
     public void SetTarget(Transform target)
     {
         _target = target;
-        RB.AddForce(transform.right * 20f, ForceMode2D.Impulse);
+        RB.AddForce(transform.right * _boostPower, ForceMode2D.Impulse);
 
         _onTarget = true;
     }
