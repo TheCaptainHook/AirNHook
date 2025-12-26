@@ -63,6 +63,17 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
     }
 
     private GameObject _s_target;
+    
+    private uint GetTargetNetID
+    {
+        get
+        {
+            if (_s_target == null)
+                return 99999;
+            return _s_target.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 99999;
+        }
+    }
+
     #region  Detect
     [SyncVar] public bool _isFindTarget;
   
@@ -97,6 +108,7 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
                 return;
             }
 
+            
             //================Targetting
             /**
                 1. Marking Coroutine   
@@ -108,6 +120,9 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
 
             **/
             //================Targetting
+            //================Rotate
+            Rpc_RotateTurret(GetTargetNetID);
+            //================Rotate
 
             if(_cur_FireDelay <= 0)
             {
@@ -238,9 +253,13 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
 private Coroutine _rotate_coroutine;
 private float _max_rotate_z = 180;
 private float _min_rotate_z = 0;
+[SerializeField] private float _rotate_tolerance = 30;
+
 [ClientRpc]
 private void Rpc_RotateTurret(uint netId)
 {
+    if(netId == 99999) return;
+
     GameObject obj = NetworkClient.spawned.TryGetValue(netId, out NetworkIdentity identity) ? identity.gameObject : null;
     if(obj == null) return;
 
@@ -249,6 +268,11 @@ private void Rpc_RotateTurret(uint netId)
 
     if (angle < 0f) angle += 360f;
     angle = Mathf.Clamp(angle, _min_rotate_z, _max_rotate_z);
+    
+    //================오차 허용범위
+    float delta = Mathf.Abs(Mathf.DeltaAngle(_turretTopTR.eulerAngles.z,angle));
+    if(delta < _rotate_tolerance) return;
+    //================오차 허용범위
 
     if(_rotate_coroutine != null)
     {
@@ -262,19 +286,19 @@ private void Rpc_RotateTurret(uint netId)
 [SerializeField] private float _top_parts_rotate_speed=5;
 private IEnumerator Rotate_Co(float targetZ)
 {
-    Quaternion startRot = transform.rotation;
+    Quaternion startRot = _turretTopTR.rotation;
     Quaternion targetRot = Quaternion.Euler(0, 0, targetZ);
 
     float t = 0f;
 
-    while (Quaternion.Angle(transform.rotation, targetRot) > 0.1f)
+    while (Quaternion.Angle(_turretTopTR.rotation, targetRot) > 0.1f)
     {
         t += Time.deltaTime * _top_parts_rotate_speed;
-        transform.rotation = Quaternion.Slerp(startRot, targetRot, t);
+        _turretTopTR.rotation = Quaternion.Slerp(startRot, targetRot, t);
         yield return null;
     }
 
-    transform.rotation = targetRot;
+    _turretTopTR.rotation = targetRot;
 
 }
 
