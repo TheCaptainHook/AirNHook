@@ -27,8 +27,22 @@ private SpriteRenderer SR{get{_sr??= GetComponent<SpriteRenderer>(); return _sr;
     [SerializeField] private float _maxTimer;
     [SerializeField] private float _curTimer;
 
+    /// <summary>
+    /// 0 : Init
+    /// 1 : already Reset,
+    /// </summary>
+    private int _resetCount = 0;
+
+
     private void FixedUpdate()
     {
+        if(!MapEditor.Instance._onMapTransition_Complete && _resetCount == 0)
+        {
+            _resetCount = 1;
+            Reset();
+            return;    
+        }
+
         if(_isBoom) return;
 
         if(_curTimer >= _maxTimer)
@@ -108,6 +122,8 @@ private SpriteRenderer SR{get{_sr??= GetComponent<SpriteRenderer>(); return _sr;
     
     public void SetTarget(GameObject main,Transform target)
     {
+        _resetCount = 0;
+
         _target = target;
         _main = main;
 
@@ -148,6 +164,19 @@ private SpriteRenderer SR{get{_sr??= GetComponent<SpriteRenderer>(); return _sr;
         Managers.Pooling.D_ReleaseToPool(gameObject);
     }
 
+    private void Reset()
+    {
+        StopAllCoroutines();
+        RB.velocity = Vector2.zero;
+        
+        _curTimer = 0;
+        _onTarget = false;
+        _target = null;
+        _main = null;
+        
+        Clean();
+        Managers.Pooling.D_ReleaseToPool(gameObject);
+    }
     private void Clean()
     {
         _isBoom = false;

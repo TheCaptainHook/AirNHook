@@ -116,6 +116,7 @@ public static class GlobalText
     public const string HYDRAULICPRESS_STEAM = "Steam";
     //Missile Turret
     public const string MISSILE_TURRET_FIRE = "MissileFire";
+    public const string MISSILE_LOCK_ALERT = "MissileLock_Alert";
     #endregion
 
     #region Death Sound

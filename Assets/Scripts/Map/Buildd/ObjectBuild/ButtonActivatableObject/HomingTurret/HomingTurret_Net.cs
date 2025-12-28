@@ -1,7 +1,6 @@
 using System.Collections;
+using System.Drawing;
 using Mirror;
-using Telepathy;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class HomingTurret_Net : ActivatableObject_Net_Entity
@@ -26,6 +25,7 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
     [SerializeField] private GameObject _missilePrefab;
 
     [Header("Launch")]
+    private bool _isCompleteRotate = false; //server
     private bool _onReload = false; //server
     
     // private WaitForSeconds _maxLaunchDelayWFS;
@@ -398,6 +398,39 @@ private void LaunchMissile(Transform tr, GameObject target)
 
 #endregion
 
+
+#region  Clean
+    private void Reset()
+    {
+        _s_target = null;
+        
+        if(_rotate_coroutine != null)
+        {
+            StopCoroutine(_rotate_coroutine);
+            _rotate_coroutine = null;
+        }
+        if(_reloadingCoroutine != null)
+        {
+            StopCoroutine(_reloadingCoroutine);
+            _reloadingCoroutine = null;
+        }
+
+
+        for(int i =0;i<_isLaunched.Length;i++)
+        {
+            _isLaunched[i]= false;
+            _firePoints[i].localPosition = new Vector3(_minFirePositionOffset,_firePoints[i].position.y,0);
+        }    
+
+        _cur_fireCount = 0;
+        _cur_FireDelay = 0;
+        _greenLightEffect.SetActive(true);
+        _yellowLightEffect.SetActive(false);
+        _onReload = false;
+
+    }
+
+#endregion
 
 
 }
