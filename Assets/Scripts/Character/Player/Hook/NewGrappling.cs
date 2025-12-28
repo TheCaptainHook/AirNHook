@@ -317,6 +317,8 @@ public class NewGrappling : MonoBehaviour
         _playerInput.playerActions.Look.performed += OnLook;
         _playerInput.playerActions.SubAction.started += OnSubActionStarted;
         _playerInput.playerActions.VerticalMove.started += OnVerticalMove;
+        _playerInput.playerActions.VerticalMove.performed += OnVerticalMove;
+        _playerInput.playerActions.VerticalMove.canceled += OnVerticalMove;
     }
 
     private void UnSubscribeInput()
@@ -325,6 +327,8 @@ public class NewGrappling : MonoBehaviour
         _playerInput.playerActions.Look.performed -= OnLook;
         _playerInput.playerActions.SubAction.started -= OnSubActionStarted;
         _playerInput.playerActions.VerticalMove.started -= OnVerticalMove;
+        _playerInput.playerActions.VerticalMove.performed -= OnVerticalMove;
+        _playerInput.playerActions.VerticalMove.canceled -= OnVerticalMove;
     }
 
     private void OnMainActionStarted(InputAction.CallbackContext context)
