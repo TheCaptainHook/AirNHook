@@ -338,7 +338,7 @@ private void LaunchMissile(Transform tr, GameObject target)
 
     if(obj.TryGetComponent(out HomingMissile missile))
     {
-        missile.SetTarget(target.transform);
+        missile.SetTarget(gameObject,target.transform);
     }
 
     Managers.Sound.PlaySound3D(GlobalText.MISSILE_TURRET_FIRE,transform);

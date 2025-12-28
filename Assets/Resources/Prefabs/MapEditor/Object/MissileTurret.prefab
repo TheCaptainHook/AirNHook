@@ -10383,6 +10383,7 @@ MonoBehaviour:
   _max_fireDelay: 0.5
   _max_missingTargetCount: 1
   _detectRadius: 10
+  _rotate_tolerance: 30
   _top_parts_rotate_speed: 5
 --- !u!1 &3459807859925903704
 GameObject:

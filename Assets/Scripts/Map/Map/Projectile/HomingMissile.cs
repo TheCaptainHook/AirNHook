@@ -1,5 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Org.BouncyCastle.Asn1.Pkcs;
+using Org.BouncyCastle.Crypto.Prng;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class HomingMissile : MonoBehaviour
@@ -12,25 +16,42 @@ public class HomingMissile : MonoBehaviour
   [SerializeField] private float _lifeTime = 5f;
   [SerializeField] private float _maxHomingDistance = 200f;
 
+private SpriteRenderer _sr;
+private SpriteRenderer SR{get{_sr??= GetComponent<SpriteRenderer>(); return _sr;}}
+
+[SerializeField] private GameObject _boom_effect_obj;
+[SerializeField] private GameObject _missile_effect_obj;
+
   private bool _onTarget = false;
+  private bool _isBoom = false;
   private Transform _target = null;
+  private GameObject _main;
+
+    [SerializeField] private LayerMask _layer;
 
     [SerializeField] private float _maxTimer;
     [SerializeField] private float _curTimer;
 
     private void FixedUpdate()
     {
+        if(_isBoom) return;
+
         if(_curTimer >= _maxTimer)
         {
             //=============Boom
-            Destroy(gameObject);
+            Clean();
             //=============Boom
             return;
         }
         _curTimer += Time.fixedDeltaTime;
-        
         Launch();
     }
+
+    private void Update()
+    {
+        if(_onTarget) TargetCheckRay();
+    }
+
 
     private void Launch()
     {
@@ -60,22 +81,84 @@ public class HomingMissile : MonoBehaviour
         else RB.angularVelocity = 0f;
         RB.velocity = transform.right * _moveSpeed;
     }
+    //===
+    #if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Gizmos.color =Color.red;
+        Vector3 origin = transform.position;
+        Vector3 dir = transform.right;   // 레이 방향
+        float length = 0.35f;
+
+        Gizmos.DrawRay(origin, dir * length);
+        
+    }
+    #endif
+
+    //===
+    private void TargetCheckRay()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, 0.35f, _layer);
+        if(hit.collider != null && hit.collider.gameObject != _main)
+        {
+            if(hit.collider.TryGetComponent(out IDamageable component))
+            {
+                component.TakeDamage();
+            }
+            
+            Boom();
+        }
+    }
     [SerializeField] private float _boostPower = 50f;
-    public void SetTarget(Transform target)
+    
+    public void SetTarget(GameObject main,Transform target)
     {
         _target = target;
+        _main = main;
+
         RB.AddForce(transform.right * _boostPower, ForceMode2D.Impulse);
 
         _onTarget = true;
     }
 
-
-  private void Clean()
+    private Coroutine _boom_corotuine;
+    private void Boom()
     {
+        if(_boom_corotuine != null)
+        {
+            StopCoroutine(_boom_corotuine);
+            _boom_corotuine = null;
+        }
+
+        _boom_corotuine = StartCoroutine(Boom_Co());
+    }
+    [SerializeField] private float _boom_release_delay = 1.5f;
+    private WaitForSeconds _wfs;
+    private IEnumerator Boom_Co()
+    {
+        _isBoom = true;
+
+        _boom_effect_obj.SetActive(true);
+        _missile_effect_obj.SetActive(false);
+        SR.enabled = false;
+
         _curTimer = 0;
         _onTarget = false;
         _target = null;
+        _main = null;
+    
+        RB.velocity = Vector2.zero;
+        yield return _wfs ??= new WaitForSeconds(_boom_release_delay);
+        Clean();
         Managers.Pooling.D_ReleaseToPool(gameObject);
+    }
+
+    private void Clean()
+    {
+        _isBoom = false;
+        _boom_effect_obj.SetActive(false);
+        _missile_effect_obj.SetActive(true);
+        SR.enabled = true;
     }
 
 
@@ -97,9 +180,4 @@ public class HomingMissile : MonoBehaviour
 
 
 
-
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        Debug.Log("Triggered");
-    }
 }
