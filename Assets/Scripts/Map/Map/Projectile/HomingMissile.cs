@@ -1,9 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Org.BouncyCastle.Asn1.Pkcs;
-using Org.BouncyCastle.Crypto.Prng;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 public class HomingMissile : MonoBehaviour
@@ -103,7 +98,7 @@ private SpriteRenderer SR{get{_sr??= GetComponent<SpriteRenderer>(); return _sr;
         {
             if(hit.collider.TryGetComponent(out IDamageable component))
             {
-                component.TakeDamage();
+                component.TakeDamage(DamageType.Boom);
             }
             
             Boom();

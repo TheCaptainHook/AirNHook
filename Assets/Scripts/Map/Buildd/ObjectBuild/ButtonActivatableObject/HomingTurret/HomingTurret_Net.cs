@@ -251,8 +251,8 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
 
 #region Rotate
 private Coroutine _rotate_coroutine;
-private float _max_rotate_z = 180;
-private float _min_rotate_z = 0;
+private float _max_rotate_z = 135;
+private float _min_rotate_z = 45;
 [SerializeField] private float _rotate_tolerance = 30;
 
 [ClientRpc]
