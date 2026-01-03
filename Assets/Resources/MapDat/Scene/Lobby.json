@@ -12243,14 +12243,206 @@
         {
             "id": 375,
             "position": {
-                "x": -1.4900000095367432,
-                "y": 20.920000076293947
+                "x": -2.2239999771118166,
+                "y": 21.02400016784668
             },
             "quaternion": {
                 "x": 0.0,
                 "y": 0.0,
                 "z": 0.0,
                 "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "activeRequirAmount": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 375,
+            "position": {
+                "x": 6.96999979019165,
+                "y": 26.0
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.7071068286895752,
+                "w": 0.7071068286895752
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "activeRequirAmount": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 375,
+            "position": {
+                "x": 7.019999980926514,
+                "y": 28.229999542236329
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.7071068286895752,
+                "w": 0.7071068286895752
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "activeRequirAmount": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 375,
+            "position": {
+                "x": 6.96999979019165,
+                "y": 30.65999984741211
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.7071068286895752,
+                "w": 0.7071068286895752
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "activeRequirAmount": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 375,
+            "position": {
+                "x": 7.0,
+                "y": 29.4410400390625
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.7071068286895752,
+                "w": 0.7071068286895752
             },
             "scale": {
                 "x": 1.0,

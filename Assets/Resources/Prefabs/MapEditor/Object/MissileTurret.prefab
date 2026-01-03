@@ -5180,6 +5180,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 2
   m_SpriteSortPoint: 0
+--- !u!1 &2561878594371721729
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4676334978603670501}
+  m_Layer: 14
+  m_Name: Ray
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4676334978603670501
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2561878594371721729}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7527202856157951427}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2870094110445813638
 GameObject:
   m_ObjectHideFlags: 0
@@ -10176,6 +10207,7 @@ Transform:
   m_Children:
   - {fileID: 2771323103432618973}
   - {fileID: 4485853627197103065}
+  - {fileID: 4676334978603670501}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1416254538327619251
@@ -10373,18 +10405,19 @@ MonoBehaviour:
   - {fileID: 1495025235625874870}
   - {fileID: 4104876957242767949}
   _isLaunched: 
+  _rayPosition: {fileID: 4676334978603670501}
   _missilePrefab: {fileID: 3193858208009277608, guid: e2c8db1b0d237490085b372f54692f2c, type: 3}
   _greenLightEffect: {fileID: 5269584977423057727}
   _yellowLightEffect: {fileID: 4758932196870721093}
   _steam: {fileID: 3660533433984371613}
   _steam_1: {fileID: 3041457691257949121}
   _steam_2: {fileID: 1352651820062196473}
-  _isFindTarget: 0
-  _max_fireDelay: 0.5
-  _max_missingTargetCount: 1
   _detectRadius: 10
   _rotate_tolerance: 30
   _top_parts_rotate_speed: 5
+  _isFindTarget: 0
+  _max_fireDelay: 0.5
+  _max_missingTargetCount: 1
 --- !u!1 &3459807859925903704
 GameObject:
   m_ObjectHideFlags: 0
