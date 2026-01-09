@@ -129,8 +129,6 @@ GameObject:
   - component: {fileID: 4801361440896467793}
   - component: {fileID: 6605502889168523922}
   - component: {fileID: 47538381301867106}
-  - component: {fileID: 3241572515614972541}
-  - component: {fileID: 338393217448709536}
   m_Layer: 7
   m_Name: BlinkingBox_Blue
   m_TagString: Untagged
@@ -297,65 +295,6 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!114 &3241572515614972541
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5138578423377371711}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 515dcc3ba23ef0b47833559986968808, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 376
-  transformID: 1
-  position: {x: 0, y: 0}
-  distructionStatus: 0
-  chargeRequired: 0
-  isTransportItem: 0
-  carrierTransformNetId: 0
-  carrierTransform: {fileID: 0}
-  onPlaceable: 0
-  onRotateable: 0
-  onScaleable: 0
-  offset: {x: 0, y: 0}
-  turnOff: 0
-  setPosition: 0
-  orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprites: []
-  _dissolveMaterials: []
-  canRespawn: 0
-  curCrumblingRate: 0
-  curCrumblingAmount: 0
-  animator: {fileID: 0}
-  hitBox: {fileID: 5701185126392362918}
-  spriteRenderer: {fileID: 8275482963525799534}
-  spark_Particle: {fileID: 0}
-  bumb_Particle: {fileID: 0}
-  shadowCaster2D: {fileID: 1731048991188503961}
-  sprites:
-  - {fileID: 21300000, guid: a428fc867477b26429b0c0680ad27008, type: 3}
-  - {fileID: 21300000, guid: a9a2359354e3cb14fb6c4c69d09decf5, type: 3}
-  - {fileID: 21300000, guid: 9db80b6fbfeb8c24d8988efea14f34c3, type: 3}
---- !u!114 &338393217448709536
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5138578423377371711}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f73b09f0ef0a39d429c170409a67ca81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  crumbling_Index: 0
-  onSync: 0
 --- !u!1 &5294889008887992594
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,7 +469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49a1a31ff7598d44aa982eb206dffd55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  net: {fileID: 338393217448709536}
+  net: {fileID: 0}
 --- !u!1 &6670823732715719606
 GameObject:
   m_ObjectHideFlags: 0
