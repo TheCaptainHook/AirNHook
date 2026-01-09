@@ -20,7 +20,7 @@ private SpriteRenderer SR{get{_sr??= GetComponent<SpriteRenderer>(); return _sr;
   private bool _onTarget = false;
   private bool _isBoom = false;
   private Transform _target = null;
-  private GameObject _main;
+  private HomingTurret_Net _main;
 
     [SerializeField] private LayerMask _layer;
 
@@ -58,6 +58,7 @@ private SpriteRenderer SR{get{_sr??= GetComponent<SpriteRenderer>(); return _sr;
 
     private void Update()
     {
+        if(MapEditor.Instance._onMapTransition_Complete == false) Reset();
         if(_onTarget) TargetCheckRay();
     }
 
@@ -108,10 +109,12 @@ private SpriteRenderer SR{get{_sr??= GetComponent<SpriteRenderer>(); return _sr;
     private void TargetCheckRay()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, 0.35f, _layer);
-        if(hit.collider != null && hit.collider.gameObject != _main)
+        if(hit.collider != null && hit.collider.gameObject != _main.gameObject)
         {
             if(hit.collider.TryGetComponent(out IDamageable component))
             {
+                //마킹 제거
+                _main.Cmd_Target_Distroyed();
                 component.TakeDamage(DamageType.Boom);
             }
             
@@ -120,7 +123,7 @@ private SpriteRenderer SR{get{_sr??= GetComponent<SpriteRenderer>(); return _sr;
     }
     [SerializeField] private float _boostPower = 50f;
     
-    public void SetTarget(GameObject main,Transform target)
+    public void SetTarget(HomingTurret_Net main,Transform target)
     {
         _resetCount = 0;
 

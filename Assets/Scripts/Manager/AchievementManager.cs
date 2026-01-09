@@ -24,6 +24,7 @@ public class AchievementManager
     private List<int> _suicideDeathId = new List<int>() { 70100, 70101, 70102 };
     private List<int> _fireDeathId = new List<int>() { 70200, 70201, 70202 };
     private List<int> _electricDeathId = new List<int>() { 70300, 70301, 70302 };
+    private List<int> _boomDeathId = new List<int>() { 70300};
     private Dictionary<DamageType, List<int>> _deathIdDict;
 
     #region  Puzzle
@@ -53,7 +54,8 @@ public class AchievementManager
             { DamageType.Default, _defaultDeathId },
             { DamageType.Suicide, _suicideDeathId },
             { DamageType.Fire, _fireDeathId },
-            { DamageType.Electric, _electricDeathId }
+            { DamageType.Electric, _electricDeathId },
+            {DamageType.Boom,_boomDeathId}
         };
     }
 

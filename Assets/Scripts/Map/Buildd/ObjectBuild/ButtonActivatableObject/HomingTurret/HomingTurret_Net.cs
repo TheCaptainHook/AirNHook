@@ -1,5 +1,6 @@
 using System.Collections;
 using Mirror;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum Missile_State
@@ -21,7 +22,8 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
     [Header("Parts")]
     [SerializeField] Transform _turretTopTR;
     // private Vector2 TopRight => _turretTopTR.right;
-   
+    [SerializeField] HomingTurret_LockonMark _mark;
+
     [Header("Fire Point")]
     [SerializeField] Transform[] _firePoints;
     [SerializeField] bool[] _isLaunched;
@@ -103,15 +105,19 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
     }
 
 #region  SEARCH
+    [Tooltip("missing Target Reload Delay")]
+    [SerializeField] private float _max_missingTargetCount = 1;
+    private float _cur_missingTargetCount = 0;
+
     [Server]
     private void Server_Searching()
     {
-        if(_previous_ms == Missile_State.TARGETTING)
+        if(_previous_ms == Missile_State.TARGETTING || _previous_ms == Missile_State.LAUNCH)
         {
-            //RPC Stop Roate, Stop Marking
-            //RPC Stop Roate, Stop Marking
+            _previous_ms = Missile_State.SEARCH;
+            Rpc_LockOff();
+            Rpc_RotateOff();
         }
-
         //======State Initialize
         // _isCompleteRotate = false;
         _onRotateComplete = false;
@@ -128,7 +134,20 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
                 Change_Ms(Missile_State.TARGETTING);
             }
         }
+        else
+        {
+            _cur_missingTargetCount+= Time.fixedDeltaTime;
+            if(_cur_missingTargetCount >= _max_missingTargetCount)
+            {
+                Change_Ms(Missile_State.RELOAD);
+                _cur_missingTargetCount = 0;
+            }
+
+            if(_mark.gameObject.activeSelf) Rpc_LockOff();
+            Rpc_RotateOff();
+        }
     }
+    
 
     [SerializeField] float _detectRadius = 10f;
     private Collider2D[] _detectBuffer = new Collider2D[16];
@@ -173,15 +192,19 @@ private bool _rotationRequested = false;
              return;
         }
         //======Obstacle Check, Distance Check
-        // GameObject obj = NetworkClient.spawned.TryGetValue(netId, out NetworkIdentity identity) ? identity.gameObject : null;
         //======Targetting
+        uint id = _s_target.TryGetComponent(out NetworkIdentity identity)? identity.netId : 99999;
+        // _mark.LockOn(_s_target.transform);
+        Rpc_Targetting(id);
+        // Rpc_Targetting(id);
+        
         //======Targetting
 
         //======Rotate
         if(!_rotationRequested)
         {
             _rotationRequested = true;
-            float angle = CalcTargetAngle(_s_target);
+            float angle = CalcTargetDir(_s_target);
             Rpc_RotateTurret(angle);
         }
         
@@ -192,24 +215,39 @@ private bool _rotationRequested = false;
             Change_Ms(Missile_State.LAUNCH);
         }
     }
-    private float CalcTargetAngle(GameObject target)
+    private float CalcTargetDir(GameObject target)
     {
-        Vector2 dir = ((Vector2)target.transform.position - (Vector2)transform.position).normalized;
+        Vector2 dir = ((Vector2)target.transform.position - (Vector2)_turretTopTR.position).normalized;
+ 
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        float localAngle = angle - _turretTopTR.parent.eulerAngles.z;
+        localAngle = Mathf.Abs(Mathf.DeltaAngle(0, localAngle));
+        localAngle = Mathf.Clamp(localAngle, _min_rotate_z, _max_rotate_z);
 
-        Transform basis = _turretTopTR.parent;
-        Vector2 dirLocal = basis.InverseTransformDirection(dir);
-        
-        float angle = Vector2.SignedAngle(Vector2.right,dirLocal);
-        angle = Mathf.Clamp(angle, _min_rotate_z, _max_rotate_z);
-        
-        return angle;
+
+        return localAngle;
     }
 
+    [Command]
+    public void Cmd_Target_Distroyed()
+    {
+        _mark.LockOff();
+        if(_ms == Missile_State.SEARCH || _ms == Missile_State.RELOAD)return;
+        Change_Ms(Missile_State.SEARCH);
 
+    }
+    [ClientRpc]
+    private void Rpc_LockOff()
+    {
+        _mark.LockOff();
+    }
     [ClientRpc]
     private void Rpc_Targetting(uint netID)
     {
-        
+        GameObject target = NetworkClient.spawned.TryGetValue(netID,out NetworkIdentity identity) ? identity.gameObject : null;
+        if(target == null) return;
+
+        _mark.LockOn(target.transform);
     }
 
 #region Rotate
@@ -217,6 +255,7 @@ private bool _rotationRequested = false;
     private Coroutine _rotate_coroutine;
     private float _max_rotate_z = 135;
     private float _min_rotate_z = 45;
+
     [SerializeField] private float _rotate_tolerance = 5;
     // private bool _isRotate = false;
     [ClientRpc]
@@ -229,19 +268,24 @@ private bool _rotationRequested = false;
             StopCoroutine(_rotate_coroutine);
             _rotate_coroutine = null;
         }
+
+        
         float delta = Mathf.Abs(Mathf.DeltaAngle(_turretTopTR.localEulerAngles.z,angle));
+        // Debug.Log($"rot : {_turretTopTR.eulerAngles.z}, target : {angle}, delta : {delta}");
         if(delta < _rotate_tolerance)
         {
             _onRotateComplete = true;
             return;
         }
-
+        // Debug.Log($"angle : {angle}, delta : {delta}");
         _rotate_coroutine = StartCoroutine(Rotate_Co(angle));    
     }
     [SerializeField] private float _top_parts_rotate_speed=5;
     private IEnumerator Rotate_Co(float targetZ)
     {
-        // Quaternion startRot = _turretTopTR.localRotation;
+        _onPrograss = true;
+
+        Quaternion startRot = _turretTopTR.localRotation;
         Quaternion targetRot = Quaternion.Euler(0, 0, targetZ);
 
         while (Quaternion.Angle(_turretTopTR.localRotation, targetRot) > 0.1f)
@@ -250,18 +294,31 @@ private bool _rotationRequested = false;
                                                              targetRot,
                                                              _top_parts_rotate_speed * Time.deltaTime * 100);
             yield return null;
-        }
-        _turretTopTR.localRotation = targetRot;
+        }   
+        
+        _turretTopTR.localRotation = Quaternion.Euler(0,0,targetZ);
         _rotate_coroutine = null;
         
-    
         if(NetworkServer.active) Cmd_ChangeRoateComplete();
+        _onPrograss = false;
     
     }
     [Command]
     private void Cmd_ChangeRoateComplete()
     {
         _onRotateComplete = true;        
+    }
+    [ClientRpc]
+    private void Rpc_RotateOff()
+    {
+        if(_rotate_coroutine != null)
+        {
+            StopCoroutine(_rotate_coroutine);
+            _rotate_coroutine = null;
+            _onPrograss = false;
+            _onRotateComplete = false;
+            _rotationRequested = false;
+        }
     }
 
 
@@ -323,7 +380,7 @@ private bool _rotationRequested = false;
 
         if(obj.TryGetComponent(out HomingMissile missile))
         {
-            missile.SetTarget(gameObject,target.transform);
+            missile.SetTarget(this,target.transform);
         }
 
         Managers.Sound.PlaySound3D(GlobalText.MISSILE_TURRET_FIRE,transform);
@@ -338,6 +395,7 @@ private bool _rotationRequested = false;
             _onReload = true;
             _onReloadComplete = false;
             _cur_FireDelay = _max_fireDelay;
+            Rpc_LockOff();
             Rpc_Reloading();
         }
 
@@ -496,85 +554,7 @@ private bool _rotationRequested = false;
     private int _max_fireCount = 3;
     private int _cur_fireCount = 0;
     //=======
-    [Tooltip("missing Target Reload Delay")]
-    [SerializeField] private float _max_missingTargetCount = 1;
-    private float _cur_missingTargetCount = 0;
-
-    // [Server]
-    // private void UpdateTargetDetection()
-    // {
-    //     //========Reloading 중이면 return
-    //     if(_onReload) return;
-    //     //========Reloading
-
-    //     _s_target = DetectTargetInRange();
-    //     if(_s_target != null) //타겟 발견
-    //     {
-    //         _cur_missingTargetCount = 0;
-
-    //         if(ObstacleCheck(_s_target)) //타겟이 장애물에 가려지면 미싱 타겟
-    //         {
-    //             _s_target = null;
-    //             // _isFindTarget = false;
-    //             Server_MissiongTarget();
-    //             return;
-    //         }
-
-            
-    //         //================Targetting
-    //         /**
-    //             1. Marking Coroutine   
-    //                 - Marking Animation
-    //                     - RPC_Marking
-    //                 - Top Parts Rotation
-    //                     - RPC_Rotation
-    //             3. onTargetting Comp
-
-    //         **/
-    //         //================Targetting
-    //         //================Rotate
-    //         // Rpc_RotateTurret(GetTargetNetID);
-    //         if(!_isCompleteRotate) return;
-    //         //================Rotate
-
-    //         if(_cur_FireDelay <= 0)
-    //         {
-    //             _cur_FireDelay = _max_fireDelay;
-                
-    //             if(_cur_fireCount >= _max_fireCount)
-    //             {
-    //                 //=====Reloading
-    //                 Server_Reloading();
-    //                 //=====Reloading
-    //                 return;
-    //             }
-                
-    //             Server_LaunchMissile(_s_target,_cur_fireCount);
-    //             _cur_fireCount++;
-    //         }else
-    //         {
-    //             _cur_FireDelay -= Time.deltaTime;
-    //         }
-
-    //     }
-    //     else
-    //     {
-    //         _cur_missingTargetCount += Time.deltaTime;
-
-    //         if(_cur_missingTargetCount >= _max_missingTargetCount && _cur_fireCount > 0)
-    //         {
-    //             _cur_missingTargetCount = 0;
-    //             Server_Reloading();
-    //         }
-    //     }
-    // }
-   
-
-   
-
  
-   
-
     private bool ObstacleCheck(GameObject target)
     {
         Vector2 dir = ((Vector2)target.transform.position - (Vector2)_rayPosition.position).normalized;
@@ -604,7 +584,8 @@ private bool _rotationRequested = false;
     private void Reset()
     {
         _s_target = null;
-        
+        _mark.Reset();
+
         if(_rotate_coroutine != null)
         {
             StopCoroutine(_rotate_coroutine);
