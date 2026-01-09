@@ -112,12 +112,12 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
     [Server]
     private void Server_Searching()
     {
-        if(_previous_ms == Missile_State.TARGETTING || _previous_ms == Missile_State.LAUNCH)
-        {
-            _previous_ms = Missile_State.SEARCH;
-            Rpc_LockOff();
-            Rpc_RotateOff();
-        }
+        // if(_previous_ms == Missile_State.TARGETTING || _previous_ms == Missile_State.LAUNCH)
+        // {
+        //     _previous_ms = Missile_State.SEARCH;
+        //     Rpc_LockOff();
+        //     Rpc_RotateOff();
+        // }
         //======State Initialize
         // _isCompleteRotate = false;
         _onRotateComplete = false;

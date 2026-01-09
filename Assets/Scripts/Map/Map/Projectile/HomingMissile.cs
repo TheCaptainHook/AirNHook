@@ -81,15 +81,24 @@ private SpriteRenderer SR{get{_sr??= GetComponent<SpriteRenderer>(); return _sr;
             // RB.velocity = Vector2.zero;
         }
     }
+    [SerializeField] private float _shakePower =2;
     private void Homing(Transform target)
     {
         Vector2 dir = ((Vector2)target.position - RB.position).normalized;
-        float noise = Mathf.PerlinNoise(Time.time * 2f,0f) - 0.5f;
-        float cross = Vector3.Cross(transform.right,dir).z;
 
-        if(cross != 0) RB.angularVelocity =(cross * _rotateSpeed) + noise * 50f;
-        else RB.angularVelocity = 0f;
-        RB.velocity = transform.right * _moveSpeed;
+        float cross = Vector3.Cross(transform.right, dir).z;
+        float noiseRot = Mathf.PerlinNoise(Time.time * 2f, 0f) - 0.5f; // -0.5 ~ 0.5 노이즈 값
+
+        RB.angularVelocity = cross * _rotateSpeed + noiseRot * 40f;
+
+        Vector2 forward = transform.right;
+        Vector2 side = Vector2.Perpendicular(forward); //수직값
+
+        float shake = (Mathf.PerlinNoise(Time.time * 6f, 1.3f) - 0.5f) * 2f; //대칭 진동 값
+
+        RB.velocity =
+            forward * _moveSpeed +
+            side * shake * _shakePower;
     }
     //===
     #if UNITY_EDITOR
