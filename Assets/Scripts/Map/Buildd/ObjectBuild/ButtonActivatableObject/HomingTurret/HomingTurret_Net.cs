@@ -137,7 +137,7 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
         else
         {
             _cur_missingTargetCount+= Time.fixedDeltaTime;
-            if(_cur_missingTargetCount >= _max_missingTargetCount)
+            if(_cur_missingTargetCount >= _max_missingTargetCount && _cur_fireCount > 0)
             {
                 Change_Ms(Missile_State.RELOAD);
                 _cur_missingTargetCount = 0;
