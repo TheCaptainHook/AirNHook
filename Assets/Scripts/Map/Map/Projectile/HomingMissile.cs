@@ -1,7 +1,8 @@
 using System.Collections;
+using Mirror;
 using UnityEngine;
 
-public class HomingMissile : MonoBehaviour
+public class HomingMissile : NetworkBehaviour
 {
   private Rigidbody2D rb;
   public Rigidbody2D RB {get{rb??=GetComponent<Rigidbody2D>(); return rb;} }
@@ -36,30 +37,35 @@ private SpriteRenderer SR{get{_sr??= GetComponent<SpriteRenderer>(); return _sr;
 
     private void FixedUpdate()
     {
-        if(!MapEditor.Instance._onMapTransition_Complete && _resetCount == 0)
+        if(_isBoom) return;
+        if(!_onTarget) return;
+        Launch();
+    }
+
+    [ServerCallback]
+    private void Update()
+    {
+        if(_isBoom) return;
+        if(!_onTarget) return;
+        
+        if(MapEditor.Instance._onMapTransition_Complete == false && _resetCount == 0)
         {
             _resetCount = 1;
-            Reset();
-            return;    
+            Rpc_Reset();
+            return;
         }
 
-        if(_isBoom) return;
+        if(_onTarget) TargetCheckRay();
+        _curTimer += Time.fixedDeltaTime;
 
         if(_curTimer >= _maxTimer)
         {
             //=============Boom
-            Clean();
+            _curTimer = 0;
+            Rpc_Boom();
             //=============Boom
             return;
         }
-        _curTimer += Time.fixedDeltaTime;
-        Launch();
-    }
-
-    private void Update()
-    {
-        if(MapEditor.Instance._onMapTransition_Complete == false) Reset();
-        if(_onTarget) TargetCheckRay();
     }
 
 
@@ -127,7 +133,7 @@ private SpriteRenderer SR{get{_sr??= GetComponent<SpriteRenderer>(); return _sr;
                 component.TakeDamage(DamageType.Boom);
             }
             
-            Boom();
+            Rpc_Boom();
         }
     }
     [SerializeField] private float _boostPower = 50f;
@@ -145,7 +151,8 @@ private SpriteRenderer SR{get{_sr??= GetComponent<SpriteRenderer>(); return _sr;
     }
 
     private Coroutine _boom_corotuine;
-    private void Boom()
+
+    private void Rpc_Boom()
     {
         if(_boom_corotuine != null)
         {
@@ -173,10 +180,12 @@ private SpriteRenderer SR{get{_sr??= GetComponent<SpriteRenderer>(); return _sr;
         RB.velocity = Vector2.zero;
         yield return _wfs ??= new WaitForSeconds(_boom_release_delay);
         Clean();
-        Managers.Pooling.D_ReleaseToPool(gameObject);
+        // Managers.Pooling.D_ReleaseToPool(gameObject);
+        if(isServer) Managers.Pooling.N_ReleaseToPool(gameObject);
+        else gameObject.SetActive(false);
     }
-
-    private void Reset()
+    [ClientRpc]
+    private void Rpc_Reset()
     {
         StopAllCoroutines();
         RB.velocity = Vector2.zero;
@@ -187,7 +196,8 @@ private SpriteRenderer SR{get{_sr??= GetComponent<SpriteRenderer>(); return _sr;
         _main = null;
         
         Clean();
-        Managers.Pooling.D_ReleaseToPool(gameObject);
+        if(isServer) Managers.Pooling.N_ReleaseToPool(gameObject);
+        else gameObject.SetActive(false);
     }
     private void Clean()
     {

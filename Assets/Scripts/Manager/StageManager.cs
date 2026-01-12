@@ -115,16 +115,16 @@ public class StageManager
         return obj;
     }
 
-    //  [Server]
-    // public GameObject CmdBatchObject(string objName)
-    // {
-    //     if (!NetworkServer.active || !NetworkClient.isConnected) return null;
+    [Server]
+    public GameObject  Server_Batch_Projectile(string name)
+    {
+        if (!NetworkServer.active) return null;
+        //====Get Pooling
+        GameObject obj = Managers.Pooling.N_GetItme(name);
+        obj.name = name;
+        return obj;
 
-    //     var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
-    //     NetworkServer.Spawn(obj, NetworkServer.localConnection);
-
-    //     return obj;
-    // }
+    }
 
     #endregion
 

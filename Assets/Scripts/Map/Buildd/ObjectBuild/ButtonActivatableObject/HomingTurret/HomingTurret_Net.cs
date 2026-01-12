@@ -181,7 +181,9 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
 #endregion
 #region TARGETTING
 private bool _rotationRequested = false;
-
+public float _curTargettingTime = 0;
+private bool _onTargetting = false;
+[SerializeField] private float _maxTargettingTime = 2f;
     [Server]
     private void Server_Targetting()
     {
@@ -199,6 +201,13 @@ private bool _rotationRequested = false;
         // Rpc_Targetting(id);
         
         //======Targetting
+        _curTargettingTime += Time.fixedDeltaTime;
+        if(_curTargettingTime < _maxTargettingTime && !_onTargetting)
+        {
+            return;
+        }
+        // _curTargettingTime = 0;
+        _onTargetting = true;
 
         //======Rotate
         if(!_rotationRequested)
@@ -353,32 +362,46 @@ private bool _rotationRequested = false;
     private void Server_LaunchMissile(GameObject obj,int count)
     {
         if(_isLaunched[count]) return;
-        if(obj.TryGetComponent(out NetworkIdentity identity)) Rpc_LaunchMissile(identity.netId,count);        
+        if(obj.TryGetComponent(out NetworkIdentity identity))
+        {
+            GameObject missile = Managers.Stage.Server_Batch_Projectile("HomingMissile");
+            uint projectileID = GetNetworkId(missile);
+
+            Rpc_LaunchMissile(identity.netId,projectileID,count);
+        //   Rpc_LaunchMissile(identity.netId,,count);          
+        } 
+    }
+    private uint GetNetworkId(GameObject obj)
+    {
+        if(obj.TryGetComponent(out NetworkIdentity identity))
+        {
+            return identity.netId;
+        }
+        return 99999;
     }
 
-
     [ClientRpc]
-    private void Rpc_LaunchMissile(uint netId,int count)
+    private void Rpc_LaunchMissile(uint targetId,uint projectileID,int count)
     {
-        GameObject obj = NetworkClient.spawned.TryGetValue(netId, out NetworkIdentity identity) ? identity.gameObject : null;
-        if(obj == null) return;
+        GameObject obj = NetworkClient.spawned.TryGetValue(targetId, out NetworkIdentity identity) ? identity.gameObject : null;
+        GameObject projectileObj = NetworkClient.spawned.TryGetValue(projectileID, out NetworkIdentity projIdentity) ? projIdentity.gameObject : null;
+        if(projectileObj == null || obj == null) return;
         
         _target = obj;
-        LaunchMissile(_firePoints[count], _target);
+        LaunchMissile(_firePoints[count], _target,projectileObj);
         _isLaunched[count] = true;
     }
 
-    private void LaunchMissile(Transform tr, GameObject target)
+    private void LaunchMissile(Transform tr, GameObject target,GameObject projectileObj)
     {
         tr.gameObject.SetActive(false);
 
-        var obj = Managers.Pooling.D_GetItem(_missilePrefab);
-        obj.transform.position = tr.position;
-        obj.transform.rotation = _turretTopTR.rotation;
+        projectileObj.transform.position = tr.position;
+        projectileObj.transform.rotation = _turretTopTR.rotation;
 
-        obj.SetActive(true);
+        projectileObj.SetActive(true);
 
-        if(obj.TryGetComponent(out HomingMissile missile))
+        if(projectileObj.TryGetComponent(out HomingMissile missile))
         {
             missile.SetTarget(this,target.transform);
         }
@@ -437,6 +460,9 @@ private bool _rotationRequested = false;
 
         _cur_fireCount = 0;
         _cur_FireDelay = 0;
+
+        _curTargettingTime = 0;
+        _onTargetting = false;
 
         _greenLightEffect.SetActive(true);
         _yellowLightEffect.SetActive(false);
