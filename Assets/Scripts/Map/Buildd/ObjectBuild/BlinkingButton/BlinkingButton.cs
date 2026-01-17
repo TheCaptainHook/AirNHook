@@ -7,6 +7,7 @@ public class BlinkingButton : BuildObj,IInteractable
     private BlinkingButton_Net _net;
     private BlinkingButton_Net Net { get { _net ??= GetComponent<BlinkingButton_Net>(); return _net; } }
 
+
 #region Clean
     public override void Clean()
     {
@@ -22,7 +23,7 @@ public class BlinkingButton : BuildObj,IInteractable
 
     public void Interaction(Transform accessor = null)
     {
-       MapEditor.Instance.CallBlinkingBoxEvent_Blue();
+        
     }
     public bool CanInteract()
     {
