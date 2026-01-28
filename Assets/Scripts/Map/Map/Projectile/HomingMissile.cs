@@ -17,12 +17,13 @@ private SpriteRenderer SR{get{_sr??= GetComponent<SpriteRenderer>(); return _sr;
 
 [SerializeField] private GameObject _boom_effect_obj;
 [SerializeField] private GameObject _missile_effect_obj;
+[SerializeField] private ParticleSystem _missile_Fire_effect;
 
   private bool _onTarget = false;
   private bool _isBoom = false;
   private Transform _target = null;
   private HomingTurret_Net _main;
-
+    private bool _isFire = false;
     [SerializeField] private LayerMask _layer;
 
     [SerializeField] private float _maxTimer;
@@ -76,6 +77,12 @@ private SpriteRenderer SR{get{_sr??= GetComponent<SpriteRenderer>(); return _sr;
         else _onTarget = false;
         //======Target Distance Check
 
+        if(!_isFire)
+        {
+            _isFire = true;
+            _missile_Fire_effect.Play();
+        }
+
         if(_onTarget)
         {
             Homing(_target);
@@ -87,6 +94,7 @@ private SpriteRenderer SR{get{_sr??= GetComponent<SpriteRenderer>(); return _sr;
             // RB.velocity = Vector2.zero;
         }
     }
+
     [SerializeField] private float _shakePower =2;
     private void Homing(Transform target)
     {
@@ -205,6 +213,9 @@ private SpriteRenderer SR{get{_sr??= GetComponent<SpriteRenderer>(); return _sr;
         _boom_effect_obj.SetActive(false);
         _missile_effect_obj.SetActive(true);
         SR.enabled = true;
+
+        _isFire = false;
+        _missile_Fire_effect.Stop();
     }
 
 

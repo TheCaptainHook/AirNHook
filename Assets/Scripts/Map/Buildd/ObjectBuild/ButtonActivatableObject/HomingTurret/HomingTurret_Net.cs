@@ -1,6 +1,5 @@
 using System.Collections;
 using Mirror;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public enum Missile_State
@@ -26,6 +25,7 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
 
     [Header("Fire Point")]
     [SerializeField] Transform[] _firePoints;
+    [SerializeField] ParticleSystem[] _fireEffects;
     [SerializeField] bool[] _isLaunched;
     private float _minFirePositionOffset = 0.5f;
     private float _maxFirePositionOffset = 0.6f;
@@ -105,6 +105,7 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
     }
 
 #region  SEARCH
+    [Header("=========Value=========")]
     [Tooltip("missing Target Reload Delay")]
     [SerializeField] private float _max_missingTargetCount = 1;
     private float _cur_missingTargetCount = 0;
@@ -181,7 +182,8 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
 #endregion
 #region TARGETTING
 private bool _rotationRequested = false;
-public float _curTargettingTime = 0;
+
+[ReadOnly] public float _curTargettingTime = 0;
 private bool _onTargetting = false;
 [SerializeField] private float _maxTargettingTime = 2f;
     [Server]
@@ -388,7 +390,9 @@ private bool _onTargetting = false;
         if(projectileObj == null || obj == null) return;
         
         _target = obj;
+        _fireEffects[count].Play();
         LaunchMissile(_firePoints[count], _target,projectileObj);
+
         _isLaunched[count] = true;
     }
 
@@ -505,59 +509,6 @@ private bool _onTargetting = false;
 #endregion//Reload
 #endregion//Lauch
 
-#region MISSING
-    // [Server]
-    // private void Server_MissiongTarget()
-    // {
-    //     _cur_missingTargetCount += Time.deltaTime;
-
-    //     _s_target = DetectTargetInRange();
-    //     if(_s_target != null) //타겟 발견
-    //     {
-    //         if(!ObstacleCheck(_s_target))
-    //         {
-    //             Change_Ms(Missile_State.SEARCH);
-    //             return;
-    //         }
-    //     }
-        
-    //     if(_cur_missingTargetCount >= _max_missingTargetCount && _cur_fireCount > 0)
-    //     {
-    //         if(_cur_fireCount >0)
-    //         {
-    //             _cur_missingTargetCount = 0;
-    //             // Server_Reloading();
-    //             Change_Ms(Missile_State.RELOAD);
-    //         }
-    //         else
-    //         {
-                
-    //         }
-    //     }
-        
-    // }
-    // [ClientRpc]
-    // private void Rpc_MissiongTarget()
-    // {
-    //     /**
-    //     1. Tartting Stop Coroutine
-    //     2. Rotate Stop Coroutine
-
-    //     **/
-
-    //     //========================= Rotate
-    //     _isCompleteRotate = false;
-    //     if(_rotate_coroutine != null)
-    //     {
-    //         StopCoroutine(_rotate_coroutine);
-    //         _rotate_coroutine = null;
-
-    //     }
-    //     //========================= Rotate
-    // }
-#endregion
-//================================
-
     private GameObject _s_target;
     
     private uint GetTargetNetID
@@ -602,12 +553,16 @@ private bool _onTargetting = false;
         return sqrDist <= _detectRadius * _detectRadius;
     }
 
-#endregion
+    #endregion
 
 
 
-#region  Clean
-    private void Reset()
+    #region  Clean
+    public override void Clean_Value()
+    {
+        Reset();
+    }
+    public void Reset()
     {
         _s_target = null;
         _mark.Reset();
@@ -627,7 +582,7 @@ private bool _onTargetting = false;
         for(int i =0;i<_isLaunched.Length;i++)
         {
             _isLaunched[i]= false;
-            _firePoints[i].localPosition = new Vector3(_minFirePositionOffset,_firePoints[i].position.y,0);
+            _firePoints[i].localPosition = new Vector3(_minFirePositionOffset,_firePoints[i].localPosition.y,0);
         }    
 
         _cur_fireCount = 0;
@@ -636,6 +591,15 @@ private bool _onTargetting = false;
         _yellowLightEffect.SetActive(false);
         _onReload = false;
 
+        _rotationRequested = false;
+        _onRotateComplete = false;
+        _onPrograss = false;
+        _onTargetting = false;
+        _curTargettingTime = 0;
+        _ms = Missile_State.SEARCH;
+        _previous_ms = Missile_State.SEARCH;
+
+        _turretTopTR.rotation = Quaternion.Euler(0,0,0);
     }
 
 #endregion
