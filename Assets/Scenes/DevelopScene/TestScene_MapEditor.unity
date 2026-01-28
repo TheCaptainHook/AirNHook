@@ -744,6 +744,10 @@ PrefabInstance:
       propertyPath: _target
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8570412650347850234, guid: e2c8db1b0d237490085b372f54692f2c, type: 3}
+      propertyPath: sceneId
+      value: 1891544321
+      objectReference: {fileID: 0}
     - target: {fileID: 9213084836273264476, guid: e2c8db1b0d237490085b372f54692f2c, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
       value: 15

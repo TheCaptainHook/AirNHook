@@ -35,6 +35,8 @@ public class FadeInOutPanel : MonoBehaviour
     IEnumerator FadeInOut(string mapId)
     {
         MapEditor.Instance._onMapTransition_Complete = false;
+        MapEditor.Instance.EventClean();
+        
         var uiOption = Managers.UI.GetUI<UI_Option>().GetComponent<UI_Option>();
         if (NetworkServer.active) 
         {

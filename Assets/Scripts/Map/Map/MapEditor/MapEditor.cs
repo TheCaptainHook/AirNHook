@@ -179,8 +179,27 @@ public class MapEditor : MonoBehaviour
     #region ----------------------------------------Event Action
     // public event Action OnStageMove;
     // public event Action OnScreen;
+    public event Action blinkingBoxEvent_Red;
+    public event Action blinkingBoxEvent_Blue;
     #endregion
+    #region  Blinking Box 
+    public void CallBlinkingBoxEvent_Red()
+    {
+        blinkingBoxEvent_Red?.Invoke();
+    }
+    public void CallBlinkingBoxEvent_Blue()
+    {
+        blinkingBoxEvent_Blue?.Invoke();
+    }
+    public void EventClean()
+    {
+        blinkingBoxEvent_Red = null;
+        blinkingBoxEvent_Blue = null;
+    }
 
+
+
+    #endregion
     #region Map Transition Value
     // public bool _onMapTransition_Complete;
     #endregion
