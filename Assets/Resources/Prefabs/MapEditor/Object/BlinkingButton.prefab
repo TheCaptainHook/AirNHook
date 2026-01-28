@@ -734,6 +734,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  _maxCooltime: 1
 --- !u!1 &5844336292063083945
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,10 +20,15 @@ public class BlinkingBox : BuildObj
     #region  Clean  
     public override void Clean()
     {
-        _isActive = false;
-        Col.enabled = true;
-        _main.SetActive(true);
-        _dashedLine.SetActive(false);
+        switch (_boxColor)
+        {
+            case BLINKBOX_COLOR.RED:
+                Off();
+                break;
+            case BLINKBOX_COLOR.BLUE:
+                On();
+                break;
+        }
     }
 
     #endregion
@@ -39,9 +44,12 @@ public class BlinkingBox : BuildObj
         {
             case BLINKBOX_COLOR.RED:
                 MapEditor.Instance.blinkingBoxEvent_Red += BlinkOnOff;
+                Off();
+            
                 break;
             case BLINKBOX_COLOR.BLUE:
                 MapEditor.Instance.blinkingBoxEvent_Blue += BlinkOnOff;
+                On();
                 break;
         }
         //MapEditor event subscribe
@@ -56,6 +64,23 @@ public class BlinkingBox : BuildObj
         Col.enabled = _isActive;
         _main.SetActive(_isActive);
         _dashedLine.SetActive(!_isActive);
+    }
+
+
+
+    private void On()
+    {
+        _isActive = true;
+        Col.enabled = true;
+        _main.SetActive(true);
+        _dashedLine.SetActive(false);
+    }
+    private void Off()
+    {
+        _isActive = false;
+        Col.enabled = false;
+        _main.SetActive(false);
+        _dashedLine.SetActive(true);
     }
    
 }

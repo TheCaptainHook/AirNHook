@@ -11,7 +11,7 @@ public class BlinkingButton : BuildObj,IInteractable
 #region Clean
     public override void Clean()
     {
-        
+        Net.Clean();
     }
 #endregion
 
@@ -23,7 +23,7 @@ public class BlinkingButton : BuildObj,IInteractable
 
     public void Interaction(Transform accessor = null)
     {
-        
+        Net.Cmd_Active();
     }
     public bool CanInteract()
     {
