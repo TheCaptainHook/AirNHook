@@ -210,7 +210,8 @@ private bool _onTargetting = false;
         }
         // _curTargettingTime = 0;
         _onTargetting = true;
-
+        _rotationRequested = false;
+    
         //======Rotate
         if(!_rotationRequested)
         {
