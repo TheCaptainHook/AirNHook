@@ -261,6 +261,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _rigidbody.drag = 0f;
         _rigidbody.gravityScale = _gravityScale;
         _rigidbody.freezeRotation = false;
+
     }
 
     public virtual void Fixed(bool value)

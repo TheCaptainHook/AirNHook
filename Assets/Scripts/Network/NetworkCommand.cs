@@ -221,12 +221,19 @@ public class NetworkCommand : NetworkBehaviour
         if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
 
         var conn = target.GetComponent<NetworkIdentity>().connectionToClient;
-
+        //======================blinkbutton 26.02.13
         if (!item.TryGetComponent<IInhalable>(out var inhalable) || (inhalable is not null && !inhalable.CanInhale()))
         {
             InhaleItem(conn, itemNetId, false);
             return;
         }
+        //======================blinkbutton 26.02.13
+        // if (!item.TryGetComponent<IInhalable>(out var inhalable) || (inhalable is not null && !inhalable.CanInhale()))
+        // {
+        //     InhaleItem(conn, itemNetId, false);
+        //     return;
+        // }
+        //======================Before 26.02.13
 
         if (!inhalable.Inhaling(true, target))
         {
