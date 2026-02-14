@@ -64,6 +64,8 @@ Material:
     m_Floats:
     - Vector1_528915F0: 6
     - Vector1_CAECA7A5: 20
+    - _QueueControl: 0
+    - _QueueOffset: 0
     - _Smoothness: 10
     - _Thickness: 8
     - _UpScrollSpeed: 0.2

@@ -1375,7 +1375,7 @@
     "m_StageCapability": 3,
     "m_BareResource": false,
     "m_Texture": {
-        "m_SerializedTexture": "{\"texture\":{\"instanceID\":0}}",
+        "m_SerializedTexture": "",
         "m_Guid": ""
     },
     "m_DefaultType": 0
@@ -1960,8 +1960,8 @@
     "m_ObjectId": "1d15a80966a3419ea4a2965a192ab1f2",
     "m_Title": "Auto-Scroll UV Upwards",
     "m_Position": {
-        "x": -717.9999389648438,
-        "y": 2301.999755859375
+        "x": -718.0003662109375,
+        "y": 2302.0
     }
 }
 
@@ -1971,8 +1971,8 @@
     "m_ObjectId": "1ecd9603025c4d14a954b4537c83ca79",
     "m_Title": "Sample Auto-Scroll Noise Textures and Blend Them Together",
     "m_Position": {
-        "x": 309.00006103515627,
-        "y": -1386.0001220703125
+        "x": 118.9998779296875,
+        "y": 1913.0
     }
 }
 
@@ -2288,10 +2288,10 @@
     "m_ObjectId": "292efd0acf7a4fd6b98c92a5106112b1",
     "m_Datas": [],
     "m_ActiveSubTarget": {
-        "m_Id": "d8a547b9e5c54a6d944924cf44e6d68f"
+        "m_Id": "9bdd71651e714fa0a58b1412253791bb"
     },
     "m_AllowMaterialOverride": false,
-    "m_SurfaceType": 0,
+    "m_SurfaceType": 1,
     "m_ZTestMode": 4,
     "m_ZWriteControl": 0,
     "m_AlphaMode": 0,
@@ -2692,7 +2692,7 @@
     "m_ObjectId": "3a235fd7902841a0b9d3449bde24c32c",
     "m_Title": "Glow Speed",
     "m_Position": {
-        "x": -1397.0001220703125,
+        "x": -1396.999755859375,
         "y": 2121.0
     }
 }
@@ -3109,7 +3109,7 @@
     "m_StageCapability": 3,
     "m_BareResource": false,
     "m_Texture": {
-        "m_SerializedTexture": "{\"texture\":{\"instanceID\":0}}",
+        "m_SerializedTexture": "",
         "m_Guid": ""
     },
     "m_DefaultType": 0
@@ -4079,8 +4079,8 @@
     "m_ObjectId": "6d472a7b45e84d3997953c37d6908c6a",
     "m_Title": "Add Glow Noise to Tinted Sprite",
     "m_Position": {
-        "x": 2734.999755859375,
-        "y": 1420.9998779296875
+        "x": 2737.0,
+        "y": 1419.0
     }
 }
 
@@ -4321,7 +4321,7 @@
     "m_StageCapability": 3,
     "m_BareResource": false,
     "m_Texture": {
-        "m_SerializedTexture": "{\"texture\":{\"instanceID\":0}}",
+        "m_SerializedTexture": "",
         "m_Guid": ""
     },
     "m_DefaultType": 0
@@ -4536,8 +4536,8 @@
     "m_ObjectId": "83a22bb654a94f89865002085d10b38f",
     "m_Title": "Sample Sprite Texture (From Sprite Renderer)",
     "m_Position": {
-        "x": 1068.0,
-        "y": -1742.0
+        "x": 1192.0,
+        "y": 1473.9998779296875
     }
 }
 
@@ -4966,7 +4966,7 @@
     "m_ObjectId": "93061c486db04e0aad78bf35b26045ce",
     "m_Title": "Combine Glow Noise with Sampled Sprite's G Channel",
     "m_Position": {
-        "x": 1350.0003662109375,
+        "x": 1350.0,
         "y": 2169.0
     }
 }
@@ -5079,6 +5079,12 @@
         "X",
         "Y"
     ]
+}
+
+{
+    "m_SGVersion": 2,
+    "m_Type": "UnityEditor.Rendering.Universal.ShaderGraph.UniversalUnlitSubTarget",
+    "m_ObjectId": "9bdd71651e714fa0a58b1412253791bb"
 }
 
 {
@@ -5905,8 +5911,8 @@
     "m_ObjectId": "bdbee49f8a304b0585f672967f5c780b",
     "m_Title": "New Group",
     "m_Position": {
-        "x": -1215.0,
-        "y": 266.0000305175781
+        "x": -1214.999755859375,
+        "y": 265.9999694824219
     }
 }
 
@@ -6512,12 +6518,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.Rendering.Universal.ShaderGraph.UniversalSpriteUnlitSubTarget",
-    "m_ObjectId": "d8a547b9e5c54a6d944924cf44e6d68f"
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.MultiplyNode",
     "m_ObjectId": "d934bba799eb4bd29731b0fc6a8fbb07",
     "m_Group": {
@@ -6785,7 +6785,7 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": {
-        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"82365ccd7438fc949938f66756ea1406\",\"type\":3}}",
+        "m_SerializedTexture": "",
         "m_Guid": ""
     },
     "isMainTexture": false,
@@ -6817,8 +6817,8 @@
     "m_ObjectId": "e02529d2464d48219aa804f6e5bf8e50",
     "m_Title": "New Group",
     "m_Position": {
-        "x": 10.0,
-        "y": 10.0
+        "x": 2354.0,
+        "y": 1308.9998779296875
     }
 }
 
@@ -7562,8 +7562,8 @@
     "m_ObjectId": "fc29bc3054074394b1905a15486d6c25",
     "m_Title": "Auto-Scroll UV Downwards",
     "m_Position": {
-        "x": -378.00006103515627,
-        "y": -1471.0
+        "x": -568.0003051757813,
+        "y": 1828.0
     }
 }
 
