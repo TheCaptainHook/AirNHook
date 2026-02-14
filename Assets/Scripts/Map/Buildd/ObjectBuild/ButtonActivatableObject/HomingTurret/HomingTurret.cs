@@ -22,8 +22,4 @@ public class HomingTurret : ActivatableObjectEntity
         Net.Server_ChangeOnActive(false);
     }
 
-    public override void Clean()
-    {
-        base.Clean();
-    }
 }
