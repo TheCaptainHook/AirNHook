@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mark: {fileID: 8101592020498944005}
-  _main: {fileID: 6422562226474248345}
+  _main: {fileID: 0}
   _sub: {fileID: 1206150901673295056}
   _offset: {x: 0, y: 0.5}
   _main_minScale: 0.8
@@ -10360,7 +10360,7 @@ SortingGroup:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3227932219690051067}
-  m_Enabled: 0
+  m_Enabled: 1
   m_SortingLayerID: -688237417
   m_SortingLayer: 5
   m_SortingOrder: 5
@@ -16532,11 +16532,6 @@ PrefabInstance:
 --- !u!4 &1206150901673295056 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6818747625937979677, guid: 5b320a14a2146cf43b3b8ca5e3c8436e, type: 3}
-  m_PrefabInstance: {fileID: 5628396777449371085}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &6422562226474248345 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1674656666072931668, guid: 5b320a14a2146cf43b3b8ca5e3c8436e, type: 3}
   m_PrefabInstance: {fileID: 5628396777449371085}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &8101592020498944005 stripped
