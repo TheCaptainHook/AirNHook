@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.InputSystem;
 using System.Diagnostics; // 
-
+using Debug = UnityEngine.Debug;
 public class NewAirGun
 {
     private AirSM _air;
@@ -207,7 +207,7 @@ public class NewAirGun
 
         if (_delay)
         {
-            if (_delayTimer < 0.1f)
+            if (_delayTimer <.1f)
             {
                 StopInhale();
                 _isIhaleTargetOwned = false;
@@ -411,10 +411,11 @@ public class NewAirGun
 
     private void Inhaling()
     {
-        if (!_canControl || !_canAction) return;
+        if (!_canControl || !_canAction)  return;
+
 
         if (!_inhaling || _isAttached) return;
-
+    Debug.Log("33");
         if (Managers.Game.OtherPlayer != null && ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject))
         {
             if (_inhalingPlayer) return;

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HomingTurret_LockonMark : MonoBehaviour
 {
+    [SerializeField] private HomingTurret_Net _net;
     [SerializeField] private Transform _mark;
     [SerializeField] private Transform _main;
     [SerializeField] private Transform _sub;
@@ -21,14 +22,40 @@ public class HomingTurret_LockonMark : MonoBehaviour
     {
         if(_target != null && _mark.gameObject.activeSelf)
         {
-            TargetAnimation();
+            //TargetAnimation();
         }
     }
     AudioSourceController _audioSourceController;
+
+
+    private readonly int _lockOnHash = Animator.StringToHash("LockedOn");
+    private Animator ani;
+    private Animator Ani {get {ani ??= _mark.GetComponent<Animator>(); return ani; } }
     public void LockOn(Transform target)
     {
+        // if(_target == target) return;
+        // _target = target;
+        // if(!_mark.gameObject.activeSelf) _mark.gameObject.SetActive(true);
+
+        // if(_targetting_Coroutine != null)
+        // {
+        //     StopCoroutine(_targetting_Coroutine);
+        //     _targetting_Coroutine = null;
+        // }
+        // if(_audioSourceController != null)
+        // {
+        //     Managers.Sound.StopSound(_audioSourceController);
+        //     _audioSourceController = null;
+        // }
+
+        // _audioSourceController = Managers.Sound.PlaySound3D(GlobalText.MISSILE_LOCK_ALERT,target.position,1f,true);
+        // _targetting_Coroutine = StartCoroutine(Targetting());
+
+        if(_net.Get_Cur_fireCount != 0) return;
+        
         if(_target == target) return;
         _target = target;
+
         if(!_mark.gameObject.activeSelf) _mark.gameObject.SetActive(true);
 
         if(_targetting_Coroutine != null)
@@ -36,14 +63,10 @@ public class HomingTurret_LockonMark : MonoBehaviour
             StopCoroutine(_targetting_Coroutine);
             _targetting_Coroutine = null;
         }
-        if(_audioSourceController != null)
-        {
-            Managers.Sound.StopSound(_audioSourceController);
-            _audioSourceController = null;
-        }
 
-        _audioSourceController = Managers.Sound.PlaySound3D(GlobalText.MISSILE_LOCK_ALERT,target.position,1f,true);
+        
         _targetting_Coroutine = StartCoroutine(Targetting());
+        Ani.SetTrigger(_lockOnHash);
     }
 
     public void LockOff()
@@ -55,14 +78,43 @@ public class HomingTurret_LockonMark : MonoBehaviour
             _targetting_Coroutine = null;
         }
         _mark.gameObject.SetActive(false);
+        
         Managers.Sound.StopSound(_audioSourceController);
         _audioSourceController = null;
+
+
+        foreach (var p in Ani.parameters)
+        {
+            if (p.type == AnimatorControllerParameterType.Trigger)
+            Ani.ResetTrigger(p.nameHash);
+        }
+                //animation Reset
+        Ani.Rebind();
+        Ani.Update(0f); // 즉시 반영
     }
     public void Reset()
     {
         StopAllCoroutines();
         _targetting_Coroutine = null;
         _target = null;
+
+        if(_audioSourceController != null)
+        {
+            Managers.Sound.StopSound(_audioSourceController);
+            _audioSourceController = null;
+        }
+
+        foreach (var p in Ani.parameters)
+        {
+            if (p.type == AnimatorControllerParameterType.Trigger)
+            Ani.ResetTrigger(p.nameHash);
+        }
+                //animation Reset
+        Ani.Rebind();
+        Ani.Update(0f); // 즉시 반영
+
+        _mark.gameObject.SetActive(false);
+
     }
 
     private Coroutine _targetting_Coroutine;

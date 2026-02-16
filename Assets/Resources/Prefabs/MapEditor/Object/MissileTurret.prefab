@@ -131,8 +131,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b70f8e8fb4a84060b2090d7125bb4df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _net: {fileID: 8923303024234489906}
   _mark: {fileID: 8101592020498944005}
-  _main: {fileID: 0}
+  _main: {fileID: 2293862198366217006}
   _sub: {fileID: 1206150901673295056}
   _offset: {x: 0, y: 0.5}
   _main_minScale: 0.8
@@ -10235,7 +10236,6 @@ GameObject:
   - component: {fileID: 1416254538327619251}
   - component: {fileID: 1483742717128950042}
   - component: {fileID: 8611386600391597754}
-  - component: {fileID: 763823665871053021}
   - component: {fileID: 1015910245842493652}
   - component: {fileID: 8923303024234489906}
   m_Layer: 14
@@ -10353,18 +10353,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.0201957, y: 1.1722667}
   m_EdgeRadius: 0
---- !u!210 &763823665871053021
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3227932219690051067}
-  m_Enabled: 1
-  m_SortingLayerID: -688237417
-  m_SortingLayer: 5
-  m_SortingOrder: 5
-  m_SortAtRoot: 0
 --- !u!114 &1015910245842493652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10474,7 +10462,7 @@ MonoBehaviour:
   _max_missingTargetCount: 1
   _detectRadius: 10
   _curTargettingTime: 0
-  _maxTargettingTime: 0.5
+  _maxTargettingTime: 2
   _rotate_tolerance: 30
   _top_parts_rotate_speed: 5
   _isFindTarget: 0
@@ -16445,9 +16433,25 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 976353417938814074, guid: 5b320a14a2146cf43b3b8ca5e3c8436e, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2531068986968136596, guid: 5b320a14a2146cf43b3b8ca5e3c8436e, type: 3}
+      propertyPath: m_SortingLayer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2531068986968136596, guid: 5b320a14a2146cf43b3b8ca5e3c8436e, type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2531068986968136596, guid: 5b320a14a2146cf43b3b8ca5e3c8436e, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 909207883
       objectReference: {fileID: 0}
     - target: {fileID: 2997275747458113779, guid: 5b320a14a2146cf43b3b8ca5e3c8436e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829333239780802267, guid: 5b320a14a2146cf43b3b8ca5e3c8436e, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -16523,8 +16527,19 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 909207883
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 976353417938814074, guid: 5b320a14a2146cf43b3b8ca5e3c8436e, type: 3}
+    - target: {fileID: 8973586152697684067, guid: 5b320a14a2146cf43b3b8ca5e3c8436e, type: 3}
+      propertyPath: m_SortingLayer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8973586152697684067, guid: 5b320a14a2146cf43b3b8ca5e3c8436e, type: 3}
+      propertyPath: m_SortingOrder
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8973586152697684067, guid: 5b320a14a2146cf43b3b8ca5e3c8436e, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -688237417
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -16532,6 +16547,11 @@ PrefabInstance:
 --- !u!4 &1206150901673295056 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6818747625937979677, guid: 5b320a14a2146cf43b3b8ca5e3c8436e, type: 3}
+  m_PrefabInstance: {fileID: 5628396777449371085}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2293862198366217006 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5893376313930159843, guid: 5b320a14a2146cf43b3b8ca5e3c8436e, type: 3}
   m_PrefabInstance: {fileID: 5628396777449371085}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &8101592020498944005 stripped

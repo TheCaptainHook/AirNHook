@@ -208,6 +208,10 @@ private bool _onTargetting = false;
         {
             return;
         }
+        //=====Marking
+        
+        //=====Marking
+
         // _curTargettingTime = 0;
         _onTargetting = true;
         _rotationRequested = false;
@@ -532,7 +536,9 @@ private bool _onTargetting = false;
     private int _max_fireCount = 3;
     private int _cur_fireCount = 0;
     //=======
- 
+    public int Get_Max_fireCount => _max_fireCount; //Mark
+    public int Get_Cur_fireCount => _cur_fireCount; //Mark
+
     private bool ObstacleCheck(GameObject target)
     {
         Vector2 dir = ((Vector2)target.transform.position - (Vector2)_rayPosition.position).normalized;
