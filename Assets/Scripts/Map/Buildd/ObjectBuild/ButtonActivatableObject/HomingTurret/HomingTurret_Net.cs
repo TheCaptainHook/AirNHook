@@ -113,16 +113,13 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
     [Server]
     private void Server_Searching()
     {
-        // if(_previous_ms == Missile_State.TARGETTING || _previous_ms == Missile_State.LAUNCH)
-        // {
-        //     _previous_ms = Missile_State.SEARCH;
-        //     Rpc_LockOff();
-        //     Rpc_RotateOff();
-        // }
+        if(_previous_ms == Missile_State.TARGETTING || _previous_ms == Missile_State.LAUNCH)
+        {
+            _previous_ms = Missile_State.SEARCH;
+            _curTargettingTime = 0;
+        }
         //======State Initialize
-        // _isCompleteRotate = false;
         _onRotateComplete = false;
-        // _isRotate = false;
         //======State Initialize
 
          _s_target = DetectTargetInRange();
@@ -196,23 +193,18 @@ private bool _onTargetting = false;
              return;
         }
         //======Obstacle Check, Distance Check
+       
         //======Targetting
         uint id = _s_target.TryGetComponent(out NetworkIdentity identity)? identity.netId : 99999;
-        // _mark.LockOn(_s_target.transform);
         Rpc_Targetting(id);
-        // Rpc_Targetting(id);
-        
         //======Targetting
+       
         _curTargettingTime += Time.fixedDeltaTime;
         if(_curTargettingTime < _maxTargettingTime && !_onTargetting)
         {
             return;
         }
-        //=====Marking
-        
-        //=====Marking
 
-        // _curTargettingTime = 0;
         _onTargetting = true;
         _rotationRequested = false;
     

@@ -136,11 +136,6 @@ MonoBehaviour:
   _main: {fileID: 2293862198366217006}
   _sub: {fileID: 1206150901673295056}
   _offset: {x: 0, y: 0.5}
-  _main_minScale: 0.8
-  _main_maxScale: 1.5
-  _sub_minScale: 0.8
-  _sub_maxScale: 1.6
-  _animation_speed: 2
 --- !u!1 &1825504034363791010
 GameObject:
   m_ObjectHideFlags: 0
@@ -10462,7 +10457,7 @@ MonoBehaviour:
   _max_missingTargetCount: 1
   _detectRadius: 10
   _curTargettingTime: 0
-  _maxTargettingTime: 2
+  _maxTargettingTime: 1
   _rotate_tolerance: 30
   _top_parts_rotate_speed: 5
   _isFindTarget: 0
