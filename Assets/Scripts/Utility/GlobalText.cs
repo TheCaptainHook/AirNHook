@@ -134,6 +134,19 @@ public static class GlobalText
         };
     #endregion
 
+    #region Drop Sound
+    // 사운드 이름 설정 필요
+    public const string BOX_DROP_SOUND = "Splat";
+    public const string NORMAL_DROP_SOUND = "Splat";
+
+    public static readonly IReadOnlyDictionary<ObjectDropSoundEnum, string> DropSoundDictionary =
+    new Dictionary<ObjectDropSoundEnum, string>
+    {
+            { ObjectDropSoundEnum.Box, BOX_DROP_SOUND },
+            { ObjectDropSoundEnum.etc, NORMAL_DROP_SOUND },
+    };
+    #endregion
+
     #region BGM
     public const string TITLE_SOUND = "Danya Vodovoz - High NRG (mp3cut.net)";
     public const string LOBBY_SOUND = "LobbyMusic_Onion";

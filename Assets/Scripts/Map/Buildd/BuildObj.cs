@@ -322,9 +322,18 @@ public class BuildObj : MousePointerEntity, IDamageable, IPooling
     //todo 0427
 
     //todo 0427
+    [field: SerializeField] private LayerMask _floorLayerMask;
+    public ObjectDropSoundEnum objectDropSound;
+    protected void OnCollisionEnter2D(Collision2D collision)
+    {
+        if ((_floorLayerMask.value & (1 << collision.gameObject.layer)) == 0) return;
 
+        if (objectDropSound == ObjectDropSoundEnum.None) return;
 
+        if (!GlobalText.DropSoundDictionary.TryGetValue(objectDropSound, out var sound)) return;
 
+        Managers.Sound.PlaySound3D(sound, transform.position);
+    }
 
     #region Destructible Obj Dissolve Effect Logic
     [ReadOnly]
