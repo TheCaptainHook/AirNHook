@@ -43,11 +43,13 @@ public class HomingTurret_LockonMark : MonoBehaviour
         if(_targetting_Coroutine != null)
         {
             StopCoroutine(_targetting_Coroutine);
+            // _audioSourceController = _audioSourceController != null ? Managers.Sound.StopSound(_audioSourceController) : null;
             _targetting_Coroutine = null;
         }
 
         
         _targetting_Coroutine = StartCoroutine(Targetting());
+        
         Ani.SetTrigger(_lockOnHash);
     }
 
@@ -112,10 +114,14 @@ public class HomingTurret_LockonMark : MonoBehaviour
     private Coroutine _targetting_Coroutine;
     private IEnumerator Targetting()
     {
+        _audioSourceController = Managers.Sound.PlaySound3D(GlobalText.MISSILE_LOCK_ALERT,_target.position);
+
         if(!_mark.gameObject.activeSelf) _mark.gameObject.SetActive(true);
         while(_target != null)
         {
             transform.position = _target.position + (Vector3)_offset;
+            _audioSourceController.gameObject.transform.position = _target.position;
+
             yield return null;
         }
     }
