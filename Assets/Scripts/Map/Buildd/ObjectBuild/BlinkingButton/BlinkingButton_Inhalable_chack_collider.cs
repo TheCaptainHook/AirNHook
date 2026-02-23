@@ -1,10 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Diagnostics; // 
-
-using Debug = UnityEngine.Debug;
-using Unity.VisualScripting;
 
 public class BlinkingButton_Inhalable_chack_collider : MonoBehaviour,IInhalable
 {
@@ -23,12 +19,10 @@ public class BlinkingButton_Inhalable_chack_collider : MonoBehaviour,IInhalable
         
         if (dot > _deadZone)
         {
-            Debug.Log("right");
             return 1;
         }
         else if(dot<-_deadZone)
         {
-            Debug.Log("Left");
             return -1;
         }
         else
@@ -72,7 +66,7 @@ public class BlinkingButton_Inhalable_chack_collider : MonoBehaviour,IInhalable
 
     public void Fixed(bool value)
     {
-        
+        return;
     }
 
     public bool Inhaling(bool value, GameObject player)

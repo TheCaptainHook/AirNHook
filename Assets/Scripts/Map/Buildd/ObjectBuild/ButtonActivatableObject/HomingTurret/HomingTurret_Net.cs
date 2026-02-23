@@ -20,7 +20,7 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
     [SerializeField] LayerMask _obstacleLayer;
     [Header("Parts")]
     [SerializeField] Transform _turretTopTR;
-    // private Vector2 TopRight => _turretTopTR.right;
+
     [SerializeField] HomingTurret_LockonMark _mark;
 
     [Header("Fire Point")]
@@ -35,11 +35,8 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
     [SerializeField] private GameObject _missilePrefab;
 
     [Header("Launch")]
-    // private bool _isCompleteRotate = false; //server
     private bool _onReload = false; //server
     
-    // private WaitForSeconds _maxLaunchDelayWFS;
-
     [Header("Effect")]
     [SerializeField] private GameObject _greenLightEffect;
     [SerializeField] private GameObject _yellowLightEffect;
@@ -67,9 +64,6 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
     void FixedUpdate()
     {
         if(!_onReady) return;
-        // if(_onLunch) return;
-
-        //UpdateTargetDetection();
         Server_Run_FSM();
     }
 
@@ -128,7 +122,7 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
             if(!ObstacleCheck(_s_target)) //타겟이 장애물에 가려지면 미싱 타겟
             {
                 _cur_missingTargetCount = 0;
-                // _s_target = null;
+                
                 Change_Ms(Missile_State.TARGETTING);
                 return;
             }
@@ -280,13 +274,13 @@ private bool _onTargetting = false;
 
         
         float delta = Mathf.Abs(Mathf.DeltaAngle(_turretTopTR.localEulerAngles.z,angle));
-        // Debug.Log($"rot : {_turretTopTR.eulerAngles.z}, target : {angle}, delta : {delta}");
+        
         if(delta < _rotate_tolerance)
         {
             _onRotateComplete = true;
             return;
         }
-        // Debug.Log($"angle : {angle}, delta : {delta}");
+        
         _rotate_coroutine = StartCoroutine(Rotate_Co(angle));    
     }
     [SerializeField] private float _top_parts_rotate_speed=5;
@@ -368,7 +362,7 @@ private bool _onTargetting = false;
             uint projectileID = GetNetworkId(missile);
 
             Rpc_LaunchMissile(identity.netId,projectileID,count);
-        //   Rpc_LaunchMissile(identity.netId,,count);          
+        
         } 
     }
     private uint GetNetworkId(GameObject obj)
@@ -468,10 +462,9 @@ private bool _onTargetting = false;
 
         _greenLightEffect.SetActive(true);
         _yellowLightEffect.SetActive(false);
-        // _onReload = false;
-        // _onReloadComplete = true;
+        
         if(NetworkServer.active) Cmd_ReloadComplete();
-        // if(NetworkServer.active) Change_Ms(Missile_State.SEARCH);
+        
     }
     [Command]
     private void Cmd_ReloadComplete()
@@ -480,10 +473,8 @@ private bool _onTargetting = false;
     }
     private IEnumerator Reload(Transform point,int index)
     {
-        //==1. 생성
         point.localPosition = new Vector3(0,point.localPosition.y, 0);
         point.gameObject.SetActive(true);
-        //==1
 
         float percent = 0;
         while(percent < 1f)
