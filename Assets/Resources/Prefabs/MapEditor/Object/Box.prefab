@@ -500,6 +500,10 @@ MonoBehaviour:
   _Dissolve_MainSprites:
   - {fileID: 4684687439439529792}
   _dissolveMaterials: []
+  _floorLayerMask:
+    serializedVersion: 2
+    m_Bits: 1049536
+  objectDropSound: 1
   canRespawn: 0
 --- !u!114 &-5810413876586093780
 MonoBehaviour:
