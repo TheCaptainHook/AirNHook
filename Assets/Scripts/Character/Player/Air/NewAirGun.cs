@@ -380,14 +380,12 @@ public class NewAirGun
 
         if (ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject)) return;
 
-        //26.02.11 Blinkingbutton
-        NetworkIdentity identity = _inhaleTarget.transform.root.TryGetComponent(out NetworkIdentity networkIdentity) ? networkIdentity : _inhaleTarget.TryGetComponent(out NetworkIdentity networkIdentity2) ? networkIdentity2 : null;
+        // NetworkIdentity identity = _inhaleTarget.transform.root.TryGetComponent(out NetworkIdentity networkIdentity) ? networkIdentity : _inhaleTarget.TryGetComponent(out NetworkIdentity networkIdentity2) ? networkIdentity2 : null;
+        NetworkIdentity identity = _inhaleTarget.TryGetComponent(out NetworkIdentity component) ? component : null;
+        
         if(identity == null) return;
         
         Managers.Command.TryInhaleItem(_air.gameObject, identity.netId);
-        //26.02.11 Blinkingbutton
-
-        // Managers.Command.TryInhaleItem(_air.gameObject, _inhaleTarget.GetComponent<NetworkIdentity>().netId);
     }
 
     private void GetPermissionForInhaling(GameObject permissionObject, bool value)
@@ -415,7 +413,7 @@ public class NewAirGun
 
 
         if (!_inhaling || _isAttached) return;
-    Debug.Log("33");
+
         if (Managers.Game.OtherPlayer != null && ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject))
         {
             if (_inhalingPlayer) return;
@@ -429,20 +427,7 @@ public class NewAirGun
 
         if (!_isIhaleTargetOwned)
         {
-            //26.02.11 Blinkingbutton after
-            // NetworkIdentity identity = _inhaleTarget.transform.root.TryGetComponent(out NetworkIdentity networkIdentity) ? networkIdentity : _inhaleTarget.TryGetComponent(out NetworkIdentity networkIdentity2) ? networkIdentity2 : null;
-            // if(identity == null) return;
-
-            // if(!identity.isOwned)
-            // {
-            //     _isIhaleTargetOwned = false;
-            //     return;
-            // }
-            // _isIhaleTargetOwned = true;
-            // _inhaleTarget.GetComponent<IInhalable>().Inhalation(_weaponPoint);
-            //26.02.11 Blinkingbutton after
-
-        //Before    
+        
             if (!_inhaleTarget.GetComponent<NetworkIdentity>().isOwned)
             {
                 _isIhaleTargetOwned = false;
@@ -451,7 +436,7 @@ public class NewAirGun
 
             _isIhaleTargetOwned = true;
             _inhaleTarget.GetComponent<IInhalable>().Inhalation(_weaponPoint);
-        //Before
+        
         }
 
         if (!_inhaleTarget.TryGetComponent<IInhalable>(out var inhalable)) return;
@@ -513,6 +498,9 @@ public class NewAirGun
 
     private void FixInhaleTarget()
     {
+        //260223 BlinkingButton
+        if(_inhaleTarget.TryGetComponent(out Rigidbody2D component)) if(component.isKinematic) return;
+        //260223 BlinkingButton
         if (!_inhaling) return;
 
         if (!_inhaleTarget.GetComponent<NetworkIdentity>().isOwned) return;

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
+using Org.BouncyCastle.Ocsp;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -18,8 +19,7 @@ public class BlinkingButton_Net : NetworkBehaviour
     [SerializeField] private float _maxCooltime;
     private float _curCooltime = 0f;
 
-    private bool _server_bool = true;
-    //_on : true = Red, false = Blue
+    private bool _server_bool = true; // server activation permission flag
 
     [ServerCallback]
     private void Update()
@@ -34,27 +34,56 @@ public class BlinkingButton_Net : NetworkBehaviour
                 
         }
     }
+    private void Active()
+    {
+        Animator.SetBool(On, _onOff);
+        MapEditor.Instance.CallBlinkingBoxEvent_Red();
+        MapEditor.Instance.CallBlinkingBoxEvent_Blue();
+    }
 
+    #region  Air
+    [Command(requiresAuthority = false)]
+    public void Cmd_Air_Active(bool rL)
+    {
+        if(!_server_bool) return;
+   
+        _curCooltime = _maxCooltime;
+        _server_bool = false;
+        Rpc_Air_Active(rL);
+    }
+    /// <summary>
+    /// rL == true : Right -> Change Red
+    /// rL == false : Left -> Change Blue
+    /// </summary>
+    /// <param name="rL"></param>
+    [ClientRpc]
+    public void Rpc_Air_Active(bool rL)
+    {
+        if(rL == _onOff) return;
+
+        _onOff = !_onOff;
+        Active();
+    }
+    #endregion
+    #region Hook
+    [Command(requiresAuthority = false)]
     public void Cmd_Active()
     {
-        if(_server_bool)
-        {
-            _curCooltime = _maxCooltime;
-            _server_bool = false;
-            Rpc_Active();
-        }
+       if(!_server_bool)return;
+
+        _curCooltime = _maxCooltime;
+        _server_bool = false;
+        Rpc_Active();
+        
     }
     
     [ClientRpc]
     private void Rpc_Active()
     {
         _onOff = !_onOff; // true = Red, false = Blue
-        Animator.SetBool(On, _onOff);
-
-        MapEditor.Instance.CallBlinkingBoxEvent_Red();
-        MapEditor.Instance.CallBlinkingBoxEvent_Blue();
+        Active();
     }
-
+    #endregion
 
     public void Clean()
     {

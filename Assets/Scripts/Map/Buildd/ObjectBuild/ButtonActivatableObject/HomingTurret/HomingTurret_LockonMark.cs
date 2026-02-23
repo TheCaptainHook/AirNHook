@@ -49,7 +49,6 @@ public class HomingTurret_LockonMark : MonoBehaviour
 
         
         _targetting_Coroutine = StartCoroutine(Targetting());
-        
         Ani.SetTrigger(_lockOnHash);
     }
 

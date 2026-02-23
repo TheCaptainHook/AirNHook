@@ -125,25 +125,24 @@ public class HomingTurret_Net : ActivatableObject_Net_Entity
          _s_target = DetectTargetInRange();
         if(_s_target != null) //타겟 발견
         {
-            _cur_missingTargetCount = 0;
             if(!ObstacleCheck(_s_target)) //타겟이 장애물에 가려지면 미싱 타겟
             {
+                _cur_missingTargetCount = 0;
                 // _s_target = null;
                 Change_Ms(Missile_State.TARGETTING);
+                return;
             }
         }
-        else
-        {
-            _cur_missingTargetCount+= Time.fixedDeltaTime;
-            if(_cur_missingTargetCount >= _max_missingTargetCount && _cur_fireCount > 0)
-            {
-                Change_Ms(Missile_State.RELOAD);
-                _cur_missingTargetCount = 0;
-            }
 
-            if(_mark.gameObject.activeSelf) Rpc_LockOff();
-            Rpc_RotateOff();
+        _cur_missingTargetCount+= Time.fixedDeltaTime;
+        if(_cur_missingTargetCount >= _max_missingTargetCount && _cur_fireCount > 0)
+        {
+            Change_Ms(Missile_State.RELOAD);
+            _cur_missingTargetCount = 0;
         }
+
+        if(_mark.gameObject.activeSelf) Rpc_LockOff();
+        Rpc_RotateOff();
     }
     
 
@@ -190,6 +189,8 @@ private bool _onTargetting = false;
         if(_s_target == null || !DistanceCheck(_s_target) || ObstacleCheck(_s_target))
         {
              Change_Ms(Missile_State.SEARCH);
+             _onTargetting = false;
+             _curTargettingTime = 0;
              return;
         }
         //======Obstacle Check, Distance Check

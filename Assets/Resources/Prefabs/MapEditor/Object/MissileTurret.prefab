@@ -10457,7 +10457,7 @@ MonoBehaviour:
   _max_missingTargetCount: 1
   _detectRadius: 10
   _curTargettingTime: 0
-  _maxTargettingTime: 1
+  _maxTargettingTime: 2
   _rotate_tolerance: 30
   _top_parts_rotate_speed: 5
   _isFindTarget: 0
@@ -16508,7 +16508,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7789507498871912505, guid: 5b320a14a2146cf43b3b8ca5e3c8436e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8478801732636553239, guid: 5b320a14a2146cf43b3b8ca5e3c8436e, type: 3}
       propertyPath: m_SortingLayer
