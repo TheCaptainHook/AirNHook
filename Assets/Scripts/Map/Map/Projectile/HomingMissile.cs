@@ -35,7 +35,7 @@ private SpriteRenderer SR{get{_sr??= GetComponent<SpriteRenderer>(); return _sr;
     /// </summary>
     private int _resetCount = 0;
 
-
+    [ServerCallback]
     private void FixedUpdate()
     {
         if(_isBoom) return;
