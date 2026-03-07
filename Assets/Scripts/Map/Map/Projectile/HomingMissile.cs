@@ -41,6 +41,18 @@ private SpriteRenderer SR{get{_sr??= GetComponent<SpriteRenderer>(); return _sr;
         if(_isBoom) return;
         if(!_onTarget) return;
         Launch();
+
+         if(_onTarget) TargetCheckRay();
+        _curTimer += Time.fixedDeltaTime;
+
+        if(_curTimer >= _maxTimer)
+        {
+            //=============Boom
+            _curTimer = 0;
+            Rpc_Boom();
+            //=============Boom
+            return;
+        }
     }
 
     [ServerCallback]
@@ -56,17 +68,17 @@ private SpriteRenderer SR{get{_sr??= GetComponent<SpriteRenderer>(); return _sr;
             return;
         }
 
-        if(_onTarget) TargetCheckRay();
-        _curTimer += Time.fixedDeltaTime;
+        // if(_onTarget) TargetCheckRay();
+        // _curTimer += Time.deltaTime;
 
-        if(_curTimer >= _maxTimer)
-        {
-            //=============Boom
-            _curTimer = 0;
-            Rpc_Boom();
-            //=============Boom
-            return;
-        }
+        // if(_curTimer >= _maxTimer)
+        // {
+        //     //=============Boom
+        //     _curTimer = 0;
+        //     Rpc_Boom();
+        //     //=============Boom
+        //     return;
+        // }
     }
 
 
@@ -95,7 +107,7 @@ private SpriteRenderer SR{get{_sr??= GetComponent<SpriteRenderer>(); return _sr;
         }
     }
 
-    [SerializeField] private float _shakePower =2;
+    [SerializeField] private float _shakePower =1;
     private void Homing(Transform target)
     {
         Vector2 dir = ((Vector2)target.position - RB.position).normalized;
