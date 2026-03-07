@@ -129,19 +129,31 @@ private SpriteRenderer SR{get{_sr??= GetComponent<SpriteRenderer>(); return _sr;
     #endif
 
     //===
-    private void TargetCheckRay()
+    private void TargetCheckRay() //only Server
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, 0.35f, _layer);
         if(hit.collider != null && hit.collider.gameObject != _main.gameObject)
         {
-            if(hit.collider.TryGetComponent(out IDamageable component))
+            if(hit.collider.TryGetComponent(out NetworkIdentity component))
             {
-                //마킹 제거
-                _main.Cmd_Target_Distroyed();
-                component.TakeDamage(DamageType.Boom);
+                Rpc_Target_Distroyed(component.netId);
             }
             
             Rpc_Boom();
+        }
+    }
+
+    [ClientRpc]
+    private void Rpc_Target_Distroyed(uint netId)
+    {
+        _main.Cmd_Target_Distroyed();
+        NetworkIdentity target = NetworkClient.spawned.TryGetValue(netId, out NetworkIdentity identity) ? identity : null;
+        if(target != null)
+        {
+            if(target.TryGetComponent(out IDamageable component))
+            {
+                component.TakeDamage(DamageType.Boom);
+            }
         }
     }
     [SerializeField] private float _boostPower = 50f;
@@ -160,6 +172,7 @@ private SpriteRenderer SR{get{_sr??= GetComponent<SpriteRenderer>(); return _sr;
 
     private Coroutine _boom_corotuine;
 
+    [ClientRpc]
     private void Rpc_Boom()
     {
         if(_boom_corotuine != null)

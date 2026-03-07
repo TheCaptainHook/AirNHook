@@ -409,8 +409,8 @@ public class NewAirGun
 
     private void Inhaling()
     {
-        if (!_canControl || !_canAction)  return;
 
+        if (!_canControl || !_canAction)  return;
 
         if (!_inhaling || _isAttached) return;
 

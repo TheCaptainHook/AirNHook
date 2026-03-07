@@ -38,6 +38,8 @@ public class BlinkingButton_Inhalable_chack_collider : MonoBehaviour,IInhalable
    #region IInhalable
     public void Inhalation(Transform accessor)
     {
+        Debug.Log("Start InHal,Blink");
+        
         if(Dot_Check(accessor) == 1)
         {
             Net.Cmd_Air_Active(true);
