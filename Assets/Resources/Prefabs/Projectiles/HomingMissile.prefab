@@ -4936,6 +4936,7 @@ GameObject:
   - component: {fileID: 5126727504519287473}
   - component: {fileID: 8570412650347850234}
   - component: {fileID: 5073918800664214856}
+  - component: {fileID: 8577102185294255568}
   m_Layer: 0
   m_Name: HomingMissile
   m_TagString: Untagged
@@ -5155,6 +5156,41 @@ MonoBehaviour:
   syncAngularVelocity: 1
   clearAngularVelocity: 1
   angularVelocitySensitivity: 0.1
+--- !u!114 &8577102185294255568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3193858208009277608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 1252856815114507665}
+  syncPosition: 0
+  syncRotation: 1
+  syncScale: 0
+  onlySyncOnChange: 1
+  compressRotation: 1
+  interpolatePosition: 0
+  interpolateRotation: 1
+  interpolateScale: 0
+  coordinateSpace: 0
+  sendIntervalMultiplier: 1
+  timelineOffset: 0
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  bufferResetMultiplier: 3
+  changedDetection: 1
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
 --- !u!1 &4714784312907193946
 GameObject:
   m_ObjectHideFlags: 0
