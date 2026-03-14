@@ -37,7 +37,7 @@ public class LightObject_Net : NetworkBehaviour
         {
             if (hasPower == 0)
             {
-                Entity.LightOnOff(false);
+                // Entity.LightOnOff(false);
              } 
         }
 
@@ -102,11 +102,13 @@ public class LightObject_Net : NetworkBehaviour
         if(newVal>0)
         {
             // Entity.PowerOn();
-            Entity.LightOnOff(true);
+            // Entity.LightOnOff(true);
+            Debug.Log("Light PowerOn");
         }
         else
         {
-            Entity.LightOnOff(false);
+            // Entity.LightOnOff(false);
+            Debug.Log("Light PowerOff");
         }
     }
 

@@ -667,10 +667,10 @@ public class MapEditor_Editor : Editor
             Create_Tile();
 
             //Shadow Setting
-            Create_Shadow();
+            // Create_Shadow();
 
             //Light Setting
-            SetGlobalLight(map.globalLightStruct);
+            // SetGlobalLight(map.globalLightStruct);
 
             Create_Object();
 
@@ -1038,9 +1038,9 @@ public class MapEditor_Editor : Editor
                 GetCompressedTileData(mapEditor.placeMentSystem.hiddentTIleMap),
                 GetCompressedTileData(mapEditor.placeMentSystem.specialTileMap),
                 //Shadow
-                GetShadowData(),
+                // GetShadowData(),
                 //Light
-                GetGlobalLightStruct(),
+                // GetGlobalLightStruct(),
                 //object
                 GetList<ObjectData>(mapEditor.objectTransform),
                 GetList<ObjectData>(mapEditor.backgroundObjectContainer),
@@ -1072,18 +1072,18 @@ public class MapEditor_Editor : Editor
 }
 //------------------------------------------------------------------------------------------------------250107 Shadow
 //------------------------------------------------------------------------------------------------------250112 Light
-private LightStruct GetGlobalLightStruct()
-{
-    Light2D target = mapEditor.GlobalLight;
-    return new LightStruct(
-        target.lightType,
-        target.color,
-        target.intensity,
-        (int[])sortingLayerField.GetValue(target),
-        target.blendStyleIndex,
-        target.lightOrder,
-        target.overlapOperation);
-}
+// private LightStruct GetGlobalLightStruct()
+// {
+//     Light2D target = mapEditor.GlobalLight;
+//     return new LightStruct(
+//         target.lightType,
+//         target.color,
+//         target.intensity,
+//         (int[])sortingLayerField.GetValue(target),
+//         target.blendStyleIndex,
+//         target.lightOrder,
+//         target.overlapOperation);
+// }
 //------------------------------------------------------------------------------------------------------250112 Light
 
 List<TileData> GetTileData(Tilemap tileMap)
@@ -1406,42 +1406,42 @@ List<TileData> GetTileData(Tilemap tileMap)
         
         return null;
     }
-    private void SetGlobalLight(LightStruct? data)
-    {
-        if(data == null)
-        {
-            mapEditor.GlobalLight.lightType = Light2D.LightType.Global;
-            mapEditor.GlobalLight.color = Color.white;
-            mapEditor.GlobalLight.intensity = 1;
-            sortingLayerField.SetValue(mapEditor.GlobalLight, new int[] { 0 });
-            mapEditor.GlobalLight.blendStyleIndex = 0;
-            mapEditor.GlobalLight.lightOrder = 0;
-            mapEditor.GlobalLight.overlapOperation = 0;
-            return;
-        }
+    // private void SetGlobalLight(LightStruct? data)
+    // {
+    //     if(data == null)
+    //     {
+    //         mapEditor.GlobalLight.lightType = Light2D.LightType.Global;
+    //         mapEditor.GlobalLight.color = Color.white;
+    //         mapEditor.GlobalLight.intensity = 1;
+    //         sortingLayerField.SetValue(mapEditor.GlobalLight, new int[] { 0 });
+    //         mapEditor.GlobalLight.blendStyleIndex = 0;
+    //         mapEditor.GlobalLight.lightOrder = 0;
+    //         mapEditor.GlobalLight.overlapOperation = 0;
+    //         return;
+    //     }
 
-        var lightData = data.Value;
+    //     var lightData = data.Value;
 
-        if(lightData.type == default)
-        {
-            mapEditor.GlobalLight.lightType = Light2D.LightType.Global;
-            mapEditor.GlobalLight.color = Color.white;
-            mapEditor.GlobalLight.intensity = 1;
-            sortingLayerField.SetValue(mapEditor.GlobalLight, new int[] { 0 });
-            mapEditor.GlobalLight.blendStyleIndex = 0;
-            mapEditor.GlobalLight.lightOrder = 0;
-            mapEditor.GlobalLight.overlapOperation = 0;
-            return;
-        }
+    //     if(lightData.type == default)
+    //     {
+    //         mapEditor.GlobalLight.lightType = Light2D.LightType.Global;
+    //         mapEditor.GlobalLight.color = Color.white;
+    //         mapEditor.GlobalLight.intensity = 1;
+    //         sortingLayerField.SetValue(mapEditor.GlobalLight, new int[] { 0 });
+    //         mapEditor.GlobalLight.blendStyleIndex = 0;
+    //         mapEditor.GlobalLight.lightOrder = 0;
+    //         mapEditor.GlobalLight.overlapOperation = 0;
+    //         return;
+    //     }
 
-        mapEditor.GlobalLight.lightType = lightData.type;
-        mapEditor.GlobalLight.color = lightData.color;
-        mapEditor.GlobalLight.intensity = lightData.intensity;
-        sortingLayerField.SetValue(mapEditor.GlobalLight, lightData.targetSorting);
-        mapEditor.GlobalLight.blendStyleIndex = lightData.blendStyleIndex;
-        mapEditor.GlobalLight.lightOrder = lightData.lightOrder;
-        mapEditor.GlobalLight.overlapOperation = lightData.overlapOeration;
-    }
+    //     mapEditor.GlobalLight.lightType = lightData.type;
+    //     mapEditor.GlobalLight.color = lightData.color;
+    //     mapEditor.GlobalLight.intensity = lightData.intensity;
+    //     sortingLayerField.SetValue(mapEditor.GlobalLight, lightData.targetSorting);
+    //     mapEditor.GlobalLight.blendStyleIndex = lightData.blendStyleIndex;
+    //     mapEditor.GlobalLight.lightOrder = lightData.lightOrder;
+    //     mapEditor.GlobalLight.overlapOperation = lightData.overlapOeration;
+    // }
 
     #endregion
 

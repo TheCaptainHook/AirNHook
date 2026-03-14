@@ -74,7 +74,7 @@ public class Map
         //Shadow 250109
         //List<ShadowCasterStruct> shadowCasterStructs,
         //Light 250112
-        LightStruct globalLightStruct,
+        // LightStruct globalLightStruct,
         //object
         List<ObjectData> objectList,
         List<ObjectData> backgroundObjectList,
@@ -103,7 +103,7 @@ public class Map
         //shadow
         //this.mapShadowCasterDataList = shadowCasterStructs;
         //Light
-        this.globalLightStruct = globalLightStruct;
+        // this.globalLightStruct = globalLightStruct;
         //object
         mapObjectDataList = objectList;
         mapBackgroundObjectList = backgroundObjectList;
