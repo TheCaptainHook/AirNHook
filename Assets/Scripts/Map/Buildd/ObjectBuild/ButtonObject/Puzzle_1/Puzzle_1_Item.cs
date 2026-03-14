@@ -1,20 +1,20 @@
 
 using System.Collections;
+using Mirror;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(InteractableObject_Puzzle_1_Item))]
-public class Puzzle_1_Item : BuildObj,IDamageable
+public class Puzzle_1_Item : BuildObj,IDamageable,IRemoveSocketEffect
 {
 
     [Header("Puzzle")]
-    public int socketNumber; //1,2,3
-
+    public int socketNumber; 
     public bool possibleInsertSocket;
 
     #region Components
-    private Rigidbody2D rb;
+    // private Rigidbody2D rb;
     private Collider2D col;
 
     private InteractableObject_Puzzle_1_Item Net_Item => GetComponent<InteractableObject_Puzzle_1_Item>();
@@ -25,40 +25,22 @@ public class Puzzle_1_Item : BuildObj,IDamageable
     //private bool Parts => Net_Item.parts ? true : false;
     #endregion
 
-    private void Awake(){
-        rb = GetComponent<Rigidbody2D>();
-        DissolveInitSetting();
-    }
-
     #region Socket
-    //public void InsertSocket(){
-    // if(Parts){
-    //      if(Net_Item.parts.TryGetComponent(out Puzzle_1_Parts component))
-    //         {
-    //             component.InsertSocket(gameObject);
-    //         }
-
-    // }
-    //}
-    //public void RemoveSocket(bool onEffect = false)
-    //{
-
-    //    Net_Item.Cmd_SetOnInsert(false);
-
-    //}
-
-    //public void Net_HandleSetParts(Puzzle_1_Parts parts){
-    //    if(parts == null){
-    //        Net_Item.HandleSetParts(null);
-    //    }else
-    //    Net_Item.HandleSetParts(parts.gameObject);
-    //}
     public Puzzle_1_Parts parts;
     public void ContectParts(Puzzle_1_Parts parts)
     {
         this.parts = parts;
     }
 
+    public override void Clean()
+    {
+        DissolveClean();
+    }
+    public void Set_Item()
+    {
+        canRespawn = true;
+        DissolveInitSetting();
+    }
 
     #endregion
 
@@ -66,45 +48,26 @@ public class Puzzle_1_Item : BuildObj,IDamageable
     private float forceStrength = 7f;
     private float forceDefault = 3f;
     private float horizontalVariation = 1f;
-    public void RemoveSocketEffect(bool Power = false)
+
+
+    public void RemoveSocketEffect(bool power = false)
     {
         float xForce = Random.Range(-horizontalVariation, horizontalVariation);
-        if (Power)
+        if (power)
         {
-            rb.AddForce(new Vector2(xForce, forceStrength), ForceMode2D.Impulse);
+            _rb.AddForce(new Vector2(xForce, forceStrength), ForceMode2D.Impulse);
         }
         else
         {
-            rb.AddForce(new Vector2(xForce, forceDefault), ForceMode2D.Impulse);
+            _rb.AddForce(new Vector2(xForce, forceDefault), ForceMode2D.Impulse);
         }
 
-       
     }
     #endregion
 
-
-
-    //public override void TakeDamage(DamageType damageType = DamageType.Default)
-    //{
-    //    //StartCoroutine(DestroyCo());
-    //    Respawn();
-    //}
-
-
-    IEnumerator DestroyCo()
-    {
-        Net_Item.Destroyed();
-
-        yield return new WaitForSeconds(0.5f);
-        transform.position = Net_Item.orgPosition;
-        Net_Item.Respawned();
-    }
-
     public void Server_SetOrgPosition(Vector3 pos) //Server
     {
-
         position = pos;
-        //Net_Item.Server_SetOrgPositon(pos);
     }
 
 }

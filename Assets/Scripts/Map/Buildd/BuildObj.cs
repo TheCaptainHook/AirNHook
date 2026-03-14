@@ -4,6 +4,8 @@ using System;
 using UnityEngine.EventSystems;
 using UnityEngine.Animations;
 using Mirror;
+using System.Linq;
+
 
 public enum DistructionStatus
 {
@@ -14,7 +16,7 @@ public enum DistructionStatus
 
 
 [System.Serializable]
-public class BuildObj : MousePointerEntity, IDamageable,IPooling
+public class BuildObj : MousePointerEntity, IDamageable, IPooling
 {
     [CustomHeader("BuildObj")]
     public int id;
@@ -59,20 +61,43 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     [ReadOnly]
     public bool turnOff;
     #endregion
-    
-    
-    private ObjectData _objectData;
-    public ObjectData ObjectData{
-         get{ 
-                return _objectData;
-            } 
-         set{
-                _objectData = value; 
-                id = _objectData.id; 
-                position = value.position;
-            } 
-    }
 
+
+    private ObjectData _objectData;
+    public ObjectData ObjectData
+    {
+        get
+        {
+            return _objectData;
+        }
+        set
+        {
+            _objectData = value;
+            id = _objectData.id;
+            position = value.position;
+        }
+
+    }
+    private Rigidbody2D Rb;
+    public Rigidbody2D _rb
+    {
+        get
+        {
+            if (Rb == null) Rb = GetComponent<Rigidbody2D>();
+            return Rb;
+        }
+    }
+    private Collider2D _collider;
+    public Collider2D Col
+    {
+        get
+        {
+            if (_collider == null) _collider = GetComponent<Collider2D>();
+            return _collider;
+
+        }
+
+    }
 
     [Header("Only use Editor mode")]
     [HideInInspector] public bool setPosition; // When created and placed set this parameter
@@ -81,27 +106,15 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
 
     #region  Dissolve Effect
     [Header("Dissolve Effect")]
+    // [SerializeField] SpriteRenderer _Dissolve_MainSprite;
     [SerializeField] SpriteRenderer[] _Dissolve_MainSprites;
     //private static readonly int DissolveAmount = Shader.PropertyToID("_DissolveAmount");
-    [HideInInspector]
-    public Material[] _dissolveMaterial;
+
+    //------------Dissolve Modify 0804
+    // protected Material _dissolveMaterial;
+    public Material[] _dissolveMaterials;
     // public Material DissolveMaterial => _dissolveMaterial;
-    private Rigidbody2D Rb;
-    public Rigidbody2D _rb
-    {
-        get{
-            if(Rb == null) Rb = GetComponent<Rigidbody2D>();
-            return Rb;
-        }
-    }
-    private Collider2D Collider;
-    public Collider2D _collider{
-        get{
-            if(Collider == null) Collider = GetComponent<Collider2D>();
-            return Collider;
-        }
-    }
-    //float dissolveRate = 0.015f;
+    //------------Dissolve Modify 0804
 
     //public event Action<Vector2> OnDissolveAction;
     public event Action OnDissolveAction;
@@ -113,7 +126,12 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
 
 
 
+    #region Audio
+    protected virtual void StartSound()
+    {
 
+    }
+    #endregion
 
     public void CallOnInterableObjectRelease()
     {
@@ -128,20 +146,22 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         transform.position = data.position;
         transform.rotation = data.quaternion;
         transform.localScale = data.scale;
+
+        StartSound();
     }
-  
-    public virtual T GetData<T>()  
+
+    public virtual T GetData<T>()
     {
-        if(typeof(T)==typeof(ObjectData))
+        if (typeof(T) == typeof(ObjectData))
         {
-            return (T)(object)new ObjectData(id, ConvertPosition(), transform.rotation, transform.localScale,chargeRequired);
+            return (T)(object)new ObjectData(id, ConvertPosition(), transform.rotation, transform.localScale);
         }
 
-       return default(T);
+        return default(T);
     }
-    public virtual void SetData<T>(T data)  
+    public virtual void SetData<T>(T data)
     {
-        if(typeof(T) == typeof(ObjectData)){
+        if (typeof(T) == typeof(ObjectData)) {
             ObjectData objData = (ObjectData)(object)data;
             SetData(objData);
         }
@@ -158,7 +178,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         );
         return rounded;
     }
-#region Transport Item 
+    #region Transport Item 
     public void SettingTransportItem(GameObject carrierObj) //Only Server
     {
         if (_rb == null)
@@ -176,31 +196,41 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     public void Connection_TransportItem()//Only Server
     {
         ParentConstraint constraint = gameObject.TryGetComponent(out ParentConstraint component) ? component : gameObject.AddComponent<ParentConstraint>();
-        SetParentConstraint(constraint,carrierTransform);
+        SetParentConstraint(constraint, carrierTransform);
 
         GetComponent<ITransportItem>().TransportItem_Constraint(carrierTransformNetId);
+        
     }
+    
     public void DropTransportItem()//Only Server
     {
-        if(!NetworkServer.active) return;
+        if (!NetworkServer.active) return;
 
-        if(TryGetComponent(out ParentConstraint constraint))
+        if (TryGetComponent(out ParentConstraint constraint))
         {
             //Destroy(constraint);
-            if(constraint.sourceCount >0)
-            constraint.RemoveSource(0);
+            // if (constraint.sourceCount > 0)
+            //     constraint.RemoveSource(0); 
+            ParentConstranintClean(constraint);
         }
 
         GetComponent<ITransportItem>().TransportItem_DropItem();
     }
-    private void SetParentConstraint(ParentConstraint constraint,Transform parent)//Only Server
+    private void ParentConstranintClean(ParentConstraint constraint)
+    {
+        for(int i = constraint.sourceCount -1; i >=0; i--)
+        {
+            constraint.RemoveSource(i);
+        }
+    }
+    private void SetParentConstraint(ParentConstraint constraint, Transform parent)//Only Server
     {
         constraint.weight = 1;
         transform.position = parent.position;
         ConstraintSource source = new ConstraintSource
         {
             sourceTransform = parent,
-            weight = 1.0f 
+            weight = 1.0f
         };
 
         constraint.AddSource(source);
@@ -218,13 +248,15 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         constraint.locked = true; // 소스가 변경되지 않도록 잠금
 
     }
-#endregion
+    #endregion
 
-   public virtual void TakeDamage(DamageType damageType = DamageType.Default)
-   {
-        if(distructionStatus == DistructionStatus.Destructible)
+    public virtual void TakeDamage(DamageType damageType = DamageType.Default)
+    {
+        if (damageType == DamageType.Destruction) return;
+
+        if (distructionStatus == DistructionStatus.Destructible)
         {
-            if(Managers.Game.CurrentState != GameState.Editor)
+            if (Managers.Game.CurrentState != GameState.Editor)
             {
                 OnInteractableObjectRelease?.Invoke();
             }
@@ -233,11 +265,11 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
             OnDisableAction?.Invoke();
         }
 
-        if(distructionStatus == DistructionStatus.PermanentDestruction)
+        if (distructionStatus == DistructionStatus.PermanentDestruction)
         {
             Destroy(gameObject);
         }
-   }
+    }
 
 
     public virtual void TurnOff()
@@ -245,7 +277,7 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         if (setPosition)
         {
             transform.position = orgPosition;
-            
+
         }
 
     }
@@ -274,38 +306,57 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
     public override void OnPointerClick(PointerEventData data)
     {
         if (!MapEditor.Instance) return;
-        if(MapEditor.Instance.mapEditorState == MapEditorState.Object)
+        if (MapEditor.Instance.mapEditorState == MapEditorState.Object)
         {
-            if(MapEditor.Instance.placeMentSystem.CurbuildObject != data.pointerCurrentRaycast.gameObject)
+            if (MapEditor.Instance.placeMentSystem.CurbuildObject != data.pointerCurrentRaycast.gameObject)
             {
                 if (data.pointerCurrentRaycast.gameObject.GetComponent<BuildObj>())
                 {
                     Debug.Log("BUildObj");
                     MapEditor.Instance.placeMentSystem.CurbuildObject = data.pointerCurrentRaycast.gameObject;
                 }
-                
+
             }
         }
     }
     //todo 0427
 
     //todo 0427
+    [field: Header("Object Drop Sound")]
+    [field: SerializeField] private LayerMask _floorLayerMask;
+    public ObjectDropSoundEnum objectDropSound;
+    public float soundVolume = 1f;
+    public int soundDistance = 10;
 
+    protected void OnCollisionEnter2D(Collision2D collision)
+    {
+        if ((_floorLayerMask.value & (1 << collision.gameObject.layer)) == 0) return;
 
+        if (objectDropSound == ObjectDropSoundEnum.None) return;
 
+        if (!GlobalText.DropSoundDictionary.TryGetValue(objectDropSound, out var sound)) return;
+
+        Managers.Sound.PlaySound3D(sound, transform.position, soundVolume, false, soundDistance, true);
+    }
 
     #region Destructible Obj Dissolve Effect Logic
+    [ReadOnly]
     public bool canRespawn;
-    protected void DissolveInitSetting()
+    public void DissolveInitSetting()
     { //all Client
-      // _dissolveMaterial = _Dissolve_MainSprite.material;
-        _dissolveMaterial = new Material[_Dissolve_MainSprites.Length];
+      //------------Dissolve Modify 0804
+        _dissolveMaterials = new Material[_Dissolve_MainSprites.Length];
         for (int i = 0; i < _Dissolve_MainSprites.Length; i++)
         {
-            _dissolveMaterial[i] = _Dissolve_MainSprites[i].material;
+            _dissolveMaterials[i] = _Dissolve_MainSprites[i].material;
         }
+        //------------Dissolve Modify 0804
+
         _IsDissolveObject = true;
-        OnDissolveAction += Respawn;
+        AddDissolveAction(Respawn);
+
+        // OnDissolveAction += Respawn;
+
 
         if (TryGetComponent(out InteractableObject component))
         {
@@ -316,8 +367,37 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         canRespawn = true;
 
         if (NetworkServer.active) //Server
-            MapEditor.Instance.event_reset += Respawn;
+            // MapEditor.Instance.event_reset += Respawn;
+            MapEditor.Instance.AddEvent_Reset(Respawn);
+    }
+    public void AddDissolveAction(Action action)
+    {
+        if(OnDissolveAction == null || !OnDissolveAction.GetInvocationList().Contains(action))
+        {
+            OnDissolveAction += action;
+        }
+    }
+    public void RemoveDissolveAction(Action action)
+    {
+        if(OnDissolveAction != null && OnDissolveAction.GetInvocationList().Contains(action))
+        {
+            OnDissolveAction -= action;
+        }
+    }
+    public void DissolveClean()
+    {
+        _IsDissolveObject = false;
+        // OnDissolveAction -= Respawn;
+        RemoveDissolveAction(Respawn);
 
+        if (TryGetComponent(out InteractableObject component))
+        {
+            OnInteractableObjectRelease -= component.Destroyed;
+        }
+
+        if (NetworkServer.active) //Server
+            // MapEditor.Instance.event_reset -= Respawn;
+            MapEditor.Instance.Remove_Event_Reset(Respawn);
     }
 
     public event Action respawnEvent;
@@ -328,31 +408,31 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
 
         respawnEvent?.Invoke(); //Only Server
 
-        if (TryGetComponent(out TransportItemEntity component))
+        if(TryGetComponent(out InteractableObject obj))
         {
-            component.Cmd_Dissolve(); //Only Server
+            obj.Server_Dissolve();   
         }
 
-    }
-   
+        // if (TryGetComponent(out TransportItemEntity component))
+        // {
+        //     // component.Server_Dissolve(); //Only Server
+        //     canRespawn = false;
+        // }
 
-    public bool GetDissolveObject(){
-        if(_IsDissolveObject){
-            return true;
-        }
-         return false;
+        // if(TryGetComponent(out Puzzle_1_Item item))
+        // {
+        //     // item.Server_Dissolve();
+            
+        // }
+
     }
-    
+
+
     #endregion
 
     #region  Editor
-        // public virtual void Editor_Setting(Transform transform){}
-        public virtual void Editor_Setting(MapEditor mapEditor){}
-
-
-
-
-
+    // public virtual void Editor_Setting(Transform transform){}
+    public virtual void Editor_Setting(MapEditor mapEditor) { }
 
     public void SetOrgPosition()
     {
@@ -382,6 +462,12 @@ public class BuildObj : MousePointerEntity, IDamageable,IPooling
         Managers.Pooling.N_ReleaseToPool(gameObject);
     }
 
-
-
+#region  Clean
+    public virtual void Clean()
+    {
+        
+    }
+    
+#endregion
 }   
+

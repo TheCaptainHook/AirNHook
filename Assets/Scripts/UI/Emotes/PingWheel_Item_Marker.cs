@@ -1,21 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+
 using UnityEngine;
 
 public class PingWheel_Item_Marker : MonoBehaviour
 {
-
-    private PlayerCameraView playerCameraView;
-    private PlayerCameraView PCV
-    {
-        get
-        {
-            playerCameraView ??= Camera.main.GetComponent<PlayerCameraView>();
-            return playerCameraView;
-        }
-    }
-
     [ReadOnly]
     public Vector2 pingPosition;
     public void Setting_PingPosition(Vector2 pot)
@@ -24,7 +11,8 @@ public class PingWheel_Item_Marker : MonoBehaviour
         onPing = true;
     }
 
-  
+    [SerializeField] GameObject _arrowGo; 
+
     private bool onPing;
     void Update()
     {
@@ -38,18 +26,20 @@ public class PingWheel_Item_Marker : MonoBehaviour
     {
         if (Check_ViewPort(pingPosition))
         {
+            if (_arrowGo.activeSelf) _arrowGo.SetActive(false);
             transform.position = pingPosition;
-            if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
-            fadeCoroutine = StartCoroutine(FadeScale(true));
+
+            if (transform.localScale.sqrMagnitude <= maxScale.sqrMagnitude)
+            {
+                transform.localScale = Vector3.Lerp(transform.localScale, maxScale, Time.deltaTime * 2);
+            }
+            else transform.localScale = maxScale;
         }
         else
         {
             SetPingItem();
-            if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
-            fadeCoroutine = StartCoroutine(FadeScale(false));
         }
     }
-
 
     private void SetPingItem()
     {
@@ -58,38 +48,20 @@ public class PingWheel_Item_Marker : MonoBehaviour
         var worldPos = Camera.main.ViewportToWorldPoint(edgeViewportPosition);
 
         transform.position = new Vector3(worldPos.x, worldPos.y, 0);
+
+        if (transform.localScale.sqrMagnitude >= minScale.sqrMagnitude)
+        {
+            transform.localScale = Vector3.Lerp(transform.localScale, minScale, Time.deltaTime * 2);
+        }
+        else transform.localScale = minScale;
+
         // TargetRotation(pingPosition);
+        TargetRotationArrow(pingPosition);
+        if (!_arrowGo.activeSelf) _arrowGo.SetActive(true);
     }
     private Vector3 maxScale = Vector3.one;
-    private Vector3 minScale = new Vector3(.75f,.75f,.75f);
-    private Coroutine fadeCoroutine;
-    private float duration = 0.5f;
-    
-    IEnumerator FadeScale(bool inOut)
-    {
-        Vector3 target = inOut ? maxScale : minScale;
-
-        if (transform.localScale == target)
-        {
-            fadeCoroutine = null;
-            yield break;
-        }
-
-        float elapsed = 0;
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / duration);
-            transform.localScale = Vector3.Lerp(transform.localScale, target, t);
-            yield return null;
-        }
-        transform.localScale = target;
-        fadeCoroutine = null;
-
-    }
-
+    private Vector3 minScale = new Vector3(.65f,.65f,.65f);
    
-
     #region  Util
     private bool Check_ViewPort(Vector2 pot)
     {
@@ -113,24 +85,13 @@ public class PingWheel_Item_Marker : MonoBehaviour
         return edgeViewportPosition;
     }
 
-    private void TargetRotation(Vector3 target)
+    private void TargetRotationArrow(Vector3 target)
     {
-        Vector3 dir = transform.position - Managers.Game.Player.transform.position;
-
-        float targetAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        Quaternion targetRotation = Quaternion.Euler(0, 0, targetAngle);
-
-        transform.rotation = targetRotation;
+        var dir = (target - Managers.Game.Player.transform.position).normalized;
+        var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        _arrowGo.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
     }
     
-    float _MaxScale = 1;
-    float _MinScale = 0.5f;
-    private void TargetScale()
-    {
-        float t = PCV.GetZoomRatio();
-        float scaleRatio = Mathf.Lerp(_MinScale, _MaxScale, t);
-        transform.localScale = new Vector3(scaleRatio, scaleRatio, scaleRatio);
-    }
     #endregion
 
     

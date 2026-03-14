@@ -46,7 +46,7 @@ public class UI_Ping : MonoBehaviour
 
     protected void Start()
     {
-        wait = new WaitForSeconds(1.5f);
+        wait = new WaitForSeconds(.5f);
         curPingCriteria = PingCriteria.Black;
     }
 
@@ -79,7 +79,7 @@ public class UI_Ping : MonoBehaviour
         while (true)
         {
             Ping ping = new Ping("8.8.8.8");
-            float timeout = 2f;
+            float timeout = 1f;
             float startTime = Time.time;
 
             while (!ping.isDone && (Time.time - startTime < timeout))
@@ -115,7 +115,7 @@ public class UI_Ping : MonoBehaviour
                 
             }
 
-            yield return wait;
+            yield return null;
         }
     }
     #endregion
@@ -144,7 +144,7 @@ public class UI_Ping : MonoBehaviour
                 this.ping = ping;
             }
             //------UI
-            yield return wait;
+            yield return null;
         }
     }
 

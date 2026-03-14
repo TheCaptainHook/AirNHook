@@ -72,16 +72,16 @@ public class CrumblingBox : BuildObj
         Reset();
     }
 
-    public override void TurnOff()
-    {
-        base.TurnOff();
-        hitBox.SetActive(false);
-    }
-    public override void TurnOn()
-    {
-        base.TurnOn();
-        hitBox.SetActive(true);
-    }
+    //public override void TurnOff()
+    //{
+    //    base.TurnOff();
+    //    hitBox.SetActive(false);
+    //}
+    //public override void TurnOn()
+    //{
+    //    base.TurnOn();
+    //    hitBox.SetActive(true);
+    //}
     public override void Reset()
     {
         curCrumblingAmount = maxCrumblingAmount;
@@ -92,7 +92,12 @@ public class CrumblingBox : BuildObj
         hitBox.SetActive(true);
         spriteRenderer.enabled = true;
         shadowCaster2D.enabled = true;
-        
+
         animator.SetTrigger(animationId[curCrumblingAmount]);
+    }
+    public override void Clean()
+    {
+        Net.onSync = false;
+        Reset();
     }
 }

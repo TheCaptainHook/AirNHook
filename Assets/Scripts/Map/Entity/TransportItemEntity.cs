@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Mirror;
+using Steamworks;
 using UnityEngine;
 
 [RequireComponent(typeof(EncapsulationField))]
@@ -8,21 +9,43 @@ public class TransportItemEntity : InteractableObject, ITransportItem
 {
     #region Transport Item
     protected Collider2D Col => GetComponent<Collider2D>();
-    protected Rigidbody2D Rb => GetComponent<Rigidbody2D>();
-    protected BuildObj BuildObj => GetComponent<BuildObj>();
+    protected Rigidbody2D rb;
+    public Rigidbody2D Rb     
+    {
+        get
+        {
+            if (rb == null) rb = GetComponent<Rigidbody2D>();
+            return rb;
+        }
+    }
+    
+    private BuildObj _buildObj;
+    // protected BuildObj BuildObj => GetComponent<BuildObj>();
+    protected BuildObj BuildObj { get { _buildObj ??= GetComponent<BuildObj>(); return _buildObj; } }
     public void TransportItem_Constraint(uint netId) //Server
     {
-        StartCoroutine(AllClientReadyChecker_Co(() =>
-        {
-            Rpc_Constraint(netId, SyncDirection.ServerToClient);
-        }));
-
+        StartCoroutine(AllClientReadyChecker_Co(
+            () => Rpc_InitSync(default,Vector2.zero,true),
+            () => Rpc_Constraint(netId, SyncDirection.ServerToClient)
+        ));
     }
+
+
     public void TransportItem_DropItem()
     {
         Rpc_DropItem();
     }
-
+    public override void ShowEButton()
+    {
+        if(!MapEditor.Instance._onMapTransition_Complete)
+        {
+            HideEButton();
+        }
+        else
+        {
+            base.ShowEButton();    
+        }
+    }
     private void Transport_Drop()
     {
         Rb.gravityScale = _gravityScale;
@@ -40,6 +63,7 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     [ClientRpc]
     public void Rpc_DropItem()
     {
+        BuildObj.canRespawn = true;
         ChangeSyncDirection(SyncDirection.ClientToServer);
         Transport_Drop();
     }
@@ -77,7 +101,7 @@ public class TransportItemEntity : InteractableObject, ITransportItem
 
     }
 
-    IEnumerator AllClientReadyChecker_Co(Action action)
+    IEnumerator AllClientReadyChecker_Co(params Action[] actions)
     {
         while (true)
         {
@@ -92,7 +116,15 @@ public class TransportItemEntity : InteractableObject, ITransportItem
 
             yield return null;
         }
-        action?.Invoke();
+
+        if(actions != null)
+        {
+            foreach (var action in actions)
+            {
+                action?.Invoke();
+            }
+        }
+        // action?.Invoke();
 
     }
     #endregion
@@ -124,13 +156,13 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     #region ---------------------------------------------Init Sync
     public bool onSync;
 
-    [Command(requiresAuthority = false)]
-    private void Cmd_OnChangeCanRespawn()
-    {
-        Rpc_OnChangeCanRespawn();
-    }
+    // [Command(requiresAuthority = false)]
+    // private void Cmd_OnChangeCanRespawn()
+    // {
+    //     Rpc_OnChangeCanRespawn();
+    // }
     [ClientRpc]
-    private void Rpc_OnChangeCanRespawn()
+    public void Rpc_OnChangeCanRespawn()
     {
         BuildObj.canRespawn = !BuildObj.canRespawn;
     }
@@ -140,7 +172,6 @@ public class TransportItemEntity : InteractableObject, ITransportItem
         StartCoroutine(AllClientCheckCo(() =>
         {
             Rpc_InitSync(BuildObj.ObjectData, transform.position, BuildObj.isTransportItem);
-
             Rb.AddForce(Vector2.up, ForceMode2D.Force);
         }));
 
@@ -165,32 +196,26 @@ public class TransportItemEntity : InteractableObject, ITransportItem
         action?.Invoke();
 
     }
-    // [ClientRpc]
-    // private void Rpc_Capsuling(Vector2 startPot)
-    // {
-    //     StartCoroutine(DelayCapsuling(startPot));
-    // }
-    // private IEnumerator DelayCapsuling(Vector2 startPot)
-    // {
-    //     yield return new WaitForFixedUpdate();
-    //     EncapsulationField.Capsuling(startPot);
-    // }
+
     public ObjectData data;
 
     [ClientRpc]
     private void Rpc_InitSync(ObjectData data, Vector2 position, bool isTransportItem)
     {
         if (onSync) return;
+
         BuildObj.ObjectData = data;
         transform.position = position;
         transform.rotation = data.quaternion;
         this.data = data;
 
-
+        BuildObj.DissolveInitSetting();
+        
         if (isTransportItem)
         {
             defaultGravity = Rb.gravityScale;
             Col.enabled = false;
+            BuildObj.canRespawn = false;
         }
         //0603 EnCapsulationField
         if (data.onEncapsulationItem)
@@ -229,15 +254,15 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     {
         Col.enabled = true;
         Rb.gravityScale = _gravityScale;
-
+        
         BuildObj.canRespawn = true;
         if (NetworkServer.active)
             CmdChnageDestroyState(false);
     }
-    public void CmdChangeDestroyState_False()
-    {
-        CmdChnageDestroyState(false);
-    }
+    // public void CmdChangeDestroyState_False()
+    // {
+    //     CmdChnageDestroyState(false);
+    // }
     #endregion
 
     #region  Indicator
@@ -250,11 +275,46 @@ public class TransportItemEntity : InteractableObject, ITransportItem
     }
 
     [ClientRpc]
-    public virtual void Rpc_ApplyActive_Sync_var2(int inc,uint id)
+    public virtual void Rpc_ApplyActive_Sync_var2(int inc, uint id)
     {
         EncapsulationField.indicator_2.SetApplyActive_EncapsulationField(inc, id);
     }
     #endregion
 
+    #region  Indicator_2 Path Chacking
+    [Server]
+    public void Server_Indicator_2_Path_Chacking(uint targetID)
+    {
+        StartCoroutine(AllClientCheckCo(() => Rpc_Indicator_2_Path_Chacking(targetID)));
+    }
+    [ClientRpc]
+    public void Rpc_Indicator_2_Path_Chacking(uint targetID)
+    {
+        // Debug.Log("[3] Encapsulation Indicator 2 Path Chack->Net");
+        // EncapsulationField.indicator_2.PathChacking(targetID);
+        StartCoroutine(Wait_Path_Chacking(targetID));
+    }
+
+
+    private IEnumerator Wait_Path_Chacking(uint targetID)
+    {
+        yield return new WaitUntil(() => EncapsulationField.indicator_2 != null);
+        Debug.Log("[3] Encapsulation Indicator 2 Path Chack->Net");
+        EncapsulationField.indicator_2.PathChacking(targetID);
+    }
+    #endregion
+
+
+    #region  Clean
+    public virtual void Clean()
+    {
+        if(Accessor != null && Accessor.TryGetComponent(out PlayerSM sm))
+        {
+            sm.Reset();
+        }
+
+        onSync = false;
+    }
+    #endregion
 }
 

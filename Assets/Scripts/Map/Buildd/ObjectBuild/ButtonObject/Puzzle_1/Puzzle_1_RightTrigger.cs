@@ -3,68 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class Puzzle_1_RightTrigger : MonoBehaviour,IInteractable
+public class Puzzle_1_RightTrigger : MonoBehaviour, IInteractable
 {
 
     //Refectoring 0324
-    public Vector3 offset;
+    private Vector3 _offset = new Vector2(-0.35f, 1.5f);
     [SerializeField] Puzzle_1_Net net;
-    [ReadOnly]
-    public GameObject air;
 
-    public Collider2D Col => GetComponent<Collider2D>();
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision != null)
-        {
-            if (collision.TryGetComponent(out AirSM air))
-            {
-                this.air = collision.gameObject;
-                if(!net.onActive)
-                net.Cmd_ShowE(collision.gameObject, false, true); //Right
-            }
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision != null)
-        {
-
-            if (collision.TryGetComponent(out AirSM air))
-            {
-                if (this.air == collision.gameObject)
-                {
-                    this.air = null;
-
-                }
-
-            }
-        }
-
-
-    }
     #region Interactable
-    public ObjectTypeEnum _objectType = ObjectTypeEnum.Interaction;
+    public ObjectTypeEnum _objectType = ObjectTypeEnum.AirGun;
     public Transform Hold_Pivot => transform;
+    private UI_Base _eButtonUI;
+
     public void Interaction(Transform accessor = null)
     {
-        if(air != null)
+        if (!net.onActive)
         {
-
-            if (!net.onActive)
-            {
-                net.Cmd_ShowE(air, false, false); //Right
-                net.HoldAndRecover(air, false, true);
-            }
-            else
-            {
-                net.HoldAndRecover(air, false, false);
-                Col.enabled = false;
-                Col.enabled = true;
-            }
+            net.HoldAndRecover(accessor.gameObject, false, true);
+            ChangeEbutton(true);
+        }
+        else
+        {
+            net.HoldAndRecover(accessor.gameObject, false, false);
+            ChangeEbutton(false);
         }
     }
+
+    #region  Clean
+    public void Clean()
+    {
+        if(_eButtonUI) ChangeEbutton(false);
+        HideEButton();
+    }
+    #endregion
 
     public bool CanInteract() { return true; }
 
@@ -77,15 +48,21 @@ public class Puzzle_1_RightTrigger : MonoBehaviour,IInteractable
 
     public void ShowEButton()
     {
-        return;
+        _eButtonUI = Managers.UI.ShowUI<UI_ShowEButton>();
+        _eButtonUI.transform.position = transform.position + _offset;
     }
 
     public void HideEButton()
     {
-        return;
+        _eButtonUI = null;
+        Managers.UI.HideUI<UI_ShowEButton>();
+    }
+
+    private void ChangeEbutton(bool isInteracting)
+    {
+        ((UI_ShowEButton)_eButtonUI).ChangeSprite(isInteracting);
     }
     #endregion
-
 
     #region UI
     public void ShowE(bool onOff)
@@ -93,7 +70,7 @@ public class Puzzle_1_RightTrigger : MonoBehaviour,IInteractable
         if (onOff)
         {   
             var ui = Managers.UI.ShowUI<UI_ShowEButton>();
-            ui.transform.position = transform.position + offset;
+            ui.transform.position = transform.position + _offset;
            
         }
         else

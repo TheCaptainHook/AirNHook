@@ -1,4 +1,5 @@
 
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum DRONE_LASER_STATE
@@ -11,9 +12,9 @@ public enum DRONE_LASER_STATE
 public class Drone_Laser_var2 : DroneEntity
 {
 
-//TEST
+
     [SerializeField] SpriteRenderer  message;
-    //TEST
+
 
     [SerializeField] Drone_Laser_var2_Net droneLaser_Net;
 
@@ -31,15 +32,20 @@ public class Drone_Laser_var2 : DroneEntity
     }
 
 
-#endregion
+    #endregion
 
-#region  GuardVision
+    void OnDisable()
+    {
+        Laser_Rapid_Fire_Sound(false);
+    }
+
+    #region  GuardVision
     [SerializeField] Drone_Laser_GuardVision guardVision;
     #endregion
 
     public void PreStateSetUp(bool isStop,bool message)
     {
-        this.isStop = isStop;
+        IsBroken = isStop;
         this.message.enabled = message;
         laserParts.LaserReset();
     }
@@ -130,8 +136,7 @@ public class Drone_Laser_var2 : DroneEntity
     {
         Projectile_Plasma plasma = Managers.Pooling.D_GetItem(ammo).GetComponent<Projectile_Plasma>();
         plasma.Setting(LaserPoint.position, RandomDir(LaserPoint.right), gameObject);
-        plasma.gameObject.SetActive(true);
-
+        // plasma.gameObject.SetActive(true);
         curAmmoCount++;
     }
 
@@ -141,35 +146,65 @@ public class Drone_Laser_var2 : DroneEntity
         float randomRange = Random.Range(-10,10);
         return Quaternion.Euler(0,0,randomRange) * dir;
     }
-
+    //------------------------------------------------------Sound
+    private AudioSourceController _audioSourceController;
+    private AudioSource AudioSource => _audioSourceController == null ? null : _audioSourceController.GetAudioSource();
+    //------------------------------------------------------Sound
     private void State_Attack()
     {
-        if(!laserParts.isShotReady) laserParts.TrackingTarget();
-        if(curAmmoCount>=maxAmmoCount)
+        if (!laserParts.isShotReady) laserParts.TrackingTarget();
+        if (curAmmoCount >= maxAmmoCount)
         {
             onReloading = true;
             droneLaser_Net.onAtack = false;
         }
 
-        if(!onReloading)
+        if (!onReloading)
         {
             curFireRate += Time.deltaTime;
-            if(curFireRate >= maxFireRate && laserParts.isShotReady)
+
+            if (curFireRate >= maxFireRate && laserParts.isShotReady)
             {
                 //Shot
+                //------------------------Sound
+                Laser_Rapid_Fire_Sound(true);
+                //------------------------Sound
                 Shot();
                 curFireRate = 0;
                 //Shot
+
             }
-           
-        }else{
-            Reloading();
 
         }
+        else
+        {
+            Reloading();
+        }
     }
+
+    private void Laser_Rapid_Fire_Sound(bool onOff)
+    {
+        if (!onOff)
+        {
+            if (_audioSourceController != null)
+            {
+                Managers.Sound.StopSound(_audioSourceController);
+                _audioSourceController = null;
+            }
+            return;
+        }
+
+        if (_audioSourceController != null) return;
+        _audioSourceController = Managers.Sound.PlaySound3D(GlobalText.DRONE_LASER_RAPID_FIRE_SOUND, LaserPoint.position, 1f, true);
+
+    }
+
     private void Reloading()
     {
-        laserParts.isShotReady =false;
+        //------------------------Sound Off
+        Laser_Rapid_Fire_Sound(false);
+        //------------------------Sound Off
+        laserParts.isShotReady = false;
         curReloadingCount += Time.deltaTime;
         if (curReloadingCount >= maxReloadingRate)
         {
@@ -178,22 +213,25 @@ public class Drone_Laser_var2 : DroneEntity
             onReloading = false;
         }
     }
-#endregion
-    
-    
+    #endregion
 
-#region State Change
-   public void StateChange(DRONE_LASER_STATE state,GameObject target = null)
-   {
+
+
+    #region State Change
+    public void StateChange(DRONE_LASER_STATE state, GameObject target = null)
+    {
         switch (state)
         {
             case DRONE_LASER_STATE.GUARD:
+                Laser_Rapid_Fire_Sound(false);
                 State_Guard();
                 break;
             case DRONE_LASER_STATE.TRACKING:
+                Laser_Rapid_Fire_Sound(false);
                 // State_Tracking();
                 break;
             case DRONE_LASER_STATE.RETURN:
+                Laser_Rapid_Fire_Sound(false);
                 //State_Return();
                 break;
             case DRONE_LASER_STATE.ATTACK:
@@ -203,9 +241,22 @@ public class Drone_Laser_var2 : DroneEntity
     }
 
 
-#endregion
+    #endregion
+
+    public override void Clean()
+    {
+        IsBroken = false;
+        message.enabled = false;
+
+        curAmmoCount = 0;
+        curReloadingCount = 0;
+        onReloading = false;
 
 
+        laserParts.LaserReset();
+
+        base.Clean();
+    }
 
 
 }

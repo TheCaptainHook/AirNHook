@@ -82,6 +82,11 @@ public class DoorOpeningAnim : NetworkBehaviour
         _lockRigidbody2D.AddForce(forceDirection * forceMagnitude, ForceMode2D.Impulse);
     }
 
+    public void UnlockingSoundEvent()
+    {
+        Managers.Sound.PlaySound3D(GlobalText.DOOR_SOUND_1, transform.position, 0.45f);
+    }
+
     #region Network
     // [Command(requiresAuthority = false)]
     // public void CmdMoveNextStage(string nextMapId)

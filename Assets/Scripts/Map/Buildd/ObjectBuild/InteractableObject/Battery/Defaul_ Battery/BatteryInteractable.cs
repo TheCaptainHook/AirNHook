@@ -5,7 +5,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 
-public class BatteryInteractable : TransportItemEntity
+public class BatteryInteractable : TransportItemEntity,IRemoveSocketEffect
 {
 
     #region -------------------------------------------------------------------------------------Sync
@@ -77,209 +77,33 @@ public class BatteryInteractable : TransportItemEntity
     }
     #endregion
     #region ---------------------------------------------------------------------Power Supply
-    //[Server] //  Set PowerSupply
-    //private void Server_SetPowerSupply(uint id)
-    //{
-    //    if(NetworkServer.active)
-    //    Rpc_SetPowerSupply(id);
-    //}
-
-    //[Command(requiresAuthority = false)]
-    //public void Cmd_SetPowerSupply(uint netId)
-    //{
-    //    Server_SetPowerSupply(netId);
-    //}
-    //[ClientRpc]
-    //private void Rpc_SetPowerSupply(uint id)
-    //{
-    //    if(id == 9999) this.powerSupply = null;
-    //    else
-    //        this.powerSupply = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity identity) ? identity.gameObject : null;
-    //}
-    #endregion
-
-    #endregion
-
-    //-----------------------------------------------------------------------Interact
-    Battery battery;
-    //BuildObj BuildObj => GetComponent<BuildObj>();
-    protected override void Awake()
-    {
-        base.Awake();
-        battery = GetComponent<Battery>();
-    }
-
-
-    public override void Release(GameObject accessor)
-    {
-        if (batteryCharger != null)
-        {
-            var batteryChargerNetId = batteryCharger.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 9999;
-
-            Cmd_Release(batteryCharger.transform.position,false);
-            //StartCoroutine(DelayInsert_BateryCharger());
-            Cmd_InsertChargerSocket(batteryChargerNetId);
-        }
-        else if (powerSupply != null)
-        {
-            var powerSupplyNetId = powerSupply.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 9999;
-
-            Cmd_Release(powerSupply.transform.position,true);
-            //StartCoroutine(DelayInsert_PowerSupply());
-            Cmd_InsertPowerSupplySocket(powerSupplyNetId);
-        }
-        else
-        {
-            base.Release(accessor); 
-            Cmd_Reset();
-        }
-    }
   
+    #endregion
 
-[Command(requiresAuthority = false)]
-    private void Cmd_Reset()
-    {
-        Rpc_Reset();
-    }
-    [ClientRpc]
-    private void Rpc_Reset()
-    {
-        if (batteryCharger != null)
-        {
-            batteryCharger = null;
-        }
-        if (powerSupply != null)
-        {
-            powerSupply = null;
-        }
-    }
+    #endregion
 
-    //[Server]
-    //private void Server_Release(Vector3 releasePosition)
-    //{
-    //    Rpc_Release(releasePosition);
-    //    // transform.position = batteryCharger.transform.position;
-    //    //transform.position = releasePosition;
-    //}
 
-    [Command(requiresAuthority = false)]
-    private void Cmd_Release(Vector3 releasePosition,bool isShowE)
+  
+    public void Recover()
     {
+        //------Interactable recover
+        _stoppedTime = 0f;
         _isFixed = false;
         _isGrab = false;
         _canInteract = true;
         _canGrab = true;
-
-        Rpc_Release(releasePosition,isShowE);
-    }
-
-    [ClientRpc]
-    private void Rpc_Release(Vector3 releasePosition,bool isShowE)
-    {
-        //--------------base Release(remove ShowEButton)
-        _stoppedTime = 0f;
-
-        _rigidbody.bodyType = _originType;
-
-        _rigidbody.gravityScale = 0;
-        _rigidbody.velocity = Vector2.zero;
-        _rigidbody.angularVelocity = 0;
-        transform.rotation = Quaternion.identity;
-
+   
+        //-----etc recover
         _sortingGroup.sortingLayerID = _originSortingLayerID;
-        transform.position = releasePosition;
-
-        Col.enabled = false;
-        BuildObj.canRespawn = false;
-
-    }
-
-
-    [Command(requiresAuthority = false)]
-    public void Cmd_Recover()
-    {
-        CmdRemovePermissionPlayer();
-        Rpc_Recover();
-        
-
-    }
-    [ClientRpc]
-    private void Rpc_Recover()
-    {
-        if (batteryCharger != null)
-        {
-            batteryCharger = null;
-        }
-        if (powerSupply != null)
-        {
-            powerSupply = null;
-        }
-
-        _rigidbody.gravityScale = _gravityScale;
-        RemoveEffect();
-
-        _stoppedTime = 0f;
-        _isFixed = false;
-        _isGrab = false;
-        _canInteract = true;
-        _canGrab = true;
-        
-        Col.enabled = true;
         BuildObj.canRespawn = true;
     }
 
-    //-----------------------------------------------------------------------Interact
-
-    //-----------------------------------------------------------------------Insert Charger Socket
-
- 
-    [Command(requiresAuthority = false)]
-    public void Cmd_InsertChargerSocket(uint netId)
-    {
-        var batteryCharger = NetworkClient.spawned.TryGetValue(netId, out NetworkIdentity identity) ? identity.gameObject : null;
-
-        if (batteryCharger != null && batteryCharger.TryGetComponent(out BatteryCharger component))
-        {
-            component.SetBattery(gameObject); //Server
-        }
-    }
-
-    //[ClientRpc]
-    //private void Rpc_InsertChargerSocket()
-    //{
-    //    if (batteryCharger)
-    //    {
-    //        if (batteryCharger.TryGetComponent(out BatteryCharger component))
-    //        {
-    //            component.SetBattery(gameObject); //server
-    //        }
-
-    //    }
-    //}
-
-    //-----------------------------------------------------------------------Insert Charger Socket
-
-    //-----------------------------------------------------------------------Insert PowerSupply Socket
-  
-
-    [Command(requiresAuthority = false)]
-    public void Cmd_InsertPowerSupplySocket(uint netId)
-    {
-        var powerSupply = NetworkClient.spawned.TryGetValue(netId,out NetworkIdentity identity) ? identity.gameObject : null;
-        
-        if (powerSupply != null && powerSupply.TryGetComponent(out PowerSupply component))
-        {
-            component.SetBattery(gameObject); //Server
-        }
-
-    }
-
-    //-----------------------------------------------------------------------Insert PowerSupply Socket
-
     private float horizontalVariation = 1f;
-    private void RemoveEffect()
+
+    public void RemoveSocketEffect(bool val = false)
     {
         float xForce = Random.Range(-horizontalVariation, horizontalVariation);
         _rigidbody.AddForce(new Vector2(xForce, 4f), ForceMode2D.Impulse);
     }
+
 }

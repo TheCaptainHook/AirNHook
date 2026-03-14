@@ -10,33 +10,35 @@ public class LeverHead_Net : TransportItemEntity
     [Server]
     public void Server_Attach()
     {
-        Destroyed();
+        Respawned();
         Rpc_Attach();
-        // Rpc_Att();
-        StartCoroutine(DelayDestroy());
+        
     }
 
-    IEnumerator DelayDestroy()
-    {
-        yield return new WaitForSeconds(1);
-        NetworkServer.Destroy(gameObject);
-    }
     [ClientRpc]
     private void Rpc_Attach()
     {
         Col.enabled = false;
         Rb.simulated = false;
+        gameObject.SetActive(false);
         transform.GetChild(0).gameObject.SetActive(false);
     }
-    
-    // [Server]
-    // public void Server_Att()
-    // {
-    //     Rpc_Att();
-    // }
-    // [ClientRpc]
-    // private void Rpc_Att()
-    // {
 
-    // }
+
+    //    public void Clean()
+    //      {
+    //         Col.enabled = true;
+    //         Rb.simulated = true;
+    //         transform.GetChild(0).gameObject.SetActive(true);
+    //     }
+
+    public override void Clean()
+    {
+        base.Clean();
+        Col.enabled = true;
+        Rb.simulated = true;
+        transform.GetChild(0).gameObject.SetActive(true);
+
+    }
+
 }

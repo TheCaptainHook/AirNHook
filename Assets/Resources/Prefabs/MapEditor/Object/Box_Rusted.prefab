@@ -310,7 +310,7 @@ BoxCollider2D:
     m_Bits: 672704
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 1294281783
+    m_Bits: 220539959
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -363,7 +363,7 @@ MonoBehaviour:
   _canGrab: 1
   _isDestroyed: 0
   _isGrab: 0
-  _offset: {x: 0, y: 1}
+  _spriteRenderer: {fileID: 4684687439439529792}
   _inhalePower: 4000
   defaultGravity: 0
   onSync: 0
@@ -373,7 +373,6 @@ MonoBehaviour:
     position: {x: 0, y: 0}
     quaternion: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 0, y: 0, z: 0}
-    talPot: {x: 0, y: 0}
     size: {x: 0, y: 0}
     text: 
     fontSize: 0
@@ -384,6 +383,7 @@ MonoBehaviour:
     activeRequireAmount: 0
     onEncapsulationItem: 0
     indicator: 0
+    tutorialCode: 0
 --- !u!114 &5841928186188957514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,7 +413,7 @@ MonoBehaviour:
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprites:
   - {fileID: 4684687439439529792}
-  _dissolveMaterial: []
+  _dissolveMaterials: []
   canRespawn: 0
 --- !u!114 &-5810413876586093780
 MonoBehaviour:
@@ -494,15 +494,11 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  movingPlatform: {fileID: 0}
-  movingPlatformLayer:
+  movingPlatformMask:
     serializedVersion: 2
-    m_Bits: 0
-  layOffset: {x: 0, y: 0.2, z: 0}
-  col: {fileID: 0}
-  rb: {fileID: 0}
-  netRb: {fileID: 0}
-  startSync: 0
+    m_Bits: 32768
+  skin: 0.2
+  _platformId: 0
 --- !u!1773428102 &8098802773846804893
 ParentConstraint:
   m_ObjectHideFlags: 0

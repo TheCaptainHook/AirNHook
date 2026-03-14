@@ -493,7 +493,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5268868690408243030}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -820,7 +820,9 @@ MonoBehaviour:
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprites:
   - {fileID: 4684687439439529792}
-  _dissolveMaterial: []
+  - {fileID: 1364456640810527643}
+  - {fileID: 1840955102494083761}
+  _dissolveMaterials: []
   canRespawn: 0
   _lineRenderer: {fileID: 4041935729944902989}
   targetLayerMask:
@@ -849,7 +851,7 @@ MonoBehaviour:
   _canGrab: 1
   _isDestroyed: 0
   _isGrab: 0
-  _offset: {x: 0, y: 1}
+  _spriteRenderer: {fileID: 4684687439439529792}
   _inhalePower: 4000
   defaultGravity: 0
   onSync: 0

@@ -102,18 +102,6 @@ public class HarpoonTurret : BuildObj
     }
     //--------------------------Animation Trigger
 
-    // private void RotateTrap()
-    // {
-    //     Vector3 targ = 
-    //     targ.z = 0f;
-    //
-    //     Vector3 objectPos = transform.position;
-    //     targ.x = targ.x - objectPos.x;
-    //     targ.y = targ.y - objectPos.y;
-    //
-    //     float angle = Mathf.Atan2(targ.y, targ.x) * Mathf.Rad2Deg;
-    //     transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-    // }
 
     private void RotateTrap()
     {
@@ -176,29 +164,30 @@ public class HarpoonTurret : BuildObj
         }
 
     }
-    
-   private void OnDrawGizmos()
-{
-    Gizmos.color = Color.blue;
-    // Gizmos.DrawWireSphere(transform.position, radius);
-
-    // 반원 그리기
-    int segments = 20; // 반원을 그릴 세그먼트 수 (조절 가능)
-    float angleStep = 180f / segments; // 각 세그먼트 간의 각도 차이
-
-    Vector3 startPoint = transform.position + Quaternion.Euler(0, 0, -90) * orgDirRight * radius;
-    Vector3 previousPoint = startPoint;
-
-    for (int i = 1; i <= segments; i++)
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
     {
-        float angle = -90 + i * angleStep;
-        Vector3 nextPoint = transform.position + Quaternion.Euler(0, 0, angle) * orgDirRight * radius;
-        Gizmos.DrawLine(previousPoint, nextPoint);
-        previousPoint = nextPoint;
-    }
+        Gizmos.color = Color.blue;
+        // Gizmos.DrawWireSphere(transform.position, radius);
 
-    // transform의 오른쪽 방향을 나타내는 선
-    Gizmos.color = Color.red;
-    Gizmos.DrawLine(transform.position, transform.position + (Vector3)orgDirRight * radius);
-}
+        // 반원 그리기
+        int segments = 20; // 반원을 그릴 세그먼트 수 (조절 가능)
+        float angleStep = 180f / segments; // 각 세그먼트 간의 각도 차이
+
+        Vector3 startPoint = transform.position + Quaternion.Euler(0, 0, -90) * orgDirRight * radius;
+        Vector3 previousPoint = startPoint;
+
+        for (int i = 1; i <= segments; i++)
+        {
+            float angle = -90 + i * angleStep;
+            Vector3 nextPoint = transform.position + Quaternion.Euler(0, 0, angle) * orgDirRight * radius;
+            Gizmos.DrawLine(previousPoint, nextPoint);
+            previousPoint = nextPoint;
+        }
+
+        // transform의 오른쪽 방향을 나타내는 선
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position, transform.position + (Vector3)orgDirRight * radius);
+    }
+#endif
 }

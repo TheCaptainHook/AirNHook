@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class Puzzle_1_Parts_Net : NetworkBehaviour
 {
@@ -9,81 +10,145 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
     Puzzle_1_Parts Main { get { parts ??= GetComponent<Puzzle_1_Parts>(); return parts; } }
 
     private Collider2D Collider => GetComponent<Collider2D>();
-    //public Puzzle_1_Item GetItem => item ? item.GetComponent<Puzzle_1_Item>() : null;
-
-    //[SyncVar(hook = nameof(OnChangeSocketItem))]
-    //public GameObject item;
 
     [SyncVar(hook = nameof(OnChangeCorrect))]
     public bool isCorrectAnswer;
 
+   
+    [Command(requiresAuthority = false)]
+    public void Cmd_Connection(uint netId)
+    {
+        Rpc_Connection(netId);
+    }
 
+    [ClientRpc]
+    public void Rpc_Connection(uint netId)
+    {
+        var item = NetworkClient.spawned.TryGetValue(netId, out NetworkIdentity identity) ? identity.gameObject : null;
+        if (item == null) return;
 
-
-
-
-
-
+        Connect(item.GetComponent<Puzzle_1_Item>());
+    }
 
 
     [Command(requiresAuthority = false)]
-    public void Cmd_DisConnect()
+    public void Cmd_DisConnect(bool wrongAnswer)
     {
-        Rpc_DisConnect();
+        Rpc_DisConnect(wrongAnswer);
     }
     [ClientRpc]
-    private void Rpc_DisConnect()
+    private void Rpc_DisConnect(bool wrongAnswer)
+   
     {
         if (Main.insert_Item == null) return;
-        Main.DisConnect();
+        DisConnect(wrongAnswer);
     }
 
+    public Puzzle_1_Item insert_Item;
+    public bool onSocket = false;
+
+    #region  Conneect
+    public void Connect(Puzzle_1_Item item) //Rpc
+    {
+        if (onSocket)
+        {
+            DisConnect();
+        }
+
+        Debug.Log("Connect Item[Parts]");
+        
+        //Sound
+        Managers.Sound.PlaySound3D(GlobalText.PUZZLE_PARTS_INSTER, transform.position);
+        //Sound
+
+        var col = item.TryGetComponent(out Collider2D collider) ? collider : null;
+        if (col != null) col.enabled = false;
+        var rb = item.TryGetComponent(out Rigidbody2D rigidbody) ? rigidbody : null;
+        if (rb != null)
+        {
+            rb.simulated = false;
+            rb.velocity = Vector3.zero;
+        }
+        Main.insert_Item = item;
+        insert_Item = item;
+
+        if (item.TryGetComponent(out ParentConstraint parentConstraint))
+        {
+            if (parentConstraint.sourceCount > 0)
+            {
+                parentConstraint.RemoveSource(0);
+            }
+            SetParentConstraint(parentConstraint, transform);
+        }
+        Main.InsertAnimation(true);
+        onSocket = true;
+
+    }
+
+    private void SetParentConstraint(ParentConstraint constraint, Transform parent)
+    {
+        ConstraintSource source = new ConstraintSource
+        {
+            sourceTransform = parent,
+            weight = 1
+        };
+        constraint.AddSource(source);
+
+        constraint.translationAtRest = transform.localPosition;
+        constraint.translationOffsets = new Vector3[constraint.sourceCount];
+        constraint.constraintActive = true;
+
+        constraint.locked = true;
+        
+    }
+
+    #endregion
+    #region  DisConnect
+    public void DisConnect(bool wrongAnswer = false) //Rpc
+    {
+        //Sound
+        Managers.Sound.PlaySound3D(GlobalText.PUZZLE_PARTS_INSTER, transform.position);
+        //Sound
+        
+        if (insert_Item.TryGetComponent(out ParentConstraint component))
+        {
+            if (component.sourceCount > 0)
+            {
+                component.RemoveSource(0);
+            }
+
+        }
+        Main.InsertAnimation(false);
+
+        var col = insert_Item.TryGetComponent(out Collider2D collider) ? collider : null;
+        if (col != null) col.enabled = true;
+        var rb = insert_Item.TryGetComponent(out Rigidbody2D rigidbody) ? rigidbody : null;
+        if (rb != null)
+        {
+            rb.simulated = true;
+            rb.velocity = Vector3.zero;
+        }
+
+        insert_Item.RemoveSocketEffect(wrongAnswer);
+
+        insert_Item.parts = null;
+        insert_Item = null;
+        Main.insert_Item = null;
+
+        onSocket = false;
+        
+    }
+
+    #endregion
 
 
-
-
-
-
-
-
-
-
-
-
-
-    //[Server]
-    //public void SetSocketItem(GameObject item)
-    //{
-    //    this.item = item;
-    //}
-    //[Server]
-    //private void SetCorrect(bool isCorrectAnswer)
-    //{
-    //    this.isCorrectAnswer = isCorrectAnswer;
-    //}
-
-
-    //[Command(requiresAuthority = false)]
-    //public void Cmd_SetSocketItem(GameObject item)
-    //{
-    //    SetSocketItem(item);
-    //}
     [Command(requiresAuthority = false)]
     public void Cmd_SetCorrect(bool val)
     {
         this.isCorrectAnswer = val;
     }
 
-    //private void OnChangeSocketItem(GameObject old, GameObject newVal)
-    //{
-    //    if (old) RemoveSocket(old);
 
-    //    if (newVal)
-    //    {
-    //        InsertSocket(newVal);
-    //    }
-
-    //}
     private void OnChangeCorrect(bool old, bool newVal)
     {
         if (newVal)
@@ -92,24 +157,6 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
             Main.Net_SetCorrectEffect();
         }
     }
-
-
-    //private void RemoveSocket(GameObject item)
-    //{
-    //    if (item.TryGetComponent(out Puzzle_1_Item component))
-    //    {
-    //        component.RemoveSocket();
-    //        Main.InsertAnimation(false);
-    //    }
-
-    //}
-    //private void InsertSocket(GameObject item)
-    //{
-    //    Collider.enabled = false;
-    //    Collider.enabled = true;
-    //    Main.InsertAnimation(true);
-    //}
-
 
 
     [Command(requiresAuthority = false)]
@@ -124,22 +171,6 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
     }
 
 
-    #region UI
-    [Command(requiresAuthority = false)]
-    public void Cmd_ShowE(GameObject player, bool onOff)
-    {
-        if (player.TryGetComponent(out NetworkIdentity component))
-        {
-            TRpc_ShowE(component.connectionToClient, onOff);
-        }
-    }
-    [TargetRpc]
-    private void TRpc_ShowE(NetworkConnection conn, bool onOff)
-    {
-        if (onOff) Main.ShowE();
-        else Main.HideE();
-    }
-    #endregion
 }
 
 

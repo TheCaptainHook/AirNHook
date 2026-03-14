@@ -49,6 +49,17 @@ public class EncapsulationField : MonoBehaviour
         obstacleLayerMask = 1 << 6;
     }
 
+    #region Indicator_2 Path Chaking
+    public void Indicator_2PathChaking(GameObject targetObj)
+    {
+        var netId = targetObj.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 9999;
+        if (netId == 9999) return;
+
+        Debug.Log("[2] Encapsulation Indicator 2 Path Chack->Net");
+        Net.Server_Indicator_2_Path_Chacking(netId);
+    }
+    #endregion
+
     #region Indicator
     public ActivatableObject_Indicator_var1 indicator_1;
     public ActivatableObject_Indicator_var2 indicator_2;
@@ -134,25 +145,16 @@ public class EncapsulationField : MonoBehaviour
         // Capsule Object Setting
         if (capsuleObject == null)
         {
-            capsuleObject = Instantiate(Resources.Load<GameObject>(GlobalText.CAPSULE_OBJECT)).GetComponent<CapsulObject>(); //default : false, Polling
+            var prefab = ResourceManager.Load<GameObject>(GlobalText.CAPSULE_OBJECT);
+            capsuleObject = Managers.Pooling.D_GetItem(prefab).GetComponent<CapsulObject>();
+            // capsuleObject = Instantiate(Resources.Load<GameObject>(GlobalText.CAPSULE_OBJECT)).GetComponent<CapsulObject>(); //default : false, Polling
             capsuleObject.transform.position = Main.ObjectData.position;
+            capsuleObject.gameObject.SetActive(true);
         }
-
-        
-        // Capsule Object Setting
-        orgParent = parent; //---Main cashing org parent
-
-
-        // Size Change Effect(Coroutine)
-        //Vector2 d = new Vector2(Main.ObjectData.position.x, Main.ObjectData.position.y - mainCol.offset.y);
-        //transform.position = d;
-
         Connection();
 
         capsuleObject.Resize(transform, mainColliderBounds);
         // Size Change Effect
-
-
     }
 
     private void Connection()
@@ -160,7 +162,7 @@ public class EncapsulationField : MonoBehaviour
         TransformParentNull();
         // Main.transform.SetParent(capsuleObject.insertTr);
         // capsuleObject.transform.SetParent(Main.transform);
-        capsuleObject.transform.SetParent(orgParent);
+        capsuleObject.transform.SetParent(MapEditor.Instance.networkingObjectTransform);
         Main.transform.SetParent(capsuleObject.insertTr);
         Main.transform.localPosition = new Vector2(0,-(mainCol.offset.y/2));
 
@@ -196,6 +198,9 @@ public class EncapsulationField : MonoBehaviour
 
     public void UnCapsuling() //Call Only Server,RPC
     {
+        //Sound
+        Managers.Sound.PlaySound3D(GlobalText.CAPSULE_UNCAPSULING, transform.position);
+        //Sound
 
         //Return parent
         Disconnection();
@@ -331,14 +336,47 @@ public class EncapsulationField : MonoBehaviour
 
         return minDistance;
     }
-    
+
 
     private void TransformParentNull()
     {
         capsuleObject.transform.SetParent(null);
         Main.transform.SetParent(null);
     }
-    
+
+    #region  Clean
+    public void Clean()
+    {
+        if (indicator_1 != null)
+        {
+            indicator_1.Clean();
+            Destroy(indicator_1.gameObject);
+
+            indicator_1 = null;
+        }
+        if (indicator_2 != null)
+        {
+            indicator_2.Clean();
+            Destroy(indicator_2.gameObject);
+            indicator_2 = null;
+        }
+
+        ReleaseCapsuleObject();
+        curActiveRequirAmount = 0;
+
+    }
+    #endregion
+
+    public void ReleaseCapsuleObject()
+    {
+        if (capsuleObject != null)
+        {
+            Managers.Pooling.D_ReleaseToPool(capsuleObject.gameObject);
+            capsuleObject = null;
+        }
+
+        isCapsuling = false;
+    }
     #endregion
 
 }

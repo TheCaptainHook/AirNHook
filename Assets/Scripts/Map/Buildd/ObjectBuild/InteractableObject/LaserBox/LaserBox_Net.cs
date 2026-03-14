@@ -16,43 +16,6 @@ public class LaserBox_Net : TransportItemEntity
     [SerializeField] GameObject left;
     [SerializeField] GameObject right;
 
-    private float maxCharge = 0.2f;
-    private float minCharge = 0.1f;
-    private float maxCount = 500;
-    private float curCount = 0;
-
-
-    float percent;
-
-    // [Server]
-    // public void Server_DamageCount()
-    // {
-    //     if(shutDownCoroutine == null)
-    //     {
-    //         curShutDownDelayCount = maxShutDownDelayCount;
-    //         shutDownCoroutine = StartCoroutine(ShutDownDelay());
-    //     }
-    //     else{
-    //         curShutDownDelayCount = maxShutDownDelayCount;
-    //     }
-
-    //     curCount++;
-    //     percent = curCount / maxCount;
-    //     float scale = Mathf.Lerp(minCharge, maxCharge, percent);
-
-    //     if(curCount>= maxCount)
-    //     {
-    //         StopCoroutine(ShutDownDelay());
-    //         //BOOM,Rpc
-    //         Server_Boom();
-    //         //BOOM
-    //     }
-    //     else
-    //     {
-    //         Rpc_ChangeFillSprite(scale);
-    //     }
-    // }
-
 
     public Vector2 curLaserDir;
     private ParentConstraint parentConstraint;
@@ -80,8 +43,6 @@ public class LaserBox_Net : TransportItemEntity
             left.SetActive(true);
         }
     }
-
-    float offset = 0.4f;
 
     protected override void Grab()
     {
@@ -190,103 +151,7 @@ public class LaserBox_Net : TransportItemEntity
         getDirCoroutine = StartCoroutine(GetDirCo(true));
 
     }
-    /**
-    에어가 흡입할때 InHaling인지
-    에어가 흡입 취소할때 StopInhale 인지
-    
-    Air.Inhaling -> item.Inhalation -> 
-    Air.FixInhaleTarget
-    
-        1. Air 에서 inhailing 호출
-        2. inhailing 호출하면 실행하는 코루틴 실행
-        3. 이이탬이 완전히 airgun에 붙었는지 까지 대기 후 airgun 위치에 따라 방향 전환
-
-        코루틴으로 체크,
-        -> _isFixed = true
-        -> ConstraintParent.Source 가 없으면 
-        
-    **/
     #endregion
 
-    #region BOOM
-
-    Coroutine boomCoroutine;
-    [Server]
-    private void Server_Boom()
-    {
-        //Boom
-        boomCoroutine = StartCoroutine(BoomCoroutine());
-        //Boom
-
-    }
-    IEnumerator BoomCoroutine()
-    {
-        //Boom
-        //OverlapCircle.
-        // Rpc_Boom();
-        //Boom
-
-        yield return new WaitForSeconds(1f);
-        Rpc_Reset();
-        Main.Respawn();
-        boomCoroutine = null;
-    }
-    float maxShutDownDelayCount = 5;
-    public float curShutDownDelayCount = 0;
-    Coroutine shutDownCoroutine;
-    Coroutine recoverCoroutine;
-
-    IEnumerator ShutDownDelay()
-    {
-        if(recoverCoroutine != null) StopCoroutine(recoverCoroutine);
-
-        while(0 < curShutDownDelayCount)
-        {
-            curShutDownDelayCount -= Time.deltaTime;
-            yield return null;
-        }
-        shutDownCoroutine = null;
-
-        recoverCoroutine = StartCoroutine(Recover());
-       
-    }
-    IEnumerator Recover()
-    {
-        while(0 < curCount)
-        {
-            curCount--;
-            percent = curCount / maxCount;
-            float scale = Mathf.Lerp(minCharge, maxCharge, percent);
-            Rpc_ChangeFillSprite(scale);
-            yield return null;
-        }
-
-    }    
-
-   
-    [ClientRpc]
-    public void Rpc_ChangeFillSprite(float scale)
-    {
-
-        chargeTransform.localScale = new Vector2(scale, scale);
-
-    }
-
-    // [ClientRpc]
-    // private void Rpc_Boom()
-    // {
-    //     Main.onBoom = true;
-    // }
-
-    [ClientRpc]
-    private void Rpc_Reset()
-    {
-        Main.Reset();
-
-        curCount = 0;
-        curShutDownDelayCount = 0;
-        chargeTransform.localScale = new Vector3(minCharge, minCharge);
-    }
-    #endregion
 
 }

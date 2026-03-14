@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using Mirror;
-using System;
+
 public class Portal_Net : ActivatableObject_Net_Entity
 {
     [SerializeField] GameObject _TpEffect;
@@ -16,8 +16,12 @@ public class Portal_Net : ActivatableObject_Net_Entity
          Animator.SetBool(IsActive, false);
         _TpEffect.SetActive(false);
     }
-    
-
+#region  Clean
+    public override void Clean_Value()
+    {
+        onPrograss = false;
+    }
+#endregion
     //------------------------------------------------------------------Refactoring0303
     public Vector2 orgPosition => Portal.ButtonActivatedObjectStruct.position;
     public GameObject targetPortal;
@@ -35,7 +39,7 @@ public class Portal_Net : ActivatableObject_Net_Entity
 
     IEnumerator  FindTarget(Vector2 target)
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(1f);
         foreach (Transform tr in MapEditor.Instance.buttonActivatableObjectTransform)
         {
             if (tr.TryGetComponent(out Portal component))
@@ -48,41 +52,60 @@ public class Portal_Net : ActivatableObject_Net_Entity
                 }
             }
         }
+        
     }
 
     [Server]
     public override void Server_PlayUniqueEffect(uint id)
     {
         var item = NetworkClient.spawned.TryGetValue(id, out var identity) ? identity : null;
+
         if (item != null)
         {
-            TRpc_PlayUniqueEffect(item.connectionToClient, identity.gameObject);
+            // TRpc_PlayUniqueEffect(item.connectionToClient, identity.gameObject);
+            Rpc_PlayUniqueEffect(id);
         }
     }
+  
+    // [TargetRpc]
+    // private void TRpc_PlayUniqueEffect(NetworkConnection conn, GameObject obj)
+    // {
+    //     if (targetPortal == null)
+    //     {
+    //         var targetItem = NetworkClient.spawned.TryGetValue(targetId, out var identity) ? identity.gameObject : null;
+    //         if (targetItem != null)
+    //         {
+    //             targetPortal = targetItem;
+    //             UsePortal(obj);
+    //         }
+    //     }
+    //     else
+    //     {
+    //         UsePortal(obj);
+    //     }
+    // }
 
-    [TargetRpc]
-    private void TRpc_PlayUniqueEffect(NetworkConnection conn, GameObject obj)
+    //----------------
+    [ClientRpc]
+    private void Rpc_PlayUniqueEffect(uint id)
     {
-        if (targetPortal == null)
+        var item = NetworkClient.spawned.TryGetValue(id, out var identity) ? identity.gameObject : null;
+        if (item != null)
         {
-            var targetItem = NetworkClient.spawned.TryGetValue(targetId, out var identity) ? identity.gameObject : null;
+             var targetItem = NetworkClient.spawned.TryGetValue(targetId, out var targetPortal) ? targetPortal.gameObject : null;
             if (targetItem != null)
             {
-                targetPortal = targetItem;
-                UsePortal(obj);
+                this.targetPortal = targetItem;
+                UsePortal(item);
             }
+            // UsePortal(item);
         }
-        else
-        {
-            UsePortal(obj);
-        }
-
-       
     }
+//----------------
 
     private void UsePortal(GameObject obj)
     {
-        if(!onPrograss) StartCoroutine(UsePortal_Co(obj));
+        if (!onPrograss) StartCoroutine(UsePortal_Co(obj));
     }
   
 
@@ -95,45 +118,69 @@ public class Portal_Net : ActivatableObject_Net_Entity
     private Portal Portal => GetComponent<Portal>();
     private Animator Animator => GetComponent<Animator>();
 
-    
 
     IEnumerator UsePortal_Co(GameObject obj)
     {
-        OnPrograss(true);
+        var identity = obj.TryGetComponent(out NetworkIdentity netIdentity) ? netIdentity : null;
+        var sm =obj.TryGetComponent(out PlayerSM playerSm)  ? playerSm : null;
 
-        //Player Hold
-        if (obj.TryGetComponent(out Rigidbody2D component))
+        if (identity.isLocalPlayer)
         {
-            component.simulated = false;
-        }
-        //Player Hold
+            //Player Hold
+            
+            if(sm != null) sm.FreezePlayerState(true);
+            
+            if (obj.TryGetComponent(out Rigidbody2D component))
+            {
+                component.simulated = false;
+            }
+            //Player Hold
 
-        //Camera Effect
-        if (Camera.main != null)
+            OnPrograss(true);
+
+            Sound(true);
+            //Camera Effect
+            if (Camera.main != null)
+            {
+                Camera.main.GetComponent<PlayerCameraView>()?._CameraGlobalVolumeController?
+                    .PortalSpace_TimeTransitionEffect();
+            }
+            //Camera Effect
+            //Player Position
+            obj.transform.position = targetPortalPosition + Vector2.up;
+            //Player Position            
+        }
+        else
         {
-            Camera.main.GetComponent<PlayerCameraView>()?._CameraGlobalVolumeController?
-                .PortalSpace_TimeTransitionEffect();
+            Managers.Sound.PlaySound3D(GlobalText.PORTAL_IN, obj.transform);
         }
-        //Camera Effect
-
-        //Player Position
-        obj.transform.position = targetPortalPosition + Vector2.up;
-        //Player Position
-    
 
         yield return new WaitForSeconds(1);
+        if (identity.isLocalPlayer)
+        {
+            Sound(false);
+            if(sm != null) sm.FreezePlayerState(false);
+            //Player Recover
+            if (obj.TryGetComponent(out Rigidbody2D component))
+            {
+                component.simulated = true;
+            }
 
-        //Player Recover
-        component.simulated = true;
-        //Player Recover
-
-        yield return new WaitForSeconds(2);
-
-        OnPrograss(false);
+            //Player Recover
+            yield return new WaitForSeconds(2);
+            OnPrograss(false);
+        }
+        else
+        {
+            Managers.Sound.PlaySound3D(GlobalText.PORTAL_OUT, targetPortal.transform);
+        }
 
     }
-
-       
+    private void Sound(bool inOut)
+    {
+        if (inOut) Managers.Sound.PlaySound(GlobalText.PORTAL_IN);
+        else Managers.Sound.PlaySound(GlobalText.PORTAL_OUT);
+    }
     public void Animation_Active(bool active)
     {
         Animator.SetBool(IsActive, active);

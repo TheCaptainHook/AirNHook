@@ -2,7 +2,7 @@
 using UnityEngine;
 using Mirror;
 
-public class StageSelectorComputer : BuildObj,IInteractable
+public class StageSelectorComputer : BuildObj, IInteractable
 {
     #region StringCache
     private static readonly int Talk = Animator.StringToHash("Talk");
@@ -14,9 +14,9 @@ public class StageSelectorComputer : BuildObj,IInteractable
     #endregion
 
     private Animator _animator;
-    
+
     // [SerializeField] private bool _isTalking = false;
-    
+
     [SerializeField] private GameObject _key;
 
     private void Awake()
@@ -27,10 +27,11 @@ public class StageSelectorComputer : BuildObj,IInteractable
     public override void SetData<T>(T data)
     {
         // base.SetData(data);
-          if(typeof(T) == typeof(ObjectData)){
+        if (typeof(T) == typeof(ObjectData))
+        {
             ObjectData = (ObjectData)(object)data;
-            if(Application.isPlaying)
-            Net.Server_InitSync();
+            if (Application.isPlaying)
+                Net.Server_InitSync();
             else SetData(ObjectData);
 
         }
@@ -77,33 +78,34 @@ public class StageSelectorComputer : BuildObj,IInteractable
             Vector2 launchDirection = new Vector2(-1, 1).normalized;
             _animator.SetTrigger(Left);
             _key.GetComponent<Rigidbody2D>().AddForce(launchDirection * 5f, ForceMode2D.Impulse);
-            
+
         }
 
-         Util util = new Util();
-         await util.Delay(()=>{Talking();});
+        Util util = new Util();
+        await util.Delay(() => { Talking(); });
 
     }
 
 
-#region  Interactable
-public ObjectTypeEnum objectType = ObjectTypeEnum.Interaction;
+    #region  Interactable
+    public ObjectTypeEnum objectType = ObjectTypeEnum.Interaction;
     public Vector2 btn_offset;
-    
+
     [ReadOnly]
     public bool onPower;
 
     public void Interaction(Transform accessor = null)
     {
-        if(NetworkServer.active && !Net.isOpen)
+        if (NetworkServer.active && !Net.isOpen)
         {
             Net.Server_SetOnPower();
         }
-  
+
     }
 
+
     //------------------------------------------------Network 250217
-    public Computer_Net Net {get{return GetComponent<Computer_Net>();}}
+    public Computer_Net Net { get { return GetComponent<Computer_Net>(); } }
 
     //------------------------------------------------Network
 
@@ -127,12 +129,12 @@ public ObjectTypeEnum objectType = ObjectTypeEnum.Interaction;
         var eButtonUI = Managers.UI.ShowUI<UI_ShowEButton>();
         eButtonUI.transform.position = transform.position + (Vector3)btn_offset;
     }
-    
+
     public void HideEButton()
     {
         Managers.UI.HideUI<UI_ShowEButton>();
     }
-#endregion
-
+    #endregion
+   
 
 }

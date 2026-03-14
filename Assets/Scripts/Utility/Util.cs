@@ -1,127 +1,13 @@
 
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using System.Threading.Tasks;
 using System;
-using System.Text;
-using System.Threading;
-using Mirror;
 
 public class Util
 {
 
 #region  Text
-
-    // Create Text in the World
-    //public  TextMesh CreateWorldText(string text, Transform parent = null, Vector3 localPosition = default(Vector3), int fontSize = 40, Color? color = null, TextAnchor textAnchor = TextAnchor.UpperLeft, TextAlignment textAlignment = TextAlignment.Left, int sortingOrder = 500)
-    //{
-    //    if (color == null) color = Color.white;
-    //    return CreateWorldText(parent, text, localPosition, fontSize, (Color)color, textAnchor, textAlignment, sortingOrder);
-    //}
-
-    //public  TextMesh CreateWorldText(Transform parent,string text,Vector3 localPosition,int fontSize,Color fontColor,TextAnchor textAnchor,TextAlignment textAlignment, int sortingOrder)
-    //{
-    //    GameObject gameObject = new GameObject("World_Text", typeof(TextMesh));
-    //    Transform transform = gameObject.transform;
-    //    transform.SetParent(parent, false);
-    //    transform.localPosition = localPosition;
-    //    TextMesh textMesh = gameObject.GetComponent<TextMesh>();
-    //    textMesh.anchor = textAnchor;
-    //    textMesh.alignment = textAlignment;
-    //    textMesh.text = text;
-    //    textMesh.fontSize = fontSize;
-    //    textMesh.color = fontColor;
-    //    textMesh.GetComponent<MeshRenderer>().sortingOrder = sortingOrder;
-        
-    //    return textMesh;
-    //}
-
-    //public async Task TypingEffectTask(
-    //    TextMeshProUGUI text, 
-    //    string sentence, 
-    //    Color color,
-    //    float fontSize, 
-    //    float delayTime, 
-    //    CancellationTokenSource token = null,
-    //    bool audioActive = false)
-    //{
-    //    if (text == null)
-    //    {
-    //        Debug.LogError("TextMeshProUGUI is null!");
-    //        return;
-    //    }
-
-    //    CancellationToken _token = token?.Token ?? CancellationToken.None; 
-       
-    //    int time = Mathf.FloorToInt(delayTime * 1000);
-    //    text.text = "";
-
-    //    StringBuilder typedSentence = new StringBuilder();
-
-    //    text.color = color;
-    //    text.text = typedSentence.ToString();
-    //    text.fontSize = fontSize;
-    //    for (int i = 0; i < sentence.Length; i++)
-    //    {
-    //        if (audioActive)
-    //            Managers.Sound.PlaySound(GlobalText.DIALOGUE_CLICK_SOUND);
-
-    //        typedSentence.Append(sentence[i]);
-    //        text.text = typedSentence.ToString();
-
-    //        try
-    //        {
-    //            await Task.Delay(time, _token);
-    //        }
-    //        catch (TaskCanceledException)
-    //        {
-    //            text.text = sentence;
-    //            // if (audioSource != null) audioSource.gameObject.SetActive(false);
-    //            return;
-    //        }
-    //        catch (Exception ex)
-    //        {
-    //            Debug.LogError("Error during typing effect task: " + ex.Message);
-    //        }
-    //    }
-    //    // if (audioSource != null) audioSource.gameObject.SetActive(false);
-    //}
-
-    //public async Task EraserEffectTask(TextMeshProUGUI text, float delayTime = 0.01f)
-    //{
-    //    if (text == null)
-    //    {
-    //        Debug.LogError("TextMeshProUGUI is null! or string.Empty");
-    //        return;
-    //    }
-
-    //    int time = Mathf.FloorToInt(delayTime * 1000);
-    //    string st = text.text;
-
-    //    for (int i = st.Length-1; i >=0; i--)
-    //    {
-    //        try
-    //        {
-    //            text.text = st.Substring(0, i);
-    //            await Task.Delay(time);
-    //        }
-    //        catch (TaskCanceledException ex)
-    //        {
-    //            Debug.LogWarning("Typing effect task was canceled: " + ex.Message);
-    //            text.text = "";
-    //            return;
-
-    //        }
-    //        catch (Exception ex)
-    //        {
-    //            Debug.LogError("Error during typing effect task: " + ex.Message);
-    //            text.text = "";
-    //        }
-            
-    //    }
-
-    //}
 
     public List<string> SplitText(string text, int length, char[] delimiters)
     {
@@ -191,9 +77,8 @@ public class Util
 
     #endregion
 
-    public async Task Delay(Action action, int delayTime = 1000)
+    public async Task Delay(Action action, int delayTime = 1500)
     {
-
         await Task.Delay(delayTime);
         action?.Invoke();
 

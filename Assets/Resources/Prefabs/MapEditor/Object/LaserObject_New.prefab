@@ -4897,7 +4897,7 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprites: []
-  _dissolveMaterial: []
+  _dissolveMaterials: []
   canRespawn: 0
   activeRequirAmount: 0
   indicator: 0
@@ -4911,13 +4911,13 @@ MonoBehaviour:
     isHorizontal: 0
   curActiveBtn: 0
   _curDistanceRay: 0
-  _firePoint: {fileID: 2979357953502741260}
-  _lineRenderer: {fileID: 2717453816571275917}
   _endVFX: {fileID: 5345449485699939287}
-  _layerMask:
-    serializedVersion: 2
-    m_Bits: 22005184
+  _lineRenderer: {fileID: 2717453816571275917}
   hitEffectParticle: {fileID: 7676629228877518604}
+  _firePoint: {fileID: 2979357953502741260}
+  _mask:
+    serializedVersion: 2
+    m_Bits: 5227712
 --- !u!114 &2911012097398964247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4935,17 +4935,16 @@ MonoBehaviour:
   syncInterval: 0
   data:
     id: 0
+    position: {x: 0, y: 0}
+    quaternion: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 0, y: 0, z: 0}
     activeRequirAmount: 0
-    chargeRequired: 0
     indicatorStruct:
       indicator: 0
       indicator_1_position: {x: 0, y: 0}
       indicator_2_position: {x: 0, y: 0}
       isHorizontal: 0
     jumpingPower: 0
-    position: {x: 0, y: 0}
-    quaternion: {x: 0, y: 0, z: 0, w: 0}
-    scale: {x: 0, y: 0, z: 0}
     talPot: {x: 0, y: 0}
     rotateRate: 0
     fireRate: 0
@@ -4960,6 +4959,12 @@ MonoBehaviour:
   onActive: 0
   _lineRenderer: {fileID: 2717453816571275917}
   _endVFX: {fileID: 5345449485699939287}
+  hitEffectParticle: {fileID: 7676629228877518604}
+  _firePoint: {fileID: 2979357953502741260}
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 5227712
+  _laserEffectAudios: []
 --- !u!61 &5690823865466912599
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Linq.Expressions;
 using Mirror;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -41,7 +43,7 @@ public class GameManager
                 _player = NetworkClient.localPlayer.gameObject;
             }
             catch (NullReferenceException) { }
-            
+
             return _player;
         }
     }
@@ -67,7 +69,7 @@ public class GameManager
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
-    
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Managers.UI.ClearUI();
@@ -84,6 +86,11 @@ public class GameManager
             // MainScene
             case 1:
                 Debug.Log("Scene Loaded 1");
+                //Loding -> MapTransition -> CutScene Page_1 Check
+                var ui = Managers.UI.ShowUI<UI_MapOpenClosePanel>().GetComponent<UI_MapOpenClosePanel>();
+                ui.Default_CloseOpen();
+                //Loding -> MapTransition -> CutScene Page_1 Check
+
                 Managers.Sound.PlayBGM(GlobalText.LOBBY_SOUND);
                 Managers.CursorManager.ClearCursor();
                 break;
@@ -104,22 +111,35 @@ public class GameManager
 
     }
 
-    public void StageClear(string stageID,bool stageLevelUp = false)
+    public void StageClear(string stageID, bool stageLevelUp = false)
     {
         if (stageID.Equals("Lobby")) return;
 
-        if(stageLevelUp)
+        if (stageLevelUp)
         {
-            stageLevel = MapEditor.Instance.CurMap.stageLevel+1;
+            stageLevel = MapEditor.Instance.CurMap.stageLevel + 1;
         }
 
-        Managers.Data.saveData.ClearMap(stageID,stageLevelUp);
+        Managers.Data.saveData.ClearMap(stageID, stageLevelUp);
     }
 
     public (float clearTime, int deathCount) GetClearData()
     {
-        return (Time.time - _startTime,_clearDeath);
+        return (Time.time - _startTime, _clearDeath);
     }
     //TODO 0726 
+    #region  CutScene
+    private void CutScene_Page_1()
+    {
+        if (!Managers.Data.saveData._SaveFileData._PlayerSaveData._cutScene_Page_1)
+        {
+            Managers.Data.saveData._SaveFileData._PlayerSaveData._cutScene_Page_1 = true;
+            Managers.Data.saveData.Save();
+
+            Managers.UI.GetUI<UI_CutSceneController>().GetComponent<UI_CutSceneController>().StartCutScene(CutScenePageName.Page_1);
+        }
+    }
+
+    #endregion
 }
 

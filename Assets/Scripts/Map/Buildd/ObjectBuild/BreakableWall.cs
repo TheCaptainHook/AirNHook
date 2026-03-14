@@ -27,6 +27,7 @@ public class BreakableWall : BuildObj
 
     public override void TakeDamage(DamageType damageType = DamageType.Default)
     {
+        Managers.Sound.PlaySound3D(GlobalText.HIT_SOUND, transform.position, 0.45f);
         health -= 1f;
         switch (health)
         {
@@ -41,8 +42,9 @@ public class BreakableWall : BuildObj
 
     private void DestroyWall()
     {
+        Managers.Sound.PlaySound3D(GlobalText.ROCK_DESTROY_SOUND, transform.position, 0.4f);
         _animator.SetTrigger(DestroyTrigger);
-        _collider.enabled = false;
+        Col.enabled = false;
     }
 
     public void CrumbleParticles()
@@ -76,7 +78,7 @@ public class BreakableWall : BuildObj
     public override void Reset()
     {
         health = 5f;
-        _collider.enabled = true;
+        Col.enabled = true;
         _animator.SetTrigger(Recovery);
     }
 

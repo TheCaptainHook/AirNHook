@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6890918890723629363}
   - component: {fileID: 1019806417930786010}
+  - component: {fileID: 7969579050164089369}
   m_Layer: 18
   m_Name: ChargeBar
   m_TagString: Untagged
@@ -52,7 +53,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fa68e89795bf44c189f660203b6e7f45, type: 2}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -84,6 +85,56 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
+--- !u!114 &7969579050164089369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5529971019132927347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ComponentVersion: 1
+  m_LightType: 2
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.5
+  m_Color: {r: 0.6509434, g: 0.20295712, b: 0, a: 1}
+  m_Intensity: 10
+  m_LightVolumeIntensity: 1
+  m_LightVolumeIntensityEnabled: 0
+  m_ApplyToSortingLayers: 93974e373dfa80d67bd34c9e4b693136d173aa409754fad679fff5dc156d27bc2fab228b
+  m_LightCookieSprite: {fileID: 21300000, guid: 747ba1a57907ff742ae1e06de5710105, type: 3}
+  m_DeprecatedPointLightCookieSprite: {fileID: 0}
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_OverlapOperation: 0
+  m_NormalMapDistance: 3
+  m_NormalMapQuality: 2
+  m_UseNormalMap: 0
+  m_ShadowIntensityEnabled: 0
+  m_ShadowIntensity: 0.75
+  m_ShadowVolumeIntensityEnabled: 0
+  m_ShadowVolumeIntensity: 0.75
+  m_LocalBounds:
+    m_Center: {x: 0, y: 0.5136719, z: 0}
+    m_Extent: {x: 0.28515625, y: 0.5136719, z: 0}
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 1
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 0.5
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
 --- !u!1 &6213857561148179821
 GameObject:
   m_ObjectHideFlags: 0
@@ -120,17 +171,17 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6213857561148179821}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.0013962553, w: 0.99999905}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 3669796454936144792}
   - {fileID: 5004019029250497545}
   - {fileID: 6890918890723629363}
-  - {fileID: 3669796454936144792}
   - {fileID: 115524687572628154}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.16}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &764281349387328695
 Rigidbody2D:
   serializedVersion: 4
@@ -170,7 +221,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 672704
+    m_Bits: 9061312
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 1294281783
@@ -231,9 +282,9 @@ MonoBehaviour:
   setPosition: 0
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprites:
-  - {fileID: 8362036273793277380}
   - {fileID: 5213567269437679512}
-  _dissolveMaterial: []
+  - {fileID: 8362036273793277380}
+  _dissolveMaterials: []
   canRespawn: 0
   powerSupply: {fileID: 0}
 --- !u!114 &8988956062262925408
@@ -259,7 +310,7 @@ MonoBehaviour:
   _canGrab: 1
   _isDestroyed: 0
   _isGrab: 0
-  _offset: {x: 0, y: 0.5}
+  _spriteRenderer: {fileID: 5213567269437679512}
   _inhalePower: 600
   defaultGravity: 0
   onSync: 0
@@ -269,7 +320,6 @@ MonoBehaviour:
     position: {x: 0, y: 0}
     quaternion: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 0, y: 0, z: 0}
-    talPot: {x: 0, y: 0}
     size: {x: 0, y: 0}
     text: 
     fontSize: 0
@@ -280,6 +330,7 @@ MonoBehaviour:
     activeRequireAmount: 0
     onEncapsulationItem: 0
     indicator: 0
+    tutorialCode: 0
   batteryCharger: {fileID: 0}
   batteryCapacity: 0
   powerSupply: {fileID: 0}
@@ -400,14 +451,15 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  movingPlatform: {fileID: 0}
+  _wdmp_Net: {fileID: 0}
   movingPlatformLayer:
     serializedVersion: 2
     m_Bits: 0
-  layOffset: {x: 0, y: 0, z: 0}
-  col: {fileID: 0}
-  rb: {fileID: 0}
-  netRb: {fileID: 0}
+  movingPlatformMask:
+    serializedVersion: 2
+    m_Bits: 32768
+  skin: 0.2
+  _platformId: 0
   startSync: 0
 --- !u!1773428102 &-7162171074850114388
 ParentConstraint:

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 using System;
@@ -35,7 +34,7 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
             return entity;
         }
     }
-
+    [HideInInspector]
     public ButtonActivatableObjectStruct data;
 
     #region Init Sync
@@ -48,6 +47,7 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
     {
         StartCoroutine(AllClientReadyChecker_Co(() => { Rpc_InitSync(Main.ButtonActivatedObjectStruct); }));
     }
+
     [ClientRpc]
     protected virtual void Rpc_InitSync(ButtonActivatableObjectStruct data)
     {
@@ -56,10 +56,11 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
         SetData(data);
 
         if (onActive) Active();
-
+        else Deactive();
+        
         onSync = true;
-
     }
+
     protected virtual void SetData(ButtonActivatableObjectStruct data)
     {
         transform.position = data.position;
@@ -93,7 +94,7 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
 
 
 
-    IEnumerator AllClientReadyChecker_Co(Action action)
+    protected IEnumerator AllClientReadyChecker_Co(Action action)
     {
         while (true)
         {
@@ -108,6 +109,28 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
 
             yield return null;
         }
+
+        action?.Invoke();
+    }
+    IEnumerator AllClientReadyChecker_Co(Action action,bool waitOnSync)
+    {
+        while (true)
+        {
+            int connectionClinetAmount = NetworkServer.connections.Count;
+            int num = 0;
+            foreach (var conn in NetworkServer.connections.Values)
+            {
+                if (conn.isReady) num++;
+            }
+
+            if (connectionClinetAmount == num) break;
+
+            yield return null;
+        }
+
+        yield return new WaitUntil(() => onSync);
+        yield return new WaitUntil(() => indicator_var2 != null);
+
         action?.Invoke();
 
     }
@@ -123,6 +146,7 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
     [ClientRpc]
     protected virtual void Rpc_ChangeOnActive(bool onOff)
     {
+        Debug.Log("Debug Active change");
         if (onOff)
         {
             Active();
@@ -132,6 +156,8 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
             Deactive();
         }
     }
+
+
     #endregion
 
     #region  Active,Deactive
@@ -153,7 +179,7 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
     /// </summary>
     /// <param name="id"></param>
     [Server]
-    public virtual void Server_PlayUniqueEffect(uint id) 
+    public virtual void Server_PlayUniqueEffect(uint id)
     {
 
     }
@@ -163,7 +189,7 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
 
     #region  Indicator
     [ClientRpc]
-    public virtual void ApplyActive_Sync_var1(int curActiveAmount) //server
+    public virtual void ApplyActive_Sync_var1(int curActiveAmount)
     {
         indicator_var1.SetApplyActive(curActiveAmount);
     }
@@ -171,9 +197,9 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
     /// <param name="id">Network ID</param>
     /// <param name="inc">[-1] : deactive, [1] : active </param>
     [ClientRpc]
-    public virtual void ApplyActive_Sync_var2(uint id, int curActiveBtn,int inc) //server
+    public virtual void ApplyActive_Sync_var2(uint id, int curActiveBtn, int inc)
     {
-        indicator_var2.SetApplyActive(id, curActiveBtn ,inc);
+        indicator_var2.SetApplyActive(id, curActiveBtn, inc);
     }
 
     private ActivatableObject_Indicator_var1 indicator_var1;
@@ -182,7 +208,8 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
         //var indicator = Resources.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_1_Path);
         var indicator = ResourceManager.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_1_Path);
         indicator_var1 = Instantiate(indicator).GetComponent<ActivatableObject_Indicator_var1>();
-        indicator_var1.Setting(Main,this);
+        indicator_var1.Setting(Main, this);
+        Debug.Log($"{gameObject.name},indicator _1");
 
     }
     private ActivatableObject_Indicator_var2 indicator_var2;
@@ -191,11 +218,51 @@ public class ActivatableObject_Net_Entity : NetworkBehaviour
         var indicator = ResourceManager.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_2_Path);
         //var indicator = Resources.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_2_Path);
         indicator_var2 = Instantiate(indicator).GetComponent<ActivatableObject_Indicator_var2>();
-        indicator_var2.Setting(Main,this);
+        indicator_var2.Setting(Main, this);
 
     }
 
+    [Server]
+    public void Server_Indicator_var_2_PathChacking(uint targetID)
+    {
+        StartCoroutine(AllClientReadyChecker_Co(() => Rpc_Indicator_var_2_PathChacking(targetID),true));
 
+    }
+
+    [ClientRpc]
+    private void Rpc_Indicator_var_2_PathChacking(uint targetID)
+    {
+        Debug.Log($"[3] RPC INdicator_var_2 PathChaking, netid : {targetID}");
+        indicator_var2.PathChacking(targetID);
+    }
+
+
+    #endregion
+
+    #region Clean
+    public void Clean()
+    {
+        Clean_Value();
+        
+        if (indicator_var1 != null)
+        {
+            indicator_var1.Clean();
+            Destroy(indicator_var1.gameObject);
+            indicator_var1 = null;
+        }
+        if (indicator_var2 != null)
+        {
+            indicator_var2.Clean();
+            Destroy(indicator_var2.gameObject);
+            indicator_var2 = null;
+        }
+
+        onSync = false;
+    }
+    public virtual void Clean_Value()
+    {
+        
+    }
     #endregion
 }
 

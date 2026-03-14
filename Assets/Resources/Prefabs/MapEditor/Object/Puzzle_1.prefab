@@ -102,7 +102,7 @@ Transform:
   m_GameObject: {fileID: 360872727897176713}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.1, y: 0, z: 0}
+  m_LocalPosition: {x: 1.85, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -165,10 +165,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53734b7a0042bdf408ec87f740a5d704, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: 0, y: 1.5, z: 0}
   net: {fileID: 2267976049350943410}
-  air: {fileID: 0}
-  _objectType: 0
+  _objectType: 3
 --- !u!1 &1207420672746872705
 GameObject:
   m_ObjectHideFlags: 0
@@ -718,7 +716,8 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
+  _Dissolve_MainSprites: []
+  _dissolveMaterials: []
   canRespawn: 0
   targetObjects: []
   lightObjects: []
@@ -832,7 +831,7 @@ Transform:
   m_GameObject: {fileID: 7031136592058459931}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.1, y: 0, z: 0}
+  m_LocalPosition: {x: -1.95, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -895,10 +894,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ac7cd704145773459bd709cb905e62d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: 0, y: 1.5, z: 0}
   net: {fileID: 2267976049350943410}
-  air: {fileID: 0}
-  _objectType: 0
+  _objectType: 3
 --- !u!1 &7241419666889964207
 GameObject:
   m_ObjectHideFlags: 0
@@ -1142,6 +1139,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6986589601374795962, guid: c5679d6423392ef46b8491e3a03c7e68, type: 3}
       propertyPath: puzzle_Net
+      value: 
+      objectReference: {fileID: 2267976049350943410}
+    - target: {fileID: 6986589601374795962, guid: c5679d6423392ef46b8491e3a03c7e68, type: 3}
+      propertyPath: puzzle_1_Net
       value: 
       objectReference: {fileID: 2267976049350943410}
     m_RemovedComponents: []

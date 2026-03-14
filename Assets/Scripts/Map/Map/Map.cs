@@ -21,7 +21,8 @@ public class Map
     public List<CompressedTileData> mapRopeTileDataList = new();
     public List<CompressedTileData> mapAccessoryTIleDataList = new();
     public List<CompressedTileData> mapHiddenTileDataList = new();
-
+    // 1130
+    public List<CompressedTileData> mapSpecialTileDataList = new();
     //public List<TileData> mapTileDataList = new(); //rec
     //public List<TileData> mapHalfTileDataList = new();
     //public List<TileData> mapBackgroundTileDataList = new();
@@ -69,6 +70,7 @@ public class Map
         List<CompressedTileData> ropeTileDataList,
         List<CompressedTileData> accessoryTileDataList,
         List<CompressedTileData> mapHiddenTileDataList,
+        List<CompressedTileData> mapSpecialTileDataList,
         //Shadow 250109
         //List<ShadowCasterStruct> shadowCasterStructs,
         //Light 250112
@@ -97,6 +99,7 @@ public class Map
         mapRopeTileDataList = ropeTileDataList;
         mapAccessoryTIleDataList = accessoryTileDataList;
         this.mapHiddenTileDataList = mapHiddenTileDataList;
+        this.mapSpecialTileDataList = mapSpecialTileDataList;
         //shadow
         //this.mapShadowCasterDataList = shadowCasterStructs;
         //Light

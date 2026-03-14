@@ -16,7 +16,6 @@ using static UnityEngine.Rendering.Universal.Light2D;
 
 using TileData = ANH_MapEditor.TileData;
 using MapType = ANH_MapEditor.MapType;
-using FunkyCode;
 
 //TODO 0724 Develop code line : 435,506
 
@@ -52,22 +51,18 @@ public class MapEditor_Editor : Editor
 
     private Texture2D onImg;
     private Texture2D offImg;
-    
     //Light Field
 
 
     private void LightFieldSetting()
     {
-        // sortingLayerNames = SortingLayer.layers.Select(layer => layer.name).ToArray();
-        // selectedLayers = new bool[sortingLayerNames.Length];
-        // sortingLayerField = typeof(Light2D).GetField("m_ApplyToSortingLayers", BindingFlags.NonPublic | BindingFlags.Instance);
-
-        // curSortingLayers = (int[])sortingLayerField.GetValue(mapEditor.GlobalLight.GetComponent<Light2D>());
-
-        // sortingLayerMask = ConvertSortingLayerIDsToBitFlag(curSortingLayers);
-
+        sortingLayerNames = SortingLayer.layers.Select(layer=>layer.name).ToArray();
+        selectedLayers = new bool[sortingLayerNames.Length];
+        sortingLayerField = typeof(Light2D).GetField("m_ApplyToSortingLayers", BindingFlags.NonPublic | BindingFlags.Instance);
+        curSortingLayers = (int[])sortingLayerField.GetValue(mapEditor.GlobalLight.GetComponent<Light2D>());
+        sortingLayerMask = ConvertSortingLayerIDsToBitFlag(curSortingLayers);
         onImg = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Artwork/Sprites/Assets/UI Elements/White/1x/down arrow.png");
-        offImg = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Artwork/Sprites/Assets/UI Elements/White/1x/menu2.png");
+        offImg =  AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Artwork/Sprites/Assets/UI Elements/White/1x/menu2.png");
     }
 
     public override void OnInspectorGUI()
@@ -106,9 +101,11 @@ public class MapEditor_Editor : Editor
             {
                 mapEditor.audioName = EditorGUILayout.TextField(new GUIContent("BGM", "BGM"), mapEditor.audioName);
             }
-        } else {
-            Draw_Light();
-            
+        }
+        else
+        {
+            Draw_ShadwAndLight();
+
             mapEditor.stageLevel = EditorGUILayout.IntField("Stage Level", mapEditor.stageLevel);
             mapEditor.subMapName = EditorGUILayout.TextField(
                 new GUIContent("Map Sub Name", "This is the sub-name for the map, but it’s okay to leave it empty."),
@@ -124,22 +121,25 @@ public class MapEditor_Editor : Editor
         }
         GUILayout.EndVertical();
     }
-    private void Draw_Light()
+
+    private void Draw_ShadwAndLight()
     {
         GUILayout.Space(20);
             GUILayout.BeginHorizontal();
           
                 GUILayout.BeginVertical(new GUIStyle(GUI.skin.window));
                     GUILayout.FlexibleSpace();
-                    GUILayout.Label("Light",GetGUIStyle_Label(Color.white,15,FontStyle.Bold,TextAnchor.MiddleCenter));
+                    GUILayout.Label("Shadow And Global Light",GetGUIStyle_Label(Color.white,15,FontStyle.Bold,TextAnchor.MiddleCenter));
                     GUILayout.FlexibleSpace();
 
                     GUILayout.BeginVertical();
 
+                        DrawShadow();
+            
                         GUILayout.BeginVertical(new GUIStyle(GUI.skin.window));
                                 HorizontalScope(()=>{
                                     GUILayout.FlexibleSpace();
-                                    EditorGUILayout.LabelField("Light",GetGUIStyle_Label(
+                                    EditorGUILayout.LabelField("Global Light",GetGUIStyle_Label(
                                         Color.white,12,FontStyle.Bold,TextAnchor.MiddleLeft),GUILayout.Width(80),GUILayout.Height(25)
                                         );
                                     if (GUILayout.Button(new GUIContent(isLight ? onImg : offImg),GUILayout.Width(25), GUILayout.Height(25)))
@@ -165,203 +165,209 @@ public class MapEditor_Editor : Editor
 
             GUILayout.Space(20);    
     }
+    private void DrawShadow()
+    {
+        VerticalScope(()=>{
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("그림자 생성", GUILayout.Width(100), GUILayout.Height(30)))
+            {
+                CreateShadow();
+            }
+            GUILayout.FlexibleSpace();
+        });  
+    }
 
 #region Light
     private void DrawLight()
     {
         GUILayout.BeginVertical();
 
-        VerticalScope(() =>
-        {
-            HorizontalScope(() =>
-            {
-                EditorGUILayout.LabelField("DarknessColor", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
-                var profile = LightingManager2D.Get().profile;
-                Color newColor = EditorGUILayout.ColorField(profile.DarknessColor);
-                
-                if (newColor != profile.DarknessColor)
+        VerticalScope(() => {
+            HorizontalScope(() => {
+                EditorGUILayout.LabelField("Color", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
+                Color newColor = EditorGUILayout.ColorField(mapEditor.GlobalLight.color);
+                if (newColor != mapEditor.GlobalLight.color)
                 {
-                    Undo.RecordObject(mapEditor, "Change Light Color");
-                    profile.DarknessColor = newColor;
+                    Undo.RecordObject(mapEditor, "Change Global Light Color");
+                    mapEditor.GlobalLight.color = newColor;
                     EditorUtility.SetDirty(mapEditor);
                 }
             });
+            HorizontalScope(() => {
+                EditorGUILayout.LabelField("Intensity", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
+                float newIntensity = EditorGUILayout.Slider(mapEditor.GlobalLight.intensity, 0f, 5f);
+                if (!Mathf.Approximately(newIntensity, mapEditor.GlobalLight.intensity))
+                {
+                    Undo.RecordObject(mapEditor, "Change Global Light Intensity");
+                    mapEditor.GlobalLight.intensity = newIntensity;
+                    EditorUtility.SetDirty(mapEditor); // 변경 사항 저장
+                }
+            });
+            HorizontalScope(() => {
+                EditorGUILayout.LabelField("Target Sorting Layers", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
+
+                if (EditorGUILayout.DropdownButton(new GUIContent(GetCurrentState_SortingLayer()), FocusType.Keyboard))
+                {
+                    ShowSortingLayerPopup();
+                }
+            });
+            HorizontalScope(() =>{
+                DrawHorizontalLine(Color.white);
+            });
+            HorizontalScope(() => {
+                EditorGUILayout.LabelField("Blend Style", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
+                mapEditor.GlobalLight.blendStyleIndex = EditorGUILayout.IntPopup(
+                    "",
+                    mapEditor.GlobalLight.blendStyleIndex,
+                    new string[] { "Multiply", "Additive", "Multiply with Mask (R)", "Additive with Mask (R)" },
+                    new int[] { 0, 1, 2, 3 }
+                );
+                EditorUtility.SetDirty(mapEditor);
+            });
+            HorizontalScope(() => {
+                EditorGUILayout.LabelField("Light Order", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
+                mapEditor.GlobalLight.lightOrder = EditorGUILayout.IntField(mapEditor.GlobalLight.lightOrder);
+                EditorUtility.SetDirty(mapEditor);
+            });
+            HorizontalScope(() => {
+                EditorGUILayout.LabelField("Overlap Operation", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
+                mapEditor.GlobalLight.overlapOperation = (OverlapOperation)EditorGUILayout.EnumPopup(mapEditor.GlobalLight.overlapOperation);
+                EditorUtility.SetDirty(mapEditor);
+            });
         });
-        //     HorizontalScope(() => {
-            //         EditorGUILayout.LabelField("Intensity", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
-            //         float newIntensity = EditorGUILayout.Slider(mapEditor.GlobalLight.intensity, 0f, 5f);
-            //         if (!Mathf.Approximately(newIntensity, mapEditor.GlobalLight.intensity))
-            //         {
-            //             Undo.RecordObject(mapEditor, "Change Global Light Intensity");
-            //             mapEditor.GlobalLight.intensity = newIntensity;
-            //             EditorUtility.SetDirty(mapEditor); // 변경 사항 저장
-            //         }
-            //     });
-            //     HorizontalScope(() => {
-            //         EditorGUILayout.LabelField("Target Sorting Layers", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
 
-            //         if (EditorGUILayout.DropdownButton(new GUIContent(GetCurrentState_SortingLayer()), FocusType.Keyboard))
-            //         {
-            //             ShowSortingLayerPopup();
-            //         }
-            //     });
-            //     HorizontalScope(() =>{
-            //         DrawHorizontalLine(Color.white);
-            //     });
-            //     HorizontalScope(() => {
-            //         EditorGUILayout.LabelField("Blend Style", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
-            //         mapEditor.GlobalLight.blendStyleIndex = EditorGUILayout.IntPopup(
-            //             "",
-            //             mapEditor.GlobalLight.blendStyleIndex,
-            //             new string[] { "Multiply", "Additive", "Multiply with Mask (R)", "Additive with Mask (R)" },
-            //             new int[] { 0, 1, 2, 3 }
-            //         );
-            //         EditorUtility.SetDirty(mapEditor);
-            //     });
-            //     HorizontalScope(() => {
-            //         EditorGUILayout.LabelField("Light Order", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
-            //         mapEditor.GlobalLight.lightOrder = EditorGUILayout.IntField(mapEditor.GlobalLight.lightOrder);
-            //         EditorUtility.SetDirty(mapEditor);
-            //     });
-            //     HorizontalScope(() => {
-            //         EditorGUILayout.LabelField("Overlap Operation", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
-            //         mapEditor.GlobalLight.overlapOperation = (OverlapOperation)EditorGUILayout.EnumPopup(mapEditor.GlobalLight.overlapOperation);
-            //         EditorUtility.SetDirty(mapEditor);
-            //     });
-            // });
-
-            GUILayout.EndVertical();
+        GUILayout.EndVertical();
     }
    
-    // private string GetCurrentState_SortingLayer()
-    // {
-    //     if(sortingLayerMask == 0) return "Nothing";
-    //     if(sortingLayerMask == (1 << sortingLayerNames.Length)-1) return "Everything";
+    private string GetCurrentState_SortingLayer()
+    {
+        if(sortingLayerMask == 0) return "Nothing";
+        if(sortingLayerMask == (1 << sortingLayerNames.Length)-1) return "Everything";
 
-    //     int selectCount = 0;
-    //     int selectIdx = 0;
-    //     for(int i = 0; i<sortingLayerNames.Length;i++)
-    //     {
-    //         if((sortingLayerMask & (1 << i)) != 0)
-    //         {
-    //             selectCount++;
-    //             if(selectCount>1) return "Mixed...";
-    //             selectIdx = i;
-    //         };
-    //     }
+        int selectCount = 0;
+        int selectIdx = 0;
+        for(int i = 0; i<sortingLayerNames.Length;i++)
+        {
+            if((sortingLayerMask & (1 << i)) != 0)
+            {
+                selectCount++;
+                if(selectCount>1) return "Mixed...";
+                selectIdx = i;
+            };
+        }
         
-    //     return sortingLayerNames[selectIdx];
-    // }
+        return sortingLayerNames[selectIdx];
+    }
 
-    // private void ShowSortingLayerPopup()
-    // {
-    //     GenericMenu menu = new GenericMenu();
+    private void ShowSortingLayerPopup()
+    {
+        GenericMenu menu = new GenericMenu();
 
-    //     menu.AddItem(new GUIContent("Everything"), false, () =>
-    //     {
-    //         sortingLayerMask = (1 << sortingLayerNames.Length) - 1; 
-    //         curSortingLayers = ConvertBitFlagToSortingLayerIDs(sortingLayerMask);
-    //         UpdateSortingLayerField();
+        menu.AddItem(new GUIContent("Everything"), false, () =>
+        {
+            sortingLayerMask = (1 << sortingLayerNames.Length) - 1; 
+            curSortingLayers = ConvertBitFlagToSortingLayerIDs(sortingLayerMask);
+            UpdateSortingLayerField();
 
-    //         Repaint(); 
-    //         EditorUtility.SetDirty(mapEditor); 
-    //     });
+            Repaint(); 
+            EditorUtility.SetDirty(mapEditor); 
+        });
 
-    //     menu.AddItem(new GUIContent("Nothing"), false, () =>
-    //     {
-    //         sortingLayerMask = 0; 
-    //         curSortingLayers = null;
-    //         UpdateSortingLayerField();
+        menu.AddItem(new GUIContent("Nothing"), false, () =>
+        {
+            sortingLayerMask = 0; 
+            curSortingLayers = null;
+            UpdateSortingLayerField();
 
-    //         Repaint();
-    //         EditorUtility.SetDirty(mapEditor); 
-    //     });          
-    //     menu.AddSeparator("");
+            Repaint();
+            EditorUtility.SetDirty(mapEditor); 
+        });          
+        menu.AddSeparator("");
 
-    //     for (int i = 0; i < sortingLayerNames.Length; i++)
-    //     {
-    //         int index = i; 
-    //         bool isSelected = (sortingLayerMask & (1 << index)) != 0;
+        for (int i = 0; i < sortingLayerNames.Length; i++)
+        {
+            int index = i; 
+            bool isSelected = (sortingLayerMask & (1 << index)) != 0;
                
                 
-    //         menu.AddItem(
-    //             new GUIContent(sortingLayerNames[i]),
-    //             isSelected,
-    //             () =>
-    //             {
-    //                 // 선택 상태 토글
-    //                 if (isSelected)
-    //                 {
-    //                     sortingLayerMask &= ~(1 << index); // 선택 해제
-    //                 }
-    //                 else
-    //                 {
-    //                     sortingLayerMask |= (1 << index); // 선택
-    //                 }
+            menu.AddItem(
+                new GUIContent(sortingLayerNames[i]),
+                isSelected,
+                () =>
+                {
+                    // 선택 상태 토글
+                    if (isSelected)
+                    {
+                        sortingLayerMask &= ~(1 << index); // 선택 해제
+                    }
+                    else
+                    {
+                        sortingLayerMask |= (1 << index); // 선택
+                    }
 
-    //                 curSortingLayers = ConvertBitFlagToSortingLayerIDs(sortingLayerMask);
-    //                 UpdateSortingLayerField();
+                    curSortingLayers = ConvertBitFlagToSortingLayerIDs(sortingLayerMask);
+                    UpdateSortingLayerField();
 
-    //                 Repaint(); 
-    //                 EditorUtility.SetDirty(mapEditor); 
-    //             }
-    //         );
-    //     }
+                    Repaint(); 
+                    EditorUtility.SetDirty(mapEditor); 
+                }
+            );
+        }
 
-    //      menu.ShowAsContext();
+         menu.ShowAsContext();
 
          
-    // }
-    // private void UpdateSortingLayerField()
-    // {
-    //     sortingLayerField.SetValue(mapEditor.GlobalLight.GetComponent<Light2D>(), curSortingLayers);
-    // }
-    //  private int ConvertSortingLayerIDsToBitFlag(int[] sortingLayerIDs)
-    // {
-    //     if(sortingLayerIDs == null) return 0;
-    //     int bitFlag = 0;
+    }
+    private void UpdateSortingLayerField()
+    {
+        sortingLayerField.SetValue(mapEditor.GlobalLight.GetComponent<Light2D>(), curSortingLayers);
+    }
+     private int ConvertSortingLayerIDsToBitFlag(int[] sortingLayerIDs)
+    {
+        if(sortingLayerIDs == null) return 0;
+        int bitFlag = 0;
 
-    //     for (int i = 0; i < sortingLayerIDs.Length; i++)
-    //     {
-    //         int layerIndex = GetSortingLayerIndexFromID(sortingLayerIDs[i]);
+        for (int i = 0; i < sortingLayerIDs.Length; i++)
+        {
+            int layerIndex = GetSortingLayerIndexFromID(sortingLayerIDs[i]);
 
-    //         if (layerIndex >= 0)
-    //         {
-    //             bitFlag |= 1 << layerIndex; 
-    //         }
-    //     }
+            if (layerIndex >= 0)
+            {
+                bitFlag |= 1 << layerIndex; 
+            }
+        }
 
-    //     return bitFlag;
-    // }
-    // private int GetSortingLayerIndexFromID(int id)
-    // {
-    //     SortingLayer[] layers = SortingLayer.layers;
+        return bitFlag;
+    }
+    private int GetSortingLayerIndexFromID(int id)
+    {
+        SortingLayer[] layers = SortingLayer.layers;
 
-    //     for (int i = 0; i < layers.Length; i++)
-    //     {
-    //         if (layers[i].id == id)
-    //         {
-    //             return i; 
-    //         }
-    //     }
+        for (int i = 0; i < layers.Length; i++)
+        {
+            if (layers[i].id == id)
+            {
+                return i; 
+            }
+        }
 
-    //     return -1; 
-    // }
-    // private int[] ConvertBitFlagToSortingLayerIDs(int sortingLayerMask)
-    // {
-    //     List<int> sortingLayerIDs = new List<int>();
-    //     SortingLayer[] layers = SortingLayer.layers;
+        return -1; 
+    }
+    private int[] ConvertBitFlagToSortingLayerIDs(int sortingLayerMask)
+    {
+        List<int> sortingLayerIDs = new List<int>();
+        SortingLayer[] layers = SortingLayer.layers;
 
-    //     for (int i = 0; i < layers.Length; i++)
-    //     {
-    //         if ((sortingLayerMask & (1 << i)) != 0) // 해당 비트가 켜져 있는지 확인
-    //         {
-    //             sortingLayerIDs.Add(layers[i].id); // 해당 Layer의 ID 추가
-    //         }
-    //     }
+        for (int i = 0; i < layers.Length; i++)
+        {
+            if ((sortingLayerMask & (1 << i)) != 0) // 해당 비트가 켜져 있는지 확인
+            {
+                sortingLayerIDs.Add(layers[i].id); // 해당 Layer의 ID 추가
+            }
+        }
 
-    //     return sortingLayerIDs.ToArray();
-    // }
+        return sortingLayerIDs.ToArray();
+    }
 #endregion
 
     private void Draw_MainContents_MapId() {
@@ -483,7 +489,7 @@ public class MapEditor_Editor : Editor
         GUILayout.FlexibleSpace();
         if (GUILayout.Button("개발자용, 맵 새로만들 때 먼저 누르기,Init!", GUILayout.Width(300), GUILayout.Height(30)))
         {
-            //GlobalLightReset();
+            GlobalLightReset();
             _Reset(mapEditor);
             mapEditor.Init();
             EditorApplication.ExecuteMenuItem("Window/2D/Tile Palette");
@@ -498,15 +504,15 @@ public class MapEditor_Editor : Editor
 
         GUILayout.FlexibleSpace();
     }
-    // private void GlobalLightReset()
-    // {
-    //     mapEditor.GlobalLight.color = Color.white;
-    //     mapEditor.GlobalLight.intensity = 1;
-    //     sortingLayerField.SetValue(mapEditor.GlobalLight, new int[] { 0 });
-    //     mapEditor.GlobalLight.blendStyleIndex = 0;
-    //     mapEditor.GlobalLight.lightOrder = 0;
-    //     mapEditor.GlobalLight.overlapOperation = 0;
-    // }
+    private void GlobalLightReset()
+    {
+        mapEditor.GlobalLight.color = Color.white;
+        mapEditor.GlobalLight.intensity = 1;
+        sortingLayerField.SetValue(mapEditor.GlobalLight, new int[] { 0 });
+        mapEditor.GlobalLight.blendStyleIndex = 0;
+        mapEditor.GlobalLight.lightOrder = 0;
+        mapEditor.GlobalLight.overlapOperation = 0;
+    }
     //Check for duplicate Map ID TODO 1116
     private bool Check_DuplicateMapId(string mapId) {
         string path = Path.Combine(Application.dataPath, $"Resources/MapDat/{mapEditor.mapType}");
@@ -569,7 +575,7 @@ public class MapEditor_Editor : Editor
 
             mapEditor.onLoad = false;
             mapEditor.isLoadMap = false;
-            LightingManager2D.Get().profile.DarknessColor = new Color(0, 0, 0, 0);
+
         }
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
@@ -661,7 +667,8 @@ public class MapEditor_Editor : Editor
             Create_Tile();
 
             //Shadow Setting
-            //Create_Shadow();
+            Create_Shadow();
+
             //Light Setting
             SetGlobalLight(map.globalLightStruct);
 
@@ -711,6 +718,7 @@ public class MapEditor_Editor : Editor
         DrawTile_C(mapEditor.placeMentSystem.ropeTileMap, mapEditor.CurMap.mapRopeTileDataList);
         DrawTile_C(mapEditor.placeMentSystem.accessoryTileMap, mapEditor.CurMap.mapAccessoryTIleDataList);
         DrawTile_C(mapEditor.placeMentSystem.hiddentTIleMap, mapEditor.CurMap.mapHiddenTileDataList);
+        DrawTile_C(mapEditor.placeMentSystem.specialTileMap, mapEditor.CurMap.mapSpecialTileDataList);
         //DrawTile(mapEditor.placeMentSystem.floorTileMap, mapEditor.CurMap.mapTileDataList); //rect
         //DrawTile(mapEditor.placeMentSystem.halfTileMap, mapEditor.CurMap.mapHalfTileDataList);
         //DrawTile(mapEditor.placeMentSystem.backgroundTileMap, mapEditor.CurMap.mapBackgroundTileDataList);
@@ -718,17 +726,17 @@ public class MapEditor_Editor : Editor
         //DrawTile(mapEditor.placeMentSystem.accessoryTileMap, mapEditor.CurMap.mapAccessoryTIleDataList);
     }
     //------------------------------------------------------------------------------------------------------250107 Shadow
-    // public void Create_Shadow()
-    // {
-    //     foreach(ShadowCasterStruct data in mapEditor.CurMap.mapShadowCasterDataList)
-    //     {
-    //         ShadowCasterSetting shadowSetting = Instantiate(Resources.Load<GameObject>(GlobalText.SHADOW_PREFAB_PATH)).GetComponent<ShadowCasterSetting>();
-    //         shadowSetting.gameObject.transform.SetParent(mapEditor.shadowContainer);    
-    //         shadowSetting.transform.position = data.position;
-    //         shadowSetting.SetShadowCasterData(data);
-    //     }
+    public void Create_Shadow()
+    {
+        foreach(ShadowCasterStruct data in mapEditor.CurMap.mapShadowCasterDataList)
+        {
+            ShadowCasterSetting shadowSetting = Instantiate(Resources.Load<GameObject>(GlobalText.SHADOW_PREFAB_PATH)).GetComponent<ShadowCasterSetting>();
+            shadowSetting.gameObject.transform.SetParent(mapEditor.shadowContainer);    
+            shadowSetting.transform.position = data.position;
+            shadowSetting.SetShadowCasterData(data);
+        }
 
-    // }
+    }
     //------------------------------------------------------------------------------------------------------250107 Shadow
     public void Create_Object() {
         CreateExitObject(mapEditor.CurMap.mapExitObjectStruct);
@@ -850,84 +858,84 @@ public class MapEditor_Editor : Editor
     //----------------------------------------------------------------------------------------------------------------------Shadow 250107
 
 
-    // private void CreateShadow()
-    // {
-    //   GameObject shadowObj = Instantiate(Resources.Load<GameObject>(GlobalText.SHADOW_PREFAB_PATH));
-    //   shadowObj.transform.SetParent(mapEditor.shadowContainer);
-    //   shadowObj.transform.position = GetSceneViewCenter();
-    //   Selection.activeGameObject = shadowObj;
-    // }
+    private void CreateShadow()
+    {
+      GameObject shadowObj = Instantiate(Resources.Load<GameObject>(GlobalText.SHADOW_PREFAB_PATH));
+      shadowObj.transform.SetParent(mapEditor.shadowContainer);
+      shadowObj.transform.position = GetSceneViewCenter();
+      Selection.activeGameObject = shadowObj;
+    }
    
-    // private Vector3 GetSceneViewCenter(){
-    //     SceneView sceneView = SceneView.lastActiveSceneView;
-    //     if (sceneView != null)
-    //     {
-    //         return sceneView.pivot;
-    //     }
-    //     else
-    //     {
-    //         return Vector3.zero;
-    //     }
-    // }
+    private Vector3 GetSceneViewCenter(){
+        SceneView sceneView = SceneView.lastActiveSceneView;
+        if (sceneView != null)
+        {
+            return sceneView.pivot;
+        }
+        else
+        {
+            return Vector3.zero;
+        }
+    }
 
-    // public async Task CreateShadowCastersAsync(CompositeCollider2D tilemapCollider)
-    // //public void CreateShadowCastersAsync(CompositeCollider2D tilemapCollider)
-    // {
-    //     FieldInfo meshField = typeof(ShadowCaster2D).GetField("m_Mesh", BindingFlags.NonPublic | BindingFlags.Instance);
-    //     FieldInfo shapePathField = typeof(ShadowCaster2D).GetField("m_ShapePath", BindingFlags.NonPublic | BindingFlags.Instance);
-    //     FieldInfo shapePathHashField = typeof(ShadowCaster2D).GetField("m_ShapePathHash", BindingFlags.NonPublic | BindingFlags.Instance);
-    //     MethodInfo generateShadowMeshMethod = typeof(ShadowCaster2D)
-    //                                     .Assembly
-    //                                     .GetType("UnityEngine.Rendering.Universal.ShadowUtility")
-    //                                     .GetMethod("GenerateShadowMesh", BindingFlags.Public | BindingFlags.Static);
+    public async Task CreateShadowCastersAsync(CompositeCollider2D tilemapCollider)
+    //public void CreateShadowCastersAsync(CompositeCollider2D tilemapCollider)
+    {
+        FieldInfo meshField = typeof(ShadowCaster2D).GetField("m_Mesh", BindingFlags.NonPublic | BindingFlags.Instance);
+        FieldInfo shapePathField = typeof(ShadowCaster2D).GetField("m_ShapePath", BindingFlags.NonPublic | BindingFlags.Instance);
+        FieldInfo shapePathHashField = typeof(ShadowCaster2D).GetField("m_ShapePathHash", BindingFlags.NonPublic | BindingFlags.Instance);
+        MethodInfo generateShadowMeshMethod = typeof(ShadowCaster2D)
+                                        .Assembly
+                                        .GetType("UnityEngine.Rendering.Universal.ShadowUtility")
+                                        .GetMethod("GenerateShadowMesh", BindingFlags.Public | BindingFlags.Static);
 
-    //     if (meshField == null || shapePathField == null || shapePathHashField == null || generateShadowMeshMethod == null)
-    //     {
-    //         Debug.LogError("Reflection 실패");
-    //         return;
-    //     }
+        if (meshField == null || shapePathField == null || shapePathHashField == null || generateShadowMeshMethod == null)
+        {
+            Debug.LogError("Reflection 실패");
+            return;
+        }
 
-    //     // 기존 ShadowCaster 삭제 (옵션)
-    //     foreach(Transform tr in tilemapCollider.gameObject.transform)
-    //     {
-    //         Undo.DestroyObjectImmediate(tr.gameObject);
-    //     }
+        // 기존 ShadowCaster 삭제 (옵션)
+        foreach(Transform tr in tilemapCollider.gameObject.transform)
+        {
+            Undo.DestroyObjectImmediate(tr.gameObject);
+        }
 
-    //     GameObject shadowContainer = new GameObject("Shadow_Container");
-    //     shadowContainer.transform.SetParent(tilemapCollider.transform);
+        GameObject shadowContainer = new GameObject("Shadow_Container");
+        shadowContainer.transform.SetParent(tilemapCollider.transform);
 
-    //     int pathCount = tilemapCollider.pathCount;
-    //     for (int i = 0; i < pathCount; i++)
-    //     {
-    //         Vector2[] pathVertices = new Vector2[tilemapCollider.GetPathPointCount(i)];
-    //         tilemapCollider.GetPath(i, pathVertices);
+        int pathCount = tilemapCollider.pathCount;
+        for (int i = 0; i < pathCount; i++)
+        {
+            Vector2[] pathVertices = new Vector2[tilemapCollider.GetPathPointCount(i)];
+            tilemapCollider.GetPath(i, pathVertices);
 
-    //         // ShadowCaster 생성
-    //         GameObject shadowCaster = new GameObject("shadow_caster_" + i);
-    //         shadowCaster.transform.SetParent(shadowContainer.transform);
+            // ShadowCaster 생성
+            GameObject shadowCaster = new GameObject("shadow_caster_" + i);
+            shadowCaster.transform.SetParent(shadowContainer.transform);
 
-    //         ShadowCaster2D shadowCasterComponent = shadowCaster.AddComponent<ShadowCaster2D>();
-    //         shadowCasterComponent.selfShadows = true;
+            ShadowCaster2D shadowCasterComponent = shadowCaster.AddComponent<ShadowCaster2D>();
+            shadowCasterComponent.selfShadows = true;
 
-    //         Vector3[] testPath = new Vector3[pathVertices.Length];
-    //         for (int j = 0; j < pathVertices.Length; j++)
-    //         {
-    //             testPath[j] = pathVertices[j];
-    //         }
+            Vector3[] testPath = new Vector3[pathVertices.Length];
+            for (int j = 0; j < pathVertices.Length; j++)
+            {
+                testPath[j] = pathVertices[j];
+            }
 
-    //         shapePathField.SetValue(shadowCasterComponent, testPath);
-    //         shapePathHashField.SetValue(shadowCasterComponent, UnityEngine.Random.Range(int.MinValue, int.MaxValue));
-    //         meshField.SetValue(shadowCasterComponent, new Mesh());
-    //         generateShadowMeshMethod.Invoke(shadowCasterComponent,
-    //             new object[] { meshField.GetValue(shadowCasterComponent), shapePathField.GetValue(shadowCasterComponent) });
+            shapePathField.SetValue(shadowCasterComponent, testPath);
+            shapePathHashField.SetValue(shadowCasterComponent, UnityEngine.Random.Range(int.MinValue, int.MaxValue));
+            meshField.SetValue(shadowCasterComponent, new Mesh());
+            generateShadowMeshMethod.Invoke(shadowCasterComponent,
+                new object[] { meshField.GetValue(shadowCasterComponent), shapePathField.GetValue(shadowCasterComponent) });
 
-    //         // 작업 진행을 10번 단위로 나누어 UI 업데이트 및 멈춤 제공
-    //         if (i % 10 == 0)
-    //         {
-    //             await Task.Yield(); // 다른 작업과 병렬 실행 가능
-    //         }
-    //     }
-    // }
+            // 작업 진행을 10번 단위로 나누어 UI 업데이트 및 멈춤 제공
+            if (i % 10 == 0)
+            {
+                await Task.Yield(); // 다른 작업과 병렬 실행 가능
+            }
+        }
+    }
 
     #endregion
 
@@ -1028,51 +1036,53 @@ public class MapEditor_Editor : Editor
                 GetCompressedTileData(mapEditor.placeMentSystem.ropeTileMap),
                 GetCompressedTileData(mapEditor.placeMentSystem.accessoryTileMap),
                 GetCompressedTileData(mapEditor.placeMentSystem.hiddentTIleMap),
-
-            //Shadow
-            //GetShadowData(),
-            //Light
-            GetGlobalLightStruct(),
-
-            //object
-            GetList<ObjectData>(mapEditor.objectTransform),
-            GetList<ObjectData>(mapEditor.backgroundObjectContainer),
-            GetList_Depth<ObjectData>(mapEditor.otherContainer.GetComponent<OtherContainer>()),
-            GetList<ButtonActivatableObjectStruct>(mapEditor.buttonActivatableObjectTransform),
-            GetList<ButtonObjectStruct>(mapEditor.buttonObjectTransform),
-            GetList<DialogueData>(mapEditor.triggerDialogueTransform),
-            GetList<DroneStruct>(mapEditor.droneTransform),
-            GetList<CollectableObjectStruct>(mapEditor.collectableContainer),
-            mapEditor.cellSize, 
-            0,
-            null,
-            mapEditor.audioName);
-    return  map;
-}
+                GetCompressedTileData(mapEditor.placeMentSystem.specialTileMap),
+                //Shadow
+                GetShadowData(),
+                //Light
+                GetGlobalLightStruct(),
+                //object
+                GetList<ObjectData>(mapEditor.objectTransform),
+                GetList<ObjectData>(mapEditor.backgroundObjectContainer),
+                GetList_Depth<ObjectData>(mapEditor.otherContainer.GetComponent<OtherContainer>()),
+                GetList<ButtonActivatableObjectStruct>(mapEditor.buttonActivatableObjectTransform),
+                GetList<ButtonObjectStruct>(mapEditor.buttonObjectTransform),
+                GetList<DialogueData>(mapEditor.triggerDialogueTransform),
+                GetList<DroneStruct>(mapEditor.droneTransform),
+                GetList<CollectableObjectStruct>(mapEditor.collectableContainer),
+                mapEditor.cellSize,
+                0,
+                null,
+                mapEditor.audioName);
+        return map;
+    }
 
     //------------------------------------------------------------------------------------------------------250107 Shadow
-    //private List<ShadowCasterStruct> GetShadowData()
-    //{
+    private List<ShadowCasterStruct> GetShadowData()
+{
 
-    //    List<ShadowCasterStruct> list = new();
-    //    foreach(Transform tr in mapEditor.shadowContainer)
-    //    {
-    //        Debug.Log($"{tr.name}");
-    //        ShadowCasterSetting setting = tr.GetComponent<ShadowCasterSetting>();
-    //        list.Add(setting.GetShadowCasterStruct());
-    //    }
-    //    return list;
-    //}
-    //------------------------------------------------------------------------------------------------------250107 Shadow
-    //------------------------------------------------------------------------------------------------------250112 Light
-    private LightStruct GetGlobalLightStruct()
+    List<ShadowCasterStruct> list = new();
+    foreach(Transform tr in mapEditor.shadowContainer)
     {
-        var profile = LightingManager2D.Get().profile;
-        return new LightStruct(
-
-            profile.DarknessColor
-        );
-   
+        Debug.Log($"{tr.name}");
+        ShadowCasterSetting setting = tr.GetComponent<ShadowCasterSetting>();
+        list.Add(setting.GetShadowCasterStruct());
+    }
+    return list;
+}
+//------------------------------------------------------------------------------------------------------250107 Shadow
+//------------------------------------------------------------------------------------------------------250112 Light
+private LightStruct GetGlobalLightStruct()
+{
+    Light2D target = mapEditor.GlobalLight;
+    return new LightStruct(
+        target.lightType,
+        target.color,
+        target.intensity,
+        (int[])sortingLayerField.GetValue(target),
+        target.blendStyleIndex,
+        target.lightOrder,
+        target.overlapOperation);
 }
 //------------------------------------------------------------------------------------------------------250112 Light
 
@@ -1396,57 +1406,55 @@ List<TileData> GetTileData(Tilemap tileMap)
         
         return null;
     }
-    private void SetGlobalLight(LightStruct data)
+    private void SetGlobalLight(LightStruct? data)
     {
-        LightingManager2D.Get().profile.DarknessColor = data.color;
-        //     if(data == null)
-        //     {
-        //         mapEditor.GlobalLight.lightType = Light2D.LightType.Global;
-        //         mapEditor.GlobalLight.color = Color.white;
-        //         mapEditor.GlobalLight.intensity = 1;
-        //         sortingLayerField.SetValue(mapEditor.GlobalLight, new int[] { 0 });
-        //         mapEditor.GlobalLight.blendStyleIndex = 0;
-        //         mapEditor.GlobalLight.lightOrder = 0;
-        //         mapEditor.GlobalLight.overlapOperation = 0;
-        //         return;
-        //     }
+        if(data == null)
+        {
+            mapEditor.GlobalLight.lightType = Light2D.LightType.Global;
+            mapEditor.GlobalLight.color = Color.white;
+            mapEditor.GlobalLight.intensity = 1;
+            sortingLayerField.SetValue(mapEditor.GlobalLight, new int[] { 0 });
+            mapEditor.GlobalLight.blendStyleIndex = 0;
+            mapEditor.GlobalLight.lightOrder = 0;
+            mapEditor.GlobalLight.overlapOperation = 0;
+            return;
+        }
 
-        //     var lightData = data.Value;
+        var lightData = data.Value;
 
-        //     if(lightData.type == default)
-        //     {
-        //         mapEditor.GlobalLight.lightType = Light2D.LightType.Global;
-        //         mapEditor.GlobalLight.color = Color.white;
-        //         mapEditor.GlobalLight.intensity = 1;
-        //         sortingLayerField.SetValue(mapEditor.GlobalLight, new int[] { 0 });
-        //         mapEditor.GlobalLight.blendStyleIndex = 0;
-        //         mapEditor.GlobalLight.lightOrder = 0;
-        //         mapEditor.GlobalLight.overlapOperation = 0;
-        //         return;
-        //     }
+        if(lightData.type == default)
+        {
+            mapEditor.GlobalLight.lightType = Light2D.LightType.Global;
+            mapEditor.GlobalLight.color = Color.white;
+            mapEditor.GlobalLight.intensity = 1;
+            sortingLayerField.SetValue(mapEditor.GlobalLight, new int[] { 0 });
+            mapEditor.GlobalLight.blendStyleIndex = 0;
+            mapEditor.GlobalLight.lightOrder = 0;
+            mapEditor.GlobalLight.overlapOperation = 0;
+            return;
+        }
 
-        //     mapEditor.GlobalLight.lightType = lightData.type;
-        //     mapEditor.GlobalLight.color = lightData.color;
-        //     mapEditor.GlobalLight.intensity = lightData.intensity;
-        //     sortingLayerField.SetValue(mapEditor.GlobalLight, lightData.targetSorting);
-        //     mapEditor.GlobalLight.blendStyleIndex = lightData.blendStyleIndex;
-        //     mapEditor.GlobalLight.lightOrder = lightData.lightOrder;
-        //     mapEditor.GlobalLight.overlapOperation = lightData.overlapOeration;
-        // }
+        mapEditor.GlobalLight.lightType = lightData.type;
+        mapEditor.GlobalLight.color = lightData.color;
+        mapEditor.GlobalLight.intensity = lightData.intensity;
+        sortingLayerField.SetValue(mapEditor.GlobalLight, lightData.targetSorting);
+        mapEditor.GlobalLight.blendStyleIndex = lightData.blendStyleIndex;
+        mapEditor.GlobalLight.lightOrder = lightData.lightOrder;
+        mapEditor.GlobalLight.overlapOperation = lightData.overlapOeration;
     }
 
     #endregion
 
 
-        #region  GUI
-    private GUIStyle GetGUIStyle_Button(Color color, int font_Size = 12, FontStyle font_Style = FontStyle.Normal) {
+    #region  GUI
+    private GUIStyle GetGUIStyle_Button(Color color,int font_Size = 12,FontStyle font_Style = FontStyle.Normal){
 
-        return new GUIStyle(GUI.skin.button) {
-            normal = { textColor = color },
-            fontSize = font_Size,
-            fontStyle = font_Style,
-            hover = { textColor = color },
-        };
+        return new GUIStyle(GUI.skin.button){
+                normal = {textColor = color},
+                fontSize = font_Size,
+                fontStyle = font_Style,
+                hover = {textColor = color},
+                };
 
     }
 

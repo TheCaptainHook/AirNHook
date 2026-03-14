@@ -16,7 +16,7 @@ public class Portal : ActivatableObjectEntity
 
 
     [Header("Animation")]
-    [SerializeField] private Animator _animator;
+    // [SerializeField] private Animator _animator;
     [SerializeField] GameObject _TpEffect;
 
 
@@ -24,7 +24,7 @@ public class Portal : ActivatableObjectEntity
     public override T GetData<T>()
     {
         if (typeof(T) == typeof(ButtonActivatableObjectStruct)) {
-            return (T)(object)new ButtonActivatableObjectStruct(id, activeRequirAmount, transform.position, transform.rotation, transform.localScale, indicatorStruct, targetPortal.transform.position);
+            return (T)(object)new ButtonActivatableObjectStruct(id, transform.position, transform.rotation, transform.localScale,activeRequirAmount ,indicatorStruct, targetPortal.transform.position);
         }
 
         return default(T);
@@ -34,7 +34,6 @@ public class Portal : ActivatableObjectEntity
     {
         targetPosition = ButtonActivatedObjectStruct.talPot;
     }
-
 
 
     #region Editor
@@ -104,7 +103,6 @@ public class Portal : ActivatableObjectEntity
     #endregion
 
     #region Interactable
-
     //todo 0913 RayCast
     private void ActiveOnRay()
     {
@@ -117,10 +115,7 @@ public class Portal : ActivatableObjectEntity
             {
                 Net.Server_PlayUniqueEffect(item.netId);
             }
-            
-
         }
-
     }
 #if UNITY_EDITOR
     private void OnDrawGizmos()

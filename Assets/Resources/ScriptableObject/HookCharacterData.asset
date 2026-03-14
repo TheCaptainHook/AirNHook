@@ -18,18 +18,18 @@ MonoBehaviour:
   <floorLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 1082048
-  <coyoteTime>k__BackingField: 0.1
+  <coyoteTime>k__BackingField: 0.15
   <interactableLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 34537472
   <obstacleLayerMask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 1049024
+    m_Bits: 32896
   <detectDistance>k__BackingField: 1
   <swingForce>k__BackingField: 7.6
   <swingJumpForce>k__BackingField: 3.4
   <climbSpeed>k__BackingField: 3.4
   <ropeSpeed>k__BackingField: 40
   <ropeMaxDistance>k__BackingField: 7.2
-  <coolDown>k__BackingField: 0.8
+  <coolDown>k__BackingField: 0.5
   <inhalePower>k__BackingField: 600

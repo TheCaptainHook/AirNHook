@@ -35,6 +35,10 @@ public class NetworkCommand : NetworkBehaviour
         currentClientConnectionCount = NetworkServer.connections.Count;
         isCompleteMoveStageCount = 0;
     }
+    public bool AllReadyClient()
+    {
+        return isCompleteMoveStageCount == currentClientConnectionCount;
+    }
 
     [Command(requiresAuthority = false)]
     public void Cmd_IsCompleteMoveStage()
@@ -45,10 +49,7 @@ public class NetworkCommand : NetworkBehaviour
     //---------------------------------
     private IEnumerator Wait_ChangeStage() //Server
     {
-        var uiOption = Managers.UI.GetUI<UI_Option>().GetComponent<UI_Option>();
-        
-        uiOption.HoldAndReleaseLobby_StageRestartBtn(true);
-        
+
         while(changeStageQueue.Count>0)
         {
             isCompleteMoveStageCount = 0;
@@ -60,7 +61,6 @@ public class NetworkCommand : NetworkBehaviour
            
         }
 
-        uiOption.HoldAndReleaseLobby_StageRestartBtn(false);
         waitChangeStageCoroutine = null;
 
     }
@@ -74,34 +74,31 @@ public class NetworkCommand : NetworkBehaviour
             waitChangeStageCoroutine = StartCoroutine(Wait_ChangeStage());
         }
     }
-    private Coroutine server_waitChangeStageCoroutine;
-    [Server]
-    public void Server_ChangeStage_Use_ExitDoor()
-    {
-        if (server_waitChangeStageCoroutine == null)
-        {
-            server_waitChangeStageCoroutine = StartCoroutine(Server_WaitChangeStageCoroutine());
-        }
-    }
-    IEnumerator Server_WaitChangeStageCoroutine()
-    {
-        var uiOption = Managers.UI.GetUI<UI_Option>().GetComponent<UI_Option>();
-        uiOption.HoldAndReleaseLobby_StageRestartBtn(true);
-        
-        yield return new WaitUntil(() => isCompleteMoveStageCount == 2);
-        
-        isCompleteMoveStageCount = 0;
-        server_waitChangeStageCoroutine = null;
-        uiOption.HoldAndReleaseLobby_StageRestartBtn(false);
-    }
+    //private Coroutine server_waitChangeStageCoroutine;
+    //[Server]
+    //public void Server_ChangeStage_Use_ExitDoor()
+    //{
+    //    if (server_waitChangeStageCoroutine == null)
+    //    {
+    //        server_waitChangeStageCoroutine = StartCoroutine(Server_WaitChangeStageCoroutine());
+    //    }
+    //}
+    //IEnumerator Server_WaitChangeStageCoroutine()
+    //{
+    //    var uiOption = Managers.UI.GetUI<UI_Option>().GetComponent<UI_Option>();
+    //    uiOption.HoldAndReleaseLobby_StageRestartBtn(true);
+    //    yield return new WaitForSeconds(20);
+    //    yield return new WaitUntil(() => isCompleteMoveStageCount == 2);
+    //    isCompleteMoveStageCount = 0;
+    //    server_waitChangeStageCoroutine = null;
+    //    uiOption.HoldAndReleaseLobby_StageRestartBtn(false);
+    //}
 
     // [Command(requiresAuthority = false)]
     [Server]
     public void _Server_ChangeStage(string value) //chit Option, [UI,Console,Serve Dissconnection]
     {
         Server_ChangeStage(value);
-        // RpcChangeStage(value);
-
     }
 
 
@@ -224,7 +221,7 @@ public class NetworkCommand : NetworkBehaviour
         if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
 
         var conn = target.GetComponent<NetworkIdentity>().connectionToClient;
-
+        
         if (!item.TryGetComponent<IInhalable>(out var inhalable) || (inhalable is not null && !inhalable.CanInhale()))
         {
             InhaleItem(conn, itemNetId, false);

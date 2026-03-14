@@ -34,7 +34,15 @@ public class FadeInOutPanel : MonoBehaviour
     }
     IEnumerator FadeInOut(string mapId)
     {
-        if (NetworkServer.active) Managers.Command.Server_UpdateCurClientConnectionCount();
+        MapEditor.Instance._onMapTransition_Complete = false;
+        MapEditor.Instance.EventClean();
+        
+        var uiOption = Managers.UI.GetUI<UI_Option>().GetComponent<UI_Option>();
+        if (NetworkServer.active) 
+        {
+            Managers.Command.Server_UpdateCurClientConnectionCount();
+            uiOption.HoldAndReleaseLobby_StageRestartBtn(true);
+        } 
         //Event to be executed before map transition
         preMapLoadEvent?.Invoke(); 
         Managers.Sound.CollectAmbientSoundSource();
@@ -52,7 +60,36 @@ public class FadeInOutPanel : MonoBehaviour
         yield return StartCoroutine(UI_MapOpenClosePanel.Prograss_1());
         //------------------------UI_MapOpenClosePanel Prograss 1
 
-        //------------------------Player Ignore Damage
+        //------------------------Pooling
+        while (MapEditor.Instance._n_activePoolingObject.Count > 0)
+        {
+            var obj = MapEditor.Instance._n_activePoolingObject.Dequeue();
+            try
+            {
+                obj.Clean();
+            }
+            catch(Exception ex)
+            {
+                Debug.Log($"{gameObject.name}, {ex}");
+            }
+            
+           
+            if (NetworkServer.active)
+                Managers.Pooling.N_ReleaseToPool(obj.gameObject);
+            else obj.gameObject.SetActive(false);
+        }
+        
+        
+        while (MapEditor.Instance._d_activePoolingObject.Count > 0)
+        {
+            var obj = MapEditor.Instance._d_activePoolingObject.Dequeue();
+            obj.Clean();
+            Managers.Pooling.D_ReleaseToPool(obj.gameObject);
+        }
+
+        //------------------------Pooling
+
+        //------------------------Player Ignore Damage 
         var player = Managers.Game.Player;
         var sm = player ? player.TryGetComponent(out PlayerSM playerSm) ? playerSm : null : null;
         if (!player)
@@ -74,6 +111,8 @@ public class FadeInOutPanel : MonoBehaviour
 
         var playerCol = sm.GetComponent<Collider2D>();
         var playerRb = sm.GetComponent<Rigidbody2D>();
+        var playerGravity = playerRb.gravityScale;
+
         playerRb.gravityScale = 0;
         playerRb.velocity = Vector2.zero;   
         playerCol.enabled = false;
@@ -82,21 +121,25 @@ public class FadeInOutPanel : MonoBehaviour
 
         //------------------------Create Next Stage
         Managers.Network.startPos.Clear();
-        MapEditor.Instance.LoadMap(mapId);
+        // MapEditor.Instance.LoadMap(mapId);
+        yield return StartCoroutine(MapEditor.Instance.LoadMapCo(mapId));
         //------------------------Create Next Stage
 
         //------------------------Player, Camera Setting
         sm.Respawning();
         Camera.main.GetComponent<ParallaxCamera>().enabled = true;
-        Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.Volume_1();
+        // Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.Volume_1();
+        playerCameraView._CameraGlobalVolumeController.Volume_1();
         yield return new WaitForSeconds(.5f);
-        
-        yield return new WaitUntil(() => playerCameraView.isCameraCenter);
+
+        //yield return new WaitUntil(() => playerCameraView.isCameraCenter);
+        yield return WaitUntilOrTimeout(() => playerCameraView.isCameraCenter, 10, () => { Debug.Log("[1] TimeOut Camera"); });
         //------------------------Player, Camera Setting
 
         Managers.Command.Cmd_IsCompleteMoveStage();
-        var num = Managers.Command.currentClientConnectionCount;
-        yield return new WaitUntil(() => Managers.Command.isCompleteMoveStageCount == num);
+        //var num = Managers.Command.currentClientConnectionCount;
+        //yield return new WaitUntil(() => Managers.Command.isCompleteMoveStageCount == num);
+        yield return WaitUntilOrTimeout(() => Managers.Command.AllReadyClient(), 10, () => { Debug.Log("[2] TimeOut"); });
 
         //------------------------UI_MapOpenClosePanel Prograss 2
         yield return StartCoroutine(UI_MapOpenClosePanel.Prograss_2());
@@ -104,21 +147,43 @@ public class FadeInOutPanel : MonoBehaviour
 
         //--------------------------------Player recover
         if (playerCol) playerCol.enabled = true;
-        if(playerRb) playerRb.gravityScale = 3;
+        if (playerRb) playerRb.gravityScale = playerGravity;
         //--------------------------------Player recover
 
         yield return new WaitForSeconds(1f);
         sm.canMovable = true;
         sm.canControl = true;
+        //==========Map Transition Complete
+        MapEditor.Instance._onMapTransition_Complete = true;
+        //==========Map Transition Complete
+
         //------------------------UI_MapOpenClosePanel Prograss 3
         yield return StartCoroutine(UI_MapOpenClosePanel.Prograss_3());
         Managers.UI.HideUI<UI_MapOpenClosePanel>();
         //------------------------UI_MapOpenClosePanel Prograss 3
 
         moveNextStageCoroutine = null;
-        
+        if (NetworkServer.active) 
+        {
+            uiOption.HoldAndReleaseLobby_StageRestartBtn(false);
+
+        } 
         //Managers.Command.Cmd_IsCompleteMoveStage();
         Managers.Game.StageStart(mapId);
     }
 
+
+    private IEnumerator WaitUntilOrTimeout(Func<bool> cond, float timeoutSec, Action onTimeout = null)
+    {
+        float end = Time.unscaledTime + timeoutSec;
+        while (!cond())
+        {
+            if (Time.unscaledTime >= end)
+            {
+                onTimeout?.Invoke();
+                yield break;
+            }
+            yield return null;
+        }
+    }
 }

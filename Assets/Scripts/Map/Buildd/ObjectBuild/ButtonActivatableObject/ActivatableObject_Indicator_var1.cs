@@ -26,9 +26,11 @@ public class ActivatableObject_Indicator_var1 : MonoBehaviour
     public void Setting(ActivatableObjectEntity entity, ActivatableObject_Net_Entity net)
     {
         parent = entity.transform;
-        transform.position = parent.localScale * net.data.indicatorStruct.indicator_1_position;
-
-        bgImg.transform.localScale = parent.localScale;
+        // transform.position = parent.localScale * net.data.indicatorStruct.indicator_1_position;
+        transform.position = net.data.indicatorStruct.indicator_1_position;
+        
+        transform.localScale = Vector2.one;
+        // bgImg.transform.localScale = Vector2.one;
 
         var termTr = MapEditor.Instance.dontSaveObjectTransform;
 
@@ -46,7 +48,9 @@ public class ActivatableObject_Indicator_var1 : MonoBehaviour
 
         transform.position = parent.position + new Vector3(0, 1.5f);
 
-        bgImg.transform.localScale = parent.localScale;
+        // bgImg.transform.localScale = parent.localScale;
+        transform.localScale = Vector2.one;
+        // bgImg.transform.localScale = Vector2.one;
 
         transform.SetParent(parent);
 
@@ -82,7 +86,12 @@ public class ActivatableObject_Indicator_var1 : MonoBehaviour
 
     }
 
-
+    #region  Clean
+    public void Clean()
+    {
+        
+    }
+#endregion
 
 
 }

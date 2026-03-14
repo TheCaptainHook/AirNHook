@@ -17,18 +17,18 @@ public class Turret : ActivatableObjectEntity
     [ReadOnly]
     [SerializeField] ParticleSystem fireEffect;
 
-    private Animator animator;
-    private Animator Animator
-    {
-        get
-        {
-            animator ??= GetComponent<Animator>();
-            return animator;
-        }
-    }
+    // private Animator animator;
+    // private Animator Animator
+    // {
+    //     get
+    //     {
+    //         animator ??= GetComponent<Animator>();
+    //         return animator;
+    //     }
+    // }
 
     #region Network
-    private Turret_Net Turret_Net => GetComponent<Turret_Net>();
+    // private Turret_Net Turret_Net => GetComponent<Turret_Net>();
     #endregion
 
     #region Get,Set
@@ -36,7 +36,7 @@ public class Turret : ActivatableObjectEntity
     {
         if (typeof(T) == typeof(ButtonActivatableObjectStruct))
         {
-            return (T)(object)new ButtonActivatableObjectStruct(id, activeRequirAmount, transform.position, transform.rotation, transform.localScale, rotateRate,fireRate,onHoldRotation,indicatorStruct,onLeft);
+            return (T)(object)new ButtonActivatableObjectStruct(id, transform.position, transform.rotation, transform.localScale,activeRequirAmount, rotateRate,fireRate,onHoldRotation,onLeft);
         }
 
         return default(T);

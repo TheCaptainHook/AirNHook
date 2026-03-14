@@ -1,6 +1,7 @@
 
 using Mirror;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class Battery : InteractableObjectEntity
 {
@@ -11,7 +12,8 @@ public class Battery : InteractableObjectEntity
     public PowerSupply powerSupply;
 
     #region Network
-    private BatteryInteractable Battery_Net => GetComponent<BatteryInteractable>();
+    private BatteryInteractable net ;
+    private BatteryInteractable Battery_Net {get{net ??= GetComponent<BatteryInteractable>(); return net;}}
     
     #endregion
 
@@ -38,44 +40,17 @@ public class Battery : InteractableObjectEntity
     {
         if (NetworkServer.active)
         {
-            // respawnEvent += Battery_Net.Server_SetBatteryCapacity(-100);
             respawnEvent += Battery_Net.Server_ResetBattery;
         }
     }
 
     #region Network Sync
-    public void Net_SetBatteryCharger(GameObject obj)
+  
+
+    protected override void Clean_OtherValue()
     {
-        ////Battery_Net.Cmd_SetBatteryCharger(obj);
-        //if (obj == null)
-        //{
-        //    Battery_Net.Cmd_SetBatteryCharger(9999);
-        //}
-        //else
-        //{
-        //    uint id = obj.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 9999;
-        //    Battery_Net.Cmd_SetBatteryCharger(id);
-
-
-        //}
-        Battery_Net.batteryCharger = obj;
-    }
-    public void Net_SetPowerSupply(GameObject obj)
-    {
-        //if(obj == null)
-        //{
-        //    Battery_Net.Cmd_SetPowerSupply(9999);
-        //}
-        //else
-        //{
-        //    uint id = obj.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 9999;
-        //    Battery_Net.Cmd_SetPowerSupply(id);
-
-
-        //}
-        Battery_Net.powerSupply = obj;
+        if (NetworkServer.active) Battery_Net.batteryCapacity = 0;
     }
 
-           
     #endregion
 }

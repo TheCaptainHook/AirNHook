@@ -9,6 +9,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     // grab release
     [Header("Grab n Release")]
     private Transform _accessor;
+    public Transform Accessor => _accessor;
     [field: SerializeField][SyncVar] private GameObject _permissionPlayer;
     private object _lock = new object();
     protected Rigidbody2D _rigidbody;
@@ -29,7 +30,9 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     // e button ui
     [Header("E Button UI")]
     private UI_Base _eButtonUI;
-    [field: SerializeField] private Vector2 _offset;
+    private float _offset = 0.5f;
+    [field: SerializeField] private SpriteRenderer _spriteRenderer;
+    private Vector2 _topOfObj;
     private Vector3 _previous;
 
     // inhale
@@ -54,6 +57,8 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _originRot = _rigidbody.constraints;
         _gravityScale = _rigidbody.gravityScale;
         _originSortingLayerID = _sortingGroup.sortingLayerID;
+
+        _topOfObj = new Vector2(0, _spriteRenderer.bounds.max.y - transform.position.y + _offset);
     }
 
     protected void Update()
@@ -62,7 +67,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
         if (!_isFixed && _eButtonUI is not null)
         {
-            _eButtonUI.transform.position = transform.position + (Vector3)_offset;
+            _eButtonUI.transform.position = transform.position + (Vector3)_topOfObj;
         }
     }
 
@@ -192,7 +197,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         CmdChangeGrabState(true);
     }
 
-    public bool CanInteract()
+    public virtual bool CanInteract()
     {
         return _canInteract && _canGrab && !_isDestroyed;
     }
@@ -224,12 +229,12 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         return _objectType;
     }
 
-    public void ShowEButton()
+    public virtual void ShowEButton()
     {
         if (!_canInteract) return;
 
         _eButtonUI = Managers.UI.ShowUI<UI_ShowEButton>();
-        _eButtonUI.transform.position = transform.position + (Vector3)_offset;
+        _eButtonUI.transform.position = transform.position + (Vector3)_topOfObj;
     }
 
     public void HideEButton()
@@ -247,7 +252,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
     public void StopInhale(GameObject accessor)
     {
-        if (!ReferenceEquals(_permissionPlayer, accessor)) return;
+        if (_permissionPlayer != null && !ReferenceEquals(_permissionPlayer, accessor)) return;
 
         if (_isDestroyed) return;
 
@@ -256,6 +261,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _rigidbody.drag = 0f;
         _rigidbody.gravityScale = _gravityScale;
         _rigidbody.freezeRotation = false;
+
     }
 
     public virtual void Fixed(bool value)
@@ -284,7 +290,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.angularVelocity = 0f;
         _rigidbody.freezeRotation = true;
-        _rigidbody.Sleep();
     }
 
     [Server]
@@ -315,7 +320,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
 
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.angularVelocity = 0f;
-        _rigidbody.Sleep();
         _stoppedTime = 0f;
     }
 
@@ -426,8 +430,9 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
     #region Dissolve
     private static readonly int DissolveAmount = Shader.PropertyToID("_DissolveAmount");
     float dissolveRate = 0.015f;
-    [Command(requiresAuthority = false)]
-    public void Cmd_Dissolve() //Only Server
+    // [Command(requiresAuthority = false)]
+    [Server]
+    public void Server_Dissolve() //Only Server
     {
         if (isServer)
         {
@@ -468,13 +473,15 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         while (percent > 0)
         {
             percent -= dissolveRate;
+            //------------Dissolve Modify 0804
             // buildObj.DissolveMaterial.SetFloat(DissolveAmount, percent);
-            for (int i = 0; i < buildObj._dissolveMaterial.Length; i++)
-            {
-                buildObj._dissolveMaterial[i].SetFloat(DissolveAmount, percent);
-            }
 
-            yield return null;
+            for (int i = 0; i < buildObj._dissolveMaterials.Length; i++)
+            {
+                buildObj._dissolveMaterials[i].SetFloat(DissolveAmount, percent);
+            }
+            //------------Dissolve Modify 0804
+                yield return null;
         }
 
         if (NetworkServer.active)
@@ -484,6 +491,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
                 if (buildObj.carrierTransform != null)
                 {
                     buildObj.Connection_TransportItem();
+                    buildObj.canRespawn = false;
                 }
                    
             }
@@ -498,9 +506,9 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
         {
             percent += dissolveRate;
             // buildObj.DissolveMaterial.SetFloat(DissolveAmount, percent);
-            for (int i = 0; i < buildObj._dissolveMaterial.Length; i++)
+            for (int i = 0; i < buildObj._dissolveMaterials.Length; i++)
             {
-                buildObj._dissolveMaterial[i].SetFloat(DissolveAmount, percent);
+                buildObj._dissolveMaterials[i].SetFloat(DissolveAmount, percent);
             }
             yield return null;
         }

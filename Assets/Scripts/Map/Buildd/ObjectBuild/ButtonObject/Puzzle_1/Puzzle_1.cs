@@ -1,10 +1,7 @@
 
 using UnityEngine;
-using System;
-using Random = UnityEngine.Random;
 using System.Collections.Generic;
 using System.Text;
-
 
 public class Puzzle_1 : ButtonEntity
 {
@@ -35,15 +32,17 @@ public class Puzzle_1 : ButtonEntity
         if (typeof(T) == typeof(ButtonObjectStruct)) {
             return (T)(object)new ButtonObjectStruct(
                 id,
-                GetTargetPositions(),
                 GetPosition(),
+                transform.rotation,
                 transform.localScale,
+                GetTargetPositions(),
+                GetLightPositions(),
+                GetEncapsulationTiems(),
+                
+                onHint,
                 GetPartsPosition(),
                 GetItemPosition(),
-                onHint,
-                onHint ? hintScreen.transform.position : default,
-                GetLightPositions(),
-                GetEncapsulationTiems()
+                onHint ? hintScreen.transform.position : default 
                 );
         }
 
@@ -57,10 +56,19 @@ public class Puzzle_1 : ButtonEntity
             Mathf.RoundToInt(transform.position.y));
     }
 
-    public override void SetData<T>(T data)
+    public override void SetData<T>(T data) //Server
     {
-        base.SetData(data);
-          
+        // base.SetData(data);
+        if (typeof(T) == typeof(ButtonObjectStruct))
+        {
+            ButtonObjectStruct buttonData = (ButtonObjectStruct)(object)data;
+            ButtonObjectData = buttonData;
+
+            FindTargetObject();
+            if (buttonData.lightPositions.Count > 0) FindLightObject();
+            if (buttonData.encapsulationItems.Count > 0) FindEncapsulationItem();
+        }
+            
         partsPosition = ButtonObjectData.partsPositions;
         itemsPosition = ButtonObjectData.itemPositions;
         if (ButtonObjectData.onHint)
@@ -75,39 +83,7 @@ public class Puzzle_1 : ButtonEntity
         }
 
         Setting();
-        //Setting parts and Item;
-
-
-        // try
-        // {
-        //     if (typeof(T) == typeof(ButtonObjectStruct))
-        //     {
-        //         ButtonObjectStruct buttonData = (ButtonObjectStruct)(object)data;
-        //         ButtonObjectData = buttonData;
-        //         FindTargetObject();
-
-        //         partsPosition = buttonData.partsPositions;
-        //         itemsPosition = buttonData.itemPositions;
-        //         if (buttonData.onHint)
-        //         {
-        //             onHint = true;
-        //             hintPosition = buttonData.hintPosition;
-        //         }
-        //         else
-        //         {
-        //             onHint = false;
-        //             hintPosition = default;
-        //         }
-
-        //         Setting();
-        //         //Setting parts and Item;
-        //     }
-
-        // }
-        // catch (Exception ex)
-        // {
-        //     Debug.Log($"name : {gameObject.name},{ex}");
-        // }
+       
     }
     #endregion
 
@@ -130,10 +106,20 @@ public class Puzzle_1 : ButtonEntity
 
     private void Update()
     {
-        if(Puzzle_Net.onActive && input.playerActions.Action.ReadValue<float>()>0f)
+        
+        if (Puzzle_Net.onActive && input.playerActions.Action.ReadValue<float>() > 0f)
         {
-            // Net_Charging();
-            Puzzle_Net.CmdCharging();
+            if (!Managers.Game.Player.TryGetComponent(out AirSM air)) return;
+            
+            if (input.playerActions.Action.ReadValue<float>() > 0f)
+            {
+                Puzzle_Net.CmdCharging();
+            }
+            else
+            {
+                Puzzle_Net.Cmd_SoundStop();
+            }
+
         }
 
     }
@@ -166,64 +152,66 @@ public class Puzzle_1 : ButtonEntity
     }
 #endif
     //-------------------------------------------------------------------------------250307 Refactoring
-    private void Setting() 
- {
-    #if UNITY_EDITOR
+    public void Setting() //Server
+    {
+#if UNITY_EDITOR
         Helper.Init();
-    #endif
-
-        for (int i = 0; i < partsPosition.Length; i++) 
+#endif
+        for (int i = 0; i < partsPosition.Length; i++)
         {
-            if(Application.isPlaying)
+            if (Application.isPlaying)
             {
-                 Puzzle_Net.Server_CreatePuzzle_Item(
-                    i,itemsPosition[i],partsPosition[i]
-                );
-
+                Puzzle_Net.Server_CreatePuzzle_Item(i, itemsPosition[i], partsPosition[i]);
             }
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
             else
             {
                 Editor_Setting(i);
 
             }
-    #endif
+#endif
         }
 
-
-
-    if (Application.isPlaying)
-    {
+        if (Application.isPlaying)
+        {
             //Create Dummy Item 
-            if(itemsPosition.Length > partsPosition.Length)
+            if (itemsPosition.Length > partsPosition.Length)
             {
-                for(int i = partsPosition.Length;i<itemsPosition.Length;i++)
+                for (int i = partsPosition.Length; i < itemsPosition.Length; i++)
                 {
                     Puzzle_Net.Server_Create_DummyItem(itemsPosition[i]);
                 }
             }
             //Create Dummy Item 
-            Puzzle_Net.Server_SetHintSetting();
-    }
-    else
-    {
-       SetHint();
-            //Create Dummy Item 
+            Puzzle_Net.Server_SetHintSetting(); // Rpc, Sync Start
+        }
+        else
+        {
+            SetHint();
 
-            #if UNITY_EDITOR
-            int index = itemsPosition.Length - partsPosition.Length; 
-            if(index <=0) return;
+#if UNITY_EDITOR
+            int index = itemsPosition.Length - partsPosition.Length;
+            if (index <= 0) return;
 
-            for(int i = partsPosition.Length; i<itemsPosition.Length;i++) 
+            for (int i = partsPosition.Length; i < itemsPosition.Length; i++)
             {
                 Editor_Create_DummyItem(i);
             }
-            
-            #endif
+
+#endif
             //Create Dummy Item 
+        }
+
     }
- 
- }
+
+    #region  Clean
+    public override void Clean() //RPC
+    {
+        puzzle_1_Parts.Clear();
+
+        Puzzle_Net.Clean();
+    }
+ #endregion
 
 
     public void SetHint(string answer = "ANSWER")
@@ -262,7 +250,7 @@ public class Puzzle_1 : ButtonEntity
 
 
 
-    protected override void Activation()
+    public override void Activation()
     {
         PrograssButtonActivatedObject(true);
     }
@@ -282,37 +270,39 @@ public class Puzzle_1 : ButtonEntity
   
     public bool CheckAnswer() //Server
     {
+        if(puzzle_1_Parts == null || puzzle_1_Parts.Count  == 0)
+        {
+            return false;
+        }
+        
         int num = 0;
         foreach (Puzzle_1_Parts parts in puzzle_1_Parts)
         {
-
             if (parts.CheckAnswer()) num++;
         }
 
-
-        Debug.Log($"{num}, count :{puzzle_1_Parts.Count}");
         return num == puzzle_1_Parts.Count;
     }
 
-    public void Boom()
-    {
-        HashSet<Collider2D> col = new();
-        foreach (Puzzle_1_Parts parts in puzzle_1_Parts)
-        {
-            parts.Boom(ref col);
-        }
+    // public void Boom()
+    // {
+    //     HashSet<Collider2D> col = new();
+    //     foreach (Puzzle_1_Parts parts in puzzle_1_Parts)
+    //     {
+    //         parts.Boom(ref col);
+    //     }
 
-        if(col.Count> 0)
-        {
-            foreach(var c in col)
-            {
-               if(c.TryGetComponent(out PlayerSM component))
-                {
-                    component.TakeDamage(DamageType.Boom);
-                }
-            }
-        }
-    }
+    //     if(col.Count> 0)
+    //     {
+    //         foreach(var c in col)
+    //         {
+    //            if(c.TryGetComponent(out PlayerSM component))
+    //             {
+    //                 component.TakeDamage(DamageType.Boom);
+    //             }
+    //         }
+    //     }
+    // }
     #endregion
 
   

@@ -10,7 +10,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
     public Stack<ActivatableObject_Indicator_var2_Item> itemWaitStack;
     private List<Indicator_var2_DrawLineUtility> itemCurActiveList;
     [ReadOnly]
-    public int curItemListIndex;
+    // public int curItemListIndex;
 
     [SerializeField] Transform linePoolingContainer;
     //--------------------------------------------------------------------------------Renewal 0704
@@ -30,7 +30,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
     [ReadOnly]
     public ActivatableObject_Net_Entity net;
 
-#region Default
+    #region Default
     public void Setting(ActivatableObjectEntity entity, ActivatableObject_Net_Entity net)
     {
         this.entity = entity;
@@ -54,11 +54,51 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
 
         activeRequirAmount = net.data.activeRequirAmount;
 
-
         CreateItemAndSorting(net.data);
 
     }
     #endregion
+     #region  Clean
+    public void Clean()
+    {
+        while (itemWaitStack.Count > 0)
+        {
+            var item = itemWaitStack.Pop();
+            Destroy(item);
+        }
+        for (int i = 0; i < itemCurActiveList.Count; i++)
+        {
+            var item = itemCurActiveList[i];
+            item.Clean();
+            Destroy(item);
+        }
+
+        _isEncapsulation_ItemReady = false;
+    }
+    #endregion
+
+
+    #region  Path Chacking
+    public bool notObstacle = false;
+    public void PathChacking(uint targetID) //Rpc
+    {
+        if (this == null || gameObject == null) return;
+
+        StartCoroutine(Encapsulation_WaitItemReadyCo(targetID));
+    }
+    private IEnumerator Encapsulation_WaitItemReadyCo(uint targetID)
+    {
+        yield return new WaitUntil(() => _isEncapsulation_ItemReady);
+
+        if (itemWaitStack.Count == 0) yield break;
+
+        var item = itemWaitStack.Pop();
+        var lineUtility = GetLine();
+        lineUtility.PathChacking(this, targetID, item);
+    }
+
+    #endregion
+
 
     #region  Encapsulation Field
     public EncapsulationField encapsulationField;
@@ -74,15 +114,17 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
 
         var termTr = MapEditor.Instance.dontSaveObjectTransform;
         transform.SetParent(termTr);
- 
+
         itemWaitStack = new();
         itemCurActiveList = new();
 
         activeRequirAmount = transportItemEntity.data.activeRequireAmount;
 
         CreateItemAndSorting(transportItemEntity.data);
+
     }
-   
+
+
     private float FloorTo2DecimalPlaces(float num)
     {
         return Mathf.Floor(num * 100) / 100f;
@@ -104,7 +146,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
             var item = itemWaitStack.Pop();
             //itemCurActiveList.Add((id, item, data));
             itemCurActiveList.Add(lineUtility);
-            lineUtility.SettingAndDrawLine(id, item, target, () => SetApplyActive_EncapsultationField(1));
+            lineUtility.SettingAndDrawLine(id, item, target, () => SetApplyActive_EncapsultationField(1), notObstacle);
 
         }
         else
@@ -149,12 +191,13 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
             {
                 item.Fade(false);
             }
-            
+
         }
 
     }
     #endregion
     //Encapsulation Field
+    private bool _isEncapsulation_ItemReady;
     private void CreateItemAndSorting(ObjectData data)
     {
         float totalLength = item_Space * (data.activeRequireAmount - 1); // 총 길이
@@ -166,6 +209,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
             item.transform.position = startPot + new Vector3(item_Space * i, 0, 0);
         }
 
+        _isEncapsulation_ItemReady = true;
     }
 
     //Default
@@ -177,20 +221,22 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
             transform.position - new Vector3(totalLength / 2f, 0, 0) :
             transform.position - new Vector3(0, totalLength / 2f, 0);
 
-            for (int i = activeRequirAmount - 1; i >= 0; i--)
-            {
-                var item = CreateItem();
-                itemWaitStack.Push(item);
-                Vector3 offset = data.indicatorStruct.isHorizontal ? new Vector3(item_Space * i, 0, 0) : new Vector3(0, item_Space * i, 0);
-                item.transform.position = startPos + transform.rotation * offset ;
-            }
-    
+        for (int i = activeRequirAmount - 1; i >= 0; i--)
+        {
+            var item = CreateItem();
+            itemWaitStack.Push(item);
+            Vector3 offset = data.indicatorStruct.isHorizontal ? new Vector3(item_Space * i, 0, 0) : new Vector3(0, item_Space * i, 0);
+            item.transform.position = startPos + transform.rotation * offset;
+        }
+
+        _isEncapsulation_ItemReady = true;
+
     }
-   
+
     //--------------------------------------------------------------------------------Renewal 0704
 
 
-    public void SetApplyActive(uint id, int curActiveBtn, int inc)
+    public void SetApplyActive(uint id, int curActiveBtn, int inc) //all client
     {
         Transform target = NetworkClient.spawned.TryGetValue(id, out var targetObject) ? targetObject.transform : null;
         if (target == null) return;
@@ -207,7 +253,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
             var item = itemWaitStack.Pop();
             //itemCurActiveList.Add((id, item, data));
             itemCurActiveList.Add(lineUtility);
-            lineUtility.SettingAndDrawLine(id, item, target, () => SetApplyActive(1));
+            lineUtility.SettingAndDrawLine(id, item, target, () => SetApplyActive(1), notObstacle);
 
         }
         else
@@ -238,7 +284,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
 
         if (curActiveRequirAmount == activeRequirAmount)
         {
-            foreach(var item in itemCurActiveList)
+            foreach (var item in itemCurActiveList)
             {
                 item.Fade(true);
             }
@@ -246,10 +292,10 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
 
             if (NetworkServer.active)
                 entity.Activation();
-          
+
         }
         else
-        {       
+        {
             foreach (var item in itemCurActiveList)
             {
                 item.Fade(false);
@@ -267,11 +313,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
 
     private ActivatableObject_Indicator_var2_Item CreateItem()
     {
-        var item = Instantiate(activatableObject_Indicator_var2_Item_Prefab, container).GetComponent<ActivatableObject_Indicator_var2_Item>();;
-        // item.transform.localPosition = curItem_Space;
-        // curItem_Space += -(Vector2)container.up * item_Space;
-
-        //item.indicator_Var2 = this;
+        var item = Instantiate(activatableObject_Indicator_var2_Item_Prefab, container).GetComponent<ActivatableObject_Indicator_var2_Item>(); ;
         return item;
     }
 
@@ -302,7 +344,7 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
         line.transform.SetParent(linePoolingContainer);
 
         //Line Visual
-        line.startWidth = 0.7f;
+        line.startWidth = 0.1f;
         line.material = new Material(Shader.Find("Sprites/Default"));
         line.startColor = Color.green;
         line.endColor = Color.green;
@@ -316,4 +358,6 @@ public class ActivatableObject_Indicator_var2 : MonoBehaviour
     }
     #endregion
 
+
+   
 }

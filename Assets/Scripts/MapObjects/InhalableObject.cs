@@ -3,14 +3,22 @@ using UnityEngine;
 
 public class InhalableObject : NetworkBehaviour, IInhalable
 {
+    private Transform _accessor;
+    private bool _isDestroyed;
+    private GameObject _permissionPlayer;
+    private object _lock = new object();
     protected Rigidbody2D _rigidbody;
     protected RigidbodyType2D _originType;
     protected RigidbodyConstraints2D _originRot;
     protected float _gravityScale;
-    private float _stoppedTime;
+    protected float _stoppedTime;
+    protected GameObject _inhalingPlayer;
 
     protected Transform _fixedPoint;
     [SyncVar] protected bool _isFixed;
+
+    [Header("Inhale")]
+    [field: SerializeField] private float _inhalePower = 20f;
 
     protected virtual void Awake()
     {
@@ -27,6 +35,12 @@ public class InhalableObject : NetworkBehaviour, IInhalable
     private void Update()
     {
         ClientAuthorityPass();
+    }
+
+    protected virtual void FixedUpdate()
+    {
+        if (_isFixed)
+            Fixing();
     }
 
     private void ClientAuthorityPass()
@@ -59,42 +73,133 @@ public class InhalableObject : NetworkBehaviour, IInhalable
     #region Inhalation
     public bool CanInhale()
     {
-        return true;
+        return !_isFixed && !_isDestroyed;
     }
 
     public void Fixed(bool value)
     {
-        _stoppedTime = 0f;
-        _rigidbody.drag = 0f;
+        if (_isDestroyed) return;
+
         _isFixed = value;
+        CmdChangeFixedState(value);
+
+        if (_isFixed)
+        {
+            _rigidbody.velocity = Vector2.zero;
+            _rigidbody.angularVelocity = 0f;
+        }
+    }
+
+    public void Fixing()
+    {
+        if (_isDestroyed) return;
+
+        _rigidbody.velocity = Vector2.zero;
+        _rigidbody.angularVelocity = 0f;
+        _rigidbody.freezeRotation = true;
     }
 
     public void Inhalation(Transform accessor)
     {
-        _stoppedTime = 0f;
-        _fixedPoint = accessor;
+        _accessor = accessor;
     }
 
-    public bool Inhaling(bool value, GameObject player)
+    public virtual bool Inhaling(bool value, GameObject player)
     {
-        return true;
+        Debug.Log("1");
+        if (value == false)
+        {
+            Debug.Log("2");
+            CmdRemovePermissionPlayer();
+            Debug.Log("3");
+            return true;
+        }
+
+        if (AddPermissionPlayer(player))
+        {
+            Debug.Log("4");
+            return true;
+        }
+        else
+        {
+            Debug.Log("5");
+            return false;
+        }
     }
 
     public virtual void Shooting(Vector2 force)
     {
+        if (_isDestroyed) return;
+
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.angularVelocity = 0f;
-        _rigidbody.Sleep();
         _stoppedTime = 0f;
     }
 
-    public void StopInhale(GameObject accssor)
+    public virtual void StopInhale(GameObject accessor)
     {
-        _stoppedTime = 0f;
-        _fixedPoint = null;
+        if (_permissionPlayer != null && !ReferenceEquals(_permissionPlayer, accessor)) return;
+
+        if (_isDestroyed) return;
+
+        Fixed(false);
+        CmdRemovePermissionPlayer();
         _rigidbody.drag = 0f;
         _rigidbody.gravityScale = _gravityScale;
-        Fixed(false);
+        _rigidbody.freezeRotation = false;
     }
     #endregion
+
+    public Transform GetFixedPointRootTransform()
+    {
+        if (_accessor == null) return null;
+        return _accessor.root;
+    }
+
+    private bool AddPermissionPlayer(GameObject player, bool isGrab = false)
+    {
+        lock (_lock)
+        {
+            if (_permissionPlayer == null)
+            {
+                _permissionPlayer = player;
+                return true;
+            }
+            else if (ReferenceEquals(_permissionPlayer, player))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+
+    [Command(requiresAuthority = false)]
+    protected void CmdRemovePermissionPlayer()
+    {
+        lock (_lock)
+        {
+            _permissionPlayer = null;
+        }
+
+        if (_permissionPlayer == null)
+            Invoke(nameof(CheckPermissionPlayer), 0.1f);
+    }
+
+    private void CheckPermissionPlayer()
+    {
+        if (_isFixed && _permissionPlayer == null)
+        {
+            _isFixed = false;
+            CmdChangeFixedState(false);
+        }
+    }
+
+    [Command(requiresAuthority = false)]
+    protected void CmdChangeFixedState(bool value)
+    {
+        _isFixed = value;
+    }
 }

@@ -88,7 +88,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -688237417
   m_SortingLayer: 5
-  m_SortingOrder: 6
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: bfa0c12b0d6d5fc4a890238607db2212, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -115,7 +115,7 @@ BoxCollider2D:
     m_Bits: 705472
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 1294281783
+    m_Bits: 1294216247
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -201,7 +201,7 @@ MonoBehaviour:
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprites:
   - {fileID: 5903818644388520337}
-  _dissolveMaterial: []
+  _dissolveMaterials: []
   canRespawn: 0
   socketNumber: 3
   possibleInsertSocket: 0
@@ -268,7 +268,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: -688237417
   m_SortingLayer: 5
-  m_SortingOrder: 10
+  m_SortingOrder: 2
   m_SortAtRoot: 0
 --- !u!114 &432890324054037823
 MonoBehaviour:
@@ -293,11 +293,10 @@ MonoBehaviour:
   _canGrab: 1
   _isDestroyed: 0
   _isGrab: 0
-  _offset: {x: 0, y: 0}
+  _spriteRenderer: {fileID: 2696345626640238639}
   _inhalePower: 600
   orgPosition: {x: 0, y: 0, z: 0}
-  onConnect: 0
-  parts: {fileID: 0}
+  _onSync: 0
 --- !u!114 &8992026793331297179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,15 +312,11 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  movingPlatform: {fileID: 0}
-  movingPlatformLayer:
+  movingPlatformMask:
     serializedVersion: 2
-    m_Bits: 0
-  layOffset: {x: 0, y: 0, z: 0}
-  col: {fileID: 0}
-  rb: {fileID: 0}
-  netRb: {fileID: 0}
-  startSync: 0
+    m_Bits: 32768
+  skin: 0.2
+  _platformId: 0
 --- !u!1773428102 &-3962343662766714285
 ParentConstraint:
   m_ObjectHideFlags: 0

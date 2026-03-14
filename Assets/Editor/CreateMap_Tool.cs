@@ -20,12 +20,10 @@ public enum ModeType
 public class CreateMap_Tool : EditorWindow
 {
 
-    //test
     MapEditor curMapEditor;
     bool isMapEditor;
     GameObject obj;
-    //test
-    
+ 
     // 
     /// <summary>
     ///Load in Prefabs/MapEditor Directory. 
@@ -58,8 +56,6 @@ public class CreateMap_Tool : EditorWindow
     Color headerSectionColor = new Color(13f / 255f, 32f / 255f, 44f / 255f, 1f);
     Color objectSectonColor = new Color(0, 0, 0,1);
 
-    // int objectSectionPot;
-
     [Header("GUI Style")]
     GUIStyle _GUIStyle_Text;
     GUIStyle _GUIStyle_Cell;
@@ -79,11 +75,6 @@ public class CreateMap_Tool : EditorWindow
 
     [Header("Scroll")]
     Vector2 scrollPosition;
-    //bool modeToggle;
-    //public bool ModeToggle {
-    //    get { return modeToggle; }
-    //    set { if (modeToggle != value) { modeToggle = value; }
-    //    } }
 
     [MenuItem("Tools/MapEditor Tool/Create Object Tool")]
     public static void ShowWindow()
@@ -94,9 +85,7 @@ public class CreateMap_Tool : EditorWindow
         ct.Show();
     }
 
-    /// <summary>
-    /// Similar Start() or Awake()
-    /// </summary>
+
     private void OnEnable()
     {
         objLists = GetResourcesList("Object");
@@ -110,20 +99,24 @@ public class CreateMap_Tool : EditorWindow
     }
     bool isGUIStyleInitialized;
 
-    private void Init_TextureAndGUI(){
-        if(isGUIStyleInitialized) return;
+    private void Init_TextureAndGUI()
+    {
+        if (isGUIStyleInitialized) return;
         isGUIStyleInitialized = true;
         InitTextures();
         InitGUIStyle();
     }
 
-    private List<GameObject> GetResourcesList(string type){
-        List<GameObject> list  = new();
-        foreach(var obj in Resources.LoadAll<GameObject>($"Prefabs/MapEditor/{type}")){
-            if(obj.TryGetComponent(out BuildObj component)){
-                if(component.id ==313) continue;
-                if(component.id ==320) continue;
-                if(component.id ==321) continue;
+    private List<GameObject> GetResourcesList(string type)
+    {
+        List<GameObject> list = new();
+        foreach (var obj in Resources.LoadAll<GameObject>($"Prefabs/MapEditor/{type}"))
+        {
+            if (obj.TryGetComponent(out BuildObj component))
+            {
+                if (component.id == 313) continue;
+                if (component.id == 320) continue;
+                if (component.id == 321) continue;
                 list.Add(obj);
 
             }
@@ -215,8 +208,6 @@ public class CreateMap_Tool : EditorWindow
     
     #region Draw
 
-    #region REFECTORINGCODE 0510
-
     private void DrawLayouts()
     {
         viewWidth = EditorGUIUtility.currentViewWidth;
@@ -229,14 +220,11 @@ public class CreateMap_Tool : EditorWindow
 
     }
 
-  
-    #endregion
 
+    private float GetPosition(float layoutWidth)
+    {
+        return (viewWidth - layoutWidth) / 2;
 
-    
-    private float GetPosition(float layoutWidth){
-        return (viewWidth -layoutWidth)/2;
-        
     }
 
     private void DrawHeader()
@@ -343,7 +331,7 @@ public class CreateMap_Tool : EditorWindow
                 }
                 break;
         }
-    } //todo TEST REFECTORING CODE 0503
+    } 
 
     private void DrawObjectContent()
     {
@@ -450,22 +438,26 @@ public class CreateMap_Tool : EditorWindow
     #endregion
 
     #region Function
-    private void SelectActiveOBJ_OtherType(GameObject obj){
+    private void SelectActiveOBJ_OtherType(GameObject obj)
+    {
         string[] str = obj.name.Split("_");
         Transform curTr = curMapEditor.otherContainer;
         OtherContainer otherContainer = curTr.GetComponent<OtherContainer>();
 
-        for(int i =0;i<str.Length-1;i++){
-            Transform transform =curTr.Find(str[i]);
-            if(transform == null){
+        for (int i = 0; i < str.Length - 1; i++)
+        {
+            Transform transform = curTr.Find(str[i]);
+            if (transform == null)
+            {
                 transform = new GameObject(str[i]).transform;
                 transform.SetParent(curTr);
             }
             curTr = transform;
         }
         otherContainer.SetGroup(curTr);
-        SelectActiveOBJ(obj,curTr);
+        SelectActiveOBJ(obj, curTr);
     }
+
     void CreateObject(GUIContent content)
     {
         GameObject obj = null;
@@ -501,6 +493,7 @@ public class CreateMap_Tool : EditorWindow
                 FindObj(curMapEditor.exitDoorObjectTransform, obj);
                 SelectActiveOBJ(obj, curMapEditor.exitDoorObjectTransform);
                 break;
+            case 303:
             case 305:
             case 304:
             case 322:
@@ -517,6 +510,7 @@ public class CreateMap_Tool : EditorWindow
             case 359:
             case 367:
             case 371:
+            case 375:
                 SelectActiveOBJ(obj, curMapEditor.buttonActivatableObjectTransform);
                 break;
             case 306:
@@ -563,72 +557,6 @@ public class CreateMap_Tool : EditorWindow
             return objLists;
         }
     }
-    // void CreateObject(int i)
-    // {
-    //     GameObject obj = modeType == ModeType.Object ? objLists[i] : modeType == ModeType.Scenes ? sceneObjLists[i]: modeType == ModeType.Other ? otherObjLists[i] : backgroundObjLists[i];
-    //     BuildObj buildObj = obj.GetComponent<BuildObj>();
-    //     //GameObject obj = objLists[i];
-
-    //     if(modeType == ModeType.BackGround){
-    //         SelectActiveOBJ(obj,curMapEditor.backgroundObjectContainer);
-    //         return;
-    //     }
-    //     if(modeType == ModeType.Other){
-    //         SelectActiveOBJ_OtherType(obj);
-    //         return;
-    //     }
-
-    //     switch (buildObj.id)
-    //     {
-    //         case 302:
-    //             FindObj(curMapEditor.dontSaveObjectTransform, obj);
-    //             SelectActiveOBJ(obj, curMapEditor.dontSaveObjectTransform);
-    //             break;
-    //         case 301:
-    //             FindObj(curMapEditor.exitDoorObjectTransform, obj);
-    //             SelectActiveOBJ(obj, curMapEditor.exitDoorObjectTransform);
-    //             break;
-    //         case 305:
-    //         case 304:
-    //         case 322:
-    //         case 327:
-    //         case 330:
-    //         case 331:
-    //         case 332:
-    //         case 333:
-    //         case 334:
-    //         case 335:
-    //         case 339:
-    //         case 353:
-    //         case 354:
-    //             SelectActiveOBJ(obj, curMapEditor.buttonActivatableObjectTransform);
-    //             break;
-    //         case 306:
-    //         case 312:
-    //         case 324:
-    //         case 329:
-    //         case 341:
-    //         case 345:
-    //             SelectActiveOBJ(obj,curMapEditor.buttonObjectTransform);
-    //             break;
-    //         case 1003:
-    //             SelectActiveOBJ(obj, curMapEditor.triggerDialogueTransform);
-    //             break;
-    //         case 325:
-    //         case 326:            
-    //         case 328:
-    //         case 340:
-    //             SelectActiveOBJ(obj,curMapEditor.droneTransform);
-    //         break;
-    //         case 338:
-    //             SelectActiveOBJ(obj,curMapEditor.collectableContainer);
-    //             break;
-    //         default:
-    //             SelectActiveOBJ(obj, curMapEditor.objectTransform);
-    //             break;
-    //     }
-    // }
-
 
     void FindObj(Transform transform, GameObject obj)
     {

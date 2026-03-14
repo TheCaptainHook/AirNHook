@@ -11,15 +11,11 @@ using Mirror;
 
 using TileData = ANH_MapEditor.TileData;
 using MapType = ANH_MapEditor.MapType;
-using FunkyCode;
+using System.Collections;
+using System.Buffers;
+using System.Linq;
 
-// public enum MapType
-// {
-//     Scene,
-//     Main,
-//     User,
-//     Fork
-// }
+
 
 public enum MapEditorType
 {
@@ -35,6 +31,23 @@ public enum MapEditorState
     Object,
     Background
 }
+public enum TransformType
+{
+    None,
+    objectTransform,
+    exitDoorObjectTransform,
+    buttonActivatableObjectTransform,
+    buttonObjectTransform,
+    dontSaveObjectTransform,
+    networkingObjectTransform,
+    triggerDialogueTransform,
+    droneTransform,
+    poolingContainer,
+    otherContainer,
+    backgroundObjectContainer,
+    collectableContainer,
+    shadowContainer
+}
 
 [UGS(typeof(ObjectType))]
 public enum ObjectType
@@ -47,7 +60,6 @@ public enum ObjectType
 
 }
 
-//TODO FIXED CODE LINE 0829 : 
 public class MapEditor : MonoBehaviour
 {
     public static MapEditor Instance;
@@ -63,6 +75,7 @@ public class MapEditor : MonoBehaviour
     [Header("UI")]
     public MapEditorControllerUI editorUIController;
     public FadeInOutPanel fadeInOutPanel;
+    public bool _onMapTransition_Complete;
     [Space(5)]
 
     [Header("Map Info")]
@@ -91,39 +104,33 @@ public class MapEditor : MonoBehaviour
     [HideInInspector] public Transform networkingObjectTransform;
     [HideInInspector] public Transform garbageTransform;
 
-    //TOdo 0723
     [HideInInspector] public Transform triggerDialogueTransform;
-    //TOdo 0723
+
     [HideInInspector] public Transform droneTransform;
 
-   
     [HideInInspector] public Transform poolingContainer;
 
-    //TODO 1024
     [HideInInspector] public Transform otherContainer; 
     [HideInInspector] public Transform backgroundObjectContainer;
-    //TODO 1024
-    //TODO 1202
+ 
     [HideInInspector] public Transform collectableContainer;
 
     //0107 Shadow
-    // [HideInInspector] public Transform shadowContainer;
+    [HideInInspector] public Transform shadowContainer;
     public bool stageClear;
 
-#region Light
-    // private Light2D globalLight;
-    // public Light2D GlobalLight
-    // {
-    //     get
-    //     {
-    //         if(globalLight == null){
-    //             globalLight = GetGlobalLight();
-    //         }
-    //         return globalLight;
-    //     }
-    // }
-    //-----------------------------------------------------------------------Light
-#endregion
+    private Light2D globalLight;
+    public Light2D GlobalLight
+    {
+        get
+        {
+            if(globalLight == null){
+                globalLight = GetGlobalLight();
+            }
+            return globalLight;
+        }
+    } //-----------------------------------------------------------------------Light
+
 
     [Space(10)]
     [Header("Save Data")]
@@ -134,15 +141,15 @@ public class MapEditor : MonoBehaviour
     public int stageLevel;
     public string mapID; // Map main id
     [Tooltip("A simple explanation of the sub-name for a map.")]
-    public string subMapName; // 1116
-    public int stageDifficulty; //250314
+    public string subMapName; 
+    public int stageDifficulty; 
     [ReadOnly]
     public string nextMapId;
     [ReadOnly]
     public Vector2 startPosition;
     [ReadOnly]
     public GameObject startPositionObject;
-    //1122//1122//1122//1122//1122//1122//1122//1122
+
     public string audioName;
 
 
@@ -172,6 +179,29 @@ public class MapEditor : MonoBehaviour
     #region ----------------------------------------Event Action
     // public event Action OnStageMove;
     // public event Action OnScreen;
+    public event Action blinkingBoxEvent_Red;
+    public event Action blinkingBoxEvent_Blue;
+    #endregion
+    #region  Blinking Box 
+    public void CallBlinkingBoxEvent_Red()
+    {
+        blinkingBoxEvent_Red?.Invoke();
+    }
+    public void CallBlinkingBoxEvent_Blue()
+    {
+        blinkingBoxEvent_Blue?.Invoke();
+    }
+    public void EventClean()
+    {
+        blinkingBoxEvent_Red = null;
+        blinkingBoxEvent_Blue = null;
+    }
+
+
+
+    #endregion
+    #region Map Transition Value
+    // public bool _onMapTransition_Complete;
     #endregion
 
     private void Awake()
@@ -181,8 +211,8 @@ public class MapEditor : MonoBehaviour
         else Instance = this;
 
         folderPath = Path.Combine(Application.dataPath, "Resources/MapDat"); //todo
-        
-        // fadeInOutPanel.preMapLoadEvent+=ReleasePooling;
+
+        fadeInOutPanel.preMapLoadEvent += ReleasePooling;
     }
 
     //todo
@@ -196,33 +226,74 @@ public class MapEditor : MonoBehaviour
         CreateGridPalet();
         CreatePreviewPalet();
 
-        if(mapObjBoxTransform != null) { Destroy(mapObjBoxTransform.gameObject); }
+        if (mapObjBoxTransform != null) { Destroy(mapObjBoxTransform.gameObject); }
 
         mapObjBoxTransform = Util.CreateChildTransform("MapObjBox");
 
         // floorTransform = Util.CreateChildTransform(mapObjBoxTransform, "FloorTransform");
-        objectTransform = Util.CreateChildTransform(mapObjBoxTransform, "objectTransform");
-        exitDoorObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "exitDoorObjectTransform");
-        buttonActivatableObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "buttonActivatableObjectTransform");
-        buttonObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "buttonObjectTransform");
-        dontSaveObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "dontSaveObjectTransform");
+        objectTransform = Util.CreateChildTransform(mapObjBoxTransform, TransformType.objectTransform.ToString());
+        exitDoorObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, TransformType.exitDoorObjectTransform.ToString());
+        buttonActivatableObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, TransformType.buttonActivatableObjectTransform.ToString());
+        buttonObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, TransformType.buttonObjectTransform.ToString());
+        dontSaveObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, TransformType.dontSaveObjectTransform.ToString());
         // garbageTransform = Util.CreateChildTransform(mapObjBoxTransform, "garbageTransform");
-        networkingObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, "networkingObjectTransform");
-        //TODO 0723
-        triggerDialogueTransform = Util.CreateChildTransform(mapObjBoxTransform, "triggerDialogueTransform");
-        //TODO 0723
-        droneTransform = Util.CreateChildTransform(mapObjBoxTransform, "droneTransform");
-        poolingContainer = Util.CreateChildTransform(mapObjBoxTransform, "poolingContainer");
-        //TODO 1024
-        otherContainer = Util.CreateChildTransform(mapObjBoxTransform, "otherContainer");
+        networkingObjectTransform = Util.CreateChildTransform(mapObjBoxTransform, TransformType.networkingObjectTransform.ToString());
+
+        triggerDialogueTransform = Util.CreateChildTransform(mapObjBoxTransform, TransformType.triggerDialogueTransform.ToString());
+
+        droneTransform = Util.CreateChildTransform(mapObjBoxTransform, TransformType.droneTransform.ToString());
+        poolingContainer = Util.CreateChildTransform(mapObjBoxTransform, TransformType.poolingContainer.ToString());
+
+        otherContainer = Util.CreateChildTransform(mapObjBoxTransform, TransformType.otherContainer.ToString());
         otherContainer.gameObject.AddComponent<OtherContainer>();
-        backgroundObjectContainer = Util.CreateChildTransform(mapObjBoxTransform, "backgroundObjectContainer");
-        //TODO 1024
-        //TODO 1202
-        collectableContainer = Util.CreateChildTransform(mapObjBoxTransform, "collectableContainer");
-    
-        //0107 Shadow
-        // shadowContainer = Util.CreateChildTransform(mapObjBoxTransform, "shadowContainer");
+        backgroundObjectContainer = Util.CreateChildTransform(mapObjBoxTransform, TransformType.backgroundObjectContainer.ToString());
+
+        collectableContainer = Util.CreateChildTransform(mapObjBoxTransform, TransformType.collectableContainer.ToString());
+
+        shadowContainer = Util.CreateChildTransform(mapObjBoxTransform, TransformType.shadowContainer.ToString());
+
+        if (_d_activePoolingObject == null) _d_activePoolingObject = new();
+        if (_n_activePoolingObject == null) _n_activePoolingObject = new();
+    }
+    public bool GetTransformByType(TransformType type, out Transform tr)
+    {
+        tr = type switch
+        {
+            TransformType.objectTransform => objectTransform,
+            TransformType.exitDoorObjectTransform => exitDoorObjectTransform,
+            TransformType.buttonActivatableObjectTransform => buttonActivatableObjectTransform,
+            TransformType.buttonObjectTransform => buttonObjectTransform,
+            TransformType.dontSaveObjectTransform => dontSaveObjectTransform,
+            TransformType.networkingObjectTransform => networkingObjectTransform,
+            TransformType.triggerDialogueTransform => triggerDialogueTransform,
+            TransformType.droneTransform => droneTransform,
+            TransformType.poolingContainer => poolingContainer,
+            TransformType.otherContainer => otherContainer,
+            TransformType.backgroundObjectContainer => backgroundObjectContainer,
+            TransformType.collectableContainer => collectableContainer,
+            TransformType.shadowContainer => shadowContainer,
+            _ => null,
+        };
+
+        return tr != null;
+    }
+    public TransformType GetTypeFromTransform(Transform tr)
+    {
+        if (tr == objectTransform) return TransformType.objectTransform;
+        if (tr == exitDoorObjectTransform) return TransformType.exitDoorObjectTransform;
+        if (tr == buttonActivatableObjectTransform) return TransformType.buttonActivatableObjectTransform;
+        if (tr == buttonObjectTransform) return TransformType.buttonObjectTransform;
+        if (tr == dontSaveObjectTransform) return TransformType.dontSaveObjectTransform;
+        if (tr == networkingObjectTransform) return TransformType.networkingObjectTransform;
+        if (tr == triggerDialogueTransform) return TransformType.triggerDialogueTransform;
+        if (tr == droneTransform) return TransformType.droneTransform;
+        if (tr == poolingContainer) return TransformType.poolingContainer;
+        if (tr == otherContainer) return TransformType.otherContainer;
+        if (tr == backgroundObjectContainer) return TransformType.backgroundObjectContainer;
+        if (tr == collectableContainer) return TransformType.collectableContainer;
+        if (tr == shadowContainer) return TransformType.shadowContainer;
+
+        return default;
     }
 
     public void EditorMode_Init()
@@ -246,6 +317,7 @@ public class MapEditor : MonoBehaviour
         placeMentSystem.ropeTileMap = GridPalette.transform.Find("RopeTiles").GetComponent<Tilemap>();
         placeMentSystem.accessoryTileMap = GridPalette.transform.Find("AccessoryTiles").GetComponent<Tilemap>();
         placeMentSystem.hiddentTIleMap = GridPalette.transform.Find("HiddenTiles").GetComponent<Tilemap>();
+        placeMentSystem.specialTileMap = GridPalette.transform.Find("SpecialTiles").GetComponent<Tilemap>();
     }
     void CreatePreviewPalet()
     {
@@ -256,37 +328,6 @@ public class MapEditor : MonoBehaviour
 
 
     #region Save 
-
-    //Json 파일로 저장
-    
-    /// <summary>
-    /// This function is only used when in game Editor.
-    /// </summary>
-    // public void SaveMapData() 
-    // {
-    //     if(mapEditorType == MapEditorType.New ){
-    //         string path = Path.Combine(folderPath, $"{mapID}.json");
-    //         bool fileExists = File.Exists(path);
-    //         while (fileExists)
-    //         {
-    //             int num = 1;
-    //             path = Path.Combine(folderPath, $"{mapID}{num}.json");
-    //             if (!File.Exists(path))
-    //             {
-    //                 mapID = $"{mapID}{num}";
-    //                 fileExists = false;
-    //             }
-
-    //             num++;
-    //         }
-    //         CreateJsonFile();
-    //     }
-    //     else
-    //     {
-    //         CreateJsonFile();
-    //     }
-
-    // }
 
     #region GetList
 
@@ -314,60 +355,36 @@ public class MapEditor : MonoBehaviour
 
 
     //todo 0918
-    private List<T> GetList<T>(Transform transform){
+    private List<T> GetList<T>(Transform transform)
+    {
         List<T> list = new();
-        foreach(Transform tr in transform){
-          T data =(T)(object)tr.GetComponent<BuildObj>().GetData<ObjectData>();
-          list.Add(data);
+        foreach (Transform tr in transform)
+        {
+            T data = (T)(object)tr.GetComponent<BuildObj>().GetData<ObjectData>();
+            list.Add(data);
         }
         return list;
     }
     //todo 0918
-  
+
 
     #endregion
-
-    // async void CreateJsonFile()
-    // {
-    //     mapTileDataList = GetTileData(placeMentSystem.floorTileMap);
-
-    //     mapObjectDataList = GetList(objectTransform);
-    //     startPosition = FindObj(dontSaveObjectTransform, 302).transform.position;
-
-    //     byte[] bytesImage = await CurrentMapScreenShot();
-
-    //     Map map = new Map(new Vector2(width, height), mapID, stageLevel, startPosition,
-    //         GetExitObjStructsList(exitDoorObjectTransform),
-    //         //tile
-    //         mapTileDataList,
-    //         GetTileData(placeMentSystem.halfTileMap),
-    //         GetTileData(placeMentSystem.backgroundTileMap),
-    //         //object
-    //         mapObjectDataList,
-    //         GetButtonActivateObjectStructList(),
-    //         GetButtonObjectList(),
-    //         GetDialogueList(),
-    //         cellSize,1,bytesImage,audioType);
-
-    //     string mapDatajson = JsonUtility.ToJson(map, true);
-    //     string dateTimedate = JsonUtility.ToJson(new DateTimeData(System.DateTime.Now), true);
-        
-
-    //     //string filePath = Path.Combine(folderPath, $"User/{map.mapID}.json");
-    //     string filePath = Path.Combine(Application.dataPath, $"UserMapData/{mapID}.json");
-
-    //     string json = JsonUtility.ToJson(new UserMapData(mapDatajson,bytesImage , dateTimedate,GetHashValue(map.mapID)),true);
-
-    //     Debug.Log(filePath);
-    //     File.WriteAllText(filePath, json);
-
-    //     Managers.Data.mapData.RefreshUserMapData();
-    // }
 
 
     #endregion
 
     #region Load
+    // def_obj,back_obj,other_obj,buttonActivatable_obj,dialogue_obj,drone_obj,collect_obj,button_obj
+    public bool _l_complete_def_obj, _l_complete_buttonActivatable_obj, _l_complete_dialouge_obj, _l_complete_drone_obj, _l_complete_button_obj;
+    private void Load_Clean()
+    {
+        _l_complete_def_obj = false;
+        _l_complete_buttonActivatable_obj = false;
+        _l_complete_dialouge_obj = false;
+        _l_complete_drone_obj = false;
+        _l_complete_button_obj = false;
+    }
+    
 
     public void LoadMap(Map map) // in game Editor, load user map data
     {
@@ -396,8 +413,7 @@ public class MapEditor : MonoBehaviour
     public void LoadMap(string name)
     {
         stageClear = false;
-
-        event_reset = null;
+        // event_reset = null;
 
         if(wayPointList != null) wayPointList.Clear();
 
@@ -412,41 +428,107 @@ public class MapEditor : MonoBehaviour
         ParallaxCameraReset();
 
         Create_Tile();
+        //Shadow Setting
+        Create_Shadow();
         //Light Setting
-        SetLightProfile();
+        SetGlobalLight();
 
         Create_Object();
-        
-        // Managers.Sound.PlayBGM(CurMap.audioType, AudioMixerGroupType.BGM, true,.1f);
-        if(!string.IsNullOrEmpty(curMap.audioName))
+
+        if (!string.IsNullOrEmpty(curMap.audioName))
             Managers.Sound.PlayBGM(curMap.audioName, 0.1f);
+
+        _onMapTransition_Complete = true;
+    }
+    //----------------------------------------1003 refactoring
+    public IEnumerator LoadMapCo(string name)
+    {
+        stageClear = false;
+
+        Load_Clean();
+        // event_reset = null;
+
+        if (wayPointList != null) wayPointList.Clear();
+
+        Init();
+        placeMentSystem.ResetTileMap();
+        mapEditorType = MapEditorType.Load;
+        mapID = name;
+        CurMap = Managers.Data.mapData.mapAllDictionary[name];
+        //start Point
+        CreateStartPosition();
+        ParallaxCameraReset();
+        //start Point
+        yield return StartCoroutine(Create_Tile_Co());
+
+        //Light, Shadow
+        Create_Shadow();
+        SetGlobalLight();
+        //Light, Shadow
+
+        yield return StartCoroutine(Create_Obejct_Co());
+        // Create_Object();
+
+        if (!string.IsNullOrEmpty(curMap.audioName))
+            Managers.Sound.PlayBGM(curMap.audioName, 0.1f);
+            
     }
 
-// SetMapSize((int)curMap.mapSize.x, (int)curMap.mapSize.y);
+    //----------------------------------------1003 refactoring
 
-    private void ParallaxCameraReset(){
-        if (Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate != null) 
-        { 
+    private void ParallaxCameraReset()
+    {
+        if (Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate != null)
+        {
             Camera.main.GetComponent<ParallaxCamera>().onCameraTranslate = null;
         }
         Camera.main.GetComponent<ParallaxCamera>().oldPosition = startPosition.x;
     }
-    private void Create_Object(){
+    private void Create_Object() //
+    {
         CreateExitObject(curMap.mapExitObjectStruct);
-        Create_Object(curMap.mapObjectDataList,objectTransform);
-        Create_Object(curMap.mapBackgroundObjectList,backgroundObjectContainer);
 
-        Create_OtherObject(curMap.mapOtherObjectList,otherContainer);
+        Create_Object(curMap.mapObjectDataList, objectTransform);
+        Create_Object(curMap.mapBackgroundObjectList, backgroundObjectContainer);
 
-        Create_Object(curMap.mapButtonActivatableObjectDataList,buttonActivatableObjectTransform);
-        Create_Object(curMap.buttonObjectList,buttonObjectTransform);
-        
-        Create_Object(Managers.Data.saveData.dic[curMap.mapID]._DialogueDataList,triggerDialogueTransform);
-        Create_Object(curMap.droneStructList,droneTransform);
-        Create_Object(curMap.collectableObjectStructList,collectableContainer);
+        Create_OtherObject(curMap.mapOtherObjectList, otherContainer);
+        Create_Object(curMap.mapButtonActivatableObjectDataList, buttonActivatableObjectTransform);
+
+
+        Create_Object(Managers.Data.saveData.dic[curMap.mapID]._DialogueDataList, triggerDialogueTransform);
+        Create_Object(curMap.droneStructList, droneTransform);
+        Create_Object(curMap.collectableObjectStructList, collectableContainer);
+
+        Create_Object(curMap.buttonObjectList, buttonObjectTransform);
+
+    }
+    private IEnumerator Create_Obejct_Co()
+    {
+        CreateExitObject(curMap.mapExitObjectStruct);
+        yield return StartCoroutine(Create_Obejct_Co(curMap.mapObjectDataList, objectTransform));
+        _l_complete_def_obj = true;
+
+        StartCoroutine(Create_Obejct_Co(curMap.mapBackgroundObjectList, backgroundObjectContainer));
+        Create_OtherObject(curMap.mapOtherObjectList, otherContainer);
+
+        yield return StartCoroutine(Create_Obejct_Co(curMap.mapButtonActivatableObjectDataList, buttonActivatableObjectTransform));
+        _l_complete_buttonActivatable_obj = true;
+
+         yield return StartCoroutine(Create_Obejct_Co(curMap.buttonObjectList, buttonObjectTransform));
+        _l_complete_button_obj = true;
+
+        yield return StartCoroutine(Create_Obejct_Co(Managers.Data.saveData.dic[curMap.mapID]._DialogueDataList, triggerDialogueTransform));
+        _l_complete_dialouge_obj = true;
+
+        yield return StartCoroutine(Create_Obejct_Co(curMap.droneStructList, droneTransform));
+        _l_complete_drone_obj = true;
+        StartCoroutine(Create_Obejct_Co(curMap.collectableObjectStructList, collectableContainer));
+
+       
+
     }
     #endregion
-    
+
     #region Util 
 
     public void SetMapSize(int width, int height)
@@ -455,58 +537,112 @@ public class MapEditor : MonoBehaviour
         this.height = height;
     }
 
-    // public void Reset()
-    // {
-    //     Init();
-    //     placeMentSystem.ResetTileMap();
-    // }
-
     #region Create
-    public void Create_Tile(){
+    public Queue<BuildObj> _d_activePoolingObject; 
+    public Queue<BuildObj> _n_activePoolingObject; 
+    public void Create_Tile()
+    {
         DrawTile_C(placeMentSystem.floorTileMap, curMap.mapTileDataList); //rect
         DrawTile_C(placeMentSystem.halfTileMap, curMap.mapHalfTileDataList);
         DrawTile_C(placeMentSystem.backgroundTileMap, curMap.mapBackgroundTileDataList);
         DrawTile_C(placeMentSystem.ropeTileMap, curMap.mapRopeTileDataList);
         DrawTile_C(placeMentSystem.accessoryTileMap, curMap.mapAccessoryTIleDataList);
         DrawTile_C(placeMentSystem.hiddentTIleMap, curMap.mapHiddenTileDataList);
+        DrawTile_C(placeMentSystem.specialTileMap, curMap.mapSpecialTileDataList);
         //DrawTile(placeMentSystem.floorTileMap, curMap.mapTileDataList); //rect
         //DrawTile(placeMentSystem.halfTileMap, curMap.mapHalfTileDataList);
         //DrawTile(placeMentSystem.backgroundTileMap, curMap.mapBackgroundTileDataList);
         //DrawTile(placeMentSystem.ropeTileMap, curMap.mapRopeTileDataList);
         //DrawTile(placeMentSystem.accessoryTileMap, curMap.mapAccessoryTIleDataList);
     }
-    private void DrawTile(Tilemap tileMap,List<TileData> list){
-         foreach (TileData data in list)
-         {
+    private IEnumerator Create_Tile_Co()
+    {
+        yield return StartCoroutine(DrawTile_C_Co(placeMentSystem.floorTileMap, curMap.mapTileDataList));
+        yield return StartCoroutine(DrawTile_C_Co(placeMentSystem.halfTileMap, curMap.mapHalfTileDataList));
+        yield return StartCoroutine(DrawTile_C_Co(placeMentSystem.backgroundTileMap, curMap.mapBackgroundTileDataList));
+        yield return StartCoroutine(DrawTile_C_Co(placeMentSystem.ropeTileMap, curMap.mapRopeTileDataList));
+        yield return StartCoroutine(DrawTile_C_Co(placeMentSystem.accessoryTileMap, curMap.mapAccessoryTIleDataList));
+        yield return StartCoroutine(DrawTile_C_Co(placeMentSystem.hiddentTIleMap,curMap.mapHiddenTileDataList));
+    }
+
+    private void DrawTile(Tilemap tileMap, List<TileData> list)
+    {
+        foreach (TileData data in list)
+        {
             MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
             tileMap.SetTile(data.position, Resources.Load<TileBase>(mapDataStruct.path));
-            placeMentSystem.tileDic[data.position] = data.id;        
-         }
+            placeMentSystem.tileDic[data.position] = data.id;
+        }
     }
+    private Dictionary<int, TileBase> _tileCache = new();
     public void DrawTile_C(Tilemap tileMap, List<CompressedTileData> list)
     {
         foreach (var data in list)
         {
-            MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.TileId];
-            TileBase tileBase = Resources.Load<TileBase>(mapDataStruct.path);
-
+            TileBase tileBase = GetTileBase(data.TileId);
             var values = GetMaxMin(data);
 
-            for (int i = values.minX; i <= values.maxX; i++)
-            {
-                for (int j = values.minY; j <= values.maxY; j++)
-                {
-                    tileMap.SetTile(new Vector3Int(i, j, 0), tileBase);
-                }
-            }
+            int width = values.maxX - values.minX + 1;
+            int height = values.maxY - values.minY + 1;
+            
+            BoundsInt bounds = new BoundsInt(values.minX, values.minY, 0, width, height, 1);
+            TileBase[] tiles = new TileBase[width * height];
+            
+            Array.Fill(tiles, tileBase);
+            tileMap.SetTilesBlock(bounds, tiles);
 
         }
-        if (tileMap.TryGetComponent(out LightTilemapCollider2D component))
-        {
-            Debug.Log("TileMap Collider Enable");
-            component.enabled = true;
-        }
     }
+    private int _tile_batchSize = 50;
+    private int _object_batchSize = 10;
+    private IEnumerator DrawTile_C_Co(Tilemap tileMap, List<CompressedTileData> list)
+    {
+        int counter = 0;
+        foreach (var data in list)
+        {
+            TileBase tileBase = GetTileBase(data.TileId);
+            var values = GetMaxMin(data);
+
+            int width = values.maxX - values.minX + 1;
+            int height = values.maxY - values.minY + 1;
+
+            BoundsInt bounds = new BoundsInt(values.minX, values.minY, 0, width, height, 1);
+            // TileBase[] tiles = new TileBase[width * height];
+            var tiles = ArrayPool<TileBase>.Shared.Rent(width * height);
+
+            try
+            {
+                for (int i = 0; i < width * height; i++)
+                {
+                    tiles[i] = tileBase;
+                }
+                tileMap.SetTilesBlock(bounds, tiles);
+            }
+            finally
+            {
+                ArrayPool<TileBase>.Shared.Return(tiles, clearArray: true);
+            }
+
+            counter++;
+            if (counter >= _tile_batchSize)
+            {
+                counter = 0;
+                yield return null;
+            }
+        }
+
+    }
+    private TileBase GetTileBase(int id)
+    {
+        if (!_tileCache.TryGetValue(id, out var tileBase))
+        {
+            var mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[id];
+            tileBase = Resources.Load<TileBase>(mapDataStruct.path);
+            _tileCache[id] = tileBase;
+        }
+        return tileBase;
+    }
+
 
     private (int maxX, int minX, int maxY, int minY) GetMaxMin(CompressedTileData data)
     {
@@ -523,28 +659,35 @@ public class MapEditor : MonoBehaviour
 
     }
 
-    public void Create_OtherObject(List<ObjectData> list,Transform transform){
-       MapDataStruct mapDataStruct;
-        foreach(ObjectData data in list){
+    public void Create_OtherObject(List<ObjectData> list, Transform transform)
+    {
+        MapDataStruct mapDataStruct;
+        foreach (ObjectData data in list)
+        {
             mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
-            Create_OtherObject(mapDataStruct,data,transform);
-        };
+            Create_OtherObject(mapDataStruct, data, transform);
+        }
+        ;
     }
     private void CreateExitObject(ExitObjStruct data)
     {
         MapDataStruct mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[data.id];
         //Create(exitDoorObjectTransform,mapDataStruct,data);
         if(NetworkServer.active)
-        Managers.Stage.CmdBatchObject(mapDataStruct.name, data, exitDoorObjectTransform);
+        // Managers.Stage.ServerBatchObject(mapDataStruct.name, data, exitDoorObjectTransform);
+        Managers.Stage.ServerBatchObject(mapDataStruct.name, data, TransformType.exitDoorObjectTransform);
     }
 
-    private void Create_OtherObject(MapDataStruct mapDataStruct,ObjectData data,Transform transform){
+    private void Create_OtherObject(MapDataStruct mapDataStruct, ObjectData data, Transform transform)
+    {
         string[] tags = mapDataStruct.name.Split("_");
         Transform curTr = transform;
         OtherContainer otherContainer = curTr.GetComponent<OtherContainer>();
-        for(int i =0;i<tags.Length-1;i++){
-            Transform findTr =curTr.Find(tags[i]);
-            if(findTr == null){
+        for (int i = 0; i < tags.Length - 1; i++)
+        {
+            Transform findTr = curTr.Find(tags[i]);
+            if (findTr == null)
+            {
                 findTr = new GameObject(tags[i]).transform;
                 findTr.SetParent(curTr);
             }
@@ -552,69 +695,109 @@ public class MapEditor : MonoBehaviour
         }
         otherContainer.SetGroup(curTr);
 
-        if(mapDataStruct.objectType == ObjectType.N_Object && Application.isPlaying)
+        if (mapDataStruct.objectType == ObjectType.N_Object && Application.isPlaying)
         {
-            if(NetworkServer.active)
-            Managers.Stage.CmdBatchObject(mapDataStruct.name, data, curTr);
+            if (NetworkServer.active)
+                Managers.Stage.ServerBatchObject(mapDataStruct.name, data, GetTypeFromTransform(curTr));
         }
         else
         {
-            Create(curTr,mapDataStruct,data);
+            Create(curTr, mapDataStruct, data);
         }
-        
+
 
     }
-    public void Create_Object<T>(List<T> list ,Transform transform){
-        MapDataStruct mapDataStruct;
-        Transform _TR;
-        foreach(T data in list){
-            var isField = typeof(T).GetField("id",BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+    public void Create_Object<T>(List<T> list, Transform transform)
+    {
+        var dic = Managers.Data.mapData.mapObjectDataDictionary;
 
-            if(isField != null){
-                var value = isField.GetValue(data);
-                if(value is int intValue){
-                    mapDataStruct = Managers.Data.mapData.mapObjectDataDictionary[intValue];
-                    if (mapDataStruct.objectType == ObjectType.N_Object && Application.isPlaying)
-                    {
-                        if (transform == objectTransform)
-                        {
-                            _TR = networkingObjectTransform;
-                        }
-                        else
-                        {
-                            _TR = transform;
-                        }
-                        if(NetworkServer.active)
-                        Managers.Stage.CmdBatchObject(mapDataStruct.name, data, _TR);
-                    }
-                    else
-                    {
-                        Create(transform, mapDataStruct, data);
-                    }
-                  
-                }
-               
+        Transform _TR;
+        var isField = typeof(T).GetField("id", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+        if (isField == null) return;
+
+        foreach (T data in list)
+        {
+            if (isField.GetValue(data) is not int intValue) continue;
+            if (!dic.TryGetValue(intValue, out var mapDataStruct)) continue;
+
+            if (mapDataStruct.objectType == ObjectType.N_Object && Application.isPlaying)
+            {
+                _TR = (transform == objectTransform) ? networkingObjectTransform : transform;
+
+                if (NetworkServer.active)
+                    Managers.Stage.ServerBatchObject(mapDataStruct.name, data, GetTypeFromTransform(_TR));
             }
-   
+            else
+            {
+                Create(transform, mapDataStruct, data);
+            }
         }
+    }
+
+    private IEnumerator Create_Obejct_Co<T>(List<T> list, Transform transform)
+    {
+        var dic = Managers.Data.mapData.mapObjectDataDictionary;
+        int counter = 0;
+
+        Transform _TR;
+        var isField = typeof(T).GetField("id", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+        if (isField == null) yield break;
+
+        foreach (T data in list)
+        {
+            if (isField.GetValue(data) is not int intValue) continue;
+            if (!dic.TryGetValue(intValue, out var mapDataStruct)) continue;
+
+            if (mapDataStruct.objectType == ObjectType.N_Object && Application.isPlaying)
+            {
+                _TR = (transform == objectTransform) ? networkingObjectTransform : transform;
+
+                if (NetworkServer.active)
+                    Managers.Stage.ServerBatchObject(mapDataStruct.name, data, GetTypeFromTransform(_TR));
+            }
+            else
+            {
+                Create(transform, mapDataStruct, data);
+            }
+
+            counter++;
+            if (counter >= _object_batchSize)
+            {
+                counter = 0;
+                yield return null;
+            }
+
+        }
+
     }
     public List<WayPoint_Var2> wayPointList;
-    void Create<T>(Transform transform,MapDataStruct mapDataStruct,T data){
-        try{
-            GameObject obj = Instantiate(Resources.Load<GameObject>(mapDataStruct.path));
+   
+    void Create<T>(Transform transform, MapDataStruct mapDataStruct, T data)
+    {
+        try
+        {
+            GameObject obj = Managers.Pooling.D_GetItem(ResourceManager.Load<GameObject>(mapDataStruct.path));
             obj.name = mapDataStruct.name;
 
-            if(obj.name == "WayPoint" || obj.name == "WayPoint_Rusted"){
-                if(wayPointList ==null) wayPointList = new();
+            if (obj.name == "WayPoint" || obj.name == "WayPoint_Rusted")
+            {
+                if (wayPointList == null) wayPointList = new();
                 wayPointList.Add(obj.GetComponent<WayPoint_Var2>());
             }
 
-            obj.GetComponent<BuildObj>().SetData(data);
-            obj.transform.SetParent(transform);
-        }catch(Exception ex){
+            if (obj.TryGetComponent(out BuildObj build))
+            {
+                build.SetData(data);
+                build.transform.SetParent(transform);
+                build.gameObject.SetActive(true);
+                _d_activePoolingObject.Enqueue(build);
+            }          
+        }
+        catch (Exception ex)
+        {
             Debug.Log($"{ex},{mapDataStruct.id}");
         }
-       
+
     }
 
     void CreateStartPosition()
@@ -625,32 +808,43 @@ public class MapEditor : MonoBehaviour
         startPositionObject.transform.SetParent(dontSaveObjectTransform);
     }
 
-    // private void Create_Shadow()
-    // {
-    //     GameObject shadowPrefab =Resources.Load<GameObject>(GlobalText.SHADOW_PREFAB_PATH);
-    //     foreach(ShadowCasterStruct data in curMap.mapShadowCasterDataList)
-    //     {
-    //         ShadowCasterSetting shadowSetting = Managers.Pooling.D_GetItem(shadowPrefab).GetComponent<ShadowCasterSetting>();
-    //         shadowSetting.gameObject.SetActive(true);
-    //         shadowSetting.gameObject.transform.SetParent(shadowContainer);    
-    //         shadowSetting.transform.position = data.position;
-    //         shadowSetting.SetShadowCasterData(data);
-    //     }
-    // }
-    private void SetLightProfile()
+    private void Create_Shadow()
     {
-        // FieldInfo sortingLayerField = typeof(Light2D).GetField("m_ApplyToSortingLayers", BindingFlags.NonPublic | BindingFlags.Instance);
+        GameObject shadowPrefab =Resources.Load<GameObject>(GlobalText.SHADOW_PREFAB_PATH);
+        foreach(ShadowCasterStruct data in curMap.mapShadowCasterDataList)
+        {
+            ShadowCasterSetting shadowSetting = Managers.Pooling.D_GetItem(shadowPrefab).GetComponent<ShadowCasterSetting>();
+            shadowSetting.gameObject.SetActive(true);
+            shadowSetting.gameObject.transform.SetParent(shadowContainer);    
+            shadowSetting.transform.position = data.position;
+            shadowSetting.SetShadowCasterData(data);
+        }
+    }
+    private void SetGlobalLight()
+    {
+        FieldInfo sortingLayerField = typeof(Light2D).GetField("m_ApplyToSortingLayers", BindingFlags.NonPublic | BindingFlags.Instance);
 
         var lightData = curMap.globalLightStruct;
-        var profile = LightingManager2D.Get().profile;
-        profile.DarknessColor = lightData.color;
-        // GlobalLight.lightType = lightData.type;
-        // GlobalLight.color = lightData.color;
-        // GlobalLight.intensity = lightData.intensity;
-        // sortingLayerField.SetValue(GlobalLight, lightData.targetSorting);
-        // GlobalLight.blendStyleIndex = lightData.blendStyleIndex;
-        // GlobalLight.lightOrder = lightData.lightOrder;
-        // GlobalLight.overlapOperation = lightData.overlapOeration;
+
+        if(lightData.type == default)
+        {
+            GlobalLight.lightType = Light2D.LightType.Global;
+            GlobalLight.color = Color.white;
+            GlobalLight.intensity = 1;
+            sortingLayerField.SetValue(GlobalLight, new int[] { 0 });
+            GlobalLight.blendStyleIndex = 0;
+            GlobalLight.lightOrder = 0;
+            GlobalLight.overlapOperation = 0;
+            return;
+        }
+
+        GlobalLight.lightType = lightData.type;
+        GlobalLight.color = lightData.color;
+        GlobalLight.intensity = lightData.intensity;
+        sortingLayerField.SetValue(GlobalLight, lightData.targetSorting);
+        GlobalLight.blendStyleIndex = lightData.blendStyleIndex;
+        GlobalLight.lightOrder = lightData.lightOrder;
+        GlobalLight.overlapOperation = lightData.overlapOeration;
     }
     #endregion
 
@@ -697,61 +891,46 @@ public class MapEditor : MonoBehaviour
 
     }
 
-    //private Task<byte[]> CurrentMapScreenShot()
-    //{
-    //    if (screenShotCamera == null)
-    //    {
-    //        screenShotCamera = Instantiate(Resources.Load<GameObject>("Prefabs/MapEditor/ScreenShotCamera"));
-    //    }
-
-    //    GameObject camera = screenShotCamera;
-
-    //    Vector2 startPot = FindObj(dontSaveObjectTransform, 302).transform.position;
-    //    Vector2 endPot = FindObj(exitDoorObjectTransform, 301).transform.position;
-
-    //    var distance = (startPot + endPot) / 2;
-
-    //    camera.gameObject.transform.position = distance;
-    //    camera.gameObject.transform.position += new Vector3(0, 2, -1);
-
-    //    //Task<byte[]> encodingTask = camera.GetComponent<ScreenShotCamera>().ScreenShot();
-
-    //    return encodingTask;
-
-    //}
     public event Action event_reset;
-    public void ResetInteractableObjectPosition(){
-        //foreach(Transform tr in networkingObjectTransform){
-        //    BuildObj obj = tr.GetComponent<BuildObj>();
-        //    if(obj != null && obj.GetDissolveObject()){
-        //        //obj.Dissolve(obj.position);
-        //        if(obj.canRespawn) obj.Respawn();
-
-        //    }
-        //}
+    public void ResetInteractableObjectPosition()
+    {
         event_reset?.Invoke();
     }
+    public void AddEvent_Reset(Action action)
+    {
+        if(event_reset == null || !event_reset.GetInvocationList().Contains(action))
+        {
+            event_reset += action;
+        }
+    }
+    public void Remove_Event_Reset(Action action)
+    {
+        if(event_reset != null && event_reset.GetInvocationList().Contains(action))
+        {
+            event_reset -= action;
+        }
+    }
 
+    private Light2D GetGlobalLight()
+    {
+        foreach (Transform tr in transform)
+        {
+            if (tr.name == "Global Light")
+            {
+                return tr.GetComponent<Light2D>();
+            }
+        }
+        return null;
 
-    // private Light2D GetLightManager(){
-    //     LightingManager2D
-    //     foreach (Transform tr in transform)
-    //     {
-    //         if (tr.name == "Lighting Manager 2D")
-    //         {
-    //             return tr.GetComponent<Light2D>();
-    //         }
-    //     }
-    //     return null;
-    // }
-    // private void ReleasePooling()
-    // {
-    //    for(int i = shadowContainer.childCount-1;i>=0;i--)
-    //    {
-    //         Transform tr = shadowContainer.GetChild(i);
-    //         tr.GetComponent<IPooling>().D_ReleaseToPool();
-    //    }
-    // }
+    }
+    private void ReleasePooling()
+    {
+       for(int i = shadowContainer.childCount-1;i>=0;i--)
+       {
+            Transform tr = shadowContainer.GetChild(i);
+            tr.GetComponent<IPooling>().D_ReleaseToPool();
+       }
+    }
 
     #endregion
 

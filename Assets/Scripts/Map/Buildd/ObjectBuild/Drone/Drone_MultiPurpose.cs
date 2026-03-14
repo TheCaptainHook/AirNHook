@@ -76,7 +76,6 @@ public class Drone_MultiPurpose : DroneEntity
 
         GameObject item = Managers.Stage.CmdBatchObject(drone_TransportItemType.ToString());
         item.transform.SetParent(MapEditor.Instance.networkingObjectTransform); 
-
         transportItem = item;
         if(item == null) return;
 
@@ -91,7 +90,6 @@ public class Drone_MultiPurpose : DroneEntity
                 DroneSettingTransportItem(item);
                 break;
             
-
         }
     }
 
@@ -107,6 +105,23 @@ public class Drone_MultiPurpose : DroneEntity
         if(transportItem == null) return;
 
         transportItem.GetComponent<BuildObj>().DropTransportItem();
+    }
+
+
+    public override void Clean()
+    {
+        if(NetworkServer.active)
+        {
+            DroneDropTransportItem();
+        }
+
+       if(transportItem.TryGetComponent(out BuildObj buildObj))
+        {
+          buildObj.isTransportItem = false; 
+        };
+    
+
+        base.Clean();
     }
 
 }

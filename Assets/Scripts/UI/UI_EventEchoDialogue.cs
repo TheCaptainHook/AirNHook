@@ -110,6 +110,7 @@ public class UI_EventEchoDialogue : UI_Base
     #region Main
     public void SetDialogue(string text)
     {
+        if (Managers.AcManager._isInterrupted) return;
         //Start UI Animation
         StartUI();
         //Start UI Animation
@@ -120,69 +121,8 @@ public class UI_EventEchoDialogue : UI_Base
         UpdateTextMeshEffectStructList(ref text);
         //main_text init
         main_Text.text = text;
-        // main_Text.ForceMeshUpdate();
         
-
-        //-----------------------------------------------------------------------250224
-        // List<TMP_EffectField> defaultList = new();
-        // //-----------------------------------------------------------------------250224
-        // List<TMP_EffectField> scaleList = new();
-        // List<TMP_EffectField> bounceList = new();
-
-        // //start Color
-        // foreach (TextMeshEffectStruct data in textMeshEffectStructList)
-        // {
-        //     switch(data.mark)
-        //     {
-        //         case Mark.Mark_1:
-        //         ChangeColor(data, transparencyColor);
-        //         GetEffectFieldList(data, ref scaleList);
-        //         break;
-        //         case Mark.Mark_2:
-        //         ChangeColor(data, transparencyColor);
-        //         GetEffectFieldList(data, ref bounceList);
-        //         break;
-        //         case Mark.Default:
-        //         GetEffectFieldList(data,ref defaultList);
-        //         break;
-        //     }
-            
-        //     // if(data.mark == Mark.Default) GetEffectFieldList(data,ref defaultList);
-        //     // if (data.mark == Mark.Mark_1) GetEffectFieldList(data, ref scaleList);
-        //     // if (data.mark == Mark.Mark_2) GetEffectFieldList(data, ref bounceList);
-        // }
-
-        // main_Text.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
-
-        //-----------------------------------------------------------------------250224
-        
-
-        
-
          StartCoroutine(DialogueEffect());
-
-
-
-
-
-
-
-
-
-
-        // main_Text.ForceMeshUpdate();
-        //on effect
-
-        // StartCoroutine(AppearEffect(bounceList));
-        // StartCoroutine(AppearEffect(scaleList));
-
-        // if (mark_1_EffectCoroutine != null) StopCoroutine(mark_1_EffectCoroutine);
-        // mark_1_EffectCoroutine = StartCoroutine(ScaleEffectCo(scaleList));
-
-        // if (mark_2_EffectCoroutine != null) StopCoroutine(mark_2_EffectCoroutine);
-        // mark_2_EffectCoroutine = StartCoroutine(BounceEffectCo(bounceList));
-
-        // StartCoroutine(ShutDownCo());
 
     }
     //-----------------------------------------------------------------------250224
@@ -240,12 +180,14 @@ public class UI_EventEchoDialogue : UI_Base
 
 
 
-    IEnumerator ShutDownCo(){
+    IEnumerator ShutDownCo()
+    {
         yield return new WaitForSeconds(5);
         mainAnimator.SetTrigger(Close);
         yield return new WaitForSeconds(0.3f);
         Reset();
         CloseUI();
+        
     }
     #endregion
 
@@ -365,28 +307,31 @@ public class UI_EventEchoDialogue : UI_Base
     }
 
     float appearAnimationSpeed =1f;
-    
-    IEnumerator AppearEffect(List<TMP_EffectField> list){
-        if(list.Count == 0) yield break;
 
-        float percent =0;
+    IEnumerator AppearEffect(List<TMP_EffectField> list)
+    {
+        if (list.Count == 0) yield break;
 
-        foreach(var f in list)
+        float percent = 0;
+
+        foreach (var f in list)
         {
             // var meshInfo = main_Text.textInfo.meshInfo[f.materialIndex];
-            for(int i = 0; i<4;i++)
+            for (int i = 0; i < 4; i++)
             {
-                 f.vertices[f.vertexIndex + i] = f.charCenter + (f.originalVertices[f.vertexIndex + i] - f.charCenter) * 50;   
+                f.vertices[f.vertexIndex + i] = f.charCenter + (f.originalVertices[f.vertexIndex + i] - f.charCenter) * 50;
             }
         }
         yield return null;
 
-        while(percent <1){
+        while (percent < 1)
+        {
             percent += Time.deltaTime * appearAnimationSpeed;
-            foreach(var f in list){
+            foreach (var f in list)
+            {
                 var meshInfo = f.tmp.meshInfo[f.materialIndex];
                 Color32[] colors = meshInfo.colors32;
-                for(int i = 0; i<4;i++)
+                for (int i = 0; i < 4; i++)
                 {
                     colors[f.vertexIndex + i] = Color.Lerp(transparencyColor, Color.red, percent);
                     f.vertices[f.vertexIndex + i] = Vector3.Lerp(f.vertices[f.vertexIndex + i], f.originalVertices[f.vertexIndex + i], percent);
@@ -394,19 +339,15 @@ public class UI_EventEchoDialogue : UI_Base
                 }
                 meshInfo.mesh.colors32 = colors;
 
-                //for(int i = 0; i<4;i++)
-                //{
-                //    f.vertices[f.vertexIndex + i] = Vector3.Lerp(f.vertices[f.vertexIndex+i],f.originalVertices[f.vertexIndex+i],percent);
-                //}
-
                 meshInfo.mesh.vertices = f.vertices;
             }
-            
+
             main_Text.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32 | TMP_VertexDataUpdateFlags.Vertices);
-            
+
 
             yield return null;
         }
+        
           
     }
 
@@ -425,26 +366,24 @@ public class UI_EventEchoDialogue : UI_Base
 
     }
 
-    private void ChangeColor(TMP_CharacterInfo charInfo,Color targetColor){
-            int materialIndex = charInfo.materialReferenceIndex;
-            int vertexIndex = charInfo.vertexIndex;
+    private void ChangeColor(TMP_CharacterInfo charInfo, Color targetColor)
+    {
+        int materialIndex = charInfo.materialReferenceIndex;
+        int vertexIndex = charInfo.vertexIndex;
 
-            var meshInfo =  main_Text.textInfo.meshInfo[materialIndex];
+        var meshInfo = main_Text.textInfo.meshInfo[materialIndex];
 
-            // vertex 색상 참조
+        // vertex 색상 참조
+
+        Color32[] colors = meshInfo.colors32;
+
+        colors[vertexIndex + 0] = targetColor;
+        colors[vertexIndex + 1] = targetColor;
+        colors[vertexIndex + 2] = targetColor;
+        colors[vertexIndex + 3] = targetColor;
+
+        meshInfo.colors32 = colors;
             
-            Color32[] colors = meshInfo.colors32;
-
-            colors[vertexIndex + 0] = targetColor;
-            colors[vertexIndex + 1] = targetColor;
-            colors[vertexIndex + 2] = targetColor;
-            colors[vertexIndex + 3] = targetColor;
-
-            meshInfo.colors32 = colors;
-
-            // Color32[] colors = main_Text.textInfo.meshInfo[materialIndex].colors32;
-            // main_Text.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
-
     }
 
     public List<string> testList;
@@ -495,34 +434,6 @@ public class UI_EventEchoDialogue : UI_Base
         }
         
         sentence = sb.ToString();
-    //     for (int i = 0; i < sentence.Length; i++)
-    //     {
-    //         switch (sentence[i])
-    //         {
-    //             case '[':
-    //             case '<':
-    //                 if (sb.Length > 0)
-    //                 {
-    //                     testList.Add(sb.ToString()); // 마커 전에 있던 텍스트 저장
-    //                     sb.Clear();
-    //                 }
-    //                 isInsideMarker = true;
-    //                 startIndex = i - mark;
-    //                 mark++;
-    //                 break;
-    //             case ']':
-    //             case '>':
-    //                 textLength = i - mark - startIndex;
-    //                 mark++;
-    //                 isInsideMarker = false; // 마커 끝남
-    //                 break;
-    //             default:
-    //                 if (!isInsideMarker)
-    //                 {
-    //                     sb.Append(sentence[i]); // 마커 밖의 글자만 추가
-    //                 }
-    //                 break;
-    //         }
         
 }
 

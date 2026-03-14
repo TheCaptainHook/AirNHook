@@ -26,11 +26,11 @@ public class PullLever : ButtonEntity
     }
 
 
-    protected override void Activation()
+    public override void Activation()
     {
         PrograssButtonActivatedObject(true);
     }
-    protected override void Deactivated()
+    public override void Deactivated()
     {
         PrograssButtonActivatedObject(false);
     }

@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using UnityEngine.Lumin;
 
-public class LaserTriggerButton_Net : NetworkBehaviour
+
+public class LaserTriggerButton_Net : ButtonEntity_Net
 {
     //private int maxChargingCount = 200; //200
     private float defChargingRate = 3f;
     private int maxChargingCount = 100; //100
 
-    private LaserTriggerButton trigger;
-    private LaserTriggerButton Trigger { get { if (trigger == null) trigger = GetComponent<LaserTriggerButton>();return trigger; } }
+    // private LaserTriggerButton trigger;
+    // private LaserTriggerButton Trigger { get { if (trigger == null) trigger = GetComponent<LaserTriggerButton>();return trigger; } }
 
     [SerializeField] GameObject chargingSprite;
     [SerializeField] ParticleSystem particle;
@@ -25,32 +25,25 @@ public class LaserTriggerButton_Net : NetworkBehaviour
 
     private static readonly int IsActive = Animator.StringToHash("IsActive");
 
-    #region Init
-    public bool onSync;
-    [Server]
-    public void Server_InitSync()
+    #region  Clean
+    public override void Server_Clean()
     {
-        Rpc_InitSync(Trigger.ButtonObjectData);
-    }
-    [ClientRpc]
-    public void Rpc_InitSync(ButtonObjectStruct data)
-    {
-        if (onSync) return;
+    
+        chargingCount = 0;
+        curChargingRate = 0;
+        onCharging = false;
+        onActivate = false;
 
-        transform.position = data.position;
-        transform.rotation = data.quaternion;
+        base.Server_Clean();
+    }
+    protected override void Rpc_Clean()
+    {
+        base.Rpc_Clean();
+        chargingSprite.transform.localScale = Vector2.zero;
 
-        onSync = true;
-    }
-    [Command]
-    private void Cmd_InitSync()
-    {
-        Server_InitSync();
-    }
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        if (!onSync) Cmd_InitSync();
+        StopAllCoroutines();
+        chargingCoroutine = null;
+        
     }
     #endregion
 
@@ -69,7 +62,7 @@ public class LaserTriggerButton_Net : NetworkBehaviour
         {
             chargingCount++;
 
-            ChargingEffectIntensity();
+            Rpc_ChargingEffectIntensity();
 
         }
     }
@@ -79,47 +72,60 @@ public class LaserTriggerButton_Net : NetworkBehaviour
     //    Server_SetChargingCount();      
     //}
 
+    [ServerCallback]
     private void Update()
     {
         if (!isServer) return;
-        
+
         if (!onCharging && chargingCount != 0)
         {
             chargingCount--;
-            ChargingEffectIntensity();
+            Rpc_ChargingEffectIntensity();
         }
 
         if (chargingCount >= maxChargingCount)
         {
-            Net_Act();
+            // Net_Act();
+            if (!_isActive)
+            {
+                _isActive = true;
+                Rpc_Effect(true);
+                Main.Activation();
+            }
+
         }
         else
         {
-            Net_Deact();
+            if (_isActive)
+            {
+                _isActive = false;
+                Rpc_Effect(false);
+                Main.Deactivated();
+            }
         }
     }
 
 
-    private void Net_Act()
-    {
-        if (!onActivate)
-        {
-            onActivate = true;
-            Rpc_Effect(true);
-            Trigger.Net_Act();
-        }
+    // private void Net_Act()
+    // {
+    //     if (!onActivate)
+    //     {
+    //         onActivate = true;
+    //         Rpc_Effect(true);
+    //         Trigger.Net_Act();
+    //     }
      
-    }
-    private void Net_Deact()
-    {
-        if (onActivate)
-        {
-            onActivate = false;
-            Rpc_Effect(false);
-            Trigger.Net_Deact();
-        }
+    // }
+    // private void Net_Deact()
+    // {
+    //     if (onActivate)
+    //     {
+    //         onActivate = false;
+    //         Rpc_Effect(false);
+    //         Trigger.Net_Deact();
+    //     }
        
-    }
+    // }
 
     [ClientRpc]
     private void Rpc_Effect(bool onOff)
@@ -158,7 +164,7 @@ public class LaserTriggerButton_Net : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void ChargingEffectIntensity()
+    private void Rpc_ChargingEffectIntensity()
     {
         float percent = chargingCount / maxChargingCount;
 

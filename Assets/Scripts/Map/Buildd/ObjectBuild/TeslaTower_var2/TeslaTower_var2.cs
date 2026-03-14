@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 enum Insulator
 {
@@ -42,6 +43,21 @@ public class TeslaTower_var2 : BuildObj
     float radius;
     Collider2D curTarget;
 
+    private AudioSourceController audioSourceController;
+    #region Get,Set
+
+    protected override void StartSound()
+    {
+        if(Application.isPlaying)
+        audioSourceController = Managers.Sound.PlaySound3D(GlobalText.TESLATOWER_ON, transform.position, .7f, true);
+    }
+ 
+    private void OnDisable()
+    {
+        if(audioSourceController!= null) Managers.Sound.StopSound(audioSourceController); 
+    }
+    #endregion
+
     private void DetectArea()
     {
         Vector2 targetPoint = attackPoint.position; //first start point
@@ -75,8 +91,11 @@ public class TeslaTower_var2 : BuildObj
             }else if(curTarget.TryGetComponent(out TeslaRelayObject tro))
             {
                 targetPoint = tro.headPoint.position;
+            }else if(curTarget.TryGetComponent(out TeslaNodeRod noderode))
+            {
+                targetPoint = noderode.head.position;
             }else
-            targetPoint = curTarget.transform.position;
+                targetPoint = curTarget.transform.position;
             //----------------- Set Start Point-----------------
 
             curChainLightningCount++;
@@ -176,14 +195,13 @@ public class TeslaTower_var2 : BuildObj
     public RaycastHit2D hit;
     private bool IsBlocked(Vector2 start,Vector2 dir)
     {
-        // Debug.DrawRay(start,dir,Color.green);
+
         hit =  Physics2D.Raycast(start, dir.normalized,dir.magnitude, obstacleLayerMask);
-        // if(hit){
-        //     Debug.Log($"hit : {hit.collider.name}");
-        // }
+
         return hit;
     }
     #endregion`
+
 
 #if UNITY_EDITOR
     #region  Debug

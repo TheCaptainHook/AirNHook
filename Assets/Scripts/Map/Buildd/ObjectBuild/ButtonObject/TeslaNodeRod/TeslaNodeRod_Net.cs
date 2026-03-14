@@ -33,7 +33,7 @@ public class TeslaNodeRod_Net : NetworkBehaviour
         this.data = data;
         transform.position = data.position;
         transform.rotation = data.quaternion;
-        CreateLine();
+        // CreateLine();
         onSync = true;
 
     }
@@ -147,6 +147,8 @@ public class TeslaNodeRod_Net : NetworkBehaviour
     [SerializeField] Material deactiveMat;
     public void LineActive()
     {
+        if(lineArr == null || lineArr.Length == 0)return;
+
         for (int i = 0; i < lineArr.Length; i++)
         {
             var line = lineArr[i];
@@ -161,6 +163,8 @@ public class TeslaNodeRod_Net : NetworkBehaviour
     }
     public void LineDeActive()
     {
+        if(lineArr == null || lineArr.Length == 0)return;
+        
         for (int i = 0; i < lineArr.Length; i++)
         {
             var line = lineArr[i];

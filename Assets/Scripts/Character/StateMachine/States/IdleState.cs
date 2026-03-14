@@ -17,7 +17,11 @@ public class IdleState : BaseState
     #region Movement
     protected override void OnMove()
     {
-        if (!stateMachine.canMovable) return;
+        if (!stateMachine.canMovable)
+        {
+            stateMachine.player.animator.SetBool(stateMachine.player.animationData.WalkParameterHash, false);
+            return;
+        }
 
         if (stateMachine.horizontal != 0)
             stateMachine.ChangeState(stateMachine.WalkState);
@@ -27,8 +31,6 @@ public class IdleState : BaseState
 
     protected override void Move()
     {
-        if (!stateMachine.canMovable) return;
-        
         var groundForce = stateMachine.moveSpeed * stateMachine.moveSpeedMultiplier;
         
         stateMachine.rigidbody2D.AddForce(new Vector2(- rigidbd.velocity.x * groundForce, 0f));

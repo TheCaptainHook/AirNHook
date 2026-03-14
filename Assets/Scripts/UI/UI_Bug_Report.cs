@@ -1,12 +1,8 @@
 using Steamworks;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
+
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
@@ -22,9 +18,14 @@ public class UI_Bug_Report : UI_Base
     [SerializeField] Button exitBtn;
     #endregion
 
+    PlayerInputAction.PlayerActions playerInputAction => Managers.Game.playerInput.playerActions;
+    PlayerInputAction.UIActions uIActions => Managers.Game.playerInput.uiActions;
+
     public override void OnEnable()
     {
-       
+        FreezePlayerState(true);
+        playerInputAction.Disable();
+        uIActions.Disable();
     }
 
 
@@ -36,10 +37,20 @@ public class UI_Bug_Report : UI_Base
     protected override void CloseUI()
     {
         inputField.text = "";
+        FreezePlayerState(false);
         base.CloseUI();
+        
+        playerInputAction.Enable();
+        uIActions.Enable();
     }
 
+    private void FreezePlayerState(bool onOff)
+    {
+        var player = Managers.Game.Player.TryGetComponent(out PlayerSM sm) ? sm : null;
+        if (player == null) return;
 
+        sm.FreezePlayerState(onOff);
+    }
 
     private string url = "https://script.google.com/macros/s/AKfycbzFZ5D1hyd40IU9UFEEPk08oo1-lHIUbcF3EmpR9cl4cvZLsZyoeVxk1Sw5sPpRVB-_/exec";
 

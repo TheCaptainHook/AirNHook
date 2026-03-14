@@ -15,6 +15,8 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
         net = GetComponent<TeslaNodeRod_Net>();
     }
 
+  
+
     #region Get,Set
     public override async void SetData<T>(T data)
     {
@@ -104,33 +106,37 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
     #endregion
 
     #region IPowerConsumer
-    public bool hasPower
-    {
-        get { return net.hasPower > 0 ? true : false; }
-        //set { net.Cmd_SetHasPower(value); }
-        set { net.Server_SetHasPower(value); }
-    }
-    public void PowerOn() //only server
-    {
-        if(NetworkServer.active)
-            hasPower = true;
+    // public bool hasPower
+    // {
+    //     get { return net.hasPower > 0 ? true : false; }
+    //     //set { net.Cmd_SetHasPower(value); }
+    //     set { net.Server_SetHasPower(value); }
+    // }
+    // public int GetConsumption()
+    // {
+    //     return 1;
+    // }
+    // public void PowerOn() //only server
+    // {
+    //     if(NetworkServer.active)
+    //         hasPower = true;
 
 
-    }
-    public void PowerOff()
-    {
-        if (NetworkServer.active)
-            hasPower = false;
+    // }
+    // public void PowerOff()
+    // {
+    //     if (NetworkServer.active)
+    //         hasPower = false;
 
-    }
-    public Vector2 GetPowerLineConnectionPoint()
-    {
-        return transform.position;
-    }
-    public Vector2 GetTransformPosition()
-    {
-        return transform.position;
-    }
+    // }
+    // public Vector2 GetPowerLineConnectionPoint()
+    // {
+    //     return transform.position;
+    // }
+    // public Vector2 GetTransformPosition()
+    // {
+    //     return transform.position;
+    // }
     #endregion
 
     #region Main
@@ -148,11 +154,11 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
             Deactivated();
     }
 
-    //TEST
-    public SpriteRenderer head;
-    //TEST
 
-    protected override void Activation()
+    public Transform head;
+
+
+    public override void Activation()
     {
         //Effect Rpc
             //TEST
@@ -166,7 +172,7 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
         //Main Logic -Server
         
     }
-    protected override void Deactivated()
+    public override void Deactivated()
     {
         //Effect Rpc
             //TEST

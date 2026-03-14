@@ -16,23 +16,26 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     public bool canAction;
     public bool canMovable;
     public bool invincible;
+    public bool canInteract;
     [SyncVar] public bool isDead;
     [SyncVar] public bool doNotTouch;
+    public bool isControlObj;
     [field: SerializeField] public Transform charPivot { get; private set; }
-    [field: SerializeField] public List<SortingGroup> sortingGroup{ get; private set; }
+    [field: SerializeField] public List<SortingGroup> sortingGroup { get; private set; }
     [field: SerializeField] public PlayerTalkingSprite talkingSprite { get; private set; }
     [field: SerializeField] public GameObject spriteMask { get; private set; }
     protected float _coyoteTime => playerData.coyoteTime;
     public float coyoteTimeCount;
     private bool _emoteOnCoolDown;
     private bool _pingOnCoolDown;
+    private int _pingCount;
     protected RaycastHit2D _hit;
     public bool isGround { get; protected set; }
     protected LayerMask _defaultForceReceiveLayer;
     [field: SerializeField] public LayerMask halfPlatformLayer;
     public bool isHalfPlatform;
     public bool isDownThroughPlatform;
-    
+
     public CharacterType characterType => playerData.characterType;
     protected PlayerStateMachine stateMachine;
 
@@ -50,17 +53,17 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     protected LayerMask interactableLayerMask => playerData.interactableLayerMask;
     protected LayerMask obstacleMask => playerData.obstacleLayerMask;
     protected float detectDistance => playerData.detectDistance;
-    protected Collider2D latestTarget;
+    [SerializeField] protected Collider2D latestTarget;
 
     [field: Header("Particles")]
     [field: SerializeField] public ParticleSystem jumpParticle { get; private set; }
     [field: SerializeField] public ParticleSystem landParticle { get; private set; }
-    
+
     [field: Header("Animation")]
     [field: SerializeField] public Animator animator { get; private set; }
     public PlayerAnimationData animationData { get; protected set; }
     private bool _isSuicideActive;
-    
+
     #region Setup
     protected virtual void Awake()
     {
@@ -81,10 +84,11 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         canControl = true;
         canAction = true;
         canMovable = true;
+        canInteract = true;
         isDead = false;
         doNotTouch = false;
         _defaultForceReceiveLayer = collider2D.forceReceiveLayers;
-        collider2D.forceReceiveLayers =~ halfPlatformLayer;
+        collider2D.forceReceiveLayers = ~halfPlatformLayer;
         stateMachine.SubscribeInput();
         SubscribeInput();
         StartCoroutine(DetectInteraction());
@@ -102,6 +106,11 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         StopAllCoroutines();
         UnsubscribeInput();
     }
+
+    public virtual void Reset()
+    {
+
+    }
     #endregion
 
     #region Update
@@ -117,7 +126,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     protected virtual void FixedUpdate()
     {
         if (!isLocalPlayer || !canControl) return;
-        
+
         stateMachine.PhysicsUpdate();
     }
     #endregion
@@ -158,10 +167,10 @@ public class PlayerSM : NetworkBehaviour, IDamageable
 
     public void DownThroughHalfPlatform()
     {
-        collider2D.forceReceiveLayers =~ halfPlatformLayer;
+        collider2D.forceReceiveLayers = ~halfPlatformLayer;
     }
     #endregion
-    
+
     #region Interaction
     protected virtual IEnumerator DetectInteraction()
     {
@@ -172,6 +181,10 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         while (true)
         {
             yield return null;
+        
+
+            if (isControlObj)
+                continue;
 
             var collisions =
                 Physics2D.OverlapCircleAll(transform.position + offset, detectDistance, interactableLayerMask);
@@ -191,13 +204,20 @@ public class PlayerSM : NetworkBehaviour, IDamageable
             {
                 if (collision.TryGetComponent<IInteractable>(out var interactable) && !interactable.CanInteract()) continue;
 
-                if (interactable != null && interactable.GetObjectType() == ObjectTypeEnum.Grab) continue;
+                if (interactable != null)
+                {
+                    if (interactable.GetObjectType() == ObjectTypeEnum.Grab) continue;
+
+                    if (interactable.GetObjectType() == ObjectTypeEnum.Mount) continue;
+
+                    if (interactable.GetObjectType() == ObjectTypeEnum.AirGun) continue;
+                }
 
                 var pos = transform.position + offset;
                 var objectVector = (collision.transform.position - pos).normalized;
                 var targetDistance = Vector2.Distance(transform.position + offset, collision.transform.position);
                 var hit = Physics2D.Raycast(pos, objectVector, targetDistance, obstacleMask);
-                
+
                 if (Vector2.Distance(pos, hit.point) < targetDistance - 0.2f) continue;
 
                 if (targetDistance < shortestDistance)
@@ -209,7 +229,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
 
             if (closestTarget == null)
             {
-                if(latestTarget != null)
+                if (latestTarget != null)
                     Managers.UI.HideUI<UI_ShowEButton>();
 
                 latestTarget = null;
@@ -224,10 +244,10 @@ public class PlayerSM : NetworkBehaviour, IDamageable
                     shortestDistance = float.MaxValue;
                     continue;
                 }
-                
+
                 Managers.UI.HideUI<UI_ShowEButton>();
             }
-            
+
             latestTarget = closestTarget;
 
             try
@@ -248,7 +268,8 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     {
         if (latestTarget == null) return;
         if (!latestTarget.TryGetComponent<IInteractable>(out var interactable)) return;
-        if (interactable.GetObjectType() == ObjectTypeEnum.Grab) return;
+        if (interactable.GetObjectType() == ObjectTypeEnum.Control)
+            isControlObj = !isControlObj;
         interactable.Interaction(transform);
     }
     #endregion
@@ -256,7 +277,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     #region Dead
     // ReSharper disable Unity.PerformanceAnalysis
     //0323
-    public event Action deathEvent;
+    public event Action<DamageType> deathEvent;
     //0323
     public virtual void TakeDamage(DamageType damageType = DamageType.Default)
     {
@@ -270,7 +291,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.DeathVignette(true);
         stateMachine.ChangeState(stateMachine.IdleState);
 
-        deathEvent?.Invoke();
+        deathEvent?.Invoke(damageType);
 
         // 애니메이션 처리
         PlayDeathAnimation(damageType);
@@ -278,14 +299,15 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         // 카메라 효과 처리
         HandleDeathCameraEffects(damageType);
         // 플레이어 죽었을 때 처리
-        Managers.AcManager.CallPlayerDeath();
-        
-       
+        Managers.AcManager.CallPlayerDeath(damageType);
+
+        PlayDeathSound(damageType);
+        CmdPlayDeathSound(damageType);
     }
 
     public void CallPlayerDeathEvent()
     {
-        deathEvent?.Invoke();
+        deathEvent?.Invoke(DamageType.Default);
     }
 
     //private void TakeSuicideDamage()
@@ -323,15 +345,17 @@ public class PlayerSM : NetworkBehaviour, IDamageable
             //StartCoroutine(CameraShake.instance.Co_Shake(shakeParam.duration, shakeParam.intensity));
         }
     }
-    
+
     public virtual void Respawning()
     {
-        rigidbody2D.velocity = Vector2.zero; 
+        rigidbody2D.velocity = Vector2.zero;
         transform.position = Managers.Network.startPos[0].position;
         animator.SetTrigger(animationData.RespawningParameterHash);
         Camera.main.GetComponent<PlayerCameraView>()._CameraGlobalVolumeController.DeathVignette(false);
+        PlayRespawnSound();
+        CmdPlayRespawnSound();
     }
-    
+
     public void RespawnEnd()
     {
         animator.SetTrigger(animationData.RespawnEndParameterHash);
@@ -342,8 +366,44 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         rigidbody2D.freezeRotation = true;
         stateMachine.Initialize();
     }
+
+    private void PlayDeathSound(DamageType damageType)
+    {
+        if (!GlobalText.DeathSoundDictionary.TryGetValue(damageType, out var sound)) return;
+
+        Managers.Sound.PlaySound3D(sound, transform.position);
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdPlayDeathSound(DamageType damageType)
+    {
+        RpcPlayDeathSound(damageType);
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcPlayDeathSound(DamageType damageType)
+    {
+        PlayDeathSound(damageType);
+    }
+
+    private void PlayRespawnSound()
+    {
+        Managers.Sound.PlaySound3D(GlobalText.PLAYER_RESURRECT, transform.position);
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdPlayRespawnSound()
+    {
+        RpcPlayRespawnSound();
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcPlayRespawnSound()
+    {
+        PlayRespawnSound();
+    }
     #endregion
-    
+
     #region Emote
     private void ShowEmoteWheel()
     {
@@ -362,14 +422,14 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         emoteWheel.TryShowHoveredEmote();
         Managers.UI.HideUI<UI_EmoteWheel>();
     }
-    
+
     public void UsingEmote()
     {
         _emoteOnCoolDown = true;
         DoVoice();
         StartCoroutine(EmoteCoolDown());
     }
-    
+
     private IEnumerator EmoteCoolDown()
     {
         yield return new WaitForSeconds(3.5f);
@@ -380,44 +440,18 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     public void CmdEmote(string emoteName)
     {
         var prefab = Managers.Network.spawnPrefabDict[emoteName];
-        var go = Instantiate(prefab, gameObject.transform.position + Vector3.up * 0.6f,Quaternion.identity);
+        var go = Instantiate(prefab, gameObject.transform.position + Vector3.up * 0.6f, Quaternion.identity);
         NetworkServer.Spawn(go);
         go.name = prefab.name;
         RpcEmote(go);
     }
-    
+
     [ClientRpc]
     private void RpcEmote(GameObject go)
     {
         var sort = go.GetComponent<SortingGroup>();
         sort.sortingOrder = isLocalPlayer ? 8 : 7;
         go.transform.parent = gameObject.transform;
-    }
-
-    private void DoVoice()
-    {
-        Managers.Sound.PlaySound("Meh");
-        CmdVoice();
-        TurnOnTalkingSprite();
-    }
-
-    [Command(requiresAuthority = false)]
-    private void CmdVoice()
-    {
-        RpcVoice();
-    }
-
-    [ClientRpc(includeOwner = false)]
-    private void RpcVoice()
-    {
-        Managers.Sound.PlaySound3D("Meh", transform);
-        TurnOnTalkingSprite();
-    }
-
-    private void TurnOnTalkingSprite()
-    {
-        if (talkingSprite.gameObject.activeSelf) talkingSprite.StartVoice();
-        else talkingSprite.gameObject.SetActive(true);
     }
     #endregion
 
@@ -448,41 +482,126 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         pingWheel.TryShowHoveredPing();
         Managers.UI.HideUI<UI_PingWheel>();
     }
-
+    //========================================1210
+    [Server]
+    public void Server_Ping(string pingName, Vector2 pos)
+    {
+        //Pooling
+        var obj = Managers.Pooling.N_GetItme(pingName);
+        //Pooling
+        //RPC
+        if(obj.TryGetComponent(out NetworkIdentity identity))
+        Rpc_Ping(identity.netId, pos);
+        //RPC
+    }
+    //========================================1210
     [Command(requiresAuthority = false)]
     public void CmdPing(string pingName, Vector2 pos)
     {
-        //var prefab = Managers.Network.spawnPrefabDict[pingName];
-        //var go = Instantiate(prefab, pos, Quaternion.identity);
-        //NetworkServer.Spawn(go);
+        Server_Ping(pingName, pos);
         //-------------Ping mark 0728
-        Rpc_Ping(pingName, pos);
+        // Rpc_Ping(pingName, pos);
         //-------------Ping mark 0728
 
-       
+
     }
     //-------------Ping mark 0728
+    // [ClientRpc]
+    // private void Rpc_Ping(string pingName, Vector2 pos)
+    // {
+    //     var prefab = Managers.Network.spawnPrefabDict[pingName];
+    //     var go = Instantiate(prefab, pos, Quaternion.identity);
+    //     go.GetComponent<PingWheel_Item_Marker>().Setting_PingPosition(pos);
+    //     go.name = prefab.name;
+    // }
     [ClientRpc]
-    private void Rpc_Ping(string pingName, Vector2 pos)
+    private void Rpc_Ping(uint id, Vector2 pos)
     {
-        var prefab = Managers.Network.spawnPrefabDict[pingName];
-        var go = Instantiate(prefab, pos, Quaternion.identity);
-        go.GetComponent<PingWheel_Item_Marker>().Setting_PingPosition(pos);
-        go.name = prefab.name;
+       var obj = NetworkClient.spawned.TryGetValue(id, out var netIdentity) ? netIdentity.gameObject : null;
+       if (obj == null) return;
+
+       if(obj.TryGetComponent(out PingWheel_Item_Marker pingMarker))
+        {
+            pingMarker.Setting_PingPosition(pos);
+            obj.gameObject.SetActive(true);
+        }
+
     }
     //-------------Ping mark 0728
 
 
     public void UsingPing()
     {
-        _pingOnCoolDown = true;
-        StartCoroutine(PingCoolDown());
+        if (_pingCount > 4)
+        {
+            Debug.Log(_pingCount);
+            _pingOnCoolDown = true;
+            StartCoroutine(PingCoolDown());
+            return;
+        }
+
+        _pingCount++;
+        Debug.Log(_pingCount);
     }
 
     private IEnumerator PingCoolDown()
     {
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(2f);
         _pingOnCoolDown = false;
+    }
+
+    public void PingRemoved()
+    {
+        _pingCount--;
+
+        if (_pingCount < 0)
+            _pingCount = 0;
+    }
+    #endregion
+
+    #region Sound
+    private void DoVoice()
+    {
+        Managers.Sound.PlaySound(GlobalText.PLAYER_SPEAK);
+        CmdVoice();
+        TurnOnTalkingSprite();
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdVoice()
+    {
+        RpcVoice();
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcVoice()
+    {
+        Managers.Sound.PlaySound3D(GlobalText.PLAYER_SPEAK, transform);
+        TurnOnTalkingSprite();
+    }
+
+    private void TurnOnTalkingSprite()
+    {
+        if (talkingSprite.gameObject.activeSelf) talkingSprite.StartVoice();
+        else talkingSprite.gameObject.SetActive(true);
+    }
+
+    public void JumpSoundPlay()
+    {
+        Managers.Sound.PlaySound(GlobalText.PLAYER_JUMP);
+        CmdJumpSoundPlay();
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CmdJumpSoundPlay()
+    {
+        RpcJumpSoundPlay();
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcJumpSoundPlay()
+    {
+        Managers.Sound.PlaySound3D(GlobalText.PLAYER_JUMP, transform.position);
     }
     #endregion
 
@@ -511,12 +630,14 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         jumpParticle.Play();
     }
     #endregion
-    
+
     #region Input
     private void ShowEmote(InputAction.CallbackContext context)
     {
         if (!canControl) return;
-        
+
+        if (!canAction) return;
+
         ShowEmoteWheel();
     }
 
@@ -524,17 +645,21 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     {
         HideEmoteWheel();
     }
-    
+
     private void DoInteraction(InputAction.CallbackContext context)
     {
         if (!canControl) return;
-        
+
+        if (!canInteract) return;
+
         Interaction();
     }
-    
+
     protected virtual void TrySuicide(InputAction.CallbackContext context)
     {
         if (!canControl) return;
+
+        if (!canAction) return;
 
         canMovable = false;
         stateMachine.ChangeState(stateMachine.SuicideState);
@@ -543,7 +668,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     private void Suicided()
     {
         if (!canControl) return;
-        
+
         TakeDamage(DamageType.Suicide);
     }
 
@@ -551,11 +676,17 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     {
         if (!canControl) return;
 
+        if (!canAction) return;
+
         DoVoice();
     }
 
     private void ShowPing(InputAction.CallbackContext context)
     {
+        if (!canControl) return;
+
+        if (!canAction) return;
+
         if (context.interaction is TapInteraction)
             ShowBasicPing();
         else if (context.interaction is HoldInteraction)
@@ -566,7 +697,18 @@ public class PlayerSM : NetworkBehaviour, IDamageable
     {
         HidePingWheel();
     }
-    
+
+    public virtual void FreezePlayerState(bool onOff)
+    {
+        canAction = !onOff;
+        canMovable = !onOff;
+        canInteract = !onOff;
+        doNotTouch = onOff;
+
+        if (onOff)
+            rigidbody2D.velocity = Vector2.zero;
+    }
+
     private void SubscribeInput()
     {
         input.playerActions.Emote.started += ShowEmote;
@@ -577,7 +719,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
         input.playerActions.Ping.performed += ShowPing;
         input.playerActions.Ping.canceled += HidePing;
     }
-    
+
     private void UnsubscribeInput()
     {
         input.playerActions.Emote.started -= ShowEmote;

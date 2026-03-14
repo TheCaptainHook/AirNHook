@@ -8,8 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Material_Spirit_Lit
-  m_Shader: {fileID: -6465566751694194690, guid: 98337e8f3519afb47bece3b0fd693d8e,
-    type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 98337e8f3519afb47bece3b0fd693d8e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -43,14 +42,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Vector1_356DE96F: 1.07
+    - Vector1_356DE96F: 1
     - Vector1_39218ACB: -0.23
     - Vector1_9E353598: 1.92
     - Vector1_C703B39: 1
     - Vector1_C703B391: 1
-    - Vector1_D412CFB2: 0.55
+    - Vector1_D412CFB2: 0.8
     m_Colors:
-    - ColorBloom: {r: 1.1486983, g: 1.1486983, b: 1.1486983, a: 1}
+    - ColorBloom: {r: 0.82935435, g: 0.82935435, b: 0.82935435, a: 1}
     - Color_5B866001: {r: 4, g: 4, b: 4, a: 0}
     - Color_926009DC: {r: 0.9811321, g: 0, b: 0, a: 1}
     - _SourcePosition: {r: -46.33503, g: -1.236206, b: 0, a: 0}

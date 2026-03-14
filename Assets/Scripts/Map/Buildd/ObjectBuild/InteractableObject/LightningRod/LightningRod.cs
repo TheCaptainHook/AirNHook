@@ -15,13 +15,16 @@ public class LightningRod : InteractableObjectEntity
     [SerializeField] ParticleSystem[] particles;
 
 
-    protected override void Awake()
+    // protected override void Awake()
+    // {
+    //     base.Awake();
+    //     curDurationRate = maxDurationRate;
+    // }
+
+    void Awake()
     {
-        base.Awake();
         curDurationRate = maxDurationRate;
     }
-
-
 
     public void Electric()
     {

@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Scenes/DevelopScene/TestScene_MapEditor.meta
 guid: 6c3aa2210a9f5d745a6a5b700fdff82f
-========
-guid: e2ce2e15bc977e84280c83583d44378f
->>>>>>>> Develop:Assets/Scripts/Character/Air.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

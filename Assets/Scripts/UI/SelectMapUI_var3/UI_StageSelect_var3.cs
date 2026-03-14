@@ -224,7 +224,6 @@ public class UI_StageSelect_var3: UI_Base,IPointerEnterHandler,IPointerExitHandl
 
     public void Reset()
     {
-        // Computer_Net net = computer.GetComponent<Computer_Net>();
         Net.Server_ReadyAllClientReset();
     }
     public override void OnEnable()
@@ -233,7 +232,7 @@ public class UI_StageSelect_var3: UI_Base,IPointerEnterHandler,IPointerExitHandl
     }
 
     bool onReady;
-    public void StartUi(uint computerId)
+    public void StartUi(uint computerId) //Serve
     {
         if (NetworkClient.spawned.TryGetValue(computerId, out NetworkIdentity foundObject))
         {
@@ -290,21 +289,35 @@ public class UI_StageSelect_var3: UI_Base,IPointerEnterHandler,IPointerExitHandl
                     BackPrograss();
                     break;
                 }
-               
+
+
                 switch (_PrograssLevel)
                 {
                     case PrograssLevel.One:
+                        //Select Sound
+                        Managers.Sound.PlaySound(GlobalText.COMPUTER_SELECTMENU_SOUND_2);
+                        //Select Sound
+
                         Select_PrograssLevel_1();
                         break;
                     case PrograssLevel.Two:
+                        //Select Sound
+                        Managers.Sound.PlaySound(GlobalText.COMPUTER_SELECTMENU_SOUND_2);
+                        //Select Sound
+
                         Select_PrograssLevel_2();
                         break;
                     case PrograssLevel.Three:
+                        //Select Sound
+                        Managers.Sound.PlaySound(GlobalText.COMPUTER_SELECTMENU_EndSelect_Sound);
+                        //Select Sound
                         if (GetMap(curSelectTextLine.mainSentence) == null) yield break;
                         textLineList[pathTextLineIndex].WriteText($"/{curSelectTextLine.mainSentence}");
                         _PrograssCoroutine = StartCoroutine(Select_PrograssLevel_3Co());
                         break;
                 }
+                
+                
                 break;
             case 4:
                 BackPrograss();
@@ -718,13 +731,14 @@ public class UI_StageSelect_var3: UI_Base,IPointerEnterHandler,IPointerExitHandl
         _UI_KeyGenerator.gameObject.SetActive(false);
 
         computer.GetComponent<StageSelectorComputer>().SpawnKey();
-        
 
-    //------------------------------------player Move control
-        var player = Managers.Game.Player.GetComponent<PlayerSM>();
-        player.canMovable = true;
-        player.canAction = true;
-        player.doNotTouch = false;
+
+        //------------------------------------player Move control
+        // var player = Managers.Game.Player.GetComponent<PlayerSM>();
+        // player.canMovable = true;
+        // player.canAction = true;
+        // player.doNotTouch = false;
+        FreezePlayerState(false);
         //------------------------------------player Move control
         //-----------------------------Reset
         Net.Server_SetIsOpen(false);
@@ -746,10 +760,16 @@ public class UI_StageSelect_var3: UI_Base,IPointerEnterHandler,IPointerExitHandl
                 Shutdown();
                 break;
             case PrograssLevel.Two:
+               
+                Managers.Sound.PlaySound(GlobalText.COMPUTER_SELECTMENU_SOUND_1);
+                
                 textLineList[pathTextLineIndex].WriteText("", localColor);
                 StartCoroutine(WriteTextLineCo_Title(titleSentence));
                 break;
             case PrograssLevel.Three:
+                
+                Managers.Sound.PlaySound(GlobalText.COMPUTER_SELECTMENU_SOUND_1);
+
                 mapInfo_UI.Reset();
                 string[] sentences = GetSplitSentenceAndLaststring();
                 string newPath = $"/{sentences[1]}";
@@ -780,11 +800,8 @@ public class UI_StageSelect_var3: UI_Base,IPointerEnterHandler,IPointerExitHandl
         yield return EraserTextLineCo(0, maxSelectTextLineListIndex);
         animator.SetTrigger(CLOSE);
         yield return new WaitForSeconds(1f);
-    //------------------------------------player Move control
-        var player = Managers.Game.Player.GetComponent<PlayerSM>();
-        player.canMovable = true;
-        player.canAction = true;
-        player.doNotTouch = false;
+        //------------------------------------player Move control
+        FreezePlayerState(false);
         //------------------------------------player Move control
 
         yield return new WaitForSeconds(1f);
@@ -796,7 +813,13 @@ public class UI_StageSelect_var3: UI_Base,IPointerEnterHandler,IPointerExitHandl
 
     }
 
+    private void FreezePlayerState(bool onOff)
+    {
+        var player = Managers.Game.Player.TryGetComponent(out PlayerSM sm) ? sm : null;
+        if (player == null) return;
 
+        sm.FreezePlayerState(onOff);
+    }
     #endregion
 
     #region Util

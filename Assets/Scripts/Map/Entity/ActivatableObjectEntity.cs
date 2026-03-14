@@ -1,4 +1,6 @@
 
+using System;
+using Mirror;
 using UnityEngine;
 public enum INDICATOR
 {
@@ -46,48 +48,48 @@ public class ActivatableObjectEntity : BuildObj
         }
     }
 
-    protected ActivatableObject_Net_Entity Net;
-    protected bool Net_Entity(out ActivatableObject_Net_Entity net)
-    {
-        net = Net ??= GetComponent<ActivatableObject_Net_Entity>();
-        return net != null;
-    }
+    protected ActivatableObject_Net_Entity net;
+    protected ActivatableObject_Net_Entity Net { get{ net ??= GetComponent<ActivatableObject_Net_Entity>();  return net; }}
+    
+    protected Animator _animator;
+    protected Animator Animator {get{_animator ??= GetComponent<Animator>(); return _animator;}}
+    
 
     protected virtual void Awake()
     {
-        Net = TryGetComponent(out ActivatableObject_Net_Entity entity) ? entity : null;
+        
     }
 
     [ReadOnly]
     public int curActiveBtn;
     //----------------------------------------------------------------Refactoring 250124
-    public void ApplyActive(int num,uint id=9999) //only Server
+    public void ApplyActive(int num, uint id = 9999) //server
     {
         curActiveBtn += num;
 
-        if (Net_Entity(out ActivatableObject_Net_Entity net) && ButtonActivatedObjectStruct.indicatorStruct.indicator != INDICATOR.NONE)
+        if (ButtonActivatedObjectStruct.indicatorStruct.indicator != INDICATOR.NONE)
         {
             //------------------------------------NET
             if (id != 9999 && ButtonActivatedObjectStruct.indicatorStruct.indicator == INDICATOR.MARK)
             {
-                net.ApplyActive_Sync_var2(id, curActiveBtn, num);
+                Net.ApplyActive_Sync_var2(id, curActiveBtn, num);
             }
-            else if (ButtonActivatedObjectStruct.indicatorStruct.indicator == INDICATOR.TEXT) 
+            else if (ButtonActivatedObjectStruct.indicatorStruct.indicator == INDICATOR.TEXT)
             {
-                net.ApplyActive_Sync_var1(curActiveBtn);
+                Net.ApplyActive_Sync_var1(curActiveBtn);
 
                 if (curActiveBtn == activeRequirAmount) Activation();
                 else Deactivated();
             }
             else if (ButtonActivatedObjectStruct.indicatorStruct.indicator == INDICATOR.BOTH)
             {
-                net.ApplyActive_Sync_var2(id, curActiveBtn, num);
-                net.ApplyActive_Sync_var1(curActiveBtn);
+                Net.ApplyActive_Sync_var2(id, curActiveBtn, num);
+                Net.ApplyActive_Sync_var1(curActiveBtn);
             }
             //------------------------------------NET
-                return;
+            return;
         }
-        
+
 
         if (curActiveBtn == activeRequirAmount) Activation();
         else Deactivated();
@@ -103,7 +105,7 @@ public class ActivatableObjectEntity : BuildObj
     {
         if (typeof(T) == typeof(ButtonActivatableObjectStruct))
         {
-            return (T)(object)new ButtonActivatableObjectStruct(id, activeRequirAmount, transform.position, transform.rotation, transform.localScale,indicatorStruct);
+            return (T)(object)new ButtonActivatableObjectStruct(id,transform.position, transform.rotation, transform.localScale,activeRequirAmount,indicatorStruct);
         }
 
         return default(T);
@@ -125,14 +127,7 @@ public class ActivatableObjectEntity : BuildObj
 
             if (Application.isPlaying)
             {
-                if (Net_Entity(out ActivatableObject_Net_Entity net))
-                {
-                    //Create Indicato
-                    // if (ButtonActivatedObjectStruct.indicator == INDICATOR.TEXT) Create_Indicator_var_1();
-                    // else if (ButtonActivatedObjectStruct.indicator == INDICATOR.MARK) Create_Indicator_var_2();
-                    //Create Indicator
-                    net.Server_InitSync();
-                }
+                Net.Server_InitSync();
                 await util.Delay(() => { CheckActiveRequirAmount(); });
             }
         }
@@ -140,7 +135,7 @@ public class ActivatableObjectEntity : BuildObj
 
 
 
-    
+
     protected virtual void AdditionalInspectorConfig()
     {
 
@@ -158,47 +153,42 @@ public class ActivatableObjectEntity : BuildObj
     }
 
     #region Indicator
-    // protected virtual void ApplyActive_Sync_var1(int curActiveAmount) //server
-    // {
-    //     /// [TEXT]
-    //     /// 1. 각 오브젝트 오버라이딩
-    //     /// 2. server에서 버튼 누름 -> rpc로 적용(curActiveAmount 그대로 걍 전달)
-    //     ///[MARK]
-    //     ///
-    //     //TEST
-    //     indicator_var1.SetApplyActive(curActiveAmount);
-    // }
-    // /// </summary>
-    // /// <param name="id">Network ID</param>
-    // /// <param name="inc">[-1] : deactive, [1] : active </param>
-    // protected virtual void ApplyActive_Sync_var2(uint id, int curActiveBtn,int inc) //server
-    // {
-    //     ///[MARK]
-    //     /// 1. 각 오브젝트 오버라이딩
-    //     /// 2. server에서 버튼 누르면 해당 오브젝트의 id와 현재 활성화된 갯수 전달
-    //     /// 3. item 경로가 이미 생성되있으면 걍 LineOn, 아니면 경로 생성 후 Line On
-    //     indicator_var2.SetApplyActive(id, curActiveBtn ,inc);
-    // }
+    public void PathChacking(GameObject target) //Server, call ButtonEntity
+    {
+        var netId = target.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 9999;
+        if (netId == 9999) return;
 
-    // private ActivatableObject_Indicator_var1 indicator_var1;
-    // public void Create_Indicator_var_1()
-    // {
-    //     //var indicator = Resources.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_1_Path);
-    //     var indicator = ResourceManager.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_1_Path);
-    //     indicator_var1 = Instantiate(indicator).GetComponent<ActivatableObject_Indicator_var1>();
-    //     indicator_var1.Setting(this);
+        Debug.Log("[2] Start Path Chaking -> RPC ");
+        Net.Server_Indicator_var_2_PathChacking(netId);
+    }
 
-    // }
-    // private ActivatableObject_Indicator_var2 indicator_var2;
-    // public void Create_Indicator_var_2()
-    // {
-    //     var indicator = ResourceManager.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_2_Path);
-    //     //var indicator = Resources.Load<GameObject>(GlobalText.ACTIVATABLE_OBJECT_INDICATOR_VAR_2_Path);
-    //     indicator_var2 = Instantiate(indicator).GetComponent<ActivatableObject_Indicator_var2>();
-    //     indicator_var2.Setting(this);
+    #endregion
 
-    // }
+    #region  Clean
+    public override void Clean()
+    {
+        StopAllCoroutines();
+        Net.StopAllCoroutines();
+        
+        if(Animator != null)
+        {
+            Animator.Rebind();
+            Animator.Update(0);
+        }
+        
+        curActiveBtn = 0;
+        activeRequirAmount = 0;
+        
+        Clean_Value();
+        Net.Clean();
+    }
 
+
+        
+    protected virtual void Clean_Value()
+    {
+        
+    }
     #endregion
 
 }

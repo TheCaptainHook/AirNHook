@@ -251,7 +251,7 @@ MonoBehaviour:
   lightObjects: []
   interactableObjects: []
   socketPosition: {fileID: 6272910094011134713}
-  _objectType: 0
+  _objectType: 2
   _BtnOffset: 1
 --- !u!114 &7773638936160805107
 MonoBehaviour:

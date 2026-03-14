@@ -8,8 +8,8 @@ public class CollectableEntity : BuildObj
     private bool isFound;
 
     #region  Components
-    private Rigidbody2D _rb;
-    private Collider2D _Collider;
+    // private Rigidbody2D _rb;
+    // private Collider2D _Collider;
     #endregion
 
     private void Awake(){

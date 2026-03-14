@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Mirror;
 
 
 public class Indicator_var2_DrawLineUtility : MonoBehaviour
@@ -15,25 +16,90 @@ public class Indicator_var2_DrawLineUtility : MonoBehaviour
     public uint id;
     public ActivatableObject_Indicator_var2_Item item;
     public Transform target;
+ 
     #endregion
 
     public int curApplyActive;
     public void SettingAndDrawLine(uint id,
         ActivatableObject_Indicator_var2_Item item,
         Transform target,
-        Action applyActiveAction
+        Action applyActiveAction,
+        bool notObstacle
         )
     {
         this.id = id;
         this.item = item;
-        this.target= target;
- 
+        this.target = target;
+        this.notObstacle = notObstacle;
+
         StartCoroutine(SetPathCoroutine(applyActiveAction));
+         
+    }
+    #region  Path Chaking
+    public void PathChacking(ActivatableObject_Indicator_var2 indicator ,uint targetId,ActivatableObject_Indicator_var2_Item item)
+    {
+        var target = NetworkClient.spawned.TryGetValue(targetId, out NetworkIdentity identity) ? identity.gameObject : null;
+        if (target == null) return;
+        notObstacle = indicator.notObstacle;
+
+        StartCoroutine(PathChackingCo(indicator,item,target.transform.position));
     }
 
+    private bool InnerFloorTileChack(Vector2 itemPot,Vector2 targetPot)
+    {
+        Vector2 probeSize = new Vector2(0.5f, 0.5f);
+        var hit = Physics2D.OverlapBox(itemPot, probeSize, 0f, PathFinder.obstacleLayer);
+        var hit2 = Physics2D.OverlapBox(targetPot, probeSize, 0f, PathFinder.obstacleLayer);
+
+        if (hit == null && hit2 == null)
+        {
+            Debug.Log("Not Found hit");
+            return false;
+        }
+        else
+        {
+            Debug.Log("Found hit");
+            return true;
+        }
+
+        
+    }
+    
+    private IEnumerator PathChackingCo(ActivatableObject_Indicator_var2 indicator, ActivatableObject_Indicator_var2_Item item, Vector2 targetPosition)
+    {
+        //바닥타일 내부에 있는지 체크,
+        if (InnerFloorTileChack(item.transform.position,targetPosition))
+        {
+            indicator.notObstacle = true;
+            indicator.itemWaitStack.Push(item);
+            indicator.lineQueue.Enqueue(this);
+            yield break;
+        }
+
+        //바닥타일 내부에 있는지 체크,
+        yield return StartCoroutine(PathFinder.FindPathCoroutine(item.transform.position, targetPosition, path =>
+        {
+            if (path != null)
+            {
+                indicator.notObstacle = false;
+            }
+            else
+            {
+                indicator.notObstacle = true;
+            }
+
+            indicator.itemWaitStack.Push(item);
+            indicator.lineQueue.Enqueue(this);
+
+        }, false, Direction_Type.Four));
+
+    }
+    #endregion
+
     #region PathFind
-    private bool onPathFind;
+    public bool onPathFind;
     private PathFinder pathFinder;
+    private bool notObstacle = false;
     private PathFinder PathFinder { get { pathFinder ??= GetComponent<PathFinder>(); return pathFinder; } }
     private IEnumerator SetPathCoroutine(Action applyActiveAction)
     {
@@ -49,8 +115,9 @@ public class Indicator_var2_DrawLineUtility : MonoBehaviour
             else
             {
                 Debug.Log("경로를 찾지 못함");
+                notObstacle = true;
             }
-        }, false, Direction_Type.Four));
+        }, notObstacle, Direction_Type.Four));
 
         onPathFind = false;
     }
@@ -115,7 +182,7 @@ public class Indicator_var2_DrawLineUtility : MonoBehaviour
     #region Erase
     public void Erase(ActivatableObject_Indicator_var2 indicator, Action applyActive)
     {
-        StartCoroutine(EraseCo_MainToTarget(indicator, applyActive));
+     StartCoroutine(EraseCo_MainToTarget(indicator, applyActive));
     }
     private IEnumerator EraseCo_MainToTarget(ActivatableObject_Indicator_var2 indicator,Action applyAction) //<-> Draw_TargetToMain
     {
@@ -130,7 +197,8 @@ public class Indicator_var2_DrawLineUtility : MonoBehaviour
         //---------------------------TEST 0627 (Mark Change)
         item.Mark_ShutDown();
         indicator.itemWaitStack.Push(item);
-        if(curApplyActive == 1)
+        
+        if (curApplyActive == 1)
         {
             applyAction?.Invoke();
             curApplyActive = 0;
@@ -194,7 +262,7 @@ public class Indicator_var2_DrawLineUtility : MonoBehaviour
 
         float elapsed = 0;
         Color curStartCol = Line.startColor;
-        Color fade_Start = new Color(curStartCol.r, curStartCol.g, curStartCol.b, onOff ? minAlpha : maxAlpha );
+        Color fade_Start = new Color(curStartCol.r, curStartCol.g, curStartCol.b, onOff ? minAlpha : maxAlpha);
 
         Color curEndColr = Line.endColor;
         Color fade_End = new Color(curEndColr.r, curEndColr.g, curEndColr.b, onOff ? minAlpha : maxAlpha);
@@ -213,5 +281,11 @@ public class Indicator_var2_DrawLineUtility : MonoBehaviour
         fadeCoroutine = null;
     }
 
+    #endregion
+    #region  Clean
+    public void Clean()
+    {
+        StopAllCoroutines();
+    }
     #endregion
 }

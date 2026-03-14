@@ -8,7 +8,7 @@ public class BridgeBox : ActivatableObjectEntity
     {
             if (typeof(T) == typeof(ButtonActivatableObjectStruct))
         {
-            return (T)(object)new ButtonActivatableObjectStruct(id, activeRequirAmount, transform.position, transform.rotation, transform.localScale,bridgeLength,GetConnectionPoint(),indicatorStruct);
+            return (T)(object)new ButtonActivatableObjectStruct(id, transform.position, transform.rotation, transform.localScale,activeRequirAmount,indicatorStruct,bridgeLength,GetConnectionPoint());
         }
 
         return default(T);

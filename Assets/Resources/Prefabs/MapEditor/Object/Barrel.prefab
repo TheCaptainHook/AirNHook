@@ -5314,7 +5314,7 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
+  _Dissolve_MainSprite: {fileID: 4684687439439529792}
   canRespawn: 0
 --- !u!114 &-6467659167779967362
 MonoBehaviour:
@@ -5328,3 +5328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1e2d95843d193b45afe19cffbf9246c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  onSync: 0

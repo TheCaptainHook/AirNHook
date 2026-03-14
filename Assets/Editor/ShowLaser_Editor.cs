@@ -1,10 +1,12 @@
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.SearchService;
+
 
 [CustomEditor(typeof(ShowLaser))]
 public class ShowLaser_Editor : Editor
 {
+#if UNITY_EDITOR
+
     ShowLaser showLaser;
     bool onPrograss;
 
@@ -49,6 +51,6 @@ public class ShowLaser_Editor : Editor
         }
     }
 
+#endif
 }
-    
 

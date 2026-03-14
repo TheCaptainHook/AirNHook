@@ -163,7 +163,7 @@ Transform:
   m_GameObject: {fileID: 806410440354612684}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalPosition: {x: 0.95, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -277,6 +277,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1441108356484892136
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6669199241691634772}
+  m_Layer: 10
+  m_Name: InhalingPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6669199241691634772
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441108356484892136}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.72, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4462666554605769596}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1771380657003557902
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,6 +403,7 @@ MonoBehaviour:
   shakingEffectOnAirGun: {fileID: 1590244714338377572}
   armPivot: {fileID: 4462666554605769596}
   weaponPoint: {fileID: 1621305863906642240}
+  InhalingPoint: {fileID: 6669199241691634772}
   crossHair: {fileID: 2931944683857057375}
   lineRenderer: {fileID: 7937956941434319031}
   <inhaleParticle>k__BackingField: {fileID: 5132154906828901315}
@@ -21349,6 +21381,7 @@ Transform:
   - {fileID: 879032910673399759}
   - {fileID: 5430070365360848322}
   - {fileID: 1621305863906642240}
+  - {fileID: 6669199241691634772}
   m_Father: {fileID: 9095037024881079552}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7679528649754549630

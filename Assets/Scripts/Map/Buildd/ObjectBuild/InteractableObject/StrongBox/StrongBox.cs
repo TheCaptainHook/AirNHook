@@ -10,12 +10,16 @@ public class StrongBox : InteractableObjectEntity
     private float curHealth = 0;
     private StrongBox_Net Net => GetComponent<StrongBox_Net>();
 
-    protected override void Awake()
+    // protected override void Awake()
+    // {
+    //     curHealth = health;
+    //     base.Awake();
+    // }
+
+    void Awake()
     {
         curHealth = health;
-        base.Awake();
     }
-
 
 
     private Coroutine hitEffectCoroutine;

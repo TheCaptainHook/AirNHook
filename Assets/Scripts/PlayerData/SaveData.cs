@@ -22,7 +22,6 @@ public class SaveData
     {
         filePath = Path.Combine(Application.persistentDataPath, "savefile.json");
 
-
         achievmentDataPath = Path.Combine(Application.persistentDataPath,"acData.json");
 
         Debug.Log(filePath);
@@ -77,6 +76,7 @@ public class SaveData
     {
         GetUI_SaveAndLoad().LoadData(Load_SaveFile());
     }
+   
     #region Achievement
     private CancellationTokenSource _cts = new CancellationTokenSource();
     private Task _lastAcSaveTask = Task.CompletedTask;
@@ -219,12 +219,10 @@ public class SaveData
                 map.subMapName, //map SubName
                 map.nextMapId, //next Map
                 false, //clear
-                true, //open stage
+                false, //open stage
                 map.stageDifficulty,
-                // map.dialogueDataList,
-                new List<DialogueData>(map.dialogueDataList),
-                // map.collectableObjectStructList));
-                new List<CollectableObjectStruct>(map.collectableObjectStructList)
+                new List<DialogueData>(map.dialogueDataList), // map.dialogueDataList,                                                     
+                new List<CollectableObjectStruct>(map.collectableObjectStructList)  // map.collectableObjectStructList));
                 ));
 
                 foreach(var item in map.dialogueDataList)
@@ -468,16 +466,16 @@ public class MapSaveData
 [Serializable]
 public class PlayerSaveData
 {
-    //public int totalDeath;
-    //public int TotalDeath { get { return totalDeath; } }
     public List<string> clearMapId;
     public int curStageLevel;
     //클리어한 맵들
 
     //State
     public bool _IstutorialClear;
-
     public int collectableAmount;
+
+    //CutScene
+    public bool _cutScene_Page_1;
 
     public PlayerSaveData()
     {
@@ -488,17 +486,20 @@ public class PlayerSaveData
         _IstutorialClear = false;
 
         collectableAmount = 0;
+        _cutScene_Page_1 = false;
     }
 
-    public void UpdateClearData(string clearMapId){
-
-        if(!this.clearMapId.Contains(clearMapId))
-        this.clearMapId.Add(clearMapId);
+    public void UpdateClearData(string clearMapId)
+    {
+        if (!this.clearMapId.Contains(clearMapId))
+            this.clearMapId.Add(clearMapId);
     }
 
-        public void AddCollectable(){
-            collectableAmount++;
-        }
+    public void AddCollectable()
+    {
+        collectableAmount++;
+    }
+        
 }
 
 

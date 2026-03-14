@@ -1,6 +1,4 @@
 using Mirror;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Drone_Laser_var2_Net : DroneEntity_Net
@@ -54,10 +52,10 @@ public class Drone_Laser_var2_Net : DroneEntity_Net
     [ClientRpc]
     private void Rpc_DorneLaserState(int index)
     {
-        if(index == 0)
+        if (index == 0)
         {
             parts.target = null;
-            droneLaser.PreStateSetUp(false,false);
+            droneLaser.PreStateSetUp(false, false);
 
         }
         //else if(index == 1) //TRACKING
@@ -71,10 +69,11 @@ public class Drone_Laser_var2_Net : DroneEntity_Net
         //    droneLaser.returnIndex = 0;
         //    droneLaser.PreStateSetUp(true, false);
         //}
-        else if(index == 3)
+        else if (index == 3)
         {
             onAtack = true;
-            droneLaser.PreStateSetUp(true,true);
+            droneLaser.PreStateSetUp(true, true);
+            Managers.Sound.PlaySound3D(GlobalText.ALERT_SOUND, transform, 0.3f);
         }
 
         droneLaserState = (DRONE_LASER_STATE)index;

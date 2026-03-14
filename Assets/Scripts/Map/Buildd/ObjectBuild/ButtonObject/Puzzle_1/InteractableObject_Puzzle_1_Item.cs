@@ -1,6 +1,7 @@
 
 using Mirror;
-
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class InteractableObject_Puzzle_1_Item : InteractableObject
@@ -18,56 +19,65 @@ public class InteractableObject_Puzzle_1_Item : InteractableObject
         base.Awake();
     }
 
+    public bool _onSync;
+    
+    [Server]
+    public void Server_InitSync()
+    {
+        StartCoroutine(AllClientCheckCo(() =>
+      {
+          Rpc_InitSync();
+      }));
+      
+
+    }
+    [ClientRpc]
+    private void Rpc_InitSync()
+    {
+        if (_onSync) return;
+        Main.DissolveInitSetting();
+        _onSync = true;
+    }
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        if (!_onSync) Cmd_InitSync();
+    }
+    [Command(requiresAuthority = false)]
+    private void Cmd_InitSync()
+    {
+        Server_InitSync();
+    }
+
+    private IEnumerator AllClientCheckCo(Action action)
+    {
+        int connectClients = NetworkServer.connections.Count;
+        bool onReady = false;
+        while (!onReady)
+        {
+            int num = 0;
+            foreach (var conn in NetworkServer.connections.Values)
+            {
+                if (conn.isReady) num++;
+            }
+
+            if (connectClients == num) onReady = true;
+            yield return null;
+        }
+
+        action?.Invoke();
+
+    }
+
 
 
     //Refectoring
 
     public override void Release(GameObject accessor)
     {
-        if (Main.parts != null)
-        {
-            //Connect Parts Cmd
-            base.Release(accessor);
 
-            var id = Main.parts.TryGetComponent(out NetworkIdentity identity) ? identity.netId : 9999;
-            if(id != 9999)
-            {
-                Cmd_ConnectParts(id);
-            }
-        
-        }
-        else
-        {
-            base.Release(accessor);
-        }
+        base.Release(accessor);
     }
-
-
-    public bool onConnect;
-
-    [Command(requiresAuthority = false)]
-    private void Cmd_ConnectParts(uint netId)
-    {
-        Rpc_ConnectAndDisConnectParts(netId);    
-    }
-    [ClientRpc]
-    private void Rpc_ConnectAndDisConnectParts(uint netId)
-    {
-        var item = NetworkClient.spawned.TryGetValue(netId, out NetworkIdentity identity) ? identity.gameObject : null;
-        if (item == null) return;
-
-        var parts = item.TryGetComponent(out Puzzle_1_Parts value);
-        if (!parts) return;
-
-        value.Connect(Main);
-
-    }
-
-    //-------------------------------------------------------------------------Sync 1/30
-   
-    [SyncVar]
-    public GameObject parts;
-   
 
 
 }

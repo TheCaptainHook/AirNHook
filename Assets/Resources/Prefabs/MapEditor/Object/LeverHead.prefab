@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 5674586703969503208}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -217,7 +217,7 @@ MonoBehaviour:
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprites:
   - {fileID: 7178825718306028271}
-  _dissolveMaterial: []
+  _dissolveMaterials: []
   canRespawn: 0
 --- !u!114 &311459333019530403
 MonoBehaviour:
@@ -242,7 +242,7 @@ MonoBehaviour:
   _canGrab: 1
   _isDestroyed: 0
   _isGrab: 0
-  _offset: {x: 0, y: 1}
+  _spriteRenderer: {fileID: 7178825718306028271}
   _inhalePower: 600
   defaultGravity: 0
   onSync: 0
@@ -252,7 +252,6 @@ MonoBehaviour:
     position: {x: 0, y: 0}
     quaternion: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 0, y: 0, z: 0}
-    talPot: {x: 0, y: 0}
     size: {x: 0, y: 0}
     text: 
     fontSize: 0
@@ -263,6 +262,7 @@ MonoBehaviour:
     activeRequireAmount: 0
     onEncapsulationItem: 0
     indicator: 0
+    tutorialCode: 0
 --- !u!114 &-2176134299502383376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,15 +342,11 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  movingPlatform: {fileID: 0}
-  movingPlatformLayer:
+  movingPlatformMask:
     serializedVersion: 2
-    m_Bits: 0
-  layOffset: {x: 0, y: 0.2, z: 0}
-  col: {fileID: 0}
-  rb: {fileID: 0}
-  netRb: {fileID: 0}
-  startSync: 0
+    m_Bits: 32768
+  skin: 0.2
+  _platformId: 0
 --- !u!1773428102 &6100329086906530539
 ParentConstraint:
   m_ObjectHideFlags: 0

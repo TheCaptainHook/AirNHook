@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
 public class BeamDamage : MonoBehaviour
 {
@@ -10,7 +11,6 @@ public class BeamDamage : MonoBehaviour
     {
         if(collision != null)
         {
-
             if (collision.gameObject.TryGetComponent(out PlayerSM sm))
             {
                 sm.TakeDamage(DamageType.Electric);
@@ -18,14 +18,28 @@ public class BeamDamage : MonoBehaviour
 
             if (collision.gameObject.TryGetComponent(out BuildObj obj))
             {
-
+                IsGrapCheck(obj);
+                //Sound
+                Managers.Sound.PlaySound3D(GlobalText.BEAMDOOR_ZAP, transform.position);
+                //Sound
                 AddForce(collision);
             }
 
-        }
+        }   
+    }
 
-      
-            
+    private void IsGrapCheck(BuildObj obj)
+    {
+        if (obj.TryGetComponent(out TransportItemEntity component))
+        {
+            if (component._isGrab)
+            {
+                if (Managers.Game.Player.TryGetComponent(out HookSM hook))
+                {
+                    hook.ReleaseItem();
+                }
+            }
+        }
     }
 
 

@@ -43,20 +43,27 @@ public class Lightning : MonoBehaviour
 
         line.gameObject.SetActive(true);
         line.SetPosition(0, start);
-        
 
+        AttackSound(target.transform.position);
         //LightningRod
-        if(target.TryGetComponent(out LightningRod rod))
+        if (target.TryGetComponent(out LightningRod rod))
         {
             line.SetPosition(1,rod.hitPoint.position);
             rod.Electric();
             return;
         }
-        //LightningRod
+        
         if(target.TryGetComponent(out TeslaRelayObject teslaRelayObject1))
         {
             line.SetPosition(1,teslaRelayObject1.headPoint.position);
             teslaRelayObject1.TakeDamage(DamageType.Electric);
+            return;
+        }
+
+        if(target.TryGetComponent(out TeslaNodeRod nodeRode))
+        {
+            line.SetPosition(1, nodeRode.head.position);
+            nodeRode.TakeDamage(DamageType.Electric);
             return;
         }
 
@@ -84,14 +91,21 @@ public class Lightning : MonoBehaviour
            
         }
         //Hook Grap Item Check
-
         
         line.SetPosition(1, target.transform.position);
-        if (target.TryGetComponent(out IDamageable component)) component.TakeDamage(DamageType.Electric);
+       
+        if (target.TryGetComponent(out IDamageable component))
+        {
+            component.TakeDamage(DamageType.Electric);
+        }
+       
         //Target TakeDamage
     }
 
-
+    private void AttackSound(Vector2 target)
+    {
+        Managers.Sound.PlaySound3D(GlobalText.ELECTRIC_SHOCK_SOUND, target,0.2f);
+    }
 
     private void LineReset()
     {

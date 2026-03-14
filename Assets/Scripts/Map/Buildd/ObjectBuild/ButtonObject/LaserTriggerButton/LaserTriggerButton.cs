@@ -11,32 +11,38 @@ public class LaserTriggerButton : ButtonEntity
 
 
     #region StringCache
-    private static readonly int IsActive = Animator.StringToHash("IsActive");
+    // private static readonly int IsActive = Animator.StringToHash("IsActive");
     #endregion
 
     #region State
     //private bool onCharging;
     #endregion
 
-    public override void SetData<T>(T data)
-    {
-        base.SetData(data);
-        if (Application.isPlaying)
-        {
-            Net.onSync = true;
-            Net.Server_InitSync();
-        }
-    }
+    // public override void SetData<T>(T data)
+    // {
+    //     base.SetData(data);
+    //     if (Application.isPlaying)
+    //     {
+    //         Net.onSync = true;
+    //         Net.Server_InitSync();
+    //     }
+    // }
 
-    public void Net_Act()
+    // public void Net_Act()
+    // {
+    //     Activation();
+    // }
+    // public void Net_Deact()
+    // {
+    //     Deactivated();
+    // }
+    #region  Clean
+    public override void Clean()
     {
-        Activation();
+        Net.Clean();
     }
-    public void Net_Deact()
-    {
-        Deactivated();
-    }
-    protected override void Activation()
+    #endregion
+    public override void Activation()
     {
         if(!Application.isPlaying){
             return;
@@ -46,7 +52,7 @@ public class LaserTriggerButton : ButtonEntity
         
     }
 
-    protected override void Deactivated()
+    public override void Deactivated()
     {
         if(!Application.isPlaying){
             return;
@@ -57,16 +63,17 @@ public class LaserTriggerButton : ButtonEntity
             
     }
     #region Network
-    private LaserTriggerButton_Net net;
-    private LaserTriggerButton_Net Net { get { if (net == null) net = GetComponent<LaserTriggerButton_Net>(); return net; } }
+    private LaserTriggerButton_Net l_net;
+    private LaserTriggerButton_Net L_Net { get { if (l_net == null) l_net = GetComponent<LaserTriggerButton_Net>(); return l_net; } }
 
     #endregion
 
     public void Charging()
     {
         if(!Application.isPlaying || !NetworkServer.active) return;
-
-        Net.Server_SetChargingCount();
+        if (!MapEditor.Instance._onMapTransition_Complete) return;
+        
+        L_Net.Server_SetChargingCount();
         //Net.Cmd_SetChargingCount();
 
 

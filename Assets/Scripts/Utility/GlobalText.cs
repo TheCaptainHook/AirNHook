@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public static class GlobalText
 {
     #region Animation String
@@ -53,6 +55,96 @@ public static class GlobalText
     public const string COMPUTER_OFF_SOUND = "ComTurnOff";
     public const string ROBOT_SPEAK = "Beep";
     public const string PLAYER_SPEAK = "Meh";
+    public const string BUTTON_PRESS_SOUND_1 = "Button1";
+    public const string BUTTON_LEVER_SOUND_1 = "Lever1";
+    public const string DOOR_SOUND_1 = "Door1";
+    public const string DOOR_SOUND_2 = "Door2";
+    public const string DOOR_SOUND_3 = "Door3";
+    public const string DOOR_SOUND_4 = "Door4";
+    public const string DOOR_SOUND_5 = "Door5";
+    public const string BUTTON_PRESS_SOUND_2 = "Press_Down";
+    public const string BUTTON_RELEASE_SOUND_1 = "Press_Up";
+    public const string ENERGY_UP_SOUND = "Energy_Up";
+    public const string ENERGY_HUMMING_SOUND = "Energy_Humming";
+    public const string ROCK_DESTROY_SOUND = "Rock_Destroy";
+    public const string ELECTRIC_SHOCK_SOUND = "Electric_Shock";
+    public const string HIT_SOUND = "Hit";
+    public const string CANNON_FIRE_SOUND = "Cannon_Fire";
+    public const string LOCKER_OPEN_SOUND = "Locker_Open";
+    public const string LOCKER_CLOSE_SOUND = "Locker_Close";
+    public const string KEY_SOUND = "KeyPing";
+    public const string PLAYER_RESURRECT = "Resurrect";
+    public const string UI_PING = "Ping";
+    public const string PLAYER_JUMP = "Jump1";
+    //Portal
+    public const string PORTAL_IN = "Teleport_In";  
+    public const string PORTAL_OUT = "Teleport_Out";
+
+    //Puzzle
+    public const string PUZZLE_PARTS_INSTER = "Clang";
+    public const string PUZZLE_HINT_WRONG = "Wrong";
+    public const string PUZZLE_HINT_CORRECT = "Correct";
+    public const string PUZZLE_BALLON_EXPLODE = "Balloon_Burst";
+    public const string PUZZLE_BALLON_INFLATE = "Balloon_Inflate";    
+    //Laser
+    public const string LASER_BEAM_START = "Laser_Beam_Start";
+    public const string LASER_BEAM_LOOP = "Laser_Beam_Loop";
+    public const string LASER_BEAM_END = "Laser_Beam_End";
+    //Tesla Tower
+    public const string TESLATOWER_ON = "TeslaTower_On";
+    //BeamDoor
+    public const string BEAMDOOR_ZAP = "Zap";
+    public const string BEAMDOOR_HUMMING = "Energy_Humming";
+    //Capsule
+    public const string CAPSULE_UNCAPSULING = "CapsulePowerDown";
+    //Saw Object
+    public const string SAW_SOUND_LOOP = "Saw_Loop";
+    //Drone
+    public const string DRONE_LASER_SOUND = "Drone_Laser";
+    public const string DRONE_LASER_RAPID_FIRE_SOUND = "Drone_Laser_Rapid_Fire";
+    public const string ALERT_SOUND = "Alert";
+    //Computer
+    public const string COMPUTER_SELECTMENU_SOUND_1 = "KeyClick";
+    public const string COMPUTER_SELECTMENU_SOUND_2 = "KeyClick2";
+    public const string COMPUTER_SELECTMENU_EndSelect_Sound = "ComputerButton";
+    //LaserObject
+    public const string LASER_HIT_SOUND = "";
+    //HydraulicPress
+    public const string HYDRAULICPRESS_START = "Hydraulic_Start";
+    public const string HYDRAULICPRESS_LOOP = "Hydraulic_Loop";
+    public const string HYDRAULICPRESS_END = "Hydraulic_End";
+    public const string HYDRAULICPRESS_STEAM = "Steam";
+    //Missile Turret
+    public const string MISSILE_TURRET_FIRE = "MissileFire";
+    public const string MISSILE_LOCK_ALERT = "MissileLock_Alert";
+    #endregion
+
+    #region Death Sound
+    public const string PLAYER_DEATH = "Splat";
+    public const string PLAYER_SUICIDE_EXPLOSION = "Explosion";
+
+    public static readonly IReadOnlyDictionary<DamageType, string> DeathSoundDictionary =
+        new Dictionary<DamageType, string>
+        {
+            { DamageType.Default, PLAYER_DEATH },
+            { DamageType.Fire, PLAYER_DEATH },
+            { DamageType.Boom, PLAYER_SUICIDE_EXPLOSION },
+            { DamageType.Electric, PLAYER_DEATH },
+            { DamageType.Suicide, PLAYER_SUICIDE_EXPLOSION }
+        };
+    #endregion
+
+    #region Drop Sound
+    // 사운드 이름 설정 필요
+    public const string BOX_DROP_SOUND = "Splat";
+    public const string NORMAL_DROP_SOUND = "Splat";
+
+    public static readonly IReadOnlyDictionary<ObjectDropSoundEnum, string> DropSoundDictionary =
+    new Dictionary<ObjectDropSoundEnum, string>
+    {
+            { ObjectDropSoundEnum.Box, BOX_DROP_SOUND },
+            { ObjectDropSoundEnum.etc, NORMAL_DROP_SOUND },
+    };
     #endregion
 
     #region BGM
@@ -71,6 +163,7 @@ public static class GlobalText
     #region Achievement Id
     //Player
     public const string PLAYER_JUMPING_100 = "Player_Jumping_100";
+    public const string PLAYER_DEATH_1 = "Player_Death_First";
     //Object
     public const string USE_PORTAL_1 = "Use_Portal_1";
     public const string USE_PORTAL_50 = "Use_Portal_50";

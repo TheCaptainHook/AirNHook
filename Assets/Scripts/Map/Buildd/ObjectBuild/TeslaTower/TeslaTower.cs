@@ -3,9 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//TODO 0723 Develop code Line : 51,101
-
-
 public class TeslaTower : BuildObj
 {
     [CustomHeader("TeslaTower")]
@@ -98,44 +95,7 @@ public class TeslaTower : BuildObj
 
 
     #region DetectObjects
-//     private void DetectObjectsWithComponents(System.Type[] componentTypes)
-// {
-//     float maxRadius = Mathf.Max(detectionRadiusX, detectionRadiusY);
-//     Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, maxRadius);
 
-//     Vector2 position = (Vector2)transform.position + detectOffset;
-//     HashSet<GameObject> currentDetectedObjects = new HashSet<GameObject>();
-
-//     foreach (Collider2D collider in colliders)
-//     {
-//         GameObject obj = collider.gameObject;
-
-//         if (obj == gameObject || currentDetectedObjects.Contains(obj)) continue;
-
-//         Vector2 objPosition = obj.transform.position;
-
-//         foreach (var type in componentTypes)
-//         {
-//             if (obj.GetComponent(type) != null)
-//             {
-//                 if (IsInsideEllipse(position, objPosition, detectionRadiusX, detectionRadiusY))
-//                 {
-//                     currentDetectedObjects.Add(obj);
-//                     break;
-//                 }
-//             }
-//         }
-//     }
-
-//     // 새로 탐지된 객체
-//     var newDetectedObjects = new HashSet<GameObject>(currentDetectedObjects);
-//     newDetectedObjects.ExceptWith(detectedObjects);
-//     detectedObjects.UnionWith(newDetectedObjects);
-
-//     // 떠난 객체
-//     detectedObjects.IntersectWith(currentDetectedObjects);
-// }
-    //TODO 0723
     private void DetectObjectsWithComponents(System.Type[] componentTypes)
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, Mathf.Max(detectionRadiusX, detectionRadiusY));
@@ -185,6 +145,7 @@ public class TeslaTower : BuildObj
             }
         }
     }
+   
 
     private void Check_DetectObjectsAndLightning()
     {
@@ -210,7 +171,6 @@ public class TeslaTower : BuildObj
                     {
                         DrawLineRenderer(lightningBox, obj.transform);
                         buildObj.TakeDamage(DamageType.Electric);
-
                         return;
                     }
                     
@@ -223,7 +183,7 @@ public class TeslaTower : BuildObj
                 {
                     DrawLineRenderer(lightningBox, obj.transform);
                     obj.GetComponent<PlayerSM>().TakeDamage(DamageType.Electric);
-                }
+              }
             }
 
         }
@@ -240,22 +200,15 @@ public class TeslaTower : BuildObj
 
     private bool IsInsideEllipse(Vector2 center, Vector2 point, float radiusX, float radiusY)
     {
-        // float dx = point.x - center.x;
-        // float dy = point.y - center.y;
-        // return (dx * dx) / (radiusX * radiusX) + (dy * dy) / (radiusY * radiusY) <= 1;
-            // 1. 월드 좌표에서 타원 중심과 검사할 점 사이의 차이를 구합니다.
+
         Vector2 diff = point - center;
-        
-        // 2. 오브젝트의 회전 각도를 라디안 단위로 구합니다.
         float angle = transform.eulerAngles.z * Mathf.Deg2Rad;
-        
-        // 3. 차이 벡터를 오브젝트의 로컬 좌표계로 변환하기 위해 역회전시킵니다.
+
         float cos = Mathf.Cos(-angle);
         float sin = Mathf.Sin(-angle);
         float localX = diff.x * cos - diff.y * sin;
         float localY = diff.x * sin + diff.y * cos;
-        
-        // 4. 표준 타원 방정식 적용 (로컬 좌표에서 타원은 축에 평행)
+
         return (localX * localX) / (radiusX * radiusX) + (localY * localY) / (radiusY * radiusY) <= 1f;
     }
     #endregion
@@ -292,59 +245,13 @@ public class TeslaTower : BuildObj
     #endregion
 
 
-    // public void Lightning(GameObject target)
-    // {
-    //     ///
-    //     /// If the Lightning Rod is within the attack range
-    //     /// Unconditionally, a Lightning Rod attack.
-    //     ///
-    //     if (target.TryGetComponent(out LightningRod lightningRod1))
-    //     {
-    //         DrawLineRenderer(target.transform, lightningRod1.hitPoint);
-    //         lightningRod1.Electric();
-    //         return;
-    //     }
-
-    //     if (target.gameObject.TryGetComponent(out BuildObj buildObj))
-    //     {
-    //         DrawLineRenderer(target.transform, target.transform);
-    //         buildObj.TakeDamage();
-    //         return;
-    //     }
-
-
-    //     if (target.TryGetComponent(out HookSM hook))
-    //     {
-    //         Transform item = hook.GetGrabbedItem();
-    //         LightningRod lightningRod = item.GetComponent<LightningRod>();
-    //         if (lightningRod != null)
-    //         {
-    //             DrawLineRenderer(target.transform, lightningRod.hitPoint);
-    //             return;
-    //         }
-            
-    //     }
-
-    //     if(target.TryGetComponent(out IDamageable damageable))
-    //     {
-    //         damageable.TakeDamage(DamageType.Electric);
-    //     }
-
-    //     return;
-
-
-    // }
-
-
 
     private void DrawLineRenderer(Transform start,Transform hitPoint)
     {
-    //    Vector3 dir = (target.position - transform.position).normalized;
         GameObject newObj = lineRendererQueue.Dequeue();
         newObj.SetActive(true);
         StartLightningEffect();
         StartCoroutine(DrawLineRendererCoroutine(start.position,(Vector2)hitPoint.position));
-        // bezierCurve.Generator(newObj.GetComponent<LineRenderer>(), lightningBox.position, lightningBox.position + dir * 3, hitPoint.position);
         lineRendererQueue.Enqueue(newObj);
     }
     private float electricSpeed =5;

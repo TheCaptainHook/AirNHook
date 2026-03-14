@@ -9,7 +9,7 @@ public enum Projectile_ForceMode{
     Force,
     Impulse
 }
-public class ProjectileEntity : MonoBehaviour,IPooling
+public abstract class ProjectileEntity : MonoBehaviour,IPooling
 {
     protected bool onHit;
     protected bool onFire;
@@ -67,32 +67,36 @@ public class ProjectileEntity : MonoBehaviour,IPooling
         rb.velocity = Vector2.zero;
         rb.gravityScale = 0;
         rb.isKinematic = true;
+        //Hit Sound
+        HitSound();
+        //Hit Sound
     }
+    protected virtual void ShootSound(){}
+    protected virtual void HitSound() { }
+
     protected virtual void FixedUpdate()
     {
         if (!onHit && onFire)
         {
             curDurationRate += Time.fixedDeltaTime;
-            if(curDurationRate >= maxDurationRate)
+            if (curDurationRate >= maxDurationRate)
             {
                 ReleaseToPool_Projectile(true);
                 return;
             }
 
-            float hitDistance = rb.velocity.magnitude*Time.fixedDeltaTime *1.5f;
+            float hitDistance = rb.velocity.magnitude * Time.fixedDeltaTime * 1.5f;
             hit = Physics2D.Raycast(firePoint.position, transform.right, hitDistance, hitLayerMask);
-            Debug.DrawRay(firePoint.position,firePoint.right*hitDistance,Color.red);
+#if UNITY_EDITOR
+            Debug.DrawRay(firePoint.position, firePoint.right * hitDistance, Color.red);
+#endif
+
             if (hit.collider != null)
             {
-                // onHit = true;
-                // rb.velocity = Vector2.zero;
-                // rb.gravityScale = 0;
-                // rb.isKinematic = true;
-                // Debug.Log($"Fixed Hit : {hit.collider.name}");
                 OnHit(hit);
                 SpawnImpactEffect(hit.point);
-                
-                if(hit.collider.TryGetComponent(out Shield shield))
+
+                if (hit.collider.TryGetComponent(out Shield shield))
                 {
                     // N_ReleaseToPool();
                     TransformChange(hit.transform);
@@ -101,7 +105,7 @@ public class ProjectileEntity : MonoBehaviour,IPooling
                     return;
                 }
 
-                
+
                 if (hit.collider.TryGetComponent(out IDamageable damageable) && hit.collider.gameObject != main)
                 {
                     if (hit.collider.TryGetComponent(out BuildObj buildObj))
@@ -119,20 +123,22 @@ public class ProjectileEntity : MonoBehaviour,IPooling
                     ReleaseToPool_Projectile(true);
                     return;
                 }
-             
+
                 TransformChange(hit.transform);
                 if (gameObject.activeSelf)
                     StartCoroutine(DelayRelease());
             }
             else
-            {   
-                if(forceMode == Projectile_ForceMode.Force)
+            {
+                if (forceMode == Projectile_ForceMode.Force)
                 {
                     rb.AddForce(transform.right * speed, ForceMode2D.Force);
-                }else{  
+                }
+                else
+                {
                     rb.AddForce(transform.right * speed, ForceMode2D.Impulse);
                 }
-                
+
             }
         }
     }
@@ -189,13 +195,16 @@ public class ProjectileEntity : MonoBehaviour,IPooling
         
     }
 
-    public virtual void Setting(Vector2 point, Vector3 dir,GameObject obj)
+    public virtual void Setting(Vector2 point, Vector3 dir, GameObject obj)
     {
         main = obj;
         transform.position = point;
         float z = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, z);
         onFire = true;
+        // Shoot Sound
+        gameObject.SetActive(true);
+        ShootSound();
     }
 
 

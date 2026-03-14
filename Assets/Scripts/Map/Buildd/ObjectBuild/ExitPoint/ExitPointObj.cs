@@ -8,7 +8,7 @@ public class ExitPointObj : BuildObj
     [CustomHeader("Exit Door")]
     [Header("State")]
     [ReadOnly]
-    [SerializeField] bool stageClear;
+    // [SerializeField] bool stageClear;
     public string nextMapId;
 
     // [Header("Info")]
@@ -90,6 +90,7 @@ public class ExitPointObj : BuildObj
         if(collision.TryGetComponent(out Key component)){
             if(NetworkServer.active)
             ExitPoint_Net.Server_GetKey(component.GetComponent<NetworkIdentity>().netId);
+            Managers.Sound.PlaySound(GlobalText.KEY_SOUND, 0.45f);
         }
         
         if(collision.gameObject.TryGetComponent(out PlayerSM _) && MapEditor.Instance.stageClear && NetworkServer.active)
@@ -132,7 +133,7 @@ public class ExitPointObj : BuildObj
     {
         keyBubble.gameObject.SetActive(false);
         absencePanel.gameObject.SetActive(false);
-        stageClear = false;
+        // stageClear = false;
         //Door Lock
     }
 

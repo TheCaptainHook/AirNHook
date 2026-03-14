@@ -1,34 +1,36 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System;
 
 
-public class MovingPlatform_Net : NetworkBehaviour
+public class MovingPlatform_Net : ActivatableObject_Net_Entity
 {
     [SerializeField] GameObject rail_Node_Prefabs;
     [SerializeField] LineRenderer rail_Line_Prefabs;
 
     #region Components
-    MovingPlatform main;
-    MovingPlatform Main
-    {
-        get
-        {
-            main ??= GetComponent<MovingPlatform>();
-            return main;
-        }
-    }
-    Rigidbody2D rb;
-    Rigidbody2D RB
-    {
-        get
-        {
-            rb ??= GetComponent<Rigidbody2D>();
-            return rb;
-        }
-    }
+    // MovingPlatform main;
+    // MovingPlatform Main
+    // {
+    //     get
+    //     {
+    //         main ??= GetComponent<MovingPlatform>();
+    //         return main;
+    //     }
+    // }
+    MovingPlatform _mp;
+    MovingPlatform MP {get{_mp ??= GetComponent<MovingPlatform>(); return _mp;}}
+
+    // Rigidbody2D rb;
+    // Rigidbody2D RB
+    // {
+    //     get
+    //     {
+    //         rb ??= GetComponent<Rigidbody2D>();
+    //         return rb;
+    //     }
+    // }
 
     #endregion
 
@@ -49,54 +51,83 @@ public class MovingPlatform_Net : NetworkBehaviour
     [SyncVar(hook = nameof(OnDataPathUpdated))]
     public DataPath dataPath;
 
-    [SyncVar] public bool onActive;
+    // [SyncVar] public bool onActive;
 
-    public bool onSync;
-    [Server]
-    public void Server_InitSync()
+    // public bool onSync;
+    // [Server]
+    // public void Server_InitSync()
+    // {
+    //     if (Main.paths.Length > 0)
+    //     {
+    //         dataPath = new DataPath(Main.paths, Main.moveSpeed);
+    //         maxIndex = dataPath.paths.Length;
+    //         index = 0;
+    //         increment = 1;
+    //         targetPosition = dataPath.paths[index];
+
+    //         Rpc_SetTargetPosition(RB.position, targetPosition);
+    //         onFixedUpdataReady = true;
+    //     }
+
+
+    //     Rpc_InitSync(Main.ButtonActivatedObjectStruct);
+
+    // }
+    public override void Server_InitSync()
     {
-        if (Main.paths.Length > 0)
+        if (MP.paths.Length > 0)
         {
-            dataPath = new DataPath(Main.paths, Main.moveSpeed);
+            dataPath = new DataPath(MP.paths, MP.moveSpeed);
             maxIndex = dataPath.paths.Length;
             index = 0;
             increment = 1;
             targetPosition = dataPath.paths[index];
 
-            Rpc_SetTargetPosition(RB.position, targetPosition);
+            Rpc_SetTargetPosition(Rb.position, targetPosition);
             onFixedUpdataReady = true;
         }
-        
 
-        Rpc_InitSync(Main.ButtonActivatedObjectStruct);
+        StartCoroutine(AllClientReadyChecker_Co(() =>{Rpc_InitSync(Main.ButtonActivatedObjectStruct);}));
 
     }
+
+    //========
+    public override void Clean_Value()
+    {
+        
+    }
+    //========
 
     [ClientRpc]
     private void Rpc_SetTargetPosition(Vector2 curPosition, Vector2 targetPosition)
     {
-        RB.position = curPosition;
+        Rb.position = curPosition;
         this.targetPosition = targetPosition;
-        Main.onArrivalPoint = false;
+        MP.onArrivalPoint = false;
     }
 
-    [Command(requiresAuthority = false)]
-    private void Cmd_InitSync()
-    {
-        Server_InitSync();
-    }
-    [ClientRpc]
-    private void Rpc_InitSync(ButtonActivatableObjectStruct data)
-    {
-        if (onSync) return;
-        onSync = true;
-        transform.position = data.position;
-    }
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        if (!onSync) Cmd_InitSync();
-    }
+    // [Command(requiresAuthority = false)]
+    // private void Cmd_InitSync()
+    // {
+    //     Server_InitSync();
+    // }
+    // [ClientRpc]
+    // private void Rpc_InitSync(ButtonActivatableObjectStruct data)
+    // {
+    //     if (onSync) return;
+    //     onSync = true;
+    //     transform.position = data.position;
+    // }
+    // protected override void Rpc_InitSync(ButtonActivatableObjectStruct data)
+    // {
+    //     base.Rpc_InitSync(data);
+    // }
+
+    // public override void OnStartClient()
+    // {
+    //     base.OnStartClient();
+    //     if (!onSync) Cmd_InitSync();
+    // }
 
     // [Server]
     // public void Server_CreateRail(Vector2[] paths, float moveSpeed)
@@ -165,6 +196,7 @@ public class MovingPlatform_Net : NetworkBehaviour
 
     #endregion
 
+    
 
     #region Move Platform
 
@@ -186,7 +218,7 @@ public class MovingPlatform_Net : NetworkBehaviour
         if (!isServer) return;
         if (!onFixedUpdataReady) return;
 
-        if (CheckDistance(RB.position, targetPosition))
+        if (CheckDistance(Rb.position, targetPosition))
         {
             // RB.position = targetPosition;
             previousTargetPosition = targetPosition;
@@ -211,38 +243,6 @@ public class MovingPlatform_Net : NetworkBehaviour
 
         }
     }
-    //private void FixedUpdate()
-    //{
-    //    if (!isServer) return;
-    //    if (!onFixedUpdataReady) return;
-
-    //    if (CheckDistance(RB.position, targetPosition))
-    //    {
-    //        // RB.position = targetPosition;
-    //        previousTargetPosition = targetPosition;
-    //        index += increment;
-
-    //        if (index >= maxIndex || index < 0)
-    //        {
-    //            if (index >= maxIndex && dataPath.paths[maxIndex - 1] == dataPath.paths[0])
-    //            {
-    //                index = 0;
-    //            }
-    //            else
-    //            {
-    //                increment *= -1;
-    //                index += increment;
-    //            }
-    //        }
-
-    //        targetPosition = dataPath.paths[index];
-    //        //ClientRpc targetPositon sync
-    //        Rpc_SetTargetPosition(previousTargetPosition, targetPosition);
-
-    //    }
-
-    //}
-
     private bool CheckDistance(Vector2 curPos, Vector2 targetPos)
     {
         if (Vector3.Distance(curPos, targetPos) < 0.1f)
@@ -255,6 +255,9 @@ public class MovingPlatform_Net : NetworkBehaviour
   
 
     //--------------------------------------------------------------------------------------------------------Refectoring 0406
+    #region Clean
+    #endregion
+    
     #endregion
 
 }

@@ -1,4 +1,6 @@
 using Mirror;
+using Unity.VisualScripting;
+
 // using Unity.VisualScripting;
 using UnityEngine;
 
@@ -32,10 +34,12 @@ public class DroneEntity_Net : NetworkBehaviour
     {
         Server_InitSync();
     }
+
     [ClientRpc]
     private void Rpc_InitSync(DroneStruct data,Vector2 curPosition,int index)
     {
         if (onSync) return;
+        
         Main.DroneStruct = data;
         RB.position = curPosition;
 
@@ -45,9 +49,10 @@ public class DroneEntity_Net : NetworkBehaviour
             targetPosition = paths[index];
             dir = (targetPosition - curPosition).normalized;
         }
-        
+
         onSync = true;
     }
+
     public override void OnStartClient()
     {
         base.OnStartClient();
@@ -67,7 +72,7 @@ public class DroneEntity_Net : NetworkBehaviour
         onReady = true;
         
     }
-    private bool onReady;
+    [SerializeField] bool onReady;
     public int maxIndex;
     public int index;
     public int nextIndex;
@@ -82,6 +87,8 @@ public class DroneEntity_Net : NetworkBehaviour
 
     private void FixedUpdate()
     {
+        if(!MapEditor.Instance._onMapTransition_Complete) return;
+        
         if (isServer && onSync && onReady)
         {
             if (CheckDistance(RB.position, targetPosition))
@@ -136,24 +143,6 @@ public class DroneEntity_Net : NetworkBehaviour
                 
     }
 
-
-
-    //[Command(requiresAuthority = false)]
-    //public void Cmd_OnTriggerEnter(uint id)
-    //{
-    //    if (NetworkServer.spawned.TryGetValue(id, out var netObj))
-    //    {
-    //        var targetRb = netObj.GetComponent<Rigidbody2D>();
-    //        float vel = targetRb.velocity.magnitude;
-    //        if (vel >= 10)
-    //        {
-    //            gameObject.GetComponent<Drone_MultiPurpose>().DroneDropTransportItem();
-    //            //DroneDropTransportItem();  // 서버에서 충돌 처리
-    //        }
-    //        targetRb.velocity = Vector2.zero;
-    //    }
-    //}
-
     [Command(requiresAuthority = false)]
     public void Cmd_CallDropTransportItem()
     {
@@ -179,6 +168,15 @@ public class DroneEntity_Net : NetworkBehaviour
         float dot = Vector2.Dot(toTarget, toCurrent);
         return dot > 0.98f;
 
+    }
+    #endregion
+
+
+    #region  Clean
+    public virtual void Clean()
+    {
+        onReady = false;
+        onSync = false;
     }
     #endregion
 

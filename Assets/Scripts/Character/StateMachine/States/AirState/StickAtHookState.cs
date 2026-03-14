@@ -16,7 +16,11 @@ public class StickAtHookState : BaseState
     
     public override void Update()
     {
-        base.Update();
+        if (!stateMachine.canMovable)
+        {
+            ((AirSM)(stateMachine.player)).StopSticking();
+            stateMachine.ChangeState(stateMachine.IdleState);
+        }
     }
 
     protected override void OnMove()
@@ -25,6 +29,11 @@ public class StickAtHookState : BaseState
     }
 
     protected override void Move()
+    {
+        // Freeze
+    }
+
+    protected override void OnJump()
     {
         // Freeze
     }

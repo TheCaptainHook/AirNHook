@@ -18,19 +18,19 @@ public class TeslaRelayObject : InteractableObjectEntity
   
     #endregion
 
-    void Update()
-    {
-        if(isPowerSupplied)
-        {
-            curResetRate += Time.deltaTime;
-            if(curResetRate> maxResetRate)
-            {
-                curResetRate = 0;
-                isPowerSupplied = false;
-                PowerSupplyOff();
-            }
-        }
-    }
+    //void Update()
+    //{
+    //    if(isPowerSupplied)
+    //    {
+    //        curResetRate += Time.deltaTime;
+    //        if(curResetRate> maxResetRate)
+    //        {
+    //            curResetRate = 0;
+    //            isPowerSupplied = false;
+    //            PowerSupplyOff();
+    //        }
+    //    }
+    //}
 
     public override void TakeDamage(DamageType damageType = DamageType.Default)
     {
@@ -109,16 +109,18 @@ public class TeslaRelayObject : InteractableObjectEntity
     }
 
  }
-#endregion
+    #endregion
 
 
     #region  Debug
+#if UNITY_EDITOR
     void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(headPoint.position,supplyEnergyRadius);
     }
-    #endregion
+#endif
+#endregion
 }
 
 public class CustomHashSet_TeslaNode<T>

@@ -11,165 +11,119 @@ public class StageManager
     
     public void LoadMap() 
     {
-        // if(!stageName.Equals("Lobby"))
-        //     Managers.Game.CurrentState = GameState.Game;
-        // MapEditor.Instance.LoadMap(stageName);
+   
         MapEditor.Instance.LoadMap(GlobalText.LOBBY);
-        //if (NetworkServer.active && NetworkClient.isConnected)
-        //{
-        //    var list = MapEditor.Instance.curMap.FindObject_Vector2(307);
-
-        //    foreach (var key in list)
-        //    {
-        //        var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict["Key"]);
-        //        obj.transform.position = key;
-        //        NetworkServer.Spawn(obj);
-        //    }
-        //}
+   
     }
 
     #region Editor
 
-    //[Command]
-    //public void CmdBatchObject<T>(string objName,T data,Transform tr)
-    //{
-    //    if (!NetworkServer.active || !NetworkClient.isConnected) return;
 
-    //    GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
-
-    //    obj.GetComponent<BuildObj>().SetData(data);
-    //    obj.transform.SetParent(tr);
-
-    //    NetworkServer.Spawn(obj, NetworkServer.localConnection);
-    //}
-
-    // [ClientRpc]
-    // public void Rpc_ChangeStageName(string name)
-    // {
-    //     stageName = name;
-    // }
-
+    //======================================= Refectoring 1018
     [Server]
-    public void CmdBatchObject<T>(string objName, T data, Transform parent)
+    public void ServerBatchObject<T>(string objName, T data, TransformType trType)
     {
-        if (!NetworkServer.active ) return;
+        if (!NetworkServer.active) return;
 
+        //====Get Pooling
+        GameObject obj = Managers.Pooling.N_GetItme(objName);
+        if (obj.TryGetComponent(out BuildObj buildObj))
+        {
+            obj.SetActive(true);
+            buildObj.SetData(data);
+        }
+        if (MapEditor.Instance.GetTransformByType(trType, out Transform parent))
+        {
+            obj.transform.SetParent(parent);
+        }
+
+
+        if (GetNetworkIdentity(obj, out NetworkIdentity identity))
+        {
+            MapEditor.Instance._n_activePoolingObject.Enqueue(buildObj);
+            Rpc_PoolingSetting(identity.netId, trType);
+        }
+
+    }
+
+
+    [Server] //Puzzle_Item
+    public GameObject ServerBatchObejct(string objName)
+    {
+        if (!NetworkServer.active) return null;
+
+        // GameObject obj = Managers.Pooling.N_GetItme(objName);
         GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+        NetworkServer.Spawn(obj, NetworkServer.localConnection);
 
         obj.name = objName;
-        obj.transform.SetParent(parent);
-        NetworkServer.Spawn(obj, NetworkServer.localConnection);
-        obj.GetComponent<BuildObj>().SetData(data);
-
+        return obj;
     }
 
-
-    //[Command]
-    //public void Server_SetParent()
-    //{
-    //    foreach (var item in dic)
-    //    {
-    //        //Transform parent = GetMapEditorTransform(item.Key);
-    //        Debug.Log($"parent {GetMapEditorTransform(item.Key)}");
-    //        foreach (uint id in item.Value)
-    //        {
-    //            //Transform tr = GetNetworkIdentity(id).gameObject.transform;
-    //            //tr.SetParent(parent);
-    //            Debug.Log($"id : {id}");
-    //        }
-    //    }
-    //}
-    //[ClientRpc]
-    //private void Rpc_SetParent(SyncDictionary<string, SyncList<uint>> dic)
-    //{
-    //    foreach (var item in dic)
-    //    {
-    //        //Transform parent = GetMapEditorTransform(item.Key);
-    //        Debug.Log($"parent {GetMapEditorTransform(item.Key)}");
-    //        foreach (uint id in item.Value)
-    //        {
-    //            //Transform tr = GetNetworkIdentity(id).gameObject.transform;
-    //            //tr.SetParent(parent);
-    //            Debug.Log($"id : {id}");
-    //        }
-    //    }
-    //}
-
-    //[Command]
-    //public void NetworkObject_SetParent()
-    //{
-    //    Server_SetParent();
-    //}
-    
-    private Transform GetMapEditorTransform(string trName)
+    //======================================= Refectoring 1018
+    [ClientRpc]
+    private void Rpc_PoolingSetting(uint id, TransformType trType = TransformType.None)
     {
-        foreach (Transform tr in MapEditor.Instance.mapObjBoxTransform)
+        if (NetworkServer.active) return;
+
+        if (GetNetworkIdentity(id, out NetworkIdentity identity))
         {
-            if (tr.name == trName)
+            if (trType != default && MapEditor.Instance.GetTransformByType(trType, out Transform parent))
             {
-                return tr;
+                identity.transform.SetParent(parent);
             }
+
+            identity.gameObject.SetActive(true);
+            MapEditor.Instance._n_activePoolingObject.Enqueue(identity.GetComponent<BuildObj>());
         }
-        return null;
+
     }
-    private NetworkIdentity GetNetworkIdentity(uint id)
+
+    private bool GetNetworkIdentity(uint id,out NetworkIdentity identity)
     {
-        return NetworkClient.spawned.TryGetValue(id,out NetworkIdentity identity) ? identity : null;
+        identity =  NetworkClient.spawned.TryGetValue(id,out NetworkIdentity iden) ? iden : null;
+        return identity != null;
     }
-
-    // [ClientRpc]
-    // private void Rpc_SetTransformParents(uint netId,string trName)
-    // {
-    //     NetworkClient.spawned.TryGetValue(netId,out NetworkIdentity identity);
-    //     if(identity == null) return;
-
-    //     foreach(Transform tr in MapEditor.Instance.mapObjBoxTransform)
-    //     {
-    //         if(tr.name == trName)
-    //         {
-    //             identity.gameObject.transform.SetParent(tr);
-    //             return;
-    //         }
-    //     }
-    // }
-
-
-    // [ClientRpc]
-    // private void Create<T>(string objName,T data,uint trId)
-    // {
-    //     GameObject obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
-    //     obj.GetComponent<BuildObj>().SetData(data);
-
-    //     Transform parent = null;
-    //     foreach (Transform tr in MapEditor.Instance.mapObjBoxTransform)
-    //     {
-    //         if (tr.GetComponent<NetworkIdentity>().netId == trId)
-    //         {
-    //             parent = tr;
-    //             break;
-    //         }
-    //     }
-    //     if (parent != null)
-    //         obj.transform.SetParent(parent);
-
-    //     NetworkServer.Spawn(obj, NetworkServer.localConnection);
-    // }
+    private bool GetNetworkIdentity(GameObject obj, out NetworkIdentity identity)
+    {
+        identity = obj.TryGetComponent(out NetworkIdentity iden) ? iden : null;
+        return identity != null;
+    }
+    
+    
 
     [Server]
     public GameObject CmdBatchObject(string objName)
     {
         if (!NetworkServer.active || !NetworkClient.isConnected) return null;
 
-        var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
-        NetworkServer.Spawn(obj, NetworkServer.localConnection);
+        GameObject obj = Managers.Pooling.N_GetItme(objName);
+        // var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
+        // NetworkServer.Spawn(obj, NetworkServer.localConnection);
+
+        if (obj.TryGetComponent(out BuildObj buildObj))
+        {
+            obj.SetActive(true);
+        }
+
+         if (GetNetworkIdentity(obj, out NetworkIdentity identity))
+        {
+            MapEditor.Instance._n_activePoolingObject.Enqueue(buildObj);
+            Rpc_PoolingSetting(identity.netId);
+        }
 
         return obj;
     }
 
-    [Command(requiresAuthority = false)]
-    public void CmdDestroyObject(GameObject gameObject)
+    [Server]
+    public GameObject  Server_Batch_Projectile(string name)
     {
-        NetworkServer.Destroy(gameObject);
+        if (!NetworkServer.active) return null;
+        //====Get Pooling
+        GameObject obj = Managers.Pooling.N_GetItme(name);
+        obj.name = name;
+        return obj;
+
     }
 
     #endregion

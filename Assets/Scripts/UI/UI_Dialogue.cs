@@ -171,16 +171,22 @@ public class UI_Dialogue : UI_Base
         onProgress = false;
         DialogueShutDown();
     }
+    public PlayerInputAction.PlayerActions playerActions => Managers.Game.playerInput.playerActions;
+    public PlayerInputAction.UIActions uiActions => Managers.Game.playerInput.uiActions;
 
     private void StartInit()
     {
-          _Panel.color = _Alpha_translucent;
-    
+        _Panel.color = _Alpha_translucent;
+
         //------------------------------------player Move control
-        var player = Managers.Game.Player.GetComponent<PlayerSM>();
-        player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-         Managers.Game.Player.GetComponent<PlayerSM>().canMovable = false;
-        Managers.Game.Player.GetComponent<PlayerSM>().canAction = false;
+        // var player = Managers.Game.Player.GetComponent<PlayerSM>();
+        // player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        // Managers.Game.Player.GetComponent<PlayerSM>().canMovable = false;
+        // Managers.Game.Player.GetComponent<PlayerSM>().canAction = false;
+        FreezePlayerState(true);
+
+        playerActions.Disable();
+        uiActions.Disable();
 
         //------------------------------------player Move control
 
@@ -194,7 +200,13 @@ public class UI_Dialogue : UI_Base
     }
 
     // 1129// 1129// 1129// 1129// 1129// 1129// 1129// 1129// 1129// 1129// 1129
+    private void FreezePlayerState(bool onOff)
+    {
+        var player = Managers.Game.Player.TryGetComponent(out PlayerSM sm) ? sm : null;
+        if (player == null) return;
 
+        sm.FreezePlayerState(onOff);
+    }
 
     private void DialogueShutDown()
     {
@@ -205,9 +217,13 @@ public class UI_Dialogue : UI_Base
         _Panel.color = _Alpha_0;
 
         //------------------------------------player Move control
-        var player = Managers.Game.Player.GetComponent<PlayerSM>();
-        if(!player.canMovable) player.canMovable = true;
-        if (!player.canAction) player.canAction = true;
+        // var player = Managers.Game.Player.GetComponent<PlayerSM>();
+        // if(!player.canMovable) player.canMovable = true;
+        // if (!player.canAction) player.canAction = true;
+        FreezePlayerState(false);
+        
+        playerActions.Enable();
+        uiActions.Enable();
         //------------------------------------player Move control
         Managers.UI.HideUI<UI_Dialogue>();
     }

@@ -1,11 +1,6 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Resources/Prefabs/MapEditor/Other/Graphic/Light/Graphic_Light_Bottom_GroundSpotLight.prefab.meta
 guid: 2ee4f6c9ccd497746a6ecdbac0d5cce9
 PrefabImporter:
-========
-guid: b555e66676e222c438d41070db5bd826
-DefaultImporter:
->>>>>>>> d6339209 (feat: 라이트 관련 작업들):Assets/Scenes/DevelopScene/feature_LightMap.unity.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

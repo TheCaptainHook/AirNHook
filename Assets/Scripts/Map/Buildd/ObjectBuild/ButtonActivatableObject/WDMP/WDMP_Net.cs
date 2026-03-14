@@ -1,5 +1,4 @@
-using System;
-using System.Collections;
+
 using Mirror;
 using UnityEngine;
 
@@ -9,164 +8,173 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     [SerializeField] GameObject rail_Node_Prefabs;
     [SerializeField] LineRenderer rail_Line_Prefabs;
 
-    //Recovery Position
-    private float recoveryPositionRate = 5;
-    [ReadOnly]
-    public float curRecoveryPositionRate;
-    Coroutine recoveryPositionCoroutine;
-    private bool onRecoverPosition;
-    //Recovery Tilt
-    private float recoveryTiltRate = 2;
-    [ReadOnly]
-    public float curRecoveryTiltRate;
-    Coroutine recoveryTiltCoroutine;
-    private bool onRecoverTilt;
 
-
-    private (int leftCount, int rightCount) leftAndRightCounts;
-    [ReadOnly]
-    public float weightResult = 0;
-    private float sendMsgRate = 0.05f;
-    private float curSendMsgRate = 1;
-
-    public float CurRotation => Rb.rotation;
-    private void Update()
-    {
-        //------------------Recover Position,[Server]
-        RecoverPosition(); //onPositionRecover
-        RecoverTilt();
-        //------------------Recover Position
-
-        if (onActive)
-        {
-            //------------------[All Client]
-            leftAndRightCounts = GetHitLeftAndRightCount();
-            //------------------[All Client]
-
-            if (isServer) Server_MainLogic(leftAndRightCounts);
-  
-
-        }
-
-    }
-
-    public void Server_MainLogic((int leftCount,int rightCount) leftAndRightCounts)     //------------------[Server]
-    {
-        if (leftAndRightCounts.leftCount > 0 || leftAndRightCounts.rightCount > 0)
-        {  
-            curRecoveryPositionRate = 0;
-            curRecoveryTiltRate = 0;
-
-            curSendMsgRate += Time.deltaTime;
-            weightResult += GetWeight(leftAndRightCounts);
-            if (curSendMsgRate > sendMsgRate)
-            {
-                Rpc_SendWeight(weightResult,Rb.rotation,transform.position);
-                curSendMsgRate = 0;
-                weightResult = 0;
-            }
-        }
-    }
-    float targetTilt;
-    Coroutine tiltCoroutine;
-    Coroutine tiltMoveCoroutine;
-
-    [ReadOnly]
-    public Vector2 moveDir = Vector2.zero;
-
-    [ReadOnly]
-    public float step;
-
-    [ClientRpc]
-    private void Rpc_SendWeight(float weight,float curRot,Vector2 position)
-    {
-        CancelRecover();
-
-        Rb.rotation = curRot;
-        transform.position = position;
-
-        targetTilt = GetTargetTilt(weight);
-
-        if (weight > 0) Ani_Left();
-        else if (weight < 0) Ani_Right();
-        
-
-        if (tiltCoroutine == null)
-        {
-            tiltCoroutine = StartCoroutine(TiltCo());
-        }
-        
-        if (data.moveDistance == 0) return;
-        
-        if (tiltMoveCoroutine == null)
-        {
-            tiltMoveCoroutine = StartCoroutine(TiltMoveCo());
-        }
-    }
-    [ReadOnly]
-    public float tiltRate;
-    private float tiltSpeed = 2;
-    IEnumerator TiltCo()
-    {
-        while (Mathf.Abs(Rb.rotation - targetTilt) > 0.5f)
-        {
-            Rb.rotation = Mathf.Lerp(Rb.rotation, targetTilt, Time.fixedDeltaTime*tiltSpeed);
-            tiltRate = Mathf.Abs(Rb.rotation) / maxRotate;
-            step = data.moveSpeed * tiltRate * Time.fixedDeltaTime;
-
-            moveDir = Rb.rotation > 0 ? -Vector2.right : Vector2.right;
-            yield return null;
-        }
-        Rb.rotation = targetTilt;
-        tiltCoroutine = null;
-    }
-    IEnumerator TiltMoveCo()
-    {
-        while (Mathf.Abs(Rb.rotation) >0)
-        {
-            var target = transform.position + (Vector3)moveDir * step;
-            target.x = Mathf.Clamp(target.x, minDis_Clamp, maxDis_Clamp);
-
-            transform.position = target;
-
-            yield return null;
-        }
-        
-        tiltMoveCoroutine = null; 
-    }
-
-    private void CancelTilt()
-    {
-        moveDir = Vector2.zero;
-        step = 0;
-
-        if (tiltCoroutine != null)
-        {
-            StopCoroutine(tiltCoroutine);
-            tiltCoroutine = null;
-        }
-        if (tiltMoveCoroutine != null)
-        {
-            StopCoroutine(tiltMoveCoroutine);
-            tiltMoveCoroutine = null;
-        }
-
-    }
-
-  
-
-
-    #region  Get Hit Left And Right Count (All Client)
     private RaycastHit2D[] leftHitBuffer = new RaycastHit2D[10];
     private RaycastHit2D[] rightHitBuffer = new RaycastHit2D[10];
 
     [SerializeField] Transform leftPoint;
     [SerializeField] Transform rightPoint;
 
+
     
-    
-    // private float weight;
-    private float maxRotate = 70; //only use server
+    [Header("Tilt Limits")]
+    private float maxRotate = 70;
+
+    // ====== 클라이언트 전용 상태 ======
+    private float _c_localsoluteTilt;
+    private float _c_curMoveSpeed;
+    public float _c_curStep;
+    // private bool _c_didInterpThisFrame;
+    public Vector2 _c_dir;
+
+    private float _displayed;            // 화면에 표시 중인 각도
+    private float _smoothTime = 0.06f;
+    private float _maxDegPerSec = 720f;
+    // private float _snapEps = 0.25f;
+    private float _angVel;               // SmoothDampAngle 내부속도
+
+    private float tiltSpeed = 20;
+
+
+    //Recover
+    private float _recover_tilt_rate = 1f;
+    private float _cur_recover_tilt_rate = 0;
+
+    private enum TiltState
+    {
+        Tilting,         // 기울이는 중
+        RecoveringTilt,  // 기울기 복귀 중
+        RecoveringPos,    // 위치 복귀 중
+        Idle
+    }
+    private TiltState _state = TiltState.RecoveringPos;
+
+    [ServerCallback]
+    void FixedUpdate()
+    {
+        var counts = GetHitLeftAndRightCount();
+        bool hasHit = counts.leftHitCount > 0 || counts.rightHitCount > 0;
+
+        switch (_state)
+        {
+            // ---------------------------
+            // 기울이는 중
+            // ---------------------------
+            case TiltState.Tilting:
+                if (hasHit && _onActive) //_onActive : Activation()
+                {
+                    _cur_recover_tilt_rate = 0f;
+                    float delta = GetWeight(counts) * Time.fixedDeltaTime * tiltSpeed;
+                    _c_localsoluteTilt = Mathf.Clamp(_c_localsoluteTilt + delta, -maxRotate, maxRotate);
+                    UpdateDisplayedTilt(_c_localsoluteTilt);
+                }
+                else
+                {
+                    _cur_recover_tilt_rate = 0f;
+                    _state = TiltState.RecoveringTilt;
+                    Ani_ShutDown();
+                }
+                break;
+
+            // ---------------------------
+            // 기울기 복귀 중
+            // ---------------------------
+            case TiltState.RecoveringTilt:
+                if (hasHit)
+                {
+                    _angVel = 0f;
+                    _cur_recover_tilt_rate = 0f;
+                    _state = TiltState.Tilting;
+                    break;
+                }
+
+                _cur_recover_tilt_rate += Time.fixedDeltaTime;
+                if (_cur_recover_tilt_rate >= _recover_tilt_rate)
+                {
+
+                    float next = Mathf.Abs(_c_localsoluteTilt) != 0 ? Mathf.MoveTowardsAngle(_c_localsoluteTilt, 0f, Time.fixedDeltaTime * 50f) : 0f;
+                    _c_localsoluteTilt = next;
+                     UpdateDisplayedTilt(_c_localsoluteTilt);
+ 
+                    if (Mathf.Abs(_c_localsoluteTilt) < 0.01f)
+                    {
+                        _angVel = 0f;
+                        _c_localsoluteTilt = 0f;
+                        _displayed = 0f;
+                        Rb.rotation = 0f;
+                        _state = TiltState.RecoveringPos;
+                    }
+                }
+                break;
+
+            // ---------------------------
+            // 위치 복귀 중
+            // ---------------------------
+            case TiltState.RecoveringPos:
+                if (hasHit)
+                {
+                    _angVel = 0f;
+                    _cur_recover_tilt_rate = 0f;
+                    _state = TiltState.Tilting;
+                    break;
+                }
+
+                Vector2 curPos = Rb.position;
+                Vector2 nextPos = Vector2.MoveTowards(curPos, data.position, Time.fixedDeltaTime * data.moveSpeed);
+
+                if ((nextPos - data.position).sqrMagnitude < 0.00001f)
+                {
+                    nextPos = data.position;
+                    _state = TiltState.Idle;
+                }
+
+                Rb.position = nextPos;
+
+                break;
+            case TiltState.Idle:
+                if (hasHit)
+                {
+                    _angVel = 0f;
+                    _cur_recover_tilt_rate = 0f;
+                    _state = TiltState.Tilting;
+                    break;
+                }
+
+                break;
+        }
+
+        if (_state == TiltState.Tilting && Mathf.Abs(_c_curStep) > 0f)
+        {
+            Vector2 target = Rb.position + _c_dir * _c_curStep;
+            target.x = Mathf.Clamp(target.x, minDis_Clamp, maxDis_Clamp);
+            Rb.position = target;
+        }
+    }
+
+    //Right : +tilt, Left : -tilt
+    //==================Client
+    private void UpdateDisplayedTilt(float target)
+    {
+        float next = Mathf.SmoothDampAngle(
+       _displayed,               // 현재 표시각을 기준으로
+       target,                   // 목표(로컬/네트워크 모두 여기로 수렴)
+       ref _angVel,
+       _smoothTime,
+       _maxDegPerSec,
+       Time.fixedUnscaledDeltaTime
+     ); 
+        _displayed = Mathf.Clamp(next, -maxRotate, maxRotate);
+        // Move from displayed
+        _c_curMoveSpeed = Mathf.Abs(_displayed) / maxRotate * data.moveSpeed;
+        _c_dir = _displayed > 0 ? -Vector2.right : Vector2.right;
+
+        _c_curStep = _c_curMoveSpeed * Time.fixedUnscaledDeltaTime;
+        Rb.rotation = _displayed;
+    }
+
+
+
+    #region  Get Hit Left And Right Count (All Client)
 
     [SerializeField] LayerMask layerMask;
     [ReadOnly]
@@ -186,143 +194,21 @@ public class WDMP_Net : ActivatableObject_Net_Entity
 
     }
     
-    // private void ShootRay()
-    // {
-    //     //------------- on hold ,,move
-    //     // Vector2 dir = transform.rotation.z == 0 ? Vector2.zero : transform.rotation.z > 0 ? -Vector2.right : Vector2.right;
-    //     // WDMP_Net.Server_SetDir(dir);
-
-    //     // if (CheckMaxAndMinClamp(dir)){
-    //     //     WDMP_Net.Server_SetStep(moveSpeed * rate * Time.fixedDeltaTime);
-    //     // }else{
-    //     //     //step = 0;
-    //     //     WDMP_Net.Server_SetStep(0);
-    //     // }
-
-    //     // MoveTowards();   
-    //     // MoveTowards(leftHit);
-    //     // MoveTowards(rightHit);
-    //     //------------- on hold
-
-    // }
-    #endregion
-
-    #region Recover
-       
-    #region  Position
-    private void RecoverPosition() //Server
-    {
-        if (!isServer) return;
-        if (data.moveDistance != 0 && !Compare(transform.position, data.position) && !onRecoverPosition)
-        {
-            curRecoveryPositionRate += Time.deltaTime;
-            if (curRecoveryPositionRate >= recoveryPositionRate)
-            {
-                onRecoverPosition = true;
-                //Recover
-                Rpc_RecoverPosition(transform.position);
-            }
-        }
-    }
-
-    [ClientRpc]
-    private void Rpc_RecoverPosition(Vector2 startPosition)
-    {
-        CancelTilt();
-        transform.position = startPosition;
-        recoveryPositionCoroutine = StartCoroutine(RecoverPosition_Co());
-    }
-   
-    IEnumerator RecoverPosition_Co()
-    {
-        Vector2 dir = ((Vector3)data.position - transform.position).normalized;
-
-        while (!Compare(transform.position, data.position))
-        {
-            transform.position += (Vector3)(dir * data.moveSpeed * Time.fixedDeltaTime);
-            yield return null;
-        }
-
-        curRecoveryPositionRate = 0;
-        recoveryPositionCoroutine = null;
-        transform.position = data.position;
-        onRecoverPosition = false;
-    }
 
     #endregion
-    #region  Tilt
-    private void RecoverTilt() //Server
-    {
-        if (!isServer || Rb.rotation == 0 || onRecoverTilt) return;
-        
-        curRecoveryTiltRate += Time.deltaTime;
-        if (curRecoveryTiltRate >= recoveryTiltRate)
-        {
-            onRecoverTilt = true;
-            Rpc_RecoverTilt(Rb.rotation);
-        }
 
-    }
-    [ClientRpc]
-    private void Rpc_RecoverTilt(float curRot)
-    {
-        CancelTilt();
-        Ani_ShutDown();
-        Rb.rotation = curRot;
-        recoveryTiltCoroutine = StartCoroutine(RecoverTilt_Co());
-    }
-    IEnumerator RecoverTilt_Co()
-    {
-        while (Mathf.Abs(Rb.rotation) > 0)
-        {
-            Rb.rotation = Mathf.Lerp(Rb.rotation, 0, Time.fixedDeltaTime);
-            if (Mathf.Abs(Rb.rotation) < 0.9f) Rb.rotation = 0;
-            yield return null;
-        }
-
-        recoveryTiltCoroutine = null;
-        curRecoveryTiltRate = 0;
-        onRecoverTilt = false;
-    }
-    #endregion
-
-    private void CancelRecover()
-    {
-        if (recoveryPositionCoroutine != null)
-        {
-            curRecoveryPositionRate = 0;
-            StopCoroutine(recoveryPositionCoroutine);
-            recoveryPositionCoroutine = null;
-            onRecoverPosition = false;
-        }
-        if (recoveryTiltCoroutine != null)
-        {
-            curRecoveryTiltRate = 0;
-            StopCoroutine(recoveryTiltCoroutine);
-            recoveryTiltCoroutine = null;
-            onRecoverTilt = false;
-        }
-    }
-   
-    #endregion
     
     #region Init Sync 0623
-    private WeightDetectionMoveingPlatform wdmp;
-    private WeightDetectionMoveingPlatform WDMP
-    {
-        get
-        {
-            wdmp ??= GetComponent<WeightDetectionMoveingPlatform>();
-            return wdmp;
-        }
-    }
+    private bool _onActive;
     protected override void Active()
     {
-
+        _onActive = true;
+        Debug.Log("WDMP_Net Active");
     }
     protected override void Deactive()
     {
-        
+        _onActive = false;
+        Debug.Log("WDMP_Net Deactive");
     }
 
     [ReadOnly]
@@ -332,7 +218,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     [ReadOnly]
     public Vector2 targetPosition;
    
-    protected override void SetData(ButtonActivatableObjectStruct data)
+    protected override void SetData(ButtonActivatableObjectStruct data) //all client
     {
         base.SetData(data);
 
@@ -342,7 +228,6 @@ public class WDMP_Net : ActivatableObject_Net_Entity
         targetPosition = items.target == Vector2.zero ? data.position : items.target;
 
         CreateRail(data.position, targetPosition);
-
         shotRayLength = Col.bounds.extents.x;
     }
 
@@ -363,7 +248,7 @@ public class WDMP_Net : ActivatableObject_Net_Entity
 
     }
 
-     private float GetWeight((int left, int right) counts)
+    private float GetWeight((int left, int right) counts)
     {
         float lw = 0;
         float rw = 0;
@@ -377,6 +262,20 @@ public class WDMP_Net : ActivatableObject_Net_Entity
         {
             rw += Weight(rightHitBuffer[i]);
         }
+        
+        if (lw > rw)
+        {
+            Ani_Left();
+        }
+        else if (rw > lw)
+        {
+            Ani_Right();
+        }
+        else
+        {
+            Ani_ShutDown();
+        }
+
         return lw - rw;
     }
     
@@ -402,63 +301,16 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     }
 
 
-    private float GetTargetTilt(float weight)
-    {
-        var result = Rb.rotation + weight;
-        return Mathf.Clamp(result, -maxRotate, maxRotate);
-       
-    }
-
-    // float rate = 0;
-    // z>0 : left , z<0 :right
-    // private void Rotate(float weight)
+    // private float GetTargetTilt(float weight)
     // {
-    //     Vector3 euler = transform.rotation.eulerAngles;
-    //     euler.z += weight;
-
-    //     if(euler.z > 180){
-    //         euler.z -= 360;
-    //     }
-
-    //     euler.z = Mathf.Clamp(euler.z , -maxRotate,maxRotate);
-    //     rate = Mathf.Abs(euler.z) / maxRotate;
-
-    //     Rb.rotation = euler.z;
+    //     var result = Rb.rotation + weight;
+    //     return Mathf.Clamp(result, -maxRotate, maxRotate);
+       
     // }
-
 
     #endregion
 
 
-
-
-    // [Server]
-    // public void Server_SetDir(Vector2 dir)
-    // {
-    //     this.dir = dir;
-    // }
-    // [Server]
-    // public void Server_SetStep(float step)
-    // {
-    //     if (step != 0)
-    //     {
-    //         //Stop Recover
-    //         if (recoveryPositionCoroutine != null)
-    //         {
-    //             StopCoroutine(recoveryPositionCoroutine);
-    //             onPositionRecover = false;
-    //         }
-    //         curRecoveryPositionRate = 0;
-    //     }
-
-    //     this.step = step;
-    // }
-    // [Server]
-    // public void Server_SetClamp(float min, float max)
-    // {
-    //     this.minDis_Clamp = min;
-    //     this.maxDis_Clamp = max;
-    // }
 
     #region  Create Node
     Transform container;
@@ -490,10 +342,10 @@ public class WDMP_Net : ActivatableObject_Net_Entity
     }
 
 
-    private bool Compare(Vector2 a, Vector2 b, float threshold = 0.01f)
-    {
-        return (a - b).sqrMagnitude < threshold;
-    }
+    // private bool Compare(Vector2 a, Vector2 b, float threshold = 0.01f)
+    // {
+    //     return (a - b).sqrMagnitude < threshold;
+    // }
     #endregion
 
 
@@ -542,50 +394,27 @@ public class WDMP_Net : ActivatableObject_Net_Entity
         Animator.SetBool(rightDown, rightAni);
     }
 
-    // public void AnimationTilt()
-    // {
-    //     // StartCoroutine(AnimaionTiltCoroutine());
-    // }
+    #endregion
 
-    // WaitForSeconds wait = new WaitForSeconds(0.1f);
-    // private IEnumerator AnimaionTiltCoroutine()
-    // {
-    //     while(true)
-    //     {
-    //         var z = Rb.rotation;
-    //         if (z > 0)
-    //         {
-    //             if (!leftAni)
-    //             {
-    //                 leftAni = true;
-    //                 Animator.SetBool(leftDown, leftAni);
-    //             }
-    //             if (rightAni)
-    //             {
-    //                 rightAni = false;
-    //                 Animator.SetBool(rightDown, rightAni);
-    //             }
-    //         }
-    //         else if (z < -0.1)
-    //         {
-    //             if (leftAni)
-    //             {
-    //                 leftAni = false;
-    //                 Animator.SetBool(leftDown, leftAni);
-    //             }
-    //             if (!rightAni)
-    //             {
-    //                 rightAni = true;
-    //                 Animator.SetBool(rightDown, rightAni);
-    //             }
-    //         }else if(Mathf.Abs(z) < 0.1)
-    //         {
-    //             if(leftAni) { leftAni = false; Animator.SetBool(leftDown, leftAni); }
-    //             if (rightAni) {  rightAni = false; Animator.SetBool(rightDown, rightAni); }
-    //         }
-    //             yield return wait;
-    //     }
-    // }
 
+
+    #region  Clean
+    public override void Clean_Value()
+    {
+        // Ani_ShutDown();
+        Rb.rotation = 0;
+        transform.rotation = Quaternion.Euler(0,0,0);
+
+        _state = TiltState.Idle;
+
+        _c_curStep  = 0;
+        _angVel = 0;
+       _displayed = 0;
+
+        _cur_recover_tilt_rate = 0;
+        _c_localsoluteTilt = 0;
+        _c_dir = Vector2.zero;
+
+    }
     #endregion
 }

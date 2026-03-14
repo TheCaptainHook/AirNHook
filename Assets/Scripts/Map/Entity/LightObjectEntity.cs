@@ -8,7 +8,7 @@ using UnityEngine;
 public class LightObjectEntity : BuildObj,IPowerConsumer
 {
     [Header("Default Light Object")]
-    public GameObject[] _Light_Objects;
+    public GameObject _Light_Object;
 
     private LightObject_Net lightObject_Net;
     private LightObject_Net L_Net
@@ -33,16 +33,13 @@ public class LightObjectEntity : BuildObj,IPowerConsumer
             L_Net.Server_SetHasPower(value);
         }
     }
-    public void LightOnOff(bool onOff)
+    public int GetConsumption()
     {
-        for (int i = 0; i < _Light_Objects.Length; i++)
-        {
-            _Light_Objects[i].SetActive(onOff);
-        }
+        return 1;
     }
     public virtual void PowerOn()
     {
-        if (hasPower) return;
+        if(hasPower) return;
         Debug.Log("PowerOn");
         hasPower = true;
         // _Light_Object.SetActive(true);
@@ -61,7 +58,7 @@ public class LightObjectEntity : BuildObj,IPowerConsumer
     }
     #endregion
 
-
+ 
     #region  Get,Set
     public override T GetData<T>()
     {

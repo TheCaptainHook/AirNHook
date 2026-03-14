@@ -71,6 +71,15 @@ public class HookSM : PlayerSM, IInhalable
         //Managers.Command.itemReleaseCallback -= ReleaseItemNet;
     }
 
+    public override void Reset()
+    {
+        base.Reset();
+        grappling.Reset();
+        //==========1128
+        ReleaseItem();
+        //==========1128
+    }
+
     #region UpdateMethod
     protected override void Update()
     {
@@ -136,9 +145,10 @@ public class HookSM : PlayerSM, IInhalable
         while (true)
         {
             yield return null;
-            if (grabbedItem != null)
+
+            if (isControlObj)
                 continue;
-            
+
             var collisions = Physics2D.OverlapCircleAll(transform.position + offset, detectDistance, interactableLayerMask);
 
             if (collisions.Length == 0)
@@ -168,9 +178,13 @@ public class HookSM : PlayerSM, IInhalable
 
             foreach (var collision in collisions)
             {
-                if (!collision.TryGetComponent<IInteractable>(out var inhalable)) continue;
-                
-                if (!inhalable.CanInteract()) continue;
+                if (!collision.TryGetComponent<IInteractable>(out var interactable)) continue;
+
+                if (grabbedItem != null && interactable.GetObjectType() != ObjectTypeEnum.Mount) continue;
+
+                if (!interactable.CanInteract()) continue;
+
+                if (interactable.GetObjectType() == ObjectTypeEnum.AirGun) continue;
 
                 var pos = transform.position + offset;
                 var objectVector = (collision.transform.position - pos).normalized;
@@ -241,19 +255,41 @@ public class HookSM : PlayerSM, IInhalable
     
     protected override void Interaction()
     {
-        if (grabbedItem != null)
-        {
-            ReleaseItem();
-        }
-        else if (latestTarget != null)
-        {
-            if (!latestTarget.TryGetComponent<IInteractable>(out var interactable)) return;
+        IInteractable interactable = null;
+        ObjectTypeEnum objType = default;
 
-            if (interactable.GetObjectType() == ObjectTypeEnum.Grab)
-                Managers.Command.TryGrabItem(gameObject, latestTarget.GetComponent<NetworkIdentity>().netId);
-            else
-                interactable.Interaction(transform);
+        if (latestTarget && latestTarget.TryGetComponent(out interactable))
+        {
+            objType = interactable.GetObjectType();
+
+            switch (objType)
+            {
+                case ObjectTypeEnum.Mount:
+                    interactable.Interaction(grabbedItem);
+                    break;
+
+                case ObjectTypeEnum.Grab:
+                    if (grabbedItem == null)
+                        Managers.Command.TryGrabItem(gameObject, latestTarget.GetComponent<NetworkIdentity>().netId);
+                    break;
+
+                case ObjectTypeEnum.Control:
+                    if (grabbedItem == null)
+                    {
+                        isControlObj = !isControlObj;
+                        interactable.Interaction(transform);
+                    }
+                    break;
+
+                default:
+                    if (grabbedItem == null)
+                        interactable.Interaction(transform);
+                    break;
+            }
         }
+
+        if (grabbedItem != null)
+            ReleaseItem();
     }
     
     private void GrabItemNet(NetworkIdentity item, bool value)
@@ -499,6 +535,30 @@ public class HookSM : PlayerSM, IInhalable
     private void RpcHookAttachedToAir()
     {
         Managers.Game.Player.GetComponent<AirSM>().HookAttached();
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CmdHookAnchorConstraintSync(GameObject gameObject)
+    {
+        RpcHookAnchorConstraintSync(gameObject);
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcHookAnchorConstraintSync(GameObject gameObject)
+    {
+        grappling.HookAnchorConstraintSync(gameObject);
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CmdHookAnchorConstraintFree()
+    {
+        RpcHookAnchorConstraintFree();
+    }
+
+    [ClientRpc(includeOwner = false)]
+    private void RpcHookAnchorConstraintFree()
+    {
+        grappling.HookAnchorConstraintFree();
     }
     #endregion
 
