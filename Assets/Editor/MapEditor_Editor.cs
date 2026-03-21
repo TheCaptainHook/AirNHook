@@ -16,6 +16,9 @@ using static UnityEngine.Rendering.Universal.Light2D;
 
 using TileData = ANH_MapEditor.TileData;
 using MapType = ANH_MapEditor.MapType;
+using FunkyCode;
+
+using SceneView = UnityEditor.SceneView;
 
 //TODO 0724 Develop code line : 435,506
 
@@ -54,21 +57,21 @@ public class MapEditor_Editor : Editor
     //Light Field
 
 
-    private void LightFieldSetting()
-    {
-        sortingLayerNames = SortingLayer.layers.Select(layer=>layer.name).ToArray();
-        selectedLayers = new bool[sortingLayerNames.Length];
-        sortingLayerField = typeof(Light2D).GetField("m_ApplyToSortingLayers", BindingFlags.NonPublic | BindingFlags.Instance);
-        curSortingLayers = (int[])sortingLayerField.GetValue(mapEditor.GlobalLight.GetComponent<Light2D>());
-        sortingLayerMask = ConvertSortingLayerIDsToBitFlag(curSortingLayers);
-        onImg = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Artwork/Sprites/Assets/UI Elements/White/1x/down arrow.png");
-        offImg =  AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Artwork/Sprites/Assets/UI Elements/White/1x/menu2.png");
-    }
+    // private void LightFieldSetting()
+    // {
+    //     sortingLayerNames = SortingLayer.layers.Select(layer=>layer.name).ToArray();
+    //     selectedLayers = new bool[sortingLayerNames.Length];
+    //     sortingLayerField = typeof(Light2D).GetField("m_ApplyToSortingLayers", BindingFlags.NonPublic | BindingFlags.Instance);
+    //     curSortingLayers = (int[])sortingLayerField.GetValue(mapEditor.GlobalLight.GetComponent<Light2D>());
+    //     sortingLayerMask = ConvertSortingLayerIDsToBitFlag(curSortingLayers);
+    //     onImg = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Artwork/Sprites/Assets/UI Elements/White/1x/down arrow.png");
+    //     offImg =  AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Artwork/Sprites/Assets/UI Elements/White/1x/menu2.png");
+    // }
 
     public override void OnInspectorGUI()
     {
         mapEditor = target as MapEditor;
-        LightFieldSetting();
+        // LightFieldSetting();
 
         GUILayout.Space(10);
         Draw_MainContents();
@@ -85,7 +88,7 @@ public class MapEditor_Editor : Editor
         Draw_ResetContent();
     }
     #region  Draw
-    private bool isLight;
+    // private bool isLight;
     private void Draw_MainContents()
     {
         EditorGUILayout.LabelField("Map Editor", GetGUIStyle_Label(Color.black, 14, FontStyle.Bold));
@@ -104,8 +107,20 @@ public class MapEditor_Editor : Editor
         }
         else
         {
-            Draw_ShadwAndLight();
-
+            // Draw_ShadwAndLight();
+            //globalLightIntensity가 높을수록 manager darknessAlpha 낮아짐 .
+            // mapEditor.globalLightIntensity = EditorGUILayout.IntSlider("Global Light", mapEditor.globalLightIntensity, 0, 100);
+            int newGlobalLightIntensity = EditorGUILayout.IntSlider("Global Light", mapEditor.globalLightIntensity, 0, 100);
+            if(newGlobalLightIntensity != mapEditor.globalLightIntensity)
+            {
+                mapEditor.globalLightIntensity = newGlobalLightIntensity;
+                Color colr = mapEditor.LightingManager.profile.DarknessColor;
+                mapEditor.LightingManager.profile.DarknessColor = new Color(colr.r, colr.g, colr.b, 1 - (mapEditor.globalLightIntensity * 0.01f));
+                EditorUtility.SetDirty(mapEditor);
+                EditorUtility.SetDirty(mapEditor.LightingManager.profile);
+                SceneView.RepaintAll();
+            }
+            
             mapEditor.stageLevel = EditorGUILayout.IntField("Stage Level", mapEditor.stageLevel);
             mapEditor.subMapName = EditorGUILayout.TextField(
                 new GUIContent("Map Sub Name", "This is the sub-name for the map, but it’s okay to leave it empty."),
@@ -122,252 +137,252 @@ public class MapEditor_Editor : Editor
         GUILayout.EndVertical();
     }
 
-    private void Draw_ShadwAndLight()
-    {
-        GUILayout.Space(20);
-            GUILayout.BeginHorizontal();
+    // private void Draw_ShadwAndLight()
+    // {
+    //     GUILayout.Space(20);
+    //         GUILayout.BeginHorizontal();
           
-                GUILayout.BeginVertical(new GUIStyle(GUI.skin.window));
-                    GUILayout.FlexibleSpace();
-                    GUILayout.Label("Shadow And Global Light",GetGUIStyle_Label(Color.white,15,FontStyle.Bold,TextAnchor.MiddleCenter));
-                    GUILayout.FlexibleSpace();
+    //             GUILayout.BeginVertical(new GUIStyle(GUI.skin.window));
+    //                 GUILayout.FlexibleSpace();
+    //                 GUILayout.Label("Shadow And Global Light",GetGUIStyle_Label(Color.white,15,FontStyle.Bold,TextAnchor.MiddleCenter));
+    //                 GUILayout.FlexibleSpace();
 
-                    GUILayout.BeginVertical();
+    //                 GUILayout.BeginVertical();
 
-                        DrawShadow();
+    //                     // DrawShadow();
             
-                        GUILayout.BeginVertical(new GUIStyle(GUI.skin.window));
-                                HorizontalScope(()=>{
-                                    GUILayout.FlexibleSpace();
-                                    EditorGUILayout.LabelField("Global Light",GetGUIStyle_Label(
-                                        Color.white,12,FontStyle.Bold,TextAnchor.MiddleLeft),GUILayout.Width(80),GUILayout.Height(25)
-                                        );
-                                    if (GUILayout.Button(new GUIContent(isLight ? onImg : offImg),GUILayout.Width(25), GUILayout.Height(25)))
-                                    {
-                                        isLight = !isLight;
-                                    }
-                                    GUILayout.FlexibleSpace();
-                                });
+    //                     GUILayout.BeginVertical(new GUIStyle(GUI.skin.window));
+    //                             HorizontalScope(()=>{
+    //                                 GUILayout.FlexibleSpace();
+    //                                 EditorGUILayout.LabelField("Global Light",GetGUIStyle_Label(
+    //                                     Color.white,12,FontStyle.Bold,TextAnchor.MiddleLeft),GUILayout.Width(80),GUILayout.Height(25)
+    //                                     );
+    //                                 if (GUILayout.Button(new GUIContent(isLight ? onImg : offImg),GUILayout.Width(25), GUILayout.Height(25)))
+    //                                 {
+    //                                     isLight = !isLight;
+    //                                 }
+    //                                 GUILayout.FlexibleSpace();
+    //                             });
                                 
-                                if(isLight)
-                                {
-                                    DrawLight();
-                                }
+    //                             if(isLight)
+    //                             {
+    //                                 // DrawLight();
+    //                             }
 
-                        GUILayout.EndVertical();
+    //                     GUILayout.EndVertical();
                         
                        
 
-                    GUILayout.EndVertical();
+    //                 GUILayout.EndVertical();
 
-                GUILayout.EndVertical();
-            GUILayout.EndHorizontal();
+    //             GUILayout.EndVertical();
+    //         GUILayout.EndHorizontal();
 
-            GUILayout.Space(20);    
-    }
-    private void DrawShadow()
-    {
-        VerticalScope(()=>{
-            GUILayout.FlexibleSpace();
-            if (GUILayout.Button("그림자 생성", GUILayout.Width(100), GUILayout.Height(30)))
-            {
-                CreateShadow();
-            }
-            GUILayout.FlexibleSpace();
-        });  
-    }
+    //         GUILayout.Space(20);    
+    // }
+    // private void DrawShadow()
+    // {
+    //     VerticalScope(()=>{
+    //         GUILayout.FlexibleSpace();
+    //         if (GUILayout.Button("그림자 생성", GUILayout.Width(100), GUILayout.Height(30)))
+    //         {
+    //             CreateShadow();
+    //         }
+    //         GUILayout.FlexibleSpace();
+    //     });  
+    // }
 
 #region Light
-    private void DrawLight()
-    {
-        GUILayout.BeginVertical();
+    // private void DrawLight()
+    // {
+    //     GUILayout.BeginVertical();
 
-        VerticalScope(() => {
-            HorizontalScope(() => {
-                EditorGUILayout.LabelField("Color", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
-                Color newColor = EditorGUILayout.ColorField(mapEditor.GlobalLight.color);
-                if (newColor != mapEditor.GlobalLight.color)
-                {
-                    Undo.RecordObject(mapEditor, "Change Global Light Color");
-                    mapEditor.GlobalLight.color = newColor;
-                    EditorUtility.SetDirty(mapEditor);
-                }
-            });
-            HorizontalScope(() => {
-                EditorGUILayout.LabelField("Intensity", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
-                float newIntensity = EditorGUILayout.Slider(mapEditor.GlobalLight.intensity, 0f, 5f);
-                if (!Mathf.Approximately(newIntensity, mapEditor.GlobalLight.intensity))
-                {
-                    Undo.RecordObject(mapEditor, "Change Global Light Intensity");
-                    mapEditor.GlobalLight.intensity = newIntensity;
-                    EditorUtility.SetDirty(mapEditor); // 변경 사항 저장
-                }
-            });
-            HorizontalScope(() => {
-                EditorGUILayout.LabelField("Target Sorting Layers", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
+    //     VerticalScope(() => {
+    //         HorizontalScope(() => {
+    //             EditorGUILayout.LabelField("Color", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
+    //             Color newColor = EditorGUILayout.ColorField(mapEditor.GlobalLight.color);
+    //             if (newColor != mapEditor.GlobalLight.color)
+    //             {
+    //                 Undo.RecordObject(mapEditor, "Change Global Light Color");
+    //                 mapEditor.GlobalLight.color = newColor;
+    //                 EditorUtility.SetDirty(mapEditor);
+    //             }
+    //         });
+    //         HorizontalScope(() => {
+    //             EditorGUILayout.LabelField("Intensity", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
+    //             float newIntensity = EditorGUILayout.Slider(mapEditor.GlobalLight.intensity, 0f, 5f);
+    //             if (!Mathf.Approximately(newIntensity, mapEditor.GlobalLight.intensity))
+    //             {
+    //                 Undo.RecordObject(mapEditor, "Change Global Light Intensity");
+    //                 mapEditor.GlobalLight.intensity = newIntensity;
+    //                 EditorUtility.SetDirty(mapEditor); // 변경 사항 저장
+    //             }
+    //         });
+    //         HorizontalScope(() => {
+    //             EditorGUILayout.LabelField("Target Sorting Layers", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
 
-                if (EditorGUILayout.DropdownButton(new GUIContent(GetCurrentState_SortingLayer()), FocusType.Keyboard))
-                {
-                    ShowSortingLayerPopup();
-                }
-            });
-            HorizontalScope(() =>{
-                DrawHorizontalLine(Color.white);
-            });
-            HorizontalScope(() => {
-                EditorGUILayout.LabelField("Blend Style", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
-                mapEditor.GlobalLight.blendStyleIndex = EditorGUILayout.IntPopup(
-                    "",
-                    mapEditor.GlobalLight.blendStyleIndex,
-                    new string[] { "Multiply", "Additive", "Multiply with Mask (R)", "Additive with Mask (R)" },
-                    new int[] { 0, 1, 2, 3 }
-                );
-                EditorUtility.SetDirty(mapEditor);
-            });
-            HorizontalScope(() => {
-                EditorGUILayout.LabelField("Light Order", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
-                mapEditor.GlobalLight.lightOrder = EditorGUILayout.IntField(mapEditor.GlobalLight.lightOrder);
-                EditorUtility.SetDirty(mapEditor);
-            });
-            HorizontalScope(() => {
-                EditorGUILayout.LabelField("Overlap Operation", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
-                mapEditor.GlobalLight.overlapOperation = (OverlapOperation)EditorGUILayout.EnumPopup(mapEditor.GlobalLight.overlapOperation);
-                EditorUtility.SetDirty(mapEditor);
-            });
-        });
+    //             if (EditorGUILayout.DropdownButton(new GUIContent(GetCurrentState_SortingLayer()), FocusType.Keyboard))
+    //             {
+    //                 ShowSortingLayerPopup();
+    //             }
+    //         });
+    //         HorizontalScope(() =>{
+    //             DrawHorizontalLine(Color.white);
+    //         });
+    //         HorizontalScope(() => {
+    //             EditorGUILayout.LabelField("Blend Style", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
+    //             mapEditor.GlobalLight.blendStyleIndex = EditorGUILayout.IntPopup(
+    //                 "",
+    //                 mapEditor.GlobalLight.blendStyleIndex,
+    //                 new string[] { "Multiply", "Additive", "Multiply with Mask (R)", "Additive with Mask (R)" },
+    //                 new int[] { 0, 1, 2, 3 }
+    //             );
+    //             EditorUtility.SetDirty(mapEditor);
+    //         });
+    //         HorizontalScope(() => {
+    //             EditorGUILayout.LabelField("Light Order", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
+    //             mapEditor.GlobalLight.lightOrder = EditorGUILayout.IntField(mapEditor.GlobalLight.lightOrder);
+    //             EditorUtility.SetDirty(mapEditor);
+    //         });
+    //         HorizontalScope(() => {
+    //             EditorGUILayout.LabelField("Overlap Operation", GetGUIStyle_Label(Color.white, 10, FontStyle.Normal), GUILayout.Width(105));
+    //             mapEditor.GlobalLight.overlapOperation = (OverlapOperation)EditorGUILayout.EnumPopup(mapEditor.GlobalLight.overlapOperation);
+    //             EditorUtility.SetDirty(mapEditor);
+    //         });
+    //     });
 
-        GUILayout.EndVertical();
-    }
+    //     GUILayout.EndVertical();
+    // }
    
-    private string GetCurrentState_SortingLayer()
-    {
-        if(sortingLayerMask == 0) return "Nothing";
-        if(sortingLayerMask == (1 << sortingLayerNames.Length)-1) return "Everything";
+    // private string GetCurrentState_SortingLayer()
+    // {
+    //     if(sortingLayerMask == 0) return "Nothing";
+    //     if(sortingLayerMask == (1 << sortingLayerNames.Length)-1) return "Everything";
 
-        int selectCount = 0;
-        int selectIdx = 0;
-        for(int i = 0; i<sortingLayerNames.Length;i++)
-        {
-            if((sortingLayerMask & (1 << i)) != 0)
-            {
-                selectCount++;
-                if(selectCount>1) return "Mixed...";
-                selectIdx = i;
-            };
-        }
+    //     int selectCount = 0;
+    //     int selectIdx = 0;
+    //     for(int i = 0; i<sortingLayerNames.Length;i++)
+    //     {
+    //         if((sortingLayerMask & (1 << i)) != 0)
+    //         {
+    //             selectCount++;
+    //             if(selectCount>1) return "Mixed...";
+    //             selectIdx = i;
+    //         };
+    //     }
         
-        return sortingLayerNames[selectIdx];
-    }
+    //     return sortingLayerNames[selectIdx];
+    // }
 
-    private void ShowSortingLayerPopup()
-    {
-        GenericMenu menu = new GenericMenu();
+    // private void ShowSortingLayerPopup()
+    // {
+    //     GenericMenu menu = new GenericMenu();
 
-        menu.AddItem(new GUIContent("Everything"), false, () =>
-        {
-            sortingLayerMask = (1 << sortingLayerNames.Length) - 1; 
-            curSortingLayers = ConvertBitFlagToSortingLayerIDs(sortingLayerMask);
-            UpdateSortingLayerField();
+    //     menu.AddItem(new GUIContent("Everything"), false, () =>
+    //     {
+    //         sortingLayerMask = (1 << sortingLayerNames.Length) - 1; 
+    //         curSortingLayers = ConvertBitFlagToSortingLayerIDs(sortingLayerMask);
+    //         UpdateSortingLayerField();
 
-            Repaint(); 
-            EditorUtility.SetDirty(mapEditor); 
-        });
+    //         Repaint(); 
+    //         EditorUtility.SetDirty(mapEditor); 
+    //     });
 
-        menu.AddItem(new GUIContent("Nothing"), false, () =>
-        {
-            sortingLayerMask = 0; 
-            curSortingLayers = null;
-            UpdateSortingLayerField();
+    //     menu.AddItem(new GUIContent("Nothing"), false, () =>
+    //     {
+    //         sortingLayerMask = 0; 
+    //         curSortingLayers = null;
+    //         UpdateSortingLayerField();
 
-            Repaint();
-            EditorUtility.SetDirty(mapEditor); 
-        });          
-        menu.AddSeparator("");
+    //         Repaint();
+    //         EditorUtility.SetDirty(mapEditor); 
+    //     });          
+    //     menu.AddSeparator("");
 
-        for (int i = 0; i < sortingLayerNames.Length; i++)
-        {
-            int index = i; 
-            bool isSelected = (sortingLayerMask & (1 << index)) != 0;
+    //     for (int i = 0; i < sortingLayerNames.Length; i++)
+    //     {
+    //         int index = i; 
+    //         bool isSelected = (sortingLayerMask & (1 << index)) != 0;
                
                 
-            menu.AddItem(
-                new GUIContent(sortingLayerNames[i]),
-                isSelected,
-                () =>
-                {
-                    // 선택 상태 토글
-                    if (isSelected)
-                    {
-                        sortingLayerMask &= ~(1 << index); // 선택 해제
-                    }
-                    else
-                    {
-                        sortingLayerMask |= (1 << index); // 선택
-                    }
+    //         menu.AddItem(
+    //             new GUIContent(sortingLayerNames[i]),
+    //             isSelected,
+    //             () =>
+    //             {
+    //                 // 선택 상태 토글
+    //                 if (isSelected)
+    //                 {
+    //                     sortingLayerMask &= ~(1 << index); // 선택 해제
+    //                 }
+    //                 else
+    //                 {
+    //                     sortingLayerMask |= (1 << index); // 선택
+    //                 }
 
-                    curSortingLayers = ConvertBitFlagToSortingLayerIDs(sortingLayerMask);
-                    UpdateSortingLayerField();
+    //                 curSortingLayers = ConvertBitFlagToSortingLayerIDs(sortingLayerMask);
+    //                 UpdateSortingLayerField();
 
-                    Repaint(); 
-                    EditorUtility.SetDirty(mapEditor); 
-                }
-            );
-        }
+    //                 Repaint(); 
+    //                 EditorUtility.SetDirty(mapEditor); 
+    //             }
+    //         );
+    //     }
 
-         menu.ShowAsContext();
+    //      menu.ShowAsContext();
 
          
-    }
-    private void UpdateSortingLayerField()
-    {
-        sortingLayerField.SetValue(mapEditor.GlobalLight.GetComponent<Light2D>(), curSortingLayers);
-    }
-     private int ConvertSortingLayerIDsToBitFlag(int[] sortingLayerIDs)
-    {
-        if(sortingLayerIDs == null) return 0;
-        int bitFlag = 0;
+    // // }
+    // private void UpdateSortingLayerField()
+    // {
+    //     sortingLayerField.SetValue(mapEditor.GlobalLight.GetComponent<Light2D>(), curSortingLayers);
+    // }
+    //  private int ConvertSortingLayerIDsToBitFlag(int[] sortingLayerIDs)
+    // {
+    //     if(sortingLayerIDs == null) return 0;
+    //     int bitFlag = 0;
 
-        for (int i = 0; i < sortingLayerIDs.Length; i++)
-        {
-            int layerIndex = GetSortingLayerIndexFromID(sortingLayerIDs[i]);
+    //     for (int i = 0; i < sortingLayerIDs.Length; i++)
+    //     {
+    //         int layerIndex = GetSortingLayerIndexFromID(sortingLayerIDs[i]);
 
-            if (layerIndex >= 0)
-            {
-                bitFlag |= 1 << layerIndex; 
-            }
-        }
+    //         if (layerIndex >= 0)
+    //         {
+    //             bitFlag |= 1 << layerIndex; 
+    //         }
+    //     }
 
-        return bitFlag;
-    }
-    private int GetSortingLayerIndexFromID(int id)
-    {
-        SortingLayer[] layers = SortingLayer.layers;
+    //     return bitFlag;
+    // // }
+    // private int GetSortingLayerIndexFromID(int id)
+    // {
+    //     SortingLayer[] layers = SortingLayer.layers;
 
-        for (int i = 0; i < layers.Length; i++)
-        {
-            if (layers[i].id == id)
-            {
-                return i; 
-            }
-        }
+    //     for (int i = 0; i < layers.Length; i++)
+    //     {
+    //         if (layers[i].id == id)
+    //         {
+    //             return i; 
+    //         }
+    //     }
 
-        return -1; 
-    }
-    private int[] ConvertBitFlagToSortingLayerIDs(int sortingLayerMask)
-    {
-        List<int> sortingLayerIDs = new List<int>();
-        SortingLayer[] layers = SortingLayer.layers;
+    //     return -1; 
+    // }
+    // private int[] ConvertBitFlagToSortingLayerIDs(int sortingLayerMask)
+    // {
+    //     List<int> sortingLayerIDs = new List<int>();
+    //     SortingLayer[] layers = SortingLayer.layers;
 
-        for (int i = 0; i < layers.Length; i++)
-        {
-            if ((sortingLayerMask & (1 << i)) != 0) // 해당 비트가 켜져 있는지 확인
-            {
-                sortingLayerIDs.Add(layers[i].id); // 해당 Layer의 ID 추가
-            }
-        }
+    //     for (int i = 0; i < layers.Length; i++)
+    //     {
+    //         if ((sortingLayerMask & (1 << i)) != 0) // 해당 비트가 켜져 있는지 확인
+    //         {
+    //             sortingLayerIDs.Add(layers[i].id); // 해당 Layer의 ID 추가
+    //         }
+    //     }
 
-        return sortingLayerIDs.ToArray();
-    }
+    //     return sortingLayerIDs.ToArray();
+    // }
 #endregion
 
     private void Draw_MainContents_MapId() {
@@ -489,7 +504,7 @@ public class MapEditor_Editor : Editor
         GUILayout.FlexibleSpace();
         if (GUILayout.Button("개발자용, 맵 새로만들 때 먼저 누르기,Init!", GUILayout.Width(300), GUILayout.Height(30)))
         {
-            GlobalLightReset();
+            // GlobalLightReset();
             _Reset(mapEditor);
             mapEditor.Init();
             EditorApplication.ExecuteMenuItem("Window/2D/Tile Palette");
@@ -504,15 +519,15 @@ public class MapEditor_Editor : Editor
 
         GUILayout.FlexibleSpace();
     }
-    private void GlobalLightReset()
-    {
-        mapEditor.GlobalLight.color = Color.white;
-        mapEditor.GlobalLight.intensity = 1;
-        sortingLayerField.SetValue(mapEditor.GlobalLight, new int[] { 0 });
-        mapEditor.GlobalLight.blendStyleIndex = 0;
-        mapEditor.GlobalLight.lightOrder = 0;
-        mapEditor.GlobalLight.overlapOperation = 0;
-    }
+    // private void GlobalLightReset()
+    // {
+    //     mapEditor.GlobalLight.color = Color.white;
+    //     mapEditor.GlobalLight.intensity = 1;
+    //     sortingLayerField.SetValue(mapEditor.GlobalLight, new int[] { 0 });
+    //     mapEditor.GlobalLight.blendStyleIndex = 0;
+    //     mapEditor.GlobalLight.lightOrder = 0;
+    //     mapEditor.GlobalLight.overlapOperation = 0;
+    // }
     //Check for duplicate Map ID TODO 1116
     private bool Check_DuplicateMapId(string mapId) {
         string path = Path.Combine(Application.dataPath, $"Resources/MapDat/{mapEditor.mapType}");
@@ -600,6 +615,8 @@ public class MapEditor_Editor : Editor
         {
             Undo.DestroyObjectImmediate(mapEditor.screenShotCamera.gameObject);
         }
+
+        mapEditor.LightingManager.profile.DarknessColor = new Color(0, 0, 0, 0); 
 
     }
 
@@ -689,6 +706,8 @@ public class MapEditor_Editor : Editor
         mapEditor.subMapName = map.subMapName;
         mapEditor.stageDifficulty = map.stageDifficulty;
 
+        mapEditor.globalLightIntensity = map.globalLightStruct.ConvertGlobalLightIntensityToInt();
+        mapEditor.LightingManager.profile.DarknessColor = new Color(0, 0, 0, map.globalLightStruct.darknessAlpha);
     }
     private void MpaEditorFieldReset()
     {
@@ -726,17 +745,17 @@ public class MapEditor_Editor : Editor
         //DrawTile(mapEditor.placeMentSystem.accessoryTileMap, mapEditor.CurMap.mapAccessoryTIleDataList);
     }
     //------------------------------------------------------------------------------------------------------250107 Shadow
-    public void Create_Shadow()
-    {
-        foreach(ShadowCasterStruct data in mapEditor.CurMap.mapShadowCasterDataList)
-        {
-            ShadowCasterSetting shadowSetting = Instantiate(Resources.Load<GameObject>(GlobalText.SHADOW_PREFAB_PATH)).GetComponent<ShadowCasterSetting>();
-            shadowSetting.gameObject.transform.SetParent(mapEditor.shadowContainer);    
-            shadowSetting.transform.position = data.position;
-            shadowSetting.SetShadowCasterData(data);
-        }
+    // public void Create_Shadow()
+    // {
+    //     foreach(ShadowCasterStruct data in mapEditor.CurMap.mapShadowCasterDataList)
+    //     {
+    //         ShadowCasterSetting shadowSetting = Instantiate(Resources.Load<GameObject>(GlobalText.SHADOW_PREFAB_PATH)).GetComponent<ShadowCasterSetting>();
+    //         shadowSetting.gameObject.transform.SetParent(mapEditor.shadowContainer);    
+    //         shadowSetting.transform.position = data.position;
+    //         shadowSetting.SetShadowCasterData(data);
+    //     }
 
-    }
+    // }
     //------------------------------------------------------------------------------------------------------250107 Shadow
     public void Create_Object() {
         CreateExitObject(mapEditor.CurMap.mapExitObjectStruct);
@@ -1040,7 +1059,7 @@ public class MapEditor_Editor : Editor
                 //Shadow
                 // GetShadowData(),
                 //Light
-                // GetGlobalLightStruct(),
+                GetGlobalLightStruct(),
                 //object
                 GetList<ObjectData>(mapEditor.objectTransform),
                 GetList<ObjectData>(mapEditor.backgroundObjectContainer),
@@ -1058,32 +1077,28 @@ public class MapEditor_Editor : Editor
     }
 
     //------------------------------------------------------------------------------------------------------250107 Shadow
-    private List<ShadowCasterStruct> GetShadowData()
-{
+//     private List<ShadowCasterStruct> GetShadowData()
+// {
 
-    List<ShadowCasterStruct> list = new();
-    foreach(Transform tr in mapEditor.shadowContainer)
-    {
-        Debug.Log($"{tr.name}");
-        ShadowCasterSetting setting = tr.GetComponent<ShadowCasterSetting>();
-        list.Add(setting.GetShadowCasterStruct());
-    }
-    return list;
-}
+//     List<ShadowCasterStruct> list = new();
+//     foreach(Transform tr in mapEditor.shadowContainer)
+//     {
+//         Debug.Log($"{tr.name}");
+//         ShadowCasterSetting setting = tr.GetComponent<ShadowCasterSetting>();
+//         list.Add(setting.GetShadowCasterStruct());
+//     }
+//     return list;
+// }
 //------------------------------------------------------------------------------------------------------250107 Shadow
 //------------------------------------------------------------------------------------------------------250112 Light
-// private LightStruct GetGlobalLightStruct()
-// {
-//     Light2D target = mapEditor.GlobalLight;
-//     return new LightStruct(
-//         target.lightType,
-//         target.color,
-//         target.intensity,
-//         (int[])sortingLayerField.GetValue(target),
-//         target.blendStyleIndex,
-//         target.lightOrder,
-//         target.overlapOperation);
-// }
+private LightStruct GetGlobalLightStruct()
+{
+    LightingManager2D target = mapEditor.LightingManager;
+
+    return new LightStruct(
+        target.profile.DarknessColor.a
+    );
+}
 //------------------------------------------------------------------------------------------------------250112 Light
 
 List<TileData> GetTileData(Tilemap tileMap)

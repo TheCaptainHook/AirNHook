@@ -612,40 +612,25 @@ public struct ShadowCasterStruct{
 #region Light
 [System.Serializable]
 public struct LightStruct{
-    // public UnityEngine.Rendering.Universal.Light2D.LightType type;
-    public Color color;
-    // public float intensity;
-    // public int[] targetSorting;
-    // public int blendStyleIndex;
-    // public int lightOrder;
-    // public OverlapOperation overlapOeration;
+    public float darknessAlpha;
+
 
     public LightStruct(
-        // UnityEngine.Rendering.Universal.Light2D.LightType type,
-        Color color
-        // float intensity, 
-        // int[] targetSorting,
-        // int blendStyleIndex,
-        // int lightOrder,
-        //  OverlapOperation overlapOeration
+        float darknessAlpha
         )
     {
-        // this.type = type;
-        this.color = color;
-        // this.intensity = intensity;
-        // this.targetSorting = targetSorting;
-        // this.blendStyleIndex = blendStyleIndex;
-        // this.lightOrder = lightOrder;
-        // this.overlapOeration = overlapOeration;
+        this.darknessAlpha = darknessAlpha;
     }
 
     public LightStruct Default()
     {
         return new LightStruct(
-            
-            Color.black                                           
-           
+            this.darknessAlpha = 0
         );
+    }
+    public int ConvertGlobalLightIntensityToInt()
+    {
+        return 100 - Mathf.RoundToInt(darknessAlpha * 100);
     }
 }
 #endregion

@@ -29,12 +29,12 @@ public class Map
     //public List<TileData> mapRopeTileDataList = new();
     //public List<TileData> mapAccessoryTIleDataList = new();
     //------------------------------------------------------------------------------------------------------250107 Shadow
-    [Header("Shadow")]
-    public List<ShadowCasterStruct> mapShadowCasterDataList = new();
+    // [Header("Shadow")]
+    // public List<ShadowCasterStruct> mapShadowCasterDataList = new();
 //------------------------------------------------------------------------------------------------------250107 Shadow
-//------------------------------------------------------------------------------------------------------250112 Global Light
+//------------------------------------------------------------------------------------------------------260321 Global Light
     public LightStruct globalLightStruct;
-//------------------------------------------------------------------------------------------------------250112 Global Light
+//------------------------------------------------------------------------------------------------------260321 Global Light
     [Header("Object")]
     public List<ObjectData> mapObjectDataList = new List<ObjectData>();
     //TODO 1024
@@ -74,7 +74,7 @@ public class Map
         //Shadow 250109
         //List<ShadowCasterStruct> shadowCasterStructs,
         //Light 250112
-        // LightStruct globalLightStruct,
+        LightStruct globalLightStruct,
         //object
         List<ObjectData> objectList,
         List<ObjectData> backgroundObjectList,
@@ -103,7 +103,7 @@ public class Map
         //shadow
         //this.mapShadowCasterDataList = shadowCasterStructs;
         //Light
-        // this.globalLightStruct = globalLightStruct;
+        this.globalLightStruct = globalLightStruct;
         //object
         mapObjectDataList = objectList;
         mapBackgroundObjectList = backgroundObjectList;

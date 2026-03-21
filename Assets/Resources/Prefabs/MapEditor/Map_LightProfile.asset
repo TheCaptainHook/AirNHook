@@ -71,17 +71,16 @@ MonoBehaviour:
   layers:
     colliderLayers:
       names:
-      - ForeGround
+      - Map/Background
       - Map/Tiles
       - BackGround
-      - LightLayer
+      - ForeGround
     lightLayers:
       names:
-      - ForeGround
-      - BackGround
       - Map/BackGround
       - Map/Tiles
-      - LightLayer
+      - BackGround
+      - ForeGround
     dayLayers:
       names:
       - Default

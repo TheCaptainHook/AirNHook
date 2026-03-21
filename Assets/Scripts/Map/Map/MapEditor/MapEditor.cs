@@ -14,6 +14,7 @@ using MapType = ANH_MapEditor.MapType;
 using System.Collections;
 using System.Buffers;
 using System.Linq;
+using FunkyCode;
 
 
 
@@ -119,17 +120,17 @@ public class MapEditor : MonoBehaviour
     [HideInInspector] public Transform shadowContainer;
     public bool stageClear;
 
-    private Light2D globalLight;
-    public Light2D GlobalLight
-    {
-        get
-        {
-            if(globalLight == null){
-                globalLight = GetGlobalLight();
-            }
-            return globalLight;
-        }
-    } //-----------------------------------------------------------------------Light
+    // private Light2D globalLight;
+    // public Light2D GlobalLight
+    // {
+    //     get
+    //     {
+    //         if(globalLight == null){
+    //             globalLight = GetGlobalLight();
+    //         }
+    //         return globalLight;
+    //     }
+    // } //-----------------------------------------------------------------------Light
 
 
     [Space(10)]
@@ -149,17 +150,26 @@ public class MapEditor : MonoBehaviour
     public Vector2 startPosition;
     [ReadOnly]
     public GameObject startPositionObject;
-
     public string audioName;
-
-
+    public int globalLightIntensity = 0;
+    private LightingManager2D lightingManager;
+    public LightingManager2D LightingManager
+    {
+        get
+        {
+            if (lightingManager == null)
+            {
+                lightingManager = FindObjectOfType<LightingManager2D>();
+            }
+            return lightingManager;
+        }
+    }
     // public AudioType audioType = AudioType.None;
     //[HideInInspector] public int condition_KeyAmount;
     [HideInInspector] public List<TileData> mapTileDataList = new List<TileData>();
     [HideInInspector] public List<ObjectData> mapObjectDataList = new List<ObjectData>();
     [ReadOnly]
     public bool onStageSelect;
-
     public TextMeshProUGUI stageText;
 
    
@@ -808,18 +818,18 @@ public class MapEditor : MonoBehaviour
         startPositionObject.transform.SetParent(dontSaveObjectTransform);
     }
 
-    private void Create_Shadow()
-    {
-        GameObject shadowPrefab =Resources.Load<GameObject>(GlobalText.SHADOW_PREFAB_PATH);
-        foreach(ShadowCasterStruct data in curMap.mapShadowCasterDataList)
-        {
-            ShadowCasterSetting shadowSetting = Managers.Pooling.D_GetItem(shadowPrefab).GetComponent<ShadowCasterSetting>();
-            shadowSetting.gameObject.SetActive(true);
-            shadowSetting.gameObject.transform.SetParent(shadowContainer);    
-            shadowSetting.transform.position = data.position;
-            shadowSetting.SetShadowCasterData(data);
-        }
-    }
+    // private void Create_Shadow()
+    // {
+    //     GameObject shadowPrefab =Resources.Load<GameObject>(GlobalText.SHADOW_PREFAB_PATH);
+    //     foreach(ShadowCasterStruct data in curMap.mapShadowCasterDataList)
+    //     {
+    //         ShadowCasterSetting shadowSetting = Managers.Pooling.D_GetItem(shadowPrefab).GetComponent<ShadowCasterSetting>();
+    //         shadowSetting.gameObject.SetActive(true);
+    //         shadowSetting.gameObject.transform.SetParent(shadowContainer);    
+    //         shadowSetting.transform.position = data.position;
+    //         shadowSetting.SetShadowCasterData(data);
+    //     }
+    // }
     // private void SetGlobalLight()
     // {
     //     FieldInfo sortingLayerField = typeof(Light2D).GetField("m_ApplyToSortingLayers", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -911,18 +921,18 @@ public class MapEditor : MonoBehaviour
         }
     }
 
-    private Light2D GetGlobalLight()
-    {
-        foreach (Transform tr in transform)
-        {
-            if (tr.name == "Global Light")
-            {
-                return tr.GetComponent<Light2D>();
-            }
-        }
-        return null;
+    // private Light2D GetGlobalLight()
+    // {
+    //     foreach (Transform tr in transform)
+    //     {
+    //         if (tr.name == "Global Light")
+    //         {
+    //             return tr.GetComponent<Light2D>();
+    //         }
+    //     }
+    //     return null;
 
-    }
+    // }
     private void ReleasePooling()
     {
        for(int i = shadowContainer.childCount-1;i>=0;i--)
