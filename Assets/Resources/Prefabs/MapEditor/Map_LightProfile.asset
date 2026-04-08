@@ -17,28 +17,28 @@ MonoBehaviour:
     - name: Default
       type: 0
       hdr: 1
-      darknessColor: {r: 0, g: 0, b: 0, a: 0}
+      darknessColor: {r: 0, g: 0, b: 0, a: 1}
       depth: -100
       resolution: 1
       dayLayers:
-        list:
-        - id: 0
-          type: 0
-          sorting: 0
+        list: []
       lightLayers:
         list:
         - id: 0
           type: 0
           sorting: 0
+        - id: 1
+          type: 0
+          sorting: 0
   lightPresets:
     list:
-    - name: Default
+    - name: 1_
       layerSetting:
         list:
         - layerID: 0
           type: 0
-          sorting: 0
-          sortingIgnore: 0
+          sorting: 1
+          sortingIgnore: 1
           shadowEffect: 2
           shadowEffectLayer: 0
           maskLit: 0
@@ -49,10 +49,11 @@ MonoBehaviour:
       layerSetting:
         list:
         - layerID: 0
-    - name: Default
+    - name: E_Global
       layerSetting:
         list:
         - layerID: 0
+        - layerID: 1
   qualitySettings:
     lightTextureSize: 2
     lightEffectTextureSize: 2
@@ -71,16 +72,12 @@ MonoBehaviour:
   layers:
     colliderLayers:
       names:
-      - Map/Background
-      - Map/Tiles
-      - BackGround
-      - ForeGround
+      - Global
+      - Back
     lightLayers:
       names:
-      - Map/BackGround
-      - Map/Tiles
-      - BackGround
-      - ForeGround
+      - Global
+      - Back
     dayLayers:
       names:
       - Default

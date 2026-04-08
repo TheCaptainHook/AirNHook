@@ -25,13 +25,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2938269957703322107}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
+  m_LocalPosition: {x: 0, y: -0.093, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6650074085997144692}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!114 &7277287856803895242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85a34663ca705a54eac3205e225a6d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightType: 2
+  lightType: 0
   lightPresetId: 0
   eventPresetId: 0
   lightLayer: 0
@@ -52,9 +52,9 @@ MonoBehaviour:
   translucentLayer: 0
   translucentPresetId: 0
   color: {r: 0.7578583, g: 0.7578583, b: 0.7578583, a: 1}
-  size: 8.728338
-  spotAngleInner: 360
-  spotAngleOuter: 360
+  size: 8
+  spotAngleInner: 23.17598
+  spotAngleOuter: 101.97424
   coreSize: 0.5
   falloff: 0
   lightStrength: 0
@@ -64,7 +64,7 @@ MonoBehaviour:
   shadowDistanceFar: 5
   maskTranslucencyQuality: 1
   maskTranslucencyStrength: 0.5
-  applyRotation: 0
+  applyRotation: 2
   textureSize: 1
   meshMode:
     enable: 0
@@ -83,9 +83,9 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 6592d6be03fd808449716a11558d506f, type: 3}
   spriteFlipX: 0
   spriteFlipY: 0
-  freeFormFalloff: 1
+  freeFormFalloff: 0.42
   freeFormPoint: 1
-  freeFormFalloffStrength: 1
+  freeFormFalloffStrength: 0
   freeFormPoints:
     points:
     - {x: 0.702211, y: -0.32486057}
@@ -167,7 +167,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -696190403
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 37076f270f60ca042b846720f921374b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -251,7 +251,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -696190403
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: eca3a8e20d5e53b4994c20e16f50d744, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -311,7 +311,7 @@ SortingGroup:
   m_GameObject: {fileID: 7888563362477529546}
   m_Enabled: 1
   m_SortingLayerID: -696190403
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 5
   m_SortAtRoot: 0
 --- !u!114 &-7695078521425532696
@@ -376,7 +376,13 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
+  _Dissolve_MainSprites: []
+  _dissolveMaterials: []
+  _floorLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  objectDropSound: 0
+  soundVolume: 1
+  soundDistance: 10
   canRespawn: 0
-  _Light_Objects:
-  - {fileID: 2938269957703322107}
+  _Light_Object: {fileID: 0}

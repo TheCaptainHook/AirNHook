@@ -45,9 +45,6 @@ TagManager:
   - name: Map/BackGround
     uniqueID: 3707109241
     locked: 0
-  - name: Map/Tiles
-    uniqueID: 3156700437
-    locked: 0
   - name: Map/ForeGround
     uniqueID: 927897491
     locked: 0
@@ -80,4 +77,7 @@ TagManager:
     locked: 0
   - name: UI
     uniqueID: 2618865213
+    locked: 0
+  - name: Map/Tiles
+    uniqueID: 3156700437
     locked: 0

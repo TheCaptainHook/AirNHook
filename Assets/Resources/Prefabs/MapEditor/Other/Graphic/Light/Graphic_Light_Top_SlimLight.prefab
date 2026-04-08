@@ -167,7 +167,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -696190403
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: d81c32a62699f5d429ad68827cd7cefd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -251,7 +251,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -696190403
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 425ef5c7f5070f24581c663fd5446686, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -312,7 +312,7 @@ SortingGroup:
   m_GameObject: {fileID: 7888563362477529546}
   m_Enabled: 1
   m_SortingLayerID: -696190403
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 5
   m_SortAtRoot: 0
 --- !u!114 &-3720322628748431989
@@ -377,11 +377,16 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
+  _Dissolve_MainSprites: []
+  _dissolveMaterials: []
+  _floorLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  objectDropSound: 0
+  soundVolume: 1
+  soundDistance: 10
   canRespawn: 0
-  _Light_Objects:
-  - {fileID: 75185822649682664}
-  - {fileID: 8347654615084543736}
+  _Light_Object: {fileID: 0}
 --- !u!1 &8347654615084543736
 GameObject:
   m_ObjectHideFlags: 0
@@ -427,7 +432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lightLayer: 0
-  type: 0
+  type: 1
   spriteMode: 0
   sprite: {fileID: 21300000, guid: f789882f7facc8243a28429abcf1a513, type: 3}
   color: {r: 0.5, g: 0.5, b: 0.5, a: 1}

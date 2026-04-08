@@ -1,0 +1,686 @@
+{
+    "mapSize": {
+        "x": 20.0,
+        "y": 20.0
+    },
+    "mapID": "TTTTT",
+    "subMapName": "TTTTT",
+    "stageLevel": 0,
+    "startPosition": {
+        "x": -7.0,
+        "y": -3.5999999046325685
+    },
+    "mapTileDataList": [
+        {
+            "TileId": 6,
+            "Start": {
+                "x": -10,
+                "y": -12
+            },
+            "End": {
+                "x": -10,
+                "y": 3
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": -9,
+                "y": -12
+            },
+            "End": {
+                "x": -9,
+                "y": -12
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": -9,
+                "y": 3
+            },
+            "End": {
+                "x": -9,
+                "y": 3
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": -8,
+                "y": -12
+            },
+            "End": {
+                "x": -8,
+                "y": -12
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": -8,
+                "y": 3
+            },
+            "End": {
+                "x": -8,
+                "y": 3
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": -7,
+                "y": -12
+            },
+            "End": {
+                "x": -7,
+                "y": -12
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": -7,
+                "y": 3
+            },
+            "End": {
+                "x": -7,
+                "y": 3
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": -6,
+                "y": -12
+            },
+            "End": {
+                "x": -6,
+                "y": -12
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": -6,
+                "y": 3
+            },
+            "End": {
+                "x": -6,
+                "y": 3
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": -5,
+                "y": -12
+            },
+            "End": {
+                "x": -5,
+                "y": -12
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": -5,
+                "y": 3
+            },
+            "End": {
+                "x": -5,
+                "y": 4
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": -4,
+                "y": -12
+            },
+            "End": {
+                "x": -4,
+                "y": -12
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": -4,
+                "y": 4
+            },
+            "End": {
+                "x": -4,
+                "y": 4
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": -3,
+                "y": -12
+            },
+            "End": {
+                "x": -3,
+                "y": -12
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": -3,
+                "y": 4
+            },
+            "End": {
+                "x": -3,
+                "y": 4
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": -2,
+                "y": -12
+            },
+            "End": {
+                "x": -2,
+                "y": -12
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": -2,
+                "y": 4
+            },
+            "End": {
+                "x": -2,
+                "y": 4
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": -1,
+                "y": -12
+            },
+            "End": {
+                "x": -1,
+                "y": -12
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": -1,
+                "y": 4
+            },
+            "End": {
+                "x": -1,
+                "y": 4
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": 0,
+                "y": -12
+            },
+            "End": {
+                "x": 0,
+                "y": -12
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": 0,
+                "y": 4
+            },
+            "End": {
+                "x": 0,
+                "y": 4
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": 1,
+                "y": -12
+            },
+            "End": {
+                "x": 1,
+                "y": -12
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": 1,
+                "y": 3
+            },
+            "End": {
+                "x": 1,
+                "y": 4
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": 2,
+                "y": -12
+            },
+            "End": {
+                "x": 2,
+                "y": -11
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": 2,
+                "y": 3
+            },
+            "End": {
+                "x": 2,
+                "y": 3
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": 3,
+                "y": -11
+            },
+            "End": {
+                "x": 3,
+                "y": -11
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": 3,
+                "y": 3
+            },
+            "End": {
+                "x": 3,
+                "y": 3
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": 4,
+                "y": -11
+            },
+            "End": {
+                "x": 4,
+                "y": -11
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": 4,
+                "y": 3
+            },
+            "End": {
+                "x": 4,
+                "y": 3
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": 5,
+                "y": -11
+            },
+            "End": {
+                "x": 5,
+                "y": -11
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": 5,
+                "y": 3
+            },
+            "End": {
+                "x": 5,
+                "y": 3
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": 6,
+                "y": -11
+            },
+            "End": {
+                "x": 6,
+                "y": -11
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": 6,
+                "y": 3
+            },
+            "End": {
+                "x": 6,
+                "y": 3
+            }
+        },
+        {
+            "TileId": 6,
+            "Start": {
+                "x": 7,
+                "y": -11
+            },
+            "End": {
+                "x": 7,
+                "y": 3
+            }
+        }
+    ],
+    "mapHalfTileDataList": [],
+    "mapBackgroundTileDataList": [],
+    "mapRopeTileDataList": [],
+    "mapAccessoryTIleDataList": [],
+    "mapHiddenTileDataList": [],
+    "mapSpecialTileDataList": [],
+    "globalLightStruct": {
+        "darknessAlpha": 1.0
+    },
+    "mapObjectDataList": [],
+    "mapBackgroundObjectList": [
+        {
+            "id": 5108,
+            "dialogueId": 0,
+            "position": {
+                "x": -13.15999984741211,
+                "y": 2.6500000953674318
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0,
+            "tutorialCode": 0
+        },
+        {
+            "id": 5109,
+            "dialogueId": 0,
+            "position": {
+                "x": -13.069999694824219,
+                "y": -3.609999895095825
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0,
+            "tutorialCode": 0
+        },
+        {
+            "id": 5110,
+            "dialogueId": 0,
+            "position": {
+                "x": 1.590000033378601,
+                "y": 1.159999966621399
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0,
+            "tutorialCode": 0
+        },
+        {
+            "id": 5111,
+            "dialogueId": 0,
+            "position": {
+                "x": 2.8299999237060549,
+                "y": -3.25
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0,
+            "tutorialCode": 0
+        },
+        {
+            "id": 5112,
+            "dialogueId": 0,
+            "position": {
+                "x": -5.510000228881836,
+                "y": 0.8399999737739563
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0,
+            "tutorialCode": 0
+        },
+        {
+            "id": 5201,
+            "dialogueId": 0,
+            "position": {
+                "x": -4.880000114440918,
+                "y": -2.3499999046325685
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0,
+            "tutorialCode": 0
+        },
+        {
+            "id": 5308,
+            "dialogueId": 0,
+            "position": {
+                "x": -2.4700000286102297,
+                "y": -5.710000038146973
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.2000000476837159,
+                "y": 1.2000000476837159,
+                "z": 1.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0,
+            "tutorialCode": 0
+        },
+        {
+            "id": 5340,
+            "dialogueId": 0,
+            "position": {
+                "x": -5.659999847412109,
+                "y": -6.650000095367432
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 2.4000000953674318,
+                "y": 2.4000000953674318,
+                "z": 1.0
+            },
+            "size": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "text": "",
+            "fontSize": 0.0,
+            "chargeRequired": false,
+            "animationTriggerType": 0,
+            "attackStartTime": 0.0,
+            "attackCooldown": 0.0,
+            "activeRequireAmount": 0,
+            "onEncapsulationItem": false,
+            "indicator": 0,
+            "tutorialCode": 0
+        }
+    ],
+    "mapOtherObjectList": [],
+    "mapButtonActivatableObjectDataList": [],
+    "buttonObjectList": [],
+    "mapExitObjectStruct": {
+        "id": 301,
+        "position": {
+            "x": 5.599999904632568,
+            "y": -2.9000000953674318
+        },
+        "condition_KeyAmount": 0,
+        "nextMapId": ""
+    },
+    "dialogueDataList": [],
+    "droneStructList": [],
+    "collectableObjectStructList": [],
+    "dataType": 0,
+    "cellSize": 2.0,
+    "bytesImage": [],
+    "audioName": "",
+    "nextMapId": "",
+    "stageDifficulty": 0
+}
