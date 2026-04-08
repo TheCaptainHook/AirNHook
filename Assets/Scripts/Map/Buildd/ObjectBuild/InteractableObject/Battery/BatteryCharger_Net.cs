@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Animations;
+using FunkyCode;
 
 public class BatteryCharger_Net : NetworkBehaviour
 {
@@ -11,9 +12,19 @@ public class BatteryCharger_Net : NetworkBehaviour
     [ReadOnly]
     public GameObject battery;
 
+
+    //====Light
+    [SerializeField] LightSprite2D _mainSimborLight;
+    [SerializeField] LightSprite2D _subSimborLight;
+    [SerializeField] SpriteRenderer _subSimborSprite;
+
+    //====Light
+
+
     #region Init
     public bool onSync;
-   
+
+
     [Server]
     public void Server_SetInit()
     {
@@ -77,7 +88,13 @@ public class BatteryCharger_Net : NetworkBehaviour
     IEnumerator ChargeCo(GameObject item)
     {
         BatteryInteractable battery = item.GetComponent<BatteryInteractable>();
-
+        
+        //Charge Light
+        _mainSimborLight.enabled = true;
+        _subSimborLight.enabled = true;
+        _subSimborSprite.enabled = true;
+        //Charge Light
+        
         while (battery.batteryCapacity < 100)
         {
             //battery.BatteryCapacity = 1;
@@ -118,6 +135,12 @@ public class BatteryCharger_Net : NetworkBehaviour
     [ClientRpc]
     private void Rpc_Disconnect() //Rpc
     {
+        //Charge Light off
+         _mainSimborLight.enabled = false;
+        _subSimborLight.enabled = false;
+        _subSimborSprite.enabled = false;
+        //Charge Light off
+        
         if (battery == null) return;
 
         if (battery.TryGetComponent(out ParentConstraint component))

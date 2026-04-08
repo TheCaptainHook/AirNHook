@@ -364,7 +364,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f7a5bbe5881804241b866312a0be86eb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.33333334}
@@ -600,7 +600,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: cc85bc5d7eefd024897ca46ef19a3c28, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -684,7 +684,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 2cd338c00fcdcf84991932ae4615f867, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -778,7 +778,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 7a0e138d8eb75e6438171c374f5bfbfd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -800,7 +800,7 @@ SortingGroup:
   m_GameObject: {fileID: 3834708855388144027}
   m_Enabled: 1
   m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 5
   m_SortAtRoot: 0
 --- !u!95 &7369576480102910618
@@ -885,12 +885,25 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
+  _Dissolve_MainSprites: []
+  _dissolveMaterials: []
+  _floorLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  objectDropSound: 0
+  soundVolume: 1
+  soundDistance: 10
   canRespawn: 0
   activeRequirAmount: 0
   indicator: 0
   indicatorOffset_val_1: {x: 0, y: 3.5}
   indicatorOffset_val_2: {x: 0.6, y: 2}
+  isHorizontal: 0
+  indicatorStruct:
+    indicator: 0
+    indicator_1_position: {x: 0, y: 0}
+    indicator_2_position: {x: 0, y: 0}
+    isHorizontal: 0
   curActiveBtn: 0
 --- !u!114 &7783511971361612682
 MonoBehaviour:
@@ -907,6 +920,28 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  data:
+    id: 0
+    position: {x: 0, y: 0}
+    quaternion: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 0, y: 0, z: 0}
+    activeRequirAmount: 0
+    indicatorStruct:
+      indicator: 0
+      indicator_1_position: {x: 0, y: 0}
+      indicator_2_position: {x: 0, y: 0}
+      isHorizontal: 0
+    jumpingPower: 0
+    talPot: {x: 0, y: 0}
+    rotateRate: 0
+    fireRate: 0
+    onHoldRotation: 0
+    onLeft: 0
+    paths: []
+    moveSpeed: 0
+    moveDistance: 0
+    bridgeLength: 0
+    connectionPoint: {x: 0, y: 0}
   onSync: 0
   onActive: 0
 --- !u!1 &3983856959776153528
@@ -1017,7 +1052,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f7a5bbe5881804241b866312a0be86eb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
@@ -1101,7 +1136,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 2cd338c00fcdcf84991932ae4615f867, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1185,7 +1220,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 2cd338c00fcdcf84991932ae4615f867, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1269,7 +1304,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 2cd338c00fcdcf84991932ae4615f867, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

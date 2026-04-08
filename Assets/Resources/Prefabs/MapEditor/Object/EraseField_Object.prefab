@@ -96,7 +96,7 @@ SortingGroup:
   m_GameObject: {fileID: 60694404074583369}
   m_Enabled: 1
   m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 3
   m_SortAtRoot: 0
 --- !u!1 &523638385175034215
@@ -170,7 +170,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -696190403
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 62cad5a9864520a45889a3a5cc874c58, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -183,37 +183,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1495019376651709230
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3403952503701191724}
-  m_Layer: 23
-  m_Name: Light 2D
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3403952503701191724
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1495019376651709230}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.6, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3527730740937512308}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5139990301046049554
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,6 +193,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8850633112548270579}
   - component: {fileID: 3910401765213147502}
+  - component: {fileID: 6744903402109445245}
   m_Layer: 23
   m_Name: EnergyField
   m_TagString: Untagged
@@ -285,7 +255,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1960662225
-  m_SortingLayer: 9
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 02bc6413e9c541c4c8fd2e7501c27232, type: 3}
   m_Color: {r: 0.2783019, g: 0.9384471, b: 1, a: 1}
@@ -298,6 +268,67 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6744903402109445245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5139990301046049554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85a34663ca705a54eac3205e225a6d45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightType: 1
+  lightPresetId: 0
+  eventPresetId: 0
+  lightLayer: -1
+  occlusionLayer: 2
+  translucentLayer: 0
+  translucentPresetId: 0
+  color: {r: 0.38768244, g: 0.6792453, b: 0.65775263, a: 1}
+  size: 6
+  spotAngleInner: 360
+  spotAngleOuter: 360
+  coreSize: 0.5
+  falloff: 0
+  lightStrength: 0
+  outerAngle: 15
+  lightRadius: 1
+  shadowDistanceClose: 0
+  shadowDistanceFar: 5
+  maskTranslucencyQuality: 1
+  maskTranslucencyStrength: 0.5
+  applyRotation: 0
+  textureSize: 1
+  meshMode:
+    enable: 0
+    alpha: 0.5
+    shader: 0
+    materials:
+    - {fileID: 0}
+    sortingLayer:
+      name: Default
+      Order: 0
+  bumpMap:
+    intensity: 1
+    depth: 1
+  whenInsideCollider: 0
+  lightSprite: 0
+  sprite: {fileID: 21300000, guid: 6592d6be03fd808449716a11558d506f, type: 3}
+  spriteFlipX: 0
+  spriteFlipY: 0
+  freeFormFalloff: 1
+  freeFormPoint: 1
+  freeFormFalloffStrength: 1
+  freeFormPoints:
+    points:
+    - {x: 1, y: 0}
+    - {x: -0.50000006, y: 0.8660254}
+    - {x: -0.4999999, y: -0.86602545}
+  drawingEnabled: 1
+  drawingTranslucencyEnabled: 0
 --- !u!1 &5224186664704091579
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,7 +401,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -696190403
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 0d43c50bd41bc544181e722397cae4ae, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -499,7 +530,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -696190403
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 4608852e7e7b804409c74dc166a87192, type: 3}
   m_Color: {r: 0.3915094, g: 0.696961, b: 1, a: 1}
@@ -548,7 +579,6 @@ Transform:
   - {fileID: 6612260965530703823}
   - {fileID: 5755418978538226951}
   - {fileID: 8850633112548270579}
-  - {fileID: 3403952503701191724}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &4088172951223229662
@@ -623,12 +653,25 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
+  _Dissolve_MainSprites: []
+  _dissolveMaterials: []
+  _floorLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  objectDropSound: 0
+  soundVolume: 1
+  soundDistance: 10
   canRespawn: 0
   activeRequirAmount: 0
   indicator: 0
   indicatorOffset_val_1: {x: 0, y: 3.5}
   indicatorOffset_val_2: {x: 0.6, y: 2}
+  isHorizontal: 0
+  indicatorStruct:
+    indicator: 0
+    indicator_1_position: {x: 0, y: 0}
+    indicator_2_position: {x: 0, y: 0}
+    isHorizontal: 0
   curActiveBtn: 0
 --- !u!114 &1774822881563696914
 MonoBehaviour:
@@ -645,11 +688,33 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  data:
+    id: 0
+    position: {x: 0, y: 0}
+    quaternion: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 0, y: 0, z: 0}
+    activeRequirAmount: 0
+    indicatorStruct:
+      indicator: 0
+      indicator_1_position: {x: 0, y: 0}
+      indicator_2_position: {x: 0, y: 0}
+      isHorizontal: 0
+    jumpingPower: 0
+    talPot: {x: 0, y: 0}
+    rotateRate: 0
+    fireRate: 0
+    onHoldRotation: 0
+    onLeft: 0
+    paths: []
+    moveSpeed: 0
+    moveDistance: 0
+    bridgeLength: 0
+    connectionPoint: {x: 0, y: 0}
   onSync: 0
   onActive: 0
   base_2_Field: {fileID: 5767043856873232950}
   main_Field: {fileID: 5139990301046049554}
-  main_Light: {fileID: 1495019376651709230}
+  main_Light: {fileID: 0}
   main_Field_Sprite: {fileID: 3910401765213147502}
 --- !u!114 &600912761600305681
 MonoBehaviour:

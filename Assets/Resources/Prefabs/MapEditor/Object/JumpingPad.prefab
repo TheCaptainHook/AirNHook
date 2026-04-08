@@ -1,36 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1082645463334243574
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4265060074479483974}
-  m_Layer: 9
-  m_Name: Light 2D
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4265060074479483974
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1082645463334243574}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5735580974254964744}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1382420374170616588
 GameObject:
   m_ObjectHideFlags: 0
@@ -102,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 4835f4d3a01db7246a55a027f1194277, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -125,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8023927694659980049}
   - component: {fileID: 7098829999980311333}
+  - component: {fileID: 4503499800973979858}
   m_Layer: 9
   m_Name: Light
   m_TagString: Untagged
@@ -186,7 +156,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 1adcf63cf61d6f245880bd10e833ce52, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -199,6 +169,44 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4503499800973979858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2463722079186427525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d62ac029b1017974ead8b6ad01623c82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightLayer: 1
+  type: 1
+  spriteMode: 1
+  sprite: {fileID: 21300000, guid: 1adcf63cf61d6f245880bd10e833ce52, type: 3}
+  color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  flipX: 0
+  flipY: 0
+  lightSpriteTransform:
+    applyRotation: 1
+    scale: {x: 1.25, y: 1.25}
+    rotation: 0
+    position: {x: 1.02, y: 0.16}
+  lightSpriteShape:
+    update: 0
+  meshMode:
+    enable: 0
+    alpha: 0.5
+    shader: 0
+    materials:
+    - {fileID: 0}
+    sortingLayer:
+      name: Default
+      Order: 0
+  glowMode:
+    enable: 0
+    glowRadius: 1
 --- !u!1 &7123104641307367901
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,7 +224,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5735580974254964744
 Transform:
   m_ObjectHideFlags: 0
@@ -229,8 +237,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 4265060074479483974}
+  m_Children: []
   m_Father: {fileID: 4348318174859944563}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &5067079619679427127
@@ -4996,7 +5003,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -5102,7 +5109,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: c33275fc5e81d1248b2cf5100d0b9631, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5302,12 +5309,25 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
+  _Dissolve_MainSprites: []
+  _dissolveMaterials: []
+  _floorLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  objectDropSound: 0
+  soundVolume: 1
+  soundDistance: 10
   canRespawn: 0
   activeRequirAmount: 0
   indicator: 0
   indicatorOffset_val_1: {x: 0, y: 1}
   indicatorOffset_val_2: {x: 0, y: 1}
+  isHorizontal: 0
+  indicatorStruct:
+    indicator: 0
+    indicator_1_position: {x: 0, y: 0}
+    indicator_2_position: {x: 0, y: 0}
+    isHorizontal: 0
   curActiveBtn: 0
   jumpingPower: 0
 --- !u!114 &966717442828433395
@@ -5325,6 +5345,28 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  data:
+    id: 0
+    position: {x: 0, y: 0}
+    quaternion: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 0, y: 0, z: 0}
+    activeRequirAmount: 0
+    indicatorStruct:
+      indicator: 0
+      indicator_1_position: {x: 0, y: 0}
+      indicator_2_position: {x: 0, y: 0}
+      isHorizontal: 0
+    jumpingPower: 0
+    talPot: {x: 0, y: 0}
+    rotateRate: 0
+    fireRate: 0
+    onHoldRotation: 0
+    onLeft: 0
+    paths: []
+    moveSpeed: 0
+    moveDistance: 0
+    bridgeLength: 0
+    connectionPoint: {x: 0, y: 0}
   onSync: 0
   onActive: 0
   jumpingPower: 0
@@ -5392,6 +5434,6 @@ SortingGroup:
   m_GameObject: {fileID: 8199011107301918480}
   m_Enabled: 1
   m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 5
   m_SortAtRoot: 0

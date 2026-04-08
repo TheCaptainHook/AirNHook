@@ -4854,7 +4854,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -4888,6 +4888,99 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!1 &1048097425022516829
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7093367123004490433}
+  - component: {fileID: 4503542088051281711}
+  m_Layer: 0
+  m_Name: Light 2D
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7093367123004490433
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048097425022516829}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 13027533794914167}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4503542088051281711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048097425022516829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85a34663ca705a54eac3205e225a6d45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightType: 0
+  lightPresetId: 0
+  eventPresetId: 0
+  lightLayer: -1
+  occlusionLayer: 1
+  translucentLayer: 0
+  translucentPresetId: 0
+  color: {r: 1, g: 1, b: 1, a: 1}
+  size: 0.3
+  spotAngleInner: 360
+  spotAngleOuter: 360
+  coreSize: 0.5
+  falloff: 0
+  lightStrength: 0
+  outerAngle: 15
+  lightRadius: 1
+  shadowDistanceClose: 0
+  shadowDistanceFar: 5
+  maskTranslucencyQuality: 1
+  maskTranslucencyStrength: 0.5
+  applyRotation: 0
+  textureSize: 1
+  meshMode:
+    enable: 0
+    alpha: 0.5
+    shader: 0
+    materials:
+    - {fileID: 0}
+    sortingLayer:
+      name: Default
+      Order: 0
+  bumpMap:
+    intensity: 1
+    depth: 1
+  whenInsideCollider: 0
+  lightSprite: 0
+  sprite: {fileID: 21300000, guid: 6592d6be03fd808449716a11558d506f, type: 3}
+  spriteFlipX: 0
+  spriteFlipY: 0
+  freeFormFalloff: 1
+  freeFormPoint: 1
+  freeFormFalloffStrength: 1
+  freeFormPoints:
+    points:
+    - {x: 1, y: 0}
+    - {x: -0.50000006, y: 0.8660254}
+    - {x: -0.4999999, y: -0.86602545}
+  drawingEnabled: 1
+  drawingTranslucencyEnabled: 0
 --- !u!1 &1415706799920519341
 GameObject:
   m_ObjectHideFlags: 0
@@ -4898,7 +4991,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4165021150500108477}
   - component: {fileID: 8275482963525799534}
-  - component: {fileID: 1731048991188503961}
   m_Layer: 7
   m_Name: MainSprite
   m_TagString: Untagged
@@ -4960,7 +5052,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 0c075691ef1ae1640860093c79506ffa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4973,36 +5065,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1731048991188503961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1415706799920519341}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
-  m_ComponentVersion: 1
-  m_HasRenderer: 1
-  m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
-  m_SelfShadows: 0
-  m_ApplyToSortingLayers: 0000000079fff5dc156d27bc93974e373dfa80d69754fad67bd34c9e4b693136d173aa4009c81f543db6189c
-  m_ShapePath:
-  - {x: -0.5, y: 0, z: 0}
-  - {x: -0.5, y: 1, z: 0}
-  - {x: 0.5, y: 1, z: 0}
-  - {x: 0.5, y: 0, z: 0}
-  m_ShapePathHash: 0
-  m_Mesh: {fileID: 0}
-  m_InstanceId: 64220
-  m_LocalBounds:
-    m_Center: {x: 0, y: 0.5, z: 0}
-    m_Extent: {x: 0.5, y: 0.5, z: 0}
 --- !u!1 &5138578423377371711
 GameObject:
   m_ObjectHideFlags: 0
@@ -5043,6 +5105,7 @@ Transform:
   - {fileID: 4165021150500108477}
   - {fileID: 1388340366400593748}
   - {fileID: 8528659149885947008}
+  - {fileID: 7093367123004490433}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &3493033922803687479
@@ -5236,6 +5299,12 @@ MonoBehaviour:
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprites: []
   _dissolveMaterials: []
+  _floorLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  objectDropSound: 0
+  soundVolume: 1
+  soundDistance: 10
   canRespawn: 0
   curCrumblingRate: 0
   curCrumblingAmount: 0
@@ -5244,7 +5313,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 8275482963525799534}
   spark_Particle: {fileID: 6178534453114338649}
   bumb_Particle: {fileID: 2518521647670890532}
-  shadowCaster2D: {fileID: 1731048991188503961}
+  shadowCaster2D: {fileID: 0}
   sprites:
   - {fileID: 21300000, guid: a428fc867477b26429b0c0680ad27008, type: 3}
   - {fileID: 21300000, guid: a9a2359354e3cb14fb6c4c69d09decf5, type: 3}
@@ -10213,7 +10282,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 100
   m_RenderMode: 0
   m_MeshDistribution: 0
