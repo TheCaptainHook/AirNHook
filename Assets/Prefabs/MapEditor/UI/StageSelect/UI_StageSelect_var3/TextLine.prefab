@@ -230,6 +230,7 @@ MonoBehaviour:
   onSelectable: 0
   text: {fileID: 4103929263616066472}
   image: {fileID: 4834397332766386713}
+  _UI_StageSelect_var3: {fileID: 0}
   typingEffect: {fileID: 2542641677337396611}
   maxWidth: 870
   isPointerInside: 0

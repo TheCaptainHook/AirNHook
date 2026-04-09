@@ -115,11 +115,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebf12b231721d4cffae9ac4f060eee46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainSprite: {fileID: 8252973208013484428}
-  main_Text: {fileID: 6714373533833146355}
-  font: {fileID: 11400000, guid: 5b4e32fbc2471a34b861dc089c637721, type: 2}
   textMeshEffectStructList: []
-  testSentence: 
+  mainAnimator: {fileID: 0}
+  main_Text: {fileID: 6714373533833146355}
+  testList: []
 --- !u!1 &2978126442714361228
 GameObject:
   m_ObjectHideFlags: 0

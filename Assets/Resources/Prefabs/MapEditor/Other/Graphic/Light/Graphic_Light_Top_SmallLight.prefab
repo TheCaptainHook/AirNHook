@@ -67,7 +67,7 @@ MonoBehaviour:
   applyRotation: 1
   textureSize: 1
   meshMode:
-    enable: 1
+    enable: 0
     alpha: 0.5
     shader: 0
     materials:
@@ -165,7 +165,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -696190403
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 58940b6de225f6943ae38a693560d81f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -262,7 +262,7 @@ SortingGroup:
   m_GameObject: {fileID: 7888563362477529546}
   m_Enabled: 1
   m_SortingLayerID: -696190403
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 5
   m_SortAtRoot: 0
 --- !u!114 &2788410832939869973
@@ -327,7 +327,13 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
+  _Dissolve_MainSprites: []
+  _dissolveMaterials: []
+  _floorLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  objectDropSound: 0
+  soundVolume: 1
+  soundDistance: 10
   canRespawn: 0
-  _Light_Objects:
-  - {fileID: 1266059238773800784}
+  _Light_Object: {fileID: 0}

@@ -67,7 +67,7 @@ MonoBehaviour:
   applyRotation: 1
   textureSize: 1
   meshMode:
-    enable: 1
+    enable: 0
     alpha: 0.5
     shader: 0
     materials:
@@ -160,7 +160,7 @@ MonoBehaviour:
   applyRotation: 1
   textureSize: 1
   meshMode:
-    enable: 1
+    enable: 0
     alpha: 0.5
     shader: 0
     materials:

@@ -718,10 +718,17 @@ MonoBehaviour:
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprites: []
   _dissolveMaterials: []
+  _floorLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  objectDropSound: 0
+  soundVolume: 1
+  soundDistance: 10
   canRespawn: 0
   targetObjects: []
   lightObjects: []
   interactableObjects: []
+  _complete_FindAllObj: 0
   puzzle_1_Parts: []
   button: {fileID: 1673485768780107428}
   hintScreen: {fileID: 2410220426263547716}
@@ -1087,7 +1094,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3734556585137281759, guid: c5679d6423392ef46b8491e3a03c7e68, type: 3}
       propertyPath: m_SortingLayer
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3734556585137281759, guid: c5679d6423392ef46b8491e3a03c7e68, type: 3}
       propertyPath: m_SortingLayerID

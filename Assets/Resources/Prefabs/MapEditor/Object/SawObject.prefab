@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4596783747364002581}
   - component: {fileID: 2783271239105424309}
-  - component: {fileID: 8301057560502506077}
   - component: {fileID: 4175802033071923983}
   - component: {fileID: 8924082460812235221}
   - component: {fileID: 6015705058144677080}
@@ -75,18 +74,6 @@ CircleCollider2D:
   m_Offset: {x: 0.021960258, y: 0.57789946}
   serializedVersion: 2
   m_Radius: 1.787528
---- !u!210 &8301057560502506077
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2430859862792595060}
-  m_Enabled: 1
-  m_SortingLayerID: -688237417
-  m_SortingLayer: 5
-  m_SortingOrder: 1
-  m_SortAtRoot: 0
 --- !u!114 &4175802033071923983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,6 +120,12 @@ MonoBehaviour:
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprites: []
   _dissolveMaterials: []
+  _floorLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  objectDropSound: 0
+  soundVolume: 1
+  soundDistance: 10
   canRespawn: 0
   activeRequirAmount: 0
   indicator: 0
@@ -259,8 +252,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -696190403
-  m_SortingLayer: 4
-  m_SortingOrder: 25
+  m_SortingLayer: 3
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 9de623b01b609de42969bc28f7786b73, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -353,7 +346,7 @@ SpriteMask:
   m_MaskAlphaCutoff: 0
   m_FrontSortingLayerID: -688237417
   m_BackSortingLayerID: 0
-  m_FrontSortingLayer: 5
+  m_FrontSortingLayer: 4
   m_BackSortingLayer: 0
   m_FrontSortingOrder: 0
   m_BackSortingOrder: 0
@@ -434,7 +427,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: cb351eec77a510848ba03ee4db50c695, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5376,7 +5369,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -696190403
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 5
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -5420,6 +5413,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6502518953087408841}
   - component: {fileID: 979543163843614143}
+  - component: {fileID: 7254416316891704040}
   m_Layer: 0
   m_Name: Light
   m_TagString: Untagged
@@ -5481,7 +5475,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -696190403
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 50
   m_Sprite: {fileID: 21300000, guid: 24fccb96a57d9444aa6af27a8a3b3796, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5494,6 +5488,44 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7254416316891704040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8739688230693706761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d62ac029b1017974ead8b6ad01623c82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightLayer: 1
+  type: 1
+  spriteMode: 1
+  sprite: {fileID: 21300000, guid: 24fccb96a57d9444aa6af27a8a3b3796, type: 3}
+  color: {r: 0.9056604, g: 0.4485582, b: 0.4485582, a: 1}
+  flipX: 0
+  flipY: 0
+  lightSpriteTransform:
+    applyRotation: 1
+    scale: {x: 1, y: 1}
+    rotation: 0
+    position: {x: 0.91, y: 1.17}
+  lightSpriteShape:
+    update: 0
+  meshMode:
+    enable: 0
+    alpha: 0.5
+    shader: 0
+    materials:
+    - {fileID: 0}
+    sortingLayer:
+      name: Default
+      Order: 0
+  glowMode:
+    enable: 0
+    glowRadius: 1
 --- !u!1001 &8564434896498074670
 PrefabInstance:
   m_ObjectHideFlags: 0

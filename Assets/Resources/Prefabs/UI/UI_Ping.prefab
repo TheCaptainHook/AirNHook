@@ -117,6 +117,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 1162449901397422912}
   netPingText: {fileID: 3354284191084886028}
+  pingLevelSprites: []
+  ping: 0
 --- !u!1 &7110663428294509846
 GameObject:
   m_ObjectHideFlags: 0

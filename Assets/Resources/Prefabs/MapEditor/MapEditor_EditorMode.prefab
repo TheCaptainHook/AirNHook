@@ -5901,6 +5901,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f678058bf6451477c92e43c1cf3202e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  text: {fileID: 0}
 --- !u!1 &4712821046798971296
 GameObject:
   m_ObjectHideFlags: 0
@@ -6020,33 +6021,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 002273b27ed3b448a957042453a80f3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onLoad: 0
+  isLoadMap: 0
   placeMentSystem: {fileID: 8434838658623227584}
   gridPlane: {fileID: 399345985239822108, guid: 437e80b82dca4462c9fedd97d2df0e5a, type: 3}
   editorUIController: {fileID: 6225102723396059786}
   fadeInOutPanel: {fileID: 7846821482952270697}
+  _onMapTransition_Complete: 0
   mapEditorType: 1
   cellSize: 2
   mapEditorState: 0
   floorTileMap: {fileID: 3949353002546808513, guid: aec7033e8edd64921bb9541181a77242, type: 3}
   previewTileMap: {fileID: 3476016317399670336, guid: e1f160bbfb9324fca801ed3026a86bb0, type: 3}
   mapObjBoxTransform: {fileID: 0}
-  floorTransform: {fileID: 0}
   objectTransform: {fileID: 0}
   exitDoorObjectTransform: {fileID: 0}
-  interactionObjectTransform: {fileID: 0}
+  buttonActivatableObjectTransform: {fileID: 0}
+  buttonObjectTransform: {fileID: 0}
   dontSaveObjectTransform: {fileID: 0}
   networkingObjectTransform: {fileID: 0}
   garbageTransform: {fileID: 0}
+  triggerDialogueTransform: {fileID: 0}
+  droneTransform: {fileID: 0}
   poolingContainer: {fileID: 0}
+  otherContainer: {fileID: 0}
+  backgroundObjectContainer: {fileID: 0}
+  collectableContainer: {fileID: 0}
+  shadowContainer: {fileID: 0}
   stageClear: 0
   mapType: 1
   width: 20
   height: 20
   stageLevel: 1
   mapID: Stage1-4
+  subMapName: 
+  stageDifficulty: 0
+  nextMapId: 
   startPosition: {x: -15, y: -2}
   startPositionObject: {fileID: 0}
-  audioType: 0
+  audioName: 
+  globalLightIntensity: 0
   mapTileDataList:
   - id: 1
     position: {x: -47, y: -19, z: 0}
@@ -13956,54 +13970,142 @@ MonoBehaviour:
     position: {x: 45, y: 26, z: 0}
   mapObjectDataList:
   - id: 304
+    dialogueId: 0
     position: {x: 5.6099854, y: -1.9299927}
     quaternion: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
     scale: {x: 1, y: 1, z: 1}
+    size: {x: 0, y: 0}
+    text: 
+    fontSize: 0
+    chargeRequired: 0
+    animationTriggerType: 0
+    attackStartTime: 0
+    attackCooldown: 0
+    activeRequireAmount: 0
+    onEncapsulationItem: 0
+    indicator: 0
+    tutorialCode: 0
   - id: 307
+    dialogueId: 0
     position: {x: 13.95, y: 10.29}
     quaternion: {x: -0, y: -0, z: 0.000014742804, w: 1}
     scale: {x: 1, y: 1, z: 1}
+    size: {x: 0, y: 0}
+    text: 
+    fontSize: 0
+    chargeRequired: 0
+    animationTriggerType: 0
+    attackStartTime: 0
+    attackCooldown: 0
+    activeRequireAmount: 0
+    onEncapsulationItem: 0
+    indicator: 0
+    tutorialCode: 0
   - id: 300
+    dialogueId: 0
     position: {x: -3.26, y: -0.62}
     quaternion: {x: -0, y: -0, z: -0, w: 1}
     scale: {x: 1, y: 1, z: 1}
+    size: {x: 0, y: 0}
+    text: 
+    fontSize: 0
+    chargeRequired: 0
+    animationTriggerType: 0
+    attackStartTime: 0
+    attackCooldown: 0
+    activeRequireAmount: 0
+    onEncapsulationItem: 0
+    indicator: 0
+    tutorialCode: 0
   - id: 304
+    dialogueId: 0
     position: {x: -17, y: 8.320007}
     quaternion: {x: -0, y: -0, z: -0, w: 1}
     scale: {x: 1, y: 1, z: 1}
+    size: {x: 0, y: 0}
+    text: 
+    fontSize: 0
+    chargeRequired: 0
+    animationTriggerType: 0
+    attackStartTime: 0
+    attackCooldown: 0
+    activeRequireAmount: 0
+    onEncapsulationItem: 0
+    indicator: 0
+    tutorialCode: 0
   - id: 6002
+    dialogueId: 0
     position: {x: 0, y: 4.8900146}
     quaternion: {x: -0, y: 1, z: -0, w: 0}
     scale: {x: 1.4, y: 1.4, z: 1}
+    size: {x: 0, y: 0}
+    text: 
+    fontSize: 0
+    chargeRequired: 0
+    animationTriggerType: 0
+    attackStartTime: 0
+    attackCooldown: 0
+    activeRequireAmount: 0
+    onEncapsulationItem: 0
+    indicator: 0
+    tutorialCode: 0
   - id: 6102
+    dialogueId: 0
     position: {x: -12.119995, y: 4.76001}
     quaternion: {x: -0, y: -0, z: -0, w: 1}
     scale: {x: 1.5, y: 1.5, z: 1}
+    size: {x: 0, y: 0}
+    text: 
+    fontSize: 0
+    chargeRequired: 0
+    animationTriggerType: 0
+    attackStartTime: 0
+    attackCooldown: 0
+    activeRequireAmount: 0
+    onEncapsulationItem: 0
+    indicator: 0
+    tutorialCode: 0
   - id: 6103
+    dialogueId: 0
     position: {x: 15.299988, y: 1.5999756}
     quaternion: {x: -0, y: -0, z: -0, w: 1}
     scale: {x: 1, y: 1, z: 1}
+    size: {x: 0, y: 0}
+    text: 
+    fontSize: 0
+    chargeRequired: 0
+    animationTriggerType: 0
+    attackStartTime: 0
+    attackCooldown: 0
+    activeRequireAmount: 0
+    onEncapsulationItem: 0
+    indicator: 0
+    tutorialCode: 0
   - id: 5203
+    dialogueId: 0
     position: {x: 16.32, y: 2.56}
     quaternion: {x: -0, y: -0, z: -0, w: 1}
     scale: {x: 1, y: 1, z: 1}
+    size: {x: 0, y: 0}
+    text: 
+    fontSize: 0
+    chargeRequired: 0
+    animationTriggerType: 0
+    attackStartTime: 0
+    attackCooldown: 0
+    activeRequireAmount: 0
+    onEncapsulationItem: 0
+    indicator: 0
+    tutorialCode: 0
   onStageSelect: 0
   stageText: {fileID: 1415307455090718956}
-  curMap:
-    mapSize: {x: 0, y: 0}
-    mapID: 
-    stageLevel: 0
-    startPosition: {x: 0, y: 0}
-    mapTileDataList: []
-    mapObjectDataList: []
-    mapButtonActivatedDoorDataList: []
-    buttonActivatedObjectList: []
-    mapExitObjectDataList: []
-    dataType: 0
-    cellSize: 0
-    bytesImage: 
-    audioType: 0
   screenShotCamera: {fileID: 0}
+  _l_complete_def_obj: 0
+  _l_complete_buttonActivatable_obj: 0
+  _l_complete_dialouge_obj: 0
+  _l_complete_drone_obj: 0
+  _l_complete_button_obj: 0
+  wayPointList: []
 --- !u!1 &4782836583681622713
 GameObject:
   m_ObjectHideFlags: 0
@@ -14050,6 +14152,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   preViewTileMap: {fileID: 0}
   floorTileMap: {fileID: 0}
+  halfTileMap: {fileID: 0}
+  backgroundTileMap: {fileID: 0}
+  ropeTileMap: {fileID: 0}
+  accessoryTileMap: {fileID: 0}
+  hiddentTIleMap: {fileID: 0}
+  specialTileMap: {fileID: 0}
   tileBase: {fileID: 0}
   previewTileBase: {fileID: 11400000, guid: 5501ddc9a2a784e56bf7379e4b908bcd, type: 2}
   getTarget: 0

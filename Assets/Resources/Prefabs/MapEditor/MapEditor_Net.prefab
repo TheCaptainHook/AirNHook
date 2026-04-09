@@ -2050,6 +2050,8 @@ MonoBehaviour:
   backgroundTileMap: {fileID: 0}
   ropeTileMap: {fileID: 0}
   accessoryTileMap: {fileID: 0}
+  hiddentTIleMap: {fileID: 0}
+  specialTileMap: {fileID: 0}
   tileBase: {fileID: 0}
   previewTileBase: {fileID: 11400000, guid: 5501ddc9a2a784e56bf7379e4b908bcd, type: 2}
   getTarget: 0
@@ -3933,6 +3935,7 @@ MonoBehaviour:
   gridPlane: {fileID: 399345985239822108, guid: 437e80b82dca4462c9fedd97d2df0e5a, type: 3}
   editorUIController: {fileID: 7296129329180521684}
   fadeInOutPanel: {fileID: 1405833236105526459}
+  _onMapTransition_Complete: 0
   mapEditorType: 1
   cellSize: 2
   mapEditorState: 0
@@ -3960,10 +3963,12 @@ MonoBehaviour:
   stageLevel: 0
   mapID: 
   subMapName: 
+  stageDifficulty: 0
   nextMapId: 
   startPosition: {x: -36.8, y: -10.7}
   startPositionObject: {fileID: 0}
   audioName: 
+  globalLightIntensity: 0
   mapTileDataList:
   - id: 1
     position: {x: -41, y: -12, z: 0}
@@ -4207,85 +4212,154 @@ MonoBehaviour:
     position: {x: -16.1, y: -8.5}
     quaternion: {x: -0, y: -0, z: -0, w: 1}
     scale: {x: 1, y: 1, z: 1}
-    talPot: {x: 0, y: 0}
     size: {x: 0, y: 0}
     text: 
     fontSize: 0
+    chargeRequired: 0
+    animationTriggerType: 0
+    attackStartTime: 0
+    attackCooldown: 0
+    activeRequireAmount: 0
+    onEncapsulationItem: 0
+    indicator: 0
+    tutorialCode: 0
   - id: 313
     dialogueId: 0
     position: {x: -34.7, y: -10.5}
     quaternion: {x: -0, y: -0, z: -0, w: 1}
     scale: {x: 1, y: 1, z: 1}
-    talPot: {x: 0, y: 0}
     size: {x: 0, y: 0}
     text: 
     fontSize: 0
+    chargeRequired: 0
+    animationTriggerType: 0
+    attackStartTime: 0
+    attackCooldown: 0
+    activeRequireAmount: 0
+    onEncapsulationItem: 0
+    indicator: 0
+    tutorialCode: 0
   - id: 6001
     dialogueId: 0
     position: {x: -13.4, y: 5.3}
     quaternion: {x: -0, y: -0, z: -0, w: 1}
     scale: {x: 1, y: 1, z: 1}
-    talPot: {x: 0, y: 0}
     size: {x: 0, y: 0}
     text: 
     fontSize: 0
+    chargeRequired: 0
+    animationTriggerType: 0
+    attackStartTime: 0
+    attackCooldown: 0
+    activeRequireAmount: 0
+    onEncapsulationItem: 0
+    indicator: 0
+    tutorialCode: 0
   - id: 6002
     dialogueId: 0
     position: {x: -20.8, y: 4.2}
     quaternion: {x: -0, y: -0, z: -0, w: 1}
     scale: {x: 1, y: 1, z: 1}
-    talPot: {x: 0, y: 0}
     size: {x: 0, y: 0}
     text: 
     fontSize: 0
+    chargeRequired: 0
+    animationTriggerType: 0
+    attackStartTime: 0
+    attackCooldown: 0
+    activeRequireAmount: 0
+    onEncapsulationItem: 0
+    indicator: 0
+    tutorialCode: 0
   - id: 6103
     dialogueId: 0
     position: {x: -15.1, y: -2.8}
     quaternion: {x: -0, y: -0, z: -0, w: 1}
     scale: {x: 1.8523022, y: 1.8523022, z: 1.8523022}
-    talPot: {x: 0, y: 0}
     size: {x: 0, y: 0}
     text: 
     fontSize: 0
+    chargeRequired: 0
+    animationTriggerType: 0
+    attackStartTime: 0
+    attackCooldown: 0
+    activeRequireAmount: 0
+    onEncapsulationItem: 0
+    indicator: 0
+    tutorialCode: 0
   - id: 318
     dialogueId: 0
     position: {x: -24.2, y: -8.9}
     quaternion: {x: -0, y: -0, z: -0, w: 1}
     scale: {x: 1, y: 1, z: 1}
-    talPot: {x: 0, y: 0}
     size: {x: 0, y: 0}
     text: 
     fontSize: 0
+    chargeRequired: 0
+    animationTriggerType: 0
+    attackStartTime: 0
+    attackCooldown: 0
+    activeRequireAmount: 0
+    onEncapsulationItem: 0
+    indicator: 0
+    tutorialCode: 0
   - id: 319
     dialogueId: 0
     position: {x: -16, y: 1}
     quaternion: {x: -0, y: -0, z: -0, w: 1}
     scale: {x: 1, y: 1, z: 1}
-    talPot: {x: 0, y: 0}
     size: {x: 0, y: 0}
     text: 
     fontSize: 0
+    chargeRequired: 0
+    animationTriggerType: 0
+    attackStartTime: 0
+    attackCooldown: 0
+    activeRequireAmount: 0
+    onEncapsulationItem: 0
+    indicator: 0
+    tutorialCode: 0
   - id: 317
     dialogueId: 0
     position: {x: -26.2, y: 1.9}
     quaternion: {x: -0, y: -0, z: -0, w: 1}
     scale: {x: 1, y: 1, z: 1}
-    talPot: {x: 0, y: 0}
     size: {x: 0, y: 0}
     text: 
     fontSize: 0
+    chargeRequired: 0
+    animationTriggerType: 0
+    attackStartTime: 0
+    attackCooldown: 0
+    activeRequireAmount: 0
+    onEncapsulationItem: 0
+    indicator: 0
+    tutorialCode: 0
   - id: 1003
     dialogueId: 0
     position: {x: -32.2, y: -11.1}
     quaternion: {x: -0, y: -0, z: -0, w: 1}
     scale: {x: 1, y: 1, z: 1}
-    talPot: {x: 0, y: 0}
     size: {x: 0, y: 0}
     text: 
     fontSize: 0
+    chargeRequired: 0
+    animationTriggerType: 0
+    attackStartTime: 0
+    attackCooldown: 0
+    activeRequireAmount: 0
+    onEncapsulationItem: 0
+    indicator: 0
+    tutorialCode: 0
   onStageSelect: 0
   stageText: {fileID: 4693625673751591768}
   screenShotCamera: {fileID: 0}
+  _l_complete_def_obj: 0
+  _l_complete_buttonActivatable_obj: 0
+  _l_complete_dialouge_obj: 0
+  _l_complete_drone_obj: 0
+  _l_complete_button_obj: 0
+  wayPointList: []
 --- !u!114 &2257053342397802224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5207,6 +5281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f678058bf6451477c92e43c1cf3202e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  text: {fileID: 0}
 --- !u!1 &6438967605592610470
 GameObject:
   m_ObjectHideFlags: 0

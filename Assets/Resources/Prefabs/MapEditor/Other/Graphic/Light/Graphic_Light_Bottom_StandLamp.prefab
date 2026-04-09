@@ -67,7 +67,7 @@ MonoBehaviour:
   applyRotation: 1
   textureSize: 1
   meshMode:
-    enable: 1
+    enable: 0
     alpha: 0.5
     shader: 0
     materials:
@@ -165,7 +165,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -696190403
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 20
   m_Sprite: {fileID: 21300000, guid: dc2c6beba2ff2a54b930655a5e2fa5f8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -245,7 +245,7 @@ MonoBehaviour:
   applyRotation: 1
   textureSize: 1
   meshMode:
-    enable: 1
+    enable: 0
     alpha: 0.5
     shader: 0
     materials:
@@ -373,7 +373,7 @@ MonoBehaviour:
   applyRotation: 1
   textureSize: 1
   meshMode:
-    enable: 1
+    enable: 0
     alpha: 0.5
     shader: 0
     materials:
@@ -466,7 +466,7 @@ MonoBehaviour:
   applyRotation: 1
   textureSize: 1
   meshMode:
-    enable: 1
+    enable: 0
     alpha: 0.5
     shader: 0
     materials:
@@ -589,10 +589,13 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
+  _Dissolve_MainSprites: []
+  _dissolveMaterials: []
+  _floorLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  objectDropSound: 0
+  soundVolume: 1
+  soundDistance: 10
   canRespawn: 0
-  _Light_Objects:
-  - {fileID: 1975224002890657889}
-  - {fileID: 5404401015034759711}
-  - {fileID: 360016170892859277}
-  - {fileID: 6212937736919064151}
+  _Light_Object: {fileID: 0}

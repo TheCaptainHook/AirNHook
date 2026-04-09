@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6079914367842599812}
   - component: {fileID: 5198512376496749887}
+  - component: {fileID: 4949487590994860310}
   m_Layer: 25
   m_Name: Light
   m_TagString: Untagged
@@ -71,7 +72,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: 8152955b1e6846f40a8eedab47851472, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -84,6 +85,44 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4949487590994860310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1111533373813681568}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d62ac029b1017974ead8b6ad01623c82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightLayer: 0
+  type: 1
+  spriteMode: 1
+  sprite: {fileID: 21300000, guid: 8152955b1e6846f40a8eedab47851472, type: 3}
+  color: {r: 1.9622642, g: 1.6888703, b: 0.6201495, a: 1}
+  flipX: 0
+  flipY: 0
+  lightSpriteTransform:
+    applyRotation: 1
+    scale: {x: 1, y: 1}
+    rotation: 0
+    position: {x: 0.14, y: 1.41}
+  lightSpriteShape:
+    update: 0
+  meshMode:
+    enable: 0
+    alpha: 0.5
+    shader: 0
+    materials:
+    - {fileID: 0}
+    sortingLayer:
+      name: Default
+      Order: 0
+  glowMode:
+    enable: 0
+    glowRadius: 1
 --- !u!1 &1233035042172043003
 GameObject:
   m_ObjectHideFlags: 0
@@ -245,14 +284,20 @@ MonoBehaviour:
   turnOff: 0
   setPosition: 0
   orgPosition: {x: 0, y: 0}
-  _Dissolve_MainSprite: {fileID: 0}
+  _Dissolve_MainSprites: []
+  _dissolveMaterials: []
+  _floorLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  objectDropSound: 0
+  soundVolume: 1
+  soundDistance: 10
   canRespawn: 0
   targetObjects: []
   lightObjects: []
   interactableObjects: []
+  _complete_FindAllObj: 0
   socketPosition: {fileID: 6272910094011134713}
-  _objectType: 2
-  _BtnOffset: 1
 --- !u!114 &7773638936160805107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,11 +313,15 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  onSync: 0
-  consumption: 0
-  battery: {fileID: 0}
-  targetObjectNetIdList: 
+  _isActive: 0
+  _chargeRequired: 0
+  _hasPower: 0
+  _onSync: 0
+  _light: {fileID: 4949487590994860310}
+  _consumption: 0
+  _onSocket: 0
   lineMat: {fileID: 2100000, guid: 6508537fd56794b5fa84d52d5e7b6411, type: 2}
+  _objectType: 2
 --- !u!114 &-589906102270439406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,7 +439,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: f5df84fe6c0049f4583f7cf187348f07, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -157,9 +157,13 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
 
     public Transform head;
 
+    //=====Light
+    [SerializeField] GameObject _lightObj;
+    //=====Light
 
     public override void Activation()
     {
+        _lightObj.SetActive(true);
         //Effect Rpc
             //TEST
         // head.color = Color.blue;
@@ -174,6 +178,7 @@ public class TeslaNodeRod : ButtonEntity,IPowerConsumer
     }
     public override void Deactivated()
     {
+        _lightObj.SetActive(false);
         //Effect Rpc
             //TEST
         // head.color = Color.red;

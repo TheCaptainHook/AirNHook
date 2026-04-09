@@ -337,6 +337,7 @@ MonoBehaviour:
   _titleImg: {fileID: 5366314509244458748}
   _loadingText: {fileID: 671635852895646835}
   _slider: {fileID: 4586074433051986155}
+  _isLoading: 0
 --- !u!225 &8191853110854926062
 CanvasGroup:
   m_ObjectHideFlags: 0

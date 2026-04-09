@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 280356420529785168}
   - component: {fileID: 9506379229088526}
   - component: {fileID: 3602550238883226528}
-  - component: {fileID: 7319640122550494961}
   m_Layer: 15
   m_Name: MovingPlatform_Rusted
   m_TagString: Untagged
@@ -160,6 +159,12 @@ MonoBehaviour:
   orgPosition: {x: 0, y: 0}
   _Dissolve_MainSprites: []
   _dissolveMaterials: []
+  _floorLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  objectDropSound: 0
+  soundVolume: 1
+  soundDistance: 10
   canRespawn: 0
   activeRequirAmount: 0
   indicator: 0
@@ -192,13 +197,35 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  data:
+    id: 0
+    position: {x: 0, y: 0}
+    quaternion: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 0, y: 0, z: 0}
+    activeRequirAmount: 0
+    indicatorStruct:
+      indicator: 0
+      indicator_1_position: {x: 0, y: 0}
+      indicator_2_position: {x: 0, y: 0}
+      isHorizontal: 0
+    jumpingPower: 0
+    talPot: {x: 0, y: 0}
+    rotateRate: 0
+    fireRate: 0
+    onHoldRotation: 0
+    onLeft: 0
+    paths: []
+    moveSpeed: 0
+    moveDistance: 0
+    bridgeLength: 0
+    connectionPoint: {x: 0, y: 0}
+  onSync: 0
+  onActive: 0
   rail_Node_Prefabs: {fileID: 7834071034627693989, guid: 4f169f16daaea482da08a58d3a53f699, type: 3}
   rail_Line_Prefabs: {fileID: 6443439262299581446, guid: 275793db7c14f413ebce84c81e704b8d, type: 3}
   dataPath:
     paths: []
     moveSpeed: 0
-  onActive: 0
-  onSync: 0
   targetPosition: {x: 0, y: 0}
 --- !u!114 &3602550238883226528
 MonoBehaviour:
@@ -216,36 +243,6 @@ MonoBehaviour:
   curPath: []
   line: {fileID: 0}
   onHierarchy: 0
---- !u!114 &7319640122550494961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3690635770919025948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
-  m_ComponentVersion: 1
-  m_HasRenderer: 0
-  m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
-  m_SelfShadows: 0
-  m_ApplyToSortingLayers: 0000000079fff5dc156d27bc93974e373dfa80d69754fad67bd34c9e4b693136d173aa402fab228b09c81f54432c1bc63db6189c
-  m_ShapePath:
-  - {x: -1, y: -0.0037063956, z: 0}
-  - {x: -1, y: 0.5011916, z: 0}
-  - {x: 1, y: 0.5011916, z: 0}
-  - {x: 1, y: -0.0037063956, z: 0}
-  m_ShapePathHash: 0
-  m_Mesh: {fileID: 0}
-  m_InstanceId: 55714
-  m_LocalBounds:
-    m_Center: {x: 0, y: 0.24874261, z: 0}
-    m_Extent: {x: 1, y: 0.252449, z: 0}
 --- !u!1 &3962016352224804910
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,7 +314,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 97f1cb85050ca1543b562237e0b415f0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -401,7 +398,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 41b32ee139e3e284ca44e80f13da5b28, type: 3}
   m_Color: {r: 0.6320754, g: 0.56485605, b: 0.4919455, a: 1}
@@ -486,7 +483,7 @@ TrailRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -688237417
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 3
   m_Time: 2
   m_PreviewTimeScale: 1

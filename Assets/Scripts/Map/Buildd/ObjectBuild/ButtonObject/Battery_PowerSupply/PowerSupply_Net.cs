@@ -5,87 +5,17 @@ using Mirror;
 using System;
 using Unity.VisualScripting;
 using UnityEngine.Animations;
+using FunkyCode;
 
 public class PowerSupply_Net : ButtonEntity_Net, IInteractable
 {
-    // private PowerSupply powerSupply;
-    // private PowerSupply PowerSupply 
-    // {
-    //     get
-    //     {
-    //         if(powerSupply == null) powerSupply = GetComponent<PowerSupply>();
-    //         return powerSupply;
-    //     }
-    // }
+ 
+    //=====Light
+    [SerializeField] LightSprite2D _light;
+    //=====Light
 
     #region Init
-    // public bool onSync;
-
-    // [Server]
-    // public void Server_SetInit()
-    // {
-    //     StartCoroutine(AllClientCheckCo(() =>
-    //     {
-    //         Rpc_SetInit(PowerSupply.ButtonObjectData);
-
-    //     }));
-
-    // // }
-    // private IEnumerator AllClientCheckCo(Action action)
-    // {
-    //     int connectClients = NetworkServer.connections.Count;
-    //     bool onReady = false;
-    //     while (!onReady)
-    //     {
-    //         int num = 0;
-    //         foreach (var conn in NetworkServer.connections.Values)
-    //         {
-    //             if (conn.isReady) num++;
-    //         }
-
-    //         if (connectClients == num) onReady = true;
-    //         yield return null;
-    //     }
-
-    //     action?.Invoke();
-
-    // }
-    // // private ButtonObjectStruct data;
-    // private List<uint> targetNetIdList;
-    // [Server]
-    // public void Server_SetTargetNetId(List<uint> list)
-    // {
-    //     Rpc_SetTargetNetId(list);
-    // }
-    // [ClientRpc]
-    // private void Rpc_SetTargetNetId(List<uint> list)
-    // {
-    //     targetNetIdList = list;
-    //     //PathFind,
-    // }
-
-    // [ClientRpc]
-    // private void Rpc_SetInit(ButtonObjectStruct data)
-    // {
-    //     if (onSync) return;
-    //     this.data = data;
-    //     transform.position = data.position;
-    //     transform.rotation = data.quaternion;
-    //     onSync = true;
-    // }
-
-
-    // [Command(requiresAuthority = false)]
-    // private void Cmd_SetInit()
-    // {
-    //     Server_SetInit();
-    // }
-
-    // public override void OnStartClient()
-    // {
-    //     base.OnStartClient();
-    //     StartCoroutine(Delay(() => { Cmd_SetInit(); }));
-    // }
+ 
     [SyncVar] public float _consumption;
     protected override void Server_Sync_OtherValue()
     {
@@ -186,7 +116,8 @@ public class PowerSupply_Net : ButtonEntity_Net, IInteractable
     private void Rpc_Connect(GameObject item)
     {
         if (item == null) return;
-
+        
+        _light.enabled = true;
         var col = item.TryGetComponent(out Collider2D collider) ? collider : null;
         if (col != null) col.enabled = false;
         var rb = item.TryGetComponent(out Rigidbody2D rigidbody) ? rigidbody : null;
@@ -247,6 +178,7 @@ public class PowerSupply_Net : ButtonEntity_Net, IInteractable
     [ClientRpc]
     private void Rpc_DisConnect()
     {
+        _light.enabled = false;
         if (battery == null) return;
 
         if (battery.TryGetComponent(out ParentConstraint component))

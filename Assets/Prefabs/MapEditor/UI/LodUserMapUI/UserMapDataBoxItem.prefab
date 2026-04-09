@@ -607,15 +607,37 @@ MonoBehaviour:
   map:
     mapSize: {x: 0, y: 0}
     mapID: 
+    subMapName: 
     stageLevel: 0
     startPosition: {x: 0, y: 0}
     mapTileDataList: []
+    mapHalfTileDataList: []
+    mapBackgroundTileDataList: []
+    mapRopeTileDataList: []
+    mapAccessoryTIleDataList: []
+    mapHiddenTileDataList: []
+    mapSpecialTileDataList: []
+    globalLightStruct:
+      darknessAlpha: 0
     mapObjectDataList: []
-    mapButtonActivatedDoorDataList: []
-    mapExitObjectDataList: []
+    mapBackgroundObjectList: []
+    mapOtherObjectList: []
+    mapButtonActivatableObjectDataList: []
+    buttonObjectList: []
+    mapExitObjectStruct:
+      id: 0
+      position: {x: 0, y: 0}
+      condition_KeyAmount: 0
+      nextMapId: 
+    dialogueDataList: []
+    droneStructList: []
+    collectableObjectStructList: []
     dataType: 0
     cellSize: 0
     bytesImage: 
+    audioName: 
+    nextMapId: 
+    stageDifficulty: 0
   loadBtn: {fileID: 7525637735729670172}
 --- !u!114 &7525637735729670172
 MonoBehaviour:
