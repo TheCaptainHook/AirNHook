@@ -267,37 +267,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1495019376651709230
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3403952503701191724}
-  m_Layer: 23
-  m_Name: Light 2D
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3403952503701191724
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1495019376651709230}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.6, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3527730740937512308}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5139990301046049554
 GameObject:
   m_ObjectHideFlags: 0
@@ -610,7 +579,6 @@ Transform:
   - {fileID: 6612260965530703823}
   - {fileID: 5755418978538226951}
   - {fileID: 8850633112548270579}
-  - {fileID: 3403952503701191724}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &4088172951223229662
@@ -745,8 +713,6 @@ MonoBehaviour:
   onSync: 0
   onActive: 0
   base_2_Field: {fileID: 234717741430986448}
-  main_Field: {fileID: 5139990301046049554}
-  main_Light: {fileID: 1495019376651709230}
   main_Field_Sprite: {fileID: 3910401765213147502}
 --- !u!114 &1882674969398780930
 MonoBehaviour:

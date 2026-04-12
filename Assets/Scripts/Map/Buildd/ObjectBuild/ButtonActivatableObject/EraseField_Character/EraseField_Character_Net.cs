@@ -5,8 +5,8 @@ using UnityEngine;
 public class EraseField_Character_Net : ActivatableObject_Net_Entity
 {
     [SerializeField] GameObject base_2_Field;
-    [SerializeField] GameObject main_Field;
-    [SerializeField] GameObject main_Light;
+    // [SerializeField] GameObject main_Field;
+    // [SerializeField] GameObject main_Light;
 
     [SerializeField] SpriteRenderer main_Field_Sprite;
 
@@ -70,6 +70,6 @@ public class EraseField_Character_Net : ActivatableObject_Net_Entity
     {
         base_2_Field.SetActive(onOff);
         //main_Field.SetActive(onOff);
-        main_Light.SetActive(onOff);
+        // main_Light.SetActive(onOff);
     }
 }

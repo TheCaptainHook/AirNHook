@@ -714,7 +714,6 @@ MonoBehaviour:
   onActive: 0
   base_2_Field: {fileID: 5767043856873232950}
   main_Field: {fileID: 5139990301046049554}
-  main_Light: {fileID: 0}
   main_Field_Sprite: {fileID: 3910401765213147502}
 --- !u!114 &600912761600305681
 MonoBehaviour:
