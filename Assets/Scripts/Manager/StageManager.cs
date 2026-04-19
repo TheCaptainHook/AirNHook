@@ -27,6 +27,7 @@ public class StageManager
 
         //====Get Pooling
         GameObject obj = Managers.Pooling.N_GetItme(objName);
+        
         if (obj.TryGetComponent(out BuildObj buildObj))
         {
             obj.SetActive(true);
