@@ -2,14 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using Unity.VisualScripting;
 
 public class BlinkingButton_var2_Net : NetworkBehaviour
 {
-    [SerializeField] public Transform _blueHandel;
-    [SerializeField] public Transform _redHandel;
-    [SerializeField] private LineRenderer _L_lineRenderer;
-    [SerializeField] private LineRenderer _R_lineRenderer;
+    [SyncVar] private bool _onActive;
+
     private void Active()
     {
         // Animator.SetBool(On, _onOff);
@@ -21,15 +18,15 @@ public class BlinkingButton_var2_Net : NetworkBehaviour
     //private bool _server_bool = true; // server activation permission flag
     [SerializeField] private float _maxCooltime;
 
-    public void Init()
-    {
-          //==L
-        _L_lineRenderer.positionCount = 2;
-        _L_lineRenderer.SetPosition(0, transform.position);
-        _L_lineRenderer.SetPosition(1, _blueHandel.position);
-        //==R
-        _R_lineRenderer.positionCount = 2;
-    }
+    // public void Init()
+    // {
+    //       //==L
+    //     _L_lineRenderer.positionCount = 2;
+    //     _L_lineRenderer.SetPosition(0, transform.position);
+    //     _L_lineRenderer.SetPosition(1, _blueHandel.position);
+    //     //==R
+    //     _R_lineRenderer.positionCount = 2;
+    // }
 
     [ServerCallback]
     private void Update()
@@ -45,16 +42,16 @@ public class BlinkingButton_var2_Net : NetworkBehaviour
         // }
     }
 
-     #region  Air
+#region  Air
     [Command(requiresAuthority = false)]
     public void Cmd_Air_Active(uint id,bool rL)
     {
-        // if(!_server_bool) return;
-   
+        if(_onActive) return;
+        _onActive = !_onActive; //Server Sync
+        
         _curCooltime = _maxCooltime;
-        // _server_bool = false;
+        
         if (id == 99999) return;
-
         Rpc_Air_Active(id,rL);
     }
     /// <summary>
@@ -66,7 +63,7 @@ public class BlinkingButton_var2_Net : NetworkBehaviour
     public void Rpc_Air_Active(uint id,bool rL)
     {
         if(rL)
-        Debug.Log("Right Air Active");
+            Debug.Log("Right Air Active");
         else
         {
              Debug.Log("Left Air Active");
@@ -78,6 +75,12 @@ public class BlinkingButton_var2_Net : NetworkBehaviour
        
         //Active();
     }
+#region Chain
+    [SerializeField] public Transform _blueHandel;
+    [SerializeField] public Transform _redHandel;
+    // [SerializeField] private LineRenderer _L_lineRenderer;
+    // [SerializeField] private LineRenderer _R_lineRenderer;
+
     private Coroutine _L_Co;
     private Coroutine _R_Co;
     private IEnumerator MoveInDirection_L_Co(Transform target)
@@ -87,18 +90,18 @@ public class BlinkingButton_var2_Net : NetworkBehaviour
             Vector2 dir = (target.position -_blueHandel.position ).normalized;
             _blueHandel.position += (Vector3)(dir * Time.deltaTime); 
             _blueHandel.right = dir;
-            LineRenderer_Update(_L_lineRenderer);
+            // LineRenderer_Update(_L_lineRenderer);
             yield return null;
         }
     }
      
-    #endregion
+
     //LineRenderer Update
-    private void LineRenderer_Update(LineRenderer lineRenderer)
-    {
-        lineRenderer.positionCount++;
-        lineRenderer.SetPosition(lineRenderer.positionCount - 1, _blueHandel.position);
-    }
+    // private void LineRenderer_Update(LineRenderer lineRenderer)
+    // {
+    //     lineRenderer.positionCount++;
+    //     lineRenderer.SetPosition(lineRenderer.positionCount - 1, _blueHandel.position);
+    // }
     private Transform Get_Accessor_Transform(uint id)
     {
         NetworkIdentity identity = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity foundIdentity) ? foundIdentity : null;
@@ -112,7 +115,8 @@ public class BlinkingButton_var2_Net : NetworkBehaviour
             return null;
         }
     }
-
+#endregion
+#endregion
 
     [Command(requiresAuthority = false)]
     public void Cmd_Clean()
@@ -134,4 +138,5 @@ public class BlinkingButton_var2_Net : NetworkBehaviour
 
         // _server_bool = true;
     }
+
 }

@@ -16,7 +16,7 @@ public class Chain1 : MonoBehaviour
     [SerializeField] public float _maxFallSpeed = 30f;
     [SerializeField] public float _max_length = 10f;
     private float _cur_length;
-    [SerializeField] public float _endDamping = 0.995f;
+    // [SerializeField] public float _endDamping = 0.995f;
 
     [Header("Line")]
     private int _minSegmentCount = 2;

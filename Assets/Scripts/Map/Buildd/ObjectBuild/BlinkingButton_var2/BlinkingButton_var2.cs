@@ -19,7 +19,7 @@ public class BlinkingButton_var2 : BuildObj
     public override void SetData(ObjectData data)
     {
         base.SetData(data);
-        Net.Init();
+        // Net.Init();
     }
 
 
