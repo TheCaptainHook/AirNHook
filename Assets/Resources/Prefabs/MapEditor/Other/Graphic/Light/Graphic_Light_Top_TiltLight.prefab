@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 75185822649682664}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.8695089, w: -0.49391726}
-  m_LocalPosition: {x: -0.19, y: -0.57, z: 0}
+  m_LocalPosition: {x: -0.21, y: -0.55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44,20 +44,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85a34663ca705a54eac3205e225a6d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightType: 1
+  lightType: 0
   lightPresetId: 0
   eventPresetId: 0
   lightLayer: 0
   occlusionLayer: 0
   translucentLayer: 0
   translucentPresetId: 0
-  color: {r: 0.7490197, g: 0.7490197, b: 0.7490197, a: 1}
-  size: 20
-  spotAngleInner: 2.0827045
-  spotAngleOuter: 34.480392
+  color: {r: 2, g: 2, b: 2, a: 0.3}
+  size: 10
+  spotAngleInner: 16.483517
+  spotAngleOuter: 44.106766
   coreSize: 0.5
   falloff: 0
-  lightStrength: 0
+  lightStrength: 0.775
   outerAngle: 15
   lightRadius: 1
   shadowDistanceClose: 0
@@ -325,7 +325,7 @@ Transform:
   m_GameObject: {fileID: 8829672695089099877}
   serializedVersion: 2
   m_LocalRotation: {x: 0.8774284, y: 0.47970766, z: -0, w: 0}
-  m_LocalPosition: {x: -0.21, y: -0.6, z: 0}
+  m_LocalPosition: {x: -0.21, y: -0.55, z: 0}
   m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -343,20 +343,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85a34663ca705a54eac3205e225a6d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightType: 1
+  lightType: 0
   lightPresetId: 0
   eventPresetId: 0
   lightLayer: 0
   occlusionLayer: 0
   translucentLayer: 0
   translucentPresetId: 0
-  color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  size: 0.8
-  spotAngleInner: 360
-  spotAngleOuter: 360
+  color: {r: 0.5, g: 0.5, b: 0.5, a: 0.4}
+  size: 3
+  spotAngleInner: 78.46151
+  spotAngleOuter: 227.4725
   coreSize: 0.5
   falloff: 0
-  lightStrength: 0
+  lightStrength: 0.9
   outerAngle: 15
   lightRadius: 1
   shadowDistanceClose: 0

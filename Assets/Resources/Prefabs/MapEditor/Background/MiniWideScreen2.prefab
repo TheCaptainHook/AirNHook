@@ -51,8 +51,8 @@ MonoBehaviour:
   occlusionLayer: 0
   translucentLayer: 0
   translucentPresetId: 0
-  color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  size: 1.1099019
+  color: {r: 0.95359063, g: 2.921844, b: 0.76480687, a: 0.15}
+  size: 1.009902
   spotAngleInner: 360
   spotAngleOuter: 360
   coreSize: 0.5
@@ -83,7 +83,7 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 6592d6be03fd808449716a11558d506f, type: 3}
   spriteFlipX: 0
   spriteFlipY: 0
-  freeFormFalloff: 0.6
+  freeFormFalloff: 0.5
   freeFormPoint: 1
   freeFormFalloffStrength: 1
   freeFormPoints:

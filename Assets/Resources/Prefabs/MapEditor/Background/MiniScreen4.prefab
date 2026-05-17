@@ -128,20 +128,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85a34663ca705a54eac3205e225a6d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightType: 1
+  lightType: 0
   lightPresetId: 0
   eventPresetId: 0
   lightLayer: -1
-  occlusionLayer: 2
+  occlusionLayer: 1
   translucentLayer: 0
   translucentPresetId: 0
-  color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  size: 1.3
+  color: {r: 0.59227663, g: 1.9822044, b: 0.46148014, a: 0.25}
+  size: 1
   spotAngleInner: 360
   spotAngleOuter: 360
   coreSize: 0.5
   falloff: 0
-  lightStrength: 0
+  lightStrength: 0.65
   outerAngle: 15
   lightRadius: 1
   shadowDistanceClose: 0
@@ -169,14 +169,15 @@ MonoBehaviour:
   spriteFlipY: 0
   freeFormFalloff: 1
   freeFormPoint: 1
-  freeFormFalloffStrength: 1
+  freeFormFalloffStrength: 0.759
   freeFormPoints:
     points:
-    - {x: 1, y: 0}
-    - {x: -0.50000006, y: 0.8660254}
-    - {x: -0.4999999, y: -0.86602545}
+    - {x: 0.5, y: 0.5}
+    - {x: -0.5, y: 0.5}
+    - {x: 0.5, y: -0.5}
+    - {x: -0.5, y: -0.5}
   drawingEnabled: 1
-  drawingTranslucencyEnabled: 0
+  drawingTranslucencyEnabled: 1
 --- !u!1 &6213035144563052344
 GameObject:
   m_ObjectHideFlags: 0

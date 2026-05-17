@@ -5579,12 +5579,12 @@ MonoBehaviour:
   lightType: 1
   lightPresetId: 0
   eventPresetId: 0
-  lightLayer: 0
+  lightLayer: -1
   occlusionLayer: 0
-  translucentLayer: 0
+  translucentLayer: 2
   translucentPresetId: 0
-  color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  size: 5
+  color: {r: 0.5, g: 0.5, b: 0.5, a: 0.4}
+  size: 6.5
   spotAngleInner: 360
   spotAngleOuter: 360
   coreSize: 0.5
@@ -5624,7 +5624,7 @@ MonoBehaviour:
     - {x: -0.50000006, y: 0.8660254}
     - {x: -0.4999999, y: -0.86602545}
   drawingEnabled: 1
-  drawingTranslucencyEnabled: 0
+  drawingTranslucencyEnabled: 1
 --- !u!1 &4323054143477087177
 GameObject:
   m_ObjectHideFlags: 0

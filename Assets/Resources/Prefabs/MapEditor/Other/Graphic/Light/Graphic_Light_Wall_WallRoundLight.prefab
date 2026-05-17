@@ -101,7 +101,7 @@ MonoBehaviour:
   type: 1
   spriteMode: 1
   sprite: {fileID: 21300000, guid: 20c351961efc0714ca8656ca8dd5274d, type: 3}
-  color: {r: 0.37892914, g: 0.37892914, b: 0.37892914, a: 1}
+  color: {r: 1, g: 0.91129065, b: 0.7028302, a: 0.5}
   flipX: 0
   flipY: 0
   lightSpriteTransform:
@@ -174,8 +174,8 @@ MonoBehaviour:
   occlusionLayer: 0
   translucentLayer: 0
   translucentPresetId: 0
-  color: {r: 0.50198936, g: 0.5041516, b: 0.43994364, a: 1}
-  size: 6.4
+  color: {r: 1.9661487, g: 2, b: 1.4245284, a: 0.25}
+  size: 8
   spotAngleInner: 360
   spotAngleOuter: 360
   coreSize: 0.5

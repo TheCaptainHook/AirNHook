@@ -258,8 +258,8 @@ MonoBehaviour:
   occlusionLayer: 0
   translucentLayer: 0
   translucentPresetId: 0
-  color: {r: 0.46057317, g: 0.8490566, b: 0.8451737, a: 1}
-  size: 5
+  color: {r: 1.8422925, g: 3.3962262, b: 3.3806946, a: 0.1}
+  size: 6
   spotAngleInner: 360
   spotAngleOuter: 360
   coreSize: 0.5
