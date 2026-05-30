@@ -7,6 +7,53 @@ public class BlinkingButton_var2_Net : NetworkBehaviour
 {
     [SyncVar] private bool _onActive;
 
+//============Server
+    [SyncVar] private float _remainChainLength = 5f;
+    [SerializeField] private float _maxChainLength = 5f;
+
+
+    private Coroutine _l_chain_coroutine;
+    private Coroutine _r_chain_coroutine;
+
+    public float _chainHailingPower = 2f;
+
+    private IEnumerator L_ChainCoroutine(Transform target)
+    {
+        while(true)
+        {
+            if(_l_Chain.IsMaxLength) yield break;
+
+            //if target과 transform의 거리 확인 + chain의 남은길이 랑 현재 chain의 길이 확인
+                Vector3 dir = (target.transform.position - transform.position).normalized;
+                _l_chain_end.transform.position += dir * Time.deltaTime * _chainHailingPower;
+
+            yield return null;
+        }
+    }
+    [Command(requiresAuthority = false)]
+    public void Cmd_Start_Track_L(uint targetNetID)
+    {
+        GameObject target = NetworkClient.spawned.TryGetValue(targetNetID, out NetworkIdentity identity) ? identity.gameObject : null;
+        if(target == null) return;
+
+        AirSM player = target.GetComponent<AirSM>();
+
+        if(_l_chain_coroutine != null)
+            StopCoroutine(_l_chain_coroutine);
+        _l_chain_coroutine = StartCoroutine(L_ChainCoroutine(player.shakingEffectOnAirGun.transform));
+    }
+   
+   [Command(requiresAuthority = false)]
+    public void Cmd_Stop_Track_L()
+    {
+        if(_l_chain_coroutine != null)
+        {
+            StopCoroutine(_l_chain_coroutine);
+            _l_chain_coroutine = null;
+        }
+    }
+//============Server
+  
     private void Active()
     {
         // Animator.SetBool(On, _onOff);
@@ -18,15 +65,6 @@ public class BlinkingButton_var2_Net : NetworkBehaviour
     //private bool _server_bool = true; // server activation permission flag
     [SerializeField] private float _maxCooltime;
 
-    // public void Init()
-    // {
-    //       //==L
-    //     _L_lineRenderer.positionCount = 2;
-    //     _L_lineRenderer.SetPosition(0, transform.position);
-    //     _L_lineRenderer.SetPosition(1, _blueHandel.position);
-    //     //==R
-    //     _R_lineRenderer.positionCount = 2;
-    // }
 
     [ServerCallback]
     private void Update()
@@ -43,100 +81,133 @@ public class BlinkingButton_var2_Net : NetworkBehaviour
     }
 
 #region  Air
-    [Command(requiresAuthority = false)]
-    public void Cmd_Air_Active(uint id,bool rL)
-    {
-        if(_onActive) return;
-        _onActive = !_onActive; //Server Sync
-        
-        _curCooltime = _maxCooltime;
-        
-        if (id == 99999) return;
-        Rpc_Air_Active(id,rL);
-    }
-    /// <summary>
-    /// rL == true : Right -> Change Red
-    /// rL == false : Left -> Change Blue
-    /// </summary>
-    /// <param name="rL"></param>
-    [ClientRpc]
-    public void Rpc_Air_Active(uint id,bool rL)
-    {
-        if(rL)
-            Debug.Log("Right Air Active");
-        else
-        {
-             Debug.Log("Left Air Active");
-            // MoveInDirection(Get_Accessor_Transform(id),rL);
-            if(_R_Co != null) StopCoroutine(_R_Co);
-            if(_L_Co != null) StopCoroutine(_L_Co);
-            _L_Co = StartCoroutine(MoveInDirection_L_Co(Get_Accessor_Transform(id)));
-        }
-       
-        //Active();
-    }
+   
 #region Chain
-    [SerializeField] public Transform _blueHandel;
-    [SerializeField] public Transform _redHandel;
-    // [SerializeField] private LineRenderer _L_lineRenderer;
-    // [SerializeField] private LineRenderer _R_lineRenderer;
+    [SerializeField] private Transform _r_chain_handle; //red
+    [SerializeField] private Transform _l_chain_handle; //blue
 
-    private Coroutine _L_Co;
-    private Coroutine _R_Co;
-    private IEnumerator MoveInDirection_L_Co(Transform target)
+    [SerializeField] private GameObject _r_chain_end_prefab;
+    [SerializeField] private GameObject _l_chain_end_prefab;
+    [SerializeField] private Chain1 _l_Chain;
+    [SerializeField] private Chain1 _r_Chain;
+
+    public GameObject _r_chain_end;
+    public GameObject _l_chain_end;
+
+    public bool _onSync;
+
+    [SyncVar] public uint _r_chain_end_netId;
+    [SyncVar] public uint _l_chain_end_netId;
+
+#region  Sync
+    private Coroutine _syncCoroutine;
+    public void CreateChainEnd() //Server
     {
-        while(true)
+        _r_chain_end = Managers.Stage.ServerBatchObejct("N_R_End");
+        _l_chain_end = Managers.Stage.ServerBatchObejct("N_L_End");
+
+        _r_chain_end_netId = GetNetId(_r_chain_end);
+        _l_chain_end_netId = GetNetId(_l_chain_end);
+
+        // ParentSync(_l_chain_end_netId, _r_chain_end_netId);
+        if(_syncCoroutine != null)
         {
-            Vector2 dir = (target.position -_blueHandel.position ).normalized;
-            _blueHandel.position += (Vector3)(dir * Time.deltaTime); 
-            _blueHandel.right = dir;
-            // LineRenderer_Update(_L_lineRenderer);
+            StopCoroutine(_syncCoroutine);
+        }
+        _syncCoroutine =StartCoroutine(SyncChainParentCoroutine());
+    }
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        // ParentSync(_l_chain_end_netId, _r_chain_end_netId);
+        if(_syncCoroutine != null)
+        {
+            StopCoroutine(_syncCoroutine);
+        }
+        _syncCoroutine =StartCoroutine(SyncChainParentCoroutine());
+    }
+    private IEnumerator SyncChainParentCoroutine()
+    {
+        while(!_onSync)
+        {
+            ParentSync(_l_chain_end_netId, _r_chain_end_netId);
             yield return null;
         }
     }
-     
-
-    //LineRenderer Update
-    // private void LineRenderer_Update(LineRenderer lineRenderer)
-    // {
-    //     lineRenderer.positionCount++;
-    //     lineRenderer.SetPosition(lineRenderer.positionCount - 1, _blueHandel.position);
-    // }
-    private Transform Get_Accessor_Transform(uint id)
+    private void ParentSync(uint l,uint r)
     {
-        NetworkIdentity identity = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity foundIdentity) ? foundIdentity : null;
-        if (identity != null)
+        if(_onSync) return;
+
+        GameObject left = NetworkClient.spawned.TryGetValue(l, out NetworkIdentity ll) ? ll.gameObject : null;
+        GameObject right = NetworkClient.spawned.TryGetValue(r, out NetworkIdentity rr) ? rr.gameObject : null;
+
+        if(left == null || right == null)
         {
-            return identity.transform;
+            return;
         }
-        else
-        {
-            Debug.LogError($"No NetworkIdentity found for ID {id}");
-            return null;
-        }
+
+        left.transform.SetParent(_l_chain_handle);
+        left.transform.localPosition = Vector3.zero;
+        left.transform.localScale = Vector3.one;
+        _l_Chain._end = left.transform;
+
+        right.transform.SetParent(_r_chain_handle);
+        right.transform.localPosition = Vector3.zero;
+        right.transform.localScale = Vector3.one;
+        _r_Chain._end = right.transform;
+
+        _onSync = true;
+
     }
-#endregion
-#endregion
+
+    private uint GetNetId(GameObject obj)
+    {
+        if (obj.TryGetComponent(out NetworkIdentity identity))
+        {
+            return identity.netId;
+        }
+
+        return 999999;
+    }
+#endregion//Sync
+
+#endregion//Chain
+
+#endregion//Air
+
+#region Clean
 
     [Command(requiresAuthority = false)]
     public void Cmd_Clean()
     {
+        if(_l_chain_coroutine != null)
+        {
+            StopCoroutine(_l_chain_coroutine);
+            _l_chain_coroutine = null;
+        }
+
         Rpc_Clean();
     }
     [ClientRpc]
     private void Rpc_Clean()
     {
-        Clean();
+        //  _curCooltime = 0f;
+        _r_chain_end_netId = 999999;
+        _l_chain_end_netId = 999999;
+
+        if(NetworkServer.active)
+        {
+            NetworkServer.Destroy(_r_chain_end);
+            NetworkServer.Destroy(_l_chain_end);
+        }
+        _onSync = false;
+
     }
 
     public void Clean()
     {
-        _curCooltime = 0f;
-        if(_R_Co != null) StopCoroutine(_R_Co);
-        if(_L_Co != null) StopCoroutine(_L_Co);
-
-
-        // _server_bool = true;
+        Cmd_Clean();
     }
+#endregion
 
 }

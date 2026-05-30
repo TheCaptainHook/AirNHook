@@ -7,31 +7,35 @@ public class Chain1 : MonoBehaviour
      private LineRenderer _line;
     private LineRenderer Line { get { _line ??= GetComponent<LineRenderer>(); return _line; } }
 
-    [SerializeField] public Transform _start; // 고정점
-    [SerializeField] public Transform _end;   // 중력 영향을 받는 끝점
+    public Transform _start; // 고정점
+    public Transform _end;   // 중력 영향을 받는 끝점
 
     [Header("End Physics")]
-    [SerializeField] public float _gravity = 9.81f;
-    [SerializeField] public float _fallAccelerationMultiplier = 3f;
-    [SerializeField] public float _maxFallSpeed = 30f;
-    [SerializeField] public float _max_length = 10f;
-    private float _cur_length;
+    [SerializeField] private float _gravity = 9.81f;
+    [SerializeField] private float _fallAccelerationMultiplier = 3f;
+    [SerializeField] private float _maxFallSpeed = 30f;
+    public float _max_length = 5f; //main , sync value에서 가져오기.
+    public float _cur_length;
     // [SerializeField] public float _endDamping = 0.995f;
+    public bool IsMaxLength => _cur_length >= _max_length;
 
     [Header("Line")]
     private int _minSegmentCount = 2;
     private int _maxSegmentCount = 60;
-    [SerializeField] public float _segmentLength = 0.25f;
-    [SerializeField] public float _sagPower = .5f;
-    [SerializeField] public float _recover_ChainSpeed = 5f;
+    [SerializeField] private float _segmentLength = 0.25f;
+    [SerializeField] private float _sagPower = .5f;
+    [SerializeField] private float _recover_ChainSpeed = 5f;
     private Vector2 _endVelocity;
+
+    private Rigidbody2D _rb;
+    public Rigidbody2D Rb { get { _rb ??= _end.GetComponent<Rigidbody2D>(); return _rb; } }
+
 
     void Update()
     {
         Update_EndPhysics();
         Update_Line();
     }
-
 
 
     private void Update_EndPhysics()

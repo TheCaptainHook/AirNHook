@@ -367,7 +367,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!120 &515488632
 LineRenderer:
   serializedVersion: 2
@@ -658,11 +658,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3150436631828177710, guid: 8cd5176c1e842374c962cea93052aefb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.09
+      value: -5.52
       objectReference: {fileID: 0}
     - target: {fileID: 3150436631828177710, guid: 8cd5176c1e842374c962cea93052aefb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.84
+      value: -0.21
       objectReference: {fileID: 0}
     - target: {fileID: 3150436631828177710, guid: 8cd5176c1e842374c962cea93052aefb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -699,10 +699,6 @@ PrefabInstance:
     - target: {fileID: 5485989114999524422, guid: 8cd5176c1e842374c962cea93052aefb, type: 3}
       propertyPath: m_Name
       value: BlinkingButton_var2 (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 5485989114999524422, guid: 8cd5176c1e842374c962cea93052aefb, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
