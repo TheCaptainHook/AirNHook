@@ -40,7 +40,7 @@ public class NewAirGun
     private ShakingEffectOnAirGun _shakingEffectOnAirGun => _air.shakingEffectOnAirGun;
     private Rigidbody2D _rigidbody2D => _air.rigidbody2D;
     private Collider2D _inhaleTarget;
-    private bool _isAttached;
+    public bool _isAttached;
     public bool _inhaling;
     private GameObject _inhalePermissionObject;
     private bool _inhalingPlayer;

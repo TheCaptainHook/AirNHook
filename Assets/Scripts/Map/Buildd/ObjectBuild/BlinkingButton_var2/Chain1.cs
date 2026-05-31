@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Chain1 : MonoBehaviour
 {
-     private LineRenderer _line;
+    private LineRenderer _line;
     private LineRenderer Line { get { _line ??= GetComponent<LineRenderer>(); return _line; } }
 
     public Transform _start; // 고정점
@@ -14,10 +14,9 @@ public class Chain1 : MonoBehaviour
     [SerializeField] private float _gravity = 9.81f;
     [SerializeField] private float _fallAccelerationMultiplier = 3f;
     [SerializeField] private float _maxFallSpeed = 30f;
-    public float _max_length = 5f; //main , sync value에서 가져오기.
+    private float _max_length = 0;
     public float _cur_length;
     // [SerializeField] public float _endDamping = 0.995f;
-    public bool IsMaxLength => _cur_length >= _max_length;
 
     [Header("Line")]
     private int _minSegmentCount = 2;
@@ -42,21 +41,19 @@ public class Chain1 : MonoBehaviour
     {
         if (_start == null || _end == null)
             return;
-
+//====================RB없는 경우 자체 중력처리
         // float deltaTime = Time.deltaTime;
 
-        // // 끝점은 중력으로 아래로 가속된다.
         // float acceleration = _gravity * _fallAccelerationMultiplier;
         // _endVelocity += Vector2.down * acceleration * deltaTime;
 
-        // // 너무 무한정 빨라지지 않도록 최대 낙하 속도 제한
         // if (_endVelocity.y < -_maxFallSpeed)
         //     _endVelocity.y = -_maxFallSpeed;
 
         // _endVelocity *= _endDamping;
         // _end.position += (Vector3)(_endVelocity * deltaTime);
+//====================RB없는 경우 자체 중력처리
 
-        // start에서 end까지 최대 길이를 넘지 못하게 제한
         Vector2 startPos = _start.position;
         Vector2 endPos = _end.position;
         Vector2 startToEnd = endPos - startPos;
@@ -75,7 +72,7 @@ public class Chain1 : MonoBehaviour
                 _endVelocity -= ropeDir * velocityAlongRope;
         }
     }
-
+    
     private void Update_Line()
     {
         if (_start == null || _end == null)
@@ -124,6 +121,17 @@ public class Chain1 : MonoBehaviour
 
 
     #region Utility
+    public void SetMaxLength(float length)
+    {
+        _max_length = length;
+    }
+    public float Get_StartEndDistance()
+    {
+        if (_start == null || _end == null)
+            return 0f;
+
+        return Vector2.Distance(_start.position, _end.position);
+    }
     private int GetSegmentCountByLength(float length)
     {
         float safeSegmentLength = Mathf.Max(0.01f, _segmentLength);

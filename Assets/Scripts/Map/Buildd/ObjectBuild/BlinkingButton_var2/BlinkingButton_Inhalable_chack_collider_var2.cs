@@ -24,7 +24,7 @@ public class BlinkingButton_Inhalable_chack_collider_var2 : NetworkBehaviour, II
         }else
         {
             transform.GetComponent<Collider2D>().enabled = true;
-            transform.GetComponent<Rigidbody2D>().gravityScale = 3f;
+            transform.GetComponent<Rigidbody2D>().gravityScale = 10f;
         }
     }
 
@@ -47,10 +47,12 @@ public class BlinkingButton_Inhalable_chack_collider_var2 : NetworkBehaviour, II
         if(accessor == null) return;
 
 
-        if (!rl)
+        if (!rl) //false(l) : blue, true(r) : red
         { 
             Cmd_OnInhaling(true);
             Net.Cmd_Start_Track_L(accessor.root.gameObject.GetComponent<NetworkIdentity>().netId);
+        }else
+        {
         }
     }
    
