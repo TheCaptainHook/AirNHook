@@ -623,7 +623,7 @@ MonoBehaviour:
   soundDistance: 10
   canRespawn: 0
   _objectType: 0
-  _BtnOffset: 0
+  _BtnOffset: 1.3
 --- !u!114 &3427191774481267519
 MonoBehaviour:
   m_ObjectHideFlags: 0
