@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3311525130864380603}
   - component: {fileID: 4133497313633496473}
   - component: {fileID: 7236749876729466071}
+  - component: {fileID: -1214614697080687467}
   m_Layer: 18
   m_Name: N_L_End
   m_TagString: Untagged
@@ -134,10 +135,10 @@ BoxCollider2D:
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 0
   m_ForceReceiveLayers:
     serializedVersion: 2
-    m_Bits: 1088
+    m_Bits: 64
   m_ContactCaptureLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -194,3 +195,26 @@ MonoBehaviour:
   syncInterval: 0
   rl: 0
   _objectType: 1
+--- !u!114 &-1214614697080687467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2436929989901090884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab2cbc52526ea384ba280d13cd1a57b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 6331028626532981766}
+  clientAuthority: 0
+  syncVelocity: 1
+  clearVelocity: 1
+  velocitySensitivity: 0.1
+  syncAngularVelocity: 1
+  clearAngularVelocity: 1
+  angularVelocitySensitivity: 0.1

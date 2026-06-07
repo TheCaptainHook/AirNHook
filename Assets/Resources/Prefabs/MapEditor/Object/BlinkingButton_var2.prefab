@@ -348,15 +348,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 862d62e145d7348bc96b8a982ee6770e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _net: {fileID: 6350878358672748283}
   _start: {fileID: 7986515504198743851}
   _end: {fileID: 0}
   _gravity: 9.81
   _fallAccelerationMultiplier: 3
   _maxFallSpeed: 30
-  _max_length: 5
+  _cur_length: 0
   _segmentLength: 0.25
   _sagPower: 0.5
-  _recover_ChainSpeed: 5
+  _recover_ChainSpeed: 2
 --- !u!1 &2655020127320387460
 GameObject:
   m_ObjectHideFlags: 0
@@ -896,6 +897,10 @@ MonoBehaviour:
   syncInterval: 0
   _maxChainLength: 5
   _maxCooltime: 1
+  _chainHailingPower: 2
+  _s_l_cur_chain_length: 0
+  _s_r_cur_chain_length: 0
+  _recover_ChainSpeed: 5
   _r_chain_handle: {fileID: 7385462302831270872}
   _l_chain_handle: {fileID: 3835113307261421421}
   _r_chain_end_prefab: {fileID: 3052567156887059276, guid: ab7aff0b9ae624ec2ae1c6b77f33135a, type: 3}
@@ -1072,12 +1077,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 862d62e145d7348bc96b8a982ee6770e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _net: {fileID: 6350878358672748283}
   _start: {fileID: 4109471931306921631}
   _end: {fileID: 0}
   _gravity: 9.81
   _fallAccelerationMultiplier: 3
   _maxFallSpeed: 30
-  _max_length: 5
+  _cur_length: 0
   _segmentLength: 0.25
   _sagPower: 0.5
   _recover_ChainSpeed: 5

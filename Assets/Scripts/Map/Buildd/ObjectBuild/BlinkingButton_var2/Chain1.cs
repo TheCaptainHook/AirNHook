@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Chain1 : MonoBehaviour
 {
+    [SerializeField] private BlinkingButton_var2_Net _net;
+
     private LineRenderer _line;
     private LineRenderer Line { get { _line ??= GetComponent<LineRenderer>(); return _line; } }
 
@@ -14,7 +16,7 @@ public class Chain1 : MonoBehaviour
     [SerializeField] private float _gravity = 9.81f;
     [SerializeField] private float _fallAccelerationMultiplier = 3f;
     [SerializeField] private float _maxFallSpeed = 30f;
-    private float _max_length = 0;
+    [SerializeField] private float _max_length => _net._s_l_cur_chain_length;
     public float _cur_length;
     // [SerializeField] public float _endDamping = 0.995f;
 
@@ -29,7 +31,6 @@ public class Chain1 : MonoBehaviour
     private Rigidbody2D _rb;
     public Rigidbody2D Rb { get { _rb ??= _end.GetComponent<Rigidbody2D>(); return _rb; } }
 
-
     void Update()
     {
         Update_EndPhysics();
@@ -42,16 +43,7 @@ public class Chain1 : MonoBehaviour
         if (_start == null || _end == null)
             return;
 //====================RB없는 경우 자체 중력처리
-        // float deltaTime = Time.deltaTime;
-
-        // float acceleration = _gravity * _fallAccelerationMultiplier;
-        // _endVelocity += Vector2.down * acceleration * deltaTime;
-
-        // if (_endVelocity.y < -_maxFallSpeed)
-        //     _endVelocity.y = -_maxFallSpeed;
-
-        // _endVelocity *= _endDamping;
-        // _end.position += (Vector3)(_endVelocity * deltaTime);
+        
 //====================RB없는 경우 자체 중력처리
 
         Vector2 startPos = _start.position;
@@ -121,10 +113,7 @@ public class Chain1 : MonoBehaviour
 
 
     #region Utility
-    public void SetMaxLength(float length)
-    {
-        _max_length = length;
-    }
+    
     public float Get_StartEndDistance()
     {
         if (_start == null || _end == null)
@@ -178,6 +167,20 @@ public class Chain1 : MonoBehaviour
 
         return length;
     }
+
+
+    public void Reset()
+    {
+        Rigidbody2D Rb = _end.GetComponent<Rigidbody2D>();
+        Rb.velocity = Vector2.zero;
+        Rb.angularVelocity = 0f;
+        _end.rotation = Quaternion.identity;
+    }
 #endregion
 
+
+
+#region Debug
+
+#endregion
 }

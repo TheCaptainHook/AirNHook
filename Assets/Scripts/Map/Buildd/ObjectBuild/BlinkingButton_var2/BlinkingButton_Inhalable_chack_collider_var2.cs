@@ -6,14 +6,11 @@ public class BlinkingButton_Inhalable_chack_collider_var2 : NetworkBehaviour, II
 {
     private BlinkingButton_var2_Net _net;
     private BlinkingButton_var2_Net Net { get { _net ??= transform.GetComponentInParent<BlinkingButton_var2_Net>(); return _net; } }
+    private Rigidbody2D _rb;
+    private Rigidbody2D Rb { get { _rb ??= GetComponent<Rigidbody2D>(); return _rb; } }
 
     public bool rl; //true : r, false : l
 
-//===================================================0524
-    /**
-        during inhaling, l,r chain parts colider disable.
-    **/
-//===================================================0524
 
     public void OnInhaling(bool onoff)
     {
@@ -41,15 +38,14 @@ public class BlinkingButton_Inhalable_chack_collider_var2 : NetworkBehaviour, II
     }
 
  #region IInhalable
+    
     public void Inhalation(Transform accessor)
     {
         Debug.Log($"Start InHal,Blink, / {accessor.root.name}");
         if(accessor == null) return;
-
-
+        Cmd_OnInhaling(true);
         if (!rl) //false(l) : blue, true(r) : red
         { 
-            Cmd_OnInhaling(true);
             Net.Cmd_Start_Track_L(accessor.root.gameObject.GetComponent<NetworkIdentity>().netId);
         }else
         {
@@ -61,12 +57,27 @@ public class BlinkingButton_Inhalable_chack_collider_var2 : NetworkBehaviour, II
     {
         Debug.Log("Stop InHal,Blink");
         Cmd_OnInhaling(false);
-        Net.Cmd_Stop_Track_L();
+        // Net._isHaling = false;
+
+        if(!rl)
+        {
+            Net.Cmd_Stop_Track_L();
+        }else
+        {
+            
+        }
+
+        
+        
         //Start Recovery Chain
     }
 
     public void Fixed(bool value)
     {
+        if(!rl)
+        Net._Left_isAirGun_Attached = value;
+        else Net._Right_isAirGun_Attached = value;
+        
         return;
     }
 
