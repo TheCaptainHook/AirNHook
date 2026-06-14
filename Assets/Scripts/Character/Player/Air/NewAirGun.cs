@@ -448,6 +448,7 @@ public class NewAirGun
         targetRigdbody.drag = 10f;
         targetRigdbody.gravityScale = 0f;
         targetRigdbody.AddForce(direction * power * Time.fixedDeltaTime);
+        Debug.Log($"Inhaling {targetRigdbody.gameObject.name} with power {power}");
     }
 
     private void StopInhale()
@@ -468,9 +469,7 @@ public class NewAirGun
         _isInhaledHook = false;
         _lineRenderer.enabled = false;
         _crossHair.gameObject.SetActive(false);
-
         if (_inhaleTarget == null) return;
-
         try
         {
             if (_targetConstraint != null && _targetConstraint.sourceCount != 0)
@@ -482,7 +481,6 @@ public class NewAirGun
             }
         }
         catch (Exception) { }
-
         try
         {
             if (ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject))
@@ -501,12 +499,12 @@ public class NewAirGun
         //260223 BlinkingButton
         if(_inhaleTarget.TryGetComponent(out Rigidbody2D component)) if(component.isKinematic) return;
         //260223 BlinkingButton
+    
         if (!_inhaling) return;
-
+    
         if (!_inhaleTarget.GetComponent<NetworkIdentity>().isOwned) return;
-
+    
         if (_isAttached) return;
-
         _isAttached = true;
 
         if (!_inhaleTarget.TryGetComponent(out _targetConstraint))

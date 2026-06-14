@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class Chain1 : MonoBehaviour
 {
@@ -31,12 +32,31 @@ public class Chain1 : MonoBehaviour
     private Rigidbody2D _rb;
     public Rigidbody2D Rb { get { _rb ??= _end.GetComponent<Rigidbody2D>(); return _rb; } }
 
-    void Update()
+    private BlinkingButton_Inhalable_chack_collider_var2 _biccv;
+    public BlinkingButton_Inhalable_chack_collider_var2 BICCV {get{_biccv??= _end.GetComponent<BlinkingButton_Inhalable_chack_collider_var2>(); return _biccv;}}
+
+    private ParentConstraint _parentConstraint;
+    public ParentConstraint ParentConstraint { get { _parentConstraint ??= _end.GetComponent<ParentConstraint>(); return _parentConstraint; } }
+
+    public void DeletConstraint()
+    {
+        if(ParentConstraint.sourceCount > 0)
+        {
+            ParentConstraint.weight = 0;
+            ParentConstraint.constraintActive = false;
+            ParentConstraint.locked = false;
+            ParentConstraint.RemoveSource(0);
+        }
+
+        Rb.gravityScale = 10;
+
+    }
+
+    void LateUpdate()
     {
         Update_EndPhysics();
         Update_Line();
     }
-
 
     private void Update_EndPhysics()
     {
@@ -116,9 +136,8 @@ public class Chain1 : MonoBehaviour
     
     public float Get_StartEndDistance()
     {
-        if (_start == null || _end == null)
-            return 0f;
-
+        if (_start == null || _end == null) return 0f; 
+        
         return Vector2.Distance(_start.position, _end.position);
     }
     private int GetSegmentCountByLength(float length)

@@ -18,14 +18,16 @@ public class BlinkingButton_var2_Net : NetworkBehaviour
     public float _chainHailingPower = 2f;
 #region Debug
     [Space(20)]
-    public bool _Left_isHaling;
-    public bool _Left_isAirGun_Attached;
-    public bool _Right_isHaling;
-    public bool _Right_isAirGun_Attached;
-
+    [Header("Server Debug")]
+    [SyncVar] public bool _Left_isHaling;
+    [SyncVar] public bool _Left_isAirGun_Attached;
+    [SyncVar] public bool _Right_isHaling;
+    [SyncVar] public bool _Right_isAirGun_Attached;
+    public bool _onRecovery;
 #endregion Debug
 
 #region  Server
+    [Space(20)]
     [SyncVar] public float _s_l_cur_chain_length;
     [SyncVar] public float _s_r_cur_chain_length;
 
@@ -33,25 +35,49 @@ public class BlinkingButton_var2_Net : NetworkBehaviour
     //Recovery
     private Coroutine _l_recovery_coroutine;
     private Coroutine _r_recovery_coroutine;
-    private float _recoverDelay = 1f;
+    private float _recoverDelay = 0.2f;
     public float _curRecoverDelay = 0;
-    private bool IsChainLengthOverLimit => _s_l_cur_chain_length + _s_r_cur_chain_length > _maxChainLength;
+    public bool IsChainLengthOverLimit => _s_l_cur_chain_length + _s_r_cur_chain_length > _maxChainLength;
     
     /**
     Callback server update
         - _isAirGun_Attached = true -> AirSm.StopGun,
     **/
+
+    private float _s_MaxSafety_code_delay = 0.3f;
+    public float _s_CurSafety_code_delay;
     
+    [ServerCallback]
+    private void Update()
+    {
+        if(_Left_isAirGun_Attached && IsChainLengthOverLimit &&_l_Chain.ParentConstraint.sourceCount > 0)
+        {
+            _s_CurSafety_code_delay+=Time.deltaTime;
+            if(_s_CurSafety_code_delay>= _s_MaxSafety_code_delay)
+            {
+                Debug.Log("Safety Code");
+                _Left_isAirGun_Attached = false;
+                Rpc_Air_ResetSubAction();
+                Start_L_Recovery();
+                _s_CurSafety_code_delay = 0;
+            }
+        }
+    }
+
+
     private IEnumerator L_RecoveryCoroutine() //Server
     {
         while(true)
         {
+            //====Air
             if(_Left_isAirGun_Attached)
             {
+                _onRecovery = false;
                 _l_recovery_coroutine = null;
                 _curRecoverDelay = 0f;
                 yield break;
             }
+            //====Air
 
             _curRecoverDelay += Time.deltaTime;
             if(_curRecoverDelay < _recoverDelay)
@@ -67,6 +93,7 @@ public class BlinkingButton_var2_Net : NetworkBehaviour
             {
                 _l_recovery_coroutine = null;
                 _curRecoverDelay = 0f;
+                _onRecovery = false;
                 Rpc_Left_Chain_Reset();
                 yield break;
             }
@@ -82,6 +109,7 @@ public class BlinkingButton_var2_Net : NetworkBehaviour
     
     public void Start_L_Recovery()
     {
+        _onRecovery = true;
         if(_l_recovery_coroutine != null)
         {
             StopCoroutine(_l_recovery_coroutine);
@@ -91,6 +119,7 @@ public class BlinkingButton_var2_Net : NetworkBehaviour
     }
     public void Stop_L_Recovery()
     {
+        _onRecovery = false;
         _curRecoverDelay = 0f;
         if(_l_recovery_coroutine != null)
         {
@@ -98,8 +127,9 @@ public class BlinkingButton_var2_Net : NetworkBehaviour
             _l_recovery_coroutine = null;
         }
     }
+    
     //Recovery
-    private IEnumerator L_ChainCoroutine(Transform target)
+    private IEnumerator L_ChainCoroutine(Transform target) //Server
     {
         Transform player = target.root;
         Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
@@ -109,20 +139,55 @@ public class BlinkingButton_var2_Net : NetworkBehaviour
         {
             if(!IsChainLengthOverLimit)
             {
-       
-                _s_l_cur_chain_length += Time.deltaTime * _chainHailingPower;
+                if(_Left_isAirGun_Attached)
+                {
+                    _s_l_cur_chain_length = Vector2.Distance(_l_Chain._start.position, air.shakingEffectOnAirGun.transform.position);
+                }else
+                {
+                    _s_l_cur_chain_length += Time.deltaTime * _chainHailingPower;
+                }
             }else
             {
-               
+                if(_Left_isAirGun_Attached)
+                {
+                    // _l_Chain.Test1();
+                    // _Left_isAirGun_Attached = false;/
+
+                    // air.CmdStopInhalePlayer();
+
+                    Rpc_Air_ResetSubAction();
+
+                    yield break;
+                }
             }
 
             yield return null;
         }
     }
+    [ClientRpc]
+    private void Rpc_Air_ResetSubAction()
+    {
+        _s_CurSafety_code_delay = 0;
+        _Left_isAirGun_Attached = false;
+        _l_Chain.DeletConstraint();
+        AirSM air = Managers.Game.Player.TryGetComponent(out AirSM sm) ? sm : null;
+        if(air != null)
+        {
+            _l_Chain.BICCV.StopInhale(gameObject);
+            Managers.Game.playerInput.playerActions.SubAction.Disable();
+            Managers.Game.playerInput.playerActions.SubAction.Enable(); 
+        }
+    }
+
+
+    private void StopHailing()
+    {
+        
+    }
 #endregion//Server
 #region  Cmd
     [Command(requiresAuthority = false)]
-    public void Cmd_Start_Track_L(uint targetNetID)
+    public void Cmd_Start_Hailing_Track_L(uint targetNetID)
     {
         Stop_L_Recovery();
 
@@ -130,6 +195,8 @@ public class BlinkingButton_var2_Net : NetworkBehaviour
         if(target == null) return;
 
         AirSM player = target.GetComponent<AirSM>();
+
+        _Left_isHaling = true;
 
         if(_l_chain_coroutine != null)
             StopCoroutine(_l_chain_coroutine);
@@ -139,6 +206,7 @@ public class BlinkingButton_var2_Net : NetworkBehaviour
    [Command(requiresAuthority = false)]
     public void Cmd_Stop_Track_L()
     {
+        //==Air
         _Left_isAirGun_Attached = false;
         _Left_isHaling = false;
 
@@ -147,6 +215,10 @@ public class BlinkingButton_var2_Net : NetworkBehaviour
             StopCoroutine(_l_chain_coroutine);
             _l_chain_coroutine = null;
         }
+        //==Air
+
+        //==Hook
+        //==Hook
 
         Start_L_Recovery();
     }
@@ -226,20 +298,23 @@ public class BlinkingButton_var2_Net : NetworkBehaviour
         {
             return;
         }
-
+        ///======Left
         left.transform.SetParent(_l_chain_handle);
         left.transform.localPosition = Vector3.zero;
         left.transform.localScale = Vector3.one;
         left.transform.rotation = Quaternion.identity;
-
         _l_Chain._end = left.transform;
-
-        right.transform.SetParent(_r_chain_handle);
-        right.transform.localPosition = Vector3.zero;
-        right.transform.localScale = Vector3.one;
-        right.transform.rotation = Quaternion.identity;
-        _r_Chain._end = right.transform;
-
+        ///======Left
+        
+        
+        /// =====Right
+        // right.transform.SetParent(_r_chain_handle);
+        // right.transform.localPosition = Vector3.zero;
+        // right.transform.localScale = Vector3.one;
+        // right.transform.rotation = Quaternion.identity;
+        // _r_Chain._end = right.transform;
+        /// =====Right
+        /// 
         _onSync = true;
 
     }

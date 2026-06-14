@@ -16,15 +16,15 @@ public class BlinkingButton_Inhalable_chack_collider_var2 : NetworkBehaviour, II
     {
         if(onoff)
         {
-            transform.GetComponent<Collider2D>().enabled = false;
+            // transform.GetComponent<Collider2D>().enabled = false;
             transform.GetComponent<Rigidbody2D>().gravityScale = 0f;
         }else
         {
-            transform.GetComponent<Collider2D>().enabled = true;
+            // transform.GetComponent<Collider2D>().enabled = true;
             transform.GetComponent<Rigidbody2D>().gravityScale = 10f;
         }
     }
-
+    
     [Command(requiresAuthority = false)]
     private void Cmd_OnInhaling(bool onOff)
     {
@@ -41,12 +41,11 @@ public class BlinkingButton_Inhalable_chack_collider_var2 : NetworkBehaviour, II
     
     public void Inhalation(Transform accessor)
     {
-        Debug.Log($"Start InHal,Blink, / {accessor.root.name}");
-        if(accessor == null) return;
+
         Cmd_OnInhaling(true);
         if (!rl) //false(l) : blue, true(r) : red
         { 
-            Net.Cmd_Start_Track_L(accessor.root.gameObject.GetComponent<NetworkIdentity>().netId);
+            Net.Cmd_Start_Hailing_Track_L(accessor.root.gameObject.GetComponent<NetworkIdentity>().netId);
         }else
         {
         }
@@ -55,34 +54,37 @@ public class BlinkingButton_Inhalable_chack_collider_var2 : NetworkBehaviour, II
 
     public void StopInhale(GameObject accessor)
     {
-        Debug.Log("Stop InHal,Blink");
-        Cmd_OnInhaling(false);
-        // Net._isHaling = false;
+        Cmd_OnInhaling(false); //After Sync
 
         if(!rl)
         {
             Net.Cmd_Stop_Track_L();
+            
         }else
         {
             
         }
 
-        
-        
         //Start Recovery Chain
     }
 
-    public void Fixed(bool value)
+    [Command(requiresAuthority = false)]
+    private void Cmd_Fixed(bool value)
     {
         if(!rl)
         Net._Left_isAirGun_Attached = value;
         else Net._Right_isAirGun_Attached = value;
-        
-        return;
     }
 
+    public void Fixed(bool value)
+    {
+        Cmd_Fixed(value);
+        return;
+    }
+    
     public bool Inhaling(bool value, GameObject player)
     {
+
         return true;
     }
 
