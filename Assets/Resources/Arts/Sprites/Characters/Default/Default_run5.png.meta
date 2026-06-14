@@ -3,7 +3,7 @@ guid: 8a8bca6702215854db49a0ff193a761f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 12
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -53,7 +53,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
+  spriteTessellationDetail: 0.06
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -110,7 +110,26 @@ TextureImporter:
     serializedVersion: 2
     sprites: []
     outline: []
-    physicsShape: []
+    physicsShape:
+    - - {x: 145, y: -197}
+      - {x: 170, y: -151}
+      - {x: 117, y: -212}
+      - {x: 73, y: -238}
+      - {x: 39, y: -229}
+      - {x: 4, y: -196}
+      - {x: 0, y: -233}
+      - {x: -16, y: -251}
+      - {x: -118, y: -247}
+      - {x: -139, y: -236}
+      - {x: -157, y: -180}
+      - {x: -147, y: -242}
+      - {x: -130, y: -256}
+      - {x: -14, y: -256}
+      - {x: 5, y: -241}
+      - {x: 8, y: -206}
+      - {x: 37, y: -236}
+      - {x: 71, y: -246}
+      - {x: 105, y: -231}
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
     internalID: 1537655665

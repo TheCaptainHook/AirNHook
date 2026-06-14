@@ -101,7 +101,7 @@ MonoBehaviour:
   type: 0
   spriteMode: 1
   sprite: {fileID: 21300000, guid: 747ba1a57907ff742ae1e06de5710105, type: 3}
-  color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  color: {r: 1, g: 0.7843061, b: 0.2971698, a: 1}
   flipX: 0
   flipY: 0
   lightSpriteTransform:

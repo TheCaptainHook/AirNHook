@@ -554,9 +554,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lightLayer: 0
   type: 0
-  spriteMode: 0
-  sprite: {fileID: 21300000, guid: 6592d6be03fd808449716a11558d506f, type: 3}
-  color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  spriteMode: 1
+  sprite: {fileID: 21300000, guid: 0bde1542a827c94419e150d02e4fc91c, type: 3}
+  color: {r: 1, g: 0.69095045, b: 0.13679248, a: 1}
   flipX: 0
   flipY: 0
   lightSpriteTransform:
