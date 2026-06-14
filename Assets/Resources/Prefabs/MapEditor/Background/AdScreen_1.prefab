@@ -316,7 +316,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7479008346093626112}
-  - component: {fileID: 9079097093292967185}
+  - component: {fileID: 5109430223703395543}
   m_Layer: 0
   m_Name: Light 2D
   m_TagString: Untagged
@@ -339,7 +339,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5193282156634838391}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9079097093292967185
+--- !u!114 &5109430223703395543
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -348,31 +348,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1314566000571480873}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85a34663ca705a54eac3205e225a6d45, type: 3}
+  m_Script: {fileID: 11500000, guid: d62ac029b1017974ead8b6ad01623c82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightType: 2
-  lightPresetId: 0
-  eventPresetId: 0
   lightLayer: 0
-  occlusionLayer: 0
-  translucentLayer: 0
-  translucentPresetId: 0
-  color: {r: 1.1486983, g: 1.1486983, b: 1.1486983, a: 1}
-  size: 4.1419687
-  spotAngleInner: 360
-  spotAngleOuter: 360
-  coreSize: 0.5
-  falloff: 0
-  lightStrength: 0
-  outerAngle: 15
-  lightRadius: 1
-  shadowDistanceClose: 0
-  shadowDistanceFar: 5
-  maskTranslucencyQuality: 1
-  maskTranslucencyStrength: 0.5
-  applyRotation: 0
-  textureSize: 1
+  type: 0
+  spriteMode: 0
+  sprite: {fileID: 21300000, guid: f789882f7facc8243a28429abcf1a513, type: 3}
+  color: {r: 1, g: 1, b: 1, a: 0.6}
+  flipX: 0
+  flipY: 0
+  lightSpriteTransform:
+    applyRotation: 1
+    scale: {x: 2.3, y: 3.8}
+    rotation: 90
+    position: {x: 0, y: 0.2}
+  lightSpriteShape:
+    update: 0
   meshMode:
     enable: 0
     alpha: 0.5
@@ -382,25 +374,9 @@ MonoBehaviour:
     sortingLayer:
       name: Default
       Order: 0
-  bumpMap:
-    intensity: 1
-    depth: 1
-  whenInsideCollider: 0
-  lightSprite: 0
-  sprite: {fileID: 0}
-  spriteFlipX: 0
-  spriteFlipY: 0
-  freeFormFalloff: 1.5
-  freeFormPoint: 1
-  freeFormFalloffStrength: 0
-  freeFormPoints:
-    points:
-    - {x: 2.3, y: 1.3}
-    - {x: -2.3, y: 1.3}
-    - {x: -2.3, y: -1.3}
-    - {x: 2.3, y: -1.3}
-  drawingEnabled: 1
-  drawingTranslucencyEnabled: 0
+  glowMode:
+    enable: 0
+    glowRadius: 1
 --- !u!1 &3849387170548589621
 GameObject:
   m_ObjectHideFlags: 0

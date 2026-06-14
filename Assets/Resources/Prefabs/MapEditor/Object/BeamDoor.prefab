@@ -482,8 +482,8 @@ MonoBehaviour:
   lightType: 2
   lightPresetId: 0
   eventPresetId: 0
-  lightLayer: 0
-  occlusionLayer: 0
+  lightLayer: -1
+  occlusionLayer: 1
   translucentLayer: 0
   translucentPresetId: 0
   color: {r: 0.47697005, g: 0.7490196, b: 0.720113, a: 0}

@@ -193,7 +193,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8850633112548270579}
   - component: {fileID: 3910401765213147502}
-  - component: {fileID: 6744903402109445245}
+  - component: {fileID: 3569327320731825927}
   m_Layer: 23
   m_Name: EnergyField
   m_TagString: Untagged
@@ -268,7 +268,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6744903402109445245
+--- !u!114 &3569327320731825927
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -277,31 +277,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 5139990301046049554}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85a34663ca705a54eac3205e225a6d45, type: 3}
+  m_Script: {fileID: 11500000, guid: d62ac029b1017974ead8b6ad01623c82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightType: 1
-  lightPresetId: 0
-  eventPresetId: 0
-  lightLayer: -1
-  occlusionLayer: 2
-  translucentLayer: 0
-  translucentPresetId: 0
-  color: {r: 0.38768244, g: 0.6792453, b: 0.65775263, a: 1}
-  size: 6
-  spotAngleInner: 360
-  spotAngleOuter: 360
-  coreSize: 0.5
-  falloff: 0
-  lightStrength: 0
-  outerAngle: 15
-  lightRadius: 1
-  shadowDistanceClose: 0
-  shadowDistanceFar: 5
-  maskTranslucencyQuality: 1
-  maskTranslucencyStrength: 0.5
-  applyRotation: 0
-  textureSize: 1
+  lightLayer: 0
+  type: 0
+  spriteMode: 0
+  sprite: {fileID: 21300000, guid: 24f27ac936455ae479e724a86b747eb0, type: 3}
+  color: {r: 0.31792173, g: 1.490809, b: 1.4167521, a: 0.35}
+  flipX: 0
+  flipY: 0
+  lightSpriteTransform:
+    applyRotation: 1
+    scale: {x: 0.7, y: 0.26}
+    rotation: 0
+    position: {x: 0.03, y: -0.06}
+  lightSpriteShape:
+    update: 0
   meshMode:
     enable: 0
     alpha: 0.5
@@ -311,24 +303,9 @@ MonoBehaviour:
     sortingLayer:
       name: Default
       Order: 0
-  bumpMap:
-    intensity: 1
-    depth: 1
-  whenInsideCollider: 0
-  lightSprite: 0
-  sprite: {fileID: 21300000, guid: 6592d6be03fd808449716a11558d506f, type: 3}
-  spriteFlipX: 0
-  spriteFlipY: 0
-  freeFormFalloff: 1
-  freeFormPoint: 1
-  freeFormFalloffStrength: 1
-  freeFormPoints:
-    points:
-    - {x: 1, y: 0}
-    - {x: -0.50000006, y: 0.8660254}
-    - {x: -0.4999999, y: -0.86602545}
-  drawingEnabled: 1
-  drawingTranslucencyEnabled: 0
+  glowMode:
+    enable: 0
+    glowRadius: 1
 --- !u!1 &5224186664704091579
 GameObject:
   m_ObjectHideFlags: 0
@@ -713,7 +690,6 @@ MonoBehaviour:
   onSync: 0
   onActive: 0
   base_2_Field: {fileID: 5767043856873232950}
-  main_Field: {fileID: 5139990301046049554}
   main_Field_Sprite: {fileID: 3910401765213147502}
 --- !u!114 &600912761600305681
 MonoBehaviour:

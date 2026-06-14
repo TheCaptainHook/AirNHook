@@ -3,7 +3,7 @@ guid: 8c451e0cf56789a4c8764a9c11f0e75a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 12
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -47,13 +47,13 @@ TextureImporter:
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 7
-  spritePivot: {x: 0.5, y: 0.5}
+  spritePivot: {x: 0.5, y: 0}
   spritePixelsToUnits: 256
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
+  spriteTessellationDetail: 0.06
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -110,10 +110,35 @@ TextureImporter:
     serializedVersion: 2
     sprites: []
     outline: []
-    physicsShape: []
+    physicsShape:
+    - - {x: 173, y: -313}
+      - {x: 215, y: -295}
+      - {x: 280, y: -229}
+      - {x: 303, y: -167}
+      - {x: 308, y: -49}
+      - {x: 286, y: 49}
+      - {x: 254, y: 146}
+      - {x: 211, y: 220}
+      - {x: 135, y: 282}
+      - {x: 69, y: 308}
+      - {x: 3, y: 312}
+      - {x: -67, y: 308}
+      - {x: -139, y: 288}
+      - {x: -195, y: 257}
+      - {x: -235, y: 207}
+      - {x: -258, y: 156}
+      - {x: -281, y: 41}
+      - {x: -293, y: -48}
+      - {x: -294, y: -145}
+      - {x: -268, y: -215}
+      - {x: -199, y: -320}
+      - {x: 9, y: -320}
+      - {x: 30, y: -311}
+      - {x: 33, y: -274}
+      - {x: 106, y: -308}
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 0
+    internalID: 1537655665
     vertices: []
     indices: 
     edges: []

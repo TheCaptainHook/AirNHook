@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5485891795849254729}
   - component: {fileID: 2452672612516512292}
+  - component: {fileID: 6490380605248496186}
   m_Layer: 14
   m_Name: DoorL
   m_TagString: Untagged
@@ -84,6 +85,43 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6490380605248496186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1089684236104332008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5783dbbad6a59184fa58aa75d79bcc02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shadowType: 0
+  shadowLayer: 0
+  shadowDistance: 0
+  shadowDistanceMin: 0.5
+  shadowDistanceMax: 1
+  shadowTranslucency: 0
+  maskType: 2
+  maskLit: 0
+  maskPivot: 0
+  maskLayer: 0
+  maskLitCustom: 1
+  bumpMapMode:
+    type: 0
+    textureType: 0
+    texture: {fileID: 2800000, guid: 0a17881d963cadd4aa7041ad306523bb, type: 3}
+    sprite: {fileID: 0}
+    invertX: 0
+    invertY: 0
+    depth: 1
+    spriteRenderer: {fileID: 0}
+  mainShape:
+    shadowType: 0
+    maskType: 2
+    maskPivot: 0
+    transform: {fileID: 5485891795849254729}
 --- !u!1 &1403613117175697264
 GameObject:
   m_ObjectHideFlags: 0
@@ -102,6 +140,7 @@ GameObject:
   - component: {fileID: 7695271462647067305}
   - component: {fileID: 4614319543247492676}
   - component: {fileID: 1045330855647730413}
+  - component: {fileID: 7132480166744202684}
   m_Layer: 14
   m_Name: ExitDoor
   m_TagString: Untagged
@@ -400,6 +439,43 @@ MonoBehaviour:
   innerDoor_Air: {fileID: 0}
   innerDoor_Hook: {fileID: 0}
   onReadyToMoveNextMap: 0
+--- !u!114 &7132480166744202684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1403613117175697264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5783dbbad6a59184fa58aa75d79bcc02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shadowType: 0
+  shadowLayer: 0
+  shadowDistance: 0
+  shadowDistanceMin: 0.5
+  shadowDistanceMax: 1
+  shadowTranslucency: 0
+  maskType: 2
+  maskLit: 0
+  maskPivot: 0
+  maskLayer: 0
+  maskLitCustom: 1
+  bumpMapMode:
+    type: 0
+    textureType: 0
+    texture: {fileID: 2800000, guid: 763c1eb79e1aff24fb4eb3d2f4c1a351, type: 3}
+    sprite: {fileID: 0}
+    invertX: 0
+    invertY: 0
+    depth: 1
+    spriteRenderer: {fileID: 0}
+  mainShape:
+    shadowType: 0
+    maskType: 2
+    maskPivot: 0
+    transform: {fileID: 0}
 --- !u!1 &2184687535908895107
 GameObject:
   m_ObjectHideFlags: 0
@@ -501,7 +577,7 @@ MonoBehaviour:
   type: 1
   spriteMode: 1
   sprite: {fileID: 21300000, guid: d5534260c9929f947b34dd2f8f77a18b, type: 3}
-  color: {r: 0.735849, g: 0.5588287, b: 0.5588287, a: 1}
+  color: {r: 0.6415094, g: 0, b: 0, a: 1}
   flipX: 0
   flipY: 0
   lightSpriteTransform:
@@ -859,6 +935,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7569042690087762526}
   - component: {fileID: 6229230157842056386}
+  - component: {fileID: 3202788467258675516}
   m_Layer: 14
   m_Name: DoorR
   m_TagString: Untagged
@@ -933,6 +1010,43 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3202788467258675516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5327735443495175171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5783dbbad6a59184fa58aa75d79bcc02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shadowType: 0
+  shadowLayer: 0
+  shadowDistance: 0
+  shadowDistanceMin: 0.5
+  shadowDistanceMax: 1
+  shadowTranslucency: 0
+  maskType: 2
+  maskLit: 0
+  maskPivot: 0
+  maskLayer: 0
+  maskLitCustom: 1
+  bumpMapMode:
+    type: 0
+    textureType: 0
+    texture: {fileID: 2800000, guid: c163597f992df234c88379d8b6cf0595, type: 3}
+    sprite: {fileID: 0}
+    invertX: 0
+    invertY: 0
+    depth: 1
+    spriteRenderer: {fileID: 0}
+  mainShape:
+    shadowType: 0
+    maskType: 2
+    maskPivot: 0
+    transform: {fileID: 7569042690087762526}
 --- !u!1001 &4550386886740703289
 PrefabInstance:
   m_ObjectHideFlags: 0
