@@ -5,7 +5,7 @@ using UnityEngine.Animations;
 
 public class Chain1 : MonoBehaviour
 {
-    [SerializeField] private BlinkingButton_var2_Net _net;
+    [SerializeField] private ChainPullButton_Net _net;
 
     private LineRenderer _line;
     private LineRenderer Line { get { _line ??= GetComponent<LineRenderer>(); return _line; } }
@@ -32,8 +32,8 @@ public class Chain1 : MonoBehaviour
     private Rigidbody2D _rb;
     public Rigidbody2D Rb { get { _rb ??= _end.GetComponent<Rigidbody2D>(); return _rb; } }
 
-    private BlinkingButton_Inhalable_chack_collider_var2 _biccv;
-    public BlinkingButton_Inhalable_chack_collider_var2 BICCV {get{_biccv??= _end.GetComponent<BlinkingButton_Inhalable_chack_collider_var2>(); return _biccv;}}
+    private ChainPullButton_chack_collider _ccc;
+    public ChainPullButton_chack_collider CCC {get{_ccc??= _end.GetComponent<ChainPullButton_chack_collider>(); return _ccc;}}
 
     private ParentConstraint _parentConstraint;
     public ParentConstraint ParentConstraint { get { _parentConstraint ??= _end.GetComponent<ParentConstraint>(); return _parentConstraint; } }

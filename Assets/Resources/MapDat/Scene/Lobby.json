@@ -8657,39 +8657,6 @@
             "onEncapsulationItem": false,
             "indicator": 0,
             "tutorialCode": 0
-        },
-        {
-            "id": 379,
-            "dialogueId": 0,
-            "position": {
-                "x": -6.619999885559082,
-                "y": 24.190000534057618
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.5,
-                "y": 1.5,
-                "z": 1.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0,
-            "activeRequireAmount": 0,
-            "onEncapsulationItem": false,
-            "indicator": 0,
-            "tutorialCode": 0
         }
     ],
     "mapBackgroundObjectList": [
@@ -12912,6 +12879,35 @@
                     "y": 20.850000381469728
                 }
             ],
+            "lightPositions": [],
+            "encapsulationItems": [],
+            "chargeRequired": false,
+            "onHint": false,
+            "partsPositions": [],
+            "itemPositions": [],
+            "hintPosition": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 379,
+            "position": {
+                "x": -7.199999809265137,
+                "y": 24.65999984741211
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.5,
+                "y": 1.5,
+                "z": 1.0
+            },
+            "targetPositions": [],
             "lightPositions": [],
             "encapsulationItems": [],
             "chargeRequired": false,

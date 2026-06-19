@@ -367,7 +367,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 862d62e145d7348bc96b8a982ee6770e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _net: {fileID: 4979965817959955130}
+  _net: {fileID: 8339087131720829285}
   _start: {fileID: 1726282036905901316}
   _end: {fileID: 0}
   _gravity: 9.81
@@ -673,7 +673,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 862d62e145d7348bc96b8a982ee6770e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _net: {fileID: 4979965817959955130}
+  _net: {fileID: 8339087131720829285}
   _start: {fileID: 3402142265743570767}
   _end: {fileID: 0}
   _gravity: 9.81
@@ -811,9 +811,9 @@ GameObject:
   - component: {fileID: 8518328071770291632}
   - component: {fileID: 5437097991469866951}
   - component: {fileID: 4108569285258239442}
-  - component: {fileID: 5073235907906804993}
-  - component: {fileID: 4979965817959955130}
   - component: {fileID: 4396047170305721768}
+  - component: {fileID: 973030530070162555}
+  - component: {fileID: 8339087131720829285}
   m_Layer: 18
   m_Name: ChainPullButton
   m_TagString: Untagged
@@ -950,7 +950,7 @@ SortingGroup:
   m_SortingLayer: 5
   m_SortingOrder: 3
   m_SortAtRoot: 0
---- !u!114 &5073235907906804993
+--- !u!114 &4396047170305721768
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -959,7 +959,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 4761345009463977753}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6672dcd9a7e24668a986e714eb73e4d, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 1690879384
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
+--- !u!114 &973030530070162555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4761345009463977753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47064da8e0ba94a7ea52fb3467a5519a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   id: 379
@@ -986,7 +1003,11 @@ MonoBehaviour:
   soundVolume: 1
   soundDistance: 10
   canRespawn: 0
---- !u!114 &4979965817959955130
+  targetObjects: []
+  lightObjects: []
+  interactableObjects: []
+  _complete_FindAllObj: 0
+--- !u!114 &8339087131720829285
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -995,25 +1016,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 4761345009463977753}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0153ca54868f2454487f09fb8f9a134a, type: 3}
+  m_Script: {fileID: 11500000, guid: a78c9dcff3aac41e395a60baa44a950c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  _isActive: 0
+  _chargeRequired: 0
+  _hasPower: 0
+  _onSync: 0
   _maxChainLength: 5
-  _maxCooltime: 1
   _chainHailingPower: 2
-  _Left_isHaling: 0
-  _Left_isAirGun_Attached: 0
-  _Right_isHaling: 0
-  _Right_isAirGun_Attached: 0
-  _onRecovery: 0
   _s_l_cur_chain_length: 0
   _s_r_cur_chain_length: 0
   _recover_ChainSpeed: 5
   _curRecoverDelay: 0
-  _s_CurSafety_code_delay: 0
   _r_chain_handle: {fileID: 697730961485617067}
   _l_chain_handle: {fileID: 1662208170067007421}
   _r_chain_end_prefab: {fileID: 3052567156887059276, guid: ab7aff0b9ae624ec2ae1c6b77f33135a, type: 3}
@@ -1022,26 +1040,14 @@ MonoBehaviour:
   _r_Chain: {fileID: 6528261908703643241}
   _r_chain_end: {fileID: 0}
   _l_chain_end: {fileID: 0}
-  _onSync: 0
   _r_chain_end_netId: 0
   _l_chain_end_netId: 0
---- !u!114 &4396047170305721768
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4761345009463977753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  _assetId: 4257298705
-  serverOnly: 0
-  visibility: 0
-  hasSpawned: 0
+  _Left_isHaling: 0
+  _Left_isAirGun_Attached: 0
+  _Right_isHaling: 0
+  _Right_isAirGun_Attached: 0
+  _onRecovery: 0
+  _s_CurSafety_code_delay: 0
 --- !u!1 &6158619556419257858
 GameObject:
   m_ObjectHideFlags: 0

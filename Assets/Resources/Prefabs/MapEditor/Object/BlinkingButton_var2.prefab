@@ -856,7 +856,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6672dcd9a7e24668a986e714eb73e4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 379
+  id: 9999
   transformID: 0
   position: {x: 0, y: 0}
   distructionStatus: 0
@@ -896,11 +896,17 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _maxChainLength: 5
-  _maxCooltime: 1
   _chainHailingPower: 2
+  _Left_isHaling: 0
+  _Left_isAirGun_Attached: 0
+  _Right_isHaling: 0
+  _Right_isAirGun_Attached: 0
+  _onRecovery: 0
   _s_l_cur_chain_length: 0
   _s_r_cur_chain_length: 0
   _recover_ChainSpeed: 5
+  _curRecoverDelay: 0
+  _s_CurSafety_code_delay: 0
   _r_chain_handle: {fileID: 7385462302831270872}
   _l_chain_handle: {fileID: 3835113307261421421}
   _r_chain_end_prefab: {fileID: 3052567156887059276, guid: ab7aff0b9ae624ec2ae1c6b77f33135a, type: 3}

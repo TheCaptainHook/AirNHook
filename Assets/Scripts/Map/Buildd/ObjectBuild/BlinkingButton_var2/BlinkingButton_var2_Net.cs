@@ -9,8 +9,8 @@ public class BlinkingButton_var2_Net : NetworkBehaviour
 
 //============Server
     [SerializeField] private float _maxChainLength = 5f;
-    private float _curCooltime = 0f;
-    [SerializeField] private float _maxCooltime;
+    // private float _curCooltime = 0f;
+    // [SerializeField] private float _maxCooltime;
 
     private Coroutine _l_chain_coroutine;
     private Coroutine _r_chain_coroutine;
@@ -173,17 +173,13 @@ public class BlinkingButton_var2_Net : NetworkBehaviour
         AirSM air = Managers.Game.Player.TryGetComponent(out AirSM sm) ? sm : null;
         if(air != null)
         {
-            _l_Chain.BICCV.StopInhale(gameObject);
+            // _l_Chain.BICCV.StopInhale(gameObject);
             Managers.Game.playerInput.playerActions.SubAction.Disable();
             Managers.Game.playerInput.playerActions.SubAction.Enable(); 
         }
     }
 
 
-    private void StopHailing()
-    {
-        
-    }
 #endregion//Server
 #region  Cmd
     [Command(requiresAuthority = false)]

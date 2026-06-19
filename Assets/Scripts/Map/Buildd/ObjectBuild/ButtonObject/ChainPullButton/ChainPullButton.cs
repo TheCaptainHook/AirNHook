@@ -10,6 +10,10 @@ public class ChainPullButton : ButtonEntity
 
     }
     #region Clean
+    public override void Clean()
+    {
+        Net.Clean();
+    }
     #endregion
 
 
