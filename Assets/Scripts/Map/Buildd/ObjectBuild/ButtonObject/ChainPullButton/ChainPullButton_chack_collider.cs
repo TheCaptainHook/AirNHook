@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UnityEngine.UIElements.Experimental;
 
 public class ChainPullButton_chack_collider :  NetworkBehaviour, IInteractable, IInhalable
 {
@@ -46,10 +47,12 @@ public class ChainPullButton_chack_collider :  NetworkBehaviour, IInteractable, 
         Cmd_OnInhaling(true);
         if (!rl) //false(l) : blue, true(r) : red
         { 
+            Debug.Log("left");
             Net.Cmd_Start_Hailing_Track_L(accessor.root.gameObject.GetComponent<NetworkIdentity>().netId);
         }else
         {
-
+            Debug.Log("right");
+            Net.Cmd_Start_Hailing_Track_R(accessor.root.gameObject.GetComponent<NetworkIdentity>().netId);
         }
     }
    
@@ -64,7 +67,7 @@ public class ChainPullButton_chack_collider :  NetworkBehaviour, IInteractable, 
             
         }else
         {
-            
+            Net.Cmd_Stop_Track_R();
         }
 
         //Start Recovery Chain
@@ -105,7 +108,19 @@ public class ChainPullButton_chack_collider :  NetworkBehaviour, IInteractable, 
 
     public void Interaction(Transform accessor)
     {
-        
+        PlayerSM sm = accessor.TryGetComponent(out PlayerSM playersm) ? playersm : null;
+        if(sm == null) return;
+ 
+        if(rl) //false(l) : blue, true(r) : red
+        {
+            if(Net._Right_isAirGun_Attached) return;
+            Debug.Log("Right");
+        }
+        else
+        {
+            if(Net._Left_isAirGun_Attached) return;
+            Debug.Log("Left");
+        }
     }
 
     public bool CanInteract()
@@ -122,15 +137,36 @@ public class ChainPullButton_chack_collider :  NetworkBehaviour, IInteractable, 
     {
         return _objectType;
     }
-
+    private UI_Base _E_Btn;
+    [SerializeField] Vector2 _BtnOffset;
     public void ShowEButton()
     {
-        
+        if(rl) //false(l) : blue, true(r) : red
+        {
+            if(!Net._Right_isAirGun_Attached)
+            {
+                 _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
+                 _E_Btn.transform.position =  (Vector2)transform.position + _BtnOffset;
+                Debug.Log("Right");
+            }
+        }
+        else
+        {
+            if(!Net._Left_isAirGun_Attached)
+            {
+                 _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
+                 _E_Btn.transform.position =  (Vector2)transform.position + _BtnOffset;
+                Debug.Log("Left");
+            }
+        }
+
+       
     }
 
     public void HideEButton()
     {
-        
+        if(_E_Btn != null) _E_Btn = null;
+        Managers.UI.HideUI<UI_ShowEButton>();
     }
  #endregion
 }

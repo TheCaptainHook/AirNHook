@@ -448,7 +448,7 @@ public class NewAirGun
         targetRigdbody.drag = 10f;
         targetRigdbody.gravityScale = 0f;
         targetRigdbody.AddForce(direction * power * Time.fixedDeltaTime);
-        Debug.Log($"Inhaling {targetRigdbody.gameObject.name} with power {power}");
+        // Debug.Log($"Inhaling {targetRigdbody.gameObject.name} with power {power}");
     }
 
     private void StopInhale()

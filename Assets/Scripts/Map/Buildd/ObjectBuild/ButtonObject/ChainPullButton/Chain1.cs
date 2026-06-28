@@ -17,7 +17,13 @@ public class Chain1 : MonoBehaviour
     [SerializeField] private float _gravity = 9.81f;
     [SerializeField] private float _fallAccelerationMultiplier = 3f;
     [SerializeField] private float _maxFallSpeed = 30f;
-    [SerializeField] private float _max_length => _net._s_l_cur_chain_length;
+    [SerializeField] private float _max_length => Get_Max_Length();
+    private float Get_Max_Length()
+    {
+        if(CCC.rl)//true : r, false : l
+            return _net._s_r_cur_chain_length;
+            else return _net._s_l_cur_chain_length;
+    }
     public float _cur_length;
     // [SerializeField] public float _endDamping = 0.995f;
 

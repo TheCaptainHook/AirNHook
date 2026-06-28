@@ -20,9 +20,11 @@ public class ChainPullButton : ButtonEntity
     public override void Activation()
     {
         // base.Activation();
+        PrograssButtonActivatedObject(true);
     }
     public override void Deactivated()
     {
+        PrograssButtonActivatedObject(false);
         // base.Deactivated();
     }
 }
