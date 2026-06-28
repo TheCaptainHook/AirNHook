@@ -10,15 +10,23 @@ public class ChainPullButton_Net : ButtonEntity_Net
     [SerializeField] private float _chainHailingPower = 2f;
 
 #region Server
-    [Space(20)]
+    [Space(30)]
+    [ReadOnly]
     [SyncVar] public float _s_l_cur_chain_length;
+    [ReadOnly]
     [SyncVar] public float _s_r_cur_chain_length;
+
+    [Space(10)]
     [SerializeField] private float _recover_ChainSpeed;
     //================================================Recovery
     private Coroutine _l_recovery_coroutine;
     private Coroutine _r_recovery_coroutine;
+    
+    [Space(10)]
     [SerializeField] private float _recoverDelay = 1f;
-    private float _r_curRecoverDelay = 0;
+    [ReadOnly]
+    public float _r_curRecoverDelay = 0;
+    [ReadOnly]
     public float _l_curRecoverDelay = 0;
     private IEnumerator L_RecoveryCoroutine() //Server
     {
@@ -144,8 +152,10 @@ public class ChainPullButton_Net : ButtonEntity_Net
     }
 #endregion
 #region Chain
-[   Space(20)]
+    [Space(20)]
+    [ReadOnly]
     [SerializeField] private Transform _r_chain_handle; //red
+    [ReadOnly]
     [SerializeField] private Transform _l_chain_handle; //blue
 
     [SerializeField] private GameObject _r_chain_end_prefab;
@@ -159,8 +169,9 @@ public class ChainPullButton_Net : ButtonEntity_Net
     [Space(20)]
 
     // public bool _onSync;
-
+    [ReadOnly]
     [SyncVar] public uint _r_chain_end_netId;
+    [ReadOnly]
     [SyncVar] public uint _l_chain_end_netId;
 #endregion
 
@@ -243,7 +254,9 @@ public class ChainPullButton_Net : ButtonEntity_Net
     public bool _l_onRecovery;
 
     [SerializeField] private float _s_MaxSafety_code_delay = 0.2f;
+    [ReadOnly]
     public float _s_l_CurSafety_code_delay;
+    [ReadOnly]
     public float _s_r_CurSafety_code_delay;
 
     public bool IsChainLengthOverLimit => _s_l_cur_chain_length + _s_r_cur_chain_length > _maxChainLength;
@@ -493,6 +506,19 @@ public class ChainPullButton_Net : ButtonEntity_Net
     #endregion
 
 #region Hook
+[Command(requiresAuthority = false)]
+public void Cmd_Hook_Interaction()
+{
+    
+}
+private void R_Hook_Interacting()
+{
+    
+}
+private void L_Hook_Interacting()
+{
+    
+}
 #endregion
 
 #region Clean
