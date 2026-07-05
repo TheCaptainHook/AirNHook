@@ -1,18 +1,17 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using TMPro;
-using Unity.Mathematics;
-using System;
 
 public class ChainPullButton_Net : ButtonEntity_Net
 {
     [Space(20)]
     [Header("Save Data")]
-    public int _maxChainLength = 5;
-    public float _left_chain_condition_len;
-    public float _right_chain_condition_len;
+    private ChainPullButton _main;
+    private ChainPullButton _Main {get{_main ??= GetComponent<ChainPullButton>(); return _main;}}
+    private int _maxChainLength => _Main._maxChainLength;
+    private float _left_chain_condition_len=> _Main._left_chain_condition_len;
+    private float _right_chain_condition_len=> _Main._right_chain_condition_len;
 
     [Space(10)]
     [SerializeField] private float _chainHailingPower = 2f;
@@ -250,9 +249,9 @@ public class ChainPullButton_Net : ButtonEntity_Net
     {
         transform.position = data.position;
         transform.rotation = data.quaternion;
-        _left_chain_condition_len = data.l_chain_len;
-        _right_chain_condition_len = data.r_chain_len;
-        _maxChainLength = data.max_chain_len;
+        _Main._left_chain_condition_len = data.l_chain_len;
+        _Main._right_chain_condition_len = data.r_chain_len;
+        _Main._maxChainLength = data.max_chain_len;
 
         ParentSync(_l_chain_end_netId, _r_chain_end_netId);
     }
@@ -263,8 +262,12 @@ public class ChainPullButton_Net : ButtonEntity_Net
     [Header("Server Debug")]
     [SyncVar] public bool _Left_isHaling;
     [SyncVar] public bool _Left_isAirGun_Attached;
+    [SyncVar] public bool _Left_isGrapping;
     [SyncVar] public bool _Right_isHaling;
     [SyncVar] public bool _Right_isAirGun_Attached;
+    [SyncVar] public bool _Right_isGrapping;
+    
+    [Space(10)]
     public bool _r_onRecovery;
     public bool _l_onRecovery;
     [Space(10)]
@@ -340,8 +343,8 @@ public class ChainPullButton_Net : ButtonEntity_Net
     private IEnumerator L_ChainCoroutine(Transform target) //Server
     {
         Transform player = target.root;
-        Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
-        AirSM air  = player.GetComponent<AirSM>();
+        // Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
+        PlayerSM sm = player.GetComponent<PlayerSM>();
 
         while(true)
         {
@@ -351,13 +354,21 @@ public class ChainPullButton_Net : ButtonEntity_Net
 
             if(!IsChainLengthOverLimit)
             {
-                if(_Left_isAirGun_Attached)
+                if(sm.characterType == CharacterType.Air)
                 {
-                    _s_l_cur_chain_length = Vector2.Distance(_l_Chain._start.position, air.shakingEffectOnAirGun.transform.position);
-                }else
+                    AirSM air  = player.GetComponent<AirSM>();
+                    if(_Left_isAirGun_Attached)
+                    {
+                        _s_l_cur_chain_length = Vector2.Distance(_l_Chain._start.position, air.shakingEffectOnAirGun.transform.position);
+                    }else
+                    {
+                        _s_l_cur_chain_length += Time.deltaTime * _chainHailingPower;
+                    }
+                }else if(sm.characterType == CharacterType.Hook)
                 {
-                    _s_l_cur_chain_length += Time.deltaTime * _chainHailingPower;
+                   _s_l_cur_chain_length = Vector2.Distance(_l_Chain._start.position, sm.grabSource.sourceTransform.position);
                 }
+                
             }else
             {
                 if(_Left_isAirGun_Attached)
@@ -365,6 +376,15 @@ public class ChainPullButton_Net : ButtonEntity_Net
                     Rpc_Air_L_ResetSubAction();
                     yield break;
                 }
+
+                if(_Left_isGrapping)
+                {
+                    HookSM hook = player.GetComponent<HookSM>();
+                    hook.ReleaseItem();
+                    Cmd_Stop_Track_L();
+                    yield break;
+                }
+               
             }
             yield return null;
         }
@@ -399,8 +419,8 @@ public class ChainPullButton_Net : ButtonEntity_Net
     private IEnumerator R_ChainCoroutine(Transform target) //Server
     {
         Transform player = target.root;
-        Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
-        AirSM air  = player.GetComponent<AirSM>();
+        // Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
+        PlayerSM sm = player.GetComponent<PlayerSM>();
 
         while(true)
         {
@@ -410,13 +430,21 @@ public class ChainPullButton_Net : ButtonEntity_Net
 
             if(!IsChainLengthOverLimit)
             {
-                if(_Right_isAirGun_Attached)
+                if(sm.characterType == CharacterType.Air)
                 {
-                    _s_r_cur_chain_length = Vector2.Distance(_r_Chain._start.position, air.shakingEffectOnAirGun.transform.position);
-                }else
+                    AirSM air  = player.GetComponent<AirSM>();
+                    if(_Right_isAirGun_Attached)
+                    {
+                        _s_r_cur_chain_length = Vector2.Distance(_r_Chain._start.position, air.shakingEffectOnAirGun.transform.position);
+                    }else
+                    {
+                        _s_r_cur_chain_length += Time.deltaTime * _chainHailingPower;
+                    }
+                }else if(sm.characterType == CharacterType.Hook)
                 {
-                    _s_r_cur_chain_length += Time.deltaTime * _chainHailingPower;
+                   _s_r_cur_chain_length = Vector2.Distance(_r_Chain._start.position, sm.grabSource.sourceTransform.position);
                 }
+                
             }else
             {
                 if(_Right_isAirGun_Attached)
@@ -424,6 +452,15 @@ public class ChainPullButton_Net : ButtonEntity_Net
                     Rpc_Air_R_ResetSubAction();
                     yield break;
                 }
+
+                if(_Right_isGrapping)
+                {
+                    HookSM hook = player.GetComponent<HookSM>();
+                    hook.ReleaseItem();
+                    Cmd_Stop_Track_R();
+                    yield break;
+                }
+               
             }
             yield return null;
         }
@@ -458,93 +495,142 @@ public class ChainPullButton_Net : ButtonEntity_Net
             Managers.Game.playerInput.playerActions.SubAction.Enable(); 
         }
     }
+    // [Command(requiresAuthority = false)]
+    // public void Cmd_Start_Hailing_Track_L(uint targetNetID)
+    // {
+    //     Stop_L_Recovery();
+
+    //     GameObject target = NetworkClient.spawned.TryGetValue(targetNetID, out NetworkIdentity identity) ? identity.gameObject : null;
+    //     if(target == null) return;
+
+    //     AirSM player = target.GetComponent<AirSM>();
+
+    //     _Left_isHaling = true;
+
+    //     if(_l_chain_coroutine != null)
+    //         StopCoroutine(_l_chain_coroutine);
+    //     _l_chain_coroutine = StartCoroutine(L_ChainCoroutine(player.shakingEffectOnAirGun.transform));
+    // }
+    // [Command(requiresAuthority = false)]
+    // public void Cmd_Start_Hailing_Track_R(uint targetNetID)
+    // {
+    //     Stop_R_Recovery();
+    //     GameObject target = NetworkClient.spawned.TryGetValue(targetNetID, out NetworkIdentity identity) ? identity.gameObject : null;
+    //     if(target == null) return;
+
+    //     AirSM player = target.GetComponent<AirSM>();
+
+    //     _Right_isHaling = true;
+
+    //     if(_r_chain_coroutine != null)
+    //         StopCoroutine(_r_chain_coroutine);
+    //     _r_chain_coroutine = StartCoroutine(R_ChainCoroutine(player.shakingEffectOnAirGun.transform));
+    // }
+    //====
     [Command(requiresAuthority = false)]
-    public void Cmd_Start_Hailing_Track_L(uint targetNetID)
-    {
-        Stop_L_Recovery();
-
-        GameObject target = NetworkClient.spawned.TryGetValue(targetNetID, out NetworkIdentity identity) ? identity.gameObject : null;
-        if(target == null) return;
-
-        AirSM player = target.GetComponent<AirSM>();
-
-        _Left_isHaling = true;
-
-        if(_l_chain_coroutine != null)
-            StopCoroutine(_l_chain_coroutine);
-        _l_chain_coroutine = StartCoroutine(L_ChainCoroutine(player.shakingEffectOnAirGun.transform));
-    }
-    [Command(requiresAuthority = false)]
-    public void Cmd_Start_Hailing_Track_R(uint targetNetID)
+    public void Cmd_Start_Track_R(uint targetNetID)
     {
         Stop_R_Recovery();
 
-        GameObject target = NetworkClient.spawned.TryGetValue(targetNetID, out NetworkIdentity identity) ? identity.gameObject : null;
+        PlayerSM target = NetworkClient.spawned.TryGetValue(targetNetID, out NetworkIdentity identity) ? 
+            identity.TryGetComponent(out PlayerSM sm) ? 
+                sm : null : null;
         if(target == null) return;
 
-        AirSM player = target.GetComponent<AirSM>();
+        if(_r_chain_coroutine != null) StopCoroutine(_r_chain_coroutine);
 
-        _Right_isHaling = true;
+        if(target.characterType == CharacterType.Air)
+        {
+            AirSM player = target.GetComponent<AirSM>();
+            _Right_isHaling = true;
+            _r_chain_coroutine = StartCoroutine(R_ChainCoroutine(player.shakingEffectOnAirGun.transform));
 
-        if(_r_chain_coroutine != null)
-            StopCoroutine(_r_chain_coroutine);
-        _r_chain_coroutine = StartCoroutine(R_ChainCoroutine(player.shakingEffectOnAirGun.transform));
+        }else if(target.characterType == CharacterType.Hook)
+        {
+            PlayerSM player = target.GetComponent<HookSM>();
+            _Right_isGrapping = true;
+            _r_chain_coroutine = StartCoroutine(R_ChainCoroutine(player.grabSource.sourceTransform)); 
+        }
     }
+    [Command(requiresAuthority = false)]
+    public void Cmd_Start_Track_L(uint targetNetID)
+    {
+        Stop_L_Recovery();
+
+        PlayerSM target = NetworkClient.spawned.TryGetValue(targetNetID, out NetworkIdentity identity) ? 
+            identity.TryGetComponent(out PlayerSM sm) ? 
+                sm : null : null;
+        if(target == null) return;
+
+        if(_l_chain_coroutine != null) StopCoroutine(_l_chain_coroutine);
+
+        if(target.characterType == CharacterType.Air)
+        {
+            AirSM player = target.GetComponent<AirSM>();
+            _Left_isHaling = true;
+            _l_chain_coroutine = StartCoroutine(L_ChainCoroutine(player.shakingEffectOnAirGun.transform));
+
+        }else if(target.characterType == CharacterType.Hook)
+        {
+            PlayerSM player = target.GetComponent<HookSM>();
+            _Left_isGrapping = true;
+            _l_chain_coroutine = StartCoroutine(L_ChainCoroutine(player.grabSource.sourceTransform)); 
+        }
+    }
+    //====
+
+
+
    
    [Command(requiresAuthority = false)]
     public void Cmd_Stop_Track_L()
     {
-        //==Air
+        //==Reset
         _Left_isAirGun_Attached = false;
         _Left_isHaling = false;
+        _Left_isGrapping = false;
 
         if(_l_chain_coroutine != null)
         {
             StopCoroutine(_l_chain_coroutine);
             _l_chain_coroutine = null;
         }
-        //==Air
-
-        //==Hook
-        //==Hook
-
+        //==Reset
+        Debug.Log("Stpo L");
         Start_L_Recovery();
     }
     [Command(requiresAuthority = false)]
     public void Cmd_Stop_Track_R()
     {
-        //==Air
+        //==Reset
         _Right_isAirGun_Attached = false;
         _Right_isHaling = false;
-
+        _Right_isGrapping = false;
+        
         if(_r_chain_coroutine != null)
         {
             StopCoroutine(_r_chain_coroutine);
             _r_chain_coroutine = null;
         }
-        //==Air
-
-        //==Hook
-        //==Hook
-
+        //==Reset
         Start_R_Recovery();
     }
     #endregion
 
 #region Hook
-[Command(requiresAuthority = false)]
-public void Cmd_R_Hook_Interaction(uint id)
-{
-    GameObject player = NetworkServer.spawned.TryGetValue(id,out NetworkIdentity identity) ? identity.gameObject : null;
-    if(player == null) return;
+// [Command(requiresAuthority = false)]
+// public void Cmd_R_Hook_Interaction(uint id)
+// {
+//     GameObject player = NetworkServer.spawned.TryGetValue(id,out NetworkIdentity identity) ? identity.gameObject : null;
+//     if(player == null) return;
 
+//     // ParentConstraint pc;
+// }
+// [Command(requiresAuthority = false)]
+// public void Cmd_L_Hook_Interaction(uint id)
+// {
     
-}
-[Command(requiresAuthority = false)]
-public void Cmd_L_Hook_Interaction(uint id)
-{
-    
-}
+// }
 
 #endregion
 

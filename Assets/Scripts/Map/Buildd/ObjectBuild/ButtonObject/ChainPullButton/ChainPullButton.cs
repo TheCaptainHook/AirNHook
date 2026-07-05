@@ -1,10 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class ChainPullButton : ButtonEntity
 {
 #region Get,Set
+    [CustomHeader("ChainPullButton")]
+    public int _maxChainLength = 5;
+    public float _left_chain_condition_len;
+    public float _right_chain_condition_len;
+    
+    [Space(10)]
     private ChainPullButton_Net cpbn;
     private ChainPullButton_Net CPBN {get{cpbn ??= GetComponent<ChainPullButton_Net>(); return cpbn;}}
     public override T GetData<T>()
@@ -20,7 +25,8 @@ public class ChainPullButton : ButtonEntity
                 GetTargetPositions(),
                 GetLightPositions(),
                 GetEncapsulationTiems(),
-                CPBN._left_chain_condition_len,CPBN._right_chain_condition_len,CPBN._maxChainLength
+                // CPBN._left_chain_condition_len,CPBN._right_chain_condition_len,CPBN._maxChainLength
+                _left_chain_condition_len,_right_chain_condition_len,_maxChainLength
                 );
         }
 
@@ -32,18 +38,19 @@ public class ChainPullButton : ButtonEntity
     }
     public override void SetOtherDataParm(ButtonObjectStruct data)
     {
-        CPBN._left_chain_condition_len = data.l_chain_len;
-        CPBN._right_chain_condition_len = data.r_chain_len;
-        CPBN._maxChainLength = data.max_chain_len;
+        _left_chain_condition_len = data.l_chain_len;
+        _right_chain_condition_len = data.r_chain_len;
+        // CPBN._maxChainLength = data.max_chain_len;
+        _maxChainLength = data.max_chain_len;
     }
 #endregion
    
-    #region Clean
+#region Clean
     public override void Clean()
     {
         Net.Clean();
     }
-    #endregion
+#endregion
 
 
     public override void Activation()

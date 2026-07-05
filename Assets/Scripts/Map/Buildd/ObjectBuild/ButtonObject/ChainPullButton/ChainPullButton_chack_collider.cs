@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using Mirror;
 
@@ -47,11 +46,11 @@ public class ChainPullButton_chack_collider :  NetworkBehaviour, IInteractable, 
         if (!rl) //false(l) : blue, true(r) : red
         { 
             Debug.Log("left");
-            Net.Cmd_Start_Hailing_Track_L(accessor.root.gameObject.GetComponent<NetworkIdentity>().netId);
+            Net.Cmd_Start_Track_L(accessor.root.gameObject.GetComponent<NetworkIdentity>().netId);
         }else
         {
             Debug.Log("right");
-            Net.Cmd_Start_Hailing_Track_R(accessor.root.gameObject.GetComponent<NetworkIdentity>().netId);
+            Net.Cmd_Start_Track_R(accessor.root.gameObject.GetComponent<NetworkIdentity>().netId);
         }
     }
    
@@ -107,17 +106,36 @@ public class ChainPullButton_chack_collider :  NetworkBehaviour, IInteractable, 
 
     public void Interaction(Transform accessor)
     {
-        PlayerSM sm = accessor.TryGetComponent(out PlayerSM playersm) ? playersm : null;
+        NetworkIdentity sm = accessor.root.gameObject.GetComponentInParent<NetworkIdentity>();
         if(sm == null) return;
- 
+
         if(rl) //false(l) : blue, true(r) : red
         {
             if(Net._Right_isAirGun_Attached) return;
+            if(Net._Right_isGrapping)
+            {
+                Cmd_OnInhaling(false);
+                Net.Cmd_Stop_Track_R();
+            }else
+            {
+                Cmd_OnInhaling(true);
+                Net.Cmd_Start_Track_R(sm.netId);
+            }
             Debug.Log("Right");
+            
         }
         else
         {
             if(Net._Left_isAirGun_Attached) return;
+            if(Net._Left_isGrapping)
+            {
+                Cmd_OnInhaling(false);
+                Net.Cmd_Stop_Track_L();
+            }else
+            {
+                Cmd_OnInhaling(true);
+                Net.Cmd_Start_Track_L(sm.netId);
+            }
             Debug.Log("Left");
         }
     }
@@ -140,22 +158,22 @@ public class ChainPullButton_chack_collider :  NetworkBehaviour, IInteractable, 
     [SerializeField] Vector2 _BtnOffset;
     public void ShowEButton()
     {
+        if(Net._Left_isGrapping || Net._Right_isGrapping) return;
+
         if(rl) //false(l) : blue, true(r) : red
         {
             if(!Net._Right_isAirGun_Attached)
             {
-                 _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
-                 _E_Btn.transform.position =  (Vector2)transform.position + _BtnOffset;
-                Debug.Log("Right");
+                _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
+                _E_Btn.transform.position =  (Vector2)transform.position + _BtnOffset;
             }
         }
         else
         {
             if(!Net._Left_isAirGun_Attached)
             {
-                 _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
-                 _E_Btn.transform.position =  (Vector2)transform.position + _BtnOffset;
-                Debug.Log("Left");
+                _E_Btn = Managers.UI.ShowUI<UI_ShowEButton>();
+                _E_Btn.transform.position =  (Vector2)transform.position + _BtnOffset;
             }
         }
 

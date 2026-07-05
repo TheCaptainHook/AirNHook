@@ -12941,9 +12941,9 @@
                 "x": 0.0,
                 "y": 0.0
             },
-            "l_chain_len": 2.0,
-            "r_chain_len": 2.0,
-            "max_chain_len": 5
+            "l_chain_len": 4.0,
+            "r_chain_len": 4.0,
+            "max_chain_len": 10
         }
     ],
     "mapExitObjectStruct": {

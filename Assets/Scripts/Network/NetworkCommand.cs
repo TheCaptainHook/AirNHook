@@ -157,13 +157,13 @@ public class NetworkCommand : NetworkBehaviour
         if (!NetworkClient.spawned.TryGetValue(itemNetId, out var item)) return;
 
         var conn = target.GetComponent<NetworkIdentity>().connectionToClient;
-        
+
         if (!item.TryGetComponent<IInteractable>(out var interactable) || (interactable is not null && !interactable.CanInteract()))
         {
             GrabItem(conn, itemNetId, false);
             return;
         }
-        
+
         if (!interactable.Interacting(true, target))
         {
             GrabItem(conn, itemNetId, false);
@@ -174,7 +174,6 @@ public class NetworkCommand : NetworkBehaviour
         {
             AssignAuthority(item, conn);
         }
-        
         GrabItem(conn, itemNetId, true);
     }
     

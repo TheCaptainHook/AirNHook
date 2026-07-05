@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.Animations;
 
@@ -68,13 +67,17 @@ public class Chain1 : MonoBehaviour
     {
         if (_start == null || _end == null)
             return;
-//====================RB없는 경우 자체 중력처리
-        
-//====================RB없는 경우 자체 중력처리
 
         Vector2 startPos = _start.position;
         Vector2 endPos = _end.position;
         Vector2 startToEnd = endPos - startPos;
+        if(startToEnd.sqrMagnitude < 0.0001f)
+        {
+            _end.localPosition = Vector3.zero;
+            _endVelocity = Vector2.zero;
+            return;
+        }
+            
         float distance = startToEnd.magnitude;
 
         if (distance > _max_length)
@@ -199,7 +202,10 @@ public class Chain1 : MonoBehaviour
         Rigidbody2D Rb = _end.GetComponent<Rigidbody2D>();
         Rb.velocity = Vector2.zero;
         Rb.angularVelocity = 0f;
-        _end.rotation = Quaternion.identity;
+        Rb.gravityScale = 0;
+        _end.localRotation = Quaternion.identity;
+        _end.localPosition = Vector3.zero;
+        _endVelocity = Vector2.zero;
     }
 #endregion
 
