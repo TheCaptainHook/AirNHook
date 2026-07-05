@@ -2,11 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using TMPro;
+using Unity.Mathematics;
+using System;
 
 public class ChainPullButton_Net : ButtonEntity_Net
 {
     [Space(20)]
-    [SerializeField] private float _maxChainLength = 5f;
+    [Header("Save Data")]
+    public int _maxChainLength = 5;
+    public float _left_chain_condition_len;
+    public float _right_chain_condition_len;
+
+    [Space(10)]
     [SerializeField] private float _chainHailingPower = 2f;
 
 #region Server
@@ -22,7 +30,6 @@ public class ChainPullButton_Net : ButtonEntity_Net
     private Coroutine _l_recovery_coroutine;
     private Coroutine _r_recovery_coroutine;
     
-    [Space(10)]
     [SerializeField] private float _recoverDelay = 1f;
     [ReadOnly]
     public float _r_curRecoverDelay = 0;
@@ -118,6 +125,10 @@ public class ChainPullButton_Net : ButtonEntity_Net
     private Coroutine _l_chain_coroutine;
     private Coroutine _r_chain_coroutine;
 
+    void LateUpdate()
+    {
+        Condition_UI_Update();
+    }
     [ServerCallback]
     private void Update()
     {
@@ -239,6 +250,10 @@ public class ChainPullButton_Net : ButtonEntity_Net
     {
         transform.position = data.position;
         transform.rotation = data.quaternion;
+        _left_chain_condition_len = data.l_chain_len;
+        _right_chain_condition_len = data.r_chain_len;
+        _maxChainLength = data.max_chain_len;
+
         ParentSync(_l_chain_end_netId, _r_chain_end_netId);
     }
   
@@ -252,7 +267,18 @@ public class ChainPullButton_Net : ButtonEntity_Net
     [SyncVar] public bool _Right_isAirGun_Attached;
     public bool _r_onRecovery;
     public bool _l_onRecovery;
+    [Space(10)]
+    public TextMeshProUGUI _text_ui;
+    private void Condition_UI_Update()
+    {
+        float result_right;
+        float result_left;
+        result_right = Mathf.Floor(_s_r_cur_chain_length/ _right_chain_condition_len * 1000)/1000;
+        result_left = Mathf.Floor(_s_l_cur_chain_length/ _left_chain_condition_len * 1000)/1000;
 
+        _text_ui.text = $"{result_left.ToString("F3")} / {result_right.ToString("F3")}";
+    }
+    [Space(10)]
     [SerializeField] private float _s_MaxSafety_code_delay = 0.2f;
     [ReadOnly]
     public float _s_l_CurSafety_code_delay;
@@ -266,7 +292,7 @@ public class ChainPullButton_Net : ButtonEntity_Net
     /// </summary>
     private void CheckCondition() //Server
     {
-        if(_s_l_cur_chain_length >=1 && _s_r_cur_chain_length >=1)
+        if(_s_l_cur_chain_length >=_left_chain_condition_len && _s_r_cur_chain_length >=_right_chain_condition_len)
         {
             if(!_isActive)
             {
@@ -507,18 +533,19 @@ public class ChainPullButton_Net : ButtonEntity_Net
 
 #region Hook
 [Command(requiresAuthority = false)]
-public void Cmd_Hook_Interaction()
+public void Cmd_R_Hook_Interaction(uint id)
+{
+    GameObject player = NetworkServer.spawned.TryGetValue(id,out NetworkIdentity identity) ? identity.gameObject : null;
+    if(player == null) return;
+
+    
+}
+[Command(requiresAuthority = false)]
+public void Cmd_L_Hook_Interaction(uint id)
 {
     
 }
-private void R_Hook_Interacting()
-{
-    
-}
-private void L_Hook_Interacting()
-{
-    
-}
+
 #endregion
 
 #region Clean

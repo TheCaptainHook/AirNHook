@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.Mathematics;
 using UnityEngine;
 using static UnityEngine.Rendering.Universal.Light2D;
@@ -33,13 +34,16 @@ public struct ButtonObjectStruct
     public List<Vector2> lightPositions;
     public List<Vector2> encapsulationItems;
     public bool chargeRequired;
-    //puzzle_1
+    //==puzzle_1
     public bool onHint;
     public Vector2[] partsPositions;
     public Vector2[] itemPositions;
     public Vector2 hintPosition;
-    //CapsulationItem
-
+    //==ChainPullButton
+    public float l_chain_len;
+    public float r_chain_len;
+    public int max_chain_len;
+    
    
 
     #region Primary Constructor
@@ -52,7 +56,10 @@ public struct ButtonObjectStruct
         bool onHint,
         Vector2[] partsPositions,
         Vector2[] itemPositions,
-        Vector2 hintPosition
+        Vector2 hintPosition,
+        float l_chain_len,
+        float r_chain_len,
+        int max_chain_len
     )
     {
         this.id = id;
@@ -71,12 +78,17 @@ public struct ButtonObjectStruct
         this.itemPositions = itemPositions;
         this.hintPosition = hintPosition;
         
+        this.l_chain_len = l_chain_len;
+        this.r_chain_len = r_chain_len;
+        this.max_chain_len = max_chain_len;
+        
     }
     private ButtonObjectStruct(ButtonObjectStruct other) : this(
         other.id, other.position, other.quaternion, other.scale,
         other.targetPositions, other.lightPositions, other.encapsulationItems,
         other.chargeRequired,
-        other.onHint, other.partsPositions, other.itemPositions, other.hintPosition
+        other.onHint, other.partsPositions, other.itemPositions, other.hintPosition,
+        other.l_chain_len,other.r_chain_len,other.max_chain_len
       
     ) { }
  
@@ -92,7 +104,10 @@ public struct ButtonObjectStruct
             onHint: false,
             partsPositions: null,
             itemPositions: null,
-            hintPosition: Vector2.zero
+            hintPosition: Vector2.zero,
+            l_chain_len : 0,
+            r_chain_len : 0,
+            max_chain_len : 0
             );
 
 
@@ -115,6 +130,17 @@ public struct ButtonObjectStruct
         this.hintPosition = hintPosition;
     }
 
+    //Chain Pull button
+   public ButtonObjectStruct(int id, Vector2 position, Quaternion quaternion, Vector3 scale,
+       List<Vector2> targetPositions,List<Vector2> lightPositions,List<Vector2> encapsulationItems,
+       float l_chain_len,float r_chain_len, int max_chain_len
+       )
+       : this(Base(id, position, quaternion, scale, targetPositions, lightPositions, encapsulationItems, false)) 
+    {
+       this.l_chain_len = l_chain_len;
+       this.r_chain_len = r_chain_len;
+       this.max_chain_len = max_chain_len;
+    }
 }
 #endregion
 

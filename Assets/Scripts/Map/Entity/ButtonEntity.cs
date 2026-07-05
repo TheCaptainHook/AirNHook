@@ -166,6 +166,7 @@ public class ButtonEntity : BuildObj,IPowerConsumer
                 FindTargetObject();
                 if (buttonData.lightPositions.Count > 0) FindLightObject();
                 if (buttonData.encapsulationItems.Count > 0) FindEncapsulationItem();
+                SetOtherDataParm(ButtonObjectData);
 
                 if (Application.isPlaying) Net.Server_SetInit();
             }
@@ -177,7 +178,10 @@ public class ButtonEntity : BuildObj,IPowerConsumer
         }
 
     }
-
+    public virtual void SetOtherDataParm(ButtonObjectStruct data) //Server
+    {
+        
+    }
     // IEnumerator DelayFindCoroutine()
     // {
     //     if (!Application.isPlaying) yield break;

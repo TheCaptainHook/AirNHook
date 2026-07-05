@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using UnityEngine.UIElements.Experimental;
 
 public class ChainPullButton_chack_collider :  NetworkBehaviour, IInteractable, IInhalable
 {

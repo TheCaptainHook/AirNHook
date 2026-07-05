@@ -12718,7 +12718,10 @@
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            }
+            },
+            "l_chain_len": 0.0,
+            "r_chain_len": 0.0,
+            "max_chain_len": 0
         },
         {
             "id": 329,
@@ -12752,7 +12755,10 @@
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            }
+            },
+            "l_chain_len": 0.0,
+            "r_chain_len": 0.0,
+            "max_chain_len": 0
         },
         {
             "id": 329,
@@ -12786,7 +12792,10 @@
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            }
+            },
+            "l_chain_len": 0.0,
+            "r_chain_len": 0.0,
+            "max_chain_len": 0
         },
         {
             "id": 372,
@@ -12820,7 +12829,10 @@
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            }
+            },
+            "l_chain_len": 0.0,
+            "r_chain_len": 0.0,
+            "max_chain_len": 0
         },
         {
             "id": 372,
@@ -12854,7 +12866,10 @@
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            }
+            },
+            "l_chain_len": 0.0,
+            "r_chain_len": 0.0,
+            "max_chain_len": 0
         },
         {
             "id": 372,
@@ -12888,7 +12903,10 @@
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            }
+            },
+            "l_chain_len": 0.0,
+            "r_chain_len": 0.0,
+            "max_chain_len": 0
         },
         {
             "id": 379,
@@ -12922,7 +12940,10 @@
             "hintPosition": {
                 "x": 0.0,
                 "y": 0.0
-            }
+            },
+            "l_chain_len": 2.0,
+            "r_chain_len": 2.0,
+            "max_chain_len": 5
         }
     ],
     "mapExitObjectStruct": {
