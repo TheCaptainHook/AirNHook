@@ -432,7 +432,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
 
     private IEnumerator EmoteCoolDown()
     {
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(1f);
         _emoteOnCoolDown = false;
     }
 
@@ -546,7 +546,7 @@ public class PlayerSM : NetworkBehaviour, IDamageable
 
     private IEnumerator PingCoolDown()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         _pingOnCoolDown = false;
     }
 

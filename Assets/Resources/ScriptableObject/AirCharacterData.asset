@@ -24,12 +24,12 @@ MonoBehaviour:
     m_Bits: 33751040
   <obstacleLayerMask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 1049024
+    m_Bits: 1081792
   <detectDistance>k__BackingField: 1
   <AirGunDistance>k__BackingField: 3.5
   <objectLayerMask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 787456
+    m_Bits: 537658368
   <predictLineLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 1704384
