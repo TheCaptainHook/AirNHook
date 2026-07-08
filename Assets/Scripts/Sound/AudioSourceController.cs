@@ -17,6 +17,9 @@ public class AudioSourceController : MonoBehaviour
     private bool _destroyWhenTargetDestroyed;
     private SoundManager _soundManager;
 
+    public bool IsRecycled => _isRecycled;
+    public void MarkRecycled() => _isRecycled = true;
+
     private void Start()
     {
         _soundManager = Managers.Sound;

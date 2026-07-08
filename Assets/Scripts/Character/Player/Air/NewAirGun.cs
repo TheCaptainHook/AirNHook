@@ -493,7 +493,7 @@ public class NewAirGun
 
         if (_isAttached && Physics2D.OverlapBox(_inhaleTarget.transform.position, Vector2.one, 0f, _obstacleMask))
         {
-            _inhaleTarget.transform.position += _air.InhalingPoint.right * -0.25f;
+            _inhaleTarget.transform.position += _air.InhalingPoint.right * -0.3f;
         }
         _isAttached = false;
 
