@@ -288,7 +288,7 @@ public class BuildObj : MousePointerEntity, IDamageable, IPooling
 
     public virtual void Reset()
     {
-
+        
     }
 
     public virtual void EditorMode_Destroy()
@@ -327,6 +327,8 @@ public class BuildObj : MousePointerEntity, IDamageable, IPooling
     public ObjectDropSoundEnum objectDropSound;
     public float soundVolume = 1f;
     public int soundDistance = 10;
+    [SerializeField] private float soundCooldown = 0.3f;
+    private float _lastSoundTime = -1f;
 
     protected void OnCollisionEnter2D(Collision2D collision)
     {
@@ -334,9 +336,17 @@ public class BuildObj : MousePointerEntity, IDamageable, IPooling
 
         if (objectDropSound == ObjectDropSoundEnum.None) return;
 
+        if (Time.time - _lastSoundTime < soundCooldown) return;
+
         if (!GlobalText.DropSoundDictionary.TryGetValue(objectDropSound, out var sound)) return;
 
+        _lastSoundTime = Time.time;
         Managers.Sound.PlaySound3D(sound, transform.position, soundVolume, false, soundDistance, true);
+    }
+
+    protected void OsionExit2D(Collision2D collision)
+    {
+        if ((_floorLayerMask.value & (1 << collision.gameObject.layer)) == 0) return;
     }
 
     #region Destructible Obj Dissolve Effect Logic

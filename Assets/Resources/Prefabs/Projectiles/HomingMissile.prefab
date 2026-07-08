@@ -4937,7 +4937,7 @@ GameObject:
   - component: {fileID: 8570412650347850234}
   - component: {fileID: 5073918800664214856}
   - component: {fileID: 8577102185294255568}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: HomingMissile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5101,21 +5101,25 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  _moveSpeed: 10
+  _thrustForce: 7
+  _boostPower: 7
   _rotateSpeed: 300
+  _maxAngularVelocity: 150
+  _shakePower: 2
+  _armTime: 0.15
   _lifeTime: 10
-  _maxHomingDistance: 20
+  _lostLifeTime: 5
+  _pushBackForce: 10
+  _torqueImpulse: 50
+  _thrustDrag: 0.5
+  _thrustResumeDelay: 0.4
   _boom_effect_obj: {fileID: 5225811919465447319}
   _missile_effect_obj: {fileID: 314698657923655185}
   _missile_Fire_effect: {fileID: 1596262378447209661}
+  _boom_release_delay: 1.5
   _layer:
     serializedVersion: 2
     m_Bits: 57656768
-  _maxTimer: 3
-  _curTimer: 0
-  _shakePower: 2
-  _boostPower: 50
-  _boom_release_delay: 1.5
 --- !u!114 &8570412650347850234
 MonoBehaviour:
   m_ObjectHideFlags: 0

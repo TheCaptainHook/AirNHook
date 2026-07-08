@@ -26,8 +26,9 @@ public class UI_PingWheel : UI_Base
     public override void OnEnable()
     {
         OpenUI();
+        //GetComponent<Canvas>().worldCamera = Camera.main;
         _mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        gameObject.transform.position = _mousePosition;
+        _mainFrame.transform.position = Input.mousePosition;
         AppendAnim(_mainFrame, 1.3f, 0.15f, 1f, 0.05f);
     }
 

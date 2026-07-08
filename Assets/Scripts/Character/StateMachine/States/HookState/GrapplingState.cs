@@ -63,7 +63,7 @@ public class GrapplingState : BaseState
         if (stateMachine.horizontal == 0) return;
 
         var playerToHookDirection = (ropeHook - (Vector2)_hookStateMachine.player.transform.position).normalized;
-        var perpendicularDirection = _hookStateMachine.horizontal < 0 ? new Vector2(-playerToHookDirection.y, playerToHookDirection.x) : new Vector2(playerToHookDirection.y, playerToHookDirection.x);
+        var perpendicularDirection = _hookStateMachine.horizontal < 0 ? new Vector2(-playerToHookDirection.y, playerToHookDirection.x) : new Vector2(playerToHookDirection.y, -playerToHookDirection.x);
 
         var force = perpendicularDirection * _hookStateMachine.swingForce;
         rigidbd.AddForce(force, ForceMode2D.Force);
