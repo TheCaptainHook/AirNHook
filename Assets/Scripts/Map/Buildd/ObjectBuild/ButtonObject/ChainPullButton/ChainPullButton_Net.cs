@@ -366,7 +366,7 @@ public class ChainPullButton_Net : ButtonEntity_Net
                     }
                 }else if(sm.characterType == CharacterType.Hook)
                 {
-                   _s_l_cur_chain_length = Vector2.Distance(_l_Chain._start.position, sm.grabSource.sourceTransform.position);
+                   _s_l_cur_chain_length = Vector2.Distance(_l_Chain._start.position, sm.transform.position);
                 }
                 
             }else
