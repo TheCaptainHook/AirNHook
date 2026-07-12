@@ -122,14 +122,16 @@ public static class GlobalText
     #region Death Sound
     public const string PLAYER_DEATH = "Splat";
     public const string PLAYER_SUICIDE_EXPLOSION = "Explosion";
+    public const string PLAYER_FIRE_DEATH = "Death_Fire";
+    public const string PLAYER_ELECTRIC_DEATH = "Death_Electric";
 
     public static readonly IReadOnlyDictionary<DamageType, string> DeathSoundDictionary =
         new Dictionary<DamageType, string>
         {
             { DamageType.Default, PLAYER_DEATH },
-            { DamageType.Fire, PLAYER_DEATH },
+            { DamageType.Fire, PLAYER_FIRE_DEATH },
             { DamageType.Boom, PLAYER_SUICIDE_EXPLOSION },
-            { DamageType.Electric, PLAYER_DEATH },
+            { DamageType.Electric, PLAYER_ELECTRIC_DEATH },
             { DamageType.Suicide, PLAYER_SUICIDE_EXPLOSION }
         };
     #endregion

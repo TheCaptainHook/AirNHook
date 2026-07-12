@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 
 public class UI_EndingCredits : UI_Base
 {
     [Header("Refs")]
+    [SerializeField] private Button _exitBtn;
     [SerializeField] RectTransform viewport;
     private float _defViewportY = -1080f;
     private float _maxViewportY = 1600;
@@ -59,6 +61,11 @@ Lukrembo
 /bCOPYRIGHT
 © 2025 Team CaptainHook. All rights reserved.
 ";
+
+    protected override void Start()
+    {
+        _exitBtn.onClick.AddListener(OnExitBtn);
+    }
 
     public override void OnEnable()
     {
@@ -138,5 +145,8 @@ Lukrembo
        
     }
 
-
+    private void OnExitBtn()
+    {
+        CloseUI();
+    }
 }

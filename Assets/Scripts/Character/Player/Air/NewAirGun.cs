@@ -1,11 +1,9 @@
+using Mirror;
 using System;
 using System.Collections;
-using Mirror;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.InputSystem;
-using System.Diagnostics; // 
-using Debug = UnityEngine.Debug;
 public class NewAirGun
 {
     private AirSM _air;
@@ -40,7 +38,7 @@ public class NewAirGun
     private ShakingEffectOnAirGun _shakingEffectOnAirGun => _air.shakingEffectOnAirGun;
     private Rigidbody2D _rigidbody2D => _air.rigidbody2D;
     private Collider2D _inhaleTarget;
-    public bool _isAttached;
+    private bool _isAttached;
     public bool _inhaling;
     private GameObject _inhalePermissionObject;
     private bool _inhalingPlayer;
@@ -69,6 +67,7 @@ public class NewAirGun
     private Coroutine _waitForStopCoroutine;
     private WaitForSeconds _waitFor1Seconds = new(0.1f);
     private bool _canInhale = true;
+    public LayerMask missileLayer;
     
     // FlyAction
     private float _flyPower;
@@ -129,6 +128,7 @@ public class NewAirGun
         _floorLayerMask = airData.floorLayerMask;
         _predictLineLayerMask = airData.predictLineLayerMask;
         _inhaleTarget = null;
+        missileLayer = _air.missileLayer;
 
         _positions = new Vector3[_numberOfPoints];
         
@@ -159,7 +159,7 @@ public class NewAirGun
         _shortestDistance = float.MaxValue;
         try
         {
-            if (_targetConstraint is not null && _targetConstraint.sourceCount != 0)
+            if (_targetConstraint != null && _targetConstraint.sourceCount != 0)
             {
                 _targetConstraint.weight = 0f;
                 _targetConstraint.constraintActive = false;
@@ -275,6 +275,10 @@ public class NewAirGun
                 
                 if (angle > 47.5) continue;
                 
+                // 현재 에어건이 장애물 위치에 있는지 판별
+                if (Physics2D.OverlapPoint(_inhalingPoint.position, _obstacleMask)) continue;
+
+                // 이 병신은 에어건이 장애물 위치에 있으면 모름
                 var hit = Physics2D.Raycast(_inhalingPoint.position, objectVector, targetDistance, _obstacleMask);
                 
                 if (Vector2.Distance(_inhalingPoint.position, hit.point) < targetDistance) continue;
@@ -448,7 +452,6 @@ public class NewAirGun
         targetRigdbody.drag = 10f;
         targetRigdbody.gravityScale = 0f;
         targetRigdbody.AddForce(direction * power * Time.fixedDeltaTime);
-        // Debug.Log($"Inhaling {targetRigdbody.gameObject.name} with power {power}");
     }
 
     private void StopInhale()
@@ -463,13 +466,19 @@ public class NewAirGun
             _lineRenderer.enabled = false;
         }
         
-        _isAttached = false;
+        //_isAttached = false;
         _isAttachedToHook = false;
         _inhalingPlayer = false;
         _isInhaledHook = false;
         _lineRenderer.enabled = false;
         _crossHair.gameObject.SetActive(false);
-        if (_inhaleTarget == null) return;
+
+        if (_inhaleTarget == null)
+        {
+            _isAttached = false;
+            return;
+        }
+
         try
         {
             if (_targetConstraint != null && _targetConstraint.sourceCount != 0)
@@ -481,6 +490,13 @@ public class NewAirGun
             }
         }
         catch (Exception) { }
+
+        if (_isAttached && Physics2D.OverlapBox(_inhaleTarget.transform.position, Vector2.one, 0f, _obstacleMask))
+        {
+            _inhaleTarget.transform.position += _air.InhalingPoint.right * -0.3f;
+        }
+        _isAttached = false;
+
         try
         {
             if (ReferenceEquals(Managers.Game.OtherPlayer, _inhaleTarget.gameObject))
@@ -499,12 +515,12 @@ public class NewAirGun
         //260223 BlinkingButton
         if(_inhaleTarget.TryGetComponent(out Rigidbody2D component)) if(component.isKinematic) return;
         //260223 BlinkingButton
-    
         if (!_inhaling) return;
-    
+
         if (!_inhaleTarget.GetComponent<NetworkIdentity>().isOwned) return;
-    
+
         if (_isAttached) return;
+
         _isAttached = true;
 
         if (!_inhaleTarget.TryGetComponent(out _targetConstraint))
@@ -689,7 +705,7 @@ public class NewAirGun
     {
         if (!_canControl || !_canAction) return;
 
-        if (!_rightClick || sticking) return;
+        //if (!_rightClick || sticking) return;
         
         var mousePos = _mainCamera.ScreenToWorldPoint(_mousePosition);
         var newAim = mousePos - _armPivot.position;
@@ -753,8 +769,12 @@ public class NewAirGun
     
     private void ShootObject()
     {
-        if ((!_isAttached && !_isInhaledHook) || _shootPower <= 0f) return;
-        
+        if ((!_isAttached && !_isInhaledHook) || _shootPower <= 0f)
+        {
+            AirBlast();
+            return;
+        }
+
         if (_inhaleTarget == null)
         {
             StopInhale();
@@ -793,6 +813,49 @@ public class NewAirGun
         _inhaling = false;
         _shootPower = 0f;
         Managers.Game.cameraShake.RequestShake(_air.gameObject, 7f, 0.18f);
+    }
+
+    private void AirBlast()
+    {
+        var collisions = Physics2D.OverlapCircleAll(_inhalingPoint.position, _airGunDistance, _objectMask);
+
+        if (collisions.Length <= 0) return;
+
+        foreach (var collision in collisions)
+        {
+            var rb = collision.attachedRigidbody;
+
+            if (rb == null) continue;
+
+            Vector2 dir = collision.transform.position - _inhalingPoint.position;
+            var dirNorm = dir.normalized;
+
+            if (Vector2.Dot(_inhalingPoint.right, dirNorm) < 0) continue;
+
+            if ((missileLayer.value & (1 << collision.gameObject.layer)) != 0)
+            {
+                float crossZ = Vector3.Cross(_inhalingPoint.right, dirNorm).z;
+                float angle = Vector2.Angle(_inhalingPoint.right, dirNorm);
+                AirBlastMissileRedirect(collision.gameObject, dirNorm, angle, crossZ >= 0);
+                continue;
+            }
+
+            var distance = dir.magnitude;
+
+            float forceFactor = 1f - (distance / (_airGunDistance + 0.1f));
+            forceFactor = forceFactor * forceFactor;
+
+            Vector2 force = dirNorm * 10 * forceFactor;
+            rb.AddForce(force, ForceMode2D.Impulse);
+        }
+    }
+
+    private void AirBlastMissileRedirect(GameObject missile, Vector2 dir, float angle, bool upside)
+    {
+        if (!missile.TryGetComponent<HomingMissile>(out var m)) return;
+
+        //m.LostTarget(dir, angle, upside);
+        m.OnAirGunHit(_air.armPivot.position);
     }
     
     private IEnumerator Co_CoolDown()

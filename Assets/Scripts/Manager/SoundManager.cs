@@ -205,10 +205,13 @@ public class SoundManager
     public void StopSound(AudioSourceController audioSource)
     {
         if (audioSource == null) return;
+        
+        if (audioSource.IsRecycled) return;
 
         if (_ambientAudioSources.Contains(audioSource))
             _ambientAudioSources.Remove(audioSource);
 
+        audioSource.MarkRecycled();
         audioSource.gameObject.SetActive(false);
         _deactivatedAudioSources.Enqueue(audioSource);
     }
@@ -271,13 +274,14 @@ public class SoundManager
     {
         foreach (var audioSource in _ambientAudioSources)
         {
-            if (audioSource.gameObject.activeSelf)
+            if (audioSource.gameObject.activeSelf && !audioSource.IsRecycled)
             {
+                audioSource.MarkRecycled();
                 audioSource.gameObject.SetActive(false);
                 _deactivatedAudioSources.Enqueue(audioSource);
             }
         }
-        
+
         _ambientAudioSources.Clear();
     }
     #endregion

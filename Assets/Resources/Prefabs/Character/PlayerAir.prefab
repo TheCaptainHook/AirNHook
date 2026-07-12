@@ -379,8 +379,10 @@ MonoBehaviour:
   canAction: 0
   canMovable: 0
   invincible: 0
+  canInteract: 0
   isDead: 0
   doNotTouch: 0
+  isControlObj: 0
   <charPivot>k__BackingField: {fileID: 9177120215743396866}
   <sortingGroup>k__BackingField:
   - {fileID: 7293673060795672014}
@@ -397,6 +399,7 @@ MonoBehaviour:
   collider2D: {fileID: 5969139581006705340}
   <networkRigidbodySync>k__BackingField: {fileID: -7113277246732209337}
   <grabPoint>k__BackingField: {fileID: 9095037024881079552}
+  latestTarget: {fileID: 0}
   <jumpParticle>k__BackingField: {fileID: 6352433328000077562}
   <landParticle>k__BackingField: {fileID: 8303112938069692247}
   <animator>k__BackingField: {fileID: 5995454702025683127}
@@ -409,6 +412,9 @@ MonoBehaviour:
   <inhaleParticle>k__BackingField: {fileID: 5132154906828901315}
   <exhaleParticle>k__BackingField: {fileID: 3801523937959093438}
   isInhaleParticleOn: 0
+  missileLayer:
+    serializedVersion: 2
+    m_Bits: 536870912
 --- !u!50 &3123692007149661597
 Rigidbody2D:
   serializedVersion: 4
@@ -789,15 +795,11 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  movingPlatform: {fileID: 0}
-  movingPlatformLayer:
+  movingPlatformMask:
     serializedVersion: 2
     m_Bits: 32768
-  layOffset: {x: 0, y: 0.7, z: 0}
-  col: {fileID: 0}
-  rb: {fileID: 0}
-  netRb: {fileID: 0}
-  startSync: 0
+  skin: 0.2
+  _platformId: 0
 --- !u!1773428102 &315749101116579101
 ParentConstraint:
   m_ObjectHideFlags: 0

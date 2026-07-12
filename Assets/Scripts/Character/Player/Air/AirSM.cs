@@ -24,6 +24,7 @@ public class AirSM : PlayerSM
     [field: SerializeField] public ParticleSystem exhaleParticle { get; private set; }
     [SyncVar] public bool isInhaleParticleOn;
 
+    public LayerMask missileLayer;
     // 
     // private IInteractable _airGunMountObj = null;
     public IInteractable _airGunMountObj = null;
