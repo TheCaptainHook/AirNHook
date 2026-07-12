@@ -39,21 +39,6 @@ public class BlinkingButton_Inhalable_chack_collider : MonoBehaviour,IInhalable
     public void Inhalation(Transform accessor)
     {
         Debug.Log("Start InHal,Blink");
-        
-        if(Dot_Check(accessor) == 1)
-        {
-            Net.Cmd_Air_Active(true);
-        }
-        else if(Dot_Check(accessor) == -1)
-        {
-            Net.Cmd_Air_Active(false);
-        }
-        else
-        {
-            Debug.Log("Deadzone");
-        }
-
-
     //에어 사용 중, 후크 상호작용 불가
     //타겟위치 확인해서 왼쪽인지 오른쪽인지 파악
     }

@@ -40,28 +40,28 @@ public class BlinkingButton_Net : NetworkBehaviour
     }
 
     #region  Air
-    [Command(requiresAuthority = false)]
-    public void Cmd_Air_Active(bool rL)
-    {
-        if(!_server_bool) return;
+    // [Command(requiresAuthority = false)]
+    // public void Cmd_Air_Active(bool rL)
+    // {
+    //     if(!_server_bool) return;
    
-        _curCooltime = _maxCooltime;
-        _server_bool = false;
-        Rpc_Air_Active(rL);
-    }
-    /// <summary>
-    /// rL == true : Right -> Change Red
-    /// rL == false : Left -> Change Blue
-    /// </summary>
-    /// <param name="rL"></param>
-    [ClientRpc]
-    public void Rpc_Air_Active(bool rL)
-    {
-        if(rL == _onOff) return;
+    //     _curCooltime = _maxCooltime;
+    //     _server_bool = false;
+    //     Rpc_Air_Active(rL);
+    // }
+    // /// <summary>
+    // /// rL == true : Right -> Change Red
+    // /// rL == false : Left -> Change Blue
+    // /// </summary>
+    // /// <param name="rL"></param>
+    // [ClientRpc]
+    // public void Rpc_Air_Active(bool rL)
+    // {
+    //     if(rL == _onOff) return;
 
-        _onOff = !_onOff;
-        Active();
-    }
+    //     _onOff = !_onOff;
+    //     Active();
+    // }
     #endregion
     #region Hook
     [Command(requiresAuthority = false)]

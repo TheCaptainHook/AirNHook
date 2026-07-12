@@ -26,7 +26,7 @@ public class LeverBodyNet : ButtonEntity_Net
         head.AttachToLevelBody(); //head 스프라이트 제거 후 오브젝트 제거.
 
         onCompletionParts = true;
-        Rpc_SetLeverHead(onCompletionParts);
+        Rpc_SetLeverHead_(onCompletionParts);
 
     }
 
@@ -44,7 +44,7 @@ public class LeverBodyNet : ButtonEntity_Net
     }
 
     [ClientRpc]
-    private void Rpc_SetLeverHead(bool onCompletionParts)
+    private void Rpc_SetLeverHead_(bool onCompletionParts)
     {
         attachedLeverHead.gameObject.SetActive(onCompletionParts);
         Animator.SetTrigger(OnCompletion);

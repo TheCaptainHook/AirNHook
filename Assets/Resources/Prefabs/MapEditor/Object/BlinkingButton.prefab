@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2476439119746731996}
   - component: {fileID: 8607524089058483618}
-  m_Layer: 0
+  m_Layer: 25
   m_Name: BlueLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -345,7 +345,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7788302147455299297}
   - component: {fileID: 5019007845737648188}
-  m_Layer: 0
+  m_Layer: 25
   m_Name: RedLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -520,7 +520,7 @@ GameObject:
   - component: {fileID: 7255965283240061937}
   - component: {fileID: 3427191774481267519}
   - component: {fileID: 8296029681940684930}
-  m_Layer: 18
+  m_Layer: 25
   m_Name: BlinkingButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -722,9 +722,10 @@ MonoBehaviour:
   objectDropSound: 0
   soundVolume: 1
   soundDistance: 10
+  soundCooldown: 0.3
   canRespawn: 0
   _objectType: 0
-  _BtnOffset: 0
+  _BtnOffset: 1
 --- !u!114 &3427191774481267519
 MonoBehaviour:
   m_ObjectHideFlags: 0
