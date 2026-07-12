@@ -549,7 +549,7 @@ public class ChainPullButton_Net : ButtonEntity_Net
         {
             PlayerSM player = target.GetComponent<HookSM>();
             _Right_isGrapping = true;
-            _r_chain_coroutine = StartCoroutine(R_ChainCoroutine(player.grabSource.sourceTransform)); 
+            _r_chain_coroutine = StartCoroutine(R_ChainCoroutine(player.gameObject.transform));
         }
     }
     [Command(requiresAuthority = false)]
