@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
+
 /// <summary>
 /// 기본이 파랑색, 파랑색 켜져있고,
 /// 빨간색은 꺼져있음
@@ -32,11 +33,23 @@ public class BlinkingButton_Net : NetworkBehaviour
                 
         }
     }
+    private Coroutine _blinkCoroutine;
+
     private void Active()
     {
         Animator.SetBool(On, _onOff);
+        if(_blinkCoroutine != null) StopCoroutine(_blinkCoroutine);
+        _blinkCoroutine = StartCoroutine(BlinkCoroutine());
+    }
+    private IEnumerator BlinkCoroutine()
+    {
+        AnimatorStateInfo info = Animator.GetCurrentAnimatorStateInfo(0);
+       
+       yield return new WaitForSeconds(info.length);
+
         MapEditor.Instance.CallBlinkingBoxEvent_Red();
         MapEditor.Instance.CallBlinkingBoxEvent_Blue();
+
     }
 
     #region  Air
@@ -61,7 +74,7 @@ public class BlinkingButton_Net : NetworkBehaviour
 
     //     _onOff = !_onOff;
     //     Active();
-    // }
+    // } 
     #endregion
     #region Hook
     [Command(requiresAuthority = false)]
@@ -85,6 +98,9 @@ public class BlinkingButton_Net : NetworkBehaviour
 
     public void Clean()
     {
+        if(_blinkCoroutine != null) StopCoroutine(_blinkCoroutine);
+        _blinkCoroutine = null; 
+
         _onOff = false;
         Animator.SetBool(On, _onOff);
         
