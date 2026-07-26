@@ -43,9 +43,14 @@ public class BlinkingButton_Net : NetworkBehaviour
     }
     private IEnumerator BlinkCoroutine()
     {
+      
+
         AnimatorStateInfo info = Animator.GetCurrentAnimatorStateInfo(0);
-       
        yield return new WaitForSeconds(info.length);
+
+        //Sound
+        //Managers.Sound.PlaySound3D(GlobalText., transform.position, 1, true);
+        //Sound
 
         MapEditor.Instance.CallBlinkingBoxEvent_Red();
         MapEditor.Instance.CallBlinkingBoxEvent_Blue();
