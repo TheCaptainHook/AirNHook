@@ -183,6 +183,22 @@ public class ChainPullButton_Net : ButtonEntity_Net
     [SyncVar] public uint _r_chain_end_netId;
     [ReadOnly]
     [SyncVar] public uint _l_chain_end_netId;
+
+    private AudioSourceController _audioSourceController;
+
+#region Sound
+    [ClientRpc]
+    private void Rpc_Active_Sound()
+    {
+        
+    }
+    [ClientRpc]
+    private void Rpc_Deactive_Sound()
+    {
+        
+    }
+#endregion
+
 #endregion
 
 
@@ -300,6 +316,8 @@ public class ChainPullButton_Net : ButtonEntity_Net
             if(!_isActive)
             {
                 _isActive =true;
+                Rpc_Active_Sound();
+
                 Main.Activation();
             }
         }else
@@ -307,10 +325,13 @@ public class ChainPullButton_Net : ButtonEntity_Net
             if(_isActive)
             {
                 _isActive = false;
+                Rpc_Deactive_Sound();  
+
                 Main.Deactivated();
             }   
         }
     }
+
 #endregion Debug
 
 
