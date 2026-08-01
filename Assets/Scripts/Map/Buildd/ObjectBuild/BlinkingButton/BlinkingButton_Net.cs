@@ -43,8 +43,6 @@ public class BlinkingButton_Net : NetworkBehaviour
     }
     private IEnumerator BlinkCoroutine()
     {
-      
-
         AnimatorStateInfo info = Animator.GetCurrentAnimatorStateInfo(0);
        yield return new WaitForSeconds(info.length);
 
