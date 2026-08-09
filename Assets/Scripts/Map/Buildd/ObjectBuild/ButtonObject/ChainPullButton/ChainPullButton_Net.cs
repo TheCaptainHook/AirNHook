@@ -7,8 +7,8 @@ public class ChainPullButton_Net : ButtonEntity_Net
 {
     [Space(20)]
     [Header("Save Data")]
-    private ChainPullButton _main;
-    private ChainPullButton _Main {get{_main ??= GetComponent<ChainPullButton>(); return _main;}}
+    private ChainPullButton _cpb;
+    private ChainPullButton _Main {get{_cpb ??= GetComponent<ChainPullButton>(); return _cpb;}}
     private int _maxChainLength => _Main._maxChainLength;
     private float _left_chain_condition_len=> _Main._left_chain_condition_len;
     private float _right_chain_condition_len=> _Main._right_chain_condition_len;

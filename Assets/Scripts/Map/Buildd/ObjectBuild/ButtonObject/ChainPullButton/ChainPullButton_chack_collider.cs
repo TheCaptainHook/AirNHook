@@ -24,6 +24,10 @@ public class ChainPullButton_chack_collider :  NetworkBehaviour, IInteractable, 
             transform.GetComponent<Rigidbody2D>().gravityScale = 10f;
         }
     }
+    public void RemoveVelocity()
+    {
+        Rb.velocity = Vector2.zero;
+    }
 
     [Command(requiresAuthority = false)]
     private void Cmd_OnInhaling(bool onOff)
@@ -100,6 +104,17 @@ public class ChainPullButton_chack_collider :  NetworkBehaviour, IInteractable, 
     {
         return true;
     }
+#endregion
+#region  Sound
+public void Hook_PickUpSound()
+{
+    
+}
+public void Air_PickUpSound()
+{
+    
+}
+
 #endregion
 #region IInteractable
     [field: SerializeField] protected ObjectTypeEnum _objectType = ObjectTypeEnum.Grab;

@@ -273,6 +273,16 @@ public class HomingMissile : NetworkBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(collision == null)
+        {
+            Debug.LogWarning("Collision is null");
+            return;
+        }
+        if(_main == null)
+        {
+            Debug.LogWarning("Main is null");
+            return;
+        }
         if (collision.gameObject == _main.gameObject) return;
 
         if (((1 << collision.gameObject.layer) & _layer) == 0) return;

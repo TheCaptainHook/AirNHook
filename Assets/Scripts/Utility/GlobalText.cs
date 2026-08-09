@@ -117,6 +117,9 @@ public static class GlobalText
     //Missile Turret
     public const string MISSILE_TURRET_FIRE = "MissileFire";
     public const string MISSILE_LOCK_ALERT = "MissileLock_Alert";
+    //Chain
+    public const string CHAIN_DRAGGING = "ChainDragging";
+    public const string CHAIN_HOLDING = "ChainHold";
     #endregion
 
     #region Death Sound

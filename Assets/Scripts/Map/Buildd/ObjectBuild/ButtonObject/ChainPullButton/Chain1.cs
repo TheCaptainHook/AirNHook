@@ -23,6 +23,8 @@ public class Chain1 : MonoBehaviour
             return _net._s_r_cur_chain_length;
             else return _net._s_l_cur_chain_length;
     }
+    // private float _min_length = 0.5f;
+    [ReadOnly]
     public float _cur_length;
     // [SerializeField] public float _endDamping = 0.995f;
 
@@ -82,6 +84,8 @@ public class Chain1 : MonoBehaviour
 
         if (distance > _max_length)
         {
+            CCC.RemoveVelocity();
+
             Vector2 limitedEndPos = startPos + startToEnd.normalized * _max_length;
             _end.position = limitedEndPos;
 
@@ -106,6 +110,8 @@ public class Chain1 : MonoBehaviour
 
         Vector3 startPos = _start.position;
         Vector3 endPos = _end.position;
+
+        UpdateChainSoundPitch(distance);
 
         // start-end 직선거리 자체가 max_length보다 길면 처질 수 없음 
         if (distance >= _max_length)
@@ -140,6 +146,69 @@ public class Chain1 : MonoBehaviour
         }
     }
 
+#region Sound
+    private float _prev_distance = -1f; // -1은 "아직 초기화 안됨" 표시용
+    private AudioSourceController _chainAudio;
+    private float _minPitch = 0.5f;
+    private float _maxPitch = 3.0f;
+    private float _deltaToMaxPitch = 5f; 
+    // [SerializeField] private float _pitchLerpSpeed = 10f;
+    private float _sensitivity = 1f;
+    private float _tolerance = 0.01f;
+
+    private void UpdateChainSoundPitch(float currentDistance)
+    {
+        if (_prev_distance < 0f)
+        {
+            _prev_distance = currentDistance;
+            return;
+        }
+
+        if(Mathf.Abs(_prev_distance - currentDistance) < _tolerance)
+        {
+            ReturnSound();
+            return;
+        } 
+            
+        //정규화 
+        float deltaPerSecond = Mathf.Abs(currentDistance - _prev_distance) / Time.deltaTime;
+
+        // 0~1 사이로 정규화
+        float t = Mathf.Clamp01(deltaPerSecond / _deltaToMaxPitch);
+        t = Mathf.Pow(t, 1f / _sensitivity);
+
+
+        float targetPitch = Mathf.Lerp(_minPitch, _maxPitch, t);
+        Debug.Log($"Target Pitch: {targetPitch}, prev_distance: {_prev_distance}, currentDistance: {currentDistance}, deltaPerSecond: {deltaPerSecond}, t: {t}");
+        PlaySound(targetPitch);
+        
+
+        if (_chainAudio != null)
+        {
+            // _chainAudio.pitch = Mathf.Lerp(_chainAudio.pitch, targetPitch, Time.deltaTime * _pitchLerpSpeed);
+        }
+
+        _prev_distance = currentDistance;
+    } 
+    private void ReturnSound()
+    {
+        if(_chainAudio != null)
+        {
+            Managers.Sound.StopSound(_chainAudio);
+            _chainAudio = null;
+        }
+    }
+    private void PlaySound(float pitch)
+    {
+        if(_chainAudio == null)
+        {
+            _chainAudio = Managers.Sound.PlaySound3D(GlobalText.CHAIN_DRAGGING, _net.transform.position, 1,true);
+        }
+        _chainAudio.GetAudioSource().pitch = pitch;
+        
+    }
+
+#endregion
 
     #region Utility
     
