@@ -363,7 +363,7 @@ public class ChainPullButton_Net : ButtonEntity_Net
     }
     private IEnumerator L_ChainCoroutine(Transform target) //Server
     {
-        Transform player = target.root;
+        Transform player = target;
         // Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
         PlayerSM sm = player.GetComponent<PlayerSM>();
 
@@ -439,7 +439,7 @@ public class ChainPullButton_Net : ButtonEntity_Net
     }
     private IEnumerator R_ChainCoroutine(Transform target) //Server
     {
-        Transform player = target.root;
+        Transform player = target;
         // Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
         PlayerSM sm = player.GetComponent<PlayerSM>();
 
@@ -595,7 +595,8 @@ public class ChainPullButton_Net : ButtonEntity_Net
         {
             PlayerSM player = target.GetComponent<HookSM>();
             _Left_isGrapping = true;
-            _l_chain_coroutine = StartCoroutine(L_ChainCoroutine(player.grabSource.sourceTransform)); 
+            // _l_chain_coroutine = StartCoroutine(L_ChainCoroutine(player.grabSource.sourceTransform)); 
+             _l_chain_coroutine = StartCoroutine(L_ChainCoroutine(player.gameObject.transform)); 
         }
     }
     //====
