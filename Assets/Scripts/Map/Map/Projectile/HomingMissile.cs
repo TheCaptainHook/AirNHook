@@ -62,7 +62,11 @@ public class HomingMissile : NetworkBehaviour
         
         if (_elapsedTime >= _lifeTime)
         {
-            Rpc_Boom();
+            if(NetworkServer.active)
+            {
+                Rpc_Boom();
+            }
+
             return;
         }
  
@@ -291,8 +295,11 @@ public class HomingMissile : NetworkBehaviour
         {
             component.TakeDamage(DamageType.Boom);
         }
+        if(NetworkServer.active)
+        {
+            Rpc_Boom();        
+        }
 
-        Rpc_Boom();
     }
 
     [ClientRpc]
