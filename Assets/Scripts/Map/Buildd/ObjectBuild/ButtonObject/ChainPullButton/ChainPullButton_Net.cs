@@ -418,7 +418,7 @@ public class ChainPullButton_Net : ButtonEntity_Net
         HookSM hookSM = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity identity) ? identity.gameObject.GetComponent<HookSM>() : null;
         if(hookSM == null) return;
         hookSM.ReleaseItem();
-        
+
         _l_Chain.CCC.Constranint_Reset();
     }
 #endregion
@@ -585,7 +585,7 @@ public class ChainPullButton_Net : ButtonEntity_Net
         {
             AirSM player = target.GetComponent<AirSM>();
             _Right_isHaling = true;
-            _r_chain_coroutine = StartCoroutine(R_ChainCoroutine(player.shakingEffectOnAirGun.transform));
+            _r_chain_coroutine = StartCoroutine(R_ChainCoroutine(player.gameObject.transform));
 
         }else if(target.characterType == CharacterType.Hook)
         {
@@ -610,7 +610,7 @@ public class ChainPullButton_Net : ButtonEntity_Net
         {
             AirSM player = target.GetComponent<AirSM>();
             _Left_isHaling = true;
-            _l_chain_coroutine = StartCoroutine(L_ChainCoroutine(player.shakingEffectOnAirGun.transform));
+            _l_chain_coroutine = StartCoroutine(L_ChainCoroutine(player.gameObject.transform));
 
         }else if(target.characterType == CharacterType.Hook)
         {
