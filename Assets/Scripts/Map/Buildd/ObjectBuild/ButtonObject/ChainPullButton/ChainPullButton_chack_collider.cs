@@ -21,11 +21,11 @@ public class ChainPullButton_chack_collider :  NetworkBehaviour, IInteractable, 
         if(onoff)
         {
             // transform.GetComponent<Collider2D>().enabled = false;
-            transform.GetComponent<Rigidbody2D>().gravityScale = 0f;
+            Rb.gravityScale = 0f;
         }else
         {
             // transform.GetComponent<Collider2D>().enabled = true;
-            transform.GetComponent<Rigidbody2D>().gravityScale = 10f;
+            Rb.gravityScale = 10f;
         }
     }
     public void RemoveVelocity()
@@ -211,6 +211,8 @@ public void Air_PickUpSound()
         {
             ParentConstraint.RemoveSource(0);
         }
+
+        OnInhaling(false);
         
     }
  #endregion

@@ -402,7 +402,7 @@ public class ChainPullButton_Net : ButtonEntity_Net
                 {
                     HookSM hook = player.GetComponent<HookSM>();
                     hook.ReleaseItem();
-                    Left_RPC_RemoveGrabSource();
+                    Left_RPC_RemoveGrabSource(hook.GetComponent<NetworkIdentity>().netId);
                     Cmd_Stop_Track_L();
                     yield break;
                 }
@@ -413,8 +413,12 @@ public class ChainPullButton_Net : ButtonEntity_Net
     }
 
     [ClientRpc]
-    private void Left_RPC_RemoveGrabSource()
+    private void Left_RPC_RemoveGrabSource(uint id)
     {
+        HookSM hookSM = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity identity) ? identity.gameObject.GetComponent<HookSM>() : null;
+        if(hookSM == null) return;
+        hookSM.ReleaseItem();
+        
         _l_Chain.CCC.Constranint_Reset();
     }
 #endregion
@@ -485,7 +489,7 @@ public class ChainPullButton_Net : ButtonEntity_Net
                 {
                     HookSM hook = player.GetComponent<HookSM>();
                     hook.ReleaseItem();
-                    Right_RPC_RemoveGrabSource();
+                    Right_RPC_RemoveGrabSource(hook.GetComponent<NetworkIdentity>().netId);
                     Cmd_Stop_Track_R();
                     yield break;
                 }
@@ -494,9 +498,13 @@ public class ChainPullButton_Net : ButtonEntity_Net
             yield return null;
         }
     }
-     [ClientRpc]
-    private void Right_RPC_RemoveGrabSource()
+    [ClientRpc]
+    private void Right_RPC_RemoveGrabSource(uint id)
     {
+        HookSM hookSM = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity identity) ? identity.gameObject.GetComponent<HookSM>() : null;
+        if(hookSM == null) return;
+        hookSM.ReleaseItem();
+
         _r_Chain.CCC.Constranint_Reset();
     }
 #endregion
