@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using UnityEngine.Animations;
 using Mirror;
 
 public class ChainPullButton_chack_collider :  NetworkBehaviour, IInteractable, IInhalable
@@ -9,6 +10,9 @@ public class ChainPullButton_chack_collider :  NetworkBehaviour, IInteractable, 
     private Rigidbody2D _rb;
     private Rigidbody2D Rb { get { _rb ??= GetComponent<Rigidbody2D>(); return _rb; } }
 
+
+    private ParentConstraint _parentConstraint;
+    private ParentConstraint ParentConstraint { get { _parentConstraint ??= GetComponent<ParentConstraint>(); return _parentConstraint; } }
 
     public bool rl; //true : r, false : l
 
@@ -199,6 +203,15 @@ public void Air_PickUpSound()
     {
         if(_E_Btn != null) _E_Btn = null;
         Managers.UI.HideUI<UI_ShowEButton>();
+    }
+
+    public void Constranint_Reset()
+    {
+        if (ParentConstraint.sourceCount > 0)
+        {
+            ParentConstraint.RemoveSource(0);
+        }
+        
     }
  #endregion
 }

@@ -402,6 +402,7 @@ public class ChainPullButton_Net : ButtonEntity_Net
                 {
                     HookSM hook = player.GetComponent<HookSM>();
                     hook.ReleaseItem();
+                    Left_RPC_RemoveGrabSource();
                     Cmd_Stop_Track_L();
                     yield break;
                 }
@@ -409,6 +410,12 @@ public class ChainPullButton_Net : ButtonEntity_Net
             }
             yield return null;
         }
+    }
+
+    [ClientRpc]
+    private void Left_RPC_RemoveGrabSource()
+    {
+        _l_Chain.CCC.Constranint_Reset();
     }
 #endregion
 #region Right
@@ -478,6 +485,7 @@ public class ChainPullButton_Net : ButtonEntity_Net
                 {
                     HookSM hook = player.GetComponent<HookSM>();
                     hook.ReleaseItem();
+                    Right_RPC_RemoveGrabSource();
                     Cmd_Stop_Track_R();
                     yield break;
                 }
@@ -485,6 +493,11 @@ public class ChainPullButton_Net : ButtonEntity_Net
             }
             yield return null;
         }
+    }
+     [ClientRpc]
+    private void Right_RPC_RemoveGrabSource()
+    {
+        _r_Chain.CCC.Constranint_Reset();
     }
 #endregion
 
