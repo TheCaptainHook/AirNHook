@@ -77,18 +77,32 @@ public class BatteryCharger_Net : NetworkBehaviour
     IEnumerator ChargeCo(GameObject item)
     {
         BatteryInteractable battery = item.GetComponent<BatteryInteractable>();
-
+       
+        //Charging Sound
+        //Charging Sound
+        
         while (battery.batteryCapacity < 100)
         {
             //battery.BatteryCapacity = 1;
             battery.Server_SetBatteryCapacity(3);
             yield return new WaitForSeconds(0.1f);
         }
+        //Full Charge Sound
+        Rpc_FullChargeSound();
+        //Full Charge Sound
+        
         charge = null;
         // battery.Cmd_Recover();
         Rpc_Disconnect();
     }
 
+    private void Rpc_FullChargeSound()
+    {
+        //Stop Charging Sound
+        //Stop Charging Sound
+
+        Managers.Sound.PlaySound3D(GlobalText.PLAYER_RESURRECT, transform.position);   
+    }
     [ClientRpc]
     private void Rpc_Connect(GameObject newBattery) //Rpc
     {

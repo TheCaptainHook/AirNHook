@@ -93,11 +93,18 @@ public class Turret_Net : ActivatableObject_Net_Entity
 
     }
 
+    [Space(10)]
+    [Header("Effect Sound")]
+    public float _FireSound_Volume = 1f;
 
     [ClientRpc]
     private void Rpc_Fire()
     {
         Turret.Fire_Effect();
+        
+        //Sound
+        //Sound
+        
         ReloadAmmo();
     }
 

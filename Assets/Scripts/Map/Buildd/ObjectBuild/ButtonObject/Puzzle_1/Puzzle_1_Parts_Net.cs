@@ -58,7 +58,7 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
         Debug.Log("Connect Item[Parts]");
         
         //Sound
-        Managers.Sound.PlaySound3D(GlobalText.PUZZLE_PARTS_INSTER, transform.position);
+        Managers.Sound.PlaySound3D(GlobalText.PUZZLE_PARTS_INSTER, transform.position,_Parts_Insert_Volume);
         //Sound
 
         var col = item.TryGetComponent(out Collider2D collider) ? collider : null;
@@ -107,7 +107,7 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
     public void DisConnect(bool wrongAnswer = false) //Rpc
     {
         //Sound
-        Managers.Sound.PlaySound3D(GlobalText.PUZZLE_PARTS_INSTER, transform.position);
+        Managers.Sound.PlaySound3D(GlobalText.PUZZLE_PARTS_INSTER, transform.position,_Parts_Insert_Volume);
         //Sound
         
         if (insert_Item.TryGetComponent(out ParentConstraint component))
@@ -170,6 +170,11 @@ public class Puzzle_1_Parts_Net : NetworkBehaviour
         Main.Net_RemovEffect();
     }
 
+
+
+    [Space(10)]
+    [Header("Effect Sound")]
+    public float _Parts_Insert_Volume = 1f;
 
 }
 

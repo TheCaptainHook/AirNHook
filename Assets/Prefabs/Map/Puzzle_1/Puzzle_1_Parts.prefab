@@ -511,6 +511,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0995619a5aadd4cdab45f646eb9ba93d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
+  transformID: 0
+  position: {x: 0, y: 0}
+  distructionStatus: 0
+  chargeRequired: 0
+  isTransportItem: 0
+  carrierTransformNetId: 0
+  carrierTransform: {fileID: 0}
+  onPlaceable: 0
+  onRotateable: 0
+  onScaleable: 0
+  offset: {x: 0, y: 0}
+  turnOff: 0
+  setPosition: 0
+  orgPosition: {x: 0, y: 0}
+  _Dissolve_MainSprites: []
+  _dissolveMaterials: []
+  _floorLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  objectDropSound: 0
+  soundVolume: 1
+  soundDistance: 10
+  soundCooldown: 0.3
+  canRespawn: 0
   _BtnOffset: 1
   wrongGradient:
     serializedVersion: 2
@@ -726,6 +751,7 @@ MonoBehaviour:
   isCorrectAnswer: 0
   insert_Item: {fileID: 0}
   onSocket: 0
+  _Parts_Insert_Volume: 0.2
 --- !u!1 &1989592938180581310
 GameObject:
   m_ObjectHideFlags: 0

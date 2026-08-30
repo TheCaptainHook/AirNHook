@@ -72,6 +72,8 @@ public class Turret : ActivatableObjectEntity
     public void Fire_Effect()
     {
         fireEffect.Play();
+        //Sound 
+        
     }
 
 

@@ -388,6 +388,11 @@ private bool _onTargetting = false;
         _isLaunched[count] = true;
     }
 
+    //Sound
+    [Space(10)]
+    [Header("Effect Sound")]
+    public float _FireSound_Volume = 1f;
+
     private void LaunchMissile(Transform tr, GameObject target,GameObject projectileObj)
     {
         tr.gameObject.SetActive(false);
@@ -402,7 +407,7 @@ private bool _onTargetting = false;
             missile.SetTarget(this,target.transform);
         }
 
-        Managers.Sound.PlaySound3D(GlobalText.MISSILE_TURRET_FIRE,transform);
+        Managers.Sound.PlaySound3D(GlobalText.MISSILE_TURRET_FIRE,transform,_FireSound_Volume);
     }
 
 #region Reload
