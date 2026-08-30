@@ -124,6 +124,35 @@ public void Air_PickUpSound()
 #endregion
 #region IInteractable
     [field: SerializeField] protected ObjectTypeEnum _objectType = ObjectTypeEnum.Grab;
+    [SyncVar] public uint _Left_Grapper_NetId = 99999;
+    [SyncVar] public uint _Right_Grapper_NetId= 99999;
+    
+    [Command(requiresAuthority = false)]
+    private void Cmd_Set_GrapperNetId(uint netId, bool isRight)
+    {
+        if (isRight)
+        {
+            _Right_Grapper_NetId = netId;
+        }
+        else
+        {
+            _Left_Grapper_NetId = netId;
+        }
+    }
+    private bool Check_Match_NetId(uint netId, bool isRight)
+    {
+        if(isRight)
+        {
+            if(_Right_Grapper_NetId == netId) return true;
+            else return false;
+        }
+        else
+        {
+            if(_Left_Grapper_NetId == netId) return true;
+            else return false;
+        }
+    
+    }
 
     public void Interaction(Transform accessor)
     {
@@ -133,29 +162,47 @@ public void Air_PickUpSound()
         if(rl) //false(l) : blue, true(r) : red
         {
             if(Net._Right_isAirGun_Attached) return;
+            if(Net._Right_isHaling) return;
+
             if(Net._Right_isGrapping)
             {
+                if(!Check_Match_NetId(sm.netId, true)) return;
+
                 Cmd_OnInhaling(false);
                 Net.Cmd_Stop_Track_R();
+
+                Cmd_Set_GrapperNetId(99999, true);
+
             }else
             {
                 Cmd_OnInhaling(true);
                 Net.Cmd_Start_Track_R(sm.netId);
+
+                Cmd_Set_GrapperNetId(sm.netId, true);
             }
+
             Debug.Log("Right");
             
         }
         else
         {
             if(Net._Left_isAirGun_Attached) return;
+            if(Net._Left_isHaling) return;
+            
             if(Net._Left_isGrapping)
             {
+                if(!Check_Match_NetId(sm.netId, false)) return;
+
                 Cmd_OnInhaling(false);
                 Net.Cmd_Stop_Track_L();
+                 
+                Cmd_Set_GrapperNetId(99999, false);
             }else
             {
                 Cmd_OnInhaling(true);
                 Net.Cmd_Start_Track_L(sm.netId);
+
+                Cmd_Set_GrapperNetId(sm.netId, false);
             }
             Debug.Log("Left");
         }

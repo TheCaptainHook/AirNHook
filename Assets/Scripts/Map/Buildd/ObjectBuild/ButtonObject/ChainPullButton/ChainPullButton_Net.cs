@@ -284,9 +284,9 @@ public class ChainPullButton_Net : ButtonEntity_Net
     [SyncVar] public bool _Right_isGrapping;
     
     public bool L_Can_Haling => !_Left_isGrapping;
-    public bool L_Can_Grapping => !_Left_isHaling && !_Left_isAirGun_Attached;
+    public bool L_Can_Grapping => !_Left_isHaling && !_Left_isAirGun_Attached && !_Left_isGrapping;
     public bool R_Can_Haling => !_Right_isGrapping;
-    public bool R_Can_Grapping => !_Right_isHaling && !_Right_isAirGun_Attached;
+    public bool R_Can_Grapping => !_Right_isHaling && !_Right_isAirGun_Attached && !_Right_isGrapping;
     
     [Space(10)]
     public bool _r_onRecovery;
