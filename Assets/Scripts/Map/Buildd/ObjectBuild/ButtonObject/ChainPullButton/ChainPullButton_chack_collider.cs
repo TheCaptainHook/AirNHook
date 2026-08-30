@@ -49,17 +49,19 @@ public class ChainPullButton_chack_collider :  NetworkBehaviour, IInteractable, 
     
     public void Inhalation(Transform accessor)
     {
-
-        Cmd_OnInhaling(true);
         if (!rl) //false(l) : blue, true(r) : red
         { 
             Debug.Log("left");
+            if(!Net.L_Can_Haling) return;
             Net.Cmd_Start_Track_L(accessor.root.gameObject.GetComponent<NetworkIdentity>().netId);
         }else
         {
             Debug.Log("right");
+            if(Net.R_Can_Haling) return;
             Net.Cmd_Start_Track_R(accessor.root.gameObject.GetComponent<NetworkIdentity>().netId);
         }
+
+        Cmd_OnInhaling(true);
     }
    
 
