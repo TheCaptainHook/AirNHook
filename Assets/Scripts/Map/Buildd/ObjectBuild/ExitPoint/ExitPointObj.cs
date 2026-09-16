@@ -137,6 +137,10 @@ public class ExitPointObj : BuildObj
         //Door Lock
     }
 
+    public override void Clean()
+    {
+        
+    }
     #region Util
 
     // private IEnumerator ExecuteAfterDelay(float delay, System.Action action)
