@@ -9,7 +9,7 @@ public class Projectile_Shell : ProjectileEntity
 
     protected override void ShootSound()
     {
-        Managers.Sound.PlaySound3D(GlobalText.CANNON_FIRE_SOUND, transform.position, 0.25f);
+        Managers.Sound.PlaySound3D(GlobalText.CANNON_FIRE_SOUND, transform.position, volume: _shootSoundVolume);
     }
     protected override void HitSound()
     {

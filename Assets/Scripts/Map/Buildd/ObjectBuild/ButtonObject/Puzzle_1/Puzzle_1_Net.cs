@@ -422,6 +422,11 @@ public class Puzzle_1_Net : NetworkBehaviour
         Server_Puzzle_ChargingControl();
     }
     #region  Sound
+    [Space(10)]
+    [Header("Effect Sound")]
+    public float _explodeSoundVolume = 1f;
+    public float _inflateSoundVolume = 1f;
+
     private AudioSourceController audioSourceController;
     private AudioSource audioSource
     {

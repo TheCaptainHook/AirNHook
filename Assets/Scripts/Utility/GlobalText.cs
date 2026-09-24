@@ -76,7 +76,7 @@ public static class GlobalText
     public const string PLAYER_RESURRECT = "Resurrect";
     public const string UI_PING = "Ping";
     public const string PLAYER_JUMP = "Jump1";
-    //Portal
+    //Portal.
     public const string PORTAL_IN = "Teleport_In";  
     public const string PORTAL_OUT = "Teleport_Out";
 

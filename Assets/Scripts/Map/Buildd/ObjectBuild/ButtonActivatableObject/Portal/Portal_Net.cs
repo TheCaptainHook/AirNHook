@@ -118,6 +118,10 @@ public class Portal_Net : ActivatableObject_Net_Entity
     private Portal Portal => GetComponent<Portal>();
     private Animator Animator => GetComponent<Animator>();
 
+    [Space(10)]
+    [Header("Effect Sound")]
+    public float _portal_In_sound_volume = 1f;
+    public float _portal_Out_sound_volume = 1f;
 
     IEnumerator UsePortal_Co(GameObject obj)
     {
@@ -152,7 +156,7 @@ public class Portal_Net : ActivatableObject_Net_Entity
         }
         else
         {
-            Managers.Sound.PlaySound3D(GlobalText.PORTAL_IN, obj.transform);
+            Managers.Sound.PlaySound3D(GlobalText.PORTAL_IN, obj.transform,_portal_In_sound_volume);
         }
 
         yield return new WaitForSeconds(1);
@@ -172,14 +176,15 @@ public class Portal_Net : ActivatableObject_Net_Entity
         }
         else
         {
-            Managers.Sound.PlaySound3D(GlobalText.PORTAL_OUT, targetPortal.transform);
+            Managers.Sound.PlaySound3D(GlobalText.PORTAL_OUT, targetPortal.transform, _portal_Out_sound_volume);
         }
 
     }
+
     private void Sound(bool inOut)
     {
-        if (inOut) Managers.Sound.PlaySound(GlobalText.PORTAL_IN);
-        else Managers.Sound.PlaySound(GlobalText.PORTAL_OUT);
+        if (inOut) Managers.Sound.PlaySound(GlobalText.PORTAL_IN, _portal_In_sound_volume);
+        else Managers.Sound.PlaySound(GlobalText.PORTAL_OUT, _portal_Out_sound_volume);
     }
     public void Animation_Active(bool active)
     {

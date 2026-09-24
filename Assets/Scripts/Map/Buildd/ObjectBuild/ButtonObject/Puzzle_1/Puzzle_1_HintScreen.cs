@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Text;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -87,12 +86,18 @@ public class Puzzle_1_HintScreen : MonoBehaviour
     #endregion
 
     #region Answer
+    [Space(10)]
+    [Header("Sound")]
+    public float _correctSoundVolume = 1f;
+    public float _falseSoundVolume = 1f;
+
+
 
     public void Correct()
     {
         StopAllCoroutines();
         //Sound
-        Managers.Sound.PlaySound3D(GlobalText.PUZZLE_HINT_CORRECT, transform.position);
+        Managers.Sound.PlaySound3D(GlobalText.PUZZLE_HINT_CORRECT, transform.position, volume: _correctSoundVolume);
         //Sound
         text.text = "";
         if (_falseObj.activeSelf) _falseObj.SetActive(false);
@@ -116,7 +121,7 @@ public class Puzzle_1_HintScreen : MonoBehaviour
     IEnumerator FalseCo()
     {
         //Sound
-        Managers.Sound.PlaySound3D(GlobalText.PUZZLE_HINT_WRONG, transform.position);
+        Managers.Sound.PlaySound3D(GlobalText.PUZZLE_HINT_WRONG, transform.position, volume: _falseSoundVolume);
         //Sound
         // isAnswerFalse = true;
         _falseObj.SetActive(true);

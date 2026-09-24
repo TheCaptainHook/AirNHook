@@ -19,6 +19,15 @@ public abstract class ProjectileEntity : MonoBehaviour,IPooling
     protected Collider2D _collider;
 
     #endregion
+
+    #region  Sound
+    [Space(10)]
+    [Header("Effect Sound")]
+    public float _shootSoundVolume = 0.25f;
+    public float _hitSoundVolume = 0.25f;
+    #endregion
+
+
     [Header("Setting Field")]
     [SerializeField] protected SpriteRenderer spriteRenderer;
     [SerializeField] Transform firePoint;
