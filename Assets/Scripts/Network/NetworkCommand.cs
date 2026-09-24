@@ -339,7 +339,10 @@ public class NetworkCommand : NetworkBehaviour
     private IEnumerator WaitForDestroy(GameObject target)
     {
         yield return _waitForDestroy;
+        //
+        //풀링처리 해야함 
         NetworkServer.Destroy(target);
+        //
     }
     #endregion
     

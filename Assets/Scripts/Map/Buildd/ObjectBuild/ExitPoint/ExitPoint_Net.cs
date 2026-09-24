@@ -118,7 +118,8 @@ public class ExitPoint_Net : NetworkBehaviour
         var item = NetworkClient.spawned.TryGetValue(id, out NetworkIdentity identity) ? identity : null;
         if (item == null) return;
 
-        Managers.Command.DestroyKey(identity.gameObject);
+
+        Managers.Command.DestroyKey(identity.gameObject);  
         Debug.Log("Get Key");
         current_KeyAmount -= 1;
         if (current_KeyAmount <= 0 && !MapEditor.Instance.stageClear)

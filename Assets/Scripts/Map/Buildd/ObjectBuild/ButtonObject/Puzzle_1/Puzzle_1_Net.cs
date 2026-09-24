@@ -459,7 +459,7 @@ public class Puzzle_1_Net : NetworkBehaviour
         //Sound
         if (audioSourceController == null)
         {
-            audioSourceController = Managers.Sound.PlaySound3D(GlobalText.PUZZLE_BALLON_INFLATE, transform.position, 1, true);
+            audioSourceController = Managers.Sound.PlaySound3D(GlobalText.PUZZLE_BALLON_INFLATE, transform.position, volume: _inflateSoundVolume, isLoop: true);
         }
 
         audioSource.volume = rate;
