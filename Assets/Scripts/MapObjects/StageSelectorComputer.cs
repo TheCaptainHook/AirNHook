@@ -9,7 +9,7 @@ public class StageSelectorComputer : BuildObj, IInteractable
     private static readonly int Left = Animator.StringToHash("Left");
     private static readonly int Right = Animator.StringToHash("Right");
     private static readonly int Surprise = Animator.StringToHash("Surprise");
-    private static readonly int Reset = Animator.StringToHash("Reset");
+    // private static readonly int Reset = Animator.StringToHash("Reset");
     private static readonly int Line = Animator.StringToHash("Line");
     #endregion
 
@@ -70,7 +70,10 @@ public class StageSelectorComputer : BuildObj, IInteractable
         {
             if (_key == null)
             {
-                _key = Managers.Stage.CmdBatchObject("Key");
+                _key = Managers.Stage.CmdBatchObject("Key"); //RPC
+            }else
+            {
+                _key.SetActive(true);
             }
 
             ObjectData data = MapEditor.Instance.CurMap.FindObjectData(1000);

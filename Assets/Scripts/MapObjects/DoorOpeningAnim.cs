@@ -66,6 +66,19 @@ public class DoorOpeningAnim : NetworkBehaviour
         _animator.SetTrigger(IsUnlocking);
     }
     
+    public void AnimationReset()
+    {
+        _animator.Rebind();
+        _animator.Update(0f);
+
+        _lockRigidbody2D.velocity = Vector2.zero;
+        _lockRigidbody2D.constraints = RigidbodyConstraints2D.FreezeAll;
+        _lockGameObject.transform.localPosition = new Vector3(0, 2, 0);
+        _lockGameObject.transform.rotation = Quaternion.identity;
+        _lockCollider2D.enabled = false;
+        // _lockGameObject.SetActive(true);
+
+    }
     public void CallOnUnlockAnimation()
     {
         OnUnlockAnimation?.Invoke();

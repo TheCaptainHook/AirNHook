@@ -32,7 +32,7 @@ public class FadeInOutPanel : MonoBehaviour
         var name = MapEditor.Instance.CurMap.subMapName;
         return name != null ? name : MapEditor.Instance.CurMap.mapID;
     }
-    IEnumerator FadeInOut(string mapId)
+    IEnumerator FadeInOut(string mapId) //Client RPC
     {
         MapEditor.Instance._onMapTransition_Complete = false;
         MapEditor.Instance.EventClean();

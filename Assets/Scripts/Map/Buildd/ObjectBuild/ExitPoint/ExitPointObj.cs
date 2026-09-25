@@ -133,13 +133,18 @@ public class ExitPointObj : BuildObj
     {
         keyBubble.gameObject.SetActive(false);
         absencePanel.gameObject.SetActive(false);
+
+
+
         // stageClear = false;
         //Door Lock
     }
 
     public override void Clean()
     {
-        
+        Reset();
+        ExitPoint_Net.Reset();
+
     }
     #region Util
 

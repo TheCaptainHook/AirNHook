@@ -314,25 +314,29 @@ public class NetworkCommand : NetworkBehaviour
         if (!id.isOwned)
             AssignAuthority(id);
         
-        RpcDestroyKey(target);
+        RpcDestroyKey(id.netId);
     }
 
     [ClientRpc]
-    private void RpcDestroyKey(GameObject target)
+    private void RpcDestroyKey(uint id)
     {
         //target.GetComponent<SpriteRenderer>().enabled = false;
         //if (target.TryGetComponent(out SpriteRenderer spriteRenderer))
         //{
         //    spriteRenderer.enabled = false;
         //}
-        target.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
+        // target.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
        // target.GetComponent<IInteractable>().Interacting(true);
-        if (NetworkServer.active)
-        {
-            target.GetComponent<Key>().CallOnInterableObjectRelease();
-            StartCoroutine(WaitForDestroy(target));
-        }
-       
+        // if (NetworkServer.active)
+        // {
+        //     target.GetComponent<Key>().CallOnInterableObjectRelease();
+        //     StartCoroutine(WaitForDestroy(target));
+        // }
+       GameObject target = NetworkClient.spawned.TryGetValue(id, out var identity) ? identity.gameObject : null;
+        if (target is null) return;
+        
+        Managers.Pooling.N_ReleaseToPool(target);
+        
 
     }
 
@@ -341,7 +345,8 @@ public class NetworkCommand : NetworkBehaviour
         yield return _waitForDestroy;
         //
         //풀링처리 해야함 
-        NetworkServer.Destroy(target);
+        // NetworkServer.Destroy(target);
+
         //
     }
     #endregion

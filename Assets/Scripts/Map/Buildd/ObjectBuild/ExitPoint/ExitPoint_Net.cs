@@ -291,6 +291,10 @@ public class ExitPoint_Net : NetworkBehaviour
     #endregion
 
 
+    public void Reset()
+    {
+        doorOpeningAnim.AnimationReset();
+    }
 
     // private bool AllClientsReady()
     // {
