@@ -99,8 +99,6 @@ public class StageManager
         if (!NetworkServer.active || !NetworkClient.isConnected) return null;
 
         GameObject obj = Managers.Pooling.N_GetItme(objName);
-        // var obj = ResourceManager.Instantiate(Managers.Network.spawnPrefabDict[objName]);
-        // NetworkServer.Spawn(obj, NetworkServer.localConnection);
 
         if (obj.TryGetComponent(out BuildObj buildObj))
         {
@@ -114,6 +112,28 @@ public class StageManager
         }
 
         return obj;
+    }
+    [Server]
+    public GameObject Server_Lobby_SpawnKey()
+    {
+        if (!NetworkServer.active || !NetworkClient.isConnected) return null;
+
+        GameObject obj = Managers.Pooling.N_GetItme("Key");
+        if (obj.TryGetComponent(out Key key))
+        {
+            key.gameObject.SetActive(true);
+            key.Lobby_UseKey();
+            
+        }
+
+        if (GetNetworkIdentity(obj, out NetworkIdentity identity))
+        {
+            MapEditor.Instance._n_activePoolingObject.Enqueue(identity.GetComponent<BuildObj>());
+            Rpc_PoolingSetting(identity.netId);
+        }
+        
+
+        return key.gameObject;
     }
 
     [Server]

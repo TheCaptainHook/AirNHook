@@ -8261,303 +8261,6 @@
             "onEncapsulationItem": false,
             "indicator": 0,
             "tutorialCode": 0
-        },
-        {
-            "id": 378,
-            "dialogueId": 0,
-            "position": {
-                "x": -1.3899999856948853,
-                "y": 21.959999084472658
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0,
-            "activeRequireAmount": 0,
-            "onEncapsulationItem": false,
-            "indicator": 0,
-            "tutorialCode": 0
-        },
-        {
-            "id": 376,
-            "dialogueId": 0,
-            "position": {
-                "x": 2.630000114440918,
-                "y": 24.8700008392334
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0,
-            "activeRequireAmount": 0,
-            "onEncapsulationItem": false,
-            "indicator": 0,
-            "tutorialCode": 0
-        },
-        {
-            "id": 376,
-            "dialogueId": 0,
-            "position": {
-                "x": 3.569999933242798,
-                "y": 24.8700008392334
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0,
-            "activeRequireAmount": 0,
-            "onEncapsulationItem": false,
-            "indicator": 0,
-            "tutorialCode": 0
-        },
-        {
-            "id": 376,
-            "dialogueId": 0,
-            "position": {
-                "x": 4.570000171661377,
-                "y": 24.8700008392334
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0,
-            "activeRequireAmount": 0,
-            "onEncapsulationItem": false,
-            "indicator": 0,
-            "tutorialCode": 0
-        },
-        {
-            "id": 377,
-            "dialogueId": 0,
-            "position": {
-                "x": 2.630000114440918,
-                "y": 24.8700008392334
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0,
-            "activeRequireAmount": 0,
-            "onEncapsulationItem": false,
-            "indicator": 0,
-            "tutorialCode": 0
-        },
-        {
-            "id": 377,
-            "dialogueId": 0,
-            "position": {
-                "x": 2.630000114440918,
-                "y": 26.780000686645509
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0,
-            "activeRequireAmount": 0,
-            "onEncapsulationItem": false,
-            "indicator": 0,
-            "tutorialCode": 0
-        },
-        {
-            "id": 377,
-            "dialogueId": 0,
-            "position": {
-                "x": 2.630000114440918,
-                "y": 25.829999923706056
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0,
-            "activeRequireAmount": 0,
-            "onEncapsulationItem": false,
-            "indicator": 0,
-            "tutorialCode": 0
-        },
-        {
-            "id": 344,
-            "dialogueId": 0,
-            "position": {
-                "x": -7.0,
-                "y": 23.350000381469728
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 0.699999988079071,
-                "y": 0.699999988079071,
-                "z": 1.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0,
-            "activeRequireAmount": 0,
-            "onEncapsulationItem": false,
-            "indicator": 0,
-            "tutorialCode": 0
-        },
-        {
-            "id": 343,
-            "dialogueId": 0,
-            "position": {
-                "x": -15.880000114440918,
-                "y": 23.1200008392334
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 0.0
-            },
-            "size": {
-                "x": 0.0,
-                "y": 0.0
-            },
-            "text": "",
-            "fontSize": 0.0,
-            "chargeRequired": false,
-            "animationTriggerType": 0,
-            "attackStartTime": 0.0,
-            "attackCooldown": 0.0,
-            "activeRequireAmount": 1,
-            "onEncapsulationItem": true,
-            "indicator": 2,
-            "tutorialCode": 0
         }
     ],
     "mapBackgroundObjectList": [
@@ -12538,16 +12241,64 @@
             }
         },
         {
-            "id": 375,
+            "id": 353,
             "position": {
-                "x": 7.0,
-                "y": 26.950000762939454
+                "x": -3.8299999237060549,
+                "y": 24.6299991607666
             },
             "quaternion": {
                 "x": 0.0,
                 "y": 0.0,
-                "z": 0.7053362131118774,
-                "w": 0.70887291431427
+                "z": 0.0,
+                "w": 1.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "activeRequirAmount": 0,
+            "indicatorStruct": {
+                "indicator": 0,
+                "indicator_1_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "indicator_2_position": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "isHorizontal": false
+            },
+            "jumpingPower": 0,
+            "talPot": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "rotateRate": 0.0,
+            "fireRate": 0.0,
+            "onHoldRotation": false,
+            "onLeft": false,
+            "paths": [],
+            "moveSpeed": 0.0,
+            "moveDistance": 0.0,
+            "bridgeLength": 0.0,
+            "connectionPoint": {
+                "x": 0.0,
+                "y": 0.0
+            }
+        },
+        {
+            "id": 354,
+            "position": {
+                "x": -1.9600000381469727,
+                "y": 24.56999969482422
+            },
+            "quaternion": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
             },
             "scale": {
                 "x": 1.0,
@@ -12682,6 +12433,14 @@
                 {
                     "x": -11.5,
                     "y": 20.850000381469728
+                },
+                {
+                    "x": -3.8299999237060549,
+                    "y": 24.6299991607666
+                },
+                {
+                    "x": -1.9600000381469727,
+                    "y": 24.56999969482422
                 }
             ],
             "lightPositions": [],
@@ -12796,12 +12555,7 @@
                 }
             ],
             "lightPositions": [],
-            "encapsulationItems": [
-                {
-                    "x": -15.880000114440918,
-                    "y": 23.1200008392334
-                }
-            ],
+            "encapsulationItems": [],
             "chargeRequired": false,
             "onHint": false,
             "partsPositions": [],
@@ -12850,56 +12604,6 @@
             "l_chain_len": 4.0,
             "r_chain_len": 4.0,
             "max_chain_len": 10
-        },
-        {
-            "id": 341,
-            "position": {
-                "x": -4.0,
-                "y": 23.0
-            },
-            "quaternion": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0,
-                "w": 1.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "targetPositions": [],
-            "lightPositions": [],
-            "encapsulationItems": [],
-            "chargeRequired": false,
-            "onHint": true,
-            "partsPositions": [
-                {
-                    "x": -2.0,
-                    "y": 24.0
-                },
-                {
-                    "x": 0.0,
-                    "y": 24.0
-                }
-            ],
-            "itemPositions": [
-                {
-                    "x": -8.520000457763672,
-                    "y": 21.84000015258789
-                },
-                {
-                    "x": -4.440000057220459,
-                    "y": 21.689998626708986
-                }
-            ],
-            "hintPosition": {
-                "x": -3.140000104904175,
-                "y": 27.18000030517578
-            },
-            "l_chain_len": 0.0,
-            "r_chain_len": 0.0,
-            "max_chain_len": 0
         }
     ],
     "mapExitObjectStruct": {

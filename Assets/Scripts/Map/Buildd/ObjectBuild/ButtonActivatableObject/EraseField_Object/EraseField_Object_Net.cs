@@ -50,8 +50,15 @@ public class EraseField_Object_Net : ActivatableObject_Net_Entity
         {
             percent += Time.fixedDeltaTime;
 
-            if (onOff) main_Field_Sprite.color = Color.Lerp(nonCol, color, percent);
-            else main_Field_Sprite.color = Color.Lerp(color, nonCol, percent);
+            if (onOff) 
+            {
+                main_Field_Sprite.color = Color.Lerp(nonCol, color, percent);
+                
+            }
+            else
+            {
+                main_Field_Sprite.color = Color.Lerp(color, nonCol, percent);
+            }
 
             yield return null;
         }

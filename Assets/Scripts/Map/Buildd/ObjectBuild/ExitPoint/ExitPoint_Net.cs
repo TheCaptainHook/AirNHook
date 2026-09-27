@@ -293,6 +293,8 @@ public class ExitPoint_Net : NetworkBehaviour
 
     public void Reset()
     {
+        doorUnlockAnimationCoroutin = null;
+        
         doorOpeningAnim.AnimationReset();
     }
 

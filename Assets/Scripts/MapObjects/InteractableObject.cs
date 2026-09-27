@@ -502,6 +502,7 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             }
         }
 
+
         while (percent < 1)
         {
             percent += dissolveRate;
@@ -512,7 +513,6 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             }
             yield return null;
         }
-
 
         if (NetworkServer.active)
         {
@@ -533,6 +533,15 @@ public class InteractableObject : NetworkBehaviour, IInteractable, IInhalable
             _rigidbody.gravityScale = _gravityScale;
         }
 
+         if(this.TryGetComponent(out Key key))
+        {
+            if(key._is_Looby_Key)
+            {
+                key.Clean();
+                Managers.Pooling.N_ReleaseToPool(key.gameObject);
+                
+            }
+        }
 
         if (NetworkServer.active)
         {

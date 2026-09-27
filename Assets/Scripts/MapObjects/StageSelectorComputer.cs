@@ -68,13 +68,7 @@ public class StageSelectorComputer : BuildObj, IInteractable
         ExitPointObj obj = MapEditor.Instance.exitDoorObjectTransform.GetChild(0).gameObject.GetComponent<ExitPointObj>();
         if (obj.nextMapId != string.Empty)
         {
-            if (_key == null)
-            {
-                _key = Managers.Stage.CmdBatchObject("Key"); //RPC
-            }else
-            {
-                _key.SetActive(true);
-            }
+            _key = Managers.Stage.Server_Lobby_SpawnKey(); //RPC
 
             ObjectData data = MapEditor.Instance.CurMap.FindObjectData(1000);
             _key.transform.position = data.position;
